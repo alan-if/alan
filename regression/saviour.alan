@@ -1241,7 +1241,7 @@ ACTOR hero
     CONTAINER
         LIMITS
 	    COUNT 3 THEN "You can't carry anything more."
-        HEADER "You are carrying a"
+        HEADER "You are carrying"
         ELSE "You are empty-handed."
 END ACTOR.
 

@@ -6,8 +6,8 @@ arun -d robertfoo < robertfoo.input
         No warnings or errors detected.
         1 informational message(s).
 
-<Arun, Adventure Interpreter version 2.5(3)>
-<Version of 'robertfoo' is 2.5(3)>
+<Arun, Adventure Interpreter version 2.6 alpha>
+<Version of 'robertfoo' is 2.6(0)a>
 
 James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.

@@ -4,14 +4,14 @@ Synonyms
 Location l
 End Location l.
 
-Object metal_box Name A Metal Box At l
+Object metal_box Name Metal Box At l
   Verb x
     Does
       "This is a metal box."
   End Verb x.
 End Object metal_box.
 
-Object metal_piece Name A Piece 'of' Metal At l
+Object metal_piece Name Piece 'of' Metal At l
   Verb x
     Does
       "This is a piece of metal."

@@ -35,16 +35,16 @@ End Verb i.
 Location loc
 End Location loc.
 
-Object thing1 Name a shiny long thing At loc
+Object thing1 Name shiny long thing At loc
 End Object thing1.
 
-Object thing2 Name a rusty long thing At loc
+Object thing2 Name rusty long thing At loc
 End Object thing2.
 
-Object thing3 Name a shiny short thing At loc
+Object thing3 Name shiny short thing At loc
 End Object thing3.
 
-Object thing4 Name a rusty short thing At loc
+Object thing4 Name rusty short thing At loc
 End Object thing4.
 
 Start At loc.

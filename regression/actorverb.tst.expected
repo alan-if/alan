@@ -13,9 +13,11 @@ Examine Fred!
 W.
 Fred is here.
 
-> Describe Fred.
+> examine fred
+Describe Fred.
 
-> You can't do that.
+> x fred
+You can't do that.
 
 > 
 

@@ -9,7 +9,7 @@ arun inventory < inventory.input
 
 
 Loc.
-There is a o1, a o2, a o3 and a o4 here.
+There is an o1, an o2, an o3 and an o4 here.
 
 > take o1
 Taken.
@@ -27,7 +27,7 @@ You can't pick up anything more.
 Dropped.
 
 > i
-You are carrying o2 and a o3.
+You are carrying an o2 and an o3.
 
 > take o1
 Taken.

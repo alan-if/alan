@@ -5,8 +5,8 @@ arun -d paras < paras.input
 
         No warnings or errors detected.
 
-<Arun, Adventure Interpreter version 2.5(3)>
-<Version of 'paras' is 2.5(3)>
+<Arun, Adventure Interpreter version 2.6 alpha>
+<Version of 'paras' is 2.6(0)a>
 
 L1.
 This is location 1. E has no exit output, W has exit output.
