@@ -446,13 +446,13 @@ void interpret(Aaddr adr)
       case I_SAVE: {
 	if (singleStepOption)
 	  printf("SAVE\t\t\t\t");
-	saveGame();
+	save();
 	break;
       }
       case I_RESTORE: {
 	if (singleStepOption)
 	  printf("RESTORE\t\t\t\t");
-	restoreGame();
+	restore();
 	break;
       }
       case I_RESTART: {

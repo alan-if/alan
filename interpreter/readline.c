@@ -87,7 +87,7 @@ Bool readline(char buffer[])
 	    glk_set_style(style_Input);
 	    printf("save\n");
 	    glk_set_style(style_Normal);
-	    saveGame();
+	    save();
 	    para();
 	    printf("> ");
 	    break;

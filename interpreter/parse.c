@@ -437,7 +437,7 @@ static void unambig(ParamEntry plst[])
     if (listLength(plst) > 1)
       error(M_WHICH_ONE);
     else if (found && listLength(plst) == 0)
-      error(M_NO_SUCH);
+      error(M_WHICH_ONE);
   } else {
     plst[0].firstWord = firstWord;
     plst[0].lastWord = lastWord;

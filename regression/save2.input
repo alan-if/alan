@@ -312,7 +312,8 @@ save
 
 
 restart
-
+restore
+restart
 
 n
 w

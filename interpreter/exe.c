@@ -342,7 +342,7 @@ void quitGame(void)
     if (strcmp(buf, "restart") == 0)
       longjmp(restartLabel, TRUE);
     else if (strcmp(buf, "restore") == 0) {
-      restoreGame();
+      restore();
       return;
     } else if (strcmp(buf, "quit") == 0) {
       terminate(0);
@@ -1640,11 +1640,36 @@ static char saveFileName[256];
 
 
 /*----------------------------------------------------------------------*/
-void saveGame(void)
-{
+static void saveGame(FILE *saveFile) {
   int i;
-  AttributeEntry *atr;
 
+  /* Save tag, version of interpreter, name and uid of game */
+  fwrite((void *)"ASAV", 1, 4, saveFile);
+  fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
+  fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
+  fwrite((void *)&header->uid, 1, sizeof(Aword), saveFile);
+
+  /* Save current values */
+  fwrite((void *)&current, sizeof(current), 1, saveFile);
+
+  /* Save attribute area */
+  fwrite((void*)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+  /* Save admin about instances */
+  fwrite((void *)&admin[1], sizeof(AdminEntry), header->instanceMax, saveFile);
+
+  /* Save the event queue, write size first */
+  fwrite((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
+  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
+
+  /* Save scores */
+  for (i = 0; scores[i] != EOF; i++)
+    fwrite((void *)&scores[i], sizeof(Aword), 1, saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+void save(void)
+{
 #ifdef HAVE_GLK
   frefid_t saveFileRef;
   strid_t saveFile;
@@ -1683,44 +1708,71 @@ void saveGame(void)
   strcpy(saveFileName, str);
 #endif
 
-  /* Save tag, version of interpreter, name and uid of game */
-  fwrite((void *)"ASAV", 1, 4, saveFile);
-  fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
-  fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
-  fwrite((void *)&header->uid, 1, sizeof(Aword), saveFile);
-  /* Save current values */
-  fwrite((void *)&current, sizeof(current), 1, saveFile);
-
-  /* Save admin about each instance and its attributes */
-  for (i = 1; i <= header->instanceMax; i++) {
-    fwrite((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    if (instance[i].initialAttributes != 0)
-      for (atr = admin[i].attributes; !endOfTable(atr); atr++)
-	fwrite((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
-  }
-
-  /* Save the event queue, write size first */
-  fwrite((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
-  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
-
-  /* Save scores */
-  for (i = 0; scores[i] != EOF; i++)
-    fwrite((void *)&scores[i], sizeof(Aword), 1, saveFile);
+  saveGame(saveFile);
 
   fclose(saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
-void restoreGame(void)
+static void restoreGame(FILE *saveFile)
 {
   int i;
-  AttributeEntry *atr;
   char savedVersion[4];
   char savedName[256];
   Aword savedUid;
   char str[256];
 
+  fread((void *)&str, 1, 4, saveFile);
+  str[4] = '\0';
+  if (strcmp(str, "ASAV") != 0)
+    error(M_NOTASAVEFILE);
+
+  /* Verify version of compiler/interpreter of saved game with us */
+  fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
+  if (strncmp(savedVersion, header->vers, 4))
+    error(M_SAVEVERS);
+
+  /* Verify name of game */
+  i = 0;
+  while ((savedName[i++] = fgetc(saveFile)) != '\0');
+  if (strcmp(savedName, adventureName) != 0)
+    error(M_SAVENAME);
+
+  /* Verify unique id of game */
+  fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
+  if (savedUid != header->uid)
+    error(M_SAVEVERS);
+
+  /* Restore current values */
+  fread((void *)&current, sizeof(current), 1, saveFile);
+
+  /* Restore attribute area */
+  fread(attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+  /* Restore admin for instances, remember to reset attribute area pointer */
+  for (i = 1; i <= header->instanceMax; i++) {
+    AttributeEntry *currentAttributesArea = admin[i].attributes;
+    fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
+    admin[i].attributes = currentAttributesArea;
+  }
+
+  /* Restore the eventQueue */
+  fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
+  if (eventQueueTop > eventQueueSize) {
+    free(eventQueue);
+    eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
+  }
+  fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), eventQueueTop, saveFile);
+
+  /* Restore scores */
+  for (i = 0; scores[i] != EOF; i++)
+    fread((void *)&scores[i], sizeof(Aword), 1, saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+void restore(void)
+{
 #ifdef HAVE_GLK
   frefid_t saveFileRef;
   strid_t saveFile;
@@ -1729,7 +1781,7 @@ void restoreGame(void)
   saveFile = glk_stream_open_file(saveFileRef, filemode_Read, 0);
 
 #else
-
+  char str[1000];
   FILE *saveFile;
 
   /* First save ? */
@@ -1757,57 +1809,8 @@ void restoreGame(void)
 
 #endif
 
-  fread((void *)&str, 1, 4, saveFile);
-  str[4] = '\0';
-  if (strcmp(str, "ASAV") != 0)
-    error(M_NOTASAVEFILE);
+  restoreGame(saveFile);
 
-  /* Verify version of compiler/interpreter of saved game with us */
-  fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
-  if (strncmp(savedVersion, header->vers, 4)) {
-    error(M_SAVEVERS);
-    goto close;
-  }
-
-  /* Verify name of game */
-  i = 0;
-  while ((savedName[i++] = fgetc(saveFile)) != '\0');
-  if (strcmp(savedName, adventureName) != 0) {
-    error(M_SAVENAME);
-    goto close;
-  }
-
-  /* Verify unique id of game */
-  fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
-  if (savedUid != header->uid) {
-    error(M_SAVEVERS);
-    goto close;
-  }
-
-  /* Restore current values */
-  fread((void *)&current, sizeof(current), 1, saveFile);
-
-  /* Restore admin and attributes for instances */
-  for (i = 1; i <= header->instanceMax; i++) {
-    fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    if (instance[i].initialAttributes != 0)
-      for (atr = admin[i].attributes; !endOfTable(atr); atr++)
-	fread((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
-  }
-
-  /* Restore the eventQueue */
-  fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
-  if (eventQueueTop > eventQueueSize) {
-    free(eventQueue);
-    eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
-  }
-  fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), eventQueueTop, saveFile);
-
-  /* Restore scores */
-  for (i = 0; scores[i] != EOF; i++)
-    fread((void *)&scores[i], sizeof(Aword), 1, saveFile);
-
- close:
   fclose(saveFile);
 }
 

@@ -275,6 +275,78 @@ static void testLocateIllegalId() {
 }
 
 
+static void testSaveRestore() {
+  FILE *saveFile = fopen("testSaveFile", "w");
+  Aword scoreTable = EOF;
+  int i;
+
+  /* Set up empty eventQ and scores and other irrelevant data */
+  eventQueueTop = 0;
+  scores = &scoreTable;
+  adventureName = "adventure";
+
+  /* Init header */
+  header->instanceMax = 3;
+  header->attributesAreaSize = 20*sizeof(AttributeEntry)/sizeof(Aword);
+
+  /* Initialize a fake instance table */
+  instance = malloc(4*sizeof(InstanceEntry));
+  instance[0].initialAttributes = 12; /* Shouldn't matter where.. */
+  instance[1].initialAttributes = 12; /* Shouldn't matter where.. */
+  instance[2].initialAttributes = 12; /* Shouldn't matter where.. */
+  instance[3].initialAttributes = 12; /* Shouldn't matter where.. */
+
+  /* Allocate an attribute area and initialize it */
+  attributes = malloc(20*sizeof(AttributeEntry));
+  for (i = 0; i<20; i++) {
+    attributes[i].code = i;
+    attributes[i].value = i;
+    attributes[i].stringAddress = 0;
+  }
+  attributes[20].code = EOF;
+
+  /* Fake admin areas for 3 instances */
+  admin[1].attributes = &attributes[0];
+  admin[1].attributes[0].code = 11;
+  admin[1].attributes[0].value = 11;
+  admin[2].attributes = &attributes[5];
+  admin[2].attributes[0].code = 22;
+  admin[2].attributes[0].value = 22;
+  admin[3].attributes = &attributes[7];
+  admin[3].attributes[0].code = 33;
+  admin[3].attributes[0].value = 33;
+
+  /* Save the game data */
+  saveGame(saveFile);
+  fclose(saveFile);
+  free(attributes);
+
+  /* Get another attribute area and initialize admin areas */
+  attributes = malloc(20*sizeof(AttributeEntry));
+  for (i = 0; i<20; i++) {
+    attributes[19-i].code = i;
+    attributes[19-i].value = i;
+  }
+  admin[1].attributes = &attributes[0];
+  admin[2].attributes = &attributes[5];
+  admin[3].attributes = &attributes[7];
+
+  saveFile = fopen("testSaveFile", "r");
+  restoreGame(saveFile);
+  fclose(saveFile);
+  unlink("testSaveFile");
+
+  ASSERT(admin[1].attributes[0].code == 11);
+  ASSERT(admin[1].attributes[0].value == 11);
+  ASSERT(admin[2].attributes[0].code == 22);
+  ASSERT(admin[2].attributes[0].value == 22);
+  ASSERT(admin[3].attributes[0].code == 33);
+  ASSERT(admin[3].attributes[0].value == 33);
+}
+
+  
+
+
 void registerExeUnitTests()
 {
   registerUnitTest(testCountTrailingBlanks);
@@ -289,4 +361,5 @@ void registerExeUnitTests()
   registerUnitTest(testWhereIllegalId);
   registerUnitTest(testHereIllegalId);
   registerUnitTest(testLocateIllegalId);
+  registerUnitTest(testSaveRestore);
 }

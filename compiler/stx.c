@@ -284,13 +284,15 @@ Syntax *defaultSyntax1(char *vrbstr, Context *context)
     classId = newId(&nulsrcp, "object");
 
   elements = concat(concat(concat(NULL,
-			      newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
-							     vrbstr),
-				     FALSE),
-			      ELEMENT_LIST),
-		       newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, classId->string), FALSE),
-		       ELEMENT_LIST),
-		newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
+				  newWordElement(nulsrcp,
+						 newId(&nulsrcp, vrbstr)),
+				  ELEMENT_LIST),
+			   newParameterElement(nulsrcp, newId(&nulsrcp,
+							      classId->string),
+					       0),
+			   ELEMENT_LIST),
+		    newEndOfSyntax(),
+		    ELEMENT_LIST);
   stx = newSyntax(nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);

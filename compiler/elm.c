@@ -33,9 +33,9 @@ static int level = 0;
 
 /*======================================================================*/
 Element *newElement(Srcp *srcp,	/* IN - Source Position */
-		   ElementKind kind, /* IN - Kind of element (parm or word) */
-		   IdNode *id,	/* IN - The name */
-		   int flags)	/* IN - Flags for omni/multiple... */
+		    ElementKind kind, /* IN - Kind of element (parm or word) */
+		    IdNode *id,	/* IN - The name */
+		    int flags)	/* IN - Flags for omni/multiple... */
 {
   Element *new;                                  /* The newly created node */
 
@@ -52,6 +52,42 @@ Element *newElement(Srcp *srcp,	/* IN - Source Position */
 
   return(new);
 }
+
+
+/*======================================================================*/
+Element *newWordElement(Srcp srcp,	/* IN - Source Position */
+			IdNode *word)	/* IN - Flags for omni/multiple... */
+{
+  Element *new;			/* The newly created node */
+
+  new = newElement(&srcp, WORD_ELEMENT, word, 0);
+
+  return new;
+}
+
+
+/*======================================================================*/
+Element *newParameterElement(Srcp srcp,
+			     IdNode *word, int flags)
+{
+  Element *new;			/* The newly created node */
+
+  new = newElement(&srcp, PARAMETER_ELEMENT, word, flags);
+
+  return new;
+}
+
+
+/*======================================================================*/
+Element *newEndOfSyntax()
+{
+  Element *new;			/* The newly created node */
+
+  new = newElement(&nulsrcp, END_OF_SYNTAX, NULL, 0);
+
+  return new;
+}
+
 
 
 

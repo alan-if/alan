@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>357.89</origest>
-<currest>356.89</currest>
+<origest>359.89</origest>
+<currest>358.89</currest>
 <elapsed>195.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>51</origest>
-<currest>51</currest>
+<origest>53</origest>
+<currest>53</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
+<origest>22</origest>
+<currest>22</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -129,7 +129,7 @@ VERIFICATION: Only objects, and actors are automatically described. Things are n
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Restrictions should allow location tests</desc>
+<desc>Restrictions should allow location tests?</desc>
 <notes>But you could have restrictions which tested one 
 parameter with a "location test". The semantics would 
 be something like:
@@ -286,6 +286,26 @@ Has type of the container TAKES</notes>
 <notes>Returns one value in the set.
 
 How to handle the empty set???? Run-time error obviously.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Retry -mno-cygwin</desc>
+<notes>Removed -mno-cygwin from compiler since it caused some very strage memory errors (see 231*)
+
+Reset it now to see if there is a problem?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Saved name of game in a save-file should not contain path</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

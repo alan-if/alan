@@ -36,14 +36,14 @@ alt.o: alt.c util.h types.h srcp.h lmList.h alanCommon.h token.h srcp_x.h \
 atr.o: atr.c atr_x.h atr.h srcp.h sym.h types.h lst.h type.h id.h exp.h \
   alan.h sysdep.h wht.h whr.h ../interpreter/acode.h elm.h stx.h res.h \
   context.h evt.h ins.h prop.h cnt.h form.h cla.h srcp_x.h id_x.h adv_x.h \
-  adv.h dump.h sym_x.h scr.h lst_x.h exp_x.h util.h emit.h opt.h lmList.h \
-  alanCommon.h token.h encode.h
+  adv.h dump.h cla_x.h ins_x.h sym_x.h scr.h lst_x.h exp_x.h util.h \
+  emit.h opt.h lmList.h alanCommon.h token.h encode.h
 atrTest.o: atrTest.c atr.c atr_x.h atr.h srcp.h sym.h types.h lst.h \
   type.h id.h exp.h alan.h sysdep.h wht.h whr.h ../interpreter/acode.h \
   elm.h stx.h res.h context.h evt.h ins.h prop.h cnt.h form.h cla.h \
-  srcp_x.h id_x.h adv_x.h adv.h dump.h sym_x.h scr.h lst_x.h exp_x.h \
-  util.h emit.h opt.h lmList.h alanCommon.h token.h encode.h cla_x.h \
-  prop_x.h
+  srcp_x.h id_x.h adv_x.h adv.h dump.h cla_x.h ins_x.h sym_x.h scr.h \
+  lst_x.h exp_x.h util.h emit.h opt.h lmList.h alanCommon.h token.h \
+  encode.h prop_x.h
 chk.o: chk.c chk_x.h chk.h exp.h alan.h sysdep.h types.h lst.h srcp.h \
   wht.h id.h sym.h type.h whr.h ../interpreter/acode.h context.h evt.h \
   ins.h prop.h cnt.h form.h cla.h lst_x.h exp_x.h stm_x.h stm.h util.h \
@@ -51,14 +51,14 @@ chk.o: chk.c chk_x.h chk.h exp.h alan.h sysdep.h types.h lst.h srcp.h \
 cla.o: cla.c cla_x.h cla.h types.h id.h sym.h lst.h type.h srcp.h prop.h \
   whr.h wht.h cnt.h ../interpreter/acode.h form.h ext.h srcp_x.h id_x.h \
   sym_x.h elm.h stx.h res.h atr.h exp.h alan.h sysdep.h context.h evt.h \
-  ins.h scr.h adv_x.h adv.h dump.h prop_x.h lst_x.h context_x.h emit.h \
-  util.h options.h lmList.h alanCommon.h token.h
+  ins.h scr.h adv_x.h adv.h dump.h atr_x.h prop_x.h lst_x.h context_x.h \
+  emit.h util.h options.h lmList.h alanCommon.h token.h
 claTest.o: claTest.c cla.c cla_x.h cla.h types.h id.h sym.h lst.h type.h \
   srcp.h prop.h whr.h wht.h cnt.h ../interpreter/acode.h form.h ext.h \
   srcp_x.h id_x.h sym_x.h elm.h stx.h res.h atr.h exp.h alan.h sysdep.h \
-  context.h evt.h ins.h scr.h adv_x.h adv.h dump.h prop_x.h lst_x.h \
-  context_x.h emit.h util.h options.h lmList.h alanCommon.h token.h \
-  ins_x.h
+  context.h evt.h ins.h scr.h adv_x.h adv.h dump.h atr_x.h prop_x.h \
+  lst_x.h context_x.h emit.h util.h options.h lmList.h alanCommon.h \
+  token.h ins_x.h
 cnt.o: cnt.c cnt_x.h cnt.h ../interpreter/acode.h srcp.h id.h sym.h \
   types.h lst.h type.h wht.h context.h evt.h ins.h prop.h whr.h form.h \
   cla.h alan.h sysdep.h srcp_x.h adv_x.h adv.h dump.h sym_x.h elm.h stx.h \
@@ -237,6 +237,11 @@ stp.o: stp.c stp_x.h stp.h srcp.h exp.h alan.h sysdep.h types.h lst.h \
   ins.h prop.h cnt.h form.h cla.h util.h srcp_x.h lst_x.h exp_x.h stm_x.h \
   stm.h lmList.h alanCommon.h token.h emit.h dump.h
 str.o: str.c str.h sysdep.h types.h util.h srcp.h dump.h
+stx-new.o: stx-new.c stx_x.h stx.h srcp.h lst.h id.h sym.h types.h type.h \
+  ../interpreter/acode.h context.h evt.h ins.h prop.h whr.h wht.h cnt.h \
+  form.h cla.h alan.h sysdep.h util.h srcp_x.h id_x.h adv_x.h adv.h \
+  dump.h sym_x.h elm.h res.h atr.h exp.h scr.h res_x.h elm_x.h lst_x.h \
+  wrd_x.h wrd.h cla_x.h context_x.h lmList.h alanCommon.h token.h emit.h
 stx.o: stx.c stx_x.h stx.h srcp.h lst.h id.h sym.h types.h type.h \
   ../interpreter/acode.h context.h evt.h ins.h prop.h whr.h wht.h cnt.h \
   form.h cla.h alan.h sysdep.h util.h srcp_x.h id_x.h adv_x.h adv.h \
@@ -268,11 +273,11 @@ unit.o: unit.c sysdep.h ../interpreter/acode.h unitTest.h lmList.h \
   util.h dump.h id_x.h id.h sym.h type.h imagesTest.c images.c images_x.h \
   adv_x.h adv.h whr.h wht.h claTest.c cla.c cla_x.h cla.h prop.h cnt.h \
   form.h ext.h srcp_x.h sym_x.h elm.h stx.h res.h atr.h exp.h alan.h \
-  context.h evt.h ins.h scr.h prop_x.h context_x.h emit.h options.h \
-  ins_x.h propTest.c prop.c atr_x.h chk_x.h chk.h cnt_x.h ext_x.h nam_x.h \
-  nam.h scr_x.h stm_x.h stm.h vrb_x.h vrb.h whr_x.h insTest.c ins.c \
-  wrd_x.h wrd.h advTest.c adv.c smScan.h add_x.h add.h stx_x.h rul.h \
-  syn.h msg.h sco.h opt.h encode.h wht_x.h exp_x.h symTest.c sym.c \
+  context.h evt.h ins.h scr.h atr_x.h prop_x.h context_x.h emit.h \
+  options.h ins_x.h propTest.c prop.c chk_x.h chk.h cnt_x.h ext_x.h \
+  nam_x.h nam.h scr_x.h stm_x.h stm.h vrb_x.h vrb.h whr_x.h insTest.c \
+  ins.c wrd_x.h wrd.h advTest.c adv.c smScan.h add_x.h add.h stx_x.h \
+  rul.h syn.h msg.h sco.h opt.h encode.h wht_x.h exp_x.h symTest.c sym.c \
   elm_x.h whrTest.c whr.c vrbTest.c vrb.c alt.h extTest.c ext.c \
   emitTest.c emit.c alan.version.h version.h atrTest.c atr.c expTest.c \
   exp.c set_x.h addTest.c add.c stxTest.c stx.c res_x.h resTest.c res.c \

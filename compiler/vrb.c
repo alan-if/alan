@@ -122,7 +122,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
       lmLog(&theVerb->srcp, 219, sevERR, "");
   }
 
-  /* FIXME - Warn if no ALT for every parameter in the defined syntax */
+  /* TODO - Warn if no ALT for every parameter in the defined syntax */
 
   context->kind = VERB_CONTEXT;
   if (stx != NULL) {

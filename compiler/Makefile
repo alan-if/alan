@@ -2,6 +2,7 @@
 #
 
 PLATFORM = -mno-cygwin
+#PLATFORM = 
 OPTIMIZE = -g
 
 winalan:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
@@ -9,7 +10,7 @@ release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
-LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
+LDFLAGS	= $(OPTIMIZE) $(PLATFORM) 
 
 ARCH	= $(PLATFORM) $(OPTIMIZE)
 
@@ -75,6 +76,7 @@ BUILDSRCS = \
 # More Sources required for Alan program build
 # Excluded from BUILDSRCS because there are unit tests for these
 ALANSRCS = \
+	main.c \
 	adv.c \
 	add.c \
 	atr.c \
@@ -85,7 +87,6 @@ ALANSRCS = \
 	ext.c \
 	ins.c \
 	lst.c \
-	main.c \
 	images.c \
 	sym.c \
 	stx.c \
