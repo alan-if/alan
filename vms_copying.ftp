@@ -1,9 +1,0 @@
-thoni
-put make.com
-cd alan/compiler
-lcd compiler
-prompt
-mput *.[ch] alan.make
-lcd ../interpreter
-cd ../interpreter
-mput *.[ch] arun.make
