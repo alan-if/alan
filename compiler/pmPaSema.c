@@ -194,7 +194,7 @@ int rule			/* IN production number */
     	break;}
     case 15: { /* <declaration> = <synonyms>; */
 #line 218 "alan.pmk"
- adv.syns = combine(adv.syns, pmSeSt[pmStkP+1].syns); 	break;}
+ adv.syns = combine(adv.syns, pmSeSt[pmStkP+1].syns);	break;}
     case 11: { /* <declaration> = <messages>; */
 #line 221 "alan.pmk"
  adv.msgs = combine(adv.msgs, pmSeSt[pmStkP+1].msgs); 	break;}

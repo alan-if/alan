@@ -215,7 +215,7 @@ static int val(char str[])
 
 <declaration>
     = <synonyms>
-    %% adv.syns = combine(adv.syns, %<synonyms>.syns); %%
+    %% adv.syns = combine(adv.syns, %<synonyms>.syns);%%
 
     ! <messages>
     %% adv.msgs = combine(adv.msgs, %<messages>.msgs); %%
@@ -996,7 +996,7 @@ static int val(char str[])
     -- Propagate!
     ;
 
-<description>		-- RETURNS: stms, srcp
+<description>		-- RETURNS: chks, stms, srcp
     = 'DESCRIPTION' <optional_checks> <optional_does>
     %%
 	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL)

@@ -31,7 +31,7 @@ typedef struct Properties {
   Srcp descriptionSrcp;
   List *descriptionChecks;
   Aword descriptionChecksAddress;/* ACODE address to description checks */
-  List *description;		/* Long description statements */
+  List *descriptionStatements;		/* Long description statements */
   Aword descriptionAddress;	/* ACODE address to long description code */
   List *article;		/* Article printing statements */
   Srcp articleSrcp;

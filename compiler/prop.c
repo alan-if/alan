@@ -69,7 +69,7 @@ Properties *newProps(List *names,
 
   new->descriptionSrcp = *descriptionSrcp;
   new->descriptionChecks = descriptionChecks;
-  new->description = description;
+  new->descriptionStatements = description;
   new->mentioned = mentioned;
   new->mentionedSrcp = *mentionedSrcp;
   new->article = article;
@@ -169,7 +169,7 @@ void analyzeProps(Properties *props, Context *context)
 
   analyzeName(props);
   analyzeChecks(props->descriptionChecks, context);
-  analyzeStatements(props->description, context);
+  analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->mentioned, context);
   analyzeStatements(props->article, context);
   analyzeVerbs(props->verbs, context);
@@ -197,9 +197,9 @@ void generateClassPropertiesData(Properties *props)
 {
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
-  if (props->description != NULL) {
+  if (props->descriptionStatements != NULL) {
     props->descriptionAddress = emadr();
-    generateStatements(props->description);
+    generateStatements(props->descriptionStatements);
     emit0(I_RETURN);
   }
 
@@ -230,9 +230,9 @@ void generateInstancePropertiesData(Properties *props)
 
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
-  if (props->description != NULL) {
+  if (props->descriptionStatements != NULL) {
     props->descriptionAddress = emadr();
-    generateStatements(props->description);
+    generateStatements(props->descriptionStatements);
     emit0(I_RETURN);
   }
 
@@ -294,7 +294,7 @@ void dumpProps(Properties *props)
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();
   put("descriptionChecks: "); dumpList(props->descriptionChecks, CHECK_LIST); nl();
   put("descriptionChecksAddress: "); dumpAddress(props->descriptionChecksAddress); nl();
-  put("description: "); dumpList(props->description, STATEMENT_LIST); nl();
+  put("description: "); dumpList(props->descriptionStatements, STATEMENT_LIST); nl();
   put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
   put("article: "); dumpList(props->article, STATEMENT_LIST); nl();
   put("articleAddres: "); dumpAddress(props->articleAddress); nl();

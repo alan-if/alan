@@ -21,7 +21,7 @@ TMSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c\
-	lmList.c
+	lmList.c alanCommon.h
 
 all : tm smScanx.c sysdep.h sysdep.c version.h
 
