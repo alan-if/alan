@@ -1,1 +1,1 @@
-alan include
+alan -inc ../regression include

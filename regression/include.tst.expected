@@ -1,5 +1,5 @@
 ########## include ##########
-alan include
+alan -inc ../regression include
 ########## /bin/sh  include.tst ##########
 
 
@@ -13,7 +13,7 @@ include.alan
 
 
 
-include.inc
+../regression/include.inc
 
    1.1  START.
 ====>        1
