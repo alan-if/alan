@@ -10,9 +10,7 @@
 
 /* USE: */
 #include "srcp.h"
-#include "nam.h"
-#include "lst.h"
-#include "whr.h"
+#include "id.h"
 #include "slt.h"
 
 
@@ -20,9 +18,10 @@
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  NamNod *id;			/* Programmer Name of the class */
-  List *heritage;		/* The class' heritage */
-  Slots *slt;			/* Slots */
+  struct IdNod *id;		/* Programmer Name of the class */
+  struct SymNod *symbol;	/* Pointer to symbol table node */
+  struct IdNod *heritage;	/* The class' heritage (parent) */
+  struct Slots *slt;			/* Slots */
 } ClaNod;
 
 
@@ -33,21 +32,21 @@ typedef struct ClaNod {		/* CLASS */
 
 /* Create a new Claect node */
 extern ClaNod *newcla(Srcp *srcp,
-		      NamNod *id,
-		      List *heritage,
+		      IdNod *id,
+		      IdNod *heritage,
 		      Slots *slt);
 
-/* Analyze all Classes */
-extern void anclas(void);
+/* Symbolize all Classes */
+extern void symbolizeClasses(void);
 
-/* Prepare all Classes before analysis */
-extern void prepclas(void);
+/* Analyze all Classes */
+extern void analyzeClasses(void);
 
 /* Generate code for all Classes */
-extern Aaddr geclas(void);
+extern Aaddr generateClasses(void);
 
-/* Dump an Class node */
-extern void dumpClass(ClaNod *cla);
+/* Dump all Class node */
+extern void dumpClasses(void);
 
 
 #endif

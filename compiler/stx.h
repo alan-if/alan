@@ -11,7 +11,7 @@
 /* USE: */
 #include "srcp.h"
 #include "lst.h"
-#include "nam.h"
+#include "id.h"
 
 #include "acode.h"
 
@@ -20,7 +20,7 @@
 
 typedef struct StxNod {		/* SYNTAX */
   Srcp srcp;			/* Source position of this syntax */
-  NamNod *nam;			/* Name of the verb */
+  struct IdNod *id;		/* Name of the verb */
   List *elms;			/* List of elements */
   List *ress;			/* List of class restrictions */
   List *pars;			/* AN - List of parameters */
@@ -40,7 +40,7 @@ typedef struct StxNod {		/* SYNTAX */
 
 /* Create a new Syntax node */
 extern StxNod *newstx(Srcp *srcp,
-		      NamNod *verb,
+		      IdNod *verb,
 		      List *comps,
 		      List *ress);
 

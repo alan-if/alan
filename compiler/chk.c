@@ -6,7 +6,8 @@
 \*----------------------------------------------------------------------*/
 
 
-#include "alan.h"
+#include "util.h"
+#include "options.h"
 
 #include "lst.h"		/* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
@@ -143,6 +144,6 @@ void duchk(ChkNod *chk)
   put("CHK: "); in();
   put("exp: "); duexp(chk->exp); nl();
   put("expadr: "); duadr(chk->expadr); nl();
-  put("stms: "); dulst(chk->stms, STMNOD); nl();
+  put("stms: "); dulst(chk->stms, LIST_STM); nl();
   put("stmadr: "); duadr(chk->stmadr); out();
 }

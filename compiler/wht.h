@@ -9,7 +9,7 @@
 
 
 /* USE: */
-#include "nam.h"
+#include "id.h"
 
 
 /* Types: */
@@ -24,7 +24,7 @@ typedef enum WhtKind {
 typedef struct WhtNod {		/* WHAT nodes */
   Srcp srcp;			/* Source position */
   WhtKind wht;			/* What kind */
-  NamNod *nam;			/* What name */
+  struct IdNod *id;			/* What identifier */
 } WhtNod;
 
 
@@ -36,7 +36,7 @@ typedef struct WhtNod {		/* WHAT nodes */
 /* Create a new What node */
 extern WhtNod *newwht(Srcp *srcp,
 		      WhtKind wht,
-		      NamNod *nam);
+		      struct IdNod *id);
 
 /* Generate a reference to a What */
 extern void gewht(WhtNod *wht);

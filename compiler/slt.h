@@ -3,14 +3,13 @@
 /*----------------------------------------------------------------------*\
 
 				SLT.H
-			     Slttance Nodes
+			     Slots Nodes
                                                                      
 \*----------------------------------------------------------------------*/
 
 
 /* USE: */
 #include "srcp.h"
-#include "nam.h"
 #include "lst.h"
 #include "whr.h"
 #include "cnt.h"
@@ -22,7 +21,7 @@ typedef struct Slots {		/* SLOTS  */
   List *namslst;		/* List of lists of adjectives and a noun */
   List *namstms;		/* Name printing statements */
   Aword namsadr;		/* ACODE address to name printing */
-  WhrNod *whr;			/* Where is it? */
+  struct WhrNod *whr;		/* Where is it? */
   CntNod *cnt;			/* Container properties */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address to attribute list */
@@ -44,7 +43,7 @@ typedef struct Slots {		/* SLOTS  */
 
 /* Create a new Slots node */
 extern Slots *newSlots(List *nams,
-		       WhrNod *whr,
+		       struct WhrNod *whr,
 		       List *atrs,
 		       CntNod *cnt,
 		       List *surr,

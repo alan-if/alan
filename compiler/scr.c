@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -182,7 +183,7 @@ void duscr(ScrNod *scr)
   put("SCR: "); dusrcp(&scr->srcp); in();
   put("code: "); duint(scr->code); nl();
   put("nam: "); dunam(scr->nam); nl();
-  put("stps: "); dulst(scr->stps, STPNOD); nl();
+  put("stps: "); dulst(scr->stps, LIST_STP); nl();
   put("stpadr: "); duadr(scr->stpadr); out();
 }
 

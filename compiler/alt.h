@@ -12,7 +12,7 @@
 #include "srcp.h"
 #include "lst.h"
 #include "act.h"
-#include "nam.h"
+#include "id.h"
 
 #include "acode.h"
 
@@ -29,7 +29,8 @@ typedef enum QualKind {		/* QUAL kinds */
 
 typedef struct AltNod {		/* ALTERNATIVE */
   Srcp srcp;			/* Source position of this alternative */
-  NamNod *nam;			/* The parameter ID */
+  IdNod *id;			/* The parameter ID */
+  int parameterNumber;
   QualKind qual;		/* Qualifier, when to execute */
   List *chks;			/* Checks */
   Aaddr chkadr;			/* ACODE address to check table */
@@ -46,7 +47,7 @@ typedef struct AltNod {		/* ALTERNATIVE */
 
 /* Create a new verb Alternative node */
 extern AltNod *newalt(Srcp *srcp,
-		      NamNod *nam,
+		      IdNod *id,
 		      List *chks,
 		      QualKind qual,
 		      List *stms);

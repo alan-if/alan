@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -35,7 +35,7 @@
 
  */
 AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,	/* IN - The name */
+	       IdNod *id,	/* IN - The name */
 	       List *chks,	/* IN - Checks */
 	       QualKind qual,	/* IN - Action qualifier */
 	       List *stms)	/* IN - Statements (does-part) */
@@ -47,7 +47,7 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
   new = NEW(AltNod);
 
   new->srcp = *srcp;
-  new->nam = nam;
+  new->id = id;
   new->chks = chks;
   new->qual = qual;
   new->stms = stms;
@@ -70,16 +70,20 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
 {
   List *lst;
 
-  if (alt->nam != NULL) {
+  if (alt->id != NULL) {
     /* Alternatives given, find out which one */
     for (lst = pars; lst != NULL; lst = lst->next)
-      if (eqnams(lst->element.elm->nam, alt->nam))
+      if (eqids(lst->element.elm->id, alt->id))
 	break;
     if (lst == NULL)
-      lmLog(&alt->nam->srcp, 214, sevERR, alt->nam->str);
+      lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
     else {
-      alt->nam->kind = NAMPAR;
-      alt->nam->code = lst->element.elm->nam->code;
+#ifndef FIXME
+      syserr("UNIMPLEMENTED: analt");
+#else
+      alt->id->kind = NAMPAR;
+      alt->id->code = lst->element.elm->nam->code;
+#endif
     }
   } 
 
@@ -120,8 +124,8 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
 {
   emit(0);			/* Auto-Reverse flag */
 
-  if (alt->nam != NULL)
-    emit(alt->nam->code);		/* Parameter number */
+  if (alt->id != NULL)
+    emit(alt->parameterNumber);
   else
     emit(0);
 
@@ -241,8 +245,8 @@ void dualt(AltNod *alt)
   }
 
   put("ALT: "); dusrcp(&alt->srcp); in();
-  put("nam: "); dunam(alt->nam); nl();
+  put("id: "); dumpId(alt->id); nl();
   put("qual: "); duqual(alt->qual); nl();
-  put("chks: "); dulst(alt->chks, CHKNOD); nl();
-  put("stms: "); dulst(alt->stms, STMNOD); out();
+  put("chks: "); dulst(alt->chks, LIST_CHK); nl();
+  put("stms: "); dulst(alt->stms, LIST_STM); out();
 }

@@ -7,6 +7,7 @@
 
 #include "sysdep.h"
 #include "types.h"
+#include "util.h"
 
 #ifdef __mac__
 #include "Files.h"

@@ -10,15 +10,17 @@
 
 /* Use other definitions */
 #include "srcp.h"
-#include "nam.h"
+#include "id.h"
 #include "lst.h"
+
+#include "acode.h"
 
 
 /* Types: */
 
 typedef struct EvtNod {		/* EVENT */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Name of this event */
+  IdNod *id;			/* Name of this event */
   Aaddr namadr;			/* Address to name string (debug) */
   List *stms;			/* List of statements to execute */
   Aaddr stmadr;			/* ACODE address of event statements */
@@ -37,7 +39,7 @@ extern int evtcount;
 
 /* Create a new Event node */
 extern EvtNod *newevt(Srcp *srcp,
-		      NamNod *nam,
+		      IdNod *id,
 		      List *stms);
 
 /* Analyze all Events */

@@ -8,26 +8,12 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "util.h"
 #include "alan.h"
 #include "spa.h"
 #include "options.h"
 #include "alan.version.h"
 
-
-/*======================================================================
-
-  terminate()
-
-  Terminate the program with an error code.
-
- */
-void terminate(int ecode)
-{
-#ifdef __MWERKS__
-	printf("Command-Q to quit.");
-#endif
-	exit(ecode);
-}
 
 /*======================================================================
 
@@ -66,7 +52,7 @@ static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
 static SPA_FUN(addInclude)
 {
   /* Add the include path to our list */
-  includePaths = concat(includePaths, spaArgument(1), STRNOD);
+  includePaths = concat(includePaths, spaArgument(1), LIST_STR);
   /* Now we can skip the include path */
   spaSkip(1);
 }

@@ -7,6 +7,7 @@
 
 #include "sysdep.h"
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -195,7 +196,7 @@ void getxt(char *txt)		/* IN - The text to output */
   Create a new message node.
 
  */
-MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms)
+MsgNod *newmsg(Srcp *srcp, IdNod *id, List *stms)
 {
   MsgNod *msg;
 
@@ -204,7 +205,7 @@ MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms)
   msg = NEW(MsgNod);
 
   if (srcp) msg->srcp = *srcp;
-  msg->nam = nam;
+  msg->id = id;
   msg->stms = stms;
 
   return(msg);
@@ -261,7 +262,7 @@ void prepmsgs(void)
     stm->fields.print.fpos = ftell(txtfil);
     stm->fields.print.len = strlen(msgp);
     /* Make a list of it */
-    stms = concat(NULL, stm, STMNOD);
+    stms = concat(NULL, stm, LIST_STM);
     msg = newmsg(NULL, NULL, stms);
     /* Save the message text */
 #ifdef __mac__
@@ -285,7 +286,7 @@ void prepmsgs(void)
 #endif
     /* Finally enter it in the list */
     msg->msgno = msgno;
-    smsgs = concat(smsgs, msg, MSGNOD);
+    smsgs = concat(smsgs, msg, LIST_MSG);
   }
 
   /* Merge user messages to the list */
@@ -293,10 +294,10 @@ void prepmsgs(void)
     List *garb;			/* The standard message stm list is garbage */
     /* Find what number the user defined message has */
     for (msgno = 0; defmsg[msgno].id != NULL; msgno++)
-      if (strcmp(defmsg[msgno].id, umsgs->element.msg->nam->str) == 0)
+      if (strcmp(defmsg[msgno].id, umsgs->element.msg->id->string) == 0)
 	break;
     if (defmsg[msgno].id == NULL)
-      lmLog(&umsgs->element.msg->nam->srcp, 223, sevWAR, NULL);
+      lmLog(&umsgs->element.msg->id->srcp, 223, sevWAR, NULL);
     else {
       /* Find that message in the system messages list */
       for (lst = smsgs; lst != NULL && lst->element.msg->msgno != msgno; lst = lst->next);

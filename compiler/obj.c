@@ -183,7 +183,7 @@ static void anobj(ObjNod *obj)	/* IN - The object to analyze */
     break;
   case WHR_AT:
     if (obj->whr->wht->wht == WHT_ID)
-      symcheck(&sym, &elm, obj->whr->wht->nam, NAMLOC, NAMANY, NULL);
+      namcheck(&sym, &elm, obj->whr->wht->nam, NAMLOC, NAMANY, NULL);
     else
       lmLog(&obj->srcp, 414, sevERR, "object");
     break;

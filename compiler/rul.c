@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -137,7 +138,7 @@ void durul(RulNod *rul)
   put("RUL: "); dusrcp(&rul->srcp); in();
   put("exp: "); duexp(rul->exp); nl();
   put("expadr: "); duadr(rul->expadr); nl();
-  put("stms: "); dulst(rul->stms, STMNOD); nl();
+  put("stms: "); dulst(rul->stms, LIST_STM); nl();
   put("stmadr: "); duadr(rul->stmadr); out();
 }
 

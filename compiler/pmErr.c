@@ -9,6 +9,8 @@
 /* %%IMPORT */
 
 
+#include "util.h"
+
 #include "srcp.h"
 #include "smScan.h"
 #include "token.h"
@@ -115,7 +117,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 60 "alan.pmk"
+#line 62 "alan.pmk"
 
 
 {

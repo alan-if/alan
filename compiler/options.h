@@ -7,9 +7,9 @@
 \*----------------------------------------------------------------------*/
 
 #include "lst.h"
+#include "dump.h"
 
 extern char *srcptr;		/* Pointer to adventure name */
-extern Bool verbose;		/* Verbose mode */
 extern int charset;		/* Which charset to read source in */
 extern Bool warnings;		/* Show warnings */
 extern Bool infos;		/* Show informational messages */

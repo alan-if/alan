@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -84,7 +85,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
   if (wrd != NULL) {
     /* Add another reference */
     wrd->classbits |= 1L<<class;
-    wrd->ref[class] = concat(wrd->ref[class], ref, REFNOD);
+    wrd->ref[class] = concat(wrd->ref[class], ref, LIST_REF);
     if (wrd->code == -1)
       /* It was previously without a code */
       wrd->code = code;
@@ -98,7 +99,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
   if (class != WRD_SYN)
-    new->ref[class] = concat(NULL, ref, REFNOD);
+    new->ref[class] = concat(NULL, ref, LIST_REF);
   else
     new->ref[class] = (List *) ref;
 

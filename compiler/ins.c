@@ -5,12 +5,15 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "ins.h"
+
+#include "sysdep.h"
+#include "util.h"
+#include "dump.h"
 
 #include "srcp.h"
 #include "lmList.h"
 
-#include "ins.h"
 
 
 
@@ -22,7 +25,7 @@
 
   */
 InsNod *newins(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *id,
+	       IdNod *id,
 	       List *heritage,
 	       Slots *slt)
 {
@@ -51,7 +54,7 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 void dumpInstance(InsNod *ins)
 {
   put("INS: "); dusrcp(&ins->srcp); in();
-  put("id: "); dunam(ins->id); nl();
-  put("heritage: "); dulst(ins->heritage, NAMNOD); nl();
+  put("id: "); dumpId(ins->id); nl();
+  put("heritage: "); dulst(ins->heritage, LIST_NAM); nl();
   put("slots: "); dumpSlots(ins->slt); nl();
 }

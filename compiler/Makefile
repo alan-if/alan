@@ -28,13 +28,11 @@ SRCS = \
 	alan.c \
 	main.c \
 	options.c \
-	act.c \
 	adv.c \
 	alt.c \
 	atr.c \
 	chk.c \
 	cla.c \
-	cnt.c \
 	dump.c \
 	encode.c \
 	emit.c \
@@ -42,13 +40,11 @@ SRCS = \
 	evt.c \
 	exp.c \
 	ext.c \
+	id.c \
 	ins.c \
 	lim.c \
-	loc.c \
 	lst.c \
 	msg.c \
-	nam.c \
-	obj.c \
 	opt.c \
 	res.c \
 	rul.c \
@@ -70,6 +66,13 @@ SRCS = \
 	spa.c \
 	sysdep.c
 
+#OBSOLETE
+#	nam.c \
+#	act.c \
+#	cnt.c \
+#	loc.c \
+#	obj.c \
+
 VERSIONSRCS = $(SRCS) $(EXTRAS)
 
 VERSIONOBJECTS = ${SRCS:.c=.o}
@@ -81,9 +84,6 @@ all alan alan.exe : $(OBJECTS) Makefile
 	-mkdir ../bin
 	cp alan.exe ../bin
 
-test: alan.exe
-	cd testing; ./test
-
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
@@ -94,6 +94,15 @@ src:
 
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
+
+
+UNITSRCS = sym.c util.c lmList.c id.c cla.c slt.c lst.c str.c dump.c srcp.c
+UNITOBJS = ${UNITSRCS:.c=.o}
+
+unit: unit.o $(UNITOBJS)
+
+test: unit
+	unit
 
 
 depend:

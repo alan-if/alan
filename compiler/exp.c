@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -106,8 +106,13 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
       lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
       break;
     case WHT_ID:
-      symcheck(&sym, &elm, exp->fields.whr.wht->fields.wht.wht->nam,
+#ifndef FIXME
+    syserr("UNIMPL: newevt() - symbol code handling");
+#else
+      namcheck(&sym, &elm, exp->fields.whr.wht->fields.wht.wht->id,
 	       NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+    new->id->code = newsym(nam->str, NAMEVT, new);
+#endif
       break;
     default:
       syserr("Unrecognized switch in anwhr()");
@@ -122,7 +127,11 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
   case WHR_AT:
     switch (exp->fields.whr.whr->wht->wht) {
     case WHT_ID:
-      symcheck(&sym, &elm, exp->fields.whr.whr->wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#ifndef FIXME
+    syserr("UNIMPL: anexpwhr() - namcheck handling");
+#else
+      namcheck(&sym, &elm, exp->fields.whr.whr->wht->id, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#endif
       break;
     case WHT_LOC:
       exp->fields.whr.whr->whr = WHR_HERE;
@@ -210,8 +219,12 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
       break;
 
     case WHT_ID:
-      symcheck(&sym, &elm, exp->fields.atr.wht->fields.wht.wht->nam,
+#ifndef FIXME
+    syserr("UNIMPL: anatr() - namcheck handling");
+#else
+      namcheck(&sym, &elm, exp->fields.atr.wht->fields.wht.wht->id,
 	       NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#endif
       atr = NULL;
       if (elm) {
 	/* It was an element, i.e. syntax parameter */
@@ -224,6 +237,9 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 	  exp->typ = atr->typ;
 	}
       } else if (sym) {
+#ifndef FIXME
+      syserr("UNIMPLEMENTED - anatr() : attribute to identifier");
+#else
 	switch (sym->class) {
 	case NAMLOC:
 	  atr = findatr(exp->fields.atr.atr->str, ((LocNod *)sym->ref)->atrs, adv.latrs);
@@ -237,12 +253,13 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 	default:
 	  break;
 	}
+#endif
 	if (atr == NULL) {	/* Attribute not found locally */
 	  /* Try general default attributes */
 	  if ((atr = findatr(exp->fields.atr.atr->str, adv.atrs, NULL)) == NULL) {
 	    /* Still didn't find it */
 	    lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
-		  exp->fields.atr.wht->fields.wht.wht->nam->str);
+		  exp->fields.atr.wht->fields.wht.wht->id->string);
 	    exp->typ = TYPUNK;
 	  }
 	}
@@ -294,8 +311,12 @@ static void anbin(ExpNod *exp,
       if (exp->fields.bin.left->typ == TYPENT) {
 	if (exp->fields.bin.left->fields.wht.wht->wht == WHT_ID &&
 	    exp->fields.bin.right->fields.wht.wht->wht == WHT_ID)
-	  if (exp->fields.bin.left->fields.wht.wht->nam->kind != NAMPAR
-	      && exp->fields.bin.right->fields.wht.wht->nam->kind != NAMPAR)
+#ifndef FIXME
+	  syserr("UNIMPL: anbin() - parameter type");
+#else
+	  if (exp->fields.bin.left->fields.wht.wht->id->kind != NAMPAR
+	      && exp->fields.bin.right->fields.wht.wht->id->kind != NAMPAR)
+#endif
 	    lmLog(&exp->srcp, 417, sevINF, NULL);
       }
     exp->typ = TYPBOOL;
@@ -433,7 +454,10 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
     break;
 
   case WHT_ID:
-    symcheck(&sym, &par, exp->fields.wht.wht->nam, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
+#ifndef FIXME
+    syserr("UNIMPL: anexpwht() - namcheck");
+#else
+    namcheck(&sym, &par, exp->fields.wht.wht->id, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
     if (par) {
       if (par->res)
 	if (par->res->classbits & NAMNUM)
@@ -447,6 +471,7 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
     } else if (sym && sym->class != NAMUNK)
       exp->typ = TYPENT;
     else
+#endif
       exp->typ = TYPUNK;
     break;
 
@@ -645,14 +670,14 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
-      genam(exp->fields.whr.whr->wht->nam);
+      geid(exp->fields.whr.whr->wht->id);
       emit0(C_CONST, 1);
       emit0(C_CURVAR, V_PARAM);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_AT:
-      genam(exp->fields.whr.whr->wht->nam);
+      geid(exp->fields.whr.whr->wht->id);
       emit0(C_STMOP, I_WHERE);
       break;
     default:
@@ -665,7 +690,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
   case WHT_ID:
     switch (exp->fields.whr.whr->whr) {
     case WHR_HERE:
-      genam(exp->fields.whr.wht->fields.wht.wht->nam);
+      geid(exp->fields.whr.wht->fields.wht.wht->id);
       emit0(C_STMOP, I_HERE);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
@@ -675,7 +700,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
-      genam(exp->fields.whr.whr->wht->nam);
+      geid(exp->fields.whr.whr->wht->id);
       gewht(exp->fields.whr.wht->fields.wht.wht);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);

@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -122,7 +123,7 @@ void dustp(StpNod *stp)
   put("after: "); duint(stp->after); nl();
   put("exp: "); duexp(stp->exp); nl();
   put("expadr: "); duadr(stp->expadr); nl();
-  put("stms: "); dulst(stp->stms, STMNOD); nl();
+  put("stms: "); dulst(stp->stms, LIST_STM); nl();
   put("stmadr: "); duadr(stp->stmadr); out();
 }
 

@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -98,5 +99,5 @@ void dusyn(SynNod *syn)
 
   put("SYN: "); dusrcp(&syn->srcp); in();
   put("nam: "); dunam(syn->nam); nl();
-  put("nams: "); dulst(syn->nams, NAMNOD); out();
+  put("nams: "); dulst(syn->nams, LIST_NAM); out();
 }

@@ -11,7 +11,7 @@
 #include "acode.h"
 #include "srcp.h"
 #include "wht.h"
-#include "nam.h"
+#include "id.h"
 #include "lst.h"
 
 
@@ -19,11 +19,11 @@
 
 typedef struct CntNod {		/* CONTAINER */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Name of the container */
+  struct IdNod *nam;		/* Name of the container */
   List *namstms;		/* Name printing statements */
   Aaddr namadr;			/* ACODE address to name statement */
   int code;			/* Code for this container */
-  NamNod *parent;		/* Pointer to parent name */
+  struct IdNod *parent;		/* Pointer to parent name */
   List *lims;			/* Limits */
   Aaddr limadr;			/* ACODE address to limit table */
   List *hstms;			/* Header statements */
@@ -48,7 +48,7 @@ extern void initcnt(void);
 
 /* Create a new Container node */
 extern CntNod *newcnt(Srcp *srcp,
-		      NamNod *nam,
+		      struct IdNod *nam,
 		      List *lims,
 		      List *hstms,
 		      List *estms);

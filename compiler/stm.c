@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -84,8 +85,12 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-    symcheck(&sym, &elm, stm->fields.describe.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
+#ifndef FIXME
+    syserr("UNIMPL: namcheck");
+#else
+    namcheck(&sym, &elm, stm->fields.describe.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
              NAMANY, pars);
+#endif
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -167,8 +172,11 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
     lmLog(&stm->srcp, 311, sevERR, "an Object or an Actor");
     break;
   case WHT_ID:
-    symcheck(&sym, &elm, stm->fields.locate.wht->nam, NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-    
+#ifndef FIXME
+    syserr("UNIMPL: namcheck() in anlocate()");
+#else
+    namcheck(&sym, &elm, stm->fields.locate.wht->nam, NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#endif    
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -184,12 +192,16 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
     if (stm->fields.locate.wht->wht == WHT_ACT)
       lmLog(&stm->srcp, 402, sevERR, "");
     else if (stm->fields.locate.wht->wht == WHT_ID) {
-      if (sym != NULL && sym->class == NAMACT)
+#ifndef FIXME
+      syserr("UNIMPL: anlocate()");
+#else
+      if (sym != NULL && sym->kind == NAMACT)
         lmLog(&stm->srcp, 402, sevERR, "");
       else if (elm != NULL && elm->res != NULL
 	       && ((elm->res->classbits & NAMACT) != 0
 		   || (elm->res->classbits & NAMCACT) != 0))
         lmLog(&stm->srcp, 402, sevERR, "");
+#endif
     }
     break;
   case WHR_NEAR:
@@ -247,8 +259,12 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       stm->fields.make.atr->code = atr->nam->code;
     break;
   case WHT_ID:
-    symcheck(&sym, &elm, stm->fields.make.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
+#ifndef FIXME
+    syserr("UNIMPL: namcheck");
+#else
+    namcheck(&sym, &elm, stm->fields.make.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
              NAMANY, pars);
+#endif
     if (elm) {
       atr = paramatr(stm->fields.make.atr, elm);
       if (atr == NULL)          /* Not a default attribute */
@@ -257,7 +273,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       atr = symatr(stm->fields.make.atr, sym);
       if (atr == NULL)
         lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
-              stm->fields.make.wht->nam->str);
+              stm->fields.make.wht->id->string);
     }
     if (atr != NULL) {
       if (atr->typ != TYPBOOL)
@@ -319,8 +335,12 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
       stm->fields.set.atr->code = atr->nam->code;
     break;
   case WHT_ID:
-    symcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
+#ifndef FIXME
+    syserr("UNIMPL: namcheck");
+#else
+    namcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
              NAMANY, pars);
+#endif
     if (elm) {
       atr = paramatr(stm->fields.set.atr, elm);
       if (atr == NULL)          /* Not a default attribute */
@@ -329,7 +349,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
       atr = symatr(stm->fields.set.atr, sym);
       if (atr == NULL)
         lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
-              stm->fields.set.wht->nam->str);
+              stm->fields.set.wht->id->string);
     }
     if (atr) {
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
@@ -398,8 +418,12 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       stm->fields.incr.atr->code = atr->nam->code;
     break;
   case WHT_ID:
-    symcheck(&sym, &elm, stm->fields.incr.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
+#ifndef FIXME
+    syserr("UNIMPL: namcheck");
+#else
+    namcheck(&sym, &elm, stm->fields.incr.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
              NAMANY, pars);
+#endif
     if (elm) {
       atr = paramatr(stm->fields.incr.atr, elm);
       if (atr == NULL)          /* Not a default attribute */
@@ -408,7 +432,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       atr = symatr(stm->fields.incr.atr, sym);
       if (atr == NULL)
         lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
-              stm->fields.incr.wht->nam->str);
+              stm->fields.incr.wht->id->string);
     }
     if (atr) {
       if (atr->typ != TYPINT)
@@ -444,7 +468,7 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  symcheck(&sym, &elm, stm->fields.schedule.id, NAMEVT, NAMANY, NULL);
+  namcheck(&sym, &elm, stm->fields.schedule.id, NAMEVT, NAMANY, NULL);
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
@@ -484,7 +508,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  symcheck(&sym, &elm, stm->fields.cancel.id, NAMEVT, NAMANY, NULL);
+  namcheck(&sym, &elm, stm->fields.cancel.id, NAMEVT, NAMANY, NULL);
 }
 
 
@@ -532,12 +556,12 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      symcheck(&sym, &elm, stm->fields.use.actor, NAMACT+NAMCACT, NAMANY, pars);
+      namcheck(&sym, &elm, stm->fields.use.actor, NAMACT+NAMCACT, NAMANY, pars);
       act = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
       else if (sym)
-        act = sym->ref;
+        /* FIXME : act = sym->ref */;
     }
     if (act != NULL) {
 
@@ -782,7 +806,7 @@ static void gedescribe(StmNod *stm) /* IN - Statement */
     break;
 
   case WHT_ID:
-    genam(stm->fields.describe.wht->nam);
+    geid(stm->fields.describe.wht->id);
     break;
 
   default:
@@ -830,7 +854,7 @@ static void gesay(StmNod *stm)	/* IN - The statement to analyze */
 static void gelist(StmNod *stm)	/* IN - Statement */
 {
   if (stm->fields.list.wht->wht == WHT_ID) {
-    genam(stm->fields.list.wht->nam);
+    geid(stm->fields.list.wht->id);
     emit0(C_STMOP, I_LIST);
   } else
     unimpl(&stm->srcp, "Code Generator");
@@ -849,7 +873,7 @@ static void geempty(StmNod *stm) /* IN - Statement */
 {
   if (stm->fields.empty.wht->wht == WHT_ID) {
     gewhr(stm->fields.empty.whr);
-    genam(stm->fields.empty.wht->nam);
+    geid(stm->fields.empty.wht->id);
     emit0(C_STMOP, I_EMPTY);
   } else
     unimpl(&stm->srcp, "Code Generator");
@@ -1372,8 +1396,8 @@ void dustm(StmNod *stm)
       break;
     case STM_IF:
       put("exp: "); duexp(stm->fields.iff.exp); nl();
-      put("thn: "); dulst(stm->fields.iff.thn, STMNOD); nl();
-      put("els: "); dulst(stm->fields.iff.els, STMNOD);
+      put("thn: "); dulst(stm->fields.iff.thn, LIST_STM); nl();
+      put("els: "); dulst(stm->fields.iff.els, LIST_STM);
       break;
     case STM_USE:
       put("script: "); dunam(stm->fields.use.script); nl();

@@ -5,12 +5,13 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
-
-#include "srcp.h"
-#include "lmList.h"
-
 #include "slt.h"
+
+/* IMPORT */
+#include <stdio.h>
+#include "util.h"
+#include "dump.h"
+
 
 
 
@@ -63,19 +64,21 @@ Slots *newSlots(List *nams,
 void dumpSlots(Slots *slots)
 {
   put("SLOTS: "); in();
-  put("namslst: "); dulst(slots->namslst, NAMNOD); nl();
-  put("namstms: "); dulst(slots->namstms, STMNOD); nl();
+  put("namslst: "); dulst(slots->namslst, LIST_NAM); nl();
+  put("namstms: "); dulst(slots->namstms, LIST_STM); nl();
   put("namadr: "); duadr(slots->namsadr); nl();
+#ifdef FIXME
   put("whr: "); duwhr(slots->whr); nl();
   put("cnt: "); ducnt(slots->cnt); nl();
-  put("atrs: "); dulst(slots->atrs, ATRNOD); nl();
+#endif
+  put("atrs: "); dulst(slots->atrs, LIST_ATR); nl();
   put("atradr: "); duadr(slots->atradr); nl();
-  put("dscr: "); dulst(slots->dscr, STMNOD); nl();
+  put("dscr: "); dulst(slots->dscr, LIST_STM); nl();
   put("dscradr: "); duadr(slots->dscradr); nl();
-  put("art: "); dulst(slots->art, STMNOD); nl();
+  put("art: "); dulst(slots->art, LIST_STM); nl();
   put("artadr: "); duadr(slots->artadr); nl();
-  put("ment: "); dulst(slots->ment, STMNOD); nl();
+  put("ment: "); dulst(slots->ment, LIST_STM); nl();
   put("mentadr: "); duadr(slots->mentadr); nl();
-  put("vrbs: "); dulst(slots->vrbs, VRBNOD); nl();
+  put("vrbs: "); dulst(slots->vrbs, LIST_VRB); nl();
   put("vrbadr: "); duadr(slots->vrbadr); out();
 }

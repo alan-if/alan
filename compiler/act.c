@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 
@@ -80,7 +80,7 @@ ActNod *newact(
   if (sym == NULL) {
     new->nam->code = newsym(nam->str, NAMACT, new);
     new->nam->kind = NAMACT;
-  } else if (strcmp(sym->str, "hero") == 0 && !heroRedefined) {
+  } else if (strcmp(sym->string, "hero") == 0 && !heroRedefined) {
     heroRedefined = TRUE;
     act = (ActNod *) sym->ref;
     /* Copy new info */
@@ -237,7 +237,7 @@ static void anact(ActNod *act)
       break;
     case WHR_AT:
       if (act->whr->wht->wht == WHT_ID)
-	symcheck(&sym, &elm, act->whr->wht->nam, NAMLOC, NAMANY, NULL);
+	namcheck(&sym, &elm, act->whr->wht->nam, NAMLOC, NAMANY, NULL);
       else
 	lmLog(&act->srcp, 414, sevERR, "actor");
       break;

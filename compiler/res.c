@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -35,7 +36,7 @@
 
  */
 ResNod *newres(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,	/* IN - The name */
+	       IdNod *id,	/* IN - The name */
 	       Bool single,	/* IN - A single class identifier? */
 	       List *classes,	/* IN - Allowed classes */
 	       List *stms)	/* IN - Statements to execute otherwise */
@@ -47,7 +48,7 @@ ResNod *newres(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ResNod);
 
   new->srcp = *srcp;
-  new->nam = nam;
+  new->id = id;
   new->single = single;
   new->classes = classes;
   new->stms = stms;
@@ -75,16 +76,16 @@ static void anres(
 
   /* Check for the id in the parameter list */
   for (p = params; p != NULL; p = p->next)
-    if (eqnams(res->nam, p->element.elm->nam)) {
+    if (eqids(res->id, p->element.elm->id)) {
       found = TRUE;
       break;
     }
   if (!found)
-    lmLog(&res->nam->srcp, 222, sevERR, res->nam->str);
+    lmLog(&res->id->srcp, 222, sevERR, res->id->string);
 
   /* Analyse the class list */
   for (idList = res->classes; idList; idList = idList->next) {
-    /* FIXME Look up the classes and attach them to here */
+    syserr("UNIMPLEMENTED: anres - Look up the classes and attach them to here");
     /* For now "actor" etc. are converted to their restriction kinds */
     if (strcmp(idList->element.nam->str, "actor") == 0)
       res->classbits |= NAMACT;
@@ -156,9 +157,13 @@ static void geres(ResNod *res)	/* IN - Node to generate */
  */
 static void geresent(ResNod *res) /* IN - Node to generate */
 {
-  emit(res->nam->code);
+#ifndef FIXME
+  syserr("UNIMPL: geresent()");
+#else
+  emit(res->id->code);
   emit(res->classbits);
   emit(res->stmadr);
+#endif
 }
 
 
@@ -185,7 +190,7 @@ Aaddr geress(List *ress,	/* IN - The element class restriction nodes */
 
   /* End it with an End of file and the code for the verb */
   emit(EOF);
-  genam(stx->nam);
+  geid(stx->id);
 
   return(resadr);
 }
@@ -228,9 +233,9 @@ void dures(ResNod *res)
   }
 
   put("RES: "); dusrcp(&res->srcp); in();
-  put("nam: "); dunam(res->nam); nl();
+  put("id: "); dumpId(res->id); nl();
   put("single: "); dumpBool(res->single); nl();
   put("classbits: "); dumpNamKind(res->classbits); nl();
-  put("classes: "); dulst(res->classes, NAMNOD); nl();
-  put("stms: "); dulst(res->stms, STMNOD); out();
+  put("classes: "); dulst(res->classes, LIST_NAM); nl();
+  put("stms: "); dulst(res->stms, LIST_STM); out();
 }

@@ -125,7 +125,7 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
 
   switch (wht->wht) {
   case WHT_ID:
-    symcheck(&sym, &elm, wht->nam, NAMANY, NAMCNT, pars);
+    namcheck(&sym, &elm, wht->nam, NAMANY, NAMCNT, pars);
     if (sym)
       switch (sym->class) {
       case NAMCNT:

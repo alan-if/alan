@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -13,6 +14,7 @@
 #include "wht.h"		/* WHT-nodes */
 
 #include "emit.h"
+#include "dump.h"
 
 
 /*======================================================================
@@ -24,7 +26,7 @@
   */
 WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
 	       WhtKind wht,	/* IN - What kind */
-	       NamNod *nam)	/* IN - Name or NULL */
+	       IdNod *id)	/* IN - ID or NULL */
 {
   WhtNod *new;
 
@@ -34,7 +36,7 @@ WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
 
   new->srcp = *srcp;
   new->wht = wht;
-  new->nam = nam;
+  new->id = id;
 
   return(new);
 }
@@ -62,7 +64,7 @@ void gewht(WhtNod *wht)		/* IN - What to generate */
     emit0(C_CURVAR, V_CURACT);
     break;
   case WHT_ID:
-    genam(wht->nam);
+    geid(wht->id);
     break;
   }
 }
@@ -92,7 +94,7 @@ void duwht(WhtNod *wht)
   default: put("*** ERROR ***"); break;
   }
   nl();
-  put("nam: "); dunam(wht->nam); out();
+  put("id: "); duid(wht->id); out();
 }
 
 

@@ -8,6 +8,7 @@
 
 #include "sysdep.h"
 #include "types.h"
+#include "util.h"
 
 #ifdef __sun__
 #include <unistd.h>
@@ -34,9 +35,6 @@
 
 /* PUBLIC DATA */
 
-Srcp nulsrcp			/* NULL position for list */
-  = {0,0,0};
-
 char advnam[255];		/* Name of adventure (file name excl. ext.) */
 FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
@@ -48,11 +46,11 @@ long counter = 0;		/* Number of new's so far, for verbose */
 /* PRIVATE */
 
 static void *heap;		/* Address to first free heap area - before */
-static long allocated;		/* Calculated memory usage */
 
 
 /* Timing */
 #include "timing.h"
+
 
 static TIBUF tbuf;
 static TIBUF totTime;
@@ -279,69 +277,6 @@ static void stats(void)
 			PUBLIC routines
 
 \************************************************************************/
-
-
-/*======================================================================
-
-  unimpl()
-
-  An unimplemented constrution was encountered.
-
- */
-void unimpl(Srcp *srcp,		/* IN  - Where? */
-	    char *phase)	/* IN  - What phase? */
-{
-  lmLog(srcp, 998, sevWAR, phase);
-}
-
-
-/*======================================================================
-
-  syserr()
-
-  Some kind of internal system error was detected. Log it.
-
- */
-void syserr(char *str)
-{
-  lmLog(&nulsrcp, 997, sevSYS, str);
-  lmList("", 0, 79, liTINY, sevALL);
-  terminate(EXIT_FAILURE);
-}
-
-
-/*======================================================================
-
-  panic()
-
-  A catastrophe has happened. Print message but do as little as possible.
-
-  */
-void panic(char *str)
-{
-  printf("PANIC!! %s\n", str);
-  terminate(EXIT_FAILURE);
-}
-
-
-/*======================================================================
-
-  allocate()
-
-  Safely allocate new memory.
-
-*/
-void *allocate(int len)		/* IN - Length to allocate */
-{
-  void *p = malloc((size_t)len);
-
-  if (p == NULL)
-    panic("Out of memory");
-
-  allocated += len;
-
-  return p;
-}
 
 
 

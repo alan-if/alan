@@ -11,6 +11,8 @@
 #include "alan.h"
 #include "srcp.h"
 #include "lst.h"
+#include "elm.h"
+#include "sym.h"
 
 #include "acode.h"
 
@@ -59,6 +61,17 @@ typedef struct NamNod {		/* NAME */
 /* Create a new Name node */
 extern NamNod *newnam(Srcp *srcp,
 		      char str[]);
+
+/* Generate a string from NAMKINDs */
+extern char *namstr(NamKind syms);
+
+/* Check a name against legal types */
+extern void namcheck(SymNod **sym,
+		     ElmNod **elm,
+		     NamNod *nam,
+		     NamKind classes,
+		     NamKind props,
+		     List *pars);
 
 /* Compare two names */
 extern Bool eqnams(NamNod *nam1, NamNod *nam2);

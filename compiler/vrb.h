@@ -20,7 +20,7 @@
 
 typedef struct VrbNod {		/* VERB */
   Srcp srcp;			/* Source position */
-  List *nams;			/* List of verbs to perform this action */
+  List *ids;			/* List of verb IDs to perform this action */
   List *alts;			/* Alternative bodies */
   Aaddr altadr;			/* AN - Address to alt-table */
   StxNod *stx;			/* AN - Which syntax defines this verb */
@@ -39,7 +39,7 @@ extern int vrbcount;
 
 /* Create a new Verb node */
 extern VrbNod *newvrb(Srcp *srcp,
-		      List *nams,
+		      List *ids,
 		      List *alts);
 
 /* Analyze a list of Verbs */

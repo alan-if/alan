@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -172,7 +173,7 @@ void dulim(LimNod *lim)
 {
   put("LIM: "); dusrcp(&lim->srcp); in();
   put("atr: "); duatr(lim->atr); nl();
-  put("stms: "); dulst(lim->stms, STMNOD); out();
+  put("stms: "); dulst(lim->stms, LIST_STM); out();
 }
 
 

@@ -6,8 +6,10 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
+#include "lmList.h"
 
 #include "lst.h"
 #include "nam.h"
@@ -52,6 +54,152 @@ NamNod *newnam(Srcp *srcp,	/* IN - Source Position */
   return(new);
 }
 
+
+
+/*============================================================================
+
+  namstr()
+
+  Create a string indicating the types of names in the set.
+
+  */
+extern char *namstr(NamKind syms) /* IN - A set of name types */
+{
+  static char *sym[] = {
+    "an Object",
+    "a Container",
+    "an Actor",
+    "an Integer",
+    "a String",
+    "an Object",
+    "an Actor",
+    "a Direction",
+    "a Location",
+    "a Verb",
+    "an Attribute",
+    "an Event",
+    "a Parameter",
+    "a Word",
+    "a Rule"
+    };
+  static char str[255];         /* To hold the string */
+  Bool found = FALSE;
+  int i;
+
+  /* 4f_Hack to not have repetitions */
+  if (syms & NAMACT) syms &= ~NAMCACT;
+  if (syms & NAMOBJ) syms &= ~NAMCOBJ;
+
+  str[0] = '\0';                /* Clear the string */
+  for (i = 0; i <= 15; i++) {
+    if ((syms & (1<<i)) != 0) {
+      if (found)
+        strcat(str, " or ");
+      strcat(str, sym[i]);
+      found = TRUE;
+    }
+  }
+  return(str);
+}
+
+
+/*======================================================================
+
+  namcheck()
+
+  Check if a name is known, if so return its kind else give an error
+  message indicating what it should have been. Also check the possible
+  parameters, if any of those match use it instead. Will set elm resp.
+  sym depending on which one was used if no error.
+
+  */
+void namcheck(
+    SymNod **sym,               /* OUT - Found symbol */
+    ElmNod **elm,               /* OUT - Found parameter  */
+    IdNod *id,			/* IN - The name to check */
+    NamKind classes,            /* IN - A set of allowed symbol classes */
+    NamKind props,              /* IN - Set to NAMCNT if container properties required, NAMANY otherwise */
+    List *pars                  /* IN - Possible parameters valid in this context */
+)
+{
+  List *lst;                    /* Parameter traversal pointer*/
+  NamKind elmclasses;           /* Classes defined for the parameter */
+
+  *sym = NULL;
+  *elm = NULL;
+  if (id == NULL)
+    return;
+
+  /* Look it up, as a symbol and in the parameter list */
+  *sym = lookup(id->string);
+  *elm = NULL;                  /* Clear it first */
+  for (lst = pars; lst; lst = lst->next) /* Then search for parameter */
+    if (eqids(lst->element.elm->id, id)) {
+      *elm = lst->element.elm;
+      break;
+    }
+
+  /* Not found? */
+  if (*sym == NULL && *elm == NULL) {
+    /* Ids generated during error recovery start with '$' */
+    if (id->string[0] != '$')
+      lmLog(&id->srcp, 310, sevERR, id->string);
+    newsym(id->string, NAMUNK, NULL);
+  } else if (*elm) {
+    if (*sym && ((*sym)->class != NAMUNK)) {
+      /* Parameter overrides symbol */
+      lmLog(&id->srcp, 212, sevINF, id->str);
+      *sym = NULL;
+    }
+    nam->kind = NAMPAR;         /* Remember it is a parameter */
+    nam->code = (*elm)->no;
+    /* Check if classes match */
+    if ((*elm)->res == NULL) {
+      /* No restrictions defined, can only be an OBJECT */
+      if ((classes & NAMOBJ) == 0) {
+        lmLog(&nam->srcp, 312, sevERR, namstr(classes));
+        *elm = NULL;
+      } else
+	/* Check properties */
+	if (props != NAMANY) {
+	  lmLog(&nam->srcp, 312, sevERR, namstr(props));
+	  *elm = NULL;
+	}
+    } else {
+      /* Find its defined classes and check against them */
+      elmclasses = (*elm)->res->classbits & (~NAMCNT); /* Ignore container prop */
+
+      if ((classes & elmclasses) != elmclasses ) {
+	/* "Parameter not uniquely defined as a" */
+        lmLog(&nam->srcp, 312, sevERR, namstr(classes));
+        *elm = NULL;
+      } else {
+	/* If it was uniquely defined as any type of literal say so */
+	if (elmclasses & NAMNUM)
+	  nam->kind = NAMNUM;
+	else if (elmclasses & NAMSTR)
+	  nam->kind = NAMSTR;
+	else {
+	  /* Check properties */
+	  if (props != NAMANY) {
+	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
+		((*elm)->res->classbits & props) != props)
+	      lmLog(&nam->srcp, 312, sevERR, namstr(props));
+	    *elm = NULL;
+	  }
+	}
+      }
+    }
+  } else if ((*sym)->class != NAMUNK) {
+    if ((classes & (*sym)->class) == 0) {
+      lmLog(&nam->srcp, 311, sevERR, namstr(classes));
+      *sym = NULL;
+    } else {
+      id->code = (*sym)->code;
+      id->kind = (*sym)->class;
+    }
+  }
+}
 
 
 /*======================================================================

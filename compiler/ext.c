@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -63,13 +64,17 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 
   for (lst = dirs; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.nam->str); /* Find any earlier definition */
+#ifndef FIXME
+    syserr("UNIMPL: newext() - symbol codes and words");
+#else
     if (sym == NULL) {
       lst->element.nam->code = newsym(lst->element.nam->str, NAMDIR, new);
-      newwrd(lst->element.nam->str, WRD_DIR, lst->element.nam->code, NULL);
+      newwrd(lst->element.id->string, WRD_DIR, lst->element.nam->code, NULL);
     } else if (sym->class == NAMDIR)
       lst->element.nam->code = sym->code;
     else
       redefined(&lst->element.nam->srcp, sym, lst->element.nam->str);
+#endif
   }
 
   return(new);
@@ -89,7 +94,7 @@ static void anext(ExtNod *ext)	/* IN - Exit to analyze */
   SymNod *sym;			/* Symbol table entry */
   ElmNod *elm;
 
-  symcheck(&sym, &elm, ext->to, NAMLOC, NAMANY, NULL);
+  namcheck(&sym, &elm, ext->to, NAMLOC, NAMANY, NULL);
 
   anchks(ext->chks, NULL, NULL);
   anstms(ext->stms, NULL, NULL, NULL);
@@ -239,11 +244,11 @@ void duext(ExtNod *ext)
   }
 
   put("EXT: "); dusrcp(&ext->srcp); in();
-  put("dirs: "); dulst(ext->dirs, NAMNOD); nl();
+  put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
   put("to: "); dunam(ext->to); nl();
-  put("chks: "); dulst(ext->chks, CHKNOD); nl();
+  put("chks: "); dulst(ext->chks, LIST_CHK); nl();
   put("chkadr: "); duadr(ext->chkadr); nl();
-  put("stms: "); dulst(ext->stms, STMNOD); nl();
+  put("stms: "); dulst(ext->stms, LIST_STM); nl();
   put("stmadr: "); duadr(ext->stmadr); out();
 }
 

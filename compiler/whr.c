@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -18,6 +19,7 @@
 #include "elm.h"		/* ELM-nodes */
 #include "whr.h"		/* WHR-nodes */
 
+#include "dump.h"
 #include "emit.h"
 
 
@@ -69,7 +71,11 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
   case WHR_AT:
     switch (whr->wht->wht) {
     case WHT_ID:
-      symcheck(&sym, &elm, whr->wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#ifndef FIXME
+      syserr("UNIMPL: namcheck() -> idcheck()");
+#else
+      namcheck(&sym, &elm, whr->wht->id, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
+#endif
       break;
     case WHT_LOC:
       whr->whr = WHR_HERE;
@@ -112,7 +118,7 @@ void gewhr(WhrNod *whr)		/* IN - Where node */
     switch (whr->wht->wht) {
     case WHT_ID:
       gewht(whr->wht);
-      if (whr->wht->nam->kind != NAMLOC)
+      if (whr->wht->id->kind != NAMLOC)
 	emit0(C_STMOP, I_WHERE);
       break;
     case WHT_OBJ:
@@ -131,7 +137,7 @@ void gewhr(WhrNod *whr)		/* IN - Where node */
     break;
 
   case WHR_IN:
-    genam(whr->wht->nam);
+    geid(whr->wht->id);
     break;
 
   case WHR_HERE:

@@ -32,41 +32,6 @@ typedef enum dmpKd {
 } DmpKind;
 
 
-typedef enum nodkd {
-  UNKNOD,
-  ACTNOD,
-  ALTNOD,
-  ATRNOD,
-  CASENOD,
-  CHKNOD,
-  CLANOD,
-  CNTNOD,
-  EENTNOD,
-  ELMNOD,
-  EVTNOD,
-  EXPNOD,
-  EXTNOD,
-  INSNOD,
-  IDNOD,
-  LIMNOD,
-  LOCNOD,
-  LSTNOD,
-  MSGNOD,
-  NAMNOD,
-  OBJNOD,
-  REFNOD,
-  RESNOD,
-  RULNOD,
-  SCRNOD,
-  STMNOD,
-  STPNOD,
-  STRNOD,
-  STXNOD,
-  SYNNOD,
-  VRBNOD
-} NodKind;
-
-
 /* Data: */
 
 

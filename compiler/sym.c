@@ -5,22 +5,18 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "sym.h"                /* SYMbol nodes */
 
+/* IMPORTS */
+#include "sysdep.h"
+#include "util.h"
 #include "srcp.h"
 #include "lmList.h"
+#include "cla.h"		/* CLAss nodes */
 
-#include "sym.h"                /* SYM-nodes */
-#include "nam.h"                /* NAM-nodes */
-#include "vrb.h"                /* VRB-nodes */
-#include "ext.h"                /* EXT-nodes */
-#include "elm.h"                /* ELM-nodes */
-#include "loc.h"                /* LOC-nodes */
-#include "cnt.h"                /* CNT-nodes */
-#include "obj.h"                /* OBJ-nodes */
-#include "act.h"                /* ACT-nodes */
-#include "evt.h"                /* EVT-nodes */
 
+int classCount = 0;
+int instanceCount = 0;
 
 
 static SymNod *symtree = NULL;
@@ -38,6 +34,7 @@ void redefined(Srcp *srcp,      /* IN - Source position */
                SymNod *sym,     /* IN - The previous definition */
                char *str)       /* IN - The symbol name */
 {
+#ifdef OLDSYMBOLS
   int code;                     /* Error code */
 
   switch (sym->class) {
@@ -52,8 +49,45 @@ void redefined(Srcp *srcp,      /* IN - Source position */
   }
 
   lmLog(srcp, code, sevERR, str);
+#endif
 }
 
+
+
+/*----------------------------------------------------------------------------
+
+  insertSymbol()
+
+  Insert a new symbol in the symbol tree
+
+*/
+static void insertSymbol(SymNod *symbol)
+{
+  SymNod *s1,*s2;               /* Traversal pointers */
+  int comp;                     /* Result of comparison */
+
+  symbol->low = NULL;
+  symbol->high = NULL;
+
+  s1 = symtree;
+  s2 = NULL;
+  
+  while (s1 != NULL) {
+    s2 = s1;
+    comp = strcmp(symbol->string, s1->string);
+    if (comp < 0)
+      s1 = s1->low;
+    else
+      s1 = s1->high;
+  }
+  
+  if (s2 == NULL)
+    symtree = symbol;
+  else if(comp < 0)
+    s2->low = symbol;
+  else
+    s2->high = symbol;
+}
 
 
 /*======================================================================
@@ -63,44 +97,39 @@ void redefined(Srcp *srcp,      /* IN - Source position */
   Creates a new symnod and links it in the symtree.
 
   */
-int newsym(char *str,           /* IN - Name of the new symbol */
-           NamKind class,       /* IN - and its class */
-           void *ref)           /* IN - Reference to the symbols node */
+SymNod *newsym(char *string,	/* IN - Name of the new symbol */
+		SymbolKind kind, /* IN - What kind of symbol */
+		void *ref)	/* IN - Reference to the symbols node */
 {
   SymNod *new;                  /* The newly created symnod */
-  SymNod *s1,*s2;               /* Traversal pointers */
-  int comp;                     /* Result of comparison */
   
-  if (str == NULL)
+  if (string == NULL)
     return (0);
   
   new = NEW(SymNod);
   
-  new->class = class;
-  new->str = str;
+  new->kind = kind;
+  new->string = string;
+
+  new->ref.cla = (ClaNod *)ref;
   
-  new->low = NULL;
-  new->high = NULL;
-  
-  s1 = symtree;
-  s2 = NULL;
-  
-  while (s1 != NULL) {
-    s2 = s1;
-    comp = strcmp(str, s1->str);
-    if (comp < 0)
-      s1 = s1->low;
-    else
-      s1 = s1->high;
+  insertSymbol(new);
+
+  switch (kind) {
+  case CLASS_SYMBOL:
+    new->code = ++classCount;
+    new->fields.cla.parent = NULL;
+    break;
+  case INSTANCE_SYMBOL:
+    new->code = ++instanceCount;
+    new->fields.ins.parent = NULL;
+    break;
+  default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
   }
-  
-  if (s2 == NULL)
-    symtree = new;
-  else if(comp < 0)
-    s2->low = new;
-  else
-    s2->high = new;
-  
+
+#ifndef FIXME
+  syserr("UNIMPLEMENTED: newSym() - counting");
+#else
   switch (class) {
   case NAMDIR: new->code = ++dircount; break;
   case NAMLOC: new->code = ++loccount; break;
@@ -111,11 +140,31 @@ int newsym(char *str,           /* IN - Name of the new symbol */
   case NAMACT: new->code = ++actcount; break;
   default: new->code = 0; break;
   }
+#endif
   
-  new->ref = ref;
-  return(new->code);
+  return new;
 }
 
+
+
+/*======================================================================
+
+  initSymbols()
+
+  Initialise the symbol table;
+
+  */
+void initSymbols()
+{
+  SymNod *thing = newsym("thing", CLASS_SYMBOL, NULL);
+  SymNod *object = newsym("object", CLASS_SYMBOL, NULL);
+  SymNod *actor = newsym("actor", CLASS_SYMBOL, NULL);
+  SymNod *location = newsym("location", CLASS_SYMBOL, NULL);
+
+  setParent(location, thing);
+  setParent(object, thing);
+  setParent(actor, thing);
+}
 
 
 /*======================================================================
@@ -125,19 +174,19 @@ int newsym(char *str,           /* IN - Name of the new symbol */
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-SymNod *lookup(char *str)       /* IN - The name to look up */
+SymNod *lookup(char *string)       /* IN - The name to look up */
 {
   SymNod *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  if (str == NULL) return(NULL);
+  if (string == NULL) return(NULL);
 
   s1 = symtree;
   s2 = NULL;
 
   while (s1 != NULL) {
     s2 = s1;
-    comp = strcmp(str, s1->str);
+    comp = strcmp(string, s1->string);
     if (comp == 0)
       return(s1);
     else if (comp < 0)
@@ -149,149 +198,55 @@ SymNod *lookup(char *str)       /* IN - The name to look up */
   return(NULL);
 }
 
+/*======================================================================
 
+  setParent()
 
-/*----------------------------------------------------------------------
-
-  symstr()
-
-  Create a string indicating the types in the set.
+  Set the parent of a Class Symbol to be another Symbol
 
   */
-static char *symstr(NamKind syms) /* IN - A set of symbol types */
+void setParent(SymNod *child, SymNod *parent)
 {
-  static char *sym[] = {
-    "an Object",
-    "a Container",
-    "an Actor",
-    "an Integer",
-    "a String",
-    "an Object",
-    "an Actor",
-    "a Direction",
-    "a Location",
-    "a Verb",
-    "an Attribute",
-    "an Event",
-    "a Parameter",
-    "a Word",
-    "a Rule"
-    };
-  static char str[255];         /* To hold the string */
-  Bool found = FALSE;
-  int i;
-
-  /* 4f_Hack to not have repetitions */
-  if (syms & NAMACT) syms &= ~NAMCACT;
-  if (syms & NAMOBJ) syms &= ~NAMCOBJ;
-
-  str[0] = '\0';                /* Clear the string */
-  for (i = 0; i <= 15; i++) {
-    if ((syms & (1<<i)) != 0) {
-      if (found)
-        strcat(str, " or ");
-      strcat(str, sym[i]);
-      found = TRUE;
-    }
-  }
-  return(str);
+  if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    syserr("Not a CLASS or INSTANCE in setParent()");
+  child->fields.cla.parent = parent;
 }
 
 
 /*======================================================================
 
-  symcheck()
+  parentOf()
 
-  Check if a name is known, if so return its kind else give an error
-  message indicating what it should have been. Also check the possible
-  parameters, if any of those match use it instead. Will set elm resp.
-  sym depending on which one was used if no error.
+  Get the parent of a Class Symbol
 
   */
-void symcheck(
-    SymNod **sym,               /* OUT - Found symbol */
-    ElmNod **elm,               /* OUT - Found parameter  */
-    NamNod *nam,                /* IN - The name to check */
-    NamKind classes,            /* IN - A set of allowed symbol classes */
-    NamKind props,              /* IN - Set to NAMCNT if container properties required, NAMANY otherwise */
-    List *pars                  /* IN - Possible parameters valid in this context */
-)
+SymNod *parentOf(SymNod *child)
 {
-  List *lst;                    /* Parameter traversal pointer*/
-  NamKind elmclasses;           /* Classes defined for the parameter */
-
-  *sym = NULL;
-  *elm = NULL;
-  if (nam == NULL)
-    return;
-
-  /* Look it up, as a symbol and in the parameter list */
-  *sym = lookup(nam->str);
-  *elm = NULL;                  /* Clear it first */
-  for (lst = pars; lst; lst = lst->next) /* Then search for parameter */
-    if (eqnams(lst->element.elm->nam, nam)) {
-      *elm = lst->element.elm;
-      break;
-    }
-
-  /* Not found? */
-  if (*sym == NULL && *elm == NULL) {
-    /* Ids generated during error recovery start with '$' */
-    if (nam->str[0] != '$')
-      lmLog(&nam->srcp, 310, sevERR, nam->str);
-    newsym(nam->str, NAMUNK, NULL);
-  } else if (*elm) {
-    if (*sym && ((*sym)->class != NAMUNK)) {
-      /* Parameter overrides symbol */
-      lmLog(&nam->srcp, 212, sevINF, nam->str);
-      *sym = NULL;
-    }
-    nam->kind = NAMPAR;         /* Remember it is a parameter */
-    nam->code = (*elm)->no;
-    /* Check if classes match */
-    if ((*elm)->res == NULL) {
-      /* No restrictions defined, can only be an OBJECT */
-      if ((classes & NAMOBJ) == 0) {
-        lmLog(&nam->srcp, 312, sevERR, symstr(classes));
-        *elm = NULL;
-      } else
-	/* Check properties */
-	if (props != NAMANY) {
-	  lmLog(&nam->srcp, 312, sevERR, symstr(props));
-	  *elm = NULL;
-	}
-    } else {
-      /* Find its defined classes and check against them */
-      elmclasses = (*elm)->res->classbits & (~NAMCNT); /* Ignore container prop */
-
-      if ((classes & elmclasses) != elmclasses ) {
-	/* "Parameter not uniquely defined as a" */
-        lmLog(&nam->srcp, 312, sevERR, symstr(classes));
-        *elm = NULL;
-      } else {
-	/* If it was uniquely defined as any type of literal say so */
-	if (elmclasses & NAMNUM)
-	  nam->kind = NAMNUM;
-	else if (elmclasses & NAMSTR)
-	  nam->kind = NAMSTR;
-	else {
-	  /* Check properties */
-	  if (props != NAMANY) {
-	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
-		((*elm)->res->classbits & props) != props)
-	      lmLog(&nam->srcp, 312, sevERR, symstr(props));
-	    *elm = NULL;
-	  }
-	}
-      }
-    }
-  } else if ((*sym)->class != NAMUNK) {
-    if ((classes & (*sym)->class) == 0) {
-      lmLog(&nam->srcp, 311, sevERR, symstr(classes));
-      *sym = NULL;
-    } else {
-      nam->code = (*sym)->code;
-      nam->kind = (*sym)->class;
-    }
-  }
+  if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    syserr("Not a CLASS or INSTANCE in parentOf()");
+  return child->fields.cla.parent;
 }
+
+
+/*======================================================================
+
+  inheritsFrom()
+
+  Test inheritance from specified ClassSymbol.
+
+  */
+Bool inheritsFrom(SymNod *child, SymNod *ancestor)
+{
+  SymNod *p;
+
+  if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL &&
+      ancestor->kind != CLASS_SYMBOL)
+    syserr("Not a CLASS or INSTANCE in inheritsFrom()");
+
+  p = child->fields.cla.parent;
+  while (p && p != ancestor)
+    p = p->fields.cla.parent;
+
+  return (p != NULL);
+}
+

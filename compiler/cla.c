@@ -5,12 +5,21 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "cla.h"
 
-#include "srcp.h"
+/* IMPORT */
+#include <stdio.h>
+
+#include "util.h"
+#include "dump.h"
 #include "lmList.h"
 
-#include "cla.h"
+#include "sym.h"
+
+
+/* PRIVATE DATA */
+
+static List *allClasses = NULL;
 
 
 
@@ -22,8 +31,8 @@
 
   */
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *id,
-	       List *heritage,
+	       IdNod *id,
+	       IdNod *heritage,
 	       Slots *slt)
 {
   ClaNod *new;                  /* The newly allocated area */
@@ -37,8 +46,60 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new->heritage = heritage;
   new->slt = slt;
 
+  new->symbol = newsym(id->string, CLASS_SYMBOL, new);
+
+  allClasses = concat(allClasses, new, LIST_CLA);
+
   return(new);
 }
+
+
+/*----------------------------------------------------------------------
+
+  symbolizeClass()
+
+  Symbolize a Class node.
+
+ */
+static void symbolizeClass(ClaNod *cla)
+{
+  SymNod *heritage = lookup(cla->heritage->string);
+  if (heritage->kind != CLASS_SYMBOL)
+      syserr("UNIMPLEMENTED: symbolizeClass - Can not inherit from something not a class");
+
+  cla->heritage->symbol = heritage;
+  setParent(cla->symbol, cla->heritage->symbol);
+}
+
+
+/*======================================================================
+
+  symbolizeClasses()
+
+  Symbolize all Class nodes.
+
+ */
+void symbolizeClasses(void)
+{
+  List *l;
+
+  for (l = allClasses; l; l = l->next)
+    symbolizeClass(l->element.cla);
+}
+
+
+
+/*======================================================================
+
+  analyzeClasses()
+
+  Analyze all Class nodes.
+
+ */
+void analyzeClasses(void)
+{
+}
+
 
 
 /*======================================================================
@@ -51,7 +112,20 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 void dumpClass(ClaNod *cla)
 {
   put("CLA: "); dusrcp(&cla->srcp); in();
-  put("id: "); dunam(cla->id); nl();
-  put("heritage: "); dulst(cla->heritage, NAMNOD); nl();
+  put("id: "); dumpId(cla->id); nl();
+  put("heritage: "); dumpId(cla->heritage); nl();
   put("slots: "); dumpSlots(cla->slt); out();
+}
+
+
+/*======================================================================
+
+  dumpClasses()
+
+  Dump all Class nodes.
+
+ */
+void dumpClasses(void)
+{
+  dulst(allClasses, LIST_CLA);
 }

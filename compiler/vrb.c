@@ -5,21 +5,22 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "vrb.h"		/* VRB-nodes */
+
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
 
-#include "acode.h"
-
 #include "adv.h"		/* ADV-nodes */
 #include "alt.h"		/* ALT-nodes */
 #include "sym.h"		/* SYM-nodes */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "stx.h"		/* STX-nodes */
 #include "obj.h"		/* OBJ-nodes */
-#include "vrb.h"		/* VRB-nodes */
+#include "id.h"
+#include "lst.h"
+
+#include "acode.h"
 
 #include "emit.h"
 #include "dump.h"
@@ -40,7 +41,7 @@ int vrbcount = 0;
 
   */
 VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
-	       List *nams,	/* IN - The verb names */
+	       List *ids,	/* IN - List of verb ids */
 	       List *alts)	/* IN - List of alternatives  */
 {
   VrbNod *new;			/* The newly allocated area */
@@ -52,19 +53,19 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
   new = NEW(VrbNod);
 
   new->srcp = *srcp;
-  new->nams = nams;
+  new->ids = ids;
   new->alts = alts;
 
-  for (lst = nams; lst != NULL; lst = lst->next) {
-    sym = lookup(lst->element.nam->str); /* Find earlier definition */
+  for (lst = ids; lst != NULL; lst = lst->next) {
+    sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.nam->code = newsym(lst->element.nam->str, NAMVRB, new);
-      lst->element.nam->kind = NAMVRB;
-    } else if (sym->class == NAMVRB) {
-      lst->element.nam->code = sym->code;
-      lst->element.nam->kind = NAMVRB;
+      lst->element.id->code = newsym(lst->element.id->string, NAMVRB, new);
+      lst->element.id->kind = NAMVRB;
+    } else if (sym->kind == NAMVRB) {
+      lst->element.id->code = sym->code;
+      lst->element.id->kind = NAMVRB;
     } else
-      redefined(&lst->element.nam->srcp, sym, lst->element.nam->str);
+      redefined(&lst->element.id->srcp, sym, lst->element.id->string);
   }
 
   return(new);
@@ -82,43 +83,43 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
 		  ObjNod *obj,                 
 		  ActNod *act)
 {
-  List *lst, *nams, *stxs = NULL;
+  List *lst, *ids, *stxs = NULL;
   StxNod *stx;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* First find the syntax definitions for all verbs */
-  for (nams = vrb->nams; nams; nams = nams->next) {
+  for (ids = vrb->ids; ids; ids = ids->next) {
     stx = NULL;
     for (lst = adv.stxs; lst; lst = lst->next) {
-      if (lst->element.stx->nam->code == nams->element.nam->code) {
+      if (lst->element.stx->id->code == ids->element.id->code) {
 	stx = lst->element.stx;
 	break;
       }
     }
     if (stx == NULL) {
-      lmLog(&nams->element.nam->srcp, 230, sevINF, nams->element.nam->str);
-      stx = defaultStx(nams->element.nam->str);
+      lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
+      stx = defaultStx(ids->element.id->string);
     }
-    stxs = concat(stxs, stx, STXNOD);
+    stxs = concat(stxs, stx, LIST_STX);
   }
   stx = stxs->element.stx;	/* Use first syntax */
   vrb->stx = stx;
     
-  /* Check compatible parameter lists for all the nams? */
-  nams = vrb->nams->next;
+  /* Check compatible parameter lists for all the ids? */
+  ids = vrb->ids->next;
   for (lst = stxs->next; lst != NULL; lst = lst->next) {
     if (!eqparams(stx, lst->element.stx))
-      lmLog(&nams->element.nam->srcp, 215, sevERR,
-	    vrb->nams->element.nam->str);
-    nams = nams->next;
+      lmLog(&ids->element.id->srcp, 215, sevERR,
+	    vrb->ids->element.id->string);
+    ids = ids->next;
   }
 
   if (obj == NULL && act == NULL)
-    if (vrb->alts->element.alt->nam != NULL)
+    if (vrb->alts->element.alt->id != NULL)
       lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
 
-  /* 4f_ni - Warn if no ALT for every parameter in the defined syntax */
+  /* FIXME - Warn if no ALT for every parameter in the defined syntax */
   if (stx != NULL)
     analts(vrb->alts, act, stx->pars);
   else
@@ -144,18 +145,18 @@ void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
 
   /* Check for multiple definitions of a verb */
   for (vrb = vrbs; vrb != NULL; vrb = vrb->next) {
-    nam = vrb->element.vrb->nams;
+    nam = vrb->element.vrb->ids;
     /* First check other names in this VERB */
     for (other = nam->next; other != NULL; other = other->next) {
-      if (other->element.nam->code == nam->element.nam->code)
-	lmLog(&other->element.nam->srcp, 205, sevWAR,
-	      other->element.nam->str);
+      if (other->element.id->code == nam->element.id->code)
+	lmLog(&other->element.id->srcp, 205, sevWAR,
+	      other->element.id->string);
     }
     /* Then the names in the other VERBs */
     for (lst = vrb->next; lst != NULL; lst = lst->next) {
-      for (other = lst->element.vrb->nams; other != NULL; other = other->next)
-	if (other->element.nam->code == nam->element.nam->code)
-	  lmLog(&other->element.nam->srcp, 220, sevWAR, other->element.nam->str);
+      for (other = lst->element.vrb->ids; other != NULL; other = other->next)
+	if (other->element.id->code == nam->element.id->code)
+	  lmLog(&other->element.id->srcp, 220, sevWAR, other->element.id->string);
     }
   }
 }
@@ -191,10 +192,10 @@ static void gevrb(VrbNod *vrb,	/* IN - The verb to generate */
   */
 static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
 {
-  List *nam;
+  List *ids;
 
-  for (nam = vrb->nams; nam != NULL; nam = nam->next) {
-    genam(nam->element.nam);
+  for (ids = vrb->ids; ids != NULL; ids = ids->next) {
+    geid(ids->element.id);
     emit(vrb->altadr);
   }
 }
@@ -247,9 +248,9 @@ void duvrb (VrbNod *vrb)
   }
 
   put("VRB: "); dusrcp(&vrb ->srcp); in();
-  put("nams: "); dulst(vrb->nams,NAMNOD); nl();
+  put("ids: "); dulst(vrb->ids, LIST_ID); nl();
   put("altadr: "); duadr(vrb->altadr); nl();
-  put("alts: "); dulst(vrb->alts, ALTNOD); out();
+  put("alts: "); dulst(vrb->alts, LIST_ALT); out();
 }
 
 

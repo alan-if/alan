@@ -10,7 +10,7 @@
 
 /* USE: */
 #include "srcp.h"
-#include "nam.h"
+#include "id.h"
 #include "lst.h"
 #include "whr.h"
 #include "slt.h"
@@ -20,7 +20,7 @@
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  NamNod *id;			/* Name of the instance */
+  struct IdNod *id;		/* Name of the instance */
   List *heritage;		/* The instances heritage */
   Slots *slt;			/* Slots */
 } InsNod;
@@ -33,7 +33,7 @@ typedef struct InsNod {		/* INSTANCE */
 
 /* Create a new Instance node */
 extern InsNod *newins(Srcp *srcp,
-		      NamNod *id,
+		      struct IdNod *id,
 		      List *heritage,
 		      Slots *slt);
 

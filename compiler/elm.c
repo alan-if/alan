@@ -5,15 +5,15 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
 
-#include "sym.h"                                /* SYM-nodes */
-#include "lst.h"                                /* LST-nodes */
-#include "stx.h"                                /* STX-nodes */
-#include "nam.h"                                /* NAM-nodes */
+#include "sym.h"		/* SYM-nodes */
+#include "lst.h"		/* LST-nodes */
+#include "stx.h"		/* STX-nodes */
+#include "nam.h"		/* NAM-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
 
@@ -48,7 +48,7 @@ static int level = 0;
  */
 ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
                ElmKind kind,    /* IN - Kind of element (parm or word) */
-               NamNod *nam,     /* IN - The name */
+               IdNod *id,	/* IN - The name */
                int flags)       /* IN - Flags for omni/multiple... */
 {
   ElmNod *new;                                  /* The newly created node */
@@ -59,7 +59,7 @@ ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
 
   new->srcp = *srcp;
   new->kind = kind;
-  new->nam = nam;
+  new->id = id;
   new->flags = flags;
   new->res = NULL;
   new->stx = NULL;
@@ -80,6 +80,9 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
+#ifndef FIXME
+  syserr("UNIMPLEMENTED: anelm() - parameter coding");
+#else
   switch (elm->kind) {
   case ELMPAR:
     elm->nam->kind = NAMPAR;    /* It is a parameter */
@@ -95,6 +98,7 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
     syserr("Unknown element node kind in anelm()");
     break;
   }
+#endif
 }
 
 
@@ -117,6 +121,9 @@ List *anelms(
   Bool multiple = FALSE;
   Bool found;
 
+#ifndef FIXME
+  syserr("UNIMPLEMENTED: anelms() - parameter classing and numbering");
+#else
   if (elm->kind != ELMWRD)
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
@@ -124,6 +131,7 @@ List *anelms(
     elm->nam->kind = NAMWRD;    /* It is a word */
     elm->nam->code = newwrd(elm->nam->str, WRD_VRB, 0, (void *)stx);
   }
+#endif
 
   /* Analyze the elements, number the parameters and find the class res */
   /* Start with the second since the first is analyzed above */
@@ -136,10 +144,13 @@ List *anelms(
         else
           multiple = TRUE;
       }
-      pars = concat(pars, lst->element.elm, ELMNOD);
+      pars = concat(pars, lst->element.elm, LIST_ELM);
 
       /* Find any class restrictions and warn for multiple for same parameter */
       found = FALSE;
+#ifndef FIXME
+      syserr("UNIMPLEMENTED: anelms() - restriction analysis");
+#else
       for (resLst = ress; resLst; resLst = resLst->next) {
         if (eqnams(resLst->element.res->nam, lst->element.elm->nam)) {
           if (found)
@@ -152,6 +163,7 @@ List *anelms(
           }
         }
       }
+#endif
     }
     anelm(lst->element.elm);
   }
@@ -159,8 +171,8 @@ List *anelms(
   /* Check for multiple definition of parameter names */
   for (lst = pars; lst != NULL; lst = lst->next)
     for (elms = lst->next; elms != NULL; elms = elms->next) {
-      if (eqnams(lst->element.elm->nam, elms->element.elm->nam))
-        lmLog(&elms->element.elm->nam->srcp, 216, sevERR, elms->element.elm->nam->str);
+      if (eqids(lst->element.elm->id, elms->element.elm->id))
+        lmLog(&elms->element.elm->id->srcp, 216, sevERR, elms->element.elm->id->string);
     }
   return pars;
 }
@@ -187,7 +199,7 @@ static Bool eqElms(List *elm1,  /* IN - One list pointer */
 	    (elm1->element.elm->kind == ELMEOS ||
 	     elm1->element.elm->kind == ELMPAR ||
 	     (elm1->element.elm->kind == ELMWRD &&
-              eqnams(elm1->element.elm->nam, elm2->element.elm->nam))));
+              eqids(elm1->element.elm->id, elm2->element.elm->id))));
 }
 
 
@@ -311,7 +323,7 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
     /* Make one entry for this partition */
     entry = NEW(ElmEntry);
     entry->flags = 0;
-    entries = concat(entries, entry, EENTNOD);
+    entries = concat(entries, entry, LIST_EENT);
     switch (part->element.lst->element.elm->kind) {
 
     case ELMEOS:		/* This partition was at end of syntax */
@@ -332,9 +344,13 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
       break;
 
     case ELMWRD:		/* A word */
-      entry->code = part->element.lst->element.elm->nam->code;
+#ifndef FIXME
+      syserr("UNIMPL: geelms() - code for word in syntax");
+#else
+      entry->code = part->element.lst->element.elm->id->code;
       entry->flags = FALSE;
       entry->adr = geelms(part, stx);
+#endif
       break;
     }
   }
@@ -390,5 +406,5 @@ void duelm(ElmNod *elm)
     break;
   }
   put("no: "); duint(elm->no); nl();
-  put("nam: "); dunam(elm->nam); out();
+  put("id: "); dumpId(elm->id); out();
 }

@@ -8,6 +8,9 @@
 
 #include "alan.h"
 
+#include "util.h"
+#include "sysdep.h"
+
 #include "acode.h"
 #include "opt.h"		/* Options */
 #include "emit.h"

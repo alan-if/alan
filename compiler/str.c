@@ -5,12 +5,12 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "str.h"
+
 #include "sysdep.h"
 #include "types.h"
 
-#include "alan.h"
-#include "srcp.h"
-#include "str.h"
+#include "util.h"
 
 
 /* Private: */

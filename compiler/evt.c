@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -37,7 +37,7 @@ int evtcount = 0;
 
   */
 EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,	/* IN - Name of the event */
+	       IdNod *id,	/* IN - Name of the event */
 	       List *stms)	/* IN - Statements to execute */
 {
   EvtNod *new;		/* The newly allocated node */
@@ -48,14 +48,18 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
   new = NEW(EvtNod);
 
   new->srcp = *srcp;
-  new->nam = nam;
+  new->id = id;
   new->stms = stms;
   
-  sym = lookup(nam->str);
+  sym = lookup(id->string);
   if (sym == NULL)
-    new->nam->code = newsym(nam->str, NAMEVT, new);
+#ifndef FIXME
+    syserr("UNIMPL: newevt() - symbol code handling");
+#else
+    new->id->code = newsym(id->str, NAMEVT, new);
+#endif
   else
-    redefined(srcp, sym, nam->str);
+    redefined(srcp, sym, id->string);
 
   return(new);
 }
@@ -95,7 +99,7 @@ static void geevt(EvtNod *evt)	/* IN - The event to generate */
 
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();
-    emitstr(evt->nam->str);
+    emitstr(evt->id->string);
   } else
     evt->namadr = 0;
   evt->stmadr = emadr();
@@ -146,8 +150,8 @@ void duevt(EvtNod *evt)
   }
 
   put("EVT: "); dusrcp(&evt->srcp); in();
-  put("nam: "); dunam(evt->nam); nl();
-  put("stms: ");dulst(evt->stms, STMNOD); out();
+  put("id: "); dumpId(evt->id); nl();
+  put("stms: ");dulst(evt->stms, LIST_STM); out();
 }
 
 

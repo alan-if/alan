@@ -5,37 +5,16 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "lst.h"
 
-#include "srcp.h"
-
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"                /* NAM-nodes */
-
-#include "act.h"
-#include "alt.h"
-#include "atr.h"
-#include "chk.h"
-#include "res.h"
-#include "cnt.h"
-#include "elm.h"
-#include "evt.h"
-#include "exp.h"
-#include "ext.h"
-#include "lim.h"
-#include "cla.h"
-#include "ins.h"
-#include "loc.h"
-#include "obj.h"
-#include "rul.h"
-#include "scr.h"
-#include "stm.h"
-#include "stp.h"
-#include "stx.h"
-#include "syn.h"
-#include "vrb.h"
-
+/* IMPORT */
+#include "util.h"
 #include "dump.h"
+
+
+/* PUBLIC DATA */
+
+void (*(dumpNodeTable[LIST_LAST_KIND]))();
 
 
 
@@ -49,7 +28,7 @@
   */
 List *concat(List *list,	/* IN - List to concat to */
 	     void *element,	/* IN - Pointer to any element type */
-	     NodKind kind)	/* IN - Which kind? */
+	     ListKind kind)	/* IN - Which kind of list? */
 {
   List *new;			/* The newly created list node */
 
@@ -57,7 +36,7 @@ List *concat(List *list,	/* IN - List to concat to */
 
   new = NEW(List);
 
-  new->element.nam = (NamNod *) element;
+  new->element.nam = (struct NamNod *) element;
   new->kind = kind;
 
   new->next = NULL;
@@ -97,37 +76,15 @@ List *combine(List *list1,	/* IN - Lists to combine */
 
   dunod()
 
-  Dump a particular node.
+  Dump a particular node kind.
 
   */
-static void dunod(void *nod, NodKind class)
+static void dunod(void *nod, ListKind kind)
 {
-  switch (class){
-  case ACTNOD: duact(nod); break;
-  case ALTNOD: dualt(nod); break;
-  case ATRNOD: duatr(nod); break;
-  case CHKNOD: duchk(nod); break;
-  case RESNOD: dures(nod); break;
-  case CNTNOD: ducnt(nod); break;
-  case ELMNOD: duelm(nod); break;
-  case EVTNOD: duevt(nod); break;
-  case EXPNOD: duexp(nod); break;
-  case EXTNOD: duext(nod); break;
-  case LIMNOD: dulim(nod); break;
-  case CLANOD: dumpClass(nod); break;
-  case INSNOD: dumpInstance(nod); break;
-  case LOCNOD: duloc(nod); break;
-  case NAMNOD: dunam(nod); break;
-  case OBJNOD: duobj(nod); break;
-  case RULNOD: durul(nod); break;
-  case SCRNOD: duscr(nod); break;
-  case STMNOD: dustm(nod); break;
-  case STPNOD: dustp(nod); break;
-  case STXNOD: dustx(nod); break;
-  case SYNNOD: dusyn(nod); break;
-  case VRBNOD: duvrb(nod); break;
-  default: put("Not implemented in DUMP."); nl(); break;
-  }
+  if (dumpNodeTable[kind] == NULL) {
+    put("Not implemented in DUMP."); nl();
+  } else
+    dumpNodeTable[kind]();
 }
 
 
@@ -140,7 +97,7 @@ static void dunod(void *nod, NodKind class)
 
   */
 void dulst(List *lst,		/* IN - The list */
-	   NodKind class)	/* IN - Class of the elements */
+	   ListKind class)	/* IN - Class of the elements */
 {
   if (lst == NULL) {
     put("NULL");
@@ -165,7 +122,7 @@ void dulst(List *lst,		/* IN - The list */
 
   */
 void dulst2(List *lstlst,	/* IN - The list of lists*/
-	    NodKind class)	/* IN - Class of the elements */
+	    ListKind class)	/* IN - Class of the elements */
 {
   if (lstlst == NULL) {
     put("NULL");

@@ -10,23 +10,40 @@
 
 /* USE: */
 #include "srcp.h"
-#include "nam.h"
-#include "elm.h"
-#include "sym.h"
+#include "types.h"
 
 
 /* Types: */
 
+typedef enum SymbolKind {
+  CLASS_SYMBOL,
+  INSTANCE_SYMBOL
+} SymbolKind;
+
+
 typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
-  NamKind class;		/* Which kind of name */
-  char *str;			/* Name of this entry */
-  int code;			/* Internal code for this class */
-  struct SymNod *low, *high;	/* Links */
-  void *ref;			/* Reference to element */
+  SymbolKind kind;		/* What kind of symbol? */
+  char *string;			/* Name of this entry */
+  int code;			/* Internal code for this symbol in its kind */
+  struct SymNod *low, *high;	/* Links to build a binary search tree */
+  union {
+    struct ClaNod *cla;
+    struct InsNod *ins;
+  } ref;
+  union {
+    struct {
+      struct SymNod *parent;
+    } cla;
+    struct {
+      struct SymNod *parent;
+    } ins;
+  } fields;
 } SymNod;
 
 
 /* Data: */
+extern int classCount;
+extern int instanceCount;
 
 
 /* Functions: */
@@ -37,20 +54,19 @@ extern void redefined(Srcp *srcp,
 		      char str[]);
 
 /* Create a new symbol node */
-extern int newsym(char str[],
-		  NamKind class,
-		  void *ref);
+extern SymNod *newsym(char str[],
+		      SymbolKind kind,
+		      void *ref);
+
+/* Initialise the symbol table with predefined classes etc. */
+extern void initSymbols();
+
 
 /* Lookup a symbol */
-extern SymNod *lookup(char symnam[]);
+extern SymNod *lookup(char symbol[]);
 
-/* Check a symbol against legal types */
-extern void symcheck(SymNod **sym,
-		     ElmNod **elm,
-		     NamNod *nam,
-		     NamKind classes,
-		     NamKind props,
-		     List *pars);
-
-
+/* Inheritance of a class */
+extern void setParent(SymNod *child, SymNod *parent);
+extern SymNod *parentOf(SymNod *child);
+extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
 #endif

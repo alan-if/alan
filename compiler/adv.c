@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "util.h"
 
 #include "srcp.h"
 #include "lmList.h"
@@ -33,6 +34,7 @@
 
 #include "sco.h"		/* SCORES */
 #include "opt.h"		/* OPTIONS */
+#include "options.h"		/* OPTIONS */
 
 #include "emit.h"
 #include "encode.h"
@@ -102,9 +104,6 @@ static void prepcodes(void)
  */
 void anadv(void)
 {
-  SymNod *sym;
-  ElmNod *elm;
-
   anatrs(adv.atrs);
   anatrs(adv.oatrs);
   anatrs(adv.latrs);
@@ -144,7 +143,11 @@ void anadv(void)
     switch (adv.whr->whr) {
     case WHR_AT:
       if (adv.whr->wht->wht == WHT_ID)
-	symcheck(&sym, &elm, adv.whr->wht->nam, NAMLOC, NAMANY, NULL);
+#ifdef FIXME
+	check(&sym, &elm, adv.whr->wht->id, NAMLOC, NAMANY, NULL);
+#else
+      syserr("UNIMPLEMENTED: anadv");
+#endif
       else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;
@@ -264,24 +267,24 @@ void duadv(enum dmpKd dmp)
     dmp = (enum dmpKd)-1L;
 
   put("ADV: "); in();
-  put("atrs: "); dulst(adv.atrs, ATRNOD); nl();
-  put("oatrs: "); dulst(adv.oatrs, ATRNOD); nl();
-  put("latrs: "); dulst(adv.latrs, ATRNOD); nl();
-  put("aatrs: "); dulst(adv.aatrs, ATRNOD); nl();
+  put("atrs: "); dulst(adv.atrs, LIST_ATR); nl();
+  put("oatrs: "); dulst(adv.oatrs, LIST_ATR); nl();
+  put("latrs: "); dulst(adv.latrs, LIST_ATR); nl();
+  put("aatrs: "); dulst(adv.aatrs, LIST_ATR); nl();
   put("scores: "); nl();
-  put("syns: "); if (dmp&DMPSYN) dulst(adv.syns, SYNNOD); else put("--"); nl();
-  put("stxs: "); if (dmp&DMPSTX) dulst(adv.stxs, STXNOD); else put("--"); nl();
-  put("vrbs: "); if (dmp&DMPVRB) dulst(adv.vrbs, VRBNOD); else put("--"); nl();
-  put("clas: "); if (dmp&DMPCLA) dulst(adv.clas, CLANOD); else put("--"); nl();
-  put("inss: "); if (dmp&DMPINS) dulst(adv.inss, INSNOD); else put("--"); nl();
-  put("locs: "); if (dmp&DMPLOC) dulst(adv.locs, LOCNOD); else put("--"); nl();
-  put("objs: "); if (dmp&DMPOBJ) dulst(adv.objs, OBJNOD); else put("--"); nl();
-  put("cnts: "); if (dmp&DMPCNT) dulst(adv.cnts, CNTNOD); else put("--"); nl();
-  put("evts: "); if (dmp&DMPEVT) dulst(adv.evts, EVTNOD); else put("--"); nl();
-  put("acts: "); if (dmp&DMPACT) dulst(adv.acts, ACTNOD); else put("--"); nl();
-  put("ruls: "); if (dmp&DMPRUL) dulst(adv.ruls, RULNOD); else put("--"); nl();
+  put("syns: "); if (dmp&DMPSYN) dulst(adv.syns, LIST_SYN); else put("--"); nl();
+  put("stxs: "); if (dmp&DMPSTX) dulst(adv.stxs, LIST_STX); else put("--"); nl();
+  put("vrbs: "); if (dmp&DMPVRB) dulst(adv.vrbs, LIST_VRB); else put("--"); nl();
+  put("clas: "); if (dmp&DMPCLA) dulst(adv.clas, LIST_CLA); else put("--"); nl();
+  put("inss: "); if (dmp&DMPINS) dulst(adv.inss, LIST_INS); else put("--"); nl();
+  put("locs: "); if (dmp&DMPLOC) dulst(adv.locs, LIST_LOC); else put("--"); nl();
+  put("objs: "); if (dmp&DMPOBJ) dulst(adv.objs, LIST_OBJ); else put("--"); nl();
+  put("cnts: "); if (dmp&DMPCNT) dulst(adv.cnts, LIST_CNT); else put("--"); nl();
+  put("evts: "); if (dmp&DMPEVT) dulst(adv.evts, LIST_EVT); else put("--"); nl();
+  put("acts: "); if (dmp&DMPACT) dulst(adv.acts, LIST_ACT); else put("--"); nl();
+  put("ruls: "); if (dmp&DMPRUL) dulst(adv.ruls, LIST_RUL); else put("--"); nl();
   put("whr: "); duwhr(adv.whr); nl();
-  put("stms: "); dulst(adv.stms, STMNOD); out();
+  put("stms: "); dulst(adv.stms, LIST_STM); out();
 }
 
 

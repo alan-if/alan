@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
+#include "util.h"
 
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
@@ -98,8 +98,8 @@ AtrNod *paramatr(NamNod *nam, ElmNod *elm)
 {
   AtrNod *atr = NULL;
 
-#ifdef FIXME
-Must be rewritten to traverse the class hierarchy
+#ifndef FIXME
+      syserr("UNIMPLEMENTED: paramatr()");
 #else
   if (elm->res == NULL || elm->res->single) {
     /* No restriction (default = OBJECT) or explicit single class! */
@@ -124,14 +124,17 @@ Must be rewritten to traverse the class hierarchy
 
   symatr()
 
-  Verify the existence of a attribute for a symbol.
+  Verify the existence of an attribute for a symbol.
 
   */
 AtrNod *symatr(NamNod *nam, SymNod *sym)
 {
   AtrNod *atr = NULL;
 
-  switch (sym->class) {
+#ifndef FIXME
+  syserr("UNIMPLEMENTED: symatr() - traverse class hierarchy");
+#else
+  switch (sym->kind) {
   case NAMOBJ:
     atr = findatr(nam->str, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
     break;
@@ -146,6 +149,7 @@ AtrNod *symatr(NamNod *nam, SymNod *sym)
     /* Try general default attributes */
     atr = findatr(nam->str, adv.atrs, NULL);
   }
+#endif
   return atr;
 }
 
@@ -288,7 +292,7 @@ static void geatr(AtrNod *atr)	/* IN - Attribute to generate for */
     /* Now make a copy to use for initialisation if attribute is default */
     new = newatr(&atr->srcp, TYPSTR, NULL, atr->val, atr->fpos, atr->len);
     new->adr = atr->adr;
-    adv.stratrs = concat(adv.stratrs, new, ATRNOD);
+    adv.stratrs = concat(adv.stratrs, new, LIST_ATR);
   }
   emit(atr->val);
   emit(atr->stradr);

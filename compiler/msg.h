@@ -10,12 +10,13 @@
 
 /* USE: */
 #include "acode.h"
+#include "id.h"
 
 
 /* Types: */
 typedef struct MsgNod {
   Srcp srcp;
-  NamNod *nam;			/* ID of message type */
+  IdNod *id;			/* ID of message type */
   int msgno;			/* It's identity */
   List *stms;			/* List of statements */
   Aaddr stmadr;			/* Address to generated statements */
@@ -29,7 +30,7 @@ typedef struct MsgNod {
 /* Functions: */
 
 /* Create a new node with a message declaration */
-extern MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms);
+extern MsgNod *newmsg(Srcp *srcp, IdNod *id, List *stms);
 
 /* Prepare all system messages depending on the choosen language */
 extern void prepmsgs(void);
