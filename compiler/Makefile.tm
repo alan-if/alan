@@ -8,8 +8,8 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-
-TMLIB	= $(TMHOME)/lib/ansi-c
+TMHOME1	= /cygdrive/c/MinaDo~1/ToolMaker
+TMLIB	= $(TMHOME1)/lib/ansi-c
 
 EXTRAS = \
 	alan.tmk \

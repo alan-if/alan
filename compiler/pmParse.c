@@ -65,12 +65,15 @@ typedef unsigned char PmBoolean; /* For logical values */
 
 /* System dependencies */
 
+
 /* These datatypes should be defined to be unsigned integers of length 1, 2
  * and 4 bytes respectively.
  */
+
 typedef unsigned char UByte1;
 typedef unsigned short UByte2;
 typedef unsigned int UByte4;
+
 
 /* Token definition */
 #include "alanCommon.h"
@@ -130,7 +133,7 @@ typedef struct pmGrammar {
     Srcp descriptionSrcp;
     List *descriptionDoes;
     Srcp descriptionCheckSrcp;
-    List *descriptionCheck;
+    List *descriptionChecks;
     List *cnts;
     Container *cnt;
     List *clas;

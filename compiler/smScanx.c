@@ -1,3 +1,5 @@
+
+
 /*----------------------------------------------------------------------*\
 
 	smScan.c
@@ -5,6 +7,7 @@
 	ScannerMaker generated scanner
 
 \*----------------------------------------------------------------------*/
+
 
 /* %%IMPORT */
 
@@ -36,26 +39,40 @@
 #endif
 
 
+
 /* END %%IMPORT */
 
+
 #include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
+
 #include "smScan.h"
 
 /* Local imports */
+
 extern int smScReader( smScContext smThis, unsigned char *smBuffer, unsigned int smLength );
+
 extern int smScAction( smScContext smThis, int smInternalCode, Token *smToken );
+
 extern int smScPostHook( smScContext smThis, Token *smToken );
 
+
+
 /* System dependencies */
+
 
 /* These datatypes should be defined to be unsigned integers of length 1, 2
  * and 4 bytes respectively.
  */
+
 typedef unsigned char UByte1;
 typedef unsigned short UByte2;
 typedef unsigned int UByte4;
+
+
+
 
 
 /* START of scanning tables */
@@ -248,12 +265,16 @@ UByte1 smDosDFAerrCol[256]={
 
 
 
+
 /*
  * MAP
  *
  * [character] -> character
  *
  */
+
+
+
 
 
 
@@ -338,6 +359,9 @@ static UByte1 smUnknownCode[2]={
 /*
  * DFA
  */
+
+
+
 
   
 static UByte1 smDFAdetRow[354]={
@@ -446,6 +470,8 @@ static UByte1 smDFAerrRow[354]={
 }
 ;
   
+
+
 static UByte2 smDFAval[6215]={
 118,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118
 ,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118
@@ -841,7 +867,12 @@ static UByte2 smDFAval[6215]={
   
 
 
+
+
 /* END of scanning tables */
+
+
+
 
 
 
@@ -852,35 +883,44 @@ static UByte2 smDFAval[6215]={
  * Source position calculation 
  */
 
+
 static void smSourcePosition(
      smScContext smThis,
      unsigned char *smAt,
      unsigned char *smEnd)
+
 {
   if(smThis->smPosContinue<smEnd) {
     if(smThis->smPosContinue>smAt) smAt=smThis->smPosContinue;
     smThis->smNextPosition+=smEnd-smAt;
+
     for(;smAt<smEnd;smAt++) 
       if(*smAt==10) {
 	smThis->smPosLine=smAt;
 	smThis->smNextLine++;
+
       } else if ((*smAt==13) && (*(smAt+1)==10)) {
 	smThis->smPosLine=smAt++;
 	smThis->smNextLine++;
+
       }
 
     smThis->smNextColumn=smEnd-smThis->smPosLine;
+
     smThis->smPosContinue=smEnd;
   }
 }
+
 
 static void smRewindSourcePosition(
      smScContext smThis,
      unsigned char *smAt,
      unsigned char *smEnd)
+
 {
   if(smThis->smPosContinue>smEnd) return;
   smThis->smNextPosition-=smEnd-smAt;
+
   while(smAt<smEnd--) if(*smEnd==10) smThis->smNextLine--;
   while(smThis->smBegining<smEnd) 
     if(*smEnd==10) {
@@ -890,8 +930,10 @@ static void smRewindSourcePosition(
     else smEnd--;
   if(smAt<smThis->smPosLine) smThis->smPosLine=smThis->smPosPrevLine;
   smThis->smNextColumn=smAt-smThis->smPosLine;
+
   smThis->smPosContinue=smAt;
 }
+
 
 
 /*
@@ -906,7 +948,9 @@ static void smRewindSourcePosition(
  *
  */
 
+
 static int smReadBuffer(smScContext smThis)
+
 {
   long length;
   int size;
@@ -915,20 +959,30 @@ static int smReadBuffer(smScContext smThis)
   if(smThis->smBegining!=smThis->smText) {
     /* Move data to beginning of buffer */
     length=smThis->smEnd-smThis->smText;
+
     memcpy((void *)smThis->smBegining,(void *)smThis->smText,(size_t)length);
+
     if(length<1024 && smThis->smSize>1024) {
       /* Reduce buffer size */
       smThis->smSize=1024;
+
       smThis->smBegining=(unsigned char *)realloc(smThis->smBegining,(size_t)1024+1);
+
     }
   }
   else if(smThis->smBegining+smThis->smSize==smThis->smEnd) {
     /* Try to enlarge buffer */
     if(smThis->smSize==524288) {
       /* Cut Buffer */
+
       smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
+
+
       memcpy((void *)smThis->smBegining,(void *)(smThis->smEnd-1024),(size_t)1024);
+
+
       mod=smThis->smEnd-smThis->smBegining-1024;
+
       smThis->smContinue-=mod;
       smThis->smEnd-=mod;
       smThis->smPosPrevLine-=mod;
@@ -938,16 +992,26 @@ static int smReadBuffer(smScContext smThis)
     }
     else {
       unsigned char *begining = smThis->smBegining;
+
       size=smThis->smSize*1.5;
+
       if(size>524288) size=524288;
       /* Enlarge buffer */
+
       smThis->smBegining=(unsigned char *)realloc(smThis->smBegining,(size_t)size+1);
+
       if(smThis->smBegining==NULL) {
 	/* Cut Buffer */
 	smThis->smBegining = begining;	/* Restore to original buffer */
+
 	smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
+
+
 	memcpy((void *)smThis->smBegining, (void *)(smThis->smEnd-1024), (size_t)1024);
+
+
 	mod=smThis->smEnd-smThis->smBegining-1024;
+
 	smThis->smContinue-=mod;
 	smThis->smEnd-=mod;
 	smThis->smPosPrevLine-=mod;
@@ -960,7 +1024,9 @@ static int smReadBuffer(smScContext smThis)
     }
   }
   if(smThis->smBegining!=smThis->smText) {
+
     mod=smThis->smText-smThis->smBegining;
+
     smThis->smContinue-=mod;
     smThis->smEnd-=mod;
     smThis->smPosPrevLine-=mod;
@@ -972,6 +1038,7 @@ static int smReadBuffer(smScContext smThis)
   length=smScReader(smThis,smThis->smEnd,(unsigned int)length);
   if(length<0) return length;
   smThis->smEnd+=length;
+
   return length;
 }
 
@@ -982,15 +1049,21 @@ static int smReadBuffer(smScContext smThis)
  *
  */
 
+
 smScContext smScNew(smScScanner smScanner)
+
 {
   smScContext smThis;
 
+
   smThis=(smScContext)malloc((size_t)sizeof(smScContextItem));
+
   if(smThis==NULL) {
     return NULL;
   }
+
   smThis->smBegining=(unsigned char *)malloc((size_t)1024+1);
+
   if(smThis->smBegining==NULL) {
     free((char *)smThis);
     return NULL;
@@ -1011,7 +1084,9 @@ smScContext smScNew(smScScanner smScanner)
   smThis->smColumn=1;
   smThis->smPosition=0;
   smThis->smScanner=smScanner;
+
   smThis->smBegining[0]=0;
+
   return smThis;
 }
 
@@ -1022,7 +1097,9 @@ smScContext smScNew(smScScanner smScanner)
  *
  */
 
+
 void smScDelete(smScContext smThis)
+
 {
   free((char *)smThis->smBegining);
   free((char *)smThis);
@@ -1037,9 +1114,11 @@ void smScDelete(smScContext smThis)
  *
  */
 
+
 int smScSkip(
      smScContext smThis,
      int smLength)
+
 {
   int empty;
 
@@ -1051,24 +1130,30 @@ int smScSkip(
       empty=smThis->smEnd-smThis->smContinue;
       if(empty<smLength) smLength=empty;
     }
+
     smSourcePosition(smThis,smThis->smContinue,smThis->smContinue+smLength);
+
     smThis->smContinue+=smLength;
     smThis->smLength+=smLength;
   }
   else if(smLength<0) {
     smLength= -smLength;
     if(smLength>smThis->smLength) smLength=smThis->smLength;
+
     smRewindSourcePosition(smThis,smThis->smContinue-smLength,smThis->smContinue);
+
     smThis->smContinue-=smLength;
     smThis->smLength-=smLength;
     }
   return smLength;
 }
 
+
 int smScModify(
      smScContext smThis,
      unsigned char *smBuffer,
      int smLength)
+
 {
   if(smLength<0) {
 /* This code is identical to smSkip but no source position is rewinded */
@@ -1077,7 +1162,9 @@ int smScModify(
     smThis->smContinue-=smLength;
     smThis->smLength-=smLength;
 /***********************************************************************/
+
     memcpy((void *)smThis->smContinue,(void *)smBuffer,(size_t)smLength);
+
     return smLength;
   }
   else if(smLength>0) {
@@ -1086,7 +1173,9 @@ int smScModify(
     
     for(length2=smLength;(length1=smScSkip(smThis,length2));length2-=length1) {
       if(length1<0) return length1;
+
       memcpy((void *)(smThis->smContinue-length1),(void *)smBuffer,(size_t)length1);
+
       smBuffer+=length1;
     }
     return smLength-length2;
@@ -1094,23 +1183,29 @@ int smScModify(
   return smLength;
 }
 
+
 int smScCopy(
      smScContext smThis,
      unsigned char *smBuffer,
      unsigned int smFrom,
      unsigned int smTo)
+
 {
   if(smFrom>smThis->smLength) smFrom=smThis->smLength;
   if(smTo>smThis->smLength) smTo=smThis->smLength;
+
   memcpy((void *)smBuffer,(void *)(smThis->smText+smFrom),(size_t)smTo-smFrom);
+
   return smTo-smFrom;
 }
+
 
 int smScMapCopy(
      smScContext smThis,
      unsigned char *smBuffer,
      unsigned int smFrom,
      unsigned int smTo)
+
 {
   int n;
   int len;
@@ -1120,35 +1215,51 @@ int smScMapCopy(
   if(smTo>smThis->smLength) smTo=smThis->smLength;
   len=0;
   for(n=smFrom,at=smThis->smText+smFrom;n<smTo;n++) {
+
+
 *smBuffer++=smMap[*at++];
+
+
+
     len++;
   }
   return len;
 }
 
+
 void smScScrScanner(
      smScScanner smScanner,
      int smOnOff)
+
 {
+
 }
+
 
 void smScScrToken(
      smScScanner smScanner,
      int smCode,
      int smOnOff)
+
 {
+
 }
+
 
 void smScScrRule(
      smScScanner smScanner,
      int smCode,
      int smOnOff)
+
 {
+
 }
+
 
 int smScan(
      smScContext smThis,
      Token *smToken)
+
 {
   unsigned char *at;
   unsigned char *end;
@@ -1158,16 +1269,26 @@ int smScan(
   int rew_state;
   int code;
 
+
   do {				/* Skip loop */
+
+ 
     smThis->smLine=smThis->smNextLine;
     smThis->smColumn=smThis->smNextColumn;
+
     smThis->smPosition=smThis->smNextPosition;
+
+
     end=(smThis->smEnd);
     smThis->smText=smThis->smContinue;
     smThis->smBufferOverflow=0;
+
+ 
     smToken->srcp.line=smThis->smNextLine;
     smToken->srcp.col=smThis->smNextColumn;
+
     smThis->smPosPrevLine=smThis->smPosLine;
+
     rew_at=smThis->smText;
     do {			/* Continue loop */
       rew_state=354;
@@ -1175,6 +1296,7 @@ int smScan(
       at=(smThis->smContinue);
       state=smScanner[smThis->smScanner];
       for (;;) {
+
 	if(at==end) {
 	  int mod;
 	  
@@ -1188,9 +1310,14 @@ int smScan(
           if(at==end) 
 	    break;
         }
+
 	  ch = *at++;
+
 {
+
   int smERRindex;
+
+
 
   
   
@@ -1211,12 +1338,15 @@ int smScan(
       state=smDFAval[smDFArowVal[state]+smDFAcolVal[ch]];
   
   }
+
 }
+
 	  if(state>=354) break;
 	  if(smAccept[state]>0) {
 	    rew_state=state;
 	    rew_at=at;
 	  }
+
       }
       if(rew_state==354) {
         if(rew_at>end) {
@@ -1228,14 +1358,28 @@ int smScan(
       }	
       else
 	code=smAccept[rew_state]-1;	
+
+
       smThis->smContinue=rew_at;
+
       smThis->smLength=smThis->smContinue-smThis->smText;
+
+
+
       smSourcePosition(smThis,smThis->smText,smThis->smContinue);
+
+
+
       smToken->code=smTokenCode[code]-1;
       code=smScAction(smThis,code,smToken);
+
     } while(code<-1);
+
+
     smToken->code=code;
     code=smScPostHook(smThis,smToken);
+
   } while(code<0);
   return smToken->code=code;
 }
+

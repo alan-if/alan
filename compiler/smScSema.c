@@ -1,3 +1,5 @@
+
+
 /*----------------------------------------------------------------------*\
 
 	smScSema.c
@@ -5,6 +7,7 @@
 	ScannerMaker generated semantic actions
 
 \*----------------------------------------------------------------------*/
+
 
 /* %%IMPORT */
 
@@ -36,8 +39,12 @@
 #endif
 
 
+
 /* END %%IMPORT */
+
 #include "smScan.h"
+
+
 
 /* %%DECLARATION */
 
@@ -160,13 +167,18 @@ void setCharacterSet(int set)
 
 
 
+
 /* END %%DECLARATION */
+
+
 
 int smScReader(
      smScContext smThis,
      unsigned char *smBuffer,
      unsigned int smLength)
+
 {
+
 
 
 #ifdef __MWERKS__
@@ -186,18 +198,26 @@ int smScReader(
 #endif
 
 
+
+
 }    
+
+
+
 
 
 int smScAction(
      smScContext smThis,
      int smInternalCode,
      Token *smToken)
+
 {
   enum {
     smSkipToken		= -1,
     smContinueToken	= -2
   };
+
+
   switch(smInternalCode) {
   case 107:		/* INTEGER*/ 
     {
@@ -310,16 +330,23 @@ int smScAction(
 }
     break;
   }
+
+
   return smToken->code;
 }
+
+
+
 
 int smScPostHook(
      smScContext smThis,
      Token *smToken)
+
 {
   enum {
     smSkipToken		= -1
   };
+
 
 
   smToken->srcp.file = smThis->fileNo;
@@ -334,6 +361,10 @@ int smScPostHook(
   }
 
 
+
+
   return smToken->code;
 }
+
+
 

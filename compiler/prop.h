@@ -28,9 +28,10 @@ typedef struct Properties {
   Where *whr;			/* Where is it initially? */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
-  Srcp descriptionSrcp;
+  Srcp descriptionCheckSrcp;
   List *descriptionChecks;
   Aword descriptionChecksAddress;/* ACODE address to description checks */
+  Srcp descriptionSrcp;
   List *descriptionStatements;		/* Long description statements */
   Aword descriptionAddress;	/* ACODE address to long description code */
   List *article;		/* Article printing statements */

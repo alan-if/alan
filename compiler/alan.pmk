@@ -105,7 +105,7 @@ static int val(char str[])
   clas %% List *%1%%,
   cnt %% Container *%1%%,
   cnts %% List *%1%%,
-  descriptionCheck %% List *%1%%,	-- of Checks: descriptionCheck-clause,
+  descriptionChecks %% List *%1%%,	-- of Checks: descriptionCheck-clause,
   descriptionCheckSrcp %% Srcp %1%%,
   descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
   descriptionSrcp %% Srcp %1%%,
@@ -662,8 +662,9 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
+					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionChecks,
 					`&%<properties>.descriptionSrcp,
-					%<properties>.descriptionCheck,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
@@ -695,8 +696,9 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
+					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionChecks,
 					`&%<properties>.descriptionSrcp,
-					%<properties>.descriptionCheck,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
@@ -728,8 +730,9 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
+					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionChecks,
 					`&%<properties>.descriptionSrcp,
-					%<properties>.descriptionCheck,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
@@ -794,18 +797,19 @@ static int val(char str[])
 	        %<properties>.cnt = %<property>.cnt;
         }
 
-	if (%<property>.descriptionCheck != NULL) {
-            if(%<properties>.descriptionCheck != NULL)
-                /* DESCRIPTION already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
+	if (%<property>.descriptionChecks != NULL) {
+            if(%<properties>.descriptionChecks != NULL)
+                /* DESCRIPTION CHECK already declared */
+	        lmLogv(`&%<property>.srcp2, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
-	        %<properties>.descriptionCheck = %<property>.descriptionCheck;
+	        %<properties>.descriptionChecks = %<property>.descriptionChecks;
 		%<properties>.descriptionCheckSrcp = %<property>.srcp2;
 	    }
         }
 
 	if (%<property>.descriptionDoes != NULL) {
             if (%<properties>.descriptionDoes != NULL)
+	        /* DESCRIPTION CHECK already declared */
 	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else 
 	        %<properties>.descriptionDoes = %<property>.descriptionDoes;
@@ -875,12 +879,12 @@ static int val(char str[])
     ! <description>
     %%{
         List *descriptionDoes = %<description>.stms;
-        List *descriptionCheck = %<description>.chks;
+        List *descriptionChecks = %<description>.chks;
         Srcp srcp = %<description>.srcp;
         Srcp srcp2 = %<description>.srcp2;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.descriptionCheck = descriptionCheck;
+	%<property>.descriptionChecks = descriptionChecks;
 	%<property>.descriptionDoes = descriptionDoes;
 	%<property>.srcp = srcp;
 	%<property>.srcp2 = srcp2;
@@ -1015,6 +1019,8 @@ static int val(char str[])
 	} else {
 	  if (%<optional_checks>.chks != NULL)
 	    %<description>.srcp2 = %<optional_checks>.srcp;
+	  else
+	    %<description>.srcp2 = nulsrcp;
 	  if (%<optional_does>.stms != NULL)
 	    %<description>.srcp = %<optional_does>.srcp;
 	  else

@@ -1,3 +1,6 @@
+
+
+
 /*----------------------------------------------------------------------*\
 
   pmErr.c
@@ -5,6 +8,7 @@
   Parser error handler 
 
 \*----------------------------------------------------------------------*/
+
 
 /* %%IMPORT */
 
@@ -52,12 +56,23 @@
 #include "syn.h"                /* SYN-nodes */
 
 
+
 /* END %%IMPORT */
+
+
 
 #include <string.h>
 #include <stdlib.h>
+
+
+
+
+
 #include "lmList.h"
+
+
 #include "alanCommon.h"
+
 
 #define MaxTokens 5
 
@@ -72,14 +87,20 @@ static int delToks = 0;
  * pmRPoi - Recovery point, output a message indicating the position.
  *-----------------------------------------------------------------------------
  */
+
 void pmRPoi(
     Token *token		/* IN the restart symbol */
 )
+
 {
     if (delToks > MaxTokens) {
        /* Output a recovery point error message
        */
+
+
        lmLog(&(token->srcp), 100, sevINF, "");
+
+
     }/*if*/
 
     /* Clear both token print strings */
@@ -96,12 +117,16 @@ void pmRPoi(
  *	    construct the requested token for use by the parser.
  *-----------------------------------------------------------------------------
  */
+
 void pmISym(
+
     int code,	/* IN terminal code number */
+
     char *symString,			/* IN terminal string */
     char *printString,			/* IN the terminals print symbol */
     Token *token		/* OUT the created scanner symbol */
 )
+
 {
     if (insToks < MaxTokens) {
 	/* Concatenate the token string
@@ -115,6 +140,7 @@ void pmISym(
 	strcat(insStr, " ...");
     }/*if*/
     insToks++;
+
 #define sym token
 #define sstr symString
 #define pstr printString
@@ -135,9 +161,11 @@ void pmISym(
       strcpy(token->chars, symString);
 }
 
+
 #undef sym
 #undef sstr
 #undef pstr
+
 }/*pmISym()*/
 
 
@@ -146,12 +174,15 @@ void pmISym(
  *	    for later output.
  *-----------------------------------------------------------------------------
  */
+
 void pmDSym(
     Token *token,		/* IN terminal */
     char *symString,			/* IN terminal string */
     char *printString			/* IN terminals print string */
 )
+
 {
+
     if (delToks < MaxTokens) {
 	/* Concatenate the symbol strings */
 	if (delToks > 0) strcat(delStr, " ");
@@ -163,6 +194,7 @@ void pmDSym(
 	strcat(delStr, " ...");
     }/*if*/
     delToks++;
+
 }/*pmDSym()*/
 
 
@@ -186,13 +218,16 @@ void pmDSym(
  *		4 = System error & Limit error
  *-----------------------------------------------------------------------------
  */
+
 void pmMess(
     Token *sym,		/* IN error token */
     int method,			/* IN recovery method */
     int code,			/* IN error classification */
     int severity		/* IN error severity code */
 )
+
 {
+
     lmSev sev;
 
     switch (severity) {
@@ -203,11 +238,16 @@ void pmMess(
     default: sev = sevSYS; break;
     }
 
+
     switch (code) {
 
     case 1:
 	/* Unknown symbol, deleted */
+
+
 	lmLog(&(sym->srcp), 102, sev, "Unknown Token");
+
+
 	break;
 
     case 2:
@@ -216,47 +256,80 @@ void pmMess(
 
 	case 1:
 	    /* Insert */
+
+
 	    lmLog(&(sym->srcp), 101, sev, insStr);
+
+
 	    break;
 
 	case 2:
 	    /* Delete */
+
+
 	    lmLog(&(sym->srcp), 102, sev, delStr);
+
+
 	    break;
 
 	case 3:
 	    /* Replace */
+
 	    delStr[strlen(delStr)+1] = '\0';
 	    delStr[strlen(delStr)] = lmSEPARATOR; /* Separator */
 	    strcat(delStr, insStr);
+
 	    lmLog(&(sym->srcp), 103, sev, delStr);
+
+
 	    break;
 
 	case 4:
 	    /* Stack backed up */
+
+
 	    lmLog(&(sym->srcp), 104, sev, "");
+
+
 	    break;
 
 	case 5:
 	    /* Syntax error, system halted */
+
+
 	    lmLog(&(sym->srcp), 105, sev, "");
+
+
 	    break;
 	}
 	break;
 
     case 3:
 	/* Parse stack overflow */
+
+
 	lmLog(&(sym->srcp), 106, sev, "");
+
+
 	break;
 
     case 4:
 	/* Parse table error */
+
+
 	lmLog(&(sym->srcp), 107, sev, "");
+
+
 	break;
     }
 
     if (method == 5) {
 	/* System halted, output informational message */
+
+
 	lmLog(&(sym->srcp), 108, sevINF, "");
+
+
     }
 }/*pmMess()*/
+
