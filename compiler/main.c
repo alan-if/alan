@@ -112,8 +112,6 @@ SPA_END
 #define FILENAMESIZE 1000
 static char inFileName[FILENAMESIZE];
 static char fullInFileName[FILENAMESIZE];
-static char outFileName[FILENAMESIZE];
-static char fullOutFileName[FILENAMESIZE];
 
 static OPENFILENAME ofn;
 
@@ -134,14 +132,6 @@ static int getInFileName() {
   ofn.nMaxFileTitle = FILENAMESIZE;
   ofn.Flags = OFN_HIDEREADONLY;
   return GetOpenFileName(&ofn);
-}
-
-static int getOutFileName() {
-  ofn.lpstrFile = fullOutFileName;
-  ofn.lpstrFileTitle = outFileName;
-  ofn.lpstrTitle = "Choose a file to store Alan V3 source output in";
-  ofn.Flags = OFN_OVERWRITEPROMPT;
-  return GetSaveFileName(&ofn);
 }
 
 static int argc;
@@ -181,6 +171,7 @@ static char *removeExeResidue(char cmdLine[])
   static char *residue = ".exe\"";
   char *cp = strstr(cmdLine, residue);
   if (cp) {
+    MessageBox(NULL, "INTERNAL: Had to strip exe.residue...", "Alan V3 compiler", MB_OK);
     cp += strlen(residue);
     while (*cp == ' ') cp++;
   } else
@@ -191,15 +182,13 @@ static char *removeExeResidue(char cmdLine[])
 
 static void remapWindowsFilename(char string[])
 {
-  int i;
-
   if (string[0] == '"') {
     strcpy(string, &string[1]);
     string[strlen(string)-1] = '\0';
   }
 
 #ifdef REMAPSLASH
-  for (i = 0; string[i] != '\0'; i++)
+  for (int i = 0; string[i] != '\0'; i++)
     if (string[i] == '\\')
       string[i] = '/';
 #endif
@@ -208,13 +197,12 @@ static void remapWindowsFilename(char string[])
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
   int nArgs;
-  int i;
 
   nArgs = splitCommandLine(removeExeResidue(cmdLine));
 
 #ifdef ARGSDISPLAY
   MessageBox(NULL, "Hello!", "Alan V3 compiler", MB_OK);
-  for (i = 0; i < nArgs; i++) {
+  for (int i = 0; i < nArgs; i++) {
     char buf[199];
     sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
     MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);

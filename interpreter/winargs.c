@@ -34,6 +34,7 @@ void args(int argc, char * argv[])
 
   /* Now look at the switches and arguments */
   switches(argc, argv);
+
   if (adventureFileName == NULL)
     /* No game given, try program name */
     if (!matchInterpreterName(programName)) {

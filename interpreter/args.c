@@ -19,12 +19,17 @@
 #include "glkio.h"
 #endif
 
+#ifdef __windows__
+#include <windows.h>
+#endif
+
 /*----------------------------------------------------------------------*/
 static void switches(int argc, char *argv[])
 {
   int i;
   
   for (i = 1; i < argc; i++) {
+
     if (argv[i][0] == '-') {
 #ifdef HAVE_GLK
       switch (glk_char_to_lower(argv[i][1]))
@@ -71,13 +76,15 @@ static void switches(int argc, char *argv[])
 	terminate(0);
       }
     } else {
+
       if (argv[i][0] == '"' && strlen(argv[i]) > 2) {
 	/* Probably quoting names including spaces... */
-	char *str = strdup(&adventureFileName[1]);
+	char *str = strdup(&argv[i][1]);
 	adventureFileName = str;
 	adventureFileName[strlen(adventureFileName)-1] = '\0';
       } else
 	adventureFileName = strdup(argv[i]);
+
       if (!compareStrings(&adventureFileName[strlen(adventureFileName)-4],
 			  ACODEEXTENSION) == 0) {
 	adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+5);

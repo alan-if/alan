@@ -21,7 +21,7 @@ GLKINCLUDE = -I$(GLKROOT)/Include
 GLKLIB = $(GLKROOT)/Glk.lib
 
 winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
-winarun: CYGWIN = -mwindows -mno-cygwin
+winarun: CYGWIN = -mno-cygwin -mwindows
 winarun: LIBS = $(GLKLIB)
 winarun: EXE = winarun.exe
 dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC

@@ -91,6 +91,7 @@ int winglk_startup_code(const char* cmdline)
   /* now process the command line arguments */
   argumentVector[0] = "";
   argCount = 1;
+
   splitArgs(strdup(cmdline));
   args(argCount, argumentVector);
 
