@@ -809,7 +809,7 @@ static int val(char str[])
 
 <location_body_part>		-- RETURNS: atrs, stms, stms2, ext, vrb
                                 -- (srcp, qual if <description> or <does>)
-    = <is> <attributes>
+     = <is> <attributes>				%+('EXIT')
     %%
         %<location_body_part>.atrs = %<attributes>.atrs;
         %<location_body_part>.stms = NULL;
@@ -1174,7 +1174,7 @@ static int val(char str[])
     ;
 
 <name>			-- RETURNS: nams
-    = 'NAME' <ids>					%+('ARTICLE', 'IN')
+    = 'NAME' <ids>					%+('ARTICLE', 'IN', 'EXIT')
     %%
 	%<name>.nams = %<ids>.nams;
     %%
@@ -2451,5 +2451,50 @@ ID
     ! 'IN'
     %%
         %ID.nam = newnam(`&%'IN'.srcp, "in");
+    %%
+
+    ! 'AFTER'
+    %%
+        %ID.nam = newnam(`&%'AFTER'.srcp, "after");
+    %%
+
+    ! 'BEFORE'
+    %%
+        %ID.nam = newnam(`&%'BEFORE'.srcp, "before");
+    %%
+
+    ! 'CHECK'
+    %%
+        %ID.nam = newnam(`&%'CHECK'.srcp, "check");
+    %%
+
+    ! 'DEPEND'
+    %%
+        %ID.nam = newnam(`&%'DEPEND'.srcp, "depend");
+    %%
+
+    ! 'EXIT'
+    %%
+        %ID.nam = newnam(`&%'EXIT'.srcp, "exit");
+    %%
+
+    ! 'FOR'
+    %%
+        %ID.nam = newnam(`&%'FOR'.srcp, "for");
+    %%
+
+    ! 'INTEGER'
+    %%
+        %ID.nam = newnam(`&%'INTEGER'.srcp, "integer");
+    %%
+
+    ! 'ISA'
+    %%
+        %ID.nam = newnam(`&%'ISA'.srcp, "isa");
+    %%
+
+    ! 'LIMITS'
+    %%
+        %ID.nam = newnam(`&%'LIMITS'.srcp, "limits");
     %%
     ;

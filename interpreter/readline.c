@@ -93,7 +93,8 @@ static KeyMap keymap[] = {
   {0x00, 0x00, NULL}
 };
 
-#ifdef __solaris2__
+/* I can't figure out what really coverns the esc-map characters... */
+#ifdef __solarisX__
 static KeyMap escmap[] = {
   {0x00, 0x4e, NULL},
   {0x4f, 0x4f, arrowHook},

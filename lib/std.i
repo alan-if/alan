@@ -5,9 +5,11 @@ $include 'open.i'
 $include 'lock.i'
 $include 'eat.i'
 $include 'throw.i'
+$include 'put.i'
 $include 'push.i'
 $include 'touch.i'
 $include 'examine.i'
+$include 'read.i'
 
 $include 'invent.i'
 

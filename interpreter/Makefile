@@ -18,6 +18,7 @@ LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
 
 sun4 := INCLUDE	= -I/usr/local/include/ansi
+sun4 := DEBUG = -g
 
 tcov := CC = acc -a
 tcov := LD = acc -a

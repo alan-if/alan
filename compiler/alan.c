@@ -600,7 +600,7 @@ void compile(void) {
     sevs &= ~sevINF;
 
   /* Create listing files and list messages on the screen */
-#if __mac__
+#ifdef __mac__
   listing(sevs);
 #else
   if (lstflg) {			/* If -l option, create list file */

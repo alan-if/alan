@@ -57,5 +57,7 @@ int main(argc, argv)
   }
 
   run();
+
+  return(EXIT_SUCCESS);
 }
 
