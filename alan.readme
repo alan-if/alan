@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2003-12-23
+			      2004-08-29
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.28dev) of Alan V3. It features
+This is a development preview (v3.0.30dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
 Windows only.
 
@@ -19,19 +19,31 @@ Depending on if you used the ZIP-archive or the Windows installer you
 will get command line version or a Windows GUI version. They are
 completely compatible.
 
+Changes from v3.0.29 development:
+- Redesigned capitalization rules, output is now done as written in the
+  source file. Note that this might require changes to your source to
+  achieve intended output, primarily this might affect location and
+  actor names.
+- Added a string manipulation statement, STRIP, which allows removing
+  leading or trailing words or characters from a string and optionally
+  putting the removed part into another string attribute.
+- FINALLY added symbolic debugging! Interpreting in debug mode allows
+  stepping to next source line and setting breakpoints. Cool! If
+  relevant, this also allows syserr's to show which source line.
+- Fixed a infinite recursion problem with ENTERED clause. The ENTERED
+  clause will now only be executed if the actor is not already there.
+
+Changes from v3.0.28 development:
+- New article handling, now allows for both definite and indefinite articles
+  and for cases (languages) that have more complex forms than just articles
+- Possibility to print the simple, definite or definite forms
+
 Changes from v3.0.27 development:
 - WinAlan.exe to allow for Windows GUI-mode
 - Corrected Windows GUI so that compiler error messages is shown in a console
 - German langauge support (language option and cap's of Nouns)
 - Entered-clause (only allowed on locations) to replace Does of v2
 - Converter is now more complete
-
-Changes from v3.0.26 development:
-- Opaque containers
-- Interpreter automatically capitalizes output after full stop (".")
-- Windows GUI and install
-- Parameters are now correctly available in syntax restrictions
-- Converter program
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
 "GLK.DLL". WindowsGLK DLL is included in this distribution but can
@@ -80,7 +92,7 @@ distribution or appendix J in the manual.
 If you have any problems don't hesitate to contact the author at the
 following email address:
 
-	thomas.nilsson@progindus.se
+	thomas@junovagen.se
 
 All communication is welcome! You may also wish to visit the
 Alan Home Pages at
@@ -91,4 +103,4 @@ Alan Home Pages at
 If you haven't already, join the 1261 people registered. Happy Authoring!
 
 Thomas Nilsson
-thomas.nilsson@progindus.se
+thomas@junovagen.se
