@@ -1,0 +1,21 @@
+Location free_order
+
+  Description
+    "First description."
+
+  Verb x
+  End Verb x.
+
+  Exit v To free_order.
+
+  Is large.
+
+  Does Only "Nothing."
+
+  Description "Second description."
+
+  Has light.
+
+End Location.
+
+Start At free_order.

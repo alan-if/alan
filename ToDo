@@ -1,5 +1,7 @@
 ToDo:
-	* Short-circuiting expressions, is it necessary? Can it be done?
+	* More flexiblity in order of clauses, should be possible to
+	be almost completely free.
+		DONE: for locations
 
 	* Think about punctuation ('.') in the language! Can it be
         made optional?
@@ -12,9 +14,6 @@ ToDo:
 	* Actor-clash handling, i.e. what happens when an object is
 	removed from an actor? How to specify if this is possible and what
 	the actor does?
-
-	* More flexiblity in order of clauses, should be possible to
-	be almost completely free.
 
 	* Change the interpreter to only look at its own name if no
 	parameter was given.
@@ -99,6 +98,11 @@ ToDo:
 
 
 DONE:
+	* Short-circuiting expressions, is it necessary? Can it be done?
+		No, since it is a postfix machine, if we did that we would
+		need to look forward to see if the operation after this
+		expression is an AND...
+
 	* Document how to create floating objects.
 
 	* The "plant pot plant in plant pot" problem

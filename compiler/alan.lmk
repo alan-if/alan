@@ -36,6 +36,7 @@
 201	'Mismatched block identifier, \'%1\' assumed.';
 202	'Multiple usage of direction \'%1\' in this EXIT.';
 203	'Multiple definition of EXIT \'%1\' in this location.';
+204	'Multiple use of %1 clause in this location.';
 205	'Multiple usage of \'%1\' in this VERB definition.';
 206	'Multiple definition of SYNTAX for \'%1\'.';
 207	'VERB \'%1\' is not defined.';

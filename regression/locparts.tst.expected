@@ -1,0 +1,22 @@
+########## locparts ##########
+alan locparts
+########## /bin/sh  locparts.tst ##########
+
+
+locparts.alan
+
+   13.    Does Only "Nothing."
+=====>    1
+
+  *1*   210 E : Action qualification not allowed here.
+
+   15.    Description "Second description."
+=====>    1
+
+  *1*   204 E : Multiple use of DESCRIPTION clause in this location.
+
+
+        2 error(s).
+        No detected warnings.
+        2 informational message(s).
+
