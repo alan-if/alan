@@ -17,8 +17,16 @@ containerRestriction0.alan
   *1*   312 E : Parameter 'c' is not guaranteed to be a container, which is
                 required.
 
+   18.      Does
+=====>      1
+
+  *1*   223 W : This Verb body will be executed for every matching parameter in
+                the syntax for 'put_in1', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
 
         1 error(s).
-        1 warning(s).
+        2 warning(s).
         1 informational message(s).
 

@@ -446,8 +446,7 @@ Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
 /*======================================================================*/
 void setParameters(Symbol *verb, List *parameters)
 {
-  /* The parameters are sent as a list of ElmNodes. Set it in the verb symbol. */
-
+  /* Parameters are sent as a list of ElmNodes. Set it in the verb symbol. */
   List *parameterSymbols = NULL;
   List *parameter;
 
@@ -469,6 +468,8 @@ void setParameters(Symbol *verb, List *parameters)
     Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
     parameter->element.elm->id->symbol = parameterSymbol; /* Cross refer */
+    parameterSymbol->fields.parameter.class = entitySymbol;
+    parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
   }
 
   verb->fields.verb.parameterSymbols = parameterSymbols;

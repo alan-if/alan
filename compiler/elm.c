@@ -93,7 +93,7 @@ List *analyzeElements(List *elms,        /* IN - List to analyze */
   else
     elm->id->code = newWord(elm->id->string, VERB_WORD, 0, (void *)stx);
 
-  /* Analyze the elements, number the parameters and find the class restriction */
+  /* Analyze the elements, number parameters and find the restriction */
   /* Start with the second since the first is analyzed above */
   for (lst = elms->next; lst != NULL; lst = lst->next) {
     if (lst->element.elm->kind == PARAMETER_ELEMENT) {

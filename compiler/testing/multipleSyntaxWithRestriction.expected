@@ -6,8 +6,8 @@ multipleSyntaxWithRestriction.alan
     1.  Syntax give_to = give (o) 'to' (a)
 =====>         1
 
-  *1*   205 W : This is the first occurance of syntax for 'give_to', see errors
-                below.
+  *1*   205 W : This is the first occurrence of syntax for 'give_to', see
+                errors below.
 
     5.      Where a Isa actor Else "Only actors will appreciate gifts."
 =====>      1

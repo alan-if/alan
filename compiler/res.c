@@ -26,13 +26,7 @@
 /* PUBLIC: */
 
 
-/*======================================================================
-
-  newRestriction()
-
-  Allocates and initialises an element class restriction node.
-
- */
+/*======================================================================*/
 ResNod *newRestriction(
     Srcp *srcp,
     IdNode *parameterId,
@@ -77,7 +71,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
       lmLog(&res->classId->srcp, 317, sevERR, "");
 
     /* Set the class in the corresponding parameter symbol */
-    if (parameter->fields.parameter.class != NULL)
+    if (parameter->fields.parameter.class != NULL && classSymbol != NULL)
       /* It already has a class, warn if new restriction is not a subclass */
       if (!inheritsFrom(classSymbol, parameter->fields.parameter.class))
 	lmLogv(&res->classId->srcp, 427, sevWAR, parameter->string,
@@ -114,13 +108,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
 
 }
 
-/*----------------------------------------------------------------------
-
-  analyzeRestriction()
-
-  Analyzes one element class restriction node.
-
- */
+/*----------------------------------------------------------------------*/
 static void analyzeRestriction(
   ResNod *res,			/* IN - Restriction node to analyze */
   Symbol *theVerb		/* IN - The verb symbol */
@@ -129,15 +117,20 @@ static void analyzeRestriction(
   Symbol *parameter;
   Context *context = newContext(VERB_CONTEXT);
 
+  /* Analyze the statements to execute if the restrictions was not
+     met.  Since the parameter class is set incrementally for each
+     subsequent restriction it is now set to the class of all
+     previously (passed) restrictions. All we have to do is to set up
+     a relevant verb context. */
+  context->verb = theVerb;
+  analyzeStatements(res->stms, context);
+
+  /* Analyze this restriction and set the new class of the parameter */
   parameter = lookupParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
   else
     resolveParameterClass(res, parameter);
-
-  /* Analyse the statements to execute if the restrictions was not met */
-  /* FIXME: we need to send the restriction inverted in the context also */
-  analyzeStatements(res->stms, context);
 }
 
 
