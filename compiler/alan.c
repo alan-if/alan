@@ -408,6 +408,7 @@ static Bool warnings;		/* Show warnings */
 static Bool infos;		/* Show informational messages */
 static Bool fulflg;		/* Full source listing */
 static Bool lstflg;		/* Create listing file */
+static Bool ccflg;		/* Show messages as old 'cc' */
 static int lcount;		/* Number of lines per page */
 static int ccount;		/* -"-    columns */
 static DmpKind dmpflg = 0;	/* Dump internal form flags */
@@ -458,6 +459,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
+     SPA_FLAG("cc", "show messages on the screen in old 'cc' format", ccflg, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
      SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 112, NULL)
@@ -653,7 +655,26 @@ int main(argc,argv)
     sevs &= ~sevWAR;
   if (!infos)
     sevs &= ~sevINF;
-  lmList("", 0, 79, liTINY, sevs);
+  if (ccflg) {
+    int i,j;
+    char err[1024];
+    Srcp srcp;
+    List *fnm;
+    List nofile;
+
+    nofile.element.str = "<no file>";
+    /* Print a list on the terminal if errors detected. */
+    for (i=1; lmMsg(i, &srcp, err); i++) {
+      /* Advance to the correct file name */
+      if (srcp.file == -1) 
+	fnm = &nofile;
+      else
+	for (fnm = fileNames, j = 0; j < srcp.file; j++) fnm = fnm->next;
+      printf("\"%s\", line %d: ALAN-%s (column %d)\n", fnm->element.str,
+	     srcp.line, err, srcp.col);
+    }
+  } else
+    lmList("", 0, 79, liTINY, sevs);
 
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);

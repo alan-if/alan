@@ -1,3 +1,7 @@
+Fri Jan  7 12:01:44 1994  Thomas Nilsson  (thoni@rabbit)
+
+	* Added '-cc' to show compiler messages in old 'cc' style
+
 Thu Dec 30 16:31:15 1993  Thomas Nilsson  (thoni@rabbit)
 
 	* 2.5(1)

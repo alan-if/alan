@@ -34,7 +34,12 @@
 #include "sysdep.h"
 #include "types.h"
 
+#include "lst.h"
+
 extern smScContext lexContext;
+
+/* List of file names */
+extern List *fileNames;
 
 #ifdef _PROTOTYPES_
 extern Bool smScanEnter(char fnm[]);
@@ -46,11 +51,15 @@ extern int scannedLines();
 
 %%DECLARATIONS
 
+#include "str.h"
+
 #define COPYMAX (smThis->smLength>256?256:smThis->smLength)
 
 
 /* PUBLIC */
 smScContext lexContext = NULL;	/* Scanner context */
+
+List *fileNames = NULL;
 
 int scannedLines();
 
@@ -68,6 +77,9 @@ Bool smScanEnter(fnm)
 {
 #endif
   smScContext this;
+
+  /* Remember the filename */
+  fileNames = concat(fileNames, newstr(fnm));
 
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
