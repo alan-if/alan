@@ -92,6 +92,25 @@ static void reverseStms(adr)
 
 
 #ifdef _PROTOTYPES_
+static void reverseMsgs(Aword adr)
+#else
+static void reverseMsgs(adr)
+     Aword adr;
+#endif
+{
+  MsgElem *e = (MsgElem *) &memory[adr];
+
+  if (adr != 0 && !endOfTable(e)) {
+    reverseTable(adr, sizeof(MsgElem));
+    while (!endOfTable(e)) {
+      reverseStms(e->stms);
+      e++;
+    }
+  }
+}    
+
+
+#ifdef _PROTOTYPES_
 static void reverseWrds(Aword adr)
 #else
 static void reverseWrds(adr)
@@ -509,7 +528,7 @@ void reverseACD(v2_5)
   reverseRuls(header->ruls);
   reverseTable(header->init, sizeof(IniElem));
   reverseStms(header->start);
-  reverseTable(header->msgs, sizeof(MsgElem));
+  reverseMsgs(header->msgs);
  
   reverseTable(header->scores, sizeof(Aword));
   reverseTable(header->freq, sizeof(Aword));
