@@ -100,7 +100,7 @@ static unsigned char *history[HISTORYLENGTH];
 static int histidx;		/* Index where to store next history */
 static int histp;		/* Points to the history recalled last */
 
-static int ch;
+static unsigned char ch;
 static int endOfInput = 0;
 static Boolean change;
 static Boolean insert = TRUE;
@@ -117,6 +117,7 @@ typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 /* Forward declaration of hooks */
 static void escHook(char ch);
 static void insertCh(char ch);
+static void arrowHook(char ch);
 static void upArrow(char ch);
 static void downArrow(char ch);
 static void rightArrow(char ch);
@@ -141,9 +142,6 @@ static KeyMap keymap[] = {
 
 /* I can't figure out what really coverns the esc-map characters... */
 #ifdef __solarisX__
-
-static void arrowHook(char ch);
-
 static KeyMap escmap[] = {
   {0x00, 0x4e, NULL},
   {0x4f, 0x4f, arrowHook},
@@ -173,47 +171,45 @@ static KeyMap arrowmap[] = {
 
 #endif
 
-
-#if defined(__win__)
-
+#ifdef __win__
 static KeyMap keymap[] = {
-  {0x00, 0x07, NULL},
+  {0x00, 0x01, NULL},
+  {0x02, 0x02, leftArrow},
+  {0x03, 0x05, NULL},
+  {0x06, 0x06, rightArrow},
+  {0x07, 0x07, NULL},
   {0x08, 0x08, delBwd},
   {0x09, 0x09, NULL},
   {0x0a, 0x0a, newLine},
-  {0x0b, 0x0c, NULL},
-  {0x0d, 0x0d, newLine},
-  {0x0e, 0x1a, NULL},
+  {0x1b, 0x1b, escHook},
   {0x1c, 0x7e, insertCh},
   {0x7f, 0x7f, delFwd},
-  {0x80, 0xdf, insertCh},
-  {0xe0, 0xe0, escHook},
-  {0xe1, 0xff, insertCh},
+  {0x80, 0xff, insertCh},
   {0x00, 0x00, NULL}
 };
 
 static KeyMap escmap[] = {
-  {0x00, 0x47, NULL},
-  {0x48, 0x48, upArrow},
-  {0x49, 0x4a, NULL},
-  {0x4b, 0x4b, leftArrow},
-  {0x4c, 0x4c, NULL},
-  {0x4d, 0x4d, rightArrow},
-  {0x4e, 0x4f, NULL},
-  {0x50, 0x50, downArrow},
-  {0x51, 0x51, NULL},
-  {0x52, 0x52, insertToggle},
-  {0x53, 0x53, delFwd},
-  {0x54, 0xff, NULL},
+  {0x00, 0x5a, NULL},
+  {0x5b, 0x5b, arrowHook},
+  {0x5c, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+
+static KeyMap arrowmap[] = {
+  {0x00, 0x31, NULL},
+  {0x32, 0x32, insertToggle},
+  {0x33, 0x40, NULL},
+  {0x41, 0x41, upArrow},
+  {0x42, 0x42, downArrow},
+  {0x43, 0x43, rightArrow},
+  {0x44, 0x44, leftArrow},
+  {0x45, 0xff, NULL},
   {0x00, 0x00, NULL}
 };
 
 #endif
 
 #ifdef __dos__
-
-static void arrowHook(char ch);
-
 static KeyMap keymap[] = {
   {0x00, 0x01, NULL},
   {0x02, 0x02, leftArrow},
@@ -366,6 +362,16 @@ static void leftArrow(char ch)
 }
 
 
+static void insertToggle(char ch)
+{
+  read(0, &ch, 1);
+  if (ch != 'z')
+    doBeep();
+  else
+    insert = !insert;
+}
+
+
 static void delBwd(char ch)
 {
   if (bufidx == 0)
@@ -399,29 +405,6 @@ static void delFwd(char ch)
   }
 }  
 
-#if defined(__win__) && !defined(CYGWIN)
-
-static void insertToggle(char ch)
-{
-  insert = !insert;
-}
-
-static void escHook(char ch) {
-  ch = getchar();
-  execute(escmap, ch);
-}
-
-#else
-
-static void insertToggle(char ch)
-{
-  read(0, &ch, 1);
-  if (ch != 'z')
-    doBeep();
-  else
-    insert = !insert;
-}
-
 static void escHook(char ch) {
   read(0, &ch, 1);
   execute(escmap, ch);
@@ -431,9 +414,6 @@ static void arrowHook(char ch) {
   read(0, &ch, 1);
   execute(arrowmap, ch);
 }
-
-#endif
-
 
 static void newLine(char ch)
 {
@@ -483,6 +463,17 @@ static void echoOff()
 {
 #ifdef HAVE_TERMIO
   newtermio();
+#else
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+
+  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+
+  (void) SetConsoleMode(handle, 0);
+
+#endif
 #endif
 }
 
@@ -496,6 +487,16 @@ static void echoOn()
 {
 #ifdef HAVE_TERMIO
   restoretermio();
+#else
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+
+  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+  (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);
+
+#endif
 #endif
 }
 
@@ -519,8 +520,7 @@ Boolean readline(char usrbuf[])
   echoOff();
   endOfInput = 0;
   while (!endOfInput) {
-    ch = getchar();
-    if (ch == EOF || ch == 0x03) {
+    if (read(0, (void *)&ch, 1) != 1) {
       echoOn();
       return FALSE;
     }
