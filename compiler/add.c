@@ -182,11 +182,39 @@ static void addExits(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
+static void verifyAdd(AddNode *add, Symbol *originalSymbol)
+{
+    /* Can't add anything except verbs to non-instantiable classes */
+  if (originalSymbol->fields.entity.prohibitedSubclassing) {
+    if (add->props->names)
+      lmLogv(&add->srcp, 424, sevERR, "names", originalSymbol->string, NULL);
+    if (add->props->whr)
+      lmLogv(&add->props->whr->srcp, 424, sevERR, "initial location", originalSymbol->string, NULL);
+    if (add->props->attributes)
+      lmLogv(&add->props->attributes->element.atr->srcp, 424, sevERR, "attributes", originalSymbol->string, NULL);
+    if (add->props->descriptionChecks || add->props->description)
+      lmLogv(&add->props->descriptionSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
+    if (add->props->article)
+      lmLogv(&add->props->articleSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+    if (add->props->mentioned)
+      lmLogv(&add->props->mentionedSrcp, 424, sevERR, "mentioned", originalSymbol->string, NULL);
+    if (add->props->container)
+      lmLogv(&add->props->container->srcp, 424, sevERR, "container", originalSymbol->string, NULL);
+    if (add->props->scripts)
+      lmLogv(&add->props->scripts->element.scr->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
+    if (add->props->exits)
+      lmLogv(&add->props->exits->element.ext->srcp, 424, sevERR, "exits", originalSymbol->string, NULL);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void addAddition(AddNode *add)
 {
   Symbol *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
 
   if (originalClass != NULL) {
+    verifyAdd(add, originalClass);
     addInitialLocation(add, originalClass);
     addNames(add, originalClass);
     addAttributes(add, originalClass);

@@ -1,11 +1,9 @@
-########## wall ##########
-../compiler/alan wall
-../interpreter/arun -n wall < wall.input
-########## /bin/sh  wall.tst ##########
+########## alan wall ##########
 
         No warnings or errors detected.
-        5 informational message(s).
+        1 informational message(s).
 
+########## arun wall ##########
 
 
 Loc1

@@ -1,15 +1,16 @@
 Syntax q = 'quit'.
 Synonyms q = 'quit'.
+
 Verb q
   Does
     Quit.
 End Verb.
 
-Location Same
+The same Isa location
   Description
     "This is the same Location."
-  Exit w To Same.
-End Location.
+  Exit w To same.
+End The same.
 
 Start At Same.
   Visits 3.

@@ -220,10 +220,9 @@ Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
   List *p;
 
   for (p = parameterSymbols; p != NULL; p = p->next) {
-    if (p->element.sym->kind != PARAMETER_SYMBOL)
-      syserr("Not a parameter symbol in analyzeRestriction()");
-    if (equalId(parameterId, p->element.sym->fields.parameter.element->id))
-      return p->element.sym;
+    if (p->element.sym->kind == PARAMETER_SYMBOL)
+      if (equalId(parameterId, p->element.sym->fields.parameter.element->id))
+	return p->element.sym;
   }
   return NULL;
 }
@@ -276,7 +275,8 @@ Symbol *lookupInContext(char *idString, Context *context)
   if (context != NULL) {
     switch (context->kind){
     case VERB_CONTEXT:
-      foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
+      if (context->verb != NULL)
+	foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
       break;
     case EVENT_CONTEXT:
     case RULE_CONTEXT:
@@ -405,11 +405,17 @@ void setParameters(Symbol *verb, List *parameters)
 
   if (verb == NULL) return;
 
-  if (verb->kind != VERB_SYMBOL) syserr("Not a verb in setParamters()");
+  if (verb->kind != VERB_SYMBOL) {
+    /* Probably a semantic error! */
+    verb->fields.verb.parameterSymbols = NULL;
+    return;
+    /*    syserr("Not a verb in setParameters()"); */
+  }
 
   if (parameters == NULL) return;
 
-  if (parameters->kind != ELEMENT_LIST) syserr("Not a parameter list in setParameter()");
+  if (parameters->kind != ELEMENT_LIST)
+    syserr("Not a parameter list in setParameter()");
 
   for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
     Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);

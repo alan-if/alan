@@ -1,11 +1,11 @@
 Every literal Isa entity
 End Every literal.
 
-Every 'integer' Isa literal
-End Every 'integer'.
+Every integer Isa literal
+End Every integer.
 
-Every 'string' Isa literal
-End Every 'string'.
+Every string Isa literal
+End Every string.
 
 The l Isa location
 End The l.

@@ -1,5 +1,5 @@
 Syntax string = string (string)
-	Where string Isa String Else "You can only string strings."
+	Where string Isa string Else "You can only string strings."
 
 Verb string
   Does

@@ -1,11 +1,8 @@
-########## visits ##########
-../compiler/alan visits
-../interpreter/arun -n visits < visits.input
-########## /bin/sh  visits.tst ##########
+########## alan visits ##########
 
         No warnings or errors detected.
-        1 informational message(s).
 
+########## arun visits ##########
 
 
 Same

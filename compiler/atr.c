@@ -258,13 +258,16 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *con
 	lmLog(&attribute->srcp, 315, sevERR, id->string);
     } else if (sym->kind == PARAMETER_SYMBOL) {
       if (sym->fields.parameter.class != NULL) {
-	classOfParameter = sym->fields.parameter.class;
-	atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
-	if (atr == NULL)
-	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
-		 id->string, classOfParameter->string, NULL);
-      } else
-	lmLog(&attribute->srcp, 406, sevERR, "");
+	if (inheritsFrom(sym->fields.parameter.class, literalSymbol)) {
+	  lmLog(&attribute->srcp, 406, sevERR, "");
+	} else {
+	  classOfParameter = sym->fields.parameter.class;
+	  atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
+	  if (atr == NULL)
+	    lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+		   id->string, classOfParameter->string, NULL);
+	}
+      }
     }
     return atr;
   } else /* no symbol found */
