@@ -12,7 +12,6 @@
 #include "args.h"
 #include "arun.h"
 
-char *strdup(char *orig);
 
 #ifdef __amiga__
 #include <libraries/dosextens.h>
@@ -61,7 +60,7 @@ static void switches(argc, argv)
 	terminate(0);
       }
     } else {
-      advnam = strdup(argv[i]);
+      advnam = argv[i];
       if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
 	  || strcmp(&advnam[strlen(advnam)-4], ".ACD") == 0
 	  || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0
@@ -87,10 +86,20 @@ void args(argc, argv)
 
 #ifdef __mac__
 #include <console.h>
+#ifdef __MWERKS__
+#include <SIOUX.h>
+#endif
   short msg, files;
   static char advbuf[256], prgbuf[256];
   AppFile af;
   OSErr oe;
+
+#ifdef __MWERKS__
+  SIOUXSettings.setupmenus = FALSE;
+  SIOUXSettings.autocloseonquit = FALSE;
+  SIOUXSettings.asktosaveonclose = FALSE;
+  SIOUXSettings.showstatusline = FALSE;
+#endif
 
   CountAppFiles(&msg, &files);
   if (msg==0 && files>0) {		/* Found files! */
@@ -103,18 +112,24 @@ void args(argc, argv)
      || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0)
        advnam[strlen(advnam)-4] = '\0';
     oe = SetVol(NULL, af.vRefNum);
-  } else {
+  }
+  else {
+  	strcpy(prgbuf, "arun");
+#ifdef THINK_C
     strncpy(prgbuf, (char *)&CurApName[1], CurApName[0]);
     prgbuf[CurApName[0]] = '\0';
+#endif
     if (strcmp(prgbuf, "arun") != 0 &&
-	strcmp(prgbuf, "Arun.project") != 0)
+	strcmp(prgbuf, "arun.project") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
     else {
       int argc;
       char **argv[100];
       
+#ifdef THINK_C
       console_options.title = CurApName;
+#endif
       argc = ccommand(argv);
       switches(argc, *argv);
     }
@@ -197,18 +212,16 @@ extern struct Library *IconBase;
 #else
 #if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
-    prgnam = strdup(argv[0]);
+    prgnam = argv[0];
   else
-    prgnam = strdup(&prgnam[1]);
+    prgnam++;
   if (strrchr(prgnam, ';') != NULL)
     *strrchr(prgnam, ';') = '\0';
   if (strcmp(prgnam, "arun") == 0)
     switches(argc, argv);
-  else {
-    /* Another program name, use that as the name of the adventure */
-    switches(argc, argv);
-    advnam = strdup(argv[0]);
-  }
+  else
+    /* Another program name use that as the name of the adventure */
+    advnam = prgnam;
 #else
   Unimplemented OS!
 #endif

@@ -321,6 +321,25 @@ static void stats()
 
 /*======================================================================
 
+  terminate()
+
+  Terminate the program with an error code.
+
+ */
+#ifdef _PROTOTYPES_
+void terminate(int ecode)
+#else
+void terminate(ecode)
+     int ecode;		/* IN  - Error code */
+#endif
+{
+#ifdef __MWERKS__
+	printf("Command-Q to quit.");
+#endif
+	exit(ecode);
+}
+/*======================================================================
+
   unimpl()
 
   An unimplemented constrution was encountered.
@@ -356,7 +375,7 @@ void syserr(str)
 {
   lmLog(&nulsrcp, 997, sevSYS, str);
   lmList("", 0, 79, liTINY, sevALL);
-  exit(EXIT_FAILURE);
+  terminate(EXIT_FAILURE);
 }
 
 
@@ -429,17 +448,17 @@ static SPA_ERRFUN(paramError)
   }
   printf("Parameter %s: %s, %s\n", sevstr, msg, add);
   usage(NULL, NULL, 0);
-  exit(EXIT_FAILURE);
+  terminate(EXIT_FAILURE);
 }
 
 static SPA_FUN(extraArg)
 {
   printf("Extra argument: '%s'\n", rawName);
   usage(NULL, NULL, 0);
-  exit(EXIT_FAILURE);
+  terminate(EXIT_FAILURE);
 }
 
-static SPA_FUN(xit) {exit(EXIT_SUCCESS);}
+static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
 
 static SPA_FUN(addInclude)
 {
@@ -460,7 +479,7 @@ static SPA_DECLARE(arguments)
 SPA_END
 
 static SPA_DECLARE(options)
-#ifndef __mac__
+#ifndef THINK_C
      SPA_HELP("help", "this help", usage, xit)
 #endif
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
@@ -566,6 +585,13 @@ int main(argc,argv)
   int nArgs;			/* Number of supplied args */
   lmSev sevs;			/* Set of listing severities */
 
+#ifdef __MWERKS__
+#include <SIOUX.h>
+  SIOUXSettings.setupmenus = FALSE;
+  SIOUXSettings.asktosaveonclose = FALSE;
+  SIOUXSettings.showstatusline = FALSE;
+#endif
+
   starttot();			/* Start timer */
   /* -- get arguments -- */
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
@@ -575,9 +601,9 @@ int main(argc,argv)
 
   if (nArgs == 0) {
     usage(NULL, NULL, 0);
-    exit(EXIT_FAILURE);
+    terminate(EXIT_FAILURE);
   } else if (nArgs > 1)
-    exit(EXIT_FAILURE);
+    terminate(EXIT_FAILURE);
 
   /* Process the arguments */
   prepareNames();
@@ -593,7 +619,7 @@ int main(argc,argv)
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
     lmList("", 0, 79, liERR, sevALL); /* TINY list on the screen*/
-    exit(EXIT_FAILURE);
+    terminate(EXIT_FAILURE);
   }
 
   /* OK, found it so now compile it! */
@@ -704,8 +730,8 @@ int main(argc,argv)
   /*    if (ppflg) pp(); */
 
   if (lmSeverity() < sevERR)
-    exit(EXIT_SUCCESS);
+    terminate(EXIT_SUCCESS);
   else
-    exit(EXIT_FAILURE);
+    terminate(EXIT_FAILURE);
   return(0);
 }
