@@ -91,14 +91,16 @@ alan: tm alanobj
 
 alanobj: $(OBJECTS) $(MAINOBJ) version version.o Makefile alan.prod
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp alan.prod ..
-	cp alan ../`arch`/alan
+	cp alan.prod $(ALANDIR)
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp alan $(ALANDIR)/bin/`arch`
 
 src: tm version.c version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile alan.prod
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp alan.prod ..
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp alan $(ALANDIR)/bin/`arch`
 
 tm: .pmkstamp .smkstamp .lmkstamp
 

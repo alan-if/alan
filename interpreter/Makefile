@@ -50,7 +50,8 @@ all:=	DEBUG= -O
 
 arun: $(OBJECTS) $(MAINOBJ) version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp arun ../`arch`/arun
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp arun $(ALANDIR)/bin/`arch`
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -58,12 +59,13 @@ purify: $(OBJECTS) version.o $(MAINOBJ)
 malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
-	cp arun ../`arch`/arun
 
 src: version.c version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp arun $(ALANDIR)/bin/`arch`
 
 version.c + version.h: ../[0-9]*
 	-@cd ..;rm ../[0-9]*_[0-9]*_[0-9]*;sh version.sh
