@@ -1,4 +1,6 @@
-CFLAGS = /Zi /AL
+MODEL = /AL
+
+CFLAGS = /Zi $(MODEL)
 
 LDFLAGS = /Fb /Fealan
 
@@ -48,9 +50,12 @@ OBJECTS = \
 	version.obj
 
 alan.exe : $(OBJECTS)
-	cl $(LDFLAGS) $(CFLAGS) $**
+	cl $(LDFLAGS) $(MODEL) $**
 	copy alan.exe ..
 
+debug: $(OBJECTS)
+	cl $(LDFLAGS) $(CFLAGS) $**
+	copy alan.exe ..
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 
