@@ -1,4 +1,4 @@
-cat > 2_7_1.beta <<EOF
+cat > 2_7_0. <<EOF
 Alan
 Adventure Language System
 EOF
