@@ -202,7 +202,7 @@ Boolean confirm(msgno)
   output(msg);
   col = 1;
 #ifdef USE_READLINE
-  readline(buf);
+  if (!readline(buf)) return FALSE;
 #else
   if (gets(buf) == NULL) return FALSE;
 #endif

@@ -197,9 +197,7 @@ void newline(void)
 void newline()
 #endif
 {
-#ifndef USE_READLINE
   char buf[256];
-#endif
   
   col = 1;
   if (lin >= paglen - 1) {
@@ -207,7 +205,7 @@ void newline()
     needsp = FALSE;
     prmsg(M_MORE);
 #ifdef USE_READLINE
-    (void) readline("");
+    (void) readline(buf);
 #else
     fgets(buf, 256, stdin);
 #endif
@@ -641,6 +639,8 @@ Boolean exitto(to, from)
 
   Check that the object given is valid, else print an error message
   or find out what he wanted.
+
+  This routine is not used any longer, kept for sentimental reasons ;-)
 
   */
 void checkobj(obj)

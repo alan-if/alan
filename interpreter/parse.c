@@ -188,8 +188,7 @@ static void getline()
   do {
     printf("> ");
 #ifdef USE_READLINE
-    readline(buf);
-    if (!buf) {			/* 4f - find end of file */
+    if (!readline(buf)) {
       newline();
       quit();
     }

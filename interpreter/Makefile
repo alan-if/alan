@@ -1,7 +1,7 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-INCLUDE	= -I/usr/local/include/ansi
+#INCLUDE	= -I/usr/local/include/ansi
 CC	= $(GCC) -ansi -pedantic -Wall
 #CC	= acc
 

@@ -294,7 +294,7 @@ void debug()
     do {
       output("ABUG> ");
 #ifdef USE_READLINE
-      readline(buf);
+      (void) readline(buf);
 #else
       fgets(buf, 255, stdin);
 #endif
