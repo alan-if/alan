@@ -1,2 +1,3 @@
 TestCall	= "/bin/sh  %t"
 TestSuffix	= "tst"
+TestSkipLines	= "Interpreter version"

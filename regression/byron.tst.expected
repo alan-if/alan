@@ -6,7 +6,6 @@ arun -d byron < byron.input
         No warnings or errors detected.
         3 informational message(s).
 
-<Arun, Adventure Interpreter version 2.6(1) (1996-01-31 13:50:01)>
 <Version of 'byron' is 2.6(1)>
 Hamburgers make excellent pets!
 
