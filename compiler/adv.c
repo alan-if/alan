@@ -344,7 +344,7 @@ void summary()
   }
   sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
   lmLiPrint(str);
-  sprintf(str,   "        Acode:                  %6d words (%d bytes)", end, (int)((long)end*(long)sizeof(Aword)));
+  sprintf(str,   "        Acode:                  %6d words (%d bytes)", (int)end, (int)((long)end*(long)sizeof(Aword)));
   lmLiPrint(str);
   sprintf(str,   "        Text data:              %6d bytes", txtlen);
   lmLiPrint(str);
