@@ -563,7 +563,8 @@ static void echoOn()
 
   readline()
 
-  Read a line from the user, with history and editing
+  Read a line from the user, with history, editing and command
+  reading from file
 
   */
 
