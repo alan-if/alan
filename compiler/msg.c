@@ -193,7 +193,6 @@ void prepmsgs()
 #endif
 {
   char **msgp;
-  char buf[256];
   List *lst = NULL;	/* The constructed list */
 
 
@@ -220,8 +219,12 @@ void prepmsgs()
     /* Create a message node */
     lst = concat(lst, newmsg(ftell(txtfil), strlen(*msgp)));
 #ifdef __mac__
-    toIso(buf, *msgp);
-    getxt(buf);
+    { 
+      char buf[256];
+
+      toIso(buf, *msgp);
+      getxt(buf);
+    }
 #else
     getxt(*msgp);
 #endif   
