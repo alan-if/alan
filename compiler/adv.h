@@ -18,6 +18,8 @@ typedef struct AdvNod {		/* ADVenture */
   List *syns;			/* List of synonyms */
   List *stxs;			/* List of syntax definitions */
   List *vrbs;			/* List of global verbs */
+  List *clas;			/* List of defined classes */
+  List *inss;			/* List of defined instances */
   List *locs;			/* List of locations */
   List *objs;			/* List of objects */
   List *evts;			/* List of events */
@@ -49,7 +51,7 @@ extern void anadv(void);
 extern void geadv(char acdfnm[]);
 
 /* Dump the whole Adventure */
-extern void duadv(enum dmpkd dmp);
+extern void duadv(enum dmpKd dmp);
 
 /* Print out a short summary of the adventure */
 extern void summary(void);

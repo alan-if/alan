@@ -287,7 +287,7 @@ void dustx(StxNod *stx)
 
   put("STX: "); duptr(stx); dusrcp(&stx->srcp); in();
   put("nam: "); dunam(stx->nam); nl();
-  put("generated: "); duBool(stx->generated); nl();
+  put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); duadr(stx->elmsadr); nl();
   put("elms: "); dulst(stx->elms, ELMNOD); nl();
   put("resadr: "); duadr(stx->resadr); nl();

@@ -19,11 +19,24 @@
 
 /* Types: */
 
+typedef enum ResKind {
+  ID_RESTRICTION,
+  INTEGER_RESTRICTION,
+  STRING_RESTRICTION,
+  OBJECT_RESTRICTION,
+  ACTOR_RESTRICTION,
+  CONTAINER_RESTRICTION,
+  CONTAINEROBJECT_RESTRICTION,
+  CONTAINERACTOR_RESTRICTION
+} ResKind;
+
+
 typedef struct ResNod {		/* RESTRICTION */
   Srcp srcp;			/* Source position of this element */
   NamNod *nam;			/* Name */
   Bool single;			/* TRUE if a single class */
-  NamKind classes;		/* The classes the id may have */
+  ResKind resKd;		/* The restriction type the parameter must follow */
+  List *classes;		/* Which named class must it be if ID_RESTRICTION */
   List *stms;			/* Statements to execute if not */
   Aaddr stmadr;			/* GE - Address to generated statements */
 } ResNod;
@@ -39,7 +52,8 @@ typedef struct ResNod {		/* RESTRICTION */
 extern ResNod *newres(Srcp *srcp,
 		      NamNod *nam,
 		      Bool single,
-		      NamKind classes,
+		      ResKind resKd,
+		      List *classes,
 		      List *stms);
 
 /* Analyze a list of Restriction nodes */

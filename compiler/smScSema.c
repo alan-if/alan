@@ -197,14 +197,14 @@ int smScAction(
     smContinueToken	= -2
   };
   switch(smInternalCode) {
-  case 100:		/* INTEGER*/ 
+  case 104:		/* INTEGER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
-  case 101:		/* IDENT*/ 
+  case 105:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
@@ -214,7 +214,7 @@ int smScAction(
 }
     break;
 
-  case 102:		/* IDENT*/ 
+  case 106:		/* IDENTIFIER*/ 
     {{
 	char *c;
 
@@ -232,7 +232,7 @@ int smScAction(
 }
     break;
 
-  case 103:		/* STRING*/ 
+  case 107:		/* STRING*/ 
     {
       int len = 0;		/* The total length of the copied data */
       Bool space = FALSE;
@@ -266,7 +266,7 @@ int smScAction(
 }
     break;
 
-  case 108:		/* INCLUDE*/ 
+  case 112:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -276,7 +276,7 @@ int smScAction(
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, &token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
-      if (token.code == sm_MAIN_IDENT_Token) {
+      if (token.code == sm_MAIN_IDENTIFIER_Token) {
 	/* Found an ID which is a file name */
 	do {
 	  i = smScSkip(smThis, 1);
@@ -301,7 +301,7 @@ int smScAction(
 }
     break;
 
-  case 109:		/* IDENT*/ 
+  case 113:		/* IDENTIFIER*/ 
     {{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }

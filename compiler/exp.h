@@ -37,7 +37,8 @@ typedef enum ExpKind {		/* EXPRESSION kinds */
   EXPRND,			/* Random */
   EXPSCORE,			/* Score */
   EXPWHT,			/* Is What */
-  EXPBTW			/* Between */
+  EXPBTW,			/* Between */
+  EXPISA			/* Isa class */
 } ExpKind;
 
 typedef enum OpKind {		/* OPERATOR kinds */
@@ -122,6 +123,11 @@ typedef struct ExpNod {		/* EXPRESSION */
       struct ExpNod *str;	/* The string to investigate */
       struct ExpNod *sub;	/* The substring to find */
     } cnt;
+
+    struct {			/* For ISA */
+      struct ExpNod *right;	/* The entity/parameter */
+      NamNod *id;		/* The class */
+    } isa;
 
   } fields;
 } ExpNod;

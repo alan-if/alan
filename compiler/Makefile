@@ -33,6 +33,7 @@ VERSIONOBJECTS = \
 	alt.o \
 	atr.o \
 	chk.o \
+	cla.o \
 	cnt.o \
 	dump.o \
 	encode.o \
@@ -41,6 +42,7 @@ VERSIONOBJECTS = \
 	evt.o \
 	exp.o \
 	ext.o \
+	ins.o \
 	lim.o \
 	loc.o \
 	lst.o \
@@ -52,6 +54,7 @@ VERSIONOBJECTS = \
 	rul.o \
 	sco.o \
 	scr.o \
+	slt.o \
 	srcp.o \
 	stm.o \
 	stp.o \
@@ -75,10 +78,16 @@ all alan alan.exe : $(OBJECTS) Makefile
 	-mkdir ../bin
 	cp alan.exe ../bin
 
+test: alan.exe
+	cd testing; ./test
+
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
 smScanx.o: smScanx.c
+
+src:
+	$(MAKE) -f Makefile.src
 
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)

@@ -229,7 +229,7 @@ void setCharacterSet(int set)
     %%;
 
 
-  IDENT = letter (letter ! digit ! '_')*			-- normal id
+  IDENTIFIER = letter (letter ! digit ! '_')*			-- normal id
     %%
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
@@ -237,7 +237,7 @@ void setCharacterSet(int set)
 	(void) strlow(smToken->chars);
     %%;
 
-  IDENT = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
+  IDENTIFIER = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
 	char *c;
 
@@ -306,7 +306,7 @@ void setCharacterSet(int set)
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
-      if (token.code == sm_MAIN_IDENT_Token) {
+      if (token.code == sm_MAIN_IDENTIFIER_Token) {
 	/* Found an ID which is a file name */
 	do {
 	  i = smScSkip(smThis, 1);
@@ -334,7 +334,7 @@ void setCharacterSet(int set)
 
 %%RULES
 
-  IDENT = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
+  Identifier = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
     %%{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }%%;

@@ -109,6 +109,8 @@
 601	'Unknown option, \'%1\'.';
 602	'Illegal value for option \'%1\'.';
 
+800	'Deprecated construct. Use \'%1\' instead.';
+
 997	'SYSTEM ERROR: %1';
 998	'Feature not implemented in %1.';
 999	'No Adventure generated.';

@@ -98,7 +98,7 @@ void duptr(void *adr)
 }
 
 
-void duBool(Bool b)
+void dumpBool(Bool b)
 {
   if (b)
     put("TRUE");

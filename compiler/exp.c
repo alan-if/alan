@@ -436,12 +436,12 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
     symcheck(&sym, &par, exp->fields.wht.wht->nam, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
     if (par) {
       if (par->res)
-	if (par->res->classes & (NAMACT+NAMOBJ+NAMLOC+NAMCOBJ+NAMCACT+NAMCNT))
-	  exp->typ = TYPENT;
-	else if (par->res->classes & NAMSTR)
+	if (par->res->resKd & INTEGER_RESTRICTION)
+	  exp->typ = TYPINT;
+	else if (par->res->resKd & STRING_RESTRICTION)
 	  exp->typ = TYPSTR;
         else
-	  exp->typ = TYPINT;
+	  exp->typ = TYPENT;
       else
 	exp->typ = TYPENT;
     } else if (sym && sym->class != NAMUNK)
@@ -1070,6 +1070,9 @@ void duexp(ExpNod *exp)
     put("val: "); duexp(exp->fields.btw.val); nl();
     put("low: "); duexp(exp->fields.btw.low); nl();
     put("high: "); duexp(exp->fields.btw.high);
+    break;
+  case EXPISA:
+				/* FIXME */
     break;
   }
   out();

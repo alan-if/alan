@@ -95,7 +95,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for MAKE */
       WhtNod *wht;		/* What? */
-      Bool not;		/* Was there a NOT ? */
+      Bool not;			/* Was there a NOT ? */
       NamNod *atr;
     } make;
 
@@ -112,13 +112,13 @@ typedef struct StmNod {		/* STATEMENT */
     } incr;
 
     struct {			/* for SCHEDULE */
-      NamNod *nam;		/* Name of the event */
+      NamNod *id;		/* Name of the event */
       WhrNod *whr;		/* Where? */
       ExpNod *when;
     } schedule;
 
     struct {			/* for CANCEL */
-      NamNod *nam;		/* Name of the event */
+      NamNod *id;		/* Name of the event */
     } cancel;
 
     struct {			/* for IF */

@@ -164,6 +164,7 @@ static lmMsgs msg[] = {
     { "600   ", "Multiple use of option \'%1\', ignored." },
     { "601   ", "Unknown option, \'%1\'." },
     { "602   ", "Illegal value for option \'%1\'." },
+    { "800   ", "Deprecated construct. Use \'%1\' instead." },
     { "997   ", "SYSTEM ERROR: %1" },
     { "998   ", "Feature not implemented in %1." },
     { "999   ", "No Adventure generated." },
@@ -175,7 +176,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 95}
+    {0, 96}
 };
 static lmMessages currMsect = (lmMessages)0;
 

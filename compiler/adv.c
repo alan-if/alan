@@ -258,10 +258,10 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   Dump the Adventure.
 
  */
-void duadv(enum dmpkd dmp)
+void duadv(enum dmpKd dmp)
 {
   if (dmp&DMPALL)
-    dmp = (enum dmpkd)-1L;
+    dmp = (enum dmpKd)-1L;
 
   put("ADV: "); in();
   put("atrs: "); dulst(adv.atrs, ATRNOD); nl();

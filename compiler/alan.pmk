@@ -6,7 +6,7 @@
 --	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
---	Line;
+	Line;
 --	Debug;
 	No Resolve;
 
@@ -23,11 +23,13 @@
 #include "alt.h"                /* ALT-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "chk.h"                /* CHK-nodes */
+#include "cla.h"		/* CLASS-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "ext.h"                /* EXT-nodes */
+#include "ins.h"		/* INS-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "loc.h"                /* LOC-nodes */
 #include "lst.h"		/* LST-nodes */
@@ -39,6 +41,7 @@
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
+#include "slt.h"                /* SLOTS-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
@@ -61,7 +64,7 @@
 
     /* Make the requested token */
     token->code = code;
-    if (token->code == sm_MAIN_IDENT_Token) {
+    if (token->code == sm_MAIN_IDENTIFIER_Token) {
       sprintf(token->chars, "$genid#%d", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
@@ -83,71 +86,82 @@ static int val(char str[])
 
 %%ATTRIBUTES
 
-	act %% ActNod *%1%%,
-	acts %% List *%1%%,
-	agr %% AgrKind %1%%,
-	alt %% AltNod *%1%%,
-	alts %% List *%1%%,
-	atr %% AtrNod *%1%%,
-	atrs %% List *%1%%,
-        cases %% List *%1%%,
-	chk %% ChkNod *%1%%,
-	chks %% List *%1%%,
-	classkd %% NamKind %1%%,
-	cnt %% CntNod *%1%%,
-	cnts %% List *%1%%,
-	elm %% ElmNod *%1%%,
-	elms %% List *%1%%,
-	evt %% EvtNod *%1%%,
-	evts %% List *%1%%,
-	exp %% ExpNod *%1%%,
-        expkd %%ExpKind %1%%,
-	ext %% ExtNod *%1%%,
-	exts %% List *%1%%,
-	lim %% LimNod *%1%%,
-	lims %% List *%1%%,
-	loc %% LocNod *%1%%,
-	locs %% List *%1%%,
-	minus %% Bool %1%%,
-	msg %% MsgNod *%1%%,
-	msgs %% List *%1%%,
-	nam %% NamNod *%1%%,
-	nams %% List *%1%%,
-	nams2 %% List *%1%%,
-	not %% Bool %1%%,
-	obj %% ObjNod *%1%%,
-	objs %% List *%1%%,
-	op %% OpKind %1%%,
-	qual %% QualKind %1%%,
-	res %% ResNod *%1%%,
-	ress %% List *%1%%,
-	rul %% RulNod *%1%%,
-	ruls %% List *%1%%,
-	scr %% ScrNod *%1%%,
-	scrs %% List *%1%%,
-	single %% Bool %1%%,
-	bits %% int %1%%,
-	srcp %% Srcp %1%%,
-	stm %% StmNod *%1%%,
-	stms %% List *%1%%,
-	stms2 %% List *%1%%,
-	stms3 %% List *%1%%,
-	stp %% StpNod *%1%%,
-	stps %% List *%1%%,
-	str %% char *%1%%,
-	stx %% StxNod *%1%%,
-	stxs %% List *%1%%,
-	syn %% SynNod *%1%%,
-	syns %% List *%1%%,
-	val %% int %1%%,
-	vrb %% VrbNod *%1%%,
-	vrbs %% List *%1%%,
-	whr %% WhrNod *%1%%,
-	wht %% WhtNod *%1%%;
+  act %% ActNod *%1%%,
+  acts %% List *%1%%,
+  agr %% AgrKind %1%%,
+  alt %% AltNod *%1%%,
+  alts %% List *%1%%,
+  atr %% AtrNod *%1%%,
+  atrs %% List *%1%%,
+  art %% List *%1%%,		-- of StmNod: article-clause,
+  bits %% int %1%%,
+  cases %% List *%1%%,
+  chk %% ChkNod *%1%%,
+  chks %% List *%1%%,
+  cla %% ClaNod *%1%%,
+  clas %% List *%1%%,
+  cnt %% CntNod *%1%%,
+  cnts %% List *%1%%,
+  does %% List *%1%%,		-- of StmNod: does-clause,
+  dscr %% List *%1%%,		-- of StmNod: description-clause,
+  elm %% ElmNod *%1%%,
+  elms %% List *%1%%,
+  evt %% EvtNod *%1%%,
+  evts %% List *%1%%,
+  exp %% ExpNod *%1%%,
+  expKd %%ExpKind %1%%,
+  ext %% ExtNod *%1%%,
+  exts %% List *%1%%,
+  id %% NamNod *%1%%,
+  idList %% List *%1%%,
+  idList2 %% List *%1%%,
+  ins %% InsNod *%1%%,		-- Instance
+  inss %% List *%1%%,		-- of Instance
+  lim %% LimNod *%1%%,
+  lims %% List *%1%%,
+  loc %% LocNod *%1%%,
+  locs %% List *%1%%,
+  ment %% List *%1%%,		-- of StmNod: mentioned-clause,
+  minus %% Bool %1%%,
+  msg %% MsgNod *%1%%,
+  msgs %% List *%1%%,
+  nam %% List *%1%%,		-- of NamNod: name-clause
+  nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
+  not %% Bool %1%%,
+  obj %% ObjNod *%1%%,
+  objs %% List *%1%%,
+  op %% OpKind %1%%,
+  qual %% QualKind %1%%,
+  res %% ResNod *%1%%,
+  resKd %% ResKind %1%%,
+  ress %% List *%1%%,
+  rul %% RulNod *%1%%,
+  ruls %% List *%1%%,
+  scr %% ScrNod *%1%%,
+  scrs %% List *%1%%,
+  single %% Bool %1%%,
+  srcp %% Srcp %1%%,
+  stm %% StmNod *%1%%,
+  stms %% List *%1%%,
+  stms2 %% List *%1%%,
+  stms3 %% List *%1%%,
+  stp %% StpNod *%1%%,
+  stps %% List *%1%%,
+  str %% char *%1%%,
+  stx %% StxNod *%1%%,
+  stxs %% List *%1%%,
+  surr %% List *%1%%,	-- of StmNod: surroundings-clause,
+  syn %% SynNod *%1%%,
+  syns %% List *%1%%,
+  val %% int %1%%,
+  vrb %% VrbNod *%1%%,
+  vrbs %% List *%1%%,
+  whr %% WhrNod *%1%%,
+  wht %% WhtNod *%1%%;
 
 %%TERMINALS
 
-    IDENT = 2,1,1 => 'Identifier';
+    Identifier = 2,1,1 => 'Identifier';
 
 %%RECOVERY
 
@@ -157,7 +171,7 @@ static int val(char str[])
 
     Separator(',');
 
-    Skip(IDENT, Integer, '.');
+    Skip(Identifier, Integer, '.');
 
 %%RULES
 
@@ -180,17 +194,17 @@ static int val(char str[])
 <option>			-- RETURNS: <nothing>
     = ID '.'
     %%
-	optBool(%ID.nam->str, `&%ID.nam->srcp, TRUE);
+	optBool(%ID.id->str, `&%ID.id->srcp, TRUE);
     %%
 
     ! ID ID '.'
     %%
-	optenum(%ID.nam->str, `&%ID.nam->srcp, %2ID.nam->str);
+	optenum(%ID.id->str, `&%ID.id->srcp, %2ID.id->str);
     %%
 
     ! ID Integer '.'
     %%
-	optint(%ID.nam->str, `&%ID.nam->srcp, val(%Integer.chars));
+	optint(%ID.id->str, `&%ID.id->srcp, val(%Integer.chars));
     %%
     ;
 
@@ -202,74 +216,52 @@ static int val(char str[])
 
 <unit>
     = <default>
-    %%
-	adv.atrs = combine(adv.atrs, %<default>.atrs);
-    %%
+    %% adv.atrs = combine(adv.atrs, %<default>.atrs); %%
 
     ! <object_default>
-    %%
-	adv.oatrs = combine(adv.oatrs, %<object_default>.atrs);
-    %%
+    %% adv.oatrs = combine(adv.oatrs, %<object_default>.atrs); %%
 
     ! <location_default>
-    %%
-	adv.latrs = combine(adv.latrs, %<location_default>.atrs);
-    %%
+    %% adv.latrs = combine(adv.latrs, %<location_default>.atrs); %%
 
     ! <actor_default>
-    %%
-	adv.aatrs = combine(adv.aatrs, %<actor_default>.atrs);
-    %%
+    %% adv.aatrs = combine(adv.aatrs, %<actor_default>.atrs); %%
 
     ! <synonyms>
-    %%
-	adv.syns = combine(adv.syns, %<synonyms>.syns);
-    %%
+    %% adv.syns = combine(adv.syns, %<synonyms>.syns); %%
 
     ! <messages>
-    %%
-	adv.msgs = combine(adv.msgs, %<messages>.msgs);
-    %%
+    %% adv.msgs = combine(adv.msgs, %<messages>.msgs); %%
 
     ! <syntax>
-    %%
-	adv.stxs = combine(adv.stxs, %<syntax>.stxs);
-    %%
+    %% adv.stxs = combine(adv.stxs, %<syntax>.stxs); %%
 
     ! <verb>
-    %%
-	adv.vrbs = concat(adv.vrbs, %<verb>.vrb, VRBNOD);
-    %%
+    %% adv.vrbs = concat(adv.vrbs, %<verb>.vrb, VRBNOD); %%
+
+    ! <class>
+    %% adv.clas = concat(adv.clas, %<class>.cla, CLANOD); %%
+	
+    ! <instance>
+    %% adv.inss = concat(adv.inss, %<instance>.ins, INSNOD); %%
 
     ! <location>
-    %%
-	adv.locs = concat(adv.locs, %<location>.loc, LOCNOD);
-    %%
+    %% adv.locs = concat(adv.locs, %<location>.loc, LOCNOD); %%
 
     ! <object>
-    %%
-	adv.objs = concat(adv.objs, %<object>.obj, OBJNOD);
-    %%
+    %% adv.objs = concat(adv.objs, %<object>.obj, OBJNOD); %%
 
     ! <event>
-    %%
-	adv.evts = concat(adv.evts, %<event>.evt, EVTNOD);
-    %%
+    %% adv.evts = concat(adv.evts, %<event>.evt, EVTNOD); %%
 
     ! <container>
-    %%
-	adv.cnts = concat(adv.cnts, %<container>.cnt, CNTNOD);
-    %%
+    %% adv.cnts = concat(adv.cnts, %<container>.cnt, CNTNOD); %%
 
     ! <actor>
-    %%
-	adv.acts = concat(adv.acts, %<actor>.act, ACTNOD);
-    %%
+    %% adv.acts = concat(adv.acts, %<actor>.act, ACTNOD); %%
 
     ! <rule>
-    %%
-	adv.ruls = concat(adv.ruls, %<rule>.rul, RULNOD);
-    %%
+    %% adv.ruls = concat(adv.ruls, %<rule>.rul, RULNOD); %%
     ;
 
 ----> DEFAULTS
@@ -317,39 +309,39 @@ static int val(char str[])
 <attribute>		-- RETURNS: atr
     = ID
     %%
-	%<attribute>.atr = newatr(`&%ID.nam->srcp,
+	%<attribute>.atr = newatr(`&%ID.id->srcp,
 				TYPBOOL,
-				%ID.nam,
+				%ID.id,
 				TRUE, 0, 0);
     %%
 
     ! 'NOT' ID
     %%
-	%<attribute>.atr = newatr(`&%ID.nam->srcp,
+	%<attribute>.atr = newatr(`&%ID.id->srcp,
 				TYPBOOL,
-				%ID.nam,
+				%ID.id,
 				FALSE, 0, 0);
     %%
 
     ! ID <optional_minus> Integer
     %%
 	if (%<optional_minus>.minus)
-		%<attribute>.atr = newatr(`&%ID.nam->srcp,
+		%<attribute>.atr = newatr(`&%ID.id->srcp,
 					TYPINT,
-					%ID.nam,
+					%ID.id,
 					-val(%Integer.chars), 0, 0);
 	else
-		%<attribute>.atr = newatr(`&%ID.nam->srcp,
+		%<attribute>.atr = newatr(`&%ID.id->srcp,
 					TYPINT,
-					%ID.nam,
+					%ID.id,
 					val(%Integer.chars), 0, 0);
     %%
 
     ! ID STRING	
     %%
-	%<attribute>.atr = newatr(`&%ID.nam->srcp,
+	%<attribute>.atr = newatr(`&%ID.id->srcp,
 				TYPSTR,
-				%ID.nam,
+				%ID.id,
 				0, %STRING.fpos, %STRING.len);
     %%
     ;
@@ -378,8 +370,8 @@ static int val(char str[])
     = <id_list> '=' ID '.'
     %%
 	%<synonym>.syn = newsyn(`&%'='.srcp,
-			      %<id_list>.nams,
-			      %ID.nam);
+			      %<id_list>.idList,
+			      %ID.id);
     %%
     ;
 
@@ -407,7 +399,7 @@ static int val(char str[])
     = ID ':' <statements>			%-('QUIT', 'SAVE', 'RESTART', 'RESTORE')
     %%
 	%<message>.msg = newmsg(`&%':'.srcp,
-			      %ID.nam,
+			      %ID.id,
 			      %<statements>.stms);
     %%
     ;
@@ -436,9 +428,9 @@ static int val(char str[])
     = ID '=' <syntax_elements> <optional_class_restrictions>
     %%
 	%<syntax_item>.stx = newstx(`&%'='.srcp,
-				  %ID.nam,
+				  %ID.id,
 				  concat(%<syntax_elements>.elms,
-				         newelm(`&%ID.nam->srcp, ELMEOS,
+				         newelm(`&%ID.id->srcp, ELMEOS,
 				                NULL,
 				                FALSE),
 				         ELMNOD),
@@ -463,16 +455,16 @@ static int val(char str[])
 <syntax_element>
     = ID
     %%
-	%<syntax_element>.elm = newelm(`&%ID.nam->srcp, ELMWRD,
-				     %ID.nam,
+	%<syntax_element>.elm = newelm(`&%ID.id->srcp, ELMWRD,
+				     %ID.id,
 				     FALSE);
     %%
 
     ! '(' ID ')' <optional_indicators>
 
     %%
-	%<syntax_element>.elm = newelm(`&%ID.nam->srcp, ELMPAR,
-				     %ID.nam,
+	%<syntax_element>.elm = newelm(`&%ID.id->srcp, ELMPAR,
+				     %ID.id,
 				     %<optional_indicators>.bits);
     %%
     ;
@@ -507,21 +499,26 @@ static int val(char str[])
 	%<optional_class_restrictions>.ress = NULL;
     %%
 
-    ! 'WHERE' <class_restrictions>
+    ! 'WHERE' <class_restriction_clauses>
     %%
-	%<optional_class_restrictions>.ress = %<class_restrictions>.ress;
+	%<optional_class_restrictions>.ress = %<class_restriction_clauses>.ress;
     %%
     ;
 
-<class_restrictions>
+
+-- A class restriction is a definition of which classes a syntax parameter may belong to
+-- A parameter may not be restricted in more than one restriction clause so there can be
+-- at most as many restriction clauses as there are parameters. However a parameter can be
+-- possibly be restricted to a list of classes in the same restriction clause.
+<class_restriction_clauses>
     = <class_restriction>
     %%
-	%<class_restrictions>.ress = concat(NULL, %<class_restriction>.res, RESNOD);
+	%<class_restriction_clauses>.ress = concat(NULL, %<class_restriction>.res, RESNOD);
     %%
 
-    ! <class_restrictions> 'AND' <class_restriction>
+    ! <class_restriction_clauses> 'AND' <class_restriction>
     %%
-	%<class_restrictions>.ress = concat(%<class_restrictions>.ress,
+	%<class_restriction_clauses>.ress = concat(%<class_restriction_clauses>.ress,
 				       %<class_restriction>.res, RESNOD);
     %%
     ;
@@ -530,97 +527,88 @@ static int val(char str[])
     = ID 'ISA' <classes> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
 	%<class_restriction>.res = newres(`&%'ISA'.srcp,
-				    %ID.nam,
-				    %<classes>.single,
-				    %<classes>.classkd,
-				    %<statements>.stms);
+			  		%ID.id,
+				    	%<classes>.single,
+				    	%<classes>.resKd,
+					%<classes>.idList,
+				    	%<statements>.stms);
     %%
     ;
 
-<classes>
-    = <class_identifier>
+<classes>			-- RETURNS: single, resKd, idList
+    = <class_id>
     %%
-	%<classes>.classkd = %<class_identifier>.classkd;
+	%<classes>.resKd = %<class_id>.resKd;
         %<classes>.single = TRUE;
+	%<classes>.idList = concat(NULL, %<class_id>.id, IDNOD);
     %%
 
-    ! <classes> 'OR' <class_identifier>
+    ! <classes> 'OR' <class_id>
+-- FIXME! Must be expressions instead of bit patterns, or possibly prohibited
     %%
-	%<classes>.classkd = %<classes>.classkd | %<class_identifier>.classkd;
+    	unimpl(`&%'OR'.srcp, "Parsing");
         %<classes>.single = FALSE;
     %%
     ;
 
-<class_identifier>
-    = 'OBJECT'
+<class_id>			-- RETURNS: resKd, id
+   = <heritage_id>
     %%
-	%<class_identifier>.classkd = NAMOBJ;
-    %%
-
-    ! 'ACTOR'
-    %%
-	%<class_identifier>.classkd = NAMACT;
-    %%
-
-    ! 'CONTAINER'
-    %%
-	%<class_identifier>.classkd = NAMCNT;
+	if (strcmp(%<class_id>.id->str, "actor") == 0)
+	    %<class_id>.resKd = ACTOR_RESTRICTION;
+	else if (strcmp(%<class_id>.id->str, "object") == 0)
+	    %<class_id>.resKd = OBJECT_RESTRICTION;
+	else
+	    %<class_id>.resKd = ID_RESTRICTION;
+	%<class_id>.id = %<heritage_id>.id;
     %%
 
     ! 'CONTAINER' 'OBJECT'
     %%
-	%<class_identifier>.classkd = NAMCOBJ;
+	%<class_id>.resKd = CONTAINEROBJECT_RESTRICTION;
+	%<class_id>.id = NULL;
     %%
 
     ! 'CONTAINER' 'ACTOR'
     %%
-	%<class_identifier>.classkd = NAMCACT;
+	%<class_id>.resKd = CONTAINERACTOR_RESTRICTION;
+	%<class_id>.id = NULL;
     %%
 
     ! 'INTEGER'
     %%
-	%<class_identifier>.classkd = NAMNUM;
+	%<class_id>.resKd = INTEGER_RESTRICTION;
+	%<class_id>.id = NULL;
     %%
 
     ! 'STRING'
     %%
-	%<class_identifier>.classkd = NAMSTR;
+	%<class_id>.resKd = STRING_RESTRICTION;
+	%<class_id>.id = NULL;
     %%
     ;    
 
 
 ---> VERBS
-<optional_verbs>		-- RETURNS: vrbs
-    =
-    %%
-	%<optional_verbs>.vrbs = NULL;
-    %%
-
-    ! <optional_verbs> <verb>
-    %%
-	%<optional_verbs>.vrbs = concat(%<optional_verbs>.vrbs, %<verb>.vrb, VRBNOD);
-    %%
-    ;
-
 <verb>			-- RETURNS: vrb
     = <verb_header> <verb_body> <verb_tail>
     %%
 	%<verb>.vrb = newvrb(`&%<verb_header>.srcp,
-			   %<verb_header>.nams,
+			   %<verb_header>.idList,
 			   %<verb_body>.alts);
-	if (%<verb_tail>.nam != NULL) { /* END-id given */
-	    if (strcmp(%<verb_header>.str, %<verb_tail>.nam->str) != 0)
-		lmLog(`&%<verb_tail>.nam->srcp, 201, sevWAR, %<verb_header>.str);
+	if (%<verb_tail>.id != NULL) { /* END-id given */
+	    if (strcmp(%<verb_header>.str, %<verb_tail>.id->str) != 0)
+		lmLog(`&%<verb_tail>.id->srcp, 201, sevWAR, %<verb_header>.str);
 	}
     %%
     ;
 
-<verb_header>		-- RETURNS: srcp, str, nams
+<verb_header>		-- RETURNS: srcp, str, idList
     = 'VERB' <id_list>
     %%
 	%<verb_header>.srcp   = %'VERB'.srcp;
 	%<verb_header>.str    = %<id_list>.str;
-	%<verb_header>.nams   = %<id_list>.nams;
+	%<verb_header>.idList   = %<id_list>.idList;
     %%
     ;
 
@@ -659,7 +647,7 @@ static int val(char str[])
     = 'WHEN' ID <simple_verb_body>
     %%
 	%<verb_alternative>.alt = newalt(`&%'WHEN'.srcp,
-				       %ID.nam,
+				       %ID.id,
 				       %<simple_verb_body>.chks,
 				       %<simple_verb_body>.qual,
 				       %<simple_verb_body>.stms);
@@ -678,7 +666,7 @@ static int val(char str[])
 <verb_tail>		-- RETURNS: nam
     = 'END' 'VERB' <optional_id> '.'
     %%
-	%<verb_tail>.nam = %<optional_id>.nam;
+	%<verb_tail>.id = %<optional_id>.id;
     %%
     ;
 
@@ -746,28 +734,29 @@ static int val(char str[])
     = <location_header> <location_body> <location_tail>
     %%
 	%<location>.loc = newloc(`&%<location_header>.srcp,
+			       %<location_header>.id,
 			       %<location_header>.nam,
-			       %<location_header>.nams,
 			       %<location_body>.atrs,
 			       %<location_body>.stms,
 			       %<location_body>.stms2,
 			       %<location_body>.exts,
 			       %<location_body>.vrbs);
-	if (%<location_tail>.nam != NULL) { /* END-id given */
-	    if (!eqnams(%<location_header>.nam, %<location_tail>.nam))
-		lmLog(`&%<location_tail>.nam->srcp, 201, sevWAR,
-			%<location_header>.nam->str);
+	if (%<location_tail>.id != NULL) { /* END-id given */
+	    if (!eqnams(%<location_header>.id, %<location_tail>.id))
+		lmLog(`&%<location_tail>.id->srcp, 201, sevWAR,
+			%<location_header>.id->str);
 	}
     %%
     ;
 
 
-<location_header>		-- RETURNS: srcp, nam, nams
+<location_header>		-- RETURNS: srcp, id, nams
     = 'LOCATION' ID <optional_name>
     %%
+	lmLog(`&%'LOCATION'.srcp, 800, sevWAR, "THE <id> ISA LOCATION ---");
 	%<location_header>.srcp = %'LOCATION'.srcp;
-	%<location_header>.nam  = %ID.nam;
-	%<location_header>.nams = %<optional_name>.nams;
+	%<location_header>.id  = %ID.id;
+	%<location_header>.nam = %<optional_name>.nam;
     %%
     ;
 
@@ -791,12 +780,12 @@ static int val(char str[])
 	  lmLogv(`&%<location_body_part>.srcp, 204, sevERR, "DESCRIPTION", "location", NULL);
         else
 	  %<location_body>.stms = %<location_body_part>.stms;
-      else if (%<location_body_part>.stms2 != NULL)
-	if (%<location_body>.stms2 != NULL)
+      else if (%<location_body_part>.does != NULL)
+	if (%<location_body>.does != NULL)
           /* DOES Already declared */
 	  lmLogv(`&%<location_body_part>.srcp, 204, sevERR, "DOES", "location", NULL);
         else {
-	  %<location_body>.stms2 = %<location_body_part>.stms2;
+	  %<location_body>.does = %<location_body_part>.does;
 	  if (%<location_body_part>.qual != QUAL_DEFAULT)
 	    lmLog(`&%<location_body_part>.srcp, 210, sevERR, "");
 	}
@@ -807,13 +796,13 @@ static int val(char str[])
     %%	
     ;
 
-<location_body_part>		-- RETURNS: atrs, stms, stms2, ext, vrb
+<location_body_part>		-- RETURNS: atrs, stms, does, ext, vrb
                                 -- (srcp, qual if <description> or <does>)
      = <is> <attributes>				%+('EXIT')
     %%
         %<location_body_part>.atrs = %<attributes>.atrs;
         %<location_body_part>.stms = NULL;
-        %<location_body_part>.stms2 = NULL;
+        %<location_body_part>.does = NULL;
         %<location_body_part>.ext = NULL;
         %<location_body_part>.vrb = NULL;
     %%
@@ -822,7 +811,7 @@ static int val(char str[])
     %%
         %<location_body_part>.stms = %<description>.stms;
         %<location_body_part>.srcp = %<description>.srcp;
-        %<location_body_part>.stms2 = NULL;
+        %<location_body_part>.does = NULL;
         %<location_body_part>.ext = NULL;
         %<location_body_part>.vrb = NULL;
         %<location_body_part>.atrs = NULL;
@@ -830,7 +819,7 @@ static int val(char str[])
 
     ! <does>
     %%
-        %<location_body_part>.stms2 = %<does>.stms;
+        %<location_body_part>.does = %<does>.stms;
         %<location_body_part>.srcp = %<does>.srcp;
 	%<location_body_part>.qual = %<does>.qual;
         %<location_body_part>.ext = NULL;
@@ -845,14 +834,14 @@ static int val(char str[])
         %<location_body_part>.vrb = NULL;
         %<location_body_part>.atrs = NULL;
         %<location_body_part>.stms = NULL;
-        %<location_body_part>.stms2 = NULL;
+        %<location_body_part>.does = NULL;
     %%
 
     ! <verb>
     %%
         %<location_body_part>.atrs = NULL;
         %<location_body_part>.stms = NULL;
-        %<location_body_part>.stms2 = NULL;
+        %<location_body_part>.does = NULL;
         %<location_body_part>.ext = NULL;
         %<location_body_part>.vrb = %<verb>.vrb;
     %%
@@ -861,34 +850,271 @@ static int val(char str[])
 <location_tail>		-- RETURNS: nam
     = 'END' 'LOCATION' <optional_id> '.'
     %%
-	%<location_tail>.nam = %<optional_id>.nam;
+	%<location_tail>.id = %<optional_id>.id;
     %%
     ;
 
-----> EXITS
-<optional_exits>		-- RETURNS: exts
+---> CLASS
+<class>			-- RETURNS: cla
+    = 'EVERY' ID <optional_heritage> <slots> <class_tail>
+    %%
+	%<class>.cla = newcla(`&%'EVERY'.srcp,
+				%ID.id,
+				%<optional_heritage>.idList,
+				newSlots(%<slots>.nams,
+					%<slots>.whr,
+					%<slots>.atrs,
+					%<slots>.cnt,
+					%<slots>.surr,
+					%<slots>.dscr,
+					%<slots>.ment,
+					%<slots>.art,
+					%<slots>.does,
+					%<slots>.exts,
+					%<slots>.vrbs,
+					%<slots>.scrs));
+	if (%<class_tail>.id != NULL)  /* END-id given */
+	    if (!eqnams(%ID.id, %<class_tail>.id))
+		lmLog(`&%<class_tail>.id->srcp, 201, sevWAR, %ID.id->str);
+    %%
+    ;
+
+<class_tail>		-- RETURNS: id
+    = 'END' 'EVERY' <optional_id> '.'
+    %% %<class_tail>.id = %<optional_id>.id; %%
+    ;
+
+
+---> INSTANCE
+<instance>			-- RETURNS: ins
+    = 'THE' ID <optional_heritage> <slots> <instance tail>
+    %%
+	%<instance>.ins = newins(`&%'THE'.srcp,
+				%ID.id,
+				%<optional_heritage>.idList,
+				newSlots(%<slots>.nams,
+					%<slots>.whr,
+					%<slots>.atrs,
+					%<slots>.cnt,
+					%<slots>.surr,
+					%<slots>.dscr,
+					%<slots>.ment,
+					%<slots>.art,
+					%<slots>.does,
+					%<slots>.exts,
+					%<slots>.vrbs,
+					%<slots>.scrs));
+	if (%<instance tail>.id != NULL)  /* END-id given */
+	    if (!eqnams(%ID.id, %<instance tail>.id))
+		lmLog(`&%<instance tail>.id->srcp, 201, sevWAR, %ID.id->str);
+    %%
+    ;
+
+<instance tail>		-- RETURNS: id
+    = 'END' 'THE' <optional_id> '.'
+    %% %<instance tail>.id = %<optional_id>.id; %%
+    ;
+
+<optional_heritage>		-- RETURNS: idList
     =
     %%
-	%<optional_exits>.exts = NULL;
+	%<optional_heritage>.idList = NULL;
     %%
 
-    ! <optional_exits> <exit>
+    ! <heritage>
     %%
-	%<optional_exits>.exts = concat(%<optional_exits>.exts, %<exit>.ext, EXTNOD);
+	%<optional_heritage>.idList = %<heritage>.idList;
     %%
     ;
 
+<heritage>		-- RETURNS: idList
+    = 'ISA' <heritage_list>
+    %% %<heritage>.idList = %<heritage_list>.idList; %%
+    ;
+
+<heritage_list>		-- RETURNS: idList
+    = <heritage_list> ',' <heritage_id>
+    %% %<heritage_list>.idList = concat(%<heritage_list>.idList,
+					%<heritage_id>.id, IDNOD); %%
+
+    ! <heritage_id>
+    %% %<heritage_list>.idList = concat(NULL, %<heritage_id>.id, IDNOD); %%
+    ;
+
+<heritage_id>
+    = ID
+    %% %<heritage_id>.id = %ID.id; %%
+    ! 'THING'
+    %% %<heritage_id>.id = newnam(`&%'THING'.srcp, "thing"); %%
+    ! 'LOCATION'
+    %% %<heritage_id>.id = newnam(`&%'LOCATION'.srcp, "location"); %%
+    ! 'OBJECT'
+    %% %<heritage_id>.id = newnam(`&%'OBJECT'.srcp, "object"); %%
+    ! 'ACTOR'
+    %% %<heritage_id>.id = newnam(`&%'ACTOR'.srcp, "actor"); %%
+    ! 'CONTAINER'
+    %% %<heritage_id>.id = newnam(`&%'CONTAINER'.srcp, "container"); %%
+    ;
+
+
+<slots>			-- RETURNS: all!
+    = 
+    %%
+	%<slots>.nams = NULL;
+	%<slots>.whr = NULL;
+	%<slots>.atrs = NULL;
+	%<slots>.cnt = NULL;
+	%<slots>.surr = NULL;
+	%<slots>.dscr = NULL;
+	%<slots>.ment = NULL;
+	%<slots>.does = NULL;
+	%<slots>.exts = NULL;
+	%<slots>.vrbs = NULL;
+	%<slots>.scrs = NULL;
+    %%
+
+    ! <slots> <slot>
+    %%
+	%<slots>.nams = concat(%<slots>.nams, %<slot>.nam, NAMNOD);
+
+	if (%<slots>.whr != NULL)
+            /* WHERE clause already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
+	else 
+	    %<slots>.whr = %<slot>.whr;
+
+	%<slots>.atrs = combine(%<slots>.atrs, %<slot>.atrs);
+
+	if (%<slots>.cnt != NULL)
+            /* CONTAINER properties already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
+	else 
+	    %<slots>.cnt = %<slot>.cnt;
+
+	if (%<slots>.surr != NULL)
+            /* SURROUNDINGS already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "SURROUNDINGS", "class/instance", NULL);
+	else 
+	    %<slots>.surr = %<slot>.surr;
+
+	if (%<slots>.dscr != NULL)
+            /* DESCRIPTION already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	else 
+	    %<slots>.dscr = %<slot>.dscr;
+
+	if (%<slots>.ment != NULL)
+            /* MENTIONED already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
+	else 
+	    %<slots>.ment = %<slot>.ment;
+
+	if (%<slots>.art != NULL)
+            /* ARTICLE already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
+	else 
+	    %<slots>.art = %<slot>.art;
+
+	if (%<slots>.does != NULL)
+            /* DOES/ENTERED already declared */
+	    lmLogv(`&%<slot>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
+	else 
+	    %<slots>.does = %<slot>.does;
+
+	%<slots>.exts = concat(%<slots>.exts, %<slot>.ext, EXTNOD);
+	%<slots>.vrbs = concat(%<slots>.vrbs, %<slot>.vrb, VRBNOD);
+	%<slots>.scrs = concat(%<slots>.scrs, %<slot>.scr, SCRNOD);
+    %%
+    ;
+
+
+<slot>
+    = <name>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.nam = %<name>.nam;
+    %%
+
+    ! <where>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.whr = %<where>.whr;
+    %%
+
+    ! <is> <attributes>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.atrs = %<attributes>.atrs;
+    %%
+
+    ! <container>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.cnt = %<container>.cnt;
+    %%
+
+    ! <surroundings>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.surr = %<surroundings>.surr;
+    %%
+
+    ! <description>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.dscr = %<description>.dscr;
+    %%
+
+    ! <mentioned>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.ment = %<mentioned>.ment;
+    %%
+
+    ! <article>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.art = %<article>.art;
+    %%
+
+    ! <does>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.does = %<does>.does;
+    %%
+
+    ! <exit>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.ext = %<exit>.ext;
+    %%
+
+    ! <verb>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.vrb = %<verb>.vrb;
+    %%
+
+    ! <script>
+    %%
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<slot>.scr = %<script>.scr;
+    %%
+    ;
+
+
+----> EXITS
 <exit>			-- RETURNS: ext
     = 'EXIT' <id_list> 'TO' ID <optional_exit_body> '.'
     %%
 	%<exit>.ext = newext(`&%'EXIT'.srcp,
-			   %<id_list>.nams,
-			   %ID.nam,
+			   %<id_list>.idList,
+			   %ID.id,
 			   %<optional_exit_body>.chks,
 			   %<optional_exit_body>.stms);
-	if (%<optional_exit_body>.nam != NULL) { /* END-id given */
-	    if (strcmp(%<id_list>.str, %<optional_exit_body>.nam->str) != 0)
-		lmLog(`&%<optional_exit_body>.nam->srcp, 201, sevWAR, %<id_list>.str);
+	if (%<optional_exit_body>.id != NULL) { /* END-id given */
+	    if (strcmp(%<id_list>.str, %<optional_exit_body>.id->str) != 0)
+		lmLog(`&%<optional_exit_body>.id->srcp, 201, sevWAR, %<id_list>.str);
 	}
     %%
     ;
@@ -898,7 +1124,7 @@ static int val(char str[])
     %%
 	%<optional_exit_body>.chks = NULL;
 	%<optional_exit_body>.stms = NULL;
-	%<optional_exit_body>.nam	 = NULL;
+	%<optional_exit_body>.id	 = NULL;
     %%
 
     ! <optional_checks> <optional_does> 'END' 'EXIT' <optional_id>
@@ -907,7 +1133,7 @@ static int val(char str[])
 	%<optional_exit_body>.stms = %<optional_does>.stms;
 	if (%<optional_does>.qual != QUAL_DEFAULT)
 	     lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
-	%<optional_exit_body>.nam = %<optional_id>.nam;
+	%<optional_exit_body>.id = %<optional_id>.id;
     %%
     ;
 
@@ -916,46 +1142,47 @@ static int val(char str[])
     = <object_header> <object_body> <object_tail>
     %%
 	%<object>.obj = newobj(`&%<object_header>.srcp,
-			     %<object_header>.nam,
-			     %<object_header>.nams2,
+			     %<object_header>.id,
+			     %<object_header>.nams,
 			     %<object_header>.whr,
 			     %<object_body>.cnt,
 			     %<object_body>.atrs,
-			     %<object_body>.stms,
-			     %<object_body>.stms3,
-			     %<object_body>.stms2,
+			     %<object_body>.dscr,
+			     %<object_body>.art,
+			     %<object_body>.ment,
 			     %<object_body>.vrbs);
-	if (%<object_tail>.nam != NULL) { /* END-id given */
-	    if (!eqnams(%<object_header>.nam, %<object_tail>.nam))
-		lmLog(`&%<object_tail>.nam->srcp, 201, sevWAR, %<object_header>.nam->str);
+	if (%<object_tail>.id != NULL) { /* END-id given */
+	    if (!eqnams(%<object_header>.id, %<object_tail>.id))
+		lmLog(`&%<object_tail>.id->srcp, 201, sevWAR, %<object_header>.id->str);
 	}
     %%
     ;
 
 
-<object_header>		-- RETURNS: srcp, nam, nams2, whr
+<object_header>		-- RETURNS: srcp, id, nams, whr
     = 'OBJECT' ID <optional_where> <optional_names> <optional_where>
     %%
+	lmLog(`&%'OBJECT'.srcp, 800, sevWAR, "THE <id> ISA OBJECT ---");
 	%<object_header>.srcp = %'OBJECT'.srcp;
-	%<object_header>.nam  = %ID.nam;
-	%<object_header>.nams2 = %<optional_names>.nams2;
+	%<object_header>.id  = %ID.id;
+	%<object_header>.nams = %<optional_names>.nams;
         if (%1<optional_where>.whr->whr != WHR_DEFAULT) {
           %<object_header>.whr  = %1<optional_where>.whr;
           if (%2<optional_where>.whr->whr != WHR_DEFAULT)
-            lmLog(`&%2<optional_where>.whr->srcp, 340, sevWAR, %ID.nam->str);
+            lmLog(`&%2<optional_where>.whr->srcp, 340, sevWAR, %ID.id->str);
         } else
           %<object_header>.whr  = %2<optional_where>.whr;
     %%
     ;
 
-<object_body>		-- RETURNS: cnt, atrs, stms, stms2, stms3, vrbs
+<object_body>		-- RETURNS: cnt, atrs, dscr, ment, art, vrbs
     = 
     %%
 	%<object_body>.cnt   = NULL;
 	%<object_body>.atrs  = NULL;
-	%<object_body>.stms  = NULL; /* Description */
-        %<object_body>.stms2 = NULL; /* Mentioned */
-	%<object_body>.stms3 = NULL; /* The article */
+	%<object_body>.dscr  = NULL; /* Description */
+        %<object_body>.ment = NULL; /* Mentioned */
+	%<object_body>.art = NULL; /* The article */
 	%<object_body>.vrbs  = NULL;
     %%
 
@@ -969,57 +1196,57 @@ static int val(char str[])
 	    %<object_body>.cnt = %<object_body_part>.cnt;
         else if (%<object_body_part>.atrs != NULL)
           %<object_body>.atrs = combine(%<object_body>.atrs, %<object_body_part>.atrs);
-	else if (%<object_body_part>.stms != NULL)
-          if (%<object_body>.stms != NULL)
+	else if (%<object_body_part>.dscr != NULL)
+          if (%<object_body>.dscr != NULL)
             /* DESCRIPTION Already declared */
 	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "DESCRIPTION", "object", NULL);
 	  else
-	    %<object_body>.stms = %<object_body_part>.stms;
-        else if (%<object_body_part>.stms2 != NULL)
-          if (%<object_body>.stms2 != NULL)
+	    %<object_body>.dscr = %<object_body_part>.dscr;
+        else if (%<object_body_part>.ment != NULL)
+          if (%<object_body>.ment != NULL)
             /* MENTIONED Already declared */
 	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "MENTIONED", "object", NULL);
           else
-	    %<object_body>.stms2 = %<object_body_part>.stms2;
-        else if (%<object_body_part>.stms3 != NULL)
-          if (%<object_body>.stms3 != NULL)
+	    %<object_body>.ment = %<object_body_part>.ment;
+        else if (%<object_body_part>.art != NULL)
+          if (%<object_body>.art != NULL)
             /* ARTICLE Already declared */
 	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "ARTICLE", "object", NULL);
           else
-	    %<object_body>.stms3 = %<object_body_part>.stms3;
+	    %<object_body>.art = %<object_body_part>.art;
         else
  	  %<object_body>.vrbs  = concat(%<object_body>.vrbs, %<object_body_part>.vrb, VRBNOD);
     %%
     ;
 
-<object_body_part>		-- RETURNS: cnt, atrs, stm, stm2, stm3, vrb
+<object_body_part>		-- RETURNS: cnt, atrs, dscr, stm2, stm3, vrb
     = <properties>
     %%
 	%<object_body_part>.cnt   = %<properties>.cnt;
 	%<object_body_part>.srcp  = %<properties>.srcp;
 	%<object_body_part>.atrs  = NULL;
-	%<object_body_part>.stms  = NULL;
-        %<object_body_part>.stms2 = NULL;
-	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.dscr  = NULL;
+        %<object_body_part>.ment = NULL;
+	%<object_body_part>.art = NULL;
         %<object_body_part>.vrb   = NULL;
     %%
 
     ! <is> <attributes>					%+('ARTICLE')
     %%
 	%<object_body_part>.atrs  = %<attributes>.atrs;
-	%<object_body_part>.stms  = NULL;
-        %<object_body_part>.stms2 = NULL;
-	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.dscr  = NULL;
+        %<object_body_part>.ment = NULL;
+	%<object_body_part>.art = NULL;
 	%<object_body_part>.vrb   = NULL;
 	%<object_body_part>.cnt   = NULL;
     %%
 
     ! <description>
     %%
-	%<object_body_part>.stms  = %<description>.stms;
+	%<object_body_part>.dscr  = %<description>.stms;
 	%<object_body_part>.srcp  = %<description>.srcp;
-        %<object_body_part>.stms2 = NULL;
-	%<object_body_part>.stms3 = NULL;
+        %<object_body_part>.ment = NULL;
+	%<object_body_part>.art = NULL;
 	%<object_body_part>.vrb   = NULL;
 	%<object_body_part>.cnt   = NULL;
 	%<object_body_part>.atrs  = NULL;
@@ -1027,24 +1254,24 @@ static int val(char str[])
 
     ! <mentioned>
     %%
-        %<object_body_part>.stms2 = %<mentioned>.stms;
+        %<object_body_part>.ment = %<mentioned>.stms;
 	%<object_body_part>.srcp  = %<mentioned>.srcp;
-	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.art = NULL;
 	%<object_body_part>.vrb   = NULL;
 	%<object_body_part>.cnt   = NULL;
 	%<object_body_part>.atrs  = NULL;
-	%<object_body_part>.stms  = NULL;
+	%<object_body_part>.dscr  = NULL;
     %%
 
     ! <article>
     %%
-	%<object_body_part>.stms3 = %<article>.stms;
+	%<object_body_part>.art = %<article>.art;
 	%<object_body_part>.srcp  = %<article>.srcp;
 	%<object_body_part>.vrb   = NULL;
 	%<object_body_part>.cnt   = NULL;
 	%<object_body_part>.atrs  = NULL;
-	%<object_body_part>.stms  = NULL;
-        %<object_body_part>.stms2 = NULL;
+	%<object_body_part>.dscr  = NULL;
+        %<object_body_part>.ment = NULL;
     %%
 
     ! <verb>
@@ -1052,16 +1279,16 @@ static int val(char str[])
 	%<object_body_part>.vrb   = %<verb>.vrb;
 	%<object_body_part>.cnt   = NULL;
 	%<object_body_part>.atrs  = NULL;
-	%<object_body_part>.stms  = NULL;
-        %<object_body_part>.stms2 = NULL;
-	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.dscr  = NULL;
+        %<object_body_part>.ment = NULL;
+	%<object_body_part>.art = NULL;
     %%
     ;
 
 <object_tail>		-- RETURNS: nam
     = 'END' 'OBJECT' <optional_id> '.'
     %%
-	%<object_tail>.nam = %<optional_id>.nam;
+	%<object_tail>.id = %<optional_id>.id;
     %%
     ;
 
@@ -1099,6 +1326,21 @@ static int val(char str[])
     %%
     ;
 
+-- SURROUNDINGS
+<surroundings>				-- RETURNS: surr
+    = 'SURROUNDINGS' 
+    %%
+	%<surroundings>.surr = concat(NULL, newstm(`&%'SURROUNDINGS'.srcp,
+						STM_NOP), STMNOD);
+    %%
+
+    ! 'SURROUNDINGS' <statements>
+    %%
+	%<surroundings>.surr = %<statements>.stms;
+    %%
+    ;
+
+
 <optional_description>	-- RETURNS: stms
     =
     %%
@@ -1124,20 +1366,21 @@ static int val(char str[])
     %%
     ;
 
-<article>			-- RETURNS: stms, srcp
+<article>			-- RETURNS: art, srcp
     = 'ARTICLE' 
     %%
-	%<article>.stms = concat(NULL, newstm(`&%'ARTICLE'.srcp,
+	%<article>.art = concat(NULL, newstm(`&%'ARTICLE'.srcp,
 							STM_NOP), STMNOD);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
     ! 'ARTICLE' <statements>
     %%
-	%<article>.stms = %<statements>.stms;
+	%<article>.art = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
     ;
+
 
 <mentioned>		-- RETURNS: stms, srcp
     = 'MENTIONED' <statements>
@@ -1148,35 +1391,35 @@ static int val(char str[])
     ;
 
 
-<optional_name>		-- RETURNS: nams
+<optional_name>		-- RETURNS: nam
     =
     %%
-	%<optional_name>.nams = NULL;
+	%<optional_name>.nam = NULL;
     %%
 
     ! <name>
     %%
-	%<optional_name>.nams = %<name>.nams;
+	%<optional_name>.nam = %<name>.nam;
     %%
     ;
 
-<optional_names>		-- RETURNS: nams2 (a list of lists)
+<optional_names>		-- RETURNS: nams (a list of nam)
     =
     %%
-	%<optional_names>.nams2 = NULL;
+	%<optional_names>.nams = NULL;
     %%
 
     ! <optional_names> <name>
     %%
-	%<optional_names>.nams2 = concat(%<optional_names>.nams2,
-					     %<name>.nams, NAMNOD);
+	%<optional_names>.nams = concat(%<optional_names>.nams,
+					     %<name>.nam, NAMNOD);
     %%
     ;
 
-<name>			-- RETURNS: nams
+<name>			-- RETURNS: nam
     = 'NAME' <ids>					%+('ARTICLE', 'IN', 'EXIT')
     %%
-	%<name>.nams = %<ids>.nams;
+	%<name>.nam = %<ids>.idList;
     %%
     ;
 
@@ -1195,17 +1438,18 @@ static int val(char str[])
     %%
     ;
 
+
 <container>		-- RETURNS: cnt
     = <container_header> <container_body> <container_tail>
     %%
 	%<container>.cnt = newcnt(`&%<container_header>.srcp,
-				%<container_header>.nam,
+				%<container_header>.id,
 				%<container_body>.lims,
 				%<container_body>.stms,
 				%<container_body>.stms2);
-	if (%<container_tail>.nam != NULL) { /* END-id given */
-	    if (!eqnams(%<container_header>.nam, %<container_tail>.nam))
-		lmLog(`&%<container_tail>.nam->srcp, 201, sevWAR, %<container_header>.nam->str);
+	if (%<container_tail>.id != NULL) { /* END-id given */
+	    if (!eqnams(%<container_header>.id, %<container_tail>.id))
+		lmLog(`&%<container_tail>.id->srcp, 201, sevWAR, %<container_header>.id->str);
 	}
     %%
     ;
@@ -1213,8 +1457,9 @@ static int val(char str[])
 <container_header>	-- RETURNS: srcp, nam
     = 'CONTAINER' ID
     %%
+	lmLog(`&%'CONTAINER'.srcp, 800, sevWAR, "THE <id> ISA CONTAINER ---");
 	%<container_header>.srcp = %'CONTAINER'.srcp;
-	%<container_header>.nam  = %ID.nam;
+	%<container_header>.id  = %ID.id;
     %%
     ;
 
@@ -1230,7 +1475,7 @@ static int val(char str[])
 <container_tail>		-- RETURNS: nam
     = 'END' 'CONTAINER' <optional_id> '.'
     %%
-	%<container_tail>.nam  = %<optional_id>.nam;
+	%<container_tail>.id  = %<optional_id>.id;
     %%
     ;
 
@@ -1311,11 +1556,11 @@ static int val(char str[])
     = <event_header> <statements> <event_tail>
     %%
 	%<event>.evt = newevt(`&%<event_header>.srcp,
-			    %<event_header>.nam,
+			    %<event_header>.id,
 			    %<statements>.stms);
-	if (%<event_tail>.nam != NULL) { /* END-id given */
-	    if (!eqnams(%<event_header>.nam, %<event_tail>.nam))
-		lmLog(`&%<event_tail>.nam->srcp, 201, sevWAR, %<event_header>.nam->str);
+	if (%<event_tail>.id != NULL) { /* END-id given */
+	    if (!eqnams(%<event_header>.id, %<event_tail>.id))
+		lmLog(`&%<event_tail>.id->srcp, 201, sevWAR, %<event_header>.id->str);
 	}
     %%
     ;
@@ -1324,14 +1569,14 @@ static int val(char str[])
     ='EVENT' ID
     %%
 	%<event_header>.srcp = %'EVENT'.srcp;
-	%<event_header>.nam  = %ID.nam;
+	%<event_header>.id  = %ID.id;
     %%
     ;
 
 <event_tail>		-- RETURNS: nam
     = 'END' 'EVENT' <optional_id> '.'
     %%
-	%<event_tail>.nam = %<optional_id>.nam;
+	%<event_tail>.id = %<optional_id>.id;
     %%
     ;
 
@@ -1340,42 +1585,42 @@ static int val(char str[])
     = <actor_header> <actor_body> <actor_tail>
     %%
 	%<actor>.act = newact(`&%<actor_header>.srcp,
-			    %<actor_header>.nam,
-			    %<actor_header>.nams2,
+			    %<actor_header>.id,
+			    %<actor_header>.nams,
 			    %<actor_header>.whr,
 			    %<actor_body>.cnt,
 			    %<actor_body>.atrs,
-			    %<actor_body>.stms,
+			    %<actor_body>.dscr,
 			    %<actor_body>.vrbs,
 			    %<actor_body>.scrs);
-	if (%<actor_tail>.nam != NULL) { /* END-id given */
-	    if (!eqnams(%<actor_header>.nam, %<actor_tail>.nam))
-		lmLog(`&%<actor_tail>.nam->srcp, 201, sevWAR, %<actor_header>.nam->str);
+	if (%<actor_tail>.id != NULL) { /* END-id given */
+	    if (!eqnams(%<actor_header>.id, %<actor_tail>.id))
+		lmLog(`&%<actor_tail>.id->srcp, 201, sevWAR, %<actor_header>.id->str);
 	}
     %%
     ;
 
-<actor_header>		-- RETURNS: srcp, nam, nams2, whr
+<actor_header>		-- RETURNS: srcp, id, nams, whr
     = 'ACTOR' ID <optional_where> <optional_names> <optional_where>
     %%
 	%<actor_header>.srcp = %'ACTOR'.srcp;
-	%<actor_header>.nam  = %ID.nam;
-	%<actor_header>.nams2 = %<optional_names>.nams2;
+	%<actor_header>.id  = %ID.id;
+	%<actor_header>.nams = %<optional_names>.nams;
         if (%1<optional_where>.whr->whr != WHR_DEFAULT) {
           %<actor_header>.whr  = %1<optional_where>.whr;
           if (%2<optional_where>.whr->whr != WHR_DEFAULT)
-            lmLog(`&%2<optional_where>.whr->srcp, 340, sevWAR, %ID.nam->str);
+            lmLog(`&%2<optional_where>.whr->srcp, 340, sevWAR, %ID.id->str);
         } else
           %<actor_header>.whr  = %2<optional_where>.whr;
     %%
     ;
 
-<actor_body>		-- RETURNS: cnt, atrs, stms, vrbs, scrs
+<actor_body>		-- RETURNS: cnt, atrs, dscr, vrbs, scrs
     = 
     %%
 	%<actor_body>.cnt   = NULL;
 	%<actor_body>.atrs  = NULL;
-	%<actor_body>.stms  = NULL; /* Description */
+	%<actor_body>.dscr  = NULL; /* Description */
 	%<actor_body>.vrbs  = NULL;
         %<actor_body>.scrs  = NULL; /* The scripts */
     %%
@@ -1390,12 +1635,12 @@ static int val(char str[])
 	    %<actor_body>.cnt = %<actor_body_part>.cnt;
         else if (%<actor_body_part>.atrs != NULL)
           %<actor_body>.atrs = combine(%<actor_body>.atrs, %<actor_body_part>.atrs);
-	else if (%<actor_body_part>.stms != NULL)
-          if (%<actor_body>.stms != NULL)
+	else if (%<actor_body_part>.dscr != NULL)
+          if (%<actor_body>.dscr != NULL)
             /* DESCRIPTION Already declared */
 	    lmLogv(`&%<actor_body_part>.srcp, 204, sevERR, "DESCRIPTION", "actor", NULL);
 	  else
-	    %<actor_body>.stms = %<actor_body_part>.stms;
+	    %<actor_body>.dscr = %<actor_body_part>.dscr;
         else if (%<actor_body_part>.vrb != NULL)
  	  %<actor_body>.vrbs  = concat(%<actor_body>.vrbs, %<actor_body_part>.vrb, VRBNOD);
         else
@@ -1403,13 +1648,13 @@ static int val(char str[])
     %%
     ;
 
-<actor_body_part>		-- RETURNS: cnt, atrs, stms, vrb, scr
+<actor_body_part>		-- RETURNS: cnt, atrs, dscr, vrb, scr
     = <properties>
     %%
 	%<actor_body_part>.cnt   = %<properties>.cnt;
 	%<actor_body_part>.srcp  = %<properties>.srcp;
 	%<actor_body_part>.atrs  = NULL;
-	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.dscr  = NULL;
         %<actor_body_part>.vrb   = NULL;
 	%<actor_body_part>.scr   = NULL;
     %%
@@ -1417,7 +1662,7 @@ static int val(char str[])
     ! <is> <attributes>
     %%
 	%<actor_body_part>.atrs  = %<attributes>.atrs;
-	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.dscr  = NULL;
 	%<actor_body_part>.vrb   = NULL;
 	%<actor_body_part>.scr   = NULL;
 	%<actor_body_part>.cnt   = NULL;
@@ -1425,10 +1670,8 @@ static int val(char str[])
 
     ! <description>
     %%
-	%<actor_body_part>.stms  = %<description>.stms;
+	%<actor_body_part>.dscr  = %<description>.dscr;
 	%<actor_body_part>.srcp  = %<description>.srcp;
-        %<actor_body_part>.stms2 = NULL;
-	%<actor_body_part>.stms3 = NULL;
 	%<actor_body_part>.vrb   = NULL;
 	%<actor_body_part>.scr   = NULL;
 	%<actor_body_part>.cnt   = NULL;
@@ -1441,7 +1684,7 @@ static int val(char str[])
 	%<actor_body_part>.scr   = NULL;
 	%<actor_body_part>.cnt   = NULL;
 	%<actor_body_part>.atrs  = NULL;
-	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.dscr  = NULL;
     %%
 
     ! <script>
@@ -1449,7 +1692,7 @@ static int val(char str[])
 	%<actor_body_part>.scr   = %<script>.scr;
 	%<actor_body_part>.cnt   = NULL;
 	%<actor_body_part>.atrs  = NULL;
-	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.dscr  = NULL;
 	%<actor_body_part>.vrb   = NULL;
     %%
     ;
@@ -1457,29 +1700,16 @@ static int val(char str[])
 <actor_tail>		-- RETURNS: nam
     = 'END' 'ACTOR' <optional_id> '.'
     %%
-	%<actor_tail>.nam = %<optional_id>.nam;
+	%<actor_tail>.id = %<optional_id>.id;
     %%
     ;
 
 ----> SCRIPTS
-<optional_actor_script>	-- RETURNS: scrs
-    = 
-    %%
-	%<optional_actor_script>.scrs = NULL;
-    %%
-
-    ! <optional_actor_script> <script>
-    %%
-	%<optional_actor_script>.scrs = concat(%<optional_actor_script>.scrs,
-					     %<script>.scr, SCRNOD);
-    %%
-    ;
-
 <script>			-- RETURNS: scr
     = 'SCRIPT' <integer_or_id> '.' <optional_description> <step_list>
     %%
 	%<script>.scr = newscr(`&%'SCRIPT'.srcp,
-			     %<integer_or_id>.nam,
+			     %<integer_or_id>.id,
 			     %<integer_or_id>.val,
 			     %<optional_description>.stms,
 			     %<step_list>.stps);
@@ -1708,7 +1938,7 @@ static int val(char str[])
     = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> '.'
     %%
 	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, STM_SCHEDULE);
-	%<event_statement>.stm->fields.schedule.nam  = %ID.nam;
+	%<event_statement>.stm->fields.schedule.id  = %ID.id;
 	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
 	%<event_statement>.stm->fields.schedule.when = %<expression>.exp;
     %%	  
@@ -1716,7 +1946,7 @@ static int val(char str[])
     ! 'CANCEL' ID '.'
     %%
 	%<event_statement>.stm = newstm(`&%'CANCEL'.srcp, STM_CANCEL);
-	%<event_statement>.stm->fields.cancel.nam = %ID.nam;
+	%<event_statement>.stm->fields.cancel.id = %ID.id;
     %%	  
     ;
 
@@ -1728,13 +1958,13 @@ static int val(char str[])
 	%<assignment_statement>.stm = newstm(`&%'MAKE'.srcp, STM_MAKE);
 	%<assignment_statement>.stm->fields.make.wht = %<what>.wht;
 	%<assignment_statement>.stm->fields.make.not = %<something>.not;
-	%<assignment_statement>.stm->fields.make.atr = %<something>.nam;
+	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
     %%
 
     ! 'SET' <attribute_reference> 'TO' <expression> '.'
     %%
 	%<assignment_statement>.stm = newstm(`&%'SET'.srcp, STM_SET);
-	%<assignment_statement>.stm->fields.set.atr = %<attribute_reference>.nam;
+	%<assignment_statement>.stm->fields.set.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.set.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.set.exp = %<expression>.exp;
     %%
@@ -1742,7 +1972,7 @@ static int val(char str[])
     ! 'INCREASE' <attribute_reference> <optional_by_clause> '.'
     %%
 	%<assignment_statement>.stm = newstm(`&%'INCREASE'.srcp, STM_INCR);
-	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.nam;
+	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
     %%
@@ -1750,7 +1980,7 @@ static int val(char str[])
     ! 'DECREASE' <attribute_reference> <optional_by_clause> '.'
     %%
 	%<assignment_statement>.stm = newstm(`&%'DECREASE'.srcp, STM_DECR);
-	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.nam;
+	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
     %%
@@ -1901,21 +2131,21 @@ static int val(char str[])
     = 'USE' 'SCRIPT' <integer_or_id> <optional_for_actor> '.'
     %%
 	%<actor_statement>.stm = newstm(`&%'USE'.srcp, STM_USE);
-	%<actor_statement>.stm->fields.use.script = %<integer_or_id>.nam;
+	%<actor_statement>.stm->fields.use.script = %<integer_or_id>.id;
 	%<actor_statement>.stm->fields.use.scriptno = %<integer_or_id>.val;
-	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.nam;
+	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
     %%
     ;
 
 <optional_for_actor>	-- RETURNS: nam
     =
     %%
-	%<optional_for_actor>.nam = NULL;
+	%<optional_for_actor>.id = NULL;
     %%
 
     ! 'FOR' ID
     %%
-	%<optional_for_actor>.nam = %ID.nam;
+	%<optional_for_actor>.id = %ID.id;
     %%
     ;
 
@@ -1965,7 +2195,7 @@ static int val(char str[])
     %%
         /* <right_hand_side> contains the top expr, hang in the <primary> and
            propagate that node */
-        switch (%<right_hand_side>.expkd) {
+        switch (%<right_hand_side>.expKd) {
 	case EXPBIN: %<right_hand_side>.exp->fields.bin.left = %<primary>.exp; break;
 	case EXPWHR: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
 	case EXPATR: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
@@ -1979,7 +2209,7 @@ static int val(char str[])
 <right_hand_side>
     = <binop> <primary>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPBIN;
+        %<right_hand_side>.expKd = EXPBIN;
 	exp = newexp(`&%<binop>.srcp, EXPBIN);
 	exp->fields.bin.op = %<binop>.op;
 	exp->fields.bin.right = %<primary>.exp;
@@ -1988,7 +2218,7 @@ static int val(char str[])
 
     ! <optional_not> <relop> <primary>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPBIN;
+        %<right_hand_side>.expKd = EXPBIN;
 	exp = newexp(`&%<relop>.srcp, EXPBIN);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
@@ -1998,25 +2228,34 @@ static int val(char str[])
 
     ! <optional_not> <where>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPWHR;
+        %<right_hand_side>.expKd = EXPWHR;
 	exp = newexp(`&%<where>.srcp, EXPWHR);
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
 	%<right_hand_side>.exp = exp;
     } %%
 
+    ! <optional_not> 'ISA' ID
+    %% { ExpNod *exp;
+        %<right_hand_side>.expKd = EXPISA;
+	exp = newexp(`&%'ISA'.srcp, EXPISA);
+	exp->not = %<optional_not>.not;
+	exp->fields.isa.id = %ID.id;
+	%<right_hand_side>.exp = exp;
+    } %%
+
     ! <is> <something>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPATR;
+        %<right_hand_side>.expKd = EXPATR;
 	exp = newexp(`&%<is>.srcp, EXPATR);
 	exp->not = %<something>.not;
-	exp->fields.atr.atr = %<something>.nam;
+	exp->fields.atr.atr = %<something>.id;
 	%<right_hand_side>.exp = exp;
     } %%
 
     ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPBTW;
+        %<right_hand_side>.expKd = EXPBTW;
 	exp = newexp(`&%'BETWEEN'.srcp, EXPBTW);
 	exp->not = %<optional_not>.not;
 	exp->fields.btw.low = %1<factor>.exp;
@@ -2026,7 +2265,7 @@ static int val(char str[])
 
     ! <optional_not> 'CONTAINS' <factor>
     %% { ExpNod *exp;
-        %<right_hand_side>.expkd = EXPBIN;
+        %<right_hand_side>.expKd = EXPBIN;
 	exp = newexp(`&%'CONTAINS'.srcp, EXPBIN);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = OP_CONTAINS;
@@ -2067,7 +2306,7 @@ static int val(char str[])
     ! <attribute_reference>
     %%
 	%<primary>.exp = newexp(`&%<attribute_reference>.srcp, EXPATR);
-	%<primary>.exp->fields.atr.atr = %<attribute_reference>.nam;
+	%<primary>.exp->fields.atr.atr = %<attribute_reference>.id;
 	%<primary>.exp->fields.atr.wht = newexp(`&%<attribute_reference>.srcp, EXPWHT);
 	%<primary>.exp->fields.atr.wht->fields.wht.wht = %<attribute_reference>.wht;
     %%
@@ -2076,7 +2315,7 @@ static int val(char str[])
     %%
 	%<primary>.exp = newexp(`&%<aggregate>.srcp, EXPAGR);
 	%<primary>.exp->fields.agr.agr	= %<aggregate>.agr;
-	%<primary>.exp->fields.agr.atrnam = %<aggregate>.nam;
+	%<primary>.exp->fields.agr.atrnam = %<aggregate>.id;
 	%<primary>.exp->fields.agr.whr	= %<where>.whr;
     %%
 
@@ -2099,21 +2338,21 @@ static int val(char str[])
     %%
 	%<aggregate>.srcp = %'SUM'.srcp;
 	%<aggregate>.agr = AGR_SUM;
-	%<aggregate>.nam = %ID.nam;
+	%<aggregate>.id = %ID.id;
     %%
 
     ! 'MAX' 'OF' ID
     %%
 	%<aggregate>.srcp = %'MAX'.srcp;
 	%<aggregate>.agr = AGR_MAX;
-	%<aggregate>.nam = %ID.nam;
+	%<aggregate>.id = %ID.id;
     %%
 
     ! 'COUNT'
     %%
 	%<aggregate>.srcp = %'COUNT'.srcp;
 	%<aggregate>.agr = AGR_COUNT;
-	%<aggregate>.nam = NULL;
+	%<aggregate>.id = NULL;
     %%
     ;
 
@@ -2122,7 +2361,7 @@ static int val(char str[])
     = <optional_not> ID
     %%
 	%<something>.not = %<optional_not>.not;
-	%<something>.nam = %ID.nam;
+	%<something>.id = %ID.id;
     %%
     ;
 
@@ -2147,8 +2386,8 @@ static int val(char str[])
 
     ! ID
     %%
-	%<what>.wht = newwht(`&%ID.nam->srcp, WHT_ID, %ID.nam);
-	%<what>.srcp = %ID.nam->srcp;
+	%<what>.wht = newwht(`&%ID.id->srcp, WHT_ID, %ID.id);
+	%<what>.srcp = %ID.id->srcp;
     %%
     ;
 
@@ -2305,38 +2544,38 @@ static int val(char str[])
 <optional_id>
     =
     %%
-        %<optional_id>.nam = NULL;
+        %<optional_id>.id = NULL;
     %%
 
     ! ID
     %%
-        %<optional_id>.nam = %ID.nam;
+        %<optional_id>.id = %ID.id;
     %%
     ;
 
-<ids>			-- RETURNS: nams
+<ids>			-- RETURNS: idList
     = ID
     %%
-        %<ids>.nams = concat(NULL, %ID.nam, NAMNOD);
+        %<ids>.idList = concat(NULL, %ID.id, IDNOD);
     %%
 
     ! <ids> ID
     %%
-        %<ids>.nams = concat(%<ids>.nams, %ID.nam, NAMNOD);
+        %<ids>.idList = concat(%<ids>.idList, %ID.id, IDNOD);
     %%
     ;
 
 <id_list>			-- RETURNS: str, nams
     = ID
     %%
-        %<id_list>.str = newstr(%ID.nam->str);
-        %<id_list>.nams = concat(NULL, %ID.nam, NAMNOD);
+        %<id_list>.str = newstr(%ID.id->str);
+        %<id_list>.idList = concat(NULL, %ID.id, IDNOD);
     %%
 
     ! <id_list> ',' ID
     %%
         %<id_list>.str = %<id_list>.str;
-        %<id_list>.nams = concat(%<id_list>.nams, %ID.nam, NAMNOD);
+        %<id_list>.idList = concat(%<id_list>.idList, %ID.id, IDNOD);
     %%
     ;
 
@@ -2368,7 +2607,7 @@ static int val(char str[])
     = ID 'OF' <what>
     %%
 	%<attribute_reference>.srcp = %'OF'.srcp;
-	%<attribute_reference>.nam = %ID.nam;
+	%<attribute_reference>.id = %ID.id;
 	%<attribute_reference>.wht = %<what>.wht;
     %%
     ;
@@ -2377,124 +2616,20 @@ static int val(char str[])
     = Integer
     %%
 	%<integer_or_id>.val = val(%Integer.chars);
-	%<integer_or_id>.nam = NULL;
+	%<integer_or_id>.id = NULL;
     %%
 
     ! ID
     %%
 	%<integer_or_id>.val = 0;
-	%<integer_or_id>.nam = %ID.nam;
+	%<integer_or_id>.id = %ID.id;
     %%
     ;
 
 ID
-    = IDENT
-    %%
-        %ID.nam = newnam(`&%IDENT.srcp, %IDENT.chars);
-    %%
+    = Identifier
+    %% %ID.id = newnam(`&%Identifier.srcp, %Identifier.chars); %%
 
-    ! 'DEFAULT'
-    %%
-        %ID.nam = newnam(`&%'DEFAULT'.srcp, "default");
-    %%
-
-    ! 'ARTICLE'
-    %%
-        %ID.nam = newnam(`&%'ARTICLE'.srcp, "article");
-    %%
-
-    ! 'MESSAGE'
-    %%
-        %ID.nam = newnam(`&%'MESSAGE'.srcp, "message");
-    %%
-
-    ! 'QUIT'
-    %%
-        %ID.nam = newnam(`&%'QUIT'.srcp, "quit");
-    %%
-
-    ! 'SAVE'
-    %%
-        %ID.nam = newnam(`&%'SAVE'.srcp, "save");
-    %%
-
-    ! 'RESTORE'
-    %%
-        %ID.nam = newnam(`&%'RESTORE'.srcp, "restore");
-    %%
-
-    ! 'RESTART'
-    %%
-        %ID.nam = newnam(`&%'RESTART'.srcp, "restart");
-    %%
-
-    ! 'WAIT'
-    %%
-        %ID.nam = newnam(`&%'WAIT'.srcp, "wait");
-    %%
-
-    ! 'BETWEEN'
-    %%
-        %ID.nam = newnam(`&%'BETWEEN'.srcp, "between");
-    %%
-
-    ! 'CONTAINS'
-    %%
-        %ID.nam = newnam(`&%'CONTAINS'.srcp, "contains");
-    %%
-
-    ! 'ON'
-    %%
-        %ID.nam = newnam(`&%'ON'.srcp, "on");
-    %%
-
-    ! 'IN'
-    %%
-        %ID.nam = newnam(`&%'IN'.srcp, "in");
-    %%
-
-    ! 'AFTER'
-    %%
-        %ID.nam = newnam(`&%'AFTER'.srcp, "after");
-    %%
-
-    ! 'BEFORE'
-    %%
-        %ID.nam = newnam(`&%'BEFORE'.srcp, "before");
-    %%
-
-    ! 'CHECK'
-    %%
-        %ID.nam = newnam(`&%'CHECK'.srcp, "check");
-    %%
-
-    ! 'DEPEND'
-    %%
-        %ID.nam = newnam(`&%'DEPEND'.srcp, "depend");
-    %%
-
-    ! 'EXIT'
-    %%
-        %ID.nam = newnam(`&%'EXIT'.srcp, "exit");
-    %%
-
-    ! 'FOR'
-    %%
-        %ID.nam = newnam(`&%'FOR'.srcp, "for");
-    %%
-
-    ! 'INTEGER'
-    %%
-        %ID.nam = newnam(`&%'INTEGER'.srcp, "integer");
-    %%
-
-    ! 'ISA'
-    %%
-        %ID.nam = newnam(`&%'ISA'.srcp, "isa");
-    %%
-
-    ! 'LIMITS'
-    %%
-        %ID.nam = newnam(`&%'LIMITS'.srcp, "limits");
-    %%
+    -- FIXME - Add keywords that are allowed as identifiers here
     ;
+

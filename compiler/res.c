@@ -37,7 +37,8 @@
 ResNod *newres(Srcp *srcp,	/* IN - Source Position */
 	       NamNod *nam,	/* IN - The name */
 	       Bool single,	/* IN - TRUE if single class */
-	       NamKind classes,	/* IN - Allowed classes */
+	       ResKind resKd,	/* IN - Kind of restriction (ID, STRING ...) */
+	       List *classes,	/* IN - Allowed classes */
 	       List *stms)	/* IN - Statements to execute otherwise */
 {
   ResNod *new;			/* The newly created node */
@@ -80,6 +81,14 @@ static void anres(
     }
   if (!found)
     lmLog(&res->nam->srcp, 222, sevERR, res->nam->str);
+
+  /* Analyse the class list */
+  /* FIXME Currently we only handle one class but should be able to handle a list of classes */
+
+  /* FIXME Look up the classes and attach them to here */
+  /* For now "actor", "object" IDs are converted to their restriction kinds by the parser */
+
+  /* Analyse the statements to execute if the restrictions was not met */
   anstms(res->stms, NULL, NULL, params);
 }
 
@@ -124,6 +133,29 @@ static void geres(ResNod *res)	/* IN - Node to generate */
 
 /*----------------------------------------------------------------------
 
+  geresKind()
+
+  Generate class bit pattern for a restriction (as per v2 format)
+
+ */
+static void geresKind(ResKind kd) /* IN - Node to generate */
+{
+  switch (kd) {
+  case INTEGER_RESTRICTION: emit(NAMNUM); break;
+  case STRING_RESTRICTION: emit(NAMSTR); break;
+  case OBJECT_RESTRICTION: emit(NAMOBJ); break;
+  case ACTOR_RESTRICTION: emit(NAMACT); break;
+  case CONTAINER_RESTRICTION: emit(NAMCNT); break;
+  case CONTAINEROBJECT_RESTRICTION: emit(NAMCOBJ);  break;
+  case CONTAINERACTOR_RESTRICTION: emit(NAMCACT); break;
+  default: syserr("Unexpected restriction kind in geresKd()");
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
   geresent()
 
   Generate an entry for one restriction node.
@@ -132,7 +164,7 @@ static void geres(ResNod *res)	/* IN - Node to generate */
 static void geresent(ResNod *res) /* IN - Node to generate */
 {
   emit(res->nam->code);
-  emit(res->classes);
+  geresKind(res->resKd);
   emit(res->stmadr);
 }
 
@@ -166,6 +198,27 @@ Aaddr geress(List *ress,	/* IN - The element class restriction nodes */
 }
 
 
+/*----------------------------------------------------------------------
+
+  dumpRestrictionKind()
+
+*/
+static void dumpRestrictionKind(ResKind resKd)
+{
+  switch (resKd) {
+  case ID_RESTRICTION: put("ID"); break;
+  case INTEGER_RESTRICTION: put("INTEGER"); break;
+  case STRING_RESTRICTION: put("STRING"); break;
+  case OBJECT_RESTRICTION: put("OBJECT"); break;
+  case ACTOR_RESTRICTION: put("ACTOR"); break;
+  case CONTAINER_RESTRICTION: put("CONTAINER"); break;
+  case CONTAINEROBJECT_RESTRICTION: put("CONTAINEROBJECT"); break;
+  case CONTAINERACTOR_RESTRICTION: put("CONTAINERACTOR"); break;
+  default: syserr("Unknown restriction kind in dumpRestricitionKind()");
+  }
+}    
+
+
 
 /*======================================================================
 
@@ -183,6 +236,8 @@ void dures(ResNod *res)
 
   put("RES: "); dusrcp(&res->srcp); in();
   put("nam: "); dunam(res->nam); nl();
-  put("classes: "); if (res->single) put("(single)"); nl();
+  put("singel: "); dumpBool(res->single); nl();
+  put("resKd: "); dumpRestrictionKind(res->resKd); nl();
+  put("classes: "); dulst(res->classes, NAMNOD); nl();
   put("stms: "); dulst(res->stms, STMNOD); out();
 }

@@ -15,7 +15,7 @@
 /* Types: */
 
 /* Dump kinds */
-typedef enum dmpkd {
+typedef enum dmpKd {
   DMPNON = 0,
   DMPSYN = 1L,
   DMPSTX = (long)DMPSYN<<1,
@@ -35,30 +35,33 @@ typedef enum nodkd {
   ACTNOD,
   ALTNOD,
   ATRNOD,
+  CASENOD,
   CHKNOD,
+  CLANOD,
   CNTNOD,
+  EENTNOD,
   ELMNOD,
   EVTNOD,
   EXPNOD,
   EXTNOD,
+  INSNOD,
+  IDNOD,
   LIMNOD,
   LOCNOD,
+  LSTNOD,
+  MSGNOD,
   NAMNOD,
   OBJNOD,
+  REFNOD,
   RESNOD,
   RULNOD,
   SCRNOD,
   STMNOD,
   STPNOD,
+  STRNOD,
   STXNOD,
   SYNNOD,
-  VRBNOD,
-  MSGNOD,
-  STRNOD,
-  REFNOD,
-  LSTNOD,
-  EENTNOD,
-  CASENOD
+  VRBNOD
 } NodKind;
 
 
@@ -75,7 +78,7 @@ extern void dustr(char s[]);
 extern void duadr(int adr);
 extern void duptr(void *adr);
 extern void duint(int i);
-extern void duBool(Bool b);
+extern void dumpBool(Bool b);
 
 
 #endif

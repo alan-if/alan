@@ -212,9 +212,9 @@ void symcheck(
     SymNod **sym,               /* OUT - Found symbol */
     ElmNod **elm,               /* OUT - Found parameter  */
     NamNod *nam,                /* IN - The name to check */
-    NamKind classes,            /* IN - A set of symbol classes */
-    NamKind props,              /* IN - A set of symbol properties */
-    List *pars                  /* IN - Possible parameters */
+    NamKind classes,            /* IN - A set of allowed symbol classes */
+    NamKind props,              /* IN - Set to NAMCNT if container properties required, NAMANY otherwise */
+    List *pars                  /* IN - Possible parameters valid in this context */
 )
 {
   List *lst;                    /* Parameter traversal pointer*/
@@ -261,9 +261,23 @@ void symcheck(
 	  *elm = NULL;
 	}
     } else {
-      /* Check its defined classes */
-      elmclasses = (*elm)->res->classes & (~NAMCNT); /* Ignore container prop */
+      /* Find its defined classes and check against them */
+      /* FIXME: Currently we only allow a single class in restrictions, use the first */
+      /* For now we try to generate the old type of bit pattern */
+      switch ((*elm)->res->resKd) {
+      case ID_RESTRICTION: unimpl(&(*elm)->srcp, "Symbolising"); break;
+      case INTEGER_RESTRICTION: elmclasses = NAMNUM; break;
+      case STRING_RESTRICTION: elmclasses = NAMSTR; break;
+      case OBJECT_RESTRICTION: elmclasses = NAMOBJ; break;
+      case ACTOR_RESTRICTION: elmclasses = NAMACT; break;
+      case CONTAINER_RESTRICTION: elmclasses = NAMCNT; break;
+      case CONTAINEROBJECT_RESTRICTION: elmclasses = NAMCOBJ; break;
+      case CONTAINERACTOR_RESTRICTION: elmclasses = NAMCACT; break;
+      default: syserr("Unknown restriction kind in symcheck()");
+      }
+
       if ((classes & elmclasses) != elmclasses ) {
+	/* "Parameter not uniquely defined as a" */
         lmLog(&nam->srcp, 312, sevERR, symstr(classes));
         *elm = NULL;
       } else {
@@ -276,7 +290,7 @@ void symcheck(
 	  /* Check properties */
 	  if (props != NAMANY) {
 	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
-		((*elm)->res->classes & props) != props)
+		((*elm)->res->resKd & props) != props)
 	      lmLog(&nam->srcp, 312, sevERR, symstr(props));
 	    *elm = NULL;
 	  }

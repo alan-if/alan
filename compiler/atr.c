@@ -91,13 +91,15 @@ AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
 
   paramatr()
 
-  Verify the existence of a attribute for a particular parameter.
+  Verify the existence of an attribute for a particular parameter.
 
   */
 AtrNod *paramatr(NamNod *nam, ElmNod *elm)
 {
   AtrNod *atr = NULL;
 
+#ifdef FIXME
+Must be rewritten to traverse the class hierarchy
   if (elm->res == NULL || elm->res->single) {
     /* No restriction (default = OBJECT) or explicit single class! */
     if (elm->res == NULL || (elm->res->classes & NAMOBJ) != 0 || (elm->res->classes & NAMCOBJ) != 0)
@@ -111,6 +113,7 @@ AtrNod *paramatr(NamNod *nam, ElmNod *elm)
   } else
     /* Multiple classes, so can only be in general default attributes */
     atr = findatr(nam->str, adv.atrs, NULL);
+#endif
 
   return atr;
 }

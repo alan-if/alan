@@ -20,11 +20,13 @@
 #include "alt.h"                /* ALT-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "chk.h"                /* CHK-nodes */
+#include "cla.h"		/* CLASS-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "ext.h"                /* EXT-nodes */
+#include "ins.h"		/* INS-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "loc.h"                /* LOC-nodes */
 #include "lst.h"		/* LST-nodes */
@@ -36,6 +38,7 @@
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
+#include "slt.h"                /* SLOTS-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
@@ -119,7 +122,7 @@ void pmISym(
 
     /* Make the requested token */
     token->code = code;
-    if (token->code == sm_MAIN_IDENT_Token) {
+    if (token->code == sm_MAIN_IDENTIFIER_Token) {
       sprintf(token->chars, "$genid#%d", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);

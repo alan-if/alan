@@ -186,7 +186,7 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
     else if (stm->fields.locate.wht->wht == WHT_ID) {
       if (sym != NULL && sym->class == NAMACT)
         lmLog(&stm->srcp, 402, sevERR, "");
-      else if (elm != NULL && elm->res != NULL && ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0))
+      else if (elm != NULL && elm->res != NULL && ((elm->res->resKd & ACTOR_RESTRICTION) != 0 || (elm->res->resKd & CONTAINERACTOR_RESTRICTION) != 0))
         lmLog(&stm->srcp, 402, sevERR, "");
     }
     break;
@@ -442,7 +442,7 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  symcheck(&sym, &elm, stm->fields.schedule.nam, NAMEVT, NAMANY, NULL);
+  symcheck(&sym, &elm, stm->fields.schedule.id, NAMEVT, NAMANY, NULL);
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
@@ -482,7 +482,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  symcheck(&sym, &elm, stm->fields.cancel.nam, NAMEVT, NAMANY, NULL);
+  symcheck(&sym, &elm, stm->fields.cancel.id, NAMEVT, NAMANY, NULL);
 }
 
 
@@ -962,7 +962,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
     unimpl(&stm->srcp, "Code Generator");
     return;
   }
-  genam(stm->fields.schedule.nam);
+  genam(stm->fields.schedule.id);
   emit0(C_STMOP, I_SCHEDULE);
 }
 
@@ -976,7 +976,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
   */
 static void gecancel(StmNod *stm) /* IN - Statement to generate */
 {
-  genam(stm->fields.schedule.nam);
+  genam(stm->fields.schedule.id);
   emit0(C_STMOP, I_CANCEL);
 }
 
@@ -1346,7 +1346,7 @@ void dustm(StmNod *stm)
       break;
     case STM_MAKE:
       put("wht: "); duwht(stm->fields.list.wht); nl();
-      put("not: "); duBool(stm->fields.make.not); nl();
+      put("not: "); dumpBool(stm->fields.make.not); nl();
       put("atr: "); dunam(stm->fields.make.atr);
       break;
     case STM_SET:
@@ -1361,12 +1361,12 @@ void dustm(StmNod *stm)
       put("step: "); duexp(stm->fields.incr.step);
       break;
     case STM_SCHEDULE:
-      put("nam: "); dunam(stm->fields.schedule.nam); nl();
+      put("nam: "); dunam(stm->fields.schedule.id); nl();
       put("whr: "); duwhr(stm->fields.locate.whr); nl();
       put("when: "); duexp(stm->fields.schedule.when);
       break;
     case STM_CANCEL:
-      put("nam: "); dunam(stm->fields.cancel.nam);
+      put("nam: "); dunam(stm->fields.cancel.id);
       break;
     case STM_IF:
       put("exp: "); duexp(stm->fields.iff.exp); nl();

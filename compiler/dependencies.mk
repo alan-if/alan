@@ -1,4 +1,3 @@
-
 act.o: act.c alan.h sysdep.h types.h srcp.h lst.h dump.h adv.h whr.h \
  evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h emit.h \
  stm.h obj.h cnt.h act.h loc.h ext.h scr.h wrd.h vrb.h lmList.h \
