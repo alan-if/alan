@@ -327,9 +327,6 @@ void debug()
       dbgflg = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
-#ifdef USE_READLINE
-      free(buf);
-#endif
       return;
     case 'O':
       if (i == 0)
