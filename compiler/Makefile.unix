@@ -104,29 +104,6 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 alan: $(MAINOBJECTS) test
 	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
-#	cp alan.exe ../bin
-
-win:  $(MAINOBJECTS) alan.res test
-	$(CC) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
-	@-mkdir ../bin 2> /dev/null
-	cp alan.exe ../bin
-
-alan.res: alan.rc alan.ico
-	windres $< -O coff -o $@
-
-all : .tmstamp test alan Makefile
-
-gcov :
-	$(MAKE) "GCOV=-fprofile-arcs -ftest-coverage"
-
-.tmstamp: $(TMSRCS)
-	$(MAKE) -f Makefile.tm
-
-src:
-	$(MAKE) -f Makefile.src
-
-fromsrc: $(OBJECTS) alan.version.o
-	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -169,24 +146,6 @@ depend:
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
-
-#
-# Version number generation
-#
-alan.version.h :
-#	cd ..; venum -write always -all alan
-	cp -p ../alan.version.h .
-
-version.h :
-#	cd ..; venum -write always -all alan
-	cp -p ../version.h .
-
-../alan.version: $(VERSIONSRCS) 
-#	cd ..; venum alan time
-	echo "skipping"
-
-#alan.version.c:  ../alan.version
-	cp -p ../alan.version.c .
 
 #
 include dependencies.mk

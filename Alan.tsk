@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>315.89</origest>
-<currest>314.89</currest>
+<origest>316.89</origest>
+<currest>315.89</currest>
 <elapsed>164.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>45</origest>
-<currest>45</currest>
+<origest>46</origest>
+<currest>46</currest>
 <elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>22</origest>
+<currest>22</currest>
 <elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
@@ -178,6 +178,15 @@ Simply allow an expression as the actor in USE statement, inheritance etc. will 
 <notes>Bug? Save current state also? Why is not current.location set to heros location?
 
 We also need some way to re-output the state.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression as What in Locate</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

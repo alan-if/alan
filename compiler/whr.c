@@ -132,7 +132,7 @@ void verifyInitialLocation(Where *whr)
       lmLog(&whr->srcp, 355, sevERR, "");
     break;
   case WHR_IN:
-    verifyContainer(whr->what, NULL);
+    verifyContainer(whr->what, NULL, "Expression after IN");
     break;
   default:
     lmLogv(&whr->srcp, 355, sevERR, "");
@@ -169,52 +169,7 @@ void analyzeWhere(Where *whr,
     }
     break;
   case WHR_IN:
-    verifyContainer(whr->what, context);
-    break;
-  default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-    break;
-  }
-}
-
-
-
-
-
-/*======================================================================
-
-  anwhr()
-
-  Analyse a where reference.
-
-  */
-void anwhr(Where *whr,
-	   Context *context)
-{
-  switch (whr->kind) {
-  case WHR_DEFAULT:
-  case WHR_HERE:
-  case WHR_NEAR:
-    break;
-  case WHERE_AT:
-    switch (whr->what->kind) {
-    case WHAT_ID:
-      (void) symcheck(whr->what->id, INSTANCE_SYMBOL, context);
-      break;
-    case WHAT_LOCATION:
-      whr->kind = WHR_HERE;
-      break;
-    case WHAT_ACTOR:
-      if (context->kind == EVENT_CONTEXT)
-	lmLog(&whr->what->srcp, 412, sevERR, "");
-      break;
-    default:
-      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-      break;
-    }
-    break;
-  case WHR_IN:
-    verifyContainer(whr->what, context);
+    verifyContainer(whr->what, context, "Expression after IN");
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);

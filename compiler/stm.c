@@ -102,14 +102,14 @@ static void analyzeSay(StmNod *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeList(StmNod *stm, Context *context)	
 {
-  verifyContainer(stm->fields.list.wht, context);
+  verifyContainer(stm->fields.list.wht, context, "LIST statement");
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeEmpty(StmNod *stm, Context *context)
 {
-  verifyContainer(stm->fields.list.wht, context);
+  verifyContainer(stm->fields.list.wht, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
 }
 
@@ -127,7 +127,7 @@ static void analyzeLocate(StmNod *stm, Context *context)
       lmLog(&stm->fields.locate.wht->srcp, 412, sevERR, "");
     break;
   case WHAT_LOCATION:
-    lmLog(&stm->srcp, 311, sevERR, "an Object or an Actor");
+    lmLogv(&stm->srcp, 324, sevERR, "Current Location", "the What-clause of a Locate statement", NULL);
     break;
   case WHAT_ID:
     whtSymbol = symcheck(stm->fields.locate.wht->id, INSTANCE_SYMBOL, context);

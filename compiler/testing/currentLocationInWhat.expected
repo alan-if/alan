@@ -1,0 +1,16 @@
+########## alan currentLocationInWhat ##########
+
+
+currentLocationInWhat.alan
+
+    3.      Locate Current Location Here.
+=====>      1
+
+  *1*   324 E : Can not refer to Current Location in the What-clause of a
+                Locate statement.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

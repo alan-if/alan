@@ -21,7 +21,7 @@
 
 extern ContainerBody *newContainerBody(Srcp *srcp, Bool opaque, IdNode *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements);
 extern Container *newContainer( ContainerBody *info);
-extern void verifyContainer(What *wht, Context *context);
+extern void verifyContainer(What *wht, Context *context, char construct[]);
 extern void analyzeContainer(Container *cnt, Context *context);
 extern void numberContainers(void);
 extern Aaddr generateContainers(AcdHdr *header);

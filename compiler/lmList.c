@@ -149,6 +149,7 @@ static lmMsgs msg[] = {
     { "321   ", "Synonym target word \'%1\' not defined." },
     { "322   ", "Word \'%1\' already defined as a synonym." },
     { "323   ", "Can not restrict a parameter to something not a class." },
+    { "324   ", "Can not refer to %1 in %2." },
     { "330   ", "Wrong type of expression in context of %2. Must be of %1 type." },
     { "331   ", "Incompatible types in %1." },
     { "332   ", "Attribute is inherited but does not match the original type (in class \'%1\') which is required." },
@@ -214,7 +215,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 134}
+    {0, 135}
 };
 static lmMessages currMsect = (lmMessages)0;
 

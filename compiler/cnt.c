@@ -86,7 +86,7 @@ Container *newContainer(ContainerBody *body)
 }
 
 /*======================================================================*/
-void verifyContainer(What *wht, Context *context)
+void verifyContainer(What *wht, Context *context, char construct[])
 {
   Symbol *sym;
 
@@ -116,12 +116,12 @@ void verifyContainer(What *wht, Context *context)
     break;
 
   case WHAT_LOCATION:
-    lmLog(&wht->srcp, 311, sevERR, "a Container");
+    lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
     break;
 
   case WHAT_ACTOR:
     if (actorSymbol->fields.entity.props->container == NULL)
-      lmLog(&wht->srcp, 311, sevERR, "a Container");
+      lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
     break;
 
   default:

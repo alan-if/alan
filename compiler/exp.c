@@ -98,7 +98,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.whr.wht, context);
   if (exp->fields.whr.wht->kind != WHAT_EXPRESSION)
-    lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
+    lmLogv(&exp->fields.whr.wht->srcp, 428, sevERR, "Expression", "an instance");
   else {
     switch (exp->fields.whr.wht->fields.wht.wht->kind) {
     case WHAT_ACTOR:
@@ -106,7 +106,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 	lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
       break;
     case WHAT_LOCATION:
-      lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
+      lmLogv(&exp->fields.whr.wht->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
       break;
     case WHAT_ID:
     case WHAT_THIS:
@@ -141,7 +141,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     }
     break;
   case WHR_IN:
-    verifyContainer(exp->fields.whr.whr->what, context);
+    verifyContainer(exp->fields.whr.whr->what, context, "Expression after IN");
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
