@@ -20,26 +20,13 @@ extern InsNod *theHero;
 /* METHODS: */
 
 extern void initInstances();
-
-/* Create a new Instance node */
 extern InsNod *newInstance(Srcp *srcp,
 			   IdNode *id,
 			   IdNode *heritage,
 			   SlotsNode *slt);
-
-/* Symbolize all Instances */
 extern void symbolizeInstances(void);
-
-/* Analyze all Instances */
 extern void analyzeInstances(void);
-
-/* Prepare all Instances before analysis */
-extern void prepinss(void);
-
-/* Generate code for all Instances */
 extern void generateInstances(AcdHdr *header);
-
-/* Dump an Instance node */
 extern void dumpInstance(InsNod *ins);
 
 #endif
