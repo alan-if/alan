@@ -231,7 +231,7 @@ Also need to consider how to warn for the same verb declared without a parameter
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) = 0</desc>
+<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
