@@ -61,3 +61,20 @@ void addToSet(Set *theSet, Aword newMember)
   }
   theSet->members[theSet->size++] = newMember;
 }
+
+/*=======================================================================*/
+void removeFromSet(Set *theSet, Aword member)
+{
+  int i, j;
+
+  if (!inSet(theSet, member)) return;
+
+  for (i = 0; i < theSet->size; i++) {
+    if ((Aword)theSet->members[i] == member) {
+      for (j = i; j < theSet->size-1; j++)
+	theSet->members[j] = theSet->members[j+1];
+      theSet->size--;
+      break;
+    }
+  }
+}

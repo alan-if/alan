@@ -4,3 +4,11 @@ The l Isa location
 End The l.
 
 Start At l.
+  If hero In members Of l Then "hero in iset, ok," Else "Not ok," End If.
+  If l In members Of l Then "l in iset, ok," Else "Not ok," End If.
+
+  If 0 In number of L Then "Not ok," Else "ok," End If.
+  If 1 In number of L Then "ok," Else "Not ok," End If.
+  If 2 In number of L Then "ok," Else "Not ok," End If.
+  If 3 In number of L Then "ok," Else "Not ok," End If.
+  If 4 In number of L Then "Not ok," Else "ok," End If.

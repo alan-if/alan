@@ -579,6 +579,16 @@ void interpret(Aaddr adr)
 	addToSet((Set *)set, member);
 	break;
       }
+      case I_REMOVE: {
+	Aword member, set;
+	set = pop();
+	member = pop();
+	if (singleStepOption) {
+	  printf("REMOVE\t%5ld, %5ld\t\t", member, set);
+	}
+	removeFromSet((Set *)set, member);
+	break;
+      }
       case I_ATTRIBUTE: {
 	Aword id, atr;
 	id = pop();

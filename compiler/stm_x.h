@@ -30,6 +30,7 @@ extern Statement *newDescribeStatement(Srcp srcp, Expression *what);
 extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set);
+extern Statement *newRemoveStatement(Srcp srcp, Expression *what, Expression *set);
 
 /* Analyze a list of statements */
 extern void analyzeStatements(List *stms,

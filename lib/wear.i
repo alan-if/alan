@@ -14,15 +14,11 @@ Syntax
     wear = wear (obj)
 	Where obj Isa object
 	    Else "You can't wear that." 
-    put_o_on = put (obj) 'on'
-	Where obj Isa object
-	    Else "You can't wear that."
-    put_on_o = put 'on' (obj)
-	Where obj Isa object
-	    Else "You can't wear that."
+    wear = put (obj) 'on'.
+    wear = put 'on' (obj).
 
 Add To Every object
-    Verb wear, put_o_on, put_on_o
+    Verb wear
 	Check obj Is wearable
 	    Else
 	        "You can't wear" Say The obj. "."
@@ -46,18 +42,14 @@ End Add To.
 
 
 Syntax 
-    remove = remove (obj)
+    'remove' = 'remove' (obj)
 	Where obj Isa object
 	    Else "You can't remove that." 
-    take_o_off = take (obj) off
-	Where obj Isa object
-	    Else "You can't remove that." 
-    take_off_o = take off (obj)
-        Where obj Isa object
-	    Else "You can't remove that." 
+    'remove' = take (obj) off.
+    'remove' = take off (obj).
 
 Add To Every object
-    Verb remove, take_o_off, take_off_o
+    Verb 'remove'
 	Check obj In worn
 	    Else 
 		"You are not wearing" Say The obj. "."
@@ -76,7 +68,7 @@ Add To Every object
 	Does
 	    If Count In worn, Isa Thing > 0 Then
 	    	Empty worn In hero.
-		"You remove all the items you were wearing."
+		"You remove all the items you where wearing."
 	    Else
 	        "You're not wearing anything you can remove."
 	    End If.

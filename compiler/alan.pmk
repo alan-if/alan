@@ -1628,6 +1628,13 @@ static int val(char str[])
 							    %<primary>.exp,
 							    %<what>.exp);
     %%	  
+
+    ! 'REMOVE' <primary> 'FROM' <what> '.'
+    %%
+	%<manipulation_statement>.stm = newRemoveStatement(%'REMOVE'.srcp,
+							    %<primary>.exp,
+							    %<what>.exp);
+    %%	  
     ;
 
 

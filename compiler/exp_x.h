@@ -26,6 +26,7 @@ extern Expression *newStringExpression(Srcp srcp, long fpos, int len);
 extern Expression *newIntegerExpression(Srcp srcp, int value);
 extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
+extern Expression *newWhereExpression(Srcp srcp, Where *where);
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);

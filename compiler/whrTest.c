@@ -11,19 +11,16 @@
 void testClassOfContent()
 {
   IdNode *id = newId(&nulsrcp, "inCont");
-  Expression *whatInLocation = newWhatExpression(nulsrcp,
+  Expression *whatLocation = newWhatExpression(nulsrcp,
 						 newWhat(&nulsrcp,
 							 WHAT_LOCATION,
 							 id));
-  Where *whereInActor = newWhere(&nulsrcp, WHERE_IN,
-				 newWhatExpression(nulsrcp,
-						   newWhat(&nulsrcp,
-							   WHAT_ACTOR, id)));
-  Expression *whatInId = newWhatExpression(nulsrcp,
-				      newWhat(&nulsrcp,
-					      WHAT_ID, id));
+  Expression *whatId = newWhatExpression(nulsrcp,
+					 newWhat(&nulsrcp,
+						 WHAT_ID, id));
   IdNode *takesId = newId(&nulsrcp, "location");
-  ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId, NULL, NULL, NULL, NULL, NULL);
+  ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId,
+						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
   Properties *properties = newProps(NULL, NULL, NULL, container,
 				    nulsrcp, NULL,
@@ -33,12 +30,13 @@ void testClassOfContent()
 				    nulsrcp, NULL, FALSE,
 				    nulsrcp, NULL, FALSE,
 				    NULL, NULL,NULL);
+
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
-  ASSERT(contentOf(whatInLocation, NULL) == NULL);
+  ASSERT(contentOf(whatLocation, NULL) == NULL);
 
   symbolizeId(takesId);
-  ASSERT(contentOf(whatInId, NULL) == locationSymbol);
+  ASSERT(contentOf(whatId, NULL) == locationSymbol);
 }
 
 void testInitialLocation()

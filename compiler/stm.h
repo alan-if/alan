@@ -38,6 +38,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   EMPTY_STATEMENT,
   LOCATE_STATEMENT,
   INCLUDE_STATEMENT,
+  REMOVE_STATEMENT,
   MAKE_STATEMENT,
   SET_STATEMENT,
   INCREASE_STATEMENT,
@@ -57,7 +58,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
 
 typedef struct StmNod {		/* STATEMENT */
   Srcp srcp;			/* Source position */
-  StmKind class;		/* Class tag */
+  StmKind kind;		/* Class tag */
   union {			/* Class dependent fields */
 
     struct {			/* for PRINT */
@@ -102,7 +103,7 @@ typedef struct StmNod {		/* STATEMENT */
       Where *where;		/* Where? */
     } locate;
 
-    struct {			/* for INCLUDE */
+    struct {			/* for INCLUDE & REMOVE */
       Expression *what;		/* What? */
       Expression *set;		/* In which set? */
     } include;

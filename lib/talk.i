@@ -107,23 +107,16 @@ End Add To.
 
 
 
-
 Syntax
   talk_to = talk 'to' (act) about (topic)!
     Where topic Isa thing
       Else "You can't ask about that."
     And act Isa thing
       Else "You can't talk to that."
-
-Syntax
-  tell = tell (act) about (topic)!
-    Where topic Isa thing
-      Else "You can't ask about that."
-    And act Isa thing
-      Else "You can't talk to that."
+  talk_to = tell (act) about (topic)!
 
 Add To Every thing
-  Verb tell, talk_to
+  Verb talk_to
     When  topic
       Check act Has can_talk
 	Else "You can't talk to that."

@@ -26,5 +26,6 @@ typedef struct Set {
 extern void initSets(SetInitEntry *initTable);
 extern Bool inSet(Set *theSet, Aword member);
 extern void addToSet(Set *theSet, Aword newMember);
+extern void removeFromSet(Set *theSet, Aword member);
 
 #endif

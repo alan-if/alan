@@ -49,7 +49,7 @@ Statement *newStatement(Srcp *srcp, StmKind class)
   new = NEW(Statement);
 
   new->srcp = *srcp;
-  new->class = class;
+  new->kind = class;
 
   return(new);
 }
@@ -110,6 +110,22 @@ Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
   showProgress();
 
   new = newStatement(&srcp, INCLUDE_STATEMENT);
+
+  new->fields.include.what = what;
+  new->fields.include.set = set;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Statement *newRemoveStatement(Srcp srcp, Expression *what, Expression *set)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, REMOVE_STATEMENT);
 
   new->fields.include.what = what;
   new->fields.include.set = set;
@@ -264,25 +280,27 @@ static void analyzeIncrease(Statement *stm, Context *context)
     if (stm->fields.incr.step->type != INTEGER_TYPE
 	&& stm->fields.incr.step->type != ERROR_TYPE)
       lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
-	     stm->class==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
+	     stm->kind==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
 	     "integer", NULL);
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeInclude(Statement *stm, Context *context)
+static void analyzeIncludeAndRemove(Statement *stm, Context *context)
 {
   Expression *what = stm->fields.include.what;
   Expression *set = stm->fields.include.set;
+  char *message = stm->kind == INCLUDE_STATEMENT?"INCLUDE statement"
+    :"REMOVE statement";
 
   analyzeExpression(what, context);
   analyzeExpression(set, context);
   if (set->type != ERROR_TYPE) {
     if (set->type != SET_TYPE)
-      lmLogv(&set->srcp, 330, sevERR, "Set", "INCLUDE statement", NULL);
+      lmLogv(&set->srcp, 330, sevERR, "Set", message, NULL);
     else
-      verifySetMember(set, what, "INCLUDE statement");
+      verifySetMember(set, what, message);
   }
 }
 
@@ -532,7 +550,7 @@ static void analyzeStrip(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeStatement(Statement *stm, Context *context)
 {
-  switch (stm->class) {
+  switch (stm->kind) {
   case NOP_STATEMENT:
   case PRINT_STATEMENT:
   case QUIT_STATEMENT:
@@ -576,7 +594,8 @@ static void analyzeStatement(Statement *stm, Context *context)
     analyzeIncrease(stm, context);
     break;
   case INCLUDE_STATEMENT:
-    analyzeInclude(stm, context);
+  case REMOVE_STATEMENT:
+    analyzeIncludeAndRemove(stm, context);
     break;
   case SCHEDULE_STATEMENT:
     analyzeSchedule(stm, context);
@@ -758,7 +777,7 @@ static void generateIncrease(Statement *stm)
     emitConstant(1);
 
   generateLvalue(stm->fields.incr.wht);
-  if (stm->class == INCREASE_STATEMENT)
+  if (stm->kind == INCREASE_STATEMENT)
     emit0(I_INCR);
   else
     emit0(I_DECR);
@@ -766,11 +785,14 @@ static void generateIncrease(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateInclude(Statement *stm)
+static void generateIncludeAndRemove(Statement *stm)
 {
   generateExpression(stm->fields.include.what);
   generateExpression(stm->fields.include.set);
-  emit0(I_INCLUDE);
+  if (stm->kind == INCLUDE_STATEMENT)
+    emit0(I_INCLUDE);
+  else
+    emit0(I_REMOVE);
 }
 
 
@@ -993,7 +1015,7 @@ static void generateStatement(Statement *stm)
   if ((Bool)opts[OPTDEBUG].value)
     emitLine(stm->srcp);
 
-  switch (stm->class) {
+  switch (stm->kind) {
 
   case NOP_STATEMENT:
     break;
@@ -1069,7 +1091,8 @@ static void generateStatement(Statement *stm)
     break;
 
   case INCLUDE_STATEMENT:
-    generateInclude(stm);
+  case REMOVE_STATEMENT:
+    generateIncludeAndRemove(stm);
     break;
 
   case SCHEDULE_STATEMENT:
@@ -1136,101 +1159,42 @@ void dumpStatement(Statement *stm)
   }
 
   put("STM: ");
-  switch(stm->class) {
-  case PRINT_STATEMENT:
-    put("PRINT ");
-    break;
-  case DESCRIBE_STATEMENT:
-    put("DESCRIBE ");
-    break;
-  case SAY_STATEMENT:
-    put("SAY ");
-    break;
-  case LIST_STATEMENT:
-    put("LIST ");
-    break;
-  case IF_STATEMENT:
-    put("IF ");
-    break;
-  case MAKE_STATEMENT:
-    put("MAKE ");
-    break;
-  case SET_STATEMENT:
-    put("SET ");
-    break;
-  case INCREASE_STATEMENT:
-    put("INCR ");
-    break;
-  case DECREASE_STATEMENT:
-    put("DECR ");
-    break;
-  case LOCATE_STATEMENT:
-    put("LOCATE ");
-    break;
-  case EMPTY_STATEMENT:
-    put("EMPTY ");
-    break;
-  case INCLUDE_STATEMENT:
-    put("INCLUDE ");
-    break;
-  case SCHEDULE_STATEMENT:
-    put("SCHEDULE ");
-    break;
-  case CANCEL_STATEMENT:
-    put("CANCEL ");
-    break;
-  case LOOK_STATEMENT:
-    put("LOOK ");
-    break;
-  case QUIT_STATEMENT:
-    put("QUIT ");
-    break;
-  case SCORE_STATEMENT:
-    put("SCORE ");
-    break;
-  case USE_STATEMENT:
-    put("USE ");
-    break;
-  case STRIP_STATEMENT:
-    put("STRIP ");
-    break;
-  case STOP_STATEMENT:
-    put("STOP ");
-    break;
-  case SAVE_STATEMENT:
-    put("SAVE ");
-    break;
-  case RESTORE_STATEMENT:
-    put("RESTORE ");
-    break;
-  case RESTART_STATEMENT:
-    put("RESTART ");
-    break;
-  case VISITS_STATEMENT:
-    put("VISITS ");
-    break;
-  case NOP_STATEMENT:
-    put("NOP ");
-    break;
-  case SHOW_STATEMENT:
-    put("SHOW ");
-    break;
-  case SYSTEM_STATEMENT:
-    put("SYSTEM ");
-    break;
-  case DEPEND_STATEMENT:
-    put("DEPEND ");
-    break;
-  case DEPENDCASE_STATEMENT:
-    put("DEPENDCASE ");
-    break;
-  case EACH_STATEMENT:
-    put("EACH ");
-    break;
+  switch(stm->kind) {
+  case PRINT_STATEMENT: put("PRINT "); break;
+  case DESCRIBE_STATEMENT: put("DESCRIBE "); break;
+  case SAY_STATEMENT: put("SAY "); break;
+  case LIST_STATEMENT: put("LIST "); break;
+  case IF_STATEMENT: put("IF "); break;
+  case MAKE_STATEMENT: put("MAKE "); break;
+  case SET_STATEMENT: put("SET "); break;
+  case INCREASE_STATEMENT: put("INCR "); break;
+  case DECREASE_STATEMENT: put("DECR "); break;
+  case LOCATE_STATEMENT: put("LOCATE "); break;
+  case EMPTY_STATEMENT: put("EMPTY "); break;
+  case INCLUDE_STATEMENT: put("INCLUDE "); break;
+  case REMOVE_STATEMENT: put("REMOVE "); break;
+  case SCHEDULE_STATEMENT: put("SCHEDULE "); break;
+  case CANCEL_STATEMENT: put("CANCEL "); break;
+  case LOOK_STATEMENT: put("LOOK "); break;
+  case QUIT_STATEMENT: put("QUIT "); break;
+  case SCORE_STATEMENT: put("SCORE "); break;
+  case USE_STATEMENT: put("USE "); break;
+  case STRIP_STATEMENT: put("STRIP "); break;
+  case STOP_STATEMENT: put("STOP "); break;
+  case SAVE_STATEMENT: put("SAVE "); break;
+  case RESTORE_STATEMENT: put("RESTORE "); break;
+  case RESTART_STATEMENT: put("RESTART "); break;
+  case VISITS_STATEMENT: put("VISITS "); break;
+  case NOP_STATEMENT: put("NOP "); break;
+  case SHOW_STATEMENT: put("SHOW "); break;
+  case SYSTEM_STATEMENT: put("SYSTEM "); break;
+  case DEPEND_STATEMENT: put("DEPEND "); break;
+  case DEPENDCASE_STATEMENT: put("DEPENDCASE "); break;
+  case EACH_STATEMENT: put("EACH "); break;
   }
   dumpSrcp(&stm->srcp);
 
-  switch(stm->class) {
+  switch(stm->kind) {
   case LOOK_STATEMENT:
   case QUIT_STATEMENT:
   case SAVE_STATEMENT:
@@ -1239,7 +1203,7 @@ void dumpStatement(Statement *stm)
     break;
   default:
     indent();
-    switch(stm->class) {
+    switch(stm->kind) {
     case PRINT_STATEMENT:
       put("fpos: "); dumpInt(stm->fields.print.fpos); nl();
       put("len: "); dumpInt(stm->fields.print.len);
@@ -1267,6 +1231,7 @@ void dumpStatement(Statement *stm)
       put("whr: "); dumpWhere(stm->fields.locate.where);
       break;
     case INCLUDE_STATEMENT:
+    case REMOVE_STATEMENT:
       put("wht: "); dumpExpression(stm->fields.include.what); nl();
       put("set: "); dumpExpression(stm->fields.include.set);
       break;
