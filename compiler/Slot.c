@@ -11,6 +11,9 @@
 #include "Slot.h"
 #include "Class.h"
 #include "Attribute.h"
+#include "Exit.h"
+#include "Script.h"
+#include "Statement.h"
 #include "Symbol.h"
 
 #include "dump.h"
@@ -91,11 +94,11 @@ Slot *newSlot(heritage, name, where, attributes, container, surroundings,
 
   */
 #ifdef _PROTOTYPES_
-void analyseSlot(Srcp *srcp,	/* IN - Source position to use in case of errors */
+void analyseSlot(Id *id,	/* IN - Identifier with source position */
 		 Slot *slot)	/* IN - The slot to analyse */
 #else
-void analyseSlot(srcp, slot)
-     Srcp *srcp;
+void analyseSlot(id, slot)
+     Id *id;
      Slot *slot;
 #endif
 {
@@ -116,16 +119,20 @@ void analyseSlot(srcp, slot)
 	remove = TRUE;
       } else {
 	if (symbol->info.class->slot->state != FINISHED)
-	  analyseSlot(&symbol->info.class->srcp, symbol->info.class->slot);
+	  analyseSlot(symbol->info.class->id, symbol->info.class->slot);
 	/* Now collect the inhertied attributes into the list */
 	if (symbol->info.class->slot->attributes != NULL)
-	  inhertitedAttributeList = prepend(symbol->info.class->slot->attributes,
-					 copyList(symbol->info.class->slot->inheritedAttributeLists));
+	  inhertitedAttributeList =
+	    prepend(symbol->info.class->slot->attributes,
+		    copyList(symbol->info.class->slot->inheritedAttributeLists));
 	else
-	  inhertitedAttributeList = copyList(symbol->info.class->slot->inheritedAttributeLists);
-	/* Now inhertiedAttributes contains all lists of attributes inherited from this class */
+	  inhertitedAttributeList =
+	    copyList(symbol->info.class->slot->inheritedAttributeLists);
+	/* Now inhertiedAttributes contains all lists of attributes inherited
+	   from this class */
 	if (inhertitedAttributeList != NULL)
-	  slot->inheritedAttributeLists = combine(slot->inheritedAttributeLists, inhertitedAttributeList);
+	  slot->inheritedAttributeLists =
+	    combine(slot->inheritedAttributeLists, inhertitedAttributeList);
       }
     } else
       remove = TRUE;
@@ -140,7 +147,7 @@ void analyseSlot(srcp, slot)
   slot->state = NUMBERING_ATTRIBUTES;
   /* Number the attributes */
   for (localAttributes = slot->attributes; localAttributes; localAttributes = localAttributes->next) {
-    attribute = findAttributeInLists(srcp, localAttributes->element.attribute->id,
+    attribute = findAttributeInLists(&id->srcp, localAttributes->element.attribute->id,
 				     slot->inheritedAttributeLists);
     if (attribute == NULL)
       localAttributes->element.attribute->code = ++attributeCount;
@@ -150,18 +157,41 @@ void analyseSlot(srcp, slot)
       localAttributes->element.attribute->code = attribute->code;
   }
 
-  /* 4f - Check for inheritance clashes */
   /* 4f - Analyse the name */
+
   /* 4f - Analyse the where */
-  /* 4f - Analyse the attributes */
-  /* 4f - Analyse the container */
-  /* 4f - Analyse the surroundings */
+
+  /* Analyse the container */
+  if (slot->container && !anyIsA(slot->heritage, "container"))
+    lmLogv(&slot->container->srcp, 223, sevERR, id->string, "container", NULL);
+  else
+    analyseContainer(slot->container);
+
+  /* Analyse the surroundings */
+  if (slot->surroundings && !anyIsA(slot->heritage, "location"))
+    lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR, id->string, "location", NULL);
+  else
+    /* 4f - Analyse the surroundings statements */
+
   /* 4f - Analyse the description */
   /* 4f - Analyse the mentioned */
   /* 4f - Analyse the does */
-  /* 4f - Analyse the exits */
+
+  /* Analyse the exits */
+  if (slot->exits && !anyIsA(slot->heritage, "location"))
+    lmLogv(&slot->exits->element.exit->srcp, 223, sevERR, id->string, "location", NULL);
+  else
+    /* 4f - Analyse the exits */;
+
   /* 4f - Analyse the verbs */
-  /* 4f - Analyse the scripts */
+
+  /* Analyse the scripts */
+  /* 4f - find and resolve inherited scripts, as above for attributes */
+  if (slot->scripts && !anyIsA(slot->heritage, "actor"))
+    lmLogv(&slot->scripts->element.script->srcp, 223, sevERR, id->string, "actor", NULL);
+  else
+    /* 4f - Analyse the scripts */;
+
   slot->state = FINISHED;
 }
 

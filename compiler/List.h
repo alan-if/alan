@@ -20,8 +20,10 @@ typedef struct List {		/* GENERIC LISTS */
     struct Id *id;
     struct Attribute *attribute;
     struct Class *class;
+    struct Exit *exit;
     struct Instance *instance;
     struct List *list;
+    struct Script *script;
     struct Statement *statement;
     char *string;
     void *anyType;

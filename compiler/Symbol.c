@@ -250,6 +250,33 @@ Bool isA(id, className)
 
 /*======================================================================
 
+  anyIsA()
+
+  Does the identifier inherit the class? Does not verify the symbol.
+
+  */
+#ifdef _PROTOTYPES_
+Bool anyIsA(List *ids,		/* IN - the list of Ids to check */
+	    char className[]	/* IN - the name of the class it should belong to*/
+)
+#else
+Bool anyIsA(ids, className)
+     List *ids;
+     char className[];
+#endif
+{
+  List *list;
+
+  for (list = ids; list; list = list->next)
+    if (isA(ids->element.id, className))
+      return TRUE;
+  return FALSE;
+}
+
+
+
+/*======================================================================
+
   classCheck()
 
   Verify that the identifier inherits the class indicated by the code.

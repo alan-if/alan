@@ -10,6 +10,7 @@
 
 /* USE: */
 #include "Id.h"
+#include "List.h"
 
 
 /* Types: */
@@ -56,12 +57,16 @@ extern void classCheck(Id *id, char className[]);
 /* Does the identifier inherit the indicate class? */
 extern Bool isA(Id *id, char className[]);
 
+/* Does any of the identifiers inherit the indicate class? */
+extern Bool anyIsA(List *ids, char className[]);
+
 #else
 extern Symbol *newSymbol();
 extern Symbol *lookup();
 extern Symbol *symbolCheck();
 extern void classCheck();
 extern Bool isA();
+extern Bool anyIsA();
 #endif
 
 #endif

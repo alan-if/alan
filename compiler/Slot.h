@@ -68,7 +68,7 @@ extern Slot *newSlot(List *heritage,
 extern void initSlots(void);
 
 /* Analyse the Slot */
-extern void analyseSlot(Srcp *srcp, Slot *slot);
+extern void analyseSlot(Id *id, Slot *slot);
 
 /* Dump a Slot */
 extern void dumpSlot(Slot *slot);
