@@ -113,7 +113,7 @@ int pageLength, pageWidth;
 
 Bool capitalize = FALSE;
 Bool needSpace = FALSE;
-Bool skipsp = FALSE;
+Bool skipSpace = FALSE;
 
 /* Restart jump buffer */
 jmp_buf restartLabel;		/* Restart long jump return point */
@@ -302,7 +302,7 @@ static int updateColumn(int currentColumn, char *string) {
   Print some text and log it if logging is on.
 
  */
-void logPrint(char string[])
+void printAndLog(char string[])
 {
 #ifdef HAVE_GLK
   static int column = 0;
@@ -347,7 +347,7 @@ void newline(void)
   char buf[256];
 
   if (!regressionTestOption && lin >= pageLength - 1) {
-    logPrint("\n");
+    printAndLog("\n");
     needSpace = FALSE;
     printMessage(M_MORE);
     statusline();
@@ -356,11 +356,11 @@ void newline(void)
     getPageSize();
     lin = 0;
   } else
-    logPrint("\n");
+    printAndLog("\n");
   
   lin++;
 #else
-  logPrint("\n");
+  printAndLog("\n");
 #endif
   col = 1;
   needSpace = FALSE;
@@ -423,12 +423,12 @@ void *duplicate(void *original, unsigned long len)
 static void justify(char str[])
 {
 #ifdef HAVE_GLK
-  logPrint(str);
+  printAndLog(str);
 #else
   int i;
   char ch;
   
-  if (col >= pageWidth && !skipsp)
+  if (col >= pageWidth && !skipSpace)
     newline();
 
   while (strlen(str) > pageWidth - col) {
@@ -442,34 +442,29 @@ static void justify(char str[])
     if (i > 0) {		/* If it fits ... */
       ch = str[i];		/* Save space or NULL */
       str[i] = '\0';		/* Terminate string */
-      logPrint(str);		/* and print it */
-      skipsp = FALSE;		/* If skipping, now we're done */
+      printAndLog(str);		/* and print it */
+      skipSpace = FALSE;		/* If skipping, now we're done */
       str[i] = ch;		/* Restore character */
       /* Skip white after printed portion */
       for (str = &str[i]; isSpace(str[0]) && str[0] != '\0'; str++);
     }
     newline();			/* Then start a new line */
+    while(isSpace(str[0])) str++; /* Skip any leading space on next part */
   }
-  logPrint(str);			/* Print tail */
+  printAndLog(str);		/* Print tail */
 #endif
   col = col + strlen(str);	/* Update column */
 }
 
 
-/*----------------------------------------------------------------------
-
-  space()
-
-  Output a space if needed.
-
- */
+/*----------------------------------------------------------------------*/
 static void space(void)
 {
-  if (skipsp)
-    skipsp = FALSE;
+  if (skipSpace)
+    skipSpace = FALSE;
   else {
     if (needSpace) {
-      logPrint(" ");
+      printAndLog(" ");
       col++;
     }
   }
@@ -542,16 +537,18 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     break;
   case 'i':
     newline();
-    logPrint("    ");
+    printAndLog("    ");
     col = 5;
     needSpace = FALSE;
     break;
   case 'o':
+    space();
     sayParameter(0, 0);
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case '+':
   case '0':
+    space();
     if (isdigit(str[2])) {
       sayParameter(str[2]-'1', str[1]=='+'?SAY_DEFINITE:SAY_INDEFINITE);
       needSpace = TRUE;
@@ -567,18 +564,22 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
   case '7':
   case '8':
   case '9':
+    space();
     sayParameter(str[1]-'1', SAY_SIMPLE);
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'l':
+    space();
     say(current.location);
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'a':
+    space();
     say(current.actor);
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'v':
+    space();
     justify((char *)pointerTo(dictionary[verbWord].wrd));
     needSpace = TRUE;		/* We did print something non-white */
     break;
@@ -590,17 +591,17 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     int i;
     int spaces = 4-(col-1)%4;
     
-    for (i = 0; i<spaces; i++) logPrint(" ");
+    for (i = 0; i<spaces; i++) printAndLog(" ");
     col = col + spaces;
     needSpace = FALSE;
     break;
   }
   case '$':
-    skipsp = TRUE;
+    skipSpace = TRUE;
     capitalize = FALSE;
     break;
   default:
-    logPrint("$");
+    printAndLog("$");
     break;
   }
 
@@ -632,6 +633,12 @@ static void capitalizeFirst(char *str) {
   capitalize = FALSE;
 }
 
+/*----------------------------------------------------------------------*/
+static char lastCharOf(char *str) {
+  return str[strlen(str)-1];
+}
+
+
 
 /*======================================================================
 
@@ -658,11 +665,18 @@ void output(char original[])
     ch = *symptr;		/* Terminate before symbol */
     *symptr = '\0';
     if (strlen(str) > 0) {
+      skipSpace = FALSE;	/* Only let skipSpace through if it is
+				   last in the string */
       if (capitalize)
 	capitalizeFirst(str);
-      justify(str);		/* Output part before '$' */
-      if (str[strlen(str)-1] == ' ')
+      if (lastCharOf(str) == ' ') {
+	str[strlen(str)-1] = '\0'; /* Truncate space character */
+	justify(str);		/* Output part before '$' */
+	needSpace = TRUE;
+      } else {
+	justify(str);		/* Output part before '$' */
 	needSpace = FALSE;
+      }
     }
     *symptr = ch;		/* restore '$' */
     str = printSymbol(symptr);	/* Print the symbolic reference and advance */
@@ -673,8 +687,8 @@ void output(char original[])
 
   if (str[0] != 0) {
     justify(str);			/* Output trailing part */
-    skipsp = FALSE;
-    if (str[strlen(str)-1] != ' ')
+    skipSpace = FALSE;
+    if (lastCharOf(str) != ' ')
       needSpace = TRUE;
   }
   anyOutput = TRUE;

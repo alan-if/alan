@@ -151,7 +151,7 @@ static void getline(void)
 #if defined(HAVE_ANSI) || defined(HAVE_GLK)
     statusline();
 #endif
-    logPrint("> ");
+    printAndLog("> ");
 #ifdef USE_READLINE
     if (!readline(buf)) {
       newline();

@@ -102,7 +102,7 @@ extern void output(char string[]);
 extern void printMessage(MsgKind msg);
 extern void para(void);
 extern void newline(void);
-extern void logPrint(char string[]);
+extern void printAndLog(char string[]);
 
 extern Bool eot(Aword *adr);
 extern Bool isObj(Aword x);

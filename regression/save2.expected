@@ -22,7 +22,7 @@ Welcome to the game of SAVIOUR!
 
 In this game your mission is to salvage the last copy of the famous
 ADVENTURE game. Legends have it that somewhere inside an ancient building
-the last copy of this game is still spinning on some old disks. 
+the last copy of this game is still spinning on some old disks.
 
 If you need help just type 'help'.
 
@@ -44,7 +44,7 @@ and a sign with three oval objects are hanging lose from the wall.
 > 
 
 > x
-'x'? I don't know that word.
+I don't know the word 'x'.
 
 > 
 
@@ -988,11 +988,11 @@ You have scored 100 points out of 135.
 
 > read manual
 The text inside the manual reads:
-    'You login by typing your Userid, and...' 
-    '... command is executed by typing it's name.' and 
-    'The INFO command lists available commands.' 
+    'You login by typing your Userid, and...'
+    '... command is executed by typing it's name.' and
+    'The INFO command lists available commands.'
 
-The rest is unfortunately completely illegible. 
+The rest is unfortunately completely illegible.
 
 OOH! There is a hand written remark in the margin here, it says 'NilGu'. 
 
@@ -1050,7 +1050,7 @@ You have scored 100 points out of 135.
 > type "backup"
 The tape starts to spin and after a few moments it stops. Then it starts
 to rewind itself. FLAP, FLAP, and then it stops completely. The terminal
-displays: 
+displays:
 
 'Backup finished.
 Enter command:'
@@ -1082,7 +1082,7 @@ You have scored 100 points out of 135.
 
 You are standing at the end of a road before a small brick building.
 Around you is a forest. A small stream flows out of the building and down 
-a gully.' 
+a gully.'
 
 With a loud POP! the computer stops suddenly and the terminal turns blank.
 
@@ -1174,7 +1174,7 @@ Welcome to the game of SAVIOUR!
 
 In this game your mission is to salvage the last copy of the famous
 ADVENTURE game. Legends have it that somewhere inside an ancient building
-the last copy of this game is still spinning on some old disks. 
+the last copy of this game is still spinning on some old disks.
 
 If you need help just type 'help'.
 
