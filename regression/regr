@@ -11,7 +11,7 @@ run ()
     echo "########## arun $case ##########" >>$case.output
     ../bin/arun -n $case >>$case.output 2>&1 <$case.input 
     cases=`expr $cases + 1`
-    rm $case.acd $case.dat $case.tmp
+    rm $case.a3c $case.tmp
 }
 
 verify()
