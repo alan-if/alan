@@ -20,7 +20,8 @@
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Name of the instance */
+  NamNod *id;			/* Name of the instance */
+  List *heritage;		/* The instances heritage */
   Slots *slt;			/* Slots */
 } InsNod;
 
@@ -32,8 +33,8 @@ typedef struct InsNod {		/* INSTANCE */
 
 /* Create a new Instance node */
 extern InsNod *newins(Srcp *srcp,
-		      NamNod *nam,
-		      List *nams,
+		      NamNod *id,
+		      List *heritage,
 		      Slots *slt);
 
 /* Analyze all Instances */
@@ -46,6 +47,6 @@ extern void prepinss(void);
 extern Aaddr geinss(void);
 
 /* Dump an Instance node */
-extern void duins(InsNod *ins);
+extern void dumpInstance(InsNod *ins);
 
 #endif

@@ -22,7 +22,7 @@
 
   */
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,
+	       NamNod *id,
 	       List *heritage,
 	       Slots *slt)
 {
@@ -33,7 +33,7 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ClaNod);
 
   new->srcp = *srcp;
-  new->nam = nam;
+  new->id = id;
   new->heritage = heritage;
   new->slt = slt;
 
@@ -41,3 +41,17 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 }
 
 
+/*======================================================================
+
+  dumpClass()
+
+  Dump a Class node.
+
+ */
+void dumpClass(ClaNod *cla)
+{
+  put("CLA: "); dusrcp(&cla->srcp); in();
+  put("id: "); dunam(cla->id); nl();
+  put("heritage: "); dulst(cla->heritage, NAMNOD); nl();
+  put("slots: "); dumpSlots(cla->slt); out();
+}

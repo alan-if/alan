@@ -23,6 +23,8 @@
 #include "exp.h"
 #include "ext.h"
 #include "lim.h"
+#include "cla.h"
+#include "ins.h"
 #include "loc.h"
 #include "obj.h"
 #include "rul.h"
@@ -112,6 +114,8 @@ static void dunod(void *nod, NodKind class)
   case EXPNOD: duexp(nod); break;
   case EXTNOD: duext(nod); break;
   case LIMNOD: dulim(nod); break;
+  case CLANOD: dumpClass(nod); break;
+  case INSNOD: dumpInstance(nod); break;
   case LOCNOD: duloc(nod); break;
   case NAMNOD: dunam(nod); break;
   case OBJNOD: duobj(nod); break;

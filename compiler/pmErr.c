@@ -115,6 +115,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
+#line 60 "alan.pmk"
 
 
 {

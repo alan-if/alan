@@ -20,7 +20,7 @@
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Programmer Name of the class */
+  NamNod *id;			/* Programmer Name of the class */
   List *heritage;		/* The class' heritage */
   Slots *slt;			/* Slots */
 } ClaNod;
@@ -33,7 +33,7 @@ typedef struct ClaNod {		/* CLASS */
 
 /* Create a new Claect node */
 extern ClaNod *newcla(Srcp *srcp,
-		      NamNod *nam,
+		      NamNod *id,
 		      List *heritage,
 		      Slots *slt);
 
@@ -47,7 +47,7 @@ extern void prepclas(void);
 extern Aaddr geclas(void);
 
 /* Dump an Class node */
-extern void ducla(ClaNod *cla);
+extern void dumpClass(ClaNod *cla);
 
 
 #endif

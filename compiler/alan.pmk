@@ -6,7 +6,7 @@
 	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
---	Line;
+	Line;
 --	Debug;
 	No Resolve;
 
@@ -1014,16 +1014,16 @@ static int val(char str[])
 
 <slot>
     = <name>
-    %%
+    %%{ List *nam = %<name>.nam;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.nam = %<name>.nam;
-    %%
+	%<slot>.nam = nam;
+    }%%
 
     ! <where>
-    %%
+    %%{ WhrNod *whr = %<where>.whr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.whr = %<where>.whr;
-    %%
+	%<slot>.whr = whr;
+    }%%
 
     ! <is> <attributes>				%+('EXIT', 'IN', 'ARTICLE')
     %%
@@ -1032,58 +1032,58 @@ static int val(char str[])
     %%
 
     ! <container properties>
-    %%
+    %%{ CntNod *cnt = %<container properties>.cnt;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.cnt = %<container properties>.cnt;
-    %%
+	%<slot>.cnt = cnt;
+    }%%
 
     ! <surroundings>
-    %%
+    %%{ List *surr = %<surroundings>.surr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.surr = %<surroundings>.surr;
-    %%
+	%<slot>.surr = surr;
+    }%%
 
     ! <description>
-    %%
+    %%{ List *dscr = %<description>.stms;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.dscr = %<description>.stms;
-    %%
+	%<slot>.dscr = dscr;
+    }%%
 
     ! <mentioned>
-    %%
+    %%{ List *ment = %<mentioned>.ment;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.ment = %<mentioned>.ment;
-    %%
+	%<slot>.ment = ment;
+    }%%
 
     ! <article>
-    %%
+    %%{ List *art = %<article>.art;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.art = %<article>.art;
-    %%
+	%<slot>.art = art;
+    }%%
 
     ! <does>
-    %%
+    %%{ List *does = %<does>.does;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.does = %<does>.does;
-    %%
+	%<slot>.does = does;
+    }%%
 
     ! <exit>
-    %%
+    %%{ ExtNod *ext = %<exit>.ext;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.ext = %<exit>.ext;
-    %%
+	%<slot>.ext = ext;
+    }%%
 
     ! <verb>
-    %%
+    %%{ VrbNod *vrb = %<verb>.vrb;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.vrb = %<verb>.vrb;
-    %%
+	%<slot>.vrb = vrb;
+    }%%
 
     ! <script>
-    %%
+    %%{ ScrNod *scr = %<script>.scr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.scr = %<script>.scr;
-    %%
+	%<slot>.scr = scr;
+    }%%
     ;
 
 

@@ -272,6 +272,8 @@ void duadv(enum dmpKd dmp)
   put("syns: "); if (dmp&DMPSYN) dulst(adv.syns, SYNNOD); else put("--"); nl();
   put("stxs: "); if (dmp&DMPSTX) dulst(adv.stxs, STXNOD); else put("--"); nl();
   put("vrbs: "); if (dmp&DMPVRB) dulst(adv.vrbs, VRBNOD); else put("--"); nl();
+  put("clas: "); if (dmp&DMPCLA) dulst(adv.clas, CLANOD); else put("--"); nl();
+  put("inss: "); if (dmp&DMPINS) dulst(adv.inss, INSNOD); else put("--"); nl();
   put("locs: "); if (dmp&DMPLOC) dulst(adv.locs, LOCNOD); else put("--"); nl();
   put("objs: "); if (dmp&DMPOBJ) dulst(adv.objs, OBJNOD); else put("--"); nl();
   put("cnts: "); if (dmp&DMPCNT) dulst(adv.cnts, CNTNOD); else put("--"); nl();

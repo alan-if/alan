@@ -22,9 +22,9 @@
 
   */
 InsNod *newins(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,
+	       NamNod *id,
 	       List *heritage,
-	       Slots *ins)
+	       Slots *slt)
 {
   InsNod *new;                  /* The newly allocated area */
 
@@ -33,8 +33,25 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
   new = NEW(InsNod);
 
   new->srcp = *srcp;
+  new->id = id;
+  new->heritage = heritage;
+  new->slt = slt;
 
   return(new);
 }
 
 
+/*======================================================================
+
+  dumpInstance()
+
+  Dump a Instance node.
+
+ */
+void dumpInstance(InsNod *ins)
+{
+  put("INS: "); dusrcp(&ins->srcp); in();
+  put("id: "); dunam(ins->id); nl();
+  put("heritage: "); dulst(ins->heritage, NAMNOD); nl();
+  put("slots: "); dumpSlots(ins->slt); nl();
+}

@@ -53,3 +53,29 @@ Slots *newSlots(List *nams,
 }
 
 
+/*======================================================================
+
+  dumpSlots()
+
+  Dump a Slots node.
+
+ */
+void dumpSlots(Slots *slots)
+{
+  put("SLOTS: "); in();
+  put("namslst: "); dulst(slots->namslst, NAMNOD); nl();
+  put("namstms: "); dulst(slots->namstms, STMNOD); nl();
+  put("namadr: "); duadr(slots->namsadr); nl();
+  put("whr: "); duwhr(slots->whr); nl();
+  put("cnt: "); ducnt(slots->cnt); nl();
+  put("atrs: "); dulst(slots->atrs, ATRNOD); nl();
+  put("atradr: "); duadr(slots->atradr); nl();
+  put("dscr: "); dulst(slots->dscr, STMNOD); nl();
+  put("dscradr: "); duadr(slots->dscradr); nl();
+  put("art: "); dulst(slots->art, STMNOD); nl();
+  put("artadr: "); duadr(slots->artadr); nl();
+  put("ment: "); dulst(slots->ment, STMNOD); nl();
+  put("mentadr: "); duadr(slots->mentadr); nl();
+  put("vrbs: "); dulst(slots->vrbs, VRBNOD); nl();
+  put("vrbadr: "); duadr(slots->vrbadr); out();
+}

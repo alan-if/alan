@@ -95,6 +95,13 @@ src:
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
+
+depend:
+	@for f in *.c; \
+	  do \
+	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
+	done
+
 #
 # Version number generation
 #
