@@ -62,7 +62,7 @@ CurVars current;
 /* The event queue */
 int eventQueueSize = 0;
 EventQueueEntry *eventQueue = NULL; /* Event queue */
-int eventQueueTop = 0;                   /* Event queue top pointer */
+Aint eventQueueTop = 0;		/* Event queue top pointer */
 
 /* Amachine structures - Dynamic */
 InstanceEntry *instance;	/* Instance table pointer */

@@ -1689,9 +1689,9 @@ void saveGame(void)
 	fwrite((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
   }
 
-  /* Save the event queue */
-  eventQueue[eventQueueTop].time = 0;        /* Mark the top */
-  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop+1, saveFile);
+  /* Save the event queue, write size first */
+  fwrite((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
+  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
 
   /* Save scores */
   for (i = 0; scores[i] != EOF; i++)
@@ -1786,12 +1786,12 @@ void restoreGame(void)
   }
 
   /* Restore the eventQueue */
-  eventQueueTop = 0;
-  do {
-    fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), 1, saveFile);
-    eventQueueTop++;
-  } while (eventQueue[eventQueueTop-1].time != 0);
-  eventQueueTop--;
+  fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
+  if (eventQueueTop > eventQueueSize) {
+    free(eventQueue);
+    eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
+  }
+  fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), eventQueueTop, saveFile);
 
   /* Restore scores */
   for (i = 0; scores[i] != EOF; i++)

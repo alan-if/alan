@@ -26,7 +26,7 @@ extern AcdHdr *header;
 /* Event queue */
 extern int eventQueueSize;
 extern EventQueueEntry *eventQueue;
-extern int eventQueueTop;		/* Event queue top pointer */
+extern Aint eventQueueTop;		/* Event queue top pointer */
 
 /* Amachine variables */
 extern CurVars current;
