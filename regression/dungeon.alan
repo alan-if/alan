@@ -624,6 +624,7 @@ END OBJECT.
 OBJECT sack NAME elongated brown sack IN table
     CONTAINER
     IS openable.
+    ARTICLE "an"
     MENTIONED
         "elongated brown sack, smelling of hot peppers"
 

@@ -2,7 +2,7 @@
 #
 
 all:
-	resteam
+	steam test
 
 
 archives: CASES regression.dos

@@ -26,7 +26,7 @@ I can't see any lamp here.
 > w
 Square Room.
 It is very dark in here. In the north wall of the room there is
-a door. There is a old lamp here.
+a door. There is an old lamp here.
 
 > take all
 You can't refer to multiple objects with 'take'.
@@ -68,7 +68,7 @@ You can't take the door.
 I can't see any book here.
 
 > i
-The inventory contains a old lighted lamp.
+The inventory contains an old lit lamp.
 
 > q
 
