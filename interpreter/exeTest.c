@@ -8,6 +8,7 @@
 
 #include "exe.c"
 
+
 static char testFileName[] = "getStringTestFile";
 static FILE *testFile;
 static void writeAndOpenGetStringTestFile(int fpos, char *testString)
@@ -20,6 +21,9 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
   fclose(testFile);
   txtfil = fopen(testFileName, "rb");
 }
+
+
+extern void unlink();
 
 void testGetString()
 {

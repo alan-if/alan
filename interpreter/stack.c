@@ -55,3 +55,46 @@ Aword top()
 {
   return(stack[stackp-1]);
 }
+
+
+/* The AMACHINE Block Frames */
+static int blockPointer = -1;
+
+void newBlock(Aint noOfLocals)
+{
+  push(blockPointer);
+  blockPointer = stackp;
+  for (;noOfLocals > 0; noOfLocals--) push(0);
+}
+
+
+/* Local variables are numbered 1 and up and stored on their index-1 */
+Aword getLocal(Aint blocksBelow, Aint variableNumber)
+{
+  if (blocksBelow != 0)
+    syserr("Locals in blocks below not implemented yet!");
+
+  if (variableNumber < 1)
+    syserr("Reading a non-existing block-local variable.");
+
+  return stack[blockPointer + variableNumber-1];
+}
+
+void setLocal(Aint blocksBelow, Aint variableNumber, Aword value)
+{
+  if (blocksBelow != 0)
+    syserr("Locals in blocks below not implemented yet!");
+
+  if (variableNumber < 1)
+    syserr("Writing a non-existing block-local variable.");
+
+  stack[blockPointer + variableNumber-1] = value;
+}
+
+void endBlock(void)
+{
+  stackp = blockPointer;
+  blockPointer = pop();
+}
+
+

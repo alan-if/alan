@@ -33,9 +33,7 @@ BUILDSRCS = \
 	rules.c \
 	debug.c \
 	args.c \
-	inter.c \
 	parse.c \
-	stack.c \
 	decode.c \
 	term.c \
 	reverse.c \
@@ -44,6 +42,8 @@ BUILDSRCS = \
 	main.c
 
 MAINSRCS = exe.c \
+	stack.c \
+	inter.c \
 	arun.c
 
 VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)
@@ -119,6 +119,7 @@ unit : $(TESTOBJECTS)
 
 # Run all tests!
 test: unit
+	@./unit
 
 
 #
@@ -134,7 +135,7 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.o
 # Dependencies
 #
 depend:
-	@for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
+	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
 	done

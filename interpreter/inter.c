@@ -870,6 +870,45 @@ void interpret(adr)
 	break;
       }
 
+      case I_BLOCK: {
+	Aint size;
+	size = pop();
+	if (stpflg)
+	  printf("BLOCK \t%5ld", size);
+	newBlock(size);
+	break;
+      }
+
+      case I_GETLOCAL: {
+	Aint blocksBelow, variableNumber;
+	variableNumber = pop();
+	blocksBelow = pop();
+	if (stpflg)
+	  printf("GETLOCAL \t%5ld, %5ld", blocksBelow, variableNumber);
+	push(getLocal(blocksBelow, variableNumber));
+	if (stpflg)
+	  printf("\t(%5ld)", top());
+	break;
+      }
+
+      case I_SETLOCAL: {
+	Aint blocksBelow, variableNumber, value;
+	value = pop();
+	variableNumber = pop();
+	blocksBelow = pop();
+	if (stpflg)
+	  printf("SETLOCAL \t%5ld, %5ld, %5ld", blocksBelow, variableNumber, value);
+	setLocal(blocksBelow, variableNumber, value);
+	break;
+      }
+
+      case I_ENDBLOCK: {
+	if (stpflg)
+	  printf("ENDBLOCK");
+	endBlock();
+	break;
+      }
+
       case I_RETURN:
 	if (stpflg)
 	  printf("RETURN\n--------------------------------------------------\n");

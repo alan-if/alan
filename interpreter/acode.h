@@ -80,6 +80,7 @@ typedef enum OpClass {
   C_CURVAR
 } OpClass;
 
+#define INSTRUCTION(op) ((((Aword)C_STMOP)<<28)|((Aword)op))
 typedef enum InstClass {
   I_PRINT,			/* Print a string from the text file */
   I_QUIT,
@@ -113,7 +114,7 @@ typedef enum InstClass {
   I_IF,
   I_ELSE,
   I_ENDIF,
-  I_ATTRIBUTE,
+  I_ATTRIBUTE,			/* Push the value of an attribute */
   I_STRATTR,			/* Push a copy of a string attribute */
   I_HERE,
   I_NEAR,
@@ -149,7 +150,11 @@ typedef enum InstClass {
   I_DEPEXEC,
   I_DEPELSE,
   I_DEPEND,
-  I_ISA
+  I_ISA,
+  I_BLOCK,
+  I_SETLOCAL,
+  I_GETLOCAL,
+  I_ENDBLOCK
 } InstClass;
 
 

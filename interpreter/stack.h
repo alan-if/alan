@@ -15,11 +15,21 @@
 extern Aword pop(void);
 extern void push(Aword item);
 extern Aword top(void);
+extern void newBlock(Aint noOfLocals);
+extern void setLocal(Aint blocksBelow, Aint variableNumber, Aword value);
+extern Aword getLocal(Aint level, Aint variable);
+extern void endBlock(void);
 
 #else
+
 extern Aword pop();
 extern void push();
 extern Aword top();
+extern void newBlock();
+extern void setLocal();
+extern Aword getLocal();
+extern void endBlock();
+
 #endif
 
 #endif

@@ -15,11 +15,6 @@ sgcrash1.alan
   *1*   310 E : Identifier 'oldbooks' not defined.
   *1*   351 E : Must refer to an instance inheriting from 'location'.
 
-   29.  article "some"
-=====>  1
-
-  *1*   204 E : Multiple use of ARTICLE clause in this class/instance.
-
    34.  the chocolate isa object in box
 =====>                              1
 
@@ -27,7 +22,7 @@ sgcrash1.alan
   *1*   310 E : Identifier 'box' not defined.
 
 
-        7 error(s).
+        6 error(s).
         No detected warnings.
         1 informational message(s).
 

@@ -518,7 +518,7 @@ static void numberAttributes(Symbol *symbol)
     inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
     if (inheritedAttribute != NULL) {
       if (!equalTypes(inheritedAttribute->type, theList->element.atr->type)) {
-	definingSymbol = definingSymbolOfAttribute(symbol, theList->element.atr->id);
+	definingSymbol = definingSymbolOfAttribute(symbol->fields.entity.parent, theList->element.atr->id);
 	lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
       }
       theList->element.atr->id->code = inheritedAttribute->id->code;

@@ -45,11 +45,15 @@ Aword convertFromACD(Aword w)
 
 
 #include "exeTest.c"
+#include "stackTest.c"
+#include "interTest.c"
 
 
 int main()
 {
   registerExeUnitTests();
+  registerStackUnitTests();
+  registerInterUnitTests();
 
   unitTest();
 

@@ -1,23 +1,30 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2002-06-14
+			      2002-09-17
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.18dev) of Alan V3. It features
+This is a development preview (v3.0.19dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
-Windows only, and you will require a Windows GLK.DLL to run the
-winarun interpreter. arun.exe requires a cygwin1.dll.
-
+Windows only, to run the GUI interpreter 'winarun' you will require a
+Windows GLK.DLL. The command line version 'arun.exe' requires a
+cygwin1.dll.
 
 This package contains the compiler, the interpreter, the manual,
 the source for the Saviour game and a version of the standard library.
 
-Changes from v3.0.18dev:
-* much work in the manual
-* DESCRIPTION CHECKs
+Changes from v3.0.19dev:
+
+
+Note:
+WindowsGLK DLL can be downloaded from
+http://www.ifarchive.org/if-archive/programming/glk/implementations/WindowsGlk-121.zip
+
+The Cygwin DLL can be installed from http://www.cygwin.org, click
+"Install now" and unselect everything to get just the DLL.
+
 
 
 THE LONG STORY:
