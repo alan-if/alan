@@ -161,12 +161,18 @@ void analyzeProps(Properties *props, Context *context)
   analyzeStatements(props->mentioned, context);
   analyzeStatements(props->article, context);
   analyzeVerbs(props->verbs, context);
+
+  /* Have container but is a location? */
+  if (props->container && inheritsFrom(props->id->symbol, locationSymbol))
+    lmLog(&props->id->srcp, 354, sevERR, props->id->string);
   analyzeContainer(props->container, context);
 
+  /* Have exits but not a location? */
   if (props->exits && !inheritsFrom(props->id->symbol, locationSymbol))
     lmLog(&props->id->srcp, 352, sevERR, props->id->string);
   analyzeExits(props->exits, context);
 
+  /* Have scripts but not an actor? */
   if (props->scripts && !inheritsFrom(props->id->symbol, actorSymbol))
     lmLog(&props->id->srcp, 353, sevERR, props->id->string);
   prepareScripts(props->scripts, props->id);

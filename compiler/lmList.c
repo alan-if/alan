@@ -150,6 +150,7 @@ static lmMsgs msg[] = {
     { "351   ", "Must refer to %1 inheriting from \'%2\'." },
     { "352   ", "Instance \'%1\' does not inherit from \'location\', but has EXITs, which can never be traversed." },
     { "353   ", "Instance \'%1\' does not inherit from \'actor\', but has SCRIPTs, which can never be executed." },
+    { "354   ", "Instance \'%1\' inherits from \'location\', but has CONTAINER properties, which is dubious in use." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
@@ -189,7 +190,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 109}
+    {0, 110}
 };
 static lmMessages currMsect = (lmMessages)0;
 
