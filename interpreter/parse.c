@@ -656,7 +656,7 @@ static void try(ParamEntry mlst[])
 	  break;
     } else {
       /* A preposition? */
-      if (isPrep(wrds[wrdidx])) {
+      if (isPrep(wrds[wrdidx]) && elms->code != 0) {
 	while (!endOfTable(elms) && elms->code != dict[wrds[wrdidx]].code)
 	  elms++;
 	if (endOfTable(elms))
@@ -664,7 +664,7 @@ static void try(ParamEntry mlst[])
 	else
 	  wrdidx++;
       } else {
-	/* Must be a parameter! */
+	/* Require a parameter if elms->code == 0! */
 	while (!endOfTable(elms) && elms->code != 0)
 	  elms++;
 	if (endOfTable(elms))
