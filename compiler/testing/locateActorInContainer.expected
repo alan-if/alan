@@ -3,7 +3,7 @@
 
 locateActorInContainer.alan
 
-   11.        Locate i In c.
+    7.        Locate i In c.
 =====>                 1
 
   *1*   404 E : Container is restricted to only contain instances of 'object'

@@ -4,10 +4,9 @@
 start1.alan
 
     1.  The l
-=====>  1
+=====>      1
 
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *1*   429 E : No inheritance defined, everything must inherit from a class.
 
     4.  Start At l.
 =====>           1
@@ -16,7 +15,7 @@ start1.alan
                 'location'.
 
 
-        1 error(s).
-        1 warning(s).
+        2 error(s).
+        No detected warnings.
         1 informational message(s).
 

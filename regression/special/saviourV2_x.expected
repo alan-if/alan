@@ -152,17 +152,18 @@ saviourV2_x.alan
                 Identifier 'END' 'LOCATION' '.' ...".
 
   279.  LOCATION outside NAME Outside the tall building
-=====>                                1   2    3
+=====>                                    1    2
 
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   352 E : Instance 'tall' does not inherit from 'location', but has EXITs
+  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   352 E : Instance 'tall' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
-  *3*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
                 this symbol.
-  *3*   310 E : Identifier 'building' not defined.
-  *3*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   310 E : Identifier 'building' not defined.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
+  *2*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
 
   286.      EXIT north TO hall
 =====>                    1
@@ -182,8 +183,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
 
@@ -220,13 +220,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'hall' assumed.
 
   327.  OBJECT door AT hall
-=====>  1              2
+=====>  1      2    3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   381.              ELSIF k = keys THEN
@@ -258,8 +259,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'door' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'stairs' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -293,8 +293,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'cellar' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -318,13 +317,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'cellar' assumed.
 
   442.  OBJECT rats AT cellar
-=====>  1              2
+=====>  1      2    3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   472.  END OBJECT.
@@ -339,8 +339,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'rats' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'store' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -358,13 +357,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'store' assumed.
 
   490.  OBJECT tape AT store
-=====>  1              2
+=====>  1      2    3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   512.          ELSIF computer HERE THEN
@@ -384,8 +384,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'tape' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'first' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -415,13 +414,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'first' assumed.
 
   536.  OBJECT book NAME old book AT first
-=====>  1                            2
+=====>  1      2                  3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   555.          LOCATE book AT NOWHERE.
@@ -441,8 +441,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'book' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'office' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -460,13 +459,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'office' assumed.
 
   573.  OBJECT ladder AT office
-=====>  1                2
+=====>  1      2      3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   616.          IF ladder AT outside THEN
@@ -491,8 +491,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'ladder' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'second' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -526,8 +525,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'terminal_room' does not inherit from 'location', but
                 has EXITs, which can never be traversed.
 
@@ -545,13 +543,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'terminal_room' assumed.
 
   686.  OBJECT terminal AT terminal_room
-=====>  1                  2
+=====>  1      2        3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   732.  	IF coin IS NOT found THEN
@@ -623,8 +622,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'terminal' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'third' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -652,8 +650,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'fourth' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -694,8 +691,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'holeroom' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -723,8 +719,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'walless' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -742,13 +737,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'walless' assumed.
 
   848.  OBJECT nest NAME birds nest AT walless
-=====>  1                              2
+=====>  1      2                    3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   867.              LOCATE keys HERE.
@@ -784,8 +780,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'nest' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'fifth' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -819,8 +814,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'clockroom' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -838,13 +832,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'clockroom' assumed.
 
   913.  OBJECT clock AT clockroom
-=====>  1               2
+=====>  1      2     3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
   956.  END OBJECT.
@@ -859,8 +854,7 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'clock' assumed.
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *2*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'corr' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
 
@@ -893,8 +887,7 @@ saviourV2_x.alan
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'deskroom' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
 
@@ -917,13 +910,14 @@ saviourV2_x.alan
   *1*   200 W : Mismatched block identifier, 'deskroom' assumed.
 
   995.  OBJECT drawer AT deskroom
-=====>  1                2
+=====>  1      2      3  4
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
                 with "'THE'".
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
  1019.          ELSIF manual IS NOT found THEN
@@ -1248,7 +1242,7 @@ saviourV2_x.alan
                 'location'.
 
 
-        223 error(s).
-        79 warning(s).
+        259 error(s).
+        53 warning(s).
         29 informational message(s).
 

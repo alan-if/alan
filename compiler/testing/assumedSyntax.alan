@@ -8,7 +8,7 @@ The topics Isa entity
   Container
 End The topics.
 
-The weather Isa topic In topics
+The weather Isa topic
   Verb x
     Does "x" Say x of topic.
   End Verb.

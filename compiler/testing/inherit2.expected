@@ -3,6 +3,11 @@
 
 inherit2.alan
 
+    1.  Every y
+=====>        1
+
+  *1*   429 E : No inheritance defined, everything must inherit from a class.
+
    12.  Start At l.
 =====>            1
 
@@ -10,7 +15,7 @@ inherit2.alan
                 'location'.
 
 
-        1 error(s).
+        2 error(s).
         No detected warnings.
         1 informational message(s).
 

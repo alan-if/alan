@@ -125,7 +125,7 @@
 402	'%1 can not be inside a Container.';
 403	'Script multiply defined for Actor \'%1\'.';
 404	'Container is restricted to only contain instances of \'%1\' and its subclasses.';
-405	'Instances inheriting from Location can not %1.';
+405	'Only instances and classes inheriting from Thing can %1.';
 406	'Integer and String parameters have no attributes.';
 407	'Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'.';
 408	'%1 in %2 must be of %3 type.';
@@ -142,13 +142,13 @@
 419	'%1 SET statement can not be of boolean type.';
 420	'Invalid What-specification in %1.';
 421	'THIS instance is not defined in this context.';
-422	'This instance does not inherit from anything, nor does it have a container property. This makes its use dubious.';
 423	'You can not instantiate or sub-class \'%1\'.';
 424	'You can not ADD %1 to non-instantiable class \'%2\'.';
 425	'A Mentioned clause overrides the Name for an instance inheriting from location.';
 426	'Adding a Verb to the pre-defined class \'entity\' will result in multiple executions of it, since it will be inherited by both all locations and all objects. This is probably not what you want. Try adding it to \'thing\' instead.';
 427	'A subsequent restriction for the same parameter (\'%1\') should restrict it further, to a subclass of \'%2\'.';
 428	'%1 must refer to %2.';
+429	'No inheritance defined, everything must inherit from a class.';
 430	'Incompatible instance. You can only assign instances of class \'%1\' and its subclasses.';
 
 440	'%1 filters can currently only accept boolean attributes.';

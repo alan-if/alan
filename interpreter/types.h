@@ -32,6 +32,7 @@
 #define HERO (header->theHero)
 #define OBJECT (header->objectClassId)
 #define LOCATION (header->locationClassId)
+#define THING (header->thingClassId)
 #define ACTOR (header->actorClassId)
 
 

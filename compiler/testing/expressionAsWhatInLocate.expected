@@ -11,8 +11,8 @@ expressionAsWhatInLocate.alan
     8.    Locate ref2 Of l Here.
 =====>                1
 
-  *1*   405 E : Instances inheriting from Location can not be used in Locate
-                statement.
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
 
 
         2 error(s).

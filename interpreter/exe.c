@@ -1472,7 +1472,7 @@ void describeInstances(void)
 	&& !admin[i].alreadyDescribed)
       describe(i);
 
-  /* Clear the describe flag for all objects */
+  /* Clear the describe flag for all instances */
   for (i = 1; i <= header->instanceMax; i++)
     admin[i].alreadyDescribed = FALSE;
 }
@@ -1525,30 +1525,33 @@ void list(Aword cnt)
   if (props == 0) syserr("Trying to list something not a container.");
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (in(i, cnt)) {		/* Yes, it's in this container */
-      if (!found) {
-	found = TRUE;
-	if (container[props].header != 0)
-	  interpret(container[props].header);
-	else {
-	  if (isA(container[props].owner, ACTOR)) {
-	    say(container[props].owner);
-	    prmsg(M_CARRIES);
-	  } else {
-	    prmsg(M_CONTAINS0);
-	    say(container[props].owner);
-	    prmsg(M_CONTAINS);
+    if (isA(i, OBJECT) || isA(i, ACTOR)) {
+      /* We can only see objects and actors */
+      if (in(i, cnt)) {		/* Yes, it's in this container */
+	if (!found) {
+	  found = TRUE;
+	  if (container[props].header != 0)
+	    interpret(container[props].header);
+	  else {
+	    if (isA(container[props].owner, ACTOR)) {
+	      say(container[props].owner);
+	      prmsg(M_CARRIES);
+	    } else {
+	      prmsg(M_CONTAINS0);
+	      say(container[props].owner);
+	      prmsg(M_CONTAINS);
+	    }
 	  }
+	} else {
+	  if (multiple) {
+	    needSpace = FALSE;
+	    prmsg(M_CONTAINSCOMMA);
+	  }
+	  multiple = TRUE;
+	  sayForm(previouslyFoundInstance, SAY_INDEFINITE);
 	}
-      } else {
-	if (multiple) {
-	  needSpace = FALSE;
-	  prmsg(M_CONTAINSCOMMA);
-	}
-	multiple = TRUE;
-	sayForm(previouslyFoundInstance, SAY_INDEFINITE);
+	previouslyFoundInstance = i;
       }
-      previouslyFoundInstance = i;
     }
   }
 

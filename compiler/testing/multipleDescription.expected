@@ -3,12 +3,6 @@
 
 multipleDescription.alan
 
-    1.  The o
-=====>  1
-
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-
     4.    Description "second"
 =====>    1
 
@@ -16,6 +10,6 @@ multipleDescription.alan
 
 
         1 error(s).
-        1 warning(s).
+        No detected warnings.
         1 informational message(s).
 

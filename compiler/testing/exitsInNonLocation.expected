@@ -4,11 +4,10 @@
 exitsInNonLocation.alan
 
     1.  The nonLocation
-=====>  1   2
+=====>      1
 
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
-  *2*   352 E : Instance 'nonLocation' does not inherit from 'location', but
+  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   352 E : Instance 'nonLocation' does not inherit from 'location', but
                 has EXITs, which can never be traversed.
 
     5.  The anotherNonLocation Isa object
@@ -18,7 +17,7 @@ exitsInNonLocation.alan
                 but has EXITs, which can never be traversed.
 
 
-        2 error(s).
-        1 warning(s).
+        3 error(s).
+        No detected warnings.
         1 informational message(s).
 

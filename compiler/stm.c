@@ -210,12 +210,12 @@ static void analyzeLocate(Statement *stm, Context *context)
   if (what->type != ERROR_TYPE) {
     if (what->type != INSTANCE_TYPE)
       lmLogv(&what->srcp, 428, sevERR, "What-clause in Locate statement", "an instance", NULL);
-    else if (inheritsFrom(what->class, locationSymbol))
-      lmLog(&what->srcp, 405, sevERR, "be used in Locate statement");
-    else
+    else if (what->class) {
+      if (!inheritsFrom(what->class, thingSymbol))
+	lmLog(&what->srcp, 405, sevERR, "be used in Locate statement");
       whtSymbol = what->class;
+    }
   }
-      
   analyzeWhere(whr, context);
 
   switch (whr->kind) {

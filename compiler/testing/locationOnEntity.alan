@@ -3,7 +3,7 @@ The x Isa entity At l
 End The x.
 
 Every t Isa entity
-End The t.
+End Every t.
 
 The y Isa t At l
 End The y.

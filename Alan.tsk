@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>367.89</origest>
-<currest>366.89</currest>
-<elapsed>204.89</elapsed>
+<origest>369.89</origest>
+<currest>368.89</currest>
+<elapsed>205.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>60</origest>
-<currest>60</currest>
-<elapsed>10</elapsed>
+<origest>62</origest>
+<currest>62</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
-<elapsed>10</elapsed>
+<origest>26</origest>
+<currest>26</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -143,6 +143,32 @@ find an unambiguous phrasing.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Clean up of pre-defined classes</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Enforce inheritance</desc>
+<notes>No instances or classes can be declared without a parent. Don't know what this would mean...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Entities should be available everywhere but not show up in descriptions or lists</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Sub-classes to entities must behave like entities</desc>
 <notes>Entities don't have location properties, nor are they described automatically. Document this and warn for a location property.
 
@@ -158,13 +184,14 @@ VERIFICATION: Only objects, and actors are automatically described. Things are n
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Enforce inheritance</desc>
-<notes>No instances or classes can be declared without a parent. Don't know what this would mean...</notes>
+<desc>Things should not show up, but only be available at their location</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Describe "scoping rules" and interpreter scoping viz-a-viz author code</desc>

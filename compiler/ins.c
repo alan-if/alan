@@ -156,8 +156,6 @@ static void analyzeInstance(Instance *instance)
 {
   Context *context = newContext(INSTANCE_CONTEXT, instance);
 
-  if (instance->props->parentId == NULL && instance->props->container == NULL)
-    lmLog(&instance->srcp, 422, sevWAR, "");
   analyzeNameWords(instance);	/* Only instances need names in the dictionary */
   analyzeProps(instance->props, context);
 }

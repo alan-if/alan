@@ -1,11 +1,5 @@
 ########## analyzeAttributesBeforeExpressions ##########
 
-
-        427 W : A subsequent restriction for the same parameter ('topic')
-                should restrict it further, to a subclass of 'entity'.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         1 informational message(s).
 

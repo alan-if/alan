@@ -6,8 +6,8 @@ locateIn.alan
    10.    Locate l In l.
 =====>           1    2
 
-  *1*   405 E : Instances inheriting from Location can not be used in Locate
-                statement.
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
   *2*   318 E : The 'l' does not have the container property.
 
    11.    Locate c In c.

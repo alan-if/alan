@@ -171,22 +171,28 @@ static void analyzeMentioned(Properties *props, Context *context)
 }
 
 /*----------------------------------------------------------------------*/
-static void checkProhibitedSubclassing(Properties *props)
+static void checkSubclassing(Properties *props)
 {
-  if (props->parentId && props->parentId->symbol)
-    if (props->parentId->symbol->fields.entity.prohibitedSubclassing &&
-	!props->predefined)
-      lmLog(&props->parentId->srcp, 423, sevERR, props->parentId->string);
+  if (props->parentId) {
+    if (props->id->symbol == theHero) {
+      if (props->parentId->symbol != actorSymbol)
+	lmLog(&props->parentId->srcp, 411, sevERR, "Inheritance from anything but 'actor'");
+    } else if (props->parentId->symbol)
+      if (props->parentId->symbol->fields.entity.prohibitedSubclassing &&
+	  !props->predefined)
+	lmLog(&props->parentId->srcp, 423, sevERR, props->parentId->string);
+  } else if (props->id->symbol != entitySymbol && props->id->symbol != theHero)
+    lmLog(&props->id->srcp, 429, sevERR, "");
 }
 
 
 /*======================================================================*/
 void analyzeProps(Properties *props, Context *context)
 {
-  checkProhibitedSubclassing(props);
+  checkSubclassing(props);
 
   if (props->whr != NULL) verifyInitialLocation(props->whr);
-  if (inheritsFrom(props->id->symbol, locationSymbol) && props->whr != NULL)
+  if (!inheritsFrom(props->id->symbol, thingSymbol) && props->whr != NULL)
     lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
   if (inheritsFrom(props->id->symbol, actorSymbol)
       && props->whr != NULL && props->whr->kind == WHERE_IN)

@@ -18,8 +18,8 @@ multipleRestrictionNotSubclasses.alan
    30.  The t2 Isa takeable At l
 =====>                      1
 
-  *1*   405 E : Instances inheriting from Location can not have initial
-                locations.
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
 
 
         1 error(s).

@@ -16,14 +16,14 @@ initialInForLocation.alan
    11.  The l Isa location In cont
 =====>                     1
 
-  *1*   405 E : Instances inheriting from Location can not have initial
-                locations.
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
 
    14.  The l2 Isa location In o
 =====>                      1  2
 
-  *1*   405 E : Instances inheriting from Location can not have initial
-                locations.
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
   *2*   318 E : The 'o' does not have the container property.
 
 

@@ -23,14 +23,14 @@ locate0.alan
    15.    Locate l At l.
 =====>           1
 
-  *1*   405 E : Instances inheriting from Location can not be used in Locate
-                statement.
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
 
    16.    Locate Current Location At l.
 =====>           1
 
-  *1*   405 E : Instances inheriting from Location can not be used in Locate
-                statement.
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
 
    18.    Locate This At l.
 =====>           1

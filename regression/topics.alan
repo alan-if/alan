@@ -9,7 +9,7 @@ Syntax
   ask_about = talk 'to' (a) about (t).
   ask_about = talk about (t) 'with' (a).
 
-Every topic Isa entity
+Every topic Isa thing
   Verb ask_about
     Does
       If t In topics Of a Then
@@ -20,7 +20,7 @@ Every topic Isa entity
   End Verb.
 End Every topic.
 
-The topics
+The topics Isa entity
   Container Taking topic.
 End The topics.
 

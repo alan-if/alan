@@ -4,10 +4,9 @@
 inherit1.alan
 
     1.  The y
-=====>  1
+=====>      1
 
-  *1*   422 W : This instance does not inherit from anything, nor does it have
-                a container property. This makes its use dubious.
+  *1*   429 E : No inheritance defined, everything must inherit from a class.
 
     5.    Isa y
 =====>         1
@@ -22,7 +21,7 @@ inherit1.alan
                 'location'.
 
 
-        3 error(s).
-        1 warning(s).
+        4 error(s).
+        No detected warnings.
         1 informational message(s).
 
