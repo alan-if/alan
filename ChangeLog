@@ -1,3 +1,7 @@
+Fri Sep 17 13:34:55     2004
+
+	* v3.0.31
+
 2004-09-17 08:43  Thomas Nilsson
 
 	* Alan.tsk, alan.version, interpreter/arun.rc,
@@ -9906,4 +9910,5 @@
 1993-02-13 18:33  thoni
 
 	* Makefile: First attempt at CVS-ing
+
 
