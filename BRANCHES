@@ -23,17 +23,17 @@ making of releases, porting and other CM stuff.
 	for NFS mounted platforms a build with the correct make
 	options are performed
 
-	for amiga, pc etc. tags are set as above and sources packaged
-	(or whatever)
+	for amiga, pc etc. sources are exported from the tags as above
+	and sources packaged (or whatever)
 
 
 The above scheme will make it possible to add changes done later to
 the branches and then carefully merging them into the main branch. The
-scheme for this is to add a branch tag (vXYZ<target>_branch) at the
-point where the sources was taken (vXYZ<target>). The source on that
-branch can then be checked out and changes added and committed. The
-HEAD of the branch (the vXYZ<target>_branch tag) will now refer to
-*all* the changes performed on that branch.
+scheme for this is to add a branch tag (vXYZ<target>) at the point
+where the sources was taken. The source on that branch can then be
+checked out and changes added and committed. The HEAD of the branch
+(the vXYZ<target> tag) will now refer to *all* the changes
+performed on that branch.
 
 The merge can now be performed at anytime in the trunk by performing
 the following command in a working directory on the trunk
