@@ -1,3 +1,7 @@
+Tue Jul 29 19:38:00 MET DST 1997
+
+	* v2.7(5)
+
 Mon Jul 28 10:45:33 MET DST 1997
 
 	* v2.7(4)
@@ -241,6 +245,7 @@ Wed Dec  8 16:15:01 1993  Thomas Nilsson  (thoni@rabbit)
 	* Added Restart question to the QUIT statement.
 
 	* Allowed save to multiple files.
+
 
 
 
