@@ -1,14 +1,15 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
-CPP	= gcc -MM -ansi
-
-CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
-#CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
+#CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 CFLAGS = -g -Wall $(CYGWIN) -funsigned-char $(INCLUDE)
 
 LDFLAGS = -g $(CYGWIN)
+
+CPP	= gcc -MM -ansi
+
 
 TMSRCS = \
 	alan.tmk \

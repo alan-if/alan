@@ -47,7 +47,7 @@ End The pot.
 Syntax x = x (o).
 Verb x
 Does
-  Look.
+  "You X something."
 End Verb x.
 
 
