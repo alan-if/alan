@@ -961,37 +961,71 @@ void saystr(char *str)
 
 
 /*----------------------------------------------------------------------*/
-static void sayInheritedArticle(Aword theClass, SayForm form) {
+static Boolean sayInheritedDefiniteForm(Aword theClass) {
   if (theClass == 0) {
-    if (form == SAY_DEFINITE)
-      prmsg(M_DEFINITE);
-    else
-      prmsg(M_INDEFINITE);
+    prmsg(M_DEFINITE);
+    return FALSE;
   } else {
-    if (form == SAY_DEFINITE && class[theClass].definite)
+    if (class[theClass].definite) {
       interpret(class[theClass].definite);
-    else if (form == SAY_INDEFINITE && class[theClass].indefinite)
-      interpret(class[theClass].indefinite);
-    else if (form == SAY_DEFINITE || form == SAY_INDEFINITE)
-      sayInheritedArticle(class[theClass].parent, form);
-    else
-      syserr("Unexpected form in 'sayInheritedArticle()'");
+      return class[theClass].definiteIsForm;
+    } else
+      return sayInheritedDefiniteForm(class[theClass].parent);
   }
 }
 
 
-
-/*======================================================================*/
-void sayArticle(Aword id, SayForm form)
-{
-  if (form == SAY_DEFINITE && instance[id].definite)
+/*----------------------------------------------------------------------*/
+static void sayDefinite(Aint id) {
+  if (instance[id].definite) {
     interpret(instance[id].definite);
-  else if (form == SAY_INDEFINITE && instance[id].indefinite)
+    if (!instance[id].definiteIsForm)
+      sayInstance(id);
+  } else
+    if (!sayInheritedDefiniteForm(instance[id].parent))
+      mention(id);
+}
+
+/*----------------------------------------------------------------------*/
+static Boolean sayInheritedIndefiniteForm(Aword theClass) {
+  if (theClass == 0) {
+    prmsg(M_INDEFINITE);
+    return FALSE;
+  } else {
+    if (class[theClass].indefinite) {
+      interpret(class[theClass].indefinite);
+      return class[theClass].indefiniteIsForm;
+    } else
+      return sayInheritedIndefiniteForm(class[theClass].parent);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void sayIndefinite(Aint id) {
+  if (instance[id].indefinite) {
     interpret(instance[id].indefinite);
-  else if (form == SAY_DEFINITE || form == SAY_INDEFINITE)
-    sayInheritedArticle(instance[id].parent, form);
-  else
-    syserr("Unexpected form in 'sayArticle()'");
+    if (!instance[id].indefiniteIsForm)
+      sayInstance(id);
+  } else
+    if (!sayInheritedIndefiniteForm(instance[id].parent))
+      mention(id);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void sayArticleOrForm(Aint id, SayForm form)
+{
+  switch (form) {
+  case SAY_DEFINITE:
+    sayDefinite(id);
+    break;
+  case SAY_INDEFINITE:
+    sayIndefinite(id);
+    break;
+  default:
+    syserr("Unexpected form in 'sayArticleOrForm()'");
+  }
 }
 
 
@@ -1019,8 +1053,7 @@ void sayForm(Aword id, SayForm form)
   Aword previousInstance = current.instance;
   current.instance = id;
 
-  sayArticle(id, form);
-  say(id);
+  sayArticleOrForm(id, form);
 
   current.instance = previousInstance;
 }

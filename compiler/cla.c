@@ -261,7 +261,9 @@ static void generateClassEntry(ClaNod *cla)
   entry.description = cla->props->descriptionAddress;
   entry.entered = cla->props->enteredAddress;
   entry.definite = cla->props->definiteAddress;
+  entry.definiteIsForm = cla->props->definiteIsForm;
   entry.indefinite = cla->props->indefiniteAddress;
+  entry.indefiniteIsForm = cla->props->indefiniteIsForm;
   entry.mentioned = cla->props->mentionedAddress;
   entry.verbs = cla->props->verbsAddress;
 

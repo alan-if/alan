@@ -1,11 +1,11 @@
-Syntax x = x (a) Where a Isa actor Else "You can only do that to actors."
+Syntax x = x (p) Where p Isa actor Else "You can only do that to actors."
 
 Add To Every actor
   Verb x
     Does
-      "Saying a = '$$" Say a. "$$'"
-      "Saying the a = '$$" Say The a. "$$'"
-      "Saying an a = '$$" Say An a. "$$'"
+      "Saying p = '$$" Say p. "$$'"
+      "Saying the p = '$$" Say The p. "$$'"
+      "Saying an p = '$$" Say An p. "$$'"
       "Saying this = '$$" Say this. "$$'"
       "In string = '$1'."
       Look.

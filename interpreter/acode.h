@@ -201,7 +201,9 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of code for Entered clause */
   Aaddr definite;		/* Address of definite article code */
+  Abool definiteIsForm;		/* Is the definite a complete form? */
   Aaddr indefinite;		/* Address of indefinite article code */
+  Abool indefiniteIsForm;	/* Is the indefinite a complete form? */
   Aaddr mentioned;		/* Address of code for Mentioned clause */
   Aaddr verbs;			/* Address of verb table */
 } ClassEntry;
@@ -217,7 +219,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of entered code (location only) */
   Aaddr definite;		/* Address of definite article code */
+  Abool definiteIsForm;		/* Is the definite Form or Article? */
   Aaddr indefinite;		/* Address of indefinite article code */
+  Abool indefiniteIsForm;	/* Is the indefinite Form or Article? */
   Aaddr mentioned;		/* Address to short description code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */

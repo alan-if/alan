@@ -52,9 +52,9 @@ Properties *newProps(List *names,
 		     Srcp enteredSrcp,
 		     List *mentioned,
 		     Srcp mentionedSrcp,
-		     List *definite,
+		     List *definite, Bool definiteIsForm,
 		     Srcp definiteSrcp,
-		     List *indefinite,
+		     List *indefinite, Bool indefiniteIsForm,
 		     Srcp indefiniteSrcp,
 		     List *exits,
 		     List *verbs,
@@ -81,8 +81,10 @@ Properties *newProps(List *names,
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
   new->definite = definite;
+  new->definiteIsForm = definiteIsForm;
   new->definiteSrcp = definiteSrcp;
   new->indefinite = indefinite;
+  new->indefiniteIsForm = indefiniteIsForm;
   new->indefiniteSrcp = indefiniteSrcp;
   new->verbs = verbs;
   new->exits = exits;
@@ -285,7 +287,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   entry->code = props->id->symbol->code; /* First own code */
   entry->idAddress = props->idAddress; /* Address to the id string */
 
-  if (props->parentId == NULL)	/* Then parents */
+  if (props->parentId == NULL)	/* Then parents... */
     entry->parent = 0;
   else
     entry->parent = props->parentId->symbol->code;
@@ -301,7 +303,9 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
     entry->container = 0;
   entry->mentioned = props->mentionedAddress;
   entry->definite = props->definiteAddress;
+  entry->definiteIsForm = props->definiteIsForm;
   entry->indefinite = props->indefiniteAddress;
+  entry->indefiniteIsForm = props->indefiniteIsForm;
   entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
 }

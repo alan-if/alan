@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>278.89</origest>
-<currest>277.89</currest>
-<elapsed>121.89</elapsed>
+<origest>279.89</origest>
+<currest>278.89</currest>
+<elapsed>127.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>53</origest>
-<currest>53</currest>
-<elapsed>16</elapsed>
+<origest>54</origest>
+<currest>54</currest>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>19</origest>
 <currest>19</currest>
-<elapsed>13</elapsed>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
@@ -312,9 +312,9 @@ Generates wrong syntax tables for b and c.</notes>
 <desc>Declaration of indefinite and definite forms</desc>
 <notes>The forms should override articles</notes>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
-<elapsed>0</elapsed>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Declaration of Indefinite Form</desc>
@@ -322,7 +322,7 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -331,7 +331,7 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -340,7 +340,7 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -349,7 +349,7 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -358,26 +358,27 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Verify UNDO</desc>
-<notes>Make test cases for each bit of information that is to be undone.</notes>
+<desc>Figure out the inheritance rules between forms and articles</desc>
+<notes>The [in]definite will be investigated in this instance first and its implementation will rule. If no form or article is defined in the instance the parents will be investigated until one is found. If that is an article the instance will be mentioned, otherwise it is assumed that the parent will implement the full form.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>22</origest>
+<currest>22</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -389,6 +390,15 @@ Design: add a counter field in the message entries and sort on those also.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

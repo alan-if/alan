@@ -57,10 +57,12 @@ typedef struct Properties {
   List *enteredStatements;	/* ENTERED statements */
   Aword enteredAddress;		/* ACODE address to ENTERED code */
   List *definite;		/* Definite Form/Article printing statements */
+  Bool definiteIsForm;		/* Is the definite statements Form (or Article) */
   Srcp definiteSrcp;
   FormKind definiteType;	/* Form or Article? */
   Aword definiteAddress;	/* ACODE address to Definite statements */
   List *indefinite;		/* Indefinite Form/Article printing statements */
+  Bool indefiniteIsForm;	/* Is the definite statements Form (or Article) */
   Srcp indefiniteSrcp;
   FormKind indefiniteType;	/* Form or Article? */
   Aword indefiniteAddress;	/* ACODE address to Indefinite statements */
