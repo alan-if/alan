@@ -10,13 +10,14 @@ CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 
 CFLAGS	= $(DEBUG)
 
-LD	= $(GCC)
+LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
 
 tcov := CC = acc -a
 tcov := LD = acc -a
 
-VERSIONFILE = [0-9]*_[0-9]*_[0-9]*
+VERSION:sh	= basename ../[0-9]*_[0-9]*_[0-9]*
+
 
 #.KEEP_STATE:
 
@@ -67,15 +68,17 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	cp arun $(ALANDIR)/bin/`arch`
 
 version.h:
-	@-cd ..; rm $(VERSIONFILE); sh version.sh
-	@-rm $(VERSIONFILE)
-	@cp ../$(VERSIONFILE) .
+	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
+	-rm [0-9]*_[0-9]*_[0-9]*
+	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-version.c: $(OBJECTS) ../$(VERSIONFILE)
-	@-rm $(VERSIONFILE)
-	@cp ../$(VERSIONFILE) .
+version.c: $(OBJECTS) $(VERSION)
 	venum +t
+
+$(VERSION): ../$(VERSION)
+	-rm [0-9]*_[0-9]*_[0-9]*
+	cp ../$(VERSION) .
 
 #--
 archives: src
