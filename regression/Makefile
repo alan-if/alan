@@ -5,9 +5,20 @@ all:
 	regression
 
 
-archives:
-	lha c regression.lha *.alan *.input *.ok regression regression.amiga
-	zip -k regression.zip *.alan *.input *.ok regression
+archives: CASES regression.dos
+	lha c regression.lha *.alan *.input *.ok regression regression.amiga CASES
+	zip -k regression.zip *.alan *.input *.ok regression regression.dos
+
+CASES: *.alan
+	ls -1 *.alan | sed -e s/.alan// > CASES
+
+regression.dos: *.alan Makefile
+	-rm regression.dos
+	for f in *.alan ; do \
+	    case=`basename $${f} .alan | awk '{print substr($$1, 1, 8)}'` ; \
+	    echo alan $${case} >> regression.dos ; \
+	    echo "arun $${case} <$${case}.inp >$${case}.out" >> regression.dos ; \
+	done
 
 vms:
 	-rm regression.com
