@@ -11,8 +11,6 @@ ToDo:
 
 	* Conversion between 2.6 and 2.7 games (Not really needed)
 
-	* Named scripts: SCRIPT <id>, USE <id> FOR actor
-
 	* Listing of saved games
 
 	* Flexiblare syntax även inom LOCATION, ACTOR etc. t.ex VERB, EXIT
@@ -66,6 +64,8 @@ ToDo:
 	* > bollen, Vad vill du göra med bollen?, >sparka den
 
 Done:
+
+	* Named scripts: SCRIPT <id>, USE <id> FOR actor
 
 	* MESSAGE : STATEMENTS
 

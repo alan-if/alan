@@ -1,65 +1,75 @@
+Thu Aug 29 19:34:09 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* LANGUAGE IMPROVEMENT: Added the more Alan-ish way to specify
+        scripts, namely by name (old style, by numbers, are still
+        supported, and mixing is allowed).
+
 Wed Aug 28 09:00:58 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Made the MESSAGE construct accept general statements.
-	Unfortunately this also required the removal of the positive
-	response checking in confirmation messages.  Note that *any* input
-	is now considered a negative response (YES, I will look into
-	changing this...)
+	* LANGUAGE IMPROVEMENT: Made the MESSAGE construct accept general
+	statements.  Unfortunately this also required the removal of the
+	positive response checking in confirmation messages.  Note that
+	*any* input is now considered a negative response (YES, I will
+	look into changing this...)
 
-	* Changed the QUIT statement to ask for RESTART, RESTORE or QUIT
-	(like old time InfoCom games). The message QUIT can be used to
-	change the contents of the question, but note that the RESTART,
-	RESTORE and QUIT words are hardwired into the interpreter. The new
-	QUIT function may cause some incompatibilities with earlier games
-	(and gamers) because the player will probably answer the wrong
-	thing when doing a quit (but let's hope if-players can read ;-)
+	* SYSTEM CHANGE: Changed the QUIT statement to ask for RESTART,
+        RESTORE or QUIT (like old time InfoCom games). The message QUIT
+        can be used to change the contents of the question, but note that
+        the RESTART, RESTORE and QUIT words are hardwired into the
+        interpreter. The new QUIT function may cause some problems with
+        earlier games (and gamers) because the player will probably answer
+        the wrong thing when doing a quit (but let's hope if-players can
+        read ;-)
 
-	* Added a new statement RESTART to restart the current game. It
-	causes a prompt for confirmation (the new REALLY message which can
-	be set to change it).
+	* LANGUAGE IMPROVEMENT: Added a new statement RESTART to restart
+	the current game. It causes a prompt for confirmation (the new
+	REALLY message which can be set to change it).
 
-	* Changed format of the grammar description, now using the more
-	clear <xyz> format for non-terminals.
+	* DOCUMENTATION: Changed format of the grammar description, now
+	using the more clear (?) <xyz> format for non-terminals.
 
-	* BIG NEWS: Added a other special indicator for parameters in the
-	syntax construct. In the same way as it has been possible to
-	indicate that a parameter can be multiple, it is now possible to
-	indicate that the parameter need *not* be present to be
-	considered.  Disambiguation between multiple objects that matches
-	the words given by the player is performed as before (with
-	presence taking precedence). This allows much simpler handling
-	of e.g. ASK JOE ABOUT BILL, because we need no longer use tricks
-	to make BILL present.
+	* SIGNIFICANT LANGUAGE IMPROVEMENT: Added a other special
+	indicator for parameters in the syntax construct. In the same way
+	as it has been possible to indicate that a parameter can be
+	multiple, it is now possible to indicate that the parameter need
+	*not* be present to be considered.  Disambiguation between
+	multiple objects that matches the words given by the player is
+	performed as before (with presence taking precedence). This allows
+	much simpler handling of e.g. ASK JOE ABOUT BILL, because we need
+	no longer use tricks to make BILL present.
 
 Fri Jul 26 13:48:24 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* BIG NEWS: Added general default attribute available for all
-	Actors, Objects and Locations: DEFAULT ATTRIBUTES. Allows for
-	example verbs like 'examine' to act on both actors and objects in
-	a much better way.
+	* SIGNIFICANT LANGUAGE IMPROVEMENT: Added general default
+	attribute available for all Actors, Objects and Locations: DEFAULT
+	ATTRIBUTES. Allows for example verbs like 'examine' to act on both
+	actors and objects in a much better way.
 
 Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Allowed arbitrary order between declaration of initial location
-        and names on actors and objects
+	* LANGUAGE IMPROVEMENT: Allowed arbitrary order between
+        declaration of initial location and names on actors and objects
 
-	* BIG NEWS: Allowed multiple names on actors and objects.
+	* SIGNIFICANT LANGUAGE IMPROVEMENT: Allowed multiple player names
+        on actors and objects.
 
 Tue May 21 13:39:39 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Allowed the previously reserved words ARTICLE, MESSAGE, QUIT,
-        SAVE and RESTORE to be used as identifiers
+	* LANGUAGE IMPROVEMENT: Allowed the previously reserved words
+        ARTICLE, MESSAGE, QUIT, SAVE and RESTORE to be used as identifiers
 
 Fri Apr 12 11:05:41 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Finally allowed "no" prefix for boolean options, as in "No
-        Debug", note that the 2.6 version of the manual is wrong
+	* BUGFIX: Finally allowed "no" prefix for boolean options, as in
+        "No Debug", note that the 2.6 version of the manual is wrong
 
-	* Fixed the unexisting FPU and article problems in the DOS port
+	* BUGFIX: Fixed the unexisting FPU and article problems in the DOS
+        port
 
 Wed Apr  3 00:54:24 1996  Thomas Nilsson  <thoni@heffa>
 
-	* Added the ',' as an alternate conjunction in player input
+	* INTERPRETER IMPROVEMENT: Added the ',' as an alternate
+        conjunction in player input
 
 Thu Mar  7 14:21:22 1996  Thomas Nilsson  <thoni@rabbit>
 

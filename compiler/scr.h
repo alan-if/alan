@@ -18,7 +18,8 @@
 
 typedef struct ScrNod {		/* SCRIPT */
   Srcp srcp;			/* Source position */
-  int code;			/* Code for this script */
+  NamNod *nam;			/* Name for this script (if any) */
+  int code;			/* and its code */
   List *descr;			/* List of optional description statements */
   Aaddr stmadr;			/* ACODE address description statements */
   List *stps;			/* List of step-blocks */
@@ -34,6 +35,7 @@ typedef struct ScrNod {		/* SCRIPT */
 
 /* Create a new Script node */
 extern ScrNod *newscr(Srcp *srcp,
+		      NamNod *nam,
 		      int code,
 		      List *descr,
 		      List *stps);

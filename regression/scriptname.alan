@@ -1,0 +1,28 @@
+Actor torbjörn
+
+ Script 12.
+   Step
+     "Doing 1"
+
+  Script swimming.
+    Step
+      "Swimming"
+
+  Script 33.
+    Step
+      "33"
+
+  Script swimming.
+    Step
+      "swimming again"
+
+  Script 33.
+    Step
+      "33 again"
+
+End Actor.
+
+Location l
+End Location.
+
+Start at l.

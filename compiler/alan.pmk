@@ -1272,10 +1272,11 @@ static int val(str)
     ;
 
 <script>			-- RETURNS: scr
-    = 'SCRIPT' INTEGER '.' <optional_description> <step_list>
+    = 'SCRIPT' <integer_or_id> '.' <optional_description> <step_list>
     %%
 	%<script>.scr = newscr(`&%'SCRIPT'.srcp,
-			     val(%INTEGER.chars),
+			     %<integer_or_id>.nam,
+			     %<integer_or_id>.val,
 			     %<optional_description>.stms,
 			     %<step_list>.stps);
     %%
@@ -1633,10 +1634,11 @@ static int val(str)
     ;
 
 <actor_statement>			-- RETURNS: stm
-    = 'USE' 'SCRIPT' INTEGER <optional_for_actor> '.'
+    = 'USE' 'SCRIPT' <integer_or_id> <optional_for_actor> '.'
     %%
 	%<actor_statement>.stm = newstm(`&%'USE'.srcp, STM_USE);
-	%<actor_statement>.stm->fields.use.script = val(%INTEGER.chars);
+	%<actor_statement>.stm->fields.use.script = %<integer_or_id>.nam;
+	%<actor_statement>.stm->fields.use.scriptno = %<integer_or_id>.val;
 	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.nam;
     %%
     ;
@@ -2068,6 +2070,20 @@ static int val(str)
 	%<attribute_reference>.srcp = %'OF'.srcp;
 	%<attribute_reference>.nam = %ID.nam;
 	%<attribute_reference>.wht = %<what>.wht;
+    %%
+    ;
+
+<integer_or_id>			-- RETURNS: nam, val
+    = INTEGER
+    %%
+	%<integer_or_id>.val = val(%INTEGER.chars);
+	%<integer_or_id>.nam = NULL;
+    %%
+
+    ! ID
+    %%
+	%<integer_or_id>.val = 0;
+	%<integer_or_id>.nam = %ID.nam;
     %%
     ;
 

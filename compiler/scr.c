@@ -35,14 +35,16 @@
 #ifdef _PROTOTYPES_
 ScrNod *newscr(
      Srcp *srcp,		/* IN - Source Position */
+     NamNod *nam,		/* IN - Name for the script */
      int code,			/* IN - Code for the script */
      List *descr,		/* IN - Optional description */
      List *stps                	/* IN - List of steps */
 )
 #else
-ScrNod *newscr(srcp, code, descr, stps)
+ScrNod *newscr(srcp, code, nam, descr, stps)
      Srcp *srcp;		/* IN - Source Position */
-     int code;			/* IN - Code for the script */
+     NamNod *nam;		/* IN - Name for the script */
+     int code;			/* IN - Number of the script */
      List *descr;		/* IN - Optional description */
      List *stps;		/* IN - List of steps */
 #endif
@@ -53,6 +55,7 @@ ScrNod *newscr(srcp, code, descr, stps)
 
   new->srcp = *srcp;
   new->code = code;
+  new->nam = nam;
   new->descr = descr;
   new->stps = stps;
 
@@ -78,15 +81,44 @@ void anscrs(scrs, act)
 {
   List *lst;
   List *scrlst;
+  int highest;			/* Highest script code found so far */
 
-  if (scrs != NULL && act->nam->code == 1)	/* Ignored for HERO */
+
+  if (scrs == NULL) return;
+
+  /* Error if defined for HERO */
+  if (scrs != NULL && act->nam->code == 1)
       lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
+
+  /* First inspect the codes and save the highest */
+  highest = scrs->element.scr->code;
+  for (lst = scrs; lst != NULL; lst = lst->next)
+    if (lst->element.scr->code > highest)
+      highest = lst->element.scr->code;
+
+  /* Look for redefinition of script names and numbers */
   for (lst = scrs; lst != NULL; lst = lst->next) {
+
+    /* Analyze the statements */
     anstms(lst->element.scr->descr, act, NULL, NULL);
+
+    /* Any multiple of this name or number ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
-      if (lst->element.scr->code == scrlst->element.scr->code)
-        lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+      if (lst->element.scr->nam != NULL) {
+	/* It was given a name, then try compare to the name, if any */
+	if (scrlst->element.scr->nam != NULL &&
+	    eqnams(lst->element.scr->nam, scrlst->element.scr->nam))
+	  lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+      } else /* No name, just the code */
+	if (lst->element.scr->code == scrlst->element.scr->code)
+	  lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
     }
+
+    /* If only given a name, use the highest code + 1 as its code */
+    if (lst->element.scr->nam != NULL)
+      lst->element.scr->code = ++highest;
+
+    /* Finally, analyse the steps inside the script */
     anstps(lst->element.scr->stps, act);
   }
 }
@@ -154,6 +186,7 @@ void duscr(scr)
 {
   put("SCR: "); dusrcp(&scr->srcp); in();
   put("code: "); duint(scr->code); nl();
+  put("nam: "); dunam(scr->nam); nl();
   put("stps: "); dulst(scr->stps, STPNOD); nl();
   put("stpadr: "); duint(scr->stpadr); out();
 }

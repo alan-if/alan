@@ -629,8 +629,15 @@ static void anuse(stm, act, pars)
     if (act != NULL) {
       /* Check if script is defined */
       for (lst = act->scrs; lst != NULL; lst = lst->next) {
-        if (lst->element.scr->code == stm->fields.use.script)
-          break;
+	if (lst->element.scr->nam != NULL) {
+	  /* A name was given find this */
+	  if (eqnams(lst->element.scr->nam, stm->fields.use.script))
+	    break;
+	} else {
+	  /* Use the number to find it */
+	  if (lst->element.scr->code == stm->fields.use.scriptno)
+	    break;
+	}
       }
       if (lst == NULL)
         lmLog(&stm->srcp, 400, sevERR, act->nam->str);
@@ -1129,11 +1136,11 @@ static void geuse(stm, act)
 #endif
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
-    emit0(C_CONST, stm->fields.use.script);
+    emit0(C_CONST, stm->fields.use.scriptno);
     genam(act->nam);
     emit0(C_STMOP, I_USE);
   } else {
-    emit0(C_CONST, stm->fields.use.script);
+    emit0(C_CONST, stm->fields.use.scriptno);
     genam(stm->fields.use.actor);
     emit0(C_STMOP, I_USE);
   }
@@ -1461,7 +1468,8 @@ void dustm(stm)
       put("els: "); dulst(stm->fields.iff.els, STMNOD);
       break;
     case STM_USE:
-      put("script: "); duint(stm->fields.use.script); nl();
+      put("script: "); dunam(stm->fields.use.script); nl();
+      put("scriptno: "); duint(stm->fields.use.scriptno); nl();
       put("actor: "); dunam(stm->fields.use.actor);
       break;
     case STM_VISITS:
