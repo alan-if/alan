@@ -1,5 +1,7 @@
 Sat May 22 20:52:43 1999    <Thomas Nilsson@THONI>
 
+	* v2.8(6)
+
 	* Fixed a bug in execution of DEPEND which caused the interpreter
 	to crash if none of the cases matched.
 
