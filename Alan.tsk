@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>184.89</origest>
-<currest>184.89</currest>
-<elapsed>59.89</elapsed>
+<origest>187.89</origest>
+<currest>187.89</currest>
+<elapsed>61.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>28</origest>
-<currest>28</currest>
-<elapsed>1</elapsed>
+<origest>31</origest>
+<currest>31</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>1</elapsed>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
@@ -60,7 +60,7 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -69,7 +69,7 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -107,6 +107,24 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 </task>
 <task>
 <desc>SIGSEGV when unable to open output files</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check that DEPENDING ON works as it should</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>About-box should show version info</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -223,8 +241,8 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -240,6 +258,15 @@ DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
  =2 : RESTART.
  =3 : QUIT.
 END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document inheritance rules for each construct</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -551,6 +578,16 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Make interpreter automatically capitalize words after full stop</desc>
+<notes>
+Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>SIGSEGV when debugging a location</desc>
 <notes/>
 <priority>2</priority>
@@ -580,12 +617,80 @@ Yes, you could allow inherting the complete exit and just override the target lo
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Inherting all props</desc>
+<notes>
+Investigate which ones are left!!!!
+
+DONE:
+attributes
+scripts
+verbs
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Aggregates does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz</desc>
+<notes>
+It should be possible to add features to classes:
+
+Add To Every object ...
+
+Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
+
+In v3 it should be possible to add anything that is not already available:
+
+attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
+
+initial location, container - can only be added if it has none
+
+mentioned? article? description?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Allow reverse noun/adjective order</desc>
 <notes>Need:
 To allow latin type of langauges. "molin rouge"
 
 Design:
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>QUIT question &amp; prompt</desc>
+<notes>
+"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
+
+Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -616,41 +721,8 @@ E.g. in the example above the IF statement will be executed whenever the 'o' is 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Alternativ to USE &lt;script&gt; FOR &lt;actor&gt;</desc>
-<notes>START &lt;actor&gt; &lt;script&gt;.  E.g.
-
-Start george cleaning.
-Start tiger hunting.
-
-(This caused grammar conflicts at three points, since it is impossible to know if to reduce constructs with no 'END' on a 'START' (as if the start section was next) or if to shift it (as if a START &lt;actor&gt; &lt;script&gt; was next)
-
-To fix this better conflict resolutions must be made in the grammar. Conflicts was in MESSAGE, WHERE and WHEN without END WHEN. since they all have lists of statements that are not terminated.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherting all props</desc>
-<notes>
-Investigate which ones are left!!!!
-
-DONE:
-attributes
-scripts
-verbs
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
-<notes/>
+<desc>Compile command version of interpreter with mingw</desc>
+<notes>It is possible if not using TERMIO, but how do we then present status line?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -688,15 +760,6 @@ This must be handled by a new strategy for parameter class analysis. See "Parame
 SteveG: 
 Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Aggregates does not work</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -752,28 +815,6 @@ New and better dictionary handling in the compiler could remedy the multiple wor
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add To Every xyz</desc>
-<notes>
-It should be possible to add features to classes:
-
-Add To Every object ...
-
-Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
-
-In v3 it should be possible to add anything that is not already available:
-
-attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
-
-initial location, container - can only be added if it has none
-
-mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>IN &amp; AT operators</desc>
 <notes>
 Currently IN only applies to containment, i.e only for actors and objects with container properties.
@@ -784,18 +825,6 @@ It has been suggested that IN could be used generally for intransitive location 
 
 This would mean to change IN to not only be applicable to containers but also locations.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>QUIT question &amp; prompt</desc>
-<notes>
-"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
-
-Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -836,17 +865,6 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Tips about debugging in the docs</desc>
-<notes>
-Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Attributes of class type</desc>
 <notes>
 Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
@@ -854,6 +872,17 @@ Attributes should be allowed to refer to other entities. This would require stri
 LIST ontop OF box.
 
 Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Tips about debugging in the docs</desc>
+<notes>
+Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -870,6 +899,17 @@ Verb x
  
 Will generate two errors at the second "Verb x" when one would suffice.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document how it all fits together</desc>
+<notes>A chapter describing the overall structure of a adventure execution and how that relates to the various Alan elements:
+
+First the player is shown an intro text (this is the start section). Then he sees a room name and a room description (this is the instance of a sub-class of location) etc. etc.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -927,10 +967,16 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document how it all fits together</desc>
-<notes>A chapter describing the overall structure of a adventure execution and how that relates to the various Alan elements:
+<desc>Alternativ to USE &lt;script&gt; FOR &lt;actor&gt;</desc>
+<notes>START &lt;actor&gt; &lt;script&gt;.  E.g.
 
-First the player is shown an intro text (this is the start section). Then he sees a room name and a room description (this is the instance of a sub-class of location) etc. etc.</notes>
+Start george cleaning.
+Start tiger hunting.
+
+(This caused grammar conflicts at three points, since it is impossible to know if to reduce constructs with no 'END' on a 'START' (as if the start section was next) or if to shift it (as if a START &lt;actor&gt; &lt;script&gt; was next)
+
+To fix this better conflict resolutions must be made in the grammar. Conflicts was in MESSAGE, WHERE and WHEN without END WHEN. since they all have lists of statements that are not terminated.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1047,16 +1093,6 @@ Only occurs on W2k</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>START &lt;actor&gt; &lt;script&gt;</desc>
-<notes>
-Could be an alternative to USE SCRIPT ...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document how to produce a SCRIPT-file</desc>
 <notes/>
 <priority>2</priority>
@@ -1120,16 +1156,6 @@ ELSE
 END IF.
 
 Furthermore you can in the IF expression verify that the parameter is a subclass to the class p has before the IF statement.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Make interpreter automatically capitalize words after full stop</desc>
-<notes>
-Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1248,7 +1274,7 @@ Could it be possible to use the CHECKs (as in the ALL handling) when disambiguat
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Restrictions may make warning for multiply executed verb bodies wrong</desc>
+<desc>Restrictions may make erroneous warning for multiply executed verb bodies</desc>
 <notes>If a syntax has more than one parameter and one is restricted to classes to which the verb body does not apply, the body will not be executed more than once:
 
 Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
@@ -1314,9 +1340,10 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Background statement</desc>
+<desc>Capitalization of nouns</desc>
 <notes>
-To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
+Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1324,9 +1351,9 @@ To display a background picture (where appropriate) I like the Zork Zero thing..
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Functions</desc>
+<desc>Background statement</desc>
 <notes>
-Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1411,6 +1438,16 @@ SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Functions</desc>
+<notes>
+Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Optional syntax parts</desc>
 <notes>
 SYNTAX
@@ -1462,6 +1499,15 @@ PLURAL
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Verify $&lt;n&gt; w.r.t the syntax parameters</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Depending On with aggregates</desc>
 <notes>
 and other variants (other than the standard binary operator)</notes>
@@ -1490,7 +1536,9 @@ Only requires expression instead of ID in grammar.
 </task>
 <task>
 <desc>EXIT ELSE ...</desc>
-<notes/>
+<notes>Would be nice when exits are inherited. An author could then customize the "You can't go that way."
+
+But isn't that awailable in the MESSAGES section?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1520,17 +1568,6 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Capitalization of nouns</desc>
-<notes>
-Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Show statement</desc>
 <notes>
 SHOW statement, to show a picture (how to place it?)
@@ -1543,15 +1580,6 @@ SHOW statement, to show a picture (how to place it?)
 </task>
 <task>
 <desc>SCENERY word, word, word</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify $&lt;n&gt; w.r.t the syntax parameters</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

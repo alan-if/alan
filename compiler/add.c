@@ -135,24 +135,33 @@ static void addNames(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
-static void addDescriptionCheck(AddNode *add, Symbol *original)
+static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 {
   Properties *props = add->props;
 
-  if (props->descriptionChecks != NULL)
-    lmLogv(&props->descriptionSrcp, 341, sevERR, "description checks", "(yet!)", NULL);
+  if (props->descriptionChecks != NULL) {
+    if (originalSymbol->fields.entity.props->descriptionChecks != NULL)
+      lmLogv(&props->descriptionSrcp, 241, sevERR, "Description Check",
+	     originalSymbol->string, NULL);
 
+    lmLogv(&props->descriptionSrcp, 341, sevERR, "description checks",
+	   "(yet!)", NULL);
+  }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void addDescription(AddNode *add, Symbol *original)
+static void addDescription(AddNode *add, Symbol *originalSymbol)
 {
   Properties *props = add->props;
 
-  if (props->descriptionStatements != NULL)
-    lmLogv(&props->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
+  if (props->descriptionStatements != NULL) {
+    if (originalSymbol->fields.entity.props->descriptionChecks != NULL)
+      lmLogv(&props->descriptionSrcp, 241, sevERR, "Description",
+	     originalSymbol->string, NULL);
 
+    lmLogv(&props->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
+  }
 }
 
 

@@ -106,6 +106,7 @@ static int val(char str[])
   cnt %% Container *%1%%,
   cnts %% List *%1%%,
   descriptionCheck %% List *%1%%,	-- of Checks: descriptionCheck-clause,
+  descriptionCheckSrcp %% Srcp %1%%,
   descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
   descriptionSrcp %% Srcp %1%%,
   elm %% Element *%1%%,
@@ -141,6 +142,7 @@ static int val(char str[])
   scr %% Script *%1%%,
   scrs %% List *%1%%,
   srcp %% Srcp %1%%,
+  srcp2 %% Srcp %1%%,
   stm %% StmNod *%1%%,
   stms %% List *%1%%,
   stms2 %% List *%1%%,
@@ -567,7 +569,7 @@ static int val(char str[])
     %%
     ;
 
-<simple_verb_body>		-- RETURNS: chks, stms, qual
+<simple_verb_body>		-- RETURNS: srcp, chks, stms, qual
     = <optional_checks> <optional_does>
     %%
 	if (%<optional_does>.stms == NULL) /* No DOES */
@@ -588,19 +590,22 @@ static int val(char str[])
     ;
 
 ----> CHECKS
-<optional_checks>		-- RETURNS: chks
+<optional_checks>		-- RETURNS: srcp, chks
     =
     %%
 	%<optional_checks>.chks = NULL;
+	%<optional_checks>.srcp = nulsrcp;
     %%
 
     ! 'CHECK' <statements>
     %%
+	%<optional_checks>.srcp = %'CHECK'.srcp;
 	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms), STATEMENT_LIST);
     %%
 
     ! 'CHECK' <check_list>
     %%
+	%<optional_checks>.srcp = %'CHECK'.srcp;
 	%<optional_checks>.chks = %<check_list>.chks;
     %%
     ;
@@ -795,7 +800,7 @@ static int val(char str[])
 	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
 	        %<properties>.descriptionCheck = %<property>.descriptionCheck;
-		%<properties>.descriptionSrcp = %<property>.srcp;
+		%<properties>.descriptionCheckSrcp = %<property>.srcp2;
 	    }
         }
 
@@ -872,11 +877,13 @@ static int val(char str[])
         List *descriptionDoes = %<description>.stms;
         List *descriptionCheck = %<description>.chks;
         Srcp srcp = %<description>.srcp;
+        Srcp srcp2 = %<description>.srcp2;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.descriptionCheck = descriptionCheck;
 	%<property>.descriptionDoes = descriptionDoes;
 	%<property>.srcp = srcp;
+	%<property>.srcp2 = srcp2;
     }%%
 
     ! <mentioned>
@@ -996,14 +1003,22 @@ static int val(char str[])
     -- Propagate!
     ;
 
-<description>		-- RETURNS: chks, stms, srcp
+<description>		-- RETURNS: chks, stms, srcp, srcp2
     = 'DESCRIPTION' <optional_checks> <optional_does>
     %%
-	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL)
+	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL) {
+	  %<description>.chks = NULL;
 	  %<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
 						NOP_STATEMENT), STATEMENT_LIST);
-	else {
-	  %<description>.srcp = %'DESCRIPTION'.srcp;
+          %<description>.srcp = %'DESCRIPTION'.srcp;
+          %<description>.srcp2 = nulsrcp;
+	} else {
+	  if (%<optional_checks>.chks != NULL)
+	    %<description>.srcp2 = %<optional_checks>.srcp;
+	  if (%<optional_does>.stms != NULL)
+	    %<description>.srcp = %<optional_does>.srcp;
+	  else
+	    %<description>.srcp = %'DESCRIPTION'.srcp;
 	  %<description>.chks = %<optional_checks>.chks;
 	  %<description>.stms = %<optional_does>.stms;
 
@@ -1016,6 +1031,7 @@ static int val(char str[])
     %%
 	%<description>.stms = %<statements>.stms;
 	%<description>.srcp = %'DESCRIPTION'.srcp;
+	%<description>.srcp2 = nulsrcp;
     %%
     ;
 

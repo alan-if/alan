@@ -93,6 +93,7 @@ typedef struct pmGrammar {
     List *stms2;
     List *stms;
     StmNod *stm;
+    Srcp srcp2;
     Srcp srcp;
     List *scrs;
     Script *scr;
@@ -128,6 +129,7 @@ typedef struct pmGrammar {
     Element *elm;
     Srcp descriptionSrcp;
     List *descriptionDoes;
+    Srcp descriptionCheckSrcp;
     List *descriptionCheck;
     List *cnts;
     Container *cnt;
