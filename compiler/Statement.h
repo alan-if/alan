@@ -48,7 +48,7 @@ typedef enum StatementKind {		/* STATEMENT kinds */
 } StatementKind;
     
 
-typedef struct Statement {		/* STATEMENT */
+typedef struct Statement {	/* STATEMENT */
   Srcp srcp;			/* Source position */
   StatementKind kind;		/* Class tag */
   union {			/* Class dependent fields */
@@ -72,7 +72,7 @@ typedef struct Statement {		/* STATEMENT */
     } describe;
 
     struct {			/* for SAY */
-      Expression *expression;		/* What? */
+      Expression *expression;	/* What? */
     } say;
 
     struct {			/* for LIST */
@@ -104,13 +104,13 @@ typedef struct Statement {		/* STATEMENT */
     struct {			/* for INCR/DECR */
       What *what;		/* What? */
       Id *attribute;
-      Expression *step;		/* By what? */
+      Expression *by;		/* By what? */
     } incr;
 
     struct {			/* for SCHEDULE */
       Id *id;			/* Name of the event */
       Where *where;		/* Where? */
-      int after;
+      Expression *after;
     } schedule;
 
     struct {			/* for CANCEL */
