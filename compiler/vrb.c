@@ -55,6 +55,8 @@ VrbNod *newvrb(srcp, nams, alts)
   SymNod *sym;
   List *lst;			/* Traversal pointer */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(VrbNod);
 
   new->srcp = *srcp;
@@ -98,6 +100,8 @@ static void anvrb(vrb, obj, act)
 {
   List *lst, *nams, *stxs = NULL;
   StxNod *stx;
+
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* First find the syntax definitions for all verbs */
   for (nams = vrb->nams; nams; nams = nams->next) {
@@ -199,6 +203,8 @@ static void gevrb(vrb, act)
      ActNod *act;		/* IN - Inside any actor */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   if (vrb->alts == NULL)
     vrb->altadr = 0;
   else

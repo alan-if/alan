@@ -61,6 +61,8 @@ CntNod *newcnt(srcp, nam, lims, hstms, estms)
   CntNod *cnt;
   SymNod *sym;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(CntNod);
 
   new->srcp = *srcp;
@@ -214,6 +216,8 @@ void ancnt(cnt)
   StmNod *stm;			/* Name printing statement */
   List *lims;			/* List of limits */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   if (cnt->parent == NULL) {	/* No parent object? */
     /* So it needs name printing statements, create it */
     fpos = ftell(txtfil);
@@ -270,6 +274,8 @@ static void gecnt(cnt)
      CntNod *cnt;		/* IN - The container to generate */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   cnt->limadr = gelims(cnt);
 
   if (cnt->parent == NULL)	{	/* Save the name of the container */

@@ -61,6 +61,8 @@ ExtNod *newext(srcp, dirs, to, chks, stms)
   SymNod *sym;
   List *lst;			/* Traversal pointer */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ExtNod);
 
   new->srcp = *srcp;

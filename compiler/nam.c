@@ -47,6 +47,8 @@ NamNod *newnam(srcp, str)
 {
   NamNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(NamNod);
   
   new->srcp = *srcp;

@@ -36,6 +36,8 @@ WhtNod *newwht(srcp, wht, nam)
 {
   WhtNod *new;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(WhtNod);
 
   new->srcp = *srcp;

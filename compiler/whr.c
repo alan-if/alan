@@ -43,6 +43,8 @@ WhrNod *newwhr(srcp, whr, wht)
 {
   WhrNod *new;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(WhrNod);
 
   new->srcp = *srcp;

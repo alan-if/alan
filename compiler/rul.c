@@ -49,6 +49,8 @@ RulNod *newrul(srcp, exp, stms)
 {
   RulNod *new;		/* The newly allocated node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(RulNod);
 
   new->srcp = *srcp;
@@ -75,6 +77,8 @@ static void anrul(rul)
      RulNod *rul;
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   anexp(rul->exp, NULL, NULL);
   anstms(rul->stms, NULL, NULL, NULL);
 }
@@ -121,6 +125,7 @@ Aaddr geruls()
   Aaddr adr;
 
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
+    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
     lst->element.rul->expadr = emadr();
     geexp(lst->element.rul->exp);
     emit0(C_STMOP, I_RETURN);

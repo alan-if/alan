@@ -51,6 +51,8 @@ ScrNod *newscr(srcp, code, nam, descr, stps)
 {
   ScrNod *new;		/* The newly allocated node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ScrNod);
 
   new->srcp = *srcp;

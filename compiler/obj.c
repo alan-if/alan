@@ -66,6 +66,8 @@ ObjNod *newobj(srcp, nam, namslst, whr, props, atrs, dscr, art, ment, vrbs)
   SymNod *sym;
   List *lst, *lstlst;		/* List and list of list traversal ptrs */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ObjNod);
 
   new->srcp = *srcp;
@@ -171,6 +173,8 @@ static void anobj(obj)
   int len;
   StmNod *stm;
 
+
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Make sure there always is a short description */
   if (obj->ment == NULL) {
@@ -346,6 +350,8 @@ static void geobj(obj)
      ObjNod *obj;		/* IN - The object */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   obj->atradr = geatrs(obj->atrs, adv.oatrs, adv.atrs);
   geobjdscrs(obj);
   obj->vrbadr = gevrbs(obj->vrbs, NULL);

@@ -64,6 +64,8 @@ LocNod *newloc(srcp, nam, nams, atrs, dscr, does, exts, vrbs)
   LocNod *new;		/* The newly allocated node */
   SymNod *sym;		/* Symbol table entry */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(LocNod);
 
   new->srcp = *srcp;
@@ -144,6 +146,8 @@ static void anloc(loc)
   int len = 0;
   StmNod *stm;
 
+
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* First output the formatted location name to the text file */
   fpos = ftell(txtfil);
@@ -284,6 +288,8 @@ static void geloc(loc)
      LocNod *loc;		/* IN - The location to generate */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   loc->atradr = geatrs(loc->atrs, adv.latrs, adv.atrs);
   loc->namsadr = gelocnam(loc);
   loc->dscradr = gelocdscr(loc);

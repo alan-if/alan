@@ -59,6 +59,8 @@ ElmNod *newelm(srcp, kind, nam, multiple)
 {
   ElmNod *new;					/* The newly created node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ElmNod);
 
   new->srcp = *srcp;
@@ -87,6 +89,8 @@ static void anelm(elm)
      ElmNod *elm;		/* IN - Syntax element to analyze */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   switch (elm->kind) {
   case ELMPAR:
     elm->nam->kind = NAMPAR;	/* It is a parameter */
@@ -357,6 +361,8 @@ Aaddr geelms(elms, stx)
 
   if (elms == NULL)
     return 0;		/* End of chain */
+
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Move all to their next elm */
   resadr = advance(elms);

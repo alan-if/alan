@@ -52,6 +52,8 @@ ResNod *newres(srcp, nam, single, classes, stms)
 {
   ResNod *new;			/* The newly created node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ResNod);
 
   new->srcp = *srcp;

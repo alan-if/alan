@@ -72,7 +72,9 @@ ActNod *newact(srcp, nam, namslst, whr, props, atrs, dscr, vrbs, scrs)
   SymNod *sym;			/* Symbol table entry */
   ActNod *act;			/* Actor */
   List *lst, *lstlst;		/* List and list of list traversing ptrs */
+  static heroRedefined = FALSE;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   new = NEW(ActNod);
 
@@ -90,13 +92,16 @@ ActNod *newact(srcp, nam, namslst, whr, props, atrs, dscr, vrbs, scrs)
   if (sym == NULL) {
     new->nam->code = newsym(nam->str, NAMACT, new);
     new->nam->kind = NAMACT;
-  } else if (strcmp(sym->str, "hero") == 0) {
+  } else if (strcmp(sym->str, "hero") == 0 && !heroRedefined) {
+    heroRedefined = TRUE;
     act = (ActNod *) sym->ref;
     /* Copy new info */
     act->srcp = new->srcp;
     act->namslst = new->namslst;
     act->whr = new->whr;
     act->props = new->props;
+    if (act->props != NULL)
+      act->props->parent = act->nam;
     act->atrs = new->atrs;
     act->dscr = new->dscr;
     act->vrbs = new->vrbs;
@@ -228,6 +233,7 @@ static void anact(act)
   SymNod *sym;
   ElmNod *elm;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   if (act->nam->code == 1) {	/* The HERO */
     if (act->whr->whr != WHR_DEFAULT)
@@ -322,6 +328,8 @@ static void geact(act)
      ActNod *act;
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   /* Attributes */
   act->atradr = geatrs(act->atrs, adv.aatrs, adv.atrs);
   

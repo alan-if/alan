@@ -51,6 +51,8 @@ EvtNod *newevt(srcp, nam, stms)
   EvtNod *new;		/* The newly allocated node */
   SymNod *sym;		/* Symbol table entry */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(EvtNod);
 
   new->srcp = *srcp;
@@ -84,8 +86,10 @@ void anevts()
 {
     List *evts;		/* Traversal pointer */
 
-    for (evts = adv.evts; evts != NULL; evts = evts->next)
-        anstms(evts->element.evt->stms, NULL, evts->element.evt, NULL);
+    for (evts = adv.evts; evts != NULL; evts = evts->next) {
+      if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+      anstms(evts->element.evt->stms, NULL, evts->element.evt, NULL);
+    }
 }
 
 
@@ -105,6 +109,8 @@ static void geevt(evt)
      EvtNod *evt;	/* IN - The event to generate */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();
     emitstr(evt->nam->str);

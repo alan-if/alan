@@ -52,6 +52,8 @@ AltNod *newalt(srcp, nam, chks, qual, stms)
 {
   AltNod *new;			/* The newly created node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(AltNod);
 
   new->srcp = *srcp;

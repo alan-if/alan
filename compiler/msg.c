@@ -212,6 +212,8 @@ MsgNod *newmsg(srcp, nam, stms)
 {
   MsgNod *msg;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   msg = NEW(MsgNod);
 
   if (srcp) msg->srcp = *srcp;
@@ -358,8 +360,10 @@ void anmsgs()
   List *lst;
 
   /* Nothing to do except to analyze the statements */
-  for (lst = adv.msgs; lst; lst = lst->next)
+  for (lst = adv.msgs; lst; lst = lst->next) {
+    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
     anstms(lst->element.msg->stms, NULL, NULL, NULL);
+  }
 
 }
 
@@ -400,8 +404,10 @@ Aaddr gemsgs()
   List *lst;
 
   /* First generate the statements for each message */
-  for (lst = adv.msgs; lst; lst = lst->next)
+  for (lst = adv.msgs; lst; lst = lst->next) {
+    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
     gemsgent(lst->element.msg);
+  }
 
   adr = emadr();		/* Save address to messages table */
   for (lst = adv.msgs; lst; lst = lst->next)

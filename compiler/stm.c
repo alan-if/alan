@@ -53,6 +53,8 @@ StmNod *newstm(srcp, class)
 {
   StmNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(StmNod);
 
   new->srcp = *srcp;

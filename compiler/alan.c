@@ -42,6 +42,7 @@ FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
 Bool verbose;			/* Verbose mode */
+long counter = 0;		/* Number of new's so far, for verbose */
 
 List *includePaths = NULL;	/* List of additional include paths */
 

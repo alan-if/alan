@@ -56,6 +56,8 @@ AtrNod *newatr(srcp, typ, nam, val, fpos, len)
 {
   AtrNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(AtrNod);
 
   new->srcp = *srcp;

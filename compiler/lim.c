@@ -57,6 +57,8 @@ LimNod *newlim(srcp, atr, stms)
 {
   LimNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(LimNod);
 
   new->srcp = *srcp;
@@ -87,6 +89,8 @@ void anlim(lim)
 #endif
 {
   AtrNod *atr, *a;		/* Attribute nodes */
+
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Analyze the attribute */
   atr = lim->atr;
@@ -125,6 +129,8 @@ static void gelim(lim, cnt)
      int cnt;			/* IN - the code of the container */
 #endif
 {
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   /* Generate statements */
   lim->stmadr = emadr();	/* Save ACODE address to statements */
   gestms(lim->stms, NULL);

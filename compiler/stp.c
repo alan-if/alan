@@ -46,6 +46,8 @@ StpNod *newstp(srcp, after, exp, stms)
 {
   StpNod *new;		/* The newly allocated node */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(StpNod);
 
   new->srcp = *srcp;

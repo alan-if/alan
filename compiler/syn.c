@@ -44,6 +44,8 @@ SynNod *newsyn(srcp, nams, nam)
 {
   SynNod *new;
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(SynNod);
 
   new->srcp = *srcp;
@@ -75,6 +77,7 @@ void ansyns()
   WrdNod *swrd;		/* Synonym word */
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
+    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
     wrd = findwrd(lst->element.syn->nam->str);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->nam->srcp, 321, sevWAR, lst->element.syn->nam->str);

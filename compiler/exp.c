@@ -74,6 +74,8 @@ ExpNod *newexp(srcp, class)
 {
   ExpNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ExpNod);
 
   new->srcp = *srcp;

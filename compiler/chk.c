@@ -41,6 +41,8 @@ ChkNod *newchk(exp, stms)
 {
   ChkNod *new;			/* The newly allocated area */
 
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   new = NEW(ChkNod);
 
   new->exp = exp;

@@ -2,6 +2,7 @@
 
 	Prefix 'lm';
 	Listings single;
+	Limit 1000;
 --	Message file;
 --	Library '.';
 
