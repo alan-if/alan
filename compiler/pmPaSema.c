@@ -291,7 +291,7 @@ int rule			/* IN production number */
     case 32: { /* <set member> = ID; */
 #line 322 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newWhatExpression(pmSeSt[pmStkP+1].srcp, newWhat(&pmSeSt[pmStkP+1].id->srcp, WHAT_ID, pmSeSt[pmStkP+1].id));
+	pmSeSt[pmStkP+1].exp = newWhatExpression(pmSeSt[pmStkP+1].id->srcp, newWhat(&pmSeSt[pmStkP+1].id->srcp, WHAT_ID, pmSeSt[pmStkP+1].id));
     	break;}
     case 33: { /* <set member> = <optional_minus> Integer; */
 #line 327 "alan.pmk"

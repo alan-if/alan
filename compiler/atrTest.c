@@ -19,6 +19,35 @@ void testCreateSetAttribute()
   ASSERT(atr->set->element.exp->kind == INTEGER_EXPRESSION);
 }
 
+void testInferClassInSetAttribute()
+{
+  initAdventure();
+  symbolizeClasses();
+
+  IdNode *classId = newId(&nulsrcp, "object");
+  Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "t"), classId, NULL);
+  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(&nulsrcp, "t"))), EXPRESSION_LIST);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(&nulsrcp, "setAttribute"), set);
+
+  symbolizeInstance(instance);
+  analyzeSetAttribute(atr);
+  ASSERT(atr->type == SET_TYPE);
+  ASSERT(atr->setType == INSTANCE_TYPE);
+  ASSERT(atr->setClass == objectSymbol);
+  ASSERT(length(atr->set) == 1);
+
+  classId = newId(&nulsrcp, "location");
+  instance = newInstance(&nulsrcp, newId(&nulsrcp, "u"), classId, NULL);
+  set = concat(set, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(&nulsrcp, "u"))), EXPRESSION_LIST);
+
+  symbolizeInstance(instance);
+  analyzeSetAttribute(atr);
+  ASSERT(atr->type == SET_TYPE);
+  ASSERT(atr->setType == INSTANCE_TYPE);
+  ASSERT(atr->setClass == entitySymbol);
+  ASSERT(length(atr->set) == 2);
+
+}
 
 void testMultipleAtr()
 {
@@ -305,6 +334,7 @@ static void testResolveThisAttributeForClass()
 void registerAtrUnitTests()
 {
   registerUnitTest(testCreateSetAttribute);
+  registerUnitTest(testInferClassInSetAttribute);
   registerUnitTest(testMultipleAtr);
   registerUnitTest(testAttributeListsInSymbolTable);
   registerUnitTest(testSortAttributes);

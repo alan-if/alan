@@ -1101,10 +1101,10 @@ void dumpType(TypeKind typ)
     put("SET");
     break;
   case ERROR_TYPE:
-    put("UNKNOWN");
+    put("ERROR");
     break;
   case UNINITIALIZED_TYPE:
-    put("ERROR");
+    put("UNINITIALIZED");
     break;
   }
 }

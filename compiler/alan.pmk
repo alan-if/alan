@@ -320,7 +320,7 @@ static int val(char str[])
 <set member>				-- RETURNS exp
     = ID
     %%
-	%<set member>.exp = newWhatExpression(%ID.srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
+	%<set member>.exp = newWhatExpression(%ID.id->srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
     %%
 
     ! <optional_minus> Integer

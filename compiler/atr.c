@@ -146,13 +146,13 @@ void symbolizeAttributes(List *atrs)
   checkMultipleAttributes(atrs);
 
   TRAVERSE(al, atrs) {
-    Attribute *this = al->element.atr;
-    if (this->type == INSTANCE_TYPE) {
-      symbolizeId(this->instance);
-      if (this->instance->symbol)
-	if (this->instance->symbol->kind != INSTANCE_SYMBOL)
-	  lmLogv(&this->instance->srcp, 428, sevERR, "Attribute value in reference attribute declaration", "an instance", NULL);
-    }
+    Attribute *thisAttribute = al->element.atr;
+    if (thisAttribute->type == INSTANCE_TYPE) {
+      symbolizeId(thisAttribute->instance);
+      if (thisAttribute->instance->symbol)
+	if (thisAttribute->instance->symbol->kind != INSTANCE_SYMBOL)
+	  lmLogv(&thisAttribute->instance->srcp, 428, sevERR, "Attribute value in reference attribute declaration", "an instance", NULL);
+    } 
   }
 }
 
@@ -262,6 +262,41 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void analyzeSetAttribute(Attribute *thisAttribute)
+{
+  List *elements;
+  TypeKind inferedType = UNINITIALIZED_TYPE;
+  Symbol *inferedClass = NULL;
+
+  TRAVERSE(elements, thisAttribute->set) {
+    Expression *exp = elements->element.exp;
+    analyzeExpression(exp, NULL);
+    if (inferedType == UNINITIALIZED_TYPE)
+      inferedType = exp->type;
+    if (!equalTypes(inferedType, exp->type))
+      lmLogv(&exp->srcp, 408, sevERR, "Expressions", "Set attribute", "the same", NULL);
+    else if (exp->type == ERROR_TYPE)
+      inferedType = ERROR_TYPE;
+    else if (exp->type == INSTANCE_TYPE) {
+      if (inferedClass == NULL)
+	inferedClass = exp->class;
+      else {
+	while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass))
+	  /* They are not of the same class so we need to find a common ancestor */
+	  inferedClass = inferedClass->fields.entity.parent;
+	if (inferedClass == NULL)
+	  syserr("No common ancestor found for Set members", __FUNCTION__);
+      }
+    }
+  }
+  thisAttribute->setType = inferedType;
+  if (inferedType == ERROR_TYPE)
+    thisAttribute->type = ERROR_TYPE;
+  if (inferedType == INSTANCE_TYPE)
+    thisAttribute->setClass = inferedClass;
+}
+
 
 /*======================================================================*/
 void analyzeAttributes(List *atrs)
@@ -270,16 +305,18 @@ void analyzeAttributes(List *atrs)
 
   TRAVERSE (al1, atrs) {
     Attribute *thisAttribute = al1->element.atr;
-    if (thisAttribute->type == INSTANCE_TYPE)
+    if (thisAttribute->type == INSTANCE_TYPE) {
       if (thisAttribute->instance->symbol != NULL)
 	thisAttribute->value = thisAttribute->instance->symbol->code;
+    } else if (thisAttribute->type == SET_TYPE)
+      analyzeSetAttribute(thisAttribute);
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute,
-				     Context *context)
+static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute,
+				       Context *context)
 {
   Attribute *atr = NULL;
   Symbol *sym;
@@ -319,7 +356,7 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute,
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfActor(IdNode *attribute, Context *context)
 {
   /* Resolve an attribute reference for reference to current Actor. */
 
@@ -333,7 +370,7 @@ static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfLocation(IdNode *attribute, Context *context)
 {
   /* Resolve an attribute reference for reference to current Location. */
 
@@ -404,9 +441,9 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
      parameters and return a reference to the attribute node, if all is well. */
 
   switch (what->kind) {
-  case WHAT_ID: return resolveIdAttribute(what->id, attribute, context); break;
-  case WHAT_ACTOR: return resolveActorAttribute(attribute, context); break;
-  case WHAT_LOCATION: return resolveLocationAttribute(attribute, context); break;
+  case WHAT_ID: return resolveAttributeOfId(what->id, attribute, context); break;
+  case WHAT_ACTOR: return resolveAttributeOfActor(attribute, context); break;
+  case WHAT_LOCATION: return resolveAttributeOfLocation(attribute, context); break;
   case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
   default: syserr("Unexpected switch in '%s()'", __FUNCTION__);
   }
@@ -519,28 +556,54 @@ void dumpAttribute(Attribute *atr)
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
-  put("address: "); dumpAddress(atr->address); nl();
+  put("address: "); dumpAddress(atr->address);
   switch (atr->type) {
   case STRING_TYPE:
-    put(", stringAddress: "); dumpAddress(atr->stringAddress); nl();
-    put(", fpos: "); dumpInt(atr->fpos);
+    put(", stringAddress: "); dumpAddress(atr->stringAddress);
+    put("fpos: "); dumpInt(atr->fpos); nl();
     put(", len: "); dumpInt(atr->len);
     break;
   case INTEGER_TYPE:
+    nl();
     put("value: "); dumpInt(atr->value);
     break;
   case BOOLEAN_TYPE:
+    nl();
     put("value: "); dumpBool(atr->value);
     break;
   case INSTANCE_TYPE:
+    nl();
     put("instance: "); dumpId(atr->instance);
     break;
   case SET_TYPE:
+    nl();
+    put("setType: "); dumpType(atr->setType); nl();
+    if (atr->setType == INSTANCE_TYPE) {
+      put("atr->setClass: "); dumpPointer(atr->setClass);
+      if (atr->setClass != NULL) {
+	put(" \""); put(atr->setClass->string); put("\"");
+      }
+      nl();
+    }
     put("set: "); dumpList(atr->set, EXPRESSION_LIST);
     break;
   default:
-    put("***ERROR***");
+    put(", stringAddress: "); dumpAddress(atr->stringAddress);
+    put(", fpos: "); dumpInt(atr->fpos);
+    put(", len: "); dumpInt(atr->len); nl();
+    put("value: "); dumpInt(atr->value); nl();
+    put("instance: "); dumpId(atr->instance); nl();
+    put("setType: "); dumpType(atr->setType); nl();
+    if (atr->setType == INSTANCE_TYPE) {
+      put("atr->setClass: "); dumpPointer(atr->setClass);
+      if (atr->setClass != NULL) {
+	put(" \""); put(atr->setClass->string); put("\"");
+      }
+      nl();
+    }
+    put("set: "); dumpList(atr->set, EXPRESSION_LIST);
     break;
   }
   out();
+
 }

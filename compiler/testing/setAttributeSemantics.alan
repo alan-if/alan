@@ -1,0 +1,9 @@
+The l Isa location
+  Has intString {1,"hej"}.
+  Has intRef {1,l}.
+  Has unknownRef {l, x}.
+  Has class {l, l, hero}.
+End The l.
+
+Start At l.
+
