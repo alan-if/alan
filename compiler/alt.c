@@ -173,7 +173,7 @@ static void gealtent(alt)
     break;
     
   default:
-    syserr("Unrecognized switch in gealtent().");
+    syserr("Unrecognized switch in gealtent()");
     break;
   }
 

@@ -151,10 +151,10 @@ void score(sc)
   char buf[80];
 
   if (sc == 0) {
-    prmsg(SCOREMSG1);
+    prmsg(M_SCORE1);
     sprintf(buf, "%d", cur.score);
     output(buf);
-    prmsg(SCOREMSG2);
+    prmsg(M_SCORE2);
     sprintf(buf, "%d.", header->maxscore);
     output(buf);
   } else {
@@ -180,11 +180,21 @@ void quit()
 #endif
 {
   char str[80];
+  char *msg;
+  int i;
 
   para();
-  output("Do you want to restart (y) ?");
+  getstr(msgs[M_RETRY].fpos, msgs[M_RETRY].len);
+  msg = (char *)pop();
+  output(msg);
+  free(msg);
   gets(str);
-  if (str[0] == '\0' || toupper(str[0]) == 'Y')
+
+  /* Use a character inside parenthesis as affirmative */
+  for (i = 0; msg[i]; i++)
+    if (msg[i] == '(' && msg[i+2] == ')')
+      break;
+  if (str[0] == '\0' || (msg[i] && toupper(msg[i+1]) == toupper(str[0])))
     longjmp(restart, TRUE);
   else {
     if (logflg)
@@ -815,7 +825,7 @@ static void locact(act, whr)
       if (anyOutput)
 	para();
       say(where(HERO));
-      prmsg(AGAIN);
+      prmsg(M_AGAIN);
       needsp = FALSE;
       output(".");
       newline();
@@ -1124,9 +1134,9 @@ static void dscrobj(obj)
   if (objs[obj-OBJMIN].dscr1 != 0)
     interpret(objs[obj-OBJMIN].dscr1);
   else {
-    prmsg(SEEOBJ1);
+    prmsg(M_SEEOBJ1);
     say(obj);
-    prmsg(SEEOBJ4);
+    prmsg(M_SEEOBJ4);
     if (objs[obj-OBJMIN].cont != 0)
       list(obj);
   }
@@ -1154,7 +1164,7 @@ static void dscract(act)
     interpret(acts[act-ACTMIN].dscr);
   else {
     interpret(acts[act-ACTMIN].nam);
-    prmsg(SEEACT);
+    prmsg(M_SEEACT);
   }
   acts[act-ACTMIN].describe = FALSE;
 }
@@ -1253,17 +1263,17 @@ void list(cnt)
 	if (cnts[props-CNTMIN].header != 0)
 	  interpret(cnts[props-CNTMIN].header);
 	else {
-	  prmsg(CONTAINS1);
+	  prmsg(M_CONTAINS1);
 	  if (cnts[props-CNTMIN].parent != 0) /* It is actually an object or actor */
 	    say(cnts[props-CNTMIN].parent);
 	  else
 	    interpret(cnts[props-CNTMIN].nam);
-	  prmsg(CONTAINS2);
+	  prmsg(M_CONTAINS2);
 	}
       } else {
 	if (multiple) {
 	  needsp = FALSE;
-	  prmsg(CONTAINS3);
+	  prmsg(M_CONTAINS3);
 	}
 	multiple = TRUE;
 	say(prevobj);
@@ -1274,19 +1284,19 @@ void list(cnt)
 
   if (found) {
     if (multiple)
-      prmsg(CONTAINS4);
+      prmsg(M_CONTAINS4);
     say(prevobj);
-    prmsg(CONTAINS5);
+    prmsg(M_CONTAINS5);
   } else {
     if (cnts[props-CNTMIN].empty != 0)
       interpret(cnts[props-CNTMIN].empty);
     else {
-      prmsg(EMPTY1);
+      prmsg(M_EMPTY1);
       if (cnts[props-CNTMIN].parent != 0) /* It is actually an object or actor */
 	say(cnts[props-CNTMIN].parent);
       else
 	interpret(cnts[props-CNTMIN].nam);
-      prmsg(EMPTY2);
+      prmsg(M_EMPTY2);
     }
   }
   needsp = TRUE;
@@ -1349,13 +1359,13 @@ void dscrobjs()
     if (objs[i-OBJMIN].loc == cur.loc &&
 	objs[i-OBJMIN].describe) {
       if (!found) {
-	prmsg(SEEOBJ1);
+	prmsg(M_SEEOBJ1);
 	say(i);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needsp = FALSE;
-	  prmsg(SEEOBJ2);
+	  prmsg(M_SEEOBJ2);
 	  say(prevobj);
 	}
 	multiple = TRUE;
@@ -1365,10 +1375,10 @@ void dscrobjs()
 
   if (found) {
     if (multiple) {
-      prmsg(SEEOBJ3);
+      prmsg(M_SEEOBJ3);
       say(prevobj);
     }
-    prmsg(SEEOBJ4);
+    prmsg(M_SEEOBJ4);
   }
   
   /* Set describe flag for all objects */
@@ -1450,7 +1460,7 @@ void save()
   strcpy(savfnm, advnam);
   strcat(savfnm, ".sav");
   if ((savfil = fopen(savfnm, "w")) == NULL)
-    error(SAVEFAILED);
+    error(M_SAVEFAILED);
 
   /* Save version of interpreter and name of game */
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
@@ -1518,19 +1528,19 @@ void restore()
   strcpy(savfnm, advnam);
   strcat(savfnm, ".sav");
   if ((savfil = fopen(savfnm, "r")) == NULL)
-    error(SAVEMISSING);
+    error(M_SAVEMISSING);
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
   if (savedVersion != header->vers) {
     fclose(savfil);
-    error(SAVEVERS);
+    error(M_SAVEVERS);
     return;
   }
   i = 0;
-  while (savedName[i] = fgetc(savfil));
+  while ((savedName[i++] = fgetc(savfil)) != '\0');
   if (strcmp(savedName, advnam) != 0) {
     fclose(savfil);
-    error(SAVENAME);
+    error(M_SAVENAME);
     return;
   }
 

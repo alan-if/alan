@@ -1,16 +1,18 @@
 # Makefile for alan compiler
 #
 
-CPP	= gcc -MM
+GCC	= gcc2.4.5
+CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 purify:=		CC = acc -Xc -vc
-all debug release:=	CC = gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
+all debug release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
-LD	= $(CC)
-LDFLAGS	= -lm
+
+LD	= $(GCC)
+LDFLAGS	= #-lm #-lc.1.7
 
 EXTRAS = \
 	alan.tmk \
@@ -20,10 +22,10 @@ EXTRAS = \
 	Makefile
 
 TMSRCS = \
-	lmList.c \
-	smScan.c smScSema.c\
+	pmParse.c pmPaSema.c \
 	pmErr.c \
-	pmParse.c pmPaSema.c
+	smScan.c smScSema.c\
+	lmList.c
 
 SRCS = \
 	$(TMSRCS) \
@@ -76,12 +78,14 @@ LIB = alan.a
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
+VMSOBJECTS = ${SRCS:.c=.obj}
+VMSLINKOBJS = ${SRCS:.c=}
 
 #-- MAIN TARGET
 debug all: alan
 
-debug:=	DEBUG= -g
-all:=	DEBUG= -O
+debug:=		DEBUG= -g
+all release :=	DEBUG= -O4
 
 alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile alan.prod
 	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -98,29 +102,29 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	pmk $(PMKQ) alan
 	@touch .pmkstamp
 
-.smkstamp : .pmkstamp alan.smk $(TMHOME)/lib/ansi-c/Scan.imp
+.smkstamp : .pmkstamp alan.smk alan.voc $(TMHOME)/lib/ansi-c/Scan.imp
 	smk $(SMKQ) alan
 	@touch .smkstamp
 
-alanParse.h alanParse.c alanPaSema.c alanErr.c:
+pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc:
 	touch alan.pmk
-	make tm
+	make .pmkstamp
 
-alanScan.h alanScan.c alanScSema.c:
+smScan.h smScan.c smScSema.c:
 	touch alan.smk
-	make tm
+	make .smkstamp
 
-alanList.h alanList.c:
+lmList.h lmList.c:
 	touch alan.lmk
-	make tm
+	make .lmkstamp
 
 malloc: tm $(OBJECTS) version.o $(MAINOBJ)
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
-	$(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
+	$(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	-rm alan.o
 
 purify: tm $(OBJECTS) version.o alan.o
-	purify -handle-signals $(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
+	purify -handle-signals $(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
 
 NONANSI:
 	mv alan.tmk alan.tmk.ansi
@@ -157,7 +161,7 @@ alan.prod: alan.pml
 
 #-- Cheating MAKE
 link:
-	$(CC) -o alan $(CFLAGS) $(OBJECTS) version.o $(LDFLAGS)
+	$(LD) -o alan $(CFLAGS) $(OBJECTS) version.o $(LDFLAGS)
 
 #-- ARCHIVE
 archives:
@@ -181,14 +185,31 @@ clean:
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER =
 depend:
-	@echo "Updating dependencies.mk, Makefile.amiga"
-	@echo > dependecies.mk
+	@echo "Updating dependencies.mk!"
+	@echo > dependencies.mk
 	@for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
+	@make Makefile.amiga.
+	@make alan.make.
+
+Makefile.amiga.:
+	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
+
+alan.make.:
+	@echo Updating alan.make!
+	@echo !Automagically created makefile for Alan compiler on VMS > alan.make
+	@echo CQ=/STANDARD=PORTABLE >> alan.make
+	@echo OBJECTS = $(VMSOBJECTS) >> alan.make
+	@echo >> alan.make
+	@cat dependencies.mk >> alan.make
+	@echo >> alan.make
+	@echo alan.exe : "#(OBJECTS)" version.obj >> alan.make
+	@/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
+	@/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
 
 include dependencies.mk

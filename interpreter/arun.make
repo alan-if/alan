@@ -1,37 +1,24 @@
-! Makefile for arun on VAX		      Date: 91-09-06/THONI@_GOLLUM
-!
+!Automagically created makefile for Arun interpreter on VMS
+CQ=/STANDARD=PORTABLE
+OBJECTS = debug.obj exe.obj inter.obj parse.obj reverse.obj rules.obj stack.obj decode.obj term.obj params.obj sysdep.obj
 
-CQ =/STANDARD=PORTABLE
-
-OBJECTS = arun.obj debug.obj exe.obj inter.obj parse.obj rules.obj stack.obj params.obj term.obj decode.obj sysdep.obj reverse.obj
-
-arun.obj : arun.c
-
-debug.obj : debug.c
-
-exe.obj : exe.c
-
-inter.obj : inter.c
-
-parse.obj : parse.c
-
-rules.obj : rules.c
-
-stack.obj : stack.c
-
-term.obj : term.c
-
-params.obj : params.c
-
-decode.obj : decode.c
-
-reverse.obj : reverse.c
-
-sysdep.obj : sysdep.c
-
-version.obj : version.c
+arun.o : arun.c sysdep.h types.h acode.h arun.h version.h parse.h inter.h rules.h \
+  reverse.h debug.h stack.h exe.h term.h 
+debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
+decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
+exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
+  exe.h 
+inter.o : inter.c types.h sysdep.h acode.h arun.h parse.h exe.h stack.h inter.h 
+params.o : params.c types.h sysdep.h acode.h params.h 
+parse.o : parse.c types.h sysdep.h acode.h arun.h inter.h exe.h term.h debug.h \
+  params.h parse.h 
+reverse.o : reverse.c types.h sysdep.h acode.h arun.h reverse.h 
+rules.o : rules.c types.h sysdep.h acode.h arun.h inter.h stack.h rules.h 
+stack.o : stack.c types.h sysdep.h acode.h arun.h stack.h 
+sysdep.o : sysdep.c sysdep.h 
+term.o : term.c arun.h types.h sysdep.h acode.h term.h 
+version.o : version.c version.h 
 
 arun.exe : #(OBJECTS) version.obj
-	$ link/exe=arun #(LQ) arun.obj,debug.obj,exe.obj,inter.obj,parse.obj,rules.obj,stack.obj,params.obj,term.obj,decode.obj,reverse.obj,sysdep.obj,version.obj
+	$ link/exe=arun #(LQ) debug exe inter parse reverse rules stack decode term params sysdep
 	$ copy arun.exe <->
-

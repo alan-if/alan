@@ -187,4 +187,49 @@ typedef struct AcdHdr {
   Aword txtcrc;			/* 28 - Checksum for text data file */
 } AcdHdr;
 
+/* Error message numbers */
+typedef enum MsgKind {
+  M_HUH,
+  M_WHAT,
+  M_WHAT_ALL,
+  M_WHAT_IT,
+  M_WHAT_THEM,
+  M_MULTIPLE,
+  M_WANT,
+  M_NOUN,
+  M_AFTER_BUT,
+  M_BUT_ALL,
+  M_NOT_MUCH,
+  M_WHICH_ONE,
+  M_NO_SUCH,
+  M_NO_WAY,
+  M_CANT0,
+  M_CANT,
+  M_NOTHING,
+  M_SEEOBJ1,
+  M_SEEOBJ2,
+  M_SEEOBJ3,
+  M_SEEOBJ4,
+  M_SEEACT,
+  M_CONTAINS1,
+  M_CONTAINS2,
+  M_CONTAINS3,
+  M_CONTAINS4,
+  M_CONTAINS5,
+  M_EMPTY1,
+  M_EMPTY2,
+  M_SCORE1,
+  M_SCORE2,
+  M_UNKNOWN_WORD,
+  M_MORE,
+  M_AGAIN,
+  M_SAVEFAILED,
+  M_SAVEMISSING,
+  M_SAVEVERS,
+  M_SAVENAME,
+  M_RETRY,
+  M_NOMSG,
+  MSGMAX
+} MsgKind;
+
 #endif

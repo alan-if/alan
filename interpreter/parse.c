@@ -95,7 +95,7 @@ static void unknown(token)
   output(str);
   free(str);
   eol = TRUE;
-  error(KNOW_WORD);
+  error(M_UNKNOWN_WORD);
 }
 
 
@@ -285,13 +285,13 @@ static void nonverb()
   if (isDir(wrds[wrdidx])) {
     wrdidx++;
     if (wrds[wrdidx] != EOF && !isConj(wrds[wrdidx]))
-      error(WHAT);
+      error(M_WHAT);
     else
       go(dict[wrds[wrdidx-1]].code);
     if (wrds[wrdidx] != EOF)
       wrdidx++;
   } else
-    error(WHAT);
+    error(M_WHAT);
 }
 
 
@@ -314,7 +314,7 @@ static void buildall(list)
       list[i++].firstWord = EOF;
     }
   if (!found)
-    error(WHAT_ALL);
+    error(M_WHAT_ALL);
   else
     list[i].code = EOF;
 }
@@ -355,12 +355,12 @@ static void unambig(plst)
     /* Use last object in previous command! */
     for (i = lstlen(pparams)-1; i >= 0 && (pparams[i].code == 0 || pparams[i].code >= LITMIN); i--);
     if (i < 0)
-      error(WHAT_IT);
+      error(M_WHAT_IT);
     if (!isHere(pparams[i].code)) {
       params[0].code = pparams[i].code;
       params[0].firstWord = EOF;
       params[1].code = EOF;
-      error(NO_SUCH);
+      error(M_NO_SUCH);
     }
     plst[0] = pparams[i];
     plst[0].firstWord = EOF;	/* No words used! */
@@ -391,7 +391,7 @@ static void unambig(plst)
       }
       wrdidx++;
     } else
-      error(NOUN);
+      error(M_NOUN);
   } else if (found)
     if (isNoun(wrds[wrdidx-1])) {
       /* Perhaps the last word was also a noun? */
@@ -402,7 +402,7 @@ static void unambig(plst)
       else
 	isect(plst, refs);
     } else
-      error(NOUN);
+      error(M_NOUN);
   lastWord = wrdidx-1;
 
   /* Resolve ambiguities by presence */
@@ -417,9 +417,9 @@ static void unambig(plst)
     params[0].lastWord = lastWord;
     params[1].code = EOF;	/* But be sure to terminate */
     if (lstlen(plst) > 1)
-      error(WHICH_ONE);
+      error(M_WHICH_ONE);
     else if (found && lstlen(plst) == 0)
-      error(NO_SUCH);
+      error(M_NO_SUCH);
   } else {
     plst[0].firstWord = firstWord;
     plst[0].lastWord = lastWord;
@@ -453,7 +453,7 @@ static void simple(olst)
 	  pmlst[i].code = 0;
       compress(pmlst);
       if (lstlen(pmlst) == 0)
-	error(WHAT_THEM);
+	error(M_WHAT_THEM);
       lstcpy(olst, pmlst);
       wrdidx++;
     } else {
@@ -505,10 +505,10 @@ static void complex(olst)
       wrdidx++;
       simple(olst);
       if (lstlen(olst) == 0)
-	error(AFTER_BUT);
+	error(M_AFTER_BUT);
       sublst(alst, olst);
       if (lstlen(alst) == 0)
-	error(NOT_MUCH);
+	error(M_NOT_MUCH);
     }
     lstcpy(olst, alst);
     allLength = lstlen(olst);
@@ -572,7 +572,7 @@ static void try(mlst)
     if (stx->code == vrbcode)
       break;
   if (endOfTable(stx))
-    error(WHAT);
+    error(M_WHAT);
 
   elms = (ElmElem *) addrTo(stx->elms);
 
@@ -582,7 +582,7 @@ static void try(mlst)
 	while (!endOfTable(elms) && elms->code != EOS)
 	  elms++;
 	if (endOfTable(elms))
-	  error(WHAT);
+	  error(M_WHAT);
 	else
 	  break;
     } else {
@@ -591,7 +591,7 @@ static void try(mlst)
 	while (!endOfTable(elms) && elms->code != dict[wrds[wrdidx]].code)
 	  elms++;
 	if (endOfTable(elms))
-	  error(WHAT);
+	  error(M_WHAT);
 	else
 	  wrdidx++;
       } else {
@@ -599,15 +599,15 @@ static void try(mlst)
 	while (!endOfTable(elms) && elms->code != 0)
 	  elms++;
 	if (endOfTable(elms))
-	  error(WHAT);
+	  error(M_WHAT);
 	/* Get it! */
 	plural = FALSE;
 	complex(tlst);
 	if (lstlen(tlst) == 0) /* No object!? */
-	  error(WHAT);
+	  error(M_WHAT);
 	if (plural)
 	  if (!elms->multiple)
-	    error(MULTIPLE);
+	    error(M_MULTIPLE);
 	  else {
 	    params[paramidx++].code = 0;
 	    lstcpy(mlst, tlst);
@@ -623,7 +623,7 @@ static void try(mlst)
   
   /* Now perform class checks */
   if (elms->next == 0)	/* No verb code, verb not declared! */
-    error(CANT0);
+    error(M_CANT0);
 
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
@@ -639,7 +639,7 @@ static void try(mlst)
     } else {
       if (!claCheck(cla)) {
 	interpret(cla->stms);
-	error(NOMSG);		/* Return to player */
+	error(M_NOMSG);		/* Return to player */
       }
     }
     checked[cla->code-1] = TRUE; /* Remember that it's already checked */
@@ -654,7 +654,7 @@ static void try(mlst)
 	    if (!isObj(mlst[i].code))
 	      mlst[i].code = 0;
       } else if (!isObj(params[p].code))
-	error(CANT0);
+	error(M_CANT0);
 
   /* Set verb code */
   cur.vrb = ((Aword *) cla)[1];	/* Take first word after end of table! */
@@ -673,7 +673,7 @@ static void try(mlst)
     compress(mlst);
     if (lstlen(mlst) == 0) {
       params[0].code = EOF;
-      error(WHAT_ALL);
+      error(M_WHAT_ALL);
     }
   }
   plural = anyPlural;		/* Remember that we found plural objects */
@@ -691,7 +691,7 @@ static void match(mlst)
 {
   try(mlst);			/* ... to understand what he said */
   if (wrds[wrdidx] != EOF && !isConj(wrds[wrdidx]))
-    error(WHAT);
+    error(M_WHAT);
   if (wrds[wrdidx] != EOF)	/* More on this line? */
     wrdidx++;			/* If so skip the AND */
 }

@@ -20,12 +20,12 @@ struct FileHandle *con = NULL;
 
 
 #ifdef _PROTOTYPES_
-int switches(
+static void switches(
      unsigned argc,
      char *argv[]
 )
 #else
-int switches(argc, argv)
+static void switches(argc, argv)
      unsigned argc;
      char *argv[];
 #endif

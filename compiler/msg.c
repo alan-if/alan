@@ -63,6 +63,8 @@ static char *engmsg[] =
   "Sorry, save failed.",
   "Sorry, could not open any save file.",
   "Sorry, the save file was created by a different version.",
+  "Sorry, the save file did not contain a save for this adventure.",
+  "Do you want to restart (y) ? ",
   NULL
 };
 
@@ -101,9 +103,11 @@ static char *swemsg[] = {
   "Jag känner inte till det ordet.",
   "<Mera>",
   "(igen)",
-  "Tyv{rr, det gick inte att spara äventyret.",
+  "Tyvärr, det gick inte att spara äventyret.",
   "Tyvärr, kunde inte hitta något sparat äventyr.",
   "Tyvärr, det sparade äventyret har inte samma version.",
+  "Tyvärr, det var inte detta äventyr som var sparat i den filen.",
+  "Vill du försöka igen (j) ? ",
   NULL
 };
 
@@ -186,8 +190,10 @@ void prepmsgs()
   List *lst = NULL;	/* The constructed list */
 
 
-  if (sizeof(swemsg) != sizeof(engmsg))
-    syserr("not the same number of messages in swemsg[]");
+  if (sizeof(swemsg)/sizeof(swemsg[0]) != MSGMAX)
+    syserr("Incorrect number of messages in swedish message tables");
+  if (sizeof(engmsg)/sizeof(swemsg[0]) != MSGMAX)
+    syserr("Incorrect number of messages in english message tables");
 
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
@@ -201,6 +207,7 @@ void prepmsgs()
     return;
   }
 
+  
   /* For all messages in the pointed to table */
   while (*msgp) {
     /* Create a message node */

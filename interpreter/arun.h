@@ -12,52 +12,6 @@
 #include <setjmp.h>
 
 
-/* TYPES */
-
-/* Error message numbers */
-typedef enum msgnum {
-  HUH,
-  WHAT,
-  WHAT_ALL,
-  WHAT_IT,
-  WHAT_THEM,
-  MULTIPLE,
-  WANT,
-  NOUN,
-  AFTER_BUT,
-  BUT_ALL,
-  NOT_MUCH,
-  WHICH_ONE,
-  NO_SUCH,
-  NO_WAY,
-  CANT0,
-  CANT,
-  NOTHING,
-  SEEOBJ1,
-  SEEOBJ2,
-  SEEOBJ3,
-  SEEOBJ4,
-  SEEACT,
-  CONTAINS1,
-  CONTAINS2,
-  CONTAINS3,
-  CONTAINS4,
-  CONTAINS5,
-  EMPTY1,
-  EMPTY2,
-  SCOREMSG1,
-  SCOREMSG2,
-  KNOW_WORD,
-  MORE,
-  AGAIN,
-  SAVEFAILED,
-  SAVEMISSING,
-  SAVEVERS,
-  SAVENAME,
-  NOMSG
-} MsgNum;
-
-
 /* DATA */
 
 #define MEMORYSIZE 1000L
@@ -82,6 +36,7 @@ extern ObjElem *objs;		/* Object table pointer */
 extern CntElem *cnts;		/* Container table pointer */
 extern RulElem *ruls;		/* Rule table pointer */
 extern EvtElem *evts;		/* Event table pointer */
+extern MsgElem *msgs;		/* Message table pointer */
 extern Aword *scores;		/* Score table pointer */
 extern Aword *freq;		/* Cumulated frequencies */
 
@@ -98,6 +53,8 @@ extern char *advnam;
 extern int col, lin;
 extern int paglen, pagwidth;
 
+/* Long jump buffer for retry */
+extern jmp_buf restart;
 
 extern Boolean errflg, trcflg, dbgflg, stpflg, logflg;
 extern Boolean fail;
@@ -113,10 +70,10 @@ extern jmp_buf restart;
 extern void *allocate(int len);
 extern void terminate(int code);
 extern void syserr(char *msg);
-extern void error(enum msgnum msg);
+extern void error(MsgKind msg);
 
 extern void output(char string[]);
-extern void prmsg(enum msgnum msg);
+extern void prmsg(MsgKind msg);
 extern void para(void);
 extern void newline(void);
 

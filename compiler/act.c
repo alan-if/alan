@@ -364,7 +364,7 @@ static void geactent(act)
       gewht(act->whr->wht);
       break;
     default:
-      syserr("Unrecognized switch in geactent().");
+      syserr("Unrecognized switch in geactent()");
       return;
     }
 

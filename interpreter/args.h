@@ -14,7 +14,7 @@ extern struct FileHandle *con;
 #endif
 
 #ifdef _PROTOTYPES_
-extern void args(int argc, char *argv[])
+extern void args(int argc, char *argv[]);
 #else
 extern void args();
 #endif

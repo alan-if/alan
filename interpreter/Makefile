@@ -2,19 +2,22 @@
 #
 
 SHELL	= /bin/sh
-CPP	= gcc -MM
+CPP	= gcc -MM -ansi -I/usr/local/include/ansi
+
+GCC	= gcc2.4.5
 
 purify:=		CC = acc -Xc -vc
-debug all release:=	CC = gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
+debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
-LD	= $(CC) $(DEBUG)
-LDFLAGS	= -lm $(LQ)
+LD	= $(GCC)
+LDFLAGS	= $(LQ)
 
 #.KEEP_STATE:
 
 #--
 SRCS = debug.c \
+	args.c \
 	exe.c \
 	inter.c \
 	parse.c \
@@ -30,6 +33,8 @@ MAINSRC = arun.c
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
+VMSOBJECTS = ${SRCS:.c=.obj}
+VMSLINKOBJS = ${SRCS:.c=}
 
 LIB = arun.a
 
@@ -61,31 +66,50 @@ version.c: $(OBJECTS) ../[0-9]*
 
 #--
 archives:
-	-\rm Makefile*~
+	-rm Makefile*~
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
 	zip -k -f interpreter.zip *.[ch] Makefile.cmd
 
 #--
 CLEAN: clean
-	-rm interpreter.a
+	-rm *.o
 
 #--
 clean:
-	rm core *.tml *.sml *~ *.zoo *.bak
+	-rm core *~ *.zoo *.bak
 
 
 #--
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER = 
 depend:
-	@echo "make: Updating dependencies.mk, Makefile.amiga"
+	@echo Updating dependencies.mk!
 	@rm dependencies.mk
 	@for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER)>> "dependencies.mk"; \
 	done
+	@make Makefile.amiga.
+	@make arun.make.
+
+Makefile.amiga.:
+	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
+
+arun.make.:
+arun.make.:
+	@echo Updating arun.make!
+	@echo !Automagically created makefile for Arun interpreter on VMS > arun.make
+	@echo CQ=/STANDARD=PORTABLE >> arun.make
+	@echo OBJECTS = $(VMSOBJECTS) >> arun.make
+	@echo >> arun.make
+	@cat dependencies.mk >> arun.make
+	@echo >> arun.make
+	@echo arun.exe : "#(OBJECTS)" version.obj >> arun.make
+	@/usr/5bin/echo \\t$$ link/exe=arun "#(LQ)" $(VMSLINKOBJS) >> arun.make
+	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
+
 
 include dependencies.mk

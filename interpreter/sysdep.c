@@ -28,7 +28,7 @@ char *strdup(char str[])		/* IN - String to duplicate */
   char *new = (char *) malloc(strlen(str)+1);
 
   if (!new)
-    syserr("Out of memory!");
+    syserr("Out of memory");
   strcpy(new, str);
   return new;
 }
@@ -43,7 +43,7 @@ char *strdup(char str[])		/* IN - String to duplicate */
   char *new = (char *) malloc((size_t)((int)strlen(str)+1));
 
   if (!new)
-    syserr("Out of memory!");
+    syserr("Out of memory");
   strcpy(new, str);
   return new;
 }
@@ -59,7 +59,7 @@ char *strdup(str)
   char *new = (char *) malloc(strlen(str)+1);
 
   if (!new)
-    syserr("Out of memory!");
+    syserr("Out of memory");
   strcpy(new, str);
   return new;
 }

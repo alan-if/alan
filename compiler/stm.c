@@ -237,7 +237,7 @@ static void anlocate(stm, evt, pars)
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
-    syserr("Unrecognized switch in anlocate().");
+    syserr("Unrecognized switch in anlocate()");
     break;
   }
 }
@@ -618,7 +618,7 @@ static void anschedule(stm, evt, pars)
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
   default:
-    syserr("Unrecognized switch in anschedule().");
+    syserr("Unrecognized switch in anschedule()");
     break;
   }
 }

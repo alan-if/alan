@@ -204,7 +204,7 @@ static void anobj(obj)
     lmLog(&obj->srcp, 414, sevERR, "object");
     break;
   default:
-    syserr("Unrecognized switch in anobj().");
+    syserr("Unrecognized switch in anobj()");
     break;
   }
   

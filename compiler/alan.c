@@ -44,11 +44,9 @@ extern int scannedLines();	/* Number of scanned lines */
 Srcp nulsrcp			/* NULL position for list */
   = {0,0,0};
 
+char advnam[255];		/* Name of adventure (file name excl. ext.) */
 FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
-#ifdef __amiga__
-FILE *infofil;			/* .info file of generated adventure */
-#endif
 
 int fileNo = 0;			/* File number to use next */
 Boolean verbose;		/* Verbose mode */
@@ -394,16 +392,11 @@ void *allocate(len)
 
 /* -- local variables for main() -- */
   
-static char *ext;		/* pointer to extension */
-static char *name;		/* pointer to name of file (excl. directory) */
 static char srcfnm[255];	/* File name of source file */
 static char txtfnm[255];	/*   - " -   of collected text file */
 static char datfnm[255];	/*   - " -   of encoded data file */
 static char acdfnm[255];	/*   - " -   of ACODE file */
 static char lstfnm[255];	/*   - " -   of listing file */
-#ifdef __amiga__
-static char infofnm[255];	/*   - " -   of .info file */
-#endif
 
 /* SPA Option handling */
 
@@ -499,51 +492,44 @@ static void prepareNames(void)
 static void prepareNames()
 #endif
 {
-  int i;			/* Index to extension in file name */
-
+  /* Save source file name */
   strcpy(srcfnm, srcptr);
 
-  /* -- first strip directory -- */
-  if((name = strrchr(srcfnm, ']')) == NULL
-     && (name = strrchr(srcfnm, '>')) == NULL
-     && (name = strrchr(srcfnm, '/')) == NULL
-     && (name = strrchr(srcfnm, ':')) == NULL)
-    name = &srcfnm[0];
+  /* -- Then strip directory -- */
+  if((srcptr = strrchr(srcfnm, ']')) == NULL
+     && (srcptr = strrchr(srcfnm, '>')) == NULL
+     && (srcptr = strrchr(srcfnm, '/')) == NULL
+     && (srcptr = strrchr(srcfnm, ':')) == NULL)
+    srcptr = &srcfnm[0];
   else
-    name++;
-  
+    srcptr++;
+  /* Save the basename as the name of the adventure */
+  strcpy(advnam, srcptr);
+
   /* -- check for .ALAN suffix and add one if missing -- */
-  if((ext = strrchr(name, '.')) == NULL) { /* Point to last '.' */
+  if(strrchr(srcfnm, '.') == NULL) { /* Point to last '.' */
 #ifdef __dos__
-    strcat(name, ".ala");	/* Was there none add */
+    strcat(srcfnm, ".ala");	/* Was there none add */
 #else
-    strcat(name, ".alan");	/* Was there none add */
+    strcat(srcfnm, ".alan");	/* Was there none add */
 #endif
-    ext = strrchr(name, '.');
-  }
-  i = (ext-name)/sizeof(char);	/* Calculate index to '.' */
+  } else
+    *(strrchr(advnam, '.')) = '\0';
   
   /* -- create list file name -- */
-  strcpy(lstfnm, name);
-  strcpy(&lstfnm[i], ".lis");
+  strcpy(lstfnm, advnam);
+  strcat(lstfnm, ".lis");
   
   /* -- create string data file names -- */
-  strcpy(txtfnm, name);
-  strcpy(&txtfnm[i], ".txt");
-  strcpy(datfnm, name);
-  strcpy(&datfnm[i], ".dat");
+  strcpy(txtfnm, advnam);
+  strcat(txtfnm, ".txt");
+  strcpy(datfnm, advnam);
+  strcat(datfnm, ".dat");
   
   /* -- create ACODE file name -- */
-  strcpy(acdfnm, name);
-  strcpy(&acdfnm[i], ".acd");
-
-#ifdef __amiga__
-  /* -- create .INFO file name -- */
-  strcpy(infofnm, name);
-  strcpy(&infofnm[i], ".info");
-#endif
+  strcpy(acdfnm, advnam);
+  strcat(acdfnm, ".acd");
 }
-
 
 
 /************************************************************************\
@@ -627,9 +613,6 @@ int main(argc,argv)
       opts[OPTDEBUG].value = TRUE;
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
-#ifdef __amiga__
-    infofil = fopen(infofnm, "w");
-#endif
     start();
     geadv(acdfnm);
     endgen();			/* End of generating pass */

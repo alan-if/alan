@@ -187,7 +187,7 @@ void cntcheck(wht, pars)
     break;
 
   default:
-    syserr("Unrecognized switch in cntcheck().");
+    syserr("Unrecognized switch in cntcheck()");
     break;
   }
 }

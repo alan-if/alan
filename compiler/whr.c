@@ -97,7 +97,7 @@ void anwhr(whr, evt, pars)
 	lmLog(&whr->wht->srcp, 412, sevERR, "");
       break;
     default:
-      syserr("Unrecognized switch in anexpwhr().");
+      syserr("Unrecognized switch in anexpwhr()");
       break;
     }
     break;
@@ -105,7 +105,7 @@ void anwhr(whr, evt, pars)
     cntcheck(whr->wht, pars);
     break;
   default:
-    syserr("Unrecognized switch in anwhr().");
+    syserr("Unrecognized switch in anwhr()");
     break;
   }
 }

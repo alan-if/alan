@@ -50,6 +50,7 @@ ObjElem *objs;			/* Object table pointer */
 CntElem *cnts;			/* Container table pointer */
 RulElem *ruls;			/* Rule table pointer */
 EvtElem *evts;			/* Event table pointer */
+MsgElem *msgs;			/* Message table pointer */
 Aword *scores;			/* Score table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
@@ -82,8 +83,6 @@ jmp_buf restart;
 
 
 /* PRIVATE DATA */
-
-static MsgElem *msgs;		/* Message table pointer */
 
 static jmp_buf jmpbuf;		/* Error return long jump buffer */
 
@@ -143,13 +142,13 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 
   */
 #ifdef _PROTOTYPES_
-void error(enum msgnum msgno)	/* IN - The error message number */
+void error(MsgKind msgno)	/* IN - The error message number */
 #else
 void error(msgno)
-     enum msgnum msgno;		/* IN - The error message number */
+     MsgKind msgno;		/* IN - The error message number */
 #endif
 {
-  if (msgno != NOMSG)
+  if (msgno != M_NOMSG)
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
@@ -176,7 +175,7 @@ void newline()
   if (lin >= paglen - 1) {
     printf("\n");
     needsp = FALSE;
-    prmsg(MORE);
+    prmsg(M_MORE);
     fgets(buf, 256, stdin);
     getPageSize();
     lin = 0;
@@ -459,10 +458,10 @@ void output(original)
   
   */
 #ifdef _PROTOTYPES_
-void prmsg(enum msgnum msg)	/* IN - message number */
+void prmsg(MsgKind msg)	/* IN - message number */
 #else
 void prmsg(msg)
-     enum msgnum msg;		/* IN - message number */
+     MsgKind msg;		/* IN - message number */
 #endif
 {
   print(msgs[msg].fpos, msgs[msg].len);
@@ -827,7 +826,7 @@ void go(dir)
       }
       ext++;
     }
-  error(NO_WAY);
+  error(M_NO_WAY);
 }
 
 
@@ -977,7 +976,7 @@ static void do_it()
       break;
   if (i >= 2 && params[i-2].code == EOF)
     /* Didn't find any code for this verb/object combination */
-    error(CANT0);
+    error(M_CANT0);
   
   /* Perform actions! */
   
@@ -1567,7 +1566,7 @@ int main(argc, argv)
 
   openFiles();
 
-  setjmp(restart);
+  setjmp(restart);		/* Return here if he wanted to restart */
 
   init();			/* Load, initialise and start the adventure */
 

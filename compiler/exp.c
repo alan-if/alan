@@ -128,7 +128,7 @@ static void anexpwhr(exp, evt, pars)
 	       NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
       break;
     default:
-      syserr("Unrecognized switch in anwhr().");
+      syserr("Unrecognized switch in anwhr()");
       break;
     }
   }
@@ -154,7 +154,7 @@ static void anexpwhr(exp, evt, pars)
       lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
       break;
     default:
-      syserr("Unrecognized switch in anexpwhr().");
+      syserr("Unrecognized switch in anexpwhr()");
       break;
     }
     break;
@@ -162,7 +162,7 @@ static void anexpwhr(exp, evt, pars)
     cntcheck(exp->fields.whr.whr->wht, pars);
     break;
   default:
-    syserr("Unrecognized switch in anexpwhr().");
+    syserr("Unrecognized switch in anexpwhr()");
     break;
   }
 
@@ -297,7 +297,7 @@ static void anatr(exp, evt, pars)
     break;
 
   default:
-    syserr("Unrecognized switch in anatr().");
+    syserr("Unrecognized switch in anatr()");
     break;
   }
 }
@@ -497,7 +497,7 @@ static void anexpwht(exp, evt, pars)
     break;
 
   default:
-    syserr("Unrecognized switch in anexpwht().");
+    syserr("Unrecognized switch in anexpwht()");
     break;
   }
 }
@@ -562,7 +562,7 @@ void anexp(exp, evt, pars)
     break;
 
   default:
-    syserr("Unrecognized switch in anexp().");
+    syserr("Unrecognized switch in anexp()");
     break;
   }
 }
@@ -769,7 +769,7 @@ static void geexpagr(exp)
   case AGR_SUM: emit0(C_STMOP, I_SUM); break;
   case AGR_MAX: emit0(C_STMOP, I_MAX); break;
   case AGR_COUNT: emit0(C_STMOP, I_COUNT); break;
-  default: syserr("Unrecognized switch in geexpagr().");
+  default: syserr("Unrecognized switch in geexpagr()");
   }
 }
 
