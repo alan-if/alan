@@ -14,6 +14,7 @@
 
 extern Bool stopAtNextLine;
 extern int currentLine;
+extern int recursions;
 
 
 /* Functions: */

@@ -1229,7 +1229,6 @@ static void init(void)
   if (eventQueue == NULL)	/* Make sure there is an event queue */
     increaseEventQueue();
 
-  looking = FALSE;		/* Not looking now */
   dscrstkp = 0;			/* No describe in progress */
 
   if (debugOption||sectionTraceOption||singleStepOption) {
@@ -1389,6 +1388,7 @@ void run(void)
     current.tick++;
 
     (void) setjmp(error_label);	/* Return here if any error during execution */
+    recursions = 0;
 
     /* Move all characters, hero first */
     moveActor(header->theHero);

@@ -39,8 +39,6 @@
 
 /* PUBLIC DATA */
 
-Bool looking = FALSE;        /* LOOKING? flag */
-
 int dscrstkp = 0;               /* Describe-stack pointer */
 
 
@@ -1394,20 +1392,11 @@ static void describeActor(Aword act)
 
 
 static Bool descriptionOk;
-static Aword dscrstk[255];
 
 /*======================================================================*/
 void describe(Aword id)
 {
-  int i;
   Aword previousInstance = current.instance;
-
-  for (i = 0; i < dscrstkp; i++)
-    if (dscrstk[i] == id)
-      syserr("Recursive DESCRIBE.");
-  dscrstk[dscrstkp++] = id;
-  if (dscrstkp == 255)
-    syserr("To deep recursion of DESCRIBE.");
 
   current.instance = id;
   verifyId(id, "DESCRIBE");
@@ -1484,10 +1473,6 @@ void look(void)
 {
   int i;
 
-  if (looking)
-    syserr("Recursive LOOK.");
-
-  looking = TRUE;
   /* Set describe flag for all objects and actors */
   for (i = 1; i <= header->instanceMax; i++)
     admin[i].alreadyDescribed = FALSE;
@@ -1510,7 +1495,6 @@ void look(void)
   describe(current.location);
   if (descriptionOk)
     describeInstances();
-  looking = FALSE;
 }
 
 

@@ -290,16 +290,31 @@ static char *printForm(SayForm form) {
   return "**Unknown!!***";
 }
 
+
+static Aaddr recursion[1000];
+int recursions = 0;
+
+/*----------------------------------------------------------------------*/
+static void checkForRecursion(Aaddr adr) {
+  int i;
+
+  for (i = 0; i < recursions; i++)
+    if (recursion[i] == adr)
+      syserr("Interpreter recursion.");
+  recursion[recursions++] = adr;
+  if (recursions > 1000)
+    syserr("Interpreter call stack too deep.");
+}
+
 /*======================================================================*/
 void interpret(Aaddr adr)
 {
-  static int recursions = 0;
   Aaddr oldpc;
   Aword i;
 
   /* Sanity checks: */
   if (adr == 0) syserr("Interpreting at address 0.");
-  if (recursions++ > 1000) syserr("Interpreter recursion too deep.");
+  checkForRecursion(adr);
   
   if (singleStepOption)
     printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");

@@ -9,7 +9,6 @@
 \*----------------------------------------------------------------------*/
 
 /* The event queue */
-extern Bool looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */
 
 
