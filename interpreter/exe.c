@@ -825,13 +825,29 @@ Aword where(Aword id, Abool directly)
 Aword location(Aword id)
 {
   int loc;
+  int container = 0;
 
   verifyId(id, "LOCATION");
 
   loc = admin[id].location;
-  while (loc != 0 && !isA(loc, LOCATION))
+  while (loc != 0 && !isA(loc, LOCATION)) {
+    container = loc;
     loc = admin[loc].location;
-  return loc;
+  }
+  if (loc != 0)
+    return loc;
+  else {
+    if (container == 0)
+      if (!isA(id, THING) && !isA(id, LOCATION))
+	return location(HERO);
+      else
+	return 0;		/* Nowhere */
+    else
+      if (!isA(container, THING) && !isA(container, LOCATION))
+	return location(HERO);
+      else
+	return 0;		/* Nowhere */
+  }
 }
 
 
@@ -1024,51 +1040,24 @@ Aword isHere(Aword id, Abool directly)
 
   verifyId(id, "HERE");
 
-  if (!directly && isContainer(admin[id].location)) {    /* In something? */
-    owner = admin[id].location;
-    if (admin[owner].location != 0)
-      return(isHere(owner, FALSE));
-    else /* If the container wasn't anywhere, assume where HERO is! */
-      return(where(HERO, TRUE) == current.location);
-  } else			/* DIRECTLY or not in a container */
+  if (directly)
     return(admin[id].location == current.location);
-}
-
-
-/*----------------------------------------------------------------------*/
-static Aword objnear(Aword obj, Abool directly)
-{
-  if (!directly && isContainer(admin[obj].location)) {    /* In something? */
-    if (isObj(admin[obj].location) || isAct(admin[obj].location))
-      return(isNear(admin[obj].location, directly));
-    else  /* If the container wasn't anywhere, assume here, so not nearby! */
-      return(FALSE);
-  } else
-    return(exitto(admin[obj].location, current.location));
-}
-
-
-/*----------------------------------------------------------------------*/
-static Aword actnear(Aword act)
-{
-  return(exitto(where(act, TRUE), current.location));
+  else
+    return location(id) == current.location;
 }
 
 
 /*======================================================================*/
 Abool isNear(Aword id, Abool directly)
 {
-  char str[80];
+  verifyId(id, "NEARBY");
 
-  if (isObj(id))
-    return objnear(id, directly);
-  else if (isAct(id))
-    return actnear(id);
-  else {
-    sprintf(str, "Can't NEAR instance (%ld).", id);
-    syserr(str);
+  if (directly) {
+    /* Must be at a location (not inside anything) nearby */
+    return(exitto(current.location, admin[id].location));
+  } else {
+    return(exitto(current.location, location(id)));
   }
-  return(EOF);
 }
 
 
