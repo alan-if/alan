@@ -1,18 +1,22 @@
 Wed Aug 28 09:00:58 1996  Thomas Nilsson  <thoni@rabbit>
 
+	* Changed format of the grammar description, now using the more
+	clear <xyz> format for non-terminals.
+
 	* Added a other special indicator for parameters in the syntax
 	construct. In the same way as it has been possible to indicate
 	that a parameter can be multiple, it is now possible to indicate
-	that the parameter need *not* be present to be
-	considered. Disambiguation between multiple objects that matches
-	the words given by the player is performed as before (with
-	presence taking precedence)
+	that the parameter need *not* be present to be considered.
+	Disambiguation between multiple objects that matches the words
+	given by the player is performed as before (with presence taking
+	precedence)
 
 Fri Jul 26 13:48:24 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Added general default attribute available for all Actors,
-	Objects and Locations. Allows for example examine to act on both
-	actors and objects in a much better way.
+	Objects and Locations: DEFAULT ATTRIBUTES. Allows for example
+	verbs like 'examine' to act on both actors and objects in a much
+	better way.
 
 Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
 

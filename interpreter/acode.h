@@ -237,7 +237,7 @@ typedef enum MsgKind {
   M_SAVEVERS,
   M_SAVENAME,
   M_RESTOREFROM,
-  M_RETRY,
+  M_REALLYQUIT,
   M_ARTICLE,			/* INTRODUCED: v2.6 but replaced the M_NOMSG*/
   MSGMAX
 } MsgKind;

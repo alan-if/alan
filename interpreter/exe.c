@@ -225,14 +225,13 @@ void quit()
 #endif
 {
   para();
-  if (confirm(M_RETRY)) {
-    longjmp(restart, TRUE);
-  } else {
+  if (confirm(M_REALLYQUIT)) {
     if (logflg)
       fclose(logfil);
     newline();
     terminate(0);
-  }
+  } else
+    return;
   syserr("Fallthrough in QUIT");
 }
 
