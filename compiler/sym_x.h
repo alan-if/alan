@@ -41,18 +41,12 @@ extern Symbol *theHero;
 
 /* FUNCTIONS: */
 
-/* List a message indicating a redefined symbol */
 extern void redefined(IdNode *id, Symbol *sym);
-
-/* Initialise the symbol table with predefined classes etc. */
 extern void initSymbols(void);
 
-/* Create a new symbol node */
 extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
 extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);
 extern Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent);
-
-/* Check if an Id exists in this context and if so if of an allowed kind */
 extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);
 
 /* Lookup a symbol */
@@ -73,6 +67,8 @@ extern void inheritCheck(IdNode *id, char *what, char classOrInstance[], char cl
 
 extern void setParameters(Symbol *verb, List *parameters);
 
+extern Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id);
+extern Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id);
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);
 extern void dumpSymbols(void);

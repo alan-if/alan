@@ -65,6 +65,7 @@ BUILDSRCS = \
 	stp.c \
 	str.c \
 	syn.c \
+	type.c \
 	wht.c \
 	timing.c \
 	util.c \

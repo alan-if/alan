@@ -24,17 +24,17 @@
 #include "whr_x.h"
 #include "wht_x.h"
 #include "form_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 
-#include "scr.h"                /* SCR-nodes */
-#include "sco.h"                /* SCORES */
-#include "opt.h"                /* OPTIONS */
+#include "scr.h"
+#include "sco.h"
+#include "opt.h"
 
 #include "emit.h"
 #include "encode.h"
 
-#include "dump.h"
 
 
 

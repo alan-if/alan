@@ -16,14 +16,13 @@
 #include "stm_x.h"
 #include "sym_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
-
-#include "alt.h"                /* ALT-nodes */
+#include "alt.h"
 #include "elm.h"
 
 #include "emit.h"
 #include "../interpreter/acode.h"
-#include "dump.h"
 
 
 /* PUBLIC: */

@@ -11,7 +11,7 @@
 /* USE other definitions */
 
 
-/* TYPES: */
+/* Types: */
 
 typedef enum TypeKind {		/* TYPE kinds */
   UNINITIALIZED_TYPE = 0,
@@ -22,5 +22,6 @@ typedef enum TypeKind {		/* TYPE kinds */
   INSTANCE_TYPE,
   SET_TYPE
 } TypeKind;
+
 
 #endif

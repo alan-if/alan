@@ -17,18 +17,20 @@
 #include "sym_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "sym_x.h"
+#include "dump_x.h"
+#include "type_x.h"
 
 #include "util.h"
 #include "emit.h"
 
-#include "ins.h"		/* INS-nodes */
-#include "opt.h"		/* OPT-nodes */
+#include "ins.h"
+#include "opt.h"
 
 #include "../interpreter/acode.h"
 
 #include "lmList.h"
 #include "encode.h"
-#include "dump.h"
 
 
 /* Exported data: */
@@ -60,7 +62,7 @@ static Attribute *newAttribute(Srcp *srcp, /* IN - Source Position */
   new->encoded = FALSE;
   new->fpos = fpos;
   new->len = len;
-  new->instance = instance;
+  new->reference = instance;
   new->set = set;
 
   return(new);
@@ -150,10 +152,12 @@ void symbolizeAttributes(List *atrs)
   TRAVERSE(al, atrs) {
     Attribute *thisAttribute = al->element.atr;
     if (thisAttribute->type == INSTANCE_TYPE) {
-      symbolizeId(thisAttribute->instance);
-      if (thisAttribute->instance->symbol)
-	if (thisAttribute->instance->symbol->kind != INSTANCE_SYMBOL)
-	  lmLogv(&thisAttribute->instance->srcp, 428, sevERR, "Attribute value in reference attribute declaration", "an instance", NULL);
+      symbolizeId(thisAttribute->reference);
+      if (thisAttribute->reference->symbol)
+	if (thisAttribute->reference->symbol->kind != INSTANCE_SYMBOL)
+	  lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
+		 "Attribute value in reference attribute declaration",
+		 "an instance", NULL);
     }
   }
 }
@@ -186,9 +190,13 @@ List *sortAttributes(List *attributes)
       for (lstp = &sortedList; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
 	tmp1 = *lstp;
 	tmp2 = tmp1->next;
+#ifdef SYSERR_MULTIPLE_ATTRIBUTES_WITH_SAME_CODE
+	/* This is just a precaution, it may occur if you have
+	   multiple declarations of the same inherited attribute */
 	if (tmp1->element.atr->id->code != 0 &&
-	    tmp1->element.atr->id->code == tmp2->element.atr->id->code) 
+	    tmp1->element.atr->id->code == tmp2->element.atr->id->code)
 	  syserr("Sorting multiple attributes with same code.", NULL);
+#endif
 	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code) {
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
@@ -265,7 +273,7 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSetAttribute(Attribute *thisAttribute)
+static void analyzeSetMembersClass(Attribute *thisAttribute)
 {
   List *elements;
   TypeKind inferedType = UNINITIALIZED_TYPE;
@@ -315,19 +323,80 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
   }
 }
 
+/*----------------------------------------------------------------------*/
+static void analyzeInheritedSetAttribute(Attribute *thisAttribute,
+				Attribute *inheritedAttribute,
+				Symbol *definingSymbol) {
+
+  if (!inheritsFrom(thisAttribute->setClass, inheritedAttribute->setClass)) {
+    lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
+	   "of its members",
+	   thisAttribute->setClass->string,
+	   inheritedAttribute->setClass->string, NULL);
+    thisAttribute->type = ERROR_TYPE;
+  } else
+    /* Set this member class to the inherited one since it defines it */
+    thisAttribute->setClass = inheritedAttribute->setClass;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeReferenceAttribute(Attribute *thisAttribute) {
+  /* Set initial value and referenceClass */
+  if (thisAttribute->reference->symbol != NULL) {
+    thisAttribute->value = thisAttribute->reference->symbol->code;
+    thisAttribute->referenceClass = thisAttribute->reference->symbol->fields.entity.parent;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
+					       Attribute *inheritedAttribute,
+					       Symbol *definingSymbol) {
+
+  if (!inheritsFrom(thisAttribute->reference->symbol, inheritedAttribute->referenceClass)) {
+    lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
+	   "of the instance that it refers to",
+	   thisAttribute->referenceClass->string,
+	   inheritedAttribute->reference->symbol->string, NULL);
+    thisAttribute->type = ERROR_TYPE;
+  } else
+    /* Set the class to the inherited one */
+    thisAttribute->referenceClass = inheritedAttribute->referenceClass;
+}
+
 
 /*======================================================================*/
-void analyzeAttributes(List *atrs)
+void analyzeAttributes(List *atrs, Symbol *symbol)
 {
-  List *al1;
+  List *theList;
 
-  TRAVERSE (al1, atrs) {
-    Attribute *thisAttribute = al1->element.atr;
-    if (thisAttribute->type == INSTANCE_TYPE) {
-      if (thisAttribute->instance->symbol != NULL)
-	thisAttribute->value = thisAttribute->instance->symbol->code;
-    } else if (thisAttribute->type == SET_TYPE)
-      analyzeSetAttribute(thisAttribute);
+  TRAVERSE (theList, atrs) {
+    Attribute *thisAttribute = theList->element.atr;
+    Attribute *inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
+
+    switch (thisAttribute->type) {
+    case SET_TYPE: analyzeSetMembersClass(thisAttribute); break;
+    case INSTANCE_TYPE: analyzeReferenceAttribute(thisAttribute); break;
+    default: break;
+    }
+
+    if (inheritedAttribute != NULL) {
+      Symbol *definingSymbol = definingSymbolOfAttribute(symbol->fields.entity.parent, thisAttribute->id);
+      if (!equalTypes(inheritedAttribute->type, thisAttribute->type)) {
+	lmLog(&thisAttribute->srcp, 332, sevERR, definingSymbol->string);
+      } else if (isComplexType(thisAttribute->type)) {
+	/* Verify that the inherited member class is a superclass
+	   to the one in this attribute */
+	if (thisAttribute->type == SET_TYPE) {
+	  analyzeInheritedSetAttribute(thisAttribute, inheritedAttribute, definingSymbol);
+	} else if (thisAttribute->type == INSTANCE_TYPE) {
+	  analyzeInheritedReferenceAttribute(thisAttribute, inheritedAttribute, definingSymbol);
+	} else
+	  SYSERR("Unimplemented complex attribute type");
+      }
+    }
   }
 }
 
@@ -654,7 +723,11 @@ void dumpAttribute(Attribute *atr)
     break;
   case INSTANCE_TYPE:
     nl();
-    put("instance: "); dumpId(atr->instance);
+    put("reference: "); dumpId(atr->reference);
+    put("referenceClass: "); dumpPointer(atr->referenceClass);
+    if (atr->referenceClass) {
+      put(" \""); put(atr->referenceClass->string); put("\"");
+    }
     break;
   case SET_TYPE:
     nl();
@@ -673,7 +746,7 @@ void dumpAttribute(Attribute *atr)
     put(", fpos: "); dumpInt(atr->fpos);
     put(", len: "); dumpInt(atr->len); nl();
     put("value: "); dumpInt(atr->value); nl();
-    put("instance: "); dumpId(atr->instance); nl();
+    put("instance: "); dumpId(atr->reference); nl();
     put("setType: "); dumpType(atr->setType); nl();
     if (atr->setType == INSTANCE_TYPE) {
       put("atr->setClass: "); dumpPointer(atr->setClass);

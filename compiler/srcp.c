@@ -6,8 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
-#include "dump.h"
-
+#include "dump_x.h"
 #include "srcp_x.h"
 
 

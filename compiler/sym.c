@@ -11,7 +11,6 @@
 #include "sysdep.h"
 #include "util.h"
 #include "lmList.h"
-#include "dump.h"
 
 #include "srcp_x.h"
 #include "cla_x.h"
@@ -20,6 +19,8 @@
 #include "atr_x.h"
 #include "exp_x.h"
 #include "lst_x.h"
+#include "type_x.h"
+#include "dump_x.h"
 
 
 /* EXPORTS: */
@@ -478,6 +479,9 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
   if (child == NULL || ancestor == NULL) return FALSE;
 
+  if (ancestor->kind == INSTANCE_SYMBOL)
+    SYSERR("Can not inherit from an instance");
+
   if (child->kind == PARAMETER_SYMBOL)
     child = child->fields.parameter.class;
 
@@ -569,8 +573,8 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 }
 
 
-/*----------------------------------------------------------------------*/
-static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
+/*======================================================================*/
+Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 {
   /* Find the symbol which defines an attribute by traversing its parents. */
 
@@ -608,23 +612,19 @@ static void numberAttributes(Symbol *symbol)
 {
   List *theList;
   Attribute *inheritedAttribute;
-  Symbol *definingSymbol;
 
   if (symbol->fields.entity.attributesNumbered) return;
 
   for (theList = symbol->fields.entity.props->attributes; theList != NULL;
        theList = theList->next){
-    inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
+    Attribute *thisAttribute = theList->element.atr;
+    inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
     if (inheritedAttribute != NULL) {
-      if (!equalTypes(inheritedAttribute->type, theList->element.atr->type)) {
-	definingSymbol = definingSymbolOfAttribute(symbol->fields.entity.parent, theList->element.atr->id);
-	lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
-      }
-      theList->element.atr->id->code = inheritedAttribute->id->code;
-      theList->element.atr->inheritance = INHERITED_REDEFINED;
-    } else if (theList->element.atr->id->code == 0) {
-      theList->element.atr->id->code = ++attributeCount;
-      theList->element.atr->inheritance = LOCAL;
+      thisAttribute->id->code = inheritedAttribute->id->code;
+      thisAttribute->inheritance = INHERITED_REDEFINED;
+    } else if (thisAttribute->id->code == 0) {
+      thisAttribute->id->code = ++attributeCount;
+      thisAttribute->inheritance = LOCAL;
     } /* Else its a pre-defined attribute which is numbered already! */
   }
 

@@ -31,6 +31,7 @@
 #include "wrd_x.h"
 #include "atr_x.h"
 #include "images_x.h"
+#include "dump_x.h"
 
 
 #include "ext.h"		/* EXT-nodes */
@@ -45,7 +46,6 @@
 
 #include "emit.h"
 #include "encode.h"
-#include "dump.h"
 #include "../interpreter/acode.h"
 
 
@@ -133,8 +133,10 @@ void analyzeAdventure(void)
   addHero();
   symbolizeAdventure();
   addAdditions();
-  numberAllAttributes();
-  analyzeAllAttributes();	/* Make sure attributes are analyzed before expressions */
+  analyzeAllAttributes();	/* Make sure attributes are analyzed
+				   and typed before expressions */
+  numberAllAttributes();	/* Then we can number and type check
+				   inherited attributes */
   replicateInherited();
 
   prepareWords();			/* Prepare words in the dictionary */

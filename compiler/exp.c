@@ -19,21 +19,19 @@
 #include "lst_x.h"
 #include "set_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 
-#include "adv.h"                /* ADV-node */
-#include "lst.h"                /* LST-nodes */
-#include "elm.h"                /* ELM-nodes */
-#include "ins.h"                /* INS-nodes */
+#include "adv.h"
+#include "elm.h"
+#include "ins.h"
 #include "opt.h"
 
 #include "emit.h"
-
 #include "../interpreter/acode.h"
 #include "encode.h"
 
-#include "dump.h"
 
 
 
@@ -332,9 +330,9 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
     atr = resolveAttribute(what, exp->fields.atr.id, context);
     exp->type = verifyExpressionAttribute(exp, atr);
     if (exp->type == INSTANCE_TYPE) {
-      if (atr->instance->symbol != NULL)
+      if (atr->referenceClass != NULL)
 	/* Set the expressions class to the class of the attribute */
-	exp->class = atr->instance->symbol->fields.entity.parent;
+	exp->class = atr->referenceClass;
     } else if (exp->type == SET_TYPE)
       exp->class = classOfMembers(exp);
     break;
@@ -1193,29 +1191,6 @@ static void dumpAggregateKind(AggregateKind agr)
 {
   put(aggregateToString(agr));
 }
-
-
-/*======================================================================*/
-char *typeToString(TypeKind typ)
-{
-  switch (typ) {
-  case BOOLEAN_TYPE: return "Boolean"; break;
-  case INTEGER_TYPE: return "Integer"; break;
-  case STRING_TYPE: return "String"; break;
-  case INSTANCE_TYPE: return "Instance"; break;
-  case SET_TYPE: return "Set"; break;
-  case ERROR_TYPE: return "ERROR"; break;
-  case UNINITIALIZED_TYPE: return "UNINITIALIZED"; break;
-  }
-  return "***ERROR: Unexpected type kind***";
-}
-
-/*======================================================================*/
-void dumpType(TypeKind typ)
-{
-  put(typeToString(typ));
-}
-
 
 
 /*======================================================================*/

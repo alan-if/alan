@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>365.89</origest>
-<currest>364.89</currest>
-<elapsed>195.89</elapsed>
+<origest>367.89</origest>
+<currest>366.89</currest>
+<elapsed>196.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>59</origest>
-<currest>59</currest>
-<elapsed>1</elapsed>
+<origest>61</origest>
+<currest>61</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
-<elapsed>1</elapsed>
+<origest>26</origest>
+<currest>26</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -40,12 +40,21 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Verify that an inherited set or reference attribute retains the type</desc>
 <notes>It should not restrict the type to the initializers type. Or should it? No, document that the complete type of an attribute is defined at the top level, i.e. the top-most declaration of an attribute will define its type.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document attribute inheritance wrt. SET and REFERENCE</desc>
+<notes>Infered class of referees and members, subclassing and that the original class is retained through out the hierarchy.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -63,6 +72,15 @@ The apple Isa fruit
 The pear Isa fruit
 
 &gt; take the fruit</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make INCLUDE a grammar symbol to only allow structured includes</desc>
+<notes>Still need to do it in the scanner though...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

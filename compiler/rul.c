@@ -5,6 +5,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "rul.h"
+
 #include "alan.h"
 #include "util.h"
 
@@ -13,16 +15,13 @@
 #include "adv_x.h"
 #include "exp_x.h"
 #include "stm_x.h"
+#include "dump_x.h"
 
 
 #include "lmList.h"
 
 #include "../interpreter/acode.h"
-
-#include "rul.h"                /* RUL-nodes */
-
 #include "emit.h"
-#include "dump.h"
 
 
 /* PUBLIC */

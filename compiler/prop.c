@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "alan.h"
 #include "util.h"
-#include "dump.h"
 #include "emit.h"
 #include "lmList.h"
 
@@ -29,6 +28,7 @@
 #include "sym_x.h"
 #include "vrb_x.h"
 #include "whr_x.h"
+#include "dump_x.h"
 
 
 /*======================================================================*/
@@ -142,7 +142,7 @@ void symbolizeProps(Properties *props)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeName(Properties *props)
+static void analyzeMentioned(Properties *props)
 {
   long fpos;
   int len = 0;
@@ -192,7 +192,7 @@ void analyzeProps(Properties *props, Context *context)
       && props->whr != NULL && props->whr->kind == WHERE_IN)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
-  analyzeName(props);
+  analyzeMentioned(props);
 
   /* Don't analyze attributes since those are analyze already */
 

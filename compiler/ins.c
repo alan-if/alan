@@ -16,10 +16,10 @@
 #include "wrd_x.h"
 #include "atr_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "sysdep.h"
 #include "util.h"
-#include "dump.h"
 #include "emit.h"
 #include "adv.h"
 
@@ -138,8 +138,10 @@ void symbolizeInstances(void)
 /*======================================================================*/
 void analyzeAllInstanceAttributes() {
   List *l;
-  TRAVERSE(l, allInstances)
-    analyzeAttributes(l->element.ins->props->attributes);
+  TRAVERSE(l, allInstances) {
+    Properties *props = l->element.ins->props;
+    analyzeAttributes(props->attributes, props->id->symbol);
+  }
 }
 
 

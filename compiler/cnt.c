@@ -18,16 +18,16 @@
 #include "chk_x.h"
 #include "id_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
-#include "stm.h"		/* STM-nodes */
-#include "elm.h"		/* ELM-nodes */
-#include "lim.h"		/* LIM-nodes */
+#include "util.h"
+#include "stm.h"
+#include "elm.h"
+#include "lim.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
-#include "util.h"
 #include "emit.h"
-#include "dump.h"
 
 
 

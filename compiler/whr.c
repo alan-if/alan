@@ -16,10 +16,10 @@
 #include "id_x.h"
 #include "cnt_x.h"
 #include "exp_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
-#include "dump.h"
 #include "emit.h"
 
 

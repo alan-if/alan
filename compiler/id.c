@@ -11,12 +11,12 @@
 
 #include "srcp_x.h"
 #include "sym_x.h"
+#include "dump_x.h"
 
 #include "emit.h"
 #include "elm.h"
 #include "str.h"
 #include "util.h"
-#include "dump.h"
 #include "lmList.h"
 
 

@@ -15,16 +15,11 @@
 #include "srcp_x.h"
 #include "atr_x.h"
 #include "lst_x.h"
-
 #include "vrb_x.h"
+#include "dump_x.h"
+
 #include "scr.h"
 #include "ext.h"
-
-
-#include "adv.h"
-
-#include "types.h"
-#include "dump.h"
 #include "util.h"
 #include "lmList.h"
 

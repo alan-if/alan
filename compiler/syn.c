@@ -5,6 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "syn.h"
+
+
 #include "alan.h"
 #include "util.h"
 
@@ -12,15 +15,14 @@
 #include "lst_x.h"
 #include "adv_x.h"
 #include "wrd_x.h"
+#include "id_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
 
-#include "id_x.h"
-#include "syn.h"		/* SYN-nodes */
 
 #include "emit.h"
-#include "dump.h"
 
 
 

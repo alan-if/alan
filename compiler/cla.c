@@ -20,11 +20,11 @@
 #include "prop_x.h"
 #include "lst_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "emit.h"
 #include "util.h"
 #include "options.h"
-#include "dump.h"
 #include "lmList.h"
 
 
@@ -224,8 +224,10 @@ static void analyzeClass(ClaNod *class)
 /*======================================================================*/
 void analyzeAllClassAttributes() {
   List *l;
-  TRAVERSE(l, allClasses)
-    analyzeAttributes(l->element.cla->props->attributes);
+  TRAVERSE(l, allClasses) {
+    Properties *props = l->element.cla->props;
+    analyzeAttributes(props->attributes, props->id->symbol);
+  }
 }
 
 

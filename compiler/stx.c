@@ -21,16 +21,12 @@
 #include "wrd_x.h"
 #include "cla_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 
-#include "elm.h"                /* ELM-nodes */
-
-#include "emit.h"
-
 #include "../interpreter/acode.h"
-
-#include "dump.h"
+#include "emit.h"
 
 
 /* PUBLIC: */

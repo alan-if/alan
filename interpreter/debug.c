@@ -43,8 +43,6 @@ Breakpoint breakpoint[BREAKPOINTMAX];
 
 
 
-
-
 /*----------------------------------------------------------------------*/
 static void debugPrintf(char *fmt, ...) {
   va_list argp;
@@ -501,7 +499,7 @@ static void deleteBreakpoint(int line, int file) {
 
 
 
-static Bool trc, stp, cap;
+static Bool trc, stp, cap, psh;
 static int loc;
 
 /*======================================================================*/
@@ -511,6 +509,7 @@ void saveInfo(void)
   cap = capitalize; capitalize = FALSE;
   trc = sectionTraceOption; sectionTraceOption = FALSE;
   stp = singleStepOption; singleStepOption = FALSE;
+  psh = tracePushOption; tracePushOption = FALSE;
   loc = current.location; current.location = where(HERO);
 }
 
@@ -522,6 +521,7 @@ void restoreInfo(void)
   capitalize = cap;
   sectionTraceOption = trc;
   singleStepOption = stp;
+  tracePushOption = psh;
   current.location = loc;
 }
 

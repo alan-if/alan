@@ -25,15 +25,23 @@ typedef struct Attribute {
   AttributeInheritance inheritance;
   Aword stringAddress;		/* Acode address to the attribute name */
   Aword address;		/* Acode address to the attribute value */
-  int value;			/* The initial value */
-  Bool encoded;			/* For string attributes... */
-  long fpos;
-  long len;
-  IdNode *instance;		/* For INSTANCE and SET type attributes */
-  TypeKind setType;		/* Type of elements in SET attributes */
-  Symbol *setClass;		/* Class of instance elements in SET attributes */
-  List *set;			/* An expression list for the initial set */
-  Aword setAddress;		/* Acode address to the attributes initial set */
+
+  int value;			/* INTEGER - The initial value */
+
+  long fpos;			/* STRING - initial value */
+  long len;			/* STRING */
+  Bool encoded;			/* STRING */
+
+  IdNode *reference;		/* REFERENCE - initial value and class in the
+				   symbol */
+  Symbol *referenceClass;
+
+  List *set;			/* SET - An expression list for the initial set */
+  TypeKind setType;		/* SET - Type of elements in SET */
+  Aaddr setAddress;		/* Address to the attributes initial set */
+
+  Symbol *setClass;		/* Class of instance elements in SET attributes
+				   and REFERENCE attributes */
 } Attribute;
 
 #endif

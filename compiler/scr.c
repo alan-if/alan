@@ -17,11 +17,11 @@
 #include "stm_x.h"
 #include "stp_x.h"
 #include "sym_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
 #include "emit.h"
-#include "dump.h"
 
 
 static int scriptCode = 0;		/* Numbering code */

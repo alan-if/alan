@@ -30,7 +30,7 @@ void testInferClassInSetAttribute()
   Attribute *atr = newSetAttribute(nulsrcp, newId(&nulsrcp, "setAttribute"), set);
 
   symbolizeInstance(instance);
-  analyzeSetAttribute(atr);
+  analyzeSetMembersClass(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
   ASSERT(atr->setClass == objectSymbol);
@@ -46,7 +46,7 @@ void testInferClassInSetAttribute()
 	       EXPRESSION_LIST);
 
   symbolizeInstance(instance);
-  analyzeSetAttribute(atr);
+  analyzeSetMembersClass(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
   ASSERT(atr->setClass == entitySymbol);

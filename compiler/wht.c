@@ -13,10 +13,10 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 #include "emit.h"
-#include "dump.h"
 
 
 /*======================================================================*/

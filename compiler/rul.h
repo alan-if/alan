@@ -12,6 +12,7 @@
 #include "srcp.h"
 #include "exp.h"
 #include "lst.h"
+#include "../interpreter/acode.h"
 
 
 /* Types: */

@@ -15,16 +15,15 @@
 #include "adv_x.h"
 #include "stx_x.h"
 #include "context_x.h"
+#include "dump_x.h"
 
 #include "lmList.h"
 #include "util.h"
-#include "alt.h"		/* ALT-nodes */
-#include "ins.h"		/* INS-nodes */
+#include "alt.h"
+#include "ins.h"
 
 #include "../interpreter/acode.h"
-
 #include "emit.h"
-#include "dump.h"
 
 
 /* PUBLIC: */

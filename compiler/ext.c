@@ -17,13 +17,13 @@
 #include "stm_x.h"
 #include "chk_x.h"
 #include "wrd_x.h"
+#include "dump_x.h"
 
 #include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"
 #include "lmList.h"
 #include "../interpreter/acode.h"
-#include "dump.h"
 
 
 /* PUBLIC: */
