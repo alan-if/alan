@@ -33,6 +33,7 @@
 #include "debug.h"
 
 #ifdef HAVE_GLK
+#define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
 
@@ -41,16 +42,7 @@
 int breakpointCount = 0;
 Breakpoint breakpoint[BREAKPOINTMAX];
 
-
-
-/*----------------------------------------------------------------------*/
-static void debugPrintf(char *fmt, ...) {
-  va_list argp;
-  va_start(argp, fmt);
-  printf("abug: ");
-  vprintf(fmt, argp);
-  va_end(argp);
-}
+#define debugPrefix "abug: "
 
 /*----------------------------------------------------------------------*/
 static void showAttributes(AttributeEntry *attributes)
@@ -125,9 +117,9 @@ static void showInstance(int ins)
     return;
   }
 
-  output("The ");
+  output("The");
   say(ins);
-  sprintf(str, " (%d)", ins);
+  sprintf(str, "(%d)", ins);
   output(str);
   if (instance[ins].parent) {
     sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].idAddress));
@@ -542,7 +534,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
       cause = "Breakpoint hit at";
     else
       cause = "Stepping to";
-    debugPrintf("%s line %d in '%s':\n", cause, line,
+    printf("%s %s line %d in '%s':\n", debugPrefix, cause, line,
 	    sourceFileName(fileNumber));
     showSourceLine(line, fileNumber);
     anyOutput = FALSE;

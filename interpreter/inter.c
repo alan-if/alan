@@ -22,6 +22,7 @@
 #include "inter.h"
 
 #ifdef HAVE_GLK
+#define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
 

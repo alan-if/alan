@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>398.89</origest>
 <currest>397.89</currest>
-<elapsed>233.89</elapsed>
+<elapsed>235.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>91</origest>
 <currest>91</currest>
-<elapsed>39</elapsed>
+<elapsed>41</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,8 +22,8 @@
 <priority>2</priority>
 <origest>41</origest>
 <currest>41</currest>
-<elapsed>39</elapsed>
-<isopen>1</isopen>
+<elapsed>41</elapsed>
+<isopen>0</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
 <notes>Currently it results in "I don't see any x here."</notes>
@@ -149,7 +149,7 @@ find an unambiguous phrasing.
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>4</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Enforce inheritance</desc>
 <notes>No instances or classes can be declared without a parent. Don't know what this would mean...</notes>
@@ -506,22 +506,22 @@ NOTE any instance for which noun in noSuch()</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Fix problem with OPAQUE attribute not being inherited along with container properties</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Document inheritance rules for each construct</desc>
 <notes>Isn't it already?
 </notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Fix problem with OPAQUE attribute not being inherited along with container properties</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -561,6 +561,17 @@ NOTE any instance for which noun in noSuch()</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>How to handle special dictionary entries in unsupported languages?</desc>
+<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
+
+New clause?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Literal should not inherit from Thing?</desc>
 <notes>It should be a separate base class, or should it.</notes>
 <priority>2</priority>
@@ -585,18 +596,6 @@ Classes
 Instances (hero)
 Words
 Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter should move global verbs with parameters into a class</desc>
-<notes>Which class? Will "thing" do? Probably.
-
-Design:
-For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -773,17 +772,6 @@ Design:</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>How to handle special dictionary entries in unsupported languages?</desc>
-<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
-
-New clause?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Disambiguation using checks</desc>
 <notes>Example:
 
@@ -814,6 +802,18 @@ ENTERED
 EXIT [CHECK DOES END]
 
 Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

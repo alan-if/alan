@@ -10,6 +10,12 @@
 #include "act.h"
 
 /* Import */
+
+#ifdef HAVE_GLK
+#define MAP_STDIO_TO_GLK
+#include "glkio.h"
+#endif
+
 #include "types.h"
 #include "main.h"
 #include "inter.h"

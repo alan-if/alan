@@ -936,12 +936,8 @@ static char txtfnm[256] = "";
 static char logfnm[256] = "";
 
 
-/*----------------------------------------------------------------------
-
-  checkvers()
-
- */
-static void checkvers(AcdHdr *header)
+/*----------------------------------------------------------------------*/
+static void checkVersion(AcdHdr *header)
 {
   char vers[4];
   char state[2];
@@ -1009,7 +1005,7 @@ static void load(void)
   rewind(codfil);
   if (strncmp((char *)&tmphdr, "ALAN", 4) != 0)
     syserr("Not an Alan game file, does not start with \"ALAN\"");
-  checkvers(&tmphdr);
+  checkVersion(&tmphdr);
 
   /* Allocate and load memory */
 
