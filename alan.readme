@@ -1,22 +1,17 @@
+
+			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			  Date: 1999-11-14
-
-
-		      Release 2.8 now available
+			      2002-06-04
 
 
 THE NEWS IN SHORT:
 
-o The previously available mail delivery service has been discontinued.
-  Registration is now personally with
+This is a development preview (v3.0.16dev) of Alan V3. It features
+many new enhancements especially object orientation. This version is
+Windows only, and you will require a GLK.DLL to run the interpreter.
 
-	thomas.nilsson@progindus.se
-
-o Version 2.8 is out.
-
-o Alan Home Pages has moved to
-
-	http://welcome.to/alan-if
+This package contains the compiler, the interpreter, the manual and
+the source for the Saviour game.
 
 
 THE LONG STORY:
@@ -29,17 +24,10 @@ programmers.  The system consists of a compiler which compiles Alan
 source to a compact and portable form and an interpreter that
 interprets such a form to allow playing of the game.
 
-Version 2.8 is an upgrade with some new features and bug fixes (see
-the file Changes and the documentation for details)
-
-The format of game files have changed slightly between 2.7 and
-2.8. The 2.8 interpreter should run 2.7 compiled games. Older
-interpreters are available for various platforms.
-
 The Alan System is register-ware. To use Alan all you need to do is to
-register. Registration can be done with a simple email to the Thomas Nilsson
-(thomas.nilsson@progindus.se) with a message *body* containing the
-single word REGISTER.
+register. Registration can be done with a simple email to the Thomas
+Nilsson (thomas.nilsson@progindus.se) with a message *body* containing
+the single word REGISTER.
 
 Complete distribution and documentation packages, as well as other
 related information, are available from the Alan Home Pages at
@@ -48,13 +36,9 @@ related information, are available from the Alan Home Pages at
 
 or
 
-	ftp://ftp.gmd.de/if-archive/programming/alan
+	http://www.ifarchive.org
 
 and its mirrors.
-
-The distributions package contains some small examples as well as the
-compiler and interpreter. The documentation is separately available as
-text, html or PostScript.
 
 For complete copying conditions refer to the file COPYING in the
 distribution or appendix J in the manual.
@@ -63,13 +47,11 @@ If you have any problems don't hesitate to contact the authors at the
 following email addresses:
 
 	thomas.nilsson@progindus.se
-	gorfo@ida.liu.se
 
 All communication is welcome! You may also wish to visit the
 Alan Home Pages at
 
 	http://welcome.to/alan-if
-
 
 
 If you haven't already, join the 1133 people registered. Happy Authoring!
