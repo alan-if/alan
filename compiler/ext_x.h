@@ -30,7 +30,7 @@ extern ExtNod *newext(Srcp *srcp,
 
 extern void symbolizeExits(List *exts);
 extern void analyzeExits(List *exts, Context *context);
-extern Aaddr generateExits(List *exts, int currentInstance);
+extern Aaddr generateExits(List *exts);
 extern void dumpExit(ExtNod *ext);
 
 

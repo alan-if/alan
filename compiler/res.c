@@ -159,7 +159,7 @@ void analyzeRestrictions(
 static void generateRestrictionParts(ResNod *res)
 {
   res->stmadr = emadr();
-  gestms(res->stms, 0);
+  generateStatements(res->stms);
   emit0(C_STMOP, I_RETURN);
 }
 

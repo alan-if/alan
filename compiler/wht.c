@@ -67,7 +67,7 @@ void symbolizeWhat(What *wht)
   Generate code for a reference to What.
 
   */
-void generateWhat(What *wht, int instanceCode)
+void generateWhat(What *wht)
 {
   switch (wht->kind) {
   case WHAT_LOCATION:

@@ -13,7 +13,7 @@ winarun: CYGWIN = -mwindows -mno-cygwin
 
 release: OPTIMIZE = -O4
 
-ARCH	= $(CYGWIN) $(OPTIMIZE)
+ARCH	= $(CYGWIN)$(OPTIMIZE)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG

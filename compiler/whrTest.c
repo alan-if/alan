@@ -11,7 +11,7 @@
 void testInitialLocation()
 {
   IdNode *id = newId(&nulsrcp, "atLoc");
-  Where *whr = newwhr(&nulsrcp, WHR_AT, newWhat(&nulsrcp, WHAT_ID, id));
+  Where *whr = newwhr(&nulsrcp, WHERE_AT, newWhat(&nulsrcp, WHAT_ID, id));
   Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
   symbolizeInstance(atLoc);

@@ -129,7 +129,7 @@ static void anempty(StmNod *stm,
 		    Context *context)
 {
   verifyContainer(stm->fields.list.wht, context);
-  analyzeWhere(stm->fields.empty.whr, context);
+  analyzeWhere(stm->fields.empty.where, context);
 }
 
 
@@ -162,7 +162,7 @@ static void analyzeLocate(StmNod *stm,
   analyzeWhere(stm->fields.locate.whr, context);
   switch (stm->fields.locate.whr->kind) {
   case WHR_HERE:
-  case WHR_AT:
+  case WHERE_AT:
     break;
   case WHR_IN:
     switch (stm->fields.locate.wht->kind) {
@@ -377,7 +377,7 @@ static void anschedule(StmNod *stm,
     stm->fields.schedule.whr->kind = WHR_HERE;
     break;
   case WHR_HERE:
-  case WHR_AT:
+  case WHERE_AT:
     break;
   case WHR_IN:
   case WHR_NEAR:
@@ -695,9 +695,9 @@ static void generateDescribe(StmNod *stm)
   Generate code for a SAY statement.
 
   */
-static void gesay(StmNod *stm, int currentInstance)
+static void generateSay(StmNod *stm)
 {
-  geexp(stm->fields.say.exp, currentInstance);
+  generateExpression(stm->fields.say.exp);
   switch (stm->fields.say.exp->type) {
   case INTEGER_TYPE:
     emit0(C_STMOP, I_SAYINT);
@@ -733,17 +733,11 @@ static void gelist(StmNod *stm)	/* IN - Statement */
 
 
 
-/*----------------------------------------------------------------------
-
-  geempty()
-
-  Generate code to implement the EMPTY statement.
-
-  */
-static void geempty(StmNod *stm, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateEmpty(StmNod *stm)
 {
   if (stm->fields.empty.wht->kind == WHAT_ID) {
-    gewhr(stm->fields.empty.whr, currentInstance);
+    generateWhere(stm->fields.empty.where);
     generateId(stm->fields.empty.wht->id);
     emit0(C_STMOP, I_EMPTY);
   } else
@@ -752,17 +746,11 @@ static void geempty(StmNod *stm, int currentInstance)
 
 
 
-/*----------------------------------------------------------------------
-
-  gelocate()
-
-  Generate code to implement a LOCATE statement.
-
-  */
-static void gelocate(StmNod *stm, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateLocate(StmNod *stm)
 {
-  gewhr(stm->fields.locate.whr, currentInstance);
-  generateWhat(stm->fields.locate.wht, currentInstance);
+  generateWhere(stm->fields.locate.whr);
+  generateWhat(stm->fields.locate.wht);
   emit0(C_STMOP, I_LOCATE);
 }
 
@@ -775,11 +763,11 @@ static void gelocate(StmNod *stm, int currentInstance)
   Generate code to implement a MAKE statement.
 
   */
-static void gemake(StmNod *stm, int currentInstance)
+static void generateMake(StmNod *stm)
 {
   emit0(C_CONST, !stm->fields.make.not);
   emit0(C_CONST, stm->fields.make.atr->code);
-  generateWhat(stm->fields.make.wht, currentInstance);
+  generateWhat(stm->fields.make.wht);
   emit0(C_STMOP, I_MAKE);
 }
 
@@ -793,12 +781,12 @@ static void gemake(StmNod *stm, int currentInstance)
   Generate code to implement a SET statement.
 
   */
-static void geset(StmNod *stm, int currentInstance)
+static void generateSet(StmNod *stm)
 {
-  geexp(stm->fields.set.exp, currentInstance);
+  generateExpression(stm->fields.set.exp);
 
   emit0(C_CONST, stm->fields.set.atr->code);
-  generateWhat(stm->fields.set.wht, currentInstance);
+  generateWhat(stm->fields.set.wht);
   if (stm->fields.set.exp->type == STRING_TYPE)
     emit0(C_STMOP, I_STRSET);
   else
@@ -814,15 +802,15 @@ static void geset(StmNod *stm, int currentInstance)
   Generate code to implement a INCR/DECR statement.
 
   */
-static void geincr(StmNod *stm, int currentInstance)
+static void generateIncrease(StmNod *stm)
 {
   if (stm->fields.incr.step != NULL)
-    geexp(stm->fields.incr.step, currentInstance);
+    generateExpression(stm->fields.incr.step);
   else
     emit0(C_CONST, 1);
 
   emit0(C_CONST, stm->fields.incr.atr->code);
-  generateWhat(stm->fields.incr.wht, currentInstance);
+  generateWhat(stm->fields.incr.wht);
   if (stm->class == INCREASE_STATEMENT)
     emit0(C_STMOP, I_INCR);
   else
@@ -838,9 +826,9 @@ static void geincr(StmNod *stm, int currentInstance)
   Generate code to implement a SCHEDULE statement.
 
   */
-static void geschedule(StmNod *stm, int currentInstance)
+static void generateSchedule(StmNod *stm)
 {
-  geexp(stm->fields.schedule.when, currentInstance);
+  generateExpression(stm->fields.schedule.when);
 
   /* NOTE: we can't use gewhr() because the semantics of the schedule */
   /* statement is such that at scheduling AT something does not mean */
@@ -851,8 +839,8 @@ static void geschedule(StmNod *stm, int currentInstance)
     emit0(C_CURVAR, V_CURLOC);
     break;
     
-  case WHR_AT:
-    generateWhat(stm->fields.schedule.whr->wht, currentInstance);
+  case WHERE_AT:
+    generateWhat(stm->fields.schedule.whr->what);
     break;
 
   default:
@@ -871,7 +859,7 @@ static void geschedule(StmNod *stm, int currentInstance)
   Generate code to implement the CANCEL statement.
 
   */
-static void gecancel(StmNod *stm) /* IN - Statement to generate */
+static void generateCancel(StmNod *stm) /* IN - Statement to generate */
 {
   generateId(stm->fields.schedule.id);
   emit0(C_STMOP, I_CANCEL);
@@ -884,14 +872,14 @@ static void gecancel(StmNod *stm) /* IN - Statement to generate */
   Generate code to implement a IF statement.
 
   */
-static void geif(StmNod *stm, int currentInstance)
+static void generateIf(StmNod *stm)
 {
-  geexp(stm->fields.iff.exp, currentInstance);
+  generateExpression(stm->fields.iff.exp);
   emit0(C_STMOP, I_IF);
-  gestms(stm->fields.iff.thn, currentInstance);
+  generateStatements(stm->fields.iff.thn);
   if (stm->fields.iff.els != NULL) {
     emit0(C_STMOP, I_ELSE);
-    gestms(stm->fields.iff.els, currentInstance);
+    generateStatements(stm->fields.iff.els);
   }
   emit0(C_STMOP, I_ENDIF);
 }
@@ -905,11 +893,11 @@ static void geif(StmNod *stm, int currentInstance)
   Generate USE statement.
 
   */
-static void geuse(StmNod *stm, int currentInstance)
+static void generateUse(StmNod *stm)
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
-    emit0(C_CONST, currentInstance);
+    emit0(C_CURVAR, V_CURRENT_INSTANCE);
     emit0(C_STMOP, I_USE);
   } else {
     emit0(C_CONST, stm->fields.use.scriptno);
@@ -928,11 +916,11 @@ static void geuse(StmNod *stm, int currentInstance)
   operator.
 
 */
-static void generateDependCase(Expression *exp, int currentInstance)
+static void generateDependCase(Expression *exp)
 {
   switch (exp->kind) {
   case BINARY_EXPRESSION:
-    geexp(exp->fields.bin.right, currentInstance);
+    generateExpression(exp->fields.bin.right);
     generateBinaryOperator(exp);
     break;
   case ATTRIBUTE_EXPRESSION:
@@ -940,7 +928,7 @@ static void generateDependCase(Expression *exp, int currentInstance)
     generateAttributeAccess(exp);
     break;
   case BETWEEN_EXPRESSION:
-    generateBetweenCheck(exp, currentInstance);
+    generateBetweenCheck(exp);
     break;
   default:
     syserr("generateDependingCase(): Unrecognized switch case on expression kind.");
@@ -988,12 +976,12 @@ static void generateDependCase(Expression *exp, int currentInstance)
   DEPEND just pops off the initially pushed depend expression.
 
   */
-static void gedep(StmNod *stm, int currentInstance)
+static void generateDepend(StmNod *stm)
 {
   List *cases;
 
   emit0(C_STMOP, I_DEPSTART);
-  geexp(stm->fields.depend.exp, currentInstance);
+  generateExpression(stm->fields.depend.exp);
   /* For each case: */
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     /* If it is not the ELSE clause ... */
@@ -1003,12 +991,12 @@ static void gedep(StmNod *stm, int currentInstance)
 	emit0(C_STMOP, I_DEPCASE);
       emit0(C_STMOP, I_DUP);
       /* ...and the case expression (right hand + operator) */
-      generateDependCase(cases->element.stm->fields.depcase.exp, currentInstance);
+      generateDependCase(cases->element.stm->fields.depcase.exp);
       emit0(C_STMOP, I_DEPEXEC);
     } else
       emit0(C_STMOP, I_DEPELSE);
     /* ...and then the statements */
-    gestms(cases->element.stm->fields.depcase.stms, currentInstance);
+    generateStatements(cases->element.stm->fields.depcase.stms);
   }
   emit0(C_STMOP, I_DEPEND);
 }
@@ -1032,14 +1020,8 @@ static void gesystem(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  gestm()
-
-  Generate code for one statement.
-
-  */
-static void gestm(StmNod *stm, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateStatement(StmNod *stm)
 {
   switch (stm->class) {
 
@@ -1084,7 +1066,7 @@ static void gestm(StmNod *stm, int currentInstance)
     break;
 
   case SAY_STATEMENT:
-    gesay(stm, currentInstance);
+    generateSay(stm);
     break;
 
   case LIST_STATEMENT:
@@ -1092,44 +1074,44 @@ static void gestm(StmNod *stm, int currentInstance)
     break;
 
   case EMPTY_STATEMENT:
-    geempty(stm, currentInstance);
+    generateEmpty(stm);
     break;
 
   case LOCATE_STATEMENT:
-    gelocate(stm, currentInstance);
+    generateLocate(stm);
     break;
 
   case MAKE_STATEMENT:
-    gemake(stm, currentInstance);
+    generateMake(stm);
     break;
 
   case SET_STATEMENT:
-    geset(stm, currentInstance);
+    generateSet(stm);
     break;
 
   case INCREASE_STATEMENT:
   case DECREASE_STATEMENT:
-    geincr(stm, currentInstance);
+    generateIncrease(stm);
     break;
 
   case SCHEDULE_STATEMENT:
-    geschedule(stm, currentInstance);
+    generateSchedule(stm);
     break;
 
   case CANCEL_STATEMENT:
-    gecancel(stm);
+    generateCancel(stm);
     break;
 
   case IF_STATEMENT:
-    geif(stm, currentInstance);
+    generateIf(stm);
     break;
 
   case USE_STATEMENT:
-    geuse(stm, currentInstance);
+    generateUse(stm);
     break;
 
   case DEPEND_STATEMENT:
-    gedep(stm, currentInstance);
+    generateDepend(stm);
     break;
 
   case SYSTEM_STATEMENT:
@@ -1143,19 +1125,13 @@ static void gestm(StmNod *stm, int currentInstance)
 }
 
 
-/*======================================================================
-
-  gestms()
-
-  Generate code for all the statements in a list.
-
-  */
-void gestms(List *stms, int currentInstance)
+/*======================================================================*/
+void generateStatements(List *stms)
 {
   List *current = stms;
 
   for (current = stms; current != NULL; current = current->next) {
-    gestm(current->element.stm, currentInstance);
+    generateStatement(current->element.stm);
   }
 }
 
@@ -1275,7 +1251,7 @@ void dustm(StmNod *stm)
       break;
     case EMPTY_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.empty.wht); nl();
-      put("whr: "); duwhr(stm->fields.empty.whr);
+      put("whr: "); duwhr(stm->fields.empty.where);
       break;
     case LOCATE_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.locate.wht); nl();

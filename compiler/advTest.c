@@ -34,7 +34,7 @@ void testInitAdv()
   analyzeStartAt();		/* Can not Start At Here */
   unitAssert(readEcode() == 211 && readSev() == sevERR);
 
-  adv.whr = newwhr(&srcp, WHR_AT,
+  adv.whr = newwhr(&srcp, WHERE_AT,
 		   newWhat(&srcp, WHAT_ID,
 			   atUnknownId));
   symbolizeAdventure();
@@ -42,17 +42,17 @@ void testInitAdv()
   analyzeStartAt();		/* Can not Start At unknown Id */
   unitAssert(readSev() == sevERR && readEcode() == 351);
 
-  adv.whr->wht->id = atClaId;
+  adv.whr->what->id = atClaId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not an instance */
   unitAssert(readSev() == sevERR && readEcode() == 351);
  
-  adv.whr->wht->id = atInsId;
+  adv.whr->what->id = atInsId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not inheriting from location */
   unitAssert(readSev() == sevERR && readEcode() == 351);
 
-  adv.whr->wht->id = atInsLocId;
+  adv.whr->what->id = atInsLocId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not a instance */
   unitAssert(readSev() == sevNONE && readEcode() == 0);

@@ -23,10 +23,10 @@
 extern Expression *newexp(Srcp *srcp, ExpressionKind kind);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
-extern void geexp(Expression *exp, int currentInstance);
+extern void generateExpression(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);
 extern void generateAttributeAccess(Expression *exp);
-extern void generateBetweenCheck(Expression *exp, int currentInstance);
+extern void generateBetweenCheck(Expression *exp);
 extern void dumpType(TypeKind typ);
 extern void dumpExpression(Expression *exp);
 

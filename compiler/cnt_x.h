@@ -19,11 +19,11 @@
 
 /* FUNCTIONS: */
 
-extern CntNod *newContainer(Srcp *srcp, List *lims, List *hstms, List *estms);
-extern CntNod *copyContainer(CntNod *theOriginal);
+extern Container *newContainer(Srcp *srcp, List *lims, List *hstms, List *estms);
+extern Container *copyContainer(Container *theOriginal);
 extern void verifyContainer(What *wht, Context *context);
-extern void analyzeContainer(CntNod *cnt, Context *context);
+extern void analyzeContainer(Container *cnt, Context *context);
 extern Aaddr generateContainers(AcdHdr *header);
-extern void dumpContainer(CntNod *container);
+extern void dumpContainer(Container *container);
 
 #endif

@@ -75,7 +75,7 @@ static void analyzeAlternative(AltNod *alt,
     }
   } 
 
-  anchks(alt->chks, context);
+  analyzeChecks(alt->chks, context);
   analyzeStatements(alt->stms, context);
 }
 
@@ -136,21 +136,15 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
 }
 
 
-/*----------------------------------------------------------------------
-
-  gealt()
-
-  Generate code for one syntax element node.
-
- */
-static void gealt(AltNod *alt, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateAlternative(AltNod *alt)
 {
   /* First the action, if there is any */
   if (alt->stms == NULL)
     alt->stmadr = 0;
   else {
     alt->stmadr = emadr();
-    gestms(alt->stms, currentInstance);
+    generateStatements(alt->stms);
     emit0(C_STMOP, I_RETURN);
   }
   
@@ -158,25 +152,19 @@ static void gealt(AltNod *alt, int currentInstance)
   if (alt->chks == NULL)
     alt->chkadr = 0;
   else
-    alt->chkadr = gechks(alt->chks, currentInstance);
+    alt->chkadr = generateChecks(alt->chks);
 }
 
 
 
-/*======================================================================
-
-  gealts()
-
-  Generate the data structure for the syntax elements.
-
- */
-Aaddr gealts(List *alts, int currentInstance)
+/*======================================================================*/
+Aaddr gealts(List *alts)
 {
   List *lst;
   Aaddr altadr;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    gealt(lst->element.alt, currentInstance);
+    generateAlternative(lst->element.alt);
 
   altadr = emadr();
   for (lst = alts; lst != NULL; lst = lst->next)

@@ -281,9 +281,9 @@ void testGenerateAttributes()
 static void testResolveThisAttributeForClass()
 {
   List *theAttributes = create2Attributes("x", "y");
-  Properties *theProps = newProps(NULL, NULL, theAttributes, NULL, NULL, &nulsrcp,
-			     NULL, &nulsrcp, NULL, &nulsrcp,
-			     NULL, NULL, NULL, NULL);
+  Properties *theProps = newProps(NULL, NULL, theAttributes, NULL, &nulsrcp, NULL,
+			     NULL,
+			     NULL, &nulsrcp, NULL, &nulsrcp, NULL, NULL, NULL);
   ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;

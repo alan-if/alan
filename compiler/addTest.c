@@ -23,15 +23,15 @@ static void testMultipleAddAttribute()
   Properties *theFirstAttributeProps = newProps(NULL, NULL,
 						concat(NULL, theFirstAttribute,
 						       ATTRIBUTE_LIST),
-						NULL, NULL,
-						&nulsrcp, NULL, &nulsrcp, NULL,
-						&nulsrcp, NULL, NULL, NULL, NULL);
+						NULL,
+						&nulsrcp, NULL, NULL, NULL, &nulsrcp, NULL,
+						&nulsrcp, NULL, NULL, NULL);
   Properties *theSecondAttributeProps = newProps(NULL, NULL,
 						 concat(NULL, theSecondAttribute,
 							ATTRIBUTE_LIST),
-						 NULL, NULL,
-						 &nulsrcp, NULL, &nulsrcp, NULL,
-						 &nulsrcp, NULL, NULL, NULL, NULL);
+						 NULL,
+						 &nulsrcp, NULL, NULL, NULL, &nulsrcp, NULL,
+						 &nulsrcp, NULL, NULL, NULL);
   AddNode *add1 = newAdd(&nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
 

@@ -18,7 +18,7 @@ typedef enum WhrKind {		/* WHERE kinds */
   WHR_DEFAULT,			/* None */
   WHR_HERE,			/* HERE */
   WHR_NEAR,			/* NEARBY */
-  WHR_AT,			/* AT what */
+  WHERE_AT,			/* AT what */
   WHR_IN			/* IN what */
 } WhrKind;
 
@@ -26,7 +26,7 @@ typedef enum WhrKind {		/* WHERE kinds */
 typedef struct WhrNod {		/* WHERE node */
   Srcp srcp;			/* Source position */
   WhrKind kind;			/* Where kind */
-  What *wht;			/* What */
+  What *what;			/* What */
 } Where;
 
 

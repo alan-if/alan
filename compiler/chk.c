@@ -68,7 +68,7 @@ static void anchk(ChkNod *chk,
   Analyze all CHECKs in a list.
 
  */
-void anchks(List *chks,
+void analyzeChecks(List *chks,
 	    Context *context)
 {
   while (chks != NULL) {
@@ -80,32 +80,27 @@ void anchks(List *chks,
 
 
 
-/*======================================================================
-
-  gechks()
-
-  Generate code for the CHECKs for a verb or exit.
-
- */
-Aword gechks(List *chks, int currentInstance)
+/*======================================================================*/
+Aword generateChecks(List *chks)
 {
   List *lst;			/* Traversal pointer */
   Aword tbladr;			/* Save ACODE address to check table */
 
+  if (chks == NULL) return 0;
 
   /* First checks */
   if (chks->element.chk->exp == NULL) { /* An unconditional CHECK */
     chks->element.chk->expadr = 0;
     chks->element.chk->stmadr = emadr();
-    gestms(chks->element.chk->stms, currentInstance);
+    generateStatements(chks->element.chk->stms);
     emit0(C_STMOP, I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
       lst->element.chk->expadr = emadr();
-      geexp(lst->element.chk->exp, currentInstance);
+      generateExpression(lst->element.chk->exp);
       emit0(C_STMOP, I_RETURN);
       lst->element.chk->stmadr = emadr();
-      gestms(lst->element.chk->stms, currentInstance);
+      generateStatements(lst->element.chk->stms);
       emit0(C_STMOP, I_RETURN);
     }
 

@@ -112,10 +112,10 @@ Aaddr generateRules(void)
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     showProgress();
     lst->element.rul->expadr = emadr();
-    geexp(lst->element.rul->exp, 0);
+    generateExpression(lst->element.rul->exp);
     emit0(C_STMOP, I_RETURN);
     lst->element.rul->stmadr = emadr();
-    gestms(lst->element.rul->stms, 0);
+    generateStatements(lst->element.rul->stms);
     emit0(C_STMOP, I_RETURN);
   }
 

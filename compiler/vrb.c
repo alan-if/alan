@@ -164,14 +164,14 @@ void analyzeVerbs(List *verbs, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void generateVerb(Verb *vrb, int currentInstance)
+static void generateVerb(Verb *vrb)
 {
   showProgress();
 
   if (vrb->alternatives == NULL)
     vrb->altAddress = 0;
   else
-    vrb->altAddress = gealts(vrb->alternatives, currentInstance);
+    vrb->altAddress = gealts(vrb->alternatives);
 }
 
 
@@ -190,7 +190,7 @@ static void generateVerbEntry(Verb *vrb)
 
 
 /*======================================================================*/
-Aaddr generateVerbs(List *vrbs, int currentInstance)
+Aaddr generateVerbs(List *vrbs)
 {
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
@@ -200,7 +200,7 @@ Aaddr generateVerbs(List *vrbs, int currentInstance)
 
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
-    generateVerb(lst->element.vrb, currentInstance);
+    generateVerb(lst->element.vrb);
   
   /* and then the verb table */
   vrbadr = emadr();

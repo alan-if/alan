@@ -39,16 +39,16 @@ int containerCount = 0;
   newContainer()
 
  */
-CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
+Container *newContainer(Srcp *srcp, /* IN - Source Position */
 		     List *lims, /* IN - Limits */
 		     List *hstms, /* IN - Header statements */
 		     List *estms) /* IN - Else (empty) statements */
 {
-  CntNod *new;		/* The newly allocated area */
+  Container *new;		/* The newly allocated area */
 
   showProgress();
 
-  new = NEW(CntNod);
+  new = NEW(Container);
 
   new->srcp = *srcp;
   new->lims = lims;
@@ -110,7 +110,7 @@ void verifyContainer(What *wht,
   Analyze one container.
 
   */
-void analyzeContainer(CntNod *cnt, Context *context)
+void analyzeContainer(Container *cnt, Context *context)
 {
   List *lims;			/* List of limits */
 
@@ -131,29 +131,23 @@ void analyzeContainer(CntNod *cnt, Context *context)
 }
 
 
-/*----------------------------------------------------------------------
-
-  gecnt()
-
-  Generate code for one container.
-
-  */
-static void gecnt(CntNod *cnt, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateContainer(Container *cnt)
 {
   showProgress();
 
-  cnt->limadr = gelims(cnt, currentInstance);
+  cnt->limadr = generateLimits(cnt);
 
   if (cnt->hstms != NULL) {
     cnt->hadr = emadr();
-    gestms(cnt->hstms, currentInstance);
+    generateStatements(cnt->hstms);
     emit0(C_STMOP, I_RETURN);
   } else
     cnt->hadr = 0;
   
   if (cnt->estms != NULL) {
     cnt->eadr = emadr();
-    gestms(cnt->estms, currentInstance);
+    generateStatements(cnt->estms);
     emit0(C_STMOP, I_RETURN);
   } else
     cnt->eadr = 0;
@@ -168,7 +162,7 @@ static void gecnt(CntNod *cnt, int currentInstance)
   Generate an entry in the global container list.
 
   */
-static void gecntent(CntNod *cnt)
+static void gecntent(Container *cnt)
 {
   ContainerEntry entry;
 
@@ -195,7 +189,7 @@ Aaddr generateContainers(AcdHdr *header)
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      gecnt(lst->element.cnt, lst->element.cnt->ownerProperties->id->code);
+      generateContainer(lst->element.cnt);
   
     adr = emadr();		/* Save ACODE address to container list */
     /* Container list */
@@ -216,7 +210,7 @@ Aaddr generateContainers(AcdHdr *header)
   dumpContainer()
 
   */
-void dumpContainer(CntNod *container)
+void dumpContainer(Container *container)
 {
   if (container == NULL) {
     put("NULL");

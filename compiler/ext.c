@@ -116,7 +116,7 @@ static void analyzeExit(ExtNod *ext, Context *context)
 {
   inheritCheck(ext->target, "an instance", "location");
 
-  anchks(ext->chks, context);
+  analyzeChecks(ext->chks, context);
   analyzeStatements(ext->stms, context);
 }
 
@@ -162,21 +162,15 @@ void analyzeExits(List *exts, Context *context)
 
 
 
-/*----------------------------------------------------------------------
-
-  geexstms()
-
-  Generate the stms for one exit.
-
- */
-static Aaddr geexstms(ExtNod *ext, int currentInstance)
+/*----------------------------------------------------------------------*/
+static Aaddr generateExitStatements(ExtNod *ext)
 {
   Aaddr stmadr = emadr();
 
   if (ext->stms == NULL)
     return(0);
   
-  gestms(ext->stms, currentInstance);
+  generateStatements(ext->stms);
   emit0(C_STMOP, I_RETURN);
   return(stmadr);
 }
@@ -209,31 +203,25 @@ static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
 
 
 
-/*======================================================================
-
-  generateExits()
-
-  Generate the data structure for the exits for a location.
-
- */
-Aaddr generateExits(List *exts, int currentInstance)
+/*======================================================================*/
+Aaddr generateExits(List *exits)
 {
   List *lst;			/* Traversal pointer */
   Aaddr extadr;			/* The adress where the exits start */
   
-  if (exts == NULL)
+  if (exits == NULL)
     return(0);
 
-  for (lst = exts; lst != NULL; lst = lst->next) {
+  for (lst = exits; lst != NULL; lst = lst->next) {
     lst->element.ext->chkadr = emadr();
     if (lst->element.ext->chks != NULL)
-      lst->element.ext->chkadr = gechks(lst->element.ext->chks, currentInstance);
-    lst->element.ext->stmadr = geexstms(lst->element.ext, currentInstance);
+      lst->element.ext->chkadr = generateChecks(lst->element.ext->chks);
+    lst->element.ext->stmadr = generateExitStatements(lst->element.ext);
     emit0(C_STMOP, I_RETURN);
   }
   
   extadr = emadr();
-  for (lst = exts; lst != NULL; lst = lst->next)
+  for (lst = exits; lst != NULL; lst = lst->next)
     generateExitEntry(lst->element.ext);
   emit(EOF);
   return(extadr);

@@ -27,8 +27,10 @@ typedef struct Properties {
   Where *whr;			/* Where is it initially? */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
-  List *description;		/* Long description statements */
   Srcp descriptionSrcp;
+  List *descriptionChecks;
+  Aword descriptionChecksAddress;/* ACODE address to description checks */
+  List *description;		/* Long description statements */
   Aword descriptionAddress;	/* ACODE address to long description code */
   List *article;		/* Article printing statements */
   Srcp articleSrcp;
@@ -36,7 +38,7 @@ typedef struct Properties {
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */
-  CntNod *container;		/* Pointer to container property node */
+  Container *container;		/* Pointer to container property node */
   List *verbs;			/* List of verbs */
   Aword verbsAddress;		/* ACODE address to local verb table */
   List *scripts;		/* List of scripts */

@@ -108,29 +108,21 @@ void analyzeScripts(List *scripts, Context *context)
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateScriptDescription()
-
-*/
-static Aaddr generateScriptDescription(Script *script, int currentInstance)
+/*----------------------------------------------------------------------*/
+static Aaddr generateScriptDescription(Script *script)
 {
   Aaddr address = 0;
 
   if (script->description != NULL) {
     address = emadr();
-    gestms(script->description, currentInstance);
+    generateStatements(script->description);
     emit0(C_STMOP, I_RETURN);
   }
   return address;
 }
 
-/*======================================================================
-
-  generateScripts()
-
-  */
-Aword generateScripts(List *scripts, int currentInstance)
+/*======================================================================*/
+Aword generateScripts(List *scripts)
 {
   List *lst;
   Aword scradr;
@@ -139,8 +131,8 @@ Aword generateScripts(List *scripts, int currentInstance)
   if (scripts == NULL) return 0;
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
-    lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps, currentInstance);
-    lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr, currentInstance);
+    lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps);
+    lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr);
     lst->element.scr->stringAddress = emadr();
     emitString(lst->element.scr->id->string);
   }

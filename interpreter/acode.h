@@ -184,6 +184,7 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword location;		/* Code for current location */
   Aword container;		/* Code for a possible container property */
   Aaddr attributes;		/* Address of attribute list */
+  Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr mentioned;		/* Address to short description code */
   Aaddr article;		/* Address of article code */

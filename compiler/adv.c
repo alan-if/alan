@@ -88,9 +88,9 @@ static void analyzeStartAt(void)
 
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {
-    case WHR_AT:
-      if (adv.whr->wht->kind == WHAT_ID) {
-	inheritCheck(adv.whr->wht->id, "an instance", "location");
+    case WHERE_AT:
+      if (adv.whr->what->kind == WHAT_ID) {
+	inheritCheck(adv.whr->what->id, "an instance", "location");
       } else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;
@@ -171,7 +171,7 @@ void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
   acdHeader.syntaxTableAddress = gestxs();	/* Syntax definitions */ 
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.verbTableAddress = generateVerbs(adv.vrbs, 0); /* Global verbs */
+  acdHeader.verbTableAddress = generateVerbs(adv.vrbs); /* Global verbs */
 
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();
@@ -203,7 +203,7 @@ void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
 
   /* Start statements */
   acdHeader.start = emadr();	/* Save ACODE address to start */
-  gestms(adv.stms, 0);
+  generateStatements(adv.stms);
   emit0(C_STMOP, I_RETURN);
 
   /* String initialisation table */

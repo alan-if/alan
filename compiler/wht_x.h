@@ -18,7 +18,7 @@
 
 extern What *newWhat(Srcp *srcp, WhatKind wht, struct IdNode *id);
 extern void symbolizeWhat(What *wht);
-extern void generateWhat(What *wht, int instanceCode);
+extern void generateWhat(What *wht);
 extern void dumpWhat(What *wht);
 
 #endif

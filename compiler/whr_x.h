@@ -25,7 +25,7 @@ extern void symbolizeWhere(Where *whr);
 extern void verifyInitialLocation(Where *whr);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Where *whr);
-extern void gewhr(Where *whr, int currentInstance);
+extern void generateWhere(Where *whr);
 extern void duwhr(Where *whr);
 
 #endif

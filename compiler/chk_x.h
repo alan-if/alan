@@ -23,10 +23,10 @@
 extern ChkNod *newchk(Expression *exp, List *stms);
 
 /* Analyze a list of Checks */
-extern void anchks(List *chks, Context *context);
+extern void analyzeChecks(List *chks, Context *context);
 
 /* Generate code for a list of Checks */
-extern Aaddr gechks(List *chks, int currentInstance);
+extern Aaddr generateChecks(List *chks);
 
 /* Dump a Check node */
 extern void duchk(ChkNod *chk);

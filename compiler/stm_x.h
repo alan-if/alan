@@ -32,7 +32,7 @@ extern void analyzeStatements(List *stms,
 		   Context *context);
 
 /* Generate code for a list of statements */
-extern void gestms(List *stms, int currentInstance);
+extern void generateStatements(List *stms);
 
 /* Dump a statement node */
 extern void dumpStatement(StmNod *stm);

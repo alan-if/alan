@@ -81,7 +81,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for EMPTY */
       What *wht;		/* What? */
-      Where *whr;		/* Where? */
+      Where *where;		/* Where? */
     } empty;
 
     struct {			/* for LOCATE */

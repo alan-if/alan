@@ -103,10 +103,10 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
   case WHR_HERE:
   case WHR_NEAR:
     break;
-  case WHR_AT:
-    switch (exp->fields.whr.whr->wht->kind) {
+  case WHERE_AT:
+    switch (exp->fields.whr.whr->what->kind) {
     case WHAT_ID:
-      symcheck(exp->fields.whr.whr->wht->id, INSTANCE_SYMBOL, context);
+      symcheck(exp->fields.whr.whr->what->id, INSTANCE_SYMBOL, context);
       break;
     case WHAT_LOCATION:
       exp->fields.whr.whr->kind = WHR_HERE;
@@ -121,7 +121,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     }
     break;
   case WHR_IN:
-    verifyContainer(exp->fields.whr.whr->wht, context);
+    verifyContainer(exp->fields.whr.whr->what, context);
     break;
   default:
     syserr("Unrecognized switch in anexpwhr()");
@@ -548,10 +548,10 @@ void generateBinaryOperator(Expression *exp)
   Generate a binary expression.
 
   */
-static void geexpbin(Expression *exp, int currentInstance)
+static void generateBinaryExpression(Expression *exp)
 {
-  geexp(exp->fields.bin.left, currentInstance);
-  geexp(exp->fields.bin.right, currentInstance);
+  generateExpression(exp->fields.bin.left);
+  generateExpression(exp->fields.bin.right);
   generateBinaryOperator(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -564,7 +564,7 @@ static void geexpbin(Expression *exp, int currentInstance)
   Generate a where-expression.
 
   */
-static void geexpwhr(Expression *exp, int currentInstance)
+static void generateWhereExpression(Expression *exp)
 {
   switch(exp->fields.whr.wht->fields.wht.wht->kind) {
     
@@ -576,18 +576,18 @@ static void geexpwhr(Expression *exp, int currentInstance)
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_NEAR:
-      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
+      generateWhat(exp->fields.whr.wht->fields.wht.wht);
       emit0(C_STMOP, I_NEAR);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
-      generateId(exp->fields.whr.whr->wht->id);
-      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
+      generateId(exp->fields.whr.whr->what->id);
+      generateWhat(exp->fields.whr.wht->fields.wht.wht);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
-    case WHR_AT:
-      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
+    case WHERE_AT:
+      generateWhat(exp->fields.whr.wht->fields.wht.wht);
       emit0(C_STMOP, I_WHERE);
       break;
     default:
@@ -603,7 +603,7 @@ static void geexpwhr(Expression *exp, int currentInstance)
     return;
   }
   
-  gewhr(exp->fields.whr.whr, currentInstance);
+  generateWhere(exp->fields.whr.whr);
   emit0(C_STMOP, I_EQ);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -630,10 +630,10 @@ void generateAttributeAccess(Expression *exp)
   Generate an attribute-expression.
 
  */
-static void geexpatr(Expression *exp, int currentInstance)
+static void generateAttributeExpression(Expression *exp)
 {
   generateId(exp->fields.atr.atr);
-  generateWhat(exp->fields.atr.wht->fields.wht.wht, currentInstance);
+  generateWhat(exp->fields.atr.wht->fields.wht.wht);
   generateAttributeAccess(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -647,9 +647,9 @@ static void geexpatr(Expression *exp, int currentInstance)
   Generate the code for an aggregate expression.
 
   */
-static void geexpagr(Expression *exp, int currentInstance)
+static void generateAggregateExpression(Expression *exp)
 {
-  gewhr(exp->fields.agr.whr, currentInstance);
+  generateWhere(exp->fields.agr.whr);
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE)
     emit0(C_CONST, exp->fields.agr.atr->symbol->code);
@@ -670,10 +670,10 @@ static void geexpagr(Expression *exp, int currentInstance)
   Generate code for a random expression.
 
   */
-static void geexprnd(Expression *exp, int currentInstance)
+static void generateRandomExpression(Expression *exp)
 {
-  geexp(exp->fields.rnd.from, currentInstance);
-  geexp(exp->fields.rnd.to, currentInstance);
+  generateExpression(exp->fields.rnd.from);
+  generateExpression(exp->fields.rnd.to);
   emit0(C_STMOP, I_RND);
 }
 
@@ -698,9 +698,9 @@ static void geexpscore(Expression *exp) /* IN - The expression to generate */
   Generate the code for a WHAT expression.
 
   */
-static void geexpwht(Expression *exp, int currentInstance)
+static void generateWhatExpression(Expression *exp)
 {
-  generateWhat(exp->fields.wht.wht, currentInstance);
+  generateWhat(exp->fields.wht.wht);
 }
 
 
@@ -710,10 +710,10 @@ static void geexpwht(Expression *exp, int currentInstance)
   generateBetweenCheck()
 
 */
-void generateBetweenCheck(Expression *exp, int currentInstance)
+void generateBetweenCheck(Expression *exp)
 {
-  geexp(exp->fields.btw.low, currentInstance);
-  geexp(exp->fields.btw.high, currentInstance);
+  generateExpression(exp->fields.btw.low);
+  generateExpression(exp->fields.btw.high);
   emit0(C_STMOP, I_BTW);
 }
 
@@ -724,10 +724,10 @@ void generateBetweenCheck(Expression *exp, int currentInstance)
   Generate code for a random expression.
 
   */
-static void geexpbtw(Expression *exp, int currentInstance)
+static void generateBetweenExpression(Expression *exp)
 {
-  geexp(exp->fields.btw.val, currentInstance);
-  generateBetweenCheck(exp, currentInstance);
+  generateExpression(exp->fields.btw.val);
+  generateBetweenCheck(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 
@@ -735,7 +735,7 @@ static void geexpbtw(Expression *exp, int currentInstance)
 /*----------------------------------------------------------------------*/
 static void generateIsaExpression(Expression *exp)
 {
-  geexp(exp->fields.isa.wht, 0);
+  generateExpression(exp->fields.isa.wht);
   generateId(exp->fields.isa.id);
   emit0(C_STMOP, I_ISA);
   if (exp->not) emit0(C_STMOP, I_NOT);
@@ -743,16 +743,11 @@ static void generateIsaExpression(Expression *exp)
 
 
 
-/*======================================================================
-
-  geexp()
-
-  Generate the code for an expression.
-
-  */
-void geexp(Expression *exp, int currentInstance)
+/*======================================================================*/
+void generateExpression(Expression *exp)
 {
   if (exp == NULL) {
+    syserr("Generating a NULL expression");
     emit0(C_CONST, 0);
     return;
   }
@@ -760,15 +755,15 @@ void geexp(Expression *exp, int currentInstance)
   switch (exp->kind) {
     
   case BINARY_EXPRESSION:
-    geexpbin(exp, currentInstance);
+    generateBinaryExpression(exp);
     break;
     
   case WHERE_EXPRESSION:
-    geexpwhr(exp, currentInstance);
+    generateWhereExpression(exp);
     break;
     
   case ATTRIBUTE_EXPRESSION:
-    geexpatr(exp, currentInstance);
+    generateAttributeExpression(exp);
     break;
     
   case INTEGER_EXPRESSION:
@@ -783,11 +778,11 @@ void geexp(Expression *exp, int currentInstance)
     break;
     
   case AGGREGATE_EXPRESSION:
-    geexpagr(exp, currentInstance);
+    generateAggregateExpression(exp);
     break;
     
   case RANDOM_EXPRESSION:
-    geexprnd(exp, currentInstance);
+    generateRandomExpression(exp);
     break;
     
   case SCORE_EXPRESSION:
@@ -795,11 +790,11 @@ void geexp(Expression *exp, int currentInstance)
     break;
 
   case WHAT_EXPRESSION:
-    geexpwht(exp, currentInstance);
+    generateWhatExpression(exp);
     break;
 
   case BETWEEN_EXPRESSION:
-    geexpbtw(exp, currentInstance);
+    generateBetweenExpression(exp);
     break;
 
   case ISA_EXPRESSION:

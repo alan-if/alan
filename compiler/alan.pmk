@@ -102,11 +102,11 @@ static int val(char str[])
   chks %% List *%1%%,
   cla %% ClaNod *%1%%,
   clas %% List *%1%%,
-  cnt %% CntNod *%1%%,
+  cnt %% Container *%1%%,
   cnts %% List *%1%%,
-  does %% List *%1%%,		-- of StmNod: does-clause,
-  dscr %% List *%1%%,		-- of StmNod: description-clause,
-  dscrSrcp %% Srcp %1%%,
+  descriptionCheck %% List *%1%%,	-- of Checks: descriptionCheck-clause,
+  descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
+  descriptionSrcp %% Srcp %1%%,
   elm %% ElmNod *%1%%,
   elms %% List *%1%%,
   evt %% EvtNod *%1%%,
@@ -119,7 +119,7 @@ static int val(char str[])
   idList %% List *%1%%,
   idList2 %% List *%1%%,
   ins %% Instance *%1%%,		-- Instance
-  inss %% List *%1%%,		-- of Instance
+  inss %% List *%1%%,			-- of Instances
   lim %% LimNod *%1%%,
   lims %% List *%1%%,
   ment %% List *%1%%,		-- of StmNod: mentioned-clause,
@@ -664,13 +664,13 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					%<properties>.dscr,
-					`&%<properties>.dscrSrcp,
+					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionCheck,
+					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
 					%<properties>.art,
 					`&%<properties>.artSrcp,
-					%<properties>.does,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -697,13 +697,13 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					%<properties>.dscr,
-					`&%<properties>.dscrSrcp,
+					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionCheck,
+					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
 					%<properties>.art,
 					`&%<properties>.artSrcp,
-					%<properties>.does,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -730,13 +730,13 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					%<properties>.dscr,
-					`&%<properties>.dscrSrcp,
+					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionCheck,
+					%<properties>.descriptionDoes,
 					%<properties>.ment,
 					`&%<properties>.mentSrcp,
 					%<properties>.art,
 					`&%<properties>.artSrcp,
-					%<properties>.does,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -775,9 +775,9 @@ static int val(char str[])
 	%<properties>.whr = NULL;
 	%<properties>.atrs = NULL;
 	%<properties>.cnt = NULL;
-	%<properties>.dscr = NULL;
+	%<properties>.descriptionCheck = NULL;
+	%<properties>.descriptionDoes = NULL;
 	%<properties>.ment = NULL;
-	%<properties>.does = NULL;
 	%<properties>.exts = NULL;
 	%<properties>.vrbs = NULL;
 	%<properties>.scrs = NULL;
@@ -805,14 +805,22 @@ static int val(char str[])
 	        %<properties>.cnt = %<property>.cnt;
         }
 
-	if (%<property>.dscr != NULL) {
-            if(%<properties>.dscr != NULL)
+	if (%<property>.descriptionCheck != NULL) {
+            if(%<properties>.descriptionCheck != NULL)
                 /* DESCRIPTION already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
-	        %<properties>.dscr = %<property>.dscr;
-		%<properties>.dscrSrcp = %<property>.srcp;
+	        %<properties>.descriptionCheck = %<property>.descriptionCheck;
+		%<properties>.descriptionSrcp = %<property>.srcp;
 	    }
+        }
+
+	if (%<property>.descriptionDoes != NULL) {
+            if (%<properties>.descriptionDoes != NULL)
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	    else 
+	        %<properties>.descriptionDoes = %<property>.descriptionDoes;
+		%<properties>.descriptionSrcp = %<property>.srcp;
         }
 
 	if (%<property>.ment != NULL) {
@@ -833,14 +841,6 @@ static int val(char str[])
 	        %<properties>.art = %<property>.art;
 		%<properties>.artSrcp = %<property>.srcp;
 	    }
-        }
-
-	if (%<property>.does != NULL) {
-            if (%<properties>.does != NULL)
-                /* DOES/ENTERED already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
-	    else 
-	        %<properties>.does = %<property>.does;
         }
 
 	%<properties>.exts = concat(%<properties>.exts, %<property>.ext, EXIT_LIST);
@@ -875,7 +875,7 @@ static int val(char str[])
 
     ! <container properties>
     %%{
-        CntNod *cnt = %<container properties>.cnt;
+        Container *cnt = %<container properties>.cnt;
         Srcp srcp = %<container properties>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
@@ -885,11 +885,13 @@ static int val(char str[])
 
     ! <description>
     %%{
-        List *dscr = %<description>.stms;
+        List *descriptionDoes = %<description>.stms;
+        List *descriptionCheck = %<description>.chks;
         Srcp srcp = %<description>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.dscr = dscr;
+	%<property>.descriptionCheck = descriptionCheck;
+	%<property>.descriptionDoes = descriptionDoes;
 	%<property>.srcp = srcp;
     }%%
 
@@ -912,15 +914,6 @@ static int val(char str[])
 	%<property>.srcp = srcp;
     }%%
 
-    ! <does>
-    %%{
-        List *does = %<does>.does;
-        Srcp srcp = %<does>.srcp;
-
-	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.does = does;
-	%<property>.srcp = srcp;
-    }%%
 
     ! <exit>
     %%{ ExtNod *ext = %<exit>.ext;
@@ -1020,11 +1013,19 @@ static int val(char str[])
     ;
 
 <description>		-- RETURNS: stms, srcp
-    = 'DESCRIPTION' 
+    = 'DESCRIPTION' <optional_checks> <optional_does>
     %%
-	%<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
+	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL)
+	  %<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
 						NOP_STATEMENT), STATEMENT_LIST);
-	%<description>.srcp = %'DESCRIPTION'.srcp;
+	else {
+	  %<description>.srcp = %'DESCRIPTION'.srcp;
+	  %<description>.chks = %<optional_checks>.chks;
+	  %<description>.stms = %<optional_does>.stms;
+
+	  if (%<optional_does>.qual != QUAL_DEFAULT)
+	    lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
+	}
     %%
 
     ! 'DESCRIPTION' <statements>
@@ -1336,7 +1337,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING
+    = STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
 	%<output_statement>.stm = newstm(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -1420,7 +1421,7 @@ static int val(char str[])
     %%
 	%<manipulation_statement>.stm = newstm(`&%'EMPTY'.srcp, EMPTY_STATEMENT);
 	%<manipulation_statement>.stm->fields.empty.wht = %<what>.wht;
-	%<manipulation_statement>.stm->fields.empty.whr = %<optional_where>.whr;
+	%<manipulation_statement>.stm->fields.empty.where = %<optional_where>.whr;
     %%	  
 
     ! 'LOCATE' <what> <where> '.'
@@ -1789,7 +1790,7 @@ static int val(char str[])
 	  %<primary>.exp->fields.val.val = val(%Integer.chars);
     %%
 
-    ! STRING
+    ! STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
 	%<primary>.exp = newexp(&%STRING.srcp, STRING_EXPRESSION);
 	%<primary>.exp->fields.str.fpos = %STRING.fpos;
@@ -1918,7 +1919,7 @@ static int val(char str[])
 
     ! 'AT' <what>
     %%
-        %<where>.whr = newwhr(`&%'AT'.srcp, WHR_AT, %<what>.wht);
+        %<where>.whr = newwhr(`&%'AT'.srcp, WHERE_AT, %<what>.wht);
 	%<where>.srcp = %'AT'.srcp;
     %%
 

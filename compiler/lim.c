@@ -97,33 +97,21 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
 
 
 
-/*----------------------------------------------------------------------
-
-  gelim()
-
-  Generate one limit for a container.
-
-  */
-static void gelim(LimNod *lim, int cnt, int currentInstance)
+/*----------------------------------------------------------------------*/
+static void generateLimit(LimNod *lim, int cnt)
 {
   showProgress();
 
   /* Generate statements */
   lim->stmadr = emadr();	/* Save ACODE address to statements */
-  gestms(lim->stms, currentInstance);
+  generateStatements(lim->stms);
   emit0(C_STMOP, I_RETURN);
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  geliment()
-
-  Generate a limit table entry for one container.
-
-  */
-static void geliment(LimNod *lim) /* IN - The limit to generate for */
+/*----------------------------------------------------------------------*/
+static void generateLimitEntry(LimNod *lim)
 {
   if (lim->atr->id->code == I_COUNT)
     emit(I_COUNT);
@@ -141,7 +129,7 @@ static void geliment(LimNod *lim) /* IN - The limit to generate for */
   Generate limit checks for one container.
 
   */
-Aword gelims(CntNod *cnt, int currentInstance)
+Aword generateLimits(Container *cnt)
 {
   List *lst;		/* List of limits */
   Aword limadr;
@@ -151,11 +139,11 @@ Aword gelims(CntNod *cnt, int currentInstance)
 
   /* First code for all limits */
   for (lst = cnt->lims; lst != NULL; lst = lst->next)
-    gelim(lst->element.lim, cnt->code, currentInstance);
+    generateLimit(lst->element.lim, cnt->code);
 
   limadr = emadr();		/* Save ACODE address to limit table */
   for (lst = cnt->lims; lst != NULL; lst = lst->next)
-    geliment(lst->element.lim);
+    generateLimitEntry(lst->element.lim);
   emit(EOF);
   return(limadr);
 }

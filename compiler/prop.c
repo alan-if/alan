@@ -17,6 +17,7 @@
 
 
 #include "atr_x.h"
+#include "chk_x.h"
 #include "cla_x.h"
 #include "cnt_x.h"
 #include "ext_x.h"
@@ -40,19 +41,19 @@ Properties *newEmptyProps(void)
 
 /*======================================================================*/
 Properties *newProps(List *names,
-		Where *whr,
-		List *attributes,
-		CntNod *container,
-		List *description,
-		Srcp *descriptionSrcp,
-		List *mentioned,
-		Srcp *mentionedSrcp,
-		List *article,
-		Srcp *articleSrcp,
-		List *does,
-		List *exits,
-		List *verbs,
-		List *scripts)
+		     Where *whr,
+		     List *attributes,
+		     Container *container,
+		     Srcp *descriptionSrcp,
+		     List *descriptionChecks,
+		     List *description,
+		     List *mentioned,
+		     Srcp *mentionedSrcp,
+		     List *article,
+		     Srcp *articleSrcp,
+		     List *exits,
+		     List *verbs,
+		     List *scripts)
 {
   Properties *new;                  /* The newly allocated area */
 
@@ -68,8 +69,9 @@ Properties *newProps(List *names,
   if (new->container != NULL)
     new->container->ownerProperties = new;
 
-  new->description = description;
   new->descriptionSrcp = *descriptionSrcp;
+  new->descriptionChecks = descriptionChecks;
+  new->description = description;
   new->mentioned = mentioned;
   new->mentionedSrcp = *mentionedSrcp;
   new->article = article;
@@ -154,6 +156,7 @@ void analyzeProps(Properties *props, Context *context)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(props);
+  analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->description, context);
   analyzeVerbs(props->verbs, context);
   analyzeContainer(props->container, context);
@@ -173,19 +176,19 @@ void generateClassPropertiesData(Properties *props)
 {
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
-    gestms(props->description, props->id->symbol->code);
+    generateStatements(props->description);
     emit0(C_STMOP, I_RETURN);
   }
 
   if (props->mentioned != NULL) {
     props->mentionedAddress = emadr();
-    gestms(props->mentioned, props->id->symbol->code);
+    generateStatements(props->mentioned);
     emit0(C_STMOP, I_RETURN);
   }
 
-  props->scriptsAddress = generateScripts(props->scripts, props->id->symbol->code);
-  props->verbsAddress = generateVerbs(props->verbs, props->id->symbol->code);
-  props->exitsAddress = generateExits(props->exits, props->id->symbol->code);
+  props->scriptsAddress = generateScripts(props->scripts);
+  props->verbsAddress = generateVerbs(props->verbs);
+  props->exitsAddress = generateExits(props->exits);
 }
 
 
@@ -197,22 +200,24 @@ void generateInstancePropertiesData(Properties *props)
 
   props->attributeAddress = generateAttributes(props->attributes);
 
+  props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
+
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
-    gestms(props->description, props->id->symbol->code);
+    generateStatements(props->description);
     emit0(C_STMOP, I_RETURN);
   }
 
   if (props->mentioned != NULL) {
     props->mentionedAddress = emadr();
-    gestms(props->mentioned, props->id->symbol->code);
+    generateStatements(props->mentioned);
     emit0(C_STMOP, I_RETURN);
   } else
     emit(0);
 
-  props->scriptsAddress = generateScripts(props->scripts, props->id->symbol->code);
-  props->verbsAddress = generateVerbs(props->verbs, props->id->symbol->code);
-  props->exitsAddress = generateExits(props->exits, props->id->symbol->code);
+  props->scriptsAddress = generateScripts(props->scripts);
+  props->verbsAddress = generateVerbs(props->verbs);
+  props->exitsAddress = generateExits(props->exits);
 }
 
 
@@ -229,6 +234,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->location = generateInitialLocation(props->whr);
   entry->attributes = props->attributeAddress;
+  entry->checks = props->descriptionChecksAddress;
   entry->description = props->descriptionAddress;
   if (props->container != NULL)
     entry->container = props->container->code;

@@ -57,7 +57,7 @@ extern AltNod *newalt(Srcp *srcp,
 extern void analyzeAlternatives(List *alts, Context *context);
 
 /* Generate code for a list of verb Alternatives */
-extern Aaddr gealts(List *alts, int currentInstance);
+extern Aaddr gealts(List *alts);
 
 /* Dump a verb Alternative */
 extern void dualt(AltNod *alt);

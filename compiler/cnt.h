@@ -16,7 +16,7 @@
 
 /* Types: */
 
-typedef struct CntNod {		/* CONTAINER */
+typedef struct Container {
   Srcp srcp;			/* Source position */
   IdNode *nam;			/* Name of the container */
   List *namstms;		/* Name printing statements */
@@ -29,7 +29,7 @@ typedef struct CntNod {		/* CONTAINER */
   Aaddr hadr;			/* ACODE address to header statements */
   List *estms;			/* 'Empty' statements */
   Aaddr eadr;			/* ACODE address to 'empty' statements */  
-} CntNod;
+} Container;
 
 
 #endif

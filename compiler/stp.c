@@ -78,7 +78,7 @@ void analyzeSteps(List *stps, Context *context)
   Generate code for all steps in a script for a particular Instance.
 
   */
-Aaddr generateSteps(List *stps, int currentInstance)
+Aaddr generateSteps(List *stps)
 {
   List *lst;
   Aaddr adr;
@@ -86,12 +86,12 @@ Aaddr generateSteps(List *stps, int currentInstance)
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL) { /* Expression specified */
       lst->element.stp->expadr = emadr();
-      geexp(lst->element.stp->exp, currentInstance);
+      generateExpression(lst->element.stp->exp);
       emit0(C_STMOP, I_RETURN);
     } else
       lst->element.stp->expadr = 0;
     lst->element.stp->stmadr = emadr();
-    gestms(lst->element.stp->stms, currentInstance);
+    generateStatements(lst->element.stp->stms);
     emit0(C_STMOP, I_RETURN);
   }
   

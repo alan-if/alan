@@ -65,9 +65,9 @@ void testGenerateEmptyClassEntry()
 {
   Properties *props = newProps(NULL, NULL,
 			       NULL, NULL,
-			       NULL,
-			       &nulsrcp, NULL, &nulsrcp, NULL,
-			       &nulsrcp, NULL, NULL, NULL, NULL);
+			       &nulsrcp,
+			       NULL, NULL, NULL, &nulsrcp, NULL,
+			       &nulsrcp, NULL, NULL, NULL);
   ClaNod *class = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, props);
   int entryAddress;
   ClassEntry *entry;

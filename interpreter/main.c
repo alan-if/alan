@@ -1433,10 +1433,14 @@ static void checkvers(header)
 {
   char vers[4];
   char state[2];
+  Abool developmentVersion;
+  int compareLength;
 
   /* Construct our own version */
   vers[0] = alan.version.version;
   vers[1] = alan.version.revision;
+  vers[2] = alan.version.correction;
+  vers[3] = alan.version.state[0];
 
   /* Check version of .ACD file */
   if (dbgflg) {
@@ -1451,15 +1455,28 @@ static void checkvers(header)
     newline();
   }
 
+  /* Development version require exact match, else only 2 digit match */
+  developmentVersion = (strcmp(alan.version.state, "dev") == 0);
+  compareLength = (developmentVersion? 3 : 2);
+
   /* Compatible if version and revision match... */
-  if (strncmp(header->vers, vers, 2) != 0) {
+  if (memcmp(header->vers, vers, compareLength) != 0) {
       if (errflg) {
 	char str[80];
-	sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
-		(long)(header->vers[0]),
-		(long)(header->vers[1]),
-		(long)alan.version.version,
-		(long)alan.version.revision);
+	if (developmentVersion)
+	  sprintf(str, "Incompatible version of ACODE program. Development versions require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
+		  (long)(header->vers[0]),
+		  (long)(header->vers[1]),
+		  (long)(header->vers[2]),
+		  (long)alan.version.version,
+		  (long)alan.version.revision,
+		  (long)alan.version.correction);
+	else
+	  sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
+		  (long)(header->vers[0]),
+		  (long)(header->vers[1]),
+		  (long)alan.version.version,
+		  (long)alan.version.revision);
 	syserr(str);
       } else
 	output("<WARNING! Incompatible version of ACODE program.>\n");

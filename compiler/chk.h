@@ -16,7 +16,7 @@
 /* TYPES: */
 
 typedef struct ChkNod {		/* CHECK */
-  Expression *exp;			/* Expression to check */
+  Expression *exp;		/* Expression to check */
   Aaddr expadr;			/* ACODE address to code for expression */
   List *stms;			/* Statements for false check */
   Aaddr stmadr;			/* ACODE address to statement code */

@@ -356,7 +356,7 @@ void anmsgs(void)
 static void gemsgent(MsgNod *msg)
 {
   msg->stmadr = emadr();	/* Save address to messages statements */
-  gestms(msg->stms, 0);
+  generateStatements(msg->stms);
   emit0(C_STMOP, I_RETURN);
 }
 
