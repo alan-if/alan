@@ -12,13 +12,7 @@ SYNTAX
 Add To Every thing
   VERB jump_on
 	DOES
-		"You jump on"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
+		"You jump on" Say The obj. "."
   END VERB.
 End Add To.
 

@@ -4,33 +4,23 @@
 -- 0.4.1 - converted to ALANv3
 
 
-SYNTAX
-	smell0 = smell.
+Syntax
+    smell0 = smell.
 
-VERB smell0
-	DOES
-		"You smell nothing unusual."
-	END VERB.
+Verb smell0
+    Does
+	"You smell nothing unusual."
+End Verb.
 
 
-SYNTAX
-	smell = smell (obj)
-		WHERE obj ISA THING
-			ELSE "You can't smell that!"
+Syntax
+    smell = smell (obj)
+	Where obj Isa thing
+	    Else "You can't smell that!"
 
 Add To Every thing
-  VERB smell
-	DOES
-		"You smell"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
-  END VERB.
+    Verb smell
+	Does
+	    "You smell" Say The obj. "."
+    End Verb.
 End Add To.
-
-
-
-

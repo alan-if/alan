@@ -13,13 +13,7 @@ SYNTAX
 Add To Every thing
   VERB knock_on
 	DOES
-		"You knock on"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
+		"You knock on" Say The obj. "."
   END VERB.
 End Add To.
 

@@ -17,112 +17,79 @@ Syntax
       Else "You can't lock that."
 
 Add To Every object
-	VERB lock
-	CHECK obj IS lockable
-		ELSE "You can't lock that!"
-	AND obj IS NOT locked
-		ELSE "It's already locked."
-	DOES
-		MAKE obj locked.
-		IF obj IS named THEN
-			SAY obj.
-			"is now locked."
-		ELSE
-			"The $o is now locked."
-		END IF.
-	END VERB.
+    Verb lock
+	Check obj Is lockable
+	    Else "You can't lock that!"
+	And obj Is Not locked
+	    Else "It's already locked."
+	Does
+	    Make obj locked. Say The obj. "is now locked."
+	End Verb.
 End Add To object. 
 
 
 
-SYNTAX
-	lock_with = lock (obj) 'with' (key)
-		WHERE obj ISA OBJECT
-			ELSE "You can't lock that."
-		AND key ISA OBJECT
-			ELSE "You can't lock anything with that."
+Syntax
+    lock_with = lock (obj) 'with' (key)
+	Where obj Isa object
+	    Else "You can't lock that."
+	And key Isa object
+	    Else "You can't lock anything with that."
 
 Add To Every Object
-  VERB lock_with
-	when obj
-	  CHECK obj IS lockable
-		  ELSE "You can't lock that!"
-	  AND obj IS NOT locked
-		  ELSE "It's already locked."
-	  AND key IN HERO
-		  ELSE 
-			  "You don't have"
-			  IF key IS named THEN
-				  SAY key.
-			  ELSE
-				  "the $2"
-			  END IF.
-			  "$$."
-	  DOES
-		  MAKE obj locked.
-		  IF obj IS named THEN
-			  SAY obj.
-			  "is now locked."
-		  ELSE
-			  "The $o is now locked."
-		  END IF.
-  END VERB.
+    Verb lock_with
+	When obj
+	    Check obj Is lockable
+		Else "You can't lock that!"
+	    And obj Is Not locked
+		Else "It's already locked."
+	    And key In hero
+		Else
+		    "You don't have" Say The key. "."
+	    Does
+	        Make obj locked.
+		Say The obj. "is now locked."
+    End Verb.
 End Add.
 
 
-SYNTAX
-	unlock = unlock (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't lock that."
+Syntax
+    unlock = unlock (obj)
+        Where obj Isa object
+	    Else "You can't lock that."
+
 Add To Every object
-VERB unlock
-	CHECK obj IS lockable
-		ELSE "You can't unlock that!"
-	AND obj IS locked
-		ELSE "It's already unlocked."
-	DOES
-		MAKE obj NOT locked.
-		IF obj IS named THEN
-			SAY obj.
-			"is now unlocked."
-		ELSE
-			"The $o is now unlocked."
-		END IF.
-  END VERB.
+    Verb unlock
+	Check obj Is lockable
+	    Else "You can't unlock that!"
+	And obj Is locked
+	    Else "It's already unlocked."
+	Does
+	    Make obj Not locked.
+	    Say The obj. "is now unlocked."
+    End Verb.
 End Add To.
 
 
-SYNTAX
-	unlock_with = unlock (obj) 'with' (key)
-		WHERE obj ISA OBJECT
-			ELSE "You can't lock that."
-		AND key ISA OBJECT
-			ELSE "You can't lock anything with that."
+Syntax
+    unlock_with = unlock (obj) 'with' (key)
+	Where obj Isa object
+	    Else "You can't lock that."
+	And key Isa object
+	    Else "You can't lock anything with that."
 
 Add To Every object
-  VERB unlock_with
-	when obj
-	  CHECK obj IS lockable
-		  ELSE "You can't unlock that!"
-	  AND obj IS locked
-		  ELSE "It's already unlocked."
-	  AND key IN HERO
-		  ELSE 
-			  "You don't have"
-			  IF key IS named THEN
-				  SAY key.
-			  ELSE
-				  "the $2"
-			  END IF.
-			  "$$."
-	  DOES
-		  MAKE obj NOT locked.
-		  IF obj IS named THEN
-			  SAY obj.
-			  "is now unlocked."
-		  ELSE
-			  "The $o is now unlocked."
-		  END IF.
-  END VERB.
+    Verb unlock_with
+        When obj
+	    Check obj Is lockable
+	        Else "You can't unlock that!"
+	    And obj Is locked
+		Else "It's already unlocked."
+	    And key In hero
+		Else
+		    "You don't have" Say The key. "."
+	  Does
+		Make obj Not locked.
+		Say The obj. "is now unlocked."
+    End Verb.
 End Add.
-

@@ -6,14 +6,27 @@
 
 
 P
-There is a obj here. Act is here.
+Act is here.
 
 > shoot obj
-You need to specify what you want to shoot the obj with.
+You need to specify what to shoot at.
+
+> shoot at obj
+You need to specify what to shoot at.
 
 > shoot act
 You need to specify what you want to shoot act with.
 
+> shoot at act
+You need to specify what you want to shoot act with.
+
+> shoot act with obj
+Violence is not the answer.
+
+> shoot obj at act
+Violence is not the answer.
+
+> 
 > 
 
 Do you want to RESTART, RESTORE or QUIT ? 

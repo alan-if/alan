@@ -12,7 +12,7 @@ End Add To.
 
 Every person Isa actor
   Is Not named.
-  Article
+  Definite Article
     If This Is Not named Then
       "the"
     End If.
@@ -36,6 +36,7 @@ End The janitor.
 Event e
   "Event e:"
   Say mr_nocaps."$$," Say mr_caps."$$," Say janitor."."
+  Say The mr_nocaps."$$," Say The mr_caps."$$," Say The janitor."."
   Describe mr_nocaps. Describe mr_caps. Describe janitor.
   "End Event."
 End Event e.

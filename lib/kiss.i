@@ -17,20 +17,9 @@ Add To Every thing
 			"Well, if you must!"
 		ELSE
 			IF obj IS InAnimate THEN
-				"You kiss"
-				IF obj IS named THEN
-					SAY obj.
-				ELSE
-					"the $1"
-				END IF.
-				"$$."
+				"You kiss" Say The obj. "."
 			ELSE 
-				IF obj IS named THEN
-					SAY obj.
-					"avoids your advances."
-				ELSE
-					"The $o avoids your advances."
-				END IF.
+				Say The obj. "avoids your advances."
 			END IF.
 		END IF.
   END VERB.

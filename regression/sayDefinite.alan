@@ -9,4 +9,5 @@ The l Isa location
 End The l.
 
 Start At l.
-  Say The t. Say The u. Say t. Say u.
+  Say The t. "$$," Say The u. "$$," Say t. "$$," Say u. "."
+

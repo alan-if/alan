@@ -33,91 +33,60 @@ SYNTAX
 			ELSE "You can't put anything in that." 
 
 Add To Every object
-  VERB put_in
-	when obj1
-	  CHECK obj1 IN HERO
-		  ELSE 
-			  "You haven't got"
-			  IF obj1 IS named THEN
-				  SAY obj1.
-			  ELSE
-				  "the $1"
-			  END IF.
-			  "$$!"
-	  AND obj1 <> obj2
-		  ELSE "You can't put something into itself!"
-	  And obj2 <> hero
-		  Else "You can't put"
-			  IF obj1 IS named THEN
-				  SAY obj1.
-			  ELSE
-				  "the $1"
-			  END IF.
-			  "into yourself!"
-	  DOES
-		  LOCATE obj1 IN obj2.
-		  "Done."
-  END VERB.
+    Verb put_in
+	When obj1
+	    Check obj1 In hero
+		Else
+		    "You haven't got" Say The obj1. "."
+	    And obj1 <> obj2
+	        Else "You can't put something into itself!"
+	    And obj2 <> hero
+	        Else "You can't put" Say obj1. "into yourself!"
+	    Does
+	        Locate obj1 In obj2.
+		"Done."
+    End Verb.
 End Add To.
 
 
 
-SYNTAX
-	put_near = put (obj1) near (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't put that anywhere."
-		AND obj2 ISA THING
-			ELSE "You can't put anything near that."
+Syntax
+    put_near = put (obj1) near (obj2)
+        Where obj1 Isa object
+	    Else "You can't put that anywhere."
+	And obj2 Isa thing
+	    Else "You can't put anything near that."
 
-	put_behind = put (obj1) behind (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't put that anywhere."
-		AND obj2 ISA THING
-			ELSE "You can't put anything behind that."
+    put_behind = put (obj1) behind (obj2)
+        Where obj1 Isa object
+	    Else "You can't put that anywhere."
+	And obj2 Isa thing
+	    Else "You can't put anything behind that."
 
-	put_on = put (obj1) 'on' (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't put that anywhere."
-		AND obj2 ISA THING
-			ELSE "You can't put anything on that."
+    put_on = put (obj1) 'on' (obj2)
+	Where obj1 Isa object
+	    Else "You can't put that anywhere."
+	And obj2 Isa thing
+	    Else "You can't put anything on that."
 
-	put_under = put (obj1) under (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't put that anywhere."
-		AND obj2 ISA THING
-			ELSE "You can't put anything under that."
+    put_under = put (obj1) under (obj2)
+        Where obj1 Isa object
+	    Else "You can't put that anywhere."
+	And obj2 Isa thing
+	    Else "You can't put anything under that."
 
 Add To Every object
-  VERB put_near, put_behind, put_on, put_under 
-	when obj1
-	  CHECK obj1 IN HERO
-		  ELSE 
-			  "You haven't got"
-			  IF obj1 IS named THEN
-				  SAY obj1.
-			  ELSE
-				  "the $1"
-			  END IF.
-			  "$$!"
-	  AND obj2 NOT IN HERO
-		  ELSE 
-			  "You are carrying"
-			  IF obj2 IS named THEN
-				  SAY obj2.
-			  ELSE
-				  "the $2"
-			  END IF.
-			  "$$!"
-	  DOES
-		  "Naaah. I'd rather just put"
-		  IF obj1 IS named THEN
-			  "them"
-		  ELSE
-			  "it"
-		  END IF.
-		  "down here."
-		  LOCATE obj1 AT obj2.
-  END VERB.
+    Verb put_near, put_behind, put_on, put_under
+	When obj1
+	    Check obj1 In hero
+		Else
+		    "You haven't got" Say The obj1. "."
+	    And obj2 Not In hero
+		Else
+		    "You are carrying" Say The obj2.
+		    ". If you want to take" Say the obj1. "just say so."
+	    Does
+		"Naaah. I'd rather just put" Say The obj1. "down here."
+		Locate obj1 At obj2.
+    End Verb.
 End Add To.
-
-

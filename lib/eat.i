@@ -13,11 +13,11 @@ END ADD TO OBJECT.
 SYNTAX
 	eat = eat (obj)
 	WHERE obj ISA OBJECT
-		ELSE "You can't eat that!"
+		ELSE "You can't eat" Say An obj. "!"
 
 	drink = drink (obj)
 	WHERE obj ISA OBJECT
-		ELSE "You can't drink that!"
+		ELSE "You can't drink" Say An obj. "!"
 
 Add To Every object
   VERB eat
@@ -25,13 +25,7 @@ Add To Every object
 		ELSE "You can't eat that!"
 	DOES
 		LOCATE obj AT Nowhere.
-		"You eat"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $o"
-		END IF.
-		"$$." 
+		"You eat" Say the obj. "."
   END VERB.
 
   VERB drink
@@ -39,13 +33,7 @@ Add To Every object
 		ELSE "That is not drinkable."
 	DOES
 		LOCATE obj AT Nowhere.
-		"You drink"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $o"
-		END IF.
-		"$$." 
+		"You drink" Say The obj. "."
   END VERB.
 End Add.
 

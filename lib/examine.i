@@ -34,21 +34,9 @@ Add To Every object
   VERB examine, look_at
 	CHECK obj IS examinable
 		ELSE 
-			"You can't examine"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$." 
+			"You can't examine" Say The obj. "."
 	DOES
-		"There is nothing special about"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $o"
-		END IF.
-		"$$." 
+		"There is nothing special about" Say The obj. "."
   END VERB.
 End Add To.
 
@@ -69,13 +57,7 @@ Add To Every object
   VERB look_in
 	CHECK obj IS examinable
 		ELSE 
-			"You can't look inside"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$." 
+			"You can't look inside" Say The obj. "."
 	DOES
 		LIST obj.
   END VERB.
@@ -93,13 +75,7 @@ Add To Every object
   VERB search
 	CHECK obj IS searchable
 		ELSE 
-			"You can't search" 
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$!" 
+			"You can't search" Say The obj. "."
 	DOES
 		"You find nothing of interest."
   END VERB.

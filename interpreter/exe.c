@@ -918,24 +918,20 @@ void saystr(char *str)
 
 /*----------------------------------------------------------------------*/
 static void sayInheritedArticle(Aword theClass, SayForm form) {
-
   if (theClass == 0) {
     if (form == SAY_DEFINITE)
       prmsg(M_DEFINITE);
     else
       prmsg(M_INDEFINITE);
   } else {
-    switch(form) {
-    case SAY_DEFINITE:
-      if (class[theClass].definite)
-	interpret(class[theClass].definite);
-      break;
-    case SAY_INDEFINITE:
-      if (class[theClass].indefinite)
-	interpret(class[theClass].indefinite);
-      break;
-    }
-    sayInheritedArticle(class[theClass].parent, form);
+    if (form == SAY_DEFINITE && class[theClass].definite)
+      interpret(class[theClass].definite);
+    else if (form == SAY_INDEFINITE && class[theClass].indefinite)
+      interpret(class[theClass].indefinite);
+    else if (form == SAY_DEFINITE || form == SAY_INDEFINITE)
+      sayInheritedArticle(class[theClass].parent, form);
+    else
+      syserr("Unexpected form in 'sayInheritedArticle()'");
   }
 }
 
@@ -944,28 +940,23 @@ static void sayInheritedArticle(Aword theClass, SayForm form) {
 /*======================================================================*/
 void sayArticle(Aword id, SayForm form)
 {
-  switch (form) {
-  case SAY_INDEFINITE:
-    if (instance[id].indefinite != 0)
-      interpret(instance[id].indefinite);
-    else
-      sayInheritedArticle(instance[id].parent, form);
-    break;
-  case SAY_DEFINITE:
-    if (instance[id].definite != 0)
-      interpret(instance[id].definite);
-    else
-      sayInheritedArticle(instance[id].parent, form);
-    break;
-  default:
-    syserr("Unexpected form in sayArticle()");
-  }
+  if (form == SAY_DEFINITE && instance[id].definite)
+    interpret(instance[id].definite);
+  else if (form == SAY_INDEFINITE && instance[id].indefinite)
+    interpret(instance[id].indefinite);
+  else if (form == SAY_DEFINITE || form == SAY_INDEFINITE)
+    sayInheritedArticle(instance[id].parent, form);
+  else
+    syserr("Unexpected form in 'sayArticle()'");
 }
 
 
 /*======================================================================*/
 void say(Aword id)
 {
+  Aword previousInstance = current.instance;
+  current.instance = id;
+
   if (isHere(HERO)) {
     if (isLit(id))
       saylit(id);
@@ -974,14 +965,20 @@ void say(Aword id)
       sayInstance(id);
     }
   }
+  current.instance = previousInstance;
 }
 
 
 /*======================================================================*/
 void sayForm(Aword id, SayForm form)
 {
+  Aword previousInstance = current.instance;
+  current.instance = id;
+
   sayArticle(id, form);
   say(id);
+
+  current.instance = previousInstance;
 }
 
 

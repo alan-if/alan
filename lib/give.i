@@ -10,8 +10,6 @@ Syntax
   give = 'give' (obj) 'to' (recip)
     Where obj Isa object
       Else "You can only give away objects."
-    And recip Isa thing
-      Else "You can't give things to that!"
     And recip Isa Container
       Else "You can't give things to that!"
   give = give (recip) (obj).
@@ -21,36 +19,12 @@ Add To Every object
     When obj
       Check obj In hero
 	Else
-	  "You don't have"
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "the $1"
-	  End If.
-	  "$$."
+	  "You don't have" Say The obj. "."
       Does
 	If recip=hero Then
-	  "You already have"
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "the $o"
-	  End If.
-	  "$$!"
+	  "You already have" Say The obj. "!"
 	Else
-	  "You give"
-	  If obj Is named Then
-	    Say obj.
-	    "to"
-	  Else
-	    "the $1 to"
-	  End If.
-	  If recip Is named Then
-	    Say recip.
-	  Else
-	    "the $2"
-	  End If.
-	  "$$."
+	  "You give" Say The obj. "to" Say The recip. "."
 	  Locate obj In recip.
 	End If.
   End Verb.

@@ -2,6 +2,9 @@
 -- Library version 0.5.0
 
 -- 0.6.0 -- removed synonyms 'him' and 'her' since Alan now defines them
+--	    Use of 'named' as used in std.i messages to distinguish between
+--          actors with real names like Fred (ie: is 'named') and The
+--          Bus-driver is deprecated and the named attribute removed.
 -- 0.4.1 -- due to ALANv3 changes:
 --          added definition of 'hero' (the player character) as a
 --          container for holding the player's "inventory", removed
@@ -30,9 +33,6 @@ Container
 End The hero.
 
 
--- V3 NOTE: Use of 'named' as used in std.i messages to distinguish between
--- actors with real names like Fred (ie: is 'named') and The Bus-driver will
--- go away.
 -- To make instance names always be capitalized (e.g. for persons), give the
 -- instance a capitalised name in single quotes plus another name without the
 -- quotes. Arun will use the object's leftmost (first) name in

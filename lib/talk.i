@@ -82,12 +82,7 @@ Add To Every thing
       Check act Has can_talk
 	Else "You can't talk to that."
       Does
-	If act Is named Then
-	  Say act.
-	  "doesn't seem interested."
-	Else
-	  "The $2 doesn't seem interested."
-	End If.
+	Say The act. "doesn't seem interested."
   End Verb.
 End Add To.
 
@@ -106,17 +101,7 @@ Add To Every thing
       Check act Has can_talk
         Else "You can't talk to that."
       Does
-	If act Is named Then
-	  Say act.
-	  "says ""I don't know anything about"
-	Else
-	  "The $1 says ""I don't know anything about"
-	End If.
-	If topic Is named Then
-	  "them!"""
-	Else
-	  "that!"""
-	End If.
+	Say The act. "says ""I don't know anything about" Say The topic. "!"""
   End Verb.
 End Add To.
 
@@ -143,23 +128,10 @@ Add To Every thing
       Check act Has can_talk
 	Else "You can't talk to that."
       Does
-	"""I don't think I need to know about"
-	If topic Is named Then
-	  Say topic.
-	Else
-	  "the $2"
-	End If.
-	","" says"
-	If act Is named Then
-	  Say act. 
-	Else
-	  "the $1"
-	End If. 
-	"$$."
+	"""I don't think I need to know about" Say The topic. "$$,"" says"
+	Say The act. "."
   End Verb.
 End Add To.
-
-
 
 
 Syntax
@@ -172,13 +144,7 @@ Add To Every thing
     Check act Has can_talk
       Else "You can't talk to that."
     Does
-      If act Is named Then
-	Say act.
-	"looks at you, seemingly wondering if you have anything specific
-		to talk about."
-      Else
-	"The $1 looks at you, seemingly wondering if you have anything 
-		specific to talk about."
-      End If. 
+      Say The act. "looks at you, seemingly wondering if you have
+	  anything specific to talk about."
   End Verb.
 End Add To.

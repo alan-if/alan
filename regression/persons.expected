@@ -9,8 +9,9 @@ L
 Mr nocaps is here. Mr Caps is here. Janitor is here.
 
 > x mr nocaps
-Verb: mr nocaps End Verb. Event e: mr nocaps, mr Caps, janitor. Mr nocaps 
-is here. Mr Caps is here. Janitor is here. End Event. Event ll:
+Verb: mr nocaps End Verb. Event e: mr nocaps, mr Caps, janitor. Mr nocaps, 
+mr Caps, the janitor. Mr nocaps is here. Mr Caps is here. Janitor is here. 
+End Event. Event ll:
 
 L
 Mr nocaps is here. Mr Caps is here. Janitor is here. End Event.

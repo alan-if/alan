@@ -1,6 +1,8 @@
 -- take.i
 -- Library version 0.5.0
 
+-- 0.6.0 - removed guard for taking things from animate containers since
+--         Alan v3.0.29 supports Extract clause on containers
 -- 0.5.0 - cleaned up formatting, made use of "." not making a leading space
 -- 0.4.1 - converted to ALANv3
 
@@ -97,43 +99,16 @@ Add To Every object
     When obj
       Check obj Not In hero 
 	Else
-	  "You already have"
-	  If obj Is named Then
-	    Say obj. "."
-	  Else
-	    "the $1."
-	  End If.
+	  "You already have" Say The obj. "."
       And obj In holder
 	Else
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "The $1"
-	  End If.
-	  "is not there."
+	  Say The obj. "is not there."
 	Does
 	  If holder=hero Then
 	    "You don't need to take things from yourself!"
-	  Elsif holder Is inanimate Then
-	    "You take"
-	    If obj Is named Then
-	      Say obj. "."
-	    Else
-	      "the $1."
-	    End If.
-	    Locate obj In hero.
 	  Else
-	    If holder Is named Then
-	      Say holder.
-	    Else
-	      "The $2"
-	    End If.
-	    "won't let you take"
-	    If obj Is named Then
-	      Say obj. "."
-	    Else
-	      "the $1."
-	    End If.
+	    Locate obj In hero.
+	    "You take" Say The obj. "."
 	  End If.
   End Verb.
 End Add.

@@ -14,46 +14,28 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't push that."
 Add To Every object
-  VERB push
-	CHECK obj IS pushable
-		ELSE "You can't push that."
-	DOES
-		"You push"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
-  END VERB.
+    Verb push
+	Check obj Is pushable
+	    Else "You can't push that."
+	Does
+	    "You push" Say The obj. "."
+    End Verb.
 End Add To.
 
 
-SYNTAX
-	push_with = push (obj1) 'with' (obj2)
-		WHERE obj1 ISA THING
-			ELSE "You can't push that."
-		AND obj2 ISA OBJECT
-			ELSE "You can use only objects to push things with."
+Syntax
+    push_with = push (obj1) 'with' (obj2)
+	Where obj1 Isa thing
+	    Else "You can't push that."
+	And obj2 Isa object
+	    Else "You can use only objects to push things with."
 
 Add To Every object
-  VERB push_with
-	when obj1
-	  CHECK obj1 IS pushable
-		  ELSE "You can't push that."
-	  DOES
-		  "Using"
-		  IF obj2 IS named THEN
-			  SAY obj2.
-			  "you push"
-		  ELSE
-			  "the $2 you push"
-		  END IF.
-		  IF obj1 IS named THEN
-			  SAY obj1.
-		  ELSE
-			  "the $1"
-		  END IF.
-		  "$$."
-  END VERB.
+    Verb push_with
+	When obj1
+	    Check obj1 IS pushable
+	        Else "You can't push that."
+	    Does
+		"Using" Say The obj2. "you push" Say The obj1. "."
+    End Verb.
 End Add To.

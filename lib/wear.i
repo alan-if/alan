@@ -4,125 +4,81 @@
 -- 0.4.1 - converted to ALANv3
 
 
-ADD TO EVERY OBJECT 
-IS
-	NOT wearable.
-END ADD TO OBJECT.
+Add To Every object 
+    Is
+	Not wearable.
+End Add To object.
 
 
-SYNTAX 
-	wear = wear (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't wear that." 
-	put_o_on = put (obj) 'on'
-		WHERE obj ISA OBJECT
-			ELSE "You can't wear that." 
-	put_on_o = put 'on' (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't wear that." 
-
+Syntax
+    wear = wear (obj)
+	Where obj Isa object
+	    Else "You can't wear that." 
+    put_o_on = put (obj) 'on'
+	Where obj Isa object
+	    Else "You can't wear that."
+    put_on_o = put 'on' (obj)
+	Where obj Isa object
+	    Else "You can't wear that."
 
 Add To Every object
-  verb wear, put_o_on, put_on_o
-	CHECK obj IS wearable
-		ELSE 
-			"You can't wear"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$." 
-	AND obj NOT IN worn 
-		ELSE
-			"You are already wearing"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$." 
-	AND obj IS TAKEABLE
-		ELSE
-			"You can't pick"
-			IF obj IS named THEN
-				SAY obj.
-				"up." 
-			ELSE
-				"the $o up."
-			END IF.
-	DOES
-		IF obj NOT IN HERO THEN
-			LOCATE obj IN HERO.
-			"(You pick"
-			IF obj IS named THEN
-				SAY obj.
-				"up.)$n"
-			ELSE
-				"the $o up.)$n"
-			END IF.
-		END IF. 
-		LOCATE obj IN worn.
-		"You put on"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $o"
-		END IF.
-		"$$." 
-  END VERB.
+    Verb wear, put_o_on, put_on_o
+	Check obj Is wearable
+	    Else
+	        "You can't wear" Say The obj. "."
+	And obj Not In worn
+	    Else
+	        "You are already wearing" Say The obj. "."
+	And obj Is takeable
+	    Else
+		"You can't pick" Say The obj. "up."
+	Does
+	    If obj Not In hero Then
+	    	Locate obj In hero.
+		"(You pick" Say The obj. "up.)$n"
+	    End If. 
+	    Locate obj In worn.
+	    "You put on" Say The obj. "."
+    End Verb.
 End Add To.
 
 
 
 
-SYNTAX 
-	remove = remove (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't remove that." 
-	take_o_off = take (obj) off
-		WHERE obj ISA OBJECT
-			ELSE "You can't remove that." 
-	take_off_o = take off (obj) 
-		WHERE obj ISA OBJECT
-			ELSE "You can't remove that." 
+Syntax 
+    remove = remove (obj)
+	Where obj Isa object
+	    Else "You can't remove that." 
+    take_o_off = take (obj) off
+	Where obj Isa object
+	    Else "You can't remove that." 
+    take_off_o = take off (obj)
+        Where obj Isa object
+	    Else "You can't remove that." 
 
 Add To Every object
-  VERB remove, take_o_off, take_off_o
-	CHECK obj IN worn
-		ELSE 
-			"You are not wearing"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$." 
-	DOES
-		LOCATE obj IN HERO.
-		"You take off"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $o"
-		END IF.
-		"$$." 
-  END VERB.
+    Verb remove, take_o_off, take_off_o
+	Check obj In worn
+	    Else 
+		"You are not wearing" Say The obj. "."
+	Does
+	    Locate obj In hero.
+	    "You take off" Say The obj. "."
+    End Verb.
 End Add To.
 
 
 
-SYNTAX undress = undress.
+Syntax undress = undress.
 
 Add To Every object
-  VERB undress
-	DOES
-		IF COUNT Isa Thing, IN worn > 0 THEN
-			EMPTY worn IN HERO.
-			"You remove all the items you were wearing."
-		 ELSE
-			"You're not wearing anything you can remove."
-		END IF.
-  END VERB.
+    Verb undress
+	Does
+	    If Count In worn, Isa Thing > 0 Then
+	    	Empty worn In hero.
+		"You remove all the items you were wearing."
+	    Else
+	        "You're not wearing anything you can remove."
+	    End If.
+    End Verb.
 End Add To.
-

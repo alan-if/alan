@@ -178,11 +178,13 @@ static void warnForUnimplementedInheritance(Properties *props) {
   	Attributes
 	DescriptionCheck
 	DescriptionStatements
+	Definite
+	Indefinite
 	Container
 	Script
 	Verb
   */
-  propCount = 6;
+  propCount = 8;
 
   if (props->whr != NULL)
     lmLog(&props->whr->srcp, 343, sevWAR, "initial location");
@@ -196,14 +198,6 @@ static void warnForUnimplementedInheritance(Properties *props) {
     lmLog(&props->enteredSrcp, 343, sevWAR, "Entered clause");
   propCount++;
 
-  if (props->definite != NULL)
-    lmLog(&props->definiteSrcp, 343, sevWAR, "Definite Article/Form");
-  propCount++;
-
-  if (props->indefinite != NULL)
-    lmLog(&props->indefiniteSrcp, 343, sevWAR, "Indefinite Article/Form");
-  propCount++;
-
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
   propCount++;
@@ -213,7 +207,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
   propCount++;
 
   if (propCount != NOOFPROPS)
-    syserr("Wrong number of props in '%s()'", __FUNCTION__);
+    syserr("Wrong number of inherited props in '%s()'", __FUNCTION__);
 }
 
 

@@ -13,13 +13,7 @@ SYNTAX
 Add To Every thing
   VERB listen_to
 	DOES
-		"You listen to"
-		IF obj IS named THEN
-			SAY obj.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
+		"You listen to" Say The obj. "."
   END VERB.
 End Add To.
 
