@@ -134,6 +134,7 @@ static void depexec(v)
 	  lev++;
 	  break;
 	case I_DEPEND:
+	  if (lev == 1) return;
 	  lev--;
 	  break;
 	case I_DEPCASE:

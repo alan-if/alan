@@ -12,6 +12,8 @@
 #include "types.h"
 #include "acode.h"
 
+#include "reverse.h"
+
 #define endOfTable(x) ((*(Aword *) x) == EOF)
 
 
@@ -522,7 +524,7 @@ static void dumpStms(Aword pc)
   Aword i;
 
   while(TRUE) {
-    printf("\n%4x: ", pc);
+    printf("\n%4lx: ", pc);
     if (pc > memTop)
       syserr("Dumping outside program memory.");
 
@@ -559,6 +561,7 @@ static void dumpStms(Aword pc)
       switch (I_OP(i)) {
       case I_PRINT: {
 	printf("PRINT");
+	break;
       }
       case I_SYSTEM: {
 	printf("SYSTEM");
@@ -800,6 +803,7 @@ static void dumpStms(Aword pc)
 
       case I_RETURN:
 	printf("RETURN");
+	printf("\n");
 	return;
 
       default:
@@ -880,7 +884,7 @@ static void dumpACD(void)
     crc += (memory[i]>>24)&0xff;
   }
   if (crc != header->acdcrc)
-    printf("WARNING! 0x%lx\n", crc);
+    printf("WARNING! Expected 0x%lx\n", crc);
   else
     printf("Ok.\n");
   printf("TXTCRC: 0x%lx\n", header->txtcrc);
@@ -923,7 +927,7 @@ static void load(char acdfnm[])
 
 #ifdef REVERSED
   printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
-  reverseACD();		/* Reverse all words in the ACD file */
+  reverseACD(0);		/* Reverse all words in the ACD file */
   printf("OK.\n");
 #endif
 }
