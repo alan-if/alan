@@ -6,18 +6,71 @@
 
 \*----------------------------------------------------------------------*/
 
-
+#include <stdio.h>
 #include "types.h"
 #include "acode.h"
-#include "arun.h"
 
-#include "c25to26.h"
+
+/* The Amachine memory */
+static Aword *memory;
+static AcdHdr dummyHeader;	/* Dummy to use until memory allocated */
+static AcdHdr *header = &dummyHeader;
+
+static int memTop = 0;			/* Top of load memory */
 
 
 /* The table of address where to insert new words */
 static Aword *c25to26tbl;
 static int nPatches;		/* Number of patches */
 
+
+
+/*======================================================================*\
+
+  Some utilities copied from arun
+
+\*======================================================================*/
+
+#define endOfTable(x) eot((Aword *) x)
+
+/* How to know we are at end of a table */
+#ifdef _PROTOTYPES_
+Boolean eot(Aword *adr)
+#else
+Boolean eot(adr)
+     Aword *adr;
+#endif
+{
+  return *adr == EOF;
+}
+
+
+#ifdef _PROTOTYPES_
+void *allocate(unsigned long len)		/* IN - Length to allocate */
+#else
+void *allocate(len)
+     unsigned long len;			/* IN - Length to allocate */
+#endif
+{
+  void *p = (void *)malloc((size_t)len);
+
+  if (p == NULL) {
+    printf("Out of memory!");
+    exit(1);
+  }
+
+  return p;
+}
+
+
+
+
+
+/*======================================================================*\
+
+  Start of conversion routines!
+
+\*======================================================================*/
 
 #ifdef _PROTOTYPES_
 void c25to26(Aaddr *addrp)		/* IN - Pointer to the Aaddr to convert */
@@ -449,14 +502,14 @@ static void c25to26Msgs(adr)
      Aword adr;
 #endif
 {
-  MsgElem *msgs = (MsgElem *)addrTo(adr);
+  MsgElem26 *msgs = (MsgElem26 *)addrTo(adr);
 
   if (adr == 0)
     return;
 
   /* To know that there is no article we need to reset the msgs[M_ARTICLE] */
-  msgs[M_ARTICLE].fpos = 0;
-  msgs[M_ARTICLE].len = 0;
+  msgs[M_ARTICLE26].fpos = 0;
+  msgs[M_ARTICLE26].len = 0;
 }    
 
 
@@ -519,8 +572,8 @@ void build25to26Table(void)
   for (p = 0; !endOfTable(obj25); obj25++, p++)
     c25to26tbl[p] = header->objs+p*sizeof(ObjElem25)/sizeof(Aword)+offset;
   /* Now add two words for the ARTICLE message (fpos & len) */
-  c25to26tbl[p++] = header->msgs+2*(MSGMAX-1);
-  c25to26tbl[p++] = header->msgs+2*(MSGMAX-1);
+  c25to26tbl[p++] = header->msgs+2*(M_MSGMAX26-1);
+  c25to26tbl[p++] = header->msgs+2*(M_MSGMAX26-1);
 
   /* Now we can also move the data so to make room for the new fields */
   high = memTop - 1;
@@ -635,9 +688,9 @@ static void cleardone(header)
 
   */
 #ifdef _PROTOTYPES_
-void c25to26ACD(void)
+static void c25to26ACD(void)
 #else
-void c25to26ACD()
+static void c25to26ACD()
 #endif
 {
   /* This must be performed before we patch it */
@@ -652,6 +705,10 @@ void c25to26ACD()
   /* Number of places to insert new words */
   nPatches = OBJMAX-OBJMIN+1+2;	/* The message table (fpos&len)! */
   header->size += nPatches;
+
+  /* Allocate a larger memory */
+  memory = realloc(memory, header->size*sizeof(Aword));
+  header = (AcdHdr *) memory;
 
   build25to26Table();
 
@@ -673,4 +730,168 @@ void c25to26ACD()
   c25to26Msgs(header->msgs);
 
   c25to26Table(header->scores);
-}  
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  load()
+
+ */
+static void load(char acdfnm[])
+{
+  AcdHdr tmphdr;
+  FILE *codfil;
+
+  if ((codfil = fopen(acdfnm, "r")) == NULL) {
+    printf("Could not open ACD-file '%s'\n", acdfnm);
+    exit(1);
+  }
+
+  fread(&tmphdr, sizeof(tmphdr), 1, codfil);
+  rewind(codfil);
+
+  /* Allocate and load memory */
+
+#ifdef REVERSED
+  reverseHdr(&tmphdr);
+#endif
+
+  memory = allocate(tmphdr.size*sizeof(Aword));
+  header = (AcdHdr *) memory;
+
+  memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
+  if (memTop != tmphdr.size)
+    printf("WARNING! Could not read all ACD code.");
+
+#ifdef REVERSED
+  printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
+  reverseACD();		/* Reverse all words in the ACD file */
+  printf("OK.\n");
+#endif
+}
+
+
+
+
+/*----------------------------------------------------------------------
+
+  newcrc()
+
+  Calculate a new CRC for the converted file
+
+  */
+static void newcrc(void)
+{
+  Aword *w;
+  Aword crc = 0;
+
+  for (w = &memory[sizeof(AcdHdr)/sizeof(Aword)]; w < &memory[header->size]; w++) {
+    crc += *w&0xff;			/* Check sum calculation */
+    crc += (*w>>8)&0xff;
+    crc += (*w>>16)&0xff;
+    crc += (*w>>24)&0xff;
+  }
+  header->acdcrc = crc;  
+}
+
+
+/*----------------------------------------------------------------------
+
+  store()
+
+  Store the converted ACD file on disk
+
+  */
+static void store(char outfnm[])
+{
+  FILE *newacd = fopen(outfnm, "w");
+
+  if (newacd == NULL) {
+    printf("Could not create the new file.");
+    exit(1);
+  }
+
+  fwrite(memory, header->size, sizeof(Aword), newacd);
+}
+
+
+
+
+/*======================================================================*\
+
+  c25to26
+
+  Main entry point to program to convert v2.5 .ACD to v2.6
+
+\*======================================================================*/
+
+
+/* SPA Option handling */
+
+#include "spa.h"
+
+
+static char *acdfnm;
+static char *outfnm;
+
+
+static SPA_FUN(usage)
+{
+  printf("Usage: c25to26 [-help] [options] <v2.5file> <v2.6file>\n");
+}
+
+
+static SPA_ERRFUN(paramError)
+{
+  char *sevstr;
+
+  switch (sev) {
+  case 'E': sevstr = "error"; break;
+  case 'W': sevstr = "warning"; break;
+  default: sevstr = "internal error"; break;
+  }
+  printf("Parameter %s: %s, %s\n", sevstr, msg, add);
+  usage(NULL, NULL, 0);
+  exit(EXIT_FAILURE);
+}
+
+static SPA_FUN(extraArg)
+{
+  printf("Extra argument: '%s'\n", rawName);
+  usage(NULL, NULL, 0);
+  exit(EXIT_FAILURE);
+}
+
+static SPA_FUN(xit) {exit(EXIT_SUCCESS);}
+
+static SPA_DECLARE(arguments)
+     SPA_STRING("v2.5file", "name of the original v2.5 ACD-file to convert", acdfnm, NULL, NULL)
+     SPA_STRING("v2.6file", "name of the converted ACD-file in v2.6 format", outfnm, NULL, NULL)
+     SPA_FUNCTION("", "extra argument", extraArg)
+SPA_END
+
+static SPA_DECLARE(options)
+     SPA_HELP("help", "this help", usage, xit)
+SPA_END
+
+
+int main(int argc, char **argv) 
+{
+  int nArgs;
+
+  nArgs = spaProcess(argc, argv, arguments, options, paramError);
+  if (nArgs == 0) {
+    usage(NULL, NULL, 0);
+    exit(EXIT_FAILURE);
+  } else if (nArgs > 2)
+    exit(EXIT_FAILURE);
+
+  load(acdfnm);
+  c25to26ACD();
+  newcrc();
+  store(outfnm);
+  exit(0);
+}
+  

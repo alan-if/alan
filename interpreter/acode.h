@@ -244,4 +244,7 @@ typedef enum MsgKind {
   MSGMAX
 } MsgKind;
 
+#define M_ARTICLE26 M_QUITACTION
+#define M_MSGMAX26 M_ARTICLE
+
 #endif

@@ -143,6 +143,13 @@ typedef struct StxElem {	/* SYNTAX TABLE */
   Aaddr elms;			/* Address to element tables */
 } StxElem;
 
+typedef struct ElmElem26 {	/* ELEMENT TABLES */
+  Aword code;			/* Code for this element, 0 -> parameter */
+  Abool multiple;		/* May be multiple (if parameter) */
+  Aaddr next;			/* Address to next element table ... */
+				/* ... or class check if EOS */
+} ElmElem26;
+
 typedef struct ElmElem {	/* ELEMENT TABLES */
   Aword code;			/* Code for this element, 0 -> parameter */
   Aword flags;			/* Flags for multiple/omni (if parameter) */
@@ -229,8 +236,14 @@ typedef struct IniElem {	/* STRING INITIALISATION TABLE */
   Aword adr;			/* Where to store the string */
 } IniElem;
 
+typedef struct MsgElem26 {	/* MESSAGE TABLE */
+  Aword fpos;			/* File position */
+  Aword len;			/* Length of message */
+} MsgElem26;
+
 typedef struct MsgElem {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
+				/* Changed 2.7 from fpos+len in .dat */
 } MsgElem;
 
 
