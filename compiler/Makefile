@@ -21,6 +21,7 @@ sun4:= INCLUDE = -I/usr/local/include/ansi
 solaris1:= LDFLAGS = -L/usr/local/lib/4.1.2
 solaris1:= INCLUDE = -I/usr/local/include/ansi
 
+ARCHS	= sun4 solaris2 hp
 
 EXTRAS = \
 	alan.tmk \
@@ -93,18 +94,24 @@ VMSLINKOBJS = ${SRCS:.c=}
 #-- MAIN TARGET
 
 DEBUG= -g
-release :=	DEBUG= -O4
 
 all debug tcov: objarch alan alan.prod Makefile
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
-release: objarch alan alan.prod Makefile
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp alan $(ALANDIR)/bin/`arch`/alan
-	cp alan $(ALANDIR)/bin/`arch`/alan$(VERSION)
-	cp alan.prod $(ALANDIR)
+arch:
+	make `arch`
+
+release:
+	@for a in $(ARCHS) ; do \
+		if fresh $(ALANDIR)/bin/$$a/alan \: $(SRCS) ; then \
+			: ; \
+		else \
+			echo $(ALANDIR)/bin/$$a/alan is not fresh! ; \
+			touch ../.notfresh ; \
+		fi ; \
+	done
 
 sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
 

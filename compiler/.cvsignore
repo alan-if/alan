@@ -1,6 +1,7 @@
 *.d
 *.obj
 .*stamp
+*.?mt
 .arch
 .make.dependency.*
 .pure

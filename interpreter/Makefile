@@ -1,11 +1,12 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-CC	= $(GCC) -pedantic -Wall
-#CC	= acc
+ARCHS	= sun4 solaris2 hp
 
 GCC	= gcc
 CPP	= $(GCC) -MM $(INCLUDE)
+
+CC	= $(GCC) -pedantic -Wall
 
 
 CFLAGS	= $(DEBUG) $(INCLUDE)
@@ -54,11 +55,19 @@ debug all tcov: objarch arun dumpacd
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
+arch:
+	make `arch`
 
-release: objarch arun dumpacd
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp arun $(ALANDIR)/bin/`arch`/arun
-	cp arun $(ALANDIR)/bin/`arch`/arun$(VERSION)
+release:
+	@for a in $(ARCHS) ; do \
+		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
+			: ; \
+		else \
+			echo $(ALANDIR)/bin/$$a/arun is not fresh! ; \
+			touch ../.notfresh ; \
+		fi ; \
+	done
+
 
 sun4 solaris1 solaris2 hp: objarch fromsrc
 
