@@ -144,6 +144,10 @@ int scannedLines()
       int i, c;
 
       smToken->fpos = ftell(txtfil); /* Remember where it starts */
+      smThis->smText[smThis->smLength-1] = '\0';
+#if ISO == 0
+      toIso(&smThis->smText[1], &smThis->smText[1]);
+#endif
 
       for (i = 1; i < smThis->smLength-1; i++) {
 	/* Write the character */

@@ -397,7 +397,7 @@ void output(original)
   char *symptr;
 
   copy = allocate(strlen(original)+1);
-  strcpy(copy, original);
+  fromIso(copy, original);
   str = copy;
 
   if (str[0] != '$' || str[1] != '$')
@@ -1510,6 +1510,8 @@ int main(argc, argv)
 #ifndef __dos__
   if (strcmp(argv[0], "arun") == 0) {
 #else
+  if ((advfnm = strrchr(argv[0], '\\')) != NULL)
+    argv[0] = &advfnm[1];
   if (strcmp(argv[0], "ARUN.EXE") == 0) {
 #endif
     for (i = 1; i < argc; i++) {

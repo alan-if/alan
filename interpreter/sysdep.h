@@ -26,6 +26,9 @@
 #define __vms__
 #endif
 
+#ifdef THINK_C
+#define __mac__
+#endif
 
 #ifdef DOS
 #define __dos__
@@ -40,7 +43,14 @@
 
  */
 
-/* First general settings and includes, which work for all environments */
+/* ISO character sets? */
+#if defined __dos__ || defined __mac__
+#define ISO 0
+#else
+#define ISO 1
+#endif
+
+/* General settings and includes, which work for all environments */
 #include <stdio.h>
 #include <ctype.h>
 
@@ -142,7 +152,10 @@ extern char lowerCase(int c);	/* IN - Character to convert */
 extern char upperCase(int c);	/* IN - Character to convert */
 extern char *strlow(char str[]); /* INOUT - String to convert */
 extern char *strupp(char str[]); /* INOUT - String to convert */
-
+extern void toIso(char copy[],	/* OUT - Mapped string */
+		  char original[]); /* IN - string to convert */
+extern void fromIso(char copy[], /* OUT - Mapped string */
+		    char original[]); /* IN - string to convert */
 #else
 extern int isSpace();
 extern int isLower();
@@ -152,6 +165,8 @@ extern char lowerCase();
 extern char upperCase();
 extern char *strlow();
 extern char *strupp();
+extern void toIso();
+extern void fromIso();
 #endif
 
 #endif				/* -- sysdep.h -- */

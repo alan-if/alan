@@ -8,6 +8,8 @@
 #include "sysdep.h"
 #include "types.h"
 
+#include "alan.h"
+
 #include "acode.h"
 #include "version.h"
 
@@ -89,27 +91,37 @@ void emitstr(str)
 #endif
 {
   int i;
+  char *copy;
+
+  copy = allocate(strlen(str)+1);
+  toIso(copy, str);
+
 #ifdef WORDADDRESS
-  Aword w;
-  
-  for (i = 0; i < strlen(str) + 1; i = i+4) {
-    w =  (unsigned long)((unsigned char)str[i])<<24;
-    w += (unsigned long)((unsigned char)str[i+1])<<16;
-    w += (unsigned long)((unsigned char)str[i+2])<<8;
-    w += (unsigned long)((unsigned char)str[i+3]);
+  {
+    Aword w;
+
+    for (i = 0; i < strlen(copy) + 1; i = i+4) {
+      w =  (unsigned long)((unsigned char)copy[i])<<24;
+      w += (unsigned long)((unsigned char)copy[i+1])<<16;
+      w += (unsigned long)((unsigned char)copy[i+2])<<8;
+      w += (unsigned long)((unsigned char)copy[i+3]);
 #ifdef REVERSED
-    buffer(swaplong(w));
+      buffer(swaplong(w));
 #else
-    buffer(w);
+      buffer(w);
 #endif
-#else
-  Aword *w;
-  
-  for (i = 0; i < strlen(str) + 1; i = i+4) {
-    w =  (Aword *)&str[i];
-    buffer(*w);
-#endif
+    }
   }
+#else
+  {
+    Aword *w;
+  
+    for (i = 0; i < strlen(copy) + 1; i = i+4) {
+      w =  (Aword *)&copy[i];
+      buffer(*w);
+    }
+  }
+#endif
 }
 
 
