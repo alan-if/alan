@@ -1,0 +1,36 @@
+########## restriction2 ##########
+Syntax
+  x = x (o)
+    Where o Isa thing
+	Else "You can only x things."
+
+Verb x
+  Does
+    "X says that (o) is =" Say o.
+End Verb x.
+
+The o Isa object At l.
+End The o.
+
+
+The l
+  Isa location.
+  Has anAttribute.
+End The l.
+
+Start At l.
+########## alan restriction2.alan ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o here.
+
+> x the o
+X says that (o) is = o
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

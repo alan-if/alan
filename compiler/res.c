@@ -97,12 +97,12 @@ static void anres(
     } else {
       res->classId->symbol = classSymbol;
       res->classId->code = classSymbol->code;
-      classSymbol->fields.parameter.type = INSTANCE_TYPE;
     }
   }
 
   /* Set the class in the corresponding parameter symbol */
   p->element.sym->fields.parameter.class = classSymbol;
+  p->element.sym->fields.parameter.type = INSTANCE_TYPE;
 
 
   /* Analyse the statements to execute if the restrictions was not met */

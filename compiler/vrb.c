@@ -124,8 +124,11 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
       lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
+
+
   context.kind = VERB_CONTEXT;
   context.instance = ins;
+  context.event = NULL;
   
   if (stx != NULL) {
     context.verb = vrb->symbol;
