@@ -27,6 +27,7 @@ FILE *outFile;
 
 #ifdef WINGUI
 #include <windows.h>
+#include <direct.h>
 
 static OPENFILENAME ofn;
 
@@ -84,6 +85,20 @@ static int splitCommandLine(char commandLine[])
   return i;
 }
 
+#ifdef WINGUI
+static void setDirectory(char fileName[])
+{
+  char *directory = strdup(fileName);
+  char *endOfPath = strrchr(directory, '\\');
+
+  if (endOfPath != NULL) {
+    *endOfPath = '\0';
+    _chdir(directory);
+  }
+}
+#endif
+
+
 static char *removeExeResidue(char cmdLine[])
 {
   /* MingW seems to forget to strip of the whole program name if it
@@ -136,7 +151,11 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   if (outFile == NULL) {
     printf("Could not open output file");
     exit(-1);
-  }      
+  }
+
+#ifdef WINGUI
+  setDirectory(fullInFileName);
+#endif
 
   lmLiInit("", "", lm_ENGLISH_Messages);
   if (!smScanEnter(fullInFileName, FALSE)) {

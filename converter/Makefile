@@ -4,7 +4,7 @@
 PLATFORM = -mno-cygwin
 OPTIMIZE = -g
 
-win:	PLATFORM = -DWINGUI -mwindows
+win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
