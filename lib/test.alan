@@ -1,7 +1,14 @@
 $include 'std.i'
 
-Object o At nowhere
+Object o At somewhere
 End Object.
 
-Start At nowhere.
+Location somewhere
+  Is Not lit.
+
+  Exit e,w,s,n To nowhere.
+
+End Location.
+
+Start At somewhere.
 
