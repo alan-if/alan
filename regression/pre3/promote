@@ -7,7 +7,10 @@ then
   echo "has input file => promote to .."
   cp $case.alan $case.input ..
   cp $case.tst.expected ../$case.expected
-  #cvs rm -f $case.alan $case.input $case.tst $case.tst.expected
+  cvs rm -f $case.alan $case.input $case.tst $case.tst.expected
 else
   echo "has no input file => promote to ../../compiler/testing"
+  cp $case.alan ../../compiler/testing
+  cp $case.tst.expected ../../compiler/testing/$case.expected
+  cvs rm -f $case.alan $case.input $case.tst $case.tst.expected
 fi

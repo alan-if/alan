@@ -39,6 +39,7 @@ BUILDSRCS = \
 	reverse.c \
 	readline.c \
 	params.c \
+	act.c \
 	main.c
 
 MAINSRCS = exe.c \
@@ -52,7 +53,9 @@ ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
-arun : checkTarget $(ARUNOBJECTS) Makefile dependencies.mk unit
+all: checkTarget unitTest arun
+
+arun : $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
@@ -113,13 +116,14 @@ UNITSRCS = unit.c
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJECTS = ${TESTSRCS:.c=.o} alan.version.o
 
-unit : $(TESTOBJECTS)
+unit : checkTarget $(TESTOBJECTS)
 	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIB)
+
+unitTest: unit
 	@./unit
 
 # Run all tests!
-test: unit
-	@./unit
+test: unitTest
 
 
 #

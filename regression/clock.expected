@@ -1,11 +1,9 @@
-########## clock ##########
-../compiler/alan clock
-../interpreter/arun -n clock < clock.input
-########## /bin/sh  clock.tst ##########
+########## alan clock ##########
 
         No warnings or errors detected.
-        4 informational message(s).
+        1 informational message(s).
 
+########## arun clock ##########
 
 
 Waiting for a train

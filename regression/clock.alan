@@ -16,7 +16,7 @@
 
 ----------------------------------
 
-LOCATION platform
+The platform Isa LOCATION
 DESCRIPTION
     "You are standing on a subway platform, clutching a timetable,
     hoping your train will arrive soon."
@@ -26,11 +26,11 @@ DESCRIPTION
               (Use quit to finish running this program.)"
     END Exit.
 
-END LOCATION.
+END The.
 
 ----------------------------------
 
-OBJECT clock at platform
+The clock Isa object at platform
 HAS Hour 4.    -- set these three attributes 
 HAS Minute 50. -- to specify the time of day
 HAS AmPm "pm". -- you want when the game starts
@@ -43,11 +43,11 @@ HAS TimeInMinutes 0. -- (the time expressed as minutes past midnight. This is
         DOES ONLY "" -- don't need to read clock coz the time 
     END VERB.        -- displayed by the TickTock event anyway
 
-END OBJECT clock.
+END The clock.
 
 ----------------------------------
 
-OBJECT Timetable at platform
+The Timetable Isa Object at platform
 HAS Hour 5.     -- set these three attributes
 HAS Minute 03.  -- to specify the arrival time
 HAS AmPm "pm".  -- you want for the next train
@@ -55,7 +55,7 @@ HAS TimeInMinutes 0. -- calculated by the game in the START section
 HAS WaitMinutes 0. -- the time to wait until the next train (calculated
                    -- in the Read verb)
 
--- Blank description because timetable mentioned in location description
+-- Blank description because timetable mentioned in The description Isa location
 DESCRIPTION
 
     VERB Read
@@ -110,7 +110,7 @@ DESCRIPTION
         END IF.
     END VERB.    
 
-END OBJECT Timetable.
+END The Timetable.
 
 ---------------------------------
 
@@ -178,19 +178,19 @@ END EVENT TickTock.
 
 SYNONYMS
     examine,x,'look',l,'check'=read.
-    z=wait.
-    q=quit.
+    z='wait'.
+    q='quit'.
 
 ----------------------------------
 
-SYNTAX quit=quit.
-VERB quit
+SYNTAX 'quit'='quit'.
+VERB 'quit'
 DOES
    QUIT.
 END VERB.
 
-SYNTAX wait=wait.
-VERB wait
+SYNTAX 'wait'='wait'.
+VERB 'wait'
 DOES
    "Another minute passes as you impatiently watch the clock."
 END VERB.

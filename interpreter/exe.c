@@ -19,6 +19,7 @@
 #include "main.h"
 #include "parse.h"
 #include "inter.h"
+#include "act.h"
 #include "stack.h"
 #include "decode.h"
 
@@ -903,9 +904,9 @@ Abool isNear(id)
 
 /*======================================================================
 
-	isA()
+  isA()
 
-	Is an instance a member of the class
+  Is an instance a member of the class
 
 */
 Abool isA(Aword id, Aword ancestor)

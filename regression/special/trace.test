@@ -1,0 +1,2 @@
+../../compiler/alan trace
+../../interpreter/arun -n -t trace < trace.input >trace.output

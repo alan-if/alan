@@ -1,8 +1,7 @@
 #! /bin/sh
 #
-for f in ${*} ; do
-    case=`basename $f .alan`
+for f in ${*}.test ; do
+    case=`basename $f .test`
     mv $case.output $case.expected
     cvs add $case.expected $case.test $case.alan $case.input 2> /dev/null
 done
-

@@ -1,11 +1,8 @@
-########## multiple ##########
-../compiler/alan multiple
-../interpreter/arun -n multiple < multiple.input
-########## /bin/sh  multiple.tst ##########
+########## alan multiple ##########
 
         No warnings or errors detected.
-        6 informational message(s).
 
+########## arun multiple ##########
 
 
 Loc
@@ -42,15 +39,17 @@ Dropped.
 (rusty short thing) Taken.
 
 > i
-The inventory contains a rusty long thing, a shiny short thing and a 
-rusty short thing.
+You are carrying a rusty long thing, a shiny short thing and a rusty
+short thing.
 
 > take long shiny thing and short rusty thing
 (long shiny thing) Taken.
 
 (short rusty thing) You already have the short rusty thing.
 
-> 
+> take all
+I don't know what you mean by 'all'.
+
 > 
 
 Do you want to RESTART, RESTORE or QUIT ? 

@@ -18,6 +18,7 @@
 #include "main.h"
 #include "inter.h"
 #include "exe.h"
+#include "act.h"
 #include "term.h"
 #include "debug.h"
 #include "params.h"
@@ -589,6 +590,17 @@ static Boolean restrictionCheck(restriction)
   return ok;
 }
 
+
+/*----------------------------------------------------------------------*/
+static void runRestriction(RestrictionEntry *restriction)
+{
+  if (trcflg)
+    printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
+	   restriction->parameter,
+	   restriction->class);
+  interpret(restriction->stms);
+}
+
 	
 /*----------------------------------------------------------------------
 
@@ -697,7 +709,7 @@ static void try(mlst)
     }
   }
   
-  /* Now perform class checks */
+  /* Now perform class restriction checks */
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
 
@@ -718,7 +730,7 @@ static void try(mlst)
 	     */
 	    sprintf(marker, "($%ld)", restriction->parameter); 
 	    output(marker);
-	    interpret(restriction->stms);
+	    runRestriction(restriction);
 	    para();
 	  }
 	  mlst[i].code = 0;	  /* In any case remove it from the list */
@@ -727,7 +739,7 @@ static void try(mlst)
       params[restriction->parameter-1].code = 0;
     } else {
       if (!restrictionCheck(restriction)) {
-	interpret(restriction->stms);
+	runRestriction(restriction);
 	error(MSGMAX);		/* Return to player without saying anything */
       }
     }
