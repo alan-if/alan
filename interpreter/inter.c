@@ -16,12 +16,19 @@
 #include "stack.h"
 #include "syserr.h"
 #include "sysdep.h"
+#include "debug.h"
 
 #include "inter.h"
 
 #ifdef GLK
 #include "glkio.h"
 #endif
+
+
+Boolean stopAtNextLine = FALSE;
+int currentLine = 0;
+
+
 
 /* PRIVATE DATA */
 
@@ -292,7 +299,8 @@ void interpret(Aaddr adr)
 
   if (adr == 0) syserr("Interpreting at address 0.");
   
-  if (singleStepOption) printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
+  if (singleStepOption)
+    printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
   
   oldpc = pc;
   pc = adr;
@@ -301,7 +309,7 @@ void interpret(Aaddr adr)
       syserr("Interpreting outside program.");
 
     i = memory[pc++];
-    
+
     switch (I_CLASS(i)) {
     case C_CONST:
       if (tracePushOption) printf("\n%4x: PUSH  \t%5ld\t\t\t", pc-1, I_OP(i));
@@ -350,6 +358,19 @@ void interpret(Aaddr adr)
 	top = pop();
 	if (singleStepOption)
 	  printf("POP\t%5ld", top);
+	break;
+      }
+      case I_LINE: {
+	Aword fileNumber, line;
+	line = pop();
+	fileNumber = pop();
+	if (stopAtNextLine || breakpointIndex(line) != -1) {
+	  if (line != 0 && line != currentLine) {
+	    currentLine = line;
+	    stopAtNextLine = FALSE;
+	    debug(TRUE, line, fileNumber);
+	  }
+	}
 	break;
       }
       case I_PRINT: {

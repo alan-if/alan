@@ -211,6 +211,4 @@ void generateOptions(AcdHdr *header)
   header->pageWidth = opts[OPTWIDTH].value;
   header->pack = opts[OPTPACK].value;
   header->debug = opts[OPTDEBUG].value;
-  if (opts[OPTLANG].value == L_GERMAN)
-    header->capitalizeNouns = TRUE;
 }

@@ -993,6 +993,9 @@ static void generateSystem(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateStatement(StmNod *stm)
 {
+  if ((Bool)opts[OPTDEBUG].value)
+    emitLine(stm->srcp);
+
   switch (stm->class) {
 
   case NOP_STATEMENT:

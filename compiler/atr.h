@@ -28,7 +28,7 @@ typedef struct Attribute {
   int value;			/* The initial value */
   Bool encoded;			/* For string attributes... */
   long fpos;
-  int len;
+  long len;
 } Attribute;
 
 #endif

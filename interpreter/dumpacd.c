@@ -441,6 +441,10 @@ static void dumpStatements(Aword pc)
       
     case C_STMOP: 
       switch (I_OP(i)) {
+      case I_LINE: {
+	printf("LINE");
+	break;
+      }
       case I_PRINT: {
 	printf("PRINT");
 	break;
@@ -776,7 +780,7 @@ static void dumpACD(void)
 
   printf("RULE TABLE: %s\n", dumpAddress(header->ruleTableAddress));
 
-  printf("INIT: %s\n", dumpAddress(header->init));
+  printf("INIT: %s\n", dumpAddress(header->stringInitTable));
 
   printf("START: %s\n", dumpAddress(header->start));
 

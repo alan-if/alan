@@ -8,20 +8,19 @@
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES */
+/* TYPES: */
 
 
-#ifdef _PROTOTYPES_
+/* DATA: */
+#define BREAKPOINTMAX 50
+extern int breakpointCount;
+extern int breakpoint[BREAKPOINTMAX];
 
+/* FUNCTIONS: */
 extern void saveInfo(void);
 extern void restoreInfo(void);
-extern void debug(void);
+extern Boolean breakpointIndex(int line);
+extern void debug(Boolean calledFromBreakpoint, int line, int fileNumber);
 extern void traceSay(int item);
-#else
-extern void saveInfo();
-extern void restoreInfo();
-extern void debug();
-extern void traceSay();
-#endif
 
 #endif

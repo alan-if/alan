@@ -2508,5 +2508,11 @@ ID
     %%
 	%ID.id = newId(`&%'FIRST'.srcp, "first");
     %%
+
+    ! 'INTO'
+    %%
+	%ID.id = newId(`&%'INTO'.srcp, "into");
+    %%
+
     ;
 

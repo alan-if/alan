@@ -213,7 +213,7 @@ void initEncoding(char *textFileName, char *dataFileName)
 
  */
 void encode(long int *fpos,	/* INOUT - The file position */
-	    int *length)	/* INOUT - Data length */
+	    long int *length)	/* INOUT - Data length */
 {
   int len;
   int ch;

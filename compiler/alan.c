@@ -214,16 +214,6 @@ static void statistics(void)
 }
 
 
-
-/************************************************************************\
-
-			PUBLIC routines
-
-\************************************************************************/
-
-
-
-
 /* -- local variables for main() -- */
   
 static char srcfnm[255];	/* File name of source file */
@@ -291,10 +281,9 @@ static void prepareNames(void)
 #ifdef __mac__
 /*----------------------------------------------------------------------
 
-	Write listing and/or error messages to screen or file
+  Write listing and/or error messages to screen or file
 
 */
-
 static void listing(lmSev sevs)
 {
   char *fnm;
@@ -337,8 +326,6 @@ static void listing(lmSev sevs)
 	being printed.
 
 */
-
-/*----------------------------------------------------------------------*/
 static int test_severity(char *err, lmSev sevs)
 {
   /* Check if the severity was among the wanted ones */
@@ -399,7 +386,6 @@ static void cc_listing(lmSev sevs)
 
 void compile(void) {
   lmSev sevs = 0;		/* Set of listing severities */
-
 
   /* Start timer */
   startTimingTotal();

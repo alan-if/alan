@@ -212,7 +212,7 @@ static void getline(void)
     if (token != NULL) {
       if (strcmp("debug", token) == 0 && header->debug) {
 	debugOption = TRUE;
-	debug();
+	debug(FALSE, 0, 0);
 	token = NULL;
       } else if (strcmp("undo", token) == 0) {
 	undo();

@@ -90,7 +90,7 @@ typedef struct Expression {
     struct {			/* For STRING */
       Bool encoded;
       long fpos;
-      int len;
+      long len;
     } str;
 
     struct {			/* For AGGREGATE */

@@ -25,6 +25,7 @@
 #include "inter.h"
 #include "main.h"
 #include "parse.h"
+#include "stack.h"
 #include "exe.h"
 
 #include "debug.h"
@@ -32,6 +33,14 @@
 #ifdef GLK
 #include "glkio.h"
 #endif
+
+
+/* PUBLIC: */
+int breakpointCount = 0;
+int breakpoint[BREAKPOINTMAX];
+
+
+
 
 
 /*----------------------------------------------------------------------*/
@@ -363,13 +372,114 @@ static void showEvents(void)
 }
 
 
-static Boolean trc, stp;
+
+/*----------------------------------------------------------------------*/
+static char *sourceFileName(int fileNumber) {
+  SourceFileEntry *entries = pointerTo(header->sourceFileTable);
+
+  getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
+  return (char *)pop();
+}
+
+
+/*----------------------------------------------------------------------*/
+static void showSourceLine(int line, int fileNumber) {
+  FILE *sourceFile;
+  int count;
+#define SOURCELINELENGTH 100
+static char buffer[SOURCELINELENGTH];
+
+  sourceFile  = fopen(sourceFileName(fileNumber), "r");
+  if (sourceFile != NULL) {
+    for (count = 0; count < line; count++) {
+      if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
+	return;
+      /* Make sure we have read to end of line */
+      if (strchr(buffer, '\n') == NULL)
+	while (fgetc(sourceFile) != '\n');
+    }
+    printf("abug> %s", buffer);
+    if (buffer[strlen(buffer)-1] != '\n')
+      printf("\n");
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void listBreakpoints() {
+  int i;
+  Boolean found = FALSE;
+
+  for (i = 0; i < BREAKPOINTMAX; i++)
+    if (breakpoint[i] != 0) {
+      if (!found)
+	printf("Breakpoints set:\n");
+      found = TRUE;
+      printf("\t%d\n", breakpoint[i]);
+    }
+  if (!found)
+    printf("No breakpoints set.\n");
+}
+
+
+/*======================================================================*/
+Boolean breakpointIndex(int line) {
+  int i;
+
+  for (i = 0; i < BREAKPOINTMAX; i++)
+    if (breakpoint[i] == line) {
+      breakpoint[i] = line;
+      return i;
+    }
+  return(-1);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void setBreakpoint(int line) {
+  /* FIXME - we can only set breakpoints in main file */
+  int i = breakpointIndex(line);
+  Boolean found = FALSE;
+
+  if (i != -1)
+    printf("Breakpoint already set at line %d.\n", line);
+  else {
+    for (i = 0; i < BREAKPOINTMAX; i++)
+      if (breakpoint[i] == 0) {
+	breakpoint[i] = line;
+	found = TRUE;
+	break;
+      }
+    if (!found)
+      printf("No room for more breakpoints. Delete one first.\n");
+    else
+      printf("Breakpoint set at line %d.\n", line);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void deleteBreakpoint(int line) {
+  int i = breakpointIndex(line);
+
+  if (i == -1)
+    printf("Breakpoint at line %d not found.\n", line);
+  else {
+    breakpoint[i] = 0;
+    printf("Breakpoint at line %d deleted.\n", line);
+  }
+}
+
+
+
+static Boolean trc, stp, cap;
 static int loc;
 
 /*======================================================================*/
 void saveInfo(void)
 {
   /* Save some important things */
+  cap = capitalize; capitalize = FALSE;
   trc = traceOption; traceOption = FALSE;
   stp = singleStepOption; singleStepOption = FALSE;
   loc = current.location; current.location = where(HERO);
@@ -380,6 +490,7 @@ void saveInfo(void)
 void restoreInfo(void)
 {
   /* Restore! */
+  capitalize = cap;
   traceOption = trc;
   singleStepOption = stp;
   current.location = loc;
@@ -387,17 +498,31 @@ void restoreInfo(void)
 
 
 /*======================================================================*/
-void debug(void)
+void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
 {
   char buf[256];
   char c;
   int i;
 
   saveInfo();
+
+  if (calledFromBreakpoint) {
+    char *cause;
+    if (anyOutput) newline();
+    if (breakpointIndex(line) != -1)
+      cause = "Breakpoint hit at";
+    else
+      cause = "Stepping to";
+    printf("abug> %s line %d in '%s':\n", cause, line,
+	    sourceFileName(fileNumber));
+    showSourceLine(line, fileNumber);
+    anyOutput = FALSE;
+  }
+
   while (TRUE) {
-    if (anyOutput)
-      para();
+    if (anyOutput) newline();
     do {
+      capitalize = FALSE;
       output("abug> ");
 #ifdef USE_READLINE
       (void) readline(buf);
@@ -415,17 +540,23 @@ void debug(void)
     case '?':
       output(alan.longHeader);
       output("$nABUG Commands:\
-      $iC [n] -- show class[es]\
-      $iI [n] -- show instance[s]\
+      $iB [n] -- set breakpoint at source line [n]\
+      $iB     -- list breakpoints set\
+      $iD [n] -- delete breakpoint at source line [n]\
+      $iD     -- delete breakpoint at current source line [n]\
+      $iN     -- execute to next source line\
+      $iX     -- exit debug mode and return to game\
+      $iQ     -- quit game\
+      $iC     -- show class hierarchy\
+      $iI [n] -- show instances or instance [n]\
       $iO [n] -- show instances that are object[s]\
       $iA [n] -- show instances that are actor[s]\
       $iL [n] -- show instances that are location[s]\
-      $iE -- show events\
-      $iG -- go another player turn\
-      $iT -- toggle trace mode\
-      $iS -- toggle step mode\
-      $iX -- exit debug mode and return to game\
-      $iQ -- quit game");
+      $iE     -- show events\
+      $iG     -- go another player turn\
+      $iT     -- toggle trace mode\
+      $iS     -- toggle single step trace mode\
+");
       break;
     case 'Q':
       terminate(0);
@@ -478,7 +609,29 @@ void debug(void)
         printf("Trace on.");
       else
         printf("Trace off.");
-      break;      
+      break;
+    case 'B':
+      if (i == 0)
+	listBreakpoints();
+      else
+	setBreakpoint(i);
+      break;
+    case 'D':
+      if (i == 0) {
+	if (calledFromBreakpoint)
+	  deleteBreakpoint(line);
+	else
+	  printf("No current breakpoint to delete.\n");
+      } else
+	deleteBreakpoint(i);
+      break;
+    case 'N':
+      stopAtNextLine = TRUE;
+      debugOption = FALSE;
+      if (!calledFromBreakpoint)
+	currentLine = 0;
+      restoreInfo();
+      return;
     default:
       output("Unknown ABUG command. ? for help.");
       break;

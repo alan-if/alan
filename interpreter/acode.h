@@ -82,6 +82,7 @@ typedef enum OpClass {
 
 #define INSTRUCTION(op) ((((Aword)C_STMOP)<<28)|((Aword)op))
 typedef enum InstClass {
+  I_LINE,			/* Source line debug info */
   I_PRINT,			/* Print a string from the text file */
   I_QUIT,
   I_LOOK,
@@ -302,6 +303,10 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aaddr action;			/* Address of the action code */
 } AltEntry;
 
+typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
+  Aword fpos;
+  Aint len;
+} SourceFileEntry; 
 
 
 /* AMACHINE Header */
@@ -317,7 +322,6 @@ typedef struct AcdHdr {
   Aword pageLength;		/* Length of a page */
   Aword pageWidth;		/* and width */
   Aword debug;			/* Option: debug */
-  Aword capitalizeNouns;	/* Option: capitalize nouns (like in German) */
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */
   Aword classMax;		/* Number of classes */
@@ -347,11 +351,12 @@ typedef struct AcdHdr {
   Aaddr messageTableAddress;
 /* Miscellaneous */
   Aint attributesAreaSize;	/* Size of attribute data area in Awords */
-  Aaddr init;			/* String init table address */
+  Aaddr stringInitTable;	/* String init table address */
   Aaddr start;			/* Address to Start code */
   Aword maxscore;		/* Maximum score */
   Aaddr scores;			/* Score table */
   Aint scoresMax;		/* Max index into scores table */
+  Aaddr sourceFileTable;	/* Table of fpos/len for source filenames */
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
   Aword txtcrc;			/* Checksum for text data file */

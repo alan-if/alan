@@ -13,6 +13,7 @@
 #include "util.h"
 
 #include "lmList.h"
+#include "smScan.h"
 
 #include "add_x.h"
 #include "cla_x.h"
@@ -54,6 +55,7 @@ Adventure adv;
 
 
 /* PRIVATE */
+static SourceFileEntry *sourceFileEntries;
 
 
 
@@ -107,6 +109,21 @@ static void analyzeStartAt(void)
   analyzeStatements(adv.stms, context);
 }
 
+/*----------------------------------------------------------------------*/
+static void analyzeSourceFilenames() {
+  List *currentFile;
+  int count = 0;
+
+  sourceFileEntries = allocate(length(fileNames)*sizeof(SourceFileEntry));
+  TRAVERSE(currentFile,fileNames) {
+    sourceFileEntries[count].fpos = ftell(txtfil);
+    sourceFileEntries[count].len = strlen(currentFile->element.str);
+    fprintf(txtfil, currentFile->element.str);
+    count++;
+  }
+}
+
+
 
 /*====================================================================== */
 void analyzeAdventure(void)
@@ -153,8 +170,24 @@ void analyzeAdventure(void)
   analyzeStartAt();
 
   analyzeWords();
+
+  if (debugOption)
+    analyzeSourceFilenames();
 }
 
+
+/*----------------------------------------------------------------------*/
+static Aaddr generateSourceFileTable() {
+  int count = 0;
+  Aaddr adr = nextEmitAddress();
+
+  for (count = 0; count < length(fileNames); count++) {
+    encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
+    emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
+  }
+  emit(EOF);
+  return adr;
+}
 
 
 /*======================================================================*/
@@ -215,7 +248,10 @@ void generateAdventure(char acodeFileName[],
   emit0(I_RETURN);
 
   /* String initialisation table */
-  acdHeader.init = generateStringInit();
+  acdHeader.stringInitTable = generateStringInit();
+
+  /* Source filename table */
+  acdHeader.sourceFileTable = generateSourceFileTable();
 
   terminateEncoding();
   terminateEmit();

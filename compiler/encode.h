@@ -18,7 +18,7 @@ extern int txtlen;		/* Number of bytes of text data */
 
 extern void initEncoding(char textFileName[], char dataFileName[]);
 extern void incFreq(int ch);
-extern void encode(long *fpos, int *len);
+extern void encode(long *fpos, long *len);
 extern void terminateEncoding(void);
 extern Aaddr gefreq(void);
 

@@ -25,7 +25,7 @@
 #include "lst.h"		/* LST-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "ins.h"		/* INS-nodes */
-
+#include "opt.h"
 
 #include "emit.h"
 
@@ -819,6 +819,9 @@ static void generateIsaExpression(Expression *exp)
 /*======================================================================*/
 void generateExpression(Expression *exp)
 {
+  if ((Bool)opts[OPTDEBUG].value)
+    emitLine(exp->srcp);
+
   if (exp == NULL) {
     syserr("Generating a NULL expression", NULL);
     emitConstant(0);

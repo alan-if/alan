@@ -1080,7 +1080,7 @@ static void initStrings(void)
   IniEntry *init;
   AttributeEntry *attribute;
 
-  for (init = (IniEntry *) pointerTo(header->init); !endOfTable(init); init++) {
+  for (init = (IniEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++) {
     getStringFromFile(init->fpos, init->len);
     attribute = pointerTo(init->adr);
     attribute->value = pop();
@@ -1258,7 +1258,10 @@ static void init(void)
     }
 
   /* Start the adventure */
-  clear();
+  if (debugOption)
+    debug(FALSE, 0, 0);
+  else
+    clear();
   start();
 }
 
@@ -1376,7 +1379,7 @@ void run(void)
     if (malloc_verify() == 0) syserr("Error in heap.");
 #endif
     if (debugOption)
-      debug();
+      debug(FALSE, 0, 0);
 
     pushGameState();
 

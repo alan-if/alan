@@ -459,7 +459,8 @@ void reverseACD(void)
   reverseContainers(header->containerTableAddress);
   reverseEvts(header->eventTableAddress);
   reverseRuls(header->ruleTableAddress);
-  reverseTable(header->init, sizeof(IniEntry));
+  reverseTable(header->stringInitTable, sizeof(IniEntry));
+  reverseTable(header->sourceFileTable, sizeof(SourceFileEntry));
   reverseStms(header->start);
   reverseMsgs(header->messageTableAddress);
  

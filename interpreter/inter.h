@@ -12,6 +12,10 @@
 
 /* Data: */
 
+extern Boolean stopAtNextLine;
+extern int currentLine;
+
+
 /* Functions: */
 
 #ifdef _PROTOTYPES_

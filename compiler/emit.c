@@ -228,6 +228,13 @@ void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3)
 }
 
 
+void emitLine(Srcp srcp) {
+  emitConstant(srcp.file);
+  emitConstant(srcp.line);
+  emit0(I_LINE);
+}
+
+
 #ifdef __amiga__
 #include <intuition/intuition.h>
 #include <workbench/workbench.h>

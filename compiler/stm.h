@@ -62,7 +62,7 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for PRINT */
       Bool encoded;
       long fpos;		/* Position in the text file */
-      int len;			/* and length */
+      long len;			/* and length */
     } print;
 
     struct {			/* for SCORE */
@@ -147,7 +147,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* SYSTEM */
       long fpos;		/* Position to string to execute */
-      int len;			/* Length of the string */
+      long len;			/* Length of the string */
     } system;
 
     struct {			/* DEPEND */

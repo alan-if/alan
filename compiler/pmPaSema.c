@@ -2159,6 +2159,11 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "first");
     	break;}
+    case 338: { /* ID = 'INTO'; */
+#line 2513 "alan.pmk"
+
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "into");
+    	break;}
     default: break; }
 }/*pmPaSema()*/
 

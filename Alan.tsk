@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>294.89</origest>
-<currest>293.89</currest>
-<elapsed>133.89</elapsed>
+<origest>295.89</origest>
+<currest>294.89</currest>
+<elapsed>134.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>46</currest>
-<elapsed>8</elapsed>
+<origest>47</origest>
+<currest>47</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>6</elapsed>
+<origest>12</origest>
+<currest>12</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -114,9 +114,9 @@ substring searching
 &lt;s1&gt; + &lt;s2&gt;
 Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
-<elapsed>1</elapsed>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>String concatenation</desc>
@@ -133,20 +133,24 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
+<desc>Symbolic step and breakpoints</desc>
+<notes>Implement a feature to make it possible to singel step per source line.
 
-  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+Design:
+- a new instruction LINE &lt;no&gt;, &lt;file&gt;
+- generate a list of source file names to index into
+- for every statement and expression that is generated also generate a LINE instruction
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>A LOCATE in an ENTERED causes interpreter loop if the actor is already there</desc>
@@ -163,25 +167,6 @@ This clause should not be run if the actor x is already in the room and the acto
 <task>
 <desc>Should checks only be run for alternatives that match?</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -213,19 +198,13 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>15</origest>
+<currest>15</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Symbolic step</desc>
-<notes>Implement a feature to make it possible to singel step per source line.
-
-Design:
-- a new instruction LINE &lt;no&gt;, &lt;file&gt;
-- generate a list of source file names to index into
-- keep a global currentGeneratedLine, whenever the node we generate from has another source position generate a LINE instruction
-</notes>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -233,8 +212,38 @@ Design:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Settings dialogue for compiler on Windows</desc>
-<notes/>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
