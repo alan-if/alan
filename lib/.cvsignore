@@ -9,3 +9,5 @@ test.acd
 test.dat
 version.c
 version.h
+lib.version.h
+lib.version.c
