@@ -15,6 +15,8 @@ CFLAGS	= $(DEBUG)
 LD	= $(GCC)
 LDFLAGS	= $(LQ)
 
+VERSIONFILE = [0-9]*_[0-9]*_[0-9]*
+
 #.KEEP_STATE:
 
 #--
@@ -67,15 +69,15 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
-version.c + version.h: ../[0-9]*
-	-@cd ..;rm ../[0-9]*_[0-9]*_[0-9]*;sh version.sh
-	@-rm [0-9]*
-	@cp ../[0-9]* .
+version.c + version.h: ../$(VERSIONFILE)
+	@-cd ..; rm $(VERSIONFILE); sh version.sh
+	@-rm $(VERSIONFILE)
+	@cp ../$(VERSIONFILE) .
 	venum -c
 
 version: $(OBJECTS)
-	@-rm [0-9]*
-	@cp ../[0-9]* .
+	@-rm $(VERSIONFILE)
+	@cp ../$(VERSIONFILE) .
 	venum +t
 
 #--
