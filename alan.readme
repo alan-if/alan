@@ -7,8 +7,7 @@
 THE NEWS IN SHORT:
 
 This is a development preview (v3.0.33dev) of Alan V3. It features
-many new enhancements especially object orientation. This version is
-Windows only.
+many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
 source for the Saviour game. It also includes a converter program
@@ -21,7 +20,7 @@ completely compatible.
 
 Changes in v3.0.33 development:
 - Changed DEPEND case separator from ':' to 'THEN'
-- Added a new attribute type, set
+- Added a new attribute type, set, declared using '{' and '}'
 - Added a new interpretation of 'IN' which refers to sets
 - Upgraded loop and aggregation filters to use 'IN' both for containers and sets
 - Added messages for UNDO responses
@@ -43,20 +42,6 @@ Changes in v3.0.31 development:
   refered to by reference attributes ("atr Of atr Of instance")
 - Feature to read player commands from a file ('@filename')
 - You can now ADD scripts to classes
-
-Changes in v3.0.30 development:
-- Redesigned capitalization rules, output is now done as written in the
-  source file. Note that this might require changes to your source to
-  achieve intended output, primarily this might affect location and
-  actor names.
-- Added a string manipulation statement, STRIP, which allows removing
-  leading or trailing words or characters from a string and optionally
-  putting the removed part into another string attribute.
-- FINALLY added symbolic debugging! Interpreting in debug mode allows
-  stepping to next source line and setting breakpoints. Cool! If
-  relevant, this also allows syserr's to show which source line.
-- Fixed a infinite recursion problem with ENTERED clause. The ENTERED
-  clause will now only be executed if the actor is not already there.
 
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
