@@ -1,0 +1,43 @@
+########## alan verbDuplicates ##########
+
+
+verbDuplicates.alan
+
+    1.  Verb x, y, x
+=====>             1
+
+  *1*   205 W : Multiple usage of 'x' in this VERB definition.
+
+    6.  Verb y
+=====>       1
+
+  *1*   220 W : Multiple definition of verb 'y' in this context.
+
+   10.    Verb a, b, b, c, a, c
+=====>               1     2  3
+
+  *1*   205 W : Multiple usage of 'b' in this VERB definition.
+  *2*   205 W : Multiple usage of 'a' in this VERB definition.
+  *3*   205 W : Multiple usage of 'c' in this VERB definition.
+
+   13.    Verb c
+=====>         1
+
+  *1*   220 W : Multiple definition of verb 'c' in this context.
+  *1*   220 W : Multiple definition of verb 'c' in this context.
+
+   19.    Verb a, a
+=====>            1
+
+  *1*   205 W : Multiple usage of 'a' in this VERB definition.
+
+   25.    Verb b
+=====>         1
+
+  *1*   220 W : Multiple definition of verb 'b' in this context.
+
+
+        No detected errors.
+        9 warning(s).
+        5 informational message(s).
+
