@@ -326,16 +326,5 @@ Makefile.dos: dependencies.mk Makefile
 	@cp "#Makefile.tmp#" Makefile.dos
 	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
 
-alan.make: dependencies.mk
-	echo Updating alan.make!
-	@echo !Automagically created makefile for Alan compiler on VMS > alan.make
-	@echo CQ=/STANDARD=PORTABLE >> alan.make
-	@echo OBJECTS = $(VMSOBJECTS) >> alan.make
-	@echo >> alan.make
-	@cat dependencies.mk >> alan.make
-	@echo >> alan.make
-	@echo alan.exe : "#(OBJECTS)" version.obj >> alan.make
-	@/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
-	@/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
 
 include dependencies.mk
