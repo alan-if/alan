@@ -1,5 +1,6 @@
 *~
 *.acd
+*.tmp
 *.dat
 *.diff
 *.output

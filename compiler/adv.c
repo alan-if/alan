@@ -19,10 +19,10 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "wrd_x.h"
+#include "vrb_x.h"
 
 
 #include "adv.h"		/* ADV-node */
-#include "vrb.h"		/* VRB-nodes */
 #include "ext.h"		/* EXT-nodes */
 #include "evt.h"		/* EVT-nodes */
 #include "rul.h"		/* RUL-nodes */

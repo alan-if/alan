@@ -11,7 +11,7 @@
 /* USE: */
 #include "srcp.h"
 #include "lst.h"
-#include "ins.h"
+#include "sym.h"
 #include "stx.h"
 
 
@@ -25,31 +25,5 @@ typedef struct VrbNod {		/* VERB */
   Aaddr altadr;			/* AN - Address to alt-table */
   StxNod *stx;			/* AN - Which syntax defines this verb */
 } VrbNod;
-
-
-
-/* Data: */
-
-extern int vrbmin, vrbmax;
-extern int vrbcount;
-
-
-/* Methods: */
-
-
-/* Create a new Verb node */
-extern VrbNod *newvrb(Srcp *srcp,
-		      List *ids,
-		      List *alts);
-
-/* Analyze a list of Verbs */
-extern void anvrbs(List *vrbs, InsNod *ins);
-
-/* Generate code for a list of Verbs */
-extern Aaddr gevrbs(List *vrbs, InsNod *ins);
-
-/* Dump a Verb */
-extern void duvrb(VrbNod *vrb);
-
 
 #endif

@@ -30,6 +30,7 @@
 #include "stx_x.h"
 #include "sym_x.h"
 #include "whr_x.h"
+#include "vrb_x.h"
 
 
 #include "lmList.h"
@@ -48,7 +49,6 @@
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
-#include "vrb.h"                /* VRB-nodes */
 #include "wht.h"                /* WHT-nodes */
 
 

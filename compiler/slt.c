@@ -25,6 +25,7 @@
 #include "nam_x.h"
 #include "stm_x.h"
 #include "sym_x.h"
+#include "vrb_x.h"
 #include "whr_x.h"
 
 
@@ -58,7 +59,7 @@ SlotsNode *newSlots(List *names,
 		    List *art,
 		    List *does,
 		    List *exits,
-		    List *vrbs,
+		    List *verbs,
 		    List *scrs)
 {
   SlotsNode *new;                  /* The newly allocated area */
@@ -74,7 +75,7 @@ SlotsNode *newSlots(List *names,
   new->description = description;
   new->mentioned = mentioned;
   new->art = art;
-  new->vrbs = vrbs;
+  new->verbs = verbs;
   new->exits = exits;
 
   return(new);
@@ -166,6 +167,7 @@ void analyzeSlots(SlotsNode *slots)
 
   analyzeName(slots);
   anstms(slots->description, NULL);
+  anvrbs(slots->verbs, slots->symbol);
 
   if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
@@ -227,7 +229,7 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
   entry->mentioned = slots->mentionedAddress;
   entry->article = slots->artadr;
   entry->exits = slots->exitsAddress;
-  entry->verbs = slots->vrbadr;
+  entry->verbs = slots->verbAddress;
 }
 
 
@@ -255,8 +257,8 @@ void dumpSlots(SlotsNode *slots)
   put("artadr: "); duadr(slots->artadr); nl();
   put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
   put("mentionedAddress: "); duadr(slots->mentionedAddress); nl();
-  put("vrbs: "); dulst(slots->vrbs, LIST_VRB); nl();
-  put("vrbadr: "); duadr(slots->vrbadr); nl();
+  put("verbs: "); dulst(slots->verbs, LIST_VRB); nl();
+  put("verbAddress: "); duadr(slots->verbAddress); nl();
   put("exits: "); dulst(slots->exits, LIST_EXT); nl();
   put("exitsAddress: "); duadr(slots->exitsAddress); out();
 }
