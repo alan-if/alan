@@ -209,7 +209,7 @@ static void getline()
     getPageSize();
     anyOutput = FALSE;
     if (logflg)
-#ifdef __amiga__
+#ifndef __amiga__
       fprintf(logfil, "%s\n", buf);
 #else
       fprintf(logfil, "%s", buf);
