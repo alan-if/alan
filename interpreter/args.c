@@ -79,17 +79,34 @@ void args(argc, argv)
   char *prgnam;
 
 #ifdef __mac__
-#include <console.h>
-  argc = ccommand(&argv);
-  if (prgnam = strrchr(argv[0], ':') == NULL)
-    prgnam = argv[0];
-  else
-    prgnam++;
-    if (strcmp(prgnam, "arun") == 0)
-      switches(argc, argv);
-    else
+  short msg, files;
+  static char advbuf[256], prgbuf[256];
+
+  CountAppFiles(&msg, &files);
+  if (msg==0 && files>0) {		/* Found files! */
+    AppFile af;
+    OSErr oe;
+
+    GetAppFiles(1, &af);
+    advnam = (char *)af.fName;
+    strncpy(advbuf, (char *)&af.fName[1], af.fName[0]);
+    advbuf[af.fName[0]] = '\0';
+    advnam = advbuf;
+    if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
+     || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0)
+       advnam[strlen(advnam)-4] = '\0';
+    oe = SetVol(NULL, af.vRefNum);
+  } else {
+    strncpy(prgbuf, (char *)&CurApName[1], CurApName[0]);
+    prgbuf[CurApName[0]] = '\0';
+    if (strcmp(prgbuf, "arun") != 0)
       /* Another program name use that as the name of the adventure */
-      advnam = prgnam;
+      advnam = prgbuf;
+    else {
+      advbuf[0] = '\0';
+      advnam = advbuf;
+    }
+  }
 #else
 #ifdef __amiga__
 #include <workbench/startup.h>
@@ -111,6 +128,8 @@ void args(argc, argv)
     con = Open(connam, MODE_NEWFILE);
     handle = (struct FileHandle *)((long)con << 2);
     proc->pr_ConsoleTask = (APTR)(handle->fh_Type);
+
+    /* AztecC stdio console set up */
     _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
 
     WBstart = (struct WBStartup *)argv;
@@ -168,7 +187,7 @@ void args(argc, argv)
     /* Another program name use that as the name of the adventure */
     strcpy(advnam, prgnam);
 #else
-#if defined __unix__
+#if defined __sun__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
     prgnam = argv[0];
   else

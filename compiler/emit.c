@@ -307,4 +307,8 @@ void emterm(hdr)
     emit(*hp++);
   fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
   fclose(acdfil);
+
+#ifdef __mac__
+  Set info to point to Arun.....
+#endif
 }

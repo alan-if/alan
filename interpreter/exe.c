@@ -223,9 +223,9 @@ void quit()
 
 
 #ifdef _PROTOTYPES_
-void cancel(Aword evt)
+void cancl(Aword evt)
 #else
-void cancel(evt)
+void cancl(evt)
      Aword evt;
 #endif
 {
@@ -254,7 +254,7 @@ void schedule(evt, whr, aft)
 {  int i;
    int time;
   
-  cancel(evt);
+  cancl(evt);
   /* Check for overflow */
   if (etop == N_EVTS) syserr("Out of event space.");
   

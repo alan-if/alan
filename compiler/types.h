@@ -11,9 +11,7 @@
 
 #define NEW(x) ((x *) allocate(sizeof(x)))
 
-#ifndef __mac__
 typedef int Boolean;
-#endif
 
 #ifndef TRUE
 #define TRUE (0==0)

@@ -59,11 +59,11 @@ static void *heap;		/* Address to first free heap area - before */
 
 
 /* Timing */
-#include "time.h"
+#include "timing.h"
 
 static TIBUF tbuf;
-static TIBUF tot;
-static TIBUF comp;
+static TIBUF totTime;
+static TIBUF compTime;
 
 static struct {
   long int pars;
@@ -88,7 +88,7 @@ static void starttot(void)
 static void starttot()
 #endif
 {
-  tistart(&tot);
+  tistart(&totTime);
 }
 
 
@@ -105,7 +105,7 @@ static void startcomp(void)
 static void startcomp()
 #endif
 {
-  tistart(&comp);
+  tistart(&compTime);
 }
 
 
@@ -205,11 +205,11 @@ static void endcomp(void)
 static void endcomp()
 #endif
 {
-  tistop(&comp);
+  tistop(&compTime);
 #ifdef MULTI
-  tim.comp = comp.pu_elapsed;
+  tim.comp = compTime.pu_elapsed;
 #else
-  tim.comp = comp.real_elapsed*1000;
+  tim.comp = compTime.real_elapsed*1000;
 #endif
 }
 
@@ -227,11 +227,11 @@ static void endtotal(void)
 static void endtotal()
 #endif
 {
-  tistop(&tot);
+  tistop(&totTime);
 #ifdef MULTI
-  tim.tot = tot.pu_elapsed;
+  tim.tot = totTime.pu_elapsed;
 #else
-  tim.tot = tot.real_elapsed*1000;
+  tim.tot = totTime.real_elapsed*1000;
 #endif
 }
 
@@ -462,7 +462,11 @@ static SPA_DECLARE(options)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
      SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 112, NULL)
      SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
-     SPA_BITS("dump", "dump internal form, where '--' means everything and\n\
+     SPA_FLAG("debug", "force debug option in adventure", dbgflg, FALSE, NULL)
+     SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
+     SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
+#ifndef THINK_C
+     SPA_BITS("dump", "dump the internal form, where '--' means everything and\n\
 symbols\n\
 syntax\n\
 verbs\n\
@@ -472,9 +476,7 @@ containers\n\
 events\n\
 actors\n\
 rules", dmpflg, "sxvlocear", NULL, NULL)
-     SPA_FLAG("debug", "force debug option in adventure", dbgflg, FALSE, NULL)
-     SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
-     SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
+#endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END
 

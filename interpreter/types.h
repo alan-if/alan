@@ -15,11 +15,13 @@
 
 /* CONSTANTS */
 
+#ifndef __mac__
 #ifndef TRUE
 #define TRUE (0==0)
 #endif
 #ifndef FALSE
 #define FALSE (!TRUE)
+#endif
 #endif
 
 #define ACTMIN (header->actmin)

@@ -264,7 +264,7 @@ void interpret(adr)
 	evt = pop();
 	if (stpflg)
 	  printf("CANCEL \t%5ld", evt);
-	cancel(evt);
+	cancl(evt);
 	break;
       }
       case I_MAKE: {
