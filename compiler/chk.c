@@ -54,11 +54,11 @@ ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
 
  */
 static void anchk(ChkNod *chk,	/* IN - Check to analyze */
-		  ActNod *act,	/* IN - Possibly inside Actor? */
+		  InsNod *ins,	/* IN - Possibly inside Instance? */
 		  List *pars)	/* IN - Possible parameters */
 {
     anexp(chk->exp, NULL, pars);
-    anstms(chk->stms, act, NULL, pars);
+    anstms(chk->stms, ins, NULL, pars);
 }
 
 
@@ -71,11 +71,11 @@ static void anchk(ChkNod *chk,	/* IN - Check to analyze */
 
  */
 void anchks(List *chks,		/* IN - Checks to analyze */
-	    ActNod *act,	/* IN - Possibly inside Actor? */
+	    InsNod *ins,	/* IN - Possibly inside Instance? */
 	    List *pars)		/* IN - Possible parameter list */
 {
   while (chks != NULL) {
-    anchk(chks->element.chk, act, pars);
+    anchk(chks->element.chk, ins, pars);
     chks = chks->next;
   }
 }
@@ -91,7 +91,7 @@ void anchks(List *chks,		/* IN - Checks to analyze */
 
  */
 Aword gechks(List *chks,	/* IN - The CHECKs to generate */
-	     ActNod *act)	/* IN - Inside any actor */
+	     InsNod *ins)	/* IN - Inside any Instace? */
      /* RETURNS - Address to check table */
 {
   List *lst;			/* Traversal pointer */
@@ -102,7 +102,7 @@ Aword gechks(List *chks,	/* IN - The CHECKs to generate */
   if (chks->element.chk->exp == NULL) { /* An unconditional CHECK */
     chks->element.chk->expadr = 0;
     chks->element.chk->stmadr = emadr();
-    gestms(chks->element.chk->stms, act);
+    gestms(chks->element.chk->stms, ins);
     emit0(C_STMOP, I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
@@ -110,7 +110,7 @@ Aword gechks(List *chks,	/* IN - The CHECKs to generate */
       geexp(lst->element.chk->exp);
       emit0(C_STMOP, I_RETURN);
       lst->element.chk->stmadr = emadr();
-      gestms(lst->element.chk->stms, act);
+      gestms(lst->element.chk->stms, ins);
       emit0(C_STMOP, I_RETURN);
     }
 

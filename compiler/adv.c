@@ -14,17 +14,15 @@
 #include "acode.h"
 
 #include "adv.h"		/* ADV-node */
+#include "cla.h"		/* CLA-nodes */
+#include "ins.h"		/* INS-nodes */
 #include "sym.h"		/* SYM-nodes */
 #include "whr.h"		/* WHR-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "id.h"			/* ID-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "vrb.h"		/* VRB-nodes */
 #include "ext.h"		/* EXT-nodes */
-#include "loc.h"		/* LOC-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "act.h"		/* ACT-nodes */
 #include "evt.h"		/* EVT-nodes */
 #include "rul.h"		/* RUL-nodes */
 #include "wrd.h"		/* WRD-nodes */
@@ -61,8 +59,9 @@ static Aword end;
   */
 void initadv(void)
 {
+#ifdef FIXME
   initcnt();			/* Must do this first to create the inventory */
-  initact();
+#endif
 }
 
 
@@ -76,6 +75,7 @@ void initadv(void)
   */
 static void prepcodes(void)
 {
+#ifdef FIXME
   objmin = 1;
   objmax = objmin + objcount - 1;
   actmin = objmax + 1;
@@ -92,6 +92,7 @@ static void prepcodes(void)
   evtmax = evtmin + evtcount - 1;
   rulmin = 1;
   rulmax = rulmin + rulcount - 1;
+#endif
 }
 
 
@@ -108,11 +109,11 @@ void anadv(void)
   anatrs(adv.oatrs);
   anatrs(adv.latrs);
   anatrs(adv.aatrs);
+#ifdef FIXME
   prepcodes();			/* Set up the codes for all entities */
   prepatrs();			/* Number default attributes */
-  prepobjs();			/* Sort out the local attributes etc. */
-  preplocs();			/* D:o */
-  prepacts();			/* D:o */
+  prepinss();			/* Sort out the local attributes etc. */
+#endif
   prepwrds();			/* Prepare words in the dictionary */
   prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */
@@ -120,15 +121,11 @@ void anadv(void)
   if (verbose) printf("\n\tSyntax definitions: ");
   anstxs();
   if (verbose) printf("\n\tVerbs: ");
-  anvrbs(adv.vrbs, NULL, NULL);
-  if (verbose) printf("\n\tLocations: ");
-  anlocs();
-  if (verbose) printf("\n\tObjects: ");
-  anobjs();
-  if (verbose) printf("\n\tActors: ");
-  anacts();
-  if (verbose) printf("\n\tContainers: ");
-  ancnts();
+  anvrbs(adv.vrbs, NULL);
+  if (verbose) printf("\n\tClasses: ");
+  analyzeClasses();
+  if (verbose) printf("\n\tInstaces: ");
+  analyzeInstances();
   if (verbose) printf("\n\tEvents: ");
   anevts();
   if (verbose) printf("\n\tRules: ");
@@ -174,6 +171,7 @@ void anadv(void)
   */
 static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
 {
+#ifdef FIXME
   hdr->objmin = objmin;
   hdr->objmax = objmax;
   hdr->actmin = actmin;
@@ -188,6 +186,7 @@ static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
   hdr->evtmax = evtmax;
   hdr->rulmin = rulmin;
   hdr->rulmax = rulmax;
+#endif
 }
 
 
@@ -214,14 +213,10 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   header.stxs = gestxs();	/* Syntax definitions */ 
   if (verbose) printf("\n\tVerbs: ");
   header.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
-  if (verbose) printf("\n\tContainers: ");
-  header.cnts = gecnts();	/* Containers */
-  if (verbose) printf("\n\tObjects: ");
-  header.objs = geobjs();	/* Objects */
-  if (verbose) printf("\n\tLocations: ");
-  header.locs = gelocs();	/* Locations */
-  if (verbose) printf("\n\tActors: ");
-  header.acts = geacts();	/* Actors */
+  if (verbose) printf("\n\tClasses: ");
+  header.clas = generateClasses();
+  if (verbose) printf("\n\tInstances: ");
+  header.inss = generateInstances();
   if (verbose) printf("\n\tEvents: ");
   header.evts = geevts();	/* Events */
   if (verbose) printf("\n\tRules: ");
@@ -305,20 +300,16 @@ void summary(void)
   lmLiPrint("");
   lmLiPrint("        Summary");
   lmLiPrint("        -------");
-  if (loccount != 0) {
-    (void)sprintf(str, "        Locations:              %6d", loccount);
-    lmLiPrint(str);
-  }
   if (vrbcount != 0) {
     (void)sprintf(str, "        Verbs:                  %6d", vrbcount);
     lmLiPrint(str);
   }
-  if (objcount != 0) {
-    (void)sprintf(str, "        Objects:                %6d", objcount);
+  if (classCount != 0) {
+    (void)sprintf(str, "        Classes:                %6d", classCount);
     lmLiPrint(str);
   }
-  if (actcount > 1) {
-    (void)sprintf(str, "        Actors:                 %6d (incl. the Hero)", actcount);
+  if (instanceCount != 0) {
+    (void)sprintf(str, "        Instances:              %6d", instanceCount);
     lmLiPrint(str);
   }
   (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);

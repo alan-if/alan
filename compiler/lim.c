@@ -13,18 +13,14 @@
 
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "lim.h"		/* LIM-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
 #include "ext.h"                /* EXT-nodes */
-#include "loc.h"                /* LOC-nodes */
-#include "act.h"                /* ACT-nodes */
+#include "ins.h"                /* INS-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "rul.h"                /* RUL-nodes */
 
@@ -81,16 +77,16 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
 
   /* Analyze the attribute */
   atr = lim->atr;
-  if (strcmp(atr->nam->str, "count") == 0)
-    atr->nam->code = 0;		/* Use zero for the COUNT attribute */
+  if (strcmp(atr->id->string, "count") == 0)
+    atr->id->symbol->code = 0;		/* Use zero for the COUNT attribute */
   else {
-    a = findatr(atr->nam->str, adv.oatrs, adv.atrs);
+    a = findatr(atr->id->string, adv.oatrs, adv.atrs);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->typ != TYPINT)
       unimpl(&atr->srcp, "Analyzer");
     else
-      atr->nam->code = a->nam->code;
+      atr->id->symbol->code = a->id->symbol->code;
   }
 
   /* Analyze statments */
@@ -128,7 +124,7 @@ static void gelim(LimNod *lim,	/* IN - The limit */
   */
 static void geliment(LimNod *lim) /* IN - The limit to generate for */
 {
-  emit(lim->atr->nam->code);
+  emit(lim->atr->id->symbol->code);
   emit(lim->atr->val);
   emit(lim->stmadr);
 }

@@ -12,6 +12,7 @@
 #include "lmList.h"
 
 #include "wht.h"		/* WHT-nodes */
+#include "id.h"			/* ID-nodes */
 
 #include "emit.h"
 #include "dump.h"
@@ -94,7 +95,7 @@ void duwht(WhtNod *wht)
   default: put("*** ERROR ***"); break;
   }
   nl();
-  put("id: "); duid(wht->id); out();
+  put("id: "); dumpId(wht->id); out();
 }
 
 

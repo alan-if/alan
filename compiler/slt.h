@@ -33,6 +33,8 @@ typedef struct Slots {		/* SLOTS  */
   Aword mentadr;		/* ACODE address to short description (mentioned) code */
   List *vrbs;			/* List of verbs */
   Aword vrbadr;			/* ACODE address to local verb table */
+  List *scrs;			/* List of scripts */
+  Aaddr scradr;			/* ACODE address to scripts */
 } Slots;
 
 

@@ -16,7 +16,7 @@
 #include "alt.h"		/* ALT-nodes */
 #include "sym.h"		/* SYM-nodes */
 #include "stx.h"		/* STX-nodes */
-#include "obj.h"		/* OBJ-nodes */
+#include "ins.h"		/* INS-nodes */
 #include "id.h"
 #include "lst.h"
 
@@ -59,11 +59,11 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.id->code = newsym(lst->element.id->string, NAMVRB, new);
-      lst->element.id->kind = NAMVRB;
-    } else if (sym->kind == NAMVRB) {
-      lst->element.id->code = sym->code;
-      lst->element.id->kind = NAMVRB;
+      lst->element.id->symbol->code = newsym(lst->element.id->string, VERB_SYMBOL, new);
+      lst->element.id->kind = VERB_ID;
+    } else if (sym->kind == VERB_SYMBOL) {
+      lst->element.id->symbol->code = sym->code;
+      lst->element.id->kind = VERB_ID;
     } else
       redefined(&lst->element.id->srcp, sym, lst->element.id->string);
   }
@@ -80,8 +80,7 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
 
   */
 static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
-		  ObjNod *obj,                 
-		  ActNod *act)
+		  InsNod *ins)
 {
   List *lst, *ids, *stxs = NULL;
   StxNod *stx;
@@ -92,7 +91,7 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
   for (ids = vrb->ids; ids; ids = ids->next) {
     stx = NULL;
     for (lst = adv.stxs; lst; lst = lst->next) {
-      if (lst->element.stx->id->code == ids->element.id->code) {
+      if (lst->element.stx->id->symbol->code == ids->element.id->symbol->code) {
 	stx = lst->element.stx;
 	break;
       }
@@ -115,15 +114,15 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
     ids = ids->next;
   }
 
-  if (obj == NULL && act == NULL)
+  if (ins == NULL)
     if (vrb->alts->element.alt->id != NULL)
       lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
   if (stx != NULL)
-    analts(vrb->alts, act, stx->pars);
+    analts(vrb->alts, ins, stx->pars);
   else
-    analts(vrb->alts, act, NULL);
+    analts(vrb->alts, ins, NULL);
 }
 
 
@@ -135,27 +134,26 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
 
   */
 void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
-	    ObjNod *obj,                 
-	    ActNod *act)
+	    InsNod *ins)
 {
   List *vrb, *nam, *lst, *other;
 
   for (vrb = vrbs; vrb != NULL; vrb = vrb->next)
-    anvrb(vrb->element.vrb, obj, act);
+    anvrb(vrb->element.vrb, ins);
 
   /* Check for multiple definitions of a verb */
   for (vrb = vrbs; vrb != NULL; vrb = vrb->next) {
     nam = vrb->element.vrb->ids;
     /* First check other names in this VERB */
     for (other = nam->next; other != NULL; other = other->next) {
-      if (other->element.id->code == nam->element.id->code)
+      if (other->element.id->symbol->code == nam->element.id->symbol->code)
 	lmLog(&other->element.id->srcp, 205, sevWAR,
 	      other->element.id->string);
     }
     /* Then the names in the other VERBs */
     for (lst = vrb->next; lst != NULL; lst = lst->next) {
       for (other = lst->element.vrb->ids; other != NULL; other = other->next)
-	if (other->element.id->code == nam->element.id->code)
+	if (other->element.id->symbol->code == nam->element.id->symbol->code)
 	  lmLog(&other->element.id->srcp, 220, sevWAR, other->element.id->string);
     }
   }
@@ -171,14 +169,14 @@ void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
 
   */
 static void gevrb(VrbNod *vrb,	/* IN - The verb to generate */
-		  ActNod *act)	/* IN - Inside any actor */
+		  InsNod *ins)	/* IN - Inside any Instance? */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   if (vrb->alts == NULL)
     vrb->altadr = 0;
   else
-    vrb->altadr = gealts(vrb->alts, act);
+    vrb->altadr = gealts(vrb->alts, ins);
 }
 
 
@@ -210,7 +208,7 @@ static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
 
   */
 Aaddr gevrbs(List *vrbs,	/* IN - The list of verbs */
-	     ActNod *act)	/* IN - Inside any actor */
+	     InsNod *ins)	/* IN - Inside any Instance? */
 {
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
@@ -220,7 +218,7 @@ Aaddr gevrbs(List *vrbs,	/* IN - The list of verbs */
 
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
-    gevrb(lst->element.vrb, act);
+    gevrb(lst->element.vrb, ins);
   
   /* and then the verb table */
   vrbadr = emadr();

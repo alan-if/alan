@@ -17,7 +17,6 @@
 
 #include "lmList.h"
 
-#include "act.h"                /* ACT-nodes */
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
 #include "atr.h"                /* ATR-nodes */
@@ -30,11 +29,8 @@
 #include "ext.h"                /* EXT-nodes */
 #include "ins.h"		/* INS-nodes */
 #include "lim.h"		/* LIM-nodes */
-#include "loc.h"                /* LOC-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "obj.h"		/* OBJ-nodes */
 #include "opt.h"		/* OPTIONS */
 #include "res.h"                /* RES-nodes */
 #include "rul.h"                /* RUL-nodes */
@@ -117,7 +113,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 62 "alan.pmk"
+#line 58 "alan.pmk"
 
 
 {

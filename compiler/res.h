@@ -12,7 +12,7 @@
 #include "srcp.h"
 #include "stx.h"
 #include "lst.h"
-#include "nam.h"
+#include "id.h"
 
 #include "acode.h"
 

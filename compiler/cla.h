@@ -26,7 +26,7 @@ typedef struct ClaNod {		/* CLASS */
 
 
 /* Data: */
-
+extern int classCount;
 
 /* Methods: */
 

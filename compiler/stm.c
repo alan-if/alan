@@ -14,16 +14,14 @@
 #include "adv.h"                /* ADV-node */
 #include "sym.h"                /* SYM-nodes */
 #include "lst.h"                /* LST-nodes */
-#include "nam.h"                /* NAM-nodes */
+#include "id.h"			/* ID-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
 #include "stm.h"                /* STM-nodes */
-#include "obj.h"                /* OBJ-nodes */
-#include "loc.h"                /* LOC-nodes */
 #include "scr.h"                /* SCR-nodes */
-#include "act.h"                /* ACT-nodes */
+#include "ins.h"                /* INS-nodes */
 #include "sco.h"                /* SCORES */
 #include "opt.h"                /* OPTIONS */
 
@@ -85,12 +83,7 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: namcheck");
-#else
-    namcheck(&sym, &elm, stm->fields.describe.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-             NAMANY, pars);
-#endif
+    sym = symcheck(&elm, stm->fields.describe.wht->id->string, INSTANCE_SYMBOL, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -125,7 +118,11 @@ static void ansay(StmNod *stm,	/* IN - The statement to analyze */
 static void anlist(StmNod *stm,	/* IN - The statement to analyze */
 		   List *pars)	/* IN - Possible syntax parameters */
 {
+#ifndef FIXME
+  syserr("UNIMPL: anlist() - cntcheck");
+#else
   cntcheck(stm->fields.list.wht, pars);
+#endif
 }
 
 
@@ -140,7 +137,11 @@ static void anempty(StmNod *stm, /* IN - The statement to analyze */
 		    EvtNod *evt, /* IN - Inside event? */
 		    List *pars)	/* IN - Possible syntax parameters */
 {
+#ifndef FIXME
+  syserr("UNIMPL: anempty() - cntcheck");
+#else
   cntcheck(stm->fields.list.wht, pars);
+#endif
   anwhr(stm->fields.empty.whr, evt, pars);
 }
 
@@ -235,28 +236,28 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.make.atr->str, adv.aatrs, adv.atrs);
+      atr = findatr(stm->fields.make.atr->string, adv.aatrs, adv.atrs);
       if (atr == NULL)          /* Attribute not found globally */
         lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.make.atr->code = atr->nam->code;
+        stm->fields.make.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.make.atr->str, adv.latrs, adv.atrs);
+    atr = findatr(stm->fields.make.atr->string, adv.latrs, adv.atrs);
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.make.atr->code = atr->nam->code;
+      stm->fields.make.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.make.atr->str, adv.oatrs, adv.atrs);
+    atr = findatr(stm->fields.make.atr->string, adv.oatrs, adv.atrs);
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.make.atr->code = atr->nam->code;
+      stm->fields.make.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_ID:
 #ifndef FIXME
@@ -279,7 +280,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       if (atr->typ != TYPBOOL)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
       else
-        stm->fields.make.atr->code = atr->nam->code;
+        stm->fields.make.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   default:
@@ -311,28 +312,28 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.set.atr->str, adv.aatrs, adv.atrs);
+      atr = findatr(stm->fields.set.atr->string, adv.aatrs, adv.atrs);
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.set.atr->code = atr->nam->code;
+        stm->fields.set.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.set.atr->str, adv.latrs, adv.atrs);
+    atr = findatr(stm->fields.set.atr->string, adv.latrs, adv.atrs);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.set.atr->code = atr->nam->code;
+      stm->fields.set.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.set.atr->str, adv.oatrs, adv.atrs);
+    atr = findatr(stm->fields.set.atr->string, adv.oatrs, adv.atrs);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.set.atr->code = atr->nam->code;
+      stm->fields.set.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_ID:
 #ifndef FIXME
@@ -355,7 +356,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
         lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
       else
-        stm->fields.set.atr->code = atr->nam->code;
+        stm->fields.set.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   default:
@@ -394,28 +395,28 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.incr.atr->str, adv.aatrs, adv.atrs);
+      atr = findatr(stm->fields.incr.atr->string, adv.aatrs, adv.atrs);
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.incr.atr->code = atr->nam->code;
+        stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.incr.atr->str, adv.latrs, adv.atrs);
+    atr = findatr(stm->fields.incr.atr->string, adv.latrs, adv.atrs);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.incr.atr->code = atr->nam->code;
+      stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.incr.atr->str, adv.oatrs, adv.atrs);
+    atr = findatr(stm->fields.incr.atr->string, adv.oatrs, adv.atrs);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.incr.atr->code = atr->nam->code;
+      stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
     break;
   case WHT_ID:
 #ifndef FIXME
@@ -438,7 +439,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       if (atr->typ != TYPINT)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
       else
-        stm->fields.incr.atr->code = atr->nam->code;
+        stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
     }
     break;
   default:
@@ -468,7 +469,7 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  namcheck(&sym, &elm, stm->fields.schedule.id, NAMEVT, NAMANY, NULL);
+  sym = symcheck(&elm, stm->fields.schedule.id->string, EVENT_ID, NULL);
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
@@ -508,7 +509,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  namcheck(&sym, &elm, stm->fields.cancel.id, NAMEVT, NAMANY, NULL);
+  sym = symcheck(&elm, stm->fields.cancel.id->string, EVENT_ID, NULL);
 }
 
 
@@ -520,16 +521,16 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 
   */
 static void anif(StmNod *stm,	/* IN - The statement to analyze */
-		 ActNod *act,	/* IN - Possibly inside Actor */
+		 InsNod *ins,	/* IN - Possibly inside Instance */
 		 EvtNod *evt,	/* IN - Possibly inside Event */
 		 List *pars)	/* IN - Possible syntax parameters */
 {
   anexp(stm->fields.iff.exp, evt, pars);
   if (!eqtyp(stm->fields.iff.exp->typ, TYPBOOL))
     lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
-  anstms(stm->fields.iff.thn, act, evt, pars);
+  anstms(stm->fields.iff.thn, ins, evt, pars);
   if (stm->fields.iff.els != NULL)
-    anstms(stm->fields.iff.els, act, evt, pars);
+    anstms(stm->fields.iff.els, ins, evt, pars);
 }
 
 
@@ -544,32 +545,32 @@ static void anif(StmNod *stm,	/* IN - The statement to analyze */
 
   */
 static void anuse(StmNod *stm,	/* IN - Statement to analyze */
-		  ActNod *act,	/* IN - Possibly inside Actor */
+		  InsNod *ins,	/* IN - Possibly inside Instance */
 		  List *pars)	/* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
   List *lst;
 
-  if (stm->fields.use.actor == NULL && act == NULL)
+  if (stm->fields.use.actor == NULL && ins == NULL)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      namcheck(&sym, &elm, stm->fields.use.actor, NAMACT+NAMCACT, NAMANY, pars);
-      act = NULL;
+      sym = symcheck(&elm, stm->fields.use.actor->string, INSTANCE_SYMBOL, pars);
+      ins = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
       else if (sym)
-        /* FIXME : act = sym->ref */;
+        /* FIXME : ins = sym->ref */;
     }
-    if (act != NULL) {
+    if (ins != NULL && ins->slt != NULL) {
 
       /* Loop over actors scripts to check if script is defined */
-      for (lst = act->scrs; lst != NULL; lst = lst->next) {
+      for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
           /* A name was used as reference */
-          if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script)) {
+          if (lst->element.scr->id != NULL && eqids(lst->element.scr->id, stm->fields.use.script)) {
 	    stm->fields.use.scriptno = lst->element.scr->code;
 	    break;		/* Found it so break loop */
 	  }
@@ -581,9 +582,9 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
       }
       if (lst == NULL) {
         if (stm->fields.use.script != NULL)
-          lmLog(&stm->fields.use.script->srcp, 400, sevERR, act->nam->str);
+          lmLog(&stm->fields.use.script->srcp, 400, sevERR, ins->id->string);
         else
-          lmLog(&stm->srcp, 400, sevERR, act->nam->str);
+          lmLog(&stm->srcp, 400, sevERR, ins->id->string);
       }
     }
   }
@@ -599,7 +600,7 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
 
   */
 static void andep(StmNod *stm,	/* IN - Statement to analyze */
-		  ActNod *act,	/* IN - Possibly inside Actor */
+		  InsNod *ins,	/* IN - Possibly inside Instance */
 		  List *pars)	/* IN - Possible syntax parameters */
 {
   List *cases;
@@ -644,7 +645,7 @@ static void andep(StmNod *stm,	/* IN - Statement to analyze */
 
     /* Analyze the expression and the statements */
     anexp(cases->element.stm->fields.depcase.exp, NULL, pars);
-    anstms(cases->element.stm->fields.depcase.stms, act, NULL, pars);
+    anstms(cases->element.stm->fields.depcase.stms, ins, NULL, pars);
 
   }
 }
@@ -659,7 +660,7 @@ static void andep(StmNod *stm,	/* IN - Statement to analyze */
 
   */
 static void anstm(StmNod *stm,	/* IN - The statement to analyze */
-		  ActNod *act,	/* IN - Possibly inside Actor */
+		  InsNod *ins,	/* IN - Possibly inside Instance */
 		  EvtNod *evt,	/* IN - Possibly inside Event */
 		  List *pars)	/* IN - Possible syntax parameters */
 {
@@ -713,13 +714,13 @@ static void anstm(StmNod *stm,	/* IN - The statement to analyze */
     ancancel(stm);
     break;
   case STM_IF:
-    anif(stm, act, evt, pars);
+    anif(stm, ins, evt, pars);
     break;
   case STM_USE:
-    anuse(stm, act, pars);
+    anuse(stm, ins, pars);
     break;
   case STM_DEPEND:
-    andep(stm, act, pars);
+    andep(stm, ins, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -737,12 +738,12 @@ static void anstm(StmNod *stm,	/* IN - The statement to analyze */
 
   */
 void anstms(List *stms,		/* IN - The list of statements to analyze */
-	    ActNod *act,	/* IN - Within Actor? */
+	    InsNod *ins,	/* IN - Within Instance? */
 	    EvtNod *evt,	/* IN - Within Event? */
 	    List *pars)		/* IN - Possible syntax parameters */
 {
   while (stms != NULL) {
-    anstm(stms->element.stm, act, evt, pars);
+    anstm(stms->element.stm, ins, evt, pars);
     stms = stms->next;
   }
 }
@@ -907,7 +908,7 @@ static void gelocate(StmNod *stm) /* IN - Statement */
 static void gemake(StmNod *stm)	/* IN - Statement */
 {
   emit0(C_CONST, !stm->fields.make.not);
-  emit0(C_CONST, stm->fields.make.atr->code);
+  emit0(C_CONST, stm->fields.make.atr->symbol->code);
   gewht(stm->fields.make.wht);
   emit0(C_STMOP, I_MAKE);
 }
@@ -926,7 +927,7 @@ static void geset(StmNod *stm)	/* IN - Statement */
 {
   geexp(stm->fields.set.exp);
 
-  emit0(C_CONST, stm->fields.set.atr->code);
+  emit0(C_CONST, stm->fields.set.atr->symbol->code);
   gewht(stm->fields.set.wht);
   if (stm->fields.set.exp->typ == TYPSTR)
     emit0(C_STMOP, I_STRSET);
@@ -950,7 +951,7 @@ static void geincr(StmNod *stm)	/* IN - Statement */
   else
     emit0(C_CONST, 1);
 
-  emit0(C_CONST, stm->fields.incr.atr->code);
+  emit0(C_CONST, stm->fields.incr.atr->symbol->code);
   gewht(stm->fields.incr.wht);
   if (stm->class == STM_INCR)
     emit0(C_STMOP, I_INCR);
@@ -988,7 +989,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
     unimpl(&stm->srcp, "Code Generator");
     return;
   }
-  genam(stm->fields.schedule.id);
+  geid(stm->fields.schedule.id);
   emit0(C_STMOP, I_SCHEDULE);
 }
 
@@ -1002,7 +1003,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
   */
 static void gecancel(StmNod *stm) /* IN - Statement to generate */
 {
-  genam(stm->fields.schedule.id);
+  geid(stm->fields.schedule.id);
   emit0(C_STMOP, I_CANCEL);
 }
 
@@ -1014,14 +1015,14 @@ static void gecancel(StmNod *stm) /* IN - Statement to generate */
 
   */
 static void geif(StmNod *stm,	/* IN - Statement */
-		 ActNod *act)	/* IN - Inside any actor */
+		 InsNod *ins)	/* IN - Inside any Instance */
 {
   geexp(stm->fields.iff.exp);
   emit0(C_STMOP, I_IF);
-  gestms(stm->fields.iff.thn, act);
+  gestms(stm->fields.iff.thn, ins);
   if (stm->fields.iff.els != NULL) {
     emit0(C_STMOP, I_ELSE);
-    gestms(stm->fields.iff.els, act);
+    gestms(stm->fields.iff.els, ins);
   }
   emit0(C_STMOP, I_ENDIF);
 }
@@ -1035,15 +1036,15 @@ static void geif(StmNod *stm,	/* IN - Statement */
   Generate USE statement.
 
   */
-static void geuse(StmNod *stm, ActNod *act) /* IN - Statement */
+static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
-    genam(act->nam);
+    geid(ins->id);
     emit0(C_STMOP, I_USE);
   } else {
     emit0(C_CONST, stm->fields.use.scriptno);
-    genam(stm->fields.use.actor);
+    geid(stm->fields.use.actor);
     emit0(C_STMOP, I_USE);
   }
 }
@@ -1077,7 +1078,7 @@ static void geuse(StmNod *stm, ActNod *act) /* IN - Statement */
 
       DEPEND
   */
-static void gedep(StmNod *stm, ActNod *act) /* IN - Statement */
+static void gedep(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   List *cases;
 
@@ -1096,7 +1097,7 @@ static void gedep(StmNod *stm, ActNod *act) /* IN - Statement */
     } else
       emit0(C_STMOP, I_DEPELSE);
     /* ...and then the statments */
-    gestms(cases->element.stm->fields.depcase.stms, act);
+    gestms(cases->element.stm->fields.depcase.stms, ins);
   }
   emit0(C_STMOP, I_DEPEND);
 }
@@ -1110,7 +1111,7 @@ static void gedep(StmNod *stm, ActNod *act) /* IN - Statement */
   Generate SYSTEM statement.
 
   */
-static void gesystem(StmNod *stm, ActNod *act) /* IN - Statement */
+static void gesystem(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   encode(&stm->fields.system.fpos, &stm->fields.system.len);
   emit0(C_CONST, stm->fields.system.len);
@@ -1128,7 +1129,7 @@ static void gesystem(StmNod *stm, ActNod *act) /* IN - Statement */
 
   */
 static void gestm(StmNod *stm,	/* IN - The statement to generate */
-		  ActNod *act)	/* IN - Inside actor? */
+		  InsNod *ins)	/* IN - Inside actor? */
 {
   switch (stm->class) {
 
@@ -1210,19 +1211,19 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
     break;
 
   case STM_IF:
-    geif(stm, act);
+    geif(stm, ins);
     break;
 
   case STM_USE:
-    geuse(stm, act);
+    geuse(stm, ins);
     break;
 
   case STM_DEPEND:
-    gedep(stm, act);
+    gedep(stm, ins);
     break;
 
   case STM_SYSTEM:
-    gesystem(stm, act);
+    gesystem(stm, ins);
     break;
 
   default:
@@ -1240,10 +1241,10 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
 
   */
 void gestms(List *stms,		/* IN - The statements to generate */
-	    ActNod *act)	/* IN - Inside any actor */
+	    InsNod *ins)	/* IN - Inside any Instance? */
 {
   while (stms != NULL) {
-    gestm(stms->element.stm, act);
+    gestm(stms->element.stm, ins);
     stms = stms->next;
   }
 }
@@ -1373,26 +1374,26 @@ void dustm(StmNod *stm)
     case STM_MAKE:
       put("wht: "); duwht(stm->fields.list.wht); nl();
       put("not: "); dumpBool(stm->fields.make.not); nl();
-      put("atr: "); dunam(stm->fields.make.atr);
+      put("atr: "); dumpId(stm->fields.make.atr);
       break;
     case STM_SET:
       put("wht: "); duwht(stm->fields.set.wht); nl();
-      put("atr: "); dunam(stm->fields.set.atr); nl();
+      put("atr: "); dumpId(stm->fields.set.atr); nl();
       put("exp: "); duexp(stm->fields.set.exp);
       break;
     case STM_INCR:
     case STM_DECR:
       put("wht: "); duwht(stm->fields.incr.wht); nl();
-      put("atr: "); dunam(stm->fields.incr.atr); nl();
+      put("atr: "); dumpId(stm->fields.incr.atr); nl();
       put("step: "); duexp(stm->fields.incr.step);
       break;
     case STM_SCHEDULE:
-      put("nam: "); dunam(stm->fields.schedule.id); nl();
+      put("id: "); dumpId(stm->fields.schedule.id); nl();
       put("whr: "); duwhr(stm->fields.locate.whr); nl();
       put("when: "); duexp(stm->fields.schedule.when);
       break;
     case STM_CANCEL:
-      put("nam: "); dunam(stm->fields.cancel.id);
+      put("id: "); dumpId(stm->fields.cancel.id);
       break;
     case STM_IF:
       put("exp: "); duexp(stm->fields.iff.exp); nl();
@@ -1400,9 +1401,9 @@ void dustm(StmNod *stm)
       put("els: "); dulst(stm->fields.iff.els, LIST_STM);
       break;
     case STM_USE:
-      put("script: "); dunam(stm->fields.use.script); nl();
+      put("script: "); dumpId(stm->fields.use.script); nl();
       put("scriptno: "); duint(stm->fields.use.scriptno); nl();
-      put("actor: "); dunam(stm->fields.use.actor);
+      put("actor: "); dumpId(stm->fields.use.actor);
       break;
     case STM_VISITS:
       put("count: "); duint(stm->fields.visits.count);

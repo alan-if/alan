@@ -12,12 +12,16 @@
 #include "srcp.h"
 #include "types.h"
 
+#include "elm.h"
+#include "lst.h"
+
 
 /* Types: */
 
 typedef enum SymbolKind {
   CLASS_SYMBOL,
-  INSTANCE_SYMBOL
+  INSTANCE_SYMBOL,
+  VERB_SYMBOL
 } SymbolKind;
 
 
@@ -61,6 +65,13 @@ extern SymNod *newsym(char str[],
 /* Initialise the symbol table with predefined classes etc. */
 extern void initSymbols();
 
+/* Check if an Id exists and if so if of an allowed kind in this context */
+extern SymNod *symcheck(	/* OUT - Found symbol */
+    ElmNod **elm,		/* OUT - Found parameter  */
+    char *string,		/* IN - The Id to check */
+    SymbolKind kind,		/* IN - Allowed identifier kind */
+    List *pars			/* IN - Possible parameters valid in this context */
+    );
 
 /* Lookup a symbol */
 extern SymNod *lookup(char symbol[]);

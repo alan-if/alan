@@ -46,6 +46,32 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
+  analyzeInstances()
+
+  Analyze all Class nodes.
+
+ */
+void analyzeInstances(void)
+{
+  syserr("UNIMPL: analyzeInstances");
+}
+
+
+/*======================================================================
+
+  generateInstances()
+
+  Generate all Class nodes.
+
+ */
+Aaddr generateInstances(void)
+{
+  syserr("UNIMPL: generateInstances");
+}
+
+
+/*======================================================================
+
   dumpInstance()
 
   Dump a Instance node.

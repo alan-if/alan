@@ -19,7 +19,7 @@
 #include "elm.h"                /* ELM-nodes */
 #include "ext.h"                /* EXT-nodes */
 #include "wrd.h"                /* WRD-nodes */
-#include "loc.h"                /* LOC-nodes */
+#include "ins.h"                /* INS-nodes */
 
 #include "emit.h"
 
@@ -44,7 +44,7 @@ int dircount = 0;
  */
 ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 	       List *dirs,	/* IN - Directions of this ext */
-	       NamNod *to,	/* IN - Name of the location it leads to */
+	       IdNod *to,	/* IN - Name of the location it leads to */
 	       List *chks,	/* IN - List of checks to perform first */
 	       List *stms)	/* IN - The statements to execute */
 {
@@ -63,17 +63,17 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
   new->stms = stms;
 
   for (lst = dirs; lst != NULL; lst = lst->next) {
-    sym = lookup(lst->element.nam->str); /* Find any earlier definition */
+    sym = lookup(lst->element.id->string); /* Find any earlier definition */
 #ifndef FIXME
     syserr("UNIMPL: newext() - symbol codes and words");
 #else
     if (sym == NULL) {
-      lst->element.nam->code = newsym(lst->element.nam->str, NAMDIR, new);
-      newwrd(lst->element.id->string, WRD_DIR, lst->element.nam->code, NULL);
+      lst->element.id->code = newsym(lst->element.id->string, NAMDIR, new);
+      newwrd(lst->element.id->string, WRD_DIR, lst->element.id->code, NULL);
     } else if (sym->class == NAMDIR)
-      lst->element.nam->code = sym->code;
+      lst->element.id->code = sym->code;
     else
-      redefined(&lst->element.nam->srcp, sym, lst->element.nam->str);
+      redefined(&lst->element.id->srcp, sym, lst->element.id->string);
 #endif
   }
 
@@ -94,7 +94,8 @@ static void anext(ExtNod *ext)	/* IN - Exit to analyze */
   SymNod *sym;			/* Symbol table entry */
   ElmNod *elm;
 
-  namcheck(&sym, &elm, ext->to, NAMLOC, NAMANY, NULL);
+  sym = symcheck(&elm, ext->to->string, INSTANCE_SYMBOL, NULL);
+  syserr("UNIMPL: check that an instance is a location");
 
   anchks(ext->chks, NULL, NULL);
   anstms(ext->stms, NULL, NULL, NULL);
@@ -122,18 +123,18 @@ void anexts(List *exts)		/* IN - List of exits to analyze */
     dir = ext->element.ext->dirs;
     /* First check other directions in this EXIT */
     for (other = dir->next; other != NULL; other = other->next) {
-      if (other->element.nam->code == dir->element.nam->code) {
-	lmLog(&other->element.nam->srcp, 202, sevWAR,
-	      other->element.nam->str);
+      if (other->element.id->symbol->code == dir->element.id->symbol->code) {
+	lmLog(&other->element.id->srcp, 202, sevWAR,
+	      other->element.id->string);
 	break;
       }
     }
     /* Then the directions in the other EXITs */
     for (lst = ext->next; lst != NULL; lst = lst->next) {
       for (other = lst->element.ext->dirs; other != NULL; other = other->next)
-	if (other->element.nam->code == dir->element.nam->code) {
-	  lmLog(&other->element.nam->srcp, 203, sevWAR,
-		other->element.nam->str);
+	if (other->element.id->symbol->code == dir->element.id->symbol->code) {
+	  lmLog(&other->element.id->srcp, 203, sevWAR,
+		other->element.id->string);
 	  break;
 	}
     }
@@ -177,7 +178,7 @@ static void geextent(ExtNod *ext) /* IN - The exit to generate */
   
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
     emit(same);			/* For reversing process */
-    emit(dir->element.nam->code);
+    emit(dir->element.id->symbol->code);
 
     if (ext->chks != NULL)
       emit(ext->chkadr);
@@ -189,7 +190,7 @@ static void geextent(ExtNod *ext) /* IN - The exit to generate */
     else
       emit(0);
 
-    genam(ext->to);
+    geid(ext->to);
     same = TRUE;
   }
 }
@@ -245,7 +246,7 @@ void duext(ExtNod *ext)
 
   put("EXT: "); dusrcp(&ext->srcp); in();
   put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
-  put("to: "); dunam(ext->to); nl();
+  put("to: "); dumpId(ext->to); nl();
   put("chks: "); dulst(ext->chks, LIST_CHK); nl();
   put("chkadr: "); duadr(ext->chkadr); nl();
   put("stms: "); dulst(ext->stms, LIST_STM); nl();

@@ -14,7 +14,7 @@
 #include "adv.h"                /* ADV-nodes */
 #include "sym.h"                /* SYM-nodes */
 #include "lst.h"                /* LST-nodes */
-#include "nam.h"                /* NAM-nodes */
+#include "res.h"                /* RES-nodes */
 #include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
@@ -77,11 +77,10 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
   if (sym == NULL) {
     if (stx->id->string[0] != '$') /* generated id? */
       lmLog(&stx->id->srcp, 207, sevWAR, stx->id->string);
-  } else if (sym->kind != NAMVRB)
+  } else if (sym->kind != VERB_SYMBOL)
     lmLog(&stx->id->srcp, 208, sevWAR, stx->id->string);
   else
-    stx->id->code = sym->code;
-  stx->id->kind = NAMVRB;
+    stx->id->symbol = sym;
 
   stx->pars = anelms(stx->elms, stx->ress, stx);
   anress(stx->ress, stx->pars);
@@ -110,8 +109,8 @@ void anstxs(void)
   /* Check for multiple definitions of the syntax for a verb */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     for (other = lst->next; other != NULL; other = other->next) {
-      if (other->element.stx->id->code != -1 || lst->element.stx->id->code != -1)
-	if (other->element.stx->id->code == lst->element.stx->id->code) {
+      if (other->element.stx->id->symbol->code != -1 || lst->element.stx->id->symbol->code != -1)
+	if (other->element.stx->id->symbol->code == lst->element.stx->id->symbol->code) {
 	  if (!lst->element.stx->muldef){
 	    lmLog(&lst->element.stx->id->srcp, 206, sevWAR,
 		  lst->element.stx->id->string);
@@ -144,14 +143,14 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   List *elms;
 
   elms = concat(concat(concat(NULL,
-                       newelm(&nulsrcp, ELMWRD, newnam(&nulsrcp,
-                                                       vrbstr),
-                              FALSE),
-                       LIST_ELM),
-                newelm(&nulsrcp, ELMPAR, newnam(&nulsrcp, "object"), FALSE),
-                LIST_ELM),
+			      newelm(&nulsrcp, ELMWRD, newid(&nulsrcp,
+							     vrbstr),
+				     FALSE),
+			      LIST_ELM),
+		       newelm(&nulsrcp, ELMPAR, newid(&nulsrcp, "object"), FALSE),
+		       LIST_ELM),
 		newelm(&nulsrcp, ELMEOS, NULL, FALSE), LIST_ELM);
-  stx = newstx(&nulsrcp, newnam(&nulsrcp, vrbstr), elms, NULL);
+  stx = newstx(&nulsrcp, newid(&nulsrcp, vrbstr), elms, NULL);
 
   adv.stxs = concat(adv.stxs, stx, LIST_STX);
   anstx(stx);                   /* Make sure the syntax is analysed */
@@ -233,7 +232,7 @@ static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
-    emit(stx->elms->element.elm->id->code);
+    emit(stx->elms->element.elm->id->symbol->code);
     /* Address to syntax element tables */
     emit(stx->elmsadr);
   }

@@ -63,6 +63,7 @@ SRCS = \
 	wht.c \
 	wrd.c \
 	timing.c \
+	util.c \
 	spa.c \
 	sysdep.c
 
@@ -128,3 +129,4 @@ alan.version.c: $(VERSIONSRCS) ../alan.version
 
 #
 include dependencies.mk
+

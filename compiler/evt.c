@@ -13,7 +13,6 @@
 #include "adv.h"		/* ADV-node */
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "opt.h"                /* Options */

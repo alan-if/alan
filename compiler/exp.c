@@ -17,11 +17,9 @@
 #include "atr.h"		/* ATR-nodes */
 #include "whr.h"		/* WHR-nodes */
 #include "wht.h"		/* WHT-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "id.h"		/* ID-nodes */
 #include "elm.h"		/* ELM-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "loc.h"		/* LOC-nodes */
-#include "act.h"		/* ACT-nodes */
+#include "ins.h"		/* INS-nodes */
 
 
 #include "emit.h"
@@ -109,9 +107,9 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 #ifndef FIXME
     syserr("UNIMPL: newevt() - symbol code handling");
 #else
-      namcheck(&sym, &elm, exp->fields.whr.wht->fields.wht.wht->id,
+      idcheck(&sym, &elm, exp->fields.whr.wht->fields.wht.wht->id,
 	       NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-    new->id->code = newsym(nam->str, NAMEVT, new);
+    new->id->code = newsym(id->str, NAMEVT, new);
 #endif
       break;
     default:
@@ -150,7 +148,11 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
     }
     break;
   case WHR_IN:
+#ifndef FIXME
+    syserr("UNIMPL: cntcheck");
+#else
     cntcheck(exp->fields.whr.whr->wht, pars);
+#endif
     break;
   default:
     syserr("Unrecognized switch in anexpwhr()");
@@ -183,24 +185,24 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
       if (evt != NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
       else {
-	atr = findatr(exp->fields.atr.atr->str, adv.aatrs, adv.atrs);
+	atr = findatr(exp->fields.atr.atr->string, adv.aatrs, adv.atrs);
 	if (atr == NULL) {		/* attribute not found globally */
 	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "ACTOR");
 	  exp->typ = TYPUNK;
 	} else {
-	  exp->fields.atr.atr->code = atr->nam->code;
+	  exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	  exp->typ = atr->typ;
 	}
       }
       break;
 
     case WHT_LOC:
-      atr = findatr(exp->fields.atr.atr->str, adv.latrs, adv.atrs);
+      atr = findatr(exp->fields.atr.atr->string, adv.latrs, adv.atrs);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "LOCATION");
 	exp->typ = TYPUNK;
       } else {
-	exp->fields.atr.atr->code = atr->nam->code;
+	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	exp->typ = atr->typ;
       }
       break;
@@ -208,12 +210,12 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
     case WHT_OBJ:
       if (pars == NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
-      atr = findatr(exp->fields.atr.atr->str, adv.oatrs, adv.atrs);
+      atr = findatr(exp->fields.atr.atr->string, adv.oatrs, adv.atrs);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "OBJECT");
 	exp->typ = TYPUNK;
       } else {
-	exp->fields.atr.atr->code = atr->nam->code;
+	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	exp->typ = atr->typ;
       }
       break;
@@ -233,7 +235,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "a parameter");
 	  exp->typ = TYPUNK;
 	} else {
-	  exp->fields.atr.atr->code = atr->nam->code;
+	  exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	  exp->typ = atr->typ;
 	}
       } else if (sym) {
@@ -256,7 +258,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 #endif
 	if (atr == NULL) {	/* Attribute not found locally */
 	  /* Try general default attributes */
-	  if ((atr = findatr(exp->fields.atr.atr->str, adv.atrs, NULL)) == NULL) {
+	  if ((atr = findatr(exp->fields.atr.atr->string, adv.atrs, NULL)) == NULL) {
 	    /* Still didn't find it */
 	    lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
 		  exp->fields.atr.wht->fields.wht.wht->id->string);
@@ -265,7 +267,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 	}
       }
       if (atr != NULL) {
-	exp->fields.atr.atr->code = atr->nam->code;
+	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	exp->typ = atr->typ;
       } else
 	exp->typ = TYPUNK;
@@ -381,16 +383,16 @@ static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
 
   exp->typ = TYPINT;
   if (exp->fields.agr.agr != AGR_COUNT) {
-    atr = findatr(exp->fields.agr.atrnam->str, adv.oatrs, adv.atrs);
+    atr = findatr(exp->fields.agr.atr->string, adv.oatrs, adv.atrs);
     if (atr == NULL) {		/* attribute not found globally */
-      lmLog(&exp->fields.agr.atrnam->srcp, 404, sevERR,
+      lmLog(&exp->fields.agr.atr->srcp, 404, sevERR,
 	    "OBJECT in aggregate expression");
       exp->typ = TYPUNK;
     } else if (!eqtyp(TYPINT, atr->typ)) {
-      lmLog(&exp->fields.agr.atrnam->srcp, 418, sevERR, "");
+      lmLog(&exp->fields.agr.atr->srcp, 418, sevERR, "");
       exp->typ = TYPUNK;
     } else
-      exp->fields.agr.atrnam->code = atr->nam->code;
+      exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
   }
 
   anwhr(exp->fields.agr.whr, evt, pars);
@@ -739,7 +741,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
  */
 static void geexpatr(ExpNod *exp) /* IN - Expression node */
 {
-  emit0(C_CONST, exp->fields.atr.atr->code);
+  emit0(C_CONST, exp->fields.atr.atr->symbol->code);
   gewht(exp->fields.atr.wht->fields.wht.wht);
   if (exp->typ == TYPSTR)
     emit0(C_STMOP, I_STRATTR);
@@ -762,7 +764,7 @@ static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
   gewhr(exp->fields.agr.whr);
 
   if (exp->fields.agr.agr != AGR_COUNT)
-    emit0(C_CONST, exp->fields.agr.atrnam->code);
+    emit0(C_CONST, exp->fields.agr.atr->symbol->code);
 
   switch (exp->fields.agr.agr) {
   case AGR_SUM: emit0(C_STMOP, I_SUM); break;
@@ -1068,7 +1070,7 @@ void duexp(ExpNod *exp)
     break;
   case EXPATR:
     put("wht: "); duexp(exp->fields.atr.wht); nl();
-    put("atr: "); dunam(exp->fields.atr.atr);
+    put("atr: "); dumpId(exp->fields.atr.atr);
     break;
   case EXPINT:
     put("val: "); duint(exp->fields.val.val);
@@ -1084,7 +1086,7 @@ void duexp(ExpNod *exp)
     break;
   case EXPAGR:
     put("agr: "); duagr(exp->fields.agr.agr); nl();
-    put("atrnam: "); dunam(exp->fields.agr.atrnam); nl();
+    put("atr: "); dumpId(exp->fields.agr.atr); nl();
     put("whr: "); duwhr(exp->fields.agr.whr);
     break;
   case EXPRND:

@@ -13,7 +13,7 @@
 
 typedef struct LocNod {		/* LOCATION */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Name of this location */
+  IdNod *id;			/* Name of this location */
   List *nams;			/* List of names */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address of attribute table */

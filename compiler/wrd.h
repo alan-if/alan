@@ -10,7 +10,7 @@
 /* USE: */
 #include "acode.h"
 #include "lst.h"
-#include "nam.h"
+#include "id.h"
 
 
 /* Types: */
@@ -42,7 +42,7 @@ extern WrdNod *findwrd(char str[]);
 extern int newwrd(char wrd[],
 		  WrdKind class,
 		  int code,
-		  NamNod *nam);
+		  void *id);
 
 /* Prepare Words in dictionary */
 extern void prepwrds(void);

@@ -15,7 +15,7 @@
 
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "id.h"			/* ID-nodes */
 #include "stm.h"                /* STM-nodes */
 
 #include "emit.h"
@@ -85,24 +85,7 @@ static void anres(
 
   /* Analyse the class list */
   for (idList = res->classes; idList; idList = idList->next) {
-    syserr("UNIMPLEMENTED: anres - Look up the classes and attach them to here");
-    /* For now "actor" etc. are converted to their restriction kinds */
-    if (strcmp(idList->element.nam->str, "actor") == 0)
-      res->classbits |= NAMACT;
-    else if (strcmp(idList->element.nam->str, "object") == 0)
-      res->classbits |= NAMOBJ;
-    else if (strcmp(idList->element.nam->str, "container") == 0)
-      res->classbits |= NAMCNT;
-    else if (strcmp(idList->element.nam->str, "#containeractor") == 0)
-      res->classbits |= NAMCACT;
-    else if (strcmp(idList->element.nam->str, "#containerobject") == 0)
-      res->classbits |= NAMCOBJ;
-    else if (strcmp(idList->element.nam->str, "#integer") == 0)
-      res->classbits |= NAMNUM;
-    else if (strcmp(idList->element.nam->str, "#string") == 0)
-      res->classbits |= NAMSTR;
-    else
-      unimpl(&idList->element.nam->srcp, "analyzer");
+    unimpl(&idList->element.id->srcp, "analyzer");
   }
 
   /* Analyse the statements to execute if the restrictions was not met */
@@ -196,28 +179,6 @@ Aaddr geress(List *ress,	/* IN - The element class restriction nodes */
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpRestrictionKind()
-
-*/
-static void dumpRestrictionKind(ResKind resKd)
-{
-  switch (resKd) {
-  case ID_RESTRICTION: put("ID"); break;
-  case INTEGER_RESTRICTION: put("INTEGER"); break;
-  case STRING_RESTRICTION: put("STRING"); break;
-  case OBJECT_RESTRICTION: put("OBJECT"); break;
-  case ACTOR_RESTRICTION: put("ACTOR"); break;
-  case CONTAINER_RESTRICTION: put("CONTAINER"); break;
-  case CONTAINEROBJECT_RESTRICTION: put("CONTAINEROBJECT"); break;
-  case CONTAINERACTOR_RESTRICTION: put("CONTAINERACTOR"); break;
-  default: syserr("Unknown restriction kind in dumpRestricitionKind()");
-  }
-}    
-
-
-
 /*======================================================================
 
   dures()
@@ -235,7 +196,6 @@ void dures(ResNod *res)
   put("RES: "); dusrcp(&res->srcp); in();
   put("id: "); dumpId(res->id); nl();
   put("single: "); dumpBool(res->single); nl();
-  put("classbits: "); dumpNamKind(res->classbits); nl();
   put("classes: "); dulst(res->classes, LIST_NAM); nl();
   put("stms: "); dulst(res->stms, LIST_STM); out();
 }

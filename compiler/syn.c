@@ -15,7 +15,7 @@
 
 #include "lst.h"		/* LST-node */
 #include "adv.h"		/* ADV-node */
-#include "nam.h"		/* NAM-nodes */
+#include "id.h"			/* ID-nodes */
 #include "syn.h"		/* SYN-nodes */
 #include "wrd.h"		/* WRD-nodes */
 
@@ -32,8 +32,8 @@
 
   */
 SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
-	       List *nams,	/* IN - List of synonyms */
-	       NamNod *nam)	/* IN - For the target name */
+	       List *ids,	/* IN - List of synonyms */
+	       IdNod *id)	/* IN - For the target name */
 {
   SynNod *new;
 
@@ -42,8 +42,8 @@ SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
   new = NEW(SynNod);
 
   new->srcp = *srcp;
-  new->nams = nams;
-  new->nam = nam;
+  new->ids = ids;
+  new->id = id;
 
   return(new);
 }
@@ -67,17 +67,17 @@ void ansyns(void)
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
     if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
-    wrd = findwrd(lst->element.syn->nam->str);
+    wrd = findwrd(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
-      lmLog(&lst->element.syn->nam->srcp, 321, sevWAR, lst->element.syn->nam->str);
+      lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);
     else
-      for (slst = lst->element.syn->nams; slst != NULL; slst = slst->next) {
+      for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
 	/* Look up the synonym */
-        swrd = findwrd(slst->element.nam->str);
+        swrd = findwrd(slst->element.id->string);
         if (swrd != NULL && (swrd->classbits&(1L<<WRD_SYN)))
-	  lmLog(&slst->element.nam->srcp, 322, sevWAR, slst->element.nam->str);
+	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
 	else
-          newwrd(slst->element.nam->str, WRD_SYN, 0, (void *) wrd);
+          newwrd(slst->element.id->string, WRD_SYN, 0, (void *) wrd);
       }
   }
 }
@@ -98,6 +98,6 @@ void dusyn(SynNod *syn)
   }
 
   put("SYN: "); dusrcp(&syn->srcp); in();
-  put("nam: "); dunam(syn->nam); nl();
-  put("nams: "); dulst(syn->nams, LIST_NAM); out();
+  put("id: "); dumpId(syn->id); nl();
+  put("ids: "); dulst(syn->ids, LIST_ID); out();
 }

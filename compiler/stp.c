@@ -15,7 +15,7 @@
 #include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
-#include "act.h"                /* ACT-nodes */
+#include "ins.h"                /* INS-nodes */
 
 #include "emit.h"
 #include "acode.h"
@@ -59,14 +59,14 @@ StpNod *newstp(Srcp *srcp,	/* IN - Source Position */
 
   */
 void anstps(List *stps,		/* IN - The steps to analyse */
-	    ActNod *act)	/* IN - Possibly inside Actor? */
+	    InsNod *ins)	/* IN - Possibly inside Instance? */
 {
   List *lst;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL)
       anexp(lst->element.stp->exp, NULL, NULL);
-    anstms(lst->element.stp->stms, act, NULL, NULL);
+    anstms(lst->element.stp->stms, ins, NULL, NULL);
   }
 }
 
@@ -76,11 +76,11 @@ void anstps(List *stps,		/* IN - The steps to analyse */
 
   gestps()
 
-  Generate code for all steps in a script for a particular actor.
+  Generate code for all steps in a script for a particular Instance.
 
   */
 Aaddr gestps(List *stps,	/* IN - The steps to generate */
-	     ActNod *act)	/* IN - Inside any actor */
+	     InsNod *ins)	/* IN - Inside any Instance? */
 {
   List *lst;
   Aaddr adr;
@@ -93,7 +93,7 @@ Aaddr gestps(List *stps,	/* IN - The steps to generate */
     } else
       lst->element.stp->expadr = 0;
     lst->element.stp->stmadr = emadr();
-    gestms(lst->element.stp->stms, act);
+    gestms(lst->element.stp->stms, ins);
     emit0(C_STMOP, I_RETURN);
   }
   

@@ -14,7 +14,6 @@
 #include "acode.h"
 
 #include "lst.h"                /* LST-nodes */
-#include "nam.h"                /* NAM-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "scr.h"                /* SCR-nodes */
@@ -35,7 +34,7 @@
   */
 ScrNod *newscr(
      Srcp *srcp,                /* IN - Source Position */
-     NamNod *nam,               /* IN - Name for the script */
+     IdNod *id,			/* IN - Name for the script */
      int code,                  /* IN - Code for the script */
      List *descr,               /* IN - Optional description */
      List *stps                 /* IN - List of steps */
@@ -49,7 +48,7 @@ ScrNod *newscr(
 
   new->srcp = *srcp;
   new->code = code;
-  new->nam = nam;
+  new->id = id;
   new->descr = descr;
   new->stps = stps;
 
@@ -65,7 +64,7 @@ ScrNod *newscr(
   Prepare scripts for this actor (i.e. number them)
 
   */
-void prepscrs(List *scrs, ActNod *act)
+void prepscrs(List *scrs, InsNod *ins)
 {
   List *lst;
   List *scrlst;
@@ -84,18 +83,18 @@ void prepscrs(List *scrs, ActNod *act)
 
     /* Any multiple of this name or number ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
-      if (lst->element.scr->nam != NULL) {
+      if (lst->element.scr->id != NULL) {
         /* It was given a name, then try compare to the name, if any */
-        if (scrlst->element.scr->nam != NULL &&
-            eqnams(lst->element.scr->nam, scrlst->element.scr->nam))
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+        if (scrlst->element.scr->id != NULL &&
+            eqids(lst->element.scr->id, scrlst->element.scr->id))
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->id->string);
       } else /* No name, just the code */
         if (lst->element.scr->code == scrlst->element.scr->code)
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->id->string);
     }
 
     /* If only given a name, use the highest code + 1 as its code */
-    if (lst->element.scr->nam != NULL)
+    if (lst->element.scr->id != NULL)
       lst->element.scr->code = ++highest;
   }
 
@@ -110,22 +109,22 @@ void prepscrs(List *scrs, ActNod *act)
   Analyze the scripts for one actor.
 
   */
-void anscrs(List *scrs, ActNod *act)
+void anscrs(List *scrs, InsNod *ins)
 {
   List *lst;
 
   if (scrs == NULL) return;
 
   /* Error if defined for HERO */
-  if (scrs != NULL && act->nam->code == 1)
+  if (scrs != NULL && ins->id->symbol->code == 1)
       lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
 
   for (lst = scrs; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    anstms(lst->element.scr->descr, act, NULL, NULL);
+    anstms(lst->element.scr->descr, ins, NULL, NULL);
 
     /* Finally, analyse the steps inside the script */
-    anstps(lst->element.scr->stps, act);
+    anstps(lst->element.scr->stps, ins);
   }
 }
 
@@ -137,22 +136,23 @@ void anscrs(List *scrs, ActNod *act)
 
   gescrs()
 
-  Generate script routines for an actor.
+  Generate script routines for an instance.
 
   */
-Aword gescrs(ActNod *act)
+Aword gescrs(InsNod *ins)
 {
   List *lst;
   Aword scradr;
 
-  if (act->scrs == NULL)
+  if (ins == NULL) syserr("NULL in gescrs()");
+  if (ins->slt == NULL || ins->slt->scrs == NULL)
     return(0);
 
-  for (lst = act->scrs; lst != NULL; lst = lst->next) {
-    lst->element.scr->stpadr = gestps(lst->element.scr->stps, act);
+  for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
+    lst->element.scr->stpadr = gestps(lst->element.scr->stps, ins);
     if (lst->element.scr->descr != NULL) {
       lst->element.scr->stmadr = emadr();
-      gestms(lst->element.scr->descr, act);
+      gestms(lst->element.scr->descr, ins);
       emit0(C_STMOP, I_RETURN);
     } else
       lst->element.scr->stmadr = 0;
@@ -160,7 +160,7 @@ Aword gescrs(ActNod *act)
 
   /* Script table */
   scradr = emadr();
-  for (lst = act->scrs; lst != NULL; lst = lst->next) {
+  for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
     emit(lst->element.scr->code);
     emit(lst->element.scr->stmadr);
     emit(lst->element.scr->stpadr);
@@ -182,7 +182,7 @@ void duscr(ScrNod *scr)
 {
   put("SCR: "); dusrcp(&scr->srcp); in();
   put("code: "); duint(scr->code); nl();
-  put("nam: "); dunam(scr->nam); nl();
+  put("id: "); dumpId(scr->id); nl();
   put("stps: "); dulst(scr->stps, LIST_STP); nl();
   put("stpadr: "); duadr(scr->stpadr); out();
 }

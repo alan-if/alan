@@ -27,6 +27,8 @@ typedef struct InsNod {		/* INSTANCE */
 
 
 /* Data: */
+extern int instanceCount;
+
 
 /* Methods: */
 
@@ -38,13 +40,13 @@ extern InsNod *newins(Srcp *srcp,
 		      Slots *slt);
 
 /* Analyze all Instances */
-extern void aninss(void);
+extern void analyzeInstances(void);
 
 /* Prepare all Instances before analysis */
 extern void prepinss(void);
 
 /* Generate code for all Instances */
-extern Aaddr geinss(void);
+extern Aaddr generateInstances(void);
 
 /* Dump an Instance node */
 extern void dumpInstance(InsNod *ins);

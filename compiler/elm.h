@@ -13,7 +13,6 @@
 
 #include "id.h"
 #include "lst.h"
-#include "stx.h"
 
 #include "acode.h"
 
@@ -29,7 +28,7 @@ typedef enum ElmKind {
 typedef struct ElmNod {		/* ELEMENT */
   Srcp srcp;			/* Source position of this element */
   ElmKind kind;			/* Kind of Parameter */
-  IdNod *id;			/* Name */
+  struct IdNod *id;		/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
   int no;			/* AN - parameter number */
   struct ResNod *res;		/* AN - link to the class restriction check */
@@ -50,10 +49,10 @@ extern ElmNod *newelm(Srcp *srcp,
 		      int flags);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */
-extern List *anelms(List *elms, List *ress, StxNod *stx);
+extern List *anelms(List *elms, List *ress, struct StxNod *stx);
 
 /* Generate code for a list of Syntax elements */
-extern Aaddr geelms(List *elms, StxNod *stx);
+extern Aaddr geelms(List *elms, struct StxNod *stx);
 
 /* Dump a Syntax node */
 extern void duelm(ElmNod *elm);

@@ -12,7 +12,6 @@
 
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "stm.h"                /* STM-nodes */
@@ -65,7 +64,7 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 
  */
 static void analt(AltNod *alt,	/* IN - Alternative to analyze */
-		  ActNod *act,	/* IN - Possibly inside Actor? */
+		  InsNod *ins,	/* IN - Possibly inside an Instance? */
 		  List *pars)	/* IN - Possible parameters */
 {
   List *lst;
@@ -87,8 +86,8 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
     }
   } 
 
-  anchks(alt->chks, act, pars);
-  anstms(alt->stms, act, NULL, pars);
+  anchks(alt->chks, ins, pars);
+  anstms(alt->stms, ins, NULL, pars);
 }
 
 
@@ -102,13 +101,13 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
 
  */
 void analts(List *alts,		/* IN - List of alternative to analyze */
-	    ActNod *act,	/* IN - Possibly inside Actor? */
+	    InsNod *ins,	/* IN - Possibly inside Instance? */
 	    List *pars)		/* IN - Possible parameter list */
 {
   List *lst;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    analt(lst->element.alt, act, pars);
+    analt(lst->element.alt, ins, pars);
 }
 
 
@@ -164,14 +163,14 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
 
  */
 static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
-		  ActNod *act)	/* IN - Inside any actor */
+		  InsNod *ins)	/* IN - Inside any Instance? */
 {
   /* First the action, if there is any */
   if (alt->stms == NULL)
     alt->stmadr = 0;
   else {
     alt->stmadr = emadr();
-    gestms(alt->stms, act);
+    gestms(alt->stms, ins);
     emit0(C_STMOP, I_RETURN);
   }
   
@@ -179,7 +178,7 @@ static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
   if (alt->chks == NULL)
     alt->chkadr = 0;
   else
-    alt->chkadr = gechks(alt->chks, act);
+    alt->chkadr = gechks(alt->chks, ins);
 }
 
 
@@ -192,13 +191,13 @@ static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
 
  */
 Aaddr gealts(List *alts,	/* IN - The elements */
-	     ActNod *act)	/* IN - Inside any actor */
+	     InsNod *ins)	/* IN - Inside any Instance? */
 {
   List *lst;
   Aaddr altadr;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    gealt(lst->element.alt, act);
+    gealt(lst->element.alt, ins);
 
   altadr = emadr();
   for (lst = alts; lst != NULL; lst = lst->next)

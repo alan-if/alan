@@ -6,7 +6,7 @@
 
 #include "srcp.h"
 #include "sym.h"
-#include "nam.h"
+#include "id.h"
 #include "exp.h"
 #include "elm.h"
 

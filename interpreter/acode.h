@@ -177,30 +177,31 @@ typedef struct AcdHdr {
   Aaddr oatrs;			/* 08 - Object default attributes */
   Aaddr latrs;			/* 09 - Location default attributes */
   Aaddr aatrs;			/* 0a - Actor default attributes */
-  Aaddr acts;			/* 0b - Actor table */
-  Aaddr objs;			/* 0c - Object table */
-  Aaddr locs;			/* 0d - Location table */
-  Aaddr stxs;			/* 0e - Syntax table */
-  Aaddr vrbs;			/* 0f - Verb table */
-  Aaddr evts;			/* 10 - Event table */
-  Aaddr cnts;			/* 11 - Container table */
-  Aaddr ruls;			/* 12 - Rule table */
-  Aaddr init;			/* 13 - String init table */
-  Aaddr start;			/* 14 - Start code */
-  Aword msgs;			/* 15 - Messages table */
+				/* 3.0 Removed Actor, Object and Location tables */
+				/* 3.0 Inserted Class and Instance tables */
+  Aaddr clas;			/* 0b - Class table */
+  Aaddr inss;			/* 0c - Instance table */
+  Aaddr stxs;			/* 0d - Syntax table */
+  Aaddr vrbs;			/* 0e - Verb table */
+  Aaddr evts;			/* 0f - Event table */
+  Aaddr cnts;			/* 10 - Container table */
+  Aaddr ruls;			/* 11 - Rule table */
+  Aaddr init;			/* 12 - String init table */
+  Aaddr start;			/* 13 - Start code */
+  Aword msgs;			/* 14 - Messages table */
 /* Miscellaneous */
-  Aword objmin, objmax;		/* 16 - Interval for object codes */
-  Aword actmin, actmax;		/* 18 - Interval for actor codes */
-  Aword cntmin, cntmax;		/* 1a - Interval for container codes */
-  Aword locmin, locmax;		/* 1c - Interval for location codes */
-  Aword dirmin, dirmax;		/* 1e - Interval for direction codes */
-  Aword evtmin, evtmax;		/* 20 - Interval for event codes */
-  Aword rulmin, rulmax;		/* 22 - Interval for rule codes */
-  Aword maxscore;		/* 24 - Maximum score */
-  Aaddr scores;			/* 25 - Score table */
-  Aaddr freq;			/* 26 - Address to Char freq's for coding */
-  Aword acdcrc;			/* 27 - Checksum for acd code (excl. hdr) */
-  Aword txtcrc;			/* 28 - Checksum for text data file */
+  Aword objmin, objmax;		/* 15 - Interval for object codes */
+  Aword actmin, actmax;		/* 17 - Interval for actor codes */
+  Aword cntmin, cntmax;		/* 19 - Interval for container codes */
+  Aword locmin, locmax;		/* 1b - Interval for location codes */
+  Aword dirmin, dirmax;		/* 1d - Interval for direction codes */
+  Aword evtmin, evtmax;		/* 1f - Interval for event codes */
+  Aword rulmin, rulmax;		/* 21 - Interval for rule codes */
+  Aword maxscore;		/* 23 - Maximum score */
+  Aaddr scores;			/* 24 - Score table */
+  Aaddr freq;			/* 25 - Address to Char freq's for coding */
+  Aword acdcrc;			/* 26 - Checksum for acd code (excl. hdr) */
+  Aword txtcrc;			/* 27 - Checksum for text data file */
 } AcdHdr;
 
 /* Error message numbers */

@@ -250,3 +250,22 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
   return (p != NULL);
 }
 
+
+/*======================================================================
+
+  symcheck()
+
+  Check if an Id exists and if so if of an allowed kind in this context
+
+*/
+SymNod *symcheck(		/* OUT - Found symbol */
+    ElmNod **elm,		/* OUT - Found parameter  */
+    char *string,		/* IN - The Id to check */
+    SymbolKind kind,		/* IN - Allowed identifier kind */
+    List *pars			/* IN - Possible parameters valid in this context */
+    )
+{
+  syserr("UNIMPL: symcheck() - body");
+}
+
+

@@ -10,7 +10,7 @@
 
 /* USE: */
 #include "srcp.h"
-#include "nam.h"
+#include "id.h"
 #include "lst.h"
 
 
@@ -18,8 +18,8 @@
 
 typedef struct SynNod {
   Srcp srcp;		/* Source position */
-  List *nams;		/* List of synonyms */
-  NamNod *nam;		/* Target identifier */
+  List *ids;		/* List of synonyms */
+  IdNod *id;		/* Target identifier */
 } SynNod;
 
 
@@ -30,8 +30,8 @@ typedef struct SynNod {
 
 /* Create a new Synonym node */
 extern SynNod *newsyn(Srcp *srcp,
-		      List *nams,
-		      NamNod *nam);
+		      List *ids,
+		      IdNod *id);
 
 /* Analyse the Synonyms by finding the target word and inserting synonyms */
 extern void ansyns(void);

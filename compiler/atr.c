@@ -10,9 +10,7 @@
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
 #include "atr.h"		/* ATR-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "loc.h"		/* LOC-nodes */
-#include "act.h"		/* ACT-nodes */
+#include "ins.h"		/* INS-nodes */
 #include "opt.h"		/* OPT-nodes */
 
 #include "acode.h"
@@ -37,7 +35,7 @@ int atrmax;
  */
 AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 	       TypeKind typ,	/* IN - Type of this atribute */
-	       NamNod *nam,	/* IN - The name */
+	       IdNod *id,	/* IN - The id */
 	       int val,		/* IN - The initial value */
 	       long int fpos,	/* IN - File position for initial string */
 	       int len)		/* IN - D:o length */
@@ -50,7 +48,7 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 
   new->srcp = *srcp;
   new->typ = typ;
-  new->nam = nam;
+  new->id = id;
   new->val = val;
   new->stradr = 0;
   new->encoded = FALSE;
@@ -65,7 +63,7 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 
   findatr()
 
-  Finds an attribute node in a supplied list by its name.
+  Finds an attribute node in a supplied list by its id.
 
  */
 AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
@@ -75,11 +73,11 @@ AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
   List *lst;
 
   for (lst = atrlst; lst != NULL; lst = lst->next)
-    if (strcmp(lst->element.atr->nam->str, atr) == 0)
+    if (strcmp(lst->element.atr->id->string, atr) == 0)
       return (lst->element.atr);
 
   for (lst = defatrs; lst != NULL; lst = lst->next)
-    if (strcmp(lst->element.atr->nam->str, atr) == 0)
+    if (strcmp(lst->element.atr->id->string, atr) == 0)
       return (lst->element.atr);
 
   return(NULL);
@@ -94,7 +92,7 @@ AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
   Verify the existence of an attribute for a particular parameter.
 
   */
-AtrNod *paramatr(NamNod *nam, ElmNod *elm)
+AtrNod *paramatr(IdNod *id, ElmNod *elm)
 {
   AtrNod *atr = NULL;
 
@@ -105,15 +103,15 @@ AtrNod *paramatr(NamNod *nam, ElmNod *elm)
     /* No restriction (default = OBJECT) or explicit single class! */
     if (elm->res == NULL || (elm->res->classbits & NAMOBJ) != 0 || (elm->res->classbits & NAMCOBJ) != 0)
       /* Object or Container Object! */
-      atr = findatr(nam->str, adv.oatrs, adv.atrs);
+      atr = findatr(id->string, adv.oatrs, adv.atrs);
     else if ((elm->res->classbits & NAMACT) != 0 || (elm->res->classbits & NAMCACT) != 0)
       /* Actor or Container Actor! */
-      atr = findatr(nam->str, adv.aatrs, adv.atrs);
+      atr = findatr(id->string, adv.aatrs, adv.atrs);
     else /* Containers, Integers and Strings have no attributes... */
-      lmLog(&nam->srcp, 406, sevERR, "");
+      lmLog(&id->srcp, 406, sevERR, "");
   } else
     /* Multiple classes, so can only be in general default attributes */
-    atr = findatr(nam->str, adv.atrs, NULL);
+    atr = findatr(id->string, adv.atrs, NULL);
 #endif
 
   return atr;
@@ -127,7 +125,7 @@ AtrNod *paramatr(NamNod *nam, ElmNod *elm)
   Verify the existence of an attribute for a symbol.
 
   */
-AtrNod *symatr(NamNod *nam, SymNod *sym)
+AtrNod *symatr(IdNod *id, SymNod *sym)
 {
   AtrNod *atr = NULL;
 
@@ -136,18 +134,18 @@ AtrNod *symatr(NamNod *nam, SymNod *sym)
 #else
   switch (sym->kind) {
   case NAMOBJ:
-    atr = findatr(nam->str, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
+    atr = findatr(id->string, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
     break;
   case NAMLOC:
-    atr = findatr(nam->str, ((LocNod *)sym->ref)->atrs, adv.latrs);
+    atr = findatr(id->string, ((LocNod *)sym->ref)->atrs, adv.latrs);
     break;
   case NAMACT:
-    atr = findatr(nam->str, ((ActNod *)sym->ref)->atrs, adv.aatrs);
+    atr = findatr(id->string, ((ActNod *)sym->ref)->atrs, adv.aatrs);
     break;
   }
   if (atr == NULL) {	/* Attribute not found locally */
     /* Try general default attributes */
-    atr = findatr(nam->str, adv.atrs, NULL);
+    atr = findatr(id->string, adv.atrs, NULL);
   }
 #endif
   return atr;
@@ -175,7 +173,7 @@ void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
       for (lstp = alstp; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
 	tmp1 = *lstp;
 	tmp2 = tmp1->next;
-	if (tmp1->element.atr->nam->code > tmp2->element.atr->nam->code){
+	if (tmp1->element.atr->id->symbol->code > tmp2->element.atr->id->symbol->code){
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
 	  tmp2->next = tmp1;
@@ -201,19 +199,20 @@ void prepatrs(void)
   
   /* Number all default attributes */
   for (lst = adv.atrs; lst != NULL; lst = lst->next)
-    lst->element.atr->nam->code = ++atrmax;
+    lst->element.atr->id->symbol->code = ++atrmax;
 
+#ifdef FIXME
   /* Actor attributes */
   aatrmax = atrmax;
   for (lst = adv.aatrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
       /* New attribute for actors */
-      lst->element.atr->nam->code = ++aatrmax;
+      lst->element.atr->id->symbol->code = ++aatrmax;
     } else {			/* Use default attribute code */
       /* Was a redefined default attribute, type check it and use same code */
       if (!eqtyp(lst->element.atr->typ, atr->typ))
 	lmLogv(&lst->element.atr->srcp, 332, sevERR, "actor", "default", NULL);
-      lst->element.atr->nam->code = atr->nam->code;
+      lst->element.atr->id->symbol->code = atr->id->symbol->code;
     }
   }
   sortatr(&adv.aatrs);
@@ -221,14 +220,14 @@ void prepatrs(void)
   /* Location attributes */
   latrmax = atrmax;
   for (lst = adv.latrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
       /* New attribute for locations */
-      lst->element.atr->nam->code = ++latrmax;
+      lst->element.atr->id->symbol->code = ++latrmax;
     } else {			/* Use default attribute code */
       /* Was a redefined default attribute, type check it and use same code */
       if (!eqtyp(lst->element.atr->typ, atr->typ))
 	lmLogv(&lst->element.atr->srcp, 332, sevERR, "location", "default", NULL);
-      lst->element.atr->nam->code = atr->nam->code;
+      lst->element.atr->id->symbol->code = atr->id->symbol->code;
     }
   }
   sortatr(&adv.latrs);
@@ -236,17 +235,18 @@ void prepatrs(void)
   /* Object attributes */
   oatrmax = atrmax;
   for (lst = adv.oatrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
       /* New attribute for objects */
-      lst->element.atr->nam->code = ++oatrmax;
+      lst->element.atr->id->symbol->code = ++oatrmax;
     } else {			/* Use default attribute code */
       /* Was a redefined default attribute, type check it and use same code */
       if (!eqtyp(lst->element.atr->typ, atr->typ))
 	lmLogv(&lst->element.atr->srcp, 332, sevERR, "object", "default", NULL);
-      lst->element.atr->nam->code = atr->nam->code;
+      lst->element.atr->id->symbol->code = atr->id->symbol->code;
     }
   }
   sortatr(&adv.oatrs);
+#endif
 }
 
 
@@ -264,8 +264,8 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 
   while (atrs) {
     for (al = atrs->next; al; al = al->next) {
-      if (eqnams(atrs->element.atr->nam, al->element.atr->nam))
-	  lmLog(&al->element.atr->nam->srcp, 218, sevERR, al->element.atr->nam->str);
+      if (eqids(atrs->element.atr->id, al->element.atr->id))
+	  lmLog(&al->element.atr->id->srcp, 218, sevERR, al->element.atr->id->string);
     }
     atrs = atrs->next;
   }
@@ -321,17 +321,17 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
       lst->element.atr->stradr = emadr();
-      emitstr(lst->element.atr->nam->str);
+      emitstr(lst->element.atr->id->string);
     }
     if (datrs != NULL && datrs->element.atr->stradr == 0)
       for (lst = datrs; lst != NULL; lst = lst->next) {
         lst->element.atr->stradr = emadr();
-        emitstr(lst->element.atr->nam->str);
+        emitstr(lst->element.atr->id->string);
       }
     if (gatrs != NULL && gatrs->element.atr->stradr == 0)
       for (lst = gatrs; lst != NULL; lst = lst->next) {
         lst->element.atr->stradr = emadr();
-        emitstr(lst->element.atr->nam->str);
+        emitstr(lst->element.atr->id->string);
       }
   }
 
@@ -364,7 +364,7 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
 
       /* Two lists remaining */
     case 3:                     /* lst, dlst != NULL */
-      if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
+      if (dlst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
         /* There is a default attribute with lower number, so generate it */
         geatr(dlst->element.atr);
         dlst = dlst->next;
@@ -376,7 +376,7 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
       break;
 
     case 5:                     /* lst, glst != NULL */
-      if (glst->element.atr->nam->code < lst->element.atr->nam->code) {
+      if (glst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
         /* There is a default attribute with lower number, so generate it */
         geatr(glst->element.atr);
         glst = glst->next;
@@ -388,7 +388,7 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
       break;
 
     case 6:                     /* dst, glst != NULL */
-      if (glst->element.atr->nam->code < dlst->element.atr->nam->code) {
+      if (glst->element.atr->id->symbol->code < dlst->element.atr->id->symbol->code) {
         /* There is a general default attribute with lower number */
         geatr(glst->element.atr);
         glst = glst->next;
@@ -401,17 +401,17 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
 
       /* And now for the most complex case, all lists != NULL */
     case 7:
-      if (glst->element.atr->nam->code < dlst->element.atr->nam->code && glst->element.atr->nam->code < lst->element.atr->nam->code) {
+      if (glst->element.atr->id->symbol->code < dlst->element.atr->id->symbol->code && glst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
         /* There is a general default attribute with lower number than
            the one in the class default list and in the local list,
            so generate it */
         geatr(glst->element.atr);
         glst = glst->next;
-      } else if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
+      } else if (dlst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
         /* There is a class default attribute with lower number than
            the one in the local list, so generate it */
         geatr(dlst->element.atr);
-        if (glst->element.atr->nam->code == dlst->element.atr->nam->code)
+        if (glst->element.atr->id->symbol->code == dlst->element.atr->id->symbol->code)
           /* If the global attribute has the same number advance it too */
           glst = glst->next;
         /* Advance the class default */
@@ -420,10 +420,10 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
         /* The local attribute is a local instance of some default attribute */
         geatr(lst->element.atr);
         /* If the general deafult attribute has the same number advance it */
-        if (glst->element.atr->nam->code == lst->element.atr->nam->code)
+        if (glst->element.atr->id->symbol->code == lst->element.atr->id->symbol->code)
           glst = glst->next;
         /* If the class default attribute has the same number advance it */
-        if (dlst->element.atr->nam->code == lst->element.atr->nam->code)
+        if (dlst->element.atr->id->symbol->code == lst->element.atr->id->symbol->code)
           dlst = dlst->next;
         /* Advance local attribute */
         lst = lst->next;
@@ -473,7 +473,7 @@ void duatr(AtrNod *atr)
 {
   put("ATR: "); dusrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();
-  put("nam: "); dunam(atr->nam); nl();
+  put("id: "); dumpId(atr->id); nl();
   put("stradr: "); duadr(atr->stradr); nl();
   put("val: "); duint(atr->val); nl();
   put("fpos: "); duint(atr->fpos); nl();

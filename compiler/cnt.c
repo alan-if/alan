@@ -15,7 +15,6 @@
 #include "adv.h"		/* ADV-node */
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "cnt.h"		/* CNT-nodes */
@@ -42,7 +41,7 @@ int cntcount = 0;
 
  */
 CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,	/* IN - The name of the container */
+	       IdNod *id,	/* IN - The name of the container */
 	       List *lims,	/* IN - Limits */
 	       List *hstms,	/* IN - Header statements */
 	       List *estms)	/* IN - Else (empty) statements */
@@ -125,7 +124,8 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
 
   switch (wht->wht) {
   case WHT_ID:
-    namcheck(&sym, &elm, wht->nam, NAMANY, NAMCNT, pars);
+    sym = symcheck(&elm, wht->id, INSTANCE_SYMBOL, pars);
+    syserr("UNIMPL: verify container property");
     if (sym)
       switch (sym->class) {
       case NAMCNT:

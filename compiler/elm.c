@@ -13,7 +13,6 @@
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "stx.h"		/* STX-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
 
@@ -85,12 +84,12 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 #else
   switch (elm->kind) {
   case ELMPAR:
-    elm->nam->kind = NAMPAR;    /* It is a parameter */
-    elm->nam->code = elm->no;
+    elm->id->kind = NAMPAR;    /* It is a parameter */
+    elm->id->code = elm->no;
     break;
   case ELMWRD:
-    elm->nam->kind = NAMWRD;    /* It is a word */
-    elm->nam->code = newwrd(elm->nam->str, WRD_PREP, 0, NULL);
+    elm->id->kind = NAMWRD;    /* It is a word */
+    elm->id->code = newwrd(elm->id->str, WRD_PREP, 0, NULL);
     break;
   case ELMEOS:
     break;
@@ -128,8 +127,8 @@ List *anelms(
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
   else {
-    elm->nam->kind = NAMWRD;    /* It is a word */
-    elm->nam->code = newwrd(elm->nam->str, WRD_VRB, 0, (void *)stx);
+    elm->id->kind = NAMWRD;    /* It is a word */
+    elm->id->code = newwrd(elm->id->str, WRD_VRB, 0, (void *)stx);
   }
 #endif
 
@@ -152,14 +151,14 @@ List *anelms(
       syserr("UNIMPLEMENTED: anelms() - restriction analysis");
 #else
       for (resLst = ress; resLst; resLst = resLst->next) {
-        if (eqnams(resLst->element.res->nam, lst->element.elm->nam)) {
+        if (eqids(resLst->element.res->id, lst->element.elm->id)) {
           if (found)
-            lmLog(&resLst->element.res->nam->srcp, 221, sevERR, resLst->element.res->nam->str);
+            lmLog(&resLst->element.res->id->srcp, 221, sevERR, resLst->element.res->id->string);
           else {
             found = TRUE;
             lst->element.elm->res = resLst->element.res;
-            resLst->element.res->nam->kind = NAMPAR;
-            resLst->element.res->nam->code = lst->element.elm->no;
+            resLst->element.res->id->kind = NAMPAR;
+            resLst->element.res->id->code = lst->element.elm->no;
           }
         }
       }

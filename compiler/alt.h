@@ -11,7 +11,6 @@
 /* USE: */
 #include "srcp.h"
 #include "lst.h"
-#include "act.h"
 #include "id.h"
 
 #include "acode.h"
@@ -53,10 +52,10 @@ extern AltNod *newalt(Srcp *srcp,
 		      List *stms);
 
 /* Analyze a list of verb Alternatives */
-extern void analts(List *alts, ActNod *act, List *pars);
+extern void analts(List *alts, struct InsNod *ins, List *pars);
 
 /* Generate code for a list of verb Alternatives */
-extern Aaddr gealts(List *alts, ActNod *act);
+extern Aaddr gealts(List *alts, struct InsNod *ins);
 
 /* Dump a verb Alternative */
 extern void dualt(AltNod *alt);

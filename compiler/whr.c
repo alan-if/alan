@@ -13,7 +13,6 @@
 
 #include "acode.h"
 
-#include "nam.h"		/* NAM-nodes */
 #include "sym.h"		/* SYM-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"		/* ELM-nodes */
@@ -94,7 +93,11 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
     }
     break;
   case WHR_IN:
+#ifndef FIXME
+    syserr("UNIMPL: cntcheck");
+#else
     cntcheck(whr->wht, pars);
+#endif
     break;
   default:
     syserr("Unrecognized switch in anwhr()");
@@ -118,8 +121,12 @@ void gewhr(WhrNod *whr)		/* IN - Where node */
     switch (whr->wht->wht) {
     case WHT_ID:
       gewht(whr->wht);
+#ifdef FIXME
+      /* Do this instance have location properties?
+	 Or should we locate at the same place? */
       if (whr->wht->id->kind != NAMLOC)
 	emit0(C_STMOP, I_WHERE);
+#endif
       break;
     case WHT_OBJ:
       emit0(C_CONST, 1);

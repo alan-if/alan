@@ -98,6 +98,21 @@ void symbolizeClasses(void)
  */
 void analyzeClasses(void)
 {
+  syserr("UNIMPL: analyzeClasses");
+}
+
+
+/*======================================================================
+
+  generateClasses()
+
+  Generate all Class nodes.
+
+ */
+Aaddr generateClasses(void)
+{
+  syserr("UNIMPL: generateClasses");
+  return 0;
 }
 
 
