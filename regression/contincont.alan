@@ -1,5 +1,7 @@
 
-SYNTAX put_in = 'put' (o) 'in' (c).
+SYNTAX put_in = 'put' (o) 'in' (c)
+  WHERE c ISA container
+    ELSE "You can not put anything in that."
 
 VERB put_in
   DOES

@@ -1,3 +1,10 @@
+Tue Apr 28 17:56:58 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Fixed a problem with the semantic check of parameters. When
+ 	there where no restriction clause sometimes LIST statements and
+ 	other container-requiring statements could slip through, which
+ 	could cause a run-time (interpreter caught) error.
+
 Mon Apr  6 14:41:06 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Made RANDOM accept integer primary expressions as parameters,

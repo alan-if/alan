@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				SYM.C
-			  Symbol Table Nodes
+                                SYM.C
+                          Symbol Table Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -10,16 +10,16 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "sym.h"		/* SYM-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "vrb.h"		/* VRB-nodes */
-#include "ext.h"		/* EXT-nodes */
-#include "elm.h"		/* ELM-nodes */
-#include "loc.h"		/* LOC-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "act.h"		/* ACT-nodes */
-#include "evt.h"		/* EVT-nodes */
+#include "sym.h"                /* SYM-nodes */
+#include "nam.h"                /* NAM-nodes */
+#include "vrb.h"                /* VRB-nodes */
+#include "ext.h"                /* EXT-nodes */
+#include "elm.h"                /* ELM-nodes */
+#include "loc.h"                /* LOC-nodes */
+#include "cnt.h"                /* CNT-nodes */
+#include "obj.h"                /* OBJ-nodes */
+#include "act.h"                /* ACT-nodes */
+#include "evt.h"                /* EVT-nodes */
 
 
 
@@ -34,11 +34,11 @@ static SymNod *symtree = NULL;
   Calls lmLog() with correct code according to the symnod sent.
 
   */
-void redefined(Srcp *srcp,	/* IN - Source position */
-	       SymNod *sym,	/* IN - The previous definition */
-	       char *str)	/* IN - The symbol name */
+void redefined(Srcp *srcp,      /* IN - Source position */
+               SymNod *sym,     /* IN - The previous definition */
+               char *str)       /* IN - The symbol name */
 {
-  int code;			/* Error code */
+  int code;                     /* Error code */
 
   switch (sym->class) {
   case NAMDIR: code = 301; break;
@@ -63,13 +63,13 @@ void redefined(Srcp *srcp,	/* IN - Source position */
   Creates a new symnod and links it in the symtree.
 
   */
-int newsym(char *str,		/* IN - Name of the new symbol */
-	   NamKind class,	/* IN - and its class */
-	   void *ref)		/* IN - Reference to the symbols node */
+int newsym(char *str,           /* IN - Name of the new symbol */
+           NamKind class,       /* IN - and its class */
+           void *ref)           /* IN - Reference to the symbols node */
 {
-  SymNod *new;			/* The newly created symnod */
-  SymNod *s1,*s2;		/* Traversal pointers */
-  int comp;			/* Result of comparison */
+  SymNod *new;                  /* The newly created symnod */
+  SymNod *s1,*s2;               /* Traversal pointers */
+  int comp;                     /* Result of comparison */
   
   if (str == NULL)
     return (0);
@@ -125,10 +125,10 @@ int newsym(char *str,		/* IN - Name of the new symbol */
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-SymNod *lookup(char *str)	/* IN - The name to look up */
+SymNod *lookup(char *str)       /* IN - The name to look up */
 {
-  SymNod *s1,*s2;		/* Traversal pointers */
-  int comp;			/* Result of comparison */
+  SymNod *s1,*s2;               /* Traversal pointers */
+  int comp;                     /* Result of comparison */
 
   if (str == NULL) return(NULL);
 
@@ -177,7 +177,7 @@ static char *symstr(NamKind syms) /* IN - A set of symbol types */
     "a Word",
     "a Rule"
     };
-  static char str[255];		/* To hold the string */
+  static char str[255];         /* To hold the string */
   Bool found = FALSE;
   int i;
 
@@ -185,11 +185,11 @@ static char *symstr(NamKind syms) /* IN - A set of symbol types */
   if (syms & NAMACT) syms &= ~NAMCACT;
   if (syms & NAMOBJ) syms &= ~NAMCOBJ;
 
-  str[0] = '\0';		/* Clear the string */
+  str[0] = '\0';                /* Clear the string */
   for (i = 0; i <= 15; i++) {
     if ((syms & (1<<i)) != 0) {
       if (found)
-	strcat(str, " or ");
+        strcat(str, " or ");
       strcat(str, sym[i]);
       found = TRUE;
     }
@@ -209,16 +209,16 @@ static char *symstr(NamKind syms) /* IN - A set of symbol types */
 
   */
 void symcheck(
-    SymNod **sym,		/* OUT - Found symbol */
-    ElmNod **elm,		/* OUT - Found parameter  */
-    NamNod *nam,		/* IN - The name to check */
-    NamKind classes,		/* IN - A set of symbol classes */
-    NamKind props,		/* IN - A set of symbol properties */
-    List *pars			/* IN - Possible parameters */
+    SymNod **sym,               /* OUT - Found symbol */
+    ElmNod **elm,               /* OUT - Found parameter  */
+    NamNod *nam,                /* IN - The name to check */
+    NamKind classes,            /* IN - A set of symbol classes */
+    NamKind props,              /* IN - A set of symbol properties */
+    List *pars                  /* IN - Possible parameters */
 )
 {
-  List *lst;			/* Parameter traversal pointer*/
-  NamKind elmclasses;		/* Classes defined for the parameter */
+  List *lst;                    /* Parameter traversal pointer*/
+  NamKind elmclasses;           /* Classes defined for the parameter */
 
   *sym = NULL;
   *elm = NULL;
@@ -227,7 +227,7 @@ void symcheck(
 
   /* Look it up, as a symbol and in the parameter list */
   *sym = lookup(nam->str);
-  *elm = NULL;			/* Clear it first */
+  *elm = NULL;                  /* Clear it first */
   for (lst = pars; lst; lst = lst->next) /* Then search for parameter */
     if (eqnams(lst->element.elm->nam, nam)) {
       *elm = lst->element.elm;
@@ -246,23 +246,28 @@ void symcheck(
       lmLog(&nam->srcp, 212, sevINF, nam->str);
       *sym = NULL;
     }
-    nam->kind = NAMPAR;		/* Remember it is a parameter */
+    nam->kind = NAMPAR;         /* Remember it is a parameter */
     nam->code = (*elm)->no;
     /* Check if classes match */
     if ((*elm)->res == NULL) {
-      /* No definition, assume OBJECT */
+      /* No restrictions defined, can only be an OBJECT */
       if ((classes & NAMOBJ) == 0) {
-	lmLog(&nam->srcp, 312, sevERR, symstr(classes));
-	*elm = NULL;
-      }
+        lmLog(&nam->srcp, 312, sevERR, symstr(classes));
+        *elm = NULL;
+      } else
+	/* Check properties */
+	if (props != NAMANY) {
+	  lmLog(&nam->srcp, 312, sevERR, symstr(props));
+	  *elm = NULL;
+	}
     } else {
       /* Check its defined classes */
       elmclasses = (*elm)->res->classes & (~NAMCNT); /* Ignore container prop */
       if ((classes & elmclasses) != elmclasses ) {
-	lmLog(&nam->srcp, 312, sevERR, symstr(classes));
-	*elm = NULL;
+        lmLog(&nam->srcp, 312, sevERR, symstr(classes));
+        *elm = NULL;
       } else {
-	/* If it was uniquely defined as any literal say so */
+	/* If it was uniquely defined as any type of literal say so */
 	if (elmclasses & NAMNUM)
 	  nam->kind = NAMNUM;
 	else if (elmclasses & NAMSTR)
