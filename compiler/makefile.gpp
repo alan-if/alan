@@ -1,6 +1,6 @@
 CFLAGS = -g -ansi -pedantic -funsigned-char -Uunix -U__unix__ -D__dos__
 
-LDFLAGS =
+LDFLAGS = -lemu
 
 OBJECTS = \
 	alan.o \

@@ -219,7 +219,7 @@ malloc: tm $(OBJECTS) version.o
 	-rm alan.o
 
 purify: tm $(OBJECTS) version.o alan.o
-	purify -handle-signals $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
+	purify -handle-signals= $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 quantify: tm $(OBJECTS) version.o alan.o
 	quantify -append-logfile -filename-prefix=%v -windows=no $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
@@ -267,7 +267,7 @@ DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
 	make src	
 #	This was because some compilers on DOS can't cope with standard
-#	pointer arithemtic in the generated scanner code
+#	pointer arithmetic in the generated scanner code
 #	make savetm
 #	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
 #	smk $(SMKQ) -set PC alan

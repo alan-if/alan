@@ -4,7 +4,7 @@
 	Listings single;
 	Limit 1000;
 --	Message file;
-	Library '.';
+--	Library '.';
 
 %%MESSAGES English
 
