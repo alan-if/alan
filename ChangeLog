@@ -1,3 +1,7 @@
+Mon Jan 10 13:58:40 1994  Thomas Nilsson  (thoni@rabbit)
+
+	* Fixed bug in compiler concerning check for comparisons of equal entities
+
 Fri Jan  7 12:01:44 1994  Thomas Nilsson  (thoni@rabbit)
 
 	* Added '-cc' to show compiler messages in old 'cc' style
