@@ -27,4 +27,5 @@ extern int literalFromInstance(Aint instance);
 extern Aint instanceFromLiteral(int literalIndex);
 extern void setupParameterForInstance(int parameter, Aint instance);
 extern void setupParameterForInteger(int parameter, Aint value);
+extern void setupParameterForString(int parameter, char *value);
 extern void restoreParameters();

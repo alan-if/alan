@@ -148,9 +148,9 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "poäng av $1.",
    "Punkte von $1."},
   {M_UNKNOWN_WORD, "unknownword",
-   "I don't know that word.",
-   "Jag känner inte till det ordet.",
-   "Ich kenne dieses Wort nicht."},
+   "I don't know the word '$1'.",
+   "Jag känner inte till ordet '$1'.",
+   "Ich kenne das Wort '$1' nicht."},
   {M_MORE, "more",
    "<More>",
    "<Mera>",
@@ -397,6 +397,7 @@ Context *contextFor(MsgKind messageNo) {
 
   case M_WHAT_WORD:
   case M_AFTER_BUT:
+  case M_UNKNOWN_WORD:
     return newContext(VERB_CONTEXT, messageVerbSymbolForString);
 
   case M_BUT_ALL:
@@ -419,7 +420,6 @@ Context *contextFor(MsgKind messageNo) {
   case M_CONTAINS_COMMA:
   case M_CONTAINS_AND:
   case M_CONTAINS_END:
-  case M_UNKNOWN_WORD:
   case M_MORE:
   case M_AGAIN:
   case M_SAVEWHERE:

@@ -1,0 +1,15 @@
+########## unknownWordMessage ##########
+
+
+unknownWordMessage.alan
+
+    3.    If parameter1 Is large Then "large" End If.
+=====>                     1
+
+  *1*   406 E : Integer and String parameters have no attributes.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>395.89</origest>
 <currest>394.89</currest>
-<elapsed>228.89</elapsed>
+<elapsed>229.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>88</origest>
 <currest>88</currest>
-<elapsed>34</elapsed>
+<elapsed>35</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>40</origest>
 <currest>40</currest>
-<elapsed>34</elapsed>
+<elapsed>35</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -462,7 +462,7 @@ M_CARRIES et at.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

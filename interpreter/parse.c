@@ -75,16 +75,15 @@ static char *token;
 
 /*----------------------------------------------------------------------*/
 static void unknown(char token[]) {
-  char *str = allocate((int)strlen(token)+4);
+  char *str = strdup(token);
 
-  sprintf(str, "'%s'?", token);
 #if ISO == 0
   fromIso(str, str);
 #endif
-  output(str);
+  setupParameterForString(1, str);
+  printMessage(M_UNKNOWN_WORD);
   free(str);
-  eol = TRUE;
-  error(M_UNKNOWN_WORD);
+  error(MSGMAX);		/* Error return without any output */
 }
 
 
@@ -353,6 +352,24 @@ void setupParameterForInteger(int parameter, Aint value) {
   savedParameters[parameter].instance = EOF;
 
   createIntegerLiteral(value);
+  parameters[parameter-1].instance = instanceFromLiteral(litCount);
+  parameters[parameter-1].useWords = FALSE;
+  parameters[parameter].instance = EOF;
+}
+
+
+/*======================================================================*/
+void setupParameterForString(int parameter, char *value) {
+
+  if (parameter > 2)
+    syserr("Saving more parameters than expected");
+
+  allocateParameters(&parameters, header->maxParameters);
+
+  savedParameters[parameter-1] = parameters[parameter-1];
+  savedParameters[parameter].instance = EOF;
+
+  createStringLiteral(value);
   parameters[parameter-1].instance = instanceFromLiteral(litCount);
   parameters[parameter-1].useWords = FALSE;
   parameters[parameter].instance = EOF;
