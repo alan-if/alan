@@ -234,7 +234,7 @@ static void gestx(stx)
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }
-    stx->elmsadr = geelms(elms);
+    stx->elmsadr = geelms(elms, stx);
   } else
     stx->elmsadr = 0;
 }

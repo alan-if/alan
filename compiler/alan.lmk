@@ -3,6 +3,7 @@
 	Prefix 'lm';
 	Listings single;
 --	Message file;
+--	Library '.';
 
 %%MESSAGES English
 
@@ -71,6 +72,7 @@
 331	'Incompatible types in %1.';
 332	'Type of local attribute must match default attribute.';
 333	'The word \'%1\' is defined as a synonym as well as of another word class.';
+334	'This syntax is eqivalent to another.';
 
 400	'Script not defined for Actor \'%1\'';
 401	'Actor reference required outside Actor specification.';
