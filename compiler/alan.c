@@ -143,7 +143,7 @@ static void endTotalTiming(void)
 {
   tistop(&totalTime);
 #ifdef MULTI
-  tim.tot = totTime.pu_elapsed;
+  tim.tot = totalTime.pu_elapsed;
 #else
   tim.tot = totalTime.real_elapsed*1000;
 #endif
