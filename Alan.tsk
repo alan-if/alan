@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>369.89</origest>
 <currest>368.89</currest>
-<elapsed>208.89</elapsed>
+<elapsed>209.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>62</origest>
 <currest>62</currest>
-<elapsed>14</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>26</origest>
 <currest>26</currest>
-<elapsed>14</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -201,7 +201,7 @@ Interpreter finds instances and *then* calls author defined code.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
