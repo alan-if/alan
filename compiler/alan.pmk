@@ -6,7 +6,7 @@
 	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
---	Line;
+	Line;
 --	Debug;
 	No Resolve;
 
@@ -741,49 +741,55 @@ static int val(char str[])
     %%
 	%<slots>.nams = concat(%<slots>.nams, %<slot>.nam, LIST_NAM);
 
-        if (%<slot>.whr != NULL)
+        if (%<slot>.whr != NULL) {
             if (%<slots>.whr != NULL) 
                 /* WHERE clause already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
 	    else
 	        %<slots>.whr = %<slot>.whr;
+        }
 
 	%<slots>.atrs = combine(%<slots>.atrs, %<slot>.atrs);
 
-	if (%<slot>.cnt != NULL)
+	if (%<slot>.cnt != NULL) {
             if (%<slots>.cnt != NULL)
                 /* CONTAINER properties already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
 	    else 
 	        %<slots>.cnt = %<slot>.cnt;
+        }
 
-	if (%<slot>.dscr != NULL)
+	if (%<slot>.dscr != NULL) {
             if(%<slots>.dscr != NULL)
                 /* DESCRIPTION already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else 
 	        %<slots>.dscr = %<slot>.dscr;
+        }
 
-	if (%<slot>.ment != NULL)
+	if (%<slot>.ment != NULL) {
             if (%<slots>.ment != NULL)
                 /* MENTIONED already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
 	    else
                 %<slots>.ment = %<slot>.ment;
+        }
 
-	if (%<slot>.art != NULL)
+	if (%<slot>.art != NULL) {
             if (%<slots>.art != NULL)
                 /* ARTICLE already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
             else 
 	        %<slots>.art = %<slot>.art;
+        }
 
-	if (%<slot>.does != NULL)
+	if (%<slot>.does != NULL) {
             if (%<slots>.does != NULL)
                 /* DOES/ENTERED already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
 	    else 
 	        %<slots>.does = %<slot>.does;
+        }
 
 	%<slots>.exts = concat(%<slots>.exts, %<slot>.ext, LIST_EXT);
 	%<slots>.vrbs = concat(%<slots>.vrbs, %<slot>.vrb, LIST_VRB);
@@ -800,9 +806,13 @@ static int val(char str[])
     }%%
 
     ! <where> ['.']
-    %%{ WhrNod *whr = %<where>.whr;
+    %%{
+        WhrNod *whr = %<where>.whr;
+        Srcp srcp = %<where>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.whr = whr;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <is> <attributes>				%+('EXIT', 'IN', 'ARTICLE')
@@ -812,21 +822,33 @@ static int val(char str[])
     %%
 
     ! <container properties>
-    %%{ CntNod *cnt = %<container properties>.cnt;
+    %%{
+        CntNod *cnt = %<container properties>.cnt;
+        Srcp srcp = %<container properties>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.cnt = cnt;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <description>
-    %%{ List *dscr = %<description>.stms;
+    %%{
+        List *dscr = %<description>.stms;
+        Srcp srcp = %<description>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.dscr = dscr;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <mentioned>
-    %%{ List *ment = %<mentioned>.stms;
+    %%{
+        List *ment = %<mentioned>.stms;
+        Srcp srcp = %<mentioned>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.ment = ment;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <article>
@@ -836,9 +858,13 @@ static int val(char str[])
     }%%
 
     ! <does>
-    %%{ List *does = %<does>.does;
+    %%{
+        List *does = %<does>.does;
+        Srcp srcp = %<does>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.does = does;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <exit>

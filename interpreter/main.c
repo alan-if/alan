@@ -60,6 +60,7 @@ CurVars cur;
 InstanceEntry *instance;	/* Instance table pointer */
 ClassEntry *class;		/* Class table pointer */
 
+AdminEntry *admin;		/* Administrative data about instances */
 WrdEntry *dict;			/* Dictionary pointer */
 ActEntry *acts;			/* Actor table pointer */
 LocEntry *locs;			/* Location table pointer */
@@ -1604,6 +1605,9 @@ static void initheader(void)
 static void initheader()
 #endif
 {
+  /* Allocate for administrative table */
+  admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
+
   dict = (WrdEntry *) addrTo(header->dict);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);

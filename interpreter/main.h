@@ -28,6 +28,7 @@ extern AcdHdr *header;
 extern CurVars cur;
 
 /* Amachine data structures */
+extern AdminEntry *admin;	/* Administrative data about instances */
 extern WrdEntry *dict;		/* Dictionary pointer */
 extern InstanceEntry *instance; /* Instance table pointer */
 extern ClassEntry *class;	/* Instance table pointer */

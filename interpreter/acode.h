@@ -173,7 +173,6 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword location;		/* Code for current location */
   Aaddr attributes;		/* Address of attribute list */
   Aaddr description;		/* Address of description code */
-  Abool describe;		/* Is this to be described? */
   Aaddr mentioned;		/* Address of "mentioned" code */
   Aaddr article;		/* Address of article code */
   Aaddr exits;			/* Address of exit list */

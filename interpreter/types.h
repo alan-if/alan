@@ -78,6 +78,12 @@ typedef struct CurVars {
     visits;
 } CurVars;
 
+typedef struct AdminEntry {	/* Administrative data about instances */
+  Abool alreadyDescribed;
+  Aint visitsCount;
+} AdminEntry;
+
+
 /* The various tables */
 typedef struct WrdEntry {	/* Dictionary */
   Aaddr wrd;			/* ACODE address to string */

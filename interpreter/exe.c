@@ -428,6 +428,7 @@ static void setloc(loc, atr, val)
 #endif
 {
   setatr(locs[loc-LOCMIN].atrs, atr, val);
+  /* Since the location have changed we should describe it next turn */
   locs[loc-LOCMIN].describe = 0;
 }
 
@@ -845,7 +846,7 @@ static void locateActor(act, whr)
   cur.loc = whr;
   instance[act].location = whr;
   if (act == HERO) {
-    if (instance[instance[act].location].describe % (cur.visits+1) == 0)
+    if (admin[instance[act].location].visitsCount % (cur.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -856,10 +857,10 @@ static void locateActor(act, whr)
       dscrobjs();
       dscracts();
     }
-    instance[where(HERO)].describe++;
-    instance[where(HERO)].describe %= (cur.visits+1);
+    admin[where(HERO)].visitsCount++;
+    admin[where(HERO)].visitsCount %= (cur.visits+1);
   } else
-    instance[whr].describe = 0;
+    admin[whr].visitsCount = 0;
 #ifdef IMPLEMENTED_DOES
   if (instance[cur.loc].does != 0) {
     cur.act = act;
@@ -1223,8 +1224,10 @@ void describe(id)
   } else if (id > header->instanceMax) {
     sprintf(str, "Can't DESCRIBE item (%ld > instanceMax).", id);
     syserr(str);
-  } else if (instance[id].description != 0)
+  } else if (instance[id].description != 0) {
     interpret(instance[id].description);
+    admin[id].alreadyDescribed = TRUE;
+  }
 
   dscrstkp--;
 }
@@ -1379,14 +1382,14 @@ void dscrobjs()
   /* First describe everything here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	instance[i].describe &&
+	!admin[i].alreadyDescribed &&
 	instance[i].description)
       describe(i);
 
   /* Then list everything else here */
   for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	instance[i].describe) {
+	!admin[i].alreadyDescribed) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
 	sayarticle(i);
@@ -1415,7 +1418,7 @@ void dscrobjs()
   
   /* Set describe flag for all objects */
   for (i = 1; i <= header->instanceMax; i++)
-    instance[i].describe = TRUE;
+    admin[i].alreadyDescribed = FALSE;
 }
 
 
@@ -1452,7 +1455,7 @@ void look()
   looking = TRUE;
   /* Set describe flag for all objects and actors */
   for (i = 1; i <= header->instanceMax; i++)
-    instance[i].describe = TRUE;
+    admin[i].alreadyDescribed = FALSE;
 
   if (anyOutput)
     para();
