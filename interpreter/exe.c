@@ -189,8 +189,9 @@ Boolean confirm(msgno)
   getstr(msgs[msgno].fpos, msgs[msgno].len);
   msg = (char *)pop();
   output(msg);
-  gets(str); col = 1;
-  
+  col = 1;
+  if (gets(str) == NULL) return FALSE;
+
   /* Use a character inside parenthesis as affirmative */
   for (i = 0; msg[i]; i++)
     if (msg[i] == '(' && msg[i+2] == ')') {
