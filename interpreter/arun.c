@@ -1660,13 +1660,13 @@ int main(argc, argv)
   malloc_debug(2);
 #endif
 
-  args(argc, argv);
-
   /* Set up page format in case we get a system error */
   lin = col = 1;
   header->paglen = 24;
   header->pagwidth = 70;
   getPageSize();
+
+  args(argc, argv);
 
   if (dbgflg||verbose) {
     if (dbgflg) printf("<");

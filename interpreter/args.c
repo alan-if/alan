@@ -61,8 +61,10 @@ static void switches(argc, argv)
       }
     } else {
       advnam = argv[i];
-      if ((strcmp(&advnam[strlen(advnam)-4], ".acd") == 0)
-		  || (strcmp(&advnam[strlen(advnam)-4], ".dat") == 0))
+      if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
+	  || strcmp(&advnam[strlen(advnam)-4], ".ACD") == 0
+	  || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0
+	  || strcmp(&advnam[strlen(advnam)-4], ".DAT") == 0)
 		advnam[strlen(advnam)-4] = '\0';
     }
   }

@@ -252,7 +252,7 @@ int scannedLines()
 
 %%SKIP
 
-  blanks = [ \n\t]+;
+  blanks = [ \n\t\x0d]+;
 
   comment = '--' [^\n]*;
 
