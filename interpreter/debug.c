@@ -80,7 +80,7 @@ static void showContents(int cnt)
 {
   int i;
   char str[80];
-  Abool found;
+  Abool found = FALSE;
 
   output("$iContains:");
   for (i = 1; i <= header->instanceMax; i++) {

@@ -330,7 +330,7 @@ static int test_severity(char *err, lmSev sevs)
 {
   /* Check if the severity was among the wanted ones */
   char c;
-  lmSev sev;
+  lmSev sev = sevSYS;
 
   sscanf(err, "%*d %c", &c);
   switch (c) {
