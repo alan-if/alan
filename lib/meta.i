@@ -1,88 +1,104 @@
 -- meta.i
--- Library version 0.1, 0.2
+-- Library version 0.3.2
 
 
-SYNONYMS
-    q = quit.
+-- 0.3.2
+--      converted to Alan v3 syntax
+-- 0.3 
+--      - changed text for 'again' command
+--      - made q a separate verb instead of synonym of quit
+
 
 SYNTAX
-    quit = quit.
+	'quit' = 'quit'.
+	q = q.
 
-VERB quit
-    DOES
-    	QUIT.
+VERB 'quit'
+	DOES
+		QUIT.
+END VERB.
+
+VERB q
+	DOES
+		"Please write the full 'quit' command to exit from the game.
+		$p(You can't undo a quit instruction. So to avoid accidentally 
+		exiting the game by typing 'q' when you meant to do something else, 
+		you must write the 'quit' command in full.)"
 END VERB.
 
 
 SYNTAX
-    save = save.
+	'save' = 'save'.
 
-VERB save
-    DOES
-	SAVE.
-	"Done."
+VERB 'save'
+	DOES
+		SAVE.
+		"Done."
 END VERB.
 
 
 SYNTAX
-    restore = restore.
+	'restore' = 'restore'.
 
-VERB restore
-    DOES
-    	RESTORE.
-    	"Done.$n"
-	LOOK.
+VERB 'restore'
+	DOES
+		RESTORE.
+		"Done.$n"
+		LOOK.
 END VERB.
 
 
 SYNTAX
-    restart = restart.
+	'restart' = 'restart'.
 
-VERB restart
-    DOES
-        RESTART.
+VERB 'restart'
+	DOES
+		RESTART.
 END VERB.
 
 
 
 SYNTAX
-    'score' = 'score'.
+	'score' = 'score'.
 
 VERB 'score'
-    DOES
-    	SCORE.
+	DOES
+		SCORE.
 END VERB 'score'.
 
 
 SYNONYMS
-    z = wait.
+	z = 'wait'.
 
 SYNTAX
-    wait = wait.
+	'wait' = 'wait'.
 
-VERB wait
-    DOES
-    	"Time passes..."
+VERB 'wait'
+	DOES
+		"Time passes..."
 END VERB.
 
 
 SYNONYMS
-    g = again.
+	g = again.
 
 SYNTAX
-    again = again.
+	again = again.
 
 VERB again
-    DOES
-        "Press the F3 key to repeat your last command."
+	DOES
+		"The 'again' command is not available, sorry. You can probably use 
+		the up and down arrow keys to scroll through your previous commands 
+		(unless you're using the MSDOS interpreter in which case you can 
+		press the F3 key to repeat your last command.)"
 END VERB.
 
 
 SYNTAX
-    undo = undo.
+	undo = undo.
 
 VERB undo
-    DOES
-        "Unfortunately you cannot 'undo' commands in this game."
+	DOES
+		"Unfortunately you cannot 'undo' commands in this game."
 END VERB.
 

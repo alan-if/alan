@@ -1,26 +1,37 @@
 -- invent.i
--- Library version 0.1, 0.2
+-- Library version 0.3
+
+-- 0.3 
+--      added worn container to implement clothing
+--      added weight default attribute
+--      weight LIMIT added to the inventory and worn containers
 
 
 SYNONYMS
-    i, inventory = invent.
+	i, inventory = invent.
 
 SYNTAX
-    invent = invent.
+	invent = invent.
 
 VERB invent
-    DOES
-	LIST inventory.
+	DOES
+		LIST hero.
+		LIST worn.
 END VERB invent.
 
 
-CONTAINER inventory
-    LIMITS
-    	COUNT 10 THEN
-    	    "You can't carry anything more. You have to drop something first."
-    HEADER
-    	"You are carrying"
-    ELSE
-	"You are empty-handed."
-END CONTAINER.
+THE worn ISA OBJECT
+CONTAINER
+	LIMITS
+		COUNT 10 THEN
+			"You can't wear anything more. You have to remove something 
+			first."
+--                weight 50 THEN
+--                        "You can't wear anything more. You have to remove something 
+--                        first."
+	HEADER
+		"You are wearing"
+	ELSE
+		""
+END THE worn.
 

@@ -1,9 +1,13 @@
 -- std.i
--- Library version 0.1, 0.2
+-- Library version 0.3
+
+-- 0.3 added global, smell, knock, jump & wear.i
 
 -- All verb definitions have a small, simple default body. To make
 -- them do other things use DOES ONLY in your specialised verb body.
 
+-- player character, etc
+$include 'global.i'
 
 -- Standard verbs
 $include 'look.i'
@@ -22,11 +26,16 @@ $include 'talk.i'    -- + ask, tell, say, shout,
 $include 'attack.i'  -- + shoot
 $include 'kiss.i'
 $include 'turn.i'    -- + switch
+$include 'listen.i'
+$include 'smell.i'
+$include 'knock.i'
+$include 'jump.i'
+$include 'wear.i'   -- + remove, undress, put on
 
 $include 'help.i'    -- + notes, hint
 
 
--- Inventory verb and inventory limits
+-- Inventory verb and inventory limits (including clothing items)
 $include 'invent.i'
 
 

@@ -1,14 +1,14 @@
 -- look.i
--- Library version 0.1, 0.2
+-- Library version 0.1, 0.2, 0.3
 
 
 SYNONYMS
-    l = 'look'.
-    
+	l = 'look'.
+
 SYNTAX
-    'look' = 'look'.
+	'look' = 'look'.
 
 VERB 'look'
-    DOES
-    	LOOK.
+	DOES
+		LOOK.
 END VERB.
