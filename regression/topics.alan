@@ -9,7 +9,7 @@ Syntax
   ask_about = talk 'to' (a) about (t).
   ask_about = talk about (t) 'with' (a).
 
-Every topic
+Every topic Isa entity
   Verb ask_about
     Does
       If t In topics Of a Then
@@ -25,7 +25,7 @@ The topics
 End The topics.
 
 
---Syntax x = x (o) Where o Isa entity Else "x Entities instead."
+Syntax x = x (o) Where o Isa entity Else "x Entities instead."
 
 The weather Isa topic In topics
   Verb x

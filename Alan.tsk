@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>367.89</origest>
-<currest>366.89</currest>
+<origest>368.89</origest>
+<currest>367.89</currest>
 <elapsed>200.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>60</origest>
-<currest>60</currest>
+<origest>61</origest>
+<currest>61</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>25</origest>
-<currest>25</currest>
+<origest>26</origest>
+<currest>26</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -166,9 +166,18 @@ find an unambiguous phrasing.
 
 The same goes for all subclasses of entity that the player has made, or rather everything not inheriting from thing, since things are the subclass that adds location and automatic descriptions. Document this and implement it.
 
-"Every topic Isa entity" should give all topics the non-locaition, non-description feature.
+"Every topic Isa entity" should give all topics the non-location, non-description feature.
 
 VERIFICATION: Only objects, and actors are automatically described. Things are not. But things have location?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Enforce inheritance</desc>
+<notes>No instances or classes can be declared without a parent. Don't know what this would mean...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -6,6 +6,10 @@ End Verb.
 Verb y
 End Verb.
 
+syntax a = a.
+syntax b = b.
+syntax c = c.
+
 The l Isa location
   Verb a, b, b, c, a, c
   End Verb.

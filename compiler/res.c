@@ -194,11 +194,15 @@ Aaddr generateRestrictions(List *restrictions, Syntax *stx)
   List *lst;
   Aaddr address;
 
-  for (lst = restrictions; lst != NULL; lst = lst->next)
-    generateRestrictionStatements(lst->element.res);
+  TRAVERSE(lst, restrictions)
+    if (lst->element.res->stms != NULL)
+      generateRestrictionStatements(lst->element.res);
+    else
+      lst->element.res->stmadr = 0;
 
   address = nextEmitAddress();
-  for (lst = restrictions; lst != NULL; lst = lst->next)
+
+  TRAVERSE(lst, restrictions)
     generateRestrictionEntry(lst->element.res);
   emit(EOF);
 

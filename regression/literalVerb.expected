@@ -8,13 +8,13 @@
 L
 
 > obj 1
-You can't do that.
+You obj 1.
 
 > obj l
 I can't see any l here.
 
 > obj "hej"
-You can't do that.
+You obj hej.
 
 > obj hero
 You can't do that.

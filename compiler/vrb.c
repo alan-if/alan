@@ -95,7 +95,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	  className = newId(&nulsrcp, "object");
 	lmLogv(&ids->element.id->srcp, 231, sevINF, ids->element.id->string,
 	       className->string, NULL);
-	stx = defaultSyntax1(ids->element.id->string, context);
+	stx = defaultSyntax1(ids->element.id, context);
       }
     }
     syntaxLists = concat(syntaxLists, stx, SYNTAX_LIST);

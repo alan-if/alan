@@ -1,0 +1,31 @@
+########## import ##########
+
+
+import.alan
+
+    1.  import 'abcd'.
+=====>         1
+
+  *1*   199 F : Adventure source file (abcd) not found.
+
+    3.  options
+=====>  1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'OPTIONS'".
+
+    4.    import 'options'.
+=====>           1
+
+  *1*   199 F : Adventure source file (options) not found.
+
+    8.    import 'body'.
+=====>    1      2
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'IMPORT'".
+  *2*   199 F : Adventure source file (body) not found.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -25,7 +25,7 @@ extern Syntax *newSyntax(Srcp srcp,
 
 /* Create a default syntax node */
 extern Syntax *defaultSyntax0(char vrbstr[]);
-extern Syntax *defaultSyntax1(char vrbstr[], Context *context);
+extern Syntax *defaultSyntax1(IdNode *verb, Context *context);
 
 /* Compare parameter lists of two syntaxes */
 extern Bool equalParameterLists(Syntax *stx1,

@@ -259,7 +259,7 @@ Syntax *defaultSyntax0(char *verbName)
 
 
 /*======================================================================*/
-Syntax *defaultSyntax1(char *vrbstr, Context *context)
+Syntax *defaultSyntax1(IdNode *verb, Context *context)
 {
   /*
     Returns the address a default syntax node which is used for verbs
@@ -276,12 +276,12 @@ Syntax *defaultSyntax1(char *vrbstr, Context *context)
   IdNode *classId;
 
   classId = classIdInContext(context);
-  if (classId == NULL)		/* No class, so use any */
+  if (classId == NULL)		/* No class, so use any, should not occur? */
     classId = newId(&nulsrcp, "object");
 
   elements = concat(concat(concat(NULL,
 				  newWordElement(nulsrcp,
-						 newId(&nulsrcp, vrbstr)),
+						 newId(&nulsrcp, verb->string)),
 				  ELEMENT_LIST),
 			   newParameterElement(nulsrcp, newId(&nulsrcp,
 							      classId->string),
@@ -289,9 +289,24 @@ Syntax *defaultSyntax1(char *vrbstr, Context *context)
 			   ELEMENT_LIST),
 		    newEndOfSyntax(),
 		    ELEMENT_LIST);
-  stx = newSyntax(nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL, nulsrcp);
+  stx = newSyntax(nulsrcp, newId(&nulsrcp, verb->string), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
+
+  /* Add restriction for the parameter class in context */
+  stx->restrictionLists = concat(NULL,
+				 newRestriction(&nulsrcp,
+						newId(&nulsrcp,
+						      classId->string),
+						ID_RESTRICTION,
+						newId(&nulsrcp,
+						      classId->string),
+						NULL),
+				 RESTRICTION_LIST);
+  if (strcmp(classId->string, "location") == 0)
+    /* Default syntaxes restricting to locations might be surprising... */
+    lmLog(&verb->srcp, 232, sevWAR, "");
+
   analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
   return stx;
 }

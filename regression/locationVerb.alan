@@ -1,3 +1,8 @@
+Add To Every object
+  Verb throw
+  End Verb throw.
+End Add To.
+
 The l1 Isa location
   Verb throw
     Does Only

@@ -550,7 +550,10 @@ static void runRestriction(RestrictionEntry *restriction)
     printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
 	   restriction->parameter,
 	   restriction->class);
-  interpret(restriction->stms);
+  if (restriction->stms)
+    interpret(restriction->stms);
+  else
+    error(M_CANT0);
 }
 
 

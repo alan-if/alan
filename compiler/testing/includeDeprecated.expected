@@ -1,0 +1,38 @@
+########## includeDeprecated ##########
+
+
+includeDeprecated.alan
+
+    1.  $include 'abcd'.
+=====>  1        2
+
+  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+                instead.
+  *2*   199 F : Adventure source file (abcd) not found.
+
+    4.    $include 'options'.
+=====>    1        2
+
+  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+                instead.
+  *2*   199 F : Adventure source file (options) not found.
+
+    7.  The l Isa location
+=====>  1
+
+  *1*   601 W : Unknown option, '$genid1'.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('$genid1') '.'" before this symbol.
+
+    8.    $include 'body'.
+=====>    1        2
+
+  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+                instead.
+  *2*   199 F : Adventure source file (body) not found.
+
+
+        4 error(s).
+        4 warning(s).
+        1 informational message(s).
+

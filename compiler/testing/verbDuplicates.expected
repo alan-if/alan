@@ -14,14 +14,14 @@ verbDuplicates.alan
   *1*   201 W : Multiple declaration of verb 'y' in this class/instance.
                 Duplicate in a previous VERB clause.
 
-   10.    Verb a, b, b, c, a, c
+   14.    Verb a, b, b, c, a, c
 =====>               1     2  3
 
   *1*   201 W : Multiple declaration of verb 'b' in this VERB declaration.
   *2*   201 W : Multiple declaration of verb 'a' in this VERB declaration.
   *3*   201 W : Multiple declaration of verb 'c' in this VERB declaration.
 
-   13.    Verb c
+   17.    Verb c
 =====>         1
 
   *1*   201 W : Multiple declaration of verb 'c' in this class/instance.
@@ -29,12 +29,12 @@ verbDuplicates.alan
   *1*   201 W : Multiple declaration of verb 'c' in this class/instance.
                 Duplicate in a previous VERB clause.
 
-   19.    Verb a, a
+   23.    Verb a, a
 =====>            1
 
   *1*   201 W : Multiple declaration of verb 'a' in this VERB declaration.
 
-   25.    Verb b
+   29.    Verb b
 =====>         1
 
   *1*   201 W : Multiple declaration of verb 'b' in this class/instance.
@@ -43,5 +43,5 @@ verbDuplicates.alan
 
         No detected errors.
         9 warning(s).
-        5 informational message(s).
+        2 informational message(s).
 

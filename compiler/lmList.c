@@ -125,7 +125,8 @@ static lmMsgs msg[] = {
     { "226   ", "Attributes can not be used for filtering applied to all instances. Filter out instances of a particular class by adding a \'Isa <class>\' filter." },
     { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
     { "230   ", "No syntax defined for this global verb, automatically used \'%1\'." },
-    { "231   ", "No syntax defined for this verb, automatically used \'%1 (%2)                 %2." },
+    { "231   ", "No syntax defined for this verb, automatically used \'%1 (%2) Where %2 Isa %2.\'" },
+    { "232   ", "Default syntax for this verb restricted the parameter to class \'location\', which is probably not what you wanted. Suggest you add an explicit syntax instead." },
     { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'." },
     { "241   ", "%1 already defined for class \'%2\'. You can not add it. You can override it by subclassing from class \'%2\'." },
     { "250   ", "You can only declare restrictions for the first syntax for verb \'%1\'. The restrictions for subsequent syntaxes must be empty and will use the same as for the first." },
@@ -221,7 +222,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 141}
+    {0, 142}
 };
 static lmMessages currMsect = (lmMessages)0;
 

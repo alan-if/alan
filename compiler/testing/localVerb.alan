@@ -1,8 +1,3 @@
-Add To Every object
-  Verb x
-  End Verb x.
-End Add To.
-
 The l1 Isa location
   Exit e To l2.
   Verb x
