@@ -140,9 +140,9 @@ static void reverseAlts(adr)
 {
   AltElem *e = (AltElem *)&memory[adr];
 
-  if (adr != 0 && !endOfTable(e) && !e->rev) {
+  if (adr != 0 && !endOfTable(e) && !e->done) {
     reverseTable(adr, sizeof(AltElem));
-    e->rev = TRUE;
+    e->done = TRUE;
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
@@ -267,7 +267,7 @@ static void reverseExts(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(ExtElem));
     while (!endOfTable(e)) {
-      if (!e->rev) {
+      if (!e->done) {
 	reverseChks(e->checks);
 	reverseStms(e->action);
       }
