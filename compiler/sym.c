@@ -5,7 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#ifndef UNIT
 #include "sym.h"                /* SYMbol nodes */
+#endif
 
 /* IMPORTS */
 #include "sysdep.h"
@@ -255,7 +257,7 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 
   symcheck()
 
-  Check if an Id exists and if so if of an allowed kind in this context
+  Check if an Id exists and if so if it is of an allowed kind in this context
 
 */
 SymNod *symcheck(		/* OUT - Found symbol */
@@ -266,6 +268,7 @@ SymNod *symcheck(		/* OUT - Found symbol */
     )
 {
   syserr("UNIMPL: symcheck() - body");
+  return NULL;
 }
 
 
