@@ -96,9 +96,12 @@ int newwrd(str, class, code, ref)
   /* Find the word if it exists */
   wrd = findwrd(str);
   if (wrd != NULL) {
-    if (class & ~wrd->class) {
-      lmLog(NULL, 320, sevWAR, str); /* Multiple word classes */
-      wrd->class |= class;
+    if ((1L<<class)&(~wrd->class)) { /* Multiple word classes */
+      if (class==WRD_SYN || ((1L<<WRD_SYN)&wrd->class))
+	lmLog(NULL, 333, sevERR, str);
+      else
+	lmLog(NULL, 320, sevWAR, str);
+      wrd->class |= 1L<<class;
     } else
       wrd->ref = concat(wrd->ref, ref); /* Add another reference */
     return wrd->code;
@@ -106,7 +109,7 @@ int newwrd(str, class, code, ref)
 
   new = NEW(WrdNod);
 
-  new->class = class;
+  new->class = 1L<<class;
   new->str = str;
   new->code = code;
   if (class != WRD_SYN)
@@ -219,7 +222,7 @@ static void gewrdref(wrd)
   gewrdref(wrd->low);
   
   /* Then this node */
-  if ((wrd->class == WRD_NOUN || wrd->class == WRD_ADJ) && wrd->ref != NULL) {
+  if (((wrd->class&(1L<<WRD_NOUN)) || (wrd->class&(1L<<WRD_ADJ))) && wrd->ref != NULL) {
     wrd->refadr = emadr();	/* Save address to reference table */
     for (lst = wrd->ref; lst != NULL; lst = lst->next)
       genam(lst->element.nam);
@@ -287,12 +290,12 @@ static void gewrdent(wrd)
   
   /* Generate for this word */
   emit(wrd->stradr);
-  if (wrd->class == WRD_SYN) {
-    emit(((WrdNod *)wrd->ref)->class);
+  if (wrd->class&WRD_SYN) {
+    emit(1L<<((WrdNod *)wrd->ref)->class);
     emit(((WrdNod *)wrd->ref)->code);
     emit(((WrdNod *)wrd->ref)->refadr);
   } else {
-    emit(wrd->class);
+    emit(1L<<wrd->class);
     emit(wrd->code);
     emit(wrd->refadr);
   }

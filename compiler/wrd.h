@@ -16,7 +16,7 @@
 /* Types: */
 
 typedef struct WrdNod {		/* DICTIONARY ENTRY */
-  WrdKind class;		/* Class of this entry */
+  int class;			/* Class of this entry as a bit in the set */
   int code;			/* Code for the word */
   char *str;			/* Name of this entry */
   List *ref;			/* List of references (objects etc) */

@@ -64,6 +64,7 @@ SRCS = \
 	wht.c \
 	wrd.c \
 	time.c \
+	sysdep.c \
 	spa.c
 
 MAINSRC = alan.c
@@ -71,6 +72,8 @@ MAINSRC = alan.c
 LIB = alan.a
 
 .PRECIOUS: $(LIB)
+
+.KEEP_STATE:
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
@@ -81,9 +84,9 @@ debug all: alan
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-alan: $(LIB)($(OBJECTS)) sysdep.o version.o alan.o Makefile
+alan: $(LIB)($(OBJECTS)) version.o alan.o Makefile
 	ranlib $(LIB)
-	$(LD) -o $@ $(CFLAGS) $(MAINOBJ) sysdep.o version.o $(LIB) $(LDFLAGS)
+	$(LD) -o $@ $(CFLAGS) $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
 	cp alan.prod ..
 	cp alan ../`arch`
 
@@ -105,13 +108,13 @@ lmList.c lmList.h alanCommon.h : alan.lmt $(TMLIB)/List.imp
 alan.lmt : alan.lmk alan.tmk
 	lmk alan
 
-malloc: $(LIB)($(OBJECTS)) sysdep.o version.o alan.o
+malloc: $(LIB)($(OBJECTS)) version.o alan.o
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
-	$(CC) -o alan $(CFLAGS) alan.o sysdep.o version.o /usr/lib/debug/malloc.o $(LIB) $(LDFLAGS)
+	$(CC) -o alan $(CFLAGS) alan.o version.o /usr/lib/debug/malloc.o $(LIB) $(LDFLAGS)
 	-rm alan.o
 
-purify: $(LIB)($(OBJECTS)) sysdep.o version.o alan.o
-	purify $(CC) -o alan $(CFLAGS) alan.o sysdep.o version.o $(LIB) $(LDFLAGS)
+purify: $(LIB)($(OBJECTS)) version.o alan.o
+	purify $(CC) -o alan $(CFLAGS) alan.o version.o $(LIB) $(LDFLAGS)
 
 NONANSI:
 	mv alan.tmk alan.tmk.ansi
@@ -144,7 +147,7 @@ alan.prod: alan.pml
 
 #-- Cheating MAKE
 link:
-	$(CC) -o alan $(CFLAGS) $(OBJECTS) sysdep.o version.o $(LDFLAGS)
+	$(CC) -o alan $(CFLAGS) $(OBJECTS) version.o $(LDFLAGS)
 
 #-- ARCHIVE
 DOSSUBS = -e s/alanToken/alanToke/ -e s/alanParse/alanPars/
@@ -191,4 +194,4 @@ depend:
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-include dependencies.mk
+#include dependencies.mk

@@ -66,6 +66,7 @@
 330	'Wrong type of expression. Must be of %1 type.';
 331	'Incompatible types in %1.';
 332	'Type of local attribute must match default attribute.';
+333	'The word \'%1\' is defined as a synonym as well as of another word class.';
 
 400	'Script not defined for Actor \'%1\'';
 401	'Actor reference required outside Actor specification.';
