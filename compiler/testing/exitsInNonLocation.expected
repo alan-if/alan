@@ -1,0 +1,32 @@
+########## exitsInNonLocation ##########
+The nonLocation
+  Exit w To nonLocation.
+End The nonLocation.
+
+Start At nonLocation.
+########## alan exitsInNonLocation.alan ##########
+
+
+exitsInNonLocation.alan
+
+    1.  The nonLocation
+=====>      1
+
+  *1*   352 E : Instance 'nonlocation' does not inherit from 'location', but
+                has EXITs, which can never be traversed.
+
+    2.    Exit w To nonLocation.
+=====>              1
+
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+    5.  Start At nonLocation.
+=====>           1
+
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+
