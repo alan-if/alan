@@ -17,10 +17,38 @@ hej
 
 > You have scored 0 points out of 10.
 
-> Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? 
-> You have scored 0 points out of 10. Event.
+> Enter file name to save in (score.sav) : Event.
 
-> Enter file name to restore from (score.sav) : 
+> 
+> You have scored 5 points out of 10. Event2. Event.
+
+> Enter file name to restore from (score.sav) : Event.
+
+> You have scored 0 points out of 10.
+
+> Event2. Event.
+
+> 
+> You have scored 10 points out of 10. Event.
+
+> 
+> You have scored 10 points out of 10. Event2. Event.
+
+> Enter file name to restore from (score.sav) : Event.
+
+> You have scored 0 points out of 10.
+
+> Event2. Event.
+
+> 
+> Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? Event.
+
+> You have scored 10 points out of 10.
+
+> Enter file name to restore from (score.sav) : Event.
+
+> You have scored 10 points out of 10.
+
 > 
 
 Do you want to restart (y) ? 

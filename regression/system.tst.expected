@@ -11,11 +11,8 @@ Wet1.
 
 > Wet2.
 
-> ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-Wet1.
+> Wet1.
 
-> ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-
+> 
 
 Do you want to restart (y) ? 

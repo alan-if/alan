@@ -3,18 +3,8 @@ alan lamps
 arun lamps < lamps.input
 ########## /bin/sh  lamps.tst ##########
 
-
-lamps.alan
-
-   6.   VERB take, get, pick
-====>                   1
-
-  *1*   215 E : Syntax not compatible with syntax for 'take'.
-
-
-        1 error(s).
-        No detected warnings.
-        4 informational message(s).
+        No warnings or errors detected.
+        1 informational message(s).
 
 
 
