@@ -513,7 +513,7 @@ static int val(char str[])
 			   %<verb_body>.alts);
 	if (%<verb_tail>.id != NULL) { /* END-id given */
 	    if (strcmp(%<verb_header>.str, %<verb_tail>.id->string) != 0)
-		lmLog(`&%<verb_tail>.id->srcp, 201, sevWAR, %<verb_header>.str);
+		lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
 	}
     %%
     ;
@@ -601,7 +601,7 @@ static int val(char str[])
     ! 'CHECK' <statements>
     %%
 	%<optional_checks>.srcp = %'CHECK'.srcp;
-	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms), STATEMENT_LIST);
+	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms), CHECK_LIST);
     %%
 
     ! 'CHECK' <check_list>
@@ -676,7 +676,7 @@ static int val(char str[])
 					%<properties>.scrs));
 	if (%<class_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<class_tail>.id))
-		lmLog(`&%<class_tail>.id->srcp, 201, sevWAR, %ID.id->string);
+		lmLog(`&%<class_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 

@@ -62,7 +62,6 @@ BUILDSRCS = \
 	stm.c \
 	stp.c \
 	str.c \
-	stx.c \
 	syn.c \
 	wht.c \
 	timing.c \
@@ -88,6 +87,7 @@ ALANSRCS = \
 	lst.c \
 	images.c \
 	sym.c \
+	stx.c \
 	vrb.c \
 	whr.c \
 	wrd.c \

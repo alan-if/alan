@@ -101,6 +101,9 @@ static void analyzeAlternative(AltNod *alt,
     }
   }
 
+  if (alt->chks != NULL && alt->chks->element.chk->exp == NULL && alt->stms != NULL)
+    lmLog(&alt->srcp, 227, sevWAR, "");
+
   analyzeChecks(alt->chks, context);
   analyzeStatements(alt->stms, context);
 }

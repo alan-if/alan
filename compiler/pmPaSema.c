@@ -439,7 +439,7 @@ int rule			/* IN production number */
 			   pmSeSt[pmStkP+2].alts);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
 	    if (strcmp(pmSeSt[pmStkP+1].str, pmSeSt[pmStkP+3].id->string) != 0)
-		lmLog(&pmSeSt[pmStkP+3].id->srcp, 201, sevWAR, pmSeSt[pmStkP+1].str);
+		lmLog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].str);
 	}
     	break;}
     case 54: { /* <verb_header> = 'VERB' <id_list>; */
@@ -512,7 +512,7 @@ int rule			/* IN production number */
 #line 602 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
-	pmSeSt[pmStkP+1].chks = concat(NULL, newchk(NULL, pmSeSt[pmStkP+2].stms), STATEMENT_LIST);
+	pmSeSt[pmStkP+1].chks = concat(NULL, newchk(NULL, pmSeSt[pmStkP+2].stms), CHECK_LIST);
     	break;}
     case 64: { /* <optional_checks> = 'CHECK' <check_list>; */
 #line 608 "alan.pmk"
@@ -571,7 +571,7 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
-		lmLog(&pmSeSt[pmStkP+5].id->srcp, 201, sevWAR, pmSeSt[pmStkP+2].id->string);
+		lmLog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].id->string);
     	break;}
     case 72: { /* <class_tail> = 'END' 'EVERY' <optional_id> __genSym#0; */
 #line 685 "alan.pmk"

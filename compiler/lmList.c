@@ -95,12 +95,13 @@ static lmMsgs msg[] = {
     { "153   ", "Image file missing." },
     { "198   ", "Could not open output file \'%1\' for writing." },
     { "199   ", "Adventure source file (%1) not found." },
-    { "201   ", "Mismatched block identifier, \'%1\' assumed." },
+    { "200   ", "Mismatched block identifier, \'%1\' assumed." },
+    { "201   ", "Multiple declaration of %1 \'%2\' %3." },
     { "202   ", "Multiple usage of direction \'%1\' in this EXIT." },
     { "203   ", "Multiple definition of EXIT \'%1\' in this location." },
     { "204   ", "Multiple use of %1 clause in this %2." },
-    { "205   ", "Multiple usage of \'%1\' in this VERB definition." },
-    { "206   ", "Multiple definition of SYNTAX for \'%1\'." },
+    { "205   ", "This is the first occurance of %1, see errors below." },
+    { "206   ", "Incompatible parameters lists for multiple syntax definitions for verb \'%1\'. Multiple syntaxes for the same verb must contain the same number of parameters with the same name, but the order of the parameters can be changed." },
     { "207   ", "VERB \'%1\' is not defined." },
     { "208   ", "\'%1\' is not a VERB." },
     { "209   ", "First element in a SYNTAX must be a player word." },
@@ -121,6 +122,7 @@ static lmMsgs msg[] = {
     { "224   ", "Multiple use of %1 in filter list of %2 Aggregate." },
     { "225   ", "The %1 aggregate will be applied to every instance (including locations, things and instances without any inheritance). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
     { "226   ", "Attributes can not be used in %1 aggregate applied to all instances. Filter out only instances of a particular class using a \'Isa <class>\' filter." },
+    { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
     { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
     { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
     { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'." },
@@ -206,7 +208,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 126}
+    {0, 128}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>206.89</origest>
-<currest>206.89</currest>
-<elapsed>74.89</elapsed>
+<origest>217.89</origest>
+<currest>217.89</currest>
+<elapsed>79.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
-<elapsed>4</elapsed>
+<origest>37</origest>
+<currest>37</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>4</elapsed>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -84,6 +84,15 @@ Allow concatenated right hand sides. If no ISA use "Isa object" by default for c
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Verb declarations with multiple verbs</desc>
 <notes>Possibly by introducing an intermediate level we could fix the problem with parameter references such as in
 
@@ -109,21 +118,12 @@ TASK: create multiple entries for same verb in syntax mapping table
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Warn for DOES preceeded by an unconditional CHECK</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -148,13 +148,44 @@ Is it possible to defer the actual class restriction to execution? Or should we 
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Missing lines in -full listing</desc>
+<notes>Messages with only informational messages are not shown if listing is filtered using severity
+
+e.g. alan -full inheritVerb1:
+    1.  Every x
+    2.    Isa object.
+    4.      Does Say c.
+=====&gt;               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+But  alan -full inheritVerb1 -info:
+
+    1.  Every x
+    2.    Isa object.
+    3.    Verb v
+=====&gt;         1
+
+  *1*   231 I : No syntax defined for this verb, assumed 'v (object)'.
+
+    4.      Does Say c.
+=====&gt;               1
+
+  *1*   310 E : Identifier 'c' not defined.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>11</origest>
+<currest>11</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -167,6 +198,15 @@ This would allow code generating once for some inherited constructs:
 -scripts
 -descriptions
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Prohibit declaration of a container class</desc>
+<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -446,7 +486,7 @@ REMEBER TO DOCUMENT IT!!!
 </task>
 <task>
 <desc>Consistency for empty property declarations</desc>
-<notes>In the Description an empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
 
 Check for consistency with other instances of local overides.</notes>
 <priority>2</priority>
@@ -460,9 +500,9 @@ Check for consistency with other instances of local overides.</notes>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
-<elapsed>0</elapsed>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -493,7 +533,7 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -509,6 +549,30 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Priorities of operators stink</desc>
 <notes>Count at l = 8
 -&gt; '=' replaced by 'OR'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify error messages</desc>
+<notes>Check error messages and try to unify such as
+
+Multiple VERB '%1'
+
+with
+
+Multiple %1 '%2'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -530,6 +594,15 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if there is no When clause for every parameter in the syntax</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -570,15 +643,6 @@ The ... In box</notes>
 <notes>If we use WHT_ID only we can use "object" as the predefined parameter name in default syntax. This makes it impossible to use OBJECT in verbs with defined syntax.
 
 How about WHT_LOC, &amp; WHT_ACT?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -740,6 +804,30 @@ Design:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Text formatting "statements"</desc>
+<notes>
+$b for bold? Use ANSI?
+
+Or how about:
+
+ $bold$
+
+ $the x$
+
+Or HTML:
+
+this text is &lt;b&gt;bold&lt;/b&gt;
+
+Or XML-ish:
+
+this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
 <notes/>
 <priority>2</priority>
@@ -815,6 +903,20 @@ E.g. in the example above the IF statement will be executed whenever the 'o' is 
 A status variable could instead be used to indicate if a game is in progress or not. It should be possible to quit a game and then open another game to play or restart it.
 This seems to be a limitation in the way GLK does it. Or rather the way terminate() hands over t glk_exit() after confirmation.
 Perhaps this is not a great problem.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attributes of class type</desc>
+<notes>
+Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -903,46 +1005,8 @@ This would mean to change IN to not only be applicable to containers but also lo
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Text formatting "statements"</desc>
-<notes>
-$b for bold? Use ANSI?
-
-Or how about:
-
- $bold$
-
- $the x$
-
-Or HTML:
-
-this text is &lt;b&gt;bold&lt;/b&gt;
-
-Or XML-ish:
-
-this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Possibility for author to specify content (or lack of) status line</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attributes of class type</desc>
-<notes>
-Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1086,14 +1150,13 @@ instead of
 
 Because it could be made more general:
 
-The obj
+The east_door
   Isa object.
-  Has another west_door.
+  Has other_side west_door.
   Has size 4.
-End The obj.
+End The door.
 
-... If obj.another.size &gt; 3 Then
-
+... If door:other_size:size &gt; 3 Then
 
 </notes>
 <priority>2</priority>
@@ -1131,6 +1194,15 @@ E.g.
 
 E.g.
   "The" Say x. "$$."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: Allocate parameter lists</desc>
+<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1252,8 +1324,21 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Attribute to OBJECT in MESSAGE</desc>
-<notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.</notes>
+<desc>Separate data and code</desc>
+<notes>Separate data and code in the .acd into two separate areas, point to them from the header. This way we could more easily do two things: run from disk (if memory is not large enough to hold both data and code) and implement undo (just save the data area before each command)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Arrays</desc>
+<notes>Some kind of list or array datatype, like TADS lists, with
+appropriate operations (indexing, finding its length, inserting
+an item, deleting an item).
+
+(Greg Ewing in Alan-IF mailing list)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1287,10 +1372,8 @@ This implies 1) a notion of plural nouns (in english generally 's' and 2) new bu
 <isopen>1</isopen>
 </task>
 <task>
-<desc>END [THE|EVERY] ID</desc>
-<notes>Make it possible to have THE and EVERY optional in END clauses.
-
-But not both THE and the ID...</notes>
+<desc>Attribute to OBJECT in MESSAGE</desc>
+<notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1298,8 +1381,10 @@ But not both THE and the ID...</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor: Allocate parameter lists</desc>
-<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
+<desc>END [THE|EVERY] ID</desc>
+<notes>Make it possible to have THE and EVERY optional in END clauses.
+
+But not both THE and the ID...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1351,20 +1436,6 @@ would automagically translate to
 &gt; say "hello" to the guard
 
 if "hello" is an unknown word. This could possibly be made automatically by the interpreter when encountering an (or a series of ) unknown word. Problem is probably how to error handle.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Arrays</desc>
-<notes>
-Some kind of list or array datatype, like TADS lists, with
-appropriate operations (indexing, finding its length, inserting
-an item, deleting an item).
-
-(Greg Ewing in Alan-IF mailing list)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1490,16 +1561,6 @@ How to handle darkness and other global requirements on e.g. the  location descr
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Separate data and code</desc>
-<notes>
-Separate data and code in the .acd into two separate areas, point to them from the header. This way we could more easily do two things: run from disk (if memory is not large enough to hold both data and code) and implement undo (just save the data area before each command)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>New Expression: ALL &lt;expr&gt;</desc>
 <notes>Extend &lt;what&gt; to be also
 
@@ -1517,8 +1578,12 @@ SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1526,9 +1591,8 @@ SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Show statement</desc>
-<notes>SHOW statement, to show a picture (how to place it?)
-</notes>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1693,14 +1757,13 @@ What do you want to do with the ball?
 <desc>Strategies</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
-<notes>
-It will not be possible to handle:
+<notes>It will not be possible to handle:
 
  Where o Isa object Or location ...
 
@@ -1710,7 +1773,7 @@ Affects anress() (no loop).</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

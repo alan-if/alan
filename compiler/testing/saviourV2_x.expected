@@ -174,7 +174,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'tall' assumed.
+  *1*   201 W : Multiple declaration of tall '' .
 
   294.  LOCATION hall
 =====>  1        2
@@ -213,7 +213,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'hall' assumed.
+  *1*   201 W : Multiple declaration of hall '' .
 
   327.  OBJECT door AT hall
 =====>  1              2
@@ -250,7 +250,7 @@ saviourV2_x.alan
   409.  LOCATION stairs
 =====>  1        2
 
-  *1*   201 W : Mismatched block identifier, 'door' assumed.
+  *1*   201 W : Multiple declaration of door '' .
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *2*   422 W : This instance does not inherit from anything, nor does it have
@@ -278,7 +278,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'stairs' assumed.
+  *1*   201 W : Multiple declaration of stairs '' .
 
   423.  LOCATION cellar
 =====>  1        2
@@ -305,7 +305,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'cellar' assumed.
+  *1*   201 W : Multiple declaration of cellar '' .
 
   442.  OBJECT rats AT cellar
 =====>  1              2
@@ -325,7 +325,7 @@ saviourV2_x.alan
   475.  LOCATION store
 =====>  1        2
 
-  *1*   201 W : Mismatched block identifier, 'rats' assumed.
+  *1*   201 W : Multiple declaration of rats '' .
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *2*   422 W : This instance does not inherit from anything, nor does it have
@@ -343,7 +343,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'store' assumed.
+  *1*   201 W : Multiple declaration of store '' .
 
   490.  OBJECT tape AT store
 =====>  1              2
@@ -368,7 +368,7 @@ saviourV2_x.alan
   523.  LOCATION first Name First Floor 
 =====>  1        2
 
-  *1*   201 W : Mismatched block identifier, 'tape' assumed.
+  *1*   201 W : Multiple declaration of tape '' .
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *2*   422 W : This instance does not inherit from anything, nor does it have
@@ -396,7 +396,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'first' assumed.
+  *1*   201 W : Multiple declaration of first '' .
 
   536.  OBJECT book NAME old book AT first
 =====>  1                            2
@@ -421,7 +421,7 @@ saviourV2_x.alan
   560.  LOCATION office
 =====>  1        2
 
-  *1*   201 W : Mismatched block identifier, 'book' assumed.
+  *1*   201 W : Multiple declaration of book '' .
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *2*   422 W : This instance does not inherit from anything, nor does it have
@@ -439,7 +439,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'office' assumed.
+  *1*   201 W : Multiple declaration of office '' .
 
   573.  OBJECT ladder AT office
 =====>  1                2
@@ -499,7 +499,7 @@ saviourV2_x.alan
   658.  LOCATION second NAME Second Floor
 =====>  1        2
 
-  *1*   201 W : Mismatched block identifier, 'ladder' assumed.
+  *1*   201 W : Multiple declaration of ladder '' .
   *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *2*   422 W : This instance does not inherit from anything, nor does it have
@@ -528,7 +528,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'second' assumed.
+  *1*   201 W : Multiple declaration of second '' .
 
   672.  LOCATION terminal_room NAME Terminal Room
 =====>  1        2
@@ -550,7 +550,7 @@ saviourV2_x.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
-  *1*   201 W : Mismatched block identifier, 'terminal_room' assumed.
+  *1*   201 W : Multiple declaration of terminal_room '' .
 
   686.  OBJECT terminal AT terminal_room
 =====>  1                  2
@@ -597,13 +597,15 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'read' in this context.
+  *2*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
 
   771.      VERB insert_into
 =====>      1    2
 
   *1*   219 E : Global verbs can not have parameters.
-  *2*   220 W : Multiple definition of verb 'insert_into' in this context.
+  *2*   201 W : Multiple declaration of verb 'insert_into' in this
+                class/instance. Duplicate in a previous VERB clause.
 
   772.  	CHECK s = machine
 =====>  	          1
@@ -673,7 +675,8 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
   863.          IF nest IS NOT examined THEN
 =====>             1
@@ -706,8 +709,10 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
   890.  END OBJECT.
 =====>  1
@@ -732,9 +737,12 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
   931.          IF clock IS broken THEN
 =====>             1
@@ -744,8 +752,10 @@ saviourV2_x.alan
   937.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
 
   942.          IF clock IS NOT wound THEN
 =====>             1
@@ -796,10 +806,14 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1008.          IF drawer IS open THEN
 =====>             1
@@ -814,7 +828,8 @@ saviourV2_x.alan
  1016.      VERB open DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'open' in this context.
+  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1017.          IF drawer IS open THEN
 =====>             1
@@ -839,7 +854,8 @@ saviourV2_x.alan
  1029.      VERB close DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'close' in this context.
+  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1030.         IF drawer IS NOT open THEN
 =====>            1
@@ -867,11 +883,16 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1052.          IF desk IS marked THEN
 =====>             1
@@ -896,8 +917,10 @@ saviourV2_x.alan
  1067.      VERB open DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'open' in this context.
-  *1*   220 W : Multiple definition of verb 'open' in this context.
+  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1068.          IF drawer IS open THEN
 =====>             1
@@ -922,8 +945,10 @@ saviourV2_x.alan
  1080.      VERB close DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'close' in this context.
-  *1*   220 W : Multiple definition of verb 'close' in this context.
+  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1081.         IF drawer IS NOT open THEN
 =====>            1
@@ -963,19 +988,28 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1110.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1117.  	IF pwindex OF manual = 0 THEN
 =====>  	              1
@@ -1045,13 +1079,20 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1159.          IF computer IS NOT running AND computer IS NOT popped THEN
 =====>             1                           2
@@ -1083,7 +1124,8 @@ saviourV2_x.alan
  1197.      VERB 'start' DOES ONLY
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'start' in this context.
+  *1*   201 W : Multiple declaration of verb 'start' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1203.  END OBJECT.
 =====>  1
@@ -1102,22 +1144,34 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1233.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1236.  END OBJECT.
 =====>  1
@@ -1130,24 +1184,38 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
-  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1251.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
-  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1258.          LOCATE candy AT NOWHERE.
 =====>                 1        2
@@ -1158,7 +1226,8 @@ saviourV2_x.alan
  1261.      VERB drop
 =====>           1
 
-  *1*   220 W : Multiple definition of verb 'drop' in this context.
+  *1*   201 W : Multiple declaration of verb 'drop' in this class/instance.
+                Duplicate in a previous VERB clause.
 
  1268.              LOCATE candy AT NOWHERE.
 =====>                     1        2

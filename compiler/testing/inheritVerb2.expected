@@ -11,7 +11,8 @@ inheritVerb2.alan
     9.    Verb v
 =====>         1
 
-  *1*   220 W : Multiple definition of verb 'v' in this context.
+  *1*   201 W : Multiple declaration of verb 'v' in this class/instance.
+                Duplicate in a previous VERB clause.
 
    10.      Does Say c.
 =====>               1

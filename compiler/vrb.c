@@ -165,11 +165,11 @@ static void checkMultipleVerbs(List *verbs)
   for (thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {
     for (firstId = thisVerbDeclaration->element.vrb->ids; firstId != NULL; firstId = firstId->next) {
       if ((foundId = findIdInList(firstId->element.id, firstId->next)) != NULL)
-	lmLog(&foundId->srcp, 205, sevWAR, foundId->string);
+	lmLogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this VERB declaration");
       /* Then the names in the other VERBs */
       for (otherVerbs = thisVerbDeclaration->next; otherVerbs != NULL; otherVerbs = otherVerbs->next) {
 	if ((foundId = findIdInList(firstId->element.id, otherVerbs->element.vrb->ids)) != NULL)
-	  lmLog(&foundId->srcp, 220, sevWAR, foundId->string);
+	  lmLogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this class/instance. Duplicate in a previous VERB clause");
       }
     }
   }

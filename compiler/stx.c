@@ -93,11 +93,10 @@ Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
 {
   /*
     Compare two syntax nodes and return true if their parameter lists
-    are compatible (same ordering with same parameter names).
+    are equal (same ordering with same parameter names).
   */
 
   List *elm1, *elm2;
-
   for (elm1 = stx1->parameters, elm2 = stx2->parameters;
        elm1 != NULL && elm2 != NULL;
        elm1 = elm1->next, elm2 = elm2->next) {
@@ -107,6 +106,53 @@ Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
       return FALSE;
   }
   return elm1 == elm2;          /* Both NULL => equal */
+}
+
+
+/*----------------------------------------------------------------------*/
+static int countParameters(List *elms)
+{
+  /*
+    Count number of PARAMETER_ELEMENTs in a ELEMENT_LIST
+  */
+  List *lst;
+  int count = 0;
+
+  TRAVERSE(lst, elms) {
+    if (lst->element.elm->kind == PARAMETER_ELEMENT)
+      count++;
+  }
+  return count;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
+{
+  /*
+    Compare two syntax nodes and return true if their parameter lists
+    are compatible (same ordering with same parameter names).
+  */
+
+  List *elm1, *elm2;
+  int foundInOther = 0;
+  Bool found;
+
+  TRAVERSE(elm1, stx1->elements) {
+    if (elm1->element.elm->kind == PARAMETER_ELEMENT) {
+      found = FALSE;
+      TRAVERSE(elm2, stx2->elements) {
+	if (elm2->element.elm->kind == PARAMETER_ELEMENT)
+	  if (equalId(elm1->element.elm->id, elm2->element.elm->id)){
+	    found = TRUE;
+	    break;
+	  }
+      }
+      if (!found) return FALSE;
+      else foundInOther++;
+    }
+  }
+  return foundInOther == countParameters(stx2->elements);
 }
 
 
@@ -148,22 +194,33 @@ static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
 void analyzeSyntaxes(void)
 {
   List *lst, *other;
+  Bool error;
 
   /* Check for multiple definitions of the syntax for a verb */
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    for (other = lst->next; other != NULL; other = other->next)
+  TRAVERSE(lst, adv.stxs) {
+    error = FALSE;
+    for (other = lst->next; other != NULL; other = other->next) {
       if (equalId(other->element.stx->id, lst->element.stx->id)) {
 	lst->element.stx->nextSyntaxForSameVerb = other->element.stx;
 	other->element.stx->firstSyntax = FALSE;
-	if (!equalParameterLists(lst->element.stx, other->element.stx)) {
-	  lmLog(&other->element.stx->srcp, 206, sevERR,
+	if (!compatibleParameterLists(lst->element.stx, other->element.stx)) {
+	  lmLog(&other->element.stx->id->srcp, 206, sevERR,
 		lst->element.stx->id->string);
+	  error = TRUE;
 	}
-	if (other->element.stx->restrictionLists != NULL)
+	if (other->element.stx->restrictionLists != NULL) {
 	  lmLog(&other->element.stx->restrictionSrcp, 250, sevERR,
 		lst->element.stx->id->string);
+	  error = TRUE;
+	}
       }
-
+    }
+    if (error) {
+      char insertString[1000];
+      sprintf(insertString, "syntax for '%s'", lst->element.stx->id->string);
+      lmLog(&lst->element.stx->id->srcp, 205, sevWAR, insertString);
+    }
+  }
   /* Now do the analysis */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     analyzeSyntax(lst->element.stx);
