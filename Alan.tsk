@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>287.89</origest>
-<currest>286.89</currest>
-<elapsed>127.89</elapsed>
+<origest>293.89</origest>
+<currest>292.89</currest>
+<elapsed>130.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>39</origest>
-<currest>39</currest>
-<elapsed>3</elapsed>
+<origest>45</origest>
+<currest>45</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>1</elapsed>
+<origest>15</origest>
+<currest>15</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -57,7 +57,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>0</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Automatic capitalizing of nouns (e.g in german) only worked for player said words</desc>
@@ -67,7 +67,7 @@ Think this through and make a design!!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -82,9 +82,84 @@ There is a solution suggested in compiler/prop.c/analyseName()</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Embedded definite/indefinite forms print</desc>
+<notes>How?
+&lt;bold&gt;&lt;/bold&gt;, &lt;para/&gt; etc. ?
+&lt;param&gt;o&lt;/param&gt;
+&lt;the&gt;person&lt;/the&gt;</notes>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Embedded formatting (newline)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Embedded formattion (indentation)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Embedded formatting (paragraph)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Embedded printout (definite form)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Embedded printout (indefinite form)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Embedded formatting (bold)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Add To &lt;articles and forms&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>String operators</desc>
@@ -100,22 +175,19 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 <task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes/>
+<desc>String concatenation</desc>
+<notes>&lt;s1&gt; + &lt;s2&gt; as expression</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Embedded definite/indefinite forms print</desc>
-<notes>How?
-&lt;bold&gt;&lt;/bold&gt;, &lt;para/&gt; etc. ?
-&lt;param&gt;o&lt;/param&gt;
-&lt;the&gt;person&lt;/the&gt;</notes>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1936,8 +2008,8 @@ The ... In box</notes>
 <priority>2</priority>
 <origest>8</origest>
 <currest>8</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
 <notes>It will not be possible to handle:
@@ -2040,7 +2112,7 @@ and MENTIONED should be removed?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -3353,7 +3425,7 @@ The Checks should also be additive so that all checks in the inheritance chain m
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>For Every x Isa &lt;class&gt; Do xxx End For. (BLOCK, LOCALS A-code part)</desc>
 <notes>
@@ -4738,7 +4810,7 @@ It should also work from the desktop by double-clicking. Output should go in sam
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>19</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -4817,7 +4889,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Definite and indefinite article declaration</desc>
 <notes>If a definite and indefinite article declaration is introduced the following can be made possible:
@@ -4830,7 +4902,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Indefinite Article declaration</desc>
 <notes>Rename it an document it.</notes>
@@ -4863,7 +4935,7 @@ SAY an O.
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>SAY an/the &lt;param&gt;</desc>
 <notes>A SAY should refer to which form of articles should be used:
@@ -4916,7 +4988,7 @@ Requires sections something like:
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Inheriting Definite Articles</desc>
 <notes/>

@@ -42,7 +42,7 @@ extern void anmsgs(void);
 extern Aword gemsgs(void);
 
 /* Generate a text string as a encoded message in the data file */
-extern void getxt(char txt[]);
+extern void generateText(char txt[]);
 
 
 #endif

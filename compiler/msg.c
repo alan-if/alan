@@ -223,7 +223,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
 
 /*======================================================================
 
-  getxt()
+  generateText()
 
   Generate a text string as text data. This function takes a string
   and outputs it in the text file, updating the character frequencies
@@ -234,7 +234,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
   prettier is not inserted.
 
  */
-void getxt(char *txt)		/* IN - The text to output */
+void generateText(char *txt)		/* IN - The text to output */
 {
   int i;
 
@@ -345,7 +345,7 @@ void prepareMessages(void)
       getxt(buf);
     }
 #else
-    getxt(msgp);
+    generateText(msgp);
 #endif
 #endif
     /* Finally enter it in the list */

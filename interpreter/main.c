@@ -480,6 +480,7 @@ static void sayparam(int p)
   P = new paragraph
   L = current location name
   O = current object -> first parameter!
+  <n> = n:th parameter
   V = current verb
   A = current actor
   T = tabulation

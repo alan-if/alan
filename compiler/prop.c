@@ -154,12 +154,7 @@ static void analyzeName(Properties *props)
     /* Generate a mentioned from the first of the names */
     /* First output the formatted name to the text file */
     fpos = ftell(txtfil);
-    len = analyzeNames(props->names, props->id, FALSE);
-#ifdef CAPITALIZEACTORSANDLOCATIONS
-		       inheritsFrom(props->id->symbol, locationSymbol) ||
-		       inheritsFrom(props->id->symbol, actorSymbol));
-#endif
-
+    len = analyzeNames(props->names, props->id);
     /* Then create a PRINT statement */
     stm = newStatement(&nulsrcp, PRINT_STATEMENT);
     stm->fields.print.fpos = fpos;
