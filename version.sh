@@ -1,4 +1,4 @@
-cat > 2_5_7.Beta <<EOF
+cat > 2_5_8.Beta <<EOF
 Alan
 Adventure Language System
 EOF
