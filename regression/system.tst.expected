@@ -5,13 +5,16 @@ arun system < system.input
 
         No warnings or errors detected.
 
+echoing l1
 
 
-Wet1.
+L1.
 
-> Wet2.
+> echoing l2
+L2.
 
-> Wet1.
+> echoing l1
+L1.
 
 > 
 

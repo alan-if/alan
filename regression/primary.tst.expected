@@ -1,6 +1,6 @@
 ########## primary ##########
 alan primary
-arun primary < primary.input
+
 ########## /bin/sh  primary.tst ##########
 
 
@@ -98,4 +98,3 @@ primary.alan
         No detected warnings.
         2 informational message(s).
 
-primary.tst: primary.input: No such file or directory

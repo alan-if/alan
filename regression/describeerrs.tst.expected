@@ -1,6 +1,5 @@
 ########## describeerrs ##########
 alan describeerrs
-arun describeerrs < describeerrs.input
 ########## /bin/sh  describeerrs.tst ##########
 
 
@@ -21,4 +20,3 @@ describeerrs.alan
         No detected warnings.
         2 informational message(s).
 
-describeerrs.tst: describeerrs.input: No such file or directory

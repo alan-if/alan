@@ -1,6 +1,5 @@
 ########## list ##########
 alan list
-arun list < list.input
 ########## /bin/sh  list.tst ##########
 
 
@@ -31,4 +30,3 @@ list.alan
         No detected warnings.
         2 informational message(s).
 
-list.tst: list.input: No such file or directory

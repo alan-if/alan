@@ -1,6 +1,5 @@
 ########## make ##########
 alan make
-arun make < make.input
 ########## /bin/sh  make.tst ##########
 
 
@@ -73,4 +72,3 @@ make.alan
         No detected warnings.
         2 informational message(s).
 
-make.tst: make.input: No such file or directory

@@ -1,6 +1,6 @@
 ########## schedule ##########
 alan schedule
-arun schedule < schedule.input
+
 ########## /bin/sh  schedule.tst ##########
 
 
@@ -37,4 +37,3 @@ schedule.alan
         No detected warnings.
         2 informational message(s).
 
-schedule.tst: schedule.input: No such file or directory

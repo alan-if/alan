@@ -1,6 +1,5 @@
 ########## exp ##########
 alan exp
-arun exp < exp.input
 ########## /bin/sh  exp.tst ##########
 
 
@@ -418,4 +417,3 @@ exp.alan
         No detected warnings.
         5 informational message(s).
 
-exp.tst: exp.input: No such file or directory

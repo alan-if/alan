@@ -1,6 +1,5 @@
 ########## defattr ##########
 alan defattr
-arun defattr < defattr.input
 ########## /bin/sh  defattr.tst ##########
 
 
@@ -16,4 +15,3 @@ defattr.alan
         No detected warnings.
         2 informational message(s).
 
-defattr.tst: defattr.input: No such file or directory

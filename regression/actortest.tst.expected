@@ -1,6 +1,5 @@
 ########## actortest ##########
 alan actortest
-arun actortest < actortest.input
 ########## /bin/sh  actortest.tst ##########
 
 
@@ -17,4 +16,3 @@ actortest.alan
         No detected warnings.
         2 informational message(s).
 
-actortest.tst: actortest.input: No such file or directory

@@ -1,6 +1,6 @@
 ########## marmalade ##########
 alan marmalade
-arun marmalade < marmalade.input
+
 ########## /bin/sh  marmalade.tst ##########
 
 
@@ -39,4 +39,3 @@ marmalade.alan
         1 warning(s).
         2 informational message(s).
 
-marmalade.tst: marmalade.input: No such file or directory

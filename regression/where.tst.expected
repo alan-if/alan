@@ -1,6 +1,6 @@
 ########## where ##########
 alan where
-arun where < where.input
+
 ########## /bin/sh  where.tst ##########
 
 
@@ -17,4 +17,3 @@ where.alan
         No detected warnings.
         2 informational message(s).
 
-where.tst: where.input: No such file or directory

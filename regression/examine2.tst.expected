@@ -1,6 +1,5 @@
 ########## examine2 ##########
 alan examine2
-arun examine2 < examine2.input
 ########## /bin/sh  examine2.tst ##########
 
 
@@ -17,4 +16,3 @@ examine2.alan
         No detected warnings.
         1 informational message(s).
 
-examine2.tst: examine2.input: No such file or directory

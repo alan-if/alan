@@ -1,6 +1,5 @@
 ########## initlocs ##########
 alan initlocs
-arun initlocs < initlocs.input
 ########## /bin/sh  initlocs.tst ##########
 
 
@@ -65,4 +64,3 @@ initlocs.alan
         1 warning(s).
         3 informational message(s).
 
-initlocs.tst: initlocs.input: No such file or directory
