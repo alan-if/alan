@@ -46,10 +46,10 @@ Id *newId(srcp, string)
 
   */
 #ifdef _PROTOTYPES_
-Bool eqIds(Id *id1,
-	   Id *id2)
+Bool equalIds(Id *id1,
+	      Id *id2)
 #else
-Bool eqIds(id1, id2)
+Bool equalIds(id1, id2)
      Id *id1;
      Id *id2;
 #endif

@@ -21,6 +21,7 @@
 /* Types: */
 
 typedef struct Class {		/* Class Node */
+  Srcp srcp;
   Id *id;
   List *heritage;
   List *name;
@@ -44,7 +45,8 @@ typedef struct Class {		/* Class Node */
 #ifdef _PROTOTYPES_
 
 /* Create a new Class node */
-extern Class *newClass(Id *id,
+extern Class *newClass(Srcp *srcp,
+		       Id *id,
 		       List *heritage,
 		       List *name,
 		       Where *where,

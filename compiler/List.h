@@ -19,6 +19,7 @@ typedef struct List {		/* GENERIC LISTS */
   struct List *tail;		/* Pointer to last list node */
   union {
     struct Id *id;
+    struct Statement *statement;
     char *string;
     void *anyType;
   } element;			/* Pointer to any type of element */

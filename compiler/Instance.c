@@ -26,7 +26,8 @@
 
   */
 #ifdef _PROTOTYPES_
-Instance *newInstance(Id *id,
+Instance *newInstance(Srcp *srcp,
+		      Id *id,
 		      List *heritage,
 		      List *name,
 		      Where *where,
@@ -40,9 +41,10 @@ Instance *newInstance(Id *id,
 		      List *verbs,
 		      List *scripts)
 #else
-Instance *newInstance(id, heritage, name, where, attributes, container,
+Instance *newInstance(srcp, id, heritage, name, where, attributes, container,
 		      surroundings, description, mentioned, does, exits, verbs,
 		      scripts)
+     Srcp *srcp;
      Id *id;
      List *heritage;
      List *name;
@@ -66,6 +68,7 @@ Instance *newInstance(id, heritage, name, where, attributes, container,
   symbol = newSymbol(id, INSTANCE_SYMBOL);
   symbol->info.instance = new;
 
+  new->srcp = *srcp;
   new->id = id;
   new->heritage = heritage;
   new->name = name;

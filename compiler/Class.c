@@ -25,7 +25,8 @@
 
   */
 #ifdef _PROTOTYPES_
-Class *newClass(Id *id,
+Class *newClass(Srcp *srcp,
+		Id *id,
 		List *heritage,
 		List *name,
 		Where *where,
@@ -39,8 +40,9 @@ Class *newClass(Id *id,
 		List *verbs,
 		List *scripts)
 #else
-Class *newClass(id, heritage, name, where, attributes, container, surroundings,
+Class *newClass(srcp, id, heritage, name, where, attributes, container, surroundings,
 		description, mentioned, does, exits, verbs, scripts)
+     Srcp *srcp;
      Id *id;
      List *heritage;
      List *name;
@@ -64,6 +66,7 @@ Class *newClass(id, heritage, name, where, attributes, container, surroundings,
   symbol = newSymbol(id, CLASS_SYMBOL);
   symbol->info.class = new;
 
+  new->srcp = *srcp;
   new->id = id;
   new->heritage = heritage;
   new->name = name;

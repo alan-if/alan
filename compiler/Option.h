@@ -10,6 +10,7 @@
 
 /* USE: */
 #include "types.h"
+#include "Id.h"
 #include "acode.h"
 
 
@@ -44,8 +45,8 @@ typedef struct OptionDef {
 
 /* Option values for LANGUAGE */
 typedef enum LanguageKind {
-  LANGAUGE_ENGLISH,
-  LANGAUGE_SWEDISH
+  LANGUAGE_ENGLISH,
+  LANGUAGE_SWEDISH
 } LanguageKind;
 
 
@@ -59,25 +60,22 @@ extern OptionDef options[NOPTIONS];
 #ifdef _PROTOTYPES_
 
 /* Register an integer option */
-extern void integerOption(char id[],
-			  Srcp *srcp,
-			  int val);
+extern void integerOption(Id *id,
+			  int value);
 
 /* Register an enumerated option */
-extern void enumOption(char id[],
-		       Srcp *srcp,
-		       char val[]);
+extern void enumeratedOption(Id *id,
+			     Id *value);
 
 /* Register a Boolean option */
-extern void booleanOption(char id[],
-			  Srcp *srcp);
+extern void booleanOption(Id *id);
 
 
 /* Generate all option values */
 extern void generateOptions(AcdHdr *header);
 #else
 extern void integerOption();
-extern void enumOption();
+extern void enumeratedOption();
 extern void booleanOption();
 extern void generateOptions();
 #endif

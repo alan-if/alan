@@ -20,6 +20,7 @@
 /* Types: */
 
 typedef struct Instance {		/* Instance Node */
+  Srcp srcp;
   Id *id;
   List *heritage;
   List *name;
@@ -43,7 +44,8 @@ typedef struct Instance {		/* Instance Node */
 #ifdef _PROTOTYPES_
 
 /* Create a new Instance node */
-extern Instance *newInstance(Id *id,
+extern Instance *newInstance(Srcp *srcp,
+			     Id *id,
 			     List *heritage,
 			     List *name,
 			     Where *where,
