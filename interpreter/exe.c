@@ -909,7 +909,8 @@ static void locateActor(Aword movingActor, Aword whr)
     admin[whr].visitsCount = 0;
   current.actor = movingActor;
   if (instance[current.location].entered != 0) {
-    interpret(instance[current.location].entered);
+    if (instance[movingActor].location != current.location)
+      interpret(instance[current.location].entered);
   } else
     executeInheritedEntered(instance[current.location].parent);
   current.actor = previousActor;
