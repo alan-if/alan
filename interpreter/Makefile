@@ -60,7 +60,7 @@ ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
-all: checkTarget unitTest arun
+all fromsrc: checkTarget unitTest arun
 
 arun : $(ARUNOBJECTS) Makefile dependencies.mk $(EXE)
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
