@@ -37,7 +37,7 @@ VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 
-arun : $(ARUNOBJECTS)
+arun : $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o arun $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin

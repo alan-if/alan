@@ -6,3 +6,7 @@ for f in ${*} ; do
     cvs add $case.expected $case.alan 2> /dev/null
 done
 
+
+
+
+

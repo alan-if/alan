@@ -11,14 +11,14 @@ run ()
     echo "########## arun $case ##########" >>$case.output
     ../bin/arun -n $case >>$case.output 2>&1 <$case.input 
     cases=`expr $cases + 1`
-    rm $case.a3c $case.tmp
+    rm $case.a3c
 }
 
 verify()
 {
     if [ -f $case.expected ]
     then
-	if diff -q -b $case.output $case.expected 1> /dev/null
+	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
 	then
 	    echo -n "[K"
 	    rm $case.output

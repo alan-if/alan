@@ -10,7 +10,7 @@
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
   The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does.
+  AUTOCONF package does.
 
   This is not completely done yet!
 

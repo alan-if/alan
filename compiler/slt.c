@@ -52,19 +52,19 @@ Slots *newEmptySlots(void)
 
   */
 Slots *newSlots(List *names,
-		    WhrNod *whr,
-		    List *attributes,
-		    CntNod *container,
-		    List *description,
-		    Srcp *descriptionSrcp,
-		    List *mentioned,
-		    Srcp *mentionedSrcp,
-		    List *article,
-		    Srcp *articleSrcp,
-		    List *does,
-		    List *exits,
-		    List *verbs,
-		    List *scripts)
+		WhrNod *whr,
+		List *attributes,
+		CntNod *container,
+		List *description,
+		Srcp *descriptionSrcp,
+		List *mentioned,
+		Srcp *mentionedSrcp,
+		List *article,
+		Srcp *articleSrcp,
+		List *does,
+		List *exits,
+		List *verbs,
+		List *scripts)
 {
   Slots *new;                  /* The newly allocated area */
 

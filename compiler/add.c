@@ -13,6 +13,7 @@
 #include "id_x.h"
 #include "srcp_x.h"
 #include "atr_x.h"
+#include "lst_x.h"
 
 #include "vrb.h"
 #include "scr.h"
@@ -25,7 +26,6 @@
 #include "dump.h"
 #include "util.h"
 #include "lmList.h"
-
 
 
 /*======================================================================
@@ -107,8 +107,8 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
     if (originalAttribute != NULL) /* It was found in the original */
       lmLog(&l->element.atr->id->srcp, 336, sevERR, "an existing attribute");
   }
-  originalSlots->attributes = combineAttributes(originalSlots->attributes,
-						addedAttributes);
+  originalSlots->attributes = combine(originalSlots->attributes,
+				      addedAttributes);
 }
 
 
@@ -237,7 +237,6 @@ static void addAddition(AddNode *add)
   addScripts(add, originalClass);
   addExits(add, originalClass);
 }
-
 
 
 /*======================================================================

@@ -76,7 +76,6 @@ typedef struct List {		/* GENERIC LISTS */
     struct List *lst;
     char *str;
   } element;			/* Pointer to any type of element */
-  struct List *tail;		/* Pointer to last list node */
   struct List *next;		/* Pointer to next list node */
 } List;
 

@@ -64,7 +64,7 @@ void initClasses()
 
 /*======================================================================
 
-  newcla()
+  newClass()
 
   Allocates and initialises a class node.
 

@@ -1523,7 +1523,7 @@ static int val(char str[])
 	    %<if_statement>.stm->fields.iff.els = %<optional_else_part>.stms;
 	else {
 	    /* Connect the else_part to the elsif_list */
-	    %<optional_elsif_list>.stms->tail->element.stm->fields.iff.els =
+	    (tailOf(%<optional_elsif_list>.stms))->element.stm->fields.iff.els =
 			%<optional_else_part>.stms;
 	    %<optional_elsif_list>.stms->next = NULL;
 	    %<if_statement>.stm->fields.iff.els = %<optional_elsif_list>.stms;
@@ -1570,7 +1570,7 @@ static int val(char str[])
 	/* else-part of the last element in the elsif_list to this */
 	/* IF-statement and also concat this element to the list so */
 	/* we'll know were the end is next time */
-	%<elsif_list>.stms->tail->element.stm->fields.iff.els = concat(NULL, stm, LIST_STM);
+	(tailOf(%<elsif_list>.stms))->element.stm->fields.iff.els = concat(NULL, stm, LIST_STM);
 	%<elsif_list>.stms = concat(%<elsif_list>.stms, stm, LIST_STM);
     }%%
     ;

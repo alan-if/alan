@@ -122,7 +122,7 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
     setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
     
     /* Link last syntax element to this stx to prepare for code generation */
-    stx->elements->tail->element.elm->stx = stx;
+    (tailOf(stx->elements))->element.elm->stx = stx;
   }
 }
 

@@ -1,2 +1,2 @@
 #!/bin/sh
-diff $1.output $1.expected
+diff -q -b $1.output $1.expected

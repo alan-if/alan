@@ -7,8 +7,9 @@ run ()
 {
     echo -n "$case : "
     echo "########## alan $case ##########" >$case.output
-    ../alan $case >>$case.output 2>&1
+    ../alan -include ../../lib $case >>$case.output 2>&1
     cases=`expr $cases + 1`
+    if [ -f $case.a3c ] ; then rm $case.a3c ; fi
 }
 
 verify()

@@ -188,6 +188,9 @@ static List *copyAttributeList(List *theOriginal)
   Insert all attributes from the list to add that are not there
   already, then sort the list.
 
+  NOTE! that we use the codes to combine, so this can't be used before
+  attributes have been numbered!!
+
 */
 List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 {

@@ -43,9 +43,21 @@ void testInsert()
   unitAssert(length(aList) == 2);
 }
 
+void testTailOf()
+{
+  List *listOfOne = concat(NULL, newId(&nulsrcp, "anId"), LIST_ID);
+  List *listOfTwo = concat(concat(NULL, newId(&nulsrcp, "anId"), LIST_ID),
+			   newId(&nulsrcp, "anId"), LIST_ID);
+			   
+  unitAssert(tailOf(NULL) == NULL);
+  unitAssert(tailOf(listOfOne) == listOfOne);
+  unitAssert(tailOf(listOfTwo) == listOfTwo->next);
+}
+
 void registerLstUnitTests()
 {
   registerUnitTest(testLength);
   registerUnitTest(testInsert);
+  registerUnitTest(testTailOf);
 }
 

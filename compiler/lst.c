@@ -90,12 +90,27 @@ void insert(List *thePoint, void *element, ListKind kind)
 }
 
 
+
+List *tailOf(List *aList)
+{
+  List *tail;
+
+  if (aList == NULL)
+    return NULL;
+
+  for (tail = aList; tail->next != NULL; tail = tail->next)
+    ;
+  return tail;
+}
+
+
 /*======================================================================*/
 List *concat(List *list,	/* IN - List to concat to */
 	     void *element,	/* IN - Pointer to any element type */
 	     ListKind kind)	/* IN - Which kind of list? */
 {
   List *new;			/* The newly created list node */
+  List *tail;			/* Traversal pointer to find the tail */
 
   if (element == NULL) return(list);
 
@@ -106,11 +121,10 @@ List *concat(List *list,	/* IN - List to concat to */
 
   new->next = NULL;
   if (list == NULL) {
-    new->tail = new;		/* This node is tail */
     return(new);
   } else {
-    list->tail->next = new;	/* Concat at end of list */
-    list->tail = new;		/* New node is tail */
+    tail = tailOf(list);
+    tail->next = new;	/* Concat at end of list */
     return(list);
   }
 }
@@ -127,11 +141,12 @@ List *concat(List *list,	/* IN - List to concat to */
 List *combine(List *list1,	/* IN - Lists to combine */
 	      List *list2)
 {
+  List *tail = tailOf(list1);
+
   if (list1 == NULL) return(list2);
   if (list2 == NULL) return(list1);
 
-  list1->tail->next = list2;	/* Combine at end of list1 */
-  list1->tail = list2->tail;	/* Tail of list2 is tail */
+  tail->next = list2;	/* Combine at end of list1 */
   return(list1);
 }
 

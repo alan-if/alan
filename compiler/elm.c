@@ -206,7 +206,6 @@ static List *first(List **listP) /* IN OUT - Address of pointer to list */
   *listP = theFirst->next;
 
   theFirst->next = NULL;
-  theFirst->tail = theFirst;
 
   return theFirst;
 }

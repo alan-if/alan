@@ -24,6 +24,8 @@ extern List *concat(List *lst, void *elem, ListKind kind);
 extern List *combine(List *lst1, List *lst2);
 extern void insert(List *where, void *element, ListKind kind);
 extern int length(List *aList);
+extern List *tailOf(List *aList);
+
 
 /* Dump a list of nodes */
 extern void dumpList(List *lst, ListKind nod);
