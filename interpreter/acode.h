@@ -109,6 +109,7 @@ typedef enum InstClass {
   I_USE,
   I_STOP,
   I_IN,
+  I_INSET,
   I_DESCRIBE,
   I_SAY,
   I_SAYINT,

@@ -4,247 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>325.89</origest>
-<currest>324.89</currest>
-<elapsed>171.89</elapsed>
+<origest>329.89</origest>
+<currest>328.89</currest>
+<elapsed>172.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>56</origest>
-<currest>56</currest>
-<elapsed>18</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.32</desc>
-<notes/>
-<priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
-<elapsed>18</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Allow expression as actor in "Use script for..."</desc>
-<notes>Investigate Stop actor.
-
-Stop does not analyze its expression to be an actor.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>42</origest>
+<currest>42</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>&lt;more&gt; should work when taking commands from a file</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add "Playback comamnds" to WinGLK menu</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default save name in WinArun should be basename of game</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Multiple syntax verb declarations</desc>
-<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
-E.g.
-Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
-Syntax b = v1 (p1) Where p1 Isa Container ...
-Verb a, b
-Here a reference to p1 should be considered to be either Object, Actor or Container
-
-Design:
-At analysis connect a parameter list to the verb and use that instead of the syntax
-
-Actually this is obsolete, since in v3 you can not do that, you can only specify one class.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Multiple messages for initial locations which are not declared</desc>
-<notes>The t Isa object In unknown ...
-
-results in:
-
-310 E : Identifier 'unkown' not defined.
-310 E : Identifier 'unkown' not defined.
-
-Fix it!
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SAVE &amp; RESTORE texts as messages</desc>
-<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.
-
-This is handled by WinArun now.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Step 2:
-
-Design:
-
-New clause on containers:
-    Container
-        Takes thing  (Or: Of thing)
-            Else ....</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow parameters as actor in USE statement</desc>
-<notes>Need: to be able to start a specific script for a variable actor.
-
-Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Programmer Pitch in manual</desc>
-<notes>Alan is an application oriented language. It features constructs that are natural to an author of Interactive Fiction. Alan is a strictly typed, compiled, objectoriented language with single inheritance. Classes inherits properties from their superclasses. The class system allows polymorphism so that instances of subclasses are valid wherever a superclass is specified. There are no explicit types, instead types are inferred from the expressions.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow full stop/period/'.' as a sentence breaker in player commands</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unify messages 311, 351, 410, 428</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow expression as What in Locate</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow expression as What in Where</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New attribute reference syntax</desc>
-<notes>Allow
-    l:dark
-instead of
-    l is dark
-and
-    o:size
-instead of
-    size of o
-
-Because it could be made more general:
-
-The east_door
-  Isa object.
-  Has other_side west_door.
-  Has size 4.
-End The door.
-
-... If door:other_side:size &gt; 3 Then
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The usage text for the compiler says that include directories are searched before, THATS WRONG!</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor schedule to use Expression</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Remove REVERSED using the endian() function in sysdep</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
-<elapsed>0</elapsed>
+<origest>14</origest>
+<currest>14</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -274,7 +52,7 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>4</origest>
 <currest>4</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Declaration of sets</desc>
@@ -282,7 +60,7 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -315,6 +93,14 @@ How to handle the empty set????</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Handle comma as period. No space before.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>UNDO does not affect heros position</desc>
@@ -389,16 +175,50 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow dash within words in player input</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Disambiguation using checks</desc>
+<notes>Example:
+
+There is water in the lake. You are carrying a bottle of water.
+&gt; examine water
+I don't know which water you mean.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>14</origest>
+<currest>14</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should IN be transitive?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2262,9 +2082,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>146.89</origest>
-<currest>145.89</currest>
-<elapsed>145.89</elapsed>
+<origest>164.89</origest>
+<currest>163.89</currest>
+<elapsed>163.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -5557,6 +5377,228 @@ Could not repeat this!</notes>
 </task>
 <task>
 <desc>OSX porting feedback</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.32</desc>
+<notes/>
+<priority>2</priority>
+<origest>18</origest>
+<currest>18</currest>
+<elapsed>18</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Allow expression as actor in "Use script for..."</desc>
+<notes>Investigate Stop actor.
+
+Stop does not analyze its expression to be an actor.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>&lt;more&gt; should work when taking commands from a file</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add "Playback comamnds" to WinGLK menu</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default save name in WinArun should be basename of game</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Multiple syntax verb declarations</desc>
+<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
+E.g.
+Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
+Syntax b = v1 (p1) Where p1 Isa Container ...
+Verb a, b
+Here a reference to p1 should be considered to be either Object, Actor or Container
+
+Design:
+At analysis connect a parameter list to the verb and use that instead of the syntax
+
+Actually this is obsolete, since in v3 you can not do that, you can only specify one class.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple messages for initial locations which are not declared</desc>
+<notes>The t Isa object In unknown ...
+
+results in:
+
+310 E : Identifier 'unkown' not defined.
+310 E : Identifier 'unkown' not defined.
+
+Fix it!
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SAVE &amp; RESTORE texts as messages</desc>
+<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.
+
+This is handled by WinArun now.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Step 2:
+
+Design:
+
+New clause on containers:
+    Container
+        Takes thing  (Or: Of thing)
+            Else ....</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow parameters as actor in USE statement</desc>
+<notes>Need: to be able to start a specific script for a variable actor.
+
+Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Programmer Pitch in manual</desc>
+<notes>Alan is an application oriented language. It features constructs that are natural to an author of Interactive Fiction. Alan is a strictly typed, compiled, objectoriented language with single inheritance. Classes inherits properties from their superclasses. The class system allows polymorphism so that instances of subclasses are valid wherever a superclass is specified. There are no explicit types, instead types are inferred from the expressions.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow full stop/period/'.' as a sentence breaker in player commands</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify messages 311, 351, 410, 428</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression as What in Locate</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression as What in Where</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New attribute reference syntax</desc>
+<notes>Allow
+    l:dark
+instead of
+    l is dark
+and
+    o:size
+instead of
+    size of o
+
+Because it could be made more general:
+
+The east_door
+  Isa object.
+  Has other_side west_door.
+  Has size 4.
+End The door.
+
+... If door:other_side:size &gt; 3 Then
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The usage text for the compiler says that include directories are searched before, THATS WRONG!</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor schedule to use Expression</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove REVERSED using the endian() function in sysdep</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

@@ -8,14 +8,32 @@
 #include "main.h"
 
 
+/*======================================================================*/
+void initSets(SetInitEntry *initTable)
+{
+  SetInitEntry *init;
+  AttributeEntry *attribute;
+  int i;
+  
+  for (init = initTable; !endOfTable(init); init++) {
+    Set *set = (Set *)allocate(sizeof(Set));
+    attribute = pointerTo(init->adr);
+    attribute->value = (Aword)set;
+    set->size = init->size;
+    set->members = (Aword*)allocate(sizeof(Aword)*init->size);
+    for (i = 0; i < init->size; i++)
+    	set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
+  }
+}
+
 /*----------------------------------------------------------------------*/
 static void copyMembers(Aword *source, Aword *destination, int size)
 {
 	memcpy(destination, source, size*sizeof(Aword));
 }	
 
-/*----------------------------------------------------------------------*/
-static Bool inSet(Set *theSet, Aword member)
+/*======================================================================*/
+Bool inSet(Set *theSet, Aword member)
 {
 	int i;
 	

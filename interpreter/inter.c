@@ -17,6 +17,7 @@
 #include "syserr.h"
 #include "sysdep.h"
 #include "debug.h"
+#include "set.h"
 
 #include "inter.h"
 
@@ -648,6 +649,19 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
+	if (singleStepOption) {
+	  if (top()) printf("\t=TRUE\t");
+	  else printf("\t=FALSE\t");
+	}
+	break;
+      }
+      case I_INSET: {
+	Aword element, set;
+	element = pop();
+	set = pop();
+	if (singleStepOption)
+	  printf("INSET \t%5ld, %5ld ", element, set);
+	push(inSet((Set*)set, element));
 	if (singleStepOption) {
 	  if (top()) printf("\t=TRUE\t");
 	  else printf("\t=FALSE\t");

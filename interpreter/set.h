@@ -13,11 +13,17 @@
 \*----------------------------------------------------------------------*/
 
 #include "acode.h"
+#include "types.h"
+
 
 typedef struct Set {
 	int size;
 	int allocated;
 	Aword *members;
 } Set;
+
+
+extern void initSets(SetInitEntry *initTable);
+extern Bool inSet(Set *theSet, Aword member);
 
 #endif

@@ -1077,23 +1077,6 @@ static void initStrings(void)
 }
 
 /*----------------------------------------------------------------------*/
-static void initSets(void)
-{
-  SetInitEntry *init;
-  AttributeEntry *attribute;
-  int i;
-  
-  for (init = (SetInitEntry *) pointerTo(header->setInitTable); !endOfTable(init); init++) {
-	Set *set = (Set *)allocate(sizeof(Set));
-	attribute = pointerTo(init->adr);
-    attribute->value = (Aword)set;
-    set->members = (Aword*)allocate(sizeof(Aword)*init->size);
-    for (i = 0; i < init->size; i++)
-    	set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
-  }
-}
-
-/*----------------------------------------------------------------------*/
 static Aint sizeOfAttributeData(void)
 {
   int i;
@@ -1148,7 +1131,7 @@ static void initDynamicData(void)
 
   /* Initialise string & set attributes */
   initStrings();
-  initSets();
+  initSets((SetInitEntry*)pointerTo(header->setInitTable));
 
   /* Create game state copy of attributes */
   attributes = copyAttributes();

@@ -8,6 +8,7 @@
 
 #include "exe.c"
 
+
 static void testCountTrailingBlanks() {
   char *threeBlanks = "h   ";
   char *fiveBlanks = "     ";

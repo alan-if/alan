@@ -890,9 +890,13 @@ static void generateWhereExpression(Expression *exp)
     if (exp->not) emit0(I_NOT);
     return;
   case WHERE_IN:
+  case WHERE_INSET:
     generateExpression(where->what);
     generateExpression(what);
-    emit0(I_IN);
+    if (where->kind == WHERE_IN)
+      emit0(I_IN);
+    else
+      emit0(I_INSET);
     if (exp->not) emit0(I_NOT);
     return;
   case WHERE_AT:
