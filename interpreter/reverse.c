@@ -264,6 +264,7 @@ static void reverseClasses(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(ClassEntry));
     while (!endOfTable(e)) {
+      reverseChks(e->checks);
       reverseStms(e->description);
       e++;
     }
@@ -286,6 +287,7 @@ static void reverseInstances(adr)
       reverseTable(e->attributes, sizeof(AttributeEntry));
       reverseStms(e->mentioned);
       reverseStms(e->article);
+      reverseChks(e->checks);
       reverseStms(e->description);
       reverseExits(e->exits);
       reverseVerbs(e->verbs);

@@ -80,6 +80,7 @@ extern void para(void);
 extern void newline(void);
 
 extern Boolean checklim(Aword cnt, Aword obj);
+extern Boolean trycheck(Aaddr adr, Boolean act);
 extern Boolean possible(void);
 extern Boolean exitto(int to, int from);
 extern void action(ParamEntry *plst);
@@ -110,6 +111,7 @@ extern void print();
 extern void para();
 extern void newline();
 extern Boolean checklim();
+extern Boolean trycheck();
 extern Boolean possible();
 extern Boolean eot();
 extern Boolean isObj();

@@ -12,6 +12,8 @@
 #include "sysdep.h"
 #include "acode.h"
 
+/* PREPROCESSOR */
+#define FORWARD
 
 /* CONSTANTS */
 

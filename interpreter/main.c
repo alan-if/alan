@@ -984,19 +984,19 @@ Boolean checklim(cnt, obj)
 
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
   trycheck()
 
   Tries a check, returns TRUE if it passed, FALSE else.
 
   */
 #ifdef _PROTOTYPES_
-static Boolean trycheck(
+Boolean trycheck(
      Aaddr adr,			/* IN - ACODE address to check table */
      Boolean act		/* IN - Act if it fails ? */
 )
 #else
-static Boolean trycheck(adr, act)
+Boolean trycheck(adr, act)
      Aaddr adr;			/* IN - ACODE address to check table */
      Boolean act;		/* IN - Act if it fails ? */
 #endif
