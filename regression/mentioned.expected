@@ -1,0 +1,22 @@
+########## alan mentioned ##########
+
+
+mentioned.alan
+
+    2.  VERB take
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+   10.  VERB drop
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
+########## arun mentioned ##########
+./regr: cannot open mentioned.input: no such file

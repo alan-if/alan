@@ -333,7 +333,7 @@ void testReplicateContainer()
 {
   Symbol *child = newSymbol(newId(&nulsrcp, "child"), CLASS_SYMBOL);
   Symbol *parent = newSymbol(newId(&nulsrcp, "parent"), CLASS_SYMBOL);
-  Container *container = newContainer( newContainerBody(&nulsrcp, (void *)1, (void *)2, (void *)3));
+  Container *container = newContainer( newContainerBody(&nulsrcp, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
 
   child->fields.entity.props = NEW(Properties);
   parent->fields.entity.props = NEW(Properties);

@@ -14,6 +14,7 @@
 #include "sym_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "chk_x.h"
 
 #include "adv.h"		/* ADV-node */
 #include "stm.h"		/* STM-nodes */
@@ -38,7 +39,9 @@ int containerCount = 0;
 ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
 				List *lims, /* IN - Limits */
 				List *hstms, /* IN - Header statements */
-				List *estms) /* IN - Else (empty) statements */
+				List *estms, /* IN - Else (empty) statements */
+				List *extractChecks,
+				List *extractStatements)
 {
   ContainerBody *new;		/* The newly allocated area */
 
@@ -49,6 +52,8 @@ ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
   new->limits = lims;
   new->hstms = hstms;
   new->estms = estms;
+  new->extractChecks = extractChecks;
+  new->extractStatements = extractStatements;
 
   return(new);
 }
@@ -134,6 +139,10 @@ void analyzeContainer(Container *theContainer, Context *context)
     analyzeStatements(theContainer->body->hstms, context);
     analyzeStatements(theContainer->body->estms, context);
     theContainer->body->analyzed = TRUE;
+
+    /* Analyze the extract checks and statements */
+    analyzeChecks(theContainer->body->extractChecks, context);
+    analyzeStatements(theContainer->body->extractStatements, context);
   }
 }
 
@@ -176,6 +185,19 @@ static void generateContainerBody(ContainerBody *body)
       emit0(I_RETURN);
     } else
       body->eadr = 0;
+
+    if (body->extractChecks != NULL) {
+      body->extractChecksAddress = generateChecks(body->extractChecks);
+    } else
+      body->extractChecksAddress = 0;
+
+    if (body->extractStatements != NULL) {
+      body->extractStatementsAddress = emadr();
+      generateStatements(body->extractStatements);
+      emit0(I_RETURN);
+    } else
+      body->extractStatementsAddress = 0;
+
 #ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
     body->generated = TRUE;
   }
@@ -192,6 +214,8 @@ static void generateContainerEntry(Container *cnt)
   entry.limits = cnt->body->limadr;
   entry.header = cnt->body->hadr;
   entry.empty = cnt->body->eadr;
+  entry.extractChecks = cnt->body->extractChecksAddress;
+  entry.extractStatements = cnt->body->extractStatementsAddress;
   entry.owner = cnt->ownerProperties->id->symbol->code;
   emitEntry(&entry, sizeof(entry));
 }

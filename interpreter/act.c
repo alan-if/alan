@@ -5,6 +5,9 @@
   Action routines
 
 \*----------------------------------------------------------------------*/
+#include "act.h"
+
+/* Import */
 #include "types.h"
 #include "main.h"
 #include "inter.h"
@@ -12,11 +15,6 @@
 #include "stack.h"
 #include "parse.h"
 #include "debug.h"
-
-
-/* Private data */
-#define EXECUTE TRUE
-#define DONT_EXECUTE FALSE
 
 
 /*----------------------------------------------------------------------

@@ -691,7 +691,9 @@ static void replicateContainer(Symbol *symbol)
     ContainerBody *body = newContainerBody(&parentProps->container->body->srcp,
 					   parentProps->container->body->limits,
 					   parentProps->container->body->hstms,
-					   parentProps->container->body->estms);
+					   parentProps->container->body->estms,
+					   parentProps->container->body->extractChecks,
+					   parentProps->container->body->extractStatements);
     props->container = newContainer(body);
 #else
     /* Create a new Container Instance and link parents Container */

@@ -233,7 +233,9 @@ typedef struct ContainerEntry {	/* CONTAINER TABLE */
   Aword owner;			/* Owner instance index */
   Aaddr limits;			/* Address to limit check code */
   Aaddr header;			/* Address to header code */
-  Aaddr empty;			/* Address to empty code */
+  Aaddr empty;			/* Address to code for header when empty */
+  Aaddr extractChecks;		/* Address to check before extracting */
+  Aaddr extractStatements;	/* Address to execute when extracting */
 } ContainerEntry;
 
 

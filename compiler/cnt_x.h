@@ -19,7 +19,7 @@
 
 /* FUNCTIONS: */
 
-extern ContainerBody *newContainerBody(Srcp *srcp, List *lims, List *hstms, List *estms);
+extern ContainerBody *newContainerBody(Srcp *srcp, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements);
 extern Container *newContainer( ContainerBody *info);
 extern void verifyContainer(What *wht, Context *context);
 extern void analyzeContainer(Container *cnt, Context *context);

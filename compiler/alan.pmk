@@ -1070,20 +1070,24 @@ static int val(char str[])
     = [ 'WITH' ] 'CONTAINER' <container_body>
     %%
 	%<container properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
-						   %<container_body>.lims,
-						   %<container_body>.stms,
-						   %<container_body>.stms2));
+						%<container_body>.lims,
+						%<container_body>.stms,
+						%<container_body>.stms2,
+						%<container_body>.chks,
+						%<container_body>.stms3));
         %<container properties>.srcp = %'CONTAINER'.srcp;
     %%
     ;
 
 
 <container_body>		-- RETURNS: lims, stms, stms2
-    =  <optional_limits> <optional_header> <optional_empty>
+    =  <optional_limits> <optional_header> <optional_empty> <optional_extract>
     %%
 	%<container_body>.lims  = %<optional_limits>.lims;
 	%<container_body>.stms  = %<optional_header>.stms;
 	%<container_body>.stms2 = %<optional_empty>.stms;
+	%<container_body>.chks = %<optional_extract>.chks;
+	%<container_body>.stms3 = %<optional_extract>.stms;
     %%
     ;
 
@@ -1157,6 +1161,29 @@ static int val(char str[])
     %%
 	%<optional_empty>.stms = %<statements>.stms;
     %%
+    ;
+
+<optional_extract>		-- RETURNS: chks, stms
+    =
+    %%
+	%<optional_extract>.chks = NULL;
+	%<optional_extract>.stms = NULL;
+    %%
+
+    ! 'EXTRACT' <optional_checks> <optional_does>
+    %%
+	%<optional_extract>.chks = %<optional_checks>.chks;
+	%<optional_extract>.stms = %<optional_does>.stms;
+	if (%<optional_does>.qual != QUAL_DEFAULT)
+	  lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
+    %%
+
+    ! 'EXTRACT' <statements>
+    %%
+	%<optional_extract>.chk = NULL;
+	%<optional_extract>.stms = %<statements>.stms;
+    %%
+
     ;
 
 ---> EVENTS

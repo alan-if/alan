@@ -411,6 +411,8 @@ static void reverseContainers(Aword adr)
       reverseLims(e->limits);
       reverseStms(e->header);
       reverseStms(e->empty);
+      reverseChks(e->extractChecks);
+      reverseStms(e->extractStatements);
       e++;
     }
   }

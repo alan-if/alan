@@ -7,6 +7,8 @@
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
+#include "act.h"
+#include "debug.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -780,6 +782,8 @@ void locate(id, whr)
 #endif
 {
   char str[80];
+  Aword containerId;
+  ContainerEntry *theContainer;
 
   if (id == 0) {
     sprintf(str, "Can't LOCATE instance (%ld).", id);
@@ -793,9 +797,36 @@ void locate(id, whr)
   } else if (whr > header->instanceMax) {
     sprintf(str, "Can't LOCATE instance at (%ld > instanceMax).", whr);
     syserr(str);
-  } else if (isAct(id)) {
+  }
+
+  /* First check if the instance is in a container, if so run extract checks */
+  if (isCnt(instance[id].location)) {    /* In something? */
+    containerId = instance[instance[id].location].container;
+    theContainer = &container[containerId];
+    if (theContainer->extractChecks != 0) {
+      if (traceOption) {
+	printf("\n<EXTRACT from ");
+	traceSay(id);
+	printf("(%ld, container %ld), Checking:>\n", id, containerId);
+      }
+      if (!trycheck(theContainer->extractChecks, EXECUTE)) {
+	fail = TRUE;
+	return;
+      }
+    }
+    if (theContainer->extractStatements != 0) {
+      if (traceOption) {
+	printf("\n<EXTRACT from ");
+	traceSay(id);
+	printf("(%ld, container %ld), Executing:>\n", id, containerId);
+      }
+      interpret(theContainer->extractStatements);
+    }
+  }
+    
+  if (isAct(id))
     locateActor(id, whr);
-  } else
+  else
     locateObject(id, whr);
 }
 

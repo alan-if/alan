@@ -24,7 +24,11 @@ typedef struct ContainerInfo {
   List *hstms;			/* Header statements */
   Aaddr hadr;			/* ACODE address to header statements */
   List *estms;			/* 'Empty' statements */
-  Aaddr eadr;			/* ACODE address to 'empty' statements */  
+  Aaddr eadr;			/* ACODE address to 'empty' statements */
+  List *extractChecks;		/* Extract checks */
+  Aaddr extractChecksAddress;
+  List *extractStatements;	/* Extract statements (DOES) */
+  Aaddr extractStatementsAddress;
 } ContainerBody;
 
 typedef struct Container {	/* To be used in instances */

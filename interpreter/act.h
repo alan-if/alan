@@ -15,6 +15,10 @@
 
 /* DATA */
 
+/* trycheck() execute flags */
+#define EXECUTE TRUE
+#define DONT_EXECUTE FALSE
+
 /* FUNCTIONS */
 
 #ifdef _PROTOTYPES_

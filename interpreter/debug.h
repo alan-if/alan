@@ -21,7 +21,7 @@ extern void traceSay(int item);
 extern void saveInfo();
 extern void restoreInfo();
 extern void debug();
-extern void debugsay();
+extern void traceSay();
 #endif
 
 #endif
