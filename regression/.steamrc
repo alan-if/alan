@@ -1,0 +1,2 @@
+TestCall	= "/bin/sh  %t"
+TestSuffix	= "tst"
