@@ -4,17 +4,17 @@
 -- 0.4.1 - converted to ALANv3
 
 
-ADD TO EVERY OBJECT 
-	IS
-	NOT lockable.
-	locked.
-END ADD TO OBJECT. 
+Add To Every object
+  Is
+    Not lockable.
+    locked.
+End Add To object.
 
 
-SYNTAX
-	lock = lock (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't lock that."
+Syntax
+  lock = lock (obj)
+    Where obj Isa object
+      Else "You can't lock that."
 
 Add To Every object
 	VERB lock

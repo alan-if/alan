@@ -10,24 +10,24 @@
 --          me" etc and synonyms for "it" so can say "look at guard"
 --          and then "salute him"
 
-SYNONYMS
-	me, myself, self = HERO.
-	her, him = it.
+Synonyms
+  me, myself, self = hero.
+  her, him = it.
 
-THE HERO ISA ACTOR
-CONTAINER 
-	LIMITS
-		COUNT 10 THEN
-			"You can't carry anything more. You have to drop something 
-			first."
-		weight 50 THEN
-				"You can't carry anything more. You have to drop something 
-				first."
-	HEADER
-		"You are carrying"
-	ELSE
-		"You are empty-handed."
-END THE HERO.
+The hero Isa actor
+Container
+  Limits
+    Count 10 Then
+      "You can't carry anything more. You have to drop something 
+	first."
+    weight 50 Then
+      "You can't carry anything more. You have to drop something 
+	first."
+    Header
+      "You are carrying"
+    Else
+      "You are empty-handed."
+End The hero.
 
 
 -- 'named' used in std.i messages to distinguish between actors with real 
@@ -42,13 +42,13 @@ END THE HERO.
 --      eg: -- 
 --         OBJECT robot AT spaceship NAME 'Floyd' NAME floyd 
 
-ADD TO EVERY THING
-IS
-	NOT plural.
-	NOT named.
-END ADD TO THING. 
+Add To Every thing
+  Is
+    Not plural.
+    Not named.
+End Add To thing. 
 
-ADD TO EVERY ACTOR
-IS
-	named.
-END ADD TO ACTOR.
+Add To Every actor
+Is
+  named.
+End Add To actor.
