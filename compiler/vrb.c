@@ -297,7 +297,7 @@ void duvrb (vrb)
 
   put("VRB: "); dusrcp(&vrb ->srcp); in();
   put("nams: "); dulst(vrb->nams,NAMNOD); nl();
-  put("altadr: "); duint(vrb->altadr); nl();
+  put("altadr: "); duadr(vrb->altadr); nl();
   put("alts: "); dulst(vrb->alts, ALTNOD); out();
 }
 

@@ -455,13 +455,13 @@ void duact(act)
   put("namslst: "); dulst2(act->namslst, NAMNOD); nl();
   put("whr: "); duwhr(act->whr); nl();
   put("atrs: "); dulst(act->atrs, ATRNOD); nl();
-  put("atradr: "); duint(act->atradr); nl();
+  put("atradr: "); duadr(act->atradr); nl();
   put("namstms: "); dulst(act->namstms, STMNOD); nl();
-  put("namadr: "); duint(act->namadr); nl();
+  put("namadr: "); duadr(act->namadr); nl();
   put("dscr: "); dulst(act->dscr, STMNOD); nl();
-  put("dscradr: "); duint(act->dscradr); nl();
+  put("dscradr: "); duadr(act->dscradr); nl();
   put("vrbs: "); dulst(act->vrbs, VRBNOD); nl();
-  put("vrbadr: "); duint(act->vrbadr); nl();
+  put("vrbadr: "); duadr(act->vrbadr); nl();
   put("scrs: "); dulst(act->scrs, SCRNOD); nl();
-  put("scradr: "); duint(act->scradr); out();
+  put("scradr: "); duadr(act->scradr); out();
 }

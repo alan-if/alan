@@ -387,17 +387,17 @@ void duloc(loc)
   put("nam: "); dunam(loc->nam); nl();
   put("nams: "); dulst(loc->nams, NAMNOD); nl();
   put("atrs: "); dulst(loc->atrs, ATRNOD); nl();
-  put("atradr: "); duint(loc->atradr); nl();
+  put("atradr: "); duadr(loc->atradr); nl();
   put("namstms: "); dulst(loc->namstms, STMNOD); nl();
-  put("namsadr: "); duint(loc->namsadr); nl();
+  put("namsadr: "); duadr(loc->namsadr); nl();
   put("dscr: "); dulst(loc->dscr, STMNOD); nl();
-  put("dscradr: "); duint(loc->dscradr); nl();
+  put("dscradr: "); duadr(loc->dscradr); nl();
   put("does: "); dulst(loc->does, STMNOD); nl();
-  put("doesadr: "); duint(loc->doesadr); nl();
+  put("doesadr: "); duadr(loc->doesadr); nl();
   put("vrbs: "); dulst(loc->vrbs, VRBNOD); nl();
-  put("vrbadr: "); duint(loc->vrbadr); nl();
+  put("vrbadr: "); duadr(loc->vrbadr); nl();
   put("exts: "); dulst(loc->exts, EXTNOD); nl();
-  put("extadr: "); duint(loc->extadr); out();
+  put("extadr: "); duadr(loc->extadr); out();
 }
 
 

@@ -108,9 +108,23 @@ void duint(i)
 
 
 #ifdef _PROTOTYPES_
-void duadr(void *adr)
+void duadr(int i)
 #else
-void duadr(adr)
+void duadr(i)
+     int i;
+#endif
+{
+  char buf[20];
+
+  sprintf(buf, "%d (0x%x)", i, i);
+  put(buf);
+}
+
+
+#ifdef _PROTOTYPES_
+void duptr(void *adr)
+#else
+void duptr(adr)
      char *adr;
 #endif
 {

@@ -427,7 +427,7 @@ void duelm(elm)
     return;
   }
 
-  put("ELM: "); duadr(elm); dusrcp(&elm->srcp); in();
+  put("ELM: "); duptr(elm); dusrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
   case ELMPAR: {

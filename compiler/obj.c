@@ -417,13 +417,13 @@ void duobj(obj)
   put("whr: "); duwhr(obj->whr); nl();
   put("props: "); ducnt(obj->props); nl();
   put("atrs: "); dulst(obj->atrs, ATRNOD); nl();
-  put("atradr: "); duint(obj->atradr); nl();
+  put("atradr: "); duadr(obj->atradr); nl();
   put("dscr: "); dulst(obj->dscr, STMNOD); nl();
-  put("dscradr: "); duint(obj->dscradr); nl();
+  put("dscradr: "); duadr(obj->dscradr); nl();
   put("art: "); dulst(obj->art, STMNOD); nl();
-  put("artadr: "); duint(obj->artadr); nl();
+  put("artadr: "); duadr(obj->artadr); nl();
   put("ment: "); dulst(obj->ment, STMNOD); nl();
-  put("mentadr: "); duint(obj->mentadr); nl();
+  put("mentadr: "); duadr(obj->mentadr); nl();
   put("vrbs: "); dulst(obj->vrbs, VRBNOD); nl();
-  put("vrbadr: "); duint(obj->vrbadr); out();
+  put("vrbadr: "); duadr(obj->vrbadr); out();
 }

@@ -326,12 +326,12 @@ void dustx(stx)
     return;
   }
 
-  put("STX: "); duadr(stx); dusrcp(&stx->srcp); in();
+  put("STX: "); duptr(stx); dusrcp(&stx->srcp); in();
   put("nam: "); dunam(stx->nam); nl();
   put("generated: "); duBool(stx->generated); nl();
-  put("elmsadr: "); duint(stx->elmsadr); nl();
+  put("elmsadr: "); duadr(stx->elmsadr); nl();
   put("elms: "); dulst(stx->elms, ELMNOD); nl();
-  put("resadr: "); duint(stx->resadr); nl();
+  put("resadr: "); duadr(stx->resadr); nl();
   put("ress: "); dulst(stx->ress, RESNOD); nl();
   put("pars: "); dulst(stx->pars, ELMNOD); out();
 }

@@ -149,9 +149,9 @@ void dustp(stp)
   put("STP: "); dusrcp(&stp->srcp); in();
   put("after: "); duint(stp->after); nl();
   put("exp: "); duexp(stp->exp); nl();
-  put("expadr: "); duint(stp->expadr); nl();
+  put("expadr: "); duadr(stp->expadr); nl();
   put("stms: "); dulst(stp->stms, STMNOD); nl();
-  put("stmadr: "); duint(stp->stmadr); out();
+  put("stmadr: "); duadr(stp->stmadr); out();
 }
 
 

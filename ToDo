@@ -15,8 +15,6 @@ ToDo:
 	* More flexiblity in order of clauses, should be possible to
 	be almost completely free.
 
-	* Document how to create floating objects.
-
 	* Change the interpreter to only look at its own name if no
 	parameter was given.
 
@@ -45,9 +43,13 @@ ToDo:
 	and a direction does not work.
 
 	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
-	the dictonary handling in the compiler gives the verb the code of
-	the adjective, resulting in execution of the wrong (if any)
-	verb... (See regression test adjverb)
+	the dictionary handling in the compiler (newwrd) returns the
+        code of the found word which is the same as the adjective,
+        resulting in execution of the wrong (if any) verb... (See
+        regression test adjverb) Somehow we must separate word codes
+        from the codes used by the objects, verbs etc.
+
+	* Words can't be prepositions and verbs at the same time. See gestx()
 
 	* New and better dictionary handling in the compiler could remedy
 	the multiple word class problems
@@ -112,4 +114,6 @@ Done:
 	* If the HERO is redefined mulitple times it does not work well.
 
 	* Clean up the manual with respect to the  MESSAGE-descriptions
+
+	* Document how to create floating objects.
 

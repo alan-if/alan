@@ -176,7 +176,7 @@ void duchk(chk)
 
   put("CHK: "); in();
   put("exp: "); duexp(chk->exp); nl();
-  put("expadr: "); duint(chk->expadr); nl();
+  put("expadr: "); duadr(chk->expadr); nl();
   put("stms: "); dulst(chk->stms, STMNOD); nl();
-  put("stmadr: "); duint(chk->stmadr); out();
+  put("stmadr: "); duadr(chk->stmadr); out();
 }

@@ -190,7 +190,7 @@ void duscr(scr)
   put("code: "); duint(scr->code); nl();
   put("nam: "); dunam(scr->nam); nl();
   put("stps: "); dulst(scr->stps, STPNOD); nl();
-  put("stpadr: "); duint(scr->stpadr); out();
+  put("stpadr: "); duadr(scr->stpadr); out();
 }
 
 

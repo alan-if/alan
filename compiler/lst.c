@@ -166,7 +166,7 @@ void dulst(lst, class)
     return;
   }
   
-  put("LST: "); duadr(lst); in();
+  put("LST: "); duptr(lst); in();
   while (lst != NULL) {
     dunod((void *)lst->element.atr, class);
     lst = lst->next;
@@ -198,7 +198,7 @@ void dulst2(lstlst, class)
     return;
   }
   
-  put("LST: "); duadr(lstlst); in();
+  put("LST: "); duptr(lstlst); in();
   while (lstlst != NULL) {
     dulst((void *)lstlst->element.lst, class);
     lstlst = lstlst->next;

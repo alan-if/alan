@@ -162,9 +162,9 @@ void durul(rul)
 {
   put("RUL: "); dusrcp(&rul->srcp); in();
   put("exp: "); duexp(rul->exp); nl();
-  put("expadr: "); duint(rul->expadr); nl();
+  put("expadr: "); duadr(rul->expadr); nl();
   put("stms: "); dulst(rul->stms, STMNOD); nl();
-  put("stmadr: "); duint(rul->stmadr); out();
+  put("stmadr: "); duadr(rul->stmadr); out();
 }
 
 

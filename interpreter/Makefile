@@ -49,6 +49,7 @@ VMSLINKOBJS = ${SRCS:.c=}
 
 debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
+dumpacd:=	DEBUG= -g
 
 #-- MAIN TARGET
 debug all tcov: objarch arun dumpacd

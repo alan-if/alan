@@ -415,6 +415,58 @@ static void dumpLocs(int level, Aword locs)
 
 /*----------------------------------------------------------------------
 
+  dumpElms()
+
+  Dump a list of syntax elements
+
+ */
+static void dumpElms(int level, Aword elms)
+{
+  ElmElem *elm;
+
+  if (elms == 0) return;
+
+  for (elm = (ElmElem *)addrTo(elms); !endOfTable(elm); elm++) {
+    indent(level);
+    printf("ELM: #%ld\n", elm->code);
+    indent(level+1);
+    printf("FLAGS: %ld(0x%lx)\n", elm->flags, elm->flags);
+    indent(level+1);
+    printf("NEXT (%s): %ld(0x%lx)\n", elm->code==-2?"cla":"elm", elm->next, elm->next);
+    if(elm->code != EOS) {
+      dumpElms(level+2, elm->next);
+    }
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  dumpStxs()
+
+  Dump a list of syntax descriptions
+
+ */
+static void dumpStxs(int level, Aword stxs)
+{
+  StxElem *stx;
+
+  if (stxs == 0) return;
+
+  for (stx = (StxElem *)addrTo(stxs); !endOfTable(stx); stx++) {
+    indent(level);
+    printf("STX: #%ld\n", stx->code);
+    indent(level+1);
+    printf("ELMS: %ld(0x%lx)\n", stx->elms, stx->elms);
+    dumpElms(level+2, stx->elms);
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
   dumpACD()
 
   Dump the header and all data
@@ -447,6 +499,7 @@ static void dumpACD(void)
   printf("LOCS: %ld(0x%lx)\n", header->locs, header->locs);
   if (dumplocs) dumpLocs(1, header->locs);
   printf("STXS: %ld(0x%lx)\n", header->stxs, header->stxs);
+  if (dumpstxs) dumpStxs(1, header->stxs);
   printf("VRBS: %ld(0x%lx)\n", header->vrbs, header->vrbs);
   if (dumpvrbs) dumpVrbs(1, header->vrbs);
   printf("EVTS: %ld(0x%lx)\n", header->evts, header->evts);

@@ -384,15 +384,15 @@ void ducnt(cnt)
   put("CNT: "); dusrcp(&cnt->srcp); in();
   put("nam: "); dunam(cnt->nam); nl();
   put("namstms: "); dulst(cnt->namstms, STMNOD); nl();
-  put("namadr: "); duint(cnt->namadr); nl();
+  put("namadr: "); duadr(cnt->namadr); nl();
   put("code: "); duint(cnt->code); nl();
   put("parent: "); dunam(cnt->parent); nl();
   put("lims: "); dulst(cnt->lims, LIMNOD); nl();
-  put("limadr: "); duint(cnt->limadr); nl();
+  put("limadr: "); duadr(cnt->limadr); nl();
   put("hstms: "); dulst(cnt->hstms, STMNOD); nl();
-  put("hadr: "); duint(cnt->hadr); nl();
+  put("hadr: "); duadr(cnt->hadr); nl();
   put("estms: "); dulst(cnt->estms, STMNOD); nl();
-  put("eadr: "); duint(cnt->eadr); out();
+  put("eadr: "); duadr(cnt->eadr); out();
 }
 
 

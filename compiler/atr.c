@@ -533,7 +533,7 @@ void duatr(atr)
   put("ATR: "); dusrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();
   put("nam: "); dunam(atr->nam); nl();
-  put("stradr: "); duint(atr->stradr); nl();
+  put("stradr: "); duadr(atr->stradr); nl();
   put("val: "); duint(atr->val); nl();
   put("fpos: "); duint(atr->fpos); nl();
   put("len: "); duint(atr->len); out();

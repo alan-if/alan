@@ -287,9 +287,9 @@ void duext(ext)
   put("dirs: "); dulst(ext->dirs, NAMNOD); nl();
   put("to: "); dunam(ext->to); nl();
   put("chks: "); dulst(ext->chks, CHKNOD); nl();
-  put("chkadr: "); duint(ext->chkadr); nl();
+  put("chkadr: "); duadr(ext->chkadr); nl();
   put("stms: "); dulst(ext->stms, STMNOD); nl();
-  put("stmadr: "); duint(ext->stmadr); out();
+  put("stmadr: "); duadr(ext->stmadr); out();
 }
 
 
