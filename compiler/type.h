@@ -14,8 +14,8 @@
 /* TYPES: */
 
 typedef enum TypeKind {		/* TYPE kinds */
-  ERROR_TYPE = 0,
-  UNKNOWN_TYPE,
+  UNINITIALIZED_TYPE = 0,
+  ERROR_TYPE,
   INTEGER_TYPE,
   BOOLEAN_TYPE,
   STRING_TYPE,

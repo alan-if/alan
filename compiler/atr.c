@@ -329,10 +329,15 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
 
 /*----------------------------------------------------------------------*/
 static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Context *context) {
-  if (class != NULL)
-    return findAttribute(class->fields.entity.props->attributes, attribute);
-  else
-    return NULL;
+  Attribute *atr = NULL;
+
+  if (class != NULL) {
+    atr = findAttribute(class->fields.entity.props->attributes, attribute);
+    if (!atr)
+      lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "expression",
+	     class->string, NULL);
+  }
+  return atr;
 }
 
 

@@ -94,7 +94,7 @@ static void analyzeSay(StmNod *stm, Context *context)
   /* Can only say definite/indefinite forms of instances */
   if (stm->fields.say.form != SAY_SIMPLE
       && stm->fields.say.exp->type != INSTANCE_TYPE
-      && stm->fields.say.exp->type != ERROR_TYPE)
+      && stm->fields.say.exp->type != UNINITIALIZED_TYPE)
     lmLog(&stm->srcp, 339, sevERR, "");
 }
 
@@ -173,7 +173,7 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 {
   /* Verify that a found attribute can be used in a MAKE statement. */
   if (foundAttribute != NULL) {
-    if (foundAttribute->type != BOOLEAN_TYPE && foundAttribute->type != UNKNOWN_TYPE)
+    if (foundAttribute->type != BOOLEAN_TYPE && foundAttribute->type != ERROR_TYPE)
       lmLog(&attributeId->srcp, 408, sevERR, "MAKE statement");
     else
       attributeId->code = foundAttribute->id->code;
@@ -198,7 +198,7 @@ static void analyzeMake(StmNod *stm, Context *context)
 static void verifyTargetAttribute(IdNode *attributeId, Attribute  *targetAttribute)
 {
   if (targetAttribute) {
-    if (targetAttribute->type != INTEGER_TYPE && targetAttribute->type != STRING_TYPE && targetAttribute->type != UNKNOWN_TYPE)
+    if (targetAttribute->type != INTEGER_TYPE && targetAttribute->type != STRING_TYPE && targetAttribute->type != ERROR_TYPE)
       lmLog(&attributeId->srcp, 419, sevERR, "Target for");
     else
       attributeId->code = targetAttribute->id->code;
@@ -217,7 +217,7 @@ static void analyzeSet(StmNod *stm, Context *context)
 
   if (stm->fields.set.exp->type != INTEGER_TYPE
       && stm->fields.set.exp->type != STRING_TYPE
-      && stm->fields.set.exp->type != UNKNOWN_TYPE)
+      && stm->fields.set.exp->type != ERROR_TYPE)
     lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
   if (!equalTypes(stm->fields.set.exp->type, wht->type))
     lmLog(&stm->srcp, 331, sevERR, "SET statement");
@@ -232,7 +232,7 @@ static void analyzeIncrease(StmNod *stm, Context *context)
   if (stm->fields.incr.step != NULL) {
     analyzeExpression(stm->fields.incr.step, context);
     if (stm->fields.incr.step->type != INTEGER_TYPE
-	&& stm->fields.incr.step->type != UNKNOWN_TYPE)
+	&& stm->fields.incr.step->type != ERROR_TYPE)
       lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
   }
 }
@@ -697,7 +697,7 @@ static void generateMake(StmNod *stm)
 {
   emitConstant(!stm->fields.make.not);
   emitConstant(stm->fields.make.atr->code);
-  generateLvalue(stm->fields.make.wht);
+  generateExpression(stm->fields.make.wht);
   emit0(I_MAKE);
 }
 

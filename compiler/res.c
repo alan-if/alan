@@ -61,14 +61,14 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
     classSymbol = lookup(res->classId->string);
     if (classSymbol != NULL)
       if (classSymbol->kind != CLASS_SYMBOL) {
-	lmLog(&res->classId->srcp, 317, sevERR, "");
+	lmLog(&res->classId->srcp, 323, sevERR, "");
 	classSymbol = NULL;
       } else {
 	res->classId->symbol = classSymbol;
 	res->classId->code = classSymbol->code;
       }
     else
-      lmLog(&res->classId->srcp, 317, sevERR, "");
+      lmLog(&res->classId->srcp, 323, sevERR, "");
 
     /* Set the class in the corresponding parameter symbol */
     if (parameter->fields.parameter.class != NULL && classSymbol != NULL)

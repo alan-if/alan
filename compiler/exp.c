@@ -40,9 +40,9 @@
 /*======================================================================*/
 Bool equalTypes(TypeKind typ1, TypeKind typ2)
 {
-  if (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE)
+  if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
     syserr("Unintialised type in '%s()'", __FUNCTION__);
-  return (typ1 == UNKNOWN_TYPE || typ2 == UNKNOWN_TYPE || typ1 == typ2);
+  return (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE || typ1 == typ2);
 }
 
 
@@ -144,13 +144,13 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId,
 					  Attribute *foundAttribute)
 {
   if (foundAttribute == NULL) {
-    return UNKNOWN_TYPE;
+    return ERROR_TYPE;
   } else if (foundAttribute->id->symbol == NULL) {
     attributeId->code = foundAttribute->id->code;
     return foundAttribute->type;
   } else
     syserr("Attribute with symbol in '%s()'", __FUNCTION__);
-  return ERROR_TYPE;
+  return UNINITIALIZED_TYPE;
 }
 
 
@@ -191,15 +191,17 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 
   case ATTRIBUTE_EXPRESSION:
     analyzeAttributeExpression(exp->fields.atr.wht, context);
-    if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE))
+    if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE)) {
+      exp->type = ERROR_TYPE;
       lmLog(&exp->fields.atr.wht->srcp, 429, sevERR, "");
-    else {
-      atr = resolveAttribute(exp->fields.atr.wht, exp->fields.atr.atr, context); 
+    } else {
+      atr = resolveAttribute(exp->fields.atr.wht, exp->fields.atr.atr, context);
+      exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
     }
     break;
 
   default:
-    exp->type = UNKNOWN_TYPE;
+    exp->type = ERROR_TYPE;
     lmLog(&exp->srcp, 420, sevERR, "attribute reference");
   }
 }
@@ -233,7 +235,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
   case EQ_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type))
       lmLog(&exp->srcp, 331, sevERR, "expression");
-    else if (exp->fields.bin.left->type != UNKNOWN_TYPE && exp->fields.bin.right->type != UNKNOWN_TYPE)
+    else if (exp->fields.bin.left->type != ERROR_TYPE && exp->fields.bin.right->type != ERROR_TYPE)
       if (exp->fields.bin.left->type == INSTANCE_TYPE) {
 	What *leftWhat = exp->fields.bin.left->fields.wht.wht;
 	What *rightWhat = exp->fields.bin.right->fields.wht.wht;
@@ -272,7 +274,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
     if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
       lmLog(&exp->srcp, 331, sevERR, "expression");
-      exp->type = UNKNOWN_TYPE;
+      exp->type = ERROR_TYPE;
     } else
       exp->type = exp->fields.bin.left->type;
     break;
@@ -321,10 +323,10 @@ static void analyzeAttributeFilter(Expression *exp, List *lst, IdNode *classId, 
 	     "instances aggregated over using",
 	     aggregateToString(exp->fields.agr.kind),
 	     classSymbol->string, NULL);
-      exp->type = UNKNOWN_TYPE;
+      exp->type = ERROR_TYPE;
     } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
       lmLog(&lst->element.exp->fields.agr.attribute->srcp, 418, sevERR, "");
-      exp->type = UNKNOWN_TYPE;
+      exp->type = ERROR_TYPE;
     } else
       exp->fields.agr.attribute->symbol->code = atr->id->symbol->code;
   }
@@ -418,13 +420,13 @@ static void analyzeRandom(Expression *exp, Context *context)
   analyzeExpression(exp->fields.rnd.from, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.from->type)) {
     lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
-    exp->type = UNKNOWN_TYPE;
+    exp->type = ERROR_TYPE;
   }
 
   analyzeExpression(exp->fields.rnd.to, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.to->type)) {
     lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
-    exp->type = UNKNOWN_TYPE;
+    exp->type = ERROR_TYPE;
   }
 }
 
@@ -500,7 +502,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 	break;
       }
     } else
-      exp->type = UNKNOWN_TYPE;
+      exp->type = ERROR_TYPE;
     break;
 
   case WHAT_THIS:
@@ -1003,10 +1005,10 @@ void dumpType(TypeKind typ)
   case INSTANCE_TYPE:
     put("INSTANCE");
     break;
-  case UNKNOWN_TYPE:
+  case ERROR_TYPE:
     put("UNKNOWN");
     break;
-  case ERROR_TYPE:
+  case UNINITIALIZED_TYPE:
     put("ERROR");
     break;
   }
@@ -1065,8 +1067,10 @@ void dumpExpression(Expression *exp)
     put("*** Expression kind not implemented in dump() *** ");
     break;
   }
+
   dumpSrcp(&exp->srcp);
   indent();
+  put("type: "); dumpType(exp->type);nl();
 
   switch (exp->kind) {
   case WHERE_EXPRESSION:

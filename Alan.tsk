@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>304.89</origest>
-<currest>303.89</currest>
+<origest>307.89</origest>
+<currest>306.89</currest>
 <elapsed>139.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>48</origest>
-<currest>48</currest>
+<origest>51</origest>
+<currest>51</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>20</origest>
+<currest>20</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -97,6 +97,33 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Refactor newexp -&gt; newExpression</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor newwht -&gt; newWhat</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Error message for "Say An 5." et.al</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>RESTART does not work well in WinArun</desc>

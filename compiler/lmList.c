@@ -142,12 +142,13 @@ static lmMsgs msg[] = {
     { "314   ", "Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it." },
     { "315   ", "Attribute not defined for \'%1\'." },
     { "316   ", "Attribute \'%1\' is not defined for %2 \'%3\' since its class (\'%4\') does not have it." },
-    { "317   ", "Can not restrict a parameter to something not a class." },
+    { "317   ", "Attribute \'%1\' is not defined for %2 since its class (\'%3\') does not have it." },
     { "318   ", "The \'%1\' does not have the container property." },
     { "319   ", "Identifier \'%1\' is not %2." },
     { "320   ", "Word \'%1\' belongs to multiple word classes (%2 and %3)." },
     { "321   ", "Synonym target word \'%1\' not defined." },
     { "322   ", "Word \'%1\' already defined as a synonym." },
+    { "323   ", "Can not restrict a parameter to something not a class." },
     { "330   ", "Wrong type of expression in context of %2. Must be of %1 type." },
     { "331   ", "Incompatible types in %1." },
     { "332   ", "Attribute is inherited but does not match the original type (in class \'%1\') which is required." },
@@ -215,7 +216,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 135}
+    {0, 136}
 };
 static lmMessages currMsect = (lmMessages)0;
 
