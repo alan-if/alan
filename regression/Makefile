@@ -12,13 +12,26 @@ archives: CASES regression.dos
 CASES: *.alan
 	ls -1 *.alan | sed -e s/.alan// > CASES
 
-regression.dos: *.alan Makefile
-	-rm regression.dos
-	for f in *.alan ; do \
-	    case=`basename $${f} .alan | awk '{print substr($$1, 1, 8)}'` ; \
-	    echo alan $${case} >> regression.dos ; \
-	    echo "arun $${case} <$${case}.inp >$${case}.out" >> regression.dos ; \
+dos:
+	-@mkdir dosregr
+	@for f in *.tst ; do \
+	    base=`basename $${f} .tst` ; \
+	    case=`basename $${f} .tst | awk '{print substr($$1, 1, 8)}'` ; \
+	    echo -n Doing $${base} as $${case} ; \
+	    sed -e "s;$${base};$${case};g" -e "s;input;inp;g" $$f > dosregr/$${case}.tst ; \
+	    echo -n . ; \
+	    if test -f $${base}.input ; then \
+		cp $${base}.input dosregr/$${case}.inp ; \
+		echo -n . ; \
+	    fi ; \
+	    if test -f $${base}.alan ; then \
+		cp $${base}.alan dosregr/$${case}.ala ; \
+		echo -n . ; \
+	    fi ; \
+	    cp $${base}.tst.expected dosregr/$${case}.exp ; \
+	    echo . ; \
 	done
+	zip -k -m dosregr.zip dosregr/*
 
 vms:
 	-rm regression.com
