@@ -9,8 +9,7 @@
 #include "types.h"
 
 #ifdef USE_READLINE
-#include "readline/readline.h"
-#include "readline/history.h"
+#include "readline.h"
 #endif
 
 #include "arun.h"
@@ -190,11 +189,7 @@ Boolean confirm(msgno)
      MsgKind msgno;
 #endif
 {
-#ifdef USE_READLINE
-  char *buf;
-#else
   char buf[80];
-#endif
   char *msg, ch = '\0';
   int i;
 
@@ -207,8 +202,7 @@ Boolean confirm(msgno)
   output(msg);
   col = 1;
 #ifdef USE_READLINE
-    if (!(buf = readline("")))
-      return FALSE;
+  readline(buf);
 #else
   if (gets(buf) == NULL) return FALSE;
 #endif
@@ -220,9 +214,6 @@ Boolean confirm(msgno)
       break;
     }
   free(msg);
-#ifdef USE_READLINE
-  free(buf);
-#endif
   return (buf[0] == '\0' || (ch && toupper(buf[0]) == toupper(ch)));
 }
 
@@ -1485,9 +1476,6 @@ void save()
 {
   int i;
   FILE *savfil;
-#ifdef USE_READLINE
-  char *buf;
-#endif
   char str[256];
   AtrElem *atr;
 
@@ -1500,17 +1488,12 @@ void save()
   sprintf(str, "(%s) : ", savfnm);
   output(str);
 #ifdef USE_READLINE
-  buf = readline("");
-  if (buf == NULL || buf[0] == '\0')
-    strcpy(str, savfnm);
-  else
-    strcpy(str, buf);
-  if (buf) free(buf);
+  readline(str);
 #else
   gets(str);
+#endif
   if (str[0] == '\0')
     strcpy(str, savfnm);
-#endif
   col = 1;
   if ((savfil = fopen(str, "r")) != NULL)
     /* It already existed */
@@ -1582,9 +1565,6 @@ void restore()
   AtrElem *atr;
   Aword savedVersion;
   char savedName[256];
-#ifdef USE_READLINE
-  char *buf;
-#endif
 
   /* First save ? */
   if (savfnm[0] == '\0') {
@@ -1595,17 +1575,12 @@ void restore()
   sprintf(str, "(%s) : ", savfnm);
   output(str);
 #ifdef USE_READLINE
-  buf = readline("");
-  if (buf == NULL || buf[0] == '\0')
-    strcpy(str, savfnm);
-  else
-    strcpy(str, buf);
-  if (buf) free(buf);
+  readline(str);
 #else
   gets(str);
+#endif
   if (str[0] == '\0')
     strcpy(str, savfnm);
-#endif
   col = 1;
   if (str[0] == '\0')
     strcpy(str, savfnm);	/* Use the name temporarily */

@@ -12,8 +12,7 @@
 #include "types.h"
 
 #ifdef USE_READLINE
-#include "readline/readline.h"
-#include "readline/history.h"
+#include "readline.h"
 #endif
 
 
@@ -284,11 +283,7 @@ void debug(void)
 void debug()
 #endif
 {
-#ifdef USE_READLINE
-  char *buf = NULL;
-#else
   char buf[256];
-#endif
   char c;
   int i;
 
@@ -299,8 +294,7 @@ void debug()
     do {
       output("ABUG> ");
 #ifdef USE_READLINE
-      if (buf != NULL) free(buf);
-      buf = readline("");
+      readline(buf);
 #else
       fgets(buf, 255, stdin);
 #endif
@@ -309,9 +303,6 @@ void debug()
       i = 0;
       sscanf(&buf[1], "%d", &i);
     } while (buf && c == '\0');
-#ifdef USE_READLINE
-    add_history(buf);
-#endif
 
     switch (toUpper(c)) {
     case 'H':

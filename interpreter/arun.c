@@ -13,8 +13,7 @@
 
 #include <time.h>
 #ifdef USE_READLINE
-#include "readline/readline.h"
-#include "readline/history.h"
+#include "readline.h"
 #endif
 
 #include "version.h"

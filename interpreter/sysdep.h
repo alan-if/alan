@@ -18,6 +18,10 @@
 #define __sun__
 #endif
 
+#ifdef _INCLUDE_HPUX_SOURCE
+#define __hp__
+#endif
+
 #ifdef unix
 #define __unix__
 #endif
@@ -75,7 +79,7 @@
 #endif
 
 #ifdef __unix__
-/* #define USE_READLINE */
+#define USE_READLINE
 #define MULTI
 #endif
 

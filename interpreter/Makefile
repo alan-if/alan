@@ -1,12 +1,13 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-GCC	= gcc
-CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
-
-INCLUDE	= -I/usr/local/include/ansi -I$(HOME)/include
+INCLUDE	= -I/usr/local/include/ansi
 CC	= $(GCC) -ansi -pedantic -Wall
 #CC	= acc
+
+GCC	= gcc
+CPP	= $(GCC) -MM -ansi $(INCLUDE)
+
 
 CFLAGS	= $(DEBUG) $(INCLUDE)
 
@@ -40,6 +41,7 @@ SRCS = debug.c \
 	decode.c \
 	term.c \
 	params.c \
+	readline.c \
 	sysdep.c
 
 MAINSRC = arun.c

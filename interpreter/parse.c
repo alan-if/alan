@@ -12,8 +12,7 @@
 #include "types.h"
 
 #ifdef USE_READLINE
-#include "readline/readline.h"
-#include "readline/history.h"
+#include "readline.h"
 #endif
 
 #include "arun.h"
@@ -24,8 +23,6 @@
 #include "params.h"
 
 #include "parse.h"
-
-
 
 
 #define LISTLEN 100
@@ -74,15 +71,11 @@ int vrbcode;			/* The code for that verb */
 
 /* PRIVATE DATA */
 
-#ifdef USE_READLINE
-static char *buf;
-#else
 static char buf[LISTLEN+1];	/* The input buffer */
-#endif
 static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
 
 
-static Boolean eol = TRUE;	/* End of line? Yes, initially */
+static Boolean eol = TRUE;	/* Looking at End of line? Yes, initially */
 
 
 
@@ -195,11 +188,8 @@ static void getline()
   do {
     printf("> ");
 #ifdef USE_READLINE
-    if (buf != NULL) {
-      free(buf);
-      buf = NULL;
-    }
-    if (!(buf = readline(""))) {
+    readline(buf);
+    if (!buf) {			/* 4f - find end of file */
       newline();
       quit();
     }
@@ -229,9 +219,6 @@ static void getline()
       token = NULL;
     }
   } while (token == NULL);
-#ifdef USE_READLINE
-  add_history(buf);
-#endif
   eol = FALSE;
   lin = 1;
 }
