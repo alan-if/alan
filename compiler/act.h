@@ -16,7 +16,7 @@
 typedef struct ActNod {		/* ACTOR */
   Srcp srcp;			/* Source position */
   NamNod *nam;			/* Name */
-  List *nams;			/* List of names */
+  List *namslst;		/* List of lists of names (adjectives and noun) */
   WhrNod *whr;			/* Where initially? */
   CntNod *props;		/* Container properties */
   List *atrs;			/* List of attributes */

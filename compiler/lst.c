@@ -176,3 +176,35 @@ void dulst(lst, class)
 }
 
 
+/*======================================================================
+
+  dulst2()
+
+  Dump a list of lists of nodes
+
+  */
+#ifdef _PROTOTYPES_
+void dulst2(List *lstlst, NodKind class)
+               			/* IN - The list of lists*/
+                   		/* IN - Class of the elements */
+#else
+void dulst2(lstlst, class)
+     List *lstlst;			/* IN - The list */
+     NodKind class;		/* IN - Class of the elements */
+#endif
+{
+  if (lstlst == NULL) {
+    put("NULL");
+    return;
+  }
+  
+  put("LST: "); duadr(lstlst); in();
+  while (lstlst != NULL) {
+    dulst((void *)lstlst->element.lst, class);
+    lstlst = lstlst->next;
+    if (lstlst != NULL) nl();
+  }
+  out();
+}
+
+

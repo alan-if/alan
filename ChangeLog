@@ -1,3 +1,10 @@
+Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Allowed arbitrary order between initial location and names on
+        actors and objects
+
+	* Allowed multiple names on actors and objects
+
 Tue May 21 13:39:39 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Allowed the previously reserved words ARTICLE, MESSAGE, QUIT,
@@ -13,6 +20,10 @@ Fri Apr 12 11:05:41 1996  Thomas Nilsson  <thoni@rabbit>
 Wed Apr  3 00:54:24 1996  Thomas Nilsson  <thoni@heffa>
 
 	* Added the ',' as an alternate conjunction in player input
+
+Thu Mar  7 14:21:22 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* 2.6!
 
 Thu Feb 29 16:48:06 1996  Thomas Nilsson  <thoni@rabbit>
 

@@ -21,7 +21,7 @@
 typedef struct ObjNod {		/* OBJECT */
   Srcp srcp;			/* Source position */
   NamNod *nam;			/* Name of the object */
-  List *nams;			/* List of adjectives and a noun */
+  List *namslst;		/* List of lists of adjectives and a noun */
   WhrNod *whr;			/* Where is it? */
   CntNod *props;		/* Container properties */
   List *atrs;			/* Attributes ... */

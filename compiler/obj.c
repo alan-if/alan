@@ -47,12 +47,12 @@ int objcount = 0;
 
  */
 #ifdef _PROTOTYPES_
-ObjNod *newobj(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *art, List *ment, List *vrbs)
+ObjNod *newobj(Srcp *srcp, NamNod *nam, List *namslst, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *art, List *ment, List *vrbs)
 #else
-ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr, art, ment, vrbs)
+ObjNod *newobj(srcp, nam, namslst, whr, props, atrs, dscr, art, ment, vrbs)
      Srcp *srcp;		/* IN - Source Position */
      NamNod *nam;		/* IN - The object name */
-     List *nams;		/* IN - List of adjectives and a noun */
+     List *namslst;		/* IN - List of adjectives and a noun */
      WhrNod *whr;		/* IN - Where initially */
      CntNod *props;		/* IN - Properties */
      List *atrs;		/* IN - Attributes */
@@ -62,15 +62,15 @@ ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr, art, ment, vrbs)
      List *vrbs;		/* IN - The verbs handled by the object */
 #endif
 {
-  ObjNod *new;		/* The newly allocated area */
+  ObjNod *new;			/* The newly allocated area */
   SymNod *sym;
-  List *lst;
+  List *lst, *lstlst;		/* List and list of list traversal ptrs */
 
   new = NEW(ObjNod);
 
   new->srcp = *srcp;
   new->nam = nam;
-  new->nams = nams;
+  new->namslst = namslst;
   new->whr = whr;
   new->props = props;
   new->atrs = atrs;
@@ -87,12 +87,14 @@ ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr, art, ment, vrbs)
     redefined(&nam->srcp, sym, nam->str);
 
   /* Note object in the dictionary */
-  if (nams == NULL)		/* Use the object name */
+  if (namslst == NULL)		/* Use the object name */
     newwrd(nam->str, WRD_NOUN, new->nam->code, nam);
   else {
-    for (lst = nams; lst->next != NULL; lst = lst->next)
-      newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
-    newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
+    for (lstlst = namslst; lstlst != NULL; lstlst = lstlst->next) {
+      for (lst = lstlst->element.lst; lst->next != NULL; lst = lst->next)
+	newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
+      newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
+    }
   }
 
   return(new);
@@ -172,9 +174,12 @@ static void anobj(obj)
 
   /* Make sure there always is a short description */
   if (obj->ment == NULL) {
-    /* First create list of name printing statements */
+    /* First create list of name printing statements (use first of multiple) */
     fpos = ftell(txtfil);
-    len = annams(obj->nams, obj->nam, FALSE);
+    if (obj->namslst == NULL)
+      len = annams(NULL, obj->nam, FALSE);
+    else
+      len = annams(obj->namslst->element.lst, obj->nam, FALSE);
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, STM_PRINT);
     stm->fields.print.fpos = fpos;
@@ -402,7 +407,7 @@ void duobj(obj)
 
   put("OBJ: "); dusrcp(&obj->srcp); in();
   put("nam: "); dunam(obj->nam); nl();
-  put("nams: "); dulst(obj->nams, NAMNOD); nl();
+  put("namslst: "); dulst2(obj->namslst, NAMNOD); nl();
   put("whr: "); duwhr(obj->whr); nl();
   put("props: "); ducnt(obj->props); nl();
   put("atrs: "); dulst(obj->atrs, ATRNOD); nl();

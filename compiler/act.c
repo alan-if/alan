@@ -46,7 +46,7 @@ int actcount = 0;
 
  */
 #ifdef _PROTOTYPES_
-ActNod *newact(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *vrbs, List *scrs)
+ActNod *newact(Srcp *srcp, NamNod *nam, List *namslst, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *vrbs, List *scrs)
                 		/* IN - Source Position */
                  		/* IN - Name of the actor */
                 		/* IN - List of names */
@@ -56,10 +56,10 @@ ActNod *newact(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, CntNod *props, 
                 		/* IN - Local verbs */
                 		/* IN - List of scripts */
 #else
-ActNod *newact(srcp, nam, nams, whr, props, atrs, dscr, vrbs, scrs)
+ActNod *newact(srcp, nam, namslst, whr, props, atrs, dscr, vrbs, scrs)
      Srcp *srcp;		/* IN - Source Position */
      NamNod *nam;		/* IN - Name of the actor */
-     List *nams;		/* IN - List of names */
+     List *namslst;		/* IN - List of lists of names */
      WhrNod *whr;		/* IN - Where initially */
      CntNod *props;		/* IN - Container properties */
      List *atrs;		/* IN - Attribute list */
@@ -71,14 +71,14 @@ ActNod *newact(srcp, nam, nams, whr, props, atrs, dscr, vrbs, scrs)
   ActNod *new;			/* The newly allocated node */
   SymNod *sym;			/* Symbol table entry */
   ActNod *act;			/* Actor */
-  List *lst;
+  List *lst, *lstlst;		/* List and list of list traversing ptrs */
 
 
   new = NEW(ActNod);
 
   new->srcp = *srcp;
   new->nam = nam;
-  new->nams = nams;
+  new->namslst = namslst;
   new->whr = whr;
   new->props = props;
   new->atrs = atrs;
@@ -94,7 +94,7 @@ ActNod *newact(srcp, nam, nams, whr, props, atrs, dscr, vrbs, scrs)
     act = (ActNod *) sym->ref;
     /* Copy new info */
     act->srcp = new->srcp;
-    act->nams = new->nams;
+    act->namslst = new->namslst;
     act->whr = new->whr;
     act->props = new->props;
     act->atrs = new->atrs;
@@ -107,12 +107,14 @@ ActNod *newact(srcp, nam, nams, whr, props, atrs, dscr, vrbs, scrs)
 
   /* Note actor in the dictionary unless it is the hero */
   if (new->nam->code != 1)
-    if (nams == NULL)		/* Use the actor name */
+    if (namslst == NULL)		/* Use the actor name */
       (void)newwrd(nam->str, WRD_NOUN, new->nam->code, nam);
     else {
-      for (lst = nams; lst->next != NULL; lst = lst->next)
-	(void)newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
-      (void)newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
+      for (lstlst = namslst; lstlst != NULL; lstlst = lstlst->next) {
+	for (lst = lstlst->element.lst; lst->next != NULL; lst = lst->next)
+	  (void)newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
+	(void)newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
+      }
     }
 
   return(new);
@@ -165,7 +167,7 @@ void prepacts()
   ActNod *act;			/* Actor node */
   AtrNod *atr;			/* Attribute node */
   List *alst;			/* Attribute list pointer */
-  List *namlst;			/* Name list pointer */
+  List *namslst, *namlst;	/* Name list list and name list pointer */
   int i;
 
   /* Number the local attributes for all actors */
@@ -176,12 +178,14 @@ void prepacts()
     if (act->nam->code == 1) {	/* The hero */
       /* Note actor names in the dictionary, this is not done in newact() */
       /* because the user may want to redefine the heros name */
-      if (act->nams == NULL)		/* Use the actor name */
+      if (act->namslst == NULL)		/* Use the actor name */
 	(void)newwrd(act->nam->str, WRD_NOUN, act->nam->code, act->nam);
       else {
-	for (namlst = act->nams; namlst->next != NULL; namlst = namlst->next)
-	  (void)newwrd(namlst->element.nam->str, WRD_ADJ, 0, act->nam);
-	(void)newwrd(namlst->element.nam->str, WRD_NOUN, namlst->element.nam->code, act->nam);
+	for (namslst = act->namslst; namslst != NULL; namslst = namslst->next) {
+	  for (namlst = namslst->element.lst; namlst->next != NULL; namlst = namlst->next)
+	    (void)newwrd(namlst->element.nam->str, WRD_ADJ, 0, act->nam);
+	  (void)newwrd(namlst->element.nam->str, WRD_NOUN, namlst->element.nam->code, act->nam);
+	}
       }
     }
     anatrs(act->atrs);
@@ -228,13 +232,19 @@ static void anact(act)
   if (act->nam->code == 1) {	/* The HERO */
     if (act->whr->whr != WHR_DEFAULT)
       lmLog(&act->whr->srcp, 411, sevWAR, "Initial position");
-    /* Ok, now output the names */
+    /* Ok, now output the name, use first if multiple */
     fpos = ftell(txtfil);
-    len = annams(act->nams, act->nam, TRUE);
+    if (act->namslst == NULL)
+      len = annams(NULL, act->nam, TRUE);
+    else
+      len = annams(act->namslst->element.lst, act->nam, TRUE);
   } else {
-    /* Output the formatted actor name to the text file */
+    /* Output the formatted actor name (first if multiple) to the text file */
     fpos = ftell(txtfil);
-    len = annams(act->nams, act->nam, TRUE);
+    if (act->namslst == NULL)
+      len = annams(NULL, act->nam, TRUE);
+    else
+      len = annams(act->namslst->element.lst, act->nam, TRUE);
 
     /* Check its initial location */
     switch (act->whr->whr) {
@@ -434,7 +444,7 @@ void duact(act)
 {
   put("ACT: "); dusrcp(&act->srcp); in();
   put("nam: "); dunam(act->nam); nl();
-  put("nams: "); dulst(act->nams, NAMNOD); nl();
+  put("namslst: "); dulst2(act->namslst, NAMNOD); nl();
   put("whr: "); duwhr(act->whr); nl();
   put("atrs: "); dulst(act->atrs, ATRNOD); nl();
   put("atradr: "); duint(act->atradr); nl();

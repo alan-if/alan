@@ -76,6 +76,7 @@
 332	'Type of local attribute must match default attribute.';
 333	'The word \'%1\' is defined as a synonym as well as of another word class.';
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
+340	'Initial location for \'%1\' declared twice. This occurence ignored.';
 
 400	'Script not defined for Actor \'%1\'';
 401	'Actor reference required outside Actor specification.';

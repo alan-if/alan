@@ -145,18 +145,48 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	pmk $(PMKQ) alan
 	touch .pmkstamp
 
-.smkstamp : .pmkstamp alan.smk alan.voc $(TMLIB)/Scan.imp
+.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp
 	smk $(SMKQ) alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.iso
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.iso.new
+	@if test -f smScan.iso ; then \
+		if cmp smScan.iso smScan.iso.new ; then \
+			rm smScan.iso.new ; \
+		else \
+			mv smScan.iso.new smScan.iso ; \
+		fi ; \
+	else \
+		mv smScan.iso.new smScan.iso ; \
+	fi ;
 	smk $(SMKQ) -set MAC alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.mac
-#	Use the MSDOS source for code as it contains HUGE pointer arithmatic if necessary
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.mac.new
+	@if test -f smScan.mac ; then \
+		if cmp smScan.mac smScan.mac.new ; then \
+			rm smScan.mac.new ; \
+		else \
+			mv smScan.mac.new smScan.mac ; \
+		fi ; \
+	else \
+		mv smScan.mac.new smScan.mac ; \
+	fi ;
+#	Use the MSDOS source for code as it contains HUGE pointer arithmetic if necessary
 	@make savetm
 	@sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
 	smk $(SMKQ) -set PC alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.pc
-	@sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
 	@make restoretm
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.pc.new
+	@if test -f smScan.pc ; then \
+		if cmp smScan.pc smScan.pc.new ; then \
+			rm smScan.pc.new ; \
+		else \
+			mv smScan.pc.new smScan.pc ; \
+		fi ; \
+	else \
+		mv smScan.pc.new smScan.pc ; \
+	fi ;
+	touch .smkstamp
+
+smScanx.c : smScan.iso smScan.mac smScan.pc
+	@sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
 	@cat smScan.head > smScanx.c
 	@echo "#if ISO == 1" >> smScanx.c
 	@cat smScan.iso >> smScanx.c
@@ -169,14 +199,13 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	@echo "#endif" >> smScanx.c
 	@echo "#endif" >> smScanx.c
 	@cat smScan.tail >> smScanx.c
-	@rm smScan.head smScan.tail smScan.iso smScan.mac smScan.pc smScan.c
-	touch .smkstamp
+
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
 	make .pmkstamp
 
-smScan.h smScanx.c smScSema.c:
+smScan.h smScSema.c:
 	-rm .smkstamp
 	make .smkstamp
 

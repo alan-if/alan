@@ -5,7 +5,7 @@
 	List Grammar, Statistics;
 	StackLimit 64;
 	Pack RDS;
-	Line;
+--	Line;
 
 %%IMPORT
 
@@ -115,6 +115,7 @@ static int val(str)
 	msgs %% List *%1%%,
 	nam %% NamNod *%1%%,
 	nams %% List *%1%%,
+	nams2 %% List *%1%%,
 	not %% Bool %1%%,
 	obj %% ObjNod *%1%%,
 	objs %% List *%1%%,
@@ -809,7 +810,7 @@ object			-- RETURNS: obj
     %%
 	%object.obj = newobj(`&%object_header.srcp,
 			     %object_header.nam,
-			     %object_header.nams,
+			     %object_header.nams2,
 			     %object_header.whr,
 			     %object_body.cnt,
 			     %object_body.atrs,
@@ -825,13 +826,18 @@ object			-- RETURNS: obj
     ;
 
 
-object_header		-- RETURNS: srcp, nam, nams, whr
-    = 'OBJECT' ID optional_name optional_where
+object_header		-- RETURNS: srcp, nam, nams2, whr
+    = 'OBJECT' ID optional_where optional_names optional_where
     %%
 	%object_header.srcp = %'OBJECT'.srcp;
 	%object_header.nam  = %ID.nam;
-	%object_header.nams = %optional_name.nams;
-	%object_header.whr  = %optional_where.whr;
+	%object_header.nams2 = %optional_names.nams2;
+        if (%1optional_where.whr->whr != WHR_DEFAULT) {
+          %object_header.whr  = %1optional_where.whr;
+          if (%2optional_where.whr->whr != WHR_DEFAULT)
+            lmLog(`&%2optional_where.whr->srcp, 340, sevWAR, %ID.nam->str);
+        } else
+          %object_header.whr  = %2optional_where.whr;
     %%
     ;
 
@@ -989,9 +995,29 @@ optional_name		-- RETURNS: nams
 	%optional_name.nams = NULL;
     %%
 
-    ! 'NAME' ids					%+('ARTICLE')
+    ! name
     %%
-	%optional_name.nams = %ids.nams;
+	%optional_name.nams = %name.nams;
+    %%
+    ;
+
+optional_names		-- RETURNS: nams2 (a list of lists)
+    =
+    %%
+	%optional_names.nams2 = NULL;
+    %%
+
+    ! optional_names name
+    %%
+	%optional_names.nams2 = concat(%optional_names.nams2,
+					     %name.nams);
+    %%
+    ;
+
+name			-- RETURNS: nams
+    = 'NAME' ids					%+('ARTICLE')
+    %%
+	%name.nams = %ids.nams;
     %%
     ;
 
@@ -1160,7 +1186,7 @@ actor			-- RETURNS: act
     %%
 	%actor.act = newact(`&%actor_header.srcp,
 			    %actor_header.nam,
-			    %actor_header.nams,
+			    %actor_header.nams2,
 			    %actor_header.whr,
 			    %actor_body.cnt,
 			    %actor_body.atrs,
@@ -1174,13 +1200,18 @@ actor			-- RETURNS: act
     %%
     ;
 
-actor_header		-- RETURNS: srcp, nam, nams, whr
-    = 'ACTOR' ID optional_name optional_where
+actor_header		-- RETURNS: srcp, nam, nams2, whr
+    = 'ACTOR' ID optional_where optional_names optional_where
     %%
 	%actor_header.srcp = %'ACTOR'.srcp;
 	%actor_header.nam  = %ID.nam;
-	%actor_header.nams = %optional_name.nams;
-	%actor_header.whr  = %optional_where.whr;
+	%actor_header.nams2 = %optional_names.nams2;
+        if (%1optional_where.whr->whr != WHR_DEFAULT) {
+          %actor_header.whr  = %1optional_where.whr;
+          if (%2optional_where.whr->whr != WHR_DEFAULT)
+            lmLog(`&%2optional_where.whr->srcp, 340, sevWAR, %ID.nam->str);
+        } else
+          %actor_header.whr  = %2optional_where.whr;
     %%
     ;
 
@@ -1792,7 +1823,7 @@ what			-- RETURNS: srcp, wht
 
 
 optional_where		-- RETURNS: whr
-    =
+    =					%-('HERE', 'NEARBY', 'AT', 'IN')
     %%
         %optional_where.whr = newwhr(`&nulsrcp, WHR_DEFAULT, NULL);
     %%
@@ -2019,27 +2050,31 @@ ID
 
     ! 'ARTICLE'
     %%
-        %ID.nam = newnam(`&%'ARTICLE'.srcp, "ARTICLE");
+        %ID.nam = newnam(`&%'ARTICLE'.srcp, "article");
     %%
 
     ! 'MESSAGE'
     %%
-        %ID.nam = newnam(`&%'MESSAGE'.srcp, "MESSAGE");
+        %ID.nam = newnam(`&%'MESSAGE'.srcp, "message");
     %%
 
     ! 'QUIT'
     %%
-        %ID.nam = newnam(`&%'QUIT'.srcp, "QUIT");
+        %ID.nam = newnam(`&%'QUIT'.srcp, "quit");
     %%
 
     ! 'SAVE'
     %%
-        %ID.nam = newnam(`&%'SAVE'.srcp, "SAVE");
+        %ID.nam = newnam(`&%'SAVE'.srcp, "save");
     %%
-
 
     ! 'RESTORE'
     %%
-        %ID.nam = newnam(`&%'RESTORE'.srcp, "RESTORE");
+        %ID.nam = newnam(`&%'RESTORE'.srcp, "restore");
+    %%
+
+    ! 'WAIT'
+    %%
+        %ID.nam = newnam(`&%'WAIT'.srcp, "wait");
     %%
     ;

@@ -61,9 +61,14 @@ extern List *combine(List *lst1, List *lst2);
 /* Dump a list of nodes */
 extern void dulst(List *lst, NodKind nod);
 
+/* Dump a list of lists of nodes */
+extern void dulst2(List *lstlst, NodKind nod);
+
 #else
 extern List *concat();
 extern List *combine();
+extern void dulst();
+extern void dulst2();
 #endif
 
 #endif
