@@ -303,7 +303,7 @@ static Aword getatr(atradr, atr)
   AtrElem *at;
 
   at = (AtrElem *) addrTo(atradr);
-  return(at[atr-1].val);
+  return at[atr-1].val;
 }
   
 
@@ -588,7 +588,7 @@ static Aword locatr(loc, atr)
      Aword loc, atr;
 #endif
 {
-  return(getatr(locs[loc-LOCMIN].atrs, atr));
+  return getatr(locs[loc-LOCMIN].atrs, atr);
 }
 
 
@@ -600,7 +600,7 @@ static Aword objatr(obj, atr)
      Aword obj, atr;
 #endif
 {
-  return(getatr(objs[obj-OBJMIN].atrs, atr));
+  return getatr(objs[obj-OBJMIN].atrs, atr);
 }
 
 #ifdef _PROTOTYPES_
@@ -610,17 +610,7 @@ static Aword actatr(act, atr)
      Aword act, atr;
 #endif
 {
-  Aword val;			/* Value */
-  char str[80];
-
-  val = getatr(acts[act-ACTMIN].atrs, atr);
-  if (val != EOF)
-    return(val);
-  else {
-    sprintf(str, "Unknown actor attribute requested (%ld, %ld).", act, atr);
-    syserr(str);
-  }
-  return(EOF);
+  return getatr(acts[act-ACTMIN].atrs, atr);
 }
 
 #ifdef _PROTOTYPES_
