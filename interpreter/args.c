@@ -102,11 +102,8 @@ void args(argc, argv)
     if (strcmp(prgbuf, "arun") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
-    else {
-      advbuf[0] = '\0';
-      advnam = advbuf;
-    }
-  }
+    oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
+ }
 #else
 #ifdef __amiga__
 #include <workbench/startup.h>
@@ -139,6 +136,14 @@ void args(argc, argv)
 
     /* AztecC stdio console set up */
     _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
+
+    WBstart = (struct WBStartup *)argv;
+    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
+    if (WBstart->sm_NumArgs > 0) {
+      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
+      advnam = WBstart->sm_ArgList[1].wa_Name;
+    }
+    /* 4f_ni - Get ToolTypes! */
   } else {
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)
