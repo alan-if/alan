@@ -88,25 +88,25 @@ Bool smScanEnter(fnm, search)
     List *ip;
 
     if (search) {
-      for (ip = includePaths; ip != NULL; ip = ip->next) {
-	strcpy(fnmbuf, ip->element.str);
-	if (ip->element.str[strlen(ip->element.str)] != '/')
-	  strcat(fnmbuf, "/");
-	strcat(fnmbuf, fnm);
+      strcpy(fnmbuf, fnm);
 #ifdef __mac__
-	if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
+      if ((this->fd = open(fnmbuf, O_TEXT)) < 0) {
 #else
-	if ((this->fd = open(fnmbuf, 0)) > 0)
+      if ((this->fd = open(fnmbuf, 0)) < 0) {
 #endif
-	  break;
-      }
-      if (ip == NULL) {
-	strcpy(fnmbuf, fnm);
+	for (ip = includePaths; ip != NULL; ip = ip->next) {
+	  strcpy(fnmbuf, ip->element.str);
+	  if (ip->element.str[strlen(ip->element.str)] != '/')
+	    strcat(fnmbuf, "/");
+	  strcat(fnmbuf, fnm);
 #ifdef __mac__
-	if ((this->fd = open(fnmbuf, O_TEXT)) < 0)
+	  if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
 #else
-	if ((this->fd = open(fnmbuf, 0)) < 0)
+	  if ((this->fd = open(fnmbuf, 0)) > 0)
 #endif
+	    break;
+	}
+	if (ip == NULL)
 	  return FALSE;
       }
     } else {
