@@ -148,7 +148,7 @@ static void analyzeLocate(StmNod *stm, Context *context)
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    syserr("Unexpected Where kind in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -248,7 +248,7 @@ static void analyzeSchedule(StmNod *stm, Context *context)
   /* Analyze the when (AFTER) expression */
   analyzeExpression(stm->fields.schedule.when, context);
   if (stm->fields.schedule.when->type != INTEGER_TYPE)
-    lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");
+    lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "When-clause of SCHEDULE statement");
 
 }
 

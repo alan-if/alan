@@ -23,13 +23,7 @@
 
 
 
-/*======================================================================
-
-  newwhr()
-
-  Create a new Where node.
-
-  */
+/*======================================================================*/
 Where *newWhere(Srcp *srcp,	/* IN - Source position */
 	       WhrKind kind,	/* IN - Where kind */
 	       What *wht)	/* IN - What */
@@ -66,8 +60,10 @@ void symbolizeWhere(Where *whr)
 
 
 /*======================================================================*/
-/* Find what classes a container takes */
 Symbol *classOfContent(Where *where, Context *context) {
+
+  /* Find what classes a container takes */
+
   Symbol *symbol = NULL;
   Properties *props;
 
@@ -117,11 +113,7 @@ Symbol *classOfContent(Where *where, Context *context) {
 }
 
 
-/*======================================================================
-
-  verifyInitialLocation()
-
-*/
+/*======================================================================*/
 void verifyInitialLocation(Where *whr)
 {
   switch (whr->kind) {
@@ -141,32 +133,25 @@ void verifyInitialLocation(Where *whr)
 }
 
 
-/*======================================================================
-
-  analyzeWhere()
-
-  Analyse a where reference.
-
-  */
-void analyzeWhere(Where *whr,
-		  Context *context)
-{
+/*======================================================================*/
+void analyzeWhere(Where *whr, Context *context) {
   switch (whr->kind) {
   case WHR_DEFAULT:
   case WHR_HERE:
   case WHR_NEAR:
     break;
   case WHERE_AT:
-    switch (whr->what->kind) {
-    case WHAT_ID:
-      (void) symcheck(whr->what->id, INSTANCE_SYMBOL, context);
-      break;
-    case WHAT_LOCATION:
-      break;
-    default:
-      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-      break;
-    }
+    if (whr->what != NULL)
+      switch (whr->what->kind) {
+      case WHAT_ID:
+	(void) symcheck(whr->what->id, INSTANCE_SYMBOL, context);
+	break;
+      case WHAT_LOCATION:
+	break;
+      default:
+	syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+	break;
+      }
     break;
   case WHR_IN:
     verifyContainer(whr->what, context, "Expression after IN");

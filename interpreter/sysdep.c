@@ -494,3 +494,13 @@ void toNative(char copy[],	/* OUT - Mapped  string */
   if (NATIVECHARSET != 0)
     fromIso(copy, copy);
 }
+
+
+/*======================================================================*/
+static void endian() {
+	int x = 1;
+	if(*(char *)&x == 1)
+		printf("little-endian\n");
+	else	printf("big-endian\n");
+
+}

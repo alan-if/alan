@@ -11,6 +11,7 @@
 
 /* USE: */
 #include "context.h"
+#include "wht.h"
 
 
 /* DATA: */
@@ -18,9 +19,7 @@
 
 /* FUNCTIONS: */
 
-extern Where *newWhere(Srcp *srcp,
-		      WhrKind kind,
-		      What *wht);
+extern Where *newWhere(Srcp *srcp, WhrKind kind, What *wht);
 extern void symbolizeWhere(Where *whr);
 extern void verifyInitialLocation(Where *whr);
 extern Symbol *classOfContent(Where *where, Context *context);

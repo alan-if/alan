@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>319.89</origest>
-<currest>318.89</currest>
+<origest>321.89</origest>
+<currest>320.89</currest>
 <elapsed>166.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>50</origest>
-<currest>50</currest>
+<origest>52</origest>
+<currest>52</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
+<origest>26</origest>
+<currest>26</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -214,6 +214,24 @@ We also need some way to re-output the state.</notes>
 <task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove REVERSED using the endian() function in sysdep</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor schedule to use Expression</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
