@@ -950,15 +950,13 @@ static void generateWhereExpression(Expression *exp)
     generateExpression(what);
     emit(exp->fields.whr.directly);
     emit0(I_HERE);
-    if (exp->not) emit0(I_NOT);
     break;
   case WHERE_NEAR:
     generateExpression(what);
     if (exp->fields.whr.directly)
-      emit0(I_NEAR_D);
+      emit0(I_NEAR);
     else
       emit0(I_NEAR);
-    if (exp->not) emit0(I_NOT);
     break;
   case WHERE_IN:
   case WHERE_INSET:
@@ -969,7 +967,6 @@ static void generateWhereExpression(Expression *exp)
       emit0(I_IN);
     } else
       emit0(I_INSET);
-    if (exp->not) emit0(I_NOT);
     break;
   case WHERE_AT:
     generateExpression(what);
@@ -979,13 +976,13 @@ static void generateWhereExpression(Expression *exp)
       emit0(I_LOCATION);
     generateWhere(where, exp->fields.whr.directly);
     emit0(I_EQ);
-    if (exp->not) emit0(I_NOT);
     break;
   default:
     unimpl(exp->srcp, "Code Generator");
     emitConstant(0);
     break;
   }
+  if (exp->not) emit0(I_NOT);
 }
 
 

@@ -141,22 +141,38 @@ static void analyzeNameWords(Instance *instance)
 
   /* Note names as words in the dictionary */
   if (instance->props->names == NULL) /* No name, use identifier as a noun */
-    newWord(instance->props->id->string, NOUN_WORD, instance->props->id->code, instance);
+    newWord(instance->props->id->string, NOUN_WORD, instance->props->id->code,
+	    instance);
   else {
     for (nameList = instance->props->names; nameList != NULL; nameList = nameList->next) {
       for (list = nameList->element.lst; list->next != NULL; list = list->next)
 	newWord(list->element.id->string, ADJECTIVE_WORD, 0, instance);
-      newWord(list->element.id->string, NOUN_WORD, list->element.id->code, instance);
+      newWord(list->element.id->string, NOUN_WORD, list->element.id->code,
+	      instance);
     }
   }
 }
+
+/*----------------------------------------------------------------------*/
+static void analyzePronouns(Instance *instance)
+{
+  List *p;
+
+  TRAVERSE(p, instance->props->pronouns)
+    p->element.id->code = newPronounWord(p->element.id->string, instance);
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeInstance(Instance *instance)
 {
   Context *context = newContext(INSTANCE_CONTEXT, instance);
 
-  analyzeNameWords(instance);	/* Only instances need names in the dictionary */
+  /* Only instances need names and pronouns in the dictionary */
+  analyzeNameWords(instance);
+  analyzePronouns(instance);
+
   analyzeProps(instance->props, context);
 }
 

@@ -31,7 +31,7 @@ void testContentOfSymbol() {
   Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
   IdNode *id = newId(&nulsrcp, "id");
-  Properties *props = newProps(NULL, NULL, NULL, container,
+  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,

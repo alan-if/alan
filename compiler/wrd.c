@@ -26,15 +26,15 @@ int words[WRD_CLASSES+1];
 
 
 /* Private: */
-static WordNode *wordTree = NULL;
-static WordNode *lastWordFound;	/* The last word found by findwrd() */
+static Word *wordTree = NULL;
 
 
 /*======================================================================*/
-WordNode *findWord(char *str)	/* IN - The string */
+Word *findWord(char *str)	/* IN - The string */
 {
-  WordNode *wrd;			/* Traversal pointers */
+  Word *wrd;			/* Traversal pointers */
   int comp = 1;			/* Result of comparison */
+  Word *lastWordFound;		/* The last word found */
 
   wrd = wordTree;
   while (wrd != NULL) {
@@ -51,13 +51,33 @@ WordNode *findWord(char *str)	/* IN - The string */
 }
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void insertWord(Word *new) {
+  Word *wrd;			/* Traversal pointer */
+  int comparison;		/* Comparison result */
+  Word *lastWordFound;		/* The last word found */
 
-  findReference()
+  if (wordTree == NULL)
+    wordTree = new;
+  else {
+    wrd = wordTree;
+    while (wrd != NULL) {
+      lastWordFound = wrd;			/* Set last word found */
+      comparison = compareStrings(new->string, lastWordFound->string);
+      if (comparison < 0)
+	wrd = lastWordFound->low;
+      else
+	wrd = lastWordFound->high;
+    }
+    if (comparison < 0)
+      lastWordFound->low = new;
+    else
+      lastWordFound->high = new;
+  }
+}
 
-  Find a reference in a list.
 
-*/
+/*----------------------------------------------------------------------*/
 static Bool findReference(Instance *ref, List *referenceList)
 {
   List *l;
@@ -73,14 +93,14 @@ static Bool findReference(Instance *ref, List *referenceList)
 int newWord(char *theWord,
 	    WrdKind class,
 	    int code,
-	    Instance *references)
+	    void *references)
 {
-  WordNode *new;
-  WordNode *existingWord;
+  Word *new;
+  Word *existingWord;
   char *string;
 
   if (theWord == NULL)
-    syserr("theWord == NULL in '%s()'", __FUNCTION__);
+    SYSERR("theWord == NULL");
 
   /* Convert the word to lower case before storing it in the dictionary */
   string = strdup(theWord);
@@ -92,7 +112,6 @@ int newWord(char *theWord,
     if (!findReference(references, existingWord->ref[class])) {
       /* Add another reference */
       existingWord->classbits |= 1L<<class;
-      /* TODO - don't add the same instance more than once */
       existingWord->ref[class] = concat(existingWord->ref[class],
 					references, REFERENCE_LIST);
       if (existingWord->code == -1)
@@ -102,34 +121,40 @@ int newWord(char *theWord,
     return existingWord->code;
   }
 
-  new = NEW(WordNode);
+  new = NEW(Word);
 
   new->classbits = 1L<<class;
   new->string = string;
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
-  if (class != SYNONYM_WORD)
-    new->ref[class] = concat(NULL, references, REFERENCE_LIST);
-  else
-    new->ref[class] = (List *) references;
+  new->ref[class] = concat(NULL, references, REFERENCE_LIST);
 
   new->low = NULL;
   new->high = NULL;
 
-  if (wordTree == NULL)
-    wordTree = new;
-  else if (compareStrings(string, lastWordFound->string) < 0)
-    /* Use last word found by findWord() */
-    lastWordFound->low = new;
-  else
-    lastWordFound->high = new;
+  insertWord(new);
 
   words[class]++;
   words[WRD_CLASSES]++;
 
+  /* Number the new word if so indicated */
+  if (new->code == -1)
+    new->code = words[class];
   if (new->code == 0)
     new->code = words[WRD_CLASSES];
   return new->code;
+}
+
+
+/*======================================================================*/
+int newPronounWord(char *theWord, Instance *reference) {
+  return newWord(theWord, PRONOUN_WORD, -1, reference);
+}
+
+
+/*======================================================================*/
+int newSynonymWord(char *theWord, Word *reference) {
+  return newWord(theWord, SYNONYM_WORD, 0, reference);
 }
 
 
@@ -200,7 +225,7 @@ void prepareWords(void)
   defined to be of multiple word classes that we want to warn about.
 
 */
-void analyzeWord(WordNode *wrd)
+void analyzeWord(Word *wrd)
 {
   /* Analyze one word in the dictionary to find any words that are
      defined to be of multiple word classes that we want to warn
@@ -244,16 +269,10 @@ void analyzeWords(void)
 
 
 
-static int refidx;
+static int referenceIndex;
 
-/*----------------------------------------------------------------------
-
-  gewrdref()
-
-  Generate reference lists for all entries in the Dictionary.
-
-  */
-static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
+/*----------------------------------------------------------------------*/
+static void generateWordReferences(Word *wrd)
 {
   List *lst;
   
@@ -261,7 +280,7 @@ static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
     return;
   
   /* First generate for lower */
-  gewrdref(wrd->low);
+  generateWordReferences(wrd->low);
   
   /* Then this node */
   if (wrd->classbits&(1L<<NOUN_WORD)) {
@@ -281,95 +300,84 @@ static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
     wrd->adjrefadr = 0;
   
   /* Then for higher */
-  gewrdref(wrd->high);
+  generateWordReferences(wrd->high);
 
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  gewrdstr()
-
-  Generate strings for all entries in the dictionary.
-
-  */
-static void gewrdstr(WordNode *wrd) /* IN - Word to generate for */
+/*----------------------------------------------------------------------*/
+static void generateWordStrings(Word *wrd)
 {
   if (wrd == NULL)
     return;
   
   /* First generate for lower */
-  gewrdstr(wrd->low);
+  generateWordStrings(wrd->low);
   
   /* Then this node */
   wrd->stradr = nextEmitAddress();	/* Save address to string */
   emitString(wrd->string);
   
   /* Then for higher */
-  gewrdstr(wrd->high);
+  generateWordStrings(wrd->high);
 
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateWordEntry(Word *wrd) {
 
-/*----------------------------------------------------------------------
+  DictionaryEntry de;
 
-  gewrdent()
+  de.wrd = wrd->stradr;
 
-  Generate a dictionary entry, recursively calls itself to generate all of
-  the dictionary.
-
-  */
-static void gewrdent(WordNode *wrd) /* IN - The word to generate an entry for */
-{
-  if (wrd->low != NULL)
-    gewrdent(wrd->low);
-  
-  /* Generate for this word */
-  showProgress();
-
-  emit(wrd->stradr);
-  if (wrd->classbits == (1L<<SYNONYM_WORD)) {
-    /* If it is a synonym generate same as for original but mark as synonym */
-    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->classbits|(1L<<SYNONYM_WORD));
-    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->code);
-    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->adjrefadr);
-    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->nounrefadr);
+  /* Synonyms can not be anything else... */
+  if (wrd->classbits == SYNONYM_BIT) {
+    /* If a synonym generate same as for original but mark as synonym */
+    /* The reference is actually a pointer to the original Word */
+    Word *original = (Word *)wrd->ref[SYNONYM_WORD]->element.word; 
+    de.classBits = original->classbits|SYNONYM_BIT;
+    de.code = original->code;
+    de.adjrefs = original->adjrefadr;
+    de.nounrefs = original->nounrefadr;
   } else {
-    emit(wrd->classbits);
-    emit(wrd->code);
-    emit(wrd->adjrefadr);
-    emit(wrd->nounrefadr);
+    de.classBits = wrd->classbits;
+    de.code = wrd->code;
+    de.adjrefs = wrd->adjrefadr;
+    de.nounrefs = wrd->nounrefadr;
   }
-  
-  if (wrd->high != NULL) gewrdent(wrd->high);
+  emitEntry(&de, sizeof(DictionaryEntry));
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateWordEntries(Word *wrd)
+{
+  if (wrd->low != NULL) generateWordEntries(wrd->low);
+  showProgress();
+  generateWordEntry(wrd);
+  if (wrd->high != NULL) generateWordEntries(wrd->high);
 }
 
 
 
-/*======================================================================
-
-  gewrds()
-
-  Generates the words in the dictionary of course.
-
-  */
+/*======================================================================*/
 Aaddr generateAllWords(void)
 {
   Aaddr adr;
 
   /* First generate reference lists */
-  refidx = 0;
-  gewrdref(wordTree);
+  referenceIndex = 0;
+  generateWordReferences(wordTree);
 
   /* and strings */
-  gewrdstr(wordTree);
+  generateWordStrings(wordTree);
 
-  /* Now traverse the wrdtree and generate dictionary entries */
-  refidx = 0;
-  adr = nextEmitAddress();		/* Save ACODE address to dictionary */
-  gewrdent(wordTree);
+  /* Now traverse the word tree and generate dictionary entries */
+  referenceIndex = 0;
+  adr = nextEmitAddress();	/* Save ACODE address to dictionary */
+  generateWordEntries(wordTree); /* Recursively... */
 
   emit(EOF);
 

@@ -34,7 +34,7 @@
 	Scripts
 	Exits
 */
-#define NOOFPROPS 13
+#define NOOFPROPS 14
 
 /* Types */
 
@@ -43,8 +43,10 @@ typedef struct Properties {
   Bool predefined;
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */
-  List *names;			/* List of lists of adjectives and noun (ids)*/
   Where *whr;			/* Where is it initially? */
+  List *names;			/* List of lists of adjectives and noun (ids)*/
+  Srcp pronounsSrcp;
+  List *pronouns;		/* List of words that can be used as pronouns */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
   Srcp descriptionCheckSrcp;

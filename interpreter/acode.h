@@ -64,7 +64,10 @@ typedef int WrdKind;
 #define  VERB_WORD (THEM_WORD+1)
 #define  VERB_BIT (((Aword)1)<<VERB_WORD)
 
-#define  WRD_CLASSES 13
+#define  PRONOUN_WORD (VERB_WORD+1)
+#define  PRONOUN_BIT (((Aword)1)<<PRONOUN_WORD)
+
+#define  WRD_CLASSES (PRONOUN_WORD+1)
 
 
 
@@ -147,7 +150,6 @@ typedef enum InstClass {
   I_STRATTR,			/* Push a copy of a string attribute */
   I_HERE,
   I_NEAR,
-  I_NEAR_D,
   I_WHERE,			/* Current position of an instance */
   I_LOCATION,			/* The location of an instance */
   I_AND,
@@ -264,8 +266,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
   Aint code;			/* Its code */
-  Aword value;			/* Its value, a string has a dynamic string pointer,
-  							a set has a pointer to a dynamically allocated set */
+  Aword value;			/* Its value, a string has a dynamic
+				   string pointer, a set has a pointer
+				   to a dynamically allocated set */
   Aaddr stringAddress;	/* Address to the name */
 } AttributeEntry;
 
@@ -349,8 +352,17 @@ typedef struct StringInitEntry {	/* STRING INITIALISATION TABLE */
 typedef struct SetInitEntry {	/* SET INITIALISATION TABLE */
   Aint size;			/* Size of the initial set */
   Aword setAddress;		/* Address to the initial set */
-  Aword adr;			/* Address to attribute slot where the set is to be stored */
+  Aword adr;			/* Address to attribute slot where the
+				   set is to be stored */
 } SetInitEntry;
+
+typedef struct DictionaryEntry { /* Dictionary */
+  Aaddr wrd;			/* ACODE address to string */
+  Aword classBits;		/* Word class */
+  Aword code;
+  Aaddr adjrefs;		/* Address to reference list */
+  Aaddr nounrefs;		/* Address to reference list */
+} DictionaryEntry;
 
 
 

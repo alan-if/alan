@@ -95,6 +95,7 @@ int main()
   registerResUnitTests();
   registerStxUnitTests();
   registerParamUnitTests();
+  registerWrdUnitTests();
 
   unitTest();
 

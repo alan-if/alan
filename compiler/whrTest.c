@@ -22,7 +22,7 @@ void testClassOfContent()
   ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId,
 						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
-  Properties *properties = newProps(NULL, NULL, NULL, container,
+  Properties *properties = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,
 				    nulsrcp, NULL,
 				    nulsrcp, NULL,
 				    nulsrcp, NULL,

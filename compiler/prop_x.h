@@ -21,8 +21,8 @@
 
 extern Properties *newEmptyProps(void);
 
-extern Properties *newProps(List *nams,
-			    Where *whr,
+extern Properties *newProps(Where *whr, List *nams, Srcp pronounsSrcp,
+			    List *pronoun,
 			    List *atrs,
 			    Container *cnt,
 			    Srcp descriptionCheckSrcp,

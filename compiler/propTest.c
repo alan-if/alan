@@ -11,7 +11,7 @@
 
 static void testAddOpaqueAttribute()
 {
-  Properties *prop = newProps(NULL, NULL, NULL, NULL,
+  Properties *prop = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL,
 			      nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 			      NULL, FALSE, nulsrcp,
 			      NULL, FALSE,

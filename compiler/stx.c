@@ -316,7 +316,7 @@ Syntax *defaultSyntax1(IdNode *verb, Context *context)
 /*----------------------------------------------------------------------*/
 static void generateParseTree(Syntax *stx)
 {
-  WordNode *wrd;
+  Word *wrd;
   List *lst = NULL;
   List *elements = NULL;            /* A list of parallell elms-lists */
 

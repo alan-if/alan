@@ -140,9 +140,11 @@ static int val(char str[])
   msgs %% List *%1%%,
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
-  present %% Bool %1%%,		-- an optional marker was present
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
+  present %% Bool %1%%,		-- an optional marker was present
+  pronouns %% List *%1%%,
+  pronounsSrcp %% Srcp %1%%,
   qual %% QualKind %1%%,
   res %% ResNod *%1%%,
   ress %% List *%1%%,
@@ -164,14 +166,14 @@ static int val(char str[])
   str %% char *%1%%,
   stx %% Syntax *%1%%,
   stxs %% List *%1%%,
-  syn %% SynNod *%1%%,
+  syn %% Synonym *%1%%,
   syns %% List *%1%%,
   val %% int %1%%,
   vrb %% Verb *%1%%,
   vrbs %% List *%1%%,
-  wordOrChar %% Bool %1%%,
   whr %% Where *%1%%,
-  wht %% What *%1%%;
+  wht %% What *%1%%,
+  wordOrChar %% Bool %1%%;
 
 %%TERMINALS
 
@@ -709,8 +711,10 @@ static int val(char str[])
 	%<class>.cla = newClass(`&%'EVERY'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newProps(%<properties>.nams,
-					%<properties>.whr,
+				newProps(%<properties>.whr,
+					%<properties>.nams,
+					%<properties>.pronounsSrcp,
+					%<properties>.pronouns,
 					%<properties>.atrs,
 					%<properties>.cnt,
 					%<properties>.descriptionCheckSrcp,
@@ -749,8 +753,10 @@ static int val(char str[])
 	%<addition>.add = newAdd(`&%'ADD'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newProps(%<properties>.nams,
-					%<properties>.whr,
+				newProps(%<properties>.whr,
+					%<properties>.nams,
+					%<properties>.pronounsSrcp,
+					%<properties>.pronouns,
 					%<properties>.atrs,
 					%<properties>.cnt,
 					%<properties>.descriptionCheckSrcp,
@@ -789,8 +795,10 @@ static int val(char str[])
 	%<instance>.ins = newInstance(`&%'THE'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newProps(%<properties>.nams,
-					%<properties>.whr,
+				newProps(%<properties>.whr,
+					%<properties>.nams,
+					%<properties>.pronounsSrcp,
+					%<properties>.pronouns,
 					%<properties>.atrs,
 					%<properties>.cnt,
 					%<properties>.descriptionCheckSrcp,
@@ -847,6 +855,9 @@ static int val(char str[])
     ! <properties> <property>
     %%
 	%<properties>.nams = concat(%<properties>.nams, %<property>.nam, NAME_LIST);
+
+	%<properties>.pronouns = combine(%<properties>.pronouns, %<property>.pronouns);
+	%<properties>.pronounsSrcp = %<property>.pronounsSrcp;
 
         if (%<property>.whr != NULL) {
             if (%<properties>.whr != NULL) 
@@ -939,6 +950,14 @@ static int val(char str[])
     %%{ List *nam = %<name>.nam;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.nam = nam;
+    }%%
+
+    ! <pronoun>
+    %%{ List *idList = %<pronoun>.idList;
+	Srcp pronounsSrcp = %<pronoun>.pronounsSrcp;
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<property>.pronouns = idList;
+	%<pronoun>.pronounsSrcp = pronounsSrcp;
     }%%
 
     ! <where> ['.']
@@ -1232,6 +1251,14 @@ static int val(char str[])
     = 'NAME' <ids> <optional_full_stop>
     %%
 	%<name>.nam = %<ids>.idList;
+    %%
+    ;
+
+<pronoun>			-- RETURNS: idList
+    = 'PRONOUN' <id_list> <optional_full_stop>
+    %%
+	%<pronoun>.idList = %<id_list>.idList;
+	%<pronoun>.pronounsSrcp = %'PRONOUN'.srcp;
     %%
     ;
 

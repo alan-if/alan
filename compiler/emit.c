@@ -38,12 +38,14 @@ AcdHdr acdHeader;
 
 
 static FILE *acdfil;
-static Aword buff[BLOCKLEN];
+static Aword *emitBuffer;
+static Aword eBuffer[BLOCKLEN];
 
 static Aaddr pc;
 static Aword crc;
 
 
+/*----------------------------------------------------------------------*/
 static void buffer(Aword w)
 {
   crc += w&0xff;			/* Check sum calculation */
@@ -51,9 +53,9 @@ static void buffer(Aword w)
   crc += (w>>16)&((Aword)0xff);
   crc += (w>>24)&((Aword)0xff);
 
-  buff[pc++%BLOCKLEN] = w;
+  emitBuffer[pc++%BLOCKLEN] = w;
   if (pc%BLOCKLEN == 0)
-    fwrite(buff, BLOCKSIZE, 1, acdfil);
+    fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
 }
 
 /* First attempt at trying a generic endian macro... */
@@ -63,6 +65,8 @@ static void buffer(Aword w)
     | (((Aword)((w)[1]) << 16) & 0x00ff0000)    \
     | (((Aword)((w)[0]) << 24) & 0xff000000))
 
+
+/*----------------------------------------------------------------------*/
 static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
 {
   Aword s;			/* The swapped ACODE word */
@@ -78,13 +82,13 @@ static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
   return (s);
 }
 
-
+/*======================================================================*/
 Aword nextEmitAddress(void)
 {
   return(pc);
 }
 
-
+/*======================================================================*/
 void emit(Aword c)		/* IN - Constant to emit */
 {
   if (littleEndian())
@@ -94,6 +98,7 @@ void emit(Aword c)		/* IN - Constant to emit */
 }
 
 
+/*======================================================================*/
 void emitEntry(void *address, int noOfBytes)
 {
   int i;
@@ -113,6 +118,7 @@ void emitEntry(void *address, int noOfBytes)
 }
 
 
+/*======================================================================*/
 void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 {
   int i;
@@ -126,7 +132,7 @@ void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 }
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
 
   emitString()
 
@@ -179,33 +185,35 @@ void emitString(char *str)
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void emitVariable(Aword var)
 {
   emit(((Aword)C_CURVAR<<28)|((Aword)var&0x0fffffff));
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void emitConstant(Aword arg)
 {
   emit(((Aword)C_CONST<<28)|((Aword)arg&0x0fffffff));
 }
 
 
+/*======================================================================*/
 void emit0(Aword op)
 {
   emit(INSTRUCTION(op));
 }
 
 
+/*======================================================================*/
 void emit1(Aword op, Aword arg1)
 {
   emitConstant(arg1);
   emit0(op);
 }
 
-
+/*======================================================================*/
 void emit2(Aword op, Aword arg1, Aword arg2)
 {
   emitConstant(arg2);
@@ -213,7 +221,7 @@ void emit2(Aword op, Aword arg1, Aword arg2)
   emit0(op);
 }
 
-
+/*======================================================================*/
 void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3)
 {
   emitConstant(arg3);
@@ -223,11 +231,22 @@ void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3)
 }
 
 
+/*======================================================================*/
 void emitLine(Srcp srcp) {
   emitConstant(srcp.file);
   emitConstant(srcp.line);
   emit0(I_LINE);
 }
+
+
+/*======================================================================*/
+void initEmitBuffer(Aword *bufferToUse) {
+  pc = 0;
+  crc = 0;
+
+  emitBuffer = bufferToUse;
+}
+
 
 
 #ifdef __amiga__
@@ -460,14 +479,13 @@ static struct DiskObject iconObject = {
   };
 #endif
 
-void initEmit(
-	    char *acdfnm	/* IN - File name for ACODE instructions */
-)
+
+/*======================================================================*/
+void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 {
   int i;
 
-  pc = 0;
-  crc = 0;
+  initEmitBuffer(eBuffer);
 
 #ifdef __amiga__
   struct DiskObject *existingIcon;
@@ -515,7 +533,7 @@ void initEmit(
 void terminateEmit()
 {
   if (pc%BLOCKSIZE > 0)
-    fwrite(buff, BLOCKSIZE, 1, acdfil);
+    fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
 
   acdHeader.acdcrc = crc;	/* Save checksum */
   acdHeader.size = nextEmitAddress();	/* Save last address as size */
@@ -576,6 +594,6 @@ void emitHeader()
   hp = (Aword *) &acdHeader;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
     emit(*hp++);
-  fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
+  fwrite(emitBuffer, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
   fclose(acdfil);
 }

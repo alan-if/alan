@@ -323,7 +323,7 @@ void testGenerateAttributes()
 static void testResolveThisAttributeForClass()
 {
   List *theAttributes = create2Attributes("x", "y");
-  Properties *theProps = newProps(NULL, NULL, theAttributes, NULL,
+  Properties *theProps = newProps(NULL, NULL, nulsrcp, NULL, theAttributes, NULL,
 				  nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 				  NULL, FALSE, nulsrcp,
 				  NULL, FALSE,

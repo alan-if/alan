@@ -192,6 +192,10 @@ static void warnForUnimplementedInheritance(Properties *props) {
   */
   propCount = 11;
 
+  if (props->pronouns != NULL)
+    lmLog(&props->pronounsSrcp, 343, sevWAR, "Pronoun clause");
+  propCount++;
+
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
   propCount++;

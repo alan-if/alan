@@ -70,14 +70,6 @@ typedef struct AdminEntry {	/* Administrative data about instances */
 
 
 /* The various tables */
-typedef struct WrdEntry {	/* Dictionary */
-  Aaddr wrd;			/* ACODE address to string */
-  Aword classBits;		/* Word class */
-  Aword code;
-  Aaddr adjrefs;		/* Address to reference list */
-  Aaddr nounrefs;		/* Address to reference list */
-} DictionaryEntry;
-
 typedef struct ActEntry {	/* ACTOR TABLE */
   Aword loc;			/* Location */
   Abool describe;		/* Description flag */

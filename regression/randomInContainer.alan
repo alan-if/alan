@@ -1,0 +1,14 @@
+The x1 Isa object In c
+End The x1.
+
+The c Isa object
+  Container
+End The c.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say Random In c.
+  Locate x1 At l.
+  Say Random In c.

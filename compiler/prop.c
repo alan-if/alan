@@ -28,6 +28,7 @@
 #include "sym_x.h"
 #include "vrb_x.h"
 #include "whr_x.h"
+#include "wrd_x.h"
 #include "dump_x.h"
 
 
@@ -40,8 +41,8 @@ Properties *newEmptyProps(void)
 
 
 /*======================================================================*/
-Properties *newProps(List *names,
-		     Where *whr,
+Properties *newProps(Where *whr, List *names,
+		     Srcp pronounsSrcp, List *pronouns,
 		     List *attributes,
 		     Container *container,
 		     Srcp descriptionCheckSrcp, List *descriptionChecks,
@@ -60,8 +61,10 @@ Properties *newProps(List *names,
 
   new = NEW(Properties);
 
-  new->names = names;
   new->whr = whr;
+  new->names = names;
+  new->pronounsSrcp = pronounsSrcp;
+  new->pronouns = pronouns;
   new->attributes = attributes;
 
   new->container = container;
@@ -105,15 +108,6 @@ static void symbolizeParent(Properties *props)
       setParent(props->id->symbol, props->parentId->symbol);
     }
   }
-#ifdef DEFAULTENTITY
-  else if (strcmp(props->id->string, "entity") != 0) {
-    /* Unless it is "entity" itself, assume "entity" is its parent */
-    lmLog(&props->id->srcp, 270, sevWAR, "");
-    props->parentId = newId(&nulsrcp, "entity");
-    props->parentId->symbol = entitySymbol;
-    setParent(props->id->symbol, props->parentId->symbol);
-  }
-#endif
 }
 
 
@@ -197,7 +191,6 @@ void analyzeProps(Properties *props, Context *context)
   if (inheritsFrom(props->id->symbol, actorSymbol)
       && props->whr != NULL && props->whr->kind == WHERE_IN)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
-
 
   /* Don't analyze attributes since those are analyzed already */
   analyzeChecks(props->descriptionChecks, context);
@@ -341,8 +334,9 @@ void dumpProps(Properties *props)
   put("PROPS: "); dumpPointer(props); indent();
   put("id: "); dumpId(props->id); nl();
   put("parentId: "); dumpId(props->parentId); nl();
-  put("names: "); dumpListOfLists(props->names, NAME_LIST); nl();
   put("whr: "); dumpWhere(props->whr); nl();
+  put("names: "); dumpListOfLists(props->names, NAME_LIST); nl();
+  put("pronoun: "); dumpList(props->pronouns, ID_LIST); nl();
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();

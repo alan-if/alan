@@ -165,7 +165,7 @@ void analyzeAdventure(void)
   analyzeRules();
 
   if (verbose) printf("\n\tSynonyms: ");
-  ansyns();
+  analyzeSynonyms();
 
   if (verbose) printf("\n\tMessages:");
   anmsgs();

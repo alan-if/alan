@@ -33,15 +33,15 @@
   Create a new synonym node.
 
   */
-SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
+Synonym *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
 	       List *ids,	/* IN - List of synonyms */
 	       IdNode *id)	/* IN - For the target name */
 {
-  SynNod *new;
+  Synonym *new;
 
   showProgress();
 
-  new = NEW(SynNod);
+  new = NEW(Synonym);
 
   new->srcp = *srcp;
   new->ids = ids;
@@ -52,20 +52,15 @@ SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
 
 
 
-/*======================================================================
-
-  ansyns()
-
-  Analyze all synonyms by finding the target words in the dictionary,
-  and inserting the synonyms.
-
-  */
-void ansyns(void)
+/*======================================================================*/
+void analyzeSynonyms(void)
+/*  Analyze all synonyms by finding the target words in the dictionary,
+    and inserting the synonyms. */
 {
   List *lst;		/* Traversal pointer for target list */
   List *slst;		/* Traversal pointer for synonyms lists */
-  WordNode *wrd;		/* Target word */
-  WordNode *swrd;		/* Synonym word */
+  Word *wrd;		/* Target word */
+  Word *swrd;		/* Synonym word */
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
     showProgress();
@@ -85,14 +80,8 @@ void ansyns(void)
 }
 
 
-/*======================================================================
-
-  dusyn()
-
-  Dump the contents of a Synonym node.
-
-  */
-void dusyn(SynNod *syn)
+/*======================================================================*/
+void dumpSynonyms(Synonym *syn)
 {
   if (syn == NULL) {
     put("NULL");

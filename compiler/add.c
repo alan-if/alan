@@ -131,6 +131,16 @@ static void addNames(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
+static void addPronouns(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->pronouns != NULL)
+    lmLogv(&props->pronounsSrcp, 341, sevERR, "pronouns", "(yet)", NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 {
   Properties *props = add->props;
@@ -260,6 +270,10 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
       lmLogv(&add->srcp, 424, sevERR, "names", originalSymbol->string, NULL);
     propsCount++;
 
+    if (add->props->pronouns)
+      lmLogv(&add->srcp, 424, sevERR, "pronouns", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->whr)
       lmLogv(&add->props->whr->srcp, 424, sevERR, "initial location", originalSymbol->string, NULL);
     propsCount++;
@@ -316,6 +330,7 @@ static void addAddition(AddNode *add)
     verifyAdd(add, originalClass);
     addInitialLocation(add, originalClass); propCount++;
     addNames(add, originalClass); propCount++;
+    addPronouns(add, originalClass); propCount++;
     addAttributes(add, originalClass); propCount++;
     addDescriptionCheck(add, originalClass); propCount++;
     addDescription(add, originalClass); propCount++;

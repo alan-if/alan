@@ -24,13 +24,14 @@ extern int words[];
 /* FUNCTIONS: */
 
 /* Find a Word in the dictonary */
-extern WordNode *findWord(char str[]);
+extern Word *findWord(char str[]);
 
 /* Insert a Word into the dictionary */
 extern int newWord(char wrd[],
 		  WrdKind class,
 		  int code,
-		  Instance *ref);
+		  void *ref);
+extern int newPronounWord(char *theWord, Instance *reference);
 
 extern void prepareWords(void);
 extern void analyzeWords(void);

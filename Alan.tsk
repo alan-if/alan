@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>373.89</origest>
-<currest>372.89</currest>
-<elapsed>215.89</elapsed>
+<origest>379.89</origest>
+<currest>378.89</currest>
+<elapsed>216.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>66</origest>
-<currest>66</currest>
-<elapsed>21</elapsed>
+<origest>72</origest>
+<currest>72</currest>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>25</origest>
-<currest>25</currest>
-<elapsed>21</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -303,10 +303,69 @@ Implementation:
 
 How to handle the above example? Probably by looking in the scope for any instances with the given pronoun.</notes>
 <priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Grammar, internal form and dump</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Analysis</desc>
+<notes>- Not allowed on Locations
+- Add words to dictionary</notes>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Generate reference lists</desc>
+<notes>Each instance should have a list of words which can be used as pronouns for it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit pronouns</desc>
+<notes>We can combine the list as for names</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add pronoun table to interpreter and update it with each parameter in the command</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>What happens if a pronoun word is the same as any other word?</desc>
+<notes>The pronouns need to have unique numbers in sequence from zero so that an array can be used to store instance references in the corresponding "slot".
+
+If another word class has already entered it in the dictionary it will receive that classes code.
+
+Probably we want to have unique word code for every unique word, and then a code per class that needs a translation. This would probably also solve the other multi-class word problems...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Attribute to OBJECT in MESSAGE</desc>
@@ -350,8 +409,8 @@ Message CANTSEE:
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>25</origest>
-<currest>25</currest>
+<origest>26</origest>
+<currest>26</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -482,6 +541,15 @@ I think only checks for matching alternatives would be natural.
 <notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
 
 Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

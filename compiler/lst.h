@@ -54,26 +54,27 @@ typedef struct List {		/* GENERIC LISTS */
     struct Attribute *atr;
     struct ChkNod *chk;
     struct ClaNod *cla;
-    struct Instance *ins;
-    struct ResNod *res;
     struct Container *cnt;
     struct Element *elm;
+    struct ElmEntry *eent;
     struct EvtNod *evt;
     struct Expression *exp;
     struct ExtNod *ext;
+    struct IdNode *id;
+    struct Instance *ins;
     struct LimNod *lim;
+    struct List *lst;
     struct MsgNod *msg;
+    struct ResNod *res;
     struct RulNod *rul;
     struct Script *script;
-    struct StmNod *stm;
     struct Step *stp;
-    struct Syntax *stx;
-    struct SynNod *syn;
+    struct StmNod *stm;
     struct Symbol *sym;
+    struct SynNod *syn;
+    struct Syntax *stx;
     struct Verb *vrb;
-    struct ElmEntry *eent;
-    struct IdNode *id;
-    struct List *lst;
+    struct Word *word;
     char *str;
   } element;			/* Pointer to any type of element */
   struct List *next;		/* Pointer to next list node */

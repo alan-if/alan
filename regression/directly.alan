@@ -1,0 +1,93 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The d Isa object In c
+  Container
+End The d.
+
+The o1 Isa object At l.
+End The.
+
+The o2 Isa object In c.
+End The.
+
+The o3 Isa object In d.
+End The.
+
+The o4 Isa object At l.
+End The.
+
+The o5 Isa object In c.
+End The.
+
+The o6 Isa object In d.
+End The.
+
+Start At l.
+  If o1 Directly At l Then "$no1 Directly At l. Ok."
+	Else "$no1 Not Directly At l. *** Not Ok ***." End If.
+  If o2 Directly At l Then "$no2 Directly At l. *** Not Ok ***."
+	Else "$no2 Not Directly At l. Ok." End If.
+  If o3 Directly At l Then "$no3 Directly At l. *** Not Ok ***."
+	Else "$no3 Not Directly At l. Ok." End If.
+
+  If o1 Directly at o1 Then "$no1 Directly at o1. Ok."
+	Else "$no1 Not Directly at o1. *** Not Ok ***." End If.
+  If o2 Directly at o1 Then "$no2 Directly at o1. *** Not Ok ***."
+	Else "$no2 Not Directly at o1. Ok." End If.
+  If o3 Directly at o1 Then "$no3 Directly at o1. *** Not Ok ***."
+	Else "$no3 Not Directly at o1. Ok." End If.
+
+  If o1 Directly at o2 Then "$no1 Directly at o2. *** Not Ok ***."
+	Else "$no1 Not Directly at o2. Ok." End If.
+  If o2 Directly at o2 Then "$no2 Directly at o2. Ok."
+	Else "$no2 Not Directly at o2. *** Not Ok ***." End If.
+  If o3 Directly at o2 Then "$no3 Directly at o2. *** Not Ok ***."
+	Else "$no3 Not Directly at o2. Ok." End If.
+
+  If o1 Directly at o3 Then "$no1 Directly at o3. *** Not Ok ***."
+	Else "$no1 Not Directly at o3. Ok." End If.
+  If o2 Directly at o3 Then "$no2 Directly at o3. *** Not Ok ***."
+	Else "$no2 Not Directly at o3. Ok." End If.
+  If o3 Directly at o3 Then "$no3 Directly at o3. Ok."
+	Else "$no3 Not Directly at o3. *** Not Ok ***." End If.
+
+  If o1 Directly at o4 Then "$no1 Directly at o4. Ok."
+	Else "$no1 Not Directly at o4. *** Not Ok ***." End If.
+  If o2 Directly at o4 Then "$no2 Directly at o4. *** Not Ok ***."
+	Else "$no2 Not Directly at o4. Ok." End If.
+  If o3 Directly at o4 Then "$no3 Directly at o4. *** Not Ok ***."
+	Else "$no3 Not Directly at o4. Ok." End If.
+
+  If o1 Directly at o5 Then "$no1 Directly at o5. *** Not Ok ***."
+	Else "$no1 Not Directly at o5. Ok." End If.
+  If o2 Directly at o5 Then "$no2 Directly at o5. Ok."
+	Else "$no2 Not Directly at o5. *** Not Ok ***." End If.
+  If o3 Directly at o5 Then "$no3 Directly at o5. *** Not Ok ***."
+	Else "$no3 Not Directly at o5. Ok." End If.
+
+  If o1 Directly at o6 Then "$no1 Directly at o6. *** Not Ok ***."
+	Else "$no1 Not Directly at o6. Ok." End If.
+  If o2 Directly at o6 Then "$no2 Directly at o6. *** Not Ok ***."
+	Else "$no2 Not Directly at o6. Ok." End If.
+  If o3 Directly at o6 Then "$no3 Directly at o6. Ok."
+	Else "$no3 Not Directly at o6. *** Not Ok ***." End If.
+
+  If o1 Directly in c Then "$no1 Directly in c. *** Not Ok ***."
+	Else "$no1 Not Directly in c. Ok." End If.
+  If o2 Directly in c Then "$no2 Directly in c. Ok."
+	Else "$no2 Not Directly in c. *** Not Ok ***." End If.
+  If o3 Directly in c Then "$no3 Directly in c. *** Not Ok ***."
+	Else "$no3 Not Directly in c. Ok." End If.
+
+  If o1 Directly in d Then "$no1 Directly in d. *** Not Ok ***."
+	Else "$no1 Not Directly in d. Ok." End If.
+  If o2 Directly in d Then "$no2 Directly in d. *** Not Ok ***."
+	Else "$no2 Not Directly in d. Ok." End If.
+  If o3 Directly in d Then "$no3 Directly in d. Ok."
+	Else "$no3 Not Directly in d. *** Not Ok ***." End If.
+
