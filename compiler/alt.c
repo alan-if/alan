@@ -77,7 +77,7 @@ static void analt(AltNod *alt,
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
     else {
       alt->id->symbol = parameter;
-      alt->id->code = parameter->code;
+      alt->parameterNumber = parameter->code;
     }
   } 
 
@@ -95,7 +95,7 @@ static void analt(AltNod *alt,
   each.
 
  */
-void analts(List *alts,
+void analyzeAlternatives(List *alts,
 	    Context *context)
 {
   List *lst;

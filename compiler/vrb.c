@@ -44,7 +44,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
 
   new->srcp = *srcp;
   new->ids = ids;
-  new->alts = alts;
+  new->alternatives = alts;
 
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
@@ -103,17 +103,17 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
   }
 
   /* No alternatives allowed in global verb definition */
-  if (context->instance == NULL && theVerb->alts->element.alt->id != NULL)
-    lmLog(&theVerb->alts->element.alt->srcp, 213, sevERR, "");
+  if (context->instance == NULL && theVerb->alternatives->element.alt->id != NULL)
+    lmLog(&theVerb->alternatives->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
 
   context->kind = VERB_CONTEXT;
   if (stx != NULL) {
     context->verb = theVerb->symbol;
-    analts(theVerb->alts, context);
+    analyzeAlternatives(theVerb->alternatives, context);
   } else
-    analts(theVerb->alts, context);
+    analyzeAlternatives(theVerb->alternatives, context);
 }
 
 
@@ -168,10 +168,10 @@ static void generateVerb(Verb *vrb, int currentInstance)
 {
   progressMeter();
 
-  if (vrb->alts == NULL)
+  if (vrb->alternatives == NULL)
     vrb->altAddress = 0;
   else
-    vrb->altAddress = gealts(vrb->alts, currentInstance);
+    vrb->altAddress = gealts(vrb->alternatives, currentInstance);
 }
 
 
@@ -224,7 +224,7 @@ void dumpVerb (Verb *vrb)
   put("VRB: "); dumpSrcp(&vrb ->srcp); in();
   put("ids: "); dumpList(vrb->ids, LIST_ID); nl();
   put("altadr: "); dumpAddress(vrb->altAddress); nl();
-  put("alts: "); dumpList(vrb->alts, LIST_ALT); out();
+  put("alts: "); dumpList(vrb->alternatives, LIST_ALT); out();
 }
 
 

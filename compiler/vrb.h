@@ -20,7 +20,7 @@
 typedef struct Verb {
   Srcp srcp;			/* Source position */
   List *ids;			/* List of verb IDs to perform this action */
-  List *alts;			/* Alternative bodies */
+  List *alternatives;			/* Alternative bodies */
   Symbol *symbol;
   Aaddr altAddress;		/* AN - Address to alt-table */
   StxNod *stx;			/* AN - Which syntax defines this verb */
