@@ -56,12 +56,13 @@
 223	'Unknown message identifier.';
 230	'No syntax defined for this verb, assumed \'%1 (object)\'.';
 
-301	'\'%1\' also defined as a Direction.';
-302	'\'%1\' also defined as a Location.';
-303	'\'%1\' also defined as a Verb.';
-304	'\'%1\' also defined as an Object.';
-305	'\'%1\' also defined as a Container.';
-306	'\'%1\' also defined as an Actor.';
+301	'\'%1\' already declared as a Direction.';
+302	'\'%1\' already declared as a Location.';
+303	'\'%1\' already declared as a Verb.';
+304	'\'%1\' already declared as an Object.';
+305	'\'%1\' already declared as a Container.';
+306	'\'%1\' already declared as an Actor.';
+307	'\'%1\' already declared as an Event.';
 310	'Identifier \'%1\' not defined.';
 311	'Must refer to %1.';
 312	'Parameter not uniquely defined as %1, which is required.';
