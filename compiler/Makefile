@@ -207,7 +207,7 @@ depend:
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
 	@make Makefile.amiga.
-	@make alan.make.
+#	@make alan.make.
 
 Makefile.amiga.:
 	@echo Updating Makefile.amiga!

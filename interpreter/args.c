@@ -174,9 +174,9 @@ void args(argc, argv)
     advnam = prgnam;
 #else
 #if defined __vms__
-  if ((prgnam = strrchr(argv[0], ':')) == NULL
+  if ((prgnam = strrchr(argv[0], ']')) == NULL
       && (prgnam = strrchr(argv[0], '>')) == NULL
-      && (prgnam = strrchr(argv[0], ']')) == NULL)
+      && (prgnam = strrchr(argv[0], ':')) == NULL)
     prgnam = argv[0];
   else
     prgnam++;
@@ -190,7 +190,7 @@ void args(argc, argv)
     switches(argc, argv);
   else
     /* Another program name use that as the name of the adventure */
-    strcpy(advnam, prgnam);
+    advnam = prgnam;
 #else
 #if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)

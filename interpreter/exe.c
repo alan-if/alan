@@ -152,10 +152,10 @@ void score(sc)
 
   if (sc == 0) {
     prmsg(M_SCORE1);
-    sprintf(buf, "%d", cur.score);
+    sprintf(buf, "%ld", cur.score);
     output(buf);
     prmsg(M_SCORE2);
-    sprintf(buf, "%d.", header->maxscore);
+    sprintf(buf, "%ld.", header->maxscore);
     output(buf);
   } else {
     cur.score += scores[sc-1];
@@ -1063,7 +1063,7 @@ void sayint(val)
 {
   char buf[25];
 
-  sprintf(buf, "%d", val);
+  sprintf(buf, "%ld", val);
   output(buf);
 }
 
