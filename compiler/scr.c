@@ -28,15 +28,8 @@ static int scriptCode = 0;		/* Numbering code */
 static List *allScripts;
 
 
-/*======================================================================
-
-  newScript()
-
-  */
-Script *newScript(Srcp *srcp,
-		  IdNode *id,
-		  List *description,
-		  List *steps
+/*======================================================================*/
+Script *newScript(Srcp *srcp, IdNode *id, Description *description, List *steps
 )
 {
   Script *new;          /* The newly allocated node */
@@ -48,7 +41,10 @@ Script *newScript(Srcp *srcp,
   new->srcp = *srcp;
   new->id = id;
   new->id->code = ++scriptCode;
-  new->description = description;
+  if (description)
+    new->description = description->does;
+  else
+    new->description = NULL;
   new->steps = steps;
 
   allScripts = concat(allScripts, new, SCRIPT_LIST);
@@ -127,7 +123,7 @@ static Aaddr generateScriptDescription(Script *script)
 
 
 /*======================================================================*/
-Aaddr generateScripts(AcdHdr *header)
+Aaddr generateScripts(ACodeHeader *header)
 {
   List *lst;
   Aaddr scriptTableAddress;

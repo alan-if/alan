@@ -53,27 +53,27 @@ BUILDSRCS = \
 	evt.c \
 	form.c \
 	id.c \
+	initialize.c \
 	lim.c \
 	msg.c \
 	nam.c \
 	opt.c \
+	options.c \
 	rul.c \
-	set.c \
 	sco.c \
 	scr.c \
+	set.c \
+	spa.c \
 	srcp.c \
 	stm.c \
-	initialize.c \
 	stp.c \
 	str.c \
 	syn.c \
-	type.c \
-	wht.c \
-	timing.c \
-	util.c \
-	spa.c \
 	sysdep.c \
-	options.c
+	timing.c \
+	type.c \
+	util.c \
+	wht.c \
 
 
 # More Sources required for Alan program build
@@ -83,15 +83,16 @@ ALANSRCS = \
 	adv.c \
 	atr.c \
 	cla.c \
+	description.c \
 	emit.c \
 	exp.c \
 	ext.c \
-	resource.c \
 	ins.c \
 	lst.c \
 	main.c \
 	prop.c \
 	res.c \
+	resource.c \
 	stx.c \
 	sym.c \
 	vrb.c \

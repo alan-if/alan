@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>400.89</origest>
-<currest>399.89</currest>
-<elapsed>255.89</elapsed>
+<origest>401.89</origest>
+<currest>400.89</currest>
+<elapsed>259.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>62</origest>
-<currest>62</currest>
-<elapsed>18</elapsed>
+<origest>63</origest>
+<currest>63</currest>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>30</origest>
 <currest>30</currest>
-<elapsed>18</elapsed>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -226,9 +226,9 @@ Word as verb and direction
 Which of the above works, and what is the problem with each that doesn't?
 </notes>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
-<elapsed>0</elapsed>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Word-clash</desc>
@@ -238,9 +238,9 @@ Words can't be prepositions and verbs at the same time. See gestx()
 New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
 </notes>
 <priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>0</elapsed>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiclass word problem 1: VERB &amp; DIRECTION</desc>
@@ -249,11 +249,11 @@ The VERBDIR problem (check regression test verbdir), using the same word as both
 
 This does not work since the first word in the player input must indicate which type of command it is.
 
-Document this and make the message and error?</notes>
+Document this and make the message an error? Yes.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -263,52 +263,34 @@ Document this and make the message and error?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiclass word problem 3: PREPOSITION &amp; VERB</desc>
+<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
+Words can't be prepositions and verbs at the same time. See gestx()
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
 <task>
 <desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should not be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
 <task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes>Currently the checks are run for all alternatives.
-
-Verify what this would mean in a practical example.
-
-I think only checks for matching alternatives would be natural.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
+<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -335,8 +317,26 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
-<notes/>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
+
+Verify what this would mean in a practical example.
+
+I think only checks for matching alternatives would be natural.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -395,8 +395,8 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
+<origest>23</origest>
+<currest>23</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -408,6 +408,17 @@ Would "There is a actor here." be a better default?</notes>
      Description Say y.
   End The x.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

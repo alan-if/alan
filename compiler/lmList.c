@@ -119,11 +119,12 @@ static lmMsgs msg[] = {
     { "220   ", "Multiple definition of verb \'%1\' in this context." },
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
     { "222   ", "Identifier \'%1\' in class restriction is not a parameter." },
-    { "223   ", "This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
+    { "223   ", "This Verb body might be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
     { "224   ", "Multiple use of %1 in filter list for %2." },
     { "225   ", "The %1 aggregate will be applied to every instance (including locations, entities and instances of their subclasses). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
     { "226   ", "Attributes can not be used for filtering applied to all instances. Filter out instances of a particular class by adding a \'Isa <class>\' filter." },
     { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
+    { "228   ", "Check not allowed in Description for Script." },
     { "230   ", "No syntax defined for this global verb, automatically used \'%1\'." },
     { "231   ", "No syntax defined for this verb, automatically used \'%1 (%2) Where %2 Isa %2.\'" },
     { "232   ", "Default syntax for this verb restricted the parameter to class \'location\', which is probably not what you wanted. Suggest you add an explicit syntax instead." },
@@ -227,7 +228,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 147}
+    {0, 148}
 };
 static lmMessages currMsect = (lmMessages)0;
 

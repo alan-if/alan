@@ -39,6 +39,7 @@
 #include "ext_x.h"
 #include "id_x.h"
 #include "ins_x.h"
+#include "description_x.h"
 #include "initialize_x.h"
 #include "resource_x.h"
 #include "lst_x.h"
@@ -147,6 +148,7 @@ typedef struct pmGrammar {
     List *descriptionDoes;
     List *descriptionChecks;
     Srcp descriptionCheckSrcp;
+    Description *description;
     Srcp definiteSrcp;
     Bool definiteIsForm;
     List *definite;

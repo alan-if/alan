@@ -13,7 +13,7 @@
 
 /* DATA */
 
-AcdHdr acdHeader;
+ACodeHeader acodeHeader;
 
 
 /* FUNCTIONS */

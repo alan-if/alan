@@ -25,7 +25,7 @@ extern void symbolizeContainer(Container *cnt);
 extern void verifyContainer(What *wht, Context *context, char construct[]);
 extern void analyzeContainer(Container *cnt, Context *context);
 extern void numberContainers(void);
-extern Aaddr generateContainers(AcdHdr *header);
+extern Aaddr generateContainers(ACodeHeader *header);
 extern void dumpContainer(Container *container);
 
 #endif

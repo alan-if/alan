@@ -20,7 +20,7 @@ static void testCopyAttributes() {
   memory = allocate(6*sizeof(AttributeEntry));
   a = (AttributeEntry *)&memory[1];
 
-  header = allocate(sizeof(AcdHdr));
+  header = allocate(sizeof(ACodeHeader));
   header->instanceMax = 2;
   admin = allocate(3*sizeof(AdminEntry));
   instance = allocate(3*sizeof(InstanceEntry));

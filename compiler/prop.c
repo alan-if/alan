@@ -21,6 +21,7 @@
 #include "cnt_x.h"
 #include "ext_x.h"
 #include "id_x.h"
+#include "description_x.h"
 #include "initialize_x.h"
 #include "lst_x.h"
 #include "nam_x.h"
@@ -46,8 +47,7 @@ Properties *newProps(Where *whr, List *names,
 		     Srcp pronounsSrcp, List *pronouns,
 		     List *attributes, Initialize *init,
 		     Container *container,
-		     Srcp descriptionCheckSrcp, List *descriptionChecks,
-		     Srcp descriptionSrcp, List *description,
+		     Description *description,
 		     Srcp enteredSrcp, List *enteredStatements,
 		     Srcp mentionedSrcp, List *mentioned,
 		     Srcp definiteSrcp, List *definite, Bool definiteIsForm,
@@ -70,10 +70,7 @@ Properties *newProps(Where *whr, List *names,
 
   new->initialize = init;
   new->container = container;
-  new->descriptionCheckSrcp = descriptionCheckSrcp;
-  new->descriptionChecks = descriptionChecks;
-  new->descriptionSrcp = descriptionSrcp;
-  new->descriptionStatements = description;
+  new->description = description;
   new->enteredStatements = enteredStatements;
   new->enteredSrcp = enteredSrcp;
   new->mentioned = mentioned;
@@ -197,8 +194,7 @@ void analyzeProps(Properties *props, Context *context)
 
   /* Don't analyze attributes since those are analyzed already */
   analyzeInitialize(props->initialize, context);
-  analyzeChecks(props->descriptionChecks, context);
-  analyzeStatements(props->descriptionStatements, context);
+  analyzeDescription(props->description, context);
   analyzeStatements(props->enteredStatements, context);
   analyzeMentioned(props, context);
   analyzeStatements(props->mentioned, context);
@@ -253,14 +249,7 @@ void analyzeProps(Properties *props, Context *context)
 void generateCommonPropertiesData(Properties *props)
 {
   generateInitialize(props->initialize);
-
-  props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
-
-  if (props->descriptionStatements != NULL) {
-    props->descriptionAddress = nextEmitAddress();
-    generateStatements(props->descriptionStatements);
-    emit0(I_RETURN);
-  }
+  generateDescription(props->description);
 
   if (props->enteredStatements != NULL) {
     props->enteredAddress = nextEmitAddress();
@@ -321,8 +310,8 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
     entry->initialize = props->initialize->stmsAddress;
   else
     entry->initialize = 0;
-  entry->checks = props->descriptionChecksAddress;
-  entry->description = props->descriptionAddress;
+  entry->checks = checksAddressOf(props->description);
+  entry->description = doesAddressOf(props->description);
   entry->entered = props->enteredAddress;
   if (props->container != NULL)
     entry->container = props->container->code;
@@ -351,10 +340,7 @@ void dumpProps(Properties *props)
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();
-  put("descriptionChecks: "); dumpList(props->descriptionChecks, CHECK_LIST); nl();
-  put("descriptionChecksAddress: "); dumpAddress(props->descriptionChecksAddress); nl();
-  put("description: "); dumpList(props->descriptionStatements, STATEMENT_LIST); nl();
-  put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
+  put("description: "); dumpDescription(props->description); nl();
   put("definite: "); dumpList(props->definite, STATEMENT_LIST); nl();
   put("definiteAddress: "); dumpAddress(props->definiteAddress); nl();
   put("indefinite: "); dumpList(props->indefinite, STATEMENT_LIST); nl();

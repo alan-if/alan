@@ -329,11 +329,11 @@ typedef struct SyntaxEntry {	/* SYNTAX TABLE */
   Aaddr elms;			/* Address to element tables */
 } SyntaxEntry;
 
-typedef struct ParameterEntry {	/* PARAMETER MAPPING TABLE */
+typedef struct ParameterMapEntry {	/* PARAMETER MAPPING TABLE */
   Aint syntaxNumber;
   Aaddr parameterMapping;
   Aint verbCode;
-} ParameterEntry;
+} ParameterMapEntry;
 
 typedef struct EventEntry {	/* EVENT TABLE */
   Aaddr stringAddress;		/* Address to name string */
@@ -385,7 +385,7 @@ typedef struct DictionaryEntry { /* Dictionary */
 
 /* AMACHINE Header */
 
-typedef struct AcdHdr {
+typedef struct ACodeHeader {
 /* Important info */
   char tag[4];			/* "ALAN" */
   char vers[4];			/* Version of compiler */
@@ -418,7 +418,7 @@ typedef struct AcdHdr {
   Aaddr eventTableAddress;
   Aword eventMax;
   Aaddr syntaxTableAddress;
-  Aaddr parameterTableAddress;
+  Aaddr parameterMapAddress;
   Aword syntaxMax;
   Aaddr dictionary;
   Aaddr verbTableAddress;
@@ -437,7 +437,7 @@ typedef struct AcdHdr {
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
   Aword txtcrc;			/* Checksum for text data file */
-} AcdHdr;
+} ACodeHeader;
 
 /* Error message numbers */
 typedef enum MsgKind {

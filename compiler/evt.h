@@ -35,7 +35,7 @@ typedef struct Event {		/* EVENT */
 
 extern Event *newevt(Srcp *srcp, IdNode *id, List *stms);
 extern void analyzeEvents(void);
-extern Aaddr generateEvents(AcdHdr *header);
+extern Aaddr generateEvents(ACodeHeader *header);
 extern void dumpEvent(Event *evt);
 
 

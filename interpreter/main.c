@@ -48,8 +48,8 @@
 
 /* The Amachine memory */
 Aword *memory = NULL;
-static AcdHdr dummyHeader;	/* Dummy to use until memory allocated */
-AcdHdr *header = &dummyHeader;
+static ACodeHeader dummyHeader;	/* Dummy to use until memory allocated */
+ACodeHeader *header = &dummyHeader;
 
 int memTop = 0;			/* Top of load memory */
 
@@ -935,7 +935,7 @@ static char logfnm[256] = "";
 
 
 /*----------------------------------------------------------------------*/
-static void checkVersion(AcdHdr *header)
+static void checkVersion(ACodeHeader *header)
 {
   char vers[4];
   char state[2];
@@ -993,7 +993,7 @@ static void checkVersion(AcdHdr *header)
 /*----------------------------------------------------------------------*/
 static void load(void)
 {
-  AcdHdr tmphdr;
+  ACodeHeader tmphdr;
   Aword crc = 0;
   int i;
   char err[100];
@@ -1014,7 +1014,7 @@ static void load(void)
   if (memory == NULL) {
     memory = allocate(tmphdr.size*sizeof(Aword));
   }
-  header = (AcdHdr *) pointerTo(0);
+  header = (ACodeHeader *) pointerTo(0);
 
   memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
   if (memTop != tmphdr.size)

@@ -21,7 +21,7 @@ extern int totalScore;
 /* Functions: */
 
 extern void prepareScores(void);
-extern void generateScores(AcdHdr *header);
+extern void generateScores(ACodeHeader *header);
 
 
 #endif

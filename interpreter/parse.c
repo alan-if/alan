@@ -823,12 +823,12 @@ static Aint mapSyntax(Aint syntaxNumber)
   /* 
      Find the syntax map, use the verb code from it and remap the parameters
    */
-  ParameterEntry *parameterMapTable;
+  ParameterMapEntry *parameterMapTable;
   Aword *parameterMap;
   Aint parameterIndex;
   ParamEntry originalParameters[MAXPARAMS];
 
-  for (parameterMapTable = pointerTo(header->parameterTableAddress); !endOfTable(parameterMapTable); parameterMapTable++)
+  for (parameterMapTable = pointerTo(header->parameterMapAddress); !endOfTable(parameterMapTable); parameterMapTable++)
     if (parameterMapTable->syntaxNumber == syntaxNumber)
       break;
   if (endOfTable(parameterMapTable)) syserr("Could not find syntax in mapping table.");

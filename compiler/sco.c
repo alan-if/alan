@@ -35,7 +35,7 @@ void prepareScores(void)
 
 
 /*======================================================================*/
-void generateScores(AcdHdr *header)
+void generateScores(ACodeHeader *header)
 {
   int i;
 

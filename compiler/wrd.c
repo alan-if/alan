@@ -243,12 +243,14 @@ static void analyzeWord(Word *wrd) {
     lmLog(NULL, 333, sevERR, wrd->string);
 
   else if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
-    /* Directions and verbs don't work as expected */
-    lmLogv(NULL, 320, sevWAR, wrd->string, "direction", "verb", NULL);
+    /* Directions and verbs won't work */
+    lmLogv(NULL, 320, sevERR, wrd->string, "direction", "verb", NULL);
 
+#ifdef ADJVERB_PROBLEM
   else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
     /* Adjectives and verbs don't work as expected */
     lmLogv(NULL, 320, sevWAR, wrd->string, "adjective", "verb", NULL);
+#endif
 }
 
 

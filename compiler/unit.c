@@ -54,6 +54,7 @@ extern int readEcode();
 extern lmSev readSev();
 
 
+#include "descriptionTest.c"
 #include "lstTest.c"
 #include "resourceTest.c"
 #include "claTest.c"
@@ -78,6 +79,7 @@ int main()
 {
   lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
+  registerDescriptionUnitTests();
   registerLstUnitTests();
   registerPropUnitTests();
   registerResourceUnitTests();
@@ -121,29 +123,29 @@ static void reverse(Aword *w)
   *w = reversed(*w);
 }
 
-static void reverseHdr(AcdHdr *hdr)
+static void reverseHdr(ACodeHeader *header)
 {
   int i;
 
   /* Reverse all words in the header except the first (version marking) */
-  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
-    reverse(&((Aword *)hdr)[i]);
+  for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
+    reverse(&((Aword *)header)[i]);
 }
 
 static void loadACD(char fileName[])
 {
-  AcdHdr tmphdr;
+  ACodeHeader temporaryHeader;
   int readSize = 0;
   FILE *acdFile = fopen(fileName, "rb");
 
-  readSize = fread(&tmphdr, 1, sizeof(tmphdr), acdFile);
+  readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
 
   if (littleEndian())
-    reverseHdr(&tmphdr);
+    reverseHdr(&temporaryHeader);
 
-  memory = calloc(4*tmphdr.size, 1);
+  memory = calloc(4*temporaryHeader.size, 1);
 
   rewind(acdFile);
-  fread(memory, sizeof(Aword), tmphdr.size, acdFile);
+  fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
 
 }

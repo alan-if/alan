@@ -19,7 +19,7 @@
 
 #ifdef _PROTOTYPES_
 
-extern void reverseHdr(AcdHdr *hdr);
+extern void reverseHdr(ACodeHeader *hdr);
 extern void reverseACD(void);
 extern void reverse(Aword *word);
 extern Aword reversed(Aword word);

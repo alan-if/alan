@@ -18,6 +18,7 @@
 #include "vrb_x.h"
 #include "ext_x.h"
 #include "dump_x.h"
+#include "description_x.h"
 #include "context_x.h"
 
 #include "scr.h"
@@ -27,7 +28,7 @@
 
 
 /*======================================================================*/
-AddNode *newAdd(Srcp *srcp,
+AddNode *newAdd(Srcp srcp,
 		IdNode *id,
 		IdNode *parent,
 		Properties *props)
@@ -38,7 +39,7 @@ AddNode *newAdd(Srcp *srcp,
 
   new = NEW(AddNode);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   if (props)
     new->props = props;
   else
@@ -155,14 +156,22 @@ static void addPronouns(AddNode *add, Symbol *original)
 /*----------------------------------------------------------------------*/
 static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 {
-  Properties *props = add->props;
+  Properties *addedProps = add->props;
+  Properties *originalProps = originalSymbol->fields.entity.props;
 
-  if (props->descriptionChecks != NULL) {
-    if (originalSymbol->fields.entity.props->descriptionChecks != NULL)
-      lmLogv(&props->descriptionCheckSrcp, 241, sevERR, "Description Check",
+  if (checksOf(addedProps->description) != NULL) {
+    if (checksOf(originalProps->description) != NULL)
+      lmLogv(&addedProps->description->checkSrcp, 241, sevERR, "Description Check",
 	     originalSymbol->string, NULL);
-    else
-      originalSymbol->fields.entity.props->descriptionChecks = props->descriptionChecks;
+    else {
+      if (originalProps->description == NULL)
+	originalProps->description = newDescription(addedProps->description->checkSrcp,
+						    addedProps->description->checks, nulsrcp, NULL);
+      else {
+	originalProps->description->checkSrcp = addedProps->description->checkSrcp;
+	originalProps->description->checks = addedProps->description->checks;
+      }
+    }
   }
 }
 
@@ -170,15 +179,23 @@ static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 /*----------------------------------------------------------------------*/
 static void addDescription(AddNode *add, Symbol *originalSymbol)
 {
-  Properties *props = add->props;
+  Properties *addedProps = add->props;
+  Properties *originalProps = originalSymbol->fields.entity.props;
 
-  if (props->descriptionStatements != NULL) {
-    if (originalSymbol->fields.entity.props->descriptionStatements != NULL)
-      lmLogv(&props->descriptionSrcp, 241, sevERR, "Description",
+  if (doesOf(addedProps->description) != NULL) {
+    if (doesOf(originalProps->description) != NULL)
+      lmLogv(&addedProps->description->doesSrcp, 241, sevERR, "Description",
 	     originalSymbol->string, NULL);
-    else
-      originalSymbol->fields.entity.props->descriptionStatements = props->descriptionStatements;
-
+    else {
+      if (originalProps->description == NULL)
+	originalProps->description = newDescription(nulsrcp, NULL,
+						    addedProps->description->doesSrcp,
+						    addedProps->description->does);
+      else {
+	originalProps->description->doesSrcp = addedProps->description->doesSrcp;
+	originalProps->description->does = addedProps->description->does;
+      }
+    }
   }
 }
 
@@ -317,8 +334,8 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
       lmLogv(&add->props->initialize->srcp, 424, sevERR, "initialize", originalSymbol->string, NULL);
     propsCount++;
 
-    if (add->props->descriptionChecks || add->props->descriptionStatements)
-      lmLogv(&add->props->descriptionSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
+    if (checksOf(add->props->description) != NULL || doesOf(add->props->description) != NULL)
+      lmLogv(&add->props->description->doesSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
     propsCount+=2;
 
     if (add->props->enteredStatements)

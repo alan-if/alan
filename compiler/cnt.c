@@ -245,7 +245,7 @@ static void generateContainerEntry(Container *cnt)
 
 
 /*======================================================================*/
-Aaddr generateContainers(AcdHdr *header)
+Aaddr generateContainers(ACodeHeader *header)
 {
   List *lst;			/* The list of containers */
   Aaddr adr;

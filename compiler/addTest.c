@@ -7,7 +7,7 @@
 \*======================================================================*/
 
 #include "add.c"
-
+#include "cla_x.h"
 #include "sym.h"
 
 static void testMultipleAddAttribute()
@@ -20,7 +20,7 @@ static void testMultipleAddAttribute()
 						concat(NULL, theFirstAttribute,
 						       ATTRIBUTE_LIST), 0,
 						NULL,
-						nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
+						NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 						NULL, FALSE, nulsrcp,
 						NULL, FALSE,
 						NULL, NULL, NULL);
@@ -28,12 +28,12 @@ static void testMultipleAddAttribute()
 						 concat(NULL, theSecondAttribute,
 							ATTRIBUTE_LIST), 0,
 						 NULL,
-						 nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
+						 NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 						 NULL, FALSE, nulsrcp,
 						 NULL, FALSE,
 						 NULL, NULL, NULL);
-  AddNode *add1 = newAdd(&nulsrcp, theId, NULL, theFirstAttributeProps);
-  AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
+  AddNode *add1 = newAdd(nulsrcp, theId, NULL, theFirstAttributeProps);
+  AddNode *add2 = newAdd(nulsrcp, theId, NULL, theSecondAttributeProps);
   Symbol *aSymbol;
 
   theClass = newClass(&nulsrcp, theId, NULL, NULL);
@@ -46,11 +46,67 @@ static void testMultipleAddAttribute()
   
   addAttributes(add2, aSymbol);
   ASSERT(length(aSymbol->fields.entity.props->attributes) == 2);
-  
+}
+
+
+void testAddDescription() {
+  Description *addedDescription = newDescription(nulsrcp, NULL, nulsrcp, NULL);
+  Properties *addProps = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL,
+				  /*description*/ NULL,
+				  nulsrcp, NULL,
+				  nulsrcp, NULL,
+				  nulsrcp, NULL, FALSE,
+				  nulsrcp, NULL, FALSE,
+				  NULL, NULL, NULL);
+  AddNode *add = newAdd(nulsrcp, NULL, NULL, addProps);
+
+  Properties *originalProps = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL,
+				  /*description*/ NULL,
+				  nulsrcp, NULL,
+				  nulsrcp, NULL,
+				  nulsrcp, NULL, FALSE,
+				  nulsrcp, NULL, FALSE,
+				  NULL, NULL, NULL);
+  Symbol *symbol = newClassSymbol(newId(nulsrcp, "testAddId"), originalProps, NULL);
+  List list;			/* Dummy list */
+
+  /* Start by testing when the target symbols props are NULL */
+  /* Added description is NULL */
+  addDescriptionCheck(add, symbol);
+  ASSERT(symbol->fields.entity.props->description == NULL);
+
+  /* Added description exists but empty */
+  addProps->description = addedDescription;
+  addDescriptionCheck(add, symbol);
+  ASSERT(symbol->fields.entity.props->description == NULL);
+
+  addedDescription->checks = &list;
+  addDescriptionCheck(add, symbol);
+  ASSERT(symbol->fields.entity.props->description->checks == &list);
+
+
+  /* Now test descriptionDoes */
+  /* No description */
+  originalProps->description = NULL; /* Reset to empty */
+  addProps->description = NULL; /* Reset to empty */
+  addDescription(add, symbol);
+  ASSERT(symbol->fields.entity.props->description == NULL);
+
+  /* Empty description */
+  addProps->description = addedDescription;
+  addDescription(add, symbol);
+  ASSERT(symbol->fields.entity.props->description == NULL);
+
+  /* Description with does */
+  originalProps->description = NULL; /* Reset to empty */
+  addedDescription->does = &list;
+  addDescription(add, symbol);
+  ASSERT(symbol->fields.entity.props->description->does == &list);
 }
 
 void registerAddUnitTests()
 {
   registerUnitTest(testMultipleAddAttribute);
+  registerUnitTest(testAddDescription);
 }
 

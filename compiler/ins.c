@@ -209,7 +209,7 @@ static Aaddr generateInstanceTable(void)
 
 
 /*======================================================================*/
-void generateInstances(AcdHdr *header)
+void generateInstances(ACodeHeader *header)
 {
   List *l;
 

@@ -16,7 +16,7 @@
 
 /* METHODS: */
 
-extern AddNode *newAdd(Srcp *srcp,
+extern AddNode *newAdd(Srcp srcp,
 		       IdNode *id,
 		       IdNode *parent,
 		       Properties *props);

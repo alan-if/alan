@@ -21,7 +21,7 @@ extern int conjWord;		/* First conjunction in dictionary */
 
 /* The Amachine memory */
 extern Aword *memory;
-extern AcdHdr *header;
+extern ACodeHeader *header;
 
 /* Event queue */
 extern int eventQueueSize;

@@ -58,7 +58,7 @@ static Aword forInstructionCode[] = {4, /* Dummy to not execute at zero */
 
 static void testForInstructions()
 {
-  AcdHdr testForHeader;
+  ACodeHeader testForHeader;
 
   testForHeader.instanceMax = 2;
   header = &testForHeader;
@@ -82,7 +82,7 @@ static Aword testAggregateInstructionCode[] = {0,
 
 static void testAggregateInstructions(void)
 {
-  AcdHdr agrHeader;
+  ACodeHeader agrHeader;
 
   memory = testAggregateInstructionCode;
   pc = 5;

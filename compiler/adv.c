@@ -199,59 +199,59 @@ void generateAdventure(char acodeFileName[],
     return;
   
   if (verbose) printf("\n\tDictionary: ");
-  acdHeader.dictionary = generateAllWords();
+  acodeHeader.dictionary = generateAllWords();
 
   if (verbose) printf("\n\tSyntaxTable: ");
-  acdHeader.syntaxTableAddress = generateSyntaxTable();
+  acodeHeader.syntaxTableAddress = generateSyntaxTable();
 
-  if (verbose) printf("\n\Parameter Mapping: ");
-  acdHeader.parameterTableAddress = generateParameterMappingTable();
-  acdHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
+  if (verbose) printf("\n\tParameter Mapping: ");
+  acodeHeader.parameterMapAddress = generateParameterMappingTable();
+  acodeHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.verbTableAddress = generateVerbs(adv.vrbs);
+  acodeHeader.verbTableAddress = generateVerbs(adv.vrbs);
 
   if (verbose) printf("\n\tClasses: ");
-  acdHeader.classTableAddress = generateClasses();
+  acodeHeader.classTableAddress = generateClasses();
 
   if (verbose) printf("\n\tInstances: ");
-  generateInstances(&acdHeader);
+  generateInstances(&acodeHeader);
 
   if (verbose) printf("\n\tContainers: ");
-  acdHeader.containerTableAddress = generateContainers(&acdHeader);
+  acodeHeader.containerTableAddress = generateContainers(&acodeHeader);
 
   if (verbose) printf("\n\tScripts: ");
-  acdHeader.scriptTableAddress = generateScripts(&acdHeader);
+  acodeHeader.scriptTableAddress = generateScripts(&acodeHeader);
 
   if (verbose) printf("\n\tEvents: ");
-  acdHeader.eventTableAddress = generateEvents(&acdHeader);
+  acodeHeader.eventTableAddress = generateEvents(&acodeHeader);
 
   if (verbose) printf("\n\tRules: ");
-  acdHeader.ruleTableAddress = generateRules();
+  acodeHeader.ruleTableAddress = generateRules();
 
-  generateScores(&acdHeader);
+  generateScores(&acodeHeader);
 
   if (verbose) printf("\n\tMessages: ");
-  acdHeader.messageTableAddress = gemsgs();
+  acodeHeader.messageTableAddress = gemsgs();
 
   if (verbose) printf("\n\tCharacter Encoding: ");
-  acdHeader.freq = gefreq();	/* Character frequencies */
+  acodeHeader.freq = gefreq();	/* Character frequencies */
 
 
   /* Options */
-  generateOptions(&acdHeader);
+  generateOptions(&acodeHeader);
 
   /* Start statements */
-  acdHeader.start = nextEmitAddress();	/* Save ACODE address to start */
+  acodeHeader.start = nextEmitAddress();	/* Save ACODE address to start */
   generateStatements(adv.stms);
   emit0(I_RETURN);
 
   /* String & Set attribute initialisation tables */
-  acdHeader.stringInitTable = generateStringInit();
-  acdHeader.setInitTable = generateSetInit();
+  acodeHeader.stringInitTable = generateStringInit();
+  acodeHeader.setInitTable = generateSetInit();
 
   /* Source filename table */
-  acdHeader.sourceFileTable = generateSourceFileTable();
+  acodeHeader.sourceFileTable = generateSourceFileTable();
 
   /* All resource files found so package them */
   generateResources(adv.resources);
@@ -384,7 +384,7 @@ void summary(void)
   (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
   lmLiPrint(str);
   (void)sprintf(str,   "        Acode:                  %6ld words (%ld bytes)",
-		acdHeader.size, acdHeader.size*sizeof(Aword));
+		acodeHeader.size, acodeHeader.size*sizeof(Aword));
   lmLiPrint(str);
   (void)sprintf(str,   "        Text data:              %6d bytes", txtlen);
   lmLiPrint(str);

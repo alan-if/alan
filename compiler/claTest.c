@@ -39,7 +39,7 @@ void testGenerateClasses()
   Srcp srcp = {12,13,14};
   Class *cla;
   Aaddr addr;
-  int firstAdr = AwordSizeOf(AcdHdr);
+  int firstAdr = AwordSizeOf(ACodeHeader);
   static int NOOFPREDEFEINEDCLASSES = 8;
   static int classSize = AwordSizeOf(ClassEntry);
   int baseAddress = firstAdr + NOOFPREDEFEINEDCLASSES*classSize;
@@ -66,7 +66,7 @@ void testGenerateEmptyClassEntry()
 {
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL,
 			       NULL, 0, NULL,
-			       nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
+			       NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,
 			       NULL, NULL, NULL);

@@ -445,7 +445,7 @@ Aaddr generateParameterMappingTable(void)
 {
   List *list;
   Aaddr parameterMappingTableAddress;
-  ParameterEntry entry;
+  ParameterMapEntry entry;
 
   TRAVERSE(list, adv.stxs)
     generateParameterMapping(list->element.stx);

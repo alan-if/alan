@@ -32,8 +32,7 @@ void testContentOfSymbol() {
 
   IdNode *id = newId(nulsrcp, "id");
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, container,
-			       nulsrcp, NULL,
-			       nulsrcp, NULL,
+			       NULL,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL, FALSE,
@@ -403,13 +402,12 @@ static void testInheritOpaqueAttribute() {
 					  NULL, NULL, NULL, NULL);
   Container *pCont = newContainer(pBody);
   Properties *pProps = newProps(NULL, NULL, nulsrcp,
-			       NULL, NULL, 0, pCont, nulsrcp,
-			       NULL, nulsrcp,
-			       NULL, nulsrcp,
-			       NULL, nulsrcp,
-			       NULL, nulsrcp,
-			       NULL, FALSE, nulsrcp,
-			       NULL, FALSE, NULL, NULL, NULL);
+				NULL, NULL, 0, pCont,
+				NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, FALSE, nulsrcp,
+				NULL, FALSE, NULL, NULL, NULL);
   Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
 
   /* Setup a child */
@@ -418,8 +416,7 @@ static void testInheritOpaqueAttribute() {
 						      FALSE), ATTRIBUTE_LIST);
 						      
   Properties *cProps = newProps(NULL, NULL, nulsrcp,
-				NULL, attributes, 0, NULL, nulsrcp,
-				NULL, nulsrcp,
+				NULL, attributes, 0, NULL,
 				NULL, nulsrcp,
 				NULL, nulsrcp,
 				NULL, nulsrcp,

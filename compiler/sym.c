@@ -195,6 +195,23 @@ static Symbol *newParameterSymbol(char *string, Element *element)
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
+  switch (overridingKind) {
+  case LOCAL_SYMBOL:
+    switch (originalKind) {
+    case DIRECTION_SYMBOL:
+    case VERB_SYMBOL:
+      return TRUE;
+    default:
+      return FALSE;
+    }
+  default:
+    return FALSE;
+  }
+}
+
+
 /*======================================================================*/
 Symbol *newSymbol(IdNode *id, SymbolKind kind)
 {
@@ -204,7 +221,7 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
     return NULL;
   
   new = lookup(id->string);
-  if (new != NULL)
+  if (new != NULL && !mayOverride(kind, new->kind))
     redefined(id, new);
 
   new = NEW(Symbol);

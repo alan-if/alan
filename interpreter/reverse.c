@@ -346,12 +346,12 @@ static void reverseSyntaxTable(Aword adr)
 
 static void reverseParameterTable(Aword adr)
 {
-  ParameterEntry *e = (ParameterEntry *) &memory[adr];
+  ParameterMapEntry *e = (ParameterMapEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!endOfTable(e)) {
-    reverseTable(adr, sizeof(ParameterEntry));
+    reverseTable(adr, sizeof(ParameterMapEntry));
     while (!endOfTable(e)) {
       reverseTable(e->parameterMapping, sizeof(Aword));
       e++;
@@ -446,12 +446,12 @@ static void reverseSetInitTable(Aaddr adr)
 
 
 /*----------------------------------------------------------------------*/
-void reverseHdr(AcdHdr *hdr)
+void reverseHdr(ACodeHeader *hdr)
 {
   int i;
 
   /* Reverse all words in the header except the first (version marking) */
-  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+  for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
 
@@ -469,7 +469,7 @@ void reverseACD(void)
   reverseHdr(header);
   reverseDictionary(header->dictionary);
   reverseSyntaxTable(header->syntaxTableAddress);
-  reverseParameterTable(header->parameterTableAddress);
+  reverseParameterTable(header->parameterMapAddress);
   reverseVerbs(header->verbTableAddress);
   reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);

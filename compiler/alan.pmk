@@ -42,6 +42,7 @@
 #include "ext_x.h"
 #include "id_x.h"
 #include "ins_x.h"
+#include "description_x.h"
 #include "initialize_x.h"
 #include "resource_x.h"
 #include "lst_x.h"
@@ -110,6 +111,7 @@ static int val(char str[])
   definite %% List *%1%%,		-- of Statement: article-clause,
   definiteIsForm %% Bool %1%%,
   definiteSrcp %% Srcp %1%%,
+  description %% Description *%1%%,
   descriptionCheckSrcp %% Srcp %1%%,
   descriptionChecks %% List *%1%%,	-- of Checks: descriptionCheck-clause,
   descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
@@ -718,10 +720,7 @@ static int val(char str[])
 					%<properties>.atrs,
 					%<properties>.initialize,
 					%<properties>.cnt,
-					%<properties>.descriptionCheckSrcp,
-					%<properties>.descriptionChecks,
-					%<properties>.descriptionSrcp,
-					%<properties>.descriptionDoes,
+					%<properties>.description,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.mentionedSrcp,
@@ -751,7 +750,7 @@ static int val(char str[])
 <addition>			-- RETURNS: cla
     = 'add' 'to' ['every'] ID <optional_heritage> <properties> <add_tail>
     %%
-	%<addition>.add = newAdd(`&%'add'.srcp,
+	%<addition>.add = newAdd(%'add'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
 				newProps(%<properties>.whr,
@@ -761,10 +760,7 @@ static int val(char str[])
 					%<properties>.atrs,
 					%<properties>.initialize,
 					%<properties>.cnt,
-					%<properties>.descriptionCheckSrcp,
-					%<properties>.descriptionChecks,
-					%<properties>.descriptionSrcp,
-					%<properties>.descriptionDoes,
+					%<properties>.description,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.mentionedSrcp,
@@ -804,10 +800,7 @@ static int val(char str[])
 					%<properties>.atrs,
 					%<properties>.initialize,
 					%<properties>.cnt,
-					%<properties>.descriptionCheckSrcp,
-					%<properties>.descriptionChecks,
-					%<properties>.descriptionSrcp,
-					%<properties>.descriptionDoes,
+					%<properties>.description,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.mentionedSrcp,
@@ -895,24 +888,30 @@ static int val(char str[])
 	        %<properties>.cnt = %<property>.cnt;
         }
 
-	if (%<property>.descriptionChecks != NULL) {
-            if(%<properties>.descriptionChecks != NULL)
+	if (%<property>.description != NULL) {
+	  if (%<property>.description->checks != NULL) {
+            if(%<properties>.description != NULL && %<properties>.description->checks != NULL)
                 /* DESCRIPTION CHECK already declared */
-	        lmLogv(`&%<property>.srcp2, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
+	        lmLogv(`&%<property>.description->checkSrcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
-	        %<properties>.descriptionChecks = %<property>.descriptionChecks;
-		%<properties>.descriptionCheckSrcp = %<property>.srcp2;
+		if (%<properties>.description != NULL)
+		  %<properties>.description->checks = %<property>.description->checks;
 	    }
-        }
+          }
 
-	if (%<property>.descriptionDoes != NULL) {
-            if (%<properties>.descriptionDoes != NULL)
-	        /* DESCRIPTION CHECK already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	  if (%<property>.description->does != NULL) {
+            if (%<properties>.description != NULL && %<properties>.description->does != NULL)
+	        /* DESCRIPTION DOES already declared */
+	        lmLogv(`&%<property>.description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else 
-	        %<properties>.descriptionDoes = %<property>.descriptionDoes;
-		%<properties>.descriptionSrcp = %<property>.srcp;
-        }
+		if (%<properties>.description != NULL)
+		  %<properties>.description->does = %<property>.description->does;
+          }
+
+	  if (%<properties>.description == NULL)
+	    %<properties>.description = %<property>.description;
+
+	}
 
 	if (%<property>.entered != NULL) {
             if (%<properties>.entered != NULL)
@@ -1014,17 +1013,11 @@ static int val(char str[])
 
     ! <description>
     %%{
-        Srcp srcp2 = %<description>.srcp2;
-        List *descriptionChecks = %<description>.chks;
-        Srcp srcp = %<description>.srcp;
-        List *descriptionDoes = %<description>.stms;
+	Description *description = %<description>.description;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 
-	%<property>.srcp2 = srcp2;
-	%<property>.descriptionChecks = descriptionChecks;
-	%<property>.srcp = srcp;
-	%<property>.descriptionDoes = descriptionDoes;
+	%<property>.description = description;
     }%%
 
     ! <entered>
@@ -1158,40 +1151,38 @@ static int val(char str[])
     %%
     ;
 
-<optional_description>	-- RETURNS: chks, stms
+<optional_description>	-- RETURNS: description
     =
     %%
-	%<optional_description>.chks = NULL;
-	%<optional_description>.stms = NULL;
+	%<optional_description>.description = NULL;
     %%
 
     ! <description> 
     %%
-	%<optional_description>.chks = %<description>.chks;
-	%<optional_description>.stms = %<description>.stms;
+	%<optional_description>.description = %<description>.description;
     %%
     ;
 
-<description>		-- RETURNS: chks, stms, srcp, srcp2
+<description>		-- RETURNS: description
     = 'description' <optional_checks> <optional_does>
     %%
 	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL) {
-	  %<description>.chks = NULL;
-	  %<description>.stms = concat(NULL, newStatement(`&%'description'.srcp,
+	  /* Create a NOP-statement */
+	  List *stms = concat(NULL, newStatement(`&%'description'.srcp,
 						NOP_STATEMENT), STATEMENT_LIST);
-          %<description>.srcp = %'description'.srcp;
-          %<description>.srcp2 = nulsrcp;
+	  %<description>.description = newDescription(nulsrcp, NULL, %'description'.srcp, stms);
 	} else {
+	  Srcp checkSrcp, stmSrcp;
 	  if (%<optional_checks>.chks != NULL)
-	    %<description>.srcp2 = %<optional_checks>.srcp;
+	    checkSrcp = %<optional_checks>.srcp;
 	  else
-	    %<description>.srcp2 = nulsrcp;
+	    checkSrcp = nulsrcp;
 	  if (%<optional_does>.stms != NULL)
-	    %<description>.srcp = %<optional_does>.srcp;
+	    stmSrcp = %<optional_does>.srcp;
 	  else
-	    %<description>.srcp = %'description'.srcp;
-	  %<description>.chks = %<optional_checks>.chks;
-	  %<description>.stms = %<optional_does>.stms;
+	    stmSrcp = %'description'.srcp;
+
+	  %<description>.description = newDescription(checkSrcp, %<optional_checks>.chks, stmSrcp, %<optional_does>.stms);
 
 	  if (%<optional_does>.qual != QUAL_DEFAULT)
 	    lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
@@ -1200,9 +1191,8 @@ static int val(char str[])
 
     ! 'description' <statements>
     %%
-	%<description>.stms = %<statements>.stms;
-	%<description>.srcp = %'description'.srcp;
-	%<description>.srcp2 = nulsrcp;
+	%<description>.description = newDescription(nulsrcp, NULL,
+					%'description'.srcp, %<statements>.stms);
     %%
     ;
 
@@ -1483,9 +1473,13 @@ static int val(char str[])
 <script>			-- RETURNS: scr
     = 'script' ID ['.'] <optional_description> <step_list>
     %%
+	if (%<optional_description>.description != NULL &&
+	    %<optional_description>.description->checks != NULL)
+	  lmLog(`&%<optional_description>.description->checkSrcp,
+		228, sevERR, "");
 	%<script>.scr = newScript(`&%'script'.srcp,
 			          %ID.id,
-			          %<optional_description>.stms,
+			          %<optional_description>.description,
 			          %<step_list>.stps);
     %%
     ;

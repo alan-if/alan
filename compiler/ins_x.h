@@ -27,7 +27,7 @@ extern Instance *newInstance(Srcp *srcp,
 extern void symbolizeInstances(void);
 extern void analyzeAllInstanceAttributes();
 extern void analyzeInstances(void);
-extern void generateInstances(AcdHdr *header);
+extern void generateInstances(ACodeHeader *header);
 extern void dumpInstance(Instance *ins);
 
 #endif

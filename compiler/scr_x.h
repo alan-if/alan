@@ -14,6 +14,7 @@
 #include "srcp.h"
 #include "lst.h"
 #include "ins.h"
+#include "description.h"
 #include "context.h"
 
 
@@ -23,10 +24,10 @@
 
 /* FUNCTIONS: */
 
-extern Script *newScript(Srcp *srcp, IdNode *id, List *descr, List *steps);
+extern Script *newScript(Srcp *srcp, IdNode *id, Description *descr, List *steps);
 extern void prepareScripts(List *scripts, IdNode *id);
 extern void analyzeScripts(List *scripts, Context *context);
-extern Aword generateScripts(AcdHdr *header);
+extern Aword generateScripts(ACodeHeader *header);
 extern void dumpScript(Script *script);
 
 #endif

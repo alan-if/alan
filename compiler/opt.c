@@ -205,7 +205,7 @@ void optBool(char *id, Srcp *srcp, int val)
 
 
 /*======================================================================*/
-void generateOptions(AcdHdr *header)
+void generateOptions(ACodeHeader *header)
 {
   header->pageLength = opts[OPTLEN].value;
   header->pageWidth = opts[OPTWIDTH].value;

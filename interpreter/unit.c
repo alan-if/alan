@@ -107,7 +107,7 @@ void registerUnitTest(void (*aCase)())
 
 static void loadACD(char fileName[])
 {
-  AcdHdr tmphdr;
+  ACodeHeader tmphdr;
   FILE *acdFile = fopen(fileName, "r");
 
   fread(&tmphdr, sizeof(tmphdr), 1, acdFile);

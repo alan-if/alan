@@ -93,7 +93,7 @@ static void generateEvent(Event *evt)	/* IN - The event to generate */
 
 
 /*======================================================================*/
-Aaddr generateEvents(AcdHdr *header)
+Aaddr generateEvents(ACodeHeader *header)
 {
   List *lst;	/* Traversal pointer */
   Aaddr adr;

@@ -74,6 +74,6 @@ extern void optBool(char id[],
 
 
 /* Generate all option values */
-extern void generateOptions(AcdHdr *header);
+extern void generateOptions(ACodeHeader *header);
 
 #endif

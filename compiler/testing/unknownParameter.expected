@@ -11,8 +11,8 @@ unknownParameter.alan
    13.      Does
 =====>      1
 
-  *1*   223 W : This Verb body will be executed for every matching parameter in
-                the syntax for 'put_in', depending on the parameter
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'put_in', depending on the parameter
                 restrictions. You might want to use a WHEN clause to specify
                 for which parameter this alternative is to be run.
 

@@ -302,8 +302,8 @@ static void generateClassEntry(Class *cla)
     entry.initialize = cla->props->initialize->stmsAddress;
   else
     entry.initialize = 0;
-  entry.descriptionChecks = cla->props->descriptionChecksAddress;
-  entry.description = cla->props->descriptionAddress;
+  entry.descriptionChecks = checksAddressOf(cla->props->description);
+  entry.description = doesAddressOf(cla->props->description);
   entry.entered = cla->props->enteredAddress;
   entry.definite = cla->props->definiteAddress;
   entry.definiteIsForm = cla->props->definiteIsForm;
@@ -322,15 +322,15 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  acdHeader.entityClassId = entitySymbol->code;
-  acdHeader.thingClassId = thingSymbol->code;
-  acdHeader.objectClassId = objectSymbol->code;
-  acdHeader.locationClassId = locationSymbol->code;
-  acdHeader.actorClassId = actorSymbol->code;
-  acdHeader.literalClassId = literalSymbol->code;
-  acdHeader.integerClassId = integerSymbol->code;
-  acdHeader.stringClassId = stringSymbol->code;
-  acdHeader.classMax = classCount;
+  acodeHeader.entityClassId = entitySymbol->code;
+  acodeHeader.thingClassId = thingSymbol->code;
+  acodeHeader.objectClassId = objectSymbol->code;
+  acodeHeader.locationClassId = locationSymbol->code;
+  acodeHeader.actorClassId = actorSymbol->code;
+  acodeHeader.literalClassId = literalSymbol->code;
+  acodeHeader.integerClassId = integerSymbol->code;
+  acodeHeader.stringClassId = stringSymbol->code;
+  acodeHeader.classMax = classCount;
 
   for (l = allClasses; l; l = l->next)
     generateClassData(l->element.cla);

@@ -38,7 +38,7 @@ extern void *allocate(int len);
 
 
 /* PUBLIC DATA */
-AcdHdr acdHeader;
+ACodeHeader acodeHeader;
 
 
 static FILE *acdfil;
@@ -511,7 +511,7 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
     syserr("Could not open output file '%s' for writing.", acdfnm);
 
   /* Make space for ACODE header */
-  for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++)
+  for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++)
       emit(0L);
 
 #ifdef __mac__
@@ -539,8 +539,8 @@ void terminateEmit()
   if (pc%BLOCKSIZE > 0)
     fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
 
-  acdHeader.acdcrc = crc;	/* Save checksum */
-  acdHeader.size = nextEmitAddress();	/* Save last address as size */
+  acodeHeader.acdcrc = crc;	/* Save checksum */
+  acodeHeader.size = nextEmitAddress();	/* Save last address as size */
 }
 
 
@@ -549,7 +549,7 @@ void emitTextDataToAcodeFile(char dataFileName[])
   int c;
   FILE *dataFile = fopen(dataFileName, READ_MODE);
 
-  acdHeader.stringOffset = ftell(acdfil);
+  acodeHeader.stringOffset = ftell(acdfil);
 
   while ((c = fgetc(dataFile)) != EOF)
     fputc(c, acdfil);
@@ -572,28 +572,28 @@ void emitHeader()
 
   /* Generate header tag "ALAN" */
   if (littleEndian()) {
-    acdHeader.tag[3] = 'A';
-    acdHeader.tag[2] = 'L';
-    acdHeader.tag[1] = 'A';
-    acdHeader.tag[0] = 'N';
+    acodeHeader.tag[3] = 'A';
+    acodeHeader.tag[2] = 'L';
+    acodeHeader.tag[1] = 'A';
+    acodeHeader.tag[0] = 'N';
   } else {
-    acdHeader.tag[0] = 'A';
-    acdHeader.tag[1] = 'L';
-    acdHeader.tag[2] = 'A';
-    acdHeader.tag[3] = 'N';
+    acodeHeader.tag[0] = 'A';
+    acodeHeader.tag[1] = 'L';
+    acodeHeader.tag[2] = 'A';
+    acodeHeader.tag[3] = 'N';
   }
 
   /* Construct version marking */
   if (littleEndian()) {
-    acdHeader.vers[3] = (Aword)alan.version.version;
-    acdHeader.vers[2] = (Aword)alan.version.revision;
-    acdHeader.vers[1] = (Aword)alan.version.correction;
-    acdHeader.vers[0] = (Aword)alan.version.state[0];
+    acodeHeader.vers[3] = (Aword)alan.version.version;
+    acodeHeader.vers[2] = (Aword)alan.version.revision;
+    acodeHeader.vers[1] = (Aword)alan.version.correction;
+    acodeHeader.vers[0] = (Aword)alan.version.state[0];
   } else {
-    acdHeader.vers[0] = (Aword)alan.version.version;
-    acdHeader.vers[1] = (Aword)alan.version.revision;
-    acdHeader.vers[2] = (Aword)alan.version.correction;
-    acdHeader.vers[3] = (Aword)alan.version.state[0];
+    acodeHeader.vers[0] = (Aword)alan.version.version;
+    acodeHeader.vers[1] = (Aword)alan.version.revision;
+    acodeHeader.vers[2] = (Aword)alan.version.correction;
+    acodeHeader.vers[3] = (Aword)alan.version.state[0];
   }
 
   /* The timestamping isn't important, it is only used to give the
@@ -606,12 +606,12 @@ void emitHeader()
   acdHeader.uid = times.tv_usec;
 #else
   ftime(&times);
-  acdHeader.uid = times.millitm;
+  acodeHeader.uid = times.millitm;
 #endif
 
-  hp = (Aword *) &acdHeader;		/* Point to header */
-  for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
+  hp = (Aword *) &acodeHeader;		/* Point to header */
+  for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
     emit(*hp++);
-  fwrite(emitBuffer, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
+  fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush first block out */
   fclose(acdfil);
 }

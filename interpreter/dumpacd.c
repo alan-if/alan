@@ -17,7 +17,7 @@
 
 /* The Amachine memory */
 Aword *memory;
-AcdHdr *header;
+ACodeHeader *header;
 
 static int memTop = 0;			/* Top of load memory */
 
@@ -447,11 +447,11 @@ static void dumpParameterMap(Aword mappingAddress)
 /*----------------------------------------------------------------------*/
 static void dumpParameterMapTable(int level, Aword stxs)
 {
-  ParameterEntry *stx;
+  ParameterMapEntry *stx;
 
   if (stxs == 0) return;
 
-  for (stx = (ParameterEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
+  for (stx = (ParameterMapEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
     printf("syntax map: Syntax #%ld\n", stx->syntaxNumber);
     indent(level+1);
@@ -707,8 +707,8 @@ static void dumpACD(void)
   if (dictionaryFlag) dumpDict(1, header->dictionary);
   printf("SYNTAX TABLE: %s\n", dumpAddress(header->syntaxTableAddress));
   if (syntaxFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
-  printf("PARAMETER MAP TABLE: %s\n", dumpAddress(header->parameterTableAddress));
-  if (parameterMapFlag) dumpParameterMapTable(1, header->parameterTableAddress);
+  printf("PARAMETER MAP TABLE: %s\n", dumpAddress(header->parameterMapAddress));
+  if (parameterMapFlag) dumpParameterMapTable(1, header->parameterMapAddress);
   printf("VERB TABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
   printf("EVENT TABLE: %s\n", dumpAddress(header->eventTableAddress));
@@ -752,7 +752,7 @@ static void dumpACD(void)
 /*----------------------------------------------------------------------*/
 static void load(char acdfnm[])
 {
-  AcdHdr tmphdr;
+  ACodeHeader tmphdr;
   FILE *codfil;
 
   if ((codfil = fopen(acdfnm, "rb")) == NULL) {
@@ -774,7 +774,7 @@ static void load(char acdfnm[])
     reverseHdr(&tmphdr);
 
   memory = malloc(tmphdr.size*sizeof(Aword));
-  header = (AcdHdr *) memory;
+  header = (ACodeHeader *) memory;
 
   memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
   if (memTop != tmphdr.size)

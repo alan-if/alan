@@ -14,6 +14,7 @@
 #include "whr.h"
 #include "cnt.h"
 #include "form.h"
+#include "description.h"
 #include "initialize.h"
 
 #include "../interpreter/acode.h"
@@ -56,12 +57,7 @@ typedef struct Properties {
 
   Initialize *initialize;	/* The Initialize node */
 
-  Srcp descriptionCheckSrcp;
-  List *descriptionChecks;
-  Aword descriptionChecksAddress;/* ACODE address to description checks */
-  Srcp descriptionSrcp;
-  List *descriptionStatements;	/* DESCRIPTION statements */
-  Aword descriptionAddress;	/* ACODE address to DESCRIPTION code */
+  Description *description;	/* The Description */
   Srcp enteredSrcp;
   List *enteredStatements;	/* ENTERED statements */
   Aword enteredAddress;		/* ACODE address to ENTERED code */

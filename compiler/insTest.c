@@ -29,7 +29,7 @@ void testCreateIns()
 void testGenerateEmptyInstanceEntry()
 {
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, NULL,
-			       nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
+			       NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,
 			       NULL, NULL, NULL);
@@ -60,7 +60,7 @@ void testGenerateInstances()
   Aaddr address;
   Aaddr instanceTableAddress;
   InstanceEntry *instanceTable;
-  int firstAdr = sizeof(AcdHdr)/sizeof(Aword);
+  int firstAdr = sizeof(ACodeHeader)/sizeof(Aword);
   int instanceSize = sizeof(InstanceEntry)/sizeof(Aword);
 
   initAdventure();
@@ -84,7 +84,7 @@ void testGenerateInstances()
   /* End should be at the size of the table and one instance */
   address = nextEmitAddress();
   ASSERT(address == instanceTableAddress + instanceSize);
-  acdHeader.size = address;
+  acodeHeader.size = address;
   terminateEmit();
   emitHeader();
 
@@ -94,7 +94,8 @@ void testGenerateInstances()
   ASSERT(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
   ASSERT(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
   ASSERT(convertFromACD(instanceTable->initialAttributes) == ins->props->attributeAddress);
-  ASSERT(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
+  ASSERT(convertFromACD(instanceTable->checks) == checksAddressOf(ins->props->description));
+  ASSERT(convertFromACD(instanceTable->description) == doesAddressOf(ins->props->description));
   ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
   ASSERT(convertFromACD(instanceTable->indefinite) == ins->props->definiteAddress);
   ASSERT(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
@@ -104,7 +105,7 @@ void testGenerateInstances()
 
 void testHero()
 {
-  AcdHdr header;
+  ACodeHeader header;
 
   initAdventure();
   ASSERT(theHero == NULL);
