@@ -197,7 +197,7 @@ typedef struct AcdHdr {
 
 /* Error message numbers */
 typedef enum MsgKind {
-  M_HUH,
+  M_HUH,			/* Obsolete */
   M_WHAT,
   M_WHAT_ALL,
   M_WHAT_IT,
@@ -213,7 +213,7 @@ typedef enum MsgKind {
   M_NO_WAY,
   M_CANT0,
   M_CANT,
-  M_NOTHING,
+  M_NOTHING,			/* Obsolete */
   M_SEEOBJ1,
   M_SEEOBJ2,
   M_SEEOBJ3,
