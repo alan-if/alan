@@ -1,0 +1,20 @@
+Object Attributes
+  Is takeable.
+
+Actor Attributes
+  Is talkable.
+
+Location Attributes
+  Is swimable.
+
+
+The pond Isa location
+End The pond.
+
+The ball Isa object
+End The ball.
+
+The man Isa actor
+End The man.
+
+Start At pond.

@@ -1,0 +1,14 @@
+Every l1 Isa location
+  Exit w to l2.
+End Every l1.
+
+Every l2 Isa location
+  Exit w to l1.
+End Every l2.
+
+Every l12 Isa l1, l2
+  Exit w to l12.
+End Every l12.
+
+Start At l12.
+

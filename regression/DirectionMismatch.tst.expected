@@ -1,0 +1,22 @@
+########## DirectionMismatch ##########
+../compiler/alan DirectionMismatch
+########## /bin/sh  DirectionMismatch.tst ##########
+
+
+DirectionMismatch.alan
+
+   9.   Every l12 Isa l1, l2
+====>         1
+
+  *1*   229 E : Inherits the exit 'w' from different definitions.
+
+  13.   Start At l12.
+====>            1
+
+  *1*   300 E : 'l12' not defined as an instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

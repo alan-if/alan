@@ -1,0 +1,17 @@
+Every l1 Isa location
+  Verb w
+  End Verb.
+End Every l1.
+
+Every l2 Isa location
+  Verb w
+  End Verb.
+End Every l2.
+
+Every l12 Isa l1, l2
+  Verb w
+  End Verb.
+End Every l12.
+
+Start At l12.
+
