@@ -2,6 +2,7 @@
 *.dat
 *.diff
 *.output
+*.local
 CASES
 regression.dos
 regression.lha
