@@ -126,8 +126,12 @@ static void analyzeName(Properties *props)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = analyzeNames(props->names, props->id,
-		 inheritsFrom(props->id->symbol, locationSymbol) ||
-		 inheritsFrom(props->id->symbol, actorSymbol));
+#ifndef CAPITALIZEONLYLOCATIONS
+		       inheritsFrom(props->id->symbol, locationSymbol) ||
+		       inheritsFrom(props->id->symbol, actorSymbol));
+#else
+		 inheritsFrom(props->id->symbol, locationSymbol));
+#endif
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, PRINT_STATEMENT);

@@ -1230,9 +1230,12 @@ void list(Aword cnt)
 {
   int i;
   Aword props;
-  Aword prevobj = 0;
+  Aword previouslyFoundInstance = 0;
   Boolean found = FALSE;
   Boolean multiple = FALSE;
+  Aint previousThis = current.instance;
+
+  current.instance = cnt;
 
   /* Find container table entry */
   props = instance[cnt].container;
@@ -1260,18 +1263,18 @@ void list(Aword cnt)
 	  prmsg(M_CONTAINSCOMMA);
 	}
 	multiple = TRUE;
-	sayarticle(prevobj);
-	say(prevobj);
+	sayarticle(previouslyFoundInstance);
+	say(previouslyFoundInstance);
       }
-      prevobj = i;
+      previouslyFoundInstance = i;
     }
   }
 
   if (found) {
     if (multiple)
       prmsg(M_CONTAINSAND);
-    sayarticle(prevobj);
-    say(prevobj);
+    sayarticle(previouslyFoundInstance);
+    say(previouslyFoundInstance);
     prmsg(M_CONTAINSEND);
   } else {
     if (container[props].empty != 0)
@@ -1288,6 +1291,7 @@ void list(Aword cnt)
     }
   }
   needsp = TRUE;
+  current.instance = previousThis;
 }
 
 

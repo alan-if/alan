@@ -44,14 +44,17 @@ ClaNod *entity,
 
 static List *allClasses = NULL;
 
-
-
 /*======================================================================*/
 void initClasses()
 {
   IdNode *thingId = newId(&nulsrcp, "thing");
   IdNode *entityId = newId(&nulsrcp, "entity");
   IdNode *literalId = newId(&nulsrcp, "literal");
+  IdNode *locationId = newId(&nulsrcp, "location");
+  IdNode *objectId = newId(&nulsrcp, "object");
+  IdNode *actorId = newId(&nulsrcp, "actor");
+  IdNode *integerId = newId(&nulsrcp, "integer");
+  IdNode *stringId = newId(&nulsrcp, "string");
 
   allClasses = NULL;
 
@@ -60,8 +63,7 @@ void initClasses()
   entitySymbol = entity->props->id->symbol;
   entity->props->predefined = TRUE;
 
-  location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
-		      entityId, NULL);
+  location = newClass(&nulsrcp, locationId, entityId, NULL);
   adv.clas = concat(adv.clas, location, CLASS_LIST);
   locationSymbol = location->props->id->symbol;
   location->props->predefined = TRUE;
@@ -71,14 +73,12 @@ void initClasses()
   thingSymbol = thing->props->id->symbol;
   thing->props->predefined = TRUE;
 
-  object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
-		    thingId, NULL);
+  object = newClass(&nulsrcp, objectId, thingId, NULL);
   adv.clas = concat(adv.clas, object, CLASS_LIST);
   objectSymbol = object->props->id->symbol;
   object->props->predefined = TRUE;
 
-  actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
-		   thingId, NULL);
+  actor = newClass(&nulsrcp, actorId, thingId, NULL);
   adv.clas = concat(adv.clas, actor, CLASS_LIST);
   actorSymbol = actor->props->id->symbol;
   actor->props->predefined = TRUE;
@@ -89,13 +89,13 @@ void initClasses()
   literalSymbol->fields.entity.prohibitedSubclassing = TRUE;
   literal->props->predefined = TRUE;
 
-  integer = newClass(&nulsrcp, newId(&nulsrcp, "integer"), literalId, NULL);
+  integer = newClass(&nulsrcp, integerId, literalId, NULL);
   adv.clas = concat(adv.clas, integer, CLASS_LIST);
   integerSymbol = integer->props->id->symbol;
   integerSymbol->fields.entity.prohibitedSubclassing = TRUE;
   integer->props->predefined = TRUE;
 
-  string = newClass(&nulsrcp, newId(&nulsrcp, "string"), literalId, NULL);
+  string = newClass(&nulsrcp, stringId, literalId, NULL);
   adv.clas = concat(adv.clas, string, CLASS_LIST);
   stringSymbol = string->props->id->symbol;
   stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
@@ -129,17 +129,14 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 
   allClasses = concat(allClasses, new, CLASS_LIST);
 
+  if (strcmp(id->string, "container") == 0)
+    lmLogv(&id->srcp, 260, sevERR, "class", "'container'", "the built-in container property", NULL);
+
   return(new);
 }
 
 
-/*----------------------------------------------------------------------
-
-  symbolizeClass()
-
-  Symbolize a Class node.
-
- */
+/*----------------------------------------------------------------------*/
 static void symbolizeClass(ClaNod *cla)
 {
   symbolizeProps(cla->props);

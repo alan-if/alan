@@ -136,13 +136,7 @@ void symbolizeInstances(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  analyzeInstance()
-
-  Analyze a Instance node.
-
- */
+/*----------------------------------------------------------------------*/
 static void analyzeInstance(Instance *instance)
 {
   Context *context = newContext(INSTANCE_CONTEXT);
@@ -155,13 +149,7 @@ static void analyzeInstance(Instance *instance)
 }
 
 
-/*======================================================================
-
-  analyzeInstances()
-
-  Analyze all Instance nodes.
-
- */
+/*======================================================================*/
 void analyzeInstances(void)
 {
   List *l;
@@ -171,24 +159,14 @@ void analyzeInstances(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateInstanceData
-
-  Generate the data parts for one instance.
-
-*/
+/*----------------------------------------------------------------------*/
 static void generateInstanceData(Instance *ins)
 {
   generateInstancePropertiesData(ins->props);
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateInstanceEntry
-
-*/
+/*----------------------------------------------------------------------*/
 static void generateInstanceEntry(Instance *ins)
 {
   InstanceEntry entry;
@@ -198,11 +176,7 @@ static void generateInstanceEntry(Instance *ins)
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateInstanceTable()
-
-*/
+/*----------------------------------------------------------------------*/
 static Aaddr generateInstanceTable(void)
 {
   Aaddr address = nextEmitAddress();
@@ -215,13 +189,7 @@ static Aaddr generateInstanceTable(void)
 }
 
 
-/*======================================================================
-
-  generateInstances()
-
-  Generate all Instance nodes.
-
- */
+/*======================================================================*/
 void generateInstances(AcdHdr *header)
 {
   List *l;
@@ -238,13 +206,7 @@ void generateInstances(AcdHdr *header)
 
 
 
-/*======================================================================
-
-  dumpInstance()
-
-  Dump a Instance node.
-
- */
+/*======================================================================*/
 void dumpInstance(Instance *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();

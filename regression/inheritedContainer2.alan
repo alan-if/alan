@@ -4,10 +4,13 @@ Every cont Isa object
     Else Say This. "is empty."
 End Every cont.
 
+Every cont2 Isa cont
+End Every cont2.
+
 The t Isa object In c
 End The t.
 
-The c Isa cont At l
+The c Isa cont2 At l
 End The c.
 
 The d Isa cont At l

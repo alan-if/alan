@@ -128,6 +128,7 @@ static lmMsgs msg[] = {
     { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'." },
     { "241   ", "%1 already defined for class \'%2\'. You can not add it. You can override it by subclassing from class \'%2\'." },
     { "250   ", "You can only declare restrictions for the first syntax for verb \'%1\'. The restrictions for subsequent syntaxes must be empty and will use the same as for the first." },
+    { "260   ", "You can not declare a %1 named %2 since that would conflict with %3." },
     { "301   ", "\'%1\' already declared as a Direction." },
     { "303   ", "\'%1\' already declared as a Verb." },
     { "304   ", "\'%1\' already declared as an Instance (The)." },
@@ -208,7 +209,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 128}
+    {0, 129}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -15,7 +15,7 @@
 
 
 /* Types: */
-typedef struct ContainerInfo {
+typedef struct ContainerBody {
   Srcp srcp;			/* Source position */
   Bool analyzed;		/* Is this container definition analyzed? */
   Bool generated;		/* And generated? */

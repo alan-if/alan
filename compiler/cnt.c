@@ -49,6 +49,7 @@ ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
 
   new->srcp = *srcp;
   new->analyzed = FALSE;
+  new->generated = FALSE;
   new->limits = lims;
   new->hstms = hstms;
   new->estms = estms;
@@ -184,7 +185,7 @@ static void generateContainerBody(ContainerBody *body)
 {
   showProgress();
 
-#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
+#ifndef DONT_OPTIMIZE_CONTAINER_BODY_GENERATION
   if (!body->generated) {
 #endif
     body->limadr = generateLimits(body);
@@ -214,11 +215,8 @@ static void generateContainerBody(ContainerBody *body)
       emit0(I_RETURN);
     } else
       body->extractStatementsAddress = 0;
-
-#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
     body->generated = TRUE;
   }
-#endif
 }
 
 
@@ -267,11 +265,7 @@ Aaddr generateContainers(AcdHdr *header)
 
 
 
-/*======================================================================
-
-  dumpContainer()
-
-  */
+/*======================================================================*/
 void dumpContainer(Container *container)
 {
   if (container == NULL) {
@@ -282,12 +276,13 @@ void dumpContainer(Container *container)
   put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->body->srcp); in();
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
-  put("info->lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
-  put("info->limadr: "); dumpAddress(container->body->limadr); nl();
-  put("info->hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
-  put("info->hadr: "); dumpAddress(container->body->hadr); nl();
-  put("info->estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
-  put("info->eadr: "); dumpAddress(container->body->eadr); out();
+  put("body: "); dumpPointer(container->body); nl();
+  put("body.lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
+  put("body.limadr: "); dumpAddress(container->body->limadr); nl();
+  put("body.hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
+  put("body.hadr: "); dumpAddress(container->body->hadr); nl();
+  put("body.estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
+  put("body.eadr: "); dumpAddress(container->body->eadr); out();
 }
 
 

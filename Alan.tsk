@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>238.89</origest>
 <currest>238.89</currest>
-<elapsed>93.89</elapsed>
+<elapsed>94.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,16 +14,16 @@
 <priority>2</priority>
 <origest>44</origest>
 <currest>44</currest>
-<elapsed>11</elapsed>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
-<elapsed>8</elapsed>
-<isopen>0</isopen>
+<origest>20</origest>
+<currest>20</currest>
+<elapsed>9</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
 <notes/>
@@ -106,21 +106,21 @@ This would allow code generating once for some inherited constructs:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Prohibit declaration of a container class</desc>
+<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Optimize generation of containers</desc>
 <notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
 
 This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
 
 A prerequisite action would be to fix this multiple reversing problem.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Prohibit declaration of a container class</desc>
-<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -149,46 +149,20 @@ $$ reset both auto-formattings.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Capitalizing of "proper_name" in library and doc</desc>
-<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+<desc>Opaque containers</desc>
+<notes>Allow:
 
-Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
+The box Isa object
+  Opaque Container
+  Verb open
+    Does Make This open. Make This Not opaque.
+  Verb close
+    Does Make This closed. Make This opaque.
+End The box.
 
-Not all languages have definite and indefinite articles that work well:
+I.e. the container has a state which controls if contents of it is listed and reachable. That state can be set using the special attribute "opaque" which is only present in instances that are containers.
 
-Definite "den"
-Indefinite "en"
-Mentioned "stol"
-
-Perhaps:
-
-Name stol
-Definite "stolen"
-Indefinite "en stol"
-Plural "stolar"
-
-With corresponding:
-Say o. : use Name =&gt; "stol"
-Say The o. : use Definite =&gt; "stolen"
-Say A o. : use Indefinite =&gt; "en stol"
-Say Any o. : use Plural =&gt; "stolar"
-
-Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
-
-
-Old thoughts:
------------------------------------------------
-Possibly requires a MENTION statement:
-
-If x Isa person Then Mention x. Else Say x. End If.
-
-This does not work:
-Instead (verify this) the author should:
-
-The anderson Isa actor
-  Name mr 'Andersson' -- first name is printed
-  Name mr andersson -- to allow player use of lowercase
-End The andersson.</notes>
+Warn (in instances that are containers) for declaring them as they would hide the built-in attribute.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -208,113 +182,69 @@ End The andersson.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>xglk library problem</desc>
-<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+<desc>Capitalizing of "proper_name" in library and doc</desc>
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
 
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
 
-or even
+Not all languages have definite and indefinite articles that work well:
 
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;scripts&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0.28</desc>
-<notes/>
-<priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>String operators</desc>
-<notes>concatenation
-substring extraction
-substring searching
+Definite "den"
+Indefinite "en"
+Mentioned "stol"
 
+Perhaps:
 
-&lt;s1&gt; + &lt;s2&gt;
-Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"Describe this." Does not work.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
-<notes>DONE for verbs
+Name stol
+Definite Form "stolen"
+Indefinite Form "en stol"
+Plural "stolar"
 
-TODO: Descriptions, ?</notes>
+With corresponding:
+Say o. : use Name =&gt; "stol"
+Say The o. : use Definite =&gt; "stolen"
+Say A o. : use Indefinite =&gt; "en stol"
+Say Any o. : use Plural =&gt; "stolar"
+
+We could have Indefinite Form and Indefinite Article both not both. "Say The x ."would then use Definite Form if there is one or construct it from Definite Article + Mentioned. "Say A x." would then use Indefinite Form if available, or else Indefinite Article + Mentioned.
+
+Since Mentioned is constructed from the Name clause the following would work:
+
+Every person Isa actor
+  Definite Article ""
+End Every person.
+
+The mr_a Isa person
+  Name mr 'Andersson'
+  Name mr andersson
+End The mr_a
+
+Problem is still what to say when:
+
+&gt; talk to mr andersson
+I can't see any mr andersson here.
+
+But the library could:
+
+Syntax talk_to = talk to (p)! Where p Isa person Else
+
+Add To Every person
+  Verb talk_to
+    Check p Is Here
+      Else "I can't see" Say The p. "here."
+  End Verb talk_to.
+End Add To Every person.
+
+Verb talk_to 
+
+Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
+
+</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -337,7 +267,7 @@ The article Isa b
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -400,6 +330,115 @@ REMEBER TO DOCUMENT IT!!!
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+</task>
+<task>
+<desc>xglk library problem</desc>
+<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.28</desc>
+<notes/>
+<priority>2</priority>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;scripts&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>String operators</desc>
+<notes>concatenation
+substring extraction
+substring searching
+
+
+&lt;s1&gt; + &lt;s2&gt;
+Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
+<notes>DONE for verbs
+
+TODO: Descriptions, ?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>SAVE &amp; RESTORE texts as messages</desc>
@@ -1849,7 +1888,7 @@ What do you want to do with the ball?
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
 <notes>It will not be possible to handle:
@@ -2040,7 +2079,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>78.89</origest>
 <currest>78.89</currest>
 <elapsed>78.89</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
@@ -2841,7 +2880,7 @@ This is the old "container actor" and "container object".</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Where HERE</desc>
 <notes>

@@ -675,7 +675,7 @@ static void replicateContainer(Symbol *symbol)
 
   if (propertiesOf(symbol)->container == NULL && propertiesOfParentOf(symbol)->container != NULL) {
     Properties *props = propertiesOf(symbol);
-#ifndef OPTIMIZE_CONTAINER_BODY_GENERATION
+#ifdef DONT_OPTIMIZE_CONTAINER_BODY_GENERATION
     /* Create a new Container Instance and copy parents Container Body */
     Properties *parentProps = propertiesOfParentOf(symbol);
     ContainerBody *body = newContainerBody(&parentProps->container->body->srcp,
