@@ -1,0 +1,5 @@
+#! /bin/csh
+foreach f ( [A-Z]*.h )
+    echo \#include \"$f\" > x.c
+    gcc -ansi -pedantic -Wall -I/usr/local/include/ansi -g  -target sun4 -c x.c
+end
