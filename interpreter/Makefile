@@ -4,7 +4,7 @@ CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 #Settings for Windows GLK variant
 winglk: GLK = -DGLK
-winglk: GLKINCLUDE = -I../../../../WindowsGLK/Include
+winglk: GLKINCLUDE = -I../../WindowsGLK/Include
 winglk: GLKLIB = ../../../../WindowsGlk/Glk.lib
 winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
 
