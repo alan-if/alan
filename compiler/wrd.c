@@ -346,6 +346,3 @@ Aaddr gewrds()
 
   return(adr);
 }
-
-
-

@@ -126,10 +126,20 @@ NONANSI:
 	make smart
 	mv -f alan.tmk.ansi alan.tmk
 
+DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
-	mv alan.tm alan.tm.ansi
+	mv alan.tmk alan.tmk.sun
 	sed s/SunOS/MSDOS/ alan.tmk.sun > alan.tmk
 	make smart
+	sed $(DOSSUBS) alan.c > ALAN.C
+	sed $(DOSSUBS) pmErr.c > PMERR.C
+	sed $(DOSSUBS) pmErr.h > PMERR.H
+	sed $(DOSSUBS) pmParse.c > PMPARSE.C
+	sed $(DOSSUBS) pmParse.h > PMPARSE.H
+	sed $(DOSSUBS) pmPaSema.c > PMPASEMA.C
+	sed $(DOSSUBS) smScan.c > SMSCAN.C
+	sed $(DOSSUBS) smScan.h > SMSCAN.H
+	sed $(DOSSUBS) smScSema.c > SMSCSEMA.C
 	mv -f alan.tmk.sun alan.tmk
 
 version.c: $(LIB)($(OBJECTS)) ../[0-9]*
@@ -154,29 +164,15 @@ link:
 	$(CC) -o alan $(CFLAGS) $(OBJECTS) version.o $(LDFLAGS)
 
 #-- ARCHIVE
-DOSSUBS = -e s/alanToken/alanToke/ -e s/alanParse/alanPars/
 archives:
 	-\rm Makefile*~
 	make NONANSI
 	lha c compiler.lha *.c *.h Makefile* dependencies.mk
 	zip -k compiler.zip *.[ch] Makefile.cmd
 	make MSDOS
-	sed $(DOSSUBS) alan.c > ALAN.C
-	sed $(DOSSUBS) pmErr.c > PMERR.C
-	sed $(DOSSUBS) pmErr.h > PMERR.H
-	sed $(DOSSUBS) pmParse.c > PMPARSE.C
-	sed $(DOSSUBS) pmParse.h > PMPARSE.H
-	sed $(DOSSUBS) pmPaSema.c > PMPASEMA.C
-	sed $(DOSSUBS) smScan.c > SMSCAN.C
-	sed $(DOSSUBS) smScan.h > SMSCAN.H
-	sed $(DOSSUBS) smScSema.c > SMSCSEMA.C
 	zip -k -m compiler.zip *.C *.H
 	make smart
 
-#-- release
-release:
-	cvs tag v`basename ../[0-9]* | sed s/\\\.//`
-	
 #--
 CLEAN: clean
 	-rm alanCommon.h pmParse* pmPaSema* pmErr* smScan* smScSema* lmList* alan.voc alan.[psl]mt

@@ -297,6 +297,7 @@ Aaddr gefreq()
   else {
     for (i = 0; i < NOOFSYMBOLS+1; i++)
       emit(cumFreq[i]);
+    emit(EOF);
     return(adr);
   }
 }

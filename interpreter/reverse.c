@@ -452,7 +452,7 @@ void reverseACD()
 {
   int i;
 
-  for (i = 1; i < (sizeof(AcdHdr)/sizeof(Aword))-1; i++)
+  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&memory[i]);
   reverseWrds(header->dict);
   reverseTable(header->oatrs, sizeof(AtrElem));

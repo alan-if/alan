@@ -67,10 +67,6 @@ archives:
 	lha c interpreter.lha *.c *.h Makefile* dependencies.mk
 	zip -k interpreter.zip *.[ch] Makefile.cmd
 
-#-- release
-release:
-	cvs tag v`basename ../[0-9]* | sed s/\\\.//`
-
 #--
 CLEAN: clean
 	-rm interpreter.a
