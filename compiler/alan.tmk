@@ -2,7 +2,6 @@
 
 	Target 'ansi-c';
 	Prefix 'alan';
-	Os 'WIN32';
 
 %%IMPORT
 

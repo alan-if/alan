@@ -24,9 +24,8 @@ TMSRCS = \
 
 TMOBJS = ${TMSRCS:.c=.o}
 
-OBJECTS = \
+VERSIONOBJECTS = \
 	alan.o \
-	alan.version.o \
 	main.o \
 	options.o \
 	act.o \
@@ -69,6 +68,8 @@ OBJECTS = \
 	sysdep.o \
 	$(TMOBJS)
 
+OBJECTS = $(VERSIONOBJECTS) alan.version.o
+
 all alan alan.exe : $(OBJECTS) Makefile
 	gcc -o alan $(OBJECTS) $(LDFLAGS)
 	cp alan.exe ../bin
@@ -78,16 +79,24 @@ spa.o: spa.c spa.h
 
 smScanx.o: smScanx.c
 
-alan.version.c : ../alan.version.c alan.version.h
-	cp ../alan.version.c .
-
-alan.version.h : ../alan.version.h version.h
-	cp ../alan.version.h .
-
-version.h : ../version.h
-	cp ../version.h .
-
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
+#
+# Version number generation
+#
+
+alan.version.h :
+	cd ..; venum alan -all
+	cp ../alan.version.h .
+
+version.h :
+	cd ..; venum alan -all
+	cp ../version.h .
+
+alan.version.c: $(VERSIONOBJECTS) ../alan.version
+	cd ..; venum alan time
+	cp ../alan.version.c .
+
+#
 include dependencies.mk

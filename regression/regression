@@ -24,7 +24,7 @@ if [ $# != 0 ] ; then
       cat $case.tst >>$case.output
       echo "########## /bin/sh  $case.tst ##########" >>$case.output
       sh $case.tst >>$case.output 2>&1
-      diff $case.output $case.tst.expected > $case.diff
+      diff -b $case.output $case.tst.expected > $case.diff
     fi
   done
   for f in ${*} ; do
