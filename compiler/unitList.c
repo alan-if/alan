@@ -36,6 +36,9 @@ extern void lmLog(Srcp *pos,
 {
   lastEcode = ecode;
   lastSev = sev;
+
+  if (ecode == 997)
+    printf("SYSERR: %s\n", istrs);
 }
 
 extern void lmLogv(Srcp *pos,
@@ -79,3 +82,4 @@ extern void lmLiEnter(Srcp *pos,
 
 extern int lmMsg(int i, Srcp *pos, char *msg)
 {}
+

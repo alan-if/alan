@@ -84,9 +84,6 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
 	   EvtNod *evt,		/* IN - Inside Event? */
 	   List *pars)		/* IN - Possible parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
-
   switch (whr->kind) {
   case WHR_DEFAULT:
   case WHR_HERE:

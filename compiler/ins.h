@@ -19,10 +19,12 @@
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  struct IdNode *id;		/* Name of the instance */
-  struct SymNod *symbol;	/* Pointer to symbol table node */
-  struct IdNode *heritage;	/* The instances heritage */
-  struct Slots *slt;		/* Slots */
+  IdNode *id;			/* Name of the instance */
+  Aaddr idAddr;
+  SymNod *symbol;		/* Pointer to symbol table node */
+  IdNode *parent;		/* The instances parent */
+  SlotsNode *slt;		/* Slots */
+  Aword adr;
 } InsNod;
 
 

@@ -182,6 +182,20 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword parent;			/* Code for the parent class, 0 if none */
 } ClassEntry;
 
+typedef struct InstanceEntry {	/* INSTANCE TABLE */
+  Aword code;			/* Own code */
+  Aaddr idAddr;			/* Address to identifier */
+  Aword parent;			/* Code for the parent class, 0 if none */
+  Aaddr nams;			/* Address of name printing code */
+  Aword location;		/* Code for current location */
+  Aaddr atrs;			/* Address of attribute list */
+  Aaddr dscr;			/* Address of description code */
+  Aaddr ment;			/* Address of "mentioned" code */
+  Aaddr art;			/* Address of article code */
+  Aaddr exts;			/* Address of exit list */
+  Aaddr vrbs;			/* Address of local verb list */
+} InstanceEntry;
+
 typedef struct ObjEntry25 {	/* OBJECT TABLE of 2.5 format*/
   Aword loc;			/* Current location */
   Abool describe;		/* Describe flag */

@@ -1,18 +1,21 @@
 /*----------------------------------------------------------------------*\
 
-  SLT.C
-  Slot Nodes
+				SLT.C
+			      Slot Nodes
 
 \*----------------------------------------------------------------------*/
 
-#include "slt.h"
+#include "slt_x.h"
+
 
 /* IMPORT */
 #include <stdio.h>
 #include "util.h"
 #include "dump.h"
+#include "emit.h"
 
-
+#include "whr_x.h"
+#include "cnt_x.h"
 
 
 /*======================================================================
@@ -22,24 +25,23 @@
   Allocates and initialises a sltnod.
 
   */
-Slots *newSlots(List *nams,
-		WhrNod *whr,
-		List *atrs,
-		CntNod *cnt,
-		List *surr,
-		List *dscr,
-		List *ment,
-		List *art,
-		List *does,
-		List *exts,
-		List *vrbs,
-		List *scrs)
+SlotsNode *newSlots(List *nams,
+		    WhrNod *whr,
+		    List *atrs,
+		    CntNod *cnt,
+		    List *dscr,
+		    List *ment,
+		    List *art,
+		    List *does,
+		    List *exts,
+		    List *vrbs,
+		    List *scrs)
 {
-  Slots *new;                  /* The newly allocated area */
+  SlotsNode *new;                  /* The newly allocated area */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(Slots);
+  new = NEW(SlotsNode);
 
   new->namslst = nams;
   new->whr = whr;
@@ -54,6 +56,39 @@ Slots *newSlots(List *nams,
 }
 
 
+
+/*======================================================================
+
+  generateSlotsData()
+
+  Generate data for one Slots node.
+
+ */
+void generateSlotsData(SlotsNode *slots)
+{
+}
+
+
+/*======================================================================
+
+  generateSlotsEntry()
+
+  Generate entries for one Slots node.
+
+ */
+void generateSlotsEntry(SlotsNode *slots)
+{
+  emit(slots->namsadr);		/* names */
+  emit(slots->whrCode);
+  emit(slots->atradr);		/* attributes */
+  emit(slots->dscradr);		/* description */
+  emit(slots->mentadr);		/* mentioned */
+  emit(slots->artadr);		/* article */
+  emit(slots->extadr);		/* exits */
+  emit(slots->vrbadr);		/* verbs */
+}
+
+
 /*======================================================================
 
   dumpSlots()
@@ -61,14 +96,14 @@ Slots *newSlots(List *nams,
   Dump a Slots node.
 
  */
-void dumpSlots(Slots *slots)
+void dumpSlots(SlotsNode *slots)
 {
   put("SLOTS: "); in();
   put("namslst: "); dulst(slots->namslst, LIST_NAM); nl();
   put("namstms: "); dulst(slots->namstms, LIST_STM); nl();
   put("namadr: "); duadr(slots->namsadr); nl();
-#ifdef FIXME
   put("whr: "); duwhr(slots->whr); nl();
+#ifdef FIXME
   put("cnt: "); ducnt(slots->cnt); nl();
 #endif
   put("atrs: "); dulst(slots->atrs, LIST_ATR); nl();

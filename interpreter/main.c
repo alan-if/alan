@@ -306,7 +306,7 @@ void statusline(void)
   if (header->maxscore > 0)
     sprintf(line, "Score %ld(%ld)/%ld moves", cur.score, (int)header->maxscore, cur.tick);
   else
-    sprintf(line, "%ld moves", cur.tick);
+    sprintf(line, "%ld moves", (long)cur.tick);
   for (i=0; i < pagwidth - col - strlen(line); i++) putchar(' ');
   printf(line);
   printf("\x1b[m");
@@ -1464,10 +1464,10 @@ static void checkvers(header)
       if (errflg) {
 	char str[80];
 	sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
-		(int)(header->vers[0]),
-		(int)(header->vers[1]),
-		alan.version.version,
-		alan.version.revision);
+		(long)(header->vers[0]),
+		(long)(header->vers[1]),
+		(long)alan.version.version,
+		(long)alan.version.revision);
 	syserr(str);
       } else
 	output("<WARNING! Incompatible version of ACODE program.>\n");

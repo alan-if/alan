@@ -14,14 +14,17 @@
 #include "whr.h"
 #include "cnt.h"
 
+#include "acode.h"
+
 
 /* Types */
 
-typedef struct Slots {		/* SLOTS  */
+typedef struct SlotsNode {	/* SLOTS  */
   List *namslst;		/* List of lists of adjectives and a noun */
   List *namstms;		/* Name printing statements */
   Aword namsadr;		/* ACODE address to name printing */
-  struct WhrNod *whr;		/* Where is it? */
+  WhrNod *whr;			/* Where is it initially? */
+  Aword whrCode;		/* ... and code for that instance */
   CntNod *cnt;			/* Container properties */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address to attribute list */
@@ -35,30 +38,9 @@ typedef struct Slots {		/* SLOTS  */
   Aword vrbadr;			/* ACODE address to local verb table */
   List *scrs;			/* List of scripts */
   Aaddr scradr;			/* ACODE address to scripts */
-} Slots;
-
-
-/* Data: */
-
-/* Methods: */
-
-
-/* Create a new Slots node */
-extern Slots *newSlots(List *nams,
-		       struct WhrNod *whr,
-		       List *atrs,
-		       CntNod *cnt,
-		       List *surr,
-		       List *dscr,
-		       List *ment,
-		       List *art,
-		       List *does,
-		       List *exts,
-		       List *vrbs,
-		       List *scrs);
-
-/* Dump a Slots node */
-extern void dumpSlots(Slots *slots);
+  List *exts;			/* List of exits */
+  Aaddr extadr;			/* ACODE address to exits */
+} SlotsNode;
 
 
 #endif

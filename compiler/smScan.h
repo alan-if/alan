@@ -111,7 +111,6 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_99_Token = 99,
 	sm_MAIN_100_Token = 100,
 	sm_MAIN_101_Token = 101,
-	sm_MAIN_102_Token = 102,
 	sm_MAIN_BLANKS_Token = -1,
 	sm_MAIN_COMMENT_Token = -1,
 	sm_MAIN_INCLUDE_Token = -1

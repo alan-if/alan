@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-  INS.C
-  Instance Nodes
+				INS.C
+			    Instance Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -10,10 +10,13 @@
 #include "sysdep.h"
 #include "util.h"
 #include "dump.h"
+#include "emit.h"
 
 #include "sym_x.h"
+#include "slt_x.h"
 #include "id_x.h"
 #include "srcp_x.h"
+
 #include "lmList.h"
 
 
@@ -40,8 +43,8 @@ void initInstances()
   */
 InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,
-	       IdNode *heritage,
-	       Slots *slt)
+	       IdNode *parent,
+	       SlotsNode *slt)
 {
   InsNod *new;                  /* The newly allocated area */
 
@@ -51,8 +54,12 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 
   new->srcp = *srcp;
   new->id = id;
-  new->heritage = heritage;
-  new->slt = slt;
+  new->parent = parent;
+  if (slt)
+    new->slt = slt;
+  else
+    new->slt = newSlots(NULL, NULL, NULL, NULL, NULL, NULL,
+			NULL, NULL, NULL, NULL, NULL);
 
   new->symbol = newsym(id->string, INSTANCE_SYMBOL);
 
@@ -71,17 +78,17 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
  */
 static void symbolizeInstance(InsNod *ins)
 {
-  SymNod *heritage;
+  SymNod *parent;
 
-  if (ins->heritage != NULL) {
-    heritage = lookup(ins->heritage->string);
-    if (heritage == NULL)
-      lmLog(&ins->heritage->srcp, 310, sevERR, ins->heritage->string);
-    else if (heritage->kind != CLASS_SYMBOL)
-      lmLog(&ins->heritage->srcp, 350, sevERR, "");
+  if (ins->parent != NULL) {
+    parent = lookup(ins->parent->string);
+    if (parent == NULL)
+      lmLog(&ins->parent->srcp, 310, sevERR, ins->parent->string);
+    else if (parent->kind != CLASS_SYMBOL)
+      lmLog(&ins->parent->srcp, 350, sevERR, "");
     else {
-      ins->heritage->symbol = heritage;
-      setParent(ins->symbol, ins->heritage->symbol);
+      ins->parent->symbol = parent;
+      setParent(ins->symbol, ins->parent->symbol);
     }
   }
 }
@@ -132,6 +139,40 @@ void analyzeInstances(void)
 }
 
 
+/*----------------------------------------------------------------------
+
+  generateInstanceData
+
+  Generate the data parts for one instance.
+
+*/
+static void generateInstanceData(InsNod *ins)
+{
+  ins->idAddr = emadr();
+  emitstr(ins->id->string);
+
+  generateSlotsData(ins->slt);
+}
+
+
+/*----------------------------------------------------------------------
+
+  generateInstanceEntry
+
+*/
+static void generateInstanceEntry(InsNod *ins)
+{
+  emit(ins->symbol->code);	/* First own code */
+  emit(ins->idAddr);		/* Address to the id string */
+  if (ins->parent == NULL)	/* Then parents */
+    emit(0);
+  else
+    emit(ins->parent->symbol->code);
+
+  generateSlotsEntry(ins->slt);
+}
+
+
 /*======================================================================
 
   generateInstances()
@@ -141,9 +182,19 @@ void analyzeInstances(void)
  */
 Aaddr generateInstances(void)
 {
-  syserr("UNIMPL: generateInstances");
-  return 0;
+  List *l;
+  Aaddr adr;
+
+  for (l = allInstances; l; l = l->next)
+    generateInstanceData(l->element.ins);
+
+  adr = emadr();
+  for (l = allInstances; l; l = l->next)
+    generateInstanceEntry(l->element.ins);
+
+  return (adr);
 }
+
 
 
 /*======================================================================
@@ -157,6 +208,6 @@ void dumpInstance(InsNod *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();
   put("id: "); dumpId(ins->id); nl();
-  put("heritage: "); dumpId(ins->heritage); nl();
+  put("parent: "); dumpId(ins->parent); nl();
   put("slots: "); dumpSlots(ins->slt); nl();
 }

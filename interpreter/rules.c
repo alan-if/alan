@@ -49,7 +49,7 @@ void rules()
 	if (pop()) {
 	  change = TRUE;
 	  ruls[i-1].run = TRUE;
-	  if (trcflg)
+	  if (trcflg) {
 	    if (!stpflg)
 	      printf(", Executing:>\n");
 	    else {
@@ -57,6 +57,7 @@ void rules()
 	      debugsay(cur.loc);
 	      printf("), Executing:>\n");
 	    }
+	  }
 	  interpret(ruls[i-1].stms);
 	} else if (trcflg && !stpflg)
 	  printf(":>\n");

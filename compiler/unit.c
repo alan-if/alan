@@ -6,7 +6,9 @@
 
 \*======================================================================*/
 
-#include <stdio.h>
+#include "sysdep.h"
+#include "acode.h"
+
 
 typedef struct Case {
   void (*theCase)();
@@ -16,7 +18,27 @@ typedef struct Case {
 static Case *caseList = NULL;
 static Case *lastCase = NULL;
 
-void registerUnitTest(void (*aCase)());
+
+static void registerUnitTest(void (*aCase)());
+
+
+static Aword *memory;
+static void loadACD(char fileName[]);
+
+Aword convertFromACD(Aword w)
+{
+  Aword s;                      /* The swapped ACODE word */
+  char *wp, *sp;
+  int i;
+  
+  wp = (char *) &w;
+  sp = (char *) &s;
+
+  for (i = 0; i < sizeof(Aword); i++)
+    sp[sizeof(Aword)-1 - i] = wp[i];
+
+  return s;
+}
 
 
 #include "unitTest.h"
@@ -32,6 +54,7 @@ extern lmSev readSev();
 #include "insTest.c"
 #include "advTest.c"
 #include "symTest.c"
+
 
 int main()
 {
@@ -59,8 +82,53 @@ void registerUnitTest(void (*aCase)())
     lastCase->theCase = aCase;
   }
 }
-    
-    
-  
-  
 
+static AcdHdr header;
+
+static Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
+{
+  Aword s;                      /* The swapped ACODE word */
+  char *wp, *sp;
+  int i;
+  
+  wp = (char *) &w;
+  sp = (char *) &s;
+
+  for (i = 0; i < sizeof(Aword); i++)
+    sp[sizeof(Aword)-1 - i] = wp[i];
+
+  return s;
+}
+
+
+static void reverse(Aword *w)
+{
+  *w = reversed(*w);
+}
+
+static void reverseHdr(AcdHdr *hdr)
+{
+  int i;
+
+  /* Reverse all words in the header except the first (version marking) */
+  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+    reverse(&((Aword *)hdr)[i]);
+}
+
+static void loadACD(char fileName[])
+{
+  AcdHdr tmphdr;
+  FILE *acdFile = fopen(fileName, "r");
+
+  fread(&tmphdr, sizeof(tmphdr), 1, acdFile);
+
+#ifdef REVERSED
+  reverseHdr(&tmphdr);
+#endif
+
+  memory = malloc(4*tmphdr.size);
+
+  rewind(acdFile);
+  fread(memory, sizeof(Aword), tmphdr.size, acdFile);
+
+}

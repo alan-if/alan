@@ -14,6 +14,7 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
+#include "slt_x.h"
 
 #include "emit.h"
 #include "util.h"
@@ -52,7 +53,7 @@ void initClasses()
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,
 	       IdNode *parent,
-	       Slots *slt)
+	       SlotsNode *slt)
 {
   ClaNod *new;                  /* The newly allocated area */
 

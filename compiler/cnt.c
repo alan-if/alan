@@ -5,23 +5,24 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "cnt_x.h"
+
 #include "alan.h"
 
 #include "srcp_x.h"
+#include "sym_x.h"
+
 #include "lmList.h"
 
 #include "acode.h"
 
 #include "adv.h"		/* ADV-node */
-#include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
-#include "cnt.h"		/* CNT-nodes */
 #include "lim.h"		/* LIM-nodes */
 
 #include "emit.h"
-
 #include "dump.h"
 
 
@@ -40,7 +41,7 @@ int cntcount = 0;
 
  */
 CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,	/* IN - The name of the container */
+	       IdNode *id,	/* IN - The name of the container */
 	       List *lims,	/* IN - Limits */
 	       List *hstms,	/* IN - Header statements */
 	       List *estms)	/* IN - Else (empty) statements */

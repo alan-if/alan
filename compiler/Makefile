@@ -70,12 +70,6 @@ SRCS = \
 	options.c \
 	$(UNITSRCS)
 
-#OBSOLETE
-#	nam.c \
-#	act.c \
-#	cnt.c \
-#	loc.c \
-#	obj.c \
 
 VERSIONSRCS = $(SRCS) $(EXTRAS)
 

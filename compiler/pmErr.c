@@ -19,6 +19,8 @@
 #include "ins_x.h"
 #include "cla_x.h"
 #include "sym_x.h"
+#include "res_x.h"
+#include "whr_x.h"
 
 #include "lmList.h"
 
@@ -35,7 +37,6 @@
 #include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */
-#include "res.h"                /* RES-nodes */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
@@ -46,7 +47,6 @@
 #include "stx.h"                /* STX-nodes */
 #include "syn.h"                /* SYN-nodes */
 #include "vrb.h"                /* VRB-nodes */
-#include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
 
 

@@ -45,8 +45,9 @@ void testGenerateClasses()
 
   initadv();
 
+  initEmit("unit.acd");
   addr = generateClasses();
-  unitAssert(addr == 0);	/* Nothing generated */
+  unitAssert(addr == firstAdr);	/* Nothing generated except header*/
 
   initEmit("unit.acd");
   symbolizeClasses();

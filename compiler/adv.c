@@ -120,9 +120,6 @@ static void symbolizeAdv()
 */
 static void analyzeStartAt(void)
 {
-  SymNod *sym;
-  ElmNod *elm;
-
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {
     case WHR_AT:

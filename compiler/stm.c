@@ -158,9 +158,6 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
 		     EvtNod *evt, /* IN - Possibly inside actor */
 		     List *pars) /* IN - Possible syntax parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
-
   switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
     if (pars == NULL)

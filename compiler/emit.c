@@ -35,8 +35,8 @@ extern void *allocate(int len);
 static FILE *acdfil;
 static Aword buff[BLOCKLEN];
 
-static Aaddr pc = 0;
-static Aword crc = 0;
+static Aaddr pc;
+static Aword crc;
 
 
 static void buffer(Aword w)
@@ -384,6 +384,9 @@ void initEmit(
 )
 {
   int i;
+
+  pc = 0;
+  crc = 0;
 
 #ifdef __amiga__
   struct DiskObject *existingIcon;

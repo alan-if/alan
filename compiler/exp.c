@@ -85,9 +85,6 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 		     EvtNod *evt, /* IN - Possibly inside event */
 		     List *pars) /* IN - Possible parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
-
   anexp(exp->fields.whr.wht, evt, pars);
   if (exp->fields.whr.wht->class != EXPWHT)
     lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
@@ -436,9 +433,6 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
 		     EvtNod *evt, /* IN - Possibly inside Event? */
 		     List *pars) /* IN - Possible parameter list in this context */
 {
-  ElmNod *par;
-  SymNod *sym;
-
   switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
     if (pars == NULL)

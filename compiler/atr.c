@@ -198,7 +198,6 @@ void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
 void prepatrs(void)
 {
   List *lst;			/* List pointer*/
-  AtrNod *atr;			/* Found default attribute */
   
   /* Number all default attributes */
   for (lst = adv.atrs; lst != NULL; lst = lst->next)

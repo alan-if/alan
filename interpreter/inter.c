@@ -453,8 +453,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("HERE \t%5ld", id);
 	push(isHere(id));
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_NEAR: {
@@ -463,8 +465,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("NEAR \t%5ld", id);
 	push(isNear(id));
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_USE: {
@@ -483,8 +487,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_DESCRIBE: {
@@ -560,8 +566,10 @@ void interpret(adr)
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh && rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_OR: {
@@ -576,8 +584,10 @@ void interpret(adr)
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh || rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_NE: {
@@ -589,8 +599,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("NE \t%5ld, %5ld", lh, rh);
 	push(lh != rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_EQ: {
@@ -602,8 +614,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("EQ \t%5ld, %5ld", lh, rh);
 	push(lh == rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_STREQ: {
@@ -615,8 +629,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("STREQ \t%5ld, %5ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_STREXACT: {
@@ -628,8 +644,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("STREXACT \t%5ld, %5ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	free((void *)lh);
 	free((void *)rh);
 	break;
@@ -643,8 +661,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("LE \t%5ld, %5ld", lh, rh);
 	push(lh <= rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_GE: {
@@ -656,8 +676,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("GE \t%5ld, %5ld", lh, rh);
 	push(lh >= rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_LT: {
@@ -669,8 +691,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("LT \t%5ld, %5ld", lh, rh);
 	push((signed int)lh < (signed int)rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_GT: {
@@ -682,8 +706,10 @@ void interpret(adr)
 	if (stpflg)
 	  printf("GT \t%5ld, %5ld", lh, rh);
 	push(lh > rh);
-	if (stpflg)
-	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
 	break;
       }
       case I_PLUS: {
@@ -746,8 +772,10 @@ void interpret(adr)
 	  if (val) printf("TRUE"); else printf("FALSE");
 	}
 	push(!val);
-	if (stpflg)
-	  if (top()) printf("\t\t(TRUE)"); else printf("\t\t(FALSE)");
+	if (stpflg) {
+	  if (top()) printf("\t\t(TRUE)");
+	  else printf("\t\t(FALSE)");
+	}
 	break;
       }
       case I_MAX: {

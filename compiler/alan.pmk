@@ -22,6 +22,8 @@
 #include "ins_x.h"
 #include "cla_x.h"
 #include "sym_x.h"
+#include "res_x.h"
+#include "whr_x.h"
 
 #include "lmList.h"
 
@@ -38,7 +40,6 @@
 #include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */
-#include "res.h"                /* RES-nodes */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
@@ -49,7 +50,6 @@
 #include "stx.h"                /* STX-nodes */
 #include "syn.h"                /* SYN-nodes */
 #include "vrb.h"                /* VRB-nodes */
-#include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
 
 
@@ -144,7 +144,6 @@ static int val(char str[])
   str %% char *%1%%,
   stx %% StxNod *%1%%,
   stxs %% List *%1%%,
-  surr %% List *%1%%,	-- of StmNod: surroundings-clause,
   syn %% SynNod *%1%%,
   syns %% List *%1%%,
   val %% int %1%%,
@@ -652,7 +651,6 @@ static int val(char str[])
 					%<slots>.whr,
 					%<slots>.atrs,
 					%<slots>.cnt,
-					%<slots>.surr,
 					%<slots>.dscr,
 					%<slots>.ment,
 					%<slots>.art,
@@ -683,7 +681,6 @@ static int val(char str[])
 					%<slots>.whr,
 					%<slots>.atrs,
 					%<slots>.cnt,
-					%<slots>.surr,
 					%<slots>.dscr,
 					%<slots>.ment,
 					%<slots>.art,
@@ -732,7 +729,6 @@ static int val(char str[])
 	%<slots>.whr = NULL;
 	%<slots>.atrs = NULL;
 	%<slots>.cnt = NULL;
-	%<slots>.surr = NULL;
 	%<slots>.dscr = NULL;
 	%<slots>.ment = NULL;
 	%<slots>.does = NULL;
@@ -758,12 +754,6 @@ static int val(char str[])
 	    lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
 	else 
 	    %<slots>.cnt = %<slot>.cnt;
-
-	if (%<slots>.surr != NULL)
-            /* SURROUNDINGS already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "SURROUNDINGS", "class/instance", NULL);
-	else 
-	    %<slots>.surr = %<slot>.surr;
 
 	if (%<slots>.dscr != NULL)
             /* DESCRIPTION already declared */
@@ -819,12 +809,6 @@ static int val(char str[])
     %%{ CntNod *cnt = %<container properties>.cnt;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.cnt = cnt;
-    }%%
-
-    ! <surroundings>
-    %%{ List *surr = %<surroundings>.surr;
-	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.surr = surr;
     }%%
 
     ! <description>
@@ -937,21 +921,6 @@ static int val(char str[])
 	%<is>.srcp = %'HAS'.srcp;
     %%
     ;
-
--- SURROUNDINGS
-<surroundings>				-- RETURNS: surr
-    = 'SURROUNDINGS' 
-    %%
-	%<surroundings>.surr = concat(NULL, newstm(`&%'SURROUNDINGS'.srcp,
-						STM_NOP), LIST_STM);
-    %%
-
-    ! 'SURROUNDINGS' <statements>
-    %%
-	%<surroundings>.surr = %<statements>.stms;
-    %%
-    ;
-
 
 <optional_description>	-- RETURNS: stms
     =

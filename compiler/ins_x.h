@@ -24,7 +24,7 @@ extern void initInstances();
 extern InsNod *newins(Srcp *srcp,
 		      IdNode *id,
 		      IdNode *heritage,
-		      Slots *slt);
+		      SlotsNode *slt);
 
 /* Symbolize all Instances */
 extern void symbolizeInstances(void);

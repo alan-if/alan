@@ -21,7 +21,7 @@ extern void initClasses();
 extern ClaNod *newcla(Srcp *srcp,
 		      IdNode *id,
 		      IdNode *parent,
-		      Slots *slt);
+		      SlotsNode *slt);
 
 /* Symbolize all Classes */
 extern void symbolizeClasses(void);
