@@ -1,9 +1,6 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-%: RCS/%,v
-	@co -q $<
-
 SHELL	= /bin/sh
 CPP	= gcc -MM
 
@@ -17,9 +14,9 @@ LDFLAGS	= -lm $(LQ)
 .KEEP_STATE:
 
 #--
-SRCS = debug.o exe.o inter.o parse.o rules.o stack.o decode.o term.o params.o
+SRCS = debug.c exe.c inter.c parse.c rules.c stack.c decode.c term.c params.c sysdep.c
 
-MAINSRC = arun.o
+MAINSRC = arun.c
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
@@ -35,27 +32,24 @@ debug all: arun
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(LIB)($(OBJECTS)) sysdep.o version.o $(MAINOBJ) Makefile
+arun: $(LIB)($(OBJECTS)) version.o $(MAINOBJ) Makefile
 	ranlib $(LIB)
-	$(LD) -o $@ $(MAINOBJ) sysdep.o version.o $(LIB) $(LDFLAGS)
+	$(LD) -o $@ $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
 	cp arun ../`arch`
 
-purify: $LIB($(OBJECTS)) sysdep.o version.o $(MAINOBJ)
+purify: $LIB($(OBJECTS)) version.o $(MAINOBJ)
 	ranlib $(LIB)
-	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) sysdep.o version.o $(LIB) $(LDFLAGS)
+	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
 
-malloc	: $(OBJECTS) sysdep.o version.o
+malloc	: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
-	$(LD) -o $@ $(MAINOBJ) sysdep.o version.o $(LIB) /usr/lib/debug/malloc.o $(LDFLAGS)
+	$(LD) -o $@ $(MAINOBJ) version.o $(LIB) /usr/lib/debug/malloc.o $(LDFLAGS)
 	cp arun ../`arch`
 
 version.c: $(LIB)($(OBJECTS)) ../[0-9]*
-	@co -l -f -q version.c
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t
-	@ci -u -q -m"." version.c
-
 
 #--
 archives:
@@ -65,15 +59,12 @@ archives:
 
 #-- release
 release:
-	-ci -u -q -m"New Release" RCS/*,v
-	rcsfreeze v`basename ../[0-9]* | sed s/\\\.//`
-
+	cvs tag v`basename ../[0-9]* | sed s/\\\.//`
 
 #--
-CLEAN:
-	-rm [0-9]* *.o core *.tml *.sml *~ *.zoo *.bak
-	-rcsclean RCS/*,v
-	-co -q Makefile
+CLEAN: clean
+	-rm interpreter.a
+
 #--
 clean:
 	rm core *.tml *.sml *~ *.zoo *.bak
@@ -84,7 +75,6 @@ clean:
 FILETER = 
 depend:
 	@echo "make: Updating dependencies.mk, Makefile.amiga"
-	@-co -l -f -q dependencies.mk Makefile.amiga
 	@rm dependencies.mk
 	@for f in *.c; \
 	  do \
@@ -93,6 +83,5 @@ depend:
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
-	@-ci -m"." -u dependencies.mk Makefile.amiga
 
 #include dependencies.mk
