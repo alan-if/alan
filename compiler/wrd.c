@@ -104,6 +104,9 @@ int newwrd(str, class, code, ref)
       wrd->classbits |= 1L<<class;
     }
     wrd->ref[class] = concat(wrd->ref[class], ref); /* Add another reference */
+    if (wrd->code == -1)
+      /* It was previously without a code */
+      wrd->code = code;
     return wrd->code;
   }
 

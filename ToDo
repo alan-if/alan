@@ -1,7 +1,8 @@
 ToDo:
 	* Short-circuiting expressions, is it necessary? Can it be done?
 
-	* Think about punctuation! Can it be made optional?
+	* Think about punctuation ('.') in the language! Can it be
+        made optional?
 
 	* Checks on containers to augment limits.
 
@@ -27,8 +28,6 @@ ToDo:
 	* Confirm handling was trashed in 2.7. Any input is considered as
 	non-affirmative. Need to change this so that a '(y)' can be used
 	and input as affirmative.
-
-	* The "plant pot plant in plant pot" problem
 
 	* Actor conversation al a INFOCOM "floyd, get the card"
 
@@ -98,7 +97,12 @@ ToDo:
 
 	* > THE BALL, What do you want to do with the ball?, > KICK IT
 
-Done:
+
+DONE:
+	* Document how to create floating objects.
+
+	* The "plant pot plant in plant pot" problem
+
 	* Number registrations!
 
 	* Named scripts: SCRIPT <id>, USE <id> FOR actor
@@ -114,6 +118,4 @@ Done:
 	* If the HERO is redefined mulitple times it does not work well.
 
 	* Clean up the manual with respect to the  MESSAGE-descriptions
-
-	* Document how to create floating objects.
 

@@ -386,7 +386,7 @@ static void unambig(plst)
   firstWord = wrdidx;
   while (wrds[wrdidx] != EOF && isAdj(wrds[wrdidx])) {
     /* If this word can be a noun and there is no noun following break loop */
-    if (isNoun(wrds[wrdidx]) && (wrds[wrdidx+1] == EOF || isConj(wrds[wrdidx+1])))
+    if (isNoun(wrds[wrdidx]) && (wrds[wrdidx+1] == EOF || !isNoun(wrds[wrdidx+1])))
       break;
     cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].adjrefs));
     lstcpy(savlst, plst);	/* To save it for backtracking */

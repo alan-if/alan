@@ -6,8 +6,8 @@ Object plant_pot At l
   Name plant pot
 
   Verb plant
-    Check p = pot_plant
-      Else "You can't $v the $o in that."
+    Check o = pot_plant
+      Else "You can't $v the $1 in that."
     Does
       "Planted."
   End Verb plant.  
@@ -26,5 +26,5 @@ Syntax
   plant = plant (o) 'in' (p).
 
 Start At l.
-	"Try 'x' on the objects."
-
+	"Try 'x' on the objects, then 'plant the pot plant in the plant pot'."
+	

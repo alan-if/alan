@@ -1,3 +1,11 @@
+Thu Jul 24 13:36:24 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* Fixed some problems with the same word as noun, adjective and
+	verbs. It is now possible to say "plant the pot plant in the plant
+	pot".
+
+	* Changed some dump format in the compiler
+
 Sat May 31 15:29:24 MET DST 1997
 
 	* v2.7(2)
@@ -12,8 +20,9 @@ Sat Mar 29 12:31:24 1997  Thomas Nilsson  <thoni@rabbit>
 
 Thu Dec 12 14:53:12 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Removed the directory part of the log file name, meaning that
-	log file is always written in the user directory.
+	* Removed the directory part of the name of the log file created
+ 	when using the -l switch to the interpreter, meaning that log files
+ 	are always created in the user directory.
 
 Thu Aug 29 19:34:09 1996  Thomas Nilsson  <thoni@rabbit>
 

@@ -15,14 +15,14 @@ arun pot < pot.input
         2 informational message(s).
 
 
-Try 'x' on the objects.
+Try 'x' on the objects, then 'plant the pot plant in the plant pot'.
 
 
 L.
 There is a pot plant and a plant pot here.
 
 > plant the pot plant in the plant pot
-I don't understand.
+Planted.
 
 > 
 
