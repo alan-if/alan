@@ -440,7 +440,7 @@ void interpret(Aaddr adr)
 	evt = pop();
 	if (singleStepOption)
 	  printf("CANCEL \t%5ld\t\t", evt);
-	cancl(evt);
+	cancelEvent(evt);
 	break;
       }
       case I_MAKE: {

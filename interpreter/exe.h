@@ -9,8 +9,6 @@
 \*----------------------------------------------------------------------*/
 
 /* The event queue */
-extern EventQueueEntry eventQueue[]; /* Event queue */
-extern int etop;		/* Event queue top pointer */
 extern Boolean looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */
 
@@ -41,7 +39,8 @@ extern void empty(Aword cnt, Aword whr);
 extern void score(Aword sc);
 extern void visits(Aword v);
 extern void schedule(Aword evt, Aword whr, Aword aft);
-extern void cancl(Aword evt);
+extern void cancelEvent(Aword evt);
+extern void increaseEventQueue(void);
 extern void quit(void);
 extern void restartGame(void);
 extern void saveGame(void);

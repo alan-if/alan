@@ -31,14 +31,8 @@
 
 #define WIDTH 80
 
-#define N_EVTS 100
-
 
 /* PUBLIC DATA */
-
-/* The event queue */
-EventQueueEntry eventQueue[N_EVTS];        /* Event queue */
-int etop = 0;                   /* Event queue top pointer */
 
 Boolean looking = FALSE;        /* LOOKING? flag */
 
@@ -235,7 +229,7 @@ void restartGame(void)
 
 
 /*======================================================================*/
-void cancl(Aword evt)
+void cancelEvent(Aword evt)
 {
   int i;
 
@@ -254,15 +248,26 @@ void cancl(Aword evt)
 
 
 /*======================================================================*/
-void schedule(Aword evt, Aword whr, Aword aft)
+void increaseEventQueue(void)
+{
+  eventQueue = realloc(eventQueue, (etop+2)*sizeof(EventQueueEntry));
+  if (eventQueue == NULL) syserr("Out of memory in increaseEventQueue()");
+
+  EventQueueSize = etop + 2;
+}
+
+
+/*======================================================================*/
+void schedule(Aword event, Aword where, Aword after)
 {  int i;
    int time;
   
-  cancl(evt);
+  cancelEvent(event);
   /* Check for overflow */
-  if (etop == N_EVTS) syserr("Out of event space.");
+  if (etop == EventQueueSize)
+    increaseEventQueue();
   
-  time = current.tick+aft;
+  time = current.tick+after;
   
   /* Bubble this event down */
   for (i = etop; i >= 1 && eventQueue[i-1].time <= time; i--) {
@@ -272,8 +277,8 @@ void schedule(Aword evt, Aword whr, Aword aft)
   }
   
   eventQueue[i].time = time;
-  eventQueue[i].where = whr;
-  eventQueue[i].event = evt;
+  eventQueue[i].where = where;
+  eventQueue[i].event = event;
   etop++;
 }
 

@@ -43,7 +43,22 @@ void testGetString()
 }
 
 
+static void testIncreaseEventQueue()
+{
+  EventQueueSize = 0;
+  eventQueue = NULL;
+  etop = 0;
+
+  increaseEventQueue();
+
+  ASSERT(EventQueueSize != 0);
+  ASSERT(eventQueue != NULL);
+}
+
+
+
 void registerExeUnitTests()
 {
   registerUnitTest(testGetString);
+  registerUnitTest(testIncreaseEventQueue);
 }

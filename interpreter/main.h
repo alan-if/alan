@@ -25,14 +25,22 @@ extern int conjWord;		/* First conjunction in dictionary */
 extern Aword *memory;
 extern AcdHdr *header;
 
+ /* Event queue */
+extern int EventQueueSize;
+extern EventQueueEntry *eventQueue;
+extern int etop;		/* Event queue top pointer */
+
 /* Amachine variables */
 extern CurVars current;
 
-/* Amachine data structures */
+/* Amachine data structures - Dynamic */
+extern InstanceEntry *instance; /* Instance table pointer */
 extern AdminEntry *admin;	/* Administrative data about instances */
+extern Aword *scores;		/* Score table pointer */
+
+/* Amachine data structures - Static */
 extern WrdEntry *dict;		/* Dictionary pointer */
 extern ClassEntry *class;	/* Class table pointer */
-extern InstanceEntry *instance; /* Instance table pointer */
 extern ContainerEntry *container; /* Container table pointer */
 
 extern VerbEntry *vrbs;		/* Verb table pointer */
@@ -40,7 +48,6 @@ extern ParseEntry *stxs;		/* Syntax table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
 extern EventEntry *events;	/* Event table pointer */
 extern MsgEntry *msgs;		/* Message table pointer */
-extern Aword *scores;		/* Score table pointer */
 extern Aword *freq;		/* Cumulated frequencies */
 
 extern int dictsize;		/* Number of entries in dictionary */

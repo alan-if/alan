@@ -54,19 +54,25 @@ int conjWord;			/* First conjunction in dictonary, for ',' */
 /* Amachine variables */
 CurVars current;
 
-/* Amachine structures */
-InstanceEntry *instance;	/* Instance table pointer */
-ClassEntry *class;		/* Class table pointer */
-ContainerEntry *container;	/* Container table pointer */
+/* The event queue */
+int EventQueueSize = 0;
+EventQueueEntry *eventQueue = NULL; /* Event queue */
+int etop = 0;                   /* Event queue top pointer */
 
+/* Amachine structures - Dynamic */
+InstanceEntry *instance;	/* Instance table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
+Aword *scores;			/* Score table pointer */
+
+/* Amachine structures - Static */
+ContainerEntry *container;	/* Container table pointer */
+ClassEntry *class;		/* Class table pointer */
 WrdEntry *dict;			/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
-ParseEntry *stxs;			/* Syntax table pointer */
+ParseEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
 MsgEntry *msgs;			/* Message table pointer */
-Aword *scores;			/* Score table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
@@ -1142,6 +1148,7 @@ static void start(void)
   current.location = startloc = where(HERO);
   current.actor = HERO;
   current.score = 0;
+
   if (traceOption)
     printf("\n<START:>\n");
   interpret(header->start);
@@ -1160,6 +1167,9 @@ static void init(void)
 
   /* Initialise some status */
   etop = 0;			/* No pending events */
+  if (eventQueue == NULL)	/* Make sure there is an event queue */
+    increaseEventQueue();
+
   looking = FALSE;		/* Not looking now */
   dscrstkp = 0;			/* No describe in progress */
 

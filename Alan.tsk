@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>217.89</origest>
-<currest>217.89</currest>
-<elapsed>80.89</elapsed>
+<origest>220.89</origest>
+<currest>220.89</currest>
+<elapsed>82.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>38</origest>
-<currest>38</currest>
-<elapsed>9</elapsed>
+<origest>40</origest>
+<currest>40</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>7</elapsed>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -118,6 +118,25 @@ TASK: create multiple entries for same verb in syntax mapping table
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Multiple but different syntaxes for same verb</desc>
+<notes>
+For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
+Syntax give_to_actor = give (thing) to (person)
+Syntax give_actor = give (person) (thing)
+Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
+To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
+
+Verb give_to_actor, give_actor ...
+
+We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Missing lines in -full listing</desc>
 <notes>Messages with only informational messages are not shown if listing is filtered using severity
 
@@ -161,21 +180,23 @@ E.g.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Location ENTERED</desc>
-<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Default syntax with parameter</desc>
 <notes>Does it work to refer to the default parameter "object"? Yes.
 How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
 
-Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition?
+Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition? What about if it is in an instance, look at its class? Yes. DONE.
+
+However, there is no possibility to have default restrictions work the same way since we have no idea in which classes the verb is defined. Remember that restrictions are declared together with the syntax which is declared once outside all entities.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO</desc>
+<notes>Investigate the possibility to just reallocate new admin[] and instance[] tables after each turn and make undo backup.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -187,8 +208,8 @@ Is it possible to defer the actual class restriction to execution? Or should we 
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -201,6 +222,17 @@ This would allow code generating once for some inherited constructs:
 -scripts
 -descriptions
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Location ENTERED</desc>
+<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
+
+STEP1: Add an entered slot in the property structure in the compiler so that it could remain compatible.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -330,17 +362,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Language texts in external files</desc>
-<notes>Need:
-To allow user managed language translations.
-
-Design:
-If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
-
-Implementation:
-1) Allow any id as a value for the language option.
-2) Find an external langauge-specific message file and use it.
-3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -376,18 +399,17 @@ At analysis connect a parameter list to the verb and use that instead of the syn
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Multiple but different syntaxes for same verb</desc>
-<notes>
-For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
-Syntax give_to_actor = give (thing) to (person)
-Syntax give_actor = give (person) (thing)
-Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
-To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
+<desc>Language texts in external files</desc>
+<notes>Need:
+To allow user managed language translations.
 
-Verb give_to_actor, give_actor ...
+Design:
+If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
 
-We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
-</notes>
+Implementation:
+1) Allow any id as a value for the language option.
+2) Find an external langauge-specific message file and use it.
+3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -599,8 +621,8 @@ Multiple %1 '%2'</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>93</origest>
-<currest>93</currest>
+<origest>94</origest>
+<currest>94</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -608,6 +630,15 @@ Multiple %1 '%2'</notes>
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A very large number of events will not restore correctly after a save</desc>
+<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
