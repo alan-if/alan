@@ -90,7 +90,7 @@ void args(argc, argv)
   OSErr oe;
 
   CountAppFiles(&msg, &files);
-  if (msg==0 && files>0) {              /* Found files! */
+  if (msg==0 && files>0) {		/* Found files! */
     GetAppFiles(1, &af);
     advnam = (char *)af.fName;
     strncpy(advbuf, (char *)&af.fName[1], af.fName[0]);

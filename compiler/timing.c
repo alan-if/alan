@@ -1,4 +1,4 @@
-/* time.c */
+/* timing.c */
 
 #include <time.h>
 #include "sysdep.h"
@@ -69,12 +69,12 @@ TI_MODE mode;
 	    s= tb->real_elapsed;
 	    break;
 	case TIP_PROC:
-    	    ms= tb->pu_elapsed % 1000;
-    	    s=  tb->pu_elapsed / 1000;
+	    ms= tb->pu_elapsed % 1000;
+	    s=  tb->pu_elapsed / 1000;
 	    break;
 	case TIP_CHILD:
-    	    ms= tb->cu_elapsed % 1000;
-    	    s=  tb->cu_elapsed / 1000;
+	    ms= tb->cu_elapsed % 1000;
+	    s=  tb->cu_elapsed / 1000;
 	    break;
 	default:
 	    ms= 0;
@@ -85,15 +85,15 @@ TI_MODE mode;
     min= s / 60;
 
     switch (mode) {
-        case TIP_M_S:
-            printf("%02ld:%02ld", min, sec);
-            break;
-        case TIP_M_S_F:
-            printf("%02ld:%02ld.%03ld", min, sec, ms);
-            break;
-        case TIP_S_F:
-        default:
-            printf("%3ld.%03ld", s, ms);
+	case TIP_M_S:
+	    printf("%02ld:%02ld", min, sec);
+	    break;
+	case TIP_M_S_F:
+	    printf("%02ld:%02ld.%03ld", min, sec, ms);
+	    break;
+	case TIP_S_F:
+	default:
+	    printf("%3ld.%03ld", s, ms);
     }
 }
 
