@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>312.89</origest>
 <currest>311.89</currest>
-<elapsed>161.89</elapsed>
+<elapsed>163.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>38</origest>
-<currest>38</currest>
-<elapsed>8</elapsed>
+<origest>42</origest>
+<currest>42</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
-<elapsed>8</elapsed>
+<origest>21</origest>
+<currest>21</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -127,7 +127,27 @@ New clause on containers:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Unify messages 311, 351, 410, 428</desc>
+<desc>Allow parameters as actor in USE statement</desc>
+<notes>Need: to be able to start a specific script for a variable actor.
+
+Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Programmer Pitch in manual</desc>
+<notes>Alan is an application oriented language. It features constructs that are natural to an author of Interactive Fiction. Alan is a strictly typed, compiled, objectoriented language with single inheritance. Classes inherits properties from their superclasses. The class system allows polymorphism so that instances of subclasses are valid wherever a superclass is specified. There are no explicit types, instead types are inferred from the expressions.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow full stop/period/'.' as a sentence breaker in player commands</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -136,8 +156,8 @@ New clause on containers:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Programmer Pitch in manual</desc>
-<notes>Alan is an application oriented language. It features constructs that are natural to an author of Interactive Fiction. Alan is a strictly typed, compiled, objectoriented language with single inheritance. Classes inherits properties from their superclasses. The class system allows polymorphism so that instances of subclasses are valid wherever a superclass is specified. There are no explicit types, instead types are inferred from the expressions.</notes>
+<desc>Unify messages 311, 351, 410, 428</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -373,8 +393,8 @@ Which of the above works, and what is the problem with each that doesn't?
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -407,6 +427,15 @@ The girl Isa actor
 
 is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: Allocate parameter lists</desc>
+<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -456,8 +485,8 @@ Message CANTSEE:
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -531,14 +560,23 @@ pointing to "count" since that is the left hand side of the assumed expression
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Player reference to single object using 'them'</desc>
+<notes>Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>109</origest>
-<currest>109</currest>
+<origest>105</origest>
+<currest>105</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -628,17 +666,6 @@ Implementation:
 <task>
 <desc>VISITS is a reserved word that causes many compiler problems</desc>
 <notes>See compiler test case visits.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow parameters as actor in USE statement</desc>
-<notes>Need: to be able to start a specific script for a variable actor.
-
-Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1187,26 +1214,8 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Player reference to single object using 'them'</desc>
-<notes>Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor: Allocate parameter lists</desc>
-<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1621,7 +1630,8 @@ Possibly is nullified if DESCRIPTION CHECK is introduced.</notes>
 <desc>How to read the end point of a direction?</desc>
 <notes>
 Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
-</notes>
+
+Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1873,15 +1883,6 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <task>
 <desc>'again' verb</desc>
 <notes>Requires meta-handling like 'undo'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow full stop/period/'.' as a sentence breaker in player commands</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

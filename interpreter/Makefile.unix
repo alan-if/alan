@@ -62,6 +62,7 @@ OBJECTS = arun.o \
 	reverse.o \
 	readline.o \
 	params.o \
+	syserr.o \
 	sysdep.o \
 	alan.version.o
 

@@ -105,10 +105,7 @@ static char *token;
 
 
 /*----------------------------------------------------------------------*/
-static int lookup(
-     char wrd[]
-)
-{
+static int lookup(char wrd[]) {
   int i;
 
   for (i = 0; !endOfTable(&dict[i]); i++) {
@@ -184,10 +181,10 @@ static void getline(void)
       glk_put_string_stream(logFile, buf);
       glk_put_char_stream(logFile, '\n');
 #else
-#ifndef __amiga__
-      fprintf(logFile, "%s\n", buf);
-#else
+#ifdef __amiga__
       fprintf(logFile, "%s", buf);
+#else
+      fprintf(logFile, "%s\n", buf);
 #endif
 #endif
     }
@@ -219,8 +216,18 @@ static void scan(void)
   int i;
   int w;
   char *str;
+  static Boolean continued = FALSE;
 
-  getline();
+  if (continued) {
+    /* Player used '.' to separate commands. Read next */
+    para();
+    token = gettoken(NULL);
+    if (token == NULL)
+      getline();
+    continued = FALSE;
+  } else
+    getline();
+
   wrds[0] = 0;
   for (i = 0; i < litCount; i++)
     if (literal[i].type == STRING_LITERAL && literal[i].value != 0)
@@ -252,6 +259,11 @@ static void scan(void)
       }
     } else if (token[0] == ',') {
       wrds[i++] = conjWord;
+    } else if (token[0] == '.') {
+      continued = TRUE;
+      wrds[i] = EOF;
+      eol = TRUE;
+      break;
     } else
       unknown(token);
     wrds[i] = EOF;

@@ -1,3 +1,13 @@
+Syntax 'stop' = 'stop' (a)
+  Where a Isa actor Else "You can only stop actors."
+
+Add To Every actor
+  Verb 'stop'
+    Does
+      Stop a.
+  End Verb.
+End Add To.
+
 The bartender Isa actor At l
   Script tending.
     Step
@@ -7,6 +17,11 @@ End The bartender.
 
 Event stop_bartender
   Stop bartender Of l.
+  Schedule start_bartender After 2.
+End Event.
+
+Event start_bartender
+  Use Script tending For bartender.
 End Event.
 
 Verb z

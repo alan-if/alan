@@ -44,6 +44,7 @@ BUILDSRCS = \
 	elm.c \
 	encode.c \
 	evt.c \
+	form.c \
 	id.c \
 	lim.c \
 	msg.c \

@@ -2541,6 +2541,12 @@ ID
 	%ID.id = newId(`&%'INTO'.srcp, %'INTO'.chars);
     %%
 
+    ! 'TAKING'
+    %%
+	%ID.id = newId(`&%'TAKING'.srcp, %'TAKING'.chars);
+    %%
+
+
 -- Possibly we could add further keywords here. But let's not at this point
 -- Remember to change scanner so that the characters are copied for the
 -- added keyword too.

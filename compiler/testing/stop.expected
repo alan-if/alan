@@ -3,18 +3,23 @@
 
 stop.alan
 
-    6.    Stop l.
+    8.        Stop a.
+=====>             1
+
+  *1*   410 E : STOP statement must refer to an instance inheriting from actor.
+
+   13.    Stop l.
 =====>         1
 
   *1*   410 E : STOP statement must refer to an instance inheriting from actor.
 
-    7.    Stop act Of l.
+   14.    Stop act Of l.
 =====>             1
 
   *1*   410 E : STOP statement must refer to an instance inheriting from actor.
 
 
-        2 error(s).
+        3 error(s).
         No detected warnings.
         1 informational message(s).
 
