@@ -28,7 +28,7 @@ Context *newContext(ContextKind kind, void *item)
   case NULL_CONTEXT:
     break;
   default:
-    syserr("Unexpected Context kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected Context kind");
   }
   return new;
 }
@@ -45,7 +45,7 @@ Symbol *symbolOfContext(Context *context) {
   case NULL_CONTEXT:
     return NULL;
   default:
-    syserr("Unexpected Context kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected Context kind");
   }
   return NULL;
 }
@@ -98,11 +98,11 @@ IdNode *classIdInContext(Context *context)
     else if (context->class)
       classId = context->class->props->id;
     else
-      syserr("No instance or class in context in '%s()'", __FUNCTION__);
+      SYSERR("No instance or class in context");
     break;
 
   default:
-    syserr("Unexpected context in '%s()'.", __FUNCTION__);
+    SYSERR("Unexpected context");
   }
 
   return(classId);

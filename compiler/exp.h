@@ -75,7 +75,8 @@ typedef struct Expression {
 
     struct {			/* for ATTRIBUTE */
       struct Expression *wht;	/* Attribute of what? */
-      struct IdNode *atr;	/* Id of the attribute */
+      struct IdNode *id;	/* Id of the attribute */
+      struct Attribute *atr;	/* The attribute node */
     } atr;
 
     struct {			/* for BINARY */

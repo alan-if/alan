@@ -68,7 +68,7 @@ static void analyzeElement(Element *elm)
   case END_OF_SYNTAX:
     break;
   default:
-    syserr("Unknown element node kind in '%s()'", __FUNCTION__);
+    SYSERR("Unknown element node kind");
     break;
   }
 }

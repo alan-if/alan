@@ -41,6 +41,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
       Bool replicated;
       struct Properties *props;
       Bool prohibitedSubclassing;
+      Bool isBasicType;
     } entity;
 
     struct {

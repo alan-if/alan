@@ -93,7 +93,7 @@ void testGenerateInstances()
   ASSERT(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
   ASSERT(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
   ASSERT(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
-  ASSERT(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
+  ASSERT(convertFromACD(instanceTable->initialAttributes) == ins->props->attributeAddress);
   ASSERT(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
   ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
   ASSERT(convertFromACD(instanceTable->indefinite) == ins->props->definiteAddress);

@@ -180,7 +180,7 @@ void analyzeProps(Properties *props, Context *context)
   if (inheritsFrom(props->id->symbol, locationSymbol) && props->whr != NULL)
     lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
   if (inheritsFrom(props->id->symbol, actorSymbol)
-      && props->whr != NULL && props->whr->kind == WHR_IN)
+      && props->whr != NULL && props->whr->kind == WHERE_IN)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(props);
@@ -300,8 +300,8 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   else
     entry->parent = props->parentId->symbol->code;
 
-  entry->location = generateInitialLocation(props->whr);
-  entry->attributes = props->attributeAddress;
+  entry->initialLocation = generateInitialLocation(props->whr);
+  entry->initialAttributes = props->attributeAddress;
   entry->checks = props->descriptionChecksAddress;
   entry->description = props->descriptionAddress;
   entry->entered = props->enteredAddress;

@@ -47,7 +47,7 @@ void symbolizeExpression(Expression *exp) {
     symbolizeWhat(exp->fields.wht.wht);
     break;
   default:
-    syserr("Unexpected Expression kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected Expression kind");
   }
 }
 
@@ -57,7 +57,7 @@ void symbolizeExpression(Expression *exp) {
 Bool equalTypes(TypeKind typ1, TypeKind typ2)
 {
   if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
-    syserr("Unintialised type in '%s()'", __FUNCTION__);
+    SYSERR("Unintialised type");
   return (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE || typ1 == typ2);
 }
 
@@ -77,7 +77,7 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
     lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the class of the attribute infered from its initial value does not have the Container property", NULL);
     break;
   default:
-    syserr("Unexpected Expression kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected Expression kind");
   }
 }
 
@@ -85,7 +85,6 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
 void verifyContainerExpression(Expression *what, Context *context,
                                char constructDescription[]) {
 
-  analyzeExpression(what, context);
   if (what->type != ERROR_TYPE) {
     if (what->type != INSTANCE_TYPE)
       lmLogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
@@ -105,7 +104,7 @@ Symbol *symbolOfExpression(Expression *exp, Context *context) {
   case ATTRIBUTE_EXPRESSION:
     return exp->class;
   default:
-    syserr("Unexpected expression kind in '%s()'.", __FUNCTION__);
+    SYSERR("Unexpected expression kind");
   }
   return NULL;
 }
@@ -129,7 +128,7 @@ Symbol *contentOf(Expression *what, Context *context) {
     content = contentOfSymbol(symbol);
     break;
   default:
-    syserr("Unexpected What kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected What kind");
     break;
   }
   return content;
@@ -144,7 +143,7 @@ static char *aggregateToString(AggregateKind agr)
   case MAX_AGGREGATE: return("MAX"); break;
   case MIN_AGGREGATE: return("MIN"); break;
   case COUNT_AGGREGATE: return("COUNT"); break;
-  default: syserr("Unexpected aggregate kind in '%s()'.", __FUNCTION__);
+  default: SYSERR("Unexpected aggregate kind");
   }
   return NULL;
 }
@@ -195,7 +194,7 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 /*======================================================================*/
 Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
   Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
-  exp->fields.atr.atr = attribute;
+  exp->fields.atr.id = attribute;
   exp->not = not;
   exp->fields.atr.wht = ofWhat;
   return exp;
@@ -212,16 +211,77 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *clas
 
 
 /*----------------------------------------------------------------------*/
+Symbol *classOfMembers(Expression *exp)
+{
+  /* Find what classes a Set contains */
+  switch (exp->kind) {
+  case ATTRIBUTE_EXPRESSION:
+    return exp->fields.atr.atr->setClass;
+    break;
+  default:
+    SYSERR("Unexpected Expression kind");
+    break;
+  }
+  return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void verifySetMember(Expression *theSet, Expression *theMember) {
+
+  switch (theMember->type) {
+  case INTEGER_TYPE: theMember->class = integerSymbol; break;
+  case STRING_TYPE: theMember->class = stringSymbol; break;
+  case INSTANCE_TYPE: break;
+  default: SYSERR("Unexpected member type");
+  }
+  if (theMember->class != NULL)
+    if (!inheritsFrom(theSet->class, theMember->class)) {
+      char *setContentsMessage;
+      char buffer[1000];
+      if (theSet->class != NULL) {
+	if (theSet->class->fields.entity.isBasicType)
+	  setContentsMessage = theSet->class->string;
+	else {
+	  sprintf(buffer, "instances of %s and its subclasses", theSet->class->string);
+	  setContentsMessage = buffer;
+	}
+      } else
+	setContentsMessage = "unknown class";
+      lmLog(&theMember->srcp, 410, sevERR, setContentsMessage);
+    }
+}
+  
+
+/*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {
   Expression *what = exp->fields.whr.wht;
   Where *where = exp->fields.whr.whr;
 
+  switch (where->kind) {
+  case WHERE_HERE:
+  case WHERE_NEAR:
+    break;
+  case WHERE_AT:
+    analyzeExpression(where->what, context);
+    if (where->what->type != ERROR_TYPE)
+      if (where->what->type != INSTANCE_TYPE)
+        lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
+    break;
+  case WHERE_IN:
+    analyzeExpression(where->what, context);
+    if (where->what->type != SET_TYPE) /* Can be in a container and in a set */
+      verifyContainerExpression(where->what, context, "Expression after IN");
+    break;
+  default:
+    SYSERR("Unrecognized switch");
+    break;
+  }
+
   analyzeExpression(what, context);
   if (what->type != ERROR_TYPE) {
-    if (what->type != INSTANCE_TYPE)
-      lmLogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
-    else {
+    if (what->type == INSTANCE_TYPE) {
       switch (what->kind) {
       case WHAT_EXPRESSION:
         switch (what->fields.wht.wht->kind) {
@@ -233,54 +293,48 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         case WHAT_ACTOR:
           break;
         default:
-          syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+          SYSERR("Unrecognized switch");
           break;
         }
         break;
       case ATTRIBUTE_EXPRESSION:
         break;
       default:
-        syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+        SYSERR("Unrecognized switch");
         break;
       }
-    }
+    } else if (where->what->type != SET_TYPE)
+      lmLogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
   }
 
-  switch (where->kind) {
-  case WHR_HERE:
-  case WHR_NEAR:
-    break;
-  case WHERE_AT:
-    analyzeExpression(where->what, context);
-    if (where->what->type != ERROR_TYPE)
-      if (where->what->type != INSTANCE_TYPE)
-        lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
-    break;
-  case WHR_IN:
-    verifyContainerExpression(where->what, context, "Expression after IN");
-    break;
-  default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-    break;
+  if (where->kind == WHERE_IN && where->what->type == SET_TYPE) {
+    where->kind = WHERE_INSET;
+    verifySetMember(where->what, what);
   }
-
   exp->type = BOOLEAN_TYPE;
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static TypeKind verifyExpressionAttribute(IdNode *attributeId,
+static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
                                           Attribute *foundAttribute)
 {
+  IdNode *attributeId = attributeExpression->fields.atr.id;
+  TypeKind type = UNINITIALIZED_TYPE;
+
+  if (attributeExpression->kind != ATTRIBUTE_EXPRESSION)
+    SYSERR("Not an Attribute Expression");
+
   if (foundAttribute == NULL) {
     return ERROR_TYPE;
   } else if (foundAttribute->id->symbol == NULL) {
     attributeId->code = foundAttribute->id->code;
-    return foundAttribute->type;
+    attributeExpression->fields.atr.atr = foundAttribute;
+    type = foundAttribute->type;
   } else
-    syserr("Attribute with symbol in '%s()'", __FUNCTION__);
-  return UNINITIALIZED_TYPE;
+    SYSERR("Attribute with symbol");
+  return type;
 }
 
 
@@ -294,10 +348,14 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 
   switch (what->kind) {
   case WHAT_EXPRESSION:
-    atr = resolveAttribute(what, exp->fields.atr.atr, context);
-    exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
-    if (exp->type == INSTANCE_TYPE && atr->instance->symbol != NULL)
-      exp->class = atr->instance->symbol->fields.entity.parent;
+    atr = resolveAttribute(what, exp->fields.atr.id, context);
+    exp->type = verifyExpressionAttribute(exp, atr);
+    if (exp->type == INSTANCE_TYPE) {
+      if (atr->instance->symbol != NULL)
+	/* Set the expressions class to the class of the attribute */
+	exp->class = atr->instance->symbol->fields.entity.parent;
+    } else if (exp->type == SET_TYPE)
+      exp->class = classOfMembers(exp);
     break;
 
   case ATTRIBUTE_EXPRESSION:
@@ -306,8 +364,8 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
         exp->type = ERROR_TYPE;
         lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
       } else {
-        atr = resolveAttribute(what, exp->fields.atr.atr, context);
-        exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+        atr = resolveAttribute(what, exp->fields.atr.id, context);
+        exp->type = verifyExpressionAttribute(exp, atr);
       }
     }
     break;
@@ -409,7 +467,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
     break;
 
   default:
-    syserr("Unrecognized binary operator in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized binary operator");
     break;    
   }
 }
@@ -421,7 +479,7 @@ static Bool analyzeAttributeFilter(Expression *theFilterExpression,
 				   char *aggregateString)
 {
   Attribute *attribute;
-  IdNode *attributeId = theFilterExpression->fields.atr.atr;
+  IdNode *attributeId = theFilterExpression->fields.atr.id;
   Bool ret = TRUE;
 
   if (classId == NULL)
@@ -468,7 +526,7 @@ static IdNode *analyzeClassingFilter(Expression *theAggregateExpression,
   case ATTRIBUTE_EXPRESSION:
     break;
   default:
-    syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
+    SYSERR("Unimplemented aggregate filter expression type");
   }
   return classId;
 }
@@ -497,7 +555,7 @@ static void analyzeNonClassingFilter(Expression *theAggregateExpression,
   case ISA_EXPRESSION:
     break;
   default:
-    syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
+    SYSERR("Unimplemented aggregate filter expression type");
   }
 }
 
@@ -580,7 +638,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
   IdNode *classId;
 
   if (exp->kind != WHAT_EXPRESSION)
-    syserr("Not a WHAT-expression in '%s()'", __FUNCTION__);
+    SYSERR("Not a WHAT-expression");
   if (!verifyWhatContext(exp->fields.wht.wht, context)) {
     exp->type = ERROR_TYPE;
     return;
@@ -616,7 +674,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
         exp->class = symbol->fields.entity.parent;
         break;
       default:
-        syserr("Unexpected symbolKind in %s()", __FUNCTION__);
+        SYSERR("Unexpected symbolKind");
         break;
       }
     } else
@@ -631,7 +689,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     break;
 
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 }
@@ -739,7 +797,7 @@ void analyzeExpression(Expression *expression,
     break;
 
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 }
@@ -785,7 +843,7 @@ void generateBinaryOperator(Expression *exp)
     else if (exp->type == STRING_TYPE)
       emit0(I_CONCAT);
     else
-      syserr("Unexpected type in '%s()'", __FUNCTION__);
+      SYSERR("Unexpected type");
     break;
   case MINUS_OPERATOR:
     emit0(I_MINUS);
@@ -821,17 +879,17 @@ static void generateWhereExpression(Expression *exp)
   Expression *what = exp->fields.whr.wht;
 
   switch (where->kind) {
-  case WHR_HERE:
+  case WHERE_HERE:
     generateExpression(what);
     emit0(I_HERE);
     if (exp->not) emit0(I_NOT);
     return;
-  case WHR_NEAR:
+  case WHERE_NEAR:
     generateExpression(what);
     emit0(I_NEAR);
     if (exp->not) emit0(I_NOT);
     return;
-  case WHR_IN:
+  case WHERE_IN:
     generateExpression(where->what);
     generateExpression(what);
     emit0(I_IN);
@@ -865,7 +923,7 @@ void generateAttributeAccess(Expression *exp)
 
 /*======================================================================*/
 void generateAttributeReference(Expression *exp) {
-  generateId(exp->fields.atr.atr);
+  generateId(exp->fields.atr.id);
   generateExpression(exp->fields.atr.wht);
 }
 
@@ -900,14 +958,14 @@ void generateRightHandExpression(Expression *exp)
     generateBinaryOperator(exp);
     break;
   case ATTRIBUTE_EXPRESSION:
-    generateId(exp->fields.atr.atr);
+    generateId(exp->fields.atr.id);
     generateAttributeAccess(exp);
     break;
   case BETWEEN_EXPRESSION:
     generateBetweenCheck(exp);
     break;
   default:
-    syserr("Unimplemented aggregate filter expression in '%s()'", __FUNCTION__);
+    SYSERR("Unimplemented aggregate filter expression");
   }
 }
 
@@ -921,7 +979,7 @@ static void generateAggregateExpression(Expression *exp)
   case MAX_AGGREGATE:
   case SUM_AGGREGATE: emitConstant(0); break;
   case MIN_AGGREGATE: emitConstant(-1); break;
-  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+  default: SYSERR("Unrecognized switch");
   }
   emit0(I_AGRSTART);
 
@@ -939,7 +997,7 @@ static void generateAggregateExpression(Expression *exp)
   case MAX_AGGREGATE: emit0(I_MAX); break;
   case MIN_AGGREGATE: emit0(I_MIN); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
-  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+  default: SYSERR("Unrecognized switch");
   }
   emit0(I_ENDAGR);
 }
@@ -1004,7 +1062,7 @@ static void generateIsaExpression(Expression *exp)
 void generateExpression(Expression *exp)
 {
   if (exp == NULL) {
-    syserr("Generating a NULL expression", NULL);
+    SYSERR("Generating a NULL expression");
     emitConstant(0);
     return;
   }
@@ -1212,7 +1270,7 @@ void dumpExpression(Expression *exp)
     break;
   case ATTRIBUTE_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.atr.wht); nl();
-    put("atr: "); dumpId(exp->fields.atr.atr);
+    put("atr: "); dumpId(exp->fields.atr.id);
     break;
   case INTEGER_EXPRESSION:
     put("val: "); dumpInt(exp->fields.val.val);

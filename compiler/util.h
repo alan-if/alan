@@ -23,7 +23,7 @@ extern long counter;		/* And counter for verbose mode */
 
 
 /* FUNCTIONS */
-#define SYSERR(m) syserr(m, __FUNCTION__)
+#define SYSERR(m) syserr(m " in '%s()'", __FUNCTION__)
 extern void syserr(char *str, char function[]);
 extern void showProgress(void);
 extern void *allocate(int len);

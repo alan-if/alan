@@ -15,7 +15,7 @@ void testClassOfContent()
 						 newWhat(&nulsrcp,
 							 WHAT_LOCATION,
 							 id));
-  Where *whereInActor = newWhere(&nulsrcp, WHR_IN,
+  Where *whereInActor = newWhere(&nulsrcp, WHERE_IN,
 				 newWhatExpression(nulsrcp,
 						   newWhat(&nulsrcp,
 							   WHAT_ACTOR, id)));

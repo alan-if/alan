@@ -94,12 +94,14 @@ void initClasses()
   adv.clas = concat(adv.clas, integer, CLASS_LIST);
   integerSymbol = integer->props->id->symbol;
   integerSymbol->fields.entity.prohibitedSubclassing = TRUE;
+  integerSymbol->fields.entity.isBasicType = TRUE;
   integer->props->predefined = TRUE;
 
   string = newClass(&nulsrcp, stringId, literalId, NULL);
   adv.clas = concat(adv.clas, string, CLASS_LIST);
   stringSymbol = string->props->id->symbol;
   stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
+  stringSymbol->fields.entity.isBasicType = TRUE;
   string->props->predefined = TRUE;
 }
 
@@ -204,7 +206,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
   propCount++;
 
   if (propCount != NOOFPROPS)
-    syserr("Wrong number of inherited props in '%s()'", __FUNCTION__);
+    SYSERR("Wrong number of inherited props");
 }
 
 

@@ -134,7 +134,7 @@ static Aint generateQualifier(QualClass qualifier)
   case QUAL_ONLY: return Q_ONLY;
   case QUAL_DEFAULT: return Q_DEFAULT;
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     return Q_DEFAULT;
   }
 }

@@ -1989,7 +1989,7 @@ int rule			/* IN production number */
     case 310: { /* <optional_where> =; */
 #line 2312 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&nulsrcp, WHR_DEFAULT, NULL);
+        pmSeSt[pmStkP+1].whr = newWhere(&nulsrcp, WHERE_DEFAULT, NULL);
     	break;}
     case 311: { /* <optional_where> = <where>; */
 #line 2317 "alan.pmk"
@@ -1999,13 +1999,13 @@ int rule			/* IN production number */
     case 312: { /* <where> = 'HERE'; */
 #line 2324 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHR_HERE, NULL);
+        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_HERE, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 313: { /* <where> = 'NEARBY'; */
 #line 2330 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHR_NEAR, NULL);
+        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_NEAR, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 314: { /* <where> = 'AT' <what>; */
@@ -2017,7 +2017,7 @@ int rule			/* IN production number */
     case 315: { /* <where> = 'IN' <what>; */
 #line 2342 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHR_IN, pmSeSt[pmStkP+2].exp);
+        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_IN, pmSeSt[pmStkP+2].exp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 316: { /* <binop> = '+'; */

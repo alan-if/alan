@@ -19,7 +19,7 @@
 
 /* FUNCTIONS: */
 
-extern Where *newWhere(Srcp *srcp, WhrKind kind, struct Expression *what);
+extern Where *newWhere(Srcp *srcp, WhereKind kind, struct Expression *what);
 extern void symbolizeWhere(Where *whr);
 extern void verifyInitialLocation(Where *whr);
 extern void analyzeWhere(Where *whr, Context *context);

@@ -97,6 +97,7 @@ static void analyzeSay(StmNod *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeList(StmNod *stm, Context *context)	
 {
+  analyzeExpression(stm->fields.list.wht, context);
   verifyContainerExpression(stm->fields.list.wht, context, "LIST statement");
 }
 
@@ -104,9 +105,10 @@ static void analyzeList(StmNod *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeEmpty(StmNod *stm, Context *context)
 {
+  analyzeExpression(stm->fields.empty.wht, context);
   verifyContainerExpression(stm->fields.empty.wht, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
-  if (stm->fields.empty.where->kind == WHR_NEAR)
+  if (stm->fields.empty.where->kind == WHERE_NEAR)
     lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "LOCATE");
 }
 
@@ -132,16 +134,16 @@ static void analyzeLocate(StmNod *stm, Context *context)
   analyzeWhere(whr, context);
 
   switch (whr->kind) {
-  case WHR_HERE:
+  case WHERE_HERE:
   case WHERE_AT:
     break;
-  case WHR_IN:
+  case WHERE_IN:
     contentClass = contentOf(whr->what, context);
     if (contentClass != NULL && whtSymbol != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
     break;
-  case WHR_NEAR:
+  case WHERE_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
@@ -227,14 +229,14 @@ static void analyzeSchedule(StmNod *stm, Context *context)
   /* Now lookup where */
   analyzeWhere(stm->fields.schedule.whr, context);
   switch (stm->fields.schedule.whr->kind) {
-  case WHR_DEFAULT:
-    stm->fields.schedule.whr->kind = WHR_HERE;
+  case WHERE_DEFAULT:
+    stm->fields.schedule.whr->kind = WHERE_HERE;
     break;
-  case WHR_HERE:
+  case WHERE_HERE:
   case WHERE_AT:
     break;
-  case WHR_IN:
-  case WHR_NEAR:
+  case WHERE_IN:
+  case WHERE_NEAR:
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
   default:
@@ -373,7 +375,7 @@ static void analyzeDepend(StmNod *stm, Context *context)
 			exp->fields.btw.val = stm->fields.depend.exp;
 			break;
       	default:
-			SYSERR("Unrecognized switch case on expkd in '%s()'");
+			SYSERR("Unrecognized switch case on Expression kind");
 		}
 	} else
       /* If this is an ELSE-case there can not be any other afterwards */
@@ -645,7 +647,7 @@ static void generateLvalue(Expression *exp) {
     generateWhat(exp->fields.wht.wht);
     break;
   case ATTRIBUTE_EXPRESSION:
-    generateId(exp->fields.atr.atr);
+    generateId(exp->fields.atr.id);
     generateExpression(exp->fields.atr.wht);
     break;
   default: syserr("Unexpected expression in '%s()'", __FUNCTION__);
@@ -702,8 +704,8 @@ static void generateSchedule(StmNod *stm)
   /* statement is such that at scheduling AT something does not mean */
   /* where that something is now but where it is when the event is run! */
   switch (stm->fields.schedule.whr->kind) {
-  case WHR_DEFAULT:
-  case WHR_HERE:
+  case WHERE_DEFAULT:
+  case WHERE_HERE:
     emitVariable(V_CURLOC);
     break;
     

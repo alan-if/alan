@@ -9,6 +9,22 @@
 #include "exp.c"
 #include "ins_x.h"
 
+void testVerifySetMember() {
+  Expression *theSet = newWhatExpression(nulsrcp, NULL);
+  Expression *theMember = newWhatExpression(nulsrcp, NULL);
+
+  theSet->type = INTEGER_TYPE;
+  theMember->type = INSTANCE_TYPE;
+  theMember->class = locationSymbol;
+  verifySetMember(theSet, theMember);
+  ASSERT(readEcode() == 410);
+
+  theSet->class = locationSymbol;
+  theSet->type = INSTANCE_TYPE;
+  verifySetMember(theSet, theMember);
+  ASSERT(readEcode() == 0);
+}
+
 void testSymbolOf() {
   Context *context = newContext(NULL_CONTEXT, NULL);
   initSymbols();
@@ -43,7 +59,7 @@ void testAttributeToThis()
   theInstance->props->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;
 
-  theExp->fields.atr.atr = theAttributeId;
+  theExp->fields.atr.id = theAttributeId;
   theWhatExp->fields.wht.wht = theWhat;
   theExp->fields.atr.wht = theWhatExp;
 
@@ -79,5 +95,6 @@ void registerExpUnitTests()
   registerUnitTest(testAttributeToThis);
   registerUnitTest(testIsConstantIdentifier);
   registerUnitTest(testAnalyzeIsaExpression);
+  registerUnitTest(testVerifySetMember);
 }
 

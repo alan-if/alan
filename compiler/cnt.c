@@ -121,7 +121,7 @@ void verifyContainer(What *wht, Context *context, char construct[])
 	  lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
 	break;
       default:
-	syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+	SYSERR("Unexpected symbol kind");
       }
     break;
 
@@ -135,7 +135,7 @@ void verifyContainer(What *wht, Context *context, char construct[])
     break;
 
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 }

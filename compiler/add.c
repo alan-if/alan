@@ -306,7 +306,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount++;
 
     if (propsCount != NOOFPROPS)
-      syserr("Wrong number of property checks in '%s()'", __FUNCTION__);
+      SYSERR("Wrong number of property checks");
   }
 }
 
@@ -332,7 +332,7 @@ static void addAddition(AddNode *add)
     addScripts(add, originalClass); propCount++;
     addExits(add, originalClass); propCount++;
     if (propCount != NOOFPROPS)
-      syserr("Wrong property count in '%s()'", __FUNCTION__);
+      SYSERR("Wrong property count");
   }
 }
 

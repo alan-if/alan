@@ -278,24 +278,35 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
       lmLogv(&exp->srcp, 408, sevERR, "Expressions", "Set attribute", "the same", NULL);
     else if (exp->type == ERROR_TYPE)
       inferedType = ERROR_TYPE;
-    else if (exp->type == INSTANCE_TYPE) {
-      if (inferedClass == NULL)
-	inferedClass = exp->class;
-      else {
-	while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
-	  /* They are not of the same class so we need to find a common ancestor */
-	  inferedClass = inferedClass->fields.entity.parent;
-	  if (inferedClass == NULL)
-	    syserr("No common ancestor found for Set members", __FUNCTION__);
+    else
+      switch (exp->type) {
+      case INSTANCE_TYPE:
+	if (inferedClass == NULL)
+	  inferedClass = exp->class;
+	else {
+	  while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
+	    /* They are not of the same class so we need to find a common ancestor */
+	    inferedClass = inferedClass->fields.entity.parent;
+	    if (inferedClass == NULL)
+	      SYSERR("No common ancestor found for Set members");
+	  }
 	}
+	break;
+      case INTEGER_TYPE:
+	inferedClass = integerSymbol;
+	break;
+      case STRING_TYPE:
+	inferedClass = stringSymbol;
+	break;
+      default:
+	SYSERR("Unexpected type kind");
+	break;
       }
-    }
   }
   thisAttribute->setType = inferedType;
   if (inferedType == ERROR_TYPE)
     thisAttribute->type = ERROR_TYPE;
-  if (inferedType == INSTANCE_TYPE)
-    thisAttribute->setClass = inferedClass;
+  thisAttribute->setClass = inferedClass;
 }
 
 
@@ -395,7 +406,7 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
     switch (thisContext->kind) {
     case CLASS_CONTEXT:
       if (thisContext->class == NULL)
-	syserr("Context->class == NULL in '%s()'", __FUNCTION__);
+	SYSERR("Context->class == NULL");
       
       atr = findAttribute(thisContext->class->props->attributes, attribute);
       contextFound = TRUE;
@@ -403,7 +414,7 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
       
     case INSTANCE_CONTEXT:
       if (thisContext->instance == NULL)
-	syserr("context->instance == NULL in '%s()'", __FUNCTION__);
+	SYSERR("context->instance == NULL");
       
       atr = findAttribute(thisContext->instance->props->attributes, attribute);
       contextFound = TRUE;
@@ -446,7 +457,7 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
   case WHAT_ACTOR: return resolveAttributeOfActor(attribute, context); break;
   case WHAT_LOCATION: return resolveAttributeOfLocation(attribute, context); break;
   case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
-  default: syserr("Unexpected switch in '%s()'", __FUNCTION__);
+  default: SYSERR("Unexpected switch");
   }
   return NULL;
 }
@@ -460,7 +471,7 @@ Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *conte
   case ATTRIBUTE_EXPRESSION:
     return resolveAttributeToClass(exp->class, attributeId, context);
   default:
-    syserr("Unexpected expression kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected expression kind");
   }
   return NULL;
 }
@@ -555,13 +566,13 @@ static Aaddr generateSet(Attribute *atr)
   Aaddr adr = nextEmitAddress();
 
   if (atr->setType == STRING_TYPE)
-    syserr("Can't generate STRING sets yet.", __FUNCTION__);
+    SYSERR("Can't generate STRING sets yet,");
 
   TRAVERSE (elements, atr->set)
     switch (atr->setType) {
     case INSTANCE_TYPE: emit(symbolOfExpression(elements->element.exp, NULL)->code); break;
     case INTEGER_TYPE: emit(elements->element.exp->fields.val.val); break;
-    default: syserr("Unexpected attribute type in '%s()'", __FUNCTION__);
+    default: SYSERR("Unexpected attribute type");
     }
   emit(EOF);
 

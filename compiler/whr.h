@@ -15,18 +15,19 @@
 /* TYPES: */
 
 typedef enum WhrKind {		/* WHERE kinds */
-  WHR_DEFAULT,			/* None */
-  WHR_HERE,			/* HERE */
-  WHR_NEAR,			/* NEARBY */
+  WHERE_DEFAULT,			/* None */
+  WHERE_HERE,			/* HERE */
+  WHERE_NEAR,			/* NEARBY */
   WHERE_AT,			/* AT what */
-  WHR_IN			/* IN what */
-} WhrKind;
+  WHERE_IN,			/* IN what */
+  WHERE_INSET			/* IN <set> */
+} WhereKind;
 
 
-typedef struct WhrNod {		/* WHERE node */
+typedef struct Where {		/* WHERE node */
   Srcp srcp;			/* Source position */
-  WhrKind kind;			/* Where kind */
- struct Expression *what;		/* What */
+  WhereKind kind;		/* Where kind */
+  struct Expression *what;	/* What */
 } Where;
 
 

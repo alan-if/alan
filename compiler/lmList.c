@@ -179,6 +179,7 @@ static lmMsgs msg[] = {
     { "407   ", "Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'." },
     { "408   ", "%1 in %2 must be of %3 type." },
     { "409   ", "No parameters defined in this context." },
+    { "410   ", "Incompatible types in Set member test. The Set can only contain %1." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
     { "412   ", "Current Actor is not defined in Events." },
     { "414   ", "Invalid initial location for %1." },
@@ -216,7 +217,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 136}
+    {0, 137}
 };
 static lmMessages currMsect = (lmMessages)0;
 
