@@ -1,5 +1,7 @@
 ToDo:
-	* Document the BETWEEN statement
+	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
+
+	* RANDOM should allow expressions
 
 	* Experiment with making unknow words into strings:
 
@@ -7,11 +9,11 @@ ToDo:
 
 	if "hello" is an unknown word
 
-	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
+	* Break out the main program from the interpreter so that it
+	becomes easier to build windowed versions.
 
-	* e1 CONTAINS e2 - substring check
-
-	* Check how TADS and Inform does locations within locations.
+	* Nested locations? Check how TADS and Inform does locations
+	within locations.
 
 	* Check out the MaxZip and MaxTADS guy. Possibly that
 	framework would be used for Arun on the Mac, MaxArun.
@@ -36,8 +38,6 @@ ToDo:
 	the actor does?
 
 	* Vehicles?
-
-	* Nested locations?
 
 	* Change the interpreter to only look at its own name if no
 	parameter was given.
@@ -122,6 +122,13 @@ ToDo:
 
 
 DONE:
+	* Describe the listing and error messages format better
+	(positions, pointers etc.)
+
+	* Document the e1 CONTAINS e2 - substring check
+
+	* Document the BETWEEN statement
+
 	* e1 BETWEEN e1 AND e3
 
 	* More flexiblity in order of clauses, should be possible to
@@ -151,5 +158,5 @@ DONE:
 
 	* If the HERO is redefined mulitple times it does not work well.
 
-	* Clean up the manual with respect to the  MESSAGE-descriptions
+	* Clean up the manual with respect to the MESSAGE-descriptions
 

@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "arun.h"
+#include "main.h"
 #include "inter.h"
 #include "debug.h"
 #include "exe.h"

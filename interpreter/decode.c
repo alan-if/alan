@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 
-#include "arun.h"
+#include "main.h"
 #include "decode.h"
 
 

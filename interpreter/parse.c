@@ -15,7 +15,7 @@
 #include "readline.h"
 #endif
 
-#include "arun.h"
+#include "main.h"
 #include "inter.h"
 #include "exe.h"
 #include "term.h"

@@ -1,8 +1,8 @@
-#ifndef _ARUN_H_
-#define _ARUN_H_
+#ifndef _MAIN_H_
+#define _MAIN_H_
 /*----------------------------------------------------------------------*\
 
-  ARUN.H
+  MAIN.H
 
   Header file for main unit of ARUN Alan System interpreter
 
@@ -91,6 +91,9 @@ extern Boolean isLit(Aword x);
 extern Boolean isNum(Aword x);
 extern Boolean isStr(Aword x);
 
+/* Run the game! */
+extern void run(void);
+
 #else
 extern void *allocate();
 extern void terminate();
@@ -109,6 +112,7 @@ extern Boolean isCnt();
 extern Boolean isAct();
 extern Boolean isLoc();
 extern Boolean isLit();
+extern void run();
 #endif
 
 #endif

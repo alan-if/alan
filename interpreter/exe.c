@@ -12,7 +12,7 @@
 #include "readline.h"
 #endif
 
-#include "arun.h"
+#include "main.h"
 #include "parse.h"
 #include "inter.h"
 #include "stack.h"
@@ -1745,13 +1745,13 @@ Aword contains(string, substring)
 {
   Abool found;
 
-  strlow(string);
-  strlow(substring);
+  strlow((char *)string);
+  strlow((char *)substring);
 
-  found = (strstr(string, substring) != 0);
+  found = (strstr((char *)string, (char *)substring) != 0);
 
-  free(string);
-  free(substring);
+  free((char *)string);
+  free((char *)substring);
 
   return(found);
 }

@@ -25,6 +25,7 @@ tcov := LD = acc -a
 
 #--
 SRCS = debug.c \
+	main.c \
 	args.c \
 	exe.c \
 	inter.c \

@@ -18,7 +18,7 @@
 
 
 #include "inter.h"
-#include "arun.h"
+#include "main.h"
 #include "parse.h"
 #include "exe.h"
 
