@@ -1,0 +1,17 @@
+########## article ##########
+alan article
+arun article < article.input
+########## /bin/sh  article.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+L1.
+This is the description of a described object. There is an unknown object
+, something and a thing here.
+
+> 
+
+Do you want to restart (y) ? 
