@@ -20,7 +20,7 @@
 typedef struct Check {		/* CHECK */
   Expression *expression;	/* Expression to check */
   Aaddr expadr;			/* ACODE address to code for expression */
-  List *stms;			/* Statements for false check */
+  List *statements;		/* Statements for failing check */
   Aaddr stmadr;			/* ACODE address to statement code */
 } Check;
 

@@ -34,7 +34,7 @@ typedef struct Element {	/* ELEMENT */
   Id *id;			/* Name */
   Bool multiple;		/* Multiple indicator */
   int number;			/* AN - parameter number */
-  Restriction *restriction;	/* AN - link to the class restriction check */
+  List *restrictions;		/* AN - link to the class restriction check */
   Syntax *syntax;		/* AN - pointer back to syntax node */
 } Element;
 
