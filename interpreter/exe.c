@@ -28,12 +28,12 @@
 /* PUBLIC DATA */
 
 /* The event queue */
-EvtqElem eventq[N_EVTS];	/* Event queue */
-int etop = 0;			/* Event queue top pointer */
+EvtqElem eventq[N_EVTS];        /* Event queue */
+int etop = 0;                   /* Event queue top pointer */
 
-Boolean looking = FALSE;	/* LOOKING? flag */
+Boolean looking = FALSE;        /* LOOKING? flag */
 
-int dscrstkp = 0;		/* Describe-stack pointer */
+int dscrstkp = 0;               /* Describe-stack pointer */
 
 
 #ifdef _PROTOTYPES_
@@ -53,40 +53,40 @@ void print(fpos, len)
      Aword fpos, len;
 #endif
 {
-  char str[2*WIDTH];		/* String buffer */
-  int outlen = 0;		/* Current output length */
+  char str[2*WIDTH];            /* String buffer */
+  int outlen = 0;               /* Current output length */
   int ch;
   int i;
-  long savfp;			/* Temporary saved text file position */
+  long savfp;                   /* Temporary saved text file position */
   static Boolean printFlag = FALSE; /* Printing already? */
   Boolean savedPrintFlag = printFlag;
-  void *info;			/* Saved decoding info */
+  void *info;                   /* Saved decoding info */
 
 
   if (len == 0) return;
 
-  if (isHere(HERO)) {		/* Check if the player will see it */
-    if (printFlag) {		/* Already printing? */
+  if (isHere(HERO)) {           /* Check if the player will see it */
+    if (printFlag) {            /* Already printing? */
       /* Save current text file position and/or decoding info */
       if (header->pack)
 	info = pushDecode();
       else
 	savfp = ftell(txtfil);
     }
-    printFlag = TRUE;		/* We're printing now! */
-    fseek(txtfil, fpos, 0);	/* Position to start of text */
+    printFlag = TRUE;           /* We're printing now! */
+    fseek(txtfil, fpos, 0);     /* Position to start of text */
     if (header->pack)
       startDecoding();
     for (outlen = 0; outlen != len; outlen = outlen + strlen(str)) {
       /* Fill the buffer from the beginning */
       for (i = 0; i <= WIDTH || (i > WIDTH && ch != ' '); i++) {
-	if (outlen + i == len)	/* No more characters? */
+	if (outlen + i == len)  /* No more characters? */
 	  break;
 	if (header->pack)
 	  ch = decodeChar();
 	else
 	  ch = getc(txtfil);
-	if (ch == EOFChar)	/* Or end of text? */
+	if (ch == EOFChar)      /* Or end of text? */
 	  break;
 	str[i] = ch;
       }
@@ -117,7 +117,7 @@ void sys(fpos, len)
 {
   char *command;
 
-  getstr(fpos, len);		/* Returns address to string on stack */
+  getstr(fpos, len);            /* Returns address to string on stack */
   command = (char *)pop();
 #ifndef __amiga__
   system(command);
@@ -135,8 +135,8 @@ void getstr(fpos, len)
 {
   char *buf = allocate(len+1);
 
-  push((Aword) buf);		/* Push the address to the string */
-  fseek(txtfil, fpos, 0);	/* Position to start of text */
+  push((Aword) buf);            /* Push the address to the string */
+  fseek(txtfil, fpos, 0);       /* Position to start of text */
   if (header->pack)
     startDecoding();
   while (len--)
@@ -299,13 +299,13 @@ void schedule(evt, whr, aft)
  */
 #ifdef _PROTOTYPES_
 static Aword getatr(
-     Aaddr atradr,		/* IN - ACODE address to attribute table */
-     Aaddr atr			/* IN - The attribute to read */
+     Aaddr atradr,              /* IN - ACODE address to attribute table */
+     Aaddr atr                  /* IN - The attribute to read */
 )
 #else
 static Aword getatr(atradr, atr)
-     Aaddr atradr;		/* IN - ACODE address to attribute table */
-     Aaddr atr;			/* IN - The attribute to read */
+     Aaddr atradr;              /* IN - ACODE address to attribute table */
+     Aaddr atr;                 /* IN - The attribute to read */
 #endif
 {
   AtrElem *at;
@@ -324,15 +324,15 @@ static Aword getatr(atradr, atr)
  */
 #ifdef _PROTOTYPES_
 static void setatr(
-     Aaddr atradr,		/* IN - ACODE address to attribute table */
-     Aword atr,			/* IN - attribute code */
-     Aword val			/* IN - new value */
+     Aaddr atradr,              /* IN - ACODE address to attribute table */
+     Aword atr,                 /* IN - attribute code */
+     Aword val                  /* IN - new value */
 )
 #else
 static void setatr(atradr, atr, val)
-     Aaddr atradr;		/* IN - ACODE address to attribute table */
-     Aword atr;			/* IN - attribute code */
-     Aword val;			/* IN - new value */
+     Aaddr atradr;              /* IN - ACODE address to attribute table */
+     Aword atr;                 /* IN - attribute code */
+     Aword val;                 /* IN - new value */
 #endif
 {
   AtrElem *at;
@@ -490,9 +490,9 @@ void setstr(id, atr, str)
  */
 #ifdef _PROTOTYPES_
 static void incratr(
-	Aaddr atradr,		/* IN - ACODE address to attribute table */
-	Aword atr,		/* IN - attribute code */
-	Aword step		/* IN - step to increment by */
+	Aaddr atradr,           /* IN - ACODE address to attribute table */
+	Aword atr,              /* IN - attribute code */
+	Aword step              /* IN - step to increment by */
 )
 #else
 static void incratr(atradr, atr, step)
@@ -902,7 +902,7 @@ static Abool objhere(obj)
      Aword obj;
 #endif
 {
-  if (isCnt(objs[obj-OBJMIN].loc)) {	/* In something? */
+  if (isCnt(objs[obj-OBJMIN].loc)) {    /* In something? */
     if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
       return(isHere(objs[obj-OBJMIN].loc));
     else /* If the container wasn't anywhere, assume where HERO is! */
@@ -956,7 +956,7 @@ static Aword objnear(obj)
      Aword obj;
 #endif
 {
-  if (isCnt(objs[obj-OBJMIN].loc)) {	/* In something? */
+  if (isCnt(objs[obj-OBJMIN].loc)) {    /* In something? */
     if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
       return(isNear(objs[obj-OBJMIN].loc));
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
@@ -1526,13 +1526,26 @@ void save()
   if ((savfil = fopen(str, "r")) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
-      error(MSGMAX);		/* Return to player without saying anything */
+      error(MSGMAX);            /* Return to player without saying anything */
   if ((savfil = fopen(str, "w")) == NULL)
     error(M_SAVEFAILED);
   strcpy(savfnm, str);
 
   /* Save version of interpreter and name of game */
+#ifdef REVERSED_NOT_FIXED_YET_
+  {
+    Aword v;
+    char *vp = (char *)&v;
+
+    vp[3] = (header->vers[0])>>24)&0xff;
+    vp[2] = (int)(header->vers>>16)&0xff;
+    vp[1] = (int)(header->vers>>8)&0xff;
+    vp[0] = (int)(header->vers)&0xff;
+    fwrite((void *)&v, sizeof(Aword), 1, savfil);
+  }
+#else
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
+#endif
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
@@ -1564,7 +1577,7 @@ void save()
   }
 
   /* Save the event queue */
-  eventq[etop].time = 0;	/* Mark the top */
+  eventq[etop].time = 0;        /* Mark the top */
   fwrite((void *)&eventq[0], sizeof(eventq[0]), etop+1, savfil);
 
   /* Save scores */
@@ -1611,10 +1624,10 @@ void restore()
     strcpy(str, savfnm);
   col = 1;
   if (str[0] == '\0')
-    strcpy(str, savfnm);	/* Use the name temporarily */
+    strcpy(str, savfnm);        /* Use the name temporarily */
   if ((savfil = fopen(str, "r")) == NULL)
     error(M_SAVEMISSING);
-  strcpy(savfnm, str);		/* Save it for future use */
+  strcpy(savfnm, str);          /* Save it for future use */
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
   /* 4f - save file version check doesn't seem to work on PC's! */
@@ -1711,7 +1724,7 @@ Aword rnd(from, to)
 Abool streq(char a[], char b[])
 #else
 Abool streq(a, b)
-     char a[], b[];		/* IN - Strings to compare */
+     char a[], b[];             /* IN - Strings to compare */
 #endif
 {
   Boolean eq;

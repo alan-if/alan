@@ -21,13 +21,13 @@
 
 */
 #ifdef _PROTOTYPES_
-Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes of */
+Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
 #else
 Aword reversed(w)
-     Aword w;			/* IN - The ACODE word to swap bytes of */
+     Aword w;                   /* IN - The ACODE word to swap bytes of */
 #endif
 {
-  Aword s;			/* The swapped ACODE word */
+  Aword s;                      /* The swapped ACODE word */
   char *wp, *sp;
   int i;
   
@@ -42,10 +42,10 @@ Aword reversed(w)
 
 
 #ifdef _PROTOTYPES_
-void reverse(Aword *w)		/* IN - The ACODE word to reverse bytes in */
+void reverse(Aword *w)          /* IN - The ACODE word to reverse bytes in */
 #else
 void reverse(w)
-     Aword *w;			/* IN - The ACODE word to reverse bytes in */
+     Aword *w;                  /* IN - The ACODE word to reverse bytes in */
 #endif
 {
   *w = reversed(*w);
@@ -238,7 +238,7 @@ static void reverseObjs(Aword adr, Boolean v2_5)
 #else
 static void reverseObjs(adr, v2_5)
      Aword adr;
-     Boolean v2_5;		/* TRUE if it's a v2.5 format game */
+     Boolean v2_5;              /* TRUE if it's a v2.5 format game */
 #endif
 {
   ObjElem *e = (ObjElem *) &memory[adr];
@@ -261,6 +261,7 @@ static void reverseObjs(adr, v2_5)
       while (!endOfTable(e)) {
 	reverseTable(e->atrs, sizeof(AtrElem));
 	reverseVrbs(e->vrbs);
+	reverseStms(e->art);
 	reverseStms(e->dscr1);
 	reverseStms(e->dscr2);
 	e++;
@@ -332,7 +333,7 @@ static void reverseClas(adr)
     }
   }
   if (adr)
-    reverse(&((Aword *)e)[1]);	/* The verb code is stored after the table */
+    reverse(&((Aword *)e)[1]);  /* The verb code is stored after the table */
 }    
 
 
@@ -472,7 +473,7 @@ void reverseHdr(hdr)
 {
   int i;
 
-  /* Skip reversing the version marking */
+  /* Skip reversing version marking */
   for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
@@ -512,4 +513,4 @@ void reverseACD(v2_5)
  
   reverseTable(header->scores, sizeof(Aword));
   reverseTable(header->freq, sizeof(Aword));
-}  
+}
