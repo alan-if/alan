@@ -1,3 +1,8 @@
+Mon Nov 13 16:24:09 1995  Thomas Nilsson  <thoni@rabbit>
+
+	* Added auto convert code for 2.5 games, the interpreter should
+	now automagically convert games compiled with 2.5 and run them
+
 Fri Nov 10 15:53:37 1995  Thomas Nilsson  <thoni@rabbit>
 
 	* Introduced user definable messages. This caused introduction of
