@@ -1,7 +1,0 @@
-$include 'std.i'
-
-Object o At nowhere
-End Object.
-
-Start At nowhere.
-
