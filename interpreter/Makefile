@@ -1,11 +1,11 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-CC	= $(GCC) -ansi -pedantic -Wall
+CC	= $(GCC) -pedantic -Wall
 #CC	= acc
 
 GCC	= gcc
-CPP	= $(GCC) -MM -ansi $(INCLUDE)
+CPP	= $(GCC) -MM $(INCLUDE)
 
 
 CFLAGS	= $(DEBUG) $(INCLUDE)

@@ -7,7 +7,7 @@ CPP	= $(GCC) -MM -ansi
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
-CC = $(GCC) -ansi -pedantic -Wall
+CC = $(GCC) -pedantic -Wall
 CFLAGS	= $(DEBUG) $(INCLUDE)
 
 tcov := CC = acc -a
@@ -95,11 +95,14 @@ VMSLINKOBJS = ${SRCS:.c=}
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov release all: objarch alan alan.prod Makefile
+all:
+	$(MAKE) `arch`
+
+debug tcov release: objarch alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
-sun4 sun3 solaris2 hp: objarch fromsrc
+sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
 
 objarch:
 	@if test -f .arch; then :; else echo "none" > .arch; fi
