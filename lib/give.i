@@ -1,6 +1,7 @@
 -- give.i
 -- Library version 0.5.0
 
+-- 0.5.0 - added syntax synonym "give (recip) (obj)"
 -- 0.4.1 - converted to ALANv3
 
 
@@ -13,6 +14,7 @@ Syntax
       Else "You can't give things to that!"
     And recip Isa Container
       Else "You can't give things to that!"
+  give = give (recip) (obj).
 
 Add To Every object
   Verb give

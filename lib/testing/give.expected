@@ -1,0 +1,55 @@
+########## alan give ##########
+
+        No warnings or errors detected.
+
+########## arun give ##########
+
+
+P
+There is a o here. Mr A is here. Mr C is here.
+
+> give a to mr a
+You can only give away objects.
+
+> give mr a a
+You can only give away objects.
+
+> give mr a to o
+You can only give away objects.
+
+> give o mr a
+You can only give away objects.
+
+> 
+> give the o to mr a
+You can't give things to that!
+
+> give mr a the o
+You can't give things to that!
+
+> give the o to mr c
+You don't have the o.
+
+> give mr c the o
+You don't have the o.
+
+> 
+> give the k to mr a
+You can't give things to that!
+
+> give mr a the k
+You can't give things to that!
+
+> give the k to mr c
+You give the k to mr c.
+
+> give mr c the k
+You don't have the k.
+
+> 
+> give the o to hero
+You don't have the o.
+
+> give the k to hero
+
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -11,23 +11,24 @@
 -- being talked to (and not when they're the *subject* of the conversation!)
 -- see Section 3.7.1 - 'verb alternatives' - in the Alan manual.
 -- eg:
--- ACTOR Simon
+--
+-- Actor simon
 --    ....
---    VERB ask
---       WHEN act
---           DOES ONLY
---              IF topic = ball then
+--    Verb ask
+--       When act
+--           Does Only
+--              If topic = ball Then
 --                  "Simon replies ""I love playing ball sports. Football is
 --                   my favourite."""
---              ELSIF obj = fred then
+--              Elsif obj = fred Then
 --                  .....
---              ELSE
+--              Else
 --                  "Simon shrugs. ""Sorry, I don't know anything about 
 --                  that."""
---              END IF.
---     END VERB ask.
+--              End If.
+--     End Verb ask.
 --     ....
--- END ACTOR Simon.
+-- End Actor Simon.
 
 
 Add To Every thing
