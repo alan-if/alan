@@ -98,7 +98,7 @@ version.h version.c: ../version.sh
 
 #--
 amiga: src
-	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
+	lha u interpreter.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
 archives: amiga interpreter.zip.
 

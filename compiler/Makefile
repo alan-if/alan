@@ -212,7 +212,7 @@ mac:
 
 amiga:
 #	make NONANSI
-	lha u compiler.lha *.c *.h Makefile* dependencies.mk
+	lha u compiler.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
 pc:
 	make MSDOS
