@@ -36,7 +36,7 @@ int evtcount = 0;
 
   */
 EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,	/* IN - Name of the event */
+	       IdNode *id,	/* IN - Name of the event */
 	       List *stms)	/* IN - Statements to execute */
 {
   EvtNod *new;		/* The newly allocated node */
@@ -148,9 +148,9 @@ void duevt(EvtNod *evt)
     return;
   }
 
-  put("EVT: "); dusrcp(&evt->srcp); in();
+  put("EVT: "); dumpSrcp(&evt->srcp); in();
   put("id: "); dumpId(evt->id); nl();
-  put("stms: ");dulst(evt->stms, LIST_STM); out();
+  put("stms: "); dulst(evt->stms, LIST_STM); out();
 }
 
 

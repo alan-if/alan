@@ -35,7 +35,7 @@ int atrmax;
  */
 AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 	       TypeKind typ,	/* IN - Type of this atribute */
-	       IdNod *id,	/* IN - The id */
+	       IdNode *id,	/* IN - The id */
 	       int val,		/* IN - The initial value */
 	       long int fpos,	/* IN - File position for initial string */
 	       int len)		/* IN - D:o length */
@@ -92,7 +92,7 @@ AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
   Verify the existence of an attribute for a particular parameter.
 
   */
-AtrNod *paramatr(IdNod *id, ElmNod *elm)
+AtrNod *paramatr(IdNode *id, ElmNod *elm)
 {
   AtrNod *atr = NULL;
 
@@ -125,7 +125,7 @@ AtrNod *paramatr(IdNod *id, ElmNod *elm)
   Verify the existence of an attribute for a symbol.
 
   */
-AtrNod *symatr(IdNod *id, SymNod *sym)
+AtrNod *symatr(IdNode *id, SymNod *sym)
 {
   AtrNod *atr = NULL;
 
@@ -264,7 +264,7 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 
   while (atrs) {
     for (al = atrs->next; al; al = al->next) {
-      if (eqids(atrs->element.atr->id, al->element.atr->id))
+      if (equalId(atrs->element.atr->id, al->element.atr->id))
 	  lmLog(&al->element.atr->id->srcp, 218, sevERR, al->element.atr->id->string);
     }
     atrs = atrs->next;
@@ -471,7 +471,7 @@ Aaddr geinit(void)
  */
 void duatr(AtrNod *atr)
 {
-  put("ATR: "); dusrcp(&atr->srcp); in();
+  put("ATR: "); dumpSrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();
   put("id: "); dumpId(atr->id); nl();
   put("stradr: "); duadr(atr->stradr); nl();

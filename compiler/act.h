@@ -15,7 +15,7 @@
 
 typedef struct ActNod {		/* ACTOR */
   Srcp srcp;			/* Source position */
-  IdNod *id;			/* Name */
+  IdNode *id;			/* Name */
   List *namslst;		/* List of lists of names (adjectives and noun) */
   WhrNod *whr;			/* Where initially? */
   CntNod *props;		/* Container properties */
@@ -48,7 +48,7 @@ extern void initact(void);
 
 /* Allocate an Actor node */
 extern ActNod *newact(Srcp *srcp,
-		      IdNod *id,
+		      IdNode *id,
 		      List *ids,
 		      WhrNod *whr,
 		      CntNod *props,

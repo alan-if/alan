@@ -11,7 +11,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "types.h"
 #include "smScan.h"
 #include "token.h"
 
@@ -108,7 +108,7 @@ typedef struct pmGrammar {
     InsNod *ins;
     List *idList2;
     List *idList;
-    IdNod *id;
+    IdNode *id;
     List *exts;
     ExtNod *ext;
    ExpKind expKd;
@@ -584,7 +584,7 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
-	    if (!eqids(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
+	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
 		lmLog(&pmSeSt[pmStkP+5].id->srcp, 201, sevWAR, pmSeSt[pmStkP+2].id->string);
     	break;}
     case 81: { /* <class_tail> = 'END' 'EVERY' <optional_id> '.'; */
@@ -609,7 +609,7 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
-	    if (!eqids(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
+	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
 		lmLog(&pmSeSt[pmStkP+5].id->srcp, 201, sevWAR, pmSeSt[pmStkP+2].id->string);
     	break;}
     case 83: { /* <instance tail> = 'END' 'THE' <optional_id> '.'; */
@@ -916,7 +916,7 @@ int rule			/* IN production number */
 				pmSeSt[pmStkP+2].stms,
 				pmSeSt[pmStkP+2].stms2);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
-	    if (!eqids(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
+	    if (!equalId(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
 		lmLog(&pmSeSt[pmStkP+3].id->srcp, 201, sevWAR, pmSeSt[pmStkP+1].id->string);
 	}
 #endif
@@ -977,7 +977,7 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].atr = newatr(&pmSySt[pmStkP+1].srcp,
 				      TYPINT,
-				      newid(&pmSySt[pmStkP+1].srcp, "count"),
+				      newId(&pmSySt[pmStkP+1].srcp, "count"),
 				      val(pmSySt[pmStkP+2].chars), 0, 0);
     	break;}
     case 134: { /* <optional_header> =; */
@@ -1007,7 +1007,7 @@ int rule			/* IN production number */
 			    pmSeSt[pmStkP+1].id,
 			    pmSeSt[pmStkP+2].stms);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
-	    if (!eqids(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
+	    if (!equalId(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
 		lmLog(&pmSeSt[pmStkP+3].id->srcp, 201, sevWAR, pmSeSt[pmStkP+1].id->string);
 	}
     	break;}
@@ -1827,117 +1827,117 @@ int rule			/* IN production number */
     case 263: { /* ID = Identifier; */
 #line 2148 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 264: { /* ID = 'DEFAULT'; */
 #line 2153 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "default");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "default");
     	break;}
     case 265: { /* ID = 'THE'; */
 #line 2158 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "the");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "the");
     	break;}
     case 266: { /* ID = 'ARTICLE'; */
 #line 2163 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "article");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "article");
     	break;}
     case 267: { /* ID = 'MESSAGE'; */
 #line 2168 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "message");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "message");
     	break;}
     case 268: { /* ID = 'QUIT'; */
 #line 2173 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "quit");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "quit");
     	break;}
     case 269: { /* ID = 'SAVE'; */
 #line 2178 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "save");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "save");
     	break;}
     case 270: { /* ID = 'RESTORE'; */
 #line 2183 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "restore");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "restore");
     	break;}
     case 271: { /* ID = 'RESTART'; */
 #line 2188 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "restart");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "restart");
     	break;}
     case 272: { /* ID = 'WAIT'; */
 #line 2193 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "wait");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "wait");
     	break;}
     case 273: { /* ID = 'BETWEEN'; */
 #line 2198 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "between");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "between");
     	break;}
     case 274: { /* ID = 'CONTAINS'; */
 #line 2203 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "contains");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "contains");
     	break;}
     case 275: { /* ID = 'ON'; */
 #line 2208 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "on");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "on");
     	break;}
     case 276: { /* ID = 'IN'; */
 #line 2213 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "in");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "in");
     	break;}
     case 277: { /* ID = 'AFTER'; */
 #line 2218 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "after");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "after");
     	break;}
     case 278: { /* ID = 'BEFORE'; */
 #line 2223 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "before");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "before");
     	break;}
     case 279: { /* ID = 'CHECK'; */
 #line 2228 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "check");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "check");
     	break;}
     case 280: { /* ID = 'DEPEND'; */
 #line 2233 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "depend");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "depend");
     	break;}
     case 281: { /* ID = 'EXIT'; */
 #line 2238 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "exit");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "exit");
     	break;}
     case 282: { /* ID = 'FOR'; */
 #line 2243 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "for");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "for");
     	break;}
     case 283: { /* ID = 'ISA'; */
 #line 2248 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "isa");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "isa");
     	break;}
     case 284: { /* ID = 'LIMITS'; */
 #line 2253 "alan.pmk"
 
-        pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "limits");
+        pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "limits");
     	break;}
     case 285: { /* ID = 'THING'; */
 #line 2258 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newid(&pmSySt[pmStkP+1].srcp, "thing");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "thing");
     	break;}
     default: break; }
 }/*pmPaSema()*/

@@ -96,26 +96,22 @@ src:
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
-# One try for unit test
-# This one tries to put all test in one package
-# NOTE: uncomplete
-UNITSRCS = sym.c util.c lmList.c id.c cla.c slt.c lst.c str.c dump.c srcp.c
-UNITOBJS = ${UNITSRCS:.c=.o}
-
-unit: unit.o $(UNITOBJS)
-
+# Run all unit test
+unit: symTest
+	symTest
 
 # Unit Tests
 # Each unit is built separately with the test in a main program (xxxTest)
-TESTSRCS = util.c lmList.c id.c
-TESTOBJS = ${TESTSRCS:.c=.o}
 
 symTest.o : symTest.c unitTest.h
-
 symTest : symTest.o util.o lmList.o id.o cla.o dump.o srcp.o str.o lst.o slt.o
 
-test: symTest
-	symTest
+claTest.o : claTest.c unitTest.h
+claTest : claTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
+
+# Run current unit test
+test: claTest
+	claTest
 
 
 depend:

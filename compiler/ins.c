@@ -25,8 +25,8 @@
 
   */
 InsNod *newins(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,
-	       IdNod *heritage,
+	       IdNode *id,
+	       IdNode *heritage,
 	       Slots *slt)
 {
   InsNod *new;                  /* The newly allocated area */
@@ -67,6 +67,7 @@ void analyzeInstances(void)
 Aaddr generateInstances(void)
 {
   syserr("UNIMPL: generateInstances");
+  return 0;
 }
 
 
@@ -79,7 +80,7 @@ Aaddr generateInstances(void)
  */
 void dumpInstance(InsNod *ins)
 {
-  put("INS: "); dusrcp(&ins->srcp); in();
+  put("INS: "); dumpSrcp(&ins->srcp); in();
   put("id: "); dumpId(ins->id); nl();
   put("heritage: "); dumpId(ins->heritage); nl();
   put("slots: "); dumpSlots(ins->slt); nl();

@@ -80,7 +80,7 @@ typedef struct ExpNod {		/* EXPRESSION */
 
     struct {			/* for ATTRIBUTE */
       struct ExpNod *wht;	/* What is? */
-      IdNod *atr;		/* Id of the attribute */
+      struct IdNode *atr;	/* Id of the attribute */
     } atr;
 
     struct {			/* for BINARY */
@@ -100,8 +100,8 @@ typedef struct ExpNod {		/* EXPRESSION */
 
     struct {			/* For AGGREGATE */
       AgrKind agr;		/* Kind of aggregate */
-      IdNod *atr;		/* Attribute id */
-      WhrNod *whr;		/* Where to aggregate */
+      struct IdNode *atr;	/* Attribute id */
+      struct WhrNod *whr;	/* Where to aggregate */
     } agr;
 
     struct {			/* For RANDOM */
@@ -126,7 +126,7 @@ typedef struct ExpNod {		/* EXPRESSION */
 
     struct {			/* For ISA */
       struct ExpNod *right;	/* The entity/parameter */
-      IdNod *id;		/* The class id */
+      struct IdNode *id;	/* The class id */
     } isa;
 
   } fields;

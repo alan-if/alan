@@ -24,7 +24,7 @@ typedef enum WhtKind {
 typedef struct WhtNod {		/* WHAT nodes */
   Srcp srcp;			/* Source position */
   WhtKind wht;			/* What kind */
-  struct IdNod *id;			/* What identifier */
+  struct IdNode *id;		/* What identifier */
 } WhtNod;
 
 
@@ -36,7 +36,7 @@ typedef struct WhtNod {		/* WHAT nodes */
 /* Create a new What node */
 extern WhtNod *newwht(Srcp *srcp,
 		      WhtKind wht,
-		      struct IdNod *id);
+		      struct IdNode *id);
 
 /* Generate a reference to a What */
 extern void gewht(WhtNod *wht);

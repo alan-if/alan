@@ -22,6 +22,6 @@
 
 /* Create a new Dynamic String */
 extern char *newstr(char str[]);
-
+extern void dumpString(char string[]);
 
 #endif

@@ -10,8 +10,8 @@
 
 /* IMPORTS */
 
-#include "srcp.h"
 #include "types.h"
+#include "srcp.h"
 
 
 /* PUBLIC DATA */

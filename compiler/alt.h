@@ -29,7 +29,7 @@ typedef enum QualKind {		/* QUAL kinds */
 
 typedef struct AltNod {		/* ALTERNATIVE */
   Srcp srcp;			/* Source position of this alternative */
-  IdNod *id;			/* The parameter ID */
+  IdNode *id;			/* The parameter ID */
   int parameterNumber;
   QualKind qual;		/* Qualifier, when to execute */
   List *chks;			/* Checks */
@@ -47,7 +47,7 @@ typedef struct AltNod {		/* ALTERNATIVE */
 
 /* Create a new verb Alternative node */
 extern AltNod *newalt(Srcp *srcp,
-		      IdNod *id,
+		      IdNode *id,
 		      List *chks,
 		      QualKind qual,
 		      List *stms);

@@ -1060,7 +1060,7 @@ void duexp(ExpNod *exp)
     put("*** ERROR *** ");
     break;
   }
-  dusrcp(&exp->srcp);
+  dumpSrcp(&exp->srcp);
   in();
 
   switch (exp->class) {

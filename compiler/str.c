@@ -11,6 +11,7 @@
 #include "types.h"
 
 #include "util.h"
+#include "dump.h"
 
 
 /* Private: */
@@ -63,4 +64,17 @@ char *newstr(char *str)		/* IN - The string to insert */
     s->high = next;
 
   return(next->str);
+}
+
+
+/*======================================================================
+
+  dumpString
+
+*/
+void dumpString(char string[])
+{
+  put("\"");
+  put(string);
+  put("\"");
 }

@@ -34,7 +34,7 @@
 
  */
 AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,	/* IN - The name */
+	       IdNode *id,	/* IN - The name */
 	       List *chks,	/* IN - Checks */
 	       QualKind qual,	/* IN - Action qualifier */
 	       List *stms)	/* IN - Statements (does-part) */
@@ -72,7 +72,7 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
   if (alt->id != NULL) {
     /* Alternatives given, find out which one */
     for (lst = pars; lst != NULL; lst = lst->next)
-      if (eqids(lst->element.elm->id, alt->id))
+      if (equalId(lst->element.elm->id, alt->id))
 	break;
     if (lst == NULL)
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
@@ -243,7 +243,7 @@ void dualt(AltNod *alt)
     return;
   }
 
-  put("ALT: "); dusrcp(&alt->srcp); in();
+  put("ALT: "); dumpSrcp(&alt->srcp); in();
   put("id: "); dumpId(alt->id); nl();
   put("qual: "); duqual(alt->qual); nl();
   put("chks: "); dulst(alt->chks, LIST_CHK); nl();

@@ -5,11 +5,16 @@
 
 \*----------------------------------------------------------------------*/
 
+#ifndef UNIT
 #include "cla.h"
+#endif
+
 
 /* IMPORT */
 #include <stdio.h>
 
+#include "types.h"
+#include "id.h"
 #include "util.h"
 #include "dump.h"
 #include "lmList.h"
@@ -31,8 +36,8 @@ static List *allClasses = NULL;
 
   */
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,
-	       IdNod *heritage,
+	       IdNode *id,
+	       IdNode *heritage,
 	       Slots *slt)
 {
   ClaNod *new;                  /* The newly allocated area */
@@ -126,7 +131,7 @@ Aaddr generateClasses(void)
  */
 void dumpClass(ClaNod *cla)
 {
-  put("CLA: "); dusrcp(&cla->srcp); in();
+  put("CLA: "); dumpSrcp(&cla->srcp); in();
   put("id: "); dumpId(cla->id); nl();
   put("heritage: "); dumpId(cla->heritage); nl();
   put("slots: "); dumpSlots(cla->slt); out();

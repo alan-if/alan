@@ -47,7 +47,7 @@ static int level = 0;
  */
 ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
                ElmKind kind,    /* IN - Kind of element (parm or word) */
-               IdNod *id,	/* IN - The name */
+               IdNode *id,	/* IN - The name */
                int flags)       /* IN - Flags for omni/multiple... */
 {
   ElmNod *new;                                  /* The newly created node */
@@ -170,7 +170,7 @@ List *anelms(
   /* Check for multiple definition of parameter names */
   for (lst = pars; lst != NULL; lst = lst->next)
     for (elms = lst->next; elms != NULL; elms = elms->next) {
-      if (eqids(lst->element.elm->id, elms->element.elm->id))
+      if (equalId(lst->element.elm->id, elms->element.elm->id))
         lmLog(&elms->element.elm->id->srcp, 216, sevERR, elms->element.elm->id->string);
     }
   return pars;
@@ -198,7 +198,7 @@ static Bool eqElms(List *elm1,  /* IN - One list pointer */
 	    (elm1->element.elm->kind == ELMEOS ||
 	     elm1->element.elm->kind == ELMPAR ||
 	     (elm1->element.elm->kind == ELMWRD &&
-              eqids(elm1->element.elm->id, elm2->element.elm->id))));
+              equalId(elm1->element.elm->id, elm2->element.elm->id))));
 }
 
 
@@ -384,7 +384,7 @@ void duelm(ElmNod *elm)
     return;
   }
 
-  put("ELM: "); duptr(elm); dusrcp(&elm->srcp); in();
+  put("ELM: "); duptr(elm); dumpSrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
   case ELMPAR: {

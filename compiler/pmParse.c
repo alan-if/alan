@@ -11,7 +11,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "types.h"
 #include "smScan.h"
 #include "token.h"
 
@@ -112,7 +112,7 @@ typedef struct pmGrammar {
     InsNod *ins;
     List *idList2;
     List *idList;
-    IdNod *id;
+    IdNode *id;
     List *exts;
     ExtNod *ext;
    ExpKind expKd;

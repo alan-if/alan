@@ -196,7 +196,7 @@ void getxt(char *txt)		/* IN - The text to output */
   Create a new message node.
 
  */
-MsgNod *newmsg(Srcp *srcp, IdNod *id, List *stms)
+MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms)
 {
   MsgNod *msg;
 

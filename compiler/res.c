@@ -36,7 +36,7 @@
 
  */
 ResNod *newres(Srcp *srcp,	/* IN - Source Position */
-	       IdNod *id,	/* IN - The name */
+	       IdNode *id,	/* IN - The name */
 	       Bool single,	/* IN - A single class identifier? */
 	       List *classes,	/* IN - Allowed classes */
 	       List *stms)	/* IN - Statements to execute otherwise */
@@ -76,7 +76,7 @@ static void anres(
 
   /* Check for the id in the parameter list */
   for (p = params; p != NULL; p = p->next)
-    if (eqids(res->id, p->element.elm->id)) {
+    if (equalId(res->id, p->element.elm->id)) {
       found = TRUE;
       break;
     }
@@ -193,7 +193,7 @@ void dures(ResNod *res)
     return;
   }
 
-  put("RES: "); dusrcp(&res->srcp); in();
+  put("RES: "); dumpSrcp(&res->srcp); in();
   put("id: "); dumpId(res->id); nl();
   put("single: "); dumpBool(res->single); nl();
   put("classes: "); dulst(res->classes, LIST_NAM); nl();

@@ -33,7 +33,7 @@ typedef enum ResKind {
 
 typedef struct ResNod {		/* RESTRICTION */
   Srcp srcp;			/* SY - Source position of this element */
-  struct IdNod *id;		/* SY - Parameter name to apply restriction to */
+  struct IdNode *id;		/* SY - Parameter name to apply restriction to */
   Bool single;			/* AN - A single class in the list? */
   List *classes;		/* SY - Which named class or classes must it be */
   int classbits;		/* AN - Bits for the classes the parameter must be */
@@ -50,7 +50,7 @@ typedef struct ResNod {		/* RESTRICTION */
 
 /* Create a new element Restriction node */
 extern ResNod *newres(Srcp *srcp,
-		      struct IdNod *id,
+		      struct IdNode *id,
 		      Bool single,
 		      List *classes,
 		      List *stms);

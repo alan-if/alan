@@ -8,6 +8,9 @@
 \*----------------------------------------------------------------------*/
 
 
+#include "types.h"
+
+
 /* Types: */
 
 typedef struct Srcp {
@@ -17,11 +20,11 @@ typedef struct Srcp {
 } Srcp;
 
 
-
 /* Data: */
 
 
 /* Functions: */
-extern void dusrcp(Srcp *srcp);
+extern void dumpSrcp(Srcp *srcp);
+extern Bool equalSrcp(Srcp srcp1, Srcp srcp2);
 
 #endif

@@ -245,7 +245,7 @@ void duvrb (VrbNod *vrb)
     return;
   }
 
-  put("VRB: "); dusrcp(&vrb ->srcp); in();
+  put("VRB: "); dumpSrcp(&vrb ->srcp); in();
   put("ids: "); dulst(vrb->ids, LIST_ID); nl();
   put("altadr: "); duadr(vrb->altadr); nl();
   put("alts: "); dulst(vrb->alts, LIST_ALT); out();

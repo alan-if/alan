@@ -135,7 +135,7 @@ Aaddr geruls(void)
   */
 void durul(RulNod *rul)
 {
-  put("RUL: "); dusrcp(&rul->srcp); in();
+  put("RUL: "); dumpSrcp(&rul->srcp); in();
   put("exp: "); duexp(rul->exp); nl();
   put("expadr: "); duadr(rul->expadr); nl();
   put("stms: "); dulst(rul->stms, LIST_STM); nl();

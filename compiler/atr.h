@@ -18,7 +18,7 @@
 typedef struct AtrNod {		/* ATTRIBUTE */
   Srcp srcp;			/* Source position of the attribute */
   TypeKind typ;			/* Type of this attribute */
-  IdNod *id;			/* Id of the attribute */
+  IdNode *id;			/* Id of the attribute */
   Aword stradr;			/* Acode address to the attribute name */
   Aword adr;			/* Acode address to the attribute value */
   int val;			/* The initial value */
@@ -39,7 +39,7 @@ extern int atrmax;
 /* Create a new Attribute node */
 extern AtrNod *newatr(Srcp *srcp,
 		      TypeKind typ,
-		      IdNod *id,
+		      IdNode *id,
 		      int val,
 		      long fpos,
 		      int len);
@@ -53,10 +53,10 @@ extern AtrNod *findatr(char atr[],
 extern void sortatr(List **alstp);
 
 /* Verify parameter attribute */
-extern AtrNod *paramatr(IdNod *id, ElmNod *elm);
+extern AtrNod *paramatr(IdNode *id, ElmNod *elm);
 
 /* Verify a symbol attribute */
-extern AtrNod *symatr(IdNod *id, SymNod *sym);
+extern AtrNod *symatr(IdNode *id, SymNod *sym);
 
 /* Prepare all default attributes before analysis */
 extern void prepatrs(void);

@@ -44,7 +44,7 @@ int dircount = 0;
  */
 ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 	       List *dirs,	/* IN - Directions of this ext */
-	       IdNod *to,	/* IN - Name of the location it leads to */
+	       IdNode *to,	/* IN - Name of the location it leads to */
 	       List *chks,	/* IN - List of checks to perform first */
 	       List *stms)	/* IN - The statements to execute */
 {
@@ -244,7 +244,7 @@ void duext(ExtNod *ext)
     return;
   }
 
-  put("EXT: "); dusrcp(&ext->srcp); in();
+  put("EXT: "); dumpSrcp(&ext->srcp); in();
   put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
   put("to: "); dumpId(ext->to); nl();
   put("chks: "); dulst(ext->chks, LIST_CHK); nl();

@@ -11,8 +11,9 @@
 /* USE: */
 #include "srcp.h"
 
-#include "id.h"
 #include "lst.h"
+
+#include "id.h"
 
 #include "acode.h"
 
@@ -28,7 +29,7 @@ typedef enum ElmKind {
 typedef struct ElmNod {		/* ELEMENT */
   Srcp srcp;			/* Source position of this element */
   ElmKind kind;			/* Kind of Parameter */
-  struct IdNod *id;		/* Identifier */
+  struct IdNode *id;		/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
   int no;			/* AN - parameter number */
   struct ResNod *res;		/* AN - link to the class restriction check */
@@ -45,7 +46,7 @@ typedef struct ElmNod {		/* ELEMENT */
 /* Create a new Syntax Element node */
 extern ElmNod *newelm(Srcp *srcp,
 		      ElmKind kind,
-		      struct IdNod *id,
+		      struct IdNode *id,
 		      int flags);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */

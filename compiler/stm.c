@@ -570,7 +570,8 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
       for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
           /* A name was used as reference */
-          if (lst->element.scr->id != NULL && eqids(lst->element.scr->id, stm->fields.use.script)) {
+          if (lst->element.scr->id != NULL &&
+	      equalId(lst->element.scr->id, stm->fields.use.script)) {
 	    stm->fields.use.scriptno = lst->element.scr->code;
 	    break;		/* Found it so break loop */
 	  }
@@ -1334,7 +1335,7 @@ void dustm(StmNod *stm)
     put("*** UNKNOWN ***");
     break;
   }
-  dusrcp(&stm->srcp);
+  dumpSrcp(&stm->srcp);
 
   switch(stm->class) {
   case STM_LOOK:

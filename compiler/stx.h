@@ -20,7 +20,7 @@
 
 typedef struct StxNod {		/* SYNTAX */
   Srcp srcp;			/* Source position of this syntax */
-  struct IdNod *id;		/* Name of the verb */
+  struct IdNode *id;		/* Name of the verb */
   List *elms;			/* List of elements */
   List *ress;			/* List of class restrictions */
   List *pars;			/* AN - List of parameters */
@@ -40,7 +40,7 @@ typedef struct StxNod {		/* SYNTAX */
 
 /* Create a new Syntax node */
 extern StxNod *newstx(Srcp *srcp,
-		      IdNod *verb,
+		      IdNode *verb,
 		      List *comps,
 		      List *ress);
 

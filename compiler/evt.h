@@ -20,7 +20,7 @@
 
 typedef struct EvtNod {		/* EVENT */
   Srcp srcp;			/* Source position */
-  IdNod *id;			/* Name of this event */
+  IdNode *id;			/* Name of this event */
   Aaddr namadr;			/* Address to name string (debug) */
   List *stms;			/* List of statements to execute */
   Aaddr stmadr;			/* ACODE address of event statements */
@@ -39,7 +39,7 @@ extern int evtcount;
 
 /* Create a new Event node */
 extern EvtNod *newevt(Srcp *srcp,
-		      IdNod *id,
+		      IdNode *id,
 		      List *stms);
 
 /* Analyze all Events */

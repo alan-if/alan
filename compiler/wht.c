@@ -27,7 +27,7 @@
   */
 WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
 	       WhtKind wht,	/* IN - What kind */
-	       IdNod *id)	/* IN - ID or NULL */
+	       IdNode *id)	/* IN - ID or NULL */
 {
   WhtNod *new;
 
@@ -85,7 +85,7 @@ void duwht(WhtNod *wht)
     return;
   }
 
-  put("WHT: "); dusrcp(&wht->srcp); in();
+  put("WHT: "); dumpSrcp(&wht->srcp); in();
   put("wht: ");
   switch (wht->wht) {
   case WHT_OBJ: put("OBJECT"); break;

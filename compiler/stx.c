@@ -37,7 +37,7 @@
 
  */
 StxNod *newstx(Srcp *srcp,      /* IN - Source Position */
-               IdNod *id,     /* IN - Name of the verb it defines */
+               IdNode *id,	/* IN - Name of the verb it defines */
                List *elms,      /* IN - List of elements */
                List *ress)      /* IN - List of class restrictions */
 {
@@ -143,14 +143,14 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   List *elms;
 
   elms = concat(concat(concat(NULL,
-			      newelm(&nulsrcp, ELMWRD, newid(&nulsrcp,
+			      newelm(&nulsrcp, ELMWRD, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
 			      LIST_ELM),
-		       newelm(&nulsrcp, ELMPAR, newid(&nulsrcp, "object"), FALSE),
+		       newelm(&nulsrcp, ELMPAR, newId(&nulsrcp, "object"), FALSE),
 		       LIST_ELM),
 		newelm(&nulsrcp, ELMEOS, NULL, FALSE), LIST_ELM);
-  stx = newstx(&nulsrcp, newid(&nulsrcp, vrbstr), elms, NULL);
+  stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elms, NULL);
 
   adv.stxs = concat(adv.stxs, stx, LIST_STX);
   anstx(stx);                   /* Make sure the syntax is analysed */
@@ -175,7 +175,7 @@ Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
   for (elm1 = stx1->pars, elm2 = stx2->pars;
        elm1 != NULL && elm2 != NULL;
        elm1 = elm1->next, elm2 = elm2->next) {
-    if (!eqids(elm1->element.elm->id, elm2->element.elm->id))
+    if (!equalId(elm1->element.elm->id, elm2->element.elm->id))
       return FALSE;
     if (elm1->element.elm->flags != elm2->element.elm->flags)
       return FALSE;
@@ -285,7 +285,7 @@ void dustx(StxNod *stx)
     return;
   }
 
-  put("STX: "); duptr(stx); dusrcp(&stx->srcp); in();
+  put("STX: "); duptr(stx); dumpSrcp(&stx->srcp); in();
   put("id: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); duadr(stx->elmsadr); nl();

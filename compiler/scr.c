@@ -17,7 +17,6 @@
 #include "stm.h"                /* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "scr.h"                /* SCR-nodes */
-#include "act.h"                /* ACT-nodes */
 
 #include "emit.h"
 #include "dump.h"
@@ -34,7 +33,7 @@
   */
 ScrNod *newscr(
      Srcp *srcp,                /* IN - Source Position */
-     IdNod *id,			/* IN - Name for the script */
+     IdNode *id,		/* IN - Name for the script */
      int code,                  /* IN - Code for the script */
      List *descr,               /* IN - Optional description */
      List *stps                 /* IN - List of steps */
@@ -86,7 +85,7 @@ void prepscrs(List *scrs, InsNod *ins)
       if (lst->element.scr->id != NULL) {
         /* It was given a name, then try compare to the name, if any */
         if (scrlst->element.scr->id != NULL &&
-            eqids(lst->element.scr->id, scrlst->element.scr->id))
+            equalId(lst->element.scr->id, scrlst->element.scr->id))
           lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->id->string);
       } else /* No name, just the code */
         if (lst->element.scr->code == scrlst->element.scr->code)
@@ -180,7 +179,7 @@ Aword gescrs(InsNod *ins)
   */
 void duscr(ScrNod *scr)
 {
-  put("SCR: "); dusrcp(&scr->srcp); in();
+  put("SCR: "); dumpSrcp(&scr->srcp); in();
   put("code: "); duint(scr->code); nl();
   put("id: "); dumpId(scr->id); nl();
   put("stps: "); dulst(scr->stps, LIST_STP); nl();

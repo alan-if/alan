@@ -173,7 +173,7 @@ void duwhr(WhrNod *whr)
     return;
   }
 
-  put("WHR: "); dusrcp(&whr->srcp); in();
+  put("WHR: "); dumpSrcp(&whr->srcp); in();
   put("whr: ");
   switch (whr->whr) {
   case WHR_DEFAULT: put("DEFAULT"); break;

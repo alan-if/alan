@@ -33,7 +33,7 @@
   */
 SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
 	       List *ids,	/* IN - List of synonyms */
-	       IdNod *id)	/* IN - For the target name */
+	       IdNode *id)	/* IN - For the target name */
 {
   SynNod *new;
 
@@ -97,7 +97,7 @@ void dusyn(SynNod *syn)
     return;
   }
 
-  put("SYN: "); dusrcp(&syn->srcp); in();
+  put("SYN: "); dumpSrcp(&syn->srcp); in();
   put("id: "); dumpId(syn->id); nl();
   put("ids: "); dulst(syn->ids, LIST_ID); out();
 }

@@ -9,7 +9,7 @@
 
 
 /* USE: */
-#include "srcp.h"
+#include "types.h"
 #include "id.h"
 #include "slt.h"
 
@@ -18,9 +18,9 @@
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  struct IdNod *id;		/* Programmer Name of the class */
-  struct SymNod *symbol;	/* Pointer to symbol table node */
-  struct IdNod *heritage;	/* The class' heritage (parent) */
+  IdNode *id;			/* Programmer Name of the class */
+  SymNod *symbol;		/* Pointer to symbol table node */
+  IdNode *heritage;		/* The class' heritage (parent) */
   struct Slots *slt;		/* Slots */
 } ClaNod;
 
@@ -32,8 +32,8 @@ extern int classCount;
 
 /* Create a new Claect node */
 extern ClaNod *newcla(Srcp *srcp,
-		      IdNod *id,
-		      IdNod *heritage,
+		      IdNode *id,
+		      IdNode *heritage,
 		      Slots *slt);
 
 /* Symbolize all Classes */

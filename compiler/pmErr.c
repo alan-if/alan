@@ -11,7 +11,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "types.h"
 #include "smScan.h"
 #include "token.h"
 

@@ -151,8 +151,8 @@ void testInitTest()
 void testCreateCla()
 {
   Srcp srcp = {12,3,45};
-  IdNod *id = newid(&srcp, "cla");
-  IdNod *heritage = newid(&nulsrcp, "object");
+  IdNode *id = newId(&srcp, "cla");
+  IdNode *heritage = newId(&nulsrcp, "object");
   SymNod *sym, *obj;
 
   (void) newcla(&srcp, id, heritage, NULL);

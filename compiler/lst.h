@@ -74,7 +74,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct SynNod *syn;
     struct VrbNod *vrb;
     struct ElmEntry *eent;
-    struct IdNod *id;
+    struct IdNode *id;
     struct List *lst;
     char *str;
   } element;			/* Pointer to any type of element */

@@ -94,29 +94,29 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for MAKE */
       WhtNod *wht;		/* What? */
       Bool not;			/* Was there a NOT ? */
-      IdNod *atr;		/* Id of the attribute */
+      IdNode *atr;		/* Id of the attribute */
     } make;
 
     struct {			/* for SET */
       WhtNod *wht;		/* What? */
-      IdNod *atr;
+      IdNode *atr;
       ExpNod *exp;		/* The new value */
     } set;
 
     struct {			/* for INCR/DECR */
       WhtNod *wht;		/* What? */
-      IdNod *atr;
+      IdNode *atr;
       ExpNod *step;		/* By what? */
     } incr;
 
     struct {			/* for SCHEDULE */
-      IdNod *id;		/* Name of the event */
+      IdNode *id;		/* Name of the event */
       WhrNod *whr;		/* Where? */
       ExpNod *when;
     } schedule;
 
     struct {			/* for CANCEL */
-      IdNod *id;		/* Name of the event */
+      IdNode *id;		/* Name of the event */
     } cancel;
 
     struct {			/* for IF */
@@ -127,8 +127,8 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* USE */
       int scriptno;		/* Which script to use (number) */
-      IdNod *script;		/* Which script to use (name) */
-      IdNod *actor;		/* For which actor */
+      IdNode *script;		/* Which script to use (name) */
+      IdNode *actor;		/* For which actor */
     } use;
 
     struct {			/* SYSTEM */
