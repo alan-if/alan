@@ -936,7 +936,7 @@ void locate(Aword id, Aword whr)
     theContainer = &container[containerId];
 
     if (theContainer->extractChecks != 0) {
-      if (traceOption) {
+      if (sectionTraceOption) {
 	printf("\n<EXTRACT from ");
 	traceSay(id);
 	printf("(%ld, container %ld), Checking:>\n", id, containerId);
@@ -948,7 +948,7 @@ void locate(Aword id, Aword whr)
       current.instance = previousInstance;
     }
     if (theContainer->extractStatements != 0) {
-      if (traceOption) {
+      if (sectionTraceOption) {
 	printf("\n<EXTRACT from ");
 	traceSay(id);
 	printf("(%ld, container %ld), Executing:>\n", id, containerId);

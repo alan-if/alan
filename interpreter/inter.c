@@ -26,8 +26,6 @@
 
 
 Boolean stopAtNextLine = FALSE;
-int currentLine = 0;
-
 
 
 /* PRIVATE DATA */
@@ -294,10 +292,13 @@ static char *printForm(SayForm form) {
 /*======================================================================*/
 void interpret(Aaddr adr)
 {
+  static int recursions = 0;
   Aaddr oldpc;
   Aword i;
 
+  /* Sanity checks: */
   if (adr == 0) syserr("Interpreting at address 0.");
+  if (recursions++ > 1000) syserr("Interpreter recursion too deep.");
   
   if (singleStepOption)
     printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -361,14 +362,15 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_LINE: {
-	Aword fileNumber, line;
+	Aword file, line;
 	line = pop();
-	fileNumber = pop();
-	if (stopAtNextLine || breakpointIndex(line) != -1) {
-	  if (line != 0 && line != currentLine) {
-	    currentLine = line;
+	file = pop();
+	current.sourceLine = line;
+	current.sourceFile = file;
+	if (line != 0) {
+	  if (stopAtNextLine || breakpointIndex(line) != -1) {
 	    stopAtNextLine = FALSE;
-	    debug(TRUE, line, fileNumber);
+	    debug(TRUE, line, file);
 	  }
 	}
 	break;

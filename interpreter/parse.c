@@ -556,7 +556,7 @@ static Boolean restrictionCheck(RestrictionEntry *restriction)
 /*----------------------------------------------------------------------*/
 static void runRestriction(RestrictionEntry *restriction)
 {
-  if (traceOption)
+  if (sectionTraceOption)
     printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
 	   restriction->parameter,
 	   restriction->class);

@@ -20,6 +20,8 @@ extern Breakpoint breakpoint[BREAKPOINTMAX];
 extern void saveInfo(void);
 extern void restoreInfo(void);
 extern Boolean breakpointIndex(int line);
+extern char *sourceFileName(int file);
+extern char *readSourceLine(int line, int file);
 extern void debug(Boolean calledFromBreakpoint, int line, int fileNumber);
 extern void traceSay(int item);
 

@@ -71,7 +71,7 @@ extern jmp_buf error_label;
 extern Boolean verbose;
 extern Boolean ignoreErrorOption;
 extern Boolean debugOption;
-extern Boolean traceOption;
+extern Boolean sectionTraceOption;
 extern Boolean tracePushOption;
 extern Boolean traceStackOption;
 extern Boolean singleStepOption;

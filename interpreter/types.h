@@ -67,7 +67,9 @@ typedef struct CurVars {
     instance,
     tick,
     score,
-    visits;
+    visits,
+    sourceLine,
+    sourceFile;
 } CurVars;
 
 typedef struct AdminEntry {	/* Administrative data about instances */

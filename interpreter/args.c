@@ -70,13 +70,13 @@ static void switches(argc, argv)
 	ignoreErrorOption = FALSE;
 	break;
       case 't':
-	traceOption = TRUE;
+	sectionTraceOption = TRUE;
 	switch (argv[i][2]) {
 	case '4' : traceStackOption = TRUE;
 	case '3' : tracePushOption = TRUE;
 	case '2' : singleStepOption = TRUE;
 	case '\0':
-	case '1': traceOption = TRUE;
+	case '1': sectionTraceOption = TRUE;
 	}
 	break;
       case 'd':

@@ -37,7 +37,7 @@ void rules()
     change = FALSE;
     for (i = 1; !endOfTable(&ruls[i-1]); i++) 
       if (!ruls[i-1].run) {
-	if (traceOption) {
+	if (sectionTraceOption) {
 	  printf("\n<RULE %d (at ", i);
 	  traceSay(current.location);
 	  if (!singleStepOption)
@@ -49,7 +49,7 @@ void rules()
 	if (pop()) {
 	  change = TRUE;
 	  ruls[i-1].run = TRUE;
-	  if (traceOption) {
+	  if (sectionTraceOption) {
 	    if (!singleStepOption)
 	      printf(", Executing:>\n");
 	    else {
@@ -59,7 +59,7 @@ void rules()
 	    }
 	  }
 	  interpret(ruls[i-1].stms);
-	} else if (traceOption && !singleStepOption)
+	} else if (sectionTraceOption && !singleStepOption)
 	  printf(":>\n");
       }
   }

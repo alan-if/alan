@@ -82,7 +82,7 @@ int dictsize;
 Boolean verbose = FALSE;
 Boolean ignoreErrorOption = TRUE;
 Boolean debugOption = FALSE;
-Boolean traceOption = FALSE;
+Boolean sectionTraceOption = FALSE;
 Boolean tracePushOption = FALSE;
 Boolean traceStackOption = FALSE;
 Boolean singleStepOption = FALSE;
@@ -832,7 +832,7 @@ static void eventCheck()
       current.location = eventQueue[eventQueueTop].where;
     else
       current.location = where(eventQueue[eventQueueTop].where);
-    if (traceOption) {
+    if (sectionTraceOption) {
       printf("\n<EVENT %d (at ", eventQueue[eventQueueTop].event);
       traceSay(current.location);
       printf("):>\n");
@@ -988,10 +988,10 @@ static void load(void)
   }
 
 #ifdef REVERSED
-  if (debugOption||traceOption||singleStepOption)
+  if (debugOption||sectionTraceOption||singleStepOption)
     output("<Hmm, this is a little-endian machine, fixing byte ordering....");
   reverseACD();			/* Reverse content of the ACD file */
-  if (debugOption||traceOption||singleStepOption)
+  if (debugOption||sectionTraceOption||singleStepOption)
     output("OK.>$n");
 #endif
 }
@@ -1002,13 +1002,13 @@ static void checkdebug(void)
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
-    if (debugOption|traceOption|singleStepOption) {
+    if (debugOption|sectionTraceOption|singleStepOption) {
       printf("<Sorry, '%s' is not compiled for debug!>\n", adventureName);
       terminate(0);
     }
     para();
     debugOption = FALSE;
-    traceOption = FALSE;
+    sectionTraceOption = FALSE;
     singleStepOption = FALSE;
     tracePushOption = FALSE;
   }
@@ -1163,7 +1163,7 @@ static void start(void)
   current.actor = HERO;
   current.score = 0;
 
-  if (traceOption)
+  if (sectionTraceOption)
     printf("\n<START:>\n");
   interpret(header->start);
   para();
@@ -1237,7 +1237,7 @@ static void init(void)
   looking = FALSE;		/* Not looking now */
   dscrstkp = 0;			/* No describe in progress */
 
-  if (debugOption||traceOption||singleStepOption) {
+  if (debugOption||sectionTraceOption||singleStepOption) {
     char str[80];
     output("<Hi! This is Alan interactive fiction interpreter Arun,");
     sprintf(str, "%s version %ld.%ld.%ld!>$n", alan.version.state,
@@ -1272,13 +1272,13 @@ static void init(void)
 
 static Boolean traceActor(int theActor)
 {
-  if (traceOption) {
+  if (sectionTraceOption) {
     printf("\n<ACTOR %d, ", theActor);
     traceSay(theActor);
     printf(" (at ");
     traceSay(current.location);
   }
-  return traceOption;
+  return sectionTraceOption;
 }
 
 
@@ -1354,7 +1354,7 @@ static void moveActor(int theActor)
     if (endOfTable(scr))
       syserr("Unknown actor script.");
   } else {
-    if (traceOption) {
+    if (sectionTraceOption) {
       printf("\n<ACTOR %d, ", theActor);
       traceSay(theActor);
       printf(" (at ");

@@ -1,4 +1,6 @@
 #include "main.h"
+#include "inter.h"
+#include "debug.h"
 
 /*======================================================================*/
 void syserr(char *str)
@@ -8,6 +10,11 @@ and fall to your knees. In front of you, you can vaguely see the outlines \
 of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
+
+  if (current.sourceLine != 0) {
+    printf("At source line %d in '%s':\n", current.sourceLine, sourceFileName(current.sourceFile));
+    printf("%s", readSourceLine(current.sourceLine, current.sourceFile));
+  }
 
   if (transcriptOption || logOption)
     fclose(logFile);

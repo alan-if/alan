@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdarg.h>
+
 
 #include "types.h"
 #ifdef HAVE_SHORT_FILENAMES
@@ -42,6 +44,15 @@ Breakpoint breakpoint[BREAKPOINTMAX];
 
 
 
+
+/*----------------------------------------------------------------------*/
+static void debugPrintf(char *fmt, ...) {
+  va_list argp;
+  va_start(argp, fmt);
+  printf("abug: ");
+  vprintf(fmt, argp);
+  va_end(argp);
+}
 
 /*----------------------------------------------------------------------*/
 static void showAttributes(Aword atradr)
@@ -373,8 +384,8 @@ static void showEvents(void)
 
 
 
-/*----------------------------------------------------------------------*/
-static char *sourceFileName(int fileNumber) {
+/*======================================================================*/
+char *sourceFileName(int fileNumber) {
   SourceFileEntry *entries = pointerTo(header->sourceFileTable);
 
   getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
@@ -382,23 +393,32 @@ static char *sourceFileName(int fileNumber) {
 }
 
 
-/*----------------------------------------------------------------------*/
-static void showSourceLine(int line, int fileNumber) {
+/*======================================================================*/
+char *readSourceLine(int line, int file) {
   FILE *sourceFile;
   int count;
 #define SOURCELINELENGTH 100
 static char buffer[SOURCELINELENGTH];
 
-  sourceFile  = fopen(sourceFileName(fileNumber), "r");
+  sourceFile  = fopen(sourceFileName(file), "r");
   if (sourceFile != NULL) {
     for (count = 0; count < line; count++) {
       if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
-	return;
+	return NULL;
       /* Make sure we have read to end of line */
       if (strchr(buffer, '\n') == NULL)
 	while (fgetc(sourceFile) != '\n');
     }
-    printf("abug> %s", buffer);
+    return buffer;
+  }
+  return NULL;
+}
+
+/*----------------------------------------------------------------------*/
+static void showSourceLine(int line, int fileNumber) {
+  char *buffer = readSourceLine(line, fileNumber);
+  if (buffer != NULL) {
+    printf("abug: %s", buffer);
     if (buffer[strlen(buffer)-1] != '\n')
       printf("\n");
   }
@@ -489,7 +509,7 @@ void saveInfo(void)
 {
   /* Save some important things */
   cap = capitalize; capitalize = FALSE;
-  trc = traceOption; traceOption = FALSE;
+  trc = sectionTraceOption; sectionTraceOption = FALSE;
   stp = singleStepOption; singleStepOption = FALSE;
   loc = current.location; current.location = where(HERO);
 }
@@ -500,11 +520,10 @@ void restoreInfo(void)
 {
   /* Restore! */
   capitalize = cap;
-  traceOption = trc;
+  sectionTraceOption = trc;
   singleStepOption = stp;
   current.location = loc;
 }
-
 
 /*======================================================================*/
 void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
@@ -522,7 +541,7 @@ void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
       cause = "Breakpoint hit at";
     else
       cause = "Stepping to";
-    printf("abug> %s line %d in '%s':\n", cause, line,
+    debugPrintf("%s line %d in '%s':\n", cause, line,
 	    sourceFileName(fileNumber));
     showSourceLine(line, fileNumber);
     anyOutput = FALSE;
@@ -638,7 +657,7 @@ void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
       stopAtNextLine = TRUE;
       debugOption = FALSE;
       if (!calledFromBreakpoint)
-	currentLine = 0;
+	current.sourceLine = 0;
       restoreInfo();
       return;
     default:
