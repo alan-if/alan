@@ -68,7 +68,7 @@ typedef struct StmNod {		/* STATEMENT */
     } visits;
 
     struct {			/* for DESCRIBE */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
     } describe;
 
     struct {			/* for SAY */
@@ -76,33 +76,33 @@ typedef struct StmNod {		/* STATEMENT */
     } say;
 
     struct {			/* for LIST */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
     } list;
 
     struct {			/* for EMPTY */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
       WhrNod *whr;		/* Where? */
     } empty;
 
     struct {			/* for LOCATE */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
       WhrNod *whr;		/* Where? */
     } locate;
 
     struct {			/* for MAKE */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
       Bool not;			/* Was there a NOT ? */
       IdNode *atr;		/* Id of the attribute */
     } make;
 
     struct {			/* for SET */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
       IdNode *atr;
       ExpNod *exp;		/* The new value */
     } set;
 
     struct {			/* for INCR/DECR */
-      WhtNod *wht;		/* What? */
+      What *wht;		/* What? */
       IdNode *atr;
       ExpNod *step;		/* By what? */
     } incr;

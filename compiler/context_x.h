@@ -17,6 +17,7 @@
 
 /* FUNCTIONS: */
 
+extern Context *newContext(ContextKind kind);
 extern Context *copyContext(Context *context);
 
 #endif

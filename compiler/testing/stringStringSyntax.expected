@@ -4,27 +4,28 @@
 stringStringSyntax.alan
 
     1.  Syntax string = string (string)
-=====>         1        2       3
+=====>         1      2 3       4
 
-  *1*   103 E : 'STRING' replaced by Identifier ('$genid#1').
-  *2*   102 E : 'STRING' deleted.
-  *3*   103 E : 'STRING' replaced by Identifier ('$genid#2').
+  *1*   103 E : 'STRING' replaced by Identifier ('<generate identifier #1>').
+  *2*   207 E : VERB '<generate identifier #1>' is not defined.
+  *3*   102 E : 'STRING' deleted.
+  *4*   103 E : 'STRING' replaced by Identifier ('<generate identifier #2>').
 
     2.  	Where string Isa String Else "You can only string strings."
 =====>  	      1
 
-  *1*   103 E : 'STRING' replaced by Identifier ('$genid#3').
+  *1*   103 E : 'STRING' replaced by Identifier ('<generate identifier #3>').
 
     4.  Verb string
 =====>       1
 
-  *1*   103 E : 'STRING' replaced by Identifier ('$genid#4').
+  *1*   103 E : 'STRING' replaced by Identifier ('<generate identifier #4>').
 
     6.      "You string" Say string.
 =====>                       1
 
-  *1*   103 E : 'STRING' replaced by Identifier ('$genid#5').
-  *1*   310 E : Identifier '$genid#5' not defined.
+  *1*   103 E : 'STRING' replaced by Identifier ('<generate identifier #5>').
+  *1*   310 E : Identifier '<generate identifier #5>' not defined.
 
     7.  End Verb string.
 =====>           1
@@ -32,7 +33,7 @@ stringStringSyntax.alan
   *1*   102 E : 'STRING' deleted.
 
 
-        8 error(s).
+        9 error(s).
         No detected warnings.
         2 informational message(s).
 

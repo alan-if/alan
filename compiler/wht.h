@@ -7,42 +7,23 @@
                                                                      
 \*----------------------------------------------------------------------*/
 
-
 /* USE: */
 #include "id.h"
 
 
 /* TYPES: */
 
-typedef enum WhtKind {
-  WHT_OBJ,
-  WHT_LOC,
-  WHT_ACT,
-  WHT_ID
-} WhtKind;
+typedef enum WhatKind {
+  WHAT_LOCATION,
+  WHAT_ACTOR,
+  WHAT_ID,
+  WHAT_THIS
+} WhatKind;
 
-typedef struct WhtNod {		/* WHAT nodes */
+typedef struct What {
   Srcp srcp;			/* Source position */
-  WhtKind kind;			/* What kind */
-  IdNode *id;			/* What identifier */
-} WhtNod;
-
-
-/* Data: */
-
-
-/* Functions: */
-
-/* Create a new What node */
-extern WhtNod *newwht(Srcp *srcp,
-		      WhtKind wht,
-		      struct IdNode *id);
-
-/* Generate a reference to a What */
-extern void gewht(WhtNod *wht);
-
-/* Dump a What node */
-extern void duwht(WhtNod *wht);
-
+  WhatKind kind;		/* What kind */
+  IdNode *id;			/* Identifier if WHAT_ID */
+} What;
 
 #endif

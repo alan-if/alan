@@ -11,6 +11,7 @@
 
 /* USE: */
 #include "lst.h"
+#include "context.h"
 
 
 /* Data: */
@@ -27,10 +28,10 @@ extern VrbNod *newvrb(Srcp *srcp,
 		      List *alts);
 
 /* Analyze a list of Verbs */
-extern void anvrbs(List *vrbs, Symbol *symbol);
+extern void anvrbs(List *vrbs, Context *context);
 
 /* Generate code for a list of Verbs */
-extern Aaddr gevrbs(List *vrbs, InsNod *ins);
+extern Aaddr gevrbs(List *vrbs, int currentInstance);
 
 /* Dump a Verb */
 extern void duvrb(VrbNod *vrb);

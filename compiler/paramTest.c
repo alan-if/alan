@@ -10,7 +10,7 @@
 
 void testParameterReference()
 {
-  Context context;
+  Context *context = newContext(VERB_CONTEXT);
   List *parameters;
   IdNode *p1Id = newId(&nulsrcp, "p1");
   Symbol *foundSymbol;
@@ -20,8 +20,7 @@ void testParameterReference()
   initadv();
 
   v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  context.kind = VERB_CONTEXT;
-  context.verb = v1Symbol;
+  context->verb = v1Symbol;
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
 
@@ -30,7 +29,7 @@ void testParameterReference()
   unitAssert(foundSymbol == NULL);
   unitAssert(readEcode() == 310 && readSev() == sevERR); /* Not found! */
 
-  foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, &context);
+  foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, context);
   unitAssert(foundSymbol != NULL);
   unitAssert(foundSymbol->kind == PARAMETER_SYMBOL);
   unitAssert(foundSymbol->fields.parameter.element == parameters->element.elm);

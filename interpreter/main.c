@@ -1715,6 +1715,18 @@ static void init()
 
 
 
+static Boolean traceActor(int theActor)
+{
+  if (trcflg) {
+    printf("\n<ACTOR %d, ", theActor);
+    debugsay(theActor);
+    printf(" (at ");
+    debugsay(cur.loc);
+  }
+  return trcflg;
+}
+
+
 /*----------------------------------------------------------------------
   movactor()
 
@@ -1736,55 +1748,35 @@ static void movactor(theActor)
   if (theActor == HERO) {
     parse();
     fail = FALSE;			/* fail only aborts one actor */
-    rules();
   } else if (admin[theActor].script != 0) {
-    for (scr = (ScrEntry *) addrTo(instance[theActor].scripts); !endOfTable(scr); scr++)
+    for (scr = (ScrEntry *) addrTo(instance[theActor].scripts); !endOfTable(scr); scr++) {
       if (scr->code == admin[theActor].script) {
 	/* Find correct step in the list by indexing */
 	step = (StepEntry *) addrTo(scr->steps);
 	step = (StepEntry *) &step[admin[theActor].step];
 	/* Now execute it, maybe. First check wait count */
-	if (step->after > admin[theActor].waitCount) {
-	  /* Wait some more */
-	  if (trcflg) {
-	    printf("\n<ACTOR %d, ", theActor);
-	    debugsay(theActor);
-	    printf(" (at ");
-	    debugsay(cur.loc);
+	if (step->after > admin[theActor].waitCount) { /* Wait some more ? */
+	  if (traceActor(theActor))
 	    printf("), SCRIPT %ld, STEP %ld, Waiting another %ld turns>\n",
-		   admin[theActor].script, admin[theActor].step+1, step->after-admin[theActor].waitCount);
-	  }
+		   admin[theActor].script, admin[theActor].step+1,
+		   step->after-admin[theActor].waitCount);
 	  admin[theActor].waitCount++;
-	  rules();
-	  return;
 	} else
 	  admin[theActor].waitCount = 0;
-	/* Then check possible expression */
+	/* Then check possible expression to wait for */
 	if (step->exp != 0) {
-	  if (trcflg) {
-	    printf("\n<ACTOR %d, ", theActor);
-	    debugsay(theActor);
-	    printf(" (at ");
-	    debugsay(cur.loc);
+	  if (traceActor(theActor))
 	    printf("), SCRIPT %ld, STEP %ld, Evaluating:>\n",
 		   admin[theActor].script, admin[theActor].step+1);
-	  }
 	  interpret(step->exp);
-	  if (!(Abool)pop()) {
-	    rules();
-	    return; /* Hadn't happened yet */
-	  }
+	  if (!(Abool)pop())
+	    break;		/* Break loop, don't execute step*/
 	}
 	/* OK, so finally let him do his thing */
 	admin[theActor].step++;		/* Increment step number before executing... */
-	if (trcflg) {
-	  printf("\n<ACTOR %d, ", theActor);
-	  debugsay(theActor);
-	  printf(" (at ");
-	  debugsay(cur.loc);
+	if (traceActor(theActor))
 	  printf("), SCRIPT %ld, STEP %ld, Executing:>\n",
 		 admin[theActor].script, admin[theActor].step);
-	}
 	interpret(step->stm);
 	step++;
 	/* ... so that we can see if he is USEing another script now */
@@ -1792,18 +1784,19 @@ static void movactor(theActor)
 	  /* No more steps in this script, so stop him */
 	  admin[theActor].script = 0;
 	fail = FALSE;			/* fail only aborts one actor */
-	rules();
-	return;
+	break;			/* We have executed a script so leave loop */
       }
-    syserr("Unknown actor script.");
-  } else if (trcflg) {
-    printf("\n<ACTOR %d, ", theActor);
-    debugsay(theActor);
-    printf(" (at ");
-    debugsay(cur.loc);
-    printf("), Idle>\n");
-    rules();
-    return;
+    }
+    if (endOfTable(scr))
+      syserr("Unknown actor script.");
+  } else {
+    if (trcflg) {
+      printf("\n<ACTOR %d, ", theActor);
+      debugsay(theActor);
+      printf(" (at ");
+      debugsay(cur.loc);
+      printf("), Idle>\n");
+    }
   }
 }
 
@@ -1897,8 +1890,11 @@ void run(void)
 
     /* Move all characters, hero first */
     movactor(header->theHero);
+    rules();
     for (i = 1; i <= header->instanceMax; i++)
-      if (i != header->theHero && isA(i, ACTOR))
+      if (i != header->theHero && isA(i, ACTOR)) {
 	movactor(i);
+	rules();
+      }
   }
 }

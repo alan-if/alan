@@ -102,7 +102,7 @@ typedef struct ExpNod {		/* EXPRESSION */
     } rnd;
 
     struct {			/* For WHAT */
-      WhtNod *wht;
+      What *wht;
     } wht;
 
     struct {			/* For BETWEEN */

@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "scr.h"
+#include "scr_x.h"
 
 /* IMPORT: */
 #include "alan.h"
@@ -136,20 +136,16 @@ void analyzeScripts(List *scripts, Context *context)
   generateScripts()
 
   */
-Aword generateScripts(InsNod *ins)
+Aword generateScripts(List *scripts, int currentInstance)
 {
   List *lst;
   Aword scradr;
 
-  if (ins == NULL) syserr("NULL in generateScripts()");
-  if (ins->slots == NULL || ins->slots->scripts == NULL)
-    return(0);
-
-  for (lst = ins->slots->scripts; lst != NULL; lst = lst->next) {
-    lst->element.scr->stpadr = gestps(lst->element.scr->stps, ins);
+  for (lst = scripts; lst != NULL; lst = lst->next) {
+    lst->element.scr->stpadr = gestps(lst->element.scr->stps, currentInstance);
     if (lst->element.scr->descr != NULL) {
       lst->element.scr->stmadr = emadr();
-      gestms(lst->element.scr->descr, ins);
+      gestms(lst->element.scr->descr, currentInstance);
       emit0(C_STMOP, I_RETURN);
     } else
       lst->element.scr->stmadr = 0;
@@ -157,7 +153,7 @@ Aword generateScripts(InsNod *ins)
 
   /* Script table */
   scradr = emadr();
-  for (lst = ins->slots->scripts; lst != NULL; lst = lst->next) {
+  for (lst = scripts; lst != NULL; lst = lst->next) {
     emit(lst->element.scr->code);
     emit(lst->element.scr->stmadr);
     emit(lst->element.scr->stpadr);

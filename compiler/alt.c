@@ -11,13 +11,13 @@
 
 #include "srcp_x.h"
 #include "id_x.h"
+#include "chk_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
 #include "sym_x.h"
 
 
 #include "alt.h"                /* ALT-nodes */
-#include "chk.h"                /* CHK-nodes */
 #include "elm.h"
 
 #include "emit.h"
@@ -156,15 +156,14 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
   Generate code for one syntax element node.
 
  */
-static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
-		  InsNod *ins)	/* IN - Inside any Instance? */
+static void gealt(AltNod *alt, int currentInstance)
 {
   /* First the action, if there is any */
   if (alt->stms == NULL)
     alt->stmadr = 0;
   else {
     alt->stmadr = emadr();
-    gestms(alt->stms, ins);
+    gestms(alt->stms, currentInstance);
     emit0(C_STMOP, I_RETURN);
   }
   
@@ -172,7 +171,7 @@ static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
   if (alt->chks == NULL)
     alt->chkadr = 0;
   else
-    alt->chkadr = gechks(alt->chks, ins);
+    alt->chkadr = gechks(alt->chks, currentInstance);
 }
 
 
@@ -184,14 +183,13 @@ static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
   Generate the data structure for the syntax elements.
 
  */
-Aaddr gealts(List *alts,	/* IN - The elements */
-	     InsNod *ins)	/* IN - Inside any Instance? */
+Aaddr gealts(List *alts, int currentInstance)
 {
   List *lst;
   Aaddr altadr;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    gealt(lst->element.alt, ins);
+    gealt(lst->element.alt, currentInstance);
 
   altadr = emadr();
   for (lst = alts; lst != NULL; lst = lst->next)

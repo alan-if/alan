@@ -13,6 +13,7 @@
 #include "add_x.h"
 #include "cla_x.h"
 #include "cnt_x.h"
+#include "context_x.h"
 #include "ins_x.h"
 #include "lst_x.h"
 #include "srcp_x.h"
@@ -88,14 +89,13 @@ void symbolizeAdv()
 */
 static void analyzeStartAt(void)
 {
-  Context context;
-
-  context.kind = RULE_CONTEXT; /* START has the same environment as a RULE */
+  /* START has the same environment as a RULE */
+  Context *context = newContext(RULE_CONTEXT);
 
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {
     case WHR_AT:
-      if (adv.whr->wht->kind == WHT_ID) {
+      if (adv.whr->wht->kind == WHAT_ID) {
 	inheritCheck(adv.whr->wht->id, "an instance", "location");
       } else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
@@ -105,7 +105,7 @@ static void analyzeStartAt(void)
       break;
     }
 
-  anstms(adv.stms, &context);
+  anstms(adv.stms, context);
 }
 
 
@@ -183,7 +183,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   acdHeader.syntaxTableAddress = gestxs();	/* Syntax definitions */ 
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.verbTableAddress = gevrbs(adv.vrbs, NULL); /* Global verbs */
+  acdHeader.verbTableAddress = gevrbs(adv.vrbs, 0); /* Global verbs */
 
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();
@@ -214,7 +214,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
 
   /* Start statements */
   acdHeader.start = emadr();	/* Save ACODE address to start */
-  gestms(adv.stms, NULL);
+  gestms(adv.stms, 0);
   emit0(C_STMOP, I_RETURN);
 
   /* String initialisation table */

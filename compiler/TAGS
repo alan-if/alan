@@ -1,5 +1,5 @@
 
-acode.h,2316
+acode.h,2397
 #define _ACODE_H_2,18
 typedef unsigned long Aword;Aword5,55
 typedef unsigned long Aaddr;Aaddr6,114
@@ -39,56 +39,82 @@ typedef enum QualClass QualClass68,1970
 typedef enum OpClass OpClass77,2085
 } OpClass;OpClass81,2141
 typedef enum InstClass InstClass83,2153
-} InstClass;InstClass151,3575
-typedef enum VarClass VarClass154,3590
-} VarClass;VarClass160,3671
-#define I_CLASS(I_CLASS163,3685
-#define I_OP(I_OP164,3714
-#define ACDsizeOf(ACDsizeOf169,3816
-typedef struct ClassEntry ClassEntry171,3864
-} ClassEntry;ClassEntry174,4002
-typedef struct InstanceEntry InstanceEntry176,4017
-} InstanceEntry;InstanceEntry189,4690
-typedef struct AttributeEntry AttributeEntry191,4708
-} AttributeEntry;AttributeEntry195,4874
-typedef struct ExitEntry ExitEntry197,4893
-} ExitEntry;ExitEntry203,5184
-#define RESTRICTIONCLASS_CONTAINER 206,5199
-#define RESTRICTIONCLASS_INTEGER 207,5239
-#define RESTRICTIONCLASS_STRING 208,5277
-typedef struct RestrictionEntry RestrictionEntry210,5315
-} RestrictionEntry;RestrictionEntry214,5513
-typedef struct ContainerEntry ContainerEntry216,5534
-} ContainerEntry;ContainerEntry221,5778
-typedef struct ElementEntry ElementEntry224,5798
-} ElementEntry;ElementEntry229,6070
-typedef struct AcdHdr AcdHdr236,6113
-} AcdHdr;AcdHdr284,8173
-typedef enum MsgKind MsgKind287,8212
-} MsgKind;MsgKind333,8999
-#define M_ARTICLE26 335,9011
-#define M_MSGMAX26 336,9044
+} InstClass;InstClass152,3467
+typedef enum VarClass VarClass155,3482
+} VarClass;VarClass161,3563
+#define I_CLASS(I_CLASS164,3577
+#define I_OP(I_OP165,3606
+#define ACDsizeOf(ACDsizeOf170,3708
+typedef struct ClassEntry ClassEntry172,3756
+} ClassEntry;ClassEntry175,3894
+typedef struct InstanceEntry InstanceEntry177,3909
+} InstanceEntry;InstanceEntry190,4582
+typedef struct AttributeEntry AttributeEntry192,4600
+} AttributeEntry;AttributeEntry196,4766
+typedef struct ExitEntry ExitEntry198,4785
+} ExitEntry;ExitEntry204,5076
+#define RESTRICTIONCLASS_CONTAINER 207,5091
+#define RESTRICTIONCLASS_INTEGER 208,5131
+#define RESTRICTIONCLASS_STRING 209,5169
+typedef struct RestrictionEntry RestrictionEntry211,5207
+} RestrictionEntry;RestrictionEntry215,5405
+typedef struct ContainerEntry ContainerEntry217,5426
+} ContainerEntry;ContainerEntry222,5668
+typedef struct ElementEntry ElementEntry225,5688
+} ElementEntry;ElementEntry230,5960
+typedef struct EventEntry EventEntry232,5977
+} EventEntry;EventEntry235,6092
+typedef struct AcdHdr AcdHdr241,6132
+} AcdHdr;AcdHdr278,7394
+typedef enum MsgKind MsgKind281,7433
+} MsgKind;MsgKind326,8188
+#define M_ARTICLE26 328,8200
+#define M_MSGMAX26 329,8233
+
+add.c,449
+AddNode *newAdd(38,598
+static void addInitialLocation(68,1112
+static void addNames(82,1407
+static void addAttributes(96,1693
+static void addDescription(120,2474
+static void addArticle(135,2777
+static void addMentioned(150,3066
+static void addContainer(165,3363
+static void addVerbs(180,3658
+static void addScripts(195,3952
+static void addExits(210,4252
+static void addAddition(225,4547
+void addAdditions(250,5157
+void dumpAdd(266,5392
+
+add.h,86
+#define _ADD_H_2,16
+typedef struct AddNode AddNode19,365
+} AddNode;AddNode24,538
+
+add_x.h,23
+#define _ADD_X_H_2,18
 
 adv.c,215
-AdvNod adv;46,886
-static Aword end;50,914
-void initadv(60,1072
-void symbolizeAdv(74,1267
-static void analyzeStartAt(88,1460
-void anadv(114,1958
-void geadv(165,2900
-void duadv(224,4641
-void summary(256,5857
+AdvNod adv;47,905
+static Aword end;51,933
+void initadv(61,1091
+void symbolizeAdv(75,1286
+static void analyzeStartAt(89,1479
+void anadv(119,2081
+void geadv(172,3066
+void duadv(240,4877
+void summary(332,6176
 
 adv.h,110
 #define _ADV_H_2,16
 typedef struct AdvNod AdvNod13,130
-} AdvNod;AdvNod34,1090
-extern AdvNod adv;39,1115
+} AdvNod;AdvNod35,1145
+extern AdvNod adv;40,1170
 
 advTest.c,60
-void testInitAdv(11,231
-void registerAdvUnitTests(61,1678
+void testInitAdv(12,250
+void registerAdvUnitTests(62,1700
 
 alan.c,825
 char advnam[38,537
@@ -159,22 +185,22 @@ typedef enum QualKind QualKind23,434
 typedef struct AltNod AltNod31,547
 } AltNod;AltNod40,938
 
-atr.c,505
+atr.c,499
 int atrmax;34,557
 AtrNod *newatr(45,702
-void checkMultipleAttributes(79,1549
-AtrNod *findAttribute(98,1945
-List *sortAttributes(116,2296
-static AtrNod *inheritAttribute(151,3043
-static List *inheritAttributeList(168,3385
-List *combineAttributes(189,3876
-void anatrs(224,4839
-AtrNod *resolveAttributeReference(246,5426
-static void generateAttribute(280,6474
-Aword generateAttributes(315,7498
-Aaddr generateStringInit(346,8162
-static void dumpInheritance(366,8535
-void dumpAttribute(384,8948
+void checkMultipleAttributes(79,1552
+AtrNod *findAttribute(98,1948
+List *sortAttributes(116,2299
+static AtrNod *copyAttribute(154,3209
+static List *copyAttributeList(171,3545
+List *combineAttributes(192,4027
+void anatrs(228,4906
+AtrNod *resolveAttributeReference(250,5493
+static void generateAttribute(284,6539
+Aword generateAttributes(319,7564
+Aaddr generateStringInit(350,8228
+static void dumpInheritance(370,8601
+void dumpAttribute(388,9014
 
 atr.h,134
 #define _ATR_H_2,16
@@ -182,27 +208,26 @@ atr.h,134
 typedef struct AtrNod AtrNod21,271
 } AtrNod;AtrNod32,730
 
-atrTest.c,774
+atrTest.c,732
 void testMultipleAtr(11,231
 void testFindInList(24,611
 static ClaNod *createClass(50,1517
-static InsNod *createInstance(60,1765
-static List *create2Attributes(70,2028
-static int firstAttributeCode(79,2359
-static int secondAttributeCode(84,2498
-static InsNod *firstInstance,89,2644
-static InsNod *firstInstance, *secondInstance;89,2644
-static void numberAttributes(92,2693
-static Bool equalLists(99,2837
-void testCombineAttributes(111,3104
-void testAttributeListsInSymbolTable(136,3842
-static void numberAttributes123(208,7102
-static void numberAttributes321(215,7262
-static void numberAttributes231(222,7422
-static Bool attributesAreSorted(229,7582
-void testSortAttributes(242,7836
-void testGenerateAttributes(264,8607
-void registerAtrUnitTests(290,9318
+static InsNod *createInstance(60,1761
+static List *create2Attributes(70,2020
+static int attributeCode(79,2351
+static InsNod *firstInstance,85,2508
+static InsNod *firstInstance, *secondInstance;85,2508
+static void numberTheAttributes(88,2557
+static Bool equalLists(95,2704
+void testCombineAttributes(107,2971
+void testAttributeListsInSymbolTable(132,3715
+static void numberAttributes123(204,6870
+static void numberAttributes321(211,7030
+static void numberAttributes231(218,7190
+static Bool attributesAreSorted(225,7350
+void testSortAttributes(238,7604
+void testGenerateAttributes(260,8375
+void registerAtrUnitTests(286,9086
 
 atr_x.h,49
 #define _ATR_X_H_2,18
@@ -228,24 +253,24 @@ ClaNod *thing, *object, *location, *actor;28,446
 static List *allClasses 34,512
 void initClasses(43,641
 ClaNod *newClass(72,1338
-static void symbolizeClass(107,2102
-void symbolizeClasses(129,2598
-static void analyzeClass(146,2841
-void analyzeClasses(159,3012
-static void generateClassEntry(173,3228
-Aaddr generateClasses(195,3691
-void dumpClass(222,4237
-void dumpClasses(236,4483
+static void symbolizeClass(107,2090
+void symbolizeClasses(129,2586
+static void analyzeClass(146,2829
+void analyzeClasses(159,3000
+static void generateClassEntry(173,3216
+Aaddr generateClasses(195,3679
+void dumpClass(222,4225
+void dumpClasses(236,4471
 
 cla.h,82
 #define _CLA_H_2,16
 typedef struct ClaNod ClaNod19,366
-} ClaNod;ClaNod23,502
+} ClaNod;ClaNod23,498
 
 claTest.c,97
 void testCreateClass(14,272
 void testGenerateClasses(38,913
-void registerClaUnitTests(64,1652
+void registerClaUnitTests(64,1648
 
 cla_x.h,196
 #define _CLA_X_H_2,18
@@ -254,28 +279,23 @@ extern ClaNod *thing, *object,15,328
 extern ClaNod *thing, *object, *location,15,328
 extern ClaNod *thing, *object, *location, *actor;15,328
 
-cnt.c,270
-int cntmin,33,564
-int cntmin, cntmax;33,564
-int cntcount 34,584
-CntNod *newContainer(43,701
-void verifyContainer(72,1286
-void ancnt(119,2283
-static void gecnt(145,2866
-static void gecntent(175,3479
-Aaddr generateContainers(192,3816
-void dumpContainer(220,4454
+cnt.c,241
+int containerCount 33,564
+CntNod *newContainer(42,687
+void verifyContainer(71,1278
+void analyzeContainer(118,2295
+static void gecnt(146,2921
+static void gecntent(176,3534
+Aaddr generateContainers(193,3874
+void dumpContainer(224,4565
 
 cnt.h,82
 #define _CNT_H_2,16
 typedef struct CntNod CntNod19,314
-} CntNod;CntNod32,925
+} CntNod;CntNod32,926
 
-cnt_x.h,111
+cnt_x.h,23
 #define _CNT_X_H_2,18
-extern int cntmin,19,305
-extern int cntmin, cntmax;19,305
-extern int cntcount;20,332
 
 context.h,124
 #define _CONTEXT_H_2,20
@@ -302,7 +322,7 @@ void dumpBool(83,908
 dump.h,80
 #define _DUMP_H2,16
 typedef enum dmpKd dmpKd18,317
-} DmpKind;DmpKind29,590
+} DmpKind;DmpKind34,716
 
 elm.c,263
 static int level 31,571
@@ -389,59 +409,59 @@ encode.h,50
 #define _ENCODE_H_2,19
 extern int txtlen;15,291
 
-evt.c,183
+evt.c,198
 int evtmin,29,519
 int evtmin, evtmax;29,519
 int evtcount 30,539
 EvtNod *newevt(40,693
-void anevts(78,1516
-static void geevt(102,1997
-Aaddr geevts(124,2465
-void duevt(151,2982
+void anevts(69,1300
+static void generateEvent(93,1789
+Aaddr generateEvents(115,2273
+void duevt(147,2930
 
-evt.h,170
+evt.h,82
 #define _EVT_H_2,16
 typedef struct EvtNod EvtNod21,331
 } EvtNod;EvtNod27,611
-extern int evtmin,33,637
-extern int evtmin, evtmax;33,637
-extern int evtcount;34,664
 
-exp.c,674
-Bool eqtyp(45,748
-ExpNod *newexp(61,1119
-static void anexpwhr(87,1586
-static void anexpatr(159,3404
-static void anbin(234,5630
-static void anagr(318,8495
-static void anrnd(348,9268
-static void anexpwht(373,9857
-static void anexpbtw(427,11022
-void anexp(453,11765
-static void geexpbin(519,12778
-static void geexpwhr(587,14329
-static void geexpatr(673,16397
-static void geexpagr(693,16830
-static void geexprnd(716,17405
-static void geexpscore(731,17708
-static void geexpwht(744,17953
-static void geexpbtw(757,18196
-void geexp(775,18560
-static void dumpOperator(842,19599
-static void duagr(897,20369
-void dumpType(921,20681
-void dumpExpression(954,21171
+exp.c,808
+Bool equalTypes(45,753
+ExpNod *newexp(61,1132
+static void anexpwhr(86,1536
+static void anexpatr(157,3384
+static void anbin(232,5644
+static void anagr(316,8666
+static void anrnd(346,9455
+static void anexpwht(371,10059
+static void anexpbtw(425,11244
+void anexp(451,12006
+void generateBinaryOperator(515,13122
+static void geexpbin(574,14262
+static void geexpwhr(590,14587
+void generateAttributeAccess(673,16657
+static void geexpatr(688,16936
+static void geexpagr(705,17306
+static void geexprnd(728,17907
+static void geexpscore(743,18210
+static void geexpwht(756,18455
+void generateBetweenCheck(768,18674
+static void geexpbtw(782,18939
+void geexp(798,19246
+static void dumpOperator(865,20396
+static void dumpAggregateKind(919,21242
+void dumpType(937,21566
+void dumpExpression(970,22056
 
-exp.h,273
+exp.h,349
 #define _EXP_H_2,16
-typedef enum ExpKind ExpKind22,367
-} ExpKind;ExpKind34,732
-typedef enum OpKind OpKind36,744
-} OpKind;OpKind51,1119
-typedef enum AgrKind AgrKind54,1131
-} AgrKind;AgrKind58,1188
-typedef struct ExpNod ExpNod61,1201
-} ExpNod;ExpNod125,2824
+typedef enum ExpressionKind ExpressionKind22,367
+} ExpressionKind;ExpressionKind34,652
+typedef enum OperatorKind OperatorKind36,671
+} OperatorKind;OperatorKind51,1134
+typedef enum AggregateKind AggregateKind54,1152
+} AggregateKind;AggregateKind58,1233
+typedef struct ExpNod ExpNod61,1252
+} ExpNod;ExpNod125,2891
 
 exp_x.h,23
 #define _EXP_X_H_2,18
@@ -451,23 +471,23 @@ int dirmin,31,590
 int dirmin, dirmax;31,590
 int dircount 32,610
 ExtNod *newext(43,761
-static void symbolizeExit(86,2101
-void symbolizeExits(101,2373
-static void analyzeExit(115,2620
-void analyzeExits(133,2976
-static Aaddr geexstms(172,4094
-static void generateExitEntry(193,4458
-Aaddr generateExits(219,5108
-void duext(252,5854
+static void symbolizeExit(86,2061
+void symbolizeExits(101,2333
+static void analyzeExit(115,2580
+void analyzeExits(133,2936
+static Aaddr geexstms(172,4054
+static void generateExitEntry(193,4418
+Aaddr generateExits(219,5068
+void duext(252,5814
 
 ext.h,82
 #define _EXT_H_2,16
 typedef struct ExtNod ExtNod20,382
 } ExtNod;ExtNod28,756
 
-extTest.c,58
+extTest.c,59
 void testNewExt(11,231
-void registerExtUnitTests(39,940
+void registerExtUnitTests(41,1016
 
 ext_x.h,111
 #define _EXT_X_H_2,18
@@ -480,63 +500,60 @@ IdNode *newId(30,505
 Bool equalId(54,969
 void symbolizeId(72,1273
 void generateId(87,1552
-void dumpId(108,1945
+void dumpId(130,2528
 
-id.h,140
+id.h,81
 #define _ID_H_2,15
-typedef enum IdKind IdKind17,280
-} IdKind;IdKind22,351
-typedef struct IdNode IdNode25,363
-} IdNode;IdNode30,556
+typedef struct IdNode IdNode17,280
+} IdNode;IdNode22,473
 
 id_x.h,22
 #define _ID_X_H_2,17
 
-ins.c,450
-InsNod *theHero;26,434
-static List *allInstances 29,453
-void initInstances(37,585
-InsNod *newInstance(53,874
-static void symbolizeInstance(102,2171
-void symbolizeInstances(115,2385
-static void analyzeInstance(132,2641
-void analyzeInstances(145,2847
-static void generateInstanceData(161,3117
-static void generateInstanceEntry(172,3309
-static Aaddr generateInstanceTable(186,3568
-void generateInstances(205,3902
-void dumpInstance(227,4317
+ins.c,448
+static List *allInstances 27,453
+void initInstances(35,585
+void addHero(46,725
+InsNod *newInstance(67,1163
+static void symbolizeInstance(117,2492
+void symbolizeInstances(130,2706
+static void analyzeInstance(147,2962
+void analyzeInstances(165,3275
+static void generateInstanceData(181,3545
+static void generateInstanceEntry(192,3737
+static Aaddr generateInstanceTable(206,3996
+void generateInstances(225,4330
+void dumpInstance(247,4726
 
 ins.h,82
 #define _INS_H_2,16
 typedef struct InsNod InsNod20,383
-} InsNod;InsNod23,480
+} InsNod;InsNod23,476
 
 insTest.c,120
 void testCreateIns(10,184
 void testGenerateInstances(29,615
-void testHero(77,2399
-void registerInsUnitTests(91,2662
+void testHero(77,2384
+void registerInsUnitTests(94,2684
 
-ins_x.h,87
+ins_x.h,56
 #define _INS_X_H_2,18
 extern int instanceCount;16,343
-extern InsNod *theHero;17,369
 
 lim.c,146
 LimNod *newlim(45,933
 void anlim(74,1588
-static void gelim(107,2374
-static void geliment(127,2853
-Aword gelims(142,3147
-void dulim(170,3733
+static void gelim(107,2386
+static void geliment(127,2865
+Aword gelims(148,3339
+void dulim(176,3925
 
 lim.h,82
 #define _LIM_H_2,16
 typedef struct LimNod LimNod19,311
 } LimNod;LimNod24,544
 
-lmList.c,2835
+lmList.c,2839
 #define LMBOOL 27,474
 #define TRUE 30,513
 #define FALSE 31,533
@@ -563,78 +580,78 @@ static char *lmNoIns 69,1448
 #define lmMESSZ 71,1498
 typedef char *lmMsgs[lmMsgs72,1516
 static lmMsgs msg[74,1548
-typedef struct MSect MSect179,7906
-} MSect;MSect182,7952
-static MSect msects[184,7962
-static lmMessages currMsect 187,8004
-typedef struct Srctyp Srctyp189,8050
-} Srctyp;Srctyp197,8386
-static Srctyp *src;199,8397
-static int srcEntries 200,8417
-static int srclev;202,8445
-} count;209,8581
-} out;215,8732
-static liPhase phase;217,8740
-static char header[219,8783
-static lmTyp lsttyp;221,8848
-static lmSev lstsev;222,8898
-static LMBOOL liston 224,8941
-static LMBOOL pageSkipped 225,9002
-static char *lihdr;227,9038
-typedef struct sortRec sortRec230,9123
-} sortRec;sortRec234,9262
-typedef struct msgRec msgRec237,9301
-} msgRec;msgRec241,9453
-static lmSev maxsev;243,9464
-static lmSev maxlocsev;244,9516
-static struct msgRec *mdarr;246,9577
-static int marrEntries;247,9634
-static struct sortRec *msarr;248,9658
-static int paglen;256,9838
-static int pagwdt;257,9880
-static int pagnum;259,9917
-static int plnum;260,9963
-#define inset(inset269,10122
-static void error(281,10356
-static void sortmsg(296,10598
-static void getmsg(352,11786
-static void insert(384,12542
-static void crehead(441,14117
-static void prhead(482,15076
-static LMBOOL getsrc(501,15401
-static void geterr(535,16252
-static void skippage(581,17485
-static void prlin(604,17941
-static void prfnm(675,20276
-static void prsrcl(693,20626
-static void liFormatMsg(737,21722
-static void prerrm(797,23142
-static void liOpenOutput(933,26937
-static void liOpenSrc(961,27652
-static void liPush(983,28219
-static LMBOOL liPop(1049,29777
-static void prpack(1083,30662
-static void prupack(1149,32319
-static void prgpack(1168,32731
-static void prepi(1190,33118
-static void liLog(1243,34380
-static void liInit(1302,36163
-void lmLiInit(1333,36839
-void lmLog(1376,38252
-void lmLogv(1437,39603
-void lmLiOff(1497,40795
-void lmLiOn(1512,41056
-void lmLiPage(1527,41409
-void lmLiEnter(1543,41753
-void lmLiExit(1559,42167
-lmSev lmSeverity(1575,42432
-lmSev lmLocSeverity(1589,42625
-void lmResLocSeverity(1603,42804
-int lmMsg(1619,43151
-void lmList(1667,44265
-void lmLiPrint(1731,45652
-void lmSkipLines(1748,45992
-void lmLiTerminate(1765,46348
+typedef struct MSect MSect181,8148
+} MSect;MSect184,8194
+static MSect msects[186,8204
+static lmMessages currMsect 189,8246
+typedef struct Srctyp Srctyp191,8292
+} Srctyp;Srctyp199,8628
+static Srctyp *src;201,8639
+static int srcEntries 202,8659
+static int srclev;204,8687
+} count;211,8823
+} out;217,8974
+static liPhase phase;219,8982
+static char header[221,9025
+static lmTyp lsttyp;223,9090
+static lmSev lstsev;224,9140
+static LMBOOL liston 226,9183
+static LMBOOL pageSkipped 227,9244
+static char *lihdr;229,9280
+typedef struct sortRec sortRec232,9365
+} sortRec;sortRec236,9504
+typedef struct msgRec msgRec239,9543
+} msgRec;msgRec243,9695
+static lmSev maxsev;245,9706
+static lmSev maxlocsev;246,9758
+static struct msgRec *mdarr;248,9819
+static int marrEntries;249,9876
+static struct sortRec *msarr;250,9900
+static int paglen;258,10080
+static int pagwdt;259,10122
+static int pagnum;261,10159
+static int plnum;262,10205
+#define inset(inset271,10364
+static void error(283,10598
+static void sortmsg(298,10840
+static void getmsg(354,12028
+static void insert(386,12784
+static void crehead(443,14359
+static void prhead(484,15318
+static LMBOOL getsrc(503,15643
+static void geterr(537,16494
+static void skippage(583,17727
+static void prlin(606,18183
+static void prfnm(677,20518
+static void prsrcl(695,20868
+static void liFormatMsg(739,21964
+static void prerrm(799,23384
+static void liOpenOutput(935,27179
+static void liOpenSrc(963,27894
+static void liPush(985,28461
+static LMBOOL liPop(1051,30019
+static void prpack(1085,30904
+static void prupack(1151,32561
+static void prgpack(1170,32973
+static void prepi(1192,33360
+static void liLog(1245,34622
+static void liInit(1304,36405
+void lmLiInit(1335,37081
+void lmLog(1378,38494
+void lmLogv(1439,39845
+void lmLiOff(1499,41037
+void lmLiOn(1514,41298
+void lmLiPage(1529,41651
+void lmLiEnter(1545,41995
+void lmLiExit(1561,42409
+lmSev lmSeverity(1577,42674
+lmSev lmLocSeverity(1591,42867
+void lmResLocSeverity(1605,43046
+int lmMsg(1621,43393
+void lmList(1669,44507
+void lmLiPrint(1733,45894
+void lmSkipLines(1750,46234
+void lmLiTerminate(1767,46590
 
 lmList.h,556
 #define _lmList_H_2,19
@@ -662,21 +679,21 @@ typedef enum lmMessages lmMessages43,999
 
 lst.c,219
 void (*(dumpNodeTable[18,280
-void initDumpNodeList(39,725
-void insert(65,1371
-List *concat(90,1957
-List *combine(123,2668
-int length(142,3058
-static void dunod(162,3348
-void dulst(179,3634
-void dulst2(204,4086
+void initDumpNodeList(42,790
+void insert(71,1546
+List *concat(96,2132
+List *combine(129,2843
+int length(148,3233
+static void dunod(168,3523
+void dulst(185,3809
+void dulst2(210,4261
 
 lst.h,142
 #define _LST_H_2,16
 typedef enum ListKind ListKind14,240
-} ListKind;ListKind45,630
-typedef struct List List48,644
-} List;List79,1465
+} ListKind;ListKind46,642
+typedef struct List List49,656
+} List;List81,1502
 
 lstTest.c,83
 void testLength(13,251
@@ -791,14 +808,14 @@ static SPA_FUN(54,1019
 static char *charsets[62,1212
 static SPA_DECLARE(65,1263
 
-msg.c,217
-static struct {char *id; char *english; char *swedish;} defmsg[29,446
-void getxt(180,4597
-MsgNod *newmsg(199,4860
-void prepmsgs(223,5306
-void anmsgs(336,8125
-static void gemsgent(356,8534
-Aaddr gemsgs(370,8859
+msg.c,234
+static struct {int messageCode; char *id; char *english; char *swedish;} defmsg[29,446
+void getxt(177,5061
+MsgNod *newmsg(196,5324
+void prepmsgs(220,5770
+void anmsgs(336,8680
+static void gemsgent(356,9089
+Aaddr gemsgs(370,9414
 
 msg.h,82
 #define _MSG_H_2,16
@@ -874,147 +891,147 @@ extern List *includePaths;25,877
 
 paramTest.c,73
 void testParameterReference(11,219
-void registerParamUnitTests(38,1005
+void registerParamUnitTests(40,1057
 
 pmErr.c,293
-#define MaxTokens 61,1313
-static char insStr[64,1335
-static int insToks 65,1395
-static char delStr[67,1420
-static int delToks 68,1479
-void pmRPoi(74,1738
-void pmISym(98,2383
-#define sym 117,3002
-#define sstr 118,3020
-#define pstr 119,3043
-void pmDSym(148,3740
-void pmMess(188,5113
+#define MaxTokens 62,1303
+static char insStr[65,1325
+static int insToks 66,1385
+static char delStr[68,1410
+static int delToks 69,1469
+void pmRPoi(75,1728
+void pmISym(99,2373
+#define sym 118,2992
+#define sstr 119,3010
+#define pstr 120,3033
+void pmDSym(149,3730
+void pmMess(189,5103
 
 pmPaSema.c,354
-typedef unsigned char UByte1;UByte163,1406
-typedef unsigned short UByte2;UByte264,1436
-typedef unsigned int UByte4;UByte465,1467
-typedef struct pmGrammar pmGrammar74,1669
-} pmGrammar;pmGrammar139,2765
-extern short pmStkP;143,2803
-extern Token pmSySt[144,2824
-extern pmGrammar pmSeSt[145,2847
-static int val(152,2944
-void pmPaSema(169,3259
+typedef unsigned char UByte1;UByte164,1396
+typedef unsigned short UByte2;UByte265,1426
+typedef unsigned int UByte4;UByte466,1457
+typedef struct pmGrammar pmGrammar75,1659
+} pmGrammar;pmGrammar144,2847
+extern short pmStkP;148,2885
+extern Token pmSySt[149,2906
+extern pmGrammar pmSeSt[150,2929
+static int val(157,3026
+void pmPaSema(174,3341
 
 pmParse.c,3409
-#define PMTRUE 61,1298
-#define PMFALSE 62,1315
-typedef unsigned char PmBoolean;PmBoolean63,1333
-typedef unsigned char UByte1;UByte170,1528
-typedef unsigned short UByte2;UByte271,1558
-typedef unsigned int UByte4;UByte472,1589
-typedef struct pmGrammar pmGrammar78,1732
-} pmGrammar;pmGrammar143,2828
-#define ERROR_ACT 149,2912
-#define SHIFT_ACT 150,2955
-#define SHIFTRED_ACT 151,2998
-#define REDUCE_ACT 152,3050
-#define ACCEPT_ACT 153,3094
-#define ERR_SYM 155,3139
-#define ENDMARK 156,3176
-#define NONE_REC 160,3269
-#define IN_REC 161,3313
-#define DEL_REC 162,3360
-#define REP_REC 163,3407
-#define BAK_REC 164,3457
-#define HALT_REC 165,3495
-#define LEX_ERR 169,3572
-#define SYN_ERR 170,3628
-#define OFLW_ERR 171,3673
-#define TAB_ERR 172,3720
-#define WAR_SEV 176,3810
-#define ERR_SEV 177,3844
-#define FAT_SEV 178,3886
-#define SYS_SEV 179,3923
-#define SccMax 183,4016
-#define TermMin 184,4065
-#define Terms 185,4114
-#define StateMin 186,4170
-#define States 187,4217
-#define ProdMin 188,4260
-#define Prods 189,4311
-#define PmStkMax 190,4358
-#define	PmLaMax 191,4402
-#define	PmCost 192,4445
-typedef unsigned char TermSet[TermSet196,4508
-typedef UByte1 ParseStack[ParseStack197,4586
-} ContRec;ContRec205,4793
-} RecTab;RecTab212,5001
-} TermTab;TermTab219,5231
-static TermTab act 221,5243
-} NonTermTab;NonTermTab1016,45326
-static NonTermTab gto 1018,45341
-} VocTab[VocTab1138,53145
-static VocTab voc 1140,53169
-short pmStkP;1251,55641
-Token pmSySt[1252,55677
-pmGrammar pmSeSt[1253,55720
-static UByte1 currstat;1254,55770
-static UByte2 arg;1255,55822
-static UByte1 action;1256,55857
-static PmBoolean endparse;1257,55898
-static ParseStack parsStk;1258,55948
-static UByte1 scIndex[1259,55993
-static Token tokenBuf;1260,56071
-static Token *token 1261,56121
-static Token la_buff[1266,56267
-static int la_ptr;1267,56315
-static int la_end;1268,56357
-static jmp_buf pmJmpB;1270,56394
-static void paAbort(1305,57542
-#define SetIns(SetIns1320,58017
-#define SetClear(SetClear1327,58285
-#define SetMem(SetMem1333,58565
-static void paInit(1340,58837
-#define MOVETOKEN 1362,59450
-#define pushStatTok(pushStatTok1363,59492
-#define pushStat(pushStat1374,59701
-#define actTbl(actTbl1390,60103
-#define gtoTbl(gtoTbl1409,60685
-} ERR_REC;ERR_REC1442,61585
-static ERR_REC errdescr;1444,61597
-static void ePush(1451,61833
-static PmBoolean legalAct(1466,62332
-static void gLegSym(1516,63600
-static short backup(1536,64249
-static void delSym(1552,64794
-    if 1582,65373
-} REC_POI;REC_POI1630,67129
-static void acceptbl(1638,67414
-static void search(1776,70853
-static void reach(1820,72120
-static void multiple(1894,74195
-#define ShiftCost 1926,75374
-#define InfCost 1927,75439
-#define Thresh 1928,75494
-static void readLa(1935,75774
-static UByte1 rdLaSym(1979,76843
-static void laParse(1996,77440
-static void tryIn(2079,79427
-static void tryRep(2117,80554
-static void tryDel(2155,81675
-static void _pmInsert(2182,82465
-static void _pmReplace(2195,82798
-static void _pmDelete(2210,83154
-static void single(2243,83828
-    *newstat 2303,85092
-static void recover(2312,85333
-void pmParse(2345,86537
-    pushStatTok(2369,86950
-	    break;2406,87650
-    if 2411,87705
-	    goto reduce;2431,88081
-	    currstat 2442,88312
-	    parsStk[2443,88333
-	    break;2444,88366
-	    endparse 2447,88397
-	    break;2448,88421
+#define PMTRUE 62,1288
+#define PMFALSE 63,1305
+typedef unsigned char PmBoolean;PmBoolean64,1323
+typedef unsigned char UByte1;UByte171,1518
+typedef unsigned short UByte2;UByte272,1548
+typedef unsigned int UByte4;UByte473,1579
+typedef struct pmGrammar pmGrammar79,1722
+} pmGrammar;pmGrammar148,2910
+#define ERROR_ACT 154,2994
+#define SHIFT_ACT 155,3037
+#define SHIFTRED_ACT 156,3080
+#define REDUCE_ACT 157,3132
+#define ACCEPT_ACT 158,3176
+#define ERR_SYM 160,3221
+#define ENDMARK 161,3258
+#define NONE_REC 165,3351
+#define IN_REC 166,3395
+#define DEL_REC 167,3442
+#define REP_REC 168,3489
+#define BAK_REC 169,3539
+#define HALT_REC 170,3577
+#define LEX_ERR 174,3654
+#define SYN_ERR 175,3710
+#define OFLW_ERR 176,3755
+#define TAB_ERR 177,3802
+#define WAR_SEV 181,3892
+#define ERR_SEV 182,3926
+#define FAT_SEV 183,3968
+#define SYS_SEV 184,4005
+#define SccMax 188,4098
+#define TermMin 189,4147
+#define Terms 190,4196
+#define StateMin 191,4252
+#define States 192,4299
+#define ProdMin 193,4342
+#define Prods 194,4393
+#define PmStkMax 195,4440
+#define	PmLaMax 196,4484
+#define	PmCost 197,4527
+typedef unsigned char TermSet[TermSet201,4590
+typedef UByte2 ParseStack[ParseStack202,4668
+} ContRec;ContRec210,4875
+} RecTab;RecTab217,5083
+} TermTab;TermTab224,5313
+static TermTab act 226,5325
+} NonTermTab;NonTermTab1063,47940
+static NonTermTab gto 1065,47955
+} VocTab[VocTab1185,55812
+static VocTab voc 1187,55836
+short pmStkP;1300,58353
+Token pmSySt[1301,58389
+pmGrammar pmSeSt[1302,58432
+static UByte2 currstat;1303,58482
+static UByte2 arg;1304,58534
+static UByte1 action;1305,58569
+static PmBoolean endparse;1306,58610
+static ParseStack parsStk;1307,58660
+static UByte1 scIndex[1308,58705
+static Token tokenBuf;1309,58783
+static Token *token 1310,58833
+static Token la_buff[1315,58979
+static int la_ptr;1316,59027
+static int la_end;1317,59069
+static jmp_buf pmJmpB;1319,59106
+static void paAbort(1354,60254
+#define SetIns(SetIns1369,60729
+#define SetClear(SetClear1376,60997
+#define SetMem(SetMem1382,61277
+static void paInit(1389,61549
+#define MOVETOKEN 1411,62162
+#define pushStatTok(pushStatTok1412,62204
+#define pushStat(pushStat1423,62413
+#define actTbl(actTbl1439,62815
+#define gtoTbl(gtoTbl1458,63397
+} ERR_REC;ERR_REC1491,64297
+static ERR_REC errdescr;1493,64309
+static void ePush(1500,64545
+static PmBoolean legalAct(1515,65044
+static void gLegSym(1565,66312
+static short backup(1585,66961
+static void delSym(1601,67506
+    if 1631,68085
+} REC_POI;REC_POI1679,69841
+static void acceptbl(1687,70126
+static void search(1825,73565
+static void reach(1869,74832
+static void multiple(1943,76907
+#define ShiftCost 1975,78086
+#define InfCost 1976,78151
+#define Thresh 1977,78206
+static void readLa(1984,78486
+static UByte1 rdLaSym(2028,79555
+static void laParse(2045,80152
+static void tryIn(2128,82139
+static void tryRep(2166,83266
+static void tryDel(2204,84387
+static void _pmInsert(2231,85177
+static void _pmReplace(2244,85510
+static void _pmDelete(2259,85866
+static void single(2292,86540
+    *newstat 2352,87804
+static void recover(2361,88045
+void pmParse(2394,89249
+    pushStatTok(2418,89662
+	    break;2455,90362
+    if 2460,90417
+	    goto reduce;2480,90793
+	    currstat 2491,91024
+	    parsStk[2492,91045
+	    break;2493,91078
+	    endparse 2496,91109
+	    break;2497,91133
 
 pmParse.h,25
 #define _pmParse_h_2,20
@@ -1022,13 +1039,13 @@ pmParse.h,25
 res.c,354
 ResNod *newRestriction(37,656
 static void resolveParameterClass(61,1076
-static void analyzeRestriction(111,2395
-void analyzeRestrictions(141,3211
-static void generateRestrictionParts(159,3599
-static void generateRestrictionEntry(173,3844
-Aaddr generateRestrictions(207,4639
-static void dumpRestrictionKind(235,5289
-void dumpRestriction(255,5754
+static void analyzeRestriction(113,2495
+void analyzeRestrictions(143,3309
+static void generateRestrictionParts(161,3676
+static void generateRestrictionEntry(175,3921
+Aaddr generateRestrictions(209,4716
+static void dumpRestrictionKind(237,5366
+void dumpRestriction(257,5831
 
 res.h,177
 #define _RES_H_2,16
@@ -1044,15 +1061,15 @@ void registerResUnitTests(16,256
 res_x.h,23
 #define _RES_X_H_2,18
 
-rul.c,182
+rul.c,201
 int rulmin,29,473
 int rulmin, rulmax;29,473
 int rulcount 30,493
 RulNod *newrul(41,648
-static void anrul(68,1163
-void anruls(89,1523
-Aaddr geruls(107,1818
-void durul(141,2612
+static void analyzeRule(68,1169
+void analyzeRules(89,1541
+Aaddr generateRules(107,1855
+void durul(141,2656
 
 rul.h,170
 #define _RUL_H_2,16
@@ -1073,12 +1090,12 @@ sco.h,71
 extern int scocnt;16,318
 extern int scotot;17,337
 
-scr.c,124
-ScrNod *newScript(35,602
-void prepscrs(66,1267
-void anscrs(111,2717
-Aword generateScripts(142,3376
-void duscr(181,4275
+scr.c,138
+ScrNod *newScript(36,621
+void prepareScripts(67,1292
+void analyzeScripts(111,2755
+Aword generateScripts(139,3375
+void duscr(178,4283
 
 scr.h,82
 #define _SCR_H_2,16
@@ -1088,21 +1105,21 @@ typedef struct ScrNod ScrNod19,382
 scr_x.h,23
 #define _SCR_X_H_2,18
 
-slt.c,282
-SlotsNode *newEmptySlots(40,705
-SlotsNode *newSlots(54,904
-static void symbolizeParent(98,1768
-void symbolizeSlots(123,2372
-static void analyzeName(138,2643
-void analyzeSlots(169,3426
-void generateSlotsData(190,3933
-void generateSlotsEntry(223,4743
-void dumpSlots(255,5667
+slt.c,275
+Slots *newEmptySlots(40,705
+Slots *newSlots(54,896
+static void symbolizeParent(105,1991
+void symbolizeSlots(130,2591
+static void analyzeName(145,2858
+void analyzeSlots(176,3637
+void generateSlotsData(207,4673
+void generateSlotsEntry(240,5479
+void dumpSlots(272,6407
 
-slt.h,95
+slt.h,79
 #define _SLT_H_2,16
-typedef struct SlotsNode SlotsNode22,401
-} SlotsNode;SlotsNode43,1480
+typedef struct Slots Slots22,401
+} Slots;Slots46,1553
 
 slt_x.h,23
 #define _SLT_X_H_2,18
@@ -1146,54 +1163,54 @@ typedef unsigned int UByte4;UByte458,1122
 static UByte1 smMap[71,1235
 static UByte1 smScanner[98,2215
 static UByte1 smAccept[109,2316
-static UByte1 smTokenCode[141,3642
-static UByte1 smEOTCode[160,4074
-static UByte1 smUnknownCode[164,4115
-static UByte1 smDFAdetRow[174,4179
-static UByte1 smDFAdetCol[199,4911
-static UByte2 smDFArowVal[219,5478
-static UByte1 smDFAcolVal[244,7059
-static UByte1 smDFAerr[263,7742
-static UByte1 smDFAerrRow[270,8054
-static UByte1 smDFAerrCol[295,8798
-static UByte2 smDFAval[315,9484
-static void smSourcePosition(701,33472
-static void smRewindSourcePosition(720,33919
-static int smReadBuffer(752,34905
-smScContext smScNew(828,37250
-void smScDelete(868,38176
-int smScSkip(883,38514
-int smScModify(911,39269
-int smScCopy(940,40129
-int smScMapCopy(952,40461
-void smScScrScanner(972,40854
-void smScScrToken(978,40926
-void smScScrRule(985,41013
-int smScan(992,41099
-	  if(1058,42544
-      if(1064,42647
-	code=1073,42839
-      smThis->smContinue=1074,42869
-      smThis->smLength=1075,42902
-      smToken->code=1077,43026
-      code=1078,43067
-    smToken->code=1080,43133
-    code=1081,43157
-  return smToken->code=1083,43215
+static UByte1 smTokenCode[141,3658
+static UByte1 smEOTCode[160,4098
+static UByte1 smUnknownCode[164,4139
+static UByte1 smDFAdetRow[174,4203
+static UByte1 smDFAdetCol[199,4943
+static UByte2 smDFArowVal[219,5510
+static UByte1 smDFAcolVal[244,7109
+static UByte1 smDFAerr[263,7792
+static UByte1 smDFAerrRow[270,8104
+static UByte1 smDFAerrCol[295,8856
+static UByte2 smDFAval[315,9542
+static void smSourcePosition(705,33742
+static void smRewindSourcePosition(724,34189
+static int smReadBuffer(756,35175
+smScContext smScNew(832,37520
+void smScDelete(872,38446
+int smScSkip(887,38784
+int smScModify(915,39539
+int smScCopy(944,40399
+int smScMapCopy(956,40731
+void smScScrScanner(976,41124
+void smScScrToken(982,41196
+void smScScrRule(989,41283
+int smScan(996,41369
+	  if(1062,42814
+      if(1068,42917
+	code=1077,43109
+      smThis->smContinue=1078,43139
+      smThis->smLength=1079,43172
+      smToken->code=1081,43296
+      code=1082,43337
+    smToken->code=1084,43403
+    code=1085,43427
+  return smToken->code=1087,43485
 
 smScan.h,437
 #define _smScan_h_2,19
 typedef enum smScScanner smScScanner6,64
 } smScScanner;smScScanner9,148
 typedef enum sm_MAIN_ScToken sm_MAIN_ScToken11,164
-} sm_MAIN_ScToken;sm_MAIN_ScToken121,2848
-typedef struct smScContextItem *smScContext;smScContext124,2869
-extern smScContext lexContext;145,3720
-extern List *fileNames;148,3777
-typedef struct smScContextItem smScContextItem157,3947
-} smScContextItem;smScContextItem195,4473
+} sm_MAIN_ScToken;sm_MAIN_ScToken123,2900
+typedef struct smScContextItem *smScContext;smScContext126,2921
+extern smScContext lexContext;147,3772
+extern List *fileNames;150,3829
+typedef struct smScContextItem smScContextItem159,3999
+} smScContextItem;smScContextItem197,4525
 
-smScanx.c,1545
+smScanx.c,1546
 typedef unsigned char UByte1;UByte156,1061
 typedef unsigned short UByte2;UByte257,1091
 typedef unsigned int UByte4;UByte458,1122
@@ -1211,38 +1228,38 @@ UByte1 smDosDFAcolVal[209,6830
 UByte1 smDosDFAerrCol[229,7510
 static UByte1 smScanner[266,8287
 static UByte1 smAccept[277,8388
-static UByte1 smTokenCode[309,9714
-static UByte1 smEOTCode[328,10146
-static UByte1 smUnknownCode[332,10187
-static UByte1 smDFAdetRow[342,10251
-static UByte1 smDFAdetCol[367,10983
-static UByte2 smDFArowVal[387,11550
-static UByte1 smDFAerr[412,13131
-static UByte1 smDFAerrRow[419,13443
-static UByte2 smDFAval[445,14190
-static void smSourcePosition(831,38178
-static void smRewindSourcePosition(850,38625
-static int smReadBuffer(882,39611
-smScContext smScNew(958,41956
-void smScDelete(998,42882
-int smScSkip(1013,43220
-int smScModify(1041,43975
-int smScCopy(1070,44835
-int smScMapCopy(1082,45167
-void smScScrScanner(1102,45560
-void smScScrToken(1108,45632
-void smScScrRule(1115,45719
-int smScan(1122,45805
-	  if(1188,47250
-      if(1194,47353
-	code=1203,47545
-      smThis->smContinue=1204,47575
-      smThis->smLength=1205,47608
-      smToken->code=1207,47732
-      code=1208,47773
-    smToken->code=1210,47839
-    code=1211,47863
-  return smToken->code=1213,47921
+static UByte1 smTokenCode[309,9730
+static UByte1 smEOTCode[328,10170
+static UByte1 smUnknownCode[332,10211
+static UByte1 smDFAdetRow[342,10275
+static UByte1 smDFAdetCol[367,11015
+static UByte2 smDFArowVal[387,11582
+static UByte1 smDFAerr[412,13181
+static UByte1 smDFAerrRow[419,13493
+static UByte2 smDFAval[445,14248
+static void smSourcePosition(835,38448
+static void smRewindSourcePosition(854,38895
+static int smReadBuffer(886,39881
+smScContext smScNew(962,42226
+void smScDelete(1002,43152
+int smScSkip(1017,43490
+int smScModify(1045,44245
+int smScCopy(1074,45105
+int smScMapCopy(1086,45437
+void smScScrScanner(1106,45830
+void smScScrToken(1112,45902
+void smScScrRule(1119,45989
+int smScan(1126,46075
+	  if(1192,47520
+      if(1198,47623
+	code=1207,47815
+      smThis->smContinue=1208,47845
+      smThis->smLength=1209,47878
+      smToken->code=1211,48002
+      code=1212,48043
+    smToken->code=1214,48109
+    code=1215,48133
+  return smToken->code=1217,48191
 
 spa.c,3434
 typedef int boolean;boolean52,1928
@@ -1411,49 +1428,50 @@ typedef struct Srcp Srcp15,248
 srcp_x.h,23
 #define _SRCP_X_H2,18
 
-stm.c,1043
-StmNod *newstm(46,871
-static void andescribe(70,1338
-static void ansay(104,2091
-static void analyzeList(118,2314
-static void anempty(132,2552
-static void analyzeLocate(145,2811
-static void anmake(210,4425
-static void anset(273,6147
-static void anincr(343,8231
-static void anschedule(409,10163
-static void ancancel(449,11094
-static void anif(464,11360
-static void anuse(486,12003
-static void andep(541,13746
-static void anstm(600,15437
-void anstms(676,16836
-static void geprint(694,17187
-static void gescore(711,17555
-static void gedescribe(726,17849
-static void gesay(762,18456
-static void gelist(789,18987
-static void geempty(807,19357
-static void gelocate(826,19765
-static void gemake(842,20060
-static void geset(860,20402
-static void geincr(881,20822
-static void geschedule(905,21301
-static void gecancel(938,22101
-static void geif(951,22375
-static void geuse(973,22821
-static void gedep(1015,23876
-static void gesystem(1048,24677
-static void gestm(1065,25052
-void gestms(1177,26633
-void dustm(1195,26956
+stm.c,1091
+StmNod *newstm(46,842
+static void andescribe(70,1309
+static void ansay(104,2076
+static void analyzeList(118,2299
+static void anempty(132,2537
+static void analyzeLocate(145,2796
+static void anmake(210,4445
+static void anset(273,6182
+static void anincr(343,8291
+static void anschedule(409,10239
+static void ancancel(449,11175
+static void anif(464,11445
+static void analyzeUse(486,12099
+static void andep(548,13930
+static void anstm(607,15668
+void anstms(683,17072
+static void geprint(701,17423
+static void gescore(718,17791
+static void gedescribe(733,18085
+static void gesay(769,18706
+static void gelist(796,19238
+static void geempty(814,19609
+static void gelocate(833,20018
+static void gemake(849,20320
+static void geset(867,20669
+static void geincr(888,21097
+static void geschedule(912,21583
+static void gecancel(945,22390
+static void geif(958,22664
+static void geuse(980,23110
+static void generateDependCase(1003,23663
+static void gedep(1063,25255
+static void gesystem(1097,26228
+static void gestm(1114,26603
+void gestms(1226,28184
+void dustm(1244,28507
 
 stm.h,147
 #define _STM_H_2,16
 typedef enum StmKind StmKind22,347
 } StmKind;StmKind48,737
 typedef struct StmNod StmNod51,754
-} StmNod;StmNod148,3085
+} StmNod;StmNod148,3071
 
 stm_x.h,23
 #define _STM_X_H_2,18
@@ -1482,13 +1500,13 @@ stx.c,272
 StxNod *newstx(46,770
 static void setDefaultRestriction(76,1431
 static void anstx(100,1980
-void anstxs(140,3176
-StxNod *defaultStx(177,4116
-Bool eqparams(207,4959
-static void gestx(231,5605
-static void gestxent(268,6661
-Aaddr gestxs(288,7092
-void dustx(318,7754
+void anstxs(139,3143
+StxNod *defaultStx(176,4083
+Bool eqparams(206,4926
+static void gestx(230,5572
+static void gestxent(267,6628
+Aaddr gestxs(287,7059
+void dustx(317,7721
 
 stx.h,82
 #define _STX_H_2,16
@@ -1498,71 +1516,92 @@ typedef struct StxNod StxNod21,385
 stx_x.h,23
 #define _STX_X_H_2,18
 
-sym.c,1133
-int classCount 24,460
-int instanceCount 25,480
-int directionCount 26,503
-int attributeCount 27,527
-int verbCount 28,551
-SymNod *thingSymbol,30,571
-SymNod *thingSymbol, *objectSymbol,30,571
-SymNod *thingSymbol, *objectSymbol, *locationSymbol,30,571
-SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;30,571
-static SymNod *symTree 34,655
-void redefined(44,847
-static void insertSymbol(69,1481
-static char *symbolKind(105,2165
-static SymNod *newParameterSymbol(123,2525
-SymNod *newSymbol(149,3066
-void initSymbols(198,4214
-static SymNod *lookupInParameterList(214,4498
-SymNod *findParameter(229,4870
-SymNod *lookup(250,5413
-SymNod *lookupInContext(283,6063
-void setParent(313,6672
-SymNod *parentOf(328,7018
-Bool inheritsFrom(343,7363
-SymNod *symcheck(368,7964
-void setParameters(400,8727
-void inheritCheck(429,9633
-static SymNod *definingSymbolOfAttribute(448,10143
-AtrNod *findInheritedAttribute(473,10749
-static void numberAttributesRecursively(493,11264
-void numberAllAttributes(542,13093
-static void replicateAttributesRecursively(553,13283
-void replicateInheritedAttributes(589,14585
+sym.c,1759
+int classCount 25,478
+int instanceCount 26,498
+int directionCount 27,521
+int attributeCount 28,545
+int verbCount 29,569
+int eventCount 30,588
+Symbol *thingSymbol,32,609
+Symbol *thingSymbol, *objectSymbol,32,609
+Symbol *thingSymbol, *objectSymbol, *locationSymbol,32,609
+Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol,32,609
+Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;32,609
+static Symbol *symbolTree 37,704
+static Bool firstSymbolDumped 38,738
+void redefined(48,937
+static void insertSymbol(74,1536
+static char *symbolKind(110,2226
+static Symbol *newParameterSymbol(128,2593
+Symbol *newSymbol(154,3137
+void initSymbols(210,4370
+static Symbol *lookupInParameterList(226,4657
+Symbol *findParameter(241,5029
+Symbol *lookup(262,5572
+Symbol *lookupInContext(295,6225
+void setParent(330,6959
+Symbol *parentOf(345,7305
+Bool inheritsFrom(360,7650
+Symbol *symcheck(388,8338
+void setParameters(420,9103
+void inheritCheck(449,10009
+static Symbol *definingSymbolOfAttribute(468,10519
+AtrNod *findInheritedAttribute(493,11125
+static void numberAttributes(509,11507
+static void numberParentAttributes(545,12744
+static void numberAttributesRecursively(561,13194
+void numberAllAttributes(590,14026
+static Bool haveParent(596,14106
+static Slots *slotsOf(597,14184
+static Slots *slotsOfParentOf(598,14252
+static void replicateAttributes(605,14455
+static void replicateContainer(617,14737
+static void replicate(629,14993
+static void replicateParent(645,15298
+static void replicateRecursively(661,15641
+void replicateInherited(691,16552
+static void dumpSymbolKind(702,16721
+static void dumpSymbol(720,17199
+static void dumpSymbolsRecursively(739,17677
+void dumpSymbols(754,18026
 
 sym.h,158
 #define _SYM_H_2,16
 typedef enum SymbolKind SymbolKind19,301
 } SymbolKind;SymbolKind26,432
-typedef struct SymNod SymNod29,448
-} SymNod;SymNod54,1082
+typedef struct Symbol Symbol29,448
+} Symbol;Symbol54,1054
 
-symTest.c,461
+symTest.c,560
 static char symbolName1[19,362
 static char symbolName2[20,412
 static char symbolName3[21,454
-void testSymCheck(24,499
-static List *createOneParameter(51,1377
-void testVerbSymbols(57,1526
-void testBuildSymbol1(90,2512
-void testBuildSymbolHigher(102,2825
-void testBuildSymbolLower(113,3141
-void testInherit1(124,3447
-void testInherit2(141,3851
-void testSymbolTableInit(160,4316
-void testCreateClassSymbol(208,5730
-void registerSymUnitTests(231,6253
+static IdNode *symbolId1;22,497
+static IdNode *symbolId2;23,523
+static IdNode *symbolId3;24,549
+void testSymCheck(27,577
+static List *createOneParameter(54,1451
+void testVerbSymbols(60,1600
+void testBuildSymbol1(94,2626
+void testBuildSymbolHigher(113,3087
+void testBuildSymbolLower(124,3401
+void testInherit1(135,3705
+void testInherit2(152,4109
+void testSymbolTableInit(171,4574
+void testCreateClassSymbol(221,6020
+void registerSymUnitTests(244,6543
 
-sym_x.h,319
+sym_x.h,440
 #define _SYM_X_H_2,18
 extern int classCount;23,374
 extern int instanceCount;24,397
-extern SymNod *thingSymbol,25,423
-extern SymNod *thingSymbol, *objectSymbol,25,423
-extern SymNod *thingSymbol, *objectSymbol, *locationSymbol,25,423
-extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;25,423
+extern int eventCount;25,423
+extern Symbol *thingSymbol,27,447
+extern Symbol *thingSymbol, *objectSymbol,27,447
+extern Symbol *thingSymbol, *objectSymbol, *locationSymbol,27,447
+extern Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol,27,447
+extern Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;27,447
 
 syn.c,64
 SynNod *newsyn(34,566
@@ -1758,12 +1797,12 @@ int vrbmin,33,553
 int vrbmin, vrbmax;33,553
 int vrbcount 34,573
 VrbNod *newvrb(45,724
-static void anvrb(87,1860
-void anvrbs(150,3527
-static void gevrb(185,4614
-static void gevrbent(205,5034
-Aaddr gevrbs(224,5366
-void duvrb 255,6020
+static void anvrb(87,1820
+void anvrbs(150,3487
+static void gevrb(185,4574
+static void gevrbent(205,4994
+Aaddr gevrbs(224,5326
+void duvrb 255,5980
 
 vrb.h,82
 #define _VRB_H_2,16
@@ -1778,40 +1817,40 @@ extern int vrbcount;19,381
 
 whr.c,216
 WhrNod *newwhr(33,533
-void symbolizeWhr(58,995
-void verifyInitialLocation(80,1300
-void analyzeWhere(109,1995
-void anwhr(146,2579
-Aword generateInitialLocation(196,3764
-void gewhr(218,4194
-void duwhr(271,5148
+void symbolizeWhr(58,993
+void verifyInitialLocation(80,1299
+void analyzeWhere(106,1863
+void anwhr(144,2511
+Aword generateInitialLocation(194,3710
+void gewhr(216,4140
+void duwhr(269,5115
 
 whr.h,145
 #define _WHR_H_2,16
 typedef enum WhrKind WhrKind17,346
 } WhrKind;WhrKind23,519
 typedef struct WhrNod WhrNod26,532
-} WhrNod;WhrNod30,674
+} WhrNod;WhrNod30,672
 
 whrTest.c,67
 void testInitialLocation(11,231
-void registerWhrUnitTests(24,612
+void registerWhrUnitTests(24,614
 
 whr_x.h,23
 #define _WHR_X_H_2,18
 
-wht.c,89
-WhtNod *newwht(27,454
-void symbolizeWht(51,916
-void gewht(70,1186
-void duwht(97,1629
+wht.c,99
+What *newWhat(27,454
+void symbolizeWhat(51,911
+void generateWhat(70,1188
+void dumpWhat(97,1654
 
-wht.h,145
+wht.h,141
 #define _WHT_H_2,16
-typedef enum WhtKind WhtKind17,328
-} WhtKind;WhtKind22,393
-typedef struct WhtNod WhtNod24,405
-} WhtNod;WhtNod28,556
+typedef enum WhatKind WhatKind16,327
+} WhatKind;WhatKind22,420
+typedef struct What What24,433
+} What;What28,570
 
 wht_x.h,23
 #define _WHT_X_H_2,18

@@ -5,17 +5,16 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "chk_x.h"
 
-#include "util.h"
-#include "options.h"
+/* USE: */
 
 #include "lst_x.h"
 #include "exp_x.h"
 #include "stm_x.h"
 
-
-#include "chk.h"                /* CHK-nodes */
-
+#include "util.h"
+#include "options.h"
 #include "emit.h"
 #include "acode.h"
 #include "dump.h"
@@ -88,9 +87,7 @@ void anchks(List *chks,
   Generate code for the CHECKs for a verb or exit.
 
  */
-Aword gechks(List *chks,	/* IN - The CHECKs to generate */
-	     InsNod *ins)	/* IN - Inside any Instace? */
-     /* RETURNS - Address to check table */
+Aword gechks(List *chks, int currentInstance)
 {
   List *lst;			/* Traversal pointer */
   Aword tbladr;			/* Save ACODE address to check table */
@@ -100,15 +97,15 @@ Aword gechks(List *chks,	/* IN - The CHECKs to generate */
   if (chks->element.chk->exp == NULL) { /* An unconditional CHECK */
     chks->element.chk->expadr = 0;
     chks->element.chk->stmadr = emadr();
-    gestms(chks->element.chk->stms, ins);
+    gestms(chks->element.chk->stms, currentInstance);
     emit0(C_STMOP, I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
       lst->element.chk->expadr = emadr();
-      geexp(lst->element.chk->exp);
+      geexp(lst->element.chk->exp, currentInstance);
       emit0(C_STMOP, I_RETURN);
       lst->element.chk->stmadr = emadr();
-      gestms(lst->element.chk->stms, ins);
+      gestms(lst->element.chk->stms, currentInstance);
       emit0(C_STMOP, I_RETURN);
     }
 

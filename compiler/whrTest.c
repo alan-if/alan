@@ -11,7 +11,7 @@
 void testInitialLocation()
 {
   IdNode *id = newId(&nulsrcp, "atLoc");
-  WhrNod *whr = newwhr(&nulsrcp, WHR_AT, newwht(&nulsrcp, WHT_ID, id));
+  WhrNod *whr = newwhr(&nulsrcp, WHR_AT, newWhat(&nulsrcp, WHAT_ID, id));
   InsNod *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
   symbolizeInstance(atLoc);

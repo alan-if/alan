@@ -20,12 +20,12 @@
 
 extern WhrNod *newwhr(Srcp *srcp,
 		      WhrKind kind,
-		      WhtNod *wht);
+		      What *wht);
 extern void symbolizeWhr(WhrNod *whr);
 extern void verifyInitialLocation(WhrNod *whr);
 extern void analyzeWhere(WhrNod *whr, Context *context);
 extern Aword generateInitialLocation(WhrNod *whr);
-extern void gewhr(WhrNod *whr);
+extern void gewhr(WhrNod *whr, int currentInstance);
 extern void duwhr(WhrNod *whr);
 
 #endif

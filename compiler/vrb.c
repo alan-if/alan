@@ -5,10 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "vrb.h"		/* VRB-nodes */
+#include "vrb_x.h"
 
-#include "util.h"
-
+/* USE: */
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "lst_x.h"
@@ -17,7 +16,7 @@
 #include "context_x.h"
 
 #include "lmList.h"
-
+#include "util.h"
 #include "adv.h"		/* ADV-nodes */
 #include "alt.h"		/* ALT-nodes */
 #include "ins.h"		/* INS-nodes */
@@ -85,11 +84,11 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
 
   */
 static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
-		  InsNod *ins)
+		  Context *previousContext)
 {
   List *lst, *ids, *stxs = NULL;
   StxNod *stx;
-  Context context;
+  Context *context = copyContext(previousContext);
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -121,22 +120,18 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
     ids = ids->next;
   }
 
-  if (ins == NULL)
-    if (vrb->alts->element.alt->id != NULL)
-      lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
+  /* No alternatives allowed in global verb definition */
+  if (context->instance == NULL && vrb->alts->element.alt->id != NULL)
+    lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
 
-
-  context.kind = VERB_CONTEXT;
-  context.instance = ins;
-  context.event = NULL;
-  
+  context->kind = VERB_CONTEXT;
   if (stx != NULL) {
-    context.verb = vrb->symbol;
-    analts(vrb->alts, &context);
+    context->verb = vrb->symbol;
+    analts(vrb->alts, context);
   } else
-    analts(vrb->alts, &context);
+    analts(vrb->alts, context);
 }
 
 
@@ -148,12 +143,12 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
 
   */
 void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
-	    InsNod *ins)
+	    Context *context)
 {
   List *vrb, *nam, *lst, *other;
 
   for (vrb = vrbs; vrb != NULL; vrb = vrb->next)
-    anvrb(vrb->element.vrb, ins);
+    anvrb(vrb->element.vrb, context);
 
   /* Check for multiple definitions of a verb */
   for (vrb = vrbs; vrb != NULL; vrb = vrb->next) {
@@ -182,15 +177,14 @@ void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
   Generate a procedure for the actions of a verb.
 
   */
-static void gevrb(VrbNod *vrb,	/* IN - The verb to generate */
-		  InsNod *ins)	/* IN - Inside any Instance? */
+static void gevrb(VrbNod *vrb, int currentInstance)
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   if (vrb->alts == NULL)
     vrb->altadr = 0;
   else
-    vrb->altadr = gealts(vrb->alts, ins);
+    vrb->altadr = gealts(vrb->alts, currentInstance);
 }
 
 
@@ -221,8 +215,7 @@ static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
   Generate all verbs in a list.
 
   */
-Aaddr gevrbs(List *vrbs,	/* IN - The list of verbs */
-	     InsNod *ins)	/* IN - Inside any Instance? */
+Aaddr gevrbs(List *vrbs, int currentInstance)
 {
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
@@ -232,7 +225,7 @@ Aaddr gevrbs(List *vrbs,	/* IN - The list of verbs */
 
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
-    gevrb(lst->element.vrb, ins);
+    gevrb(lst->element.vrb, currentInstance);
   
   /* and then the verb table */
   vrbadr = emadr();

@@ -43,7 +43,7 @@ extern StpNod *newstp(Srcp *srcp,
 extern void anstps(List *stps, Context *context);
 
 /* Generate code for all Steps in a list */
-extern Aaddr gestps(List *stps, InsNod *ins);
+extern Aaddr gestps(List *stps, int currentInstance);
 
 /* Dump a Step node */
 extern void dustp(StpNod *stp);

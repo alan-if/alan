@@ -104,14 +104,13 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   Generate one limit for a container.
 
   */
-static void gelim(LimNod *lim,	/* IN - The limit */
-		  int cnt)	/* IN - the code of the container */
+static void gelim(LimNod *lim, int cnt, int currentInstance)
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Generate statements */
   lim->stmadr = emadr();	/* Save ACODE address to statements */
-  gestms(lim->stms, NULL);
+  gestms(lim->stms, currentInstance);
   emit0(C_STMOP, I_RETURN);
 }
 
@@ -145,7 +144,7 @@ static void geliment(LimNod *lim) /* IN - The limit to generate for */
   Generate limit checks for one container.
 
   */
-Aword gelims(CntNod *cnt)	/* IN - The container to generate for */
+Aword gelims(CntNod *cnt, int currentInstance)
 {
   List *lst;		/* List of limits */
   Aword limadr;
@@ -155,7 +154,7 @@ Aword gelims(CntNod *cnt)	/* IN - The container to generate for */
 
   /* First code for all limits */
   for (lst = cnt->lims; lst != NULL; lst = lst->next)
-    gelim(lst->element.lim, cnt->code);
+    gelim(lst->element.lim, cnt->code, currentInstance);
 
   limadr = emadr();		/* Save ACODE address to limit table */
   for (lst = cnt->lims; lst != NULL; lst = lst->next)

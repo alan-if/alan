@@ -1,0 +1,29 @@
+The l Isa location
+  Is x.
+End The l.
+
+Syntax z = z.
+Verb z
+  Does "..."
+End Verb z.
+
+The a1 Isa actor At l
+End The a1.
+
+The a2 Isa actor At l
+End The a2.
+
+The a3 Isa actor At l
+End The a3.
+
+The a4 Isa actor At l
+End The a4.
+
+The a5 Isa actor At l
+End The a5.
+
+When l Is x =>
+  Say Current Actor.
+
+Start At l.
+  Say Current Actor.

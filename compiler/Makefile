@@ -40,6 +40,7 @@ BUILDSRCS = \
 	alt.c \
 	chk.c \
 	cnt.c \
+	context.c \
 	dump.c \
 	elm.c \
 	encode.c \

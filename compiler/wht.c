@@ -24,15 +24,15 @@
   Create a new What node.
 
   */
-WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
-	       WhtKind kind,	/* IN - What kind */
-	       IdNode *id)	/* IN - ID or NULL */
+What *newWhat(Srcp *srcp,	/* IN - Source position */
+	      WhatKind kind,	/* IN - What kind */
+	      IdNode *id)	/* IN - ID or NULL */
 {
-  WhtNod *new;
+  What *new;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(WhtNod);
+  new = NEW(What);
 
   new->srcp = *srcp;
   new->kind = kind;
@@ -43,15 +43,15 @@ WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
 
 /*======================================================================
 
-  symbolizeWht()
+  symbolizeWhat()
 
   Symbolize a What reference.
 
   */
-void symbolizeWht(WhtNod *wht)
+void symbolizeWhat(What *wht)
 {
   switch (wht->kind) {
-  case WHT_ID:
+  case WHAT_ID:
     symbolizeId(wht->id);
     break;
   default:
@@ -62,52 +62,52 @@ void symbolizeWht(WhtNod *wht)
 
 /*======================================================================
 
-  gewht()
+  generateWhat()
 
   Generate code for a reference to What.
 
   */
-void gewht(WhtNod *wht)		/* IN - What to generate */
+void generateWhat(What *wht, int instanceCode)
 {
   switch (wht->kind) {
-  case WHT_OBJ:
-    emit0(C_CONST, 1);
-    emit0(C_CURVAR, V_PARAM);
-    break;
-  case WHT_LOC:
+  case WHAT_LOCATION:
     emit0(C_CURVAR, V_CURLOC);
     break;
-  case WHT_ACT:
+  case WHAT_ACTOR:
     emit0(C_CURVAR, V_CURACT);
     break;
-  case WHT_ID:
+  case WHAT_ID:
     generateId(wht->id);
     break;
+  case WHAT_THIS:
+    emit0(C_CONST, instanceCode);
+    break;
+  default:
+    syserr("Unexpected case in generateWhat()");
   }
 }
 
 
 /*======================================================================
 
-  duwht()
+  dumpWhat()
 
-  Dump a WHT node.
+  Dump a What node.
 
   */
-void duwht(WhtNod *wht)
+void dumpWhat(What *wht)
 {
   if (wht == NULL) {
     put("NULL");
     return;
   }
 
-  put("WHT: "); dumpSrcp(&wht->srcp); in();
-  put("wht: ");
+  put("WHAT: "); dumpSrcp(&wht->srcp); in();
+  put("kind: ");
   switch (wht->kind) {
-  case WHT_OBJ: put("OBJECT"); break;
-  case WHT_LOC: put("LOCATION"); break;
-  case WHT_ACT: put("ACTOR"); break;
-  case WHT_ID: put("ID "); break;
+  case WHAT_LOCATION: put("LOCATION"); break;
+  case WHAT_ACTOR: put("ACTOR"); break;
+  case WHAT_ID: put("ID "); break;
   default: put("*** ERROR ***"); break;
   }
   nl();

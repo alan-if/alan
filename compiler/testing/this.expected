@@ -1,0 +1,25 @@
+########## alan this ##########
+
+
+this.alan
+
+    6.      Say This.
+=====>          1
+
+  *1*   421 E : THIS instance is not defined here.
+
+   20.    Say This.
+=====>        1
+
+  *1*   421 E : THIS instance is not defined here.
+
+   24.    Say This.
+=====>        1
+
+  *1*   421 E : THIS instance is not defined here.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

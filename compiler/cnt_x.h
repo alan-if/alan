@@ -21,7 +21,7 @@
 
 extern CntNod *newContainer(Srcp *srcp, List *lims, List *hstms, List *estms);
 extern CntNod *copyContainer(CntNod *theOriginal);
-extern void verifyContainer(WhtNod *wht, Context *context);
+extern void verifyContainer(What *wht, Context *context);
 extern void analyzeContainer(CntNod *cnt, Context *context);
 extern Aaddr generateContainers(AcdHdr *header);
 extern void dumpContainer(CntNod *container);

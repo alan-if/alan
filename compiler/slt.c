@@ -184,12 +184,12 @@ void analyzeSlots(Slots *slots, Context *context)
 
   analyzeName(slots);
   anstms(slots->description, context);
-  anvrbs(slots->verbs, slots->id->symbol);
+  anvrbs(slots->verbs, context);
   analyzeContainer(slots->container, context);
 
   if (slots->exits && !inheritsFrom(slots->id->symbol, locationSymbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
-  analyzeExits(slots->exits);
+  analyzeExits(slots->exits, context);
 
   if (slots->scripts && !inheritsFrom(slots->id->symbol, actorSymbol))
     lmLog(&slots->id->srcp, 353, sevERR, slots->id->string);
@@ -204,7 +204,7 @@ void analyzeSlots(Slots *slots, Context *context)
   Generate data for one Slots node.
 
  */
-void generateSlotsData(Slots *slots, InsNod *instance)
+void generateSlotsData(Slots *slots)
 {
   slots->idAddress = emadr();
   emitstr(slots->id->string);
@@ -213,20 +213,20 @@ void generateSlotsData(Slots *slots, InsNod *instance)
 
   if (slots->description != NULL) {
     slots->descriptionAddress = emadr();
-    gestms(slots->description, NULL);
+    gestms(slots->description, slots->id->symbol->code);
     emit0(C_STMOP, I_RETURN);
   }
 
   if (slots->mentioned != NULL) {
     slots->mentionedAddress = emadr();
-    gestms(slots->mentioned, NULL);
+    gestms(slots->mentioned, slots->id->symbol->code);
     emit0(C_STMOP, I_RETURN);
   } else
     emit(0);
 
-  slots->scriptsAddress = generateScripts(instance);
-  slots->verbsAddress = gevrbs(slots->verbs, instance);
-  slots->exitsAddress = generateExits(slots->exits);
+  slots->scriptsAddress = generateScripts(slots->scripts, slots->id->symbol->code);
+  slots->verbsAddress = gevrbs(slots->verbs, slots->id->symbol->code);
+  slots->exitsAddress = generateExits(slots->exits, slots->id->symbol->code);
 }
 
 

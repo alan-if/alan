@@ -90,18 +90,14 @@ static void anexpwhr(ExpNod *exp, Context *context)
     lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
   else {
     switch (exp->fields.whr.wht->fields.wht.wht->kind) {
-    case WHT_OBJ:
-      if (context->verb->fields.verb.parameterSymbols == NULL)
-	lmLog(&exp->fields.whr.wht->srcp, 409, sevERR, "");
-      break;
-    case WHT_ACT:
+    case WHAT_ACTOR:
       if (context->kind == EVENT_CONTEXT)
 	lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
       break;
-    case WHT_LOC:
+    case WHAT_LOCATION:
       lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
       break;
-    case WHT_ID:
+    case WHAT_ID:
       break;
     default:
       syserr("Unrecognized switch in anexpwhr()");
@@ -115,17 +111,13 @@ static void anexpwhr(ExpNod *exp, Context *context)
     break;
   case WHR_AT:
     switch (exp->fields.whr.whr->wht->kind) {
-    case WHT_ID:
+    case WHAT_ID:
       symcheck(exp->fields.whr.whr->wht->id, INSTANCE_SYMBOL, context);
       break;
-    case WHT_LOC:
+    case WHAT_LOCATION:
       exp->fields.whr.whr->kind = WHR_HERE;
       break;
-    case WHT_OBJ:
-      if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-	lmLog(&exp->fields.whr.whr->wht->srcp, 409, sevERR, "");
-      break;
-    case WHT_ACT:
+    case WHAT_ACTOR:
       if (context->kind == EVENT_CONTEXT)
 	lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
       break;
@@ -149,6 +141,24 @@ static void anexpwhr(ExpNod *exp, Context *context)
 
 /*----------------------------------------------------------------------
 
+  verifyExpressionAttribute()
+
+*/
+static TypeKind verifyExpressionAttribute(IdNode *attributeId, AtrNod *foundAttribute)
+{
+  if (foundAttribute == NULL) {	/* Attribute not found */
+    return UNKNOWN_TYPE;
+  } else if (foundAttribute->id->symbol == NULL) {
+    attributeId->code = foundAttribute->id->code;
+    return foundAttribute->type;
+  } else
+    syserr("Attribute with symbol in anexpatr()");
+  return ERROR_TYPE;
+}
+
+
+/*----------------------------------------------------------------------
+
   anexpatr()
 
   Analyze an ATR expression.
@@ -162,61 +172,24 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
   if (exp->fields.atr.wht->kind == WHAT_EXPRESSION) {
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
       
-    case WHT_ACT:
+    case WHAT_ACTOR:
       if (context->kind == EVENT_CONTEXT)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
-      else {
-	atr = findAttribute(NULL, exp->fields.atr.atr);
-	if (atr == NULL) {		/* attribute not found globally */
-	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "ACTOR");
-	  exp->type = UNKNOWN_TYPE;
-	} else {
-	  exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
-	  exp->type = atr->type;
-	}
-      }
       break;
 
-    case WHT_LOC:
-      atr = findAttribute(NULL, exp->fields.atr.atr);
-      if (atr == NULL) {		/* attribute not found globally */
-	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "LOCATION");
-	exp->type = UNKNOWN_TYPE;
-      } else {
-	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
-	exp->type = atr->type;
-      }
-      break;
-
-    case WHT_OBJ:
-      if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
-      atr = findAttribute(NULL, exp->fields.atr.atr);
-      if (atr == NULL) {		/* attribute not found globally */
-	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "OBJECT");
-	exp->type = UNKNOWN_TYPE;
-      } else {
-	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
-	exp->type = atr->type;
-      }
-      break;
-
-    case WHT_ID:
-      atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
-				      exp->fields.atr.atr, context);
-      if (atr == NULL) {	/* Attribute not found */
-	exp->type = UNKNOWN_TYPE;
-      } else if (exp->fields.atr.atr->symbol == NULL) {
-	exp->fields.atr.atr->code = atr->id->code;
-	exp->type = atr->type;
-      } else
-	syserr("Attribute with symbol in anexpatr()");
+    case WHAT_LOCATION:
+    case WHAT_ID:
       break;
 
     default:
       syserr("Unrecognized switch in anexpatr()");
       break;
     }
+
+    atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
+				    exp->fields.atr.atr, context);
+    exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+
   } else
     lmLog(&exp->srcp, 420, sevERR, "attribute reference");
 }
@@ -251,9 +224,9 @@ static void anbin(ExpNod *exp,
       lmLog(&exp->srcp, 331, sevERR, "expression");
     else if (exp->fields.bin.left->type != UNKNOWN_TYPE && exp->fields.bin.right->type != UNKNOWN_TYPE)
       if (exp->fields.bin.left->type == INSTANCE_TYPE) {
-	WhtNod *leftWhat = exp->fields.bin.left->fields.wht.wht;
-	WhtNod *rightWhat = exp->fields.bin.right->fields.wht.wht;
-	if (leftWhat->kind == WHT_ID && rightWhat->kind == WHT_ID)
+	What *leftWhat = exp->fields.bin.left->fields.wht.wht;
+	What *rightWhat = exp->fields.bin.right->fields.wht.wht;
+	if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
 	  if (leftWhat->id->symbol->kind != PARAMETER_SYMBOL
 	      && rightWhat->id->symbol->kind != PARAMETER_SYMBOL)
 	    lmLog(&exp->srcp, 417, sevINF, NULL);
@@ -374,23 +347,18 @@ static void anexpwht(ExpNod *exp,
   Symbol *symbol;
 
   switch (exp->fields.wht.wht->kind) {
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&exp->fields.wht.wht->srcp, 409, sevERR, "");
+
+  case WHAT_LOCATION:
     exp->type = INSTANCE_TYPE;
     break;
 
-  case WHT_LOC:
-    exp->type = INSTANCE_TYPE;
-    break;
-
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
     exp->type = INSTANCE_TYPE;
     break;
 
-  case WHT_ID:
+  case WHAT_ID:
     symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL, context);
     if (symbol != NULL) {
       switch (symbol->kind) {
@@ -406,6 +374,13 @@ static void anexpwht(ExpNod *exp,
       }
     } else
       exp->type = UNKNOWN_TYPE;
+    break;
+
+  case WHAT_THIS:
+    if (context->instance == NULL)
+      lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");
+    else
+      exp->type = INSTANCE_TYPE;
     break;
 
   default:
@@ -571,10 +546,10 @@ void generateBinaryOperator(ExpNod *exp)
   Generate a binary expression.
 
   */
-static void geexpbin(ExpNod *exp) /* IN - Expression node */
+static void geexpbin(ExpNod *exp, int currentInstance)
 {
-  geexp(exp->fields.bin.left);
-  geexp(exp->fields.bin.right);
+  geexp(exp->fields.bin.left, currentInstance);
+  geexp(exp->fields.bin.right, currentInstance);
   generateBinaryOperator(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -587,43 +562,11 @@ static void geexpbin(ExpNod *exp) /* IN - Expression node */
   Generate a where-expression.
 
   */
-static void geexpwhr(ExpNod *exp) /* IN - Expression node */
+static void geexpwhr(ExpNod *exp, int currentInstance)
 {
   switch(exp->fields.whr.wht->fields.wht.wht->kind) {
     
-  case WHT_OBJ:
-    switch (exp->fields.whr.whr->kind) {
-    case WHR_NEAR:
-      emit0(C_CONST, 1);
-      emit0(C_CURVAR, V_PARAM);
-      emit0(C_STMOP, I_NEAR);
-      if (exp->not) emit0(C_STMOP, I_NOT);
-      return;
-    case WHR_HERE:
-      emit0(C_CONST, 1);
-      emit0(C_CURVAR, V_PARAM);
-      emit0(C_STMOP, I_HERE);
-      if (exp->not) emit0(C_STMOP, I_NOT);
-      return;
-    case WHR_IN:
-      generateId(exp->fields.whr.whr->wht->id);
-      emit0(C_CONST, 1);
-      emit0(C_CURVAR, V_PARAM);
-      emit0(C_STMOP, I_IN);
-      if (exp->not) emit0(C_STMOP, I_NOT);
-      return;
-    case WHR_AT:
-      generateId(exp->fields.whr.whr->wht->id);
-      emit0(C_STMOP, I_WHERE);
-      break;
-    default:
-      unimpl(&exp->srcp, "Code Generator");
-      emit0(C_CONST, 0);
-      return;
-    }
-    break;
-    
-  case WHT_ID:
+  case WHAT_ID:
     switch (exp->fields.whr.whr->kind) {
     case WHR_HERE:
       generateId(exp->fields.whr.wht->fields.wht.wht->id);
@@ -631,18 +574,18 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_NEAR:
-      gewht(exp->fields.whr.wht->fields.wht.wht);
+      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
       emit0(C_STMOP, I_NEAR);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
       generateId(exp->fields.whr.whr->wht->id);
-      gewht(exp->fields.whr.wht->fields.wht.wht);
+      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_AT:
-      gewht(exp->fields.whr.wht->fields.wht.wht);
+      generateWhat(exp->fields.whr.wht->fields.wht.wht, currentInstance);
       emit0(C_STMOP, I_WHERE);
       break;
     default:
@@ -658,7 +601,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
     return;
   }
   
-  gewhr(exp->fields.whr.whr);
+  gewhr(exp->fields.whr.whr, currentInstance);
   emit0(C_STMOP, I_EQ);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -685,10 +628,10 @@ void generateAttributeAccess(ExpNod *exp)
   Generate an attribute-expression.
 
  */
-static void geexpatr(ExpNod *exp) /* IN - Expression node */
+static void geexpatr(ExpNod *exp, int currentInstance)
 {
   generateId(exp->fields.atr.atr);
-  gewht(exp->fields.atr.wht->fields.wht.wht);
+  generateWhat(exp->fields.atr.wht->fields.wht.wht, currentInstance);
   generateAttributeAccess(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
@@ -702,9 +645,9 @@ static void geexpatr(ExpNod *exp) /* IN - Expression node */
   Generate the code for an aggregate expression.
 
   */
-static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
+static void geexpagr(ExpNod *exp, int currentInstance)
 {
-  gewhr(exp->fields.agr.whr);
+  gewhr(exp->fields.agr.whr, currentInstance);
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE)
     emit0(C_CONST, exp->fields.agr.atr->symbol->code);
@@ -725,10 +668,10 @@ static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
   Generate code for a random expression.
 
   */
-static void geexprnd(ExpNod *exp) /* IN - The expression to generate */
+static void geexprnd(ExpNod *exp, int currentInstance)
 {
-  geexp(exp->fields.rnd.from);
-  geexp(exp->fields.rnd.to);
+  geexp(exp->fields.rnd.from, currentInstance);
+  geexp(exp->fields.rnd.to, currentInstance);
   emit0(C_STMOP, I_RND);
 }
 
@@ -753,9 +696,9 @@ static void geexpscore(ExpNod *exp) /* IN - The expression to generate */
   Generate the code for a WHAT expression.
 
   */
-static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
+static void geexpwht(ExpNod *exp, int currentInstance)
 {
-  gewht(exp->fields.wht.wht);
+  generateWhat(exp->fields.wht.wht, currentInstance);
 }
 
 
@@ -765,10 +708,10 @@ static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
   generateBetweenCheck()
 
 */
-void generateBetweenCheck(ExpNod *exp)
+void generateBetweenCheck(ExpNod *exp, int currentInstance)
 {
-  geexp(exp->fields.btw.low);
-  geexp(exp->fields.btw.high);
+  geexp(exp->fields.btw.low, currentInstance);
+  geexp(exp->fields.btw.high, currentInstance);
   emit0(C_STMOP, I_BTW);
 }
 
@@ -779,10 +722,10 @@ void generateBetweenCheck(ExpNod *exp)
   Generate code for a random expression.
 
   */
-static void geexpbtw(ExpNod *exp) /* IN - The expression to generate */
+static void geexpbtw(ExpNod *exp, int currentInstance)
 {
-  geexp(exp->fields.btw.val);
-  generateBetweenCheck(exp);
+  geexp(exp->fields.btw.val, currentInstance);
+  generateBetweenCheck(exp, currentInstance);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 
@@ -795,7 +738,7 @@ static void geexpbtw(ExpNod *exp) /* IN - The expression to generate */
   Generate the code for an expression.
 
   */
-void geexp(ExpNod *exp)		/* IN - The expression to generate */
+void geexp(ExpNod *exp, int currentInstance)
 {
   if (exp == NULL) {
     emit0(C_CONST, 0);
@@ -805,15 +748,15 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
   switch (exp->kind) {
     
   case BINARY_EXPRESSION:
-    geexpbin(exp);
+    geexpbin(exp, currentInstance);
     break;
     
   case WHERE_EXPRESSION:
-    geexpwhr(exp);
+    geexpwhr(exp, currentInstance);
     break;
     
   case ATTRIBUTE_EXPRESSION:
-    geexpatr(exp);
+    geexpatr(exp, currentInstance);
     break;
     
   case INTEGER_EXPRESSION:
@@ -828,11 +771,11 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
     break;
     
   case AGGREGATE_EXPRESSION:
-    geexpagr(exp);
+    geexpagr(exp, currentInstance);
     break;
     
   case RANDOM_EXPRESSION:
-    geexprnd(exp);
+    geexprnd(exp, currentInstance);
     break;
     
   case SCORE_EXPRESSION:
@@ -840,11 +783,11 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
     break;
 
   case WHAT_EXPRESSION:
-    geexpwht(exp);
+    geexpwht(exp, currentInstance);
     break;
 
   case BETWEEN_EXPRESSION:
-    geexpbtw(exp);
+    geexpbtw(exp, currentInstance);
     break;
     
   default:
@@ -1047,7 +990,7 @@ void dumpExpression(ExpNod *exp)
     put("to: "); dumpExpression(exp->fields.rnd.to);
     break;
   case WHAT_EXPRESSION:
-    put("wht: "); duwht(exp->fields.wht.wht);
+    put("wht: "); dumpWhat(exp->fields.wht.wht);
     break;
   case SCORE_EXPRESSION:
     break;

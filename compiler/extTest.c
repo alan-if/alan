@@ -13,6 +13,7 @@ void testNewExt()
   IdNode *direction = newId(&nulsrcp, "w");
   IdNode *targetLocation = newId(&nulsrcp, "aLocation");
   ExtNod *theExit;
+  Context *context = copyContext(NULL);
   IdNode *aLocationId = newId(&nulsrcp, "aLocation");
   Symbol *aLocationSymbol;
   int firstAddress;
@@ -28,7 +29,7 @@ void testNewExt()
   symbolizeExit(theExit);
   unitAssert(readEcode() == 0);
 
-  analyzeExit(theExit);
+  analyzeExit(theExit, context);
   unitAssert(readEcode() == 351);
 
   initEmit("unit.acd");

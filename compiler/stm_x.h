@@ -25,15 +25,14 @@
 
 
 /* Create a new Statement node */
-extern StmNod *newstm(Srcp *srcp,
-		      StmKind class);
+extern StmNod *newstm(Srcp *srcp, StmKind class);
 
 /* Analyze a list of statements */
 extern void anstms(List *stms,
 		   Context *context);
 
 /* Generate code for a list of statements */
-extern void gestms(List *stms, InsNod *ins);
+extern void gestms(List *stms, int currentInstance);
 
 /* Dump a statement node */
 extern void dumpStatement(StmNod *stm);

@@ -239,6 +239,98 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 }
 
 
+/*----------------------------------------------------------------------
+
+  resolveIdAttribute()
+
+  Resolve an attribute reference for an identifier.
+
+*/
+static AtrNod *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *context)
+{
+  AtrNod *atr = NULL;
+  Symbol *sym;
+  Symbol *classOfParameter;
+
+  sym = symcheck(id, INSTANCE_SYMBOL, context);
+  if (sym) {
+    if (sym->kind == INSTANCE_SYMBOL) {
+      id->code = sym->code;
+      atr = findAttribute(sym->fields.claOrIns.slots->attributes, attribute);
+      if (atr == NULL)
+	lmLog(&attribute->srcp, 315, sevERR, id->string);
+    } else if (sym->kind == PARAMETER_SYMBOL) {
+      if (sym->fields.parameter.class != NULL) {
+	classOfParameter = sym->fields.parameter.class;
+	atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
+	if (atr == NULL)
+	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+		 id->string, classOfParameter->string, NULL);
+      } else
+	lmLog(&attribute->srcp, 406, sevERR, "");
+    }
+    return atr;
+  } else /* no symbol found */
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------
+
+  resolveActorAttribute()
+
+  Resolve an attribute reference for reference to current Actor.
+
+*/
+static AtrNod *resolveActorAttribute(IdNode *attribute, Context *context)
+{
+  AtrNod *atr = NULL;
+
+  atr = findAttribute(actorSymbol->fields.claOrIns.slots->attributes, attribute);
+  if (atr == NULL)
+    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "actor", NULL);
+  return atr;
+}
+
+
+/*----------------------------------------------------------------------
+
+  resolveLocationAttribute()
+
+  Resolve an attribute reference for reference to current Location.
+
+*/
+static AtrNod *resolveLocationAttribute(IdNode *attribute, Context *context)
+{
+  AtrNod *atr = NULL;
+
+  atr = findAttribute(locationSymbol->fields.claOrIns.slots->attributes, attribute);
+  if (atr == NULL)
+    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "location", NULL);
+  return atr;
+}
+
+
+/*----------------------------------------------------------------------
+
+  resolveThisAttribute()
+
+  Resolve an attribute reference for reference to THIS instance.
+
+*/
+static AtrNod *resolveThisAttribute(IdNode *attribute, Context *context)
+{
+  AtrNod *atr = NULL;
+
+  if (context->instance == NULL) return NULL;
+
+  atr = findAttribute(context->instance->slots->attributes, attribute);
+  if (atr == NULL)
+    lmLog(&attribute->srcp, 313, sevERR, attribute->string);
+  return atr;
+}
+
+
 /*======================================================================
 
   resolveAttributeReference()
@@ -247,32 +339,16 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
   parameters and return a reference to the attribute node, if all is well.
 
  */
-AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *context)
+AtrNod *resolveAttributeReference(What *what, IdNode *attribute, Context *context)
 {
-  AtrNod *atr = NULL;
-  Symbol *sym;
-  Symbol *classOfParameter;
-
-  sym = symcheck(what->id, INSTANCE_SYMBOL, context);
-  if (sym) {
-    if (sym->kind == INSTANCE_SYMBOL) {
-      what->id->code = sym->code;
-      atr = findAttribute(sym->fields.claOrIns.slots->attributes, attribute);
-      if (atr == NULL)
-	lmLog(&attribute->srcp, 315, sevERR, what->id->string);
-    } else if (sym->kind == PARAMETER_SYMBOL) {
-      if (sym->fields.parameter.class != NULL) {
-	classOfParameter = sym->fields.parameter.class;
-	atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
-	if (atr == NULL)
-	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
-		 what->id->string, classOfParameter->string, NULL);
-      } else
-	lmLog(&attribute->srcp, 406, sevERR, "");
-    }
-    return atr;
-  } else /* no symbol found */
-    return NULL;
+  switch (what->kind) {
+  case WHAT_ID: return resolveIdAttribute(what->id, attribute, context); break;
+  case WHAT_ACTOR: return resolveActorAttribute(attribute, context); break;
+  case WHAT_LOCATION: return resolveLocationAttribute(attribute, context); break;
+  case WHAT_THIS: return resolveThisAttribute(attribute, context); break;
+  default: syserr("Unexpected switch in resolveAttrbuteReference()");
+  }
+  return NULL;
 }
 
 

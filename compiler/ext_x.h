@@ -10,6 +10,7 @@
 #include "ext.h"
 
 /* USE: */
+#include "context.h"
 
 
 /* DATA: */
@@ -28,8 +29,8 @@ extern ExtNod *newext(Srcp *srcp,
 		      List *stms);
 
 extern void symbolizeExits(List *exts);
-extern void analyzeExits(List *exts);
-extern Aaddr generateExits(List *exts);
+extern void analyzeExits(List *exts, Context *context);
+extern Aaddr generateExits(List *exts, int currentInstance);
 extern void dumpExit(ExtNod *ext);
 
 

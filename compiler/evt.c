@@ -12,6 +12,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "context_x.h"
 
 #include "lmList.h"
 
@@ -69,15 +70,14 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 void anevts(void)
 {
     List *evts;		/* Traversal pointer */
-    Context context;
+    Context *context = newContext(EVENT_CONTEXT);
 
-    context.kind = EVENT_CONTEXT;
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
       if (verbose) {
 	printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout);
       }
-      context.event = evts->element.evt;
-      anstms(evts->element.evt->stms, &context);
+      context->event = evts->element.evt;
+      anstms(evts->element.evt->stms, context);
     }
 }
 
@@ -100,7 +100,7 @@ static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
   } else
     evt->namadr = 0;
   evt->stmadr = emadr();
-  gestms(evt->stms, NULL);
+  gestms(evt->stms, 0);
   emit0(C_STMOP, I_RETURN);
 }
 

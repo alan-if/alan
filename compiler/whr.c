@@ -32,7 +32,7 @@
   */
 WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
 	       WhrKind kind,	/* IN - Where kind */
-	       WhtNod *wht)	/* IN - What */
+	       What *wht)	/* IN - What */
 {
   WhrNod *new;
 
@@ -63,7 +63,7 @@ void symbolizeWhr(WhrNod *whr)
   case WHR_NEAR:
   case WHR_AT:
   case WHR_IN:
-    symbolizeWht(whr->wht);
+    symbolizeWhat(whr->wht);
     break;
   default:
     break;
@@ -81,7 +81,7 @@ void verifyInitialLocation(WhrNod *whr)
 {
   switch (whr->kind) {
   case WHR_AT:
-    if (whr->wht->kind == WHT_ID) {
+    if (whr->wht->kind == WHAT_ID) {
       inheritCheck(whr->wht->id, "an instance", "location");
     } else
       lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
@@ -113,7 +113,7 @@ void analyzeWhere(WhrNod *whr,
     break;
   case WHR_AT:
     switch (whr->wht->kind) {
-    case WHT_ID:
+    case WHAT_ID:
       (void) symcheck(whr->wht->id, INSTANCE_SYMBOL, context);
       break;
     default:
@@ -151,19 +151,13 @@ void anwhr(WhrNod *whr,
     break;
   case WHR_AT:
     switch (whr->wht->kind) {
-    case WHT_ID:
+    case WHAT_ID:
       (void) symcheck(whr->wht->id, INSTANCE_SYMBOL, context);
       break;
-    case WHT_LOC:
+    case WHAT_LOCATION:
       whr->kind = WHR_HERE;
       break;
-    case WHT_OBJ:
-      if (context->kind != VERB_CONTEXT)
-	lmLog(&whr->wht->srcp, 409, sevERR, "");
-      else if ( context->verb->fields.verb.parameterSymbols == NULL)
-	lmLog(&whr->wht->srcp, 409, sevERR, "");
-      break;
-    case WHT_ACT:
+    case WHAT_ACTOR:
       if (context->kind == EVENT_CONTEXT)
 	lmLog(&whr->wht->srcp, 412, sevERR, "");
       break;
@@ -213,14 +207,14 @@ Aword generateInitialLocation(WhrNod *whr) /* IN - Where node */
   Generate a location reference according to the WHR.
 
   */
-void gewhr(WhrNod *whr)		/* IN - Where node */
+void gewhr(WhrNod *whr, int currentInstance)
 {
   switch (whr->kind) {
 
   case WHR_AT:
     switch (whr->wht->kind) {
-    case WHT_ID:
-      gewht(whr->wht);
+    case WHAT_ID:
+      generateWhat(whr->wht, currentInstance);
 #ifdef FIXME
       /* Do this instance have location properties?
 	 Or should we locate at the same place? */
@@ -228,18 +222,15 @@ void gewhr(WhrNod *whr)		/* IN - Where node */
 	emit0(C_STMOP, I_WHERE);
 #endif
       break;
-    case WHT_OBJ:
-      emit0(C_CONST, 1);
-      emit0(C_CURVAR, V_PARAM);
-      emit0(C_STMOP, I_WHERE);
-      break;
-    case WHT_LOC:
+    case WHAT_LOCATION:
       emit0(C_CURVAR, V_CURLOC);
       break;
-    case WHT_ACT:
+    case WHAT_ACTOR:
       emit0(C_CURVAR, V_CURACT);
       emit0(C_STMOP, I_WHERE);
       break;
+    default:
+      syserr("Unexpected switch on whatKind in generateWhere()");
     }
     break;
 
@@ -283,5 +274,5 @@ void duwhr(WhrNod *whr)
   default: put("*** ERROR ***"); break;
   }
   nl();
-  put("wht: "); duwht(whr->wht); out();
+  put("wht: "); dumpWhat(whr->wht); out();
 }

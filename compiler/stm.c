@@ -11,19 +11,19 @@
 #include "alan.h"
 #include "util.h"
 
+#include "atr_x.h"
+#include "cnt_x.h"
+#include "exp_x.h"
+#include "id_x.h"
+#include "lst_x.h"
 #include "srcp_x.h"
 #include "sym_x.h"
-#include "id_x.h"
 #include "whr_x.h"
-#include "atr_x.h"
-#include "lst_x.h"
-#include "exp_x.h"
-#include "cnt_x.h"
+#include "wht_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-node */
-#include "wht.h"                /* WHT-nodes */
 #include "scr.h"                /* SCR-nodes */
 #include "sco.h"                /* SCORES */
 #include "opt.h"                /* OPTIONS */
@@ -73,17 +73,13 @@ static void andescribe(StmNod *stm,
   Symbol *sym;
 
   switch (stm->fields.describe.wht->kind) {
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&stm->fields.describe.wht->srcp, 409, sevERR, "");
+  case WHAT_LOCATION:
     break;
-  case WHT_LOC:
-    break;
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
-  case WHT_ID:
+  case WHAT_ID:
     sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context);
     break;
   default:
@@ -148,18 +144,14 @@ static void analyzeLocate(StmNod *stm,
   Symbol *whtSymbol;
 
   switch (stm->fields.locate.wht->kind) {
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&stm->fields.locate.wht->srcp, 409, sevERR, "");
-    break;
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.locate.wht->srcp, 412, sevERR, "");
     break;
-  case WHT_LOC:
+  case WHAT_LOCATION:
     lmLog(&stm->srcp, 311, sevERR, "an Object or an Actor");
     break;
-  case WHT_ID:
+  case WHAT_ID:
     whtSymbol = symcheck(stm->fields.locate.wht->id, INSTANCE_SYMBOL, context);
     break;
   default:
@@ -174,12 +166,12 @@ static void analyzeLocate(StmNod *stm,
     break;
   case WHR_IN:
     switch (stm->fields.locate.wht->kind) {
-    case WHT_LOC:
+    case WHAT_LOCATION:
       lmLog(&stm->srcp, 402, sevERR, "A Location");
-    case WHT_ACT:
+    case WHAT_ACTOR:
       lmLog(&stm->srcp, 402, sevERR, "An  Actor");
       break;
-    case WHT_ID:
+    case WHAT_ID:
       if (inheritsFrom(whtSymbol, actorSymbol))
 	lmLog(&stm->srcp, 402, sevERR, "An Actor");
       if (inheritsFrom(whtSymbol, locationSymbol))
@@ -202,6 +194,25 @@ static void analyzeLocate(StmNod *stm,
 
 /*----------------------------------------------------------------------
 
+  verifyMakeAttribute()
+
+  Verify that a found attribute can be used in a MAKE statement.
+
+*/
+static void verifyMakeAttribute(IdNode *attributeId, AtrNod *foundAttribute)
+{
+  if (foundAttribute != NULL) {
+    if (foundAttribute->type != BOOLEAN_TYPE)
+      lmLog(&attributeId->srcp, 408, sevERR, "MAKE statement");
+    else
+      attributeId->code = foundAttribute->id->code;
+  }
+}
+      
+
+
+/*----------------------------------------------------------------------
+
   anmake()
 
   Analyze a MAKE statement.
@@ -214,53 +225,40 @@ static void anmake(StmNod *stm,
 
   switch (stm->fields.make.wht->kind) {
 
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
-    else {
-      atr = findAttribute(NULL, stm->fields.make.atr);
-      if (atr == NULL)          /* Attribute not found globally */
-        lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
-      else
-        stm->fields.make.atr->code = atr->id->code;
-    }
     break;
 
-  case WHT_LOC:
-    atr = findAttribute(NULL, stm->fields.make.atr);
-    if (atr == NULL)            /* Attribute not found globally */
-      lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
-    else
-      stm->fields.make.atr->code = atr->id->code;
-    break;
-
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
-    atr = findAttribute(NULL, stm->fields.make.atr);
-    if (atr == NULL)            /* Attribute not found globally */
-      lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
-    else
-      stm->fields.make.atr->code = atr->id->code;
-    break;
-
-  case WHT_ID:
-    atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
-    if (atr != NULL) {
-      if (atr->type != BOOLEAN_TYPE)
-        lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
-      else
-        stm->fields.make.atr->code = atr->id->code;
-    }
+  case WHAT_LOCATION:
+  case WHAT_ID:
     break;
 
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
   }
+
+  atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
+  verifyMakeAttribute(stm->fields.make.atr, atr);
 }
 
-  
+
+
+/*----------------------------------------------------------------------
+
+  verifySetTarget()
+
+*/
+static void verifySetTarget(IdNode *attributeId, AtrNod  *foundAttribute)
+{
+  if (foundAttribute) {
+    if (foundAttribute->type != INTEGER_TYPE && foundAttribute->type != STRING_TYPE)
+      lmLog(&attributeId->srcp, 419, sevERR, "Target for");
+    else
+      attributeId->code = foundAttribute->id->code;
+  }
+}
 
 
 /*----------------------------------------------------------------------
@@ -277,50 +275,21 @@ static void anset(StmNod *stm,
 
   switch (stm->fields.set.wht->kind) {
 
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
-    else {
-      atr = findAttribute(NULL, stm->fields.set.atr);
-      if (atr == NULL)          /* attribute not found globally */
-        lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
-      else
-        stm->fields.set.atr->code = atr->id->code;
-    }
     break;
 
-  case WHT_LOC:
-    atr = findAttribute(NULL, stm->fields.set.atr);
-    if (atr == NULL)            /* attribute not found globally */
-      lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
-    else
-      stm->fields.set.atr->code = atr->id->code;
-    break;
-
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
-    atr = findAttribute(NULL, stm->fields.set.atr);
-    if (atr == NULL)            /* attribute not found globally */
-      lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
-    else
-      stm->fields.set.atr->code = atr->id->code;
-    break;
-
-  case WHT_ID:
-    atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
-    if (atr) {
-      if (atr->type != INTEGER_TYPE && atr->type != STRING_TYPE)
-        lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
-      else
-        stm->fields.set.atr->code = atr->id->code;
-    }
+  case WHAT_LOCATION:
+  case WHAT_ID:
     break;
 
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
   }
+  atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
+  verifySetTarget(stm->fields.set.atr, atr);
 
   if (stm->fields.set.exp != NULL) {
     anexp(stm->fields.set.exp, context);
@@ -347,19 +316,17 @@ static void anincr(StmNod *stm,
 
   switch (stm->fields.incr.wht->kind) {
 
-  case WHT_ACT:
+  case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
-    else {
-      atr = findAttribute(NULL, stm->fields.incr.atr);
-      if (atr == NULL)          /* attribute not found globally */
-        lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
-      else
-        stm->fields.incr.atr->code = atr->id->code;
-    }
+    atr = findAttribute(NULL, stm->fields.incr.atr);
+    if (atr == NULL)          /* attribute not found globally */
+      lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
+    else
+      stm->fields.incr.atr->code = atr->id->code;
     break;
 
-  case WHT_LOC:
+  case WHAT_LOCATION:
     atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
@@ -367,17 +334,7 @@ static void anincr(StmNod *stm,
       stm->fields.incr.atr->code = atr->id->code;
     break;
 
-  case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
-      lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
-    atr = findAttribute(NULL, stm->fields.incr.atr);
-    if (atr == NULL)            /* attribute not found globally */
-      lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
-    else
-      stm->fields.incr.atr->code = atr->id->code;
-    break;
-
-  case WHT_ID:
+  case WHAT_ID:
     atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
     if (atr) {
       if (atr->type != INTEGER_TYPE)
@@ -734,20 +691,15 @@ static void gedescribe(StmNod *stm) /* IN - Statement */
 {
   switch (stm->fields.describe.wht->kind) {
 
-  case WHT_OBJ:
-    emit0(C_CONST, 1);
-    emit0(C_CURVAR, V_PARAM);
-    break;
-
-  case WHT_LOC:
+  case WHAT_LOCATION:
     emit0(C_CURVAR, V_CURLOC);
     break;
 
-  case WHT_ACT:
+  case WHAT_ACTOR:
     emit0(C_CURVAR, V_CURACT);
     break;
 
-  case WHT_ID:
+  case WHAT_ID:
     generateId(stm->fields.describe.wht->id);
     break;
 
@@ -766,9 +718,9 @@ static void gedescribe(StmNod *stm) /* IN - Statement */
   Generate code for a SAY statement.
 
   */
-static void gesay(StmNod *stm)	/* IN - The statement to analyze */
+static void gesay(StmNod *stm, int currentInstance)
 {
-  geexp(stm->fields.say.exp);
+  geexp(stm->fields.say.exp, currentInstance);
   switch (stm->fields.say.exp->type) {
   case INTEGER_TYPE:
     emit0(C_STMOP, I_SAYINT);
@@ -795,7 +747,7 @@ static void gesay(StmNod *stm)	/* IN - The statement to analyze */
   */
 static void gelist(StmNod *stm)	/* IN - Statement */
 {
-  if (stm->fields.list.wht->kind == WHT_ID) {
+  if (stm->fields.list.wht->kind == WHAT_ID) {
     generateId(stm->fields.list.wht->id);
     emit0(C_STMOP, I_LIST);
   } else
@@ -811,10 +763,10 @@ static void gelist(StmNod *stm)	/* IN - Statement */
   Generate code to implement the EMPTY statement.
 
   */
-static void geempty(StmNod *stm) /* IN - Statement */
+static void geempty(StmNod *stm, int currentInstance)
 {
-  if (stm->fields.empty.wht->kind == WHT_ID) {
-    gewhr(stm->fields.empty.whr);
+  if (stm->fields.empty.wht->kind == WHAT_ID) {
+    gewhr(stm->fields.empty.whr, currentInstance);
     generateId(stm->fields.empty.wht->id);
     emit0(C_STMOP, I_EMPTY);
   } else
@@ -830,10 +782,10 @@ static void geempty(StmNod *stm) /* IN - Statement */
   Generate code to implement a LOCATE statement.
 
   */
-static void gelocate(StmNod *stm) /* IN - Statement */
+static void gelocate(StmNod *stm, int currentInstance)
 {
-  gewhr(stm->fields.locate.whr);
-  gewht(stm->fields.locate.wht);
+  gewhr(stm->fields.locate.whr, currentInstance);
+  generateWhat(stm->fields.locate.wht, currentInstance);
   emit0(C_STMOP, I_LOCATE);
 }
 
@@ -846,11 +798,11 @@ static void gelocate(StmNod *stm) /* IN - Statement */
   Generate code to implement a MAKE statement.
 
   */
-static void gemake(StmNod *stm)	/* IN - Statement */
+static void gemake(StmNod *stm, int currentInstance)
 {
   emit0(C_CONST, !stm->fields.make.not);
   emit0(C_CONST, stm->fields.make.atr->code);
-  gewht(stm->fields.make.wht);
+  generateWhat(stm->fields.make.wht, currentInstance);
   emit0(C_STMOP, I_MAKE);
 }
 
@@ -864,12 +816,12 @@ static void gemake(StmNod *stm)	/* IN - Statement */
   Generate code to implement a SET statement.
 
   */
-static void geset(StmNod *stm)	/* IN - Statement */
+static void geset(StmNod *stm, int currentInstance)
 {
-  geexp(stm->fields.set.exp);
+  geexp(stm->fields.set.exp, currentInstance);
 
   emit0(C_CONST, stm->fields.set.atr->code);
-  gewht(stm->fields.set.wht);
+  generateWhat(stm->fields.set.wht, currentInstance);
   if (stm->fields.set.exp->type == STRING_TYPE)
     emit0(C_STMOP, I_STRSET);
   else
@@ -885,15 +837,15 @@ static void geset(StmNod *stm)	/* IN - Statement */
   Generate code to implement a INCR/DECR statement.
 
   */
-static void geincr(StmNod *stm)	/* IN - Statement */
+static void geincr(StmNod *stm, int currentInstance)
 {
   if (stm->fields.incr.step != NULL)
-    geexp(stm->fields.incr.step);
+    geexp(stm->fields.incr.step, currentInstance);
   else
     emit0(C_CONST, 1);
 
   emit0(C_CONST, stm->fields.incr.atr->code);
-  gewht(stm->fields.incr.wht);
+  generateWhat(stm->fields.incr.wht, currentInstance);
   if (stm->class == STM_INCR)
     emit0(C_STMOP, I_INCR);
   else
@@ -909,9 +861,9 @@ static void geincr(StmNod *stm)	/* IN - Statement */
   Generate code to implement a SCHEDULE statement.
 
   */
-static void geschedule(StmNod *stm) /* IN - Statement */
+static void geschedule(StmNod *stm, int currentInstance)
 {
-  geexp(stm->fields.schedule.when);
+  geexp(stm->fields.schedule.when, currentInstance);
 
   /* NOTE: we can't use gewhr() because the semantics of the schedule */
   /* statement is such that at scheduling AT something does not mean */
@@ -923,7 +875,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
     break;
     
   case WHR_AT:
-    gewht(stm->fields.schedule.whr->wht);
+    generateWhat(stm->fields.schedule.whr->wht, currentInstance);
     break;
 
   default:
@@ -955,15 +907,14 @@ static void gecancel(StmNod *stm) /* IN - Statement to generate */
   Generate code to implement a IF statement.
 
   */
-static void geif(StmNod *stm,	/* IN - Statement */
-		 InsNod *ins)	/* IN - Inside any Instance */
+static void geif(StmNod *stm, int currentInstance)
 {
-  geexp(stm->fields.iff.exp);
+  geexp(stm->fields.iff.exp, currentInstance);
   emit0(C_STMOP, I_IF);
-  gestms(stm->fields.iff.thn, ins);
+  gestms(stm->fields.iff.thn, currentInstance);
   if (stm->fields.iff.els != NULL) {
     emit0(C_STMOP, I_ELSE);
-    gestms(stm->fields.iff.els, ins);
+    gestms(stm->fields.iff.els, currentInstance);
   }
   emit0(C_STMOP, I_ENDIF);
 }
@@ -977,11 +928,11 @@ static void geif(StmNod *stm,	/* IN - Statement */
   Generate USE statement.
 
   */
-static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
+static void geuse(StmNod *stm, int currentInstance)
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
-    generateId(ins->slots->id);
+    emit0(C_CONST, currentInstance);
     emit0(C_STMOP, I_USE);
   } else {
     emit0(C_CONST, stm->fields.use.scriptno);
@@ -1000,11 +951,11 @@ static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
   operator.
 
 */
-static void generateDependCase(ExpNod *exp)
+static void generateDependCase(ExpNod *exp, int currentInstance)
 {
   switch (exp->kind) {
   case BINARY_EXPRESSION:
-    geexp(exp->fields.bin.right);
+    geexp(exp->fields.bin.right, currentInstance);
     generateBinaryOperator(exp);
     break;
   case ATTRIBUTE_EXPRESSION:
@@ -1012,7 +963,7 @@ static void generateDependCase(ExpNod *exp)
     generateAttributeAccess(exp);
     break;
   case BETWEEN_EXPRESSION:
-    generateBetweenCheck(exp);
+    generateBetweenCheck(exp, currentInstance);
     break;
   default:
     syserr("generateDependingCase(): Unrecognized switch case on expression kind.");
@@ -1060,12 +1011,12 @@ static void generateDependCase(ExpNod *exp)
   DEPEND just pops off the initially pushed depend expression.
 
   */
-static void gedep(StmNod *stm, InsNod *ins) /* IN - Statement */
+static void gedep(StmNod *stm, int currentInstance)
 {
   List *cases;
 
   emit0(C_STMOP, I_DEPSTART);
-  geexp(stm->fields.depend.exp);
+  geexp(stm->fields.depend.exp, currentInstance);
   /* For each case: */
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     /* If it is not the ELSE clause ... */
@@ -1075,12 +1026,12 @@ static void gedep(StmNod *stm, InsNod *ins) /* IN - Statement */
 	emit0(C_STMOP, I_DEPCASE);
       emit0(C_STMOP, I_DUP);
       /* ...and the case expression (right hand + operator) */
-      generateDependCase(cases->element.stm->fields.depcase.exp);
+      generateDependCase(cases->element.stm->fields.depcase.exp, currentInstance);
       emit0(C_STMOP, I_DEPEXEC);
     } else
       emit0(C_STMOP, I_DEPELSE);
     /* ...and then the statements */
-    gestms(cases->element.stm->fields.depcase.stms, ins);
+    gestms(cases->element.stm->fields.depcase.stms, currentInstance);
   }
   emit0(C_STMOP, I_DEPEND);
 }
@@ -1094,7 +1045,7 @@ static void gedep(StmNod *stm, InsNod *ins) /* IN - Statement */
   Generate SYSTEM statement.
 
   */
-static void gesystem(StmNod *stm, InsNod *ins) /* IN - Statement */
+static void gesystem(StmNod *stm)
 {
   encode(&stm->fields.system.fpos, &stm->fields.system.len);
   emit0(C_CONST, stm->fields.system.len);
@@ -1111,8 +1062,7 @@ static void gesystem(StmNod *stm, InsNod *ins) /* IN - Statement */
   Generate code for one statement.
 
   */
-static void gestm(StmNod *stm,	/* IN - The statement to generate */
-		  InsNod *ins)	/* IN - Inside actor? */
+static void gestm(StmNod *stm, int currentInstance)
 {
   switch (stm->class) {
 
@@ -1157,7 +1107,7 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
     break;
 
   case STM_SAY:
-    gesay(stm);
+    gesay(stm, currentInstance);
     break;
 
   case STM_LIST:
@@ -1165,28 +1115,28 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
     break;
 
   case STM_EMPTY:
-    geempty(stm);
+    geempty(stm, currentInstance);
     break;
 
   case STM_LOCATE:
-    gelocate(stm);
+    gelocate(stm, currentInstance);
     break;
 
   case STM_MAKE:
-    gemake(stm);
+    gemake(stm, currentInstance);
     break;
 
   case STM_SET:
-    geset(stm);
+    geset(stm, currentInstance);
     break;
 
   case STM_INCR:
   case STM_DECR:
-    geincr(stm);
+    geincr(stm, currentInstance);
     break;
 
   case STM_SCHEDULE:
-    geschedule(stm);
+    geschedule(stm, currentInstance);
     break;
 
   case STM_CANCEL:
@@ -1194,19 +1144,19 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
     break;
 
   case STM_IF:
-    geif(stm, ins);
+    geif(stm, currentInstance);
     break;
 
   case STM_USE:
-    geuse(stm, ins);
+    geuse(stm, currentInstance);
     break;
 
   case STM_DEPEND:
-    gedep(stm, ins);
+    gedep(stm, currentInstance);
     break;
 
   case STM_SYSTEM:
-    gesystem(stm, ins);
+    gesystem(stm);
     break;
 
   default:
@@ -1223,11 +1173,10 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
   Generate code for all the statements in a list.
 
   */
-void gestms(List *stms,		/* IN - The statements to generate */
-	    InsNod *ins)	/* IN - Inside any Instance? */
+void gestms(List *stms, int currentInstance)
 {
   while (stms != NULL) {
-    gestm(stms->element.stm, ins);
+    gestm(stms->element.stm, currentInstance);
     stms = stms->next;
   }
 }
@@ -1338,35 +1287,35 @@ void dustm(StmNod *stm)
       put("score: "); dumpInt(stm->fields.score.score);
       break;
     case STM_DESCRIBE:
-      put("wht: "); duwht(stm->fields.describe.wht);
+      put("wht: "); dumpWhat(stm->fields.describe.wht);
       break;
     case STM_SAY:
       put("exp: "); dumpExpression(stm->fields.say.exp);
       break;
     case STM_LIST:
-      put("wht: "); duwht(stm->fields.list.wht);
+      put("wht: "); dumpWhat(stm->fields.list.wht);
       break;
     case STM_EMPTY:
-      put("wht: "); duwht(stm->fields.empty.wht); nl();
+      put("wht: "); dumpWhat(stm->fields.empty.wht); nl();
       put("whr: "); duwhr(stm->fields.empty.whr);
       break;
     case STM_LOCATE:
-      put("wht: "); duwht(stm->fields.locate.wht); nl();
+      put("wht: "); dumpWhat(stm->fields.locate.wht); nl();
       put("whr: "); duwhr(stm->fields.locate.whr);
       break;
     case STM_MAKE:
-      put("wht: "); duwht(stm->fields.list.wht); nl();
+      put("wht: "); dumpWhat(stm->fields.list.wht); nl();
       put("not: "); dumpBool(stm->fields.make.not); nl();
       put("atr: "); dumpId(stm->fields.make.atr);
       break;
     case STM_SET:
-      put("wht: "); duwht(stm->fields.set.wht); nl();
+      put("wht: "); dumpWhat(stm->fields.set.wht); nl();
       put("atr: "); dumpId(stm->fields.set.atr); nl();
       put("exp: "); dumpExpression(stm->fields.set.exp);
       break;
     case STM_INCR:
     case STM_DECR:
-      put("wht: "); duwht(stm->fields.incr.wht); nl();
+      put("wht: "); dumpWhat(stm->fields.incr.wht); nl();
       put("atr: "); dumpId(stm->fields.incr.atr); nl();
       put("step: "); dumpExpression(stm->fields.incr.step);
       break;

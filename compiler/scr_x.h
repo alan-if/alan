@@ -29,9 +29,9 @@ extern ScrNod *newScript(Srcp *srcp,
 			 List *descr,
 			 List *stps);
 
-extern Aword generateScripts(InsNod *ins);
 extern void prepareScripts(List *scrs, InsNod *ins);
 extern void analyzeScripts(List *scrs, Context *context);
+extern Aword generateScripts(List *scrs, int currentInstance);
 extern void dumpScript(ScrNod *scr);
 
 

@@ -9,16 +9,15 @@
 #include "util.h"
 
 #include "srcp_x.h"
-#include "lmList.h"
-
 #include "res_x.h"
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
 #include "cla_x.h"
+#include "context_x.h"
 
-
+#include "lmList.h"
 #include "emit.h"
 #include "acode.h"
 #include "dump.h"
@@ -116,7 +115,7 @@ static void analyzeRestriction(
 )
 {
   Symbol *parameter;
-  Context context;
+  Context *context = newContext(VERB_CONTEXT);
 
   parameter = findParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
@@ -126,8 +125,7 @@ static void analyzeRestriction(
 
   /* Analyse the statements to execute if the restrictions was not met */
   /* FIXME: we need to send the restriction inverted in the context also */
-  context.kind = VERB_CONTEXT;
-  anstms(res->stms, &context);
+  anstms(res->stms, context);
 }
 
 
@@ -161,7 +159,7 @@ void analyzeRestrictions(
 static void generateRestrictionParts(ResNod *res)
 {
   res->stmadr = emadr();
-  gestms(res->stms, NULL);
+  gestms(res->stms, 0);
   emit0(C_STMOP, I_RETURN);
 }
 

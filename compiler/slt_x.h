@@ -38,7 +38,7 @@ extern Slots *newSlots(List *nams,
 
 extern void symbolizeSlots(Slots *slots);
 extern void analyzeSlots(Slots *slts, Context *context);
-extern void generateSlotsData(Slots *slts, InsNod *instance);
+extern void generateSlotsData(Slots *slts);
 extern void generateSlotsEntry(InstanceEntry *entry, Slots *slts);
 extern void dumpSlots(Slots *slots);
 

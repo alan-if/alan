@@ -126,6 +126,8 @@ static lmMsgs msg[] = {
     { "310   ", "Identifier \'%1\' not defined." },
     { "311   ", "Must refer to %1." },
     { "312   ", "Parameter \'%1\' not uniquely defined as %2, which is required." },
+    { "313   ", "Attribute \'%1\' is not defined for THIS instance." },
+    { "314   ", "Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it." },
     { "315   ", "Attribute not defined for \'%1\'." },
     { "316   ", "Attribute \'%1\' is not defined for parameter \'%2\' since its class (\'%3\') does not have it." },
     { "317   ", "Can not restrict a parameter to something not a class." },
@@ -151,7 +153,6 @@ static lmMsgs msg[] = {
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
-    { "404   ", "Attribute to %1 must be a default attribute." },
     { "405   ", "Instances inheriting from Location can not have initial locations." },
     { "406   ", "Integer and String parameters have no attributes." },
     { "407   ", "Attribute in LIMITS must be a default object attribute." },
@@ -159,7 +160,7 @@ static lmMsgs msg[] = {
     { "409   ", "No parameters defined in this context." },
     { "410   ", "A parameter may not be used in %1." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
-    { "412   ", "ACTOR is not allowed inside Events." },
+    { "412   ", "Current Actor is not defined in Events." },
     { "413   ", "Expression in %1 must be of integer type." },
     { "414   ", "Invalid initial location for %1." },
     { "415   ", "Invalid Where specification in %1 statement." },
@@ -168,7 +169,9 @@ static lmMsgs msg[] = {
     { "418   ", "Aggregate is only allowed on integer type attributes." },
     { "419   ", "%1 SET statement must be of integer or string type." },
     { "420   ", "Invalid What specification in %1." },
+    { "421   ", "THIS instance is not defined here." },
     { "501   ", "Location \'%1\' has no EXITs." },
+    { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
     { "601   ", "Unknown option, \'%1\'." },
     { "602   ", "Illegal value for option \'%1\'." },
@@ -184,7 +187,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 104}
+    {0, 107}
 };
 static lmMessages currMsect = (lmMessages)0;
 

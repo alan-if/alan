@@ -16,8 +16,11 @@
 #include "smScan.h"
 #include "token.h"
 
+#include "add_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
+#include "chk_x.h"
+#include "cnt_x.h"
 #include "elm_x.h"
 #include "exp_x.h"
 #include "ext_x.h"
@@ -25,21 +28,19 @@
 #include "ins_x.h"
 #include "lst_x.h"
 #include "res_x.h"
+#include "scr_x.h"
 #include "slt_x.h"
 #include "stm_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
-#include "whr_x.h"
 #include "vrb_x.h"
-#include "cnt_x.h"
-#include "scr_x.h"
-#include "add_x.h"
+#include "whr_x.h"
+#include "wht_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
-#include "chk.h"                /* CHK-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
@@ -49,7 +50,6 @@
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
-#include "wht.h"                /* WHT-nodes */
 
 
 /* END %%IMPORT */
@@ -127,7 +127,7 @@ void pmISym(
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "$genid#%d", idno++);
+      sprintf(token->chars, "<generate identifier #%d>", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");

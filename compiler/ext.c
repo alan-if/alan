@@ -15,9 +15,9 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "chk_x.h"
 #include "wrd_x.h"
 
-#include "chk.h"                /* CHK-nodes */
 #include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"
@@ -112,12 +112,12 @@ void symbolizeExits(List *theExitList)
   analyzeExit()
 
  */
-static void analyzeExit(ExtNod *ext)	/* IN - Exit to analyze */
+static void analyzeExit(ExtNod *ext, Context *context)
 {
   inheritCheck(ext->target, "an instance", "location");
 
-  anchks(ext->chks, NULL);
-  anstms(ext->stms, NULL);
+  anchks(ext->chks, context);
+  anstms(ext->stms, context);
 }
 
 
@@ -130,12 +130,12 @@ static void analyzeExit(ExtNod *ext)	/* IN - Exit to analyze */
   exits.
 
  */
-void analyzeExits(List *exts)		/* IN - List of exits to analyze */
+void analyzeExits(List *exts, Context *context)
 {
   List *ext, *dir, *lst, *other;
 
   for (lst = exts; lst != NULL; lst = lst->next)
-    analyzeExit(lst->element.ext);
+    analyzeExit(lst->element.ext, context);
 
   /* Check for multiple definitions of a direction */
   for (ext = exts; ext != NULL; ext = ext->next) {
@@ -169,14 +169,14 @@ void analyzeExits(List *exts)		/* IN - List of exits to analyze */
   Generate the stms for one exit.
 
  */
-static Aaddr geexstms(ExtNod *ext) /* IN - The exit to generate */
+static Aaddr geexstms(ExtNod *ext, int currentInstance)
 {
   Aaddr stmadr = emadr();
 
   if (ext->stms == NULL)
     return(0);
   
-  gestms(ext->stms, NULL);
+  gestms(ext->stms, currentInstance);
   emit0(C_STMOP, I_RETURN);
   return(stmadr);
 }
@@ -216,7 +216,7 @@ static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
   Generate the data structure for the exits for a location.
 
  */
-Aaddr generateExits(List *exts)	/* IN - The exits */
+Aaddr generateExits(List *exts, int currentInstance)
 {
   List *lst;			/* Traversal pointer */
   Aaddr extadr;			/* The adress where the exits start */
@@ -227,8 +227,8 @@ Aaddr generateExits(List *exts)	/* IN - The exits */
   for (lst = exts; lst != NULL; lst = lst->next) {
     lst->element.ext->chkadr = emadr();
     if (lst->element.ext->chks != NULL)
-      lst->element.ext->chkadr = gechks(lst->element.ext->chks, NULL);
-    lst->element.ext->stmadr = geexstms(lst->element.ext);
+      lst->element.ext->chkadr = gechks(lst->element.ext->chks, currentInstance);
+    lst->element.ext->stmadr = geexstms(lst->element.ext, currentInstance);
     emit0(C_STMOP, I_RETURN);
   }
   

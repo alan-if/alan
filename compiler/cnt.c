@@ -68,7 +68,7 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
   verifyContainer()
 
  */
-void verifyContainer(WhtNod *wht,
+void verifyContainer(What *wht,
 		     Context *context)
 {
   Symbol *sym;
@@ -77,7 +77,7 @@ void verifyContainer(WhtNod *wht,
     return;
 
   switch (wht->kind) {
-  case WHT_ID:
+  case WHAT_ID:
     sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
     if (sym)
       switch (sym->kind) {
@@ -95,8 +95,8 @@ void verifyContainer(WhtNod *wht,
       }
     break;
 
-  case WHT_LOC:
-  case WHT_ACT:
+  case WHAT_LOCATION:
+  case WHAT_ACTOR:
     lmLog(&wht->srcp, 311, sevERR, "a Container");
     break;
 
@@ -143,22 +143,22 @@ void analyzeContainer(CntNod *cnt, Context *context)
   Generate code for one container.
 
   */
-static void gecnt(CntNod *cnt)	/* IN - The container to generate */
+static void gecnt(CntNod *cnt, int currentInstance)
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  cnt->limadr = gelims(cnt);
+  cnt->limadr = gelims(cnt, currentInstance);
 
   if (cnt->hstms != NULL) {
     cnt->hadr = emadr();
-    gestms(cnt->hstms, NULL);
+    gestms(cnt->hstms, currentInstance);
     emit0(C_STMOP, I_RETURN);
   } else
     cnt->hadr = 0;
   
   if (cnt->estms != NULL) {
     cnt->eadr = emadr();
-    gestms(cnt->estms, NULL);
+    gestms(cnt->estms, currentInstance);
     emit0(C_STMOP, I_RETURN);
   } else
     cnt->eadr = 0;
@@ -200,7 +200,7 @@ Aaddr generateContainers(AcdHdr *header)
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      gecnt(lst->element.cnt);
+      gecnt(lst->element.cnt, lst->element.cnt->ownerSlots->id->code);
   
     adr = emadr();		/* Save ACODE address to container list */
     /* Container list */

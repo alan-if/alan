@@ -14,6 +14,7 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "wrd_x.h"
+#include "context_x.h"
 
 #include "sysdep.h"
 #include "util.h"
@@ -146,12 +147,11 @@ void symbolizeInstances(void)
  */
 static void analyzeInstance(InsNod *instance)
 {
-  Context context;
+  Context *context = newContext(INSTANCE_CONTEXT);
 
-  context.kind = INSTANCE_CONTEXT;
-  context.instance = instance;
+  context->instance = instance;
 
-  analyzeSlots(instance->slots, &context);
+  analyzeSlots(instance->slots, context);
 }
 
 
@@ -180,7 +180,7 @@ void analyzeInstances(void)
 */
 static void generateInstanceData(InsNod *ins)
 {
-  generateSlotsData(ins->slots, ins);
+  generateSlotsData(ins->slots);
 }
 
 

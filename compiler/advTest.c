@@ -7,6 +7,7 @@
 \*======================================================================*/
 
 #include "adv.c"
+#include "wht_x.h"
 
 void testInitAdv()
 {
@@ -34,8 +35,8 @@ void testInitAdv()
   unitAssert(readEcode() == 211 && readSev() == sevERR);
 
   adv.whr = newwhr(&srcp, WHR_AT,
-		   newwht(&srcp, WHT_ID,
-			  atUnknownId));
+		   newWhat(&srcp, WHAT_ID,
+			   atUnknownId));
   symbolizeAdv();
   unitAssert(readSev() == sevERR && readEcode() == 310);
   analyzeStartAt();		/* Can not Start At unknown Id */

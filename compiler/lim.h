@@ -39,7 +39,7 @@ extern LimNod *newlim(Srcp *srcp,
 extern void anlim(LimNod *lim);
 
 /* Generate code for the Limits of a container */
-extern Aword gelims(CntNod *cnt);
+extern Aword gelims(CntNod *cnt, int currentInstance);
 
 /* Dump a Limit node */
 extern void dulim(LimNod *lim);

@@ -80,8 +80,7 @@ void anstps(List *stps,
   Generate code for all steps in a script for a particular Instance.
 
   */
-Aaddr gestps(List *stps,	/* IN - The steps to generate */
-	     InsNod *ins)	/* IN - Inside any Instance? */
+Aaddr gestps(List *stps, int currentInstance)
 {
   List *lst;
   Aaddr adr;
@@ -89,12 +88,12 @@ Aaddr gestps(List *stps,	/* IN - The steps to generate */
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL) { /* Expression specified */
       lst->element.stp->expadr = emadr();
-      geexp(lst->element.stp->exp);
+      geexp(lst->element.stp->exp, currentInstance);
       emit0(C_STMOP, I_RETURN);
     } else
       lst->element.stp->expadr = 0;
     lst->element.stp->stmadr = emadr();
-    gestms(lst->element.stp->stms, ins);
+    gestms(lst->element.stp->stms, currentInstance);
     emit0(C_STMOP, I_RETURN);
   }
   

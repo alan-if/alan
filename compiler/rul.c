@@ -112,10 +112,10 @@ Aaddr generateRules(void)
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
     lst->element.rul->expadr = emadr();
-    geexp(lst->element.rul->exp);
+    geexp(lst->element.rul->exp, 0);
     emit0(C_STMOP, I_RETURN);
     lst->element.rul->stmadr = emadr();
-    gestms(lst->element.rul->stms, NULL);
+    gestms(lst->element.rul->stms, 0);
     emit0(C_STMOP, I_RETURN);
   }
 
