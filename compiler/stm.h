@@ -75,7 +75,7 @@ typedef struct StmNod {		/* STATEMENT */
     } visits;
 
     struct {			/* for DESCRIBE */
-      What *wht;		/* What? */
+      Expression *wht;		/* What? */
     } describe;
 
     struct {			/* for SAY */
@@ -92,7 +92,7 @@ typedef struct StmNod {		/* STATEMENT */
     } show;
 
     struct {			/* for EMPTY */
-      What *wht;		/* What? */
+      Expression *wht;		/* What? */
       Where *where;		/* Where? */
     } empty;
 

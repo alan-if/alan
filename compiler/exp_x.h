@@ -21,7 +21,9 @@
 /* FUNCTIONS: */
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Expression *ofWhat);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
+
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);

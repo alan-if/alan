@@ -53,31 +53,26 @@ StmNod *newStatement(Srcp *srcp, StmKind class)
   return(new);
 }
 
+/*======================================================================*/
+StmNod *newDescribeStatement(Srcp srcp, Expression *what)
+{
+  StmNod *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, DESCRIBE_STATEMENT);
+
+  new->fields.describe.wht = what;
+
+  return(new);
+}
+
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeDescribe(StmNod *stm, Context *context)
 {
-  Symbol *sym;
-
-  switch (stm->fields.describe.wht->kind) {
-  case WHAT_LOCATION:
-    break;
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
-      lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
-    break;
-  case WHAT_ID:
-    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context);
-    break;
-  case WHAT_THIS:
-    if (!inEntityContext(context))
-      lmLog(&stm->fields.describe.wht->srcp, 421, sevERR, "");
-    break;
-  default:
-    unimpl(&stm->srcp, "Analyzer");
-    break;
-  }
+  analyzeExpression(stm->fields.describe.wht, context);
 }
 
 
@@ -109,8 +104,10 @@ static void analyzeList(StmNod *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeEmpty(StmNod *stm, Context *context)
 {
-  verifyContainer(stm->fields.empty.wht, context, "EMPTY statement");
+  verifyContainerExpression(stm->fields.empty.wht, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
+  if (stm->fields.empty.where->kind == WHR_NEAR)
+    lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "LOCATE");
 }
 
 
@@ -581,28 +578,7 @@ static void generateScore(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateDescribe(StmNod *stm)
 {
-  switch (stm->fields.describe.wht->kind) {
-
-  case WHAT_LOCATION:
-    emitVariable(V_CURLOC);
-    break;
-
-  case WHAT_ACTOR:
-    emitVariable(V_CURACT);
-    break;
-
-  case WHAT_ID:
-    generateId(stm->fields.describe.wht->id);
-    break;
-
-  case WHAT_THIS:
-    emitVariable(V_CURRENT_INSTANCE);
-    break;
-
-  default:
-    unimpl(&stm->srcp, "Code Generator");
-    return;
-  }
+  generateExpression(stm->fields.describe.wht);
   emit0(I_DESCRIBE);
 }
 
@@ -648,7 +624,7 @@ static void generateEmpty(StmNod *stm)
 {
   if (stm->fields.empty.wht->kind == WHAT_ID) {
     generateWhere(stm->fields.empty.where);
-    generateId(stm->fields.empty.wht->id);
+    generateExpression(stm->fields.empty.wht);
     emit0(I_EMPTY);
   } else
     unimpl(&stm->srcp, "Code Generator");
@@ -1213,7 +1189,7 @@ void dumpStatement(StmNod *stm)
       put("score: "); dumpInt(stm->fields.score.score);
       break;
     case DESCRIBE_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.describe.wht);
+      put("wht: "); dumpExpression(stm->fields.describe.wht);
       break;
     case SAY_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.say.exp); nl();
@@ -1223,7 +1199,7 @@ void dumpStatement(StmNod *stm)
       put("wht: "); dumpExpression(stm->fields.list.wht);
       break;
     case EMPTY_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.empty.wht); nl();
+      put("wht: "); dumpExpression(stm->fields.empty.wht); nl();
       put("whr: "); dumpWhere(stm->fields.empty.where);
       break;
     case LOCATE_STATEMENT:

@@ -175,6 +175,15 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 }
 
 
+/*======================================================================*/
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Expression *ofWhat) {
+  Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
+  exp->fields.atr.atr = attribute;
+  exp->fields.atr.wht = ofWhat;
+  return exp;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {

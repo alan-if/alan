@@ -334,7 +334,7 @@ static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Cont
   if (class != NULL) {
     atr = findAttribute(class->fields.entity.props->attributes, attribute);
     if (!atr)
-      lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "expression",
+      lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "the expression",
 	     class->string, NULL);
   }
   return atr;

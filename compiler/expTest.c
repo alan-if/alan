@@ -16,15 +16,15 @@ void testSymbolOf() {
 
   Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
 				     NULL, newEmptyProps());
-  Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
   What *theWhat = newWhat(&nulsrcp, WHAT_ID, theInstance->props->id);
-  theWhatExp->fields.wht.wht = theWhat;
+  Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
   ASSERT(symbolOfExpression(theWhatExp, context) != NULL);
   ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
-  Expression *theAttributeExpression = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);
-  IdNode *attributeId = newId(&nulsrcp, "atr");
-  theAttributeExpression->fields.atr.atr = attributeId;
+  Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
+							      newId(&nulsrcp, "atr"),
+							      theWhatExp);
+  ASSERT(symbolOfExpression(theAttributeExpression, context) == NULL);
 }
   
 

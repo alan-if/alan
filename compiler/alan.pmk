@@ -1552,8 +1552,7 @@ static int val(char str[])
 
     ! 'DESCRIBE' <what> '.'
     %%
-	%<output_statement>.stm = newStatement(`&%'DESCRIBE'.srcp, DESCRIBE_STATEMENT);
-	%<output_statement>.stm->fields.describe.wht = %<what>.wht;
+	%<output_statement>.stm = newDescribeStatement(%'DESCRIBE'.srcp, %<what>.exp);
     %%
 
     ! 'SAY' <say_form> <expression> '.'
@@ -1591,7 +1590,7 @@ static int val(char str[])
     = 'EMPTY' <what> <optional_where> '.'
     %%
 	%<manipulation_statement>.stm = newStatement(`&%'EMPTY'.srcp, EMPTY_STATEMENT);
-	%<manipulation_statement>.stm->fields.empty.wht = %<what>.wht;
+	%<manipulation_statement>.stm->fields.empty.wht = %<what>.exp;
 	%<manipulation_statement>.stm->fields.empty.where = %<optional_where>.whr;
     %%	  
 
@@ -2288,9 +2287,7 @@ static int val(char str[])
 <attribute_reference>		-- RETURNS: exp
     = ID 'OF' <what>
     %%
-	%<attribute_reference>.exp = newExpression(`&%'OF'.srcp, ATTRIBUTE_EXPRESSION);
-	%<attribute_reference>.exp->fields.atr.atr = %ID.id;
-	%<attribute_reference>.exp->fields.atr.wht = %<what>.exp;
+	%<attribute_reference>.exp = newAttributeExpression(%'OF'.srcp, %ID.id, %<what>.exp);
     %%
     ;
 
