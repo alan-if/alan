@@ -88,8 +88,8 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_76_Token = 76,
 	sm_MAIN_77_Token = 77,
 	sm_MAIN_78_Token = 78,
-	sm_MAIN_INTEGER_Token = 79,
-	sm_MAIN_80_Token = 80,
+	sm_MAIN_79_Token = 79,
+	sm_MAIN_INTEGER_Token = 80,
 	sm_MAIN_81_Token = 81,
 	sm_MAIN_82_Token = 82,
 	sm_MAIN_83_Token = 83,
@@ -153,6 +153,7 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_141_Token = 141,
 	sm_MAIN_142_Token = 142,
 	sm_MAIN_143_Token = 143,
+	sm_MAIN_144_Token = 144,
 	sm_MAIN_BLANKS_Token = -1,
 	sm_MAIN_COMMENT_Token = -1,
 	sm_MAIN_INCLUDE_Token = -1

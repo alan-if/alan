@@ -43,6 +43,7 @@
 #include "id_x.h"
 #include "ins_x.h"
 #include "initialize_x.h"
+#include "resource_x.h"
 #include "lst_x.h"
 #include "prop_x.h"
 #include "res_x.h"
@@ -118,7 +119,7 @@ static int val(char str[])
   entered %% List *%1%%,
   enteredSrcp %% Srcp %1%%,
   initialize %% Initialize *%1%%,
-  evt %% EvtNod *%1%%,
+  evt %% Event *%1%%,
   evts %% List *%1%%,
   exp %% Expression *%1%%,
   exps %% List *%1%%,
@@ -1646,14 +1647,17 @@ static int val(char str[])
 
     ! 'list' <primary> '.'
     %%
-	%<output_statement>.stm = newStatement(`&%'list'.srcp, LIST_STATEMENT);
-	%<output_statement>.stm->fields.list.wht = %<primary>.exp;
+	%<output_statement>.stm = newListStatement(%'list'.srcp, %<primary>.exp);
     %%	  
 
     ! 'show' ID '.'
     %%
-	%<output_statement>.stm = newStatement(`&%'show'.srcp, SHOW_STATEMENT);
-	%<output_statement>.stm->fields.show.filename = %ID.id;
+	%<output_statement>.stm = newShowStatement(%'show'.srcp, newResource(%ID.id->srcp, %ID.id));
+    %%	  
+
+    ! 'play' ID '.'
+    %%
+	%<output_statement>.stm = newPlayStatement(%'play'.srcp, newResource(%ID.id->srcp, %ID.id));
     %%	  
 
     ! 'style' <style> '.'

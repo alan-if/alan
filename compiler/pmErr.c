@@ -40,6 +40,7 @@
 #include "id_x.h"
 #include "ins_x.h"
 #include "initialize_x.h"
+#include "resource_x.h"
 #include "lst_x.h"
 #include "prop_x.h"
 #include "res_x.h"
@@ -127,7 +128,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 63 "alan.pmk"
+#line 64 "alan.pmk"
 
 
 {

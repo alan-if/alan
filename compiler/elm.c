@@ -270,10 +270,10 @@ Aaddr generateElements(List *elms, Syntax *stx)
   List *part;                   /* The current partion */
   Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
-  ElementEntry *entry;              /* One entry in the list */
+  ElementEntry *entry;		/* One entry in the list */
 
   if (elms == NULL)
-    return 0;           /* End of chain */
+    return 0;			/* End of chain */
 
   showProgress();
 

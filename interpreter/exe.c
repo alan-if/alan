@@ -1637,12 +1637,35 @@ void list(Aword cnt)
 void showImage(Aword image, Aword align)
 {
 #ifdef HAVE_GLK
+  glui32 ecode;
+
   if ((glk_gestalt(gestalt_Graphics, 0) == 1) &&
       (glk_gestalt(gestalt_DrawImage, wintype_TextBuffer) == 1)) {
     glk_window_flow_break(glkMainWin);
     printf("\n");
-    (void)glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
+    ecode = glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
   }
+#endif
+}    
+ 
+
+/*======================================================================*/
+void playSound(Aword sound)
+{
+#ifdef HAVE_GLK
+#ifdef GLK_MODULE_SOUND
+  static schanid_t soundChannel = NULL;
+  glui32 ecode;
+
+  if (glk_gestalt(gestalt_Sound, 0) == 1) {
+    if (soundChannel == NULL)
+      soundChannel = glk_schannel_create(0);
+    if (soundChannel != NULL) {
+      glk_schannel_stop(soundChannel);
+      ecode = glk_schannel_play(soundChannel, sound);
+    }
+  }
+#endif
 #endif
 }    
  

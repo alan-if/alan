@@ -48,13 +48,7 @@ void showProgress() {
 
 
 
-/*======================================================================
-
-  allocate()
-
-  Safely allocate new memory.
-
-*/
+/*======================================================================*/
 void *allocate(int len)		/* IN - Length to allocate */
 {
   void *p = calloc(1, (size_t)len);

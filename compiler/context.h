@@ -32,7 +32,7 @@ typedef struct Context {
   Symbol *verb;
   Instance *instance;
   Class *class;
-  EvtNod *event;
+  Event *event;
 } Context;
 
 

@@ -8,6 +8,7 @@
 /* Types: */
 
 typedef struct Adventure {
+  char *name;			/* The basename of the adventure */
   List *syns;			/* List of synonyms */
   List *stxs;			/* List of syntax definitions */
   List *vrbs;			/* List of global verbs */
@@ -23,7 +24,7 @@ typedef struct Adventure {
   List *stms;			/* List of start statements */
   int *scores;			/* Pointer to array of scores */
   List *msgs;			/* List of error messages */
-  List *images;			/* List of ID:s giving image filenames */
+  List *resources;		/* List of resources */
 } Adventure;
 
 #endif

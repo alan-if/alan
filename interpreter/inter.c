@@ -639,6 +639,15 @@ void interpret(Aaddr adr)
 	showImage(image, align);
 	break;
       }
+      case I_PLAY: {
+	Aword sound, align;
+	sound = pop();
+	align = pop();
+	if (singleStepOption)
+	  printf("PLAY \t%5ld\t\t", sound);
+	playSound(sound);
+	break;
+      }
       case I_LOCATE: {
 	Aword id, whr;
 	id = pop();

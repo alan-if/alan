@@ -16,7 +16,9 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "vrb_x.h"
+#include "ext_x.h"
 #include "dump_x.h"
+#include "context_x.h"
 
 #include "scr.h"
 #include "ext.h"
@@ -77,10 +79,10 @@ static void addContainer(AddNode *add, Symbol *original)
   if (props->container == NULL) return;
 
   if (original->fields.entity.props->container != NULL)
-    lmLog(&add->props->container->body->srcp, 336, sevERR,
+    lmLog(&props->container->body->srcp, 336, sevERR,
 	  "container properties when the class already have it");
   else
-    original->fields.entity.props->container = add->props->container;
+    original->fields.entity.props->container = props->container;
   
 }
 
@@ -91,19 +93,19 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
   Properties *originalProps = originalSymbol->fields.entity.props;
   List *verbList;
   List *verbIdList;
-  Bool multipleVerb = FALSE;
+  Bool inhibitAdd = FALSE;
 
   if (add->props->verbs != NULL) {
     if (originalSymbol == entitySymbol)
       lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
     TRAVERSE(verbList, add->props->verbs) {
       TRAVERSE(verbIdList, verbList->element.vrb->ids)
-	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {
-	  multipleVerb = TRUE;
-	  lmLogv(&verbList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
+	if (verbIdFound(verbIdList->element.id, originalProps->verbs)) {
+	  inhibitAdd = TRUE;
+	  lmLogv(&verbIdList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
 	}
     }
-    if (!multipleVerb)
+    if (!inhibitAdd)
       originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
   }
 }
@@ -259,13 +261,32 @@ static void addScripts(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
-static void addExits(AddNode *add, Symbol *original)
+static void addExits(AddNode *add, Symbol *originalSymbol)
 {
-  Properties *props = add->props;
+  Properties *originalProps = originalSymbol->fields.entity.props;
+  List *exitList;
+  List *exitIdList;
+  Bool inhibitAdd = FALSE;
 
-  if (props->exits != NULL)
-    lmLogv(&props->exits->element.ext->srcp, 341, sevERR, "exits", "(yet)", NULL);
+  if (add->props->exits != NULL) {
+    symbolizeExits(add->props->exits);
+    if (!inheritsFrom(originalSymbol, locationSymbol)) {
+      lmLog(&add->props->exits->element.ext->srcp, 431, sevERR, "");
+      inhibitAdd = TRUE;
+    }
 
+    TRAVERSE(exitList, add->props->exits) {
+      TRAVERSE(exitIdList, exitList->element.ext->directions)
+	if (exitIdFound(exitIdList->element.id, originalProps->exits)) {
+	  inhibitAdd = TRUE;
+	  lmLogv(&exitIdList->element.id->srcp, 240, sevERR, "Exit", exitIdList->element.id->string, originalSymbol->string, NULL);
+	}
+    }
+    if (!inhibitAdd)
+      /* If there was no error above we can combine the additions,
+	 else it doesn't matter */
+      originalProps->exits = combine(originalProps->exits, add->props->exits);
+  }
 }
 
 

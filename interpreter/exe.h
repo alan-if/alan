@@ -30,6 +30,7 @@ extern void print(Aword fpos, Aword len);
 extern void setStyle(Aint style);
 extern void look(void);
 extern void showImage(Aword image, Aword align);
+extern void playSound(Aword sound);
 extern void make(Aword id, Aword atr, Aword val);
 extern void set(Aword id, Aword atr, Aword val);
 extern void increase(Aword id, Aword atr, Aword step);

@@ -38,15 +38,15 @@ int evtcount = 0;
   Allocates and initialises a new evtnod.
 
   */
-EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
+Event *newevt(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,	/* IN - Name of the event */
 	       List *stms)	/* IN - Statements to execute */
 {
-  EvtNod *new;		/* The newly allocated node */
+  Event *new;		/* The newly allocated node */
 
   showProgress();
 
-  new = NEW(EvtNod);
+  new = NEW(Event);
 
   new->srcp = *srcp;
   new->id = id;
@@ -59,15 +59,8 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*======================================================================
-
-  anevts()
-
-  Analyzes all events by calling the statment list analyzer for all
-  events.
-
-  */
-void anevts(void)
+/*======================================================================*/
+void analyzeEvents(void)
 {
     List *evts;		/* Traversal pointer */
     Context *context = newEventContext();
@@ -83,14 +76,8 @@ void anevts(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  generateEvent()
-
-  Generate one event.
-
-  */
-static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
+/*----------------------------------------------------------------------*/
+static void generateEvent(Event *evt)	/* IN - The event to generate */
 {
   showProgress();
 
@@ -105,13 +92,7 @@ static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
 }
 
 
-/*======================================================================
-
-  generateEvents()
-
-  Generate the events.
-
-  */
+/*======================================================================*/
 Aaddr generateEvents(AcdHdr *header)
 {
   List *lst;	/* Traversal pointer */
@@ -137,21 +118,15 @@ Aaddr generateEvents(AcdHdr *header)
 
 
 
-/*======================================================================
-
-  duevt()
-
-  Dump an Event node.
-
-  */
-void duevt(EvtNod *evt)
+/*======================================================================*/
+void dumpEvent(Event *evt)
 {
   if (evt == NULL) {
     put("NULL");
     return;
   }
 
-  put("EVT: "); dumpSrcp(evt->srcp); indent();
+  put("EVENT: "); dumpSrcp(evt->srcp); indent();
   put("id: "); dumpId(evt->id); nl();
   put("stms: "); dumpList(evt->stms, STATEMENT_LIST); out();
 }

@@ -55,7 +55,7 @@ extern lmSev readSev();
 
 
 #include "lstTest.c"
-#include "imagesTest.c"
+#include "resourceTest.c"
 #include "claTest.c"
 #include "propTest.c"
 #include "insTest.c"
@@ -80,7 +80,7 @@ int main()
 
   registerLstUnitTests();
   registerPropUnitTests();
-  registerImagesUnitTests();
+  registerResourceUnitTests();
   registerClaUnitTests();
   registerInsUnitTests();
   registerAdvUnitTests();
@@ -94,8 +94,8 @@ int main()
   registerAddUnitTests();
   registerResUnitTests();
   registerStxUnitTests();
-  registerParamUnitTests();
   registerWrdUnitTests();
+  registerParamUnitTests();
 
   unitTest();
 

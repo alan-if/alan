@@ -24,7 +24,7 @@ void testNewExt()
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
   theExit = newExit(&nulsrcp, concat(NULL, direction, EXIT_LIST), targetLocation, NULL, NULL);
-  ASSERT(theExit->dirs->element.id->symbol != NULL && theExit->dirs->element.id->symbol->code == 1);
+  ASSERT(theExit->directions->element.id->symbol != NULL && theExit->directions->element.id->symbol->code == 1);
 
   symbolizeExit(theExit);
   ASSERT(readEcode() == 0);

@@ -1,5 +1,5 @@
-touch pic99999.jpg
-ls pic*.jpg > images.output
+ls images.a3r > images.output
 alan images
-ls pic*.jpg >> images.output
-rm pic*.jpg
+ls images.a3r >> images.output
+rm images.a3r
+

@@ -70,6 +70,17 @@ void symbolizeId(IdNode *id)
 
 
 /*======================================================================*/
+IdNode *findIdInList(IdNode *theId, List *theList) {
+  List *here;
+
+  for (here = theList; here != NULL; here = here->next)
+    if (equalId(here->element.id, theId))
+      return here->element.id;
+  return NULL;
+}
+
+
+/*======================================================================*/
 void generateId(IdNode *id)
 {
   if (id->symbol != NULL) {

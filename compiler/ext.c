@@ -33,18 +33,8 @@ int dircount = 0;
 
 
 
-/*======================================================================
-
-  newext()
-
-  Allocates and initialises an extnod.
-
- */
-Exit *newExit(Srcp *srcp,	/* IN - Source Position */
-	       List *dirs,	/* IN - Directions of this exit */
-	       IdNode *target,	/* IN - Name of the location it leads to */
-	       List *chks,	/* IN - List of checks to perform first */
-	       List *stms)	/* IN - The statements to execute */
+/*======================================================================*/
+Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
 {
   Exit *new;			/* The newly created node */
   Symbol *sym;
@@ -55,7 +45,7 @@ Exit *newExit(Srcp *srcp,	/* IN - Source Position */
   new = NEW(Exit);
 
   new->srcp = *srcp;
-  new->dirs = dirs;
+  new->directions = dirs;
   new->target = target;
   new->chks = chks;
   new->stms = stms;
@@ -78,11 +68,7 @@ Exit *newExit(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*-----------------------------------------------------------------------
-
-  symbolizeExit()
-
-*/
+/*-----------------------------------------------------------------------*/
 static void symbolizeExit(Exit *theExit)
 {
   symbolizeId(theExit->target);
@@ -93,11 +79,7 @@ static void symbolizeExit(Exit *theExit)
 }
 
 
-/*======================================================================
-
-  symbolizeExits()
-
-*/
+/*======================================================================*/
 void symbolizeExits(List *theExitList)
 {
   List *lst;
@@ -107,12 +89,8 @@ void symbolizeExits(List *theExitList)
 }
 
 
-/*----------------------------------------------------------------------
-
-  analyzeExit()
-
- */
-static void analyzeExit(Exit *ext, Context *context)
+/*======================================================================*/
+void analyzeExit(Exit *ext, Context *context)
 {
   inheritCheck(ext->target, "Target of an Exit", "an instance", "location");
 
@@ -122,14 +100,22 @@ static void analyzeExit(Exit *ext, Context *context)
 
 
 
-/*======================================================================
+/*======================================================================*/
+Bool exitIdFound(IdNode *targetId, List *exits)
+{
+  List *theExit;
+  List *theIdInList;
 
-  analyzeExits()
+  for (theExit = exits; theExit != NULL; theExit = theExit->next) {
+    for (theIdInList = theExit->element.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
+      if (findIdInList(targetId, theIdInList) != NULL)
+	return TRUE;
+  }
+  return FALSE;
+}
 
-  Analyzes all exits in a list by calling the exit analyzer for all
-  exits.
 
- */
+/*======================================================================*/
 void analyzeExits(List *exts, Context *context)
 {
   List *ext, *dir, *lst, *other;
@@ -139,7 +125,7 @@ void analyzeExits(List *exts, Context *context)
 
   /* Check for multiple definitions of a direction */
   for (ext = exts; ext != NULL; ext = ext->next) {
-    dir = ext->element.ext->dirs;
+    dir = ext->element.ext->directions;
     /* First check other directions in this EXIT */
     for (other = dir->next; other != NULL; other = other->next) {
       if (other->element.id->symbol->code == dir->element.id->symbol->code) {
@@ -150,7 +136,7 @@ void analyzeExits(List *exts, Context *context)
     }
     /* Then the directions in the other EXITs */
     for (lst = ext->next; lst != NULL; lst = lst->next) {
-      for (other = lst->element.ext->dirs; other != NULL; other = other->next)
+      for (other = lst->element.ext->directions; other != NULL; other = other->next)
 	if (other->element.id->symbol->code == dir->element.id->symbol->code) {
 	  lmLog(&other->element.id->srcp, 203, sevWAR,
 		other->element.id->string);
@@ -167,7 +153,7 @@ static Bool haveExit(List *ownExits, IdNode *direction) {
   List *directions;
 
   TRAVERSE(exits, ownExits) {
-    TRAVERSE(directions, exits->element.ext->dirs) {
+    TRAVERSE(directions, exits->element.ext->directions) {
       if (equalId(directions->element.id, direction))
 	return TRUE;
     }
@@ -180,7 +166,7 @@ static Exit *copyExitExcludingOwn(Exit *original, List *ownExits) {
   List *directionsToCopy = NULL;
   List *direction;
 
-  TRAVERSE (direction, original->dirs)
+  TRAVERSE (direction, original->directions)
     if (!haveExit(ownExits, direction->element.id))
       directionsToCopy = concat(directionsToCopy, direction->element.id, ID_LIST);
   return newExit(&original->srcp, directionsToCopy, original->target,
@@ -202,7 +188,7 @@ List *combineExits(List *ownExits, List *exitsToAdd)
     Bool foundOneToAdd = FALSE;
     /* Each exit may have multiple directions so we must traverse that
        list to see if we should copy this Exit node */
-    TRAVERSE(direction, toAdd->element.ext->dirs) {
+    TRAVERSE(direction, toAdd->element.ext->directions) {
       if (!haveExit(ownExits, direction->element.id)) {
 	foundOneToAdd = TRUE;
 	break;
@@ -242,7 +228,7 @@ static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
   List *dir;
   ExitEntry entry;
 
-  for (dir = ext->dirs; dir != NULL; dir = dir->next) {
+  for (dir = ext->directions; dir != NULL; dir = dir->next) {
     entry.code = dir->element.id->symbol->code;
     entry.checks = ext->chks? ext->chkadr : 0;
     entry.action = ext->stms? ext->stmadr : 0;
@@ -295,7 +281,7 @@ void dumpExit(Exit *ext)
   }
 
   put("EXT: "); dumpSrcp(ext->srcp); indent();
-  put("dirs: "); dumpList(ext->dirs, ID_LIST); nl();
+  put("dirs: "); dumpList(ext->directions, ID_LIST); nl();
   put("target: "); dumpId(ext->target); nl();
   put("chks: "); dumpList(ext->chks, CHECK_LIST); nl();
   put("chkadr: "); dumpAddress(ext->chkadr); nl();

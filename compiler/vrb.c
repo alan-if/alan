@@ -132,19 +132,8 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 }
 
 
-/*----------------------------------------------------------------------*/
-static IdNode *findIdInList(IdNode *theId, List *theList) {
-  List *here;
-
-  for (here = theList; here != NULL; here = here->next)
-    if (equalId(here->element.id, theId))
-      return here->element.id;
-  return NULL;
-}
-
-
 /*======================================================================*/
-Bool foundVerb(IdNode *targetId, List *verbs)
+Bool verbIdFound(IdNode *targetId, List *verbs)
 {
   List *theVerb;
   List *theIdInList;

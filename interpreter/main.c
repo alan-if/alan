@@ -243,7 +243,7 @@ void statusline(void)
     sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maxscore, current.tick);
   else
     sprintf(line, "%d moves", current.tick);
-  glk_window_move_cursor(glkStatusWin, glkWidth - col - strlen(line), 0);
+  glk_window_move_cursor(glkStatusWin, glkWidth-col-strlen(line), 0);
   glk_put_string(line);
   needSpace = FALSE;
 

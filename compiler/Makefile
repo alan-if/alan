@@ -79,21 +79,21 @@ BUILDSRCS = \
 # More Sources required for Alan program build
 # Excluded from BUILDSRCS because there are unit tests for these
 ALANSRCS = \
-	main.c \
-	adv.c \
 	add.c \
+	adv.c \
 	atr.c \
 	cla.c \
-	res.c \
 	emit.c \
 	exp.c \
 	ext.c \
+	resource.c \
 	ins.c \
 	lst.c \
-	images.c \
-	sym.c \
-	stx.c \
+	main.c \
 	prop.c \
+	res.c \
+	stx.c \
+	sym.c \
 	vrb.c \
 	whr.c \
 	wrd.c \
@@ -140,7 +140,7 @@ clean:
 src:
 	$(MAKE) -f Makefile.src
 
-fromsrc: $(MAINOBJECTS)
+fromsrc: unittests $(MAINOBJECTS)
 	$(LD) -o alan $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin

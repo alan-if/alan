@@ -23,6 +23,24 @@
 #include <windows.h>
 #endif
 
+
+/*----------------------------------------------------------------------*/
+static char *gameName(char *fullPathName) {
+  char *foundGameName;
+  if ((foundGameName = strrchr(fullPathName, '\\')) == NULL
+      && (foundGameName = strrchr(adventureFileName, '>')) == NULL
+      && (foundGameName = strrchr(adventureFileName, ']')) == NULL
+      && (foundGameName = strrchr(adventureFileName, '/')) == NULL
+      && (foundGameName = strrchr(fullPathName, ':')) == NULL)
+    foundGameName = strdup(fullPathName);
+  else
+    foundGameName = strdup(foundGameName+1);
+  
+  foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
+  return foundGameName;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void switches(int argc, char *argv[])
 {
@@ -90,6 +108,9 @@ static void switches(int argc, char *argv[])
 	adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+5);
 	strcat(adventureFileName, ACODEEXTENSION);
       }
+
+      adventureName = gameName(adventureFileName);
+
     }
   }
 }

@@ -211,6 +211,7 @@ typedef enum InstClass {
   I_NEXTEACH,
   I_ENDEACH,
   I_SHOW,
+  I_PLAY,
   I_CONCAT,
   I_STRIP,
   I_POP

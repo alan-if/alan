@@ -23,7 +23,7 @@ static Context *newContext(ContextKind kind, void *item)
   case INSTANCE_CONTEXT: new->instance = (Instance *)item; break;
   case CLASS_CONTEXT: new->class = (Class *)item; break;
   case VERB_CONTEXT: new->verb = (Symbol *)item; break;
-  case EVENT_CONTEXT: new->event = (EvtNod *)item; break;
+  case EVENT_CONTEXT: new->event = (Event *)item; break;
   case RULE_CONTEXT:
   case NULL_CONTEXT:
     break;

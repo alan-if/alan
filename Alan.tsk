@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>398.89</origest>
-<currest>397.89</currest>
-<elapsed>250.89</elapsed>
+<origest>399.89</origest>
+<currest>398.89</currest>
+<elapsed>254.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>59</origest>
-<currest>59</currest>
-<elapsed>13</elapsed>
+<origest>61</origest>
+<currest>61</currest>
+<elapsed>17</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
-<elapsed>13</elapsed>
+<origest>29</origest>
+<currest>29</currest>
+<elapsed>17</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -175,26 +175,7 @@ Would require expressions in Cancel and Schedule statements.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -203,77 +184,32 @@ END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Resource type management</desc>
+<notes>The extensions of resource files (sounds and images) sometimes controls the kind of resource. Case in point: .MOD is MUS and .AIF/.AIFF is SND.
+
+We need a mapping which implies that we need to discover file extensions in resource file names.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Blorb-layer for resources</desc>
+<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes>Currently the checks are run for all alternatives.
-
-Verify what this would mean in a practical example.
-
-I think only checks for matching alternatives would be natural.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor: add a context.symbol</desc>
-<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -319,6 +255,90 @@ New and better dictionary handling in the compiler could remedy the multiple wor
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
+
+Verify what this would mean in a practical example.
+
+I think only checks for matching alternatives would be natural.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: add a context.symbol</desc>
+<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Warn if loop variable hides some symbol</desc>
@@ -826,8 +846,8 @@ method
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>92</origest>
-<currest>92</currest>
+<origest>91</origest>
+<currest>91</currest>
 <elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1247,15 +1267,6 @@ syserr() because 'l' is both an instance and a verb.</notes>
 <desc>Tips about debugging in the docs</desc>
 <notes>Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Use Blorb-layer for resources</desc>
-<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

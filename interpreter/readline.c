@@ -69,7 +69,7 @@ Bool readline(char buffer[])
     glk_request_line_event(glkMainWin, buffer, 255, 0);
     /* FIXME: buffer size should be infallible: all existing calls use 256 or
        80 character buffers, except parse which uses LISTLEN (currently 100)
-    */  
+    */
     do
       {
 	glk_select(&event);
@@ -443,7 +443,7 @@ static void downArrow(char ch)
   /* Advance history pointer */
   histp = (histp+1)%HISTORYLENGTH;
 
-  /* If we are not at the most recent history entry, copy the history and write it */
+  /* If we are not at the most recent history entry, copy history and write it */
   if (histp != histidx) {
     strcpy((char *)buffer, (char *)history[histp]);
     bufidx = strlen((char *)buffer);
@@ -574,11 +574,7 @@ static void insertCh(char ch) {
 #include <wincon.h>
 #endif
 
-/*----------------------------------------------------------------------
-
-  echoOff()
-
-  */
+/*----------------------------------------------------------------------*/
 static void echoOff()
 {
 #ifdef HAVE_TERMIO
@@ -595,11 +591,7 @@ static void echoOff()
 }
 
 
-/*----------------------------------------------------------------------
-
-  echoOn()
-
-  */
+/*----------------------------------------------------------------------*/
 static void echoOn()
 {
 #ifdef HAVE_TERMIO

@@ -33,6 +33,7 @@ typedef enum ListKind {
   NAME_LIST,
   REFERENCE_LIST,
   RESTRICTION_LIST,
+  RESOURCE_LIST,
   RULE_LIST,
   SCRIPT_LIST,
   STATEMENT_LIST,
@@ -57,7 +58,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Container *cnt;
     struct Element *elm;
     struct ElmEntry *eent;
-    struct EvtNod *evt;
+    struct Event *evt;
     struct Expression *exp;
     struct Exit *ext;
     struct IdNode *id;
@@ -65,11 +66,12 @@ typedef struct List {		/* GENERIC LISTS */
     struct LimNod *lim;
     struct List *lst;
     struct MsgNod *msg;
+    struct Resource *resource;
     struct ResNod *res;
     struct RulNod *rul;
     struct Script *script;
     struct Step *stp;
-    struct StmNod *stm;
+    struct Statement *stm;
     struct Symbol *sym;
     struct SynNod *syn;
     struct Syntax *stx;

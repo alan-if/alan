@@ -571,6 +571,7 @@ static void dumpStatements(Aword pc)
       case I_NEXTEACH: printf("NEXTEACH"); break;
       case I_NOT: printf("NOT "); break;
       case I_OR: printf("OR"); break;
+      case I_PLAY: printf("PLAY"); break;
       case I_PLUS: printf("PLUS "); break;
       case I_POP: printf("POP"); break;
       case I_PRINT: printf("PRINT"); break;
@@ -596,13 +597,13 @@ static void dumpStatements(Aword pc)
       case I_STREXACT: printf("STREXACT "); break;
       case I_STRIP: printf("STRIP"); break;
       case I_STRSET: printf("STRSET"); break;
+      case I_STYLE: printf("STYLE"); break;
       case I_SUM: printf("SUM "); break;
       case I_SYSTEM: printf("SYSTEM"); break;
       case I_UMINUS: printf("UMINUS"); break;
       case I_USE: printf("USE"); break;
       case I_VISITS: printf("VISITS"); break;
       case I_WHERE: printf("WHERE"); break;
-      case I_STYLE: printf("STYLE"); break;
       }
       break;
 

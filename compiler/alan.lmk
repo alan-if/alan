@@ -29,7 +29,7 @@
 150	'Unterminated STRING.';
 151	'File name missing for $INCLUDE directive.';
 152	'Unterminated quoted identifier.';
-153	'Image file missing.';
+153	'Resource file missing.';
 154	'$INCLUDE directive is deprecated. Use \'import\' statement instead.';
 198	'Could not open output file \'%1\' for writing.';
 199	'Adventure source file (%1) not found.';
@@ -146,15 +146,18 @@
 421	'THIS instance is not defined in this context.';
 422	'DIRECTLY not allowed in %1.';
 423	'You can not instantiate or sub-class \'%1\'.';
-424	'You can not ADD %1 to non-instantiable class \'%2\'.';
+424	'You can not add %1 to non-instantiable class \'%2\'.';
 425	'A Mentioned clause overrides the Name for an instance inheriting from location.';
 426	'Adding a Verb to the pre-defined class \'entity\' will result in multiple executions of it, since it will be inherited by both all locations and all objects. This is probably not what you want. Try adding it to \'thing\' instead.';
 427	'A subsequent restriction for the same parameter (\'%1\') should restrict it further, to a subclass of \'%2\'.';
 428	'%1 must refer to %2.';
 429	'No inheritance defined, everything must inherit from a class.';
 430	'Incompatible instance. You can only assign instances of class \'%1\' and its subclasses.';
+431	'You can not add Exits to a class not inheriting from the predefined class \'location\'.';
 
 440	'%1 filters can currently only accept boolean attributes.';
+
+450	'Wrong type of resource file for %1 statement.';
 
 501	'Location \'%1\' has no EXITs.';
 502	'Instance \'%1\' does not inherit from any of the common base classes.';
@@ -166,6 +169,7 @@
 700	'Unknown message identifier.';
 
 800	'Deprecated construct. Use \'%1\' instead.';
+801	'Resource type not recognized. File name extension must indicate resource type.';
 
 997	'SYSTEM ERROR: %1';
 998	'Feature not implemented in %1.';

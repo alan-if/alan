@@ -25,6 +25,7 @@
 #include "wht_x.h"
 #include "form_x.h"
 #include "type_x.h"
+#include "resource_x.h"
 #include "dump_x.h"
 
 #include "lmList.h"
@@ -58,14 +59,8 @@ Statement *newStatement(Srcp *srcp, StmKind class)
 /*======================================================================*/
 Statement *newDescribeStatement(Srcp srcp, Expression *what)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, DESCRIBE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, DESCRIBE_STATEMENT);
   new->fields.describe.what = what;
-
   return(new);
 }
 
@@ -74,15 +69,9 @@ Statement *newDescribeStatement(Srcp srcp, Expression *what)
 /*======================================================================*/
 Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, LOCATE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, LOCATE_STATEMENT);
   new->fields.locate.what = what;
   new->fields.locate.where = where;
-
   return(new);
 }
 
@@ -90,15 +79,9 @@ Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where)
 /*======================================================================*/
 Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, EMPTY_STATEMENT);
-
+  Statement *new = newStatement(&srcp, EMPTY_STATEMENT);
   new->fields.empty.what = what;
   new->fields.empty.where = where;
-
   return(new);
 }
 
@@ -106,15 +89,9 @@ Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where)
 /*======================================================================*/
 Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, INCLUDE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, INCLUDE_STATEMENT);
   new->fields.include.what = what;
   new->fields.include.set = set;
-
   return(new);
 }
 
@@ -122,15 +99,9 @@ Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
 /*======================================================================*/
 Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, EXCLUDE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, EXCLUDE_STATEMENT);
   new->fields.include.what = what;
   new->fields.include.set = set;
-
   return(new);
 }
 
@@ -139,16 +110,10 @@ Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 /*======================================================================*/
 Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *statements)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, EACH_STATEMENT);
-
+  Statement *new = newStatement(&srcp, EACH_STATEMENT);
   new->fields.each.loopId = loopId;
   new->fields.each.filters = filters;
   new->fields.each.stms = statements;
-
   return(new);
 }
 
@@ -156,14 +121,8 @@ Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *stat
 /*======================================================================*/
 Statement *newStyleStatement(Srcp srcp, int style)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, STYLE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, STYLE_STATEMENT);
   new->fields.style.style = style;
-
   return(new);
 }
 
@@ -171,34 +130,44 @@ Statement *newStyleStatement(Srcp srcp, int style)
 /*======================================================================*/
 Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, SCHEDULE_STATEMENT);
-
+  Statement *new = newStatement(&srcp, SCHEDULE_STATEMENT);
   new->fields.schedule.what = what;
   new->fields.schedule.whr = where;
   new->fields.schedule.when = when;
-
   return(new);
 }
 
 /*======================================================================*/
 Statement *newCancelStatement(Srcp srcp, Expression *what)
 {
-  Statement *new;                  /* The newly allocated area */
-
-  showProgress();
-
-  new = newStatement(&srcp, CANCEL_STATEMENT);
-
+  Statement *new = newStatement(&srcp, CANCEL_STATEMENT);
   new->fields.schedule.what = what;
-
   return(new);
 }
 
+/*======================================================================*/
+Statement *newShowStatement(Srcp srcp, Resource *resource)
+{
+  Statement *new = newStatement(&srcp, SHOW_STATEMENT);
+  new->fields.show.resource = resource;
+  return(new);
+}
 
+/*======================================================================*/
+Statement *newPlayStatement(Srcp srcp, Resource *resource)
+{
+  Statement *new = newStatement(&srcp, PLAY_STATEMENT);
+  new->fields.show.resource = resource;
+  return(new);
+}
+
+/*======================================================================*/
+Statement *newListStatement(Srcp srcp, Expression *what)
+{
+  Statement *new = newStatement(&srcp, LIST_STATEMENT);
+  new->fields.list.wht = what;
+  return(new);
+}
 
 /*----------------------------------------------------------------------*/
 static void analyzeDescribe(Statement *stm, Context *context)
@@ -588,13 +557,22 @@ static void analyzeEach(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeShow(Statement *stm, Context *context)
 {
-  FILE *imagefile;
+  ResourceKind kind = stm->fields.show.resource->kind;
+  analyzeResource(stm->fields.show.resource);
+  if (kind != PICT_RESOURCE && kind != NULL_RESOURCE)
+    lmLog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Show");
+  adv.resources = concat(adv.resources, stm->fields.show.resource, RESOURCE_LIST);
+}
 
-  imagefile = fopen(stm->fields.show.filename->string, READ_MODE);
-  if (!imagefile)
-    lmLog(&stm->fields.show.filename->srcp, 153, sevERR, "");
-  else
-    adv.images = concat(adv.images, stm->fields.show.filename, ID_LIST);
+
+/*----------------------------------------------------------------------*/
+static void analyzePlay(Statement *stm, Context *context)
+{
+  ResourceKind kind = stm->fields.play.resource->kind;
+  analyzeResource(stm->fields.play.resource);
+  if (kind != SND_RESOURCE && kind != NULL_RESOURCE)
+    lmLog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Play");
+  adv.resources = concat(adv.resources, stm->fields.play.resource, RESOURCE_LIST);
 }
 
 
@@ -699,6 +677,9 @@ static void analyzeStatement(Statement *stm, Context *context)
   case SHOW_STATEMENT:
     analyzeShow(stm, context);
     break;
+  case PLAY_STATEMENT:
+    analyzePlay(stm, context);
+    break;
   case STRIP_STATEMENT:
     analyzeStrip(stm, context);
     break;
@@ -787,7 +768,14 @@ static void generateList(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateShow(Statement *stm)
 {
-  emit2(I_SHOW, stm->fields.show.filename->code, 0);
+  emit2(I_SHOW, stm->fields.show.resource->fileName->code, 0);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generatePlay(Statement *stm)
+{
+  emit2(I_PLAY, stm->fields.play.resource->fileName->code, 0);
 }
 
 
@@ -1164,6 +1152,10 @@ static void generateStatement(Statement *stm)
     generateShow(stm);
     break;
 
+  case PLAY_STATEMENT:
+    generatePlay(stm);
+    break;
+
   case EMPTY_STATEMENT:
     generateEmpty(stm);
     break;
@@ -1293,6 +1285,7 @@ void dumpStatement(Statement *stm)
   case VISITS_STATEMENT: put("VISITS "); break;
   case NOP_STATEMENT: put("NOP "); break;
   case SHOW_STATEMENT: put("SHOW "); break;
+  case PLAY_STATEMENT: put("PLAY "); break;
   case SYSTEM_STATEMENT: put("SYSTEM "); break;
   case DEPEND_STATEMENT: put("DEPEND "); break;
   case DEPENDCASE_STATEMENT: put("DEPENDCASE "); break;
@@ -1395,7 +1388,20 @@ void dumpStatement(Statement *stm)
     case STYLE_STATEMENT:
       put("style: "); dumpStyle(stm->fields.style.style);
       break;
-    default:
+    case PLAY_STATEMENT:
+    case SHOW_STATEMENT:
+      put("resource: "); dumpResource(stm->fields.play.resource);
+      break;
+    case NOP_STATEMENT:
+    case QUIT_STATEMENT:
+    case LOOK_STATEMENT:
+    case SAVE_STATEMENT:
+    case RESTORE_STATEMENT:
+    case RESTART_STATEMENT:
+    case SYSTEM_STATEMENT:
+      break;
+    case DEPEND_STATEMENT:
+    case DEPENDCASE_STATEMENT:
       break;
     }
     out();

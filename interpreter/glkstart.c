@@ -15,10 +15,12 @@
 */
 
 #include "args.h"
+#include "main.h"
 #include "glk.h"
 #include "glkstart.h"
 #include "glkio.h"
 #include "resources.h"
+#include "gi_blorb.h"
 
 glkunix_argumentlist_t glkunix_arguments[] = {
   { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
@@ -32,24 +34,55 @@ glkunix_argumentlist_t glkunix_arguments[] = {
   { NULL, glkunix_arg_End, NULL }
 };
 
-int glkunix_startup_code(glkunix_startup_t *data)
-{
-  /* first, open a window for error output */
+/* Resources */
+static strid_t resourceFile;
+
+/*----------------------------------------------------------------------*/
+static void openGlkWindows() {
   glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
-  if (NULL == glkMainWin)
+  if (glkMainWin == NULL)
   {
     printf("FATAL ERROR: Cannot open initial window");
     glk_exit();
   }
   glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
     winmethod_Fixed, 1, wintype_TextGrid, 0);
+  glk_set_window(glkStatusWin);
+  glk_set_style(style_Preformatted);
   glk_set_window(glkMainWin);
+}
+
+/*----------------------------------------------------------------------*/
+static void openResourceFile() {
+  char *resourceFileName = strdup(adventureFileName);
+  char *extension = strrchr(resourceFileName, '.');
+  frefid_t resourceFileRef;
+  giblorb_err_t ecode;
+
+  strcpy(extension, ".a3r");
+  resourceFileRef = glk_fileref_create_by_name(fileusage_BinaryMode,
+					       resourceFileName, 0);
+  resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
+  ecode = giblorb_set_resource_map(resourceFile);
+  free(resourceFileName);
+}
+
+
+/*======================================================================*/
+int glkunix_startup_code(glkunix_startup_t *data)
+{
+  /* first, open a window for error output */
+  openGlkWindows();
   
   /* now process the command line arguments */
   args(data->argc, data->argv);
 
+  /* Open any possible blorb resource file */
+  openResourceFile();
+
   return TRUE;
 }
+
 
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
@@ -58,7 +91,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
 static int argCount;
 static char *argumentVector[10];
 
-
+/*----------------------------------------------------------------------*/
 static void splitArgs(char *commandLine) {
   char *cp = commandLine;
 
@@ -82,7 +115,7 @@ static void splitArgs(char *commandLine) {
   }
 }
     
-
+/*======================================================================*/
 int winglk_startup_code(const char* cmdline)
 {
   glk_stylehint_set(wintype_AllTypes, style_Emphasized, stylehint_Weight, 0);
@@ -93,12 +126,7 @@ int winglk_startup_code(const char* cmdline)
   winglk_set_gui(IDR_ARUN);
 
   /* First, open a window for error output */
-  glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
-  if (glkMainWin == NULL)
-  {
-    printf("FATAL ERROR: Cannot open initial window");
-    glk_exit();
-  }
+  openGlkWindows();
 
   /* now process the command line arguments */
   argumentVector[0] = "";
@@ -108,9 +136,8 @@ int winglk_startup_code(const char* cmdline)
 
   args(argCount, argumentVector);
 
-  glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
-    winmethod_Fixed, 1, wintype_TextGrid, 0);
-  glk_set_window(glkMainWin);
+  /* Open any possible blorb resource file */
+  openResourceFile(adventureName);
 
   return TRUE;
 }

@@ -16,6 +16,7 @@
 #include "exp.h"
 #include "lst.h"
 #include "form.h"
+#include "resource.h"
 #include "../interpreter/acode.h"
 
 
@@ -36,6 +37,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   SAY_STATEMENT,
   LIST_STATEMENT,
   SHOW_STATEMENT,
+  PLAY_STATEMENT,
   EMPTY_STATEMENT,
   LOCATE_STATEMENT,
   INCLUDE_STATEMENT,
@@ -57,9 +59,9 @@ typedef enum StmKind {		/* STATEMENT kinds */
 } StmKind;
     
 
-typedef struct StmNod {		/* STATEMENT */
+typedef struct Statement {	/* STATEMENT */
   Srcp srcp;			/* Source position */
-  StmKind kind;		/* Class tag */
+  StmKind kind;			/* Class tag */
   union {			/* Class dependent fields */
 
     struct {			/* for PRINT */
@@ -91,8 +93,12 @@ typedef struct StmNod {		/* STATEMENT */
     } list;
 
     struct {			/* for SHOW */
-      IdNode *filename;		/* Identifier including resource number */
+      Resource *resource;
     } show;
+
+    struct {			/* for PLAY */
+      Resource *resource;
+    } play;
 
     struct {			/* for EMPTY */
       Expression *what;		/* What? */

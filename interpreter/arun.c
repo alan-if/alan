@@ -32,23 +32,6 @@
 #endif
 
 
-/*----------------------------------------------------------------------*/
-static char *gameName(char *fullPathName) {
-  char *foundGameName;
-  if ((foundGameName = strrchr(fullPathName, '\\')) == NULL
-      && (foundGameName = strrchr(adventureFileName, '>')) == NULL
-      && (foundGameName = strrchr(adventureFileName, ']')) == NULL
-      && (foundGameName = strrchr(adventureFileName, '/')) == NULL
-      && (foundGameName = strrchr(fullPathName, ':')) == NULL)
-    foundGameName = strdup(fullPathName);
-  else
-    foundGameName = strdup(foundGameName+1);
-  
-  foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
-  return foundGameName;
-}
-
-
 /*======================================================================
 
   main()
@@ -114,8 +97,6 @@ int main(
     terminate(0);
   }
 #endif
-
-  adventureName = gameName(adventureFileName);
 
 #ifdef HAVE_WINGLK
   winglk_app_set_name(adventureName);

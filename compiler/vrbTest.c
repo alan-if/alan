@@ -31,12 +31,12 @@ void testMultipleVerbs()
   ASSERT(readEcode() != 0);
   ASSERT(readSev() != 0);
 
-  ASSERT(foundVerb(v1, verbs));
-  ASSERT(foundVerb(v2, verbs));
-  ASSERT(foundVerb(v3, verbs));
-  ASSERT(!foundVerb(v4, verbs));
-  ASSERT(foundVerb(v5, verbs));
-  ASSERT(!foundVerb(v6, verbs));
+  ASSERT(verbIdFound(v1, verbs));
+  ASSERT(verbIdFound(v2, verbs));
+  ASSERT(verbIdFound(v3, verbs));
+  ASSERT(!verbIdFound(v4, verbs));
+  ASSERT(verbIdFound(v5, verbs));
+  ASSERT(!verbIdFound(v6, verbs));
 }
 
 

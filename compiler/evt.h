@@ -18,13 +18,13 @@
 
 /* Types: */
 
-typedef struct EvtNod {		/* EVENT */
+typedef struct Event {		/* EVENT */
   Srcp srcp;			/* Source position */
   IdNode *id;			/* Name of this event */
   Aaddr namadr;			/* Address to name string (debug) */
   List *stms;			/* List of statements to execute */
   Aaddr stmadr;			/* ACODE address of event statements */
-} EvtNod;
+} Event;
 
 
 
@@ -33,10 +33,10 @@ typedef struct EvtNod {		/* EVENT */
 
 /* Functions: */
 
-extern EvtNod *newevt(Srcp *srcp, IdNode *id, List *stms);
-extern void anevts(void);
+extern Event *newevt(Srcp *srcp, IdNode *id, List *stms);
+extern void analyzeEvents(void);
 extern Aaddr generateEvents(AcdHdr *header);
-extern void duevt(EvtNod *evt);
+extern void dumpEvent(Event *evt);
 
 
 #endif

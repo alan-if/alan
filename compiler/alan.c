@@ -27,7 +27,6 @@
 
 #include "srcp_x.h"
 #include "adv_x.h"
-#include "images_x.h"
 
 #ifdef WINGUI
 #include <windows.h>
@@ -35,8 +34,6 @@
 
 
 /* PUBLIC DATA */
-
-char advnam[255];		/* Name of adventure (file name excl. ext.) */
 FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
 
@@ -246,7 +243,7 @@ static void prepareNames(void)
   else
     srcptr++;
   /* Save the basename as the name of the adventure */
-  strcpy(advnam, srcptr);
+  adv.name = strdup(srcptr);
 
   /* -- check for .ALAN suffix and add one if missing -- */
   if(strrchr(srcptr, '.') == NULL) { /* Point to last '.' */
@@ -258,22 +255,22 @@ static void prepareNames(void)
 #endif
 #endif
   } else {
-    char *p = strrchr(advnam, '.');
+    char *p = strrchr(adv.name, '.');
     *p = '\0';
   }
 
   /* -- create list file name -- */
-  strcpy(lstfnm, advnam);
+  strcpy(lstfnm, adv.name);
   strcat(lstfnm, ".lis");
   
   /* -- create string data file names -- */
-  strcpy(txtfnm, advnam);
+  strcpy(txtfnm, adv.name);
   strcat(txtfnm, ".tmp");
-  strcpy(datfnm, advnam);
+  strcpy(datfnm, adv.name);
   strcat(datfnm, ".dat");
   
   /* -- create ACODE file name -- */
-  strcpy(acdfnm, advnam);
+  strcpy(acdfnm, adv.name);
   strcat(acdfnm, ".a3c");
 }
 
@@ -351,9 +348,6 @@ void compile(void) {
 
   /* All text is output so close text file */
   fclose(txtfil);
-
-  /* All image files found so sort, number and copy them */
-  prepareImages();
 
   /* OK so far ? */
   if (lmSeverity() < sevERR) {

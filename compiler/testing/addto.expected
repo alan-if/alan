@@ -27,7 +27,8 @@ addto.alan
    12.    Exit e To l.
 =====>    1
 
-  *1*   341 E : Can not ADD exits TO classes. (yet)
+  *1*   431 E : You can not add Exits to a class not inheriting from the
+                predefined class 'location'.
 
 
         6 error(s).

@@ -18,29 +18,29 @@ saviourV2_x.alan
    50.      CHECK OBJECT IN hero
 =====>            1         2
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
   *2*   318 E : The 'hero' does not have the container property, which is
                 required in Expression after IN.
 
    53.  	LOCATE OBJECT HERE.
 =====>  	       1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
    77.      CHECK OBJECT IS examinable
 =====>            1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
    83.      CHECK OBJECT IS readable
 =====>            1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
    89.      CHECK OBJECT IS openable
 =====>            1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
    98.  VERB unlock_with
 =====>  1
@@ -56,7 +56,7 @@ saviourV2_x.alan
   106.  	OBJECT IS openable
 =====>  	1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
   114.  	WHERE o ISA ACTOR OR OBJECT
 =====>  	                  1
@@ -82,7 +82,7 @@ saviourV2_x.alan
   141.      CHECK OBJECT IS startable
 =====>            1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
   179.  	LIST hero.
 =====>  	     1
@@ -98,19 +98,19 @@ saviourV2_x.alan
   209.      CHECK OBJECT NOT IN hero
 =====>            1             2
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
   *2*   318 E : The 'hero' does not have the container property, which is
                 required in Expression after IN.
 
   212.      AND OBJECT IS takeable
 =====>          1
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
   216.          LOCATE OBJECT IN hero.
 =====>                 1         2
 
-  *1*   319 E : Identifier 'OBJECT' is not an instance.
+  *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
   *2*   318 E : The 'hero' does not have the container property, which is
                 required in Expression after IN.
 

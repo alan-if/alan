@@ -30,7 +30,7 @@
 #include "whr_x.h"
 #include "wrd_x.h"
 #include "atr_x.h"
-#include "images_x.h"
+#include "resource_x.h"
 #include "dump_x.h"
 
 
@@ -151,7 +151,7 @@ void analyzeAdventure(void)
   numberContainers();
 
   if (verbose) printf("\n\tEvents: ");
-  anevts();
+  analyzeEvents();
 
   if (verbose) printf("\n\tRules: ");
   analyzeRules();
@@ -165,8 +165,8 @@ void analyzeAdventure(void)
   if (verbose) printf("\n");
 
   analyzeStartAt();
-
   analyzeAllWords();
+  adv.resources = analyzeResources(adv.resources);
 
   if (debugFlag)
     analyzeSourceFilenames();
@@ -252,6 +252,9 @@ void generateAdventure(char acodeFileName[],
 
   /* Source filename table */
   acdHeader.sourceFileTable = generateSourceFileTable();
+
+  /* All resource files found so package them */
+  generateResources(adv.resources);
 
   terminateEncoding();
   terminateEmit();

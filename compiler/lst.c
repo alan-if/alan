@@ -111,9 +111,7 @@ List *tailOf(List *aList)
 
 
 /*======================================================================*/
-List *concat(List *list,	/* IN - List to concat to */
-	     void *element,	/* IN - Pointer to any element type */
-	     ListKind kind)	/* IN - Which kind of list? */
+List *concat(List *list /*@null@*/, void *element, ListKind kind)	
 {
   List *new;			/* The newly created list node */
   List *tail;			/* Traversal pointer to find the tail */
