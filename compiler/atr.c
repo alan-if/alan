@@ -107,7 +107,7 @@ Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance)
 {
   Attribute *new;			/* The newly allocated area */
 
-  new = newAttribute(&srcp, INSTANCE_TYPE, id, 0, 0, 0, instance, NULL);
+  new = newAttribute(&srcp, REFERENCE_TYPE, id, 0, 0, 0, instance, NULL);
 
   return(new);
 }
@@ -151,13 +151,19 @@ void symbolizeAttributes(List *atrs)
 
   TRAVERSE(al, atrs) {
     Attribute *thisAttribute = al->element.atr;
-    if (thisAttribute->type == INSTANCE_TYPE) {
+    if (thisAttribute->type == REFERENCE_TYPE) {
       symbolizeId(thisAttribute->reference);
-      if (thisAttribute->reference->symbol)
-	if (thisAttribute->reference->symbol->kind != INSTANCE_SYMBOL)
+      if (thisAttribute->reference->symbol) {
+	if (thisAttribute->reference->symbol->kind == INSTANCE_SYMBOL)
+	  thisAttribute->type = INSTANCE_TYPE;
+	else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
+	  thisAttribute->type = EVENT_TYPE;
+	else
 	  lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
 		 "Attribute value in reference attribute declaration",
-		 "an instance", NULL);
+		 "an instance or event", NULL);
+      } else
+	thisAttribute->type = ERROR_TYPE;
     }
   }
 }
@@ -351,6 +357,15 @@ static void analyzeReferenceAttribute(Attribute *thisAttribute) {
 
 
 /*----------------------------------------------------------------------*/
+static void analyzeEventAttribute(Attribute *thisAttribute) {
+  /* Set initial value */
+  if (thisAttribute->reference->symbol != NULL) {
+    thisAttribute->value = thisAttribute->reference->symbol->code;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
 					       Attribute *inheritedAttribute,
 					       Symbol *definingSymbol) {
@@ -377,8 +392,15 @@ void analyzeAttributes(List *atrs, Symbol *symbol)
     Attribute *inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
 
     switch (thisAttribute->type) {
-    case SET_TYPE: analyzeSetMembersClass(thisAttribute); break;
-    case INSTANCE_TYPE: analyzeReferenceAttribute(thisAttribute); break;
+    case SET_TYPE:
+      analyzeSetMembersClass(thisAttribute);
+      break;
+    case INSTANCE_TYPE:
+    case REFERENCE_TYPE:
+      analyzeReferenceAttribute(thisAttribute);
+      break;
+    case EVENT_TYPE:
+      analyzeEventAttribute(thisAttribute);
     default: break;
     }
 

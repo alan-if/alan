@@ -6,14 +6,14 @@ includeDeprecated.alan
     1.  $include 'abcd'.
 =====>  1        2
 
-  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+  *1*   154 W : $INCLUDE directive is deprecated. Use 'import' statement
                 instead.
   *2*   199 F : Adventure source file (abcd) not found.
 
     4.    $include 'options'.
 =====>    1        2
 
-  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+  *1*   154 W : $INCLUDE directive is deprecated. Use 'import' statement
                 instead.
   *2*   199 F : Adventure source file (options) not found.
 
@@ -26,7 +26,7 @@ includeDeprecated.alan
     8.    $include 'body'.
 =====>    1        2
 
-  *1*   154 W : INCLUDE directive is deprecated. Use 'import' statement
+  *1*   154 W : $INCLUDE directive is deprecated. Use 'import' statement
                 instead.
   *2*   199 F : Adventure source file (body) not found.
 

@@ -257,6 +257,7 @@ static void reverseClasses(Aword adr)
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ClassEntry));
     while (!endOfTable(e)) {
+      reverseStms(e->initialize);
       reverseChks(e->descriptionChecks);
       reverseStms(e->description);
       reverseStms(e->entered);
@@ -280,6 +281,7 @@ static void reverseInstances(Aword adr)
     reverseTable(adr, sizeof(InstanceEntry));
     while (!endOfTable(e)) {
       reverseTable(e->initialAttributes, sizeof(AttributeEntry));
+      reverseStms(e->initialize);
       reverseStms(e->entered);
       reverseStms(e->mentioned);
       reverseStms(e->definite);

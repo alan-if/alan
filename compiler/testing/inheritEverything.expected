@@ -8,13 +8,8 @@ inheritEverything.alan
 
   *1*   343 W : Can not inherit Mentioned clause. (Yet!)
 
-    9.    Initialize "initialize"
-=====>    1
-
-  *1*   343 W : Can not inherit Initialize clause. (Yet!)
-
 
         No detected errors.
-        2 warning(s).
+        1 warning(s).
         1 informational message(s).
 

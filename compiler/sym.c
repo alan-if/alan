@@ -135,16 +135,42 @@ static void addLocal(Symbol *new)
 }
 
 
+
+
 /*----------------------------------------------------------------------*/
-static char *symbolKindAsString(SymbolKind kind)
+static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
 {
-  switch (kind) {
-  case CLASS_SYMBOL: return "a class";
-  case INSTANCE_SYMBOL: return "an instance";
-  case VERB_SYMBOL: return "a verb";
-  default: syserr("Unimplemented case in '%s()'", __FUNCTION__);
+  if (found) strcat(string, " or ");
+  switch(kind) {
+  case CLASS_SYMBOL: strcat(string, "a Class"); break;
+  case INSTANCE_SYMBOL:strcat(string, "an Instance"); break;
+  case VERB_SYMBOL: strcat(string, "a Verb"); break;
+  case EVENT_SYMBOL: strcat(string, "an Event"); break;
+  case LOCAL_SYMBOL:
+  case DIRECTION_SYMBOL:
+  case PARAMETER_SYMBOL:
+  case FUNCTION_SYMBOL:
+  case MAX_SYMBOL:
+    SYSERR("Unimplemented case in '%s()'");
   }
-  return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *symbolKindsAsString(SymbolKind kinds)
+{
+  Bool found = FALSE;
+  char *string = allocate(100);
+  int i;
+
+  string[0] = '\0';
+  for (i = 1; i <= MAX_SYMBOL; i = i<<1) {
+    if (kinds&i) {
+      anotherSymbolKindAsString(kinds&i, found, string);
+      found = TRUE;
+    }
+  }
+  return string;
 }
 
 
@@ -170,8 +196,7 @@ static Symbol *newParameterSymbol(char *string, Element *element)
 
 
 /*======================================================================*/
-Symbol *newSymbol(IdNode *id,		/* IN - Name of the new symbol */
-		  SymbolKind kind) 	/* IN - What kind of symbol */
+Symbol *newSymbol(IdNode *id, SymbolKind kind)
 {
   Symbol *new;                  /* The newly created symnod */
   
@@ -584,8 +609,23 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool multipleSymbolKinds(SymbolKind kind) {
+  int i;
+  Bool found = FALSE;
+
+  for (i = 1; i < MAX_SYMBOL; i=i<<1)
+    if (kind&i) {
+      if (found)
+	return TRUE;
+      else
+	found = TRUE;
+    }
+  return FALSE;
+}
+
 /*======================================================================*/
-Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
+Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 {
   Symbol *sym = lookupInContext(id->string, context);
 
@@ -599,10 +639,14 @@ Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
 	     "a parameter that is restricted to instances of a class", NULL);
   } else if (sym->kind == LOCAL_SYMBOL) {
     ;
-  } else if (sym->kind != kind) {
-    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindAsString(kind), NULL);
-    return NULL;
-  }
+  } else if (requestedKinds != 0)
+    if ((sym->kind&requestedKinds) == 0) {
+      if (multipleSymbolKinds(requestedKinds))
+	lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+      else
+	lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+      return NULL;
+    }
 
   id->symbol = sym;
   return sym;

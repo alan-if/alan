@@ -9,6 +9,7 @@
 
 /* IMPORT */
 #include "util.h"
+#include "emit.h"
 #include "dump_x.h"
 #include "srcp_x.h"
 #include "stm_x.h"
@@ -35,6 +36,16 @@ void analyzeInitialize(Initialize *init, Context *context)
 {
   if (init)
     analyzeStatements(init->stms, context);
+}
+
+/*======================================================================*/
+void generateInitialize(Initialize *init)
+{
+  if (init) {
+    init->stmsAddress = nextEmitAddress();
+    generateStatements(init->stms);
+    emit0(I_RETURN);
+  }
 }
 
 /*======================================================================*/

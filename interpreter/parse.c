@@ -683,13 +683,18 @@ static void unambig(ParamEntry plst[])
 	plst[i].instance = 0;
     compress(plst);
   }
-    
+#ifdef DISAMBIGUATE_USING_CHECKS
+  if (listLength(plst) > 1)
+    disambiguateUsingChecks(plst, parameterPosition);
+  /* We don't have the parameterPosition here */
+#endif
+
   if (listLength(plst) > 1 || (foundNoun && listLength(plst) == 0)) {
     parameters[0].instance = 0;	/* Just make it anything != EOF */
     parameters[0].useWords = TRUE; /* Remember words for errors below */
     parameters[0].firstWord = firstWord;
     parameters[0].lastWord = lastWord;
-    parameters[1].instance = EOF;	/* But be sure to terminate */
+    parameters[1].instance = EOF;	/* Terminate list after one */
     if (listLength(plst) > 1)
       errorWhich(plst);
     else if (foundNoun && listLength(plst) == 0)
@@ -959,6 +964,19 @@ static ParseEntry *findSyntax(int verbCode) {
   return(NULL);
 }
 
+/*----------------------------------------------------------------------*/
+static void disambiguateUsingChecks(ParamEntry candidates[], int position) {
+  int i;
+  for (i = 0; i < allLength; i++) {
+    if (candidates[i].instance != 0) {	/* Already empty? */
+      parameters[position] = candidates[i];
+      if (!possible())
+	candidates[i].instance = 0;	/* Remove this from list */
+    }
+  }
+  compress(candidates);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void try(ParamEntry multipleParameters[])
@@ -967,7 +985,7 @@ static void try(ParamEntry multipleParameters[])
   ParseEntry *stx;		/* Pointer to syntax parse list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Bool anyPlural = FALSE;	/* Any parameter that was plural? */
-  int i, p;
+  int i, multiplePosition;
   static ParamEntry *tlst = NULL; /* List of params found by complex() */
   static Bool *checked = NULL; /* Corresponding parameter checked? */
 
@@ -994,8 +1012,8 @@ static void try(ParamEntry multipleParameters[])
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
 
-  for (p = 0; parameters[p].instance != EOF; p++) /* Mark all parameters unchecked */
-    checked[p] = FALSE;
+  for (multiplePosition = 0; parameters[multiplePosition].instance != EOF; multiplePosition++) /* Mark all parameters unchecked */
+    checked[multiplePosition] = FALSE;
   for (restriction = (RestrictionEntry *) pointerTo(elms->next); !endOfTable(restriction); restriction++) {
     if (parameters[restriction->parameter-1].instance == 0) {
       /* This was a multiple parameter, so check all and remove failing */
@@ -1027,30 +1045,25 @@ static void try(ParamEntry multipleParameters[])
     checked[restriction->parameter-1] = TRUE; /* Remember that it's already checked */
   }
   /* Now check the rest of the parameters, must be objects */
-  for (p = 0; parameters[p].instance != EOF; p++)
-    if (!checked[p]) {
-      if (parameters[p].instance == 0) {
+  for (multiplePosition = 0; parameters[multiplePosition].instance != EOF; multiplePosition++)
+    if (!checked[multiplePosition]) {
+      if (parameters[multiplePosition].instance == 0) {
 	/* This was a multiple parameter, check all and remove failing */
 	for (i = 0; multipleParameters[i].instance != EOF; i++)
 	  if (multipleParameters[i].instance != 0) /* Skip any empty slots */
 	    if (!isObj(multipleParameters[i].instance))
 	      multipleParameters[i].instance = 0;
-      } else if (!isObj(parameters[p].instance))
+      } else if (!isObj(parameters[multiplePosition].instance))
 	error(M_CANT0);
     }
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {
-    for (p = 0; parameters[p].instance != 0; p++); /* Find multiple marker */
-    for (i = 0; i < allLength; i++) {
-      if (multipleParameters[i].instance != 0) {	/* Already empty? */
-	parameters[p] = multipleParameters[i];
-	if (!possible())
-	  multipleParameters[i].instance = 0;	/* Remove this from list */
-      }
-    }
-    parameters[p].instance = 0;		/* Restore multiple marker */
-    compress(multipleParameters);
+    for (multiplePosition = 0; parameters[multiplePosition].instance != 0;
+	 multiplePosition++)
+      ; /* Iterate over parameters to find multiple position */
+    disambiguateUsingChecks(multipleParameters, multiplePosition);
+    parameters[multiplePosition].instance = 0;		/* Restore multiple marker */
     if (listLength(multipleParameters) == 0) {
       parameters[0].instance = EOF;
       errorWhat(allWordIndex);

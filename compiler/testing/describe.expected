@@ -16,12 +16,12 @@ describe.alan
    27.    Describe object.
 =====>             1
 
-  *1*   319 E : Identifier 'object' is not an instance.
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
 
    29.    Describe w.
 =====>             1
 
-  *1*   319 E : Identifier 'w' is not an instance.
+  *1*   319 E : Identifier 'w' is not of correct type for this context.
 
    30.    Describe unknown of unknown.
 =====>                        1

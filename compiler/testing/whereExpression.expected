@@ -43,7 +43,7 @@ whereExpression.alan
    23.    If l Of actor In co Then "" End If.
 =====>            1
 
-  *1*   319 E : Identifier 'actor' is not an instance.
+  *1*   319 E : Identifier 'actor' is not of correct type for this context.
 
 
         9 error(s).

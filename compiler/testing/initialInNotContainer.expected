@@ -12,7 +12,7 @@ initialInNotContainer.alan
     7.  The cont Isa object In object
 =====>                         1
 
-  *1*   319 E : Identifier 'object' is not an instance.
+  *1*   319 E : Identifier 'object' is not an Instance.
 
 
         2 error(s).

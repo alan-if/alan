@@ -63,7 +63,7 @@ aggregateMax.alan
    14.    If Max Of y Isa l = 7 Then "" End If.
 =====>                    1
 
-  *1*   319 E : Identifier 'l' is not a class.
+  *1*   319 E : Identifier 'l' is not a Class.
 
    15.    If Max Of y Isa object = 12 Then "" End If.
 =====>              1

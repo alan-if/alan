@@ -6,7 +6,7 @@ syserr1.alan
     3.      Increase v Of l.
 =====>                    1
 
-  *1*   319 E : Identifier 'l' is not an instance.
+  *1*   319 E : Identifier 'l' is not of correct type for this context.
 
    11.  The l Isa location
 =====>      1

@@ -220,6 +220,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
   	Names
 	Pronouns
   	Attributes
+	Initialize
 	Container
 	DescriptionCheck
 	DescriptionStatements
@@ -230,11 +231,8 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Exit
 	Verb
   */
-  propCount = 13;
+  propCount = 14;
 
-  if (props->initialize != NULL)
-    lmLog(&props->initialize->srcp, 343, sevWAR, "Initialize clause");
-  propCount++;
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
   propCount++;
@@ -300,6 +298,10 @@ static void generateClassEntry(Class *cla)
     entry.parent = cla->props->parentId->symbol->code;
 
   entry.idAddress = cla->props->idAddress;
+  if (cla->props->initialize != 0)
+    entry.initialize = cla->props->initialize->stmsAddress;
+  else
+    entry.initialize = 0;
   entry.descriptionChecks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
   entry.entered = cla->props->enteredAddress;

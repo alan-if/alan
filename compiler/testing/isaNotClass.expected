@@ -6,7 +6,7 @@ isaNotClass.alan
     5.    If l Isa l Then
 =====>             1
 
-  *1*   319 E : Identifier 'l' is not a class.
+  *1*   319 E : Identifier 'l' is not a Class.
 
 
         1 error(s).

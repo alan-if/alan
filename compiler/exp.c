@@ -727,7 +727,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     break;
 
   case WHAT_ID:
-    symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL, context);
+    symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL|EVENT_SYMBOL, context);
     if (symbol != NULL) {
       switch (symbol->kind) {
       case PARAMETER_SYMBOL:
@@ -736,10 +736,14 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
         break;
       case LOCAL_SYMBOL:
         exp->type = symbol->fields.local.type;
+        exp->class = symbol->fields.local.class;
         break;
       case INSTANCE_SYMBOL:
         exp->type = INSTANCE_TYPE;
         exp->class = symbol->fields.entity.parent;
+        break;
+      case EVENT_SYMBOL:
+        exp->type = EVENT_TYPE;
         break;
       default:
         SYSERR("Unexpected symbolKind");

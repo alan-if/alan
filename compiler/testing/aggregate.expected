@@ -49,7 +49,7 @@ aggregate.alan
    14.    If Count Isa l = 7 Then "" End If.
 =====>                 1
 
-  *1*   319 E : Identifier 'l' is not a class.
+  *1*   319 E : Identifier 'l' is not a Class.
 
    16.    If Count Isa object, Isa thing = 12 Then "" End If.
 =====>                         1

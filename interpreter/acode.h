@@ -247,6 +247,7 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
+  Aaddr initialize;		/* Address to initialization statements */
   Aaddr descriptionChecks;	/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of code for Entered clause */
@@ -263,6 +264,7 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
   Aint initialLocation;		/* Code for current location */
+  Aaddr initialize;		/* Address to initialization statements */
   Aint container;		/* Code for a possible container property */
   Aaddr initialAttributes;	/* Address of attribute list */
   Aaddr checks;			/* Address of description checks */

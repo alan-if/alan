@@ -16,7 +16,7 @@ stringStringSyntax.alan
     6.      "You string" Say string.
 =====>                       1
 
-  *1*   319 E : Identifier 'string' is not an instance.
+  *1*   319 E : Identifier 'string' is not of correct type for this context.
 
 
 

@@ -11,19 +11,35 @@ EXE	= arun.exe
 
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 CFLAGS	= $(COMPILEFLAGS)
-ARCH	= $(CYGWIN)$(OPTIMIZE)
+ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)
 LIBS	=
 
 #Settings for Windows GLK variant
-GLKROOT = ../../WindowsGLK
-GLKDEFS = -DHAVE_WINGLK
-GLKINCLUDE = -I$(GLKROOT)/Include
-GLKLIB = $(GLKROOT)/Glk.lib
+WINGLKROOT = ../../WindowsGLK
+WINGLKDEFS = -DHAVE_WINGLK
+WINGLKINCLUDE = -I$(WINGLKROOT)/Include
+WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
-winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
+# Settings for TermGLK
+TERMGLKROOT = ../../glkterm
+TERMGLKDEFS = -DHAVE_GLK
+TERMGLKINCLUDE = -I$(TERMGLKROOT)
+TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
+
+
+#Set up for specific target
+winarun: GLKDEFS = $(WINGLKDEFS)
+winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mno-cygwin -mwindows
-winarun: LIBS = $(GLKLIB)
+winarun: LIBS = $(WINGLKLIB)
 winarun: EXE = winarun.exe
+
+termarun: GLKDEFS = $(TERMGLKDEFS)
+termarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
+termarun: CYGWIN = 
+termarun: LIBS = $(TERMGLKLIB)
+termarun: EXE = termarun.exe
+
 dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC
 dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 release: OPTIMIZE = -O4
@@ -67,6 +83,7 @@ VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
+TERMARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 all arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
@@ -78,9 +95,14 @@ release:
 	$(MAKE) "OPTIMIZE=-O4" winarun
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
-	gcc -o winarun $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
+	gcc -o $(EXE) $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp winarun.exe ../bin
+	cp $(EXE) ../bin
+
+termarun: checkTarget $(TERMARUNOBJECTS) arun.res
+	gcc -o $(EXE) $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp $(EXE) ../bin
 
 dmalloc: checkTarget $(ARUNOBJECTS)
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
@@ -161,8 +183,9 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.o acode.h sysdep.o
 depend:
 	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c; \
 	  do \
-	  $(CPP) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
-	  $(CPP) $(GLKDEFS) $(CFLAGS) $(GLKINCLUDE) -I../compiler $$f >> dependencies.new; \
+	  $(CPP) $(CFLAGS) $(WINGLKINCLUDE) $$f >> dependencies.new; \
+	  $(CPP) $(WINGLKDEFS) $(CFLAGS) $(WINGLKINCLUDE) -I../compiler $$f >> dependencies.new; \
+	  $(CPP) $(TERMGLKDEFS) $(CFLAGS) $(TERMGLKINCLUDE) -I../compiler $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 

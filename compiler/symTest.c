@@ -434,9 +434,16 @@ static void testInheritOpaqueAttribute() {
   ASSERT(cProps->attributes->element.atr->value == opaqueState);
 }
 
+/*----------------------------------------------------------------------*/
+static void testMultipleSymbolKinds() {
+  ASSERT(multipleSymbolKinds(0) == FALSE);
+  ASSERT(multipleSymbolKinds(INSTANCE_SYMBOL) == FALSE);
+  ASSERT(multipleSymbolKinds(INSTANCE_SYMBOL|CLASS_SYMBOL) == TRUE);
+}
 
 void registerSymUnitTests()
 {
+  registerUnitTest(testMultipleSymbolKinds);
   registerUnitTest(testContentOfSymbol);
   registerUnitTest(testSymCheck);
   registerUnitTest(testBuildSymbol1);

@@ -1714,18 +1714,17 @@ static int val(char str[])
 
 ----> Event Statements
 <event_statement>			-- RETURNS: stm
-    = 'schedule' ID <optional_where> 'after' <expression> '.'
+    = 'schedule' <what> <optional_where> 'after' <expression> '.'
     %%
-	%<event_statement>.stm = newStatement(`&%'schedule'.srcp, SCHEDULE_STATEMENT);
-	%<event_statement>.stm->fields.schedule.id  = %ID.id;
-	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
-	%<event_statement>.stm->fields.schedule.when = %<expression>.exp;
+	%<event_statement>.stm = newScheduleStatement(%'schedule'.srcp,
+						      %<what>.exp,
+						      %<optional_where>.whr,
+						      %<expression>.exp);
     %%	  
 
-    ! 'cancel' ID '.'
+    ! 'cancel' <what> '.'
     %%
-	%<event_statement>.stm = newStatement(`&%'cancel'.srcp, CANCEL_STATEMENT);
-	%<event_statement>.stm->fields.cancel.id = %ID.id;
+	%<event_statement>.stm = newCancelStatement(%'cancel'.srcp, %<what>.exp);
     %%	  
     ;
 

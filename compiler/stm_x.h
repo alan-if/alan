@@ -31,6 +31,8 @@ extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set);
 extern Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set);
+extern Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when);
+extern Statement *newCancelStatement(Srcp srcp, Expression *what);
 extern Statement *newStyleStatement(Srcp srcp, int style);
 
 

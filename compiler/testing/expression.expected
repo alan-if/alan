@@ -11,7 +11,7 @@ expression.alan
     6.    If object Not In hero Then "" End If.
 =====>       1             2
 
-  *1*   319 E : Identifier 'object' is not an instance.
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
   *2*   318 E : The 'hero' does not have the container property, which is
                 required in Expression after IN.
 

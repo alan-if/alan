@@ -226,6 +226,7 @@ void statusline(void)
   char line[100];
   int pcol = col;
 
+  if (!statusLineOption) return;
   if (glkStatusWin == NULL)
     return;
 
@@ -374,6 +375,7 @@ void para(void)
   /* Make a new paragraph, i.e one empty line (one or two newlines). */
 
 #ifdef HAVE_GLK
+  if (glk_gestalt(gestalt_Graphics, 0) == 1)
     glk_window_flow_break(glkMainWin);
 #endif
   if (col != 1)
@@ -953,7 +955,7 @@ static void checkVersion(AcdHdr *header)
   vers[3] = alan.version.state[0];
 
   /* Check version of .ACD file */
-  if (!regressionTestOption && debugOption) {
+  if (debugOption) {
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
@@ -966,12 +968,12 @@ static void checkVersion(AcdHdr *header)
   }
 
   /* Development version require exact match, else only 2 digit match */
-  developmentVersion = (strcmp(alan.version.state, "development") == 0);
+  developmentVersion = (strcmp(alan.version.state, "dev") == 0);
   compareLength = (developmentVersion? 3 : 2);
 
   /* Compatible if version and revision match... */
   if (memcmp(header->vers, vers, compareLength) != 0) {
-      if (ignoreErrorOption) {
+      if (!ignoreErrorOption) {
 	char str[80];
 	if (developmentVersion)
 	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
@@ -1215,6 +1217,37 @@ static void initDynamicData(void)
 
 
 /*----------------------------------------------------------------------*/
+static void runInheritedInitialize(Aint theClass) {
+  if (theClass == 0) return;
+  if (class[theClass].initialize)
+    interpret(class[theClass].initialize);
+  else
+    runInheritedInitialize(class[theClass].parent);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void runInitialize(Aint theInstance) {
+  if (instance[theInstance].initialize != 0)
+    interpret(instance[theInstance].initialize);
+  else
+    runInheritedInitialize(instance[theInstance].parent);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void initializeInstances() {
+  int instanceId;
+
+  /* Set initial locations */
+  for (instanceId = 1; instanceId <= header->instanceMax; instanceId++) {
+    current.instance = instanceId;
+    runInitialize(instanceId);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void start(void)
 {
   int startloc;
@@ -1223,6 +1256,8 @@ static void start(void)
   current.location = startloc = where(HERO, FALSE);
   current.actor = HERO;
   current.score = 0;
+
+  initializeInstances();
 
   if (sectionTraceOption)
     printf("\n<START:>\n");
@@ -1319,6 +1354,7 @@ static void init(void)
     debug(FALSE, 0, 0);
   else
     clear();
+
   start();
 }
 

@@ -21,12 +21,13 @@
 #include "resources.h"
 
 glkunix_argumentlist_t glkunix_arguments[] = {
-  { "-v", glkunix_arg_NoValue, "-v: verbose mode" },
   { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
+  { "-c", glkunix_arg_NoValue, "-c: log player commands to a file" },
+  { "-n", glkunix_arg_NoValue, "-n: no status line" },
   { "-i", glkunix_arg_NoValue, "-i: ignore version and checksum errors" },
   { "-d", glkunix_arg_NoValue, "-d: enter debug mode" },
-  { "-t", glkunix_arg_NoValue, "-t: trace game execution" },
-  { "-s", glkunix_arg_NoValue, "-s: single instruction trace" },
+  { "-t", glkunix_arg_NoValue, "-t [<n>]: trace game execution, higher <n> gives more trace" },
+  { "-r", glkunix_arg_NoValue, "-r: refrain from printing timestamps and paging (making regression testing easier)" },
   { "", glkunix_arg_ValueFollows, "filename: The game file to load." },
   { NULL, glkunix_arg_End, NULL }
 };

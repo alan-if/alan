@@ -13,13 +13,6 @@ locateInRef.alan
 
   *1*   310 E : Identifier 'unknown' not defined.
 
-   11.    Locate o In unknownAtr Of l.
-=====>                           1
-
-  *1*   311 E : Expression is not guaranteed to be a Container, because the
-                class of the attribute infered from its initial value does not
-                have the Container property.
-
    12.    Locate o In unknown Of l.
 =====>                1
 
@@ -33,7 +26,7 @@ locateInRef.alan
                 have the Container property.
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 

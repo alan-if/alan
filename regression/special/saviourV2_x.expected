@@ -6,14 +6,14 @@ saviourV2_x.alan
 =====>  1      2
 
   *1*   601 W : Unknown option, 'OBJECT'.
-  *2*   103 E : Syntax error. Replacing tokens: 'ATTRIBUTES' 'NOT' 'takeable'
-                '.' 'NOT' ... with: '.'
+  *2*   103 E : Syntax error. Replacing "attributes not <identifier> . not ..."
+                with ".".
 
    46.  CONTAINER pseudowords
 =====>  1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'CONTAINER' 'pseudowords' 'END'
-                'CONTAINER' '.'
+  *1*   102 E : Syntax error. Ignoring "container <identifier> end container
+                .".
 
    50.      CHECK OBJECT IN hero
 =====>            1         2
@@ -61,7 +61,7 @@ saviourV2_x.alan
   114.  	WHERE o ISA ACTOR OR OBJECT
 =====>  	                  1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'OR' 'OBJECT'
+  *1*   102 E : Syntax error. Ignoring "or <identifier>".
 
   117.  VERB find
 =====>  1
@@ -152,8 +152,8 @@ saviourV2_x.alan
   274.  LOCATION nowhere
 =====>  1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'LOCATION' 'nowhere' 'END'
-                'LOCATION' '.' ...
+  *1*   102 E : Syntax error. Ignoring "location <identifier> end location .
+                ...".
 
   279.  LOCATION outside NAME Outside the tall building
 =====>                                    1    2
@@ -161,7 +161,7 @@ saviourV2_x.alan
   *1*   429 E : No inheritance defined, everything must inherit from a class.
   *1*   352 E : Instance 'tall' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
-  *2*   101 E : Syntax error. Inserting tokens: 'AT'
+  *2*   101 E : Syntax error. Inserting "at" before this token.
   *2*   310 E : Identifier 'building' not defined.
   *2*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -175,13 +175,13 @@ saviourV2_x.alan
   290.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'tall' assumed.
 
   294.  LOCATION hall
 =====>  1        2
 
-  *1*   103 E : Syntax error. Replacing tokens: 'LOCATION' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "location" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
@@ -211,13 +211,13 @@ saviourV2_x.alan
   325.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'hall' assumed.
 
   327.  OBJECT door AT hall
 =====>  1      2    3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -246,13 +246,13 @@ saviourV2_x.alan
   406.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
 
   409.  LOCATION stairs
 =====>  1        2
 
   *1*   200 W : Mismatched block identifier, 'door' assumed.
-  *2*   101 E : Syntax error. Inserting tokens: 'THE'
+  *2*   101 E : Syntax error. Inserting "the" before this token.
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'stairs' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -278,13 +278,13 @@ saviourV2_x.alan
   420.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'stairs' assumed.
 
   423.  LOCATION cellar
 =====>  1        2
 
-  *1*   103 E : Syntax error. Replacing tokens: 'LOCATION' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "location" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'cellar' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -304,13 +304,13 @@ saviourV2_x.alan
   440.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'cellar' assumed.
 
   442.  OBJECT rats AT cellar
 =====>  1      2    3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -320,13 +320,13 @@ saviourV2_x.alan
   472.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
 
   475.  LOCATION store
 =====>  1        2
 
   *1*   200 W : Mismatched block identifier, 'rats' assumed.
-  *2*   101 E : Syntax error. Inserting tokens: 'THE'
+  *2*   101 E : Syntax error. Inserting "the" before this token.
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'store' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -340,13 +340,13 @@ saviourV2_x.alan
   488.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'store' assumed.
 
   490.  OBJECT tape AT store
 =====>  1      2    3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -361,13 +361,13 @@ saviourV2_x.alan
   520.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
 
   523.  LOCATION first Name First Floor 
 =====>  1        2
 
   *1*   200 W : Mismatched block identifier, 'tape' assumed.
-  *2*   101 E : Syntax error. Inserting tokens: 'THE'
+  *2*   101 E : Syntax error. Inserting "the" before this token.
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'first' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -393,13 +393,13 @@ saviourV2_x.alan
   534.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'first' assumed.
 
   536.  OBJECT book NAME old book AT first
 =====>  1      2                  3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -414,13 +414,13 @@ saviourV2_x.alan
   557.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
 
   560.  LOCATION office
 =====>  1        2
 
   *1*   200 W : Mismatched block identifier, 'book' assumed.
-  *2*   101 E : Syntax error. Inserting tokens: 'THE'
+  *2*   101 E : Syntax error. Inserting "the" before this token.
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'office' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -434,38 +434,23 @@ saviourV2_x.alan
   571.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'office' assumed.
 
   573.  OBJECT ladder AT office
 =====>  1      2      3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
   *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
-  582.          ELSIF ladder AT holeroom THEN
-=====>                          1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
-
-  606.      CHECK ladder NOT AT walless 
-=====>                          1
-
-  *1*   310 E : Identifier 'walless' not defined.
-
   616.          IF ladder AT outside THEN
 =====>                       1
 
   *1*   310 E : Identifier 'outside' not defined.
-
-  619.          ELSIF ladder AT holeroom THEN
-=====>                          1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
 
   637.          IF ladder IN hero THEN
 =====>                       1
@@ -473,31 +458,16 @@ saviourV2_x.alan
   *1*   318 E : The 'hero' does not have the container property, which is
                 required in Expression after IN.
 
-  647.              IF ladder AT walless THEN
-=====>                           1
-
-  *1*   310 E : Identifier 'walless' not defined.
-
-  648.                  LOCATE HERO AT holeroom.
-=====>                                 1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
-
-  650.                  LOCATE HERO AT walless.
-=====>                                 1
-
-  *1*   310 E : Identifier 'walless' not defined.
-
   655.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
 
   658.  LOCATION second NAME Second Floor
 =====>  1        2
 
   *1*   200 W : Mismatched block identifier, 'ladder' assumed.
-  *2*   101 E : Syntax error. Inserting tokens: 'THE'
+  *2*   101 E : Syntax error. Inserting "the" before this token.
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'second' does not inherit from 'location', but has
                 EXITs, which can never be traversed.
@@ -505,7 +475,8 @@ saviourV2_x.alan
   666.      EXIT up TO third.
 =====>                 1
 
-  *1*   310 E : Identifier 'third' not defined.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   667.      EXIT down TO first.
 =====>                   1
@@ -522,13 +493,13 @@ saviourV2_x.alan
   669.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'second' assumed.
 
   672.  LOCATION terminal_room NAME Terminal Room
 =====>  1        2
 
-  *1*   103 E : Syntax error. Replacing tokens: 'LOCATION' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "location" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *2*   352 E : Instance 'terminal_room' does not inherit from 'location', but
                 has EXITs, which can never be traversed.
@@ -542,13 +513,13 @@ saviourV2_x.alan
   684.  END LOCATION.
 =====>      1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'THE'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
   *1*   200 W : Mismatched block identifier, 'terminal_room' assumed.
 
   686.  OBJECT terminal AT terminal_room
 =====>  1      2        3  4
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' with: 'THE'
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
   *2*   429 E : No inheritance defined, everything must inherit from a class.
   *3*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
@@ -583,22 +554,18 @@ saviourV2_x.alan
   755.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'OBJECT' '.' 'OBJECT' 'coin'
-                'NAME' ... with: 'THE' 'START' 'HERE' '.'
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  764.      DESCRIPTION
+=====>      1
+
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
 
   767.      VERB read DOES
-=====>      1    2
+=====>           1
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'read' in this class/instance.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
-
-  771.      VERB insert_into
-=====>      1    2
-
-  *1*   219 E : Global verbs can not have parameters.
-  *2*   201 W : Multiple declaration of verb 'insert_into' in this
-                class/instance. Duplicate in a previous VERB clause.
 
   772.  	CHECK s = machine
 =====>  	          1
@@ -617,212 +584,290 @@ saviourV2_x.alan
   *2*   310 E : Identifier 'NOWHERE' not defined.
 
   781.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'LOCATION'
-                'third' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
+
+  784.  LOCATION third NAME Third Floor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'terminal' assumed.
+  *2*   101 E : Syntax error. Inserting "the" before this token.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'third' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   794.      EXIT up TO fourth.
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  795.      EXIT down TO second.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  796.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'up' 'TO' 'fourth' '.'
-                ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'third' assumed.
+
+  799.  LOCATION fourth NAME Fourth Floor
+=====>  1        2
+
+  *1*   103 E : Syntax error. Replacing "location" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'fourth' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   807.      EXIT up TO fifth.
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  808.      EXIT down TO third.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  809.      EXIT east TO computer_room.
+=====>                   1
+
+  *1*   310 E : Identifier 'computer_room' not defined.
+
+  810.      EXIT north TO holeroom.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  811.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'up' 'TO' 'fifth' '.' ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'fourth' assumed.
+
+  814.  LOCATION holeroom NAME Windy Room
+=====>  1        2
+
+  *1*   103 E : Syntax error. Replacing "location" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'holeroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   823.      EXIT up TO walless
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  830.      EXIT south TO fourth.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  831.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'up' 'TO' 'walless'
-                'CHECK' ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'holeroom' assumed.
 
-  827.          DOES
-=====>          1
+  834.  LOCATION walless NAME Walless Room
+=====>  1        2
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'DOES'
-
-  829.      END EXIT.
-=====>      1
-
-  *1*   102 E : Syntax error. Ignoring tokens: 'END' 'EXIT' '.' 'EXIT' 'south'
-                ...
+  *1*   103 E : Syntax error. Replacing "location" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'walless' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   842.      EXIT down TO holeroom
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  846.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'down' 'TO' 'holeroom'
-                'DOES'
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'walless' assumed.
 
-  845.      END EXIT.
-=====>      1
+  848.  OBJECT nest NAME birds nest AT walless
+=====>  1      2                    3  4
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'END' 'EXIT' '.' 'END'
-                'LOCATION' ...
-
-  862.      VERB examine DOES
-=====>      1    2
-
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  863.          IF nest IS NOT examined THEN
-=====>             1
-
-  *1*   310 E : Identifier 'nest' not defined.
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   867.              LOCATE keys HERE.
 =====>                     1
 
   *1*   310 E : Identifier 'keys' not defined.
 
-  868.              MAKE nest examined.
-=====>                   1
-
-  *1*   310 E : Identifier 'nest' not defined.
-
   874.  END OBJECT.
-=====>  1
-
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'OBJECT'
-                'keys' ... with: 'START' 'HERE' '.'
-
-  883.      MENTIONED
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'MENTIONED'
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  880.      DESCRIPTION
+=====>      1
+
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
 
   886.      VERB examine DOES
-=====>      1    2
+=====>           1
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+  *1*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
 
   890.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'LOCATION'
-                'fifth' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
+
+  892.  LOCATION fifth NAME Fifth Floor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'nest' assumed.
+  *2*   101 E : Syntax error. Inserting "the" before this token.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'fifth' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   899.      EXIT down TO fourth.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  900.      EXIT east TO corr.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  901.      EXIT south TO clockroom.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  902.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'down' 'TO' 'fourth' '.'
-                ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'fifth' assumed.
+
+  905.  LOCATION clockroom NAME Clock Room
+=====>  1        2
+
+  *1*   103 E : Syntax error. Replacing "location" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'clockroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   910.      EXIT north TO fifth.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  911.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'north' 'TO' 'fifth' '.'
-                ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'clockroom' assumed.
 
-  928.      VERB examine DOES
-=====>      1    2
+  913.  OBJECT clock AT clockroom
+=====>  1      2     3  4
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  931.          IF clock IS broken THEN
-=====>             1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  937.      VERB read DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  942.          IF clock IS NOT wound THEN
-=====>             1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  946.              MAKE clock wound.
-=====>                   1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  947.          ELSIF clock IS NOT broken THEN
-=====>                1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  950.              MAKE clock broken.
-=====>                   1
-
-  *1*   310 E : Identifier 'clock' not defined.
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   956.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'LOCATION'
-                'corr' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "the".
+
+  959.  LOCATION corr NAME Corridor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'clock' assumed.
+  *2*   101 E : Syntax error. Inserting "the" before this token.
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'corr' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
 
   966.      EXIT east TO deskroom
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  975.  		LOCATE HERO AT outside.
+=====>  		               1
+
+  *1*   310 E : Identifier 'outside' not defined.
+
+  977.      EXIT west TO fifth.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  978.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'east' 'TO' 'deskroom'
-                'CHECK' ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'corr' assumed.
 
-  976.      END EXIT.
-=====>      1
+  981.  LOCATION deskroom NAME Small Office
+=====>  1        2
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'END' 'EXIT' '.' 'EXIT' 'west'
-                ...
+  *1*   103 E : Syntax error. Replacing "location" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *2*   352 E : Instance 'deskroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
+
+  984.  	DESCRIBE desk.
+=====>  	         1
+
+  *1*   310 E : Identifier 'desk' not defined.
 
   992.      EXIT west TO corr.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  993.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'west' 'TO' 'corr' '.'
-                ...
+  *1*   101 E : Syntax error. Inserting "the" before this token.
+  *1*   200 W : Mismatched block identifier, 'deskroom' assumed.
 
- 1007.      VERB examine DOES
-=====>      1    2
+  995.  OBJECT drawer AT deskroom
+=====>  1      2      3  4
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1008.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1010.              IF drawer IS NOT 'empty' THEN
-=====>                 1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1016.      VERB open DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1017.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
+  *1*   103 E : Syntax error. Replacing "<identifier>" with "the".
+  *2*   429 E : No inheritance defined, everything must inherit from a class.
+  *3*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *4*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
  1019.          ELSIF manual IS NOT found THEN
 =====>                1
@@ -834,51 +879,22 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'manual' not defined.
 
- 1026.          MAKE drawer open.
-=====>               1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1029.      VERB close DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1030.         IF drawer IS NOT open THEN
-=====>            1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1034.             MAKE drawer NOT open.
-=====>                  1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1037.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'OBJECT'
-                'desk' with: 'START'
+  *1*   103 E : Syntax error. Replacing "<identifier> . <identifier>
+                <identifier>" with "the start".
 
  1041.      IS
 =====>      1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'IS' 'openable' '.' 'NOT'
-                'marked' ... with: '.'
+  *1*   103 E : Syntax error. Replacing "is <identifier> . not <identifier>
+                ..." with ".".
 
  1049.      VERB examine DOES
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
 
@@ -892,28 +908,11 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'desk' not defined.
 
- 1059.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1061.              IF drawer IS NOT 'empty' THEN
-=====>                 1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1067.      VERB open DOES
 =====>           1
 
   *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1068.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
 
  1070.          ELSIF manual IS NOT found THEN
 =====>                1
@@ -925,49 +924,32 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'manual' not defined.
 
- 1077.          MAKE drawer open.
-=====>               1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1080.      VERB close DOES
 =====>           1
 
   *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1081.         IF drawer IS NOT open THEN
-=====>            1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1085.             MAKE drawer NOT open.
-=====>                  1
-
-  *1*   310 E : Identifier 'drawer' not defined.
 
  1088.  END OBJECT.
 =====>  1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'OBJECT'
-                'manual' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "end <identifier> . <identifier>
+                <identifier> ..." with "start here .".
 
  1097.          password "".
 =====>                     1
 
-  *1*   102 E : Syntax error. Ignoring tokens: '.' 'pwtry'
+  *1*   102 E : Syntax error. Ignoring ". <identifier>".
 
  1098.  	pwtry "".
 =====>  	        1
 
-  *1*   102 E : Syntax error. Ignoring tokens: '.' 'DESCRIPTION'
+  *1*   102 E : Syntax error. Ignoring ". description".
 
  1103.      MENTIONED
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'MENTIONED'
+  *1*   102 E : Syntax error. Ignoring "mentioned".
 
  1106.      VERB examine DOES
 =====>      1    2
@@ -977,22 +959,10 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1110.      VERB read DOES
 =====>           1
 
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
 
@@ -1050,27 +1020,19 @@ saviourV2_x.alan
  1132.  END OBJECT.
 =====>  1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'LOCATION'
-                'computer_room' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "end <identifier> . location
+                <identifier> ..." with "start here .".
 
  1141.      EXIT west TO fourth.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'west' 'TO' 'fourth' '.'
-                ...
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
 
  1156.      VERB examine DOES
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
@@ -1114,27 +1076,19 @@ saviourV2_x.alan
  1203.  END OBJECT.
 =====>  1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'LOCATION'
-                'cafe' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "end <identifier> . location
+                <identifier> ..." with "start here .".
 
  1215.      EXIT west TO hall.
 =====>      1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'EXIT' 'west' 'TO' 'hall' '.'
-                ...
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
 
  1227.      VERB examine DOES
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
@@ -1151,16 +1105,12 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1236.  END OBJECT.
 =====>  1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'OBJECT'
-                'candy' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "end <identifier> . <identifier>
+                <identifier> ..." with "start here .".
 
  1246.      VERB examine DOES
 =====>      1    2
@@ -1176,22 +1126,10 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1251.      VERB read DOES
 =====>           1
 
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
@@ -1220,18 +1158,18 @@ saviourV2_x.alan
  1272.  END OBJECT.
 =====>  1
 
-  *1*   103 E : Syntax error. Replacing tokens: 'END' 'OBJECT' '.' 'ACTOR'
-                'hero' ... with: 'START' 'HERE' '.'
+  *1*   103 E : Syntax error. Replacing "end <identifier> . actor <identifier>
+                ..." with "start here .".
 
  1279.          HEADER "You are carrying"
 =====>          1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'HEADER'
+  *1*   102 E : Syntax error. Ignoring "header".
 
  1280.          ELSE "You are empty-handed."
 =====>          1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'ELSE'
+  *1*   102 E : Syntax error. Ignoring "else".
 
  1281.  END ACTOR.
 =====>  1
@@ -1244,7 +1182,7 @@ saviourV2_x.alan
   *1*   310 E : Identifier 'outside' not defined.
 
 
-        234 error(s).
-        84 warning(s).
-        42 informational message(s).
+        254 error(s).
+        53 warning(s).
+        29 informational message(s).
 

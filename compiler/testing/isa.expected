@@ -6,7 +6,7 @@ isa.alan
    15.    If t Isa e Then "" End If.
 =====>             1
 
-  *1*   319 E : Identifier 'e' is not a class.
+  *1*   319 E : Identifier 'e' is not a Class.
 
    16.    If t Isa undefined Then "" End If.
 =====>             1
@@ -17,7 +17,7 @@ isa.alan
 =====>       1             2
 
   *1*   310 E : Identifier 'undefined' not defined.
-  *2*   319 E : Identifier 'e' is not a class.
+  *2*   319 E : Identifier 'e' is not a Class.
 
 
         4 error(s).

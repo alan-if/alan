@@ -252,6 +252,8 @@ void analyzeProps(Properties *props, Context *context)
 /*======================================================================*/
 void generateCommonPropertiesData(Properties *props)
 {
+  generateInitialize(props->initialize);
+
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
   if (props->descriptionStatements != NULL) {
@@ -315,6 +317,10 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->initialLocation = generateInitialLocation(props->whr);
   entry->initialAttributes = props->attributeAddress;
+  if (props->initialize)
+    entry->initialize = props->initialize->stmsAddress;
+  else
+    entry->initialize = 0;
   entry->checks = props->descriptionChecksAddress;
   entry->description = props->descriptionAddress;
   entry->entered = props->enteredAddress;

@@ -12,8 +12,8 @@ locateAtId.alan
     6.    Locate object At object.
 =====>           1         2
 
-  *1*   319 E : Identifier 'object' is not an instance.
-  *2*   319 E : Identifier 'object' is not an instance.
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+  *2*   319 E : Identifier 'object' is not of correct type for this context.
 
     7.    Locate l At l.
 =====>           1

@@ -186,6 +186,7 @@ static void testPopGameState() {
   ASSERT(gameState != NULL);
   ASSERT(gameStateTop == 1);
 
+  eventQueue = allocate(5*sizeof(EventQueueEntry));
   eventQueueTop = 2;
   eventQueue[1].time = 47;
   attributes[0].value = 11;
@@ -307,6 +308,7 @@ static void testSaveRestore() {
   attributes[20].code = EOF;
 
   /* Fake admin areas for 3 instances */
+  admin = allocate(5*sizeof(AdminEntry));
   admin[1].attributes = &attributes[0];
   admin[1].attributes[0].code = 11;
   admin[1].attributes[0].value = 11;

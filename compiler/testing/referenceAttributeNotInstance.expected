@@ -7,7 +7,7 @@ referenceAttributeNotInstance.alan
 =====>            1
 
   *1*   428 E : Attribute value in reference attribute declaration must refer
-                to an instance.
+                to an instance or event.
 
 
         1 error(s).

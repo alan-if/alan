@@ -2,6 +2,7 @@
 
         No warnings or errors detected.
 
+<Version of 'debug.a3c' is 3.0(35)d>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 abug> i
@@ -10,16 +11,16 @@ Instances:
       2: t 
       3: hero
 abug> i 1
-The l  (1) Isa location 
+The l (1) Isa location 
     Attributes: 
         x(2) = 1
 abug> i 2
-The t  (2) Isa object 
+The t (2) Isa object 
     Location: - (0) 
     Attributes: 
         y(3) = 1
 abug> i 3
-The hero  (3) Isa actor 
+The hero (3) Isa actor 
     Location: at l (1) 
     Attributes: 
     Is idle

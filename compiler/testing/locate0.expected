@@ -40,7 +40,7 @@ locate0.alan
    19.    Locate actor At l.
 =====>           1
 
-  *1*   319 E : Identifier 'actor' is not an instance.
+  *1*   319 E : Identifier 'actor' is not of correct type for this context.
 
    20.    Locate o At This.
 =====>                1

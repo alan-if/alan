@@ -20,7 +20,7 @@ locateIn.alan
    12.    Locate c In object.
 =====>                1
 
-  *1*   319 E : Identifier 'object' is not an instance.
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
 
 
         4 error(s).

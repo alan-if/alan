@@ -431,25 +431,27 @@ void increaseEventQueue(void)
 void schedule(Aword event, Aword where, Aword after)
 {  int i;
    int time;
+
+   if (event == 0) syserr("NULL event");
   
-  cancelEvent(event);
-  /* Check for overflow */
-  if (eventQueueTop == eventQueueSize)
-    increaseEventQueue();
+   cancelEvent(event);
+   /* Check for overflow */
+   if (eventQueueTop == eventQueueSize)
+     increaseEventQueue();
   
-  time = current.tick+after;
+   time = current.tick+after;
   
-  /* Bubble this event down */
-  for (i = eventQueueTop; i >= 1 && eventQueue[i-1].time <= time; i--) {
-    eventQueue[i].event = eventQueue[i-1].event;
-    eventQueue[i].time = eventQueue[i-1].time;
-    eventQueue[i].where = eventQueue[i-1].where;
-  }
+   /* Bubble this event down */
+   for (i = eventQueueTop; i >= 1 && eventQueue[i-1].time <= time; i--) {
+     eventQueue[i].event = eventQueue[i-1].event;
+     eventQueue[i].time = eventQueue[i-1].time;
+     eventQueue[i].where = eventQueue[i-1].where;
+   }
   
-  eventQueue[i].time = time;
-  eventQueue[i].where = where;
-  eventQueue[i].event = event;
-  eventQueueTop++;
+   eventQueue[i].time = time;
+   eventQueue[i].where = where;
+   eventQueue[i].event = event;
+   eventQueueTop++;
 }
 
 

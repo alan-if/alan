@@ -18,6 +18,7 @@
 /* FUNCTIONS: */
 extern Initialize *newInitialize(Srcp srcp, List *statements);
 extern void analyzeInitialize(Initialize *init, Context *context);
+extern void generateInitialize(Initialize *init);
 extern void dumpInitialize(Initialize *init);
 
 #endif

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>397.89</origest>
-<currest>396.89</currest>
-<elapsed>249.89</elapsed>
+<origest>398.89</origest>
+<currest>397.89</currest>
+<elapsed>250.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>58</origest>
-<currest>58</currest>
-<elapsed>12</elapsed>
+<origest>59</origest>
+<currest>59</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>31</origest>
-<currest>31</currest>
-<elapsed>12</elapsed>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -149,53 +149,29 @@ Yes, you could allow inherting the complete exit and just override the target lo
 </task>
 <task>
 <desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Disambiguation using checks</desc>
-<notes>Example:
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.
 
-There is water in the lake. You are carrying a bottle of water.
-&gt; examine water
-I don't know which water you mean.
+The INITIALIZE clause is executed at the start location and the current actor is hero.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: Allocate parameter lists</desc>
+<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Events as attributes</desc>
+<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.
 
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
-<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
+Would require expressions in Cancel and Schedule statements.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -222,8 +198,30 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Example: composite object</desc>
-<notes>Like a box with a couple of buttons on it.</notes>
+<desc>PLAY statement</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -265,17 +263,6 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Events as attributes</desc>
-<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.
-
-Would require expressions in Cancel and Schedule statements.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor and unit test the args &amp; switches functions</desc>
 <notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
 <priority>2</priority>
@@ -285,26 +272,8 @@ Would require expressions in Cancel and Schedule statements.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>PLAY statement</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -380,22 +349,13 @@ Would "There is a actor here." be a better default?</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Refactor: Allocate parameter lists</desc>
-<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>22</origest>
+<currest>22</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -414,12 +374,65 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Disambiguation using checks</desc>
+<notes>Example:
+
+There is water in the lake. You are carrying a bottle of water.
+&gt; drink water
+I don't know which water you mean.
+
+This should be done in parse.c but at the position where we want to do this we don't have enough information to run possible(). Surrounded it by ifdefs DISAMBIGUATE_USING_CHECKS</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Problem with consequtive include's</desc>
+<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
+
+See compiler/testing/includeFile.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Think about similarities between the different clauses</desc>
 <notes>DESCRIPTION [CHECK DOES]
 ENTERED
 EXIT [CHECK DOES END]
 
 Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

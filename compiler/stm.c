@@ -168,6 +168,36 @@ Statement *newStyleStatement(Srcp srcp, int style)
 }
 
 
+/*======================================================================*/
+Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, SCHEDULE_STATEMENT);
+
+  new->fields.schedule.what = what;
+  new->fields.schedule.whr = where;
+  new->fields.schedule.when = when;
+
+  return(new);
+}
+
+/*======================================================================*/
+Statement *newCancelStatement(Srcp srcp, Expression *what)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, CANCEL_STATEMENT);
+
+  new->fields.schedule.what = what;
+
+  return(new);
+}
+
 
 
 /*----------------------------------------------------------------------*/
@@ -184,10 +214,17 @@ static void analyzeSay(Statement *stm, Context *context)
   analyzeExpression(stm->fields.say.exp, context);
 
   /* Can't say Boolean values or Sets */
-  if (stm->fields.say.exp->type == BOOLEAN_TYPE || stm->fields.say.exp->type == SET_TYPE)
+  switch (stm->fields.say.exp->type) {
+  case BOOLEAN_TYPE:
+  case SET_TYPE:
+  case EVENT_TYPE:
     lmLog(&stm->srcp, 337, sevERR, typeToString(stm->fields.say.exp->type));
+    break;
+  default:
+    break;
+  }
 
-  /* Can only say definite/indefinite forms of instances */
+  /* Can only use definite/indefinite forms if What is a instance */
   if (stm->fields.say.form != SAY_SIMPLE
       && stm->fields.say.exp->type != INSTANCE_TYPE
       && stm->fields.say.exp->type != UNINITIALIZED_TYPE)
@@ -347,9 +384,11 @@ static void analyzeIncludeAndRemove(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeSchedule(Statement *stm, Context *context)
 {
-  Symbol *sym;
+  Expression *what = stm->fields.schedule.what;
 
-  sym = symcheck(stm->fields.schedule.id, EVENT_SYMBOL, NULL);
+  analyzeExpression(what, context);
+  if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
+    lmLog(&stm->fields.schedule.what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
 
   /* Now lookup where */
   analyzeWhere(stm->fields.schedule.whr, context);
@@ -372,17 +411,20 @@ static void analyzeSchedule(Statement *stm, Context *context)
   /* Analyze the when (AFTER) expression */
   analyzeExpression(stm->fields.schedule.when, context);
   if (stm->fields.schedule.when->type != INTEGER_TYPE)
-    lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "When-clause of SCHEDULE statement");
+    lmLog(&stm->fields.schedule.when->srcp, 331, sevERR, "When-clause of SCHEDULE statement");
 
 }
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeCancel(Statement *stm) /* IN - The statement to analyze */
+static void analyzeCancel(Statement *stm, Context *context)
 {
-  Symbol *sym;
+  Expression *what = stm->fields.schedule.what;
 
-  sym = symcheck(stm->fields.cancel.id, EVENT_SYMBOL, NULL);
+  analyzeExpression(what, context);
+  if (what->type != ERROR_TYPE && 
+      what->type != EVENT_TYPE)
+    lmLog(&stm->fields.schedule.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
 }
 
 
@@ -637,7 +679,7 @@ static void analyzeStatement(Statement *stm, Context *context)
     analyzeSchedule(stm, context);
     break;
   case CANCEL_STATEMENT:
-    analyzeCancel(stm);
+    analyzeCancel(stm, context);
     break;
   case IF_STATEMENT:
     analyzeIf(stm, context);
@@ -857,7 +899,7 @@ static void generateSchedule(Statement *stm)
     unimpl(stm->srcp, "Code Generator");
     return;
   }
-  generateId(stm->fields.schedule.id);
+  generateExpression(stm->fields.schedule.what);
   emit0(I_SCHEDULE);
 }
 
@@ -865,7 +907,7 @@ static void generateSchedule(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateCancel(Statement *stm) /* IN - Statement to generate */
 {
-  generateId(stm->fields.schedule.id);
+  generateExpression(stm->fields.schedule.what);
   emit0(I_CANCEL);
 }
 
@@ -1315,7 +1357,7 @@ void dumpStatement(Statement *stm)
       put("step: "); dumpExpression(stm->fields.incr.step);
       break;
     case SCHEDULE_STATEMENT:
-      put("id: "); dumpId(stm->fields.schedule.id); nl();
+      put("what: "); dumpExpression(stm->fields.schedule.what); nl();
       put("whr: "); dumpWhere(stm->fields.schedule.whr); nl();
       put("when: "); dumpExpression(stm->fields.schedule.when);
       break;

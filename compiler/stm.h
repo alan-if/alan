@@ -126,7 +126,7 @@ typedef struct StmNod {		/* STATEMENT */
     } incr;
 
     struct {			/* for SCHEDULE */
-      IdNode *id;		/* Name of the event */
+      Expression *what;		/* What? Usually an event id.. */
       Where *whr;		/* Where? */
       Expression *when;
     } schedule;

@@ -343,6 +343,8 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("location: %ld\n", instance->initialLocation);
   indent(level+1);
+  printf("initialize: %ld\n", instance->initialize);
+  indent(level+1);
   printf("container: %ld\n", instance->container);
   indent(level+1);
   printf("attributes: %s\n", dumpAddress(instance->initialAttributes));
