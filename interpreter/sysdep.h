@@ -138,7 +138,14 @@ extern char *strdup(char *str);
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
 
+#endif
 
+
+#ifdef linux
+#ifndef __linux__
+#define __linux__
+#define REVERSED
+#endif
 #endif
 
 
