@@ -80,7 +80,7 @@ void analyzeLimit(LimNod *lim)
   else {
     a = findAttribute(objectSymbol->fields.entity.props->attributes, atr->id);
     if (a == NULL)
-      lmLog(&atr->srcp, 407, sevERR, "");
+      lmLog(&atr->srcp, 407, sevERR, "object");
     else if (atr->type != INTEGER_TYPE)
       unimpl(&atr->srcp, "Analyzer");
     else

@@ -6,7 +6,8 @@
    17.              weight 4 THEN
 =====>              1
 
-  *1*   407 E : Attribute in LIMITS must be an attribute for every OBJECT.
+  *1*   407 E : Attribute in Limits must be an attribute for every instance of
+                the class the container accepts, in this case 'object'.
 
 
         1 error(s).

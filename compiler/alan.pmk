@@ -1222,12 +1222,17 @@ static int val(char str[])
     ;
 
 <limit>			-- RETURNS: lim
-    = <limit_attribute> 'THEN' <statements>
+    = <limit_attribute> <else_or_then> <statements>
     %%
-	%<limit>.lim = newlim(`&%'THEN'.srcp,
+	%<limit>.lim = newlim(`&%<else_or_then>.srcp,
 			    %<limit_attribute>.atr,
 			    %<statements>.stms);
     %%
+    ;
+
+<else_or_then>			-- RETURNS: srcp
+    = 'ELSE' %% %<else_or_then>.srcp = %'ELSE'.srcp; %%
+    ! 'THEN' %% %<else_or_then>.srcp = %'THEN'.srcp; %%
     ;
 
 <limit_attribute>		-- RETURNS: atr

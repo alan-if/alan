@@ -15,6 +15,7 @@
 #include "stack.h"
 #include "parse.h"
 #include "debug.h"
+#include "syserr.h"
 
 
 /*----------------------------------------------------------------------*/

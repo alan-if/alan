@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>276.89</origest>
 <currest>275.89</currest>
-<elapsed>115.89</elapsed>
+<elapsed>116.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>51</origest>
 <currest>51</currest>
-<elapsed>10</elapsed>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>17</origest>
 <currest>17</currest>
-<elapsed>7</elapsed>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
@@ -252,13 +252,17 @@ This will not be required when definite and indefinite form printing is implemen
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Step 1: prohibit containers to contain anything not an object? How?
+<notes>Problem: if we can put actors in containers how do we handle attributes that might only be available on objects.
+
+Step 1: prohibit containers to contain anything not an object? How?
 What to do when an instance not an object is moved into the container?
+
+Implement the structures for "Takes &lt;class&gt; Else &lt;statement&gt;" and use them with default &lt;class&gt; = object and &lt;statements&gt; "You can't put that in there."
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -847,7 +851,7 @@ Design:
 
 New clause on containers:
     Container
-        Takes thing
+        Takes thing  (Or: Of thing)
             Else ....</notes>
 <priority>2</priority>
 <origest>1</origest>

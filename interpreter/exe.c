@@ -666,15 +666,22 @@ Aint agrcount(Aword whr)
   return(count);
 }
 
+/*----------------------------------------------------------------------*/
+static void locateIntoContainer(Aword ins, Aword whr) {
+  if (!isA(ins, container[instance[whr].container].class))
+    error(M_CANNOTCONTAIN);
+  else if (checklim(whr, ins))
+    error(MSGMAX);		/* Return to player without any message */
+  else
+    admin[ins].location = whr;
+}
+
 
 /*----------------------------------------------------------------------*/
 static void locateObject(Aword obj, Aword whr)
 {
   if (isCnt(whr)) { /* Into a container */
-    if (checklim(whr, obj))
-      return;
-    else
-      admin[obj].location = whr;
+    locateIntoContainer(obj, whr);
   } else {
     admin[obj].location = whr;
     /* Make sure the location is described since it's changed */
@@ -689,8 +696,15 @@ static void locateActor(Aword movingActor, Aword whr)
   Aword previousLocation = current.location;
   Aword previousActor = current.actor;
 
-  current.location = whr;
-  admin[movingActor].location = whr;
+  /* FIXME: Actors locating into containers is dubious, anyway as it
+   is now it allows the hero to be located into a container. And what
+   happens with current location if so... */
+  if (isCnt(whr))
+    locateIntoContainer(movingActor, whr);
+  else {
+    current.location = whr;
+    admin[movingActor].location = whr;
+  }
   if (movingActor == HERO) {
     if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
       look();

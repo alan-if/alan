@@ -228,6 +228,7 @@ static void generateContainerEntry(Container *cnt)
 {
   ContainerEntry entry;
 
+  entry.class = objectSymbol->code; /* Currently only allow objects */
   entry.limits = cnt->body->limadr;
   entry.header = cnt->body->hadr;
   entry.empty = cnt->body->eadr;

@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "main.h"
+#include "syserr.h"
 
 #include <time.h>
 #ifdef USE_READLINE

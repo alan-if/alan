@@ -557,7 +557,7 @@ int rule			/* IN production number */
  outdent(); outdent(); 	break;}
     case 181: { /* __genSym#29 =; */
 #line 638 "alan.pmk"
- indent(); newline(); fprintf(outFile, "Then"); indent(); 	break;}
+ indent(); newline(); fprintf(outFile, "Else"); indent(); 	break;}
     case 183: { /* <limit_attribute> = 'COUNT' Integer; */
 #line 642 "alan.pmk"
  newline(); fprintf(outFile, "Count %s", pmSySt[pmStkP+2].chars); 	break;}

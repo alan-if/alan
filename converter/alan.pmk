@@ -635,7 +635,7 @@ static void stringPrint(char string[])
     ! <limits> <limit>
     ;
 <limit>
-    = <limit_attribute> 'THEN' %% indent(); newline(); fprintf(outFile, "Then"); indent(); %%<statements> %% outdent(); outdent(); %%			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    = <limit_attribute> 'THEN' %% indent(); newline(); fprintf(outFile, "Else"); indent(); %%<statements> %% outdent(); outdent(); %%			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     ;
 <limit_attribute>
     = <attribute>

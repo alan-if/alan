@@ -196,7 +196,7 @@ typedef enum VarClass {
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
-  Aword parent;			/* Code for the parent class, 0 if none */
+  Aint parent;			/* Code for the parent class, 0 if none */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr definite;		/* Address of definite article code */
@@ -205,11 +205,11 @@ typedef struct ClassEntry {	/* CLASS TABLE */
 } ClassEntry;
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
-  Aword code;			/* Own code */
+  Aint code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
-  Aword parent;			/* Code for the parent class, 0 if none */
-  Aword location;		/* DYNAMIC - Code for current location */
-  Aword container;		/* Code for a possible container property */
+  Aint parent;			/* Code for the parent class, 0 if none */
+  Aint location;		/* DYNAMIC - Code for current location */
+  Aint container;		/* Code for a possible container property */
   Aaddr attributes;		/* DYNAMIC CONTENT - Address of attribute list */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
@@ -240,13 +240,14 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
 #define RESTRICTIONCLASS_STRING (-4)
 
 typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
-  Aword parameter;		/* Parameter number */
-  Aword class;			/* Parameter class code */
+  Aint parameter;		/* Parameter number */
+  Aint class;			/* Parameter class code */
   Aaddr stms;			/* Exception statements */
 } RestrictionEntry;
 
 typedef struct ContainerEntry {	/* CONTAINER TABLE */
   Aword owner;			/* Owner instance index */
+  Aint class;			/* Class to allow in container */
   Aaddr limits;			/* Address to limit check code */
   Aaddr header;			/* Address to header code */
   Aaddr empty;			/* Address to code for header when empty */
@@ -256,14 +257,14 @@ typedef struct ContainerEntry {	/* CONTAINER TABLE */
 
 
 typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
-  Aword code;			/* Code for this element, 0 -> parameter */
+  Aint code;			/* Code for this element, 0 -> parameter */
   Aword flags;			/* Flags for multiple/omni (if parameter) */
   Aaddr next;			/* Address to next element table ... */
 				/* ... or restrictions if code == EOS */
 } ElementEntry;
 
 typedef struct ParseEntry {	/* PARSE TABLE */
-  Aword code;			/* Code for verb word */
+  Aint code;			/* Code for verb word */
   Aaddr elms;			/* Address to element tables */
 } ParseEntry;
 
@@ -280,14 +281,14 @@ typedef struct EventEntry {	/* EVENT TABLE */
 
 typedef struct ScriptEntry {	/* SCRIPT TABLE */
   Aaddr stringAddress;		/* Address to name string */
-  Aword code;			/* Script number */
+  Aint code;			/* Script number */
   Aaddr description;		/* Optional description statements */
   Aaddr steps;			/* Address to steps */
 } ScriptEntry;
 
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aword qual;			/* Verb execution qualifier */
-  Aword param;			/* Parameter number */
+  Aint param;			/* Parameter number */
   Aaddr checks;			/* Address of the check table */
   Aaddr action;			/* Address of the action code */
 } AltEntry;
@@ -375,6 +376,7 @@ typedef enum MsgKind {
   M_CONTAINSCOMMA,
   M_CONTAINSAND,
   M_CONTAINSEND,
+  M_CANNOTCONTAIN,
   M_EMPTY,
   M_EMPTYHANDED,
   M_SCORE1,
