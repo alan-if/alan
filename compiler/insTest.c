@@ -50,7 +50,7 @@ void testGenerateEmptyInstanceEntry()
   loadACD("unit.a3c");
   entry = (InstanceEntry *) &memory[entryAddress];
   unitAssert(convertFromACD(entry->description) == 0);
-  unitAssert(convertFromACD(entry->parentClass) == 0);
+  unitAssert(convertFromACD(entry->parent) == 0);
 }
 
 void testGenerateInstances()
@@ -92,7 +92,7 @@ void testGenerateInstances()
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
   unitAssert(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
   unitAssert(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
-  unitAssert(convertFromACD(instanceTable->parentClass) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
+  unitAssert(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
   unitAssert(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
   unitAssert(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
   unitAssert(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);

@@ -174,6 +174,8 @@ void analyzeProps(Properties *props, Context *context)
 /*======================================================================*/
 void generateClassPropertiesData(Properties *props)
 {
+  props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
+
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
     generateStatements(props->description);
@@ -228,9 +230,9 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   entry->idAddress = props->idAddress; /* Address to the id string */
 
   if (props->parentId == NULL)	/* Then parents */
-    entry->parentClass = 0;
+    entry->parent = 0;
   else
-    entry->parentClass = props->parentId->symbol->code;
+    entry->parent = props->parentId->symbol->code;
 
   entry->location = generateInitialLocation(props->whr);
   entry->attributes = props->attributeAddress;
@@ -259,6 +261,8 @@ void dumpProps(Properties *props)
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();
+  put("descriptionChecks: "); dumpList(props->descriptionChecks, CHECK_LIST); nl();
+  put("descriptionChecksAddress: "); dumpAddress(props->descriptionChecksAddress); nl();
   put("description: "); dumpList(props->description, STATEMENT_LIST); nl();
   put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
   put("article: "); dumpList(props->article, STATEMENT_LIST); nl();

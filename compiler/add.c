@@ -28,13 +28,7 @@
 #include "lmList.h"
 
 
-/*======================================================================
-
-  newAdd()
-
-  Allocates and initialises an AddTo node.
-
-  */
+/*======================================================================*/
 AddNode *newAdd(Srcp *srcp,
 		IdNode *id,
 		IdNode *parent,
@@ -60,11 +54,7 @@ AddNode *newAdd(Srcp *srcp,
 }
 
 
-/*----------------------------------------------------------------------
-
-  addInitialLocation()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addInitialLocation(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -74,11 +64,7 @@ static void addInitialLocation(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addNames()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addNames(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -88,11 +74,7 @@ static void addNames(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addAttributes()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
   List *addedAttributes = add->props->attributes;
@@ -112,11 +94,18 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
 }
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void addDescriptionCheck(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
 
-  addDescription()
+  if (props->descriptionChecks != NULL)
+    lmLogv(&props->descriptionSrcp, 341, sevERR, "description checks", "(yet!)", NULL);
 
-*/
+}
+
+
+/*----------------------------------------------------------------------*/
 static void addDescription(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -127,11 +116,7 @@ static void addDescription(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addArticle()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addArticle(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -142,11 +127,7 @@ static void addArticle(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addMentioned()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addMentioned(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -157,11 +138,7 @@ static void addMentioned(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addContainer()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addContainer(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -172,11 +149,7 @@ static void addContainer(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addVerbs()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addVerbs(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -187,11 +160,7 @@ static void addVerbs(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addScripts()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addScripts(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -202,11 +171,7 @@ static void addScripts(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addExits()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addExits(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -217,11 +182,7 @@ static void addExits(AddNode *add, Symbol *original)
 }
 
 
-/*----------------------------------------------------------------------
-
-  addAddition()
-
-*/
+/*----------------------------------------------------------------------*/
 static void addAddition(AddNode *add)
 {
   Symbol *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
@@ -229,6 +190,7 @@ static void addAddition(AddNode *add)
   addInitialLocation(add, originalClass);
   addNames(add, originalClass);
   addAttributes(add, originalClass);
+  addDescriptionCheck(add, originalClass);
   addDescription(add, originalClass);
   addArticle(add, originalClass);
   addMentioned(add, originalClass);
@@ -239,13 +201,7 @@ static void addAddition(AddNode *add)
 }
 
 
-/*======================================================================
-
-  addAdditions()
-
-  Add all additions to the respective classes.
-
- */
+/*======================================================================*/
 void addAdditions(void)
 {
   List *l;
@@ -255,13 +211,7 @@ void addAdditions(void)
 }
 
 
-/*======================================================================
-
-  dumpAdd()
-
-  Dump an Add To node.
-
- */
+/*======================================================================*/
 void dumpAdd(AddNode *add)
 {
   put("ADD: "); dumpSrcp(&add->srcp); in();

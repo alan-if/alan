@@ -910,7 +910,7 @@ Abool isNear(id)
 */
 Abool isA(Aword id, Aword ancestor)
 {
-  int p = instance[id].parentClass;
+  int p = instance[id].parent;
 
   while (p != 0 && p != ancestor)
     p = class[p].parent;
@@ -1054,9 +1054,29 @@ void say(id)
 
 /*----------------------------------------------------------------------
 
-  describe()
+  Description Handling
 
   */
+
+
+FORWARD void list(Aword cnt);
+
+static Boolean inheritedDescriptionCheck(Aint classId)
+{
+  if (classId == 0) return TRUE;
+  if (!inheritedDescriptionCheck(class[classId].parent)) return FALSE;
+  if (class[classId].checks == 0) return TRUE;
+  return trycheck(class[classId].checks, TRUE);
+}
+
+static Boolean descriptionCheck(Aint instanceId)
+{
+  if (inheritedDescriptionCheck(instance[instanceId].parent)) {
+    if (instance[instanceId].checks == 0) return TRUE;
+    return trycheck(instance[instanceId].checks, TRUE);
+  } else
+    return FALSE;
+}
 
 
 static Abool inheritsDescriptionFrom(Aword classId)
@@ -1073,8 +1093,8 @@ static Abool haveDescription(Aword instanceId)
 {
   if (instance[instanceId].description != 0)
     return TRUE;
-  else if (instance[instanceId].parentClass != 0)
-    return inheritsDescriptionFrom(instance[instanceId].parentClass);
+  else if (instance[instanceId].parent != 0)
+    return inheritsDescriptionFrom(instance[instanceId].parent);
   else
     return FALSE;
 }
@@ -1082,7 +1102,7 @@ static Abool haveDescription(Aword instanceId)
 static void describeClass(Aword id)
 {
   if (class[id].description != 0) {
-    /* This instance has its own description, run it */
+    /* This class has a description, run it */
     interpret(class[id].description);
   } else {
     /* Search up the inheritance tree, if any, to find a description */
@@ -1099,11 +1119,12 @@ static void describeAnything(Aword id)
     interpret(instance[id].description);
   } else {
     /* Search up the inheritance tree to find a description */
-    if (instance[id].parentClass != 0)
-      describeClass(instance[id].parentClass);
+    if (instance[id].parent != 0)
+      describeClass(instance[id].parent);
   }
   admin[id].alreadyDescribed = TRUE;
 }
+
 
 #ifdef _PROTOTYPES_
 static void describeObject(Aword obj)
@@ -1156,7 +1177,7 @@ static void describeActor(act)
   admin[act].alreadyDescribed = TRUE;
 }
 
-
+static Boolean descriptionOk;
 static Aword dscrstk[255];
 
 #ifdef _PROTOTYPES_
@@ -1174,6 +1195,8 @@ void describe(id)
     if (dscrstk[i] == id)
       syserr("Recursive DESCRIBE.");
   dscrstk[dscrstkp++] = id;
+  if (dscrstkp == 255)
+    syserr("To deep recursion of DESCRIBE.");
 
   cur.instance = id;
   if (id == 0) {
@@ -1182,15 +1205,115 @@ void describe(id)
   } else if (id > header->instanceMax) {
     sprintf(str, "Can't DESCRIBE item (%ld > instanceMax).", id);
     syserr(str);
-  } else if (isObj(id)) {
-    describeObject(id);
-  } else if (isAct(id)) {
-    describeActor(id);
+  } else if (descriptionCheck(id)) {
+    descriptionOk = TRUE;
+    if (isObj(id)) {
+      describeObject(id);
+    } else if (isAct(id)) {
+      describeActor(id);
+    } else
+      describeAnything(id);
   } else
-    describeAnything(id);
-
+    descriptionOk = FALSE;
   dscrstkp--;
   cur.instance = previousInstance;
+}
+
+
+#ifdef _PROTOTYPES_
+void describeInstances(void)
+#else
+void describeInstances()
+#endif
+{
+  int i;
+  int prevobj = 0;
+  Boolean found = FALSE;
+  Boolean multiple = FALSE;
+
+  /* First describe every object here with its own description */
+  for (i = 1; i <= header->instanceMax; i++)
+    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
+	!admin[i].alreadyDescribed && haveDescription(i))
+      describe(i);
+
+  /* Then list all other objects here */
+  for (i = 1; i <= header->instanceMax; i++)
+    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
+	!admin[i].alreadyDescribed) {
+      if (!found) {
+	prmsg(M_SEEOBJ1);
+	sayarticle(i);
+	say(i);
+	found = TRUE;
+      } else {
+	if (multiple) {
+	  needsp = FALSE;
+	  prmsg(M_SEEOBJ2);
+	  sayarticle(prevobj);
+	  say(prevobj);
+	}
+	multiple = TRUE;
+      }
+      prevobj = i;
+    }
+
+  if (found) {
+    if (multiple) {
+      prmsg(M_SEEOBJ3);
+      sayarticle(prevobj);
+      say(prevobj);
+    }
+    prmsg(M_SEEOBJ4);
+  }
+  
+  /* Now for all actors */
+  for (i = 1; i <= header->instanceMax; i++)
+    if (instance[i].location == cur.loc && isA(i, ACTOR) &&
+	!admin[i].alreadyDescribed && i != HERO)
+      describe(i);
+
+  /* Clear the describe flag for all objects */
+  for (i = 1; i <= header->instanceMax; i++)
+    admin[i].alreadyDescribed = FALSE;
+}
+
+
+/*======================================================================*/
+#ifdef _PROTOTYPES_
+void look(void)
+#else
+void look()
+#endif
+{
+  int i;
+
+  if (looking)
+    syserr("Recursive LOOK.");
+
+  looking = TRUE;
+  /* Set describe flag for all objects and actors */
+  for (i = 1; i <= header->instanceMax; i++)
+    admin[i].alreadyDescribed = FALSE;
+
+  if (anyOutput)
+    para();
+
+#ifdef GLK
+  glk_set_style(style_Subheader);
+#endif
+
+  interpret(instance[cur.loc].mentioned);
+
+#ifdef GLK
+  glk_set_style(style_Normal);
+#endif
+
+  newline();
+  describe(cur.loc);
+  if (descriptionOk)
+    describeInstances();
+  looking = FALSE;
 }
 
 
@@ -1220,12 +1343,7 @@ void use(act, scr)
 
 
 
-/*----------------------------------------------------------------------
-
-  list()
-
-  */
-
+/*======================================================================*/
 #ifdef _PROTOTYPES_
 void list(Aword cnt)
 #else
@@ -1318,109 +1436,6 @@ void empty(cnt, whr)
 }
 
 
-
-/*----------------------------------------------------------------------*\
-
-  Description of current location
-
-  describeInstances()
-  look()
-
-\*----------------------------------------------------------------------*/
-
-#ifdef _PROTOTYPES_
-void describeInstances(void)
-#else
-void describeInstances()
-#endif
-{
-  int i;
-  int prevobj = 0;
-  Boolean found = FALSE;
-  Boolean multiple = FALSE;
-
-  /* First describe every object here with its own description */
-  for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	!admin[i].alreadyDescribed && haveDescription(i))
-      describe(i);
-
-  /* Then list all other objects here */
-  for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	!admin[i].alreadyDescribed) {
-      if (!found) {
-	prmsg(M_SEEOBJ1);
-	sayarticle(i);
-	say(i);
-	found = TRUE;
-      } else {
-	if (multiple) {
-	  needsp = FALSE;
-	  prmsg(M_SEEOBJ2);
-	  sayarticle(prevobj);
-	  say(prevobj);
-	}
-	multiple = TRUE;
-      }
-      prevobj = i;
-    }
-
-  if (found) {
-    if (multiple) {
-      prmsg(M_SEEOBJ3);
-      sayarticle(prevobj);
-      say(prevobj);
-    }
-    prmsg(M_SEEOBJ4);
-  }
-  
-  /* Now for all actors */
-  for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, ACTOR) &&
-	!admin[i].alreadyDescribed && i != HERO)
-      describe(i);
-
-  /* Clear the describe flag for all objects */
-  for (i = 1; i <= header->instanceMax; i++)
-    admin[i].alreadyDescribed = FALSE;
-}
-
-
-#ifdef _PROTOTYPES_
-void look(void)
-#else
-void look()
-#endif
-{
-  int i;
-
-  if (looking)
-    syserr("Recursive LOOK.");
-
-  looking = TRUE;
-  /* Set describe flag for all objects and actors */
-  for (i = 1; i <= header->instanceMax; i++)
-    admin[i].alreadyDescribed = FALSE;
-
-  if (anyOutput)
-    para();
-
-#ifdef GLK
-  glk_set_style(style_Subheader);
-#endif
-
-  interpret(instance[cur.loc].mentioned);
-
-#ifdef GLK
-  glk_set_style(style_Normal);
-#endif
-
-  newline();
-  describe(cur.loc);
-  describeInstances();
-  looking = FALSE;
-}
 
 
 

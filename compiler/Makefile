@@ -131,8 +131,10 @@ clean:
 src:
 	$(MAKE) -f Makefile.src
 
-fromsrc: $(OBJECTS) alan.version.o
-	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
+fromsrc: $(MAINOBJECTS)
+	$(LD) -o alan $(MAINOBJECTS) $(LDFLAGS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp alan.exe ../bin
 
 tm:
 	make -f Makefile.tm

@@ -131,13 +131,7 @@ void symbolizeClasses(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  analyzeClass()
-
-  Analyze a Class node.
-
- */
+/*----------------------------------------------------------------------*/
 static void analyzeClass(ClaNod *class)
 {
   Context *context = newContext(CLASS_CONTEXT);
@@ -149,13 +143,7 @@ static void analyzeClass(ClaNod *class)
 
 
 
-/*======================================================================
-
-  analyzeClasses()
-
-  Analyze all Class nodes.
-
- */
+/*======================================================================*/
 void analyzeClasses(void)
 {
   List *l;
@@ -165,11 +153,7 @@ void analyzeClasses(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateClassEntry
-
-*/
+/*----------------------------------------------------------------------*/
 static void generateClassEntry(ClaNod *cla)
 {
   ClassEntry entry;
@@ -183,32 +167,21 @@ static void generateClassEntry(ClaNod *cla)
   else
     entry.parent = cla->props->parentId->symbol->code;
 
+  entry.checks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
 
   emitEntry(&entry, sizeof(entry));
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateInstanceData
-
-  Generate the data parts for one instance.
-
-*/
+/*----------------------------------------------------------------------*/
 static void generateClassData(ClaNod *cla)
 {
   generateClassPropertiesData(cla->props);
 }
 
 
-/*======================================================================
-
-  generateClasses()
-
-  Generate all Class nodes.
-
- */
+/*======================================================================*/
 Aaddr generateClasses(void)
 {
   List *l;
@@ -240,13 +213,7 @@ void dumpClass(ClaNod *cla)
 }
 
 
-/*======================================================================
-
-  dumpClasses()
-
-  Dump all Class nodes.
-
- */
+/*======================================================================*/
 void dumpClasses(void)
 {
   dumpList(allClasses, CLASS_LIST);
