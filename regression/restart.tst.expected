@@ -1,0 +1,37 @@
+########## restart ##########
+alan restart
+arun restart < restart.input
+########## /bin/sh  restart.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Going w will give you 5 points. Then restart (q) to find out if scores
+are cleared.
+
+
+L1.
+
+> w
+L2.
+
+> score
+You have scored 5 points out of 5.
+
+> q
+
+Do you want to restart (y) ? y
+
+Going w will give you 5 points. Then restart (q) to find out if scores
+are cleared.
+
+
+L1.
+
+> score
+You have scored 0 points out of 5.
+
+> 
+
+Do you want to restart (y) ? 
