@@ -771,12 +771,15 @@ static int val(char str[])
 <properties>			-- RETURNS: all!
     = 
     %%
+	(?)memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out all fields */
+
 	%<properties>.nams = NULL;
 	%<properties>.whr = NULL;
 	%<properties>.atrs = NULL;
 	%<properties>.cnt = NULL;
 	%<properties>.descriptionCheck = NULL;
 	%<properties>.descriptionDoes = NULL;
+	%<properties>.art = NULL;
 	%<properties>.ment = NULL;
 	%<properties>.exts = NULL;
 	%<properties>.vrbs = NULL;

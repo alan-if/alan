@@ -158,6 +158,8 @@ void analyzeProps(Properties *props, Context *context)
   analyzeName(props);
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->description, context);
+  analyzeStatements(props->mentioned, context);
+  analyzeStatements(props->article, context);
   analyzeVerbs(props->verbs, context);
   analyzeContainer(props->container, context);
 
@@ -179,6 +181,12 @@ void generateClassPropertiesData(Properties *props)
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
     generateStatements(props->description);
+    emit0(C_STMOP, I_RETURN);
+  }
+
+  if (props->article != NULL) {
+    props->articleAddress = emadr();
+    generateStatements(props->article);
     emit0(C_STMOP, I_RETURN);
   }
 
@@ -213,6 +221,13 @@ void generateInstancePropertiesData(Properties *props)
   if (props->mentioned != NULL) {
     props->mentionedAddress = emadr();
     generateStatements(props->mentioned);
+    emit0(C_STMOP, I_RETURN);
+  } else
+    emit(0);
+
+  if (props->article != NULL) {
+    props->articleAddress = emadr();
+    generateStatements(props->article);
     emit0(C_STMOP, I_RETURN);
   } else
     emit(0);

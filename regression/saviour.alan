@@ -4,24 +4,19 @@
 -- actually in Cobol as a farewell gift to my co-workers at a job I once
 -- held. That company was producing Cobol-executing small business computers.
 --
--- Well, in 1985 I went on to start at my current company, SoftLab, which as
+-- Well, in 1985 I went on to start at my previous company, SoftLab, which as
 -- a main area of competence has computer languages and development tools.
 -- As a first experiment I implemented the IF language that Göran Forslund and
 -- I had talked about for some time. That was Alan version 0. Since then
 -- Alan has matured and is now in its v2.x:s. This game has been with us
 -- since then and been ported from version to version of Alan.
 --
--- And now it is time for version 3!
+-- I have started another company. And it is time for version 3 of Alan!
 --
+-- This version of Saviour is the first "game" in Alan v3.
 -- No guarantees, of course, and it isn't as pretty as I would like, and it
 -- does not show the real potential of Alan (but perhaps some of its elegance
--- can be glimpsed ;-) But due to popular demand I am now placing this at
---
---      ftp://ftp.gmd.de/pub/if-archive
---
--- Probably under programming/alan/examples (unless Volker Blasius
--- have a better suggestion)
---
+-- can be glimpsed ;-)
 
 OPTIONS
     Language English.
@@ -221,6 +216,11 @@ End Verb.
 Syntax type = 'type' (str)
     Where str Isa String
         Else "You must supply a string containing what you propose to type."
+
+Syntax type_on = type (str) 'on' (t)
+    Where str Isa String
+	Else "You must supply a string containing what you propose to type."
+
 Verb type
     Check terminal Here
         Else "There is nothing here to type on."
@@ -230,17 +230,37 @@ Verb type
     And computer Is running
         Else "The computer is not running so your input is just ignored."
     Does
+	Set str Of terminal To str.
+	Schedule terminal_response After 0.
+End Verb.
+
+Verb type_on
+    Check t Here
+        Else "There is no" Say t. "here to type on."
+    And t = terminal
+	Else "I do not know how you propose to type on the" Say t.
+    And terminal Is connected
+        Else "The terminal (on which I assume you mean to type on?)
+              is not connected anywhere, so nothing happens."
+    And computer Is running
+        Else "The computer is not running so your input is just ignored."
+    Does
+	Set str Of terminal To str.
+	Schedule terminal_response After 0.
+End Verb.
+
+Event terminal_response
         If terminal Is showing_msg1 Then
-            If str = password OF manual Then
+            If str of terminal = password OF manual Then
                 "'Welcome" SAY password of manual. "$$!$pEnter command:'"
                 Make terminal Not showing_msg1.
                 Make terminal showing_msg2.
             Else
                 "'ERROR: Wrong USERID.$nPlease login. Enter USERID:'"
-                Set pwtry Of manual To str.
+                Set pwtry Of manual To str of terminal.
             End If.
         Elsif terminal Is showing_msg2 Then
-            If str = "backup" Then
+            If str of terminal = "backup" Then
                 If tape Is Not mounted Then "'ERROR: No tape mounted.'"
                 Else
                     "The tape starts to spin and after a few moments it stops.
@@ -249,12 +269,12 @@ Verb type
                      $p'Backup finished.$nEnter command:'"
                     MAKE tape copied.
                 End If.
-            Elsif str = "info" Then
+            Elsif str of terminal = "info" Then
                 "'INFO - information about programs'
                  $n'BACKUP' - program backup copying'
                  $n'ADVENTURE' - recreational game'
                  $n'Enter command:'"
-            Elsif str = "adventure" Then
+            Elsif str of terminal = "adventure" Then
                 "'Welcome to adventure!!$pYou are standing at the end of a
                  road before a small brick building. Around you is a forest.
                  A small stream flows out of the building and down a gully.'
@@ -268,8 +288,7 @@ Verb type
                 "'ERROR: Unknown command.$nEnter command:'"
             End If.
         End If.     
-End Verb.
-
+End Event.
 
 The nowhere Isa location
 End The nowhere.
@@ -681,6 +700,9 @@ The terminal_room Isa location Name Terminal Room
     Exit west To second.
 End The terminal_room.
 
+
+Syntax connect_to = connect (o) 'to' (c).
+
 The terminal Isa object AT terminal_room
     Is
         takeable.
@@ -688,6 +710,7 @@ The terminal Isa object AT terminal_room
         Not connected.
         Not showing_msg1.
         Not showing_msg2.
+	Has str "".
 
     Description
         If terminal At terminal_room Then
@@ -750,6 +773,20 @@ The terminal Isa object AT terminal_room
             Locate terminal Here.
         End If.
     End Verb.
+
+    Verb connect_to
+	When o
+	  Check c Here Else "I can see no" Say c. "here."
+	  Does
+	    If c = computer Then
+		Make terminal connected.
+		Locate terminal Here.
+                "The terminal is now connected to the nearby computer."
+	    Else
+		"You can not connect the terminal to the" Say c.
+	    End If.
+    End Verb.
+		
 END The terminal.
 
 The coin Isa object Name small coin
@@ -910,6 +947,7 @@ The clockroom Isa location Name Clock Room
     Exit north To fifth.
 End The clockroom.
 
+Synonyms clockwork, handle = clock.
 The clock Isa object At clockroom
     Is
         readable.
@@ -938,7 +976,7 @@ The clock Isa object At clockroom
         "A tiny little sign says 'Made in Korea'"
     End Verb.
 
-    Verb wind Does
+    Verb wind, turn Does
         If clock Is Not wound Then
             "With a deafening BING BANG the clock begins to chime.
              From the corridor in the south a loud flapping of wings
@@ -1019,6 +1057,7 @@ The drawer Isa object At deskroom
         Elsif manual Is NOT found Then
             "Pulling out the drawer a manual falls to the floor."
             Locate manual Here.
+	    Make drawer 'empty'.
             Score 10.
         Else
             "The desk drawer is now open."

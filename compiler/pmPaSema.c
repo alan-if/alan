@@ -651,6 +651,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].cnt = NULL;
 	pmSeSt[pmStkP+1].descriptionCheck = NULL;
 	pmSeSt[pmStkP+1].descriptionDoes = NULL;
+	pmSeSt[pmStkP+1].art = NULL;
 	pmSeSt[pmStkP+1].ment = NULL;
 	pmSeSt[pmStkP+1].exts = NULL;
 	pmSeSt[pmStkP+1].vrbs = NULL;
