@@ -261,6 +261,7 @@ static void reverseObjs(adr, v2_5)
       while (!endOfTable(e)) {
 	reverseTable(e->atrs, sizeof(AtrElem));
 	reverseVrbs(e->vrbs);
+	reverseStms(e->art);
 	reverseStms(e->dscr1);
 	reverseStms(e->dscr2);
 	e++;
