@@ -674,7 +674,7 @@ static int val(char str[])
 <instance>			-- RETURNS: ins
     = 'THE' ID <optional_heritage> <slots> <instance tail>
     %%
-	%<instance>.ins = newins(`&%'THE'.srcp,
+	%<instance>.ins = newInstance(`&%'THE'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
 				newSlots(%<slots>.nams,

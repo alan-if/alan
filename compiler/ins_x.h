@@ -14,6 +14,7 @@
 
 /* DATA: */
 extern int instanceCount;
+extern InsNod *theHero;
 
 
 /* METHODS: */
@@ -21,10 +22,10 @@ extern int instanceCount;
 extern void initInstances();
 
 /* Create a new Instance node */
-extern InsNod *newins(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *heritage,
-		      SlotsNode *slt);
+extern InsNod *newInstance(Srcp *srcp,
+			   IdNode *id,
+			   IdNode *heritage,
+			   SlotsNode *slt);
 
 /* Symbolize all Instances */
 extern void symbolizeInstances(void);

@@ -121,6 +121,8 @@ void testSymbolTableInit()
   SymNod *sym3 = lookup(symbolName3);
   
   initSymbols();
+  unitAssert(classCount == 4);
+  unitAssert(instanceCount == 0);
 
   thing = lookup("thing");
   object = lookup("object");

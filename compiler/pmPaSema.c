@@ -562,7 +562,7 @@ int rule			/* IN production number */
     case 74: { /* <instance> = 'THE' ID <optional_heritage> <slots> <instance tail>; */
 #line 676 "alan.pmk"
 
-	pmSeSt[pmStkP+1].ins = newins(&pmSySt[pmStkP+1].srcp,
+	pmSeSt[pmStkP+1].ins = newInstance(&pmSySt[pmStkP+1].srcp,
 				pmSeSt[pmStkP+2].id,
 				pmSeSt[pmStkP+3].id,
 				newSlots(pmSeSt[pmStkP+4].nams,

@@ -16,7 +16,7 @@ void testCreateIns()
 
   initadv();
 
-  ins = newins(&srcp, id, parent, NULL);
+  ins = newInstance(&srcp, id, parent, NULL);
   unitAssert(equalSrcp(srcp, ins->srcp));
   unitAssert(equalId(id, ins->id));
   unitAssert(equalId(parent, ins->parent));
@@ -38,14 +38,18 @@ void testGenerateInstances()
   AcdHdr header;
 
   initadv();
-
-  initEmit("unit.acd");
-  addr = generateInstances();
-  unitAssert(addr == firstAdr);	/* Nothing generated except header */
-
   initEmit("unit.acd");
   symbolizeInstances();
-  ins = newins(&srcp, newId(&srcp, "aSimpleInstance"), NULL, NULL);
+  addr = generateInstances();
+  unitAssert(addr == firstAdr + 2);	/* Only "hero" generated */
+  addr = emadr();
+  unitAssert(addr == firstAdr + 2 + 1*instanceSize);
+  /* 4 Class entries and 1 instance entry */
+
+  initadv();
+  initEmit("unit.acd");
+  ins = newInstance(&srcp, newId(&srcp, "aSimpleInstance"), NULL, NULL);
+  symbolizeInstances();
   generateInstanceData(ins);
 
   instanceTableAddress = emadr();
@@ -73,10 +77,19 @@ void testGenerateInstances()
 }
 
 
+void testHero()
+{
+  initadv();
+  unitAssert(theHero->symbol->code == 1);
+}
+
+
+
 void registerInsUnitTests()
 {
   registerUnitTest(testCreateIns);
   registerUnitTest(testGenerateInstances);
+  registerUnitTest(testHero);
 }
 
 

@@ -57,9 +57,9 @@ static Aword end;
   */
 void initadv(void)
 {
+  initSymbols();
   initClasses();
   initInstances();
-  initSymbols();
   initDumpNodeList();
 
 #ifdef FIXME
@@ -196,6 +196,8 @@ void anadv(void)
   */
 static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
 {
+  hdr->theHero = theHero->symbol->code;
+
 #ifdef FIXME
   hdr->objmin = objmin;
   hdr->objmax = objmax;

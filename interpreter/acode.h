@@ -187,7 +187,8 @@ typedef struct AcdHdr {
   Aaddr cnts;			/* 10 - Container table */
   Aaddr ruls;			/* 11 - Rule table */
   Aaddr init;			/* 12 - String init table */
-  Aaddr start;			/* 13 - Start code */
+  Aword theHero;		/* The hero instance code (id) */
+  Aaddr start;			/* 13 - Address to Start code */
   Aword msgs;			/* 14 - Messages table */
 /* Miscellaneous */
   Aword objmin, objmax;		/* 15 - Interval for object codes */

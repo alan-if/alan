@@ -25,8 +25,8 @@ void testInitAdv()
   initadv();
 
   cla = newcla(&srcp, atClaId, NULL, NULL);
-  ins = newins(&srcp, atInsId, NULL, NULL);
-  locationIns = newins(&srcp, atInsLocId, newId(&srcp, "location"), NULL);
+  ins = newInstance(&srcp, atInsId, NULL, NULL);
+  locationIns = newInstance(&srcp, atInsLocId, newId(&srcp, "location"), NULL);
 
   adv.whr = newwhr(&srcp, WHR_HERE, NULL);
   symbolizeAdv();

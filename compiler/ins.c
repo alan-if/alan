@@ -20,6 +20,9 @@
 #include "lmList.h"
 
 
+InsNod *theHero;
+
+
 static List *allInstances = NULL;
 
 
@@ -31,20 +34,24 @@ static List *allInstances = NULL;
 void initInstances()
 {
   allInstances = NULL;
+
+  theHero = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
+			newId(&nulsrcp, "location"), NULL);
+  
 }
 
 
 /*======================================================================
 
-  newins()
+  newInstance()
 
-  Allocates and initialises a insnod.
+  Allocates and initialises an instance node.
 
   */
-InsNod *newins(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,
-	       IdNode *parent,
-	       SlotsNode *slt)
+InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
+		    IdNode *id,
+		    IdNode *parent,
+		    SlotsNode *slt)
 {
   InsNod *new;                  /* The newly allocated area */
 

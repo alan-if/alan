@@ -29,7 +29,7 @@ void testCreateClass()
   unitAssert(readEcode() == 310 && readSev() == sevERR);
 
   /* Add the inheritance id, resymbolize */
-  ins = newins(&srcp, parent, NULL, NULL);
+  ins = newInstance(&srcp, parent, NULL, NULL);
   symbolizeClasses();
   unitAssert(readEcode() == 350 && readSev() == sevERR);
 }

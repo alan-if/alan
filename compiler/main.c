@@ -93,13 +93,10 @@ syntax\n\
 verbs\n\
 classes\n\
 instances\n\
-locations\n\
-objects\n\
 containers\n\
 events\n\
-actors\n\
 rules\n\
-everything", dmpflg, "sxvailocear!", NULL, NULL)
+everything", dmpflg, "sxvkicer!", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

@@ -167,6 +167,8 @@ void initSymbols()
   SymNod *location;
 
   symtree = NULL;
+  instanceCount = 0;
+  classCount = 0;
 
   thing = newsym("thing", CLASS_SYMBOL);
   object = newsym("object", CLASS_SYMBOL);
