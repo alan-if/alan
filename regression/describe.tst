@@ -1,2 +1,2 @@
 alan describe
-arun describe < describe.input
+arun -n describe < describe.input

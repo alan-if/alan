@@ -1,2 +1,2 @@
 alan write
-arun write < write.input
+arun -n write < write.input

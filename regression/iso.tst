@@ -1,2 +1,2 @@
 alan iso
-arun iso < iso.input
+arun -n iso < iso.input

@@ -1,2 +1,2 @@
 alan mulstx
-arun mulstx < mulstx.input
+arun -n mulstx < mulstx.input

@@ -1,2 +1,2 @@
 alan atr
-arun atr < atr.input
+arun -n atr < atr.input

@@ -1,2 +1,2 @@
 alan savebug
-arun savebug < savebug.input
+arun -n savebug < savebug.input

@@ -1,2 +1,2 @@
 alan robertfoo
-arun -d robertfoo < robertfoo.input
+arun -n -d robertfoo < robertfoo.input

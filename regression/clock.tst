@@ -1,2 +1,2 @@
 alan clock
-arun clock < clock.input
+arun -n clock < clock.input

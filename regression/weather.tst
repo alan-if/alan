@@ -1,2 +1,2 @@
 alan weather
-arun weather < weather.input
+arun -n weather < weather.input

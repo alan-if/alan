@@ -1,2 +1,2 @@
 alan joff
-arun joff < joff.input
+arun -n joff < joff.input

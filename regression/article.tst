@@ -1,2 +1,2 @@
 alan article
-arun article < article.input
+arun -n article < article.input

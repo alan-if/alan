@@ -1,2 +1,2 @@
 alan body
-arun body < body.input
+arun -n body < body.input

@@ -1,2 +1,2 @@
 alan sundown
-arun sundown < sundown.input
+arun -n sundown < sundown.input

@@ -1,2 +1,2 @@
 alan parse
-arun parse < parse.input
+arun -n parse < parse.input

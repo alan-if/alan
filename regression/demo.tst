@@ -1,2 +1,2 @@
 alan demo
-arun demo < demo.input
+arun -n demo < demo.input

@@ -1,2 +1,2 @@
 alan alt
-arun alt < alt.input
+arun -n alt < alt.input

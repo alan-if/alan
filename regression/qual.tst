@@ -1,2 +1,2 @@
 alan qual
-arun qual < qual.input
+arun -n qual < qual.input

@@ -1,2 +1,2 @@
 alan binary
-arun binary < binary.input
+arun -n binary < binary.input

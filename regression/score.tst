@@ -1,3 +1,3 @@
 alan score
-arun score < score.input
+arun -n score < score.input
 rm score.sav

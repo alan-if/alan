@@ -1,2 +1,2 @@
 alan talk
-arun talk < talk.input
+arun -n talk < talk.input

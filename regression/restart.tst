@@ -1,2 +1,2 @@
 alan restart
-arun restart < restart.input
+arun -n restart < restart.input

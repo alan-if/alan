@@ -1,11 +1,14 @@
 ########## saviour ##########
 alan -debug saviour
-arun -d saviour < saviour.input
+arun -n -d saviour < saviour.input
 ########## /bin/sh  saviour.tst ##########
 
         No warnings or errors detected.
         17 informational message(s).
 
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-10 22:38:14)>
+<Version of 'saviour' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 Welcome to the game of SAVIOUR!
 
@@ -26,8 +29,8 @@ Outside The Tall Building.
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
-
 <More>
+
 ABUG> x
 
 
@@ -70,7 +73,7 @@ the floor here.
 Taken.
 
 > west
-First Floor (again).
+First Floor (again)
 Almost completely covered by dust, there is an old book laying on the
 floor here.
 
@@ -97,7 +100,7 @@ Taken. OH! There was a coin under it!
 Taken.
 
 > west
-Second Floor (again).
+Second Floor (again)
 
 > up
 Third Floor.
@@ -138,7 +141,7 @@ terminal displays the message 'Please login. Enter USERID:'
 Please login. Enter USERID:'
 
 > west
-Fourth Floor (again).
+Fourth Floor (again)
 
 > north
 Windy Room.
@@ -180,13 +183,13 @@ scared them off. A ladder is raised in the middle of the room, extending
 through the hole in the ceiling.
 
 > south
-Fourth Floor (again).
+Fourth Floor (again)
 
 > up
 Fifth Floor.
 This must be the top of the top landing of the staircase. With a pounding
 heart and breath you look around and see two doorways. A small one to the
-north, and to the east a long corridor.
+south, and to the east a long corridor.
 
 > south
 Clock Room.
@@ -199,7 +202,7 @@ With a deafening BING BANG the clock begins to chime. From the corridor
 in the south a loud flapping of wings is heard.
 
 > north
-Fifth Floor (again).
+Fifth Floor (again)
 
 > east
 Corridor.
@@ -243,10 +246,10 @@ OOH! There is a hand written remark in the margin here, it says 'NilGu'.
 Funny, isn't that what you tried earlier...
 
 > west
-Corridor (again).
+Corridor (again)
 
 > west
-Fifth Floor (again).
+Fifth Floor (again)
 
 > down
 Fourth Floor.
@@ -256,21 +259,21 @@ up and down. Be careful where you put your feet! There are doors to the
 east and to the north.
 
 > down
-Third Floor (again).
+Third Floor (again)
 
 > down
-Second Floor (again).
+Second Floor (again)
 
 > down
-First Floor (again).
+First Floor (again)
 Almost completely covered by dust, there is an old book laying on the
 floor here.
 
 > down
-Stairs (again).
+Stairs (again)
 
 > east
-Hall (again).
+Hall (again)
 To the east is a folding door. It is closed.
 
 > unlock the door with the keys then open the door
@@ -294,12 +297,12 @@ the floor.
 Taken.
 
 > west
-Hall (again).
+Hall (again)
 To the east is a folding door. It is open revealing the entrance to a
 cafeteria.
 
 > west
-Stairs (again).
+Stairs (again)
 
 > down
 Cellar.
@@ -358,10 +361,10 @@ the sunlight can barely be seen through them. There is a doorway to the
 east.
 
 > up
-Third Floor (again).
+Third Floor (again)
 
 > up
-Fourth Floor (again).
+Fourth Floor (again)
 
 > east
 Computer Room.
@@ -419,7 +422,7 @@ a gully.'
 With a loud POP! the computer stops suddenly and the terminal turns blank.
 
 > west
-Fourth Floor (again).
+Fourth Floor (again)
 
 > down
 Third Floor.
@@ -431,15 +434,15 @@ that can be heared. Foremerly there was an entrance to the east which is
 now totally blocked.
 
 > down
-Second Floor (again).
+Second Floor (again)
 
 > down
-First Floor (again).
+First Floor (again)
 Almost completely covered by dust, there is an old book laying on the
 floor here.
 
 > down
-Stairs (again).
+Stairs (again)
 
 > east
 Hall.

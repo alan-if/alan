@@ -1,2 +1,2 @@
 alan french
-arun french < french.input
+arun -n french < french.input

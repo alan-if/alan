@@ -1,2 +1,2 @@
 alan unlock
-arun unlock < unlock.input
+arun -n unlock < unlock.input

@@ -1,2 +1,2 @@
 alan jungle
-arun jungle < jungle.input
+arun -n jungle < jungle.input

@@ -1,2 +1,2 @@
 alan open
-arun open < open.input
+arun -n open < open.input

@@ -1,3 +1,3 @@
 alan scriptbug
-arun scriptbug < scriptbug.input
+arun -n scriptbug < scriptbug.input
 

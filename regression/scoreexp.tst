@@ -1,3 +1,3 @@
 alan scoreexp
-arun scoreexp < scoreexp.input
+arun -n scoreexp < scoreexp.input
 

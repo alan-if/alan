@@ -1,2 +1,2 @@
 alan string
-arun string < string.input
+arun -n string < string.input

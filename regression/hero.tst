@@ -1,2 +1,2 @@
 alan hero
-arun hero < hero.input
+arun -n hero < hero.input

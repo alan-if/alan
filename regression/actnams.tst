@@ -1,2 +1,2 @@
 alan actnams
-arun actnams < actnams.input
+arun -n actnams < actnams.input

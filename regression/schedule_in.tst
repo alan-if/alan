@@ -1,2 +1,2 @@
 alan schedule_in
-arun schedule_in < schedule_in.input
+arun -n schedule_in < schedule_in.input

@@ -1,2 +1,2 @@
 alan actorverb
-arun actorverb < actorverb.input
+arun -n actorverb < actorverb.input

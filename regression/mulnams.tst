@@ -1,2 +1,2 @@
 alan mulnams
-arun mulnams < mulnams.input
+arun -n mulnams < mulnams.input

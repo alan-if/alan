@@ -1,2 +1,2 @@
 alan time
-arun time < time.input
+arun -n time < time.input

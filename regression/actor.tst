@@ -1,2 +1,2 @@
 alan actor
-arun actor < actor.input
+arun -n actor < actor.input

@@ -1,2 +1,2 @@
 alan dollar
-arun dollar < dollar.input
+arun -n dollar < dollar.input

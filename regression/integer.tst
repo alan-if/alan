@@ -1,2 +1,2 @@
 alan integer
-arun integer < integer.input
+arun -n integer < integer.input

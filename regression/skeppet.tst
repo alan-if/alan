@@ -1,2 +1,2 @@
 alan skeppet
-arun skeppet < skeppet.input
+arun -n skeppet < skeppet.input

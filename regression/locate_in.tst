@@ -1,2 +1,2 @@
 alan locate_in
-arun locate_in < locate_in.input
+arun -n locate_in < locate_in.input

@@ -1,2 +1,2 @@
 alan clean_with
-arun clean_with < clean_with.input
+arun -n clean_with < clean_with.input

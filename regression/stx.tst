@@ -1,2 +1,2 @@
 alan stx
-arun stx < stx.input
+arun -n stx < stx.input

@@ -1,2 +1,2 @@
 alan verb
-arun verb < verb.input
+arun -n verb < verb.input

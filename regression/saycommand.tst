@@ -1,2 +1,2 @@
 alan saycommand
-arun saycommand < saycommand.input
+arun -n saycommand < saycommand.input

@@ -1,2 +1,2 @@
 alan mail
-arun mail < mail.input
+arun -n mail < mail.input

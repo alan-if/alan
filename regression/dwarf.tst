@@ -1,2 +1,2 @@
 alan dwarf
-arun dwarf < dwarf.input
+arun -n dwarf < dwarf.input

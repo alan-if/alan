@@ -1,2 +1,2 @@
 alan messages
-arun messages < messages.input
+arun -n messages < messages.input

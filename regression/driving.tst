@@ -1,2 +1,2 @@
 alan driving
-arun driving < driving.input
+arun -n driving < driving.input

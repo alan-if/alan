@@ -1,2 +1,2 @@
 alan verbdir
-arun verbdir < verbdir.input
+arun -n verbdir < verbdir.input

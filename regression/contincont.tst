@@ -1,2 +1,2 @@
 alan contincont
-arun contincont < contincont.input
+arun -n contincont < contincont.input

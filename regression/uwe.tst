@@ -1,2 +1,2 @@
 alan uwe
-arun uwe < uwe.input
+arun -n uwe < uwe.input

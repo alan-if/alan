@@ -1,2 +1,2 @@
 alan pat
-arun pat < pat.input
+arun -n pat < pat.input

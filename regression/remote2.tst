@@ -1,2 +1,2 @@
 alan remote2
-arun remote2 < remote2.input
+arun -n remote2 < remote2.input

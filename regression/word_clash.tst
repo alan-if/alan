@@ -1,2 +1,2 @@
 alan word_clash
-arun word_clash < word_clash.input
+arun -n word_clash < word_clash.input

@@ -1,2 +1,2 @@
 alan multiple
-arun multiple < multiple.input
+arun -n multiple < multiple.input

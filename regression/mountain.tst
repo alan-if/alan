@@ -1,2 +1,2 @@
 alan mountain
-arun mountain < mountain.input
+arun -n mountain < mountain.input

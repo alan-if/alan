@@ -79,6 +79,9 @@ static void switches(argc, argv)
       case 'v':
 	verbose = TRUE;
 	break;
+      case 'n':
+	statusflg = FALSE;
+	break;
       default:
 	printf("Unrecognized switch, -%c\n", argv[i][1]);
 	usage();

@@ -1,2 +1,2 @@
 alan syntaxparam
-arun syntaxparam < syntaxparam.input
+arun -n syntaxparam < syntaxparam.input

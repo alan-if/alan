@@ -1,2 +1,2 @@
 alan alice
-arun alice < alice.input
+arun -n alice < alice.input

@@ -1,2 +1,2 @@
 alan example
-arun example < example.input
+arun -n example < example.input

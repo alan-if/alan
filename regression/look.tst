@@ -1,2 +1,2 @@
 alan look
-arun look < look.input
+arun -n look < look.input

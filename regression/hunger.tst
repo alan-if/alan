@@ -1,2 +1,2 @@
 alan hunger
-arun hunger < hunger.input
+arun -n hunger < hunger.input

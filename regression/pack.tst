@@ -1,2 +1,2 @@
 alan pack
-arun pack < pack.input
+arun -n pack < pack.input

@@ -1,2 +1,2 @@
 alan locverbchk
-arun locverbchk < locverbchk.input
+arun -n locverbchk < locverbchk.input

@@ -1,2 +1,2 @@
 alan hide
-arun hide < hide.input
+arun -n hide < hide.input

@@ -1,2 +1,2 @@
 alan adjnoun
-arun adjnoun < adjnoun.input
+arun -n adjnoun < adjnoun.input

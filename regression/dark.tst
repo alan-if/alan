@@ -1,2 +1,2 @@
 alan dark
-arun dark < dark.input
+arun -n dark < dark.input

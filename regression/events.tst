@@ -1,2 +1,2 @@
 alan events
-arun events < events.input
+arun -n events < events.input

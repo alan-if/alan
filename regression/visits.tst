@@ -1,2 +1,2 @@
 alan visits
-arun visits < visits.input
+arun -n visits < visits.input

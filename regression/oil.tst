@@ -1,2 +1,2 @@
 alan oil
-arun oil < oil.input
+arun -n oil < oil.input

@@ -1,2 +1,2 @@
 alan long
-arun long < long.input
+arun -n long < long.input

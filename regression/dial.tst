@@ -1,2 +1,2 @@
 alan dial
-arun dial < dial.input
+arun -n dial < dial.input

@@ -1,2 +1,2 @@
 alan busstop
-arun busstop < busstop.input
+arun -n busstop < busstop.input

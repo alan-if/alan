@@ -1,2 +1,2 @@
 alan galon
-arun galon < galon.input
+arun -n galon < galon.input

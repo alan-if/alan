@@ -1,2 +1,2 @@
 alan zigzag
-arun zigzag < zigzag.input
+arun -n zigzag < zigzag.input

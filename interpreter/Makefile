@@ -10,9 +10,9 @@ CYGWIN =  -DCOMPILER=\"[CygWin32]\"
 CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 
 LDFLAGS = -g $(CYGWIN) $(VERBOSE)
-LIB = ../../Glk/WinGlk/Glk.lib
+#LIB = ../../Glk/WinGlk/Glk.lib
 
-OBJECTS = arun.o \
+VERSIONOBJECTS = arun.o \
 	main.o \
 	debug.o \
 	args.o \
@@ -26,8 +26,9 @@ OBJECTS = arun.o \
 	reverse.o \
 	readline.o \
 	params.o \
-	sysdep.o \
-	alan.version.o
+	sysdep.o
+
+OBJECTS = $(VERSIONOBJECTS) alan.version.o
 
 
 arun.exe : $(OBJECTS)
@@ -45,15 +46,20 @@ strip:
 	strip arun
 	coff2exe arun
 
-alan.version.c : ../alan.version.c alan.version.h
-	cp ../alan.version.c .
-
-alan.version.h : ../alan.version.h version.h
+#
+# Version number generation
+#
+alan.version.h :
+	cd ..; venum -write always -all alan
 	cp ../alan.version.h .
 
-version.h : ../version.h
+version.h :
+	cd ..; venum alan -write always -all
 	cp ../version.h .
 
+alan.version.c: $(VERSIONOBJECTS) ../alan.version
+	cd ..; venum alan time
+	cp ../alan.version.c .
 
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---

@@ -1,2 +1,2 @@
 alan elsif
-arun elsif < elsif.input
+arun -n elsif < elsif.input

@@ -1,2 +1,2 @@
 alan rules
-arun rules < rules.input
+arun -n rules < rules.input

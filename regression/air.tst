@@ -1,2 +1,2 @@
 alan air
-arun air < air.input
+arun -n air < air.input

@@ -1,2 +1,2 @@
 alan examine
-arun examine < examine.input
+arun -n examine < examine.input

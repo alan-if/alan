@@ -1,2 +1,2 @@
 alan eq
-arun eq < eq.input
+arun -n eq < eq.input

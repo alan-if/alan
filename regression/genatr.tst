@@ -1,2 +1,2 @@
 alan genatr
-arun genatr < genatr.input
+arun -n genatr < genatr.input

@@ -1,2 +1,2 @@
 alan lines
-arun lines < lines.input
+arun -n lines < lines.input

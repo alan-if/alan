@@ -1,2 +1,2 @@
 alan adjverb
-arun adjverb < adjverb.input
+arun -n adjverb < adjverb.input

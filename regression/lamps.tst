@@ -1,2 +1,2 @@
 alan lamps
-arun lamps < lamps.input
+arun -n lamps < lamps.input

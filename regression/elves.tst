@@ -1,2 +1,2 @@
 alan elves -include ../lib
-arun elves < elves.input
+arun -n elves < elves.input

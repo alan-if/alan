@@ -78,6 +78,7 @@ Boolean trcflg = FALSE;
 Boolean dbgflg = FALSE;
 Boolean stpflg = FALSE;
 Boolean logflg = FALSE;
+Boolean statusflg = TRUE;
 Boolean fail = FALSE;
 Boolean anyOutput = FALSE;
 
@@ -178,8 +179,9 @@ void usage()
   glk_set_style(style_Preformatted);
 #endif
   printf("    -v    verbose mode\n");
-  printf("    -l    log player commands and game output\n");
+  printf("    -l    log player commands and game output to a file\n");
   printf("    -i    ignore version and checksum errors\n");
+  printf("    -n    no Status Line\n");
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
   printf("    -s    single instruction trace\n");
@@ -293,6 +295,7 @@ void statusline(void)
   int i;
   int pcol = col;
 
+  if (!statusflg) return;
   /* ansi_position(1,1); ansi_bold_on(); */
   printf("\x1b[1;1H");
   printf("\x1b[7m");
@@ -405,6 +408,7 @@ void clear()
   glk_window_clear(glkMainWin);
 #else
 #ifdef HAVE_ANSI
+  if (!statusflg) return;
   printf("\x1b[2J");
   printf("\x1b[%d;1H", paglen);
 #endif
@@ -566,7 +570,6 @@ static void prsym(str)
      char *str;			/* IN - The string starting with '$' */
 #endif
 {
-  needsp = TRUE;		/* Default is to print something */
   switch (toLower(str[1])) {
   case 'n':
     newline();
@@ -580,6 +583,7 @@ static void prsym(str)
     break;
   case 'o':
     sayparam(0);
+    needsp = TRUE;		/* We did print something non-white */
     break;
   case '1':
   case '2':
@@ -591,15 +595,19 @@ static void prsym(str)
   case '8':
   case '9':
     sayparam(str[1]-'1');
+    needsp = TRUE;		/* We did print something non-white */
     break;
   case 'l':
     say(cur.loc);
+    needsp = TRUE;		/* We did print something non-white */
     break;
   case 'a':
     say(cur.act);
+    needsp = TRUE;		/* We did print something non-white */
     break;
   case 'v':
     just((char *)addrTo(dict[vrbwrd].wrd));
+    needsp = TRUE;		/* We did print something non-white */
     break;
   case 'p':
     para();

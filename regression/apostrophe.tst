@@ -1,2 +1,2 @@
 alan apostrophe
-arun apostrophe < apostrophe.input
+arun -n apostrophe < apostrophe.input

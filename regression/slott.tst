@@ -1,2 +1,2 @@
 alan slott
-arun slott < slott.input
+arun -n slott < slott.input

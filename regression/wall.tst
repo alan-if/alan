@@ -1,2 +1,2 @@
 alan wall
-arun wall < wall.input
+arun -n wall < wall.input

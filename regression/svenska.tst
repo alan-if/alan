@@ -1,2 +1,2 @@
 alan svenska
-arun svenska < svenska.input
+arun -n svenska < svenska.input

@@ -1,2 +1,2 @@
 alan -debug byron
-arun -d byron < byron.input
+arun -n -d byron < byron.input

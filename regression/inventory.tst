@@ -1,2 +1,2 @@
 alan inventory
-arun inventory < inventory.input
+arun -n inventory < inventory.input

@@ -1,2 +1,2 @@
 alan vastspace
-arun vastspace < vastspace.input
+arun -n vastspace < vastspace.input

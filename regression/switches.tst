@@ -1,3 +1,3 @@
 alan -h
-arun -h
-arun -help
+arun -n -h
+arun -n -help

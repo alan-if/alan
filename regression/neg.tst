@@ -1,2 +1,2 @@
 alan neg
-arun neg < neg.input
+arun -n neg < neg.input

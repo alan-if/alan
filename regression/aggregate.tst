@@ -1,2 +1,2 @@
 alan aggregate
-arun aggregate < aggregate.input
+arun -n aggregate < aggregate.input

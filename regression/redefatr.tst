@@ -1,2 +1,2 @@
 alan redefatr
-arun redefatr < redefatr.input
+arun -n redefatr < redefatr.input

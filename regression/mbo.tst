@@ -1,2 +1,2 @@
 alan mbo
-arun mbo < mbo.input
+arun -n mbo < mbo.input

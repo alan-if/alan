@@ -1,2 +1,2 @@
 alan system
-arun system < system.input
+arun -n system < system.input

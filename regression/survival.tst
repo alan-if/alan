@@ -1,2 +1,2 @@
 alan survival
-arun survival < survival.input
+arun -n survival < survival.input

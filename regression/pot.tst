@@ -1,2 +1,2 @@
 alan pot
-arun pot < pot.input
+arun -n pot < pot.input

@@ -1,2 +1,2 @@
 alan oatrs -debug
-arun -s -d oatrs < oatrs.input
+arun -n -s -d oatrs < oatrs.input

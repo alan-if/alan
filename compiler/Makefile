@@ -85,13 +85,12 @@ fromsrc: $(OBJECTS) alan.version.o
 #
 # Version number generation
 #
-
 alan.version.h :
-	cd ..; venum alan -all
+	cd ..; venum -write always -all alan
 	cp ../alan.version.h .
 
 version.h :
-	cd ..; venum alan -all
+	cd ..; venum alan -write always -all
 	cp ../version.h .
 
 alan.version.c: $(VERSIONOBJECTS) ../alan.version

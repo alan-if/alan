@@ -1,2 +1,2 @@
 alan script_description
-arun script_description < script_description.input
+arun -n script_description < script_description.input

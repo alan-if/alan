@@ -1,2 +1,2 @@
 alan locate
-arun locate < locate.input
+arun -n locate < locate.input

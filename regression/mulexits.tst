@@ -1,2 +1,2 @@
 alan mulexits
-arun mulexits < mulexits.input
+arun -n mulexits < mulexits.input

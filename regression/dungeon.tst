@@ -1,2 +1,2 @@
 alan dungeon
-arun dungeon < dungeon.input
+arun -n dungeon < dungeon.input

@@ -1,2 +1,2 @@
 alan button
-arun button < button.input
+arun -n button < button.input
