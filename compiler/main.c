@@ -4,6 +4,8 @@
 
   Alan compiler main program unit - command-line version
 
+  HEAD -version
+
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
