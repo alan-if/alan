@@ -230,7 +230,7 @@ static int val(char str[])
     %% adv.clas = concat(adv.clas, %<class>.cla, LIST_CLA); %%
 
     ! <add>
-    %% adv.adds = concat(adv.adds, %<add>.add, LIST_ADD); %%
+    %% adv.adds = concat(adv.adds, %<add>.add, ADD_LIST); %%
 
     ! <instance>
     %% adv.inss = concat(adv.inss, %<instance>.ins, LIST_INS); %%
