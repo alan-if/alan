@@ -30,10 +30,9 @@ typedef enum RestrictionKind {
 typedef struct Restriction {	/* RESTRICTION */
   Srcp srcp;			/* Source position of this element */
   Id *id;			/* Name */
-  Bool single;			/* TRUE if a single class */
   RestrictionKind kind;		/* Kind of class (id, string, integer) */
-  Id *class;			/* The classes the id may have */
-  List *stms;			/* Statements to execute if not */
+  Id *class;			/* The class the id must belong to */
+  List *statements;		/* Statements to execute if not */
   Aaddr stmadr;			/* GE - Address to generated statements */
 } Restriction;
 
@@ -48,10 +47,9 @@ typedef struct Restriction {	/* RESTRICTION */
 /* Create a new element Restrictiontriction node */
 extern Restriction *newRestriction(Srcp *srcp,
 				   Id *id,
-				   Bool single,
 				   RestrictionKind kind,
 				   Id *class,
-				   List *stms);
+				   List *statements);
 
 /* Analyze a list of Restriction nodes */
 extern void analyseRestrictions(List *restrictions, List *parameters);

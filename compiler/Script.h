@@ -22,6 +22,7 @@
 typedef struct Script {		/* SCRIPT */
   Srcp srcp;			/* Source position */
   Id *id;			/* Name for this script */
+  int code;			/* Code for the script */
   List *description;		/* List of optional description statements */
   Aaddr stmadr;			/* ACODE address description statements */
   List *steps;			/* List of step-blocks */
