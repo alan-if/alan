@@ -116,7 +116,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
   words[WRD_CLASSES]++;
 
   if (new->code == 0)
-    new->code = words[class];
+    new->code = words[WRD_CLASSES];
   return new->code;
 }
 
@@ -347,4 +347,48 @@ Aaddr gewrds(void)
   emit(EOF);
 
   return(adr);
+}
+
+
+/*----------------------------------------------------------------------*/
+void duwrdclasses(WrdKind classes)
+{
+  if ((classes&(1<<WRD_SYN)) != 0) put(" Synonym");
+  if ((classes&(1<<WRD_ADJ)) != 0) put(" Adjective");
+  if ((classes&(1<<WRD_ALL)) != 0) put(" All");
+  if ((classes&(1<<WRD_BUT)) != 0) put("But ");
+  if ((classes&(1<<WRD_CONJ)) != 0) put(" Conjunction");
+  if ((classes&(1<<WRD_PREP)) != 0) put(" Preposition");
+  if ((classes&(1<<WRD_DIR)) != 0) put(" Direction");
+  if ((classes&(1<<WRD_IT)) != 0) put(" It");
+  if ((classes&(1<<WRD_NOISE)) != 0) put(" Noise");
+  if ((classes&(1<<WRD_NOUN)) != 0) put(" Noun");
+  if ((classes&(1<<WRD_ACT)) != 0) put(" Actor");
+  if ((classes&(1<<WRD_THEM)) != 0) put(" Them");
+  if ((classes&(1<<WRD_VRB)) != 0) put(" Verb");
+}
+
+
+/*----------------------------------------------------------------------*/
+void duwrd(WrdNod *wrd)
+{
+  if (wrd == NULL) return;
+
+  duwrd(wrd->low);
+
+  nl();
+  put("WRD: "); dustr(wrd->str); in();
+  put("classbits: "); duadr(wrd->classbits); duwrdclasses(wrd->classbits); nl();
+  put("code: "); duint(wrd->code); out();
+
+  duwrd(wrd->high);
+}
+
+
+/*======================================================================*/
+void duwrds(void)
+{
+  in();
+  duwrd(wrdtree);
+  out();
 }

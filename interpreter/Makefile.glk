@@ -1,49 +1,53 @@
-# Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
+# Makefile for Alan interpreter to be built with Glk for Windows (using gcc)
 
 # Glk definitions
 
-GLKINCLUDEDIR = /usr/local/include/glk
-GLKLIBDIR = /usr/local/lib/glk
-GLKMAKEFILE = Make.xglk
-GLKTARGET = xalan 
-GLK = -DGLK
+GLKROOT = /home/thoni/Alan/WindowsGLK
+GLKINCLUDEDIR = $(GLKROOT)/Include
+#GLKLIBDIR = /usr/local/lib/glk
+GLKLIB = $(GLKROOT)/Glk.lib
+#GLKMAKEFILE = Make.xglk
+GLKTARGET = winarun
+
+GLK = -DGLK -DWINGLK
 
 #A tag describing the type of build 
-COMPILER = -DCOMPILER=\"[glk]\"
+#COMPILER = -DCOMPILER=\"[glk]\"
+CYGWIN = -mno-cygwin -mwindows
 
-# Define the for more verbosity
+# Define this for more verbosity
 #VERBOSE = -DVERBSOE
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-# Define this if the headers are reversed on this platform
-REVERSED = -DREVERSED
+# Define this if the headers are reversed on this platform if not set in sysdep
+#REVERSED = -DREVERSED
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"$(GLKTARGET)\"
 
 # Where do you want to put it?
-INSTALLDIR = /usr/local/bin
+INSTALLDIR = ../bin
 
 
-include $(GLKINCLUDEDIR)/$(GLKMAKEFILE)
+#include $(GLKINCLUDEDIR)/$(GLKMAKEFILE)
 
 ###  Do not edit below this line  ### 
 
-ARUNOPTS = $(COMPILER) $(VERBOSE) $(CRCLOG) $(REVERSED) $(PROGNAME) $(GLK)
+ARUNOPTS = $(VERBOSE) $(CRCLOG) $(REVERSED) $(PROGNAME) $(GLK) $(CYGWIN)
 
 CC = gcc
 CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS)
 
 LINK = gcc
 LDFLAGS = -g $(ARUNOPTS)
-LIBS = -L$(GLKLIBDIR) $(LINKLIBS) $(GLKLIB)
+LIBS = $(LINKLIBS) $(GLKLIB)
 
 INSTALL = install
 INSTFLAGS = -g 0 -o 0 -s
 
-GLKOBJS = glkstart.o glkio.o
+GLKOBJS = winglk.o glkstart.o glkio.o
 
 OBJECTS = arun.o \
 	main.o \
@@ -86,6 +90,7 @@ clean:
 #---<< Glk objects >>---
 glkstart.o: glkstart.c glkstart.h glkio.h
 glkio.o: glkio.c glkio.h
+winglk.o: winglk.c
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 args.o: args.c args.h main.h types.h sysdep.h acode.h glkio.h

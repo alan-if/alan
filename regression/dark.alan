@@ -53,20 +53,11 @@ Location indoors
       "This is usually a very dark room. But in this light you can see..."
     Else
       "You can not see anything in the dark."
-      List things_at_indoors.
     End If.
 
   Exit out To outdoors.
 
 End Location.
-
-Object things_at_indoors At indoors
-  Container
-  Description ""
-End Object.
-
-Object stone in things_at_indoors
-End Object.
 
 
 Location outdoors

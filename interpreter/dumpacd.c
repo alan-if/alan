@@ -53,14 +53,22 @@ static void indent(int level)
 }
 
 
+static char *findSyntaxWord(int code)
+{
+  WrdElem *theWord;
 
-/*----------------------------------------------------------------------
+  for (theWord = (WrdElem *)addrTo(header->dict); !endOfTable(theWord); theWord++) {
+    if (((theWord->class&((Aword)1L<<WRD_VRB)) != 0) ||
+	((theWord->class&((Aword)1L<<WRD_PREP)) != 0))
+      if (theWord->code == code)
+	return (char *)addrTo(theWord->wrd);
+  }
+  return "<none>";
+}
 
-  dumpAwords()
 
-  Dump a list of Awords
 
- */
+/*----------------------------------------------------------------------*/
 static void dumpAwords(Aaddr awords)
 {
   Aword *adr;
@@ -75,13 +83,7 @@ static void dumpAwords(Aaddr awords)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpWrdClass()
-
-  Dump the classes of a Word in the dictionary
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpWrdClass(Aword class)
 {
   if ((class&((Aword)1L<<WRD_VRB)) != 0) printf("Verb ");
@@ -101,13 +103,7 @@ static void dumpWrdClass(Aword class)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpDict()
-
-  Dump the dictionary
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpDict(int level, Aword dict)
 {
   WrdElem *wrd;
@@ -145,13 +141,7 @@ static void dumpDict(int level, Aword dict)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpAtrs()
-
-  Dump a list of attributes
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpAtrs(int level, Aword atrs)
 {
   AtrElem *atr;
@@ -174,13 +164,7 @@ static void dumpAtrs(int level, Aword atrs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpChks()
-
-  Dump a list of checks
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpChks(int level, Aword chks)
 {
   ChkElem *chk;
@@ -199,13 +183,7 @@ static void dumpChks(int level, Aword chks)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpQual()
-
-  Dump a Qualifier
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpQual(Aword qual)
 {
   switch (qual) {
@@ -217,13 +195,7 @@ static void dumpQual(Aword qual)
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpAlts()
-
-  Dump a list of verbs
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpAlts(int level, Aword alts)
 {
   AltElem *alt;
@@ -247,16 +219,11 @@ static void dumpAlts(int level, Aword alts)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpVrbs()
-
-  Dump a list of verbs
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpVrbs(int level, Aword vrbs)
 {
   VrbElem *vrb;
+  char *verbWord;
 
   if (vrbs == 0) return;
 
@@ -264,7 +231,8 @@ static void dumpVrbs(int level, Aword vrbs)
     indent(level);
     printf("VRB:\n");
     indent(level+1);
-    printf("CODE: %ld\n", vrb->code);
+    verbWord = findSyntaxWord(vrb->code);
+    printf("CODE: %ld (%s)\n", vrb->code, verbWord);
     indent(level+1);
     printf("ALT: %ld(0x%lx)\n", vrb->alts, vrb->alts);
     dumpAlts(level+2, vrb->alts);
@@ -273,13 +241,7 @@ static void dumpVrbs(int level, Aword vrbs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpCnts()
-
-  Dump a list of verbs
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpCnts(int level, Aword cnts)
 {
   CntElem *cnt;
@@ -305,13 +267,7 @@ static void dumpCnts(int level, Aword cnts)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpObjs()
-
-  Dump a list of objects
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpObjs(int level, Aword objs)
 {
   ObjElem *obj;
@@ -345,13 +301,7 @@ static void dumpObjs(int level, Aword objs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpActs()
-
-  Dump a list of actors
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpActs(int level, Aword acts)
 {
   ActElem *act;
@@ -391,13 +341,7 @@ static void dumpActs(int level, Aword acts)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpExts()
-
-  Dump a list of exits
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpExts(int level, Aword exts)
 {
   ExtElem *ext;
@@ -421,13 +365,7 @@ static void dumpExts(int level, Aword exts)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpLocs()
-
-  Dump a list of locations
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpLocs(int level, Aword locs)
 {
   LocElem *loc;
@@ -459,14 +397,27 @@ static void dumpLocs(int level, Aword locs)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void dumpRess(int level, Aword ress)
+{
+  ClaElem *res;
 
-/*----------------------------------------------------------------------
+  if (ress == 0) return;
 
-  dumpElms()
+  for (res = (ClaElem *)addrTo(ress); !endOfTable(res); res++) {
+    indent(level);
+    printf("RES: #%ld(0x%lx)\n", res->code, res->code);
+    indent(level+1);
+    printf("CLASSES: %ld(0x%lx)\n", res->classes, res->classes);
+    indent(level+1);
+    printf("STMS: %ld(0x%lx)\n", res->stms, res->stms);
+  }
+  /* Verb code is placed after the End Of Table marker */
+  indent(level);
+  printf("VERB CODE: %ld(0x%lx)\n", res->classes, res->classes);
+}
 
-  Dump a list of syntax elements
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpElms(int level, Aword elms)
 {
   ElmElem *elm;
@@ -475,35 +426,39 @@ static void dumpElms(int level, Aword elms)
 
   for (elm = (ElmElem *)addrTo(elms); !endOfTable(elm); elm++) {
     indent(level);
-    printf("ELM: #%ld\n", elm->code);
+    if (elm->code == EOS)
+      printf("ELM: End of this Syntax Branch\n");
+    else if (elm->code == 0)
+      printf("ELM: Parameter\n");
+    else {
+      char *word = findSyntaxWord(elm->code);
+      printf("ELM: Word #%ld (\"%s\")\n", elm->code, word);
+    }
     indent(level+1);
     printf("FLAGS: %ld(0x%lx)\n", elm->flags, elm->flags);
     indent(level+1);
-    printf("NEXT (%s): %ld(0x%lx)\n", elm->code==-2?"cla":"elm", elm->next, elm->next);
-    if(elm->code != EOS) {
+    printf("NEXT (%s): %ld(0x%lx)\n", elm->code==EOS?"class restriction":"element", elm->next, elm->next);
+    if(elm->code != EOS)
       dumpElms(level+2, elm->next);
-    }
+    else
+      dumpRess(level+2, elm->next);
   }
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpStxs()
-
-  Dump a list of syntax descriptions
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpStxs(int level, Aword stxs)
 {
   StxElem *stx;
+  char *theWord;
 
   if (stxs == 0) return;
 
   for (stx = (StxElem *)addrTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
-    printf("STX: #%ld\n", stx->code);
+    theWord = findSyntaxWord(stx->code);
+    printf("STX: #%ld (%s)\n", stx->code, theWord);
     indent(level+1);
     printf("ELMS: %ld(0x%lx)\n", stx->elms, stx->elms);
     dumpElms(level+2, stx->elms);
@@ -512,13 +467,7 @@ static void dumpStxs(int level, Aword stxs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpStms()
-
-  Dump a list of statements
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpStms(Aword pc)
 {
   Aword i;
@@ -821,13 +770,7 @@ static void dumpStms(Aword pc)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpACD()
-
-  Dump the header and all data
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpACD(void)
 {
   Aword crc = 0;
@@ -894,11 +837,7 @@ static void dumpACD(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  load()
-
- */
+/*----------------------------------------------------------------------*/
 static void load(char acdfnm[])
 {
   AcdHdr tmphdr;

@@ -2,14 +2,12 @@ Syntax lit = lit (int) (str)
 	Where int Isa Integer Else "First parameter should be an integer."
 	And str Isa String Else "Second parameter should be a string."
 
-Add To Every literal
-  Verb lit
-    Does
-      "Lit:" Say int. Say str.
-  End Verb lit.
-End Add To.
+Verb lit
+  Does
+    "Lit:" Say int. Say str.
+End Verb lit.
 
-The l Isa location
-End The l.
+Location l
+End Location l.
 
 Start At l.

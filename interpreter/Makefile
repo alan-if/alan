@@ -1,16 +1,36 @@
 # Makefile for Alan interpreter to be built with CygWin
 
-#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin -I/cygnus/mingw/include -L/cygnus/mingw/lib
-#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin
-CYGWIN =  -DCOMPILER=\"[CygWin32]\"
+CYGWIN = #-DCOMPILER=\"[GCC/CygWin32]\"
+OPTIMIZE = -g
+
+GLKROOT = /home/thoni/Alan/WindowsGLK
+GLKDEFS = -DGLK -DWINGLK
+GLKINCLUDE = -I$(GLKROOT)/Include
+GLKLIB = $(GLKROOT)/Glk.lib
+
+CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
+
+#Settings for Windows GLK variant
+winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
+winarun: CYGWIN = -mwindows -mno-cygwin
+winarun: LIB = $(LIB) $(GLKLIB)
+
+#-DCOMPILER=\"[GCC/Mingw32]\"
+
+release: OPTIMIZE = -O4
+
+ARCH	= $(CYGWIN)$(OPTIMIZE)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
 CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 
-LDFLAGS = -g $(CYGWIN) $(VERBOSE)
-#LIB = ../../Glk/WinGlk/Glk.lib
+CPP	= gcc -MM -ansi
+
+LDFLAGS = $(CYGWIN) $(VERBOSE)
+
+GLKSRCS = glkstart.c glkio.c
 
 VERSIONOBJECTS = arun.o \
 	main.o \
@@ -28,24 +48,45 @@ VERSIONOBJECTS = arun.o \
 	params.o \
 	sysdep.o
 
-OBJECTS = $(VERSIONOBJECTS) alan.version.o
+ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
+GLKOBJECTS = ${GLKSRCS:.c=.o}
+WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 
-arun.exe : $(OBJECTS)
-	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
-	-mkdir ../bin
+all: checkTarget arun
+
+arun : $(ARUNOBJECTS) Makefile dependencies.mk
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
-dumpacd: dumpacd.o reverse.o spa.o
-	$(CC) -o dumpacd $(CFLAGS) dumpacd.o reverse.o spa.o
+release:
+	$(MAKE) "OPTIMIZE=-O4" arun
+	$(MAKE) "OPTIMIZE=-O4" winarun
+
+winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
+	gcc -o winarun $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp winarun.exe ../bin
+
+arun.res: arun.rc arun.ico resources.h
+	windres $< -O coff -o $@
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
+clean:
+	-rm *.o
 
-strip:
-	strip arun
-	coff2exe arun
+.PHONY: checkTarget
+checkTarget:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test "`cat .arch`" != "$(ARCH)"; then \
+		echo Removing objects, re-building for $(ARCH)... ; \
+		rm *.o; \
+		echo $(ARCH) > .arch; \
+	fi
+
 
 #
 # Version number generation
@@ -54,41 +95,32 @@ strip:
 #
 alan.version.h :
 	cd ..; venum -write always -all alan
-	cp ../alan.version.h .
+	cp -p ../alan.version.h .
 
 version.h :
 	cd ..; venum -write always -all alan
-	cp ../version.h .
+	cp -p ../version.h .
 
-alan.version.c: $(VERSIONOBJECTS) ../alan.version
+../alan.version: $(VERSIONSRCS) 
 	cd ..; venum alan time
-	cp ../alan.version.c .
+
+alan.version.c:  ../alan.version
+	cp -p ../alan.version.c .
 
 
-#---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.o: args.c args.h main.h types.h sysdep.h acode.h
-arun.o: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
-chartest.o: chartest.c alan.version.h
-debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
- main.h parse.h exe.h debug.h alan.version.h
-decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
-dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
-exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
- inter.h stack.h decode.h exe.h
-genalan.o: genalan.c spa.h
-inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
- inter.h
-main.o: main.c sysdep.h types.h acode.h main.h readline.h version.h \
- args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h alan.version.h
-params.o: params.c types.h sysdep.h acode.h params.h
-parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
- exe.h term.h debug.h params.h parse.h
-readline.o: readline.c readline.h types.h sysdep.h acode.h main.h
-reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
-rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
- stack.h rules.h
-spa.o: spa.c spa.h
-stack.o: stack.c types.h sysdep.h acode.h main.h stack.h
-sysdep.o: sysdep.c sysdep.h
-term.o: term.c main.h types.h sysdep.h acode.h term.h
-version.o: version.c version.h
+dumpacd: dumpacd.o reverse.o spa.o
+	gcc -o dumpacd -g dumpacd.o spa.o reverse.o
+
+
+#
+# Dependencies
+#
+depend:
+	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
+	  do \
+	  $(CPP) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
+	  $(CPP) $(GLKDEFS) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
+	done
+	mv dependencies.new dependencies.mk
+
+include dependencies.mk

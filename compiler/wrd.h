@@ -53,5 +53,6 @@ extern void anwrds(void);
 /* Generate all Words in the dictionary */
 extern Aaddr gewrds(void);
 
+extern void duwrds(void);
 
 #endif

@@ -111,7 +111,8 @@ containers\n\
 events\n\
 actors\n\
 rules\n\
-everything", dmpflg, "sxvlocear!", NULL, NULL)
+dictionary\n\
+everything", dmpflg, "sxvloceard!", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

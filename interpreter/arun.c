@@ -3,7 +3,7 @@
   ARUN.C
 
   Main program for interpreter for ALAN Adventure Language
-  Simple terminal style I/O only
+
 
 \*----------------------------------------------------------------------*/
 
@@ -18,6 +18,11 @@
 
 #ifdef GLK
 #include "glkio.h"
+#ifdef __win__
+#include "WinGlk.h"
+#else
+#include "glk.h"
+#endif
 #endif
 
 /*======================================================================
@@ -72,11 +77,34 @@ int main(argc, argv)
     newline();
   }
   
-  if (strcmp(advnam, "") == 0) {
-    printf("No Adventure name given.\n");
+  if (advnam == NULL || *advnam == 0) {
+#ifdef WINGLK
+    char *filename;
+    filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
+		"Alan v2 Game Files (*.acd)|*.acd||");
+    if (filename) {
+      char *directoryPart;
+      if (((directoryPart = strrchr(filename, '\\')) == NULL)
+	  && ((directoryPart = strrchr(filename, ':')) == NULL))
+	advnam = strdup(filename);
+      else
+	advnam = strdup(directoryPart+1);
+      advnam[strlen(advnam)-4] = '\0'; /* Strip off .A3C */
+    } else {
+      printf("You should supply a game file to play.\n");
+      usage();
+      terminate(0);
+    }
+#else
+    printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
+#endif
   }
+
+#ifdef WINGLK
+  winglk_window_set_title(advnam);
+#endif
 
   run();
 
@@ -84,6 +112,6 @@ int main(argc, argv)
   return;
 #else
   return(EXIT_SUCCESS);
-#endif;
+#endif
 }
 

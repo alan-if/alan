@@ -7,9 +7,32 @@
 #ifdef GLK
 
 #include "readline.h"
+#include "exe.h"
 #include "main.h"
 #include "glk.h"
 #include "glkio.h"
+
+#ifdef WINGLK
+#include "resources.h"
+#include "WinGlk.h"
+
+BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
+{ 
+    switch (message) 
+    { 
+        case WM_COMMAND: 
+            switch (LOWORD(wParam)) 
+            { 
+                case IDOK: 
+                    EndDialog(hwndDlg, wParam); 
+                    return TRUE; 
+            } 
+    } 
+    return FALSE; 
+}
+
+#endif
+
 
 /*======================================================================
 
@@ -23,6 +46,10 @@
 Boolean readline(char usrbuf[])
 {
   event_t event;
+#ifdef WINGLK
+  INT_PTR e;
+#endif
+
   glk_request_line_event(glkMainWin, usrbuf, 255, 0);
   /* FIXME: buffer size should be infallible: all existing calls use 256 or
      80 character buffers, except parse which uses LISTLEN (currently 100)
@@ -30,8 +57,38 @@ Boolean readline(char usrbuf[])
   do
   {
     glk_select(&event);
-    if (evtype_Arrange == event.type)
+    switch (event.type) {
+    case evtype_Arrange:
       statusline();
+      break;
+#ifdef WINGLK
+    case winglk_evtype_GuiInput:
+      switch (event.val1) {
+      case ID_MENU_RESTART:
+	restart();
+	break;
+      case ID_MENU_SAVE:
+	printf("save\n");
+	glk_set_style(style_Normal);
+	save();
+	para();
+	printf("> ");
+	break;
+      case ID_MENU_RESTORE:
+	printf("restore\n");
+	glk_set_style(style_Normal);
+	restore();
+	look();
+	para();
+	printf("> ");
+	break;
+      case ID_MENU_ABOUT:
+	e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
+	break;
+      }
+      break;
+#endif
+    }
   } while (event.type != evtype_LineInput);
   usrbuf[event.val1] = 0;
   return TRUE;
@@ -453,6 +510,11 @@ static void insertCh(char ch) {
   }
 }
 
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+#endif
 
 /*----------------------------------------------------------------------
 
@@ -465,9 +527,6 @@ static void echoOff()
   newtermio();
 #else
 #ifdef __win__
-#include <windows.h>
-#include <winbase.h>
-#include <wincon.h>
 
   DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -489,9 +548,6 @@ static void echoOn()
   restoretermio();
 #else
 #ifdef __win__
-#include <windows.h>
-#include <winbase.h>
-#include <wincon.h>
 
   DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
   (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);

@@ -278,6 +278,7 @@ void duadv(enum dmpkd dmp)
   put("evts: "); if (dmp&DMPEVT) dulst(adv.evts, EVTNOD); else put("--"); nl();
   put("acts: "); if (dmp&DMPACT) dulst(adv.acts, ACTNOD); else put("--"); nl();
   put("ruls: "); if (dmp&DMPRUL) dulst(adv.ruls, RULNOD); else put("--"); nl();
+  put("dict: "); if (dmp&DMPDICT) duwrds(); else put("--"); nl();
   put("whr: "); duwhr(adv.whr); nl();
   put("stms: "); dulst(adv.stms, STMNOD); out();
 }
