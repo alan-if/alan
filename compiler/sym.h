@@ -26,15 +26,15 @@ typedef enum SymbolKind {
 } SymbolKind;
 
 
-typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
+typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
   SymbolKind kind;		/* What kind of symbol? */
   char *string;			/* Name of this entry */
   int code;			/* Internal code for this symbol in its kind */
-  struct SymNod *lower, *higher;	/* Links to build a binary search tree */
+  struct Symbol *lower, *higher;	/* Links to build a binary search tree */
   union {
 
     struct {
-      struct SymNod *parent;
+      struct Symbol *parent;
       Bool attributesNumbered;
       Bool attributesReplicated;
       struct SlotsNode *slots;
@@ -46,11 +46,11 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
 
     struct {
       struct ElmNod *element;
-      struct SymNod *class;
+      struct Symbol *class;
       TypeKind type;
     } parameter;
 
   } fields;
-} SymNod;
+} Symbol;
 
 #endif

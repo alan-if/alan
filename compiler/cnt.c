@@ -72,7 +72,7 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
 void verifyContainer(WhtNod *wht,
 		     Context *context)
 {
-  SymNod *sym;
+  Symbol *sym;
 
   if (wht == NULL)
     return;

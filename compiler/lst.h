@@ -69,7 +69,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct StpNod *stp;
     struct StxNod *stx;
     struct SynNod *syn;
-    struct SymNod *sym;
+    struct Symbol *sym;
     struct VrbNod *vrb;
     struct ElmEntry *eent;
     struct IdNode *id;

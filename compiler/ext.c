@@ -47,7 +47,7 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 	       List *stms)	/* IN - The statements to execute */
 {
   ExtNod *new;			/* The newly created node */
-  SymNod *sym;
+  Symbol *sym;
   List *lst;			/* Traversal pointer */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }

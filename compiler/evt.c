@@ -42,7 +42,7 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 	       List *stms)	/* IN - Statements to execute */
 {
   EvtNod *new;		/* The newly allocated node */
-  SymNod *sym;		/* Symbol table entry */
+  Symbol *sym;		/* Symbol table entry */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 

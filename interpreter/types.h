@@ -166,7 +166,6 @@ typedef struct ObjEntry {	/* OBJECT TABLE */
   Aaddr vrbs;			/* Address to local verb table */
   Aaddr dscr1;			/* Address to Aword description code */
   Aaddr art;			/* Article printing code? Else use default */
-				/* INTRODUCED: v2.6 */
   Aaddr dscr2;			/* Address to short description code */
 } ObjEntry;
 

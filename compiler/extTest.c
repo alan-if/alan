@@ -14,7 +14,7 @@ void testNewExt()
   IdNode *targetLocation = newId(&nulsrcp, "aLocation");
   ExtNod *theExit;
   IdNode *aLocationId = newId(&nulsrcp, "aLocation");
-  SymNod *aLocationSymbol;
+  Symbol *aLocationSymbol;
   int firstAddress;
   int entrySize = ACDsizeOf(ExitEntry);
 

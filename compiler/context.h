@@ -26,7 +26,7 @@ typedef enum {
 
 typedef struct Context {
   ContextKind kind;
-  SymNod *verb;
+  Symbol *verb;
   InsNod *instance;
   EvtNod *event;
 } Context;

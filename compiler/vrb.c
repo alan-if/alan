@@ -47,7 +47,7 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
 	       List *alts)	/* IN - List of alternatives  */
 {
   VrbNod *new;			/* The newly allocated area */
-  SymNod *sym;
+  Symbol *sym;
   List *lst;			/* Traversal pointer */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }

@@ -133,7 +133,7 @@ void testAttributeListsInSymbolTable()
 {
   ClaNod *firstClass, *secondClass;
   List *firstClassAttributes, *secondClassAttributes, *firstInstanceAttributes, *secondInstanceAttributes;
-  SymNod *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
+  Symbol *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
   int x, y, z;
 
   initadv();

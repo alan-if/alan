@@ -6,8 +6,6 @@
 
 \*----------------------------------------------------------------------*/
 
-#define V27COMPATIBLE
-
 #include "sysdep.h"
 
 #include "types.h"
@@ -1443,16 +1441,6 @@ static void checkvers(header)
 
   /* Compatible if version and revision match... */
   if (strncmp(header->vers, vers, 2) != 0) {
-#ifdef V25COMPATIBLE
-    if (header->vers[0] == 2 && header->vers[1] == 5) /* Check for 2.5 version */
-      /* This we can convert later if needed... */;
-    else
-#endif
-#ifdef V27COMPATIBLE
-    if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-      /* This we can convert later if needed... */;
-    else
-#endif
       if (errflg) {
 	char str[80];
 	sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",

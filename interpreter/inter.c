@@ -88,28 +88,12 @@ static void else_()
 
 
 #ifdef _PROTOTYPES_
-static void depstart(void)
+static void dup(void)
 #else
-static void depstart(void)
+static void dup()
 #endif
 {
-  /* A DEPSTART was executed so skip across the redundant DEPCASE to
-     start at the first expression */
-  pc++;
-}
-
-
-#ifdef _PROTOTYPES_
-static void swap(void)
-#else
-static void swap()
-#endif
-{
-  Aword v1 = pop();
-  Aword v2 = pop();
-
-  push(v1);
-  push(v2);
+  push(top());
 }
 
 
@@ -137,8 +121,11 @@ static void depexec(v)
 	  lev++;
 	  break;
 	case I_DEPEND:
-	  if (lev == 1) return;
-	  lev--;
+	  if (lev == 1) {
+	    pc--;
+	    return;
+	  } else
+	    lev--;
 	  break;
 	case I_DEPCASE:
 	case I_DEPELSE:
@@ -158,9 +145,11 @@ static void depcase()
   int lev = 1;
   Aword i;
 
-  /* Skip to end of DEPENDING block (next DEPEND on same level) because
-     we have just executed a DEPCASE/DEPELSE statement as a result of a DEPCASE
-     catching */
+  /* 
+     We have just executed a DEPCASE/DEPELSE clause as a result of a
+     DEPCASE catching so skip to end of DEPENDING block (next DEPEND
+     on same level) then return.
+  */
 
   while (TRUE) {
     i = memory[pc++];
@@ -171,7 +160,10 @@ static void depcase()
 	break;
       case I_DEPEND:
 	lev--;
-	if (lev == 0) return;
+	if (lev == 0) {
+	  pc--;
+	  return;
+	}
 	break;
       }
   }
@@ -559,8 +551,6 @@ void interpret(adr)
       }
       case I_AND: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg) {
@@ -577,8 +567,6 @@ void interpret(adr)
       }
       case I_OR: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg) {
@@ -595,8 +583,6 @@ void interpret(adr)
       }
       case I_NE: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -610,8 +596,6 @@ void interpret(adr)
       }
       case I_EQ: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -625,8 +609,6 @@ void interpret(adr)
       }
       case I_STREQ: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -640,8 +622,6 @@ void interpret(adr)
       }
       case I_STREXACT: {
 	Aword lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -657,8 +637,6 @@ void interpret(adr)
       }
       case I_LE: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -672,8 +650,6 @@ void interpret(adr)
       }
       case I_GE: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -687,13 +663,11 @@ void interpret(adr)
       }
       case I_LT: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
 	  printf("LT \t%5ld, %5ld", lh, rh);
-	push((signed int)lh < (signed int)rh);
+	push(lh < rh);
 	if (stpflg) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
@@ -702,8 +676,6 @@ void interpret(adr)
       }
       case I_GT: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -717,8 +689,6 @@ void interpret(adr)
       }
       case I_PLUS: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -730,8 +700,6 @@ void interpret(adr)
       }
       case I_MINUS: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -743,8 +711,6 @@ void interpret(adr)
       }
       case I_MULT: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -756,8 +722,6 @@ void interpret(adr)
       }
       case I_DIV: {
 	Aint lh, rh;
-	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
-	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -848,10 +812,15 @@ void interpret(adr)
 	break;
       }
 
+      case I_DUP:
+	if (stpflg)
+	  printf("DUP");
+	dup();
+	break;
+
       case I_DEPSTART:
 	if (stpflg)
 	  printf("DEPSTART");
-	depstart();
 	break;
 
       case I_DEPCASE:
@@ -880,6 +849,7 @@ void interpret(adr)
       case I_DEPEND:
 	if (stpflg)
 	  printf("DEPEND");
+	pop();
 	break;
 
       case I_RETURN:

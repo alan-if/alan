@@ -44,7 +44,7 @@ void initInstances()
 */
 void addHero(void)
 {
-  SymNod *hero = lookup("hero");
+  Symbol *hero = lookup("hero");
   InsNod *theHeroInstance;
 
   if (hero == NULL) {

@@ -103,7 +103,7 @@ SlotsNode *newSlots(List *names,
  */
 static void symbolizeParent(SlotsNode *slots)
 {
-  SymNod *parent;
+  Symbol *parent;
 
   if (slots->parentId != NULL) {
     parent = lookup(slots->parentId->string);

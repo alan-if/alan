@@ -70,7 +70,7 @@ StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
 static void andescribe(StmNod *stm,
 		       Context *context)
 {
-  SymNod *sym;
+  Symbol *sym;
 
   switch (stm->fields.describe.wht->kind) {
   case WHT_OBJ:
@@ -145,7 +145,7 @@ static void anempty(StmNod *stm,
 static void analyzeLocate(StmNod *stm,
 			  Context *context)
 {
-  SymNod *whtSymbol;
+  Symbol *whtSymbol;
 
   switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
@@ -409,7 +409,7 @@ static void anincr(StmNod *stm,
 static void anschedule(StmNod *stm,
 		       Context *context)
 {
-  SymNod *sym;
+  Symbol *sym;
 
   sym = symcheck(stm->fields.schedule.id, EVENT_ID, NULL);
 
@@ -448,7 +448,7 @@ static void anschedule(StmNod *stm,
   */
 static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 {
-  SymNod *sym;
+  Symbol *sym;
 
   sym = symcheck(stm->fields.cancel.id, EVENT_ID, NULL);
 }
@@ -486,7 +486,7 @@ static void anif(StmNod *stm,
 static void anuse(StmNod *stm,
 		  Context *context)
 {
-  SymNod *sym;
+  Symbol *sym;
   ElmNod *elm;
   List *lst;
 
@@ -538,17 +538,17 @@ static void anuse(StmNod *stm,
   cases which must be connected to the depend expression.
 
   */
-static void andep(StmNod *stm,
-		  Context *context)
+static void andep(StmNod *stm, Context *context)
 {
   List *cases;
 
  /* The expression will be analysed once for each case so no need to
     do this separately, is there?
 
-    4f - performance may be somewhat improved by not re-analyze the
+    FIXME - performance may be somewhat improved by not re-analyze the
     expression for every case => some indication of an anlyzed
-    expression must be available (the type?) in the expressions nodes */
+    expression must be available (the type?) in the expressions nodes.
+ */
 
   for (cases = stm->fields.depend.cases; cases != NULL; cases =
 	 cases->next) {
@@ -987,50 +987,92 @@ static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
 
 /*----------------------------------------------------------------------
 
+  gedepcase()
+
+  Will generate just the right hand part of the expression and the
+  operator.
+
+*/
+static void generateDependCase(ExpNod *exp)
+{
+  switch (exp->class) {
+  case EXPBIN:
+    geexp(exp->fields.bin.right);
+    generateBinaryOperator(exp);
+    break;
+  case EXPATR:
+    generateId(exp->fields.atr.atr);
+    generateAttributeAccess(exp);
+    break;
+  case EXPBTW:
+    generateBetweenCheck(exp);
+    break;
+  default:
+    syserr("generateDependingCase(): Unrecognized switch case on expression kind.");
+  }
+}
+
+
+/*----------------------------------------------------------------------
+
   gedep()
 
-  Generate DEPENDIN statement.
+  Generate DEPENDING statement.
 
-  4f - This is a bit non-optimal since the left hand side of the
-  expression will be evaluated once for each case, but since the
-  current code generation scheme for binary expressions generates the
-  right hand expression first this is currently not possible without
-  making the interpreter incompatible (but on the other hand this way
-  is easier here)
-
-  Code generation principle:
+  Code generation principle:				Stack:
 
       DEPSTART
 
-      DEPCASE--+
-      exp1     |
-      DEPEXEC   > repeat for each case
-      stms1----+
+      depend expression					d-exp
+
+      DEPCASE ----------+ (not present for first case)	d-exp
+      DUP               |				d-exp	d-exp  
+      case1 expression  |				c-exp	d-exp	d-exp
+      case1 operator    |				case?	d-exp
+      DEPEXEC           > repeat for each case		d-exp
+      stms1 ------------+
 
       DEPELSE--+ optional
       stmsn----+
 
       DEPEND
+
+  DEPSTART does nothing but must be there to indicate start of a new
+  level for skipping over statements.
+
+  Executing a DEPCASE or DEPELSE indicates the end of executing a
+  matching case so skip to the DEPEND (on this level).
+
+  After the DEPCASE is a DUP to duplicate the depend expression, then
+  comes the case expression and then the operator which does the
+  compare.
+
+  DEPEXEC inspects the results on the stack top and if true continues
+  else skips to the instruction after next DEPCASE, DEPELSE or to the DEPEND.
+
+  DEPEND just pops off the initially pushed depend expression.
+
   */
 static void gedep(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   List *cases;
 
   emit0(C_STMOP, I_DEPSTART);
-
+  geexp(stm->fields.depend.exp);
   /* For each case: */
-  for (cases = stm->fields.depend.cases; cases != NULL; cases =
-	 cases->next) {
+  for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     /* If it is not the ELSE clause ... */
     if (cases->element.stm->fields.depcase.exp != NULL) {
-      /* Generate a DEPCASE */
-      emit0(C_STMOP, I_DEPCASE);
-      /* ...and the expression */
-      geexp(cases->element.stm->fields.depcase.exp);
+      /* Generate a DEPCASE (if not first case) and a DUP */
+      if (cases != stm->fields.depend.cases)
+	emit0(C_STMOP, I_DEPCASE);
+      emit0(C_STMOP, I_DUP);
+      /* ...and the case expression (right hand + operator) */
+      generateDependCase(cases->element.stm->fields.depcase.exp);
       emit0(C_STMOP, I_DEPEXEC);
     } else
       emit0(C_STMOP, I_DEPELSE);
-    /* ...and then the statments */
+    /* ...and then the statements */
     gestms(cases->element.stm->fields.depcase.stms, ins);
   }
   emit0(C_STMOP, I_DEPEND);

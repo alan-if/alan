@@ -20,21 +20,13 @@
 
 /* FUNCTIONS: */
 
-/* Create a new Expression node */
-extern ExpNod *newexp(Srcp *srcp,
-		      ExpKind class);
-
-/* Analyze an Expression */
+extern ExpNod *newexp(Srcp *srcp, ExpKind class);
 extern void anexp(ExpNod *exp, Context *context);
-
-/* Compare two types */
-extern Bool equalTypes(TypeKind typ1,
-		       TypeKind typ2);
-
-/* Generate code for an Expression */
+extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern void geexp(ExpNod *exp);
-
-
+extern void generateBinaryOperator(ExpNod *exp);
+extern void generateAttributeAccess(ExpNod *exp);
+extern void generateBetweenCheck(ExpNod *exp);
 extern void dumpType(TypeKind typ);
 extern void dumpExpression(ExpNod *exp);
 

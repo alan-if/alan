@@ -22,38 +22,38 @@
 
 extern int classCount;
 extern int instanceCount;
-extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
+extern Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
 
 
 /* FUNCTIONS: */
 
 /* List a message indicating a redefined symbol */
-extern void redefined(IdNode *id, SymNod *sym);
+extern void redefined(IdNode *id, Symbol *sym);
 
 /* Initialise the symbol table with predefined classes etc. */
 extern void initSymbols(void);
 
 /* Create a new symbol node */
-extern SymNod *newSymbol(IdNode *id,
+extern Symbol *newSymbol(IdNode *id,
 			 SymbolKind kind);
 
 /* Check if an Id exists in this contest and if so if of an allowed kind */
-extern SymNod *symcheck(
+extern Symbol *symcheck(
     IdNode *id,
     SymbolKind kind,
     Context *context
     );
 
 /* Lookup a symbol, check in parameters first */
-extern SymNod *lookup(char idString[]);
+extern Symbol *lookup(char idString[]);
 
 /* Inheritance of a class */
-extern void setParent(SymNod *child, SymNod *parent);
-extern SymNod *parentOf(SymNod *child);
-extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
+extern void setParent(Symbol *child, Symbol *parent);
+extern Symbol *parentOf(Symbol *child);
+extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
-extern SymNod *findParameter(IdNode *parameterId, List *parameterSymbols);
-extern void setParameters(SymNod *verb, List *parameters);
+extern Symbol *findParameter(IdNode *parameterId, List *parameterSymbols);
+extern void setParameters(Symbol *verb, List *parameters);
 extern void numberAllAttributes(void);
 extern void replicateInheritedAttributes(void);
 extern void dumpSymbols(void);

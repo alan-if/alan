@@ -28,12 +28,12 @@ int directionCount = 0;
 int attributeCount = 0;
 int verbCount = 0;
 
-SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
+Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
 
 
 
 /* PRIVATE: */
-static SymNod *symbolTree = NULL;
+static Symbol *symbolTree = NULL;
 static Bool firstSymbolDumped = TRUE;
 
 
@@ -45,7 +45,7 @@ static Bool firstSymbolDumped = TRUE;
 
   */
 void redefined(IdNode *id,
-               SymNod *sym)
+               Symbol *sym)
 {
   int code;                     /* Error code */
 
@@ -70,9 +70,9 @@ void redefined(IdNode *id,
   Insert a new symbol in the symbol tree
 
 */
-static void insertSymbol(SymNod *symbol)
+static void insertSymbol(Symbol *symbol)
 {
-  SymNod *s1,*s2;               /* Traversal pointers */
+  Symbol *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
   symbol->lower = NULL;
@@ -124,14 +124,14 @@ static char *symbolKind(SymbolKind kind)
   newParameterSymbol()
 
   */
-static SymNod *newParameterSymbol(char *string, ElmNod *element)
+static Symbol *newParameterSymbol(char *string, ElmNod *element)
 {
-  SymNod *new;                  /* The newly created symnod */
+  Symbol *new;                  /* The newly created symnod */
   
   if (string == NULL)
     return (0);
   
-  new = NEW(SymNod);
+  new = NEW(Symbol);
   
   new->kind = PARAMETER_SYMBOL;
   new->string = string;
@@ -150,10 +150,10 @@ static SymNod *newParameterSymbol(char *string, ElmNod *element)
   Creates a new symnod and links it in the symbolTree.
 
   */
-SymNod *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
+Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
 		  SymbolKind kind) /* IN - What kind of symbol */
 {
-  SymNod *new;                  /* The newly created symnod */
+  Symbol *new;                  /* The newly created symnod */
   
   if (id == NULL)
     return NULL;
@@ -162,7 +162,7 @@ SymNod *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   if (new != NULL)
     redefined(id, new);
 
-  new = NEW(SymNod);
+  new = NEW(Symbol);
   
   new->kind = kind;
   new->string = id->string;
@@ -219,7 +219,7 @@ void initSymbols()
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-static SymNod *lookupInParameterList(char *idString, List *parameterSymbols)
+static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 {
   List *l;
 
@@ -234,7 +234,7 @@ static SymNod *lookupInParameterList(char *idString, List *parameterSymbols)
   findParameter()
 
 */
-SymNod *findParameter(IdNode *parameterId, List *parameterSymbols)
+Symbol *findParameter(IdNode *parameterId, List *parameterSymbols)
 {
   List *p;
 
@@ -255,9 +255,9 @@ SymNod *findParameter(IdNode *parameterId, List *parameterSymbols)
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-SymNod *lookup(char *idString)
+Symbol *lookup(char *idString)
 {
-  SymNod *s1,*s2;               /* Traversal pointers */
+  Symbol *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
   if (idString == NULL) syserr("NULL string in lookup()");
@@ -288,9 +288,9 @@ SymNod *lookup(char *idString)
   symnod, else NULL.
 
   */
-SymNod *lookupInContext(char *idString, Context *context)
+Symbol *lookupInContext(char *idString, Context *context)
 {
-  SymNod *foundSymbol;
+  Symbol *foundSymbol;
 
   if (context != NULL) {
     switch (context->kind){
@@ -318,7 +318,7 @@ SymNod *lookupInContext(char *idString, Context *context)
   Set the parent of a Class Symbol to be another Symbol
 
   */
-void setParent(SymNod *child, SymNod *parent)
+void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in setParent()");
@@ -333,7 +333,7 @@ void setParent(SymNod *child, SymNod *parent)
   Get the parent of a Class Symbol
 
   */
-SymNod *parentOf(SymNod *child)
+Symbol *parentOf(Symbol *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in parentOf()");
@@ -348,9 +348,9 @@ SymNod *parentOf(SymNod *child)
   Test inheritance from specified ClassSymbol.
 
   */
-Bool inheritsFrom(SymNod *child, SymNod *ancestor)
+Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 {
-  SymNod *p;
+  Symbol *p;
 
   if (child == NULL || ancestor == NULL) return FALSE;
 
@@ -376,13 +376,13 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
   Check if an Id exists and if so if it is of an allowed kind in this context
 
 */
-SymNod *symcheck(
+Symbol *symcheck(
     IdNode *id,
     SymbolKind kind,
     Context *context
     )
 {
-  SymNod *sym = lookupInContext(id->string, context);
+  Symbol *sym = lookupInContext(id->string, context);
 
   if (!sym) 
     lmLog(&id->srcp, 310, sevERR, id->string);
@@ -408,7 +408,7 @@ SymNod *symcheck(
   Set the list of parameters (ElmNodes) as parameters in the verb symbol.
 
 */
-void setParameters(SymNod *verb, List *parameters)
+void setParameters(Symbol *verb, List *parameters)
 {
   List *parameterSymbols = NULL;
   List *parameter;
@@ -422,7 +422,7 @@ void setParameters(SymNod *verb, List *parameters)
   if (parameters->kind != LIST_ELM) syserr("Not a parameter list in setParameter()");
 
   for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
-    SymNod *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
+    Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, LIST_SYM);
   }
 
@@ -439,7 +439,7 @@ void setParameters(SymNod *verb, List *parameters)
 */
 void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 {
-  SymNod *theClassSymbol = lookup(className);
+  Symbol *theClassSymbol = lookup(className);
 
   if (theClassSymbol == NULL) syserr("There is no such class in inheritCheck()");
 
@@ -456,7 +456,7 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
   Find the symbol which defines an attribute by traversing its parents.
 
 */
-static SymNod *definingSymbolOfAttribute(SymNod *symbol, IdNode *id)
+static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 {
   AtrNod *foundAttribute;
 
@@ -481,9 +481,9 @@ static SymNod *definingSymbolOfAttribute(SymNod *symbol, IdNode *id)
   From a symbol traverse its inheritance tree to find a named attribute.
 
 */
-AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
+AtrNod *findInheritedAttribute(Symbol *symbol, IdNode *id)
 {
-  SymNod *definingSymbol =
+  Symbol *definingSymbol =
     definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
 
   if (definingSymbol == NULL) return NULL;
@@ -497,11 +497,11 @@ AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
   numberAttributes()
 
 */
-static void numberAttributes(SymNod *symbol)
+static void numberAttributes(Symbol *symbol)
 {
   List *theList;
   AtrNod *inheritedAttribute;
-  SymNod *definingSymbol;
+  Symbol *definingSymbol;
 
   if (symbol->fields.claOrIns.attributesNumbered) return;
 
@@ -533,7 +533,7 @@ static void numberAttributes(SymNod *symbol)
   Recurse the parental chain and number the attributes.
 
 */
-static void numberParentAttributes(SymNod *symbol)
+static void numberParentAttributes(Symbol *symbol)
 {
   if (symbol == NULL || symbol->fields.claOrIns.attributesNumbered) return;
 
@@ -549,7 +549,7 @@ static void numberParentAttributes(SymNod *symbol)
   Recurse the parent to number its attributes.
   Number all attributes in the symbol (if it is a class or an instance);
 */
-static void numberAttributesRecursively(SymNod *symbol)
+static void numberAttributesRecursively(Symbol *symbol)
 {
   if (symbol == NULL) return;
 
@@ -590,7 +590,7 @@ void numberAllAttributes(void)
   replicateAttributes()
 
 */
-static void replicateAttributes(SymNod *symbol)
+static void replicateAttributes(Symbol *symbol)
 {
   if (symbol->fields.claOrIns.parent != NULL)
     symbol->fields.claOrIns.slots->attributes = combineAttributes(symbol->fields.claOrIns.slots->attributes,
@@ -605,7 +605,7 @@ static void replicateAttributes(SymNod *symbol)
   Recurse the parental chain and replicate the attributes.
 
 */
-static void replicateParentAttributes(SymNod *symbol)
+static void replicateParentAttributes(Symbol *symbol)
 {
   if (symbol == NULL || symbol->fields.claOrIns.attributesReplicated) return;
 
@@ -620,7 +620,7 @@ static void replicateParentAttributes(SymNod *symbol)
   replicateAttributesRecursively()
 
 */
-static void replicateAttributesRecursively(SymNod *symbol)
+static void replicateAttributesRecursively(Symbol *symbol)
 {
   if (symbol == NULL) return;
 
@@ -680,7 +680,7 @@ static void dumpSymbolKind(SymbolKind kind)
   dumpSymbol()
 
 */
-static void dumpSymbol(SymNod *symbol)
+static void dumpSymbol(Symbol *symbol)
 {
   if (symbol == NULL) {
     put("NULL");
@@ -699,7 +699,7 @@ static void dumpSymbol(SymNod *symbol)
   dumpSymbolsRecursively()
 
 */
-static void dumpSymbolsRecursively(SymNod *symbol)
+static void dumpSymbolsRecursively(Symbol *symbol)
 {
   if (symbol == NULL) return;
   dumpSymbolsRecursively(symbol->lower);

@@ -140,14 +140,15 @@ typedef enum InstClass {
   I_COUNT,			/* COUNT aggregate & limit meta-attribute */
   I_RETURN,
   I_SYSTEM,
-  I_RESTART,			/* INTRODUCED: v2.7 */
-  I_BTW,			/* INTRODUCED: v2.8 */
-  I_CONTAINS,			/*  -""-  */
-  I_DEPSTART,			/*  -""-  */
-  I_DEPCASE,			/*  -""-  */
-  I_DEPEXEC,			/*  -""-  */
-  I_DEPELSE,			/*  -""-  */
-  I_DEPEND			/*  -""-  */
+  I_RESTART,
+  I_BTW,
+  I_CONTAINS,
+  I_DUP,
+  I_DEPSTART,
+  I_DEPCASE,
+  I_DEPEXEC,
+  I_DEPELSE,
+  I_DEPEND
 } InstClass;
 
 

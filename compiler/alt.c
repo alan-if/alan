@@ -68,7 +68,7 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 static void analt(AltNod *alt,
 		  Context *context)
 {
-  SymNod *parameter;
+  Symbol *parameter;
 
   if (alt->id != NULL) {
     /* Alternatives given, find out which one */

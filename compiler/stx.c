@@ -99,7 +99,7 @@ static void setDefaultRestriction(List *parameters)
  */
 static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 {
-  SymNod *verbSymbol;
+  Symbol *verbSymbol;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 

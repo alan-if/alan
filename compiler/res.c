@@ -58,9 +58,9 @@ ResNod *newRestriction(
 
 
 
-static void resolveParameterClass(ResNod *res, SymNod *parameter)
+static void resolveParameterClass(ResNod *res, Symbol *parameter)
 {
-  SymNod *classSymbol;
+  Symbol *classSymbol;
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
   switch (res->kind) {
@@ -115,7 +115,7 @@ static void analyzeRestriction(
   List *parameterSymbols	/* IN - The syntax parameters as symbols */
 )
 {
-  SymNod *parameter;
+  Symbol *parameter;
   Context context;
 
   parameter = findParameter(res->parameterId, parameterSymbols);

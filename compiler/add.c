@@ -65,7 +65,7 @@ AddNode *newAdd(Srcp *srcp,
   addInitialLocation()
 
 */
-static void addInitialLocation(AddNode *add, SymNod *original)
+static void addInitialLocation(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -79,7 +79,7 @@ static void addInitialLocation(AddNode *add, SymNod *original)
   addNames()
 
 */
-static void addNames(AddNode *add, SymNod *original)
+static void addNames(AddNode *add, Symbol *original)
 {
 #ifdef FIXME
   if (slots->names != NULL)
@@ -93,7 +93,7 @@ static void addNames(AddNode *add, SymNod *original)
   addAttributes()
 
 */
-static void addAttributes(AddNode *add, SymNod *originalSymbol)
+static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
   List *addedAttributes = add->slots->attributes;
   SlotsNode *originalSlots = originalSymbol->fields.claOrIns.slots;
@@ -117,7 +117,7 @@ static void addAttributes(AddNode *add, SymNod *originalSymbol)
   addDescription()
 
 */
-static void addDescription(AddNode *add, SymNod *original)
+static void addDescription(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -132,7 +132,7 @@ static void addDescription(AddNode *add, SymNod *original)
   addArticle()
 
 */
-static void addArticle(AddNode *add, SymNod *original)
+static void addArticle(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -147,7 +147,7 @@ static void addArticle(AddNode *add, SymNod *original)
   addMentioned()
 
 */
-static void addMentioned(AddNode *add, SymNod *original)
+static void addMentioned(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -162,7 +162,7 @@ static void addMentioned(AddNode *add, SymNod *original)
   addContainer()
 
 */
-static void addContainer(AddNode *add, SymNod *original)
+static void addContainer(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -177,7 +177,7 @@ static void addContainer(AddNode *add, SymNod *original)
   addVerbs()
 
 */
-static void addVerbs(AddNode *add, SymNod *original)
+static void addVerbs(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -192,7 +192,7 @@ static void addVerbs(AddNode *add, SymNod *original)
   addScripts()
 
 */
-static void addScripts(AddNode *add, SymNod *original)
+static void addScripts(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -207,7 +207,7 @@ static void addScripts(AddNode *add, SymNod *original)
   addExits()
 
 */
-static void addExits(AddNode *add, SymNod *original)
+static void addExits(AddNode *add, Symbol *original)
 {
   SlotsNode *slots = add->slots;
 
@@ -224,7 +224,7 @@ static void addExits(AddNode *add, SymNod *original)
 */
 static void addAddition(AddNode *add)
 {
-  SymNod *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
+  Symbol *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
 
   addInitialLocation(add, originalClass);
   addNames(add, originalClass);

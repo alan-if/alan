@@ -250,8 +250,8 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *context)
 {
   AtrNod *atr = NULL;
-  SymNod *sym;
-  SymNod *classOfParameter;
+  Symbol *sym;
+  Symbol *classOfParameter;
 
   sym = symcheck(what->id, INSTANCE_SYMBOL, context);
   if (sym) {

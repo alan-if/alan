@@ -29,10 +29,10 @@ void testSymCheck()
   Srcp srcp = {14, 12, 333};
   IdNode *unknownId = newId(&srcp, "unknownId");
   IdNode *aClassId = newId(&srcp, "aClassId");
-  SymNod *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
+  Symbol *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
   IdNode *anInstanceId = newId(&srcp, "anInstanceId");
-  SymNod *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
-  SymNod *foundSymbol;
+  Symbol *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
+  Symbol *foundSymbol;
 
 
   foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
@@ -60,8 +60,8 @@ static List *createOneParameter(char *id)
 void testVerbSymbols()
 {
   IdNode *v1Id = newId(&nulsrcp, "v1");
-  SymNod *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  SymNod *foundSymbol;
+  Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
+  Symbol *foundSymbol;
   List *parameters, *l, *p;
   Context context;
 
@@ -93,8 +93,8 @@ void testVerbSymbols()
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {
-  SymNod *sym1;
-  SymNod *sym2;
+  Symbol *sym1;
+  Symbol *sym2;
 
   symbolId1 = newId(&nulsrcp, symbolName1);
   symbolId2 = newId(&nulsrcp, symbolName2);
@@ -112,8 +112,8 @@ void testBuildSymbol1()
 /* Test symbol table by inserting a symbol with a higher name */
 void testBuildSymbolHigher()
 {
-  SymNod *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
-  SymNod *sym2 = lookup(symbolName2);
+  Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
+  Symbol *sym2 = lookup(symbolName2);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName2) == 0);
@@ -123,8 +123,8 @@ void testBuildSymbolHigher()
 /* Test symbol table by inserting a symbol with a lower name */
 void testBuildSymbolLower()
 {
-  SymNod *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
-  SymNod *sym2 = lookup(symbolName3);
+  Symbol *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
+  Symbol *sym2 = lookup(symbolName3);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName3) == 0);
@@ -135,9 +135,9 @@ void testBuildSymbolLower()
 void testInherit1()
 {
   /* Insert inheritance in alphabetical order */
-  SymNod *sym1 = lookup(symbolName1);
-  SymNod *sym2 = lookup(symbolName2);
-  SymNod *sym3 = lookup(symbolName3);
+  Symbol *sym1 = lookup(symbolName1);
+  Symbol *sym2 = lookup(symbolName2);
+  Symbol *sym3 = lookup(symbolName3);
 
   setParent(sym1, sym2);
   setParent(sym2, sym3);
@@ -151,9 +151,9 @@ void testInherit1()
 /* Test symbol table by verifying inheritance */
 void testInherit2()
 {
-  SymNod *sym1 = lookup(symbolName1);
-  SymNod *sym2 = lookup(symbolName2);
-  SymNod *sym3 = lookup(symbolName3);
+  Symbol *sym1 = lookup(symbolName1);
+  Symbol *sym2 = lookup(symbolName2);
+  Symbol *sym3 = lookup(symbolName3);
 
   unitAssert(!inheritsFrom(NULL, NULL));
 
@@ -170,14 +170,14 @@ void testInherit2()
 /* Test symbol table initialisation */
 void testSymbolTableInit()
 {
-  SymNod *thingSymbol;
-  SymNod *objectSymbol;
-  SymNod *actorSymbol;
-  SymNod *locationSymbol;
+  Symbol *thingSymbol;
+  Symbol *objectSymbol;
+  Symbol *actorSymbol;
+  Symbol *locationSymbol;
 
-  SymNod *sym1 = lookup(symbolName1);
-  SymNod *sym2 = lookup(symbolName2);
-  SymNod *sym3 = lookup(symbolName3);
+  Symbol *sym1 = lookup(symbolName1);
+  Symbol *sym2 = lookup(symbolName2);
+  Symbol *sym3 = lookup(symbolName3);
   
   initadv();
   adv.whr = NULL;
@@ -223,7 +223,7 @@ void testCreateClassSymbol()
   Srcp srcp = {12,3,45};
   IdNode *id = newId(&srcp, "cla");
   IdNode *heritage = newId(&nulsrcp, "object");
-  SymNod *sym, *obj;
+  Symbol *sym, *obj;
 
   (void) newClass(&srcp, heritage, NULL, NULL);
   (void) newClass(&srcp, id, heritage, NULL);

@@ -373,7 +373,7 @@ static void anrnd(ExpNod *exp,
 static void anexpwht(ExpNod *exp,
 		     Context *context)
 {
-  SymNod *symbol;
+  Symbol *symbol;
 
   switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
@@ -509,23 +509,13 @@ void anexp(ExpNod *exp,
 }
 
 
+/*======================================================================
 
-/*----------------------------------------------------------------------
-  geexpbin()
+  genererateBinaryOperator()
 
-  Generate a binary expression.
-
-  */
-static void geexpbin(ExpNod *exp) /* IN - Expression node */
+*/
+void generateBinaryOperator(ExpNod *exp)
 {
-  /* FIXME - This is actually a non-intutive order since it would have
-     been more natural do start with the left expression. Changing
-     this will make the interpreter incompatible, but would enable a
-     more efficient evaluation of the DEPEND statement since then we
-     could evaluate the left expression only once and then DUP the
-     result once for every CASE */
-  geexp(exp->fields.bin.left);
-  geexp(exp->fields.bin.right);
   switch (exp->fields.bin.op) {
   case OP_AND:
     emit0(C_STMOP, I_AND);
@@ -573,6 +563,21 @@ static void geexpbin(ExpNod *exp) /* IN - Expression node */
     emit0(C_STMOP, I_CONTAINS);
     break;
   }
+}
+
+
+/*----------------------------------------------------------------------
+
+  geexpbin()
+
+  Generate a binary expression.
+
+  */
+static void geexpbin(ExpNod *exp) /* IN - Expression node */
+{
+  geexp(exp->fields.bin.left);
+  geexp(exp->fields.bin.right);
+  generateBinaryOperator(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 
@@ -662,6 +667,18 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
 
 
 
+/*======================================================================
+
+  generateAttributeAccess()
+
+*/
+void generateAttributeAccess(ExpNod *exp)
+{
+  if (exp->type == STRING_TYPE)
+    emit0(C_STMOP, I_STRATTR);
+  else
+    emit0(C_STMOP, I_ATTRIBUTE);
+}
 
 
 /*----------------------------------------------------------------------
@@ -674,10 +691,7 @@ static void geexpatr(ExpNod *exp) /* IN - Expression node */
 {
   generateId(exp->fields.atr.atr);
   gewht(exp->fields.atr.wht->fields.wht.wht);
-  if (exp->type == STRING_TYPE)
-    emit0(C_STMOP, I_STRATTR);
-  else
-    emit0(C_STMOP, I_ATTRIBUTE);
+  generateAttributeAccess(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 
@@ -748,6 +762,19 @@ static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
 
 
 
+/*======================================================================
+
+  generateBetweenCheck()
+
+*/
+void generateBetweenCheck(ExpNod *exp)
+{
+  geexp(exp->fields.btw.low);
+  geexp(exp->fields.btw.high);
+  emit0(C_STMOP, I_BTW);
+}
+
+
 /*----------------------------------------------------------------------
   geexpbtw()
 
@@ -757,9 +784,7 @@ static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
 static void geexpbtw(ExpNod *exp) /* IN - The expression to generate */
 {
   geexp(exp->fields.btw.val);
-  geexp(exp->fields.btw.low);
-  geexp(exp->fields.btw.high);
-  emit0(C_STMOP, I_BTW);
+  generateBetweenCheck(exp);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 

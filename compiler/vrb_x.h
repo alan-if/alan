@@ -27,7 +27,7 @@ extern VrbNod *newvrb(Srcp *srcp,
 		      List *alts);
 
 /* Analyze a list of Verbs */
-extern void anvrbs(List *vrbs, SymNod *symbol);
+extern void anvrbs(List *vrbs, Symbol *symbol);
 
 /* Generate code for a list of Verbs */
 extern Aaddr gevrbs(List *vrbs, InsNod *ins);

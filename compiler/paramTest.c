@@ -13,9 +13,9 @@ void testParameterReference()
   Context context;
   List *parameters;
   IdNode *p1Id = newId(&nulsrcp, "p1");
-  SymNod *foundSymbol;
+  Symbol *foundSymbol;
   IdNode *v1Id = newId(&nulsrcp, "v1");
-  SymNod *v1Symbol;
+  Symbol *v1Symbol;
 
   initadv();
 
