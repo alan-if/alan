@@ -58,7 +58,7 @@ malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 
-src: .version
+src: version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
