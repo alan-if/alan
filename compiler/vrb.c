@@ -253,7 +253,7 @@ Aaddr gevrbs(vrbs, act)
   Aaddr vrbadr;			/* Address to alt-table */
 
   if (vrbs == NULL)
-    return NULL;
+    return 0;
 
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
