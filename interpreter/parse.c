@@ -747,7 +747,7 @@ static void try(mlst)
     }
 
   /* Set verb code */
-  cur.vrb = ((Aword *) restriction)[1];	/* Take first word after end of table! */
+  current.verb = ((Aword *) restriction)[1];	/* Take first word after end of table! */
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {

@@ -259,24 +259,24 @@ void interpret(adr)
 	push(params[pop()-1].code);
 	break;
       case V_CURLOC:
-	if (stepFlag) printf("CURLOC \t\t\t(%d)", cur.loc);
-	push(cur.loc);
+	if (stepFlag) printf("CURLOC \t\t\t(%d)", current.location);
+	push(current.location);
 	break;
       case V_CURACT:
-	if (stepFlag) printf("CURACT \t\t\t(%d)", cur.act);
-	push(cur.act);
+	if (stepFlag) printf("CURACT \t\t\t(%d)", current.actor);
+	push(current.actor);
 	break;
       case V_CURVRB:
-	if (stepFlag) printf("CURVRB \t\t\t(%d)", cur.vrb);
-	push(cur.vrb);
+	if (stepFlag) printf("CURVRB \t\t\t(%d)", current.verb);
+	push(current.verb);
 	break;
       case V_CURRENT_INSTANCE:
-	if (stepFlag) printf("CURINS \t\t\t(%d)", cur.instance);
-	push(cur.instance);
+	if (stepFlag) printf("CURINS \t\t\t(%d)", current.instance);
+	push(current.instance);
 	break;
       case V_SCORE:
-	if (stepFlag) printf("CURSCORE \t\t\t(%d)", cur.score);
-	push(cur.score);
+	if (stepFlag) printf("CURSCORE \t\t\t(%d)", current.score);
+	push(current.score);
 	break;
       default:
 	syserr("Unknown CURVAR instruction.");

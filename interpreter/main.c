@@ -52,7 +52,7 @@ int conjWord;			/* First conjunction in dictonary, for ',' */
 
 
 /* Amachine variables */
-CurVars cur;
+CurVars current;
 
 /* Amachine structures */
 InstanceEntry *instance;	/* Instance table pointer */
@@ -309,9 +309,9 @@ void statusline(void)
   interpret(instance[where(HERO)].mentioned);
 
   if (header->maxscore > 0)
-    sprintf(line, "Score %d(%ld)/%d moves", cur.score, header->maxscore, cur.tick);
+    sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maxscore, current.tick);
   else
-    sprintf(line, "%ld moves", (long)cur.tick);
+    sprintf(line, "%ld moves", (long)current.tick);
   for (i=0; i < pageWidth - col - strlen(line); i++) putchar(' ');
   printf(line);
   printf("\x1b[m");
@@ -606,11 +606,11 @@ static void prsym(str)
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'l':
-    say(cur.loc);
+    say(current.location);
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'a':
-    say(cur.act);
+    say(current.actor);
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'v':
@@ -1039,27 +1039,27 @@ void go(dir)
   Boolean ok;
   Aword oldloc;
 
-  theExit = (ExitEntry *) addrTo(instance[cur.loc].exits);
-  if (instance[cur.loc].exits != 0)
+  theExit = (ExitEntry *) addrTo(instance[current.location].exits);
+  if (instance[current.location].exits != 0)
     while (!endOfTable(theExit)) {
       if (theExit->code == dir) {
 	ok = TRUE;
 	if (theExit->checks != 0) {
 	  if (trcflg) {
 	    printf("\n<EXIT %d (%s) from %d (", dir,
-		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
-	    debugsay(cur.loc);
+		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+	    debugsay(current.location);
 	    printf("), Checking:>\n");
 	  }
 	  ok = trycheck(theExit->checks, TRUE);
 	}
 	if (ok) {
-	  oldloc = cur.loc;
+	  oldloc = current.location;
 	  if (theExit->action != 0) {
 	    if (trcflg) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
-	      debugsay(cur.loc);
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+	      debugsay(current.location);
 	      printf("), Executing:>\n");
 	    }	    
 	    interpret(theExit->action);
@@ -1068,8 +1068,8 @@ void go(dir)
 	  if (where(HERO) == oldloc) {
 	    if (trcflg) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
-	      debugsay(cur.loc);
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+	      debugsay(current.location);
 	      printf("), Moving:>\n");
 	    }
 	    locate(HERO, theExit->target);
@@ -1110,7 +1110,7 @@ static AltEntry *findalt(vrbsadr, param)
     return(NULL);
 
   for (vrb = (VrbEntry *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
-    if (vrb->code == cur.vrb) {
+    if (vrb->code == current.verb) {
       for (alt = (AltEntry *) addrTo(vrb->alts); !endOfTable(alt); alt++)
 	if (alt->param == param || alt->param == 0)
 	  return alt;
@@ -1147,7 +1147,7 @@ Boolean possible()
   }
   
   /* Now CHECKs in this location */
-  alt[1] = findalt(instance[cur.loc].verbs, 0);
+  alt[1] = findalt(instance[current.location].verbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0)
     if (!trycheck(alt[1]->checks, FALSE))
       return FALSE;
@@ -1195,23 +1195,23 @@ static void do_it()
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
     if (trcflg)
-      printf("\n<VERB %d, CHECK, GLOBAL:>\n", cur.vrb);
+      printf("\n<VERB %d, CHECK, GLOBAL:>\n", current.verb);
     if (!trycheck(alt[0]->checks, TRUE)) return;
     if (fail) return;
   }
 
   /* Now CHECKs in this location */
-  cur.instance = cur.loc;
-  alt[1] = findalt(instance[cur.loc].verbs, 0);
+  current.instance = current.location;
+  alt[1] = findalt(instance[current.location].verbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0) {
     if (trcflg)
-      printf("\n<VERB %d, CHECK, in LOCATION:>\n", cur.vrb);
+      printf("\n<VERB %d, CHECK, in LOCATION:>\n", current.verb);
     if (!trycheck(alt[1]->checks, TRUE)) return;
     if (fail) return;
   }
   
   for (i = 0; params[i].code != EOF; i++) {
-    cur.instance = params[i].code;
+    current.instance = params[i].code;
     if (isLit(params[i].code))
       alt[i+2] = 0;
     else {
@@ -1219,7 +1219,7 @@ static void do_it()
       /* CHECKs in the parameters */
       if (alt[i+2] != 0 && alt[i+2]->checks != 0) {
 	if (trcflg)
-	  printf("\n<VERB %d, CHECK, in Parameter #%d:>\n", cur.vrb, i);
+	  printf("\n<VERB %d, CHECK, in Parameter #%d:>\n", current.verb, i);
 	if (!trycheck(alt[i+2]->checks, TRUE)) return;
 	if (fail) return;
       }
@@ -1254,11 +1254,11 @@ static void do_it()
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
 	    if (alt[i]->qual == (Aword)Q_BEFORE)
-	      printf("\n<VERB %d, %s (BEFORE), Body:>\n", cur.vrb, trace);
+	      printf("\n<VERB %d, %s (BEFORE), Body:>\n", current.verb, trace);
 	    else
-	      printf("\n<VERB %d, %s (ONLY), Body:>\n", cur.vrb, trace);
+	      printf("\n<VERB %d, %s (ONLY), Body:>\n", current.verb, trace);
 	  }
-	  cur.instance = params[i-2].code;
+	  current.instance = params[i-2].code;
 	  interpret(alt[i]->action);
 	  if (fail) return;
 	  if (alt[i]->qual == (Aword)Q_ONLY) return;
@@ -1280,9 +1280,9 @@ static void do_it()
 	      strcpy(trace, "in LOCATION");
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
-	    printf("\n<VERB %d, %s, Body:>\n", cur.vrb, trace);
+	    printf("\n<VERB %d, %s, Body:>\n", current.verb, trace);
 	  }
-	  cur.instance = params[i-2].code;
+	  current.instance = params[i-2].code;
 	  interpret(alt[i]->action);
 	  if (fail) return;
 	}
@@ -1302,9 +1302,9 @@ static void do_it()
 	    strcpy(trace, "in LOCATION");
 	  else
 	    sprintf(trace, "in PARAMETER %d", i-1);
-	  printf("\n<VERB %d, %s (AFTER), Body:>\n", cur.vrb, trace);
+	  printf("\n<VERB %d, %s (AFTER), Body:>\n", current.verb, trace);
 	}
-	cur.instance = params[i-2].code;
+	current.instance = params[i-2].code;
 	interpret(alt[i]->action);
 	if (fail) return;
       }
@@ -1376,15 +1376,15 @@ static void eventCheck(void)
 static void eventCheck()
 #endif
 {
-  while (etop != 0 && eventQueue[etop-1].time == cur.tick) {
+  while (etop != 0 && eventQueue[etop-1].time == current.tick) {
     etop--;
     if (isLoc(eventQueue[etop].where))
-      cur.loc = eventQueue[etop].where;
+      current.location = eventQueue[etop].where;
     else
-      cur.loc = where(eventQueue[etop].where);
+      current.location = where(eventQueue[etop].where);
     if (trcflg) {
       printf("\n<EVENT %d (at ", eventQueue[etop].event);
-      debugsay(cur.loc);
+      debugsay(current.location);
       printf("):>\n");
     }
     interpret(events[eventQueue[etop].event].code);
@@ -1668,10 +1668,10 @@ static void start()
 {
   int startloc;
 
-  cur.tick = -1;
-  cur.loc = startloc = where(HERO);
-  cur.act = HERO;
-  cur.score = 0;
+  current.tick = -1;
+  current.location = startloc = where(HERO);
+  current.actor = HERO;
+  current.score = 0;
   if (trcflg)
     printf("\n<START:>\n");
   interpret(header->start);
@@ -1732,7 +1732,7 @@ static Boolean traceActor(int theActor)
     printf("\n<ACTOR %d, ", theActor);
     debugsay(theActor);
     printf(" (at ");
-    debugsay(cur.loc);
+    debugsay(current.location);
   }
   return trcflg;
 }
@@ -1762,20 +1762,20 @@ static char *scriptName(int theActor, int theScript)
 
  */
 #ifdef _PROTOTYPES_
-static void movactor(int theActor)
+static void moveActor(int theActor)
 #else
-static void movactor(theActor)
+static void moveActor(theActor)
      int theActor;
 #endif
 {
   ScriptEntry *scr;
   StepEntry *step;
-  Aword previousInstance = cur.instance;
+  Aword previousInstance = current.instance;
 
 
-  cur.act = theActor;
-  cur.instance = theActor;
-  cur.loc = where(theActor);
+  current.actor = theActor;
+  current.instance = theActor;
+  current.location = where(theActor);
   if (theActor == HERO) {
     parse();
     fail = FALSE;			/* fail only aborts one actor */
@@ -1828,12 +1828,12 @@ static void movactor(theActor)
       printf("\n<ACTOR %d, ", theActor);
       debugsay(theActor);
       printf(" (at ");
-      debugsay(cur.loc);
+      debugsay(current.location);
       printf("), Idle>\n");
     }
   }
 
-  cur.instance = previousInstance;
+  current.instance = previousInstance;
 }
 
 /*----------------------------------------------------------------------
@@ -1920,16 +1920,16 @@ void run(void)
       debug();
 
     eventCheck();
-    cur.tick++;
+    current.tick++;
     (void) setjmp(jmpbuf);
 
 
     /* Move all characters, hero first */
-    movactor(header->theHero);
+    moveActor(header->theHero);
     rules();
     for (i = 1; i <= header->instanceMax; i++)
       if (i != header->theHero && isA(i, ACTOR)) {
-	movactor(i);
+	moveActor(i);
 	rules();
       }
   }

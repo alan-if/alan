@@ -39,7 +39,7 @@ void rules()
       if (!ruls[i-1].run) {
 	if (trcflg) {
 	  printf("\n<RULE %d (at ", i);
-	  debugsay(cur.loc);
+	  debugsay(current.location);
 	  if (!stepFlag)
 	    printf("), Evaluating");
 	  else
@@ -54,7 +54,7 @@ void rules()
 	      printf(", Executing:>\n");
 	    else {
 	      printf("\nRULE %d (at ", i);
-	      debugsay(cur.loc);
+	      debugsay(current.location);
 	      printf("), Executing:>\n");
 	    }
 	  }

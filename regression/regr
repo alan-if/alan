@@ -6,12 +6,15 @@
 run ()
 {
     echo -n "$case : "
-    echo "########## alan $case ##########" >$case.output
-    ../bin/alan $case >>$case.output 2>&1
-    echo "########## arun $case ##########" >>$case.output
-    ../bin/arun -n $case >>$case.output 2>&1 <$case.input 
-    cases=`expr $cases + 1`
-    rm $case.a3c
+    if [ ! -f $case.suspended ]
+    then
+	echo "########## alan $case ##########" >$case.output
+	../bin/alan $case >>$case.output 2>&1
+	echo "########## arun $case ##########" >>$case.output
+	../bin/arun -n $case >>$case.output 2>&1 <$case.input 
+	cases=`expr $cases + 1`
+	rm $case.a3c
+    fi
 }
 
 verify()
@@ -24,16 +27,22 @@ verify()
 	    rm $case.output
 	else
 	    failed=`expr $failed + 1`
-	    echo "failed!"
+	    echo "FAILED!!!"
 	fi
+    else if [ -f $case.suspended ]
+    then
+	suspended=`expr $suspended + 1`
+	echo "Suspended..."
     else
 	new=`expr $new + 1`
 	echo "NEW!"
+    fi
     fi
 }
 
 cases=0
 failed=0
+suspended=0
 new=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
@@ -70,6 +79,10 @@ fi
 if test $new -ne 0
 then
   echo -n "$new new, "
+fi
+if test $suspended -ne 0
+then
+  echo -n "$suspended suspended, "
 fi
 if test $failed -eq 0
 then

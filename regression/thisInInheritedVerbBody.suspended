@@ -1,0 +1,17 @@
+########## alan thisInInheritedVerbBody ##########
+
+
+thisInInheritedVerbBody.alan
+
+    6.      Say this.
+=====>          1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+
+########## arun thisInInheritedVerbBody ##########
+./regr: cannot open thisInInheritedVerbBody.input: no such file

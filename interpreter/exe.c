@@ -170,13 +170,13 @@ void score(sc)
 
   if (sc == 0) {
     prmsg(M_SCORE1);
-    sprintf(buf, "%d", cur.score);
+    sprintf(buf, "%d", current.score);
     output(buf);
     prmsg(M_SCORE2);
     sprintf(buf, "%ld.", header->maxscore);
     output(buf);
   } else {
-    cur.score += scores[sc-1];
+    current.score += scores[sc-1];
     scores[sc-1] = 0;
   }
 }
@@ -188,7 +188,7 @@ void visits(v)
      Aword v;
 #endif
 {
-  cur.visits = v;
+  current.visits = v;
 }
 
 
@@ -299,7 +299,7 @@ void schedule(evt, whr, aft)
   /* Check for overflow */
   if (etop == N_EVTS) syserr("Out of event space.");
   
-  time = cur.tick+aft;
+  time = current.tick+aft;
   
   /* Bubble this event down */
   for (i = etop; i >= 1 && eventQueue[i-1].time <= time; i--) {
@@ -737,12 +737,12 @@ static void locateActor(act, whr)
      Aword act, whr;
 #endif
 {
-  Aword prevloc = cur.loc;
+  Aword prevloc = current.location;
 
-  cur.loc = whr;
+  current.location = whr;
   instance[act].location = whr;
   if (act == HERO) {
-    if (admin[instance[act].location].visitsCount % (cur.visits+1) == 0)
+    if (admin[instance[act].location].visitsCount % (current.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -753,7 +753,7 @@ static void locateActor(act, whr)
       describeInstances();
     }
     admin[where(HERO)].visitsCount++;
-    admin[where(HERO)].visitsCount %= (cur.visits+1);
+    admin[where(HERO)].visitsCount %= (current.visits+1);
   } else
     admin[whr].visitsCount = 0;
 #ifdef IMPLEMENTED_DOES
@@ -764,8 +764,8 @@ static void locateActor(act, whr)
   }
 #endif
 
-  if (cur.act != act)
-    cur.loc = prevloc;
+  if (current.actor != act)
+    current.location = prevloc;
 }
 
 
@@ -817,9 +817,9 @@ static Abool instanceHere(id)
     if (instance[owner].location != 0)
       return(isHere(owner));
     else /* If the container wasn't anywhere, assume where HERO is! */
-      return(where(HERO) == cur.loc);
+      return(where(HERO) == current.location);
   } else
-    return(instance[id].location == cur.loc);
+    return(instance[id].location == current.location);
 }
 
 
@@ -864,7 +864,7 @@ static Aword objnear(obj)
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
       return(FALSE);
   } else
-    return(exitto(where(obj), cur.loc));
+    return(exitto(where(obj), current.location));
 }
 
 
@@ -875,7 +875,7 @@ static Aword actnear(act)
      Aword act;
 #endif
 {
-  return(exitto(where(act), cur.loc));
+  return(exitto(where(act), current.location));
 }
 
 
@@ -1189,7 +1189,7 @@ void describe(id)
 {
   int i;
   char str[80];
-  Aword previousInstance = cur.instance;
+  Aword previousInstance = current.instance;
 
   for (i = 0; i < dscrstkp; i++)
     if (dscrstk[i] == id)
@@ -1198,7 +1198,7 @@ void describe(id)
   if (dscrstkp == 255)
     syserr("To deep recursion of DESCRIBE.");
 
-  cur.instance = id;
+  current.instance = id;
   if (id == 0) {
     sprintf(str, "Can't DESCRIBE item (%ld).", id);
     syserr(str);
@@ -1216,7 +1216,7 @@ void describe(id)
   } else
     descriptionOk = FALSE;
   dscrstkp--;
-  cur.instance = previousInstance;
+  current.instance = previousInstance;
 }
 
 
@@ -1233,13 +1233,13 @@ void describeInstances()
 
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
+    if (instance[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed && haveDescription(i))
       describe(i);
 
   /* Then list all other objects here */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
+    if (instance[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
@@ -1269,7 +1269,7 @@ void describeInstances()
   
   /* Now for all actors */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cur.loc && isA(i, ACTOR) &&
+    if (instance[i].location == current.location && isA(i, ACTOR) &&
 	!admin[i].alreadyDescribed && i != HERO)
       describe(i);
 
@@ -1303,14 +1303,14 @@ void look()
   glk_set_style(style_Subheader);
 #endif
 
-  interpret(instance[cur.loc].mentioned);
+  interpret(instance[current.location].mentioned);
 
 #ifdef GLK
   glk_set_style(style_Normal);
 #endif
 
   newline();
-  describe(cur.loc);
+  describe(current.location);
   if (descriptionOk)
     describeInstances();
   looking = FALSE;
@@ -1487,7 +1487,7 @@ void save()
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
-  fwrite((void *)&cur, sizeof(cur), 1, savfil);
+  fwrite((void *)&current, sizeof(current), 1, savfil);
 
   /* Save admin about each instance and its attributes */
   for (i = 1; i <= header->instanceMax; i++) {
@@ -1566,7 +1566,7 @@ void restore()
   }
 
   /* Restore current values */
-  fread((void *)&cur, sizeof(cur), 1, savfil);
+  fread((void *)&current, sizeof(current), 1, savfil);
 
   /* Restore admin and attributes for instances */
   for (i = 1; i <= header->instanceMax; i++) {

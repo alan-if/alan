@@ -61,9 +61,9 @@ typedef int Boolean;		/* Boolean values within interpreter */
 /* Amachine variables */
 typedef struct CurVars {
   int
-    vrb,
-    loc,
-    act,
+    verb,
+    location,
+    actor,
     instance,
     tick,
     score,

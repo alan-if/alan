@@ -26,7 +26,7 @@ extern Aword *memory;
 extern AcdHdr *header;
 
 /* Amachine variables */
-extern CurVars cur;
+extern CurVars current;
 
 /* Amachine data structures */
 extern AdminEntry *admin;	/* Administrative data about instances */

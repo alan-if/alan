@@ -396,7 +396,7 @@ static void showEvents()
       if ((scheduled = (eventQueue[i].event == event)))
 	break;
     if (scheduled) {
-      sprintf(str, "Scheduled for +%d, at ", eventQueue[i].time-cur.tick);
+      sprintf(str, "Scheduled for +%d, at ", eventQueue[i].time-current.tick);
       output(str);
       say(eventQueue[i].where);
     } else
@@ -417,7 +417,7 @@ void saveInfo()
   /* Save some important things */
   trc = trcflg; trcflg = FALSE;
   stp = stepFlag; stepFlag = FALSE;
-  loc = cur.loc; cur.loc = where(HERO);
+  loc = current.location; current.location = where(HERO);
 }
 
 #ifdef _PROTOTYPES_
@@ -429,7 +429,7 @@ void restoreInfo()
   /* Restore! */
   trcflg = trc;
   stepFlag = stp;
-  cur.loc = loc;
+  current.location = loc;
 }
 
 

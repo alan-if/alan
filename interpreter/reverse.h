@@ -4,12 +4,18 @@
 
   reverse.h
 
-  Header file for reverse-module
+  Header file for reverse-module in Alan Interpreter
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES */
+/* Import: */
+#include "types.h"
 
+
+/* Types: */
+
+
+/* Functions: */
 
 #ifdef _PROTOTYPES_
 

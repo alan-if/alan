@@ -8,6 +8,7 @@
 
 #include "sysdep.h"
 #include "acode.h"
+#include "reverse.h"
 
 
 typedef struct Case {
@@ -74,20 +75,6 @@ void registerUnitTest(void (*aCase)())
   lastCase->next = NULL;
 }
 
-
-static void reverse(Aword *w)
-{
-  *w = reversed(*w);
-}
-
-static void reverseHdr(AcdHdr *hdr)
-{
-  int i;
-
-  /* Reverse all words in the header except the first (version marking) */
-  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
-    reverse(&((Aword *)hdr)[i]);
-}
 
 static void loadACD(char fileName[])
 {
