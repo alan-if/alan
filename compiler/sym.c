@@ -274,7 +274,9 @@ void symcheck(sym, elm, nam, classes, props, pars)
 
   /* Not found? */
   if (*sym == NULL && *elm == NULL) {
-    lmLog(&nam->srcp, 310, sevERR, nam->str);
+    /* Ids generated during error recovery start with '$' */
+    if (nam->str[0] != '$')
+      lmLog(&nam->srcp, 310, sevERR, nam->str);
     newsym(nam->str, NAMUNK, NULL);
   } else if (*elm) {
     if (*sym && ((*sym)->class != NAMUNK)) {

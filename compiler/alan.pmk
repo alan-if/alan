@@ -54,10 +54,19 @@
 
 %%INSERTSYMBOL
 
+{
+  static int idno = 1;
+
     /* Make the requested token */
     token->code = code;
-    strcpy(token->chars, symString);
-
+    if (token->code == sm_MAIN_IDENT_Token) {
+      sprintf(token->chars, "$genid#%d", idno++);
+      strcat(insStr, " ('");
+      strcat(insStr, token->chars);
+      strcat(insStr, "')");
+    } else
+      strcpy(token->chars, symString);
+}
 
 %%DECLARATIONS
 
@@ -136,6 +145,10 @@ static int val(str)
 	whr %% WhrNod *%1%%,
 	wht %% WhtNod *%1%%;
 
+%%TERMINALS
+
+    IDENT = 2,1,1 => 'Identifier';
+
 %%RECOVERY
 
     Fiducial('VERB', 'DOES', 'EXIT', 'ACTOR', 'EVENT', 'START', 'OBJECT',
@@ -144,7 +157,7 @@ static int val(str)
 
     Separator(',');
 
-    Skip(ID, INTEGER, '.');
+    Skip(IDENT, INTEGER, '.');
 
 %%RULES
 
@@ -156,7 +169,7 @@ adventure
 ---> OPTIONS
 optional_options	-- RETURNS: <nothing>
     =
-    ! 'OPTIONS' options
+    ! 'OPTIONS' options					%+('MESSAGE')
     ;
 
 options			-- RETURNS: <nothing>
@@ -167,17 +180,17 @@ options			-- RETURNS: <nothing>
 option			-- RETURNS: <nothing>
     = ID '.'
     %%
-	optBool(%ID.chars, `&%ID.srcp, TRUE);
+	optBool(%ID.nam->str, `&%ID.nam->srcp, TRUE);
     %%
 
     ! ID ID '.'
     %%
-	optenum(%ID.chars, `&%ID.srcp, %2ID.chars);
+	optenum(%ID.nam->str, `&%ID.nam->srcp, %2ID.nam->str);
     %%
 
     ! ID INTEGER '.'
     %%
-	optint(%ID.chars, `&%ID.srcp, val(%INTEGER.chars));
+	optint(%ID.nam->str, `&%ID.nam->srcp, val(%INTEGER.chars));
     %%
     ;
 
@@ -256,21 +269,21 @@ unit
 
 ----> DEFAULTS
 location_default		-- RETURNS: atrs
-    = 'LOCATION' 'ATTRIBUTES' attributes
+    = 'LOCATION' 'ATTRIBUTES' attributes		%+('MESSAGE')
     %%
 	%location_default.atrs = %attributes.atrs;
     %%
     ;
 
 object_default			-- RETURNS: atrs
-    = 'OBJECT' 'ATTRIBUTES' attributes
+    = 'OBJECT' 'ATTRIBUTES' attributes			%+('MESSAGE')
     %%
 	%object_default.atrs = %attributes.atrs;
     %%
     ;
 
 actor_default			-- RETURNS: atrs
-    = 'ACTOR' 'ATTRIBUTES' attributes
+    = 'ACTOR' 'ATTRIBUTES' attributes			%+('MESSAGE')
     %%
 	%actor_default.atrs = %attributes.atrs;
     %%
@@ -292,46 +305,46 @@ attributes		-- RETURNS: atrs
 attribute		-- RETURNS: atr
     = ID
     %%
-	%attribute.atr = newatr(`&%ID.srcp,
+	%attribute.atr = newatr(`&%ID.nam->srcp,
 				TYPBOOL,
-				newnam(`&%ID.srcp, %ID.chars),
+				%ID.nam,
 				TRUE, 0, 0);
     %%
 
     ! 'NOT' ID
     %%
-	%attribute.atr = newatr(`&%ID.srcp,
+	%attribute.atr = newatr(`&%ID.nam->srcp,
 				TYPBOOL,
-				newnam(`&%ID.srcp, %ID.chars),
+				%ID.nam,
 				FALSE, 0, 0);
     %%
 
     ! ID optional_minus INTEGER
     %%
 	if (%optional_minus.minus)
-		%attribute.atr = newatr(`&%ID.srcp,
+		%attribute.atr = newatr(`&%ID.nam->srcp,
 					TYPINT,
-					newnam(`&%ID.srcp, %ID.chars),
+					%ID.nam,
 					-val(%INTEGER.chars), 0, 0);
 	else
-		%attribute.atr = newatr(`&%ID.srcp,
+		%attribute.atr = newatr(`&%ID.nam->srcp,
 					TYPINT,
-					newnam(`&%ID.srcp, %ID.chars),
+					%ID.nam,
 					val(%INTEGER.chars), 0, 0);
     %%
 
     ! ID STRING	
     %%
-	%attribute.atr = newatr(`&%ID.srcp,
+	%attribute.atr = newatr(`&%ID.nam->srcp,
 				TYPSTR,
-				newnam(`&%ID.srcp, %ID.chars),
+				%ID.nam,
 				0, %STRING.fpos, %STRING.len);
     %%
     ;
 
 ---> SYNONYMS
 synonyms			-- RETURNS: syns
-    = 'SYNONYMS' synonym_list
+    = 'SYNONYMS' synonym_list	       			%+('MESSAGE')
     %%
 	%synonyms.syns = %synonym_list.syns;
     %%
@@ -354,13 +367,13 @@ synonym				-- RETURNS: syn
     %%
 	%synonym.syn = newsyn(`&%'='.srcp,
 			      %id_list.nams,
-			      newnam(`&%ID.srcp, %ID.chars));
+			      %ID.nam);
     %%
     ;
 
 ---> MESSAGES
 messages			-- RETURNS: msgs
-    = 'MESSAGE' message_list
+    = 'MESSAGE' message_list				%+('MESSAGE')
     %%
 	%messages.msgs = %message_list.msgs;
     %%
@@ -382,14 +395,14 @@ message				-- RETURNS: msg
     = ID ':' STRING
     %%
 	%message.msg = newmsg(`&%':'.srcp,
-			      newnam(`&%ID.srcp, %ID.chars),
+			      %ID.nam,
 			      %STRING.fpos, %STRING.len);
     %%
     ;
 
 ---> SYNTAX
 syntax
-    = 'SYNTAX' syntax_list
+    = 'SYNTAX' syntax_list				%+('MESSAGE')
     %%
 	%syntax.stxs = %syntax_list.stxs;
     %%
@@ -411,7 +424,7 @@ syntax_item
     = ID '=' syntax_elements optional_class_restrictions
     %%
 	%syntax_item.stx = newstx(`&%'='.srcp,
-				  newnam(`&%ID.srcp, %ID.chars),
+				  %ID.nam,
 				  %syntax_elements.elms,
 				  %optional_class_restrictions.ress);
     %%
@@ -433,16 +446,16 @@ syntax_elements
 syntax_element
     = ID
     %%
-	%syntax_element.elm = newelm(`&%ID.srcp, ELMWRD,
-				     newnam(`&%ID.srcp, %ID.chars),
+	%syntax_element.elm = newelm(`&%ID.nam->srcp, ELMWRD,
+				     %ID.nam,
 				     FALSE);
     %%
 
     ! '(' ID ')' optional_multiple_indicator
 
     %%
-	%syntax_element.elm = newelm(`&%ID.srcp, ELMPAR,
-				     newnam(`&%ID.srcp, %ID.chars),
+	%syntax_element.elm = newelm(`&%ID.nam->srcp, ELMPAR,
+				     %ID.nam,
 				     !%optional_multiple_indicator.single);
     %%
     ;
@@ -486,10 +499,10 @@ class_restrictions
     ;
 
 class_restriction
-    = ID 'ISA' classes 'ELSE' statements
+    = ID 'ISA' classes 'ELSE' statements		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY')
     %%
 	%class_restriction.res = newres(`&%'ISA'.srcp,
-				    newnam(`&%ID.srcp, %ID.chars),
+				    %ID.nam,
 				    %classes.single,
 				    %classes.classkd,
 				    %statements.stms);
@@ -617,7 +630,7 @@ verb_alternative
     = 'WHEN' ID simple_verb_body
     %%
 	%verb_alternative.alt = newalt(`&%'WHEN'.srcp,
-				       newnam(`&%ID.srcp, %ID.chars),
+				       %ID.nam,
 				       %simple_verb_body.chks,
 				       %simple_verb_body.qual,
 				       %simple_verb_body.stms);
@@ -719,7 +732,7 @@ location_header		-- RETURNS: srcp, nam, nams
     = 'LOCATION' ID optional_name
     %%
 	%location_header.srcp = %'LOCATION'.srcp;
-	%location_header.nam  = newnam(`&%ID.srcp, %ID.chars);
+	%location_header.nam  = %ID.nam;
 	%location_header.nams = %optional_name.nams;
     %%
     ;
@@ -762,7 +775,7 @@ exit			-- RETURNS: ext
     %%
 	%exit.ext = newext(`&%'EXIT'.srcp,
 			   %id_list.nams,
-			   newnam(`&%ID.srcp, %ID.chars),
+			   %ID.nam,
 			   %optional_exit_body.chks,
 			   %optional_exit_body.stms);
 	if (%optional_exit_body.nam != NULL) { /* END-id given */
@@ -816,7 +829,7 @@ object_header		-- RETURNS: srcp, nam, nams, whr
     = 'OBJECT' ID optional_name optional_where
     %%
 	%object_header.srcp = %'OBJECT'.srcp;
-	%object_header.nam  = newnam(`&%ID.srcp, %ID.chars);
+	%object_header.nam  = %ID.nam;
 	%object_header.nams = %optional_name.nams;
 	%object_header.whr  = %optional_where.whr;
     %%
@@ -847,7 +860,7 @@ optional_attributes	-- RETURNS: atrs
 	%optional_attributes.atrs = NULL;
     %%
 
-    ! optional_attributes is attributes
+    ! optional_attributes is attributes			%+('ARTICLE')
     %%
 	%optional_attributes.atrs = combine(%optional_attributes.atrs, %attributes.atrs);
     %%
@@ -976,7 +989,7 @@ optional_name		-- RETURNS: nams
 	%optional_name.nams = NULL;
     %%
 
-    ! 'NAME' ids
+    ! 'NAME' ids					%+('ARTICLE')
     %%
 	%optional_name.nams = %ids.nams;
     %%
@@ -1020,7 +1033,7 @@ container_header	-- RETURNS: srcp, nam
     = 'CONTAINER' ID
     %%
 	%container_header.srcp = %'CONTAINER'.srcp;
-	%container_header.nam  = newnam(`&%ID.srcp, %ID.chars);
+	%container_header.nam  = %ID.nam;
     %%
     ;
 
@@ -1046,7 +1059,7 @@ optional_limits		-- RETURNS: lims
 	%optional_limits.lims = NULL;
     %%
 
-    ! 'LIMITS' limits
+    ! 'LIMITS' limits					%+('ARTICLE')
     %%
 	%optional_limits.lims = %limits.lims;
     %%
@@ -1065,7 +1078,7 @@ limits			-- RETURNS: lims
     ;
 
 limit			-- RETURNS: lim
-    = limit_attribute 'THEN' statements
+    = limit_attribute 'THEN' statements			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY')
     %%
 	%limit.lim = newlim(`&%'THEN'.srcp,
 			    %limit_attribute.atr,
@@ -1130,7 +1143,7 @@ event_header		-- RETURNS: srcp, nam
     ='EVENT' ID
     %%
 	%event_header.srcp = %'EVENT'.srcp;
-	%event_header.nam  = newnam(`&%ID.srcp, %ID.chars);
+	%event_header.nam  = %ID.nam;
     %%
     ;
 
@@ -1165,7 +1178,7 @@ actor_header		-- RETURNS: srcp, nam, nams, whr
     = 'ACTOR' ID optional_name optional_where
     %%
 	%actor_header.srcp = %'ACTOR'.srcp;
-	%actor_header.nam  = newnam(`&%ID.srcp, %ID.chars);
+	%actor_header.nam  = %ID.nam;
 	%actor_header.nams = %optional_name.nams;
 	%actor_header.whr  = %optional_where.whr;
     %%
@@ -1427,8 +1440,7 @@ event_statement			-- RETURNS: stm
     = 'SCHEDULE' ID optional_where 'AFTER' INTEGER '.'
     %%
 	%event_statement.stm = newstm(`&%'SCHEDULE'.srcp, STM_SCHEDULE);
-	%event_statement.stm->fields.schedule.nam  = newnam(`&%ID.srcp,
-							    %ID.chars);
+	%event_statement.stm->fields.schedule.nam  = %ID.nam;
 	%event_statement.stm->fields.schedule.whr  = %optional_where.whr;
 	%event_statement.stm->fields.schedule.when = val(%INTEGER.chars);
     %%	  
@@ -1436,7 +1448,7 @@ event_statement			-- RETURNS: stm
     ! 'CANCEL' ID '.'
     %%
 	%event_statement.stm = newstm(`&%'CANCEL'.srcp, STM_CANCEL);
-	%event_statement.stm->fields.cancel.nam = newnam(`&%ID.srcp, %ID.chars);
+	%event_statement.stm->fields.cancel.nam = %ID.nam;
     %%	  
     ;
 
@@ -1577,7 +1589,7 @@ optional_for_actor	-- RETURNS: nam
 
     ! 'FOR' ID
     %%
-	%optional_for_actor.nam = newnam(`&%ID.srcp, %ID.chars);
+	%optional_for_actor.nam = %ID.nam;
     %%
     ;
 
@@ -1725,14 +1737,14 @@ aggregate			-- RETURNS: srcp, agr, nam
     %%
 	%aggregate.srcp = %'SUM'.srcp;
 	%aggregate.agr = AGR_SUM;
-	%aggregate.nam = newnam(`&%ID.srcp, %ID.chars);
+	%aggregate.nam = %ID.nam;
     %%
 
     ! 'MAX' 'OF' ID
     %%
 	%aggregate.srcp = %'MAX'.srcp;
 	%aggregate.agr = AGR_MAX;
-	%aggregate.nam = newnam(`&%ID.srcp, %ID.chars);
+	%aggregate.nam = %ID.nam;
     %%
 
     ! 'COUNT'
@@ -1748,7 +1760,7 @@ something		-- RETURNS: not, nam
     = optional_not ID
     %%
 	%something.not = %optional_not.not;
-	%something.nam = newnam(`&%ID.srcp, %ID.chars);
+	%something.nam = %ID.nam;
     %%
     ;
 
@@ -1773,8 +1785,8 @@ what			-- RETURNS: srcp, wht
 
     ! ID
     %%
-	%what.wht = newwht(`&%ID.srcp, WHT_ID, newnam(`&%ID.srcp, %ID.chars));
-	%what.srcp = %ID.srcp;
+	%what.wht = newwht(`&%ID.nam->srcp, WHT_ID, %ID.nam);
+	%what.srcp = %ID.nam->srcp;
     %%
     ;
 
@@ -1936,33 +1948,33 @@ optional_id
 
     ! ID
     %%
-        %optional_id.nam = newnam(`&%ID.srcp, %ID.chars);
+        %optional_id.nam = %ID.nam;
     %%
     ;
 
 ids			-- RETURNS: nams
     = ID
     %%
-        %ids.nams = concat(NULL, newnam(`&%ID.srcp, %ID.chars));
+        %ids.nams = concat(NULL, %ID.nam);
     %%
 
     ! ids ID
     %%
-        %ids.nams = concat(%ids.nams, newnam(`&%ID.srcp, %ID.chars));
+        %ids.nams = concat(%ids.nams, %ID.nam);
     %%
     ;
 
 id_list			-- RETURNS: str, nams
     = ID
     %%
-        %id_list.str = newstr(%ID.chars);
-        %id_list.nams = concat(NULL, newnam(`&%ID.srcp, %ID.chars));
+        %id_list.str = newstr(%ID.nam->str);
+        %id_list.nams = concat(NULL, %ID.nam);
     %%
 
     ! id_list ',' ID
     %%
         %id_list.str = %id_list.str;
-        %id_list.nams = concat(%id_list.nams, newnam(`&%ID.srcp, %ID.chars));
+        %id_list.nams = concat(%id_list.nams, %ID.nam);
     %%
     ;
 
@@ -1994,7 +2006,40 @@ attribute_reference		-- RETURNS: wht, nam
     = ID 'OF' what
     %%
 	%attribute_reference.srcp = %'OF'.srcp;
-	%attribute_reference.nam = newnam(`&%ID.srcp, %ID.chars);
+	%attribute_reference.nam = %ID.nam;
 	%attribute_reference.wht = %what.wht;
+    %%
+    ;
+
+ID
+    = IDENT
+    %%
+        %ID.nam = newnam(`&%IDENT.srcp, %IDENT.chars);
+    %%
+
+    ! 'ARTICLE'
+    %%
+        %ID.nam = newnam(`&%'ARTICLE'.srcp, "ARTICLE");
+    %%
+
+    ! 'MESSAGE'
+    %%
+        %ID.nam = newnam(`&%'MESSAGE'.srcp, "MESSAGE");
+    %%
+
+    ! 'QUIT'
+    %%
+        %ID.nam = newnam(`&%'QUIT'.srcp, "QUIT");
+    %%
+
+    ! 'SAVE'
+    %%
+        %ID.nam = newnam(`&%'SAVE'.srcp, "SAVE");
+    %%
+
+
+    ! 'RESTORE'
+    %%
+        %ID.nam = newnam(`&%'RESTORE'.srcp, "RESTORE");
     %%
     ;

@@ -194,13 +194,13 @@ int scannedLines()
     %%;
 
 
-  ID = letter (letter ! digit ! '_')*			-- normal id
+  IDENT = letter (letter ! digit ! '_')*			-- normal id
     %%
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
 	(void) strlow(smToken->chars);
     %%;
 
-  ID = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
+  IDENT = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
 	char *c;
 
@@ -270,7 +270,7 @@ int scannedLines()
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
-      if (token.code == sm_MAIN_ID_Token) {
+      if (token.code == sm_MAIN_IDENT_Token) {
 	/* Found an ID which is a file name */
 	do {
 	  i = smScSkip(smThis, 1);
@@ -298,7 +298,7 @@ int scannedLines()
 
 %%RULES
 
-  ID = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
+  IDENT = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
     %%{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }%%;

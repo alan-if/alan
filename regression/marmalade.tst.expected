@@ -14,7 +14,7 @@ marmalade.alan
    7.   			ELSE LOCATE obj AT nowhere.
 ====>   			1           2      3
 
-  *1*   101 E : ID inserted.
+  *1*   101 E : Identifier ('$genid#1') inserted.
   *2*   310 E : Identifier 'obj' not defined.
   *3*   310 E : Identifier 'nowhere' not defined.
 
@@ -32,7 +32,7 @@ marmalade.alan
 ====>       1    2
 
   *1*   103 E : 'VERB' replaced by 'CONTAINER'.
-  *2*   201 W : Mismatched block identifier, 'ID' assumed.
+  *2*   201 W : Mismatched block identifier, '$genid#1' assumed.
 
 
         7 error(s).
