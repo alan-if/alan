@@ -1,7 +1,8 @@
 %%OPTIONS
+
 	Prefix 'sm';
 
-%%DECLARATIONS
+%%IMPORT
 
 #include "sysdep.h"
 
@@ -13,7 +14,7 @@
 
 /* For open, read & close */
 #ifdef __sun__
-#include <unistd.h>
+#include <sys/unistd.h>
 #include <fcntl.h>
 #endif
 #ifdef __vms__
@@ -23,13 +24,20 @@
 #include <io.h>
 #endif
 
+%%EXPORT
+
+extern smScContext lexContext;
+
+%%DECLARATIONS
+
+#define COPYMAX (smThis->smLength>256?256:smThis->smLength)
+
 
 /* PUBLIC */
-smContext lexContext = NULL;	/* Scanner context */
+smScContext lexContext = NULL;	/* Scanner context */
 
 int scannedLines();
 
-%%CODE
 
 /* PRIVATE */
 static lines = 0;		/* Updated at end of each file */
@@ -37,9 +45,9 @@ static lines = 0;		/* Updated at end of each file */
 Boolean smScanEnter(fnm)
 	char fnm[];		/* IN - Name of file to open */
 {
-  smContext this;
+  smScContext this;
 
-  this = smNew(sm_main_Scanner);
+  this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
   else if ((this->fd = open(fnm,0)) < 0)
@@ -61,7 +69,7 @@ int scannedLines()
 
 %%CONTEXT
 
-  smContext previous;
+  smScContext previous;
   int fd;
   char *fileName;
   int fileNo;
@@ -70,13 +78,21 @@ int scannedLines()
 %%READER
 
   if (verbose) printf(".");
-  return read(this->fd, smBuffer, smLength);
+  return read(smThis->fd, smBuffer, smLength);
 
 
 %%POSTHOOK
 
-  smToken->srcp.file = this->fileNo;
-
+  smToken->srcp.file = smThis->fileNo;
+  if (smToken->code == sm_MAIN_ENDOFTEXT_Token) {
+    lines += smThis->smLine;
+    close(smThis->fd);
+    if (smThis->previous) {
+      lexContext = smThis->previous;
+      smScDelete(smThis);
+      return smScan(lexContext, smToken);
+      }
+  }
 
 %%MAP
 
@@ -91,6 +107,7 @@ int scannedLines()
   digit		= [0-9];
 
 ------------------------------------------------------------------------------
+%%VOCABULARY main
 
 %%SCANNER main
 
@@ -98,13 +115,13 @@ int scannedLines()
 
   INTEGER = digit+
     %%
-	smToken->chars[smCopy(this, smToken->chars, 0, this->smLength)] = '\0';
+	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     %%;
 
 
   ID = letter (letter ! digit ! '_')*			-- normal id
     %%
-	smToken->chars[smCopy(this, smToken->chars, 0, this->smLength)] = '\0';
+	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
 	(void) strlow(smToken->chars);
     %%;
 
@@ -112,7 +129,7 @@ int scannedLines()
     %%{
 	char *c;
 
-	smToken->chars[smCopy(this, smToken->chars, 1, this->smLength-1)] = '\0';
+	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
 	for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
 	    strcpy(c, &c[1]);
 	    c++;
@@ -128,9 +145,9 @@ int scannedLines()
 
       smToken->fpos = ftell(txtfil); /* Remember where it starts */
 
-      for (i = 1; i < this->smLength-1; i++) {
+      for (i = 1; i < smThis->smLength-1; i++) {
 	/* Write the character */
-	if (isspace(c = this->smText[i])) {
+	if (isspace(c = smThis->smText[i])) {
 	  if (!space) {		/* Are we looking at spaces? */
 	    /* No, so output a space and remember */
 	    putc(' ', txtfil);
@@ -151,16 +168,7 @@ int scannedLines()
 
   Unknown = _Unknown;
 
-  EndOfText = _EndOfText
-    %%
-      lines += this->smLine;
-      close(this->fd);
-      if (this->previous) {
-	lexContext = this->previous;
-	smDelete(this);
-        return smScan(lexContext, smToken);
-      }
-    %%;
+  EndOfText = _EndOfText;
 
 %%SKIP
 
@@ -175,15 +183,15 @@ int scannedLines()
       int i;
       char c;
 
-      smScrOff(sm_main_ID_Token);
-      smScan(this, `&token);		/* Get file name */
-      smScrOn(sm_main_ID_Token);
-      if (token.code == sm_main_ID_Token) {
+      smThis->smScanner = sm_MAIN_FILENAME_Scanner;
+      smScan(smThis, `&token);		/* Get file name */
+      smThis->smScanner = sm_MAIN_MAIN_Scanner;
+      if (token.code == sm_MAIN_ID_Token) {
 	/* Found an ID which is a file name */
 	do {
-	  i = smSkip(this, 1);
-	  c = this->smText[this->smLength-1];
-	} while(c != '\n' && i != 0); /* Skip to end of line or EOF */
+	  i = smScSkip(smThis, 1);
+	  c = smThis->smText[smThis->smLength-1];
+	} while (c != '\n' && i != 0); /* Skip to end of line or EOF */
 
 	srcp = token.srcp;	/* Insert the file before next line */
 	srcp.line++;
@@ -192,7 +200,7 @@ int scannedLines()
 	if (smScanEnter(token.chars)) {
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
-	  lmEnter(`&srcp, `&start, token.chars);
+	  lmLiEnter(`&srcp, `&start, token.chars);
 	  /* Use the new scanner to get next token and return it */
 	  return smScan(lexContext, smToken);
 	} else
@@ -200,5 +208,23 @@ int scannedLines()
       } else
 	lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   %%;
+
+
+%%SCANNER filename
+
+%%RULES
+
+  ID = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
+    %%{
+	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+    }%%;
+
+  Unknown = _Unknown;
+
+  EndOfText = _EndOfText;
+
+%%SKIP
+
+  blanks = [ \n\t]+;
 
 

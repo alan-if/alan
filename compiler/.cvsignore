@@ -22,3 +22,4 @@ smScan.c
 smScan.h
 version.c
 version.h
+.*stamp

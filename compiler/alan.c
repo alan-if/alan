@@ -15,7 +15,6 @@
 
 #include "alan.h"
 
-
 /* IMPORTS */
 
 #include "version.h"
@@ -252,26 +251,26 @@ static void prtimes()
   char str[80];
   
   lmSkipLines(8);
-  lmPrint("");
-  lmPrint(       "        Timing");
-  lmPrint(       "        ------");
+  lmLiPrint("");
+  lmLiPrint(       "        Timing");
+  lmLiPrint(       "        ------");
   sprintf(str,   "        Parse Time:             %6d", tim.pars);
-  lmPrint(str);
+  lmLiPrint(str);
   if (tim.sem != 0) {
     sprintf(str, "        Analysis Time:          %6d", tim.sem);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   if (tim.gen != 0) {
     sprintf(str, "        Code Generation Time:   %6d", tim.gen);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   sprintf(str,   "        ------------------------------");
-  lmPrint(str);
+  lmLiPrint(str);
   sprintf(str,   "        Compilation Time:       %6d", tim.comp);
-  lmPrint(str);
-  lmPrint("");
+  lmLiPrint(str);
+  lmLiPrint("");
   sprintf(str,   "        Total Time:             %6d", tim.tot);
-  lmPrint(str);
+  lmLiPrint(str);
 }
 
 
@@ -293,27 +292,27 @@ static void stats()
   char str[80];
   
   lmSkipLines(7);
-  lmPrint("");
+  lmLiPrint("");
   
   lins = scannedLines();
   if (fileNo > 1)
     sprintf(str, "        %d source lines read from %d files.", lins, fileNo);
   else
     sprintf(str, "        %d source lines read.", lins);
-  lmPrint(str);
-  lmPrint("");
+  lmLiPrint(str);
+  lmLiPrint("");
   
   if (tim.tot != 0 && tim.comp != 0) {
     sprintf(str, "        %d lines/CPUminute.",
 	    (int)(60L*1000L*(long)lins/tim.comp));
-    lmPrint(str);
-    lmPrint("");
+    lmLiPrint(str);
+    lmLiPrint("");
   }
   
   sprintf(str,   "        Estimated dynamic memory usage = %d bytes.",
 	  (char *)malloc(10000)-(char *)heap);
-  lmPrint(str);
-  lmPrint("");
+  lmLiPrint(str);
+  lmLiPrint("");
 }
 
 
@@ -420,47 +419,54 @@ static Boolean sumflg;		/* Print a summary */
 static Boolean revflg;		/* Reverse byte ordering in .ACD file,
 				   relative to native ordering */
 
-SPA_FUNCTION(usage)
+SPA_FUN(usage)
 {
   printf("Usage: ALAN <adventure> [-help] [options]\n");
 }
 
 
-SPA_FUNCTION(paramError)
+SPA_ERRFUN(paramError)
 {
-  printf("Parameter error: %s, '%s'\n", prettyName, rawName);
-  usage(NULL, NULL, 0, 0);
+  char *sevstr;
+
+  switch (sev) {
+  case 'E': sevstr = "error"; break;
+  case 'W': sevstr = "warning"; break;
+  default: sevstr = "internal error"; break;
+  }
+  printf("Parameter %s: %s, %s\n", sevstr, msg, add);
+  usage(NULL, NULL, 0);
   exit(EXIT_FAILURE);
 }
 
-SPA_FUNCTION(extraArg)
+SPA_FUN(extraArg)
 {
   printf("Extra argument: '%s'\n", rawName);
-  usage(NULL, NULL, 0, 0);
+  usage(NULL, NULL, 0);
   exit(EXIT_FAILURE);
 }
 
-SPA_FUNCTION(xit) {exit(EXIT_SUCCESS);}
+SPA_FUN(xit) {exit(EXIT_SUCCESS);}
 
 SPA_DECLARE(arguments)
 #ifdef __dos__
-     SPA_ITEM("adventure", "file name, default extension '.ala'", SPA_Argument, &srcptr, NULL)
+     SPA_STRING("adventure", "file name, default extension '.ala'", srcptr, NULL, NULL)
 #else
-     SPA_ITEM("adventure", "file name, default extension '.alan'", SPA_Argument, &srcptr, NULL)
+     SPA_STRING("adventure", "file name, default extension '.alan'", srcptr, NULL, NULL)
 #endif
-     SPA_ITEM("", "extra argument", SPA_Function, extraArg, NULL)
+     SPA_FUNCTION("", "extra argument", extraArg)
 SPA_END
 
 SPA_DECLARE(options)
-     SPA_ITEM("help", "this help", SPA_Help, usage, xit)
-     SPA_ITEM("verbose", "verbose messages", SPA_Flag, &verbose, FALSE)
-     SPA_ITEM("warnings", "[don't] show warning messages", SPA_Flag, &warnings, TRUE)
-     SPA_ITEM("infos", "[don't] show informational messages", SPA_Flag, &infos, FALSE)
-     SPA_ITEM("full", "full listing on the screen", SPA_Flag, &fulflg, FALSE)
-     SPA_ITEM("height <lines)", "height of pages in listing", SPA_Numeric, &lcount, 74)
-     SPA_ITEM("width <characters>", "width of pages in listing", SPA_Numeric, &ccount, 80)
-     SPA_ITEM("listing", "create listing file", SPA_Flag, &lstflg, FALSE)
-     SPA_ITEM("dump", "dump internal form, where '--' means everything and\n\
+     SPA_HELP("help", "this help", usage, xit)
+     SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
+     SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
+     SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
+     SPA_FLAG("full", "full listing on the screen", fulflg, FALSE, NULL)
+     SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
+     SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 80, NULL)
+     SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
+     SPA_BITS("dump", "dump internal form, where '--' means everything and\n\
 symbols\n\
 syntax\n\
 verbs\n\
@@ -469,12 +475,11 @@ objects\n\
 containers\n\
 events\n\
 actors\n\
-rules", SPA_Set, &dmpflg, "sxvlocear")
-     SPA_ITEM("debug", "force debug option in adventure", SPA_Flag, &dbgflg, FALSE)
-     SPA_ITEM("pack", "force pack option in adventure", SPA_Flag, &packflg, FALSE)
-     SPA_ITEM("summary", "print a summary", SPA_Flag, &sumflg, FALSE)
-/*     SPA_ITEM("prettyprint", "pretty print the adventure", SPA_Flag, &ppflg, FALSE) */
-     SPA_ITEM("reverse", "reversed (relative to native) byte ordering in .ACD file", SPA_Flag, &revflg, FALSE)
+rules", dmpflg, "sxvlocear", NULL, NULL)
+     SPA_FLAG("debug", "force debug option in adventure", dbgflg, FALSE, NULL)
+     SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
+     SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
+/*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END
 
 
@@ -559,7 +564,7 @@ int main(argc,argv)
     printf("%s\n\n", product.longHeader);
 
   if (nArgs == 0) {
-    usage(NULL, NULL, 0, 0);
+    usage(NULL, NULL, 0);
     exit(EXIT_FAILURE);
   } else if (nArgs > 1)
     exit(EXIT_FAILURE);
@@ -573,7 +578,7 @@ int main(argc,argv)
 #endif
   heap = malloc(10000);		/* Remember where heap starts */
   free(heap);
-  lmInit(product.shortHeader, srcfnm, lm_english_Messages);
+  lmLiInit(product.shortHeader, srcfnm, lm_ENGLISH_Messages);
   if (!smScanEnter(srcfnm)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
@@ -666,7 +671,7 @@ int main(argc,argv)
     prtimes();
     stats();
   }
-  lmTerminate();
+  lmLiTerminate();
 #ifdef MALLOC
   if (malloc_verify() == 0) printf("Error in heap!\n");
 #endif

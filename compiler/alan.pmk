@@ -1,4 +1,5 @@
 %%OPTIONS
+
 	Prefix 'pm';
 	Listerprefix 'lm';
 	List Grammar, Statistics;
@@ -9,8 +10,6 @@
 %%IMPORT
 
 #include "smScan.h"
-
-extern smContext lexContext;
 
 #include "srcp.h"
 #include "token.h"
@@ -50,7 +49,7 @@ extern smContext lexContext;
 
 %%SCANNER
 
-	smScan(lexContext, &token);
+    smScan(lexContext, token);
 
 %%INSERTSYMBOL
 
@@ -59,7 +58,7 @@ extern smContext lexContext;
     strcpy(sym->chars, sstr);
 
 
-%%CODE
+%%DECLARATIONS
 
 static int val(str)
      char str[];

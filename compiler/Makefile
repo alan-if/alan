@@ -1,4 +1,4 @@
-# Makefile for alan			Date: 1990-01-14 14:47:59/toolmake
+# Makefile for alan compiler
 #
 
 
@@ -84,41 +84,36 @@ debug all: alan
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-alan: smart $(LIB)($(OBJECTS)) version.o alan.o Makefile
-	ranlib $(LIB)
-	$(LD) -o $@ $(CFLAGS) $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
+#alan: smart $(OBJECTS) version.o $(MAINOBJ) Makefile
+alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile
+	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp alan.prod ..
 	cp alan ../`arch`
+
+tm: .pmkstamp .smkstamp .lmkstamp
+
+.lmkstamp : alan.lmk alan.tmk $(TMHOME)/lib/ansi-c/List.imp
+	lmk $(LMKQ) alan
+	@touch .lmkstamp
+
+.pmkstamp: alan.pmk alan.tmk $(TMHOME)/lib/ansi-c/Parse.imp $(TMHOME)/lib/ansi-c/Err.imp
+	pmk $(PMKQ) alan
+	@touch .pmkstamp
+
+.smkstamp : .pmkstamp alan.smk alan.smk $(TMHOME)/lib/ansi-c/Scan.imp
+	smk $(SMKQ) alan
+	@touch .smkstamp
 
 smart: alan.tmk alan.pmk alan.smk alan.lmk $(TMHOME)/lib/ansi-c/*.imp
 	smartMaker -v alan
 
-#pmParse.c pmPaSema.c pmParse.h pmErr.c pmErr.h : alan.pmt $(TMLIB)/Parse.imp
-#	imp alan.pmt
-#
-#alan.pmt : alan.pmk alan.tmk
-#	pmk alan
-#
-#smScan.c smScSema.c smScan.h : alan.smt $(TMLIB)/Scan.imp
-#	imp alan.smt
-#
-#alan.smt : alan.smk alan.tmk
-#	smk alan
-#
-#lmList.c lmList.h alanCommon.h : alan.lmt $(TMLIB)/List.imp
-#	imp alan.lmt
-#
-#alan.lmt : alan.lmk alan.tmk
-#	lmk alan
-
-
-malloc: smart $(LIB)($(OBJECTS)) version.o alan.o
+malloc: smart $(OBJECTS) version.o $(MAINOBJ)
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
-	$(CC) -o alan $(CFLAGS) alan.o version.o /usr/lib/debug/malloc.o $(LIB) $(LDFLAGS)
+	$(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	-rm alan.o
 
-purify: smart $(LIB)($(OBJECTS)) version.o alan.o
-	purify $(CC) -o alan $(CFLAGS) alan.o version.o $(LIB) $(LDFLAGS)
+purify: smart $(OBJECTS) version.o alan.o
+	purify -handle-signals $(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
 
 NONANSI:
 	mv alan.tmk alan.tmk.ansi
@@ -142,7 +137,7 @@ MSDOS:
 	sed $(DOSSUBS) smScSema.c > SMSCSEMA.C
 	mv -f alan.tmk.sun alan.tmk
 
-version.c: $(LIB)($(OBJECTS)) ../[0-9]*
+version.c: $(OBJECTS) ../[0-9]*
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t

@@ -42,21 +42,19 @@ debug all: arun
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(LIB)($(OBJECTS)) version.o $(MAINOBJ) Makefile
-	ranlib $(LIB)
-	$(LD) -o $@ $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
+arun: $(OBJECTS) version.o $(MAINOBJ) Makefile
+	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp arun ../`arch`
 
-purify: $LIB($(OBJECTS)) version.o $(MAINOBJ)
-	ranlib $(LIB)
-	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
+purify: $(OBJECTS) version.o $(MAINOBJ)
+	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 
-malloc	: $(OBJECTS) version.o
+malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
-	$(LD) -o $@ $(MAINOBJ) version.o $(LIB) /usr/lib/debug/malloc.o $(LDFLAGS)
+	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	cp arun ../`arch`
 
-version.c: $(LIB)($(OBJECTS)) ../[0-9]*
+version.c: $(OBJECTS) ../[0-9]*
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t

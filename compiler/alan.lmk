@@ -1,8 +1,9 @@
 %%OPTIONS
+
 	Prefix 'lm';
 	Listings single;
 
-%%MESSAGES english
+%%MESSAGES English
 
 0	'%1 Adventure Language System';
 1	'        No warnings or errors detected.';
@@ -13,11 +14,11 @@
 6	'        %1 error(s).';
 7	'Maximum number of messages exceeded.';
 
-100	'Parsing resumed.';
+100	'Parsing resumed here.';
 101	'%1 inserted.';
 102	'%1 deleted.';
 103	'%1 replaced by %2.';
-104	'Syntax error, stack backed up.';
+104	'Severe syntax error, construct ignored.';
 105	'Syntax error.';
 106	'Parse stack overflow.';
 107	'Parse table error.';
@@ -25,6 +26,7 @@
 
 150	'Unterminated STRING.';
 151	'File name missing for $INCLUDE directive.';
+198	'Could not open output file \'%1\' for writing.';
 199	'Adventure source file (%1) not found.';
 
 201	'Mismatched block identifier, \'%1\' assumed.';

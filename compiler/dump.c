@@ -55,7 +55,7 @@ void nl()
 {
   int i;
 
-  lmPrint(strbuf);
+  lmLiPrint(strbuf);
   strbuf[0] = '\0';
 
   for (i=1 ; i<=indent; i++)

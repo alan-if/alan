@@ -322,29 +322,29 @@ void summary()
   
   lmSkipLines(8);
   
-  lmPrint("");
-  lmPrint("        Summary");
-  lmPrint("        -------");
+  lmLiPrint("");
+  lmLiPrint("        Summary");
+  lmLiPrint("        -------");
   if (loccount != 0) {
     sprintf(str, "        Locations:              %6d", loccount);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   if (vrbcount != 0) {
     sprintf(str, "        Verbs:                  %6d", vrbcount);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   if (objcount != 0) {
     sprintf(str, "        Objects:                %6d", objcount);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   if (actcount > 1) {
     sprintf(str, "        Actors:                 %6d (incl. the Hero)", actcount);
-    lmPrint(str);
+    lmLiPrint(str);
   }
   sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
-  lmPrint(str);
+  lmLiPrint(str);
   sprintf(str,   "        Acode:                  %6d words (%d bytes)", end, (int)((long)end*(long)sizeof(Aword)));
-  lmPrint(str);
+  lmLiPrint(str);
   sprintf(str,   "        Text data:              %6d bytes", txtlen);
-  lmPrint(str);
+  lmLiPrint(str);
 }

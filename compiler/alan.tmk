@@ -1,7 +1,7 @@
 %%OPTIONS
+
 	Prefix 'alan';
-	Target 'ansi-c';
-	OS 'SunOS';	
+	OS 'SunOS';
 
 %%IMPORT
 
