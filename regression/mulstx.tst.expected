@@ -7,9 +7,10 @@ arun mulstx < mulstx.input
 mulstx.alan
 
     6.    take = 'take' (obj).
-=====>         1
+=====>    1    2
 
-  *1*   334 W : Multiple syntaxes are defined with this structure (words and
+  *1*   206 W : Multiple definition of SYNTAX for 'take'.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
                 parameters).
 
    18.    take = 'take' (obj).
@@ -28,7 +29,7 @@ mulstx.alan
 
 
         No detected errors.
-        5 warning(s).
+        6 warning(s).
         5 informational message(s).
 
 

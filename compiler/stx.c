@@ -109,10 +109,18 @@ void anstxs(void)
   /* Check for multiple definitions of the syntax for a verb */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     for (other = lst->next; other != NULL; other = other->next) {
-      if (other->element.stx->nam->code != -1)
+      if (other->element.stx->nam->code != -1 || lst->element.stx->nam->code != -1)
 	if (other->element.stx->nam->code == lst->element.stx->nam->code) {
-	  lmLog(&other->element.stx->nam->srcp, 206, sevWAR,
-		other->element.stx->nam->str);
+	  if (!lst->element.stx->muldef){
+	    lmLog(&lst->element.stx->nam->srcp, 206, sevWAR,
+		  lst->element.stx->nam->str);
+	    lst->element.stx->muldef = TRUE;
+	  }
+	  if (!other->element.stx->muldef){
+	    lmLog(&other->element.stx->nam->srcp, 206, sevWAR,
+		  other->element.stx->nam->str);
+	    other->element.stx->muldef = TRUE;
+	  }
 	  break;
 	}
     }

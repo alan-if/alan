@@ -25,6 +25,7 @@ typedef struct StxNod {		/* SYNTAX */
   List *ress;			/* List of class restrictions */
   List *pars;			/* AN - List of parameters */
   Bool generated;		/* AN - Already generated? */
+  Bool muldef;			/* AN - Multiply defined verb syntax? */
   Aaddr elmsadr;		/* GE - Address to element table for */
 				/* all stxs with the same first word */
   Aaddr resadr;			/* GE - Address to class restriction checks */
