@@ -58,7 +58,7 @@ extern Attribute *findAttribute(Id *id,
 				List *attributes);
 
 /* Find an attribute id in a list of attribute lists */
-extern Attribute *findAttributeInLists(Id *id, List *lists);
+extern Attribute *findAttributeInLists(Srcp *srcp, Id *id, List *lists);
 
 /* Analyze a list of attribute nodes */
 extern void analyseAttributes(List *attributes);

@@ -188,7 +188,7 @@ void analyseClass(class)
      Class *class;
 #endif
 {
-  analyseSlot(class->slot);
+  analyseSlot(&class->srcp, class->slot);
 }
 
 

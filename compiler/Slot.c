@@ -91,9 +91,11 @@ Slot *newSlot(heritage, name, where, attributes, container, surroundings,
 
   */
 #ifdef _PROTOTYPES_
-void analyseSlot(Slot *slot)
+void analyseSlot(Srcp *srcp,	/* IN - Source position to use in case of errors */
+		 Slot *slot)	/* IN - The slot to analyse */
 #else
-void analyseSlot(slot)
+void analyseSlot(srcp, slot)
+     Srcp *srcp;
      Slot *slot;
 #endif
 {
@@ -114,7 +116,7 @@ void analyseSlot(slot)
 	remove = TRUE;
       } else {
 	if (symbol->info.class->slot->state != FINISHED)
-	  analyseSlot(symbol->info.class->slot);
+	  analyseSlot(&symbol->info.class->srcp, symbol->info.class->slot);
 	/* Now collect the inhertied attributes into the list */
 	if (symbol->info.class->slot->attributes != NULL)
 	  inhertitedAttributeList = prepend(symbol->info.class->slot->attributes,
@@ -138,7 +140,7 @@ void analyseSlot(slot)
   slot->state = NUMBERING_ATTRIBUTES;
   /* Number the attributes */
   for (localAttributes = slot->attributes; localAttributes; localAttributes = localAttributes->next) {
-    attribute = findAttributeInLists(localAttributes->element.attribute->id,
+    attribute = findAttributeInLists(srcp, localAttributes->element.attribute->id,
 				     slot->inheritedAttributeLists);
     if (attribute == NULL)
       localAttributes->element.attribute->code = ++attributeCount;

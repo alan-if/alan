@@ -89,7 +89,7 @@ void analyseInstance(instance)
   if (listLength(instance->slot->heritage) > 1)
     lmLog(&instance->srcp, 227, sevERR, NULL);
   else
-    analyseSlot(instance->slot);
+    analyseSlot(&instance->srcp, instance->slot);
 }
 
 

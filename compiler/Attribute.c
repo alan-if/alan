@@ -97,27 +97,31 @@ Attribute *findAttribute(id, attributes)
 
   Find an attribute in a list of attribute list and return a pointer to it.
 
-  4f - findAttributeInLists should also signal for multiple finds
-
  */
 #ifdef _PROTOTYPES_
-Attribute *findAttributeInLists(Id *id, /* IN - The attribute id to find */
-			 List *lists) /* IN - The lists of attribute lists */
+Attribute *findAttributeInLists(Srcp *srcp, /* IN - The source position to point to in case of error */
+				Id *id, /* IN - The attribute id to find */
+				List *lists) /* IN - The lists of attribute lists */
 #else
-Attribute *findAttributeInLists(id, lists)
+Attribute *findAttributeInLists(srcp, id, lists)
+     Srcp *srcp;
      Id *id;
      List *lists;
 #endif
 {
   List *list;
-  Attribute *found;
+  Attribute *found1, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found = findAttribute(id, list->element.list);
-    if (found)
-      return (found);
+    found1 = findAttribute(id, list->element.list);
+    if (found2)
+      if (found1 != found2) {
+	lmLog(srcp, 229, sevERR, id->string);
+	return (found1);
+      }
+    found2 = found1;
   }
-  return NULL;
+  return (found1);
 }
 
 
