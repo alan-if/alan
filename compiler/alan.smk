@@ -15,7 +15,7 @@
 
 /* For open, read & close */
 #ifdef __sun__
-#include <sys/unistd.h>
+#include <unistd.h>
 #include <fcntl.h>
 #endif
 #ifdef __vms__

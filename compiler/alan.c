@@ -10,7 +10,7 @@
 #include "types.h"
 
 #ifdef __sun__
-#include <sys/unistd.h>
+#include <unistd.h>
 #endif
 
 #include "alan.h"
