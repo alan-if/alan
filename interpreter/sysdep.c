@@ -155,7 +155,7 @@ static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\
 /* Use native characters */
 static char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
 
-static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
 
 #endif
 
