@@ -101,6 +101,7 @@ extern void output();
 extern void prmsg();
 extern void print();
 extern void para();
+extern void newline();
 extern Boolean checklim();
 extern Boolean possible();
 extern Boolean eot();

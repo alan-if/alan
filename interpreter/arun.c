@@ -129,9 +129,14 @@ and fall to your knees. In front of you, you can vaguely see the outlines \
 of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
-  if (logflg)
-    fclose(logfil);
-  terminate(0);
+  if (confirm(M_RETRY)) {
+    longjmp(restart, TRUE);
+  } else {
+    if (logflg)
+      fclose(logfil);
+    newline();
+    terminate(0);
+  }
 }
 
 

@@ -121,6 +121,14 @@ void args(argc, argv)
     struct Process *proc = (struct Process *)FindTask(0);
     extern struct _dev *_devtab;
 
+    WBstart = (struct WBStartup *)argv;
+    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
+    if (WBstart->sm_NumArgs > 0) {
+      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
+      advnam = WBstart->sm_ArgList[1].wa_Name;
+    }
+    /* 4f_ni - Get ToolTypes! */
+
     /* Create a console */
     strcpy(connam, "newcon:10/10/480/160/");
     strcat(connam, advnam);
@@ -131,14 +139,6 @@ void args(argc, argv)
 
     /* AztecC stdio console set up */
     _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
-
-    WBstart = (struct WBStartup *)argv;
-    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
-    if (WBstart->sm_NumArgs > 0) {
-      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
-      advnam = WBstart->sm_ArgList[1].wa_Name;
-    }
-    /* 4f_ni - Get ToolTypes! */
   } else {
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)

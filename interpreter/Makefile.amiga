@@ -29,10 +29,10 @@ arun.o: arun.c
 	cc $(CFLAGS) -e400 -L400 arun.c
 
 term.o: term.c
-	cc $(CFLAGS) -L400 term.c
+	cc $(CFLAGS) -L1000 term.c
 
 args.o: args.c
-	cc $(CFLAGS) -L400 args.c
+	cc $(CFLAGS) -L800 args.c
 
 #-- ARCHIVE
 archive:
