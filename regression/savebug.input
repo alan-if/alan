@@ -1,0 +1,25 @@
+x
+open door
+search wall
+x crack
+pull cloth
+e
+z
+open chest
+pull beard
+put hair in jacket
+get jacket
+save
+
+
+restore
+
+examine jacket
+guess 1
+put jacket in pot
+save
+
+
+restore
+
+examine pot

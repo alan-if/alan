@@ -1,0 +1,46 @@
+CFLAGS = -g -ansi -pedantic -funsigned-char -D__win__
+
+LDFLAGS = -g
+
+OBJECTS = arun.o \
+	main.o \
+	debug.o \
+	args.o \
+	exe.o \
+	inter.o \
+	parse.o \
+	rules.o \
+	stack.o \
+	decode.o \
+	term.o \
+	reverse.o \
+	params.o \
+	sysdep.o \
+	version.o
+
+
+arun.exe : $(OBJECTS)
+	gcc -o arun.exe $(OBJECTS) $(LDFLAGS)
+	copy arun.exe ..
+
+strip:
+	strip arun
+	coff2exe arun
+
+#---<< GENERATED DEPENDENCIES FOLLOWS >>---
+args.o: args.c args.h types.h sysdep.h acode.h
+arun.o: arun.c sysdep.h types.h acode.h readline.h version.h args.h parse.h \
+  inter.h rules.h debug.h stack.h exe.h term.h
+debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
+  parse.h exe.h debug.h
+decode.o: decode.c types.h sysdep.h acode.h decode.h
+exe.o: exe.c
+inter.o: inter.c
+parse.o: parse.c
+rules.o: rules.c
+stack.o: stack.c
+term.o: term.c
+reverse.o: reverse.c
+params.o: params.c
+sysdep.o: sysdep.c
+version.o: version.c

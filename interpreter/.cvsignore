@@ -1,4 +1,5 @@
-*.d
+arun.exe
+*.o
 .HoldDirectoryFinderInfoForMacNFS
 .arch
 .pure

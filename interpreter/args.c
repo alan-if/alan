@@ -175,7 +175,7 @@ extern struct Library *IconBase;
 	advnam = strdup(argv[0]);
   }
 #else
-#ifdef __dos__
+#if defined(__dos__) || defined(__win__)
   if ((prgnam = strrchr(argv[0], '\\')) == NULL
       && (prgnam = strrchr(argv[0], '/')) == NULL
       && (prgnam = strrchr(argv[0], ':')) == NULL)

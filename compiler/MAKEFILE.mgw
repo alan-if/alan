@@ -1,3 +1,5 @@
+# Makefile for Alan using MinGW32
+
 CFLAGS = -g -ansi -pedantic -funsigned-char -D__win__ -DSTDIONONCONST $(INCLUDE)
 
 LDFLAGS = -g
