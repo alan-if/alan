@@ -58,7 +58,7 @@ a2a3: checkTarget tm $(MAINOBJECTS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp a2a3.exe ../bin
 
-release: win test
+release: win
 
 all : .tmstamp test alan Makefile
 
