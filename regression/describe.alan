@@ -18,7 +18,7 @@ The a3 Isa actor At loc
   Name 'mr.' a3
 End The a3.
 
-When 1 =>
+When 1 Then
   Describe Current actor.
 
 Syntax l = l.
