@@ -8,6 +8,11 @@
 #include "sysdep.h"
 #include "types.h"
 
+#ifdef __mac__
+#include "Files.h"
+#include "Strings.h"
+#endif
+
 #ifdef __amiga__
 /* On the Amiga we can't include alan.h since it includes the lst.h (List type)
    and this conflicts with the exec/lists.h. So we explicitly declare needed things */
@@ -392,6 +397,10 @@ void eminit(
       FreeDiskObject(existingIcon);
 #endif
 
+#ifdef __MWERKS__
+	_fcreator = 'Arun';
+	_ftype = 'Acod';
+#endif
   acdfil = fopen(acdfnm, WRITE_MODE);
 
   /* Make space for ACODE header */
@@ -407,10 +416,10 @@ void eminit(
     OSErr oe;
 
     strcpy(fnm, acdfnm);
-    CtoPstr(fnm);
+    c2pstr(fnm);
     oe = GetFInfo((ConstStr255Param)fnm, 0, &finfo);
 
-    strncpy((char *)&finfo.fdType, "TEXT", 4);
+    strncpy((char *)&finfo.fdType, "Acod", 4);
     strncpy((char *)&finfo.fdCreator, "Arun", 4);
     oe = SetFInfo((ConstStr255Param)fnm, 0, &finfo);
   }

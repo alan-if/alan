@@ -5,9 +5,9 @@
 #include "types.h"
 
 /* USE other definitions */
+
 #include "srcp.h"
 #include "lst.h"
-
 
 /* Public data */
 
@@ -22,10 +22,10 @@ extern List *includePaths;	/* The list of include paths to check */
 
 /* Common procedures */
 
-
 extern void unimpl(Srcp *srcp, char *phase);
 extern void syserr(char str[]);
 extern void *allocate(int len);
-
+extern void terminate(int ecode);
+extern void compile(void);
 
 #endif

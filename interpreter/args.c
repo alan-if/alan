@@ -12,6 +12,9 @@
 #include "args.h"
 #include "main.h"
 
+#ifdef __mac__
+#include "macArgs.h"
+#endif
 
 #ifdef __amiga__
 #include <libraries/dosextens.h>
@@ -91,50 +94,19 @@ void args(argc, argv)
 #endif
   short msg, files;
   static char advbuf[256], prgbuf[256];
-  AppFile af;
+  /*AppFile af;*/
   OSErr oe;
 
 #ifdef __MWERKS__
-  SIOUXSettings.setupmenus = FALSE;
+  /*SIOUXSettings.setupmenus = FALSE;*/
   SIOUXSettings.autocloseonquit = FALSE;
   SIOUXSettings.asktosaveonclose = FALSE;
   SIOUXSettings.showstatusline = FALSE;
 #endif
 
-  CountAppFiles(&msg, &files);
-  if (msg==0 && files>0) {		/* Found files! */
-    GetAppFiles(1, &af);
-    advnam = (char *)af.fName;
-    strncpy(advbuf, (char *)&af.fName[1], af.fName[0]);
-    advbuf[af.fName[0]] = '\0';
-    advnam = advbuf;
-    if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
-     || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0)
-       advnam[strlen(advnam)-4] = '\0';
-    oe = SetVol(NULL, af.vRefNum);
-  }
-  else {
-  	strcpy(prgbuf, "arun");
-#ifdef THINK_C
-    strncpy(prgbuf, (char *)&CurApName[1], CurApName[0]);
-    prgbuf[CurApName[0]] = '\0';
-#endif
-    if (strcmp(prgbuf, "arun") != 0 &&
-	strcmp(prgbuf, "arun.project") != 0)
-      /* Another program name use that as the name of the adventure */
-      advnam = prgbuf;
-    else {
-      int argc;
-      char **argv[100];
-      
-#ifdef THINK_C
-      console_options.title = CurApName;
-#endif
-      argc = ccommand(argv);
-      switches(argc, *argv);
-    }
-    oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
-  }
+	GetMacArgs(advbuf);
+	advnam = advbuf;
+
 #else
 #ifdef __amiga__
 #include <workbench/startup.h>

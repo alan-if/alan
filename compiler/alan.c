@@ -30,6 +30,7 @@
 #include "pmParse.h"
 #include "smScan.h"
 
+#include "options.h"
 
 /* PUBLIC DATA */
 
@@ -41,10 +42,8 @@ FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
-Bool verbose;			/* Verbose mode */
 long counter = 0;		/* Number of new's so far, for verbose */
 
-List *includePaths = NULL;	/* List of additional include paths */
 
 /* PRIVATE */
 
@@ -284,20 +283,6 @@ static void stats(void)
 
 /*======================================================================
 
-  terminate()
-
-  Terminate the program with an error code.
-
- */
-void terminate(int ecode)
-{
-#ifdef __MWERKS__
-	printf("Command-Q to quit.");
-#endif
-	exit(ecode);
-}
-/*======================================================================
-
   unimpl()
 
   An unimplemented constrution was encountered.
@@ -369,104 +354,6 @@ static char datfnm[255];	/*   - " -   of encoded data file */
 static char acdfnm[255];	/*   - " -   of ACODE file */
 static char lstfnm[255];	/*   - " -   of listing file */
 
-/* SPA Option handling */
-
-#include "spa.h"
-
-
-static char *srcptr;		/* Pointer to adventure name */
-static Bool warnings;		/* Show warnings */
-static Bool infos;		/* Show informational messages */
-static Bool fulflg;		/* Full source listing */
-static Bool lstflg;		/* Create listing file */
-static Bool ccflg;		/* Show messages as old 'cc' */
-static int lcount;		/* Number of lines per page */
-static int ccount;		/* -"-    columns */
-static DmpKind dmpflg = 0;	/* Dump internal form flags */
-static Bool dbgflg = 0;		/* Debug option flags */
-static Bool packflg = 0;	/* Pack option flags */
-static Bool sumflg;		/* Print a summary */
-
-static SPA_FUN(usage)
-{
-  printf("Usage: ALAN <adventure> [-help] [options]\n");
-}
-
-
-static SPA_ERRFUN(paramError)
-{
-  char *sevstr;
-
-  switch (sev) {
-  case 'E': sevstr = "error"; break;
-  case 'W': sevstr = "warning"; break;
-  default: sevstr = "internal error"; break;
-  }
-  printf("Parameter %s: %s, %s\n", sevstr, msg, add);
-  usage(NULL, NULL, 0);
-  terminate(EXIT_FAILURE);
-}
-
-static SPA_FUN(extraArg)
-{
-  printf("Extra argument: '%s'\n", rawName);
-  usage(NULL, NULL, 0);
-  terminate(EXIT_FAILURE);
-}
-
-static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
-
-static SPA_FUN(addInclude)
-{
-  /* Add the include path to our list */
-  includePaths = concat(includePaths, spaArgument(1), STRNOD);
-  /* Now we can skip the include path */
-  spaSkip(1);
-}
-
-
-static SPA_DECLARE(arguments)
-#ifdef __dos__
-     SPA_STRING("adventure", "file name, default extension '.ala'", srcptr, NULL, NULL)
-#else
-     SPA_STRING("adventure", "file name, default extension '.alan'", srcptr, NULL, NULL)
-#endif
-     SPA_FUNCTION("", "extra argument", extraArg)
-SPA_END
-
-static SPA_DECLARE(options)
-#ifndef THINK_C
-     SPA_HELP("help", "this help", usage, xit)
-#endif
-     SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
-     SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
-     SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
-     SPA_FUNCTION("include <path>", "additional directory to search before current when\nlooking for included files (may be repeated)", addInclude)
-     SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccflg, FALSE, NULL)
-     SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
-     SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
-     SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 112, NULL)
-     SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
-     SPA_FLAG("debug", "force debug option in adventure", dbgflg, FALSE, NULL)
-     SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
-     SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
-#ifndef THINK_C
-     SPA_BITS("dump", "dump the internal form, where\n\
-synonyms\n\
-syntax\n\
-verbs\n\
-locations\n\
-objects\n\
-containers\n\
-events\n\
-actors\n\
-rules\n\
-everything", dmpflg, "sxvlocear!", NULL, NULL)
-#endif
-/*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
-SPA_END
-
-
 /*----------------------------------------------------------------------
 
   prepareNames()
@@ -495,13 +382,15 @@ static void prepareNames(void)
 #ifdef __dos__
     strcat(srcptr, ".ala");	/* Was there none add */
 #else
+#ifndef __mac__
     strcat(srcptr, ".alan");	/* Was there none add */
+#endif
 #endif
   } else {
     char *p = strrchr(advnam, '.');
     *p = '\0';
   }
-  
+
   /* -- create list file name -- */
   strcpy(lstfnm, advnam);
   strcat(lstfnm, ".lis");
@@ -517,6 +406,94 @@ static void prepareNames(void)
   strcat(acdfnm, ".acd");
 }
 
+/*----------------------------------------------------------------------
+
+	Find out whether error message is of one of the severities
+	being printed.
+
+*/
+
+static int test_severity(char *err, lmSev sevs) {
+	char c;
+	lmSev sev;
+	
+	sscanf(err, "%*d %c", &c);
+	switch (c) {
+		case 'O': sev = sevOK;  break;
+		case 'I': sev = sevINF; break;
+		case 'W': sev = sevWAR; break;
+		case 'E': sev = sevERR; break;
+		case 'F': sev = sevFAT; break;
+		case 'S': sev = sevSYS; break;
+	}
+	return sev & sevs;
+}
+
+/*----------------------------------------------------------------------
+
+	Write unix-style error message list to screen or file
+
+*/
+
+static void cc_listing(lmSev sevs) {
+	int i,j;
+	char err[1024], line[1024];
+	Srcp srcp;
+	List *fnm;
+	List nofile;
+	
+	nofile.element.str = "<no file>";
+	for (i = 1; lmMsg(i, &srcp, err); i++) {
+		if (test_severity(err, sevs)) {
+	  		/* Advance to the correct file name */
+			if (srcp.file == -1) 
+				fnm = &nofile;
+			else
+				for (fnm = fileNames, j = 0; j < srcp.file; j++) 
+					fnm = fnm->next;
+			sprintf(line, "\"%s\", line %d: ALAN-%s (column %d)\n",
+				fnm->element.str, srcp.line, err, srcp.col);
+			lmLiPrint(line);
+		}
+	}
+}
+
+/*----------------------------------------------------------------------
+
+	Write listing and/or error messages to screen or file
+
+*/
+
+static void listing(lmSev sevs) {
+	char *fnm;
+	
+	if (lstflg)
+		fnm = lstfnm;
+	else
+		fnm = "";
+#ifdef __MWERKS__
+	_fcreator = 'ttxt';
+	_ftype = 'TEXT';
+#endif
+	if (ccflg) {
+		lmList(fnm, lcount, ccount, 0, 0);
+		cc_listing(sevs);
+	}
+	else
+		lmList(fnm, lcount, ccount, fulflg?liFULL:liTINY, sevs);
+	if (dmpflg) {
+		lmSkipLines(0);
+		duadv(dmpflg);
+	}
+	if (sumflg) {
+		if (lmSeverity() < sevERR)
+			summary();
+    	endtotal();			/* Stop timer */
+    	prtimes();
+		stats();
+   }
+  lmLiTerminate();
+}
 
 /************************************************************************\
 
@@ -524,33 +501,12 @@ static void prepareNames(void)
 
 \************************************************************************/
 
-int main(int argc,		/* IN - argument count */
-	 char **argv		/* IN - program arguments */
-)
-{
-  int nArgs;			/* Number of supplied args */
+void compile(void) {
   lmSev sevs;			/* Set of listing severities */
 
-#ifdef __MWERKS__
-#include <SIOUX.h>
-  SIOUXSettings.setupmenus = FALSE;
-  SIOUXSettings.asktosaveonclose = FALSE;
-  SIOUXSettings.showstatusline = FALSE;
-#endif
-
-  starttot();			/* Start timer */
-  /* -- get arguments -- */
-  nArgs = spaProcess(argc, argv, arguments, options, paramError);
-  /* Say hello ! */
-  if (verbose)
-    printf("%s\n\n", product.longHeader);
-
-  if (nArgs == 0) {
-    usage(NULL, NULL, 0);
-    terminate(EXIT_FAILURE);
-  } else if (nArgs > 1)
-    terminate(EXIT_FAILURE);
-
+  /* Start timer */
+  starttot();
+			
   /* Process the arguments */
   prepareNames();
 
@@ -571,6 +527,10 @@ int main(int argc,		/* IN - argument count */
   /* OK, found it so now compile it! */
   if (verbose) printf("Parsing: ");
   startcomp();			/* Start timing compilation */
+#ifdef __MWERKS__
+  _fcreator = '????';
+  _ftype = '????';
+#endif
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
 
   /* First initialise */
@@ -594,6 +554,10 @@ int main(int argc,		/* IN - argument count */
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
     if (verbose) printf("Generating:");
+#ifdef __MWERKS__
+	_fcreator = 'Arun';
+	_ftype = 'Adat';
+#endif
     datfil = fopen(datfnm, WRITE_MODE);
     txtfil = fopen(txtfnm, "r");
     if (dbgflg)			/* Force debugging */
@@ -617,9 +581,19 @@ int main(int argc,		/* IN - argument count */
     unlink(txtfnm);
 #endif    
 
+  /* Check what messages to show on the screen */
+  sevs = sevALL;
+  if (!warnings)
+    sevs &= ~sevWAR;
+  if (!infos)
+    sevs &= ~sevINF;
+
   /* Create listing files and list messages on the screen */
+#if 1
+  listing(sevs);
+#else
   if (lstflg) {			/* If -l option, create list file */
-    lmList(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevALL);
+    lmList(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevs /*sevALL*/);
     if (dmpflg) {
       lmSkipLines(0);
       duadv(dmpflg);
@@ -631,12 +605,6 @@ int main(int argc,		/* IN - argument count */
     }
   }
 
-  /* Check what messages to show on the screen */
-  sevs = sevALL;
-  if (!warnings)
-    sevs &= ~sevWAR;
-  if (!infos)
-    sevs &= ~sevINF;
   if (ccflg) {
     int i,j;
     char err[1024];
@@ -649,9 +617,10 @@ int main(int argc,		/* IN - argument count */
     for (i=1; lmMsg(i, &srcp, err); i++) {
       /* Advance to the correct file name */
       if (srcp.file == -1) 
-	fnm = &nofile;
+		fnm = &nofile;
       else
-	for (fnm = fileNames, j = 0; j < srcp.file; j++) fnm = fnm->next;
+		for (fnm = fileNames, j = 0; j < srcp.file; j++) 
+			fnm = fnm->next;
       printf("\"%s\", line %d: ALAN-%s (column %d)\n", fnm->element.str,
 	     srcp.line, err, srcp.col);
     }
@@ -669,7 +638,10 @@ int main(int argc,		/* IN - argument count */
     prtimes();
     stats();
   }
+
   lmLiTerminate();
+#endif
+
 #ifdef MALLOC
   if (malloc_verify() == 0) printf("Error in heap!\n");
 #endif
@@ -679,5 +651,4 @@ int main(int argc,		/* IN - argument count */
     terminate(EXIT_SUCCESS);
   else
     terminate(EXIT_FAILURE);
-  return(0);
 }
