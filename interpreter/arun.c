@@ -193,7 +193,7 @@ void *allocate(len)
      int len;			/* IN - Length to allocate */
 #endif
 {
-  void *p = malloc(len);
+  void *p = (void *)malloc(len);
 
   if (p == NULL)
     syserr("Out of memory.");
@@ -392,12 +392,11 @@ void output(original)
 #endif
 {
   char ch;
-  char *copy;
-  char *str;
+  char *str, *copy;
   char *symptr;
 
   copy = allocate(strlen(original)+1);
-  fromIso(copy, original);
+  strcpy(copy, original);
   str = copy;
 
   if (str[0] != '$' || str[1] != '$')
@@ -598,7 +597,7 @@ void checkobj(obj)
     error(WANT);              /* But we found ONE */
   
   *obj = cur.obj = oldobj;    
-  output("($o)");             /* Then he shurely meant this object */
+  output("($o)");             /* Then he surely meant this object */
 }
 #endif
 
@@ -1503,16 +1502,38 @@ int main(argc, argv)
 #endif
 {
   int i;
+  char *prgnam;
 
 #ifdef MALLOC
   malloc_debug(2);
 #endif
-#ifndef __dos__
-  if (strcmp(argv[0], "arun") == 0) {
+
+#ifdef __mac__
+#include <console.h>
+  argc = ccommand(&argv);
+#endif
+
+  prgnam = argv[0];
+#if defined __dos__
+  if ((prgnam = strrchr(argv[0], '\\')) == NULL)
+    prgnam = argv[0];
+  else
+    prgnam++;
+  if (strcmp(prgnam, "ARUN.EXE") == 0) {
 #else
-  if ((advfnm = strrchr(argv[0], '\\')) != NULL)
-    argv[0] = &advfnm[1];
-  if (strcmp(argv[0], "ARUN.EXE") == 0) {
+#if defined __vms__
+  if((prgnam = strrchr(argv[0], ']')) == NULL
+     && (prgnam = strrchr(argv[0], '>')) == NULL
+     && (prgnam = strrchr(argv[0], ':')) == NULL)
+    prgnam = argv[0];
+  else
+    prgnam++;
+  if (strrchr(prgnam, ';') != NULL)
+    *strrchr(prgnam, ';') = '\0';
+  if (strcmp(prgnam, "arun.exe") == 0) {
+#else
+  if (strcmp(prgnam, "arun") == 0) {
+#endif
 #endif
     for (i = 1; i < argc; i++) {
       if (argv[i][0] == '-') {
@@ -1542,8 +1563,8 @@ int main(argc, argv)
     }
   } else {
     /* Another program name use that as the name of the adventure */
-    strcpy(advfnm, argv[0]);
-#ifdef __dos__
+    strcpy(advfnm, prgnam);
+#if defined __dos__ || defined __vms__
     advfnm[strlen(advfnm)-4] = '\0';
 #endif
   }

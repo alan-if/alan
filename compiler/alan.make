@@ -3,8 +3,8 @@
 
 CQ =/STANDARD=PORTABLE
 
-OBJECTS = alanSema.obj alanParse.obj alanErr.obj alanScan.obj -
-alanScanSema.obj alanList.obj alan.obj act.obj adv.obj -
+OBJECTS = pmPaSema.obj pmParse.obj pmErr.obj smScan.obj -
+smScSema.obj lmList.obj alan.obj act.obj adv.obj -
 alt.obj atr.obj chk.obj cla.obj cnt.obj dump.obj elm.obj -
 emit.obj encode.obj evt.obj exp.obj ext.obj lim.obj -
 loc.obj lst.obj msg.obj nam.obj obj.obj opt.obj rul.obj -
@@ -12,12 +12,12 @@ sco.obj scr.obj srcp.obj stm.obj stp.obj str.obj stx.obj -
 sym.obj syn.obj vrb.obj whr.obj wht.obj wrd.obj -
 time.obj sysdep.obj spa.obj version.obj
 
-alanSema.obj : alanSema.c
-alanParse.obj : alanParse.c
-alanErr.obj : alanErr.c
-alanScan.obj : alanScan.c
-alanScanSema.obj : alanScanSema.c
-alanList.obj : alanList.c
+pmPaSema.obj : pmPaSema.c
+pmParse.obj : pmParse.c
+pmErr.obj : pmErr.c
+smScan.obj : smScan.c
+smScSema.obj : smScSema.c
+lmList.obj : lmList.c
 alan.obj : alan.c
 act.obj : act.c
 adv.obj : adv.c
@@ -60,5 +60,5 @@ sysdep.obj : sysdep.c
 version.obj : version.c
 
 alan.exe : #(OBJECTS) sysdep.obj version.obj
-	$ link/exe=alan #(LQ) ACT,ADV,ALAN,ALANERR,ALANLIST,ALANPARSE,ALANSEMA,ALANSCAN,ALANSCANSEMA,ALT,ATR,CHK,CNT,CLA,DUMP,EMIT,ENCODE,ELM,EVT,EXP,EXT,LIM,LOC,LST,MSG,NAM,OBJ,OPT,RUL,SCO,SCR,SPA,SRCP,STM,STP,STR,STX,SYM,SYN,SYSDEP,TIME,VERSION,VRB,WHR,WHT,WRD
+	$ link/exe=alan #(LQ) ACT,ADV,ALAN,PMERR,LMLIST,PMPARSE,PMPASEMA,SMSCAN,SMSCSEMA,ALT,ATR,CHK,CNT,CLA,DUMP,EMIT,ENCODE,ELM,EVT,EXP,EXT,LIM,LOC,LST,MSG,NAM,OBJ,OPT,RUL,SCO,SCR,SPA,SRCP,STM,STP,STR,STX,SYM,SYN,SYSDEP,TIME,VERSION,VRB,WHR,WHT,WRD
 	$ copy alan.exe <->

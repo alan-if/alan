@@ -4,8 +4,8 @@
 SHELL	= /bin/sh
 CPP	= gcc -MM
 
-#CC	= acc -Xc -vc
-CC	= gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
+purify:=		CC = acc -Xc -vc
+debug all release:=	CC = gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(CC) $(DEBUG)

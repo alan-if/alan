@@ -90,7 +90,12 @@ extern size_t strftime (char *, size_t, const char *, const struct tm *);
 #endif
 
 
-#ifdef AZTEC_C
+#ifdef __amiga__
+
+/* Return codes */
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE  1
+
 /* Define some library routines needed for the Aztec C compiler */
 /* <memory.h> */
 extern void *malloc();
@@ -116,13 +121,16 @@ extern void memset();
 extern char *strdup();
 #endif
 
+#ifdef __mac__
+#define __PROTOTYPES__
+#include <string.h>
 
-#ifdef __amiga__
 /* Return codes */
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
-#endif
 
+extern char *strdup(char *str);
+#endif
 
 #ifdef __dos__
 

@@ -8,6 +8,7 @@
 \*----------------------------------------------------------------------*/
 
 /* USE other definitions */
+#include "sysdep.h"
 #include "types.h"
 
 

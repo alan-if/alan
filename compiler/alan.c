@@ -549,8 +549,8 @@ int main(int argc,		/* IN - argument count */
 )
 #else
 int main(argc,argv)
-     const int argc;			/* IN - argument count */
-     const char *argv[];	/* IN - program arguments */
+     int argc;			/* IN - argument count */
+     char *argv[];		/* IN - program arguments */
 #endif
 {
   int nArgs;			/* Number of supplied args */
