@@ -53,6 +53,15 @@ alan: $(OBJECTS) sysdep.o version.o
 	ln -o $@ -g $(OBJECTS) sysdep.o version.o $(LDFLAGS)
 	copy alan /
 
+# There is a bug in the 5.2a version of the Aztec C which generates
+# erroneous assembler, this is th emake it possible to hand edit this
+arun.asm : arun.c
+	cc $(CFLAGS) -at arun.c
+	echo "Hand edit the arun.asm file!"
+
+arun.o : arun.asm
+	as arun.asm
+
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 
