@@ -1,18 +1,19 @@
 Options
   Debug.
 
-Syntax take = take (o).
+Syntax take = take (o)*.
 Verb take
   Does
     Locate o In Inventory.
     "Taken."
 End Verb.
 
---Syntax screw = screw (o).
---Verb screw
---  Does
---    "Screw you..."
---End Verb.
+Syntax drop = drop (o)*.
+Verb drop
+  Does
+    Locate o Here.
+    "Dropped."
+End Verb.
 
 Object screwdriver Name screw driver At l
 End Object.

@@ -1,13 +1,23 @@
-#! /bin/csh
+#! /bin/sh
 #
 # Script to regression test Alan and Arun
-
-foreach f ( *.alan )
-  set case = `basename $f .alan`
-  echo ----- $case ------
-  alan $case
-  arun $case < $case.input > $case.output
-  diff $case.output $case.ok >& $case.diff
-end
-ls -s *.diff
+ls *.alan | sed -e s/.alan// > CASES
+if [ $# != 0 ] ; then
+  for f in ${*} ; do
+    case=`basename $f .alan`
+    echo ----- $case ------
+    alan $case
+    arun $case < $case.input > $case.output
+    diff $case.output $case.ok > $case.diff
+  done
+else
+  for f in *.alan ; do
+    case=`basename $f .alan`
+    echo ----- $case ------
+    alan $case
+    arun $case < $case.input > $case.output
+    diff $case.output $case.ok > $case.diff
+  done
+fi
+ls -s *.diff | grep -v -w 0
 

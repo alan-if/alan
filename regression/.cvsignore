@@ -1,4 +1,6 @@
-aggregate.output binary.output class_checks.output default_strings.output hero_container.output hunger.output locate_actor_at_object_in_container.output locate_in_parameter.output move_actor.output obj_in_cont.output pack.output recursive_describe.output script_description.output time.output word_clash.output
-aggregate.acd binary.acd class_checks.acd default_strings.acd hero_container.acd hunger.acd locate_actor_at_object_in_container.acd locate_in_parameter.acd move_actor.acd obj_in_cont.acd pack.acd parse.acd recursive_describe.acd script_description.acd time.acd word_clash.acd
-aggregate.dat binary.dat class_checks.dat default_strings.dat hero_container.dat hunger.dat locate_actor_at_object_in_container.dat locate_in_parameter.dat move_actor.dat obj_in_cont.dat pack.dat parse.dat recursive_describe.dat script_description.dat time.dat word_clash.dat
-aggregate.diff binary.diff class_checks.diff default_strings.diff hero_container.diff hunger.diff locate_actor_at_object_in_container.diff locate_in_parameter.diff move_actor.diff obj_in_cont.diff pack.diff parse.diff recursive_describe.diff script_description.diff time.diff word_clash.diff
+*.acd
+*.dat
+*.output
+*.diff
+CASES
+regression.lha
