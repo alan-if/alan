@@ -1,0 +1,6 @@
+Class restrictions must be evaluated with binary expressions instead
+of bitpatterns.
+
+
+Change DOES to ENTERED (more mnemonic for what it means)
+
