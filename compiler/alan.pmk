@@ -1173,7 +1173,7 @@ static int val(char str[])
     ;
 
 <name>			-- RETURNS: nams
-    = 'NAME' <ids>					%+('ARTICLE')
+    = 'NAME' <ids>					%+('ARTICLE', 'IN')
     %%
 	%<name>.nams = %<ids>.nams;
     %%
@@ -2445,5 +2445,10 @@ ID
     ! 'ON'
     %%
         %ID.nam = newnam(`&%'ON'.srcp, "on");
+    %%
+
+    ! 'IN'
+    %%
+        %ID.nam = newnam(`&%'IN'.srcp, "in");
     %%
     ;
