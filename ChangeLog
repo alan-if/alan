@@ -2,6 +2,11 @@ Thu Nov  5 14:48:54 MET 1998
 
 	* v2.8(3)
 
+Tue Nov  3 12:14:33 MET 1998
+
+	* Fixed negative arithmetic in the interpreter. Thanks Stephen for
+	the bug report.
+
 Mon Aug 31 13:32:32 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Allowed aposthrophe as a part of input words allowing "take

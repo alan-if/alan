@@ -1,2 +1,2 @@
 alan negative
-arun negative
+arun negative < negative.input

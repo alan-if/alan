@@ -7,9 +7,11 @@ alan marmalade
 marmalade.alan
 
     6.  		AND recip ISA CONTAINER
-=====>  		          1
+=====>  		          1   2
 
-  *1*   103 E : 'ISA' replaced by 'ELSE' STRING 'END' 'VERB' '.'.
+  *1*   101 E : 'ELSE' STRING 'END' 'VERB' inserted.
+  *1*   201 W : Mismatched block identifier, 'give_to' assumed.
+  *2*   101 E : '.' inserted.
 
     7.  			ELSE LOCATE obj AT nowhere.
 =====>  			1           2      3
@@ -35,7 +37,7 @@ marmalade.alan
   *2*   201 W : Mismatched block identifier, '$genid#1' assumed.
 
 
-        7 error(s).
-        1 warning(s).
+        8 error(s).
+        2 warning(s).
         2 informational message(s).
 
