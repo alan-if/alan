@@ -13,7 +13,8 @@ Windows only.
 This package contains the compiler, the interpreter, the manual,
 the source for the Saviour game and a version of the standard library.
 
-Changes from v3.0.19dev:
+Changes from v3.0.19dev are significant and should make this version
+really interesting to work with:
  - inheritance of scripts
  - inheritance of verbs
  - THIS and attributes to THIS now works in all contexts
