@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>296.89</origest>
 <currest>295.89</currest>
-<elapsed>135.89</elapsed>
+<elapsed>136.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>48</origest>
 <currest>48</currest>
-<elapsed>10</elapsed>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>9</origest>
 <currest>9</currest>
-<elapsed>8</elapsed>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -161,7 +161,7 @@ This clause should not be run if the actor x is already in the room.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
