@@ -1040,6 +1040,19 @@ static void describeAnything(Aword id)
 
 
 /*----------------------------------------------------------------------*/
+static void describeContainer(Aword id)
+{
+  int i;
+
+  for (i = 0; i <= header->instanceMax; i++)
+    if (instance[i].location == id) {
+      list(id);
+      break;
+    }
+}    
+
+
+/*----------------------------------------------------------------------*/
 static void describeObject(Aword obj)
 {
 if (haveDescription(obj))
@@ -1050,7 +1063,7 @@ if (haveDescription(obj))
     say(obj);
     prmsg(M_SEEOBJ4);
     if (instance[obj].container != 0)
-      list(obj);
+      describeContainer(obj);
   }
   admin[obj].alreadyDescribed = TRUE;
 }
@@ -1075,7 +1088,7 @@ static void describeActor(Aword act)
     interpret(instance[act].mentioned);
     prmsg(M_SEEACT);
     if (instance[act].container != 0)
-      list(act);
+      describeContainer(act);
   }
   admin[act].alreadyDescribed = TRUE;
 }
