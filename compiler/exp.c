@@ -293,13 +293,7 @@ static void anagr(Expression *exp,
 }
 
 
-/*----------------------------------------------------------------------
-
-  anrnd()
-
-  Analyse a random expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void anrnd(Expression *exp,
 		  Context *context)
 {
@@ -672,8 +666,8 @@ static void generateAggregateExpression(Expression *exp)
   */
 static void generateRandomExpression(Expression *exp)
 {
-  generateExpression(exp->fields.rnd.from);
   generateExpression(exp->fields.rnd.to);
+  generateExpression(exp->fields.rnd.from);
   emit0(I_RND);
 }
 

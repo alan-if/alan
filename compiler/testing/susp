@@ -3,5 +3,4 @@
 for f in ${*} ; do
     case=`basename $f .alan`
     mv $case.output $case.suspended
-    cvs add $case.suspended 2> /dev/null
 done

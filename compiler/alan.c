@@ -519,7 +519,7 @@ void compile(void) {
 	_fcreator = 'Arun';
 	_ftype = 'Adat';
 #endif
-    if (dbgflg)			/* Force debugging */
+    if (debugOption)			/* Force debugging */
       opts[OPTDEBUG].value = TRUE;
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;

@@ -63,29 +63,34 @@ static void switches(argc, argv)
 #endif
       {
       case 'i':
-	errflg = FALSE;
+	ignoreErrorOption = FALSE;
 	break;
       case 't':
-	trcflg = TRUE;
+	traceOption = TRUE;
+	break;
+      case 'p':
+	tracePushOption = TRUE;
+	traceOption = TRUE;
+	singleStepOption = TRUE;
 	break;
       case 'd':
-	dbgflg = TRUE;
+	debugOption = TRUE;
 	break;
       case 's':
-	trcflg = TRUE;
-	stepFlag = TRUE;
+	traceOption = TRUE;
+	singleStepOption = TRUE;
 	break;
       case 'l':
-	logflg = TRUE;
+	logOption = TRUE;
 	break;
       case 'v':
 	verbose = TRUE;
 	break;
       case 'n':
-	statusflg = FALSE;
+	statusLineOption = FALSE;
 	break;
       case 'r':
-	regressionflg = TRUE;
+	regressionTestOption = TRUE;
 	break;
       default:
 	printf("Unrecognized switch, -%c\n", argv[i][1]);

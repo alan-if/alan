@@ -83,7 +83,7 @@ static SPA_DECLARE(options)
      SPA_INTEGER("height <lines>", "height of pages in list file", lcount, 74, NULL)
      SPA_INTEGER("width <characters>", "width of pages in list file", ccount, 112, NULL)
      SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
-     SPA_FLAG("debug", "force debug option in adventure", dbgflg, FALSE, NULL)
+     SPA_FLAG("debug", "force debug option in adventure", debugOption, FALSE, NULL)
      SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
      SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
 #ifndef THINK_C

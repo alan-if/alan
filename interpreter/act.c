@@ -178,7 +178,7 @@ void go(dir)
       if (theExit->code == dir) {
 	ok = TRUE;
 	if (theExit->checks != 0) {
-	  if (trcflg) {
+	  if (traceOption) {
 	    printf("\n<EXIT %d (%s) from %d (", dir,
 		   (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	    debugsay(current.location);
@@ -189,7 +189,7 @@ void go(dir)
 	if (ok) {
 	  oldloc = current.location;
 	  if (theExit->action != 0) {
-	    if (trcflg) {
+	    if (traceOption) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
 		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	      debugsay(current.location);
@@ -199,7 +199,7 @@ void go(dir)
 	  }
 	  /* Still at the same place? */
 	  if (where(HERO) == oldloc) {
-	    if (trcflg) {
+	    if (traceOption) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
 		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	      debugsay(current.location);
@@ -363,7 +363,7 @@ static void traceCheck(AltInfo alt)
 static Boolean executeCheckOK(AltInfo alt, Boolean execute)
 {
   if (alt.alt != NULL && alt.alt->checks != 0) {
-    if (trcflg && execute)
+    if (traceOption && execute)
       traceCheck(alt);
     if (!trycheck(alt.alt->checks, execute)) return FALSE;
     if (fail) return FALSE;
@@ -417,7 +417,7 @@ Boolean possible(void)
 /*----------------------------------------------------------------------*/
 static void traceExecution(AltInfo *alt)
 {
-  if (trcflg) {
+  if (traceOption) {
     printf("\n<VERB %d", current.verb);
     if (alt->level == 0)
       printf(", GLOBAL");

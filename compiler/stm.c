@@ -910,8 +910,9 @@ static void generateEach(StmNod *statement)
   /* Generate a new BLOCK */
   emit1(I_BLOCK, 1);		/* One local variable in this block */
 
-  /* Init loop variable to 0 since the EACH statement will increment it */
-  emit3(I_SETLOCAL, 0, 1, 0);
+  /* Init loop variable is initialised to 0
+     which works since the EACH statement will
+     increment it to 1 (first instance number) */
 
   /* Start of loop */
   emit1(I_EACH, 1);

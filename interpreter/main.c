@@ -72,13 +72,14 @@ Aword *freq;			/* Cumulative character frequencies */
 int dictsize;
 
 Boolean verbose = FALSE;
-Boolean errflg = TRUE;
-Boolean trcflg = FALSE;
-Boolean dbgflg = FALSE;
-Boolean stepFlag = FALSE;
-Boolean logflg = FALSE;
-Boolean statusflg = TRUE;
-Boolean regressionflg = FALSE;
+Boolean ignoreErrorOption = TRUE;
+Boolean debugOption = FALSE;
+Boolean traceOption = FALSE;
+Boolean tracePushOption = FALSE;
+Boolean singleStepOption = FALSE;
+Boolean logOption = FALSE;
+Boolean statusLineOption = TRUE;
+Boolean regressionTestOption = FALSE;
 Boolean fail = FALSE;
 Boolean anyOutput = FALSE;
 
@@ -146,7 +147,7 @@ void terminate(code)
 #endif
     newline();
   free(memory);
-  if (logflg)
+  if (logOption)
     fclose(logfil);
 
 #ifdef __MWERKS__
@@ -185,6 +186,7 @@ void usage()
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
   printf("    -s    single instruction trace\n");
+  printf("    -p    trace all stack pushs\n");
   printf("    -i    ignore version and checksum errors\n");
   printf("    -r    refrain from printing timestamps (making regression testing easier)\n");
 #ifdef GLK
@@ -213,7 +215,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
 
-  if (logflg)
+  if (logOption)
     fclose(logfil);
   newline();
 
@@ -298,7 +300,7 @@ void statusline(void)
   int i;
   int pcol = col;
 
-  if (!statusflg) return;
+  if (!statusLineOption) return;
   /* ansi_position(1,1); ansi_bold_on(); */
   printf("\x1b[1;1H");
   printf("\x1b[7m");
@@ -332,7 +334,7 @@ void statusline(void)
 void logprint(char str[])
 {
   printf(str);
-  if (logflg)
+  if (logOption)
     fprintf(logfil, str);
 }
 
@@ -414,7 +416,7 @@ void clear()
   glk_window_clear(glkMainWin);
 #else
 #ifdef HAVE_ANSI
-  if (!statusflg) return;
+  if (!statusLineOption) return;
   printf("\x1b[2J");
   printf("\x1b[%d;1H", pageLength);
 #endif
@@ -894,7 +896,7 @@ static void eventCheck()
       current.location = eventQueue[etop].where;
     else
       current.location = where(eventQueue[etop].where);
-    if (trcflg) {
+    if (traceOption) {
       printf("\n<EVENT %d (at ", eventQueue[etop].event);
       debugsay(current.location);
       printf("):>\n");
@@ -955,7 +957,7 @@ static void checkvers(header)
   vers[3] = alan.version.state[0];
 
   /* Check version of .ACD file */
-  if (dbgflg) {
+  if (debugOption) {
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
@@ -973,7 +975,7 @@ static void checkvers(header)
 
   /* Compatible if version and revision match... */
   if (memcmp(header->vers, vers, compareLength) != 0) {
-      if (errflg) {
+      if (ignoreErrorOption) {
 	char str[80];
 	if (developmentVersion)
 	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
@@ -1048,7 +1050,7 @@ static void load()
   if (crc != tmphdr.acdcrc) {
     sprintf(err, "Checksum error in Acode (.a3c) file (0x%lx instead of 0x%lx).",
 	    crc, tmphdr.acdcrc);
-    if (errflg)
+    if (ignoreErrorOption)
       syserr(err);
     else {
       output("<WARNING! $$");
@@ -1058,10 +1060,10 @@ static void load()
   }
 
 #ifdef REVERSED
-  if (dbgflg||trcflg||stepFlag)
+  if (debugOption||traceOption||singleStepOption)
     output("<Hmm, this is a little-endian machine, fixing byte ordering....");
   reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
-  if (dbgflg||trcflg||stepFlag)
+  if (debugOption||traceOption||singleStepOption)
     output("OK.>$n");
 #endif
 }
@@ -1080,15 +1082,16 @@ static void checkdebug()
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
-    if (dbgflg|trcflg|stepFlag)
+    if (debugOption|traceOption|singleStepOption)
       printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
     para();
-    dbgflg = FALSE;
-    trcflg = FALSE;
-    stepFlag = FALSE;
+    debugOption = FALSE;
+    traceOption = FALSE;
+    singleStepOption = FALSE;
+    tracePushOption = FALSE;
   }
 
-  if (dbgflg)			/* If debugging */
+  if (debugOption)			/* If debugging */
     srand(0);			/* use no randomization */
   else
     srand(time(0));		/* seed random generator */
@@ -1184,7 +1187,7 @@ static void start()
   current.location = startloc = where(HERO);
   current.actor = HERO;
   current.score = 0;
-  if (trcflg)
+  if (traceOption)
     printf("\n<START:>\n");
   interpret(header->start);
   para();
@@ -1240,13 +1243,13 @@ static void init()
 
 static Boolean traceActor(int theActor)
 {
-  if (trcflg) {
+  if (traceOption) {
     printf("\n<ACTOR %d, ", theActor);
     debugsay(theActor);
     printf(" (at ");
     debugsay(current.location);
   }
-  return trcflg;
+  return traceOption;
 }
 
 /*----------------------------------------------------------------------
@@ -1335,7 +1338,7 @@ static void moveActor(theActor)
     if (endOfTable(scr))
       syserr("Unknown actor script.");
   } else {
-    if (trcflg) {
+    if (traceOption) {
       printf("\n<ACTOR %d, ", theActor);
       debugsay(theActor);
       printf(" (at ");
@@ -1385,7 +1388,7 @@ static void openFiles()
   }
 
   /* If logging open log file */
-  if (logflg) {
+  if (logOption) {
     char *namstart;
 
     if((namstart = strrchr(advnam, ']')) == NULL
@@ -1400,7 +1403,7 @@ static void openFiles()
     time(&tick);
     sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
-      logflg = FALSE;
+      logOption = FALSE;
   }
 }
     
@@ -1427,7 +1430,7 @@ void run(void)
 #ifdef MALLOC
     if (malloc_verify() == 0) syserr("Error in heap.");
 #endif
-    if (dbgflg)
+    if (debugOption)
       debug();
 
     eventCheck();

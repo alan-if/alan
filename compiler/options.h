@@ -19,7 +19,7 @@ extern Bool ccflg;		/* Show messages as old 'cc' */
 extern int lcount;		/* Number of lines per page */
 extern int ccount;		/* -"-    columns */
 extern DmpKind dmpflg;		/* Dump internal form flags */
-extern Bool dbgflg;		/* Debug option flags */
+extern Bool debugOption;		/* Debug option flags */
 extern Bool packflg;		/* Pack option flags */
 extern Bool sumflg;		/* Print a summary */
 extern List *includePaths;	/* List of additional include paths */

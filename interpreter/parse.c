@@ -195,7 +195,7 @@ static void getline()
     statusline();
 #endif
     printf("> ");
-    if (logflg)
+    if (logOption)
       fprintf(logfil, "> ");
 #ifdef USE_READLINE
     if (!readline(buf)) {
@@ -210,7 +210,7 @@ static void getline()
 #endif
     getPageSize();
     anyOutput = FALSE;
-    if (logflg)
+    if (logOption)
 #ifndef __amiga__
       fprintf(logfil, "%s\n", buf);
 #else
@@ -223,7 +223,7 @@ static void getline()
 #endif
     token = gettoken(isobuf);
     if (token != NULL && strcmp("debug", token) == 0 && header->debug) {
-      dbgflg = TRUE;
+      debugOption = TRUE;
       debug();
       token = NULL;
     }
@@ -594,7 +594,7 @@ static Boolean restrictionCheck(restriction)
 /*----------------------------------------------------------------------*/
 static void runRestriction(RestrictionEntry *restriction)
 {
-  if (trcflg)
+  if (traceOption)
     printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
 	   restriction->parameter,
 	   restriction->class);

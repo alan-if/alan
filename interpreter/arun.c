@@ -65,11 +65,11 @@ int main(argc, argv)
   args(argc, argv);
 #endif
 
-  if ((dbgflg && ! regressionflg) || verbose) {
-    if (dbgflg) printf("<");
+  if ((debugOption && ! regressionTestOption) || verbose) {
+    if (debugOption) printf("<");
     printf("Arun, Adventure Interpreter version %s (%s %s)",
 	   alan.version.string, alan.date, alan.time);
-    if (dbgflg) printf(">");
+    if (debugOption) printf(">");
     newline();
   }
   

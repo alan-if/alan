@@ -3,7 +3,6 @@
 for f in ${*} ; do
     case=`basename $f .alan`
     mv $case.output $case.expected
-    cvs add $case.expected $case.alan 2> /dev/null
 done
 
 

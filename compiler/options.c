@@ -22,7 +22,7 @@ Bool ccflg;			/* Show messages as old 'cc' */
 int lcount;			/* Number of lines per page */
 int ccount;			/* -"-    columns */
 DmpKind dmpflg = DMPNON;	/* Dump internal form flags */
-Bool dbgflg = 0;		/* Debug option flags */
+Bool debugOption = 0;		/* Debug option flags */
 Bool packflg = 0;		/* Pack option flags */
 Bool sumflg;			/* Print a summary */
 List *includePaths = NULL;	/* List of additional include paths */

@@ -345,12 +345,12 @@ static void showact(act)
     return;
   }
   
-  oldstp = stepFlag; stepFlag = FALSE; /* Make sure not to trace this! */
+  oldstp = singleStepOption; singleStepOption = FALSE; /* Make sure not to trace this! */
   output("The \"$$");
   say(act);
   sprintf(str, "$$\" (code = %d) Isa actor", act);
   output(str);
-  stepFlag = oldstp;
+  singleStepOption = oldstp;
 
   sprintf(str, "$iLocation = %ld", instance[act].location);
   output(str);
@@ -415,8 +415,8 @@ void saveInfo()
 #endif
 {
   /* Save some important things */
-  trc = trcflg; trcflg = FALSE;
-  stp = stepFlag; stepFlag = FALSE;
+  trc = traceOption; traceOption = FALSE;
+  stp = singleStepOption; singleStepOption = FALSE;
   loc = current.location; current.location = where(HERO);
 }
 
@@ -427,8 +427,8 @@ void restoreInfo()
 #endif
 {
   /* Restore! */
-  trcflg = trc;
-  stepFlag = stp;
+  traceOption = trc;
+  singleStepOption = stp;
   current.location = loc;
 }
 
@@ -479,7 +479,7 @@ void debug()
     case 'Q':
       terminate(0);
     case 'X':
-      dbgflg = FALSE;		/* Fall through to 'G' */
+      debugOption = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
       return;
