@@ -383,7 +383,7 @@ static void generateParameterMapping(Syntax *syntax)
   Aaddr parameterMappingTableAddress = nextEmitAddress();
   List *originalParameters = syntax->id->symbol->fields.verb.parameterSymbols;
   List *originalPosition;
-  Bool found;
+  Bool found = FALSE;
 
   TRAVERSE(list, syntax->parameters) {
     /* Generate a parameter mapping entry */

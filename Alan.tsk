@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>257.89</origest>
-<currest>256.89</currest>
-<elapsed>107.89</elapsed>
+<origest>258.89</origest>
+<currest>257.89</currest>
+<elapsed>108.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>45</origest>
-<currest>44</currest>
-<elapsed>9</elapsed>
+<origest>46</origest>
+<currest>45</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.28</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>8</origest>
 <currest>7</currest>
-<elapsed>6</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalization of nouns</desc>
@@ -76,11 +76,13 @@ Otherwise the includes won't work currectly. This is only a problem when executi
 </task>
 <task>
 <desc>WinAlan</desc>
-<notes>As it is impossible to use Windows app from the console and attach output to the console we will have to make a WinAlan.exe and an alan.exe</notes>
+<notes>As it is impossible to use Windows app from the console and attach output to the console we will have to make a WinAlan.exe and an alan.exe
+
+It should also work from the desktop by double-clicking. Output should go in same directory.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -88,8 +90,8 @@ Otherwise the includes won't work currectly. This is only a problem when executi
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -286,6 +288,15 @@ TODO: Descriptions, ?</notes>
 <task>
 <desc>RESTART does not work well in WinArun</desc>
 <notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Double click on a .alan file makes WinAlan fail to find the file</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

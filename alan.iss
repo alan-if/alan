@@ -22,9 +22,9 @@ Root: HKCR; Subkey: "AlanV3Game\DefaultIcon"; ValueType: string; ValueName: ""; 
 Root: HKCR; Subkey: "AlanV3Game\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\winarun.exe"" ""%1"""
 Root: HKCR; Subkey: ".alan"; ValueType: string; ValueName: ""; ValueData: "AlanV3Source"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "AlanV3Source"; ValueType: string; ValueName: ""; ValueData: "Alan V3 Source"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "AlanV3Source\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\alan.exe,0"
+Root: HKCR; Subkey: "AlanV3Source\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\winalan.exe,0"
 Root: HKCR; Subkey: "AlanV3Source\shell\edit\command"; ValueType: string; ValueName: ""; ValueData: """notepad.exe"" ""%1"""
-Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; ValueName: ""; ValueData: """{app}\alan.exe"" ""%1"""
+;Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; ValueName: ""; ValueData: """{app}\winalan.exe"" ""%1"""
 
 [Tasks]
 ; NOTE: The following entry contains English phrases ("Create a desktop icon" and "Additional icons"). You are free to translate them into another language if required.
@@ -33,7 +33,7 @@ Name: "desktopicon"; Description: "Create &desktop icons"; GroupDescription: "Ad
 Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\alan.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\cygwin\home\thoni\Alan\alan\bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\alan.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -47,7 +47,7 @@ Source: "C:\cygwin\home\thoni\Alan\alan\doc\manual\manual.pdf"; DestDir: "{app}"
 Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://welcome.to/alan-if"
 
 [Icons]
-Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\alan.exe"
+Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"
 Name: "{group}\Alan VERSION ReadMe"; Filename: "{app}\alan.readme"
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 Name: "{group}\Alan V2 to V3 Source Converter"; Filename: "{app}\a2a3.exe"
@@ -59,9 +59,9 @@ Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.alan"
 Name: "{group}\Uninstall Alan V3"; Filename: "{uninstallexe}"
 ; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
-Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\alan.exe"; Tasks: desktopicon
+Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\alan.exe"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: quicklaunchicon
 
 [UninstallDelete]
 Type: files; Name: "{app}\saviour.a3c"

@@ -187,6 +187,15 @@ static char *removeExeResidue(char cmdLine[])
 }
 
 
+static void remapWindowsFilename(char string[])
+{
+  int i;
+
+  for (i = 0; string[i] != '\0'; i++)
+    if (string[i] == '\\')
+      string[i] = '/';
+}
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
   int nArgs;
@@ -195,6 +204,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   nArgs = splitCommandLine(removeExeResidue(cmdLine));
 
 #ifdef ARGSDISPLAY
+  MessageBox(NULL, "Hello!", "Alan V3 compiler", MB_OK);
   for (i = 0; i < nArgs; i++) {
     char buf[199];
     sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
@@ -202,17 +212,26 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   }
 #endif
 
+  guiMode = TRUE;
   if (argc == 1) {
     if (!getInFileName())
       return -1;
-    guiMode = TRUE;
     argv[1] = fullInFileName;
     argc = 2;
-    if (!AllocConsole())
-      MessageBox(NULL, "Failed to allocate a console.", "Error", MB_OK);
-    else
-      freopen("con:", "w", stdout);
-  }
+  } else
+    /* If we run from a CMD windows we will see Windows-style filenames */
+    remapWindowsFilename(argv[1]);
+
+#ifdef ARGSDISPLAY
+  MessageBox(NULL, inFileName, "Alan V3 compiler", MB_OK);
+#endif
+
+
+  if (!AllocConsole()) {
+    MessageBox(NULL, "Failed to allocate a console.\nCompilation will continue but can not display error messages.", "Error", MB_OK);
+  } else
+    freopen("con:", "w", stdout);
+
 #else
 
 int main(int argc,		/* IN - argument count */
