@@ -49,9 +49,7 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-sun4: objarch arun
-
-debug all tcov release: arun
+debug all tcov release: objarch arun
 
 sun3 solaris2 hp: objarch fromsrc
 
@@ -96,7 +94,7 @@ amiga: src
 
 archives: amiga interpreter.zip.
 
-interpreter.zip.:
+pc:
 	ramp iso2pc sysdep.c SYSDEP.C
 	zip -k -u interpreter.zip *.[ch] Makefile.dos
 	zip -k -m interpreter.zip *.[CH]
