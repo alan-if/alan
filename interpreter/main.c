@@ -1476,6 +1476,8 @@ static void load()
   rewind(codfil);
   fread(&tmphdr, sizeof(tmphdr), 1, codfil);
   rewind(codfil);
+  if (strncmp(&tmphdr, "ALAN", 4) != 0)
+    syserr("Not an Alan game file, does not start with \"ALAN\"");
   checkvers(&tmphdr);
 
   /* Allocate and load memory */

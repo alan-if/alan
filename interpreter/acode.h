@@ -247,6 +247,7 @@ typedef struct ScriptEntry {	/* SCRIPT TABLE */
 
 typedef struct AcdHdr {
 /* Important info */
+  char tag[4];			/* "ALAN" */
   char vers[4];			/* Version of compiler */
   Aword size;			/* Size of ACD-file in Awords */
 /* Options */

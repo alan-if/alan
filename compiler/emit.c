@@ -476,6 +476,12 @@ void terminateEmit(void)
   (void) rewind(acdfil);
   pc = 0;
 
+  /* Generate header tag "ALAN" */
+  acdHeader.tag[3] = 'A';
+  acdHeader.tag[2] = 'L';
+  acdHeader.tag[1] = 'A';
+  acdHeader.tag[0] = 'N';
+
   /* Construct version marking */
 #ifdef REVERSED  
   acdHeader.vers[3] = (Aword)alan.version.version;
