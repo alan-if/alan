@@ -7,7 +7,7 @@ run ()
 {
     echo -n "$case : "
     echo "########## alan $case ##########" >$case.out
-    sh $case.test >>$case.out 2>&1
+    sh $case.test >>$case.out
     cases=`expr $cases + 1`
 }
 

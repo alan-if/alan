@@ -4,7 +4,7 @@
 
 ########## arun inheritedVerbChecks ##########
 
-v t1
+V t1
 v o1
 v oc1
 
@@ -19,7 +19,7 @@ You v the t1.
 You v the o1.
 
 > v oc1
-p must be t.
+P must be t.
 
 > 
 

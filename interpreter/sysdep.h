@@ -322,8 +322,8 @@ extern char *strupp(char str[]); /* INOUT - Native string to convert */
 
 /* ISO character functions */
 extern int isISOLetter(int c);  /* IN - ISO character to test */
-extern char toLowerCase(int c); /* IN - ISO character to convert */
-extern char toUpperCase(int c); /* IN - ISO character to convert */
+extern char IsoToLowerCase(int c); /* IN - ISO character to convert */
+extern char IsoToUpperCase(int c); /* IN - ISO character to convert */
 extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
 extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
 

@@ -11,7 +11,7 @@ L
 There is a o1 and a o2 here.
 
 > x o1 o2
-o1 o2
+O1 o2
 
 > x o2 o1
 You can't do that.

@@ -296,13 +296,13 @@ int isISOLetter(int c)          /* IN - ISO character to test */
 }
 
 
-char toLowerCase(int c)         /* IN - ISO character to convert */
+char IsoToLowerCase(int c)         /* IN - ISO character to convert */
 {
   return (isUpperCase(c)? c + ('a' - 'A'): c);
 }
 
 
-char toUpperCase(int c)         /* IN - ISO character to convert */
+char IsoToUpperCase(int c)         /* IN - ISO character to convert */
 {
   return (isLowerCase(c)? c - ('a' - 'A'): c);
 }
@@ -313,7 +313,7 @@ char *stringLower(char str[])   /* INOUT - ISO string to convert */
   char *s;
 
   for (s = str; *s; s++)
-    *s = toLowerCase(*s);
+    *s = IsoToLowerCase(*s);
   return(str);
 }
 
@@ -323,7 +323,7 @@ char *stringUpper(char str[])   /* INOUT - ISO string to convert */
   char *s;
 
   for (s = str; *s; s++)
-    *s = toUpperCase(*s);
+    *s = IsoToUpperCase(*s);
   return(str);
 }
 

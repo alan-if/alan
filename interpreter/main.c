@@ -102,6 +102,7 @@ FILE *logfil;
 int col, lin;
 int pageLength, pageWidth;
 
+Boolean capitalize = FALSE;
 Boolean needsp = FALSE;
 Boolean skipsp = FALSE;
 
@@ -370,6 +371,7 @@ void para(void)
   if (col != 1)
     newline();
   newline();
+  capitalize = TRUE;
 }
 
 
@@ -515,16 +517,9 @@ static void sayparam(p)
   V = current verb
   A = current actor
   T = tabulation
-  $ = no space needed after this
+  $ = no space needed after this, and don't capitalize
  */
-#ifdef _PROTOTYPES_
-static void prsym(
-		  char *str	/* IN - The string starting with '$' */
-)
-#else
-static void prsym(str)
-     char *str;			/* IN - The string starting with '$' */
-#endif
+static void prsym(char *str)	/* IN - The string starting with '$' */
 {
   switch (toLower(str[1])) {
   case 'n':
@@ -580,6 +575,7 @@ static void prsym(str)
   }
   case '$':
     skipsp = TRUE;
+    capitalize = FALSE;
     break;
   default:
     logprint("$");
@@ -597,12 +593,7 @@ static void prsym(str)
   recogniced and performed.
 
  */
-#ifdef _PROTOTYPES_
 void output(char original[])
-#else
-void output(original)
-     char original[];
-#endif
 {
   char ch;
   char *str, *copy;
@@ -611,13 +602,19 @@ void output(original)
   copy = strdup(original);
   str = copy;
 
-  if (!((str[0] == '$' && str[1] == '$') || (str[0] == '.' && (str[1] == '\0' || str[1] == ' '))))
+  if (!((str[0] == '$' && str[1] == '$')
+	|| (str[0] == '.' && (str[1] == '\0' || str[1] == ' '))))
     space();			/* Output space if needed (& not inhibited) */
 
+  /* Output string up to symbol and handle the symbol */
   while ((symptr = strchr(str, '$')) != (char *) NULL) {
     ch = *symptr;		/* Terminate before symbol */
     *symptr = '\0';
     if (strlen(str) > 0) {
+      if (capitalize) {
+	str[0] = toUpper(str[0]);
+	capitalize = FALSE;
+      }
       justify(str);		/* Output part before '$' */
       if (str[strlen(str)-1] == ' ')
 	needsp = FALSE;
@@ -626,6 +623,11 @@ void output(original)
     prsym(symptr);		/* Print the symbolic reference */
     str = &symptr[2];		/* Advance to after symbol and continue */
   }
+
+  if (capitalize) {
+    str[0] = toUpper(str[0]);
+    capitalize = FALSE;
+  }
   if (str[0] != 0) {
     justify(str);			/* Output trailing part */
     skipsp = FALSE;
@@ -633,6 +635,7 @@ void output(original)
       needsp = TRUE;
   }
   anyOutput = TRUE;
+  capitalize = str[strlen(str)-1] == '.';
   free(copy);
 }
 

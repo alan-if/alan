@@ -1217,6 +1217,7 @@ void look(void)
 #endif
 
   newline();
+  capitalize = TRUE;
   describe(current.location);
   if (descriptionOk)
     describeInstances();

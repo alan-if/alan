@@ -1,4 +1,3 @@
 touch writeProtected.a3c
 chmod a-w writeProtected.a3c
 ../../compiler/alan writeProtected > writeProtected.output
-cat writeProtected.out >> writeProtected.output

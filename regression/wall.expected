@@ -7,21 +7,21 @@
 
 
 Loc1
-e to loc2. There is a wall here.
+E to loc2. There is a wall here.
 
 > examine wall
 There is a wall here.
 
 > e
 Loc2
-w to loc1.
+W to loc1.
 
 > examine wall
 I can't see any wall here.
 
 > w
 Loc1
-e to loc2. There is a wall here.
+E to loc2. There is a wall here.
 
 > examine wall
 There is a wall here.

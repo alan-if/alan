@@ -4,7 +4,7 @@
 
 ########## arun isa ##########
 
-t ISA thing
+T ISA thing
 s ISA thing
 s ISA subthing
 Current Actor ISA thing

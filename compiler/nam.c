@@ -29,7 +29,7 @@ int analyzeNames(List *nams,	/* IN - List of names to use */
       if (strlen(namlst->element.id->string) > 79)
 	namlst->element.id->string[79] = '\0';
       if (cap) {
-	sprintf(buf, "%c%s", toUpperCase(namlst->element.id->string[0]),
+	sprintf(buf, "%c%s", IsoToUpperCase(namlst->element.id->string[0]),
 		&namlst->element.id->string[1]);
 	toIso(buf, buf, charset);
       } else

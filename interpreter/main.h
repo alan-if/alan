@@ -81,6 +81,7 @@ extern Boolean regressionTestOption;
 extern Boolean fail;
 extern Boolean anyOutput;
 extern Boolean needsp;
+extern Boolean capitalize;
 
 #define endOfTable(x) eot((Aword *) x)
 
