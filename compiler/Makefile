@@ -4,7 +4,7 @@
 PLATFORM = -mno-cygwin
 OPTIMIZE = -g
 
-win:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
+winalan:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
@@ -108,12 +108,14 @@ alan: checkTarget tm $(MAINOBJECTS) unit
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
-release: win test
+release:
+	$(MAKE) "OPTIMIZE=-O4" alan
+	$(MAKE) "OPTIMIZE=-O4" winalan
 
-win:  checkTarget $(MAINOBJECTS) alan.res unit
-	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
+winalan: checkTarget $(MAINOBJECTS) alan.res unit
+	$(LD) -o winalan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp alan.exe ../bin
+	cp winalan.exe ../bin
 
 alan.res: alan.rc alan.ico
 	windres $< -O coff -o $@

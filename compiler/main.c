@@ -198,7 +198,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   for (i = 0; i < nArgs; i++) {
     char buf[199];
     sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
-    MessageBox(NULL, buf, "Alan V2 to V3 converter", MB_OK);
+    MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);
   }
 #endif
 
@@ -208,7 +208,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
     guiMode = TRUE;
     argv[1] = fullInFileName;
     argc = 2;
-    AllocConsole();
+    if (!AllocConsole())
+      MessageBox(NULL, "Failed to allocate a console.", "Error", MB_OK);
+    else
+      freopen("con:", "w", stdout);
   }
 #else
 

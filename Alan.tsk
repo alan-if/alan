@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>257.89</origest>
 <currest>256.89</currest>
-<elapsed>106.89</elapsed>
+<elapsed>107.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>46</currest>
-<elapsed>8</elapsed>
+<origest>45</origest>
+<currest>44</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>18</currest>
-<elapsed>5</elapsed>
+<origest>8</origest>
+<currest>7</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalization of nouns</desc>
@@ -71,18 +71,7 @@ Otherwise the includes won't work currectly. This is only a problem when executi
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Step 1: prohibit containers to contain anything not an object? How?
-What to do when an instance not an object is moved into the container?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -94,42 +83,15 @@ What to do when an instance not an object is moved into the container?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>xglk library problem</desc>
-<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
-<desc>Report mingw startup problem</desc>
+<desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>"Describe this." Does not work.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify UNDO</desc>
-<notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Capitalizing of "proper_name" in library and doc</desc>
 <notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
@@ -193,7 +155,7 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -216,7 +178,7 @@ The article Isa b
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -282,6 +244,35 @@ Requires sections something like:
 </task>
 </task>
 <task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Step 1: prohibit containers to contain anything not an object? How?
+What to do when an instance not an object is moved into the container?
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Warn for DOES preceeded by an unconditional CHECK</desc>
 <notes>DONE for verbs
 
@@ -303,13 +294,13 @@ TODO: Descriptions, ?</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.29</desc>
+<desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
@@ -515,13 +506,13 @@ END DEPEND.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.30</desc>
+<desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Bug: Multiple syntax verb declarations</desc>
 <notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
@@ -598,7 +589,7 @@ Check for consistency with other instances of local overides.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.31</desc>
+<desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
 <origest>3</origest>
@@ -649,10 +640,10 @@ FOR EACH instance ISA entity DO
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>98</origest>
-<currest>98</currest>
+<origest>100</origest>
+<currest>100</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
 <notes>This occurs at a initial location clause:
@@ -1875,6 +1866,24 @@ What do you want to do with the ball?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>xglk library problem</desc>
+<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Report mingw startup problem</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Strategies</desc>
@@ -2074,7 +2083,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>94.89</origest>
 <currest>94.89</currest>
 <elapsed>94.89</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>

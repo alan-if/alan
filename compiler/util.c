@@ -128,8 +128,21 @@ void panic(char *str)
 #include <windows.h>
 void terminate(int ecode)
 {
-  if (guiMode)
-    MessageBox(NULL, "Finished", "Alan V3 Compilation Result", MB_OK);
+  if (guiMode) {
+    char *message = "Finished with strange error status!";
+    switch (lmSeverity()) {
+    case sevOK: 
+      message = "Finished OK!"; break;
+    case sevINF:
+      message = "Finished OK with some informational messages."; break;
+    case sevWAR:
+      message = "Finished OK with warning messages."; break;
+    case sevERR:
+    case sevFAT:
+      message = "Finished with errors."; break;
+    }
+    MessageBox(NULL, message, "Alan V3 (Development) Compilation Result", MB_OK);
+  }
   exit(ecode);
 }
 #else
