@@ -107,9 +107,9 @@ alan: checkTarget tm $(MAINOBJECTS) unit
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
-release: clean win
+release: win test
 
-win:  checkTarget $(MAINOBJECTS) alan.res test
+win:  checkTarget $(MAINOBJECTS) alan.res unit
 	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
