@@ -15,6 +15,7 @@
 #include "id.h"
 #include "exp.h"
 #include "lst.h"
+#include "form.h"
 
 
 /* Types: */
@@ -77,6 +78,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for SAY */
       Expression *exp;		/* What? */
+      FormType form;		/* In what form? SIMPLE, DEFINITE or INDEFINITE */
     } say;
 
     struct {			/* for LIST */

@@ -4,31 +4,31 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>260.89</origest>
-<currest>259.89</currest>
+<origest>263.89</origest>
+<currest>262.89</currest>
 <elapsed>108.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>39</origest>
-<currest>39</currest>
+<origest>42</origest>
+<currest>42</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalizing of "proper_name" in library and doc</desc>
-<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names. Document new behaviour.
 
-But proper_name is used to switch between using articles and names:
+But proper_name is actually used to switch between using articles and names:
 
 If x Has proper_name Then
   Say x. "looks at you."
@@ -119,8 +119,8 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 
 Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -132,10 +132,28 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 "You open" SAY THE obj.
 </notes>
 <priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Indefinite Article declaration</desc>
+<notes>Rename it an document it.</notes>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Definite Article declaration</desc>
+<notes>Implement and document.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Printing of articles</desc>
@@ -147,11 +165,10 @@ SAY an O.
 
 </notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 <task>
 <desc>SAY a/the &lt;param&gt;</desc>
 <notes>A SAY should refer to which form of articles should be used:
@@ -159,8 +176,10 @@ SAY an O.
  Say A x.  (embedded as $the x$?)
  Say The x.
  Say x.
- Say Any x.
- Say No x,
+ 
+Possibly later:
+Say Any x.
+Say No x,
 
 Requires sections something like:
 
@@ -171,10 +190,47 @@ Requires sections something like:
   ""
 </notes>
 <priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>SAY A x.</desc>
+<notes>New variant on the Say statement to use indefinite article. Implement it. Also change "Say x." to mean "Mention" (which it already should).</notes>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Say The x.</desc>
+<notes>New variant of Say statement to use Definite article + mentioned.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Say A x. to use Indefinite Form clause if available.</desc>
+<notes>Should use Indefinite Form if available, else Indefinite Article + "Say x."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Say The x. to use Definite Form if available.</desc>
+<notes>Should use Definite form if available, else Definite Article + "Say x."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 </task>
 <task>

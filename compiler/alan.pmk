@@ -119,6 +119,7 @@ static int val(char str[])
   expKd %% ExpressionKind %1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
+  form %% FormType %1%%,
   id %% IdNode *%1%%,
   idList %% List *%1%%,
   idList2 %% List *%1%%,
@@ -848,8 +849,8 @@ static int val(char str[])
 
 	if (%<property>.indefinite != NULL) {
             if (%<properties>.indefinite != NULL)
-                /* ARTICLE already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
+                /* Indefinite Article/Form already declared */
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
             else { 
 	        %<properties>.indefinite = %<property>.indefinite;
 		%<properties>.indefiniteSrcp = %<property>.srcp;
@@ -931,7 +932,7 @@ static int val(char str[])
 	%<property>.srcp = srcp;
     }%%
 
-    ! 'INDEFINITE' <article>
+    ! ['INDEFINITE'] <article>
     %%{ List *indefinite = %<article>.indefinite;
         Srcp srcp = %<article>.srcp;
 
@@ -1451,10 +1452,11 @@ static int val(char str[])
 	%<output_statement>.stm->fields.describe.wht = %<what>.wht;
     %%
 
-    ! 'SAY' <expression> '.'
+    ! 'SAY' <form> <expression> '.'
     %%
 	%<output_statement>.stm = newstm(`&%'SAY'.srcp, SAY_STATEMENT);
 	%<output_statement>.stm->fields.say.exp = %<expression>.exp;
+	%<output_statement>.stm->fields.say.form = %<form>.form;
     %%
 
     ! 'LIST' <what> '.'
@@ -1469,6 +1471,16 @@ static int val(char str[])
 	%<output_statement>.stm->fields.show.filename = %ID.id;
     %%	  
     ;
+
+<form>
+    =
+	%% %<form>.form = SIMPLE; %%
+    ! 'THE'
+	%% %<form>.form = DEFINITE; %%
+    ! 'AN'
+	%% %<form>.form = INDEFINITE; %%
+    ;
+
 
 ----> Manipulation Statements
 <manipulation_statement>			-- RETURNS: stm

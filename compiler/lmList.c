@@ -157,6 +157,7 @@ static lmMsgs msg[] = {
     { "336   ", "You can not ADD %1." },
     { "337   ", "You can not Say boolean values." },
     { "338   ", "A Where specification is required in Aggregate statements." },
+    { "339   ", "You can only use Definite/Indefinite forms to Say instances. For other types of values use \'Say\' without Definite/Indefinite indicator." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not ADD %1 TO classes. %2" },
     { "350   ", "Can not inherit from something not a class." },
@@ -210,7 +211,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 130}
+    {0, 131}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -13,16 +13,12 @@
 #include "lst.h"
 #include "whr.h"
 #include "cnt.h"
+#include "form.h"
 
 #include "../interpreter/acode.h"
 
 
 /* Types */
-
-typedef enum FormKind {
-  FORM,
-  ARTICLE
-} FormKind;
 
 typedef struct Properties {
   IdNode *id;			/* Identifier */

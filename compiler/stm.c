@@ -37,15 +37,10 @@
 
 
 
-/*======================================================================
-
-  newstm()
-
-  Allocates and initialises a stmnod.
-
-  */
+/*======================================================================*/
 StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
-	       StmKind class)	/* IN - The statement class */
+	       StmKind class
+)	/* IN - The statement class */
 {
   StmNod *new;                  /* The newly allocated area */
 
@@ -88,8 +83,16 @@ static void analyzeDescribe(StmNod *stm, Context *context)
 static void analyzeSay(StmNod *stm, Context *context)
 {
   analyzeExpression(stm->fields.say.exp, context);
+
+  /* Can't say Boolean values */
   if (stm->fields.say.exp->type == BOOLEAN_TYPE)
     lmLog(&stm->srcp, 337, sevERR, "");
+
+  /* Can only say definite/indefinite forms of instances */
+  if (stm->fields.say.form != SIMPLE
+      && stm->fields.say.exp->type != INSTANCE_TYPE
+      && stm->fields.say.exp->type != ERROR_TYPE)
+    lmLog(&stm->srcp, 339, sevERR, "");
 }
 
 
