@@ -1,0 +1,44 @@
+/*----------------------------------------------------------------------*\
+
+	Abstract datatype Set for Alan interpreter
+	
+\*----------------------------------------------------------------------*/
+
+#include "set.h"
+#include "main.h"
+
+
+/*----------------------------------------------------------------------*/
+static void copyMembers(Aword *source, Aword *destination, int size)
+{
+	memcpy(destination, source, size*sizeof(Aword));
+}	
+
+/*----------------------------------------------------------------------*/
+static Bool inSet(Set *theSet, Aword member)
+{
+	int i;
+	
+	for (i = 0; i < theSet->size; i++)
+		if (theSet->members[i] == member)
+			return TRUE;
+	return FALSE;
+}
+
+/*=======================================================================*/
+void addToSet(Set *theSet, Aword newMember)
+{
+#define EXTENT 5
+
+	if (inSet(theSet, newMember)) return;
+	if (theSet->size == theSet->allocated) {
+		Aword *members = theSet->members;
+		theSet->members = (Aword *)allocate((theSet->allocated+EXTENT)*sizeof(Aword));
+		theSet->allocated += EXTENT;
+		if (members != NULL) {
+			copyMembers(members, theSet->members, theSet->size);
+			free(members);
+		}
+	}
+	theSet->members[theSet->size++] = newMember;
+}

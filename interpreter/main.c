@@ -1100,7 +1100,7 @@ static Aint sizeOfAttributeData(void)
   int size = 0;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *attribute = pointerTo(instance[i].attributes);
+    AttributeEntry *attribute = pointerTo(instance[i].initialAttributes);
     while (*((Aword *)attribute) != EOF) {
       size++;
       attribute++;
@@ -1122,7 +1122,7 @@ static AttributeEntry *copyAttributes(void)
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *originalAttribute = pointerTo(instance[i].attributes);
+    AttributeEntry *originalAttribute = pointerTo(instance[i].initialAttributes);
     admin[i].attributes = currentAttributeData;
     while (*((Aword *)originalAttribute) != EOF) {
       *currentAttributeData = *originalAttribute;
@@ -1155,7 +1155,7 @@ static void initDynamicData(void)
 
   /* Set initial locations */
   for (instanceId = 1; instanceId <= header->instanceMax; instanceId++)
-    admin[instanceId].location = instance[instanceId].location;
+    admin[instanceId].location = instance[instanceId].initialLocation;
 }
 
 
@@ -1174,7 +1174,6 @@ static void start(void)
   interpret(header->start);
   para();
 
-  admin[HERO].location = 0;
   locate(HERO, startloc);
 }
 

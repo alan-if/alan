@@ -55,16 +55,16 @@ static void debugPrintf(char *fmt, ...) {
 }
 
 /*----------------------------------------------------------------------*/
-static void showAttributes(Aword atradr)
+static void showAttributes(AttributeEntry *attributes)
 {
   AttributeEntry *at;
   int i;
   char str[80];
 
-  if (atradr == 0) return;
+  if (attributes == 0) return;
 
   i = 1;
-  for (at = (AttributeEntry *) pointerTo(atradr); !endOfTable(at); at++) {
+  for (at = attributes; !endOfTable(at); at++) {
     sprintf(str, "$i$t%s(%ld) = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
 #if ISO == 0
     fromIso(str, str);
@@ -160,7 +160,7 @@ static void showInstance(int ins)
   }
 
   output("$iAttributes:");
-  showAttributes(instance[ins].attributes);
+  showAttributes(admin[ins].attributes);
 
   if (instance[ins].container)
     showContents(ins);
@@ -316,7 +316,7 @@ static void showLocation(int loc)
   output(str);
 
   output("$iAttributes =");
-  showAttributes(instance[loc].attributes);
+  showAttributes(admin[loc].attributes);
 }
 
 

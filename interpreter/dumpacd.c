@@ -302,13 +302,13 @@ static void dumpInstances(int level, Aword instances)
     indent(level+1);
     printf("parent: %ld\n", instance->parent);
     indent(level+1);
-    printf("location: %ld\n", instance->location);
+    printf("location: %ld\n", instance->initialLocation);
     indent(level+1);
     printf("container: %ld\n", instance->container);
     indent(level+1);
-    printf("attributes: %s\n", dumpAddress(instance->attributes));
-    if (instance->attributes)
-      dumpAtrs(level+1, instance->attributes);
+    printf("attributes: %s\n", dumpAddress(instance->initialAttributes));
+    if (instance->initialAttributes)
+      dumpAtrs(level+1, instance->initialAttributes);
     indent(level+1);
     printf("checks: %s\n", dumpAddress(instance->checks));
     indent(level+1);

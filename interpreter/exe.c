@@ -881,8 +881,9 @@ static void executeInheritedEntered(Aint theClass) {
 /*----------------------------------------------------------------------*/
 static void locateActor(Aword movingActor, Aword whr)
 {
-  Aword previousLocation = current.location;
-  Aword previousActor = current.actor;
+  Aint previousCurrentLocation = current.location;
+  Aint previousActorLocation = admin[movingActor].location;
+  Aint previousActor = current.actor;
 
   /* FIXME: Actors locating into containers is dubious, anyway as it
    is now it allows the hero to be located into a container. And what
@@ -910,14 +911,14 @@ static void locateActor(Aword movingActor, Aword whr)
     admin[whr].visitsCount = 0;
   current.actor = movingActor;
   if (instance[current.location].entered != 0) {
-    if (admin[movingActor].location != current.location)
+    if (previousActorLocation != current.location)
       interpret(instance[current.location].entered);
   } else
     executeInheritedEntered(instance[current.location].parent);
   current.actor = previousActor;
 
   if (current.actor != movingActor)
-    current.location = previousLocation;
+    current.location = previousCurrentLocation;
 }
 
 
@@ -1336,7 +1337,7 @@ static Bool containerIsEmpty(Aword cnt)
   int i;
 
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == cnt)
+    if (instance[i].initialLocation == cnt)
       return FALSE;
   return TRUE;
 }
@@ -1698,7 +1699,7 @@ void saveGame(void)
   /* Save admin about each instance and its attributes */
   for (i = 1; i <= header->instanceMax; i++) {
     fwrite((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    if (instance[i].attributes != 0)
+    if (instance[i].initialAttributes != 0)
       for (atr = admin[i].attributes; !endOfTable(atr); atr++)
 	fwrite((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
   }
@@ -1783,7 +1784,7 @@ void restoreGame(void)
   /* Restore admin and attributes for instances */
   for (i = 1; i <= header->instanceMax; i++) {
     fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    if (instance[i].attributes != 0)
+    if (instance[i].initialAttributes != 0)
       for (atr = admin[i].attributes; !endOfTable(atr); atr++)
 	fread((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
   }

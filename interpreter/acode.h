@@ -216,9 +216,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aint code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
-  Aint location;		/* DYNAMIC - Code for current location */
+  Aint initialLocation;		/* Code for current location */
   Aint container;		/* Code for a possible container property */
-  Aaddr attributes;		/* DYNAMIC CONTENT - Address of attribute list */
+  Aaddr initialAttributes;	/* Address of attribute list */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of entered code (location only) */
