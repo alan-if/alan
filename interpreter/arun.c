@@ -1289,7 +1289,9 @@ static void checkdebug()
     stpflg = FALSE;
   }
 
-  if (!dbgflg)			/* If not debugging */
+  if (dbgflg)			/* If debugging */
+    srand(0);			/* use no randomization */
+  else
     srand(time(0));		/* seed random generator */
 }
 

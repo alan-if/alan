@@ -408,12 +408,10 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (stpflg) {
-	  printf("DESCRIBE \t%5ld\t\"", id);
+	  printf("DESCRIBE \t%5ld\t", id);
 	  col = 34;		/* To format it better! */
 	}
 	describe(id);
-	if (stpflg)
-	  printf("\"");
 	break;
       }
       case I_SAY: {
