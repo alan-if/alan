@@ -43,7 +43,7 @@ void testGenerateInstances()
   generateInstances(&header);
   unitAssert(header.instanceTableAddress == firstAdr + 2);	/* Only "hero" generated */
   addr = emadr();
-  unitAssert(addr == firstAdr + 2 + 1*instanceSize);
+  unitAssert(addr == firstAdr + 2 + 1*instanceSize + 1);
   unitAssert(header.theHero == 1);
   /* 4 Class entries and 1 instance entry */
 

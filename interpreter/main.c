@@ -1608,6 +1608,7 @@ static void initheader()
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
 
   instance = (InstanceEntry *) addrTo(header->instanceTableAddress);
+  instance--;			/* Back up one so that first is no. 1 */
   vrbs = (VrbEntry *) addrTo(header->vrbs);
   stxs = (StxEntry *) addrTo(header->stxs);
   evts = (EvtEntry *) addrTo(header->evts);

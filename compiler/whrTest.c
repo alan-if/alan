@@ -10,9 +10,16 @@
 
 void testInitialLocation()
 {
-  unitAssert(generateInitialLocation(NULL) == 0);
-}
+  IdNode *id = newId(&nulsrcp, "atLoc");
+  WhrNod *whr = newwhr(&nulsrcp, WHR_AT, newwht(&nulsrcp, WHT_ID, id));
+  InsNod *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
+  symbolizeInstance(atLoc);
+  symbolizeWhr(whr);
+  unitAssert(generateInitialLocation(NULL) == 0);
+
+  unitAssert(generateInitialLocation(whr) == atLoc->symbol->code);
+}
 
 void registerWhrUnitTests()
 {

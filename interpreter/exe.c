@@ -935,17 +935,6 @@ static Abool objhere(obj)
 
 
 #ifdef _PROTOTYPES_
-static Aword acthere(Aword act)
-#else
-static Aword acthere(act)
-     Aword act;
-#endif
-{
-  return(acts[act-ACTMIN].loc == cur.loc);
-}
-
-
-#ifdef _PROTOTYPES_
 Aword isHere(Aword id)
 #else
 Aword isHere(id)
@@ -954,15 +943,16 @@ Aword isHere(id)
 {
   char str[80];
 
-  if (isObj(id))
-    return objhere(id);
-  else if (isAct(id))
-    return acthere(id);
-  else {
+  if (id == 0) {
     sprintf(str, "Can't HERE instance (%ld).", id);
     syserr(str);
-  }
-  return(EOF);
+  } else if (id > header->instanceMax) {
+    sprintf(str, "Can't HERE instance (%ld > instanceMax).", id);
+    syserr(str);
+  } else
+    return instance[id].location == cur.loc;
+  syserr("Fall through to end in isHere()");
+  return EOF;
 }
 
 /*----------------------------------------------------------------------
@@ -1051,38 +1041,6 @@ Abool in(obj, cnt)
   */
 
 #ifdef _PROTOTYPES_
-static void sayloc(Aword loc)
-#else
-static void sayloc(loc)
-     Aword loc;
-#endif
-{
-  interpret(locs[loc-LOCMIN].nams);
-}
-
-
-#ifdef _PROTOTYPES_
-static void sayobj(Aword obj)
-#else
-static void sayobj(obj)
-     Aword obj;
-#endif
-{
-  interpret(objs[obj-OBJMIN].dscr2);
-}
-
-#ifdef _PROTOTYPES_
-static void sayact(Aword act)
-#else
-static void sayact(act)
-     Aword act;
-#endif
-{
-  interpret(acts[act-ACTMIN].nam);
-}
-
-
-#ifdef _PROTOTYPES_
 void sayint(Aword val)
 #else
 void sayint(val)
@@ -1155,17 +1113,17 @@ void say(id)
   char str[80];
 
   if (isHere(HERO)) {
-    if (isObj(id))
-      sayobj(id);
-    else if (isLoc(id))
-      sayloc(id);
-    else if (isAct(id))
-      sayact(id);
-    else if (isLit(id))
+    if (isLit(id))
       saylit(id);
     else {
-      sprintf(str, "Can't SAY instance (%ld).", id);
-      syserr(str);
+      if (id == 0) {
+	sprintf(str, "Can't SAY instance (%ld).", id);
+	syserr(str);
+      } else if (id > header->instanceMax) {
+	sprintf(str, "Can't SAY instance (%ld > instanceMax).", id);
+	syserr(str);
+      } else
+	interpret(instance[id].nams);
     }
   }
 }
@@ -1490,10 +1448,8 @@ void look()
 
   looking = TRUE;
   /* Set describe flag for all objects and actors */
-  for (i = OBJMIN; i <= OBJMAX; i++)
-    objs[i-OBJMIN].describe = TRUE;
-  for (i = ACTMIN; i <= ACTMAX; i++)
-    acts[i-ACTMIN].describe = TRUE;
+  for (i = 1; i <= header->instanceMax; i++)
+    instance[i].describe = TRUE;
 
   if (anyOutput)
     para();

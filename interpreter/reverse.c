@@ -231,60 +231,18 @@ static void reverseScrs(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseActs(Aword adr)
+static void reverseInstances(Aword adr)
 #else
-static void reverseActs(adr)
+static void reverseInstances(adr)
      Aword adr;
 #endif
 {
-  ActEntry *e = (ActEntry *) &memory[adr];
+  InstanceEntry *e = (InstanceEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ActEntry));
+    reverseTable(adr, sizeof(InstanceEntry));
     while (!endOfTable(e)) {
-      reverseStms(e->nam);
-      reverseTable(e->atrs, sizeof(AtrEntry));
-      reverseScrs(e->scradr);
-      reverseVrbs(e->vrbs);
-      reverseStms(e->dscr);
       e++;
-    }
-  }
-}    
-
-#ifdef _PROTOTYPES_
-static void reverseObjs(Aword adr, Boolean v2_5)
-#else
-static void reverseObjs(adr, v2_5)
-     Aword adr;
-     Boolean v2_5;              /* TRUE if it's a v2.5 format game */
-#endif
-{
-  ObjEntry *e = (ObjEntry *) &memory[adr];
-  ObjEntry25 *e25 = (ObjEntry25 *) &memory[adr];
-
-  if (v2_5) {
-    if (adr != 0 && !endOfTable(e25)) {
-      reverseTable(adr, sizeof(ObjEntry25));
-      while (!endOfTable(e25)) {
-	reverseTable(e25->atrs, sizeof(AtrEntry));
-	reverseVrbs(e25->vrbs);
-	reverseStms(e25->dscr1);
-	reverseStms(e25->dscr2);
-	e25++;
-      }
-    }
-  } else {
-    if (adr != 0 && !endOfTable(e)) {
-      reverseTable(adr, sizeof(ObjEntry));
-      while (!endOfTable(e)) {
-	reverseTable(e->atrs, sizeof(AtrEntry));
-	reverseVrbs(e->vrbs);
-	reverseStms(e->art);
-	reverseStms(e->dscr1);
-	reverseStms(e->dscr2);
-	e++;
-      }
     }
   }
 }
@@ -310,30 +268,6 @@ static void reverseExts(adr)
     }
   }
 }    
-
-#ifdef _PROTOTYPES_
-static void reverseLocs(Aword adr)
-#else
-static void reverseLocs(adr)
-     Aword adr;
-#endif
-{
-  LocEntry *e = (LocEntry *) &memory[adr];
-
-  if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(LocEntry));
-    while (!endOfTable(e)) {
-      reverseStms(e->nams);
-      reverseStms(e->dscr);
-      reverseStms(e->does);
-      reverseTable(e->atrs, sizeof(AtrEntry));
-      reverseExts(e->exts);
-      reverseVrbs(e->vrbs);
-      e++;
-    }
-  }
-}    
-
 
 #ifdef _PROTOTYPES_
 static void reverseClas(Aword adr)
@@ -520,6 +454,7 @@ void reverseACD(v2_5)
   reverseTable(header->aatrs, sizeof(AtrEntry));
   reverseStxs(header->stxs);
   reverseVrbs(header->vrbs);
+  reverseInstances(header->instanceTableAddress);
   reverseEvts(header->evts);
   reverseCnts(header->cnts);
   reverseRuls(header->ruls);

@@ -216,6 +216,7 @@ void generateInstances(AcdHdr *header)
   adr = emadr();
   for (l = allInstances; l; l = l->next)
     generateInstanceEntry(l->element.ins);
+  emit(EOF);
 
   header->instanceTableAddress = adr;
   header->instanceMax = instanceCount;
