@@ -4,8 +4,8 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>172.89</origest>
-<currest>172.89</currest>
+<origest>173.89</origest>
+<currest>173.89</currest>
 <elapsed>57.89</elapsed>
 <isopen>1</isopen>
 <task>
@@ -20,9 +20,9 @@
 <desc>Increment: version 3.0.24</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>7</elapsed>
 <isopen>0</isopen>
 <task>
 <desc>ISA expression</desc>
@@ -97,14 +97,23 @@ If not present in A3C class names must be available.
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Menu-entries for open, save, restart, restore, debug, transcript etc.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>1</elapsed>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
@@ -157,15 +166,6 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Menu-entries for open, save, restart, restore, debug, transcript etc.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -492,8 +492,8 @@ REMEBER TO DOCUMENT IT!!!
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>85</origest>
-<currest>85</currest>
+<origest>86</origest>
+<currest>86</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -694,15 +694,6 @@ verbs
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Can't assign to loop variable</desc>
-<notes>Check and error message? This is not possible with the current syntax anyway...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Unnatural exit handling in winarun</desc>
 <notes>After the game has exited it is not possible to access the menus although they are visible.
 A status variable could instead be used to indicate if a game is in progress or not. It should be possible to quit a game and then open another game to play or restart it.
@@ -810,6 +801,23 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>IN &amp; AT operators</desc>
+<notes>
+Currently IN only applies to containment, i.e only for actors and objects with container properties.
+
+AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
+
+It has been suggested that IN could be used generally for intransitive location comparisons. This would mean that IN would also be used to test if an instance is at the location without considering what any containers at that location would contain.
+
+This would mean to change IN to not only be applicable to containers but also locations.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>QUIT question &amp; prompt</desc>
 <notes>
 "Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
@@ -822,15 +830,25 @@ Note also that there should possibly also be a difference between the QUIT state
 <isopen>1</isopen>
 </task>
 <task>
-<desc>IN &amp; AT operators</desc>
+<desc>Text formatting "statements"</desc>
 <notes>
-Currently IN only applies to containment, i.e only for actors and objects with container properties.
+$b for bold? Use ANSI?
 
-AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
+Or how about:
 
-It has been suggested that IN could be used generally for intransitive location comparisons. This would mean that IN would also be used to test if an instance is at the location without considering what any containers at that location would contain.
+ $bold$
 
-This would mean to change IN to not only be applicable to containers but also locations.
+ $the x$</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Tips about debugging in the docs</desc>
+<notes>
+Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -878,6 +896,15 @@ Will generate two errors at the second "Verb x" when one would suffice.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Can't assign to loop variable</desc>
+<notes>Check and error message? This is not possible with the current syntax anyway...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Space bar in &lt;more&gt;</desc>
 <notes>
 Already works in winarun (GLK)</notes>
@@ -892,17 +919,6 @@ Already works in winarun (GLK)</notes>
 <notes>A chapter describing the overall structure of a adventure execution and how that relates to the various Alan elements:
 
 First the player is shown an intro text (this is the start section). Then he sees a room name and a room description (this is the instance of a sub-class of location) etc. etc.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Tips about debugging in the docs</desc>
-<notes>
-Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -928,22 +944,6 @@ Use Marnie's (?) example of rules executing many times and resetting the script 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Text formatting "statements"</desc>
-<notes>
-$b for bold? Use ANSI?
-
-Or how about:
-
- $bold$
-
- $the x$</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
 <notes/>
 <priority>2</priority>
@@ -954,6 +954,15 @@ Or how about:
 </task>
 <task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Actor conversation</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1069,27 +1078,9 @@ which seems a bit superflous.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Listing of saved games</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>CHECKs on containers</desc>
 <notes>
 Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Actor conversation</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1134,6 +1125,15 @@ Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Menu entry for debugging (only available when option is turned on)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Author modifiable prompt</desc>
 <notes/>
 <priority>2</priority>
@@ -1146,6 +1146,15 @@ Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since
 <desc>Location ENTERED</desc>
 <notes>
 The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Listing of saved games</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1218,7 +1227,7 @@ If the compiler sends the maximum number of parameters in any syntax (header-&gt
 <task>
 <desc>CHECKs as disambiguations for multiple objects</desc>
 <notes>
-Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (Jürg Lech's TAKE BOX when one is in the inventory and one on the floor).
+Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
 </notes>
 <priority>2</priority>
 <origest>1</origest>
