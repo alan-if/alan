@@ -10,6 +10,8 @@ TMLIB	= $(TMHOME)/lib/ansi-c
 CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
+tcov := CC = acc -a
+tcov := LD = acc -a
 
 LD	= $(GCC)
 LDFLAGS	= -L/usr/local/lib/4.1.2
@@ -84,16 +86,17 @@ VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
 #-- MAIN TARGET
-debug all: alan
+debug all tcov: alan
 
-debug purify:=		DEBUG= -g
+debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-alan: tm alanobj
+.PHONY: alan
 
-alanobj: $(OBJECTS) $(MAINOBJ) version.o Makefile alan.prod
+alan: tm alanobj alan.prod
+
+alanobj: $(OBJECTS) $(MAINOBJ) version.o Makefile
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp alan.prod $(ALANDIR)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 

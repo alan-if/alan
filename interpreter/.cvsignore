@@ -1,8 +1,10 @@
+*.d
+.pure
 [0-9]*_[0-9]*_[0-9]*.*
 arun
+arun.pure_hardlink
+arun.pure_linkinfo
 interpreter.lha
 interpreter.zip
 version.c
 version.h
-saviour.*
-Interpreter.project

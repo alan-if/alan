@@ -13,6 +13,9 @@ CFLAGS	= $(DEBUG)
 LD	= $(GCC)
 LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
 
+tcov := CC = acc -a
+tcov := LD = acc -a
+
 VERSIONFILE = [0-9]*_[0-9]*_[0-9]*
 
 #.KEEP_STATE:
@@ -37,13 +40,9 @@ MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
-LIB = arun.a
-
-.PRECIOUS: $(LIB)
-
 
 #-- MAIN TARGET
-debug all: arun
+debug all tcov: arun
 
 debug purify:=	DEBUG= -g
 all:=	DEBUG= -O
