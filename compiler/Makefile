@@ -6,7 +6,6 @@ CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
-PATH		:sh= path -e $PATH -r /usr/local/ware/apstools/bin -r /usr/local/ware/purify -r /usr/local/apstools
 
 purify:=		CC = acc -Xc -vc
 all debug release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
@@ -74,7 +73,7 @@ MAINSRC = alan.c
 
 LIB = alan.a
 
-.PRECIOUS: $(LIB)
+#.PRECIOUS: $(LIB)
 
 #.KEEP_STATE:
 
@@ -89,10 +88,18 @@ debug all: alan
 debug:=		DEBUG= -g
 all release :=	DEBUG= -O4
 
-alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile alan.prod
-	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+alan: tm alanobj
+
+alanobj: $(OBJECTS) $(MAINOBJ) version version.o Makefile alan.prod
+	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+	cp alan.prod ..
+	cp alan ../`arch`/alan
+
+fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile alan.prod
+	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp alan.prod ..
 	cp alan ../`arch`
+
 
 tm: .pmkstamp .smkstamp .lmkstamp
 
@@ -108,7 +115,7 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	smk $(SMKQ) alan
 	@touch .smkstamp
 
-pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc:
+pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	touch alan.pmk
 	make .pmkstamp
 
@@ -144,7 +151,7 @@ MSDOS:
 	done
 	mv -f alan.tmk.sun alan.tmk
 
-version.c: $(OBJECTS) ../[0-9]*
+version: $(OBJECTS) ../[0-9]*
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t

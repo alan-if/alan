@@ -6,7 +6,6 @@ CPP	= gcc -MM -ansi -I/usr/local/include/ansi
 
 GCC	= gcc2.4.5
 
-PATH:sh	= path -e $PATH -r /usr/local/ware/apstools/bin -r /usr/local/ware/purify -r /usr/local/apstools
 
 purify:=		CC = acc -Xc -vc
 debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
@@ -49,19 +48,23 @@ debug all: arun
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(OBJECTS) version.o $(MAINOBJ) Makefile
-	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp arun ../`arch`
+arun: $(OBJECTS) $(MAINOBJ) version version.o Makefile
+	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+	cp arun ../`arch`/arun
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 
 malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
-	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
-	cp arun ../`arch`
+	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
+	cp arun ../`arch`/arun
 
-version.c: $(OBJECTS) ../[0-9]*
+fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile
+	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+	cp arun ../`arch`/arun
+
+version: $(OBJECTS) ../[0-9]*
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t
