@@ -11,8 +11,8 @@ CPP	= $(GCC) -MM $(INCLUDE)
 
 CC	= $(GCC) -Wall
 
-
-CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\"
+OS	= `arch`
+CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\" -D__$(OS)__
 
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
