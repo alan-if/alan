@@ -76,15 +76,15 @@ static void setDefaultRestriction(List *parameters)
   List *p;
 
   if (parameters != NULL && parameters->kind != SYMBOL_LIST)
-    syserr("Not a symbol list in '%s()'", __FUNCTION__);
+    SYSERR("Not a symbol list");
 
-  for (p = parameters; p != NULL; p = p->next)
-    if (p->element.sym->fields.parameter.element->res == NULL) {
+  TRAVERSE(p, parameters)
+    if (p->element.sym->fields.parameter.element->res == NULL
+	|| p->element.sym->fields.parameter.element->res->classId == NULL) {
       p->element.sym->fields.parameter.class = objectSymbol;
       p->element.sym->fields.parameter.type = INSTANCE_TYPE;
     }
 }
-
 
 
 
@@ -402,7 +402,7 @@ static void generateParameterMapping(Syntax *syntax)
 	break;
       }
     }
-    if (!found) syserr("Could not find parameter in '%s()'", __FUNCTION__);
+    if (!found) SYSERR("Could not find parameter");
   }
   emit(EOF);
   syntax->parameterMappingAddress = parameterMappingTableAddress;

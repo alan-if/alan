@@ -72,6 +72,8 @@
 
 260	'You can not declare a %1 named %2 since that would conflict with %3.';
 
+270	'Instances without explicit inheritance is assumed to inherit from the predefined class \'entity\'.';
+
 301	'\'%1\' already declared as a Direction.';
 303	'\'%1\' already declared as a Verb.';
 304	'\'%1\' already declared as an Instance (The).';

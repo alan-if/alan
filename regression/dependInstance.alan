@@ -21,17 +21,17 @@ The bartender Isa actor At bar
   Verb ask
     When a Does
       depending on topic
-      = drink :
+      = drink Then
         "The bartender replies ""You can't order from the bar. 
          You'll have to order a drink from your waitress."""
-      = restaurant :
+      = restaurant Then
         "The bartender replies ""I hope you like the
          Yellow Dog Cafe. The food is out of this world."""
-      = bartender :
+      = bartender Then
         "The bartender replies ""I enjoy working here.
          Great fringe benefits!"""
       Else 
-        "The bartender takes her towell and works on
+        "The bartender takes her towel and works on
         cleaning the bar."
       End Depend.
   End Verb.

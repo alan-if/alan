@@ -525,7 +525,7 @@ void setParameters(Symbol *verb, List *parameters)
 {
   /* Parameters are sent as a list of ElmNodes. Set it in the verb symbol. */
   List *parameterSymbols = NULL;
-  List *parameter;
+  List *param;
 
   if (verb == NULL) return;
 
@@ -541,10 +541,11 @@ void setParameters(Symbol *verb, List *parameters)
   if (parameters->kind != ELEMENT_LIST)
     syserr("Not a parameter list in '%s()'", __FUNCTION__);
 
-  for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
-    Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
+  TRAVERSE(param, parameters) {
+    Symbol *parameterSymbol = newParameterSymbol(param->element.elm->id->string, param->element.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
-    parameter->element.elm->id->symbol = parameterSymbol; /* Cross refer */
+    param->element.elm->id->symbol = parameterSymbol; /* Cross refer */
+    /* Set initial type of parameters to entity */
     parameterSymbol->fields.parameter.class = entitySymbol;
     parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
   }

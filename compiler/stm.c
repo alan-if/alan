@@ -703,6 +703,9 @@ static void generateSay(Statement *stm)
   case INSTANCE_TYPE:
     emit1(I_SAY, stm->fields.say.form);
     break;
+  case UNINITIALIZED_TYPE:
+    SYSERR("Uninitialized type");
+    break;
   default:
     unimpl(stm->srcp, "Code Generator");
     break;

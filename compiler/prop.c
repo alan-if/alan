@@ -105,6 +105,15 @@ static void symbolizeParent(Properties *props)
       setParent(props->id->symbol, props->parentId->symbol);
     }
   }
+#ifdef DEFAULTENTITY
+  else if (strcmp(props->id->string, "entity") != 0) {
+    /* Unless it is "entity" itself, assume "entity" is its parent */
+    lmLog(&props->id->srcp, 270, sevWAR, "");
+    props->parentId = newId(&nulsrcp, "entity");
+    props->parentId->symbol = entitySymbol;
+    setParent(props->id->symbol, props->parentId->symbol);
+  }
+#endif
 }
 
 

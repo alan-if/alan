@@ -102,7 +102,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
     break;
 
   default:
-    syserr("Unimplemented restriction kind in '%s()'", __FUNCTION__);
+    SYSERR("Unimplemented restriction kind");
     break;
   }
 
@@ -114,14 +114,17 @@ static void analyzeRestriction(ResNod *res, Symbol *theVerb) {
   Context *context = newContext(VERB_CONTEXT, theVerb);
 
   /* Analyze the statements to execute if the restrictions was not
-     met.  Since the parameter class is set incrementally for each
-     subsequent restriction it is now set to the class of all
-     previously (passed) restrictions. All we have to do is to set up
-     a relevant verb context. */
+     met. The parameter classes are set incrementally for each
+     subsequent restriction analyze above, so each parameter is now
+     set to the class of all previous restrictions. During run-time
+     those restrictions have all been passed and ensure each parameter
+     class, so all we have to do is to set up a relevant verb
+     context. */
   analyzeStatements(res->stms, context);
 
   /* Analyze this restriction and set the new class of the parameter */
-  parameter = lookupParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
+  parameter = lookupParameter(res->parameterId,
+			      theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
   else
@@ -138,7 +141,8 @@ void analyzeRestrictions(
 {
   List *lst;
 
-  for (lst = restrictions; lst != NULL; lst = lst->next)
+  TRAVERSE(lst, restrictions)
+    /* Analyze the actual restriction conditions. */
     analyzeRestriction(lst->element.res, theVerb);
 }
 
@@ -174,7 +178,7 @@ static void generateRestrictionEntry(ResNod *res)
     restriction.class = RESTRICTIONCLASS_STRING;
     break;
   default:
-    syserr("Unexpected RestrictionKind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected RestrictionKind");
     break;
   }
   restriction.stms = res->stmadr;

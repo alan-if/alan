@@ -1,7 +1,7 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2004-12-03
+			      2004-12-08
 
 
 THE NEWS IN SHORT:
@@ -21,12 +21,12 @@ completely compatible.
 
 Changes in v3.0.33 development:
 - Changed DEPEND case separator from ':' to 'THEN'
-- Added a new attribute type, set, which may contain references to instances
+- Added a new attribute type, set
 - Added a new interpretation of 'IN' which refers to sets
 - Upgraded loop and aggregation filters to use 'IN' both for containers and sets
 - Added messages for UNDO responses
 - Added UNDO as a response to QUIT
-- Empty player input is now interpreted as a forfeit of that command turn
+- Empty player input is now interpreted as forfeiting that command turn
 
 Changes in v3.0.32 development:
 - Added transcript, recorded commands and playback
