@@ -164,11 +164,10 @@ void inheritVerbs(slot, verbListsP)
 
  */
 #ifdef _PROTOTYPES_
-void analyseVerb(Verb *verb, List *parameters)
+static void analyseVerb(Verb *verb)
 #else
-void analyseVerb(verb, parameters)
+static void analyseVerb(verb)
      Verb *verb;
-     List *parameters;
 #endif
 {
   /* 4f - Analyse verb */
@@ -176,7 +175,7 @@ void analyseVerb(verb, parameters)
 
 
 
-/*======================================================================
+/*----------------------------------------------------------------------
 
   analyseVerbs()
 
@@ -184,11 +183,10 @@ void analyseVerb(verb, parameters)
 
  */
 #ifdef _PROTOTYPES_
-void analyseVerbs(List *verbs, List *parameters)
+void analyseVerbs(List *verbs)
 #else
-void analyseVerbs(verbs, parameters)
+void analyseVerbs(verbs)
      List *verbs;
-     List *parameters;
 #endif
 {
   List *list, *list2, *ids, *other;
@@ -196,7 +194,8 @@ void analyseVerbs(verbs, parameters)
 
   for (list = verbs; list != NULL; list = list->next) {
     /* Analyse the verb */
-    analyseVerb(list->element.verb, parameters);
+    if (verbose) printf(".");
+    analyseVerb(list->element.verb);
     /* Verify that the ids are not multiply defined */
     for (ids = list->element.verb->ids; ids; ids = ids->next) {
       /* In this VERB ? */

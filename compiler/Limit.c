@@ -8,8 +8,10 @@
 
 
 #include "Limit.h"
+
 #include "Statement.h"
 
+#include "lmList.h"
 #include "dump.h"
 
 
@@ -53,13 +55,29 @@ Limit *newLimit(srcp, attribute, statements)
 
  */
 #ifdef _PROTOTYPES_
-void analyseLimit(Limit *limit)
+void analyseLimit(Limit *limit, Slot *slot)
 #else
-void analyseLimit(limit)
+void analyseLimit(limit, slot)
      Limit *limit;
+     Slot *slot;
 #endif
 {
-  /* 4f - analyse the limiting attribute */
+  Attribute *attribute, *a;
+
+  /* Analyse the limiting attribute */
+  attribute = limit->attribute;
+  if (strcmp(attribute->id->string, "count") == 0)
+    attribute->code = 0;		/* Use zero for the COUNT attribute */
+  else {
+    a = findInheritedAttribute(attribute->id, slot);
+    if (a == NULL)
+      lmLog(&attribute->srcp, 407, sevERR, "");
+    else if (attribute->type != INTEGER_TYPE)
+      unimplemented(&attribute->srcp, "Analyzer");
+    else
+      attribute->code = a->code;
+  }
+
   analyseStatements(limit->statements, NULL, NULL);
 }
 

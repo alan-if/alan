@@ -52,8 +52,8 @@ extern Syntax *defaultSyntax(char verbString[]);
 extern Bool equalParameters(Syntax *syntax1,
 			    Syntax *syntax2);
 
-/* Analyze a list of Syntaxs */
-extern void analyseSyntaxs(void);
+/* Analyze a list of Syntax nodes */
+extern void analyseSyntaxes(List *syntaxes);
 
 /* Generate code for a list of Syntaxs */
 extern Aaddr generateSyntaxes(void);

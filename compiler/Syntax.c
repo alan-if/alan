@@ -10,6 +10,7 @@
 #include "Syntax.h"
 #include "Statement.h"
 
+#include "lmList.h"
 #include "dump.h"
 
 
@@ -65,6 +66,37 @@ void analyseSyntax(syntax)
   /* 4f - Analyse syntax */
 }
 
+
+
+/*======================================================================
+
+  analyseSyntaxes()
+
+  Analyze a list of SYNTAX nodes.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseSyntaxes(List *syntaxes)
+#else
+void analyseSyntaxes(syntaxes)
+     List *syntaxes;
+#endif
+{
+  List *list, *other;
+
+  for (list = syntaxes; list != NULL; list = list->next) {
+    if (verbose) printf(".");
+    analyseSyntax(list->element.syntax);
+    
+    /* Check for multiple definitions of the syntax for a verb */
+    for (other = list->next; other != NULL; other = other->next)
+      if (equalIds(other->element.syntax->id, list->element.syntax->id)) {
+	lmLog(&other->element.syntax->id->srcp, 206, sevWAR,
+	      other->element.syntax->id->string);
+	break;
+      }
+  }
+}
 
 
 /*======================================================================

@@ -65,7 +65,7 @@ void analyseAlternative(alternative, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - analyse alternative */
+  /* 4f - Analyse alternative */
 }
 
 

@@ -40,7 +40,7 @@ extern Rule *newRule(Srcp *srcp,
 		     List *statements);
 
 /* Analyse all Rules */
-extern void analyseRules(void);
+extern void analyseRule(Rule *rule);
 
 /* Generate code for all Rules */
 extern Aaddr generateRules(void);

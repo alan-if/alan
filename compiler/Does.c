@@ -62,7 +62,8 @@ void analyseDoes(does, parameters)
      List *parameters;
 #endif
 {
-  analyseStatements(does->statements, NULL, parameters);
+  if (does)
+    analyseStatements(does->statements, NULL, parameters);
 }
 
 

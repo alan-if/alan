@@ -130,6 +130,34 @@ Attribute *findAttributeInLists(srcp, id, lists)
 
 /*======================================================================
 
+  findInheritedAttribute()
+
+  Find an attribute by looking in local or inherited lists.
+
+ */
+#ifdef _PROTOTYPES_
+Attribute *findInheritedAttribute(Id *id, /* IN - The attribute id to find */
+				  Slot *slot) /* IN - The slot to invenstigate */
+#else
+Attribute *findInheritedAttribute(id, slot)
+     Id *id;
+     Slot *slot;
+#endif
+{
+  Attribute *attribute;
+
+  attribute = findAttribute(id, slot->attributes);
+  if (attribute == NULL)
+    attribute = findAttributeInLists(&attribute->id->srcp, id,
+				     slot->inheritedAttributeLists);
+
+  return attribute;
+}
+
+
+
+/*======================================================================
+
   inheritAttributes()
 
   Inherit attributes from a slot, and update the list 

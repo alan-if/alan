@@ -9,6 +9,7 @@
 
 #include "Exit.h"
 
+#include "Check.h"
 #include "Statement.h"
 #include "Symbol.h"
 
@@ -177,7 +178,12 @@ static void analyseExit(exit)
      Exit *exit;
 #endif
 {
-  /* 4f - analyse an exit */
+  /* Analyse an exit */
+  if (symbolCheck(exit->to, INSTANCE_SYMBOL))
+    classCheck(exit->to, "location");
+
+  analyseChecks(exit->checks, NULL);
+  analyseDoes(exit->does, NULL);
 }
 
 

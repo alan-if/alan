@@ -48,7 +48,7 @@ extern void inheritVerbs(Slot *slot,
 			 List **verbListsP);
 
 /* Analyze a list of Verbs */
-extern void analyseVerbs(List *verbs, List *parameters);
+extern void analyseVerbs(List *verbs);
 
 /* Generate code for a list of Verbs */
 extern Aaddr generateVerbs(List *verbs);

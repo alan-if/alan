@@ -14,18 +14,18 @@
 #include "acode.h"
 
 #include "Adventure.h"
-#include "Symbol.h"
-#include "Class.h"
-#include "Instance.h"
-#include "Where.h"
-#include "Statement.h"
-#include "Verb.h"
-#include "Event.h"
-#include "Rule.h"
-#include "Word.h"
-#include "Synonym.h"
 #include "Attribute.h"
+#include "Class.h"
+#include "Event.h"
+#include "Instance.h"
 #include "Message.h"
+#include "Rule.h"
+#include "Statement.h"
+#include "Symbol.h"
+#include "Synonym.h"
+#include "Verb.h"
+#include "Where.h"
+#include "Word.h"
 
 #include "Score.h"
 #include "Option.h"
@@ -79,7 +79,6 @@ void analyseAdventure()
 #endif
 {
   List *list;
-  int i;
 
   prepareScores();
 
@@ -89,31 +88,41 @@ void analyseAdventure()
 
   /* Do the analysis of all parts of the adventure! */
 
-  /* 4f - Analyse the syntax definitions */
+  /* Analyse the syntax definitions */
   if (verbose) printf("\n\tSyntax definitions");
+  analyseSyntaxes(adventure.syntaxes);
 
-  /* 4f - Analyse the verbs */
+  /* Analyse the verbs */
   if (verbose) printf("\n\tVerbs");
+  analyseVerbs(adventure.verbs);
 
   /* Analyse the classes */
-  if (verbose) {printf("\n\tClasses"); i = 0;}
+  if (verbose) printf("\n\tClasses");
   for (list = adventure.classes; list; list = list->next) {
-    if (verbose) {printf("."); i++;}
+    if (verbose) printf(".");
     analyseClass(list->element.class);
   }
 
   /* Analyse the instances */
-  if (verbose) {printf("\n\tInstances"); i = 0;}
+  if (verbose) printf("\n\tInstances");
   for (list = adventure.instances; list; list = list->next) {
-    if (verbose) {printf("."); i++;}
+    if (verbose) printf(".");
     analyseInstance(list->element.instance);
   }
 
-  /* 4f - Analyse the events */
+  /* Analyse the events */
   if (verbose) printf("\n\tEvents");
+  for (list = adventure.events; list; list = list->next) {
+    if (verbose) printf(".");
+    analyseEvent(list->element.event);
+  }
 
-  /* 4f - Analyse the rules */
+  /* Analyse the rules */
   if (verbose) printf("\n\tRules");
+  for (list = adventure.rules; list; list = list->next) {
+    if (verbose) printf(".");
+    analyseRule(list->element.rule);
+  }
 
   /* 4f - Analyse the synonyms */
   if (verbose) printf("\n\tSynonyms");

@@ -11,6 +11,7 @@
 /* USE: */
 #include "Srcp.h"
 #include "Attribute.h"
+#include "Slot.h"
 #include "List.h"
 
 
@@ -37,7 +38,7 @@ extern Limit *newLimit(Srcp *srcp,
 		       List *statements);
 
 /* Analyse a Limit node */
-extern void analyseLimit(Limit *limit);
+extern void analyseLimit(Limit *limit, Slot *slot);
 
 /* Generate code for the Limits of a container */
 extern Aword generateLimits();

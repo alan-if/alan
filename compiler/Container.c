@@ -65,7 +65,7 @@ void analyseContainer(container)
      Container *container;
 #endif
 {
-  /* 4f - analyse container */
+  /* 4f - Analyse container */
 }
 
 

@@ -10,10 +10,13 @@
 #include "alan.h"
 #include "List.h"
 
+#include "Alternative.h"
 #include "Attribute.h"
+#include "Check.h"
 #include "Class.h"
 #include "Instance.h"
 #include "Statement.h"
+#include "Verb.h"
 
 #include "dump.h"
 
@@ -189,14 +192,17 @@ static void dumpNode(node, kind)
 #endif
 {
   switch (kind) {
-  case ADDRESS_NODE: dumpAddress(node); break;
-  case ADDRESSLIST_NODE: dumpList(node, ADDRESS_NODE); break;
   case ADDRESSLISTLIST_NODE: dumpList(node, ADDRESSLIST_NODE); break;
+  case ADDRESSLIST_NODE: dumpList(node, ADDRESS_NODE); break;
+  case ADDRESS_NODE: dumpAddress(node); break;
+  case ALTERNATIVE_NODE: dumpAlternative(node); break;
   case ATTRIBUTE_NODE: dumpAttribute(node); break;
+  case CHECK_NODE: dumpCheck(node); break;
   case CLASS_NODE: dumpClass(node); break;
   case ID_NODE: dumpId(node); break;
   case INSTANCE_NODE: dumpInstance(node); break;
   case STATEMENT_NODE: dumpStatement(node); break;
+  case VERB_NODE: dumpVerb(node); break;
   default: put("Not implemented in dumpList()."); break;
   }
 }

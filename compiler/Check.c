@@ -66,6 +66,29 @@ void analyseCheck(check, parameters)
 
 /*======================================================================
 
+  analyseChecks()
+
+  Analyze a list of CHECKs.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseChecks(List *checks, List *parameters)
+#else
+void analyseChecks(checks, parameters)
+     List *checks;
+     List *parameters;
+#endif
+{
+  List *list;
+
+  for (list = checks; list; list = list->next)
+    analyseCheck(list->element.check, parameters);
+}
+
+
+
+/*======================================================================
+
   dumpCheck()
 
   Dump a Check node.

@@ -41,7 +41,7 @@ extern Event *newEvent(Srcp *srcp,
 		       List *stms);
 
 /* Analyze all Events */
-extern void analyseEvents(void);
+extern void analyseEvent(Event *event);
 
 /* Generate code for all Events */
 extern Aaddr generateEvents(void);

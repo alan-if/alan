@@ -217,7 +217,7 @@ void analyseSlot(id, slot)
 
   /* Analyse the verbs */
   if (slot->verbs) {
-    analyseVerbs(slot->verbs, NULL);
+    analyseVerbs(slot->verbs);
     /* Find and resolve inherited verbs */
     for (localVerbs = slot->verbs; localVerbs; localVerbs = localVerbs->next) {
       List *ids;

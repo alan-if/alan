@@ -53,11 +53,10 @@ Event *newEvent(srcp, id, statements)
 
  */
 #ifdef _PROTOTYPES_
-void analyseEvent(Event *event, List *parameters)
+void analyseEvent(Event *event)
 #else
-void analyseEvent(event, parameters)
+void analyseEvent(event)
      Event *event;
-     List *parameters;
 #endif
 {
   analyseStatements(event->statements, NULL, NULL);

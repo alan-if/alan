@@ -55,11 +55,10 @@ Rule *newRule(srcp, expression, statements)
 
  */
 #ifdef _PROTOTYPES_
-void analyseRule(Rule *rule, List *parameters)
+void analyseRule(Rule *rule)
 #else
-void analyseRule(rule, parameters)
+void analyseRule(rule)
      Rule *rule;
-     List *parameters;
 #endif
 {
   analyseExpression(rule->expression, NULL);

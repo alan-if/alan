@@ -63,7 +63,7 @@ List *analyseElement(elements, restrictions, syntax)
      Syntax *syntax;
 #endif
 {
-  /* 4f - analyse elements */
+  /* 4f - Analyse elements */
   return NULL;
 }
 
