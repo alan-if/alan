@@ -364,6 +364,9 @@ Aaddr geobjs()
   List *lst;		/* Traversal pointer */
   Aaddr adr;
 
+  if (adv.objs == NULL)
+    return 0;
+
   /* First generate action procedures etc. for all global objects */
   for (lst = adv.objs; lst != NULL; lst = lst->next)
     geobj(lst->element.obj);

@@ -4,7 +4,77 @@ arun time125 < time125.input
 Hmm, this is a v2.5 game, please wait while I convert it...
 OK.
 
+ A Matter of Time 
+ 
+ An Introductory Adventure 
+ 
+ (C) 1995 Michael Zerbo 
+ Created using ALAN Version 2.5 
+ 
+ You are a research physicist named Jonathan Stone. You are standing in
+the Professor's laboratory. It is the year 2150. You are about to embark
+on a great journey, a journey into the unknown. In front of you is the
+Professor's time machine. The control panel is apparently missing.
+However, the dials are locked on a specific date. A date seventy-five
+million years into the past. This will be your destination, searching for
+your mentor and friend... 
+ 
+ Your story began several days ago as Dr. Joseph Adams and Dr. Karl
+Evers, bitter rivals, were each working on their version of a machine
+which would travel in time. They were working towards a deadline for
+government funding. Only one would receive it, the other left out in the
+cold. You worked for Professor Adams as an assistant. His daughter
+Clarisse also helped out when she could. 
+ 
+<More>
+ You knew Professor Adams was coming close to a breakthrough with
+his work, although you had no idea how close he was to actually creating
+a working time machine. 
+ 
+ This morning Dr. Evers was found dead in his laboratory, apparently
+murdered. Two bullet holes were found in his head. The police visited you
+a short while ago, requesting the presence of Dr. Adams for questioning.
+To your surprise he was nowhere to be found. The police automatically
+began a hunt for Dr. Adams, who became their prime suspect. Just now, as
+you carefully look over the Professor's laboratory do you discover where
+the Professor went... 
+ 
+ The time machine is missing... 
+ 
+ 
+ You begin a search for any information the Professor may have left
+behind. A small note sticking out from one of the Professor's notebooks,
+catches your eye. You quickly remove it. 
+ 
+ 
+ It reads as follows: 
+ 
+ I am going alone. It is too dangerous to risk other lives. I will
+<More>
+attempt to go as far back as we had planned, to the brink of
+oblivion, when time began. I will search for what man has searched for
+his entire existance, the proof of God. I will return on the day you are
+reading this note. 
+ 
+ - Professor Adams 
+ 
+ You call Clarisse into the room and show her what you found. You both 
+can not believe that the Professor was involved in the murder. It must be
+just a coincidence that the Professor tested his machine this morning.
+You did not think the machine was ready for use, but obviously you had
+been mistaken. 
+ 
+ Just then, with a flash of light, the time machine reappears in the
+laboratory. However, it is empty. You remember a safety device inside the
+machine which could be set to return it to the present time in case of a
+problem. Unfortunately, that is what must have happened. 
+ 
+ "I am going after him", you hear Clarisse saying. You know you will have
+to find him if he is still alive. However, you are not sure about
+bringing Clarisse along. Also, you know you must hurry.
 
+
+<More>
 Clearings.
 You decide that it is too dangerous for Clarisse and quickly position
 yourself in the machine. You nervously start the controls and hope for
@@ -20,9 +90,6 @@ You can see large tracks to the east. Other than this trail there seems
 to be no other exits. You are surrounded by forests. 
  The time machine is located here.
 
-> 
-> 
-> 
 > examine time machine
 The time machine is in generally good working order. Several of the
 manual controls are not present, but the Professor should hopefully be

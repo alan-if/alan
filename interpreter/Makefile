@@ -73,8 +73,8 @@ objarch:
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 
-dumpacd: dumpacd.c
-	$(CC) -o dumpacd $(CFLAGS) dumpacd.c
+dumpacd: spa.o dumpacd.o
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -99,6 +99,14 @@ version.h version.c: ../version.sh
 .version: $(SRCS)
 	venum +t
 	touch .version
+
+spa.o: spa.h spa.c
+
+spa.h: ../compiler/spa.h
+	ln -s ../compiler/spa.h spa.h
+
+spa.c: ../compiler/spa.c
+	ln -s ../compiler/spa.c spa.c
 
 #--
 amiga: src

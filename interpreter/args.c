@@ -37,25 +37,25 @@ static void switches(argc, argv)
     if (argv[i][0] == '-') {
       switch (tolower(argv[i][1])) {
       case 'i':
-		errflg = FALSE;
-		break;
+	errflg = FALSE;
+	break;
       case 't':
-		trcflg = TRUE;
-		break;
+	trcflg = TRUE;
+	break;
       case 'd':
-		dbgflg = TRUE;
-		break;
+	dbgflg = TRUE;
+	break;
       case 's':
-		trcflg = TRUE;
-		stpflg = TRUE;
-		break;
+	trcflg = TRUE;
+	stpflg = TRUE;
+	break;
       case 'l':
-		logflg = TRUE;
-		break;
+	logflg = TRUE;
+	break;
       default:
-		printf("Unrecognized switch, -%c\n", argv[i][1]);
-		terminate(0);
-	  }
+	printf("Unrecognized switch, -%c\n", argv[i][1]);
+	terminate(0);
+      }
     } else {
       advnam = argv[i];
       if ((strcmp(&advnam[strlen(advnam)-4], ".acd") == 0)
