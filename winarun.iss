@@ -28,9 +28,10 @@ Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "A
 Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "games\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
@@ -41,6 +42,7 @@ Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 ; NOTE: The following entry contains an English phrase ("on the Web"). You are free to translate it into another language if required.
 Name: "{group}\Alan V3 Interpreter for Windows on the Web"; Filename: "{app}\winarun.url"
 Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.a3c"
+Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
 ; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon

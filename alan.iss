@@ -24,7 +24,7 @@ Root: HKCR; Subkey: ".alan"; ValueType: string; ValueName: ""; ValueData: "AlanV
 Root: HKCR; Subkey: "AlanV3Source"; ValueType: string; ValueName: ""; ValueData: "Alan V3 Source"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "AlanV3Source\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\winalan.exe,0"
 Root: HKCR; Subkey: "AlanV3Source\shell\edit\command"; ValueType: string; ValueName: ""; ValueData: """notepad.exe"" ""%1"""
-;Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; ValueName: ""; ValueData: """{app}\winalan.exe"" ""%1"""
+Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; ValueName: ""; ValueData: """{app}\winalan.exe"" ""%1"""
 
 [Tasks]
 ; NOTE: The following entry contains English phrases ("Create a desktop icon" and "Additional icons"). You are free to translate them into another language if required.
@@ -41,6 +41,7 @@ Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "games\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
@@ -56,6 +57,7 @@ Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.rea
 Name: "{group}\Alan V3 Manual"; Filename: "{app}\manual.pdf"
 Name: "{group}\Alan on the Web"; Filename: "{app}\alan.url"
 Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.alan"
+Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
 Name: "{group}\Uninstall Alan V3"; Filename: "{uninstallexe}"
 ; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
