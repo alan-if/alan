@@ -77,10 +77,10 @@ version.h version.c: ../version.sh
 	touch .version
 
 #--
-archives: src interpreter.lha. interpreter.zip.
-
-interpreter.lha.:
+amiga: src
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
+
+archives: amiga interpreter.zip.
 
 interpreter.zip.:
 	ramp iso2pc sysdep.c SYSDEP.C

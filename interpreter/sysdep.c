@@ -339,7 +339,7 @@ char toLowerCase(c)
 #ifdef _PROTOTYPES_
 char toUpperCase(int c)		/* IN - ISO character to convert */
 #else
-char upperCase(c)
+char toUpperCase(c)
      int c;
 #endif
 {

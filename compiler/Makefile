@@ -201,11 +201,11 @@ mac:
 	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
 #-- ARCHIVE
-archives: sysdep.h sysdep.c acode.h version.h compiler.lha. compiler.zip.
-
-compiler.lha.:
+amiga:sysdep.h sysdep.c acode.h version.h
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
+
+archives: amiga compiler.zip.
 
 compiler.zip.:
 	make MSDOS
