@@ -1228,7 +1228,7 @@ static void checkvers(header)
   if (dbgflg) {
     state[0] = header->vers&0x0000000ff;
     state[1] = '\0';
-    printf("Version of '%s' is %d.%d(%d)%s.",
+    printf("<Version of '%s' is %d.%d(%d)%s>",
 	   advnam,
 	   (int)(header->vers>>24)&0xff,
 	   (int)(header->vers>>16)&0xff,
@@ -1241,7 +1241,7 @@ static void checkvers(header)
     if (errflg)
       syserr("Incompatible version of ACODE program.");
     else
-      printf("WARNING! Incompatible version of ACODE program.\n");
+      printf("<WARNING! Incompatible version of ACODE program.>\n");
   }
 }
 
@@ -1631,7 +1631,8 @@ int main(argc, argv)
   getPageSize();
 
   if (dbgflg) {
-    printf("Arun, Adventure Interpreter version %s.", product.version.string);
+    printf("<Arun, Adventure Interpreter version %s>",
+	   product.version.string);
     newline();
   }
   
