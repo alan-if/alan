@@ -1103,6 +1103,11 @@ static int val(char str[])
     %%
     ;
 
+<article_or_form>
+    = <article>
+    ! <form>
+    ;
+
 <article>			-- RETURNS: article, srcp
     = 'ARTICLE' 
     %%
@@ -1115,6 +1120,21 @@ static int val(char str[])
     %%
 	%<article>.article = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
+    %%
+    ;
+
+<form>			-- RETURNS: form, srcp
+    = 'FORM' 
+    %%
+	%<form>.form = concat(NULL, newStatement(`&%'FORM'.srcp,
+							NOP_STATEMENT), STATEMENT_LIST);
+	%<form>.srcp = %'FORM'.srcp;
+    %%
+
+    ! 'FORM' <statements>
+    %%
+	%<form>.form = %<statements>.stms;
+	%<form>.srcp = %'FORM'.srcp;
     %%
     ;
 
