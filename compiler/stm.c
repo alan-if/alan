@@ -265,7 +265,7 @@ static void anmake(stm, evt, pars)
 {
   SymNod *sym;
   ElmNod *elm;
-  AtrNod *atr;
+  AtrNod *atr = NULL;
 
   switch (stm->fields.make.wht->wht) {
   case WHT_ACT:

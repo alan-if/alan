@@ -6,13 +6,12 @@ alan htmltext
 htmltext.alan
 
     5.           ""I think I may be losing my mind!", says Frodo.  ""Just now I
-=====>                                              1 2    3         4    5
+=====>                                              1 2              3    4
 
   *1*   103 E : ',' replaced by 'MAKE'.
   *2*   310 E : Identifier 'says' not defined.
-  *3*   408 E : Attributes in MAKE statement must be of boolean type.
-  *4*   207 W : VERB 'just' is not defined.
-  *5*   101 E : '=' inserted.
+  *3*   207 W : VERB 'just' is not defined.
+  *4*   101 E : '=' inserted.
 
     6.           had an overwhelming urge to <I>read</I> someone!""
 =====>                                    1
@@ -31,7 +30,7 @@ htmltext.alan
   *1*   104 E : Severe syntax error, construct ignored.
 
 
-        7 error(s).
+        6 error(s).
         1 warning(s).
         3 informational message(s).
 
