@@ -12,7 +12,7 @@
 #include "arun.h"
 
 #include <time.h>
-#ifdef __sun__
+#ifdef __sun4__
 #include <readline/readline.h>
 #include <readline/history.h>
 #endif
@@ -194,7 +194,7 @@ void newline(void)
 void newline()
 #endif
 {
-#ifndef __sun__
+#ifndef __sun4__
   char buf[256];
 #endif
   
@@ -203,7 +203,7 @@ void newline()
     printf("\n");
     needsp = FALSE;
     prmsg(M_MORE);
-#ifdef __sun__
+#ifdef __sun4__
     (void) readline("");
 #else
     fgets(buf, 256, stdin);

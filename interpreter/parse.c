@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#ifdef __sun__
+#ifdef __sun4__
 #include <readline/readline.h>
 #include <readline/history.h>
 #endif
