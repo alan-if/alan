@@ -1,6 +1,6 @@
 ########## system ##########
 ../compiler/alan system
-../interpreter/arun.exe -n system < system.input
+../interpreter/arun -n system < system.input
 ########## /bin/sh  system.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,7 @@
 ########## apostrophe ##########
 ../compiler/alan apostrophe
-../interpreter/arun.exe -n apostrophe < apostrophe.input########## /bin/sh  apostrophe.tst ##########
+../interpreter/arun -n apostrophe < apostrophe.input
+########## /bin/sh  apostrophe.tst ##########
 
         No warnings or errors detected.
         2 informational message(s).

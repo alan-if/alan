@@ -1,6 +1,6 @@
 ########## actnams ##########
 ../compiler/alan actnams
-../interpreter/arun.exe -n actnams < actnams.input
+../interpreter/arun -n actnams < actnams.input
 ########## /bin/sh  actnams.tst ##########
 
         No warnings or errors detected.

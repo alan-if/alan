@@ -1,6 +1,6 @@
 ########## actor ##########
 ../compiler/alan actor
-../interpreter/arun.exe -n actor < actor.input
+../interpreter/arun -n actor < actor.input
 ########## /bin/sh  actor.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## lines ##########
 ../compiler/alan lines
-../interpreter/arun.exe -n lines < lines.input
+../interpreter/arun -n lines < lines.input
 ########## /bin/sh  lines.tst ##########
 
         No warnings or errors detected.

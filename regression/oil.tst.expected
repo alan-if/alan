@@ -1,6 +1,6 @@
 ########## oil ##########
 ../compiler/alan oil
-../interpreter/arun.exe -n oil < oil.input
+../interpreter/arun -n oil < oil.input
 ########## /bin/sh  oil.tst ##########
 
         No warnings or errors detected.

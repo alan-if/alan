@@ -1,6 +1,6 @@
 ########## talk ##########
 ../compiler/alan talk
-../interpreter/arun.exe -n talk < talk.input
+../interpreter/arun -n talk < talk.input
 ########## /bin/sh  talk.tst ##########
 
         No warnings or errors detected.

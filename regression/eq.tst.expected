@@ -1,6 +1,6 @@
 ########## eq ##########
 ../compiler/alan eq
-../interpreter/arun.exe -n eq < eq.input
+../interpreter/arun -n eq < eq.input
 ########## /bin/sh  eq.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## dwarf ##########
 ../compiler/alan dwarf
-../interpreter/arun.exe -n dwarf < dwarf.input
+../interpreter/arun -n dwarf < dwarf.input
 ########## /bin/sh  dwarf.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## neg ##########
 ../compiler/alan neg
-../interpreter/arun.exe -n neg < neg.input
+../interpreter/arun -n neg < neg.input
 ########## /bin/sh  neg.tst ##########
 
         No warnings or errors detected.

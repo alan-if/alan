@@ -1,6 +1,6 @@
 ########## describe ##########
 ../compiler/alan describe
-../interpreter/arun.exe -n describe < describe.input
+../interpreter/arun -n describe < describe.input
 ########## /bin/sh  describe.tst ##########
 
         No warnings or errors detected.

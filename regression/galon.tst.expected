@@ -1,6 +1,6 @@
 ########## galon ##########
 ../compiler/alan galon
-../interpreter/arun.exe -n galon < galon.input
+../interpreter/arun -n galon < galon.input
 ########## /bin/sh  galon.tst ##########
 
         No warnings or errors detected.

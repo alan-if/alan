@@ -1,6 +1,6 @@
 ########## multiple ##########
 ../compiler/alan multiple
-../interpreter/arun.exe -n multiple < multiple.input
+../interpreter/arun -n multiple < multiple.input
 ########## /bin/sh  multiple.tst ##########
 
         No warnings or errors detected.

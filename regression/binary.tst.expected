@@ -1,6 +1,6 @@
 ########## binary ##########
 ../compiler/alan binary
-../interpreter/arun.exe -n binary < binary.input
+../interpreter/arun -n binary < binary.input
 ########## /bin/sh  binary.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## time1 ##########
 ../compiler/alan time1
-../interpreter/arun.exe -n time1 < time1.input
+../interpreter/arun -n time1 < time1.input
 ########## /bin/sh  time1.tst ##########
 
 

@@ -1,6 +1,6 @@
 ########## hero_container ##########
 ../compiler/alan hero_container
-../interpreter/arun.exe -n hero_container < hero_container.input
+../interpreter/arun -n hero_container < hero_container.input
 ########## /bin/sh  hero_container.tst ##########
 
         No warnings or errors detected.

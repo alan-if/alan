@@ -1,6 +1,6 @@
 ########## class_checks ##########
 ../compiler/alan class_checks
-../interpreter/arun.exe -n class_checks < class_checks.input
+../interpreter/arun -n class_checks < class_checks.input
 ########## /bin/sh  class_checks.tst ##########
 
         No warnings or errors detected.

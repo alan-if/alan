@@ -1,6 +1,6 @@
 ########## visits ##########
 ../compiler/alan visits
-../interpreter/arun.exe -n visits < visits.input
+../interpreter/arun -n visits < visits.input
 ########## /bin/sh  visits.tst ##########
 
         No warnings or errors detected.

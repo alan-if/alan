@@ -1,6 +1,6 @@
 ########## mulexits ##########
 ../compiler/alan mulexits
-../interpreter/arun.exe -n mulexits < mulexits.input
+../interpreter/arun -n mulexits < mulexits.input
 ########## /bin/sh  mulexits.tst ##########
 
         No warnings or errors detected.

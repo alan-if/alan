@@ -1,6 +1,6 @@
 ########## mbo3 ##########
 ../compiler/alan mbo3
-../interpreter/arun.exe -n mbo3 < mbo3.input
+../interpreter/arun -n mbo3 < mbo3.input
 ########## /bin/sh  mbo3.tst ##########
 
         No warnings or errors detected.

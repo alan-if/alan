@@ -1,6 +1,6 @@
 ########## remote2 ##########
 ../compiler/alan remote2
-../interpreter/arun.exe -n remote2 < remote2.input
+../interpreter/arun -n remote2 < remote2.input
 ########## /bin/sh  remote2.tst ##########
 
         No warnings or errors detected.

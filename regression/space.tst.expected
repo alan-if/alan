@@ -1,6 +1,6 @@
 ########## space ##########
 ../compiler/alan space
-../interpreter/arun.exe -n space < space.input
+../interpreter/arun -n space < space.input
 ########## /bin/sh  space.tst ##########
 
         No warnings or errors detected.

@@ -1,10 +1,8 @@
+*~
 *.acd
 *.dat
 *.diff
 *.output
-.HoldDirectoryFinderInfoForMacNFS
-CASES
-adjverb.tst.local
 dosregr.zip
 regression.dos
 regression.lha

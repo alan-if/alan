@@ -1,6 +1,6 @@
 ########## clean_with ##########
 ../compiler/alan clean_with
-../interpreter/arun.exe -n clean_with < clean_with.input
+../interpreter/arun -n clean_with < clean_with.input
 ########## /bin/sh  clean_with.tst ##########
 
         No warnings or errors detected.

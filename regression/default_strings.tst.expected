@@ -1,6 +1,6 @@
 ########## default_strings ##########
 ../compiler/alan default_strings
-../interpreter/arun.exe -n default_strings < default_strings.input
+../interpreter/arun -n default_strings < default_strings.input
 ########## /bin/sh  default_strings.tst ##########
 
         No warnings or errors detected.

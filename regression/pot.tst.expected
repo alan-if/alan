@@ -1,6 +1,6 @@
 ########## pot ##########
 ../compiler/alan pot
-../interpreter/arun.exe -n pot < pot.input
+../interpreter/arun -n pot < pot.input
 ########## /bin/sh  pot.tst ##########
 
 

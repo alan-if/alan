@@ -1,6 +1,6 @@
 ########## move_actor ##########
 ../compiler/alan move_actor
-../interpreter/arun.exe -n move_actor < move_actor.input
+../interpreter/arun -n move_actor < move_actor.input
 ########## /bin/sh  move_actor.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## examine ##########
 ../compiler/alan examine
-../interpreter/arun.exe -n examine < examine.input
+../interpreter/arun -n examine < examine.input
 ########## /bin/sh  examine.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## events ##########
 ../compiler/alan events
-../interpreter/arun.exe -n events < events.input
+../interpreter/arun -n events < events.input
 ########## /bin/sh  events.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## locate_in ##########
 ../compiler/alan locate_in
-../interpreter/arun.exe -n locate_in < locate_in.input
+../interpreter/arun -n locate_in < locate_in.input
 ########## /bin/sh  locate_in.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## mountain ##########
 ../compiler/alan mountain
-../interpreter/arun.exe -n mountain < mountain.input
+../interpreter/arun -n mountain < mountain.input
 ########## /bin/sh  mountain.tst ##########
 
         No warnings or errors detected.

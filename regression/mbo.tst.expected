@@ -1,6 +1,6 @@
 ########## mbo ##########
 ../compiler/alan mbo
-../interpreter/arun.exe -n mbo < mbo.input
+../interpreter/arun -n mbo < mbo.input
 ########## /bin/sh  mbo.tst ##########
 
         No warnings or errors detected.

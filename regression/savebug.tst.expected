@@ -1,6 +1,6 @@
 ########## savebug ##########
 ../compiler/alan savebug
-../interpreter/arun.exe -n savebug < savebug.input
+../interpreter/arun -n savebug < savebug.input
 ########## /bin/sh  savebug.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## mail ##########
 ../compiler/alan mail
-../interpreter/arun.exe -n mail < mail.input
+../interpreter/arun -n mail < mail.input
 ########## /bin/sh  mail.tst ##########
 
         No warnings or errors detected.

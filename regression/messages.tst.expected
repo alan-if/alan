@@ -1,6 +1,6 @@
 ########## messages ##########
 ../compiler/alan messages
-../interpreter/arun.exe -n messages < messages.input
+../interpreter/arun -n messages < messages.input
 ########## /bin/sh  messages.tst ##########
 
         No warnings or errors detected.

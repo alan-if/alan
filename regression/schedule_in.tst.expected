@@ -1,6 +1,6 @@
 ########## schedule_in ##########
 ../compiler/alan schedule_in
-../interpreter/arun.exe -n schedule_in < schedule_in.input
+../interpreter/arun -n schedule_in < schedule_in.input
 ########## /bin/sh  schedule_in.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## script_description ##########
 ../compiler/alan script_description
-../interpreter/arun.exe -n script_description < script_description.input
+../interpreter/arun -n script_description < script_description.input
 ########## /bin/sh  script_description.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## elsif ##########
 ../compiler/alan elsif
-../interpreter/arun.exe -n elsif < elsif.input
+../interpreter/arun -n elsif < elsif.input
 ########## /bin/sh  elsif.tst ##########
 
         No warnings or errors detected.

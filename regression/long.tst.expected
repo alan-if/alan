@@ -1,6 +1,6 @@
 ########## long ##########
 ../compiler/alan long
-../interpreter/arun.exe -n long < long.input
+../interpreter/arun -n long < long.input
 ########## /bin/sh  long.tst ##########
 
         No warnings or errors detected.

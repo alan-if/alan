@@ -1,6 +1,6 @@
 ########## integer ##########
 ../compiler/alan integer
-../interpreter/arun.exe -n integer < integer.input
+../interpreter/arun -n integer < integer.input
 ########## /bin/sh  integer.tst ##########
 
         No warnings or errors detected.

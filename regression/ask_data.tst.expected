@@ -1,6 +1,6 @@
 ########## ask_data ##########
 ../compiler/alan ask_data
-../interpreter/arun.exe -n ask_data < ask_data.input
+../interpreter/arun -n ask_data < ask_data.input
 ########## /bin/sh  ask_data.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## contincont ##########
 ../compiler/alan contincont
-../interpreter/arun.exe -n contincont < contincont.input
+../interpreter/arun -n contincont < contincont.input
 ########## /bin/sh  contincont.tst ##########
 
         No warnings or errors detected.

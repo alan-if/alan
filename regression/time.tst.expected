@@ -1,6 +1,6 @@
 ########## time ##########
 ../compiler/alan time
-../interpreter/arun.exe -n time < time.input
+../interpreter/arun -n time < time.input
 ########## /bin/sh  time.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## adjverb ##########
 ../compiler/alan adjverb
-../interpreter/arun.exe -n adjverb < adjverb.input
+../interpreter/arun -n adjverb < adjverb.input
 ########## /bin/sh  adjverb.tst ##########
 
 

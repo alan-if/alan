@@ -1,6 +1,6 @@
 ########## inventory ##########
 ../compiler/alan inventory
-../interpreter/arun.exe -n inventory < inventory.input
+../interpreter/arun -n inventory < inventory.input
 ########## /bin/sh  inventory.tst ##########
 
         No warnings or errors detected.

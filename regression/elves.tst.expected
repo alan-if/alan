@@ -1,6 +1,6 @@
 ########## elves ##########
 ../compiler/alan elves -include ../lib
-../interpreter/arun.exe -n elves < elves.input
+../interpreter/arun -n elves < elves.input
 ########## /bin/sh  elves.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,7 @@
 ########## negative ##########
 ../compiler/alan negative
-../interpreter/arun.exe -n negative < negative.input########## /bin/sh  negative.tst ##########
+../interpreter/arun -n negative < negative.input
+########## /bin/sh  negative.tst ##########
 
         No warnings or errors detected.
         1 informational message(s).

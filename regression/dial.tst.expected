@@ -1,6 +1,6 @@
 ########## dial ##########
 ../compiler/alan dial
-../interpreter/arun.exe -n dial < dial.input
+../interpreter/arun -n dial < dial.input
 ########## /bin/sh  dial.tst ##########
 
         No warnings or errors detected.

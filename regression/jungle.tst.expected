@@ -1,6 +1,6 @@
 ########## jungle ##########
 ../compiler/alan jungle
-../interpreter/arun.exe -n jungle < jungle.input
+../interpreter/arun -n jungle < jungle.input
 ########## /bin/sh  jungle.tst ##########
 
         No warnings or errors detected.

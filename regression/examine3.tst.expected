@@ -1,6 +1,6 @@
 ########## examine3 ##########
 ../compiler/alan examine3
-../interpreter/arun.exe -n examine3 < examine3.input
+../interpreter/arun -n examine3 < examine3.input
 ########## /bin/sh  examine3.tst ##########
 
 

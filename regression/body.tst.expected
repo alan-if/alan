@@ -1,6 +1,6 @@
 ########## body ##########
 ../compiler/alan body
-../interpreter/arun.exe -n body < body.input
+../interpreter/arun -n body < body.input
 ########## /bin/sh  body.tst ##########
 
         No warnings or errors detected.

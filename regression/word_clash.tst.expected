@@ -1,6 +1,6 @@
 ########## word_clash ##########
 ../compiler/alan word_clash
-../interpreter/arun.exe -n word_clash < word_clash.input
+../interpreter/arun -n word_clash < word_clash.input
 ########## /bin/sh  word_clash.tst ##########
 
         No warnings or errors detected.

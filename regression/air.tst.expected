@@ -1,6 +1,6 @@
 ########## air ##########
 ../compiler/alan air
-../interpreter/arun.exe -n air < air.input
+../interpreter/arun -n air < air.input
 ########## /bin/sh  air.tst ##########
 
         No warnings or errors detected.

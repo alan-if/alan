@@ -1,6 +1,6 @@
 ########## dungeon ##########
 ../compiler/alan dungeon
-../interpreter/arun.exe -n dungeon < dungeon.input
+../interpreter/arun -n dungeon < dungeon.input
 ########## /bin/sh  dungeon.tst ##########
 
         No warnings or errors detected.

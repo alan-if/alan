@@ -1,6 +1,6 @@
 ########## syntax2 ##########
 ../compiler/alan syntax2
-../interpreter/arun.exe -n syntax2 < syntax2.input
+../interpreter/arun -n syntax2 < syntax2.input
 ########## /bin/sh  syntax2.tst ##########
 
         No warnings or errors detected.

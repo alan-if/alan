@@ -1,6 +1,6 @@
 ########## mulstx ##########
 ../compiler/alan mulstx
-../interpreter/arun.exe -n mulstx < mulstx.input
+../interpreter/arun -n mulstx < mulstx.input
 ########## /bin/sh  mulstx.tst ##########
 
 

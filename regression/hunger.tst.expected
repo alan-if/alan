@@ -1,6 +1,6 @@
 ########## hunger ##########
 ../compiler/alan hunger
-../interpreter/arun.exe -n hunger < hunger.input
+../interpreter/arun -n hunger < hunger.input
 ########## /bin/sh  hunger.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## script ##########
 ../compiler/alan script
-../interpreter/arun.exe -n script < script.input
+../interpreter/arun -n script < script.input
 ########## /bin/sh  script.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## slott ##########
 ../compiler/alan slott
-../interpreter/arun.exe -n slott < slott.input
+../interpreter/arun -n slott < slott.input
 ########## /bin/sh  slott.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## rules ##########
 ../compiler/alan rules
-../interpreter/arun.exe -n rules < rules.input
+../interpreter/arun -n rules < rules.input
 ########## /bin/sh  rules.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## dollar ##########
 ../compiler/alan dollar
-../interpreter/arun.exe -n dollar < dollar.input
+../interpreter/arun -n dollar < dollar.input
 ########## /bin/sh  dollar.tst ##########
 
         No warnings or errors detected.

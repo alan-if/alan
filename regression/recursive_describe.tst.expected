@@ -1,6 +1,6 @@
 ########## recursive_describe ##########
 ../compiler/alan recursive_describe
-../interpreter/arun.exe -n recursive_describe < recursive_describe.input
+../interpreter/arun -n recursive_describe < recursive_describe.input
 ########## /bin/sh  recursive_describe.tst ##########
 
         No warnings or errors detected.

@@ -1,7 +1,7 @@
 ########## switches ##########
 ../compiler/alan -h
-../interpreter/arun.exe -n -h
-../interpreter/arun.exe -n -help
+../interpreter/arun -n -h
+../interpreter/arun -n -help
 ########## /bin/sh  switches.tst ##########
 Parameter error: Ambiguous option, -h
 Usage: ALAN <adventure> [-help] [options]

@@ -1,6 +1,6 @@
 ########## give_floyd ##########
 ../compiler/alan give_floyd
-../interpreter/arun.exe -n give_floyd < give_floyd.input
+../interpreter/arun -n give_floyd < give_floyd.input
 ########## /bin/sh  give_floyd.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## actorverb ##########
 ../compiler/alan actorverb
-../interpreter/arun.exe -n actorverb < actorverb.input
+../interpreter/arun -n actorverb < actorverb.input
 ########## /bin/sh  actorverb.tst ##########
 
         No warnings or errors detected.

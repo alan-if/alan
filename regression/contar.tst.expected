@@ -1,6 +1,6 @@
 ########## contar ##########
 ../compiler/alan contar
-../interpreter/arun.exe -n contar < contar.input
+../interpreter/arun -n contar < contar.input
 ########## /bin/sh  contar.tst ##########
 
         No warnings or errors detected.

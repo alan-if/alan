@@ -1,6 +1,6 @@
 ########## busstop ##########
 ../compiler/alan busstop
-../interpreter/arun.exe -n busstop < busstop.input
+../interpreter/arun -n busstop < busstop.input
 ########## /bin/sh  busstop.tst ##########
 
         No warnings or errors detected.

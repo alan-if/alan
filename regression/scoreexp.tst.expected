@@ -1,6 +1,6 @@
 ########## scoreexp ##########
 ../compiler/alan scoreexp
-../interpreter/arun.exe -n scoreexp < scoreexp.input
+../interpreter/arun -n scoreexp < scoreexp.input
 
 ########## /bin/sh  scoreexp.tst ##########
 

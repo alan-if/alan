@@ -1,6 +1,6 @@
 ########## clock ##########
 ../compiler/alan clock
-../interpreter/arun.exe -n clock < clock.input
+../interpreter/arun -n clock < clock.input
 ########## /bin/sh  clock.tst ##########
 
         No warnings or errors detected.

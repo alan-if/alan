@@ -1,6 +1,6 @@
 ########## example ##########
 ../compiler/alan example
-../interpreter/arun.exe -n example < example.input
+../interpreter/arun -n example < example.input
 ########## /bin/sh  example.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## say ##########
 ../compiler/alan say
-../interpreter/arun.exe -n say < say.input
+../interpreter/arun -n say < say.input
 ########## /bin/sh  say.tst ##########
 
         No warnings or errors detected.

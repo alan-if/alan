@@ -1,6 +1,6 @@
 ########## score ##########
 ../compiler/alan score
-../interpreter/arun.exe -n score < score.input
+../interpreter/arun -n score < score.input
 rm score.sav
 ########## /bin/sh  score.tst ##########
 

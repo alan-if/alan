@@ -1,6 +1,6 @@
 ########## demo ##########
 ../compiler/alan demo
-../interpreter/arun.exe -n demo < demo.input
+../interpreter/arun -n demo < demo.input
 ########## /bin/sh  demo.tst ##########
 
         No warnings or errors detected.
