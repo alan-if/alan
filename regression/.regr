@@ -1,1 +1,1 @@
-alan $1 ; arun -n -r $1 < $1.input
+../compiler/alan $1 ; ../interpreter/arun -n -r $1 < $1.input

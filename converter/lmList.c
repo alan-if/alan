@@ -386,8 +386,7 @@ static void insert(
   int iptr;
 
   /* Allocate temporary buffer */
-  if ((rb = (char *) malloc((size_t)(istr? strlen(istr): 0) + 
-      (mstr? strlen(mstr): 0) + 1)) == NULL) {
+  if ((rb = (char *) malloc(1000)) == NULL) {
     error("Out of memory.");
     return;
   }
