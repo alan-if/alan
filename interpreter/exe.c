@@ -240,7 +240,7 @@ void quit()
     if (strcmp(buf, "restart") == 0)
       longjmp(restart_label, TRUE);
     else if (strcmp(buf, "restore") == 0) {
-      restore();
+      restoreGame();
       return;
     } else if (strcmp(buf, "quit") == 0)
       terminate(0);
@@ -1448,9 +1448,9 @@ static char saveFileName[256];
 
 /*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
-void save(void)
+void saveGame(void)
 #else
-void save()
+void saveGame()
 #endif
 {
   int i;
@@ -1460,6 +1460,7 @@ void save()
   frefid_t saveFileRef;
   strid_t saveFile;
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Write, 0);
+  if (saveFileRef == NULL) return;
   saveFile = glk_stream_open_file(saveFileRef, filemode_Write, 0);
 
 #else
@@ -1469,7 +1470,7 @@ void save()
 
   /* First save ? */
   if (saveFileName[0] == '\0') {
-    strcpy(saveFileName, advnam);
+    strcpy(saveFileName, adventureName);
     strcat(saveFileName, ".sav");
   }
   prmsg(M_SAVEWHERE);
@@ -1493,14 +1494,15 @@ void save()
 #endif
 
   /* Save version of interpreter and name of game */
-  fwrite((void *)&header->vers, sizeof(Aword), 1, saveFile);
-  fwrite((void *)advnam, strlen(advnam)+1, 1, saveFile);
+  fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
+  fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
   /* Save current values */
   fwrite((void *)&current, sizeof(current), 1, saveFile);
 
-  /* Save admin about each instance and its attributes */
+  /* Save admin about each instance and its location & attributes */
   for (i = 1; i <= header->instanceMax; i++) {
     fwrite((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
+    fwrite((void *)&instance[i].location, sizeof(Aword), 1, saveFile);
     if (instance[i].attributes != 0)
       for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->value, sizeof(Aword), 1, saveFile);
@@ -1520,9 +1522,9 @@ void save()
 
 /*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
-void restore(void)
+void restoreGame(void)
 #else
-void restore()
+void restoreGame()
 #endif
 {
   int i;
@@ -1534,6 +1536,7 @@ void restore()
   frefid_t saveFileRef;
   strid_t saveFile;
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Read, 0);
+  if (saveFileRef == NULL) return;
   saveFile = glk_stream_open_file(saveFileRef, filemode_Read, 0);
 
 #else
@@ -1543,7 +1546,7 @@ void restore()
 
   /* First save ? */
   if (saveFileName[0] == '\0') {
-    strcpy(saveFileName, advnam);
+    strcpy(saveFileName, adventureName);
     strcat(saveFileName, ".sav");
   }
   prmsg(M_RESTOREFROM);
@@ -1567,7 +1570,6 @@ void restore()
 #endif
 
   fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
-  /* 4f - save file version check doesn't seem to work on PC's! */
   if (strncmp(savedVersion, header->vers, 4)) {
     error(M_SAVEVERS);
     goto close;
@@ -1575,7 +1577,7 @@ void restore()
 
   i = 0;
   while ((savedName[i++] = fgetc(saveFile)) != '\0');
-  if (strcmp(savedName, advnam) != 0) {
+  if (strcmp(savedName, adventureName) != 0) {
     error(M_SAVENAME);
     goto close;
   }
@@ -1586,6 +1588,7 @@ void restore()
   /* Restore admin and attributes for instances */
   for (i = 1; i <= header->instanceMax; i++) {
     fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
+    fread((void *)&instance[i].location, sizeof(Aword), 1, saveFile);
     if (instance[i].attributes != 0)
       for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fread((void *)&atr->value, sizeof(Aword), 1, saveFile);

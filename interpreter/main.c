@@ -85,7 +85,7 @@ Boolean anyOutput = FALSE;
 
 
 /* The files and filenames */
-char *advnam;
+char *adventureName;
 FILE *txtfil;
 FILE *logfil;
 
@@ -961,7 +961,7 @@ static void checkvers(header)
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
-	   advnam,
+	   adventureName,
 	   (int)(header->vers[0]),
 	   (int)(header->vers[1]),
 	   (int)(header->vers[2]),
@@ -1083,7 +1083,7 @@ static void checkdebug()
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
     if (debugOption|traceOption|singleStepOption) {
-      printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
+      printf("<Sorry, '%s' is not compiled for debug!>\n", adventureName);
       terminate(0);
     }
     para();
@@ -1380,7 +1380,7 @@ static void openFiles()
   time_t tick;
 
   /* Open Acode file */
-  strcpy(codfnm, advnam);
+  strcpy(codfnm, adventureName);
   strcat(codfnm, ".a3c");
   if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure code file '");
@@ -1390,7 +1390,7 @@ static void openFiles()
   }
 
   /* Open Text file */
-  strcpy(txtfnm, advnam);
+  strcpy(txtfnm, adventureName);
   strcat(txtfnm, ".a3c");
   if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure text data file '");
@@ -1403,12 +1403,12 @@ static void openFiles()
   if (logOption) {
     char *namstart;
 
-    if((namstart = strrchr(advnam, ']')) == NULL
-       && (namstart = strrchr(advnam, '>')) == NULL
-       && (namstart = strrchr(advnam, '/')) == NULL
-       && (namstart = strrchr(advnam, '\\')) == NULL
-       && (namstart = strrchr(advnam, ':')) == NULL)
-      namstart = &advnam[0];
+    if((namstart = strrchr(adventureName, ']')) == NULL
+       && (namstart = strrchr(adventureName, '>')) == NULL
+       && (namstart = strrchr(adventureName, '/')) == NULL
+       && (namstart = strrchr(adventureName, '\\')) == NULL
+       && (namstart = strrchr(adventureName, ':')) == NULL)
+      namstart = &adventureName[0];
     else
       namstart++;
 
@@ -1432,9 +1432,9 @@ void run(void)
   int i;
 
 
-  openFiles();
-
   setjmp(restart_label);	/* Return here if he wanted to restart */
+
+  openFiles();
 
   init();			/* Load, initialise and start the adventure */
 

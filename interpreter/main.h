@@ -50,7 +50,7 @@ extern FILE *txtfil;
 extern FILE *logfil;
 
 /* File names */
-extern char *advnam;
+extern char *adventureName;
 
 /* Screen formatting info */
 extern int col, lin;

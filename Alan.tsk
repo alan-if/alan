@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>170.89</origest>
-<currest>170.89</currest>
+<origest>172.89</origest>
+<currest>172.89</currest>
 <elapsed>56.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
+<origest>32</origest>
+<currest>32</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -353,8 +353,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -468,6 +468,24 @@ REMEBER TO DOCUMENT IT!!!
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>SAVE &amp; RESTORE texts as messages</desc>
+<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RESTART does not work well in WinArun</desc>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
@@ -482,19 +500,6 @@ REMEBER TO DOCUMENT IT!!!
 <desc>Full listing on the screen misses lines</desc>
 <notes>
 Refer to compiler/testing/addVerb losing line 2</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow reverse noun/adjective order</desc>
-<notes>Need:
-To allow latin type of langauges. "molin rouge"
-
-Design:
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -612,6 +617,19 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <task>
 <desc>Inherited Exits</desc>
 <notes>Usefullness?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow reverse noun/adjective order</desc>
+<notes>Need:
+To allow latin type of langauges. "molin rouge"
+
+Design:
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -73,14 +73,19 @@ int main(argc, argv)
     newline();
   }
   
-  if (strcmp(advnam, "") == 0) {
+  if (strcmp(adventureName, "") == 0) {
 #ifdef WINGLK
     char *filename;
     filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
 		"Alan Game Files (*.a3c)|*.a3c||");
     if (filename) {
-      advnam = strdup(filename);
-      advnam[strlen(advnam)-4] = 0; /* Strip of .A3C */
+      char *directoryPart;
+      if (((directoryPart = strrchr(filename, '\\')) == NULL)
+	  && ((directoryPart = strrchr(filename, ':')) == NULL))
+	adventureName = strdup(filename);
+      else
+	adventureName = strdup(directoryPart+1);
+      adventureName[strlen(adventureName)-4] = '\0'; /* Strip off .A3C */
     } else {
       printf("You should supply a game file to play.\n");
       usage();
@@ -94,7 +99,7 @@ int main(argc, argv)
   }
 
 #ifdef WINGLK
-  winglk_window_set_title(advnam);
+  winglk_window_set_title(adventureName);
 #endif
 
   run();

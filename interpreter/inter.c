@@ -368,13 +368,13 @@ void interpret(adr)
       case I_SAVE: {
 	if (singleStepOption)
 	  printf("SAVE");
-	save();
+	saveGame();
 	break;
       }
       case I_RESTORE: {
 	if (singleStepOption)
 	  printf("RESTORE");
-	restore();
+	restoreGame();
 	break;
       }
       case I_RESTART: {

@@ -26,7 +26,7 @@ SYNTAX
 VERB 'save'
 	DOES
 		SAVE.
-		"Done."
+		"Ok."
 END VERB.
 
 

@@ -72,7 +72,7 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp winarun.exe ../bin
 
-arun.res: arun.rc arun.ico
+arun.res: arun.rc arun.ico resources.h
 	windres $< -O coff -o $@
 
 clean:
@@ -145,6 +145,7 @@ depend:
 	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
 	  do \
 	  $(CPP) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
+	  $(CPP) $(GLKDEFS) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 

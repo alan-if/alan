@@ -7,6 +7,7 @@
 #ifdef GLK
 
 #include "readline.h"
+#include "exe.h"
 #include "main.h"
 #include "glk.h"
 #include "glkio.h"
@@ -65,10 +66,19 @@ Boolean readline(char usrbuf[])
 	restart();
 	break;
       case ID_MENU_SAVE:
-	save();
+	printf("save");
+	saveGame();
+	para();
+	glk_set_style(style_Normal);
+	printf("> ");
 	break;
       case ID_MENU_RESTORE:
-	restore();
+	printf("restore");
+	restoreGame();
+	look();
+	para();
+	glk_set_style(style_Normal);
+	printf("> ");
 	break;
       case ID_MENU_ABOUT:
 	e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);

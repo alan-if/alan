@@ -53,7 +53,7 @@ static void switches(argc, argv)
 {
   int i;
   
-  advnam = "";
+  adventureName = "";
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
 #ifdef GLK
@@ -98,16 +98,17 @@ static void switches(argc, argv)
 	terminate(0);
       }
     } else {
-      advnam = argv[i];
-      if (advnam[0] == '"') {	/* Probably Windows quoting names with spaces... */
-	char *str = allocate(strlen(advnam)+1);
-	strcpy(str, &advnam[1]);
-	advnam = str;
-	advnam[strlen(advnam)-1] = '\0';
+      adventureName = argv[i];
+      if (adventureName[0] == '"') {
+	/* Probably Windows quoting names with spaces... */
+	char *str = allocate(strlen(adventureName)+1);
+	strcpy(str, &adventureName[1]);
+	adventureName = str;
+	adventureName[strlen(adventureName)-1] = '\0';
       }
-      if (strcmp(&advnam[strlen(advnam)-4], ".a3c") == 0
-	  || strcmp(&advnam[strlen(advnam)-4], ".A3C") == 0)
-		advnam[strlen(advnam)-4] = '\0';
+      if (strcmp(&adventureName[strlen(adventureName)-4], ".a3c") == 0
+	  || strcmp(&adventureName[strlen(adventureName)-4], ".A3C") == 0)
+		adventureName[strlen(adventureName)-4] = '\0';
     }
   }
 }
@@ -272,10 +273,10 @@ void args(argc, argv)
     prgnam[strlen(prgnam)-4] = '\0';
   /* Now look at the switches and arguments */
   switches(argc, argv);
-  if (advnam[0] == '\0')
+  if (adventureName[0] == '\0')
     /* No game given, try program name */
     if (stricmp(prgnam, PROGNAME) != 0)
-      advnam = strdup(argv[0]);
+      adventureName = strdup(argv[0]);
 
 #else
 
