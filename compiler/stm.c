@@ -141,7 +141,7 @@ static void anempty(StmNod *stm,
 static void analyzeLocate(StmNod *stm,
 			  Context *context)
 {
-  Symbol *whtSymbol;
+  Symbol *whtSymbol = NULL;
 
   switch (stm->fields.locate.wht->kind) {
   case WHAT_ACTOR:
@@ -446,7 +446,7 @@ static void analyzeUse(StmNod *stm,
   Symbol *sym;
   List *lst;
   List *scripts = NULL;
-  IdNode *id;
+  IdNode *id = NULL;
 
   if (stm->fields.use.actor == NULL && context->instance != NULL)
     lmLog(&stm->srcp, 401, sevERR, "");

@@ -64,7 +64,7 @@ void prepareScripts(List *scrs, InsNod *ins)
 {
   List *lst;
   List *scrlst;
-  int code;			/* Numbering code */
+  int code = 0;			/* Numbering code */
 
   if (scrs == NULL) return;
 

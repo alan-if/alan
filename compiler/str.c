@@ -36,7 +36,8 @@ static struct strnod {         /* A tree containing all ids */
   */
 char *newString(char *str)		/* IN - The string to insert */
 {
-  struct strnod *s, *next;	/* To traversal pointers */
+  struct strnod *s = NULL;	/* Traversal pointers */
+  struct strnod *next;		/* Traversal pointers */
   int comp = 1;			/* Comparison value */
 
   next = strtree;

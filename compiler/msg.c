@@ -243,7 +243,7 @@ void prepmsgs(void)
   /* For all messages in the pointed to table */
   for (msgno = 0; defmsg[msgno].id; msgno++) {
     MsgNod *msg;
-    char *msgp;
+    char *msgp = NULL;
 
     if (msgno != defmsg[msgno].messageCode)
       syserr("Wrong code in message table.");

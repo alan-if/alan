@@ -48,7 +48,7 @@ static Bool firstSymbolDumped = TRUE;
 void redefined(IdNode *id,
                Symbol *sym)
 {
-  int code;                     /* Error code */
+  int code = 0;                     /* Error code */
 
   switch (sym->kind) {
   case DIRECTION_SYMBOL: code = 301; break;
@@ -74,7 +74,7 @@ void redefined(IdNode *id,
 static void insertSymbol(Symbol *symbol)
 {
   Symbol *s1,*s2;               /* Traversal pointers */
-  int comp;                     /* Result of comparison */
+  int comp = 0;			/* Result of comparison */
 
   symbol->lower = NULL;
   symbol->higher = NULL;
@@ -294,7 +294,7 @@ Symbol *lookup(char *idString)
   */
 Symbol *lookupInContext(char *idString, Context *context)
 {
-  Symbol *foundSymbol;
+  Symbol *foundSymbol = NULL;
 
   if (context != NULL) {
     switch (context->kind){

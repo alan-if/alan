@@ -8,10 +8,11 @@ OPTIMIZE = -g
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
-CFLAGS = $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
+CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
+LDFLAGS	= $(OPTIMIZE) $(CYGWIN)
 
 CPP	= gcc -MM -ansi
-
+LD	= gcc
 
 TMSRCS = \
 	alan.tmk \
@@ -100,14 +101,14 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 #
 
 alan: $(MAINOBJECTS) test
-	gcc -o alan $(MAINOBJECTS)
+	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
 release: clean win
 
 win:  $(MAINOBJECTS) alan.res test
-	gcc -o alan $(MAINOBJECTS) alan.res
+	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
@@ -129,7 +130,7 @@ src:
 	$(MAKE) -f Makefile.src
 
 fromsrc: $(OBJECTS) alan.version.o
-	$(LD) -o alan $(OBJECTS) alan.version.o
+	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

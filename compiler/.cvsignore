@@ -22,6 +22,7 @@ alan.pmt
 alan.prod
 alan.pure_hardlink
 alan.pure_linkinfo
+alan.res
 alan.smt
 alan.version.[ch]
 alan.voc

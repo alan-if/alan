@@ -132,7 +132,7 @@ static IdNode *findIdInList(IdNode *theId, List *theList) {
 static void checkMultipleVerbs(List *verbs)
 {
   List *thisVerbDeclaration, *otherVerbs;
-  List *firstId, *otherId;
+  List *firstId;
   IdNode *foundId;
 
   for (thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {

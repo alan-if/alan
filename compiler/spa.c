@@ -675,11 +675,10 @@ PRIVATE SPA_ERRFUN(biErrFun) {
     spaAlert(sev, "%s: %s: %s", SpaStrAE, msg, add);
 }
 
-PRIVATE SPA_FUN(biExit) { exit(1); (prettyName, rawName, on); }
+PRIVATE SPA_FUN(biExit) { exit(1); }
 
 PRIVATE SPA_FUN(biArgTooMany) {
     spaErr(SpaStrTMA, rawName, 'E');
-    (prettyName, on);
 }
 
 PRIVATE SPA_DECLARE(biArguments)
@@ -729,7 +728,6 @@ PRIVATE SPA_FUN(biUsage) {
 		printf(" %s", pAName(&pArguments[i]));
     }
     printf("\n");
-    (prettyName, rawName, on);
 }
 
 

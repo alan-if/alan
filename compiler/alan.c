@@ -447,7 +447,7 @@ static void listing(lmSev sevs)
 \************************************************************************/
 
 void compile(void) {
-  lmSev sevs;			/* Set of listing severities */
+  lmSev sevs = 0;		/* Set of listing severities */
 
 
   /* Start timer */
