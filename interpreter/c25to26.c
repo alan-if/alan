@@ -882,11 +882,10 @@ int main(int argc, char **argv)
   int nArgs;
 
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
-  if (nArgs == 0) {
+  if (nArgs != 2) {
     usage(NULL, NULL, 0);
     exit(EXIT_FAILURE);
-  } else if (nArgs > 2)
-    exit(EXIT_FAILURE);
+  }
 
   load(acdfnm);
   c25to26ACD();
