@@ -170,6 +170,16 @@ typedef struct AtrElem {	/* ATTRIBUTE LIST */
   Aaddr stradr;			/* Address to the name */
 } AtrElem;
 
+typedef struct ObjElem25 {	/* OBJECT TABLE of 2.5 format*/
+  Aword loc;			/* Current location */
+  Abool describe;		/* Describe flag */
+  Aaddr atrs;			/* Address of attribute list */
+  Aword cont;			/* Index to container properties if any */
+  Aaddr vrbs;			/* Address to local verb table */
+  Aaddr dscr1;			/* Address to Aword description code */
+  Aaddr dscr2;			/* Address to short description code */
+} ObjElem25;
+
 typedef struct ObjElem {	/* OBJECT TABLE */
   Aword loc;			/* Current location */
   Abool describe;		/* Describe flag */
