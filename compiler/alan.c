@@ -468,17 +468,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
      SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
 #ifndef THINK_C
-     SPA_BITS("dump", "dump the internal form, where\n\
-synonyms\n\
-syntax\n\
-verbs\n\
-locations\n\
-objects\n\
-containers\n\
-events\n\
-actors\n\
-rules\n\
-everything", dmpflg, "sxvlocear!", NULL, NULL)
+/*     SPA_BITS("dump", "dump the internal form, where\nsynonyms\nsyntax\nverbs\nlocations\nobjects\ncontainers\nevents\nactors\nrules\neverything", dmpflg, "sxvlocear!", NULL, NULL)*/
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

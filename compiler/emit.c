@@ -393,7 +393,7 @@ static struct DiskObject iconObject = {
   NO_ICON_POSITION,		/* CurrentY */
   NULL,				/* DrawerData */
   NULL,				/* ToolWindow */
-  NULL				/* StackSize */
+  0				/* StackSize */
   };
 #endif
 

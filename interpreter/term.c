@@ -50,10 +50,12 @@ void getPageSize()
 #ifdef __amiga__
 #include <libraries/dosextens.h>
 #include <intuition/intuition.h>
+#include <graphics/text.h>
 #include <functions.h>
   struct Process * proc;
   struct InfoData *id;
   struct Window *win; 
+  struct TextFont *textFont;
   struct StandardPacket *packet;
 
   proc = (struct Process *) FindTask(0);
@@ -77,9 +79,10 @@ void getPageSize()
     win = (struct Window *) id->id_VolumeNode;
     free(id);
 
-    /* 4f_ti - Must be calculated w.r.t font size and borders */
-    paglen = win->Height/8-2;
-    pagwidth = win->Width/8-3;
+    /* Calculate number of characters and lines w.r.t font size and borders */
+    textFont = win->IFont;
+    paglen = win->Height/textFont->tf_YSize-2;
+    pagwidth = win->Width/textFont->tf_XSize-3;
   } else {
     paglen = header->paglen;
     pagwidth = header->pagwidth;
