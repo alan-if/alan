@@ -76,15 +76,15 @@ typedef struct CurVars {
 } CurVars;
 
 /* The various tables */
-typedef struct WrdElem {	/* Dictionary */
+typedef struct WrdEntry {	/* Dictionary */
   Aaddr wrd;			/* ACODE address to string */
   Aword class;			/* Word class */
   Aword code;
   Aaddr adjrefs;		/* Address to reference list */
   Aaddr nounrefs;		/* Address to reference list */
-} WrdElem;
+} WrdEntry;
 
-typedef struct ActElem {	/* ACTOR TABLE */
+typedef struct ActEntry {	/* ACTOR TABLE */
   Aword loc;			/* Location */
   Abool describe;		/* Description flag */
   Aaddr nam;			/* Address to name printing code */
@@ -96,21 +96,21 @@ typedef struct ActElem {	/* ACTOR TABLE */
   Aword count;
   Aaddr vrbs;
   Aaddr dscr;			/* Address of description code */
-} ActElem;
+} ActEntry;
 
-typedef struct ScrElem {	/* SCRIPT TABLE */
+typedef struct ScrEntry {	/* SCRIPT TABLE */
   Aword code;			/* Script number */
   Aaddr dscr;			/* Optional description statements */
   Aaddr steps;			/* Address to steps */
-} ScrElem;
+} ScrEntry;
 
-typedef struct StepElem {	/* STEP TABLE */
+typedef struct StepEntry {	/* STEP TABLE */
   Aword after;			/* After how many ticks? */
   Aaddr exp;			/* Address to expression saying when */
   Aaddr stm;			/* Address to the actual code */
-} StepElem;
+} StepEntry;
 
-typedef struct LocElem {	/* LOCATION TABLE */
+typedef struct LocEntry {	/* LOCATION TABLE */
   Aaddr nams;			/* Address of name printing code */
   Aaddr dscr;			/* Address of description code */
   Aaddr does;			/* Address of does code */
@@ -118,66 +118,71 @@ typedef struct LocElem {	/* LOCATION TABLE */
   Aaddr atrs;			/* Address of attribute list */
   Aaddr exts;			/* Address of exit list */
   Aaddr vrbs;			/* Address of local verb list */
-} LocElem;
+} LocEntry;
 
-typedef struct ExtElem {	/* EXIT TABLE structure */
+typedef struct ExtEntry {	/* EXIT TABLE structure */
   Abool done;			/* Flag for reverse/convert process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */
   Aword next;			/* Number of next location */
-} ExtElem;
+} ExtEntry;
 
-typedef struct ChkElem {	/* CHECK TABLE */
+typedef struct ChkEntry {	/* CHECK TABLE */
   Aaddr exp;			/* ACODE address to expression code */
   Aaddr stms;			/* ACODE address to statement code */
-} ChkElem;
+} ChkEntry;
 
-typedef struct VrbElem {	/* VERB TABLE */
+typedef struct VrbEntry {	/* VERB TABLE */
   Aword code;			/* Code for the verb */
   Aaddr alts;			/* Address to alternatives */
-} VrbElem;
+} VrbEntry;
 
-typedef struct StxElem {	/* SYNTAX TABLE */
+typedef struct StxEntry {	/* SYNTAX TABLE */
   Aword code;			/* Code for verb word */
-  Aaddr elms;			/* Address to element tables */
-} StxElem;
+  Aaddr elms;			/* Address to entryent tables */
+} StxEntry;
 
-typedef struct ElmElem26 {	/* ELEMENT TABLES */
-  Aword code;			/* Code for this element, 0 -> parameter */
+typedef struct ElmEntry26 {	/* ENTRYENT TABLES */
+  Aword code;			/* Code for this entryent, 0 -> parameter */
   Abool multiple;		/* May be multiple (if parameter) */
-  Aaddr next;			/* Address to next element table ... */
+  Aaddr next;			/* Address to next entryent table ... */
 				/* ... or class check if EOS */
-} ElmElem26;
+} ElmEntry26;
 
-typedef struct ElmElem {	/* ELEMENT TABLES */
-  Aword code;			/* Code for this element, 0 -> parameter */
+typedef struct ElmEntry {	/* ENTRYENT TABLES */
+  Aword code;			/* Code for this entryent, 0 -> parameter */
   Aword flags;			/* Flags for multiple/omni (if parameter) */
 				/* CHANGED: v2.7 from Abool for multiple */
-  Aaddr next;			/* Address to next element table ... */
+  Aaddr next;			/* Address to next entryent table ... */
 				/* ... or class check if EOS */
-} ElmElem;
+} ElmEntry;
 
-typedef struct ClaElem {	/* CLASS DEFINITION TABLE */
+typedef struct ClaEntry {	/* CLASS DEFINITION TABLE */
   Aword code;			/* Parameter number */
   Aword classes;		/* Parameter classes */
   Aaddr stms;			/* Exception statements */
-} ClaElem;
+} ClaEntry;
 
-typedef struct AltElem {	/* VERB ALTERNATIVE TABLE */
+typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */
   Aword qual;			/* Verb execution qualifier */
   Aaddr checks;			/* Address of the check table */
   Aaddr action;			/* Address of the action code */
-} AltElem;
+} AltEntry;
 
-typedef struct AtrElem {	/* ATTRIBUTE LIST */
+typedef struct AtrEntry {	/* ATTRIBUTE LIST */
   Aword val;			/* Its value */
   Aaddr stradr;			/* Address to the name */
-} AtrElem;
+} AtrEntry;
 
-typedef struct ObjElem25 {	/* OBJECT TABLE of 2.5 format*/
+typedef struct ClassEntry {	/* CLASS TABLE */
+  Aword code;			/* Own code */
+  Aword parent;			/* Code for the parent class, 0 if none */
+} ClassEntry;
+
+typedef struct ObjEntry25 {	/* OBJECT TABLE of 2.5 format*/
   Aword loc;			/* Current location */
   Abool describe;		/* Describe flag */
   Aaddr atrs;			/* Address of attribute list */
@@ -185,9 +190,9 @@ typedef struct ObjElem25 {	/* OBJECT TABLE of 2.5 format*/
   Aaddr vrbs;			/* Address to local verb table */
   Aaddr dscr1;			/* Address to Aword description code */
   Aaddr dscr2;			/* Address to short description code */
-} ObjElem25;
+} ObjEntry25;
 
-typedef struct ObjElem {	/* OBJECT TABLE */
+typedef struct ObjEntry {	/* OBJECT TABLE */
   Aword loc;			/* Current location */
   Abool describe;		/* Describe flag */
   Aaddr atrs;			/* Address of attribute list */
@@ -197,68 +202,68 @@ typedef struct ObjElem {	/* OBJECT TABLE */
   Aaddr art;			/* Article printing code? Else use default */
 				/* INTRODUCED: v2.6 */
   Aaddr dscr2;			/* Address to short description code */
-} ObjElem;
+} ObjEntry;
 
-typedef struct CntElem {	/* CONTAINER TABLE */
+typedef struct CntEntry {	/* CONTAINER TABLE */
   Aaddr lims;			/* Address to limit check code */
   Aaddr header;			/* Address to header code */
   Aaddr empty;			/* Address to empty code */
   Aword parent;			/* Object or actor index */
   Aaddr nam;			/* Address to statement printing name */
-} CntElem;
+} CntEntry;
 
-typedef struct LimElem {	/* LIMIT Type */
+typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */
   Aword val;			/* And the limiting value */
   Aaddr stms;			/* Statements if fail */
-} LimElem;
+} LimEntry;
 
-typedef struct RulElem {	/* RULE TABLE */
+typedef struct RulEntry {	/* RULE TABLE */
   Abool run;			/* Is rule already run? */
   Aaddr exp;			/* Address to expression code */
   Aaddr stms;			/* Address to run */
-} RulElem;
+} RulEntry;
 
-typedef struct EvtElem {	/* EVENT TABLE */
+typedef struct EvtEntry {	/* EVENT TABLE */
   Aaddr stradr;			/* Address to name string */
   Aaddr code;			/* Address of code to run */
-} EvtElem;
+} EvtEntry;
 
-typedef struct EvtqElem {	/* EVENT QUEUE ELEMENT */
+typedef struct EvtqEntry {	/* EVENT QUEUE ENTRYENT */
   int time;
   int event;
   int where;
-} EvtqElem;
+} EvtqEntry;
 
-typedef struct IniElem {	/* STRING INITIALISATION TABLE */
+typedef struct IniEntry {	/* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */
   Aword len;			/* Length */
   Aword adr;			/* Where to store the string */
-} IniElem;
+} IniEntry;
 
-typedef struct MsgElem26 {	/* MESSAGE TABLE */
+typedef struct MsgEntry26 {	/* MESSAGE TABLE */
   Aword fpos;			/* File position */
   Aword len;			/* Length of message */
-} MsgElem26;
+} MsgEntry26;
 
-typedef struct MsgElem {	/* MESSAGE TABLE */
+typedef struct MsgEntry {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
 				/* Changed v2.7 from fpos+len in .dat */
-} MsgElem;
+} MsgEntry;
 
 
-typedef struct ParamElem {	/* PARAMETER */
+typedef struct ParamEntry {	/* PARAMETER */
   Aword code;			/* Code for this parameter (0=multiple) */
   Aword firstWord;		/* Index to first word used by player */
   Aword lastWord;			/* d:o to last */
-} ParamElem;
+} ParamEntry;
 
-typedef enum Type {TYPNUM, TYPSTR} Type;
+typedef enum LiteralType {NUMERIC_LITERAL, STRING_LITERAL} LiteralType;
 
-typedef struct LitElem {	/* LITERAL */
-  Type type;
+typedef struct LiteralEntry {	/* LITERAL */
+  LiteralType type;
   Aword value;
-} LitElem;
+} LiteralEntry;
 
 #define MAXPARAMS 9
 #define MAXENTITY (header->actmax)

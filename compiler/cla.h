@@ -20,7 +20,7 @@ typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
   IdNode *id;			/* Programmer Name of the class */
   SymNod *symbol;		/* Pointer to symbol table node */
-  IdNode *heritage;		/* The class' heritage (parent) */
+  IdNode *parent;		/* The class' heritage */
   struct Slots *slt;		/* Slots */
   Aaddr adr;			/* Generated at address */
 } ClaNod;

@@ -21,10 +21,10 @@
 
 
 #ifdef _PROTOTYPES_
-void compress(ParamElem a[])
+void compress(ParamEntry a[])
 #else
 void compress(a)
-     ParamElem a[];
+     ParamEntry a[];
 #endif
 {
   int i, j;
@@ -37,10 +37,10 @@ void compress(a)
 
 
 #ifdef _PROTOTYPES_
-int lstlen(ParamElem a[])
+int lstlen(ParamEntry a[])
 #else
 int lstlen(a)
-     ParamElem a[];
+     ParamEntry a[];
 #endif
 {
   int i = 0;
@@ -52,10 +52,10 @@ int lstlen(a)
 
 
 #ifdef _PROTOTYPES_
-Boolean inlst(ParamElem l[], Aword e)
+Boolean inlst(ParamEntry l[], Aword e)
 #else
 Boolean inlst(l, e)
-     ParamElem l[];
+     ParamEntry l[];
      Aword e;
 #endif
 {
@@ -67,10 +67,10 @@ Boolean inlst(l, e)
 
 
 #ifdef _PROTOTYPES_
-void lstcpy(ParamElem a[], ParamElem b[])
+void lstcpy(ParamEntry a[], ParamEntry b[])
 #else
 void lstcpy(a, b)
-     ParamElem a[], b[];
+     ParamEntry a[], b[];
 #endif
 {
   int i;
@@ -82,10 +82,10 @@ void lstcpy(a, b)
 
 
 #ifdef _PROTOTYPES_
-void sublst(ParamElem a[], ParamElem b[])
+void sublst(ParamEntry a[], ParamEntry b[])
 #else
 void sublst(a, b)
-     ParamElem a[], b[];
+     ParamEntry a[], b[];
 #endif
 {
   int i;
@@ -98,10 +98,10 @@ void sublst(a, b)
 
 
 #ifdef _PROTOTYPES_
-void mrglst(ParamElem a[], ParamElem b[])
+void mrglst(ParamEntry a[], ParamEntry b[])
 #else
 void mrglst(a, b)
-     ParamElem a[], b[];
+     ParamEntry a[], b[];
 #endif
 {
   int i,last;
@@ -116,10 +116,10 @@ void mrglst(a, b)
 
 
 #ifdef _PROTOTYPES_
-void isect(ParamElem a[], ParamElem b[])
+void isect(ParamEntry a[], ParamEntry b[])
 #else
 void isect(a, b)
-     ParamElem a[], b[];
+     ParamEntry a[], b[];
 #endif
 {
   int i, last = 0;
@@ -132,10 +132,10 @@ void isect(a, b)
 
 
 #ifdef _PROTOTYPES_
-void cpyrefs(ParamElem p[], Aword r[])
+void cpyrefs(ParamEntry p[], Aword r[])
 #else
 void cpyrefs(p, r)
-     ParamElem p[];
+     ParamEntry p[];
      Aword r[];
 #endif
 {

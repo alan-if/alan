@@ -28,16 +28,16 @@ extern AcdHdr *header;
 extern CurVars cur;
 
 /* Amachine data structures */
-extern WrdElem *dict;		/* Dictionary pointer */
-extern ActElem *acts;		/* Actor table pointer */
-extern LocElem *locs;		/* Location table pointer */
-extern VrbElem *vrbs;		/* Verb table pointer */
-extern StxElem *stxs;		/* Syntax table pointer */
-extern ObjElem *objs;		/* Object table pointer */
-extern CntElem *cnts;		/* Container table pointer */
-extern RulElem *ruls;		/* Rule table pointer */
-extern EvtElem *evts;		/* Event table pointer */
-extern MsgElem *msgs;		/* Message table pointer */
+extern WrdEntry *dict;		/* Dictionary pointer */
+extern ActEntry *acts;		/* Actor table pointer */
+extern LocEntry *locs;		/* Location table pointer */
+extern VrbEntry *vrbs;		/* Verb table pointer */
+extern StxEntry *stxs;		/* Syntax table pointer */
+extern ObjEntry *objs;		/* Object table pointer */
+extern CntEntry *cnts;		/* Container table pointer */
+extern RulEntry *ruls;		/* Rule table pointer */
+extern EvtEntry *evts;		/* Event table pointer */
+extern MsgEntry *msgs;		/* Message table pointer */
 extern Aword *scores;		/* Score table pointer */
 extern Aword *freq;		/* Cumulated frequencies */
 
@@ -80,7 +80,7 @@ extern void newline(void);
 extern Boolean checklim(Aword cnt, Aword obj);
 extern Boolean possible(void);
 extern Boolean exitto(int to, int from);
-extern void action(ParamElem *plst);
+extern void action(ParamEntry *plst);
 extern void go(int dir);
 
 extern Boolean eot(Aword *adr);

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-  CLA.C
-  Class Nodes
+				CLA.C
+			     Class Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -51,7 +51,7 @@ void initClasses()
   */
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,
-	       IdNode *heritage,
+	       IdNode *parent,
 	       Slots *slt)
 {
   ClaNod *new;                  /* The newly allocated area */
@@ -62,7 +62,7 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 
   new->srcp = *srcp;
   new->id = id;
-  new->heritage = heritage;
+  new->parent = parent;
   new->slt = slt;
 
   new->symbol = newsym(id->string, CLASS_SYMBOL);
@@ -82,17 +82,19 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
  */
 static void symbolizeClass(ClaNod *cla)
 {
-  SymNod *heritage;
+  SymNod *parent;
 
-  if (cla->heritage != NULL) {
-    heritage = lookup(cla->heritage->string);
-    if (heritage == NULL)
-      lmLog(&cla->heritage->srcp, 310, sevERR, cla->heritage->string);
-    else if (heritage->kind != CLASS_SYMBOL)
-      lmLog(&cla->heritage->srcp, 350, sevERR, "");
+  symbolizeId(cla->id);
+
+  if (cla->parent != NULL) {
+    parent = lookup(cla->parent->string);
+    if (parent == NULL)
+      lmLog(&cla->parent->srcp, 310, sevERR, cla->parent->string);
+    else if (parent->kind != CLASS_SYMBOL)
+      lmLog(&cla->parent->srcp, 350, sevERR, "");
     else {
-      cla->heritage->symbol = heritage;
-      setParent(cla->symbol, cla->heritage->symbol);
+      cla->parent->symbol = parent;
+      setParent(cla->symbol, cla->parent->symbol);
     }
   }
 }
@@ -152,6 +154,12 @@ void analyzeClasses(void)
 static void generateClass(ClaNod *cla)
 {
   cla->adr = emadr();
+
+  emit(cla->symbol->code);		/* First own code */
+  if (cla->parent == NULL)	/* Then parents */
+    emit(0);
+  else
+    emit(cla->parent->symbol->code);
 }
 
 
@@ -201,7 +209,7 @@ void dumpClass(ClaNod *cla)
 {
   put("CLA: "); dumpSrcp(&cla->srcp); in();
   put("id: "); dumpId(cla->id); nl();
-  put("heritage: "); dumpId(cla->heritage); nl();
+  put("parent: "); dumpId(cla->parent); nl();
   put("slots: "); dumpSlots(cla->slt); out();
 }
 

@@ -10,14 +10,14 @@
 
 
 #ifdef _PROTOTYPES_
-extern void compress(ParamElem *a);
-extern int lstlen(ParamElem *a);
-extern Boolean inlst(ParamElem *l, Aword e);
-extern void lstcpy(ParamElem *a, ParamElem *b);
-extern void sublst(ParamElem *a, ParamElem *b);
-extern void mrglst(ParamElem *a, ParamElem *b);
-extern void isect(ParamElem *a, ParamElem *b);
-extern void cpyrefs(ParamElem *p, Aword *r);
+extern void compress(ParamEntry *a);
+extern int lstlen(ParamEntry *a);
+extern Boolean inlst(ParamEntry *l, Aword e);
+extern void lstcpy(ParamEntry *a, ParamEntry *b);
+extern void sublst(ParamEntry *a, ParamEntry *b);
+extern void mrglst(ParamEntry *a, ParamEntry *b);
+extern void isect(ParamEntry *a, ParamEntry *b);
+extern void cpyrefs(ParamEntry *p, Aword *r);
 #else
 extern void compress();
 extern int lstlen();

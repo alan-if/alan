@@ -57,16 +57,16 @@ int conjWord;			/* First conjunction in dictonary, for ',' */
 CurVars cur;
 
 /* Amachine structures */
-WrdElem *dict;			/* Dictionary pointer */
-ActElem *acts;			/* Actor table pointer */
-LocElem *locs;			/* Location table pointer */
-VrbElem *vrbs;			/* Verb table pointer */
-StxElem *stxs;			/* Syntax table pointer */
-ObjElem *objs;			/* Object table pointer */
-CntElem *cnts;			/* Container table pointer */
-RulElem *ruls;			/* Rule table pointer */
-EvtElem *evts;			/* Event table pointer */
-MsgElem *msgs;			/* Message table pointer */
+WrdEntry *dict;			/* Dictionary pointer */
+ActEntry *acts;			/* Actor table pointer */
+LocEntry *locs;			/* Location table pointer */
+VrbEntry *vrbs;			/* Verb table pointer */
+StxEntry *stxs;			/* Syntax table pointer */
+ObjEntry *objs;			/* Object table pointer */
+CntEntry *cnts;			/* Container table pointer */
+RulEntry *ruls;			/* Rule table pointer */
+EvtEntry *evts;			/* Event table pointer */
+MsgEntry *msgs;			/* Message table pointer */
 Aword *scores;			/* Score table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
@@ -771,7 +771,7 @@ Boolean isNum(x)
      Aword x;
 #endif
 {
-  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == TYPNUM;
+  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == NUMERIC_LITERAL;
 }
 
 #ifdef _PROTOTYPES_
@@ -781,7 +781,7 @@ Boolean isStr(x)
      Aword x;
 #endif
 {
-  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == TYPSTR;
+  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == STRING_LITERAL;
 }
 
 #ifdef _PROTOTYPES_
@@ -810,12 +810,12 @@ Boolean exitto(to, from)
      int to, from;
 #endif
 {
-  ExtElem *ext;
+  ExtEntry *ext;
 
   if (locs[from-LOCMIN].exts == 0)
     return(FALSE); /* No exits */
 
-  for (ext = (ExtElem *) addrTo(locs[from-LOCMIN].exts); !endOfTable(ext); ext++)
+  for (ext = (ExtEntry *) addrTo(locs[from-LOCMIN].exts); !endOfTable(ext); ext++)
     if (ext->next == to)
       return(TRUE);
 
@@ -937,7 +937,7 @@ Boolean checklim(cnt, obj)
      Aword obj;			/* IN - The object to add */
 #endif
 {
-  LimElem *lim;
+  LimEntry *lim;
   Aword props;
 
   fail = TRUE;
@@ -953,7 +953,7 @@ Boolean checklim(cnt, obj)
     props = cnt;
 
   if (cnts[props-CNTMIN].lims != 0) { /* Any limits at all? */
-    for (lim = (LimElem *) addrTo(cnts[props-CNTMIN].lims); !endOfTable(lim); lim++)
+    for (lim = (LimEntry *) addrTo(cnts[props-CNTMIN].lims); !endOfTable(lim); lim++)
       if (lim->atr == 0) {
 	if (count(cnt) >= lim->val) {
 	  interpret(lim->stms);
@@ -999,9 +999,9 @@ static Boolean trycheck(adr, act)
      Boolean act;		/* IN - Act if it fails ? */
 #endif
 {
-  ChkElem *chk;
+  ChkEntry *chk;
 
-  chk = (ChkElem *) addrTo(adr);
+  chk = (ChkEntry *) addrTo(adr);
   if (chk->exp == 0) {
     interpret(chk->stms);
     return(FALSE);
@@ -1033,11 +1033,11 @@ void go(dir)
      int dir;
 #endif
 {
-  ExtElem *ext;
+  ExtEntry *ext;
   Boolean ok;
   Aword oldloc;
 
-  ext = (ExtElem *) addrTo(locs[cur.loc-LOCMIN].exts);
+  ext = (ExtEntry *) addrTo(locs[cur.loc-LOCMIN].exts);
   if (locs[cur.loc-LOCMIN].exts != 0)
     while (!endOfTable(ext)) {
       if (ext->code == dir) {
@@ -1091,25 +1091,25 @@ void go(dir)
 
  */
 #ifdef _PROTOTYPES_
-static AltElem *findalt(
+static AltEntry *findalt(
      Aword vrbsadr,		/* IN - Address to start of list */
      Aword param		/* IN - Which parameter to match */
 )
 #else
-static AltElem *findalt(vrbsadr, param)
+static AltEntry *findalt(vrbsadr, param)
      Aword vrbsadr;		/* IN - Address to start of list */
      Aword param;		/* IN - Which parameter to match */
 #endif
 {
-  VrbElem *vrb;
-  AltElem *alt;
+  VrbEntry *vrb;
+  AltEntry *alt;
 
   if (vrbsadr == 0)
     return(NULL);
 
-  for (vrb = (VrbElem *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
+  for (vrb = (VrbEntry *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
     if (vrb->code == cur.vrb) {
-      for (alt = (AltElem *) addrTo(vrb->alts); !endOfTable(alt); alt++)
+      for (alt = (AltEntry *) addrTo(vrb->alts); !endOfTable(alt); alt++)
 	if (alt->param == param || alt->param == 0)
 	  return alt;
       return NULL;
@@ -1133,7 +1133,7 @@ Boolean possible(void)
 Boolean possible()
 #endif
 {
-  AltElem *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
+  AltEntry *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
   int i;			/* Parameter index */
   
   fail = FALSE;
@@ -1183,7 +1183,7 @@ static void do_it(void)
 static void do_it()
 #endif
 {
-  AltElem *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
+  AltEntry *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
   Boolean done[MAXPARAMS+2];	/* Is it done */
   int i;			/* Parameter index */
   char trace[80];		/* Trace string buffer */
@@ -1322,11 +1322,11 @@ static void do_it()
   */
 #ifdef _PROTOTYPES_
 void action(
-     ParamElem plst[]		/* IN - Plural parameter list */
+     ParamEntry plst[]		/* IN - Plural parameter list */
 )
 #else
 void action(plst)
-     ParamElem plst[];
+     ParamEntry plst[];
 #endif
 {
   int i, mpos;
@@ -1601,18 +1601,15 @@ static void initheader(void)
 static void initheader()
 #endif
 {
-  dict = (WrdElem *) addrTo(header->dict);
+  dict = (WrdEntry *) addrTo(header->dict);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
-  vrbs = (VrbElem *) addrTo(header->vrbs);
-  stxs = (StxElem *) addrTo(header->stxs);
-  locs = (LocElem *) addrTo(header->locs);
-  acts = (ActElem *) addrTo(header->acts);
-  objs = (ObjElem *) addrTo(header->objs);
-  evts = (EvtElem *) addrTo(header->evts);
-  cnts = (CntElem *) addrTo(header->cnts);
-  ruls = (RulElem *) addrTo(header->ruls);
-  msgs = (MsgElem *) addrTo(header->msgs);
+  vrbs = (VrbEntry *) addrTo(header->vrbs);
+  stxs = (StxEntry *) addrTo(header->stxs);
+  evts = (EvtEntry *) addrTo(header->evts);
+  cnts = (CntEntry *) addrTo(header->cnts);
+  ruls = (RulEntry *) addrTo(header->ruls);
+  msgs = (MsgEntry *) addrTo(header->msgs);
   scores = (Aword *) addrTo(header->scores);
 
   if (header->pack)
@@ -1631,9 +1628,9 @@ static void initstrings(void)
 static void initstrings()
 #endif
 {
-  IniElem *init;
+  IniEntry *init;
 
-  for (init = (IniElem *) addrTo(header->init); !endOfTable(init); init++) {
+  for (init = (IniEntry *) addrTo(header->init); !endOfTable(init); init++) {
     getstr(init->fpos, init->len);
     memory[init->adr] = pop();
   }
@@ -1723,9 +1720,9 @@ static void movactor(void)
 static void movactor()
 #endif
 {
-  ScrElem *scr;
-  StepElem *step;
-  ActElem *act = (ActElem *) &acts[cur.act-ACTMIN];
+  ScrEntry *scr;
+  StepEntry *step;
+  ActEntry *act = (ActEntry *) &acts[cur.act-ACTMIN];
 
   cur.loc = where(cur.act);
   if (cur.act == HERO) {
@@ -1733,11 +1730,11 @@ static void movactor()
     fail = FALSE;			/* fail only aborts one actor */
     rules();
   } else if (act->script != 0) {
-    for (scr = (ScrElem *) addrTo(act->scradr); !endOfTable(scr); scr++)
+    for (scr = (ScrEntry *) addrTo(act->scradr); !endOfTable(scr); scr++)
       if (scr->code == act->script) {
 	/* Find correct step in the list by indexing */
-	step = (StepElem *) addrTo(scr->steps);
-	step = (StepElem *) &step[act->step];
+	step = (StepEntry *) addrTo(scr->steps);
+	step = (StepEntry *) &step[act->step];
 	/* Now execute it, maybe. First check wait count */
 	if (step->after > act->count) {
 	  /* Wait some more */

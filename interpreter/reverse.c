@@ -98,10 +98,10 @@ static void reverseMsgs(adr)
      Aword adr;
 #endif
 {
-  MsgElem *e = (MsgElem *) &memory[adr];
+  MsgEntry *e = (MsgEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(MsgElem));
+    reverseTable(adr, sizeof(MsgEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
@@ -117,10 +117,10 @@ static void reverseWrds(adr)
      Aword adr;
 #endif
 {
-  WrdElem *e = (WrdElem *) &memory[adr];
+  WrdEntry *e = (WrdEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(WrdElem));
+    reverseTable(adr, sizeof(WrdEntry));
     while (!endOfTable(e)) {
       if ((e->class & (1L<<WRD_SYN)) == 0) { /* Do not do this for synonyms */
 	reverseTable(e->adjrefs, sizeof(Aword));
@@ -138,10 +138,10 @@ static void reverseChks(adr)
      Aword adr;
 #endif
 {
-  ChkElem *e = (ChkElem *) &memory[adr];
+  ChkEntry *e = (ChkEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ChkElem));
+    reverseTable(adr, sizeof(ChkEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);
@@ -157,10 +157,10 @@ static void reverseAlts(adr)
      Aword adr;
 #endif
 {
-  AltElem *e = (AltElem *)&memory[adr];
+  AltEntry *e = (AltEntry *)&memory[adr];
 
   if (adr != 0 && !endOfTable(e) && !e->done) {
-    reverseTable(adr, sizeof(AltElem));
+    reverseTable(adr, sizeof(AltEntry));
     e->done = TRUE;
     while (!endOfTable(e)) {
       reverseChks(e->checks);
@@ -178,10 +178,10 @@ static void reverseVrbs(adr)
      Aword adr;
 #endif
 {
-  VrbElem *e = (VrbElem *)&memory[adr];
+  VrbEntry *e = (VrbEntry *)&memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(VrbElem));
+    reverseTable(adr, sizeof(VrbEntry));
     while (!endOfTable(e)) {
       reverseAlts(e->alts);
       e++;
@@ -197,10 +197,10 @@ static void reverseSteps(adr)
      Aword adr;
 #endif
 {
-  StepElem *e = (StepElem *) &memory[adr];
+  StepEntry *e = (StepEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(StepElem));
+    reverseTable(adr, sizeof(StepEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stm);
@@ -217,10 +217,10 @@ static void reverseScrs(adr)
      Aword adr;
 #endif
 {
-  ScrElem *e = (ScrElem *) &memory[adr];
+  ScrEntry *e = (ScrEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ScrElem));
+    reverseTable(adr, sizeof(ScrEntry));
     while (!endOfTable(e)) {
       reverseStms(e->dscr);
       reverseSteps(e->steps);
@@ -237,13 +237,13 @@ static void reverseActs(adr)
      Aword adr;
 #endif
 {
-  ActElem *e = (ActElem *) &memory[adr];
+  ActEntry *e = (ActEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ActElem));
+    reverseTable(adr, sizeof(ActEntry));
     while (!endOfTable(e)) {
       reverseStms(e->nam);
-      reverseTable(e->atrs, sizeof(AtrElem));
+      reverseTable(e->atrs, sizeof(AtrEntry));
       reverseScrs(e->scradr);
       reverseVrbs(e->vrbs);
       reverseStms(e->dscr);
@@ -260,14 +260,14 @@ static void reverseObjs(adr, v2_5)
      Boolean v2_5;              /* TRUE if it's a v2.5 format game */
 #endif
 {
-  ObjElem *e = (ObjElem *) &memory[adr];
-  ObjElem25 *e25 = (ObjElem25 *) &memory[adr];
+  ObjEntry *e = (ObjEntry *) &memory[adr];
+  ObjEntry25 *e25 = (ObjEntry25 *) &memory[adr];
 
   if (v2_5) {
     if (adr != 0 && !endOfTable(e25)) {
-      reverseTable(adr, sizeof(ObjElem25));
+      reverseTable(adr, sizeof(ObjEntry25));
       while (!endOfTable(e25)) {
-	reverseTable(e25->atrs, sizeof(AtrElem));
+	reverseTable(e25->atrs, sizeof(AtrEntry));
 	reverseVrbs(e25->vrbs);
 	reverseStms(e25->dscr1);
 	reverseStms(e25->dscr2);
@@ -276,9 +276,9 @@ static void reverseObjs(adr, v2_5)
     }
   } else {
     if (adr != 0 && !endOfTable(e)) {
-      reverseTable(adr, sizeof(ObjElem));
+      reverseTable(adr, sizeof(ObjEntry));
       while (!endOfTable(e)) {
-	reverseTable(e->atrs, sizeof(AtrElem));
+	reverseTable(e->atrs, sizeof(AtrEntry));
 	reverseVrbs(e->vrbs);
 	reverseStms(e->art);
 	reverseStms(e->dscr1);
@@ -297,10 +297,10 @@ static void reverseExts(adr)
      Aword adr;
 #endif
 {
-  ExtElem *e = (ExtElem *) &memory[adr];
+  ExtEntry *e = (ExtEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ExtElem));
+    reverseTable(adr, sizeof(ExtEntry));
     while (!endOfTable(e)) {
       if (!e->done) {
 	reverseChks(e->checks);
@@ -318,15 +318,15 @@ static void reverseLocs(adr)
      Aword adr;
 #endif
 {
-  LocElem *e = (LocElem *) &memory[adr];
+  LocEntry *e = (LocEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(LocElem));
+    reverseTable(adr, sizeof(LocEntry));
     while (!endOfTable(e)) {
       reverseStms(e->nams);
       reverseStms(e->dscr);
       reverseStms(e->does);
-      reverseTable(e->atrs, sizeof(AtrElem));
+      reverseTable(e->atrs, sizeof(AtrEntry));
       reverseExts(e->exts);
       reverseVrbs(e->vrbs);
       e++;
@@ -342,10 +342,10 @@ static void reverseClas(adr)
      Aword adr;
 #endif
 {
-  ClaElem *e = (ClaElem *) &memory[adr];
+  ClaEntry *e = (ClaEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ClaElem));
+    reverseTable(adr, sizeof(ClaEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
@@ -363,10 +363,10 @@ static void reverseElms(adr)
      Aword adr;
 #endif
 {
-  ElmElem *e = (ElmElem *) &memory[adr];
+  ElmEntry *e = (ElmEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ElmElem));
+    reverseTable(adr, sizeof(ElmEntry));
     while (!endOfTable(e)) {
       if (e->code == EOS) reverseClas(e->next);
       else reverseElms(e->next);
@@ -383,10 +383,10 @@ static void reverseStxs(adr)
      Aword adr;
 #endif
 {
-  StxElem *e = (StxElem *) &memory[adr];
+  StxEntry *e = (StxEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(StxElem));
+    reverseTable(adr, sizeof(StxEntry));
     while (!endOfTable(e)) {
       reverseElms(e->elms);
       e++;
@@ -401,10 +401,10 @@ static void reverseEvts(adr)
      Aword adr;
 #endif
 {
-  EvtElem *e = (EvtElem *) &memory[adr];
+  EvtEntry *e = (EvtEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(EvtElem));
+    reverseTable(adr, sizeof(EvtEntry));
     while (!endOfTable(e)) {
       reverseStms(e->code);
       e++;
@@ -421,10 +421,10 @@ static void reverseLims(adr)
      Aword adr;
 #endif
 {
-  LimElem *e = (LimElem *) &memory[adr];
+  LimEntry *e = (LimEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(LimElem));
+    reverseTable(adr, sizeof(LimEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
@@ -440,10 +440,10 @@ static void reverseCnts(adr)
      Aword adr;
 #endif
 {
-  CntElem *e = (CntElem *) &memory[adr];
+  CntEntry *e = (CntEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(CntElem));
+    reverseTable(adr, sizeof(CntEntry));
     while (!endOfTable(e)) {
       reverseLims(e->lims);
       reverseStms(e->header);
@@ -462,10 +462,10 @@ static void reverseRuls(adr)
      Aword adr;
 #endif
 {
-  RulElem *e = (RulElem *) &memory[adr];
+  RulEntry *e = (RulEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(RulElem));
+    reverseTable(adr, sizeof(RulEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);
@@ -515,18 +515,15 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseWrds(header->dict);
-  reverseTable(header->oatrs, sizeof(AtrElem));
-  reverseTable(header->latrs, sizeof(AtrElem));
-  reverseTable(header->aatrs, sizeof(AtrElem));
-  reverseActs(header->acts);
-  reverseObjs(header->objs, v2_5);
-  reverseLocs(header->locs);
+  reverseTable(header->oatrs, sizeof(AtrEntry));
+  reverseTable(header->latrs, sizeof(AtrEntry));
+  reverseTable(header->aatrs, sizeof(AtrEntry));
   reverseStxs(header->stxs);
   reverseVrbs(header->vrbs);
   reverseEvts(header->evts);
   reverseCnts(header->cnts);
   reverseRuls(header->ruls);
-  reverseTable(header->init, sizeof(IniElem));
+  reverseTable(header->init, sizeof(IniEntry));
   reverseStms(header->start);
   reverseMsgs(header->msgs);
  

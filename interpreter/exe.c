@@ -28,7 +28,7 @@
 /* PUBLIC DATA */
 
 /* The event queue */
-EvtqElem eventq[N_EVTS];        /* Event queue */
+EvtqEntry eventq[N_EVTS];        /* Event queue */
 int etop = 0;                   /* Event queue top pointer */
 
 Boolean looking = FALSE;        /* LOOKING? flag */
@@ -322,9 +322,9 @@ static Aword getatr(atradr, atr)
      Aaddr atr;                 /* IN - The attribute to read */
 #endif
 {
-  AtrElem *at;
+  AtrEntry *at;
 
-  at = (AtrElem *) addrTo(atradr);
+  at = (AtrEntry *) addrTo(atradr);
   return at[atr-1].val;
 }
   
@@ -349,9 +349,9 @@ static void setatr(atradr, atr, val)
      Aword val;                 /* IN - new value */
 #endif
 {
-  AtrElem *at;
+  AtrEntry *at;
   
-  at = (AtrElem *) addrTo(atradr);
+  at = (AtrEntry *) addrTo(atradr);
   at[atr-1].val = val;
 }
 
@@ -513,9 +513,9 @@ static void incratr(atradr, atr, step)
      Aaddr atradr, atr, step;
 #endif
 {
-  AtrElem *at;
+  AtrEntry *at;
   
-  at = (AtrElem *) addrTo(atradr);
+  at = (AtrEntry *) addrTo(atradr);
   at[atr-1].val += step;
 }
 
@@ -1207,10 +1207,10 @@ static void dscract(act)
      Aword act;
 #endif
 {
-  ScrElem *scr = NULL;
+  ScrEntry *scr = NULL;
 
   if (acts[act-ACTMIN].script != 0) {
-    for (scr = (ScrElem *) addrTo(acts[act-ACTMIN].scradr); !endOfTable(scr); scr++)
+    for (scr = (ScrEntry *) addrTo(acts[act-ACTMIN].scradr); !endOfTable(scr); scr++)
       if (scr->code == acts[act-ACTMIN].script)
 	break;
     if (endOfTable(scr)) scr = NULL;
@@ -1515,7 +1515,7 @@ void save()
   int i;
   FILE *savfil;
   char str[256];
-  AtrElem *atr;
+  AtrEntry *atr;
 
   /* First save ? */
   if (savfnm[0] == '\0') {
@@ -1553,7 +1553,7 @@ void save()
     fwrite((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
     fwrite((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
     if (acts[i-ACTMIN].atrs)
-      for (atr = (AtrElem *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->val, sizeof(Aword), 1, savfil);
   }
 
@@ -1561,7 +1561,7 @@ void save()
   for (i = LOCMIN; i <= LOCMAX; i++) {
     fwrite((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
     if (locs[i-LOCMIN].atrs)
-      for (atr = (AtrElem *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->val, sizeof(Aword), 1, savfil);
   }
 
@@ -1569,7 +1569,7 @@ void save()
   for (i = OBJMIN; i <= OBJMAX; i++) {
     fwrite((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
     if (objs[i-OBJMIN].atrs)
-      for (atr = (AtrElem *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->val, sizeof(atr->val), 1, savfil);
   }
 
@@ -1600,7 +1600,7 @@ void restore()
   int i;
   FILE *savfil;
   char str[256];
-  AtrElem *atr;
+  AtrEntry *atr;
   char savedVersion[4];
   char savedName[256];
 
@@ -1650,7 +1650,7 @@ void restore()
     fread((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
     fread((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
     if (acts[i-ACTMIN].atrs)
-      for (atr = (AtrElem *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
 	fread((void *)&atr->val, sizeof(Aword), 1, savfil);
   }
 
@@ -1658,7 +1658,7 @@ void restore()
   for (i = LOCMIN; i <= LOCMAX; i++) {
     fread((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
     if (locs[i-LOCMIN].atrs)
-      for (atr = (AtrElem *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
 	fread((void *)&atr->val, sizeof(Aword), 1, savfil);
   }
 
@@ -1666,7 +1666,7 @@ void restore()
   for (i = OBJMIN; i <= OBJMAX; i++) {
     fread((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
     if (objs[i-OBJMIN].atrs)
-      for (atr = (AtrElem *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
+      for (atr = (AtrEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
 	fread((void *)&atr->val, sizeof(atr->val), 1, savfil);
   }
 

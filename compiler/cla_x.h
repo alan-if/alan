@@ -20,7 +20,7 @@ extern void initClasses();
 /* Create a new Class node */
 extern ClaNod *newcla(Srcp *srcp,
 		      IdNode *id,
-		      IdNode *heritage,
+		      IdNode *parent,
 		      Slots *slt);
 
 /* Symbolize all Classes */

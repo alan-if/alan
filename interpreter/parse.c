@@ -42,13 +42,13 @@ Boolean plural = FALSE;
 
 /* Syntax Parameters */
 int paramidx;			/* Index in params */
-ParamElem *params;		/* List of params */
-static ParamElem *pparams;	/* Previous parameter list */
-static ParamElem *mlst;		/* Multiple objects list */
-static ParamElem *pmlst;	/* Previous multiple list */
+ParamEntry *params;		/* List of params */
+static ParamEntry *pparams;	/* Previous parameter list */
+static ParamEntry *mlst;		/* Multiple objects list */
+static ParamEntry *pmlst;	/* Previous multiple list */
 
 /* Literals */
-LitElem litValues[MAXPARAMS+1];
+LiteralEntry litValues[MAXPARAMS+1];
 int litCount;
 
 /* What did the user say? */
@@ -245,7 +245,7 @@ static void scan()
   getline();
   wrds[0] = 0;
   for (i = 0; i < litCount; i++)
-    if (litValues[i].type == TYPSTR && litValues[i].value != 0)
+    if (litValues[i].type == STRING_LITERAL && litValues[i].value != 0)
       free((char *) litValues[i].value);
   i = 0;
   litCount = 0;
@@ -259,13 +259,13 @@ static void scan()
       if (litCount > MAXPARAMS)
 	syserr("Too many parameters.");
       wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
-      litValues[litCount].type = TYPNUM;
+      litValues[litCount].type = NUMERIC_LITERAL;
       litValues[litCount++].value = number(token);
     } else if (token[0] == '\"') {
       if (litCount > MAXPARAMS)
 	syserr("Too many parameters.");
       wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
-      litValues[litCount].type = TYPSTR;
+      litValues[litCount].type = STRING_LITERAL;
       /* Remove the string quotes while copying */
       str = strdup(&token[1]);
       str[strlen(token)-2] = '\0';
@@ -321,11 +321,11 @@ static void nonverb()
 
 #ifdef _PROTOTYPES_
 static void buildall(
-     ParamElem list[]
+     ParamEntry list[]
 )
 #else
 static void buildall(list)
-     ParamElem list[];
+     ParamEntry list[];
 #endif
 {
   int o, i = 0;
@@ -346,24 +346,24 @@ static void buildall(list)
 
 #ifdef _PROTOTYPES_
 static void unambig(
-     ParamElem plst[]
+     ParamEntry plst[]
 )
 #else
 static void unambig(plst)
-     ParamElem plst[];
+     ParamEntry plst[];
 #endif
 {
   int i;
   Boolean found = FALSE;	/* Adjective or noun found ? */
-  static ParamElem *refs;	/* Entities referenced by word */
-  static ParamElem *savlst;	/* Saved list for backup at EOF */
+  static ParamEntry *refs;	/* Entities referenced by word */
+  static ParamEntry *savlst;	/* Saved list for backup at EOF */
   int firstWord, lastWord;	/* The words the player used */
 
   if (refs == NULL)
-    refs = (ParamElem *)allocate((MAXENTITY+1)*sizeof(ParamElem));
+    refs = (ParamEntry *)allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
   if (savlst == NULL)
-    savlst = (ParamElem *)allocate((MAXENTITY+1)*sizeof(ParamElem));
+    savlst = (ParamEntry *)allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
   if (isLiteral(wrds[wrdidx])) {
     /* Transform the word into a reference to the literal value */
@@ -459,20 +459,20 @@ static void unambig(plst)
   
 #ifdef _PROTOTYPES_
 static void simple(
-     ParamElem olst[]
+     ParamEntry olst[]
 )
 #else
 static void simple(olst)
-     ParamElem olst[];
+     ParamEntry olst[];
 #endif
 {
-  static ParamElem *tlst = NULL;
+  static ParamEntry *tlst = NULL;
   int savidx = wrdidx;
   Boolean savplur = FALSE;
   int i;
 
   if (tlst == NULL)
-    tlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
+    tlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
   tlst[0].code = EOF;
 
   for (;;) {
@@ -524,17 +524,17 @@ static void simple(olst)
 */
 #ifdef _PROTOTYPES_
 static void complex(
-     ParamElem olst[]
+     ParamEntry olst[]
 )
 #else
 static void complex(olst)
-     ParamElem olst[];
+     ParamEntry olst[];
 #endif
 {
-  static ParamElem *alst = NULL;
+  static ParamEntry *alst = NULL;
 
   if (alst == NULL)
-    alst = (ParamElem *) allocate((MAXENTITY+1)*sizeof(ParamElem));
+    alst = (ParamEntry *) allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
   if (isAll(wrds[wrdidx])) {
     plural = TRUE;
@@ -558,11 +558,11 @@ static void complex(olst)
 
 #ifdef _PROTOTYPES_
 static Boolean claCheck(
-     ClaElem *cla		/* IN - The cla elem to check */
+     ClaEntry *cla		/* IN - The cla entry to check */
 )
 #else
 static Boolean claCheck(cla)
-     ClaElem *cla;		/* IN - The cla elem to check */
+     ClaEntry *cla;		/* IN - The cla entry to check */
 #endif
 {
   Boolean ok = FALSE;
@@ -593,7 +593,7 @@ static Boolean claCheck(cla)
   access to remote object), we need to remove non-present parameters
 
 */
-static void resolve(ParamElem plst[])
+static void resolve(ParamEntry plst[])
 {
   int i;
 
@@ -612,23 +612,23 @@ static void resolve(ParamElem plst[])
 
 #ifdef _PROTOTYPES_
 static void try(
-  ParamElem mlst[]		/* OUT - List of params allowed by multiple */
+  ParamEntry mlst[]		/* OUT - List of params allowed by multiple */
 )
 #else
 static void try(mlst)
-  ParamElem mlst[];		/* OUT - List of params allowed by multiple */
+  ParamEntry mlst[];		/* OUT - List of params allowed by multiple */
 #endif
 {
-  ElmElem *elms;		/* Pointer to element list */
-  StxElem *stx;			/* Pointer to syntax list */
-  ClaElem *cla;			/* Pointer to class definitions */
+  ElmEntry *elms;		/* Pointer to entryent list */
+  StxEntry *stx;			/* Pointer to syntax list */
+  ClaEntry *cla;			/* Pointer to class definitions */
   Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, p;
-  static ParamElem *tlst = NULL; /* List of params found by complex() */
+  static ParamEntry *tlst = NULL; /* List of params found by complex() */
   static Boolean *checked = NULL; /* Corresponding parameter checked? */
 
   if (tlst == NULL) {
-    tlst = (ParamElem *) allocate((MAXENTITY+1)*sizeof(ParamElem));
+    tlst = (ParamEntry *) allocate((MAXENTITY+1)*sizeof(ParamEntry));
     checked = (Boolean *) allocate((MAXENTITY+1)*sizeof(Boolean));
   }
 
@@ -638,7 +638,7 @@ static void try(mlst)
   if (endOfTable(stx))
     error(M_WHAT);
 
-  elms = (ElmElem *) addrTo(stx->elms);
+  elms = (ElmEntry *) addrTo(stx->elms);
 
   while (TRUE) {
     /* End of input? */
@@ -688,7 +688,7 @@ static void try(mlst)
 	  params[paramidx++] = tlst[0];
 	params[paramidx].code = EOF;
       }
-      elms = (ElmElem *) addrTo(elms->next);
+      elms = (ElmEntry *) addrTo(elms->next);
     }
   }
   
@@ -698,7 +698,7 @@ static void try(mlst)
 
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
-  for (cla = (ClaElem *) addrTo(elms->next); !endOfTable(cla); cla++) {
+  for (cla = (ClaEntry *) addrTo(elms->next); !endOfTable(cla); cla++) {
     if (params[cla->code-1].code == 0) {
       /* This was a multiple parameter, so check all and remove failing */
       for (i = 0; mlst[i].code != EOF; i++) {
@@ -773,11 +773,11 @@ static void try(mlst)
   
 #ifdef _PROTOTYPES_
 static void match(
-     ParamElem *mlst		/* OUT - List of params allowed by multiple */
+     ParamEntry *mlst		/* OUT - List of params allowed by multiple */
 )
 #else
 static void match(mlst)
-     ParamElem *mlst;		/* OUT - List of params allowed by multiple */
+     ParamEntry *mlst;		/* OUT - List of params allowed by multiple */
 #endif
 {
   try(mlst);			/* ... to understand what he said */
@@ -795,12 +795,12 @@ void parse()
 #endif
 {
   if (mlst == NULL) {		/* Allocate large enough paramlists */
-    mlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
+    mlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
     mlst[0].code = EOF;
-    pmlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
-    params = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
+    pmlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    params = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
     params[0].code = EOF;
-    pparams = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
+    pparams = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
   }
 
   if (wrds[wrdidx] == EOF) {
