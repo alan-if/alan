@@ -396,7 +396,7 @@ static void generateRestrictionTable(void) {
 
 
 /*======================================================================*/
-Aaddr generateSyntaxTable(void) {
+Aaddr generateParseTable(void) {
   List *lst;
   Aaddr parseTableAddress;
 

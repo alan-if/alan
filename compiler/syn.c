@@ -26,16 +26,8 @@
 
 
 
-/*======================================================================
-
-  newsyn()
-
-  Create a new synonym node.
-
-  */
-Synonym *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
-	       List *ids,	/* IN - List of synonyms */
-	       IdNode *id)	/* IN - For the target name */
+/*======================================================================*/
+Synonym *newsyn(Srcp *srcp, List *synonymIdList, IdNode *targetId)
 {
   Synonym *new;
 
@@ -44,8 +36,8 @@ Synonym *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
   new = NEW(Synonym);
 
   new->srcp = *srcp;
-  new->ids = ids;
-  new->id = id;
+  new->ids = synonymIdList;
+  new->id = targetId;
 
   return(new);
 }
@@ -67,14 +59,15 @@ void analyzeSynonyms(void)
     wrd = findWord(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);
-    for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
-      /* Look up the synonym */
-      swrd = findWord(slst->element.id->string);
-      if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
-	lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
-      else
-	newSynonymWord(slst->element.id->string, wrd);
-    }
+    else
+      for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
+	/* Look up the synonym */
+	swrd = findWord(slst->element.id->string);
+	if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
+	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
+	else
+	  newSynonymWord(slst->element.id->string, wrd);
+      }
   }
 }
 

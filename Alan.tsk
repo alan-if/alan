@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>401.89</origest>
-<currest>400.89</currest>
-<elapsed>259.89</elapsed>
+<origest>402.89</origest>
+<currest>401.89</currest>
+<elapsed>260.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>63</origest>
-<currest>63</currest>
-<elapsed>22</elapsed>
+<origest>64</origest>
+<currest>64</currest>
+<elapsed>23</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
-<elapsed>22</elapsed>
+<origest>31</origest>
+<currest>31</currest>
+<elapsed>23</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -291,6 +291,17 @@ Words can't be prepositions and verbs at the same time. See gestx()
 <task>
 <desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow nearby to be applied to locations</desc>
+<notes>See games/goto.
+
+Currently the interpreter crashes.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

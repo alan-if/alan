@@ -119,14 +119,17 @@ static void specialListing(lmSev sevs)
       if (srcp.file == -1) 
 	fnm = &nofile;
       else
-	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
-	  fnm = fnm->next;
+	for (fnm = fileNames, j = 0; j < srcp.file; j++)
+	  if (fnm != NULL)
+	    fnm = fnm->next;
+      if (fnm == NULL)
+	fnm = &nofile;
       if (ccFlag)
 	sprintf(line, "\"%s\", line %d(%d): %s\n",
 		fnm->element.str, srcp.line, srcp.col, err);
       else if (ideFlag)
-	sprintf(line, "\"%s\", positions %d-%d: %s\n",
-		fnm->element.str, srcp.startpos, srcp.endpos, err);
+	sprintf(line, "\"%s\", line %d %d-%d: %s\n",
+		fnm->element.str, srcp.line, srcp.startpos, srcp.endpos, err);
       else
 	sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
 		fnm->element.str, srcp.line, srcp.col, err, srcp.col);

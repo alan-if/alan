@@ -202,7 +202,7 @@ void generateAdventure(char acodeFileName[],
   acodeHeader.dictionary = generateAllWords();
 
   if (verbose) printf("\n\tSyntaxTable: ");
-  acodeHeader.syntaxTableAddress = generateSyntaxTable();
+  acodeHeader.syntaxTableAddress = generateParseTable();
 
   if (verbose) printf("\n\tParameter Mapping: ");
   acodeHeader.parameterMapAddress = generateParameterMappingTable();

@@ -129,7 +129,7 @@ static void addNames(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->names != NULL)
-    lmLogv(&props->names->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
+    lmLogv(&props->names->element.lst->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
 }
 
 

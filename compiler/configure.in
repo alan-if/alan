@@ -23,7 +23,7 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([memset strchr strdup strrchr])
+AC_CHECK_FUNCS([memset strchr strdup strrchr strcasecmp])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

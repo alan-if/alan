@@ -29,7 +29,7 @@ extern Bool equalParameterLists(Syntax *stx1,
 		     Syntax *stx2);
 
 extern void analyzeSyntaxes(void);
-extern Aaddr generateSyntaxTable(void);
+extern Aaddr generateParseTable(void);
 extern Aaddr generateParameterMappingTable(void);
 extern void dumpSyntax(Syntax *stx);
 
