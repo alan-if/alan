@@ -2,17 +2,27 @@
 -- Also defines the default directions
 
 SYNONYMS
-	up = u.
+    north = n.
+    south = s.
+    east = e.
+    west = w.
+    northeast = ne.
+    southeast = se.
+    northwest = nw.
+    southwest = sw.
+    up = u.
+    down = d.
+
 
 LOCATION nowhere
-  exit n to nowhere.
-  exit s to nowhere.
-  exit w to nowhere.
-  exit e to nowhere.
-  exit ne to nowhere.
-  exit se to nowhere.
-  exit nw to nowhere.
-  exit sw to nowhere.
-  exit up to nowhere.
-  exit d to nowhere.
+    EXIT n TO nowhere.
+    EXIT s TO nowhere.
+    EXIT w TO nowhere.
+    EXIT e TO nowhere.
+    EXIT ne TO nowhere.
+    EXIT se TO nowhere.
+    EXIT nw TO nowhere.
+    EXIT sw TO nowhere.
+    EXIT u TO nowhere.
+    EXIT d TO nowhere.
 END LOCATION nowhere.

@@ -1,8 +1,15 @@
+SYNTAX
+	verbose = verbose.
+
 VERB verbose
   DOES
     Visits 0.
     "Verbose mode is now on."
 END VERB verbose.
+
+
+SYNTAX
+	brief = brief.
 
 VERB brief
   DOES
