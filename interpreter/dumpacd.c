@@ -260,6 +260,38 @@ static void dumpVrbs(int level, Aword vrbs)
 
 /*----------------------------------------------------------------------
 
+  dumpCnts()
+
+  Dump a list of verbs
+
+ */
+static void dumpCnts(int level, Aword cnts)
+{
+  CntElem *cnt;
+
+  if (cnts == 0) return;
+
+  for (cnt = (CntElem *)addrTo(cnts); !endOfTable(cnt); cnt++) {
+    indent(level);
+    printf("CNT:\n");
+    indent(level+1);
+    printf("LIMS: %ld(0x%lx)\n", cnt->lims, cnt->lims);
+    indent(level+1);
+    printf("HEADER: %ld(0x%lx)\n", cnt->header, cnt->header);
+    indent(level+1);
+    printf("EMPTY: %ld(0x%lx)\n", cnt->empty, cnt->empty);
+    indent(level+1);
+    printf("PARENT: %ld\n", cnt->parent);
+    indent(level+1);
+    printf("NAM: %ld(0x%lx)\n", cnt->nam, cnt->nam);
+
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
   dumpObjs()
 
   Dump a list of objects
@@ -504,6 +536,7 @@ static void dumpACD(void)
   if (dumpvrbs) dumpVrbs(1, header->vrbs);
   printf("EVTS: %ld(0x%lx)\n", header->evts, header->evts);
   printf("CNTS: %ld(0x%lx)\n", header->cnts, header->cnts);
+  if (dumpcnts) dumpCnts(1, header->cnts);
   printf("RULS: %ld(0x%lx)\n", header->ruls, header->ruls);
   printf("INIT: %ld(0x%lx)\n", header->init, header->init);
   printf("START: %ld(0x%lx)\n", header->start, header->start);

@@ -129,7 +129,7 @@ void initact(void)
 		    newact(&nulsrcp, newnam(&nulsrcp, "hero"),
 			   NULL,
 			   newwhr(&nulsrcp, WHR_DEFAULT, NULL),
-			   NULL,
+			   adv.cnts->element.cnt, /* The inventory container */
 			   NULL,
 			   NULL,
 			   NULL,

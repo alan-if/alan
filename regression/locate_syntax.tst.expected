@@ -72,10 +72,9 @@ locate_syntax.alan
   *2*   318 E : Entity 'object_id' is not a Container.
 
    39.      LOCATE OBJECT IN hero.
-=====>             1         2
+=====>             1
 
   *1*   409 E : No parameter defined in this context.
-  *2*   318 E : Entity 'hero' is not a Container.
 
    41.      LOCATE LOCATION HERE.
 =====>      1
@@ -98,7 +97,7 @@ locate_syntax.alan
   *1*   311 E : Must refer to an Object or an Actor.
 
 
-        23 error(s).
+        22 error(s).
         No detected warnings.
         2 informational message(s).
 

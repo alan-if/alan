@@ -1,3 +1,4 @@
+i
 open mailbox
 read leaflet
 e
@@ -11,6 +12,7 @@ d
 w
 read report
 take sword and examine it
+i
 examine all
 examine rug
 move it

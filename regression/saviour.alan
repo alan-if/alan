@@ -149,7 +149,6 @@ VERB run
         "You better not run in this old building, you might trip and fall."
 END VERB run.
 
-
 SYNTAX 'score' = 'score'.
 VERB 'score'
     DOES

@@ -69,6 +69,7 @@ CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
     } else if (strcmp(sym->str, "inventory") == 0) {
       cnt = (CntNod *) sym->ref;
       cnt->srcp = new->srcp;
+      cnt->nam = new->nam;
       cnt->lims = new->lims;
       cnt->hstms = new->hstms;
       cnt->estms = new->estms;
@@ -192,10 +193,12 @@ void ancnt(CntNod *cnt)		/* IN - The container to analyze */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  if (cnt->parent == NULL) {	/* No parent object? */
-    if (cnt->nam == NULL)
+  if (cnt->parent == NULL &&	/* No parent object? */
+      cnt->nam == NULL)		/* And no name */
       /* ?!? This is probably a duplicate object container, so create a fake name */
       cnt->nam = newnam(&cnt->srcp, "$container");
+
+  if (cnt->nam != NULL) {	/* It got it's own name... */
     /* So it needs name printing statements, create it */
     fpos = ftell(txtfil);
     len = annams(NULL, cnt->nam, FALSE);
@@ -245,12 +248,14 @@ static void gecnt(CntNod *cnt)	/* IN - The container to generate */
 
   cnt->limadr = gelims(cnt);
 
-  if (cnt->parent == NULL)	{	/* Save the name of the container */
+  if (cnt->nam != NULL)	{	/* Save the name of the container */
     cnt->namadr = emadr();
     gestms(cnt->namstms, NULL);
     emit0(C_STMOP, I_RETURN);
-  } else
+  } else if (cnt->parent != NULL)
     cnt->namadr = 0;
+  else
+    syserr("gecnt(): A container without a name and a parent.");
 
   if (cnt->hstms != NULL) {
     cnt->hadr = emadr();

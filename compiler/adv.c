@@ -59,8 +59,8 @@ static Aword end;
   */
 void initadv(void)
 {
+  initcnt();			/* Must do this first to create the inventory */
   initact();
-  initcnt();
 }
 
 

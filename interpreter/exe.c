@@ -1317,10 +1317,10 @@ void list(cnt)
 	  interpret(cnts[props-CNTMIN].header);
 	else {
 	  prmsg(M_CONTAINS1);
-	  if (cnts[props-CNTMIN].parent != 0) /* It is actually an object or actor */
-	    say(cnts[props-CNTMIN].parent);
-	  else
+	  if (cnts[props-CNTMIN].nam != 0) /* It has it's own name */
 	    interpret(cnts[props-CNTMIN].nam);
+	  else
+	    say(cnts[props-CNTMIN].parent); /* It is actually an object or actor */
 	  prmsg(M_CONTAINS2);
 	}
       } else {
@@ -1347,10 +1347,10 @@ void list(cnt)
       interpret(cnts[props-CNTMIN].empty);
     else {
       prmsg(M_EMPTY1);
-      if (cnts[props-CNTMIN].parent != 0) /* It is actually an object or actor */
-	say(cnts[props-CNTMIN].parent);
-      else
+      if (cnts[props-CNTMIN].nam != 0) /* It has it's own name */
 	interpret(cnts[props-CNTMIN].nam);
+      else
+	say(cnts[props-CNTMIN].parent);	/* It is actually an actor or object */
       prmsg(M_EMPTY2);
     }
   }

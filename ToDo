@@ -23,9 +23,6 @@ ToDo:
 	* Check out the MaxZip and MaxTADS guy. Possibly that
 	framework would be used for Arun on the Mac, MaxArun.
 
-	* Make the HERO a container actor with the inventory as the
-	container if possible.
-
 	* Document that the inventory is actually the container of the
 	hero (when that is true), and that the hero is a container
 	actor.
@@ -127,6 +124,9 @@ ToDo:
 
 
 DONE:
+	* Make the HERO a container actor with the inventory as the
+	container if possible.
+
 	* Describe the listing and error messages format better
 	(positions, pointers etc.)
 

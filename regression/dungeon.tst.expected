@@ -14,6 +14,9 @@ Welcome to Dungeon (ALAN Demo). This version created 29-FEB-92.
 You are in an open field west of a big white house with a boarded front
 door. There is a small mailbox here.
 
+> i
+The inventory is empty.
+
 > open mailbox
 The mailbox is now open. The small mailbox contains a leaflet.
 
@@ -94,6 +97,11 @@ adventure gaming should recognize.
 Taken!
 
 I see nothing special about the elvish sword.
+
+> i
+The inventory contains an elongated brown sack, smelling of hot peppers, a 
+clear glass bottle, a elvish sword, a rope, a square clay brick and a 
+nasty knife.
 
 > examine all
 You can't refer to multiple objects with 'examine'.
