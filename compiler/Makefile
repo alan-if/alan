@@ -6,13 +6,15 @@ CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
+PATH		:sh= path -e $PATH -r /usr/local/ware/apstools/bin -r /usr/local/ware/purify -r /usr/local/apstools
+
 purify:=		CC = acc -Xc -vc
 all debug release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 
 LD	= $(GCC)
-LDFLAGS	= #-lm #-lc.1.7
+LDFLAGS	= -L/usr/local/lib/4.1.2
 
 EXTRAS = \
 	alan.tmk \

@@ -6,6 +6,7 @@ CFLAGS = -n +l $(CQ)
 LDFLAGS	= -lc32 -g $(LQ)
 
 OBJECTS = arun.o \
+	args.o \
 	debug.o \
 	exe.o \
 	inter.o \
@@ -29,6 +30,9 @@ arun.o: arun.c
 
 term.o: term.c
 	cc $(CFLAGS) -L400 term.c
+
+args.o: args.c
+	cc $(CFLAGS) -L400 args.c
 
 #-- ARCHIVE
 archive:

@@ -6,6 +6,8 @@ CPP	= gcc -MM -ansi -I/usr/local/include/ansi
 
 GCC	= gcc2.4.5
 
+PATH:sh	= path -e $PATH -r /usr/local/ware/apstools/bin -r /usr/local/ware/purify -r /usr/local/apstools
+
 purify:=		CC = acc -Xc -vc
 debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)

@@ -306,8 +306,8 @@ void symcheck(sym, elm, nam, classes, props, pars)
 	  /* Check properties */
 	  if (props != NAMANY) {
 	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
-		(*elm)->res->classes & props != props)
-	    lmLog(&nam->srcp, 312, sevERR, symstr(props));
+		((*elm)->res->classes & props) != props)
+	      lmLog(&nam->srcp, 312, sevERR, symstr(props));
 	    *elm = NULL;
 	  }
 	}

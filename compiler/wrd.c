@@ -112,6 +112,7 @@ int newwrd(str, class, code, ref)
   new->classbits = 1L<<class;
   new->str = str;
   new->code = code;
+  memset(new->ref, 0, sizeof(new->ref));
   if (class != WRD_SYN)
     new->ref[class] = concat(NULL, ref);
   else

@@ -577,7 +577,7 @@ int main(argc,argv)
   if (!smScanEnter(srcfnm)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
-    lmList("", 0, 78, liERR, sevALL); /* TINY list on the screen*/
+    lmList("", 0, 79, liERR, sevALL); /* TINY list on the screen*/
     exit(EXIT_FAILURE);
   }
 
@@ -646,14 +646,14 @@ int main(argc,argv)
 
   /* Check what messages to show on the screen */
   if (fulflg)
-    lmList("", 0, 80, liFULL, sevALL);
+    lmList("", 0, 79, liFULL, sevALL);
   else {
     sevs = sevALL;
     if (!warnings)
       sevs &= ~sevWAR;
     if (!infos)
       sevs &= ~sevINF;
-    lmList("", 0, 80, liTINY, sevs);
+    lmList("", 0, 79, liTINY, sevs);
   }
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);
