@@ -241,7 +241,7 @@ void prepmsgs()
   int msgno;
   List *smsgs = NULL;		/* The constructed list */
   List *umsgs;			/* Iteration pointer into user messages list */
-  List *lst;
+  List *lst, *rest;
   /* The dummy list of statements */
   StmNod *stm;
   List *stms = NULL;
@@ -333,12 +333,10 @@ void prepmsgs()
   }
 
   /* Free the user defined messages */
-  for (lst = adv.msgs; lst; lst = lst->next) {
-    free(adv.msgs);
-    adv.msgs = lst;
+  for (lst = adv.msgs; lst; lst = rest) {
+    rest = lst->next;
+    free(lst);
   }
-  if (adv.msgs != NULL) free(adv.msgs);
-
   adv.msgs = smsgs;
 }
 
