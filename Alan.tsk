@@ -4,34 +4,99 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>296.89</origest>
-<currest>295.89</currest>
-<elapsed>136.89</elapsed>
+<origest>303.89</origest>
+<currest>302.89</currest>
+<elapsed>139.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
-<elapsed>2</elapsed>
+<origest>47</origest>
+<currest>47</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
-<elapsed>2</elapsed>
+<origest>16</origest>
+<currest>16</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Settings dialogue for compiler on Windows</desc>
+<desc>Attributes of class type</desc>
+<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Instance Type in type system</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute declarations of instance Type</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Code generation of instance attributes</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Type comparison rules for instance type</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Assignment rules for instance attributes</desc>
+<notes>Requires actual value to be only subclasses of instance initial class.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Expression syntax for accessing attributes of attributes</desc>
+<notes>In order to refer to an attribute of an instance which is refered to by an attribute the expression syntax need to be changed so that it allows:
+
+  Make otherside Of door open.
+  Set size Of bag Of thief To 4.
+
+Possibly at the same time we could introduce a new attribute reference syntax, e.g:
+  Make door:otherside:open.
+  Set thief:bag:size To 4.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>RESTART does not work well in WinArun</desc>
@@ -54,45 +119,8 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Should checks only be run for alternatives that match?</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -109,8 +137,8 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
-<notes>Checks are always run it's the bodies that we have to warn for</notes>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -118,12 +146,8 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Attributes of class type</desc>
-<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
+<notes>Checks are always run it's the bodies that we have to warn for</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -175,8 +199,8 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -190,6 +214,25 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -301,8 +344,8 @@ We also need some way to re-output the state.</notes>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -310,6 +353,15 @@ We also need some way to re-output the state.</notes>
 <notes>Generally: UNDO should say something, standard messages?
 
 Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -341,8 +393,35 @@ Implementation requires:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>"no instance" constant ("nothing"?)</desc>
+<notes>What happens if we use that as an initialization? Which type will the attribute get?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Maybe allow "Has neighbour Any object."</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>QUIT message should allow UNDO</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -390,7 +469,7 @@ Which of the above works, and what is the problem with each that doesn't?
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Scripting</desc>
 <notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
@@ -484,7 +563,7 @@ Message CANTSEE:
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Attribute references without "of" in certain contexts</desc>
 <notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
@@ -565,7 +644,7 @@ pointing to "count" since that is the left hand side of the assumed expression
 <origest>108</origest>
 <currest>108</currest>
 <elapsed>3</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Inherit Entered</desc>
 <notes/>

@@ -276,7 +276,7 @@ static int val(char str[])
 	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						BOOLEAN_TYPE,
 						%ID.id,
-						TRUE, 0, 0);
+						TRUE, 0, 0, NULL);
     %%
 
     ! 'NOT' ID
@@ -284,7 +284,7 @@ static int val(char str[])
 	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						BOOLEAN_TYPE,
 						%ID.id,
-						FALSE, 0, 0);
+						FALSE, 0, 0, NULL);
     %%
 
     ! ID <optional_minus> Integer
@@ -293,12 +293,12 @@ static int val(char str[])
 		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 							INTEGER_TYPE,
 							%ID.id,
-							-val(%Integer.chars), 0, 0);
+							-val(%Integer.chars), 0, 0, NULL);
 	else
 		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 							INTEGER_TYPE,
 							%ID.id,
-							val(%Integer.chars), 0, 0);
+							val(%Integer.chars), 0, 0, NULL);
     %%
 
     ! ID STRING	
@@ -306,7 +306,14 @@ static int val(char str[])
 	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						STRING_TYPE,
 						%ID.id,
-						0, %STRING.fpos, %STRING.len);
+						0, %STRING.fpos, %STRING.len, NULL);
+    %%
+    ! ID ID
+    %%
+	%<attribute definition>.atr = newAttribute(`&%1ID.id->srcp,
+						INSTANCE_TYPE,
+						%1ID.id,
+						0, 0, 0, %2ID.id);
     %%
     ;
 
@@ -1284,7 +1291,7 @@ static int val(char str[])
 	%<limit_attribute>.atr = newAttribute(`&%'COUNT'.srcp,
 				      INTEGER_TYPE,
 				      newId(`&%'COUNT'.srcp, "count"),
-				      val(%Integer.chars), 0, 0);
+				      val(%Integer.chars), 0, 0, NULL);
     %%
     ;
 
@@ -2467,6 +2474,13 @@ static int val(char str[])
     = ID 'OF' <what>
     %%
 	%<attribute_reference>.srcp = %'OF'.srcp;
+	%<attribute_reference>.id = %ID.id;
+	%<attribute_reference>.wht = %<what>.wht;
+    %%
+
+    ! <what> ':' ID
+    %%
+	%<attribute_reference>.srcp = %':'.srcp;
 	%<attribute_reference>.id = %ID.id;
 	%<attribute_reference>.wht = %<what>.wht;
     %%

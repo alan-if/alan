@@ -15,7 +15,7 @@ void testAttributeToThis()
 				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(&nulsrcp, "Atr");
   Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
-					 theAttributeId, 0, 0, 0);
+					 theAttributeId, 0, 0, 0, NULL);
   Context *theContext = newContext(INSTANCE_CONTEXT);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
   Expression *theWhatExp = newexp(&nulsrcp, WHAT_EXPRESSION);

@@ -29,6 +29,7 @@ typedef struct Attribute {
   Bool encoded;			/* For string attributes... */
   long fpos;
   long len;
+  IdNode *instance;		/* For INSTANCE type attributes */
 } Attribute;
 
 #endif

@@ -23,19 +23,20 @@ extern int attributeAreaSize;
 
 /* FUNCTIONS: */
 
-
 /* Create a new Attribute node */
 extern Attribute *newAttribute(Srcp *srcp,
-		      TypeKind typ,
-		      IdNode *id,
-		      int val,
-		      long fpos,
-		      int len);
+			       TypeKind typ,
+			       IdNode *id,
+			       int val,
+			       long fpos,
+			       int len,
+			       IdNode *instance);
 
-extern void checkMultipleAttributes(List *attributeList);
+extern void symbolizeAttributes(List *attributeList);
 extern List *sortAttributes(List *attributeList);
 extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
+extern void analyzeAttributes(List *attributeList);
 extern Aaddr generateAttributes(List *attributeList);
 extern Aaddr generateStringInit(void);
 extern void dumpAttribute(Attribute *atr);

@@ -17,11 +17,11 @@ static void testMultipleAddAttribute()
   Attribute *theFirstAttribute = newAttribute(&nulsrcp,
 					      BOOLEAN_TYPE,
 					      newId(&nulsrcp, "firstAttribute"),
-					      0, 0, 0);
+					      0, 0, 0, NULL);
   Attribute *theSecondAttribute = newAttribute(&nulsrcp,
 					       BOOLEAN_TYPE,
 					       newId(&nulsrcp, "secondAttribute"),
-					       0, 0, 0);
+					       0, 0, 0, NULL);
   Properties *theFirstAttributeProps = newProps(NULL, NULL,
 						concat(NULL, theFirstAttribute,
 						       ATTRIBUTE_LIST),

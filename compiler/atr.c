@@ -40,7 +40,8 @@ Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
 			IdNode *id,	/* IN - The id */
 			int value,      /* IN - The initial value */
 			long int fpos,	/* IN - File pos. for initial string */
-			int len)	/* IN - D:o length */
+			int len,	/* IN - D:o length */
+			IdNode *instance) /* IN - Initial instance */
 {
   Attribute *new;			/* The newly allocated area */
 
@@ -57,22 +58,45 @@ Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
   new->encoded = FALSE;
   new->fpos = fpos;
   new->len = len;
+  new->instance = instance;
 
   return(new);
 }
 
 
+/*----------------------------------------------------------------------*/
+static void checkMultipleAttributes(List *atrs)
+{
+  List *al1;
+  List *al2;
+
+  TRAVERSE(al1, atrs) {
+    Attribute *thisAttribute = al1->element.atr;
+    /* Check multiple declaration */
+    TRAVERSE(al2, al1->next) {
+      Attribute *nextAttribute = al2->element.atr;
+      if (equalId(thisAttribute->id, nextAttribute->id))
+	  lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
+    }
+  }
+}
+
+
 /*======================================================================*/
-void checkMultipleAttributes(List *atrs)
+void symbolizeAttributes(List *atrs)
 {
   List *al;
 
-  while (atrs) {
-    for (al = atrs->next; al; al = al->next) {
-      if (equalId(atrs->element.atr->id, al->element.atr->id))
-	  lmLog(&al->element.atr->id->srcp, 218, sevERR, al->element.atr->id->string);
+  checkMultipleAttributes(atrs);
+
+  TRAVERSE(al, atrs) {
+    Attribute *this = al->element.atr;
+    if (this->type == INSTANCE_TYPE) {
+      symbolizeId(this->instance);
+      if (this->instance->symbol)
+	if (this->instance->symbol->kind != INSTANCE_SYMBOL)
+	  lmLog(&this->instance->srcp, 311, sevERR, "an instance");
     }
-    atrs = atrs->next;
   }
 }
 
@@ -82,7 +106,7 @@ Attribute *findAttribute(List *attributes, IdNode *id)
 {
   List *this;
 
-  for (this = attributes; this != NULL; this = this->next)
+  TRAVERSE(this, attributes)
     if (equalId(this->element.atr->id, id))
       return this->element.atr;
   return NULL;
@@ -186,14 +210,13 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 /*======================================================================*/
 void analyzeAttributes(List *atrs)
 {
-  List *al;
+  List *al1;
 
-  while (atrs) {
-    for (al = atrs->next; al; al = al->next) {
-      if (equalId(atrs->element.atr->id, al->element.atr->id))
-	  lmLog(&al->element.atr->id->srcp, 218, sevERR, al->element.atr->id->string);
-    }
-    atrs = atrs->next;
+  TRAVERSE (al1, atrs) {
+    Attribute *thisAttribute = al1->element.atr;
+    if (thisAttribute->type == INSTANCE_TYPE)
+      if (thisAttribute->instance->symbol != NULL)
+	thisAttribute->value = thisAttribute->instance->symbol->code;
   }
 }
 
@@ -337,7 +360,7 @@ static void generateAttribute(Attribute *attribute)
        inherited, else the address will be overwritten by generation
        of other instances of the same attribute */
     new = newAttribute(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
-		 attribute->fpos, attribute->len);
+		       attribute->fpos, attribute->len, NULL);
     new->address = attribute->address;
     adv.stratrs = concat(adv.stratrs, new, ATTRIBUTE_LIST);
   }

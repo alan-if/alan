@@ -19,7 +19,7 @@ Depending on if you used the ZIP-archive or the Windows installer you
 will get command line version or a Windows GUI version. They are
 completely compatible.
 
-Changes from v3.0.29 development:
+Changes in v3.0.30 development:
 - Redesigned capitalization rules, output is now done as written in the
   source file. Note that this might require changes to your source to
   achieve intended output, primarily this might affect location and
@@ -33,12 +33,12 @@ Changes from v3.0.29 development:
 - Fixed a infinite recursion problem with ENTERED clause. The ENTERED
   clause will now only be executed if the actor is not already there.
 
-Changes from v3.0.28 development:
+Changes in v3.0.29 development:
 - New article handling, now allows for both definite and indefinite articles
   and for cases (languages) that have more complex forms than just articles
 - Possibility to print the simple, definite or definite forms
 
-Changes from v3.0.27 development:
+Changes in v3.0.28 development:
 - WinAlan.exe to allow for Windows GUI-mode
 - Corrected Windows GUI so that compiler error messages is shown in a console
 - German langauge support (language option and cap's of Nouns)

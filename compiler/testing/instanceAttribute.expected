@@ -1,0 +1,36 @@
+########## alan instanceAttribute ##########
+
+
+instanceAttribute.alan
+
+    3.    Has iac object.
+=====>            1
+
+  *1*   311 E : Must refer to an instance.
+
+    5.    Has iaix p.
+=====>             1
+
+  *1*   310 E : Identifier 'p' not defined.
+
+    9.    Has ian x.
+=====>        1
+
+  *1*   332 E : Attribute is inherited but does not match the original type (in
+                class 'o') which is required.
+
+   14.    Has sister p.
+=====>               1
+
+  *1*   310 E : Identifier 'p' not defined.
+
+   18.    Has father object.
+=====>               1
+
+  *1*   311 E : Must refer to an instance.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

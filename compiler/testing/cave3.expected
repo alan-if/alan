@@ -6,14 +6,14 @@ cave3.alan
    29.    leave, out, outside = exit.
 =====>                          1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" with
                 "Identifier ('<generated identifier #1>')".
   *1*   321 W : Synonym target word '<generated identifier #1>' not defined.
 
    90.    mv_exit =  exit.
 =====>               1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" with
                 "Identifier ('<generated identifier #2>')".
 
   178.    itav_fum =  fum.
@@ -62,14 +62,14 @@ cave3.alan
   485.        End If.
 =====>              1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" with
                 "Integer 'THEN' STRING".
 
   490.  End Verb.
 =====>  1       2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+  *2*   103 E : Syntax error. Attempting to repair by replacing "'.'" with
                 "Identifier ('<generated identifier #3>') 'END'".
 
   493.    Check status Of foobar >0
@@ -221,12 +221,12 @@ cave3.alan
 =====>                                     1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                Identifier '.'" by "'THEN' STRING".
+                Identifier '.'" with "'THEN' STRING".
 
  1274.          Else At hero0.
 =====>               1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero0' not defined.
 
@@ -258,8 +258,8 @@ cave3.alan
  1923.      Name message
 =====>           1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'MESSAGE'" by
-                "Identifier ('<generated identifier #4>')".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'MESSAGE'"
+                with "Identifier ('<generated identifier #4>')".
 
  2461.        Script s1
 =====>        1
@@ -278,7 +278,7 @@ cave3.alan
  2501.          End If.At hero1.
 =====>                 1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero1' not defined.
 
@@ -293,7 +293,7 @@ cave3.alan
 =====>                           1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                Identifier '.'" by "'THEN' STRING".
+                Identifier '.'" with "'THEN' STRING".
 
  2522.          Else Here1.
 =====>               1
@@ -328,61 +328,61 @@ cave3.alan
                                                        1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                Identifier '.'" by "'THEN' STRING".
+                Identifier '.'" with "'THEN' STRING".
 
  2680.          At obj_2_lamp0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'obj_2_lamp0' not defined.
 
  2685.          At obj_2_lamp0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'obj_2_lamp0' not defined.
 
  2687.          At obj_2_lamp0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'obj_2_lamp0' not defined.
 
  2693.          At hero0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero0' not defined.
 
  2695.          At hero0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero0' not defined.
 
  2697.          At hero0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero0' not defined.
 
  2699.          At hero0.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero0' not defined.
 
  2704.          ..
 =====>          1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" with
                 "'QUIT'".
 
  2706.          Use Script For pirate
@@ -496,8 +496,8 @@ cave3.alan
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *1*   200 W : Mismatched block identifier, 'loc_23' assumed.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
-                "'THE'".
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *3*   352 E : Instance 'room' does not inherit from 'location', but has EXITs
@@ -521,7 +521,7 @@ cave3.alan
   *1*   405 E : Instances inheriting from Location can not have initial
                 locations.
   *2*   319 E : Identifier 'N' is not an instance.
-  *3*   103 E : Syntax error. Attempting to repair by replacing "'/'" by
+  *3*   103 E : Syntax error. Attempting to repair by replacing "'/'" with
                 "'NAME'".
 
  3774.          Name ?
@@ -570,17 +570,17 @@ cave3.alan
 =====>          1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'DESCRIPTION'"
-                by "'=>'".
+                with "'=>'".
 
  4006.          Exit s, u To loc_42.
 =====>          1    2  3 4
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" with
                 "'VERB'".
   *2*   301 E : 's' already declared as a Direction.
   *3*   301 E : 'u' already declared as a Direction.
   *4*   103 E : Syntax error. Attempting to repair by replacing "'TO'
-                Identifier '.' 'EXIT' Identifier ..." by "'END'".
+                Identifier '.' 'EXIT' Identifier ..." with "'END'".
 
  4010.          Verb mv_climb, omv_tunnel
 =====>                       1
@@ -605,14 +605,14 @@ cave3.alan
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *3*   304 E : 'loc_41' already declared as an Instance (The).
-  *4*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+  *4*   103 E : Syntax error. Attempting to repair by replacing "'.'" with
                 "'END'".
 
  4022.        The loc_42 Isa location
 =====>            1      2   3
 
   *1*   200 W : Mismatched block identifier, 'loc_41' assumed.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "'ISA'" by
+  *2*   103 E : Syntax error. Attempting to repair by replacing "'ISA'" with
                 "'THE'".
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
@@ -643,36 +643,6 @@ cave3.alan
   *1*   310 E : Identifier 'loc_42' not defined.
   *1*   351 E : Must refer to an instance inheriting from 'location'.
 
- 4082.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4100.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4118.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4205.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4237.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4275.          Is 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  4297.          Does
 =====>          1
 
@@ -686,8 +656,8 @@ cave3.alan
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *1*   200 W : Mismatched block identifier, 'loc_60' assumed.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
-                "'THE'".
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *3*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
@@ -704,8 +674,8 @@ cave3.alan
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *1*   200 W : Mismatched block identifier, 'loc_61' assumed.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
-                "'THE'".
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *3*   304 E : 'hall' already declared as an Instance (The).
@@ -717,19 +687,14 @@ cave3.alan
 
   *1*   200 W : Mismatched block identifier, 'hall' assumed.
 
- 4352.          Description
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  4476.          Name East end of twopit room
 =====>                        1  2      3
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
                 this symbol.
   *1*   200 W : Mismatched block identifier, 'loc_67' assumed.
-  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
-                "'THE'".
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *3*   304 E : 'room' already declared as an Instance (The).
@@ -751,11 +716,6 @@ cave3.alan
 
   *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
 
- 4598.          Name Dead end crawl
-=====>                        1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  4612.          Name Secret E/W canyon
 =====>                       1
 
@@ -774,11 +734,6 @@ cave3.alan
 
   *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
 
- 4667.          Description
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  4682.          Does
 =====>          1
 
@@ -791,26 +746,6 @@ cave3.alan
 
   *1*   310 E : Identifier 'loc_42' not defined.
   *1*   351 E : Must refer to an instance inheriting from 'location'.
-
- 4702.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4720.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4760.          Is 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
- 4776.          Has 
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
 
  4838.          Does
 =====>          1
@@ -853,8 +788,8 @@ cave3.alan
  4932.          Name Cavern with waterfall
 =====>                           1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
-                "'CONTAINER'".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'CONTAINER'".
 
  5026.            Check  Count In inventory =0 Or (obj_59_emerald In inventory 
         And  Count In inventory =1)
@@ -928,11 +863,6 @@ cave3.alan
 
   *1*   152 E : Unterminated quoted identifier.
 
- 5367.          Description
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  5374.          Name NE end of repository
 =====>                      1  2
 
@@ -986,13 +916,13 @@ cave3.alan
 =====>                                        1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                '.'" by "'THEN' STRING".
+                '.'" with "'THEN' STRING".
 
  5673.              If obj_35_bear In company ThenHere0.
 =====>                                        1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                '.'" by "'THEN' STRING".
+                '.'" with "'THEN' STRING".
 
  5742.          Name Fork in path
 =====>                    1  2
@@ -1012,22 +942,17 @@ cave3.alan
 =====>                             1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
-                Identifier" by "'CONTAINER'".
+                Identifier" with "'CONTAINER'".
 
  5809.          Name Breath-taking view
 =====>                     1
 
   *1*   102 E : Syntax error. Attempting to repair by ignoring "'-'".
 
- 6140.          Description
-=====>          1
-
-  *1*   104 E : Severe syntax error, construct ignored.
-
  6152.          At hero1.
 =====>          1  2
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" with
                 "'SAY'".
   *2*   310 E : Identifier 'hero1' not defined.
 
@@ -1098,7 +1023,7 @@ cave3.alan
                 word class.
 
 
-        235 error(s).
+        220 error(s).
         48 warning(s).
-        13 informational message(s).
+        5 informational message(s).
 

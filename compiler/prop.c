@@ -119,7 +119,7 @@ static void addOpaqueAttribute(Properties *props, Bool opaque)
 {
   IdNode *opaqueId = newId(&nulsrcp, "opaque");
   Attribute *attribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
-				      opaqueId, opaque, 0, 0);
+				      opaqueId, opaque, 0, 0, NULL);
 
   attribute->id->code = OPAQUEATTRIBUTE;	/* Pre-defined 'opaque' code */
   props->attributes = concat(props->attributes, attribute, ATTRIBUTE_LIST);
@@ -130,9 +130,9 @@ static void addOpaqueAttribute(Properties *props, Bool opaque)
 void symbolizeProps(Properties *props)
 {
   symbolizeParent(props);
+  symbolizeAttributes(props->attributes);
   if (props->container)
     addOpaqueAttribute(props, props->container->body->opaque);
-  checkMultipleAttributes(props->attributes);
   symbolizeWhere(props->whr);
   symbolizeExits(props->exits);
 }
@@ -190,6 +190,7 @@ void analyzeProps(Properties *props, Context *context)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(props);
+  analyzeAttributes(props->attributes);
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->enteredStatements, context);

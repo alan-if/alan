@@ -4077,7 +4077,7 @@ The inventory
       End The loc_45.
       
       The loc_46 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4095,7 +4095,7 @@ The inventory
       End The loc_46.
       
       The loc_47 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4113,7 +4113,7 @@ The inventory
       End The loc_47.
       
       The loc_48 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4200,7 +4200,7 @@ The inventory
       End The loc_53.
       
       The loc_54 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4232,7 +4232,7 @@ The inventory
       End The loc_55.
       
       The loc_56 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4270,7 +4270,7 @@ The inventory
       End The loc_57.
       
       The loc_58 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Is 
         piratefree.
@@ -4347,7 +4347,7 @@ The inventory
       End The loc_62.
       
       The loc_63 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Description
           "Dead end"
@@ -4595,7 +4595,7 @@ The inventory
       End The loc_72.
       
       The loc_73 Isa location
-        Name Dead end crawl
+        Name Dead 'end' crawl
         
         Description
           "Dead end crawl."
@@ -4662,7 +4662,7 @@ The inventory
       End The loc_77.
       
       The loc_78 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Description
           "The canyon runs into a mass of boulders -- dead end."
@@ -4697,7 +4697,7 @@ The inventory
       End The loc_80.
       
       The loc_81 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4715,7 +4715,7 @@ The inventory
       End The loc_81.
       
       The loc_82 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -4755,7 +4755,7 @@ The inventory
       End The loc_84.
       
       The loc_85 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Is 
         piratefree.
@@ -4771,7 +4771,7 @@ The inventory
       End The loc_85.
       
       The loc_86 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Has 
         hintm.
@@ -5362,7 +5362,7 @@ The inventory
       End The loc_113.
       
       The loc_114 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Description
           "Dead end."
@@ -6135,7 +6135,7 @@ The inventory
       End The loc_139.
       
       The loc_140 Isa location
-        Name Dead end
+        Name Dead 'end'
         
         Description
           "Dead end."
