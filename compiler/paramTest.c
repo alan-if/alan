@@ -20,7 +20,7 @@ void testParameterReference()
   initAdventure();
 
   v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  context = newContext(VERB_CONTEXT, v1Symbol);
+  context = newVerbContext(v1Symbol);
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
 

@@ -311,8 +311,6 @@ void setCharacterSet(int set)
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
-	  /* Use the new scanner to get next token and return it */
-	  return smScan(lexContext, smToken);
 	} else
 	  lmLog(`&token.srcp, 199, sevFAT, token.chars);
       } else

@@ -111,7 +111,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
 /*----------------------------------------------------------------------*/
 static void analyzeRestriction(ResNod *res, Symbol *theVerb) {
   Symbol *parameter;
-  Context *context = newContext(VERB_CONTEXT, theVerb);
+  Context *context = newVerbContext(theVerb);
 
   /* Analyze the statements to execute if the restrictions was not
      met. The parameter classes are set incrementally for each

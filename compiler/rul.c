@@ -15,6 +15,7 @@
 #include "adv_x.h"
 #include "exp_x.h"
 #include "stm_x.h"
+#include "context_x.h"
 #include "dump_x.h"
 
 
@@ -57,22 +58,15 @@ RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*----------------------------------------------------------------------
-
-  analyzeRule()
-
-  Analyze one rule
-
-  */
+/*----------------------------------------------------------------------*/
 static void analyzeRule(RulNod *rul)
 {
-  Context context;
+  Context *context = newRuleContext();
 
   showProgress();
 
-  context.kind = RULE_CONTEXT;
-  analyzeExpression(rul->exp, &context);
-  analyzeStatements(rul->stms, &context);
+  analyzeExpression(rul->exp, context);
+  analyzeStatements(rul->stms, context);
 }
 
 

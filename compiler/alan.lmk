@@ -17,11 +17,11 @@
 7	'Maximum number of messages exceeded.';
 
 100	'Parsing resumed here.';
-101	'Syntax error. Attempting to repair by inserting \"%1\" before this symbol.';
-102	'Syntax error. Attempting to repair by ignoring \"%1\".';
-103	'Syntax error. Attempting to repair by replacing \"%1\" with \"%2\".';
+101	'Syntax error. Inserting tokens: %1';
+102	'Syntax error. Ignoring tokens: %1';
+103	'Syntax error. Replacing tokens: %1 with: %2';
 104	'Severe syntax error, construct ignored.';
-105	'Syntax error, couldn\'t recover.';
+105	'Syntax error, could not recover.';
 106	'Parse stack overflow.';
 107	'Parse table error.';
 108	'Parsing terminated.';

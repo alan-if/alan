@@ -71,7 +71,6 @@ typedef struct Expression {
 
     struct {			/* for WHERE */
       struct Expression *wht;	/* Must be a WHAT */
-      Bool directly;		/* DIRECTLY? */
       Where *whr;
     } whr;
 

@@ -30,12 +30,12 @@ void testInitAdv()
   ins = newInstance(&srcp, atInsId, NULL, NULL);
   locationIns = newInstance(&srcp, atInsLocId, newId(srcp, "location"), NULL);
 
-  adv.whr = newWhere(&srcp, WHERE_HERE, NULL);
+  adv.whr = newWhere(&srcp, FALSE, WHERE_HERE, NULL);
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Here */
   ASSERT(readEcode() == 211 && readSev() == sevERR);
 
-  adv.whr = newWhere(&srcp, WHERE_AT,
+  adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
 		     newWhatExpression(srcp, newWhat(&srcp, WHAT_ID,
 						      atUnknownId)));
   symbolizeAdventure();

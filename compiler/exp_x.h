@@ -33,8 +33,7 @@ extern Expression *newIntegerExpression(Srcp srcp, int value);
 extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
 				    IdNode *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
-extern Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not,
-				      Bool directly, Where *where);
+extern Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where);
 extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 					  IdNode *attribute, List *filters);
 extern Expression *newRandomRangeExpression(Srcp srcp, Expression *from,

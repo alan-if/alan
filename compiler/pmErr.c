@@ -155,8 +155,11 @@ void pmDSym(
 	/* Concatenate the symbol strings */
 	if (delToks > 0) strcat(delStr, " ");
 	if (token->code == 0) strcat(delStr, "Unknown Token");
-	else if (token->code == 1) strcat(delStr, "End Of File");
-	else if (*printString != '\0') strcat(delStr, printString);
+	else if (token->code == 2) {
+		strcat(delStr, "'");
+		strcat(delStr, token->chars);
+		strcat(delStr, "'");
+	} else if (*printString != '\0') strcat(delStr, printString);
 	else strcat(delStr, symString);
     } else if (delToks == MaxTokens) {
 	strcat(delStr, " ...");

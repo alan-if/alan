@@ -42,7 +42,7 @@ void testClassOfContent()
 void testInitialLocation()
 {
   IdNode *id = newId(nulsrcp, "atLoc");
-  Where *whr = newWhere(&nulsrcp, WHERE_AT,
+  Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhat(&nulsrcp,
 							   WHAT_ID, id)));
   Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);

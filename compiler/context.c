@@ -11,8 +11,8 @@
 #include "sym_x.h"
 
 
-/*======================================================================*/
-Context *newContext(ContextKind kind, void *item)
+/*----------------------------------------------------------------------*/
+static Context *newContext(ContextKind kind, void *item)
 {
   Context *new = NEW(Context);
 
@@ -33,6 +33,44 @@ Context *newContext(ContextKind kind, void *item)
   return new;
 }
 
+/*======================================================================*/
+Context *newNullContext(void) {
+  Context *new = newContext(NULL_CONTEXT, NULL);
+  return new;
+}
+
+/*======================================================================*/
+Context *newRuleContext(void) {
+  Context *new = newContext(RULE_CONTEXT, NULL);
+  return new;
+}
+
+/*======================================================================*/
+Context *newEventContext(void) {
+  Context *new = newContext(EVENT_CONTEXT, NULL);
+  return new;
+}
+
+/*======================================================================*/
+Context *newClassContext(ClaNod *class) {
+  Context *new = newContext(CLASS_CONTEXT, NULL);
+  new->class = class;
+  return new;
+}
+
+/*======================================================================*/
+Context *newVerbContext(Symbol *theVerb) {
+  Context *new = newContext(VERB_CONTEXT, NULL);
+  new->verb = theVerb;
+  return new;
+}
+
+/*======================================================================*/
+Context *newInstanceContext(Instance *theInstance) {
+  Context *new = newContext(INSTANCE_CONTEXT, NULL);
+  new->instance = theInstance;
+  return new;
+}
 
 /*======================================================================*/
 Symbol *symbolOfContext(Context *context) {
@@ -100,9 +138,8 @@ IdNode *classIdInContext(Context *context)
     else
       SYSERR("No instance or class in context");
     break;
-
   default:
-    SYSERR("Unexpected context");
+    break;
   }
 
   return(classId);

@@ -419,7 +419,7 @@ static void analyzeUse(Statement *stm, Context *context)
 	case CLASS_SYMBOL: str = "class"; break;
 	case INSTANCE_SYMBOL: str = "actor"; break;
 	case PARAMETER_SYMBOL: str = "parameter"; break;
-	default: syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+	default: syserr("Unexpected symbol kind in '%s()'", __FUNCTION__); return;
 	}
 	lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
 	       str, symbol->string, NULL);
@@ -732,7 +732,7 @@ static void generateShow(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateEmpty(Statement *stm)
 {
-  generateWhere(stm->fields.empty.where, FALSE);
+  generateWhere(stm->fields.empty.where);
   generateExpression(stm->fields.empty.what);
   emit0(I_EMPTY);
 }
@@ -742,7 +742,7 @@ static void generateEmpty(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateLocate(Statement *stm)
 {
-  generateWhere(stm->fields.locate.where, FALSE);
+  generateWhere(stm->fields.locate.where);
   generateExpression(stm->fields.locate.what);
   emit0(I_LOCATE);
 }

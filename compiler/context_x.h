@@ -16,7 +16,12 @@
 
 /* FUNCTIONS: */
 
-extern Context *newContext(ContextKind kind, void *item);
+extern Context *newNullContext(void);
+extern Context *newRuleContext(void);
+extern Context *newEventContext(void);
+extern Context *newClassContext(ClaNod *theClass);
+extern Context *newInstanceContext(Instance *theInstance);
+extern Context *newVerbContext(Symbol *theVerb);
 extern Context *pushContext(Context *context);
 extern Symbol *symbolOfContext(Context *context);
 extern Bool inEntityContext(Context *context);

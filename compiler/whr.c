@@ -25,7 +25,7 @@
 
 
 /*======================================================================*/
-Where *newWhere(Srcp *srcp, WhereKind kind, Expression *wht) {
+Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, Expression *what) {
   Where *new;
 
   showProgress();
@@ -33,8 +33,9 @@ Where *newWhere(Srcp *srcp, WhereKind kind, Expression *wht) {
   new = NEW(Where);
 
   new->srcp = *srcp;
+  new->directly = directly;
   new->kind = kind;
-  new->what = wht;
+  new->what = what;
 
   return(new);
 }
@@ -71,7 +72,7 @@ void verifyInitialLocation(Where *whr)
     verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
     break;
   default:
-    lmLogv(&whr->srcp, 355, sevERR, "");
+    lmLogv(&whr->srcp, 355, sevERR, "", NULL);
     break;
   }
 }
@@ -130,14 +131,14 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
 
 
 /*======================================================================*/
-void generateWhere(Where *where, Bool directly)
+void generateWhere(Where *where)
 {
   switch (where->kind) {
 
   case WHERE_AT:
     generateExpression(where->what);
     if (!inheritsFrom(where->what->class, locationSymbol)) {
-      if (directly)
+      if (where->directly)
 	emit0(I_WHERE);
       else
 	emit0(I_LOCATION);
@@ -170,15 +171,23 @@ void dumpWhere(Where *whr)
   }
 
   put("WHR: "); dumpSrcp(&whr->srcp); indent();
-  put("whr: ");
+  put("whr: "); if (whr->directly) put("DIRECTLY ");
   switch (whr->kind) {
   case WHERE_DEFAULT: put("DEFAULT"); break;
   case WHERE_HERE: put("HERE"); break;
+  case WHERE_NEAR: put("NEAR"); break;
   case WHERE_AT: put("AT"); break;
   case WHERE_IN: put("IN"); break;
   case WHERE_INSET: put("INSET"); break;
-  default: put("*** ERROR ***"); break;
   }
   nl();
-  put("wht: "); dumpExpression(whr->what); out();
+  switch (whr->kind) {
+  case WHERE_HERE:
+  case WHERE_NEAR:
+    break;
+  default:
+    put("wht: "); dumpExpression(whr->what);
+    break;
+  }
+  out();
 }

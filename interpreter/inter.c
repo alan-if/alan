@@ -670,28 +670,25 @@ void interpret(Aaddr adr)
       }
       case I_NEAR: {
 	Aword id;
+	Abool directly;
+	directly = pop();
 	id = pop();
 	if (singleStepOption)
-	  printf("NEAR \t%5ld", id);
-	push(isNear(id));
+	  printf("NEAR \t%5ld, %s\t", id, booleanValue(directly));
+	push(isNear(id, directly));
 	traceBooleanTopValue();
 	break;
       }
-      case I_USE: {
-	Aword act, scr;
-	act = pop();
-	scr = pop();
+      case I_AT: {
+	Aword instance, other;
+	Abool directly;
+	other = pop();
+	directly = pop();
+	instance = pop();
 	if (singleStepOption)
-	  printf("USE \t%5ld, %5ld\t\t", act, scr);
-	use(act, scr);
-	break;
-      }
-      case I_STOP: {
-	Aword actor;
-	actor = pop();
-	if (singleStepOption)
-	  printf("STOP \t%5ld\t\t\t", actor);
-	stop(actor);
+	  printf("AT \t%5ld, %5ld, %s", instance, other, booleanValue(directly));
+	push(at(instance, other, directly));
+	traceBooleanTopValue();
 	break;
       }
       case I_IN: {
@@ -714,6 +711,23 @@ void interpret(Aaddr adr)
 	  printf("INSET \t%5ld, %5ld ", element, set);
 	push(inSet((Set*)set, element));
 	traceBooleanTopValue();
+	break;
+      }
+      case I_USE: {
+	Aword act, scr;
+	act = pop();
+	scr = pop();
+	if (singleStepOption)
+	  printf("USE \t%5ld, %5ld\t\t", act, scr);
+	use(act, scr);
+	break;
+      }
+      case I_STOP: {
+	Aword actor;
+	actor = pop();
+	if (singleStepOption)
+	  printf("STOP \t%5ld\t\t\t", actor);
+	stop(actor);
 	break;
       }
       case I_DESCRIBE: {

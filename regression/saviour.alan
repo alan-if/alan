@@ -10,13 +10,14 @@
 -- I had talked about for some time. That was Alan version 0. Since then
 -- Alan has matured and is now in its v2.x:s. This game has been with us
 -- since then and been ported from version to version of Alan.
---
+-- 
 -- I have started another company. And it is time for version 3 of Alan!
 --
 -- This version of Saviour is the first "game" in Alan v3.
 -- No guarantees, of course, and it isn't as pretty as I would like, and it
 -- does not show the real potential of Alan (but perhaps some of its elegance
 -- can be glimpsed ;-)
+
 
 OPTIONS
     Language English.

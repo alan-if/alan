@@ -279,106 +279,6 @@ static void prepareNames(void)
 
 
 
-#ifdef __mac__
-/*----------------------------------------------------------------------
-
-  Write listing and/or error messages to screen or file
-
-*/
-static void listing(lmSev sevs)
-{
-  char *fnm;
-
-  if (lstflg)
-    fnm = lstfnm;
-  else
-    fnm = "";
-#ifdef __MWERKS__
-  _fcreator = 'ttxt';
-  _ftype = 'TEXT';
-#endif
-
-  if (ccflg) {
-    lmList(fnm, lcount, ccount, 0, 0);
-    cc_listing(sevs);
-  } else
-    lmList(fnm, lcount, ccount, fulflg?liFULL:liTINY, sevs);
-
-  if (dmpflg) {
-    lmSkipLines(0);
-    duadv(dmpflg);
-  }
-
-  if (sumflg) {
-    if (lmSeverity() < sevERR)
-      summary();
-    endtotal();			/* Stop timer */
-    prtimes();
-    stats();
-  }
-  lmLiTerminate();
-}
-#endif
-
-
-/*----------------------------------------------------------------------
-
-	Find out whether error message is of one of the severities
-	being printed.
-
-*/
-static int test_severity(char *err, lmSev sevs)
-{
-  /* Check if the severity was among the wanted ones */
-  char c;
-  lmSev sev = sevSYS;
-
-  sscanf(err, "%*d %c", &c);
-  switch (c) {
-  case 'O': sev = sevOK;  break;
-  case 'I': sev = sevINF; break;
-  case 'W': sev = sevWAR; break;
-  case 'E': sev = sevERR; break;
-  case 'F': sev = sevFAT; break;
-  case 'S': sev = sevSYS; break;
-  default: SYSERR("Unexpected severity marker");
-  }
-  return sev & sevs;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void cc_listing(lmSev sevs)
-{
-  int i,j;
-  char err[1024], line[1024];
-  Srcp srcp;
-  List *fnm;
-  List nofile;
-	
-  nofile.element.str = "<no file>";
-  for (i = 1; lmMsg(i, &srcp, err); i++) {
-    if (test_severity(err, sevs)) {
-      /* Advance to the correct file name */
-      if (srcp.file == -1) 
-	fnm = &nofile;
-      else
-	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
-	  fnm = fnm->next;
-      sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
-	      fnm->element.str, srcp.line, srcp.col, err, srcp.col);
-      sprintf(line, "\"%s\", line %d(%d): %s\n",
-	      fnm->element.str, srcp.line, srcp.col, err);
-#ifdef __mac__
-      lmLiPrint(line);
-#else
-      printf(line);
-#endif
-    }
-  }
-}
-
-
 /************************************************************************\
 
 			ALAN Main Procedure
@@ -406,7 +306,7 @@ void compile(void) {
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
-    lmList("", 0, 79, liMSG, sevALL); /* TINY list on the screen*/
+    listing("", 0, 79, liMSG, sevALL);
     terminate(EXIT_FAILURE);
   }
 
@@ -430,7 +330,7 @@ void compile(void) {
   endParseTiming();			/* End of parsing pass */
 
   if ((dmpflg&DUMP_1) > 0) {
-    lmList("", 0, 79, liTINY, sevs);
+    listing("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
     dumpAdventure(dmpflg);
     terminate(EXIT_FAILURE);
@@ -443,7 +343,7 @@ void compile(void) {
   endSemanticsTiming();			/* End of semantic pass */
 
   if ((dmpflg&DUMP_2) > 0) {
-    lmList("", 0, 79, liTINY, sevs);
+    listing("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
     dumpAdventure(dmpflg);
     terminate(EXIT_FAILURE);
@@ -491,7 +391,7 @@ void compile(void) {
   listing(sevs);
 #else
   if (lstflg) {			/* If -l option, create list file */
-    lmList(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevs /*sevALL*/);
+    listing(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevs /*sevALL*/);
     if (dmpflg) {
       lmSkipLines(0);
       dumpAdventure(dmpflg);
@@ -503,10 +403,7 @@ void compile(void) {
     }
   }
 
-  if (ccflg)
-    cc_listing(sevs);
-  else
-    lmList("", 0, 79, lstflg?liTINY:(fulflg?liFULL:liTINY), sevs);
+  listing("", 0, 79, lstflg?liTINY:(fulflg?liFULL:liTINY), sevs);
 
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);

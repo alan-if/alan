@@ -26,7 +26,7 @@ void testVerifySetMember() {
 }
 
 void testSymbolOf() {
-  Context *context = newContext(NULL_CONTEXT, NULL);
+  Context *context = newNullContext();
   initSymbols();
   ASSERT(symbolOfExpression(NULL, context) == NULL);
 
@@ -51,7 +51,7 @@ void testAttributeToThis()
 				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(nulsrcp, "Atr");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
-  Context *theContext = newContext(INSTANCE_CONTEXT, theInstance);
+  Context *theContext = newInstanceContext(theInstance);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
   Expression *theWhatExp = newExpression(nulsrcp, WHAT_EXPRESSION);
   Expression *theExp = newExpression(nulsrcp, ATTRIBUTE_EXPRESSION);

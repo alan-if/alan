@@ -139,8 +139,13 @@ typedef enum InstClass {
   I_EXCLUDE,			/* Remove a value from a set */
   I_USE,
   I_STOP,
+  I_AT,
   I_IN,
   I_INSET,
+  I_HERE,
+  I_NEAR,
+  I_WHERE,			/* Current position of an instance */
+  I_LOCATION,			/* The *location* an instance is at */
   I_DESCRIBE,
   I_SAY,
   I_SAYINT,
@@ -150,10 +155,6 @@ typedef enum InstClass {
   I_ENDIF,
   I_ATTRIBUTE,			/* Push the value of an attribute */
   I_STRATTR,			/* Push a copy of a string attribute */
-  I_HERE,
-  I_NEAR,
-  I_WHERE,			/* Current position of an instance */
-  I_LOCATION,			/* The location of an instance */
   I_AND,
   I_OR,
   I_NE,

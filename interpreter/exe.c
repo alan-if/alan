@@ -1036,15 +1036,15 @@ Aword isHere(Aword id, Abool directly)
 
 
 /*----------------------------------------------------------------------*/
-static Aword objnear(Aword obj)
+static Aword objnear(Aword obj, Abool directly)
 {
-  if (isContainer(admin[obj].location)) {    /* In something? */
+  if (!directly && isContainer(admin[obj].location)) {    /* In something? */
     if (isObj(admin[obj].location) || isAct(admin[obj].location))
-      return(isNear(admin[obj].location));
+      return(isNear(admin[obj].location, directly));
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
       return(FALSE);
   } else
-    return(exitto(where(obj, TRUE), current.location));
+    return(exitto(admin[obj].location, current.location));
 }
 
 
@@ -1056,12 +1056,12 @@ static Aword actnear(Aword act)
 
 
 /*======================================================================*/
-Abool isNear(Aword id)
+Abool isNear(Aword id, Abool directly)
 {
   char str[80];
 
   if (isObj(id))
-    return objnear(id);
+    return objnear(id, directly);
   else if (isAct(id))
     return actnear(id);
   else {
@@ -1112,6 +1112,23 @@ Abool in(Aword theInstance, Aword cnt, Abool directly)
   }
 }
 
+
+
+/*======================================================================*/
+/* Look see if an instance is AT another. */
+Abool at(Aint theInstance, Aint other, Abool directly)
+{
+  int loc = other;
+
+  if (directly)
+    return admin[theInstance].location == other;
+  else {
+    if (!isA(loc, LOCATION))
+      /* If it's not a location get the instances location */
+      loc = location(other);
+    return location(theInstance) == loc;
+  }
+}
 
 
 /*----------------------------------------------------------------------*/

@@ -389,21 +389,21 @@ Context *contextFor(MsgKind messageNo) {
   case M_CARRIES:
   case M_EMPTY:
   case M_EMPTYHANDED:
-    return newContext(VERB_CONTEXT, messageVerbSymbolForInstance);
+    return newVerbContext(messageVerbSymbolForInstance);
 
   case M_WHAT_WORD:
   case M_AFTER_BUT:
   case M_UNKNOWN_WORD:
-    return newContext(VERB_CONTEXT, messageVerbSymbolForString);
+    return newVerbContext(messageVerbSymbolForString);
 
   case M_BUT_ALL:
-    return newContext(VERB_CONTEXT, messageVerbSymbolFor2Strings);
+    return newVerbContext(messageVerbSymbolFor2Strings);
 
   case M_CANNOTCONTAIN:
-    return newContext(VERB_CONTEXT, messageVerbSymbolFor2Instances);
+    return newVerbContext(messageVerbSymbolFor2Instances);
 
   case M_SCORE:
-    return newContext(VERB_CONTEXT, messageVerbSymbolFor2Integers);
+    return newVerbContext(messageVerbSymbolFor2Integers);
 
   case M_WHAT:
   case M_MULTIPLE:

@@ -462,6 +462,7 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
       break;
     default:
       syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+      return NULL;
     }
     while (scripts != NULL) {
       if (equalId(scriptName, scripts->element.script->id))

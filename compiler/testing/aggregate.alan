@@ -6,7 +6,7 @@ Add To Every object
 End Add.
 
 Start At l.
-  If Count = 9 Then "" End If.
+  If Count Here = 9 Then "" End If.
   If Count Here, At l = 9 Then "" End If.
   If Count At l = 9 Then "" End If.
   If Count Is x Then "" End If.

@@ -12,6 +12,7 @@
 
 #include "types.h"
 #include "srcp.h"
+#include "lmList.h"
 
 
 /* PUBLIC DATA */
@@ -25,6 +26,8 @@ extern long counter;		/* And counter for verbose mode */
 /* FUNCTIONS */
 #define SYSERR(m) syserr(m " in '%s()'", __FUNCTION__)
 extern void syserr(char *str, char function[]);
+extern void listing(char *listFileName, int lines, int columns,
+		    lmTyp listingType, lmSev severities);
 extern void showProgress(void);
 extern void *allocate(int len);
 extern void unimpl(Srcp srcp, char *phase);

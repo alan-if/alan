@@ -26,6 +26,7 @@ typedef enum WhrKind {		/* WHERE kinds */
 
 typedef struct Where {		/* WHERE node */
   Srcp srcp;			/* Source position */
+  Bool directly;
   WhereKind kind;		/* Where kind */
   struct Expression *what;	/* What */
 } Where;

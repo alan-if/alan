@@ -56,6 +56,7 @@ extern Aword randomInSet(Aset set);
 extern Abool btw(Aint val, Aint from, Aint to);
 extern Aword contains(Aword string, Aword substring);
 extern Abool streq(char a[], char b[]);
+extern Abool at(Aint theInstance, Aint other, Abool directly);
 extern Abool in(Aword theInstance, Aword theContainer, Abool directly);
 extern Aword where(Aword instance, Abool directly);
 extern Aword location(Aword instance);
@@ -63,7 +64,7 @@ extern Aint agrmax(Aword atr, Aword whr);
 extern Aint agrsum(Aword atr, Aword whr);
 extern Aint agrcount(Aword where);
 extern Abool isHere(Aword instance, Abool directly);
-extern Abool isNear(Aword instance);
+extern Abool isNear(Aword id, Abool directly);
 extern Abool isA(Aword instance, Aword class);
 
 #endif

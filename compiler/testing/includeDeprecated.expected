@@ -21,8 +21,7 @@ includeDeprecated.alan
 =====>  1
 
   *1*   601 W : Unknown option, '$genid1'.
-  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
-                ('$genid1') '.'" before this symbol.
+  *1*   101 E : Syntax error. Inserting tokens: Identifier ('$genid1') '.'
 
     8.    $include 'body'.
 =====>    1        2

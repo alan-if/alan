@@ -83,7 +83,7 @@ void symbolizeAdventure()
 static void analyzeStartAt(void)
 {
   /* START has the same environment as a RULE */
-  Context *context = newContext(RULE_CONTEXT, NULL);
+  Context *context = newRuleContext();
 
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {

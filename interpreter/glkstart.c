@@ -65,7 +65,14 @@ static void splitArgs(char *commandLine) {
     while (*cp && isspace(*cp)) cp++;
     if (*cp) {
       argumentVector[argCount++] = cp;
-      while (*cp && !isspace(*cp)) cp++;
+      if (*cp == '"') {
+	do {
+	  cp++;
+	} while (*cp != '"');
+	cp++;
+      } else
+	while (*cp && !isspace(*cp))
+	  cp++;
       if (*cp) {
 	*cp = '\0';
 	cp++;

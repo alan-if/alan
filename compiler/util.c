@@ -13,6 +13,8 @@
 #include "alan.h"
 #include "sysdep.h"
 #include "lmList.h"
+#include "smScan.h"
+#include "options.h"
 
 
 /* PUBLIC DATA */
@@ -80,6 +82,115 @@ void unimpl(Srcp srcp,		/* IN  - Where? */
 }
 
 
+
+/*----------------------------------------------------------------------
+
+	Find out whether error message is of one of the severities
+	being printed.
+
+*/
+static int test_severity(char *err, lmSev sevs)
+{
+  /* Check if the severity was among the wanted ones */
+  char c;
+  lmSev sev = sevSYS;
+
+  sscanf(err, "%*d %c", &c);
+  switch (c) {
+  case 'O': sev = sevOK;  break;
+  case 'I': sev = sevINF; break;
+  case 'W': sev = sevWAR; break;
+  case 'E': sev = sevERR; break;
+  case 'F': sev = sevFAT; break;
+  case 'S': sev = sevSYS; break;
+  default: SYSERR("Unexpected severity marker");
+  }
+  return sev & sevs;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void cc_listing(lmSev sevs)
+{
+  int i,j;
+  char err[1024], line[1024];
+  Srcp srcp;
+  List *fnm;
+  List nofile;
+	
+  nofile.element.str = "<no file>";
+  for (i = 1; lmMsg(i, &srcp, err); i++) {
+    if (test_severity(err, sevs)) {
+      /* Advance to the correct file name */
+      if (srcp.file == -1) 
+	fnm = &nofile;
+      else
+	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
+	  fnm = fnm->next;
+      sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
+	      fnm->element.str, srcp.line, srcp.col, err, srcp.col);
+      sprintf(line, "\"%s\", line %d(%d): %s\n",
+	      fnm->element.str, srcp.line, srcp.col, err);
+#ifdef __mac__
+      lmLiPrint(line);
+#else
+      printf(line);
+#endif
+    }
+  }
+}
+
+
+#ifdef __mac__
+/*----------------------------------------------------------------------
+
+  Write listing and/or error messages to screen or file
+
+*/
+static void listing(lmSev sevs)
+{
+  char *fnm;
+
+  if (lstflg)
+    fnm = lstfnm;
+  else
+    fnm = "";
+#ifdef __MWERKS__
+  _fcreator = 'ttxt';
+  _ftype = 'TEXT';
+#endif
+
+  listing(fnm, lcount, ccount, fulflg?liFULL:liTINY, sevs);
+
+  if (dmpflg) {
+    lmSkipLines(0);
+    duadv(dmpflg);
+  }
+
+  if (sumflg) {
+    if (lmSeverity() < sevERR)
+      summary();
+    endtotal();			/* Stop timer */
+    prtimes();
+    stats();
+  }
+  lmLiTerminate();
+}
+#else
+
+/*======================================================================*/
+void listing(char *listFileName, int lines, int columns,
+		    lmTyp listingType, lmSev severities) {
+  if (ccflg) {
+    lmList(listFileName, lines, columns, 0, 0);	/* Sort and prepare for retrieval */
+    cc_listing(severities);
+  } else
+    lmList(listFileName, lines, columns, listingType, severities);
+}
+
+#endif
+
+
 /*======================================================================*/
 void syserr(char *errorMessage, char insertString[])
 {
@@ -98,7 +209,7 @@ void syserr(char *errorMessage, char insertString[])
     sprintf(messageString, errorMessage);
   }
   lmLog(&nulsrcp, 997, sevSYS, messageString);
-  lmList("", 0, 79, liTINY, sevALL);
+  listing("", 0, 79, liTINY, sevALL);
   terminate(EXIT_FAILURE);
 }
 

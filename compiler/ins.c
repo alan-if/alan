@@ -168,7 +168,7 @@ static void analyzePronouns(Instance *instance)
 /*----------------------------------------------------------------------*/
 static void analyzeInstance(Instance *instance)
 {
-  Context *context = newContext(INSTANCE_CONTEXT, instance);
+  Context *context = newInstanceContext(instance);
 
   /* Only instances need names and pronouns in the dictionary */
   analyzeNameWords(instance);

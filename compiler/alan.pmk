@@ -1587,7 +1587,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
+    = STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY', 'DIRECTLY')
     %%
 	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -2064,12 +2064,11 @@ static int val(char str[])
 					    %<arithmetic>.exp);
     %%
 
-    ! <factor> <optional_not> <optional_directly> <where>
+    ! <factor> <optional_not> <where>
     %%
 	%<factor>.exp = newWhereExpression(%<where>.srcp,
 					   %<factor>.exp,
 					   %<optional_not>.present,
-					   %<optional_directly>.present,
 					   %<where>.whr);
     %%
 
@@ -2158,12 +2157,11 @@ static int val(char str[])
 --    ;
 
 <filter expression>			-- RETURNS: exp
-    = <optional_not> <optional_directly> <where>
+    = <optional_not> <where>
     %%
 	%<filter expression>.exp = newWhereExpression(%<where>.srcp,
 						      NULL,
 						      %<optional_not>.present,
-						      %<optional_directly>.present,
 						      %<where>.whr);
     %%
 
@@ -2228,7 +2226,7 @@ static int val(char str[])
 							val(%Integer.chars));
     %%
 
-    ! STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
+    ! STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY', 'DIRECTLY')
     %%
 	%<primary>.exp = newStringExpression(%STRING.srcp,
 					     %STRING.fpos,
@@ -2356,7 +2354,7 @@ static int val(char str[])
 <optional_where>		-- RETURNS: whr
     =
     %%
-        %<optional_where>.whr = newWhere(`&nulsrcp, WHERE_DEFAULT, NULL);
+        %<optional_where>.whr = newWhere(`&nulsrcp, FALSE, WHERE_DEFAULT, NULL);
     %%
     
     ! <where>
@@ -2366,27 +2364,27 @@ static int val(char str[])
     ;
 
 <where>			-- RETURNS: srcp, whr
-    = 'HERE'
+    = <optional_directly> 'HERE'
     %%
-        %<where>.whr = newWhere(`&%'HERE'.srcp, WHERE_HERE, NULL);
+        %<where>.whr = newWhere(`&%'HERE'.srcp, %<optional_directly>.present, WHERE_HERE, NULL);
 	%<where>.srcp = %'HERE'.srcp;
     %%
 
-    ! 'NEARBY'
+    ! <optional_directly> 'NEARBY'
     %%
-        %<where>.whr = newWhere(`&%'NEARBY'.srcp, WHERE_NEAR, NULL);
+        %<where>.whr = newWhere(`&%'NEARBY'.srcp, %<optional_directly>.present, WHERE_NEAR, NULL);
 	%<where>.srcp = %'NEARBY'.srcp;
     %%
 
-    ! 'AT' <what>
+    ! <optional_directly> 'AT' <what>
     %%
-        %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.exp);
+        %<where>.whr = newWhere(`&%'AT'.srcp, %<optional_directly>.present, WHERE_AT, %<what>.exp);
 	%<where>.srcp = %'AT'.srcp;
     %%
 
-    ! 'IN' <what>
+    ! <optional_directly> 'IN' <what>
     %%
-        %<where>.whr = newWhere(`&%'IN'.srcp, WHERE_IN, %<what>.exp);
+        %<where>.whr = newWhere(`&%'IN'.srcp, %<optional_directly>.present, WHERE_IN, %<what>.exp);
 	%<where>.srcp = %'IN'.srcp;
     %%
     ;

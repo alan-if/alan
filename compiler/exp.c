@@ -61,12 +61,10 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 
 /*======================================================================*/
-Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not,
-			       Bool directly, Where *where) {
+Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where) {
   Expression *exp = newExpression(srcp, WHERE_EXPRESSION);
   exp->fields.whr.wht = what;
   exp->not = not;
-  exp->fields.whr.directly = directly;
   exp->fields.whr.whr = where;
   return exp;
 }
@@ -173,6 +171,9 @@ void symbolizeExpression(Expression *exp) {
   case WHERE_EXPRESSION:
     symbolizeWhere(exp->fields.whr.whr);
     symbolizeExpression(exp->fields.whr.wht);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    symbolizeExpression(exp->fields.atr.wht);
     break;
   case WHAT_EXPRESSION:
     symbolizeWhat(exp->fields.wht.wht);
@@ -303,7 +304,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     analyzeExpression(where->what, context);
     if (where->what->type != SET_TYPE) /* Can be in a container and in a set */
       verifyContainerExpression(where->what, context, "Expression after IN");
-    else if (exp->fields.whr.directly)
+    else if (exp->fields.whr.whr->directly)
       lmLog(&where->srcp, 325, sevERR, "");
     break;
   default:
@@ -945,37 +946,30 @@ static void generateWhereExpression(Expression *exp)
   Where *where = exp->fields.whr.whr;
   Expression *what = exp->fields.whr.wht;
 
+  generateExpression(what);
+
   switch (where->kind) {
   case WHERE_HERE:
-    generateExpression(what);
-    emit(exp->fields.whr.directly);
+    emitConstant(exp->fields.whr.whr->directly);
     emit0(I_HERE);
     break;
   case WHERE_NEAR:
-    generateExpression(what);
-    if (exp->fields.whr.directly)
-      emit0(I_NEAR);
-    else
-      emit0(I_NEAR);
+    emitConstant(exp->fields.whr.whr->directly);
+    emit0(I_NEAR);
     break;
   case WHERE_IN:
-  case WHERE_INSET:
-    generateExpression(what);
     generateExpression(where->what);
-    if (where->kind == WHERE_IN) {
-      emit(exp->fields.whr.directly);
-      emit0(I_IN);
-    } else
-      emit0(I_INSET);
+    emit(exp->fields.whr.whr->directly);
+    emit0(I_IN);
+    break;
+  case WHERE_INSET:
+    generateExpression(where->what);
+    emit0(I_INSET);
     break;
   case WHERE_AT:
-    generateExpression(what);
-    if (exp->fields.whr.directly)
-      emit0(I_WHERE);
-    else
-      emit0(I_LOCATION);
-    generateWhere(where, exp->fields.whr.directly);
-    emit0(I_EQ);
+    emitConstant(exp->fields.whr.whr->directly);
+    generateWhere(where);
+    emit0(I_AT);
     break;
   default:
     unimpl(exp->srcp, "Code Generator");
@@ -1021,15 +1015,15 @@ void generateRightHandExpression(Expression *exp)
   switch (exp->kind) {
   case WHERE_EXPRESSION:
     if (exp->fields.whr.whr->kind == WHERE_INSET) {
-      generateWhere(exp->fields.whr.whr, FALSE);
+      generateWhere(exp->fields.whr.whr);
       emit0(I_INSET);
     } else if (exp->fields.whr.whr->kind == WHERE_IN) {
-      generateWhere(exp->fields.whr.whr, FALSE);
-      emit(exp->fields.whr.directly);
+      generateWhere(exp->fields.whr.whr);
+      emit(exp->fields.whr.whr->directly);
       emit0(I_IN);
     } else {
       emit0(I_WHERE);
-      generateWhere(exp->fields.whr.whr, FALSE);
+      generateWhere(exp->fields.whr.whr);
       emit0(I_EQ);
     }
     break;

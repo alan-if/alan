@@ -32,8 +32,30 @@ void args(int argc, char * argv[])
   if (strlen(programName) > 4 && stricmp(&programName[strlen(programName)-4], ".EXE") == 0)
     programName[strlen(programName)-4] = '\0';
 
+#define xARGS
+#ifdef ARGS
+  {
+    int i;
+    char msg[1000];
+
+    for (i = 0; i < argc; i++) {
+      sprintf(msg, "arg %d : %s", i, argv[i]);
+      MessageBox(NULL, msg, "WinArun V3 interpreter", MB_OK);
+    }
+  }
+#endif
+
   /* Now look at the switches and arguments */
   switches(argc, argv);
+
+#define xMESSAGES
+#ifdef MESSAGES
+  {
+    char msg[1000];
+    sprintf(msg, "adventureName: %s", adventureName);
+    MessageBox(NULL, msg, "WinArun V3 interpreter", MB_OK);
+  }
+#endif
 
   if (adventureFileName == NULL)
     /* No game given, try program name */

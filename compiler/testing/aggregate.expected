@@ -3,15 +3,13 @@
 
 aggregate.alan
 
-    9.    If Count = 9 Then "" End If.
-=====>       1     2
+    9.    If Count Here = 9 Then "" End If.
+=====>       1
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
                 (including locations, entities and instances of their
                 subclasses). It is recommended to apply it to only instances of
                 a particular class. Perhaps you mean 'COUNT Isa object'?
-  *2*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" before
-                this symbol.
 
    10.    If Count Here, At l = 9 Then "" End If.
 =====>       1           2
@@ -66,7 +64,7 @@ aggregate.alan
                 type.
 
 
-        8 error(s).
+        7 error(s).
         4 warning(s).
         1 informational message(s).
 

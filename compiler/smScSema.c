@@ -292,8 +292,6 @@ int smScAction(
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(&srcp, &start, lexContext->fileName);
-	  /* Use the new scanner to get next token and return it */
-	  return smScan(lexContext, smToken);
 	} else
 	  lmLog(&token.srcp, 199, sevFAT, token.chars);
       } else
@@ -302,7 +300,7 @@ int smScAction(
 }
     break;
 
-  case 122:		/* 'LOCATION'*/ 
+  case 123:		/* 'LOCATION'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
