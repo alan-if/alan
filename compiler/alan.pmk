@@ -1942,7 +1942,7 @@ static int val(char str[])
 
     ! <expression> 'OR' <term>
     %% { Expression *exp;
-	exp = newexp(`&%'OR'.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%'OR'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = OR_OPERATOR;;
 	exp->fields.bin.left  = %<expression>.exp;
@@ -1959,7 +1959,7 @@ static int val(char str[])
 
     ! <term> 'AND' <factor>
     %% { Expression *exp;
-	exp = newexp(`&%'AND'.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%'AND'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = AND_OPERATOR;
 	exp->fields.bin.left  = %<term>.exp;
@@ -1976,7 +1976,7 @@ static int val(char str[])
 
     ! <factor> <optional_not> <relop> <arithmetic>
     %% { Expression *exp;
-	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%<relop>.srcp, BINARY_EXPRESSION);
 	exp->fields.bin.left = %<factor>.exp;
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
@@ -1987,7 +1987,7 @@ static int val(char str[])
 
     ! <factor> <optional_not> <where>
     %% { Expression *exp;
-	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
+	exp = newExpression(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->fields.whr.wht = %<factor>.exp;
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
@@ -1997,7 +1997,7 @@ static int val(char str[])
 
     ! <factor> <optional_not> 'BETWEEN' <arithmetic> 'AND' <arithmetic>
     %% { Expression *exp;
-	exp = newexp(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
+	exp = newExpression(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
 	exp->fields.btw.val = %<factor>.exp;
 	exp->not = %<optional_not>.not;
 	exp->fields.btw.low = %1<arithmetic>.exp;
@@ -2008,7 +2008,7 @@ static int val(char str[])
 
     ! <factor> <optional_not> 'CONTAINS' <arithmetic>
     %% { Expression *exp;
-	exp = newexp(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
 	exp->fields.bin.left = %<factor>.exp;
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = CONTAINS_OPERATOR;
@@ -2027,7 +2027,7 @@ static int val(char str[])
 
     ! <primary> 'ISA' ID
     %% { Expression *exp;
-	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
+	exp = newExpression(`&%'ISA'.srcp, ISA_EXPRESSION);
 	exp->fields.isa.wht = %<primary>.exp;
 	exp->not = FALSE;
 	exp->fields.isa.id = %ID.id;
@@ -2037,7 +2037,7 @@ static int val(char str[])
 
     ! <primary> <is> <something>
     %% { Expression *exp;
-	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
+	exp = newExpression(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
 	exp->fields.atr.wht = %<primary>.exp;
 	exp->not = %<something>.not;
 	exp->fields.atr.atr = %<something>.id;
@@ -2047,7 +2047,7 @@ static int val(char str[])
 
     ! <arithmetic> <binop> <primary>
     %% { Expression *exp;
-	exp = newexp(`&%<binop>.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%<binop>.srcp, BINARY_EXPRESSION);
  	exp->not = FALSE;
 	exp->fields.bin.op = %<binop>.op;
 	exp->fields.bin.left = %<arithmetic>.exp;
@@ -2058,7 +2058,7 @@ static int val(char str[])
 
     ! <aggregate> <aggregation_filters>
     %%
-	%<arithmetic>.exp = newexp(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
+	%<arithmetic>.exp = newExpression(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
 	%<arithmetic>.exp->fields.agr.kind = %<aggregate>.agr;
 	%<arithmetic>.exp->fields.agr.attribute = %<aggregate>.id;
 	%<arithmetic>.exp->fields.agr.filters = %<aggregation_filters>.exps;
@@ -2081,7 +2081,7 @@ static int val(char str[])
 <aggregation_filter>				-- RETURNS: exp, expKd
     = <optional_not> <where>
     %% { Expression *exp;
-	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
+	exp = newExpression(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
 	%<aggregation_filter>.exp = exp;
@@ -2090,7 +2090,7 @@ static int val(char str[])
 
     ! <optional_not> 'ISA' ID
     %% { Expression *exp;
-	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
+	exp = newExpression(`&%'ISA'.srcp, ISA_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.isa.id = %ID.id;
 	%<aggregation_filter>.exp = exp;
@@ -2099,7 +2099,7 @@ static int val(char str[])
 
     ! <is> <something>
     %% { Expression *exp;
-	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
+	exp = newExpression(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
 	exp->not = %<something>.not;
 	exp->fields.atr.atr = %<something>.id;
 	%<aggregation_filter>.exp = exp;
@@ -2111,7 +2111,7 @@ static int val(char str[])
     = <optional_not> <relop> <primary>
     %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
-	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%<relop>.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
 	exp->fields.bin.right = %<primary>.exp;
@@ -2121,7 +2121,7 @@ static int val(char str[])
     ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
     %% { Expression *exp;
         %<right_hand_side>.expKd = BETWEEN_EXPRESSION;
-	exp = newexp(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
+	exp = newExpression(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.btw.low = %1<factor>.exp;
 	exp->fields.btw.high = %2<factor>.exp;
@@ -2131,7 +2131,7 @@ static int val(char str[])
     ! <optional_not> 'CONTAINS' <factor>
     %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
-	exp = newexp(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
+	exp = newExpression(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = CONTAINS_OPERATOR;
 	exp->fields.bin.right = %<factor>.exp;
@@ -2150,7 +2150,7 @@ static int val(char str[])
 
     ! <optional_minus> Integer
     %%
-	%<primary>.exp = newexp(`&%Integer.srcp, INTEGER_EXPRESSION);
+	%<primary>.exp = newExpression(`&%Integer.srcp, INTEGER_EXPRESSION);
 	if (%<optional_minus>.minus)
 	  %<primary>.exp->fields.val.val = -val(%Integer.chars);
 	else
@@ -2159,7 +2159,7 @@ static int val(char str[])
 
     ! STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
-	%<primary>.exp = newexp(&%STRING.srcp, STRING_EXPRESSION);
+	%<primary>.exp = newExpression(&%STRING.srcp, STRING_EXPRESSION);
 	%<primary>.exp->fields.str.fpos = %STRING.fpos;
 	%<primary>.exp->fields.str.len = %STRING.len;
     %%
@@ -2171,14 +2171,14 @@ static int val(char str[])
 
     ! 'RANDOM' <primary> 'TO' <primary>
     %%
-	%<primary>.exp = newexp(`&%'RANDOM'.srcp, RANDOM_EXPRESSION);
+	%<primary>.exp = newExpression(`&%'RANDOM'.srcp, RANDOM_EXPRESSION);
 	%<primary>.exp->fields.rnd.from	= %2<primary>.exp;
 	%<primary>.exp->fields.rnd.to	= %3<primary>.exp;
     %%
 
     ! 'SCORE'
     %%
-	%<primary>.exp = newexp(`&%'SCORE'.srcp, SCORE_EXPRESSION);
+	%<primary>.exp = newExpression(`&%'SCORE'.srcp, SCORE_EXPRESSION);
     %%
     ;
 
@@ -2231,7 +2231,7 @@ static int val(char str[])
 <what>			-- RETURNS: exp
     = <simple_what>
     %%
-	%<what>.exp = newexp(`&%<simple_what>.srcp, WHAT_EXPRESSION);
+	%<what>.exp = newExpression(`&%<simple_what>.srcp, WHAT_EXPRESSION);
 	%<what>.exp->fields.wht.wht = %<simple_what>.wht;
     %%
 
@@ -2275,7 +2275,7 @@ static int val(char str[])
 	%<attribute_reference>.id = %ID.id;
 	%<attribute_reference>.wht = %<what>.wht;
 
-	%<attribute_reference>.exp = newexp(`&%'OF'.srcp, ATTRIBUTE_EXPRESSION);
+	%<attribute_reference>.exp = newExpression(`&%'OF'.srcp, ATTRIBUTE_EXPRESSION);
 	%<attribute_reference>.exp->fields.atr.atr = %ID.id;
 	%<attribute_reference>.exp->fields.atr.wht = %<what>.exp;
     %%

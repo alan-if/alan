@@ -9,6 +9,7 @@ The l Isa location
     Set a Of l To a Of Current Actor.
     Set a Of l To a Of Current Location.
     Set a Of l To a Of l.
+    Set c Of c To 4.
 End The l.
 
 Start At l.
@@ -20,3 +21,4 @@ Start At l.
     Set a Of l To a Of Current Actor.
     Set a Of l To a Of Current Location.
     Set a Of l To a Of l.
+    Set c Of c To 4.

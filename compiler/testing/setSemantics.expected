@@ -27,42 +27,52 @@ setSemantics.alan
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
-   15.      Set a Of This To 7.
+   12.      Set c Of c To 4.
+=====>               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+   16.      Set a Of This To 7.
 =====>               1
 
   *1*   421 E : THIS instance is not defined in this context.
 
-   16.      Set a Of Current Actor To 7.
+   17.      Set a Of Current Actor To 7.
 =====>          1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-   17.      Set a Of Current Location To 7.
+   18.      Set a Of Current Location To 7.
 =====>          1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
-   19.      Set a Of l To a Of This.
+   20.      Set a Of l To a Of This.
 =====>                         1
 
   *1*   421 E : THIS instance is not defined in this context.
 
-   20.      Set a Of l To a Of Current Actor.
+   21.      Set a Of l To a Of Current Actor.
 =====>                    1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-   21.      Set a Of l To a Of Current Location.
+   22.      Set a Of l To a Of Current Location.
 =====>                    1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
+   24.      Set c Of c To 4.
+=====>               1
 
-        10 error(s).
+  *1*   310 E : Identifier 'c' not defined.
+
+
+        12 error(s).
         No detected warnings.
         1 informational message(s).
 

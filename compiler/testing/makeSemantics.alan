@@ -5,6 +5,7 @@ The l Isa location
     Make Current Actor a.
     Make Current Location a.
     Make l a.
+    Make c c.
 End The l.
 
 Start At l.
@@ -12,3 +13,4 @@ Start At l.
     Make Current Actor a.
     Make Current Location a.
     Make l a.
+    Make c c.

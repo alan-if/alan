@@ -228,7 +228,7 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute,
   Attribute *atr = NULL;
   Symbol *sym;
 
-  sym = symcheck(id, INSTANCE_SYMBOL, context);
+  sym = id->symbol;
   if (sym) {
     if (sym->kind == INSTANCE_SYMBOL) {
       id->code = sym->code;

@@ -1661,7 +1661,7 @@ int rule			/* IN production number */
     case 259: { /* <expression> = <expression> 'OR' <term>; */
 #line 1944 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = OR_OPERATOR;;
 	exp->fields.bin.left  = pmSeSt[pmStkP+1].exp;
@@ -1676,7 +1676,7 @@ int rule			/* IN production number */
     case 261: { /* <term> = <term> 'AND' <factor>; */
 #line 1961 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = AND_OPERATOR;
 	exp->fields.bin.left  = pmSeSt[pmStkP+1].exp;
@@ -1691,7 +1691,7 @@ int rule			/* IN production number */
     case 264: { /* <factor> = <factor> <optional_not> <relop> <arithmetic>; */
 #line 1978 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+3].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+3].srcp, BINARY_EXPRESSION);
 	exp->fields.bin.left = pmSeSt[pmStkP+1].exp;
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.bin.op = pmSeSt[pmStkP+3].op;
@@ -1702,7 +1702,7 @@ int rule			/* IN production number */
     case 263: { /* <factor> = <factor> <optional_not> <where>; */
 #line 1989 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+3].srcp, WHERE_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+3].srcp, WHERE_EXPRESSION);
 	exp->fields.whr.wht = pmSeSt[pmStkP+1].exp;
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.whr.whr = pmSeSt[pmStkP+3].whr;
@@ -1712,7 +1712,7 @@ int rule			/* IN production number */
     case 266: { /* <factor> = <factor> <optional_not> 'BETWEEN' <arithmetic> 'AND' <arithmetic>; */
 #line 1999 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+3].srcp, BETWEEN_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+3].srcp, BETWEEN_EXPRESSION);
 	exp->fields.btw.val = pmSeSt[pmStkP+1].exp;
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.btw.low = pmSeSt[pmStkP+4].exp;
@@ -1723,7 +1723,7 @@ int rule			/* IN production number */
     case 265: { /* <factor> = <factor> <optional_not> 'CONTAINS' <arithmetic>; */
 #line 2010 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+3].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+3].srcp, BINARY_EXPRESSION);
 	exp->fields.bin.left = pmSeSt[pmStkP+1].exp;
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.bin.op = CONTAINS_OPERATOR;
@@ -1739,7 +1739,7 @@ int rule			/* IN production number */
     case 269: { /* <arithmetic> = <primary> 'ISA' ID; */
 #line 2029 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, ISA_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, ISA_EXPRESSION);
 	exp->fields.isa.wht = pmSeSt[pmStkP+1].exp;
 	exp->not = FALSE;
 	exp->fields.isa.id = pmSeSt[pmStkP+3].id;
@@ -1749,7 +1749,7 @@ int rule			/* IN production number */
     case 270: { /* <arithmetic> = <primary> <is> <something>; */
 #line 2039 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, ATTRIBUTE_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+2].srcp, ATTRIBUTE_EXPRESSION);
 	exp->fields.atr.wht = pmSeSt[pmStkP+1].exp;
 	exp->not = pmSeSt[pmStkP+3].not;
 	exp->fields.atr.atr = pmSeSt[pmStkP+3].id;
@@ -1759,7 +1759,7 @@ int rule			/* IN production number */
     case 271: { /* <arithmetic> = <arithmetic> <binop> <primary>; */
 #line 2049 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+2].srcp, BINARY_EXPRESSION);
  	exp->not = FALSE;
 	exp->fields.bin.op = pmSeSt[pmStkP+2].op;
 	exp->fields.bin.left = pmSeSt[pmStkP+1].exp;
@@ -1770,7 +1770,7 @@ int rule			/* IN production number */
     case 268: { /* <arithmetic> = <aggregate> <aggregation_filters>; */
 #line 2060 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, AGGREGATE_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSeSt[pmStkP+1].srcp, AGGREGATE_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.agr.kind = pmSeSt[pmStkP+1].agr;
 	pmSeSt[pmStkP+1].exp->fields.agr.attribute = pmSeSt[pmStkP+1].id;
 	pmSeSt[pmStkP+1].exp->fields.agr.filters = pmSeSt[pmStkP+2].exps;
@@ -1788,7 +1788,7 @@ int rule			/* IN production number */
     case 274: { /* <aggregation_filter> = <optional_not> <where>; */
 #line 2083 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, WHERE_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+2].srcp, WHERE_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.whr.whr = pmSeSt[pmStkP+2].whr;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1797,7 +1797,7 @@ int rule			/* IN production number */
     case 275: { /* <aggregation_filter> = <optional_not> 'ISA' ID; */
 #line 2092 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, ISA_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, ISA_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.isa.id = pmSeSt[pmStkP+3].id;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1806,7 +1806,7 @@ int rule			/* IN production number */
     case 276: { /* <aggregation_filter> = <is> <something>; */
 #line 2101 "alan.pmk"
  { Expression *exp;
-	exp = newexp(&pmSeSt[pmStkP+1].srcp, ATTRIBUTE_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+1].srcp, ATTRIBUTE_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.atr.atr = pmSeSt[pmStkP+2].id;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1816,7 +1816,7 @@ int rule			/* IN production number */
 #line 2112 "alan.pmk"
  { Expression *exp;
         pmSeSt[pmStkP+1].expKd = BINARY_EXPRESSION;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSeSt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.bin.op = pmSeSt[pmStkP+2].op;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
@@ -1826,7 +1826,7 @@ int rule			/* IN production number */
 #line 2122 "alan.pmk"
  { Expression *exp;
         pmSeSt[pmStkP+1].expKd = BETWEEN_EXPRESSION;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, BETWEEN_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, BETWEEN_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.btw.low = pmSeSt[pmStkP+3].exp;
 	exp->fields.btw.high = pmSeSt[pmStkP+5].exp;
@@ -1836,7 +1836,7 @@ int rule			/* IN production number */
 #line 2132 "alan.pmk"
  { Expression *exp;
         pmSeSt[pmStkP+1].expKd = BINARY_EXPRESSION;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
+	exp = newExpression(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.bin.op = CONTAINS_OPERATOR;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
@@ -1850,7 +1850,7 @@ int rule			/* IN production number */
     case 281: { /* <primary> = <optional_minus> Integer; */
 #line 2152 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+2].srcp, INTEGER_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+2].srcp, INTEGER_EXPRESSION);
 	if (pmSeSt[pmStkP+1].minus)
 	  pmSeSt[pmStkP+1].exp->fields.val.val = -val(pmSySt[pmStkP+2].chars);
 	else
@@ -1859,7 +1859,7 @@ int rule			/* IN production number */
     case 282: { /* <primary> = STRING; */
 #line 2161 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, STRING_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+1].srcp, STRING_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.str.fpos = pmSySt[pmStkP+1].fpos;
 	pmSeSt[pmStkP+1].exp->fields.str.len = pmSySt[pmStkP+1].len;
     	break;}
@@ -1871,14 +1871,14 @@ int rule			/* IN production number */
     case 286: { /* <primary> = 'RANDOM' <primary> 'TO' <primary>; */
 #line 2173 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, RANDOM_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+1].srcp, RANDOM_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.rnd.from	= pmSeSt[pmStkP+2].exp;
 	pmSeSt[pmStkP+1].exp->fields.rnd.to	= pmSeSt[pmStkP+4].exp;
     	break;}
     case 284: { /* <primary> = 'SCORE'; */
 #line 2180 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, SCORE_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+1].srcp, SCORE_EXPRESSION);
     	break;}
     case 288: { /* <aggregate> = <aggregator> 'OF' ID; */
 #line 2188 "alan.pmk"
@@ -1921,7 +1921,7 @@ int rule			/* IN production number */
     case 293: { /* <what> = <simple_what>; */
 #line 2233 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, WHAT_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSeSt[pmStkP+1].srcp, WHAT_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.wht.wht = pmSeSt[pmStkP+1].wht;
     	break;}
     case 294: { /* <what> = <attribute_reference>; */
@@ -1960,7 +1960,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+1].id;
 	pmSeSt[pmStkP+1].wht = pmSeSt[pmStkP+3].wht;
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+2].srcp, ATTRIBUTE_EXPRESSION);
+	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+2].srcp, ATTRIBUTE_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.atr.atr = pmSeSt[pmStkP+1].id;
 	pmSeSt[pmStkP+1].exp->fields.atr.wht = pmSeSt[pmStkP+3].exp;
     	break;}

@@ -184,42 +184,33 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 /*----------------------------------------------------------------------*/
 static void analyzeMake(StmNod *stm, Context *context)
 {
+  Expression *wht = stm->fields.make.wht;
   Attribute *atr = NULL;
 
-  analyzeExpression(stm->fields.make.wht, context);
-
-  atr = resolveAttribute(stm->fields.make.wht, stm->fields.make.atr, context);
+  analyzeExpression(wht, context);
+  atr = resolveAttribute(wht, stm->fields.make.atr, context);
   verifyMakeAttribute(stm->fields.make.atr, atr);
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static void verifyTargetAttribute(IdNode *attributeId, Attribute  *targetAttribute)
-{
-  if (targetAttribute) {
-    if (targetAttribute->type != INTEGER_TYPE && targetAttribute->type != STRING_TYPE && targetAttribute->type != ERROR_TYPE)
-      lmLog(&attributeId->srcp, 419, sevERR, "Target for");
-    else
-      attributeId->code = targetAttribute->id->code;
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void analyzeSet(StmNod *stm, Context *context)
 {
+  Expression *exp = stm->fields.set.exp;
   Expression *wht = stm->fields.set.wht;
 
-  analyzeExpression(stm->fields.set.wht, context);
+  analyzeExpression(wht, context);
+  if (wht->type != ERROR_TYPE)
+    if (wht->type != INTEGER_TYPE && wht->type != STRING_TYPE)
+      lmLog(&wht->srcp, 419, sevERR, "Target for");
 
-  analyzeExpression(stm->fields.set.exp, context);
+  analyzeExpression(exp, context);
+  if (exp->type != ERROR_TYPE)
+    if (exp->type != INTEGER_TYPE && exp->type != STRING_TYPE)
+      lmLog(&exp->srcp, 419, sevERR, "Expression in");
 
-  if (stm->fields.set.exp->type != INTEGER_TYPE
-      && stm->fields.set.exp->type != STRING_TYPE
-      && stm->fields.set.exp->type != ERROR_TYPE)
-    lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
-  if (!equalTypes(stm->fields.set.exp->type, wht->type))
+  if (!equalTypes(exp->type, wht->type))
     lmLog(&stm->srcp, 331, sevERR, "SET statement");
 }
 
@@ -1243,7 +1234,7 @@ void dumpStatement(StmNod *stm)
       put("whr: "); duwhr(stm->fields.locate.whr);
       break;
     case MAKE_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.list.wht); nl();
+      put("wht: "); dumpExpression(stm->fields.make.wht); nl();
       put("not: "); dumpBool(stm->fields.make.not); nl();
       put("atr: "); dumpId(stm->fields.make.atr);
       break;
@@ -1258,7 +1249,7 @@ void dumpStatement(StmNod *stm)
       break;
     case SCHEDULE_STATEMENT:
       put("id: "); dumpId(stm->fields.schedule.id); nl();
-      put("whr: "); duwhr(stm->fields.locate.whr); nl();
+      put("whr: "); duwhr(stm->fields.schedule.whr); nl();
       put("when: "); dumpExpression(stm->fields.schedule.when);
       break;
     case CANCEL_STATEMENT:

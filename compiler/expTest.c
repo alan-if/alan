@@ -18,8 +18,8 @@ void testAttributeToThis()
 					 theAttributeId, 0, 0, 0, NULL);
   Context *theContext = newContext(INSTANCE_CONTEXT);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
-  Expression *theWhatExp = newexp(&nulsrcp, WHAT_EXPRESSION);
-  Expression *theExp = newexp(&nulsrcp, ATTRIBUTE_EXPRESSION);
+  Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
+  Expression *theExp = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);
 
   theInstance->props->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;

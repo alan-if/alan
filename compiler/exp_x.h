@@ -20,7 +20,7 @@
 
 /* FUNCTIONS: */
 
-extern Expression *newexp(Srcp *srcp, ExpressionKind kind);
+extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern void generateExpression(Expression *exp);

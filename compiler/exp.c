@@ -61,7 +61,7 @@ static char *aggregateToString(AggregateKind agr)
 
 
 /*======================================================================*/
-Expression *newexp(Srcp *srcp, ExpressionKind kind)
+Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 {
   Expression *new;			/* The newly allocated area */
 
@@ -160,21 +160,24 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
   Attribute *atr;
 
   switch (exp->fields.atr.wht->kind) {
-  case WHAT_EXPRESSION:
-    switch (exp->fields.atr.wht->fields.wht.wht->kind) {
-      
+  case WHAT_EXPRESSION: {
+    What *what = exp->fields.atr.wht->fields.wht.wht; 
+    switch (what->kind) {
     case WHAT_ACTOR:
       if (context->kind == EVENT_CONTEXT)
-	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
+	lmLog(&what->srcp, 412, sevERR, "");
       break;
 
     case WHAT_LOCATION:
+      break;
+
     case WHAT_ID:
+      what->id->symbol = symcheck(what->id, INSTANCE_SYMBOL, context);
       break;
 
     case WHAT_THIS:
       if (!inEntityContext(context))
-	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 421, sevERR, "");
+	lmLog(&what->srcp, 421, sevERR, "");
       break;
 
     default:
@@ -188,9 +191,10 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
     if (exp->type == INSTANCE_TYPE)
       exp->class = atr->instance->symbol->fields.entity.parent;
     break;
+  }
 
   case ATTRIBUTE_EXPRESSION:
-    analyzeAttributeExpression(exp->fields.atr.wht, context);
+    analyzeExpression(exp->fields.atr.wht, context);
     if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE)) {
       exp->type = ERROR_TYPE;
       lmLog(&exp->fields.atr.wht->srcp, 429, sevERR, "");
@@ -212,7 +216,6 @@ static Bool isConstantIdentifier(IdNode *id)
   return id->symbol->kind != PARAMETER_SYMBOL
     && id->symbol->kind != LOCAL_SYMBOL;
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -465,9 +468,12 @@ static Bool verifyWhatContext(What *what, Context *context) {
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
   Symbol *symbol;
+  IdNode *classId;
 
-  if (exp->kind != WHAT_EXPRESSION) syserr("Not a WHAT-expression in '%s()'", __FUNCTION__);
-  if (!verifyWhatContext(exp->fields.wht.wht, context)) return;
+  if (exp->kind != WHAT_EXPRESSION)
+    syserr("Not a WHAT-expression in '%s()'", __FUNCTION__);
+  if (!verifyWhatContext(exp->fields.wht.wht, context))
+    return;
 
   switch (exp->fields.wht.wht->kind) {
 
@@ -507,7 +513,9 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 
   case WHAT_THIS:
     exp->type = INSTANCE_TYPE;
-    exp->class = classIdInContext(context)->symbol;
+    classId = classIdInContext(context);
+    if (classId)
+      exp->class = classId->symbol; 
     break;
 
   default:
