@@ -1,8 +1,4 @@
-Every x Isa Object
-  Has
-    boolAtr.
-    intAtr 4.
-  Container
+Every x
 End Every x.
 
 The y Isa x

@@ -5,7 +5,8 @@
 \*======================================================================*/
 
 #include "cla.c"
-#include "ins.h"
+
+#include "ins_x.h"
 
 
 void testCreateCla()

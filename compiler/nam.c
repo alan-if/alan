@@ -15,11 +15,8 @@
 #include "nam.h"
 #include "str.h"
 
-#include "obj.h"
-#include "act.h"
 #include "cnt.h"
 #include "ext.h"
-#include "loc.h"
 #include "vrb.h"
 #include "msg.h"
 

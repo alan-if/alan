@@ -5,13 +5,13 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "ins.h"
+#include "ins_x.h"
 
 #include "sysdep.h"
 #include "util.h"
 #include "dump.h"
 
-#include "sym.h"
+#include "sym_x.h"
 #include "id_x.h"
 #include "srcp_x.h"
 #include "lmList.h"
@@ -53,6 +53,48 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 
 /*----------------------------------------------------------------------
 
+  symbolizeInstance()
+
+  Symbolize a Instance node.
+
+ */
+static void symbolizeInstance(InsNod *ins)
+{
+  SymNod *heritage;
+
+  if (ins->heritage != NULL) {
+    heritage = lookup(ins->heritage->string);
+    if (heritage == NULL)
+      lmLog(&ins->heritage->srcp, 310, sevERR, ins->heritage->string);
+    else if (heritage->kind != CLASS_SYMBOL)
+      lmLog(&ins->heritage->srcp, 350, sevERR, "");
+    else {
+      ins->heritage->symbol = heritage;
+      setParent(ins->symbol, ins->heritage->symbol);
+    }
+  }
+}
+
+
+/*======================================================================
+
+  symbolizeInstances()
+
+  Symbolize all Instance nodes.
+
+ */
+void symbolizeInstances(void)
+{
+  List *l;
+
+  for (l = allInstances; l; l = l->next)
+    symbolizeInstance(l->element.ins);
+}
+
+
+
+/*----------------------------------------------------------------------
+
   analyzeInstance()
 
   Analyze a Instance node.
@@ -67,7 +109,7 @@ static void analyzeInstance(InsNod *ins)
 
   analyzeInstances()
 
-  Analyze all Class nodes.
+  Analyze all Instance nodes.
 
  */
 void analyzeInstances(void)
@@ -83,7 +125,7 @@ void analyzeInstances(void)
 
   generateInstances()
 
-  Generate all Class nodes.
+  Generate all Instance nodes.
 
  */
 Aaddr generateInstances(void)

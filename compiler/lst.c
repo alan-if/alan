@@ -17,6 +17,7 @@
 void (*(dumpNodeTable[LIST_LAST_KIND]))();
 
 void dumpClass();
+void dumpInstance();
 
 
 /*======================================================================
@@ -27,6 +28,7 @@ void dumpClass();
 void initDumpNodeList()
 {
   dumpNodeTable[LIST_CLA] = &dumpClass;
+  dumpNodeTable[LIST_INS] = &dumpInstance;
 }
 
 
@@ -47,7 +49,7 @@ List *concat(List *list,	/* IN - List to concat to */
 
   new = NEW(List);
 
-  new->element.nam = (struct NamNod *) element;
+  new->element.cla = (struct ClaNod *) element;
   new->kind = kind;
 
   new->next = NULL;

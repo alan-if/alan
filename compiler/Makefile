@@ -115,7 +115,6 @@ unit : unit.o \
 	exp.o \
 	ext.o \
 	id.o \
-	ins.o \
 	lim.o \
 	lst.o \
 	msg.o \
@@ -148,9 +147,9 @@ unit : unit.o \
 	smScanx.o smScSema.o
 
 test: unit
-	echo "******************************"
-	unit
-	echo "******************************"
+	@echo -n "******************************"
+	@unit
+	@echo "******************************"
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -158,8 +157,9 @@ test: unit
 depend:
 	@for f in *.c; \
 	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
+	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
 	done
+	mv dependencies.new dependencies.mk
 
 #
 # Version number generation

@@ -9,6 +9,7 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "id_x.h"
 #include "lmList.h"
 
 #include "acode.h"

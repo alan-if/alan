@@ -102,9 +102,9 @@ void symbolizeClasses(void)
 
 /*----------------------------------------------------------------------
 
-  symbolizeClass()
+  analyzeClass()
 
-  Symbolize a Class node.
+  Analyze a Class node.
 
  */
 static void analyzeClass(ClaNod *cla)

@@ -2,32 +2,10 @@
 
   insTest.c
 
-  A unit test main program for the Alan compiler
-  It will include the complete module source and then define some tests
-  and test cases which will be run through the unitTest() runner.
-
 \*======================================================================*/
-
-#include <stdio.h>
 
 #include "ins.c"
 
-
-static void (*(cases[]))();
-
-#include "unitTest.h"
-
-
-int main()
-{
-
-  lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
-
-  unitTest();
-
-  return 0;
-}
-  
 
 void testCreateIns()
 {
@@ -41,12 +19,13 @@ void testCreateIns()
   unitAssert(equalId(id, ins->id));
   unitAssert(equalId(heritage, ins->heritage));
 
-  analyzeInstances();
+  symbolizeInstance(ins);
+  unitAssert(readEcode() == 350 && readSev() == sevERR);
 }
 
+void registerInsUnitTests()
+{
+  registerUnitTest(testCreateIns);
+}
 
-static void (*(cases[]))() = {
-  &testCreateIns,
-  NULL
-};
 

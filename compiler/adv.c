@@ -130,8 +130,7 @@ static void analyzeStartAt(void)
       break;
     }
 
-  if (adv.stms != NULL)
-    anstms(adv.stms, NULL, NULL, NULL);
+  anstms(adv.stms, NULL, NULL, NULL);
 }
 
 
@@ -295,11 +294,8 @@ void duadv(enum dmpKd dmp)
   put("vrbs: "); if (dmp&DMPVRB) dulst(adv.vrbs, LIST_VRB); else put("--"); nl();
   put("clas: "); if (dmp&DMPCLA) dulst(adv.clas, LIST_CLA); else put("--"); nl();
   put("inss: "); if (dmp&DMPINS) dulst(adv.inss, LIST_INS); else put("--"); nl();
-  put("locs: "); if (dmp&DMPLOC) dulst(adv.locs, LIST_LOC); else put("--"); nl();
-  put("objs: "); if (dmp&DMPOBJ) dulst(adv.objs, LIST_OBJ); else put("--"); nl();
   put("cnts: "); if (dmp&DMPCNT) dulst(adv.cnts, LIST_CNT); else put("--"); nl();
   put("evts: "); if (dmp&DMPEVT) dulst(adv.evts, LIST_EVT); else put("--"); nl();
-  put("acts: "); if (dmp&DMPACT) dulst(adv.acts, LIST_ACT); else put("--"); nl();
   put("ruls: "); if (dmp&DMPRUL) dulst(adv.ruls, LIST_RUL); else put("--"); nl();
   put("whr: "); duwhr(adv.whr); nl();
   put("stms: "); dulst(adv.stms, LIST_STM); out();

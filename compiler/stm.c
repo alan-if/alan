@@ -9,12 +9,13 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "sym_x.h"
+#include "id_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-node */
-#include "sym.h"                /* SYM-nodes */
 #include "lst.h"                /* LST-nodes */
-#include "id_x.h"
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "whr.h"                /* WHR-nodes */
@@ -83,7 +84,7 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-    sym = symcheck(&elm, stm->fields.describe.wht->id->string, INSTANCE_SYMBOL, pars);
+    sym = symcheck(&elm, stm->fields.describe.wht->id, INSTANCE_SYMBOL, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -469,7 +470,7 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  sym = symcheck(&elm, stm->fields.schedule.id->string, EVENT_ID, NULL);
+  sym = symcheck(&elm, stm->fields.schedule.id, EVENT_ID, NULL);
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
@@ -509,7 +510,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  sym = symcheck(&elm, stm->fields.cancel.id->string, EVENT_ID, NULL);
+  sym = symcheck(&elm, stm->fields.cancel.id, EVENT_ID, NULL);
 }
 
 
@@ -557,7 +558,7 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      sym = symcheck(&elm, stm->fields.use.actor->string, INSTANCE_SYMBOL, pars);
+      sym = symcheck(&elm, stm->fields.use.actor, INSTANCE_SYMBOL, pars);
       ins = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");

@@ -11,8 +11,7 @@
 /* USE: */
 #include "srcp.h"
 #include "id.h"
-#include "lst.h"
-#include "whr.h"
+#include "sym.h"
 #include "slt.h"
 
 
@@ -26,30 +25,5 @@ typedef struct InsNod {		/* INSTANCE */
   struct Slots *slt;		/* Slots */
 } InsNod;
 
-
-/* Data: */
-extern int instanceCount;
-
-
-/* Methods: */
-
-
-/* Create a new Instance node */
-extern InsNod *newins(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *heritage,
-		      Slots *slt);
-
-/* Analyze all Instances */
-extern void analyzeInstances(void);
-
-/* Prepare all Instances before analysis */
-extern void prepinss(void);
-
-/* Generate code for all Instances */
-extern Aaddr generateInstances(void);
-
-/* Dump an Instance node */
-extern void dumpInstance(InsNod *ins);
 
 #endif

@@ -19,7 +19,6 @@
 #include "elm.h"		/* ELM-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "lim.h"		/* LIM-nodes */
-#include "obj.h"		/* OBJ-nodes */
 
 #include "emit.h"
 
@@ -115,8 +114,6 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
 	      List *pars)	/* IN - Possible parameters */
 {
   SymNod *sym;			/* The symbol table node */
-  ObjNod *obj;			/* Possible object node */
-  ActNod *act;			/* Possible actor node */
   ElmNod *elm;			/* Syntax element */
 
   if (wht == NULL)
@@ -131,6 +128,7 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
       case NAMCNT:
 	wht->nam->code = sym->code;
 	break;
+#ifdef FIXME
       case NAMOBJ:
 	obj = (ObjNod *)sym->ref;
 	if (obj->props == NULL) {
@@ -147,6 +145,7 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
 	} else
 	  wht->nam->code = sym->code;
 	break;
+#endif
       default:
 	break;
       }
