@@ -33,6 +33,7 @@
 #include <windows.h>
 #endif
 
+
 /* PUBLIC DATA */
 
 char advnam[255];		/* Name of adventure (file name excl. ext.) */

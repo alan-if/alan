@@ -27,9 +27,7 @@
 #include "parse.h"
 #include "inter.h"
 #include "rules.h"
-#ifdef REVERSED
 #include "reverse.h"
-#endif
 #include "debug.h"
 #include "stack.h"
 #include "exe.h"
@@ -82,19 +80,19 @@ Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
 
-Boolean verbose = FALSE;
-Boolean ignoreErrorOption = TRUE;
-Boolean debugOption = FALSE;
-Boolean sectionTraceOption = FALSE;
-Boolean tracePushOption = FALSE;
-Boolean traceStackOption = FALSE;
-Boolean singleStepOption = FALSE;
-Boolean transcriptOption = FALSE;
-Boolean logOption = FALSE;
-Boolean statusLineOption = TRUE;
-Boolean regressionTestOption = FALSE;
-Boolean fail = FALSE;
-Boolean anyOutput = FALSE;
+Bool verbose = FALSE;
+Bool ignoreErrorOption = TRUE;
+Bool debugOption = FALSE;
+Bool sectionTraceOption = FALSE;
+Bool tracePushOption = FALSE;
+Bool traceStackOption = FALSE;
+Bool singleStepOption = FALSE;
+Bool transcriptOption = FALSE;
+Bool logOption = FALSE;
+Bool statusLineOption = TRUE;
+Bool regressionTestOption = FALSE;
+Bool fail = FALSE;
+Bool anyOutput = FALSE;
 
 
 /* The files and filenames */
@@ -110,9 +108,9 @@ FILE *logFile;
 int col, lin;
 int pageLength, pageWidth;
 
-Boolean capitalize = FALSE;
-Boolean needSpace = FALSE;
-Boolean skipsp = FALSE;
+Bool capitalize = FALSE;
+Bool needSpace = FALSE;
+Bool skipsp = FALSE;
 
 /* Restart jump buffer */
 jmp_buf restart_label;		/* Restart long jump return point */
@@ -120,7 +118,7 @@ jmp_buf error_label;		/* Error (or undo) long jump return point*/
 
 
 /* PRIVATE DATA */
-static Boolean onStatusLine = FALSE; /* Don't log when printing status */
+static Bool onStatusLine = FALSE; /* Don't log when printing status */
 
 
 /*======================================================================
@@ -695,44 +693,44 @@ void prmsg(MsgKind msg)		/* IN - message number */
 \*----------------------------------------------------------------------*/
 
 /* How to know we are at end of a table */
-Boolean eot(Aword *adr)
+Bool eot(Aword *adr)
 {
   return *adr == EOF;
 }
 
 
-Boolean isObj(Aword x)
+Bool isObj(Aword x)
 {
   return isA(x, OBJECT);
 }
 
-Boolean isCnt(Aword x)
+Bool isCnt(Aword x)
 {
   return x != 0 && instance[x].container != 0;
 }
 
-Boolean isAct(Aword x)
+Bool isAct(Aword x)
 {
   return isA(x, ACTOR);
 }
 
-Boolean isLoc(Aword x)
+Bool isLoc(Aword x)
 {
   return isA(x, LOCATION);
 }
 
 
-Boolean isLiteral(Aword x)
+Bool isLiteral(Aword x)
 {
   return x > header->instanceMax;
 }
 
-Boolean isNum(Aword x)
+Bool isNum(Aword x)
 {
   return isLiteral(x) && literal[x-header->instanceMax].type == NUMERIC_LITERAL;
 }
 
-Boolean isStr(Aword x)
+Bool isStr(Aword x)
 {
   return isLiteral(x) && literal[x-header->instanceMax].type == STRING_LITERAL;
 }
@@ -746,7 +744,7 @@ Boolean isStr(Aword x)
   Is there an exit from one location to another?
 
   */
-Boolean exitto(int to, int from)
+Bool exitto(int to, int from)
 {
   ExitEntry *theExit;
 
@@ -939,9 +937,8 @@ static void load(void)
 
   /* Allocate and load memory */
 
-#ifdef REVERSED
-  reverseHdr(&tmphdr);
-#endif
+  if (littleEndian())
+    reverseHdr(&tmphdr);
 
   /* No memory allocated yet? */
   if (memory == NULL) {
@@ -975,13 +972,13 @@ static void load(void)
     }
   }
 
-#ifdef REVERSED
-  if (debugOption||sectionTraceOption||singleStepOption)
-    output("<Hmm, this is a little-endian machine, fixing byte ordering....");
-  reverseACD();			/* Reverse content of the ACD file */
-  if (debugOption||sectionTraceOption||singleStepOption)
-    output("OK.>$n");
-#endif
+  if (littleEndian()) {
+    if (debugOption||sectionTraceOption||singleStepOption)
+      output("<Hmm, this is a little-endian machine, fixing byte ordering....");
+    reverseACD();			/* Reverse content of the ACD file */
+    if (debugOption||sectionTraceOption||singleStepOption)
+      output("OK.>$n");
+  }
 }
 
 
@@ -1266,7 +1263,7 @@ static void init(void)
 
 
 
-static Boolean traceActor(int theActor)
+static Bool traceActor(int theActor)
 {
   if (sectionTraceOption) {
     printf("\n<ACTOR %d, ", theActor);

@@ -27,7 +27,7 @@ void rules(void)
 void rules()
 #endif
 {
-  Boolean change = TRUE;
+  Bool change = TRUE;
   int i;
   
   for (i = 1; !endOfTable(&ruls[i-1]); i++)

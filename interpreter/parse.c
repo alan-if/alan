@@ -38,7 +38,7 @@
 int wrds[LISTLEN/2] = {EOF};	/* List of parsed words */
 int wrdidx;			/* and an index into it */
 
-Boolean plural = FALSE;
+Bool plural = FALSE;
 
 
 /* Syntax Parameters */
@@ -80,7 +80,7 @@ static char buf[LISTLEN+1];	/* The input buffer */
 static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
 
 
-static Boolean eol = TRUE;	/* Looking at End of line? Yes, initially */
+static Bool eol = TRUE;	/* Looking at End of line? Yes, initially */
 
 
 /*----------------------------------------------------------------------*/
@@ -216,7 +216,7 @@ static void scan(void)
   int i;
   int w;
   char *str;
-  static Boolean continued = FALSE;
+  static Bool continued = FALSE;
 
   if (continued) {
     /* Player used '.' to separate commands. Read next */
@@ -309,7 +309,7 @@ static void nonverb(void) {
 /*----------------------------------------------------------------------*/
 static void buildall(ParamEntry list[]) {
   int o, i = 0;
-  Boolean found = FALSE;
+  Bool found = FALSE;
   
   for (o = 1; o <= header->instanceMax; o++)
     if (isHere(o)) {
@@ -328,7 +328,7 @@ static void buildall(ParamEntry list[]) {
 static void unambig(ParamEntry plst[])
 {
   int i;
-  Boolean found = FALSE;	/* Adjective or noun found ? */
+  Bool found = FALSE;	/* Adjective or noun found ? */
   static ParamEntry *refs;	/* Entities referenced by word */
   static ParamEntry *savlst;	/* Saved list for backup at EOF */
   int firstWord, lastWord;	/* The words the player used */
@@ -438,7 +438,7 @@ static void unambig(ParamEntry plst[])
 static void simple(ParamEntry olst[]) {
   static ParamEntry *tlst = NULL;
   int savidx = wrdidx;
-  Boolean savplur = FALSE;
+  Bool savplur = FALSE;
   int i;
 
   if (tlst == NULL)
@@ -520,9 +520,9 @@ static void complex(ParamEntry olst[])
 
 
 /*----------------------------------------------------------------------*/
-static Boolean restrictionCheck(RestrictionEntry *restriction)
+static Bool restrictionCheck(RestrictionEntry *restriction)
 {
-  Boolean ok = FALSE;
+  Bool ok = FALSE;
 
   if (restriction->class == RESTRICTIONCLASS_CONTAINER)
     ok = instance[params[restriction->parameter-1].code].container != 0;
@@ -544,7 +544,7 @@ static void runRestriction(RestrictionEntry *restriction)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean inOpaqueContainer(int originalInstance)
+static Bool inOpaqueContainer(int originalInstance)
 {
   int instance = admin[originalInstance].location;
 
@@ -558,7 +558,7 @@ static Boolean inOpaqueContainer(int originalInstance)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean reachable(int instance)
+static Bool reachable(int instance)
 {
   return isHere(instance) && !inOpaqueContainer(instance);
 }
@@ -627,14 +627,14 @@ static void try(ParamEntry mlst[])
   ElementEntry *elms;		/* Pointer to entry list */
   ParseEntry *stx;		/* Pointer to syntax list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
-  Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
+  Bool anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, p;
   static ParamEntry *tlst = NULL; /* List of params found by complex() */
-  static Boolean *checked = NULL; /* Corresponding parameter checked? */
+  static Bool *checked = NULL; /* Corresponding parameter checked? */
 
   if (tlst == NULL) {
     tlst = (ParamEntry *) allocate((MAXENTITY+1)*sizeof(ParamEntry));
-    checked = (Boolean *) allocate((MAXENTITY+1)*sizeof(Boolean));
+    checked = (Bool *) allocate((MAXENTITY+1)*sizeof(Bool));
   }
 
   for (stx = stxs; !endOfTable(stx); stx++)

@@ -63,7 +63,7 @@ static int sumatr(
   Checks if a limit for a container is exceeded.
 
   */
-Boolean checklim(
+Bool checklim(
      Aword cnt,			/* IN - Container code */
      Aword obj			/* IN - The object to add */
 ) {
@@ -101,8 +101,8 @@ Boolean checklim(
   Tries a check, returns TRUE if it passed, FALSE else.
 
   */
-Boolean trycheck(Aaddr adr,	/* IN - ACODE address to check table */
-		 Boolean execute /* IN - Act if it fails ? */
+Bool trycheck(Aaddr adr,	/* IN - ACODE address to check table */
+		 Bool execute /* IN - Act if it fails ? */
 )
 {
   ChkEntry *chk;
@@ -141,7 +141,7 @@ void go(dir)
 #endif
 {
   ExitEntry *theExit;
-  Boolean ok;
+  Bool ok;
   Aword oldloc;
 
   theExit = (ExitEntry *) pointerTo(instance[current.location].exits);
@@ -237,9 +237,9 @@ static AltEntry *findAlternativeInClass(
   An info node about the Alternatives found and possibly executed
   ----------------------------------------------------------------------*/
 typedef struct AltInfo {
-  Boolean end;
+  Bool end;
   AltEntry *alt;
-  Boolean done;
+  Bool done;
   int level;			/* 0 - Global, 1 - location, 2.. - parameter */
   Aint instance;
   int parameter;
@@ -341,7 +341,7 @@ static void traceCheck(AltInfo alt)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean executeCheckOK(AltInfo alt, Boolean execute)
+static Bool executeCheckOK(AltInfo alt, Bool execute)
 {
   if (alt.alt != NULL && alt.alt->checks != 0) {
     if (sectionTraceOption && execute)
@@ -354,7 +354,7 @@ static Boolean executeCheckOK(AltInfo alt, Boolean execute)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean performChecksOK(AltInfo altInfo[], Boolean execute)
+static Bool performChecksOK(AltInfo altInfo[], Bool execute)
 {
   int altIndex;
 
@@ -368,7 +368,7 @@ static Boolean performChecksOK(AltInfo altInfo[], Boolean execute)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean anythingToExecute(AltInfo altInfo[])
+static Bool anythingToExecute(AltInfo altInfo[])
 {
   int altIndex;
 
@@ -382,7 +382,7 @@ static Boolean anythingToExecute(AltInfo altInfo[])
 
 
 /*======================================================================*/
-Boolean possible(void)
+Bool possible(void)
 {
   AltInfo alt[MAXPARAMS+2];
 
@@ -420,7 +420,7 @@ static void traceExecution(AltInfo *alt)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean executeOK(AltInfo *altInfo)
+static Bool executeOK(AltInfo *altInfo)
 {
   fail = FALSE;
   if (!altInfo->done && altInfo->alt->action != 0) {

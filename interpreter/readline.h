@@ -13,11 +13,6 @@
 #define LINELENGTH 80
 #define HISTORYLENGTH 20
 
-#ifdef _PROTOTYPES_
-extern Boolean readline(char usrbuf[]);
-
-#else
-extern Boolean readline();
-#endif
+extern Bool readline(char usrbuf[]);
 
 #endif

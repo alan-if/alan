@@ -9,14 +9,14 @@
 \*----------------------------------------------------------------------*/
 
 /* The event queue */
-extern Boolean looking;		/* LOOKING? flag */
+extern Bool looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */
 
 
 /* Functions: */
-extern Boolean undo(void);
+extern Bool undo(void);
 extern void sys(Aword fpos, Aword len);
-extern Boolean confirm(MsgKind msgno);
+extern Bool confirm(MsgKind msgno);
 extern Aword attributeOf(Aword instance, Aword atr);
 extern void say(Aword instance);
 extern void sayForm(Aword instance, SayForm form);
@@ -46,7 +46,7 @@ extern void schedule(Aword evt, Aword whr, Aword aft);
 extern void cancelEvent(Aword evt);
 extern void increaseEventQueue(void);
 extern void pushGameState(void);
-extern Boolean popGameState(void);
+extern Bool popGameState(void);
 extern void quitGame(void);
 extern void restartGame(void);
 extern void saveGame(void);

@@ -64,11 +64,6 @@
 #define __dos__
 #endif
 
-#ifdef __CYGWIN__
-/*#define __win__*/
-#define REVERSED
-#endif
-
 #ifdef __MINGW32__
 #define __win__
 #endif
@@ -167,23 +162,6 @@
 /**************************/
 #define READ_MODE "rb"
 #define WRITE_MODE "wb"
-
-
-/*****************/
-/* Byte ordering */
-/*****************/
-
-#ifdef __dos__
-#define REVERSED
-#endif
-
-#ifdef __vms__
-#define REVERSED
-#endif
-
-#ifdef __win__
-#define REVERSED
-#endif
 
 
 /****************************/
@@ -290,8 +268,6 @@ extern char *strdup(char *str);
 #endif
 
 
-#ifdef _PROTOTYPES_
-
 /* Native character functions */
 extern int isSpace(int c);      /* IN - Native character to test */
 extern int isLower(int c);      /* IN - Native character to test */
@@ -321,25 +297,8 @@ extern void fromIso(char copy[], /* OUT - Mapped string */
 extern void toNative(char copy[], /* OUT - Mapped string */
 		     char original[], /* IN - string to convert */
 		     int charset); /* IN - current character set */
-#else
-extern int isSpace();
-extern int isLower();
-extern int isUpper();
-extern int isLetter();
-extern int toLower();
-extern int toUpper();
-extern char *strlow();
-extern char *strupp();
 
-extern int isISOLetter();
-extern char toLowerCase();
-extern char toUpperCase();
-extern char *stringLower();
-extern char *stringUpper();
-
-extern void toIso();
-extern void fromIso();
-#endif
+extern int littleEndian(void);
 
 #endif                          /* -- sysdep.h -- */
 

@@ -55,7 +55,7 @@ static void indent(int level)
 }
 
 
-static char *dumpBoolean(Boolean bool)
+static char *dumpBoolean(Bool bool)
 {
   return bool?"true":"false";
 }
@@ -257,7 +257,7 @@ static void dumpClasses(int level, Aword classes)
     printf("CLASS #%ld:\n", class->code);
     indent(level+1);
     printf("idAdress: %s", dumpAddress(class->idAddress));
-    if (class->idAddress != NULL)
+    if (class->idAddress != 0)
       printf(" \"%s\"", pointerTo(class->idAddress));
     printf("\n");
     indent(level+1);
@@ -883,9 +883,8 @@ static void load(char acdfnm[])
 
   /* Allocate and load memory */
 
-#ifdef REVERSED
-  reverseHdr(&tmphdr);
-#endif
+  if (littleEndian())
+    reverseHdr(&tmphdr);
 
   memory = malloc(tmphdr.size*sizeof(Aword));
   header = (AcdHdr *) memory;
@@ -894,11 +893,11 @@ static void load(char acdfnm[])
   if (memTop != tmphdr.size)
     printf("WARNING! Could not read all ACD code.");
 
-#ifdef REVERSED
-  printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
-  reverseACD();			/* Reverse all words in the ACD file */
-  printf("OK.\n");
-#endif
+  if (littleEndian()) {
+    printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
+    reverseACD();			/* Reverse all words in the ACD file */
+    printf("OK.\n");
+  }
 }
 
 /* SPA Option handling */

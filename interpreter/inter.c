@@ -25,7 +25,7 @@
 #endif
 
 
-Boolean stopAtNextLine = FALSE;
+Bool stopAtNextLine = FALSE;
 
 
 /* PRIVATE DATA */
@@ -368,8 +368,8 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("LINE\t%5ld,\t%5ld", file, line);
 	if (line != 0) {
-	  Boolean atNext = stopAtNextLine && line != current.sourceLine;
-	  Boolean atBreakpoint =  breakpointIndex(line) != -1;
+	  Bool atNext = stopAtNextLine && line != current.sourceLine;
+	  Bool atBreakpoint =  breakpointIndex(line) != -1;
 	  current.sourceLine = line;
 	  current.sourceFile = file;
 	  if (atNext || atBreakpoint) {

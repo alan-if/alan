@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>322.89</origest>
 <currest>321.89</currest>
-<elapsed>166.89</elapsed>
+<elapsed>171.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>53</origest>
-<currest>53</currest>
-<elapsed>13</elapsed>
+<origest>54</origest>
+<currest>54</currest>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
-<elapsed>13</elapsed>
+<origest>28</origest>
+<currest>28</currest>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -179,7 +179,62 @@ Simply allow an expression as the actor in USE statement, inheritance etc. will 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New attribute reference syntax</desc>
+<notes>Allow
+    l:dark
+instead of
+    l is dark
+and
+    o:size
+instead of
+    size of o
+
+Because it could be made more general:
+
+The east_door
+  Isa object.
+  Has other_side west_door.
+  Has size 4.
+End The door.
+
+... If door:other_side:size &gt; 3 Then
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The usage text for the compiler says that include directories are searched before, THATS WRONG!</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor schedule to use Expression</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove REVERSED using the endian() function in sysdep</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -212,35 +267,8 @@ We also need some way to re-output the state.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>The usage text for the compiler says that include directories are searched before, THATS WRONG!</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Remove REVERSED using the endian() function in sysdep</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor schedule to use Expression</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -695,8 +723,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>104</origest>
-<currest>104</currest>
+<origest>103</origest>
+<currest>103</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -935,34 +963,6 @@ Which could be extended to
  End For Each [&lt;var&gt;].
 
 This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New attribute reference syntax</desc>
-<notes>Allow
-    l:dark
-instead of
-    l is dark
-and
-    o:size
-instead of
-    size of o
-
-Because it could be made more general:
-
-The east_door
-  Isa object.
-  Has other_side west_door.
-  Has size 4.
-End The door.
-
-... If door:other_side:size &gt; 3 Then
-
 </notes>
 <priority>2</priority>
 <origest>1</origest>

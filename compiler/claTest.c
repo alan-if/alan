@@ -8,7 +8,6 @@
 #include "adv.h"
 #include "ins_x.h"
 #include "emit.h"
-#include "../interpreter/types.h"
 
 
 void testCreateClass()

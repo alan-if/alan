@@ -12,7 +12,7 @@
 
 /* Data: */
 
-extern Boolean stopAtNextLine;
+extern Bool stopAtNextLine;
 extern int currentLine;
 
 

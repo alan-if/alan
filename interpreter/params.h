@@ -11,7 +11,7 @@
 
 extern void compress(ParamEntry *a);
 extern int listLength(ParamEntry *a);
-extern Boolean inList(ParamEntry *l, Aword e);
+extern Bool inList(ParamEntry *l, Aword e);
 extern void copyParameterList(ParamEntry *to, ParamEntry *from);
 extern void subtractListFromList(ParamEntry *a, ParamEntry *b);
 extern void mergeLists(ParamEntry *a, ParamEntry *b);

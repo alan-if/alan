@@ -17,10 +17,10 @@ static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;
 
-static Boolean alreadyDone(Aaddr address)
+static Bool alreadyDone(Aaddr address)
 {
   int i;
-  Boolean found = FALSE;
+  Bool found = FALSE;
 
   if (address == 0) return TRUE;
 

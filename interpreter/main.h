@@ -71,21 +71,21 @@ extern int pageLength, pageWidth;
 extern jmp_buf restart_label;
 extern jmp_buf error_label;
 
-extern Boolean verbose;
-extern Boolean ignoreErrorOption;
-extern Boolean debugOption;
-extern Boolean sectionTraceOption;
-extern Boolean tracePushOption;
-extern Boolean traceStackOption;
-extern Boolean singleStepOption;
-extern Boolean transcriptOption;
-extern Boolean logOption;
-extern Boolean statusLineOption;
-extern Boolean regressionTestOption;
-extern Boolean fail;
-extern Boolean anyOutput;
-extern Boolean needSpace;
-extern Boolean capitalize;
+extern Bool verbose;
+extern Bool ignoreErrorOption;
+extern Bool debugOption;
+extern Bool sectionTraceOption;
+extern Bool tracePushOption;
+extern Bool traceStackOption;
+extern Bool singleStepOption;
+extern Bool transcriptOption;
+extern Bool logOption;
+extern Bool statusLineOption;
+extern Bool regressionTestOption;
+extern Bool fail;
+extern Bool anyOutput;
+extern Bool needSpace;
+extern Bool capitalize;
 
 #define endOfTable(x) eot((Aword *) x)
 
@@ -103,14 +103,14 @@ extern void para(void);
 extern void newline(void);
 extern void logPrint(char string[]);
 
-extern Boolean eot(Aword *adr);
-extern Boolean isObj(Aword x);
-extern Boolean isCnt(Aword x);
-extern Boolean isAct(Aword x);
-extern Boolean isLoc(Aword x);
-extern Boolean isLiteral(Aword x);
-extern Boolean isNum(Aword x);
-extern Boolean isStr(Aword x);
+extern Bool eot(Aword *adr);
+extern Bool isObj(Aword x);
+extern Bool isCnt(Aword x);
+extern Bool isAct(Aword x);
+extern Bool isLoc(Aword x);
+extern Bool isLiteral(Aword x);
+extern Bool isNum(Aword x);
+extern Bool isStr(Aword x);
 
 /* Run the game! */
 extern void run(void);

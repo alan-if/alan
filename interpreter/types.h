@@ -54,9 +54,7 @@
 
 /* TYPES */
 
-#ifndef __mac__
-typedef int Boolean;		/* Boolean values within interpreter */
-#endif
+typedef int Bool;		/* Boolean values within interpreter */
 
 /* Amachine variables */
 typedef struct CurVars {

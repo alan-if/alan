@@ -39,7 +39,7 @@
 
 /* PUBLIC DATA */
 
-Boolean looking = FALSE;        /* LOOKING? flag */
+Bool looking = FALSE;        /* LOOKING? flag */
 
 int dscrstkp = 0;               /* Describe-stack pointer */
 
@@ -77,7 +77,7 @@ static void ensureSpaceForGameState() {
 
 
 /*----------------------------------------------------------------------*/
-static Boolean gameStateChanged(void)
+static Bool gameStateChanged(void)
 {
   int i;
   Aword *previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
@@ -128,7 +128,7 @@ void pushGameState(void) {
   
   
 /*======================================================================*/
-Boolean popGameState(void) {
+Bool popGameState(void) {
 
   if (gameStateTop == 0) {
     return FALSE;
@@ -173,8 +173,8 @@ void print(Aword fpos, Aword len)
   int ch = 0;
   int i;
   long savfp = 0;		/* Temporary saved text file position */
-  static Boolean printFlag = FALSE; /* Printing already? */
-  Boolean savedPrintFlag = printFlag;
+  static Bool printFlag = FALSE; /* Printing already? */
+  Bool savedPrintFlag = printFlag;
   void *info = NULL;		/* Saved decoding info */
 
 
@@ -291,7 +291,7 @@ void visits(Aword v)
 
 
 /*======================================================================*/
-Boolean confirm(MsgKind msgno)
+Bool confirm(MsgKind msgno)
 {
   char buf[80];
 
@@ -311,7 +311,7 @@ Boolean confirm(MsgKind msgno)
 
 
 /*======================================================================*/
-Boolean undo(void) {
+Bool undo(void) {
   if (gameStateTop != 0) {
     gameStateTop--;
     return popGameState();
@@ -1146,7 +1146,7 @@ void saystr(char *str)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean sayInheritedDefiniteForm(Aword theClass) {
+static Bool sayInheritedDefiniteForm(Aword theClass) {
   if (theClass == 0) {
     prmsg(M_DEFINITE);
     return FALSE;
@@ -1172,7 +1172,7 @@ static void sayDefinite(Aint id) {
 }
 
 /*----------------------------------------------------------------------*/
-static Boolean sayInheritedIndefiniteForm(Aword theClass) {
+static Bool sayInheritedIndefiniteForm(Aword theClass) {
   if (theClass == 0) {
     prmsg(M_INDEFINITE);
     return FALSE;
@@ -1258,7 +1258,7 @@ FORWARD void list(Aword cnt);
 
 
 /*----------------------------------------------------------------------*/
-static Boolean inheritedDescriptionCheck(Aint classId)
+static Bool inheritedDescriptionCheck(Aint classId)
 {
   if (classId == 0) return TRUE;
   if (!inheritedDescriptionCheck(class[classId].parent)) return FALSE;
@@ -1267,7 +1267,7 @@ static Boolean inheritedDescriptionCheck(Aint classId)
 }
 
 /*----------------------------------------------------------------------*/
-static Boolean descriptionCheck(Aint instanceId)
+static Bool descriptionCheck(Aint instanceId)
 {
   if (inheritedDescriptionCheck(instance[instanceId].parent)) {
     if (instance[instanceId].checks == 0) return TRUE;
@@ -1328,7 +1328,7 @@ static void describeAnything(Aword id)
 
 
 /*----------------------------------------------------------------------*/
-static Boolean containerIsEmpty(Aword cnt)
+static Bool containerIsEmpty(Aword cnt)
 {
   int i;
 
@@ -1389,7 +1389,7 @@ static void describeActor(Aword act)
 
 
 
-static Boolean descriptionOk;
+static Bool descriptionOk;
 static Aword dscrstk[255];
 
 /*======================================================================*/
@@ -1427,8 +1427,8 @@ void describeInstances(void)
 {
   int i;
   int prevobj = 0;
-  Boolean found = FALSE;
-  Boolean multiple = FALSE;
+  Bool found = FALSE;
+  Bool multiple = FALSE;
 
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
@@ -1516,8 +1516,8 @@ void list(Aword cnt)
   int i;
   Aword props;
   Aword previouslyFoundInstance = 0;
-  Boolean found = FALSE;
-  Boolean multiple = FALSE;
+  Bool found = FALSE;
+  Bool multiple = FALSE;
   Aint previousThis = current.instance;
 
   current.instance = cnt;
@@ -1854,7 +1854,7 @@ Aword contains(Aword string, Aword substring)
   */
 Abool streq(char a[], char b[])
 {
-  Boolean eq;
+  Bool eq;
 
   strlow(a);
   strlow(b);

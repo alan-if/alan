@@ -45,10 +45,10 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
   */
 
 /* 4f - length of user buffer should be used */
-Boolean readline(char buffer[])
+Bool readline(char buffer[])
 {
   event_t event;
-  static Boolean readingCommands = FALSE;
+  static Bool readingCommands = FALSE;
   static frefid_t commandFileRef;
   static strid_t commandFile;
 #ifdef HAVE_WINGLK
@@ -227,8 +227,8 @@ static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
 static int endOfInput = 0;
-static Boolean change;
-static Boolean insert = TRUE;
+static Bool change;
+static Bool insert = TRUE;
 
 
 /*----------------------------------------------------------------------*\
@@ -635,9 +635,9 @@ static void echoOn()
   */
 
 /* 4f - length of user buffer should be used */
-Boolean readline(char usrbuf[])
+Bool readline(char usrbuf[])
 {
-  static Boolean readingCommands = FALSE;
+  static Bool readingCommands = FALSE;
   static FILE *commandFile;
 
   if (readingCommands) {

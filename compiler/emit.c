@@ -62,7 +62,6 @@ static void buffer(Aword w)
     | (((Aword)((w)[1]) << 16) & 0x00ff0000)    \
     | (((Aword)((w)[0]) << 24) & 0xff000000))
 
-#ifdef REVERSED
 static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
 {
   Aword s;			/* The swapped ACODE word */
@@ -77,7 +76,6 @@ static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
 
   return (s);
 }
-#endif
 
 
 Aword nextEmitAddress(void)
@@ -88,11 +86,10 @@ Aword nextEmitAddress(void)
 
 void emit(Aword c)		/* IN - Constant to emit */
 {
-#ifdef REVERSED
+  if (littleEndian())
       buffer(reversed(c));
-#else
+  else
       buffer(c);
-#endif
 }
 
 
@@ -108,11 +105,10 @@ void emitEntry(void *address, int noOfBytes)
   if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.", NULL);
 
   for (i = 0; i < noOfBytes/sizeof(Aword); i++)
-#ifdef REVERSED
+    if (littleEndian())
       buffer(reversed(words[i]));
-#else
+    else
       buffer(words[i]);
-#endif
 }
 
 
@@ -122,11 +118,10 @@ void emitN(void *address, int noOfWords) /* IN - Constant to emit */
   Aword *words = address;
 
   for (i = 0; i < noOfWords; i++)
-#ifdef REVERSED
+    if (littleEndian())
       buffer(reversed(words[i]));
-#else
+    else
       buffer(words[i]);
-#endif
 }
 
 
@@ -162,11 +157,10 @@ void emitString(char *str)
       w += (unsigned long)((unsigned char)copy[i+1])<<16;
       w += (unsigned long)((unsigned char)copy[i+2])<<8;
       w += (unsigned long)((unsigned char)copy[i+3]);
-#ifdef REVERSED
-      buffer(reversed(w));
-#else
-      buffer(w);
-#endif
+      if (littleEndian())
+	buffer(reversed(w));
+      else
+	buffer(w);
     }
   }
 #else
@@ -549,30 +543,30 @@ void emitHeader()
   pc = 0;
 
   /* Generate header tag "ALAN" */
-#ifdef REVERSED
-  acdHeader.tag[3] = 'A';
-  acdHeader.tag[2] = 'L';
-  acdHeader.tag[1] = 'A';
-  acdHeader.tag[0] = 'N';
-#else
-  acdHeader.tag[0] = 'A';
-  acdHeader.tag[1] = 'L';
-  acdHeader.tag[2] = 'A';
-  acdHeader.tag[3] = 'N';
-#endif
+  if (littleEndian()) {
+    acdHeader.tag[3] = 'A';
+    acdHeader.tag[2] = 'L';
+    acdHeader.tag[1] = 'A';
+    acdHeader.tag[0] = 'N';
+  } else {
+    acdHeader.tag[0] = 'A';
+    acdHeader.tag[1] = 'L';
+    acdHeader.tag[2] = 'A';
+    acdHeader.tag[3] = 'N';
+  }
 
   /* Construct version marking */
-#ifdef REVERSED  
-  acdHeader.vers[3] = (Aword)alan.version.version;
-  acdHeader.vers[2] = (Aword)alan.version.revision;
-  acdHeader.vers[1] = (Aword)alan.version.correction;
-  acdHeader.vers[0] = (Aword)alan.version.state[0];
-#else
-  acdHeader.vers[0] = (Aword)alan.version.version;
-  acdHeader.vers[1] = (Aword)alan.version.revision;
-  acdHeader.vers[2] = (Aword)alan.version.correction;
-  acdHeader.vers[3] = (Aword)alan.version.state[0];
-#endif
+  if (littleEndian()) {
+    acdHeader.vers[3] = (Aword)alan.version.version;
+    acdHeader.vers[2] = (Aword)alan.version.revision;
+    acdHeader.vers[1] = (Aword)alan.version.correction;
+    acdHeader.vers[0] = (Aword)alan.version.state[0];
+  } else {
+    acdHeader.vers[0] = (Aword)alan.version.version;
+    acdHeader.vers[1] = (Aword)alan.version.revision;
+    acdHeader.vers[2] = (Aword)alan.version.correction;
+    acdHeader.vers[3] = (Aword)alan.version.state[0];
+  }
 
   hp = (Aword *) &acdHeader;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */

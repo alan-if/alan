@@ -34,13 +34,12 @@ Aword convertFromACD(Aword w)
   wp = (char *) &w;
   sp = (char *) &s;
 
-#ifdef REVERSED
-  for (i = 0; i < sizeof(Aword); i++)
-    sp[sizeof(Aword)-1 - i] = wp[i];
-#else
-  for (i = 0; i < sizeof(Aword); i++)
-    sp[i] = wp[i];
-#endif  
+  if (littleEndian())
+    for (i = 0; i < sizeof(Aword); i++)
+      sp[sizeof(Aword)-1 - i] = wp[i];
+  else
+    for (i = 0; i < sizeof(Aword); i++)
+      sp[i] = wp[i];
 
   return s;
 }
@@ -116,7 +115,6 @@ void registerUnitTest(void (*aCase)())
   lastCase->next = NULL;
 }
 
-#ifdef REVERSED
 static void reverse(Aword *w)
 {
   *w = reversed(*w);
@@ -130,7 +128,6 @@ static void reverseHdr(AcdHdr *hdr)
   for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
-#endif /* REVERSED */
 
 static void loadACD(char fileName[])
 {
@@ -140,9 +137,8 @@ static void loadACD(char fileName[])
 
   readSize = fread(&tmphdr, 1, sizeof(tmphdr), acdFile);
 
-#ifdef REVERSED
-  reverseHdr(&tmphdr);
-#endif
+  if (littleEndian())
+    reverseHdr(&tmphdr);
 
   memory = calloc(4*tmphdr.size, 1);
 

@@ -21,19 +21,11 @@
 
 /* FUNCTIONS */
 
-#ifdef _PROTOTYPES_
-
-extern Boolean checklim(Aword cnt, Aword obj);
-extern Boolean trycheck(Aaddr adr, Boolean act);
-extern Boolean possible(void);
-extern Boolean exitto(int to, int from);
+extern Bool checklim(Aword cnt, Aword obj);
+extern Bool trycheck(Aaddr adr, Bool act);
+extern Bool possible(void);
+extern Bool exitto(int to, int from);
 extern void action(ParamEntry *plst);
 extern void go(int dir);
-
-#else
-extern Boolean checklim();
-extern Boolean trycheck();
-extern Boolean possible();
-#endif
 
 #endif

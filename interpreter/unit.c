@@ -45,10 +45,10 @@ Aword convertFromACD(Aword w)
 
 #include "syserr.h"
 
-static Boolean hadSyserr = FALSE;
+static Bool hadSyserr = FALSE;
 jmp_buf syserr_label;
 jmp_buf uniterr_label;
-Boolean expectSyserr = FALSE;
+Bool expectSyserr = FALSE;
 
 void syserr(char msg[])
 {
@@ -110,9 +110,8 @@ static void loadACD(char fileName[])
 
   fread(&tmphdr, sizeof(tmphdr), 1, acdFile);
 
-#ifdef REVERSED
-  reverseHdr(&tmphdr);
-#endif
+  if (littleEndian())
+    reverseHdr(&tmphdr);
 
   memory = calloc(4*tmphdr.size, 1);
 

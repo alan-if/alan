@@ -41,7 +41,7 @@ int listLength(ParamEntry theList[])
 }
 
 
-Boolean inList(ParamEntry theList[], Aword theCode)
+Bool inList(ParamEntry theList[], Aword theCode)
 {
   int i;
 

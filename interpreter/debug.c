@@ -360,7 +360,7 @@ static void showEvents(void)
 {
   int event, i;
   char str[80];
-  Boolean scheduled;
+  Bool scheduled;
 
   output("Events:");
   for (event = 1; event <= header->eventMax; event++) {
@@ -428,7 +428,7 @@ static void showSourceLine(int line, int fileNumber) {
 /*----------------------------------------------------------------------*/
 static void listBreakpoints() {
   int i;
-  Boolean found = FALSE;
+  Bool found = FALSE;
 
   for (i = 0; i < BREAKPOINTMAX; i++)
     if (breakpoint[i].line != 0) {
@@ -443,7 +443,7 @@ static void listBreakpoints() {
 
 
 /*======================================================================*/
-Boolean breakpointIndex(int line) {
+Bool breakpointIndex(int line) {
   int i;
 
   for (i = 0; i < BREAKPOINTMAX; i++)
@@ -501,7 +501,7 @@ static void deleteBreakpoint(int line, int file) {
 
 
 
-static Boolean trc, stp, cap;
+static Bool trc, stp, cap;
 static int loc;
 
 /*======================================================================*/
@@ -526,7 +526,7 @@ void restoreInfo(void)
 }
 
 /*======================================================================*/
-void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
+void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 {
   char buf[256];
   char c;
