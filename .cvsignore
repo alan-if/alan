@@ -1,9 +1,0 @@
-.notfresh
-[0-9]*_[0-9]*_[0-9]*.*
-alan*.lha
-alan*.zip
-alan.prod
-compiler.zip
-interpre.zip
-version.c
-version.h
