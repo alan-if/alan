@@ -244,7 +244,7 @@ static void anatr(exp, evt, pars)
       atr = NULL;
       if (elm) {
 	if (elm->res == NULL || elm->res->single) {
-	  if (elm->res == NULL || (elm->res->classes & NAMOBJ != 0) || (elm->res->classes & NAMCOBJ) != 0)
+	  if (elm->res == NULL || (elm->res->classes & NAMOBJ) != 0 || (elm->res->classes & NAMCOBJ) != 0)
 	    atr = findatr(exp->fields.atr.atr->str, adv.oatrs);
 	  else if ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0)
 	    atr = findatr(exp->fields.atr.atr->str, adv.aatrs);

@@ -361,6 +361,8 @@ void syserr(str)
 #endif
 {
   lmLog(&nulsrcp, 997, sevSYS, str);
+  lmList("", 0, 79, liTINY, sevALL);
+  exit(EXIT_FAILURE);
 }
 
 
@@ -455,7 +457,9 @@ static SPA_DECLARE(arguments)
 SPA_END
 
 static SPA_DECLARE(options)
+#ifndef __mac__
      SPA_HELP("help", "this help", usage, xit)
+#endif
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
