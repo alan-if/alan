@@ -1,0 +1,34 @@
+########## objectWithEmptyDescription ##########
+The l
+  Isa Location.
+  Description
+    "The 'o' should not be described but p should."
+End The l.
+
+The o
+  Isa object.
+  At l.
+  Description -- Empty
+End The o.
+
+The p
+  Isa object.
+  At l.
+  Mentioned
+    "an object called 'p'"
+End The p.
+
+Start At l.
+########## alan objectWithEmptyDescription.alan ##########
+
+        No warnings or errors detected.
+
+
+
+L
+The 'o' should not be described but p should. There is a an object called
+'p' here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
