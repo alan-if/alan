@@ -187,6 +187,8 @@ static void getline()
   para();
   do {
     printf("> ");
+    if (logflg)
+      fprintf(logfil, "> ");
 #ifdef USE_READLINE
     if (!readline(buf)) {
       newline();
@@ -410,7 +412,7 @@ static void unambig(plst)
       wrdidx++;
     } else
       error(M_NOUN);
-  } else if (found)
+  } else if (found) {
     if (isNoun(wrds[wrdidx-1])) {
       /* Perhaps the last word was also a noun? */
       lstcpy(plst, savlst);	/* Restore to before last adjective */
@@ -421,6 +423,7 @@ static void unambig(plst)
 	isect(plst, refs);
     } else
       error(M_NOUN);
+  }
   lastWord = wrdidx-1;
 
   /* Allow remote objects, but resolve ambiguities by presence */
@@ -720,7 +723,7 @@ static void try(mlst)
   }
   /* Now check the rest of the parameters, must be objects */
   for (p = 0; params[p].code != EOF; p++)
-    if (!checked[p])
+    if (!checked[p]) {
       if (params[p].code == 0) {
 	/* This was a multiple parameter, check all and remove failing */
 	for (i = 0; mlst[i].code != EOF; i++)
@@ -729,6 +732,7 @@ static void try(mlst)
 	      mlst[i].code = 0;
       } else if (!isObj(params[p].code))
 	error(M_CANT0);
+    }
 
   /* Set verb code */
   cur.vrb = ((Aword *) cla)[1];	/* Take first word after end of table! */

@@ -18,7 +18,7 @@
 #include "readline.h"
 #endif
 
-#include "version.h"
+#include "alan.version.h"
 
 #include "args.h"
 #include "parse.h"
@@ -135,6 +135,28 @@ void terminate(code)
   exit(code);
 }
 
+/*======================================================================
+
+  usage()
+
+  */
+#ifdef _PROTOTYPES_
+void usage(void)
+#else
+void usage()
+#endif
+{
+  printf("Usage:\n\n");
+  printf("    arun [<switches>] <adventure>\n\n");
+  printf("where the optional switches are:\n");
+  printf("    -v    verbose mode\n");
+  printf("    -l    log player commands and game output\n");
+  printf("    -i    ignore version and checksum errors\n");
+  printf("    -d    enter debug mode\n");
+  printf("    -t    trace game execution\n");
+  printf("    -s    singel instruction trace\n");
+}
+
 
 /*======================================================================
 
@@ -200,6 +222,22 @@ void error(msgno)
 
 /*======================================================================
 
+  logprint()
+
+  Print some text and log it if logging is on.
+
+ */
+void logprint(char str[])
+{
+  printf(str);
+  if (logflg)
+    fprintf(logfil, str);
+}
+
+
+
+/*======================================================================
+
   newline()
 
   Make a newline, but check for screen full.
@@ -215,7 +253,7 @@ void newline()
   
   col = 1;
   if (lin >= paglen - 1) {
-    printf("\n");
+    logprint("\n");
     needsp = FALSE;
     prmsg(M_MORE);
 #ifdef USE_READLINE
@@ -226,7 +264,7 @@ void newline()
     getPageSize();
     lin = 0;
   } else
-    printf("\n");
+    logprint("\n");
   
   lin++;
   needsp = FALSE;
@@ -306,7 +344,7 @@ static void just(str)
     if (i > 0) {		/* If it fits ... */
       ch = str[i];		/* Save space or NULL */
       str[i] = '\0';		/* Terminate string */
-      printf(str);		/* and print it */
+      logprint(str);		/* and print it */
       skipsp = FALSE;		/* If skipping, now we're done */
       str[i] = ch;		/* Restore character */
       /* Skip white after printed portion */
@@ -314,7 +352,7 @@ static void just(str)
     }
     newline();			/* Then start a new line */
   }
-  printf(str);			/* Print tail */
+  logprint(str);			/* Print tail */
   col = col + strlen(str);	/* Update column */
 }
 
@@ -336,7 +374,7 @@ static void space()
     skipsp = FALSE;
   else {
     if (needsp) {
-      printf(" ");
+      logprint(" ");
       col++;
     }
   }
@@ -408,7 +446,7 @@ static void prsym(str)
     break;
   case 'i':
     newline();
-    printf("    ");
+    logprint("    ");
     col = 5;
     break;
   case 'o':
@@ -441,7 +479,7 @@ static void prsym(str)
     int i;
     int spaces = 4-(col-1)%4;
     
-    for (i = 0; i<spaces; i++) printf(" ");
+    for (i = 0; i<spaces; i++) logprint(" ");
     col = col + spaces;
     needsp = FALSE;
     break;
@@ -450,7 +488,7 @@ static void prsym(str)
     skipsp = TRUE;
     break;
   default:
-    printf("$");
+    logprint("$");
     break;
   }
 }
@@ -774,7 +812,7 @@ Boolean checklim(cnt, obj)
   else
     props = cnt;
 
-  if (cnts[props-CNTMIN].lims != 0) /* Any limits at all? */
+  if (cnts[props-CNTMIN].lims != 0) { /* Any limits at all? */
     for (lim = (LimElem *) addrTo(cnts[props-CNTMIN].lims); !endOfTable(lim); lim++)
       if (lim->atr == 0) {
 	if (count(cnt) >= lim->val) {
@@ -787,6 +825,7 @@ Boolean checklim(cnt, obj)
 	  return(TRUE);
 	}
       }
+  }
   fail = FALSE;
   return(FALSE);
 }
@@ -1254,8 +1293,8 @@ static void checkvers(header)
   char state[2];
 
   /* Construct our own version */
-  vers[0] = product.version.version;
-  vers[1] = product.version.revision;
+  vers[0] = alan.version.version;
+  vers[1] = alan.version.revision;
 
   /* Check version of .ACD file */
   if (dbgflg) {
@@ -1282,9 +1321,15 @@ static void checkvers(header)
       /* This we can convert later if needed... */;
     else
 #endif
-      if (errflg)
-	syserr("Incompatible version of ACODE program.");
-      else
+      if (errflg) {
+	char str[80];
+	sprintf(str, "Incompatible version of ACODE program. Game is %d.%d, interpreter %d.%d.",
+		(int)(header->vers[0]),
+		(int)(header->vers[1]),
+		alan.version.version,
+		alan.version.revision);
+	syserr(str);
+      } else
 	output("<WARNING! Incompatible version of ACODE program.>\n");
   }
 }
@@ -1318,12 +1363,13 @@ static void load()
 #endif
 
   /* No memory allocated yet? */
-  if (memory == NULL)
+  if (memory == NULL) {
     if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
       /* We need some more memory to expand 2.5 format*/
       memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1+2)*sizeof(Aword));
     else
       memory = allocate(tmphdr.size*sizeof(Aword));
+  }
   header = (AcdHdr *) addrTo(0);
 
   memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
@@ -1649,8 +1695,19 @@ static void openFiles()
 
   /* If logging open log file */
   if (logflg) {
+    char *namstart;
+
+    if((namstart = strrchr(advnam, ']')) == NULL
+       && (namstart = strrchr(advnam, '>')) == NULL
+       && (namstart = strrchr(advnam, '/')) == NULL
+       && (namstart = strrchr(advnam, '\\')) == NULL
+       && (namstart = strrchr(advnam, ':')) == NULL)
+      namstart = &advnam[0];
+    else
+      namstart++;
+
     time(&tick);
-    sprintf(logfnm, "%s%d%s.log", advnam, (int)tick, usr);
+    sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
       logflg = FALSE;
   }

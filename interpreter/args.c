@@ -60,6 +60,7 @@ static void switches(argc, argv)
 	break;
       default:
 	printf("Unrecognized switch, -%c\n", argv[i][1]);
+	usage();
 	terminate(0);
       }
     } else {

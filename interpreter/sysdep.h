@@ -4,6 +4,13 @@
 
   System dependencies file for Alan Adventure Language system 
 
+  N.B. The symbols used here should really be of three types
+  - processor name (like PC, x86, ...)
+  - os name (DOS, WIN32, Solaris2, ...)
+  - compiler name and version (DJGPP, CYGWINB20, GCC271, THINK-C, ...)
+
+  This is not done yet!
+
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
@@ -49,6 +56,11 @@
 #define __dos__
 #endif
 
+#ifdef __CYGWIN__
+#define __win__
+#endif
+
+
 /*----------------------------------------------------------------------
 
   Below follows OS and compiler dependent settings. They should not be
@@ -57,31 +69,12 @@
 
  */
 
-/* ISO character sets? */
-#ifdef __dos__
-#define ISO 0
-#define NATIVECHARSET 2
-#else
-#ifdef __mac__
-#define ISO 0
-#define NATIVECHARSET 1
-#else
-#define ISO 1
-#define NATIVECHARSET 0
-#endif
-#endif
+/************/
+/* Includes */
+/************/
 
-/* General settings and includes, which work for all environments */
 #include <stdio.h>
 #include <ctype.h>
-
-/* Strings for file modes */
-#define READ_MODE "r"
-#define WRITE_MODE "w"
-
-
-
-/* Special cases and definition overrides */
 
 #ifdef __STDC__
 #define _PROTOTYPES_
@@ -89,8 +82,113 @@
 #include <string.h>
 #endif
 
-#ifdef __sun__
+#ifdef __vms__
+/* Our VAXC doesn't define __STDC__ */
+#define _PROTOTYPES_
+#include <stdlib.h>
+#include <string.h>
 #endif
+
+
+#ifdef __mac__
+#define _PROTOTYPES_
+#include <stdlib.h>
+#include <string.h>
+#include <unix.h>
+#endif
+
+
+/***********************/
+/* ISO character sets? */
+/***********************/
+
+/* Common case first */
+#define ISO 1
+#define NATIVECHARSET 0
+
+#ifdef __dos__
+#undef ISO
+#define ISO 0
+#undef NATIVECHARSET
+#define NATIVECHARSET 2
+#endif
+
+#ifdef __win__
+#undef ISO
+#define ISO 1
+#undef NATIVECHARSET
+#define NATIVECHARSET 2
+#endif
+
+#ifdef __mac__
+#undef ISO
+#define ISO 0
+#undef NATIVECHARSET
+#define NATIVECHARSET 1
+#endif
+
+
+/**************************/
+/* Strings for file modes */
+/**************************/
+#define READ_MODE "r"
+#define WRITE_MODE "w"
+
+#ifdef __mac__
+/* File open mode (binary) */
+#undef READ_MODE
+#define READ_MODE "rb"
+#undef WRITE_MODE
+#define WRITE_MODE "wb"
+#endif
+
+#ifdef __dos__
+/* File open mode (binary) */
+#undef READ_MODE
+#define READ_MODE "rb"
+#undef WRITE_MODE
+#define WRITE_MODE "wb"
+#endif
+
+#ifdef __win__
+/* File open mode (binary) */
+#undef READ_MODE
+#define READ_MODE "rb"
+#undef WRITE_MODE
+#define WRITE_MODE "wb"
+#endif
+
+/*****************/
+/* Byte ordering */
+/*****************/
+
+#ifdef __dos__
+#define REVERSED
+#endif
+
+#ifdef __vms__
+#define REVERSED
+#endif
+
+#ifdef __win__
+#define REVERSED
+#endif
+
+
+/****************************/
+/* Allocates cleared bytes? */
+/****************************/
+
+#ifdef __CYGWIN__
+#define NOTCALLOC
+#endif
+
+#ifdef __unix__
+#define NOTCALLOC
+#endif
+
+
+/* Special cases and definition overrides */
 
 #ifdef __unix__
 #define USE_READLINE
@@ -99,11 +197,6 @@
 
 
 #ifdef __vms__
-/* Our VAXC doesn't define __STDC__ */
-#define _PROTOTYPES_
-#define REVERSED                /* Byte order in strings */
-#include <stdlib.h>
-#include <string.h>
 
 #define MULTI
 
@@ -115,36 +208,17 @@ extern size_t strftime (char *, size_t, const char *, const struct tm *);
 #endif
 
 #ifdef __mac__
-#define _PROTOTYPES_
-#include <stdlib.h>
-#include <string.h>
-#include <unix.h>
-
-/* File open mode (binary) */
-#undef READ_MODE
-#define READ_MODE "rb"
-#undef WRITE_MODE
-#define WRITE_MODE "wb"
 
 extern char *strdup(char *str);
 
 #endif
 
+
 #ifdef __dos__
-
-/* File open mode (binary) */
-#undef READ_MODE
-#define READ_MODE "rb"
-#undef WRITE_MODE
-#define WRITE_MODE "wb"
-
-/* Byte ordering */
-#define REVERSED
 
 /* Return codes */
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
-
 
 #endif
 

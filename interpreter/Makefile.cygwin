@@ -1,6 +1,6 @@
 # Makefile for Alan interpreter to be built with CygWin
 
-CFLAGS = -g -ansi -pedantic -funsigned-char -D__win__ -mno-cygwin -DCOMPILER=\"[CygWinb20]\"
+CFLAGS = -g -Wall -funsigned-char -D__win__ -mno-cygwin -DCOMPILER=\"[CygWinb20]\"
 
 LDFLAGS = -g -mno-cygwin
 
@@ -18,41 +18,57 @@ OBJECTS = arun.o \
 	reverse.o \
 	params.o \
 	sysdep.o \
-	version.o
+	alan.version.o
 
 
 arun.exe : $(OBJECTS)
 	gcc -o arun.exe $(OBJECTS) $(LDFLAGS)
-	copy arun.exe ..
+	cp arun.exe ../bin
+
+dumpacd: dumpacd.o spa.o
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
+
+spa.o: spa.c spa.h
+	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
+
 
 strip:
 	strip arun
 	coff2exe arun
 
+alan.version.c : ../alan.version.c alan.version.h
+	cp ../alan.version.c .
+
+alan.version.h : ../alan.version.h version.h
+	cp ../alan.version.h .
+
+version.h : ../version.h
+	cp ../version.h .
+
+
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.obj: args.c args.h main.h types.h sysdep.h acode.h
-arun.obj: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
-chartest.obj: chartest.c
-debug.obj: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
+args.o: args.c args.h main.h types.h sysdep.h acode.h
+arun.o: arun.c main.h types.h sysdep.h acode.h term.h alan.version.h args.h
+chartest.o: chartest.c
+debug.o: debug.c types.h sysdep.h acode.h alan.version.h readline.h inter.h \
  main.h parse.h exe.h debug.h
-decode.obj: decode.c main.h types.h sysdep.h acode.h decode.h
-dumpacd.obj: dumpacd.c types.h sysdep.h acode.h spa.h
-exe.obj: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
+decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
+dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
+exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
  inter.h stack.h decode.h exe.h
-genalan.obj: genalan.c spa.h
-inter.obj: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
+genalan.o: genalan.c spa.h
+inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
  inter.h
-main.obj: main.c sysdep.h types.h acode.h main.h readline.h version.h \
+main.o: main.c sysdep.h types.h acode.h main.h readline.h alan.version.h \
  args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h
-params.obj: params.c types.h sysdep.h acode.h params.h
-parse.obj: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
+params.o: params.c types.h sysdep.h acode.h params.h
+parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
  exe.h term.h debug.h params.h parse.h
-readline.obj: readline.c readline.h types.h sysdep.h acode.h main.h
-reverse.obj: reverse.c types.h sysdep.h acode.h main.h reverse.h
-rules.obj: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
+readline.o: readline.c readline.h types.h sysdep.h acode.h main.h
+reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
+rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
  stack.h rules.h
-spa.obj: spa.c spa.h
-stack.obj: stack.c types.h sysdep.h acode.h main.h stack.h
-sysdep.obj: sysdep.c sysdep.h
-term.obj: term.c main.h types.h sysdep.h acode.h term.h
-version.obj: version.c version.h
+spa.o: spa.c spa.h
+stack.o: stack.c types.h sysdep.h acode.h main.h stack.h
+sysdep.o: sysdep.c sysdep.h
+term.o: term.c main.h types.h sysdep.h acode.h term.h

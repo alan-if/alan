@@ -17,7 +17,7 @@
 
 /* IMPORTS */
 
-#include "version.h"
+#include "alan.version.h"
 
 #include "srcp.h"
 
@@ -526,7 +526,7 @@ void compile(void) {
 #endif
   heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);
-  lmLiInit(product.shortHeader, srcfnm, lm_ENGLISH_Messages);
+  lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
   setCharacterSet(charset);
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */

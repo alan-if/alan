@@ -60,7 +60,7 @@ ActNod *newact(
   SymNod *sym;			/* Symbol table entry */
   ActNod *act;			/* Actor */
   List *lst, *lstlst;		/* List and list of list traversing ptrs */
-  static heroRedefined = FALSE;
+  static int heroRedefined = FALSE;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -99,7 +99,7 @@ ActNod *newact(
     redefined(srcp, sym, nam->str);
 
   /* Note actor in the dictionary unless it is the hero */
-  if (new->nam->code != 1)
+  if (new->nam->code != 1) {
     if (namslst == NULL)		/* Use the actor name */
       (void)newwrd(nam->str, WRD_NOUN, new->nam->code, nam);
     else {
@@ -109,7 +109,7 @@ ActNod *newact(
 	(void)newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
       }
     }
-
+  }
   return(new);
 }
 

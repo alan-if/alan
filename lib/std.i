@@ -31,6 +31,9 @@ $include 'invent.i'
 
 
 -- The limbo location and directions
+-- Defines directions as full words, and short directions as synonyms to these.
+-- So remember to use the full words in your exits or you will have E 333's
+-- (e.g. 'e' defined both as a synonym and another word class)
 $include 'nowhere.i'
 
 

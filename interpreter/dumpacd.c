@@ -579,7 +579,7 @@ static void load(char acdfnm[])
   AcdHdr tmphdr;
   FILE *codfil;
 
-  if ((codfil = fopen(acdfnm, "r")) == NULL) {
+  if ((codfil = fopen(acdfnm, "rb")) == NULL) {
     printf("Could not open ACD-file '%s'\n", acdfnm);
     exit(1);
   }

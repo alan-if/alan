@@ -9,7 +9,7 @@
 
 #include "main.h"
 #include "term.h"
-#include "version.h"
+#include "alan.version.h"
 #include "args.h"
 
 
@@ -22,12 +22,12 @@
   */
 #ifdef _PROTOTYPES_
 int main(
-     unsigned argc,
+     int argc,
      char *argv[]
 )
 #else
 int main(argc, argv)
-     unsigned argc;
+     int argc;
      char *argv[];
 #endif
 {
@@ -46,13 +46,14 @@ int main(argc, argv)
   if (dbgflg||verbose) {
     if (dbgflg) printf("<");
     printf("Arun, Adventure Interpreter version %s (%s %s) %s",
-	   product.version.string, product.date, product.time, COMPILER);
+	   alan.version.string, alan.date, alan.time, COMPILER);
     if (dbgflg) printf(">");
     newline();
   }
   
   if (strcmp(advnam, "") == 0) {
     printf("No Adventure name given.\n");
+    usage();
     terminate(0);
   }
 

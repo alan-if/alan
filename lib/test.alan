@@ -9,7 +9,7 @@ End Actor.
 Location somewhere
   Is Not lit.
 
-  Exit e,w,s,n To nowhere.
+  Exit east,west,south,north To nowhere.
 
 End Location.
 

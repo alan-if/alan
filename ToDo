@@ -1,4 +1,14 @@
 ToDo:
+	* Separate data and code in the .acd into two separate areas,
+	point to them from the header. This way we could more easily
+	do two things: run from disk (if memory is not large enough to
+	hold both data and code) and implement undo (just save the
+	data area before each command)
+
+	* Try to find a way to point out where a 333 comes from
+	(e.g. 'e' defined both as a synonym and as a another word class)
+
+	* Add ways to define (and use) the definite form of a name
 
 	* Fix backspace as per ng-post in rec.art.int-fiction
 

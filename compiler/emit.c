@@ -26,7 +26,7 @@ extern void *allocate(int len);
 
 
 #include "acode.h"
-#include "version.h"
+#include "alan.version.h"
 
 #include "emit.h"
 
@@ -41,9 +41,9 @@ static Aword crc = 0;
 static void buffer(Aword w)
 {
   crc += w&0xff;			/* Check sum calculation */
-  crc += (w>>8)&0xff;
-  crc += (w>>16)&0xff;
-  crc += (w>>24)&0xff;
+  crc += (w>>8)&((Aword)0xff);
+  crc += (w>>16)&((Aword)0xff);
+  crc += (w>>24)&((Aword)0xff);
 
   buff[pc++%BLOCKLEN] = w;
   if (pc%BLOCKLEN == 0)
@@ -105,9 +105,7 @@ void emitstr(char *str)
   char *copy;
 
   copy = allocate(strlen(str)+4);
-#ifdef __unix__
   memset(copy, 0, strlen(str)+4);
-#endif
   toIso(copy, str, charset);
 
 #ifdef WORDADDRESS
@@ -442,15 +440,15 @@ void emterm(AcdHdr *hdr)
 
   /* Construct version marking */
 #ifdef REVERSED  
-  hdr->vers[3] = (Aword)product.version.version;
-  hdr->vers[2] = (Aword)product.version.revision;
-  hdr->vers[1] = (Aword)product.version.correction;
-  hdr->vers[0] = (Aword)product.version.state[0];
+  hdr->vers[3] = (Aword)alan.version.version;
+  hdr->vers[2] = (Aword)alan.version.revision;
+  hdr->vers[1] = (Aword)alan.version.correction;
+  hdr->vers[0] = (Aword)alan.version.state[0];
 #else
-  hdr->vers[0] = (Aword)product.version.version;
-  hdr->vers[1] = (Aword)product.version.revision;
-  hdr->vers[2] = (Aword)product.version.correction;
-  hdr->vers[3] = (Aword)product.version.state[0];
+  hdr->vers[0] = (Aword)alan.version.version;
+  hdr->vers[1] = (Aword)alan.version.revision;
+  hdr->vers[2] = (Aword)alan.version.correction;
+  hdr->vers[3] = (Aword)alan.version.state[0];
 #endif
 
   hp = (Aword *) hdr;		/* Point to header */

@@ -11,7 +11,7 @@
 #include "alan.h"
 #include "spa.h"
 #include "options.h"
-#include "version.h"
+#include "alan.version.h"
 
 
 /*======================================================================
@@ -135,7 +135,7 @@ int main(int argc,		/* IN - argument count */
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
   /* Say hello ! */
   if (verbose)
-    printf("%s %s\n\n", product.longHeader, COMPILER);
+    printf("%s %s\n\n", alan.longHeader, COMPILER);
 
   if (nArgs == 0) {
     usage(NULL, NULL, 0);

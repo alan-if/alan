@@ -2,7 +2,7 @@
 
 	Target 'ansi-c';
 	Prefix 'alan';
-	Os 'SunOS';
+	Os 'WIN32';
 
 %%IMPORT
 

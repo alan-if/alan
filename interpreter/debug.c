@@ -10,7 +10,7 @@
 #include <ctype.h>
 
 #include "types.h"
-#include "version.h"
+#include "alan.version.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -388,7 +388,7 @@ void debug()
     switch (toUpper(c)) {
     case 'H':
     case '?':
-      output(product.longHeader);
+      output(alan.longHeader);
       output("$nABUG Commands:\
       $iO [n] -- show object[s]\
       $iA [n] -- show actor[s]\

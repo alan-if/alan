@@ -183,11 +183,12 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
   case WHR_IN:
     if (stm->fields.locate.wht->wht == WHT_ACT)
       lmLog(&stm->srcp, 402, sevERR, "");
-    else if (stm->fields.locate.wht->wht == WHT_ID)
+    else if (stm->fields.locate.wht->wht == WHT_ID) {
       if (sym != NULL && sym->class == NAMACT)
         lmLog(&stm->srcp, 402, sevERR, "");
       else if (elm != NULL && elm->res != NULL && ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0))
         lmLog(&stm->srcp, 402, sevERR, "");
+    }
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
@@ -256,11 +257,12 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
         lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
               stm->fields.make.wht->nam->str);
     }
-    if (atr != NULL)
+    if (atr != NULL) {
       if (atr->typ != TYPBOOL)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
       else
         stm->fields.make.atr->code = atr->nam->code;
+    }
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -327,11 +329,12 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
         lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
               stm->fields.set.wht->nam->str);
     }
-    if (atr)
+    if (atr) {
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
         lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
       else
         stm->fields.set.atr->code = atr->nam->code;
+    }
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -405,11 +408,12 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
         lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
               stm->fields.incr.wht->nam->str);
     }
-    if (atr)
+    if (atr) {
       if (atr->typ != TYPINT)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
       else
         stm->fields.incr.atr->code = atr->nam->code;
+    }
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -549,11 +553,12 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
 	    break;		/* Found it so break loop */
 	}
       }
-      if (lst == NULL)
+      if (lst == NULL) {
         if (stm->fields.use.script != NULL)
           lmLog(&stm->fields.use.script->srcp, 400, sevERR, act->nam->str);
         else
           lmLog(&stm->srcp, 400, sevERR, act->nam->str);
+      }
     }
   }
 }  
