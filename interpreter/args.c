@@ -16,7 +16,9 @@
 extern void args(int argc, char* argv[]);
 #endif
 
+#ifdef __win__
 #include <windows.h>
+#endif
 
 #include "main.h"
 
@@ -39,6 +41,8 @@ BPTR cd;
 #include "glk.h"
 #include "glkio.h"
 #endif
+
+char *advnam = NULL;
 
 #ifdef _PROTOTYPES_
 static void switches(
@@ -320,7 +324,7 @@ void args(argc, argv)
     *strrchr(prgnam, ';') = '\0';
   /* Now look at the switches and arguments */
   switches(argc, argv);
-  if (advnam[0] == '\0')
+  if (advnam == NULL)
     /* No game given, try program name */
     if (strcmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);

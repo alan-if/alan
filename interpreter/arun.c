@@ -18,7 +18,11 @@
 
 #ifdef GLK
 #include "glkio.h"
+#ifdef __win__
 #include "WinGlk.h"
+#else
+#include "glk.h"
+#endif
 #endif
 
 /*======================================================================
@@ -73,7 +77,7 @@ int main(argc, argv)
     newline();
   }
   
-  if (strcmp(adventureName, "") == 0) {
+  if (adventureName == NULL || (adventureName, "") == 0) {
 #ifdef WINGLK
     char *filename;
     filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",

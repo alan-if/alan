@@ -530,10 +530,17 @@ void emitHeader()
   pc = 0;
 
   /* Generate header tag "ALAN" */
+#ifdef REVERSED
   acdHeader.tag[3] = 'A';
   acdHeader.tag[2] = 'L';
   acdHeader.tag[1] = 'A';
   acdHeader.tag[0] = 'N';
+#else
+  acdHeader.tag[0] = 'A';
+  acdHeader.tag[1] = 'L';
+  acdHeader.tag[2] = 'A';
+  acdHeader.tag[3] = 'N';
+#endif
 
   /* Construct version marking */
 #ifdef REVERSED  

@@ -251,7 +251,7 @@ void quit()
 
 
 #ifdef _PROTOTYPES_
-void restart(void)
+void restartGame(void)
 #else
 void restart()
 #endif

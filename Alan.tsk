@@ -4,8 +4,8 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>173.89</origest>
-<currest>173.89</currest>
+<origest>175.89</origest>
+<currest>175.89</currest>
 <elapsed>57.89</elapsed>
 <isopen>1</isopen>
 <task>
@@ -492,8 +492,8 @@ REMEBER TO DOCUMENT IT!!!
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>86</origest>
-<currest>86</currest>
+<origest>88</origest>
+<currest>88</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -616,7 +616,9 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 </task>
 <task>
 <desc>Inherited Exits</desc>
-<notes>Usefullness?</notes>
+<notes>Usefullness?
+
+Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -838,7 +840,24 @@ Or how about:
 
  $bold$
 
- $the x$</notes>
+ $the x$
+
+Or HTML:
+
+this text is &lt;b&gt;bold&lt;/b&gt;
+
+Or XML-ish:
+
+this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Possibility for author to specify content (or lack of) status line</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -908,6 +927,28 @@ Will generate two errors at the second "Verb x" when one would suffice.
 <desc>Space bar in &lt;more&gt;</desc>
 <notes>
 Already works in winarun (GLK)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ability to declare that an attribute is the reversal of another attribute</desc>
+<notes>It could be useful to have a way of declaring that things like "open"
+and "closed" refer to the same attribute with opposite senses, e.g.
+
+  OBJECT ATTRIBUTES
+    IS open ELSE closed.
+
+Then "front_door IS open" and "front_door IS NOT closed" would be
+equivalent, as would "MAKE front_door open" and "MAKE front_door not
+closed", etc. etc.
+
+Greg Ewing, Computer Science Dept, +--------------------------------------+
+University of Canterbury,    | A citizen of NewZealandCorp, a   |
+Christchurch, New Zealand    | wholly-owned subsidiary of USA Inc.  |
+greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -3076,7 +3117,7 @@ Inherited attributes which override others with another type should refer to the
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>

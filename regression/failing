@@ -1,4 +1,4 @@
-# /bin/sh
+#! /bin/sh
   for f in *.alan ; do
     case=`basename $f .alan`
     if test -f $case.output

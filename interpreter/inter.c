@@ -380,7 +380,7 @@ void interpret(adr)
       case I_RESTART: {
 	if (singleStepOption)
 	  printf("RESTART");
-	restart();
+	restartGame();
 	break;
       }
       case I_LIST: {

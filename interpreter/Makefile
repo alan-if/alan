@@ -15,7 +15,7 @@ winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
 winarun: LIB = $(LIB) $(GLKLIB)
 
-#-DCOMPILER=\"[GCC/Mingw32]\" 
+#-DCOMPILER=\"[GCC/Mingw32]\"
 
 release: OPTIMIZE = -O4
 

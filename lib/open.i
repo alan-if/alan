@@ -4,127 +4,127 @@
 -- 0.4.1 - converted to ALANv3
 
 
-ADD TO EVERY OBJECT 
-IS
-	NOT closeable.
-	closed.
-END ADD TO OBJECT. 
+add to every object 
+is
+	not Closeable.
+	Closed.
+end add to object. 
 
-SYNTAX
-	open = open (obj)
-	WHERE obj ISA OBJECT
-		ELSE "You can't open that."
+syntax
+	Open = Open (Obj)
+	where Obj isa object
+		else "You can't open that."
 
-Add To Every object
-  VERB open
-	CHECK obj IS closeable
-		ELSE "You can't open that!"
-	AND obj IS closed
-		ELSE "It's already open."
-	DOES
-		MAKE obj NOT closed.
-		IF obj IS named THEN
-			SAY obj.
+add to every Object
+  verb Open
+	check Obj is Closeable
+		else "You can't open that!"
+	and Obj is Closed
+		else "It's already open."
+	does
+		make Obj not Closed.
+		if Obj is Named then
+			say Obj.
 			"is now open."
-		ELSE
+		else
 			"The $o is now open."
-		END IF.
-  END VERB.
-End Add To.
+		end if.
+  end verb.
+end add to.
 
 
-SYNTAX
-	open_with = open (obj1) 'with' (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't open that."
-		AND obj2 ISA OBJECT
-			ELSE "You can't open anything with that."
+syntax
+	Open_With = open (Obj1) 'with' (Obj2)
+		where Obj1 isa Object
+			else "You can't open that."
+		and Obj2 isa Object
+			else "You can't open anything with that."
 
-Add To Every object
-  VERB open_with
-	CHECK obj2 IN HERO
-		ELSE "You don't have"
-		IF obj2 IS named THEN
-			SAY obj2.
-		ELSE
+add to every Object
+  verb Open_With
+	check Obj2 in Hero
+		else "You don't have"
+		if Obj2 is Named then
+			say Obj2.
+		else
 			"the $2"
-		END IF.
+		end if.
 		"$$."
-	DOES
+	does
 		"You can't open"
-		IF obj1 IS named THEN
-			SAY obj1.
-		ELSE
+		if Obj1 is Named then
+			say Obj1.
+		else
 			"the $1"
-		END IF.
+		end if.
 		"with"
-		IF obj2 IS named THEN
-			SAY obj2.
-		ELSE
+		if Obj2 is Named then
+			say obj2.
+		else
 			"the $2"
-		END IF.
+		end if.
 		"$$."
-  END VERB.
-End Add To.
+  end verb.
+end add to.
 
 
 
-SYNONYMS
+synonyms
 	shut = close.
 
-SYNTAX
+syntax
 	close = close (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can only close objects."
-Add To Every object
-  VERB close
-	CHECK obj IS closeable
-		ELSE "You can't close that."
-	AND obj IS NOT closed
-		ELSE "It is not open."
-	DOES
-		MAKE obj closed.
-		IF obj IS named THEN
-			SAY obj.
+		where Obj isa Object
+			else "You can only close objects."
+add to every Object
+  verb Close
+	check Obj is Closeable
+		else "You can't close that."
+	and Obj is not Closed
+		else "It is not open."
+	does
+		make Obj Closed.
+		if Obj is Named then
+			say Obj.
 			"is now closed."
-		ELSE
+		else
 			"The $o is now closed."
-		END IF.
-  END VERB.
-End Add To.
+		end if.
+  end verb.
+end add to.
 
-SYNTAX
-	close_with = close (obj1) 'with' (obj2)
-		WHERE obj1 ISA OBJECT
-			ELSE "You can't close that."
-		AND obj2 ISA OBJECT
-			ELSE "You can't close anything with that."
+syntax
+	Close_With = close (obj1) 'with' (obj2)
+		where Obj1 isa Object
+			else "You can't close that."
+		and Obj2 isa Object
+			else "You can't close anything with that."
 
-Add To Every object
-  VERB close_with
-	CHECK obj2 IN HERO
-		ELSE 
+add to every Object
+  verb Close_With
+	check Obj2 in Hero
+		else 
 			"You don't have"
-			IF obj2 IS named THEN
-				SAY obj2.
-			ELSE
+			if Obj2 is Named then
+				say Obj2.
+			else
 				"the $2"
-			END IF.
+			end if.
 			"$$."
-	DOES
+	does
 		"You can't close"
-		IF obj1 IS named THEN
-			SAY obj1.
+		if Obj1 is Named then
+			say Obj1.
 			"with"
-		ELSE
+		else
 			"the $1 with"
-		END IF.
-		IF obj2 IS named THEN
-			SAY obj2.
-		ELSE
+		end if.
+		if Obj2 is Named then
+			say Obj2.
+		else
 			"the $2"
-		END IF.
+		end if.
 		"$$."
-  END VERB.
-End Add To.
+  end verb.
+end add to.
 

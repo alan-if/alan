@@ -40,7 +40,7 @@ extern void visits(Aword v);
 extern void schedule(Aword evt, Aword whr, Aword aft);
 extern void cancl(Aword evt);
 extern void quit(void);
-extern void restart(void);
+extern void restartGame(void);
 extern void saveGame(void);
 extern void restoreGame(void);
 extern void say(Aword id);

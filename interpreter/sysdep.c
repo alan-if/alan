@@ -156,9 +156,9 @@ static char uppChrs[] =
 
 #else
 
-/* Theses work on native character sets */
+/* These work on native character sets */
 
-static char spcChrs[] = " \t\n";
+static char spcChrs[] = " \t\n\r";
 
 #ifdef __amiga__
 

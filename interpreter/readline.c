@@ -46,7 +46,9 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 Boolean readline(char usrbuf[])
 {
   event_t event;
+#ifdef WINGLK
   INT_PTR e;
+#endif
 
   glk_request_line_event(glkMainWin, usrbuf, 255, 0);
   /* FIXME: buffer size should be infallible: all existing calls use 256 or
@@ -63,21 +65,21 @@ Boolean readline(char usrbuf[])
     case winglk_evtype_GuiInput:
       switch (event.val1) {
       case ID_MENU_RESTART:
-	restart();
+	restartGame();
 	break;
       case ID_MENU_SAVE:
 	printf("save");
+	glk_set_style(style_Normal);
 	saveGame();
 	para();
-	glk_set_style(style_Normal);
 	printf("> ");
 	break;
       case ID_MENU_RESTORE:
 	printf("restore");
+	glk_set_style(style_Normal);
 	restoreGame();
 	look();
 	para();
-	glk_set_style(style_Normal);
 	printf("> ");
 	break;
       case ID_MENU_ABOUT:
@@ -508,6 +510,11 @@ static void insertCh(char ch) {
   }
 }
 
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+#endif
 
 /*----------------------------------------------------------------------
 
@@ -520,9 +527,6 @@ static void echoOff()
   newtermio();
 #else
 #ifdef __win__
-#include <windows.h>
-#include <winbase.h>
-#include <wincon.h>
 
   DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -544,9 +548,6 @@ static void echoOn()
   restoretermio();
 #else
 #ifdef __win__
-#include <windows.h>
-#include <winbase.h>
-#include <wincon.h>
 
   DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
   (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);
