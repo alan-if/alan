@@ -15,6 +15,7 @@
 #
 # After execution a list of all the differing cases is presented
 #
+failed=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename $f .alan`
@@ -24,8 +25,13 @@ if [ $# != 0 ] ; then
     echo "########## alan $case.alan ##########" >>$case.output
     ../bin/alan $case >>$case.output 2>&1
     ../bin/arun -n $case >>$case.output 2>&1
-    diff $case.output $case.expected > $case.diff
-    wc -l $case.diff | awk "{print \$1}"
+    if cmp -s $case.output $case.expected
+    then
+      echo -n "[K"
+    else
+      failed=`expr $failed + 1`
+      echo "failed!"
+    fi
   done
 else
   for f in *.alan ; do
@@ -36,7 +42,19 @@ else
     echo "########## alan $case.alan ##########" >>$case.output
     ../bin/alan $case >>$case.output 2>&1
     ../bin/arun -n $case >>$case.output 2>&1 < $case.input
-    diff $case.output $case.expected > $case.diff
-    wc -l $case.diff | awk "{print \$1}"
+    if cmp -s $case.output $case.expected
+    then
+      echo -n "[K"
+    else
+      failed=`expr $failed + 1`
+      echo "failed!"
+    fi
   done
 fi
+if test $failed -eq 0
+then
+  echo All OK!
+else
+  echo *** $failed failed! ***
+fi
+
