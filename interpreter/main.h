@@ -30,10 +30,8 @@ extern CurVars cur;
 /* Amachine data structures */
 extern AdminEntry *admin;	/* Administrative data about instances */
 extern WrdEntry *dict;		/* Dictionary pointer */
+extern ClassEntry *class;	/* Class table pointer */
 extern InstanceEntry *instance; /* Instance table pointer */
-extern ClassEntry *class;	/* Instance table pointer */
-extern ActEntry *acts;		/* Actor table pointer */
-extern LocEntry *locs;		/* Location table pointer */
 extern VrbEntry *vrbs;		/* Verb table pointer */
 extern StxEntry *stxs;		/* Syntax table pointer */
 extern ObjEntry *objs;		/* Object table pointer */

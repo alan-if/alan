@@ -11,8 +11,9 @@
 
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stm_x.h"
 
-#include "stm.h"		/* STM-nodes */
+
 #include "chk.h"                /* CHK-nodes */
 
 #include "emit.h"
@@ -52,12 +53,11 @@ ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
   Analyze one CHECK.
 
  */
-static void anchk(ChkNod *chk,	/* IN - Check to analyze */
-		  InsNod *ins,	/* IN - Possibly inside Instance? */
-		  List *pars)	/* IN - Possible parameters */
+static void anchk(ChkNod *chk,
+		  Context *context)
 {
-    anexp(chk->exp, NULL, pars);
-    anstms(chk->stms, ins, NULL, pars);
+  anexp(chk->exp, context);
+  anstms(chk->stms, context);
 }
 
 
@@ -69,12 +69,11 @@ static void anchk(ChkNod *chk,	/* IN - Check to analyze */
   Analyze all CHECKs in a list.
 
  */
-void anchks(List *chks,		/* IN - Checks to analyze */
-	    InsNod *ins,	/* IN - Possibly inside Instance? */
-	    List *pars)		/* IN - Possible parameter list */
+void anchks(List *chks,
+	    Context *context)
 {
   while (chks != NULL) {
-    anchk(chks->element.chk, ins, pars);
+    anchk(chks->element.chk, context);
     chks = chks->next;
   }
 }

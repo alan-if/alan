@@ -81,6 +81,9 @@ typedef struct CurVars {
 typedef struct AdminEntry {	/* Administrative data about instances */
   Abool alreadyDescribed;
   Aint visitsCount;
+  Aint script;
+  Aint step;
+  Aint waitCount;
 } AdminEntry;
 
 
@@ -144,17 +147,9 @@ typedef struct StxEntry {	/* SYNTAX TABLE */
   Aaddr elms;			/* Address to element tables */
 } StxEntry;
 
-typedef struct ElmEntry26 {	/* SYNTAX ELEMENT TABLES v2.6 */
-  Aword code;			/* Code for this element, 0 -> parameter */
-  Abool multiple;		/* May be multiple (if parameter) */
-  Aaddr next;			/* Address to next element table ... */
-				/* ... or class check if EOS */
-} ElmEntry26;
-
 typedef struct ElmEntry {	/* SYNTAX ELEMENT TABLES */
   Aword code;			/* Code for this element, 0 -> parameter */
   Aword flags;			/* Flags for multiple/omni (if parameter) */
-				/* CHANGED: v2.7 from Abool for multiple */
   Aaddr next;			/* Address to next element table ... */
 				/* ... or class check if EOS */
 } ElmEntry;
@@ -173,23 +168,8 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aaddr action;			/* Address of the action code */
 } AltEntry;
 
-typedef struct ClassEntry {	/* CLASS TABLE */
-  Aword code;			/* Own code */
-  Aword parent;			/* Code for the parent class, 0 if none */
-} ClassEntry;
 
-
-/* InstanceEntry moved to acode.h */
-
-typedef struct ObjEntry25 {	/* OBJECT TABLE of 2.5 format*/
-  Aword loc;			/* Current location */
-  Abool describe;		/* Describe flag */
-  Aaddr atrs;			/* Address of attribute list */
-  Aword cont;			/* Index to container properties if any */
-  Aaddr vrbs;			/* Address to local verb table */
-  Aaddr dscr1;			/* Address to Aword description code */
-  Aaddr dscr2;			/* Address to short description code */
-} ObjEntry25;
+/* ClassEntry & InstanceEntry moved to acode.h */
 
 typedef struct ObjEntry {	/* OBJECT TABLE */
   Aword loc;			/* Current location */
@@ -240,16 +220,9 @@ typedef struct IniEntry {	/* STRING INITIALISATION TABLE */
   Aword adr;			/* Where to store the string */
 } IniEntry;
 
-typedef struct MsgEntry26 {	/* MESSAGE TABLE */
-  Aword fpos;			/* File position */
-  Aword len;			/* Length of message */
-} MsgEntry26;
-
 typedef struct MsgEntry {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
-				/* Changed v2.7 from fpos+len in .dat */
 } MsgEntry;
-
 
 typedef struct ParamEntry {	/* PARAMETER */
   Aword code;			/* Code for this parameter (0=multiple) */

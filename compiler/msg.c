@@ -11,12 +11,11 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
-
+#include "stm_x.h"
 #include "lmList.h"
 
 #include "adv.h"
 #include "msg.h"
-#include "stm.h"
 #include "opt.h"
 
 #include "emit.h"
@@ -341,7 +340,7 @@ void anmsgs(void)
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
     if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
-    anstms(lst->element.msg->stms, NULL, NULL, NULL);
+    anstms(lst->element.msg->stms, NULL);
   }
 
 }

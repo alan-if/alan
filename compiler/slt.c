@@ -7,7 +7,6 @@
 
 #include "slt_x.h"
 
-
 /* IMPORT */
 #include <stdio.h>
 #include "alan.h"
@@ -16,17 +15,17 @@
 #include "emit.h"
 #include "lmList.h"
 
-#include "stm.h"
 
-#include "nam_x.h"
-#include "whr_x.h"
+#include "atr_x.h"
 #include "cla_x.h"
-#include "sym_x.h"
 #include "cnt_x.h"
 #include "ext_x.h"
 #include "id_x.h"
-#include "atr_x.h"
 #include "lst_x.h"
+#include "nam_x.h"
+#include "stm_x.h"
+#include "sym_x.h"
+#include "whr_x.h"
 
 
 /*======================================================================
@@ -149,7 +148,7 @@ void analyzeMentioned(SlotsNode *slots)
     stm->fields.print.len = len;
     slots->mentioned = concat(NULL, stm, STM_LIST);
   } else
-    anstms(slots->mentioned, NULL, NULL, NULL);
+    anstms(slots->mentioned, NULL);
 }
 
 /*======================================================================
@@ -164,7 +163,7 @@ void analyzeSlots(SlotsNode *slots)
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
 
   analyzeMentioned(slots);
-  anstms(slots->description, NULL, NULL, NULL);
+  anstms(slots->description, NULL);
 
   if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);

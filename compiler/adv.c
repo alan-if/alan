@@ -14,17 +14,18 @@
 #include "ins_x.h"
 #include "lst_x.h"
 #include "srcp_x.h"
+#include "stm_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
 #include "whr_x.h"
+#include "wrd_x.h"
+
 
 #include "adv.h"		/* ADV-node */
-#include "stm.h"		/* STM-nodes */
 #include "vrb.h"		/* VRB-nodes */
 #include "ext.h"		/* EXT-nodes */
 #include "evt.h"		/* EVT-nodes */
 #include "rul.h"		/* RUL-nodes */
-#include "wrd.h"		/* WRD-nodes */
 #include "syn.h"		/* SYN-nodes */
 #include "atr_x.h"		/* ATR-nodes */
 #include "msg.h"		/* MSG-nodes */
@@ -102,7 +103,7 @@ static void analyzeStartAt(void)
       break;
     }
 
-  anstms(adv.stms, NULL, NULL, NULL);
+  anstms(adv.stms, NULL);
 }
 
 

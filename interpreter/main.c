@@ -62,7 +62,6 @@ ClassEntry *class;		/* Class table pointer */
 
 AdminEntry *admin;		/* Administrative data about instances */
 WrdEntry *dict;			/* Dictionary pointer */
-ActEntry *acts;			/* Actor table pointer */
 LocEntry *locs;			/* Location table pointer */
 VrbEntry *vrbs;			/* Verb table pointer */
 StxEntry *stxs;			/* Syntax table pointer */
@@ -743,9 +742,13 @@ Boolean isCnt(x)
      Aword x;
 #endif
 {
+#ifdef CNT_WORKING
   return (x >= CNTMIN && x <= CNTMAX) ||
     (isObj(x) && objs[x-OBJMIN].cont != 0) ||
     (isAct(x) && acts[x-ACTMIN].cont != 0);
+#else
+  syserr("isCnt() is not working yet!");
+#endif
 }
 
 #ifdef _PROTOTYPES_
@@ -950,9 +953,9 @@ Boolean checklim(cnt, obj)
 
   /* Find the container properties */
   if (isObj(cnt))
-      props = objs[cnt-OBJMIN].cont;
+      props = instance[cnt].container;
   else if (isAct(cnt))
-      props = acts[cnt-ACTMIN].cont;
+      props = instance[cnt].container;
   else
     props = cnt;
 
@@ -1215,12 +1218,7 @@ static void do_it()
     if (isLit(params[i].code))
       alt[i+2] = 0;
     else {
-      if (isObj(params[i].code))
-	alt[i+2] = findalt(objs[params[i].code-OBJMIN].vrbs, i+1);
-      else if (isAct(params[i].code))
-	alt[i+2] = findalt(acts[params[i].code-ACTMIN].vrbs, i+1);
-      else
-	syserr("Illegal parameter type.");
+      alt[i+2] = findalt(instance[params[i].code].verbs, i+1);
       /* CHECKs in the parameters */
       if (alt[i+2] != 0 && alt[i+2]->checks != 0) {
 	if (trcflg)
@@ -1739,35 +1737,34 @@ static void movactor()
 {
   ScrEntry *scr;
   StepEntry *step;
-  ActEntry *act = (ActEntry *) &acts[cur.act-ACTMIN];
 
   cur.loc = where(cur.act);
   if (cur.act == HERO) {
     parse();
     fail = FALSE;			/* fail only aborts one actor */
     rules();
-  } else if (act->script != 0) {
-    for (scr = (ScrEntry *) addrTo(act->scradr); !endOfTable(scr); scr++)
-      if (scr->code == act->script) {
+  } else if (admin[cur.act].script != 0) {
+    for (scr = (ScrEntry *) addrTo(instance[cur.act].scripts); !endOfTable(scr); scr++)
+      if (scr->code == admin[cur.act].script) {
 	/* Find correct step in the list by indexing */
 	step = (StepEntry *) addrTo(scr->steps);
-	step = (StepEntry *) &step[act->step];
+	step = (StepEntry *) &step[admin[cur.act].step];
 	/* Now execute it, maybe. First check wait count */
-	if (step->after > act->count) {
+	if (step->after > admin[cur.act].waitCount) {
 	  /* Wait some more */
 	  if (trcflg) {
 	    printf("\n<ACTOR %d, ", cur.act);
 	    debugsay(cur.act);
 	    printf(" (at ");
 	    debugsay(cur.loc);
-	    printf("), SCRIPT %ld, STEP %ld, Waiting %ld more>\n",
-		   act->script, act->step+1, step->after-act->count);
+	    printf("), SCRIPT %ld, STEP %ld, Waiting another %ld turns>\n",
+		   admin[cur.act].script, admin[cur.act].step+1, step->after-admin[cur.act].waitCount);
 	  }
-	  act->count++;
+	  admin[cur.act].waitCount++;
 	  rules();
 	  return;
 	} else
-	  act->count = 0;
+	  admin[cur.act].waitCount = 0;
 	/* Then check possible expression */
 	if (step->exp != 0) {
 	  if (trcflg) {
@@ -1776,7 +1773,7 @@ static void movactor()
 	    printf(" (at ");
 	    debugsay(cur.loc);
 	    printf("), SCRIPT %ld, STEP %ld, Evaluating:>\n",
-		   act->script, act->step+1);
+		   admin[cur.act].script, admin[cur.act].step+1);
 	  }
 	  interpret(step->exp);
 	  if (!(Abool)pop()) {
@@ -1785,21 +1782,21 @@ static void movactor()
 	  }
 	}
 	/* OK, so finally let him do his thing */
-	act->step++;		/* Increment step number before executing... */
+	admin[cur.act].step++;		/* Increment step number before executing... */
 	if (trcflg) {
 	  printf("\n<ACTOR %d, ", cur.act);
 	  debugsay(cur.act);
 	  printf(" (at ");
 	  debugsay(cur.loc);
 	  printf("), SCRIPT %ld, STEP %ld, Executing:>\n",
-		 act->script, act->step);
+		 admin[cur.act].script, admin[cur.act].step);
 	}
 	interpret(step->stm);
 	step++;
 	/* ... so that we can see if he is USEing another script now */
-	if (act->step != 0 && endOfTable(step))
+	if (admin[cur.act].step != 0 && endOfTable(step))
 	  /* No more steps in this script, so stop him */
-	  act->script = 0;
+	  admin[cur.act].script = 0;
 	fail = FALSE;			/* fail only aborts one actor */
 	rules();
 	return;

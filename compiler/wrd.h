@@ -13,7 +13,7 @@
 #include "id.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef struct WrdNod {		/* DICTIONARY ENTRY */
   int classbits;		/* Class of this entry as a bit in the set */
@@ -25,33 +25,5 @@ typedef struct WrdNod {		/* DICTIONARY ENTRY */
   Aaddr adjrefadr;		/* ACODE address to reference table */
   struct WrdNod *low, *high;	/* Links */
 } WrdNod;
-
-
-/* Data: */
-
-extern int words[];
-
-
-
-/* Functions: */
-
-/* Find a Word in the dictonary */
-extern WrdNod *findwrd(char str[]);
-
-/* Insert a Word into the dictionary */
-extern int newwrd(char wrd[],
-		  WrdKind class,
-		  int code,
-		  void *id);
-
-/* Prepare Words in dictionary */
-extern void prepwrds(void);
-
-/* Analyse the Words in dictionary */
-extern void anwrds(void);
-
-/* Generate all Words in the dictionary */
-extern Aaddr gewrds(void);
-
 
 #endif

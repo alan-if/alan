@@ -12,6 +12,7 @@
 #include "id_x.h"
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "wrd_x.h"
 
 #include "sysdep.h"
 #include "util.h"
@@ -55,6 +56,7 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
 		    SlotsNode *slt)
 {
   InsNod *new;                  /* The newly allocated area */
+  List *nameList, *list;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -73,6 +75,18 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->slots->symbol->fields.claOrIns.slots = new->slots;
 
   allInstances = concat(allInstances, new, LIST_INS);
+
+  /* Note instance name in the dictionary */
+  if (new->slots->names == NULL)		/* Use the object name */
+    newwrd(new->slots->id->string, WRD_NOUN, new->slots->id->code, new);
+  else {
+    for (nameList = new->slots->names; nameList != NULL; nameList = nameList->next) {
+      for (list = nameList->element.lst; list->next != NULL; list = list->next)
+	newwrd(list->element.id->string, WRD_ADJ, 0, new);
+      newwrd(list->element.id->string, WRD_NOUN, list->element.id->code, new);
+    }
+  }
+
 
   return(new);
 }

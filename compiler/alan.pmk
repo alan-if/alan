@@ -13,23 +13,27 @@
 %%IMPORT
 
 #include "util.h"
+#include "acode.h"
 
 #include "types.h"
 #include "smScan.h"
 #include "token.h"
 
+#include "atr_x.h"
+#include "cla_x.h"
+#include "elm_x.h"
+#include "exp_x.h"
+#include "ext_x.h"
 #include "id_x.h"
 #include "ins_x.h"
-#include "cla_x.h"
-#include "sym_x.h"
-#include "res_x.h"
-#include "whr_x.h"
-#include "slt_x.h"
-#include "ext_x.h"
-#include "atr_x.h"
 #include "lst_x.h"
-#include "exp_x.h"
+#include "res_x.h"
+#include "slt_x.h"
+#include "stm_x.h"
 #include "stx_x.h"
+#include "sym_x.h"
+#include "whr_x.h"
+
 
 #include "lmList.h"
 
@@ -37,7 +41,6 @@
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "cnt.h"		/* CNT-nodes */
-#include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
@@ -45,7 +48,6 @@
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
-#include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
@@ -427,12 +429,12 @@ static int val(char str[])
 <indicator>
     = '*'
     %%
-	%<indicator>.bits = 0x1;
+	%<indicator>.bits = MULTIPLEBIT;
     %%
 
     ! '!'
     %%
-	%<indicator>.bits = 0x2;
+	%<indicator>.bits = OMNIBIT;
     %%
     ;
 
@@ -449,11 +451,12 @@ static int val(char str[])
     ;
 
 
--- A class restriction is a definition of which classes a syntax parameter may belong to
--- A parameter can be restricted to a list of classes in the same restriction clause.
--- It will also be possible to restrict a parameter using multiple clauses since we want
--- different ELSE printouts depending on what it was not. Also inheritance will make a
--- parameter be restricted in multiple clauses following the class hierarchy.
+-- A class restriction is a definition of which classes a syntax parameter may
+-- belong to. A parameter can be restricted to a list of classes in the same
+-- restriction clause. It is also possible to restrict a parameter using
+-- multiple clauses since we want different ELSE printouts depending on what
+-- it was not. Also inheritance will make a parameter be restricted in multiple
+-- clauses following the class hierarchy.
 <class_restriction_clauses>
     = <class_restriction>
     %%
@@ -493,9 +496,9 @@ static int val(char str[])
     ;
 
 <class_id>			-- RETURNS: id
-   = <heritage_id>
+   = ID
     %%
-	%<class_id>.id = %<heritage_id>.id;
+	%<class_id>.id = %ID.id;
     %%
     ;    
 
@@ -712,15 +715,9 @@ static int val(char str[])
     ;
 
 <heritage>		-- RETURNS: id
-    = 'ISA' <heritage_id> ['.']
-    %% %<heritage>.id = %<heritage_id>.id; %%
+    = 'ISA' ID ['.']
+    %% %<heritage>.id = %ID.id; %%
     ;
-
-<heritage_id>
-    = ID
-    %% %<heritage_id>.id = %ID.id; %%
-    ;
-
 
 <slots>			-- RETURNS: all!
     = 
@@ -1013,7 +1010,7 @@ static int val(char str[])
     ! <optional_names> <name>
     %%
 	%<optional_names>.nams = concat(%<optional_names>.nams,
-					     %<name>.nam, LIST_NAM);
+					%<name>.nam, LIST_NAM);
     %%
     ;
 
@@ -1721,12 +1718,12 @@ static int val(char str[])
 	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <optional_not> 'ISA' <heritage_id>
+    ! <optional_not> 'ISA' ID
     %% { ExpNod *exp;
         %<right_hand_side>.expKd = EXPISA;
 	exp = newexp(`&%'ISA'.srcp, EXPISA);
 	exp->not = %<optional_not>.not;
-	exp->fields.isa.id = %<heritage_id>.id;
+	exp->fields.isa.id = %ID.id;
 	%<right_hand_side>.exp = exp;
     } %%
 
@@ -2036,7 +2033,7 @@ static int val(char str[])
 <id_list>			-- RETURNS: str, idList
     = ID
     %%
-        %<id_list>.str = newstr(%ID.id->string);
+        %<id_list>.str = newString(%ID.id->string);
         %<id_list>.idList = concat(NULL, %ID.id, LIST_ID);
     %%
 
@@ -2055,7 +2052,7 @@ static int val(char str[])
 
     ! Integer
     %%
-        %<optional_integer>.str = newstr(%Integer.chars);
+        %<optional_integer>.str = newString(%Integer.chars);
     %%
     ;
 

@@ -14,6 +14,7 @@
 #include "lst_x.h"
 #include "id_x.h"
 #include "stx_x.h"
+#include "context_x.h"
 
 #include "lmList.h"
 
@@ -84,6 +85,7 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
 {
   List *lst, *ids, *stxs = NULL;
   StxNod *stx;
+  Context context;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -119,10 +121,14 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
       lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
-  if (stx != NULL)
-    analts(vrb->alts, ins, stx->pars);
-  else
-    analts(vrb->alts, ins, NULL);
+  context.kind = VERB_CONTEXT;
+  context.instance = ins;
+  
+  if (stx != NULL) {
+    context.parameters = stx->pars;
+    analts(vrb->alts, &context);
+  } else
+    analts(vrb->alts, &context);
 }
 
 

@@ -5,21 +5,18 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
-#include "util.h"
+#include "wrd_x.h"
 
+#include "alan.h"
 #include "srcp_x.h"
 #include "id_x.h"
 #include "lst_x.h"
 
 #include "lmList.h"
 #include "acode.h"
-
-#include "wrd.h"                /* WRD-nodes */
-#include "opt.h"		/* OPTIONS */
-
+#include "util.h"
+#include "opt.h"
 #include "emit.h"
-#include "dump.h"
 
 
 
@@ -71,7 +68,7 @@ WrdNod *findwrd(char *str)	/* IN - The string */
 int newwrd(char *str,		/* IN - Name of the new word */
 	   WrdKind class,	/* IN - and its class */
 	   int code,		/* IN - and code */
-	   void *ref)		/* IN - The entity nodes it refers to */
+	   InsNod *ref)		/* IN - The entity nodes it refers to */
 {
   WrdNod *new;			/* The newly created wrdnod */
   WrdNod *wrd;			/* The wrdnod found in dictionary */

@@ -10,6 +10,7 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "wrd_x.h"
 
 #include "lmList.h"
 #include "acode.h"
@@ -17,7 +18,6 @@
 #include "adv.h"		/* ADV-node */
 #include "id_x.h"
 #include "syn.h"		/* SYN-nodes */
-#include "wrd.h"		/* WRD-nodes */
 
 #include "emit.h"
 #include "dump.h"

@@ -26,7 +26,7 @@ static struct strnod {         /* A tree containing all ids */
 
 /*======================================================================
 
-  newstr()
+  newString()
 
   To minimize string space required, all strings (for identifiers) are
   inserted into a tree where the same string only occurs once. This
@@ -34,7 +34,7 @@ static struct strnod {         /* A tree containing all ids */
   dynamically allocates space for it. Returns a pointer to the string.
 
   */
-char *newstr(char *str)		/* IN - The string to insert */
+char *newString(char *str)		/* IN - The string to insert */
 {
   struct strnod *s, *next;	/* To traversal pointers */
   int comp = 1;			/* Comparison value */

@@ -15,6 +15,9 @@
 #include "encode.h"
 
 /* For open, read & close */
+#ifdef __win__
+#include <fcntl.h>
+#endif
 #ifdef __sun__
 #include <unistd.h>
 #include <fcntl.h>
@@ -64,8 +67,7 @@ int scannedLines();
 /* PRIVATE */
 static int lines = 0;		/* Updated at end of each file */
 
-Bool smScanEnter(
-		 char fnm[],	/* IN - Name of file to open */
+Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 		 Bool search	/* IN - Search the include paths */
 ){
   smScContext this;
@@ -113,7 +115,7 @@ Bool smScanEnter(
   }
 
   /* Remember the filename */
-  this->fileName = newstr(fnmbuf);
+  this->fileName = newString(fnmbuf);
   fileNames = concat(fileNames, this->fileName, LIST_STR);
   this->fileNo = fileNo++;
   this->previous = lexContext;
@@ -131,15 +133,15 @@ int scannedLines(void)
 extern unsigned char *smMap;
 extern unsigned char *smDFAcolVal;
 extern unsigned char *smDFAerrCol;
-extern unsigned char *smIsoMap;
-extern unsigned char *smIsoDFAcolVal;
-extern unsigned char *smIsoDFAerrCol;
-extern unsigned char *smMacMap;
-extern unsigned char *smMacDFAcolVal;
-extern unsigned char *smMacDFAerrCol;
-extern unsigned char *smDosMap;
-extern unsigned char *smDosDFAcolVal;
-extern unsigned char *smDosDFAerrCol;
+extern unsigned char smIsoMap[256];
+extern unsigned char smIsoDFAcolVal[256];
+extern unsigned char smIsoDFAerrCol[256];
+extern unsigned char smMacMap[256];
+extern unsigned char smMacDFAcolVal[256];
+extern unsigned char smMacDFAerrCol[256];
+extern unsigned char smDosMap[256];
+extern unsigned char smDosDFAcolVal[256];
+extern unsigned char smDosDFAerrCol[256];
 
 static int charset;
 
@@ -148,19 +150,19 @@ void setCharacterSet(int set)
   charset = set;
   switch (set) {
   case 0:
-    smMap = &smIsoMap;
-    smDFAcolVal = &smIsoDFAcolVal;
-    smDFAerrCol = &smIsoDFAerrCol;
+    smMap = &smIsoMap[0];
+    smDFAcolVal = &smIsoDFAcolVal[0];
+    smDFAerrCol = &smIsoDFAerrCol[0];
     break;
   case 1:
-    smMap = &smMacMap;
-    smDFAcolVal = &smMacDFAcolVal;
-    smDFAerrCol = &smMacDFAerrCol;
+    smMap = &smMacMap[0];
+    smDFAcolVal = &smMacDFAcolVal[0];
+    smDFAerrCol = &smMacDFAerrCol[0];
     break;
   case 2:
-    smMap = &smDosMap;
-    smDFAcolVal = &smDosDFAcolVal;
-    smDFAerrCol = &smDosDFAerrCol;
+    smMap = &smDosMap[0];
+    smDFAcolVal = &smDosDFAcolVal[0];
+    smDFAerrCol = &smDosDFAerrCol[0];
     break;
   }
 }

@@ -13,6 +13,7 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "lst_x.h"
+#include "exp_x.h"
 
 #include "util.h"
 #include "emit.h"
@@ -311,7 +312,7 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
   parameters and return a reference to the attribute node, if all is well.
 
  */
-AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute)
+AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *context)
 {
   AtrNod *atr;
   SymNod *sym;

@@ -229,7 +229,7 @@ static void showloc(loc)
 {
   char str[80];
 
-  
+
   if (!isLoc(loc)) {
     sprintf(str, "Location number out of range. Between %ld and %ld, please.", LOCMIN, LOCMAX);
     output(str);
@@ -241,7 +241,7 @@ static void showloc(loc)
   say(loc);
 
   output("$iAttributes =");
-  showatrs(locs[loc-LOCMIN].atrs);
+  showatrs(instance[loc].attributes);
 }
 
 
@@ -287,23 +287,23 @@ static void showact(act)
   say(act);
   stpflg = oldstp;
 
-  sprintf(str, "$iLocation = %ld", acts[act-ACTMIN].loc);
+  sprintf(str, "$iLocation = %ld", instance[act].location);
   output(str);
-  if (isLoc(acts[act-ACTMIN].loc))
-    say(acts[act-ACTMIN].loc);
-  else if (acts[act-ACTMIN].loc == 0)
+  if (isLoc(instance[act].location))
+    say(instance[act].location);
+  else if (instance[act].location == 0)
     output("nowhere");
   else
     output("Illegal location!");
 
-  sprintf(str, "$iScript = %ld", acts[act-ACTMIN].script);
+  sprintf(str, "$iScript = %ld", admin[act].script);
   output(str);
 
-  sprintf(str, "$iStep = %ld", acts[act-ACTMIN].step);
+  sprintf(str, "$iStep = %ld", admin[act].step);
   output(str);
 
   output("$iAttributes =");
-  showatrs(acts[act-ACTMIN].atrs);
+  showatrs(instance[act].attributes);
 }
 
 

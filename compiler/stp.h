@@ -40,7 +40,7 @@ extern StpNod *newstp(Srcp *srcp,
 		      List *stms);
 
 /* Analyse all Steps in a list */
-extern void anstps(List *stps, InsNod *ins);
+extern void anstps(List *stps, Context *context);
 
 /* Generate code for all Steps in a list */
 extern Aaddr gestps(List *stps, InsNod *ins);

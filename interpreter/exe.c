@@ -700,11 +700,11 @@ static void locobj(obj, whr)
     if (checklim(whr, obj))
       return;
     else
-      objs[obj-OBJMIN].loc = whr;
+      instance[obj].location = whr;
   } else {
-    objs[obj-OBJMIN].loc = whr;
+    instance[obj].location = whr;
     /* Make sure the location is described since it's changed */
-    locs[whr-LOCMIN].describe = 0;
+    admin[whr].visitsCount = 0;
   }
 }
 
@@ -1058,21 +1058,21 @@ static void dscract(act)
 {
   ScrEntry *scr = NULL;
 
-  if (acts[act-ACTMIN].script != 0) {
-    for (scr = (ScrEntry *) addrTo(acts[act-ACTMIN].scradr); !endOfTable(scr); scr++)
-      if (scr->code == acts[act-ACTMIN].script)
+  if (admin[act].script != 0) {
+    for (scr = (ScrEntry *) addrTo(instance[act].scripts); !endOfTable(scr); scr++)
+      if (scr->code == admin[act].script)
 	break;
     if (endOfTable(scr)) scr = NULL;
   }
   if (scr != NULL && scr->dscr != 0)
     interpret(scr->dscr);
-  else if (acts[act-ACTMIN].dscr != 0)
-    interpret(acts[act-ACTMIN].dscr);
+  else if (instance[act].description != 0)
+    interpret(instance[act].description);
   else {
-    interpret(acts[act-ACTMIN].nam);
+    interpret(instance[act].name);
     prmsg(M_SEEACT);
   }
-  acts[act-ACTMIN].describe = FALSE;
+  admin[act].alreadyDescribed = TRUE;
 }
 
 
@@ -1128,8 +1128,8 @@ void use(act, scr)
     syserr(str);
   }
 
-  acts[act-ACTMIN].script = scr;
-  acts[act-ACTMIN].step = 0;
+  admin[act].script = scr;
+  admin[act].step = 0;
 }
 
 
@@ -1155,9 +1155,9 @@ void list(cnt)
 
   /* Find container properties */
   if (isObj(cnt))
-    props = objs[cnt-OBJMIN].cont;
+    props = instance[cnt].container;
   else if (isAct(cnt))
-    props = acts[cnt-ACTMIN].cont;
+    props = instance[cnt].container;
   else
     props = cnt;
 
@@ -1306,13 +1306,13 @@ void dscracts()
   int i;
   
   for (i = HERO+1; i <= ACTMAX; i++)
-    if (acts[i-ACTMIN].loc == cur.loc &&
-	acts[i-ACTMIN].describe)
+    if (instance[i].location == cur.loc &&
+	!admin[i].alreadyDescribed)
       describe(i);
 
-  /* Set describe flag for all actors */
+  /* Clear described flag for all actors */
   for (i = HERO; i <= ACTMAX; i++)
-    acts[i-ACTMIN].describe = TRUE;
+    admin[i].alreadyDescribed = FALSE;
 }
 
 
@@ -1393,6 +1393,8 @@ void save()
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
+
+#ifdef SAVE_WORKING
   /* Save actors */
   for (i = ACTMIN; i <= ACTMAX; i++) {
     fwrite((void *)&acts[i-ACTMIN].loc, sizeof(Aword), 1, savfil);
@@ -1419,6 +1421,7 @@ void save()
       for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->value, sizeof(atr->value), 1, savfil);
   }
+#endif
 
   /* Save the event queue */
   eventq[etop].time = 0;        /* Mark the top */
@@ -1488,6 +1491,7 @@ void restore()
     return;
   }
 
+#ifdef SAVE_WORKING
   /* Restore current values */
   fread((void *)&cur, sizeof(cur), 1, savfil);
   /* Restore actors */
@@ -1516,6 +1520,7 @@ void restore()
       for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
 	fread((void *)&atr->value, sizeof(atr->value), 1, savfil);
   }
+#endif
 
   /* Restore the eventq */
   etop = 0;

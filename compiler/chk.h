@@ -5,6 +5,7 @@
 #include "exp.h"
 #include "ins.h"
 #include "lst.h"
+#include "context.h"
 
 
 /* Types: */
@@ -20,14 +21,13 @@ typedef struct ChkNod {		/* CHECK */
 /* Data: */
 
 
-/* Functions: */
-
+/* FUNCTIONS: */
 
 /* Create a new Check node */
 extern ChkNod *newchk(ExpNod *exp, List *stms);
 
 /* Analyze a list of Checks */
-extern void anchks(List *chks, InsNod *ins, List *pars);
+extern void anchks(List *chks, Context *context);
 
 /* Generate code for a list of Checks */
 extern Aaddr gechks(List *chks, InsNod *ins);

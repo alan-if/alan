@@ -8,15 +8,13 @@
 \*----------------------------------------------------------------------*/
 
 /* USE: */
-#include "alan.h"
+
 #include "srcp.h"
 #include "wht.h"
 #include "whr.h"
 #include "id.h"
-#include "ins.h"
 #include "exp.h"
 #include "lst.h"
-#include "evt.h"
 
 
 /* Types: */
@@ -149,30 +147,6 @@ typedef struct StmNod {		/* STATEMENT */
   } fields;
 } StmNod;
 
-
-
-/* Data: */
-
-
-
-/* Methods: */
-
-
-/* Create a new Statement node */
-extern StmNod *newstm(Srcp *srcp,
-		      StmKind class);
-
-/* Analyze a list of statements */
-extern void anstms(List *stms,
-		   InsNod *ins,	/* Instance context */
-		   EvtNod *evt,	/* Event context */
-		   List *pars);
-
-/* Generate code for a list of statements */
-extern void gestms(List *stms, InsNod *ins);
-
-/* Dump a statement node */
-extern void dustm(StmNod *stm);
 
 
 #endif

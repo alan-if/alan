@@ -11,13 +11,14 @@
 #include "srcp_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stm_x.h"
+
 
 #include "lmList.h"
 
 #include "acode.h"
 
 #include "adv.h"		/* ADV-node */
-#include "stm.h"		/* STM-nodes */
 #include "rul.h"                /* RUL-nodes */
 
 #include "emit.h"
@@ -66,10 +67,13 @@ RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
   */
 static void anrul(RulNod *rul)
 {
+  Context context;
+
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  anexp(rul->exp, NULL, NULL);
-  anstms(rul->stms, NULL, NULL, NULL);
+  context.kind = RULE_CONTEXT;
+  anexp(rul->exp, &context);
+  anstms(rul->stms, &context);
 }
 
 

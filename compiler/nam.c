@@ -1,26 +1,16 @@
 /*----------------------------------------------------------------------*\
 
 				NAM.C
-			 Names handling
+			    Names handling
 
 \*----------------------------------------------------------------------*/
 
-#include "alan.h"
-#include "util.h"
-
-#include "srcp_x.h"
-#include "lmList.h"
-
-#include "lst.h"
 #include "nam_x.h"
-#include "str.h"
 
-#include "cnt.h"
-#include "ext.h"
-#include "vrb.h"
+#include "alan.h"
+#include "lst.h"
 #include "msg.h"
 
-#include "dump.h"
 #include "acode.h"
 #include "emit.h"
 

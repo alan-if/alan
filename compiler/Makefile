@@ -46,7 +46,6 @@ BUILDSRCS = \
 	msg.c \
 	nam.c \
 	opt.c \
-	res.c \
 	rul.c \
 	sco.c \
 	scr.c \
@@ -74,6 +73,7 @@ ALANSRCS = \
 	adv.c \
 	atr.c \
 	cla.c \
+	res.c \
 	emit.c \
 	ext.c \
 	ins.c \

@@ -2,7 +2,7 @@
 #define _EXP_X_H_
 /*----------------------------------------------------------------------*\
 
-				EXP.H
+				EXP_X.H
 			   Expression Nodes
 
 \*----------------------------------------------------------------------*/
@@ -10,12 +10,8 @@
 #include "exp.h"
 
 /* USE other definitions */
-#include "alan.h"
 #include "srcp.h"
-#include "wht.h"
-#include "whr.h"
-#include "evt.h"
-#include "id.h"
+#include "context.h"
 
 
 
@@ -29,7 +25,7 @@ extern ExpNod *newexp(Srcp *srcp,
 		      ExpKind class);
 
 /* Analyze an Expression */
-extern void anexp(ExpNod *exp, EvtNod *evt, List *params);
+extern void anexp(ExpNod *exp, Context *context);
 
 /* Compare two types */
 extern Bool eqtyp(TypeKind typ1,

@@ -12,12 +12,12 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "sym_x.h"
+#include "stm_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "exp.h"                /* EXP-nodes */
-#include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "lim.h"		/* LIM-nodes */
@@ -92,7 +92,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   }
 
   /* Analyze statments */
-  anstms(lim->stms, NULL, NULL, NULL);
+  anstms(lim->stms, NULL);
 }
 
 

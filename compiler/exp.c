@@ -83,21 +83,20 @@ ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
   Analyze a WHR expression.
 
  */
-static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
-		     EvtNod *evt, /* IN - Possibly inside event */
-		     List *pars) /* IN - Possible parameters */
+static void anexpwhr(ExpNod *exp,
+		     Context *context)
 {
-  anexp(exp->fields.whr.wht, evt, pars);
+  anexp(exp->fields.whr.wht, context);
   if (exp->fields.whr.wht->class != EXPWHT)
     lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
   else {
     switch (exp->fields.whr.wht->fields.wht.wht->kind) {
     case WHT_OBJ:
-      if (pars == NULL)
+      if (context->parameters == NULL)
 	lmLog(&exp->fields.whr.wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:
-      if (evt != NULL)
+      if (context->kind == EVENT_CONTEXT)
 	lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
       break;
     case WHT_LOC:
@@ -135,12 +134,12 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
       exp->fields.whr.whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
-      if (pars == NULL)
+      if (context->kind != VERB_CONTEXT || context->parameters == NULL)
 	lmLog(&exp->fields.whr.whr->wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:
-    if (evt != NULL)
-      lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
+      if (context->kind == EVENT_CONTEXT)
+	lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
       break;
     default:
       syserr("Unrecognized switch in anexpwhr()");
@@ -172,8 +171,7 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 
   */
 static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
-		  EvtNod *evt,	/* IN - Possibly inside Event? */
-		  List *pars)	/* IN - List of parameters */
+		     Context *context)
 {
   AtrNod *atr;
 
@@ -181,7 +179,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
       
     case WHT_ACT:
-      if (evt != NULL)
+      if (context->kind == EVENT_CONTEXT)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
       else {
 	atr = findAttribute(NULL, exp->fields.atr.atr);
@@ -207,7 +205,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       break;
 
     case WHT_OBJ:
-      if (pars == NULL)
+      if (context->parameters == NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
       atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
@@ -221,7 +219,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 
     case WHT_ID:
       atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
-				      exp->fields.atr.atr);
+				      exp->fields.atr.atr, context);
       if (atr == NULL) {	/* Attribute not found */
 	lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
 	      exp->fields.atr.wht->fields.wht.wht->id->string);
@@ -249,12 +247,11 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
   Analyze a binary expression and find out its type.
 
  */
-static void anbin(ExpNod *exp,                 
-		  EvtNod *evt,	/* IN - Possibly inside event */
-		  List *pars)	/* IN - List of parameters available */
+static void anbin(ExpNod *exp,
+		  Context *context)
 {
-  anexp(exp->fields.bin.left, evt, pars);
-  anexp(exp->fields.bin.right, evt, pars);
+  anexp(exp->fields.bin.left, context);
+  anexp(exp->fields.bin.right, context);
 
   switch (exp->fields.bin.op) {
   case OP_AND:
@@ -337,9 +334,8 @@ static void anbin(ExpNod *exp,
   Analyze an aggregate expression.
 
  */
-static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
-		  EvtNod *evt,	/* IN - Possibly inside Event? */
-		  List *pars)
+static void anagr(ExpNod *exp,
+		  Context *context)
 {
   AtrNod *atr = NULL;
 
@@ -357,7 +353,7 @@ static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
       exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
   }
 
-  anwhr(exp->fields.agr.whr, evt, pars);
+  anwhr(exp->fields.agr.whr, context);
 }
 
 
@@ -367,18 +363,17 @@ static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
   Analyse a random expression.
 
   */
-static void anrnd(ExpNod *exp,	/* IN - Expression to analyse */
-		  EvtNod *evt,	/* IN - Possibly inside Event? */
-		  List *pars)
+static void anrnd(ExpNod *exp,
+		  Context *context)
 {
   exp->typ = TYPINT;
-  anexp(exp->fields.rnd.from, evt, pars);
+  anexp(exp->fields.rnd.from, context);
   if (!eqtyp(TYPINT, exp->fields.rnd.from->typ)) {
     lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
     exp->typ = TYPUNK;
   }
 
-  anexp(exp->fields.rnd.to, evt, pars);
+  anexp(exp->fields.rnd.to, context);
   if (!eqtyp(TYPINT, exp->fields.rnd.to->typ)) {
     lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
     exp->typ = TYPUNK;
@@ -393,13 +388,12 @@ static void anrnd(ExpNod *exp,	/* IN - Expression to analyse */
   Analyse a WHT expression.
 
   */
-static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
-		     EvtNod *evt, /* IN - Possibly inside Event? */
-		     List *pars) /* IN - Possible parameter list in this context */
+static void anexpwht(ExpNod *exp,
+		     Context *context)
 {
   switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->kind != VERB_CONTEXT || context->parameters == NULL)
       lmLog(&exp->fields.wht.wht->srcp, 409, sevERR, "");
     exp->typ = TYPENT;
     break;
@@ -409,7 +403,7 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
     break;
 
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
     exp->typ = TYPENT;
     break;
@@ -450,19 +444,18 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
   Analyse a BTW expression.
 
   */
-static void anexpbtw(ExpNod *exp, /* IN - Expression to analyse */
-		     EvtNod *evt, /* IN - Possibly inside Event? */
-		     List *pars) /* IN - Possible parameter list in this context */
+static void anexpbtw(ExpNod *exp,
+		     Context *context)
 {
-  anexp(exp->fields.btw.val, evt, pars);
+  anexp(exp->fields.btw.val, context);
   if (!eqtyp(exp->fields.btw.val->typ, TYPINT))
     lmLogv(&exp->fields.btw.val->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  anexp(exp->fields.btw.low, evt, pars);
+  anexp(exp->fields.btw.low, context);
   if (!eqtyp(exp->fields.btw.low->typ, TYPINT))
     lmLogv(&exp->fields.btw.low->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  anexp(exp->fields.btw.high, evt, pars);
+  anexp(exp->fields.btw.high, context);
   if (!eqtyp(exp->fields.btw.high->typ, TYPINT))
     lmLogv(&exp->fields.btw.high->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
@@ -477,24 +470,23 @@ static void anexpbtw(ExpNod *exp, /* IN - Expression to analyse */
   Analyze one expression.
 
   */
-void anexp(ExpNod *exp,		/* IN - The expression to analyze */
-	   EvtNod *evt,		/* IN - Possibly inside event */
-	   List *pars)		/* IN - Possible verb parameters */
+void anexp(ExpNod *exp,
+	   Context *context)
 {
   if (exp == NULL) return;	/* Ignore empty expressions (syntax error) */
   
   switch (exp->class) {
     
   case EXPWHR:
-    anexpwhr(exp, evt, pars);
+    anexpwhr(exp, context);
     break;
     
   case EXPATR:
-    anexpatr(exp, evt, pars);
+    anexpatr(exp, context);
     break;
-    
+
   case EXPBIN:
-    anbin(exp, evt, pars);
+    anbin(exp, context);
     break;
     
   case EXPINT:
@@ -506,11 +498,11 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
     break;
     
   case EXPAGR:
-    anagr(exp, evt, pars);
+    anagr(exp, context);
     break;
     
   case EXPRND:
-    anrnd(exp, evt, pars);
+    anrnd(exp, context);
     break;
 
   case EXPSCORE:
@@ -518,11 +510,11 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
     break;
 
   case EXPWHT:
-    anexpwht(exp, evt, pars);
+    anexpwht(exp, context);
     break;
 
   case EXPBTW:
-    anexpbtw(exp, evt, pars);
+    anexpbtw(exp, context);
     break;
 
   case EXPISA:

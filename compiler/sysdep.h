@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-  sysdep.h                              Date: 1995-08-19/thoni@softlab.se
+  sysdep.h
 
   System dependencies file for Alan Adventure Language system 
 

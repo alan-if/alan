@@ -168,17 +168,25 @@ typedef enum VarClass {
 
 #define ACDsizeOf(x) (sizeof(x)/sizeof(Aword))
 
+typedef struct ClassEntry {	/* CLASS TABLE */
+  Aword code;			/* Own code */
+  Aword parent;			/* Code for the parent class, 0 if none */
+} ClassEntry;
+
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier */
   Aword parent;			/* Code for the parent class, 0 if none */
   Aword location;		/* Code for current location */
+  Aword container;		/* Code for a possible container property */
   Aaddr attributes;		/* Address of attribute list */
+  Aaddr name;			/* Address to name printing code */
   Aaddr description;		/* Address of description code */
   Aaddr mentioned;		/* Address of "mentioned" code */
   Aaddr article;		/* Address of article code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
+  Aaddr scripts;		/* Address of scripts */
 } InstanceEntry;
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */

@@ -15,8 +15,8 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "stm_x.h"
 
-#include "stm.h"                /* STM-nodes */
 
 #include "emit.h"
 #include "acode.h"
@@ -71,6 +71,7 @@ static void anres(
   Bool found = FALSE;
   List *p;
   List *idList;
+  Context context;
 
   /* Check for the id in the parameter list */
   for (p = params; p != NULL; p = p->next)
@@ -87,7 +88,10 @@ static void anres(
   }
 
   /* Analyse the statements to execute if the restrictions was not met */
-  anstms(res->stms, NULL, NULL, params);
+  /* FIXME: we need to send the restriction inverted in the context also */
+  context.kind = VERB_CONTEXT;
+  context.parameters = params;
+  anstms(res->stms, &context);
 }
 
 
@@ -138,13 +142,9 @@ static void geres(ResNod *res)	/* IN - Node to generate */
  */
 static void geresent(ResNod *res) /* IN - Node to generate */
 {
-#ifndef FIXME
-  syserr("UNIMPL: geresent()");
-#else
   emit(res->id->code);
   emit(res->classbits);
   emit(res->stmadr);
-#endif
 }
 
 

@@ -10,7 +10,7 @@
 #include "whr.h"
 
 /* USE: */
-#include "evt.h"
+#include "context.h"
 
 
 /* DATA: */
@@ -23,7 +23,7 @@ extern WhrNod *newwhr(Srcp *srcp,
 		      WhtNod *wht);
 extern void symbolizeWhr(WhrNod *whr);
 extern void verifyAtLocation(WhrNod *whr);
-extern void anwhr(WhrNod *whr, EvtNod *evt, List *pars);
+extern void anwhr(WhrNod *whr, Context *context);
 extern Aword generateInitialLocation(WhrNod *whr);
 extern void gewhr(WhrNod *whr);
 extern void duwhr(WhrNod *whr);

@@ -13,11 +13,12 @@
 #include "lst.h"
 #include "ins.h"
 #include "id.h"
+#include "context.h"
 
 #include "acode.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum QualKind {		/* QUAL kinds */
   QUAL_BEFORE,
@@ -40,10 +41,10 @@ typedef struct AltNod {		/* ALTERNATIVE */
 
 
 
-/* Data: */
+/* DATA: */
 
 
-/* Functions: */
+/* FUNCTIONS: */
 
 /* Create a new verb Alternative node */
 extern AltNod *newalt(Srcp *srcp,
@@ -53,7 +54,7 @@ extern AltNod *newalt(Srcp *srcp,
 		      List *stms);
 
 /* Analyze a list of verb Alternatives */
-extern void analts(List *alts, InsNod *ins, List *pars);
+extern void analts(List *alts, Context *context);
 
 /* Generate code for a list of verb Alternatives */
 extern Aaddr gealts(List *alts, InsNod *ins);

@@ -10,23 +10,27 @@
 
 
 #include "util.h"
+#include "acode.h"
 
 #include "types.h"
 #include "smScan.h"
 #include "token.h"
 
+#include "atr_x.h"
+#include "cla_x.h"
+#include "elm_x.h"
+#include "exp_x.h"
+#include "ext_x.h"
 #include "id_x.h"
 #include "ins_x.h"
-#include "cla_x.h"
-#include "sym_x.h"
-#include "res_x.h"
-#include "whr_x.h"
-#include "slt_x.h"
-#include "ext_x.h"
-#include "atr_x.h"
 #include "lst_x.h"
-#include "exp_x.h"
+#include "res_x.h"
+#include "slt_x.h"
+#include "stm_x.h"
 #include "stx_x.h"
+#include "sym_x.h"
+#include "whr_x.h"
+
 
 #include "lmList.h"
 
@@ -34,7 +38,6 @@
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "cnt.h"		/* CNT-nodes */
-#include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
@@ -42,7 +45,6 @@
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
-#include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
@@ -116,7 +118,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 61 "alan.pmk"
+#line 63 "alan.pmk"
 
 
 {

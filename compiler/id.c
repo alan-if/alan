@@ -37,7 +37,7 @@ IdNode *newId(Srcp *srcp,	/* IN - Source Position */
   new = NEW(IdNode);
   
   new->srcp = *srcp;
-  new->string  = newstr(str);
+  new->string  = newString(str);
   new->symbol = NULL;
 
   return(new);

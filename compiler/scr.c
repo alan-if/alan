@@ -11,11 +11,11 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "stm_x.h"
 
 #include "lmList.h"
 #include "acode.h"
 
-#include "stm.h"                /* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "scr.h"                /* SCR-nodes */
 
@@ -112,6 +112,7 @@ void prepscrs(List *scrs, InsNod *ins)
 void anscrs(List *scrs, InsNod *ins)
 {
   List *lst;
+  Context context;
 
   if (scrs == NULL) return;
 
@@ -119,12 +120,14 @@ void anscrs(List *scrs, InsNod *ins)
   if (scrs != NULL && ins->slots->id->symbol->code == 1)
       lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
 
+  context.kind = INSTANCE_CONTEXT;
+  context.instance = ins;
   for (lst = scrs; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    anstms(lst->element.scr->descr, ins, NULL, NULL);
+    anstms(lst->element.scr->descr, &context);
 
     /* Finally, analyse the steps inside the script */
-    anstps(lst->element.scr->stps, ins);
+    anstps(lst->element.scr->stps, &context);
   }
 }
 

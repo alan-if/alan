@@ -1,9 +1,12 @@
 /*----------------------------------------------------------------------*\
 
                                 STM.C
-                                Statement Nodes
+			   Statement Nodes
 
 \*----------------------------------------------------------------------*/
+
+#include "stm_x.h"
+
 
 #include "alan.h"
 #include "util.h"
@@ -20,9 +23,7 @@
 
 #include "adv.h"                /* ADV-node */
 #include "wht.h"                /* WHT-nodes */
-#include "stm.h"                /* STM-nodes */
 #include "scr.h"                /* SCR-nodes */
-#include "ins.h"                /* INS-nodes */
 #include "sco.h"                /* SCORES */
 #include "opt.h"                /* OPTIONS */
 
@@ -65,25 +66,24 @@ StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
   Analyze a DESCRIBE statement.
 
   */
-static void andescribe(StmNod *stm, /* IN - The statement to analyze */
-		       EvtNod *evt, /* IN - Possibly inside Event? */
-		       List *pars) /* IN - Possible syntax parameters */
+static void andescribe(StmNod *stm,
+		       Context *context)
 {
   SymNod *sym;
 
   switch (stm->fields.describe.wht->kind) {
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->parameters == NULL)
       lmLog(&stm->fields.describe.wht->srcp, 409, sevERR, "");
     break;
   case WHT_LOC:
     break;
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, pars);
+    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context->parameters);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -100,11 +100,10 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
   Analyze a SAY statement.
 
   */
-static void ansay(StmNod *stm,	/* IN - The statement to analyze */
-		  EvtNod *evt,	/* IN - Possibly inside Event? */
-		  List *pars)	/* IN - Possible syntax parameters */
+static void ansay(StmNod *stm,
+		  Context *context)
 {
-  anexp(stm->fields.say.exp, evt, pars);
+  anexp(stm->fields.say.exp, context);
 }
 
 
@@ -115,8 +114,8 @@ static void ansay(StmNod *stm,	/* IN - The statement to analyze */
   Analyze a LIST statement.
 
   */
-static void anlist(StmNod *stm,	/* IN - The statement to analyze */
-		   List *pars)	/* IN - Possible syntax parameters */
+static void anlist(StmNod *stm,
+		   Context *context)	
 {
 #ifndef FIXME
   syserr("UNIMPL: anlist() - cntcheck");
@@ -133,16 +132,15 @@ static void anlist(StmNod *stm,	/* IN - The statement to analyze */
   Analyze an EMPTY statement.
 
   */
-static void anempty(StmNod *stm, /* IN - The statement to analyze */
-		    EvtNod *evt, /* IN - Inside event? */
-		    List *pars)	/* IN - Possible syntax parameters */
+static void anempty(StmNod *stm,
+		    Context *context)
 {
 #ifndef FIXME
   syserr("UNIMPL: anempty() - cntcheck");
 #else
   cntcheck(stm->fields.list.wht, pars);
 #endif
-  anwhr(stm->fields.empty.whr, evt, pars);
+  anwhr(stm->fields.empty.whr, context);
 }
 
 
@@ -153,17 +151,16 @@ static void anempty(StmNod *stm, /* IN - The statement to analyze */
   Analyze a LOCATE statement.
 
   */
-static void anlocate(StmNod *stm, /* IN - The statement to analyze */
-		     EvtNod *evt, /* IN - Possibly inside actor */
-		     List *pars) /* IN - Possible syntax parameters */
+static void anlocate(StmNod *stm,
+		     Context *context)
 {
   switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->parameters == NULL)
       lmLog(&stm->fields.locate.wht->srcp, 409, sevERR, "");
     break;
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.locate.wht->srcp, 412, sevERR, "");
     break;
   case WHT_LOC:
@@ -181,7 +178,7 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
     break;
   }
 
-  anwhr(stm->fields.locate.whr, evt, pars);
+  anwhr(stm->fields.locate.whr, context);
   switch (stm->fields.locate.whr->kind) {
   case WHR_HERE:
   case WHR_AT:
@@ -220,16 +217,15 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
   Analyze a MAKE statement.
 
   */
-static void anmake(StmNod *stm,	/* IN - The statement to analyze */
-		   EvtNod *evt,	/* IN - inside an Event? */
-		   List *pars)	/* IN - Possible syntax parameters */
+static void anmake(StmNod *stm,
+		   Context *context)
 {
   AtrNod *atr = NULL;
 
   switch (stm->fields.make.wht->kind) {
 
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
     else {
       atr = findAttribute(NULL, stm->fields.make.atr);
@@ -249,7 +245,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->parameters == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.make.atr);
     if (atr == NULL)            /* Attribute not found globally */
@@ -259,7 +255,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_ID:
-    atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr);
+    atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
     if (atr != NULL) {
       if (atr->typ != TYPBOOL)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
@@ -284,16 +280,15 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
   Analyze a SET statement
 
   */
-static void anset(StmNod *stm,	/* IN - The statement to analyze */
-		  EvtNod *evt,	/* IN - inside an Event? */
-		  List *pars)	/* IN - Possible syntax parameters */
+static void anset(StmNod *stm,
+		  Context *context)
 {
   AtrNod *atr;
 
   switch (stm->fields.set.wht->kind) {
 
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
     else {
       atr = findAttribute(NULL, stm->fields.set.atr);
@@ -313,7 +308,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->parameters == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.set.atr);
     if (atr == NULL)            /* attribute not found globally */
@@ -323,7 +318,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_ID:
-    atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr);
+    atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
     if (atr) {
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
         lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
@@ -338,7 +333,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
   }
 
   if (stm->fields.set.exp != NULL) {
-    anexp(stm->fields.set.exp, evt, pars);
+    anexp(stm->fields.set.exp, context);
     if (stm->fields.set.exp->typ != TYPINT &&
         stm->fields.set.exp->typ != TYPSTR)
       lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
@@ -355,16 +350,15 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
   Analyze a INCR/DECR statement
 
   */
-static void anincr(StmNod *stm,	/* IN - The statement to analyze */
-		   EvtNod *evt,	/* IN - inside an Event? */
-		   List *pars)	/* IN - Possible syntax parameters */
+static void anincr(StmNod *stm,
+		   Context *context)
 {
   AtrNod *atr;
 
   switch (stm->fields.incr.wht->kind) {
 
   case WHT_ACT:
-    if (evt != NULL)
+    if (context->kind == EVENT_CONTEXT)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
     else {
       atr = findAttribute(NULL, stm->fields.incr.atr);
@@ -384,7 +378,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_OBJ:
-    if (pars == NULL)
+    if (context->parameters == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
@@ -394,7 +388,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_ID:
-    atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr);
+    atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
     if (atr) {
       if (atr->typ != TYPINT)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
@@ -408,7 +402,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
   }
 
   if (stm->fields.incr.step != NULL) {
-    anexp(stm->fields.incr.step, evt, pars);
+    anexp(stm->fields.incr.step, context);
     if (stm->fields.incr.step->typ != TYPINT)
       lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
   }
@@ -422,16 +416,15 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
   Analyze a SCHEDULE statement.
 
   */
-static void anschedule(StmNod *stm, /* IN - The statement to analyze */
-		       EvtNod *evt, /* IN - inside an Event? */
-		       List *pars) /* IN - Possible syntax parameters */
+static void anschedule(StmNod *stm,
+		       Context *context)
 {
   SymNod *sym;
 
   sym = symcheck(stm->fields.schedule.id, EVENT_ID, NULL);
 
   /* Now lookup where */
-  anwhr(stm->fields.schedule.whr, evt, pars);
+  anwhr(stm->fields.schedule.whr, context);
   switch (stm->fields.schedule.whr->kind) {
   case WHR_DEFAULT:
     stm->fields.schedule.whr->kind = WHR_HERE;
@@ -449,7 +442,7 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
   }
 
   /* Analyze the when expression */
-  anexp(stm->fields.schedule.when, evt, pars);
+  anexp(stm->fields.schedule.when, context);
   if (stm->fields.schedule.when->typ != TYPINT)
     lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");
 
@@ -478,17 +471,15 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
   Analyze an IF statement.
 
   */
-static void anif(StmNod *stm,	/* IN - The statement to analyze */
-		 InsNod *ins,	/* IN - Possibly inside Instance */
-		 EvtNod *evt,	/* IN - Possibly inside Event */
-		 List *pars)	/* IN - Possible syntax parameters */
+static void anif(StmNod *stm,
+		 Context *context)
 {
-  anexp(stm->fields.iff.exp, evt, pars);
+  anexp(stm->fields.iff.exp, context);
   if (!eqtyp(stm->fields.iff.exp->typ, TYPBOOL))
     lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
-  anstms(stm->fields.iff.thn, ins, evt, pars);
+  anstms(stm->fields.iff.thn, context);
   if (stm->fields.iff.els != NULL)
-    anstms(stm->fields.iff.els, ins, evt, pars);
+    anstms(stm->fields.iff.els, context);
 }
 
 
@@ -502,30 +493,29 @@ static void anif(StmNod *stm,	/* IN - The statement to analyze */
   not).
 
   */
-static void anuse(StmNod *stm,	/* IN - Statement to analyze */
-		  InsNod *ins,	/* IN - Possibly inside Instance */
-		  List *pars)	/* IN - Possible syntax parameters */
+static void anuse(StmNod *stm,
+		  Context *context)
 {
   SymNod *sym;
   ElmNod *elm;
   List *lst;
 
-  if (stm->fields.use.actor == NULL && ins == NULL)
+  if (stm->fields.use.actor == NULL && context->kind != INSTANCE_CONTEXT)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, pars);
-      ins = NULL;
+      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, context->parameters);
+      context->instance = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
       else if (sym)
-        /* FIXME : ins = sym->ref */;
+        /* FIXME : context.instance = sym->ref */;
     }
-    if (ins != NULL && ins->slots != NULL) {
+    if (context->instance != NULL && context->instance->slots != NULL) {
 
       /* Loop over actors scripts to check if script is defined */
-      for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
+      for (lst = context->instance->slots->scrs; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
           /* A name was used as reference */
           if (lst->element.scr->id != NULL &&
@@ -541,9 +531,9 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
       }
       if (lst == NULL) {
         if (stm->fields.use.script != NULL)
-          lmLog(&stm->fields.use.script->srcp, 400, sevERR, ins->slots->id->string);
+          lmLog(&stm->fields.use.script->srcp, 400, sevERR, context->instance->slots->id->string);
         else
-          lmLog(&stm->srcp, 400, sevERR, ins->slots->id->string);
+          lmLog(&stm->srcp, 400, sevERR, context->instance->slots->id->string);
       }
     }
   }
@@ -558,9 +548,8 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
   cases which must be connected to the depend expression.
 
   */
-static void andep(StmNod *stm,	/* IN - Statement to analyze */
-		  InsNod *ins,	/* IN - Possibly inside Instance */
-		  List *pars)	/* IN - Possible syntax parameters */
+static void andep(StmNod *stm,
+		  Context *context)
 {
   List *cases;
 
@@ -603,8 +592,8 @@ static void andep(StmNod *stm,	/* IN - Statement to analyze */
 	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
 
     /* Analyze the expression and the statements */
-    anexp(cases->element.stm->fields.depcase.exp, NULL, pars);
-    anstms(cases->element.stm->fields.depcase.stms, ins, NULL, pars);
+    anexp(cases->element.stm->fields.depcase.exp, context);
+    anstms(cases->element.stm->fields.depcase.stms, context);
 
   }
 }
@@ -618,10 +607,8 @@ static void andep(StmNod *stm,	/* IN - Statement to analyze */
   Analyze one statement.
 
   */
-static void anstm(StmNod *stm,	/* IN - The statement to analyze */
-		  InsNod *ins,	/* IN - Possibly inside Instance */
-		  EvtNod *evt,	/* IN - Possibly inside Event */
-		  List *pars)	/* IN - Possible syntax parameters */
+static void anstm(StmNod *stm,
+		  Context *context)
 {
   switch (stm->class) {
   case STM_NOP:
@@ -642,44 +629,44 @@ static void anstm(StmNod *stm,	/* IN - The statement to analyze */
     }
     break;
   case STM_DESCRIBE:
-    andescribe(stm, evt, pars);
+    andescribe(stm, context);
     break;
   case STM_SAY:
-    ansay(stm, evt, pars);
+    ansay(stm, context);
     break;
   case STM_LIST:
-    anlist(stm, pars);
+    anlist(stm, context);
     break;
   case STM_EMPTY:
-    anempty(stm, evt, pars);
+    anempty(stm, context);
     break;
   case STM_LOCATE:
-    anlocate(stm, evt, pars);
+    anlocate(stm, context);
     break;
   case STM_MAKE:
-    anmake(stm, evt, pars);
+    anmake(stm, context);
     break;
   case STM_SET:
-    anset(stm, evt, pars);
+    anset(stm, context);
     break;
   case STM_INCR:
   case STM_DECR:
-    anincr(stm, evt, pars);
+    anincr(stm, context);
     break;
   case STM_SCHEDULE:
-    anschedule(stm, evt, pars);
+    anschedule(stm, context);
     break;
   case STM_CANCEL:
     ancancel(stm);
     break;
   case STM_IF:
-    anif(stm, ins, evt, pars);
+    anif(stm, context);
     break;
   case STM_USE:
-    anuse(stm, ins, pars);
+    anuse(stm, context);
     break;
   case STM_DEPEND:
-    andep(stm, ins, pars);
+    andep(stm, context);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -696,13 +683,11 @@ static void anstm(StmNod *stm,	/* IN - The statement to analyze */
   Analyze all statements in a list.
 
   */
-void anstms(List *stms,		/* IN - The list of statements to analyze */
-	    InsNod *ins,	/* IN - Within Instance? */
-	    EvtNod *evt,	/* IN - Within Event? */
-	    List *pars)		/* IN - Possible syntax parameters */
+void anstms(List *stms,
+	    Context *context)
 {
   while (stms != NULL) {
-    anstm(stms->element.stm, ins, evt, pars);
+    anstm(stms->element.stm, context);
     stms = stms->next;
   }
 }

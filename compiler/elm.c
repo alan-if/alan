@@ -10,14 +10,13 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "lst_x.h"
-
+#include "wrd_x.h"
 #include "lmList.h"
 
 #include "stx.h"
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "elm.h"                /* ELM-nodes */
-#include "wrd.h"                /* WRD-nodes */
 
 #include "emit.h"
 #include "acode.h"
@@ -110,6 +109,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
 {
   ElmNod *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
   List *lst, *pars = NULL;
+  List *resLst;
   int paramNo = 1;
   Bool multiple = FALSE;
   Bool found;
@@ -135,22 +135,17 @@ List *anelms(List *elms,        /* IN - List to analyze */
 
       /* Find any class restrictions and warn for multiple for same parameter */
       found = FALSE;
-#ifndef FIXME
-      syserr("UNIMPLEMENTED: anelms() - restriction analysis");
-#else
       for (resLst = ress; resLst; resLst = resLst->next) {
-        if (eqids(resLst->element.res->id, lst->element.elm->id)) {
+        if (equalId(resLst->element.res->id, lst->element.elm->id)) {
           if (found)
             lmLog(&resLst->element.res->id->srcp, 221, sevERR, resLst->element.res->id->string);
           else {
             found = TRUE;
             lst->element.elm->res = resLst->element.res;
-            resLst->element.res->id->kind = NAMPAR;
             resLst->element.res->id->code = lst->element.elm->no;
           }
         }
       }
-#endif
     }
     anelm(lst->element.elm);
   }

@@ -5,6 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "stx_x.h"
+
+
 #include "alan.h"
 #include "util.h"
 
@@ -12,14 +15,14 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "res_x.h"
+#include "elm_x.h"
 #include "lst_x.h"
+#include "wrd_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-nodes */
-#include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
-#include "wrd.h"                /* WRD-nodes */
 
 #include "emit.h"
 
@@ -248,7 +251,7 @@ static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
 
   gestxs()
 
-  Generate the data structure for all syntax definitions in the \
+  Generate the data structure for all syntax definitions in the
   adventure.
 
  */

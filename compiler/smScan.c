@@ -18,6 +18,9 @@
 #include "encode.h"
 
 /* For open, read & close */
+#ifdef __win__
+#include <fcntl.h>
+#endif
 #ifdef __sun__
 #include <unistd.h>
 #include <fcntl.h>

@@ -1,11 +1,11 @@
 Syntax x = x (y)
-  Where y Isa Object
+  Where y Isa object
     Else "Should be an object."
 
 Verb x
 End Verb x.
 
-Location l
-End Location l.
+The l Isa location.
+End The l.
 
 Start At l.

@@ -14,11 +14,11 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "stm_x.h"
+#include "wrd_x.h"
 
-#include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "elm.h"                /* ELM-nodes */
-#include "wrd.h"                /* WRD-nodes */
 
 #include "emit.h"
 #include "lmList.h"
@@ -116,8 +116,8 @@ static void analyzeExit(ExtNod *ext)	/* IN - Exit to analyze */
 {
   inheritCheck(ext->target, "an instance", "location");
 
-  anchks(ext->chks, NULL, NULL);
-  anstms(ext->stms, NULL, NULL, NULL);
+  anchks(ext->chks, NULL);
+  anstms(ext->stms, NULL);
 }
 
 

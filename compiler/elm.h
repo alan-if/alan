@@ -10,15 +10,13 @@
 
 /* USE: */
 #include "srcp.h"
-
 #include "lst.h"
-
+#include "stx.h"
+#include "res.h"
 #include "id.h"
 
-#include "acode.h"
 
-
-/* Types: */
+/* TYPES: */
 
 typedef enum ElmKind {
   PARAMETER_ELEMENT,
@@ -29,34 +27,12 @@ typedef enum ElmKind {
 typedef struct ElmNod {		/* ELEMENT */
   Srcp srcp;			/* Source position of this element */
   ElmKind kind;			/* Kind of Parameter */
-  struct IdNode *id;		/* Identifier */
+  IdNode *id;			/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
   int no;			/* AN - parameter number */
-  struct ResNod *res;		/* AN - link to the class restriction check */
-  struct StxNod *stx;		/* AN - pointer back to syntax node */
+  ResNod *res;			/* AN - link to the class restriction check */
+  StxNod *stx;			/* AN - pointer back to syntax node */
 } ElmNod;
-
-
-
-/* Data: */
-
-
-/* Functions: */
-
-/* Create a new Syntax Element node */
-extern ElmNod *newelm(Srcp *srcp,
-		      ElmKind kind,
-		      struct IdNode *id,
-		      int flags);
-
-/* Analyze a list of Syntax elements and return a list of the parameters */
-extern List *anelms(List *elms, List *ress, struct StxNod *stx);
-
-/* Generate code for a list of Syntax elements */
-extern Aaddr geelms(List *elms, struct StxNod *stx);
-
-/* Dump a Syntax node */
-extern void duelm(ElmNod *elm);
 
 
 #endif

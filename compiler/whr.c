@@ -146,9 +146,8 @@ void analyzeWhere(WhrNod *whr,		/* IN - Where node */
   Analyse a where reference.
 
   */
-void anwhr(WhrNod *whr,		/* IN - Where node */
-	   EvtNod *evt,		/* IN - Inside Event? */
-	   List *pars)		/* IN - Possible parameters */
+void anwhr(WhrNod *whr,
+	   Context *context)
 {
   switch (whr->kind) {
   case WHR_DEFAULT:
@@ -168,11 +167,11 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
       whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
-      if (pars == NULL)
+      if (context->kind != VERB_CONTEXT || context->parameters == NULL)
 	lmLog(&whr->wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:
-      if (evt != NULL)
+      if (context->kind == EVENT_CONTEXT)
 	lmLog(&whr->wht->srcp, 412, sevERR, "");
       break;
     default:

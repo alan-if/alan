@@ -12,11 +12,11 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "stm_x.h"
 
 
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
-#include "stm.h"                /* STM-nodes */
 #include "elm.h"
 
 #include "emit.h"
@@ -64,15 +64,14 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
   Analyzes one verb alternative node.
 
  */
-static void analt(AltNod *alt,	/* IN - Alternative to analyze */
-		  InsNod *ins,	/* IN - Possibly inside an Instance? */
-		  List *pars)	/* IN - Possible parameters */
+static void analt(AltNod *alt,
+		  Context *context)
 {
   List *lst;
 
   if (alt->id != NULL) {
     /* Alternatives given, find out which one */
-    for (lst = pars; lst != NULL; lst = lst->next)
+    for (lst = context->parameters; lst != NULL; lst = lst->next)
       if (equalId(lst->element.elm->id, alt->id))
 	break;
     if (lst == NULL)
@@ -87,8 +86,8 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
     }
   } 
 
-  anchks(alt->chks, ins, pars);
-  anstms(alt->stms, ins, NULL, pars);
+  anchks(alt->chks, context);
+  anstms(alt->stms, context);
 }
 
 
@@ -101,14 +100,13 @@ static void analt(AltNod *alt,	/* IN - Alternative to analyze */
   each.
 
  */
-void analts(List *alts,		/* IN - List of alternative to analyze */
-	    InsNod *ins,	/* IN - Possibly inside Instance? */
-	    List *pars)		/* IN - Possible parameter list */
+void analts(List *alts,
+	    Context *context)
 {
   List *lst;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    analt(lst->element.alt, ins, pars);
+    analt(lst->element.alt, context);
 }
 
 

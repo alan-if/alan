@@ -11,10 +11,10 @@
 #include "srcp_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stm_x.h"
 
 #include "lmList.h"
 
-#include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "ins.h"                /* INS-nodes */
 
@@ -59,15 +59,15 @@ StpNod *newstp(Srcp *srcp,	/* IN - Source Position */
   Analyse a list of Steps
 
   */
-void anstps(List *stps,		/* IN - The steps to analyse */
-	    InsNod *ins)	/* IN - Possibly inside Instance? */
+void anstps(List *stps,
+	    Context *context)
 {
   List *lst;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL)
-      anexp(lst->element.stp->exp, NULL, NULL);
-    anstms(lst->element.stp->stms, ins, NULL, NULL);
+      anexp(lst->element.stp->exp, context);
+    anstms(lst->element.stp->stms, context);
   }
 }
 

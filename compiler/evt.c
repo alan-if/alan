@@ -11,11 +11,11 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "stm_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
-#include "stm.h"		/* STM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "opt.h"                /* Options */
 
@@ -78,10 +78,15 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 void anevts(void)
 {
     List *evts;		/* Traversal pointer */
+    Context context;
 
+    context.kind = EVENT_CONTEXT;
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
-      if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
-      anstms(evts->element.evt->stms, NULL, evts->element.evt, NULL);
+      if (verbose) {
+	printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout);
+      }
+      context.event = evts->element.evt;
+      anstms(evts->element.evt->stms, &context);
     }
 }
 
