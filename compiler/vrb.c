@@ -88,7 +88,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
       lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
       stx = defaultStx(ids->element.id->string);
     }
-    syntaxList = concat(syntaxList, stx, LIST_STX);
+    syntaxList = concat(syntaxList, stx, SYNTAX_LIST);
   }
   stx = syntaxList->element.stx;	/* Use first syntax */
   theVerb->stx = stx;
@@ -222,9 +222,9 @@ void dumpVerb (Verb *vrb)
   }
 
   put("VRB: "); dumpSrcp(&vrb ->srcp); in();
-  put("ids: "); dumpList(vrb->ids, LIST_ID); nl();
+  put("ids: "); dumpList(vrb->ids, ID_LIST); nl();
   put("altadr: "); dumpAddress(vrb->altAddress); nl();
-  put("alts: "); dumpList(vrb->alternatives, LIST_ALT); out();
+  put("alts: "); dumpList(vrb->alternatives, ALTERNATIVE_LIST); out();
 }
 
 

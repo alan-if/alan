@@ -230,11 +230,11 @@ void dumpContainer(CntNod *container)
   put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
-  put("lims: "); dumpList(container->lims, LIST_LIM); nl();
+  put("lims: "); dumpList(container->lims, LIMIT_LIST); nl();
   put("limadr: "); dumpAddress(container->limadr); nl();
-  put("hstms: "); dumpList(container->hstms, LIST_STM); nl();
+  put("hstms: "); dumpList(container->hstms, STATEMENT_LIST); nl();
   put("hadr: "); dumpAddress(container->hadr); nl();
-  put("estms: "); dumpList(container->estms, LIST_STM); nl();
+  put("estms: "); dumpList(container->estms, STATEMENT_LIST); nl();
   put("eadr: "); dumpAddress(container->eadr); out();
 }
 

@@ -1307,8 +1307,8 @@ void dustm(StmNod *stm)
       break;
     case IF_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.iff.exp); nl();
-      put("thn: "); dumpList(stm->fields.iff.thn, LIST_STM); nl();
-      put("els: "); dumpList(stm->fields.iff.els, LIST_STM);
+      put("thn: "); dumpList(stm->fields.iff.thn, STATEMENT_LIST); nl();
+      put("els: "); dumpList(stm->fields.iff.els, STATEMENT_LIST);
       break;
     case USE_STATEMENT:
       put("script: "); dumpId(stm->fields.use.script); nl();

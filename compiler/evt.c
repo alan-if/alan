@@ -153,7 +153,7 @@ void duevt(EvtNod *evt)
 
   put("EVT: "); dumpSrcp(&evt->srcp); in();
   put("id: "); dumpId(evt->id); nl();
-  put("stms: "); dumpList(evt->stms, LIST_STM); out();
+  put("stms: "); dumpList(evt->stms, STATEMENT_LIST); out();
 }
 
 

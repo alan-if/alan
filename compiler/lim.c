@@ -173,7 +173,7 @@ void dulim(LimNod *lim)
 {
   put("LIM: "); dumpSrcp(&lim->srcp); in();
   put("atr: "); dumpAttribute(lim->atr); nl();
-  put("stms: "); dumpList(lim->stms, LIST_STM); out();
+  put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
 }
 
 

@@ -143,7 +143,7 @@ void durul(RulNod *rul)
   put("RUL: "); dumpSrcp(&rul->srcp); in();
   put("exp: "); dumpExpression(rul->exp); nl();
   put("expadr: "); dumpAddress(rul->expadr); nl();
-  put("stms: "); dumpList(rul->stms, LIST_STM); nl();
+  put("stms: "); dumpList(rul->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(rul->stmadr); out();
 }
 

@@ -88,7 +88,7 @@ Instance *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->props->id->symbol = newSymbol(id, INSTANCE_SYMBOL);
   new->props->id->symbol->fields.entity.props = new->props;
 
-  allInstances = concat(allInstances, new, LIST_INS);
+  allInstances = concat(allInstances, new, INSTANCE_LIST);
 
   /* Note instance name in the dictionary */
   if (new->props->names == NULL)		/* Use the object name */

@@ -257,11 +257,11 @@ void dumpExit(ExtNod *ext)
   }
 
   put("EXT: "); dumpSrcp(&ext->srcp); in();
-  put("dirs: "); dumpList(ext->dirs, LIST_ID); nl();
+  put("dirs: "); dumpList(ext->dirs, ID_LIST); nl();
   put("target: "); dumpId(ext->target); nl();
-  put("chks: "); dumpList(ext->chks, LIST_CHK); nl();
+  put("chks: "); dumpList(ext->chks, CHECK_LIST); nl();
   put("chkadr: "); dumpAddress(ext->chkadr); nl();
-  put("stms: "); dumpList(ext->stms, LIST_STM); nl();
+  put("stms: "); dumpList(ext->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(ext->stmadr); out();
 }
 

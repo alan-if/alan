@@ -121,7 +121,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
         else
           multiple = TRUE;
       }
-      pars = concat(pars, lst->element.elm, LIST_ELM);
+      pars = concat(pars, lst->element.elm, ELEMENT_LIST);
 
       /* Find first class restrictions */
       for (resLst = ress; resLst; resLst = resLst->next) {

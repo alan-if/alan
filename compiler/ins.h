@@ -17,7 +17,7 @@
 
 /* TYPES: */
 
-typedef struct InsNod {		/* INSTANCE */
+typedef struct Instance {	/* INSTANCE */
   Srcp srcp;			/* Source position */
   Properties *props;
 } Instance;

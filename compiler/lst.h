@@ -14,35 +14,35 @@
 typedef enum ListKind {
   UNKNOWN_LIST,
   ADD_LIST,
-  LIST_ALT,
+  ALTERNATIVE_LIST,
   ATTRIBUTE_LIST,
-  LIST_CASE,
-  LIST_CHK,
-  LIST_CLA,
-  LIST_CNT,
+  CASE_LIST,
+  CHECK_LIST,
+  CLASS_LIST,
+  CONTAINER_LIST,
+  ELEMENT_LIST,
+  EVENT_LIST,
+  EXIT_LIST,
+  EXPRESSION_LIST,
+  ID_LIST,
+  INSTANCE_LIST,
+  LIMIT_LIST,
   LIST_EENT,
-  LIST_ELM,
-  LIST_EVT,
-  LIST_EXP,
-  LIST_EXT,
-  LIST_INS,
-  LIST_ID,
-  LIST_LIM,
-  LIST_LST,
-  LIST_MSG,
-  LIST_NAM,
-  LIST_REF,
-  LIST_RES,
-  LIST_RUL,
-  LIST_SCR,
-  LIST_STM,
-  LIST_STP,
-  LIST_STR,
-  LIST_STX,
-  LIST_SYN,
-  LIST_SYM,
-  LIST_VRB,
-  LIST_LAST_KIND
+  LIST_LIST,
+  MESSAGE_LIST,
+  NAME_LIST,
+  REFERENCE_LIST,
+  RESTRICTION_LIST,
+  RULE_LIST,
+  SCRIPT_LIST,
+  STATEMENT_LIST,
+  STEP_LIST,
+  STRING_LIST,
+  SYMBOL_LIST,
+  SYNONYM_LIST,
+  SYNTAX_LIST,
+  VERB_LIST,
+  LAST_LIST_KIND
 } ListKind;
 
 
@@ -54,7 +54,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Attribute *atr;
     struct ChkNod *chk;
     struct ClaNod *cla;
-    struct InsNod *ins;
+    struct Instance *ins;
     struct ResNod *res;
     struct CntNod *cnt;
     struct ElmNod *elm;

@@ -99,7 +99,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
     if (!findReference(ref, wrd->ref[class])) {
       /* Add another reference */
       wrd->classbits |= 1L<<class;
-      wrd->ref[class] = concat(wrd->ref[class], ref, LIST_REF);
+      wrd->ref[class] = concat(wrd->ref[class], ref, REFERENCE_LIST);
       if (wrd->code == -1)
 	/* It was previously without a code */
 	wrd->code = code;
@@ -114,7 +114,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
   if (class != WRD_SYN)
-    new->ref[class] = concat(NULL, ref, LIST_REF);
+    new->ref[class] = concat(NULL, ref, REFERENCE_LIST);
   else
     new->ref[class] = (List *) ref;
 

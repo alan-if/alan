@@ -54,7 +54,7 @@ static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
 static SPA_FUN(addInclude)
 {
   /* Add the include path to our list */
-  includePaths = concat(includePaths, spaArgument(1), LIST_STR);
+  includePaths = concat(includePaths, spaArgument(1), STRING_LIST);
   /* Now we can skip the include path */
   spaSkip(1);
 }

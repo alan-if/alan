@@ -107,7 +107,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 
   /* Remember the filename */
   this->fileName = newString(fnmbuf);
-  fileNames = concat(fileNames, this->fileName, LIST_STR);
+  fileNames = concat(fileNames, this->fileName, STRING_LIST);
   this->fileNo = fileNo++;
   this->previous = lexContext;
   lexContext = this;

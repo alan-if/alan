@@ -77,7 +77,7 @@ static void setDefaultRestriction(List *parameters)
 {
   List *p;
 
-  if (parameters != NULL && parameters->kind != LIST_SYM)
+  if (parameters != NULL && parameters->kind != SYMBOL_LIST)
     syserr("Not a symbol list in setDefaultRestriction()");
 
   for (p = parameters; p != NULL; p = p->next)
@@ -182,13 +182,13 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
 			      newelm(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
-			      LIST_ELM),
+			      ELEMENT_LIST),
 		       newelm(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
-		       LIST_ELM),
-		newelm(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), LIST_ELM);
+		       ELEMENT_LIST),
+		newelm(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
   stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
 
-  adv.stxs = concat(adv.stxs, stx, LIST_STX);
+  adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   anstx(stx);                   /* Make sure the syntax is analysed */
   return stx;
 }
@@ -246,7 +246,7 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
       lst = wrd->ref[WRD_VRB];
     /* Create a list of all parallell elements */
     while (lst) {
-      elements = concat(elements, lst->element.stx->elements, LIST_LST);
+      elements = concat(elements, lst->element.stx->elements, LIST_LIST);
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }
@@ -325,8 +325,8 @@ void dustx(StxNod *stx)
   put("id: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); dumpAddress(stx->elmsadr); nl();
-  put("elements: "); dumpList(stx->elements, LIST_ELM); nl();
+  put("elements: "); dumpList(stx->elements, ELEMENT_LIST); nl();
   put("resadr: "); dumpAddress(stx->resadr); nl();
-  put("restrictionLists: "); dumpList(stx->restrictionLists, LIST_RES); nl();
-  put("parameters: "); dumpList(stx->parameters, LIST_ELM); out();
+  put("restrictionLists: "); dumpList(stx->restrictionLists, RESTRICTION_LIST); nl();
+  put("parameters: "); dumpList(stx->parameters, ELEMENT_LIST); out();
 }

@@ -23,7 +23,7 @@ void testNewExt()
   (void) readEcode();
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
-  theExit = newext(&nulsrcp, concat(NULL, direction, LIST_EXT), targetLocation, NULL, NULL);
+  theExit = newext(&nulsrcp, concat(NULL, direction, EXIT_LIST), targetLocation, NULL, NULL);
   unitAssert(theExit->dirs->element.id->symbol->code = 1);
 
   symbolizeExit(theExit);

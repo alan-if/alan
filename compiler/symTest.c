@@ -54,7 +54,7 @@ void testSymCheck()
 static List *createOneParameter(char *id)
 {
   return concat(NULL, newelm(&nulsrcp, PARAMETER_ELEMENT,
-			     newId(&nulsrcp, id), 0), LIST_ELM);
+			     newId(&nulsrcp, id), 0), ELEMENT_LIST);
 }
 
 void testVerbSymbols()

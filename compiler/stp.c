@@ -119,7 +119,7 @@ void dumpStep(Step *stp)
   put("after: "); dumpInt(stp->after); nl();
   put("exp: "); dumpExpression(stp->exp); nl();
   put("expadr: "); dumpAddress(stp->expadr); nl();
-  put("stms: "); dumpList(stp->stms, LIST_STM); nl();
+  put("stms: "); dumpList(stp->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(stp->stmadr); out();
 }
 

@@ -86,7 +86,7 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
   new->props->id->symbol = newSymbol(id, CLASS_SYMBOL);
   new->props->id->symbol->fields.entity.props = new->props;
 
-  allClasses = concat(allClasses, new, LIST_CLA);
+  allClasses = concat(allClasses, new, CLASS_LIST);
 
   return(new);
 }
@@ -249,5 +249,5 @@ void dumpClass(ClaNod *cla)
  */
 void dumpClasses(void)
 {
-  dumpList(allClasses, LIST_CLA);
+  dumpList(allClasses, CLASS_LIST);
 }

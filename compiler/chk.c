@@ -136,9 +136,9 @@ void duchk(ChkNod *chk)
     return;
   }
 
-  put("CHK: "); in();
+  put("CHECK: "); in();
   put("exp: "); dumpExpression(chk->exp); nl();
   put("expadr: "); dumpAddress(chk->expadr); nl();
-  put("stms: "); dumpList(chk->stms, LIST_STM); nl();
+  put("stms: "); dumpList(chk->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(chk->stmadr); out();
 }

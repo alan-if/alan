@@ -230,28 +230,28 @@ void dumpAdventure(enum dmpKd dmp)
 
   put("synonyms: ");
   if (dmp&DMPSYN)
-    dumpList(adv.syns, LIST_SYN);
+    dumpList(adv.syns, SYNONYM_LIST);
   else
     put("--");
   nl();
 
   put("syntaxes: ");
   if (dmp&DMPSTX)
-    dumpList(adv.stxs, LIST_STX);
+    dumpList(adv.stxs, SYNTAX_LIST);
   else
     put("--");
   nl();
 
   put("verbs: ");
   if (dmp&DMPVRB)
-    dumpList(adv.vrbs, LIST_VRB);
+    dumpList(adv.vrbs, VERB_LIST);
   else
     put("--");
   nl();
 
   put("classes: ");
   if (dmp&DMPCLA) {
-    dumpList(adv.clas, LIST_CLA);
+    dumpList(adv.clas, CLASS_LIST);
     nl();
     put("additions: ");
     dumpList(adv.adds, ADD_LIST);
@@ -261,28 +261,28 @@ void dumpAdventure(enum dmpKd dmp)
 
   put("instances: ");
   if (dmp&DMPINS)
-    dumpList(adv.inss, LIST_INS);
+    dumpList(adv.inss, INSTANCE_LIST);
   else
     put("--");
   nl();
 
   put("containers: ");
   if (dmp&DMPCNT)
-    dumpList(adv.cnts, LIST_CNT);
+    dumpList(adv.cnts, CONTAINER_LIST);
   else
     put("--");
   nl();
 
   put("events: ");
   if (dmp&DMPEVT)
-    dumpList(adv.evts, LIST_EVT);
+    dumpList(adv.evts, EVENT_LIST);
   else
     put("--");
   nl();
 
   put("rules: ");
   if (dmp&DMPRUL)
-    dumpList(adv.ruls, LIST_RUL);
+    dumpList(adv.ruls, RULE_LIST);
   else
     put("--");
   nl();
@@ -299,7 +299,7 @@ void dumpAdventure(enum dmpKd dmp)
   nl();
 
   put("stms: ");
-  dumpList(adv.stms, LIST_STM);
+  dumpList(adv.stms, STATEMENT_LIST);
   out();
 }
 

@@ -248,21 +248,21 @@ void dumpProps(Properties *props)
   put("PROPS: "); dumpPointer(props); in();
   put("id: "); dumpId(props->id); nl();
   put("parentId: "); dumpId(props->parentId); nl();
-  put("names: "); dumpList(props->names, LIST_NAM); nl();
+  put("names: "); dumpList(props->names, NAME_LIST); nl();
   put("whr: "); duwhr(props->whr); nl();
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();
-  put("description: "); dumpList(props->description, LIST_STM); nl();
+  put("description: "); dumpList(props->description, STATEMENT_LIST); nl();
   put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
-  put("article: "); dumpList(props->article, LIST_STM); nl();
+  put("article: "); dumpList(props->article, STATEMENT_LIST); nl();
   put("articleAddres: "); dumpAddress(props->articleAddress); nl();
-  put("mentioned: "); dumpList(props->mentioned, LIST_STM); nl();
+  put("mentioned: "); dumpList(props->mentioned, STATEMENT_LIST); nl();
   put("mentionedAddress: "); dumpAddress(props->mentionedAddress); nl();
-  put("scripts: "); dumpList(props->scripts, LIST_SCR); nl();
+  put("scripts: "); dumpList(props->scripts, SCRIPT_LIST); nl();
   put("scriptsAddress: "); dumpAddress(props->scriptsAddress); nl();
-  put("verbs: "); dumpList(props->verbs, LIST_VRB); nl();
+  put("verbs: "); dumpList(props->verbs, VERB_LIST); nl();
   put("verbsAddress: "); dumpAddress(props->verbsAddress); nl();
-  put("exits: "); dumpList(props->exits, LIST_EXT); nl();
+  put("exits: "); dumpList(props->exits, EXIT_LIST); nl();
   put("exitsAddress: "); dumpAddress(props->exitsAddress); out();
 }

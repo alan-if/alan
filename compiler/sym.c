@@ -426,11 +426,11 @@ void setParameters(Symbol *verb, List *parameters)
 
   if (parameters == NULL) return;
 
-  if (parameters->kind != LIST_ELM) syserr("Not a parameter list in setParameter()");
+  if (parameters->kind != ELEMENT_LIST) syserr("Not a parameter list in setParameter()");
 
   for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
     Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
-    parameterSymbols = concat(parameterSymbols, parameterSymbol, LIST_SYM);
+    parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
     parameter->element.elm->id->symbol = parameterSymbol; /* Cross refer */
   }
 

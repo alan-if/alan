@@ -15,7 +15,7 @@
 
 /* PUBLIC DATA */
 
-void (*(dumpNodeTable[LIST_LAST_KIND]))();
+void (*(dumpNodeTable[LAST_LIST_KIND]))();
 
 
 /* Import of dump functions to be used in dumpNodeTable */
@@ -44,21 +44,21 @@ extern void dumpVerb();
 void initDumpNodeList()
 {
   dumpNodeTable[ADD_LIST] = &dumpAdd;
-  dumpNodeTable[LIST_ALT] = &dualt;
+  dumpNodeTable[ALTERNATIVE_LIST] = &dualt;
   dumpNodeTable[ATTRIBUTE_LIST] = &dumpAttribute;
-  dumpNodeTable[LIST_CHK] = &duchk;
-  dumpNodeTable[LIST_CLA] = &dumpClass;
-  dumpNodeTable[LIST_CNT] = &dumpPointer;
-  dumpNodeTable[LIST_ELM] = &duelm;
-  dumpNodeTable[LIST_EXT] = &dumpExit;
-  dumpNodeTable[LIST_ID] = &dumpId;
-  dumpNodeTable[LIST_INS] = &dumpInstance;
-  dumpNodeTable[LIST_RES] = &dumpRestriction;
-  dumpNodeTable[LIST_STM] = &dustm;
-  dumpNodeTable[LIST_STX] = &dustx;
-  dumpNodeTable[LIST_VRB] = &dumpVerb;
-  dumpNodeTable[LIST_SCR] = &dumpScript;
-  dumpNodeTable[LIST_STP] = &dumpStep;
+  dumpNodeTable[CHECK_LIST] = &duchk;
+  dumpNodeTable[CLASS_LIST] = &dumpClass;
+  dumpNodeTable[CONTAINER_LIST] = &dumpPointer;
+  dumpNodeTable[ELEMENT_LIST] = &duelm;
+  dumpNodeTable[EXIT_LIST] = &dumpExit;
+  dumpNodeTable[ID_LIST] = &dumpId;
+  dumpNodeTable[INSTANCE_LIST] = &dumpInstance;
+  dumpNodeTable[RESTRICTION_LIST] = &dumpRestriction;
+  dumpNodeTable[STATEMENT_LIST] = &dustm;
+  dumpNodeTable[SYNTAX_LIST] = &dustx;
+  dumpNodeTable[VERB_LIST] = &dumpVerb;
+  dumpNodeTable[SCRIPT_LIST] = &dumpScript;
+  dumpNodeTable[STEP_LIST] = &dumpStep;
 }
 
 

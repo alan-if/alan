@@ -169,7 +169,7 @@ void dumpScript(Script *scr)
 {
   put("SCRIPT: "); dumpSrcp(&scr->srcp); in();
   put("id: "); dumpId(scr->id); nl();
-  put("steps: "); dumpList(scr->steps, LIST_STP); nl();
+  put("steps: "); dumpList(scr->steps, STEP_LIST); nl();
   put("stepAddress: "); dumpAddress(scr->stepAddress); out();
 }
 

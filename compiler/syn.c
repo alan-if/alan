@@ -99,5 +99,5 @@ void dusyn(SynNod *syn)
 
   put("SYN: "); dumpSrcp(&syn->srcp); in();
   put("id: "); dumpId(syn->id); nl();
-  put("ids: "); dumpList(syn->ids, LIST_ID); out();
+  put("ids: "); dumpList(syn->ids, ID_LIST); out();
 }

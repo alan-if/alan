@@ -263,5 +263,5 @@ void dumpRestriction(ResNod *res)
   put("kind: "); dumpRestrictionKind(res->kind); nl();
   put("parameterId: "); dumpId(res->parameterId); nl();
   put("classId: "); dumpId(res->classId); nl();
-  put("stms: "); dumpList(res->stms, LIST_STM); out();
+  put("stms: "); dumpList(res->stms, STATEMENT_LIST); out();
 }
