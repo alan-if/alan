@@ -8,6 +8,7 @@
 #include "sysdep.h"
 #include "types.h"
 #include "util.h"
+#include <sys/timeb.h>
 
 #ifdef __mac__
 #include "Files.h"
@@ -538,6 +539,7 @@ void emitHeader()
 {
   Aword *hp;			/* Pointer to header as words */
   int i;
+  struct timeb times;
 
   (void) rewind(acdfil);
   pc = 0;
@@ -567,6 +569,9 @@ void emitHeader()
     acdHeader.vers[2] = (Aword)alan.version.correction;
     acdHeader.vers[3] = (Aword)alan.version.state[0];
   }
+
+  ftime(&times);
+  acdHeader.uid = times.millitm;
 
   hp = (Aword *) &acdHeader;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */

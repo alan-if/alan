@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>330.89</origest>
 <currest>329.89</currest>
-<elapsed>175.89</elapsed>
+<elapsed>177.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>43</origest>
 <currest>43</currest>
-<elapsed>4</elapsed>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>4</elapsed>
+<origest>12</origest>
+<currest>12</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -97,6 +97,24 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow dash and underscore within words in player input</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A very large number of events will not restore correctly after a save</desc>
+<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -121,17 +139,8 @@ We also need some way to re-output the state.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>A very large number of events will not restore correctly after a save</desc>
-<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document inheritance rules for each construct</desc>
-<notes/>
+<notes>Isn't it already?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -145,24 +154,6 @@ We also need some way to re-output the state.</notes>
  - Actor is here.
 
 Would "There is a actor here." be a better default?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Example: composite object</desc>
-<notes>Like a box with a couple of buttons on it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow dash and underscore within words in player input</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -189,8 +180,8 @@ I don't know which water you mean.
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -212,18 +203,8 @@ I don't know which water you mean.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -236,6 +217,25 @@ END DEPEND.</notes>
 
 Verify what this would mean in a practical example.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

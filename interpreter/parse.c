@@ -127,6 +127,11 @@ static int number(char token[]) {
 }
 
 /*----------------------------------------------------------------------*/
+static Bool isWordCharacter(int ch) {
+  return isISOLetter(ch)||isdigit(ch)||ch=='\''||ch=='-'||ch=='_';
+}
+
+/*----------------------------------------------------------------------*/
 static char *gettoken(char *buf) {
   static char *marker;
   static char oldch;
@@ -138,7 +143,7 @@ static char *gettoken(char *buf) {
   while (*marker != '\0' && isSpace(*marker) && *marker != '\n') marker++;
   buf = marker;
   if (isISOLetter(*marker))
-    while (*marker&&(isISOLetter(*marker)||isdigit(*marker)||*marker=='\'')) marker++;
+    while (*marker&&isWordCharacter(*marker)) marker++;
   else if (isdigit(*marker))
     while (isdigit(*marker)) marker++;
   else if (*marker == '\"') {

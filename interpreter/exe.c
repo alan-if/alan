@@ -1673,10 +1673,11 @@ void saveGame(void)
   strcpy(saveFileName, str);
 #endif
 
-  /* Save version of interpreter and name of game */
+  /* Save tag, version of interpreter, name and uid of game */
   fwrite((void *)"ASAV", 1, 4, saveFile);
   fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
   fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
+  fwrite((void *)&header->uid, 1, sizeof(Aword), saveFile);
   /* Save current values */
   fwrite((void *)&current, sizeof(current), 1, saveFile);
 
@@ -1707,6 +1708,7 @@ void restoreGame(void)
   AttributeEntry *atr;
   char savedVersion[4];
   char savedName[256];
+  Aword savedUid;
   char str[256];
 
 #ifdef HAVE_GLK
@@ -1749,16 +1751,26 @@ void restoreGame(void)
   str[4] = '\0';
   if (strcmp(str, "ASAV") != 0)
     error(M_NOTASAVEFILE);
+
+  /* Verify version of compiler/interpreter of saved game with us */
   fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
   if (strncmp(savedVersion, header->vers, 4)) {
     error(M_SAVEVERS);
     goto close;
   }
 
+  /* Verify name of game */
   i = 0;
   while ((savedName[i++] = fgetc(saveFile)) != '\0');
   if (strcmp(savedName, adventureName) != 0) {
     error(M_SAVENAME);
+    goto close;
+  }
+
+  /* Verify unique id of game */
+  fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
+  if (savedUid != header->uid) {
+    error(M_SAVEVERS);
     goto close;
   }
 

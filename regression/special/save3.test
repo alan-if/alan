@@ -1,0 +1,5 @@
+alan save3
+arun -n save3 < save3.input1
+alan save3
+arun -n save3 < save3.input2
+rm save3.sav
