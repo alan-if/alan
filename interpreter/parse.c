@@ -191,7 +191,7 @@ static void getline()
   para();
   do {
     printf("> ");
-#ifdef __sun__
+#ifdef _READLINE_H_
     if (buf != NULL) {
       free(buf);
       buf = NULL;
@@ -224,7 +224,6 @@ static void getline()
       token = NULL;
     }
   } while (token == NULL);
-  add_history(buf);
   eol = FALSE;
   lin = 1;
 }
@@ -273,6 +272,9 @@ static void scan()
     wrds[i] = EOF;
     eol = (token = gettoken(NULL)) == NULL;
   } while (!eol);
+#ifdef _READLINE_H_
+  add_history(buf);
+#endif
 }
 
 
