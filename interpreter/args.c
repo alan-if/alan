@@ -12,6 +12,7 @@
 #include "args.h"
 #include "arun.h"
 
+char *strdup(char *orig);
 
 #ifdef __amiga__
 #include <libraries/dosextens.h>
@@ -60,7 +61,7 @@ static void switches(argc, argv)
 	terminate(0);
       }
     } else {
-      advnam = argv[i];
+      advnam = strdup(argv[i]);
       if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
 	  || strcmp(&advnam[strlen(advnam)-4], ".ACD") == 0
 	  || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0
@@ -196,16 +197,18 @@ extern struct Library *IconBase;
 #else
 #if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
-    prgnam = argv[0];
+    prgnam = strdup(argv[0]);
   else
-    prgnam++;
+    prgnam = strdup(&prgnam[1]);
   if (strrchr(prgnam, ';') != NULL)
     *strrchr(prgnam, ';') = '\0';
   if (strcmp(prgnam, "arun") == 0)
     switches(argc, argv);
-  else
-    /* Another program name use that as the name of the adventure */
-    advnam = prgnam;
+  else {
+    /* Another program name, use that as the name of the adventure */
+    switches(argc, argv);
+    advnam = strdup(argv[0]);
+  }
 #else
   Unimplemented OS!
 #endif
