@@ -210,7 +210,7 @@ Warn (in instances that are containers) for declaring them as they would hide th
 </task>
 <task>
 <desc>Report mingw startup problem</desc>
-<notes>MingW does not correclty strip program names containing space surrounded by quotes from the cmdLine in the call to WinMain. Tell MingW maintainers.</notes>
+<notes>MingW does not correctly strip program names containing space surrounded by quotes from the cmdLine in the call to WinMain. Tell MingW maintainers.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

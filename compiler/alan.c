@@ -54,8 +54,8 @@ static void *heap;		/* Address to first free heap area - before */
 
 
 static TIBUF tbuf;
-static TIBUF totTime;
-static TIBUF compTime;
+static TIBUF totalTime;
+static TIBUF compilationTime;
 
 static struct {
   long int pars;
@@ -67,53 +67,29 @@ static struct {
 
 
 
-/*----------------------------------------------------------------------
-
-  starttot()
-
-  Start total timing.
-
- */
-static void starttot(void)
+/*----------------------------------------------------------------------*/
+static void startTimingTotal(void)
 {
-  tistart(&totTime);
+  tistart(&totalTime);
 }
 
 
-/*----------------------------------------------------------------------
-
-  startcomp()
-
-  Start compilation timing.
-
- */
-static void startcomp(void)
+/*----------------------------------------------------------------------*/
+static void startTimingCompilation(void)
 {
-  tistart(&compTime);
+  tistart(&compilationTime);
 }
 
 
-/*----------------------------------------------------------------------
-
-  start()
-
-  Start timing.
-
- */
-static void start(void)
+/*----------------------------------------------------------------------*/
+static void startTiming(void)
 {
   tistart(&tbuf);
 }
 
 
-/*----------------------------------------------------------------------
-
-  endpars()
-
-  Note the time of parsing.
-
- */
-static void endpars(void)
+/*----------------------------------------------------------------------*/
+static void endParseTiming(void)
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -124,14 +100,8 @@ static void endpars(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  endsem()
-
-  Note the time of semantic analysis.
-
- */
-static void endsem(void)
+/*----------------------------------------------------------------------*/
+static void endSemanticsTiming(void)
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -142,14 +112,8 @@ static void endsem(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  endgen()
-
-  Note the time of back-end acode generation.
-
- */
-static void endgen(void)
+/*----------------------------------------------------------------------*/
+static void endGenerationTiming(void)
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -160,50 +124,32 @@ static void endgen(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  endcomp()
-
-  Note compilation time.
-
- */
-static void endcomp(void)
+/*----------------------------------------------------------------------*/
+static void endCompilationTiming(void)
 {
-  tistop(&compTime);
+  tistop(&compilationTime);
 #ifdef MULTI
-  tim.comp = compTime.pu_elapsed;
+  tim.comp = compilationTime.pu_elapsed;
 #else
-  tim.comp = compTime.real_elapsed*1000;
+  tim.comp = compilationTime.real_elapsed*1000;
 #endif
 }
 
 
-/*----------------------------------------------------------------------
-
-  endtotal()
-
-  Note total time.
-
- */
-static void endtotal(void)
+/*----------------------------------------------------------------------*/
+static void endTotalTiming(void)
 {
-  tistop(&totTime);
+  tistop(&totalTime);
 #ifdef MULTI
   tim.tot = totTime.pu_elapsed;
 #else
-  tim.tot = totTime.real_elapsed*1000;
+  tim.tot = totalTime.real_elapsed*1000;
 #endif
 }
 
 
-/*----------------------------------------------------------------------
-
-  prtimes()
-
-  Print elapsed times.
-
- */
-static void prtimes(void)
+/*----------------------------------------------------------------------*/
+static void printTimes(void)
 {
   char str[80];
   
@@ -232,14 +178,8 @@ static void prtimes(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  stats()
-
-  Print some statistics.
-
- */
-static void stats(void)
+/*----------------------------------------------------------------------*/
+static void statistics(void)
 {
   int lins;
   char str[80];
@@ -459,7 +399,7 @@ void compile(void) {
 
 
   /* Start timer */
-  starttot();
+  startTimingTotal();
 			
   /* Process the arguments */
   prepareNames();
@@ -481,7 +421,7 @@ void compile(void) {
 
   /* OK, found it so now compile it! */
   if (verbose) printf("Parsing: ");
-  startcomp();			/* Start timing compilation */
+  startTimingCompilation();			/* Start timing compilation */
 #ifdef __MWERKS__
   _fcreator = '?\?\?\?';
   _ftype = '?\?\?\?';
@@ -494,9 +434,9 @@ void compile(void) {
   initAdventure();
 
   /* Then parse the program and build internal representation */
-  start();
+  startTiming();
   pmParse();
-  endpars();			/* End of parsing pass */
+  endParseTiming();			/* End of parsing pass */
 
   if ((dmpflg&DUMP_1) > 0) {
     lmList("", 0, 79, liTINY, sevs);
@@ -507,9 +447,9 @@ void compile(void) {
 
   /* Analyze the internal form */
   if (verbose) printf("\nAnalyzing:");
-  start();
+  startTiming();
   analyzeAdventure();			/* Analyze the adventure */
-  endsem();			/* End of semantic pass */
+  endSemanticsTiming();			/* End of semantic pass */
 
   if ((dmpflg&DUMP_2) > 0) {
     lmList("", 0, 79, liTINY, sevs);
@@ -535,13 +475,13 @@ void compile(void) {
     opts[OPTDEBUG].value = debugOption; /* Debugging enabled? */
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
-    start();
+    startTiming();
     generateAdventure(acdfnm, txtfnm, datfnm);
-    endgen();			/* End of generating pass */
+    endGenerationTiming();			/* End of generating pass */
   } else {
     lmLog(NULL, 999, sevINF, "");
   }
-  endcomp();
+  endCompilationTiming();
 
   if (dmpflg == 0) {
     unlink(txtfnm);
@@ -568,7 +508,7 @@ void compile(void) {
     if (sumflg) {
       if (lmSeverity() < sevERR)
 	summary();
-      stats();
+      statistics();
     }
   }
 
@@ -584,9 +524,9 @@ void compile(void) {
   if (sumflg) {
     if (lmSeverity() < sevERR)
       summary();
-    endtotal();			/* Stop timer */
-    prtimes();
-    stats();
+    endTotalTiming();			/* Stop timer */
+    printTimes();
+    statistics();
   }
 
   lmLiTerminate();

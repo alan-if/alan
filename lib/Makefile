@@ -1,5 +1,7 @@
-#VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
-VERSION = `grep alanlib_versionString alanlib.version.imp | sed -e s/^\\.*\\(\\"// -e s/\\"\\)$$// | sed -e s/\\\\./_/g |sed -e s/\\ //g`
+# Alan standard library Makefile
+#
+
+VERSION = `venum alanlib -print \\$$v_\\$$r_\\$$c\\$$s`
 
 all: version
 	@echo Building Alan Standard Library version $(VERSION)

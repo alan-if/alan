@@ -23,8 +23,8 @@ Changes from v3.0.26 development:
 - Converter program
 
 Changes from v3.0.25 development:
-- IMAGE statement to show image inline with output. Only works in
-  GLK-based terps
+- SHOW statement to show image inline with output. Only works in
+  GLK-based interpreters
 - UNDO command to interpreter to backup to previous game state
 - COUNT, SUM, MAX and MIN aggregates updated to allow a set of filters
   which e.g. can filter instances of any class and not only restricted
