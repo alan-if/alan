@@ -63,7 +63,7 @@ malloc: $(OBJECTS) version.o
 
 src: version.c version.h
 
-fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile
+fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`

@@ -97,7 +97,7 @@ alanobj: $(OBJECTS) $(MAINOBJ) version version.o Makefile alan.prod
 
 src: tm version.c version.h
 
-fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile alan.prod
+fromsrc: $(OBJECTS) $(MAINOBJ) version.o alan.prod
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
