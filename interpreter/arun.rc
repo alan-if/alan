@@ -8,11 +8,13 @@ BEGIN
         MENUITEM "Res&tart",			ID_MENU_RESTART
         MENUITEM "&Save",			ID_MENU_SAVE
         MENUITEM "&Restore",			ID_MENU_RESTORE
+        MENUITEM "Read &commands",		ID_MENU_BATCH
         MENUITEM "&About Arun",			ID_MENU_ABOUT
     END
 END
 
-IDR_ARUN      ICON DISCARDABLE "arun.ico"
+AAA		ICON	DISCARDABLE arun.ico
+IDI_ARUN	ICON	DISCARDABLE arun.ico
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -38,7 +40,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,160,120,50,15
     GROUPBOX        "About Arun",IDC_STATIC,10,10,200,50
-    ICON            IDR_ARUN, IDC_STATIC, 12, 18, 0, 0, 0, WS_EX_CLIENTEDGE
+    ICON            IDI_ARUN, IDC_STATIC, 15, 20, 20, 20, 0, WS_EX_CLIENTEDGE
     LTEXT           "Pre-view version WINARUNVERSION\nAlan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
                     IDC_STATIC,45,20,160,33
     GROUPBOX        "Additional Credits",IDC_STATIC,10,70,200,40
