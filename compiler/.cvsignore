@@ -1,7 +1,9 @@
 *.d
 .*stamp
+.HoldDirectoryFinderInfoForMacNFS
 .arch
 .make.dependency.*
+.nfsCEA5
 .pure
 .version
 [0-9]*_[0-9]*_[0-9]*
@@ -37,3 +39,4 @@ smScan.tail
 smScanx.c
 version.c
 version.h
+.nfs*

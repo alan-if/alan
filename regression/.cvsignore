@@ -2,6 +2,7 @@
 *.dat
 *.diff
 *.output
+.HoldDirectoryFinderInfoForMacNFS
 CASES
 dosregr.zip
 regression.dos

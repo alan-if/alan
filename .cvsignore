@@ -1,4 +1,5 @@
 *.gz
+.HoldDirectoryFinderInfoForMacNFS
 .notfresh
 [0-9]*_[0-9]*_[0-9]*.*
 alan.prod
