@@ -127,6 +127,7 @@ extern int strcspn();
 extern void memcpy();
 extern void memset();
 extern char *strdup();
+
 #endif
 
 #ifdef __mac__
@@ -142,6 +143,7 @@ extern char *strdup();
 #define WRITE_MODE "wb"
 
 extern char *strdup(char *str);
+
 #endif
 
 #ifdef __dos__
@@ -158,8 +160,10 @@ extern char *strdup(char *str);
 /* Return codes */
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
-#endif
 
+extern char *strdup(char *str);
+
+#endif
 
 
 #ifdef _PROTOTYPES_
