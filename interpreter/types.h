@@ -139,12 +139,6 @@ typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
   int where;
 } EventQueueEntry;
 
-typedef struct IniEntry {	/* STRING INITIALISATION TABLE */
-  Aword fpos;			/* File position */
-  Aword len;			/* Length */
-  Aword adr;			/* Where to store the string */
-} IniEntry;
-
 typedef struct MsgEntry {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
 } MsgEntry;

@@ -17,7 +17,8 @@ typedef struct Adventure {
   List *evts;			/* List of events */
   List *cnts;			/* List of containers */
   List *ruls;			/* List of rules */
-  List *stratrs;		/* List of string attributes to initialize */
+  List *stringAttributes;	/* List of string attributes to initialize */
+  List *setAttributes;		/* List of set attributes to initialize */
   Where *whr;			/* Where to start */
   List *stms;			/* List of start statements */
   int *scores;			/* Pointer to array of scores */

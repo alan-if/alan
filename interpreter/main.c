@@ -8,7 +8,9 @@
 
 #include "sysdep.h"
 
+#include "acode.h"
 #include "types.h"
+#include "set.h"
 #include "main.h"
 #include "syserr.h"
 
@@ -32,6 +34,7 @@
 #include "stack.h"
 #include "exe.h"
 #include "term.h"
+#include "set.h"
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -1063,13 +1066,30 @@ static void initStaticData(void)
 /*----------------------------------------------------------------------*/
 static void initStrings(void)
 {
-  IniEntry *init;
+  StringInitEntry *init;
   AttributeEntry *attribute;
 
-  for (init = (IniEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++) {
+  for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++) {
     getStringFromFile(init->fpos, init->len);
     attribute = pointerTo(init->adr);
     attribute->value = pop();
+  }
+}
+
+/*----------------------------------------------------------------------*/
+static void initSets(void)
+{
+  SetInitEntry *init;
+  AttributeEntry *attribute;
+  int i;
+  
+  for (init = (SetInitEntry *) pointerTo(header->setInitTable); !endOfTable(init); init++) {
+	Set *set = (Set *)allocate(sizeof(Set));
+	attribute = pointerTo(init->adr);
+    attribute->value = (Aword)set;
+    set->members = (Aword*)allocate(sizeof(Aword)*init->size);
+    for (i = 0; i < init->size; i++)
+    	set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
   }
 }
 
@@ -1126,8 +1146,9 @@ static void initDynamicData(void)
   /* Allocate for administrative table */
   admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
 
-  /* Initialise string attributes */
+  /* Initialise string & set attributes */
   initStrings();
+  initSets();
 
   /* Create game state copy of attributes */
   attributes = copyAttributes();

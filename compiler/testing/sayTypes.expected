@@ -6,12 +6,12 @@ sayTypes.alan
     6.    Say l Isa location.
 =====>    1
 
-  *1*   337 E : You can not Say boolean values.
+  *1*   337 E : You can not SAY values of Boolean type.
 
     9.    Say b Of l.
 =====>    1
 
-  *1*   337 E : You can not Say boolean values.
+  *1*   337 E : You can not SAY values of Boolean type.
 
 
         2 error(s).

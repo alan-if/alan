@@ -282,11 +282,12 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
       if (inferedClass == NULL)
 	inferedClass = exp->class;
       else {
-	while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass))
+	while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
 	  /* They are not of the same class so we need to find a common ancestor */
 	  inferedClass = inferedClass->fields.entity.parent;
-	if (inferedClass == NULL)
-	  syserr("No common ancestor found for Set members", __FUNCTION__);
+	  if (inferedClass == NULL)
+	    syserr("No common ancestor found for Set members", __FUNCTION__);
+	}
       }
     }
   }
@@ -470,18 +471,24 @@ static void generateAttribute(Attribute *attribute)
   AttributeEntry entry;
   Attribute *new;
 
-  if (attribute->type == STRING_TYPE) {
-    if (!attribute->encoded)
-      encode(&attribute->fpos, &attribute->len);
-    attribute->encoded = TRUE;
-    attribute->address = nextEmitAddress(); /* Record on which Aadress to put it */
-
-    /* Now make a copy to use for initialisation if attribute is
-       inherited, else the address will be overwritten by generation
-       of other instances of the same attribute */
-    new = newStringAttribute(attribute->srcp, NULL, attribute->fpos, attribute->len);
-    new->address = attribute->address;
-    adv.stratrs = concat(adv.stratrs, new, ATTRIBUTE_LIST);
+  if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
+    if (attribute->type == STRING_TYPE) {
+      if (!attribute->encoded) {
+	encode(&attribute->fpos, &attribute->len);
+	attribute->encoded = TRUE;
+      }
+      /* Now make a copy to use for initialisation if attribute is
+	 inherited, else the address will be overwritten by generation
+	 of other instances of the same attribute */
+      new = newStringAttribute(attribute->srcp, NULL, attribute->fpos, attribute->len);
+      adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
+    } else {			/* SET ATTRIBUTE */
+      /* Make a copy to keep the address in */
+      new = newSetAttribute(attribute->srcp, NULL, attribute->set);
+      new->setType = attribute->setType;
+      adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
+    }
+    new->address = nextEmitAddress(); /* Record on which Aadress to put it */
   }
 
   entry.code = attribute->id->code;
@@ -525,14 +532,64 @@ Aaddr generateStringInit(void)
   /* Generate initialisation value table for string attributes. */
 
   List *atrs;
+  StringInitEntry entry;
   Aaddr adr = nextEmitAddress();
 
-  for (atrs = adv.stratrs; atrs != NULL; atrs = atrs->next) {
-    emit(atrs->element.atr->fpos);
-    emit(atrs->element.atr->len);
-    emit(atrs->element.atr->address);
+  for (atrs = adv.stringAttributes; atrs != NULL; atrs = atrs->next) {
+    entry.fpos = atrs->element.atr->fpos;
+    entry.len = atrs->element.atr->len;
+    entry.adr = atrs->element.atr->address;
+    emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
+  return adr;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Aaddr generateSet(Attribute *atr)
+{
+  /* Generate initial set for one attribute */
+
+  List *elements;
+  Aaddr adr = nextEmitAddress();
+
+  if (atr->setType == STRING_TYPE)
+    syserr("Can't generate STRING sets yet.", __FUNCTION__);
+
+  TRAVERSE (elements, atr->set)
+    switch (atr->setType) {
+    case INSTANCE_TYPE: emit(symbolOfExpression(elements->element.exp, NULL)->code); break;
+    case INTEGER_TYPE: emit(elements->element.exp->fields.val.val); break;
+    default: syserr("Unexpected attribute type in '%s()'", __FUNCTION__);
+    }
+  emit(EOF);
+
+  return adr;
+}
+
+
+/*======================================================================*/
+Aaddr generateSetInit(void)
+{
+  /* Generate initialisation value table for set attributes. */
+
+  List *atrs;
+  SetInitEntry entry;
+  Aaddr adr;
+
+  TRAVERSE (atrs, adv.setAttributes)
+    atrs->element.atr->setAddress = generateSet(atrs->element.atr);
+
+  adr = nextEmitAddress();
+  TRAVERSE (atrs, adv.setAttributes) {
+    entry.size = length(atrs->element.atr->set);
+    entry.setAddress = atrs->element.atr->setAddress;
+    entry.adr = atrs->element.atr->address;
+    emitEntry(&entry, sizeof(entry));
+  }
+  emit(EOF);
+
   return adr;
 }
 

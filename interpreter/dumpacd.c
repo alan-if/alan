@@ -28,7 +28,7 @@ static char *acdfnm;
 /* Dump flags */
 
 static int dictionaryFlag, classesFlag, instancesFlag, parseFlag, syntaxesFlag,
-verbsFlag, eventsFlag, containersFlag, rulesFlag, statementsFlag;
+  initFlag, verbsFlag, eventsFlag, containersFlag, rulesFlag, statementsFlag;
 
 
 
@@ -458,56 +458,56 @@ static void dumpStatements(Aword pc)
     if (pc > memTop)
       syserr("Dumping outside program memory.");
 
-    i = memory[pc++];
+ 	   i = memory[pc++];
     
-    switch (I_CLASS(i)) {
-    case C_CONST:
-      printf("PUSH  \t%5ld", I_OP(i));
-      break;
+	switch (I_CLASS(i)) {
+	case C_CONST:
+ 		printf("PUSH  \t%5ld", I_OP(i));
+		break;
     case C_CURVAR:
       switch (I_OP(i)) {
       case V_PARAM:
-	printf("PARAM");
-	break;
+		printf("PARAM");
+		break;
       case V_CURLOC:
-	printf("CURLOC");
-	break;
+		printf("CURLOC");
+		break;
       case V_CURACT:
-	printf("CURACT");
-	break;
+		printf("CURACT");
+		break;
       case V_CURVRB:
-	printf("CURVRB");
-	break;
+		printf("CURVRB");
+		break;
       case V_SCORE:
-	printf("CURSCORE");
-	break;
+		printf("CURSCORE");
+		break;
       default:
-	syserr("Unknown CURVAR instruction.");
-	break;
+		syserr("Unknown CURVAR instruction.");
+		break;
       }
       break;
       
     case C_STMOP: 
       switch (I_OP(i)) {
       case I_LINE: {
-	printf("LINE");
-	break;
+		printf("LINE");
+		break;
       }
       case I_PRINT: {
-	printf("PRINT");
-	break;
+		printf("PRINT");
+		break;
       }
       case I_SYSTEM: {
-	printf("SYSTEM");
-	break;
+		printf("SYSTEM");
+		break;
       }
       case I_GETSTR: {
-	printf("GETST");
-	break;
+		printf("GETST");
+		break;
       }
       case I_QUIT: {
-	printf("QUIT");
-	break;
+		printf("QUIT");
+		break;
       }
       case I_LOOK: {
 	printf("LOOK");
@@ -786,6 +786,63 @@ static void dumpStatements(Aword pc)
 }
 
 
+/*----------------------------------------------------------------------*/
+void dumpStringInit(Aaddr stringInitTable)
+{
+  StringInitEntry *entry;
+  int level = 1;
+
+  if (stringInitTable == 0) return;
+
+  for (entry = (StringInitEntry *)pointerTo(stringInitTable); !endOfTable(entry); entry++) {
+    indent(level);
+    printf("STRINGINIT:\n");
+    indent(level+1);
+    printf("fpos: %ld\n", entry->fpos);
+    indent(level+1);
+    printf("len: %ld\n", entry->len);
+    indent(level+1);
+    printf("adr: %ld\n", entry->adr);
+  }
+}    
+
+
+/*----------------------------------------------------------------------*/
+void dumpSet(Aaddr setAddress)
+{
+  Aword *entry;
+
+  if (setAddress == 0) return;
+
+  for (entry = (Aword *)pointerTo(setAddress); !endOfTable(entry); entry++) {
+    printf("%ld", *entry);
+    if (*(entry+1) != EOF)
+      printf(",");
+  }  
+}
+
+ 
+/*----------------------------------------------------------------------*/
+void dumpSetInit(Aaddr setInitTable)
+{
+  SetInitEntry *entry;
+  int level = 1;
+
+  if (setInitTable == 0) return;
+
+  for (entry = (SetInitEntry *)pointerTo(setInitTable); !endOfTable(entry); entry++) {
+    indent(level);
+    printf("SETINIT:\n");
+    indent(level+1);
+    printf("size: %ld\n", entry->size);
+    indent(level+1);
+    printf("set: {"); dumpSet(entry->setAddress); printf("}\n");
+    indent(level+1);
+    printf("adr: %ld\n", entry->adr);
+  }
+}    
+ 
+
 
 /*----------------------------------------------------------------------*/
 static void dumpACD(void)
@@ -795,54 +852,36 @@ static void dumpACD(void)
 
   printf("VERSION: %d.%d(%d)%c\n", header->vers[3],
 	 header->vers[2], header->vers[1], header->vers[0]?header->vers[0]:' ');
-
   printf("SIZE: %s\n", dumpAddress(header->size));
-
   printf("PACK: %s\n", header->pack?"Yes":"No");
-
   printf("PAGE LENGTH: %ld\n", header->pageLength);
-
   printf("PAGE WIDTH: %ld\n", header->pageWidth);
-
   printf("DEBUG: %s\n", header->debug?"Yes":"No");
-
   printf("DICTIONARY: %s\n", dumpAddress(header->dictionary));
   if (dictionaryFlag) dumpDict(1, header->dictionary);
-
   printf("PARSE TABLE: %s\n", dumpAddress(header->parseTableAddress));
   if (parseFlag) dumpParseTable(1, header->parseTableAddress);
-
   printf("SYNTAX TABLE: %s\n", dumpAddress(header->syntaxTableAddress));
   if (syntaxesFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
-
   printf("VERB TABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
-
   printf("EVENT TABLE: %s\n", dumpAddress(header->eventTableAddress));
-
   printf("CONTAINER TABLE: %s\n", dumpAddress(header->containerTableAddress));
   if (containersFlag) dumpContainers(1, header->containerTableAddress);
-
   printf("CLASS TABLE: %s\n", dumpAddress(header->classTableAddress));
   if (classesFlag) dumpClasses(1, header->classTableAddress);
-
   printf("INSTANCE TABLE: %s\n", dumpAddress(header->instanceTableAddress));
   if (instancesFlag) dumpInstances(1, header->instanceTableAddress);
-
   printf("RULE TABLE: %s\n", dumpAddress(header->ruleTableAddress));
-
-  printf("INIT: %s\n", dumpAddress(header->stringInitTable));
-
+  printf("STRINGINIT: %s\n", dumpAddress(header->stringInitTable));
+  if (initFlag) dumpStringInit(header->stringInitTable);
+  printf("SETINIT: %s\n", dumpAddress(header->setInitTable));
+  if (initFlag) dumpSetInit(header->setInitTable);
   printf("START: %s\n", dumpAddress(header->start));
-
   printf("MESSAGE TABLE: %s\n", dumpAddress(header->messageTableAddress));
-
   printf("MAX SCORE: %ld\n", header->maxscore);
-
   printf("SCORES: %s\n", dumpAddress(header->scores));
-
   printf("FREQUENCY TABLE: %s\n", dumpAddress(header->freq));
-
   printf("ACDCRC: 0x%lx ", header->acdcrc);
   /* Calculate checksum */
   for (i = sizeof(*header)/sizeof(Aword)+1; i < memTop; i++) {
@@ -944,6 +983,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("dictionary", "dump details on dictionary entries", dictionaryFlag, FALSE, NULL)
      SPA_FLAG("classes", "dump details on class entries", classesFlag, FALSE, NULL)
      SPA_FLAG("instances", "dump details on instance entries", instancesFlag, FALSE, NULL)
+     SPA_FLAG("init", "dump string and set initialization tables", initFlag, FALSE, NULL)
      SPA_FLAG("parses", "dump details on parse table entries", parseFlag, FALSE, NULL)
      SPA_FLAG("syntaxes", "dump details on syntax mapping entries", syntaxesFlag, FALSE, NULL)
      SPA_FLAG("verbs", "dump details on verb entries", verbsFlag, FALSE, NULL)

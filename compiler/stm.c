@@ -82,9 +82,9 @@ static void analyzeSay(StmNod *stm, Context *context)
 {
   analyzeExpression(stm->fields.say.exp, context);
 
-  /* Can't say Boolean values */
-  if (stm->fields.say.exp->type == BOOLEAN_TYPE)
-    lmLog(&stm->srcp, 337, sevERR, "");
+  /* Can't say Boolean values or Sets */
+  if (stm->fields.say.exp->type == BOOLEAN_TYPE || stm->fields.say.exp->type == SET_TYPE)
+    lmLog(&stm->srcp, 337, sevERR, typeToString(stm->fields.say.exp->type));
 
   /* Can only say definite/indefinite forms of instances */
   if (stm->fields.say.form != SAY_SIMPLE

@@ -1849,9 +1849,9 @@ static int val(char str[])
 
 ----> Repetition statement
 <repetition_statement>			-- RETURNS: stm
-    = 'FOR' 'EACH' ID <optional_loop_restriction> 'DO' <statements> 'END' <for_each> ['.']
+    = <for_each> ID <optional_loop_restriction> 'DO' <statements> 'END' <for_each> ['.']
     %%
-	%<repetition_statement>.stm = newStatement(`&%'FOR'.srcp, EACH_STATEMENT);
+	%<repetition_statement>.stm = newStatement(`&%<for_each>.srcp, EACH_STATEMENT);
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
 	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
 	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restriction>.id;
@@ -1869,10 +1869,13 @@ static int val(char str[])
     %%
     ;
 
-<for_each>
-    = 'FOR'
+<for_each>				-- RETURNS srcp
+    = 'FOR'				%-('EACH')
+    %% %<for_each>.srcp = %'FOR'.srcp; %%
     ! 'EACH'
+    %% %<for_each>.srcp = %'EACH'.srcp; %%
     ! 'FOR' 'EACH'
+    %% %<for_each>.srcp = %'FOR'.srcp; %%
     ;
 
 ----> Actor statement

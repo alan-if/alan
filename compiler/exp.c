@@ -1082,31 +1082,24 @@ static void dumpAggregateKind(AggregateKind agr)
 
 
 /*======================================================================*/
-void dumpType(TypeKind typ)
+char *typeToString(TypeKind typ)
 {
   switch (typ) {
-  case BOOLEAN_TYPE:
-    put("BOOLEAN");
-    break;
-  case INTEGER_TYPE:
-    put("INTEGER");
-    break;
-  case STRING_TYPE:
-    put("STRING");
-    break;
-  case INSTANCE_TYPE:
-    put("INSTANCE");
-    break;
-  case SET_TYPE:
-    put("SET");
-    break;
-  case ERROR_TYPE:
-    put("ERROR");
-    break;
-  case UNINITIALIZED_TYPE:
-    put("UNINITIALIZED");
-    break;
+  case BOOLEAN_TYPE: return "Boolean"; break;
+  case INTEGER_TYPE: return "Integer"; break;
+  case STRING_TYPE: return "String"; break;
+  case INSTANCE_TYPE: return "Instance"; break;
+  case SET_TYPE: return "Set"; break;
+  case ERROR_TYPE: return "ERROR"; break;
+  case UNINITIALIZED_TYPE: return "UNINITIALIZED"; break;
   }
+  return "***ERROR: Unexpected type kind***";
+}
+
+/*======================================================================*/
+void dumpType(TypeKind typ)
+{
+  put(typeToString(typ));
 }
 
 

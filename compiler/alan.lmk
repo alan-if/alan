@@ -101,7 +101,7 @@
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
 335	'ELSE clause of a DEPENDING statement must be the last.';
 336	'You can not ADD %1.';
-337	'You can not Say boolean values.';
+337	'You can not SAY values of %1 type.';
 338	'A Where specification is required in Aggregate statements.';
 339	'You can only use Definite/Indefinite forms to Say instances. For other types of values use \'Say\' without Definite/Indefinite indicator.';
 

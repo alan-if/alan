@@ -2,7 +2,7 @@
 
   unit.c
 
-  A unit test main program for the Alan compiler
+  A unit test main program for the Alan interpreter
 
 \*======================================================================*/
 
@@ -71,6 +71,7 @@ void syserr(char msg[])
 #include "interTest.c"
 #include "reverseTest.c"
 #include "sysdepTest.c"
+#include "setTest.c"
 #include "mainTest.c"
 
 int main()
@@ -81,6 +82,7 @@ int main()
     registerInterUnitTests();
     registerReverseUnitTests();
     registerSysdepUnitTests();
+    registerSetUnitTests();
     registerMainUnitTests();
 
     unitTest();

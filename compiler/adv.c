@@ -250,8 +250,9 @@ void generateAdventure(char acodeFileName[],
   generateStatements(adv.stms);
   emit0(I_RETURN);
 
-  /* String initialisation table */
+  /* String & Set attribute initialisation tables */
   acdHeader.stringInitTable = generateStringInit();
+  acdHeader.setInitTable = generateSetInit();
 
   /* Source filename table */
   acdHeader.sourceFileTable = generateSourceFileTable();

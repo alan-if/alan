@@ -33,6 +33,7 @@ typedef struct Attribute {
   TypeKind setType;		/* Type of elements in SET attributes */
   Symbol *setClass;		/* Class of instance elements in SET attributes */
   List *set;			/* An expression list for the initial set */
+  Aword setAddress;		/* Acode address to the attributes initial set */
 } Attribute;
 
 #endif

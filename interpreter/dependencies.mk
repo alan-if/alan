@@ -1,14 +1,15 @@
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h unitTest.h \
   exeTest.c exe.c act.h debug.h readline.h main.h parse.h inter.h stack.h \
   decode.h exe.h stackTest.c stack.c interTest.c inter.c reverseTest.c \
-  reverse.c sysdepTest.c sysdep.c mainTest.c main.c alan.version.h \
-  version.h args.h rules.h term.h
+  reverse.c sysdepTest.c sysdep.c setTest.c set.c set.h mainTest.c main.c \
+  alan.version.h version.h args.h rules.h term.h
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h unitTest.h \
   exeTest.c exe.c act.h debug.h readline.h glkio.h \
   ../../WindowsGLK/Include/glk.h main.h parse.h inter.h stack.h decode.h \
   exe.h stackTest.c stack.c interTest.c inter.c reverseTest.c reverse.c \
-  sysdepTest.c sysdep.c mainTest.c main.c alan.version.h version.h args.h \
-  rules.h term.h ../../WindowsGLK/Include/winglk.h
+  sysdepTest.c sysdep.c setTest.c set.c set.h mainTest.c main.c \
+  alan.version.h version.h args.h rules.h term.h \
+  ../../WindowsGLK/Include/winglk.h
 rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
   stack.h rules.h
 rules.o: rules.c types.h sysdep.h acode.h main.h \
@@ -19,8 +20,8 @@ debug.o: debug.c types.h sysdep.h acode.h alan.version.h version.h \
 debug.o: debug.c types.h sysdep.h acode.h alan.version.h version.h \
   readline.h inter.h main.h ../../WindowsGLK/Include/glk.h parse.h \
   stack.h exe.h debug.h glkio.h
-args.o: args.c args.h main.h types.h sysdep.h acode.h
-args.o: args.c args.h main.h types.h sysdep.h acode.h \
+args.o: args.c sysdep.h args.h main.h types.h acode.h
+args.o: args.c sysdep.h args.h main.h types.h acode.h \
   ../../WindowsGLK/Include/glk.h glkio.h
 parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h exe.h \
   act.h term.h debug.h params.h syserr.h parse.h
@@ -34,19 +35,19 @@ term.o: term.c main.h types.h sysdep.h acode.h term.h
 term.o: term.c main.h types.h sysdep.h acode.h \
   ../../WindowsGLK/Include/glk.h term.h
 readline.o: readline.c sysdep.h readline.h types.h acode.h main.h
-readline.o: readline.c readline.h types.h sysdep.h acode.h exe.h main.h \
+readline.o: readline.c sysdep.h readline.h types.h acode.h exe.h main.h \
   ../../WindowsGLK/Include/glk.h glkio.h resources.h \
   ../../WindowsGLK/Include/WinGlk.h
 params.o: params.c types.h sysdep.h acode.h params.h
 params.o: params.c types.h sysdep.h acode.h params.h
-act.o: act.c act.h types.h sysdep.h acode.h main.h inter.h exe.h stack.h \
+act.o: act.c sysdep.h act.h types.h acode.h main.h inter.h exe.h stack.h \
   parse.h debug.h syserr.h
-act.o: act.c act.h types.h sysdep.h acode.h main.h \
+act.o: act.c sysdep.h act.h types.h acode.h main.h \
   ../../WindowsGLK/Include/glk.h inter.h exe.h stack.h parse.h debug.h \
   syserr.h
-exe.o: exe.c types.h sysdep.h acode.h act.h debug.h syserr.h readline.h \
+exe.o: exe.c sysdep.h types.h acode.h act.h debug.h syserr.h readline.h \
   main.h parse.h inter.h stack.h decode.h exe.h
-exe.o: exe.c types.h sysdep.h acode.h act.h debug.h syserr.h readline.h \
+exe.o: exe.c sysdep.h types.h acode.h act.h debug.h syserr.h readline.h \
   glkio.h ../../WindowsGLK/Include/glk.h main.h parse.h inter.h stack.h \
   decode.h exe.h
 sysdep.o: sysdep.c sysdep.h
@@ -72,9 +73,12 @@ main.o: main.c sysdep.h types.h acode.h main.h \
   ../../WindowsGLK/Include/glk.h syserr.h readline.h alan.version.h \
   version.h args.h parse.h inter.h rules.h reverse.h debug.h stack.h \
   exe.h term.h glkio.h ../../WindowsGLK/Include/winglk.h
-arun.o: arun.c main.h types.h sysdep.h acode.h term.h alan.version.h \
+set.o: set.c set.h acode.h main.h types.h sysdep.h
+set.o: set.c set.h acode.h main.h types.h sysdep.h \
+  ../../WindowsGLK/Include/glk.h
+arun.o: arun.c sysdep.h main.h types.h acode.h term.h alan.version.h \
   version.h args.h
-arun.o: arun.c main.h types.h sysdep.h acode.h \
+arun.o: arun.c sysdep.h main.h types.h acode.h \
   ../../WindowsGLK/Include/glk.h term.h alan.version.h version.h args.h \
   glkio.h ../../WindowsGLK/Include/WinGlk.h
 glkstart.o: glkstart.c ../../WindowsGLK/Include/glk.h glkstart.h glkio.h \

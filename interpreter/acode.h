@@ -233,8 +233,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
   Aint code;			/* Its code */
-  Aword value;			/* Its value */
-  Aaddr stringAddress;		/* Address to the name */
+  Aword value;			/* Its value, a string has a dynamic string pointer,
+  							a set has a pointer to a dynamically allocated set */
+  Aaddr stringAddress;	/* Address to the name */
 } AttributeEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
@@ -308,6 +309,19 @@ typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
   Aint len;
 } SourceFileEntry; 
 
+typedef struct StringInitEntry {	/* STRING INITIALISATION TABLE */
+  Aword fpos;			/* File position */
+  Aword len;			/* Length */
+  Aaddr adr;			/* Where to store the string */
+} StringInitEntry;
+
+typedef struct SetInitEntry {	/* SET INITIALISATION TABLE */
+  Aint size;			/* Size of the initial set */
+  Aword setAddress;		/* Address to the initial set */
+  Aword adr;			/* Address to attribute slot where the set is to be stored */
+} SetInitEntry;
+
+
 
 /* AMACHINE Header */
 
@@ -352,6 +366,7 @@ typedef struct AcdHdr {
 /* Miscellaneous */
   Aint attributesAreaSize;	/* Size of attribute data area in Awords */
   Aaddr stringInitTable;	/* String init table address */
+  Aaddr setInitTable;		/* Set init table address */
   Aaddr start;			/* Address to Start code */
   Aword maxscore;		/* Maximum score */
   Aaddr scores;			/* Score table */

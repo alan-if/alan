@@ -36,7 +36,7 @@ LDFLAGS = $(CYGWIN) $(VERBOSE)
 
 GLKSRCS = glkstart.c glkio.c
 
-# Build sources are in main buid an in unit test
+# Build sources are in main build and in unit test
 BUILDSRCS = \
 	rules.c \
 	debug.c \
@@ -57,6 +57,7 @@ MAINSRCS = \
 	reverse.c \
 	syserr.c \
 	main.c \
+	set.c \
 	arun.c
 
 VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)

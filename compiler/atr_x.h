@@ -38,6 +38,7 @@ extern void analyzeAttributes(List *attributeList);
 extern Attribute *resolveAttribute(Expression *exp, IdNode *attribute, Context *context);
 extern Aaddr generateAttributes(List *attributeList);
 extern Aaddr generateStringInit(void);
+extern Aaddr generateSetInit(void);
 extern void dumpAttribute(Attribute *atr);
 
 #endif

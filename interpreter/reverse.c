@@ -426,6 +426,21 @@ static void reverseRuls(Aword adr)
 }    
 
 
+static void reverseSetInitTable(Aaddr adr)
+{
+  SetInitEntry *e = (SetInitEntry *)&memory[adr];
+
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
+    reverseTable(adr, sizeof(SetInitEntry));
+    while (!endOfTable(e)) {
+      reverseTable(e->setAddress, sizeof(Aword));
+      e++;
+    }
+  }
+}
+
 
 /*----------------------------------------------------------------------*/
 void reverseHdr(AcdHdr *hdr)
@@ -459,7 +474,8 @@ void reverseACD(void)
   reverseContainers(header->containerTableAddress);
   reverseEvts(header->eventTableAddress);
   reverseRuls(header->ruleTableAddress);
-  reverseTable(header->stringInitTable, sizeof(IniEntry));
+  reverseTable(header->stringInitTable, sizeof(StringInitEntry));
+  reverseSetInitTable(header->setInitTable);
   reverseTable(header->sourceFileTable, sizeof(SourceFileEntry));
   reverseStms(header->start);
   reverseMsgs(header->messageTableAddress);

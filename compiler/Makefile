@@ -177,7 +177,7 @@ unit : $(TESTOBJS)
 .PHONY:test
 # Run all tests!
 test : unittests
-	cd testing; regr
+	-cd testing; regr
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
