@@ -17,11 +17,11 @@
 
 typedef struct Container {	/* CONTAINER */
   Srcp srcp;			/* Source position */
-  List *lims;			/* Limits */
+  List *limits;			/* Limits */
   Aaddr limadr;			/* ACODE address to limit table */
-  List *hstms;			/* Header statements */
+  List *header;			/* Header statements */
   Aaddr hadr;			/* ACODE address to header statements */
-  List *estms;			/* 'Empty' statements */
+  List *empty;			/* 'Empty' statements */
   Aaddr eadr;			/* ACODE address to 'empty' statements */  
 } Container;
 
@@ -35,9 +35,9 @@ typedef struct Container {	/* CONTAINER */
 
 /* Create a new Container node */
 extern Container *newContainer(Srcp *srcp,
-			       List *lims,
-			       List *hstms,
-			       List *estms);
+			       List *limits,
+			       List *headerStatements,
+			       List *emptyStatements);
 
 /* Analyse one Container */
 extern void analyseContainer(Container *container);

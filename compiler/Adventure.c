@@ -79,6 +79,8 @@ void analyseAdventure()
 #endif
 {
 
+  prepareScores();
+
   analyseAttributes(adventure.objectAttributes);
   analyseAttributes(adventure.locationAttributes);
   analyseAttributes(adventure.actorAttributes);
