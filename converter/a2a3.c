@@ -41,6 +41,7 @@ static int getInFileName() {
   ofn.lpstrFilter = filter;
   ofn.lpstrCustomFilter = NULL;
   ofn.lpstrFile = fullInFileName;
+  ofn.lpstrTitle = "Choose an Alan V2 source file to convert";
   ofn.nMaxFile = FILENAMESIZE;
   ofn.lpstrFileTitle = inFileName;
   ofn.nMaxFileTitle = FILENAMESIZE;
@@ -51,6 +52,7 @@ static int getInFileName() {
 static int getOutFileName() {
   ofn.lpstrFile = fullOutFileName;
   ofn.lpstrFileTitle = outFileName;
+  ofn.lpstrTitle = "Choose a file to store Alan V3 source output in";
   ofn.Flags = OFN_OVERWRITEPROMPT;
   return GetSaveFileName(&ofn);
 }

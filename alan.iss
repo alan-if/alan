@@ -35,6 +35,8 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 [Files]
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\alan.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
@@ -46,10 +48,13 @@ Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "ht
 [Icons]
 Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\alan.exe"
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
+Name: "{group}\Alan V2 to V3 Source Converter"; Filename: "{app}\a2a3.exe"
+Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.readme"
 ; NOTE: The following entry contains an English phrase ("on the Web"). You are free to translate it into another language if required.
 Name: "{group}\Alan V3 Manual"; Filename: "{app}\manual.pdf"
 Name: "{group}\Alan on the Web"; Filename: "{app}\alan.url"
 Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.alan"
+Name: "{group}\Uninstall Alan V3"; Filename: "{uninstallexe}"
 ; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
 Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\alan.exe"; Tasks: desktopicon
