@@ -8,7 +8,7 @@ adv.o : adv.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h acode
   opt.h encode.h 
 alan.o : alan.c sysdep.h types.h alan.h srcp.h version.h adv.h lst.h dump.h \
   whr.h evt.h nam.h acode.h wht.h opt.h lmList.h alanCommon.h token.h pmParse.h \
-  smScan.h time.h spa.h 
+  smScan.h timing.h spa.h 
 alt.o : alt.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
   nam.h lst.h dump.h acode.h elm.h res.h stx.h alt.h act.h cnt.h wht.h whr.h evt.h \
   chk.h exp.h stm.h obj.h loc.h ext.h emit.h 
@@ -100,7 +100,7 @@ sym.o : sym.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h
 syn.o : syn.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h acode.h \
   lst.h dump.h adv.h whr.h evt.h nam.h wht.h syn.h wrd.h emit.h 
 sysdep.o : sysdep.c sysdep.h 
-time.o : time.c sysdep.h time.h 
+timing.o : timing.c sysdep.h timing.h 
 version.o : version.c version.h 
 vrb.o : vrb.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h acode.h \
   adv.h lst.h dump.h whr.h evt.h nam.h wht.h alt.h act.h cnt.h sym.h elm.h res.h \

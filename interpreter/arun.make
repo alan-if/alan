@@ -1,9 +1,10 @@
 !Automagically created makefile for Arun interpreter on VMS
 CQ=/STANDARD=PORTABLE
-OBJECTS = debug.obj exe.obj inter.obj parse.obj reverse.obj rules.obj stack.obj decode.obj term.obj params.obj sysdep.obj
+OBJECTS = debug.obj args.obj exe.obj inter.obj parse.obj reverse.obj rules.obj stack.obj decode.obj term.obj params.obj sysdep.obj
 
-arun.o : arun.c sysdep.h types.h acode.h arun.h version.h parse.h inter.h rules.h \
-  reverse.h debug.h stack.h exe.h term.h 
+args.o : args.c args.h arun.h types.h sysdep.h acode.h 
+arun.o : arun.c sysdep.h types.h acode.h arun.h version.h args.h parse.h inter.h \
+  rules.h reverse.h debug.h stack.h exe.h term.h 
 debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
 decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
 exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
@@ -20,5 +21,5 @@ term.o : term.c arun.h types.h sysdep.h acode.h term.h
 version.o : version.c version.h 
 
 arun.exe : #(OBJECTS) version.obj
-	$ link/exe=arun #(LQ) debug exe inter parse reverse rules stack decode term params sysdep
+	$ link/exe=arun #(LQ) debug args exe inter parse reverse rules stack decode term params sysdep
 	$ copy arun.exe <->
