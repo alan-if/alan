@@ -1,0 +1,15 @@
+########## attribute1 ##########
+The l
+  Isa location.
+  Has anAttribute.
+
+  Description
+    If l Has anAttribute Then
+      "It has an attribute."
+    End If.
+
+End The l.
+
+Start At l.
+########## alan attribute1.alan ##########
+      0 [main] alan 1288 open_stackdumpfile: Dumping stack trace to alan.exe.stackdump
