@@ -1,4 +1,11 @@
 ToDo:
+	* Investigate the possibility to allow:
+
+		> TAKE ALL green chairs
+
+	This implies 1) a notion of plural nouns (in english generally
+	's' and 2) new built in multiple reference algorithm
+
 	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
 
 	* RANDOM should allow expressions
@@ -124,6 +131,8 @@ ToDo:
 
 
 DONE:
+	* Document that the hero is a container
+
 	* Make the HERO a container actor with the inventory as the
 	container if possible.
 

@@ -1,3 +1,13 @@
+Wed Sep 17 09:00:46 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* Made the hero a container actor. You can now use both the
+	previous pre-defined "inventory" container and the hero as your
+	inventory, they are the same.
+
+	* Improved the analysis of multiple syntaxes fopr the same verb so
+ 	that it prints one message per occurance of the offending
+ 	syntaxes.
+
 Wed Aug 27 12:12:05 1997  Thomas Nilsson  <thoni@rabbit>
 
 	* Added the CONTAINS substring check expression
