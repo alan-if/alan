@@ -102,6 +102,7 @@ unit:
 	make sym
 	make cla
 	make ins
+	make adv
 
 # Unit Tests
 # Each unit is built separately with the test in a main program (xxxTest)
@@ -125,6 +126,19 @@ insTest : insTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
 ins:
 	$(MAKE) $@Test; $@Test
 
+advTest.o : advTest.c adv.c unitTest.h
+advTest : advTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o unitList.o str.o \
+	stm.o atr.o wrd.o msg.o sco.o stx.o vrb.o cla.o ins.o evt.o syn.o rul.o \
+	emit.o opt.o whr.o exp.o encode.o wht.o alan.o elm.o res.o alt.o timing.o \
+	srcp.o sysdep.o pmParse.o pmPaSema.o smScanx.o smScSema.o alan.version.o \
+	options.o chk.o pmErr.o ext.o lim.o scr.o stp.o 
+
+adv:
+	$(MAKE) $@Test; $@Test
+
+#
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
 depend:
 	@for f in *.c; \
 	  do \

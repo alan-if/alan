@@ -96,6 +96,35 @@ static void prepcodes(void)
 }
 
 
+/*----------------------------------------------------------------------
+
+  analyzeStartAt
+
+*/
+static void analyzeStartAt(void)
+{
+  if (adv.whr != NULL) 
+    switch (adv.whr->whr) {
+    case WHR_AT:
+      if (adv.whr->wht->wht == WHT_ID)
+#ifdef FIXME
+	check(&sym, &elm, adv.whr->wht->id, NAMLOC, NAMANY, NULL);
+#else
+      ;
+#endif
+      else
+	lmLog(&adv.whr->srcp, 211, sevERR, "");
+      break;
+    default:
+      lmLog(&adv.whr->srcp, 211, sevERR, "");
+      break;
+    }
+
+  if (adv.stms != NULL)
+    anstms(adv.stms, NULL, NULL, NULL);
+}
+
+
 /*======================================================================
 
   anadv()
@@ -136,25 +165,7 @@ void anadv(void)
   anmsgs();
   if (verbose) printf("\n");
 
-  if (adv.whr != NULL) 
-    switch (adv.whr->whr) {
-    case WHR_AT:
-      if (adv.whr->wht->wht == WHT_ID)
-#ifdef FIXME
-	check(&sym, &elm, adv.whr->wht->id, NAMLOC, NAMANY, NULL);
-#else
-      syserr("UNIMPLEMENTED: anadv");
-#endif
-      else
-	lmLog(&adv.whr->srcp, 211, sevERR, "");
-      break;
-    default:
-      lmLog(&adv.whr->srcp, 211, sevERR, "");
-      break;
-    }
-
-  if (adv.stms != NULL)
-    anstms(adv.stms, NULL, NULL, NULL);
+  analyzeStartAt();
 
   anwrds();
 }

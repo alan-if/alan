@@ -32,3 +32,9 @@ smScan.tbl
 smScan.tmp
 version.[ch]
 alan.version.[ch]
+*.exe
+*.exe.stackdump
+*~
+*.acd
+*.dat
+*.tmp
