@@ -20,13 +20,13 @@ extern int instanceCount;
 
 extern void initInstances(void);
 extern void addHero(void);
-extern InsNod *newInstance(Srcp *srcp,
-			   IdNode *id,
-			   IdNode *heritage,
-			   Slots *slt);
+extern Instance *newInstance(Srcp *srcp,
+			     IdNode *id,
+			     IdNode *heritage,
+			     Properties *props);
 extern void symbolizeInstances(void);
 extern void analyzeInstances(void);
 extern void generateInstances(AcdHdr *header);
-extern void dumpInstance(InsNod *ins);
+extern void dumpInstance(Instance *ins);
 
 #endif

@@ -60,7 +60,7 @@ Script *newScript(Srcp *srcp,
   Prepare scripts for this actor (i.e. number them)
 
   */
-void prepareScripts(List *scrs, InsNod *ins)
+void prepareScripts(List *scrs, Instance *ins)
 {
   List *lst;
   List *scrlst;
@@ -75,7 +75,7 @@ void prepareScripts(List *scrs, InsNod *ins)
     /* Any multiple of this name ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
       if (equalId(lst->element.scr->id, scrlst->element.scr->id))
-	lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
+	lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->props->id->string);
     }
   }
 }
@@ -95,7 +95,7 @@ void analyzeScripts(List *scripts, Context *context)
   if (scripts == NULL) return;
 
   /* Error if defined for HERO */
-  if (scripts != NULL && context->instance->slots->id->symbol == theHero)
+  if (scripts != NULL && context->instance->props->id->symbol == theHero)
       lmLog(&scripts->element.scr->srcp, 411, sevWAR, "Script");
 
   for (lst = scripts; lst != NULL; lst = lst->next) {

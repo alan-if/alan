@@ -1,9 +1,9 @@
-#ifndef _SLT_H_
-#define _SLT_H_
+#ifndef _PROP_H_
+#define _PROP_H_
 /*----------------------------------------------------------------------*\
 
-				SLT.H
-			     Slots Nodes
+			       PROP.H
+			    Property Nodes
                                                                      
 \*----------------------------------------------------------------------*/
 
@@ -19,12 +19,12 @@
 
 /* Types */
 
-typedef struct Slots {		/* SLOTS  */
+typedef struct Properties {
   IdNode *id;			/* Identifier */
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */
   List *names;			/* List of lists of adjectives and noun (ids)*/
-  WhrNod *whr;			/* Where is it initially? */
+  Where *whr;			/* Where is it initially? */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
   List *description;		/* Long description statements */
@@ -43,7 +43,7 @@ typedef struct Slots {		/* SLOTS  */
   Aaddr scriptsAddress;		/* ACODE address to scripts */
   List *exits;			/* List of exits */
   Aaddr exitsAddress;		/* ACODE address to exits table */
-} Slots;
+} Properties;
 
 
 #endif

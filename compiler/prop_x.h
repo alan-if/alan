@@ -1,13 +1,13 @@
-#ifndef _SLT_X_H_
-#define _SLT_X_H_
+#ifndef _PROP_X_H_
+#define _PROP_X_H_
 /*----------------------------------------------------------------------*\
 
-				SLT.H
-			  Slots Nodes Export
+			       PROP_X.H
+			Property Nodes Export
                                                                      
 \*----------------------------------------------------------------------*/
 
-#include "slt.h"
+#include "prop.h"
 
 /* USE: */
 #include "../interpreter/acode.h"
@@ -19,10 +19,10 @@
 
 /* METHODS: */
 
-extern Slots *newEmptySlots(void);
+extern Properties *newEmptyProps(void);
 
-extern Slots *newSlots(List *nams,
-			   WhrNod *whr,
+extern Properties *newProps(List *nams,
+			   Where *whr,
 			   List *atrs,
 			   CntNod *cnt,
 			   List *description,
@@ -36,12 +36,12 @@ extern Slots *newSlots(List *nams,
 			   List *vrbs,
 			   List *scrs);
 
-extern void symbolizeSlots(Slots *slots);
-extern void analyzeSlots(Slots *slts, Context *context);
-extern void generateClassSlotsData(Slots *slots);
-extern void generateInstanceSlotsData(Slots *slots);
-extern void generateSlotsEntry(InstanceEntry *entry, Slots *slots);
-extern void dumpSlots(Slots *slots);
+extern void symbolizeProps(Properties *props);
+extern void analyzeProps(Properties *props, Context *context);
+extern void generateClassPropertiesData(Properties *props);
+extern void generateInstancePropertiesData(Properties *props);
+extern void generatePropertiesEntry(InstanceEntry *entry, Properties *props);
+extern void dumpProps(Properties *props);
 
 
 #endif

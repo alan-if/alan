@@ -14,7 +14,7 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
-#include "slt_x.h"
+#include "prop_x.h"
 #include "lst_x.h"
 #include "context_x.h"
 
@@ -48,32 +48,26 @@ void initClasses()
   allClasses = NULL;
 
   thing = newClass(&nulsrcp, thingId, NULL, NULL);
-  thingSymbol = thing->slots->id->symbol;
+  thingSymbol = thing->props->id->symbol;
   object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
 		    thingId, NULL);
-  objectSymbol = object->slots->id->symbol;
+  objectSymbol = object->props->id->symbol;
   location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
 		      thingId, NULL);
-  locationSymbol = location->slots->id->symbol;
+  locationSymbol = location->props->id->symbol;
   actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
 		   thingId, NULL);
-  actorSymbol = actor->slots->id->symbol;
+  actorSymbol = actor->props->id->symbol;
 
 }
 
 
 
-/*======================================================================
-
-  newClass()
-
-  Allocates and initialises a class node.
-
-  */
+/*======================================================================*/
 ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 		 IdNode *id,
 		 IdNode *parent,
-		 Slots *slots)
+		 Properties *props)
 {
   ClaNod *new;                  /* The newly allocated area */
 
@@ -82,15 +76,15 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ClaNod);
 
   new->srcp = *srcp;
-  if (slots == NULL)
-    new->slots = newEmptySlots();
+  if (props == NULL)
+    new->props = newEmptyProps();
   else
-    new->slots = slots;
+    new->props = props;
 
-  new->slots->id = id;
-  new->slots->parentId = parent;
-  new->slots->id->symbol = newSymbol(id, CLASS_SYMBOL);
-  new->slots->id->symbol->fields.claOrIns.slots = new->slots;
+  new->props->id = id;
+  new->props->parentId = parent;
+  new->props->id->symbol = newSymbol(id, CLASS_SYMBOL);
+  new->props->id->symbol->fields.entity.props = new->props;
 
   allClasses = concat(allClasses, new, LIST_CLA);
 
@@ -107,14 +101,14 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
  */
 static void symbolizeClass(ClaNod *cla)
 {
-  symbolizeSlots(cla->slots);
+  symbolizeProps(cla->props);
 
-  if (cla->slots->parentId != NULL) {
-    if (cla->slots->parentId->symbol != NULL) {
-      if (cla->slots->parentId->symbol->kind != CLASS_SYMBOL)
-	lmLog(&cla->slots->parentId->srcp, 350, sevERR, "");
+  if (cla->props->parentId != NULL) {
+    if (cla->props->parentId->symbol != NULL) {
+      if (cla->props->parentId->symbol->kind != CLASS_SYMBOL)
+	lmLog(&cla->props->parentId->srcp, 350, sevERR, "");
       else
-	setParent(cla->slots->id->symbol, cla->slots->parentId->symbol);
+	setParent(cla->props->id->symbol, cla->props->parentId->symbol);
     }
   }
 }
@@ -150,7 +144,7 @@ static void analyzeClass(ClaNod *class)
 
   context->class = class;
 
-  analyzeSlots(class->slots, context);
+  analyzeProps(class->props, context);
 }
 
 
@@ -182,14 +176,14 @@ static void generateClassEntry(ClaNod *cla)
 
   cla->adr = emadr();
 
-  entry.code = cla->slots->id->symbol->code;	/* First own code */
+  entry.code = cla->props->id->symbol->code;	/* First own code */
 
-  if (cla->slots->parentId == NULL)	/* Then parents */
+  if (cla->props->parentId == NULL)	/* Then parents */
     entry.parent = 0;
   else
-    entry.parent = cla->slots->parentId->symbol->code;
+    entry.parent = cla->props->parentId->symbol->code;
 
-  entry.description = cla->slots->descriptionAddress;
+  entry.description = cla->props->descriptionAddress;
 
   emitEntry(&entry, sizeof(entry));
 }
@@ -204,7 +198,7 @@ static void generateClassEntry(ClaNod *cla)
 */
 static void generateClassData(ClaNod *cla)
 {
-  generateClassSlotsData(cla->slots);
+  generateClassPropertiesData(cla->props);
 }
 
 
@@ -220,10 +214,10 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  acdHeader.thingClassId = thing->slots->id->symbol->code;
-  acdHeader.objectClassId = object->slots->id->symbol->code;
-  acdHeader.locationClassId = location->slots->id->symbol->code;
-  acdHeader.actorClassId = actor->slots->id->symbol->code;
+  acdHeader.thingClassId = thing->props->id->symbol->code;
+  acdHeader.objectClassId = object->props->id->symbol->code;
+  acdHeader.locationClassId = location->props->id->symbol->code;
+  acdHeader.actorClassId = actor->props->id->symbol->code;
 
   for (l = allClasses; l; l = l->next)
     generateClassData(l->element.cla);
@@ -238,17 +232,11 @@ Aaddr generateClasses(void)
 
 
 
-/*======================================================================
-
-  dumpClass()
-
-  Dump a Class node.
-
- */
+/*======================================================================*/
 void dumpClass(ClaNod *cla)
 {
   put("CLA: "); dumpSrcp(&cla->srcp); in();
-  put("slots: "); dumpSlots(cla->slots); out();
+  put("props: "); dumpProps(cla->props); out();
 }
 
 

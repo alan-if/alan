@@ -82,7 +82,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   if (strcmp(atr->id->string, "count") == 0)
     atr->id->code = I_COUNT;		/* Use instruction code for COUNT meta attribute */
   else {
-    a = findAttribute(thingSymbol->fields.claOrIns.slots->attributes, atr->id);
+    a = findAttribute(thingSymbol->fields.entity.props->attributes, atr->id);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->type != INTEGER_TYPE)

@@ -67,7 +67,7 @@ typedef struct Expression {
 
     struct {			/* for WHERE */
       struct Expression *wht;	/* Must be a WHAT */
-      WhrNod *whr;
+      Where *whr;
     } whr;
 
     struct {			/* for ATTRIBUTE */

@@ -11,8 +11,8 @@
 
 void testAttributeToThis()
 {
-  InsNod *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
-				     NULL, newEmptySlots());
+  Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
+				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(&nulsrcp, "Atr");
   Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
 					 theAttributeId, 0, 0, 0);
@@ -21,7 +21,7 @@ void testAttributeToThis()
   Expression *theWhatExp = newexp(&nulsrcp, WHAT_EXPRESSION);
   Expression *theExp = newexp(&nulsrcp, ATTRIBUTE_EXPRESSION);
 
-  theInstance->slots->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
+  theInstance->props->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;
 
   theExp->fields.atr.atr = theAttributeId;

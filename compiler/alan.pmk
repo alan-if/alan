@@ -29,9 +29,9 @@
 #include "id_x.h"
 #include "ins_x.h"
 #include "lst_x.h"
+#include "prop_x.h"
 #include "res_x.h"
 #include "scr_x.h"
-#include "slt_x.h"
 #include "stm_x.h"
 #include "stp_x.h"
 #include "stx_x.h"
@@ -154,7 +154,7 @@ static int val(char str[])
   val %% int %1%%,
   vrb %% Verb *%1%%,
   vrbs %% List *%1%%,
-  whr %% WhrNod *%1%%,
+  whr %% Where *%1%%,
   wht %% What *%1%%;
 
 %%TERMINALS
@@ -655,25 +655,25 @@ static int val(char str[])
 
 ---> CLASS
 <class>			-- RETURNS: cla
-    = 'EVERY' ID <optional_heritage> <slots> <class_tail>
+    = 'EVERY' ID <optional_heritage> <properties> <class_tail>
     %%
 	%<class>.cla = newClass(`&%'EVERY'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newSlots(%<slots>.nams,
-					%<slots>.whr,
-					%<slots>.atrs,
-					%<slots>.cnt,
-					%<slots>.dscr,
-					`&%<slots>.dscrSrcp,
-					%<slots>.ment,
-					`&%<slots>.mentSrcp,
-					%<slots>.art,
-					`&%<slots>.artSrcp,
-					%<slots>.does,
-					%<slots>.exts,
-					%<slots>.vrbs,
-					%<slots>.scrs));
+				newProps(%<properties>.nams,
+					%<properties>.whr,
+					%<properties>.atrs,
+					%<properties>.cnt,
+					%<properties>.dscr,
+					`&%<properties>.dscrSrcp,
+					%<properties>.ment,
+					`&%<properties>.mentSrcp,
+					%<properties>.art,
+					`&%<properties>.artSrcp,
+					%<properties>.does,
+					%<properties>.exts,
+					%<properties>.vrbs,
+					%<properties>.scrs));
 	if (%<class_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<class_tail>.id))
 		lmLog(`&%<class_tail>.id->srcp, 201, sevWAR, %ID.id->string);
@@ -688,25 +688,25 @@ static int val(char str[])
 
 ---> ADD
 <add>			-- RETURNS: cla
-    = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <slots> <add_tail>
+    = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>
     %%
 	%<add>.add = newAdd(`&%'EVERY'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newSlots(%<slots>.nams,
-					%<slots>.whr,
-					%<slots>.atrs,
-					%<slots>.cnt,
-					%<slots>.dscr,
-					`&%<slots>.dscrSrcp,
-					%<slots>.ment,
-					`&%<slots>.mentSrcp,
-					%<slots>.art,
-					`&%<slots>.artSrcp,
-					%<slots>.does,
-					%<slots>.exts,
-					%<slots>.vrbs,
-					%<slots>.scrs));
+				newProps(%<properties>.nams,
+					%<properties>.whr,
+					%<properties>.atrs,
+					%<properties>.cnt,
+					%<properties>.dscr,
+					`&%<properties>.dscrSrcp,
+					%<properties>.ment,
+					`&%<properties>.mentSrcp,
+					%<properties>.art,
+					`&%<properties>.artSrcp,
+					%<properties>.does,
+					%<properties>.exts,
+					%<properties>.vrbs,
+					%<properties>.scrs));
 	if (%<add_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<add_tail>.id))
 		lmLog(`&%<add_tail>.id->srcp, 201, sevWAR, %ID.id->string);
@@ -721,25 +721,25 @@ static int val(char str[])
 
 ---> INSTANCE
 <instance>			-- RETURNS: ins
-    = 'THE' ID <optional_heritage> <slots> <instance tail>
+    = 'THE' ID <optional_heritage> <properties> <instance tail>
     %%
 	%<instance>.ins = newInstance(`&%'THE'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
-				newSlots(%<slots>.nams,
-					%<slots>.whr,
-					%<slots>.atrs,
-					%<slots>.cnt,
-					%<slots>.dscr,
-					`&%<slots>.dscrSrcp,
-					%<slots>.ment,
-					`&%<slots>.mentSrcp,
-					%<slots>.art,
-					`&%<slots>.artSrcp,
-					%<slots>.does,
-					%<slots>.exts,
-					%<slots>.vrbs,
-					%<slots>.scrs));
+				newProps(%<properties>.nams,
+					%<properties>.whr,
+					%<properties>.atrs,
+					%<properties>.cnt,
+					%<properties>.dscr,
+					`&%<properties>.dscrSrcp,
+					%<properties>.ment,
+					`&%<properties>.mentSrcp,
+					%<properties>.art,
+					`&%<properties>.artSrcp,
+					%<properties>.does,
+					%<properties>.exts,
+					%<properties>.vrbs,
+					%<properties>.scrs));
 	if (%<instance tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<instance tail>.id))
 		lmLog(`&%<instance tail>.id->srcp, 201, sevWAR, %ID.id->string);
@@ -768,109 +768,109 @@ static int val(char str[])
     %% %<heritage>.id = %ID.id; %%
     ;
 
-<slots>			-- RETURNS: all!
+<properties>			-- RETURNS: all!
     = 
     %%
-	%<slots>.nams = NULL;
-	%<slots>.whr = NULL;
-	%<slots>.atrs = NULL;
-	%<slots>.cnt = NULL;
-	%<slots>.dscr = NULL;
-	%<slots>.ment = NULL;
-	%<slots>.does = NULL;
-	%<slots>.exts = NULL;
-	%<slots>.vrbs = NULL;
-	%<slots>.scrs = NULL;
+	%<properties>.nams = NULL;
+	%<properties>.whr = NULL;
+	%<properties>.atrs = NULL;
+	%<properties>.cnt = NULL;
+	%<properties>.dscr = NULL;
+	%<properties>.ment = NULL;
+	%<properties>.does = NULL;
+	%<properties>.exts = NULL;
+	%<properties>.vrbs = NULL;
+	%<properties>.scrs = NULL;
     %%
 
-    ! <slots> [''] <slot>
+    ! <properties> [''] <property>
     %%
-	%<slots>.nams = concat(%<slots>.nams, %<slot>.nam, LIST_NAM);
+	%<properties>.nams = concat(%<properties>.nams, %<property>.nam, LIST_NAM);
 
-        if (%<slot>.whr != NULL) {
-            if (%<slots>.whr != NULL) 
+        if (%<property>.whr != NULL) {
+            if (%<properties>.whr != NULL) 
                 /* WHERE clause already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
 	    else
-	        %<slots>.whr = %<slot>.whr;
+	        %<properties>.whr = %<property>.whr;
         }
 
-	%<slots>.atrs = combine(%<slots>.atrs, %<slot>.atrs);
+	%<properties>.atrs = combine(%<properties>.atrs, %<property>.atrs);
 
-	if (%<slot>.cnt != NULL) {
-            if (%<slots>.cnt != NULL)
+	if (%<property>.cnt != NULL) {
+            if (%<properties>.cnt != NULL)
                 /* CONTAINER properties already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
 	    else 
-	        %<slots>.cnt = %<slot>.cnt;
+	        %<properties>.cnt = %<property>.cnt;
         }
 
-	if (%<slot>.dscr != NULL) {
-            if(%<slots>.dscr != NULL)
+	if (%<property>.dscr != NULL) {
+            if(%<properties>.dscr != NULL)
                 /* DESCRIPTION already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else {
-	        %<slots>.dscr = %<slot>.dscr;
-		%<slots>.dscrSrcp = %<slot>.srcp;
+	        %<properties>.dscr = %<property>.dscr;
+		%<properties>.dscrSrcp = %<property>.srcp;
 	    }
         }
 
-	if (%<slot>.ment != NULL) {
-            if (%<slots>.ment != NULL)
+	if (%<property>.ment != NULL) {
+            if (%<properties>.ment != NULL)
                 /* MENTIONED already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
 	    else {
-                %<slots>.ment = %<slot>.ment;
-		%<slots>.mentSrcp = %<slot>.srcp;
+                %<properties>.ment = %<property>.ment;
+		%<properties>.mentSrcp = %<property>.srcp;
 	    }
         }
 
-	if (%<slot>.art != NULL) {
-            if (%<slots>.art != NULL)
+	if (%<property>.art != NULL) {
+            if (%<properties>.art != NULL)
                 /* ARTICLE already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
             else { 
-	        %<slots>.art = %<slot>.art;
-		%<slots>.artSrcp = %<slot>.srcp;
+	        %<properties>.art = %<property>.art;
+		%<properties>.artSrcp = %<property>.srcp;
 	    }
         }
 
-	if (%<slot>.does != NULL) {
-            if (%<slots>.does != NULL)
+	if (%<property>.does != NULL) {
+            if (%<properties>.does != NULL)
                 /* DOES/ENTERED already declared */
-	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
 	    else 
-	        %<slots>.does = %<slot>.does;
+	        %<properties>.does = %<property>.does;
         }
 
-	%<slots>.exts = concat(%<slots>.exts, %<slot>.ext, LIST_EXT);
-	%<slots>.vrbs = concat(%<slots>.vrbs, %<slot>.vrb, LIST_VRB);
-	%<slots>.scrs = concat(%<slots>.scrs, %<slot>.scr, LIST_SCR);
+	%<properties>.exts = concat(%<properties>.exts, %<property>.ext, LIST_EXT);
+	%<properties>.vrbs = concat(%<properties>.vrbs, %<property>.vrb, LIST_VRB);
+	%<properties>.scrs = concat(%<properties>.scrs, %<property>.scr, LIST_SCR);
     %%
     ;
 
 
-<slot>
+<property>
     = <name>
     %%{ List *nam = %<name>.nam;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.nam = nam;
+	%<property>.nam = nam;
     }%%
 
     ! <where> ['.']
     %%{
-        WhrNod *whr = %<where>.whr;
+        Where *whr = %<where>.whr;
         Srcp srcp = %<where>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.whr = whr;
-	%<slot>.srcp = srcp;
+	%<property>.whr = whr;
+	%<property>.srcp = srcp;
     }%%
 
     ! <is> <attributes>				%+('EXIT', 'IN', 'ARTICLE')
     %%
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.atrs = %<attributes>.atrs;
+	%<property>.atrs = %<attributes>.atrs;
     %%
 
     ! <container properties>
@@ -879,8 +879,8 @@ static int val(char str[])
         Srcp srcp = %<container properties>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.cnt = cnt;
-	%<slot>.srcp = srcp;
+	%<property>.cnt = cnt;
+	%<property>.srcp = srcp;
     }%%
 
     ! <description>
@@ -889,8 +889,8 @@ static int val(char str[])
         Srcp srcp = %<description>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.dscr = dscr;
-	%<slot>.srcp = srcp;
+	%<property>.dscr = dscr;
+	%<property>.srcp = srcp;
     }%%
 
     ! <mentioned>
@@ -899,8 +899,8 @@ static int val(char str[])
         Srcp srcp = %<mentioned>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.ment = ment;
-	%<slot>.srcp = srcp;
+	%<property>.ment = ment;
+	%<property>.srcp = srcp;
     }%%
 
     ! <article>
@@ -908,8 +908,8 @@ static int val(char str[])
         Srcp srcp = %<article>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.art = art;
-	%<slot>.srcp = srcp;
+	%<property>.art = art;
+	%<property>.srcp = srcp;
     }%%
 
     ! <does>
@@ -918,26 +918,26 @@ static int val(char str[])
         Srcp srcp = %<does>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.does = does;
-	%<slot>.srcp = srcp;
+	%<property>.does = does;
+	%<property>.srcp = srcp;
     }%%
 
     ! <exit>
     %%{ ExtNod *ext = %<exit>.ext;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.ext = ext;
+	%<property>.ext = ext;
     }%%
 
     ! <verb>
     %%{ Verb *vrb = %<verb>.vrb;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.vrb = vrb;
+	%<property>.vrb = vrb;
     }%%
 
     ! <script>
     %%{ Script *scr = %<script>.scr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<slot>.scr = scr;
+	%<property>.scr = scr;
     }%%
     ;
 

@@ -30,7 +30,7 @@ extern WrdNod *findwrd(char str[]);
 extern int newwrd(char wrd[],
 		  WrdKind class,
 		  int code,
-		  InsNod *ref);
+		  Instance *ref);
 
 /* Prepare Words in dictionary */
 extern void prepwrds(void);

@@ -18,8 +18,8 @@ void testInitAdv()
   IdNode *atInsLocId = newId(&srcp, "atInsLocId");
   IdNode *atClaId = newId(&srcp, "atClaId");
 
-  InsNod *ins;
-  InsNod *locationIns;
+  Instance *ins;
+  Instance *locationIns;
   ClaNod *cla;
 
 

@@ -30,15 +30,15 @@
   Create a new Where node.
 
   */
-WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
+Where *newwhr(Srcp *srcp,	/* IN - Source position */
 	       WhrKind kind,	/* IN - Where kind */
 	       What *wht)	/* IN - What */
 {
-  WhrNod *new;
+  Where *new;
 
   showProgress();
 
-  new = NEW(WhrNod);
+  new = NEW(Where);
 
   new->srcp = *srcp;
   new->kind = kind;
@@ -49,7 +49,7 @@ WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
 
 
 /*======================================================================  */
-void symbolizeWhere(WhrNod *whr)
+void symbolizeWhere(Where *whr)
 {
   if (whr == NULL) return;
 
@@ -71,7 +71,7 @@ void symbolizeWhere(WhrNod *whr)
   verifyInitialLocation()
 
 */
-void verifyInitialLocation(WhrNod *whr)
+void verifyInitialLocation(Where *whr)
 {
   switch (whr->kind) {
   case WHR_AT:
@@ -97,7 +97,7 @@ void verifyInitialLocation(WhrNod *whr)
   Analyse a where reference.
 
   */
-void analyzeWhere(WhrNod *whr,
+void analyzeWhere(Where *whr,
 		  Context *context)
 {
   switch (whr->kind) {
@@ -137,7 +137,7 @@ void analyzeWhere(WhrNod *whr,
   Analyse a where reference.
 
   */
-void anwhr(WhrNod *whr,
+void anwhr(Where *whr,
 	   Context *context)
 {
   switch (whr->kind) {
@@ -181,7 +181,7 @@ void anwhr(WhrNod *whr,
   IN container.
 
   */
-Aword generateInitialLocation(WhrNod *whr) /* IN - Where node */
+Aword generateInitialLocation(Where *whr) /* IN - Where node */
 {
   if (whr != NULL)
     switch (whr->kind) {
@@ -203,7 +203,7 @@ Aword generateInitialLocation(WhrNod *whr) /* IN - Where node */
   Generate a location reference according to the WHR.
 
   */
-void gewhr(WhrNod *whr, int currentInstance)
+void gewhr(Where *whr, int currentInstance)
 {
   switch (whr->kind) {
 
@@ -250,7 +250,7 @@ void gewhr(WhrNod *whr, int currentInstance)
   Dump a Where node
 
   */
-void duwhr(WhrNod *whr)
+void duwhr(Where *whr)
 {
   if (whr == NULL) {
     put("NULL");

@@ -81,12 +81,12 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for EMPTY */
       What *wht;		/* What? */
-      WhrNod *whr;		/* Where? */
+      Where *whr;		/* Where? */
     } empty;
 
     struct {			/* for LOCATE */
       What *wht;		/* What? */
-      WhrNod *whr;		/* Where? */
+      Where *whr;		/* Where? */
     } locate;
 
     struct {			/* for MAKE */
@@ -109,7 +109,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for SCHEDULE */
       IdNode *id;		/* Name of the event */
-      WhrNod *whr;		/* Where? */
+      Where *whr;		/* Where? */
       Expression *when;
     } schedule;
 

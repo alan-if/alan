@@ -12,15 +12,15 @@
 #include "srcp.h"
 #include "id.h"
 #include "sym.h"
-#include "slt.h"
+#include "prop.h"
 
 
 /* TYPES: */
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  Slots *slots;
-} InsNod;
+  Properties *props;
+} Instance;
 
 
 #endif

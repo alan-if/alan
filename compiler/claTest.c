@@ -16,14 +16,14 @@ void testCreateClass()
   Srcp srcp = {1,2,3};
   IdNode *id = newId(&srcp, "claId");
   IdNode *parent = newId(&srcp, "parentId");
-  InsNod *ins;
+  Instance *ins;
 
   /* Create a class with unknown inheritance */
   ClaNod *cla = newClass(&srcp, id, parent, NULL);
 
   unitAssert(equalSrcp(cla->srcp, srcp));
-  unitAssert(equalId(cla->slots->id, id));
-  unitAssert(equalId(cla->slots->parentId, parent));
+  unitAssert(equalId(cla->props->id, id));
+  unitAssert(equalId(cla->props->parentId, parent));
 
   symbolizeClasses();
   unitAssert(readEcode() == 310 && readSev() == sevERR);
@@ -63,12 +63,12 @@ void testGenerateClasses()
 
 void testGenerateEmptyClassEntry()
 {
-  Slots *slots = newSlots(NULL, NULL,
-			  NULL, NULL,
-			  NULL,
-			  &nulsrcp, NULL, &nulsrcp, NULL,
-			  &nulsrcp, NULL, NULL, NULL, NULL);
-  ClaNod *class = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, slots);
+  Properties *props = newProps(NULL, NULL,
+			       NULL, NULL,
+			       NULL,
+			       &nulsrcp, NULL, &nulsrcp, NULL,
+			       &nulsrcp, NULL, NULL, NULL, NULL);
+  ClaNod *class = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, props);
   int entryAddress;
   ClassEntry *entry;
   
@@ -76,7 +76,7 @@ void testGenerateEmptyClassEntry()
   initEmit("unit.a3c");
   symbolizeAdventure();
 
-  generateClassSlotsData(class->slots);
+  generateClassPropertiesData(class->props);
   entryAddress = emadr();
   generateClassEntry(class);
   terminateEmit();

@@ -11,7 +11,7 @@
 /* USE: */
 #include "types.h"
 #include "id.h"
-#include "slt.h"
+#include "prop.h"
 
 
 /* TYPES: */
@@ -19,7 +19,7 @@
 typedef struct AddNode {	/* ADD TO */
   Srcp srcp;			/* Source position */
   IdNode *toId;			/* Class to add to */
-  Slots *slots;
+  Properties *props;
   Aaddr adr;			/* Generated at address */
 } AddNode;
 

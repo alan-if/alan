@@ -458,15 +458,15 @@ static void analyzeUse(StmNod *stm,
 	if (sym->kind == PARAMETER_SYMBOL)
 	  lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
 	else {
-	  scripts = sym->fields.claOrIns.slots->scripts;
-	  id = sym->fields.claOrIns.slots->id;
+	  scripts = sym->fields.entity.props->scripts;
+	  id = sym->fields.entity.props->id;
 	}
       }
     } else {
-      if (context->instance == NULL && context->instance->slots == NULL)
+      if (context->instance == NULL && context->instance->props == NULL)
 	syserr("Unexpected context in analyzeUse()");
-      scripts = context->instance->slots->scripts;
-      id = context->instance->slots->id;
+      scripts = context->instance->props->scripts;
+      id = context->instance->props->id;
     }
 
     /* Loop over actors scripts to check if script is defined */

@@ -8,7 +8,7 @@
 #include "add_x.h"
 
 /* IMPORT: */
-#include "slt_x.h"
+#include "prop_x.h"
 #include "sym_x.h"
 #include "id_x.h"
 #include "srcp_x.h"
@@ -38,7 +38,7 @@
 AddNode *newAdd(Srcp *srcp,
 		IdNode *id,
 		IdNode *parent,
-		Slots *slt)
+		Properties *props)
 {
   AddNode *new;
 
@@ -47,10 +47,10 @@ AddNode *newAdd(Srcp *srcp,
   new = NEW(AddNode);
 
   new->srcp = *srcp;
-  if (slt)
-    new->slots = slt;
+  if (props)
+    new->props = props;
   else
-    new->slots = newEmptySlots();
+    new->props = newEmptyProps();
   new->toId = id;
 
   if (parent != NULL)
@@ -67,10 +67,10 @@ AddNode *newAdd(Srcp *srcp,
 */
 static void addInitialLocation(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->whr != NULL)
-    lmLogv(&slots->whr->srcp, 341, sevERR, "initial location", "(yet)", NULL);
+  if (props->whr != NULL)
+    lmLogv(&props->whr->srcp, 341, sevERR, "initial location", "(yet)", NULL);
 }
 
 
@@ -81,10 +81,10 @@ static void addInitialLocation(AddNode *add, Symbol *original)
 */
 static void addNames(AddNode *add, Symbol *original)
 {
-#ifdef FIXME
-  if (slots->names != NULL)
-    lmLogv(&slots->names->element.nam->srcp, 341, sevERR, "names", "(yet)", NULL);
-#endif
+  Properties *props = add->props;
+
+  if (props->names != NULL)
+    lmLogv(&props->names->element.id->srcp, 341, sevERR, "names", "(yet)", NULL);
 }
 
 
@@ -95,9 +95,9 @@ static void addNames(AddNode *add, Symbol *original)
 */
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
-  List *addedAttributes = add->slots->attributes;
-  Slots *originalSlots = originalSymbol->fields.claOrIns.slots;
-  List *originalAttributes = originalSlots->attributes;
+  List *addedAttributes = add->props->attributes;
+  Properties *originalProps = originalSymbol->fields.entity.props;
+  List *originalAttributes = originalProps->attributes;
   List *l;
 
   if (addedAttributes == NULL) return;
@@ -107,7 +107,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
     if (originalAttribute != NULL) /* It was found in the original */
       lmLog(&l->element.atr->id->srcp, 336, sevERR, "an existing attribute");
   }
-  originalSlots->attributes = combine(originalSlots->attributes,
+  originalProps->attributes = combine(originalProps->attributes,
 				      addedAttributes);
 }
 
@@ -119,10 +119,10 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
 */
 static void addDescription(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->description != NULL)
-    lmLogv(&slots->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
+  if (props->description != NULL)
+    lmLogv(&props->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
 
 }
 
@@ -134,10 +134,10 @@ static void addDescription(AddNode *add, Symbol *original)
 */
 static void addArticle(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->article != NULL)
-    lmLogv(&slots->articleSrcp, 341, sevERR, "article", "(yet)", NULL);
+  if (props->article != NULL)
+    lmLogv(&props->articleSrcp, 341, sevERR, "article", "(yet)", NULL);
 
 }
 
@@ -149,10 +149,10 @@ static void addArticle(AddNode *add, Symbol *original)
 */
 static void addMentioned(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->mentioned != NULL)
-    lmLogv(&slots->mentionedSrcp, 341, sevERR, "mentioned", "(yet)", NULL);
+  if (props->mentioned != NULL)
+    lmLogv(&props->mentionedSrcp, 341, sevERR, "mentioned", "(yet)", NULL);
 
 }
 
@@ -164,10 +164,10 @@ static void addMentioned(AddNode *add, Symbol *original)
 */
 static void addContainer(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->container != NULL)
-    lmLogv(&slots->container->srcp, 341, sevERR, "container", "(yet)", NULL);
+  if (props->container != NULL)
+    lmLogv(&props->container->srcp, 341, sevERR, "container", "(yet)", NULL);
 
 }
 
@@ -179,10 +179,10 @@ static void addContainer(AddNode *add, Symbol *original)
 */
 static void addVerbs(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->verbs != NULL)
-    lmLogv(&slots->verbs->element.vrb->srcp, 341, sevERR, "verbs", "(yet)", NULL);
+  if (props->verbs != NULL)
+    lmLogv(&props->verbs->element.vrb->srcp, 341, sevERR, "verbs", "(yet)", NULL);
 
 }
 
@@ -194,10 +194,10 @@ static void addVerbs(AddNode *add, Symbol *original)
 */
 static void addScripts(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->scripts != NULL)
-    lmLogv(&slots->scripts->element.scr->srcp, 341, sevERR, "scripts", "(yet)", NULL);
+  if (props->scripts != NULL)
+    lmLogv(&props->scripts->element.scr->srcp, 341, sevERR, "scripts", "(yet)", NULL);
 
 }
 
@@ -209,10 +209,10 @@ static void addScripts(AddNode *add, Symbol *original)
 */
 static void addExits(AddNode *add, Symbol *original)
 {
-  Slots *slots = add->slots;
+  Properties *props = add->props;
 
-  if (slots->exits != NULL)
-    lmLogv(&slots->exits->element.ext->srcp, 341, sevERR, "exits", "(yet)", NULL);
+  if (props->exits != NULL)
+    lmLogv(&props->exits->element.ext->srcp, 341, sevERR, "exits", "(yet)", NULL);
 
 }
 
@@ -266,5 +266,5 @@ void dumpAdd(AddNode *add)
 {
   put("ADD: "); dumpSrcp(&add->srcp); in();
   put("toId: "); dumpId(add->toId); nl();
-  put("slots: "); dumpSlots(add->slots); out();
+  put("props: "); dumpProps(add->props); out();
 }

@@ -82,7 +82,7 @@ void verifyContainer(What *wht,
     if (sym)
       switch (sym->kind) {
       case INSTANCE_SYMBOL:
-	if (sym->fields.claOrIns.slots->container == NULL)
+	if (sym->fields.entity.props->container == NULL)
 	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
 	break;
       case PARAMETER_SYMBOL:
@@ -122,7 +122,7 @@ void analyzeContainer(CntNod *cnt, Context *context)
 
   showProgress();
 
-  if (cnt->ownerSlots == NULL)
+  if (cnt->ownerProperties == NULL)
     syserr("Container without an owner.");
 
   /* Analyze the limits */
@@ -179,7 +179,7 @@ static void gecntent(CntNod *cnt)
   entry.limits = cnt->limadr;
   entry.header = cnt->hadr;
   entry.empty = cnt->eadr;
-  entry.owner = cnt->ownerSlots->id->symbol->code;
+  entry.owner = cnt->ownerProperties->id->symbol->code;
   emitEntry(&entry, sizeof(entry));
 }
 
@@ -199,7 +199,7 @@ Aaddr generateContainers(AcdHdr *header)
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      gecnt(lst->element.cnt, lst->element.cnt->ownerSlots->id->code);
+      gecnt(lst->element.cnt, lst->element.cnt->ownerProperties->id->code);
   
     adr = emadr();		/* Save ACODE address to container list */
     /* Container list */
@@ -229,7 +229,7 @@ void dumpContainer(CntNod *container)
 
   put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
   put("code: "); dumpInt(container->code); nl();
-  put("ownerSlots: "); dumpPointer(container->ownerSlots); nl();
+  put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
   put("lims: "); dumpList(container->lims, LIST_LIM); nl();
   put("limadr: "); dumpAddress(container->limadr); nl();
   put("hstms: "); dumpList(container->hstms, LIST_STM); nl();

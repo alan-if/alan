@@ -27,7 +27,7 @@ typedef struct WhrNod {		/* WHERE node */
   Srcp srcp;			/* Source position */
   WhrKind kind;			/* Where kind */
   What *wht;			/* What */
-} WhrNod;
+} Where;
 
 
 #endif

@@ -127,7 +127,7 @@ void analyzeAdventure(void)
 
   if (verbose) printf("\n\tInstances: ");
   analyzeInstances();
-  theHero->fields.claOrIns.slots->whr = adv.whr;
+  theHero->fields.entity.props->whr = adv.whr;
 
   if (verbose) printf("\n\tEvents: ");
   anevts();

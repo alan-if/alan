@@ -259,13 +259,13 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *con
   if (sym) {
     if (sym->kind == INSTANCE_SYMBOL) {
       id->code = sym->code;
-      atr = findAttribute(sym->fields.claOrIns.slots->attributes, attribute);
+      atr = findAttribute(sym->fields.entity.props->attributes, attribute);
       if (atr == NULL)
 	lmLog(&attribute->srcp, 315, sevERR, id->string);
     } else if (sym->kind == PARAMETER_SYMBOL) {
       if (sym->fields.parameter.class != NULL) {
 	classOfParameter = sym->fields.parameter.class;
-	atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
+	atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
 	if (atr == NULL)
 	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
 		 id->string, classOfParameter->string, NULL);
@@ -289,7 +289,7 @@ static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
 
-  atr = findAttribute(actorSymbol->fields.claOrIns.slots->attributes, attribute);
+  atr = findAttribute(actorSymbol->fields.entity.props->attributes, attribute);
   if (atr == NULL)
     lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "actor", NULL);
   return atr;
@@ -307,7 +307,7 @@ static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
 
-  atr = findAttribute(locationSymbol->fields.claOrIns.slots->attributes, attribute);
+  atr = findAttribute(locationSymbol->fields.entity.props->attributes, attribute);
   if (atr == NULL)
     lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "location", NULL);
   return atr;
@@ -329,13 +329,13 @@ static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
   case CLASS_CONTEXT:
     if (context->class == NULL) syserr("Context->class == NULL in resolveThisAttribute()");
 
-    atr = findAttribute(context->class->slots->attributes, attribute);
+    atr = findAttribute(context->class->props->attributes, attribute);
     break;
 
   case INSTANCE_CONTEXT:
     if (context->instance == NULL) syserr("context->instance == NULL in resolveThisAttribute()");
 
-    atr = findAttribute(context->instance->slots->attributes, attribute);
+    atr = findAttribute(context->instance->props->attributes, attribute);
     break;
 
   default:

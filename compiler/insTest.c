@@ -12,14 +12,14 @@ void testCreateIns()
   Srcp srcp = {1,2,3};
   IdNode *id = newId(&srcp, "insId");
   IdNode *parent = newId(&srcp, "parentId");
-  InsNod *ins;
+  Instance *ins;
 
   initAdventure();
 
   ins = newInstance(&srcp, id, parent, NULL);
   unitAssert(equalSrcp(srcp, ins->srcp));
-  unitAssert(equalId(id, ins->slots->id));
-  unitAssert(equalId(parent, ins->slots->parentId));
+  unitAssert(equalId(id, ins->props->id));
+  unitAssert(equalId(parent, ins->props->parentId));
 
   symbolizeInstance(ins);
   unitAssert(readEcode() == 310 && readSev() == sevERR);
@@ -28,12 +28,12 @@ void testCreateIns()
 
 void testGenerateEmptyInstanceEntry()
 {
-  Slots *slots = newSlots(NULL, NULL,
-			  NULL, NULL,
-			  NULL,
-			  &nulsrcp, NULL, &nulsrcp, NULL,
-			  &nulsrcp, NULL, NULL, NULL, NULL);
-  InsNod *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, slots);
+  Properties *props = newProps(NULL, NULL,
+			       NULL, NULL,
+			       NULL,
+			       &nulsrcp, NULL, &nulsrcp, NULL,
+			       &nulsrcp, NULL, NULL, NULL, NULL);
+  Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, props);
   int entryAddress;
   InstanceEntry *entry;
   
@@ -41,7 +41,7 @@ void testGenerateEmptyInstanceEntry()
   initEmit("unit.a3c");
   symbolizeAdventure();
 
-  generateInstanceSlotsData(instance->slots);
+  generateInstancePropertiesData(instance->props);
   entryAddress = emadr();
   generateInstanceEntry(instance);
   terminateEmit();
@@ -56,7 +56,7 @@ void testGenerateEmptyInstanceEntry()
 void testGenerateInstances()
 {
   Srcp srcp = {12,13,14};
-  InsNod *ins;
+  Instance *ins;
   Aaddr address;
   Aaddr instanceTableAddress;
   InstanceEntry *instanceTable;
@@ -90,15 +90,15 @@ void testGenerateInstances()
 
   loadACD("unit.a3c");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
-  unitAssert(convertFromACD(instanceTable->code) == ins->slots->id->symbol->code);
-  unitAssert(convertFromACD(instanceTable->idAddress) == ins->slots->idAddress);
-  unitAssert(convertFromACD(instanceTable->parentClass) == (ins->slots->parentId?ins->slots->parentId->symbol->code:0));
-  unitAssert(convertFromACD(instanceTable->attributes) == ins->slots->attributeAddress);
-  unitAssert(convertFromACD(instanceTable->description) == ins->slots->descriptionAddress);
-  unitAssert(convertFromACD(instanceTable->mentioned) == ins->slots->mentionedAddress);
-  unitAssert(convertFromACD(instanceTable->article) == ins->slots->articleAddress);
-  unitAssert(convertFromACD(instanceTable->exits) == ins->slots->exitsAddress);
-  unitAssert(convertFromACD(instanceTable->verbs) == ins->slots->verbsAddress);
+  unitAssert(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
+  unitAssert(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
+  unitAssert(convertFromACD(instanceTable->parentClass) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
+  unitAssert(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
+  unitAssert(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
+  unitAssert(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
+  unitAssert(convertFromACD(instanceTable->article) == ins->props->articleAddress);
+  unitAssert(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
+  unitAssert(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
 }
 
 

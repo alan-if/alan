@@ -28,7 +28,7 @@ typedef struct AdvNod {		/* ADVenture */
   List *acts;			/* List of actors */
   List *ruls;			/* List of rules */
   List *stratrs;		/* List of string attributes to initialize */
-  WhrNod *whr;			/* Where to start */
+  Where *whr;			/* Where to start */
   List *stms;			/* List of start statements */
   int *scores;			/* Pointer to array of scores */
   List *msgs;			/* List of error messages */

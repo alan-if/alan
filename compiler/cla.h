@@ -11,14 +11,14 @@
 /* USE: */
 #include "types.h"
 #include "id.h"
-#include "slt.h"
+#include "prop.h"
 
 
 /* TYPES: */
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  Slots *slots;
+  Properties *props;
   Aaddr adr;			/* Generated at address */
 } ClaNod;
 

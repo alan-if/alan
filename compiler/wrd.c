@@ -64,7 +64,7 @@ WrdNod *findwrd(char *str)	/* IN - The string */
   Find a reference in a list.
 
 */
-static Bool findReference(InsNod *ref, List *referenceList)
+static Bool findReference(Instance *ref, List *referenceList)
 {
   List *l;
 
@@ -85,7 +85,7 @@ static Bool findReference(InsNod *ref, List *referenceList)
 int newwrd(char *str,		/* IN - Name of the new word */
 	   WrdKind class,	/* IN - and its class */
 	   int code,		/* IN - and code */
-	   InsNod *ref)		/* IN - The entity nodes it refers to */
+	   Instance *ref)		/* IN - The entity nodes it refers to */
 {
   WrdNod *new;			/* The newly created wrdnod */
   WrdNod *wrd;			/* The wrdnod found in dictionary */
@@ -256,7 +256,7 @@ static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
   if (wrd->classbits&(1L<<WRD_NOUN)) {
     wrd->nounrefadr = emadr();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_NOUN]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->slots->id);
+      generateId(lst->element.ins->props->id);
     emit(EOF);
   } else
     wrd->nounrefadr = 0;
@@ -264,7 +264,7 @@ static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
   if (wrd->classbits&(1L<<WRD_ADJ)) {
     wrd->adjrefadr = emadr();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_ADJ]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->slots->id);
+      generateId(lst->element.ins->props->id);
     emit(EOF);
   } else
     wrd->adjrefadr = 0;

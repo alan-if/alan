@@ -18,14 +18,14 @@
 
 /* FUNCTIONS: */
 
-extern WhrNod *newwhr(Srcp *srcp,
+extern Where *newwhr(Srcp *srcp,
 		      WhrKind kind,
 		      What *wht);
-extern void symbolizeWhere(WhrNod *whr);
-extern void verifyInitialLocation(WhrNod *whr);
-extern void analyzeWhere(WhrNod *whr, Context *context);
-extern Aword generateInitialLocation(WhrNod *whr);
-extern void gewhr(WhrNod *whr, int currentInstance);
-extern void duwhr(WhrNod *whr);
+extern void symbolizeWhere(Where *whr);
+extern void verifyInitialLocation(Where *whr);
+extern void analyzeWhere(Where *whr, Context *context);
+extern Aword generateInitialLocation(Where *whr);
+extern void gewhr(Where *whr, int currentInstance);
+extern void duwhr(Where *whr);
 
 #endif

@@ -8,7 +8,7 @@
 
 #include "atr.c"
 #include "cla_x.h"
-#include "slt_x.h"
+#include "prop_x.h"
 
 void testMultipleAtr()
 {
@@ -51,21 +51,21 @@ void testFindInList()
 
 static ClaNod *createClass(char string[], List *attributes)
 {
-  Slots *slots = newEmptySlots();
+  Properties *props = newEmptyProps();
   ClaNod *theClass;
 
-  slots->attributes = attributes;
-  theClass = newClass(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
+  props->attributes = attributes;
+  theClass = newClass(&nulsrcp, newId(&nulsrcp, string), NULL, props);
   return theClass;
 }
 
-static InsNod *createInstance(char string[], List *attributes)
+static Instance *createInstance(char string[], List *attributes)
 {
-  Slots *slots = newEmptySlots();
-  InsNod *theInstance;
+  Properties *props = newEmptyProps();
+  Instance *theInstance;
 
-  slots->attributes = attributes;
-  theInstance = newInstance(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
+  props->attributes = attributes;
+  theInstance = newInstance(&nulsrcp, newId(&nulsrcp, string), NULL, props);
   return theInstance;
 }
 
@@ -78,13 +78,13 @@ static List *create2Attributes(char firstString[], char secondString[])
   return theList;
 }
 
-static int attributeCode(Slots *slots, char *string)
+static int attributeCode(Properties *props, char *string)
 {
-  Attribute *atr = findAttribute(slots->attributes, newId(&nulsrcp, string));
+  Attribute *atr = findAttribute(props->attributes, newId(&nulsrcp, string));
   return atr->id->code;
 }
 
-static InsNod *firstInstance, *secondInstance;
+static Instance *firstInstance, *secondInstance;
 
 
 static void numberTheAttributes(List *aList, int n1, int n2)
@@ -146,9 +146,9 @@ void testAttributeListsInSymbolTable()
   secondClass = createClass("secondClass", secondClassAttributes);
 
   firstClassSymbol = lookup("firstClass");
-  unitAssert(firstClassSymbol->fields.claOrIns.slots->attributes == firstClassAttributes);
+  unitAssert(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
-  unitAssert(secondClassSymbol->fields.claOrIns.slots->attributes == secondClassAttributes);
+  unitAssert(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
   
   firstInstanceAttributes = create2Attributes("a11", "a12");
   secondInstanceAttributes = create2Attributes("a1", "a22");
@@ -157,9 +157,9 @@ void testAttributeListsInSymbolTable()
   secondInstance = createInstance("secondInstance", secondInstanceAttributes);
 
   firstInstanceSymbol = lookup("firstInstance");
-  unitAssert(firstInstanceSymbol->fields.claOrIns.slots->attributes == firstInstanceAttributes);
+  unitAssert(firstInstanceSymbol->fields.entity.props->attributes == firstInstanceAttributes);
   secondInstanceSymbol = lookup("secondInstance");
-  unitAssert(secondInstanceSymbol->fields.claOrIns.slots->attributes == secondInstanceAttributes);
+  unitAssert(secondInstanceSymbol->fields.entity.props->attributes == secondInstanceAttributes);
 
   /* Now set up a class hierarchy:
   location
@@ -170,36 +170,36 @@ void testAttributeListsInSymbolTable()
                         !
                         sI = a1 + a22
   */
-  setParent(firstClassSymbol, location->slots->id->symbol);
+  setParent(firstClassSymbol, location->props->id->symbol);
   setParent(secondClassSymbol, firstClassSymbol);
   setParent(firstInstanceSymbol, firstClassSymbol);
   setParent(secondInstanceSymbol, secondClassSymbol);
 
   numberAllAttributes();
 
-  unitAssert(attributeCode(firstClass->slots, "a1") != 0);
-  unitAssert(attributeCode(firstClass->slots, "a12") != 0);
-  unitAssert(attributeCode(secondClass->slots, "a1") != 0);
-  unitAssert(attributeCode(secondClass->slots, "a21") != 0);
-  unitAssert(attributeCode(firstInstance->slots, "a11") != 0);
-  unitAssert(attributeCode(firstInstance->slots, "a12") != 0);
-  unitAssert(attributeCode(secondInstance->slots, "a1") != 0);
-  unitAssert(attributeCode(secondInstance->slots, "a22") != 0);
+  unitAssert(attributeCode(firstClass->props, "a1") != 0);
+  unitAssert(attributeCode(firstClass->props, "a12") != 0);
+  unitAssert(attributeCode(secondClass->props, "a1") != 0);
+  unitAssert(attributeCode(secondClass->props, "a21") != 0);
+  unitAssert(attributeCode(firstInstance->props, "a11") != 0);
+  unitAssert(attributeCode(firstInstance->props, "a12") != 0);
+  unitAssert(attributeCode(secondInstance->props, "a1") != 0);
+  unitAssert(attributeCode(secondInstance->props, "a22") != 0);
 
-  unitAssert(attributeCode(firstClass->slots, "a1") != attributeCode(firstClass->slots, "a12"));
-  unitAssert(attributeCode(secondClass->slots, "a1") != attributeCode(secondClass->slots, "a21"));
-  unitAssert(attributeCode(firstInstance->slots, "a11") != attributeCode(firstInstance->slots, "a12"));
-  unitAssert(attributeCode(secondInstance->slots, "a1") != attributeCode(secondInstance->slots, "a22"));
+  unitAssert(attributeCode(firstClass->props, "a1") != attributeCode(firstClass->props, "a12"));
+  unitAssert(attributeCode(secondClass->props, "a1") != attributeCode(secondClass->props, "a21"));
+  unitAssert(attributeCode(firstInstance->props, "a11") != attributeCode(firstInstance->props, "a12"));
+  unitAssert(attributeCode(secondInstance->props, "a1") != attributeCode(secondInstance->props, "a22"));
 
-  x = attributeCode(firstClass->slots, "a1");
-  unitAssert(attributeCode(secondClass->slots, "a1") == x);
-  unitAssert(attributeCode(secondInstance->slots, "a1") == x);
+  x = attributeCode(firstClass->props, "a1");
+  unitAssert(attributeCode(secondClass->props, "a1") == x);
+  unitAssert(attributeCode(secondInstance->props, "a1") == x);
 
-  y = attributeCode(firstClass->slots, "a12");
-  unitAssert(attributeCode(firstInstance->slots, "a12") == y);
+  y = attributeCode(firstClass->props, "a12");
+  unitAssert(attributeCode(firstInstance->props, "a12") == y);
 
-  z = attributeCode(secondClass->slots, "a21");
-  unitAssert(attributeCode(secondInstance->slots, "a22") != z);
+  z = attributeCode(secondClass->props, "a21");
+  unitAssert(attributeCode(secondInstance->props, "a22") != z);
 }
 
 
@@ -274,24 +274,17 @@ void testGenerateAttributes()
      But without analysis where we link in all inherited attributes we will
      only generate 2.
   */
-  address = generateAttributes(firstInstance->slots->attributes);
+  address = generateAttributes(firstInstance->props->attributes);
   unitAssert(emadr() == address + 2*attributeEntrySize + 1);
-
-#ifdef Z
-  /* After analysis we should find all three */
-  replicateInheritedAttributes();
-  address = generateAttributes(firstInstance->slots->attributes);
-  unitAssert(emadr() == address + 3*attributeEntrySize + 1);
-#endif
 }
 
 static void testResolveThisAttributeForClass()
 {
   List *theAttributes = create2Attributes("x", "y");
-  Slots *theSlots = newSlots(NULL, NULL, theAttributes, NULL, NULL, &nulsrcp,
+  Properties *theProps = newProps(NULL, NULL, theAttributes, NULL, NULL, &nulsrcp,
 			     NULL, &nulsrcp, NULL, &nulsrcp,
 			     NULL, NULL, NULL, NULL);
-  ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theSlots);
+  ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;
 

@@ -54,10 +54,10 @@ BUILDSRCS = \
 	msg.c \
 	nam.c \
 	opt.c \
+	prop.c \
 	rul.c \
 	sco.c \
 	scr.c \
-	slt.c \
 	srcp.c \
 	stm.c \
 	stp.c \
@@ -104,14 +104,14 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
 alan: checkTarget tm $(MAINOBJECTS) unit
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
-	@-mkdir ../bin 2> /dev/null
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
 release: win test
 
 win:  checkTarget $(MAINOBJECTS) alan.res unit
 	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
-	@-mkdir ../bin 2> /dev/null
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
 alan.res: alan.rc alan.ico
@@ -162,6 +162,7 @@ UNITSRCS = unit.c \
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
+.PHONY: unit
 unit : $(TESTOBJS)
 	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 	@./unit

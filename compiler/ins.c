@@ -10,7 +10,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "scr_x.h"
-#include "slt_x.h"
+#include "prop_x.h"
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "wrd_x.h"
@@ -47,12 +47,12 @@ void initInstances()
 void addHero(void)
 {
   Symbol *hero = lookup("hero");
-  InsNod *theHeroInstance;
+  Instance *theHeroInstance;
 
   if (hero == NULL) {
     theHeroInstance = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
 				  newId(&nulsrcp, "actor"), NULL);
-    theHero = theHeroInstance->slots->id->symbol;
+    theHero = theHeroInstance->props->id->symbol;
   } else
     theHero = hero;
 }
@@ -65,43 +65,43 @@ void addHero(void)
   Allocates and initialises an instance node.
 
   */
-InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
+Instance *newInstance(Srcp *srcp,	/* IN - Source Position */
 		    IdNode *id,
 		    IdNode *parent,
-		    Slots *slt)
+		    Properties *props)
 {
-  InsNod *new;                  /* The newly allocated area */
+  Instance *new;                  /* The newly allocated area */
   List *nameList, *list;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(InsNod);
+  new = NEW(Instance);
 
   new->srcp = *srcp;
-  if (slt)
-    new->slots = slt;
+  if (props)
+    new->props = props;
   else
-    new->slots = newEmptySlots();
-  new->slots->id = id;
-  new->slots->parentId = parent;
+    new->props = newEmptyProps();
+  new->props->id = id;
+  new->props->parentId = parent;
 
-  new->slots->id->symbol = newSymbol(id, INSTANCE_SYMBOL);
-  new->slots->id->symbol->fields.claOrIns.slots = new->slots;
+  new->props->id->symbol = newSymbol(id, INSTANCE_SYMBOL);
+  new->props->id->symbol->fields.entity.props = new->props;
 
   allInstances = concat(allInstances, new, LIST_INS);
 
   /* Note instance name in the dictionary */
-  if (new->slots->names == NULL)		/* Use the object name */
-    newwrd(new->slots->id->string, WRD_NOUN, new->slots->id->code, new);
+  if (new->props->names == NULL)		/* Use the object name */
+    newwrd(new->props->id->string, WRD_NOUN, new->props->id->code, new);
   else {
-    for (nameList = new->slots->names; nameList != NULL; nameList = nameList->next) {
+    for (nameList = new->props->names; nameList != NULL; nameList = nameList->next) {
       for (list = nameList->element.lst; list->next != NULL; list = list->next)
 	newwrd(list->element.id->string, WRD_ADJ, 0, new);
       newwrd(list->element.id->string, WRD_NOUN, list->element.id->code, new);
     }
   }
 
-  prepareScripts(new->slots->scripts, new);
+  prepareScripts(new->props->scripts, new);
 
   return(new);
 }
@@ -115,9 +115,9 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   Symbolize a Instance node.
 
  */
-static void symbolizeInstance(InsNod *ins)
+static void symbolizeInstance(Instance *ins)
 {
-  symbolizeSlots(ins->slots);
+  symbolizeProps(ins->props);
 }
 
 
@@ -145,15 +145,15 @@ void symbolizeInstances(void)
   Analyze a Instance node.
 
  */
-static void analyzeInstance(InsNod *instance)
+static void analyzeInstance(Instance *instance)
 {
   Context *context = newContext(INSTANCE_CONTEXT);
 
   context->instance = instance;
 
-  if (instance->slots->parentId == NULL && instance->slots->container == NULL)
+  if (instance->props->parentId == NULL && instance->props->container == NULL)
     lmLog(&instance->srcp, 422, sevWAR, ""); 
-  analyzeSlots(instance->slots, context);
+  analyzeProps(instance->props, context);
 }
 
 
@@ -180,9 +180,9 @@ void analyzeInstances(void)
   Generate the data parts for one instance.
 
 */
-static void generateInstanceData(InsNod *ins)
+static void generateInstanceData(Instance *ins)
 {
-  generateInstanceSlotsData(ins->slots);
+  generateInstancePropertiesData(ins->props);
 }
 
 
@@ -191,11 +191,11 @@ static void generateInstanceData(InsNod *ins)
   generateInstanceEntry
 
 */
-static void generateInstanceEntry(InsNod *ins)
+static void generateInstanceEntry(Instance *ins)
 {
   InstanceEntry entry;
 
-  generateSlotsEntry(&entry, ins->slots);
+  generatePropertiesEntry(&entry, ins->props);
   emitEntry(&entry, sizeof(entry));
 }
 
@@ -246,8 +246,8 @@ void generateInstances(AcdHdr *header)
   Dump a Instance node.
 
  */
-void dumpInstance(InsNod *ins)
+void dumpInstance(Instance *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();
-  put("slots: "); dumpSlots(ins->slots); out();
+  put("props: "); dumpProps(ins->props); out();
 }

@@ -173,15 +173,15 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   switch (kind) {
   case CLASS_SYMBOL:
     new->code = ++classCount;
-    new->fields.claOrIns.parent = NULL;
-    new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.replicated = FALSE;
+    new->fields.entity.parent = NULL;
+    new->fields.entity.attributesNumbered = FALSE;
+    new->fields.entity.replicated = FALSE;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
-    new->fields.claOrIns.parent = NULL;
-    new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.replicated = FALSE;
+    new->fields.entity.parent = NULL;
+    new->fields.entity.attributesNumbered = FALSE;
+    new->fields.entity.replicated = FALSE;
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
@@ -331,7 +331,7 @@ void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in setParent()");
-  child->fields.claOrIns.parent = parent;
+  child->fields.entity.parent = parent;
 }
 
 
@@ -346,7 +346,7 @@ Symbol *parentOf(Symbol *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in parentOf()");
-  return child->fields.claOrIns.parent;
+  return child->fields.entity.parent;
 }
 
 
@@ -372,7 +372,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
   p = child;			/* To be the class itself is OK */
   while (p && p != ancestor)
-    p = p->fields.claOrIns.parent;
+    p = p->fields.entity.parent;
 
   return (p != NULL);
 }
@@ -474,8 +474,8 @@ static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
   if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
     return NULL;
 
-  if ((foundAttribute = findAttribute(symbol->fields.claOrIns.slots->attributes, id)) == NULL)
-    return definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
+  if ((foundAttribute = findAttribute(symbol->fields.entity.props->attributes, id)) == NULL)
+    return definingSymbolOfAttribute(symbol->fields.entity.parent, id);
   else
     return symbol;
 }
@@ -492,11 +492,11 @@ static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
 {
   Symbol *definingSymbol =
-    definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
+    definingSymbolOfAttribute(symbol->fields.entity.parent, id);
 
   if (definingSymbol == NULL) return NULL;
 
-  return findAttribute(definingSymbol->fields.claOrIns.slots->attributes, id);
+  return findAttribute(definingSymbol->fields.entity.props->attributes, id);
 }
 
 
@@ -511,9 +511,9 @@ static void numberAttributes(Symbol *symbol)
   Attribute *inheritedAttribute;
   Symbol *definingSymbol;
 
-  if (symbol->fields.claOrIns.attributesNumbered) return;
+  if (symbol->fields.entity.attributesNumbered) return;
 
-  for (theList = symbol->fields.claOrIns.slots->attributes; theList != NULL;
+  for (theList = symbol->fields.entity.props->attributes; theList != NULL;
        theList = theList->next){
     inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
     if (inheritedAttribute != NULL) {
@@ -529,8 +529,8 @@ static void numberAttributes(Symbol *symbol)
     }
   }
 
-  symbol->fields.claOrIns.slots->attributes = sortAttributes(symbol->fields.claOrIns.slots->attributes);
-  symbol->fields.claOrIns.attributesNumbered = TRUE;
+  symbol->fields.entity.props->attributes = sortAttributes(symbol->fields.entity.props->attributes);
+  symbol->fields.entity.attributesNumbered = TRUE;
 }
 
 
@@ -543,9 +543,9 @@ static void numberAttributes(Symbol *symbol)
 */
 static void numberParentAttributes(Symbol *symbol)
 {
-  if (symbol == NULL || symbol->fields.claOrIns.attributesNumbered) return;
+  if (symbol == NULL || symbol->fields.entity.attributesNumbered) return;
 
-  numberParentAttributes(symbol->fields.claOrIns.parent);
+  numberParentAttributes(symbol->fields.entity.parent);
   numberAttributes(symbol);
 }
 
@@ -564,7 +564,7 @@ static void numberAttributesRecursively(Symbol *symbol)
   if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
     /* Only a class or instance have attributes */
 
-    numberParentAttributes(symbol->fields.claOrIns.parent);
+    numberParentAttributes(symbol->fields.entity.parent);
     numberAttributes(symbol);
   }
 
@@ -592,39 +592,27 @@ void numberAllAttributes(void)
 }
 
 
-static Bool haveParent(Symbol *s) {return s->fields.claOrIns.parent != NULL;}
-static Slots *slotsOf(Symbol *s) {return s->fields.claOrIns.slots;}
-static Slots *slotsOfParentOf(Symbol *s) {return s->fields.claOrIns.parent->fields.claOrIns.slots;}
+static Bool haveParent(Symbol *s) {return s->fields.entity.parent != NULL;}
+static Properties *propertiesOf(Symbol *s) {return s->fields.entity.props;}
+static Properties *propertiesOfParentOf(Symbol *s) {return s->fields.entity.parent->fields.entity.props;}
 
-/*----------------------------------------------------------------------
-
-  replicateAttributes()
-
-*/
+/*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
 {
-  slotsOf(symbol)->attributes = combineAttributes(slotsOf(symbol)->attributes,
-						  slotsOfParentOf(symbol)->attributes);
+  propertiesOf(symbol)->attributes = combineAttributes(propertiesOf(symbol)->attributes,
+						  propertiesOfParentOf(symbol)->attributes);
 }
 
 
-/*----------------------------------------------------------------------
-
-  replicateContainer()
-
-*/
+/*----------------------------------------------------------------------*/
 static void replicateContainer(Symbol *symbol)
 {
-  if (slotsOf(symbol)->container == NULL)
-    slotsOf(symbol)->container = slotsOfParentOf(symbol)->container;
+  if (propertiesOf(symbol)->container == NULL)
+    propertiesOf(symbol)->container = propertiesOfParentOf(symbol)->container;
 }
 
 
-/*----------------------------------------------------------------------
-
-  replicate()
-
-*/
+/*----------------------------------------------------------------------*/
 static void replicate(Symbol *symbol)
 {
   if (haveParent(symbol)) {
@@ -638,17 +626,18 @@ static void replicate(Symbol *symbol)
 
   replicateParent()
 
-  Recurse the parental chain and replicate the inherited things.
+  Recurse the parental chain and replicate any inherited things that
+  requires local replicated data.
 
 */
 static void replicateParent(Symbol *symbol)
 {
-  if (symbol == NULL || symbol->fields.claOrIns.replicated)
+  if (symbol == NULL || symbol->fields.entity.replicated)
     return;
 
-  replicateParent(symbol->fields.claOrIns.parent);
+  replicateParent(symbol->fields.entity.parent);
   replicate(symbol);
-  symbol->fields.claOrIns.replicated = TRUE;
+  symbol->fields.entity.replicated = TRUE;
 }
 
 
@@ -664,7 +653,7 @@ static void replicateRecursively(Symbol *symbol)
   if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
 
     /* We have not replicated this symbol yet, so do it now */
-    replicateParent(symbol->fields.claOrIns.parent);
+    replicateParent(symbol->fields.entity.parent);
     replicate(symbol);
   }
 

@@ -27,9 +27,9 @@
 #include "id_x.h"
 #include "ins_x.h"
 #include "lst_x.h"
+#include "prop_x.h"
 #include "res_x.h"
 #include "scr_x.h"
-#include "slt_x.h"
 #include "stm_x.h"
 #include "stp_x.h"
 #include "stx_x.h"
@@ -74,7 +74,7 @@ typedef unsigned int UByte4;
 /* The semantic attributes for grammar symbols */
 typedef struct pmGrammar {
     What *wht;
-    WhrNod *whr;
+    Where *whr;
     List *vrbs;
     Verb *vrb;
     int val;
@@ -110,7 +110,7 @@ typedef struct pmGrammar {
     List *lims;
     LimNod *lim;
     List *inss;
-    InsNod *ins;
+    Instance *ins;
     List *idList2;
     List *idList;
     IdNode *id;
@@ -481,12 +481,12 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].stms = pmSeSt[pmStkP+3].stms;
     	break;}
-    case 73: { /* <class> = 'EVERY' ID <optional_heritage> <slots> <class_tail>; */
+    case 73: { /* <class> = 'EVERY' ID <optional_heritage> <properties> <class_tail>; */
 
 	pmSeSt[pmStkP+1].cla = newClass(&pmSySt[pmStkP+1].srcp,
 				pmSeSt[pmStkP+2].id,
 				pmSeSt[pmStkP+3].id,
-				newSlots(pmSeSt[pmStkP+4].nams,
+				newProps(pmSeSt[pmStkP+4].nams,
 					pmSeSt[pmStkP+4].whr,
 					pmSeSt[pmStkP+4].atrs,
 					pmSeSt[pmStkP+4].cnt,
@@ -506,12 +506,12 @@ int rule			/* IN production number */
     	break;}
     case 74: { /* <class_tail> = 'END' 'EVERY' <optional_id> __genSym#0; */
  pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+3].id; 	break;}
-    case 77: { /* <add> = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <slots> <add_tail>; */
+    case 77: { /* <add> = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>; */
 
 	pmSeSt[pmStkP+1].add = newAdd(&pmSySt[pmStkP+3].srcp,
 				pmSeSt[pmStkP+4].id,
 				pmSeSt[pmStkP+5].id,
-				newSlots(pmSeSt[pmStkP+6].nams,
+				newProps(pmSeSt[pmStkP+6].nams,
 					pmSeSt[pmStkP+6].whr,
 					pmSeSt[pmStkP+6].atrs,
 					pmSeSt[pmStkP+6].cnt,
@@ -531,12 +531,12 @@ int rule			/* IN production number */
     	break;}
     case 78: { /* <add_tail> = 'END' 'ADD' __genSym#1 <optional_id> __genSym#2; */
  pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+4].id; 	break;}
-    case 83: { /* <instance> = 'THE' ID <optional_heritage> <slots> <instance tail>; */
+    case 83: { /* <instance> = 'THE' ID <optional_heritage> <properties> <instance tail>; */
 
 	pmSeSt[pmStkP+1].ins = newInstance(&pmSySt[pmStkP+1].srcp,
 				pmSeSt[pmStkP+2].id,
 				pmSeSt[pmStkP+3].id,
-				newSlots(pmSeSt[pmStkP+4].nams,
+				newProps(pmSeSt[pmStkP+4].nams,
 					pmSeSt[pmStkP+4].whr,
 					pmSeSt[pmStkP+4].atrs,
 					pmSeSt[pmStkP+4].cnt,
@@ -566,7 +566,7 @@ int rule			/* IN production number */
     	break;}
     case 89: { /* <heritage> = 'ISA' ID __genSym#4; */
  pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+2].id; 	break;}
-    case 92: { /* <slots> =; */
+    case 92: { /* <properties> =; */
 
 	pmSeSt[pmStkP+1].nams = NULL;
 	pmSeSt[pmStkP+1].whr = NULL;
@@ -579,7 +579,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].vrbs = NULL;
 	pmSeSt[pmStkP+1].scrs = NULL;
     	break;}
-    case 93: { /* <slots> = <slots> __genSym#5 <slot>; */
+    case 93: { /* <properties> = <properties> __genSym#5 <property>; */
 
 	pmSeSt[pmStkP+1].nams = concat(pmSeSt[pmStkP+1].nams, pmSeSt[pmStkP+3].nam, LIST_NAM);
 
@@ -643,26 +643,26 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].vrbs = concat(pmSeSt[pmStkP+1].vrbs, pmSeSt[pmStkP+3].vrb, LIST_VRB);
 	pmSeSt[pmStkP+1].scrs = concat(pmSeSt[pmStkP+1].scrs, pmSeSt[pmStkP+3].scr, LIST_SCR);
     	break;}
-    case 100: { /* <slot> = <name>; */
+    case 100: { /* <property> = <name>; */
 { List *nam = pmSeSt[pmStkP+1].nam;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].nam = nam;
     }	break;}
-    case 96: { /* <slot> = <where> __genSym#6; */
+    case 96: { /* <property> = <where> __genSym#6; */
 {
-        WhrNod *whr = pmSeSt[pmStkP+1].whr;
+        Where *whr = pmSeSt[pmStkP+1].whr;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].whr = whr;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 103: { /* <slot> = <is> <attributes>; */
+    case 103: { /* <property> = <is> <attributes>; */
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].atrs = pmSeSt[pmStkP+2].atrs;
     	break;}
-    case 97: { /* <slot> = <container properties>; */
+    case 97: { /* <property> = <container properties>; */
 {
         CntNod *cnt = pmSeSt[pmStkP+1].cnt;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
@@ -671,7 +671,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].cnt = cnt;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 98: { /* <slot> = <description>; */
+    case 98: { /* <property> = <description>; */
 {
         List *dscr = pmSeSt[pmStkP+1].stms;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
@@ -680,7 +680,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].dscr = dscr;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 101: { /* <slot> = <mentioned>; */
+    case 101: { /* <property> = <mentioned>; */
 {
         List *ment = pmSeSt[pmStkP+1].stms;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
@@ -689,7 +689,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].ment = ment;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 99: { /* <slot> = <article>; */
+    case 99: { /* <property> = <article>; */
 { List *art = pmSeSt[pmStkP+1].art;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
 
@@ -697,7 +697,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].art = art;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 102: { /* <slot> = <does>; */
+    case 102: { /* <property> = <does>; */
 {
         List *does = pmSeSt[pmStkP+1].does;
         Srcp srcp = pmSeSt[pmStkP+1].srcp;
@@ -706,17 +706,17 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].does = does;
 	pmSeSt[pmStkP+1].srcp = srcp;
     }	break;}
-    case 104: { /* <slot> = <exit>; */
+    case 104: { /* <property> = <exit>; */
 { ExtNod *ext = pmSeSt[pmStkP+1].ext;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].ext = ext;
     }	break;}
-    case 105: { /* <slot> = <verb>; */
+    case 105: { /* <property> = <verb>; */
 { Verb *vrb = pmSeSt[pmStkP+1].vrb;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].vrb = vrb;
     }	break;}
-    case 106: { /* <slot> = <script>; */
+    case 106: { /* <property> = <script>; */
 { Script *scr = pmSeSt[pmStkP+1].scr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].scr = scr;
