@@ -1,8 +1,0 @@
-[0-9]*_[0-9]*_[0-9]*.*
-alan.prod
-alan*.lha
-alan*.zip
-compiler.zip
-interpre.zip
-version.c
-version.h
