@@ -92,8 +92,8 @@ static int val(char str[])
   agr %% AggregateKind %1%%,
   alt %% AltNod *%1%%,
   alts %% List *%1%%,
-  art %% List *%1%%,		-- of StmNod: article-clause,
-  artSrcp %% Srcp %1%%,
+  indefinite %% List *%1%%,		-- of StmNod: article-clause,
+  indefiniteSrcp %% Srcp %1%%,
   atr %% Attribute *%1%%,
   atrs %% List *%1%%,
   bits %% int %1%%,
@@ -674,8 +674,8 @@ static int val(char str[])
 					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
-					%<properties>.art,
-					%<properties>.artSrcp,
+					%<properties>.indefinite,
+					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -710,8 +710,8 @@ static int val(char str[])
 					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
-					%<properties>.art,
-					%<properties>.artSrcp,
+					%<properties>.indefinite,
+					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -746,8 +746,8 @@ static int val(char str[])
 					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
-					%<properties>.art,
-					%<properties>.artSrcp,
+					%<properties>.indefinite,
+					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -846,13 +846,13 @@ static int val(char str[])
 	    }
         }
 
-	if (%<property>.art != NULL) {
-            if (%<properties>.art != NULL)
+	if (%<property>.indefinite != NULL) {
+            if (%<properties>.indefinite != NULL)
                 /* ARTICLE already declared */
 	        lmLogv(`&%<property>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
             else { 
-	        %<properties>.art = %<property>.art;
-		%<properties>.artSrcp = %<property>.srcp;
+	        %<properties>.indefinite = %<property>.indefinite;
+		%<properties>.indefiniteSrcp = %<property>.srcp;
 	    }
         }
 
@@ -931,12 +931,12 @@ static int val(char str[])
 	%<property>.srcp = srcp;
     }%%
 
-    ! <article>
-    %%{ List *art = %<article>.art;
+    ! 'INDEFINITE' <article>
+    %%{ List *indefinite = %<article>.indefinite;
         Srcp srcp = %<article>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.art = art;
+	%<property>.indefinite = indefinite;
 	%<property>.srcp = srcp;
     }%%
 
@@ -1073,17 +1073,17 @@ static int val(char str[])
     %%
     ;
 
-<article>			-- RETURNS: art, srcp
+<article>			-- RETURNS: indefinite, srcp
     = 'ARTICLE' 
     %%
-	%<article>.art = concat(NULL, newstm(`&%'ARTICLE'.srcp,
+	%<article>.indefinite = concat(NULL, newstm(`&%'ARTICLE'.srcp,
 							NOP_STATEMENT), STATEMENT_LIST);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
     ! 'ARTICLE' <statements>
     %%
-	%<article>.art = %<statements>.stms;
+	%<article>.indefinite = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
     ;
