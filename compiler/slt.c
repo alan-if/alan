@@ -169,6 +169,8 @@ static void analyzeName(SlotsNode *slots)
 void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyInitialLocation(slots->whr);
+  if (inheritsFrom(slots->id->symbol, locationSymbol) && slots->whr != NULL)
+    lmLog(&slots->whr->srcp, 405, sevERR, "");
 
   analyzeName(slots);
   anstms(slots->description, NULL);

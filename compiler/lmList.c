@@ -151,6 +151,7 @@ static lmMsgs msg[] = {
     { "402   ", "An %1 can\'t be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "404   ", "Attribute to %1 must be a default attribute." },
+    { "405   ", "Instances inheriting from Location can not have initial locations." },
     { "406   ", "Integer and String parameters have no attributes." },
     { "407   ", "Attribute in LIMITS must be a default object attribute." },
     { "408   ", "Attributes in %1 must be of boolean type." },
@@ -182,7 +183,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 102}
+    {0, 103}
 };
 static lmMessages currMsect = (lmMessages)0;
 
