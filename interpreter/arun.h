@@ -9,6 +9,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
+#include <setjmp.h>
 
 
 /* TYPES */
@@ -52,6 +53,7 @@ typedef enum msgnum {
   SAVEFAILED,
   SAVEMISSING,
   SAVEVERS,
+  SAVENAME,
   NOMSG
 } MsgNum;
 
@@ -89,27 +91,27 @@ extern int dictsize;		/* Number of entries in dictionary */
 extern FILE *txtfil;
 extern FILE *logfil;
 
-/* Save file name */
-extern char savfnm[256];
-
+/* File names */
+extern char *advnam;
 
 /* Screen formatting info */
 extern int col, lin;
 extern int paglen, pagwidth;
 
 
-extern Boolean trcflg;
-extern Boolean dbgflg;
-extern Boolean stpflg;
-extern Boolean logflg;
+extern Boolean errflg, trcflg, dbgflg, stpflg, logflg;
 extern Boolean fail;
 extern Boolean anyOutput;
 extern Boolean needsp;
 
+extern jmp_buf restart;
+
 #define endOfTable(x) eot((Aword *) x)
+
 
 #ifdef _PROTOTYPES_
 extern void *allocate(int len);
+extern void terminate(int code);
 extern void syserr(char *msg);
 extern void error(enum msgnum msg);
 
@@ -135,6 +137,8 @@ extern Boolean isStr(Aword x);
 
 #else
 extern void *allocate();
+extern void terminate();
+extern void syserr();
 extern void error();
 extern void output();
 extern void prmsg();

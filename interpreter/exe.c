@@ -179,10 +179,19 @@ void quit(void)
 void quit()
 #endif
 {
-  if (logflg)
-    fclose(logfil);
-  newline();
-  exit(0);
+  char str[80];
+
+  para();
+  output("Do you want to restart (y) ?");
+  gets(str);
+  if (str[0] == '\0' || toupper(str[0]) == 'Y')
+    longjmp(restart, TRUE);
+  else {
+    if (logflg)
+      fclose(logfil);
+    newline();
+    terminate(0);
+  }
 }
 
 
@@ -1434,14 +1443,18 @@ void save()
 #endif
 {
   int i;
-  FILE *savfil = fopen(savfnm, "w");
+  char savfnm[256];
+  FILE *savfil;
   AtrElem *atr;
 
-  if (!savfil)
+  strcpy(savfnm, advnam);
+  strcat(savfnm, ".sav");
+  if ((savfil = fopen(savfnm, "w")) == NULL)
     error(SAVEFAILED);
 
-  /* Save version of interpreter */
+  /* Save version of interpreter and name of game */
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
+  fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
   /* Save actors */
@@ -1496,17 +1509,28 @@ void restore()
 #endif
 {
   int i;
-  FILE *savfil = fopen(savfnm, "r");
+  char savfnm[256];
+  FILE *savfil;
   AtrElem *atr;
   Aword savedVersion;
+  char savedName[256];
 
-  if (savfil == NULL)
+  strcpy(savfnm, advnam);
+  strcat(savfnm, ".sav");
+  if ((savfil = fopen(savfnm, "r")) == NULL)
     error(SAVEMISSING);
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
   if (savedVersion != header->vers) {
     fclose(savfil);
     error(SAVEVERS);
+    return;
+  }
+  i = 0;
+  while (savedName[i] = fgetc(savfil));
+  if (strcmp(savedName, advnam) != 0) {
+    fclose(savfil);
+    error(SAVENAME);
     return;
   }
 

@@ -15,8 +15,12 @@
 
 /* CONSTANTS */
 
+#ifndef TRUE
 #define TRUE (0==0)
+#endif
+#ifndef FALSE
 #define FALSE (!TRUE)
+#endif
 
 #define ACTMIN (header->actmin)
 #define ACTMAX (header->actmax)

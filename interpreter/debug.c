@@ -304,7 +304,7 @@ void debug()
       $iQ -- quit game\n");
       break;
     case 'Q':
-      exit(0);
+      terminate(0);
     case 'X':
       dbgflg = FALSE;		/* Fall through to 'G' */
     case 'G':

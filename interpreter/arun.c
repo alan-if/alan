@@ -11,13 +11,12 @@
 #include "types.h"
 #include "arun.h"
 
-#include <setjmp.h>
 #include <time.h>
 
 #include "version.h"
 
 
-#include "arun.h"
+#include "args.h"
 #include "parse.h"
 #include "inter.h"
 #include "rules.h"
@@ -66,8 +65,8 @@ Boolean anyOutput = FALSE;
 
 
 /* The files and filenames */
+char *advnam;
 FILE *txtfil;
-char savfnm[256] = "";
 FILE *logfil;
 
 
@@ -78,12 +77,39 @@ int paglen, pagwidth;
 Boolean needsp = FALSE;
 Boolean skipsp = FALSE;
 
+/* Restart jump buffer */
+jmp_buf restart;
+
 
 /* PRIVATE DATA */
 
 static MsgElem *msgs;		/* Message table pointer */
 
 static jmp_buf jmpbuf;		/* Error return long jump buffer */
+
+
+/*======================================================================
+  terminate()
+
+  Terminate the execution of the adventure
+
+ */
+#ifdef _PROTOTYPES_
+void terminate(int code)
+#else
+void terminate(code)
+     int code;
+#endif
+{
+#ifdef __amiga__
+  char buf[85];
+  
+  if (con) { /* Running from WB, created a console so kill it */
+    Close(Input());
+  }
+#endif
+  exit(code);
+}
 
 
 /*======================================================================
@@ -106,7 +132,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output("$n$n");
   if (logflg)
     fclose(logfil);
-  exit(0);
+  terminate(0);
 }
 
 
@@ -1122,7 +1148,6 @@ static void eventchk()
 
 
 static FILE *codfil;
-static char advfnm[256] = "";
 static char codfnm[256] = "";
 static char txtfnm[256] = "";
 static char logfnm[256] = "";
@@ -1153,7 +1178,7 @@ static void checkvers(header)
     state[0] = header->vers&0x0000000ff;
     state[1] = '\0';
     printf("Version of '%s' is %d.%d(%d)%s.",
-	   advfnm,
+	   advnam,
 	   (int)(header->vers>>24)&0xff,
 	   (int)(header->vers>>16)&0xff,
 	   (int)(header->vers>>8)&0xff,
@@ -1185,6 +1210,7 @@ static void load()
   int i;
   char err[100];
 
+  rewind(codfil);
   fread(&hdr, sizeof(hdr), 1, codfil);
   rewind(codfil);
   checkvers(&hdr);
@@ -1194,7 +1220,8 @@ static void load()
 #ifdef REVERSED
   reverseHdr(&hdr);
 #endif
-  memory = allocate(hdr.size*sizeof(Aword));
+  if (memory == NULL)
+    memory = allocate(hdr.size*sizeof(Aword));
   header = (AcdHdr *) addrTo(0);
 
   memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
@@ -1238,7 +1265,7 @@ static void checkdebug()
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
     if (dbgflg|trcflg|stpflg)
-      printf("Sorry, '%s' is not compiled for debug!", advfnm);
+      printf("Sorry, '%s' is not compiled for debug!", advnam);
     para();
     dbgflg = FALSE;
     trcflg = FALSE;
@@ -1448,7 +1475,7 @@ static void openFiles()
   time_t tick;
 
   /* Open Acode file */
-  strcpy(codfnm, advfnm);
+  strcpy(codfnm, advnam);
   strcat(codfnm, ".acd");
   if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure code file '");
@@ -1458,7 +1485,7 @@ static void openFiles()
   }
 
   /* Open Text file */
-  strcpy(txtfnm, advfnm);
+  strcpy(txtfnm, advnam);
   strcat(txtfnm, ".dat");
   if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure text data file '");
@@ -1467,17 +1494,13 @@ static void openFiles()
     syserr(str);
   }
 
-  /* Create name of save file */
-  strcpy(savfnm, advfnm);
-  strcat(savfnm, ".sav");
-
   /* If logging open log file */
   if (logflg) {
-#ifdef AMIGA
-    strcpy(str, "ALANDIR:log/");
+#ifdef __amiga__
+    strcpy(str, "AlanDir:log/");
     usr = "";
 #else
-#ifdef VAX
+#ifdef __vax__
     strcpy(str, "ALANDIR:");
     usr = "";
 #else
@@ -1495,7 +1518,7 @@ static void openFiles()
 #endif
 
     time(&tick);
-    sprintf(logfnm, "%s%s%d%s.log", str, advfnm, tick, usr);
+    sprintf(logfnm, "%s%s%d%s.log", str, advnam, tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
       logflg = FALSE;
   }
@@ -1520,86 +1543,31 @@ int main(argc, argv)
      char *argv[];
 #endif
 {
-  int i;
-  char *prgnam;
-
 #ifdef MALLOC
   malloc_debug(2);
 #endif
 
-#ifdef __mac__
-#include <console.h>
-  argc = ccommand(&argv);
-#endif
-
-  if((prgnam = strrchr(argv[0], ']')) == NULL
-     && (prgnam = strrchr(argv[0], '>')) == NULL
-     && (prgnam = strrchr(argv[0], '/')) == NULL
-     && (prgnam = strrchr(argv[0], ':')) == NULL
-     && (prgnam = strrchr(argv[0], '\\')) == NULL)
-    prgnam = argv[0];
-  else
-    prgnam++;
-#if defined __vms__
-  if (strrchr(prgnam, ';') != NULL)
-    *strrchr(prgnam, ';') = '\0';
-#endif
-  if (strlen(prgnam) > 4
-      && (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0
-	  || strcmp(&prgnam[strlen(prgnam)-4], ".exe") == 0))
-    prgnam[strlen(prgnam)-4] = '\0';
-  if (strcmp(prgnam, "arun") == 0 || strcmp(prgnam, "ARUN") == 0) {
-    for (i = 1; i < argc; i++) {
-      if (argv[i][0] == '-') {
-	switch (tolower(argv[i][1])) {
-	case 'i':
-	  errflg = FALSE;
-	  break;
-	case 't':
-	  trcflg = TRUE;
-	  break;
-	case 'd':
-	  dbgflg = TRUE;
-	  break;
-	case 's':
-	  trcflg = TRUE;
-	  stpflg = TRUE;
-	  break;
-	case 'l':
-	  logflg = TRUE;
-	  break;
-	default:
-	  printf("Unrecognized switch, -%c\n", argv[i][1]);
-	  exit(0);
-	}
-      } else {
-	strcpy(advfnm, argv[i]);
-	if (strcmp(&advfnm[strlen(advfnm)-4], ".acd") == 0)
-	  advfnm[strlen(advfnm)-4] = '\0';
-      }
-    }
-  } else {
-    /* Another program name use that as the name of the adventure */
-    strcpy(advfnm, prgnam);
-  }
+  args(argc, argv);
 
   /* Set up page format in case we get a system error */
   lin = col = 1;
   header->paglen = 24;
   header->pagwidth = 70;
   getPageSize();
-  
+
   if (dbgflg) {
     printf("Arun, Adventure Interpreter version %s.", product.version.string);
     newline();
   }
   
-  if (strcmp(advfnm, "") == 0) {
+  if (strcmp(advnam, "") == 0) {
     printf("No Adventure name given.\n");
-    exit(0);
+    terminate(0);
   }
 
   openFiles();
+
+  setjmp(restart);
 
   init();			/* Load, initialise and start the adventure */
 

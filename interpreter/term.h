@@ -11,10 +11,10 @@
 
 #ifdef _PROTOTYPES_
 
-void getPageSize(void);
+extern void getPageSize(void);
 
 #else
-void getPageSize();
+extern void getPageSize();
 #endif
 
 #endif
