@@ -87,9 +87,31 @@ void symbolizeId(IdNode *id)
 void generateId(IdNode *id)
 {
   if (id->symbol != NULL) {
-    emit(id->symbol->code);
-    if (id->symbol->kind == PARAMETER_SYMBOL)
-      emit0(C_CURVAR, V_PARAM);
+    if (id->symbol->kind == PARAMETER_SYMBOL) {
+      switch (id->symbol->fields.parameter.type) {
+	/* If it is a literal we have to fetch its value */
+	/* which is the first attribute */
+      case STRING_TYPE:
+	emit0(C_CONST, 1);
+	emit0(C_CONST, id->symbol->code);
+	emit0(C_CURVAR, V_PARAM);
+	emit0(C_STMOP, I_STRATTR);
+	break;
+      case INTEGER_TYPE:
+	emit0(C_CONST, 1);
+	emit0(C_CONST, id->symbol->code);
+	emit0(C_CURVAR, V_PARAM);
+	emit0(C_STMOP, I_ATTRIBUTE);
+	break;
+      case INSTANCE_TYPE:
+	emit0(C_CONST, id->symbol->code);
+	emit0(C_CURVAR, V_PARAM);
+	break;
+      default:
+	syserr("Unexpected type in generateId()");
+      }
+    } else
+      emit0(C_CONST, id->symbol->code);
   } else if (id->code == 0)
     syserr("Generating a symbol-less id with code == 0");
   else

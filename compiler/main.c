@@ -99,7 +99,10 @@ instances\n\
 containers\n\
 events\n\
 rules\n\
-everything", dmpflg, "yxsvciker!", NULL, NULL)
+everything\n\
+after parse (will abort after dump)\n\
+after analysis (will abort after dump)\n\
+after code generation", dmpflg, "yxsvciker!123", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

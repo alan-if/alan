@@ -26,7 +26,11 @@ typedef enum dmpKd {
   DMPCNT = (long)DMPINS<<1,
   DMPEVT = (long)DMPCNT<<1,
   DMPRUL = (long)DMPEVT<<1,
-  DMPALL = (long)DMPRUL<<1
+  DMPALL = (long)DMPRUL<<1,
+  DMP1 = (long)DMPALL<<1,
+  DMP2 = (long)DMP1<<1,
+  DMP3 = (long)DMP2<<1,
+  DMP4 = (long)DMP3<<1
 } DmpKind;
 
 

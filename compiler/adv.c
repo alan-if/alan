@@ -239,6 +239,7 @@ void duadv(enum dmpKd dmp)
   put("symbols: "); if (dmp&DMPSYM) dumpSymbols(); else put("--"); nl();
   put("whr: "); duwhr(adv.whr); nl();
   put("stms: "); dulst(adv.stms, LIST_STM); out();
+
 }
 
 

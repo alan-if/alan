@@ -12,7 +12,7 @@ extern int wrdidx;		/* and an index into it */
 extern ParamEntry *params;	/* List of parameters */
 extern Boolean plural;
 
-extern LiteralEntry litValues[];
+extern LiteralEntry literal[];
 extern int litCount;
 
 extern int vrbwrd;

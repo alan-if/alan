@@ -209,7 +209,9 @@ typedef struct ParamEntry {	/* PARAMETER */
   Aword lastWord;			/* d:o to last */
 } ParamEntry;
 
-typedef enum LiteralType {NUMERIC_LITERAL, STRING_LITERAL} LiteralType;
+typedef enum LiteralType {
+  NO_LITERAL, NUMERIC_LITERAL, STRING_LITERAL
+} LiteralType;
 
 typedef struct LiteralEntry {	/* LITERAL */
   LiteralType type;

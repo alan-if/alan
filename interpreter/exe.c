@@ -521,7 +521,7 @@ static Aword litatr(lit, atr)
   char str[80];
 
   if (atr == 1)
-    return litValues[lit-LITMIN].value;
+    return literal[lit-header->instanceMax].value;
   else {
     sprintf(str, "Unknown attribute for literal (%ld).", atr);
     syserr(str);
@@ -959,9 +959,9 @@ static void saylit(lit)
   char *str;
 
   if (isNum(lit))
-    sayint(litValues[lit-LITMIN].value);
+    sayint(literal[lit-header->instanceMax].value);
   else {
-    str = (char *)strdup((char *)litValues[lit-LITMIN].value);
+    str = (char *)strdup((char *)literal[lit-header->instanceMax].value);
     saystr(str);
   }    
 }

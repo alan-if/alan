@@ -449,6 +449,7 @@ static void listing(lmSev sevs)
 void compile(void) {
   lmSev sevs;			/* Set of listing severities */
 
+
   /* Start timer */
   starttot();
 			
@@ -486,12 +487,26 @@ void compile(void) {
   start();
   pmParse();
   endpars();			/* End of parsing pass */
-    
+
+  if ((dmpflg&DMP1) > 0) {
+    lmList("", 0, 79, liTINY, sevs);
+    lmSkipLines(0);
+    duadv(dmpflg);
+    terminate(EXIT_FAILURE);
+  }
+
   /* Analyze the internal form */
   if (verbose) printf("\nAnalyzing:");
   start();
   anadv();			/* Analyze the adventure */
   endsem();			/* End of semantic pass */
+
+  if ((dmpflg&DMP2) > 0) {
+    lmList("", 0, 79, liTINY, sevs);
+    lmSkipLines(0);
+    duadv(dmpflg);
+    terminate(EXIT_FAILURE);
+  }
 
   /* All text is output so close text file */
   fclose(txtfil);

@@ -783,7 +783,7 @@ Boolean isNum(x)
      Aword x;
 #endif
 {
-  return isLit(x) && litValues[x-LITMIN].type == NUMERIC_LITERAL;
+  return isLit(x) && literal[x].type == NUMERIC_LITERAL;
 }
 
 #ifdef _PROTOTYPES_
@@ -793,9 +793,9 @@ Boolean isStr(x)
      Aword x;
 #endif
 {
-  return isLit(x) && litValues[x-LITMIN].type == STRING_LITERAL;
+  return isLit(x) && literal[x].type == STRING_LITERAL;
 }
- 
+
 
 
 /*======================================================================

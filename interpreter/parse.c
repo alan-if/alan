@@ -48,7 +48,7 @@ static ParamEntry *mlst;		/* Multiple objects list */
 static ParamEntry *pmlst;	/* Previous multiple list */
 
 /* Literals */
-LiteralEntry litValues[MAXPARAMS+1];
+LiteralEntry literal[MAXPARAMS+1];
 int litCount;
 
 /* What did the user say? */
@@ -245,8 +245,8 @@ static void scan()
   getline();
   wrds[0] = 0;
   for (i = 0; i < litCount; i++)
-    if (litValues[i].type == STRING_LITERAL && litValues[i].value != 0)
-      free((char *) litValues[i].value);
+    if (literal[i].type == STRING_LITERAL && literal[i].value != 0)
+      free((char *) literal[i].value);
   i = 0;
   litCount = 0;
   do {
@@ -255,21 +255,21 @@ static void scan()
       w = lookup(token);
       if (!isNoise(w))
 	wrds[i++] = w;
-    } else if (isdigit(token[0])) {
+    } else if (isdigit(token[0]) || token[0] == '\"') {
+      litCount++;
       if (litCount > MAXPARAMS)
 	syserr("Too many parameters.");
       wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
-      litValues[litCount].type = NUMERIC_LITERAL;
-      litValues[litCount++].value = number(token);
-    } else if (token[0] == '\"') {
-      if (litCount > MAXPARAMS)
-	syserr("Too many parameters.");
-      wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
-      litValues[litCount].type = STRING_LITERAL;
-      /* Remove the string quotes while copying */
-      str = strdup(&token[1]);
-      str[strlen(token)-2] = '\0';
-      litValues[litCount++].value = (Aword) str;
+      if (isdigit(token[0])) {
+	literal[litCount].type = NUMERIC_LITERAL;
+	literal[litCount].value = number(token);
+      } else {
+	literal[litCount].type = STRING_LITERAL;
+	/* Remove the string quotes while copying */
+	str = strdup(&token[1]);
+	str[strlen(token)-2] = '\0';
+	literal[litCount].value = (Aword) str;
+      }
     } else if (token[0] == ',') {
       wrds[i++] = conjWord;
     } else
@@ -367,7 +367,8 @@ static void unambig(plst)
 
   if (isLiteral(wrds[wrdidx])) {
     /* Transform the word into a reference to the literal value */
-    plst[0].code = wrds[wrdidx++]-dictsize+LITMIN;
+    /* words > dictsize are literals with index = word-dictsize */
+    plst[0].code = (wrds[wrdidx++]-dictsize) + header->instanceMax;
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
     return;
@@ -567,12 +568,23 @@ static Boolean restrictionCheck(restriction)
 {
   Boolean ok = FALSE;
 
-  /* FIXME: We need to check for literals */
-
-  if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-    return instance[params[restriction->parameter-1].code].container != 0;
-
-  ok = isA(params[restriction->parameter-1].code, restriction->class);
+  if (isLit(params[restriction->parameter-1].code)) {
+    switch (restriction->class) {
+    case RESTRICTIONCLASS_INTEGER:
+      ok = literal[restriction->parameter].type == NUMERIC_LITERAL;
+      break;
+    case RESTRICTIONCLASS_STRING:
+      ok = literal[restriction->parameter].type == STRING_LITERAL;
+      break;
+    default:
+      syserr("Unexpected literal parameter type in restrictionCheck()");
+    }
+  } else {
+    if (restriction->class == RESTRICTIONCLASS_CONTAINER)
+      ok = instance[params[restriction->parameter-1].code].container != 0;
+    else
+      ok = isA(params[restriction->parameter-1].code, restriction->class);
+  }
   return ok;
 }
 

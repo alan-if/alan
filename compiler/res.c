@@ -82,6 +82,8 @@ static void resolveParameterClass(ResNod *res, SymNod *parameter)
     break;
 
   case CONTAINER_RESTRICTION:
+    parameter->fields.parameter.class = NULL;
+    parameter->fields.parameter.type = INSTANCE_TYPE;
     break;
 
   case STRING_RESTRICTION:
