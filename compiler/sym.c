@@ -47,7 +47,7 @@ Symbol *messageVerbSymbolForInstance;
 Symbol *messageVerbSymbolFor2Instances;
 Symbol *messageVerbSymbolForString;
 Symbol *messageVerbSymbolFor2Strings;
-Symbol *messageVerbSymbolForInteger;
+Symbol *messageVerbSymbolFor2Integers;
 
 
 
@@ -294,7 +294,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
 void createMessageVerbs() {
   messageVerbSymbolForInstance = createMessageVerb(1, entitySymbol);
   messageVerbSymbolForString = createMessageVerb(1, stringSymbol);
-  messageVerbSymbolForInteger = createMessageVerb(1, integerSymbol);
+  messageVerbSymbolFor2Integers = createMessageVerb(2, integerSymbol);
   messageVerbSymbolFor2Strings = createMessageVerb(2, stringSymbol);
   messageVerbSymbolFor2Instances = createMessageVerb(2, entitySymbol);
 }

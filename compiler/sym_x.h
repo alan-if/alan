@@ -41,7 +41,7 @@ extern Symbol *messageVerbSymbolForInstance;
 extern Symbol *messageVerbSymbolFor2Instances;
 extern Symbol *messageVerbSymbolForString;
 extern Symbol *messageVerbSymbolFor2Strings;
-extern Symbol *messageVerbSymbolForInteger;
+extern Symbol *messageVerbSymbolFor2Integers;
 
 
 /* FUNCTIONS: */

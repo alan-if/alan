@@ -425,6 +425,7 @@ typedef struct AcdHdr {
 
 /* Error message numbers */
 typedef enum MsgKind {
+  M_UNKNOWN_WORD,
   M_WHAT,
   M_WHAT_WORD,
   M_MULTIPLE,
@@ -438,7 +439,7 @@ typedef enum MsgKind {
   M_NO_SUCH,
   M_NO_WAY,
   M_CANT0,
-  M_CANT,
+  M_CANT,			/* Not used? */
   M_SEE_OBJ_START,
   M_SEE_OBJ_COMMA,
   M_SEE_OBJ_AND,
@@ -452,19 +453,17 @@ typedef enum MsgKind {
   M_EMPTY,
   M_EMPTYHANDED,
   M_CANNOTCONTAIN,
-  M_SCORE_START,
-  M_SCORE_END,
-  M_UNKNOWN_WORD,
+  M_SCORE,
   M_MORE,
   M_AGAIN,
   M_SAVEWHERE,
   M_SAVEOVERWRITE,
   M_SAVEFAILED,
+  M_RESTOREFROM,
   M_SAVEMISSING,
   M_NOTASAVEFILE,
   M_SAVEVERS,
   M_SAVENAME,
-  M_RESTOREFROM,
   M_REALLY,
   M_QUITACTION,
   M_INDEFINITE,

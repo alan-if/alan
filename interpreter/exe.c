@@ -289,9 +289,8 @@ void score(Aword sc)
 {
   if (sc == 0) {
     setupParameterForInteger(1, current.score);
-    printMessage(M_SCORE_START);
-    setupParameterForInteger(1, header->maxscore);
-    printMessage(M_SCORE_END);
+    setupParameterForInteger(2, header->maxscore);
+    printMessage(M_SCORE);
   } else {
     current.score += scores[sc-1];
     scores[sc-1] = 0;
@@ -1558,9 +1557,8 @@ void list(Aword cnt)
 {
   int i;
   Aword props;
-  Aword previouslyFoundInstance = 0;
-  Bool found = FALSE;
-  Bool multiple = FALSE;
+  Aword foundInstance[2] = {0,0};
+  int found = 0;
   Aint previousThis = current.instance;
 
   current.instance = cnt;
@@ -1573,8 +1571,7 @@ void list(Aword cnt)
     if (isA(i, OBJECT) || isA(i, ACTOR)) {
       /* We can only see objects and actors directly in this container... */
       if (admin[i].location == cnt) { /* Yes, it's in this container */
-	if (!found) {
-	  found = TRUE;
+	if (found == 0) {
 	  if (container[props].header != 0)
 	    interpret(container[props].header);
 	  else {
@@ -1583,24 +1580,21 @@ void list(Aword cnt)
 	    else
 	      printMessageUsingParameter(M_CONTAINS, container[props].owner);
 	  }
-	} else {
-	  if (multiple) {
-	    needSpace = FALSE;
-	    printMessage(M_CONTAINS_COMMA);
-	  }
-	  multiple = TRUE;
-	  sayForm(previouslyFoundInstance, SAY_INDEFINITE);
+	  foundInstance[0] = i;
+	} else if (found == 1)
+	  foundInstance[1] = i;
+	else {
+	  printMessageUsingParameter(M_CONTAINS_COMMA, i);
 	}
-	previouslyFoundInstance = i;
+	found++;
       }
     }
   }
 
-  if (found) {
-    if (multiple)
-      printMessage(M_CONTAINS_AND);
-    sayForm(previouslyFoundInstance, SAY_INDEFINITE);
-    printMessage(M_CONTAINS_END);
+  if (found > 0) {
+    if (found > 1)
+      printMessageUsingParameter(M_CONTAINS_AND, foundInstance[1]);
+    printMessageUsingParameter(M_CONTAINS_END, foundInstance[0]);
   } else {
     if (container[props].empty != 0)
       interpret(container[props].empty);

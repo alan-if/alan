@@ -193,8 +193,8 @@ ancient computer is standing in the centre of the room.
 > i
 
 <VERB 18, GLOBAL, DOES:>
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
+You are carrying a small coin, a rather heavy computer terminal and a 3
+metre long ladder.
 
 > connect terminal
 
@@ -742,8 +742,8 @@ entrance to a cafeteria.
 > i
 
 <VERB 18, GLOBAL, DOES:>
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
+You are carrying a dirty manual, a set of rusty keys and a spool of
+computer tape.
 
 > south
 

@@ -1,4 +1,4 @@
-Message unknownword:
+Message unknown_word:
   If parameter1 Isa string Then "A string ..." End If.
   If parameter1 Is large Then "large" End If.
   "I know not the word '$1'..."
