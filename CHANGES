@@ -11,3 +11,7 @@ A reversed file is loaded and reversed so .ACD files are now
 
 Character sets are converted automatically so national characters are
 	also compatible across all platforms (as much as possible!).
+
+Added Restart question to the QUIT statement.
+
+Allowed save to multiple files.

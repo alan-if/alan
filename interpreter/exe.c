@@ -173,35 +173,51 @@ void visits(v)
   cur.visits = v;
 }
 
+
+#ifdef _PROTOTYPES_
+Boolean confirm(MsgKind msgno)
+#else
+Boolean confirm(msgno)
+     MsgKind msgno;
+#endif
+{
+  char str[80];
+  char *msg, ch = '\0';
+  int i;
+
+  /* Can't use prmsg() here because we want to look for the '(y)' part */
+  getstr(msgs[msgno].fpos, msgs[msgno].len);
+  msg = (char *)pop();
+  output(msg);
+  gets(str); col = 1;
+  
+  /* Use a character inside parenthesis as affirmative */
+  for (i = 0; msg[i]; i++)
+    if (msg[i] == '(' && msg[i+2] == ')') {
+      ch = msg[i+1];
+      break;
+    }
+  free(msg);
+  return (str[0] == '\0' || (ch && toupper(str[0]) == toupper(ch)));
+}
+
+
 #ifdef _PROTOTYPES_
 void quit(void)
 #else
 void quit()
 #endif
 {
-  char str[80];
-  char *msg;
-  int i;
-
   para();
-  getstr(msgs[M_RETRY].fpos, msgs[M_RETRY].len);
-  msg = (char *)pop();
-  output(msg);
-  free(msg);
-  gets(str);
-
-  /* Use a character inside parenthesis as affirmative */
-  for (i = 0; msg[i]; i++)
-    if (msg[i] == '(' && msg[i+2] == ')')
-      break;
-  if (str[0] == '\0' || (msg[i] && toupper(msg[i+1]) == toupper(str[0])))
+  if (confirm(M_RETRY)) {
     longjmp(restart, TRUE);
-  else {
+  } else {
     if (logflg)
       fclose(logfil);
     newline();
     terminate(0);
   }
+  syserr("Fallthrough in QUIT");
 }
 
 
@@ -1439,6 +1455,8 @@ void look()
 
 
 
+static char savfnm[256];
+
 
 /*----------------------------------------------------------------------
 
@@ -1453,14 +1471,28 @@ void save()
 #endif
 {
   int i;
-  char savfnm[256];
   FILE *savfil;
+  char str[256];
   AtrElem *atr;
 
-  strcpy(savfnm, advnam);
-  strcat(savfnm, ".sav");
-  if ((savfil = fopen(savfnm, "w")) == NULL)
+  /* First save ? */
+  if (savfnm[0] == '\0') {
+    strcpy(savfnm, advnam);
+    strcat(savfnm, ".sav");
+  }
+  prmsg(M_SAVEWHERE);
+  sprintf(str, "(%s) : ", savfnm);
+  output(str);
+  gets(str); col = 1;
+  if (str[0] == '\0')
+    strcpy(str, savfnm);
+  if ((savfil = fopen(str, "r")) != NULL)
+    /* It already existed */
+    if (!confirm(M_SAVEOVERWRITE))
+      error(M_NOMSG);
+  if ((savfil = fopen(str, "w")) == NULL)
     error(M_SAVEFAILED);
+  strcpy(savfnm, str);
 
   /* Save version of interpreter and name of game */
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
@@ -1519,16 +1551,26 @@ void restore()
 #endif
 {
   int i;
-  char savfnm[256];
   FILE *savfil;
+  char str[256];
   AtrElem *atr;
   Aword savedVersion;
   char savedName[256];
 
-  strcpy(savfnm, advnam);
-  strcat(savfnm, ".sav");
-  if ((savfil = fopen(savfnm, "r")) == NULL)
+  /* First save ? */
+  if (savfnm[0] == '\0') {
+    strcpy(savfnm, advnam);
+    strcat(savfnm, ".sav");
+  }
+  prmsg(M_RESTOREFROM);
+  sprintf(str, "(%s) : ", savfnm);
+  output(str);
+  gets(str); col = 1;
+  if (str[0] == '\0')
+    strcpy(str, savfnm);	/* Use the name temporarily */
+  if ((savfil = fopen(str, "r")) == NULL)
     error(M_SAVEMISSING);
+  strcpy(savfnm, str);		/* Save it for future use */
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
   if (savedVersion != header->vers) {

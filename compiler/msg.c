@@ -60,10 +60,13 @@ static char *engmsg[] =
   "I don't know that word.",
   "<More>",
   "(again)",
+  "Enter file name to save in",
+  "That file already exists, overwrite (y) ? ",
   "Sorry, save failed.",
-  "Sorry, could not open any save file.",
+  "Sorry, could not open the save file.",
   "Sorry, the save file was created by a different version.",
   "Sorry, the save file did not contain a save for this adventure.",
+  "Enter file name to restore from",
   "Do you want to restart (y) ? ",
   NULL
 };
@@ -103,10 +106,13 @@ static char *swemsg[] = {
   "Jag känner inte till det ordet.",
   "<Mera>",
   "(igen)",
+  "Spara äventyret i vilken fil",
+  "Filen fanns redan, skriva över (j) ? ",
   "Tyvärr, det gick inte att spara äventyret.",
   "Tyvärr, kunde inte hitta något sparat äventyr.",
   "Tyvärr, det sparade äventyret har inte samma version.",
   "Tyvärr, det var inte detta äventyr som var sparat i den filen.",
+  "Hämta sparat äventyr från vilken fil",
   "Vill du försöka igen (j) ? ",
   NULL
 };
