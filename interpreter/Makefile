@@ -50,6 +50,8 @@ strip:
 #
 # Version number generation
 #
+# Just remove these on machines that don't have it
+#
 alan.version.h :
 	cd ..; venum -write always -all alan
 	cp ../alan.version.h .

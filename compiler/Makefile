@@ -80,11 +80,10 @@ spa.o: spa.c spa.h
 
 smScanx.o: smScanx.c
 
-fromsrc: $(OBJECTS) alan.version.o
-	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
-
 #
 # Version number generation
+#
+# Just remove these to compile on a machine without it
 #
 alan.version.h :
 	cd ..; venum -write always -all alan
