@@ -20,7 +20,7 @@
 #include "lst_x.h"
 #include "wrd_x.h"
 #include "cla_x.h"
-
+#include "context_x.h"
 
 #include "lmList.h"
 
@@ -255,26 +255,33 @@ Syntax *defaultSyntax0(char *verbName)
 }
 
 
-
 /*======================================================================*/
-Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
+Syntax *defaultSyntax1(char *vrbstr, Context *context)
 {
   /*
     Returns the address a default syntax node which is used for verbs
     in instances (taking one parameter) without any defined syntax:
 
-    Syntax x = x (object).
+    Syntax x = x (<id>).
+
+    Where <id> is the class identifier of the class or inherited class
+    in which the declaration occured.
   */
 
   Syntax *stx;
   List *elements;
+  IdNode *classId;
+
+  classId = classNameIn(context);
+  if (classId == NULL)		/* No class, so use any */
+    classId = newId(&nulsrcp, "object");
 
   elements = concat(concat(concat(NULL,
 			      newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
 			      ELEMENT_LIST),
-		       newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
+		       newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, classId->string), FALSE),
 		       ELEMENT_LIST),
 		newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
   stx = newSyntax(nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL, nulsrcp);

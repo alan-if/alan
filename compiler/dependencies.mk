@@ -223,15 +223,15 @@ stp.o: stp.c stp_x.h stp.h srcp.h exp.h alan.h sysdep.h types.h lst.h \
   lmList.h alanCommon.h token.h emit.h dump.h
 str.o: str.c str.h sysdep.h types.h util.h srcp.h dump.h
 stx.o: stx.c stx_x.h stx.h srcp.h lst.h id.h sym.h types.h type.h \
-  ../interpreter/acode.h alan.h sysdep.h util.h srcp_x.h id_x.h adv_x.h \
-  adv.h whr.h wht.h dump.h sym_x.h elm.h res.h atr.h exp.h context.h \
-  evt.h ins.h prop.h cnt.h cla.h scr.h res_x.h elm_x.h lst_x.h wrd_x.h \
-  wrd.h cla_x.h lmList.h alanCommon.h token.h emit.h
+  ../interpreter/acode.h context.h evt.h ins.h prop.h whr.h wht.h cnt.h \
+  cla.h alan.h sysdep.h util.h srcp_x.h id_x.h adv_x.h adv.h dump.h \
+  sym_x.h elm.h res.h atr.h exp.h scr.h res_x.h elm_x.h lst_x.h wrd_x.h \
+  wrd.h cla_x.h context_x.h lmList.h alanCommon.h token.h emit.h
 stxTest.o: stxTest.c stx.c stx_x.h stx.h srcp.h lst.h id.h sym.h types.h \
-  type.h ../interpreter/acode.h alan.h sysdep.h util.h srcp_x.h id_x.h \
-  adv_x.h adv.h whr.h wht.h dump.h sym_x.h elm.h res.h atr.h exp.h \
-  context.h evt.h ins.h prop.h cnt.h cla.h scr.h res_x.h elm_x.h lst_x.h \
-  wrd_x.h wrd.h cla_x.h lmList.h alanCommon.h token.h emit.h
+  type.h ../interpreter/acode.h context.h evt.h ins.h prop.h whr.h wht.h \
+  cnt.h cla.h alan.h sysdep.h util.h srcp_x.h id_x.h adv_x.h adv.h dump.h \
+  sym_x.h elm.h res.h atr.h exp.h scr.h res_x.h elm_x.h lst_x.h wrd_x.h \
+  wrd.h cla_x.h context_x.h lmList.h alanCommon.h token.h emit.h
 sym.o: sym.c sym_x.h sym.h types.h lst.h type.h elm.h srcp.h stx.h id.h \
   ../interpreter/acode.h res.h atr.h exp.h alan.h sysdep.h wht.h whr.h \
   context.h evt.h ins.h prop.h cnt.h cla.h scr.h util.h lmList.h \

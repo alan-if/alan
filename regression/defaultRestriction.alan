@@ -1,3 +1,6 @@
+Syntax take = take (object).
+Syntax pat = pat (actor).
+
 The o Isa object At l.
   Verb take
     Does
@@ -8,7 +11,7 @@ End The o.
 The a Isa actor At l.
   Verb pat
     Does
-      "You pat" Say actor. "."
+      "You take the" Say actor. "."
   End Verb pat.
 End The a.
 

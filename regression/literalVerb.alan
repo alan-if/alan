@@ -4,7 +4,7 @@ Syntax str = str (s) Where s Isa string Else "You can only str strings."
 Add To Every literal
   Verb obj -- Using default syntax, obj = obj (o) Where o Isa object...
     Does
-      "You obj" Say object. "$$."
+      "You obj" Say literal. "$$."
   End Verb.
   Verb lit
     Does

@@ -60,7 +60,7 @@ extern void analyzeAlternatives(List *alts, Context *context);
 extern Aaddr gealts(List *alts);
 
 /* Dump a verb Alternative */
-extern void dualt(AltNod *alt);
+extern void dumpAlternative(AltNod *alt);
 
 
 #endif

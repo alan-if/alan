@@ -1,19 +1,18 @@
-########## alan defaultSyntax ##########
+########## alan defaultRestriction ##########
 
         No warnings or errors detected.
-        2 informational message(s).
 
-########## arun defaultSyntax ##########
+########## arun defaultRestriction ##########
 
 
 L
 There is a o here. A is here.
 
-> take a
-You can't do that.
-
 > take o
 You take the o.
+
+> pat a
+You can't do that.
 
 > 
 

@@ -50,3 +50,26 @@ Bool inLocationContext(Context *context)
 	&& inheritsFrom(context->class->props->id->symbol, locationSymbol));
 }
 
+/*======================================================================*/
+IdNode *classNameIn(Context *context)
+{
+  IdNode *classId = NULL;
+
+  switch (context->kind) {
+  case INSTANCE_CONTEXT:
+    if (context->instance->props->parentId)
+      classId = context->instance->props->parentId;
+    break;
+  case CLASS_CONTEXT:
+    classId = context->class->props->id;
+    break;
+  default:
+    syserr("Unexpected context in '%s()'.", __FUNCTION__);
+  }
+
+  return(classId);
+}
+
+
+
+

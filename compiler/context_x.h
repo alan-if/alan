@@ -9,8 +9,8 @@
 
 #include "context.h"
 
-
 /* USE: */
+#include "id.h"
 
 /* DATA: */
 
@@ -20,5 +20,6 @@ extern Context *newContext(ContextKind kind);
 extern Context *pushContext(Context *context);
 extern Bool inEntityContext(Context *context);
 extern Bool inLocationContext(Context *context);
+extern IdNode *classNameIn(Context *context);
 
 #endif

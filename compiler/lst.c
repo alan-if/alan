@@ -19,7 +19,7 @@ void (*(dumpNodeTable[LAST_LIST_KIND]))();
 
 
 /* Import of dump functions to be used in dumpNodeTable */
-extern void dualt();
+extern void dumpAlternative();
 extern void duchk();
 extern void dumpElement();
 extern void dumpExit();
@@ -46,7 +46,7 @@ extern void dumpExpression();
 void initDumpNodeList()
 {
   dumpNodeTable[ADD_LIST] = &dumpAdd;
-  dumpNodeTable[ALTERNATIVE_LIST] = &dualt;
+  dumpNodeTable[ALTERNATIVE_LIST] = &dumpAlternative;
   dumpNodeTable[ATTRIBUTE_LIST] = &dumpAttribute;
   dumpNodeTable[CHECK_LIST] = &duchk;
   dumpNodeTable[CLASS_LIST] = &dumpClass;

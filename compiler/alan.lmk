@@ -62,8 +62,8 @@
 226	'Attributes can not be used in %1 aggregate applied to all instances. Filter out only instances of a particular class using a \'Isa <class>\' filter.';
 227	'An unconditional check prohibits the declared statements (DOES) to ever be executed.';
 
-230	'No syntax defined for this global verb, assumed \'%1\'.';
-231	'No syntax defined for this verb, assumed \'%1 (object)\'.';
+230	'No syntax defined for this global verb, automatically used \'%1\'.';
+231	'No syntax defined for this verb, automatically used \'%1 (%2)\'.';
 
 240	'%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'.';
 241	'%1 already defined for class \'%2\'. You can not add it. You can override it by subclassing from class \'%2\'.';

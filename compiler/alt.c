@@ -222,14 +222,8 @@ static void duqual (QualKind qual)
 
 
 
-/*======================================================================
-
-  dualt()
-
-  Dump a verb Alternative node.
-
- */
-void dualt(AltNod *alt)
+/*======================================================================*/
+void dumpAlternative(AltNod *alt)
 {
   if (alt == NULL) {
     put("NULL");

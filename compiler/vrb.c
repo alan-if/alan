@@ -91,8 +91,12 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
 	stx = defaultSyntax0(ids->element.id->string);
       } else {
-	lmLog(&ids->element.id->srcp, 231, sevINF, ids->element.id->string);
-	stx = defaultSyntax1(ids->element.id->string);
+	IdNode *className = classNameIn(context);
+	if (className == NULL)
+	  className = newId(&nulsrcp, "object");
+	lmLogv(&ids->element.id->srcp, 231, sevINF, ids->element.id->string,
+	       className->string, NULL);
+	stx = defaultSyntax1(ids->element.id->string, context);
       }
     }
     syntaxLists = concat(syntaxLists, stx, SYNTAX_LIST);

@@ -471,7 +471,7 @@ void compile(void) {
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
-    lmList("", 0, 79, liERR, sevALL); /* TINY list on the screen*/
+    lmList("", 0, 79, liMSG, sevALL); /* TINY list on the screen*/
     terminate(EXIT_FAILURE);
   }
 

@@ -1,15 +1,14 @@
-The o Isa object At l.
+Add To Every object
   Verb take
     Does
-      "You take the" Say object. "."
+      "You take the object."
   End Verb take.
+End Add.
+
+The o Isa object At l.
 End The o.
 
 The a Isa actor At l.
-  Verb pat
-    Does
-      "You pat" Say actor. "."
-  End Verb pat.
 End The a.
 
 

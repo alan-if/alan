@@ -9,22 +9,21 @@ OPTIMIZE = -g
 CYGWIN	= 
 EXE	= arun.exe
 
+COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
+CFLAGS	= $(COMPILEFLAGS)
+ARCH	= $(CYGWIN)$(OPTIMIZE)
+
+#Settings for Windows GLK variant
 GLKROOT = ../../WindowsGLK
 GLKDEFS = -DGLK -DWINGLK
 GLKINCLUDE = -I$(GLKROOT)/Include
 GLKLIB = $(GLKROOT)/Glk.lib
-
-#Settings for Windows GLK variant
-winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
+winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
 winarun: LIB = $(LIB) $(GLKLIB)
 winarun: EXE = winarun.exe
 
 release: OPTIMIZE = -O4
-
-CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
-
-ARCH	= $(CYGWIN)$(OPTIMIZE)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG

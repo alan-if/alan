@@ -123,8 +123,8 @@ static lmMsgs msg[] = {
     { "225   ", "The %1 aggregate will be applied to every instance (including locations, things and instances without any inheritance). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
     { "226   ", "Attributes can not be used in %1 aggregate applied to all instances. Filter out only instances of a particular class using a \'Isa <class>\' filter." },
     { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
-    { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
-    { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
+    { "230   ", "No syntax defined for this global verb, automatically used \'%1\'." },
+    { "231   ", "No syntax defined for this verb, automatically used \'%1 (%2)\'." },
     { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'." },
     { "241   ", "%1 already defined for class \'%2\'. You can not add it. You can override it by subclassing from class \'%2\'." },
     { "250   ", "You can only declare restrictions for the first syntax for verb \'%1\'. The restrictions for subsequent syntaxes must be empty and will use the same as for the first." },
@@ -587,12 +587,14 @@ static void geterr(
     return;
 
   /* Find last error for the line */
-  for (*last = *first; (*last < count.msgs)
+  if (*first >= 0) {
+    for (*last = *first; (*last < count.msgs)
         && (msarr[*last].pos.file == fil) 
         && (msarr[*last].pos.line == line) 
        ; (*last)++)
-    *errflg |= msarr[*last].sev; /* this severity was found */
-  (*last)--;
+      *errflg |= msarr[*last].sev; /* this severity was found */
+    (*last)--;
+  }
 }
 
 
@@ -731,14 +733,16 @@ static void prsrcl(
   
   /* Possibly output source if requested */
   if (inset(errflg, lstsev)) {
-    if (inset(liERR, lsttyp)) {
+    /* There is a message on this line that we want to show */
+    if (inset(liMSG, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
       if (!src[srclev].printed)
 	prfnm();
       prlin(lbuf, TRUE, FALSE, 0);	/* Error line to follow */
     }
-  } else if (errflg == (lmSev) 0) {
+  } else {
+    /* No interesting message on this line, show it anyway ? */
     if (inset(liOK, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */

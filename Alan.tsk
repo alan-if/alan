@@ -6,15 +6,15 @@
 <priority>2</priority>
 <origest>217.89</origest>
 <currest>217.89</currest>
-<elapsed>79.89</elapsed>
+<elapsed>80.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>37</origest>
-<currest>37</currest>
-<elapsed>8</elapsed>
+<origest>38</origest>
+<currest>38</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>9</origest>
 <currest>9</currest>
-<elapsed>6</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -118,37 +118,6 @@ TASK: create multiple entries for same verb in syntax mapping table
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Location ENTERED</desc>
-<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default syntax with parameter</desc>
-<notes>Does it work to refer to the default parameter "object"? Yes.
-How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
-
-Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Missing lines in -full listing</desc>
 <notes>Messages with only informational messages are not shown if listing is filtered using severity
 
@@ -173,6 +142,40 @@ But  alan -full inheritVerb1 -info:
 =====&gt;               1
 
   *1*   310 E : Identifier 'c' not defined.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If a printout start with a "." don't print a space even if needsp is true</desc>
+<notes>This will make most uses of $$ go away.
+
+E.g.
+  "The" Say x. "$$."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Location ENTERED</desc>
+<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default syntax with parameter</desc>
+<notes>Does it work to refer to the default parameter "object"? Yes.
+How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
+
+Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -322,8 +325,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>11</origest>
+<currest>11</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -338,6 +341,17 @@ Implementation:
 1) Allow any id as a value for the language option.
 2) Find an external langauge-specific message file and use it.
 3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
+<notes>DONE for verbs
+
+TODO: Descriptions, ?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -585,8 +599,8 @@ Multiple %1 '%2'</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>94</origest>
-<currest>94</currest>
+<origest>93</origest>
+<currest>93</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -614,15 +628,6 @@ The ... In box</notes>
 <notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
  HAVING x = 3
  HAVING y &gt; atr OF b</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unit tests for word-handling</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1083,23 +1088,6 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Alternativ to USE &lt;script&gt; FOR &lt;actor&gt;</desc>
-<notes>START &lt;actor&gt; &lt;script&gt;.  E.g.
-
-Start george cleaning.
-Start tiger hunting.
-
-(This caused grammar conflicts at three points, since it is impossible to know if to reduce constructs with no 'END' on a 'START' (as if the start section was next) or if to shift it (as if a START &lt;actor&gt; &lt;script&gt; was next)
-
-To fix this better conflict resolutions must be made in the grammar. Conflicts was in MESSAGE, WHERE and WHEN without END WHEN. since they all have lists of statements that are not terminated.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
 <notes/>
 <priority>2</priority>
@@ -1121,15 +1109,6 @@ To fix this better conflict resolutions must be made in the grammar. Conflicts w
 <desc>Player reference to single object using 'them'</desc>
 <notes>
 Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter program from 2.8 to 3.0</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1166,34 +1145,8 @@ End The door.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow expressions between two strings as SAY</desc>
-<notes>
-E.g.
-
- "I have" capacity Of bottle "left."
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>If a printout start with a "." don't print a space even if needsp is true</desc>
-<notes>This will make most uses of $$ go away.
-
-E.g.
-  "The" Say x. "$$."</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1210,75 +1163,8 @@ E.g.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Fix picture in about Arun box</desc>
-<notes>Only occurs on W2k &amp; XP</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Dynamic creation of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document how to produce a SCRIPT-file</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Reference to local attributes without prefixing</desc>
-<notes>E.g
-
-The i
-  Has a.
-...
-  Set a To 4.
-End The i.
-
-
-Instead of
-
-Set a Of i To 4.
-
-which seems a bit superflous.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Re-implement the "go" handling so that it is no longer a noise</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Parameter environment classing</desc>
-<notes>The analysis of every statement should have a list of available parameters and their classes. Using these you can analyse classing even inside IF statements:
-
-IF p ISA object THEN
-   -- here we know that p has the class object
-ELSE
-   -- here p has the same class as before IF
-END IF.
-
-Furthermore you can in the IF expression verify that the parameter is a subclass to the class p has before the IF statement.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1324,6 +1210,15 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Fix picture in about Arun box</desc>
+<notes>Only occurs on W2k &amp; XP</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Separate data and code</desc>
 <notes>Separate data and code in the .acd into two separate areas, point to them from the header. This way we could more easily do two things: run from disk (if memory is not large enough to hold both data and code) and implement undo (just save the data area before each command)</notes>
 <priority>2</priority>
@@ -1348,6 +1243,168 @@ an item, deleting an item).
 <task>
 <desc>Use Blorb-layer for resources</desc>
 <notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expressions between two strings as SAY</desc>
+<notes>
+E.g.
+
+ "I have" capacity Of bottle "left."
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter program from 2.8 to 3.0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Re-implement the "go" handling so that it is no longer a noise</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restrictions may make erroneous warning for multiply executed verb bodies</desc>
+<notes>If a syntax has more than one parameter and one is restricted to classes to which the verb body does not apply, the body will not be executed more than once:
+
+Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
+
+Add To Every object
+  Verb x ...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unknown words in player input to create strings</desc>
+<notes>
+Experiment with making unknown words into strings:
+
+&gt; say hello to the guard
+
+would automagically translate to
+
+&gt; say "hello" to the guard
+
+if "hello" is an unknown word. This could possibly be made automatically by the interpreter when encountering an (or a series of ) unknown word. Problem is probably how to error handle.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Parameter environment classing</desc>
+<notes>The analysis of every statement should have a list of available parameters and their classes. Using these you can analyse classing even inside IF statements:
+
+IF p ISA object THEN
+   -- here we know that p has the class object
+ELSE
+   -- here p has the same class as before IF
+END IF.
+
+Furthermore you can in the IF expression verify that the parameter is a subclass to the class p has before the IF statement.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unit tests for word-handling</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Dynamic creation of instances</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Alternativ to USE &lt;script&gt; FOR &lt;actor&gt;</desc>
+<notes>START &lt;actor&gt; &lt;script&gt;.  E.g.
+
+Start george cleaning.
+Start tiger hunting.
+
+(This caused grammar conflicts at three points, since it is impossible to know if to reduce constructs with no 'END' on a 'START' (as if the start section was next) or if to shift it (as if a START &lt;actor&gt; &lt;script&gt; was next)
+
+To fix this better conflict resolutions must be made in the grammar. Conflicts was in MESSAGE, WHERE and WHEN without END WHEN. since they all have lists of statements that are not terminated.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Reference to local attributes without prefixing</desc>
+<notes>E.g
+
+The i
+  Has a.
+...
+  Set a To 4.
+End The i.
+
+
+Instead of
+
+Set a Of i To 4.
+
+which seems a bit superflous.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>CHECKs on containers</desc>
+<notes>
+Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1402,68 +1459,6 @@ But not both THE and the ID...</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Restrictions may make erroneous warning for multiply executed verb bodies</desc>
-<notes>If a syntax has more than one parameter and one is restricted to classes to which the verb body does not apply, the body will not be executed more than once:
-
-Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
-
-Add To Every object
-  Verb x ...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SCHEDULE &lt;event&gt; &lt;where&gt; WHEN &lt;expr&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unknown words in player input to create strings</desc>
-<notes>
-Experiment with making unknown words into strings:
-
-&gt; say hello to the guard
-
-would automagically translate to
-
-&gt; say "hello" to the guard
-
-if "hello" is an unknown word. This could possibly be made automatically by the interpreter when encountering an (or a series of ) unknown word. Problem is probably how to error handle.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Capitalization of nouns</desc>
-<notes>
-Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>CHECKs on containers</desc>
-<notes>
-Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Lists of case clauses in DEPENDING ON</desc>
 <notes>
 Allow lists of right hand expressions in the DEPENDING ON case clauses:
@@ -1480,6 +1475,26 @@ DEPENDING ON x
 <task>
 <desc>Listing of saved games</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SCHEDULE &lt;event&gt; &lt;where&gt; WHEN &lt;expr&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Capitalization of nouns</desc>
+<notes>
+Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1571,19 +1586,6 @@ which would allow:
 LOCATE ALL HERE AT cave.
 MAKE ALL OBJECT WITH size &gt; 3 heavy.
 SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Some kind of procedures</desc>
-<notes>NEED: to be able to execute common code without mis-using e.g events.
-
-ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
-
-Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
