@@ -42,8 +42,11 @@ extern Does *newDoes(Srcp *srcp,
 		     DoesKind kind,
 		     List *statements);
 
+/* Analyse a Does node */
+extern void analyseDoes(Does *does, List *parameters);
+
 /* Generate a reference to a Does */
-extern void generateDoes(Does *does);
+extern void generateDoes(Does *does, List *parameters);
 
 /* Dump a Does node */
 extern void dumpDoes(Does *does);
