@@ -2132,27 +2132,45 @@ static int val(char str[])
     ;
 
 <filter>				-- RETURNS: exp, expKd
+    = <filter expression>
+    ;
+
+-- This could be the start of using general attribute comparisons as filters
+-- It is more complicated than the rest since we have the attribute comparison
+-- node at the top in the parse tree and the filter variable must be attached
+-- further down the left branch than in the simpler cases.
+--    ! <is> ID <optional_not> <relop> <primary>
+--    %% { Expression *exp;
+--       %<filter>.expKd = BINARY_EXPRESSION;
+--	exp = newBinaryExpression(%<relop>.srcp, %<relop>.op,
+--				%<optional_not>.not, NULL,
+--				%<primary>.exp);
+--	%<filter>.exp = exp;
+--    } %%
+--    ;
+
+<filter expression>			-- RETURNS: exp, expKd
     = <optional_not> <where>
     %% { Expression *exp;
 	exp = newExpression(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
-	%<filter>.exp = exp;
-        %<filter>.expKd = WHERE_EXPRESSION;
+	%<filter expression>.exp = exp;
+        %<filter expression>.expKd = WHERE_EXPRESSION;
     } %%
 
     ! <optional_not> 'ISA' ID
     %%
-	%<filter>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
-        %<filter>.expKd = ISA_EXPRESSION;
-	%<filter>.id = %ID.id;
+	%<filter expression>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
+        %<filter expression>.expKd = ISA_EXPRESSION;
+	%<filter expression>.id = %ID.id;
     %%
 
     ! <is> <something>
     %%
-	%<filter>.exp = newAttributeExpression(%<is>.srcp,
+	%<filter expression>.exp = newAttributeExpression(%<is>.srcp,
 					%<something>.id, %<something>.not, NULL);
-        %<filter>.expKd = ATTRIBUTE_EXPRESSION;
+        %<filter expression>.expKd = ATTRIBUTE_EXPRESSION;
     %%
     ;
 
@@ -2187,7 +2205,7 @@ static int val(char str[])
 	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <filter>
+    ! <filter expression>
     ;
 
 
@@ -2466,7 +2484,7 @@ static int val(char str[])
 
 
 <optional_not>
-    =
+    =					%+(Identifier, 'ON', 'OF', 'INTO', 'FIRST', 'ACTOR', 'OPAQUE', 'TAKING', 'LOCATION')
     %%
         %<optional_not>.not = FALSE;
     %%

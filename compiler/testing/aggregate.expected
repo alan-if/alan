@@ -22,14 +22,13 @@ aggregate.alan
                 of a particular class. Perhaps you mean 'COUNT Isa object'?
   *2*   224 E : Multiple use of Where in filter list for COUNT Aggregation.
 
-   11.    If Count At l =at 9 Then "" End If.
-=====>       1           2
+   11.    If Count At l = 9 Then "" End If.
+=====>       1
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
                 (including locations, things and instances without any
                 inheritance). It is recommended to apply it to only instances
                 of a particular class. Perhaps you mean 'COUNT Isa object'?
-  *2*   102 E : Syntax error. Attempting to repair by ignoring "'AT'".
 
    12.    If Count Is x Then "" End If.
 =====>       1     2
@@ -67,7 +66,7 @@ aggregate.alan
                 type.
 
 
-        9 error(s).
+        8 error(s).
         4 warning(s).
         1 informational message(s).
 

@@ -20,8 +20,8 @@
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -50,8 +50,8 @@ Include &lt;expr&gt; in &lt;expr&gt;.
 Remove &lt;expr&gt; from &lt;expr&gt;.
 </notes>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -82,17 +82,6 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Random In &lt;set&gt;</desc>
-<notes>Returns one value in the set.
-
-How to handle the empty set???? Run-time error obviously.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Expression In &lt;set&gt;</desc>
 <notes/>
 <priority>2</priority>
@@ -112,6 +101,15 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>UNDO does not affect heros position</desc>
 <notes>Bug? Save current state also? Why is not current.location set to heros location?
 
@@ -123,29 +121,8 @@ We also need some way to re-output the state.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Verify UNDO</desc>
-<notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>A very large number of events will not restore correctly after a save</desc>
 <notes>There seems to be no check for event queue size when reading events back from a save file</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes>Currently the checks are run for all alternatives.
-
-Verify what this would mean in a practical example.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -184,7 +161,7 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow dash within words in player input</desc>
+<desc>Allow dash and underscore within words in player input</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -212,8 +189,8 @@ I don't know which water you mean.
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -226,8 +203,8 @@ I don't know which water you mean.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Should IN be transitive?</desc>
-<notes/>
+<desc>Transitive AT/IN</desc>
+<notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -247,6 +224,18 @@ DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
  =2 : RESTART.
  =3 : QUIT.
 END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
+
+Verify what this would mean in a practical example.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -296,6 +285,17 @@ Message CANTSEE:
 <notes>Randomly select one of the instances in the container
 
 Has type of the container TAKES</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Random In &lt;set&gt;</desc>
+<notes>Returns one value in the set.
+
+How to handle the empty set???? Run-time error obviously.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

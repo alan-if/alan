@@ -618,6 +618,17 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool inhibitSpace(char *str) {
+  return str[0] == '$' && str[1] == '$';
+}
+
+static Bool fullStopOrCommaNext(char *str) {
+  return (str[0] == '.' || str[0] == ',') && (str[1] == '\0' || str[1] == ' ');
+}
+
+
+
 
 /*======================================================================
 
@@ -636,8 +647,7 @@ void output(char original[])
   copy = strdup(original);
   str = copy;
 
-  if (!((str[0] == '$' && str[1] == '$')
-	|| (str[0] == '.' && (str[1] == '\0' || str[1] == ' '))))
+  if (!(inhibitSpace(str) || fullStopOrCommaNext(str)))
     space();			/* Output space if needed (& not inhibited) */
 
   /* Output string up to symbol and handle the symbol */

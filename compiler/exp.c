@@ -107,6 +107,16 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
   return exp;
 }
 
+/*======================================================================*/
+Expression *newBinaryExpression(Srcp srcp, OperatorKind kind,
+				Bool not, Expression *left, Expression *right) {
+  Expression *exp = newExpression(&srcp, BINARY_EXPRESSION);
+  exp->fields.bin.op = kind;
+  exp->fields.bin.left = left;
+  exp->fields.bin.right = right;
+  return exp;
+}
+
 
 /*======================================================================*/
 void symbolizeExpression(Expression *exp) {
