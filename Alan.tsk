@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>288.89</origest>
-<currest>287.89</currest>
+<origest>289.89</origest>
+<currest>288.89</currest>
 <elapsed>132.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
+<origest>41</origest>
+<currest>41</currest>
 <elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
@@ -181,13 +181,28 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute references without "of" in certain contexts</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

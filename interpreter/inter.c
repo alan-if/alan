@@ -263,6 +263,10 @@ static void traceIntegerTopValue() {
     printf("\t=%ld\t", top());
 }
 
+static void traceStringTopValue() {
+  if (singleStepOption)
+    printf("\t=0x%lx (\"%s\")\t", top(), (char*)top());
+}
 
 static char *printForm(SayForm form) {
   switch (form) {
@@ -525,7 +529,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("STRATTR \t%5ld, %5ld", id, atr);
 	push(strattr(id, atr));
-	traceIntegerTopValue();
+	traceStringTopValue();
 	break;
       }
       case I_SHOW: {
@@ -857,6 +861,21 @@ void interpret(Aaddr adr)
 	traceIntegerTopValue();
 	break;
       }
+
+	/*------------------------------------------------------------*	\
+	  String functions
+	\*------------------------------------------------------------*/
+      case I_CONCAT: {
+	Aword s1, s2;
+	s2 = pop();
+	s1 = pop();
+	if (singleStepOption)
+	  printf("CONCAT \t%5ld, %5ld", s1, s2);
+	push(concat(s1, s2));
+	traceStringTopValue();
+	break;
+      }
+
       case I_CONTAINS: {
 	Aword string, substring;
 	substring = pop();

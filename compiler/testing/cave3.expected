@@ -247,7 +247,7 @@ cave3.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
                 this symbol.
-  *1*   310 E : Identifier 'here1' not defined.
+  *1*   310 E : Identifier 'Here1' not defined.
 
  1903.          End If..
 =====>                 1
@@ -287,7 +287,7 @@ cave3.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
                 this symbol.
-  *1*   310 E : Identifier 'here0' not defined.
+  *1*   310 E : Identifier 'Here0' not defined.
 
  2521.          If hero Not Here ThenAt hero0.
 =====>                           1
@@ -300,21 +300,21 @@ cave3.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
                 this symbol.
-  *1*   310 E : Identifier 'here1' not defined.
+  *1*   310 E : Identifier 'Here1' not defined.
 
  2526.          Describe obj_35_bear.Here1.
 =====>                               1
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
                 this symbol.
-  *1*   310 E : Identifier 'here1' not defined.
+  *1*   310 E : Identifier 'Here1' not defined.
 
  2538.          Locate hero At loc_117.Here0.
 =====>                                 1
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
                 this symbol.
-  *1*   310 E : Identifier 'here0' not defined.
+  *1*   310 E : Identifier 'Here0' not defined.
 
  2676.          If obj_50_nugget Here Or obj_51_diamonds Here Or obj_52_bars He
         re Or obj_53_jewelry Here Or obj_54_coins Here Or obj_55_chest Here Or 
@@ -464,7 +464,7 @@ cave3.alan
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
                 this symbol.
-  *1*   310 E : Identifier 'king' not defined.
+  *1*   310 E : Identifier 'King' not defined.
   *1*   351 E : Must refer to an instance inheriting from 'location'.
   *1*   405 E : Instances inheriting from Location can not have initial
                 locations.
@@ -520,7 +520,7 @@ cave3.alan
 
   *1*   405 E : Instances inheriting from Location can not have initial
                 locations.
-  *2*   319 E : Identifier 'n' is not an instance.
+  *2*   319 E : Identifier 'N' is not an instance.
   *3*   103 E : Syntax error. Attempting to repair by replacing "'/'" by
                 "'NAME'".
 
@@ -1084,7 +1084,6 @@ cave3.alan
                 verb).
         320 W : Word 'rock' belongs to multiple word classes (adjective and
                 verb).
-        320 W : Word 's' belongs to multiple word classes (direction and verb).
         320 W : Word 'secret' belongs to multiple word classes (adjective and
                 verb).
         320 W : Word 'shell' belongs to multiple word classes (adjective and
@@ -1093,6 +1092,7 @@ cave3.alan
                 verb).
         333 E : The word 'south' is defined to be both a synonym and another
                 word class.
+        320 W : Word 's' belongs to multiple word classes (direction and verb).
         320 W : Word 'u' belongs to multiple word classes (direction and verb).
         333 E : The word 'west' is defined to be both a synonym and another
                 word class.

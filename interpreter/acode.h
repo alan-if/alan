@@ -163,7 +163,8 @@ typedef enum InstClass {
   I_EACH,
   I_NEXTEACH,
   I_ENDEACH,
-  I_SHOW
+  I_SHOW,
+  I_CONCAT
 } InstClass;
 
 typedef enum SayForm {

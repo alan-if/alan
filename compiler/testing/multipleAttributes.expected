@@ -6,7 +6,7 @@ multipleAttributes.alan
     4.    Has anAttribute.
 =====>        1
 
-  *1*   218 E : Multiple definition of attribute 'anattribute'.
+  *1*   218 E : Multiple definition of attribute 'anAttribute'.
 
 
         1 error(s).

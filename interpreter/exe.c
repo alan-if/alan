@@ -564,11 +564,24 @@ Aword attributeOf(Aword id, Aword atr)
 }
 
 
+
 /*======================================================================*/
 Aword strattr(Aword id, Aword atr)
 {
   return (Aword) strdup((char *)attributeOf(id, atr));
 }
+
+/*======================================================================*/
+Aword concat(Aword s1, Aword s2)
+{
+  char *result = allocate(strlen((char*)s1)+strlen((char*)s2)+1);
+  strcpy(result, (char*)s1);
+  strcat(result, (char*)s2);
+  free((char*)s1);
+  free((char*)s2);
+  return (Aword)result;
+}
+
 
 
 /*----------------------------------------------------------------------*/

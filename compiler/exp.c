@@ -251,6 +251,19 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
     break;
 
   case PLUS_OPERATOR:
+    if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE)
+	&& !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+    if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE)
+	&& !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+    if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
+      lmLog(&exp->srcp, 331, sevERR, "expression");
+      exp->type = UNKNOWN_TYPE;
+    } else
+      exp->type = exp->fields.bin.left->type;
+    break;
+
   case MINUS_OPERATOR:
   case MULT_OPERATOR:
   case DIV_OPERATOR:
@@ -599,7 +612,12 @@ void generateBinaryOperator(Expression *exp)
     emit0(I_GT);
     break;
   case PLUS_OPERATOR:
-    emit0(I_PLUS);
+    if (exp->type == INTEGER_TYPE)
+      emit0(I_PLUS);
+    else if (exp->type == STRING_TYPE)
+      emit0(I_CONCAT);
+    else
+      syserr("Unexpected type in '%s()'", __FUNCTION__);
     break;
   case MINUS_OPERATOR:
     emit0(I_MINUS);

@@ -23,6 +23,7 @@ extern void sayForm(Aword instance, SayForm form);
 extern void sayint(Aword val);
 extern void saystr(char *str);
 extern Aword strattr(Aword id, Aword atr);
+extern Aword concat(Aword s1, Aword s2);
 extern void setStringAttribute(Aword id, Aword atr, Aword str);
 extern void getstr(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
