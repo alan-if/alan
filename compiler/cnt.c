@@ -252,7 +252,7 @@ Aaddr generateContainers(AcdHdr *header)
       if (lst->element.cnt->ownerProperties != NULL)
 	generateContainerBody(lst->element.cnt->body);
   
-    adr = nextEmitAddress();		/* Save ACODE address to container list */
+    adr = nextEmitAddress();	/* Save ACODE address to container list */
     /* Container list */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
       if (lst->element.cnt->ownerProperties != NULL)

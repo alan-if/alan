@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>235.89</origest>
-<currest>235.89</currest>
+<origest>236.89</origest>
+<currest>236.89</currest>
 <elapsed>91.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>43</origest>
-<currest>43</currest>
+<origest>44</origest>
+<currest>44</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>22</origest>
+<currest>22</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -80,7 +80,9 @@
 </task>
 <task>
 <desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
-<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+<notes>Implementation: Strategy implemented, to be copied when needed. Only need to add it to every reverse procedure.
+
+It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
 
 It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
 
@@ -88,6 +90,37 @@ This would allow code generating once for some inherited constructs:
 -scripts
 -descriptions
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Optimize generation of containers</desc>
+<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
+
+This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
+
+A prerequisite action would be to fix this multiple reversing problem.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Prohibit declaration of a container class</desc>
+<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Automate building the Windows install</desc>
+<notes>sed the VERSION into the Inno Script, and use it also to name the setup.exe</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -146,15 +179,6 @@ End The andersson.</notes>
 <notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
 
 STEP1: Add an entered slot in the property structure in the compiler so that it could remain compatible.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Prohibit declaration of a container class</desc>
-<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -265,19 +289,6 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Optimize generation of containers</desc>
-<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
-
-This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
-
-A prerequisite action would be to fix this multiple reversing problem.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

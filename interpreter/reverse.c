@@ -12,6 +12,37 @@
 
 #include "reverse.h"
 
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+static Aword *addressesDone = NULL;
+static int numberDone = 0;
+static int doneSize = 0;
+
+static Boolean alreadyDone(Aaddr address)
+{
+  int i;
+  Boolean found = FALSE;
+
+  if (address == 0) return TRUE;
+
+  /* Have we already done it? */
+  for (i = 0; i < numberDone; i++)
+    if (addressesDone[i] == address) {
+      found = TRUE;
+      break;
+    }
+  if (found) return TRUE;
+
+  if (doneSize == numberDone) {
+    doneSize += 100;
+    addressesDone = realloc(addressesDone, doneSize*sizeof(Aword));
+  }    
+  addressesDone[numberDone] = address;
+  numberDone++;
+
+  return FALSE;
+}
+
+
 
 #define NATIVE(w)   \
     ( (((Aword)((w)[3])      ) & 0x000000ff)    \
@@ -260,21 +291,8 @@ static void reverseInstances(Aword adr)
 static void reverseRestrictions(Aword adr)
 {
   RestrictionEntry *e = (RestrictionEntry *) &memory[adr];
-  static Aword *done = NULL;
-  static int numberDone = 0;
-  int i;
-  Boolean found = FALSE;
 
-  if (adr == 0) return;
-
-  /* Have we already done it? */
-  for (i = 0; i < numberDone; i++) if (done[i] == adr) {found = TRUE; break;}
-  if (found) return;
-
-  done = realloc(done, (numberDone+1)*sizeof(Aword));
-  done[numberDone] = adr;
-  numberDone++;
-
+  if (alreadyDone(adr)) return;
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(RestrictionEntry));
     while (!endOfTable(e)) {
@@ -433,4 +451,6 @@ void reverseACD(v2_5)
  
   reverseTable(header->scores, sizeof(Aword));
   reverseTable(header->freq, sizeof(Aword));
+
+  free(addressesDone);
 }

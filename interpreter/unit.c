@@ -48,6 +48,7 @@ Aword convertFromACD(Aword w)
 #include "exeTest.c"
 #include "stackTest.c"
 #include "interTest.c"
+#include "reverseTest.c"
 
 
 int main()
@@ -55,6 +56,7 @@ int main()
   registerExeUnitTests();
   registerStackUnitTests();
   registerInterUnitTests();
+  registerReverseUnitTests();
 
   unitTest();
 

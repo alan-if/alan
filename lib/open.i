@@ -2,131 +2,131 @@
 -- Library version 0.4.1
 
 -- 0.4.1 - converted to ALANv3
+-- 0.5.0 - Changed attributes around:
+--		'open' indicates state
+--		'openable' indicates if it is possible to open
+--		'closeable' indicates if it is possible to close
+
+Syntax
+	open = open (obj)
+	Where obj Isa object
+		Else "You can't open that."
+
+Add To Every object
+  Is
+    Not openable.
+    Not open.
+
+  Verb open
+    Check obj Is openable
+      Else "You can't open that!"
+    And obj Is Not open
+      Else "It's already open."
+    Does
+      Make obj open.
+      If obj Is named Then
+	Say obj.
+      Else
+	"The $o"
+      End If.
+      "is now open."
+  End Verb.
+End Add To.
 
 
-add to every object 
-is
-	not Closeable.
-	Closed.
-end add to object. 
+Syntax
+  open_with = open (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else "You can't open that."
+    And obj2 Isa object
+      Else "You can't open anything with that."
 
-syntax
-	Open = Open (Obj)
-	where Obj isa object
-		else "You can't open that."
-
-add to every Object
-  verb Open
-	check Obj is Closeable
-		else "You can't open that!"
-	and Obj is Closed
-		else "It's already open."
-	does
-		make Obj not Closed.
-		if Obj is Named then
-			say Obj.
-			"is now open."
-		else
-			"The $o is now open."
-		end if.
-  end verb.
-end add to.
-
-
-syntax
-	Open_With = open (Obj1) 'with' (Obj2)
-		where Obj1 isa Object
-			else "You can't open that."
-		and Obj2 isa Object
-			else "You can't open anything with that."
-
-add to every Object
-  verb Open_With
-	when obj1
-	  check Obj2 in Hero
-		  else "You don't have"
-		  if Obj2 is Named then
-			  say Obj2.
-		  else
-			  "the $2"
-		  end if.
-		  "$$."
-	  does
-		  "You can't open"
-		  if Obj1 is Named then
-			  say Obj1.
-		  else
-			  "the $1"
-		  end if.
-		  "with"
-		  if Obj2 is Named then
-			  say obj2.
-		  else
-			  "the $2"
-		  end if.
-		  "$$."
-  end verb.
-end add to.
+Add To Every object
+  Verb open_with
+    When obj1
+      Check obj2 In hero
+      Else "You don't have"
+           If obj2 Is named Then
+             Say obj2. "."
+	   Else
+	     "the $2."
+	   End If.
+      Does
+	"You can't open"
+	If obj1 Is named Then
+	  Say obj1.
+	Else
+	  "the $1"
+	End If.
+	"with"
+	If obj2 Is named Then
+	  Say obj2. "."
+	Else
+	  "the $2."
+	End If.
+  End Verb.
+End Add To.
 
 
 
-synonyms
-	shut = close.
+Synonyms
+  shut = close.
 
-syntax
-	close = close (obj)
-		where Obj isa Object
-			else "You can only close objects."
-add to every Object
-  verb Close
-	check Obj is Closeable
-		else "You can't close that."
-	and Obj is not Closed
-		else "It is not open."
-	does
-		make Obj Closed.
-		if Obj is Named then
-			say Obj.
-			"is now closed."
-		else
-			"The $o is now closed."
-		end if.
-  end verb.
-end add to.
+Syntax
+  close = close (obj)
+    Where obj Isa object
+    Else "You can only close objects."
 
-syntax
-	Close_With = close (obj1) 'with' (obj2)
-		where Obj1 isa Object
-			else "You can't close that."
-		and Obj2 isa Object
-			else "You can't close anything with that."
+Add To Every object
+  Is Not closeable.
 
-add to every Object
-  verb Close_With
-	when obj1
-	  check Obj2 in Hero
-		  else 
-			  "You don't have"
-			  if Obj2 is Named then
-				  say Obj2.
-			  else
-				  "the $2"
-			  end if.
-			  "$$."
-	  does
-		  "You can't close"
-		  if Obj1 is Named then
-			  say Obj1.
-			  "with"
-		  else
-			  "the $1 with"
-		  end if.
-		  if Obj2 is Named then
-			  say Obj2.
-		  else
-			  "the $2"
-		  end if.
-		  "$$."
-  end verb.
-end add to.
+  Verb close
+    Check obj Is closeable
+      Else "You can't close that."
+    And obj Is open
+      Else "It is not open."
+    Does
+      Make obj Not open.
+      If obj Is named Then
+        Say obj.
+      Else
+	"The $o"
+      End If.
+      "is now closed."
+  End Verb.
+End Add To.
+
+Syntax
+  close_with = close (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else "You can't close that."
+    And obj2 Isa object
+      Else "You can't close anything with that."
+
+Add To Every object
+  Verb close_with
+    When obj1
+      Check obj2 In hero
+	Else
+	  "You don't have"
+	  If obj2 Is named Then
+	    Say obj2. "."
+	  Else
+	    "the $2."
+	  End If.
+      Does
+	"You can't close"
+	If obj1 Is named Then
+	  Say obj1.
+	Else
+	  "the $1"
+	End If.
+	"with"
+	If obj2 Is named Then
+	  Say obj2. "."
+	Else
+	  "the $2."
+	End If.
+  End Verb.
+End Add To.
 

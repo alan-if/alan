@@ -35,6 +35,7 @@ LDFLAGS = $(CYGWIN) $(VERBOSE)
 
 GLKSRCS = glkstart.c glkio.c
 
+# Build sources are in main build an in unit test
 BUILDSRCS = \
 	sysdep.c \
 	rules.c \
@@ -43,15 +44,16 @@ BUILDSRCS = \
 	parse.c \
 	decode.c \
 	term.c \
-	reverse.c \
 	readline.c \
 	params.c \
 	act.c \
 	main.c
 
+# Main sources are only in main build because unit #includes them
 MAINSRCS = exe.c \
 	stack.c \
 	inter.c \
+	reverse.c \
 	arun.c
 
 VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)

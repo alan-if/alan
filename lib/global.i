@@ -1,13 +1,14 @@
 -- global.i
 -- Library version 0.4.1
 
--- 0.4.1 -- due to ALANv3 changes,
---          added definition of 'hero' (the player character) as a container
---          for holding the player's "inventory", removed inventory object
---          from invent.i
+-- 0.4.1 -- due to ALANv3 changes:
+--          added definition of 'hero' (the player character) as a
+--          container for holding the player's "inventory", removed
+--          inventory object from invent.i
 
--- synonyms for player's character so can "examine myself" "look at me" etc
--- and synonyms for "it" so can say "look at guard" and then "salute him"
+--	    synonyms for player's character so can "examine myself" "look at
+--          me" etc and synonyms for "it" so can say "look at guard"
+--          and then "salute him"
 
 SYNONYMS
 	me, myself, self = HERO.
