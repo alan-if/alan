@@ -1,15 +1,15 @@
-Location l
-End Location l.
+The l Isa Location
+End The l.
 
 
-Object o At l
+The o Isa Object At l
 
   Verb v
     Does
       "You $v the $1."
   End Verb v.
 
-End Object o.
+End The o.
 
 Start At l.
   "v the o..."

@@ -2,18 +2,22 @@
 #
 # Script for regression testing of Alan and Arun
 #
-failed=0
-if [ $# != 0 ] ; then
-  for f in ${*} ; do
-    case=`basename $f .alan`
-    if [ "$case" != "$f" ]
+
+run ()
+{
+    echo -n "$case : "
+    echo "########## $case ##########" >$case.output
+    cat $case.alan >> $case.output
+    echo "########## alan $case.alan ##########" >>$case.output
+    ../bin/alan $case >>$case.output 2>&1
+    ../bin/arun -n $case >>$case.output 2>&1 <$case.input 
+    cases=`expr $cases + 1`
+}
+
+verify()
+{
+    if [ -f $case.expected ]
     then
-	echo -n "$case : "
-	echo "########## $case ##########" >$case.output
-	cat $case.alan >>$case.output
-	echo "########## alan $case.alan ##########" >>$case.output
-	../bin/alan $case >>$case.output 2>&1
-	../bin/arun -n $case >>$case.output 2>&1 < $case.input
 	if diff -q -b $case.output $case.expected 1> /dev/null
 	then
 	    echo -n "[K"
@@ -22,30 +26,43 @@ if [ $# != 0 ] ; then
 	    failed=`expr $failed + 1`
 	    echo "failed!"
 	fi
+    else
+	new=`expr $new + 1`
+	echo "NEW!"
+    fi
+}
+
+cases=0
+failed=0
+new=0
+if [ $# != 0 ] ; then
+  for f in ${*} ; do
+    case=`basename $f .alan`
+    if [ "$case" != "$f" ]
+    then
+	run
+	verify
     fi
   done
 else
   for f in *.alan ; do
     case=`basename $f .alan`
-    echo -n "$case : "
-    echo "########## $case ##########" >$case.output
-    cat $case.alan >> $case.output
-    echo "########## alan $case.alan ##########" >>$case.output
-    ../bin/alan $case >>$case.output 2>&1
-    ../bin/arun -n $case >>$case.output 2>&1 < $case.input
-    if diff -q -b $case.output $case.expected 1> /dev/null
-    then
-	echo -n "[K"
-	rm $case.output
-    else
-      failed=`expr $failed + 1`
-      echo "failed!"
-    fi
+    run
+    verify
   done
+fi
+if test $new -ne 0
+then
+  echo -n "$new new, "
 fi
 if test $failed -eq 0
 then
-  echo All OK!
+  if test $new -eq 0
+  then
+    echo All $cases OK!
+  else
+    echo rest OK!
+  fi
 else
   echo "*** $failed failed! ***"
 fi

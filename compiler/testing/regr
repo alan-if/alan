@@ -2,30 +2,21 @@
 #
 # Script for regression testing of Alan and Arun
 #
-# Where the STEAM regression testing utility isn't available this script
-# can be used to run all or selected tests in a batch.
-#
-# Steam is configured to ignore lines that contain version numbering so
-# those test cases that rely on debug mode (to have a repeatable
-# randomizity(?)) will differ by having a line with the version number
-# produced by the -d flag.
-#
-# Usage:
-#	regression [ <cases>... ]
-#
-# After execution a list of all the differing cases is presented
-#
-failed=0
-if [ $# != 0 ] ; then
-  for f in ${*} ; do
-    case=`basename $f .alan`
-    if [ "$case" != "$f" ]
+
+run ()
+{
+    echo -n "$case : "
+    echo "########## $case ##########" >$case.output
+    cat $case.alan >> $case.output
+    echo "########## alan $case.alan ##########" >>$case.output
+    ../alan $case >>$case.output 2>&1
+    cases=`expr $cases + 1`
+}
+
+verify()
+{
+    if [ -f $case.expected ]
     then
-	echo -n "$case : "
-	echo "########## $case ##########" >$case.output
-	cat $case.alan >>$case.output
-	echo "########## alan $case.alan ##########" >>$case.output
-	../alan $case.alan >>$case.output 2>&1
 	if diff -q -b $case.output $case.expected 1> /dev/null
 	then
 	    echo -n "[K"
@@ -34,29 +25,44 @@ if [ $# != 0 ] ; then
 	    failed=`expr $failed + 1`
 	    echo "failed!"
 	fi
+    else
+	new=`expr $new + 1`
+	echo "NEW!"
+    fi
+}
+
+cases=0
+failed=0
+new=0
+if [ $# != 0 ] ; then
+  for f in ${*} ; do
+    case=`basename $f .alan`
+    if [ "$case" != "$f" ]
+    then
+	run
+	verify
     fi
   done
 else
   for f in *.alan ; do
     case=`basename $f .alan`
-    echo -n "$case : "
-    echo "########## $case ##########" >$case.output
-    cat $case.alan >> $case.output
-    echo "########## alan $case.alan ##########" >>$case.output
-    ../alan $case.alan >>$case.output 2>&1
-    if diff -q -b $case.output $case.expected 1> /dev/null
-    then
-	echo -n "[K"
-	rm $case.output
-    else
-      failed=`expr $failed + 1`
-      echo "failed!"
-    fi
+    run
+    verify
   done
+fi
+if test $new -ne 0
+then
+  echo -n "$new new, "
 fi
 if test $failed -eq 0
 then
-  echo All OK!
+  if test $new -eq 0
+  then
+    echo All $cases OK!
+  else
+    echo rest OK!
+  fi
 else
   echo "*** $failed failed! ***"
 fi
+

@@ -1,7 +1,12 @@
 #! /bin/sh
 #
-for f in *.tst ; do
-  case=`basename $f .tst`
+for f in *.alan ; do
+  case=`basename $f .alan`
   echo -n "$case : "
-  wc -l $case.diff | awk "{print \$1}"
+  if [ -f $case.input ]
+  then
+    echo "has input file => promote to .."
+  else
+    echo "has no input file => promote to ../../compiler/testing"
+  fi
 done
