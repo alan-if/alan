@@ -898,9 +898,18 @@ static void sayInstance(Aword id)
       if (params[p].code == id) {
 	if (params[p].firstWord == EOF) /* Any words he used? */
 	  break;
-	else				/* Yes, so use them... */
-	  for (i = params[p].firstWord; i <= params[p].lastWord; i++)
+	else {				/* Yes, so use them... */ 
+	  char *capitalized;
+	  for (i = params[p].firstWord; i <= params[p].lastWord-1; i++)
 	    output((char *)pointerTo(dict[wrds[i]].wrd));
+	  if (header->capitalizeNouns) {
+	    capitalized = strdup((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
+	    capitalized[0] = IsoToUpperCase(capitalized[0]);
+	    output(capitalized);
+	    free(capitalized);
+	  } else
+	    output((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
+	}
 	return;
       }
   interpret(instance[id].mentioned);

@@ -35,6 +35,7 @@ OptDef opts[NOPT] = {
 static char *enumlang[] = {
   "english",
   "swedish",
+  "german",
   NULL
 };
 
@@ -202,18 +203,13 @@ void optBool(char *id, Srcp *srcp, int val)
 }
 
 
-/*======================================================================
-
-  geopt()
-
-  Generate all options, i.e. copy the values into the header.
-
-  */
-void geopt(AcdHdr *header)
-                    	/* OUT - the header struct to fill */
+/*======================================================================*/
+void generateOptions(AcdHdr *header)
 {
   header->pageLength = opts[OPTLEN].value;
   header->pageWidth = opts[OPTWIDTH].value;
   header->pack = opts[OPTPACK].value;
   header->debug = opts[OPTDEBUG].value;
+  if (opts[OPTLANG].value == L_GERMAN)
+    header->capitalizeNouns = TRUE;
 }

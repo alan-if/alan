@@ -475,16 +475,10 @@ static void space(void)
 
   sayparam()
 
-  A parameter needs to be said, check for words the player used and use
-  them if possible.
+  A parameter needs to be said, find out which instance it is and say it.
 
 */
-#ifdef _PROTOTYPES_
 static void sayparam(int p)
-#else
-static void sayparam(p)
-     int p;
-#endif
 {
   int i;
 
@@ -492,6 +486,7 @@ static void sayparam(p)
     if (params[i].code == EOF)
       syserr("Nonexistent parameter referenced.");
 
+#ifdef SAYPARAM
   if (params[p].firstWord == EOF) /* Any words he used? */
     say(params[p].code);
   else				/* Yes, so use them... */
@@ -500,6 +495,9 @@ static void sayparam(p)
       if (i < params[p].lastWord)
 	justify(" ");
     }
+#else
+  say(params[p].code);
+#endif
 }
 
 

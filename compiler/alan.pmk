@@ -185,7 +185,7 @@ static int val(char str[])
 ---> OPTIONS
 <optional_options>	-- RETURNS: <nothing>
     =
-    ! 'OPTIONS' <options>
+    ! ('OPTIONS'|'OPTION') <options>
     ;
 
 <options>			-- RETURNS: <nothing>

@@ -209,10 +209,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
     argv[1] = fullInFileName;
     argc = 2;
     AllocConsole();
-    freopen("CONOUT$", "a", stdout);
-    freopen("CONOUT$", "a", stderr);
   }
-
 #else
 
 int main(int argc,		/* IN - argument count */

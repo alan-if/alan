@@ -4,199 +4,82 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>246.89</origest>
-<currest>246.89</currest>
-<elapsed>101.89</elapsed>
+<origest>253.89</origest>
+<currest>253.89</currest>
+<elapsed>104.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>54</origest>
-<currest>54</currest>
-<elapsed>19</elapsed>
+<origest>45</origest>
+<currest>45</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Increment: version 3.0.27</desc>
+<desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
-<elapsed>16</elapsed>
+<origest>20</origest>
+<currest>20</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Update library w.r.t. discovered WHEN-problem multi param verbs</desc>
-<notes>Cf. Steves new library files</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Update Makefile to have dist for source</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"Increase v Of this" not working</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor gealtent to use Entry</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Scores was not initialised from loaded data</desc>
-<notes>To avoid reversing twice, restart does not load the program, instead it only initialises the dynamic data areas. Scores was forgotten.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
-<notes>Implementation: Strategy implemented, to be copied when needed. Only need to add it to every reverse procedure.
+<desc>Capitalization of nouns</desc>
+<notes>Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
 
-It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
-
-It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
-
-This would allow code generating once for some inherited constructs:
--scripts
--descriptions
+design: Interpreter capitalizes last word in SAY routines, compiler generates this option for some languages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Support for German</desc>
+<notes>Initial version done. Will have to update when SAY forms are available.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should convert all statements in CAVE</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should set current directory to source file</desc>
+<notes>Description:
+Otherwise the includes won't work currectly. This is only a problem when executing from WinGUI.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Step 1: prohibit containers to contain anything not an object? How?
 </notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>1</elapsed>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Make interpreter automatically capitalize words after full stop</desc>
-<notes>Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<desc>WinAlan</desc>
+<notes>As it is impossible to use Windows app from the console and attach output to the console we will have to make a WinAlan.exe and an alan.exe</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Prohibit declaration of a container class</desc>
-<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Optimize generation of containers</desc>
-<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
-
-This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
-
-A prerequisite action would be to fix this multiple reversing problem.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Section in the manual to describe automatic formatting</desc>
-<notes>Capitalization after full stop and paragraph.
-No space before full stop.
-$$ reset both auto-formattings.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Automate building the Windows install</desc>
-<notes>sed the VERSION into the Inno Script, and use it also to name the setup.exe</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Opaque containers</desc>
-<notes>Allow:
-
-The box Isa object
-  Opaque Container
-  Verb open
-    Does Make This open. Make This Not opaque.
-  Verb close
-    Does Make This closed. Make This opaque.
-End The box.
-
-I.e. the container has a state which controls if contents of it is listed and reachable. That state can be set using the special attribute "opaque" which is only present in instances that are containers.
-
-Warn (in instances that are containers) for declaring them as they would hide the built-in attribute.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Parameters should be defined in syntax restrictions</desc>
-<notes>This problem was discovered in give.i trying to do
-
-   Where recip Isa container Else Say recip. "cant' carry anything."
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter program from 2.8 to 3.0</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Windows file selection dialogue for compiler</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -210,25 +93,7 @@ Warn (in instances that are containers) for declaring them as they would hide th
 </task>
 <task>
 <desc>Report mingw startup problem</desc>
-<notes>MingW does not correctly strip program names containing space surrounded by quotes from the cmdLine in the call to WinMain. Tell MingW maintainers.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0.28</desc>
 <notes/>
-<priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -423,42 +288,8 @@ REMEBER TO DOCUMENT IT!!!
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Add To Every xyz &lt;scripts&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>String operators</desc>
-<notes>concatenation
-substring extraction
-substring searching
-
-
-&lt;s1&gt; + &lt;s2&gt;
-Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -486,15 +317,6 @@ TODO: Descriptions, ?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>RESTART does not work well in WinArun</desc>
 <notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
 <priority>2</priority>
@@ -508,8 +330,8 @@ TODO: Descriptions, ?</notes>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -524,8 +346,32 @@ Design: add a counter field in the message entries and sort on those also.</note
 <isopen>1</isopen>
 </task>
 <task>
+<desc>String operators</desc>
+<notes>concatenation
+substring extraction
+substring searching
+
+
+&lt;s1&gt; + &lt;s2&gt;
+Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add PowerUpdater</desc>
+<notes>Really? Or create own update script on Thoni IIS?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -638,13 +484,41 @@ Multiple %1 '%2'</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -658,6 +532,25 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Obscure error message for aggregate filters without ","</desc>
+<notes>"Count Isa object In inventory" (missing comma) parses as:
+
+"Count Isa object" "In inventory"
+
+which is correct but gives the confusing error message:
+
+  *1*   311 E : Must refer to an instance.
+
+pointing to "count" since that is the left hand side of the assumed expression
+
+&lt;something&gt; &lt;where&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -710,7 +603,7 @@ Check for consistency with other instances of local overides.</notes>
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>UNDO needs some kind of response?</desc>
 <notes>Generally: UNDO should say something, standard messages?
@@ -764,6 +657,22 @@ FOR EACH instance ISA entity DO
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Step 2:
+
+Design:
+
+New clause on containers:
+    Container
+        Takes thing
+            Else ....</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1407,7 +1316,7 @@ Still to figure out how to send parameters, and to make analysis of availability
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Functions</desc>
 <notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
@@ -1698,17 +1607,6 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Capitalization of nouns</desc>
-<notes>
-Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Space bar in &lt;more&gt;</desc>
 <notes>Already works in winarun (GLK)</notes>
 <priority>2</priority>
@@ -1960,7 +1858,7 @@ What do you want to do with the ball?
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
 <notes>It will not be possible to handle:
@@ -2101,7 +1999,7 @@ This strategy makes it possible to use the same script code for all instances th
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
@@ -2148,9 +2046,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>78.89</origest>
-<currest>78.89</currest>
-<elapsed>78.89</elapsed>
+<origest>94.89</origest>
+<currest>94.89</currest>
+<elapsed>94.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -2345,7 +2243,7 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Testing of attributes on locations</desc>
 <notes/>
@@ -2952,7 +2850,7 @@ This is the old "container actor" and "container object".</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Where HERE</desc>
 <notes>
@@ -3340,7 +3238,7 @@ Argument handling in WinGlkArun seems a bit messy...</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>DESCRIPTION CHECK/DOES</desc>
 <notes>
@@ -3587,7 +3485,7 @@ This implies collecting a scriptList during analysis, keeping only script refere
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -4153,7 +4051,7 @@ If not present in A3C class names must be available.
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>
@@ -4465,7 +4363,7 @@ Allocate one big dynamic area in which we copy instance, admin. Attribute areas 
 </task>
 </task>
 <task>
-<desc>Increment: v2.8.8?</desc>
+<desc>Increment: v2.8.7</desc>
 <notes/>
 <priority>2</priority>
 <origest>2</origest>
@@ -4503,6 +4401,190 @@ Apparently $n (new line) and $p (paragraph, aka one empty line) are
 indistinguishable. All my $p codes are doing the function of $n, and not 
 properly producing a blank line.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.27</desc>
+<notes/>
+<priority>2</priority>
+<origest>16</origest>
+<currest>16</currest>
+<elapsed>16</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update library w.r.t. discovered WHEN-problem multi param verbs</desc>
+<notes>Cf. Steves new library files</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update Makefile to have dist for source</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Increase v Of this" not working</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor gealtent to use Entry</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scores was not initialised from loaded data</desc>
+<notes>To avoid reversing twice, restart does not load the program, instead it only initialises the dynamic data areas. Scores was forgotten.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
+<notes>Implementation: Strategy implemented, to be copied when needed. Only need to add it to every reverse procedure.
+
+It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+
+It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+
+This would allow code generating once for some inherited constructs:
+-scripts
+-descriptions
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make interpreter automatically capitalize words after full stop</desc>
+<notes>Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Prohibit declaration of a container class</desc>
+<notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Optimize generation of containers</desc>
+<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
+
+This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
+
+A prerequisite action would be to fix this multiple reversing problem.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Section in the manual to describe automatic formatting</desc>
+<notes>Capitalization after full stop and paragraph.
+No space before full stop.
+$$ reset both auto-formattings.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Automate building the Windows install</desc>
+<notes>sed the VERSION into the Inno Script, and use it also to name the setup.exe</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Opaque containers</desc>
+<notes>Allow:
+
+The box Isa object
+  Opaque Container
+  Verb open
+    Does Make This open. Make This Not opaque.
+  Verb close
+    Does Make This closed. Make This opaque.
+End The box.
+
+I.e. the container has a state which controls if contents of it is listed and reachable. That state can be set using the special attribute "opaque" which is only present in instances that are containers.
+
+Warn (in instances that are containers) for declaring them as they would hide the built-in attribute.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Parameters should be defined in syntax restrictions</desc>
+<notes>This problem was discovered in give.i trying to do
+
+   Where recip Isa container Else Say recip. "cant' carry anything."
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter program from 2.8 to 3.0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Windows file selection dialogue for compiler</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -168,6 +168,17 @@ void prepareWords(void)
     newWord("allt", ALL_WORD, 0, NULL);
     newWord("alla", ALL_WORD, 0, NULL);
     break;
+  case L_GERMAN:
+    newWord("gehen", NOISE_WORD, 0, NULL);
+    newWord("sie", THEM_WORD, 0, NULL);
+    newWord("ausser", BUT_WORD, 0, NULL);
+    newWord("der", NOISE_WORD, 0, NULL);
+    newWord("das", NOISE_WORD, 0, NULL);
+    newWord("die", NOISE_WORD, 0, NULL);
+    newWord("es", IT_WORD, 0, NULL);
+    newWord("und", CONJUNCTION_WORD, 0, NULL);
+    newWord("alles", ALL_WORD, 0, NULL);
+    break;
   default:
     syserr("Unrecognized language in '%s()'", __FUNCTION__);
     break;
@@ -177,14 +188,16 @@ void prepareWords(void)
 
 /*----------------------------------------------------------------------
 
-  anwrd()
-
   Analyze one word in the dictionary to find any words that are
   defined to be of multiple word classes that we want to warn about.
 
 */
 void analyzeWord(WordNode *wrd)
 {
+  /* Analyze one word in the dictionary to find any words that are
+     defined to be of multiple word classes that we want to warn
+     about.
+  */
 #define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
 #define ISASYNONYM(w) HASBIT(SYNONYM_WORD, (w))
 #define ISADIRECTION(w) HASBIT(DIRECTION_WORD, (w))

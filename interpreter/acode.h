@@ -295,9 +295,10 @@ typedef struct AcdHdr {
 /* Options */
   Abool pack;			/* Is the text packed ? */
   Aword stringOffset;		/* Offset to string data in game file */
-  Aword pageLength;			/* Length of a page */
+  Aword pageLength;		/* Length of a page */
   Aword pageWidth;		/* and width */
-  Aword debug;			/* Option debug */
+  Aword debug;			/* Option: debug */
+  Aword capitalizeNouns;	/* Option: capitalize nouns (like in German) */
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */
   Aword classMax;		/* Number of classes */
@@ -369,6 +370,7 @@ typedef enum MsgKind {
   M_EMPTYHANDED,
   M_SCORE1,
   M_SCORE2,
+  M_SCOREEND,
   M_UNKNOWN_WORD,
   M_MORE,
   M_AGAIN,

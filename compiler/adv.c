@@ -207,7 +207,7 @@ void generateAdventure(char acodeFileName[],
 
 
   /* Options */
-  geopt(&acdHeader);
+  generateOptions(&acdHeader);
 
   /* Start statements */
   acdHeader.start = nextEmitAddress();	/* Save ACODE address to start */

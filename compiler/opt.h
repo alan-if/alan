@@ -44,7 +44,8 @@ typedef struct OptDef {
 /* Option values for LANGUAGE */
 typedef enum LangKind {
   L_ENGLISH,
-  L_SWEDISH
+  L_SWEDISH,
+  L_GERMAN
 } LangKind;
 
 
@@ -73,6 +74,6 @@ extern void optBool(char id[],
 
 
 /* Generate all option values */
-extern void geopt(AcdHdr *header);
+extern void generateOptions(AcdHdr *header);
 
 #endif
