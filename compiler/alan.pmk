@@ -2337,4 +2337,9 @@ ID
     %%
         %ID.nam = newnam(`&%'WAIT'.srcp, "wait");
     %%
+
+    ! 'BETWEEN'
+    %%
+        %ID.nam = newnam(`&%'BETWEEN'.srcp, "between");
+    %%
     ;
