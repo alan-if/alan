@@ -519,7 +519,6 @@ void compile(void) {
 	_fcreator = 'Arun';
 	_ftype = 'Adat';
 #endif
-    txtfil = fopen(txtfnm, "r");
     if (dbgflg)			/* Force debugging */
       opts[OPTDEBUG].value = TRUE;
     if (packflg)		/* Force packing */
@@ -527,19 +526,15 @@ void compile(void) {
     start();
     geadv(acdfnm, txtfnm, datfnm);
     endgen();			/* End of generating pass */
-    fclose(txtfil);
   } else {
     lmLog(NULL, 999, sevINF, "");
   }
   endcomp();
 
-  if (dmpflg == 0)
-#ifdef __vms__
-    delete(txtfnm);
-#else
+  if (dmpflg == 0) {
     unlink(txtfnm);
     unlink(datfnm);
-#endif    
+  }
 
   /* Check what messages to show on the screen */
   sevs = sevALL;

@@ -16,6 +16,7 @@
 extern void args(int argc, char* argv[]);
 #endif
 
+#include <windows.h>
 
 #include "main.h"
 
@@ -56,10 +57,11 @@ static void switches(argc, argv)
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
 #ifdef GLK
-      switch (glk_char_to_lower(argv[i][1])) {
+      switch (glk_char_to_lower(argv[i][1]))
 #else
-      switch (tolower(argv[i][1])) {
+      switch (tolower(argv[i][1]))
 #endif
+      {
       case 'i':
 	errflg = FALSE;
 	break;
@@ -92,10 +94,14 @@ static void switches(argc, argv)
       }
     } else {
       advnam = argv[i];
-      if (strcmp(&advnam[strlen(advnam)-4], ".acd") == 0
-	  || strcmp(&advnam[strlen(advnam)-4], ".ACD") == 0
-	  || strcmp(&advnam[strlen(advnam)-4], ".dat") == 0
-	  || strcmp(&advnam[strlen(advnam)-4], ".DAT") == 0)
+      if (advnam[0] == '"') {	/* Probably Windows quoting names with spaces... */
+	char *str = allocate(strlen(advnam)+1);
+	strcpy(str, &advnam[1]);
+	advnam = str;
+	advnam[strlen(advnam)-1] = '\0';
+      }
+      if (strcmp(&advnam[strlen(advnam)-4], ".a3c") == 0
+	  || strcmp(&advnam[strlen(advnam)-4], ".A3C") == 0)
 		advnam[strlen(advnam)-4] = '\0';
     }
   }
@@ -173,6 +179,11 @@ void args(argc, argv)
 {
   char *prgnam;
 
+/***********************************************************************\
+
+   MAC
+
+\***********************************************************************/
 #ifdef __mac__
 #include <console.h>
 #ifdef __MWERKS__
@@ -194,6 +205,14 @@ void args(argc, argv)
 	advnam = advbuf;
 
 #else
+
+
+
+/***********************************************************************\
+
+   AMIGA
+
+\***********************************************************************/
 #ifdef __amiga__
 
   if (argc == 0) { /* If started from Workbench get WbArgs : Aztec C & GG GCC */
@@ -228,6 +247,13 @@ void args(argc, argv)
 	advnam = strdup(argv[0]);
   }
 #else
+
+
+/***********************************************************************\
+
+   DOS & WINDOWS
+
+\***********************************************************************/
 #if defined(__dos__) || defined(__win__)
   if ((prgnam = strrchr(argv[0], '\\')) == NULL
       && (prgnam = strrchr(argv[0], '/')) == NULL
@@ -245,7 +271,14 @@ void args(argc, argv)
     /* No game given, try program name */
     if (stricmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
+
 #else
+
+/***********************************************************************\
+
+   VMS
+
+\***********************************************************************/
 #if defined __vms__
   if ((prgnam = strrchr(argv[0], ']')) == NULL
       && (prgnam = strrchr(argv[0], '>')) == NULL
@@ -266,6 +299,12 @@ void args(argc, argv)
     if (strcmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
 #else
+
+/***********************************************************************\
+
+   UNIX
+
+\***********************************************************************/
 #if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
     prgnam = strdup(argv[0]);
@@ -280,7 +319,14 @@ void args(argc, argv)
     if (strcmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
 #else
-  Unimplemented OS!
+
+
+/***********************************************************************\
+
+   UNIMPLEMENTED OS
+
+\***********************************************************************/
+
 #endif
 #endif
 #endif

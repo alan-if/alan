@@ -1,8 +1,8 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-#GLK = -DGLK
-#GLKINCLUDE = -I../../WindowsGLK/Include
-#GLKLIB = ../../WindowsGlk/Glk.lib
+GLK = -DGLK
+GLKINCLUDE = -I../../WindowsGLK/Include
+GLKLIB = ../../WindowsGlk/Glk.lib
 
 CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
 #CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
@@ -34,21 +34,26 @@ BUILDSRCS = \
 	params.c \
 	main.c
 
-ARUNSRCS = exe.c \
+MAINSRCS = exe.c \
 	arun.c
 
-VERSIONSRCS= $(ARUNSRCS) $(BUILDSRCS)
+VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)
 VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
-MAINOBJECTS = $(VERSIONOBJECTS) alan.version.o
+ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 
-arun : $(MAINOBJECTS)
-	gcc -o arun $(MAINOBJECTS) $(LDFLAGS) $(LIB)
+arun : $(ARUNOBJECTS)
+	gcc -o arun $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
-glkarun: $(GLKOBJECTS) $(MAINOBJECTS) glkstart.o
-	gcc -o glkarun  $(GLKOBJECTS) $(MAINOBJECTS) $(LDFLAGS) $(GLKLIB)
+winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o
+	gcc -o arun -mwindows winglk.o $(GLKOBJECTS) $(ARUNOBJECTS) $(LDFLAGS) $(GLKLIB)
+	@-mkdir ../bin 2> /dev/null
+	cp arun.exe ../bin
+
+glkarun: $(GLKOBJECTS) $(ARUNOBJECTS) glkstart.o
+	gcc -o glkarun  $(GLKOBJECTS) $(ARUNOBJECTS) $(LDFLAGS) $(GLKLIB)
 	@-mkdir ../bin 2> /dev/null
 	cp glkarun.exe ../bin
 
@@ -98,7 +103,7 @@ test: unit
 # Dependencies
 #
 depend:
-	@for f in $(UNITSRCS) $(BUILDSRCS) $(ARUNSRCS); \
+	@for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS); \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
 	done
