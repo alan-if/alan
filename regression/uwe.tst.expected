@@ -1,0 +1,25 @@
+########## uwe ##########
+alan uwe
+arun uwe < uwe.input
+########## /bin/sh  uwe.tst ##########
+
+        No warnings or errors detected.
+
+
+
+Bahnsteig von Elsenberg.  S: Bahnhof..
+Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen, an
+dessen Enden Brennesseln und Strauchwerk wachsen. Auch im Rißmuster des
+Betons haben sich bereits Pflanzen angesiedelt. Die sonnenbeschienenen
+Gleise strömen den Geruch von altem Öl aus. Ein Schild warnt vor dem
+Überschreiten der Gleise.
+
+> s
+Bahnhofsgebäude.  N: Bahnsteig, S: Straße, O: Telefonzelle, W:
+Bahnhofstoilette.
+Eine flackernede Leuchtstofflampe erhellt das menschenleere Gebäude. Die
+hölzernen Laden des Schalters sind herabgelassen.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

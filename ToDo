@@ -1,5 +1,8 @@
 ToDo:
 
+	* Think about a way to allow nouns to be capitalized, either
+	automatic but preferably by author choice.
+
 	* Confirm handling was trashed in 2.7. Any input is considered as
 	non-affirmative. Need to change this so that a '(y)' can be used
 	and input as affirmative.
@@ -24,6 +27,11 @@ ToDo:
 	* The VERBDIR problem (check regression test verbdir), using the
 	same word as both a verb and a direction does not work.
 
+	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
+	the dictonary handling in the compiler gives the verb the code of
+	the adjective, resulting in execution of the wrong (if any)
+	verb... (See regression test adjverb)
+
 	* Font sensitivity (esp. proportional fonts)
 
 	* METAVERB, takes no tick
@@ -31,10 +39,6 @@ ToDo:
 	* Potential problem: non-ISO sorting of dictionary
 
 	* Verify $<n> w.r.t the syntax parameters
-
-	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
-	the dictonary handling in the compiler gives the verb the code of
-	the adjective, resulting in execution of the wrong (if any) verb...
 
 	* How to handle darkness and other global requirements on e.g. the
 	location descriptions?

@@ -127,7 +127,7 @@ objarch:
 alan: tm $(OBJECTS) .version version.o
 	$(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
-src: tm sysdep.h sysdep.c acode.h version.h
+src: tm smScanx.c sysdep.h sysdep.c acode.h version.h
 
 fromsrc: $(OBJECTS) version.o
 	$(LD) -o alan version.o $(OBJECTS) $(LDFLAGS)
@@ -290,7 +290,7 @@ amiga:
 
 pc:
 	make MSDOS
-	zip -k -u compiler.zip *.[ch] Makefile.dos
+	zip -k -u compiler.zip *.[ch] Makefile.dos makefile.gpp
 	zip -k -m compiler.zip *.[CH]
 
 #--
