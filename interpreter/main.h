@@ -35,7 +35,7 @@ extern ClassEntry *class;	/* Class table pointer */
 extern InstanceEntry *instance; /* Instance table pointer */
 extern ContainerEntry *container; /* Container table pointer */
 
-extern VrbEntry *vrbs;		/* Verb table pointer */
+extern VerbEntry *vrbs;		/* Verb table pointer */
 extern StxEntry *stxs;		/* Syntax table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
 extern EventEntry *events;	/* Event table pointer */

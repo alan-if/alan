@@ -61,8 +61,7 @@ ContainerEntry *container;	/* Container table pointer */
 
 AdminEntry *admin;		/* Administrative data about instances */
 WrdEntry *dict;			/* Dictionary pointer */
-LocEntry *locs;			/* Location table pointer */
-VrbEntry *vrbs;			/* Verb table pointer */
+VerbEntry *vrbs;		/* Verb table pointer */
 StxEntry *stxs;			/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
@@ -1088,31 +1087,35 @@ void go(dir)
 
   findalt()
 
-  Find the verb alternative wanted in a verb list and return
-  the address to it.
+  Find the verb alternative wanted for an instance and return
+  the address to it. If the instance == 0 then look globally.
 
  */
 #ifdef _PROTOTYPES_
 static AltEntry *findalt(
-     Aword vrbsadr,		/* IN - Address to start of list */
-     Aword param		/* IN - Which parameter to match */
+     Aint inInstance,		/* IN - Which instance to check (0=global) */
+     Aint parameter		/* IN - Which parameter to match */
 )
 #else
-static AltEntry *findalt(vrbsadr, param)
-     Aword vrbsadr;		/* IN - Address to start of list */
-     Aword param;		/* IN - Which parameter to match */
+static AltEntry *findalt(inInstance, parameter)
+     Aint inInstance;
+     Aint parameter;
 #endif
 {
-  VrbEntry *vrb;
+  VerbEntry *vrb;
+  Aint vrbsadr;
   AltEntry *alt;
 
-  if (vrbsadr == 0)
-    return(NULL);
+  if (inInstance == 0)
+    vrbsadr = header->verbTableAddress;
+  else
+    vrbsadr = instance[inInstance].verbs;
+  if (vrbsadr == 0) return NULL;
 
-  for (vrb = (VrbEntry *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
+  for (vrb = (VerbEntry *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
     if (vrb->code == current.verb) {
       for (alt = (AltEntry *) addrTo(vrb->alts); !endOfTable(alt); alt++)
-	if (alt->param == param || alt->param == 0)
+	if (alt->param == parameter || alt->param == 0)
 	  return alt;
       return NULL;
     }
@@ -1139,7 +1142,7 @@ Boolean possible()
   int i;			/* Parameter index */
   
   fail = FALSE;
-  alt[0] = findalt(header->verbTableAddress, 0);
+  alt[0] = findalt(0, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
     if (!trycheck(alt[0]->checks, FALSE)) return FALSE;
@@ -1147,13 +1150,13 @@ Boolean possible()
   }
   
   /* Now CHECKs in this location */
-  alt[1] = findalt(instance[current.location].verbs, 0);
+  alt[1] = findalt(current.location, 0);
   if (alt[1] != 0 && alt[1]->checks != 0)
     if (!trycheck(alt[1]->checks, FALSE))
       return FALSE;
   
   for (i = 0; params[i].code != EOF; i++) {
-    alt[i+2] = findalt(instance[params[i].code].verbs, i+1);
+    alt[i+2] = findalt(params[i].code, i+1);
     /* CHECKs in a possible parameter */
     if (alt[i+2] != 0 && alt[i+2]->checks != 0)
       if (!trycheck(alt[i+2]->checks, FALSE))
@@ -1172,17 +1175,11 @@ Boolean possible()
 
 
 
-/*----------------------------------------------------------------------
-
-  do_it()
-
-  Execute the action commanded by hero.
-
-  */
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
-static void do_it(void)
+static void executeCommand(void)
 #else
-static void do_it()
+static void executeCommand()
 #endif
 {
   AltEntry *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
@@ -1191,7 +1188,7 @@ static void do_it()
   char trace[80];		/* Trace string buffer */
 
   fail = FALSE;
-  alt[0] = findalt(header->verbTableAddress, 0);
+  alt[0] = findalt(0, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
     if (trcflg)
@@ -1202,7 +1199,7 @@ static void do_it()
 
   /* Now CHECKs in this location */
   current.instance = current.location;
-  alt[1] = findalt(instance[current.location].verbs, 0);
+  alt[1] = findalt(current.location, 0);
   if (alt[1] != 0 && alt[1]->checks != 0) {
     if (trcflg)
       printf("\n<VERB %d, CHECK, in LOCATION:>\n", current.verb);
@@ -1215,7 +1212,7 @@ static void do_it()
     if (isLit(params[i].code))
       alt[i+2] = 0;
     else {
-      alt[i+2] = findalt(instance[params[i].code].verbs, i+1);
+      alt[i+2] = findalt(params[i].code, i+1);
       /* CHECKs in the parameters */
       if (alt[i+2] != 0 && alt[i+2]->checks != 0) {
 	if (trcflg)
@@ -1344,13 +1341,13 @@ void action(plst)
     for (i = 0; plst[i].code != EOF; i++) {
       params[mpos] = plst[i];
       output(marker);
-      do_it();
+      executeCommand();
       if (plst[i+1].code != EOF)
         para();
     }
     params[mpos].code = 0;
   } else
-    do_it();
+    executeCommand();
 }
 
 
@@ -1623,7 +1620,7 @@ static void initheader()
   }
 
   stxs = (StxEntry *) addrTo(header->syntaxTableAddress);
-  vrbs = (VrbEntry *) addrTo(header->verbTableAddress);
+  vrbs = (VerbEntry *) addrTo(header->verbTableAddress);
   ruls = (RulEntry *) addrTo(header->ruleTableAddress);
   msgs = (MsgEntry *) addrTo(header->messageTableAddress);
   scores = (Aword *) addrTo(header->scores);

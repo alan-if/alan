@@ -254,11 +254,11 @@ static void dumpAlts(int level, Aword alts)
  */
 static void dumpVrbs(int level, Aword vrbs)
 {
-  VrbEntry *vrb;
+  VerbEntry *vrb;
 
   if (vrbs == 0) return;
 
-  for (vrb = (VrbEntry *)addrTo(vrbs); !endOfTable(vrb); vrb++) {
+  for (vrb = (VerbEntry *)addrTo(vrbs); !endOfTable(vrb); vrb++) {
     indent(level);
     printf("VRB:\n");
     indent(level+1);

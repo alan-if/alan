@@ -108,25 +108,16 @@ typedef struct StepEntry {	/* STEP TABLE */
   Aaddr stm;			/* Address to the actual code */
 } StepEntry;
 
-typedef struct LocEntry {	/* LOCATION TABLE */
-  Aaddr nams;			/* Address of name printing code */
-  Aaddr dscr;			/* Address of description code */
-  Aaddr does;			/* Address of does code */
-  Aword describe;		/* Description flag & counter */
-  Aaddr atrs;			/* Address of attribute list */
-  Aaddr exts;			/* Address of exit list */
-  Aaddr vrbs;			/* Address of local verb list */
-} LocEntry;
 
 typedef struct ChkEntry {	/* CHECK TABLE */
   Aaddr exp;			/* ACODE address to expression code */
   Aaddr stms;			/* ACODE address to statement code */
 } ChkEntry;
 
-typedef struct VrbEntry {	/* VERB TABLE */
+typedef struct VerbEntry {	/* VERB TABLE */
   Aword code;			/* Code for the verb */
   Aaddr alts;			/* Address to alternatives */
-} VrbEntry;
+} VerbEntry;
 
 typedef struct StxEntry {	/* SYNTAX TABLE */
   Aword code;			/* Code for verb word */
@@ -143,17 +134,6 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
 
 
 /* ClassEntry & InstanceEntry moved to acode.h */
-
-typedef struct ObjEntry {	/* OBJECT TABLE */
-  Aword loc;			/* Current location */
-  Abool describe;		/* Describe flag */
-  Aaddr atrs;			/* Address of attribute list */
-  Aword cont;			/* Index to container properties if any */
-  Aaddr vrbs;			/* Address to local verb table */
-  Aaddr dscr1;			/* Address to Aword description code */
-  Aaddr art;			/* Article printing code? Else use default */
-  Aaddr dscr2;			/* Address to short description code */
-} ObjEntry;
 
 typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */

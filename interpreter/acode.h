@@ -183,6 +183,7 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword parent;			/* Code for the parent class, 0 if none */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
+  Aaddr verbs;			/* Address of verb table */
 } ClassEntry;
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */

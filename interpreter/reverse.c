@@ -178,10 +178,10 @@ static void reverseVerbs(adr)
      Aword adr;
 #endif
 {
-  VrbEntry *e = (VrbEntry *)&memory[adr];
+  VerbEntry *e = (VerbEntry *)&memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(VrbEntry));
+    reverseTable(adr, sizeof(VerbEntry));
     while (!endOfTable(e)) {
       reverseAlts(e->alts);
       e++;
@@ -266,6 +266,7 @@ static void reverseClasses(adr)
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->description);
+      reverseVerbs(e->verbs);
       e++;
     }
   }
