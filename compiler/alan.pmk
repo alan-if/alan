@@ -1561,7 +1561,7 @@ static int val(char str[])
     ;
 
 <depending_statement>
-    = 'DEPENDING' 'ON' <primary> <depend_cases> 'END' 'DEPEND' '.'
+    = 'DEPENDING' 'ON' <primary> <depend_cases> 'END' ('DEPEND'|'DEPENDING') '.'
     %%{ StmNod *stm;
 	stm = newstm(`&%'DEPENDING'.srcp, DEPEND_STATEMENT);
 	stm->fields.depend.exp = %<primary>.exp;

@@ -4,116 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>176.89</origest>
-<currest>176.89</currest>
-<elapsed>57.89</elapsed>
+<origest>184.89</origest>
+<currest>184.89</currest>
+<elapsed>59.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>32</origest>
-<currest>32</currest>
-<elapsed>7</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.24</desc>
-<notes/>
-<priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>7</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>ISA expression</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>28</origest>
+<currest>28</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Multiple restrictions for the same parameter</desc>
-<notes>Must allow for gradual refinement of a parameter in a restriction:
-
-Where p Isa thing Else ...
-And p Isa object Else ...
-And p Isa movable_object Else ...
-
-Analysis should verify that later restrictions restrict to subclasses of the earlier.
-
-This also should be noted in the symbol-&gt;fields.parameter.class so that the most restrictive is used.
-
-Also check "Restrictions can only restrict to one class" in Strategies
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>ACTOR might be a container</desc>
-<notes>If
-  Add To Every Actor
-    Container
-  End Add To.
-has been done an actor is a container which is not recognized by verifyContainer()
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;container&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Class names when debugging</desc>
-<notes>Tracing should include class name where code is declared.
-If not present in A3C class names must be available.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document semantic restrictions for entity, literal etc.</desc>
-<notes>Sections 4.14?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Menu-entries for open, save, restart, restore, debug, transcript etc.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>0</elapsed>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
@@ -135,7 +44,7 @@ stop Painter.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -148,6 +57,15 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
    DOES Make monster Not sleeping.
 
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Documentation is wrong about DEPENDING ON  syntax?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -201,8 +119,8 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -251,6 +169,24 @@ Also need to consider how to warn for the same verb declared without a parameter
 </task>
 <task>
 <desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List This. does not work.</desc>
+<notes>See regression/testing/listThis</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -399,7 +335,22 @@ We will have to refer to either parameter 1 or 2 for a reference to thing depend
 </task>
 <task>
 <desc>Article handling</desc>
-<notes/>
+<notes>Need:
+Instances are mentioned and described in a number of situations. Sometimes it id necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
+
+I can't open &lt;indefinite form&gt;.
+You can't take &lt;definite form&gt;.
+
+Analysis:
+Maybe we need INDEFINITE &amp; DEFINITE forms but also PLURAL form and in the form "any xx". We could have sub clauses for ARTICLE,  PRONOUN an PLURAL
+
+Design:
+The article Isa b
+  Definite
+    Article "the".
+    Pronoun "it".
+    Plural "articles"
+  Indefinite "any article"</notes>
 <priority>2</priority>
 <origest>4</origest>
 <currest>4</currest>
@@ -1833,9 +1784,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>49.89</origest>
-<currest>49.89</currest>
-<elapsed>49.89</elapsed>
+<origest>56.89</origest>
+<currest>56.89</currest>
+<elapsed>56.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -3137,7 +3088,7 @@ Inherited attributes which override others with another type should refer to the
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>
@@ -3462,7 +3413,7 @@ Objects are now default-described by the mention-clause which is generated by th
 <origest>10.06</origest>
 <currest>10.06</currest>
 <elapsed>10.06</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Pre-defined classes literal, integer &amp; string</desc>
 <notes>Need to have those class numbers also in the interpreter (ACODE.h)
@@ -3620,7 +3571,7 @@ Verify and produce an error.</notes>
 <origest>7.83</origest>
 <currest>7.83</currest>
 <elapsed>7.83</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
 <notes>Create a temporary structure in the symbol table
@@ -3740,15 +3691,106 @@ addVerb.alan
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.24</desc>
+<notes/>
+<priority>2</priority>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>7</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>ISA expression</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple restrictions for the same parameter</desc>
+<notes>Must allow for gradual refinement of a parameter in a restriction:
+
+Where p Isa thing Else ...
+And p Isa object Else ...
+And p Isa movable_object Else ...
+
+Analysis should verify that later restrictions restrict to subclasses of the earlier.
+
+This also should be noted in the symbol-&gt;fields.parameter.class so that the most restrictive is used.
+
+Also check "Restrictions can only restrict to one class" in Strategies
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>ACTOR might be a container</desc>
+<notes>If
+  Add To Every Actor
+    Container
+  End Add To.
+has been done an actor is a container which is not recognized by verifyContainer()
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;container&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Class names when debugging</desc>
+<notes>Tracing should include class name where code is declared.
+If not present in A3C class names must be available.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document semantic restrictions for entity, literal etc.</desc>
+<notes>Sections 4.14?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Menu-entries for open, save, restart, restore, debug, transcript etc.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Misc</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
 <notes/>
@@ -3779,18 +3821,6 @@ Install Metrowerks
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Fix Toolmaker code generation problem</desc>
-<notes>
-När man genererar kod tex alanCommon.h blir källpositionerna fel vilket gör det omöjligt att generera Alans parser mm. från källtexterna i CVS.
-
-Verkar bara gälla om man kompilerar med Cygwin och kör i ett Windows-shell</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Regr</desc>
 <notes>
 Could be a script which got:
@@ -3799,6 +3829,18 @@ CASE = *.alan
 COMMAND = alan $case | arun $case &lt; $case.input
 
 as parameters or .rc or some other configuration.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Fix Toolmaker code generation problem</desc>
+<notes>
+När man genererar kod tex alanCommon.h blir källpositionerna fel vilket gör det omöjligt att generera Alans parser mm. från källtexterna i CVS.
+
+Verkar bara gälla om man kompilerar med Cygwin och kör i ett Windows-shell</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
