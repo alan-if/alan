@@ -40,6 +40,8 @@ AcdHdr *header = &dummyHeader;
 
 int memTop = 0;			/* Top of load memory */
 
+int conjWord;			/* First conjunction in dictonary, for ',' */
+
 
 /* Amachine variables */
 CurVars cur;
@@ -1456,6 +1458,8 @@ static void init(void)
 static void init()
 #endif
 {
+  int i;
+
   /* Initialise some status */
   etop = 0;			/* No pending events */
   looking = FALSE;		/* Not looking now */
@@ -1470,6 +1474,14 @@ static void init()
   initstrings();
 
   getPageSize();
+
+  /* Find first conjunction and use that for ',' handling */
+  for (i = 0; i < dictsize; i++)
+    if (isConj(i)) {
+      conjWord = i;
+      break;
+    }
+
   /* Start the adventure */
   start();
 }

@@ -18,6 +18,7 @@
 
 extern int memTop;		/* Top of memory */
 
+extern int conjWord;		/* First conjunction in dictionary */
 
 /* The Amachine memory */
 extern Aword *memory;
