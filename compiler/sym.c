@@ -11,6 +11,7 @@
 #include "sysdep.h"
 #include "util.h"
 #include "lmList.h"
+#include "dump.h"
 
 #include "srcp_x.h"
 #include "cla_x.h"
@@ -31,7 +32,8 @@ SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
 
 
 /* PRIVATE: */
-static SymNod *symTree = NULL;
+static SymNod *symbolTree = NULL;
+static Bool firstSymbolDumped = TRUE;
 
 
 /*======================================================================
@@ -41,20 +43,21 @@ static SymNod *symTree = NULL;
   Calls lmLog() with correct code according to the symnod sent.
 
   */
-void redefined(Srcp *srcp,      /* IN - Source position */
-               SymNod *sym,     /* IN - The previous definition */
-               char *str)       /* IN - The symbol name */
+void redefined(IdNode *id,
+               SymNod *sym)
 {
   int code;                     /* Error code */
 
   switch (sym->kind) {
   case DIRECTION_SYMBOL: code = 301; break;
   case VERB_SYMBOL: code = 303; break;
+  case INSTANCE_SYMBOL: code = 304; break;
+  case CLASS_SYMBOL: code = 305; break;
   case EVENT_SYMBOL: code = 307; break;
   default: syserr("Unrecognized switch in redefined()"); break;
   }
 
-  lmLog(srcp, code, sevERR, str);
+  lmLog(&id->srcp, code, sevERR, id->string);
 }
 
 
@@ -74,7 +77,7 @@ static void insertSymbol(SymNod *symbol)
   symbol->lower = NULL;
   symbol->higher = NULL;
 
-  s1 = symTree;
+  s1 = symbolTree;
   s2 = NULL;
   
   while (s1 != NULL) {
@@ -87,7 +90,7 @@ static void insertSymbol(SymNod *symbol)
   }
   
   if (s2 == NULL)
-    symTree = symbol;
+    symbolTree = symbol;
   else if(comp < 0)
     s2->lower = symbol;
   else
@@ -143,21 +146,25 @@ static SymNod *newParameterSymbol(char *string, ElmNod *element)
 
   newSymbol()
 
-  Creates a new symnod and links it in the symTree.
+  Creates a new symnod and links it in the symbolTree.
 
   */
-SymNod *newSymbol(char *string,	/* IN - Name of the new symbol */
+SymNod *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
 		  SymbolKind kind) /* IN - What kind of symbol */
 {
   SymNod *new;                  /* The newly created symnod */
   
-  if (string == NULL)
-    return (0);
+  if (id == NULL)
+    return NULL;
   
+  new = lookup(id->string);
+  if (new != NULL)
+    redefined(id, new);
+
   new = NEW(SymNod);
   
   new->kind = kind;
-  new->string = string;
+  new->string = id->string;
 
   insertSymbol(new);
 
@@ -197,7 +204,7 @@ SymNod *newSymbol(char *string,	/* IN - Name of the new symbol */
   */
 void initSymbols()
 {
-  symTree = NULL;
+  symbolTree = NULL;
   instanceCount = 0;
   classCount = 0;
   attributeCount = 0;
@@ -254,7 +261,7 @@ SymNod *lookup(char *idString)
 
   if (idString == NULL) syserr("NULL string in lookup()");
 
-  s1 = symTree;
+  s1 = symbolTree;
   s2 = NULL;
 
   while (s1 != NULL) {
@@ -521,7 +528,7 @@ static void numberAttributesRecursively(SymNod *symbol)
     }
     symbol->fields.claOrIns.attributesAlreadyNumbered = TRUE;
 
-    /* Recurse in the symTree */
+    /* Recurse in the symbolTree */
     if (symbol->lower != NULL) numberAttributesRecursively(symbol->lower);
     if (symbol->higher != NULL) numberAttributesRecursively(symbol->higher);
   }
@@ -541,7 +548,7 @@ static void numberAttributesRecursively(SymNod *symbol)
 */
 void numberAllAttributes(void)
 {
-  numberAttributesRecursively(symTree);
+  numberAttributesRecursively(symbolTree);
 }
 
 
@@ -566,7 +573,7 @@ static void replicateAttributesRecursively(SymNod *symbol)
     }
     symbol->fields.claOrIns.attributesAlreadyReplicated = TRUE;
 
-    /* Recurse in the symTree */
+    /* Recurse in the symbolTree */
     if (symbol->lower != NULL) replicateAttributesRecursively(symbol->lower);
     if (symbol->higher != NULL) replicateAttributesRecursively(symbol->higher);
   }
@@ -588,7 +595,70 @@ static void replicateAttributesRecursively(SymNod *symbol)
 */
 void replicateInheritedAttributes(void)
 {
-  replicateAttributesRecursively(symTree);
+  replicateAttributesRecursively(symbolTree);
 }
 
 
+
+/*----------------------------------------------------------------------
+
+  dumpSymbolKind()
+
+*/
+static void dumpSymbolKind(SymbolKind kind)
+{
+  switch (kind) {
+  case CLASS_SYMBOL: put("CLASS"); break;
+  case INSTANCE_SYMBOL: put("INSTANCE"); break;
+  case VERB_SYMBOL: put("VERB"); break;
+  case DIRECTION_SYMBOL: put("DIRECTION"); break;
+  case PARAMETER_SYMBOL: put("PARAMETER"); break;
+  case EVENT_SYMBOL: put("EVENT"); break;
+  default: put("*** UNKNOWN ***"); break;
+  }
+}
+
+/*----------------------------------------------------------------------
+
+  dumpSymbol()
+
+*/
+static void dumpSymbol(SymNod *symbol)
+{
+  if (symbol == NULL) {
+    put("NULL");
+    return;
+  }
+
+  put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); in();
+  put("string: "); dumpString(symbol->string);
+  put(", code: "); dumpInt(symbol->code); out();
+}
+  
+
+/*----------------------------------------------------------------------
+
+  dumpSymbolsRecursively()
+
+*/
+static void dumpSymbolsRecursively(SymNod *symbol)
+{
+  if (symbol == NULL) return;
+  dumpSymbolsRecursively(symbol->lower);
+  if (firstSymbolDumped) firstSymbolDumped = FALSE; else nl();
+  dumpSymbol(symbol);
+  dumpSymbolsRecursively(symbol->higher);
+}
+
+
+/*======================================================================
+
+  dumpSymbols()
+
+*/
+void dumpSymbols(void)
+{
+  in();
+  dumpSymbolsRecursively(symbolTree);
+  out();
+}

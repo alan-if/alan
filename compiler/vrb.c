@@ -61,13 +61,13 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol = newSymbol(lst->element.id->string, VERB_SYMBOL);
+      lst->element.id->symbol = newSymbol(lst->element.id, VERB_SYMBOL);
       lst->element.id->code = lst->element.id->symbol->code;
     } else if (sym->kind == VERB_SYMBOL) {
       lst->element.id->symbol = sym;
       lst->element.id->code = sym->code;
     } else
-      redefined(&lst->element.id->srcp, sym, lst->element.id->string);
+      redefined(lst->element.id, sym);
   }
 
   /* Use first verb symbol as context symbol */

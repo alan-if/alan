@@ -28,15 +28,13 @@ extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
 /* FUNCTIONS: */
 
 /* List a message indicating a redefined symbol */
-extern void redefined(Srcp *srcp,
-		      SymNod *sym,
-		      char str[]);
+extern void redefined(IdNode *id, SymNod *sym);
 
 /* Initialise the symbol table with predefined classes etc. */
 extern void initSymbols();
 
 /* Create a new symbol node */
-extern SymNod *newSymbol(char str[],
+extern SymNod *newSymbol(IdNode *id,
 			 SymbolKind kind);
 
 /* Check if an Id exists in this contest and if so if of an allowed kind */
@@ -58,5 +56,6 @@ extern SymNod *findParameter(IdNode *parameterId, List *parameterSymbols);
 extern void setParameters(SymNod *verb, List *parameters);
 extern void numberAllAttributes(void);
 extern void replicateInheritedAttributes(void);
+extern void dumpSymbols(void);
 
 #endif

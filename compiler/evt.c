@@ -60,7 +60,7 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
     new->id->code = newsym(id->str, NAMEVT, new);
 #endif
   else
-    redefined(srcp, sym, id->string);
+    redefined(id, sym);
 
   return(new);
 }

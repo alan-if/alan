@@ -63,14 +63,14 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
   for (lst = dirs; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find any earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol = newSymbol(lst->element.id->string, DIRECTION_SYMBOL);
+      lst->element.id->symbol = newSymbol(lst->element.id, DIRECTION_SYMBOL);
       lst->element.id->code = lst->element.id->symbol->code;
       newwrd(lst->element.id->string, WRD_DIR, lst->element.id->symbol->code, NULL);
     } else if (sym->kind == DIRECTION_SYMBOL) {
       lst->element.id->symbol = sym;
       lst->element.id->code = lst->element.id->symbol->code;
     } else
-      redefined(&lst->element.id->srcp, sym, lst->element.id->string);
+      redefined(lst->element.id, sym);
   }
 
   return(new);

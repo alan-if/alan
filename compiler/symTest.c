@@ -19,6 +19,9 @@
 static char symbolName1[] = "n-is-in-the-middle";
 static char symbolName2[] = "b-is-lower";
 static char symbolName3[] = "p-is-higher";
+static IdNode *symbolId1;
+static IdNode *symbolId2;
+static IdNode *symbolId3;
 
 
 void testSymCheck()
@@ -26,9 +29,9 @@ void testSymCheck()
   Srcp srcp = {14, 12, 333};
   IdNode *unknownId = newId(&srcp, "unknownId");
   IdNode *aClassId = newId(&srcp, "aClassId");
-  SymNod *aClassSymbol = newSymbol("aClassId", CLASS_SYMBOL);
+  SymNod *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
   IdNode *anInstanceId = newId(&srcp, "anInstanceId");
-  SymNod *anInstanceSymbol = newSymbol("anInstanceId", INSTANCE_SYMBOL);
+  SymNod *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
   SymNod *foundSymbol;
 
 
@@ -56,7 +59,8 @@ static List *createOneParameter(char *id)
 
 void testVerbSymbols()
 {
-  SymNod *v1Symbol = newSymbol("v1", VERB_SYMBOL);
+  IdNode *v1Id = newId(&nulsrcp, "v1");
+  SymNod *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   SymNod *foundSymbol;
   List *parameters, *l, *p;
   Context context;
@@ -89,8 +93,15 @@ void testVerbSymbols()
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {
-  SymNod *sym1 = newSymbol(symbolName1, CLASS_SYMBOL);
-  SymNod *sym2 = lookup(symbolName1);
+  SymNod *sym1;
+  SymNod *sym2;
+
+  symbolId1 = newId(&nulsrcp, symbolName1);
+  symbolId2 = newId(&nulsrcp, symbolName2);
+  symbolId3 = newId(&nulsrcp, symbolName3);
+
+  sym1 = newSymbol(symbolId1, CLASS_SYMBOL);
+  sym2 = lookup(symbolName1);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName1) == 0);
@@ -101,7 +112,7 @@ void testBuildSymbol1()
 /* Test symbol table by inserting a symbol with a higher name */
 void testBuildSymbolHigher()
 {
-  SymNod *sym1 = newSymbol(symbolName2, CLASS_SYMBOL);
+  SymNod *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName2);
 
   unitAssert(sym1 == sym2);
@@ -112,7 +123,7 @@ void testBuildSymbolHigher()
 /* Test symbol table by inserting a symbol with a lower name */
 void testBuildSymbolLower()
 {
-  SymNod *sym1 = newSymbol(symbolName3, CLASS_SYMBOL);
+  SymNod *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName3);
 
   unitAssert(sym1 == sym2);

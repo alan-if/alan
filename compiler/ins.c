@@ -70,7 +70,7 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->slots->id = id;
   new->slots->parentId = parent;
 
-  new->slots->id->symbol = newSymbol(id->string, INSTANCE_SYMBOL);
+  new->slots->id->symbol = newSymbol(id, INSTANCE_SYMBOL);
   new->slots->id->symbol->fields.claOrIns.slots = new->slots;
 
   allInstances = concat(allInstances, new, LIST_INS);

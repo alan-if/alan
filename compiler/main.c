@@ -92,13 +92,14 @@ static SPA_DECLARE(options)
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
 syntax\n\
+symbols\n\
 verbs\n\
 classes\n\
 instances\n\
 containers\n\
 events\n\
 rules\n\
-everything", dmpflg, "sxvkicer!", NULL, NULL)
+everything", dmpflg, "yxsvciker!", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

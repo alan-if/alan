@@ -88,7 +88,7 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 
   new->slots->id = id;
   new->slots->parentId = parent;
-  new->slots->id->symbol = newSymbol(id->string, CLASS_SYMBOL);
+  new->slots->id->symbol = newSymbol(id, CLASS_SYMBOL);
   new->slots->id->symbol->fields.claOrIns.slots = new->slots;
 
   allClasses = concat(allClasses, new, LIST_CLA);

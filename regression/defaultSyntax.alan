@@ -3,11 +3,11 @@ Verb take
     "You take the object."
 End Verb take.
 
-The object Isa object At l.
-End The object.
+The o Isa object At l.
+End The o.
 
-The actor Isa actor At l.
-End The actor.
+The a Isa actor At l.
+End The a.
 
 
 The l Isa location.

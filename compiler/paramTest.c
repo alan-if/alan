@@ -14,10 +14,12 @@ void testParameterReference()
   List *parameters;
   IdNode *p1Id = newId(&nulsrcp, "p1");
   SymNod *foundSymbol;
-  SymNod *v1Symbol = newSymbol("v1", VERB_SYMBOL);
+  IdNode *v1Id = newId(&nulsrcp, "v1");
+  SymNod *v1Symbol;
 
   initadv();
 
+  v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   context.kind = VERB_CONTEXT;
   context.verb = v1Symbol;
   parameters = createOneParameter("p1");

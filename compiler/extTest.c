@@ -13,12 +13,14 @@ void testNewExt()
   IdNode *direction = newId(&nulsrcp, "w");
   IdNode *targetLocation = newId(&nulsrcp, "aLocation");
   ExtNod *theExit;
+  IdNode *aLocationId = newId(&nulsrcp, "aLocation");
   SymNod *aLocationSymbol;
   int firstAddress;
   int entrySize = ACDsizeOf(ExitEntry);
 
   initadv();
-  aLocationSymbol = newSymbol("aLocation", INSTANCE_SYMBOL);
+  (void) readEcode();
+  aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
   theExit = newext(&nulsrcp, concat(NULL, direction, LIST_EXT), targetLocation, NULL, NULL);
   unitAssert(theExit->dirs->element.id->symbol->code = 1);

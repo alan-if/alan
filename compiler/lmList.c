@@ -119,11 +119,9 @@ static lmMsgs msg[] = {
     { "223   ", "Unknown message identifier." },
     { "230   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
     { "301   ", "\'%1\' already declared as a Direction." },
-    { "302   ", "\'%1\' already declared as a Location." },
     { "303   ", "\'%1\' already declared as a Verb." },
-    { "304   ", "\'%1\' already declared as an Object." },
-    { "305   ", "\'%1\' already declared as a Container." },
-    { "306   ", "\'%1\' already declared as an Actor." },
+    { "304   ", "\'%1\' already declared as an Instance (The)." },
+    { "305   ", "\'%1\' already declared as a Class (Every)." },
     { "307   ", "\'%1\' already declared as an Event." },
     { "310   ", "Identifier \'%1\' not defined." },
     { "311   ", "Must refer to %1." },
@@ -183,7 +181,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 103}
+    {0, 101}
 };
 static lmMessages currMsect = (lmMessages)0;
 
