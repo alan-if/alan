@@ -167,12 +167,12 @@ extern struct Library *IconBase;
       prgnam = argv[0];
     else
       prgnam++;
-    if (strcmp(prgnam, "arun") == 0)
-      switches(argc, argv);
-    else {
-      /* Another program name use that as the name of the adventure */
-      advnam = prgnam;
-    }
+    /* Now look at the switches and arguments */
+    switches(argc, argv);
+    if (advnam[0] == '\0')
+      /* No game given, try program name */
+      if (strcmp(prgnam, "arun") != 0 && strcmp(prgnam, "ARUN") != 0)
+	advnam = strdup(argv[0]);
   }
 #else
 #ifdef __dos__
@@ -186,10 +186,12 @@ extern struct Library *IconBase;
       && (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0
 	  || strcmp(&prgnam[strlen(prgnam)-4], ".exe") == 0))
     prgnam[strlen(prgnam)-4] = '\0';
-  if (strcmp(prgnam, "arun") == 0 || strcmp(prgnam, "ARUN") == 0)
-    switches(argc, argv);    
-  else
-    advnam = prgnam;
+  /* Now look at the switches and arguments */
+  switches(argc, argv);
+  if (advnam[0] == '\0')
+    /* No game given, try program name */
+    if (strcmp(prgnam, "arun") != 0 && strcmp(prgnam, "ARUN") != 0)
+      advnam = strdup(argv[0]);
 #else
 #if defined __vms__
   if ((prgnam = strrchr(argv[0], ']')) == NULL
@@ -204,11 +206,12 @@ extern struct Library *IconBase;
       && (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0
 	  || strcmp(&prgnam[strlen(prgnam)-4], ".exe") == 0))
     prgnam[strlen(prgnam)-4] = '\0';
-  if (strcmp(prgnam, "arun") == 0)
-    switches(argc, argv);
-  else
-    /* Another program name use that as the name of the adventure */
-    advnam = prgnam;
+  /* Now look at the switches and arguments */
+  switches(argc, argv);
+  if (advnam[0] == '\0')
+    /* No game given, try program name */
+    if (strcmp(prgnam, "arun") != 0)
+      advnam = strdup(argv[0]);
 #else
 #if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
@@ -217,13 +220,12 @@ extern struct Library *IconBase;
     prgnam = strdup(&prgnam[1]);
   if (strrchr(prgnam, ';') != NULL)
     *strrchr(prgnam, ';') = '\0';
-  if (strcmp(prgnam, "arun") == 0)
-    switches(argc, argv);
-  else {
-    /* Another program name, use that as the name of the adventure */
-    switches(argc, argv);
-    advnam = strdup(argv[0]);
-  }
+  /* Now look at the switches and arguments */
+  switches(argc, argv);
+  if (advnam[0] == '\0')
+    /* No game given, try program name */
+    if (strcmp(prgnam, "arun") != 0)
+      advnam = strdup(argv[0]);
 #else
   Unimplemented OS!
 #endif
