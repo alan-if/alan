@@ -1,11 +1,6 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-GLK = -DGLK
-GLKINCLUDE = -I../../WindowsGLK/Include
-GLKLIB = ../../WindowsGlk/Glk.lib
-
-CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
-#CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
+CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
@@ -47,15 +42,18 @@ arun : $(ARUNOBJECTS)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
-winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o
-	gcc -o arun -mwindows winglk.o $(GLKOBJECTS) $(ARUNOBJECTS) $(LDFLAGS) $(GLKLIB)
+winglk: GLK = -DGLK
+winglk: GLKINCLUDE = -I../../WindowsGLK/Include
+winglk: GLKLIB = ../../WindowsGlk/Glk.lib
+winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+
+winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
+	gcc -o arun -mwindows $^ $(LDFLAGS) $(GLKLIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
-glkarun: $(GLKOBJECTS) $(ARUNOBJECTS) glkstart.o
-	gcc -o glkarun  $(GLKOBJECTS) $(ARUNOBJECTS) $(LDFLAGS) $(GLKLIB)
-	@-mkdir ../bin 2> /dev/null
-	cp glkarun.exe ../bin
+arun.res: arun.rc arun.ico
+	windres $< -O coff -o $@
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 

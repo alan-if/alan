@@ -1,7 +1,7 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
-CYGWIN =  -mno-cygwin # Does not work because of intricate library problems
+CYGWIN =  -mno-cygwin
 
 #GCOV =	-fprofile-arcs -ftest-coverage
 
@@ -102,6 +102,14 @@ alan: $(MAINOBJECTS) test
 	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
+
+win:  $(MAINOBJECTS) alan.res test
+	gcc -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
+	@-mkdir ../bin 2> /dev/null
+	cp alan.exe ../bin
+
+alan.res: alan.rc alan.ico
+	windres $< -O coff -o $@
 
 all : .tmstamp test alan Makefile
 
