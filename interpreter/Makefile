@@ -15,7 +15,7 @@ LDFLAGS	= $(LQ)
 LDFLAGS = $(LQ) -lreadline -ltermcap -L$(HOME)/lib/`arch`
 sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
-solaris2 := LDFLAGS = $(LQ) -L/usr/local/lib
+solaris2 := LDFLAGS = $(LQ) -lreadline -ltermcap -lucb -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 
 
 tcov := CC = acc -a
