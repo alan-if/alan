@@ -8,8 +8,6 @@ SYNTAX
 	take = take (obj) *
 		WHERE obj ISA OBJECT
 			ELSE "You can't take people with you!"
-	drop = drop (obj) *.
-
 
 VERB take
 	CHECK obj IS takeable
@@ -21,6 +19,30 @@ VERB take
 		"Taken."
 END VERB.
 
+
+SYNTAX
+	pick_up1 = pick u (obj)*
+		WHERE obj ISA OBJECT
+		ELSE "You can't take people with you!"
+
+	pick_up2 = pick (obj)* u
+		WHERE obj ISA OBJECT
+		ELSE "You can't take people with you!"
+
+
+VERB pick_up1, pick_up2
+	CHECK obj IS takeable
+		ELSE "You can't take that!"
+	AND obj NOT IN inventory
+		ELSE "You've already got that."
+	DOES
+		LOCATE obj IN inventory.
+		"Taken."
+END VERB.
+
+
+SYNTAX
+	drop = drop (obj) *.
 
 VERB drop
 	CHECK obj IN inventory

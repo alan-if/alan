@@ -15,7 +15,7 @@ VERB eat
 	CHECK obj IS edible
 		ELSE "You can't eat that!"
 	DOES
-		LOCATE obj AT Limbo.
+		LOCATE obj AT Nowhere.
 		"You eat the $o."
 END VERB.
 
@@ -25,7 +25,7 @@ VERB drink
 	CHECK obj IS drinkable
 		ELSE "That is not drinkable."
 	DOES
-		LOCATE obj AT Limbo.
+		LOCATE obj AT Nowhere.
 		"You drink the $o."
 END VERB.
 
