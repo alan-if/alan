@@ -96,26 +96,26 @@ int newwrd(str, class, code, ref)
   /* Find the word if it exists */
   wrd = findwrd(str);
   if (wrd != NULL) {
-    if ((1L<<class)&(~wrd->class)) { /* Multiple word classes */
-      if (class==WRD_SYN || ((1L<<WRD_SYN)&wrd->class))
+    if ((1L<<class)&(~wrd->classbits)) { /* Multiple word classes */
+      if (class==WRD_SYN || ((1L<<WRD_SYN)&wrd->classbits))
 	lmLog(NULL, 333, sevERR, str);
       else
 	lmLog(NULL, 320, sevWAR, str);
-      wrd->class |= 1L<<class;
+      wrd->classbits |= 1L<<class;
     } else
-      wrd->ref = concat(wrd->ref, ref); /* Add another reference */
+      wrd->ref[class] = concat(wrd->ref[class], ref); /* Add another reference */
     return wrd->code;
   }
 
   new = NEW(WrdNod);
 
-  new->class = 1L<<class;
+  new->classbits = 1L<<class;
   new->str = str;
   new->code = code;
   if (class != WRD_SYN)
-    new->ref = concat(NULL, ref);
+    new->ref[class] = concat(NULL, ref);
   else
-    new->ref = (List *) ref;
+    new->ref[class] = (List *) ref;
 
   new->low = NULL;
   new->high = NULL;
@@ -222,13 +222,21 @@ static void gewrdref(wrd)
   gewrdref(wrd->low);
   
   /* Then this node */
-  if (((wrd->class&(1L<<WRD_NOUN)) || (wrd->class&(1L<<WRD_ADJ))) && wrd->ref != NULL) {
-    wrd->refadr = emadr();	/* Save address to reference table */
-    for (lst = wrd->ref; lst != NULL; lst = lst->next)
+  if (wrd->classbits&(1L<<WRD_NOUN)) {
+    wrd->nounrefadr = emadr();	/* Save address to noun reference table */
+    for (lst = wrd->ref[WRD_NOUN]; lst != NULL; lst = lst->next)
       genam(lst->element.nam);
     emit(EOF);
   } else
-    wrd->refadr = 0;
+    wrd->nounrefadr = 0;
+
+  if (wrd->classbits&(1L<<WRD_ADJ)) {
+    wrd->adjrefadr = emadr();	/* Save address to noun reference table */
+    for (lst = wrd->ref[WRD_ADJ]; lst != NULL; lst = lst->next)
+      genam(lst->element.nam);
+    emit(EOF);
+  } else
+    wrd->adjrefadr = 0;
   
   /* Then for higher */
   gewrdref(wrd->high);
@@ -290,14 +298,16 @@ static void gewrdent(wrd)
   
   /* Generate for this word */
   emit(wrd->stradr);
-  if (wrd->class&WRD_SYN) {
-    emit(1L<<((WrdNod *)wrd->ref)->class);
-    emit(((WrdNod *)wrd->ref)->code);
-    emit(((WrdNod *)wrd->ref)->refadr);
+  if (wrd->classbits == (1L<<WRD_SYN)) {
+    emit(((WrdNod *)wrd->ref[WRD_SYN])->classbits);
+    emit(((WrdNod *)wrd->ref[WRD_SYN])->code);
+    emit(((WrdNod *)wrd->ref[WRD_SYN])->adjrefadr);
+    emit(((WrdNod *)wrd->ref[WRD_SYN])->nounrefadr);
   } else {
-    emit(1L<<wrd->class);
+    emit(wrd->classbits);
     emit(wrd->code);
-    emit(wrd->refadr);
+    emit(wrd->adjrefadr);
+    emit(wrd->nounrefadr);
   }
   
   if (wrd->high != NULL) gewrdent(wrd->high);

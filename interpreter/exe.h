@@ -8,11 +8,11 @@
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES */
-
 /* The event queue */
 extern EvtqElem eventq[];	/* Event queue */
 extern int etop;		/* Event queue top pointer */
+
+extern int dscrstkp;		/* Point into describe stack */
 
 #ifdef _PROTOTYPES_
 extern Aword attribute(Aword item, Aword atr);

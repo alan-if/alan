@@ -82,7 +82,7 @@ void ansyns()
       for (slst = lst->element.syn->nams; slst != NULL; slst = slst->next) {
 	/* Look up the synonym */
         swrd = findwrd(slst->element.nam->str);
-        if (swrd != NULL && swrd->class == WRD_SYN)
+        if (swrd != NULL && (swrd->classbits&(1L<<WRD_SYN)))
 	  lmLog(&slst->element.nam->srcp, 322, sevWAR, slst->element.nam->str);
 	else
           newwrd(slst->element.nam->str, WRD_SYN, 0, (void *) wrd);

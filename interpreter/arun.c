@@ -124,6 +124,7 @@ void error(msgno)
   if (msgno != NOMSG)
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
+  dscrstkp = 0;			/* Reset describe stack */
   longjmp(jmpbuf,TRUE);
 }
 
@@ -1497,31 +1498,43 @@ int main(argc, argv)
 #ifdef MALLOC
   malloc_debug(2);
 #endif
-  for (i = 1; i < argc; i++) {
-    if (argv[i][0] == '-') {
-      switch (tolower(argv[i][1])) {
-      case 't':	
-	trcflg = TRUE;
-	break;
-      case 'd':	
-	dbgflg = TRUE;
-	break;
-      case 's':	
-	trcflg = TRUE;
-	stpflg = TRUE;
-	break;
-      case 'l':	
-	logflg = TRUE;
-	break;
-      default:
-	printf("Unrecognized switch, -%c\n", argv[i][1]);
-	exit(0);
+#ifndef __dos__
+  if (strcmp(argv[0], "arun") == 0) {
+#else
+  if (strcmp(argv[0], "ARUN.EXE") == 0) {
+#endif
+    for (i = 1; i < argc; i++) {
+      if (argv[i][0] == '-') {
+	switch (tolower(argv[i][1])) {
+	case 't':	
+	  trcflg = TRUE;
+	  break;
+	case 'd':	
+	  dbgflg = TRUE;
+	  break;
+	case 's':	
+	  trcflg = TRUE;
+	  stpflg = TRUE;
+	  break;
+	case 'l':	
+	  logflg = TRUE;
+	  break;
+	default:
+	  printf("Unrecognized switch, -%c\n", argv[i][1]);
+	  exit(0);
+	}
+      } else {
+	strcpy(advfnm, argv[i]);
+	if (strcmp(&advfnm[strlen(advfnm)-4], ".acd") == 0)
+	  advfnm[strlen(advfnm)-4] = '\0';
       }
-    } else {
-      strcpy(advfnm, argv[i]);
-      if (strcmp(&advfnm[strlen(advfnm)-4], ".acd") == 0)
-	advfnm[strlen(advfnm)-4] = '\0';
     }
+  } else {
+    /* Another program name use that as the name of the adventure */
+    strcpy(advfnm, argv[0]);
+#ifdef __dos__
+    advfnm[strlen(advfnm)-4] = '\0';
+#endif
   }
 
   /* Set up page format in case we get a system error */
@@ -1529,12 +1542,12 @@ int main(argc, argv)
   header->paglen = 24;
   header->pagwidth = 70;
   getPageSize();
-
+  
   if (dbgflg) {
     printf("Arun, Adventure Interpreter version %s.", product.version.string);
     newline();
   }
-
+  
   if (strcmp(advfnm, "") == 0) {
     printf("No Adventure name given.\n");
     exit(0);

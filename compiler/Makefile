@@ -73,7 +73,7 @@ LIB = alan.a
 
 .PRECIOUS: $(LIB)
 
-.KEEP_STATE:
+#.KEEP_STATE:
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
@@ -194,4 +194,4 @@ depend:
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-#include dependencies.mk
+include dependencies.mk

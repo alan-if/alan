@@ -36,17 +36,18 @@
 
 #define addrTo(x) (&memory[x])
 
-#define isVerb(word) (word < dictsize && (dict[word].class&(Aword)WRD_VRB)!=0)
-#define isConj(word) (word < dictsize && (dict[word].class&(Aword)WRD_CONJ)!=0)
-#define isBut(word) (word < dictsize && (dict[word].class&(Aword)WRD_BUT)!=0)
-#define isThem(word) (word < dictsize && (dict[word].class&(Aword)WRD_THEM)!=0)
-#define isIt(word) (word < dictsize && (dict[word].class&(Aword)WRD_IT)!=0)
-#define isNoun(word) (word < dictsize && (dict[word].class&(Aword)WRD_NOUN)!=0)
-#define isAdj(word) (word < dictsize && (dict[word].class&(Aword)WRD_ADJ)!=0)
-#define isPrep(word) (word < dictsize && (dict[word].class&(Aword)WRD_PREP)!=0)
-#define isAll(word) (word < dictsize && (dict[word].class&(Aword)WRD_ALL)!=0)
-#define isDir(word) (word < dictsize && (dict[word].class&(Aword)WRD_DIR)!=0)
-#define isNoise(word) (word < dictsize && (dict[word].class&(Aword)WRD_NOISE)!=0)
+/* The word classes are represented as numbers but in the dictonary they are generated as bits */
+#define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_VRB))!=0)
+#define isConj(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_CONJ))!=0)
+#define isBut(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_BUT))!=0)
+#define isThem(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_THEM))!=0)
+#define isIt(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_IT))!=0)
+#define isNoun(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_NOUN))!=0)
+#define isAdj(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_ADJ))!=0)
+#define isPrep(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_PREP))!=0)
+#define isAll(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_ALL))!=0)
+#define isDir(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_DIR))!=0)
+#define isNoise(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_NOISE))!=0)
 #define isLiteral(word) (word >= dictsize)
 
 
@@ -71,7 +72,8 @@ typedef struct WrdElem {	/* Dictionary */
   Aaddr wrd;			/* ACODE address to string */
   Aword class;			/* Word class */
   Aword code;
-  Aaddr ref;			/* Address to reference list */
+  Aaddr adjrefs;		/* Address to reference list */
+  Aaddr nounrefs;		/* Address to reference list */
 } WrdElem;
 
 typedef struct ActElem {	/* ACTOR TABLE */

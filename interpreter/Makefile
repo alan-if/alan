@@ -11,7 +11,7 @@ CFLAGS	= $(DEBUG)
 LD	= $(CC) $(DEBUG)
 LDFLAGS	= -lm $(LQ)
 
-.KEEP_STATE:
+#.KEEP_STATE:
 
 #--
 SRCS = debug.c exe.c inter.c parse.c rules.c stack.c decode.c term.c params.c sysdep.c
@@ -84,4 +84,4 @@ depend:
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-#include dependencies.mk
+include dependencies.mk

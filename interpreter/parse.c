@@ -357,7 +357,7 @@ static void unambig(plst)
 
   firstWord = wrdidx;
   while (wrds[wrdidx] != EOF && isAdj(wrds[wrdidx])) {
-    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].ref));
+    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].adjrefs));
     if (found)
       isect(plst, refs);
     else {
@@ -367,7 +367,7 @@ static void unambig(plst)
     wrdidx++;
   }
   if (wrds[wrdidx] != EOF && isNoun(wrds[wrdidx])) {
-    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].ref));
+    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].nounrefs));
     if (found)
       isect(plst, refs);
     else {

@@ -218,7 +218,7 @@ static void gestx(stx)
 #endif
 {
   WrdNod *wrd;
-  List *lst;
+  List *lst = NULL;
   List *elms = NULL;		/* A list of parallell elms-lists */
 
   
@@ -226,12 +226,13 @@ static void gestx(stx)
     /* First word is a verb which points to all stxs starting with that word */
     wrd = findwrd(stx->elms->element.elm->nam->str);
     /* Ignore words not verbs and prepositions */
-    if (wrd->class == WRD_PREP || wrd->class == WRD_VRB) {
-      /* Create a list of all parallell elements */
-      for (lst = wrd->ref; lst; lst = lst->next) {
-	elms = concat(elms, lst->element.stx->elms);
-	lst->element.stx->generated = TRUE;
-      }
+    if (wrd->classbits&(1L<<WRD_PREP)) lst = wrd->ref[WRD_PREP];
+    if (wrd->classbits&(1L<<WRD_VRB)) lst = wrd->ref[WRD_VRB];
+    /* Create a list of all parallell elements */
+    while (lst) {
+      elms = concat(elms, lst->element.stx->elms);
+      lst->element.stx->generated = TRUE;
+      lst = lst->next;
     }
     stx->elmsadr = geelms(elms);
   } else

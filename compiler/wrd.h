@@ -16,12 +16,13 @@
 /* Types: */
 
 typedef struct WrdNod {		/* DICTIONARY ENTRY */
-  int class;			/* Class of this entry as a bit in the set */
+  int classbits;		/* Class of this entry as a bit in the set */
   int code;			/* Code for the word */
   char *str;			/* Name of this entry */
-  List *ref;			/* List of references (objects etc) */
+  List *ref[WRD_CLASSES];	/* Lists of references (objects etc) */
   Aaddr stradr;			/* ACODE address to string */
-  Aaddr refadr;			/* ACODE address to reference table */
+  Aaddr nounrefadr;		/* ACODE address to reference table */
+  Aaddr adjrefadr;		/* ACODE address to reference table */
   struct WrdNod *low, *high;	/* Links */
 } WrdNod;
 

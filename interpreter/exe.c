@@ -1074,6 +1074,9 @@ static void dscract(act)
 }
 
 
+static Aword dscrstk[255];
+int dscrstkp = 0;
+
 #ifdef _PROTOTYPES_
 void describe(Aword id)
 #else
@@ -1081,6 +1084,13 @@ void describe(id)
      Aword id;
 #endif
 {
+  int i;
+
+  for (i = 0; i < dscrstkp; i++)
+    if (dscrstk[i] == id)
+      syserr("Recursive DESCRIBE.");
+  dscrstk[dscrstkp++] = id;
+
   if (isObj(id))
     dscrobj(id);
   else if (isLoc(id))
@@ -1089,6 +1099,8 @@ void describe(id)
     dscract(id);
   else
     syserr("Can't DESCRIBE item.");
+
+  dscrstkp--;
 }
 
 
