@@ -78,7 +78,7 @@ Boolean readline(char buffer[])
 	  case ID_MENU_RESTART:
 	    restartGame();
 	    break;
-	  case ID_MENU_BATCH:
+	  case ID_MENU_PLAYBACK:
 	    commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
 	    if (commandFileRef == NULL) break;
 	    commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);

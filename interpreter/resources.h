@@ -7,6 +7,8 @@
 
 #define ID_MENU_RESTART			25001
 #define ID_MENU_SAVE			25002
-#define ID_MENU_BATCH			25003
-#define ID_MENU_RESTORE			25004
-#define ID_MENU_ABOUT                   25005
+#define ID_MENU_RECORD			25003
+#define ID_MENU_PLAYBACK		25004
+#define ID_MENU_TRANSCRIPT		25005
+#define ID_MENU_RESTORE			25006
+#define ID_MENU_ABOUT                   25007

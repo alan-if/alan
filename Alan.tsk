@@ -4,9 +4,9 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>309.89</origest>
-<currest>308.89</currest>
-<elapsed>149.89</elapsed>
+<origest>308.89</origest>
+<currest>307.89</currest>
+<elapsed>150.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>52</origest>
 <currest>52</currest>
-<elapsed>15</elapsed>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>15</elapsed>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -132,6 +132,17 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Allow reading player input from file</desc>
 <notes>A '@' as the first character will make the interpreter read the rest of the line as a file name. It tries to open that file and read lines from it one at a time, as if the player had input them.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scripting</desc>
+<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
+
+Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -512,21 +523,10 @@ Which of the above works, and what is the problem with each that doesn't?
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Scripting</desc>
-<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
-
-Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
 <notes/>
@@ -687,8 +687,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>109</origest>
-<currest>109</currest>
+<origest>108</origest>
+<currest>108</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1419,17 +1419,6 @@ Still to figure out how to send parameters, and to make analysis of availability
 <task>
 <desc>Warn for non-existing include directories</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Actor ordering</desc>
-<notes>Actor conversation
-
-&gt; floyd, get the card</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
