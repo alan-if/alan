@@ -65,7 +65,8 @@
 #endif
 
 #ifdef __CYGWIN__
-#define __win__
+/*#define __win__*/
+#define REVERSED
 #endif
 
 #ifdef __MINGW32__

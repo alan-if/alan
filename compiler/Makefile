@@ -190,11 +190,11 @@ smScanx.o: smScanx.c
 # Common sysdep
 #
 sysdep.c : ../interpreter/sysdep.c
-	cp ../interpreter/sysdep.c .
+	cp -f ../interpreter/sysdep.c .
 	chmod a-w sysdep.c
 
 sysdep.h : ../interpreter/sysdep.h
-	cp ../interpreter/sysdep.h .
+	cp -f ../interpreter/sysdep.h .
 	chmod a-w sysdep.h
 
 #

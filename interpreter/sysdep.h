@@ -65,7 +65,8 @@
 #endif
 
 #ifdef __CYGWIN__
-#define __win__
+/*#define __win__*/
+#define REVERSED
 #endif
 
 #ifdef __MINGW32__
@@ -160,32 +161,9 @@
 /**************************/
 /* Strings for file modes */
 /**************************/
-#define READ_MODE "r"
-#define WRITE_MODE "w"
-
-#ifdef __mac__
-/* File open mode (binary) */
-#undef READ_MODE
 #define READ_MODE "rb"
-#undef WRITE_MODE
 #define WRITE_MODE "wb"
-#endif
 
-#ifdef __dos__
-/* File open mode (binary) */
-#undef READ_MODE
-#define READ_MODE "rb"
-#undef WRITE_MODE
-#define WRITE_MODE "wb"
-#endif
-
-#ifdef __win__
-/* File open mode (binary) */
-#undef READ_MODE
-#define READ_MODE "rb"
-#undef WRITE_MODE
-#define WRITE_MODE "wb"
-#endif
 
 /*****************/
 /* Byte ordering */
