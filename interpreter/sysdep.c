@@ -139,82 +139,63 @@ size_t strftime (
 #endif
 
 
+/* Theses work on native character sets */
+
+static char spcChrs[] = " \t\n";
+
+#ifdef __amiga__
+
+/* Which can't read 8-bit chars but is ISO */
+static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+
+static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+
+#else
+
+/* Use native characters */
+static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz‡·‚„‰ÂÊÁÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚¸˝˛ˇ";
+
+static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ¿¡¬√ƒ≈∆«… ÀÃÕŒŒœ–—“”‘’÷ÿŸ⁄€€›ﬁﬂ";
+
+#endif
+
 #ifdef _PROTOTYPES_
-int isSpace(int c)		/* IN - character to test */
+int isSpace(int c)		/* IN - Native character to test */
 #else
 int isSpace(c)
-     int c;			/* IN - character to test */
+     int c;			/* IN - Native character to test */
 #endif
 {
-  static char spcChrs[] = " \t\n";
-
   return (c != '\0' && strchr(spcChrs, c) != 0);
 }
 
 
 #ifdef _PROTOTYPES_
-int isLower(int c)			/* IN - character to test */
+int isLower(int c)		/* IN - Native character to test */
 #else
 int isLower(c)
-     int c;			/* IN - character to test */
+     int c;			/* IN - Native character to test */
 #endif
 {
-#ifdef __amiga__
-  /* Which can't read 8-bit chars but is ISO */
-  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
-#else
-  /* Use native characters */
-  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz‡·‚„‰ÂÊÁÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚¸˝˛ˇ";
-#endif
   return (c != '\0' && strchr(lowChrs, c) != 0);
 }
 
 
 #ifdef _PROTOTYPES_
-int isUpper(int c)		/* IN - character to test */
+int isUpper(int c)		/* IN - Native character to test */
 #else
 int isUpper(c)
-     int c;			/* IN - character to test */
+     int c;			/* IN - Native character to test */
 #endif
 {
-#ifdef __amiga__
-  /* Which can't read 8-bit chars but is ISO */
-  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
-#else
-  /* Use native character sets */
-  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ¿¿¡¬√ƒ≈∆«… ÀÃÕŒŒœ–—“”‘’÷ÿŸ⁄€€›ﬁﬂ";
-#endif
   return (c != '\0' && strchr(uppChrs, c) != 0);
 }
 
-
 #ifdef _PROTOTYPES_
-char lowerCase(int c)
-#else
-char lowerCase(c)
-     int c;
-#endif
-{
-  return (isUpper(c)? c + ('a' - 'A'): c);
-}
-
-
-#ifdef _PROTOTYPES_
-char upperCase(int c)
-#else
-char upperCase(c)
-     int c;
-#endif
-{
-  return (isLower(c)? c - ('a' - 'A'): c);
-}
-
-
-#ifdef _PROTOTYPES_
-int isLetter(int c)		/* IN - character to test */
+int isLetter(int c)		/* IN - Native character to test */
 #else
 int isLetter(c)
-     int c;			/* IN - character to test */
+     int c;			/* IN - Native character to test */
 #endif
 {
   return(c != '\0' && (isLower(c)? !0: isUpper(c)));
@@ -222,31 +203,176 @@ int isLetter(c)
 
 
 #ifdef _PROTOTYPES_
-char *strlow(char str[])	/* INOUT - string to convert */
+int toLower(int c)		/* IN - Native character to convert */
+#else
+int toLower(c)
+     int c;			/* IN - Native character to convert */
+#endif
+{
+#ifdef __dos__
+  char *cp;
+
+  if ((cp = strchr(uppChrs, c)) != 0)
+    return(lowChrs[cp-uppChrs]);
+  else
+    return c;
+#else
+#ifdef __mac__
+  char *cp;
+
+  if ((cp = strchr(uppChrs, c)) != 0)
+    return(lowChrs[cp-uppChrs]);
+  else
+    return c;
+#else
+  return (isUpper(c)? c + ('a' - 'A'): c);
+#endif
+#endif
+}
+
+#ifdef _PROTOTYPES_
+int toUpper(int c)		/* IN - Native character to convert */
+#else
+int toUpper(c)
+     int c;			/* IN - Native character to convert */
+#endif
+{
+#ifdef __dos__
+  char *cp;
+
+  if ((cp = strchr(lowChrs, c)) != 0)
+    return(uppChrs[cp-lowChrs]);
+  else
+    return c;
+#else
+#ifdef __mac__
+  char *cp;
+
+  if ((cp = strchr(lowChrs, c)) != 0)
+    return(uppChrs[cp-lowChrs]);
+  else
+    return c;
+#else
+  return (isLower(c)? c - ('a' - 'A'): c);
+#endif
+#endif
+}
+
+#ifdef _PROTOTYPES_
+char *strlow(char str[])	/* INOUT - Native string to convert */
 #else
 char *strlow(str)
-     char str[];		/* INOUT - string to convert */
+     char str[];		/* INOUT - Native string to convert */
 #endif
 {
   char *s;
 
   for (s = str; *s; s++)
-    *s = lowerCase(*s);
+    *s = toLower(*s);
   return(str);
 }
 
 
 #ifdef _PROTOTYPES_
-char *strupp(char str[])	/* INOUT - string to convert */
+char *strupp(char str[])	/* INOUT - Native string to convert */
 #else
 char *strupp(str)
-     char str[];		/* INOUT - string to convert */
+     char str[];		/* INOUT - Native string to convert */
 #endif
 {
   char *s;
 
   for (s = str; *s; s++)
-    *s = upperCase(*s);
+    *s = toUpper(*s);
+  return(str);
+}
+
+
+/* The following work on ISO characters */
+
+#ifdef _PROTOTYPES_
+int isLowerCase(int c)		/* IN - ISO character to test */
+#else
+int isLowerCase(c)
+     int c;			/* IN - ISO character to test */
+#endif
+{
+  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+  return (c != '\0' && strchr(lowChrs, c) != 0);
+}
+
+
+#ifdef _PROTOTYPES_
+int isUpperCase(int c)		/* IN - ISO character to test */
+#else
+int isUpperCase(c)
+     int c;			/* IN - ISO character to test */
+#endif
+{
+  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+  return (c != '\0' && strchr(uppChrs, c) != 0);
+}
+
+
+#ifdef _PROTOTYPES_
+int isISOLetter(int c)		/* IN - ISO character to test */
+#else
+int isISOLetter(c)
+     int c;			/* IN - ISO character to test */
+#endif
+{
+  return (isLowerCase(c) || isUpperCase(c));
+}
+
+
+#ifdef _PROTOTYPES_
+char toLowerCase(int c)		/* IN - ISO character to convert */
+#else
+char toLowerCase(c)
+     int c;
+#endif
+{
+  return (isUpperCase(c)? c + ('a' - 'A'): c);
+}
+
+
+#ifdef _PROTOTYPES_
+char toUpperCase(int c)		/* IN - ISO character to convert */
+#else
+char upperCase(c)
+     int c;
+#endif
+{
+  return (isLowerCase(c)? c - ('a' - 'A'): c);
+}
+
+
+#ifdef _PROTOTYPES_
+char *stringLower(char str[])	/* INOUT - ISO string to convert */
+#else
+char *stringLower(str)
+     char str[];		/* INOUT - ISO string to convert */
+#endif
+{
+  char *s;
+
+  for (s = str; *s; s++)
+    *s = toLowerCase(*s);
+  return(str);
+}
+
+
+#ifdef _PROTOTYPES_
+char *stringUpper(char str[])	/* INOUT - ISO string to convert */
+#else
+char *stringUpper(str)
+     char str[];		/* INOUT - ISO string to convert */
+#endif
+{
+  char *s;
+
+  for (s = str; *s; s++)
+    *s = toUpperCase(*s);
   return(str);
 }
 
@@ -306,7 +432,8 @@ static char map[256]
     *c = map[*o];
   *c = '\0';
 #else
-  strcpy(copy, original);
+  if (copy != original)
+    strcpy(copy, original);
 #endif
 }
 
@@ -366,6 +493,7 @@ static char map[256]
     *c = map[*o];
   *c = '\0';
 #else
-  strcpy(copy, original);
+  if (copy != original)
+    strcpy(copy, original);
 #endif
 }

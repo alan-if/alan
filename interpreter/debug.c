@@ -295,7 +295,7 @@ void debug()
       sscanf(&buf[1], "%d", &i);
     } while (c == '\0');
   
-    switch (upperCase(c)) {
+    switch (toUpper(c)) {
     case 'H':
     case '?':
       output("$nABUG Commands:\

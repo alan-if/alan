@@ -387,7 +387,7 @@ static void prsym(str)
      char *str;			/* IN - The string starting with '$' */
 #endif
 {
-  switch (lowerCase(str[1])) {
+  switch (toLower(str[1])) {
   case 'n':
     newline();
     break;

@@ -242,13 +242,13 @@ static void scan()
   getline();
   wrds[0] = 0;
   for (i = 0; i < litCount; i++)
-    if (litValues[i].type == TYPSTR)
+    if (litValues[i].type == TYPSTR && litValues[i].value != 0)
       free((char *) litValues[i].value);
   i = 0;
   litCount = 0;
   do {
-    if (isLetter(token[0])) {
-      (void) strlow(token);
+    if (isISOLetter(token[0])) {
+      (void) stringLower(token);
       w = lookup(token);
       if (!isNoise(w))
 	wrds[i++] = w;

@@ -157,14 +157,24 @@ extern char *strdup(char *str);
 
 #ifdef _PROTOTYPES_
 
-extern int isSpace(int c);	/* IN - Character to test */
-extern int isLower(int c);	/* IN - Character to test */
-extern int isUpper(int c);	/* IN - Character to test */
-extern int isLetter(int c);	/* IN - Character to test */
-extern char lowerCase(int c);	/* IN - Character to convert */
-extern char upperCase(int c);	/* IN - Character to convert */
-extern char *strlow(char str[]); /* INOUT - String to convert */
-extern char *strupp(char str[]); /* INOUT - String to convert */
+/* Native character functions */
+extern int isSpace(int c);	/* IN - Native character to test */
+extern int isLower(int c);	/* IN - Native character to test */
+extern int isUpper(int c);	/* IN - Native character to test */
+extern int isLetter(int c);	/* IN - Native character to test */
+extern int toLower(int c);	/* IN - Native character to convert */
+extern int toUpper(int c);	/* IN - Native character to convert */
+extern char *strlow(char str[]); /* INOUT - Native string to convert */
+extern char *strupp(char str[]); /* INOUT - Native string to convert */
+
+/* ISO character functions */
+extern int isISOLetter(int c);	/* IN - ISO character to test */
+extern char toLowerCase(int c);	/* IN - ISO character to convert */
+extern char toUpperCase(int c);	/* IN - ISO character to convert */
+extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
+extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
+
+/* ISO string conversion functions */
 extern void toIso(char copy[],	/* OUT - Mapped string */
 		  char original[]); /* IN - string to convert */
 extern void fromIso(char copy[], /* OUT - Mapped string */
@@ -174,10 +184,17 @@ extern int isSpace();
 extern int isLower();
 extern int isUpper();
 extern int isLetter();
-extern char lowerCase();
-extern char upperCase();
+extern int toLower();
+extern int toUpper();
 extern char *strlow();
 extern char *strupp();
+
+extern int isISOLetter();
+extern char toLowerCase();
+extern char toUpperCase();
+extern char *stringLower();
+extern char *stringUpper();
+
 extern void toIso();
 extern void fromIso();
 #endif
