@@ -38,6 +38,9 @@
 #define EVTMAX (header->evtmax)
 
 #define HERO (header->theHero)
+#define OBJECT (header->objectClassId)
+#define LOCATION (header->locationClassId)
+#define ACTOR (header->actorClassId)
 
 
 #define addrTo(x) (&memory[x])
@@ -186,12 +189,11 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword code;			/* Own code */
   Aaddr idAddr;			/* Address to identifier */
   Aword parent;			/* Code for the parent class, 0 if none */
-  Aaddr nams;			/* Address of name printing code */
   Aword location;		/* Code for current location */
   Aaddr atrs;			/* Address of attribute list */
   Aaddr description;		/* Address of description code */
   Abool describe;		/* Is this to be described? */
-  Aaddr ment;			/* Address of "mentioned" code */
+  Aaddr mentioned;		/* Address of "mentioned" code */
   Aaddr art;			/* Address of article code */
   Aaddr exts;			/* Address of exit list */
   Aaddr vrbs;			/* Address of local verb list */

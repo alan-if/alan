@@ -187,6 +187,9 @@ void interpret(adr)
 {
   Aaddr oldpc;
   Aword i;
+
+  if (adr == 0) syserr("Interpreting at address 0.");
+
   
   if (stpflg) printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
   

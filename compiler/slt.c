@@ -10,27 +10,46 @@
 
 /* IMPORT */
 #include <stdio.h>
+#include "alan.h"
 #include "util.h"
 #include "dump.h"
 #include "emit.h"
 
+#include "stm.h"
+
+#include "nam_x.h"
 #include "whr_x.h"
 #include "cnt_x.h"
+#include "id_x.h"
 
 
 /*======================================================================
 
-  newslt()
+  newEmptySlots()
 
-  Allocates and initialises a sltnod.
+  Allocates and initialises a empty slots node.
 
   */
-SlotsNode *newSlots(List *nams,
+SlotsNode *newEmptySlots(void)
+{
+  return NEW(SlotsNode);
+}
+
+
+
+/*======================================================================
+
+  newSlots()
+
+  Allocates and initialises a slots node.
+
+  */
+SlotsNode *newSlots(List *names,
 		    WhrNod *whr,
 		    List *atrs,
 		    CntNod *cnt,
 		    List *dscr,
-		    List *ment,
+		    List *mentioned,
 		    List *art,
 		    List *does,
 		    List *exts,
@@ -43,12 +62,12 @@ SlotsNode *newSlots(List *nams,
 
   new = NEW(SlotsNode);
 
-  new->namslst = nams;
+  new->names = names;
   new->whr = whr;
   new->atrs = atrs;
   new->cnt = cnt;
   new->dscr = dscr;
-  new->ment = ment;
+  new->mentioned = mentioned;
   new->art = art;
   new->vrbs = vrbs;
 
@@ -79,6 +98,24 @@ void symbolizeSlots(SlotsNode *slots)
  */
 void analyzeSlots(SlotsNode *slots)
 {
+  long fpos;
+  int len = 0;
+  StmNod *stm;
+
+  if (slots->mentioned == NULL) {
+    /* Generate a mentioned from the first of the names */
+    /* First output the formated name to the text file */
+    fpos = ftell(txtfil);
+    len = annams(slots->names, slots->id, TRUE);
+
+    /* Then create a PRINT statement */
+    stm = newstm(&nulsrcp, STM_PRINT);
+    stm->fields.print.fpos = fpos;
+    stm->fields.print.len = len;
+    slots->mentioned = concat(NULL, stm, STM_LIST);
+  } else
+    anstms(slots->mentioned, NULL, NULL, NULL);
+
 }
 
 
@@ -91,6 +128,12 @@ void analyzeSlots(SlotsNode *slots)
  */
 void generateSlotsData(SlotsNode *slots)
 {
+  slots->idAddr = emadr();
+  emitstr(slots->id->string);
+
+  slots->mentionedAddress = emadr();
+  gestms(slots->mentioned, NULL);
+  emit0(C_STMOP, I_RETURN);
 }
 
 
@@ -103,12 +146,11 @@ void generateSlotsData(SlotsNode *slots)
  */
 void generateSlotsEntry(SlotsNode *slots)
 {
-  emit(slots->namsadr);		/* names */
   emit(generateInitialLocation(slots->whr));
   emit(slots->atradr);		/* attributes */
   emit(slots->dscradr);		/* description */
   emit(0);			/* describe flag */
-  emit(slots->mentadr);		/* mentioned */
+  emit(slots->mentionedAddress);
   emit(slots->artadr);		/* article */
   emit(slots->extadr);		/* exits */
   emit(slots->vrbadr);		/* verbs */
@@ -125,9 +167,8 @@ void generateSlotsEntry(SlotsNode *slots)
 void dumpSlots(SlotsNode *slots)
 {
   put("SLOTS: "); in();
-  put("namslst: "); dulst(slots->namslst, LIST_NAM); nl();
-  put("namstms: "); dulst(slots->namstms, LIST_STM); nl();
-  put("namadr: "); duadr(slots->namsadr); nl();
+  put("id: "); dumpId(slots->id); nl();
+  put("names: "); dulst(slots->names, LIST_NAM); nl();
   put("whr: "); duwhr(slots->whr); nl();
 #ifdef FIXME
   put("cnt: "); ducnt(slots->cnt); nl();
@@ -138,8 +179,8 @@ void dumpSlots(SlotsNode *slots)
   put("dscradr: "); duadr(slots->dscradr); nl();
   put("art: "); dulst(slots->art, LIST_STM); nl();
   put("artadr: "); duadr(slots->artadr); nl();
-  put("ment: "); dulst(slots->ment, LIST_STM); nl();
-  put("mentadr: "); duadr(slots->mentadr); nl();
+  put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
+  put("mentionedAddress: "); duadr(slots->mentionedAddress); nl();
   put("vrbs: "); dulst(slots->vrbs, LIST_VRB); nl();
   put("vrbadr: "); duadr(slots->vrbadr); out();
 }

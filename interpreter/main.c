@@ -58,6 +58,7 @@ CurVars cur;
 
 /* Amachine structures */
 InstanceEntry *instance;	/* Instance table pointer */
+ClassEntry *class;		/* Class table pointer */
 
 WrdEntry *dict;			/* Dictionary pointer */
 ActEntry *acts;			/* Actor table pointer */
@@ -1608,7 +1609,14 @@ static void initheader()
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
 
   instance = (InstanceEntry *) addrTo(header->instanceTableAddress);
+  if (instance == NULL) syserr("instance table pointer == NULL");
   instance--;			/* Back up one so that first is no. 1 */
+
+
+  class = (ClassEntry *) addrTo(header->classTableAddress);
+  if (class == NULL) syserr("class table pointer == NULL");
+  class--;			/* Back up one so that first is no. 1 */
+
   vrbs = (VrbEntry *) addrTo(header->vrbs);
   stxs = (StxEntry *) addrTo(header->stxs);
   evts = (EvtEntry *) addrTo(header->evts);
@@ -1871,6 +1879,9 @@ static void openFiles()
   */
 void run(void)
 {
+  int i;
+
+
   openFiles();
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
@@ -1889,8 +1900,11 @@ void run(void)
     (void) setjmp(jmpbuf);
 
     /* Move all characters */
-    for (cur.act = ACTMIN; cur.act <= ACTMAX; cur.act++)
-      movactor();
+    for (i = 1; i <= header->instanceMax; i++)
+      if (isA(i, ACTOR)) {
+	cur.act = i;
+	movactor();
+      }
   }
 }
 

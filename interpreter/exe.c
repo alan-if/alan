@@ -1011,7 +1011,26 @@ Abool isNear(id)
 
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
+
+	isA()
+
+	Is an instance a member of the class
+
+*/
+Abool isA(Aword id, Aword ancestor)
+{
+  int p = instance[id].parent;
+
+  while (p != 0 && p != ancestor)
+    p = class[p].parent;
+
+  return p != 0;
+}
+
+
+
+/*======================================================================
 
   in()
 
@@ -1123,7 +1142,7 @@ void say(id)
 	sprintf(str, "Can't SAY instance (%ld > instanceMax).", id);
 	syserr(str);
       } else
-	interpret(instance[id].nams);
+	interpret(instance[id].mentioned);
     }
   }
 }
@@ -1212,16 +1231,14 @@ void describe(id)
       syserr("Recursive DESCRIBE.");
   dscrstk[dscrstkp++] = id;
 
-  if (isObj(id))
-    dscrobj(id);
-  else if (isLoc(id))
-    dscrloc(id);
-  else if (isAct(id))
-    dscract(id);
-  else {
-    sprintf(str, "Can't DESCRIBE instance (%ld).", id);
+  if (id == 0) {
+    sprintf(str, "Can't DESCRIBE item (%ld).", id);
     syserr(str);
-  }
+  } else if (id > header->instanceMax) {
+    sprintf(str, "Can't DESCRIBE item (%ld > instanceMax).", id);
+    syserr(str);
+  } else if (instance[id].description != 0)
+    interpret(instance[id].description);
 
   dscrstkp--;
 }
@@ -1374,16 +1391,16 @@ void dscrobjs()
   Boolean multiple = FALSE;
 
   /* First describe everything here with its own description */
-  for (i = OBJMIN; i <= OBJMAX; i++)
-    if (objs[i-OBJMIN].loc == cur.loc &&
-	objs[i-OBJMIN].describe &&
-	objs[i-OBJMIN].dscr1)
+  for (i = 1; i <= header->instanceMax; i++)
+    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
+	instance[i].describe &&
+	instance[i].description)
       describe(i);
 
   /* Then list everything else here */
   for (i = OBJMIN; i <= OBJMAX; i++)
-    if (objs[i-OBJMIN].loc == cur.loc &&
-	objs[i-OBJMIN].describe) {
+    if (instance[i].location == cur.loc &&
+	instance[i].describe) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
 	sayarticle(i);
@@ -1411,8 +1428,8 @@ void dscrobjs()
   }
   
   /* Set describe flag for all objects */
-  for (i = OBJMIN; i <= OBJMAX; i++)
-    objs[i-OBJMIN].describe = TRUE;
+  for (i = 1; i <= header->instanceMax; i++)
+    instance[i].describe = TRUE;
 }
 
 

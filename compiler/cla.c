@@ -27,7 +27,7 @@
 
 static List *allClasses = NULL;
 
-
+static ClaNod *thing, *object, *location, *actor;
 
 
 
@@ -39,6 +39,15 @@ static List *allClasses = NULL;
 void initClasses()
 {
   allClasses = NULL;
+
+  thing = newcla(&nulsrcp, newId(&nulsrcp, "thing"), NULL, NULL);
+  object = newcla(&nulsrcp, newId(&nulsrcp, "object"),
+		  newId(&nulsrcp, "thing"), NULL);
+  location = newcla(&nulsrcp, newId(&nulsrcp, "location"),
+		    newId(&nulsrcp, "thing"), NULL);
+  actor = newcla(&nulsrcp, newId(&nulsrcp, "actor"),
+		 newId(&nulsrcp, "thing"), NULL);
+
 }
 
 
@@ -47,7 +56,7 @@ void initClasses()
 
   newcla()
 
-  Allocates and initialises a clanod.
+  Allocates and initialises a class node.
 
   */
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
@@ -62,9 +71,14 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ClaNod);
 
   new->srcp = *srcp;
-  new->id = id;
   new->parent = parent;
-  new->slt = slt;
+  if (slt == NULL)
+    new->slt = newEmptySlots();
+  else
+    new->slt = slt;
+
+  new->slt->id = id;
+
 
   new->symbol = newsym(id->string, CLASS_SYMBOL);
 
@@ -85,7 +99,7 @@ static void symbolizeClass(ClaNod *cla)
 {
   SymNod *parent;
 
-  symbolizeId(cla->id);
+  symbolizeSlots(cla->slt);
 
   if (cla->parent != NULL) {
     parent = lookup(cla->parent->string);
@@ -149,29 +163,18 @@ void analyzeClasses(void)
 
 /*----------------------------------------------------------------------
 
-  generateClass
-
-*/
-static void generateClass(ClaNod *cla)
-{
-  cla->adr = emadr();
-
-  emit(cla->symbol->code);		/* First own code */
-  if (cla->parent == NULL)	/* Then parents */
-    emit(0);
-  else
-    emit(cla->parent->symbol->code);
-}
-
-
-/*----------------------------------------------------------------------
-
   generateClassEntry
 
 */
 static void generateClassEntry(ClaNod *cla)
 {
-  emit(cla->adr);
+  cla->adr = emadr();
+
+  emit(cla->symbol->code);	/* First own code */
+  if (cla->parent == NULL)	/* Then parents */
+    emit(0);
+  else
+    emit(cla->parent->symbol->code);
 }
 
 
@@ -187,12 +190,15 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  for (l = allClasses; l; l = l->next)
-    generateClass(l->element.cla);
+  acdHeader.thingClassId = thing->symbol->code;
+  acdHeader.objectClassId = object->symbol->code;
+  acdHeader.locationClassId = location->symbol->code;
+  acdHeader.actorClassId = actor->symbol->code;
 
   adr = emadr();
   for (l = allClasses; l; l = l->next)
     generateClassEntry(l->element.cla);
+  emit(EOF);
 
   return (adr);
 }
@@ -209,7 +215,6 @@ Aaddr generateClasses(void)
 void dumpClass(ClaNod *cla)
 {
   put("CLA: "); dumpSrcp(&cla->srcp); in();
-  put("id: "); dumpId(cla->id); nl();
   put("parent: "); dumpId(cla->parent); nl();
   put("slots: "); dumpSlots(cla->slt); out();
 }

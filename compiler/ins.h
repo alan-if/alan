@@ -19,8 +19,6 @@
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  IdNode *id;			/* Name of the instance */
-  Aaddr idAddr;
   SymNod *symbol;		/* Pointer to symbol table node */
   IdNode *parent;		/* The instances parent */
   SlotsNode *slots;

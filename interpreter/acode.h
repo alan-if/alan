@@ -175,6 +175,7 @@ typedef struct AcdHdr {
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */
   Aword classMax;		/* Number of classes */
+  Aword thingClassId;
   Aword objectClassId;
   Aword locationClassId;
   Aword actorClassId;

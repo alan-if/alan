@@ -48,6 +48,7 @@ BUILDSRCS = \
 	lim.c \
 	lst.c \
 	msg.c \
+	nam.c \
 	opt.c \
 	res.c \
 	rul.c \

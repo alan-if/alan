@@ -16,6 +16,8 @@
 
 /* METHODS: */
 
+extern SlotsNode *newEmptySlots(void);
+
 extern SlotsNode *newSlots(List *nams,
 			   WhrNod *whr,
 			   List *atrs,

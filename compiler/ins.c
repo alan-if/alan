@@ -62,14 +62,12 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new = NEW(InsNod);
 
   new->srcp = *srcp;
-  new->id = id;
   new->parent = parent;
   if (slt)
     new->slots = slt;
   else
-    new->slots = newSlots(NULL, NULL, NULL, NULL, NULL, NULL,
-			  NULL, NULL, NULL, NULL, NULL);
-
+    new->slots = newEmptySlots();
+  new->slots->id = id;
   new->symbol = newsym(id->string, INSTANCE_SYMBOL);
 
   allInstances = concat(allInstances, new, LIST_INS);
@@ -173,9 +171,6 @@ void analyzeInstances(void)
 */
 static void generateInstanceData(InsNod *ins)
 {
-  ins->idAddr = emadr();
-  emitstr(ins->id->string);
-
   generateSlotsData(ins->slots);
 }
 
@@ -188,7 +183,7 @@ static void generateInstanceData(InsNod *ins)
 static void generateInstanceEntry(InsNod *ins)
 {
   emit(ins->symbol->code);	/* First own code */
-  emit(ins->idAddr);		/* Address to the id string */
+  emit(ins->slots->idAddr);	/* Address to the id string */
   if (ins->parent == NULL)	/* Then parents */
     emit(0);
   else
@@ -235,7 +230,6 @@ void generateInstances(AcdHdr *header)
 void dumpInstance(InsNod *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();
-  put("id: "); dumpId(ins->id); nl();
   put("parent: "); dumpId(ins->parent); nl();
   put("slots: "); dumpSlots(ins->slots); nl();
 }

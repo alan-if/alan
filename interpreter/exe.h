@@ -17,8 +17,8 @@ extern int dscrstkp;		/* Point into describe stack */
 #ifdef _PROTOTYPES_
 extern void sys(Aword fpos, Aword len);
 extern Boolean confirm(MsgKind msgno);
-extern Aword attribute(Aword item, Aword atr);
-extern void say(Aword item);
+extern Aword attribute(Aword instance, Aword atr);
+extern void say(Aword instance);
 extern void saynum(Aword num);
 extern void saystr(char *str);
 extern Aword strattr(Aword id, Aword atr);
@@ -50,13 +50,13 @@ extern Abool btw(Aint val, Aint from, Aint to);
 extern Aword contains(Aword string, Aword substring);
 extern Abool streq(char a[], char b[]);
 extern Abool in(Aword obj, Aword cnt);
-extern Aword where(Aword item);
+extern Aword where(Aword instance);
 extern Aint agrmax(Aword atr, Aword whr);
 extern Aint agrsum(Aword atr, Aword whr);
 extern Aint agrcount(Aword whr);
-extern Abool isHere(Aword item);
-extern Abool isNear(Aword item);
-
+extern Abool isHere(Aword instance);
+extern Abool isNear(Aword instance);
+extern Abool isA(Aword instance, Aword class);
 #else
 extern void sys();
 extern Boolean confirm();

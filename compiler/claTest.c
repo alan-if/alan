@@ -22,7 +22,7 @@ void testCreateClass()
   ClaNod *cla = newcla(&srcp, id, parent, NULL);
 
   unitAssert(equalSrcp(cla->srcp, srcp));
-  unitAssert(equalId(cla->id, id));
+  unitAssert(equalId(cla->slt->id, id));
   unitAssert(equalId(cla->parent, parent));
 
   symbolizeClasses();
@@ -46,15 +46,19 @@ void testGenerateClasses()
   initadv();
 
   initEmit("unit.acd");
+  symbolizeClasses();
   addr = generateClasses();
-  unitAssert(addr == firstAdr);	/* Nothing generated except header*/
+  /* Table should start directly after header */
+  unitAssert(addr == firstAdr);
+  /* header + 4 classes + 1 EOF should be generated*/
+  unitAssert(emadr() == firstAdr + 4*classSize + 1);
 
   initEmit("unit.acd");
   symbolizeClasses();
   cla = newcla(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
-  unitAssert(addr == firstAdr+classSize);	/* Should start at first address after header and the class entry */
-  unitAssert(emadr() == firstAdr + classSize + 1);	/* The size of the class table and one class */
+  unitAssert(addr == firstAdr);	/* Should start at first address after header */
+  unitAssert(emadr() == firstAdr + 5*classSize + 1);	/* 5 classes + EOF */
 }
 
 void registerClaUnitTests()

@@ -120,10 +120,11 @@ void testSymbolTableInit()
   SymNod *sym2 = lookup(symbolName2);
   SymNod *sym3 = lookup(symbolName3);
   
-  initSymbols();
-  unitAssert(classCount == 4);
-  unitAssert(instanceCount == 0);
+  initadv();
+  unitAssert(classCount == 4);	/* Standard classes */
+  unitAssert(instanceCount == 1); /* The Hero */
 
+  symbolizeAdv();
   thing = lookup("thing");
   object = lookup("object");
   actor = lookup("actor");

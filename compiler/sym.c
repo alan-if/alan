@@ -161,23 +161,9 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   */
 void initSymbols()
 {
-  SymNod *thing;
-  SymNod *object;
-  SymNod *actor;
-  SymNod *location;
-
   symtree = NULL;
   instanceCount = 0;
   classCount = 0;
-
-  thing = newsym("thing", CLASS_SYMBOL);
-  object = newsym("object", CLASS_SYMBOL);
-  actor = newsym("actor", CLASS_SYMBOL);
-  location = newsym("location", CLASS_SYMBOL);
-
-  setParent(location, thing);
-  setParent(object, thing);
-  setParent(actor, thing);
 }
 
 

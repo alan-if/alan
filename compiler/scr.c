@@ -87,10 +87,10 @@ void prepscrs(List *scrs, InsNod *ins)
         /* It was given a name, then try compare to the name, if any */
         if (scrlst->element.scr->id != NULL &&
             equalId(lst->element.scr->id, scrlst->element.scr->id))
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->id->string);
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
       } else /* No name, just the code */
         if (lst->element.scr->code == scrlst->element.scr->code)
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->id->string);
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
     }
 
     /* If only given a name, use the highest code + 1 as its code */
@@ -116,7 +116,7 @@ void anscrs(List *scrs, InsNod *ins)
   if (scrs == NULL) return;
 
   /* Error if defined for HERO */
-  if (scrs != NULL && ins->id->symbol->code == 1)
+  if (scrs != NULL && ins->slots->id->symbol->code == 1)
       lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
 
   for (lst = scrs; lst != NULL; lst = lst->next) {

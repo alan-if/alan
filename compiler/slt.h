@@ -20,9 +20,9 @@
 /* Types */
 
 typedef struct SlotsNode {	/* SLOTS  */
-  List *namslst;		/* List of lists of adjectives and a noun */
-  List *namstms;		/* Name printing statements */
-  Aword namsadr;		/* ACODE address to name printing */
+  IdNode *id;			/* Identifier */
+  Aaddr idAddr;
+  List *names;			/* List of lists of adjectives and a noun (ids)*/
   WhrNod *whr;			/* Where is it initially? */
   CntNod *cnt;			/* Container properties */
   List *atrs;			/* Attributes ... */
@@ -31,8 +31,8 @@ typedef struct SlotsNode {	/* SLOTS  */
   Aword dscradr;		/* ACODE address to long description code */
   List *art;			/* Article printing statements */
   Aword artadr;			/* ACODE address to article statements */
-  List *ment;			/* Short (inventory like) statements */
-  Aword mentadr;		/* ACODE address to short description (mentioned) code */
+  List *mentioned;		/* Short (inventory like) statements */
+  Aword mentionedAddress;	/* ACODE address to short description (mentioned) code */
   List *vrbs;			/* List of verbs */
   Aword vrbadr;			/* ACODE address to local verb table */
   List *scrs;			/* List of scripts */

@@ -581,9 +581,9 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
       }
       if (lst == NULL) {
         if (stm->fields.use.script != NULL)
-          lmLog(&stm->fields.use.script->srcp, 400, sevERR, ins->id->string);
+          lmLog(&stm->fields.use.script->srcp, 400, sevERR, ins->slots->id->string);
         else
-          lmLog(&stm->srcp, 400, sevERR, ins->id->string);
+          lmLog(&stm->srcp, 400, sevERR, ins->slots->id->string);
       }
     }
   }
@@ -1039,7 +1039,7 @@ static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
-    geid(ins->id);
+    geid(ins->slots->id);
     emit0(C_STMOP, I_USE);
   } else {
     emit0(C_CONST, stm->fields.use.scriptno);

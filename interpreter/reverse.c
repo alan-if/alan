@@ -242,6 +242,7 @@ static void reverseInstances(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(InstanceEntry));
     while (!endOfTable(e)) {
+      reverseStms(e->mentioned);
       e++;
     }
   }
@@ -455,6 +456,7 @@ void reverseACD(v2_5)
   reverseStxs(header->stxs);
   reverseVrbs(header->vrbs);
   reverseInstances(header->instanceTableAddress);
+  reverseTable(header->classTableAddress, sizeof(ClassEntry));
   reverseEvts(header->evts);
   reverseCnts(header->cnts);
   reverseRuls(header->ruls);
