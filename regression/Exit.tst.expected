@@ -1,0 +1,22 @@
+########## Exit ##########
+../compiler/alan Exit
+########## /bin/sh  Exit.tst ##########
+
+
+Exit.alan
+
+   6.     Exit e To not_hall.
+====>               1
+
+  *1*   300 E : 'not_hall' not defined as an instance.
+
+   8.     Exit w To obj.
+====>               1
+
+  *1*   223 E : 'obj' does not inherit the 'location' class.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

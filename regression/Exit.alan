@@ -1,0 +1,17 @@
+The obj Isa object
+End The obj.
+
+The hall Isa location
+
+  Exit e To not_hall.
+
+  Exit w To obj.
+
+  Exit n To hall
+    Check hall Is walkable
+	Else "You can't walk here."
+  End Exit n.
+
+End The hall.
+
+Start At hall.

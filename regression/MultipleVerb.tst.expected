@@ -13,7 +13,7 @@ MultipleVerb.alan
    5.     Verb s, e
 ====>             1
 
-  *1*   205 E : Multiple definition of verb 'e' among the VERBS defined here.
+  *1*   205 E : Multiple definition of verb 'e'.
 
 
         2 error(s).

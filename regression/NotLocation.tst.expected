@@ -6,9 +6,10 @@
 NotLocation.alan
 
    2.     Exit w To hall.
-====>     1
+====>     1         2
 
   *1*   223 E : 'hall' does not inherit the 'location' class.
+  *2*   223 E : 'hall' does not inherit the 'location' class.
 
    5.   Start At hall.
 ====>            1
@@ -16,7 +17,7 @@ NotLocation.alan
   *1*   223 E : 'hall' does not inherit the 'location' class.
 
 
-        2 error(s).
+        3 error(s).
         No detected warnings.
         1 informational message(s).
 

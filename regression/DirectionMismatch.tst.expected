@@ -5,18 +5,24 @@
 
 DirectionMismatch.alan
 
-   9.   Every l12 Isa l1, l2
-====>         1
+   2.     Exit w to l2.
+====>               1
 
-  *1*   229 E : Inherits the exit 'w' from different definitions.
+  *1*   300 E : 'l2' not defined as an instance.
 
-  13.   Start At l12.
-====>            1
+   6.     Exit w to l1.
+====>               1
 
-  *1*   300 E : 'l12' not defined as an instance.
+  *1*   300 E : 'l1' not defined as an instance.
+
+  10.     Exit w to l12.
+====>     1         2
+
+  *1*   223 E : 'l12' does not inherit the 'location' class.
+  *2*   300 E : 'l12' not defined as an instance.
 
 
-        2 error(s).
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 
