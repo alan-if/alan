@@ -289,7 +289,7 @@ static void testResolveThisAttributeForClass()
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;
 
-  theResolvedAttribute = resolveThisAttribute(newId(&nulsrcp, "x"), &context);
+  theResolvedAttribute = resolveAttributeOfThis(newId(&nulsrcp, "x"), &context);
   ASSERT(theResolvedAttribute == theAttributes->element.atr);
 }
 

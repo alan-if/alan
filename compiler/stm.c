@@ -14,6 +14,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "srcp_x.h"
+#include "context_x.h"
 #include "adv_x.h"
 #include "atr_x.h"
 #include "cnt_x.h"
@@ -60,15 +61,8 @@ StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*----------------------------------------------------------------------
-
-  andescribe()
-
-  Analyze a DESCRIBE statement.
-
-  */
-static void andescribe(StmNod *stm,
-		       Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeDescribe(StmNod *stm, Context *context)
 {
   Symbol *sym;
 
@@ -99,42 +93,23 @@ static void analyzeSay(StmNod *stm, Context *context)
 }
 
 
-/*----------------------------------------------------------------------
-
-  analyzeList()
-
-  Analyze a LIST statement.
-
-  */
-static void analyzeList(StmNod *stm,
-			Context *context)	
+/*----------------------------------------------------------------------*/
+static void analyzeList(StmNod *stm, Context *context)	
 {
   verifyContainer(stm->fields.list.wht, context);
 }
 
 
-/*----------------------------------------------------------------------
-
-  anempty()
-
-  Analyze an EMPTY statement.
-
-  */
-static void anempty(StmNod *stm,
-		    Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeEmpty(StmNod *stm, Context *context)
 {
   verifyContainer(stm->fields.list.wht, context);
   analyzeWhere(stm->fields.empty.where, context);
 }
 
 
-/*----------------------------------------------------------------------
-
-  analyzeLocate()
-
-  */
-static void analyzeLocate(StmNod *stm,
-			  Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeLocate(StmNod *stm, Context *context)
 {
   Symbol *whtSymbol = NULL;
 
@@ -187,76 +162,21 @@ static void analyzeLocate(StmNod *stm,
 
 
 
-/*----------------------------------------------------------------------
-
-  verifyMakeAttribute()
-
-  Verify that a found attribute can be used in a MAKE statement.
-
-*/
+/*----------------------------------------------------------------------*/
 static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 {
+  /* Verify that a found attribute can be used in a MAKE statement. */
   if (foundAttribute != NULL) {
-    if (foundAttribute->type != BOOLEAN_TYPE)
+    if (foundAttribute->type != BOOLEAN_TYPE && foundAttribute->type != UNKNOWN_TYPE)
       lmLog(&attributeId->srcp, 408, sevERR, "MAKE statement");
     else
       attributeId->code = foundAttribute->id->code;
   }
 }
-      
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeMake(StmNod *stm,
-			Context *context)
-{
-  Attribute *atr = NULL;
-
-  switch (stm->fields.make.wht->kind) {
-
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
-      lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
-    break;
-
-  case WHAT_LOCATION:
-  case WHAT_ID:
-  case WHAT_THIS:
-    break;
-
-  default:
-    unimpl(&stm->srcp, "Analyzer");
-    break;
-  }
-
-  atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
-  verifyMakeAttribute(stm->fields.make.atr, atr);
-}
-
-
-
-/*----------------------------------------------------------------------
-
-  verifySetTarget()
-
-*/
-static void verifySetTarget(IdNode *attributeId, Attribute  *foundAttribute)
-{
-  if (foundAttribute) {
-    if (foundAttribute->type != INTEGER_TYPE && foundAttribute->type != STRING_TYPE)
-      lmLog(&attributeId->srcp, 419, sevERR, "Target for");
-    else
-      attributeId->code = foundAttribute->id->code;
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void analyzeSet(StmNod *stm,
-		       Context *context)
-{
-  Attribute *atr;
-
+static void verifyWhatContext(StmNod *stm, What *what, Context *context) {
   switch (stm->fields.set.wht->kind) {
 
   case WHAT_ACTOR:
@@ -268,17 +188,58 @@ static void analyzeSet(StmNod *stm,
   case WHAT_ID:
     break;
 
+  case WHAT_THIS:
+    if (!inEntityContext(context))
+      lmLog(&what->srcp, 421, sevERR, "");
+    break;
+
   default:
-    unimpl(&stm->srcp, "Analyzer");
+    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
     break;
   }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeMake(StmNod *stm, Context *context)
+{
+  Attribute *atr = NULL;
+
+  verifyWhatContext(stm, stm->fields.make.wht, context);
+
+  atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
+  verifyMakeAttribute(stm->fields.make.atr, atr);
+}
+
+
+
+/*----------------------------------------------------------------------*/
+static void verifyTargetAttribute(IdNode *attributeId, Attribute  *targetAttribute)
+{
+  if (targetAttribute) {
+    if (targetAttribute->type != INTEGER_TYPE && targetAttribute->type != STRING_TYPE && targetAttribute->type != UNKNOWN_TYPE)
+      lmLog(&attributeId->srcp, 419, sevERR, "Target for");
+    else
+      attributeId->code = targetAttribute->id->code;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeSet(StmNod *stm, Context *context)
+{
+  Attribute *atr;
+
+  verifyWhatContext(stm, stm->fields.set.wht, context);
+
   atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
-  verifySetTarget(stm->fields.set.atr, atr);
+  verifyTargetAttribute(stm->fields.set.atr, atr);
 
   if (stm->fields.set.exp != NULL) {
     analyzeExpression(stm->fields.set.exp, context);
-    if (stm->fields.set.exp->type != INTEGER_TYPE &&
-        stm->fields.set.exp->type != STRING_TYPE)
+    if (stm->fields.set.exp->type != INTEGER_TYPE
+	&& stm->fields.set.exp->type != STRING_TYPE
+	&& stm->fields.set.exp->type != UNKNOWN_TYPE)
       lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
     if (atr && !equalTypes(stm->fields.set.exp->type, atr->type))
       lmLog(&stm->srcp, 331, sevERR, "SET statement");
@@ -287,62 +248,25 @@ static void analyzeSet(StmNod *stm,
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIncrease(StmNod *stm,
-			    Context *context)
+static void analyzeIncrease(StmNod *stm, Context *context)
 {
   Attribute *atr;
 
-  switch (stm->fields.incr.wht->kind) {
-
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
-      lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
-    atr = findAttribute(NULL, stm->fields.incr.atr);
-    if (atr == NULL)          /* attribute not found globally */
-      lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
-    else
-      stm->fields.incr.atr->code = atr->id->code;
-    break;
-
-  case WHAT_LOCATION:
-    atr = findAttribute(NULL, stm->fields.incr.atr);
-    if (atr == NULL)            /* attribute not found globally */
-      lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
-    else
-      stm->fields.incr.atr->code = atr->id->code;
-    break;
-
-  case WHAT_ID:
-    atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
-    if (atr) {
-      if (atr->type != INTEGER_TYPE)
-        lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
-      else
-        stm->fields.incr.atr->code = atr->id->code;
-    }
-    break;
-  default:
-    unimpl(&stm->srcp, "Analyzer");
-    break;
-  }
+  verifyWhatContext(stm, stm->fields.incr.wht, context);
+  atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
+  verifyTargetAttribute(stm->fields.incr.atr, atr);
 
   if (stm->fields.incr.step != NULL) {
     analyzeExpression(stm->fields.incr.step, context);
-    if (stm->fields.incr.step->type != INTEGER_TYPE)
+    if (stm->fields.incr.step->type != INTEGER_TYPE
+	&& stm->fields.incr.step->type != UNKNOWN_TYPE)
       lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
   }
 }
 
 
-/*----------------------------------------------------------------------
-
-  anschedule()
-
-  Analyze a SCHEDULE statement.
-
-  */
-static void anschedule(StmNod *stm,
-		       Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeSchedule(StmNod *stm, Context *context)
 {
   Symbol *sym;
 
@@ -384,8 +308,7 @@ static void analyzeCancel(StmNod *stm) /* IN - The statement to analyze */
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIf(StmNod *stm,
-		      Context *context)
+static void analyzeIf(StmNod *stm, Context *context)
 {
   analyzeExpression(stm->fields.iff.exp, context);
   if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
@@ -396,19 +319,14 @@ static void analyzeIf(StmNod *stm,
 }
 
 
-/*----------------------------------------------------------------------
-
-  analyzeUse()
-
-  Analyze a USE statement. It must refer a script that is defined
-  within the mentioned actor. If the actor is not specified the
-  actor is assumed to be the one we are in (it is an error if we are
-  not).
-
-  */
-static void analyzeUse(StmNod *stm,
-		       Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeUse(StmNod *stm, Context *context)
 {
+  /* Analyze a USE statement. It must refer to a script that is
+  defined within the mentioned actor. If the actor is not specified
+  the actor is assumed to be the one we are in (it is an error if we
+  are not). */
+
   Symbol *sym;
   Script *script;
   IdNode *actorId = NULL;
@@ -441,15 +359,8 @@ static void analyzeUse(StmNod *stm,
 }  
 
 
-/*----------------------------------------------------------------------
-
-  analyzeStop()
-
-  Analyze a STOP statement. It must refer an actor.
-
-  */
-static void analyzeStop(StmNod *stm,
-		       Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeStop(StmNod *stm, Context *context)
 {
   Symbol *sym;
   IdNode *actorId = NULL;
@@ -472,6 +383,9 @@ static void analyzeStop(StmNod *stm,
   */
 static void analyzeDepend(StmNod *stm, Context *context)
 {
+  /* Analyze a DEPENDING statement. It has partial expressions in the
+     cases which must be connected to the depend expression. */
+
   List *cases;
 
  /* The expression will be analysed once for each case so no need to
@@ -523,8 +437,7 @@ static void analyzeDepend(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeEach(StmNod *stm,
-			Context *context)
+static void analyzeEach(StmNod *stm, Context *context)
 {
   Symbol *classSymbol = NULL;
   Symbol *loopSymbol;
@@ -551,8 +464,7 @@ static void analyzeEach(StmNod *stm,
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeShow(StmNod *stm,
-			Context *context)
+static void analyzeShow(StmNod *stm, Context *context)
 {
   FILE *imagefile;
 
@@ -566,8 +478,7 @@ static void analyzeShow(StmNod *stm,
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeStatement(StmNod *stm,
-			     Context *context)
+static void analyzeStatement(StmNod *stm, Context *context)
 {
   switch (stm->class) {
   case NOP_STATEMENT:
@@ -588,7 +499,7 @@ static void analyzeStatement(StmNod *stm,
     }
     break;
   case DESCRIBE_STATEMENT:
-    andescribe(stm, context);
+    analyzeDescribe(stm, context);
     break;
   case SAY_STATEMENT:
     analyzeSay(stm, context);
@@ -597,7 +508,7 @@ static void analyzeStatement(StmNod *stm,
     analyzeList(stm, context);
     break;
   case EMPTY_STATEMENT:
-    anempty(stm, context);
+    analyzeEmpty(stm, context);
     break;
   case LOCATE_STATEMENT:
     analyzeLocate(stm, context);
@@ -613,7 +524,7 @@ static void analyzeStatement(StmNod *stm,
     analyzeIncrease(stm, context);
     break;
   case SCHEDULE_STATEMENT:
-    anschedule(stm, context);
+    analyzeSchedule(stm, context);
     break;
   case CANCEL_STATEMENT:
     analyzeCancel(stm);
@@ -655,14 +566,12 @@ void analyzeStatements(List *stms,
 }
 
 
-/*----------------------------------------------------------------------
-
-  Generate the code for a PRINT-stm. The text is found and copied to the
-  data file (and encoded if requested!).
-
-  */
+/*----------------------------------------------------------------------*/
 static void generatePrint(StmNod *stm)
 {
+  /* Generate the code for a PRINT-stm. The text is found and copied
+     to the data file (and encoded if requested!). */
+
   if (!stm->fields.print.encoded)
     encode(&stm->fields.print.fpos, &stm->fields.print.len);
   stm->fields.print.encoded = TRUE;
@@ -763,7 +672,6 @@ static void generateLocate(StmNod *stm)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void generateMake(StmNod *stm)
 {
@@ -772,8 +680,6 @@ static void generateMake(StmNod *stm)
   generateWhat(stm->fields.make.wht);
   emit0(I_MAKE);
 }
-
-
 
 
 /*----------------------------------------------------------------------*/
@@ -788,7 +694,6 @@ static void generateSet(StmNod *stm)
   else
     emit0(I_SET);
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -806,7 +711,6 @@ static void generateIncrease(StmNod *stm)
   else
     emit0(I_DECR);
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -843,6 +747,7 @@ static void generateCancel(StmNod *stm) /* IN - Statement to generate */
   emit0(I_CANCEL);
 }
 
+
 /*----------------------------------------------------------------------*/
 static void generateIf(StmNod *stm)
 {
@@ -855,7 +760,6 @@ static void generateIf(StmNod *stm)
   }
   emit0(I_ENDIF);
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -880,14 +784,13 @@ static void generateStop(StmNod *stm)
   emit0(I_STOP);
 }
 
-/*----------------------------------------------------------------------
 
-  Generate just the right hand part of the expression and the
-  operator of a DEPEND case.
-
-*/
+/*----------------------------------------------------------------------*/
 static void generateDependCase(Expression *exp)
 {
+  /* Generate just the right hand part of the expression and the
+     operator of a DEPEND case. */
+
   switch (exp->kind) {
   case BINARY_EXPRESSION:
     generateExpression(exp->fields.bin.right);
@@ -906,9 +809,10 @@ static void generateDependCase(Expression *exp)
 }
 
 
-/*----------------------------------------------------------------------
-
-  Generate DEPENDING statement.
+/*----------------------------------------------------------------------*/
+static void generateDepend(StmNod *stm)
+{
+  /* Generate DEPENDING statement.
 
   Code generation principle:				Stack:
 
@@ -944,8 +848,7 @@ static void generateDependCase(Expression *exp)
   ENDDEP just pops off the initially pushed depend expression.
 
   */
-static void generateDepend(StmNod *stm)
-{
+
   List *cases;
 
   emit0(I_DEPEND);
@@ -968,6 +871,7 @@ static void generateDepend(StmNod *stm)
   }
   emit0(I_ENDDEP);
 }
+
 
 /*----------------------------------------------------------------------*/
 static void generateEach(StmNod *statement)
@@ -1146,14 +1050,8 @@ void generateStatements(List *stms)
 
 
 
-/*======================================================================
-
-  dustm()
-
-  Dump a statement node.
-
-  */
-void dustm(StmNod *stm)
+/*======================================================================*/
+void dumpStatement(StmNod *stm)
 {
   if (stm == NULL) {
     put("NULL");

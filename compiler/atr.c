@@ -301,7 +301,7 @@ static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
   Context *thisContext = context;
@@ -310,14 +310,16 @@ static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
   while (!contextFound && thisContext != NULL) {
     switch (thisContext->kind) {
     case CLASS_CONTEXT:
-      if (thisContext->class == NULL) syserr("Context->class == NULL in '%s()'", __FUNCTION__);
+      if (thisContext->class == NULL)
+	syserr("Context->class == NULL in '%s()'", __FUNCTION__);
       
       atr = findAttribute(thisContext->class->props->attributes, attribute);
       contextFound = TRUE;
       break;
       
     case INSTANCE_CONTEXT:
-      if (thisContext->instance == NULL) syserr("context->instance == NULL in '%s()'", __FUNCTION__);
+      if (thisContext->instance == NULL)
+	syserr("context->instance == NULL in '%s()'", __FUNCTION__);
       
       atr = findAttribute(thisContext->instance->props->attributes, attribute);
       contextFound = TRUE;
@@ -327,29 +329,25 @@ static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
       thisContext = thisContext->previous;
     }
   }
-  if (!contextFound)
-    lmLog(&attribute->srcp, 421, sevERR, "");
-  else if (atr == NULL)
+  /* If no context found then THIS is not defined here which we should
+     already have reported. Report of the attribute was not found. */
+  if (contextFound && atr == NULL)
     lmLog(&attribute->srcp, 313, sevERR, attribute->string);
   return atr;
 }
 
 
-/*======================================================================
-
-  resolveAttributeReference()
-
-  Analyze a reference to an attribute. Will handle static identifiers and
-  parameters and return a reference to the attribute node, if all is well.
-
- */
+/*======================================================================*/
 Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *context)
 {
+  /* Analyze a reference to an attribute. Will handle static identifiers and
+     parameters and return a reference to the attribute node, if all is well. */
+
   switch (what->kind) {
   case WHAT_ID: return resolveIdAttribute(what->id, attribute, context); break;
   case WHAT_ACTOR: return resolveActorAttribute(attribute, context); break;
   case WHAT_LOCATION: return resolveLocationAttribute(attribute, context); break;
-  case WHAT_THIS: return resolveThisAttribute(attribute, context); break;
+  case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
   default: syserr("Unexpected switch in '%s()'", __FUNCTION__);
   }
   return NULL;

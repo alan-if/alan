@@ -30,7 +30,7 @@ extern void dumpId();
 extern void dumpInstance();
 extern void dumpRestriction();
 extern void dumpScript();
-extern void dustm();
+extern void dumpStatement();
 extern void dumpSyntax();
 extern void dumpStep();
 extern void dumpVerb();
@@ -56,7 +56,7 @@ void initDumpNodeList()
   dumpNodeTable[ID_LIST] = &dumpId;
   dumpNodeTable[INSTANCE_LIST] = &dumpInstance;
   dumpNodeTable[RESTRICTION_LIST] = &dumpRestriction;
-  dumpNodeTable[STATEMENT_LIST] = &dustm;
+  dumpNodeTable[STATEMENT_LIST] = &dumpStatement;
   dumpNodeTable[SYNTAX_LIST] = &dumpSyntax;
   dumpNodeTable[VERB_LIST] = &dumpVerb;
   dumpNodeTable[SCRIPT_LIST] = &dumpScript;

@@ -41,6 +41,7 @@ Bool inEntityContext(Context *context)
   return (context->instance != NULL || context->class != NULL);
 }
 
+
 /*======================================================================*/
 Bool inLocationContext(Context *context)
 {
@@ -49,6 +50,7 @@ Bool inLocationContext(Context *context)
     || (context->class != NULL
 	&& inheritsFrom(context->class->props->id->symbol, locationSymbol));
 }
+
 
 /*======================================================================*/
 IdNode *classNameIn(Context *context)

@@ -17,6 +17,7 @@
 #include "wht_x.h"
 #include "cnt_x.h"
 #include "lst_x.h"
+#include "context_x.h"
 
 #include "lmList.h"
 
@@ -142,7 +143,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 static TypeKind verifyExpressionAttribute(IdNode *attributeId,
 					  Attribute *foundAttribute)
 {
-  if (foundAttribute == NULL) {	/* Attribute not found */
+  if (foundAttribute == NULL) {
     return UNKNOWN_TYPE;
   } else if (foundAttribute->id->symbol == NULL) {
     attributeId->code = foundAttribute->id->code;
@@ -168,7 +169,11 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 
     case WHAT_LOCATION:
     case WHAT_ID:
+      break;
+
     case WHAT_THIS:
+      if (!inEntityContext(context))
+	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 421, sevERR, "");
       break;
 
     default:

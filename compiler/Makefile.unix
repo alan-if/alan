@@ -57,7 +57,6 @@ BUILDSRCS = \
 	stm.c \
 	stp.c \
 	str.c \
-	stx.c \
 	syn.c \
 	wht.c \
 	timing.c \
@@ -80,11 +79,15 @@ ALANSRCS = \
 	ins.c \
 	lst.c \
 	sym.c \
+	stx.c \
 	whr.c \
 	wrd.c \
 	add.c \
 	vrb.c \
 	exp.c \
+	images.c
+
+BUILDOBJS = ${BUILDSRCS:.c=.o}
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
@@ -141,6 +144,7 @@ TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
 unit : $(TESTOBJS)
+	$(CC) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
 # Run all unit tests!
 test: unit
@@ -180,7 +184,7 @@ version.h :
 #	cd ..; venum alan time
 	echo "skipping"
 
-alan.version.c:  ../alan.version
+#alan.version.c:  ../alan.version
 	cp -p ../alan.version.c .
 
 #

@@ -4,40 +4,33 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>229.89</origest>
-<currest>229.89</currest>
-<elapsed>84.89</elapsed>
+<origest>231.89</origest>
+<currest>231.89</currest>
+<elapsed>86.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>39</origest>
-<currest>39</currest>
-<elapsed>3</elapsed>
+<origest>40</origest>
+<currest>40</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
-<elapsed>1</elapsed>
+<origest>21</origest>
+<currest>21</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Capitalizing of "proper_name" in library and doc</desc>
-<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
-
-Instead (verify this) the author should:
-
-The anderson Isa actor
-  Name mr 'Andersson' -- first name is printed
-  Name mr andersson -- to allow player use of lowercase
-End The andersson.</notes>
+<desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -46,16 +39,7 @@ End The andersson.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -77,8 +61,46 @@ End The andersson.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>VISITS is a reserved word that causes many compiler problems</desc>
-<notes>See compiler test case visits.alan</notes>
+<desc>Capitalizing of "proper_name" in library and doc</desc>
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+
+Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
+
+Not all languages have definite and indefinite articles that work well:
+
+Definite "den"
+Indefinite "en"
+Mentioned "stol"
+
+Perhaps:
+
+Name stol
+Definite "stolen"
+Indefinite "en stol"
+Plural "stolar"
+
+With corresponding:
+Say o. : use Name =&gt; "stol"
+Say The o. : use Definite =&gt; "stolen"
+Say A o. : use Indefinite =&gt; "en stol"
+Say Any o. : use Plural =&gt; "stolar"
+
+Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
+
+
+Old thoughts:
+-----------------------------------------------
+Possibly requires a MENTION statement:
+
+If x Isa person Then Mention x. Else Say x. End If.
+
+This does not work:
+Instead (verify this) the author should:
+
+The anderson Isa actor
+  Name mr 'Andersson' -- first name is printed
+  Name mr andersson -- to allow player use of lowercase
+End The andersson.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -124,6 +146,24 @@ STEP1: Add an entered slot in the property structure in the compiler so that it 
 <task>
 <desc>Prohibit declaration of a container class</desc>
 <notes>You can not define a class "container" as that would shadow the built in handling of restrictions "Isa container".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>VISITS is a reserved word that causes many compiler problems</desc>
+<notes>See compiler test case visits.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>xglk library problem</desc>
+<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -522,8 +562,8 @@ Multiple %1 '%2'</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>94</origest>
-<currest>94</currest>
+<origest>95</origest>
+<currest>95</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -709,6 +749,15 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>A picture file with an unknown extension gets passed through</desc>
+<notes>E.g a.jpeg transforms into pic1.jpeg which the glk-does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add To Every xyz</desc>
 <notes>It should be possible to add features to classes:
 
@@ -730,11 +779,8 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow reverse noun/adjective order</desc>
-<notes>Need:
-To allow latin type of langauges. "molin rouge"
-
-Design:
+<desc>Actor conversation</desc>
+<notes>A simple first step would be to recognize command format &lt;actor&gt;, &lt;command&gt; and respond with a message indicating that it is not possible to order other actors about.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -828,8 +874,23 @@ E.g. in the example above the IF statement will be executed whenever the 'o' is 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow reverse noun/adjective order</desc>
+<notes>Need:
+To allow latin type of langauges. "molin rouge"
+
+Design:
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Allow parameters as actor in USE statement</desc>
-<notes/>
+<notes>Need: to be able to start a specific script for a variable actor.
+
+Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1023,15 +1084,6 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 </task>
 <task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Actor conversation</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
