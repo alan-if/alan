@@ -325,7 +325,7 @@ void schedule(evt, whr, aft)
 */
 AttributeEntry *findAttribute(Aaddr address, int code)
 {
-  AttributeEntry *attribute = (AttributeEntry *) addrTo(address);
+  AttributeEntry *attribute = (AttributeEntry *) pointerTo(address);
   while (attribute->code != code) {
     attribute++;
     if (*((Aword *)attribute) == EOF)
@@ -1019,7 +1019,7 @@ static void sayInstance(Aword id)
 	  break;
 	else				/* Yes, so use them... */
 	  for (i = params[p].firstWord; i <= params[p].lastWord; i++)
-	    output((char *)addrTo(dict[wrds[i]].wrd));
+	    output((char *)pointerTo(dict[wrds[i]].wrd));
 	return;
       }
   interpret(instance[id].mentioned);
@@ -1159,7 +1159,7 @@ static void describeActor(act)
   ScriptEntry *scr = NULL;
 
   if (admin[act].script != 0) {
-    for (scr = (ScriptEntry *) addrTo(header->scriptTableAddress); !endOfTable(scr); scr++)
+    for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++)
       if (scr->code == admin[act].script)
 	break;
     if (endOfTable(scr)) scr = NULL;
@@ -1493,7 +1493,7 @@ void save()
   for (i = 1; i <= header->instanceMax; i++) {
     fwrite((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
     if (instance[i].attributes != 0)
-      for (atr = (AttributeEntry *) addrTo(instance[i].attributes); !endOfTable(atr); atr++)
+      for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 
@@ -1572,7 +1572,7 @@ void restore()
   for (i = 1; i <= header->instanceMax; i++) {
     fread((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
     if (instance[i].attributes != 0)
-      for (atr = (AttributeEntry *) addrTo(instance[i].attributes); !endOfTable(atr); atr++)
+      for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 

@@ -545,7 +545,7 @@ static void sayparam(p)
     say(params[p].code);
   else				/* Yes, so use them... */
     for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
-      just((char *)addrTo(dict[wrds[i]].wrd));
+      just((char *)pointerTo(dict[wrds[i]].wrd));
       if (i < params[p].lastWord)
 	just(" ");
     }
@@ -613,7 +613,7 @@ static void prsym(str)
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'v':
-    just((char *)addrTo(dict[vrbwrd].wrd));
+    just((char *)pointerTo(dict[vrbwrd].wrd));
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'p':
@@ -819,7 +819,7 @@ Boolean exitto(to, from)
   if (instance[from].exits == 0)
     return(FALSE); /* No exits */
 
-  for (theExit = (ExitEntry *) addrTo(instance[from].exits); !endOfTable(theExit); theExit++)
+  for (theExit = (ExitEntry *) pointerTo(instance[from].exits); !endOfTable(theExit); theExit++)
     if (theExit->target == to)
       return(TRUE);
 
@@ -954,7 +954,7 @@ Boolean checklim(cnt, obj)
   props = instance[cnt].container;
 
   if (container[props].limits != 0) { /* Any limits at all? */
-    for (lim = (LimEntry *) addrTo(container[props].limits); !endOfTable(lim); lim++)
+    for (lim = (LimEntry *) pointerTo(container[props].limits); !endOfTable(lim); lim++)
       if (lim->atr == I_COUNT) {
 	if (count(cnt) >= lim->val) {
 	  interpret(lim->stms);
@@ -1002,7 +1002,7 @@ Boolean trycheck(adr, act)
 {
   ChkEntry *chk;
 
-  chk = (ChkEntry *) addrTo(adr);
+  chk = (ChkEntry *) pointerTo(adr);
   if (chk->exp == 0) {
     interpret(chk->stms);
     return(FALSE);
@@ -1038,7 +1038,7 @@ void go(dir)
   Boolean ok;
   Aword oldloc;
 
-  theExit = (ExitEntry *) addrTo(instance[current.location].exits);
+  theExit = (ExitEntry *) pointerTo(instance[current.location].exits);
   if (instance[current.location].exits != 0)
     while (!endOfTable(theExit)) {
       if (theExit->code == dir) {
@@ -1046,7 +1046,7 @@ void go(dir)
 	if (theExit->checks != 0) {
 	  if (trcflg) {
 	    printf("\n<EXIT %d (%s) from %d (", dir,
-		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+		   (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	    debugsay(current.location);
 	    printf("), Checking:>\n");
 	  }
@@ -1057,7 +1057,7 @@ void go(dir)
 	  if (theExit->action != 0) {
 	    if (trcflg) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	      debugsay(current.location);
 	      printf("), Executing:>\n");
 	    }	    
@@ -1067,7 +1067,7 @@ void go(dir)
 	  if (where(HERO) == oldloc) {
 	    if (trcflg) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), current.location);
+		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
 	      debugsay(current.location);
 	      printf("), Moving:>\n");
 	    }
@@ -1079,6 +1079,26 @@ void go(dir)
       theExit++;
     }
   error(M_NO_WAY);
+}
+
+
+/*----------------------------------------------------------------------*/
+static AltEntry *findAlternativeInVerbList(Aaddr verbListAddress,
+					   Aint parameter)
+{
+  AltEntry *alt;
+  VerbEntry *verb;
+
+  if (verbListAddress == 0) return NULL;
+
+  for (verb = (VerbEntry *) pointerTo(verbListAddress); !endOfTable(verb); verb++)
+    if (verb->code == current.verb) {
+      for (alt = (AltEntry *) pointerTo(verb->alts); !endOfTable(alt); alt++)
+	if (alt->param == parameter || alt->param == 0)
+	  return alt;
+      return NULL;
+    }
+  return NULL;
 }
 
 
@@ -1102,24 +1122,23 @@ static AltEntry *findalt(inInstance, parameter)
      Aint parameter;
 #endif
 {
-  VerbEntry *vrb;
-  Aint vrbsadr;
-  AltEntry *alt;
+  Aaddr verbListAddress;
+  AltEntry *foundAlt;
+  Aint parent;
 
-  if (inInstance == 0)
-    vrbsadr = header->verbTableAddress;
-  else
-    vrbsadr = instance[inInstance].verbs;
-  if (vrbsadr == 0) return NULL;
+  if (inInstance == 0) {
+    verbListAddress = header->verbTableAddress;
+    return findAlternativeInVerbList(verbListAddress, parameter);
+  }
 
-  for (vrb = (VerbEntry *) addrTo(vrbsadr); !endOfTable(vrb); vrb++)
-    if (vrb->code == current.verb) {
-      for (alt = (AltEntry *) addrTo(vrb->alts); !endOfTable(alt); alt++)
-	if (alt->param == parameter || alt->param == 0)
-	  return alt;
-      return NULL;
-    }
-  return NULL;
+  verbListAddress = instance[inInstance].verbs;
+  foundAlt = findAlternativeInVerbList(verbListAddress, parameter);
+  parent = instance[inInstance].parent;
+  while (!foundAlt && parent) {
+    foundAlt = findAlternativeInVerbList(class[parent].verbs, parameter);
+    parent = class[parent].parent;
+  }
+  return foundAlt;    
 }
 
 
@@ -1514,9 +1533,9 @@ static void load()
   if (memory == NULL) {
     memory = allocate(tmphdr.size*sizeof(Aword));
   }
-  header = (AcdHdr *) addrTo(0);
+  header = (AcdHdr *) pointerTo(0);
 
-  memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
+  memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
   if (memTop != tmphdr.size)
     syserr("Could not read all ACD code.");
 
@@ -1594,39 +1613,39 @@ static void initheader()
   /* Allocate for administrative table */
   admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
 
-  dict = (WrdEntry *) addrTo(header->dictionary);
+  dict = (WrdEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
 
   if (header->instanceTableAddress == 0)
     syserr("Instance table pointer == 0");
-  instance = (InstanceEntry *) addrTo(header->instanceTableAddress);
+  instance = (InstanceEntry *) pointerTo(header->instanceTableAddress);
   instance--;			/* Back up one so that first is no. 1 */
 
 
   if (header->classTableAddress == 0)
     syserr("Class table pointer == 0");
-  class = (ClassEntry *) addrTo(header->classTableAddress);
+  class = (ClassEntry *) pointerTo(header->classTableAddress);
   class--;			/* Back up one so that first is no. 1 */
 
   if (header->containerTableAddress != 0) {
-    container = (ContainerEntry *) addrTo(header->containerTableAddress);
+    container = (ContainerEntry *) pointerTo(header->containerTableAddress);
     container--;
   }
 
   if (header->eventTableAddress != 0) {
-    events = (EventEntry *) addrTo(header->eventTableAddress);
+    events = (EventEntry *) pointerTo(header->eventTableAddress);
     events--;
   }
 
-  stxs = (StxEntry *) addrTo(header->syntaxTableAddress);
-  vrbs = (VerbEntry *) addrTo(header->verbTableAddress);
-  ruls = (RulEntry *) addrTo(header->ruleTableAddress);
-  msgs = (MsgEntry *) addrTo(header->messageTableAddress);
-  scores = (Aword *) addrTo(header->scores);
+  stxs = (StxEntry *) pointerTo(header->syntaxTableAddress);
+  vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
+  ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
+  msgs = (MsgEntry *) pointerTo(header->messageTableAddress);
+  scores = (Aword *) pointerTo(header->scores);
 
   if (header->pack)
-    freq = (Aword *) addrTo(header->freq);
+    freq = (Aword *) pointerTo(header->freq);
 }
 
 
@@ -1644,9 +1663,9 @@ static void initstrings()
   IniEntry *init;
   AttributeEntry *attribute;
 
-  for (init = (IniEntry *) addrTo(header->init); !endOfTable(init); init++) {
+  for (init = (IniEntry *) pointerTo(header->init); !endOfTable(init); init++) {
     getstr(init->fpos, init->len);
-    attribute = addrTo(init->adr);
+    attribute = pointerTo(init->adr);
     attribute->value = pop();
   }
 }
@@ -1741,13 +1760,13 @@ static Boolean traceActor(int theActor)
 */
 static char *scriptName(int theActor, int theScript)
 {
-  ScriptEntry *scriptEntry = addrTo(header->scriptTableAddress);
+  ScriptEntry *scriptEntry = pointerTo(header->scriptTableAddress);
 
   while (theScript > 1) {
     scriptEntry++;
     theScript--;
   }
-  return addrTo(scriptEntry->stringAddress);
+  return pointerTo(scriptEntry->stringAddress);
 }
 
 
@@ -1777,10 +1796,10 @@ static void moveActor(theActor)
     parse();
     fail = FALSE;			/* fail only aborts one actor */
   } else if (admin[theActor].script != 0) {
-    for (scr = (ScriptEntry *) addrTo(header->scriptTableAddress); !endOfTable(scr); scr++) {
+    for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++) {
       if (scr->code == admin[theActor].script) {
 	/* Find correct step in the list by indexing */
-	step = (StepEntry *) addrTo(scr->steps);
+	step = (StepEntry *) pointerTo(scr->steps);
 	step = (StepEntry *) &step[admin[theActor].step];
 	/* Now execute it, maybe. First check wait count */
 	if (step->after > admin[theActor].waitCount) { /* Wait some more ? */

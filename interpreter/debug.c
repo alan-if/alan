@@ -49,8 +49,8 @@ static void showatrs(atradr)
   if (atradr == 0) return;
 
   i = 1;
-  for (at = (AttributeEntry *) addrTo(atradr); !endOfTable(at); at++) {
-    sprintf(str, "$i%3d: %ld (%s)", i, at->value, (char *) addrTo(at->stringAddress));
+  for (at = (AttributeEntry *) pointerTo(atradr); !endOfTable(at); at++) {
+    sprintf(str, "$i%3d: %ld (%s)", i, at->value, (char *) pointerTo(at->stringAddress));
 #if ISO == 0
     fromIso(str, str);
 #endif
@@ -386,7 +386,7 @@ static void showEvents()
 
   output("EVENTS:");
   for (event = 1; event <= header->eventMax; event++) {
-    sprintf(str, "$i%d (%s):", event, (char *)addrTo(events[event].stringAddress));
+    sprintf(str, "$i%d (%s):", event, (char *)pointerTo(events[event].stringAddress));
 #if ISO == 0
     fromIso(str, str);
 #endif

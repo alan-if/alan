@@ -123,7 +123,7 @@ static int lookup(wrd)
   int i;
 
   for (i = 0; !endOfTable(&dict[i]); i++) {
-    if (strcmp(wrd, (char *) addrTo(dict[i].wrd)) == 0)
+    if (strcmp(wrd, (char *) pointerTo(dict[i].wrd)) == 0)
       return (i);
   }
   unknown(wrd);
@@ -399,7 +399,7 @@ static void unambig(plst)
     /* If this word can be a noun and there is no noun following break loop */
     if (isNoun(wrds[wrdidx]) && (wrds[wrdidx+1] == EOF || !isNoun(wrds[wrdidx+1])))
       break;
-    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].adjrefs));
+    cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].adjrefs));
     lstcpy(savlst, plst);	/* To save it for backtracking */
     if (found)
       isect(plst, refs);
@@ -411,7 +411,7 @@ static void unambig(plst)
   }
   if (wrds[wrdidx] != EOF) {
     if (isNoun(wrds[wrdidx])) {
-      cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].nounrefs));
+      cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].nounrefs));
       if (found)
 	isect(plst, refs);
       else {
@@ -425,7 +425,7 @@ static void unambig(plst)
     if (isNoun(wrds[wrdidx-1])) {
       /* Perhaps the last word was also a noun? */
       lstcpy(plst, savlst);	/* Restore to before last adjective */
-      cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx-1]].nounrefs));
+      cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx-1]].nounrefs));
       if (plst[0].code == EOF)
 	lstcpy(plst, refs);
       else
@@ -643,7 +643,7 @@ static void try(mlst)
   if (endOfTable(stx))
     error(M_WHAT);
 
-  elms = (ElementEntry *) addrTo(stx->elms);
+  elms = (ElementEntry *) pointerTo(stx->elms);
 
   while (TRUE) {
     /* End of input? */
@@ -693,7 +693,7 @@ static void try(mlst)
 	  params[paramidx++] = tlst[0];
 	params[paramidx].code = EOF;
       }
-      elms = (ElementEntry *) addrTo(elms->next);
+      elms = (ElementEntry *) pointerTo(elms->next);
     }
   }
   
@@ -703,7 +703,7 @@ static void try(mlst)
 
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
-  for (restriction = (RestrictionEntry *) addrTo(elms->next); !endOfTable(restriction); restriction++) {
+  for (restriction = (RestrictionEntry *) pointerTo(elms->next); !endOfTable(restriction); restriction++) {
     if (params[restriction->parameter-1].code == 0) {
       /* This was a multiple parameter, so check all and remove failing */
       for (i = 0; mlst[i].code != EOF; i++) {

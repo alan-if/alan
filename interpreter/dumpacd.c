@@ -65,7 +65,7 @@ static void dumpAwords(Aaddr awords)
 
   if (awords == 0) return;
 
-  for (adr = addrTo(awords); *(adr+1) != EOF; adr++)
+  for (adr = pointerTo(awords); *(adr+1) != EOF; adr++)
     printf("%ld, ", *adr);
   printf("%ld\n", *adr);
 }
@@ -112,7 +112,7 @@ static void dumpDict(int level, Aword dict)
 
   if (dict == 0) return;
 
-  for (wrd = (WrdEntry *)addrTo(dict); !endOfTable(wrd); wrd++) {
+  for (wrd = (WrdEntry *)pointerTo(dict); !endOfTable(wrd); wrd++) {
     indent(level);
     printf("WRD: \n");
     indent(level+1);
@@ -157,7 +157,7 @@ static void dumpAtrs(int level, Aword atrs)
 
   if (atrs == 0) return;
 
-  for (atr = (AttributeEntry *)addrTo(atrs); !endOfTable(atr); atr++, atrno++) {
+  for (atr = (AttributeEntry *)pointerTo(atrs); !endOfTable(atr); atr++, atrno++) {
     indent(level);
     printf("ATR: #%d\n", atrno);
     indent(level+1);
@@ -185,7 +185,7 @@ static void dumpChks(int level, Aword chks)
 
   if (chks == 0) return;
 
-  for (chk = (ChkEntry *)addrTo(chks); !endOfTable(chk); chk++) {
+  for (chk = (ChkEntry *)pointerTo(chks); !endOfTable(chk); chk++) {
     indent(level);
     printf("CHK:\n");
     indent(level+1);
@@ -228,7 +228,7 @@ static void dumpAlts(int level, Aword alts)
 
   if (alts == 0) return;
 
-  for (alt = (AltEntry *)addrTo(alts); !endOfTable(alt); alt++) {
+  for (alt = (AltEntry *)pointerTo(alts); !endOfTable(alt); alt++) {
     indent(level);
     printf("ALT:\n");
     indent(level+1);
@@ -258,7 +258,7 @@ static void dumpVrbs(int level, Aword vrbs)
 
   if (vrbs == 0) return;
 
-  for (vrb = (VerbEntry *)addrTo(vrbs); !endOfTable(vrb); vrb++) {
+  for (vrb = (VerbEntry *)pointerTo(vrbs); !endOfTable(vrb); vrb++) {
     indent(level);
     printf("VRB:\n");
     indent(level+1);
@@ -284,7 +284,7 @@ static void dumpExts(int level, Aword exts)
 
   if (exts == 0) return;
 
-  for (ext = (ExitEntry *)addrTo(exts); !endOfTable(ext); ext++) {
+  for (ext = (ExitEntry *)pointerTo(exts); !endOfTable(ext); ext++) {
     indent(level);
     printf("EXT:\n");
     indent(level+1);
@@ -314,7 +314,7 @@ static void dumpElms(int level, Aword elms)
 
   if (elms == 0) return;
 
-  for (elm = (ElementEntry *)addrTo(elms); !endOfTable(elm); elm++) {
+  for (elm = (ElementEntry *)pointerTo(elms); !endOfTable(elm); elm++) {
     indent(level);
     printf("ELM: #%ld\n", elm->code);
     indent(level+1);
@@ -342,7 +342,7 @@ static void dumpStxs(int level, Aword stxs)
 
   if (stxs == 0) return;
 
-  for (stx = (StxEntry *)addrTo(stxs); !endOfTable(stx); stx++) {
+  for (stx = (StxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
     printf("STX: #%ld\n", stx->code);
     indent(level+1);
@@ -742,7 +742,7 @@ static void load(char acdfnm[])
   memory = malloc(tmphdr.size*sizeof(Aword));
   header = (AcdHdr *) memory;
 
-  memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
+  memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
   if (memTop != tmphdr.size)
     printf("WARNING! Could not read all ACD code.");
 

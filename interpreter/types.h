@@ -35,7 +35,7 @@
 #define ACTOR (header->actorClassId)
 
 
-#define addrTo(x) ((void *)&memory[x])
+#define pointerTo(x) ((void *)&memory[x])
 
 /* The word classes are represented as numbers but in the dictonary they are generated as bits */
 #define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_VRB))!=0)
@@ -166,7 +166,7 @@ typedef struct MsgEntry {	/* MESSAGE TABLE */
 typedef struct ParamEntry {	/* PARAMETER */
   Aword code;			/* Code for this parameter (0=multiple) */
   Aword firstWord;		/* Index to first word used by player */
-  Aword lastWord;			/* d:o to last */
+  Aword lastWord;		/* d:o to last */
 } ParamEntry;
 
 typedef enum LiteralType {
