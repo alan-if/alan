@@ -49,7 +49,8 @@ typedef enum StmKind {		/* STATEMENT kinds */
   SYSTEM_STATEMENT,
   DEPEND_STATEMENT,
   DEPENDCASE_STATEMENT,
-  EACH_STATEMENT
+  EACH_STATEMENT,
+  STRIP_STATEMENT
 } StmKind;
     
 
@@ -164,6 +165,14 @@ typedef struct StmNod {		/* STATEMENT */
       IdNode *loopId;
       IdNode *classId;
     } each;
+
+    struct {
+      Bool first;		/* TRUE = First (from the beginning) */
+      Expression *count;	/* Optional count integer expression */
+      Bool wordOrChar;		/* TRUE = words, FALSE = characters */
+      Expression *from;
+      Expression *into;
+    } strip;
 
   } fields;
 } StmNod;

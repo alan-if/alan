@@ -712,6 +712,14 @@ static void dumpStatements(Aword pc)
 	printf("ENDEACH");
 	break;
 
+      case I_STRIP:
+	printf("STRIP");
+	break;
+
+      case I_POP:
+	printf("POP");
+	break;
+
       default:
 	printf("*** Unknown STMOP instruction ***");
 	break;

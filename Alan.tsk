@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>289.89</origest>
-<currest>288.89</currest>
-<elapsed>132.89</elapsed>
+<origest>294.89</origest>
+<currest>293.89</currest>
+<elapsed>133.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>41</origest>
-<currest>41</currest>
-<elapsed>7</elapsed>
+<origest>46</origest>
+<currest>46</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>5</elapsed>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -114,9 +114,9 @@ substring searching
 &lt;s1&gt; + &lt;s2&gt;
 Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>String concatenation</desc>
@@ -124,9 +124,41 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Substring extraction</desc>
+<notes>Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>A LOCATE in an ENTERED causes interpreter loop if the actor is already there</desc>
+<notes>Entered
+  Locate x Here.
+
+This clause should not be run if the actor x is already in the room and the actor is the executing actor.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Should checks only be run for alternatives that match?</desc>
@@ -181,10 +213,25 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Symbolic step</desc>
+<notes>Implement a feature to make it possible to singel step per source line.
+
+Design:
+- a new instruction LINE &lt;no&gt;, &lt;file&gt;
+- generate a list of source file names to index into
+- keep a global currentGeneratedLine, whenever the node we generate from has another source position generate a LINE instruction
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
@@ -538,8 +585,8 @@ Which of the above works, and what is the problem with each that doesn't?
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -582,6 +629,26 @@ The girl Isa actor
   Can talk
 
 is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Which-form and Any-form</desc>
+<notes>In some languages the words "which" and "any" has different forms depending on the noun. E.g in german:
+
+"Ich kann hier keinen/keiner/kein $1 sehen."
+
+To fix this we would need two new forms, one for "which" and one for "any".
+Possibly we could have the embedded tags:
+
+  $+&lt;n&gt; = definite form
+  $0&lt;n&gt; = indefinite form
+  $-&lt;n&gt; = none/any form (negative)
+  $?&lt;n&gt; = which form (interrogative)
 </notes>
 <priority>2</priority>
 <origest>1</origest>

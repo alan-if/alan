@@ -263,9 +263,16 @@ static void traceIntegerTopValue() {
     printf("\t=%ld\t", top());
 }
 
+static char *stringValue(Aword adress) {
+  static char string[100];
+
+  sprintf(string, "0x%lx (\"%s\")\t", adress, (char *)adress);
+  return string;
+}
+
 static void traceStringTopValue() {
   if (singleStepOption)
-    printf("\t=0x%lx (\"%s\")\t", top(), (char*)top());
+    printf("\t=%s", stringValue(top()));
 }
 
 static char *printForm(SayForm form) {
@@ -338,6 +345,13 @@ void interpret(Aaddr adr)
     case C_STMOP:
       if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
+      case I_POP: {
+	Aword top;
+	top = pop();
+	if (singleStepOption)
+	  printf("POP\t%5ld", top);
+	break;
+      }
       case I_PRINT: {
 	Aword fpos, len;
 	fpos = pop();
@@ -370,8 +384,8 @@ void interpret(Aaddr adr)
 	len = pop();
 	if (singleStepOption)
 	  printf("GETSTR\t%5ld, %5ld", fpos, len);
-	getstr(fpos, len);
-	traceIntegerTopValue();
+	getStringFromFile(fpos, len);
+	traceStringTopValue();
 	break;
       }
       case I_QUIT: {
@@ -470,9 +484,9 @@ void interpret(Aaddr adr)
       }
       case I_SET: {
 	Aword id, atr, val;
+	val = pop();
 	id = pop();
 	atr = pop();
-	val = pop();
 	if (singleStepOption) {
 	  printf("SET \t%5ld, %5ld, %5ld\t\t", id, atr, val);
 	}
@@ -481,13 +495,13 @@ void interpret(Aaddr adr)
       }
       case I_STRSET: {
 	Aword id, atr, str;
+	str = pop();
 	id = pop();
 	atr = pop();
-	str = pop();
 	if (singleStepOption) {
-	  printf("STRSET\t%5ld, %5ld, %5ld\t\t", id, atr, str);
+	  printf("STRSET\t%5ld, %5ld, %s\t\t", id, atr, stringValue(str));
 	}
-	setStringAttribute(id, atr, str);
+	setStringAttribute(id, atr, (char *)str);
 	break;
       }
       case I_INCR: {
@@ -884,6 +898,20 @@ void interpret(Aaddr adr)
 	  printf("CONTAINS \t%5ld, %5ld", string, substring);
 	push(contains(string, substring));
 	traceIntegerTopValue();
+	break;
+      }
+
+      case I_STRIP: {
+	Aword first, count, words, id, atr;
+	id = pop();
+	atr = pop();
+	words = pop();
+	count = pop();
+	first = pop();
+	if (singleStepOption)
+	  printf("STRIP \t%5ld, %5ld, %5ld, %5ld, %5ld", first, count, words, id, atr);
+	push(strip(first, count, words, id, atr));
+	traceStringTopValue();
 	break;
       }
 

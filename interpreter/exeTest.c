@@ -8,6 +8,111 @@
 
 #include "exe.c"
 
+static void testCountTrailingBlanks() {
+  char *threeBlanks = "h   ";
+  char *fiveBlanks = "     ";
+  char *empty = "";
+  ASSERT(countTrailingBlanks(threeBlanks, strlen(threeBlanks)-1) == 3);
+  ASSERT(countTrailingBlanks(threeBlanks, 1) == 1);
+  ASSERT(countTrailingBlanks(threeBlanks, 0) == 0);
+  ASSERT(countTrailingBlanks(fiveBlanks, strlen(fiveBlanks)-1) == 5);
+  ASSERT(countTrailingBlanks(empty, strlen(empty)-1) == 0);
+}
+
+static void testSkipWordForwards() {
+  char *string = "a string of words";
+
+  ASSERT(skipWordForwards(string, 0) == 1);
+  ASSERT(skipWordForwards(string, 2) == 8);
+  ASSERT(skipWordForwards(string, 9) == 11);
+  ASSERT(skipWordForwards(string, 12) == 17);
+  ASSERT(skipWordForwards(string, strlen(string)-1) == strlen(string));
+}
+
+static void testSkipWordBackwards() {
+  char *string = "a string of words";
+  char *emptyString = "";
+
+  ASSERT(skipWordBackwards(string, 0) == 0);
+  ASSERT(skipWordBackwards(string, 4) == 2);
+  ASSERT(skipWordBackwards(string, 10) == 9);
+  ASSERT(skipWordBackwards(string, strlen(string)) == 12);
+
+  ASSERT(skipWordBackwards(emptyString, strlen(emptyString)) == 0);
+}
+
+static void testStripCharsFromString() {
+  char *characters;
+  char *rest;
+  char *result;
+
+  characters = "abcdef";
+  result = stripCharsFromStringForwards(3, characters, &rest);
+  ASSERT(strcmp(result, "abc")==0);
+  ASSERT(strcmp(rest, "def")==0);
+
+  characters = "ab";
+  result = stripCharsFromStringForwards(3, characters, &rest);
+  ASSERT(strcmp(result, "ab")==0);
+  ASSERT(strcmp(rest, "")==0);
+
+  characters = "";
+  result = stripCharsFromStringForwards(3, characters, &rest);
+  ASSERT(strcmp(result, "")==0);
+  ASSERT(strcmp(rest, "")==0);
+
+  characters = "abcdef";
+  result = stripCharsFromStringBackwards(3, characters, &rest);
+  ASSERT(strcmp(result, "def")==0);
+  ASSERT(strcmp(rest, "abc")==0);
+
+  characters = "ab";
+  result = stripCharsFromStringBackwards(3, characters, &rest);
+  ASSERT(strcmp(result, "ab")==0);
+  ASSERT(strcmp(rest, "")==0);
+
+  characters = "";
+  result = stripCharsFromStringBackwards(3, characters, &rest);
+  ASSERT(strcmp(result, "")==0);
+  ASSERT(strcmp(rest, "")==0);
+}
+
+static void testStripWordsFromString() {
+  char *testString = "this is four  words";
+  char *empty = "";
+  char *result;
+  char *rest;
+
+  result = stripWordsFromStringForwards(3, empty, &rest);
+  ASSERT(strcmp(result, "") == 0);
+  ASSERT(strcmp(rest, "") == 0);
+
+  result = stripWordsFromStringForwards(3, testString, &rest);
+  ASSERT(strcmp(result, "this is four") == 0);
+  ASSERT(strcmp(rest, "words") == 0);
+
+  result = stripWordsFromStringForwards(7, testString, &rest);
+  ASSERT(strcmp(result, "this is four  words") == 0);
+  ASSERT(strcmp(rest, "") == 0);
+
+  result = stripWordsFromStringBackwards(3, empty, &rest);
+  ASSERT(strcmp(result, "") == 0);
+  ASSERT(strcmp(rest, "") == 0);
+
+  result = stripWordsFromStringBackwards(3, testString, &rest);
+  ASSERT(strcmp(result, "is four  words") == 0);
+  ASSERT(strcmp(rest, "this") == 0);
+
+  result = stripWordsFromStringBackwards(7, testString, &rest);
+  ASSERT(strcmp(result, "this is four  words") == 0);
+  ASSERT(strcmp(rest, "") == 0);
+
+  testString = " an initial space";
+  result = stripWordsFromStringBackwards(7, testString, &rest);
+  ASSERT(strcmp(result, "an initial space") == 0);
+  ASSERT(strcmp(rest, "") == 0);
+}
+
 
 static char testFileName[] = "getStringTestFile";
 static FILE *testFile;
@@ -33,10 +138,10 @@ void testGetString()
   writeAndOpenGetStringTestFile(fpos, testString);
   header->pack = FALSE;
   header->stringOffset = 0;
-  getstr(fpos, strlen(testString));
+  getStringFromFile(fpos, strlen(testString));
   ASSERT(strcmp((char *)pop(), testString)==0);
   header->stringOffset = 1;
-  getstr(fpos, strlen(testString)-1);
+  getStringFromFile(fpos, strlen(testString)-1);
   ASSERT(strcmp((char *)pop(), &testString[1])==0);
   fclose(txtfil);
   unlink(testFileName);
@@ -101,6 +206,7 @@ static void testPopGameState() {
 
 static void testWhereIllegalId() {
   header->instanceMax = 1;
+  expectSyserr = TRUE;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
     where(0);
@@ -109,10 +215,12 @@ static void testWhereIllegalId() {
   if (setjmp(syserr_label) == 0)
     where(2);
   ASSERT(hadSyserr);
+  expectSyserr = FALSE;
 }
 
 static void testHereIllegalId() {
   header->instanceMax = 1;
+  expectSyserr = TRUE;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
     isHere(0);
@@ -121,10 +229,12 @@ static void testHereIllegalId() {
   if (setjmp(syserr_label) == 0)
     isHere(2);
   ASSERT(hadSyserr);
+  expectSyserr = FALSE;
 }
 
 static void testLocateIllegalId() {
   header->instanceMax = 1;
+  expectSyserr = TRUE;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
     locate(0, 1);
@@ -141,11 +251,17 @@ static void testLocateIllegalId() {
   if (setjmp(syserr_label) == 0)
     locate(1, 2);
   ASSERT(hadSyserr);
+  expectSyserr = FALSE;
 }
 
 
 void registerExeUnitTests()
 {
+  registerUnitTest(testCountTrailingBlanks);
+  registerUnitTest(testSkipWordForwards);
+  registerUnitTest(testSkipWordBackwards);
+  registerUnitTest(testStripCharsFromString);
+  registerUnitTest(testStripWordsFromString);
   registerUnitTest(testGetString);
   registerUnitTest(testIncreaseEventQueue);
   registerUnitTest(testPushGameState);

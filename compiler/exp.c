@@ -692,12 +692,17 @@ void generateAttributeAccess(Expression *exp)
     emit0(I_ATTRIBUTE);
 }
 
+/*======================================================================*/
+void generateAttributeReference(Expression *exp) {
+  generateId(exp->fields.atr.atr);
+  generateWhat(exp->fields.atr.wht->fields.wht.wht);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void generateAttributeExpression(Expression *exp)
 {
-  generateId(exp->fields.atr.atr);
-  generateWhat(exp->fields.atr.wht->fields.wht.wht);
+  generateAttributeReference(exp);
   generateAttributeAccess(exp);
   if (exp->not) emit0(I_NOT);
 }

@@ -1,0 +1,18 @@
+The x Isa object
+  Has s1 "this is a string that contains enough characters to test with".
+  Has s2 "a word".
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.
+ Strip First 10 Character From s1 Of x.
+ Say s1 Of x.	-- " contains enough ..."
+ Say s2 Of x.	-- "s"
+ Strip Last 3 Character From s1 Of x Into s2 of x.
+ Say s1 Of x.	-- "contains enough characters to test w"
+ Say s2 Of x.	-- "ith"
+ Strip Last 100 Word From s1 Of x.
+ Say s1 Of x.	-- ""
+ Say s2 Of x.	-- "ith"

@@ -103,8 +103,8 @@ typedef enum InstClass {
   I_GETSTR,			/* Get a string contents from text */
 				/* file, create a copy and push it */
 				/* on top of stack */
-  I_INCR,			/* Increment an attribute */
-  I_DECR,			/* Decrement a numeric attribute */
+  I_INCR,			/* Increase an attribute */
+  I_DECR,			/* Decrease a numeric attribute */
   I_USE,
   I_STOP,
   I_IN,
@@ -164,7 +164,9 @@ typedef enum InstClass {
   I_NEXTEACH,
   I_ENDEACH,
   I_SHOW,
-  I_CONCAT
+  I_CONCAT,
+  I_STRIP,
+  I_POP
 } InstClass;
 
 typedef enum SayForm {

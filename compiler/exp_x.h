@@ -25,6 +25,7 @@ extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern void generateExpression(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);
+extern void generateAttributeReference(Expression *exp);
 extern void generateAttributeAccess(Expression *exp);
 extern void generateBetweenCheck(Expression *exp);
 extern void dumpType(TypeKind typ);

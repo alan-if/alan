@@ -43,15 +43,23 @@ Aword convertFromACD(Aword w)
   return s;
 }
 
+
 #include "syserr.h"
+
 static Boolean hadSyserr = FALSE;
 jmp_buf syserr_label;
+jmp_buf uniterr_label;
+Boolean expectSyserr = FALSE;
 
-void syserr(char str[])
+void syserr(char msg[])
 {
-  hadSyserr = TRUE;
-  /* We need to jump out here since application relies on no return */
-  longjmp(syserr_label, TRUE);
+  if (!expectSyserr) {
+    printf("*** SYSTEM ERROR: %s ***\n", msg);
+    longjmp(uniterr_label, TRUE);
+  } else {
+    hadSyserr = TRUE;
+    longjmp(syserr_label, TRUE);
+  }
 }
 
 
@@ -67,14 +75,15 @@ void syserr(char str[])
 
 int main()
 {
-  registerExeUnitTests();
-  registerStackUnitTests();
-  registerInterUnitTests();
-  registerReverseUnitTests();
-  registerSysdepUnitTests();
+  if (setjmp(uniterr_label) == 0) {
+    registerExeUnitTests();
+    registerStackUnitTests();
+    registerInterUnitTests();
+    registerReverseUnitTests();
+    registerSysdepUnitTests();
 
-  unitTest();
-
+    unitTest();
+  }
   return 0;
 }
 

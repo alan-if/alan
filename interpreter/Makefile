@@ -22,7 +22,8 @@ winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
 winarun: LIB = $(LIB) $(GLKLIB)
 winarun: EXE = winarun.exe
-
+dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC
+dmalloc: LIB = /usr/local/lib/libdmalloc.a
 release: OPTIMIZE = -O4
 
 # Define this to make interpreter log each crc calculation step
@@ -35,7 +36,7 @@ LDFLAGS = $(CYGWIN) $(VERBOSE)
 
 GLKSRCS = glkstart.c glkio.c
 
-# Build sources are in main build an in unit test
+# Build sources are in main buid an in unit test
 BUILDSRCS = \
 	rules.c \
 	debug.c \
@@ -64,7 +65,7 @@ ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
-all arun : checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
+all arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
@@ -77,6 +78,11 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	gcc -o winarun $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp winarun.exe ../bin
+
+dmalloc: checkTarget $(ARUNOBJECTS)
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp arun.exe ../bin
 
 arun.res: arun.rc arun.ico resources.h
 	echo $(VERSION)
@@ -141,7 +147,7 @@ test: unitTest
 #
 #
 #
-dumpacd: dumpacd.c reverse.o ../compiler/spa.o
+dumpacd: dumpacd.c reverse.o ../compiler/spa.o acode.h
 	gcc -o dumpacd -g -mno-cygwin -I../compiler dumpacd.c ../compiler/spa.o reverse.o
 
 

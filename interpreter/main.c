@@ -512,7 +512,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case '+':
-  case '-':
+  case '0':
     if (isdigit(str[2])) {
       sayParameter(str[2]-'1', str[1]=='+'?SAY_DEFINITE:SAY_INDEFINITE);
       needSpace = TRUE;
@@ -1081,7 +1081,7 @@ static void initStrings(void)
   AttributeEntry *attribute;
 
   for (init = (IniEntry *) pointerTo(header->init); !endOfTable(init); init++) {
-    getstr(init->fpos, init->len);
+    getStringFromFile(init->fpos, init->len);
     attribute = pointerTo(init->adr);
     attribute->value = pop();
   }

@@ -482,6 +482,31 @@ static void analyzeShow(StmNod *stm, Context *context)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void analyzeStrip(StmNod *stm, Context *context)
+{
+  if (stm->fields.strip.count != NULL) {
+    analyzeExpression(stm->fields.strip.count, context);
+    if (!equalTypes(stm->fields.strip.count->type, INTEGER_TYPE))
+      lmLogv(&stm->fields.strip.count->srcp, 330, sevERR, "integer", "STRIP statement", NULL);
+  }
+
+  analyzeExpression(stm->fields.strip.from, context);
+  if (!equalTypes(stm->fields.strip.from->type, STRING_TYPE))
+    lmLogv(&stm->fields.strip.from->srcp, 330, sevERR, "string", "STRIP statement", NULL);
+  if (stm->fields.strip.from->kind != ATTRIBUTE_EXPRESSION)
+    lmLog(&stm->fields.strip.from->srcp, 428, sevERR, "");
+
+  if (stm->fields.strip.into != NULL) {
+    analyzeExpression(stm->fields.strip.into, context);
+    if (!equalTypes(stm->fields.strip.into->type, STRING_TYPE))
+      lmLogv(&stm->fields.strip.into->srcp, 330, sevERR, "string", "STRIP statement", NULL);
+  if (stm->fields.strip.into->kind != ATTRIBUTE_EXPRESSION)
+    lmLog(&stm->fields.strip.into->srcp, 428, sevERR, "");
+  }
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeStatement(StmNod *stm, Context *context)
@@ -552,6 +577,9 @@ static void analyzeStatement(StmNod *stm, Context *context)
     break;
   case SHOW_STATEMENT:
     analyzeShow(stm, context);
+    break;
+  case STRIP_STATEMENT:
+    analyzeStrip(stm, context);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -695,10 +723,11 @@ static void generateMake(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateSet(StmNod *stm)
 {
-  generateExpression(stm->fields.set.exp);
-
   emitConstant(stm->fields.set.atr->code);
   generateWhat(stm->fields.set.wht);
+
+  generateExpression(stm->fields.set.exp);
+
   if (stm->fields.set.exp->type == STRING_TYPE)
     emit0(I_STRSET);
   else
@@ -918,6 +947,36 @@ static void generateEach(StmNod *statement)
   frameLevel--;
 }
 
+/*----------------------------------------------------------------------*/
+static void generateStrip(StmNod *stm)
+{
+  /* First generate the attribute reference for any INTO clause */
+  if (stm->fields.strip.into != NULL)
+    generateAttributeReference(stm->fields.strip.into);
+
+  /* Push First/Last indicator */
+  emitConstant(stm->fields.strip.first);
+
+  /* Push count, implicit = 1 */
+  if (stm->fields.strip.count != NULL)
+    generateExpression(stm->fields.strip.count);
+  else
+    emitConstant(1);
+
+  /* Push words or character indicator */
+  emitConstant(stm->fields.strip.wordOrChar);
+
+  /* Push attribute reference */
+  generateAttributeReference(stm->fields.strip.from);
+
+  emit0(I_STRIP);		/* Will modify the FROM and leave rest on stack */
+
+  /* If there was an INTO clause we set the string attribute */
+  if (stm->fields.strip.into != NULL)
+    emit0(I_STRSET);
+  else				/* Pop of the rest produced above */
+    emit0(I_POP);
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -1041,6 +1100,10 @@ static void generateStatement(StmNod *stm)
     generateEach(stm);
     break;
 
+  case STRIP_STATEMENT:
+    generateStrip(stm);
+    break;
+
   default:
     unimpl(&stm->srcp, "Code Generator");
     break;
@@ -1121,6 +1184,9 @@ void dumpStatement(StmNod *stm)
   case USE_STATEMENT:
     put("USE ");
     break;
+  case STRIP_STATEMENT:
+    put("STRIP ");
+    break;
   case STOP_STATEMENT:
     put("STOP ");
     break;
@@ -1136,8 +1202,23 @@ void dumpStatement(StmNod *stm)
   case VISITS_STATEMENT:
     put("VISITS ");
     break;
-  default:
-    put("*** UNKNOWN ***");
+  case NOP_STATEMENT:
+    put("NOP ");
+    break;
+  case SHOW_STATEMENT:
+    put("SHOW ");
+    break;
+  case SYSTEM_STATEMENT:
+    put("SYSTEM ");
+    break;
+  case DEPEND_STATEMENT:
+    put("DEPEND ");
+    break;
+  case DEPENDCASE_STATEMENT:
+    put("DEPENDCASE ");
+    break;
+  case EACH_STATEMENT:
+    put("EACH ");
     break;
   }
   dumpSrcp(&stm->srcp);
@@ -1217,6 +1298,13 @@ void dumpStatement(StmNod *stm)
       break;
     case VISITS_STATEMENT:
       put("count: "); dumpInt(stm->fields.visits.count);
+      break;
+    case STRIP_STATEMENT:
+      put("first: "); dumpBool(stm->fields.strip.first); nl();
+      put("count: "); dumpExpression(stm->fields.strip.count); nl();
+      put("word?: "); dumpBool(stm->fields.strip.wordOrChar); nl();
+      put("from: "); dumpExpression(stm->fields.strip.from); nl();
+      put("into: "); dumpExpression(stm->fields.strip.into);
       break;
     default:
       break;

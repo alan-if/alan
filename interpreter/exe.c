@@ -32,6 +32,9 @@
 
 #define WIDTH 80
 
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
 
 /* PUBLIC DATA */
 
@@ -228,7 +231,7 @@ void sys(Aword fpos, Aword len)
 {
   char *command;
 
-  getstr(fpos, len);            /* Returns address to string on stack */
+  getStringFromFile(fpos, len);            /* Returns address to string on stack */
   command = (char *)pop();
   system(command);
   free(command);
@@ -236,7 +239,7 @@ void sys(Aword fpos, Aword len)
 
 
 /*======================================================================*/
-void getstr(Aword fpos, Aword len)
+void getStringFromFile(Aword fpos, Aword len)
 {
   char *buf = allocate(len+1);
 
@@ -483,10 +486,10 @@ void set(Aword id, Aword atr, Aword val)
 
 
 /*======================================================================*/
-void setStringAttribute(Aword id, Aword atr, Aword str)
+void setStringAttribute(Aword id, Aword atr, char *str)
 {
   free((char *)attributeOf(id, atr));
-  set(id, atr, str);
+  set(id, atr, (Aword)str);
 }
 
 
@@ -582,6 +585,167 @@ Aword concat(Aword s1, Aword s2)
   return (Aword)result;
 }
 
+
+/*----------------------------------------------------------------------*/
+static char *stripCharsFromStringForwards(int count, char *initialString, char **theRest)
+{
+  int stripPosition;
+  char *strippedString;
+  char *rest;
+
+  if (count > strlen(initialString))
+    stripPosition = strlen(initialString);
+  else
+    stripPosition = count;
+  rest = strdup(&initialString[stripPosition]);
+  strippedString = strdup(initialString);
+  strippedString[stripPosition] = '\0';
+  *theRest = rest;
+  return strippedString;
+}
+
+/*----------------------------------------------------------------------*/
+static char *stripCharsFromStringBackwards(Aint count, char *initialString, char **theRest) {
+  int stripPosition;
+  char *strippedString;
+  char *rest;
+
+  if (count > strlen(initialString))
+    stripPosition = 0;
+  else
+    stripPosition = strlen(initialString)-count;
+  strippedString = strdup(&initialString[stripPosition]);
+  rest = strdup(initialString);
+  rest[stripPosition] = '\0';
+  *theRest = rest;
+  return strippedString;
+}
+
+
+/*----------------------------------------------------------------------*/
+static int countLeadingBlanks(char *string, int position) {
+  static char blanks[] = " ";
+  return strspn(&string[position], blanks);
+}
+
+/*----------------------------------------------------------------------*/
+static int skipWordForwards(char *string, int position)
+{
+  char separators[] = " .,?";
+
+  int i;
+
+  for (i = position; i<=strlen(string) && strchr(separators, string[i]) == NULL; i++)
+    ;
+  return i;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *stripWordsFromStringForwards(Aint count, char *initialString, char **theRest) {
+  int skippedChars;
+  int position = 0;
+  char *stripped;
+  int i;
+
+  for (i = count; i>0; i--) {
+    /* Ignore any initial blanks */
+    skippedChars = countLeadingBlanks(initialString, position);
+    position += skippedChars;
+    position = skipWordForwards(initialString, position);
+  }
+
+  stripped = (char *)allocate(position+1);
+  strncpy(stripped, initialString, position);
+  stripped[position] = '\0';
+
+  skippedChars = countLeadingBlanks(initialString, position);
+  *theRest = strdup(&initialString[position+skippedChars]);
+
+  return(stripped);
+}
+
+
+/*----------------------------------------------------------------------*/
+static int skipWordBackwards(char *string, int position)
+{
+  char separators[] = " .,?";
+  int i;
+
+  for (i = position; i>0 && strchr(separators, string[i-1]) == NULL; i--)
+    ;
+  return i;
+}
+
+
+/*----------------------------------------------------------------------*/
+static int countTrailingBlanks(char *string, int position) {
+  int skippedChars, i;
+  skippedChars = 0;
+
+  if (position > strlen(string)-1)
+    syserr("position > length in countTrailingBlanks");
+  for (i = position; i >= 0 && string[i] == ' '; i--)
+    skippedChars++;
+  return(skippedChars);
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *stripWordsFromStringBackwards(Aint count, char *initialString, char **theRest) {
+  int skippedChars;
+  char *stripped;
+  int strippedLength;
+  int position = strlen(initialString);
+  int i;
+
+  for (i = count; i>0 && position>0; i--) {
+    position -= 1;
+    /* Ignore trailing blanks */
+    skippedChars = countTrailingBlanks(initialString, position);
+    if (position - skippedChars < 0) break; /* No more words to strip */
+    position -= skippedChars;
+    position = skipWordBackwards(initialString, position);
+  }
+
+  skippedChars = countLeadingBlanks(initialString, 0);
+  strippedLength = strlen(initialString)-position-skippedChars;
+  stripped = (char *)allocate(strippedLength+1);
+  strncpy(stripped, &initialString[position+skippedChars], strippedLength);
+  stripped[strippedLength] = '\0';
+
+  if (position > 0) {
+    skippedChars = countTrailingBlanks(initialString, position-1);
+    position -= skippedChars;
+  }
+  *theRest = strdup(initialString);
+  (*theRest)[position] = '\0';
+  return(stripped);
+}
+
+
+
+/*======================================================================*/
+Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aword id, Aword atr)
+{
+  char *initialString = (char *)attributeOf(id, atr);
+  char *theStripped;
+  char *theRest;
+
+  if (stripFromBeginningNotEnd) {
+    if (stripWordsNotChars)
+      theStripped = stripWordsFromStringForwards(count, initialString, &theRest);
+    else
+      theStripped = stripCharsFromStringForwards(count, initialString, &theRest);
+  } else {
+    if (stripWordsNotChars)
+      theStripped = stripWordsFromStringBackwards(count, initialString, &theRest);
+    else
+      theStripped = stripCharsFromStringBackwards(count, initialString, &theRest);
+  }
+  setStringAttribute(id, atr, theRest);
+  return (Aword)theStripped;
+}
 
 
 /*----------------------------------------------------------------------*/
