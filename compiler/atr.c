@@ -609,10 +609,10 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
 
   for (lst = atrs; lst != NULL; lst = lst->next) {
     generateAttribute(lst->element.atr);
-    attributeAreaSize++;
+    attributeAreaSize += AwordSizeOf(AttributeEntry);
   }
   emit(EOF);
-  attributeAreaSize++;
+  attributeAreaSize += 1;
 
   return(adr);
 }

@@ -21,6 +21,7 @@
 #include "exp_x.h"
 #include "lst_x.h"
 #include "type_x.h"
+#include "prop_x.h"
 #include "dump_x.h"
 
 
@@ -801,22 +802,12 @@ static void replicateContainer(Symbol *symbol)
 
   if (propertiesOf(symbol)->container == NULL && propertiesOfParentOf(symbol)->container != NULL) {
     Properties *props = propertiesOf(symbol);
-#define OPTIMIZE_CONTAINER_BODY_GENERATION
-#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
-    /* Create a new Container Instance and link parents Container */
+    /* Create a new Container Instance and link parents Container Body */
     props->container = newContainer(propertiesOfParentOf(symbol)->container->body);
-#else
-    /* Create a new Container Instance and copy parents Container Body */
-    Properties *parentProps = propertiesOfParentOf(symbol);
-    ContainerBody *body = newContainerBody(&parentProps->container->body->srcp,
-					   parentProps->container->body->limits,
-					   parentProps->container->body->hstms,
-					   parentProps->container->body->estms,
-					   parentProps->container->body->extractChecks,
-					   parentProps->container->body->extractStatements);
-    props->container = newContainer(body);
-#endif
     props->container->ownerProperties = props;
+
+    /* Add OPAQUE attribute */
+    addOpaqueAttribute(props, props->container->body->opaque);
   }
 }
 

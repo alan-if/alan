@@ -1,2 +1,3 @@
 ../../compiler/alan trace -debug
-../../interpreter/arun -r -n -t trace < trace.input | grep -v "version 3" > trace.output
+../../interpreter/arun -r -n -t trace < trace.input
+

@@ -28,7 +28,7 @@ void testContentOfSymbol() {
   IdNode *contentClassId = newId(nulsrcp, "contentClassId");
   Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
   IdNode *content = newId(nulsrcp, "content");
-  Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
+  Container *container = newContainer(newContainerBody(nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
   IdNode *id = newId(nulsrcp, "id");
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,
@@ -359,7 +359,7 @@ void testReplicateContainer()
 {
   Symbol *child = newSymbol(newId(nulsrcp, "child"), CLASS_SYMBOL);
   Symbol *parent = newSymbol(newId(nulsrcp, "parent"), CLASS_SYMBOL);
-  Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
+  Container *container = newContainer(newContainerBody(nulsrcp, FALSE, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
 
   child->fields.entity.props = NEW(Properties);
   parent->fields.entity.props = NEW(Properties);
@@ -396,6 +396,45 @@ static void testCreateMessageVerbs()
   ASSERT(p->fields.parameter.class == typeSymbol);
 }
 
+static void testInheritOpaqueAttribute() {
+  /* Set up a parent class with container properties */
+  Bool opaqueState = TRUE;
+  ContainerBody *pBody = newContainerBody(nulsrcp, opaqueState, NULL, NULL,
+					  NULL, NULL, NULL, NULL);
+  Container *pCont = newContainer(pBody);
+  Properties *pProps = newProps(NULL, NULL, nulsrcp,
+			       NULL, NULL, pCont, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, FALSE, nulsrcp,
+			       NULL, FALSE, NULL, NULL, NULL);
+  Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
+
+  /* Setup a child */
+  List *attributes = concat(NULL, newBooleanAttribute(nulsrcp,
+						      newId(nulsrcp, "b"),
+						      FALSE), ATTRIBUTE_LIST);
+						      
+  Properties *cProps = newProps(NULL, NULL, nulsrcp,
+				NULL, attributes, NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, nulsrcp,
+				NULL, FALSE, nulsrcp,
+				NULL, FALSE, NULL, NULL, NULL);
+  Symbol *child = newInstanceSymbol(newId(nulsrcp, "c"), cProps, parent);
+
+  replicateContainer(child);
+
+  ASSERT(length(cProps->attributes) == 2);
+  ASSERT(cProps->attributes->element.atr->id->code == OPAQUEATTRIBUTE); /* Predefined OPAQUE */
+  ASSERT(cProps->attributes->element.atr->value == opaqueState);
+}
+
+
 void registerSymUnitTests()
 {
   registerUnitTest(testContentOfSymbol);
@@ -412,5 +451,6 @@ void registerSymUnitTests()
   registerUnitTest(testNewFrame);
   registerUnitTest(testReplicateContainer);
   registerUnitTest(testCreateMessageVerbs);
+  registerUnitTest(testInheritOpaqueAttribute);
 }
 

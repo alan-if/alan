@@ -21,18 +21,24 @@
 
 extern Properties *newEmptyProps(void);
 
-extern Properties *newProps(Where *whr, List *nams, Srcp pronounsSrcp,
+extern Properties *newProps(Where *whr,
+			    List *names,
+			    Srcp pronounsSrcp,
 			    List *pronoun,
-			    List *atrs,
+			    List *attributes,
 			    Container *cnt,
 			    Srcp descriptionCheckSrcp,
 			    List *descriptionCheck,
 			    Srcp descriptionSrcp,
 			    List *description,
-			    Srcp enteredSrcp, List *entered,
-			    Srcp mentionedSrcp, List *mentioned, Srcp definiteSrcp,
+			    Srcp enteredSrcp,
+			    List *entered,
+			    Srcp mentionedSrcp,
+			    List *mentioned,
+			    Srcp definiteSrcp,
 			    List *definite,
-			    Bool definiteIsForm, Srcp indefiniteSrcp,
+			    Bool definiteIsForm,
+			    Srcp indefiniteSrcp,
 			    List *indefinite,
 			    Bool indefiniteIsForm,
 			    List *exts,
@@ -41,6 +47,7 @@ extern Properties *newProps(Where *whr, List *nams, Srcp pronounsSrcp,
 
 extern void symbolizeProps(Properties *props);
 extern void analyzeProps(Properties *props, Context *context);
+extern void addOpaqueAttribute(Properties *props, Bool opaque);
 extern void generateCommonPropertiesData(Properties *props);
 extern void generateInstancePropertiesData(Properties *props);
 extern void generatePropertiesEntry(InstanceEntry *entry, Properties *props);

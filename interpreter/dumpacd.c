@@ -27,7 +27,7 @@ static char *acdfnm;
 
 /* Dump flags */
 
-static int dictionaryFlag, classesFlag, instancesFlag, parseFlag, syntaxesFlag,
+static int dictionaryFlag, classesFlag, instanceFlag, parseFlag, syntaxesFlag,
   initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag,
   messagesFlag;
 
@@ -327,46 +327,56 @@ static void dumpClasses(int level, Aword classes)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void dumpInstance(int instanceCode, InstanceEntry *instances) {
+  InstanceEntry *instance = &instances[instanceCode-1];
+  int level = 1;
+
+  indent(level);
+  printf("INSTANCE #%ld:\n", instance->code);
+  indent(level+1);
+  printf("idAdress: %s", dumpAddress(instance->idAddress)); {
+    printf(" \"%s\"", (char *)pointerTo(instance->idAddress)); printf("\n");
+  }
+  indent(level+1);
+  printf("parent: %ld\n", instance->parent);
+  indent(level+1);
+  printf("location: %ld\n", instance->initialLocation);
+  indent(level+1);
+  printf("container: %ld\n", instance->container);
+  indent(level+1);
+  printf("attributes: %s\n", dumpAddress(instance->initialAttributes));
+  if (instance->initialAttributes)
+    dumpAtrs(level+1, instance->initialAttributes);
+  indent(level+1);
+  printf("checks: %s\n", dumpAddress(instance->checks));
+  indent(level+1);
+  printf("description: %s\n", dumpAddress(instance->description));
+  indent(level+1);
+  printf("mentioned: %s\n", dumpAddress(instance->mentioned));
+  indent(level+1);
+  printf("article: %s\n", dumpAddress(instance->indefinite));
+  indent(level+1);
+  printf("exits: %s\n", dumpAddress(instance->exits));
+  if (exitsFlag && instance->exits)
+    dumpExts(level+2, instance->exits);
+  indent(level+1);
+  printf("verbs: %s\n", dumpAddress(instance->verbs));
+}
+
+
+
 
 /*----------------------------------------------------------------------*/
-static void dumpInstances(int level, Aword instances)
+static void dumpInstances(Aword instanceTableAddress)
 {
-  InstanceEntry *instance;
+  InstanceEntry *instanceEntries = (InstanceEntry *)pointerTo(instanceTableAddress);
+  int i;
 
-  if (instances == 0) return;
+  if (instanceTableAddress == 0) return;
 
-  for (instance = (InstanceEntry *)pointerTo(instances); !endOfTable(instance); instance++) {
-    indent(level);
-    printf("INSTANCE #%ld:\n", instance->code);
-    indent(level+1);
-    printf("idAdress: %s", dumpAddress(instance->idAddress)); {
-      printf(" \"%s\"", (char *)pointerTo(instance->idAddress)); printf("\n");
-    }
-    indent(level+1);
-    printf("parent: %ld\n", instance->parent);
-    indent(level+1);
-    printf("location: %ld\n", instance->initialLocation);
-    indent(level+1);
-    printf("container: %ld\n", instance->container);
-    indent(level+1);
-    printf("attributes: %s\n", dumpAddress(instance->initialAttributes));
-    if (instance->initialAttributes)
-      dumpAtrs(level+1, instance->initialAttributes);
-    indent(level+1);
-    printf("checks: %s\n", dumpAddress(instance->checks));
-    indent(level+1);
-    printf("description: %s\n", dumpAddress(instance->description));
-    indent(level+1);
-    printf("mentioned: %s\n", dumpAddress(instance->mentioned));
-    indent(level+1);
-    printf("article: %s\n", dumpAddress(instance->indefinite));
-    indent(level+1);
-    printf("exits: %s\n", dumpAddress(instance->exits));
-    if (exitsFlag && instance->exits)
-      dumpExts(level+2, instance->exits);
-    indent(level+1);
-    printf("verbs: %s\n", dumpAddress(instance->verbs));
-  }
+  for (i = 0; !endOfTable(&instanceEntries[i]); i++)
+    dumpInstance(i+1, instanceEntries);
 }
 
 
@@ -702,7 +712,8 @@ static void dumpACD(void)
   printf("CLASS TABLE: %s\n", dumpAddress(header->classTableAddress));
   if (classesFlag) dumpClasses(1, header->classTableAddress);
   printf("INSTANCE TABLE: %s\n", dumpAddress(header->instanceTableAddress));
-  if (instancesFlag) dumpInstances(1, header->instanceTableAddress);
+  if (instanceFlag == 0) dumpInstances(header->instanceTableAddress);
+  else if (instanceFlag != -1) dumpInstance(instanceFlag, pointerTo(header->instanceTableAddress));
   printf("RULE TABLE: %s\n", dumpAddress(header->ruleTableAddress));
   printf("STRINGINIT: %s\n", dumpAddress(header->stringInitTable));
   if (initFlag) dumpStringInit(header->stringInitTable);
@@ -814,7 +825,7 @@ static SPA_DECLARE(options)
      SPA_HELP("help", "this help", usage, xit)
      SPA_FLAG("dictionary", "dump details on dictionary entries", dictionaryFlag, FALSE, NULL)
      SPA_FLAG("classes", "dump details on class entries", classesFlag, FALSE, NULL)
-     SPA_FLAG("instances", "dump details on instance entries", instancesFlag, FALSE, NULL)
+     SPA_INTEGER("instance", "dump details on instance entry, use 0 for all", instanceFlag, -1, NULL)
      SPA_FLAG("init", "dump string and set initialization tables", initFlag, FALSE, NULL)
      SPA_FLAG("parses", "dump details on parse table entries", parseFlag, FALSE, NULL)
      SPA_FLAG("syntaxes", "dump details on syntax mapping entries", syntaxesFlag, FALSE, NULL)

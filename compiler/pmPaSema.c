@@ -1091,7 +1091,7 @@ int rule			/* IN production number */
     case 149: { /* <container_properties> = __genSym#9 <optionally_opaque> 'CONTAINER' <container_body>; */
 #line 1268 "alan.pmk"
 
-	pmSeSt[pmStkP+1].cnt = newContainer(newContainerBody(&pmSySt[pmStkP+3].srcp,
+	pmSeSt[pmStkP+1].cnt = newContainer(newContainerBody(pmSySt[pmStkP+3].srcp,
 					pmSeSt[pmStkP+2].opaque,
 					pmSeSt[pmStkP+4].id,
 					pmSeSt[pmStkP+4].lims,

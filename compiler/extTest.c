@@ -17,7 +17,7 @@ void testNewExt()
   IdNode *aLocationId = newId(nulsrcp, "aLocation");
   Symbol *aLocationSymbol;
   int firstAddress;
-  int entrySize = ACDsizeOf(ExitEntry);
+  int entrySize = AwordSizeOf(ExitEntry);
 
   initAdventure();
   (void) readEcode();

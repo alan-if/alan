@@ -39,9 +39,9 @@ void testGenerateClasses()
   Srcp srcp = {12,13,14};
   ClaNod *cla;
   Aaddr addr;
-  int firstAdr = ACDsizeOf(AcdHdr);
+  int firstAdr = AwordSizeOf(AcdHdr);
   static int NOOFPREDEFEINEDCLASSES = 8;
-  static int classSize = ACDsizeOf(ClassEntry);
+  static int classSize = AwordSizeOf(ClassEntry);
   int baseAddress = firstAdr + NOOFPREDEFEINEDCLASSES*classSize;
 
   initAdventure();

@@ -446,7 +446,7 @@ AttributeEntry *findAttribute(AttributeEntry *attributeTable,
   AttributeEntry *attribute = attributeTable;
   while (attribute->code != attributeCode) {
     attribute++;
-    if (*((Aword *)attribute) == EOF)
+    if (endOfTable(attribute))
       syserr("Attribute not found.");
   }
   return attribute;

@@ -955,7 +955,7 @@ static void checkvers(AcdHdr *header)
   vers[3] = alan.version.state[0];
 
   /* Check version of .ACD file */
-  if (debugOption) {
+  if (!regressionTestOption && debugOption) {
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
@@ -1157,11 +1157,11 @@ static Aint sizeOfAttributeData(void)
 
   for (i=1; i<=header->instanceMax; i++) {
     AttributeEntry *attribute = pointerTo(instance[i].initialAttributes);
-    while (*((Aword *)attribute) != EOF) {
-      size++;
+    while (!endOfTable(attribute)) {
+      size += AwordSizeOf(AttributeEntry);
       attribute++;
     }
-    size++;
+    size += 1;			/* For EOF */
   }
 
   if (size != header->attributesAreaSize)
@@ -1171,24 +1171,25 @@ static Aint sizeOfAttributeData(void)
 
 
 /*----------------------------------------------------------------------*/
-static AttributeEntry *copyAttributes(void)
+static AttributeEntry *copyAttributes(int awordSize)
 {
-  AttributeEntry *attributeArea = allocate(sizeOfAttributeData()*sizeof(AttributeEntry));
-  AttributeEntry *currentAttributeArea = attributeArea;  
+  Aword *attributeArea = allocate(awordSize*sizeof(Aword));
+  Aword *currentAttributeArea = attributeArea;
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
     AttributeEntry *originalAttribute = pointerTo(instance[i].initialAttributes);
-    admin[i].attributes = currentAttributeArea;
-    while (*((Aword *)originalAttribute) != EOF) {
-      *currentAttributeArea = *originalAttribute;
-      currentAttributeArea++;
+    admin[i].attributes = (AttributeEntry *)currentAttributeArea;
+    while (!endOfTable(originalAttribute)) {
+      *((AttributeEntry *)currentAttributeArea) = *originalAttribute;
+      currentAttributeArea += AwordSizeOf(AttributeEntry);
       originalAttribute++;
     }
-    *currentAttributeArea = *originalAttribute;
+    *((Aword*)currentAttributeArea) = EOF;
+    currentAttributeArea += 1;
   }
 
-  return attributeArea;
+  return (AttributeEntry *)attributeArea;
 }
 
 
@@ -1207,7 +1208,7 @@ static void initDynamicData(void)
   initSets((SetInitEntry*)pointerTo(header->setInitTable));
 
   /* Create game state copy of attributes */
-  attributes = copyAttributes();
+  attributes = copyAttributes(sizeOfAttributeData());
 
   /* Set initial locations */
   for (instanceId = 1; instanceId <= header->instanceMax; instanceId++)
@@ -1291,7 +1292,7 @@ static void init(void)
 
   dscrstkp = 0;			/* No describe in progress */
 
-  if (debugOption||sectionTraceOption||singleStepOption) {
+  if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
     char str[80];
     output("<Hi! This is Alan interactive fiction interpreter Arun,");
     sprintf(str, "%s version %ld.%ld.%ld!>$n", alan.version.state,

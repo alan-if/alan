@@ -19,7 +19,7 @@ void testClassOfContent()
 					 newWhat(&nulsrcp,
 						 WHAT_ID, id));
   IdNode *takesId = newId(nulsrcp, "location");
-  ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId,
+  ContainerBody *containerBody = newContainerBody(nulsrcp, FALSE, takesId,
 						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
   Properties *properties = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,

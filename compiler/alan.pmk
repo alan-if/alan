@@ -1266,7 +1266,7 @@ static int val(char str[])
 <container_properties>					-- RETURNS: cnt, srcp
     = [ 'WITH' ] <optionally_opaque> 'CONTAINER' <container_body>
     %%
-	%<container_properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
+	%<container_properties>.cnt = newContainer(newContainerBody(%'CONTAINER'.srcp,
 					%<optionally_opaque>.opaque,
 					%<container_body>.id,
 					%<container_body>.lims,

@@ -1,0 +1,5 @@
+../../compiler/alan prgnam
+cp ../../interpreter/arun.exe prgnam.exe
+prgnam -n < prgnam.input
+
+

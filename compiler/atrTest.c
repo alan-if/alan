@@ -303,7 +303,7 @@ void testSortAttributes()
 
 void testGenerateAttributes()
 {
-  int attributeEntrySize = ACDsizeOf(AttributeEntry);
+  int attributeEntrySize = AwordSizeOf(AttributeEntry);
   int address;
 
   initEmit("unit.acd");
@@ -316,8 +316,10 @@ void testGenerateAttributes()
      But without analysis where we link in all inherited attributes we will
      only generate 2.
   */
+  attributeAreaSize = 0;
   address = generateAttributes(firstInstance->props->attributes);
   ASSERT(nextEmitAddress() == address + 2*attributeEntrySize + 1);
+  ASSERT(attributeAreaSize == 2*attributeEntrySize+1);
 }
 
 static void testResolveThisAttributeForClass()

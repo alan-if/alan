@@ -38,7 +38,7 @@ int containerCount = 0;
 
 
 /*======================================================================*/
-ContainerBody *newContainerBody(Srcp *srcp,
+ContainerBody *newContainerBody(Srcp srcp,
 				Bool opaque,
 				IdNode *takes,
 				List *lims,
@@ -51,7 +51,7 @@ ContainerBody *newContainerBody(Srcp *srcp,
 
   new = NEW(ContainerBody);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->analyzed = FALSE;
   new->generated = FALSE;
   new->opaque = opaque;
@@ -194,9 +194,7 @@ static void generateContainerBody(ContainerBody *body)
 {
   showProgress();
 
-#ifndef DONT_OPTIMIZE_CONTAINER_BODY_GENERATION
   if (!body->generated) {
-#endif
     body->limadr = generateLimits(body);
 
     if (body->hstms != NULL) {

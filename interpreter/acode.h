@@ -230,7 +230,7 @@ typedef enum VarClass {
 
 /* AMACHINE Table entry types */
 
-#define ACDsizeOf(x) (sizeof(x)/sizeof(Aword))
+#define AwordSizeOf(x) (sizeof(x)/sizeof(Aword))
 
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
@@ -271,7 +271,7 @@ typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
   Aword value;			/* Its value, a string has a dynamic
 				   string pointer, a set has a pointer
 				   to a dynamically allocated set */
-  Aaddr stringAddress;	/* Address to the name */
+  Aaddr stringAddress;		/* Address to the name */
 } AttributeEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */

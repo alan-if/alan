@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>396.89</origest>
-<currest>395.89</currest>
+<origest>398.89</origest>
+<currest>397.89</currest>
 <elapsed>233.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>89</origest>
-<currest>89</currest>
+<origest>91</origest>
+<currest>91</currest>
 <elapsed>39</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
+<origest>41</origest>
+<currest>41</currest>
 <elapsed>39</elapsed>
 <isopen>1</isopen>
 <task>
@@ -515,18 +515,36 @@ NOTE any instance for which noun in noSuch()</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Fix problem with OPAQUE attribute not being inherited along with container properties</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>34</origest>
-<currest>34</currest>
+<origest>35</origest>
+<currest>35</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>INIT clause as property</desc>
 <notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Investigate if MENTIONED is generated automatically.</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -543,8 +561,8 @@ NOTE any instance for which noun in noSuch()</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Literal should not inherit from Thing</desc>
-<notes>It should be a separate base class</notes>
+<desc>Literal should not inherit from Thing?</desc>
+<notes>It should be a separate base class, or should it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

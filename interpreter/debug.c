@@ -125,9 +125,9 @@ static void showInstance(int ins)
     return;
   }
 
-  output("The $$");
+  output("The ");
   say(ins);
-  sprintf(str, "$$ (%d)", ins);
+  sprintf(str, " (%d)", ins);
   output(str);
   if (instance[ins].parent) {
     sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].idAddress));
