@@ -2,8 +2,10 @@
 [0-9]*_[0-9]*_[0-9]*.*
 alanlib*.tgz
 alanlib*.zip
+alanlib.version
+alanlib.version.c
+alanlib.version.imp
 test.acd
 test.dat
 version.c
 version.h
-alanlib.version.imp

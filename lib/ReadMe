@@ -1,10 +1,13 @@
 Alan Library
 ------------
 
-These files are the proposed Alan standard library version 0.4.1. The 
-actual library files (the files with a filename extension of ".i") are
-added to the source code of your game by "$include'ing" the main file
-called std.i -- see the text file 'notes.txt' for details.
+These files are the proposed Alan standard library version 0.4.1.  The
+files in this distribution are an early version adopted for Alan v3
+(which is still in development stages).
+
+The actual library files (the files with a filename extension of ".i")
+are added to the source code of your game by "$include'ing" the main
+file called std.i -- see the text file 'notes.txt' for details.
 
 The second line of each library file lists the previous library versions 
 with which it is completely compatible

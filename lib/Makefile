@@ -6,8 +6,6 @@ all: version
 	@-rm *.tgz *.zip *.tar.Z
 	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
 	@wzzip alanlib$(VERSION).zip *.i ReadMe index.txt
-	@cp *.zip *.tar.Z ../../www/download
-	@cp ReadMe ../../www/download/library.txt
 	@venum correction
 	@make newVersion
 
