@@ -125,7 +125,7 @@ Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 
   showProgress();
 
-  new = newStatement(&srcp, REMOVE_STATEMENT);
+  new = newStatement(&srcp, EXCLUDE_STATEMENT);
 
   new->fields.include.what = what;
   new->fields.include.set = set;
@@ -609,7 +609,7 @@ static void analyzeStatement(Statement *stm, Context *context)
     analyzeIncrease(stm, context);
     break;
   case INCLUDE_STATEMENT:
-  case REMOVE_STATEMENT:
+  case EXCLUDE_STATEMENT:
     analyzeIncludeAndRemove(stm, context);
     break;
   case SCHEDULE_STATEMENT:
@@ -807,7 +807,7 @@ static void generateIncludeAndRemove(Statement *stm)
   if (stm->kind == INCLUDE_STATEMENT)
     emit0(I_INCLUDE);
   else
-    emit0(I_REMOVE);
+    emit0(I_EXCLUDE);
 }
 
 
@@ -1108,7 +1108,7 @@ static void generateStatement(Statement *stm)
     break;
 
   case INCLUDE_STATEMENT:
-  case REMOVE_STATEMENT:
+  case EXCLUDE_STATEMENT:
     generateIncludeAndRemove(stm);
     break;
 
@@ -1189,7 +1189,7 @@ void dumpStatement(Statement *stm)
   case LOCATE_STATEMENT: put("LOCATE "); break;
   case EMPTY_STATEMENT: put("EMPTY "); break;
   case INCLUDE_STATEMENT: put("INCLUDE "); break;
-  case REMOVE_STATEMENT: put("REMOVE "); break;
+  case EXCLUDE_STATEMENT: put("REMOVE "); break;
   case SCHEDULE_STATEMENT: put("SCHEDULE "); break;
   case CANCEL_STATEMENT: put("CANCEL "); break;
   case LOOK_STATEMENT: put("LOOK "); break;
@@ -1248,7 +1248,7 @@ void dumpStatement(Statement *stm)
       put("whr: "); dumpWhere(stm->fields.locate.where);
       break;
     case INCLUDE_STATEMENT:
-    case REMOVE_STATEMENT:
+    case EXCLUDE_STATEMENT:
       put("wht: "); dumpExpression(stm->fields.include.what); nl();
       put("set: "); dumpExpression(stm->fields.include.set);
       break;

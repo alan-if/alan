@@ -207,7 +207,7 @@ Change ':' to 'THEN'</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Empty player input to forfeit player turn</desc>
+<desc>Set may not contain Strings</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -216,7 +216,7 @@ Change ':' to 'THEN'</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Set may not contain Strings</desc>
+<desc>Empty player input to forfeit player turn</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

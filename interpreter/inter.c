@@ -579,7 +579,7 @@ void interpret(Aaddr adr)
 	addToSet((Set *)set, member);
 	break;
       }
-      case I_REMOVE: {
+      case I_EXCLUDE: {
 	Aword member, set;
 	set = pop();
 	member = pop();

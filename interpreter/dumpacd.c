@@ -537,7 +537,7 @@ static void dumpStatements(Aword pc)
       case I_POP: printf("POP"); break;
       case I_PRINT: printf("PRINT"); break;
       case I_QUIT: printf("QUIT"); break;
-      case I_REMOVE: printf("REMOVE"); break;
+      case I_EXCLUDE: printf("EXCLUDE"); break;
       case I_RESTART: printf("RESTART"); break;
       case I_RESTORE: printf("RESTORE"); break;
       case I_RETURN: printf("RETURN"); printf("\n"); return;

@@ -126,7 +126,7 @@ void pmISym(
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "<generated identifier #%d>", idno++);
+      sprintf(token->chars, "genid%d", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");

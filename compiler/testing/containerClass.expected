@@ -7,7 +7,7 @@ containerClass.alan
 =====>        1
 
   *1*   103 E : Syntax error. Attempting to repair by replacing "'CONTAINER'"
-                with "Identifier ('<generated identifier #1>')".
+                with "Identifier ('genid1')".
 
     5.  End Every container.
 =====>            1

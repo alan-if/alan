@@ -299,7 +299,7 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
 	  inferedClass = integerSymbol;
 	  break;
 	case STRING_TYPE:
-	  inferedClass = stringSymbol;
+	  lmLogv(&exp->srcp, 410, sevERR, "Set initialization", "integers or instance references", NULL);
 	  break;
 	default:
 	  SYSERR("Unexpected type kind");
