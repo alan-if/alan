@@ -1,7 +1,7 @@
 
 			    Welcome to the
 		    Alan V2 to V3 Source Converter
-			      2003-09-23
+			      2004-12-12
 
 
 THE NEWS IN SHORT:
@@ -30,7 +30,7 @@ Also it reads the complete source including included source files in
 one go and outputs all of it in one file. If you want to retain the
 file structure you have to hack up the output.
 
-You can run the converter from the command line, if so it takes to
+You can run the converter from the command line, if so it takes two
 arguments, an input file name and an output file name.
 
 More than usual there are no guarantees. I have not made thorough
@@ -38,7 +38,7 @@ tests, so I can't promise that it converts any input to something
 sensible, nor that it does not crash. But I hope this little hack
 might ease your work to convert to V3, which I hope you will do!
 
-Communication is welcome to thomas.nilsson@progindus.se.
+Communication is welcome to thomas@junovagen.se.
 
 Thanks!
 
