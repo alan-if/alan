@@ -1,7 +1,3 @@
-Tue Jul 29 19:38:00 MET DST 1997
-
-	* v2.7(5)
-
 Mon Jul 28 10:45:33 MET DST 1997
 
 	* v2.7(4)
@@ -11,8 +7,8 @@ Fri Jul 25 16:51:20 1997  Thomas Nilsson  <thoni@rabbit>
 	* Changed grammar slightly so that the clauses within locations,
  	objects and actors can be given in any order. This change makes
  	game source not completely backwards compatible as a game
- 	compiling fine with 2.1(4) and above will not always compile with
- 	2.1(3) and below (depending on if you use the free order or not).
+ 	compiling fine with 2.7(4) and above will not always compile with
+ 	2.7(3) and below (depending on if you use the free order or not).
 
 Thu Jul 24 13:36:24 1997  Thomas Nilsson  <thoni@rabbit>
 
