@@ -810,6 +810,13 @@ static void replicateContainer(Symbol *symbol)
   }
 }
 
+/*----------------------------------------------------------------------*/
+static void replicateExits(Symbol *symbol)
+{
+  propertiesOf(symbol)->exits = combineExits(propertiesOf(symbol)->exits,
+					     propertiesOfParentOf(symbol)->exits);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void replicateScripts(Symbol *symbol)
@@ -841,6 +848,7 @@ static void replicate(Symbol *symbol)
   replicateAttributes(symbol);
   replicateContainer(symbol);
   replicateScripts(symbol);
+  replicateExits(symbol);
 }
 
 

@@ -27,6 +27,7 @@ extern Aword concat(Aword s1, Aword s2);
 extern void setStringAttribute(Aword id, Aword atr, char *str);
 extern void getStringFromFile(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
+extern void setStyle(Aint style);
 extern void look(void);
 extern void showImage(Aword image, Aword align);
 extern void make(Aword id, Aword atr, Aword val);

@@ -21,7 +21,7 @@ void testInitAdv()
 
   Instance *ins;
   Instance *locationIns;
-  ClaNod *cla;
+  Class *cla;
 
 
   initAdventure();

@@ -24,6 +24,7 @@
 typedef enum StmKind {		/* STATEMENT kinds */
   NOP_STATEMENT,
   PRINT_STATEMENT,
+  STYLE_STATEMENT,
   QUIT_STATEMENT,
   LOOK_STATEMENT,
   SAVE_STATEMENT,
@@ -178,6 +179,10 @@ typedef struct StmNod {		/* STATEMENT */
       Expression *from;
       Expression *into;
     } strip;
+
+    struct {
+      int style;
+    } style;
 
   } fields;
 } Statement;

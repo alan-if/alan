@@ -31,10 +31,11 @@ extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set);
 extern Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set);
+extern Statement *newStyleStatement(Srcp srcp, int style);
+
 
 /* Analyze a list of statements */
-extern void analyzeStatements(List *stms,
-		   Context *context);
+extern void analyzeStatements(List *stms, Context *context);
 
 /* Generate code for a list of statements */
 extern void generateStatements(List *stms);

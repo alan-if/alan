@@ -13,7 +13,7 @@
 static void testMultipleAddAttribute()
 {
   IdNode *theId = newId(nulsrcp, "aClassId");
-  ClaNod *theClass;
+  Class *theClass;
   Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), FALSE);
   Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
   Properties *theFirstAttributeProps = newProps(NULL, NULL, nulsrcp, NULL,

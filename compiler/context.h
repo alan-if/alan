@@ -31,7 +31,7 @@ typedef struct Context {
   struct Context *previous;
   Symbol *verb;
   Instance *instance;
-  ClaNod *class;
+  Class *class;
   EvtNod *event;
 } Context;
 

@@ -185,6 +185,21 @@ static void printMessageUsing2Parameters(MsgKind message, int instance1,
   restoreParameters();
 }
 
+
+/*======================================================================*/
+void setStyle(Aint style)
+{
+#ifdef HAVE_GLK
+  switch (style) {
+  case NORMAL_STYLE: glk_set_style(style_Normal); break;
+  case EMPHASIZED_STYLE: glk_set_style(style_Emphasized); break;
+  case PREFORMATTED_STYLE: glk_set_style(style_Preformatted); break;
+  case ALERT_STYLE: glk_set_style(style_Alert); break;
+  case QUOTE_STYLE: glk_set_style(style_BlockQuote); break;
+  }
+#endif
+}
+
 /*======================================================================*/
 void print(Aword fpos, Aword len)
 {

@@ -199,14 +199,14 @@ int smScAction(
     smContinueToken	= -2
   };
   switch(smInternalCode) {
-  case 132:		/* INTEGER*/ 
+  case 138:		/* INTEGER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
-  case 133:		/* IDENTIFIER*/ 
+  case 139:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
@@ -215,7 +215,7 @@ int smScAction(
 }
     break;
 
-  case 134:		/* IDENTIFIER*/ 
+  case 140:		/* IDENTIFIER*/ 
     {{
 	char *c;
 
@@ -233,7 +233,7 @@ int smScAction(
 }
     break;
 
-  case 135:		/* STRING*/ 
+  case 141:		/* STRING*/ 
     {
       int len = 0;		/* The total length of the copied data */
       Bool space = FALSE;
@@ -267,7 +267,7 @@ int smScAction(
 }
     break;
 
-  case  90:		/* 'IMPORT'*/ 
+  case  93:		/* 'IMPORT'*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -300,21 +300,21 @@ int smScAction(
 }
     break;
 
-  case 123:		/* 'LOCATION'*/ 
+  case 127:		/* 'LOCATION'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
 }
     break;
 
-  case  86:		/* 'ACTOR'*/ 
+  case  89:		/* 'ACTOR'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
 }
     break;
 
-  case  91:		/* 'OPAQUE'*/ 
+  case  94:		/* 'OPAQUE'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
@@ -335,7 +335,7 @@ int smScAction(
 }
     break;
 
-  case  82:		/* 'FIRST'*/ 
+  case  85:		/* 'FIRST'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
@@ -349,14 +349,14 @@ int smScAction(
 }
     break;
 
-  case  92:		/* 'TAKING'*/ 
+  case  95:		/* 'TAKING'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
 }
     break;
 
-  case 140:		/* INCLUDE*/ 
+  case 146:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -392,7 +392,7 @@ int smScAction(
 }
     break;
 
-  case 141:		/* IDENTIFIER*/ 
+  case 147:		/* IDENTIFIER*/ 
     {{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }

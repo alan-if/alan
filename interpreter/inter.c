@@ -423,6 +423,15 @@ void interpret(Aaddr adr)
 	  printf("\"\n\t\t\t\t\t");
 	break;
       }
+      case I_STYLE: {
+	Aword style;
+	style = pop();
+	if (singleStepOption) {
+	  printf("STYLE \t%5ld\t\t\"", style);
+	}
+	setStyle(style);
+	break;
+      }
       case I_SYSTEM: {
 	Aword fpos, len;
 	fpos = pop();

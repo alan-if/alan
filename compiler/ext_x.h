@@ -22,7 +22,7 @@ extern int dircount;
 /* FUNCTIONS: */
 
 /* Create a new Exit node */
-extern ExtNod *newext(Srcp *srcp,
+extern Exit *newExit(Srcp *srcp,
 		      List *dirs,
 		      IdNode *to,
 		      List *chks,
@@ -30,8 +30,9 @@ extern ExtNod *newext(Srcp *srcp,
 
 extern void symbolizeExits(List *exts);
 extern void analyzeExits(List *exts, Context *context);
+extern List *combineExits(List *ownExits, List *exitsToAdd);
 extern Aaddr generateExits(List *exts);
-extern void dumpExit(ExtNod *ext);
+extern void dumpExit(Exit *ext);
 
 
 #endif

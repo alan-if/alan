@@ -84,6 +84,10 @@ static void splitArgs(char *commandLine) {
 
 int winglk_startup_code(const char* cmdline)
 {
+  glk_stylehint_set(wintype_AllTypes, style_Emphasized, stylehint_Weight, 0);
+  glk_stylehint_set(wintype_AllTypes, style_Emphasized, stylehint_Oblique, 1);
+  glk_stylehint_set(wintype_AllTypes, style_BlockQuote, stylehint_Indentation, 10);
+
   winglk_app_set_name("Arun");
   winglk_set_gui(IDR_ARUN);
 

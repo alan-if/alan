@@ -16,11 +16,11 @@
 
 /* TYPES: */
 
-typedef struct ClaNod {		/* CLASS */
+typedef struct Class {		/* CLASS */
   Srcp srcp;			/* Source position */
   Properties *props;
   Aaddr adr;			/* Generated at address */
-} ClaNod;
+} Class;
 
 
 #endif

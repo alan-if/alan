@@ -32,7 +32,7 @@
 /* PUBLIC DATA */
 
 /* Predefined classes */
-ClaNod *entity,
+Class *entity,
   *thing,
   *object,
   *location,
@@ -148,16 +148,16 @@ void initClasses()
 
 
 /*======================================================================*/
-ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
-		 IdNode *id,
-		 IdNode *parent,
-		 Properties *props)
+Class *newClass(Srcp *srcp,	/* IN - Source Position */
+		IdNode *id,
+		IdNode *parent,
+		Properties *props)
 {
-  ClaNod *new;                  /* The newly allocated area */
+  Class *new;                  /* The newly allocated area */
 
   showProgress();
 
-  new = NEW(ClaNod);
+  new = NEW(Class);
 
   new->srcp = *srcp;
   if (props == NULL)
@@ -180,7 +180,7 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 
 
 /*----------------------------------------------------------------------*/
-static void symbolizeClass(ClaNod *cla)
+static void symbolizeClass(Class *cla)
 {
   symbolizeProps(cla->props);
 
@@ -227,16 +227,13 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Indefinite
 	Container
 	Script
+	Exit
 	Verb
   */
-  propCount = 12;
+  propCount = 13;
 
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
-  propCount++;
-
-  if (props->exits != NULL)
-    lmLog(&props->exits->element.ext->srcp, 343, sevWAR, "Exits");
   propCount++;
 
   if (propCount != NOOFPROPS)
@@ -245,7 +242,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeClass(ClaNod *class)
+static void analyzeClass(Class *class)
 {
   Context *context = newClassContext(class);
 
@@ -275,7 +272,7 @@ void analyzeClasses(void)
 
 
 /*----------------------------------------------------------------------*/
-static void generateClassData(ClaNod *cla)
+static void generateClassData(Class *cla)
 {
   generateCommonPropertiesData(cla->props);
   if (debugOption) {
@@ -286,7 +283,7 @@ static void generateClassData(ClaNod *cla)
 
 
 /*----------------------------------------------------------------------*/
-static void generateClassEntry(ClaNod *cla)
+static void generateClassEntry(Class *cla)
 {
   ClassEntry entry;
 
@@ -344,7 +341,7 @@ Aaddr generateClasses(void)
 
 
 /*======================================================================*/
-void dumpClass(ClaNod *cla)
+void dumpClass(Class *cla)
 {
   put("CLA: "); dumpSrcp(&cla->srcp); indent();
   put("props: "); dumpProps(cla->props); out();

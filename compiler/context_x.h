@@ -19,7 +19,7 @@
 extern Context *newNullContext(void);
 extern Context *newRuleContext(void);
 extern Context *newEventContext(void);
-extern Context *newClassContext(ClaNod *theClass);
+extern Context *newClassContext(Class *theClass);
 extern Context *newInstanceContext(Instance *theInstance);
 extern Context *newVerbContext(Symbol *theVerb);
 extern Context *pushContext(Context *context);

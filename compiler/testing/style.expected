@@ -1,0 +1,15 @@
+########## style ##########
+
+
+style.alan
+
+    8.      Style unimplmented.
+=====>            1
+
+  *1*   103 E : Syntax error. Replacing tokens: 'unimplmented' with: 'ALERT'
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

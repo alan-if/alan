@@ -153,6 +153,21 @@ Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *stat
 }
 
 
+/*======================================================================*/
+Statement *newStyleStatement(Srcp srcp, int style)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, STYLE_STATEMENT);
+
+  new->fields.style.style = style;
+
+  return(new);
+}
+
+
 
 
 /*----------------------------------------------------------------------*/
@@ -573,6 +588,7 @@ static void analyzeStatement(Statement *stm, Context *context)
   switch (stm->kind) {
   case NOP_STATEMENT:
   case PRINT_STATEMENT:
+  case STYLE_STATEMENT:
   case QUIT_STATEMENT:
   case LOOK_STATEMENT:
   case SAVE_STATEMENT:
@@ -1033,6 +1049,14 @@ static void generateSystem(Statement *stm)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateStyle(Statement *stm)
+{
+  emitConstant(stm->fields.style.style);
+  emit0(I_STYLE);
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void generateStatement(Statement *stm)
@@ -1047,6 +1071,10 @@ static void generateStatement(Statement *stm)
 
   case PRINT_STATEMENT:
     generatePrint(stm);
+    break;
+
+  case STYLE_STATEMENT:
+    generateStyle(stm);
     break;
 
   case QUIT_STATEMENT:
@@ -1174,6 +1202,17 @@ void generateStatements(List *stms)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void dumpStyle(int style) {
+  switch (style) {
+  case NORMAL_STYLE: put("Normal"); break;
+  case EMPHASIZED_STYLE: put("Emphasized"); break;
+  case PREFORMATTED_STYLE: put("Preformatted"); break;
+  case ALERT_STYLE: put("Alert"); break;
+  case QUOTE_STYLE: put("Quote"); break;
+  }
+}
+
 
 /*======================================================================*/
 void dumpStatement(Statement *stm)
@@ -1216,6 +1255,7 @@ void dumpStatement(Statement *stm)
   case DEPEND_STATEMENT: put("DEPEND "); break;
   case DEPENDCASE_STATEMENT: put("DEPENDCASE "); break;
   case EACH_STATEMENT: put("EACH "); break;
+  case STYLE_STATEMENT: put("STYLE "); break;
   }
   dumpSrcp(&stm->srcp);
 
@@ -1309,6 +1349,9 @@ void dumpStatement(Statement *stm)
       put("word?: "); dumpBool(stm->fields.strip.wordOrChar); nl();
       put("from: "); dumpExpression(stm->fields.strip.from); nl();
       put("into: "); dumpExpression(stm->fields.strip.into);
+      break;
+    case STYLE_STATEMENT:
+      put("style: "); dumpStyle(stm->fields.style.style);
       break;
     default:
       break;

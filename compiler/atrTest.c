@@ -91,10 +91,10 @@ void testFindInList()
   ASSERT(findAttribute(attributes, id) == theAttribute);
 }
 
-static ClaNod *createClass(char string[], List *attributes)
+static Class *createClass(char string[], List *attributes)
 {
   Properties *props = newEmptyProps();
-  ClaNod *theClass;
+  Class *theClass;
 
   props->attributes = attributes;
   theClass = newClass(&nulsrcp, newId(nulsrcp, string), NULL, props);
@@ -175,7 +175,7 @@ void testCombineAttributes()
 
 void testAttributeListsInSymbolTable()
 {
-  ClaNod *firstClass, *secondClass;
+  Class *firstClass, *secondClass;
   List *firstClassAttributes, *secondClassAttributes, *firstInstanceAttributes, *secondInstanceAttributes;
   Symbol *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
   int x, y, z;
@@ -330,7 +330,7 @@ static void testResolveThisAttributeForClass()
 				  NULL, FALSE, nulsrcp,
 				  NULL, FALSE,
 				  NULL, NULL, NULL);
-  ClaNod *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
+  Class *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;
 

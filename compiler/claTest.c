@@ -18,7 +18,7 @@ void testCreateClass()
   Instance *ins;
 
   /* Create a class with unknown inheritance */
-  ClaNod *cla = newClass(&srcp, id, parent, NULL);
+  Class *cla = newClass(&srcp, id, parent, NULL);
 
   ASSERT(equalSrcp(cla->srcp, srcp));
   ASSERT(equalId(cla->props->id, id));
@@ -37,7 +37,7 @@ void testCreateClass()
 void testGenerateClasses()
 {
   Srcp srcp = {12,13,14};
-  ClaNod *cla;
+  Class *cla;
   Aaddr addr;
   int firstAdr = AwordSizeOf(AcdHdr);
   static int NOOFPREDEFEINEDCLASSES = 8;
@@ -70,7 +70,7 @@ void testGenerateEmptyClassEntry()
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,
 			       NULL, NULL, NULL);
-  ClaNod *class = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, props);
+  Class *class = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, props);
   int entryAddress;
   ClassEntry *entry;
   

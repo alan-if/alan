@@ -122,7 +122,7 @@ List *concat(List *list,	/* IN - List to concat to */
 
   new = NEW(List);
 
-  new->element.cla = (struct ClaNod *) element;
+  new->element.cla = (struct Class *) element;
   new->kind = kind;
 
   new->next = NULL;

@@ -40,19 +40,19 @@ int dircount = 0;
   Allocates and initialises an extnod.
 
  */
-ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
+Exit *newExit(Srcp *srcp,	/* IN - Source Position */
 	       List *dirs,	/* IN - Directions of this exit */
 	       IdNode *target,	/* IN - Name of the location it leads to */
 	       List *chks,	/* IN - List of checks to perform first */
 	       List *stms)	/* IN - The statements to execute */
 {
-  ExtNod *new;			/* The newly created node */
+  Exit *new;			/* The newly created node */
   Symbol *sym;
   List *lst;			/* Traversal pointer */
 
   showProgress();
 
-  new = NEW(ExtNod);
+  new = NEW(Exit);
 
   new->srcp = *srcp;
   new->dirs = dirs;
@@ -83,7 +83,7 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
   symbolizeExit()
 
 */
-static void symbolizeExit(ExtNod *theExit)
+static void symbolizeExit(Exit *theExit)
 {
   symbolizeId(theExit->target);
 #ifdef FIXME
@@ -112,7 +112,7 @@ void symbolizeExits(List *theExitList)
   analyzeExit()
 
  */
-static void analyzeExit(ExtNod *ext, Context *context)
+static void analyzeExit(Exit *ext, Context *context)
 {
   inheritCheck(ext->target, "Target of an Exit", "an instance", "location");
 
@@ -161,9 +161,62 @@ void analyzeExits(List *exts, Context *context)
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool haveExit(List *ownExits, IdNode *direction) {
+  List *exits;
+  List *directions;
+
+  TRAVERSE(exits, ownExits) {
+    TRAVERSE(directions, exits->element.ext->dirs) {
+      if (equalId(directions->element.id, direction))
+	return TRUE;
+    }
+  }
+  return FALSE;
+}
 
 /*----------------------------------------------------------------------*/
-static Aaddr generateExitStatements(ExtNod *ext)
+static Exit *copyExitExcludingOwn(Exit *original, List *ownExits) {
+  List *directionsToCopy = NULL;
+  List *direction;
+
+  TRAVERSE (direction, original->dirs)
+    if (!haveExit(ownExits, direction->element.id))
+      directionsToCopy = concat(directionsToCopy, direction->element.id, ID_LIST);
+  return newExit(&original->srcp, directionsToCopy, original->target,
+		 original->chks, original->stms);
+}
+
+
+/*======================================================================*/
+List *combineExits(List *ownExits, List *exitsToAdd)
+{
+  /* Insert all exits from the list to add that are not there
+     already.
+  */
+  List *toAdd;
+  List *direction;
+  List *new = NULL;
+
+  TRAVERSE(toAdd, exitsToAdd) {
+    Bool foundOneToAdd = FALSE;
+    /* Each exit may have multiple directions so we must traverse that
+       list to see if we should copy this Exit node */
+    TRAVERSE(direction, toAdd->element.ext->dirs) {
+      if (!haveExit(ownExits, direction->element.id)) {
+	foundOneToAdd = TRUE;
+	break;
+      }
+    }
+    if (foundOneToAdd)
+      new = concat(new, copyExitExcludingOwn(toAdd->element.ext, ownExits), EXIT_LIST);
+  }
+  return combine(ownExits, new);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Aaddr generateExitStatements(Exit *ext)
 {
   Aaddr stmadr = nextEmitAddress();
 
@@ -184,7 +237,7 @@ static Aaddr generateExitStatements(ExtNod *ext)
   Generate one exit entry in the exit table.
 
  */
-static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
+static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
 {
   List *dir;
   ExitEntry entry;
@@ -234,7 +287,7 @@ Aaddr generateExits(List *exits)
   Dump an Exit node.
 
  */
-void dumpExit(ExtNod *ext)
+void dumpExit(Exit *ext)
 {
   if (ext == NULL) {
     put("NULL");

@@ -12,15 +12,15 @@
 
 
 /* Data: */
-extern ClaNod *entity, *thing, *object, *location, *actor, *string, *integer;
+extern Class *entity, *thing, *object, *location, *actor, *string, *integer;
 
 
 /* Methods: */
 extern void initClasses();
-extern ClaNod *newClass(Srcp *srcp,
-			IdNode *id,
-			IdNode *parent,
-			Properties *props);
+extern Class *newClass(Srcp *srcp,
+		       IdNode *id,
+		       IdNode *parent,
+		       Properties *props);
 extern void symbolizeClasses(void);
 extern void analyzeAllClassAttributes();
 extern void analyzeClasses(void);

@@ -146,7 +146,7 @@ static int val(char str[])
   pronouns %% List *%1%%,
   pronounsSrcp %% Srcp %1%%,
   qual %% QualKind %1%%,
-  res %% ResNod *%1%%,
+  res %% Restriction *%1%%,
   ress %% List *%1%%,
   restrictionKind %% RestrictionKind %1%%,
   rul %% RulNod *%1%%,
@@ -851,8 +851,15 @@ static int val(char str[])
     %%
 	%<properties>.nams = concat(%<properties>.nams, %<property>.nam, NAME_LIST);
 
-	%<properties>.pronouns = combine(%<properties>.pronouns, %<property>.pronouns);
-	%<properties>.pronounsSrcp = %<property>.pronounsSrcp;
+        if (%<property>.pronouns != NULL) {
+            if (%<properties>.pronouns != NULL) 
+                /* WHERE clause already declared */
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
+	    else {
+		%<properties>.pronouns = combine(%<properties>.pronouns, %<property>.pronouns);
+		%<properties>.pronounsSrcp = %<property>.pronounsSrcp;
+	    }
+        }
 
         if (%<property>.whr != NULL) {
             if (%<properties>.whr != NULL) 
@@ -1617,6 +1624,19 @@ static int val(char str[])
 	%<output_statement>.stm = newStatement(`&%'SHOW'.srcp, SHOW_STATEMENT);
 	%<output_statement>.stm->fields.show.filename = %ID.id;
     %%	  
+
+    ! 'STYLE' <style> '.'
+    %%
+	%<output_statement>.stm = newStyleStatement(%'STYLE'.srcp, %<style>.val);
+    %%
+    ;
+
+<style>
+    = 'NORMAL'  %% %<style>.val = NORMAL_STYLE; %%
+    ! 'EMPHASIZED'  %% %<style>.val = EMPHASIZED_STYLE; %%
+    ! 'PREFORMATTED'  %% %<style>.val = PREFORMATTED_STYLE; %%
+    ! 'ALERT'  %% %<style>.val = ALERT_STYLE; %%
+    ! 'QUOTE'  %% %<style>.val = QUOTE_STYLE; %%
     ;
 
 <say_form>

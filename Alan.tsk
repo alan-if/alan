@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>394.89</origest>
-<currest>393.89</currest>
-<elapsed>245.89</elapsed>
+<origest>396.89</origest>
+<currest>395.89</currest>
+<elapsed>248.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>50</origest>
-<currest>50</currest>
-<elapsed>9</elapsed>
+<origest>57</origest>
+<currest>57</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>30</origest>
 <currest>30</currest>
-<elapsed>9</elapsed>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -114,6 +114,40 @@ This is not true. The legacy only indicates that the parameter should be an obje
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Text Styles</desc>
+<notes>New statement "Style xxx." Use GLK styles:
+- Normal
+- Emphasis
+- Preformatted
+- Alert
+- Quote</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherited Exits</desc>
+<notes>Usefullness?
+
+Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Disambiguation using checks</desc>
 <notes>Example:
 
@@ -129,8 +163,12 @@ I don't know which water you mean.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -138,12 +176,8 @@ I don't know which water you mean.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
+<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -223,7 +257,9 @@ Check for consistency with other instances of local overides.</notes>
 </task>
 <task>
 <desc>Events as attributes</desc>
-<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.</notes>
+<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.
+
+Would require expressions in Cancel and Schedule statements.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -249,42 +285,8 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Think about similarities between the different clauses</desc>
-<notes>DESCRIPTION [CHECK DOES]
-ENTERED
-EXIT [CHECK DOES END]
-
-Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter should move global verbs with parameters into a class</desc>
-<notes>Which class? Will "thing" do? Probably.
-
-Design:
-For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -310,8 +312,8 @@ Word as verb and direction
 Which of the above works, and what is the problem with each that doesn't?
 </notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>2</origest>
+<currest>2</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -324,6 +326,15 @@ Words can't be prepositions and verbs at the same time. See gestx()
 
 New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -361,19 +372,6 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow locations in initial location and Locate if IN</desc>
-<notes>This would allow collecting locations in heaps.
-
-Better: use IN location to mean the exits?
-
-OR: defer this until arrays are available.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: Allocate parameter lists</desc>
 <notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
@@ -387,8 +385,8 @@ OR: defer this until arrays are available.</notes>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -400,6 +398,44 @@ OR: defer this until arrays are available.</notes>
      Description Say y.
   End The x.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Think about similarities between the different clauses</desc>
+<notes>DESCRIPTION [CHECK DOES]
+ENTERED
+EXIT [CHECK DOES END]
+
+Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow locations in initial location and Locate if IN</desc>
+<notes>This would allow collecting locations in heaps.
+
+Better: use IN location to mean the exits?
+
+OR: defer this until arrays are available.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -433,6 +469,15 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Dynamic creation of instances</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add NEGATIVE ARTICLE/FORM clause</desc>
 <notes>with "Say No x." and "$-1" as print forms.</notes>
 <priority>2</priority>
@@ -444,6 +489,59 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <task>
 <desc>Literal should not inherit from Thing?</desc>
 <notes>It should be a separate base class, or should it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz</desc>
+<notes>Investigate what is left to do:
+
+
+All below is done:
+----------------------------
+It should be possible to add features to classes:
+
+Add To Every object ...
+
+Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
+
+In v3 it should be possible to add anything that is not already available:
+
+attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
+
+initial location, container - can only be added if it has none
+
+mentioned? article? description?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Also allow 'can' as attribute header words</desc>
+<notes>So that we can do
+
+The gun Isa object
+  Can shoot
+
+The girl Isa actor
+  Can talk
+
+is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>NEAR should be &lt;what&gt; NEAR &lt;what&gt;</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -519,8 +617,8 @@ results in
 <desc>Increment: version 3.0.alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -544,6 +642,44 @@ results in
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0.alpha2</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+
+Design:</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Inherting all props</desc>
 <notes>Investigate which ones are left!!!!
 
@@ -559,46 +695,8 @@ verbs
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Version 3.0.alpha2</desc>
-<notes/>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Settings dialogue for compiler on Windows</desc>
-<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
-
-Design:</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Symbolic instance and class references in debugger</desc>
 <notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Add Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherit Entered</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -643,7 +741,7 @@ Design:</notes>
 </task>
 </task>
 <task>
-<desc>Version 3.1.beta1</desc>
+<desc>Version 3.1.dev1</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -706,9 +804,9 @@ method
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>97</origest>
-<currest>97</currest>
-<elapsed>7</elapsed>
+<origest>92</origest>
+<currest>92</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Override additively inherited properties</desc>
@@ -732,24 +830,6 @@ Possibly we could have the embedded tags:
   $0&lt;n&gt; = indefinite form
   $-&lt;n&gt; = none/any form (negative)
   $?&lt;n&gt; = which form (interrogative)
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add 'can' to the set of attribute header words</desc>
-<notes>So that we can do
-
-The gun Isa object
-  Can shoot
-
-The girl Isa actor
-  Can talk
-
-is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -784,6 +864,28 @@ is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Warn if there is no When clause for every parameter in the syntax</desc>
@@ -881,17 +983,6 @@ Implementation:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Inherited Exits</desc>
-<notes>Usefullness?
-
-Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Allow 'A' as well as 'An' in Say statement</desc>
 <notes>Both 'a' and 'an' should be allowed in Say statement. However 'a' is commonly an identifier? Introducing it as a keyword/id introduces grammar conflicts. Investigate!</notes>
 <priority>2</priority>
@@ -908,28 +999,6 @@ Yes, you could allow inherting the complete exit and just override the target lo
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Some kind of procedures</desc>
-<notes>NEED: to be able to execute common code without mis-using e.g events.
-
-ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
-
-Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>CHECKs on containers</desc>
@@ -960,15 +1029,6 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Dynamic creation of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
 <notes>Why? What is the problem?</notes>
 <priority>2</priority>
@@ -991,32 +1051,6 @@ Note also that there should possibly also be a difference between the QUIT state
 <task>
 <desc>A picture file with an unknown extension gets passed through</desc>
 <notes>E.g a.jpeg transforms into pic1.jpeg which the glk does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz</desc>
-<notes>Investigate what is left to do:
-
-
-All below is done:
-----------------------------
-It should be possible to add features to classes:
-
-Add To Every object ...
-
-Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
-
-In v3 it should be possible to add anything that is not already available:
-
-attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
-
-initial location, container - can only be added if it has none
-
-mentioned? article? description?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1064,15 +1098,6 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 </task>
 <task>
 <desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>NEAR should be &lt;what&gt; NEAR &lt;what&gt;</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1604,6 +1629,17 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
+<notes>This occurs at a initial location clause:
+
+The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -1880,17 +1916,6 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <task>
 <desc>'again' verb</desc>
 <notes>Requires meta-handling like 'undo'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
-<notes>This occurs at a initial location clause:
-
-The ... In box</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

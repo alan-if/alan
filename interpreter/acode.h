@@ -109,10 +109,20 @@ typedef enum OpClass {
   C_CURVAR
 } OpClass;
 
+/* AMACHINE Text Styles */
+typedef enum TextStyle {
+  NORMAL_STYLE,
+  EMPHASIZED_STYLE,
+  PREFORMATTED_STYLE,
+  ALERT_STYLE,
+  QUOTE_STYLE
+} TextStyle;
+
 #define INSTRUCTION(op) ((((Aword)C_STMOP)<<28)|((Aword)op))
 typedef enum InstClass {
   I_LINE,			/* Source line debug info */
   I_PRINT,			/* Print a string from the text file */
+  I_STYLE,			/* Set output text style */
   I_QUIT,
   I_LOOK,
   I_SAVE,

@@ -53,13 +53,13 @@ typedef struct List {		/* GENERIC LISTS */
     struct AltNod *alt;
     struct Attribute *atr;
     struct ChkNod *chk;
-    struct ClaNod *cla;
+    struct Class *cla;
     struct Container *cnt;
     struct Element *elm;
     struct ElmEntry *eent;
     struct EvtNod *evt;
     struct Expression *exp;
-    struct ExtNod *ext;
+    struct Exit *ext;
     struct IdNode *id;
     struct Instance *ins;
     struct LimNod *lim;
