@@ -1,15 +1,12 @@
-########## space ##########
-../compiler/alan space
-../interpreter/arun -n space < space.input
-########## /bin/sh  space.tst ##########
+########## alan space ##########
 
         No warnings or errors detected.
-        4 informational message(s).
 
+########## arun space ##########
 
-demonstration of spacing bug 
+Demonstration of spacing bug 
 
-a double-quoted string is not started with a space if it is printed
+A double-quoted string is not started with a space if it is printed
 immediately after a double-quoted string that ended with a dollar-o or
 dollar-1 (and other dollar-things perhaps?) 
 
@@ -21,6 +18,9 @@ There is a dirty gizmo here.
 
 > clean gizmo
 You clean the dirty gizmo enthusiastically.
+
+> clean gizmo
+You clean the gizmo enthusiastically.
 
 > 
 

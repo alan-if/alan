@@ -85,15 +85,18 @@ static void analyzeAlternative(AltNod *alt,
       for (parameters = context->verb->fields.verb.parameterSymbols;
 	   parameters != NULL;
 	   parameters = parameters->next) {
-	if (context->instance != NULL) {
-	  if (context->instance->props->parentId != NULL)
-	    if (inheritsFrom(context->instance->props->parentId->symbol,
+	if (alt->stms != NULL) {
+	  /* Ignore alts without statements, checks doesn't matter */
+	  if (context->instance != NULL) {
+	    if (context->instance->props->parentId != NULL)
+	      if (inheritsFrom(context->instance->props->parentId->symbol,
+			       parameters->element.sym->fields.parameter.class))
+		matchedParameters++;
+	  } else if (context->class != NULL) {
+	    if (inheritsFrom(context->class->props->id->symbol,
 			     parameters->element.sym->fields.parameter.class))
 	      matchedParameters++;
-	} else if (context->class != NULL) {
-	  if (inheritsFrom(context->class->props->id->symbol,
-			   parameters->element.sym->fields.parameter.class))
-	    matchedParameters++;
+	  }
 	}
       }
       if (matchedParameters > 1)
