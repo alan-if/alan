@@ -18,7 +18,7 @@ void testInitialLocation()
   symbolizeWhr(whr);
   unitAssert(generateInitialLocation(NULL) == 0);
 
-  unitAssert(generateInitialLocation(whr) == atLoc->slots->symbol->code);
+  unitAssert(generateInitialLocation(whr) == atLoc->slots->id->symbol->code);
 }
 
 void registerWhrUnitTests()

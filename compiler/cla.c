@@ -81,10 +81,9 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
     new->slots = slots;
 
   new->slots->id = id;
-  new->slots->parent = parent;
-  new->slots->symbol = newSymbol(id->string, CLASS_SYMBOL);
-  new->slots->id->code = new->slots->symbol->code;
-  new->slots->symbol->fields.claOrIns.slots = new->slots;
+  new->slots->parentId = parent;
+  new->slots->id->symbol = newSymbol(id->string, CLASS_SYMBOL);
+  new->slots->id->symbol->fields.claOrIns.slots = new->slots;
 
   allClasses = concat(allClasses, new, LIST_CLA);
 
@@ -103,12 +102,12 @@ static void symbolizeClass(ClaNod *cla)
 {
   symbolizeSlots(cla->slots);
 
-  if (cla->slots->parent != NULL) {
-    if (cla->slots->parent->symbol != NULL) {
-      if (cla->slots->parent->symbol->kind != CLASS_SYMBOL)
-	lmLog(&cla->slots->parent->srcp, 350, sevERR, "");
+  if (cla->slots->parentId != NULL) {
+    if (cla->slots->parentId->symbol != NULL) {
+      if (cla->slots->parentId->symbol->kind != CLASS_SYMBOL)
+	lmLog(&cla->slots->parentId->srcp, 350, sevERR, "");
       else
-	setParent(cla->slots->symbol, cla->slots->parent->symbol);
+	setParent(cla->slots->id->symbol, cla->slots->parentId->symbol);
     }
   }
 }
@@ -167,13 +166,16 @@ void analyzeClasses(void)
 */
 static void generateClassEntry(ClaNod *cla)
 {
+  ClassEntry entry;
+
   cla->adr = emadr();
 
-  emit(cla->slots->symbol->code);	/* First own code */
-  if (cla->slots->parent == NULL)	/* Then parents */
-    emit(0);
+  entry.code = cla->slots->id->symbol->code;	/* First own code */
+  if (cla->slots->parentId == NULL)	/* Then parents */
+    entry.parent = 0;
   else
-    emit(cla->slots->parent->symbol->code);
+    entry.parent = cla->slots->parentId->symbol->code;
+  emitEntry(&entry, sizeof(entry));
 }
 
 
@@ -189,10 +191,10 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  acdHeader.thingClassId = thing->slots->symbol->code;
-  acdHeader.objectClassId = object->slots->symbol->code;
-  acdHeader.locationClassId = location->slots->symbol->code;
-  acdHeader.actorClassId = actor->slots->symbol->code;
+  acdHeader.thingClassId = thing->slots->id->symbol->code;
+  acdHeader.objectClassId = object->slots->id->symbol->code;
+  acdHeader.locationClassId = location->slots->id->symbol->code;
+  acdHeader.actorClassId = actor->slots->id->symbol->code;
 
   adr = emadr();
   for (l = allClasses; l; l = l->next)

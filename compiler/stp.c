@@ -123,9 +123,9 @@ void dustp(StpNod *stp)
   put("STP: "); dumpSrcp(&stp->srcp); in();
   put("after: "); dumpInt(stp->after); nl();
   put("exp: "); dumpExpression(stp->exp); nl();
-  put("expadr: "); duadr(stp->expadr); nl();
+  put("expadr: "); dumpAddress(stp->expadr); nl();
   put("stms: "); dulst(stp->stms, LIST_STM); nl();
-  put("stmadr: "); duadr(stp->stmadr); out();
+  put("stmadr: "); dumpAddress(stp->stmadr); out();
 }
 
 

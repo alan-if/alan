@@ -38,6 +38,7 @@ BUILDSRCS = \
 	alan.c \
 	alt.c \
 	chk.c \
+	cnt.c \
 	dump.c \
 	elm.c \
 	encode.c \

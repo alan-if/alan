@@ -142,9 +142,9 @@ void durul(RulNod *rul)
 {
   put("RUL: "); dumpSrcp(&rul->srcp); in();
   put("exp: "); dumpExpression(rul->exp); nl();
-  put("expadr: "); duadr(rul->expadr); nl();
+  put("expadr: "); dumpAddress(rul->expadr); nl();
   put("stms: "); dulst(rul->stms, LIST_STM); nl();
-  put("stmadr: "); duadr(rul->stmadr); out();
+  put("stmadr: "); dumpAddress(rul->stmadr); out();
 }
 
 

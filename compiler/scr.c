@@ -5,6 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "scr.h"
+
+/* IMPORT: */
 #include "alan.h"
 #include "util.h"
 
@@ -17,7 +20,6 @@
 #include "acode.h"
 
 #include "stp.h"                /* STP-nodes */
-#include "scr.h"                /* SCR-nodes */
 
 #include "emit.h"
 #include "dump.h"
@@ -27,17 +29,14 @@
 
 /*======================================================================
 
-  newscr()
-
-  Allocates and initialises a new script node.
+  newScript()
 
   */
-ScrNod *newscr(
-     Srcp *srcp,                /* IN - Source Position */
-     IdNode *id,		/* IN - Name for the script */
-     int code,                  /* IN - Code for the script */
-     List *descr,               /* IN - Optional description */
-     List *stps                 /* IN - List of steps */
+ScrNod *newScript(Srcp *srcp,	/* IN - Source Position */
+		  IdNode *id,	/* IN - Name for the script */
+		  int code,	/* IN - Code for the script */
+		  List *descr,	/* IN - Optional description */
+		  List *stps	/* IN - List of steps */
 )
 {
   ScrNod *new;          /* The newly allocated node */
@@ -137,21 +136,19 @@ void anscrs(List *scrs, InsNod *ins)
 
 /*======================================================================
 
-  gescrs()
-
-  Generate script routines for an instance.
+  generateScripts()
 
   */
-Aword gescrs(InsNod *ins)
+Aword generateScripts(InsNod *ins)
 {
   List *lst;
   Aword scradr;
 
   if (ins == NULL) syserr("NULL in gescrs()");
-  if (ins->slots == NULL || ins->slots->scrs == NULL)
+  if (ins->slots == NULL || ins->slots->scripts == NULL)
     return(0);
 
-  for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
+  for (lst = ins->slots->scripts; lst != NULL; lst = lst->next) {
     lst->element.scr->stpadr = gestps(lst->element.scr->stps, ins);
     if (lst->element.scr->descr != NULL) {
       lst->element.scr->stmadr = emadr();
@@ -163,7 +160,7 @@ Aword gescrs(InsNod *ins)
 
   /* Script table */
   scradr = emadr();
-  for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
+  for (lst = ins->slots->scripts; lst != NULL; lst = lst->next) {
     emit(lst->element.scr->code);
     emit(lst->element.scr->stmadr);
     emit(lst->element.scr->stpadr);
@@ -187,7 +184,7 @@ void duscr(ScrNod *scr)
   put("code: "); dumpInt(scr->code); nl();
   put("id: "); dumpId(scr->id); nl();
   put("stps: "); dulst(scr->stps, LIST_STP); nl();
-  put("stpadr: "); duadr(scr->stpadr); out();
+  put("stpadr: "); dumpAddress(scr->stpadr); out();
 }
 
 

@@ -68,11 +68,10 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   else
     new->slots = newEmptySlots();
   new->slots->id = id;
-  new->slots->parent = parent;
+  new->slots->parentId = parent;
 
-  new->slots->symbol = newSymbol(id->string, INSTANCE_SYMBOL);
-  new->slots->id->code = new->slots->symbol->code;
-  new->slots->symbol->fields.claOrIns.slots = new->slots;
+  new->slots->id->symbol = newSymbol(id->string, INSTANCE_SYMBOL);
+  new->slots->id->symbol->fields.claOrIns.slots = new->slots;
 
   allInstances = concat(allInstances, new, LIST_INS);
 
@@ -213,7 +212,7 @@ void generateInstances(AcdHdr *header)
   header->instanceTableAddress = generateInstanceTable();
 
   header->instanceMax = instanceCount;
-  header->theHero = theHero->slots->symbol->code;
+  header->theHero = theHero->slots->id->symbol->code;
 }
 
 

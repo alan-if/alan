@@ -111,9 +111,9 @@ static void reverseMsgs(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseWrds(Aword adr)
+static void reverseDictionary(Aword adr)
 #else
-static void reverseWrds(adr)
+static void reverseDictionary(adr)
      Aword adr;
 #endif
 {
@@ -374,21 +374,20 @@ static void reverseLims(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseCnts(Aword adr)
+static void reverseContainers(Aword adr)
 #else
-static void reverseCnts(adr)
+§static void reverseContainers(adr)
      Aword adr;
 #endif
 {
-  CntEntry *e = (CntEntry *) &memory[adr];
+  ContainerEntry *e = (ContainerEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(CntEntry));
+    reverseTable(adr, sizeof(ContainerEntry));
     while (!endOfTable(e)) {
-      reverseLims(e->lims);
+      reverseLims(e->limits);
       reverseStms(e->header);
       reverseStms(e->empty);
-      reverseStms(e->nam);
       e++;
     }
   }
@@ -454,13 +453,13 @@ void reverseACD(v2_5)
 #endif
 {
   reverseHdr(header);
-  reverseWrds(header->dict);
+  reverseDictionary(header->dictionary);
   reverseStxs(header->stxs);
   reverseVerbs(header->vrbs);
   reverseInstances(header->instanceTableAddress);
   reverseTable(header->classTableAddress, sizeof(ClassEntry));
+  reverseContainers(header->containerTableAddress);
   reverseEvts(header->evts);
-  reverseCnts(header->cnts);
   reverseRuls(header->ruls);
   reverseTable(header->init, sizeof(IniEntry));
   reverseStms(header->start);

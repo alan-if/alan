@@ -179,10 +179,10 @@ void testSymbolTableInit()
   actorSymbol = lookup("actor");
   locationSymbol = lookup("location");
 
-  unitAssert(thing->slots->symbol == thingSymbol);
-  unitAssert(object->slots->symbol == objectSymbol);
-  unitAssert(location->slots->symbol == locationSymbol);
-  unitAssert(actor->slots->symbol == actorSymbol);
+  unitAssert(thing->slots->id->symbol == thingSymbol);
+  unitAssert(object->slots->id->symbol == objectSymbol);
+  unitAssert(location->slots->id->symbol == locationSymbol);
+  unitAssert(actor->slots->id->symbol == actorSymbol);
   
   unitAssert(inheritsFrom(objectSymbol, thingSymbol));
   unitAssert(inheritsFrom(locationSymbol, thingSymbol));

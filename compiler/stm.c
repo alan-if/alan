@@ -515,7 +515,7 @@ static void anuse(StmNod *stm,
     if (context->instance != NULL && context->instance->slots != NULL) {
 
       /* Loop over actors scripts to check if script is defined */
-      for (lst = context->instance->slots->scrs; lst != NULL; lst = lst->next) {
+      for (lst = context->instance->slots->scripts; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
           /* A name was used as reference */
           if (lst->element.scr->id != NULL &&

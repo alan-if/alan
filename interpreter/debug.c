@@ -88,7 +88,6 @@ static void showobj(obj)
 #endif
 {
   char str[80];
-#define OBJ (obj-OBJMIN)
 
 
   if (!isObj(obj)) {
@@ -103,27 +102,25 @@ static void showobj(obj)
 
   sprintf(str, "$iLocation = %ld", where(obj));
   output(str);
-  if (isLoc(objs[OBJ].loc))
-    say(objs[OBJ].loc);
-  else if (isCnt(objs[OBJ].loc)) {
-    if (isObj(objs[OBJ].loc)) {
+  if (isLoc(instance[obj].location))
+    say(instance[obj].location);
+  else if (isCnt(instance[obj].location)) {
+
+    if (isObj(instance[obj].location))
       output("in");
-      say(objs[OBJ].loc);
-    } else if (isAct(objs[OBJ].loc)) {
+    else if (isAct(instance[obj].location))
       output("carried by");
-      say(objs[OBJ].loc);
-    } else
-      interpret(cnts[objs[OBJ].loc-CNTMIN].nam);
-  } else if (objs[OBJ].loc == 0)
+    say(instance[obj].location);
+
+  } else if (instance[obj].location == 0)
     output("nowhere");
   else
     output("Illegal location!");
 
 
   output("$iAttributes =");
-  showatrs(objs[OBJ].atrs);
+  showatrs(instance[obj].attributes);
 
-#undef OBJ
 }
 
 
@@ -135,19 +132,15 @@ static void showcnts()
 {
   char str[80];
   int cnt;
-#define  CNT (cnt-CNTMIN)
 
   output("CONTAINERS:");
   for (cnt = CNTMIN; cnt <= CNTMAX; cnt++) {
     sprintf(str, "$i%3d: ", cnt);
     output(str);
-    if (cnts[CNT].nam != 0)
-      interpret(cnts[CNT].nam);
-    if (cnts[CNT].parent != 0)
-      say(cnts[CNT].parent);
+    if (container[cnt].parent != 0)
+      say(container[cnt].parent);
   }
 
-#undef CNT
 }
 
 
@@ -163,7 +156,6 @@ static void showcnt(cnt)
   char str[80];
   int i;
   Abool found = FALSE;
-#define  CNT (cnt-CNTMIN)
 
   if (cnt < CNTMIN || cnt > CNTMAX) {
     sprintf(str, "Container number out of range. Between %ld and %ld, please.", CNTMIN, CNTMAX);
@@ -173,10 +165,8 @@ static void showcnt(cnt)
 
   sprintf(str, "CONTAINER %d :", cnt);
   output(str);
-  if (cnts[CNT].nam != 0)
-    interpret(cnts[CNT].nam);
-  if (cnts[CNT].parent != 0) {
-    cnt = cnts[CNT].parent;
+  if (container[cnt].parent != 0) {
+    cnt = container[cnt].parent;
     say(cnt);
     sprintf(str, "$iLocation = %ld", where(cnt));
     output(str);
@@ -195,8 +185,6 @@ static void showcnt(cnt)
   }
   if (!found)
     output("nothing");
-
-#undef CNT
 }
 
 

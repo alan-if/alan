@@ -260,9 +260,9 @@ void duext(ExtNod *ext)
   put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
   put("target: "); dumpId(ext->target); nl();
   put("chks: "); dulst(ext->chks, LIST_CHK); nl();
-  put("chkadr: "); duadr(ext->chkadr); nl();
+  put("chkadr: "); dumpAddress(ext->chkadr); nl();
   put("stms: "); dulst(ext->stms, LIST_STM); nl();
-  put("stmadr: "); duadr(ext->stmadr); out();
+  put("stmadr: "); dumpAddress(ext->stmadr); out();
 }
 
 

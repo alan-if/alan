@@ -7,23 +7,25 @@
 
 #include "cnt_x.h"
 
+/* IMPORTS: */
 #include "alan.h"
 
 #include "srcp_x.h"
 #include "sym_x.h"
-
-#include "lmList.h"
-
-#include "acode.h"
+#include "lst_x.h"
+#include "stm_x.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "lim.h"		/* LIM-nodes */
 
+#include "lmList.h"
+#include "acode.h"
+#include "util.h"
 #include "emit.h"
 #include "dump.h"
+
 
 
 /* PUBLIC: */
@@ -35,50 +37,26 @@ int cntcount = 0;
 
 /*======================================================================
 
-  newcnt()
-
-  Allocates and initialises a cntnod.
+  newContainer()
 
  */
-CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,	/* IN - The name of the container */
-	       List *lims,	/* IN - Limits */
-	       List *hstms,	/* IN - Header statements */
-	       List *estms)	/* IN - Else (empty) statements */
+CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
+		     List *lims, /* IN - Limits */
+		     List *hstms, /* IN - Header statements */
+		     List *estms) /* IN - Else (empty) statements */
 {
   CntNod *new;		/* The newly allocated area */
-  CntNod *cnt;
-  SymNod *sym;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   new = NEW(CntNod);
 
   new->srcp = *srcp;
-  new->nam = nam;
   new->lims = lims;
   new->hstms = hstms;
   new->estms = estms;
 
-  if (nam != NULL) {
-    sym = lookup(nam->str);
-    if (sym == NULL) {
-      new->nam->code = newsym(nam->str, NAMCNT, new);
-      new->code = new->nam->code;
-    } else if (strcmp(sym->str, "inventory") == 0) {
-      cnt = (CntNod *) sym->ref;
-      cnt->srcp = new->srcp;
-      cnt->nam = new->nam;
-      cnt->lims = new->lims;
-      cnt->hstms = new->hstms;
-      cnt->estms = new->estms;
-      return(NULL);
-    } else
-      redefined(srcp, sym, nam->str);
-  } else
-    new->code = ++cntcount;
-
-  new->parent = 0;		/* No parent yet */
+  new->code = ++cntcount;
 
   return(new);
 }
@@ -88,85 +66,31 @@ CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
-  initcnt()
-
-  Do initialisation of containers.
-
-  */
-void initcnt(void)
-{
-  adv.cnts = concat(NULL,
-		    newcnt(&nulsrcp, newnam(&nulsrcp, "inventory"),
-			   NULL, NULL, NULL),
-		    CNTNOD);
-}
-
-
-
-/*======================================================================
-
   cntcheck()
 
-  Check if a name is a container, if so set its code else give an
-  error message.
+  Check if a name is a container, if not give an error message.
 
  */
-void cntcheck(WhtNod *wht,	/* IN - What to check */
-	      List *pars)	/* IN - Possible parameters */
+void cntcheck(WhtNod *wht,
+	      Context *context)
 {
   SymNod *sym;			/* The symbol table node */
-  ElmNod *elm;			/* Syntax element */
 
   if (wht == NULL)
     return;
 
-  switch (wht->wht) {
+  switch (wht->kind) {
   case WHT_ID:
-    sym = symcheck(&elm, wht->id, INSTANCE_SYMBOL, pars);
+    sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
     syserr("UNIMPL: verify container property");
-    if (sym)
-      switch (sym->class) {
-      case NAMCNT:
-	wht->nam->code = sym->code;
-	break;
-#ifdef FIXME
-      case NAMOBJ:
-	obj = (ObjNod *)sym->ref;
-	if (obj->props == NULL) {
-	  lmLog(&wht->srcp, 318, sevERR, wht->nam->str);
-	  wht->nam->code = 0;
-	} else
-	  wht->nam->code = sym->code;
-	break;
-      case NAMACT:
-	act = (ActNod *)sym->ref;
-	if (act->props == NULL) {
-	  lmLog(&wht->srcp, 318, sevERR, wht->nam->str);
-	  wht->nam->code = 0;
-	} else
-	  wht->nam->code = sym->code;
-	break;
-#endif
-      default:
-	break;
-      }
+    if (sym && sym->kind == INSTANCE_SYMBOL)
+      if (sym->fields.claOrIns.slots->container == NULL)
+	lmLog(&wht->srcp, 318, sevERR, wht->id->string);
     break;
 
   case WHT_LOC:
   case WHT_ACT:
     lmLog(&wht->srcp, 311, sevERR, "a Container");
-    break;
-
-  case WHT_OBJ:
-    /* This is a parameter make sure it is defined as a container */
-    if (pars == NULL)
-      lmLog(&wht->srcp, 409, sevERR, "");
-    else
-      if (pars->element.elm->res == NULL ||
-	  (pars->element.elm->res->classbits & NAMCNT) ||
-	  (pars->element.elm->res->classbits & NAMCOBJ) ||
-	  (pars->element.elm->res->classbits & NAMCACT))
-	lmLog(&wht->srcp, 312, sevERR, "a Container");
     break;
 
   default:
@@ -184,55 +108,23 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
   Analyze one container.
 
   */
-void ancnt(CntNod *cnt)		/* IN - The container to analyze */
+void ancnt(CntNod *cnt, Context *context)
 {
-  long fpos;			/* File position of name text */
-  int len;			/* and length */
-  StmNod *stm;			/* Name printing statement */
   List *lims;			/* List of limits */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  if (cnt->parent == NULL &&	/* No parent object? */
-      cnt->nam == NULL)		/* And no name */
-      /* ?!? This is probably a duplicate object container, so create a fake name */
-      cnt->nam = newnam(&cnt->srcp, "$container");
-
-  if (cnt->nam != NULL) {	/* It got it's own name... */
-    /* So it needs name printing statements, create it */
-    fpos = ftell(txtfil);
-    len = annams(NULL, cnt->nam, FALSE);
-    stm = newstm(&nulsrcp, STM_PRINT);
-    stm->fields.print.fpos = fpos;
-    stm->fields.print.len = len;
-    cnt->namstms = concat(NULL, stm, STMNOD);
-  }
+  if (cnt->parent == NULL)
+    syserr("Container without a parent.");
 
   /* Analyze the limits */
   for (lims = cnt->lims; lims != NULL; lims = lims->next)
     anlim(lims->element.lim);
 
   /* Analyze header and empty statments */
-  anstms(cnt->hstms, NULL, NULL, NULL);
-  anstms(cnt->estms, NULL, NULL, NULL);
+  anstms(cnt->hstms, context);
+  anstms(cnt->estms, context);
 }
-
-
-/*======================================================================
-
-  ancnts()
-
-  Analyze the global containers of this adventure.
-
-  */
-void ancnts(void)
-{
-  List *cnts;	/* List of containers */
-
-  for (cnts = adv.cnts; cnts != NULL; cnts = cnts->next)
-    ancnt(cnts->element.cnt);
-}
-
 
 
 /*----------------------------------------------------------------------
@@ -247,15 +139,6 @@ static void gecnt(CntNod *cnt)	/* IN - The container to generate */
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   cnt->limadr = gelims(cnt);
-
-  if (cnt->nam != NULL)	{	/* Save the name of the container */
-    cnt->namadr = emadr();
-    gestms(cnt->namstms, NULL);
-    emit0(C_STMOP, I_RETURN);
-  } else if (cnt->parent != NULL)
-    cnt->namadr = 0;
-  else
-    syserr("gecnt(): A container without a name and a parent.");
 
   if (cnt->hstms != NULL) {
     cnt->hadr = emadr();
@@ -281,27 +164,24 @@ static void gecnt(CntNod *cnt)	/* IN - The container to generate */
   Generate an entry in the global container list.
 
   */
-static void gecntent(CntNod *cnt) /* IN - The container to generate entry for */
+static void gecntent(CntNod *cnt)
 {
-  emit(cnt->limadr);
-  emit(cnt->hadr);
-  emit(cnt->eadr);
-  if (cnt->parent != NULL)
-    genam(cnt->parent);
-  else
-    emit(0L);
-  emit(cnt->namadr);
+  ContainerEntry entry;
+
+  entry.limits = cnt->limadr;
+  entry.header = cnt->hadr;
+  entry.empty = cnt->eadr;
+  entry.parent = cnt->parent->id->symbol->code;
+  emitEntry(&entry, sizeof(entry));
 }
 
 
 /*======================================================================
 
-  gecnts()
-
-  Generate code for all containers.
+  generateContainers()
 
   */
-Aaddr gecnts(void)
+Aaddr generateContainers(void)
 {
   List *lst;			/* The list of containers */
   Aaddr adr;
@@ -326,30 +206,25 @@ Aaddr gecnts(void)
 
 /*======================================================================
 
-  ducnt()
-
-  Dump a Container node.
+  dumpContainer()
 
   */
-void ducnt(CntNod *cnt)
+void dumpContainer(CntNod *container)
 {
-  if (cnt == NULL) {
+  if (container == NULL) {
     put("NULL");
     return;
   }
 
-  put("CNT: "); dusrcp(&cnt->srcp); in();
-  put("nam: "); dunam(cnt->nam); nl();
-  put("namstms: "); dulst(cnt->namstms, STMNOD); nl();
-  put("namadr: "); duadr(cnt->namadr); nl();
-  put("code: "); duint(cnt->code); nl();
-  put("parent: "); dunam(cnt->parent); nl();
-  put("lims: "); dulst(cnt->lims, LIMNOD); nl();
-  put("limadr: "); duadr(cnt->limadr); nl();
-  put("hstms: "); dulst(cnt->hstms, STMNOD); nl();
-  put("hadr: "); duadr(cnt->hadr); nl();
-  put("estms: "); dulst(cnt->estms, STMNOD); nl();
-  put("eadr: "); duadr(cnt->eadr); out();
+  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
+  put("code: "); dumpInt(container->code); nl();
+  put("parent: "); dumpPointer(container->parent); nl();
+  put("lims: "); dulst(container->lims, LIST_LIM); nl();
+  put("limadr: "); dumpAddress(container->limadr); nl();
+  put("hstms: "); dulst(container->hstms, LIST_STM); nl();
+  put("hadr: "); dumpAddress(container->hadr); nl();
+  put("estms: "); dulst(container->estms, LIST_STM); nl();
+  put("eadr: "); dumpAddress(container->eadr); out();
 }
 
 

@@ -19,7 +19,7 @@ void testCreateIns()
   ins = newInstance(&srcp, id, parent, NULL);
   unitAssert(equalSrcp(srcp, ins->srcp));
   unitAssert(equalId(id, ins->slots->id));
-  unitAssert(equalId(parent, ins->slots->parent));
+  unitAssert(equalId(parent, ins->slots->parentId));
 
   symbolizeInstance(ins);
   unitAssert(readEcode() == 310 && readSev() == sevERR);
@@ -62,15 +62,15 @@ void testGenerateInstances()
 
   loadACD("unit.acd");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
-  unitAssert(convertFromACD(instanceTable->code) == ins->slots->symbol->code);
+  unitAssert(convertFromACD(instanceTable->code) == ins->slots->id->symbol->code);
   unitAssert(convertFromACD(instanceTable->idAddress) == ins->slots->idAddress);
-  unitAssert(convertFromACD(instanceTable->parent) == (ins->slots->parent?ins->slots->parent->symbol->code:0));
+  unitAssert(convertFromACD(instanceTable->parentClass) == (ins->slots->parentId?ins->slots->parentId->symbol->code:0));
   unitAssert(convertFromACD(instanceTable->attributes) == ins->slots->attributeAddress);
   unitAssert(convertFromACD(instanceTable->description) == ins->slots->descriptionAddress);
   unitAssert(convertFromACD(instanceTable->mentioned) == ins->slots->mentionedAddress);
   unitAssert(convertFromACD(instanceTable->article) == ins->slots->artadr);
   unitAssert(convertFromACD(instanceTable->exits) == ins->slots->exitsAddress);
-  unitAssert(convertFromACD(instanceTable->verbs) == ins->slots->verbAddress);
+  unitAssert(convertFromACD(instanceTable->verbs) == ins->slots->verbsAddress);
 }
 
 
@@ -79,9 +79,9 @@ void testHero()
   AcdHdr header;
 
   initadv();
-  unitAssert(theHero->slots->symbol->code == 1);
+  unitAssert(theHero->slots->id->symbol->code == 1);
   symbolizeAdv();
-  unitAssert(inheritsFrom(theHero->slots->symbol, lookup("actor")));
+  unitAssert(inheritsFrom(theHero->slots->id->symbol, lookup("actor")));
   generateInstances(&header);
   unitAssert(header.theHero == 1);
 }

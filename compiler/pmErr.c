@@ -31,21 +31,20 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "vrb_x.h"
-
+#include "cnt_x.h"
+#include "scr_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
-#include "cnt.h"		/* CNT-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
-#include "scr.h"                /* SCR-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
@@ -118,7 +117,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 63 "alan.pmk"
+#line 62 "alan.pmk"
 
 
 {

@@ -1,0 +1,24 @@
+########## simpleContainerActor ##########
+The cont Isa actor At loc
+  With Container
+End The cont.
+
+The loc Isa location
+End The loc.
+
+Start At loc.
+  Describe cont.
+########## alan simpleContainerActor.alan ##########
+
+        No warnings or errors detected.
+
+
+Cont is here.
+
+
+Loc
+Cont is here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

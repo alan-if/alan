@@ -34,21 +34,20 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "vrb_x.h"
-
+#include "cnt_x.h"
+#include "scr_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
-#include "cnt.h"		/* CNT-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
-#include "scr.h"                /* SCR-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
@@ -229,9 +228,6 @@ static int val(char str[])
 
     ! <event>
     %% adv.evts = concat(adv.evts, %<event>.evt, LIST_EVT); %%
-
-    ! <container>
-    %% adv.cnts = concat(adv.cnts, %<container>.cnt, LIST_CNT); %%
 
     ! <rule>
     %% adv.ruls = concat(adv.ruls, %<rule>.rul, LIST_RUL); %%
@@ -1008,50 +1004,17 @@ static int val(char str[])
 
 ---> CONTAINERS
 <container properties>					-- RETURNS: cnt, srcp
-    = 'CONTAINER' <container_body>
+    = [ 'WITH' ] 'CONTAINER' <container_body>
     %%
-#ifndef FIXME
-	syserr("UNIMPL: parser - newcnt");
-#else
-	%<container properties>.cnt = newcnt(`&%'CONTAINER'.srcp,
-					  NULL,
-					  %<container_body>.lims,
-					  %<container_body>.stms,
-					  %<container_body>.stms2);
+	%<container properties>.cnt = newContainer(`&%'CONTAINER'.srcp,
+						   %<container_body>.lims,
+						   %<container_body>.stms,
+						   %<container_body>.stms2);
         %<container properties>.srcp = %'CONTAINER'.srcp;
 	adv.cnts = concat(adv.cnts, %<container properties>.cnt, LIST_CNT);
-#endif
     %%
     ;
 
-
-<container>		-- RETURNS: cnt
-    = <container_header> <container_body> <container_tail>
-    %%
-#ifndef FIXME
-	syserr("UNIMPL: parser - newcnt");
-#else
-	%<container>.cnt = newcnt(`&%<container_header>.srcp,
-				%<container_header>.id,
-				%<container_body>.lims,
-				%<container_body>.stms,
-				%<container_body>.stms2);
-	if (%<container_tail>.id != NULL) { /* END-id given */
-	    if (!equalId(%<container_header>.id, %<container_tail>.id))
-		lmLog(`&%<container_tail>.id->srcp, 201, sevWAR, %<container_header>.id->string);
-	}
-#endif
-    %%
-    ;
-
-<container_header>	-- RETURNS: srcp, id
-    = 'CONTAINER' ID
-    %%
-	lmLog(`&%'CONTAINER'.srcp, 800, sevINF, "THE <id> ISA CONTAINER ---");
-	%<container_header>.srcp = %'CONTAINER'.srcp;
-	%<container_header>.id  = %ID.id;
-    %%
-    ;
 
 <container_body>		-- RETURNS: lims, stms, stms2
     =  <optional_limits> <optional_header> <optional_empty>
@@ -1059,13 +1022,6 @@ static int val(char str[])
 	%<container_body>.lims  = %<optional_limits>.lims;
 	%<container_body>.stms  = %<optional_header>.stms;
 	%<container_body>.stms2 = %<optional_empty>.stms;
-    %%
-    ;
-
-<container_tail>		-- RETURNS: id
-    = 'END' 'CONTAINER' <optional_id> '.'
-    %%
-	%<container_tail>.id  = %<optional_id>.id;
     %%
     ;
 
@@ -1174,11 +1130,11 @@ static int val(char str[])
 <script>			-- RETURNS: scr
     = 'SCRIPT' <integer_or_id> '.' <optional_description> <step_list>
     %%
-	%<script>.scr = newscr(`&%'SCRIPT'.srcp,
-			     %<integer_or_id>.id,
-			     %<integer_or_id>.val,
-			     %<optional_description>.stms,
-			     %<step_list>.stps);
+	%<script>.scr = newScript(`&%'SCRIPT'.srcp,
+			          %<integer_or_id>.id,
+			          %<integer_or_id>.val,
+			          %<optional_description>.stms,
+			          %<step_list>.stps);
     %%
     ;
 

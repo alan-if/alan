@@ -893,7 +893,7 @@ Abool isNear(id)
 */
 Abool isA(Aword id, Aword ancestor)
 {
-  int p = instance[id].parent;
+  int p = instance[id].parentClass;
 
   while (p != 0 && p != ancestor)
     p = class[p].parent;
@@ -910,19 +910,19 @@ Abool isA(Aword id, Aword ancestor)
   */
 
 #ifdef _PROTOTYPES_
-Abool in(Aword obj, Aword cnt)
+Abool in(Aword theInstance, Aword cnt)
 #else
-Abool in(obj, cnt)
-     Aword obj;
+Abool in(theInstance, cnt)
+     Aword theInstance;
      Aword cnt;
 #endif
 {
-  if (!isObj(obj))
+  if (!isObj(theInstance))
     return(FALSE);
   if (!isCnt(cnt))
     syserr("IN in a non-container.");
 
-  return(objs[obj-OBJMIN].loc == cnt);
+  return (instance[theInstance].location == cnt);
 }
 
 
@@ -1039,10 +1039,8 @@ static void describeObject(obj)
     sayarticle(obj);
     say(obj);
     prmsg(M_SEEOBJ4);
-#ifdef CONT
-    if (objs[obj-OBJMIN].cont != 0)
+    if (instance[obj].container != 0)
       list(obj);
-#endif
   }
   admin[obj].alreadyDescribed = TRUE;
 }
@@ -1156,26 +1154,19 @@ void list(cnt)
   Boolean found = FALSE;
   Boolean multiple = FALSE;
 
-  /* Find container properties */
-  if (isObj(cnt))
-    props = instance[cnt].container;
-  else if (isAct(cnt))
-    props = instance[cnt].container;
-  else
-    props = cnt;
+  /* Find container table entry */
+  props = instance[cnt].container;
+  if (props == 0) syserr("Trying to list something not a container.");
 
-  for (i = OBJMIN; i <= OBJMAX; i++) {
+  for (i = 1; i <= header->instanceMax; i++) {
     if (in(i, cnt)) { /* Yes, it's in this container */
       if (!found) {
 	found = TRUE;
-	if (cnts[props-CNTMIN].header != 0)
-	  interpret(cnts[props-CNTMIN].header);
+	if (container[props].header != 0)
+	  interpret(container[props].header);
 	else {
 	  prmsg(M_CONTAINS1);
-	  if (cnts[props-CNTMIN].nam != 0) /* It has it's own name */
-	    interpret(cnts[props-CNTMIN].nam);
-	  else
-	    say(cnts[props-CNTMIN].parent); /* It is actually an object or actor */
+	  say(container[props].parent);
 	  prmsg(M_CONTAINS2);
 	}
       } else {
@@ -1198,14 +1189,11 @@ void list(cnt)
     say(prevobj);
     prmsg(M_CONTAINS5);
   } else {
-    if (cnts[props-CNTMIN].empty != 0)
-      interpret(cnts[props-CNTMIN].empty);
+    if (container[props].empty != 0)
+      interpret(container[props].empty);
     else {
       prmsg(M_EMPTY1);
-      if (cnts[props-CNTMIN].nam != 0) /* It has it's own name */
-	interpret(cnts[props-CNTMIN].nam);
-      else
-	say(cnts[props-CNTMIN].parent);	/* It is actually an actor or object */
+      say(container[props].parent);
       prmsg(M_EMPTY2);
     }
   }

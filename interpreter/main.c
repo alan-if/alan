@@ -59,6 +59,7 @@ CurVars cur;
 /* Amachine structures */
 InstanceEntry *instance;	/* Instance table pointer */
 ClassEntry *class;		/* Class table pointer */
+ContainerEntry *container;	/* Container table pointer */
 
 AdminEntry *admin;		/* Administrative data about instances */
 WrdEntry *dict;			/* Dictionary pointer */
@@ -66,7 +67,6 @@ LocEntry *locs;			/* Location table pointer */
 VrbEntry *vrbs;			/* Verb table pointer */
 StxEntry *stxs;			/* Syntax table pointer */
 ObjEntry *objs;			/* Object table pointer */
-CntEntry *cnts;			/* Container table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EvtEntry *evts;			/* Event table pointer */
 MsgEntry *msgs;			/* Message table pointer */
@@ -742,13 +742,7 @@ Boolean isCnt(x)
      Aword x;
 #endif
 {
-#ifdef CNT_WORKING
-  return (x >= CNTMIN && x <= CNTMAX) ||
-    (isObj(x) && objs[x-OBJMIN].cont != 0) ||
-    (isAct(x) && acts[x-ACTMIN].cont != 0);
-#else
-  syserr("isCnt() is not working yet!");
-#endif
+  return instance[x].container != 0;
 }
 
 #ifdef _PROTOTYPES_
@@ -952,15 +946,10 @@ Boolean checklim(cnt, obj)
     syserr("Checking limits for a non-container.");
 
   /* Find the container properties */
-  if (isObj(cnt))
-      props = instance[cnt].container;
-  else if (isAct(cnt))
-      props = instance[cnt].container;
-  else
-    props = cnt;
+  props = instance[cnt].container;
 
-  if (cnts[props-CNTMIN].lims != 0) { /* Any limits at all? */
-    for (lim = (LimEntry *) addrTo(cnts[props-CNTMIN].lims); !endOfTable(lim); lim++)
+  if (container[props].limits != 0) { /* Any limits at all? */
+    for (lim = (LimEntry *) addrTo(container[props].limits); !endOfTable(lim); lim++)
       if (lim->atr == 0) {
 	if (count(cnt) >= lim->val) {
 	  interpret(lim->stms);
@@ -1606,23 +1595,29 @@ static void initheader()
   /* Allocate for administrative table */
   admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
 
-  dict = (WrdEntry *) addrTo(header->dict);
+  dict = (WrdEntry *) addrTo(header->dictionary);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
 
+  if (header->instanceTableAddress == 0)
+    syserr("Instance table pointer == 0");
   instance = (InstanceEntry *) addrTo(header->instanceTableAddress);
-  if (instance == NULL) syserr("instance table pointer == NULL");
   instance--;			/* Back up one so that first is no. 1 */
 
 
+  if (header->classTableAddress == 0)
+    syserr("Class table pointer == 0");
   class = (ClassEntry *) addrTo(header->classTableAddress);
-  if (class == NULL) syserr("class table pointer == NULL");
   class--;			/* Back up one so that first is no. 1 */
+
+  if (header->containerTableAddress != 0) {
+    container = (ContainerEntry *) addrTo(header->containerTableAddress);
+    container--;
+  }
 
   vrbs = (VrbEntry *) addrTo(header->vrbs);
   stxs = (StxEntry *) addrTo(header->stxs);
   evts = (EvtEntry *) addrTo(header->evts);
-  cnts = (CntEntry *) addrTo(header->cnts);
   ruls = (RulEntry *) addrTo(header->ruls);
   msgs = (MsgEntry *) addrTo(header->msgs);
   scores = (Aword *) addrTo(header->scores);

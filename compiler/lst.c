@@ -46,6 +46,7 @@ void initDumpNodeList()
   dumpNodeTable[LIST_ELM] = &duelm;
   dumpNodeTable[LIST_STX] = &dustx;
   dumpNodeTable[LIST_VRB] = &duvrb;
+  dumpNodeTable[LIST_CNT] = &dumpPointer;
 }
 
 
@@ -181,7 +182,7 @@ void dulst(List *lst,		/* IN - The list */
     return;
   }
   
-  put("LST: "); duptr(lst); in();
+  put("LST: "); dumpPointer(lst); in();
   while (lst != NULL) {
     dunod((void *)lst->element.atr, class);
     lst = lst->next;
@@ -206,7 +207,7 @@ void dulst2(List *lstlst,	/* IN - The list of lists*/
     return;
   }
   
-  put("LST: "); duptr(lstlst); in();
+  put("LST: "); dumpPointer(lstlst); in();
   while (lstlst != NULL) {
     dulst((void *)lstlst->element.lst, class);
     lstlst = lstlst->next;

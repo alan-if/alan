@@ -365,7 +365,7 @@ void duelm(ElmNod *elm)
     return;
   }
 
-  put("ELM: "); duptr(elm); dumpSrcp(&elm->srcp); in();
+  put("ELM: "); dumpPointer(elm); dumpSrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
   case PARAMETER_ELEMENT: {

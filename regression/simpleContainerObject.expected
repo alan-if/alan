@@ -1,0 +1,24 @@
+########## simpleContainerObject ##########
+The cont Isa object At loc
+  With Container
+End The cont.
+
+The loc Isa location
+End The loc.
+
+Start At loc.
+  Describe cont.
+########## alan simpleContainerObject.alan ##########
+
+        No warnings or errors detected.
+
+
+There is a cont here. The cont is empty.
+
+
+Loc
+There is a cont here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

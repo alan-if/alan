@@ -9,6 +9,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
+#include "acode.h"
 #include <setjmp.h>
 
 
@@ -32,10 +33,11 @@ extern AdminEntry *admin;	/* Administrative data about instances */
 extern WrdEntry *dict;		/* Dictionary pointer */
 extern ClassEntry *class;	/* Class table pointer */
 extern InstanceEntry *instance; /* Instance table pointer */
+extern ContainerEntry *container; /* Container table pointer */
+
 extern VrbEntry *vrbs;		/* Verb table pointer */
 extern StxEntry *stxs;		/* Syntax table pointer */
 extern ObjEntry *objs;		/* Object table pointer */
-extern CntEntry *cnts;		/* Container table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
 extern EvtEntry *evts;		/* Event table pointer */
 extern MsgEntry *msgs;		/* Message table pointer */

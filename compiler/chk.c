@@ -141,7 +141,7 @@ void duchk(ChkNod *chk)
 
   put("CHK: "); in();
   put("exp: "); dumpExpression(chk->exp); nl();
-  put("expadr: "); duadr(chk->expadr); nl();
+  put("expadr: "); dumpAddress(chk->expadr); nl();
   put("stms: "); dulst(chk->stms, LIST_STM); nl();
-  put("stmadr: "); duadr(chk->stmadr); out();
+  put("stmadr: "); dumpAddress(chk->stmadr); out();
 }

@@ -82,7 +82,7 @@ static void setDefaultRestriction(List *parameters)
 
   for (p = parameters; p != NULL; p = p->next)
     if (p->element.sym->fields.parameter.class == NULL) {
-      p->element.sym->fields.parameter.class = object->slots->symbol;
+      p->element.sym->fields.parameter.class = object->slots->id->symbol;
       p->element.sym->fields.parameter.type = INSTANCE_TYPE;
     }      
 }
@@ -320,12 +320,12 @@ void dustx(StxNod *stx)
     return;
   }
 
-  put("STX: "); duptr(stx); dumpSrcp(&stx->srcp); in();
+  put("STX: "); dumpPointer(stx); dumpSrcp(&stx->srcp); in();
   put("id: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
-  put("elmsadr: "); duadr(stx->elmsadr); nl();
+  put("elmsadr: "); dumpAddress(stx->elmsadr); nl();
   put("elements: "); dulst(stx->elements, LIST_ELM); nl();
-  put("resadr: "); duadr(stx->resadr); nl();
+  put("resadr: "); dumpAddress(stx->resadr); nl();
   put("restrictionLists: "); dulst(stx->restrictionLists, LIST_RES); nl();
   put("parameters: "); dulst(stx->parameters, LIST_ELM); out();
 }

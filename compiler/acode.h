@@ -175,8 +175,8 @@ typedef struct ClassEntry {	/* CLASS TABLE */
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword code;			/* Own code */
-  Aaddr idAddress;		/* Address to identifier */
-  Aword parent;			/* Code for the parent class, 0 if none */
+  Aaddr idAddress;		/* Address to identifier string */
+  Aword parentClass;		/* Code for the parent class, 0 if none */
   Aword location;		/* Code for current location */
   Aword container;		/* Code for a possible container property */
   Aaddr attributes;		/* Address of attribute list */
@@ -202,12 +202,19 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
   Aword target;			/* Id for the target location */
 } ExitEntry;
 
-
 typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
   Aword parameter;		/* Parameter number */
   Aword class;			/* Parameter class code */
   Aaddr stms;			/* Exception statements */
 } RestrictionEntry;
+
+typedef struct ContainerEntry {	/* CONTAINER TABLE */
+  Aword parent;			/* Parent instance index */
+  Aaddr limits;			/* Address to limit check code */
+  Aaddr header;			/* Address to header code */
+  Aaddr empty;			/* Address to empty code */
+} ContainerEntry;
+
 
 
 /* AMACHINE Header */
@@ -229,10 +236,12 @@ typedef struct AcdHdr {
   Aword locationClassId;
   Aword actorClassId;
   Aaddr instanceTableAddress;	/* Instance table */
-  Aword instanceMax;		/* Number of instances */
+  Aword instanceMax;		/* Highest number of an instance */
   Aword theHero;		/* The hero instance code (id) */
+  Aaddr containerTableAddress;
+  Aaddr dictionary;
+
 /* Old data follows: */
-  Aaddr dict;			/* 07 - Dictionary */
   Aaddr oatrs;			/* 08 - Object default attributes */
   Aaddr latrs;			/* 09 - Location default attributes */
   Aaddr aatrs;			/* 0a - Actor default attributes */
@@ -241,7 +250,6 @@ typedef struct AcdHdr {
   Aaddr stxs;			/* 0d - Syntax table */
   Aaddr vrbs;			/* 0e - Verb table */
   Aaddr evts;			/* 0f - Event table */
-  Aaddr cnts;			/* 10 - Container table */
   Aaddr ruls;			/* 11 - Rule table */
   Aaddr init;			/* 12 - String init table */
   Aaddr start;			/* 13 - Address to Start code */

@@ -27,30 +27,5 @@ typedef struct ScrNod {		/* SCRIPT */
 } ScrNod;
 
 
-/* Data: */
-
-
-/* Functions: */
-
-/* Create a new Script node */
-extern ScrNod *newscr(Srcp *srcp,
-		      IdNode *id,
-		      int code,
-		      List *descr,
-		      List *stps);
-
-/* Prepare the scripts of an Instance for analysis */
-extern void prepscrs(List *scrs, InsNod *ins);
-
-/* Analyse a list of Scripts */
-extern void anscrs(List *scrs,
-		   InsNod *ins);
-
-/* Generate script routines for an Instace */
-extern Aword gescrs(InsNod *ins);
-
-/* Dump a Script node */
-extern void duscr(ScrNod *scr);
-
 
 #endif

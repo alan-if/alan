@@ -6,6 +6,7 @@
 
 #include "sysdep.h"
 #include "lmList.h"
+#include "dump.h"
 
 
 static char strbuf[256] = "";
@@ -61,7 +62,7 @@ void dumpInt(int i)
 }
 
 
-void duadr(int i)
+void dumpAddress(int i)
 {
   char buf[20];
 
@@ -70,7 +71,7 @@ void duadr(int i)
 }
 
 
-void duptr(void *adr)
+void dumpPointer(void *adr)
 {
   char buf[20];
 

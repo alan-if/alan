@@ -177,14 +177,6 @@ typedef struct ObjEntry {	/* OBJECT TABLE */
   Aaddr dscr2;			/* Address to short description code */
 } ObjEntry;
 
-typedef struct CntEntry {	/* CONTAINER TABLE */
-  Aaddr lims;			/* Address to limit check code */
-  Aaddr header;			/* Address to header code */
-  Aaddr empty;			/* Address to empty code */
-  Aword parent;			/* Object or actor index */
-  Aaddr nam;			/* Address to statement printing name */
-} CntEntry;
-
 typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */
   Aword val;			/* And the limiting value */

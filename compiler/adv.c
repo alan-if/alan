@@ -11,15 +11,16 @@
 #include "lmList.h"
 
 #include "cla_x.h"
+#include "cnt_x.h"
 #include "ins_x.h"
 #include "lst_x.h"
 #include "srcp_x.h"
 #include "stm_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
+#include "vrb_x.h"
 #include "whr_x.h"
 #include "wrd_x.h"
-#include "vrb_x.h"
 
 
 #include "adv.h"		/* ADV-node */
@@ -168,7 +169,7 @@ void anadv(void)
   */
 static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
 {
-  hdr->theHero = theHero->slots->symbol->code;
+  hdr->theHero = theHero->slots->id->symbol->code;
 
 #ifdef FIXME
   hdr->objmin = objmin;
@@ -207,7 +208,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   gecodes(&acdHeader);
   
   if (verbose) printf("\n\tDictionary: ");
-  acdHeader.dict = gewrds();	/* Dictionary */
+  acdHeader.dictionary = gewrds();	/* Dictionary */
   if (verbose) printf("\n\tSyntax Definitions: ");
   acdHeader.stxs = gestxs();	/* Syntax definitions */ 
   if (verbose) printf("\n\tVerbs: ");
@@ -216,6 +217,8 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   acdHeader.classTableAddress = generateClasses();
   if (verbose) printf("\n\tInstances: ");
   generateInstances(&acdHeader);
+  if (verbose) printf("\n\tContainers: ");
+  acdHeader.containerTableAddress = generateContainers();
 
   if (verbose) printf("\n\tEvents: ");
   acdHeader.evts = geevts();	/* Events */

@@ -64,7 +64,8 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
       lst->element.id->symbol = newSymbol(lst->element.id->string, VERB_SYMBOL);
       lst->element.id->code = lst->element.id->symbol->code;
     } else if (sym->kind == VERB_SYMBOL) {
-      lst->element.id->symbol->code = sym->code;
+      lst->element.id->symbol = sym;
+      lst->element.id->code = sym->code;
     } else
       redefined(&lst->element.id->srcp, sym, lst->element.id->string);
   }
@@ -259,7 +260,7 @@ void duvrb (VrbNod *vrb)
 
   put("VRB: "); dumpSrcp(&vrb ->srcp); in();
   put("ids: "); dulst(vrb->ids, LIST_ID); nl();
-  put("altadr: "); duadr(vrb->altadr); nl();
+  put("altadr: "); dumpAddress(vrb->altadr); nl();
   put("alts: "); dulst(vrb->alts, LIST_ALT); out();
 }
 

@@ -453,8 +453,8 @@ void dumpAttribute(AtrNod *atr)
   put("type: "); dumpType(atr->typ); nl();
   put("id: "); dumpId(atr->id); nl();
   put("inheritance: "); dumpInheritance(atr->inheritance); nl();
-  put("stringAddress: "); duadr(atr->stringAddress); nl();
-  put("address: "); duadr(atr->address); nl();
+  put("stringAddress: "); dumpAddress(atr->stringAddress); nl();
+  put("address: "); dumpAddress(atr->address); nl();
   put("value: "); dumpInt(atr->value); nl();
   put("fpos: "); dumpInt(atr->fpos); nl();
   put("len: "); dumpInt(atr->len); out();

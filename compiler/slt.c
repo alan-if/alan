@@ -23,6 +23,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "nam_x.h"
+#include "scr_x.h"
 #include "stm_x.h"
 #include "sym_x.h"
 #include "vrb_x.h"
@@ -53,7 +54,7 @@ SlotsNode *newEmptySlots(void)
 SlotsNode *newSlots(List *names,
 		    WhrNod *whr,
 		    List *attributes,
-		    CntNod *cnt,
+		    CntNod *container,
 		    List *description,
 		    List *mentioned,
 		    List *art,
@@ -71,7 +72,11 @@ SlotsNode *newSlots(List *names,
   new->names = names;
   new->whr = whr;
   new->attributes = attributes;
-  new->cnt = cnt;
+
+  new->container = container;
+  if (new->container != NULL)
+    new->container->parent = new;
+
   new->description = description;
   new->mentioned = mentioned;
   new->art = art;
@@ -94,15 +99,15 @@ static void symbolizeParent(SlotsNode *slots)
 {
   SymNod *parent;
 
-  if (slots->parent != NULL) {
-    parent = lookup(slots->parent->string);
+  if (slots->parentId != NULL) {
+    parent = lookup(slots->parentId->string);
     if (parent == NULL)
-      lmLog(&slots->parent->srcp, 310, sevERR, slots->parent->string);
+      lmLog(&slots->parentId->srcp, 310, sevERR, slots->parentId->string);
     else if (parent->kind != CLASS_SYMBOL)
-      lmLog(&slots->parent->srcp, 350, sevERR, "");
+      lmLog(&slots->parentId->srcp, 350, sevERR, "");
     else {
-      slots->parent->symbol = parent;
-      setParent(slots->symbol, slots->parent->symbol);
+      slots->parentId->symbol = parent;
+      setParent(slots->id->symbol, slots->parentId->symbol);
     }
   }
 }
@@ -141,8 +146,8 @@ static void analyzeName(SlotsNode *slots)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = annams(slots->names, slots->id,
-		 inheritsFrom(slots->symbol, location->slots->symbol) ||
-		 inheritsFrom(slots->symbol, actor->slots->symbol));
+		 inheritsFrom(slots->id->symbol, location->slots->id->symbol) ||
+		 inheritsFrom(slots->id->symbol, actor->slots->id->symbol));
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, STM_PRINT);
@@ -167,9 +172,9 @@ void analyzeSlots(SlotsNode *slots)
 
   analyzeName(slots);
   anstms(slots->description, NULL);
-  anvrbs(slots->verbs, slots->symbol);
+  anvrbs(slots->verbs, slots->id->symbol);
 
-  if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
+  if (slots->exits && !inheritsFrom(slots->id->symbol, location->slots->id->symbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
   analyzeExits(slots->exits);
 }
@@ -202,9 +207,8 @@ void generateSlotsData(SlotsNode *slots, InsNod *instance)
   } else
     emit(0);
 
-
-  slots->verbAddress = gevrbs(slots->verbs, instance);
-
+  slots->scriptsAddress = generateScripts(instance);
+  slots->verbsAddress = gevrbs(slots->verbs, instance);
   slots->exitsAddress = generateExits(slots->exits);
 }
 
@@ -218,21 +222,26 @@ void generateSlotsData(SlotsNode *slots, InsNod *instance)
  */
 void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
 {
-  entry->code = slots->symbol->code; /* First own code */
+  entry->code = slots->id->symbol->code; /* First own code */
   entry->idAddress = slots->idAddress; /* Address to the id string */
 
-  if (slots->parent == NULL)	/* Then parents */
-    entry->parent = 0;
+  if (slots->parentId == NULL)	/* Then parents */
+    entry->parentClass = 0;
   else
-    entry->parent = slots->parent->symbol->code;
+    entry->parentClass = slots->parentId->symbol->code;
 
   entry->location = generateInitialLocation(slots->whr);
   entry->attributes = slots->attributeAddress;
   entry->description = slots->descriptionAddress;
+  if (slots->container != NULL)
+    entry->container = slots->container->code;
+  else
+    entry->container = 0;
   entry->mentioned = slots->mentionedAddress;
   entry->article = slots->artadr;
   entry->exits = slots->exitsAddress;
-  entry->verbs = slots->verbAddress;
+  entry->verbs = slots->verbsAddress;
+  entry->scripts = slots->scriptsAddress;
 }
 
 
@@ -245,23 +254,23 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
  */
 void dumpSlots(SlotsNode *slots)
 {
-  put("SLOTS: "); in();
+  put("SLOTS: "); dumpPointer(slots); in();
   put("id: "); dumpId(slots->id); nl();
   put("names: "); dulst(slots->names, LIST_NAM); nl();
   put("whr: "); duwhr(slots->whr); nl();
-#ifdef FIXME
-  put("cnt: "); ducnt(slots->cnt); nl();
-#endif
+  put("container: "); dumpContainer(slots->container); nl();
   put("attributes: "); dulst(slots->attributes, LIST_ATR); nl();
-  put("attributeAddress: "); duadr(slots->attributeAddress); nl();
+  put("attributeAddress: "); dumpAddress(slots->attributeAddress); nl();
   put("description: "); dulst(slots->description, LIST_STM); nl();
-  put("descriptionAddress: "); duadr(slots->descriptionAddress); nl();
+  put("descriptionAddress: "); dumpAddress(slots->descriptionAddress); nl();
   put("art: "); dulst(slots->art, LIST_STM); nl();
-  put("artadr: "); duadr(slots->artadr); nl();
+  put("artadr: "); dumpAddress(slots->artadr); nl();
   put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
-  put("mentionedAddress: "); duadr(slots->mentionedAddress); nl();
+  put("mentionedAddress: "); dumpAddress(slots->mentionedAddress); nl();
+  put("scripts: "); dulst(slots->scripts, LIST_SCR); nl();
+  put("scriptsAddress: "); dumpAddress(slots->scriptsAddress); nl();
   put("verbs: "); dulst(slots->verbs, LIST_VRB); nl();
-  put("verbAddress: "); duadr(slots->verbAddress); nl();
+  put("verbsAddress: "); dumpAddress(slots->verbsAddress); nl();
   put("exits: "); dulst(slots->exits, LIST_EXT); nl();
-  put("exitsAddress: "); duadr(slots->exitsAddress); out();
+  put("exitsAddress: "); dumpAddress(slots->exitsAddress); out();
 }

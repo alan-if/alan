@@ -90,7 +90,9 @@ void generateId(IdNode *id)
     emit(id->symbol->code);
     if (id->symbol->kind == PARAMETER_SYMBOL)
       emit0(C_CURVAR, V_PARAM);
-  } else
+  } else if (id->code == 0)
+    syserr("Generating a symbol-less id with code == 0");
+  else
     emit(id->code);
 }
 

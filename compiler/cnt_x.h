@@ -11,6 +11,7 @@
 
 /* USE: */
 #include "wht.h"
+#include "context.h"
 
 
 /* DATA: */
@@ -22,29 +23,15 @@ extern int cntcount;
 
 /* Functions: */
 
-/* Initialise container data */
-extern void initcnt(void);
+extern void initContainers(void);
+extern CntNod *newContainer(Srcp *srcp,
+			    List *lims,
+			    List *hstms,
+			    List *estms);
 
-/* Create a new Container node */
-extern CntNod *newcnt(Srcp *srcp,
-		      IdNode *nam,
-		      List *lims,
-		      List *hstms,
-		      List *estms);
-
-/* Check a possible containers code */
-extern void cntcheck(WhtNod *wht, List *pars);
-
-/* Analyse one Container */
-extern void ancnt(CntNod *cnt);
-
-/* Analyse all Containers */
-extern void ancnts(void);
-
-/* Generate code for all Containers */
-extern Aaddr gecnts(void);
-
-/* Dump a Container node */
-extern void ducnt(CntNod *cnt);
+extern void containerCheck(WhtNod *wht, Context *context);
+extern void analyseContainer(CntNod *cnt, Context *context);
+extern Aaddr generateContainers(void);
+extern void dumpContainer(CntNod *container);
 
 #endif

@@ -78,12 +78,12 @@ static List *create2Attributes(char firstString[], char secondString[])
 
 static int firstAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.slots->attributes->element.atr->id->code;
+  return slots->id->symbol->fields.claOrIns.slots->attributes->element.atr->id->code;
 }
 
 static int secondAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.slots->attributes->next->element.atr->id->code;
+  return slots->id->symbol->fields.claOrIns.slots->attributes->next->element.atr->id->code;
 }
 
 static InsNod *firstInstance, *secondInstance;
@@ -172,7 +172,7 @@ void testAttributeListsInSymbolTable()
                         !
                         sI = a1 + a22
   */
-  setParent(firstClassSymbol, location->slots->symbol);
+  setParent(firstClassSymbol, location->slots->id->symbol);
   setParent(secondClassSymbol, firstClassSymbol);
   setParent(firstInstanceSymbol, firstClassSymbol);
   setParent(secondInstanceSymbol, secondClassSymbol);

@@ -21,12 +21,10 @@
 
 typedef struct SlotsNode {	/* SLOTS  */
   IdNode *id;			/* Identifier */
-  SymNod *symbol;		/* Pointer to symbol table node */
   Aaddr idAddress;
-  IdNode *parent;		/* The instances parent */
+  IdNode *parentId;		/* The instances parent */
   List *names;			/* List of lists of adjectives and noun (ids)*/
   WhrNod *whr;			/* Where is it initially? */
-  CntNod *cnt;			/* Container properties */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
   List *description;		/* Long description statements */
@@ -35,10 +33,11 @@ typedef struct SlotsNode {	/* SLOTS  */
   Aword artadr;			/* ACODE address to article statements */
   List *mentioned;		/* Short (inventory like) statements */
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */
+  CntNod *container;		/* Pointer to container property node */
   List *verbs;			/* List of verbs */
-  Aword verbAddress;		/* ACODE address to local verb table */
-  List *scrs;			/* List of scripts */
-  Aaddr scradr;			/* ACODE address to scripts */
+  Aword verbsAddress;		/* ACODE address to local verb table */
+  List *scripts;		/* List of scripts */
+  Aaddr scriptsAddress;		/* ACODE address to scripts */
   List *exits;			/* List of exits */
   Aaddr exitsAddress;		/* ACODE address to exits table */
 } SlotsNode;

@@ -23,7 +23,7 @@ void testCreateClass()
 
   unitAssert(equalSrcp(cla->srcp, srcp));
   unitAssert(equalId(cla->slots->id, id));
-  unitAssert(equalId(cla->slots->parent, parent));
+  unitAssert(equalId(cla->slots->parentId, parent));
 
   symbolizeClasses();
   unitAssert(readEcode() == 310 && readSev() == sevERR);

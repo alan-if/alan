@@ -86,18 +86,21 @@ static void anres(
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
   if (res->classId == NULL) {
-    classSymbol = object->slots->symbol;
+    classSymbol = object->slots->id->symbol;
   } else {
     /* FIXME: to handle literal types restriction, INTEGER, STRING, ... */
 
     classSymbol = lookup(res->classId->string);
-    if (classSymbol->kind != CLASS_SYMBOL) {
+    if (classSymbol != NULL)
+      if (classSymbol->kind != CLASS_SYMBOL) {
+	lmLog(&res->classId->srcp, 317, sevERR, "");
+	classSymbol = NULL;
+      } else {
+	res->classId->symbol = classSymbol;
+	res->classId->code = classSymbol->code;
+      }
+    else
       lmLog(&res->classId->srcp, 317, sevERR, "");
-      classSymbol = NULL;
-    } else {
-      res->classId->symbol = classSymbol;
-      res->classId->code = classSymbol->code;
-    }
   }
 
   /* Set the class in the corresponding parameter symbol */
