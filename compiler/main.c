@@ -176,10 +176,13 @@ static char *removeExeResidue(char cmdLine[])
   /* MingW seems to forget to strip of the whole program name if it
      contains spaces, Windows surrounds those with quote-marks so any
      residue will end in: */
-  char *cp = strstr(cmdLine, ".exe\"");
-  if (cp)
-    while (cp && *cp == ' ') cp++;
-  else cp = cmdLine;
+  static char *residue = ".exe\"";
+  char *cp = strstr(cmdLine, residue);
+  if (cp) {
+    cp += strlen(residue);
+    while (*cp == ' ') cp++;
+  } else
+    cp = cmdLine;
   return cp;
 }
 
@@ -203,7 +206,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
     if (!getInFileName())
       return -1;
     guiMode = TRUE;
-    argv[1] = inFileName;
+    argv[1] = fullInFileName;
     argc = 2;
     AllocConsole();
     freopen("CONOUT$", "a", stdout);

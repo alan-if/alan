@@ -89,10 +89,13 @@ static char *removeExeResidue(char cmdLine[])
   /* MingW seems to forget to strip of the whole program name if it
      contains spaces, Windows surrounds thoose with quote-marks so any
      residue will end in: */
-  char *cp = strstr(cmdLine, ".exe\"");
-  if (cp)
+  static char *residue = ".exe\"";
+  char *cp = strstr(cmdLine, residue);
+  if (cp) {
+    cp += strlen(residue);
     while (*cp == ' ') cp++;
-  else cp = cmdLine;
+  } else
+    cp = cmdLine;
   return cp;
 }
 
@@ -104,11 +107,13 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
 
   args = splitCommandLine(removeExeResidue(cmdLine));
 
+#ifdef SHOWARGS
   for (i = 0; i < args; i++) {
     char buf[199];
     sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
     MessageBox(NULL, buf, "Alan V2 to V3 converter", MB_OK);
   }
+#endif
 
   if (args>2) {
     printf("Can't have more than two arguments.");

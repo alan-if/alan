@@ -307,6 +307,7 @@ static void prepareNames(void)
   if((srcptr = strrchr(srcfnm, ']')) == NULL
      && (srcptr = strrchr(srcfnm, '>')) == NULL
      && (srcptr = strrchr(srcfnm, '/')) == NULL
+     && (srcptr = strrchr(srcfnm, '\\')) == NULL
      && (srcptr = strrchr(srcfnm, ':')) == NULL)
     srcptr = &srcfnm[0];
   else

@@ -108,7 +108,7 @@ alan: checkTarget tm $(MAINOBJECTS) unit
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
-release: win
+release: win test
 
 win:  checkTarget $(MAINOBJECTS) alan.res unit
 	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
