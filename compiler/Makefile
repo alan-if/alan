@@ -17,6 +17,8 @@ LD	= $(GCC) $(DEBUG)
 
 sun4:= LDFLAGS	= -L/usr/local/lib/4.1.2
 sun4:= INCLUDE = -I/usr/local/include/ansi
+
+solaris1:= LDFLAGS = -L/usr/local/lib/4.1.2
 solaris1:= INCLUDE = -I/usr/local/include/ansi
 
 
@@ -76,6 +78,8 @@ SRCS = \
 
 MAINSRC = alan.c
 
+VERSIONSRCS = $(SRCS) $(MAINSRC)
+
 LIB = alan.a
 
 #.KEEP_STATE:
@@ -84,6 +88,7 @@ OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
+
 
 #-- MAIN TARGET
 
@@ -97,8 +102,9 @@ debug tcov release all: objarch alan alan.prod Makefile
 sun4 sun3 solaris2 hp: objarch fromsrc
 
 objarch:
-	if test -f .arch; then :; else echo "none" > .arch; fi
-	if test `cat .arch` != `arch`; then \
+	@if test -f .arch; then :; else echo "none" > .arch; fi
+	@if test `cat .arch` != `arch`; then \
+	    echo "Removing *.o for `cat .arch`" ; \
 	    rm *.o; \
 	    echo `arch` > .arch; \
 	fi
@@ -154,7 +160,7 @@ version.h version.c: ../version.sh
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.version: $(OBJECTS)
+.version: $(VERSIONSRCS)
 	venum +t
 	touch .version
 

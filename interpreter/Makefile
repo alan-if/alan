@@ -13,16 +13,9 @@ CFLAGS	= $(DEBUG) $(INCLUDE)
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
 
-#LDFLAGS = $(LQ) -readline -ltermcap -L$(HOME)/lib/`arch`
-LDFLAGS = $(LQ)
-
-#sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 sun4 := INCLUDE	= -I/usr/local/include/ansi
 
 sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
-
-#solaris2 := LDFLAGS = $(LQ) -lreadline -ltermcap -lc -lucb -L$(HOME)/lib/`arch`
-#solaris2 := INCLUDE=-I/usr/include -I$(HOME)/include
 
 tcov := CC = acc -a
 tcov := LD = acc -a
@@ -46,6 +39,8 @@ SRCS = debug.c \
 
 MAINSRC = arun.c
 
+VERSIONSRCS = $(SRCS) $(MAINSRC)
+
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
@@ -61,8 +56,9 @@ debug all tcov release: objarch arun
 sun4 sun3 solaris2 hp: objarch fromsrc
 
 objarch:
-	if test -f .arch; then :; else echo "none" > .arch; fi
-	if test `cat .arch` != `arch`; then \
+	@if test -f .arch; then :; else echo "none" > .arch; fi
+	@if test `cat .arch` != `arch`; then \
+	    echo "Removing *.o for `cat .arch`!" ; \
 	    rm *.o; \
 	    echo `arch` > .arch; \
 	fi
@@ -92,7 +88,7 @@ version.h version.c: ../version.sh
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.version: $(OBJECTS)
+.version: $(SRCS)
 	venum +t
 	touch .version
 
