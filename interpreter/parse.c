@@ -72,10 +72,15 @@ int vrbcode;			/* The code for that verb */
 
 /* PRIVATE DATA */
 
-#ifdef __sun__
+#ifdef _READLINE_H_
 static char *buf;
 #else
 static char buf[LISTLEN+1];	/* The input buffer */
+#endif
+#if ISO == 0
+static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
+#else
+static char *isobuf;		/* For ISO systems points to buf */
 #endif
 
 
@@ -164,8 +169,8 @@ static char *gettoken(buf)
     marker = buf;
   while (*marker != '\0' && isSpace(*marker) && *marker != '\n') marker++;
   buf = marker;
-  if (isLetter(*marker))
-    while (*marker&&(isLetter(*marker)||isdigit(*marker))) marker++;
+  if (isISOLetter(*marker))
+    while (*marker&&(isISOLetter(*marker)||isdigit(*marker))) marker++;
   else if (isdigit(*marker))
     while (isdigit(*marker)) marker++;
   else if (*marker == '\"') {
@@ -215,9 +220,11 @@ static void getline()
       fprintf(logfil, "%s", buf);
 #endif
 #if ISO == 0
-    toIso(buf, buf);
+    toIso(isobuf, buf);
+#else
+    isobuf = buf;
 #endif
-    token = gettoken(buf);
+    token = gettoken(isobuf);
     if (token != NULL && strcmp("debug", token) == 0 && header->debug) {
       dbgflg = TRUE;
       debug();

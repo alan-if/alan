@@ -9,6 +9,11 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#ifdef __sun__
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
+
 #include "types.h"
 
 #include "inter.h"
@@ -278,7 +283,11 @@ void debug(void)
 void debug()
 #endif
 {
+#ifdef _READLINE_H_
+  char *buf = NULL;
+#else
   char buf[256];
+#endif
   char c;
   int i;
 
@@ -288,13 +297,21 @@ void debug()
       para();
     do {
       output("ABUG> ");
+#ifdef _READLINE_H_
+      if (buf != NULL) free(buf);
+      buf = readline("");
+#else
       fgets(buf, 255, stdin);
+#endif
       lin = 1;
       c = buf[0];
       i = 0;
       sscanf(&buf[1], "%d", &i);
-    } while (c == '\0');
-  
+    } while (buf && c == '\0');
+#ifdef _READLINE_H_
+    add_history(buf);
+#endif
+
     switch (toUpper(c)) {
     case 'H':
     case '?':
@@ -316,6 +333,9 @@ void debug()
       dbgflg = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
+#ifdef _READLINE_H_
+      free(buf);
+#endif
       return;
     case 'O':
       if (i == 0)

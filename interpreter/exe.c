@@ -8,6 +8,11 @@
 
 #include "types.h"
 
+#ifdef __sun__
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
+
 #include "arun.h"
 #include "parse.h"
 #include "inter.h"
@@ -185,7 +190,11 @@ Boolean confirm(msgno)
      MsgKind msgno;
 #endif
 {
-  char str[80];
+#ifdef _READLINE_H_
+  char *buf;
+#else
+  char buf[80];
+#endif
   char *msg, ch = '\0';
   int i;
 
@@ -197,7 +206,12 @@ Boolean confirm(msgno)
 #endif
   output(msg);
   col = 1;
-  if (gets(str) == NULL) return FALSE;
+#ifdef _READLINE_H_
+    if (!(buf = readline("")))
+      return FALSE;
+#else
+  if (gets(buf) == NULL) return FALSE;
+#endif
 
   /* Use a character inside parenthesis as affirmative */
   for (i = 0; msg[i]; i++)
@@ -206,7 +220,10 @@ Boolean confirm(msgno)
       break;
     }
   free(msg);
-  return (str[0] == '\0' || (ch && toupper(str[0]) == toupper(ch)));
+#ifdef _READLINE_H_
+  free(buf);
+#endif
+  return (buf[0] == '\0' || (ch && toupper(buf[0]) == toupper(ch)));
 }
 
 
@@ -1468,6 +1485,9 @@ void save()
 {
   int i;
   FILE *savfil;
+#ifdef _READLINE_H_
+  char *buf;
+#endif
   char str[256];
   AtrElem *atr;
 
@@ -1479,9 +1499,19 @@ void save()
   prmsg(M_SAVEWHERE);
   sprintf(str, "(%s) : ", savfnm);
   output(str);
-  gets(str); col = 1;
+#ifdef _READLINE_H_
+  buf = readline("");
+  if (buf == NULL || buf[0] == '\0')
+    strcpy(str, savfnm);
+  else
+    strcpy(str, buf);
+  if (buf) free(buf);
+#else
+  gets(str);
   if (str[0] == '\0')
     strcpy(str, savfnm);
+#endif
+  col = 1;
   if ((savfil = fopen(str, "r")) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
