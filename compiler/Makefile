@@ -7,8 +7,8 @@ CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
-purify:=		CC = acc -Xc -vc
-all debug release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
+#purify:=		CC = acc -Xc -vc
+all debug release purify:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 
@@ -85,7 +85,7 @@ VMSLINKOBJS = ${SRCS:.c=}
 #-- MAIN TARGET
 debug all: alan
 
-debug:=		DEBUG= -g
+debug purify:=		DEBUG= -g
 all release :=	DEBUG= -O4
 
 alan: tm alanobj
