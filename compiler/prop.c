@@ -144,10 +144,21 @@ static void analyzeName(Properties *props)
     analyzeStatements(props->mentioned, NULL);
 }
 
+/*----------------------------------------------------------------------*/
+static void checkProhibitedSubclassing(Properties *props)
+{
+  if (props->parentId && props->parentId->symbol)
+    if (props->parentId->symbol->fields.entity.prohibitedSubclassing &&
+	!props->predefined)
+      lmLog(&props->parentId->srcp, 423, sevERR, props->parentId->string);
+}
+
 
 /*======================================================================*/
 void analyzeProps(Properties *props, Context *context)
 {
+  checkProhibitedSubclassing(props);
+
   if (props->whr != NULL) verifyInitialLocation(props->whr);
   if (inheritsFrom(props->id->symbol, locationSymbol) && props->whr != NULL)
     lmLog(&props->whr->srcp, 405, sevERR, "");

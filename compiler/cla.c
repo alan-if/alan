@@ -26,7 +26,15 @@
 
 /* PUBLIC DATA */
 
-ClaNod *entity, *thing, *object, *location, *actor;
+/* Predefined classes */
+ClaNod *entity,
+  *thing,
+  *object,
+  *location,
+  *actor,
+  *literal,
+  *integer,
+  *string;
 
 
 
@@ -41,26 +49,47 @@ void initClasses()
 {
   IdNode *thingId = newId(&nulsrcp, "thing");
   IdNode *entityId = newId(&nulsrcp, "entity");
+  IdNode *literalId = newId(&nulsrcp, "literal");
 
   allClasses = NULL;
 
   entity = newClass(&nulsrcp, entityId, NULL, NULL);
+  entitySymbol = entity->props->id->symbol;
+  entity->props->predefined = TRUE;
 
   location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
 		      entityId, NULL);
   locationSymbol = location->props->id->symbol;
+  location->props->predefined = TRUE;
 
   thing = newClass(&nulsrcp, thingId, entityId, NULL);
   thingSymbol = thing->props->id->symbol;
+  thing->props->predefined = TRUE;
 
   object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
 		    thingId, NULL);
   objectSymbol = object->props->id->symbol;
+  object->props->predefined = TRUE;
 
   actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
 		   thingId, NULL);
   actorSymbol = actor->props->id->symbol;
+  actor->props->predefined = TRUE;
 
+  literal = newClass(&nulsrcp, literalId, entityId, NULL);
+  literalSymbol = literal->props->id->symbol;
+  literalSymbol->fields.entity.prohibitedSubclassing = TRUE;
+  literal->props->predefined = TRUE;
+
+  integer = newClass(&nulsrcp, newId(&nulsrcp, "integer"), literalId, NULL);
+  integerSymbol = integer->props->id->symbol;
+  integerSymbol->fields.entity.prohibitedSubclassing = TRUE;
+  integer->props->predefined = TRUE;
+
+  string = newClass(&nulsrcp, newId(&nulsrcp, "string"), literalId, NULL);
+  stringSymbol = string->props->id->symbol;
+  stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
+  string->props->predefined = TRUE;
 }
 
 
@@ -190,10 +219,14 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  acdHeader.thingClassId = thing->props->id->symbol->code;
-  acdHeader.objectClassId = object->props->id->symbol->code;
-  acdHeader.locationClassId = location->props->id->symbol->code;
-  acdHeader.actorClassId = actor->props->id->symbol->code;
+  acdHeader.entityClassId = entitySymbol->code;
+  acdHeader.thingClassId = thingSymbol->code;
+  acdHeader.objectClassId = objectSymbol->code;
+  acdHeader.locationClassId = locationSymbol->code;
+  acdHeader.actorClassId = actorSymbol->code;
+  acdHeader.literalClassId = literalSymbol->code;
+  acdHeader.integerClassId = integerSymbol->code;
+  acdHeader.stringClassId = stringSymbol->code;
 
   for (l = allClasses; l; l = l->next)
     generateClassData(l->element.cla);

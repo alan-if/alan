@@ -909,24 +909,23 @@ Abool isNear(id)
   Is an instance a member of the class
 
 */
-Abool isA(Aword id, Aword ancestor)
+Abool isA(Aword instanceId, Aword ancestor)
 {
-  int p = instance[id].parent;
+  int parent;
 
-  while (p != 0 && p != ancestor)
-    p = class[p].parent;
+  if (isLit(instanceId))
+    parent = literal[instanceId-header->instanceMax].class;
+  else
+    parent = instance[instanceId].parent;
+  while (parent != 0 && parent != ancestor)
+    parent = class[parent].parent;
 
-  return p != 0;
+  return (parent != 0);
 }
 
 
 
-/*======================================================================
-
-  in()
-
-  */
-
+/*======================================================================*/
 #ifdef _PROTOTYPES_
 Abool in(Aword theInstance, Aword cnt)
 #else

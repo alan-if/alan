@@ -26,7 +26,15 @@ extern int instanceCount;
 extern int eventCount;
 extern int verbCount;
 
-extern Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
+extern Symbol *entitySymbol;
+extern Symbol *thingSymbol;
+extern Symbol *objectSymbol;
+extern Symbol *locationSymbol;
+extern Symbol *actorSymbol;
+extern Symbol *literalSymbol;
+extern Symbol *stringSymbol;
+extern Symbol *integerSymbol;
+extern Symbol *theHero;
 
 
 /* FUNCTIONS: */
@@ -38,8 +46,7 @@ extern void redefined(IdNode *id, Symbol *sym);
 extern void initSymbols(void);
 
 /* Create a new symbol node */
-extern Symbol *newSymbol(IdNode *id,
-			 SymbolKind kind);
+extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
 
 /* Check if an Id exists in this context and if so if of an allowed kind */
 extern Symbol *symcheck(

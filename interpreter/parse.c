@@ -262,9 +262,11 @@ static void scan()
 	syserr("Too many parameters.");
       wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
       if (isdigit(token[0])) {
+	literal[litCount].class = header->integerClassId;
 	literal[litCount].type = NUMERIC_LITERAL;
 	literal[litCount].value = number(token);
       } else {
+	literal[litCount].class = header->stringClassId;
 	literal[litCount].type = STRING_LITERAL;
 	/* Remove the string quotes while copying */
 	str = strdup(&token[1]);
@@ -366,12 +368,13 @@ static void unambig(plst)
   if (savlst == NULL)
     savlst = (ParamEntry *)allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
-  if (isLiteral(wrds[wrdidx])) {
+  if (isLiteralWord(wrds[wrdidx])) {
     /* Transform the word into a reference to the literal value */
     /* words > dictsize are literals with index = word-dictsize */
-    plst[0].code = (wrds[wrdidx++]-dictsize) + header->instanceMax;
+    plst[0].code = (wrds[wrdidx]-dictsize) + header->instanceMax;
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
+    wrdidx++;
     return;
   }
 
@@ -570,23 +573,10 @@ static Boolean restrictionCheck(restriction)
 {
   Boolean ok = FALSE;
 
-  if (isLit(params[restriction->parameter-1].code)) {
-    switch (restriction->class) {
-    case RESTRICTIONCLASS_INTEGER:
-      ok = literal[restriction->parameter].type == NUMERIC_LITERAL;
-      break;
-    case RESTRICTIONCLASS_STRING:
-      ok = literal[restriction->parameter].type == STRING_LITERAL;
-      break;
-    default:
-      syserr("Unexpected literal parameter type in restrictionCheck()");
-    }
-  } else {
-    if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-      ok = instance[params[restriction->parameter-1].code].container != 0;
-    else
-      ok = isA(params[restriction->parameter-1].code, restriction->class);
-  }
+  if (restriction->class == RESTRICTIONCLASS_CONTAINER)
+    ok = instance[params[restriction->parameter-1].code].container != 0;
+  else
+    ok = isA(params[restriction->parameter-1].code, restriction->class);
   return ok;
 }
 
@@ -617,13 +607,17 @@ static void resolve(ParamEntry plst[])
   if (allLength > 0) return;	/* ALL has already done this */
 
   /* Resolve ambiguities by presence */
-  for (i=0; plst[i].code != EOF; i++)
-    if (!isLit(plst[i].code))	/* Literals are always 'here' */
-      if (!isHere(plst[i].code)) {
-	params[0] = plst[i];	/* Copy error param as first one for message */
-	params[1].code = EOF;	/* But be sure to terminate */
-	error(M_NO_SUCH);
-      }
+  for (i=0; plst[i].code != EOF; i++) {
+    if (isLit(plst[i].code))	/* Literals are always 'here' */
+      continue;
+    if (instance[plst[i].code].parent == header->entityClassId) /* and pure entities */
+      continue;
+    if (!isHere(plst[i].code)) {
+      params[0] = plst[i];	/* Copy error param as first one for message */
+      params[1].code = EOF;	/* But be sure to terminate */
+      error(M_NO_SUCH);
+    }
+  }
 }
 
 

@@ -29,7 +29,15 @@ int attributeCount = 0;
 int verbCount = 0;
 int eventCount = 0;
 
-Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
+Symbol *entitySymbol;
+Symbol *thingSymbol;
+Symbol *objectSymbol;
+Symbol *locationSymbol;
+Symbol *actorSymbol;
+Symbol *literalSymbol;
+Symbol *stringSymbol;
+Symbol *integerSymbol;
+Symbol *theHero;
 
 
 

@@ -1,0 +1,25 @@
+########## alan literal0 ##########
+
+
+literal0.alan
+
+    1.  Every literal Isa entity
+=====>        1
+
+  *1*   305 E : 'literal' already declared as a Class (Every).
+
+    4.  Every 'integer' Isa literal
+=====>        1
+
+  *1*   305 E : 'integer' already declared as a Class (Every).
+
+    7.  Every 'string' Isa literal
+=====>        1
+
+  *1*   305 E : 'string' already declared as a Class (Every).
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

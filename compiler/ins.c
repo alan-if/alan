@@ -149,7 +149,7 @@ static void analyzeInstance(Instance *instance)
   context->instance = instance;
 
   if (instance->props->parentId == NULL && instance->props->container == NULL)
-    lmLog(&instance->srcp, 422, sevWAR, ""); 
+    lmLog(&instance->srcp, 422, sevWAR, "");
   analyzeProps(instance->props, context);
 }
 

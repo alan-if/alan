@@ -173,6 +173,7 @@ static lmMsgs msg[] = {
     { "420   ", "Invalid What specification in %1." },
     { "421   ", "THIS instance is not defined in this context." },
     { "422   ", "This instance does not inherit from anything, nor does it have a container property. This makes its use dubious." },
+    { "423   ", "You can not instantiate or sub-class %1." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
@@ -190,7 +191,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 110}
+    {0, 111}
 };
 static lmMessages currMsect = (lmMessages)0;
 

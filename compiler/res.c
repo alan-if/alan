@@ -77,7 +77,12 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
       lmLog(&res->classId->srcp, 317, sevERR, "");
     /* Set the class in the corresponding parameter symbol */
     parameter->fields.parameter.class = classSymbol;
-    parameter->fields.parameter.type = INSTANCE_TYPE;
+    if (classSymbol == stringSymbol)
+      parameter->fields.parameter.type = STRING_TYPE;
+    else if (classSymbol == integerSymbol)
+      parameter->fields.parameter.type = INTEGER_TYPE;
+    else
+      parameter->fields.parameter.type = INSTANCE_TYPE;
     break;
 
   case CONTAINER_RESTRICTION:

@@ -11,7 +11,7 @@
 static void testMultipleAddAttribute()
 {
   IdNode *theId = newId(&nulsrcp, "aClassId");
-  ClaNod *theClass = newClass(&nulsrcp, theId, NULL, NULL);
+  ClaNod *theClass;
   Attribute *theFirstAttribute = newAttribute(&nulsrcp,
 					      BOOLEAN_TYPE,
 					      newId(&nulsrcp, "firstAttribute"),
@@ -35,6 +35,7 @@ static void testMultipleAddAttribute()
   AddNode *add1 = newAdd(&nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
 
+  theClass = newClass(&nulsrcp, theId, NULL, NULL);
   Symbol *aSymbol = lookup("aClassId");
 
   ASSERT(length(aSymbol->fields.entity.props->attributes) == 0);

@@ -182,7 +182,7 @@ void testSymbolTableInit()
   
   initAdventure();
   adv.whr = NULL;
-  ASSERT(classCount == 5);	/* Standard classes */
+  ASSERT(classCount == 8);	/* Standard classes */
   ASSERT(instanceCount == 0);
   addHero();
   ASSERT(instanceCount == 1);

@@ -325,17 +325,18 @@ static void findAllAlternatives(AltInfo alt[]) {
 	altIndex++;
       }
     }
-    if (!isLit(params[paramIndex].code)) {
+    if (isLit(params[paramIndex].code))
+      parent = literal[paramIndex+1].class;
+    else
       parent = instance[params[paramIndex].code].parent;
-      while (parent) {
-	alt[altIndex].alt = findAlternativeInClass(parent, paramIndex+1);
-	if (alt[altIndex].alt != NULL) {
-	  primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code,
-		       parent);
-	  altIndex++;
-	}
-	parent = class[parent].parent;
+    while (parent) {
+      alt[altIndex].alt = findAlternativeInClass(parent, paramIndex+1);
+      if (alt[altIndex].alt != NULL) {
+	primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code,
+		     parent);
+	altIndex++;
       }
+      parent = class[parent].parent;
     }
   }
   alt[altIndex].end = TRUE;

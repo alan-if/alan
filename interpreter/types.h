@@ -49,7 +49,7 @@
 #define isAll(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_ALL))!=0)
 #define isDir(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_DIR))!=0)
 #define isNoise(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_NOISE))!=0)
-#define isLiteral(word) (word >= dictsize)
+#define isLiteralWord(word) (word >= dictsize)
 
 
 /* TYPES */
@@ -164,7 +164,7 @@ typedef struct MsgEntry {	/* MESSAGE TABLE */
 } MsgEntry;
 
 typedef struct ParamEntry {	/* PARAMETER */
-  Aword code;			/* Code for this parameter (0=multiple) */
+  Aword code;			/* Instance code for the parameter (0=multiple) */
   Aword firstWord;		/* Index to first word used by player */
   Aword lastWord;		/* d:o to last */
 } ParamEntry;
@@ -174,6 +174,7 @@ typedef enum LiteralType {
 } LiteralType;
 
 typedef struct LiteralEntry {	/* LITERAL */
+  Aint class;			/* Class id of the literal type */
   LiteralType type;
   Aword value;
 } LiteralEntry;

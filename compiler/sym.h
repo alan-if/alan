@@ -38,6 +38,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
       Bool attributesNumbered;
       Bool replicated;
       struct Properties *props;
+      Bool prohibitedSubclassing;
     } entity;
 
     struct {

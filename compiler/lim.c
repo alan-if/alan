@@ -67,7 +67,7 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
   anlim()
 
   Analyze one limit. The attributes that defines the limits must be
-  default attributes beacuse we must be able to check them at run-time.
+  attributes for all THINGS beacuse we must be able to check them at run-time.
   The predefined attribute COUNT is also allowed.
 
   */

@@ -21,6 +21,7 @@
 
 typedef struct Properties {
   IdNode *id;			/* Identifier */
+  Bool predefined;
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */
   List *names;			/* List of lists of adjectives and noun (ids)*/

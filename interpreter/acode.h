@@ -272,10 +272,14 @@ typedef struct AcdHdr {
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */
   Aword classMax;		/* Number of classes */
+  Aword entityClassId;
   Aword thingClassId;
   Aword objectClassId;
   Aword locationClassId;
   Aword actorClassId;
+  Aword literalClassId;
+  Aword integerClassId;
+  Aword stringClassId;
   Aaddr instanceTableAddress;	/* Instance table */
   Aword instanceMax;		/* Highest number of an instance */
   Aword theHero;		/* The hero instance code (id) */

@@ -34,8 +34,6 @@ void testAttributeToThis()
 
 static void testAnalyzeIsaExpression()
 {
-  Expression *isaExpression = newexp(&nulsrcp, ISA_EXPRESSION);
-
   
 }
 

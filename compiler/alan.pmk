@@ -497,20 +497,7 @@ static int val(char str[])
 	%<restriction_class>.id = NULL;
 	%<restriction_class>.restrictionKind = CONTAINER_RESTRICTION;
     %%
-
-    ! 'INTEGER'
-    %%
-	%<restriction_class>.id = NULL;
-	%<restriction_class>.restrictionKind = INTEGER_RESTRICTION;
-    %%
-
-    ! 'STRING'
-    %%
-	%<restriction_class>.id = NULL;
-	%<restriction_class>.restrictionKind = STRING_RESTRICTION;
-    %%
-
-    ;    
+    ;
 
 
 ---> VERBS

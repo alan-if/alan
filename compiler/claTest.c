@@ -41,7 +41,7 @@ void testGenerateClasses()
   ClaNod *cla;
   Aaddr addr;
   int firstAdr = ACDsizeOf(AcdHdr);
-  static int NOOFPREDEFEINEDCLASSES = 5;
+  static int NOOFPREDEFEINEDCLASSES = 8;
   static int classSize = ACDsizeOf(ClassEntry);
   int baseAddress = firstAdr + NOOFPREDEFEINEDCLASSES*classSize;
 
