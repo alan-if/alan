@@ -75,8 +75,15 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
       }
     else
       lmLog(&res->classId->srcp, 317, sevERR, "");
+
     /* Set the class in the corresponding parameter symbol */
+    if (parameter->fields.parameter.class != NULL)
+      /* It already has a class, warn if new restriction is not a subclass */
+      if (!inheritsFrom(classSymbol, parameter->fields.parameter.class))
+	lmLogv(&res->classId->srcp, 427, sevWAR, parameter->string,
+	       parameter->fields.parameter.class->string, NULL);
     parameter->fields.parameter.class = classSymbol;
+
     if (classSymbol == stringSymbol)
       parameter->fields.parameter.type = STRING_TYPE;
     else if (classSymbol == integerSymbol)

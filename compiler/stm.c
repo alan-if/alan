@@ -501,7 +501,7 @@ static void analyzeDepend(StmNod *stm, Context *context)
 static void analyzeEach(StmNod *stm,
 			Context *context)
 {
-  Symbol *classSymbol;
+  Symbol *classSymbol = NULL;
   Symbol *loopSymbol;
 
   /* Analyze loop class and identifier */

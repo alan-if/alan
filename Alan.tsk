@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>166.89</origest>
 <currest>166.89</currest>
-<elapsed>50.89</elapsed>
+<elapsed>52.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
-<elapsed>0</elapsed>
+<origest>23</origest>
+<currest>23</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.24</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>0</elapsed>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>ISA expression</desc>
@@ -30,13 +30,12 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Multiple restrictions for the same parameter</desc>
-<notes>
-Must allow for gradually refinement of a parameter in a restriction:
+<notes>Must allow for gradual refinement of a parameter in a restriction:
 
 Where p Isa thing Else ...
 And p Isa object Else ...
@@ -51,7 +50,7 @@ Also check "Restrictions can only restrict to one class" in Strategies
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -79,16 +78,6 @@ has been done an actor is a container which is not recognized by verifyContainer
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Can't assign to loop variable</desc>
-<notes>Check and error message? Or does the current syntax make it impossible?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Class names when debugging</desc>
 <notes>Tracing should include class name where code is declared.
 If not present in A3C class names must be available.
@@ -101,8 +90,7 @@ If not present in A3C class names must be available.
 </task>
 <task>
 <desc>Confirmations</desc>
-<notes>
-E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
 
 IF CONFIRM "Are you sure (Y/N) ?" THEN ...
 
@@ -350,8 +338,8 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>87</origest>
-<currest>87</currest>
+<origest>88</origest>
+<currest>88</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -614,6 +602,15 @@ verbs
 <task>
 <desc>Allow parameters as actor in USE statement</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Can't assign to loop variable</desc>
+<notes>Check and error message? This is not possible with the current syntax anyway...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
