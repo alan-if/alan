@@ -152,7 +152,7 @@ void score(sc)
 
   if (sc == 0) {
     prmsg(M_SCORE1);
-    sprintf(buf, "%ld", cur.score);
+    sprintf(buf, "%d", cur.score);
     output(buf);
     prmsg(M_SCORE2);
     sprintf(buf, "%ld.", header->maxscore);
