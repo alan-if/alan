@@ -27,6 +27,7 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
 
 
 static void makeDictionary(int index, int code, int classBits) {
+  if (index > dictsize) syserr("makeDictonary() out of size");
   dictionary[index].code = code;
   dictionary[index].classBits = classBits;
 }
@@ -138,13 +139,32 @@ static void testMatchParseTree() {
   makeEOF(&elementTable[2]);
   element = matchParseTree(parameters, elementTable, &plural);
   ASSERT(element == &elementTable[1]);
-
+  free(dictionary);
+  free(memory);
 }
+
+static void testNoOfPronouns() {
+  int i;
+
+  dictsize = 30;
+  dictionary = allocate(dictsize*sizeof(DictionaryEntry));
+
+  for (i = 0; i < dictsize; i++)
+    if (i%3 == 0)
+      makeDictionary(i, dictsize+i, PRONOUN_BIT);
+    else
+      makeDictionary(i, dictsize+1, VERB_BIT);
+
+  ASSERT(noOfPronouns() == 10);
+
+  free(dictionary);
+}
+
 
 void registerParseUnitTests()
 {
   registerUnitTest(testMatchEndOfSyntax);
   registerUnitTest(testMatchParameterElement);
-
   registerUnitTest(testMatchParseTree);
+  registerUnitTest(testNoOfPronouns);
 }

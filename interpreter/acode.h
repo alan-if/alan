@@ -37,10 +37,10 @@ typedef int WrdKind;
 #define  ALL_WORD (ADJECTIVE_WORD+1)
 #define  ALL_BIT (((Aword)1)<<ALL_WORD)
 
-#define  BUT_WORD (ALL_WORD+1)
-#define  BUT_BIT (((Aword)1)<<BUT_WORD)
+#define  EXCEPT_WORD (ALL_WORD+1)
+#define  EXCEPT_BIT (((Aword)1)<<EXCEPT_WORD)
 
-#define  CONJUNCTION_WORD (BUT_WORD+1)
+#define  CONJUNCTION_WORD (EXCEPT_WORD+1)
 #define  CONJUNCTION_BIT (((Aword)1)<<CONJUNCTION_WORD)
 
 #define  PREPOSITION_WORD (CONJUNCTION_WORD+1)
@@ -53,7 +53,7 @@ typedef int WrdKind;
 #define  IT_BIT (((Aword)1)<<IT_WORD)
 
 #define  NOISE_WORD (IT_WORD+1)
-#define  NOISE_BIT (((Aword)1<<NOISE_WORD)
+#define  NOISE_BIT (((Aword)1)<<NOISE_WORD)
 
 #define  NOUN_WORD (NOISE_WORD+1)
 #define  NOUN_BIT (((Aword)1)<<NOUN_WORD)
@@ -360,8 +360,9 @@ typedef struct DictionaryEntry { /* Dictionary */
   Aaddr wrd;			/* ACODE address to string */
   Aword classBits;		/* Word class */
   Aword code;
-  Aaddr adjrefs;		/* Address to reference list */
-  Aaddr nounrefs;		/* Address to reference list */
+  Aaddr adjectiveRefs;		/* Address to reference list */
+  Aaddr nounRefs;		/* Address to reference list */
+  Aaddr pronounRefs;		/* Address to reference list */
 } DictionaryEntry;
 
 

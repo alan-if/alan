@@ -174,7 +174,7 @@ void analyzeAdventure(void)
 
   analyzeStartAt();
 
-  analyzeWords();
+  analyzeAllWords();
 
   if (debugOption)
     analyzeSourceFilenames();

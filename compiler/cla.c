@@ -10,6 +10,7 @@
 /* IMPORT */
 #include <stdio.h>
 #include "types.h"
+#include "opt.h"
 
 #include "ext.h"
 #include "srcp_x.h"
@@ -45,6 +46,43 @@ ClaNod *entity,
 /* PRIVATE DATA */
 
 static List *allClasses = NULL;
+
+/*----------------------------------------------------------------------*/
+static void addPredefinedProperties() {
+
+  /* Add pronouns */
+  switch (opts[OPTLANG].value) {
+  case L_ENGLISH:
+    object->props->pronouns = concat(NULL, newId(&nulsrcp, "it"), ID_LIST);
+    actor->props->pronouns = concat(concat(NULL,
+					   newId(&nulsrcp, "him"),
+					   ID_LIST),
+				    newId(&nulsrcp, "her"),
+				    ID_LIST);
+
+    break;
+  case L_SWEDISH:
+    object->props->pronouns = concat(concat(NULL,
+					    newId(&nulsrcp, "den"),
+					    ID_LIST),
+				     newId(&nulsrcp, "det"),
+				     ID_LIST);
+    object->props->pronouns = concat(concat(NULL,
+					    newId(&nulsrcp, "henne"), ID_LIST),
+				     newId(&nulsrcp, "honom"), ID_LIST);
+    break;
+  case L_GERMAN:
+    actor->props->pronouns = concat(concat(concat(NULL,
+						  newId(&nulsrcp, "es"),
+						  ID_LIST),
+					   newId(&nulsrcp, "ihn"),
+					   ID_LIST),
+				    newId(&nulsrcp, "sie"),
+				    ID_LIST);
+    break;
+  }
+}
+
 
 /*======================================================================*/
 void initClasses()
@@ -104,8 +142,9 @@ void initClasses()
   stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
   stringSymbol->fields.entity.isBasicType = TRUE;
   string->props->predefined = TRUE;
-}
 
+  addPredefinedProperties();
+}
 
 
 /*======================================================================*/
@@ -190,11 +229,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Script
 	Verb
   */
-  propCount = 11;
-
-  if (props->pronouns != NULL)
-    lmLog(&props->pronounsSrcp, 343, sevWAR, "Pronoun clause");
-  propCount++;
+  propCount = 12;
 
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");

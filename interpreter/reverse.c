@@ -136,9 +136,10 @@ static void reverseDictionary(Aword adr)
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(DictionaryEntry));
     while (!endOfTable(e)) {
-      if ((e->classBits & (1L<<SYNONYM_WORD)) == 0) { /* Do not do this for synonyms */
-	reverseTable(e->adjrefs, sizeof(Aword));
-	reverseTable(e->nounrefs, sizeof(Aword));
+      if ((e->classBits & SYNONYM_BIT) == 0) { /* Do not do this for synonyms */
+	reverseTable(e->adjectiveRefs, sizeof(Aword));
+	reverseTable(e->nounRefs, sizeof(Aword));
+	reverseTable(e->pronounRefs, sizeof(Aword));
       }
       e++;
     }

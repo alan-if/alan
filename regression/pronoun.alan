@@ -1,0 +1,13 @@
+The t Isa object At l
+  Pronoun p.
+
+  Verb x
+    Does "You x" Say the object. "."
+  End Verb.
+
+End The.
+
+The l Isa location
+End The.
+
+Start At l.

@@ -76,9 +76,11 @@ static void dumpAwords(Aaddr awords)
 
   if (awords == 0) return;
 
+  if (*(Aword *)pointerTo(awords) == EOF) return;
+
   for (adr = pointerTo(awords); *(adr+1) != EOF; adr++)
     printf("%ld, ", *adr);
-  printf("%ld\n", *adr);
+  printf("%ld", *adr);
 }
 
 
@@ -87,18 +89,19 @@ static void dumpAwords(Aaddr awords)
 /*----------------------------------------------------------------------*/
 static void dumpWrdClass(Aword class)
 {
-  if ((class&((Aword)1L<<VERB_WORD)) != 0) printf("Verb ");
-  if ((class&((Aword)1L<<CONJUNCTION_WORD)) != 0) printf("Conjunction ");
-  if ((class&((Aword)1L<<BUT_WORD)) != 0) printf("But ");
-  if ((class&((Aword)1L<<THEM_WORD)) != 0) printf("Them ");
-  if ((class&((Aword)1L<<IT_WORD)) != 0) printf("It ");
-  if ((class&((Aword)1L<<NOUN_WORD)) != 0) printf("Noun ");
-  if ((class&((Aword)1L<<ADJECTIVE_WORD)) != 0) printf("Adjective ");
-  if ((class&((Aword)1L<<PREPOSITION_WORD)) != 0) printf("Preposition ");
-  if ((class&((Aword)1L<<ALL_WORD)) != 0) printf("All ");
-  if ((class&((Aword)1L<<DIRECTION_WORD)) != 0) printf("Direction ");
-  if ((class&((Aword)1L<<NOISE_WORD)) != 0) printf("Noise ");
-  if ((class&((Aword)1L<<SYNONYM_WORD)) != 0) printf("Synonym ");
+  if ((class&VERB_BIT) != 0) printf("Verb ");
+  if ((class&CONJUNCTION_BIT) != 0) printf("Conjunction ");
+  if ((class&EXCEPT_BIT) != 0) printf("Except ");
+  if ((class&THEM_BIT) != 0) printf("Them ");
+  if ((class&IT_BIT) != 0) printf("It ");
+  if ((class&NOUN_BIT) != 0) printf("Noun ");
+  if ((class&ADJECTIVE_BIT) != 0) printf("Adjective ");
+  if ((class&PREPOSITION_BIT) != 0) printf("Preposition ");
+  if ((class&ALL_BIT) != 0) printf("All ");
+  if ((class&DIRECTION_BIT) != 0) printf("Direction ");
+  if ((class&NOISE_BIT) != 0) printf("Noise ");
+  if ((class&SYNONYM_BIT) != 0) printf("Synonym ");
+  if ((class&PRONOUN_BIT) != 0) printf("Pronoun ");
   printf("\n");
 }
 
@@ -124,20 +127,33 @@ static void dumpDict(int level, Aword dictionary)
     printf("class: %ld = ", wrd->classBits); dumpWrdClass(wrd->classBits);
     indent(level+1);
     printf("code: %ld\n", wrd->code);
-    indent(level+1);
-    printf("adjective references: %s", dumpAddress(wrd->adjrefs));
-    if (wrd->adjrefs != 0) {
-      printf(" -> ");
-      dumpAwords(wrd->adjrefs);
-    } else
-      printf("\n");
-    indent(level+1);
-    printf("noun references: %s", dumpAddress(wrd->nounrefs));
-    if (wrd->nounrefs != 0) {
-      printf(" -> ");
-      dumpAwords(wrd->nounrefs);
-    } else
-      printf("\n");
+    if (wrd->classBits&ADJECTIVE_BIT) {
+      indent(level+1);
+      printf("adjective references: %s", dumpAddress(wrd->adjectiveRefs));
+      if (wrd->adjectiveRefs != 0) {
+	printf(" -> {");
+	dumpAwords(wrd->adjectiveRefs);
+      }
+      printf("}\n");
+    }
+    if (wrd->classBits&NOUN_BIT) {
+      indent(level+1);
+      printf("noun references: %s", dumpAddress(wrd->nounRefs));
+      if (wrd->nounRefs != 0) {
+	printf(" -> {");
+	dumpAwords(wrd->nounRefs);
+      }
+      printf("}\n");
+    }
+    if (wrd->classBits&PRONOUN_BIT) {
+      indent(level+1);
+      printf("pronoun references: %s", dumpAddress(wrd->pronounRefs));
+      if (wrd->pronounRefs != 0) {
+	printf(" -> {");
+	dumpAwords(wrd->pronounRefs);
+      }
+      printf("}\n");
+    }
     w++;
   }
 }

@@ -31,8 +31,6 @@
 
 
 #define LISTLEN 100
-
-
 /* PUBLIC DATA */
 
 int playerWords[LISTLEN/2] = {EOF};	/* List of parsed words */
@@ -45,7 +43,6 @@ Bool plural = FALSE;
 int paramidx;			/* Index in params */
 ParamEntry *parameters;		/* List of params */
 static ParamEntry *previousParameters;	/* Previous parameter list */
-static ParamEntry *multipleList;	/* Multiple objects list */
 static ParamEntry *previousMultipleList;	/* Previous multiple list */
 
 /* Literals */
@@ -57,6 +54,7 @@ int verbWord;			/* The word he used, dictionary index */
 int verbWordCode;		/* The code for that verb */
 
 
+
 /*----------------------------------------------------------------------*\
 
   SCAN DATA & PROCEDURES
@@ -64,15 +62,7 @@ int verbWordCode;		/* The code for that verb */
   All procedures for getting a command and turning it into a list of
   dictionary entries are placed here.
 
-  buf
-  unknown()
-  lookup()
-  token
-  getline()
-  scan()
-
 \*----------------------------------------------------------------------*/
-
 
 /* PRIVATE DATA */
 
@@ -290,18 +280,32 @@ static void scan(void)
 
   All procedures and data for getting a command and parsing it
 
-  nonverb()	- search for a non-verb command
-  buildall()	- build a list of objects matching 'all'
-  unambig()	- match an unambigous object reference
-  simple()	- match a simple verb command
-  complex()	- match a complex -"-
-  try()		- to match a verb command
-  match()	- find the verb class (not used currently) and 'try()'
-
 \*---------------------------------------------------------------------- */
 
+
+/* Private Types */
+
+typedef struct PronounEntry {	/* Entry to remember parameter/pronoun relation */
+  int pronoun;
+  int instance;
+} PronounEntry;
+
+
+static PronounEntry *pronounList = NULL;
 static int allLength;		/* No. of objects matching 'all' */
 
+
+/*----------------------------------------------------------------------*/
+static int noOfPronouns()
+{
+  int w;
+  int count = 0;
+
+  for (w = 0; w < dictsize; w++)
+    if (isPronoun(w))
+      count++;
+  return count;
+}
 
 /*----------------------------------------------------------------------*/
 static void nonverb(void) {
@@ -353,6 +357,20 @@ static void whichOne(ParamEntry alternative[]) {
   error(MSGMAX);		/* Return with empty error message */
 }
 
+
+/*----------------------------------------------------------------------*/
+static int getPronounInstance(int word) {
+  /* Find the instance that the pronoun word could refer to, return 0
+     if none or multiple */
+  int p;
+
+  for (p = 0; p < noOfPronouns(); p++)
+    if (dictionary[word].code == pronounList[p].pronoun)
+      return pronounList[p].instance;
+  return 0;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void unambig(ParamEntry plst[])
 {
@@ -378,8 +396,9 @@ static void unambig(ParamEntry plst[])
     return;
   }
 
-  plst[0].code = EOF;		/* Make empty */
-  if (isIt(playerWords[wordIndex])) {
+  plst[0].code = EOF;		/* Make an empty parameter list */
+  if (isPronoun(playerWords[wordIndex])) {
+#ifdef OLDPRONOUNHANDLING
     wordIndex++;
     /* Use last object in previous command! */
     for (i = listLength(previousParameters)-1; i >= 0 && (previousParameters[i].code == 0 || isLiteral(previousParameters[i].code)); i--)
@@ -393,6 +412,13 @@ static void unambig(ParamEntry plst[])
       error(M_NO_SUCH);
     }
     plst[0] = previousParameters[i];
+#else
+    int p = getPronounInstance(playerWords[wordIndex]);
+    wordIndex++;
+    if (p == 0)
+      error(M_WHAT_IT);
+    plst[0].code = p;
+#endif
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
     return;
@@ -403,7 +429,7 @@ static void unambig(ParamEntry plst[])
     /* If this word can be a noun and there is no noun following break loop */
     if (isNoun(playerWords[wordIndex]) && (playerWords[wordIndex+1] == EOF || !isNoun(playerWords[wordIndex+1])))
       break;
-    copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].adjrefs));
+    copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].adjectiveRefs));
     copyParameterList(savlst, plst);	/* To save it for backtracking */
     if (found)
       intersect(plst, refs);
@@ -415,7 +441,7 @@ static void unambig(ParamEntry plst[])
   }
   if (playerWords[wordIndex] != EOF) {
     if (isNoun(playerWords[wordIndex])) {
-      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].nounrefs));
+      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].nounRefs));
       if (found)
 	intersect(plst, refs);
       else {
@@ -429,7 +455,7 @@ static void unambig(ParamEntry plst[])
     if (isNoun(playerWords[wordIndex-1])) {
       /* Perhaps the last word was also a noun? */
       copyParameterList(plst, savlst);	/* Restore to before last adjective */
-      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex-1]].nounrefs));
+      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex-1]].nounRefs));
       if (plst[0].code == EOF)
 	copyParameterList(plst, refs);
       else
@@ -712,7 +738,8 @@ static ElementEntry *matchWordElement(ElementEntry *elms, Aint wordCode) {
 
 /*----------------------------------------------------------------------*/
 static Bool isParameterWord(int word) {
-  return isNoun(word) || isAdjective(word) || isAll(word) || isLiteralWord(word) || isIt(word) || isThem(word);
+  return isNoun(word) || isAdjective(word) || isAll(word)
+    || isLiteralWord(word) || isIt(word) || isThem(word) || isPronoun(word);
 }
 
 
@@ -893,13 +920,79 @@ static void match(ParamEntry *mlst) /* OUT - List of params allowed by multiple 
 
 /*======================================================================*/
 void initParse(void) {
+  int dictionaryIndex;
+  int pronounIndex = 0;
+
   wordIndex = 0;
   playerWords[0] = EOF;
+
+  if (pronounList == NULL)
+    pronounList = allocate(noOfPronouns()*sizeof(PronounEntry));
+
+  for (dictionaryIndex = 0; dictionaryIndex < dictsize; dictionaryIndex++)
+    if (isPronoun(dictionaryIndex)) {
+      pronounList[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
+      pronounList[pronounIndex].instance = 0;
+      pronounIndex++;
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static int pronounForInstance(int instance) {
+  /* Scan through the dictionary to find any pronouns that can be used
+     for this instance */
+  int w;
+
+  for (w = 0; w < dictsize; w++)
+    if (isPronoun(w)) {
+      Aword *reference = pointerTo(dictionary[w].pronounRefs);
+      while (*reference != EOF) {
+	if (*reference == instance)
+	  return dictionary[w].code;
+	reference++;
+      }
+    }
+  return 0;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void enterPronoun(int pronoun, int instanceCode) {
+  int pronounIndex;
+
+  for (pronounIndex = 0; pronounIndex < noOfPronouns(); pronounIndex++)
+    if (pronounList[pronounIndex].pronoun == pronoun)
+      pronounList[pronounIndex].instance = instanceCode;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void clearPronounEntries() {
+  int i;
+
+  for (i = 0; i < noOfPronouns(); i++)
+    pronounList[i].instance = 0;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void notePronounParameters(ParamEntry *parameters) {
+  /* For all parameters note which ones can be refered to by a pronoun */
+  ParamEntry *p;
+
+  clearPronounEntries();
+  for (p = parameters; !endOfTable(p); p++) {
+    int pronoun = pronounForInstance(p->code);
+    if (pronoun > 0)
+      enterPronoun(pronoun, p->code);
+  }
 }
 
 
 /*======================================================================*/
 void parse(void) {
+  static ParamEntry *multipleList;	/* Multiple objects list */
 
   if (multipleList == NULL) {		/* Allocate large enough paramlists */
     multipleList = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
@@ -930,6 +1023,7 @@ void parse(void) {
     wordIndex++;
     match(multipleList);
     action(multipleList);		/* contains possible multiple params */
+    notePronounParameters(parameters);
   } else {
     parameters[0].code = EOF;
     previousMultipleList[0].code = EOF;

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>379.89</origest>
-<currest>378.89</currest>
-<elapsed>216.89</elapsed>
+<origest>380.89</origest>
+<currest>379.89</currest>
+<elapsed>220.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>72</origest>
-<currest>72</currest>
-<elapsed>22</elapsed>
+<origest>73</origest>
+<currest>73</currest>
+<elapsed>26</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
-<elapsed>22</elapsed>
+<origest>31</origest>
+<currest>31</currest>
+<elapsed>26</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -303,9 +303,9 @@ Implementation:
 
 How to handle the above example? Probably by looking in the scope for any instances with the given pronoun.</notes>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>1</elapsed>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Grammar, internal form and dump</desc>
@@ -323,7 +323,7 @@ How to handle the above example? Probably by looking in the scope for any instan
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -332,16 +332,16 @@ How to handle the above example? Probably by looking in the scope for any instan
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Inherit pronouns</desc>
-<notes>We can combine the list as for names</notes>
+<notes>Pronouns should override. We can simply point to the definition higher in the hierarchy,</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -350,7 +350,7 @@ How to handle the above example? Probably by looking in the scope for any instan
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -360,6 +360,15 @@ How to handle the above example? Probably by looking in the scope for any instan
 If another word class has already entered it in the dictionary it will receive that classes code.
 
 Probably we want to have unique word code for every unique word, and then a code per class that needs a translation. This would probably also solve the other multi-class word problems...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>How to handle multiple parameters?</desc>
+<notes>The THEM_WORD is used to refer to all parameters in a previous multi command. Would this still work?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

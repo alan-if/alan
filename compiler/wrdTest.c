@@ -62,15 +62,15 @@ static void testGenerateWordEntry()
   w1.stradr = 14;
   w1.classbits = VERB_BIT;
   w1.code = 17;
-  w1.nounrefadr = 19;
-  w1.adjrefadr = 21;
+  w1.nounRefAddress = 19;
+  w1.adjectiveRefAddress = 21;
 
   generateWordEntry(&w1);
   ASSERT(convertFromACD(de[0].wrd) == 14);
   ASSERT(convertFromACD(de[0].classBits) == VERB_BIT);
   ASSERT(convertFromACD(de[0].code) == 17);
-  ASSERT(convertFromACD(de[0].nounrefs) == 19);
-  ASSERT(convertFromACD(de[0].adjrefs) == 21);  
+  ASSERT(convertFromACD(de[0].nounRefs) == 19);
+  ASSERT(convertFromACD(de[0].adjectiveRefs) == 21);  
 
   newSynonymWord("w2", &w1);
   w2 = findWord("w2");
@@ -81,8 +81,8 @@ static void testGenerateWordEntry()
   ASSERT(convertFromACD(de[1].wrd) == 15);
   ASSERT(convertFromACD(de[1].classBits) == (SYNONYM_BIT|VERB_BIT));
   ASSERT(convertFromACD(de[1].code) == 17);
-  ASSERT(convertFromACD(de[1].nounrefs) == 19);
-  ASSERT(convertFromACD(de[1].adjrefs) == 21);  
+  ASSERT(convertFromACD(de[1].nounRefs) == 19);
+  ASSERT(convertFromACD(de[1].adjectiveRefs) == 21);  
 }
 
 void registerWrdUnitTests()

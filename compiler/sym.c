@@ -707,6 +707,14 @@ static void replicateNames(Symbol *symbol)
 
 
 /*----------------------------------------------------------------------*/
+static void replicatePronouns(Symbol *symbol)
+{
+  if (propertiesOf(symbol)->pronouns == NULL)
+    propertiesOf(symbol)->pronouns = propertiesOfParentOf(symbol)->pronouns;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
 {
   propertiesOf(symbol)->attributes =
@@ -770,6 +778,7 @@ static void replicate(Symbol *symbol)
 {
   replicateInitialLocation(symbol);
   replicateNames(symbol);
+  replicatePronouns(symbol);
   replicateAttributes(symbol);
   replicateContainer(symbol);
   replicateScripts(symbol);

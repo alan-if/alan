@@ -67,15 +67,14 @@ void analyzeSynonyms(void)
     wrd = findWord(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);
-    else
-      for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
-	/* Look up the synonym */
-        swrd = findWord(slst->element.id->string);
-        if (swrd != NULL && (swrd->classbits&(1L<<SYNONYM_WORD)))
-	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
-	else
-          newWord(slst->element.id->string, SYNONYM_WORD, 0, (void *) wrd);
-      }
+    for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
+      /* Look up the synonym */
+      swrd = findWord(slst->element.id->string);
+      if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
+	lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
+      else
+	newSynonymWord(slst->element.id->string, wrd);
+    }
   }
 }
 

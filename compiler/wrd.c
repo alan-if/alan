@@ -89,11 +89,8 @@ static Bool findReference(Instance *ref, List *referenceList)
 }
 
 
-/*======================================================================*/
-int newWord(char *theWord,
-	    WrdKind class,
-	    int code,
-	    void *references)
+/*----------------------------------------------------------------------*/
+static int newWord(char *theWord, WrdKind class, int code, void *references)
 {
   Word *new;
   Word *existingWord;
@@ -157,6 +154,30 @@ int newSynonymWord(char *theWord, Word *reference) {
   return newWord(theWord, SYNONYM_WORD, 0, reference);
 }
 
+/*======================================================================*/
+int newVerbWord(char *theWord, Syntax *reference) {
+  return newWord(theWord, VERB_WORD, 0, reference);
+}
+
+/*======================================================================*/
+int newPrepositionWord(char *theWord) {
+  return newWord(theWord, PREPOSITION_WORD, 0, NULL);
+}
+
+/*======================================================================*/
+int newDirectionWord(char *theWord, int code) {
+  return newWord(theWord, DIRECTION_WORD, code, NULL);
+}
+
+/*======================================================================*/
+int newNounWord(char *theWord, int code, Instance *reference) {
+  return newWord(theWord, NOUN_WORD, code, reference);
+}
+
+/*======================================================================*/
+int newAdjectiveWord(char *theWord, Instance *reference) {
+  return newWord(theWord, ADJECTIVE_WORD, 0, reference);
+}
 
 
 /*======================================================================
@@ -176,11 +197,13 @@ void prepareWords(void)
     newWord("go", NOISE_WORD, 0, NULL);
     newWord("the", NOISE_WORD, 0, NULL);
     newWord("them", THEM_WORD, 0, NULL);
-    newWord("except", BUT_WORD, 0, NULL);
-    newWord("it", IT_WORD, 0, NULL);
-    newWord("him", IT_WORD, 0, NULL);
-    newWord("her", IT_WORD, 0, NULL);
-    newWord("but", BUT_WORD, 0, NULL);
+    newWord("except", EXCEPT_WORD, 0, NULL);
+#ifdef OLDPRONOUNHANDLING
+    newWord("it", PRONOUN_WORD, 0, NULL);
+    newWord("him", PRONOUN_WORD, 0, NULL);
+    newWord("her", PRONOUN_WORD, 0, NULL);
+#endif
+    newWord("but", EXCEPT_WORD, 0, NULL);
     newWord("and", CONJUNCTION_WORD, 0, NULL);
     newWord("all", ALL_WORD, 0, NULL);
     newWord("everything", ALL_WORD, 0, NULL);
@@ -189,12 +212,14 @@ void prepareWords(void)
   case L_SWEDISH:
     newWord("gå", NOISE_WORD, 0, NULL);
     newWord("dem", THEM_WORD, 0, NULL);
-    newWord("utom", BUT_WORD, 0, NULL);
-    newWord("den", IT_WORD, 0, NULL);
-    newWord("det", IT_WORD, 0, NULL);
-    newWord("henne", IT_WORD, 0, NULL);
-    newWord("honom", IT_WORD, 0, NULL);
-    newWord("förutom", BUT_WORD, 0, NULL);
+    newWord("utom", EXCEPT_WORD, 0, NULL);
+#ifdef OLDPRONOUNHANDLING
+    newWord("den", PRONOUN_WORD, 0, NULL);
+    newWord("det", PRONOUN_WORD, 0, NULL);
+    newWord("henne", PRONOUN_WORD, 0, NULL);
+    newWord("honom", PRONOUN_WORD, 0, NULL);
+#endif
+    newWord("förutom", EXCEPT_WORD, 0, NULL);
     newWord("och", CONJUNCTION_WORD, 0, NULL);
     newWord("allt", ALL_WORD, 0, NULL);
     newWord("alla", ALL_WORD, 0, NULL);
@@ -202,13 +227,15 @@ void prepareWords(void)
   case L_GERMAN:
     newWord("gehen", NOISE_WORD, 0, NULL);
     newWord("sie", THEM_WORD, 0, NULL);
-    newWord("ausser", BUT_WORD, 0, NULL);
+    newWord("ausser", EXCEPT_WORD, 0, NULL);
     newWord("der", NOISE_WORD, 0, NULL);
     newWord("das", NOISE_WORD, 0, NULL);
     newWord("die", NOISE_WORD, 0, NULL);
-    newWord("es", IT_WORD, 0, NULL);
-    newWord("ihn", IT_WORD, 0, NULL);
-    newWord("sie", IT_WORD, 0, NULL);
+#ifdef OLDPRONOUNHANDLING
+    newWord("es", PRONOUN_WORD, 0, NULL);
+    newWord("ihn", PRONOUN_WORD, 0, NULL);
+    newWord("sie", PRONOUN_WORD, 0, NULL);
+#endif
     newWord("und", CONJUNCTION_WORD, 0, NULL);
     newWord("alles", ALL_WORD, 0, NULL);
     break;
@@ -219,28 +246,14 @@ void prepareWords(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  Analyze one word in the dictionary to find any words that are
-  defined to be of multiple word classes that we want to warn about.
-
-*/
-void analyzeWord(Word *wrd)
-{
-  /* Analyze one word in the dictionary to find any words that are
-     defined to be of multiple word classes that we want to warn
-     about.
-  */
 #define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
 #define ISASYNONYM(w) HASBIT(SYNONYM_WORD, (w))
 #define ISADIRECTION(w) HASBIT(DIRECTION_WORD, (w))
 #define ISAVERB(w) HASBIT(VERB_WORD, (w))
 #define ISAADJECTIVE(w) HASBIT(ADJECTIVE_WORD, (w))
 
-  if (wrd == NULL) return;
-
-  analyzeWord(wrd->low);
-
+/*----------------------------------------------------------------------*/
+static void analyzeWord(Word *wrd) {
   if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
     /* Synonyms can not be of any other class */
     lmLog(NULL, 333, sevERR, wrd->string);
@@ -252,52 +265,83 @@ void analyzeWord(Word *wrd)
   else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
     /* Adjectives and verbs don't work as expected */
     lmLogv(NULL, 320, sevWAR, wrd->string, "adjective", "verb", NULL);
+}
 
-  analyzeWord(wrd->high);
+
+
+/*----------------------------------------------------------------------
+
+  Analyze one word in the dictionary to find any words that are
+  defined to be of multiple word classes that we want to warn about.
+
+*/
+void analyzeWords(Word *wrd)
+{
+  /* Analyze one word in the dictionary to find any words that are
+     defined to be of multiple word classes that we want to warn
+     about.
+  */
+
+  if (wrd == NULL) return;
+
+  analyzeWords(wrd->low);
+  analyzeWord(wrd);
+  analyzeWords(wrd->high);
 
 }
 
 
 /*======================================================================*/
-void analyzeWords(void)
+void analyzeAllWords(void)
 {
   /* Analyze the dictionary to find any words that are defined to be
   of multiple word classes that we want to warn about. */
 
-  analyzeWord(wordTree);
+  analyzeWords(wordTree);
 }
 
 
 
-static int referenceIndex;
+/*----------------------------------------------------------------------*/
+static void generateWordReference(Word *wrd) {
+  List *lst;
+
+  if (wrd->classbits&NOUN_BIT) {
+    wrd->nounRefAddress = nextEmitAddress();
+    for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
+      generateId(lst->element.ins->props->id);
+    emit(EOF);
+  } else
+    wrd->nounRefAddress = 0;
+
+  if (wrd->classbits&ADJECTIVE_BIT) {
+    wrd->adjectiveRefAddress = nextEmitAddress();
+    for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
+      generateId(lst->element.ins->props->id);
+    emit(EOF);
+  } else
+    wrd->adjectiveRefAddress = 0;
+
+  if (wrd->classbits&PRONOUN_BIT) {
+    wrd->pronounRefAddress = nextEmitAddress();
+    for (lst = wrd->ref[PRONOUN_WORD]; lst != NULL; lst = lst->next)
+      generateId(lst->element.ins->props->id);
+    emit(EOF);
+  } else
+    wrd->pronounRefAddress = 0;
+}
+
 
 /*----------------------------------------------------------------------*/
 static void generateWordReferences(Word *wrd)
 {
-  List *lst;
-  
   if (wrd == NULL)
     return;
   
   /* First generate for lower */
   generateWordReferences(wrd->low);
   
-  /* Then this node */
-  if (wrd->classbits&(1L<<NOUN_WORD)) {
-    wrd->nounrefadr = nextEmitAddress();	/* Save address to noun reference table */
-    for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->props->id);
-    emit(EOF);
-  } else
-    wrd->nounrefadr = 0;
-
-  if (wrd->classbits&(1L<<ADJECTIVE_WORD)) {
-    wrd->adjrefadr = nextEmitAddress();	/* Save address to noun reference table */
-    for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->props->id);
-    emit(EOF);
-  } else
-    wrd->adjrefadr = 0;
+  generateWordReference(wrd);
   
   /* Then for higher */
   generateWordReferences(wrd->high);
@@ -339,13 +383,15 @@ static void generateWordEntry(Word *wrd) {
     Word *original = (Word *)wrd->ref[SYNONYM_WORD]->element.word; 
     de.classBits = original->classbits|SYNONYM_BIT;
     de.code = original->code;
-    de.adjrefs = original->adjrefadr;
-    de.nounrefs = original->nounrefadr;
+    de.adjectiveRefs = original->adjectiveRefAddress;
+    de.nounRefs = original->nounRefAddress;
+    de.pronounRefs = original->pronounRefAddress;
   } else {
     de.classBits = wrd->classbits;
     de.code = wrd->code;
-    de.adjrefs = wrd->adjrefadr;
-    de.nounrefs = wrd->nounrefadr;
+    de.adjectiveRefs = wrd->adjectiveRefAddress;
+    de.nounRefs = wrd->nounRefAddress;
+    de.pronounRefs = wrd->pronounRefAddress;
   }
   emitEntry(&de, sizeof(DictionaryEntry));
 }
@@ -368,14 +414,12 @@ Aaddr generateAllWords(void)
   Aaddr adr;
 
   /* First generate reference lists */
-  referenceIndex = 0;
   generateWordReferences(wordTree);
 
   /* and strings */
   generateWordStrings(wordTree);
 
   /* Now traverse the word tree and generate dictionary entries */
-  referenceIndex = 0;
   adr = nextEmitAddress();	/* Save ACODE address to dictionary */
   generateWordEntries(wordTree); /* Recursively... */
 

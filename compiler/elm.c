@@ -98,7 +98,7 @@ static void analyzeElement(Element *elm)
 
   switch (elm->kind) {
   case WORD_ELEMENT:
-    elm->id->code = newWord(elm->id->string, PREPOSITION_WORD, 0, NULL);
+    elm->id->code = newPrepositionWord(elm->id->string);
     break;
   case PARAMETER_ELEMENT:
   case END_OF_SYNTAX:
@@ -127,7 +127,7 @@ List *analyzeElements(List *elms,        /* IN - List to analyze */
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
   else
-    elm->id->code = newWord(elm->id->string, VERB_WORD, 0, (void *)stx);
+    elm->id->code = newVerbWord(elm->id->string, stx);
 
   /* Analyze the elements, number parameters and find the restriction */
   /* Start with the second since the first is analyzed above */

@@ -124,6 +124,7 @@ extern Bool isPreposition(int word);
 extern Bool isAll(int word);
 extern Bool isDir(int word);
 extern Bool isNoise(int word);
+extern Bool isPronoun(int word);
 extern Bool isLiteralWord(int word);
 
 

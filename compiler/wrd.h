@@ -21,8 +21,9 @@ typedef struct Word {		/* DICTIONARY ENTRY */
   char *string;			/* Name of this entry */
   List *ref[WRD_CLASSES];	/* Lists of references (objects etc) */
   Aaddr stradr;			/* ACODE address to string */
-  Aaddr nounrefadr;		/* ACODE address to reference table */
-  Aaddr adjrefadr;		/* ACODE address to reference table */
+  Aaddr nounRefAddress;		/* ACODE address to reference table */
+  Aaddr adjectiveRefAddress;	/* ACODE address to reference table */
+  Aaddr pronounRefAddress;	/* ACODE address to reference table */
   struct Word *low, *high;	/* Links */
 } Word;
 

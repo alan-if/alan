@@ -13,6 +13,7 @@
 /* USE: */
 #include "../interpreter/acode.h"
 #include "ins.h"
+#include "stx.h"
 
 
 /* DATA: */
@@ -27,14 +28,16 @@ extern int words[];
 extern Word *findWord(char str[]);
 
 /* Insert a Word into the dictionary */
-extern int newWord(char wrd[],
-		  WrdKind class,
-		  int code,
-		  void *ref);
 extern int newPronounWord(char *theWord, Instance *reference);
+extern int newPrepositionWord(char *theWord);
+extern int newSynonymWord(char *theWord, Word *original);
+extern int newAdjectiveWord(char *theWord, Instance *reference);
+extern int newVerbWord(char *theWord, Syntax *syntax);
+extern int newDirectionWord(char *theWord, int code);
+extern int newNounWord(char *theWord, int code, Instance *reference);
 
 extern void prepareWords(void);
-extern void analyzeWords(void);
+extern void analyzeAllWords(void);
 extern Aaddr generateAllWords(void);
 
 

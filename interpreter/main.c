@@ -759,48 +759,53 @@ Bool isStr(Aword x)
 
 /* Word classes are numbers but in the dictonary they are generated as bits */
 Bool isVerb(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<VERB_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&VERB_BIT)!=0;
 }
 
 Bool isConj(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<CONJUNCTION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&CONJUNCTION_BIT)!=0;
 }
 
 Bool isBut(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<BUT_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&EXCEPT_BIT)!=0;
 }
 
 Bool isThem(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<THEM_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&THEM_BIT)!=0;
 }
 
 Bool isIt(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<IT_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&IT_BIT)!=0;
 }
 
 Bool isNoun(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<NOUN_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&NOUN_BIT)!=0;
 }
 
 Bool isAdjective(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<ADJECTIVE_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&ADJECTIVE_BIT)!=0;
 }
 
 Bool isPreposition(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<PREPOSITION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&PREPOSITION_BIT)!=0;
 }
 
 Bool isAll(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<ALL_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&ALL_BIT)!=0;
 }
 
 Bool isDir(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<DIRECTION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&DIRECTION_BIT)!=0;
 }
 
 Bool isNoise(int word) {
-  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<NOISE_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&NOISE_BIT)!=0;
 }
+
+Bool isPronoun(int word) {
+  return word < dictsize && (dictionary[word].classBits&PRONOUN_BIT)!=0;
+}
+
 
 Bool isLiteralWord(int word) {
   return word >= dictsize;

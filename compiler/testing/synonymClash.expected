@@ -1,0 +1,21 @@
+########## synonymClash ##########
+
+
+synonymClash.alan
+
+    2.    x = y.
+=====>        1
+
+  *1*   321 W : Synonym target word 'y' not defined.
+
+
+
+
+        333 E : The word 'x' is defined to be both a synonym and another word
+                class.
+
+
+        1 error(s).
+        1 warning(s).
+        2 informational message(s).
+

@@ -65,8 +65,7 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
     if (sym == NULL) {
       lst->element.id->symbol = newSymbol(lst->element.id, DIRECTION_SYMBOL);
       lst->element.id->code = lst->element.id->symbol->code;
-      newWord(lst->element.id->string, DIRECTION_WORD,
-	      lst->element.id->symbol->code, NULL);
+      newDirectionWord(lst->element.id->string, lst->element.id->symbol->code);
     } else if (sym->kind == DIRECTION_SYMBOL) {
       lst->element.id->symbol = sym;
       lst->element.id->code = lst->element.id->symbol->code;
