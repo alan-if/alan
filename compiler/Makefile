@@ -102,6 +102,18 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	smk $(SMKQ) alan
 	@touch .smkstamp
 
+alanParse.h alanParse.c alanPaSema.c alanErr.c:
+	touch alan.pmk
+	make tm
+
+alanScan.h alanScan.c alanScSema.c:
+	touch alan.smk
+	make tm
+
+alanList.h alanList.c:
+	touch alan.lmk
+	make tm
+
 malloc: tm $(OBJECTS) version.o $(MAINOBJ)
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
 	$(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)

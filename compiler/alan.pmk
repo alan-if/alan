@@ -1285,7 +1285,7 @@ special_statement	-- RETURNS: stm
 	%special_statement.stm->fields.visits.count = val(%INTEGER.chars);
     %%
 
-    ! 'SYSTEM' STRING
+    ! 'SYSTEM' STRING '.'
     %%
 	%special_statement.stm = newstm(`&%'SYSTEM'.srcp, STM_SYSTEM);
 	%special_statement.stm->fields.system.fpos = %STRING.fpos;
