@@ -718,6 +718,9 @@ static void try(ParamEntry mlst[])
     }
   }
   
+  /* Set verb code and map parameters */
+  current.verb = mapSyntax(elms->flags); /* Flags of EOS is actually syntax number! */
+
   /* Now perform class restriction checks */
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
@@ -766,9 +769,6 @@ static void try(ParamEntry mlst[])
       } else if (!isObj(params[p].code))
 	error(M_CANT0);
     }
-
-  /* Set verb code and map parameters */
-  current.verb = mapSyntax(elms->flags); /* Flags of EOS is actually syntax number! */
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {

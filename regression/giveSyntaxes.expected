@@ -9,12 +9,12 @@ L
 There is a ball here. Policeman is here.
 
 > give policeman the ball
-Give policeman ball. Give ball to policeman. Give policeman ball. Give 
-ball to policeman.
+OBJECT: Give policeman ball. Give ball to policeman. ACTOR: Give policeman 
+ball. Give ball to policeman.
 
 > give the ball to the policeman
-Give policeman ball. Give ball to policeman. Give policeman ball. Give 
-ball to policeman.
+OBJECT: Give policeman ball. Give ball to policeman. ACTOR: Give policeman 
+ball. Give ball to policeman.
 
 > give ball the policeman
 Only actors will appreciate gifts.

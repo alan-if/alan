@@ -37,10 +37,11 @@
 
 
 /*======================================================================*/
-Syntax *newSyntax(Srcp *srcp,
+Syntax *newSyntax(Srcp srcp,
 		  IdNode *id,
 		  List *elements,
-		  List *restrictionLists)
+		  List *restrictionLists,
+		  Srcp restrictionSrcp)
 {
   Syntax *new;                  /* The newly created node */
   static int number = 1;
@@ -49,13 +50,14 @@ Syntax *newSyntax(Srcp *srcp,
 
   new = NEW(Syntax);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->id = id;
   new->number = number++;
   new->elements = elements;
   new->firstSyntax = TRUE;	/* Assume first and only so far */
   new->nextSyntaxForSameVerb = NULL;
   new->restrictionLists = restrictionLists;
+  new->restrictionSrcp = restrictionSrcp;
 
   new->generated = FALSE;
 
@@ -154,8 +156,12 @@ void analyzeSyntaxes(void)
 	lst->element.stx->nextSyntaxForSameVerb = other->element.stx;
 	other->element.stx->firstSyntax = FALSE;
 	if (!equalParameterLists(lst->element.stx, other->element.stx)) {
-	  lmLog(&other->element.stx->srcp, 206, sevERR, lst->element.stx->id->string);
+	  lmLog(&other->element.stx->srcp, 206, sevERR,
+		lst->element.stx->id->string);
 	}
+	if (other->element.stx->restrictionLists != NULL)
+	  lmLog(&other->element.stx->restrictionSrcp, 250, sevERR,
+		lst->element.stx->id->string);
       }
 
   /* Now do the analysis */
@@ -184,7 +190,7 @@ Syntax *defaultSyntax0(char *verbName)
 				      FALSE),
 			   ELEMENT_LIST),
 		    newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
-  stx = newSyntax(&nulsrcp, newId(&nulsrcp, verbName), elements, NULL);
+  stx = newSyntax(nulsrcp, newId(&nulsrcp, verbName), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
@@ -214,7 +220,7 @@ Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
 		       newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
 		       ELEMENT_LIST),
 		newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
-  stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
+  stx = newSyntax(nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
@@ -276,8 +282,13 @@ static void generateRestrictionTable(void) {
   /* Generate all syntax parameter restriction checks */
   TRAVERSE(lst, adv.stxs) {
     Syntax *stx = lst->element.stx;
-    stx->restrictionsAddress = generateRestrictions(stx->restrictionLists,
-						    stx);
+    Syntax *nextSyntax;
+    if (stx->firstSyntax) {
+      stx->restrictionsAddress = generateRestrictions(stx->restrictionLists, stx);
+      for (nextSyntax = stx->nextSyntaxForSameVerb; nextSyntax;
+	   nextSyntax = nextSyntax->nextSyntaxForSameVerb)
+	nextSyntax->restrictionsAddress = stx->restrictionsAddress;
+    }
   }
 }
 

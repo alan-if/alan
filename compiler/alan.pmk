@@ -378,7 +378,7 @@ static int val(char str[])
 <syntax_item>
     = ID '=' <syntax_elements> <optional_syntax_restrictions>
     %%
-	%<syntax_item>.stx = newSyntax(`&%'='.srcp,
+	%<syntax_item>.stx = newSyntax(%'='.srcp,
 				  	%ID.id,
 				  	concat(%<syntax_elements>.elms,
 				        	newElement(`&%ID.id->srcp,
@@ -386,7 +386,8 @@ static int val(char str[])
 							   NULL,
 							   FALSE),
 						ELEMENT_LIST),
-					%<optional_syntax_restrictions>.ress);
+					%<optional_syntax_restrictions>.ress,
+					%<optional_syntax_restrictions>.srcp);
     %%
     ;
 
@@ -445,19 +446,6 @@ static int val(char str[])
     %%
     ;
 
-<optional_syntax_restrictions>
-    = '.'
-    %%
-	%<optional_syntax_restrictions>.ress = NULL;
-    %%
-
-    ! 'WHERE' <syntax_restriction_clauses>
-    %%
-	%<optional_syntax_restrictions>.ress = %<syntax_restriction_clauses>.ress;
-    %%
-    ;
-
-
 -- A syntax restriction is a definition of which classes a syntax parameter may
 -- belong to. A parameter can be restricted to a list of classes in the same
 -- restriction clause. It is also possible to restrict a parameter using
@@ -499,6 +487,19 @@ static int val(char str[])
     %%
 	%<restriction_class>.id = NULL;
 	%<restriction_class>.restrictionKind = CONTAINER_RESTRICTION;
+    %%
+    ;
+
+<optional_syntax_restrictions>
+    = '.'
+    %%
+	%<optional_syntax_restrictions>.ress = NULL;
+    %%
+
+    ! 'WHERE' <syntax_restriction_clauses>
+    %%
+	%<optional_syntax_restrictions>.srcp = %'WHERE'.srcp;
+	%<optional_syntax_restrictions>.ress = %<syntax_restriction_clauses>.ress;
     %%
     ;
 

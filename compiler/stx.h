@@ -24,6 +24,7 @@ typedef struct Syntax {
   int number;			/* Syntax number */
   List *elements;
   List *restrictionLists;
+  Srcp restrictionSrcp;
   List *parameters;
   Bool generated;
   Bool firstSyntax;

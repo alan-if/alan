@@ -128,27 +128,19 @@ List *analyzeElements(List *elms,        /* IN - List to analyze */
 
 
 
-/*----------------------------------------------------------------------
-
-  eqElms()
-
-  Return true if two pointers to elms lists have their first element
-  the same.
-
-  */
-static Bool eqElms(List *elm1,  /* IN - One list pointer */
-                   List *elm2)  /* IN - The other */
+/*----------------------------------------------------------------------*/
+static Bool equalElements(List *element1, List *element2)
 {
-  if (elm1 == NULL)
-    return (elm2 == NULL);
-  else if (elm2 == NULL)
+  if (element1 == NULL)
+    return (element2 == NULL);
+  else if (element2 == NULL)
     return FALSE;
   else
-    return (elm1->element.elm->kind == elm2->element.elm->kind &&
-	    (elm1->element.elm->kind == END_OF_SYNTAX ||
-	     elm1->element.elm->kind == PARAMETER_ELEMENT ||
-	     (elm1->element.elm->kind == WORD_ELEMENT &&
-              equalId(elm1->element.elm->id, elm2->element.elm->id))));
+    return (element1->element.elm->kind == element2->element.elm->kind &&
+	    (element1->element.elm->kind == END_OF_SYNTAX ||
+	     element1->element.elm->kind == PARAMETER_ELEMENT ||
+	     (element1->element.elm->kind == WORD_ELEMENT &&
+              equalId(element1->element.elm->id, element2->element.elm->id))));
 }
 
 
@@ -206,7 +198,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 
   elms = rest;
   while (elms != NULL) {
-    if (eqElms(part->element.lst, elms->element.lst)) {
+    if (equalElements(part->element.lst, elms->element.lst)) {
       this = first(&elms);
       part = combine(part, this);
       if (rest == this)
@@ -226,7 +218,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 
 
 /*======================================================================*/
-Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
+Aaddr generateElements(List *elms, Syntax *stx)
 {
   /*
     Generate the data structure for the syntax elements.  NOTE that
@@ -243,7 +235,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
 
   List *lst;                    /* Traversal list */
   List *part;                   /* The current partion */
-  Aaddr elmadr, resadr;
+  Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
   ElementEntry *entry;              /* One entry in the list */
 
@@ -253,7 +245,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
   showProgress();
 
   /* Move all to their next elm */
-  resadr = advance(elms);
+  restrictionTableAddress = advance(elms);
 
   level++;
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
@@ -272,7 +264,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
       entry->code = EOS;        /* End Of Syntax */
       entry->flags = part->element.lst->element.elm->stx->number; /* Syntax number */
       /* Point to the generated class restriction table */
-      entry->next = resadr;
+      entry->next = restrictionTableAddress;
       break;
 
     case PARAMETER_ELEMENT:

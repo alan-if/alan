@@ -157,7 +157,7 @@ void analyzeRestrictions(
 
 
 /*----------------------------------------------------------------------*/
-static void generateRestrictionParts(ResNod *res)
+static void generateRestrictionStatements(ResNod *res)
 {
   res->stmadr = nextEmitAddress();
   generateStatements(res->stms);
@@ -197,15 +197,13 @@ static void generateRestrictionEntry(ResNod *res)
 
 
 /*======================================================================*/
-Aaddr generateRestrictions(
-    List *restrictions,		/* IN - The element class restriction nodes */
-    Syntax *stx)		/* IN - Syntax node containing the res */
+Aaddr generateRestrictions(List *restrictions, Syntax *stx)
 {
   List *lst;
   Aaddr address;
 
   for (lst = restrictions; lst != NULL; lst = lst->next)
-    generateRestrictionParts(lst->element.res);
+    generateRestrictionStatements(lst->element.res);
 
   address = nextEmitAddress();
   for (lst = restrictions; lst != NULL; lst = lst->next)

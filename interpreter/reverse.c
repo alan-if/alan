@@ -240,8 +240,22 @@ static void reverseInstances(Aword adr)
 static void reverseRestrictions(Aword adr)
 {
   RestrictionEntry *e = (RestrictionEntry *) &memory[adr];
+  static Aword *done = NULL;
+  static int numberDone = 0;
+  int i;
+  Boolean found = FALSE;
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (adr == 0) return;
+
+  /* Have we already done it? */
+  for (i = 0; i < numberDone; i++) if (done[i] == adr) {found = TRUE; break;}
+  if (found) return;
+
+  done = realloc(done, (numberDone+1)*sizeof(Aword));
+  done[numberDone] = adr;
+  numberDone++;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(RestrictionEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
