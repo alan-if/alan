@@ -79,6 +79,10 @@
 #endif
 
 
+#ifdef HAVE_WINGLK
+#define HAVE_GLK
+#endif
+
 /*----------------------------------------------------------------------
 
   Below follows OS and compiler dependent settings. They should not be

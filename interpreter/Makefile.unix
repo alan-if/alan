@@ -9,14 +9,14 @@ OSDEFS = -D__unix__
 GLKPREFIX = /usr/local
 GLKINCLUDEDIR = $(GLKPREFIX)/Include
 GLKLIBDIR = -L$(GLKPREFIX)/lib
-GLK = -DGLK
+GLK = -DHAVE_GLK
 GLKLIB = -lglkterm -lcurses
 GLKOBJS = glkstart.o glkio.o
 
 # -- Options.
 
 # Define the for more verbosity
-#VERBOSE = -DVERBSOE
+#VERBOSE = -DVERBOSE
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG

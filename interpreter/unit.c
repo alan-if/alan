@@ -25,7 +25,6 @@ static Case *lastCase = NULL;
 static void registerUnitTest(void (*aCase)());
 
 
-static Aword *memory;
 static void loadACD(char fileName[]);
 
 Aword convertFromACD(Aword w)
@@ -72,6 +71,7 @@ void syserr(char msg[])
 #include "interTest.c"
 #include "reverseTest.c"
 #include "sysdepTest.c"
+#include "mainTest.c"
 
 int main()
 {
@@ -81,6 +81,7 @@ int main()
     registerInterUnitTests();
     registerReverseUnitTests();
     registerSysdepUnitTests();
+    registerMainUnitTests();
 
     unitTest();
   }

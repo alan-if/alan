@@ -6,6 +6,7 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "sysdep.h"
 #include "types.h"
 #include "act.h"
 #include "debug.h"

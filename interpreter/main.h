@@ -15,8 +15,6 @@
 
 /* DATA */
 
-#define MEMORYSIZE 1000L
-
 extern int memTop;		/* Top of memory */
 
 extern int conjWord;		/* First conjunction in dictionary */
@@ -55,7 +53,12 @@ extern int dictsize;		/* Number of entries in dictionary */
 
 /* The text and message file */
 extern FILE *textFile;
-extern FILE *logFile;
+#ifdef HAVE_GLK
+#include "glk.h"
+strid_t logFile;
+#else
+FILE *logFile;
+#endif
 
 /* File names */
 extern char *adventureName;

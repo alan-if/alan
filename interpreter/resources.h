@@ -2,7 +2,7 @@
 
 #define IDR_ARUN                        1101
 
-#define IDI_ARUN                        1102
+#define IDI_ARUN                        30020
 #define IDD_ABOUT                       1103
 
 #define ID_MENU_RESTART			25001

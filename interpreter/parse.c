@@ -179,12 +179,18 @@ static void getline(void)
 #endif
     getPageSize();
     anyOutput = FALSE;
-    if (transcriptOption || logOption)
+    if (transcriptOption || logOption) {
+#ifdef HAVE_GLK
+      glk_put_string_stream(logFile, buf);
+      glk_put_char_stream(logFile, '\n');
+#else
 #ifndef __amiga__
       fprintf(logFile, "%s\n", buf);
 #else
-      fprintf(transcriptFile, "%s", buf);
+      fprintf(logFile, "%s", buf);
 #endif
+#endif
+    }
 #if ISO == 0
     toIso(isobuf, buf, NATIVECHARSET);
 #else
@@ -208,11 +214,8 @@ static void getline(void)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void scan(void)
-#else
-static void scan()
-#endif
 {
   int i;
   int w;
@@ -805,6 +808,7 @@ void parse(void) {
   } else if (anyOutput)
     para();
 
+  capitalize = TRUE;
   allLength = 0;
   paramidx = 0;
   copyParameterList(pparams, params);

@@ -5,6 +5,8 @@
   Action routines
 
 \*----------------------------------------------------------------------*/
+
+#include "sysdep.h"
 #include "act.h"
 
 /* Import */

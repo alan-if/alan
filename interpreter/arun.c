@@ -7,8 +7,10 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "sysdep.h"
 #include "main.h"
 #include "term.h"
+
 #ifdef HAVE_SHORT_FILENAMES
 #include "av.h"
 #else
@@ -18,7 +20,7 @@
 
 #ifdef HAVE_GLK
 #include "glkio.h"
-#ifdef __win__
+#ifdef HAVE_WINGLK
 #include "WinGlk.h"
 #else
 #include "glk.h"
@@ -96,17 +98,20 @@ int main(
       usage();
       terminate(0);
     }
-  } else {
-    winglk_app_set_name(adventureName);
-    
+  }
+  winglk_app_set_name(adventureName);
+  winglk_window_set_title(adventureName);
+
 #else
     printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
-#endif
   }
-#ifdef HAVE_WINGLK
-  winglk_window_set_title(adventureName);
+#endif
+
+#ifdef TRYING_TO_SET_ICON_HAVE_WINGLK
+  HWND mainWindow = FindWindow(NULL, adventureName);
+  CloseWindow(mainWindow);
 #endif
 
   run();

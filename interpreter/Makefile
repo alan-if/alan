@@ -15,7 +15,7 @@ ARCH	= $(CYGWIN)$(OPTIMIZE)
 
 #Settings for Windows GLK variant
 GLKROOT = ../../WindowsGLK
-GLKDEFS = -DHAVE_GLK -DHAVE_WINGLK
+GLKDEFS = -DHAVE_WINGLK
 GLKINCLUDE = -I$(GLKROOT)/Include
 GLKLIB = $(GLKROOT)/Glk.lib
 winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
@@ -46,8 +46,7 @@ BUILDSRCS = \
 	term.c \
 	readline.c \
 	params.c \
-	act.c \
-	main.c
+	act.c
 
 # Main sources are only in main build because unit #includes them
 MAINSRCS = \
@@ -57,6 +56,7 @@ MAINSRCS = \
 	inter.c \
 	reverse.c \
 	syserr.c \
+	main.c \
 	arun.c
 
 VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)

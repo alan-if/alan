@@ -7,7 +7,7 @@ GLKINCLUDEDIR = $(GLKPREFIX)/include
 GLKLIBDIR = $(GLKPREFIX)
 GLKMAKEFILE = Make.xglk
 GLKTARGET = xalan
-GLK = -DGLK
+GLK = -DHAVE_GLK
 GLKLIB = Glk.lib
 
 #A tag describing the type of build 

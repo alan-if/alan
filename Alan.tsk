@@ -6,207 +6,16 @@
 <priority>2</priority>
 <origest>308.89</origest>
 <currest>307.89</currest>
-<elapsed>150.89</elapsed>
+<elapsed>151.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>52</origest>
-<currest>52</currest>
-<elapsed>16</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.31</desc>
-<notes/>
-<priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
-<elapsed>16</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Attributes of class type</desc>
-<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
-<priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
-<elapsed>5</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Instance Type in type system</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attribute declarations of instance Type</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Code generation of instance attributes</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Expression syntax for accessing attributes of attributes</desc>
-<notes>In order to refer to an attribute of an instance which is refered to by an attribute the expression syntax need to be changed so that it allows:
-
-  Make otherside Of door open.
-  Set size Of bag Of thief To 4.
-
-Possibly at the same time we could introduce a new attribute reference syntax, e.g:
-  Make door:otherside:open.
-  Set thief:bag:size To 4.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Assignment rules for instance attributes</desc>
-<notes>Requires actual value to be only subclasses of instance initial class.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Type comparison rules for instance type</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
-<task>
-<desc>Unify error messages 408, 413 and 428</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
-<notes>Checks are always run it's the bodies that we have to warn for</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Spaces after $o at end of string</desc>
-<notes>SteveG:
-Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow reading player input from file</desc>
-<notes>A '@' as the first character will make the interpreter read the rest of the line as a file name. It tries to open that file and read lines from it one at a time, as if the player had input them.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Scripting</desc>
-<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
-
-Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Aggregates does not work</desc>
-<notes>Should they only address objects as it says in the docs? No, probably it should have a class restriction as an optional clause and object as a default.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;scripts&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Priorities of operators stink</desc>
-<notes>Count at l = 8
--&gt; '=' replaced by 'OR'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>RESTART does not work well in WinArun</desc>
-<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?
-
-Could not repeat this!</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Make distinction on words and symbols and identifiers</desc>
-<notes>The manual should have a clear description of each. In "lexical definitions"?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>OSX porting feedback</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>35</origest>
+<currest>35</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
@@ -2234,9 +2043,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>129.89</origest>
-<currest>128.89</currest>
-<elapsed>128.89</elapsed>
+<origest>146.89</origest>
+<currest>145.89</currest>
+<elapsed>145.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -5339,6 +5148,197 @@ Design:
   Locate x Here.
 
 This clause should not be run if the actor x is already in the room.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.31</desc>
+<notes/>
+<priority>2</priority>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>17</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Attributes of class type</desc>
+<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<priority>2</priority>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Instance Type in type system</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute declarations of instance Type</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Code generation of instance attributes</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Expression syntax for accessing attributes of attributes</desc>
+<notes>In order to refer to an attribute of an instance which is refered to by an attribute the expression syntax need to be changed so that it allows:
+
+  Make otherside Of door open.
+  Set size Of bag Of thief To 4.
+
+Possibly at the same time we could introduce a new attribute reference syntax, e.g:
+  Make door:otherside:open.
+  Set thief:bag:size To 4.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Assignment rules for instance attributes</desc>
+<notes>Requires actual value to be only subclasses of instance initial class.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Type comparison rules for instance type</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Unify error messages 408, 413 and 428</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
+<notes>Checks are always run it's the bodies that we have to warn for</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Spaces after $o at end of string</desc>
+<notes>SteveG:
+Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow reading player input from file</desc>
+<notes>A '@' as the first character will make the interpreter read the rest of the line as a file name. It tries to open that file and read lines from it one at a time, as if the player had input them.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scripting</desc>
+<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
+
+Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Aggregates does not work</desc>
+<notes>Should they only address objects as it says in the docs? No, probably it should have a class restriction as an optional clause and object as a default.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;scripts&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Priorities of operators stink</desc>
+<notes>Count at l = 8
+-&gt; '=' replaced by 'OR'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RESTART does not work well in WinArun</desc>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?
+
+Could not repeat this!</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make distinction on words and symbols and identifiers</desc>
+<notes>The manual should have a clear description of each. In "lexical definitions"?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>OSX porting feedback</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

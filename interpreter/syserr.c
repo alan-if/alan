@@ -17,7 +17,11 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
   }
 
   if (transcriptOption || logOption)
+#ifdef HAVE_GLK
+    glk_stream_close(logFile, NULL);
+#else
     fclose(logFile);
+#endif
   newline();
 
 #ifdef __amiga__

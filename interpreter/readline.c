@@ -4,6 +4,8 @@
 
  */
 
+#include "sysdep.h"
+
 #ifdef HAVE_GLK
 
 #include "readline.h"
@@ -48,11 +50,12 @@ Boolean readline(char buffer[])
   event_t event;
 #ifdef HAVE_WINGLK
   INT_PTR e;
+  static frefid_t commandFileRef;
+  static strid_t commandFile;
+  static frefid_t logFileRef;
 #endif
 
   static Boolean readingCommands = FALSE;
-  static frefid_t commandFileRef;
-  static strid_t commandFile;
 
   if (readingCommands) {
     if (glk_get_line_stream(commandFile, buffer, 255) == 0) {
@@ -78,18 +81,6 @@ Boolean readline(char buffer[])
 	  case ID_MENU_RESTART:
 	    restartGame();
 	    break;
-	  case ID_MENU_PLAYBACK:
-	    commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
-	    if (commandFileRef == NULL) break;
-	    commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
-	    if (commandFile != NULL)
-	      if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
-		readingCommands = TRUE;
-		printf(buffer);
-		return TRUE;
-	      }
-	    break;
-	    
 	  case ID_MENU_SAVE:
 	    glk_set_style(style_Input);
 	    printf("save\n");
@@ -106,6 +97,33 @@ Boolean readline(char buffer[])
 	    look();
 	    para();
 	    printf("> ");
+	    break;
+	  case ID_MENU_RECORD:
+	    break;
+	  case ID_MENU_PLAYBACK:
+	    commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
+	    if (commandFileRef == NULL) break;
+	    commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
+	    if (commandFile != NULL)
+	      if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
+		readingCommands = TRUE;
+		printf(buffer);
+		return TRUE;
+	      }
+	    break;
+	  case ID_MENU_TRANSCRIPT:
+	    if (transcriptOption || logOption) {
+	      glk_stream_close(logFile, NULL);
+	      transcriptOption = FALSE;
+	      logOption = FALSE;
+	    }
+	    logFileRef = glk_fileref_create_by_prompt(fileusage_Transcript+fileusage_TextMode, filemode_Write, 0);
+	    if (logFileRef == NULL) break;
+	    logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+	    if (logFile != NULL) {
+	      transcriptOption = TRUE;
+	      glk_put_string_stream(logFile, "> ");
+	    }
 	    break;
 	  case ID_MENU_ABOUT:
 	    e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);

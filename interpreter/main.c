@@ -46,7 +46,7 @@
 /* PUBLIC DATA */
 
 /* The Amachine memory */
-Aword *memory;
+Aword *memory = NULL;
 static AcdHdr dummyHeader;	/* Dummy to use until memory allocated */
 AcdHdr *header = &dummyHeader;
 
@@ -100,8 +100,11 @@ Boolean anyOutput = FALSE;
 /* The files and filenames */
 char *adventureName;
 FILE *textFile;
+#ifdef HAVE_GLK
+strid_t logFile;
+#else
 FILE *logFile;
-
+#endif
 
 /* Screen formatting info */
 int col, lin;
@@ -117,6 +120,7 @@ jmp_buf error_label;		/* Error (or undo) long jump return point*/
 
 
 /* PRIVATE DATA */
+static Boolean onStatusLine = FALSE; /* Don't log when printing status */
 
 
 /*======================================================================
@@ -162,7 +166,11 @@ void terminate(code)
     newline();
   free(memory);
   if (transcriptOption)
+#ifdef HAVE_GLK
+    glk_stream_close(logFile, NULL);
+#else
     fclose(logFile);
+#endif
 
 #ifdef __MWERKS__
   printf("Command-Q to close window.");
@@ -234,6 +242,7 @@ void statusline(void)
   glk_window_clear(glkStatusWin);
   glk_window_get_size(glkStatusWin, &glkWidth, NULL);
 
+  onStatusLine = TRUE;
   col = 1;
   glk_window_move_cursor(glkStatusWin, 1, 0);
   interpret(instance[where(HERO)].mentioned);
@@ -243,10 +252,11 @@ void statusline(void)
   else
     sprintf(line, "%d moves", current.tick);
   glk_window_move_cursor(glkStatusWin, glkWidth - col - strlen(line), 0);
-  printf(line);
+  glk_put_string(line);
   needSpace = FALSE;
 
   col = pcol;
+  onStatusLine = FALSE;
 
   glk_set_window(glkMainWin); 
 #else
@@ -260,6 +270,7 @@ void statusline(void)
   printf("\x1b[1;1H");
   printf("\x1b[7m");
 
+  onStatusLine = TRUE;
   col = 1;
   interpret(instance[where(HERO)].mentioned);
 
@@ -271,12 +282,26 @@ void statusline(void)
   printf(line);
   printf("\x1b[m");
   printf("\x1b[%d;1H", pageLength);
-  needSpace = FALSE;
 
+  needSpace = FALSE;
+  capitalize = TRUE;
+
+  onStatusLine = FALSE;
   col = pcol;
 #endif
 #endif
 }
+
+
+/*----------------------------------------------------------------------*/
+static int updateColumn(int currentColumn, char *string) {
+  char *newlinePosition = strrchr(string, '\n');
+  if (newlinePosition != NULL)
+    return &string[strlen(string)] - newlinePosition;
+  else
+    return currentColumn + strlen(string);
+}
+
 
 
 /*======================================================================
@@ -286,11 +311,40 @@ void statusline(void)
   Print some text and log it if logging is on.
 
  */
-void logPrint(char str[])
+void logPrint(char string[])
 {
-  printf(str);
-  if (transcriptOption)
-    fprintf(logFile, str);
+#ifdef HAVE_GLK
+  static int column = 0;
+  char *stringCopy;
+  char *stringPart;
+#endif
+
+  printf(string);
+  if (!onStatusLine && (transcriptOption||logOption)) {
+#ifdef HAVE_GLK
+    if (strlen(string) > 70-column) {
+      stringCopy = strdup(string);	/* Make sure we can write NULLs */
+      stringPart = stringCopy;
+      while (strlen(stringPart) > 70-column) {
+	int p;
+	for (p = 70-column; p>0 && !isspace(stringPart[p]); p--);
+	stringPart[p] = '\0';
+	glk_put_string_stream(logFile, stringPart);
+	glk_put_char_stream(logFile, '\n');
+	column = 0;
+	stringPart = &stringPart[p+1];
+      }
+      glk_put_string_stream(logFile, stringPart);
+      column = updateColumn(column, stringPart);
+      free(stringCopy);
+    } else {
+      glk_put_string_stream(logFile, string);
+      column = updateColumn(column, string);
+    }
+#else
+    fprintf(logFile, string);
+#endif
+  }
 }
 
 
@@ -317,7 +371,7 @@ void newline(void)
   
   lin++;
 #else
-  glk_put_char('\n');
+  logPrint("\n");
 #endif
   col = 1;
   needSpace = FALSE;
@@ -1219,7 +1273,14 @@ static void openFiles(void)
 
     time(&tick);
     sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
-    if ((logFile = fopen(logfnm, "w")) == NULL) {
+#ifdef HAVE_GLK
+    glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
+    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logfnm, 0);
+    logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+#else
+    logFile = fopen(logfnm, "w");
+#endif
+    if (logFile == NULL) {
       transcriptOption = FALSE;
       logOption = FALSE;
     }
