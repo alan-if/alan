@@ -1,0 +1,22 @@
+########## alan addArticles ##########
+
+
+addArticles.alan
+
+    7.    Indefinite Article ""
+=====>               1
+
+  *1*   336 E : You can not ADD Indefinite Article when the class already have
+                it.
+
+   11.    Definite Article ""
+=====>             1
+
+  *1*   336 E : You can not ADD Definite Article when the class already have
+                it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

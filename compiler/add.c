@@ -179,13 +179,21 @@ static void addEntered(AddNode *add, Symbol *original)
 /*----------------------------------------------------------------------*/
 static void addArticles(AddNode *add, Symbol *original)
 {
-  Properties *props = add->props;
-
-  if (props->definite != NULL)
-    lmLogv(&props->definiteSrcp, 341, sevERR, "articles", "(yet)", NULL);
-  if (props->indefinite != NULL)
-    lmLogv(&props->indefiniteSrcp, 341, sevERR, "articles", "(yet)", NULL);
-
+  if (add->props->definite != NULL) {
+    if (original->fields.entity.props->definite != NULL)
+      lmLog(&add->props->definiteSrcp, 336, sevERR,
+	    "Definite Article when the class already have it");
+    else
+      original->fields.entity.props->definite = add->props->definite;
+  }
+  
+  if (add->props->indefinite != NULL) {
+    if (original->fields.entity.props->indefinite != NULL)
+      lmLog(&add->props->indefiniteSrcp, 336, sevERR,
+	    "Indefinite Article when the class already have it");
+    else
+      original->fields.entity.props->indefinite = add->props->indefinite;
+  }
 }
 
 

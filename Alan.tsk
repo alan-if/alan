@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>293.89</origest>
-<currest>292.89</currest>
+<origest>292.89</origest>
+<currest>291.89</currest>
 <elapsed>130.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>45</origest>
-<currest>45</currest>
+<origest>44</origest>
+<currest>44</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>14</origest>
+<currest>14</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -151,15 +151,6 @@ There is a solution suggested in compiler/prop.c/analyseName()</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-<task>
-<desc>Add To &lt;articles and forms&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>String operators</desc>
