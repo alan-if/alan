@@ -1,0 +1,17 @@
+########## alan currentActorNotContainer ##########
+
+
+currentActorNotContainer.alan
+
+    5.    Locate l In Current Actor.
+=====>                1
+
+  *1*   428 E : Expression after IN must refer to a Container, which the
+                Current Actor is not since the class 'actor' does not have the
+                Container property.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

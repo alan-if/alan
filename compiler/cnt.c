@@ -120,8 +120,8 @@ void verifyContainer(What *wht, Context *context, char construct[])
     break;
 
   case WHAT_ACTOR:
-    if (actorSymbol->fields.entity.props->container == NULL)
-      lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
+    if (!isContainer(actorSymbol))
+      lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
     break;
 
   default:

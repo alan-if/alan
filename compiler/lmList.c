@@ -136,7 +136,6 @@ static lmMsgs msg[] = {
     { "307   ", "\'%1\' already declared as an Event." },
     { "309   ", "THIS instance is not guaranteed to be a container." },
     { "310   ", "Identifier \'%1\' not defined." },
-    { "311   ", "Must refer to %1." },
     { "312   ", "Parameter \'%1\' is not guaranteed to be %2, which is required." },
     { "313   ", "Attribute \'%1\' is not defined for THIS instance." },
     { "314   ", "Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it." },
@@ -215,7 +214,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 135}
+    {0, 134}
 };
 static lmMessages currMsect = (lmMessages)0;
 
