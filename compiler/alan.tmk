@@ -6,9 +6,8 @@
 
 %%IMPORT
 
-#include "types.h"
-#include "Srcp.h"
-#include "Token.h"
+#include "srcp.h"
+#include "token.h"
 
 %%SRCP
 	NAME Srcp;

@@ -126,7 +126,7 @@ void anadv()
   preplocs();			/* D:o */
   prepacts();			/* D:o */
   prepwrds();			/* Prepare words in the dictionary */
-  prepmsgs();			/* Prepare standard messages */
+  prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */
 
   if (verbose) printf("\n\tSyntax definitions...");
@@ -327,25 +327,25 @@ void summary()
   lmLiPrint("        Summary");
   lmLiPrint("        -------");
   if (loccount != 0) {
-    sprintf(str, "        Locations:              %6d", loccount);
+    (void)sprintf(str, "        Locations:              %6d", loccount);
     lmLiPrint(str);
   }
   if (vrbcount != 0) {
-    sprintf(str, "        Verbs:                  %6d", vrbcount);
+    (void)sprintf(str, "        Verbs:                  %6d", vrbcount);
     lmLiPrint(str);
   }
   if (objcount != 0) {
-    sprintf(str, "        Objects:                %6d", objcount);
+    (void)sprintf(str, "        Objects:                %6d", objcount);
     lmLiPrint(str);
   }
   if (actcount > 1) {
-    sprintf(str, "        Actors:                 %6d (incl. the Hero)", actcount);
+    (void)sprintf(str, "        Actors:                 %6d (incl. the Hero)", actcount);
     lmLiPrint(str);
   }
-  sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
+  (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
   lmLiPrint(str);
-  sprintf(str,   "        Acode:                  %6d words (%d bytes)", end, (int)((long)end*(long)sizeof(Aword)));
+  (void)sprintf(str,   "        Acode:                  %6d words (%d bytes)", (int)end, (int)((long)end*(long)sizeof(Aword)));
   lmLiPrint(str);
-  sprintf(str,   "        Text data:              %6d bytes", txtlen);
+  (void)sprintf(str,   "        Text data:              %6d bytes", txtlen);
   lmLiPrint(str);
 }

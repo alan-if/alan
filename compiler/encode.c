@@ -9,7 +9,7 @@
 #include "alan.h"
 
 #include "acode.h"
-#include "Option.h"
+#include "opt.h"		/* Options */
 #include "emit.h"
 
 #include "encode.h"
@@ -36,16 +36,16 @@ static int
 
 /*======================================================================
 
-  incrementFrequency()
+  incFreq()
 
   Increment the frequency for a particular character.
 
  */
 #ifdef _PROTOTYPES_
-void incrementFrequency(int ch)
+void incFreq(int ch)
             			/* IN - The character to increment for */
 #else
-void incrementFrequency(ch)
+void incFreq(ch)
      int ch;			/* IN - The character to increment for */
 #endif
 {
@@ -88,7 +88,7 @@ static void outputBit(bit)
     buffer |= 0x80;
   bitsToGo--;
   if (!bitsToGo) {		/* If no more room, output it */
-    putc(buffer, dataFile);
+    putc(buffer, datfil);
     txtlen++;
     bitsToGo = 8;
     buffer = 0;
@@ -102,7 +102,7 @@ static void doneOutputingBits(void)
 static void doneOutputingBits()
 #endif
 {
-  putc(buffer>>bitsToGo, dataFile);
+  putc(buffer>>bitsToGo, datfil);
   txtlen++;
 }
 
@@ -196,7 +196,7 @@ static void doneEncoding()
 
 /*======================================================================
 
-  initEncoding()
+  eninit()
 
   Prepare for encoding. Calculate the cumulative frequencies for all
   characters encountered in the text. If the model overflows restart
@@ -204,9 +204,9 @@ static void doneEncoding()
 
  */
 #ifdef _PROTOTYPES_
-void initEncoding(void)
+void eninit(void)
 #else
-void initEncoding()
+void eninit()
 #endif
 {
   int i;
@@ -253,15 +253,15 @@ void encode(fpos, length)
   int len;
   int ch;
 
-  fseek(textFile, *fpos, 0);
-  *fpos = ftell(dataFile);
+  fseek(txtfil, *fpos, 0);
+  *fpos = ftell(datfil);
 
-  if (options[PACK_OPTION].value) {
+  if (opts[OPTPACK].value) {
     /* Use arithmetic packing model */
     startOutputingBits();
     startEncoding();
     for (len = *length; len; len--) {
-      ch = getc(textFile);
+      ch = getc(txtfil);
       encodeChar(ch);
     }
     encodeChar(EOFChar);
@@ -270,7 +270,7 @@ void encode(fpos, length)
   } else {
     /* use straight text */
     for (len = *length; len; len--)
-      putc(getc(textFile), dataFile);
+      putc(getc(txtfil), datfil);
     txtlen += *length;
   }
 }
@@ -278,22 +278,22 @@ void encode(fpos, length)
 
 /*======================================================================
 
-  generateFrequencies()
+  gefreq()
 
   Generate the frequency table so that the interpreter can unpack the
   text again. 
 
   */
 #ifdef _PROTOTYPES_
-Aaddr generateFrequencies(void)
+Aaddr gefreq(void)
 #else
-Aaddr generateFrequencies()
+Aaddr gefreq()
 #endif
 {
   int i;
-  Aaddr adr = emitAddress();
+  Aaddr adr = emadr();
 
-  if (!options[PACK_OPTION].value)
+  if (!opts[OPTPACK].value)
     return 0;
   else {
     for (i = 0; i < NOOFSYMBOLS+1; i++)
@@ -305,15 +305,15 @@ Aaddr generateFrequencies()
 
 /*======================================================================
 
-  terminateEncoding()
+  enterm()
 
   Terminate the encoding process.
 
  */
 #ifdef _PROTOTYPES_
-void terminateEncoding(void)
+void enterm(void)
 #else
-void terminateEncoding()
+void enterm()
 #endif
 {
   int t;
@@ -322,5 +322,5 @@ void terminateEncoding()
   /* VAX fseek() doesn't work correctly in the last block of a fixed */
   /* record file!! (RMS stinks!!) */
   for (t = 512-(txtlen%512)+1; t>0; t--)
-    putc(0, dataFile);
+    putc(0, datfil);
 }

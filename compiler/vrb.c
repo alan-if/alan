@@ -252,6 +252,9 @@ Aaddr gevrbs(vrbs, act)
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
 
+  if (vrbs == NULL)
+    return 0;
+
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
     gevrb(lst->element.vrb, act);

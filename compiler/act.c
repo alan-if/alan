@@ -108,11 +108,11 @@ ActNod *newact(srcp, nam, nams, whr, props, atrs, dscr, vrbs, scrs)
   /* Note actor in the dictionary unless it is the hero */
   if (new->nam->code != 1)
     if (nams == NULL)		/* Use the actor name */
-      newwrd(nam->str, WRD_NOUN, new->nam->code, nam);
+      (void)newwrd(nam->str, WRD_NOUN, new->nam->code, nam);
     else {
       for (lst = nams; lst->next != NULL; lst = lst->next)
-	newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
-      newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
+	(void)newwrd(lst->element.nam->str, WRD_ADJ, 0, nam);
+      (void)newwrd(lst->element.nam->str, WRD_NOUN, lst->element.nam->code, nam);
     }
 
   return(new);
@@ -177,13 +177,14 @@ void prepacts()
       /* Note actor names in the dictionary, this is not done in newact() */
       /* because the user may want to redefine the heros name */
       if (act->nams == NULL)		/* Use the actor name */
-	newwrd(act->nam->str, WRD_NOUN, act->nam->code, act->nam);
+	(void)newwrd(act->nam->str, WRD_NOUN, act->nam->code, act->nam);
       else {
 	for (namlst = act->nams; namlst->next != NULL; namlst = namlst->next)
-	  newwrd(namlst->element.nam->str, WRD_ADJ, 0, act->nam);
-	newwrd(namlst->element.nam->str, WRD_NOUN, namlst->element.nam->code, act->nam);
+	  (void)newwrd(namlst->element.nam->str, WRD_ADJ, 0, act->nam);
+	(void)newwrd(namlst->element.nam->str, WRD_NOUN, namlst->element.nam->code, act->nam);
       }
     }
+    anatrs(act->atrs);
     i = aatrmax + 1;		/* First local is higher than global attrs. */
     for (alst = act->atrs; alst != NULL; alst = alst->next) {
       atr = findatr(alst->element.atr->nam->str, adv.aatrs);

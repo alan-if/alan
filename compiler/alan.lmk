@@ -2,6 +2,8 @@
 
 	Prefix 'lm';
 	Listings single;
+--	Message file;
+--	Library '.';
 
 %%MESSAGES English
 
@@ -26,43 +28,40 @@
 
 150	'Unterminated STRING.';
 151	'File name missing for $INCLUDE directive.';
+152	'Unterminated quoted identifier.';
 198	'Could not open output file \'%1\' for writing.';
 199	'Adventure source file (%1) not found.';
 
 201	'Mismatched block identifier, \'%1\' assumed.';
 202	'Multiple usage of direction \'%1\' in this EXIT.';
-203	'Multiple definition of direction \'%1\' in this location.';
-204	'Multiple usage of \'%1\' in this VERB definition.';
-205	'Multiple definition of verb \'%1\'.';
+203	'Multiple definition of EXIT \'%1\' in this location.';
+205	'Multiple usage of \'%1\' in this VERB definition.';
 206	'Multiple definition of SYNTAX for \'%1\'.';
 207	'VERB \'%1\' is not defined.';
 208	'\'%1\' is not a VERB.';
 209	'First element in a SYNTAX must be a player word.';
 210	'Action qualification not allowed here.';
-211	'Adventure must start at a Location instance.';
+211	'Adventure must start at a Location.';
 212	'Syntax parameter \'%1\' overrides symbol.';
 213	'Verb alternatives not allowed here.';
 214	'Parameter not defined in syntax for \'%1\'.';
 215	'Syntax not compatible with syntax for \'%1\'.';
 216	'Parameter \'%1\' multiply defined in this SYNTAX.';
 217	'Only one multiple parameter allowed for each syntax. This one ignored.';
-218	'Multiple definition of %1 \'%2\'.';
-219	'Multiple use of attribute \'%1\' in limits.';
+218	'Multiple definition of attribute \'%1\'.';
+219	'Multiple declaration of %1.';
 220	'Multiple definition of \'%1\'.';
 221	'Multiple class restriction for parameter \'%1\'.';
-222	'Identifier \'%1\' in class restriction is not a parameter.';
-223	'\'%1\' does not inherit the \'%2\' class.';
-224	'Class \'%1\' not defined.';
-225	'\'%1\' is not defined as a class.';
-226	'The inheritance of \'%1\' introduces a circle in the heritage graph, ignored.';
-227	'Instances may not have multiple inheritance.';
-228	'Attribute type not compatible with type of inherited attribute.';
-229	'Inherits the %1 \'%2\' from different definitions.';
+222	'Identifier \'%1\' in class definition is not a parameter.';
+223	'Unknown message identifier.';
 230	'No syntax defined for this verb, assumed \'%1 (object)\'.';
 
-300	'\'%1\' not defined as %2.';
-301	'\'%1\' already defined as a Direction.';
+301	'\'%1\' also defined as a Direction.';
+302	'\'%1\' also defined as a Location.';
 303	'\'%1\' also defined as a Verb.';
+304	'\'%1\' also defined as an Object.';
+305	'\'%1\' also defined as a Container.';
+306	'\'%1\' also defined as an Actor.';
 310	'Identifier \'%1\' not defined.';
 311	'Must refer to %1.';
 312	'Parameter not uniquely defined as %1, which is required.';
@@ -75,6 +74,7 @@
 331	'Incompatible types in %1.';
 332	'Type of local attribute must match default attribute.';
 333	'The word \'%1\' is defined as a synonym as well as of another word class.';
+334	'Multiple syntaxes are defined with this structure (words and parameters).';
 
 400	'Script not defined for Actor \'%1\'';
 401	'Actor reference required outside Actor specification.';
@@ -96,6 +96,7 @@
 417	'Comparing two constant entities will always yield the same result.';
 418	'Aggregate is only allowed on integer type attributes.';
 419	'Expression in %1 must be of integer or string type.';
+420	'Invalid What specification in %1.';
 
 501	'Location \'%1\' has no EXITs.';
 

@@ -253,14 +253,14 @@ static List *first(listP)
      List **listP;		/* IN OUT - Address of pointer to list */
 #endif
 {
-  List *first = *listP;
+  List *theFirst = *listP;
 
-  *listP = first->next;
+  *listP = theFirst->next;
 
-  first->next = NULL;
-  first->tail = first;
+  theFirst->next = NULL;
+  theFirst->tail = theFirst;
 
-  return first;
+  return theFirst;
 }
 
 
@@ -311,7 +311,8 @@ static List *partition(elmsListP)
       if (rest == this)
 	rest = elms;
       else {
-	for (p = rest; p->next != this; p = p->next);
+	for (p = rest; p->next != this; p = p->next)
+	  ;
 	p->next = elms;
       }
     } else {
@@ -340,11 +341,12 @@ static List *partition(elmsListP)
 
  */
 #ifdef _PROTOTYPES_
-Aaddr geelms(List *elms)
+Aaddr geelms(List *elms, StxNod *stx)
                 		/* IN - The elements */
 #else
-Aaddr geelms(elms)
+Aaddr geelms(elms, stx)
      List *elms;		/* IN - The elements */
+     StxNod *stx;		/* IN - The Syntax this belongs to */
 #endif
 {
   List *lst;			/* Traversal list */
@@ -368,8 +370,7 @@ Aaddr geelms(elms)
       /* This partition was at end of syntax */
       if (part->next != NULL) /* More than one element in this partition? */
 	/* That means that two syntax's are the same */
-	/* 4f_ni - Log err message for equal syntax */
-	;
+	lmLog(&stx->srcp, 334, sevWAR, "");
       entry->code = EOS;	/* End Of Syntax */
       /* Point to the generated class restriction table */
       entry->adr = resadr;
@@ -382,7 +383,7 @@ Aaddr geelms(elms)
 	entry->code = part->element.lst->element.elm->nam->code;
 	entry->multiple = FALSE;
       }
-      entry->adr = geelms(part);
+      entry->adr = geelms(part, stx);
     }
   }
   

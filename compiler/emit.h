@@ -17,20 +17,20 @@
 /* FUNCTIONS */
 #ifdef _PROTOTYPES_
 
-extern void initEmit(char acdfnm[]);
-extern Aword emitAddress(void);
-extern void emitString(char str[]);
+extern void eminit(char acdfnm[]);
+extern Aword emadr(void);
+extern void emitstr(char str[]);
 extern void emit(Aword word);
 extern void emit0(OpClass class, Aword op);
-extern void terminateEmit(AcdHdr *hdr);
+extern void emterm(AcdHdr *hdr);
 
 #else
-extern void initEmit();
-extern Aword emitAddress();
-extern void emitString();
+extern void eminit();
+extern Aword emadr();
+extern void emitstr();
 extern void emit();
 extern void emit0();
-extern void terminateEmit();
+extern void emterm();
 #endif
 
 #endif

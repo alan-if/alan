@@ -123,7 +123,7 @@ void prepatrs()
 
 /*======================================================================
 
-  sortatr()
+  anatrs()
 
   Analyze a list of attributes.
 
@@ -252,7 +252,7 @@ Aword geatrs(atrs, datrs)
       for (lst = datrs; lst != NULL; lst = lst->next) {
 	lst->element.atr->stradr = emadr();
 	emitstr(lst->element.atr->nam->str);
-    }
+      }
   }
 
   adr = emadr();

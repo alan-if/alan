@@ -5,9 +5,12 @@
 
 %%IMPORT
 
+#include "sysdep.h"
+
+#include "types.h"
+
 #include "alan.h"
 #include "lmList.h"
-#include "List.h"
 #include "encode.h"
 
 /* For open, read & close */
@@ -31,7 +34,7 @@
 #include "sysdep.h"
 #include "types.h"
 
-#include "List.h"
+#include "lst.h"
 
 extern smScContext lexContext;
 
@@ -47,6 +50,8 @@ extern int scannedLines();
 #endif
 
 %%DECLARATIONS
+
+#include "str.h"
 
 #define COPYMAX (smThis->smLength>256?256:smThis->smLength)
 
@@ -74,7 +79,7 @@ Bool smScanEnter(fnm)
   smScContext this;
 
   /* Remember the filename */
-  fileNames = append(fileNames, fnm);
+  fileNames = concat(fileNames, newstr(fnm));
 
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
@@ -87,7 +92,7 @@ Bool smScanEnter(fnm)
     return FALSE;
   else {
     this->fileName = fnm;
-    this->fileNumber = fileNumber++;
+    this->fileNo = fileNo++;
     this->previous = lexContext;
     lexContext = this;
   }
@@ -109,7 +114,7 @@ int scannedLines()
   smScContext previous;
   int fd;
   char *fileName;
-  int fileNumber;
+  int fileNo;
 
 
 %%READER
@@ -123,7 +128,7 @@ int scannedLines()
 
 %%POSTHOOK
 
-  smToken->srcp.file = smThis->fileNumber;
+  smToken->srcp.file = smThis->fileNo;
   if (smToken->code == sm_MAIN_ENDOFTEXT_Token) {
     lines += smThis->smLine;
     close(smThis->fd);
@@ -158,17 +163,22 @@ int scannedLines()
     %%;
 
 
-  IDENTIFIER = letter (letter ! digit ! '_')*			-- normal id
+  ID = letter (letter ! digit ! '_')*			-- normal id
     %%
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
 	(void) strlow(smToken->chars);
     %%;
 
-  IDENTIFIER = '\'' ([^\'\n]!'\'''\'')* '\''			-- quoted id (no newlines!)
+  ID = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
 	char *c;
 
+	/* If terminated by \n illegal! */
+	if (smThis->smText[smThis->smLength-1] == '\n')
+	  lmLog(&smToken->srcp, 152, sevERR, "");
+
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+	/* Replace any doubled quotes by single */
 	for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
 	    strcpy(c, &c[1]);
 	    c++;
@@ -182,7 +192,7 @@ int scannedLines()
       Bool space = FALSE;
       int i, c;
 
-      smToken->fpos = ftell(textFile); /* Remember where it starts */
+      smToken->fpos = ftell(txtfil); /* Remember where it starts */
       smThis->smText[smThis->smLength-1] = '\0';
 #if ISO == 0
       toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1]);
@@ -193,14 +203,14 @@ int scannedLines()
 	if (isspace(c = smThis->smText[i])) {
 	  if (!space) {		/* Are we looking at spaces? */
 	    /* No, so output a space and remember */
-	    putc(' ', textFile);
-	    incrementFrequency(' ');
+	    putc(' ', txtfil);
+	    incFreq(' ');
 	    space = TRUE;
 	    len++;
 	  }
         } else {
-	  putc(c, textFile);
-	  incrementFrequency(c);
+	  putc(c, txtfil);
+	  incFreq(c);
 	  space = FALSE;
 	  len++;
 	  if (c == '"') i++;	/* skip second '"' */
@@ -229,7 +239,7 @@ int scannedLines()
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
-      if (token.code == sm_MAIN_IDENTIFIER_Token) {
+      if (token.code == sm_MAIN_ID_Token) {
 	/* Found an ID which is a file name */
 	do {
 	  i = smScSkip(smThis, 1);
@@ -241,7 +251,7 @@ int scannedLines()
 	srcp.col = 1;
 
 	if (smScanEnter(token.chars)) {
-	  start.file = fileNumber-1;
+	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(`&srcp, `&start, token.chars);
 	  /* Use the new scanner to get next token and return it */
@@ -257,7 +267,7 @@ int scannedLines()
 
 %%RULES
 
-  IDENTIFIER = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
+  ID = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
     %%{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }%%;

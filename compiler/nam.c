@@ -105,27 +105,25 @@ int annams(nams, nam, cap)
 
   if (nams != NULL) {
     for (namlst = nams; namlst != NULL; namlst = namlst->next) {
-      if (cap)
-	sprintf(buf, "%c%s", upperCase(namlst->element.nam->str[0]),
+      if (strlen(namlst->element.nam->str) > 79)
+	namlst->element.nam->str[79] = '\0';
+      if (cap) {
+	sprintf(buf, "%c%s", toUpperCase(namlst->element.nam->str[0]),
 		&namlst->element.nam->str[1]);
-      else
-	strcpy(buf, namlst->element.nam->str);
+	toIso(buf, buf);
+      } else
+	toIso(buf, namlst->element.nam->str);
       if (namlst->next)
 	strcat(buf, " ");
-#if ISO == 0
-      toIso(buf, buf);
-#endif
       getxt(buf);
       len = len + strlen(buf);
     }
   } else {
-    if (cap)
-      sprintf(buf, "%c%s", upperCase(nam->str[0]), &nam->str[1]);
-    else
-      strcpy(buf, nam->str);
-#if ISO == 0
-    toIso(buf, buf);
-#endif
+    if (cap) {
+      sprintf(buf, "%c%s", toUpper(nam->str[0]), &nam->str[1]);
+      toIso(buf, buf);
+    } else
+      toIso(buf, nam->str);
     getxt(buf);
     len = strlen(buf);
   }

@@ -1,21 +1,36 @@
 # Makefile for alan compiler
 #
 
+ARCHS	= sun4 solaris2 hp
+VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
+
+
 GCC	= gcc
-CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
+CPP	= $(GCC) -MM -ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
-CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
-CFLAGS	= $(DEBUG)
+CC = $(GCC) -pedantic -Wall
+CFLAGS	= $(DEBUG) $(INCLUDE)
 
 tcov := CC = acc -a
 tcov := LD = acc -a
 
 LD	= $(GCC) $(DEBUG)
-LDFLAGS	= -L/usr/local/lib/4.1.2
 
+sun4:= LDFLAGS	= -L/usr/local/lib/4.1.2
+sun4:= INCLUDE = -I/usr/local/include/ansi
+
+solaris1:= LDFLAGS = -L/usr/local/lib/4.1.2
+solaris1:= INCLUDE = -I/usr/local/include/ansi
+
+EXTRAS = \
+	alan.tmk \
+	alan.lmk \
+	alan.smk \
+	alan.pmk \
+	Makefile
 
 TMSRCS = \
 	pmParse.c pmPaSema.c \
@@ -24,107 +39,127 @@ TMSRCS = \
 	lmList.c
 
 SRCS = \
-	Adventure.c \
-	Alternative.c \
-	Attribute.c \
-	Check.c \
-	Class.c \
-	Container.c \
-	Does.c \
-	Element.c \
-	Event.c \
-	Exit.c \
-	Expression.c \
-	Id.c \
-	Instance.c \
-	Limit.c \
-	List.c \
-	Message.c \
-	Name.c \
-	Option.c \
-	Restriction.c \
-	Rule.c \
-	Score.c \
-	Script.c \
-	Slot.c \
-	Srcp.c \
-	Symbol.c \
-	Statement.c \
-	Step.c \
-	Synonym.c \
-	Syntax.c \
-	Verb.c \
-	What.c \
-	Where.c \
-	Word.c \
-	emit.c \
 	dump.c \
+	emit.c \
 	encode.c \
+	act.c \
+	adv.c \
+	alt.c \
+	atr.c \
+	chk.c \
+	cnt.c \
+	elm.c \
+	evt.c \
+	exp.c \
+	ext.c \
+	lim.c \
+	loc.c \
+	lst.c \
+	msg.c \
+	nam.c \
+	obj.c \
+	opt.c \
+	res.c \
+	rul.c \
+	sco.c \
+	scr.c \
+	srcp.c \
+	stm.c \
+	stp.c \
+	str.c \
+	stx.c \
+	sym.c \
+	syn.c \
+	vrb.c \
+	whr.c \
+	wht.c \
+	wrd.c \
 	timing.c \
 	sysdep.c \
-	spa.c \
-	$(TMSRCS)
+	spa.c
 
 MAINSRC = alan.c
+
+ALLSRCS = $(MAINSRC) $(SRCS) $(TMSRCS)
+
+VERSIONSRCS = $(SRCS) $(MAINSRC) $(EXTRAS)
 
 LIB = alan.a
 
 #.KEEP_STATE:
 
-HDRS = ${SRCS:.c=.h}
-OBJECTS = ${SRCS:.c=.o}
+OBJECTS = ${ALLSRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
-ALLSRC = $(SRCS) $(HDRS) $(MAINSRC) alan.h types.h alanCommon.h Token.h acode.h version.[ch]
 
 #-- MAIN TARGET
 
-debug purify:=	DEBUG= -g
-all release :=	DEBUG= -O4
+DEBUG= -g
 
-debug tcov all : alan alan.prod Makefile
-
-release: alan alan.prod Makefile
+all debug tcov: objarch alan alan.prod Makefile
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
-alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
-	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+arch:
+	make `arch`
+
+release:
+	@for a in $(ARCHS) ; do \
+		if fresh $(ALANDIR)/bin/$$a/alan \: $(SRCS) ; then \
+		cp $(ALANDIR)/bin/$$a/alan $(ALANDIR)/bin/$$a/alan$(VERSION) ; \
+		else \
+			echo $(ALANDIR)/bin/$$a/alan is not fresh! ; \
+			touch ../.notfresh ; \
+		fi ; \
+	done
+
+sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
+
+objarch:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test `cat .arch` != `arch`; then \
+	    echo "Removing *.o for `cat .arch`" ; \
+	    rm *.o; \
+	    echo `arch` > .arch; \
+	fi
+
+alan: tm $(OBJECTS) .version version.o
+	$(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 src: tm sysdep.h sysdep.c acode.h version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 
 tm: .pmkstamp .smkstamp .lmkstamp
 
-.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
+.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
 	lmk $(LMKQ) alan
-	@touch .lmkstamp
+	touch .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp
 	pmk $(PMKQ) alan
-	@touch .pmkstamp
+	touch .pmkstamp
 
 .smkstamp : .pmkstamp alan.smk alan.voc $(TMLIB)/Scan.imp
 	smk $(SMKQ) alan
-	@touch .smkstamp
+	touch .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
-	touch alan.pmk
+	-rm .pmkstamp
 	make .pmkstamp
 
 smScan.h smScan.c smScSema.c:
-	touch alan.smk
+	-rm .smkstamp
 	make .smkstamp
 
 lmList.h lmList.c:
-	touch alan.lmk
+	-rm .lmkstamp
 	make .lmkstamp
 
 malloc: tm $(OBJECTS) version.o $(MAINOBJ)
@@ -141,7 +176,7 @@ version.h version.c: ../version.sh
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.version: $(OBJECTS)
+.version: $(VERSIONSRCS)
 	venum +t
 	touch .version
 
@@ -160,27 +195,27 @@ alan.prod: alan.pml
 #- Other machines
 
 savetm:
+	if test -f alan.tmk.orig; then \
+	    echo "There is already an original!"; \
+	    exit 1; \
+	fi
 	mv alan.tmk alan.tmk.orig
-#	-mkdir tmorig
-#	cp -p $(TMSRCS) tmorig
 	
 restoretm:
 	mv -f alan.tmk.orig alan.tmk
-#	cd tmorig; cp -p $(TMSRCS) ..
-#	-\rm -r tmorig
+	-rm .?mkstamp
 
 NONANSI:
 	make savetm
 	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
-	make tm
+	make src
 	make restoretm
-	touch alan.tmk
 
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
+	make src	
 	make savetm
 	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-	make tm
 	smk -set PC alan
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
@@ -188,46 +223,42 @@ MSDOS:
 	ramp iso2pc msg.c MSG.C
 	ramp iso2pc sysdep.c SYSDEP.C
 	make restoretm
-	touch alan.smk
-	touch alan.tmk
 
 mac:
+	make src
 	smk -set MAC alan
-	touch alan.smk
-	refreshMac $(HOME)/mac/Alan/Compiler
+	-rm .smkstamp
+	refreshMac $(HOME)/mac/Alan/compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
-	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
+	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/compiler/pmParse.c
 	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
-	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
+	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/compiler/pmPaSema.c
 
-#-- ARCHIVE
-archives: sysdep.h sysdep.c acode.h version.h compiler.lha. compiler.zip.
+amiga:
+#	make NONANSI
+	lha u compiler.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
-amiga compiler.lha.:
-	make NONANSI
-	lha u compiler.lha $(ALLSRC) Makefile* dependencies.mk
-
-compiler.zip.:
+pc:
 	make MSDOS
 	zip -k -u compiler.zip *.[ch] Makefile.dos
 	zip -k -m compiler.zip *.[CH]
 
 #--
 CLEAN: clean
-	-rm alanCommon.h pmParse* pmPaSema* pmErr* smScan* smScSema* lmList* alan.voc alan.[psl]mt
+	-rm alanCommon.h pmParse* pmPaSema* pmErr* smScan* smScSema* lmList* alan.voc *.o
 
 clean:
 	-rm core *~ *.zoo *.bak *.lzh
 
 #--
-#FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
+#FILETER = | sed -e "\,/usr/, d" -e "s,./,," | sort -u 
 FILETER =
 depend: dependencies.mk. Makefile.amiga Makefile.dos # alan.make
 
 dependencies.mk.:
 	@echo "Updating dependencies.mk!"
 	@echo > dependencies.mk
-	@for f in $(SRCS); \
+	@for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
@@ -246,7 +277,7 @@ Makefile.dos: dependencies.mk Makefile
 	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
 
 alan.make: dependencies.mk
-	@echo Updating alan.make!
+	echo Updating alan.make!
 	@echo !Automagically created makefile for Alan compiler on VMS > alan.make
 	@echo CQ=/STANDARD=PORTABLE >> alan.make
 	@echo OBJECTS = $(VMSOBJECTS) >> alan.make

@@ -103,9 +103,11 @@ void preplocs()
   AtrNod *atr;			/* Attribute node */
   int i;			/* and a counter */
   
+
   /* Number the local attributes for all locations */
   for (llst = adv.locs; llst != NULL; llst = llst->next) {
     i = latrmax + 1;		/* First local is higher than global attrs. */
+    anatrs(llst->element.loc->atrs);
     for (alst = llst->element.loc->atrs; alst != NULL; alst = alst->next) {
       atr = findatr(alst->element.atr->nam->str, adv.latrs);
       if (atr == NULL)
