@@ -24,6 +24,10 @@
 #ifdef __dos__
 #include <io.h>
 #endif
+#ifdef __mac__
+#include <fcntl.h>
+#endif
+
 
 %%EXPORT
 
@@ -68,7 +72,7 @@ Bool smScanEnter(fnm)
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
-  else if ((this->fd = open(fnm,0)) < 0)
+  else if ((this->fd = open(fnm, O_TEXT)) < 0)
     return FALSE;
   else {
     this->fileName = fnm;
@@ -99,7 +103,10 @@ int scannedLines()
 
 %%READER
 
-  if (verbose) printf(".");
+  if (verbose) {
+	printf(".");
+	fflush(NULL);
+  }
   return read(smThis->fd, (char *)smBuffer, smLength);
 
 
