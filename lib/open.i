@@ -1,5 +1,5 @@
 -- open.i
--- Library version 0.4.1
+-- Library version 0.5.0
 
 -- 0.4.1 - converted to ALANv3
 -- 0.5.0 - Changed attributes around:
@@ -8,9 +8,9 @@
 --		'closeable' indicates if it is possible to close
 
 Syntax
-	open = open (obj)
-	Where obj Isa object
-		Else "You can't open that."
+  open = open (obj)
+    Where obj Isa object
+      Else "You can't open that."
 
 Add To Every object
   Is
@@ -31,6 +31,7 @@ Add To Every object
       End If.
       "is now open."
   End Verb.
+
 End Add To.
 
 
@@ -94,7 +95,9 @@ Add To Every object
       End If.
       "is now closed."
   End Verb.
+
 End Add To.
+
 
 Syntax
   close_with = close (obj1) 'with' (obj2)

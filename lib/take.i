@@ -1,59 +1,60 @@
 -- take.i
--- Library version 0.4.1
+-- Library version 0.5.0
 
+-- 0.5.0 - cleaned up formatting, made use of "." not making a leading space
 -- 0.4.1 - converted to ALANv3
 
 
 
-ADD TO EVERY THING 
-IS
-	InAnimate.
-END ADD TO THING.
+Add To Every thing
+  Is
+    InAnimate.
+End Add To thing.
 
-ADD TO EVERY OBJECT 
-IS
-	takeable.
-END ADD TO OBJECT.
+Add To Every object 
+  Is
+    takeable.
+End Add To object.
 
-ADD TO EVERY ACTOR 
-IS
-	NOT InAnimate.
-END ADD TO ACTOR.
-
-
-SYNONYMS
-	get, carry, obtain, grab, steal, confiscate, hold = take.
+Add To Every actor 
+  Is
+    Not inanimate.
+End Add To actor.
 
 
-SYNTAX
-	take = take (obj) *
-		WHERE obj ISA OBJECT
-			ELSE "You can't take that with you!"
+Synonyms
+  get, carry, obtain, grab, steal, confiscate, hold = take.
 
 
-SYNTAX
-	pick_up1 = pick up (obj)*
-		WHERE obj ISA OBJECT
-			ELSE "You can't take that with you!"
+Syntax
+  take = take (obj) *
+    Where obj Isa object
+      Else "You can't take that with you!"
 
-	pick_up2 = pick (obj)* up
-		WHERE obj ISA OBJECT
-			ELSE "You can't take that with you!"
+
+Syntax
+  pick_up1 = pick up (obj)*
+    Where obj Isa object
+      Else "You can't take that with you!"
+
+  pick_up2 = pick (obj)* up
+    Where obj Isa object
+      Else "You can't take that with you!"
 
 Add To Every object
-  VERB take, pick_up1, pick_up2
-	CHECK obj IS takeable
-		ELSE "You can't take that!"
-	AND obj NOT IN worn
-		ELSE "You've already got that - you're wearing that." 
-	AND obj NOT IN HERO
-		ELSE "You've already got that." 
-	AND weight of obj <=50 
-		ELSE "That is too heavy to lift."
-	DOES
-		LOCATE obj IN HERO.
-		"Taken."
-  END VERB.
+  Verb take, pick_up1, pick_up2
+    Check obj Is takeable
+      Else "You can't take that!"
+    And obj Not In worn
+      Else "You've already got that - you're wearing that."
+    And obj Not In hero
+      Else "You've already got that."
+    And weight Of obj <=50
+      Else "That is too heavy to lift."
+    Does
+      Locate obj In hero.
+      "Taken."
+  End Verb.
 End Add To.
 
 
@@ -72,11 +73,11 @@ Syntax
 
 Add To Every object
   Verb drop, put_down1, put_down2
-	Check obj In hero
-	  Else "You aren't carrying that."
-	Does
-	  Locate obj Here.
-	  "Dropped."
+    Check obj In hero
+      Else "You aren't carrying that."
+    Does
+      Locate obj Here.
+      "Dropped."
   End Verb.
 End Add To.
 
@@ -84,59 +85,56 @@ End Add To.
 
 Syntax
   take_from = 'take' (obj) 'from' (holder)
-	Where obj Isa object
-	   Else "You can only take objects."
-	And holder Isa thing
-	   Else "You can't take things from that!"
-	And holder Isa Container
-	   Else "You can't take things from that!"
+    Where obj Isa object
+      Else "You can only take objects."
+    And holder Isa thing
+      Else "You can't take things from that!"
+    And holder Isa Container
+      Else "You can't take things from that!"
 
 Add To Every object
   Verb take_from
-	When obj
-	  Check obj Not In hero 
-		Else
-		  "You already have"
-		  If obj Is named Then
-			Say obj.
-		  Else
-			"the $1"
-		  End If.
-		  "$$."
-	  And obj In holder
-		Else
-		  If obj Is named Then
-			Say obj.
-		  Else
-			"The $1"
-		  End If.
-		  "is not there."
-	  Does
-		If holder=hero Then
-		  "You can't take things from yourself!"
-		Elsif holder Is inanimate Then
-		  "You take"
-		  If obj Is named Then
-			Say obj.
-		  Else
-			"the $1"
-		  End If.
-		  "$$."
-		  Locate obj In hero.
-		Else
-		  If holder Is named Then
-			Say holder.
-		  Else
-			"The $2"
-		  End If.
-		  "won't let you take"
-		  If obj Is named Then
-			Say obj.
-		  Else
-			"the $1"
-		  End If.
-		  "$$."
-		End If.
+    When obj
+      Check obj Not In hero 
+	Else
+	  "You already have"
+	  If obj Is named Then
+	    Say obj. "."
+	  Else
+	    "the $1."
+	  End If.
+      And obj In holder
+	Else
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "The $1"
+	  End If.
+	  "is not there."
+	Does
+	  If holder=hero Then
+	    "You don't need to take things from yourself!"
+	  Elsif holder Is inanimate Then
+	    "You take"
+	    If obj Is named Then
+	      Say obj. "."
+	    Else
+	      "the $1."
+	    End If.
+	    Locate obj In hero.
+	  Else
+	    If holder Is named Then
+	      Say holder.
+	    Else
+	      "The $2"
+	    End If.
+	    "won't let you take"
+	    If obj Is named Then
+	      Say obj. "."
+	    Else
+	      "the $1."
+	    End If.
+	  End If.
   End Verb.
 End Add.
 
