@@ -202,16 +202,20 @@ static void analyzeSet(StmNod *stm, Context *context)
 
   analyzeExpression(wht, context);
   if (wht->type != ERROR_TYPE)
-    if (wht->type != INTEGER_TYPE && wht->type != STRING_TYPE)
+    if (wht->type == BOOLEAN_TYPE)
       lmLog(&wht->srcp, 419, sevERR, "Target for");
 
   analyzeExpression(exp, context);
   if (exp->type != ERROR_TYPE)
-    if (exp->type != INTEGER_TYPE && exp->type != STRING_TYPE)
+    if (exp->type == BOOLEAN_TYPE)
       lmLog(&exp->srcp, 419, sevERR, "Expression in");
 
   if (!equalTypes(exp->type, wht->type))
-    lmLog(&stm->srcp, 331, sevERR, "SET statement");
+    lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
+  else
+    if (exp->type == INSTANCE_TYPE)
+      if (!inheritsFrom(exp->class, wht->class))
+	lmLog(&exp->srcp, 430, sevERR, wht->class->string);
 }
 
 
@@ -254,7 +258,7 @@ static void analyzeSchedule(StmNod *stm, Context *context)
     break;
   }
 
-  /* Analyze the when expression */
+  /* Analyze the when (AFTER) expression */
   analyzeExpression(stm->fields.schedule.when, context);
   if (stm->fields.schedule.when->type != INTEGER_TYPE)
     lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");

@@ -2268,18 +2268,13 @@ static int val(char str[])
     ;
 
 
-<attribute_reference>		-- RETURNS: srcp, wht, id, exp
+<attribute_reference>		-- RETURNS: exp
     = ID 'OF' <what>
     %%
-	%<attribute_reference>.srcp = %'OF'.srcp;
-	%<attribute_reference>.id = %ID.id;
-	%<attribute_reference>.wht = %<what>.wht;
-
 	%<attribute_reference>.exp = newExpression(`&%'OF'.srcp, ATTRIBUTE_EXPRESSION);
 	%<attribute_reference>.exp->fields.atr.atr = %ID.id;
 	%<attribute_reference>.exp->fields.atr.wht = %<what>.exp;
     %%
-
     ;
 
 <optional_where>		-- RETURNS: whr

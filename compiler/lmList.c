@@ -187,7 +187,7 @@ static lmMsgs msg[] = {
     { "416   ", "Interval of size 1 in RANDOM expression." },
     { "417   ", "Comparing two constant entities will always yield the same result." },
     { "418   ", "Aggregate is only allowed on integer type attributes." },
-    { "419   ", "%1 SET statement must be of integer or string type." },
+    { "419   ", "%1 SET statement can not be of boolean type." },
     { "420   ", "Invalid What-specification in %1." },
     { "421   ", "THIS instance is not defined in this context." },
     { "422   ", "This instance does not inherit from anything, nor does it have a container property. This makes its use dubious." },
@@ -198,6 +198,7 @@ static lmMsgs msg[] = {
     { "427   ", "A subsequent restriction for the same parameter (\'%1\') should restrict it further, to a subclass of \'%2\'." },
     { "428   ", "Expression must refer to an attribute." },
     { "429   ", "Expression must refer to an instance." },
+    { "430   ", "Incompatible instance. You can only assign instances of class \'%1\' and its subclasses." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
@@ -216,7 +217,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 136}
+    {0, 137}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>304.89</origest>
-<currest>303.89</currest>
+<origest>303.89</origest>
+<currest>302.89</currest>
 <elapsed>140.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>48</origest>
-<currest>48</currest>
+<origest>47</origest>
+<currest>47</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -32,8 +32,8 @@ LIST ontop OF box.
 
 Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -80,6 +80,14 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Assignment rules for instance attributes</desc>
+<notes>Requires actual value to be only subclasses of instance initial class.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
 <desc>Type comparison rules for instance type</desc>
 <notes/>
 <priority>2</priority>
@@ -88,14 +96,6 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Assignment rules for instance attributes</desc>
-<notes>Requires actual value to be only subclasses of instance initial class.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 </task>
 <task>
