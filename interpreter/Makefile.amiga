@@ -1,0 +1,42 @@
+# Makefile for arun on the AMIGA	      Date: 1989-12-30/thoni@eeyore
+#
+
+
+CFLAGS = -n +l $(CQ)
+LDFLAGS	= -lc32 -g $(LQ)
+
+OBJECTS = arun.o debug.o exe.o inter.o parse.o rules.o stack.o decode.o term.o params.o
+
+
+#-- ARUN
+arun: $(OBJECTS) sysdep.o version.o
+	ln -o $@ $(OBJECTS) sysdep.o version.o $(LDFLAGS)
+	copy arun /
+
+arun.o: arun.c
+	cc $(CFLAGS) -e400 arun.c
+
+term.o: term.c
+	cc $(CFLAGS) -L 1000 term.c
+
+#-- ARCHIVE
+archive:
+	zoo -add interpreter *.c *.h Makefile.amiga
+
+
+#---<< GENERATED DEPENDENCIES FOLLOWS >>---
+arun.o : arun.c sysdep.h types.h acode.h arun.h version.h parse.h inter.h rules.h \
+  debug.h stack.h exe.h term.h 
+debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h 
+decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
+exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
+  exe.h 
+inter.o : inter.c types.h sysdep.h acode.h arun.h parse.h exe.h stack.h 
+params.o : params.c types.h sysdep.h acode.h 
+parse.o : parse.c types.h sysdep.h acode.h arun.h inter.h exe.h term.h debug.h \
+  params.h parse.h 
+rules.o : rules.c types.h sysdep.h acode.h arun.h inter.h stack.h 
+stack.o : stack.c types.h sysdep.h acode.h arun.h 
+sysdep.o : sysdep.c sysdep.h 
+term.o : term.c arun.h types.h sysdep.h acode.h 
+version.o : version.c version.h 
