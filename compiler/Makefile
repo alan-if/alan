@@ -1,6 +1,10 @@
 # Makefile for alan compiler
 #
 
+ARCHS	= sun4 solaris2 hp
+VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g`
+
+
 GCC	= gcc
 CPP	= $(GCC) -MM -ansi
 
@@ -21,8 +25,6 @@ sun4:= INCLUDE = -I/usr/local/include/ansi
 solaris1:= LDFLAGS = -L/usr/local/lib/4.1.2
 solaris1:= INCLUDE = -I/usr/local/include/ansi
 
-ARCHS	= sun4 solaris2 hp
-
 EXTRAS = \
 	alan.tmk \
 	alan.lmk \
@@ -37,7 +39,6 @@ TMSRCS = \
 	lmList.c
 
 SRCS = \
-	$(TMSRCS) \
 	dump.c \
 	emit.c \
 	encode.c \
@@ -79,13 +80,15 @@ SRCS = \
 
 MAINSRC = alan.c
 
-VERSIONSRCS = $(SRCS) $(MAINSRC)
+ALLSRCS = $(MAINSRC) $(SRCS) $(TMSRCS)
+
+VERSIONSRCS = $(SRCS) $(MAINSRC) $(EXTRAS)
 
 LIB = alan.a
 
 #.KEEP_STATE:
 
-OBJECTS = ${SRCS:.c=.o}
+OBJECTS = ${ALLSRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
@@ -106,7 +109,7 @@ arch:
 release:
 	@for a in $(ARCHS) ; do \
 		if fresh $(ALANDIR)/bin/$$a/alan \: $(SRCS) ; then \
-			: ; \
+		cp $(ALANDIR)/bin/$$a/alan $(ALANDIR)/bin/$$a/alan$(VERSION) ; \
 		else \
 			echo $(ALANDIR)/bin/$$a/alan is not fresh! ; \
 			touch ../.notfresh ; \
@@ -116,15 +119,15 @@ release:
 sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
 
 objarch:
-	@if test -f .arch; then :; else echo "none" > .arch; fi
-	@if test `cat .arch` != `arch`; then \
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test `cat .arch` != `arch`; then \
 	    echo "Removing *.o for `cat .arch`" ; \
 	    rm *.o; \
 	    echo `arch` > .arch; \
 	fi
 
-alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
-	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+alan: tm $(OBJECTS) .version version.o
+	$(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 src: tm sysdep.h sysdep.c acode.h version.h
 

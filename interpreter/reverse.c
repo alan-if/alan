@@ -472,7 +472,8 @@ void reverseHdr(hdr)
 {
   int i;
 
-  for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+  /* Reverse all words in the header except the first (version marking) */
+  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
 

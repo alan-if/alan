@@ -2,6 +2,7 @@
 #
 
 ARCHS	= sun4 solaris2 hp
+VERSION		= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g`
 
 GCC	= gcc
 CPP	= $(GCC) -MM $(INCLUDE)
@@ -51,7 +52,7 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov: objarch arun dumpacd
+debug all tcov: objarch arun dumpacd genalan
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
@@ -61,7 +62,7 @@ arch:
 release:
 	@for a in $(ARCHS) ; do \
 		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
-			: ; \
+			cp $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
 		else \
 			echo $(ALANDIR)/bin/$$a/arun is not fresh! ; \
 			touch ../.notfresh ; \
@@ -82,8 +83,11 @@ objarch:
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 
-dumpacd: spa.o dumpacd.o
+dumpacd: dumpacd.o spa.o
 	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
+
+genalan: genalan.o spa.o
+	$(CC) -o genalan $(CFLAGS) genalan.o spa.o
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
