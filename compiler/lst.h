@@ -55,6 +55,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct AtrNod *atr;
     struct ChkNod *chk;
     struct ClaNod *cla;
+    struct InsNod *ins;
     struct ResNod *res;
     struct CntNod *cnt;
     struct ElmNod *elm;

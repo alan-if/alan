@@ -8,6 +8,8 @@
 
 #define UNIT
 
+#include <stdio.h>
+
 static int passed = 0;
 static int failed = 0;
 
@@ -24,9 +26,9 @@ static void unitTest(void)
     (*theCase)();
   }
   if (failed == 0)
-    printf("\nPASSED!!\n");
+    printf("\nAll %d cases PASSED!!\n", passed);
   else
-    printf("\nFAILED!!\n");
+    printf("\n%d of %d cases FAILED!!\n", failed, passed+failed);
 }
 
 

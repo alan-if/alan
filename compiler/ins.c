@@ -15,6 +15,7 @@
 #include "lmList.h"
 
 
+static List *allClasses = NULL;
 
 
 /*======================================================================
@@ -40,7 +41,21 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
   new->heritage = heritage;
   new->slt = slt;
 
+  allClasses = concat(allClasses, new, LIST_INS);
+
   return(new);
+}
+
+
+/*----------------------------------------------------------------------
+
+  analyzeInstance()
+
+  Analyze a Instance node.
+
+ */
+static void analyzeInstance(InsNod *ins)
+{
 }
 
 
@@ -53,7 +68,10 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
  */
 void analyzeInstances(void)
 {
-  syserr("UNIMPL: analyzeInstances");
+  List *l;
+
+  for (l = allClasses; l; l = l->next)
+    analyzeInstance(l->element.ins);
 }
 
 

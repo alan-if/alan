@@ -96,23 +96,34 @@ src:
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
+.PHONY: unit
 # Run all unit test
-unit: symTest
-	symTest
+unit:
+	make sym
+	make cla
+	make ins
 
 # Unit Tests
 # Each unit is built separately with the test in a main program (xxxTest)
 
-symTest.o : symTest.c unitTest.h
+# All unit tests
+symTest.o : symTest.c sym.c unitTest.h
 symTest : symTest.o util.o lmList.o id.o cla.o dump.o srcp.o str.o lst.o slt.o
 
-claTest.o : claTest.c unitTest.h
+sym:
+	$(MAKE) $@Test; $@Test
+
+claTest.o : claTest.c cla.c unitTest.h
 claTest : claTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
 
-# Run current unit test
-test: claTest
-	claTest
+cla:
+	$(MAKE) $@Test; $@Test
 
+insTest.o : insTest.c ins.c unitTest.h
+insTest : insTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
+
+ins:
+	$(MAKE) $@Test; $@Test
 
 depend:
 	@for f in *.c; \

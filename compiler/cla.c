@@ -94,6 +94,19 @@ void symbolizeClasses(void)
 
 
 
+/*----------------------------------------------------------------------
+
+  symbolizeClass()
+
+  Symbolize a Class node.
+
+ */
+static void analyzeClass(ClaNod *cla)
+{
+}
+
+
+
 /*======================================================================
 
   analyzeClasses()
@@ -103,7 +116,10 @@ void symbolizeClasses(void)
  */
 void analyzeClasses(void)
 {
-  syserr("UNIMPL: analyzeClasses");
+  List *l;
+
+  for (l = allClasses; l; l = l->next)
+    analyzeClass(l->element.cla);
 }
 
 
