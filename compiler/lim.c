@@ -170,7 +170,7 @@ Aword gelims(CntNod *cnt)	/* IN - The container to generate for */
 void dulim(LimNod *lim)
 {
   put("LIM: "); dumpSrcp(&lim->srcp); in();
-  put("atr: "); duatr(lim->atr); nl();
+  put("atr: "); dumpAttribute(lim->atr); nl();
   put("stms: "); dulst(lim->stms, LIST_STM); out();
 }
 

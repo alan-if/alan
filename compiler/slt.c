@@ -118,6 +118,7 @@ static void symbolizeParent(SlotsNode *slots)
 void symbolizeSlots(SlotsNode *slots)
 {
   symbolizeParent(slots);
+  checkMultipleAttributes(slots->attributes);
   symbolizeWhr(slots->whr);
   symbolizeExits(slots->exits);
 }
@@ -161,8 +162,6 @@ void analyzeMentioned(SlotsNode *slots)
 void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
-
-  anatrs(slots->attributes);
 
   analyzeMentioned(slots);
   anstms(slots->description, NULL, NULL, NULL);

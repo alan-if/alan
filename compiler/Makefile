@@ -43,7 +43,6 @@ BUILDSRCS = \
 	exp.c \
 	id.c \
 	lim.c \
-	lst.c \
 	msg.c \
 	nam.c \
 	opt.c \
@@ -78,6 +77,7 @@ ALANSRCS = \
 	emit.c \
 	ext.c \
 	ins.c \
+	lst.c \
 	sym.c \
 	whr.c \
 

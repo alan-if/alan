@@ -88,6 +88,51 @@ static int secondAttributeCode(SlotsNode *slots)
 
 static InsNod *firstInstance, *secondInstance;
 
+
+static void numberAttributes(List *aList, int n1, int n2)
+{
+  aList->element.atr->id->code = n1;
+  aList->next->element.atr->id->code = n2;
+}
+
+
+static Bool equalLists(List *list1, List *list2)
+{
+  List *t1 = list1;
+  List *t2 = list2;
+
+  while (t1 != NULL && t2 != NULL && t1->element.atr->id->code && t2->element.atr->id->code) {
+    t1 = t1->next;
+    t2 = t2->next;
+  }
+  return t1 == NULL && t2 == NULL;
+}
+
+void testCombineAttributes()
+{
+  List *ownList = create2Attributes("x", "y");
+  List *inheritedList = create2Attributes("y", "z");
+  List *theCombinedList;
+
+  unitAssert(combineAttributes(NULL, NULL) == NULL);
+
+  numberAttributes(ownList, 1, 2);
+  numberAttributes(inheritedList, 2, 3);
+  theCombinedList = combineAttributes(ownList, NULL);
+  unitAssert(length(theCombinedList) == length(ownList));
+  unitAssert(theCombinedList == ownList);
+
+  theCombinedList = combineAttributes(NULL, inheritedList);
+  unitAssert(length(theCombinedList) == length(inheritedList));
+  unitAssert(equalLists(theCombinedList, inheritedList));
+
+  theCombinedList = combineAttributes(ownList, inheritedList);
+  unitAssert(length(theCombinedList) == 3);
+}
+
+
+
+
 void testAttributeListsInSymbolTable()
 {
   ClaNod *firstClass, *secondClass;
@@ -121,11 +166,11 @@ void testAttributeListsInSymbolTable()
   /* Now set up a class hierarchy:
   location
      !
-     fC = a1 + a12
-     !
-     sC = a1 + a22------+
-     !                  !
-     fI = a11 + a12	sI = a1 + a22
+     fC = a1 + a12 -----+
+     !                  !  
+     fI = a11 + a12	sC = a1 + a21
+                        !
+                        sI = a1 + a22
   */
   setParent(firstClassSymbol, location->slots->symbol);
   setParent(secondClassSymbol, firstClassSymbol);
@@ -155,10 +200,66 @@ void testAttributeListsInSymbolTable()
   y = secondAttributeCode(firstClass->slots);
   unitAssert(secondAttributeCode(firstInstance->slots) == y);
 
-  z = secondAttributeCode(secondClass->slots);
-  unitAssert(secondAttributeCode(secondClass->slots) == z);
+  z = secondAttributeCode(firstClass->slots);
+  unitAssert(secondAttributeCode(firstInstance->slots) == z);
 }
 
+
+static void numberAttributes123(List *l)
+{
+  l->element.atr->id->code = 1;
+  l->next->element.atr->id->code = 2;
+  l->next->next->element.atr->id->code = 3;
+}
+
+static void numberAttributes321(List *l)
+{
+  l->element.atr->id->code = 3;
+  l->next->element.atr->id->code = 2;
+  l->next->next->element.atr->id->code = 1;
+}
+
+static void numberAttributes231(List *l)
+{
+  l->element.atr->id->code = 2;
+  l->next->element.atr->id->code = 3;
+  l->next->next->element.atr->id->code = 1;
+}
+
+static Bool attributesAreSorted(List *list)
+{
+  List *l;
+  int previousCode = 0;
+
+  for (l = list; l; l = l->next) {
+    if (l->element.atr->id->code <= previousCode)
+      return FALSE;
+    previousCode = l->element.atr->id->code;
+  }
+  return TRUE;
+}
+
+void testSortAttributes()
+{
+  List *attributeList = concat(NULL, newatr(&nulsrcp, TYPBOOL, newId(&nulsrcp, "a"), 0, 0, 0), LIST_ATR);
+  List *originalList = attributeList;
+
+  unitAssert(sortAttributes(NULL) == NULL);
+  unitAssert(sortAttributes(attributeList) == originalList);
+
+  attributeList = combine(attributeList, create2Attributes("x", "y"));
+  numberAttributes123(attributeList);
+  attributeList = sortAttributes(attributeList);
+  unitAssert(attributesAreSorted(attributeList));
+
+  numberAttributes321(attributeList);
+  attributeList = sortAttributes(attributeList);
+  unitAssert(attributesAreSorted(attributeList));
+
+  numberAttributes231(attributeList);
+  attributeList = sortAttributes(attributeList);
+  unitAssert(attributesAreSorted(attributeList));
+}
 
 void testGenerateAttributes()
 {
@@ -178,14 +279,20 @@ void testGenerateAttributes()
   address = generateAttributes(firstInstance->slots->attributes);
   unitAssert(emadr() == address + 2*attributeEntrySize + 1);
 
+#ifdef Z
   /* After analysis we should find all three */
-  replicateInheritedAttributes(firstInstance->slots->symbol);
+  replicateInheritedAttributes();
+  address = generateAttributes(firstInstance->slots->attributes);
+  unitAssert(emadr() == address + 3*attributeEntrySize + 1);
+#endif
 }
 
 void registerAtrUnitTests()
 {
   registerUnitTest(testMultipleAtr);
   registerUnitTest(testAttributeListsInSymbolTable);
+  registerUnitTest(testSortAttributes);
+  registerUnitTest(testCombineAttributes);
   registerUnitTest(testGenerateAttributes);
 }
 

@@ -56,6 +56,7 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
   new->srcp = *srcp;
   new->typ = typ;
   new->id = id;
+  new->inheritance = UNKNOWN_INHERITANCE;
   new->value = value;
   new->stringAddress = 0;
   new->encoded = FALSE;
@@ -63,6 +64,27 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
   new->len = len;
 
   return(new);
+}
+
+
+/*======================================================================
+
+  checkMutipleAttributes()
+
+  Check for multiple declarations of attributes in a list.
+
+ */
+void checkMultipleAttributes(List *atrs)
+{
+  List *al;
+
+  while (atrs) {
+    for (al = atrs->next; al; al = al->next) {
+      if (equalId(atrs->element.atr->id, al->element.atr->id))
+	  lmLog(&al->element.atr->id->srcp, 218, sevERR, al->element.atr->id->string);
+    }
+    atrs = atrs->next;
+  }
 }
 
 
@@ -153,25 +175,26 @@ AtrNod *symatr(IdNode *id, SymNod *sym)
 
 /*======================================================================
 
-  sortatr()
+  sortAttributes()
 
   Sort a list of attributes.
 
  */
-void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
+List *sortAttributes(List *attributes)
 {
+  List *sortedList = attributes;
   Bool change;			/* Change during sorting */
   List **lstp;			/* Pointer to a list pointer */
   List *tmp1, *tmp2;		/* Temporary pointers */
 
-  if (*alstp != NULL) {
+  if (attributes != NULL) {
     change = TRUE;
     while (change) {
       change = FALSE;
-      for (lstp = alstp; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
+      for (lstp = &sortedList; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
 	tmp1 = *lstp;
 	tmp2 = tmp1->next;
-	if (tmp1->element.atr->id->symbol->code > tmp2->element.atr->id->symbol->code){
+	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code){
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
 	  tmp2->next = tmp1;
@@ -180,70 +203,80 @@ void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
       }
     }
   }
+  return sortedList;
 }
+
+
+
+/*----------------------------------------------------------------------
+
+  inheritAttribute()
+
+  Make a copy of an attribute
+
+*/
+static AtrNod *inheritAttribute(AtrNod *theOriginal)
+{
+  AtrNod *theCopy = NEW(AtrNod);
+
+  memcpy(theCopy, theOriginal, sizeof(AtrNod));
+  theCopy->inheritance = INHERITED;
+  return theCopy;
+}
+
+
+/*----------------------------------------------------------------------
+
+  inheritAttributeList()
+
+  Make a copy of a complete attribute list
+
+*/
+static List *inheritAttributeList(List *theOriginal)
+{
+  List *theCopy = NULL;
+  List *traversal;
+
+  for (traversal = theOriginal; traversal != NULL; traversal = traversal->next)
+    theCopy = concat(theCopy, inheritAttribute(traversal->element.atr),
+		     LIST_ATR);
+  return theCopy;
+}
+
 
 
 /*======================================================================
 
-  prepatrs()
+  combineAttributes()
 
-  Number all default attributes.
+  Insert all attributes from the inherited list that are not there
+  already, then sort the list.
 
- */
-void prepatrs(void)
+*/
+List *combineAttributes(List *ownAttributes, List *inheritedAttributes)
 {
-  List *lst;			/* List pointer*/
-  
-  /* Number all default attributes */
-  for (lst = adv.atrs; lst != NULL; lst = lst->next)
-    lst->element.atr->id->symbol->code = ++atrmax;
+  List *own = ownAttributes;
+  List *inherited = inheritedAttributes;
+  List *added = NULL;
 
-#ifdef FIXME
-  /* Actor attributes */
-  aatrmax = atrmax;
-  for (lst = adv.aatrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
-      /* New attribute for actors */
-      lst->element.atr->id->symbol->code = ++aatrmax;
-    } else {			/* Use default attribute code */
-      /* Was a redefined default attribute, type check it and use same code */
-      if (!eqtyp(lst->element.atr->typ, atr->typ))
-	lmLogv(&lst->element.atr->srcp, 332, sevERR, "actor", "default", NULL);
-      lst->element.atr->id->symbol->code = atr->id->symbol->code;
+  while (own != NULL) {
+    if (inherited == NULL)
+      break;
+    else if (own->element.atr->id->code == inherited->element.atr->id->code) {
+      own = own->next;
+      inherited = inherited->next;
+    } else if (own->element.atr->id->code < inherited->element.atr->id->code) {
+      own = own->next;
+    } else if (own->element.atr->id->code > inherited->element.atr->id->code) {
+      insert(own, inheritAttribute(inherited->element.atr), LIST_ATR);
+      inherited = inherited->next;
     }
   }
-  sortatr(&adv.aatrs);
-
-  /* Location attributes */
-  latrmax = atrmax;
-  for (lst = adv.latrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
-      /* New attribute for locations */
-      lst->element.atr->id->symbol->code = ++latrmax;
-    } else {			/* Use default attribute code */
-      /* Was a redefined default attribute, type check it and use same code */
-      if (!eqtyp(lst->element.atr->typ, atr->typ))
-	lmLogv(&lst->element.atr->srcp, 332, sevERR, "location", "default", NULL);
-      lst->element.atr->id->symbol->code = atr->id->symbol->code;
-    }
-  }
-  sortatr(&adv.latrs);
-
-  /* Object attributes */
-  oatrmax = atrmax;
-  for (lst = adv.oatrs; lst != NULL; lst = lst->next) {
-    if ((atr = findatr(lst->element.atr->id->string, adv.atrs, NULL)) == NULL) {
-      /* New attribute for objects */
-      lst->element.atr->id->symbol->code = ++oatrmax;
-    } else {			/* Use default attribute code */
-      /* Was a redefined default attribute, type check it and use same code */
-      if (!eqtyp(lst->element.atr->typ, atr->typ))
-	lmLogv(&lst->element.atr->srcp, 332, sevERR, "object", "default", NULL);
-      lst->element.atr->id->symbol->code = atr->id->symbol->code;
-    }
-  }
-  sortatr(&adv.oatrs);
-#endif
+  if (inherited != NULL)
+    added = combine(added, inheritAttributeList(inherited));
+  own = combine(ownAttributes, added);
+  own = sortAttributes(own);
+  return own;
 }
 
 
@@ -270,13 +303,12 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 
 
 
-
 /*----------------------------------------------------------------------
 
   generateAttribute()
 
   */
-static void generateAttribute(AtrNod *attribute) /* IN - Attribute to generate for */
+static void generateAttribute(AtrNod *attribute)
 {
   AttributeEntry entry;
   AtrNod *new;
@@ -357,19 +389,35 @@ Aaddr generateStringInit(void)
 }
 
 
+/*----------------------------------------------------------------------
+
+  dumpInheritance()
+
+*/
+static void dumpInheritance(AttributeInheritance inheritance)
+{
+  switch (inheritance) {
+  case UNKNOWN_INHERITANCE: put("UNKNOWN"); break;
+  case LOCAL: put("LOCAL"); break;
+  case INHERITED_REDEFINED: put("INHERITED/REDEFINED"); break;
+  case INHERITED: put("INHERITED"); break;
+  }
+}
+
 
 /*======================================================================
 
-  duatr()
+  dumpAttribute()
 
   Dump an Attribute node.
 
  */
-void duatr(AtrNod *atr)
+void dumpAttribute(AtrNod *atr)
 {
   put("ATR: "); dumpSrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();
   put("id: "); dumpId(atr->id); nl();
+  put("inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("stringAddress: "); duadr(atr->stringAddress); nl();
   put("address: "); duadr(atr->address); nl();
   put("value: "); dumpInt(atr->value); nl();

@@ -141,10 +141,14 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   case CLASS_SYMBOL:
     new->code = ++classCount;
     new->fields.claOrIns.parent = NULL;
+    new->fields.claOrIns.attributesAlreadyNumbered = FALSE;
+    new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
     new->fields.claOrIns.parent = NULL;
+    new->fields.claOrIns.attributesAlreadyNumbered = FALSE;
+    new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
@@ -378,8 +382,11 @@ static void numberAttributesRecursively(SymNod *symbol)
 	  lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
 	}
 	theList->element.atr->id->code = inheritedAttribute->id->code;
-      } else
+	theList->element.atr->inheritance = INHERITED_REDEFINED;
+      } else {
 	theList->element.atr->id->code = ++attributeCount;
+	theList->element.atr->inheritance = LOCAL;
+      }
     }
     symbol->fields.claOrIns.attributesAlreadyNumbered = TRUE;
 
@@ -407,6 +414,35 @@ void numberAllAttributes(void)
 }
 
 
+/*----------------------------------------------------------------------
+
+  replicateAttributesRecursively()
+
+*/
+static void replicateAttributesRecursively(SymNod *symbol)
+{
+  if (symbol == NULL) return;
+
+  if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
+    return;			/* Only a class or instance have attributes */
+
+  if (!symbol->fields.claOrIns.attributesAlreadyReplicated) {
+    /* We have attributes that are not numbered already */
+    if (symbol->fields.claOrIns.parent != NULL) {
+      replicateAttributesRecursively(symbol->fields.claOrIns.parent);
+      combineAttributes(symbol->fields.claOrIns.attributes,
+			symbol->fields.claOrIns.parent->fields.claOrIns.attributes);
+    }
+    symbol->fields.claOrIns.attributesAlreadyReplicated = TRUE;
+
+    /* Recurse in the symTree */
+    if (symbol->lower != NULL) replicateAttributesRecursively(symbol->lower);
+    if (symbol->higher != NULL) replicateAttributesRecursively(symbol->higher);
+  }
+}
+
+
+
 /*======================================================================
 
   replicateInheritedAttributes()
@@ -419,8 +455,9 @@ void numberAllAttributes(void)
   it directly if we encounter it later instead of redoing it.
 
 */
-void replicateInheritedAttributes(SymNod *symbol)
+void replicateInheritedAttributes(void)
 {
+  replicateAttributesRecursively(symTree);
 }
 
 

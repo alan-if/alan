@@ -31,10 +31,14 @@ extern AtrNod *newatr(Srcp *srcp,
 		      long fpos,
 		      int len);
 
-/* Sort the attributes in a list */
-extern void sortatr(List **alstp);
-
+extern void checkMultipleAttributes(List *attributeList);
+extern List *sortAttributes(List *attributeList);
 extern AtrNod *findAttribute(List *attributeList, IdNode *id);
+extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
+extern Aaddr generateAttributes(List *attributeList);
+extern Aaddr generateStringInit(void);
+extern void dumpAttribute(AtrNod *atr);
+
 
 /* Verify parameter attribute */
 extern AtrNod *paramatr(IdNode *id, ElmNod *elm);
@@ -42,19 +46,6 @@ extern AtrNod *paramatr(IdNode *id, ElmNod *elm);
 /* Verify a symbol attribute */
 extern AtrNod *symatr(IdNode *id, SymNod *sym);
 
-/* Prepare all default attributes before analysis */
-extern void prepatrs(void);
-
-/* Analyze an list of attribute nodes */
-extern void anatrs(List *atrs);
-
-extern Aaddr generateAttributes(List *attributeList);
-
-/* Generate the string initialisation table */
-extern Aaddr generateStringInit(void);
-
-/* Dump an Attribute node */
-extern void duatr(AtrNod *atr);
 
 
 #endif

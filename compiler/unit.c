@@ -50,6 +50,7 @@ extern int readEcode();
 extern lmSev readSev();
 
 
+#include "lstTest.c"
 #include "claTest.c"
 #include "insTest.c"
 #include "advTest.c"
@@ -64,6 +65,7 @@ int main()
 {
   lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
+  registerLstUnitTests();
   registerClaUnitTests();
   registerInsUnitTests();
   registerAdvUnitTests();

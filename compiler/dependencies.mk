@@ -84,6 +84,8 @@ lim.o: lim.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
  ins.h slt.h cnt.h chk.h vrb.h stx.h lim.h ext.h rul.h emit.h
 lmList.o: lmList.c lmList.h alanCommon.h types.h token.h srcp.h
 lst.o: lst.c lst_x.h lst.h util.h types.h srcp.h dump.h sysdep.h
+lstTest.o: lstTest.c lst.c lst_x.h lst.h util.h types.h srcp.h dump.h \
+ sysdep.h id_x.h id.h sym.h
 macSpa.o: macSpa.c
 main.o: main.c util.h types.h srcp.h alan.h sysdep.h lst.h spa.h \
  options.h dump.h alan.version.h version.h
@@ -167,14 +169,15 @@ syn.o: syn.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
 sysdep.o: sysdep.c sysdep.h
 timing.o: timing.c sysdep.h timing.h
 unit.o: unit.c sysdep.h acode.h unitTest.h lmList.h alanCommon.h \
- types.h token.h srcp.h claTest.c cla.c cla_x.h cla.h id.h sym.h lst.h \
- slt.h whr.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h atr.h exp.h \
- alan.h evt.h slt_x.h lst_x.h emit.h util.h dump.h adv.h ins_x.h ins.h \
- ../interpreter/types.h ../interpreter/sysdep.h ../interpreter/acode.h \
- insTest.c ins.c advTest.c adv.c whr_x.h stm.h vrb.h stx.h ext.h rul.h \
- wrd.h syn.h atr_x.h msg.h sco.h opt.h options.h encode.h symTest.c \
- sym.c whrTest.c whr.c wht_x.h extTest.c ext.c ext_x.h chk.h \
- emitTest.c emit.c alan.version.h version.h atrTest.c atr.c
+ types.h token.h srcp.h lstTest.c lst.c lst_x.h lst.h util.h dump.h \
+ id_x.h id.h sym.h claTest.c cla.c cla_x.h cla.h slt.h whr.h wht.h \
+ cnt.h srcp_x.h sym_x.h elm.h atr.h exp.h alan.h evt.h slt_x.h emit.h \
+ adv.h ins_x.h ins.h ../interpreter/types.h ../interpreter/sysdep.h \
+ ../interpreter/acode.h insTest.c ins.c advTest.c adv.c whr_x.h stm.h \
+ vrb.h stx.h ext.h rul.h wrd.h syn.h atr_x.h msg.h sco.h opt.h \
+ options.h encode.h symTest.c sym.c whrTest.c whr.c wht_x.h extTest.c \
+ ext.c ext_x.h chk.h emitTest.c emit.c alan.version.h version.h \
+ atrTest.c atr.c
 unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
 util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
  token.h

@@ -23,7 +23,7 @@ void dumpClass();
 void dumpInstance();
 void dustm();
 void duext();
-void duatr();
+void dumpAttribute();
 
 
 /*======================================================================
@@ -37,7 +37,35 @@ void initDumpNodeList()
   dumpNodeTable[LIST_INS] = &dumpInstance;
   dumpNodeTable[LIST_STM] = &dustm;
   dumpNodeTable[LIST_EXT] = &duext;
-  dumpNodeTable[LIST_ATR] = &duatr;
+  dumpNodeTable[LIST_ATR] = &dumpAttribute;
+}
+
+
+
+
+/*======================================================================
+
+  insert()
+
+  Insert an element into a list at the point. Can not insert at end
+  (i.e. on NULL lists)
+
+  */
+void insert(List *thePoint, void *element, ListKind kind)
+{
+  List *newListNode;
+
+  if (thePoint == NULL)
+    syserr("Inserting an element in a NULL list!");
+  if (kind != thePoint->kind)
+    syserr("Inserting wrong kind of element in list!");
+
+  /* Move the first element to a new list node */
+  newListNode = concat(NULL, thePoint->element.atr, kind);
+
+  newListNode->next = thePoint->next;
+  thePoint->element.atr = element;
+  thePoint->next = newListNode;
 }
 
 
@@ -91,6 +119,25 @@ List *combine(List *list1,	/* IN - Lists to combine */
   list1->tail = list2->tail;	/* Tail of list2 is tail */
   return(list1);
 }
+
+
+/*======================================================================
+
+  length()
+
+  Of a list.
+
+*/
+int length(List *aList)
+{
+  int count = 0;
+  List *thePoint;
+
+  for (thePoint = aList; thePoint != NULL; thePoint = thePoint->next)
+    count ++;
+  return count;
+}
+
 
 
 

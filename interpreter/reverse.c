@@ -264,6 +264,7 @@ static void reverseInstances(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(InstanceEntry));
     while (!endOfTable(e)) {
+      reverseTable(e->attributes, sizeof(AttributeEntry));
       reverseStms(e->mentioned);
       reverseStms(e->description);
       reverseExits(e->exits);
@@ -454,9 +455,6 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseWrds(header->dict);
-  reverseTable(header->oatrs, sizeof(AttributeEntry));
-  reverseTable(header->latrs, sizeof(AttributeEntry));
-  reverseTable(header->aatrs, sizeof(AttributeEntry));
   reverseStxs(header->stxs);
   reverseVerbs(header->vrbs);
   reverseInstances(header->instanceTableAddress);

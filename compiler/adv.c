@@ -116,10 +116,8 @@ void anadv(void)
 {
   symbolizeAdv();
   numberAllAttributes();
+  replicateInheritedAttributes();
 
-#ifdef FIXME
-  prepinss();			/* Sort out the local attributes etc. */
-#endif
   prepwrds();			/* Prepare words in the dictionary */
   prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */

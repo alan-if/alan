@@ -54,6 +54,6 @@ extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
 
 extern void numberAllAttributes(void);
-extern void replicateInheritedAttributes(SymNod *sym);
+extern void replicateInheritedAttributes(void);
 
 #endif

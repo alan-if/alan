@@ -313,18 +313,20 @@ void schedule(evt, whr, aft)
 #ifdef _PROTOTYPES_
 static Aword getatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
-     Aaddr atr                  /* IN - The attribute to read */
+     Aaddr code                  /* IN - The attribute to read */
 )
 #else
-static Aword getatr(atradr, atr)
+static Aword getatr(atradr, code)
      Aaddr atradr;              /* IN - ACODE address to attribute table */
-     Aaddr atr;                 /* IN - The attribute to read */
+     Aaddr code;                 /* IN - The attribute to read */
 #endif
 {
-  AttributeEntry *at;
+  AttributeEntry *attribute;
 
-  at = (AttributeEntry *) addrTo(atradr);
-  return at[atr-1].value;
+  attribute = (AttributeEntry *) addrTo(atradr);
+  while (attribute->code != code)
+    attribute++;
+  return attribute->value;
 }
   
 
@@ -635,7 +637,7 @@ Aword attribute(id, atr)
     return litatr(id, atr);
   else {
     if (id > 0 && id <= header->instanceMax)
-      getatr(instance[id].attributes, atr);
+      return getatr(instance[id].attributes, atr);
     else {
       sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
       syserr(str);

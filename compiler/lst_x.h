@@ -19,14 +19,11 @@ extern void (*(dumpNodeTable[]))();
 
 /* FUNCTIONS: */
 
-/* Init the list of node dumping functions */
 extern void initDumpNodeList();
-
-/* Concat an element to a list */
 extern List *concat(List *lst, void *elem, ListKind kind);
-
-/* Combine two generic lists */
 extern List *combine(List *lst1, List *lst2);
+extern void insert(List *where, void *element, ListKind kind);
+extern int length(List *aList);
 
 /* Dump a list of nodes */
 extern void dulst(List *lst, ListKind nod);
