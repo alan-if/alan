@@ -1,0 +1,18 @@
+Message
+  again: "(here again)"
+  noway: "There is no exit in that direction."
+
+Location l1
+  Exit w to l2.
+End Location l1.
+
+Location l2
+  Exit w to l1.
+  Exit e to l2.
+End Location l2.
+
+Start At l1.
+	Visits 3.
+	"Try west a couple of times, the again-message should be ""(here again)"".
+	and the 'no exit' message should read: ""There is no exit in that direction""."
+
