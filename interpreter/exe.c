@@ -1488,8 +1488,6 @@ void look()
   if (anyOutput)
     para();
   say(cur.loc);
-  needsp = FALSE;
-  output(".");
   newline();
   describe(cur.loc);
   dscrobjs();
