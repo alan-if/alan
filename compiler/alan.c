@@ -445,7 +445,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search before current when\nlooking for included files (may be repeated)", addInclude)
-     SPA_KEYWORD("charset", "which character set source is in", charset, charsets, 0, NULL)
+     SPA_KEYWORD("charset <set>", "which character set source is in (iso|mac|dos)", charset, charsets, 0, NULL)
      SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccflg, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
@@ -547,7 +547,7 @@ int main(int argc,		/* IN - argument count */
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
   /* Say hello ! */
   if (verbose)
-    printf("%s\n\n", product.longHeader);
+    printf("%s %s\n\n", product.longHeader, COMPILER);
 
   if (nArgs == 0) {
     usage(NULL, NULL, 0);

@@ -12,7 +12,7 @@ CPP	= $(GCC) -MM $(INCLUDE)
 CC	= $(GCC) -Wall
 
 
-CFLAGS	= $(DEBUG) $(INCLUDE)
+CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\"
 
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
@@ -144,7 +144,7 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER = 
-depend: dependencies.mk. Makefile.amiga Makefile.dos # arun.make
+depend: dependencies.mk. Makefile.amiga makefile.gpp Makefile.mgw
 
 dependencies.mk.:
 	@echo Updating dependencies.mk!
@@ -160,24 +160,20 @@ Makefile.amiga: dependencies.mk Makefile
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-Makefile.dos: dependencies.mk Makefile
-	@echo Updating Makefile.dos!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
+makefile.gpp: dependencies.mk Makefile
+	@echo Updating makefile.gpp!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' makefile.gpp > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cp "#Makefile.tmp#" Makefile.dos
-	@sed -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
+	@cp "#Makefile.tmp#" makefile.gpp
+	@sed -e s/\\.o/\\.obj/ dependencies.mk >> makefile.gpp
 
-arun.make: dependencies.mk
-	@echo Updating arun.make!
-	@echo !Automagically created makefile for Arun interpreter on VMS > arun.make
-	@echo CQ=/STANDARD=PORTABLE >> arun.make
-	@echo OBJECTS = $(VMSOBJECTS) >> arun.make
-	@echo >> arun.make
-	@cat dependencies.mk >> arun.make
-	@echo >> arun.make
-	@echo arun.exe : "#(OBJECTS)" version.obj >> arun.make
-	@/usr/5bin/echo \\t$$ link/exe=arun "#(LQ)" $(VMSLINKOBJS) >> arun.make
-	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
+Makefile.mgw: dependencies.mk Makefile
+	@echo Updating Makefile.mgw!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.mgw > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cp "#Makefile.tmp#" Makefile.mgw
+	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.mgw
+
 
 mac:
 	-mkdir macsrc

@@ -2,6 +2,7 @@
 
 	Prefix 'pm';
 	Listerprefix 'lm';
+	List Grammar, Statistics;
 --	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;

@@ -14,7 +14,7 @@ TMLIB	= $(TMHOME)/lib/ansi-c
 
 
 CC = $(GCC)
-CFLAGS	= $(DEBUG) $(INCLUDE)
+CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\"
 
 tcov := CC = acc -a
 tcov := LD = acc -a
@@ -338,7 +338,7 @@ amiga:
 
 pc:
 	make MSDOS
-	zip -k -u compiler.zip *.[ch] Makefile.dos makefile.gpp
+	zip -k -u compiler.zip *.[ch] Makefile.dos makefile.gpp Makefile.mgw
 	zip -k -m compiler.zip *.[CH]
 
 #--
@@ -351,7 +351,7 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/, d" -e "s,./,," | sort -u 
 FILETER =
-depend: dependencies.mk. Makefile.amiga Makefile.dos # alan.make
+depend: dependencies.mk. Makefile.amiga Makefile.mgw makefile.gpp
 
 dependencies.mk.:
 	@echo "Updating dependencies.mk!"
@@ -367,12 +367,19 @@ Makefile.amiga: dependencies.mk Makefile
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-Makefile.dos: dependencies.mk Makefile
-	@echo Updating Makefile.dos!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
+makefile.gpp: dependencies.mk Makefile
+	@echo Updating makefile.gpp!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' makefile.gpp > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cp "#Makefile.tmp#" Makefile.dos
-	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
+	@cp "#Makefile.tmp#" makefile.gpp
+	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> makefile.gpp
+
+Makefile.mgw: dependencies.mk Makefile
+	@echo Updating Makefile.mgw!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.mgw > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cp "#Makefile.tmp#" Makefile.mgw
+	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.mgw
 
 
 include dependencies.mk

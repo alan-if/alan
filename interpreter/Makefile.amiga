@@ -38,7 +38,8 @@ archive:
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 args.o: args.c args.h main.h types.h sysdep.h acode.h
-arun.o: arun.c main.h types.h sysdep.h acode.h term.h
+arun.o: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
+chartest.o: chartest.c
 debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
  main.h parse.h exe.h debug.h
 decode.o: decode.c main.h types.h sysdep.h acode.h decode.h

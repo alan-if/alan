@@ -64,7 +64,7 @@ lst.o: lst.c alan.h sysdep.h types.h srcp.h lst.h dump.h nam.h acode.h \
 macSpa.o: macSpa.c
 msg.o: msg.c sysdep.h alan.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h adv.h whr.h evt.h nam.h acode.h wht.h msg.h \
- opt.h emit.h encode.h
+ stm.h exp.h obj.h cnt.h act.h loc.h ext.h opt.h emit.h encode.h
 nam.o: nam.c alan.h sysdep.h types.h srcp.h lst.h dump.h nam.h acode.h \
  str.h obj.h whr.h evt.h wht.h cnt.h act.h ext.h loc.h vrb.h stx.h \
  msg.h emit.h
