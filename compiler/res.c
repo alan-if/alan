@@ -27,20 +27,16 @@
 
 
 /*======================================================================*/
-ResNod *newRestriction(
-    Srcp *srcp,
-    IdNode *parameterId,
-    RestrictionKind kind,
-    IdNode *classId,
-    List *stms)
+Restriction *newRestriction(Srcp srcp, IdNode *parameterId, RestrictionKind kind,
+		       IdNode *classId, List *stms)
 {
-  ResNod *new;			/* The newly created node */
+  Restriction *new;			/* The newly created node */
 
   showProgress();
 
-  new = NEW(ResNod);
+  new = NEW(Restriction);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->parameterId = parameterId;
   new->kind = kind;
   new->classId = classId;
@@ -50,8 +46,23 @@ ResNod *newRestriction(
 }
 
 
+
+
+/*======================================================================*/
+Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax)
+{
+  List *restrictionList;
+
+  TRAVERSE(restrictionList, syntax->restrictions)
+    if (restrictionList->element.res->parameterId->symbol == parameterSymbol &&
+	restrictionList->element.res->kind != CONTAINER_RESTRICTION)
+      return TRUE;
+  return FALSE;
+}
+
+
 /*----------------------------------------------------------------------*/
-static void resolveParameterClass(ResNod *res, Symbol *parameter)
+static void resolveParameterClass(Restriction *res, Symbol *parameter)
 {
   Symbol *classSymbol;
 
@@ -108,8 +119,20 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
 
 }
 
+/*======================================================================*/
+void symbolizeRestrictions(List *restrictions, Symbol *theVerb) {
+  List *lst;
+  Symbol *parameter;
+
+  TRAVERSE(lst, restrictions) {
+    parameter = lookupParameter(lst->element.res->parameterId,
+				theVerb->fields.verb.parameterSymbols);
+    lst->element.res->parameterId->symbol = parameter;
+  }
+}
+
 /*----------------------------------------------------------------------*/
-static void analyzeRestriction(ResNod *res, Symbol *theVerb) {
+static void analyzeRestriction(Restriction *res, Symbol *theVerb) {
   Symbol *parameter;
   Context *context = newVerbContext(theVerb);
 
@@ -149,7 +172,7 @@ void analyzeRestrictions(
 
 
 /*----------------------------------------------------------------------*/
-static void generateRestrictionStatements(ResNod *res)
+static void generateRestrictionStatements(Restriction *res)
 {
   res->stmadr = nextEmitAddress();
   generateStatements(res->stms);
@@ -159,7 +182,7 @@ static void generateRestrictionStatements(ResNod *res)
 
 
 /*----------------------------------------------------------------------*/
-static void generateRestrictionEntry(ResNod *res)
+static void generateRestrictionEntry(Restriction *res)
 {
   RestrictionEntry restriction;
 
@@ -226,7 +249,7 @@ static void dumpRestrictionKind(RestrictionKind kind)
 
 
 /*======================================================================*/
-void dumpRestriction(ResNod *res)
+void dumpRestriction(Restriction *res)
 {
   if (res == NULL) {
     put("NULL");

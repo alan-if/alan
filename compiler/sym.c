@@ -241,6 +241,8 @@ Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
 /*======================================================================*/
 Symbol *newVerbSymbol(IdNode *id) {
   Symbol *new = newSymbol(id, VERB_SYMBOL);
+  new->fields.verb.parameterSymbols = NULL;
+  new->fields.verb.firstSyntax = NULL;
   return new;
 }
 
@@ -629,10 +631,6 @@ void setParameters(Symbol *verb, List *parameters)
   TRAVERSE(param, parameters) {
     Symbol *parameterSymbol = newParameterSymbol(param->element.elm->id->string, param->element.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
-    param->element.elm->id->symbol = parameterSymbol; /* Cross refer */
-    /* Set initial type of parameters to entity */
-    parameterSymbol->fields.parameter.class = entitySymbol;
-    parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
   }
 
   verb->fields.verb.parameterSymbols = parameterSymbols;

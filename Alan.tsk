@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>394.89</origest>
 <currest>393.89</currest>
-<elapsed>238.89</elapsed>
+<elapsed>245.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>50</origest>
 <currest>50</currest>
-<elapsed>2</elapsed>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>2</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -39,7 +39,7 @@
 <priority>2</priority>
 <origest>3</origest>
 <currest>3</currest>
-<elapsed>0</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Aggregates and filters must allow DIRECTLY</desc>
@@ -47,7 +47,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -56,7 +56,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -65,40 +65,72 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
 <task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Investigate if MENTIONED is generated automatically.</desc>
+<desc>A container without a description should be listed automatically</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Document that $n prints using player words and Say does not.</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restriction analysis questions</desc>
+<notes>The current analysis of restrictions and their statements seem to start by assuming every parameter is an instance and go from there. That's ok, but at the same time the legacy indicates that the default of a parameter should be "object", and we can have these at the same time:
+
+Syntax x = x (a) (b)
+    Where a Isa c1
+        Else "Here b is either an entity or an object, depending on the strategy."
+
+Probably this should work by first working through the restrictions to see if a parameter is restricted, if not at all it should be assumed an "object" and if it was restricted (in the class dimension, not container) it should start out as an entity.
+
+This is not true. The legacy only indicates that the parameter should be an object in the *bodies*. The restrictions could still assume entity to begin with. Ensure that a non-restricted parameter is an object.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression in List statement.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Disambiguation using checks</desc>
+<notes>Example:
+
+There is water in the lake. You are carrying a bottle of water.
+&gt; examine water
+I don't know which water you mean.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -112,15 +144,6 @@ Classes
 Instances (hero)
 Words
 Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>A container without a description should be listed automatically</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -158,21 +181,6 @@ END DEPEND.</notes>
 <task>
 <desc>Example: composite object</desc>
 <notes>Like a box with a couple of buttons on it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Restriction analysis questions</desc>
-<notes>The current analysis of restrictions and their statements seem to start by assuming every parameter is an instance and go from there. That's ok, but at the same time the legacy indicates that the default of a parameter should be "object", and we can have these at the same time:
-
-Syntax x = x (a) (b)
-    Where a Isa c1
-        Else "Here b is either an entity or an object, depending on the strategy."
-
-Probably this should work by first working through the restrictions to see if a parameter is restricted, if not at all it should be assumed an "object" and if it was restricted (in the class dimension, not container) it should start out as an entity.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -223,8 +231,8 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -232,14 +240,17 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Disambiguation using checks</desc>
-<notes>Example:
-
-There is water in the lake. You are carrying a bottle of water.
-&gt; examine water
-I don't know which water you mean.
-
-</notes>
+<desc>PLAY statement</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -282,15 +293,6 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 </task>
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow expression in List statement.</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -359,6 +361,19 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow locations in initial location and Locate if IN</desc>
+<notes>This would allow collecting locations in heaps.
+
+Better: use IN location to mean the exits?
+
+OR: defer this until arrays are available.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Refactor: Allocate parameter lists</desc>
 <notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
@@ -372,8 +387,8 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -392,19 +407,6 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow locations in initial location and Locate if IN</desc>
-<notes>This would allow collecting locations in heaps.
-
-Better: use IN location to mean the exits?
-
-OR: defer this until arrays are available.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Unify error messages</desc>
 <notes>Check error messages and try to unify such as
 
@@ -413,6 +415,17 @@ Multiple VERB '%1'
 with
 
 Multiple %1 '%2'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>MENTIONED can not be inherited</desc>
+<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
+
+This is kind of a general question, but affects the MENTIONED particularly.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -442,15 +455,6 @@ Multiple %1 '%2'</notes>
 <notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
 
 New clause?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>PLAY statement</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

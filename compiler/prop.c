@@ -145,7 +145,7 @@ static void analyzeMentioned(Properties *props, Context *context)
   Statement *stm;
 
   if (props->mentioned == NULL) {
-    /* FIXME Actually we should not construct a Mentioned, better
+    /* TODO Actually we should not construct a Mentioned, better
        would be to generate it during runtime. However, to do this we
        would require that we store the names so that they can be
        printed, preferably exactly as the author wrote them. An entry

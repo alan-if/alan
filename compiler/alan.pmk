@@ -510,7 +510,7 @@ static int val(char str[])
 <syntax_restriction>
     = ID 'ISA' <restriction_class> 'ELSE' <statements>
     %%
-	%<syntax_restriction>.res = newRestriction(`&%'ISA'.srcp,
+	%<syntax_restriction>.res = newRestriction(%'ISA'.srcp,
 			  			  %ID.id,
 						  %<restriction_class>.restrictionKind,
 						  %<restriction_class>.id,

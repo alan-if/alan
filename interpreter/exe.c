@@ -1036,8 +1036,6 @@ void locate(Aword id, Aword whr)
 /*======================================================================*/
 Aword isHere(Aword id, Abool directly)
 {
-  Aint owner;
-
   verifyId(id, "HERE");
 
   if (directly)
@@ -1108,6 +1106,8 @@ Abool in(Aword theInstance, Aword cnt, Abool directly)
 Abool at(Aint theInstance, Aint other, Abool directly)
 {
   int loc = other;
+
+  if (theInstance == 0 || other == 0) return FALSE;
 
   if (directly)
     return admin[theInstance].location == other;

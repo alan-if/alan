@@ -336,7 +336,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         SYSERR("Unrecognized switch");
         break;
       }
-    } else if (where->what->type != SET_TYPE)
+    } else if (where->what && where->what->type != SET_TYPE)
       lmLogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
   }
 
@@ -938,6 +938,38 @@ static void generateBinaryExpression(Expression *exp)
   if (exp->not) emit0(I_NOT);
 }
 
+/*----------------------------------------------------------------------*/
+static void generateWhereRHS(Where *where) {
+
+  switch (where->kind) {
+  case WHERE_HERE:
+    emitConstant(where->directly);
+    emit0(I_HERE);
+    break;
+  case WHERE_NEAR:
+    emitConstant(where->directly);
+    emit0(I_NEAR);
+    break;
+  case WHERE_IN:
+    generateExpression(where->what);
+    emit(where->directly);
+    emit0(I_IN);
+    break;
+  case WHERE_INSET:
+    generateExpression(where->what);
+    emit0(I_INSET);
+    break;
+  case WHERE_AT:
+    emitConstant(where->directly);
+    generateWhere(where);
+    emit0(I_AT);
+    break;
+  case WHERE_DEFAULT:
+    SYSERR("Generating WHERE_DEFAULT");
+  }
+}
+
+
 
 
 /*----------------------------------------------------------------------*/
@@ -947,35 +979,7 @@ static void generateWhereExpression(Expression *exp)
   Expression *what = exp->fields.whr.wht;
 
   generateExpression(what);
-
-  switch (where->kind) {
-  case WHERE_HERE:
-    emitConstant(exp->fields.whr.whr->directly);
-    emit0(I_HERE);
-    break;
-  case WHERE_NEAR:
-    emitConstant(exp->fields.whr.whr->directly);
-    emit0(I_NEAR);
-    break;
-  case WHERE_IN:
-    generateExpression(where->what);
-    emit(exp->fields.whr.whr->directly);
-    emit0(I_IN);
-    break;
-  case WHERE_INSET:
-    generateExpression(where->what);
-    emit0(I_INSET);
-    break;
-  case WHERE_AT:
-    emitConstant(exp->fields.whr.whr->directly);
-    generateWhere(where);
-    emit0(I_AT);
-    break;
-  default:
-    unimpl(exp->srcp, "Code Generator");
-    emitConstant(0);
-    break;
-  }
+  generateWhereRHS(where);
   if (exp->not) emit0(I_NOT);
 }
 
@@ -1007,25 +1011,16 @@ static void generateAttributeExpression(Expression *exp)
 
 
 /*======================================================================*/
-void generateRightHandExpression(Expression *exp)
+void generateFilter(Expression *exp)
 {
-  /* Generate a right hand side expression where the left hand 
-     has been evaluated so that the stack contains the lhs on top.
-     This is used for aggregate and loop filters. */
+  /* Generate a right hand side expression, filter, where the left
+     hand has been evaluated so that the stack contains the lhs on
+     top.  NOTE that the lhs is NULL in all these cases.  This is used
+     for aggregate and loop filters. */
+
   switch (exp->kind) {
   case WHERE_EXPRESSION:
-    if (exp->fields.whr.whr->kind == WHERE_INSET) {
-      generateWhere(exp->fields.whr.whr);
-      emit0(I_INSET);
-    } else if (exp->fields.whr.whr->kind == WHERE_IN) {
-      generateWhere(exp->fields.whr.whr);
-      emit(exp->fields.whr.whr->directly);
-      emit0(I_IN);
-    } else {
-      emit0(I_WHERE);
-      generateWhere(exp->fields.whr.whr);
-      emit0(I_EQ);
-    }
+    generateWhereRHS(exp->fields.whr.whr);
     break;
   case ISA_EXPRESSION:
     generateId(exp->fields.isa.class);
@@ -1045,6 +1040,7 @@ void generateRightHandExpression(Expression *exp)
   default:
     SYSERR("Unimplemented aggregate filter expression");
   }
+  if (exp->not) emit0(I_NOT);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1063,7 +1059,7 @@ static void generateAggregateExpression(Expression *exp)
   emit0(I_AGRSTART);
 
   TRAVERSE(lst,exp->fields.agr.filters) {
-    generateRightHandExpression(lst->element.exp);
+    generateFilter(lst->element.exp);
     emit0(I_AGRCHECK);
   }
 

@@ -46,6 +46,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
 
     struct {
       List *parameterSymbols;
+      struct Syntax *firstSyntax;
     } verb;
 
     struct {

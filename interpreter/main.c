@@ -421,6 +421,19 @@ void *duplicate(void *original, unsigned long len)
 
 
 /*----------------------------------------------------------------------*/
+static void capitalizeFirst(char *str) {
+  int i = 0;
+
+#ifdef CAPITALIZEFIRSTLETTER
+  /* Skip over non-letters... */
+  while (!isLetter(str[i]) && i < strlen(str)) i++;
+#endif
+  str[i] = toUpper(str[i]);
+  capitalize = FALSE;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void justify(char str[])
 {
 #ifdef HAVE_GLK
@@ -431,6 +444,9 @@ static void justify(char str[])
   
   if (col >= pageWidth && !skipSpace)
     newline();
+
+  if (capitalize)
+    capitalizeFirst(str);
 
   while (strlen(str) > pageWidth - col) {
     i = pageWidth - col - 1;
@@ -623,18 +639,6 @@ static Bool fullStopOrCommaNext(char *str) {
 
 
 /*----------------------------------------------------------------------*/
-static void capitalizeFirst(char *str) {
-  int i = 0;
-
-#ifdef CAPITALIZEFIRSTLETTER
-  /* Skip over non-letters... */
-  while (!isLetter(str[i]) && i < strlen(str)) i++;
-#endif
-  str[i] = toUpper(str[i]);
-  capitalize = FALSE;
-}
-
-/*----------------------------------------------------------------------*/
 static char lastCharOf(char *str) {
   return str[strlen(str)-1];
 }
@@ -668,8 +672,6 @@ void output(char original[])
     if (strlen(str) > 0) {
       skipSpace = FALSE;	/* Only let skipSpace through if it is
 				   last in the string */
-      if (capitalize)
-	capitalizeFirst(str);
       if (lastCharOf(str) == ' ') {
 	str[strlen(str)-1] = '\0'; /* Truncate space character */
 	justify(str);		/* Output part before '$' */

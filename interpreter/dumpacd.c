@@ -516,6 +516,7 @@ static void dumpStatements(Aword pc)
       case I_AGREND: printf("AGREND"); break;
       case I_AGRSTART: printf("AGRSTART"); break;
       case I_AND: printf("AND"); break;
+      case I_AT: printf("AT "); break;
       case I_ATTRIBUTE: printf("ATTRIBUTE"); break;
       case I_BTW: printf("BETWEEN "); break;
       case I_CANCEL: printf("CANCEL"); break;
@@ -538,6 +539,7 @@ static void dumpStatements(Aword pc)
       case I_ENDFRAME: printf("ENDBLOCK"); break;
       case I_ENDIF: printf("ENDIF"); break;
       case I_EQ: printf("EQ "); break;
+      case I_EXCLUDE: printf("EXCLUDE"); break;
       case I_FRAME: printf("BLOCK"); break;
       case I_GE: printf("GE "); break;
       case I_GETLOCAL: printf("GETLOCAL"); break;
@@ -554,6 +556,7 @@ static void dumpStatements(Aword pc)
       case I_LINE: printf("LINE"); break;
       case I_LIST: printf("LIST"); break;
       case I_LOCATE: printf("LOCATE"); break;
+      case I_LOCATION: printf("LOCATION"); break;
       case I_LOOK: printf("LOOK"); break;
       case I_LT: printf("LT "); break;
       case I_MAKE: printf("MAKE"); break;
@@ -570,7 +573,6 @@ static void dumpStatements(Aword pc)
       case I_POP: printf("POP"); break;
       case I_PRINT: printf("PRINT"); break;
       case I_QUIT: printf("QUIT"); break;
-      case I_EXCLUDE: printf("EXCLUDE"); break;
       case I_RESTART: printf("RESTART"); break;
       case I_RESTORE: printf("RESTORE"); break;
       case I_RETURN: printf("RETURN"); printf("\n"); return;
@@ -598,7 +600,6 @@ static void dumpStatements(Aword pc)
       case I_USE: printf("USE"); break;
       case I_VISITS: printf("VISITS"); break;
       case I_WHERE: printf("WHERE"); break;
-      case I_LOCATION: printf("LOCATION"); break;
       }
       break;
 

@@ -100,6 +100,7 @@ int winglk_startup_code(const char* cmdline)
   argCount = 1;
 
   splitArgs(strdup(cmdline));
+
   args(argCount, argumentVector);
 
   glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |

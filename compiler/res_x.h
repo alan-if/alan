@@ -21,14 +21,14 @@
 
 /* FUNCTIONS: */
 
-extern ResNod *newRestriction(Srcp *srcp,
-			      IdNode *parameterId,
-			      RestrictionKind kind,
-			      IdNode *classId,
+extern Restriction *newRestriction(Srcp srcp, IdNode *parameterId,
+			      RestrictionKind kind, IdNode *classId,
 			      List *stms);
-extern Aaddr generateRestrictions(List *ress, Syntax *stx);
-extern void analyzeRestrictions(List *ress, Symbol *theVerb);
-extern void dumpRestriction(ResNod *res);
+extern Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax);
+extern void symbolizeRestrictions(List *restrictions, Symbol *theVerb);
+extern void analyzeRestrictions(List *restrictions, Symbol *theVerb);
+extern Aaddr generateRestrictions(List *restrictions, Syntax *stx);
+extern void dumpRestriction(Restriction *res);
 
 
 #endif

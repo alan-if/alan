@@ -33,10 +33,7 @@
 
 
 /*======================================================================*/
-Syntax *newSyntax(Srcp srcp,
-		  IdNode *id,
-		  List *elements,
-		  List *restrictionLists,
+Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
 		  Srcp restrictionSrcp)
 {
   Syntax *new;                  /* The newly created node */
@@ -52,7 +49,7 @@ Syntax *newSyntax(Srcp srcp,
   new->elements = elements;
   new->firstSyntax = TRUE;	/* Assume first and only so far */
   new->nextSyntaxForSameVerb = NULL;
-  new->restrictionLists = restrictionLists;
+  new->restrictions = restrictionList;
   new->restrictionSrcp = restrictionSrcp;
 
   new->generated = FALSE;
@@ -153,7 +150,28 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
+static void setInitialParameterClass(Symbol* verbSymbol, Syntax *syntax) {
+  List *parameters;
+
+  TRAVERSE(parameters, verbSymbol->fields.verb.parameterSymbols) {
+    Symbol *parameterSymbol = parameters->element.sym;
+    parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
+#ifdef RESTRICT_TO_OBJECT_BEFORE_RESTRICTION
+    if (hasRestriction(parameterSymbol, syntax))
+      /* Set initial type of parameter to entity */
+      parameterSymbol->fields.parameter.class = entitySymbol;
+    else
+      /* Set type of parameter to object */
+      parameterSymbol->fields.parameter.class = objectSymbol;
+#else
+      parameterSymbol->fields.parameter.class = entitySymbol;
+#endif
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeSyntax(Syntax *stx)
 {
   Symbol *verbSymbol;
 
@@ -170,14 +188,16 @@ static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
     stx->id->symbol = verbSymbol;
     stx->id->code = verbSymbol->code;
 
-    stx->parameters = analyzeElements(stx->elements, stx->restrictionLists, stx);
+    stx->parameters = analyzeElements(stx->elements, stx->restrictions, stx);
     /* Register the parameters, use last syntax if multiple */
-    if (stx->firstSyntax)
+    if (stx->firstSyntax) {
       setParameters(verbSymbol, stx->parameters);
 
-    analyzeRestrictions(stx->restrictionLists, verbSymbol);
-    setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
-
+      symbolizeRestrictions(stx->restrictions, verbSymbol);
+      setInitialParameterClass(verbSymbol, stx);
+      analyzeRestrictions(stx->restrictions, verbSymbol);
+      setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
+    }
     /* Link last syntax element to this stx to prepare for code generation */
     (tailOf(stx->elements))->element.elm->stx = stx;
   }
@@ -199,7 +219,7 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
 		lst->element.stx->id->string);
 	  error = TRUE;
 	}
-	if (other->element.stx->restrictionLists != NULL) {
+	if (other->element.stx->restrictions != NULL) {
 	  lmLog(&other->element.stx->restrictionSrcp, 250, sevERR,
 		lst->element.stx->id->string);
 	  error = TRUE;
@@ -292,8 +312,8 @@ Syntax *defaultSyntax1(IdNode *verb, Context *context)
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
 
   /* Add restriction for the parameter class in context */
-  stx->restrictionLists = concat(NULL,
-				 newRestriction(&nulsrcp,
+  stx->restrictions = concat(NULL,
+				 newRestriction(nulsrcp,
 						newId(nulsrcp,
 						      classId->string),
 						ID_RESTRICTION,
@@ -366,7 +386,7 @@ static void generateRestrictionTable(void) {
     Syntax *stx = lst->element.stx;
     Syntax *nextSyntax;
     if (stx->firstSyntax) {
-      stx->restrictionsAddress = generateRestrictions(stx->restrictionLists, stx);
+      stx->restrictionsAddress = generateRestrictions(stx->restrictions, stx);
       for (nextSyntax = stx->nextSyntaxForSameVerb; nextSyntax;
 	   nextSyntax = nextSyntax->nextSyntaxForSameVerb)
 	nextSyntax->restrictionsAddress = stx->restrictionsAddress;
@@ -458,6 +478,6 @@ void dumpSyntax(Syntax *stx)
   put("elmsadr: "); dumpAddress(stx->elementsAddress); nl();
   put("elements: "); dumpList(stx->elements, ELEMENT_LIST); nl();
   put("resadr: "); dumpAddress(stx->restrictionsAddress); nl();
-  put("restrictionLists: "); dumpList(stx->restrictionLists, RESTRICTION_LIST); nl();
+  put("restrictionList: "); dumpList(stx->restrictions, RESTRICTION_LIST); nl();
   put("parameters: "); dumpList(stx->parameters, ELEMENT_LIST); out();
 }

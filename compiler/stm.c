@@ -195,7 +195,9 @@ static void analyzeEmpty(Statement *stm, Context *context)
   verifyContainerExpression(stm->fields.empty.what, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
   if (stm->fields.empty.where->kind == WHERE_NEAR)
-    lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "LOCATE");
+    lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "EMPTY");
+  if (stm->fields.empty.where->directly)
+    lmLog(&stm->fields.empty.where->srcp, 422, sevERR, "EMPTY statement");
 }
 
 
@@ -218,6 +220,8 @@ static void analyzeLocate(Statement *stm, Context *context)
     }
   }
   analyzeWhere(whr, context);
+  if (stm->fields.locate.where->directly)
+    lmLog(&stm->fields.locate.where->srcp, 422, sevERR, "LOCATE statement");
 
   switch (whr->kind) {
   case WHERE_HERE:
@@ -940,7 +944,7 @@ static void generateDepend(Statement *stm)
 	emit0(I_DEPCASE);
       emit0(I_DUP);
       /* ...and the case expression (right hand + operator) */
-      generateRightHandExpression(cases->element.stm->fields.depcase.exp);
+      generateFilter(cases->element.stm->fields.depcase.exp);
       emit0(I_DEPEXEC);
     } else
       emit0(I_DEPELSE);
@@ -970,7 +974,7 @@ static void generateEach(Statement *statement)
   /* Generate filters */
   TRAVERSE(filter, statement->fields.each.filters) {
     emit2(I_GETLOCAL, 0, 1);
-    generateRightHandExpression(filter->element.exp);
+    generateFilter(filter->element.exp);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_NEXTEACH);

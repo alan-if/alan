@@ -33,6 +33,6 @@ typedef struct ResNod {		/* RESTRICTION */
   IdNode *classId;
   List *stms;
   Aaddr stmadr;
-} ResNod;
+} Restriction;
 
 #endif

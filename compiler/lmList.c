@@ -197,6 +197,7 @@ static lmMsgs msg[] = {
     { "419   ", "%1 SET statement can not be of boolean type." },
     { "420   ", "Invalid What-specification in %1." },
     { "421   ", "THIS instance is not defined in this context." },
+    { "422   ", "DIRECTLY not allowed in %1." },
     { "423   ", "You can not instantiate or sub-class \'%1\'." },
     { "424   ", "You can not ADD %1 to non-instantiable class \'%2\'." },
     { "425   ", "A Mentioned clause overrides the Name for an instance inheriting from location." },
@@ -224,7 +225,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 144}
+    {0, 145}
 };
 static lmMessages currMsect = (lmMessages)0;
 

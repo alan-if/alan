@@ -17,11 +17,8 @@
 
 /* FUNCTIONS: */
 
-extern Syntax *newSyntax(Srcp srcp,
-			 IdNode *verb,
-			 List *comps,
-			 List *ress,
-			 Srcp restrictionSrcp);
+extern Syntax *newSyntax(Srcp srcp, IdNode *verb, List *elements,
+			 List *restrictions, Srcp restrictionSrcp);
 
 /* Create a default syntax node */
 extern Syntax *defaultSyntax0(char vrbstr[]);

@@ -51,7 +51,7 @@ extern void verifyContainerExpression(Expression *what, Context *context,
 				      char referer[]);
 extern Symbol *symbolOfExpression(Expression *exp, Context *context);
 extern void generateExpression(Expression *exp);
-extern void generateRightHandExpression(Expression *exp);
+extern void generateFilter(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);
 extern void generateAttributeReference(Expression *exp);
 extern void generateAttributeAccess(Expression *exp);

@@ -29,7 +29,7 @@ typedef struct Element {
   ElementKind kind;		/* Kind of Parameter */
   IdNode *id;			/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
-  ResNod *res;			/* AN - link to the class restriction check */
+  Restriction *res;		/* AN - link to the class restriction check */
   Syntax *stx;			/* AN - pointer back to syntax node */
 } Element;
 

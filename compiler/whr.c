@@ -61,6 +61,9 @@ void symbolizeWhere(Where *whr)
 /*======================================================================*/
 void verifyInitialLocation(Where *whr)
 {
+  if (whr->directly)
+    lmLog(&whr->srcp, 422, sevERR, "Initial location");
+
   switch (whr->kind) {
   case WHERE_AT:
     if (whr->what->fields.wht.wht->kind == WHAT_ID) {

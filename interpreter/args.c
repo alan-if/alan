@@ -97,7 +97,7 @@ static void switches(int argc, char *argv[])
 
 /*----------------------------------------------------------------------*/
 static Bool matchInterpreterName(char *string) {
-  return strlen(string) == 0 || stricmp(string, PROGNAME) == 0;
+  return stricmp(string, PROGNAME) == 0;
 }
 
 

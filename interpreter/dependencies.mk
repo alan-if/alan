@@ -39,9 +39,9 @@ params.o: params.c types.h sysdep.h acode.h params.h main.h \
   ../../WindowsGLK/Include/glk.h
 act.o: act.c sysdep.h act.h types.h acode.h main.h inter.h exe.h stack.h \
   parse.h debug.h syserr.h
-act.o: act.c sysdep.h act.h types.h acode.h main.h \
-  ../../WindowsGLK/Include/glk.h inter.h exe.h stack.h parse.h debug.h \
-  syserr.h
+act.o: act.c sysdep.h act.h types.h acode.h glkio.h \
+  ../../WindowsGLK/Include/glk.h main.h inter.h exe.h stack.h parse.h \
+  debug.h syserr.h
 exe.o: exe.c sysdep.h types.h acode.h act.h set.h debug.h params.h \
   parse.h syserr.h readline.h main.h inter.h stack.h decode.h exe.h
 exe.o: exe.c sysdep.h types.h acode.h act.h set.h debug.h params.h \

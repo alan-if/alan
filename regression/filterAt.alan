@@ -23,12 +23,13 @@ The o4 Isa object
 End The o4.
 
 Start At l.
-  If Sum Of y Isa object, At l = 5 Then "Ok" Else "not ok" End If.
-  If Max Of y Isa object, At l = 3 Then "Ok" Else "not ok" End If.
-  If Min Of y Isa object, At l = 2 Then "Ok" Else "not ok" End If.
-  If Count Isa object, At l = 2 Then "Ok" Else "not ok" End If.
-
-  If Sum Of y Isa object, At o1 = 6 Then "Ok" Else "not ok" End If.
-  If Max Of y Isa object, At o2 = 6 Then "Ok" Else "not ok" End If.
-  If Min Of y Isa object, At o3 = 6 Then "Ok" Else "not ok" End If.
-  If Count Isa object, At o4 = 4 Then "Ok" Else "not ok" End If.
+  "1:" If Sum Of y Isa object, Directly At l = 5 Then "Ok" Else "not ok" End If."$n"
+  "2:" If Sum Of y Isa object, At l = 6 Then "Ok" Else "not ok" End If."$n"
+  "3:" If Max Of y Isa object, At l = 3 Then "Ok" Else "not ok" End If."$n"
+  "4:" If Min Of y Isa object, At l = 1 Then "Ok" Else "not ok" End If."$n"
+  "5:" If Count Isa object, Directly At l = 2 Then "Ok" Else "not ok" End If."$n"
+  "6:" If Count Isa object, At l = 3 Then "Ok" Else "not ok" End If."$n"
+  "7:" If Sum Of y Isa object, At o1 = 6 Then "Ok" Else "not ok" End If."$n"
+  "8:" If Max Of y Isa object, At o2 = 3 Then "Ok" Else "not ok" End If."$n"
+  "9:" If Min Of y Isa object, At o3 = 1 Then "Ok" Else "not ok" End If."$n"
+  "10:" If Count Isa object, At o4 = 0 Then "Ok" Else "not ok" End If.

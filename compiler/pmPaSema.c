@@ -99,7 +99,7 @@ typedef struct pmGrammar {
     RulNod *rul;
     RestrictionKind restrictionKind;
     List *ress;
-    ResNod *res;
+    Restriction *res;
     QualKind qual;
     Srcp pronounsSrcp;
     List *pronouns;
@@ -438,7 +438,7 @@ int rule			/* IN production number */
     case 60: { /* <syntax_restriction> = ID 'ISA' <restriction_class> 'ELSE' <statements>; */
 #line 512 "alan.pmk"
 
-	pmSeSt[pmStkP+1].res = newRestriction(&pmSySt[pmStkP+2].srcp,
+	pmSeSt[pmStkP+1].res = newRestriction(pmSySt[pmStkP+2].srcp,
 			  			  pmSeSt[pmStkP+1].id,
 						  pmSeSt[pmStkP+3].restrictionKind,
 						  pmSeSt[pmStkP+3].id,

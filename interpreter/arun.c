@@ -122,12 +122,6 @@ int main(
   winglk_window_set_title(adventureName);
 #endif
 
-
-#ifdef TRYING_TO_SET_ICON_HAVE_WINGLK
-  HWND mainWindow = FindWindow(NULL, adventureName);
-  CloseWindow(mainWindow);
-#endif
-
   run();
 
 #ifdef HAVE_GLK

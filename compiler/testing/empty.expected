@@ -13,7 +13,7 @@ empty.alan
 
   *1*   318 E : The 'o' does not have the container property, which is required
                 in EMPTY statement.
-  *2*   415 E : Invalid Where specification in LOCATE statement.
+  *2*   415 E : Invalid Where specification in EMPTY statement.
 
    19.    Empty l At unknown.
 =====>          1    2

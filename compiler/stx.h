@@ -23,7 +23,7 @@ typedef struct Syntax {
   struct IdNode *id;		/* Name of the verb */
   int number;			/* Syntax number */
   List *elements;
-  List *restrictionLists;
+  List *restrictions;
   Srcp restrictionSrcp;
   List *parameters;
   Bool generated;
