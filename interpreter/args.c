@@ -117,8 +117,10 @@ void args(argc, argv)
 #ifdef __amiga__
 #include <workbench/startup.h>
 #include <intuition/intuition.h>
+#include <workbench/workbench.h>
 #include <functions.h>
 #include <fcntl.h>
+extern struct Library *IconBase;
 
   if (argc == 0) { /* If started from Workbench get WbArgs */
     struct WBStartup *WBstart;
@@ -126,33 +128,36 @@ void args(argc, argv)
     struct FileHandle *handle;
     struct Process *proc = (struct Process *)FindTask(0);
     extern struct _dev *_devtab;
+    struct DiskObject *existingIcon;
 
+    if ((IconBase = OpenLibrary("icon.library", 0)) == NULL)
+      syserr("Could not open 'icon.library'");
     WBstart = (struct WBStartup *)argv;
     advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
     if (WBstart->sm_NumArgs > 0) {
       CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
       advnam = WBstart->sm_ArgList[1].wa_Name;
     }
-    /* 4f_ni - Get ToolTypes! */
-
     /* Create a console */
-    strcpy(connam, "newcon:10/10/480/160/");
+    if ((existingIcon = GetDiskObject(advnam)) != 0) {
+      char *windowToolType = FindToolType(existingIcon->do_ToolTypes, "WINDOW");
+      if (windowToolType)
+	strcpy(connam, windowToolType);
+      else
+	strcpy(connam, "con:10/10/480/160");
+    } else
+      strcpy(connam, "con:10/10/480/160");
+    strcat(connam, "/");
     strcat(connam, advnam);
-
-    con = Open(connam, MODE_NEWFILE);
+    if ((con = Open(connam, MODE_NEWFILE)) == NULL) {
+      /* Autorequest! */
+      exit(1);
+    }
     handle = (struct FileHandle *)((long)con << 2);
     proc->pr_ConsoleTask = (APTR)(handle->fh_Type);
 
     /* AztecC stdio console set up */
     _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
-
-    WBstart = (struct WBStartup *)argv;
-    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
-    if (WBstart->sm_NumArgs > 0) {
-      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
-      advnam = WBstart->sm_ArgList[1].wa_Name;
-    }
-    /* 4f_ni - Get ToolTypes! */
   } else {
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)

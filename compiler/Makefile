@@ -88,19 +88,17 @@ VMSLINKOBJS = ${SRCS:.c=}
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov release: all
-
-sun3 solaris2 hp: testarch fromsrc
-
-testarch:
-	if test `cat .arch` != `arch`; then \
-	    \rm *.o; \
-	fi
-	echo `arch` > .arch
-
-all: alan alan.prod Makefile
+debug tcov release all: alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
+
+sun3 solaris2 hp: objarch fromsrc
+
+objarch:
+	@if test `cat .arch` != `arch`; then \
+	    \rm *.o; \
+	fi
+	@echo `arch` > .arch
 
 alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -198,9 +196,10 @@ MSDOS:
 	make restoretm
 	-rm .?mkstamp
 
-mac: src
+mac:
 	smk -set MAC alan
 	-rm .smkstamp
+	make src
 	refreshMac $(HOME)/mac/Alan/Compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
 	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c

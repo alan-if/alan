@@ -12,9 +12,9 @@
 #include "arun.h"
 
 #include <time.h>
-#ifdef __sun4__
-#include <readline/readline.h>
-#include <readline/history.h>
+#ifdef USE_READLINE
+#include "readline/readline.h"
+#include "readline/history.h"
 #endif
 
 #include "version.h"
@@ -112,7 +112,10 @@ void terminate(code)
   char buf[85];
   
   if (con) { /* Running from WB, created a console so kill it */
-    Close(Input());
+    /* Running from WB, so we created a console and
+       hacked the Aztec C device table to use it for all I/O
+       so now we need to make it close it (once!) */
+    _devtab[1].fd = _devtab[2].fd = 0;
   }
 #endif
   free(memory);
@@ -194,7 +197,7 @@ void newline(void)
 void newline()
 #endif
 {
-#ifndef __sun4__
+#ifndef USE_READLINE
   char buf[256];
 #endif
   
@@ -203,7 +206,7 @@ void newline()
     printf("\n");
     needsp = FALSE;
     prmsg(M_MORE);
-#ifdef __sun4__
+#ifdef USE_READLINE
     (void) readline("");
 #else
     fgets(buf, 256, stdin);
@@ -1398,6 +1401,7 @@ static void start()
   cur.tick = 0;
   cur.loc = startloc = where(HERO);
   cur.act = HERO;
+  cur.score = 0;
   if (trcflg)
     printf("\n<START:>\n");
   interpret(header->start);

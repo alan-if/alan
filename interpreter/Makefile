@@ -4,16 +4,19 @@
 GCC	= gcc
 CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
+INCLUDE	= -I$(HOME)/include
 CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 
-CFLAGS	= $(DEBUG)
+CFLAGS	= $(DEBUG) $(INCLUDE)
 
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
 
-sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L/usr/local/lib/4.1.2 -L/usr/local/lib
+LDFLAGS = $(LQ) -lreadline -ltermcap -L$(HOME)/lib/`arch`
+sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
 solaris2 := LDFLAGS = $(LQ) -L/usr/local/lib
+
 
 tcov := CC = acc -a
 tcov := LD = acc -a
@@ -46,15 +49,17 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
+sun4: objarch arun
+
 debug all tcov release: arun
 
-sun3 solaris2 hp: testarch fromsrc
+sun3 solaris2 hp: objarch fromsrc
 
-testarch:
-	if test `cat .arch` != `arch`; then \
+objarch:
+	@if test `cat .arch` != `arch`; then \
 	    \rm *.o; \
 	fi
-	echo `arch` > .arch
+	@echo `arch` > .arch
 
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)

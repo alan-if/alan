@@ -68,7 +68,11 @@
 #include <string.h>
 #endif
 
+#ifdef __sun__
+#endif
+
 #ifdef __unix__
+#define USE_READLINE
 #define MULTI
 #endif
 

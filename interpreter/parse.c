@@ -8,12 +8,14 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#ifdef __sun4__
-#include <readline/readline.h>
-#include <readline/history.h>
-#endif
 
 #include "types.h"
+
+#ifdef USE_READLINE
+#include "readline/readline.h"
+#include "readline/history.h"
+#endif
+
 #include "arun.h"
 #include "inter.h"
 #include "exe.h"
@@ -72,16 +74,12 @@ int vrbcode;			/* The code for that verb */
 
 /* PRIVATE DATA */
 
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
 static char *buf;
 #else
 static char buf[LISTLEN+1];	/* The input buffer */
 #endif
-#if ISO == 0
 static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
-#else
-static char *isobuf;		/* For ISO systems points to buf */
-#endif
 
 
 static Boolean eol = TRUE;	/* End of line? Yes, initially */
@@ -196,7 +194,7 @@ static void getline()
   para();
   do {
     printf("> ");
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
     if (buf != NULL) {
       free(buf);
       buf = NULL;
@@ -222,7 +220,7 @@ static void getline()
 #if ISO == 0
     toIso(isobuf, buf);
 #else
-    isobuf = buf;
+    strcpy(isobuf, buf);
 #endif
     token = gettoken(isobuf);
     if (token != NULL && strcmp("debug", token) == 0 && header->debug) {
@@ -231,6 +229,9 @@ static void getline()
       token = NULL;
     }
   } while (token == NULL);
+#ifdef USE_READLINE
+  add_history(buf);
+#endif
   eol = FALSE;
   lin = 1;
 }
@@ -279,9 +280,6 @@ static void scan()
     wrds[i] = EOF;
     eol = (token = gettoken(NULL)) == NULL;
   } while (!eol);
-#ifdef _READLINE_H_
-  add_history(buf);
-#endif
 }
 
 

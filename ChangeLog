@@ -1,3 +1,15 @@
+Sun Sep 11 19:32:48 1994  Thomas Nilsson  (thoni@rabbit)
+
+	* New (prettier?) icons on the Amiga
+
+	* Added WINDOW-tooltype for arun on the Amiga
+
+	* Added GNU-readline command line editing support on suns/hps
+
+Wed Sep  7 15:53:16 1994  Thomas Nilsson  (thoni@rabbit)
+
+	* Scores were not cleared at restart
+
 Fri May 13 10:36:25 1994  Thomas Nilsson  (thoni@rabbit)
 
 	* Corrected a bug in handling of rules

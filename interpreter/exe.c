@@ -8,9 +8,9 @@
 
 #include "types.h"
 
-#ifdef __sun4__
-#include <readline/readline.h>
-#include <readline/history.h>
+#ifdef USE_READLINE
+#include "readline/readline.h"
+#include "readline/history.h"
 #endif
 
 #include "arun.h"
@@ -190,7 +190,7 @@ Boolean confirm(msgno)
      MsgKind msgno;
 #endif
 {
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
   char *buf;
 #else
   char buf[80];
@@ -206,7 +206,7 @@ Boolean confirm(msgno)
 #endif
   output(msg);
   col = 1;
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
     if (!(buf = readline("")))
       return FALSE;
 #else
@@ -220,7 +220,7 @@ Boolean confirm(msgno)
       break;
     }
   free(msg);
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
   free(buf);
 #endif
   return (buf[0] == '\0' || (ch && toupper(buf[0]) == toupper(ch)));
@@ -1485,7 +1485,7 @@ void save()
 {
   int i;
   FILE *savfil;
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
   char *buf;
 #endif
   char str[256];
@@ -1499,7 +1499,7 @@ void save()
   prmsg(M_SAVEWHERE);
   sprintf(str, "(%s) : ", savfnm);
   output(str);
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
   buf = readline("");
   if (buf == NULL || buf[0] == '\0')
     strcpy(str, savfnm);
@@ -1582,6 +1582,9 @@ void restore()
   AtrElem *atr;
   Aword savedVersion;
   char savedName[256];
+#ifdef USE_READLINE
+  char *buf;
+#endif
 
   /* First save ? */
   if (savfnm[0] == '\0') {
@@ -1591,7 +1594,19 @@ void restore()
   prmsg(M_RESTOREFROM);
   sprintf(str, "(%s) : ", savfnm);
   output(str);
-  gets(str); col = 1;
+#ifdef USE_READLINE
+  buf = readline("");
+  if (buf == NULL || buf[0] == '\0')
+    strcpy(str, savfnm);
+  else
+    strcpy(str, buf);
+  if (buf) free(buf);
+#else
+  gets(str);
+  if (str[0] == '\0')
+    strcpy(str, savfnm);
+#endif
+  col = 1;
   if (str[0] == '\0')
     strcpy(str, savfnm);	/* Use the name temporarily */
   if ((savfil = fopen(str, "r")) == NULL)

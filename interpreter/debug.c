@@ -9,12 +9,13 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#ifdef __sun4__
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "types.h"
+
+#ifdef USE_READLINE
+#include "readline/readline.h"
+#include "readline/history.h"
 #endif
 
-#include "types.h"
 
 #include "inter.h"
 #include "arun.h"
@@ -283,7 +284,7 @@ void debug(void)
 void debug()
 #endif
 {
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
   char *buf = NULL;
 #else
   char buf[256];
@@ -297,7 +298,7 @@ void debug()
       para();
     do {
       output("ABUG> ");
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
       if (buf != NULL) free(buf);
       buf = readline("");
 #else
@@ -308,7 +309,7 @@ void debug()
       i = 0;
       sscanf(&buf[1], "%d", &i);
     } while (buf && c == '\0');
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
     add_history(buf);
 #endif
 
@@ -333,7 +334,7 @@ void debug()
       dbgflg = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
-#ifdef _READLINE_H_
+#ifdef USE_READLINE
       free(buf);
 #endif
       return;
