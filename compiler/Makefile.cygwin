@@ -1,6 +1,8 @@
 # Makefile for Alan using CygWin
 
-CFLAGS = -g -Wall -funsigned-char -D__win__ $(INCLUDE) -mno-cygwin -DCOMPILER=\"[CygWinB20]\"
+COMPILER= -DCOMPILER=\"[CygWinB20]\"
+
+CFLAGS = -g -Wall -funsigned-char -D__win__ $(INCLUDE) -mno-cygwin $(COMPILER)
 
 LDFLAGS = -g -mno-cygwin
 
