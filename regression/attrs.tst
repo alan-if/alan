@@ -1,1 +1,1 @@
-alan attrs
+../compiler/alan attrs

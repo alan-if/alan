@@ -1,2 +1,2 @@
-alan clock
-arun -n clock < clock.input
+../compiler/alan clock
+../interpreter/arun -n clock < clock.input

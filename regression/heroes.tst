@@ -1,1 +1,1 @@
-alan heroes
+../compiler/alan heroes

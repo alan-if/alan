@@ -1,2 +1,2 @@
-alan article
-arun -n article < article.input
+../compiler/alan article
+../interpreter/arun -n article < article.input

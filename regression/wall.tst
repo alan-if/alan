@@ -1,2 +1,2 @@
-alan wall
-arun -n wall < wall.input
+../compiler/alan wall
+../interpreter/arun -n wall < wall.input

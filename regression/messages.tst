@@ -1,2 +1,2 @@
-alan messages
-arun -n messages < messages.input
+../compiler/alan messages
+../interpreter/arun -n messages < messages.input

@@ -1,2 +1,2 @@
-alan robertfoo
-arun -n -d robertfoo < robertfoo.input
+../compiler/alan robertfoo
+../interpreter/arun -n -d robertfoo < robertfoo.input

@@ -1,2 +1,2 @@
-alan adjnoun
-arun -n adjnoun < adjnoun.input
+../compiler/alan adjnoun
+../interpreter/arun -n adjnoun < adjnoun.input

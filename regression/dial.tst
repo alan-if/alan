@@ -1,2 +1,2 @@
-alan dial
-arun -n dial < dial.input
+../compiler/alan dial
+../interpreter/arun -n dial < dial.input

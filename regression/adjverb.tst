@@ -1,2 +1,2 @@
-alan adjverb
-arun -n adjverb < adjverb.input
+../compiler/alan adjverb
+../interpreter/arun -n adjverb < adjverb.input

@@ -1,2 +1,2 @@
-alan lines
-arun -n lines < lines.input
+../compiler/alan lines
+../interpreter/arun -n lines < lines.input

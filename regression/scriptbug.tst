@@ -1,3 +1,3 @@
-alan scriptbug
-arun -n scriptbug < scriptbug.input
+../compiler/alan scriptbug
+../interpreter/arun -n scriptbug < scriptbug.input
 

@@ -1,2 +1,2 @@
-alan verb
-arun -n verb < verb.input
+../compiler/alan verb
+../interpreter/arun -n verb < verb.input

@@ -1,2 +1,2 @@
-alan dark
-arun -n dark < dark.input
+../compiler/alan dark
+../interpreter/arun -n dark < dark.input

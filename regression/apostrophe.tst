@@ -1,2 +1,2 @@
-alan apostrophe
-arun -n apostrophe < apostrophe.input
+../compiler/alan apostrophe
+../interpreter/arun -n apostrophe < apostrophe.input

@@ -1,5 +1,5 @@
 ########## actor_in ##########
-alan actor_in
+../compiler/alan actor_in
 ########## /bin/sh  actor_in.tst ##########
 
 

@@ -1,2 +1,2 @@
-alan recursive_describe
-arun -n recursive_describe < recursive_describe.input
+../compiler/alan recursive_describe
+../interpreter/arun -n recursive_describe < recursive_describe.input

@@ -1,2 +1,2 @@
-alan multiple
-arun -n multiple < multiple.input
+../compiler/alan multiple
+../interpreter/arun -n multiple < multiple.input

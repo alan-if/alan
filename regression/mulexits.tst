@@ -1,2 +1,2 @@
-alan mulexits
-arun -n mulexits < mulexits.input
+../compiler/alan mulexits
+../interpreter/arun -n mulexits < mulexits.input

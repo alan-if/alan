@@ -1,2 +1,2 @@
-alan hunger
-arun -n hunger < hunger.input
+../compiler/alan hunger
+../interpreter/arun -n hunger < hunger.input

@@ -1,1 +1,1 @@
-alan scriptname
+../compiler/alan scriptname

@@ -1,1 +1,1 @@
-alan exp
+../compiler/alan exp

@@ -1,2 +1,2 @@
-alan pack
-arun -n pack < pack.input
+../compiler/alan pack
+../interpreter/arun -n pack < pack.input

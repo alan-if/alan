@@ -1,2 +1,2 @@
-alan primary
+../compiler/alan primary
 

@@ -1,1 +1,1 @@
-alan list
+../compiler/alan list

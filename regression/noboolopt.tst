@@ -1,4 +1,4 @@
-alan noboolopt
+../compiler/alan noboolopt
 file noboolopt.dat
-alan -pack noboolopt
+../compiler/alan -pack noboolopt
 file noboolopt.dat

@@ -1,2 +1,2 @@
-alan parse
-arun -n parse < parse.input
+../compiler/alan parse
+../interpreter/arun -n parse < parse.input

@@ -1,2 +1,2 @@
-alan mulstx
-arun -n mulstx < mulstx.input
+../compiler/alan mulstx
+../interpreter/arun -n mulstx < mulstx.input

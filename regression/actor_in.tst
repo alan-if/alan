@@ -1,1 +1,1 @@
-alan actor_in
+../compiler/alan actor_in

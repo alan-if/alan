@@ -1,2 +1,2 @@
-alan zigzag
-arun -n zigzag < zigzag.input
+../compiler/alan zigzag
+../interpreter/arun -n zigzag < zigzag.input

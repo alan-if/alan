@@ -1,1 +1,1 @@
-alan object
+../compiler/alan object

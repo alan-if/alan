@@ -1,2 +1,2 @@
-alan example
-arun -n example < example.input
+../compiler/alan example
+../interpreter/arun -n example < example.input

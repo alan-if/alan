@@ -1,2 +1,2 @@
-alan long
-arun -n long < long.input
+../compiler/alan long
+../interpreter/arun -n long < long.input

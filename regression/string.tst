@@ -1,2 +1,2 @@
-alan string
-arun -n string < string.input
+../compiler/alan string
+../interpreter/arun -n string < string.input

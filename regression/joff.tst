@@ -1,2 +1,2 @@
-alan joff
-arun -n joff < joff.input
+../compiler/alan joff
+../interpreter/arun -n joff < joff.input

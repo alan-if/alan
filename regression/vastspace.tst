@@ -1,2 +1,2 @@
-alan vastspace
-arun -n vastspace < vastspace.input
+../compiler/alan vastspace
+../interpreter/arun -n vastspace < vastspace.input

@@ -1,2 +1,2 @@
-alan aggregate
-arun -n aggregate < aggregate.input
+../compiler/alan aggregate
+../interpreter/arun -n aggregate < aggregate.input

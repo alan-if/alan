@@ -1,2 +1,2 @@
-alan savebug
-arun -n savebug < savebug.input
+../compiler/alan savebug
+../interpreter/arun -n savebug < savebug.input

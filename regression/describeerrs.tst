@@ -1,1 +1,1 @@
-alan describeerrs
+../compiler/alan describeerrs

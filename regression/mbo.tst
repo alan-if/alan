@@ -1,2 +1,2 @@
-alan mbo
-arun -n mbo < mbo.input
+../compiler/alan mbo
+../interpreter/arun -n mbo < mbo.input

@@ -1,2 +1,2 @@
-alan dwarf
-arun -n dwarf < dwarf.input
+../compiler/alan dwarf
+../interpreter/arun -n dwarf < dwarf.input

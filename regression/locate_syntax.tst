@@ -1,2 +1,2 @@
-alan locate_syntax
+../compiler/alan locate_syntax
 

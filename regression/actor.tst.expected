@@ -1,5 +1,5 @@
 ########## actor ##########
-alan actor
+../compiler/alan actor
 arun actor < actor.input
 ########## /bin/sh  actor.tst ##########
 

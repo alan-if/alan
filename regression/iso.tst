@@ -1,2 +1,2 @@
-alan iso
-arun -n iso < iso.input
+../compiler/alan iso
+../interpreter/arun -n iso < iso.input

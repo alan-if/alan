@@ -1,2 +1,2 @@
-alan weather
-arun -n weather < weather.input
+../compiler/alan weather
+../interpreter/arun -n weather < weather.input

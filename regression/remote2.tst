@@ -1,2 +1,2 @@
-alan remote2
-arun -n remote2 < remote2.input
+../compiler/alan remote2
+../interpreter/arun -n remote2 < remote2.input

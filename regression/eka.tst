@@ -1,2 +1,2 @@
-alan eka
+../compiler/alan eka
 

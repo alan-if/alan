@@ -1,2 +1,2 @@
-alan skeppet
-arun -n skeppet < skeppet.input
+../compiler/alan skeppet
+../interpreter/arun -n skeppet < skeppet.input

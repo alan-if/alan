@@ -1,1 +1,1 @@
-alan initlocs
+../compiler/alan initlocs

@@ -1,2 +1,2 @@
-alan write
-arun -n write < write.input
+../compiler/alan write
+../interpreter/arun -n write < write.input

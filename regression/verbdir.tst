@@ -1,2 +1,2 @@
-alan verbdir
-arun -n verbdir < verbdir.input
+../compiler/alan verbdir
+../interpreter/arun -n verbdir < verbdir.input

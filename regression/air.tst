@@ -1,2 +1,2 @@
-alan air
-arun -n air < air.input
+../compiler/alan air
+../interpreter/arun -n air < air.input

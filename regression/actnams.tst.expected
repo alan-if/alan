@@ -1,5 +1,5 @@
 ########## actnams ##########
-alan actnams
+../compiler/alan actnams
 arun actnams < actnams.input
 ########## /bin/sh  actnams.tst ##########
 

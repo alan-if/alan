@@ -1,2 +1,2 @@
-alan alice
-arun -n alice < alice.input
+../compiler/alan alice
+../interpreter/arun -n alice < alice.input

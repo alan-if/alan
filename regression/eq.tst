@@ -1,2 +1,2 @@
-alan eq
-arun -n eq < eq.input
+../compiler/alan eq
+../interpreter/arun -n eq < eq.input

@@ -1,2 +1,2 @@
-alan system
-arun -n system < system.input
+../compiler/alan system
+../interpreter/arun -n system < system.input

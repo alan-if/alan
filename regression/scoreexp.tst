@@ -1,3 +1,3 @@
-alan scoreexp
-arun -n scoreexp < scoreexp.input
+../compiler/alan scoreexp
+../interpreter/arun -n scoreexp < scoreexp.input
 

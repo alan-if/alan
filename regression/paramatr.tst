@@ -1,1 +1,1 @@
-alan paramatr
+../compiler/alan paramatr

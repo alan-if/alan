@@ -1,1 +1,1 @@
-alan multclass
+../compiler/alan multclass

@@ -1,2 +1,2 @@
-alan body
-arun -n body < body.input
+../compiler/alan body
+../interpreter/arun -n body < body.input

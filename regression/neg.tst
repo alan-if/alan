@@ -1,2 +1,2 @@
-alan neg
-arun -n neg < neg.input
+../compiler/alan neg
+../interpreter/arun -n neg < neg.input

@@ -1,2 +1,2 @@
-alan schedule
+../compiler/alan schedule
 

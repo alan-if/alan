@@ -1,2 +1,2 @@
-alan dungeon
-arun -n dungeon < dungeon.input
+../compiler/alan dungeon
+../interpreter/arun -n dungeon < dungeon.input

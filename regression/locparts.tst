@@ -1,1 +1,1 @@
-alan locparts
+../compiler/alan locparts

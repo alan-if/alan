@@ -1,2 +1,2 @@
-alan contincont
-arun -n contincont < contincont.input
+../compiler/alan contincont
+../interpreter/arun -n contincont < contincont.input

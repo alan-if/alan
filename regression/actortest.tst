@@ -1,1 +1,1 @@
-alan actortest
+../compiler/alan actortest

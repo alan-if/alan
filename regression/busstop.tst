@@ -1,2 +1,2 @@
-alan busstop
-arun -n busstop < busstop.input
+../compiler/alan busstop
+../interpreter/arun -n busstop < busstop.input

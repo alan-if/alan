@@ -1,2 +1,2 @@
-alan hide
-arun -n hide < hide.input
+../compiler/alan hide
+../interpreter/arun -n hide < hide.input

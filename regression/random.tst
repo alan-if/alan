@@ -1,2 +1,2 @@
-alan -debug random
-arun -n -d random < random.input
+../compiler/alan -debug random
+../interpreter/arun -n -d random < random.input

@@ -1,2 +1,2 @@
-alan qual
-arun -n qual < qual.input
+../compiler/alan qual
+../interpreter/arun -n qual < qual.input

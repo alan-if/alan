@@ -1,2 +1,2 @@
-alan svenska
-arun -n svenska < svenska.input
+../compiler/alan svenska
+../interpreter/arun -n svenska < svenska.input

@@ -1,2 +1,2 @@
-alan rules
-arun -n rules < rules.input
+../compiler/alan rules
+../interpreter/arun -n rules < rules.input

@@ -1,2 +1,2 @@
-alan pat
-arun -n pat < pat.input
+../compiler/alan pat
+../interpreter/arun -n pat < pat.input

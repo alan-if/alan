@@ -1,2 +1,2 @@
-alan mulnams
-arun -n mulnams < mulnams.input
+../compiler/alan mulnams
+../interpreter/arun -n mulnams < mulnams.input

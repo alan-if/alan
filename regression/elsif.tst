@@ -1,2 +1,2 @@
-alan elsif
-arun -n elsif < elsif.input
+../compiler/alan elsif
+../interpreter/arun -n elsif < elsif.input

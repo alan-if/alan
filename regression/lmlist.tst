@@ -1,1 +1,1 @@
-alan lmlist
+../compiler/alan lmlist

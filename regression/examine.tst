@@ -1,2 +1,2 @@
-alan examine
-arun -n examine < examine.input
+../compiler/alan examine
+../interpreter/arun -n examine < examine.input

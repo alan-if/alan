@@ -1,2 +1,2 @@
-alan mail
-arun -n mail < mail.input
+../compiler/alan mail
+../interpreter/arun -n mail < mail.input

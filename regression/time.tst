@@ -1,2 +1,2 @@
-alan time
-arun -n time < time.input
+../compiler/alan time
+../interpreter/arun -n time < time.input

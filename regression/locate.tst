@@ -1,2 +1,2 @@
-alan locate
-arun -n locate < locate.input
+../compiler/alan locate
+../interpreter/arun -n locate < locate.input

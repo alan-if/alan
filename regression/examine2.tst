@@ -1,1 +1,1 @@
-alan examine2
+../compiler/alan examine2

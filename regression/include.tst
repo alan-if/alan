@@ -1,1 +1,1 @@
-alan -inc ../regression include
+../compiler/alan -inc ../regression include

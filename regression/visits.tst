@@ -1,2 +1,2 @@
-alan visits
-arun -n visits < visits.input
+../compiler/alan visits
+../interpreter/arun -n visits < visits.input

@@ -1,2 +1,2 @@
-alan -debug byron
-arun -n -d byron < byron.input
+../compiler/alan -debug byron
+../interpreter/arun -n -d byron < byron.input

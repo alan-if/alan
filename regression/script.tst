@@ -1,2 +1,2 @@
-alan script
-arun -n script < script.input
+../compiler/alan script
+../interpreter/arun -n script < script.input

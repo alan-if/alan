@@ -1,2 +1,2 @@
-alan mountain
-arun -n mountain < mountain.input
+../compiler/alan mountain
+../interpreter/arun -n mountain < mountain.input

@@ -1,2 +1,2 @@
-alan events
-arun -n events < events.input
+../compiler/alan events
+../interpreter/arun -n events < events.input

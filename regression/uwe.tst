@@ -1,2 +1,2 @@
-alan uwe
-arun -n uwe < uwe.input
+../compiler/alan uwe
+../interpreter/arun -n uwe < uwe.input

@@ -1,1 +1,1 @@
-alan samesyntax
+../compiler/alan samesyntax

@@ -1,2 +1,2 @@
-alan negative
-arun -n negative < negative.input
+../compiler/alan negative
+../interpreter/arun -n negative < negative.input

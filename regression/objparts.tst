@@ -1,1 +1,1 @@
-alan objparts
+../compiler/alan objparts

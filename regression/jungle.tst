@@ -1,2 +1,2 @@
-alan jungle
-arun -n jungle < jungle.input
+../compiler/alan jungle
+../interpreter/arun -n jungle < jungle.input

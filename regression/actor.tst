@@ -1,2 +1,2 @@
-alan actor
-arun -n actor < actor.input
+../compiler/alan actor
+../interpreter/arun -n actor < actor.input

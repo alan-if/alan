@@ -1,2 +1,2 @@
-alan actorverb
-arun -n actorverb < actorverb.input
+../compiler/alan actorverb
+../interpreter/arun -n actorverb < actorverb.input

@@ -1,1 +1,1 @@
-alan make
+../compiler/alan make

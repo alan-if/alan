@@ -1,2 +1,2 @@
-alan stx
-arun -n stx < stx.input
+../compiler/alan stx
+../interpreter/arun -n stx < stx.input

@@ -1,2 +1,2 @@
-alan say
-arun -n say < say.input
+../compiler/alan say
+../interpreter/arun -n say < say.input

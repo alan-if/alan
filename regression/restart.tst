@@ -1,2 +1,2 @@
-alan restart
-arun -n restart < restart.input
+../compiler/alan restart
+../interpreter/arun -n restart < restart.input

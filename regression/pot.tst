@@ -1,2 +1,2 @@
-alan pot
-arun -n pot < pot.input
+../compiler/alan pot
+../interpreter/arun -n pot < pot.input

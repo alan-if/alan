@@ -1,1 +1,1 @@
-alan defattr
+../compiler/alan defattr

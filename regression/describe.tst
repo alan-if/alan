@@ -1,2 +1,2 @@
-alan describe
-arun -n describe < describe.input
+../compiler/alan describe
+../interpreter/arun -n describe < describe.input

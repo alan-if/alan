@@ -1,2 +1,2 @@
-alan give_floyd
-arun -n give_floyd < give_floyd.input
+../compiler/alan give_floyd
+../interpreter/arun -n give_floyd < give_floyd.input

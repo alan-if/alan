@@ -1,2 +1,2 @@
-alan inventory
-arun -n inventory < inventory.input
+../compiler/alan inventory
+../interpreter/arun -n inventory < inventory.input

@@ -1,1 +1,1 @@
-alan empty
+../compiler/alan empty

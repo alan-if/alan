@@ -1,1 +1,1 @@
-alan ZILexample
+../compiler/alan ZILexample

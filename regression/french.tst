@@ -1,2 +1,2 @@
-alan french
-arun -n french < french.input
+../compiler/alan french
+../interpreter/arun -n french < french.input

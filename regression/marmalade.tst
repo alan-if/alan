@@ -1,2 +1,2 @@
-alan marmalade
+../compiler/alan marmalade
 

@@ -1,2 +1,2 @@
-alan -debug saviour
-arun -n -d saviour < saviour.input
+../compiler/alan -debug saviour
+../interpreter/arun -n -d saviour < saviour.input

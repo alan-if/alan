@@ -1,2 +1,2 @@
-alan driving
-arun -n driving < driving.input
+../compiler/alan driving
+../interpreter/arun -n driving < driving.input

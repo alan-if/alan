@@ -1,2 +1,2 @@
-alan sundown
-arun -n sundown < sundown.input
+../compiler/alan sundown
+../interpreter/arun -n sundown < sundown.input

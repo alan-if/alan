@@ -1,2 +1,2 @@
-alan alt
-arun -n alt < alt.input
+../compiler/alan alt
+../interpreter/arun -n alt < alt.input

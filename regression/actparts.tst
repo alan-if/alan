@@ -1,1 +1,1 @@
-alan actparts
+../compiler/alan actparts

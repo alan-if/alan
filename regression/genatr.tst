@@ -1,2 +1,2 @@
-alan genatr
-arun -n genatr < genatr.input
+../compiler/alan genatr
+../interpreter/arun -n genatr < genatr.input

@@ -1,2 +1,2 @@
-alan slott
-arun -n slott < slott.input
+../compiler/alan slott
+../interpreter/arun -n slott < slott.input

@@ -1,2 +1,2 @@
-alan locverbchk
-arun -n locverbchk < locverbchk.input
+../compiler/alan locverbchk
+../interpreter/arun -n locverbchk < locverbchk.input

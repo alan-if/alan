@@ -1,2 +1,2 @@
-alan redefatr
-arun -n redefatr < redefatr.input
+../compiler/alan redefatr
+../interpreter/arun -n redefatr < redefatr.input

@@ -1,5 +1,5 @@
 ########## actortest ##########
-alan actortest
+../compiler/alan actortest
 ########## /bin/sh  actortest.tst ##########
 
 

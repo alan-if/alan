@@ -1,2 +1,2 @@
-alan move_actor
-arun -n move_actor < move_actor.input
+../compiler/alan move_actor
+../interpreter/arun -n move_actor < move_actor.input

@@ -1,2 +1,2 @@
-alan talk
-arun -n talk < talk.input
+../compiler/alan talk
+../interpreter/arun -n talk < talk.input

@@ -1,2 +1,2 @@
-alan contar
-arun -n contar < contar.input
+../compiler/alan contar
+../interpreter/arun -n contar < contar.input

@@ -1,2 +1,2 @@
-alan clean_with
-arun -n clean_with < clean_with.input
+../compiler/alan clean_with
+../interpreter/arun -n clean_with < clean_with.input

@@ -1,2 +1,2 @@
-alan integer
-arun -n integer < integer.input
+../compiler/alan integer
+../interpreter/arun -n integer < integer.input

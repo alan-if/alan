@@ -1,1 +1,1 @@
-alan reevent.alan
+../compiler/alan reevent.alan

@@ -1,2 +1,2 @@
-alan oil
-arun -n oil < oil.input
+../compiler/alan oil
+../interpreter/arun -n oil < oil.input

@@ -1,1 +1,1 @@
-alan htmltext
+../compiler/alan htmltext

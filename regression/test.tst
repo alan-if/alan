@@ -1,1 +1,1 @@
-alan test
+../compiler/alan test

@@ -1,2 +1,2 @@
-alan hero
-arun -n hero < hero.input
+../compiler/alan hero
+../interpreter/arun -n hero < hero.input

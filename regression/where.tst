@@ -1,2 +1,2 @@
-alan where
+../compiler/alan where
 
