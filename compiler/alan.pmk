@@ -2169,7 +2169,7 @@ static int val(char str[])
 	%<primary>.exp->fields.str.len = %STRING.len;
     %%
 
-    ! <what>
+    ! <what>					%-(':')
     %%
 	%<primary>.exp = %<what>.exp;
     %%
@@ -2273,9 +2273,14 @@ static int val(char str[])
 
 
 <attribute_reference>		-- RETURNS: exp
-    = ID 'OF' <what>
+    = ID 'OF' <what>				%-(':')
     %%
 	%<attribute_reference>.exp = newAttributeExpression(%'OF'.srcp, %ID.id, FALSE, %<what>.exp);
+    %%
+
+    ! <what> ':' ID
+    %%
+	%<attribute_reference>.exp = newAttributeExpression(%':'.srcp, %ID.id, FALSE, %<what>.exp);
     %%
     ;
 
@@ -2304,13 +2309,13 @@ static int val(char str[])
 	%<where>.srcp = %'NEARBY'.srcp;
     %%
 
-    ! 'AT' <what>
+    ! 'AT' <what>			%-(':')
     %%
         %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.exp);
 	%<where>.srcp = %'AT'.srcp;
     %%
 
-    ! 'IN' <what>
+    ! 'IN' <what>			%-(':')
     %%
         %<where>.whr = newWhere(`&%'IN'.srcp, WHR_IN, %<what>.exp);
 	%<where>.srcp = %'IN'.srcp;

@@ -24,6 +24,8 @@ Changes in v3.0.32 development:
 - Allowed expressions as reference to actor in USE and STOP statements
 - Containers can now specify which class they take
 - Allowed full stop as sentence breaker in player input
+- Completely general use of reference attributes in all statements and expressions
+- New attribute reference syntax using <what>:attribute
 
 Changes in v3.0.31 development:
 - Added reference attributes so that attributes can refer to
