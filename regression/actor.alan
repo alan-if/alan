@@ -10,6 +10,7 @@ The kalle Isa actor
   Name stor liten kalle
   At l
   Is large.
+  Is age 42.
 End The kalle.
 
 Syntax examine = examine (a)
@@ -26,6 +27,7 @@ End The hero.
 
 Event e1
   "Event 1." If kalle Is large Then "He is large." End If.
+  "He is" Say age Of kalle.
 End Event.
 
 When kalle At hero =>
