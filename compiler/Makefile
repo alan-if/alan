@@ -14,6 +14,8 @@ CFLAGS	= $(DEBUG)
 LD	= $(GCC)
 LDFLAGS	= -L/usr/local/lib/4.1.2
 
+VERSIONFILE = [0-9]*_[0-9]*_[0-9]*
+
 EXTRAS = \
 	alan.tmk \
 	alan.lmk \
@@ -152,16 +154,16 @@ MSDOS:
 	done
 	mv -f alan.tmk.sun alan.tmk
 
-version.c + version.h: ../[0-9]*
-	-@cd ..;rm ../[0-9]*_[0-9]*_[0-9]*;sh version.sh
-	@-rm [0-9]*
-	@cp ../[0-9]* .
+version.c + version.h: ../$(VERSIONFILE)
+	@-cd ..; sh version.sh
+	@-rm $(VERSIONFILE)
+	@cp ../$(VERSIONFILE) .
 	venum -c
 
 
-version: $(OBJECTS) ../[0-9]*
-	@-rm [0-9]*
-	@cp ../[0-9]* .
+version: $(OBJECTS) ../$(VERSIONFILE)
+	@-rm $(VERSIONFILE)
+	@cp ../$(VERSIONFILE) .
 	venum +t
 
 acode.h: ../interpreter/acode.h
@@ -178,7 +180,7 @@ alan.prod: alan.pml
 
 #-- Cheating MAKE
 link:
-	$(LD) -o alan $(CFLAGS) $(OBJECTS) version.o $(LDFLAGS)
+	$(LD) -o alan $(CFLAGS) $(MAINOBJ) $(OBJECTS) version.o $(LDFLAGS)
 
 #-- ARCHIVE
 archives:
