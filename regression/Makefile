@@ -6,8 +6,8 @@ all:
 
 
 archives: CASES regression.dos
-	lha c regression.lha *.alan *.input *.ok regression regression.amiga CASES
-	zip -k regression.zip *.alan *.input *.ok regression regression.dos
+	lha c regression.lha *.alan *.input *.expected regression regression.amiga CASES
+	zip -k regression.zip *.alan *.input *.expected regression regression.dos
 
 CASES: *.alan
 	ls -1 *.alan | sed -e s/.alan// > CASES
@@ -28,11 +28,11 @@ vms:
 	    echo $$ alan $${f} > `basename $${f} .alan`.com ; \
 	    echo $$ arun `basename $${f} .alan` >> `basename $${f} .alan`.com ; \
 	    cat `basename $${f} .alan`.input >> `basename $${f} .alan`.com ; \
-	    echo $$ diff/output=$${case}.diff $${case}.output $${case}.ok >> regression.com ; \
+	    echo $$ diff/output=$${case}.diff $${case}.output $${case}.expected >> regression.com ; \
 	done
 	echo $$ pur >> regression.com
 	echo $$ dir/size *.diff >> regression.com
-	/usr/5bin/echo "thoni\ncd alan/regression\nprompt\nmput *.com *.alan *.ok\n" | ftp gollum
+	/usr/5bin/echo "thoni\ncd alan/regression\nprompt\nmput *.com *.alan *.expected\n" | ftp gollum
 	echo Rlogin and run regression tests!
 	rlogin gollum
 	rm *.com
