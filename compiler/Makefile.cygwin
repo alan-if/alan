@@ -2,7 +2,8 @@
 
 COMPILER= -DCOMPILER=\"[CygWin32]\"
 
-CFLAGS = -g -Wall -funsigned-char -D__win__ $(INCLUDE) -mno-cygwin $(COMPILER)
+#CFLAGS = -g -Wall -funsigned-char -D__win__ $(INCLUDE) -mno-cygwin $(COMPILER)
+CFLAGS = -g -Wall -funsigned-char $(INCLUDE) -mno-cygwin $(COMPILER)
 
 LDFLAGS = -g -mno-cygwin
 

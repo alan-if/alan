@@ -566,14 +566,17 @@ static void prsym(str)
      char *str;			/* IN - The string starting with '$' */
 #endif
 {
+  needsp = TRUE;		/* Default is to print something */
   switch (toLower(str[1])) {
   case 'n':
     newline();
+    needsp = FALSE;
     break;
   case 'i':
     newline();
     logprint("    ");
     col = 5;
+    needsp = FALSE;
     break;
   case 'o':
     sayparam(0);
@@ -600,6 +603,7 @@ static void prsym(str)
     break;
   case 'p':
     para();
+    needsp = FALSE;
     break;
   case 't': {
     int i;
