@@ -44,7 +44,7 @@ Container inventory
     count 3 Then "Du har inte fler händer nu!"
 
   Header
-    "Du släpar omkring på"
+    "Du släpar omkring på en"
 
   Else
     "Du äger ingenting här i världen (kanske något att göra något åt?)."
