@@ -3,19 +3,19 @@ Location l
     "ÄÅÖäåö[]\{}|"
 End Location l.
 
-Syntax Ä = 'Ä'.
+Syntax ä = 'ä'.
 Verb Ä
   Does
     "Ä"
 End Verb.
 
-Syntax Å = 'Å'.
+Syntax Å = 'å'.
 Verb Å
   Does
     "Å"
 End Verb.
 
-Syntax Ö = 'Ö'.
+Syntax Ö = 'ö'.
 Verb Ö
   Does
     "Ö"
