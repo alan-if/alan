@@ -71,8 +71,8 @@
 315	'Attribute not defined for \'%1\'.';
 316	'Attribute \'%1\' is not defined for parameter \'%2\' since its class (\'%3\') does not have it.';
 317	'Can not restrict a parameter to something not a class.';
-318	'The \'%1\' is not a Container.';
-319	'Identifier \'%1\' is not a %2.';
+318	'The \'%1\' does not have the container property.';
+319	'Identifier \'%1\' is not %2.';
 320	'Word \'%1\' belongs to multiple word classes (%2 and %3).';
 321	'Synonym target word \'%1\' not defined.';
 322	'Word \'%1\' already defined as a synonym.';

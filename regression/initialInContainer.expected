@@ -1,0 +1,41 @@
+########## initialInContainer ##########
+Options
+    Debug.
+
+Syntax
+    put_in = 'put' (o) 'in' (c)
+	Where c Isa Container
+	    Else "You can't put anything in the $2."
+
+Verb put_in
+    Does
+	"put in"
+End Verb.
+
+The o Isa object In cont
+End The o.
+
+
+The cont Isa object At l
+    Container
+End The cont.
+
+
+The l Isa location
+End The l.
+
+
+Start At l.
+  List cont.########## alan initialInContainer.alan ##########
+
+        No warnings or errors detected.
+
+The cont contains a o.
+
+
+L
+There is a cont here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

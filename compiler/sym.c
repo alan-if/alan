@@ -105,9 +105,9 @@ static void insertSymbol(SymNod *symbol)
 static char *symbolKind(SymbolKind kind)
 {
   switch (kind) {
-  case CLASS_SYMBOL: return "class";
-  case INSTANCE_SYMBOL: return "instance";
-  case VERB_SYMBOL: return "verb";
+  case CLASS_SYMBOL: return "a class";
+  case INSTANCE_SYMBOL: return "an instance";
+  case VERB_SYMBOL: return "a verb";
   default: syserr("Unimplemented case in symbolKind()");
   }
   return NULL;
@@ -377,7 +377,7 @@ SymNod *symcheck(
     lmLog(&id->srcp, 310, sevERR, id->string);
   else if (sym->kind == PARAMETER_SYMBOL) {
     if (sym->fields.parameter.element->kind != ID_RESTRICTION)
-      lmLogv(&id->srcp, 319, sevERR, id->string, "parameter that is restricted to instances of a class", NULL);      
+      lmLogv(&id->srcp, 319, sevERR, id->string, "a parameter that is restricted to instances of a class", NULL);      
   } else if (sym->kind != kind) {
     lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL);
     return NULL;

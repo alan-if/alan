@@ -1305,30 +1305,25 @@ saviourV2_x.alan
   *1*   601 W : Unknown option, 'object'.
   *2*   103 E : 'ATTRIBUTES' 'NOT' Identifier '.' 'NOT' ... replaced by '.'.
 
-   37.  SYNONYMS
-=====>  1
+   42.      u = up.
+=====>          1
 
-  *1*   100 I : Parsing resumed here.
+  *1*   321 W : Synonym target word 'up' not defined.
+
+   43.      d = down.
+=====>          1
+
+  *1*   321 W : Synonym target word 'down' not defined.
 
    46.  CONTAINER pseudowords
 =====>  1
 
   *1*   102 E : 'CONTAINER' Identifier 'END' 'CONTAINER' '.' deleted.
 
-   49.  VERB drop
-=====>       1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'drop (object)'.
-
    50.      CHECK OBJECT IN hero
 =====>                      1
 
-  *1*   318 E : The 'hero' is not a Container.
-
-   76.  VERB examine
-=====>       1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'examine (object)'.
+  *1*   318 E : The 'hero' does not have the container property.
 
    77.      CHECK OBJECT IS examinable
 =====>                      1
@@ -1336,22 +1331,11 @@ saviourV2_x.alan
   *1*   316 E : Attribute 'examinable' is not defined for parameter 'object'
                 since its class ('object') does not have it.
 
-   82.  VERB read
-=====>       1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'read (object)'.
-
    83.      CHECK OBJECT IS readable
 =====>                      1
 
   *1*   316 E : Attribute 'readable' is not defined for parameter 'object'
                 since its class ('object') does not have it.
-
-   88.  VERB lock, unlock
-=====>       1     2
-
-  *1*   230 I : No syntax defined for this verb, assumed 'lock (object)'.
-  *2*   230 I : No syntax defined for this verb, assumed 'unlock (object)'.
 
    89.      CHECK OBJECT IS openable
 =====>                      1
@@ -1364,12 +1348,6 @@ saviourV2_x.alan
 
   *1*   316 E : Attribute 'openable' is not defined for parameter 'o' since its
                 class ('object') does not have it.
-
-  104.  VERB open, close
-=====>       1     2
-
-  *1*   230 I : No syntax defined for this verb, assumed 'open (object)'.
-  *2*   230 I : No syntax defined for this verb, assumed 'close (object)'.
 
   106.  	OBJECT IS openable
 =====>  	          1
@@ -1385,17 +1363,7 @@ saviourV2_x.alan
   118.      CHECK o NOT IN hero
 =====>                     1
 
-  *1*   318 E : The 'hero' is not a Container.
-
-  125.  VERB insert
-=====>       1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'insert (object)'.
-
-  140.  VERB 'start'
-=====>       1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'start (object)'.
+  *1*   318 E : The 'hero' does not have the container property.
 
   141.      CHECK OBJECT IS startable
 =====>                      1
@@ -1406,24 +1374,24 @@ saviourV2_x.alan
   179.  	LIST hero.
 =====>  	     1
 
-  *1*   318 E : The 'hero' is not a Container.
+  *1*   318 E : The 'hero' does not have the container property.
 
   209.      CHECK OBJECT NOT IN hero
 =====>            1             2
 
-  *1*   319 E : Identifier 'object' is not a instance.
-  *2*   318 E : The 'hero' is not a Container.
+  *1*   319 E : Identifier 'object' is not an instance.
+  *2*   318 E : The 'hero' does not have the container property.
 
   212.      AND OBJECT IS takeable
 =====>          1
 
-  *1*   319 E : Identifier 'object' is not a instance.
+  *1*   319 E : Identifier 'object' is not an instance.
 
   216.          LOCATE OBJECT IN hero.
 =====>                 1         2
 
-  *1*   319 E : Identifier 'object' is not a instance.
-  *2*   318 E : The 'hero' is not a Container.
+  *1*   319 E : Identifier 'object' is not an instance.
+  *2*   318 E : The 'hero' does not have the container property.
 
   225.      CHECK terminal HERE
 =====>            1
@@ -1511,16 +1479,19 @@ saviourV2_x.alan
   *1*   102 E : Identifier Identifier 'END' Identifier '.' ... deleted.
 
   279.  LOCATION outside NAME Outside the tall building
-=====>                                1        2
+=====>                                    1    2
 
-  *1*   100 I : Parsing resumed here.
+  *1*   352 E : Instance 'tall' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
   *2*   101 E : 'IN' inserted.
+  *2*   310 E : Identifier 'building' not defined.
   *2*   310 E : Identifier 'building' not defined.
 
   286.      EXIT north TO hall
 =====>                    1
 
   *1*   310 E : Identifier 'hall' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
 
   290.  END LOCATION.
 =====>      1
@@ -1536,16 +1507,35 @@ saviourV2_x.alan
 =====>                   1
 
   *1*   310 E : Identifier 'cafe' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+  302.          CHECK door IS NOT closed
+=====>                1
+
+  *1*   310 E : Identifier 'door' not defined.
 
   305.      EXIT west TO stairs.
 =====>                   1
 
   *1*   310 E : Identifier 'stairs' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
 
   306.      EXIT south TO outside
 =====>                    1
 
   *1*   310 E : Identifier 'outside' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+  312.  	    IF tape IS copied THEN
+=====>  	       1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+  313.  		IF tape IN hero THEN
+=====>  		   1       2
+
+  *1*   310 E : Identifier 'tape' not defined.
+  *2*   318 E : The 'hero' does not have the container property.
 
   325.  END LOCATION.
 =====>      1
@@ -1557,15 +1547,16 @@ saviourV2_x.alan
 
   *1*   103 E : 'IS' Identifier '.' Identifier '.' ... replaced by '.'.
 
-  335.          "To the east is a folding door."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   342.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  348.      VERB open DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'open'.
 
   349.          IF door IS NOT closed THEN
 =====>             1
@@ -1592,6 +1583,16 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'door' not defined.
 
+  370.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+
+  375.      VERB unlock_with
+=====>           1
+
+  *1*   220 W : Multiple definition of 'unlock_with'.
+
   376.          WHEN o DOES
 =====>          1
 
@@ -1616,12 +1617,17 @@ saviourV2_x.alan
 =====>  		   1           2
 
   *1*   310 E : Identifier 'keys' not defined.
-  *2*   318 E : The 'hero' is not a Container.
+  *2*   318 E : The 'hero' does not have the container property.
 
   386.                      MAKE door NOT locked.
 =====>                           1
 
   *1*   310 E : Identifier 'door' not defined.
+
+  393.      VERB lock
+=====>           1
+
+  *1*   220 W : Multiple definition of 'lock'.
 
   395.          IF door IS NOT closed THEN
 =====>             1
@@ -1637,7 +1643,7 @@ saviourV2_x.alan
 =====>                1           2
 
   *1*   310 E : Identifier 'keys' not defined.
-  *2*   318 E : The 'hero' is not a Container.
+  *2*   318 E : The 'hero' does not have the container property.
 
   403.              MAKE door locked.
 =====>                   1
@@ -1650,30 +1656,15 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  411.          "You are at the landing of an old staircase. It seem steady
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   417.      EXIT up TO first.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
-  425.          "In front of you is a dark cellar. To the west is a doorway
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   429.      EXIT up TO stairs.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  433.  		"You can not go in there, the rats are too fierce. The hungry
-=====>  		1
-
-  *1*   100 I : Parsing resumed here.
 
   436.          DOES
 =====>          1
@@ -1685,15 +1676,12 @@ saviourV2_x.alan
 
   *1*   102 E : 'END' 'EXIT' '.' 'END' Identifier ... deleted.
 
-  447.          "In the light from the sun some rats can be seen."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   452.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
 
   453.          IF rats ARE hungry THEN
 =====>             1
@@ -1704,11 +1692,6 @@ saviourV2_x.alan
 =====>                   1
 
   *1*   310 E : Identifier 'rats' not defined.
-
-  463.      VERB kick DOES
-=====>           1
-
-  *1*   230 I : No syntax defined for this verb, assumed 'kick (object)'.
 
   464.          IF rats ARE hungry THEN
 =====>             1
@@ -1726,20 +1709,10 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  477.          "This must be an old storage room. There seems to be any
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   487.      EXIT east TO cellar.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  498.          IF tape IS NOT mounted THEN
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
 
   506.      MENTIONED
 =====>      1
@@ -1747,10 +1720,9 @@ saviourV2_x.alan
   *1*   102 E : 'MENTIONED' deleted.
 
   509.      VERB mount DOES
-=====>      1    2
+=====>      1
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   230 I : No syntax defined for this verb, assumed 'mount (object)'.
 
   510.          IF tape IS mounted THEN
 =====>             1
@@ -1778,25 +1750,24 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  525.          "The landing on the first floor is as dirty as all the others.
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   531.      EXIT up TO second.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
-  542.          "Almost completely covered by dust, there is an old book
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   545.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  552.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
 
   555.          LOCATE book AT NOWHERE.
 =====>                 1
@@ -1809,20 +1780,10 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  562.          "In front of you is a deserted office area. Desks and chairs
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   570.      EXIT west TO first.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  580.          IF ladder IS NOT raised THEN
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
 
   587.      MENTIONED
 =====>      1
@@ -1830,12 +1791,83 @@ saviourV2_x.alan
   *1*   102 E : 'MENTIONED' deleted.
 
   590.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  595.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+
+  605.      VERB take
+=====>           1
+
+  *1*   220 W : Multiple definition of 'take'.
 
   606.      CHECK ladder NOT AT walless 
-=====>            1
+=====>            1             2
+
+  *1*   310 E : Identifier 'ladder' not defined.
+  *2*   310 E : Identifier 'walless' not defined.
+
+  611.          MAKE ladder NOT raised.
+=====>               1
+
+  *1*   310 E : Identifier 'ladder' not defined.
+
+  615.          LOCATE ladder HERE.
+=====>                 1
+
+  *1*   310 E : Identifier 'ladder' not defined.
+
+  616.          IF ladder AT outside THEN
+=====>             1         2
+
+  *1*   310 E : Identifier 'ladder' not defined.
+  *2*   310 E : Identifier 'outside' not defined.
+
+  619.          ELSIF ladder AT holeroom THEN
+=====>                1         2
+
+  *1*   310 E : Identifier 'ladder' not defined.
+  *2*   310 E : Identifier 'holeroom' not defined.
+
+  620.              IF ladder IS raised THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'ladder' not defined.
+
+  626.                  MAKE ladder raised.
+=====>                       1
+
+  *1*   310 E : Identifier 'ladder' not defined.
+
+  637.          IF ladder IN hero THEN
+=====>             1         2
+
+  *1*   310 E : Identifier 'ladder' not defined.
+  *2*   318 E : The 'hero' does not have the container property.
+
+  640.          ELSIF ladder IS NOT raised THEN
+=====>                1
+
+  *1*   310 E : Identifier 'ladder' not defined.
+
+  647.              IF ladder AT walless THEN
+=====>                 1         2
+
+  *1*   310 E : Identifier 'ladder' not defined.
+  *2*   310 E : Identifier 'walless' not defined.
+
+  652.              LOCATE ladder HERE.
+=====>                     1
 
   *1*   310 E : Identifier 'ladder' not defined.
 
@@ -1845,30 +1877,15 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  660.          "The second landing of the stairs is well kept through the
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   666.      EXIT up TO third.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
-  674.          "This must be the old terminal room. Old and dusty, most of
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   683.      EXIT west TO second.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  695.          IF terminal AT terminal_room THEN
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
 
   702.      MENTIONED
 =====>      1
@@ -1876,9 +1893,108 @@ saviourV2_x.alan
   *1*   102 E : 'MENTIONED' deleted.
 
   705.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  707.          IF terminal IS NOT connected THEN
+=====>             1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  712.          IF terminal IS showing_msg1
+=====>             1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  713.          OR terminal IS showing_msg2 THEN
+=====>             1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  718.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+
+  719.          IF terminal IS showing_msg1 THEN
+=====>             1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  721.          ELSIF terminal IS showing_msg2 THEN
+=====>                1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  728.      VERB take DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'take'.
+  *1*   220 W : Multiple definition of 'take'.
+
+  729.  	MAKE terminal NOT connected.
+=====>  	     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  730.  	MAKE terminal NOT showing_msg1.
+=====>  	     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  731.  	MAKE terminal NOT showing_msg2.
+=====>  	     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  732.  	IF coin IS NOT found THEN
+=====>  	   1
+
+  *1*   310 E : Identifier 'coin' not defined.
+
+  734.  	    MAKE coin found.
+=====>  	         1
+
+  *1*   310 E : Identifier 'coin' not defined.
+
+  735.  	    LOCATE coin HERE.
+=====>  	           1
+
+  *1*   310 E : Identifier 'coin' not defined.
+
+  741.          IF computer NOT HERE THEN
+=====>             1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  744.              IF computer IS running THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  747.                  MAKE terminal showing_msg1.
+=====>                       1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  751.              MAKE terminal connected.
+=====>                   1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  752.              LOCATE terminal HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
 
   755.  END OBJECT.
 =====>  1
@@ -1886,15 +2002,35 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  765.          "There is a small coin here."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   767.      VERB read DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'read'.
+  *2*   220 W : Multiple definition of 'read'.
+  *2*   220 W : Multiple definition of 'read'.
+  *2*   220 W : Multiple definition of 'read'.
+  *2*   220 W : Multiple definition of 'read'.
+
+  771.      VERB insert_into
+=====>           1
+
+  *1*   220 W : Multiple definition of 'insert_into'.
+
+  772.  	CHECK s = machine
+=====>  	          1
+
+  *1*   310 E : Identifier 'machine' not defined.
+
+  777.              LOCATE candy HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'candy' not defined.
+
+  778.              LOCATE coin AT NOWHERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'coin' not defined.
 
   781.  END OBJECT.
 =====>  1
@@ -1902,40 +2038,20 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  786.          "On the wall here it says 'THIRD FLOOR'. The fence around the
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   794.      EXIT up TO fourth.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  801.          "Even this high up the stairs are intact but the fence and
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
 
   807.      EXIT up TO fifth.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
-  816.          "In the middle of the room is a light spot on the floor. The
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   823.      EXIT up TO walless
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier 'CHECK' ... deleted.
-
-  826.                  "You can't fly through the hole in the ceiling!"
-=====>                  1
-
-  *1*   100 I : Parsing resumed here.
 
   827.          DOES
 =====>          1
@@ -1947,11 +2063,6 @@ saviourV2_x.alan
 
   *1*   102 E : 'END' 'EXIT' '.' 'EXIT' Identifier ... deleted.
 
-  836.          "Through the hole in the floor the end of a ladder is
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   842.      EXIT down TO holeroom
 =====>      1
 
@@ -1962,15 +2073,31 @@ saviourV2_x.alan
 
   *1*   102 E : 'END' 'EXIT' '.' 'END' Identifier ... deleted.
 
-  854.          IF nest AT walless THEN
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   862.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  863.          IF nest IS NOT examined THEN
+=====>             1
+
+  *1*   310 E : Identifier 'nest' not defined.
+
+  867.              LOCATE keys HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'keys' not defined.
+
+  868.              MAKE nest examined.
+=====>                   1
+
+  *1*   310 E : Identifier 'nest' not defined.
 
   874.  END OBJECT.
 =====>  1
@@ -1978,20 +2105,22 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  881.          "A set of rusty keys are laying on the floor here."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   883.      MENTIONED
 =====>      1
 
   *1*   102 E : 'MENTIONED' deleted.
 
   886.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
 
   890.  END OBJECT.
 =====>  1
@@ -1999,35 +2128,63 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  894.          "This must be the top of the top landing of the staircase.
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   899.      EXIT down TO fourth.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
-
-  907.          "The room is so small and low that you can't stand straight."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
 
   910.      EXIT north TO fifth.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
-  920.          "In one of the walls an elaborate clockwork is mounted."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   928.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+  931.          IF clock IS broken THEN
+=====>             1
+
+  *1*   310 E : Identifier 'clock' not defined.
+
+  937.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+
+  942.          IF clock IS NOT wound THEN
+=====>             1
+
+  *1*   310 E : Identifier 'clock' not defined.
+
+  946.              MAKE clock wound.
+=====>                   1
+
+  *1*   310 E : Identifier 'clock' not defined.
+
+  947.          ELSIF clock IS NOT broken THEN
+=====>                1
+
+  *1*   310 E : Identifier 'clock' not defined.
+
+  950.              MAKE clock broken.
+=====>                   1
+
+  *1*   310 E : Identifier 'clock' not defined.
 
   956.  END OBJECT.
 =====>  1
@@ -2035,45 +2192,85 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
-  961.          "A long east-west corridor extends in both directions. There
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   966.      EXIT east TO deskroom
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier 'CHECK' ... deleted.
-
-  969.  		"As soon as you try to move, a tremendous flapping of
-=====>  		1
-
-  *1*   100 I : Parsing resumed here.
 
   976.      END EXIT.
 =====>      1
 
   *1*   102 E : 'END' 'EXIT' '.' 'EXIT' Identifier ... deleted.
 
-  983.          "This looks like a small office."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
   992.      EXIT west TO corr.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
- 1002.  	"There is a drawer in the desk."
-=====>  	1
-
-  *1*   100 I : Parsing resumed here.
-
  1007.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1008.          IF drawer IS open THEN
+=====>             1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1010.              IF drawer IS NOT 'empty' THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1016.      VERB open DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'open'.
+  *1*   220 W : Multiple definition of 'open'.
+
+ 1017.          IF drawer IS open THEN
+=====>             1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1019.          ELSIF manual IS NOT found THEN
+=====>                1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1021.              LOCATE manual HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1026.          MAKE drawer open.
+=====>               1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1029.      VERB close DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'close'.
+
+ 1030.         IF drawer IS NOT open THEN
+=====>            1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1034.             MAKE drawer NOT open.
+=====>                  1
+
+  *1*   310 E : Identifier 'drawer' not defined.
 
  1037.  END OBJECT.
 =====>  1
@@ -2085,15 +2282,83 @@ saviourV2_x.alan
 
   *1*   103 E : 'IS' Identifier '.' 'NOT' Identifier ... replaced by '.'.
 
- 1046.          "Near the window there is a large desk."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1049.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1052.          IF desk IS marked THEN
+=====>             1
+
+  *1*   310 E : Identifier 'desk' not defined.
+
+ 1056.              MAKE desk marked.
+=====>                   1
+
+  *1*   310 E : Identifier 'desk' not defined.
+
+ 1059.          IF drawer IS open THEN
+=====>             1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1061.              IF drawer IS NOT 'empty' THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1067.      VERB open DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'open'.
+  *1*   220 W : Multiple definition of 'open'.
+  *1*   220 W : Multiple definition of 'open'.
+
+ 1068.          IF drawer IS open THEN
+=====>             1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1070.          ELSIF manual IS NOT found THEN
+=====>                1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1072.              LOCATE manual HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1077.          MAKE drawer open.
+=====>               1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1080.      VERB close DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'close'.
+  *1*   220 W : Multiple definition of 'close'.
+
+ 1081.         IF drawer IS NOT open THEN
+=====>            1
+
+  *1*   310 E : Identifier 'drawer' not defined.
+
+ 1085.             MAKE drawer NOT open.
+=====>                  1
+
+  *1*   310 E : Identifier 'drawer' not defined.
 
  1088.  END OBJECT.
 =====>  1
@@ -2102,10 +2367,9 @@ saviourV2_x.alan
                 'START' 'HERE' '.'.
 
  1097.          password "".
-=====>                   1 2
+=====>                     1
 
-  *1*   100 I : Parsing resumed here.
-  *2*   102 E : '.' Identifier deleted.
+  *1*   102 E : '.' Identifier deleted.
 
  1098.  	pwtry "".
 =====>  	        1
@@ -2118,9 +2382,82 @@ saviourV2_x.alan
   *1*   102 E : 'MENTIONED' deleted.
 
  1106.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1110.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+
+ 1117.  	IF pwindex OF manual = 0 THEN
+=====>  	              1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1118.  	    SET pwindex OF manual TO RANDOM 1 TO 3.
+=====>  	                   1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1120.  	IF pwindex OF manual = 1 THEN
+=====>  	              1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1121.  	     SET password OF manual TO "NilGu".
+=====>  	                     1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1122.  	ELSIF pwindex OF manual = 2 THEN
+=====>  	                 1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1123.  	     SET password OF manual TO "SveGr".
+=====>  	                     1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1124.  	ELSIF pwindex OF manual = 3 THEN
+=====>  	                 1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1125.  	     SET password OF manual TO "OscSv".
+=====>  	                     1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1127.  	SAY password OF manual. "$$'."
+=====>  	                1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+ 1128.  	IF pwtry OF manual = password OF manual THEN
+=====>  	            1                    2
+
+  *1*   310 E : Identifier 'manual' not defined.
+  *2*   310 E : Identifier 'manual' not defined.
 
  1132.  END OBJECT.
 =====>  1
@@ -2128,25 +2465,84 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
- 1137.          "A room of old computers, cables, disk drives, tape stations
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1141.      EXIT west TO fourth.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
- 1151.          "An ancient computer is standing in the centre of the room."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1156.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1159.          IF computer IS NOT running AND computer IS NOT popped THEN
+=====>             1                           2
+
+  *1*   310 E : Identifier 'computer' not defined.
+  *2*   310 E : Identifier 'computer' not defined.
+
+ 1161.          ELSIF computer IS running THEN
+=====>                1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+ 1165.          IF tape IS mounted THEN
+=====>             1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+ 1170.          IF terminal IS connected THEN
+=====>             1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+ 1178.      VERB kick DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'kick'.
+
+ 1179.          IF computer IS NOT running AND computer IS NOT popped THEN
+=====>             1                           2
+
+  *1*   310 E : Identifier 'computer' not defined.
+  *2*   310 E : Identifier 'computer' not defined.
+
+ 1183.              MAKE computer running.
+=====>                   1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+ 1185.              IF terminal IS connected THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+ 1188.                  MAKE terminal showing_msg1.
+=====>                       1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+ 1190.          ELSIF computer IS running THEN
+=====>                1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+ 1197.      VERB 'start' DOES ONLY
+=====>           1
+
+  *1*   220 W : Multiple definition of 'start'.
 
  1203.  END OBJECT.
 =====>  1
@@ -2154,25 +2550,40 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
- 1210.          "This is the entrance to the old cafeteria. The kitchen and
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1215.      EXIT west TO hall.
 =====>      1
 
   *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
 
- 1223.          "In one corner of the cafeteria there is a vending machine. It
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1227.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1233.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
 
  1236.  END OBJECT.
 =====>  1
@@ -2180,26 +2591,68 @@ saviourV2_x.alan
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
 
- 1244.          "On the floor there is a candy bar."
-=====>          1
-
-  *1*   100 I : Parsing resumed here.
-
  1246.      VERB examine DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of 'examine'.
+
+ 1251.      VERB read DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of 'read'.
+
+ 1258.          LOCATE candy AT NOWHERE.
+=====>                 1
+
+  *1*   310 E : Identifier 'candy' not defined.
+
+ 1261.      VERB drop
+=====>           1
+
+  *1*   220 W : Multiple definition of 'drop'.
+
+ 1263.          IF rats HERE THEN
+=====>             1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
+ 1267.              MAKE rats NOT hungry.
+=====>                   1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
+ 1268.              LOCATE candy AT NOWHERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'candy' not defined.
 
  1272.  END OBJECT.
 =====>  1
 
   *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
                 'START' 'HERE' '.'.
-
- 1278.  	    COUNT 3 THEN "You can't carry anything more."
-=====>  	                 1
-
-  *1*   100 I : Parsing resumed here.
 
  1279.          HEADER "You are carrying"
 =====>          1
@@ -2220,13 +2673,10 @@ saviourV2_x.alan
 =====>           1
 
   *1*   310 E : Identifier 'outside' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
 
 
-
-        997 S : SYSTEM ERROR: UNIMPL: anexpwhr() - namcheck handling
-
-
-        139 error(s).
-        1 warning(s).
-        50 informational message(s).
+        235 error(s).
+        171 warning(s).
+        56 informational message(s).
 

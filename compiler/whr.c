@@ -74,10 +74,10 @@ void symbolizeWhr(WhrNod *whr)
 
 /*======================================================================
 
-  verifyAtLocation()
+  verifyInitialLocation()
 
 */
-void verifyAtLocation(WhrNod *whr)
+void verifyInitialLocation(WhrNod *whr)
 {
   switch (whr->kind) {
   case WHR_AT:
@@ -85,6 +85,9 @@ void verifyAtLocation(WhrNod *whr)
       inheritCheck(whr->wht->id, "an instance", "location");
     } else
       lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
+    break;
+  case WHR_IN:
+    verifyContainer(whr->wht, NULL);
     break;
   default:
       lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);

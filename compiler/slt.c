@@ -168,7 +168,7 @@ static void analyzeName(SlotsNode *slots)
  */
 void analyzeSlots(SlotsNode *slots)
 {
-  if (slots->whr != NULL) verifyAtLocation(slots->whr);
+  if (slots->whr != NULL) verifyInitialLocation(slots->whr);
 
   analyzeName(slots);
   anstms(slots->description, NULL);
