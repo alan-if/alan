@@ -83,12 +83,13 @@ void analyseAdventure()
   analyseAttributes(adventure.locationAttributes);
   analyseAttributes(adventure.actorAttributes);
 
-  /* 4f - Do the analysis of the adventure! */
+  /* 4f - Do the analysis of all parts of the adventure! */
 
+  /* Analyse the start section */
   if (adventure.where != NULL) 
-    switch (adventure.where->where) {
+    switch (adventure.where->kind) {
     case WHERE_AT:
-      if (adventure.where->what->what == WHAT_ID)
+      if (adventure.where->what->kind == WHAT_ID)
 	symcheck(adventure.where->what->id, LOCATION_CLASS, NULL);
       else
 	lmLog(&adventure.where->srcp, 211, sevERR, "");
@@ -99,7 +100,7 @@ void analyseAdventure()
     }
 
   if (adventure.statements != NULL)
-    anstatements(adventure.statements, NULL, NULL, NULL);
+    analyseStatements(adventure.statements, NULL, NULL);
 }
 
 
@@ -131,10 +132,7 @@ void generateAdventure(acdFileName)
   header.stxs = generateSyntaxes();
 
   if (verbose) printf("\n\tVerbs...");
-  header.vrbs = generateVerbs(adventure.verbs, NULL); /* Global verbs */
-
-  if (verbose) printf("\n\tClasses...");
-  header.cnts = generateClasses();
+  header.vrbs = generateVerbs(adventure.verbs); /* Global verbs */
 
   if (verbose) printf("\n\tInstances...");
   header.objs = generateInstances();
@@ -146,20 +144,20 @@ void generateAdventure(acdFileName)
   header.ruls = generateRules();
 
   header.scores = generateScores();
-  header.maxscore = maxScore;
+  header.maxscore = scoreTotal;
 
   if (verbose) printf("\n\tMessages...");
   header.msgs = generateMessages();
 
   if (verbose) printf("\n\tCharacter Encoding...");
-  header.freq = generateFreq();	/* Character frequencies */
+  header.freq = generateFrequencies();	/* Character frequency table */
 
   /* Options */
   generateOptions(&header);
 
   /* Start statements */
   header.start = emitAddress();	/* Save ACODE address to start */
-  generateStatements(adventure.statements, NULL);
+  generateStatements(adventure.statements);
   emit0(C_STMOP, I_RETURN);
 
   /* String initialisation table */
@@ -189,7 +187,7 @@ void dumpAdventure(dumpFlags)
      DumpKind;
 #endif
 {
-  if (dumpFlags&DMPALL)
+  if (dumpFlags&DUMP_ALL)
     dumpFlags = (DumpKind)-1L;
 
   put("ADVENTURE: "); in();
@@ -199,8 +197,8 @@ void dumpAdventure(dumpFlags)
   put("classes: "); if (dumpFlags&DUMP_CLASS) dumpList(adventure.classes, CLASS_NODE); else put("--"); nl();
   put("instances: "); if (dumpFlags&DUMP_INSTANCE) dumpList(adventure.instances, INSTANCE_NODE); else put("--"); nl();
   put("synonyms: "); if (dumpFlags&DUMP_SYNONYM) dumpList(adventure.synonyms, SYNONYM_NODE); else put("--"); nl();
-  put("syntaxs: "); if (dumpFlags&DUMP_SYNTAX) dumpList(adventure.syntaxs, SYNTAX_NODE); else put("--"); nl();
-  put("verbs: "); if (dumpFlags&DUMP_VERB) dumpList(adventure.verbs, VREB_NODE); else put("--"); nl();
+  put("syntaxes: "); if (dumpFlags&DUMP_SYNTAX) dumpList(adventure.syntaxes, SYNTAX_NODE); else put("--"); nl();
+  put("verbs: "); if (dumpFlags&DUMP_VERB) dumpList(adventure.verbs, VERB_NODE); else put("--"); nl();
   put("events: "); if (dumpFlags&DUMP_EVENT) dumpList(adventure.events, EVENT_NODE); else put("--"); nl();
   put("rules: "); if (dumpFlags&DUMP_RULE) dumpList(adventure.rules, RULE_NODE); else put("--"); nl();
   put("where: "); dumpWhere(adventure.where); nl();
@@ -230,25 +228,7 @@ void summary()
   lmLiPrint("");
   lmLiPrint("        Summary");
   lmLiPrint("        -------");
-  if (loccount != 0) {
-    sprintf(str, "        Locations:              %6d", loccount);
-    lmLiPrint(str);
-  }
-  if (verbcount != 0) {
-    sprintf(str, "        Verbs:                  %6d", verbcount);
-    lmLiPrint(str);
-  }
-  if (objcount != 0) {
-    sprintf(str, "        Objects:                %6d", objcount);
-    lmLiPrint(str);
-  }
-  if (actcount > 1) {
-    sprintf(str, "        Actors:                 %6d (incl. the Hero)", actcount);
-    lmLiPrint(str);
-  }
-  sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
-  lmLiPrint(str);
-  sprintf(str,   "        Acode:                  %6d words (%d bytes)", end, (int)((long)end*(long)sizeof(Aword)));
+  sprintf(str,   "        Acode:                  %6ld words (%d bytes)", (long)end, (int)((long)end*(long)sizeof(Aword)));
   lmLiPrint(str);
   sprintf(str,   "        Text data:              %6d bytes", txtlen);
   lmLiPrint(str);

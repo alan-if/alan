@@ -59,8 +59,16 @@ extern Instance *newInstance(Srcp *srcp,
 			     List *verbs,
 			     List *scripts);
 
+/* Create predefined instances */
+extern void initInstances(void);
+
+/* Generate Acode for all instances */
+extern generateInstances(void);
+
 #else
+extern void initInstances();
 extern Instance *newInstance();
+extern generateInstances();
 #endif
 
 #endif

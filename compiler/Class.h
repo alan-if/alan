@@ -23,6 +23,7 @@
 typedef struct Class {		/* Class Node */
   Srcp srcp;
   Id *id;
+  int code;
   List *heritage;
   List *name;
   Where *where;
@@ -39,6 +40,9 @@ typedef struct Class {		/* Class Node */
 
 
 /* Data: */
+
+/* Pseudo constants for the predefined classes */
+extern int THING_CLASS, LOCATION_CLASS, OBJECT_CLASS, ACTOR_CLASS, CONTAINER_CLASS;
 
 
 /* Functions: */
@@ -59,6 +63,9 @@ extern Class *newClass(Srcp *srcp,
 		       List *exits,
 		       List *verbs,
 		       List *scripts);
+
+/* Create predefined classes */
+extern void initClasses(void);
 
 /* Analyse the class */
 extern void analyseClass(Class *class);
@@ -95,6 +102,7 @@ extern void dumpClassOrInstance(List *heritage,
 				List *scripts);
 
 #else
+extern void initClasses();
 extern Class *newClass();
 extern void analyseClass();
 extern void analyseClassOrInstance();

@@ -28,11 +28,11 @@ extern int scoreTotal;
 extern void prepareScores(void);
 
 /* Generate the score table */
-extern Aaddr generateScore(void);
+extern Aaddr generateScores(void);
 
 #else
 extern void prepareScores();
-extern Aaddr generateScore();
+extern Aaddr generateScores();
 #endif
 
 #endif

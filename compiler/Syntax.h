@@ -56,7 +56,7 @@ extern Bool equalParameters(Syntax *syntax1,
 extern void analyseSyntaxs(void);
 
 /* Generate code for a list of Syntaxs */
-extern Aaddr generateSyntaxs(void);
+extern Aaddr generateSyntaxes(void);
 
 /* Dump a Syntax node */
 extern void dumpSyntax(Syntax *syntax);
@@ -66,7 +66,7 @@ extern Syntax *newSyntax();
 extern Syntax *defaultSyntax();
 extern Bool equalParameters();
 extern void analyseSyntaxs();
-extern Aaddr generateSyntaxs();
+extern Aaddr generateSyntaxes();
 extern void dumpSyntax();
 #endif
 

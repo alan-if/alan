@@ -6,12 +6,18 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "types.h"
+#include "alan.h"
 
 #include "Class.h"
 #include "Symbol.h"
 
 #include "dump.h"
+
+
+/* PUBLIC */
+
+/* Pseudo constants for the predefined classes */
+int THING_CLASS, LOCATION_CLASS, OBJECT_CLASS, ACTOR_CLASS, CONTAINER_CLASS;
 
 
 /* PRIVATE */
@@ -65,6 +71,7 @@ Class *newClass(srcp, id, heritage, name, where, attributes, container, surround
 
   symbol = newSymbol(id, CLASS_SYMBOL);
   symbol->info.class = new;
+  new->code = symbol->code;
 
   new->srcp = *srcp;
   new->id = id;
@@ -82,6 +89,121 @@ Class *newClass(srcp, id, heritage, name, where, attributes, container, surround
   new->scripts = scripts;
   
   return(new);
+}
+
+
+/*======================================================================
+
+  initClasses()
+
+  Create initial predefined Classes
+
+  */
+#ifdef _PROTOTYPES_
+void initClasses(void)
+#else
+void initClasses()
+#endif
+{
+  Class *thing;
+  Class *object;
+  Class *location;
+  Class *actor;
+  Class *container;
+
+  /* Create THING class */
+  thing = newClass(&nullSrcp,
+		   newId(&nullSrcp,
+			 "thing"),
+		   NULL,	/* heritage */
+		   NULL,	/* name */
+		   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+		   NULL,	/* attributes */
+		   NULL,	/* container */
+		   NULL,	/* surroundings */
+		   NULL,	/* description */
+		   NULL,	/* mentioned */
+		   NULL,	/* does */
+		   NULL,	/* exits */
+		   NULL,	/* verbs */
+		   NULL);	/* scripts */
+  THING_CLASS = thing->code;
+
+  /* Create OBJECT class */
+  object = newClass(&nullSrcp,
+		    newId(&nullSrcp,
+			  "object"),
+		    concat(NULL, newId(&nullSrcp,
+				       "thing")), /* heritage */
+		    NULL,	/* name */
+		    newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+		    NULL,	/* attributes */
+		    NULL,	/* container */
+		    NULL,	/* surroundings */
+		    NULL,	/* description */
+		    NULL,	/* mentioned */
+		    NULL,	/* does */
+		    NULL,	/* exits */
+		    NULL,	/* verbs */
+		    NULL);	/* scripts */
+  OBJECT_CLASS = object->code;
+
+  /* Create LOCATION class */
+  location = newClass(&nullSrcp,
+		      newId(&nullSrcp,
+			    "location"),
+		      concat(NULL, newId(&nullSrcp,
+					 "thing")), /* heritage */
+		      NULL,	/* name */
+		      newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+		      NULL,	/* attributes */
+		      NULL,	/* container */
+		      NULL,	/* surroundings */
+		      NULL,	/* description */
+		      NULL,	/* mentioned */
+		      NULL,	/* does */
+		      NULL,	/* exits */
+		      NULL,	/* verbs */
+		      NULL);	/* scripts */
+  LOCATION_CLASS = location->code;
+
+  /* Create ACTOR class */
+  actor = newClass(&nullSrcp,
+		   newId(&nullSrcp,
+			 "actor"),
+		   concat(NULL, newId(&nullSrcp,
+				      "thing")), /* heritage */
+		   NULL,	/* name */
+		   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+		   NULL,	/* attributes */
+		   NULL,	/* container */
+		   NULL,	/* surroundings */
+		   NULL,	/* description */
+		   NULL,	/* mentioned */
+		   NULL,	/* does */
+		   NULL,	/* exits */
+		   NULL,	/* verbs */
+		   NULL);	/* scripts */
+  ACTOR_CLASS = actor->code;
+
+  /* Create CONTAINER class */
+  container = newClass(&nullSrcp,
+		       newId(&nullSrcp,
+			     "container"),
+		       concat(NULL, newId(&nullSrcp,
+					  "thing")), /* heritage */
+		       NULL,	/* name */
+		       newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+		       NULL,	/* attributes */
+		       NULL,	/* container */
+		       NULL,	/* surroundings */
+		       NULL,	/* description */
+		       NULL,	/* mentioned */
+		       NULL,	/* does */
+		       NULL,	/* exits */
+		       NULL,	/* verbs */
+		       NULL);	/* scripts */
+  CONTAINER_CLASS = container->code;
 }
 
 
