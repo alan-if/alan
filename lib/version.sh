@@ -1,4 +1,4 @@
-cat > 0_0_1. <<EOF
+cat > 0_0_2. <<EOF
 AlanLib
 Alan Standard Library
 EOF
