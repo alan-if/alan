@@ -65,7 +65,7 @@ SRCS = \
 	whr.c \
 	wht.c \
 	wrd.c \
-	time.c \
+	timing.c \
 	sysdep.c \
 	spa.c
 
@@ -150,6 +150,13 @@ MSDOS:
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
 	mv -f alan.tmk.sun alan.tmk
+
+version.c + version.h: ../[0-9]*
+	-@cd ..;rm ../[0-9]*_[0-9]*_[0-9]*;sh version.sh
+	@-rm [0-9]*
+	@cp ../[0-9]* .
+	venum -c
+
 
 version: $(OBJECTS) ../[0-9]*
 	@-rm [0-9]*
