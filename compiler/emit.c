@@ -115,7 +115,10 @@ void emitstr(str)
   int i;
   char *copy;
 
-  copy = allocate(strlen(str)+1);
+  copy = allocate(strlen(str)+4);
+#ifdef __unix__
+  memset(copy, 0, strlen(str)+4);
+#endif
   toIso(copy, str);
 
 #ifdef WORDADDRESS
@@ -145,6 +148,7 @@ void emitstr(str)
     }
   }
 #endif
+  free(copy);
 }
 
 
