@@ -31,13 +31,10 @@ extern AtrNod *newatr(Srcp *srcp,
 		      long fpos,
 		      int len);
 
-/* Find a particular attribute */
-extern AtrNod *findatr(char atr[],
-		       List *lst,
-		       List *def);
-
 /* Sort the attributes in a list */
 extern void sortatr(List **alstp);
+
+extern AtrNod *findAttribute(List *attributeList, IdNode *id);
 
 /* Verify parameter attribute */
 extern AtrNod *paramatr(IdNode *id, ElmNod *elm);
@@ -51,10 +48,7 @@ extern void prepatrs(void);
 /* Analyze an list of attribute nodes */
 extern void anatrs(List *atrs);
 
-/* Generate an attribute table */
-extern Aaddr geatrs(List *atrs,
-		    List *datrs,
-		    List *gatrs);
+extern Aaddr generateAttributes(List *attributeList);
 
 /* Generate the string initialisation table */
 extern Aaddr generateStringInit(void);

@@ -14,8 +14,9 @@
 #include "res_x.h"
 #include "sym_x.h"
 #include "id_x.h"
+#include "lst_x.h"
+
 #include "stm.h"                /* STM-nodes */
-#include "lst.h"		/* LST-nodes */
 
 #include "emit.h"
 #include "acode.h"

@@ -321,10 +321,10 @@ static Aword getatr(atradr, atr)
      Aaddr atr;                 /* IN - The attribute to read */
 #endif
 {
-  AtrEntry *at;
+  AttributeEntry *at;
 
-  at = (AtrEntry *) addrTo(atradr);
-  return at[atr-1].val;
+  at = (AttributeEntry *) addrTo(atradr);
+  return at[atr-1].value;
 }
   
 
@@ -348,10 +348,10 @@ static void setatr(atradr, atr, val)
      Aword val;                 /* IN - new value */
 #endif
 {
-  AtrEntry *at;
+  AttributeEntry *at;
   
-  at = (AtrEntry *) addrTo(atradr);
-  at[atr-1].val = val;
+  at = (AttributeEntry *) addrTo(atradr);
+  at[atr-1].value = val;
 }
 
 
@@ -513,10 +513,10 @@ static void incratr(atradr, atr, step)
      Aaddr atradr, atr, step;
 #endif
 {
-  AtrEntry *at;
+  AttributeEntry *at;
   
-  at = (AtrEntry *) addrTo(atradr);
-  at[atr-1].val += step;
+  at = (AttributeEntry *) addrTo(atradr);
+  at[atr-1].value += step;
 }
 
 
@@ -1487,7 +1487,7 @@ void save()
   int i;
   FILE *savfil;
   char str[256];
-  AtrEntry *atr;
+  AttributeEntry *atr;
 
   /* First save ? */
   if (savfnm[0] == '\0') {
@@ -1525,24 +1525,24 @@ void save()
     fwrite((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
     fwrite((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
     if (acts[i-ACTMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->val, sizeof(Aword), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 
   /* Save locations */
   for (i = LOCMIN; i <= LOCMAX; i++) {
     fwrite((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
     if (locs[i-LOCMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->val, sizeof(Aword), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
+	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 
   /* Save objects */
   for (i = OBJMIN; i <= OBJMAX; i++) {
     fwrite((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
     if (objs[i-OBJMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->val, sizeof(atr->val), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
+	fwrite((void *)&atr->value, sizeof(atr->value), 1, savfil);
   }
 
   /* Save the event queue */
@@ -1572,7 +1572,7 @@ void restore()
   int i;
   FILE *savfil;
   char str[256];
-  AtrEntry *atr;
+  AttributeEntry *atr;
   char savedVersion[4];
   char savedName[256];
 
@@ -1622,24 +1622,24 @@ void restore()
     fread((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
     fread((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
     if (acts[i-ACTMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
-	fread((void *)&atr->val, sizeof(Aword), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 
   /* Restore locations */
   for (i = LOCMIN; i <= LOCMAX; i++) {
     fread((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
     if (locs[i-LOCMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
-	fread((void *)&atr->val, sizeof(Aword), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
+	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
 
   /* Restore objects */
   for (i = OBJMIN; i <= OBJMAX; i++) {
     fread((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
     if (objs[i-OBJMIN].atrs)
-      for (atr = (AtrEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
-	fread((void *)&atr->val, sizeof(atr->val), 1, savfil);
+      for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
+	fread((void *)&atr->value, sizeof(atr->value), 1, savfil);
   }
 
   /* Restore the eventq */

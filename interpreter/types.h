@@ -173,11 +173,6 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aaddr action;			/* Address of the action code */
 } AltEntry;
 
-typedef struct AtrEntry {	/* ATTRIBUTE LIST */
-  Aword val;			/* Its value */
-  Aaddr stradr;			/* Address to the name */
-} AtrEntry;
-
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aword parent;			/* Code for the parent class, 0 if none */

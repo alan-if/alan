@@ -9,12 +9,13 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "lst_x.h"
+
 #include "lmList.h"
 
 #include "acode.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "rul.h"                /* RUL-nodes */

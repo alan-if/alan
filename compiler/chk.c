@@ -9,15 +9,14 @@
 #include "util.h"
 #include "options.h"
 
-#include "lst.h"		/* LST-nodes */
+#include "lst_x.h"
+
 #include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 
 #include "emit.h"
-
 #include "acode.h"
-
 #include "dump.h"
 
 

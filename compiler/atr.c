@@ -11,12 +11,12 @@
 /* IMPORT: */
 #include "srcp_x.h"
 #include "id_x.h"
+#include "lst_x.h"
 
 #include "util.h"
 #include "emit.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "ins.h"		/* INS-nodes */
 #include "opt.h"		/* OPT-nodes */
 
@@ -43,7 +43,7 @@ int atrmax;
 AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 	       TypeKind typ,	/* IN - Type of this atribute */
 	       IdNode *id,	/* IN - The id */
-	       int val,		/* IN - The initial value */
+	       int value,	/* IN - The initial value */
 	       long int fpos,	/* IN - File position for initial string */
 	       int len)		/* IN - D:o length */
 {
@@ -56,8 +56,8 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
   new->srcp = *srcp;
   new->typ = typ;
   new->id = id;
-  new->val = val;
-  new->stradr = 0;
+  new->value = value;
+  new->stringAddress = 0;
   new->encoded = FALSE;
   new->fpos = fpos;
   new->len = len;
@@ -68,26 +68,17 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
-  findatr()
+  findAttribute()
 
-  Finds an attribute node in a supplied list by its id.
-
- */
-AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
-		List *atrlst,	/* IN - attribute list */
-		List *defatrs)	/* IN - default attributes to search also */
+*/
+AtrNod *findAttribute(List *attributes, IdNode *id)
 {
-  List *lst;
+  List *this;
 
-  for (lst = atrlst; lst != NULL; lst = lst->next)
-    if (strcmp(lst->element.atr->id->string, atr) == 0)
-      return (lst->element.atr);
-
-  for (lst = defatrs; lst != NULL; lst = lst->next)
-    if (strcmp(lst->element.atr->id->string, atr) == 0)
-      return (lst->element.atr);
-
-  return(NULL);
+  for (this = attributes; this != NULL; this = this->next)
+    if (equalId(this->element.atr->id, id))
+      return this->element.atr;
+  return NULL;
 }
 
 
@@ -282,162 +273,61 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 
 /*----------------------------------------------------------------------
 
-  geatr()
+  generateAttribute()
 
   */
-static void geatr(AtrNod *atr)	/* IN - Attribute to generate for */
+static void generateAttribute(AtrNod *attribute) /* IN - Attribute to generate for */
 {
+  AttributeEntry entry;
   AtrNod *new;
 
-  if (atr->typ == TYPSTR) {
-    if (!atr->encoded) {
-      encode(&atr->fpos, &atr->len);
-      atr->encoded = TRUE;
+  if (attribute->typ == TYPSTR) {
+    if (!attribute->encoded) {
+      encode(&attribute->fpos, &attribute->len);
+      attribute->encoded = TRUE;
     }
-    atr->adr = emadr();		/* Remember where to put it */
-    /* Now make a copy to use for initialisation if attribute is default */
-    new = newatr(&atr->srcp, TYPSTR, NULL, atr->val, atr->fpos, atr->len);
-    new->adr = atr->adr;
+    attribute->address = emadr(); /* Record on which Aadress to put it */
+
+    /* Now make a copy to use for initialisation if attribute is
+       inherited, else the address will be overwritten by generation
+       of other instances of the same attribute */
+    new = newatr(&attribute->srcp, TYPSTR, NULL, attribute->value,
+		 attribute->fpos, attribute->len);
+    new->address = attribute->address;
     adv.stratrs = concat(adv.stratrs, new, LIST_ATR);
   }
-  emit(atr->val);
-  emit(atr->stradr);
+
+  entry.code = attribute->code;
+  entry.value = attribute->value;
+  entry.stringAddress = attribute->stringAddress;
+  emitN(&entry, ACDsizeOf(entry));
 }
 
 
 /*======================================================================
 
-  geatrs()
+  generateAttrributes()
 
   Generate all entries in an attribute list.
 
  */
-Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
-             List *datrs,       /* IN - List of class default attributes */
-             List *gatrs)       /* IN - List of general default attributes */
+Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
 {
   Aaddr adr;
-  List *lst, *dlst, *glst;
-  int state;
-
-  if (atrs == NULL && datrs == NULL && gatrs == NULL)
-    return(0);
+  List *lst;
 
   /* First generate the names of the attributes if needed */ 
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
-      lst->element.atr->stradr = emadr();
+      lst->element.atr->stringAddress = emadr();
       emitstr(lst->element.atr->id->string);
     }
-    if (datrs != NULL && datrs->element.atr->stradr == 0)
-      for (lst = datrs; lst != NULL; lst = lst->next) {
-        lst->element.atr->stradr = emadr();
-        emitstr(lst->element.atr->id->string);
-      }
-    if (gatrs != NULL && gatrs->element.atr->stradr == 0)
-      for (lst = gatrs; lst != NULL; lst = lst->next) {
-        lst->element.atr->stradr = emadr();
-        emitstr(lst->element.atr->id->string);
-      }
   }
 
   adr = emadr();
 
-  lst = atrs;
-  dlst = datrs;
-  glst = gatrs;
-
-  /* This might look like magic but the state is simply a vector indicating
-     which lists are not NULL, lst != NULL is bit 0 */
-  do {
-    state = (lst?1:0) | (dlst?1:0)<<1 | (glst?1:0)<<2;
-
-    switch (state) {
-
-      /* Single lists first */
-    case 1:
-      geatr(lst->element.atr);
-      lst = lst->next;
-      break;
-    case 2:
-      geatr(dlst->element.atr);
-      dlst = dlst->next;
-      break;
-    case 4:
-      geatr(glst->element.atr);
-      glst = glst->next;
-      break;
-
-      /* Two lists remaining */
-    case 3:                     /* lst, dlst != NULL */
-      if (dlst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
-        /* There is a default attribute with lower number, so generate it */
-        geatr(dlst->element.atr);
-        dlst = dlst->next;
-      } else {
-        geatr(lst->element.atr);
-        lst = lst->next;
-        dlst = dlst->next;
-      }
-      break;
-
-    case 5:                     /* lst, glst != NULL */
-      if (glst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
-        /* There is a default attribute with lower number, so generate it */
-        geatr(glst->element.atr);
-        glst = glst->next;
-      } else {
-        geatr(lst->element.atr);
-        lst = lst->next;
-        glst = glst->next;
-      }
-      break;
-
-    case 6:                     /* dst, glst != NULL */
-      if (glst->element.atr->id->symbol->code < dlst->element.atr->id->symbol->code) {
-        /* There is a general default attribute with lower number */
-        geatr(glst->element.atr);
-        glst = glst->next;
-      } else {
-        geatr(dlst->element.atr);
-        dlst = dlst->next;
-        glst = glst->next;
-      }
-      break;
-
-      /* And now for the most complex case, all lists != NULL */
-    case 7:
-      if (glst->element.atr->id->symbol->code < dlst->element.atr->id->symbol->code && glst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
-        /* There is a general default attribute with lower number than
-           the one in the class default list and in the local list,
-           so generate it */
-        geatr(glst->element.atr);
-        glst = glst->next;
-      } else if (dlst->element.atr->id->symbol->code < lst->element.atr->id->symbol->code) {
-        /* There is a class default attribute with lower number than
-           the one in the local list, so generate it */
-        geatr(dlst->element.atr);
-        if (glst->element.atr->id->symbol->code == dlst->element.atr->id->symbol->code)
-          /* If the global attribute has the same number advance it too */
-          glst = glst->next;
-        /* Advance the class default */
-        dlst = dlst->next;
-      } else {
-        /* The local attribute is a local instance of some default attribute */
-        geatr(lst->element.atr);
-        /* If the general deafult attribute has the same number advance it */
-        if (glst->element.atr->id->symbol->code == lst->element.atr->id->symbol->code)
-          glst = glst->next;
-        /* If the class default attribute has the same number advance it */
-        if (dlst->element.atr->id->symbol->code == lst->element.atr->id->symbol->code)
-          dlst = dlst->next;
-        /* Advance local attribute */
-        lst = lst->next;
-      }
-      break;
-
-    }
-  } while (state != 0);
+  for (lst = atrs; lst != NULL; lst = lst->next)
+    generateAttribute(lst->element.atr);
   emit(EOF);
 
   return(adr);
@@ -460,7 +350,7 @@ Aaddr generateStringInit(void)
   for (atrs = adv.stratrs; atrs != NULL; atrs = atrs->next) {
     emit(atrs->element.atr->fpos);
     emit(atrs->element.atr->len);
-    emit(atrs->element.atr->adr);
+    emit(atrs->element.atr->address);
   }
   emit(EOF);
   return adr;
@@ -480,8 +370,9 @@ void duatr(AtrNod *atr)
   put("ATR: "); dumpSrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();
   put("id: "); dumpId(atr->id); nl();
-  put("stradr: "); duadr(atr->stradr); nl();
-  put("val: "); duint(atr->val); nl();
+  put("stringAddress: "); duadr(atr->stringAddress); nl();
+  put("address: "); duadr(atr->address); nl();
+  put("value: "); duint(atr->value); nl();
   put("fpos: "); duint(atr->fpos); nl();
   put("len: "); duint(atr->len); out();
 }

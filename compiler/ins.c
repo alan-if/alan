@@ -7,16 +7,17 @@
 
 #include "ins_x.h"
 
+#include "sym_x.h"
+#include "slt_x.h"
+#include "id_x.h"
+#include "srcp_x.h"
+#include "lst_x.h"
+
 #include "sysdep.h"
 #include "util.h"
 #include "dump.h"
 #include "emit.h"
 #include "adv.h"
-
-#include "sym_x.h"
-#include "slt_x.h"
-#include "id_x.h"
-#include "srcp_x.h"
 
 #include "lmList.h"
 
@@ -68,6 +69,7 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->slots->parent = parent;
 
   new->slots->symbol = newsym(id->string, INSTANCE_SYMBOL);
+  new->slots->symbol->fields.claOrIns.attributes = new->slots->attributes;
 
   allInstances = concat(allInstances, new, LIST_INS);
 

@@ -13,7 +13,8 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "id_x.h"
-#include "lst.h"		/* LST-nodes */
+#include "lst_x.h"
+
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "elm.h"                /* ELM-nodes */

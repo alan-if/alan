@@ -11,6 +11,8 @@
 
 #include "srcp_x.h"
 #include "sym_x.h"
+#include "lst_x.h"
+#include "id_x.h"
 
 #include "lmList.h"
 
@@ -18,8 +20,6 @@
 #include "alt.h"		/* ALT-nodes */
 #include "stx.h"		/* STX-nodes */
 #include "ins.h"		/* INS-nodes */
-#include "id_x.h"
-#include "lst.h"
 
 #include "acode.h"
 

@@ -11,8 +11,9 @@
 
 #include "srcp_x.h"
 #include "id_x.h"
+#include "lst_x.h"
 
-#include "lst.h"		/* LST-nodes */
+
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "stm.h"                /* STM-nodes */

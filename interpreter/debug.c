@@ -42,15 +42,15 @@ static void showatrs(atradr)
   Aword atradr;
 #endif
 {
-  AtrEntry *at;
+  AttributeEntry *at;
   int i;
   char str[80];
 
   if (atradr == 0) return;
 
   i = 1;
-  for (at = (AtrEntry *) addrTo(atradr); !endOfTable(at); at++) {
-    sprintf(str, "$i%3d: %ld (%s)", i, at->val, (char *) addrTo(at->stradr));
+  for (at = (AttributeEntry *) addrTo(atradr); !endOfTable(at); at++) {
+    sprintf(str, "$i%3d: %ld (%s)", i, at->value, (char *) addrTo(at->stringAddress));
 #if ISO == 0
     fromIso(str, str);
 #endif

@@ -10,6 +10,8 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "lst_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"
@@ -19,7 +21,6 @@
 
 #include "emit.h"
 #include "encode.h"
-
 #include "acode.h"
 
 

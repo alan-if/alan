@@ -183,7 +183,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
       if (evt != NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
       else {
-	atr = findatr(exp->fields.atr.atr->string, adv.aatrs, adv.atrs);
+	atr = findAttribute(NULL, exp->fields.atr.atr);
 	if (atr == NULL) {		/* attribute not found globally */
 	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "ACTOR");
 	  exp->typ = TYPUNK;
@@ -195,7 +195,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
       break;
 
     case WHT_LOC:
-      atr = findatr(exp->fields.atr.atr->string, adv.latrs, adv.atrs);
+      atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "LOCATION");
 	exp->typ = TYPUNK;
@@ -208,7 +208,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
     case WHT_OBJ:
       if (pars == NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
-      atr = findatr(exp->fields.atr.atr->string, adv.oatrs, adv.atrs);
+      atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "OBJECT");
 	exp->typ = TYPUNK;
@@ -256,7 +256,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
 #endif
 	if (atr == NULL) {	/* Attribute not found locally */
 	  /* Try general default attributes */
-	  if ((atr = findatr(exp->fields.atr.atr->string, adv.atrs, NULL)) == NULL) {
+	  if ((atr = findAttribute(NULL, exp->fields.atr.atr)) == NULL) {
 	    /* Still didn't find it */
 	    lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
 		  exp->fields.atr.wht->fields.wht.wht->id->string);
@@ -381,7 +381,7 @@ static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
 
   exp->typ = TYPINT;
   if (exp->fields.agr.agr != AGR_COUNT) {
-    atr = findatr(exp->fields.agr.atr->string, adv.oatrs, adv.atrs);
+    atr = findAttribute(NULL, exp->fields.agr.atr);
     if (atr == NULL) {		/* attribute not found globally */
       lmLog(&exp->fields.agr.atr->srcp, 404, sevERR,
 	    "OBJECT in aggregate expression");

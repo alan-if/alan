@@ -454,9 +454,9 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseWrds(header->dict);
-  reverseTable(header->oatrs, sizeof(AtrEntry));
-  reverseTable(header->latrs, sizeof(AtrEntry));
-  reverseTable(header->aatrs, sizeof(AtrEntry));
+  reverseTable(header->oatrs, sizeof(AttributeEntry));
+  reverseTable(header->latrs, sizeof(AttributeEntry));
+  reverseTable(header->aatrs, sizeof(AttributeEntry));
   reverseStxs(header->stxs);
   reverseVerbs(header->vrbs);
   reverseInstances(header->instanceTableAddress);

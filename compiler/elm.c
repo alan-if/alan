@@ -9,19 +9,18 @@
 
 #include "srcp_x.h"
 #include "id_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
+#include "stx.h"
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "stx.h"		/* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
 
 #include "emit.h"
-
 #include "acode.h"
-
 #include "dump.h"
 
 

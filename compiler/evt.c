@@ -10,11 +10,11 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "id_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "opt.h"                /* Options */

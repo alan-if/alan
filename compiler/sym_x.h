@@ -14,6 +14,7 @@
 #include "elm.h"
 #include "lst.h"
 #include "id.h"
+#include "atr.h"
 
 
 /* DATA: */
@@ -28,19 +29,19 @@ extern void redefined(Srcp *srcp,
 		      SymNod *sym,
 		      char str[]);
 
+/* Initialise the symbol table with predefined classes etc. */
+extern void initSymbols();
+
 /* Create a new symbol node */
 extern SymNod *newsym(char str[],
 		      SymbolKind kind);
-
-/* Initialise the symbol table with predefined classes etc. */
-extern void initSymbols();
 
 /* Check if an Id exists and if so if of an allowed kind in this context */
 extern SymNod *symcheck(	/* OUT - Found symbol */
     ElmNod **elm,		/* OUT - Found parameter  */
     IdNode *id,			/* IN - The id to check */
     SymbolKind kind,		/* IN - Allowed symbol kind */
-    List *pars			/* IN - Possible parameters valid in this context */
+    List *pars			/* IN - Possible parameters in this context */
     );
 
 /* Lookup a symbol */
@@ -51,4 +52,8 @@ extern void setParent(SymNod *child, SymNod *parent);
 extern SymNod *parentOf(SymNod *child);
 extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
+
+extern void numberAllAttributes(void);
+extern void replicateInheritedAttributes(SymNod *sym);
+
 #endif

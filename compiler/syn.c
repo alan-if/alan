@@ -9,11 +9,11 @@
 #include "util.h"
 
 #include "srcp_x.h"
-#include "lmList.h"
+#include "lst_x.h"
 
+#include "lmList.h"
 #include "acode.h"
 
-#include "lst.h"		/* LST-node */
 #include "adv.h"		/* ADV-node */
 #include "id_x.h"
 #include "syn.h"		/* SYN-nodes */

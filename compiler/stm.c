@@ -12,13 +12,13 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "whr_x.h"
+#include "atr_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-node */
-#include "lst.h"                /* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
-#include "atr.h"                /* ATR-nodes */
 #include "wht.h"                /* WHT-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "scr.h"                /* SCR-nodes */
@@ -234,7 +234,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.make.atr->string, adv.aatrs, adv.atrs);
+      atr = findAttribute(NULL, stm->fields.make.atr);
       if (atr == NULL)          /* Attribute not found globally */
         lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -242,7 +242,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.make.atr->string, adv.latrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.make.atr);
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -251,7 +251,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.make.atr->string, adv.oatrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.make.atr);
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
     else
@@ -310,7 +310,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.set.atr->string, adv.aatrs, adv.atrs);
+      atr = findAttribute(NULL, stm->fields.set.atr);
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -318,7 +318,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.set.atr->string, adv.latrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.set.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -327,7 +327,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.set.atr->string, adv.oatrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.set.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
     else
@@ -393,7 +393,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     if (evt != NULL)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.incr.atr->string, adv.aatrs, adv.atrs);
+      atr = findAttribute(NULL, stm->fields.incr.atr);
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -401,7 +401,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.incr.atr->string, adv.latrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -410,7 +410,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.incr.atr->string, adv.oatrs, adv.atrs);
+    atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
     else

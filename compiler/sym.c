@@ -14,15 +14,16 @@
 
 #include "srcp_x.h"
 #include "cla_x.h"
-
+#include "id_x.h"
+#include "atr_x.h"
 
 int classCount = 0;
 int instanceCount = 0;
 int directionCount = 0;
+int attributeCount = 0;
 
 
-static SymNod *symtree = NULL;
-
+static SymNod *symTree = NULL;
 
 
 /*======================================================================
@@ -70,27 +71,27 @@ static void insertSymbol(SymNod *symbol)
   SymNod *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  symbol->low = NULL;
-  symbol->high = NULL;
+  symbol->lower = NULL;
+  symbol->higher = NULL;
 
-  s1 = symtree;
+  s1 = symTree;
   s2 = NULL;
   
   while (s1 != NULL) {
     s2 = s1;
     comp = strcmp(symbol->string, s1->string);
     if (comp < 0)
-      s1 = s1->low;
+      s1 = s1->lower;
     else
-      s1 = s1->high;
+      s1 = s1->higher;
   }
   
   if (s2 == NULL)
-    symtree = symbol;
+    symTree = symbol;
   else if(comp < 0)
-    s2->low = symbol;
+    s2->lower = symbol;
   else
-    s2->high = symbol;
+    s2->higher = symbol;
 }
 
 
@@ -118,7 +119,7 @@ static char *symbolKind(SymbolKind kind)
 
   newsym()
 
-  Creates a new symnod and links it in the symtree.
+  Creates a new symnod and links it in the symTree.
 
   */
 SymNod *newsym(char *string,	/* IN - Name of the new symbol */
@@ -139,11 +140,11 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   switch (kind) {
   case CLASS_SYMBOL:
     new->code = ++classCount;
-    new->fields.cla.parent = NULL;
+    new->fields.claOrIns.parent = NULL;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
-    new->fields.ins.parent = NULL;
+    new->fields.claOrIns.parent = NULL;
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
@@ -165,9 +166,10 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   */
 void initSymbols()
 {
-  symtree = NULL;
+  symTree = NULL;
   instanceCount = 0;
   classCount = 0;
+  attributeCount = 0;
 }
 
 
@@ -185,7 +187,7 @@ SymNod *lookup(char *idString)	/* IN - The Id to look up */
 
   if (idString == NULL) return(NULL);
 
-  s1 = symtree;
+  s1 = symTree;
   s2 = NULL;
 
   while (s1 != NULL) {
@@ -194,9 +196,9 @@ SymNod *lookup(char *idString)	/* IN - The Id to look up */
     if (comp == 0)
       return(s1);
     else if (comp < 0)
-      s1 = s1->low;
+      s1 = s1->lower;
     else
-      s1 = s1->high;
+      s1 = s1->higher;
   }
 
   return(NULL);
@@ -213,7 +215,7 @@ void setParent(SymNod *child, SymNod *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in setParent()");
-  child->fields.cla.parent = parent;
+  child->fields.claOrIns.parent = parent;
 }
 
 
@@ -228,7 +230,7 @@ SymNod *parentOf(SymNod *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
     syserr("Not a CLASS or INSTANCE in parentOf()");
-  return child->fields.cla.parent;
+  return child->fields.claOrIns.parent;
 }
 
 
@@ -251,7 +253,7 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 
   p = child;			/* To be the class itself is OK */
   while (p && p != ancestor)
-    p = p->fields.cla.parent;
+    p = p->fields.claOrIns.parent;
 
   return (p != NULL);
 }
@@ -298,3 +300,127 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
   if (!inheritsFrom(id->symbol, theClassSymbol))
     lmLogv(&id->srcp, 351, sevERR, classOrInstance, "location", NULL);
 }
+
+
+
+/*----------------------------------------------------------------------
+
+  definingSymbolOfAttribute()
+
+  Find the symbol which defines an attribute by traversing its parents.
+
+*/
+static SymNod *definingSymbolOfAttribute(SymNod *symbol, IdNode *id)
+{
+  AtrNod *foundAttribute;
+
+  if (symbol == NULL)
+    return NULL;
+
+  if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
+    return NULL;
+
+  if ((foundAttribute = findAttribute(symbol->fields.claOrIns.attributes, id)) == NULL)
+    return definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
+  else
+    return symbol;
+}
+
+
+
+/*======================================================================
+
+  findInheritedAttribute()
+
+  From a symbol traverse its inheritance tree to find a named attribute.
+
+*/
+AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
+{
+  SymNod *definingSymbol =
+    definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
+
+  if (definingSymbol == NULL) return NULL;
+
+  return findAttribute(definingSymbol->fields.claOrIns.attributes, id);
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  numberAttributesRecursively()
+
+  Recurse the parent to number its attributes.
+  Number all attributes in the symbol (if it is a class or an instance);
+*/
+
+static void numberAttributesRecursively(SymNod *symbol)
+{
+  List *theList;
+  SymNod *definingSymbol;
+  AtrNod *inheritedAttribute;
+
+  if (symbol == NULL) return;
+  if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
+    return;			/* Only a class or instance have attributes */
+  if (!symbol->fields.claOrIns.attributesAlreadyNumbered) {
+    /* We have attributes that are not numbered already */
+    if (symbol->fields.claOrIns.parent != NULL)
+      numberAttributesRecursively(symbol->fields.claOrIns.parent);
+  
+    for (theList = symbol->fields.claOrIns.attributes; theList != NULL;
+	 theList = theList->next){
+      inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
+      if (inheritedAttribute != NULL) {
+	if (!eqtyp(inheritedAttribute->typ, theList->element.atr->typ)) {
+	  definingSymbol = definingSymbolOfAttribute(symbol, theList->element.atr->id);
+	  lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
+	}
+	theList->element.atr->code = inheritedAttribute->code;
+      } else
+	theList->element.atr->code = ++attributeCount;
+    }
+    symbol->fields.claOrIns.attributesAlreadyNumbered = TRUE;
+
+    /* Recurse in the symTree */
+    if (symbol->lower != NULL) numberAttributesRecursively(symbol->lower);
+    if (symbol->higher != NULL) numberAttributesRecursively(symbol->higher);
+  }
+}
+
+
+
+/*======================================================================
+
+  numberAllAttributes()
+
+  Traverse all classes and instances in the symbol table and give all
+  attributes unique numbers. Start by recursing through the
+  parents. Remember where we have been by looking at the code which is
+  might already have been set.
+
+*/
+void numberAllAttributes(void)
+{
+  numberAttributesRecursively(symTree);
+}
+
+
+/*======================================================================
+
+  replicateInheritedAttributes()
+
+  Traverse the heritage of the symbol and replicate all inherited
+  attributes that are not locally redefined, thus creating a complete
+  list of all attributes that this symbol has.
+
+  We will mark a completed symbol with "complete" so that we can use
+  it directly if we encounter it later instead of redoing it.
+
+*/
+void replicateInheritedAttributes(SymNod *symbol)
+{
+}
+
+

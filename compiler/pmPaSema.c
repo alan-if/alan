@@ -24,6 +24,7 @@
 #include "slt_x.h"
 #include "ext_x.h"
 #include "atr_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
@@ -35,7 +36,6 @@
 #include "evt.h"                /* EVT-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "lim.h"		/* LIM-nodes */
-#include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */
 #include "rul.h"                /* RUL-nodes */

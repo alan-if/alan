@@ -9,9 +9,10 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "lst_x.h"
+
 #include "lmList.h"
 
-#include "lst.h"		/* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */

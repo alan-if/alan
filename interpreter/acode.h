@@ -181,6 +181,12 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr verbs;			/* Address of local verb list */
 } InstanceEntry;
 
+typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
+  Aint code;			/* Its code */
+  Aword value;			/* Its value */
+  Aaddr stringAddress;		/* Address to the name */
+} AttributeEntry;
+
 typedef struct ExitEntry {	/* EXIT TABLE structure */
   Abool done;			/* Flag for reverse/convert process */
   Aword code;			/* Direction code */

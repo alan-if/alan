@@ -26,6 +26,7 @@
 #include "ext_x.h"
 #include "id_x.h"
 #include "atr_x.h"
+#include "lst_x.h"
 
 
 /*======================================================================
@@ -182,6 +183,8 @@ void generateSlotsData(SlotsNode *slots)
 {
   slots->idAddress = emadr();
   emitstr(slots->id->string);
+
+  slots->attributeAddress = generateAttributes(slots->attributes);
 
   if (slots->description != NULL) {
     slots->descriptionAddress = emadr();

@@ -10,10 +10,12 @@
 
 #include "srcp_x.h"
 #include "atr_x.h"
+#include "lst_x.h"
+#include "sym_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
@@ -80,7 +82,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   if (strcmp(atr->id->string, "count") == 0)
     atr->id->symbol->code = 0;		/* Use zero for the COUNT attribute */
   else {
-    a = findatr(atr->id->string, adv.oatrs, adv.atrs);
+    a = findAttribute(NULL, atr->id);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->typ != TYPINT)
@@ -125,7 +127,7 @@ static void gelim(LimNod *lim,	/* IN - The limit */
 static void geliment(LimNod *lim) /* IN - The limit to generate for */
 {
   emit(lim->atr->id->symbol->code);
-  emit(lim->atr->val);
+  emit(lim->atr->value);
   emit(lim->stmadr);
 }
 

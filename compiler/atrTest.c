@@ -20,6 +20,33 @@ void testMultipleAtr()
   unitAssert(readEcode() == 218 && readSev() == sevERR);
 }
 
+
+void testFindInList()
+{
+  List *attributes = NULL;
+  IdNode *id = newId(&nulsrcp, "theAttribute");
+  AtrNod *theAttribute = newatr(&nulsrcp, TYPBOOL, id, 0, 0, 0);
+  AtrNod *anotherAttribute = newatr(&nulsrcp, TYPBOOL,
+				    newId(&nulsrcp, "another"),
+				    0, 0, 0);
+
+  /* Test empty list */
+  unitAssert(findAttribute(attributes, id) == NULL);
+
+  /* Test one element */
+  attributes = concat(attributes, theAttribute, LIST_ATR);
+  unitAssert(findAttribute(attributes, id) == theAttribute);
+
+  /* Test last element */
+  attributes = combine(concat(NULL, anotherAttribute, LIST_ATR), attributes);
+  attributes = combine(concat(NULL, anotherAttribute, LIST_ATR), attributes);
+  unitAssert(findAttribute(attributes, id) == theAttribute);
+
+  /* Test in the middle */
+  attributes = concat(attributes, anotherAttribute, LIST_ATR);
+  unitAssert(findAttribute(attributes, id) == theAttribute);
+}
+
 static ClaNod *createClass(char string[], List *attributes)
 {
   SlotsNode *slots = newEmptySlots();
@@ -28,6 +55,16 @@ static ClaNod *createClass(char string[], List *attributes)
   slots->attributes = attributes;
   theClass = newcla(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
   return theClass;
+}
+
+static InsNod *createInstance(char string[], List *attributes)
+{
+  SlotsNode *slots = newEmptySlots();
+  InsNod *theInstance;
+
+  slots->attributes = attributes;
+  theInstance = newInstance(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
+  return theInstance;
 }
 
 static List *create2Attributes(char firstString[], char secondString[])
@@ -39,28 +76,116 @@ static List *create2Attributes(char firstString[], char secondString[])
   return theList;
 }
 
+static int firstAttributeCode(SlotsNode *slots)
+{
+  return slots->symbol->fields.claOrIns.attributes->element.atr->code;
+}
+
+static int secondAttributeCode(SlotsNode *slots)
+{
+  return slots->symbol->fields.claOrIns.attributes->next->element.atr->code;
+}
+
+static InsNod *firstInstance, *secondInstance;
+
 void testAttributeListsInSymbolTable()
 {
   ClaNod *firstClass, *secondClass;
-  List *firstAttributeList, *secondAttributeList;
-  SymNod *firstClassSymbol, *secondClassSymbol;
+  List *firstClassAttributes, *secondClassAttributes, *firstInstanceAttributes, *secondInstanceAttributes;
+  SymNod *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
+  int x, y, z;
 
-  firstAttributeList = create2Attributes("attribute11", "attribute12");
-  secondAttributeList = create2Attributes("attribute21", "attribute22");
+  initadv();
+  firstClassAttributes = create2Attributes("attribute1", "attribute12");
+  secondClassAttributes = create2Attributes("attribute1", "attribute22");
 
-  firstClass = createClass("firstClass", firstAttributeList);
-  secondClass = createClass("secondClass", secondAttributeList);
+  firstClass = createClass("firstClass", firstClassAttributes);
+  secondClass = createClass("secondClass", secondClassAttributes);
 
   firstClassSymbol = lookup("firstClass");
-  unitAssert(firstClassSymbol->fields.cla.attributes == firstAttributeList);
+  unitAssert(firstClassSymbol->fields.claOrIns.attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
-  unitAssert(secondClassSymbol->fields.cla.attributes == secondAttributeList);
+  unitAssert(secondClassSymbol->fields.claOrIns.attributes == secondClassAttributes);
+  
+  firstInstanceAttributes = create2Attributes("attribute11", "attribute12");
+  secondInstanceAttributes = create2Attributes("attribute1", "attribute22");
+
+  firstInstance = createInstance("firstInstance", firstInstanceAttributes);
+  secondInstance = createInstance("secondInstance", secondInstanceAttributes);
+
+  firstInstanceSymbol = lookup("firstInstance");
+  unitAssert(firstInstanceSymbol->fields.claOrIns.attributes == firstInstanceAttributes);
+  secondInstanceSymbol = lookup("secondInstance");
+  unitAssert(secondInstanceSymbol->fields.claOrIns.attributes == secondInstanceAttributes);
+
+  /* Now set up a class hierarchy:
+  location
+     !
+     fC = a1 + a12
+     !
+     sC = a1 + a22------+
+     !                  !
+     fI = a11 + a12	sI = a1 + a22
+  */
+  setParent(firstClassSymbol, location->slots->symbol);
+  setParent(secondClassSymbol, firstClassSymbol);
+  setParent(firstInstanceSymbol, firstClassSymbol);
+  setParent(secondInstanceSymbol, secondClassSymbol);
+
+  numberAllAttributes();
+
+  unitAssert(firstClassAttributes->element.atr->code != 0);
+  unitAssert(firstClassAttributes->next->element.atr->code != 0);
+  unitAssert(secondClassAttributes->element.atr->code != 0);
+  unitAssert(secondClassAttributes->next->element.atr->code != 0);
+  unitAssert(firstInstanceAttributes->element.atr->code != 0);
+  unitAssert(firstInstanceAttributes->next->element.atr->code != 0);
+  unitAssert(secondInstanceAttributes->element.atr->code != 0);
+  unitAssert(secondInstanceAttributes->next->element.atr->code != 0);
+
+  unitAssert(firstAttributeCode(firstClass->slots) != secondAttributeCode(firstClass->slots));
+  unitAssert(firstAttributeCode(secondClass->slots) != secondAttributeCode(secondClass->slots));
+  unitAssert(firstAttributeCode(firstInstance->slots) != secondAttributeCode(firstInstance->slots));
+  unitAssert(firstAttributeCode(secondInstance->slots) != secondAttributeCode(secondInstance->slots));
+
+  x = firstAttributeCode(firstClass->slots);
+  unitAssert(firstAttributeCode(secondClass->slots) == x);
+  unitAssert(firstAttributeCode(secondInstance->slots) == x);
+
+  y = secondAttributeCode(firstClass->slots);
+  unitAssert(secondAttributeCode(firstInstance->slots) == y);
+
+  z = secondAttributeCode(secondClass->slots);
+  unitAssert(secondAttributeCode(secondClass->slots) == z);
 }
 
+
+void testGenerateAttributes()
+{
+  int attributeEntrySize = ACDsizeOf(AttributeEntry);
+  int address;
+
+  initEmit("unit.acd");
+
+  /* firstInstance has
+     1 local attribute
+     1 inherited atribute which is locally redefined
+     1 inherited
+     = 3
+     But without analysis where we link in all inherited attributes we will
+     only generate 2.
+  */
+  address = generateAttributes(firstInstance->slots->attributes);
+  unitAssert(emadr() == address + 2*attributeEntrySize + 1);
+
+  /* After analysis we should find all three */
+  replicateInheritedAttributes(firstInstance->slots->symbol);
+}
 
 void registerAtrUnitTests()
 {
   registerUnitTest(testMultipleAtr);
   registerUnitTest(testAttributeListsInSymbolTable);
+  registerUnitTest(testGenerateAttributes);
 }
 

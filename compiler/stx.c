@@ -12,11 +12,11 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "res_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-nodes */
-#include "lst.h"                /* LST-nodes */
 #include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */

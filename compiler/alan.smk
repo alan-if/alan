@@ -35,7 +35,7 @@
 #include "sysdep.h"
 #include "types.h"
 
-#include "lst.h"
+#include "lst_x.h"
 
 extern smScContext lexContext;
 

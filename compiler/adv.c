@@ -15,9 +15,9 @@
 #include "whr_x.h"
 #include "ins_x.h"
 #include "cla_x.h"
+#include "lst_x.h"
 
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "vrb.h"		/* VRB-nodes */
 #include "ext.h"		/* EXT-nodes */

@@ -10,11 +10,11 @@
 
 #include "srcp_x.h"
 #include "id_x.h"
-#include "lmList.h"
+#include "lst_x.h"
 
+#include "lmList.h"
 #include "acode.h"
 
-#include "lst.h"                /* LST-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "scr.h"                /* SCR-nodes */
