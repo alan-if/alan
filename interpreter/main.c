@@ -320,7 +320,7 @@ void logPrint(char string[])
 #endif
 
   printf(string);
-  if (!onStatusLine && (transcriptOption||logOption)) {
+  if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
     if (strlen(string) > 70-column) {
       stringCopy = strdup(string);	/* Make sure we can write NULLs */

@@ -61,8 +61,11 @@ Boolean readline(char buffer[])
     if (glk_get_line_stream(commandFile, buffer, 255) == 0) {
       glk_stream_close(commandFile, NULL);
       readingCommands = FALSE;
-    } else
+    } else {
+      glk_set_style(style_Input);
       printf(buffer);
+      glk_set_style(style_Normal);
+    }
   } else {
     glk_request_line_event(glkMainWin, buffer, 255, 0);
     /* FIXME: buffer size should be infallible: all existing calls use 256 or
@@ -99,6 +102,16 @@ Boolean readline(char buffer[])
 	    printf("> ");
 	    break;
 	  case ID_MENU_RECORD:
+	    if (transcriptOption || logOption) {
+	      glk_stream_close(logFile, NULL);
+	      transcriptOption = FALSE;
+	      logOption = FALSE;
+	    }
+	    logFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Write, 0);
+	    if (logFileRef == NULL) break;
+	    logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+	    if (logFile != NULL)
+	      logOption = TRUE;
 	    break;
 	  case ID_MENU_PLAYBACK:
 	    commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
@@ -140,7 +153,9 @@ Boolean readline(char buffer[])
       if (commandFile != NULL)
 	if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
 	  readingCommands = TRUE;
+	  glk_set_style(style_Input);
 	  printf(buffer);
+	  glk_set_style(style_Normal);
 	}
     } else
       buffer[event.val1] = 0;
