@@ -84,7 +84,6 @@ debug all: alan
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-#alan: smart $(OBJECTS) version.o $(MAINOBJ) Makefile
 alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile
 	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp alan.prod ..
@@ -100,32 +99,29 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	pmk $(PMKQ) alan
 	@touch .pmkstamp
 
-.smkstamp : .pmkstamp alan.smk alan.smk $(TMHOME)/lib/ansi-c/Scan.imp
+.smkstamp : .pmkstamp alan.smk $(TMHOME)/lib/ansi-c/Scan.imp
 	smk $(SMKQ) alan
 	@touch .smkstamp
 
-smart: alan.tmk alan.pmk alan.smk alan.lmk $(TMHOME)/lib/ansi-c/*.imp
-	smartMaker -v alan
-
-malloc: smart $(OBJECTS) version.o $(MAINOBJ)
+malloc: tm $(OBJECTS) version.o $(MAINOBJ)
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
 	$(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	-rm alan.o
 
-purify: smart $(OBJECTS) version.o alan.o
+purify: tm $(OBJECTS) version.o alan.o
 	purify -handle-signals $(CC) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
 
 NONANSI:
 	mv alan.tmk alan.tmk.ansi
 	sed -e s/ansi-c/c/ alan.tmk.ansi > alan.tmk
-	make smart
+	make tm
 	mv -f alan.tmk.ansi alan.tmk
 
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
 	mv alan.tmk alan.tmk.sun
 	sed s/SunOS/MSDOS/ alan.tmk.sun > alan.tmk
-	make smart
+	make tm
 	sed $(DOSSUBS) alan.c > ALAN.C
 	sed $(DOSSUBS) pmErr.c > PMERR.C
 	sed $(DOSSUBS) pmErr.h > PMERR.H
@@ -166,7 +162,8 @@ archives:
 	zip -k compiler.zip *.[ch] Makefile.cmd
 	make MSDOS
 	zip -k -m compiler.zip *.C *.H
-	make smart
+	touch alan.tmk
+	make tm
 
 #--
 CLEAN: clean
