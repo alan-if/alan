@@ -8,7 +8,7 @@ TMLIB	= $(TMHOME)/lib/ansi-c
 
 
 CC = $(GCC) -ansi -pedantic -Wall
-CFLAGS	= $(DEBUG)
+CFLAGS	= $(DEBUG) $(INCLUDE)
 
 tcov := CC = acc -a
 tcov := LD = acc -a
@@ -16,6 +16,8 @@ tcov := LD = acc -a
 LD	= $(GCC) $(DEBUG)
 
 sun4:= LDFLAGS	= -L/usr/local/lib/4.1.2
+sun4:= INCLUDE = -I/usr/local/include/ansi
+solaris1:= INCLUDE = -I/usr/local/include/ansi
 
 
 EXTRAS = \
@@ -92,7 +94,7 @@ debug tcov release all: objarch alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
-sun3 solaris2 hp: objarch fromsrc
+sun4 sun3 solaris2 hp: objarch fromsrc
 
 objarch:
 	if test -f .arch; then :; else echo "none" > .arch; fi
