@@ -153,7 +153,7 @@ void analyzeContainer(Container *theContainer, Context *context)
   if (!theContainer->body->analyzed) {
     /* Analyze the limits */
     for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-      anlim(lims->element.lim);
+      analyzeLimit(lims->element.lim);
 
     /* Analyze header and empty statments */
     analyzeStatements(theContainer->body->hstms, context);

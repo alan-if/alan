@@ -78,7 +78,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
   for (ids = theVerb->ids; ids; ids = ids->next) {
     stx = NULL;
     for (lst = adv.stxs; lst; lst = lst->next) {
-      if (lst->element.stx->id->symbol != NULL)
+      if (lst->element.stx->id->symbol != NULL && ids->element.id->symbol != NULL)
 	if (lst->element.stx->id->symbol->code == ids->element.id->symbol->code) {
 	  stx = lst->element.stx;
 	  break;

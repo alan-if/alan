@@ -61,18 +61,14 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 
 
 
-
-/*======================================================================
-
-  anlim()
-
-  Analyze one limit. The attributes that defines the limits must be
-  attributes for all THINGS beacuse we must be able to check them at run-time.
-  The predefined attribute COUNT is also allowed.
-
-  */
-void anlim(LimNod *lim)		/* IN - The container to analyze */
+/*======================================================================*/
+void analyzeLimit(LimNod *lim)
 {
+  /* Analyze one limit. The attributes that defines the limits must be
+     attributes for all THINGS beacuse we must be able to check them
+     at run-time.  The predefined attribute COUNT is also allowed.
+  */
+
   Attribute *atr, *a;		/* Attribute nodes */
 
   showProgress();
@@ -80,9 +76,9 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   /* Analyze the attribute */
   atr = lim->atr;
   if (strcmp(atr->id->string, "count") == 0)
-    atr->id->code = I_COUNT;		/* Use instruction code for COUNT meta attribute */
+    atr->id->code = I_COUNT;	/* Use instruction code for COUNT meta attribute */
   else {
-    a = findAttribute(thingSymbol->fields.entity.props->attributes, atr->id);
+    a = findAttribute(objectSymbol->fields.entity.props->attributes, atr->id);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->type != INTEGER_TYPE)

@@ -164,13 +164,14 @@ static lmMsgs msg[] = {
     { "352   ", "Instance \'%1\' does not inherit from \'location\', but has EXITs, which can never be traversed." },
     { "353   ", "Instance \'%1\' does not inherit from \'actor\', but has SCRIPTs, which can never be executed." },
     { "354   ", "Instance \'%1\' inherits from \'location\', but has CONTAINER properties, which is dubious in use." },
+    { "355   ", "Instance \'%1\' does not inherit from \'location\', but has ENTERED statements which is not allowed." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "405   ", "Instances inheriting from Location can not have initial locations." },
     { "406   ", "Integer and String parameters have no attributes." },
-    { "407   ", "Attribute in LIMITS must be an attribute for every THING." },
+    { "407   ", "Attribute in LIMITS must be an attribute for every OBJECT." },
     { "408   ", "Attributes in %1 must be of boolean type." },
     { "409   ", "No parameters defined in this context." },
     { "410   ", "A parameter may not be used in %1." },
@@ -209,7 +210,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 129}
+    {0, 130}
 };
 static lmMessages currMsect = (lmMessages)0;
 

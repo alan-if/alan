@@ -682,14 +682,15 @@ static void locateObject(Aword obj, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
-static void locateActor(Aword act, Aword whr)
+static void locateActor(Aword movingActor, Aword whr)
 {
-  Aword prevloc = current.location;
+  Aword previousLocation = current.location;
+  Aword previousActor = current.actor;
 
   current.location = whr;
-  admin[act].location = whr;
-  if (act == HERO) {
-    if (admin[admin[act].location].visitsCount % (current.visits+1) == 0)
+  admin[movingActor].location = whr;
+  if (movingActor == HERO) {
+    if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -703,16 +704,14 @@ static void locateActor(Aword act, Aword whr)
     admin[where(HERO)].visitsCount %= (current.visits+1);
   } else
     admin[whr].visitsCount = 0;
-#ifdef IMPLEMENTED_DOES
-  if (instance[cur.loc].does != 0) {
-    cur.act = act;
-    interpret(instance[cur.loc].does);
-    cur.act = prevact;
+  if (instance[current.location].entered != 0) {
+    current.actor = movingActor;
+    interpret(instance[current.location].entered);
+    current.actor = previousActor;
   }
-#endif
 
-  if (current.actor != act)
-    current.location = prevloc;
+  if (current.actor != movingActor)
+    current.location = previousLocation;
 }
 
 

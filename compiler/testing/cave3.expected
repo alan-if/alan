@@ -1,0 +1,1104 @@
+########## alan cave3 ##########
+
+
+cave3.alan
+
+   29.    leave, out, outside = exit.
+=====>                          1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+                "Identifier ('<generated identifier #1>')".
+  *1*   321 W : Synonym target word '<generated identifier #1>' not defined.
+
+   90.    mv_exit =  exit.
+=====>               1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+                "Identifier ('<generated identifier #2>')".
+
+  178.    itav_fum =  fum.
+=====>    1
+
+  *1*   207 E : VERB 'itav_fum' is not defined.
+
+  406.      Make hero quitting.1.
+=====>                         1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+  445.      Set status Of foobar To 1.1.
+=====>                                1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+  454.        Increase status Of foobar.1.
+=====>                                  1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+  467.        Increase status Of foobar.1.
+=====>                                  1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+  479.      If status Of foobar =3 Then.
+=====>                                 1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'QUIT'" before
+                this symbol.
+
+  484.          "Done!$n"At obj_56_eggs0.At loc_920.
+=====>                   1               2
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'END' 'IF' '.'
+                'END' 'IF' ..." before this symbol.
+  *2*   102 E : Syntax error. Attempting to repair by ignoring "'AT' Identifier
+                '.' 'END'".
+
+  485.        End If.
+=====>              1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+                "Integer 'THEN' STRING".
+
+  490.  End Verb.
+=====>  1       2
+
+  *1*   104 E : Severe syntax error, construct ignored.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+                "Identifier ('<generated identifier #3>') 'END'".
+
+  493.    Check status Of foobar >0
+=====>    1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  518.  Verb tav_calm
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  523.  Verb tav_quit, tav_score, tav_suspend, tav_hours, tav_log
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  528.  Verb tav_foo
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  533.  Verb tav_walk
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  538.  Verb tav_brief
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  543.  Verb tav_take
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  558.  Verb tav_drop
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  567.  Verb tav_open
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  579.  Verb tav_lock
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  591.  Verb tav_say
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  597.  Verb tav_nothing
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  602.  Verb tav_on
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  607.  Verb tav_off
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  612.  Verb tav_wave
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  617.  Verb tav_kill
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  622.  Verb tav_pour
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  661.  Verb tav_eat
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  666.  Verb tav_drink
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  671.  Verb tav_rub
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  676.  Verb tav_throw
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  685.  Verb tav_feed
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  690.  Verb tav_inventory
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  695.  Verb tav_find
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  710.  Verb tav_fill
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  715.  Verb tav_read
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  720.  Verb tav_blast
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  744.  Verb tav_break
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+  749.  Verb tav_wake
+=====>  1
+
+  *1*   219 E : Global verbs can not have parameters.
+
+ 1041.            If obj_0_cave Is closing ThenAt hero0.
+=====>                                     1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                Identifier '.'" by "'THEN' STRING".
+
+ 1274.          Else At hero0.
+=====>               1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero0' not defined.
+
+ 1703.          Make hero killing.1.
+=====>                            1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+ 1736.          Make hero killing.1.
+=====>                            1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+
+ 1891.          "You put one arm around the bear's neck."Here1.
+=====>                                                   1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+  *1*   310 E : Identifier 'here1' not defined.
+
+ 1903.          End If..
+=====>                 1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'QUIT'" before
+                this symbol.
+
+ 1923.      Name message
+=====>           1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'MESSAGE'" by
+                "Identifier ('<generated identifier #4>')".
+
+ 2461.        Script s1
+=====>        1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #5>') '.'" before this symbol.
+  *1*   400 E : Script not defined for Actor 'pirate'.
+
+ 2494.        End The pirate.
+=====>        1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #6>') '.'" before this symbol.
+  *1*   400 E : Script not defined for Actor 'pirate'.
+
+ 2501.          End If.At hero1.
+=====>                 1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero1' not defined.
+
+ 2514.           them throw knives at you!  All of them get you!"Here0.
+=====>                                                           1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+  *1*   310 E : Identifier 'here0' not defined.
+
+ 2521.          If hero Not Here ThenAt hero0.
+=====>                           1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                Identifier '.'" by "'THEN' STRING".
+
+ 2522.          Else Here1.
+=====>               1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+  *1*   310 E : Identifier 'here1' not defined.
+
+ 2526.          Describe obj_35_bear.Here1.
+=====>                               1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+  *1*   310 E : Identifier 'here1' not defined.
+
+ 2538.          Locate hero At loc_117.Here0.
+=====>                                 1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'SAY'" before
+                this symbol.
+  *1*   310 E : Identifier 'here0' not defined.
+
+ 2676.          If obj_50_nugget Here Or obj_51_diamonds Here Or obj_52_bars He
+        re Or obj_53_jewelry Here Or obj_54_coins Here Or obj_55_chest Here Or 
+        obj_56_eggs Here Or obj_57_trident Here Or obj_58_vase Here Or obj_59_e
+        merald Here Or obj_60_pyramid Here Or obj_61_pearl Here Or obj_62_rug H
+        ere Or obj_63_spices Here Or obj_64_chain Here ThenAt hero0.
+=====>                                                                         
+                                                                               
+                                                                               
+                                                                               
+                                                       1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                Identifier '.'" by "'THEN' STRING".
+
+ 2680.          At obj_2_lamp0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'obj_2_lamp0' not defined.
+
+ 2685.          At obj_2_lamp0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'obj_2_lamp0' not defined.
+
+ 2687.          At obj_2_lamp0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'obj_2_lamp0' not defined.
+
+ 2693.          At hero0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero0' not defined.
+
+ 2695.          At hero0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero0' not defined.
+
+ 2697.          At hero0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero0' not defined.
+
+ 2699.          At hero0.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero0' not defined.
+
+ 2704.          ..
+=====>          1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+                "'QUIT'".
+
+ 2706.          Use Script For pirate
+=====>                     1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #7>')" before this symbol.
+  *1*   400 E : Script not defined for Actor 'pirate'.
+
+ 2708.        The nowhere Isa location
+=====>        1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'.'" before
+                this symbol.
+
+ 2711.        End The nowhere.
+=====>        1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #8>')" before this symbol.
+
+ 2714.          Name In the dark
+=====>               1  2   3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #9>')" before this symbol.
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   102 E : Syntax error. Attempting to repair by ignoring "'THE'".
+  *3*   310 E : Identifier 'dark' not defined.
+  *3*   310 E : Identifier 'dark' not defined.
+
+ 2761.          Description
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #10>')" before this symbol.
+
+ 2775.          Name End of road
+=====>               1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'END'".
+
+ 2818.          Name Hill in road
+=====>                    1  2
+
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   310 E : Identifier 'road' not defined.
+  *2*   310 E : Identifier 'road' not defined.
+
+ 2981.          Name Slit in streambead
+=====>                    1  2
+
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   310 E : Identifier 'streambead' not defined.
+  *2*   310 E : Identifier 'streambead' not defined.
+
+ 3070.          Name Below the grate
+=====>                     1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'THE'".
+
+ 3216.          Name Sloping E/W canyon
+=====>                        1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 3410.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3476.          Name Hall of Mt. King
+=====>                           1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
+                this symbol.
+  *1*   310 E : Identifier 'king' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+
+ 3553.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3565.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3577.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3582.          Name West end of twopit room
+=====>                        1  2      3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_23' assumed.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   352 E : Instance 'room' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
+
+ 3612.        End The loc_23.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'room' assumed.
+
+ 3667.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3717.          Name Hole in N/S passage
+=====>                    1  23
+
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   319 E : Identifier 'n' is not an instance.
+  *3*   103 E : Syntax error. Attempting to repair by replacing "'/'" by
+                "'NAME'".
+
+ 3774.          Name ?
+=====>               1
+
+  *1*   102 F : Syntax error. Attempting to repair by ignoring "Unknown Token".
+
+ 3776.          Is 
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #11>')" before this symbol.
+
+ 3781.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3797.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3994.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 3999.          Name West end of Hall of mists
+=====>                        1  2       3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_41' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'WHEN'" before
+                this symbol.
+  *3*   310 E : Identifier 'mists' not defined.
+
+ 4001.          Description
+=====>          1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'DESCRIPTION'"
+                by "'=>'".
+
+ 4006.          Exit s, u To loc_42.
+=====>          1    2  3 4
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'EXIT'" by
+                "'VERB'".
+  *2*   301 E : 's' already declared as a Direction.
+  *3*   301 E : 'u' already declared as a Direction.
+  *4*   103 E : Syntax error. Attempting to repair by replacing "'TO'
+                Identifier '.' 'EXIT' Identifier ..." by "'END'".
+
+ 4010.          Verb mv_climb, omv_tunnel
+=====>                       1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4012.              Locate hero At loc_42.
+=====>                             1
+
+  *1*   310 E : Identifier 'loc_42' not defined.
+
+ 4015.          Verb mv_crawl
+=====>               1
+
+  *1*   201 W : Multiple declaration of verb 'mv_crawl' in this class/instance.
+                Duplicate in a previous VERB clause.
+
+ 4020.        End The loc_41.
+=====>        1   2   3     4
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'END'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   304 E : 'loc_41' already declared as an Instance (The).
+  *4*   103 E : Syntax error. Attempting to repair by replacing "'.'" by
+                "'END'".
+
+ 4022.        The loc_42 Isa location
+=====>            1      2   3
+
+  *1*   200 W : Mismatched block identifier, 'loc_41' assumed.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "'ISA'" by
+                "'THE'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   305 E : 'location' already declared as a Class (Every).
+  *3*   352 E : Instance 'location' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
+
+ 4031.          Exit n To loc_42.
+=====>                    1
+
+  *1*   310 E : Identifier 'loc_42' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+ 4035.        End The loc_42.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'location' assumed.
+
+ 4047.          Exit w To loc_42.
+=====>                    1
+
+  *1*   310 E : Identifier 'loc_42' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+ 4075.          Exit w To loc_42.
+=====>                    1
+
+  *1*   310 E : Identifier 'loc_42' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+ 4082.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4100.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4118.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4205.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4237.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4275.          Is 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4297.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 4302.          Name East end of long hall
+=====>                        1  2    3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_60' assumed.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
+
+ 4322.        End The loc_60.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'hall' assumed.
+
+ 4325.          Name West end of long hall
+=====>                        1  2    3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_61' assumed.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   304 E : 'hall' already declared as an Instance (The).
+  *3*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
+
+ 4334.        End The loc_61.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'hall' assumed.
+
+ 4352.          Description
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4476.          Name East end of twopit room
+=====>                        1  2      3
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_67' assumed.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *3*   304 E : 'room' already declared as an Instance (The).
+  *3*   352 E : Instance 'room' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
+
+ 4499.        End The loc_67.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'room' assumed.
+
+ 4523.          Name Secret N/S canyon
+=====>                       1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 4548.          Name Secret N/S canyon
+=====>                       1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 4598.          Name Dead end crawl
+=====>                        1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4612.          Name Secret E/W canyon
+=====>                       1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 4629.          Name Wide place in canyon
+=====>                          1  2
+
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   310 E : Identifier 'canyon' not defined.
+  *2*   310 E : Identifier 'canyon' not defined.
+
+ 4648.          Name Tall E/W canyon
+=====>                     1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 4667.          Description
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4682.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 4694.          Exit n To loc_42.
+=====>                    1
+
+  *1*   310 E : Identifier 'loc_42' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+ 4702.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4720.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4760.          Is 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4776.          Has 
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 4838.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 4850.          Does
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'DESCRIPTION'"
+                before this symbol.
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
+
+ 4891.          Name Cave-in
+=====>                   12
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'-'".
+  *2*   405 E : Instances inheriting from Location can not have initial
+                locations.
+
+ 4893.          Description
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #12>')" before this symbol.
+
+ 4905.          Name Immense N/S passage
+=====>                        1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'/'".
+
+ 4931.        The loc_95 Isa location
+=====>            1
+
+  *1*   354 E : Instance 'loc_95' inherits from 'location', but has CONTAINER
+                properties, which is dubious in use.
+
+ 4932.          Name Cavern with waterfall
+=====>                           1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'CONTAINER'".
+
+ 5026.            Check  Count In inventory =0 Or (obj_59_emerald In inventory 
+        And  Count In inventory =1)
+=====>                   1                                                     
+             2
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+
+ 5037.            Check  Count In inventory =0 Or (obj_59_emerald In inventory 
+        And  Count In inventory =1)
+=====>                   1                                                     
+             2
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+
+ 5064.            Check  Count In inventory =0 Or (obj_59_emerald In inventory 
+        And  Count In inventory =1)
+=====>                   1                                                     
+             2
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+
+ 5079.            Check  Count In inventory =0 Or (obj_59_emerald In inventory 
+        And  Count In inventory =1)
+=====>                   1                                                     
+             2
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+
+ 5102.          Name Dark-room
+=====>                   1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'-'".
+
+ 5177.          Name Cul-de-sac
+=====>                  1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'-' Identifier
+                '-' Identifier".
+
+ 5230.          Name Witt's end
+=====>                   1
+
+  *1*   152 E : Unterminated quoted identifier.
+
+ 5367.          Description
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 5374.          Name NE end of repository
+=====>                      1  2
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_115' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'repository' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
+
+ 5394.        End The loc_115.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'repository' assumed.
+
+ 5397.          Name SW end of repository
+=====>                      1  2
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'loc_116' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *2*   304 E : 'repository' already declared as an Instance (The).
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'repository' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
+
+ 5417.        End The loc_116.
+=====>                1
+
+  *1*   200 W : Mismatched block identifier, 'repository' assumed.
+
+ 5546.          At loc_119
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #13>')" before this symbol.
+
+ 5611.          At loc_121
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #14>')" before this symbol.
+
+ 5648.              If obj_35_bear In company ThenHere0.
+=====>                                        1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THEN' STRING".
+
+ 5673.              If obj_35_bear In company ThenHere0.
+=====>                                        1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THEN' STRING".
+
+ 5742.          Name Fork in path
+=====>                    1  2
+
+  *1*   405 E : Instances inheriting from Location can not have initial
+                locations.
+  *2*   310 E : Identifier 'path' not defined.
+  *2*   310 E : Identifier 'path' not defined.
+
+ 5777.        The loc_125 Isa location
+=====>            1
+
+  *1*   354 E : Instance 'loc_125' inherits from 'location', but has CONTAINER
+                properties, which is dubious in use.
+
+ 5778.          Name Junction with warm walls
+=====>                             1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                Identifier" by "'CONTAINER'".
+
+ 5809.          Name Breath-taking view
+=====>                     1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'-'".
+
+ 6140.          Description
+=====>          1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 6152.          At hero1.
+=====>          1  2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'AT'" by
+                "'SAY'".
+  *2*   310 E : Identifier 'hero1' not defined.
+
+ 6153.          Use Script For pirate
+=====>                     1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "Identifier
+                ('<generated identifier #15>')" before this symbol.
+  *1*   400 E : Script not defined for Actor 'pirate'.
+
+ 6154.          Score 30.
+=====>          1
+
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'.'" before
+                this symbol.
+
+
+
+        208 E : 's' is not a VERB.
+        208 E : 'u' is not a VERB.
+
+
+
+
+        320 W : Word 'barren' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'building' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'dark' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'debris' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'east' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'giant' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'gold' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'hall' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'hill' is defined to be both a synonym and another
+                word class.
+        333 E : The word 'inside' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'low' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'on' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'oriental' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'passage' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'plover' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'rock' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 's' belongs to multiple word classes (direction and verb).
+        320 W : Word 'secret' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'shell' belongs to multiple word classes (adjective and
+                verb).
+        320 W : Word 'slab' belongs to multiple word classes (adjective and
+                verb).
+        333 E : The word 'south' is defined to be both a synonym and another
+                word class.
+        320 W : Word 'u' belongs to multiple word classes (direction and verb).
+        333 E : The word 'west' is defined to be both a synonym and another
+                word class.
+
+
+        235 error(s).
+        48 warning(s).
+        13 informational message(s).
+

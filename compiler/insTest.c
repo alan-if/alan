@@ -28,11 +28,12 @@ void testCreateIns()
 
 void testGenerateEmptyInstanceEntry()
 {
-  Properties *props = newProps(NULL, NULL,
-			       NULL, NULL,
-			       nulsrcp, NULL, nulsrcp,
-			       NULL, NULL, nulsrcp, NULL,
-			       nulsrcp, NULL, NULL, NULL);
+  Properties *props = newProps(NULL, NULL, NULL, NULL,
+			       nulsrcp, NULL, nulsrcp, NULL,
+			       NULL, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, nulsrcp,
+			       NULL, NULL, NULL);
   Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, props);
   int entryAddress;
   InstanceEntry *entry;

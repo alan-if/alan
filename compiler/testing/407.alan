@@ -1,6 +1,6 @@
-add to every object
-  is weight 2.
-end add to object
+Every subobject Isa object
+  Has weight 12.
+End Every subobject.
 
 add to every actor
   is weight 5.

@@ -588,7 +588,7 @@ static void stringPrint(char string[])
     ;
 <article>
     = 'ARTICLE'
-    ! 'ARTICLE' <statements>
+    ! 'ARTICLE' %% newline(); fprintf(outFile, "Article"); indent(); %% <statements> %% outdent(); newline(); %%
     ;
 <mentioned>
     = 'MENTIONED' %% newline(); fprintf(outFile, "Mentioned"); indent(); %% <statements> %% outdent(); newline(); %%
@@ -737,7 +737,7 @@ static void stringPrint(char string[])
 
 ----> RULES
 <rule>
-    = 'WHEN' %% newline(); fprintf(outFile, "When "); %% <expression> '=>' %% fprintf(outFile, " =>"); indent(); %% <statements> %% outdent(); newline(); %%
+    = 'WHEN' %% newline(); fprintf(outFile, "When "); %% <expression> '=>' %% fprintf(outFile, " Then"); indent(); %% <statements> %% outdent(); newline(); %%
     ;
 
 ---> START
@@ -775,15 +775,15 @@ static void stringPrint(char string[])
     = STRING %% stringPrint(%STRING.chars); %%
     ! 'DESCRIBE' %% newline(); fprintf(outFile, "Describe "); %% <what> <fullstop>
     ! 'SAY' %% newline(); fprintf(outFile, "Say "); %% <expression> <fullstop>
-    ! 'LIST' %% newline(); fprintf(outFile, "Say "); %% <what> <fullstop>
+    ! 'LIST' %% newline(); fprintf(outFile, "List "); %% <what> <fullstop>
     ;
 
 <special_statement>
     = 'QUIT' '.' %% newline(); fprintf(outFile, "Quit."); %%
-    ! 'LOOK' '.' %% newline(); fprintf(outFile, "Quit."); %%
-    ! 'SAVE' '.' %% newline(); fprintf(outFile, "Quit."); %%
-    ! 'RESTORE' '.' %% newline(); fprintf(outFile, "Quit."); %%
-    ! 'RESTART' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'LOOK' '.' %% newline(); fprintf(outFile, "Look."); %%
+    ! 'SAVE' '.' %% newline(); fprintf(outFile, "Save."); %%
+    ! 'RESTORE' '.' %% newline(); fprintf(outFile, "Restore."); %%
+    ! 'RESTART' '.' %% newline(); fprintf(outFile, "Restart."); %%
     ! 'SCORE' %% newline(); fprintf(outFile, "Score "); %% <optional_integer> '.'  %% fprintf(outFile, "."); %%
     ! 'VISITS' Integer '.' %% newline(); fprintf(outFile, "Visits `%s.", %Integer.chars); %%
     ! 'SYSTEM' STRING '.' %% newline(); fprintf(outFile, "****System**** "); stringPrint(%STRING.chars); %%

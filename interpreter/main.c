@@ -496,7 +496,15 @@ static void sayparam(int p)
 	justify(" ");
     }
 #else
-  say(params[p].code);
+  if (params[p].code == 0) {
+    /* Ambiguous instance referenced, so use the words he used */
+    for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
+      justify((char *)pointerTo(dict[wrds[i]].wrd));
+      if (i < params[p].lastWord)
+	justify(" ");
+    }
+  } else
+    say(params[p].code);
 #endif
 }
 

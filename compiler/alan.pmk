@@ -110,6 +110,8 @@ static int val(char str[])
   descriptionSrcp %% Srcp %1%%,
   elm %% Element *%1%%,
   elms %% List *%1%%,
+  entered %% List *%1%%,
+  enteredSrcp %% Srcp %1%%,
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
   exp %% Expression *%1%%,
@@ -668,6 +670,8 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
+					%<properties>.entered,
+					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
 					%<properties>.art,
@@ -702,6 +706,8 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
+					%<properties>.entered,
+					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
 					%<properties>.art,
@@ -736,6 +742,8 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
+					%<properties>.entered,
+					%<properties>.enteredSrcp,
 					%<properties>.ment,
 					%<properties>.mentSrcp,
 					%<properties>.art,
@@ -818,6 +826,16 @@ static int val(char str[])
 		%<properties>.descriptionSrcp = %<property>.srcp;
         }
 
+	if (%<property>.entered != NULL) {
+            if (%<properties>.entered != NULL)
+                /* ENTERED already declared */
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "ENTERED", "class/instance", NULL);
+	    else {
+                %<properties>.entered = %<property>.entered;
+		%<properties>.enteredSrcp = %<property>.srcp;
+	    }
+        }
+
 	if (%<property>.ment != NULL) {
             if (%<properties>.ment != NULL)
                 /* MENTIONED already declared */
@@ -891,6 +909,16 @@ static int val(char str[])
 	%<property>.descriptionChecks = descriptionChecks;
 	%<property>.srcp = srcp;
 	%<property>.descriptionDoes = descriptionDoes;
+    }%%
+
+    ! <entered>
+    %%{
+        List *entered = %<entered>.stms;
+        Srcp srcp = %<entered>.srcp;
+
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<property>.entered = entered;
+	%<property>.srcp = srcp;
     }%%
 
     ! <mentioned>
@@ -1057,6 +1085,15 @@ static int val(char str[])
     %%
 	%<article>.art = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
+    %%
+    ;
+
+
+<entered>		-- RETURNS: stms, srcp
+    = 'ENTERED' <statements>
+    %%
+	%<entered>.stms = %<statements>.stms;
+	%<entered>.srcp = %'ENTERED'.srcp;
     %%
     ;
 

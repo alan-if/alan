@@ -48,6 +48,8 @@ Properties *newProps(List *names,
 		     List *descriptionChecks,
 		     Srcp descriptionSrcp,
 		     List *description,
+		     List *enteredStatements,
+		     Srcp enteredSrcp,
 		     List *mentioned,
 		     Srcp mentionedSrcp,
 		     List *article,
@@ -72,6 +74,8 @@ Properties *newProps(List *names,
   new->descriptionChecks = descriptionChecks;
   new->descriptionSrcp = descriptionSrcp;
   new->descriptionStatements = description;
+  new->enteredStatements = enteredStatements;
+  new->enteredSrcp = enteredSrcp;
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
   new->article = article;
@@ -184,6 +188,7 @@ void analyzeProps(Properties *props, Context *context)
   analyzeName(props);
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->descriptionStatements, context);
+  analyzeStatements(props->enteredStatements, context);
   analyzeStatements(props->mentioned, context);
   analyzeStatements(props->article, context);
   analyzeVerbs(props->verbs, context);
@@ -196,7 +201,9 @@ void analyzeProps(Properties *props, Context *context)
     analyzeContainer(props->container, context);
   }
 
-  /* Have exits but not a location? */
+  /* Have ENTERED or EXITs but not a location? */
+  if (props->enteredStatements && !inheritsFrom(props->id->symbol, locationSymbol))
+    lmLog(&props->id->srcp, 355, sevERR, props->id->string);
   if (props->exits && !inheritsFrom(props->id->symbol, locationSymbol))
     lmLog(&props->id->srcp, 352, sevERR, props->id->string);
   analyzeExits(props->exits, context);
@@ -217,6 +224,12 @@ void generateClassPropertiesData(Properties *props)
   if (props->descriptionStatements != NULL) {
     props->descriptionAddress = nextEmitAddress();
     generateStatements(props->descriptionStatements);
+    emit0(I_RETURN);
+  }
+
+  if (props->enteredStatements != NULL) {
+    props->enteredAddress = nextEmitAddress();
+    generateStatements(props->enteredStatements);
     emit0(I_RETURN);
   }
 
@@ -253,19 +266,23 @@ void generateInstancePropertiesData(Properties *props)
     emit0(I_RETURN);
   }
 
+  if (props->enteredStatements != NULL) {
+    props->enteredAddress = nextEmitAddress();
+    generateStatements(props->enteredStatements);
+    emit0(I_RETURN);
+  }
+
   if (props->mentioned != NULL) {
     props->mentionedAddress = nextEmitAddress();
     generateStatements(props->mentioned);
     emit0(I_RETURN);
-  } else
-    emit(0);
+  }
 
   if (props->article != NULL) {
     props->articleAddress = nextEmitAddress();
     generateStatements(props->article);
     emit0(I_RETURN);
-  } else
-    emit(0);
+  }
 
   props->verbsAddress = generateVerbs(props->verbs);
   props->exitsAddress = generateExits(props->exits);
@@ -287,6 +304,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   entry->attributes = props->attributeAddress;
   entry->checks = props->descriptionChecksAddress;
   entry->description = props->descriptionAddress;
+  entry->entered = props->enteredAddress;
   if (props->container != NULL)
     entry->container = props->container->code;
   else

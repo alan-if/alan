@@ -331,7 +331,7 @@ static void analyzeUse(StmNod *stm, Context *context)
   Script *script;
   IdNode *actorId = NULL;
 
-  if (stm->fields.use.actor == NULL && context->instance != NULL)
+  if (stm->fields.use.actor == NULL && context->instance == NULL)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
     if (stm->fields.use.actor != NULL) {

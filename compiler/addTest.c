@@ -27,15 +27,19 @@ static void testMultipleAddAttribute()
 						       ATTRIBUTE_LIST),
 						NULL,
 						nulsrcp, NULL, nulsrcp, NULL,
-						NULL, nulsrcp, NULL,
-						nulsrcp, NULL, NULL, NULL);
+						NULL, nulsrcp,
+						NULL, nulsrcp,
+						NULL, nulsrcp,
+						NULL, NULL, NULL);
   Properties *theSecondAttributeProps = newProps(NULL, NULL,
 						 concat(NULL, theSecondAttribute,
 							ATTRIBUTE_LIST),
 						 NULL,
 						 nulsrcp, NULL, nulsrcp, NULL,
-						 NULL, nulsrcp, NULL,
-						 nulsrcp, NULL, NULL, NULL);
+						 NULL, nulsrcp,
+						 NULL, nulsrcp,
+						 NULL, nulsrcp,
+						 NULL, NULL, NULL);
   AddNode *add1 = newAdd(&nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
   Symbol *aSymbol;

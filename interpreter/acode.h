@@ -206,6 +206,7 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr attributes;		/* DYNAMIC CONTENT - Address of attribute list */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
+  Aaddr entered;		/* Address of entered code (location only) */
   Aaddr mentioned;		/* Address to short description code */
   Aaddr article;		/* Address of article code */
   Aaddr exits;			/* Address of exit list */

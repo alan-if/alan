@@ -1,0 +1,13 @@
+The l Isa location
+  Description
+    "this is a place."
+    "it is dark."
+    "$p$$lower case."
+End The l.
+
+The a Isa actor At l
+  Name mr a
+  Mentioned "mr A"
+End The a.
+
+Start At l.

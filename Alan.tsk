@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>253.89</origest>
-<currest>253.89</currest>
-<elapsed>104.89</elapsed>
+<origest>257.89</origest>
+<currest>256.89</currest>
+<elapsed>106.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>45</origest>
-<currest>45</currest>
-<elapsed>6</elapsed>
+<origest>47</origest>
+<currest>46</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
-<elapsed>3</elapsed>
+<origest>19</origest>
+<currest>18</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalization of nouns</desc>
@@ -45,12 +45,23 @@ design: Interpreter capitalizes last word in SAY routines, compiler generates th
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Converter should convert all statements in CAVE</desc>
-<notes/>
+<desc>Location ENTERED</desc>
+<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
+
+ADVENT requires full implementation.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should convert all statements in CAVE</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -66,6 +77,7 @@ Otherwise the includes won't work currectly. This is only a problem when executi
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
 <notes>Step 1: prohibit containers to contain anything not an object? How?
+What to do when an instance not an object is moved into the container?
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -101,26 +113,17 @@ Otherwise the includes won't work currectly. This is only a problem when executi
 <isopen>1</isopen>
 </task>
 <task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>All instances not inheriting from anything should inherit directly from entity</desc>
-<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -190,7 +193,7 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -213,7 +216,7 @@ The article Isa b
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -256,9 +259,11 @@ SAY an O.
 <desc>SAY a/the &lt;param&gt;</desc>
 <notes>A SAY should refer to which form of articles should be used:
 
- Say A p.
- Say The o.
+ Say A x.  (embedded as $the x$?)
+ Say The x.
  Say x.
+ Say Any x.
+ Say No x,
 
 Requires sections something like:
 
@@ -267,8 +272,6 @@ Requires sections something like:
 
  Indefinite
   ""
-
-REMEBER TO DOCUMENT IT!!!
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -277,33 +280,6 @@ REMEBER TO DOCUMENT IT!!!
 <isopen>1</isopen>
 </task>
 </task>
-</task>
-<task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;scripts&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"Describe this." Does not work.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>Warn for DOES preceeded by an unconditional CHECK</desc>
@@ -330,8 +306,8 @@ TODO: Descriptions, ?</notes>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -343,6 +319,15 @@ Design: add a counter field in the message entries and sort on those also.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -361,8 +346,26 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -379,10 +382,8 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Location ENTERED</desc>
-<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
-
-STEP1: Add an entered slot in the property structure in the compiler so that it could remain compatible.</notes>
+<desc>Add To Every xyz &lt;scripts&gt;</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -648,8 +649,8 @@ FOR EACH instance ISA entity DO
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>96</origest>
-<currest>96</currest>
+<origest>98</origest>
+<currest>98</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1794,6 +1795,21 @@ But isn't that awailable in the MESSAGES section?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow syntaxes that start with an object</desc>
+<notes>In german (from sturmkoening2k):
+
+    fallenlassen = (obj) * fallenlassen
+
+Hmm, it's not a great deal to use:
+   lasse_fallen = lasse (obj) * fallen
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>SCORE &amp; MAXSCORE as variables</desc>
 <notes/>
 <priority>2</priority>
@@ -1835,6 +1851,15 @@ What do you want to do with the ball?
 <task>
 <desc>METAVERB, takes no tick</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Exit directions in the status bar</desc>
+<notes>Suggested in a mail from sturmkoenig2k@t-online.de</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

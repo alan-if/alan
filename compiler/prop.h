@@ -32,11 +32,14 @@ typedef struct Properties {
   List *descriptionChecks;
   Aword descriptionChecksAddress;/* ACODE address to description checks */
   Srcp descriptionSrcp;
-  List *descriptionStatements;		/* Long description statements */
-  Aword descriptionAddress;	/* ACODE address to long description code */
+  List *descriptionStatements;	/* DESCRIPTION statements */
+  Aword descriptionAddress;	/* ACODE address to DESCRIPTION code */
+  Srcp enteredSrcp;
+  List *enteredStatements;	/* ENTERED statements */
+  Aword enteredAddress;		/* ACODE address to ENTERED code */
   List *article;		/* Article printing statements */
   Srcp articleSrcp;
-  Aword articleAddress;		/* ACODE address to article statements */
+  Aword articleAddress;		/* ACODE address to ARTICLE statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */

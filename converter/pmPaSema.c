@@ -510,499 +510,505 @@ int rule			/* IN production number */
     case 157: { /* __genSym#23 =; */
 #line 587 "alan.pmk"
  newline(); fprintf(outFile, "Description"); indent(); 	break;}
-    case 160: { /* <mentioned> = 'MENTIONED' __genSym#24 <statements>; */
+    case 159: { /* <article> = 'ARTICLE' __genSym#24 <statements>; */
+#line 591 "alan.pmk"
+ outdent(); newline(); 	break;}
+    case 160: { /* __genSym#24 =; */
+#line 591 "alan.pmk"
+ newline(); fprintf(outFile, "Article"); indent(); 	break;}
+    case 161: { /* <mentioned> = 'MENTIONED' __genSym#25 <statements>; */
 #line 594 "alan.pmk"
  outdent(); newline(); 	break;}
-    case 161: { /* __genSym#24 =; */
+    case 162: { /* __genSym#25 =; */
 #line 594 "alan.pmk"
  newline(); fprintf(outFile, "Mentioned"); indent(); 	break;}
-    case 166: { /* <name> = 'NAME' __genSym#25 <ids>; */
+    case 167: { /* <name> = 'NAME' __genSym#26 <ids>; */
 #line 605 "alan.pmk"
  newline(); 	break;}
-    case 167: { /* __genSym#25 =; */
+    case 168: { /* __genSym#26 =; */
 #line 605 "alan.pmk"
  fprintf(outFile, "Name "); 	break;}
-    case 168: { /* <properties> = 'CONTAINER' __genSym#26 <container_body>; */
+    case 169: { /* <properties> = 'CONTAINER' __genSym#27 <container_body>; */
 #line 610 "alan.pmk"
  outdent(); 	break;}
-    case 169: { /* __genSym#26 =; */
+    case 170: { /* __genSym#27 =; */
 #line 610 "alan.pmk"
  newline(); fprintf(outFile, "With Container"); indent(); 	break;}
-    case 170: { /* <container> = <container_header> <container_body> <container_tail>; */
+    case 171: { /* <container> = <container_header> <container_body> <container_tail>; */
 #line 614 "alan.pmk"
  fprintf(outFile, "%s.", pmSeSt[pmStkP+1].string); newline(); 	break;}
-    case 171: { /* <container_header> = 'CONTAINER' ID; */
+    case 172: { /* <container_header> = 'CONTAINER' ID; */
 #line 617 "alan.pmk"
  newline(); fprintf(outFile, "The %s", pmSeSt[pmStkP+2].string);
 			indent(); newline();
 			fprintf(outFile, "Container");
 			pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+2].string; indent(); 	break;}
-    case 173: { /* <container_tail> = 'END' 'CONTAINER' <optional_id> '.'; */
+    case 174: { /* <container_tail> = 'END' 'CONTAINER' <optional_id> '.'; */
 #line 627 "alan.pmk"
  outdent(); outdent(); newline(); fprintf(outFile, "End The "); 	break;}
-    case 175: { /* <optional_limits> = 'LIMITS' __genSym#27 <limits>; */
+    case 176: { /* <optional_limits> = 'LIMITS' __genSym#28 <limits>; */
 #line 631 "alan.pmk"
  outdent(); 	break;}
-    case 176: { /* __genSym#27 =; */
+    case 177: { /* __genSym#28 =; */
 #line 631 "alan.pmk"
  newline(); fprintf(outFile, "Limits"); indent(); 	break;}
-    case 179: { /* <limit> = <limit_attribute> 'THEN' __genSym#28 <statements>; */
+    case 180: { /* <limit> = <limit_attribute> 'THEN' __genSym#29 <statements>; */
 #line 638 "alan.pmk"
  outdent(); outdent(); 	break;}
-    case 180: { /* __genSym#28 =; */
+    case 181: { /* __genSym#29 =; */
 #line 638 "alan.pmk"
  indent(); newline(); fprintf(outFile, "Then"); indent(); 	break;}
-    case 182: { /* <limit_attribute> = 'COUNT' Integer; */
+    case 183: { /* <limit_attribute> = 'COUNT' Integer; */
 #line 642 "alan.pmk"
  newline(); fprintf(outFile, "Count %s", pmSySt[pmStkP+2].chars); 	break;}
-    case 184: { /* <optional_header> = 'HEADER' __genSym#29 <statements>; */
+    case 185: { /* <optional_header> = 'HEADER' __genSym#30 <statements>; */
 #line 646 "alan.pmk"
  outdent(); 	break;}
-    case 185: { /* __genSym#29 =; */
+    case 186: { /* __genSym#30 =; */
 #line 646 "alan.pmk"
  newline(); fprintf(outFile, "Header"); indent(); 	break;}
-    case 187: { /* <optional_empty> = 'ELSE' __genSym#30 <statements>; */
+    case 188: { /* <optional_empty> = 'ELSE' __genSym#31 <statements>; */
 #line 650 "alan.pmk"
  outdent(); 	break;}
-    case 188: { /* __genSym#30 =; */
+    case 189: { /* __genSym#31 =; */
 #line 650 "alan.pmk"
  newline(); fprintf(outFile, "Else"); indent(); 	break;}
-    case 189: { /* <event> = <event_header> __genSym#31 <statements> <event_tail>; */
+    case 190: { /* <event> = <event_header> __genSym#32 <statements> <event_tail>; */
 #line 655 "alan.pmk"
  fprintf(outFile, "%s.", pmSeSt[pmStkP+1].string); newline(); 	break;}
-    case 190: { /* __genSym#31 =; */
+    case 191: { /* __genSym#32 =; */
 #line 655 "alan.pmk"
  indent(); 	break;}
-    case 191: { /* <event_header> = 'EVENT' ID; */
+    case 192: { /* <event_header> = 'EVENT' ID; */
 #line 659 "alan.pmk"
  newline(); fprintf(outFile, "Event %s", pmSeSt[pmStkP+2].string);
 	pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+2].string; 	break;}
-    case 192: { /* <event_tail> = 'END' 'EVENT' <optional_id> '.'; */
+    case 193: { /* <event_tail> = 'END' 'EVENT' <optional_id> '.'; */
 #line 664 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "End Event "); 	break;}
-    case 193: { /* <actor> = <actor_header> <actor_body> <actor_tail>; */
+    case 194: { /* <actor> = <actor_header> <actor_body> <actor_tail>; */
 #line 670 "alan.pmk"
  fprintf(outFile, "%s.", pmSeSt[pmStkP+1].string); newline(); 	break;}
-    case 194: { /* <actor_header> = <actor_id> <optional_where> <optional_names> <optional_where>; */
+    case 195: { /* <actor_header> = <actor_id> <optional_where> <optional_names> <optional_where>; */
 #line 675 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+1].string; 	break;}
-    case 195: { /* <actor_id> = 'ACTOR' ID; */
+    case 196: { /* <actor_id> = 'ACTOR' ID; */
 #line 680 "alan.pmk"
 
 	newline(); newline(); fprintf(outFile, "The %s Isa actor", pmSeSt[pmStkP+2].string);
 	indent(); newline();
 	pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+2].string;
     	break;}
-    case 200: { /* <actor_body_part> = __genSym#32 <is> __genSym#33 <attributes>; */
+    case 201: { /* <actor_body_part> = __genSym#33 <is> __genSym#34 <attributes>; */
 #line 694 "alan.pmk"
  outdent(); 	break;}
-    case 203: { /* __genSym#32 =; */
-#line 694 "alan.pmk"
- newline(); 	break;}
     case 204: { /* __genSym#33 =; */
 #line 694 "alan.pmk"
+ newline(); 	break;}
+    case 205: { /* __genSym#34 =; */
+#line 694 "alan.pmk"
  indent(); 	break;}
-    case 205: { /* <actor_tail> = 'END' 'ACTOR' <optional_id> '.'; */
+    case 206: { /* <actor_tail> = 'END' 'ACTOR' <optional_id> '.'; */
 #line 701 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "End The "); 	break;}
-    case 209: { /* <script1> = 'SCRIPT' <integer_or_id> '.'; */
+    case 210: { /* <script1> = 'SCRIPT' <integer_or_id> '.'; */
 #line 716 "alan.pmk"
  newline(); fprintf(outFile, "Script %s", pmSeSt[pmStkP+2].string); indent(); 	break;}
-    case 210: { /* <script2> = <optional_description> <step_list>; */
+    case 211: { /* <script2> = <optional_description> <step_list>; */
 #line 720 "alan.pmk"
  outdent(); 	break;}
-    case 213: { /* <step> = 'STEP' __genSym#34 <statements>; */
+    case 214: { /* <step> = 'STEP' __genSym#35 <statements>; */
 #line 729 "alan.pmk"
- outdent(); 	break;}
-    case 216: { /* __genSym#34 =; */
-#line 729 "alan.pmk"
- newline(); fprintf(outFile, "Step"); indent(); 	break;}
-    case 214: { /* <step> = <step_after_integer> <statements>; */
-#line 730 "alan.pmk"
- outdent(); 	break;}
-    case 215: { /* <step> = 'STEP' 'WAIT' 'UNTIL' __genSym#35 <expression> <statements>; */
-#line 731 "alan.pmk"
  outdent(); 	break;}
     case 217: { /* __genSym#35 =; */
+#line 729 "alan.pmk"
+ newline(); fprintf(outFile, "Step"); indent(); 	break;}
+    case 215: { /* <step> = <step_after_integer> <statements>; */
+#line 730 "alan.pmk"
+ outdent(); 	break;}
+    case 216: { /* <step> = 'STEP' 'WAIT' 'UNTIL' __genSym#36 <expression> <statements>; */
+#line 731 "alan.pmk"
+ outdent(); 	break;}
+    case 218: { /* __genSym#36 =; */
 #line 731 "alan.pmk"
  newline(); fprintf(outFile, "Step Wait Until "); indent(); 	break;}
-    case 218: { /* <step_after_integer> = 'STEP' 'AFTER' Integer; */
+    case 219: { /* <step_after_integer> = 'STEP' 'AFTER' Integer; */
 #line 735 "alan.pmk"
  newline(); fprintf(outFile, "Step After %s", pmSySt[pmStkP+3].chars); indent(); 	break;}
-    case 219: { /* <rule> = 'WHEN' __genSym#36 <expression> '=>' __genSym#37 <statements>; */
+    case 220: { /* <rule> = 'WHEN' __genSym#37 <expression> '=>' __genSym#38 <statements>; */
 #line 740 "alan.pmk"
  outdent(); newline(); 	break;}
-    case 220: { /* __genSym#36 =; */
-#line 740 "alan.pmk"
- newline(); fprintf(outFile, "When "); 	break;}
     case 221: { /* __genSym#37 =; */
 #line 740 "alan.pmk"
- fprintf(outFile, " =>"); indent(); 	break;}
-    case 223: { /* __genSym#38 =; */
-#line 745 "alan.pmk"
- newline(); newline(); fprintf(outFile, "Start "); 	break;}
+ newline(); fprintf(outFile, "When "); 	break;}
+    case 222: { /* __genSym#38 =; */
+#line 740 "alan.pmk"
+ fprintf(outFile, " Then"); indent(); 	break;}
     case 224: { /* __genSym#39 =; */
 #line 745 "alan.pmk"
+ newline(); newline(); fprintf(outFile, "Start "); 	break;}
+    case 225: { /* __genSym#40 =; */
+#line 745 "alan.pmk"
  fprintf(outFile, "."); indent(); 	break;}
-    case 236: { /* <fullstop> = '.'; */
+    case 237: { /* <fullstop> = '.'; */
 #line 770 "alan.pmk"
  fprintf(outFile, "."); 	break;}
-    case 237: { /* <output_statement> = STRING; */
+    case 238: { /* <output_statement> = STRING; */
 #line 775 "alan.pmk"
  stringPrint(pmSySt[pmStkP+1].chars); 	break;}
-    case 241: { /* __genSym#40 =; */
+    case 242: { /* __genSym#41 =; */
 #line 776 "alan.pmk"
  newline(); fprintf(outFile, "Describe "); 	break;}
-    case 242: { /* __genSym#41 =; */
+    case 243: { /* __genSym#42 =; */
 #line 777 "alan.pmk"
  newline(); fprintf(outFile, "Say "); 	break;}
-    case 243: { /* __genSym#42 =; */
+    case 244: { /* __genSym#43 =; */
 #line 778 "alan.pmk"
- newline(); fprintf(outFile, "Say "); 	break;}
-    case 244: { /* <special_statement> = 'QUIT' '.'; */
+ newline(); fprintf(outFile, "List "); 	break;}
+    case 245: { /* <special_statement> = 'QUIT' '.'; */
 #line 782 "alan.pmk"
  newline(); fprintf(outFile, "Quit."); 	break;}
-    case 245: { /* <special_statement> = 'LOOK' '.'; */
+    case 246: { /* <special_statement> = 'LOOK' '.'; */
 #line 783 "alan.pmk"
- newline(); fprintf(outFile, "Quit."); 	break;}
-    case 246: { /* <special_statement> = 'SAVE' '.'; */
+ newline(); fprintf(outFile, "Look."); 	break;}
+    case 247: { /* <special_statement> = 'SAVE' '.'; */
 #line 784 "alan.pmk"
- newline(); fprintf(outFile, "Quit."); 	break;}
-    case 247: { /* <special_statement> = 'RESTORE' '.'; */
+ newline(); fprintf(outFile, "Save."); 	break;}
+    case 248: { /* <special_statement> = 'RESTORE' '.'; */
 #line 785 "alan.pmk"
- newline(); fprintf(outFile, "Quit."); 	break;}
-    case 248: { /* <special_statement> = 'RESTART' '.'; */
+ newline(); fprintf(outFile, "Restore."); 	break;}
+    case 249: { /* <special_statement> = 'RESTART' '.'; */
 #line 786 "alan.pmk"
- newline(); fprintf(outFile, "Quit."); 	break;}
-    case 249: { /* <special_statement> = 'SCORE' __genSym#43 <optional_integer> '.'; */
+ newline(); fprintf(outFile, "Restart."); 	break;}
+    case 250: { /* <special_statement> = 'SCORE' __genSym#44 <optional_integer> '.'; */
 #line 787 "alan.pmk"
  fprintf(outFile, "."); 	break;}
-    case 252: { /* __genSym#43 =; */
+    case 253: { /* __genSym#44 =; */
 #line 787 "alan.pmk"
  newline(); fprintf(outFile, "Score "); 	break;}
-    case 250: { /* <special_statement> = 'VISITS' Integer '.'; */
+    case 251: { /* <special_statement> = 'VISITS' Integer '.'; */
 #line 788 "alan.pmk"
  newline(); fprintf(outFile, "Visits %s.", pmSySt[pmStkP+2].chars); 	break;}
-    case 251: { /* <special_statement> = 'SYSTEM' STRING '.'; */
+    case 252: { /* <special_statement> = 'SYSTEM' STRING '.'; */
 #line 789 "alan.pmk"
  newline(); fprintf(outFile, "****System**** "); stringPrint(pmSySt[pmStkP+2].chars); 	break;}
-    case 255: { /* __genSym#44 =; */
-#line 795 "alan.pmk"
- newline(); fprintf(outFile, "Empty "); 	break;}
     case 256: { /* __genSym#45 =; */
 #line 795 "alan.pmk"
- fprintf(outFile, " "); 	break;}
+ newline(); fprintf(outFile, "Empty "); 	break;}
     case 257: { /* __genSym#46 =; */
-#line 796 "alan.pmk"
- newline(); fprintf(outFile, "Locate "); 	break;}
+#line 795 "alan.pmk"
+ fprintf(outFile, " "); 	break;}
     case 258: { /* __genSym#47 =; */
 #line 796 "alan.pmk"
+ newline(); fprintf(outFile, "Locate "); 	break;}
+    case 259: { /* __genSym#48 =; */
+#line 796 "alan.pmk"
  fprintf(outFile, " "); 	break;}
-    case 261: { /* __genSym#48 =; */
+    case 262: { /* __genSym#49 =; */
 #line 801 "alan.pmk"
  fprintf(outFile, " After "); 	break;}
-    case 259: { /* <event_statement> = 'CANCEL' ID '.'; */
+    case 260: { /* <event_statement> = 'CANCEL' ID '.'; */
 #line 803 "alan.pmk"
  newline(); fprintf(outFile, "Cancel %s.", pmSeSt[pmStkP+2].string); 	break;}
-    case 262: { /* <schedule1> = 'SCHEDULE' ID; */
+    case 263: { /* <schedule1> = 'SCHEDULE' ID; */
 #line 807 "alan.pmk"
  newline(); fprintf(outFile, "Schedule %s ", pmSeSt[pmStkP+2].string); 	break;}
-    case 267: { /* __genSym#49 =; */
-#line 812 "alan.pmk"
- newline(); fprintf(outFile, "Make "); 	break;}
     case 268: { /* __genSym#50 =; */
 #line 812 "alan.pmk"
- fprintf(outFile, " "); 	break;}
+ newline(); fprintf(outFile, "Make "); 	break;}
     case 269: { /* __genSym#51 =; */
-#line 813 "alan.pmk"
- newline(); fprintf(outFile, "Set "); 	break;}
+#line 812 "alan.pmk"
+ fprintf(outFile, " "); 	break;}
     case 270: { /* __genSym#52 =; */
 #line 813 "alan.pmk"
- fprintf(outFile, " To "); 	break;}
+ newline(); fprintf(outFile, "Set "); 	break;}
     case 271: { /* __genSym#53 =; */
+#line 813 "alan.pmk"
+ fprintf(outFile, " To "); 	break;}
+    case 272: { /* __genSym#54 =; */
 #line 814 "alan.pmk"
  newline(); fprintf(outFile, "Increase "); 	break;}
-    case 272: { /* __genSym#54 =; */
+    case 273: { /* __genSym#55 =; */
 #line 815 "alan.pmk"
  newline(); fprintf(outFile, "Decrease "); 	break;}
-    case 275: { /* __genSym#55 =; */
+    case 276: { /* __genSym#56 =; */
 #line 820 "alan.pmk"
  fprintf(outFile, " By "); 	break;}
-    case 278: { /* <if_statement> = 'IF' __genSym#56 <expression> 'THEN' __genSym#57 <statements> <optional_elsif_list> <optional_else_part> 'END' 'IF' '.'; */
+    case 279: { /* <if_statement> = 'IF' __genSym#57 <expression> 'THEN' __genSym#58 <statements> <optional_elsif_list> <optional_else_part> 'END' 'IF' '.'; */
 #line 833 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "End If."); 	break;}
-    case 279: { /* __genSym#56 =; */
+    case 280: { /* __genSym#57 =; */
 #line 830 "alan.pmk"
  newline(); fprintf(outFile, "If "); 	break;}
-    case 280: { /* __genSym#57 =; */
+    case 281: { /* __genSym#58 =; */
 #line 831 "alan.pmk"
  fprintf(outFile, " Then"); indent(); 	break;}
-    case 286: { /* __genSym#58 =; */
+    case 287: { /* __genSym#59 =; */
 #line 847 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "Elsif "); 	break;}
-    case 287: { /* __genSym#59 =; */
+    case 288: { /* __genSym#60 =; */
 #line 848 "alan.pmk"
  fprintf(outFile, " Then "); indent(); 	break;}
-    case 290: { /* __genSym#60 =; */
+    case 291: { /* __genSym#61 =; */
 #line 854 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "Else "); indent(); 	break;}
-    case 291: { /* <depending_statement> = 'DEPENDING' 'ON' __genSym#61 <primary> __genSym#62 <depend_cases> 'END' 'DEPEND' '.'; */
+    case 292: { /* <depending_statement> = 'DEPENDING' 'ON' __genSym#62 <primary> __genSym#63 <depend_cases> 'END' 'DEPEND' '.'; */
 #line 862 "alan.pmk"
  outdent(); newline(); fprintf(outFile, "End Depend."); 	break;}
-    case 292: { /* __genSym#61 =; */
+    case 293: { /* __genSym#62 =; */
 #line 859 "alan.pmk"
  newline(); fprintf(outFile, "Depending On "); 	break;}
-    case 293: { /* __genSym#62 =; */
+    case 294: { /* __genSym#63 =; */
 #line 860 "alan.pmk"
  indent(); newline(); 	break;}
-    case 296: { /* __genSym#63 =; */
+    case 297: { /* __genSym#64 =; */
 #line 867 "alan.pmk"
  newline(); 	break;}
-    case 298: { /* <depend_case> = <right_hand_side> ':' __genSym#64 <statements>; */
+    case 299: { /* <depend_case> = <right_hand_side> ':' __genSym#65 <statements>; */
 #line 871 "alan.pmk"
- outdent(); 	break;}
-    case 299: { /* __genSym#64 =; */
-#line 871 "alan.pmk"
- fprintf(outFile, " : "); indent(); 	break;}
-    case 297: { /* <depend_case> = 'ELSE' __genSym#65 <statements>; */
-#line 872 "alan.pmk"
  outdent(); 	break;}
     case 300: { /* __genSym#65 =; */
+#line 871 "alan.pmk"
+ fprintf(outFile, " : "); indent(); 	break;}
+    case 298: { /* <depend_case> = 'ELSE' __genSym#66 <statements>; */
+#line 872 "alan.pmk"
+ outdent(); 	break;}
+    case 301: { /* __genSym#66 =; */
 #line 872 "alan.pmk"
  fprintf(outFile, "Else "); indent(); 	break;}
-    case 302: { /* __genSym#66 =; */
+    case 303: { /* __genSym#67 =; */
 #line 877 "alan.pmk"
  newline(); fprintf(outFile, "Use Script "); 	break;}
-    case 303: { /* <script_reference> = <integer_or_id>; */
+    case 304: { /* <script_reference> = <integer_or_id>; */
 #line 881 "alan.pmk"
  fprintf(outFile, pmSeSt[pmStkP+1].string); 	break;}
-    case 305: { /* <optional_for_actor> = 'FOR' ID; */
+    case 306: { /* <optional_for_actor> = 'FOR' ID; */
 #line 886 "alan.pmk"
  fprintf(outFile, " For %s", pmSeSt[pmStkP+2].string); 	break;}
-    case 308: { /* __genSym#67 =; */
+    case 309: { /* __genSym#68 =; */
 #line 892 "alan.pmk"
  fprintf(outFile, " Or "); 	break;}
-    case 311: { /* __genSym#68 =; */
+    case 312: { /* __genSym#69 =; */
 #line 897 "alan.pmk"
  fprintf(outFile, " And "); 	break;}
-    case 314: { /* __genSym#69 =; */
+    case 315: { /* __genSym#70 =; */
 #line 902 "alan.pmk"
  fprintf(outFile, " "); 	break;}
-    case 321: { /* __genSym#70 =; */
-#line 910 "alan.pmk"
- fprintf(outFile, " Between "); 	break;}
     case 322: { /* __genSym#71 =; */
 #line 910 "alan.pmk"
- fprintf(outFile, " And "); 	break;}
+ fprintf(outFile, " Between "); 	break;}
     case 323: { /* __genSym#72 =; */
+#line 910 "alan.pmk"
+ fprintf(outFile, " And "); 	break;}
+    case 324: { /* __genSym#73 =; */
 #line 911 "alan.pmk"
  fprintf(outFile, " Contains "); 	break;}
-    case 329: { /* <primary> = '(' __genSym#73 <expression> ')'; */
+    case 330: { /* <primary> = '(' __genSym#74 <expression> ')'; */
 #line 915 "alan.pmk"
  fprintf(outFile, ")"); 	break;}
-    case 332: { /* __genSym#73 =; */
+    case 333: { /* __genSym#74 =; */
 #line 915 "alan.pmk"
  fprintf(outFile, "("); 	break;}
-    case 324: { /* <primary> = <optional_minus> Integer; */
+    case 325: { /* <primary> = <optional_minus> Integer; */
 #line 916 "alan.pmk"
  fprintf(outFile, "%s%s", pmSeSt[pmStkP+1].string, pmSySt[pmStkP+2].chars); 	break;}
-    case 325: { /* <primary> = STRING; */
+    case 326: { /* <primary> = STRING; */
 #line 917 "alan.pmk"
  stringPrint(pmSySt[pmStkP+1].chars); 	break;}
-    case 333: { /* __genSym#74 =; */
+    case 334: { /* __genSym#75 =; */
 #line 920 "alan.pmk"
  fprintf(outFile, "Isa object, "); 	break;}
-    case 334: { /* __genSym#75 =; */
-#line 921 "alan.pmk"
- fprintf(outFile, "Random "); 	break;}
     case 335: { /* __genSym#76 =; */
 #line 921 "alan.pmk"
+ fprintf(outFile, "Random "); 	break;}
+    case 336: { /* __genSym#77 =; */
+#line 921 "alan.pmk"
  fprintf(outFile, " To "); 	break;}
-    case 327: { /* <primary> = 'SCORE'; */
+    case 328: { /* <primary> = 'SCORE'; */
 #line 922 "alan.pmk"
  fprintf(outFile, "Score"); 	break;}
-    case 337: { /* <aggregate> = 'SUM' 'OF' ID; */
+    case 338: { /* <aggregate> = 'SUM' 'OF' ID; */
 #line 926 "alan.pmk"
  fprintf(outFile, " (Sum Of "); idPrint(pmSeSt[pmStkP+3].string); 	break;}
-    case 338: { /* <aggregate> = 'MAX' 'OF' ID; */
+    case 339: { /* <aggregate> = 'MAX' 'OF' ID; */
 #line 927 "alan.pmk"
  fprintf(outFile, " (Max Of "); idPrint(pmSeSt[pmStkP+3].string); 	break;}
-    case 336: { /* <aggregate> = 'COUNT'; */
+    case 337: { /* <aggregate> = 'COUNT'; */
 #line 928 "alan.pmk"
  fprintf(outFile, " Count "); 	break;}
-    case 339: { /* <something> = <optional_not> ID; */
+    case 340: { /* <something> = <optional_not> ID; */
 #line 933 "alan.pmk"
  idPrint(pmSeSt[pmStkP+2].string); 	break;}
-    case 340: { /* <what> = 'OBJECT'; */
+    case 341: { /* <what> = 'OBJECT'; */
 #line 937 "alan.pmk"
  fprintf(outFile, "**** object ****"); 	break;}
-    case 341: { /* <what> = 'LOCATION'; */
+    case 342: { /* <what> = 'LOCATION'; */
 #line 938 "alan.pmk"
  fprintf(outFile, "Current Location"); 	break;}
-    case 342: { /* <what> = 'ACTOR'; */
+    case 343: { /* <what> = 'ACTOR'; */
 #line 939 "alan.pmk"
  fprintf(outFile, "Current Actor"); 	break;}
-    case 343: { /* <what> = ID; */
+    case 344: { /* <what> = ID; */
 #line 940 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
-    case 346: { /* <where> = 'HERE'; */
+    case 347: { /* <where> = 'HERE'; */
 #line 949 "alan.pmk"
  fprintf(outFile, "Here"); 	break;}
-    case 347: { /* <where> = 'NEARBY'; */
+    case 348: { /* <where> = 'NEARBY'; */
 #line 950 "alan.pmk"
  fprintf(outFile, "Nearby"); 	break;}
-    case 350: { /* __genSym#77 =; */
+    case 351: { /* __genSym#78 =; */
 #line 951 "alan.pmk"
  fprintf(outFile, "At "); 	break;}
-    case 351: { /* __genSym#78 =; */
+    case 352: { /* __genSym#79 =; */
 #line 952 "alan.pmk"
  fprintf(outFile, "In "); 	break;}
-    case 352: { /* <binop> = '+'; */
+    case 353: { /* <binop> = '+'; */
 #line 956 "alan.pmk"
  fprintf(outFile, "+"); 	break;}
-    case 353: { /* <binop> = '-'; */
+    case 354: { /* <binop> = '-'; */
 #line 957 "alan.pmk"
  fprintf(outFile, "-"); 	break;}
-    case 354: { /* <binop> = '*'; */
+    case 355: { /* <binop> = '*'; */
 #line 958 "alan.pmk"
  fprintf(outFile, "*"); 	break;}
-    case 355: { /* <binop> = '/'; */
+    case 356: { /* <binop> = '/'; */
 #line 959 "alan.pmk"
  fprintf(outFile, "/"); 	break;}
-    case 356: { /* <relop> = '<>'; */
+    case 357: { /* <relop> = '<>'; */
 #line 963 "alan.pmk"
  fprintf(outFile, "<>"); 	break;}
-    case 357: { /* <relop> = '='; */
+    case 358: { /* <relop> = '='; */
 #line 964 "alan.pmk"
  fprintf(outFile, "="); 	break;}
-    case 358: { /* <relop> = '=='; */
+    case 359: { /* <relop> = '=='; */
 #line 965 "alan.pmk"
  fprintf(outFile, "=="); 	break;}
-    case 359: { /* <relop> = '>='; */
+    case 360: { /* <relop> = '>='; */
 #line 966 "alan.pmk"
  fprintf(outFile, ">="); 	break;}
-    case 360: { /* <relop> = '<='; */
+    case 361: { /* <relop> = '<='; */
 #line 967 "alan.pmk"
  fprintf(outFile, "<="); 	break;}
-    case 361: { /* <relop> = '>'; */
+    case 362: { /* <relop> = '>'; */
 #line 968 "alan.pmk"
  fprintf(outFile, ">"); 	break;}
-    case 362: { /* <relop> = '<'; */
+    case 363: { /* <relop> = '<'; */
 #line 969 "alan.pmk"
  fprintf(outFile, "<"); 	break;}
-    case 364: { /* <optional_qual> = 'BEFORE'; */
+    case 365: { /* <optional_qual> = 'BEFORE'; */
 #line 974 "alan.pmk"
  fprintf(outFile, " Before"); 	break;}
-    case 365: { /* <optional_qual> = 'AFTER'; */
+    case 366: { /* <optional_qual> = 'AFTER'; */
 #line 975 "alan.pmk"
  fprintf(outFile, " After"); 	break;}
-    case 366: { /* <optional_qual> = 'ONLY'; */
+    case 367: { /* <optional_qual> = 'ONLY'; */
 #line 976 "alan.pmk"
  fprintf(outFile, " Only"); 	break;}
-    case 368: { /* <optional_not> = 'NOT'; */
+    case 369: { /* <optional_not> = 'NOT'; */
 #line 981 "alan.pmk"
  fprintf(outFile, "Not "); 	break;}
-    case 369: { /* <optional_id> =; */
+    case 370: { /* <optional_id> =; */
 #line 985 "alan.pmk"
  pmSeSt[pmStkP+1].string = ""; 	break;}
-    case 370: { /* <optional_id> = ID; */
+    case 371: { /* <optional_id> = ID; */
 #line 986 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+1].string; 	break;}
-    case 371: { /* <ids> = ID; */
+    case 372: { /* <ids> = ID; */
 #line 990 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
-    case 372: { /* <ids> = <ids> ID; */
+    case 373: { /* <ids> = <ids> ID; */
 #line 991 "alan.pmk"
  fprintf(outFile, " "); idPrint(pmSeSt[pmStkP+2].string); 	break;}
-    case 373: { /* <id_list> = ID; */
+    case 374: { /* <id_list> = ID; */
 #line 995 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
-    case 374: { /* <id_list> = <id_list> ',' ID; */
+    case 375: { /* <id_list> = <id_list> ',' ID; */
 #line 996 "alan.pmk"
  fprintf(outFile, ", "); idPrint(pmSeSt[pmStkP+3].string); 	break;}
-    case 376: { /* <optional_integer> = Integer; */
+    case 377: { /* <optional_integer> = Integer; */
 #line 1001 "alan.pmk"
  fprintf(outFile, pmSySt[pmStkP+1].chars); 	break;}
-    case 377: { /* <optional_minus> =; */
+    case 378: { /* <optional_minus> =; */
 #line 1005 "alan.pmk"
  pmSeSt[pmStkP+1].string = ""; 	break;}
-    case 378: { /* <optional_minus> = '-'; */
+    case 379: { /* <optional_minus> = '-'; */
 #line 1006 "alan.pmk"
  pmSeSt[pmStkP+1].string = "-"; 	break;}
-    case 380: { /* <id_of> = ID 'OF'; */
+    case 381: { /* <id_of> = ID 'OF'; */
 #line 1014 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); fprintf(outFile, " Of "); 	break;}
-    case 381: { /* <integer_or_id> = Integer; */
+    case 382: { /* <integer_or_id> = Integer; */
 #line 1018 "alan.pmk"
  pmSeSt[pmStkP+1].string = malloc(strlen(pmSySt[pmStkP+1].chars)+2);
 		sprintf(pmSeSt[pmStkP+1].string, "s%s", pmSySt[pmStkP+1].chars); 	break;}
-    case 382: { /* <integer_or_id> = ID; */
+    case 383: { /* <integer_or_id> = ID; */
 #line 1020 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+1].string; 	break;}
-    case 383: { /* ID = IDENT; */
+    case 384: { /* ID = IDENT; */
 #line 1024 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSySt[pmStkP+1].chars; 	break;}
-    case 384: { /* ID = 'DEFAULT'; */
+    case 385: { /* ID = 'DEFAULT'; */
 #line 1025 "alan.pmk"
  pmSeSt[pmStkP+1].string = "default"; 	break;}
-    case 385: { /* ID = 'ARTICLE'; */
+    case 386: { /* ID = 'ARTICLE'; */
 #line 1026 "alan.pmk"
  pmSeSt[pmStkP+1].string = "article"; 	break;}
-    case 386: { /* ID = 'MESSAGE'; */
+    case 387: { /* ID = 'MESSAGE'; */
 #line 1027 "alan.pmk"
  pmSeSt[pmStkP+1].string = "message"; 	break;}
-    case 387: { /* ID = 'QUIT'; */
+    case 388: { /* ID = 'QUIT'; */
 #line 1028 "alan.pmk"
  pmSeSt[pmStkP+1].string = "quit"; 	break;}
-    case 388: { /* ID = 'SAVE'; */
+    case 389: { /* ID = 'SAVE'; */
 #line 1029 "alan.pmk"
  pmSeSt[pmStkP+1].string = "save"; 	break;}
-    case 389: { /* ID = 'RESTORE'; */
+    case 390: { /* ID = 'RESTORE'; */
 #line 1030 "alan.pmk"
  pmSeSt[pmStkP+1].string = "restore"; 	break;}
-    case 390: { /* ID = 'RESTART'; */
+    case 391: { /* ID = 'RESTART'; */
 #line 1031 "alan.pmk"
  pmSeSt[pmStkP+1].string = "restart"; 	break;}
-    case 391: { /* ID = 'WAIT'; */
+    case 392: { /* ID = 'WAIT'; */
 #line 1032 "alan.pmk"
  pmSeSt[pmStkP+1].string = "wait"; 	break;}
-    case 392: { /* ID = 'BETWEEN'; */
+    case 393: { /* ID = 'BETWEEN'; */
 #line 1033 "alan.pmk"
  pmSeSt[pmStkP+1].string = "between"; 	break;}
-    case 393: { /* ID = 'CONTAINS'; */
+    case 394: { /* ID = 'CONTAINS'; */
 #line 1034 "alan.pmk"
  pmSeSt[pmStkP+1].string = "contains"; 	break;}
-    case 394: { /* ID = 'ON'; */
+    case 395: { /* ID = 'ON'; */
 #line 1035 "alan.pmk"
  pmSeSt[pmStkP+1].string = "on"; 	break;}
-    case 395: { /* ID = 'IN'; */
+    case 396: { /* ID = 'IN'; */
 #line 1036 "alan.pmk"
  pmSeSt[pmStkP+1].string = "in"; 	break;}
-    case 396: { /* ID = 'AFTER'; */
+    case 397: { /* ID = 'AFTER'; */
 #line 1037 "alan.pmk"
  pmSeSt[pmStkP+1].string = "after"; 	break;}
-    case 397: { /* ID = 'BEFORE'; */
+    case 398: { /* ID = 'BEFORE'; */
 #line 1038 "alan.pmk"
  pmSeSt[pmStkP+1].string = "before"; 	break;}
-    case 398: { /* ID = 'CHECK'; */
+    case 399: { /* ID = 'CHECK'; */
 #line 1039 "alan.pmk"
  pmSeSt[pmStkP+1].string = "check"; 	break;}
-    case 399: { /* ID = 'DEPEND'; */
+    case 400: { /* ID = 'DEPEND'; */
 #line 1040 "alan.pmk"
  pmSeSt[pmStkP+1].string = "depend"; 	break;}
-    case 400: { /* ID = 'EXIT'; */
+    case 401: { /* ID = 'EXIT'; */
 #line 1041 "alan.pmk"
  pmSeSt[pmStkP+1].string = "exit"; 	break;}
-    case 401: { /* ID = 'FOR'; */
+    case 402: { /* ID = 'FOR'; */
 #line 1042 "alan.pmk"
  pmSeSt[pmStkP+1].string = "for"; 	break;}
-    case 402: { /* ID = 'INTEGER'; */
+    case 403: { /* ID = 'INTEGER'; */
 #line 1043 "alan.pmk"
  pmSeSt[pmStkP+1].string = "integer"; 	break;}
-    case 403: { /* ID = 'ISA'; */
+    case 404: { /* ID = 'ISA'; */
 #line 1044 "alan.pmk"
  pmSeSt[pmStkP+1].string = "isa"; 	break;}
-    case 404: { /* ID = 'LIMITS'; */
+    case 405: { /* ID = 'LIMITS'; */
 #line 1045 "alan.pmk"
  pmSeSt[pmStkP+1].string = "limits"; 	break;}
     default: break; }
