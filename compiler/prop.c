@@ -310,7 +310,7 @@ void dumpProps(Properties *props)
   put("PROPS: "); dumpPointer(props); indent();
   put("id: "); dumpId(props->id); nl();
   put("parentId: "); dumpId(props->parentId); nl();
-  put("names: "); dumpList(props->names, NAME_LIST); nl();
+  put("names: "); dumpListOfLists(props->names, NAME_LIST); nl();
   put("whr: "); duwhr(props->whr); nl();
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();

@@ -267,6 +267,55 @@ int smScAction(
 }
     break;
 
+  case 115:		/* 'LOCATION'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  84:		/* 'ACTOR'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  88:		/* 'OPAQUE'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  21:		/* 'ON'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  24:		/* 'OF'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  80:		/* 'FIRST'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
+  case  62:		/* 'INTO'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
   case 132:		/* INCLUDE*/ 
     {
       Srcp srcp, start;

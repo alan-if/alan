@@ -124,6 +124,8 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	cat smScan.dos >> smScanx.c
 	cat smScan.tbl >> smScanx.c
 	cat smScan.tail >> smScanx.c
+	dos2unix smScanx.c
+	dos2unix smScSema.c
 	touch .smkstamp
 
 smScanx.c : .smkstamp

@@ -2480,39 +2480,41 @@ ID
 
     ! 'LOCATION'
     %%
-	%ID.id = newId(`&%'LOCATION'.srcp, "location");
+	%ID.id = newId(`&%'LOCATION'.srcp, %'LOCATION'.chars);
     %%
 
     ! 'ACTOR'
     %%
-	%ID.id = newId(`&%'ACTOR'.srcp, "actor");
+	%ID.id = newId(`&%'ACTOR'.srcp, %'ACTOR'.chars);
     %%
 
     ! 'OPAQUE'
     %%
-	%ID.id = newId(`&%'OPAQUE'.srcp, "opaque");
+	%ID.id = newId(`&%'OPAQUE'.srcp, %'OPAQUE'.chars);
     %%
 
     ! 'ON'
     %%
-	%ID.id = newId(`&%'ON'.srcp, "on");
+	%ID.id = newId(`&%'ON'.srcp, %'ON'.chars);
     %%
 
     ! 'OF'
     %%
-	%ID.id = newId(`&%'OF'.srcp, "of");
+	%ID.id = newId(`&%'OF'.srcp, %'OF'.chars);
     %%
 
--- Possibly we could add further keywords here. But let's not at this point
     ! 'FIRST'
     %%
-	%ID.id = newId(`&%'FIRST'.srcp, "first");
+	%ID.id = newId(`&%'FIRST'.srcp, %'FIRST'.chars);
     %%
 
     ! 'INTO'
     %%
-	%ID.id = newId(`&%'INTO'.srcp, "into");
+	%ID.id = newId(`&%'INTO'.srcp, %'INTO'.chars);
     %%
 
+-- Possibly we could add further keywords here. But let's not at this point
+-- Remember to change scanner so that the characters are copied for the
+-- added keyword too.
     ;
 

@@ -61,7 +61,8 @@ void initDumpNodeList()
   dumpNodeTable[VERB_LIST] = &dumpVerb;
   dumpNodeTable[SCRIPT_LIST] = &dumpScript;
   dumpNodeTable[STEP_LIST] = &dumpStep;
-  dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;
+  dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;  
+  dumpNodeTable[NAME_LIST] = &dumpId;
 }
 
 
@@ -230,7 +231,6 @@ static void dumpNode(void *theNode, ListKind kind)
   } else
     dumpNodeTable[kind](theNode);
 }
-
 
 
 /*======================================================================*/

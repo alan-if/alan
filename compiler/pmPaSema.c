@@ -2132,37 +2132,37 @@ int rule			/* IN production number */
     case 332: { /* ID = 'LOCATION'; */
 #line 2482 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "location");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 333: { /* ID = 'ACTOR'; */
 #line 2487 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "actor");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 334: { /* ID = 'OPAQUE'; */
 #line 2492 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "opaque");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 335: { /* ID = 'ON'; */
 #line 2497 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "on");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 336: { /* ID = 'OF'; */
 #line 2502 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "of");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 337: { /* ID = 'FIRST'; */
-#line 2508 "alan.pmk"
+#line 2507 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "first");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 338: { /* ID = 'INTO'; */
-#line 2513 "alan.pmk"
+#line 2512 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "into");
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     default: break; }
 }/*pmPaSema()*/

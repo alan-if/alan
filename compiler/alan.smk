@@ -286,6 +286,41 @@ void setCharacterSet(int set)
       smToken->len = len;
     %%;
 
+  'LOCATION' = 'LOCATION'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'ACTOR' = 'ACTOR'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'OPAQUE' = 'OPAQUE'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'ON' = 'ON'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'OF' = 'OF'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'FIRST' = 'FIRST'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
+  'INTO' = 'INTO'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
   Unknown = _Unknown;
 
   EndOfText = _EndOfText;
