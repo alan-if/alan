@@ -1,2 +1,0 @@
-alan locate_syntax
-
