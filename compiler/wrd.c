@@ -57,6 +57,23 @@ WrdNod *findwrd(char *str)	/* IN - The string */
 }
 
 
+/*----------------------------------------------------------------------
+
+  findReference()
+
+  Find a reference in a list.
+
+*/
+static Bool findReference(InsNod *ref, List *referenceList)
+{
+  List *l;
+
+  for (l = referenceList; l != NULL; l = l->next)
+    if (l->element.ins == ref)
+      return TRUE;
+  return FALSE;
+}
+
 
 /*======================================================================
 
@@ -79,12 +96,14 @@ int newwrd(char *str,		/* IN - Name of the new word */
   /* Find the word if it exists */
   wrd = findwrd(str);
   if (wrd != NULL) {
-    /* Add another reference */
-    wrd->classbits |= 1L<<class;
-    wrd->ref[class] = concat(wrd->ref[class], ref, LIST_REF);
-    if (wrd->code == -1)
-      /* It was previously without a code */
-      wrd->code = code;
+    if (!findReference(ref, wrd->ref[class])) {
+      /* Add another reference */
+      wrd->classbits |= 1L<<class;
+      wrd->ref[class] = concat(wrd->ref[class], ref, LIST_REF);
+      if (wrd->code == -1)
+	/* It was previously without a code */
+	wrd->code = code;
+    }
     return wrd->code;
   }
 
