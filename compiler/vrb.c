@@ -69,6 +69,9 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
       redefined(&lst->element.id->srcp, sym, lst->element.id->string);
   }
 
+  /* Use first verb symbol as context symbol */
+  new->symbol = ids->element.id->symbol;
+
   return(new);
 }
 
@@ -125,7 +128,7 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
   context.instance = ins;
   
   if (stx != NULL) {
-    context.parameters = stx->pars;
+    context.verb = vrb->symbol;
     analts(vrb->alts, &context);
   } else
     analts(vrb->alts, &context);

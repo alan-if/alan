@@ -7,6 +7,7 @@
 \*======================================================================*/
 
 #include "sym.c"
+#include "elm_x.h"
   
 
 /*======================================================================
@@ -26,16 +27,64 @@ void testSymCheck()
   IdNode *unknownId = newId(&srcp, "unknownId");
   IdNode *aClassId = newId(&srcp, "aClassId");
   SymNod *aClassSymbol = newSymbol("aClassId", CLASS_SYMBOL);
+  IdNode *anInstanceId = newId(&srcp, "anInstanceId");
+  SymNod *anInstanceSymbol = newSymbol("anInstanceId", INSTANCE_SYMBOL);
   SymNod *foundSymbol;
+
 
   foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
   unitAssert(foundSymbol == NULL);
   unitAssert(readEcode() == 310 && readSev() == sevERR);
 
-  foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
+  foundSymbol = symcheck(aClassId, CLASS_SYMBOL, NULL);
   unitAssert(foundSymbol == aClassSymbol);
+
+  foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
+  unitAssert(foundSymbol == NULL);
   unitAssert(readEcode() == 319 && readSev() == sevERR);
+
+  foundSymbol = symcheck(anInstanceId, INSTANCE_SYMBOL, NULL);
+  unitAssert(foundSymbol == anInstanceSymbol);
 }
+
+
+static List *createOneParameter(char *id)
+{
+  return concat(NULL, newelm(&nulsrcp, PARAMETER_ELEMENT,
+			     newId(&nulsrcp, id), 0), LIST_ELM);
+}
+
+void testVerbSymbols()
+{
+  SymNod *v1Symbol = newSymbol("v1", VERB_SYMBOL);
+  SymNod *foundSymbol;
+  List *parameters, *l, *p;
+  Context context;
+
+  foundSymbol = lookup("v1");
+  unitAssert(foundSymbol == v1Symbol);
+
+  parameters = createOneParameter("p1");
+  setParameters(v1Symbol, parameters);
+  unitAssert(v1Symbol->fields.verb.parameterSymbols != NULL);
+  for (l = v1Symbol->fields.verb.parameterSymbols,
+	 p = parameters;
+       l && p;
+       l = l->next, p = p->next)
+    unitAssert(l->element.sym->fields.parameter.element == p->element.elm);
+
+  foundSymbol = lookupInParameterList("p1", v1Symbol->fields.verb.parameterSymbols);
+  unitAssert(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+
+  context.kind = VERB_CONTEXT;
+  context.verb = v1Symbol;
+  foundSymbol = lookupInContext("p1", &context);
+  unitAssert(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+
+  
+}
+
+
 
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
@@ -189,5 +238,6 @@ void registerSymUnitTests()
   registerUnitTest(testInherit2);
   registerUnitTest(testSymbolTableInit);
   registerUnitTest(testCreateClassSymbol);
+  registerUnitTest(testVerbSymbols);
 }
 

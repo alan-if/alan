@@ -18,6 +18,8 @@
 #include "elm_x.h"
 #include "lst_x.h"
 #include "wrd_x.h"
+#include "cla_x.h"
+
 
 #include "lmList.h"
 
@@ -41,10 +43,10 @@
   Allocates and initialises a syntax node.
 
  */
-StxNod *newstx(Srcp *srcp,      /* IN - Source Position */
-               IdNode *id,	/* IN - Name of the verb it defines */
-               List *elms,      /* IN - List of elements */
-               List *ress)      /* IN - List of class restrictions */
+StxNod *newstx(Srcp *srcp,
+               IdNode *id,
+               List *elements,
+               List *restrictionLists)
 {
   StxNod *new;                  /* The newly created node */
 
@@ -54,13 +56,32 @@ StxNod *newstx(Srcp *srcp,      /* IN - Source Position */
 
   new->srcp = *srcp;
   new->id = id;
-  new->elms = elms;
-  new->ress = ress;
+  new->elements = elements;
+  new->restrictionLists = restrictionLists;
 
   new->generated = FALSE;
 
   return(new);
 }
+
+
+/*----------------------------------------------------------------------
+
+  setDefaultRestriction()
+
+  Sets the restictions class symbol to the objectSymbol for the
+  restrictions that has no explicit declared.
+
+ */
+static void setDefaultRestriction(List *parameters)
+{
+  List *p;
+
+  for (p = parameters; p != NULL; p = p->next)
+    if (p->element.elm->id->symbol->fields.parameter.class == NULL)
+      p->element.elm->id->symbol->fields.parameter.class = object->slots->symbol;
+}
+
 
 
 
@@ -89,11 +110,13 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
     stx->id->code = sym->code;
   }
 
-  stx->pars = anelms(stx->elms, stx->ress, stx);
-  anress(stx->ress, stx->pars);
+  stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
+  setParameters(sym, stx->parameters);
+  anress(stx->restrictionLists, stx->parameters);
+  setDefaultRestriction(stx->parameters);
 
   /* Link the last syntax element to this stx to prepare for code generation */
-  stx->elms->tail->element.elm->stx = stx;
+  stx->elements->tail->element.elm->stx = stx;
 }
 
 
@@ -147,9 +170,9 @@ void anstxs(void)
 StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
 {
   StxNod *stx;
-  List *elms;
+  List *elements;
 
-  elms = concat(concat(concat(NULL,
+  elements = concat(concat(concat(NULL,
 			      newelm(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
@@ -157,7 +180,7 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
 		       newelm(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
 		       LIST_ELM),
 		newelm(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), LIST_ELM);
-  stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elms, NULL);
+  stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, LIST_STX);
   anstx(stx);                   /* Make sure the syntax is analysed */
@@ -179,7 +202,7 @@ Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
 {
   List *elm1, *elm2;
 
-  for (elm1 = stx1->pars, elm2 = stx2->pars;
+  for (elm1 = stx1->parameters, elm2 = stx2->parameters;
        elm1 != NULL && elm2 != NULL;
        elm1 = elm1->next, elm2 = elm2->next) {
     if (!equalId(elm1->element.elm->id, elm2->element.elm->id))
@@ -202,14 +225,14 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
 {
   WrdNod *wrd;
   List *lst = NULL;
-  List *elms = NULL;            /* A list of parallell elms-lists */
+  List *elements = NULL;            /* A list of parallell elms-lists */
 
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
   
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */
-    wrd = findwrd(stx->elms->element.elm->id->string);
+    wrd = findwrd(stx->elements->element.elm->id->string);
     /* Ignore words that are not verbs and prepositions */
     if (wrd->classbits&(1L<<WRD_PREP))
       lst = wrd->ref[WRD_PREP];
@@ -217,11 +240,11 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
       lst = wrd->ref[WRD_VRB];
     /* Create a list of all parallell elements */
     while (lst) {
-      elms = concat(elms, lst->element.stx->elms, LIST_LST);
+      elements = concat(elements, lst->element.stx->elements, LIST_LST);
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }
-    stx->elmsadr = geelms(elms, stx);
+    stx->elmsadr = geelms(elements, stx);
   } else
     stx->elmsadr = 0;
 }
@@ -239,7 +262,7 @@ static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
-    emit(stx->elms->element.elm->id->code);
+    emit(stx->elements->element.elm->id->code);
     /* Address to syntax element tables */
     emit(stx->elmsadr);
   }
@@ -262,7 +285,7 @@ Aaddr gestxs(void)
 
   /* First generate all class restriction checks */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    lst->element.stx->resadr = geress(lst->element.stx->ress, lst->element.stx);
+    lst->element.stx->resadr = geress(lst->element.stx->restrictionLists, lst->element.stx);
 
   /* Then the actual stxs */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
@@ -296,8 +319,8 @@ void dustx(StxNod *stx)
   put("id: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); duadr(stx->elmsadr); nl();
-  put("elms: "); dulst(stx->elms, LIST_ELM); nl();
+  put("elements: "); dulst(stx->elements, LIST_ELM); nl();
   put("resadr: "); duadr(stx->resadr); nl();
-  put("ress: "); dulst(stx->ress, LIST_RES); nl();
-  put("pars: "); dulst(stx->pars, LIST_ELM); out();
+  put("restrictionLists: "); dulst(stx->restrictionLists, LIST_RES); nl();
+  put("parameters: "); dulst(stx->parameters, LIST_ELM); out();
 }

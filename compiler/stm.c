@@ -73,7 +73,7 @@ static void andescribe(StmNod *stm,
 
   switch (stm->fields.describe.wht->kind) {
   case WHT_OBJ:
-    if (context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&stm->fields.describe.wht->srcp, 409, sevERR, "");
     break;
   case WHT_LOC:
@@ -83,7 +83,7 @@ static void andescribe(StmNod *stm,
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context->parameters);
+    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -156,7 +156,7 @@ static void anlocate(StmNod *stm,
 {
   switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
-    if (context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&stm->fields.locate.wht->srcp, 409, sevERR, "");
     break;
   case WHT_ACT:
@@ -245,7 +245,7 @@ static void anmake(StmNod *stm,
     break;
 
   case WHT_OBJ:
-    if (context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.make.atr);
     if (atr == NULL)            /* Attribute not found globally */
@@ -308,7 +308,7 @@ static void anset(StmNod *stm,
     break;
 
   case WHT_OBJ:
-    if (context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.set.atr);
     if (atr == NULL)            /* attribute not found globally */
@@ -378,7 +378,7 @@ static void anincr(StmNod *stm,
     break;
 
   case WHT_OBJ:
-    if (context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
     atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
@@ -505,7 +505,7 @@ static void anuse(StmNod *stm,
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, context->parameters);
+      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, context);
       context->instance = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");

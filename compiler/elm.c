@@ -80,12 +80,10 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   switch (elm->kind) {
-  case PARAMETER_ELEMENT:
-    elm->id->code = elm->no;
-    break;
   case WORD_ELEMENT:
     elm->id->code = newwrd(elm->id->string, WRD_PREP, 0, NULL);
     break;
+  case PARAMETER_ELEMENT:
   case END_OF_SYNTAX:
     break;
   default:
@@ -124,7 +122,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
   /* Start with the second since the first is analyzed above */
   for (lst = elms->next; lst != NULL; lst = lst->next) {
     if (lst->element.elm->kind == PARAMETER_ELEMENT) {
-      lst->element.elm->no = paramNo++;
+      lst->element.elm->id->code = paramNo++;
       if ((lst->element.elm->flags & MULTIPLEBIT) != 0) {
         if (multiple)
           lmLog(&lst->element.elm->srcp, 217, sevWAR, "");
@@ -142,7 +140,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
           else {
             found = TRUE;
             lst->element.elm->res = resLst->element.res;
-            resLst->element.res->id->code = lst->element.elm->no;
+            resLst->element.res->id->code = lst->element.elm->id->code;
           }
         }
       }
@@ -387,6 +385,5 @@ void duelm(ElmNod *elm)
     put("*** ERROR ***"); nl();
     break;
   }
-  put("no: "); dumpInt(elm->no); nl();
   put("id: "); dumpId(elm->id); out();
 }

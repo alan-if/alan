@@ -1,0 +1,28 @@
+########## attribute2 ##########
+Syntax x = x (o).
+
+Verb x
+  Does
+    "X says (o) has y =" Say y Of o.
+End Verb x.
+
+The l Isa location
+End The l.
+
+Start At l.
+########## alan attribute2.alan ##########
+
+
+attribute2.alan
+
+    5.      "X says (o) has y =" Say y Of o.
+=====>                               1
+
+  *1*   316 E : Attribute 'y' is not defined for parameter 'o' since its class
+                ('object') does not have it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

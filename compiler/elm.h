@@ -29,7 +29,6 @@ typedef struct ElmNod {		/* ELEMENT */
   ElmKind kind;			/* Kind of Parameter */
   IdNode *id;			/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
-  int no;			/* AN - parameter number */
   ResNod *res;			/* AN - link to the class restriction check */
   StxNod *stx;			/* AN - pointer back to syntax node */
 } ElmNod;

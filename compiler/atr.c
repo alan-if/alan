@@ -316,17 +316,21 @@ AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *cont
 {
   AtrNod *atr;
   SymNod *sym;
+  SymNod *classOfParameter;
 
-  /* Ignore parameters for now */
-  sym = symcheck(what->id, INSTANCE_SYMBOL, NULL);
+  sym = symcheck(what->id, INSTANCE_SYMBOL, context);
   if (sym) {
     if (sym->kind == INSTANCE_SYMBOL) {
       what->id->code = sym->code;
       atr = findAttribute(sym->fields.claOrIns.slots->attributes, attribute);
+      if (atr == NULL)
+	lmLog(&attribute->srcp, 315, sevERR, what->id->string);
     } else if (sym->kind == PARAMETER_SYMBOL) {
-      /* We need to find its class restriction */
-	  /* Then find attributes for that class */ 
-      ;
+      classOfParameter = sym->fields.parameter.class;
+      atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
+      if (atr == NULL)
+	lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+	       what->id->string, classOfParameter->string, NULL);
     }
   }
   return atr;

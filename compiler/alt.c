@@ -71,8 +71,8 @@ static void analt(AltNod *alt,
 
   if (alt->id != NULL) {
     /* Alternatives given, find out which one */
-    for (lst = context->parameters; lst != NULL; lst = lst->next)
-      if (equalId(lst->element.elm->id, alt->id))
+    for (lst = context->verb->fields.verb.parameterSymbols; lst != NULL; lst = lst->next)
+      if (equalId(lst->element.sym->fields.parameter.element->id, alt->id))
 	break;
     if (lst == NULL)
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);

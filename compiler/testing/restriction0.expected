@@ -1,0 +1,27 @@
+########## restriction0 ##########
+Syntax x = x (y)
+  Where y Isa x
+    Else "Should be an object."
+
+Verb x
+End Verb x.
+
+The l Isa location.
+End The l.
+
+Start At l.
+########## alan restriction0.alan ##########
+
+
+restriction0.alan
+
+    2.    Where y Isa x
+=====>                1
+
+  *1*   317 E : Can not restrict a parameter to something not a class.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -129,6 +129,8 @@ static lmMsgs msg[] = {
     { "311   ", "Must refer to %1." },
     { "312   ", "Parameter not uniquely defined as %1, which is required." },
     { "315   ", "Attribute not defined for \'%1\'." },
+    { "316   ", "Attribute \'%1\' is not defined for parameter \'%2\' since its class (\'%3\') does not have it." },
+    { "317   ", "Can not restrict a parameter to something not a class." },
     { "318   ", "The \'%1\' is not a Container." },
     { "319   ", "Identifier \'%1\' is not a %2." },
     { "320   ", "Word \'%1\' belongs to multiple word classes (%2 and %3)." },
@@ -152,7 +154,7 @@ static lmMsgs msg[] = {
     { "406   ", "A Container, Integer or String have no default attributes." },
     { "407   ", "Attribute in LIMITS must be a default object attribute." },
     { "408   ", "Attributes in %1 must be of boolean type." },
-    { "409   ", "No parameter defined in this context." },
+    { "409   ", "No parameters defined in this context." },
     { "410   ", "A parameter may not be used in %1." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
     { "412   ", "ACTOR is not allowed inside Events." },
@@ -180,7 +182,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 100}
+    {0, 102}
 };
 static lmMessages currMsect = (lmMessages)0;
 

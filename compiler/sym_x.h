@@ -15,6 +15,7 @@
 #include "lst.h"
 #include "id.h"
 #include "atr.h"
+#include "context.h"
 
 
 /* DATA: */
@@ -36,14 +37,14 @@ extern void initSymbols();
 extern SymNod *newSymbol(char str[],
 			 SymbolKind kind);
 
-/* Check if an Id exists and if so if of an allowed kind in this context */
-extern SymNod *symcheck(	/* OUT - Found symbol */
-    IdNode *id,			/* IN - The id to check */
-    SymbolKind kind,		/* IN - Allowed symbol kind */
-    List *pars			/* IN - Possible parameters in this context */
+/* Check if an Id exists in this contest and if so if of an allowed kind */
+extern SymNod *symcheck(
+    IdNode *id,
+    SymbolKind kind,
+    Context *context
     );
 
-/* Lookup a symbol */
+/* Lookup a symbol, check in parameters first */
 extern SymNod *lookup(char idString[]);
 
 /* Inheritance of a class */
@@ -52,6 +53,7 @@ extern SymNod *parentOf(SymNod *child);
 extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
 
+extern void setParameters(SymNod *verb, List *parameters);
 extern void numberAllAttributes(void);
 extern void replicateInheritedAttributes(void);
 

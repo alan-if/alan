@@ -167,7 +167,9 @@ void anwhr(WhrNod *whr,
       whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
-      if (context->kind != VERB_CONTEXT || context->parameters == NULL)
+      if (context->kind != VERB_CONTEXT)
+	lmLog(&whr->wht->srcp, 409, sevERR, "");
+      else if ( context->verb->fields.verb.parameterSymbols == NULL)
 	lmLog(&whr->wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:

@@ -16,6 +16,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "cla_x.h"
 
 
 #include "emit.h"
@@ -72,6 +73,7 @@ static void anres(
   List *p;
   List *idList;
   Context context;
+  SymNod *classSymbol;
 
   /* Check for the id in the parameter list */
   for (p = params; p != NULL; p = p->next)
@@ -82,15 +84,26 @@ static void anres(
   if (!found)
     lmLog(&res->id->srcp, 222, sevERR, res->id->string);
 
-  /* Analyse the class list */
-  for (idList = res->classes; idList; idList = idList->next) {
-    unimpl(&idList->element.id->srcp, "analyzer");
-  }
+  /* Analyse the class list and evaluate possibly to a class symbol ref. */
+  if (res->classes == NULL)
+    classSymbol = object->slots->symbol;
+  else
+    for (idList = res->classes; idList; idList = idList->next) {
+      classSymbol = lookup(idList->element.id->string);
+      if (classSymbol->kind != CLASS_SYMBOL)
+	lmLog(&idList->element.id->srcp, 317, sevERR, "");
+      classSymbol = NULL;
+    }
+
+  /* Set the class in the corresponding parameter symbol */
+  if (p->element.elm->id->symbol->kind != PARAMETER_SYMBOL)
+    syserr("Not a parameter symbol in anres()");
+  p->element.elm->id->symbol->fields.parameter.class = classSymbol;
+
 
   /* Analyse the statements to execute if the restrictions was not met */
   /* FIXME: we need to send the restriction inverted in the context also */
   context.kind = VERB_CONTEXT;
-  context.parameters = params;
   anstms(res->stms, &context);
 }
 
@@ -106,7 +119,7 @@ static void anres(
  */
 void anress(
     List *ress,			/* IN - List of nodes to analyze */
-    List *params		/* IN - Possible syntax parameters */
+    List *params		/* IN - The parameters */
 )
 {
   List *lst;

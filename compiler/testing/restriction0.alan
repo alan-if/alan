@@ -1,11 +1,8 @@
-Syntax x = x (y).
-
-The o Isa object At l.
-End The o.
+Syntax x = x (y)
+  Where y Isa x
+    Else "Should be an object."
 
 Verb x
-  Does
-    "x the y."
 End Verb x.
 
 The l Isa location.

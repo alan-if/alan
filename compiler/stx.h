@@ -21,10 +21,10 @@
 typedef struct StxNod {		/* SYNTAX */
   Srcp srcp;			/* Source position of this syntax */
   struct IdNode *id;		/* Name of the verb */
-  List *elms;			/* List of elements */
-  List *ress;			/* List of class restrictions */
-  List *pars;			/* AN - List of parameters */
-  Bool generated;		/* AN - Already generated? */
+  List *elements;
+  List *restrictionLists;
+  List *parameters;
+  Bool generated;
   Bool muldef;			/* AN - Multiply defined verb syntax? */
   Aaddr elmsadr;		/* GE - Address to element table for */
 				/* all stxs with the same first word */

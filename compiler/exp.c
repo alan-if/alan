@@ -92,7 +92,7 @@ static void anexpwhr(ExpNod *exp,
   else {
     switch (exp->fields.whr.wht->fields.wht.wht->kind) {
     case WHT_OBJ:
-      if (context->parameters == NULL)
+      if (context->verb->fields.verb.parameterSymbols == NULL)
 	lmLog(&exp->fields.whr.wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:
@@ -134,7 +134,7 @@ static void anexpwhr(ExpNod *exp,
       exp->fields.whr.whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
-      if (context->kind != VERB_CONTEXT || context->parameters == NULL)
+      if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
 	lmLog(&exp->fields.whr.whr->wht->srcp, 409, sevERR, "");
       break;
     case WHT_ACT:
@@ -205,7 +205,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       break;
 
     case WHT_OBJ:
-      if (context->parameters == NULL)
+      if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
       atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
@@ -221,8 +221,6 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
 				      exp->fields.atr.atr, context);
       if (atr == NULL) {	/* Attribute not found */
-	lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
-	      exp->fields.atr.wht->fields.wht.wht->id->string);
 	exp->typ = TYPUNK;
       } else if (exp->fields.atr.atr->symbol == NULL) {
 	exp->fields.atr.atr->code = atr->id->code;
@@ -393,7 +391,7 @@ static void anexpwht(ExpNod *exp,
 {
   switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
-    if (context->kind != VERB_CONTEXT || context->parameters == NULL)
+    if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&exp->fields.wht.wht->srcp, 409, sevERR, "");
     exp->typ = TYPENT;
     break;

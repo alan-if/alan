@@ -39,6 +39,7 @@ typedef enum ListKind {
   LIST_STR,
   LIST_STX,
   LIST_SYN,
+  LIST_SYM,
   LIST_VRB,
   LIST_LAST_KIND
 } ListKind;
@@ -66,6 +67,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct StpNod *stp;
     struct StxNod *stx;
     struct SynNod *syn;
+    struct SymNod *sym;
     struct VrbNod *vrb;
     struct ElmEntry *eent;
     struct IdNode *id;

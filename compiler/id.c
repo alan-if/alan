@@ -28,7 +28,7 @@
 
   */
 IdNode *newId(Srcp *srcp,	/* IN - Source Position */
-	     char *str)		/* IN - The string */
+	      char *str)	/* IN - The string */
 {
   IdNode *new;			/* The newly allocated area */
 
@@ -86,9 +86,11 @@ void symbolizeId(IdNode *id)
   */
 void generateId(IdNode *id)
 {
-  if (id->symbol != NULL)
+  if (id->symbol != NULL) {
     emit(id->symbol->code);
-  else
+    if (id->symbol->kind == PARAMETER_SYMBOL)
+      emit0(C_CURVAR, V_PARAM);
+  } else
     emit(id->code);
 }
 

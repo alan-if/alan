@@ -30,12 +30,23 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
   int code;			/* Internal code for this symbol in its kind */
   struct SymNod *lower, *higher;	/* Links to build a binary search tree */
   union {
+
     struct {
       struct SymNod *parent;
       Bool attributesAlreadyNumbered;
       Bool attributesAlreadyReplicated;
       struct SlotsNode *slots;
     } claOrIns;
+
+    struct {
+      List *parameterSymbols;
+    } verb;
+
+    struct {
+      struct ElmNod *element;
+      struct SymNod *class;
+    } parameter;
+
   } fields;
 } SymNod;
 

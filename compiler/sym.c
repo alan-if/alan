@@ -17,6 +17,7 @@
 #include "id_x.h"
 #include "atr_x.h"
 #include "exp_x.h"
+#include "lst_x.h"
 
 
 int classCount = 0;
@@ -118,6 +119,30 @@ static char *symbolKind(SymbolKind kind)
 
 
 
+/*----------------------------------------------------------------------
+
+  newParameterSymbol()
+
+  */
+static SymNod *newParameterSymbol(char *string, ElmNod *element)
+{
+  SymNod *new;                  /* The newly created symnod */
+  
+  if (string == NULL)
+    return (0);
+  
+  new = NEW(SymNod);
+  
+  new->kind = PARAMETER_SYMBOL;
+  new->string = string;
+  new->fields.parameter.element = element;
+  element->id->symbol = new;
+  element->id->symbol->code = element->id->code;
+
+  return new;
+}
+
+
 /*======================================================================
 
   newSymbol()
@@ -159,7 +184,7 @@ SymNod *newSymbol(char *string,	/* IN - Name of the new symbol */
   case VERB_SYMBOL:
     new->code = ++verbCount;
     break;
-  default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
+  default: syserr("Unexpected switch on SYMBOLKIND in newSymbol()"); break;
   }
 
   return new;
@@ -185,17 +210,35 @@ void initSymbols()
 
 /*======================================================================
 
+  lookupInParameterList()
+
+  Look for a symbol. If found return a pointer to its symnod, else NULL.
+
+  */
+static SymNod *lookupInParameterList(char *idString, List *parameterSymbols)
+{
+  List *l;
+
+  for (l = parameterSymbols; l != NULL; l = l->next)
+    if (strcmp(idString, l->element.sym->fields.parameter.element->id->string) == 0)
+      return l->element.sym;
+  return NULL;
+}
+
+
+/*======================================================================
+
   lookup()
 
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-SymNod *lookup(char *idString)	/* IN - The Id to look up */
+SymNod *lookup(char *idString)
 {
   SymNod *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  if (idString == NULL) return(NULL);
+  if (idString == NULL) syserr("NULL string in lookup()");
 
   s1 = symTree;
   s2 = NULL;
@@ -213,6 +256,38 @@ SymNod *lookup(char *idString)	/* IN - The Id to look up */
 
   return(NULL);
 }
+
+
+/*======================================================================
+
+  lookupInContext()
+
+  Look for a symbol using the context. If found return a pointer to its
+  symnod, else NULL.
+
+  */
+SymNod *lookupInContext(char *idString, Context *context)
+{
+  SymNod *foundSymbol;
+
+  if (context != NULL) {
+    switch (context->kind){
+    case VERB_CONTEXT:
+      foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
+      break;
+    default:
+      syserr("Unexpected context kind in lookupInContext()");
+      break;
+    }
+    if (foundSymbol != NULL)
+      return foundSymbol;
+  }
+
+  return lookup(idString);
+}
+
+
+
 
 /*======================================================================
 
@@ -276,25 +351,60 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
   Check if an Id exists and if so if it is of an allowed kind in this context
 
 */
-SymNod *symcheck(		/* OUT - Found symbol */
-    IdNode *id,			/* IN - The Id to check */
-    SymbolKind kind,		/* IN - Allowed identifier kind */
-    List *parameters		/* IN - Possible parameters valid in this context */
+SymNod *symcheck(
+    IdNode *id,
+    SymbolKind kind,
+    Context *context
     )
 {
-  SymNod *sym = lookup(id->string);
+  SymNod *sym = lookupInContext(id->string, context);
 
   if (!sym) 
     lmLog(&id->srcp, 310, sevERR, id->string);
-  else if (sym->kind != kind)
-    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL );
+  else if (sym->kind == PARAMETER_SYMBOL)
+    /* FIXME: Investigate restrictions to see if it has required kind */
+    ;
+  else if (sym->kind != kind) {
+    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL);
+    return NULL;
+  }
+
+  id->symbol = sym;
   return sym;
 }
 
 
+
+
 /*======================================================================
 
-  inheritCheck
+  setParameters()
+
+  Set the list of parameters (ElmNodes) as parameters in the verb symbol.
+
+*/
+void setParameters(SymNod *verb, List *parameters)
+{
+  List *parameterSymbols = NULL;
+  List *parameter;
+
+  if (verb->kind != VERB_SYMBOL) syserr("Not a verb in setParamters()");
+
+  if (parameters == NULL) return;
+
+  if (parameters->kind != LIST_ELM) syserr("Not a parameter list in setParameter()");
+
+  for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
+    SymNod *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
+    parameterSymbols = concat(parameterSymbols, parameterSymbol, LIST_SYM);
+  }
+
+  verb->fields.verb.parameterSymbols = parameterSymbols;
+}
+
+/*======================================================================
+
+  inheritCheck()
 
   Check that the given identifier inherits the class passed as a string.
   This will only be used for built in class checks (location, actor etc.)
