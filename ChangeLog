@@ -1,3 +1,7 @@
+Thu Nov  5 14:48:54 MET 1998
+
+	* v2.8(3)
+
 Mon Aug 31 13:32:32 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Allowed aposthrophe as a part of input words allowing "take
@@ -342,4 +346,5 @@ Wed Dec  8 16:15:01 1993  Thomas Nilsson  (thoni@rabbit)
 	* Added Restart question to the QUIT statement.
 
 	* Allowed save to multiple files.
+
 
