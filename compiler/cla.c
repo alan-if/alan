@@ -16,6 +16,7 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "adv_x.h"
+#include "atr_x.h"
 #include "prop_x.h"
 #include "lst_x.h"
 #include "context_x.h"
@@ -219,6 +220,13 @@ static void analyzeClass(ClaNod *class)
   analyzeProps(class->props, context);
 }
 
+
+/*======================================================================*/
+void analyzeAllClassAttributes() {
+  List *l;
+  TRAVERSE(l, allClasses)
+    analyzeAttributes(l->element.cla->props->attributes);
+}
 
 
 /*======================================================================*/

@@ -15,7 +15,7 @@ making of releases, porting and other CM stuff.
 	released version on the current branch. Finally the venum is
 	upgraded and committed (the next build will make 
 
-		vX.Y(Z+1))
+		vX.Y.(Z+1)
 
 
 "make <platform>"

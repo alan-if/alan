@@ -1332,6 +1332,7 @@ static void moveActor(int theActor)
 		   admin[theActor].script, admin[theActor].step+1,
 		   step->after-admin[theActor].waitCount);
 	  admin[theActor].waitCount++;
+	  break;
 	} else
 	  admin[theActor].waitCount = 0;
 	/* Then check possible expression to wait for */

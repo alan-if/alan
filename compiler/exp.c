@@ -122,11 +122,14 @@ Expression *newBinaryExpression(Srcp srcp, OperatorKind kind,
 void symbolizeExpression(Expression *exp) {
   switch (exp->kind) {
   case WHERE_EXPRESSION:
-    symbolizeExpression(exp->fields.whr.wht);
+    symbolizeWhere(exp->fields.whr.whr);
     symbolizeExpression(exp->fields.whr.wht);
     break;
   case WHAT_EXPRESSION:
     symbolizeWhat(exp->fields.wht.wht);
+    break;
+  case INTEGER_EXPRESSION:
+  case STRING_EXPRESSION:
     break;
   default:
     SYSERR("Unexpected Expression kind");

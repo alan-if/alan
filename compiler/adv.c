@@ -134,6 +134,7 @@ void analyzeAdventure(void)
   symbolizeAdventure();
   addAdditions();
   numberAllAttributes();
+  analyzeAllAttributes();	/* Make sure attributes are analyzed before expressions */
   replicateInherited();
 
   prepareWords();			/* Prepare words in the dictionary */

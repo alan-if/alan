@@ -135,6 +135,13 @@ void symbolizeInstances(void)
 }
 
 
+/*======================================================================*/
+void analyzeAllInstanceAttributes() {
+  List *l;
+  TRAVERSE(l, allInstances)
+    analyzeAttributes(l->element.ins->props->attributes);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeInstance(Instance *instance)

@@ -8,33 +8,23 @@
 
 #include "cla.h"
 
-/* USE: */
+/* Use: */
 
 
-/* DATA: */
+/* Data: */
 extern ClaNod *entity, *thing, *object, *location, *actor, *string, *integer;
 
 
-/* METHODS: */
+/* Methods: */
 extern void initClasses();
-
-/* Create a new Class node */
 extern ClaNod *newClass(Srcp *srcp,
 			IdNode *id,
 			IdNode *parent,
 			Properties *props);
-
-/* Symbolize all Classes */
 extern void symbolizeClasses(void);
-
-/* Analyze all Classes */
+extern void analyzeAllClassAttributes();
 extern void analyzeClasses(void);
-
-/* Generate code for all Classes */
 extern Aaddr generateClasses(void);
-
-/* Dump all Class node */
 extern void dumpClasses(void);
-
 
 #endif

@@ -184,7 +184,9 @@ void analyzeProps(Properties *props, Context *context)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(props);
-  analyzeAttributes(props->attributes);
+
+  /* Don't analyze attributes since those are analyze already */
+
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->enteredStatements, context);

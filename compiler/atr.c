@@ -12,6 +12,8 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "adv_x.h"
+#include "cla_x.h"
+#include "ins_x.h"
 #include "sym_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
@@ -152,7 +154,7 @@ void symbolizeAttributes(List *atrs)
       if (thisAttribute->instance->symbol)
 	if (thisAttribute->instance->symbol->kind != INSTANCE_SYMBOL)
 	  lmLogv(&thisAttribute->instance->srcp, 428, sevERR, "Attribute value in reference attribute declaration", "an instance", NULL);
-    } 
+    }
   }
 }
 
@@ -327,6 +329,13 @@ void analyzeAttributes(List *atrs)
     } else if (thisAttribute->type == SET_TYPE)
       analyzeSetAttribute(thisAttribute);
   }
+}
+
+
+/*======================================================================*/
+void analyzeAllAttributes() {
+  analyzeAllClassAttributes();
+  analyzeAllInstanceAttributes();
 }
 
 

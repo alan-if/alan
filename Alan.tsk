@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>337.89</origest>
-<currest>336.89</currest>
-<elapsed>187.89</elapsed>
+<origest>339.89</origest>
+<currest>338.89</currest>
+<elapsed>189.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>54</origest>
-<currest>54</currest>
-<elapsed>15</elapsed>
+<origest>56</origest>
+<currest>56</currest>
+<elapsed>17</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>17</origest>
 <currest>17</currest>
-<elapsed>15</elapsed>
+<elapsed>17</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -230,7 +230,7 @@ Change ':' to 'THEN'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -239,7 +239,7 @@ Change ':' to 'THEN'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -247,13 +247,34 @@ Change ':' to 'THEN'</notes>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Document inheritance rules for each construct</desc>
 <notes>Isn't it already?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Container listings should not show up if it only contains entities.</desc>
+<notes>This prompts an investigation of if entities are actually "hidden", they should be since visibility and description is added by thing.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -38,7 +38,12 @@ void testInferClassInSetAttribute()
 
   classId = newId(&nulsrcp, "location");
   instance = newInstance(&nulsrcp, newId(&nulsrcp, "u"), classId, NULL);
-  set = concat(set, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(&nulsrcp, "u"))), EXPRESSION_LIST);
+  set = concat(set,
+	       newWhatExpression(nulsrcp,
+				 newWhat(&nulsrcp,
+					 WHAT_ID,
+					 newId(&nulsrcp, "u"))),
+	       EXPRESSION_LIST);
 
   symbolizeInstance(instance);
   analyzeSetAttribute(atr);

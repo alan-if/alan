@@ -10,18 +10,18 @@
 #include "atr.h"
 
 
-/* USE other definitions */
+/* Use other definitions */
 
 #include "elm.h"
 #include "context.h"
 
 
-/* DATA: */
+/* Data: */
 
 extern int attributeAreaSize;
 
 
-/* FUNCTIONS: */
+/* Functions: */
 
 /* Create a new Attribute node */
 extern Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value);
@@ -34,6 +34,7 @@ extern void symbolizeAttributes(List *attributeList);
 extern List *sortAttributes(List *attributeList);
 extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
+extern void analyzeAllAttributes(void);
 extern void analyzeAttributes(List *attributeList);
 extern Attribute *resolveAttribute(Expression *exp, IdNode *attribute, Context *context);
 extern Aaddr generateAttributes(List *attributeList);
