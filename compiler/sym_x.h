@@ -38,7 +38,6 @@ extern SymNod *newsym(char str[],
 
 /* Check if an Id exists and if so if of an allowed kind in this context */
 extern SymNod *symcheck(	/* OUT - Found symbol */
-    ElmNod **elm,		/* OUT - Found parameter  */
     IdNode *id,			/* IN - The id to check */
     SymbolKind kind,		/* IN - Allowed symbol kind */
     List *pars			/* IN - Possible parameters in this context */

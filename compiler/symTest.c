@@ -23,17 +23,16 @@ static char symbolName3[] = "p-is-higher";
 void testSymCheck()
 {
   Srcp srcp = {14, 12, 333};
-  ElmNod *elm;
   IdNode *unknownId = newId(&srcp, "unknownId");
   IdNode *aClassId = newId(&srcp, "aClassId");
   SymNod *aClassSymbol = newsym("aClassId", CLASS_SYMBOL);
   SymNod *foundSymbol;
 
-  foundSymbol = symcheck(&elm, unknownId, CLASS_SYMBOL, NULL);
+  foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
   unitAssert(foundSymbol == NULL);
   unitAssert(readEcode() == 310 && readSev() == sevERR);
 
-  foundSymbol = symcheck(&elm, aClassId, INSTANCE_SYMBOL, NULL);
+  foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
   unitAssert(foundSymbol == aClassSymbol);
   unitAssert(readEcode() == 319 && readSev() == sevERR);
 }

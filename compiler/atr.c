@@ -11,6 +11,7 @@
 /* IMPORT: */
 #include "srcp_x.h"
 #include "id_x.h"
+#include "sym_x.h"
 #include "lst_x.h"
 
 #include "util.h"
@@ -302,6 +303,34 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 }
 
 
+/*======================================================================
+
+  resolveAttributeReference()
+
+  Analyze a reference to an attribute. Will handle static identifiers and
+  parameters and return a reference to the attribute node, if all is well.
+
+ */
+AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute)
+{
+  AtrNod *atr;
+  SymNod *sym;
+
+  /* Ignore parameters for now */
+  sym = symcheck(what->id, INSTANCE_SYMBOL, NULL);
+  if (sym) {
+    if (sym->kind == INSTANCE_SYMBOL) {
+      what->id->code = sym->code;
+      atr = findAttribute(sym->fields.claOrIns.attributes, attribute);
+    } else if (sym->kind == PARAMETER_SYMBOL) {
+      /* We need to find its class restriction */
+	  /* Then find attributes for that class */ 
+      ;
+    }
+  }
+  return atr;
+}
+
 
 /*----------------------------------------------------------------------
 
@@ -338,7 +367,7 @@ static void generateAttribute(AtrNod *attribute)
 
 /*======================================================================
 
-  generateAttrributes()
+  generateAttributes()
 
   Generate all entries in an attribute list.
 

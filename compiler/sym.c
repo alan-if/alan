@@ -271,10 +271,9 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 
 */
 SymNod *symcheck(		/* OUT - Found symbol */
-    ElmNod **elm,		/* OUT - Found parameter  */
     IdNode *id,			/* IN - The Id to check */
     SymbolKind kind,		/* IN - Allowed identifier kind */
-    List *pars			/* IN - Possible parameters valid in this context */
+    List *parameters		/* IN - Possible parameters valid in this context */
     )
 {
   SymNod *sym = lookup(id->string);

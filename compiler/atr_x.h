@@ -38,7 +38,7 @@ extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
 extern Aaddr generateAttributes(List *attributeList);
 extern Aaddr generateStringInit(void);
 extern void dumpAttribute(AtrNod *atr);
-
+extern AtrNod *resolveAttributeReference(WhtNod *ofWhat, IdNode *attribute);
 
 /* Verify parameter attribute */
 extern AtrNod *paramatr(IdNode *id, ElmNod *elm);

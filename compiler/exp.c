@@ -174,8 +174,6 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 		  List *pars)	/* IN - List of parameters */
 {
   AtrNod *atr;
-  SymNod *sym;			/* The symbol table node */
-  ElmNod *elm;			/* A parameter element */
 
   if (exp->fields.atr.wht->class == EXPWHT) {
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
@@ -220,27 +218,17 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       break;
 
     case WHT_ID:
-      /* Ignore parameters for now */
-      sym = symcheck(&elm, exp->fields.atr.wht->fields.wht.wht->id, INSTANCE_SYMBOL, NULL);
-      if (sym) {
-	if (sym->kind == INSTANCE_SYMBOL) {
-	  exp->fields.atr.wht->fields.wht.wht->id->code = sym->code;
-	  atr = findAttribute(sym->fields.claOrIns.attributes, exp->fields.atr.atr);
-	} else if (sym->kind == PARAMETER_SYMBOL) {
-	  /* We need to find its class restriction */
-	  /* Then find attributes for that class */ 
-	  ;
-	}
-	if (atr == NULL) {	/* Attribute not found */
-	  lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
-		exp->fields.atr.wht->fields.wht.wht->id->string);
-	  exp->typ = TYPUNK;
-	} else if (exp->fields.atr.atr->symbol == NULL) {
-	  exp->fields.atr.atr->code = atr->id->code;
-	  exp->typ = atr->typ;
-	} else
-	  syserr("Attribute with symbol in anexpatr()");
-      }
+      atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
+				      exp->fields.atr.atr);
+      if (atr == NULL) {	/* Attribute not found */
+	lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
+	      exp->fields.atr.wht->fields.wht.wht->id->string);
+	exp->typ = TYPUNK;
+      } else if (exp->fields.atr.atr->symbol == NULL) {
+	exp->fields.atr.atr->code = atr->id->code;
+	exp->typ = atr->typ;
+      } else
+	syserr("Attribute with symbol in anexpatr()");
       break;
 
     default:

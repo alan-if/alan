@@ -70,7 +70,6 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
 		       List *pars) /* IN - Possible syntax parameters */
 {
   SymNod *sym;
-  ElmNod *elm;
 
   switch (stm->fields.describe.wht->kind) {
   case WHT_OBJ:
@@ -84,7 +83,7 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
       lmLog(&stm->fields.describe.wht->srcp, 412, sevERR, "");
     break;
   case WHT_ID:
-    sym = symcheck(&elm, stm->fields.describe.wht->id, INSTANCE_SYMBOL, pars);
+    sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -238,7 +237,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       if (atr == NULL)          /* Attribute not found globally */
         lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.make.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.make.atr->code = atr->id->code;
     }
     break;
   case WHT_LOC:
@@ -246,7 +245,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.make.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.make.atr->code = atr->id->code;
     break;
   case WHT_OBJ:
     if (pars == NULL)
@@ -255,7 +254,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.make.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.make.atr->code = atr->id->code;
     break;
   case WHT_ID:
 #ifndef FIXME
@@ -278,7 +277,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       if (atr->typ != TYPBOOL)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
       else
-        stm->fields.make.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.make.atr->code = atr->id->code;
     }
     break;
   default:
@@ -301,8 +300,6 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
 		  EvtNod *evt,	/* IN - inside an Event? */
 		  List *pars)	/* IN - Possible syntax parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
   AtrNod *atr;
 
   switch (stm->fields.set.wht->kind) {
@@ -314,16 +311,18 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.set.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.set.atr->code = atr->id->code;
     }
     break;
+
   case WHT_LOC:
     atr = findAttribute(NULL, stm->fields.set.atr);
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.set.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.set.atr->code = atr->id->code;
     break;
+
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
@@ -331,15 +330,13 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.set.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.set.atr->code = atr->id->code;
     break;
+
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: namcheck");
-#else
+#ifdef FIXME
     namcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
              NAMANY, pars);
-#endif
     if (elm) {
       atr = paramatr(stm->fields.set.atr, elm);
       if (atr == NULL)          /* Not a default attribute */
@@ -350,13 +347,16 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
         lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
               stm->fields.set.wht->id->string);
     }
+#endif
+    atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr);
     if (atr) {
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
         lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
       else
-        stm->fields.set.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.set.atr->code = atr->id->code;
     }
     break;
+
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
@@ -397,7 +397,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       if (atr == NULL)          /* attribute not found globally */
         lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
       else
-        stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.incr.atr->code = atr->id->code;
     }
     break;
   case WHT_LOC:
@@ -405,7 +405,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
     else
-      stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.incr.atr->code = atr->id->code;
     break;
   case WHT_OBJ:
     if (pars == NULL)
@@ -414,7 +414,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
     else
-      stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
+      stm->fields.incr.atr->code = atr->id->code;
     break;
   case WHT_ID:
 #ifndef FIXME
@@ -437,7 +437,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       if (atr->typ != TYPINT)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
       else
-        stm->fields.incr.atr->symbol->code = atr->id->symbol->code;
+        stm->fields.incr.atr->code = atr->id->code;
     }
     break;
   default:
@@ -465,9 +465,8 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
 		       List *pars) /* IN - Possible syntax parameters */
 {
   SymNod *sym;
-  ElmNod *elm;
 
-  sym = symcheck(&elm, stm->fields.schedule.id, EVENT_ID, NULL);
+  sym = symcheck(stm->fields.schedule.id, EVENT_ID, NULL);
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
@@ -505,9 +504,8 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
 static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 {
   SymNod *sym;
-  ElmNod *elm;
 
-  sym = symcheck(&elm, stm->fields.cancel.id, EVENT_ID, NULL);
+  sym = symcheck(stm->fields.cancel.id, EVENT_ID, NULL);
 }
 
 
@@ -555,7 +553,7 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
   else {
     if (stm->fields.use.actor != NULL) {
       /* Lookup actors node */
-      sym = symcheck(&elm, stm->fields.use.actor, INSTANCE_SYMBOL, pars);
+      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, pars);
       ins = NULL;
       if (elm)
         lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
@@ -907,7 +905,7 @@ static void gelocate(StmNod *stm) /* IN - Statement */
 static void gemake(StmNod *stm)	/* IN - Statement */
 {
   emit0(C_CONST, !stm->fields.make.not);
-  emit0(C_CONST, stm->fields.make.atr->symbol->code);
+  emit0(C_CONST, stm->fields.make.atr->code);
   gewht(stm->fields.make.wht);
   emit0(C_STMOP, I_MAKE);
 }
@@ -926,7 +924,7 @@ static void geset(StmNod *stm)	/* IN - Statement */
 {
   geexp(stm->fields.set.exp);
 
-  emit0(C_CONST, stm->fields.set.atr->symbol->code);
+  emit0(C_CONST, stm->fields.set.atr->code);
   gewht(stm->fields.set.wht);
   if (stm->fields.set.exp->typ == TYPSTR)
     emit0(C_STMOP, I_STRSET);
@@ -950,7 +948,7 @@ static void geincr(StmNod *stm)	/* IN - Statement */
   else
     emit0(C_CONST, 1);
 
-  emit0(C_CONST, stm->fields.incr.atr->symbol->code);
+  emit0(C_CONST, stm->fields.incr.atr->code);
   gewht(stm->fields.incr.wht);
   if (stm->class == STM_INCR)
     emit0(C_STMOP, I_INCR);

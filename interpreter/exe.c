@@ -303,6 +303,28 @@ void schedule(evt, whr, aft)
 }
 
 
+
+/*----------------------------------------------------------------------
+
+  findAttribute()
+
+  Return a pointer to the AttributeEntry for the attribute with "code"
+
+*/
+AttributeEntry *findAttribute(Aaddr address, int code)
+{
+  AttributeEntry *attribute = (AttributeEntry *) addrTo(address);
+  while (attribute->code != code) {
+    attribute++;
+    if (*((Aword *)attribute) == EOF)
+      syserr("Attribute not found.");
+  }
+  return attribute;
+}
+
+
+
+
 /*----------------------------------------------------------------------
 
   getatr()
@@ -321,11 +343,8 @@ static Aword getatr(atradr, code)
      Aaddr code;                 /* IN - The attribute to read */
 #endif
 {
-  AttributeEntry *attribute;
+  AttributeEntry *attribute = findAttribute(atradr, code);
 
-  attribute = (AttributeEntry *) addrTo(atradr);
-  while (attribute->code != code)
-    attribute++;
   return attribute->value;
 }
   
@@ -340,20 +359,19 @@ static Aword getatr(atradr, code)
 #ifdef _PROTOTYPES_
 static void setatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
-     Aword atr,                 /* IN - attribute code */
+     Aword code,                 /* IN - attribute code */
      Aword val                  /* IN - new value */
 )
 #else
-static void setatr(atradr, atr, val)
+static void setatr(atradr, code, val)
      Aaddr atradr;              /* IN - ACODE address to attribute table */
-     Aword atr;                 /* IN - attribute code */
+     Aword code;                 /* IN - attribute code */
      Aword val;                 /* IN - new value */
 #endif
 {
-  AttributeEntry *at;
-  
-  at = (AttributeEntry *) addrTo(atradr);
-  at[atr-1].value = val;
+  AttributeEntry *at = findAttribute(atradr, code);
+
+  at->value = val;
 }
 
 
@@ -423,40 +441,6 @@ void make(id, atr, val)
  */
 
 #ifdef _PROTOTYPES_
-static void setloc(Aword loc, Aword atr, Aword val)
-#else
-static void setloc(loc, atr, val)
-     Aword loc, atr, val;
-#endif
-{
-  setatr(locs[loc-LOCMIN].atrs, atr, val);
-  /* Since the location have changed we should describe it next turn */
-  locs[loc-LOCMIN].describe = 0;
-}
-
-
-#ifdef _PROTOTYPES_
-static void setobj(Aword obj, Aword atr, Aword val)
-#else
-static void setobj(obj, atr, val)
-     Aword obj, atr, val;
-#endif
-{
-  setatr(objs[obj-OBJMIN].atrs, atr, val);
-}
-
-#ifdef _PROTOTYPES_
-static void setact(Aword act, Aword atr, Aword val)
-#else
-static void setact(act, atr, val)
-     Aword act, atr, val;
-#endif
-{
-  setatr(acts[act-ACTMIN].atrs, atr, val);
-}
-
-
-#ifdef _PROTOTYPES_
 void set(Aword id, Aword atr, Aword val)
 #else
 void set(id, atr, val)
@@ -465,14 +449,12 @@ void set(id, atr, val)
 {
   char str[80];
 
-  if (isObj(id))
-    setobj(id, atr, val);
-  else if (isLoc(id))
-    setloc(id, atr, val);
-  else if (isAct(id))
-    setact(id, atr, val);
-  else {
-    sprintf(str, "Can't SET item (%ld).", id);
+  if (id > 0 && id <= header->instanceMax) {
+    setatr(instance[id].attributes, atr, val);
+    if (isA(id, LOCATION))	/* May have changed so describe next time */
+      admin[id].visitsCount = 0;
+  } else {
+    sprintf(str, "Can't SET instance (%ld).", id);
     syserr(str);
   }
 }
@@ -507,18 +489,18 @@ void setstr(id, atr, str)
 #ifdef _PROTOTYPES_
 static void incratr(
 	Aaddr atradr,           /* IN - ACODE address to attribute table */
-	Aword atr,              /* IN - attribute code */
+	Aword code,              /* IN - attribute code */
 	Aword step              /* IN - step to increment by */
 )
 #else
-static void incratr(atradr, atr, step)
-     Aaddr atradr, atr, step;
+static void incratr(atradr, code, step)
+     Aaddr atradr:
+     Aword atr, step;
 #endif
 {
-  AttributeEntry *at;
+  AttributeEntry *at = findAttribute(atradr, code);
   
-  at = (AttributeEntry *) addrTo(atradr);
-  at[atr-1].value += step;
+  at->value += step;
 }
 
 
@@ -808,7 +790,6 @@ static void locateActor(act, whr)
      Aword act, whr;
 #endif
 {
-  Aword prevact = cur.act;
   Aword prevloc = cur.loc;
 
   cur.loc = whr;
