@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2004-12-08
+			      2005-01-11
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.33dev) of Alan V3. It features
+This is a development preview (v3.0.34dev) of Alan V3. It features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -17,6 +17,64 @@ same source.
 Depending on if you used the ZIP-archive or the Windows installer you
 will get command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in v3.0.34 development:
+- Clean up of AT and IN. They are both now transitive/recursive.
+  Optional qualifier, "Directly", can be used in expressions to get
+  direct location or containment.
+- Clean-up of pre-defined classes. Everything must inherit from some
+  class. "entity" can not have location (invisible and everywhere),
+  "thing" can but is not described automatically (invisible but
+  localized). "actor" and "object" are described automatically
+  (visible). Sub-classes to "entity" behave like "entity". This
+  harmonizes with the fact that "literal" is a subclass of "entity".
+- Names are now inherited by adding names down the hierarchy. This
+  means that if a name is available for a more general class it will
+  also be available for the more special classes and instances. Good
+  candidates for use of this feature is fruit/apple/macintosh and
+  human/person/man.
+- Initial locations are inherited.
+- Restrictions on auto-generated syntaxes now matches the class the
+  verb was declared in.
+- New statement "Random In" extracts a random element in a set or
+  container.
+- Pronoun declarations. Instead of the previously built in
+  "IT"-handling and synonyms, it is now possible to declare pronouns
+  for a class or instance. These words can be used in player input to
+  refer to the instance if the instance was previously mentioned
+  explicitly in the previous player command. (This also solves the
+  problem with referring to a single instance using "them". "them" can
+  still be used to refer to the same multiple set of instances as used
+  in the previous command.)
+- Improved use of correct case for words.
+- Printing actor names are now done in the same way as for other
+  instances wrt. to definite/indefinite forms.
+- Parameters are available in the Message sections for many
+  messages. This allows e.g. fixing the message wrt. to noun case (as
+  in German, "any" = kein/keine/keiner depending on noun case).
+- Changed default messages to use parameter handling in as many cases
+  as possible, e.g. default location "content" listing, and container
+  listings. It is now possible to re-format these into tabulation
+  instead of the standard in-line form, for example.
+- Added message for "unknown word".
+- Interpreter now lists alternatives for ambiguous instance
+  references, which of course can be tweaked using a new message.
+- Deprecated "$include" in favour of a new, equilvalent, "import"
+  statement. (***spoiler***) This makes future IDE-building easier.
+- Verified that an inherited set or reference attribute retains the
+  original type even if the infered type of a redefinition is not the
+  same. A sub-class of the original is required.
+- Fixed debug/trace output to show up also in winarun.
+- Fixed command line arguments to winarun, you can now run the
+  debugger, trace etc. also in GLK-variants of the interpreter.
+- Fixed a bug which mixed up several syntax-declarations so that
+  interpreter would respond with "You must supply a noun." for some
+  legal inputs.
+- Fixed a bug with spacing in command line version.
+- Fixed a bug with opaque attribute not being inherited for inherited
+  containers.
+- Fixed a problem with some attributes not being saved and restored
+  correctly.
 
 Changes in v3.0.33 development:
 - Changed DEPEND case separator from ':' to 'THEN'
@@ -35,13 +93,6 @@ Changes in v3.0.32 development:
 - Completely general use of reference attributes in all statements and expressions
 - New attribute reference syntax using <what>:attribute
 - Removed need for REVERSED when building the compiler and interpreter, less Makefile-tweaking
-
-Changes in v3.0.31 development:
-- Added reference attributes so that attributes can refer to
-  instances. It is also possible to refer to attributes of instances
-  refered to by reference attributes ("atr Of atr Of instance")
-- Feature to read player commands from a file ('@filename')
-- You can now ADD scripts to classes
 
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
