@@ -1,6 +1,8 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
+ARCH	= `uname -sr | sed -e "s% %/%g"`
+
 ARCHS	= sun4 solaris2 hp
 VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
@@ -39,7 +41,7 @@ MAINSRC = arun.c
 
 VERSIONSRCS = $(SRCS) $(MAINSRC)
 
-OBJECTS = ${SRCS:.c=.o}
+OBJECTS = ${VERSIONSRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
@@ -70,14 +72,14 @@ sun4 solaris1 solaris2 hp: objarch fromsrc
 
 objarch:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test `cat .arch` != `arch`; then \
-	    echo "Removing *.o for `cat .arch`!" ; \
-	    rm *.o; \
-	    echo `arch` > .arch; \
+	-@if test `cat .arch` != $(ARCH); then \
+	    echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
+	    rm $(OBJECTS) version.o; \
+	    echo $(ARCH) > .arch; \
 	fi
 
-arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
-	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+arun : $(OBJECTS) .version version.o Makefile
+	$(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
 
 dumpacd: dumpacd.o spa.o
 	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
@@ -94,8 +96,8 @@ malloc: $(OBJECTS) version.o
 
 src: version.h
 
-fromsrc: $(OBJECTS) $(MAINOBJ) version.o
-	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+fromsrc: $(OBJECTS) version.o
+	$(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 

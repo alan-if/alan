@@ -1,6 +1,8 @@
 # Makefile for alan compiler
 #
 
+ARCH	= `uname -sr | sed -e "s% %/%g"`
+
 ARCHS	= sun4 solaris2 hp
 VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
@@ -116,10 +118,10 @@ sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
 
 objarch:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test `cat .arch` != `arch`; then \
-	    echo "Removing *.o for `cat .arch`" ; \
-	    rm *.o; \
-	    echo `arch` > .arch; \
+	-@if test `cat .arch` != $(ARCH); then \
+	    echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
+	    rm $(OBJECTS) version.o; \
+	    echo $(ARCH) > .arch; \
 	fi
 
 alan: tm $(OBJECTS) .version version.o
