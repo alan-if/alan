@@ -1371,13 +1371,86 @@ static int val(char str[])
     ;
 
 <actor_body>		-- RETURNS: cnt, atrs, stms, vrbs, scrs
-    = <optional_properties> <optional_attributes> <optional_description> <optional_verbs> <optional_actor_script>
+    = 
     %%
-	%<actor_body>.cnt = %<optional_properties>.cnt;
-	%<actor_body>.atrs = %<optional_attributes>.atrs;
-	%<actor_body>.stms = %<optional_description>.stms;
-	%<actor_body>.vrbs = %<optional_verbs>.vrbs;
-	%<actor_body>.scrs = %<optional_actor_script>.scrs;
+	%<actor_body>.cnt   = NULL;
+	%<actor_body>.atrs  = NULL;
+	%<actor_body>.stms  = NULL; /* Description */
+	%<actor_body>.vrbs  = NULL;
+        %<actor_body>.scrs  = NULL; /* The scripts */
+    %%
+
+    ! <actor_body> <actor_body_part>
+    %%
+	if (%<actor_body_part>.cnt != NULL)
+          if (%<actor_body>.cnt != NULL)
+            /* CONTAINER Already declared */
+	    lmLogv(`&%<actor_body_part>.srcp, 204, sevERR, "CONTAINER", "actor", NULL);
+          else
+	    %<actor_body>.cnt = %<actor_body_part>.cnt;
+        else if (%<actor_body_part>.atrs != NULL)
+          %<actor_body>.atrs = combine(%<actor_body>.atrs, %<actor_body_part>.atrs);
+	else if (%<actor_body_part>.stms != NULL)
+          if (%<actor_body>.stms != NULL)
+            /* DESCRIPTION Already declared */
+	    lmLogv(`&%<actor_body_part>.srcp, 204, sevERR, "DESCRIPTION", "actor", NULL);
+	  else
+	    %<actor_body>.stms = %<actor_body_part>.stms;
+        else if (%<actor_body_part>.vrb != NULL)
+ 	  %<actor_body>.vrbs  = concat(%<actor_body>.vrbs, %<actor_body_part>.vrb);
+        else
+ 	  %<actor_body>.scrs  = concat(%<actor_body>.scrs, %<actor_body_part>.scr);
+    %%
+    ;
+
+<actor_body_part>		-- RETURNS: cnt, atrs, stms, vrb, scr
+    = <properties>
+    %%
+	%<actor_body_part>.cnt   = %<properties>.cnt;
+	%<actor_body_part>.srcp  = %<properties>.srcp;
+	%<actor_body_part>.atrs  = NULL;
+	%<actor_body_part>.stms  = NULL;
+        %<actor_body_part>.vrb   = NULL;
+	%<actor_body_part>.scr   = NULL;
+    %%
+
+    ! <is> <attributes>
+    %%
+	%<actor_body_part>.atrs  = %<attributes>.atrs;
+	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.vrb   = NULL;
+	%<actor_body_part>.scr   = NULL;
+	%<actor_body_part>.cnt   = NULL;
+    %%
+
+    ! <description>
+    %%
+	%<actor_body_part>.stms  = %<description>.stms;
+	%<actor_body_part>.srcp  = %<description>.srcp;
+        %<actor_body_part>.stms2 = NULL;
+	%<actor_body_part>.stms3 = NULL;
+	%<actor_body_part>.vrb   = NULL;
+	%<actor_body_part>.scr   = NULL;
+	%<actor_body_part>.cnt   = NULL;
+	%<actor_body_part>.atrs  = NULL;
+    %%
+
+    ! <verb>
+    %%
+	%<actor_body_part>.vrb   = %<verb>.vrb;
+	%<actor_body_part>.scr   = NULL;
+	%<actor_body_part>.cnt   = NULL;
+	%<actor_body_part>.atrs  = NULL;
+	%<actor_body_part>.stms  = NULL;
+    %%
+
+    ! <script>
+    %%
+	%<actor_body_part>.scr   = %<script>.scr;
+	%<actor_body_part>.cnt   = NULL;
+	%<actor_body_part>.atrs  = NULL;
+	%<actor_body_part>.stms  = NULL;
+	%<actor_body_part>.vrb   = NULL;
     %%
     ;
 
