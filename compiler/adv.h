@@ -17,9 +17,11 @@ typedef struct AdvNod {		/* ADVenture */
   List *syns;			/* List of synonyms */
   List *stxs;			/* List of syntax definitions */
   List *vrbs;			/* List of global verbs */
-  List *clas;			/* List of classes */
-  List *inss;			/* List of instances */
+  List *locs;			/* List of locations */
+  List *objs;			/* List of objects */
   List *evts;			/* List of events */
+  List *cnts;			/* List of containers */
+  List *acts;			/* List of actors */
   List *ruls;			/* List of rules */
   List *stratrs;		/* List of string attributes to initialize */
   WhrNod *whr;			/* Where to start */
