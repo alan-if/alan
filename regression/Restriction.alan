@@ -1,0 +1,13 @@
+Syntax s = v (p1) (p2)
+	Where no_param ISA no_class
+		Else ""
+	And p1 ISA no_class
+		Else ""
+	And p2 ISA a_class
+		Else ""
+
+
+Every a_class Isa thing
+End Every.
+
+Start At a.
