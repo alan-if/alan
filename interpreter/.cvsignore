@@ -1,4 +1,6 @@
 *.d
+*.obj
+.arch
 .pure
 .version
 [0-9]*_[0-9]*_[0-9]*.*

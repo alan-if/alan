@@ -1,5 +1,7 @@
 *.d
+*.obj
 .*stamp
+.arch
 .make.dependency.*
 .pure
 .version
