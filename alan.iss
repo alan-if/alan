@@ -28,9 +28,9 @@ Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; Val
 
 [Tasks]
 ; NOTE: The following entry contains English phrases ("Create a desktop icon" and "Additional icons"). You are free to translate them into another language if required.
-Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
+Name: "desktopicon"; Description: "Create &desktop icons"; GroupDescription: "Additional icons:"
 ; NOTE: The following entry contains English phrases ("Create a Quick Launch icon" and "Additional icons"). You are free to translate them into another language if required.
-Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescription: "Additional icons:"; Flags: unchecked
+Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\alan.exe"; DestDir: "{app}"; Flags: ignoreversion
