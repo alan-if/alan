@@ -1,6 +1,6 @@
 [0-9]*_[0-9]*_[0-9]*.*
 arun
 interpreter.lha
-interpreter.zip
+interpreter.zipb
 version.c
 version.h
