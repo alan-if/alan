@@ -50,7 +50,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
   return TRUE;
 }
 
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
 #include "WinGlk.h"
 #include <windows.h>
 int winglk_startup_code(const char* cmdline)

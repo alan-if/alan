@@ -122,9 +122,9 @@ PRIVATE char *SpaDefaultFormat = " (default: %s)"; /* How to print default value
 PRIVATE char *SpaStrArg = "Arguments:";
 PRIVATE char *SpaStrOpt = "Options:";
 PRIVATE char *SpaStrUsg = "Usage:";
-PRIVATE char *SpaStrNMK = "Non-matching keyword";
+PRIVATE char *SpaStrURK = "Unrecognized keyword";
 PRIVATE char *SpaStrAMK = "Ambiguous keyword";
-PRIVATE char *SpaStrNMO = "Non-matching option";
+PRIVATE char *SpaStrURO = "Unrecognized option";
 PRIVATE char *SpaStrAMO = "Ambiguous option";
 PRIVATE char *SpaStrILF = "Illegal function type";
 PRIVATE char *SpaStrISC = "Illegal set character";
@@ -271,7 +271,7 @@ IS {
 
     switch (find(thisWord, (char *)keyWords, sizeof(char *), 0, &found)) {
     case 0:
-	spaErr(SpaStrNMK, thisWord, 'F');
+	spaErr(SpaStrURK, thisWord, 'F');
     	break;
     case 1: 
     	break;
@@ -648,7 +648,7 @@ IS {
 			       (unsigned long)&options[0]),
 			 &found)) {
     	    case 0:
-  	        spaErr(SpaStrNMO, argvItem, 'E');
+  	        spaErr(SpaStrURO, argvItem, 'E');
 	        break;
     	    case 1:
 	        execute(&options[found], TRUE, start==1);

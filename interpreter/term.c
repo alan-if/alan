@@ -25,7 +25,7 @@ void getPageSize(void)
 void getPageSize()
 #endif
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   pageLength = 0;
   pageWidth = 0;
 

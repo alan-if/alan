@@ -32,7 +32,7 @@
 
 #include "debug.h"
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glkio.h"
 #endif
 
@@ -362,7 +362,7 @@ static void showEvents(void)
   char str[80];
   Boolean scheduled;
 
-  output("EVENTS:");
+  output("Events:");
   for (event = 1; event <= header->eventMax; event++) {
     sprintf(str, "$i%d (%s):", event, (char *)pointerTo(events[event].stringAddress));
 #if ISO == 0
@@ -491,7 +491,7 @@ static void deleteBreakpoint(int line, int file) {
   int i = breakpointIndex(line);
 
   if (i == -1)
-    printf("Breakpoint at line %d in '%s' not found.\n", line, sourceFileName(file));
+    printf("No breakpoint set at line %d in '%s'.\n", line, sourceFileName(file));
   else {
     breakpoint[i].line = 0;
     printf("Breakpoint at line %d in '%s' deleted.\n",

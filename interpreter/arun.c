@@ -16,7 +16,7 @@
 #endif
 #include "args.h"
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glkio.h"
 #ifdef __win__
 #include "WinGlk.h"
@@ -37,7 +37,7 @@
 
   */
 
-#ifdef GLK
+#ifdef HAVE_GLK
 void glk_main(void)
 #else
 int main(
@@ -64,7 +64,7 @@ int main(
 
   getPageSize();
 
-#ifdef GLK
+#ifdef HAVE_GLK
   /* args() is called from glkstart.c */
 #else
   args(argc, argv);
@@ -79,7 +79,7 @@ int main(
   }
   
   if (adventureName == NULL || strcmp(adventureName, "") == 0) {
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
     char *filename;
     filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
 		"Alan Game Files (*.a3c)|*.a3c||");
@@ -103,13 +103,13 @@ int main(
 #endif
   }
 
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
   winglk_window_set_title(adventureName);
 #endif
 
   run();
 
-#ifdef GLK
+#ifdef HAVE_GLK
   return;
 #else
   return(EXIT_SUCCESS);

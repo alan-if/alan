@@ -16,7 +16,7 @@
 #endif
 
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
@@ -1490,13 +1490,13 @@ void look(void)
   if (anyOutput)
     para();
 
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_set_style(style_Subheader);
 #endif
 
   mention(current.location);
 
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_set_style(style_Normal);
 #endif
 
@@ -1580,7 +1580,7 @@ void list(Aword cnt)
 /*======================================================================*/
 void showImage(Aword image, Aword align)
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   if ((glk_gestalt(gestalt_Graphics, 0) == 1) &&
       (glk_gestalt(gestalt_DrawImage, wintype_TextBuffer) == 1)) {
     glk_window_flow_break(glkMainWin);
@@ -1635,7 +1635,7 @@ void stop(Aword act)
 
 
 
-#ifndef GLK
+#ifndef HAVE_GLK
 static char saveFileName[256];
 #endif
 
@@ -1646,7 +1646,7 @@ void saveGame(void)
   int i;
   AttributeEntry *atr;
 
-#ifdef GLK
+#ifdef HAVE_GLK
   frefid_t saveFileRef;
   strid_t saveFile;
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Write, 0);
@@ -1719,7 +1719,7 @@ void restoreGame(void)
   char savedName[256];
   char str[256];
 
-#ifdef GLK
+#ifdef HAVE_GLK
   frefid_t saveFileRef;
   strid_t saveFile;
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Read, 0);

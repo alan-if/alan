@@ -4,7 +4,7 @@
 
  */
 
-#ifdef GLK
+#ifdef HAVE_GLK
 
 #include "readline.h"
 #include "exe.h"
@@ -12,7 +12,7 @@
 #include "glk.h"
 #include "glkio.h"
 
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
 #include "resources.h"
 #include "WinGlk.h"
 
@@ -46,7 +46,7 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 Boolean readline(char usrbuf[])
 {
   event_t event;
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
   INT_PTR e;
 #endif
 
@@ -61,7 +61,7 @@ Boolean readline(char usrbuf[])
     case evtype_Arrange:
       statusline();
       break;
-#ifdef WINGLK
+#ifdef HAVE_WINGLK
     case winglk_evtype_GuiInput:
       switch (event.val1) {
       case ID_MENU_RESTART:
@@ -530,7 +530,7 @@ static void echoOff()
 #else
 #ifdef __win__
 
-  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+  HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
 
   (void) SetConsoleMode(handle, 0);
 
@@ -551,7 +551,7 @@ static void echoOn()
 #else
 #ifdef __win__
 
-  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+  HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
   (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);
 
 #endif

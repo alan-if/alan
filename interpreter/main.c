@@ -35,7 +35,7 @@
 #include "exe.h"
 #include "term.h"
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glk.h"
 #include "glkio.h"
 #endif
@@ -165,7 +165,7 @@ void terminate(code)
   printf("Command-Q to close window.");
 #endif
 
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_exit();
 #else
   exit(code);
@@ -188,7 +188,7 @@ void usage()
   printf("Usage:\n\n");
   printf("    %s [<switches>] <adventure>\n\n", PROGNAME);
   printf("where the possible optional switches are:\n");
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_set_style(style_Preformatted);
 #endif
   printf("    -v       verbose mode\n");
@@ -198,7 +198,7 @@ void usage()
   printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
   printf("    -i       ignore version and checksum errors\n");
   printf("    -r       refrain from printing timestamps (making regression testing easier)\n");
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_set_style(style_Normal);
 #endif
 }
@@ -219,7 +219,7 @@ void error(MsgKind msgno)	/* IN - The error message number */
 /*======================================================================*/
 void statusline(void)
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   glui32 glkWidth;
   char line[100];
   int pcol = col;
@@ -295,7 +295,7 @@ void logPrint(char str[])
 /*======================================================================*/
 void newline(void)
 {
-#ifndef GLK
+#ifndef HAVE_GLK
   char buf[256];
   
   if (lin >= pageLength - 1) {
@@ -326,7 +326,7 @@ void para(void)
 {
   /* Make a new paragraph, i.e one empty line (one or two newlines). */
 
-#ifdef GLK
+#ifdef HAVE_GLK
     glk_window_flow_break(glkMainWin);
 #endif
   if (col != 1)
@@ -339,7 +339,7 @@ void para(void)
 /*======================================================================*/
 void clear(void)
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_window_clear(glkMainWin);
 #else
 #ifdef HAVE_ANSI
@@ -376,7 +376,7 @@ void *duplicate(void *original, unsigned long len)
 /*----------------------------------------------------------------------*/
 static void justify(char str[])
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   logPrint(str);
 #else
   int i;
@@ -1376,7 +1376,7 @@ void run(void)
   load();			/* Load program */
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
-#ifdef GLK
+#ifdef HAVE_GLK
   glk_cancel_line_event(glkMainWin, NULL);
 #endif
 

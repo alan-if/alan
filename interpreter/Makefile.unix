@@ -2,21 +2,16 @@
 
 # OS-specific definitions
 
-OSDEFS = -D__solarisX__ 
+OSDEFS = -D__unix__ 
 
 # -- Glk definitions. Comment all of these out to disable Glk.
 
 GLKPREFIX = /usr/local
-GLKINCLUDEDIR = $(GLKPREFIX)/include
+GLKINCLUDEDIR = $(GLKPREFIX)/Include
 GLKLIBDIR = -L$(GLKPREFIX)/lib
 GLK = -DGLK
 GLKLIB = -lglkterm -lcurses
 GLKOBJS = glkstart.o glkio.o
-
-# A tag describing the type of build 
-#
-#COMPILER = -DCOMPILER=\"[unix]\"
-COMPILER = -DCOMPILER=\"[glk]\"
 
 # -- Options.
 
@@ -43,7 +38,7 @@ PROGNAME=-DPROGNAME=\"$(GLKTARGET)\"
 ARUNOPTS = $(COMPILER) $(VERBOSE) $(CRCLOG) $(REVERSED) $(PROGNAME) $(GLK)
 
 CC = gcc
-CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) -D__XXunix__ $(OSDEFS)
+CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 
 LINK = gcc
 LDFLAGS = -g $(ARUNOPTS)
@@ -70,8 +65,6 @@ OBJECTS = arun.o \
 	sysdep.o \
 	alan.version.o
 
-# my package didn't include sources for dumpacd
-#all: $(GLKTARGET) dumpacd
 all: $(GLKTARGET)
 
 $(GLKTARGET) : $(OBJECTS) $(GLKOBJS)
@@ -83,7 +76,6 @@ dumpacd: dumpacd.o reverse.o spa.o
 spa.o: spa.c spa.h
 	$(CC) $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
-#install: $(GLKTARGET) dumpacd
 install: $(GLKTARGET)
 	$(INSTALL) $(INSTFLAGS) $(GLKTARGET) $(INSTALLDIR)
 #	$(INSTALL) $(INSTFLAGS) dumpacd $(INSTALLDIR) 
@@ -96,29 +88,4 @@ glkstart.o: glkstart.c glkstart.h glkio.h
 glkio.o: glkio.c glkio.h
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.o: args.c args.h main.h types.h sysdep.h acode.h glkio.h
-arun.o: arun.c main.h types.h sysdep.h acode.h term.h alan.version.h  \
-	args.h glkio.h
-chartest.o: chartest.c
-debug.o: debug.c types.h sysdep.h acode.h alan.version.h readline.h inter.h \
- main.h parse.h exe.h debug.h glkio.h
-decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
-dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
-exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
- inter.h stack.h decode.h exe.h
-genalan.o: genalan.c spa.h
-inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
- inter.h glkio.h
-main.o: main.c sysdep.h types.h acode.h main.h readline.h alan.version.h \
- args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h glkio.h
-params.o: params.c types.h sysdep.h acode.h params.h
-parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
- exe.h term.h debug.h params.h parse.h glkio.h
-readline.o: readline.c readline.h types.h sysdep.h acode.h main.h
-reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
-rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
- stack.h rules.h glkio.h
-spa.o: spa.c spa.h
-stack.o: stack.c types.h sysdep.h acode.h main.h stack.h
-sysdep.o: sysdep.c sysdep.h
-term.o: term.c main.h types.h sysdep.h acode.h term.h
+include dependencies.mk

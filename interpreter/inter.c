@@ -20,7 +20,7 @@
 
 #include "inter.h"
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glkio.h"
 #endif
 

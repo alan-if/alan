@@ -25,7 +25,7 @@
 #include "syserr.h"
 #include "parse.h"
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glkio.h"
 #endif
 
@@ -162,7 +162,7 @@ static void getline(void)
 {
   para();
   do {
-#if defined(HAVE_ANSI) || defined(GLK)
+#if defined(HAVE_ANSI) || defined(HAVE_GLK)
     statusline();
 #endif
     logPrint("> ");

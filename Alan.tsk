@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>307.89</origest>
-<currest>306.89</currest>
-<elapsed>148.89</elapsed>
+<origest>309.89</origest>
+<currest>308.89</currest>
+<elapsed>149.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>50</origest>
-<currest>50</currest>
-<elapsed>14</elapsed>
+<origest>52</origest>
+<currest>52</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
-<elapsed>14</elapsed>
+<origest>16</origest>
+<currest>16</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -183,6 +183,15 @@ Could not repeat this!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>OSX porting feedback</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -191,13 +200,22 @@ Could not repeat this!</notes>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>14</origest>
+<currest>14</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
 <notes>Investigate Stop actor.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>&lt;more&gt; should work when taking commands from a file</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

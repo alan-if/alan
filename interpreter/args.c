@@ -37,7 +37,7 @@ BPTR cd;
 #endif
 #endif
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glk.h"
 #include "glkio.h"
 #endif
@@ -58,7 +58,7 @@ static void switches(argc, argv)
   adventureName = "";
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
-#ifdef GLK
+#ifdef HAVE_GLK
       switch (glk_char_to_lower(argv[i][1]))
 #else
       switch (tolower(argv[i][1]))
