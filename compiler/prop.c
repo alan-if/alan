@@ -104,10 +104,24 @@ static void symbolizeParent(Properties *props)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void addOpaqueAttribute(Properties *props, Bool opaque)
+{
+  IdNode *opaqueId = newId(&nulsrcp, "opaque");
+  Attribute *attribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
+				      opaqueId, opaque, 0, 0);
+
+  attribute->id->code = OPAQUEATTRIBUTE;	/* Pre-defined 'opaque' code */
+  props->attributes = concat(props->attributes, attribute, ATTRIBUTE_LIST);
+}
+
+
 /*======================================================================*/
 void symbolizeProps(Properties *props)
 {
   symbolizeParent(props);
+  if (props->container)
+    addOpaqueAttribute(props, props->container->body->opaque);
   checkMultipleAttributes(props->attributes);
   symbolizeWhere(props->whr);
   symbolizeExits(props->exits);
@@ -123,7 +137,7 @@ static void analyzeName(Properties *props)
 
   if (props->mentioned == NULL) {
     /* Generate a mentioned from the first of the names */
-    /* First output the formated name to the text file */
+    /* First output the formatted name to the text file */
     fpos = ftell(txtfil);
     len = analyzeNames(props->names, props->id,
 #ifndef CAPITALIZEONLYLOCATIONS
@@ -174,10 +188,13 @@ void analyzeProps(Properties *props, Context *context)
   analyzeStatements(props->article, context);
   analyzeVerbs(props->verbs, context);
 
-  /* Have container but is a location? */
-  if (props->container && inheritsFrom(props->id->symbol, locationSymbol))
-    lmLog(&props->id->srcp, 354, sevERR, props->id->string);
-  analyzeContainer(props->container, context);
+  /* Have container ? */
+  if (props->container) {
+    /* But is a location? */
+    if (inheritsFrom(props->id->symbol, locationSymbol))
+      lmLog(&props->id->srcp, 354, sevERR, props->id->string);
+    analyzeContainer(props->container, context);
+  }
 
   /* Have exits but not a location? */
   if (props->exits && !inheritsFrom(props->id->symbol, locationSymbol))
@@ -284,7 +301,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 /*======================================================================*/
 void dumpProps(Properties *props)
 {
-  put("PROPS: "); dumpPointer(props); in();
+  put("PROPS: "); dumpPointer(props); indent();
   put("id: "); dumpId(props->id); nl();
   put("parentId: "); dumpId(props->parentId); nl();
   put("names: "); dumpList(props->names, NAME_LIST); nl();

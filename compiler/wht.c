@@ -96,7 +96,7 @@ void dumpWhat(What *wht)
     return;
   }
 
-  put("WHAT: "); dumpSrcp(&wht->srcp); in();
+  put("WHAT: "); dumpSrcp(&wht->srcp); indent();
   put("kind: ");
   switch (wht->kind) {
   case WHAT_LOCATION: put("LOCATION"); break;

@@ -54,7 +54,6 @@ BUILDSRCS = \
 	msg.c \
 	nam.c \
 	opt.c \
-	prop.c \
 	rul.c \
 	sco.c \
 	scr.c \
@@ -88,6 +87,7 @@ ALANSRCS = \
 	images.c \
 	sym.c \
 	stx.c \
+	prop.c \
 	vrb.c \
 	whr.c \
 	wrd.c \

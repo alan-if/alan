@@ -45,7 +45,7 @@ static void showAttributes(Aword atradr)
 
   i = 1;
   for (at = (AttributeEntry *) pointerTo(atradr); !endOfTable(at); at++) {
-    sprintf(str, "$i$t%s(%d) = %ld", (char *) pointerTo(at->stringAddress), i, at->value);
+    sprintf(str, "$i$t%s(%ld) = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
 #if ISO == 0
     fromIso(str, str);
 #endif

@@ -433,7 +433,7 @@ void dumpSyntax(Syntax *stx)
     return;
   }
 
-  put("STX: "); dumpPointer(stx); dumpSrcp(&stx->srcp); in();
+  put("STX: "); dumpPointer(stx); dumpSrcp(&stx->srcp); indent();
   put("verbId: "); dumpId(stx->id); nl();
   put("number: "); dumpInt(stx->number); nl();
   put("generated: "); dumpBool(stx->generated); nl();

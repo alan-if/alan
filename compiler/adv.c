@@ -234,7 +234,7 @@ void dumpAdventure(enum dmpKd dmp)
     dmp = (enum dmpKd)-1L;
 
 
-  put("ADV: "); in();
+  put("ADV: "); indent();
 
   put("synonyms: ");
   if (dmp&DUMP_SYNONYMS)

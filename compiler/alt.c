@@ -219,7 +219,7 @@ void dumpAlternative(AltNod *alt)
     return;
   }
 
-  put("ALT: "); dumpSrcp(&alt->srcp); put(" qual: "); duqual(alt->qual); in();
+  put("ALT: "); dumpSrcp(&alt->srcp); put(" qual: "); duqual(alt->qual); indent();
   put("id: "); dumpId(alt->id); nl();
   put("chks: "); dumpList(alt->chks, CHECK_LIST); nl();
   put("stms: "); dumpList(alt->stms, STATEMENT_LIST); out();

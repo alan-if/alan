@@ -209,6 +209,6 @@ void generateInstances(AcdHdr *header)
 /*======================================================================*/
 void dumpInstance(Instance *ins)
 {
-  put("INS: "); dumpSrcp(&ins->srcp); in();
+  put("INS: "); dumpSrcp(&ins->srcp); indent();
   put("props: "); dumpProps(ins->props); out();
 }

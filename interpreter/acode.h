@@ -176,6 +176,9 @@ typedef enum VarClass {
   V_CURRENT_INSTANCE
 } VarClass;
 
+#define OPAQUEATTRIBUTE 1
+#define PREDEFINEDATTRIBUTES OPAQUEATTRIBUTE
+
 
 #define I_CLASS(x) ((x)>>28)
 #define I_OP(x)    ((x&0x8000000)?(x)|0x0f0000000:(x)&0x0fffffff)
@@ -324,7 +327,7 @@ typedef struct AcdHdr {
   Aaddr messageTableAddress;
 /* Miscellaneous */
   Aint attributesAreaSize;	/* Size of attribute data area in Awords */
-  Aaddr init;			/* String init table */
+  Aaddr init;			/* String init table address */
   Aaddr start;			/* Address to Start code */
   Aword maxscore;		/* Maximum score */
   Aaddr scores;			/* Score table */

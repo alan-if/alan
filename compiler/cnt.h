@@ -19,6 +19,7 @@ typedef struct ContainerBody {
   Srcp srcp;			/* Source position */
   Bool analyzed;		/* Is this container definition analyzed? */
   Bool generated;		/* And generated? */
+  Bool opaque;			/* An opaque container? */
   List *limits;			/* Limits */
   Aaddr limadr;			/* ACODE address to limit table */
   List *hstms;			/* Header statements */

@@ -36,10 +36,11 @@ int containerCount = 0;
 
 
 /*======================================================================*/
-ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
-				List *lims, /* IN - Limits */
-				List *hstms, /* IN - Header statements */
-				List *estms, /* IN - Else (empty) statements */
+ContainerBody *newContainerBody(Srcp *srcp,
+				Bool opaque,
+				List *lims,
+				List *hstms,
+				List *estms,
 				List *extractChecks,
 				List *extractStatements)
 {
@@ -50,6 +51,7 @@ ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
   new->srcp = *srcp;
   new->analyzed = FALSE;
   new->generated = FALSE;
+  new->opaque = opaque;
   new->limits = lims;
   new->hstms = hstms;
   new->estms = estms;
@@ -273,7 +275,7 @@ void dumpContainer(Container *container)
     return;
   }
 
-  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->body->srcp); in();
+  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->body->srcp); indent();
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
   put("body: "); dumpPointer(container->body); nl();

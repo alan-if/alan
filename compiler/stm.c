@@ -1140,7 +1140,7 @@ void dumpStatement(StmNod *stm)
   case RESTART_STATEMENT:
     break;
   default:
-    in();
+    indent();
     switch(stm->class) {
     case PRINT_STATEMENT:
       put("fpos: "); dumpInt(stm->fields.print.fpos); nl();

@@ -353,14 +353,8 @@ static void buildall(list)
 }
 
 
-#ifdef _PROTOTYPES_
-static void unambig(
-     ParamEntry plst[]
-)
-#else
-static void unambig(plst)
-     ParamEntry plst[];
-#endif
+/*----------------------------------------------------------------------*/
+static void unambig(ParamEntry plst[])
 {
   int i;
   Boolean found = FALSE;	/* Adjective or noun found ? */
@@ -534,14 +528,7 @@ static void simple(olst)
   entity tables. Particularly this goes for literals...
 
 */
-#ifdef _PROTOTYPES_
-static void complex(
-     ParamEntry olst[]
-)
-#else
-static void complex(olst)
-     ParamEntry olst[];
-#endif
+static void complex(ParamEntry olst[])
 {
   static ParamEntry *alst = NULL;
 
@@ -591,6 +578,27 @@ static void runRestriction(RestrictionEntry *restriction)
   interpret(restriction->stms);
 }
 
+
+/*----------------------------------------------------------------------*/
+static Boolean inOpaqueContainer(int originalInstance)
+{
+  int instance = admin[originalInstance].location;
+
+  while (isCnt(instance)) {
+    if (attributeOf(instance, OPAQUEATTRIBUTE))
+      return TRUE;
+    instance = admin[instance].location;
+  }
+  return FALSE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Boolean reachable(int instance)
+{
+  return isHere(instance) && !inOpaqueContainer(instance);
+}
+    
 	
 /*----------------------------------------------------------------------*/
 static void resolve(ParamEntry plst[])
@@ -609,9 +617,10 @@ static void resolve(ParamEntry plst[])
   for (i=0; plst[i].code != EOF; i++) {
     if (isLit(plst[i].code))	/* Literals are always 'here' */
       continue;
-    if (instance[plst[i].code].parent == header->entityClassId) /* and pure entities */
+    if (instance[plst[i].code].parent == header->entityClassId)
+      /* and so are pure entities */
       continue;
-    if (!isHere(plst[i].code)) {
+    if (!reachable(plst[i].code)) {
       params[0] = plst[i];	/* Copy error param as first one for message */
       params[1].code = EOF;	/* But be sure to terminate */
       error(M_NO_SUCH);

@@ -252,7 +252,7 @@ void dumpVerb (Verb *vrb)
     return;
   }
 
-  put("VRB: "); dumpSrcp(&vrb ->srcp); in();
+  put("VRB: "); dumpSrcp(&vrb ->srcp); indent();
   put("ids: "); dumpList(vrb->ids, ID_LIST); nl();
   put("altadr: "); dumpAddress(vrb->altAddress); nl();
   put("alts: "); dumpList(vrb->alternatives, ALTERNATIVE_LIST); out();

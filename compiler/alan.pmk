@@ -133,6 +133,7 @@ static int val(char str[])
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
   not %% Bool %1%%,
   op %% OperatorKind %1%%,
+  opaque %% Bool %1%%,
   qual %% QualKind %1%%,
   res %% ResNod *%1%%,
   ress %% List *%1%%,
@@ -861,7 +862,7 @@ static int val(char str[])
 	%<property>.srcp = srcp;
     }%%
 
-    ! <is> <attributes>
+    ! <is> <attributes>						%+('OPAQUE')
     %%
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.atrs = %<attributes>.atrs;
@@ -1083,25 +1084,38 @@ static int val(char str[])
     ;
 
 <name>			-- RETURNS: nam
-    = 'NAME' <ids> [ '.' ]
+    = 'NAME' <ids> <optional_full_stop>
     %%
 	%<name>.nam = %<ids>.idList;
     %%
     ;
 
+<optional_full_stop>
+    =							%+('OPAQUE')
+    ! '.'
+    ;
 
 ---> CONTAINERS
 <container properties>					-- RETURNS: cnt, srcp
-    = [ 'WITH' ] 'CONTAINER' <container_body>
+    = [ 'WITH' ] <optionally_opaque> 'CONTAINER' <container_body>
     %%
 	%<container properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
-						%<container_body>.lims,
-						%<container_body>.stms,
-						%<container_body>.stms2,
-						%<container_body>.chks,
-						%<container_body>.stms3));
+					%<optionally_opaque>.opaque,
+					%<container_body>.lims,
+					%<container_body>.stms,
+					%<container_body>.stms2,
+					%<container_body>.chks,
+					%<container_body>.stms3));
         %<container properties>.srcp = %'CONTAINER'.srcp;
     %%
+    ;
+
+
+<optionally_opaque>
+    =
+    %% %<optionally_opaque>.opaque = FALSE; %%
+    ! 'OPAQUE'
+    %% %<optionally_opaque>.opaque = TRUE; %%
     ;
 
 
@@ -1122,7 +1136,7 @@ static int val(char str[])
 	%<optional_limits>.lims = NULL;
     %%
 
-    ! 'LIMITS' <limits>
+    ! 'LIMITS' <limits>						%+('OPAQUE')
     %%
 	%<optional_limits>.lims = %<limits>.lims;
     %%
@@ -1719,7 +1733,7 @@ static int val(char str[])
 	if (%<optional_integer>.str != NULL) {
 	    %<special_statement>.stm->fields.score.score =
 						val(%<optional_integer>.str);
-	    %<special_statement>.stm->fields.score.count = ++scocnt;
+	    %<special_statement>.stm->fields.score.count = ++scoreCount;
 	} else
 	    %<special_statement>.stm->fields.score.count = 0;
     %%
@@ -2306,6 +2320,11 @@ ID
 	%ID.id = newId(`&%'ACTOR'.srcp, "actor");
     %%
 
--- Possibly we could add keywords here. But let's not at this point
+    ! 'OPAQUE'
+    %%
+	%ID.id = newId(`&%'OPAQUE'.srcp, "opaque");
+    %%
+
+-- Possibly we could add further keywords here. But let's not at this point
     ;
 

@@ -17,18 +17,8 @@
 #include "debug.h"
 
 
-/*----------------------------------------------------------------------
-  count()
-
-  Count the number of items in a container.
-
-  */
-#ifdef _PROTOTYPES_
-static int count(int cnt)	/* IN - the container to count */
-#else
-static int count(cnt)
-     int cnt;			/* IN - the container to count */
-#endif
+/*----------------------------------------------------------------------*/
+static int count(int cnt)	/* IN - the container to count in */
 {
   int i, j = 0;
   

@@ -301,7 +301,7 @@ void dumpElement(Element *elm)
     return;
   }
 
-  put("ELM: "); dumpPointer(elm); dumpSrcp(&elm->srcp); in();
+  put("ELM: "); dumpPointer(elm); dumpSrcp(&elm->srcp); indent();
   put("kind: ");
   switch (elm->kind) {
   case PARAMETER_ELEMENT: {

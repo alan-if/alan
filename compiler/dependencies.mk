@@ -174,6 +174,12 @@ prop.o: prop.c prop_x.h prop.h types.h lst.h whr.h wht.h id.h sym.h \
   atr_x.h atr.h exp.h elm.h stx.h res.h chk_x.h chk.h cla_x.h cnt_x.h \
   ext_x.h ext.h id_x.h lst_x.h nam_x.h nam.h scr_x.h scr.h stm_x.h stm.h \
   sym_x.h vrb_x.h vrb.h whr_x.h
+propTest.o: propTest.c prop.c prop_x.h prop.h types.h lst.h whr.h wht.h \
+  id.h sym.h type.h srcp.h cnt.h ../interpreter/acode.h ins.h context.h \
+  evt.h cla.h alan.h sysdep.h util.h dump.h emit.h lmList.h alanCommon.h \
+  token.h atr_x.h atr.h exp.h elm.h stx.h res.h chk_x.h chk.h cla_x.h \
+  cnt_x.h ext_x.h ext.h id_x.h lst_x.h nam_x.h nam.h scr_x.h scr.h \
+  stm_x.h stm.h sym_x.h vrb_x.h vrb.h whr_x.h
 res.o: res.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h res_x.h \
   res.h id.h sym.h type.h ../interpreter/acode.h stx.h sym_x.h elm.h \
   atr.h exp.h wht.h whr.h context.h evt.h ins.h prop.h cnt.h cla.h scr.h \
@@ -254,14 +260,14 @@ unit.o: unit.c sysdep.h ../interpreter/acode.h unitTest.h lmList.h \
   adv_x.h adv.h whr.h wht.h claTest.c cla.c cla_x.h cla.h prop.h cnt.h \
   srcp_x.h sym_x.h elm.h stx.h res.h atr.h exp.h alan.h context.h evt.h \
   ins.h scr.h prop_x.h context_x.h emit.h options.h ins_x.h \
-  ../interpreter/types.h ../interpreter/sysdep.h insTest.c ins.c scr_x.h \
-  wrd_x.h wrd.h atr_x.h advTest.c adv.c add_x.h add.h cnt_x.h stm_x.h \
-  stm.h stx_x.h vrb_x.h vrb.h whr_x.h ext.h rul.h syn.h msg.h sco.h opt.h \
+  ../interpreter/types.h ../interpreter/sysdep.h propTest.c prop.c \
+  atr_x.h chk_x.h chk.h cnt_x.h ext_x.h ext.h nam_x.h nam.h scr_x.h \
+  stm_x.h stm.h vrb_x.h vrb.h whr_x.h insTest.c ins.c wrd_x.h wrd.h \
+  advTest.c adv.c add_x.h add.h stx_x.h rul.h syn.h msg.h sco.h opt.h \
   encode.h wht_x.h symTest.c sym.c exp_x.h elm_x.h whrTest.c whr.c \
-  vrbTest.c vrb.c alt.h extTest.c ext.c ext_x.h chk_x.h chk.h emitTest.c \
-  emit.c alan.version.h version.h atrTest.c atr.c expTest.c exp.c \
-  addTest.c add.c stxTest.c stx.c res_x.h resTest.c res.c wrdTest.c wrd.c \
-  paramTest.c
+  vrbTest.c vrb.c alt.h extTest.c ext.c emitTest.c emit.c alan.version.h \
+  version.h atrTest.c atr.c expTest.c exp.c addTest.c add.c stxTest.c \
+  stx.c res_x.h resTest.c res.c wrdTest.c wrd.c paramTest.c
 unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
 util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
   token.h

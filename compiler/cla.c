@@ -257,7 +257,7 @@ Aaddr generateClasses(void)
 /*======================================================================*/
 void dumpClass(ClaNod *cla)
 {
-  put("CLA: "); dumpSrcp(&cla->srcp); in();
+  put("CLA: "); dumpSrcp(&cla->srcp); indent();
   put("props: "); dumpProps(cla->props); out();
 }
 

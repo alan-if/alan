@@ -257,7 +257,7 @@ void duwhr(Where *whr)
     return;
   }
 
-  put("WHR: "); dumpSrcp(&whr->srcp); in();
+  put("WHR: "); dumpSrcp(&whr->srcp); indent();
   put("whr: ");
   switch (whr->kind) {
   case WHR_DEFAULT: put("DEFAULT"); break;

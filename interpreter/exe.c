@@ -1040,22 +1040,29 @@ static void describeAnything(Aword id)
 
 
 /*----------------------------------------------------------------------*/
-static void describeContainer(Aword id)
+static Boolean containerIsEmpty(Aword cnt)
 {
   int i;
 
   for (i = 0; i <= header->instanceMax; i++)
-    if (instance[i].location == id) {
-      list(id);
-      break;
-    }
+    if (instance[i].location == cnt)
+      return FALSE;
+  return TRUE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void describeContainer(Aword id)
+{
+  if (!containerIsEmpty(id) && !attributeOf(id, OPAQUEATTRIBUTE))
+    list(id);
 }    
 
 
 /*----------------------------------------------------------------------*/
 static void describeObject(Aword obj)
 {
-if (haveDescription(obj))
+  if (haveDescription(obj))
     describeAnything(obj);
   else {
     prmsg(M_SEEOBJ1);
@@ -1242,7 +1249,7 @@ void list(Aword cnt)
   if (props == 0) syserr("Trying to list something not a container.");
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (in(i, cnt)) { /* Yes, it's in this container */
+    if (in(i, cnt)) {		/* Yes, it's in this container */
       if (!found) {
 	found = TRUE;
 	if (container[props].header != 0)

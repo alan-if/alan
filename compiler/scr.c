@@ -156,14 +156,10 @@ Aaddr generateScripts(AcdHdr *header)
 }
 
 
-/*======================================================================
-
-  dumpScript()
-
-  */
+/*======================================================================*/
 void dumpScript(Script *scr)
 {
-  put("SCRIPT: "); dumpSrcp(&scr->srcp); in();
+  put("SCRIPT: "); dumpSrcp(&scr->srcp); indent();
   put("id: "); dumpId(scr->id); nl();
   put("steps: "); dumpList(scr->steps, STEP_LIST); nl();
   put("stepAddress: "); dumpAddress(scr->stepAddress); out();

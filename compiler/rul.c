@@ -131,16 +131,10 @@ Aaddr generateRules(void)
 
 
 
-/*----------------------------------------------------------------------
-
-  durul()
-
-  Dump a Rule node
-
-  */
-void durul(RulNod *rul)
+/*----------------------------------------------------------------------*/
+void dumpRule(RulNod *rul)
 {
-  put("RUL: "); dumpSrcp(&rul->srcp); in();
+  put("RUL: "); dumpSrcp(&rul->srcp); indent();
   put("exp: "); dumpExpression(rul->exp); nl();
   put("expadr: "); dumpAddress(rul->expadr); nl();
   put("stms: "); dumpList(rul->stms, STATEMENT_LIST); nl();

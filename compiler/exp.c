@@ -997,7 +997,7 @@ void dumpExpression(Expression *exp)
     break;
   }
   dumpSrcp(&exp->srcp);
-  in();
+  indent();
 
   switch (exp->kind) {
   case WHERE_EXPRESSION:

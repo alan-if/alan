@@ -272,7 +272,7 @@ void addAdditions(void)
 /*======================================================================*/
 void dumpAdd(AddNode *add)
 {
-  put("ADD: "); dumpSrcp(&add->srcp); in();
+  put("ADD: "); dumpSrcp(&add->srcp); indent();
   put("toId: "); dumpId(add->toId); nl();
   put("props: "); dumpProps(add->props); out();
 }

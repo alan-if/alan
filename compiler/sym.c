@@ -28,7 +28,7 @@ int frameLevel = 0;
 int classCount = 0;
 int instanceCount = 0;
 int directionCount = 0;
-int attributeCount = 0;
+int attributeCount;
 int verbCount = 0;
 int eventCount = 0;
 
@@ -60,15 +60,8 @@ typedef struct Frame {
 static Frame *currentFrame = NULL;
 
 
-/*======================================================================
-
-  redefined()
-
-  Calls lmLog() with correct code according to the symnod sent.
-
-  */
-void redefined(IdNode *id,
-               Symbol *sym)
+/*======================================================================*/
+void redefined(IdNode *id, Symbol *sym)
 {
   int code = 0;                     /* Error code */
 
@@ -86,13 +79,7 @@ void redefined(IdNode *id,
 
 
 
-/*----------------------------------------------------------------------------
-
-  insertSymbol()
-
-  Insert a new symbol in the symbol tree
-
-*/
+/*----------------------------------------------------------------------------*/
 static void insertSymbol(Symbol *symbol)
 {
   Symbol *s1,*s2;               /* Traversal pointers */
@@ -138,6 +125,7 @@ static void addLocal(Symbol *new)
   currentFrame->localSymbols = concat(currentFrame->localSymbols, new, SYMBOL_LIST);
 }
 
+
 /*----------------------------------------------------------------------*/
 static char *symbolKindAsString(SymbolKind kind)
 {
@@ -173,8 +161,8 @@ static Symbol *newParameterSymbol(char *string, Element *element)
 
 
 /*======================================================================*/
-Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
-		  SymbolKind kind) /* IN - What kind of symbol */
+Symbol *newSymbol(IdNode *id,		/* IN - Name of the new symbol */
+		  SymbolKind kind) 	/* IN - What kind of symbol */
 {
   Symbol *new;                  /* The newly created symnod */
   
@@ -233,7 +221,7 @@ void initSymbols()
   symbolTree = NULL;
   instanceCount = 0;
   classCount = 0;
-  attributeCount = 0;
+  attributeCount = PREDEFINEDATTRIBUTES;
 }
 
 
@@ -294,13 +282,7 @@ Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
 }
 
 
-/*======================================================================
-
-  lookup()
-
-  Look for a symbol. If found return a pointer to its symnod, else NULL.
-
-  */
+/*======================================================================*/
 Symbol *lookup(char *idString)
 {
   Symbol *s1,*s2;               /* Traversal pointers */
@@ -435,9 +417,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
 
 /*======================================================================*/
-Symbol *symcheck(IdNode *id,
-		 SymbolKind kind,
-		 Context *context)
+Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
 {
   Symbol *sym = lookupInContext(id->string, context);
 
@@ -463,15 +443,11 @@ Symbol *symcheck(IdNode *id,
 
 
 
-/*======================================================================
-
-  setParameters()
-
-  Set the list of parameters (ElmNodes) as parameters in the verb symbol.
-
-*/
+/*======================================================================*/
 void setParameters(Symbol *verb, List *parameters)
 {
+  /* The parameters are sent as a list of ElmNodes. Set it in the verb symbol. */
+
   List *parameterSymbols = NULL;
   List *parameter;
 
@@ -498,16 +474,13 @@ void setParameters(Symbol *verb, List *parameters)
   verb->fields.verb.parameterSymbols = parameterSymbols;
 }
 
-/*======================================================================
-
-  inheritCheck()
-
-  Check that the given identifier inherits the class passed as a string.
-  This will only be used for built in class checks (location, actor etc.)
-
-*/
+/*======================================================================*/
 void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 {
+  /* Check that the given identifier inherits the class passed as a string.
+     This will only be used for built in class checks (location, actor etc.)
+  */
+
   Symbol *theClassSymbol = lookup(className);
 
   if (theClassSymbol == NULL) syserr("There is no such class in '%s()'", __FUNCTION__);
@@ -517,16 +490,11 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 }
 
 
-
-/*----------------------------------------------------------------------
-
-  definingSymbolOfAttribute()
-
-  Find the symbol which defines an attribute by traversing its parents.
-
-*/
+/*----------------------------------------------------------------------*/
 static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 {
+  /* Find the symbol which defines an attribute by traversing its parents. */
+
   Attribute *foundAttribute;
 
   if (symbol == NULL)
@@ -543,15 +511,10 @@ static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 
 
 
-/*======================================================================
-
-  findInheritedAttribute()
-
-  From a symbol traverse its inheritance tree to find a named attribute.
-
-*/
+/*======================================================================*/
 Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
 {
+  /* From a symbol traverse its inheritance tree to find a named attribute. */
   Symbol *definingSymbol =
     definingSymbolOfAttribute(symbol->fields.entity.parent, id);
 
@@ -561,11 +524,7 @@ Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
 }
 
 
-/*----------------------------------------------------------------------
-
-  numberAttributes()
-
-*/
+/*----------------------------------------------------------------------*/
 static void numberAttributes(Symbol *symbol)
 {
   List *theList;
@@ -584,10 +543,10 @@ static void numberAttributes(Symbol *symbol)
       }
       theList->element.atr->id->code = inheritedAttribute->id->code;
       theList->element.atr->inheritance = INHERITED_REDEFINED;
-    } else {
+    } else if (theList->element.atr->id->code == 0) {
       theList->element.atr->id->code = ++attributeCount;
       theList->element.atr->inheritance = LOCAL;
-    }
+    } /* Else its a pre-defined attribute which is numbered already! */
   }
 
   symbol->fields.entity.props->attributes = sortAttributes(symbol->fields.entity.props->attributes);
@@ -595,15 +554,10 @@ static void numberAttributes(Symbol *symbol)
 }
 
 
-/*----------------------------------------------------------------------
-
-  numberParentAttributes()
-
-  Recurse the parental chain and number the attributes.
-
-*/
+/*----------------------------------------------------------------------*/
 static void numberParentAttributes(Symbol *symbol)
 {
+  /* Recurse the parental chain and number the attributes. */
   if (symbol == NULL || symbol->fields.entity.attributesNumbered) return;
 
   numberParentAttributes(symbol->fields.entity.parent);
@@ -611,15 +565,13 @@ static void numberParentAttributes(Symbol *symbol)
 }
 
 
-/*----------------------------------------------------------------------
-
-  numberAttributesRecursively()
-
-  Recurse the parent to number its attributes.
-  Number all attributes in the symbol (if it is a class or an instance);
-*/
+/*----------------------------------------------------------------------*/
 static void numberAttributesRecursively(Symbol *symbol)
 {
+  /* Recurse the parent to number its attributes.
+     Number all attributes in the symbol (if it is a class or an instance);
+  */
+
   if (symbol == NULL) return;
 
   if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
@@ -637,18 +589,14 @@ static void numberAttributesRecursively(Symbol *symbol)
 
 
 
-/*======================================================================
-
-  numberAllAttributes()
-
-  Traverse all classes and instances in the symbol table and give all
-  attributes unique numbers. Start by recursing through the
-  parents. Remember where we have been by looking at the code which is
-  might already have been set.
-
-*/
+/*======================================================================*/
 void numberAllAttributes(void)
 {
+  /* Traverse all classes and instances in the symbol table and give all
+     attributes unique numbers. Start by recursing through the
+     parents. Remember where we have been by looking at the code which
+     might already have been set.
+  */
   numberAttributesRecursively(symbolTree);
 }
 
@@ -656,6 +604,7 @@ void numberAllAttributes(void)
 static Bool haveParent(Symbol *s) {return s->fields.entity.parent != NULL;}
 static Properties *propertiesOf(Symbol *s) {return s->fields.entity.props;}
 static Properties *propertiesOfParentOf(Symbol *s) {return s->fields.entity.parent->fields.entity.props;}
+
 
 /*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
@@ -808,7 +757,7 @@ static void dumpSymbol(Symbol *symbol)
     return;
   }
 
-  put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); in();
+  put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); indent();
   put("string: "); dumpString(symbol->string);
   put(", code: "); dumpInt(symbol->code); nl();
   put("lower: "); dumpPointer(symbol->lower); put("higher: "); dumpPointer(symbol->higher); out();
@@ -830,15 +779,11 @@ static void dumpSymbolsRecursively(Symbol *symbol)
 }
 
 
-/*======================================================================
-
-  dumpSymbols()
-
-*/
+/*======================================================================*/
 void dumpSymbols(void)
 {
   dumpPointer(symbolTree);
-  in();
+  indent();
   dumpSymbolsRecursively(symbolTree);
   out();
 }

@@ -42,7 +42,7 @@ typedef enum dmpKd {
 
 extern void put(char str[]);
 extern void nl(void);
-extern void in(void);
+extern void indent(void);
 extern void out(void);
 extern void dumpString(char s[]);
 extern void dumpAddress(int adr);

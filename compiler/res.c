@@ -237,7 +237,7 @@ void dumpRestriction(ResNod *res)
     return;
   }
 
-  put("RES: "); dumpSrcp(&res->srcp); in();
+  put("RES: "); dumpSrcp(&res->srcp); indent();
   put("kind: "); dumpRestrictionKind(res->kind); nl();
   put("parameterId: "); dumpId(res->parameterId); nl();
   put("classId: "); dumpId(res->classId); nl();

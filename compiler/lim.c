@@ -144,16 +144,10 @@ Aword generateLimits(ContainerBody *info)
 
 
 
-/*======================================================================
-
-  dulim()
-
-  Dump a limit node.
-
-  */
+/*======================================================================*/
 void dulim(LimNod *lim)
 {
-  put("LIM: "); dumpSrcp(&lim->srcp); in();
+  put("LIM: "); dumpSrcp(&lim->srcp); indent();
   put("atr: "); dumpAttribute(lim->atr); nl();
   put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
 }

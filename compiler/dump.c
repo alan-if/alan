@@ -10,7 +10,7 @@
 
 
 static char strbuf[256] = "";
-static int indent = 0;
+static int indentLevel = 0;
 
 
 void put(char *str)
@@ -27,21 +27,21 @@ void nl(void)
   lmLiPrint(strbuf);
   strbuf[0] = '\0';
 
-  for (i=1 ; i<=indent; i++)
+  for (i=1 ; i<=indentLevel; i++)
     put(".  ") ;
 }
 
 
-void in(void)
+void indent(void)
 {
-  indent++;
+  indentLevel++;
   nl();
 }
 
 
 void out(void)
 {
-  indent--;
+  indentLevel--;
 }
 
 

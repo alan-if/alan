@@ -108,14 +108,10 @@ Aaddr generateSteps(List *stps)
 
 
 
-/*======================================================================
-
-  dumpStep()
-
-  */
+/*======================================================================*/
 void dumpStep(Step *stp)
 {
-  put("STP: "); dumpSrcp(&stp->srcp); in();
+  put("STP: "); dumpSrcp(&stp->srcp); indent();
   put("after: "); dumpInt(stp->after); nl();
   put("exp: "); dumpExpression(stp->exp); nl();
   put("expadr: "); dumpAddress(stp->expadr); nl();

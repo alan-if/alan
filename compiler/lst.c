@@ -241,7 +241,7 @@ void dumpList(List *theList, ListKind class)
     return;
   }
   
-  put("LST: "); dumpPointer(theList); in();
+  put("LST: "); dumpPointer(theList); indent();
   while (theList != NULL) {
     dumpNode((void *)theList->element.atr, class);
     theList = theList->next;
@@ -259,7 +259,7 @@ void dumpListOfLists(List *listOfList, ListKind listKind)
     return;
   }
   
-  put("LST: "); dumpPointer(listOfList); in();
+  put("LST: "); dumpPointer(listOfList); indent();
   while (listOfList != NULL) {
     dumpList((void *)listOfList->element.lst, listKind);
     listOfList = listOfList->next;

@@ -34,19 +34,13 @@
 int attributeAreaSize = 0;	/* # of Awords needed for attribute storage */
 
 
-/*======================================================================
-
-  newAttribute()
-
-  Allocates and initialises an atrnod.
-
- */
+/*======================================================================*/
 Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
-		     TypeKind type,	/* IN - Type of this atribute */
-		     IdNode *id,	/* IN - The id */
-		     int value,		/* IN - The initial value */
-		     long int fpos,	/* IN - File position for initial string */
-		     int len)		/* IN - D:o length */
+			TypeKind type,	/* IN - Type of this atribute */
+			IdNode *id,	/* IN - The id */
+			int value,      /* IN - The initial value */
+			long int fpos,	/* IN - File pos. for initial string */
+			int len)	/* IN - D:o length */
 {
   Attribute *new;			/* The newly allocated area */
 
@@ -68,13 +62,7 @@ Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
 }
 
 
-/*======================================================================
-
-  checkMutipleAttributes()
-
-  Check for multiple declarations of attributes in a list.
-
- */
+/*======================================================================*/
 void checkMultipleAttributes(List *atrs)
 {
   List *al;
@@ -101,13 +89,7 @@ Attribute *findAttribute(List *attributes, IdNode *id)
 }
 
 
-/*======================================================================
-
-  sortAttributes()
-
-  Sort a list of attributes.
-
- */
+/*======================================================================*/
 List *sortAttributes(List *attributes)
 {
   List *sortedList = attributes;
@@ -139,13 +121,7 @@ List *sortAttributes(List *attributes)
 
 
 
-/*----------------------------------------------------------------------
-
-  copyAttribute()
-
-  Make a copy of an attribute
-
-*/
+/*----------------------------------------------------------------------*/
 static Attribute *copyAttribute(Attribute *theOriginal)
 {
   Attribute *theCopy = NEW(Attribute);
@@ -156,13 +132,7 @@ static Attribute *copyAttribute(Attribute *theOriginal)
 }
 
 
-/*----------------------------------------------------------------------
-
-  copyAttributeList()
-
-  Make a copy of a complete attribute list
-
-*/
+/*----------------------------------------------------------------------*/
 static List *copyAttributeList(List *theOriginal)
 {
   List *theCopy = NULL;
@@ -176,19 +146,16 @@ static List *copyAttributeList(List *theOriginal)
 
 
 
-/*======================================================================
-
-  combineAttributes()
-
-  Insert all attributes from the list to add that are not there
-  already, then sort the list.
-
-  NOTE! that we use the codes to combine, so this can't be used before
-  attributes have been numbered!!
-
-*/
+/*======================================================================*/
 List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 {
+  /* Insert all attributes from the list to add that are not there
+     already, then sort the list.
+
+     NOTE! that we use the codes to combine, so this can't be used
+     before attributes have been numbered!!
+  */
+
   List *own = ownAttributes;
   List *toAdd = attributesToAdd;
   List *new;
@@ -440,16 +407,10 @@ static void dumpInheritance(AttributeInheritance inheritance)
 }
 
 
-/*======================================================================
-
-  dumpAttribute()
-
-  Dump an Attribute node.
-
- */
+/*======================================================================*/
 void dumpAttribute(Attribute *atr)
 {
-  put("ATR: "); dumpSrcp(&atr->srcp); in();
+  put("ATR: "); dumpSrcp(&atr->srcp); indent();
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
