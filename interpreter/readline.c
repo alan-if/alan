@@ -51,7 +51,7 @@ static int bufidx;
 
 static unsigned char *history[HISTORYLENGTH];
 static int histidx;		/* Index where to store next history */
-static int athist;		/* At which entry in history is he pointing now */
+static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
 static int endOfInput = 0;
@@ -125,6 +125,15 @@ static void backspace()
 }
 
 
+static void erase()
+{
+  int i;
+
+  for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
+  for (i = 0; i < strlen((char *)buffer); i++) write(1, " ", 1); /* Erase all text */
+  for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
+}
+
 /*----------------------------------------------------------------------*\
 
   Character handling hook functions
@@ -150,31 +159,48 @@ static void execute(KeyMap map[], unsigned char ch)
 
 static void upArrow(char ch)
 {
-  int i;
-
   /* Is there more history ? */
-  if (history[athist] == NULL) {
+  if (history[(histp+HISTORYLENGTH-1)%HISTORYLENGTH] == NULL ||
+      (histp+HISTORYLENGTH-1)%HISTORYLENGTH == histidx) {
     write(1, "\7", 1);
     return;
   }
 
-  for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
-  for (i = 0; i < strlen((char *)buffer); i++) write(1, " ", 1); /* Erase all text */
-  for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
+  erase();
+
+  /* Backup history pointer */
+  histp = (histp+HISTORYLENGTH-1)%HISTORYLENGTH;
 
   /* Copy the history and write it */
-  strcpy((char *)buffer, (char *)history[athist]);
+  strcpy((char *)buffer, (char *)history[histp]);
   bufidx = strlen((char *)buffer);
   write(1, buffer, strlen((char *)buffer));
 
-  /* Advance history pointer */
-  athist = (athist+1)%HISTORYLENGTH;
 }
 
 
 static void downArrow(char ch)
 {
-  write(1, "DOWNARROW", 7);
+  /* Is there more history ? */
+  if (histp == histidx) {
+    write(1, "\7", 1);
+    return;
+  }
+
+  erase();
+
+  /* Advance history pointer */
+  histp = (histp+1)%HISTORYLENGTH;
+
+  /* If we are not at the most recent history entry, copy the history and write it */
+  if (histp != histidx) {
+    strcpy((char *)buffer, (char *)history[histp]);
+    bufidx = strlen((char *)buffer);
+    write(1, buffer, strlen((char *)buffer));
+  } else {
+    bufidx = 0;
+    buffer[0] = '\0';
+  }
 }
 
 
@@ -263,6 +289,7 @@ static void newLine(char ch)
     if (history[histidx] == NULL)
       history[histidx] = (unsigned char *)allocate(LINELENGTH+1);
     strcpy((char *)history[histidx], (char *)buffer);
+    histidx = (histidx+1)%HISTORYLENGTH;
   }
 }
 
@@ -304,7 +331,7 @@ Boolean readline(char usrbuf[])
 {
   fflush(stdout);
   bufidx = 0;
-  athist = histidx;
+  histp = histidx;
   buffer[0] = '\0';
   change = TRUE;
   newtermio();
