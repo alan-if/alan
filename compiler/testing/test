@@ -1,9 +1,0 @@
-#! /bin/sh
-for t in *.alan ; do
-  g=`basename $t .alan`
-  echo $g
-  ../alan -dump ! -list $g
-  if test -f $g.input ; then
-    ../../interpreter/arun $g < $g.input
-  fi
-done
