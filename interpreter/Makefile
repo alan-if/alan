@@ -41,10 +41,10 @@ VMSLINKOBJS = ${SRCS:.c=}
 
 
 debug purify:=	DEBUG= -g
-all:=	DEBUG= -O
+all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov: arun
+debug all tcov release: arun
 
 arun: $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)

@@ -200,9 +200,10 @@ static void geextent(ext)
 #endif
 {
   List *dir;
+  Bool same = FALSE;
   
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
-    emit(0);			/* For reversing process */
+    emit(same);			/* For reversing process */
     emit(dir->element.nam->code);
 
     if (ext->chks != NULL)
@@ -216,6 +217,7 @@ static void geextent(ext)
       emit(0);
 
     genam(ext->to);
+    same = TRUE;
   }
 }
 
