@@ -5,7 +5,7 @@ CYGWIN = -mno-cygwin
 OPTIMIZE = -g
 
 
-release:	OPTIMIZE = -O4
+release:	OPTIMIZE = -O3 -g
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
