@@ -90,7 +90,7 @@ void args(argc, argv)
   OSErr oe;
 
   CountAppFiles(&msg, &files);
-  if (msg==0 && files>0) {		/* Found files! */
+  if (msg==0 && files>0) {              /* Found files! */
     GetAppFiles(1, &af);
     advnam = (char *)af.fName;
     strncpy(advbuf, (char *)&af.fName[1], af.fName[0]);
@@ -158,6 +158,7 @@ extern struct Library *IconBase;
 #else
 #ifdef __dos__
   if ((prgnam = strrchr(argv[0], '\\')) == NULL
+      && (prgnam = strrchr(argv[0], '/')) == NULL
       && (prgnam = strrchr(argv[0], ':')) == NULL)
     prgnam = argv[0];
   else

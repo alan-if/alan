@@ -472,7 +472,8 @@ void reverseHdr(hdr)
 {
   int i;
 
-  for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+  /* Skip reversing the version marking */
+  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
 

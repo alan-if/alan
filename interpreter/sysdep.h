@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-  sysdep.h				Date: 1995-08-19/thoni@softlab.se
+  sysdep.h                              Date: 1995-08-19/thoni@softlab.se
 
   System dependencies file for Alan Adventure Language system 
 
@@ -91,7 +91,7 @@
 #ifdef __vms__
 /* Our VAXC doesn't define __STDC__ */
 #define _PROTOTYPES_
-#define REVERSED		/* Byte order in strings */
+#define REVERSED                /* Byte order in strings */
 #include <stdlib.h>
 #include <string.h>
 
@@ -135,7 +135,6 @@ extern char *strdup(char *str);
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
 
-extern char *strdup(char *str);
 
 #endif
 
@@ -143,24 +142,24 @@ extern char *strdup(char *str);
 #ifdef _PROTOTYPES_
 
 /* Native character functions */
-extern int isSpace(int c);	/* IN - Native character to test */
-extern int isLower(int c);	/* IN - Native character to test */
-extern int isUpper(int c);	/* IN - Native character to test */
-extern int isLetter(int c);	/* IN - Native character to test */
-extern int toLower(int c);	/* IN - Native character to convert */
-extern int toUpper(int c);	/* IN - Native character to convert */
+extern int isSpace(int c);      /* IN - Native character to test */
+extern int isLower(int c);      /* IN - Native character to test */
+extern int isUpper(int c);      /* IN - Native character to test */
+extern int isLetter(int c);     /* IN - Native character to test */
+extern int toLower(int c);      /* IN - Native character to convert */
+extern int toUpper(int c);      /* IN - Native character to convert */
 extern char *strlow(char str[]); /* INOUT - Native string to convert */
 extern char *strupp(char str[]); /* INOUT - Native string to convert */
 
 /* ISO character functions */
-extern int isISOLetter(int c);	/* IN - ISO character to test */
-extern char toLowerCase(int c);	/* IN - ISO character to convert */
-extern char toUpperCase(int c);	/* IN - ISO character to convert */
+extern int isISOLetter(int c);  /* IN - ISO character to test */
+extern char toLowerCase(int c); /* IN - ISO character to convert */
+extern char toUpperCase(int c); /* IN - ISO character to convert */
 extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
 extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
 
 /* ISO string conversion functions */
-extern void toIso(char copy[],	/* OUT - Mapped string */
+extern void toIso(char copy[],  /* OUT - Mapped string */
 		  char original[]); /* IN - string to convert */
 extern void fromIso(char copy[], /* OUT - Mapped string */
 		    char original[]); /* IN - string to convert */
@@ -184,5 +183,5 @@ extern void toIso();
 extern void fromIso();
 #endif
 
-#endif				/* -- sysdep.h -- */
+#endif                          /* -- sysdep.h -- */
 
