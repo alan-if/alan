@@ -18,5 +18,6 @@ Location loc
 End Location.
 
 Start At loc.
-    "Locating hero at obj which is in container, should end up at l."
+    "Locating hero at obj which is in container, should end up at L."
     Locate hero At obj.
+
