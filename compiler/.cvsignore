@@ -21,8 +21,10 @@ lmList.h
 pmErr.c
 pmErr.h
 pmPaSema.c
+pmPaSema.tmp
 pmParse.c
 pmParse.h
+pmParse.tmp
 smScSema.c
 smScan.c
 smScan.h
