@@ -6,3 +6,4 @@
 *.diff
 *.output
 *.exe.stackdump
+*.sav

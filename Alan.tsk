@@ -4,46 +4,26 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>265.89</origest>
-<currest>264.89</currest>
-<elapsed>109.89</elapsed>
+<origest>269.89</origest>
+<currest>268.89</currest>
+<elapsed>112.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>44</origest>
-<currest>44</currest>
-<elapsed>4</elapsed>
+<origest>48</origest>
+<currest>48</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>1</elapsed>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Capitalizing of "proper_name" in library and doc</desc>
-<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names. Document new behaviour.
-
-But proper_name is actually used to switch between using articles and names:
-
-If x Has proper_name Then
-  Say x. "looks at you."
-Else
-  "The" Say x. "looks at you."
-End If.
-
-This will not be required when definite and indefinite form printing is implemented.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -119,9 +99,9 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 
 Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>1</elapsed>
+<origest>11</origest>
+<currest>11</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Definite and indefinite article declaration</desc>
@@ -134,7 +114,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>1</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Indefinite Article declaration</desc>
@@ -148,6 +128,33 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <task>
 <desc>Definite Article declaration</desc>
 <notes>Implement and document.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Declaration of indefinite and definite forms</desc>
+<notes>The forms should override articles</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Declaration of Indefinite Form</desc>
+<notes>Indefinite Form "en stol"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Declaration of Definite Form</desc>
+<notes>Definite Form "stolen"</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -167,7 +174,7 @@ SAY an O.
 <priority>2</priority>
 <origest>5</origest>
 <currest>5</currest>
-<elapsed>0</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>SAY an/the &lt;param&gt;</desc>
@@ -192,7 +199,7 @@ Requires sections something like:
 <priority>2</priority>
 <origest>5</origest>
 <currest>5</currest>
-<elapsed>0</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>SAY An x.</desc>
@@ -200,7 +207,7 @@ Requires sections something like:
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -209,7 +216,7 @@ Requires sections something like:
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -241,6 +248,57 @@ Requires sections something like:
 </task>
 </task>
 </task>
+<task>
+<desc>Inheriting Definite and Indefinite articles and forms</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Inheriting Definite Articles and Forms</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inheriting Indefinite Articles and Forms</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Capitalizing of "proper_name" in library and doc</desc>
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+
+Implementation:
+- Document new behaviour. (DONE)
+- Fix library. (To Be Done)
+
+But proper_name is actually used to switch between using articles and names:
+
+If x Has proper_name Then
+  Say x. "looks at you."
+Else
+  "The" Say x. "looks at you."
+End If.
+
+This will not be required when definite and indefinite form printing is implemented.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>

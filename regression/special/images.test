@@ -1,6 +1,7 @@
-rm pic*.jpg
 ls pic*.jpg > images.output
 alan images
 ls pic*.jpg >> images.output
+rm pic*.jpg
+
 
 
