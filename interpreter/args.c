@@ -31,35 +31,35 @@ static void switches(argc, argv)
 #endif
 {
   int i;
-
+  
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
       switch (tolower(argv[i][1])) {
       case 'i':
-	errflg = FALSE;
-	break;
+		errflg = FALSE;
+		break;
       case 't':
-	trcflg = TRUE;
-	break;
+		trcflg = TRUE;
+		break;
       case 'd':
-	dbgflg = TRUE;
-	break;
+		dbgflg = TRUE;
+		break;
       case 's':
-	trcflg = TRUE;
-	stpflg = TRUE;
-	break;
+		trcflg = TRUE;
+		stpflg = TRUE;
+		break;
       case 'l':
-	logflg = TRUE;
-	break;
+		logflg = TRUE;
+		break;
       default:
-	printf("Unrecognized switch, -%c\n", argv[i][1]);
-	terminate(0);
-      }
+		printf("Unrecognized switch, -%c\n", argv[i][1]);
+		terminate(0);
+	  }
     } else {
       advnam = argv[i];
       if ((strcmp(&advnam[strlen(advnam)-4], ".acd") == 0)
-	  || (strcmp(&advnam[strlen(advnam)-4], ".dat") == 0))
-	advnam[strlen(advnam)-4] = '\0';
+		  || (strcmp(&advnam[strlen(advnam)-4], ".dat") == 0))
+		advnam[strlen(advnam)-4] = '\0';
     }
   }
 }
@@ -102,6 +102,8 @@ void args(argc, argv)
     if (strcmp(prgbuf, "arun") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
+	else
+	  advnam = advbuf;
     oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
  }
 #else
