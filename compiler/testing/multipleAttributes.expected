@@ -1,0 +1,23 @@
+########## multipleAttributes ##########
+The l
+  Isa location.
+  Has anAttribute.
+  Has anAttribute.
+End The l.
+
+Start At l.
+########## alan multipleAttributes.alan ##########
+
+
+multipleAttributes.alan
+
+    4.    Has anAttribute.
+=====>        1
+
+  *1*   218 E : Multiple definition of attribute 'anattribute'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+
