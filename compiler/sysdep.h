@@ -128,7 +128,7 @@
 #define ISO 1
 #define NATIVECHARSET 0
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #undef ISO
 #define ISO 1
 #undef NATIVECHARSET
@@ -203,7 +203,7 @@
 /* Have termio? */
 /****************/
 
-#ifdef GLK
+#ifdef HAVE_GLK
 /* don't need TERMIO */
 #else
 
@@ -221,7 +221,7 @@
 /* Is ANSI control available? */
 /*******************************/
 
-#ifdef GLK
+#ifdef HAVE_GLK
 /* don't need ANSI */
 #else
 
@@ -234,8 +234,7 @@
 /******************************/
 /* Use the READLINE function? */
 /******************************/
-
-#ifdef GLK
+#ifdef HAVE_GLK
 /* Glk always uses readline(), no matter what the OS */
 #define USE_READLINE
 #else

@@ -17,7 +17,7 @@
 #include "sysdep.h"
 
 
-#ifdef GLK
+#ifdef HAVE_GLK
 #include "glk.h"
 #endif
 
@@ -78,7 +78,7 @@ size_t strftime (
 #ifdef __dos__
 #endif
 
-#ifdef GLK
+#ifdef HAVE_GLK
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
    case, Glk's Latin-1.  ISO characters are Alan's internal representation,
@@ -202,7 +202,7 @@ int isLetter(int c)             /* IN - Native character to test */
 
 int toLower(int c)              /* IN - Native character to convert */
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   return glk_char_to_lower(c);
 #else
 #ifdef __dos__
@@ -229,7 +229,7 @@ int toLower(int c)              /* IN - Native character to convert */
 
 int toUpper(int c)              /* IN - Native character to convert */
 {
-#ifdef GLK
+#ifdef HAVE_GLK
   return glk_char_to_upper(c);
 #else
 #ifdef __dos__
