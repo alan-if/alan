@@ -1532,11 +1532,11 @@ void save()
   if (str[0] == '\0')
     strcpy(str, savfnm);
   col = 1;
-  if ((savfil = fopen(str, "r")) != NULL)
+  if ((savfil = fopen(str, READ_MODE)) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
       error(MSGMAX);            /* Return to player without saying anything */
-  if ((savfil = fopen(str, "w")) == NULL)
+  if ((savfil = fopen(str, WRITE_MODE)) == NULL)
     error(M_SAVEFAILED);
   strcpy(savfnm, str);
 
@@ -1621,7 +1621,7 @@ void restore()
   col = 1;
   if (str[0] == '\0')
     strcpy(str, savfnm);        /* Use the name temporarily */
-  if ((savfil = fopen(str, "r")) == NULL)
+  if ((savfil = fopen(str, READ_MODE)) == NULL)
     error(M_SAVEMISSING);
   strcpy(savfnm, str);          /* Save it for future use */
 
