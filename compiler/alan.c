@@ -404,14 +404,14 @@ static char lstfnm[255];	/*   - " -   of listing file */
 
 
 static char *srcptr;		/* Pointer to adventure name */
-static Bool warnings;	/* Show warnings */
+static Bool warnings;		/* Show warnings */
 static Bool infos;		/* Show informational messages */
-static Bool fulflg;		/* Full listing on the screen */
+static Bool fulflg;		/* Full source listing */
 static Bool lstflg;		/* Create listing file */
 static int lcount;		/* Number of lines per page */
 static int ccount;		/* -"-    columns */
 static DmpKind dmpflg = 0;	/* Dump internal form flags */
-static Bool dbgflg = 0;	/* Debug option flags */
+static Bool dbgflg = 0;		/* Debug option flags */
 static Bool packflg = 0;	/* Pack option flags */
 static Bool sumflg;		/* Print a summary */
 
@@ -458,7 +458,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
-     SPA_FLAG("full", "full listing on the screen", fulflg, FALSE, NULL)
+     SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
      SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 112, NULL)
      SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
@@ -635,7 +635,7 @@ int main(argc,argv)
 
   /* Create listing files and list messages on the screen */
   if (lstflg) {			/* If -l option, create list file */
-    lmList(lstfnm, lcount, ccount, liFULL, sevALL);
+    lmList(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevALL);
     if (dmpflg) {
       lmSkipLines(0);
       duadv(dmpflg);
@@ -648,16 +648,13 @@ int main(argc,argv)
   }
 
   /* Check what messages to show on the screen */
-  if (fulflg)
-    lmList("", 0, 79, liFULL, sevALL);
-  else {
-    sevs = sevALL;
-    if (!warnings)
-      sevs &= ~sevWAR;
-    if (!infos)
-      sevs &= ~sevINF;
-    lmList("", 0, 79, liTINY, sevs);
-  }
+  sevs = sevALL;
+  if (!warnings)
+    sevs &= ~sevWAR;
+  if (!infos)
+    sevs &= ~sevINF;
+  lmList("", 0, 79, liTINY, sevs);
+
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);
     duadv(dmpflg);
