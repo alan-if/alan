@@ -1262,7 +1262,8 @@ static void load()
   }
 
 #ifdef REVERSED
-  printf("Hmm, please wait a moment while I set things up....\n");
+  if (dbgflg|trcflg|stpflg)
+    printf("Hmm, please wait a moment while I set things up....\n");
   reverseACD();		/* Reverse all words in the ACD file */
 #endif
 }

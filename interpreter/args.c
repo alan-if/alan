@@ -176,7 +176,7 @@ void args(argc, argv)
       && (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0
 	  || strcmp(&prgnam[strlen(prgnam)-4], ".exe") == 0))
     prgnam[strlen(prgnam)-4] = '\0';
-  if (strcmp(prgnam, "arun") == 0)
+  if (strcmp(prgnam, "arun") == 0 || strcmp(prgnam, "ARUN") == 0)
     switches(argc, argv);    
   else
     advnam = prgnam;
