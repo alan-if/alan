@@ -686,9 +686,9 @@ Aint agrcount(whr)
   */
 
 #ifdef _PROTOTYPES_
-static void locobj(Aword obj, Aword whr)
+static void locateObject(Aword obj, Aword whr)
 #else
-static void locobj(obj, whr)
+static void locateObject(obj, whr)
      Aword obj, whr;
 #endif
 {
@@ -767,20 +767,10 @@ void locate(id, whr)
   } else if (whr > header->instanceMax) {
     sprintf(str, "Can't LOCATE instance at (%ld > instanceMax).", whr);
     syserr(str);
-  } else {
+  } else if (isAct(id)) {
     locateActor(id, whr);
-    return;
-  }
-  syserr("Fall through to end in locate()");
-
-  if (isObj(id))
-    locobj(id, whr);
-  else if (isAct(id))
-    locateActor(id, whr);
-  else {
-    sprintf(str, "Can't LOCATE instance (%ld).", id);
-    syserr(str);
-  }
+  } else
+    locateObject(id, whr);
 }
 
 
@@ -917,8 +907,6 @@ Abool in(theInstance, cnt)
      Aword cnt;
 #endif
 {
-  if (!isObj(theInstance))
-    return(FALSE);
   if (!isCnt(cnt))
     syserr("IN in a non-container.");
 

@@ -23,9 +23,6 @@
 #include "lmList.h"
 
 
-InsNod *theHero;
-
-
 static List *allInstances = NULL;
 
 
@@ -37,9 +34,25 @@ static List *allInstances = NULL;
 void initInstances()
 {
   allInstances = NULL;
+}
 
-  theHero = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
-			newId(&nulsrcp, "actor"), NULL);
+
+/*======================================================================
+
+  addHero()
+
+*/
+void addHero(void)
+{
+  SymNod *hero = lookup("hero");
+  InsNod *theHeroInstance;
+
+  if (hero == NULL) {
+    theHeroInstance = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
+				  newId(&nulsrcp, "actor"), NULL);
+    theHero = theHeroInstance->slots->id->symbol;
+  } else
+    theHero = hero;
 }
 
 
@@ -212,7 +225,7 @@ void generateInstances(AcdHdr *header)
   header->instanceTableAddress = generateInstanceTable();
 
   header->instanceMax = instanceCount;
-  header->theHero = theHero->slots->id->symbol->code;
+  header->theHero = theHero->code;
 }
 
 

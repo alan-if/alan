@@ -111,14 +111,16 @@ void verifyContainer(WhtNod *wht,
 
 /*======================================================================
 
-  ancnt()
+  analyzeContainer()
 
   Analyze one container.
 
   */
-void ancnt(CntNod *cnt, Context *context)
+void analyzeContainer(CntNod *cnt, Context *context)
 {
   List *lims;			/* List of limits */
+
+  if (cnt == NULL) return;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 

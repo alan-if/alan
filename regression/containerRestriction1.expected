@@ -7,12 +7,20 @@
 L
 There is a cont and a notacont here.
 
-> put cont in cont
+> put notacont in cont
 Ok.
 
 > put cont in notacont
 You can't put anything in the notacont.
 
-> 
+> put cont in cont
 
-Do you want to RESTART, RESTORE or QUIT ? 
+
+As you enter the twilight zone of Adventures, you stumble and fall to
+your knees. In front of you, you can vaguely see the outlines of an
+Adventure that never was.
+
+SYSTEM ERROR: Locating something inside itself. 
+
+
+

@@ -765,6 +765,17 @@ Boolean isLoc(x)
   return isA(x, LOCATION);
 }
 
+
+#ifdef _PROTOTYPES_
+Boolean isLit(Aword x)
+#else
+Boolean isLit(x)
+     Aword x;
+#endif
+{
+  return x > header->instanceMax;
+}
+
 #ifdef _PROTOTYPES_
 Boolean isNum(Aword x)
 #else
@@ -772,7 +783,7 @@ Boolean isNum(x)
      Aword x;
 #endif
 {
-  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == NUMERIC_LITERAL;
+  return isLit(x) && litValues[x-LITMIN].type == NUMERIC_LITERAL;
 }
 
 #ifdef _PROTOTYPES_
@@ -782,19 +793,9 @@ Boolean isStr(x)
      Aword x;
 #endif
 {
-  return x >= LITMIN && x <= LITMAX && litValues[x-LITMIN].type == STRING_LITERAL;
+  return isLit(x) && litValues[x-LITMIN].type == STRING_LITERAL;
 }
-
-#ifdef _PROTOTYPES_
-Boolean isLit(Aword x)
-#else
-Boolean isLit(x)
-     Aword x;
-#endif
-{
-  return x >= LITMIN && x <= LITMAX;
-}
-
+ 
 
 
 /*======================================================================
@@ -950,7 +951,7 @@ Boolean checklim(cnt, obj)
 
   if (container[props].limits != 0) { /* Any limits at all? */
     for (lim = (LimEntry *) addrTo(container[props].limits); !endOfTable(lim); lim++)
-      if (lim->atr == 0) {
+      if (lim->atr == I_COUNT) {
 	if (count(cnt) >= lim->val) {
 	  interpret(lim->stms);
 	  return(TRUE);		/* Limit check failed */

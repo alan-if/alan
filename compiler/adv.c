@@ -113,6 +113,7 @@ static void analyzeStartAt(void)
  */
 void anadv(void)
 {
+  addHero();
   symbolizeAdv();
   numberAllAttributes();
   replicateInheritedAttributes();
@@ -132,7 +133,7 @@ void anadv(void)
 
   if (verbose) printf("\n\tInstances: ");
   analyzeInstances();
-  theHero->slots->whr = adv.whr;
+  theHero->fields.claOrIns.slots->whr = adv.whr;
 
   if (verbose) printf("\n\tEvents: ");
   anevts();

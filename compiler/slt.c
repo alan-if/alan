@@ -177,6 +177,7 @@ void analyzeSlots(SlotsNode *slots)
   analyzeName(slots);
   anstms(slots->description, NULL);
   anvrbs(slots->verbs, slots->id->symbol);
+  analyzeContainer(slots->container, NULL);
 
   if (slots->exits && !inheritsFrom(slots->id->symbol, locationSymbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);

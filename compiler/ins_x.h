@@ -14,12 +14,12 @@
 
 /* DATA: */
 extern int instanceCount;
-extern InsNod *theHero;
 
 
 /* METHODS: */
 
-extern void initInstances();
+extern void initInstances(void);
+extern void addHero(void);
 extern InsNod *newInstance(Srcp *srcp,
 			   IdNode *id,
 			   IdNode *heritage,

@@ -208,7 +208,7 @@ Verb q
 End Verb.
 
 
-Syntax take = take (o)*.
+Syntax take = take (object)*.
 Verb take
     Check object Not In hero
         Else

@@ -28,7 +28,8 @@ int directionCount = 0;
 int attributeCount = 0;
 int verbCount = 0;
 
-SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
+SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
+
 
 
 /* PRIVATE: */
@@ -353,8 +354,11 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 
   if (child == NULL || ancestor == NULL) return FALSE;
 
-  if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL &&
-      ancestor->kind != CLASS_SYMBOL)
+  if (child->kind == PARAMETER_SYMBOL)
+    child = child->fields.parameter.class;
+
+  if ((child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL) ||
+      (ancestor->kind != CLASS_SYMBOL))
     syserr("Not a CLASS or INSTANCE in inheritsFrom()");
 
   p = child;			/* To be the class itself is OK */

@@ -38,12 +38,12 @@ void testGenerateInstances()
 
   initadv();
   initEmit("unit.acd");
-  symbolizeInstances();
+  symbolizeAdv();
 
   address = generateInstanceTable();
   unitAssert(address == firstAdr);
   address = emadr();
-  unitAssert(address == firstAdr + 1*instanceSize + 1/*EOF*/);
+  unitAssert(address == firstAdr + 1/*EOF*/);
 
   initadv();
   initEmit("unit.acd");
@@ -79,9 +79,12 @@ void testHero()
   AcdHdr header;
 
   initadv();
-  unitAssert(theHero->slots->id->symbol->code == 1);
+  unitAssert(theHero == NULL);
+  addHero();
+  unitAssert(theHero != NULL);
+  unitAssert(theHero->code != 0);
   symbolizeAdv();
-  unitAssert(inheritsFrom(theHero->slots->id->symbol, lookup("actor")));
+  unitAssert(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
   unitAssert(header.theHero == 1);
 }

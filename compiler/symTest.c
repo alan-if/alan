@@ -182,7 +182,9 @@ void testSymbolTableInit()
   initadv();
   adv.whr = NULL;
   unitAssert(classCount == 4);	/* Standard classes */
-  unitAssert(instanceCount == 1); /* The Hero */
+  unitAssert(instanceCount == 0);
+  addHero();
+  unitAssert(instanceCount == 1);
 
   symbolizeAdv();
   thingSymbol = lookup("thing");

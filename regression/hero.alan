@@ -1,0 +1,9 @@
+The hero Isa actor
+  Name you
+End The hero.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Describe hero.

@@ -137,7 +137,7 @@ typedef enum InstClass {
   I_RND,
   I_SUM,			/* SUM-aggregate */
   I_MAX,			/* MAX-aggregate */
-  I_COUNT,			/* COUNT-aggregate */
+  I_COUNT,			/* COUNT aggregate & limit meta-attribute */
   I_RETURN,
   I_SYSTEM,
   I_RESTART,			/* INTRODUCED: v2.7 */

@@ -46,7 +46,7 @@ void testGenerateClasses()
   initadv();
 
   initEmit("unit.acd");
-  symbolizeClasses();
+  symbolizeAdv();
   addr = generateClasses();
   /* Table should start directly after header */
   unitAssert(addr == firstAdr);

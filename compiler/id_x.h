@@ -13,25 +13,16 @@
 #include "types.h"
 #include "sym.h"
 
+
 /* DATA: */
 
 
 /* METHODS: */
 
-
-/* Create a new Id node */
-extern IdNode *newId(Srcp *srcp,
-		     char str[]);
-
-/* Check if two IDs are the same */
-extern Bool equalId(IdNode *id1,	/* IN - The first id */
-		    IdNode *id2);	/* IN - Second id */
-
+extern IdNode *newId(Srcp *srcp, char str[]);
+extern Bool equalId(IdNode *id1, IdNode *id2);
 extern void symbolizeId(IdNode *id);
-
 extern void generateId(IdNode *id);
-
-/* Dump an Id node */
 extern void dumpId(IdNode *id);
 #endif
 

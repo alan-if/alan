@@ -80,7 +80,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   /* Analyze the attribute */
   atr = lim->atr;
   if (strcmp(atr->id->string, "count") == 0)
-    atr->id->symbol->code = 0;		/* Use zero for the COUNT attribute */
+    atr->id->code = I_COUNT;		/* Use instruction code for COUNT meta attribute */
   else {
     a = findAttribute(NULL, atr->id);
     if (a == NULL)
@@ -126,7 +126,13 @@ static void gelim(LimNod *lim,	/* IN - The limit */
   */
 static void geliment(LimNod *lim) /* IN - The limit to generate for */
 {
-  emit(lim->atr->id->symbol->code);
+  if (lim->atr->id->symbol == NULL) {
+    if (lim->atr->id->code == I_COUNT)
+      emit(I_COUNT);
+    else
+      syserr("Generating a limit attribute without symbol.");
+  } else
+    emit(lim->atr->id->symbol->code);
   emit(lim->atr->value);
   emit(lim->stmadr);
 }

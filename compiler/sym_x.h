@@ -22,7 +22,7 @@
 
 extern int classCount;
 extern int instanceCount;
-extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
+extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
 
 
 /* FUNCTIONS: */
@@ -31,7 +31,7 @@ extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
 extern void redefined(IdNode *id, SymNod *sym);
 
 /* Initialise the symbol table with predefined classes etc. */
-extern void initSymbols();
+extern void initSymbols(void);
 
 /* Create a new symbol node */
 extern SymNod *newSymbol(IdNode *id,
