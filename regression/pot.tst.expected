@@ -1,0 +1,29 @@
+########## pot ##########
+alan pot
+arun pot < pot.input
+########## /bin/sh  pot.tst ##########
+
+
+
+        320 W : Word 'plant' belongs to multiple word classes.
+        320 W : Word 'pot' belongs to multiple word classes.
+        320 W : Word 'plant' belongs to multiple word classes.
+
+
+        No detected errors.
+        3 warning(s).
+        2 informational message(s).
+
+
+Try 'x' on the objects.
+
+
+L.
+There is a pot plant and a plant pot here.
+
+> plant the pot plant in the plant pot
+I don't understand.
+
+> 
+
+Do you want to restart (y) ? 
