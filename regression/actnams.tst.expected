@@ -1,0 +1,34 @@
+########## actnams ##########
+alan actnams
+arun actnams < actnams.input
+########## /bin/sh  actnams.tst ##########
+
+
+
+        320 W : Word 'tim' belongs to multiple word classes.
+        320 W : Word 'allen' belongs to multiple word classes.
+
+
+        No detected errors.
+        2 warning(s).
+        1 informational message(s).
+
+
+Try 'hello tim' and 'hello Tim Allen'.
+
+
+L.
+Tim is here.
+
+> hello tim
+Tim says 'hello'.
+
+> hello tim allen
+Tim says 'hello'.
+
+> hello tim allen show
+Tim says 'hello'.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
