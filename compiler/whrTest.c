@@ -11,9 +11,9 @@
 void testClassOfContent()
 {
   IdNode *id = newId(&nulsrcp, "inCont");
-  Where *whereInLocation = newwhr(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_LOCATION, id));
-  Where *whereInActor = newwhr(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ACTOR, id));
-  Where *whereInId = newwhr(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ID, id));
+  Where *whereInLocation = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_LOCATION, id));
+  Where *whereInActor = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ACTOR, id));
+  Where *whereInId = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ID, id));
   IdNode *takesId = newId(&nulsrcp, "location");
   ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId, NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
@@ -36,7 +36,7 @@ void testClassOfContent()
 void testInitialLocation()
 {
   IdNode *id = newId(&nulsrcp, "atLoc");
-  Where *whr = newwhr(&nulsrcp, WHERE_AT, newWhat(&nulsrcp, WHAT_ID, id));
+  Where *whr = newWhere(&nulsrcp, WHERE_AT, newWhat(&nulsrcp, WHAT_ID, id));
   Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
   symbolizeInstance(atLoc);

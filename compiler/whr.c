@@ -30,7 +30,7 @@
   Create a new Where node.
 
   */
-Where *newwhr(Srcp *srcp,	/* IN - Source position */
+Where *newWhere(Srcp *srcp,	/* IN - Source position */
 	       WhrKind kind,	/* IN - Where kind */
 	       What *wht)	/* IN - What */
 {
@@ -256,7 +256,7 @@ void generateWhere(Where *where)
   Dump a Where node
 
   */
-void duwhr(Where *whr)
+void dumpWhere(Where *whr)
 {
   if (whr == NULL) {
     put("NULL");

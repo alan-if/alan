@@ -2298,7 +2298,7 @@ static int val(char str[])
 <optional_where>		-- RETURNS: whr
     =
     %%
-        %<optional_where>.whr = newwhr(`&nulsrcp, WHR_DEFAULT, NULL);
+        %<optional_where>.whr = newWhere(`&nulsrcp, WHR_DEFAULT, NULL);
     %%
     
     ! <where>
@@ -2310,25 +2310,25 @@ static int val(char str[])
 <where>			-- RETURNS: srcp, whr
     = 'HERE'
     %%
-        %<where>.whr = newwhr(`&%'HERE'.srcp, WHR_HERE, NULL);
+        %<where>.whr = newWhere(`&%'HERE'.srcp, WHR_HERE, NULL);
 	%<where>.srcp = %'HERE'.srcp;
     %%
 
     ! 'NEARBY'
     %%
-        %<where>.whr = newwhr(`&%'NEARBY'.srcp, WHR_NEAR, NULL);
+        %<where>.whr = newWhere(`&%'NEARBY'.srcp, WHR_NEAR, NULL);
 	%<where>.srcp = %'NEARBY'.srcp;
     %%
 
     ! 'AT' <what>
     %%
-        %<where>.whr = newwhr(`&%'AT'.srcp, WHERE_AT, %<what>.wht);
+        %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.wht);
 	%<where>.srcp = %'AT'.srcp;
     %%
 
     ! 'IN' <what>
     %%
-        %<where>.whr = newwhr(`&%'IN'.srcp, WHR_IN, %<what>.wht);
+        %<where>.whr = newWhere(`&%'IN'.srcp, WHR_IN, %<what>.wht);
 	%<where>.srcp = %'IN'.srcp;
     %%
     ;

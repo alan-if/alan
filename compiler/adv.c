@@ -340,7 +340,7 @@ void dumpAdventure(enum dmpKd dmp)
   nl();
 
   put("whr: ");
-  duwhr(adv.whr);
+  dumpWhere(adv.whr);
   nl();
 
   put("stms: ");

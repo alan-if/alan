@@ -200,7 +200,7 @@ static void analyzeSet(StmNod *stm, Context *context)
   if (!equalTypes(exp->type, wht->type))
     lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
   else
-    if (exp->type == INSTANCE_TYPE)
+    if (exp->type == INSTANCE_TYPE && exp->class != NULL && wht->class != NULL)
       if (!inheritsFrom(exp->class, wht->class))
 	lmLog(&exp->srcp, 430, sevERR, wht->class->string);
 }
@@ -1224,11 +1224,11 @@ void dumpStatement(StmNod *stm)
       break;
     case EMPTY_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.empty.wht); nl();
-      put("whr: "); duwhr(stm->fields.empty.where);
+      put("whr: "); dumpWhere(stm->fields.empty.where);
       break;
     case LOCATE_STATEMENT:
       put("wht: "); dumpExpression(stm->fields.locate.wht); nl();
-      put("whr: "); duwhr(stm->fields.locate.whr);
+      put("whr: "); dumpWhere(stm->fields.locate.whr);
       break;
     case MAKE_STATEMENT:
       put("wht: "); dumpExpression(stm->fields.make.wht); nl();
@@ -1246,7 +1246,7 @@ void dumpStatement(StmNod *stm)
       break;
     case SCHEDULE_STATEMENT:
       put("id: "); dumpId(stm->fields.schedule.id); nl();
-      put("whr: "); duwhr(stm->fields.schedule.whr); nl();
+      put("whr: "); dumpWhere(stm->fields.schedule.whr); nl();
       put("when: "); dumpExpression(stm->fields.schedule.when);
       break;
     case CANCEL_STATEMENT:

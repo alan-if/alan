@@ -326,7 +326,7 @@ void dumpProps(Properties *props)
   put("id: "); dumpId(props->id); nl();
   put("parentId: "); dumpId(props->parentId); nl();
   put("names: "); dumpListOfLists(props->names, NAME_LIST); nl();
-  put("whr: "); duwhr(props->whr); nl();
+  put("whr: "); dumpWhere(props->whr); nl();
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();

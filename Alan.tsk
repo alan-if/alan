@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>317.89</origest>
-<currest>316.89</currest>
-<elapsed>165.89</elapsed>
+<origest>319.89</origest>
+<currest>318.89</currest>
+<elapsed>166.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>48</origest>
-<currest>48</currest>
-<elapsed>12</elapsed>
+<origest>50</origest>
+<currest>50</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
-<elapsed>12</elapsed>
+<origest>24</origest>
+<currest>24</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -170,6 +170,15 @@ Simply allow an expression as the actor in USE statement, inheritance etc. will 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression as What in Where</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -187,6 +196,15 @@ Simply allow an expression as the actor in USE statement, inheritance etc. will 
 <notes>Bug? Save current state also? Why is not current.location set to heros location?
 
 We also need some way to re-output the state.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

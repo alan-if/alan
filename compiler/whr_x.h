@@ -18,7 +18,7 @@
 
 /* FUNCTIONS: */
 
-extern Where *newwhr(Srcp *srcp,
+extern Where *newWhere(Srcp *srcp,
 		      WhrKind kind,
 		      What *wht);
 extern void symbolizeWhere(Where *whr);
@@ -27,6 +27,6 @@ extern Symbol *classOfContent(Where *where, Context *context);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Where *whr);
 extern void generateWhere(Where *whr);
-extern void duwhr(Where *whr);
+extern void dumpWhere(Where *whr);
 
 #endif

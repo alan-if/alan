@@ -1048,7 +1048,7 @@ void dumpExpression(Expression *exp)
   switch (exp->kind) {
   case WHERE_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.whr.wht); nl();
-    put("whr: "); duwhr(exp->fields.whr.whr);
+    put("whr: "); dumpWhere(exp->fields.whr.whr);
     break;
   case ATTRIBUTE_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.atr.wht); nl();
