@@ -193,6 +193,12 @@ static void getline(void)
 #endif
 #endif
     }
+    /* If the player input an empty command he forfeited his command */
+    if (strlen(buf) == 0) {
+      wrds[0] = EOF;
+      longjmp(forfeitLabel, 0);
+    }
+
 #if ISO == 0
     toIso(isobuf, buf, NATIVECHARSET);
 #else
@@ -207,7 +213,7 @@ static void getline(void)
       } else if (strcmp("undo", token) == 0) {
 	undo();
 	wrds[wrdidx] = EOF;		/* Force new player input */
-	longjmp(error_label, TRUE);
+	longjmp(errorLabel, TRUE);
       }
     }
   } while (token == NULL);

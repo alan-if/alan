@@ -11,6 +11,7 @@ Enter file name to save in (save3.sav) :
 Ok.
 
 > 
+
 > restore
 Enter file name to restore from (save3.sav) : 
 Done.
@@ -18,6 +19,7 @@ Done.
 L
 
 > 
+
 > restore
 Enter file name to restore from (save3.sav) : save3.a3c
 That file does not seem to be an Alan game save file.

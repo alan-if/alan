@@ -340,7 +340,7 @@ void quitGame(void)
     if (gets(buf) == NULL) terminate(0);
 #endif
     if (strcmp(buf, "restart") == 0)
-      longjmp(restart_label, TRUE);
+      longjmp(restartLabel, TRUE);
     else if (strcmp(buf, "restore") == 0) {
       restoreGame();
       return;
@@ -361,7 +361,7 @@ void restartGame(void)
 {
   para();
   if (confirm(M_REALLY)) {
-    longjmp(restart_label, TRUE);
+    longjmp(restartLabel, TRUE);
   } else
     return;
   syserr("Fallthrough in RESTART");

@@ -19,13 +19,13 @@ Depending on if you used the ZIP-archive or the Windows installer you
 will get command line version or a Windows GUI version. They are
 completely compatible.
 
-Changes in v3.0.32 development:
+Changes in v3.0.33 development:
+- Changed DEPEND case separator from ':' to 'THEN'
 - Added a new attribute type, set, which may contain references to instances
 - Added a new interpretation of 'IN' which refers to sets
 - Upgraded loop and aggregation filters to use 'IN' both for containers and sets
 - Added messages for UNDO responses
 - Added UNDO as a response to QUIT
-- Changed DEPEND case separator from ':' to 'THEN'
 - Empty player input is now interpreted as a forfeit of that command turn
 
 Changes in v3.0.32 development:
@@ -114,7 +114,7 @@ Alan Home Pages at
 	http://welcome.to/alan-if
 
 
-If you haven't already, join the 1272 people registered. Happy Authoring!
+If you haven't already, join the 1280 people registered. Happy Authoring!
 
 Thomas Nilsson
 thomas@junovagen.se

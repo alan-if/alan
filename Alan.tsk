@@ -4,9 +4,9 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>336.89</origest>
-<currest>335.89</currest>
-<elapsed>185.89</elapsed>
+<origest>337.89</origest>
+<currest>336.89</currest>
+<elapsed>187.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>54</origest>
 <currest>54</currest>
-<elapsed>13</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>13</elapsed>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -212,11 +212,20 @@ Change ':' to 'THEN'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Empty player input to forfeit player turn</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Script Step After n does not work</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -238,19 +247,10 @@ Change ':' to 'THEN'</notes>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Refactor: add a context.symbol</desc>
-<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Document inheritance rules for each construct</desc>
 <notes>Isn't it already?</notes>
@@ -401,6 +401,15 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Refactor: add a context.symbol</desc>
+<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Symbolic instance and class references in debugger</desc>
 <notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
 <priority>2</priority>
@@ -469,44 +478,13 @@ Design:</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Investigate multi-class word problems</desc>
-<notes>Word as synonym and verb
-Word as synonym and direction
-Word as verb and direction
-....
-
-Which of the above works, and what is the problem with each that doesn't?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -530,6 +508,37 @@ Which of the above works, and what is the problem with each that doesn't?
 <task>
 <desc>Allow expression in List statement.</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Investigate multi-class word problems</desc>
+<notes>Word as synonym and verb
+Word as synonym and direction
+Word as verb and direction
+....
+
+Which of the above works, and what is the problem with each that doesn't?
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -570,26 +579,6 @@ OR: defer this until arrays are available.</notes>
 <task>
 <desc>Refactor: Allocate parameter lists</desc>
 <notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Which-form and Any-form</desc>
-<notes>In some languages the words "which" and "any" has different forms depending on the noun. E.g in german:
-
-"Ich kann hier keinen/keiner/kein $1 sehen."
-
-To fix this we would need two new forms, one for "which" and one for "any".
-Possibly we could have the embedded tags:
-
-  $+&lt;n&gt; = definite form
-  $0&lt;n&gt; = indefinite form
-  $-&lt;n&gt; = none/any form (negative)
-  $?&lt;n&gt; = which form (interrogative)
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -762,8 +751,8 @@ verbs
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>98</origest>
-<currest>98</currest>
+<origest>99</origest>
+<currest>99</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -775,6 +764,26 @@ Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the diction
 Words can't be prepositions and verbs at the same time. See gestx()
 
 New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Which-form and Any-form</desc>
+<notes>In some languages the words "which" and "any" has different forms depending on the noun. E.g in german:
+
+"Ich kann hier keinen/keiner/kein $1 sehen."
+
+To fix this we would need two new forms, one for "which" and one for "any".
+Possibly we could have the embedded tags:
+
+  $+&lt;n&gt; = definite form
+  $0&lt;n&gt; = indefinite form
+  $-&lt;n&gt; = none/any form (negative)
+  $?&lt;n&gt; = which form (interrogative)
 </notes>
 <priority>2</priority>
 <origest>1</origest>

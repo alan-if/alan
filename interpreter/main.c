@@ -116,8 +116,9 @@ Bool needSpace = FALSE;
 Bool skipsp = FALSE;
 
 /* Restart jump buffer */
-jmp_buf restart_label;		/* Restart long jump return point */
-jmp_buf error_label;		/* Error (or undo) long jump return point*/
+jmp_buf restartLabel;		/* Restart long jump return point */
+jmp_buf errorLabel;		/* Error (or undo) long jump return point */
+jmp_buf forfeitLabel;		/* Player forfeit by an empty command */
 
 
 /* PRIVATE DATA */
@@ -215,7 +216,7 @@ void error(MsgKind msgno)	/* IN - The error message number */
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
-  longjmp(error_label,TRUE);
+  longjmp(errorLabel,TRUE);
 }
 
 
@@ -1312,9 +1313,11 @@ static void moveActor(int theActor)
   current.location = where(theActor);
   if (theActor == HERO) {
     /* Ask him! */
-    parse();
-    capitalize = TRUE;
-    fail = FALSE;			/* fail only aborts one actor */
+    if (setjmp(forfeitLabel) == 0) {
+      parse();
+      capitalize = TRUE;
+      fail = FALSE;			/* fail only aborts one actor */
+    }
   } else if (admin[theActor].script != 0) {
     for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++) {
       if (scr->code == admin[theActor].script) {
@@ -1380,9 +1383,9 @@ void run(void)
   openFiles();
   load();			/* Load program */
 
-  setjmp(restart_label);	/* Return here if he wanted to restart */
+  setjmp(restartLabel);	/* Return here if he wanted to restart */
 
-  if (setjmp(error_label) == 0)
+  if (setjmp(errorLabel) == 0)
     init();			/* Initialise and start the adventure */
 
   while (TRUE) {
@@ -1397,7 +1400,7 @@ void run(void)
     eventCheck();
     current.tick++;
 
-    (void) setjmp(error_label);	/* Return here if any error during execution */
+    (void) setjmp(errorLabel);	/* Return here if any error during execution */
     recursions = 0;
 
     /* Move all characters, hero first */

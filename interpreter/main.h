@@ -68,8 +68,9 @@ extern int col, lin;
 extern int pageLength, pageWidth;
 
 /* Long jump buffer for restart, errors and undo */
-extern jmp_buf restart_label;
-extern jmp_buf error_label;
+extern jmp_buf restartLabel;
+extern jmp_buf errorLabel;
+extern jmp_buf forfeitLabel;
 
 extern Bool verbose;
 extern Bool ignoreErrorOption;
