@@ -33,6 +33,7 @@
 #include "vrb_x.h"
 #include "cnt_x.h"
 #include "scr_x.h"
+#include "add_x.h"
 
 #include "lmList.h"
 
@@ -117,7 +118,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 62 "alan.pmk"
+#line 63 "alan.pmk"
 
 
 {

@@ -10,6 +10,7 @@
 
 #include "lmList.h"
 
+#include "add_x.h"
 #include "cla_x.h"
 #include "cnt_x.h"
 #include "ins_x.h"
@@ -115,6 +116,7 @@ void anadv(void)
 {
   addHero();
   symbolizeAdv();
+  addAdditions();
   numberAllAttributes();
   replicateInheritedAttributes();
 
@@ -227,19 +229,82 @@ void duadv(enum dmpKd dmp)
   if (dmp&DMPALL)
     dmp = (enum dmpKd)-1L;
 
-  put("ADV: "); in();
-  put("synonyms: "); if (dmp&DMPSYN) dulst(adv.syns, LIST_SYN); else put("--"); nl();
-  put("syntaxes: "); if (dmp&DMPSTX) dulst(adv.stxs, LIST_STX); else put("--"); nl();
-  put("verbs: "); if (dmp&DMPVRB) dulst(adv.vrbs, LIST_VRB); else put("--"); nl();
-  put("classes: "); if (dmp&DMPCLA) dulst(adv.clas, LIST_CLA); else put("--"); nl();
-  put("instances: "); if (dmp&DMPINS) dulst(adv.inss, LIST_INS); else put("--"); nl();
-  put("containers: "); if (dmp&DMPCNT) dulst(adv.cnts, LIST_CNT); else put("--"); nl();
-  put("events: "); if (dmp&DMPEVT) dulst(adv.evts, LIST_EVT); else put("--"); nl();
-  put("rules: "); if (dmp&DMPRUL) dulst(adv.ruls, LIST_RUL); else put("--"); nl();
-  put("symbols: "); if (dmp&DMPSYM) dumpSymbols(); else put("--"); nl();
-  put("whr: "); duwhr(adv.whr); nl();
-  put("stms: "); dulst(adv.stms, LIST_STM); out();
 
+  put("ADV: "); in();
+
+  put("synonyms: ");
+  if (dmp&DMPSYN)
+    dulst(adv.syns, LIST_SYN);
+  else
+    put("--");
+  nl();
+
+  put("syntaxes: ");
+  if (dmp&DMPSTX)
+    dulst(adv.stxs, LIST_STX);
+  else
+    put("--");
+  nl();
+
+  put("verbs: ");
+  if (dmp&DMPVRB)
+    dulst(adv.vrbs, LIST_VRB);
+  else
+    put("--");
+  nl();
+
+  put("classes: ");
+  if (dmp&DMPCLA) {
+    dulst(adv.clas, LIST_CLA);
+    nl();
+    put("additions: ");
+    dulst(adv.adds, LIST_ADD);
+  } else
+    put("--");
+  nl();
+
+  put("instances: ");
+  if (dmp&DMPINS)
+    dulst(adv.inss, LIST_INS);
+  else
+    put("--");
+  nl();
+
+  put("containers: ");
+  if (dmp&DMPCNT)
+    dulst(adv.cnts, LIST_CNT);
+  else
+    put("--");
+  nl();
+
+  put("events: ");
+  if (dmp&DMPEVT)
+    dulst(adv.evts, LIST_EVT);
+  else
+    put("--");
+  nl();
+
+  put("rules: ");
+  if (dmp&DMPRUL)
+    dulst(adv.ruls, LIST_RUL);
+  else
+    put("--");
+  nl();
+
+  put("symbols: ");
+  if (dmp&DMPSYM)
+    dumpSymbols();
+  else
+    put("--");
+  nl();
+
+  put("whr: ");
+  duwhr(adv.whr);
+  nl();
+
+  put("stms: ");
+  dulst(adv.stms, LIST_STM);
+  out();
 }
 
 

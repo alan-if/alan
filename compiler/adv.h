@@ -19,6 +19,7 @@ typedef struct AdvNod {		/* ADVenture */
   List *stxs;			/* List of syntax definitions */
   List *vrbs;			/* List of global verbs */
   List *clas;			/* List of defined classes */
+  List *adds;			/* List of additions to the classes */
   List *inss;			/* List of defined instances */
   List *locs;			/* List of locations */
   List *objs;			/* List of objects */

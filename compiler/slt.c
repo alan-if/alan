@@ -56,8 +56,11 @@ SlotsNode *newSlots(List *names,
 		    List *attributes,
 		    CntNod *container,
 		    List *description,
+		    Srcp *descriptionSrcp,
 		    List *mentioned,
-		    List *art,
+		    Srcp *mentionedSrcp,
+		    List *article,
+		    Srcp *articleSrcp,
 		    List *does,
 		    List *exits,
 		    List *verbs,
@@ -78,8 +81,11 @@ SlotsNode *newSlots(List *names,
     new->container->parent = new;
 
   new->description = description;
+  new->descriptionSrcp = *descriptionSrcp;
   new->mentioned = mentioned;
-  new->art = art;
+  new->mentionedSrcp = *mentionedSrcp;
+  new->article = article;
+  new->articleSrcp = *articleSrcp;
   new->verbs = verbs;
   new->exits = exits;
 
@@ -243,7 +249,7 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
   else
     entry->container = 0;
   entry->mentioned = slots->mentionedAddress;
-  entry->article = slots->artadr;
+  entry->article = slots->articleAddress;
   entry->exits = slots->exitsAddress;
   entry->verbs = slots->verbsAddress;
   entry->scripts = slots->scriptsAddress;
@@ -268,8 +274,8 @@ void dumpSlots(SlotsNode *slots)
   put("attributeAddress: "); dumpAddress(slots->attributeAddress); nl();
   put("description: "); dulst(slots->description, LIST_STM); nl();
   put("descriptionAddress: "); dumpAddress(slots->descriptionAddress); nl();
-  put("art: "); dulst(slots->art, LIST_STM); nl();
-  put("artadr: "); dumpAddress(slots->artadr); nl();
+  put("article: "); dulst(slots->article, LIST_STM); nl();
+  put("articleAddres: "); dumpAddress(slots->articleAddress); nl();
   put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
   put("mentionedAddress: "); dumpAddress(slots->mentionedAddress); nl();
   put("scripts: "); dulst(slots->scripts, LIST_SCR); nl();

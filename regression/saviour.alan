@@ -28,14 +28,14 @@ OPTIONS
     Pack.
     Debug.
 
-Every object Isa thing
+Add To Every object
   Is
     NOT takeable.
     NOT readable.
     NOT openable.
     NOT startable.
     examinable.
-End Every object.
+End Add To object.
 
 SYNONYMS
     e = east.

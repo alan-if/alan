@@ -36,6 +36,7 @@
 #include "vrb_x.h"
 #include "cnt_x.h"
 #include "scr_x.h"
+#include "add_x.h"
 
 #include "lmList.h"
 
@@ -88,12 +89,14 @@ static int val(char str[])
 
 %%ATTRIBUTES
 
+  add %% AddNode *%1%%,
   agr %% AgrKind %1%%,
   alt %% AltNod *%1%%,
   alts %% List *%1%%,
+  art %% List *%1%%,		-- of StmNod: article-clause,
+  artSrcp %% Srcp %1%%,
   atr %% AtrNod *%1%%,
   atrs %% List *%1%%,
-  art %% List *%1%%,		-- of StmNod: article-clause,
   bits %% int %1%%,
   cases %% List *%1%%,
   chk %% ChkNod *%1%%,
@@ -104,6 +107,7 @@ static int val(char str[])
   cnts %% List *%1%%,
   does %% List *%1%%,		-- of StmNod: does-clause,
   dscr %% List *%1%%,		-- of StmNod: description-clause,
+  dscrSrcp %% Srcp %1%%,
   elm %% ElmNod *%1%%,
   elms %% List *%1%%,
   evt %% EvtNod *%1%%,
@@ -120,6 +124,7 @@ static int val(char str[])
   lim %% LimNod *%1%%,
   lims %% List *%1%%,
   ment %% List *%1%%,		-- of StmNod: mentioned-clause,
+  mentSrcp %% Srcp %1%%,
   minus %% Bool %1%%,
   msg %% MsgNod *%1%%,
   msgs %% List *%1%%,
@@ -129,8 +134,8 @@ static int val(char str[])
   op %% OpKind %1%%,
   qual %% QualKind %1%%,
   res %% ResNod *%1%%,
-  restrictionKind %% RestrictionKind %1%%,
   ress %% List *%1%%,
+  restrictionKind %% RestrictionKind %1%%,
   rul %% RulNod *%1%%,
   ruls %% List *%1%%,
   scr %% ScrNod *%1%%,
@@ -223,7 +228,10 @@ static int val(char str[])
 
     ! <class>
     %% adv.clas = concat(adv.clas, %<class>.cla, LIST_CLA); %%
-	
+
+    ! <add>
+    %% adv.adds = concat(adv.adds, %<add>.add, LIST_ADD); %%
+
     ! <instance>
     %% adv.inss = concat(adv.inss, %<instance>.ins, LIST_INS); %%
 
@@ -545,6 +553,7 @@ static int val(char str[])
 	%<verb_body>.alts = %<verb_alternatives>.alts;
     %%
     ;
+
 <verb_alternatives>
     = <verb_alternative>
     %%
@@ -657,8 +666,11 @@ static int val(char str[])
 					%<slots>.atrs,
 					%<slots>.cnt,
 					%<slots>.dscr,
+					`&%<slots>.dscrSrcp,
 					%<slots>.ment,
+					`&%<slots>.mentSrcp,
 					%<slots>.art,
+					`&%<slots>.artSrcp,
 					%<slots>.does,
 					%<slots>.exts,
 					%<slots>.vrbs,
@@ -675,6 +687,39 @@ static int val(char str[])
     ;
 
 
+---> ADD
+<add>			-- RETURNS: cla
+    = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <slots> <add_tail>
+    %%
+	%<add>.add = newAdd(`&%'EVERY'.srcp,
+				%ID.id,
+				%<optional_heritage>.id,
+				newSlots(%<slots>.nams,
+					%<slots>.whr,
+					%<slots>.atrs,
+					%<slots>.cnt,
+					%<slots>.dscr,
+					`&%<slots>.dscrSrcp,
+					%<slots>.ment,
+					`&%<slots>.mentSrcp,
+					%<slots>.art,
+					`&%<slots>.artSrcp,
+					%<slots>.does,
+					%<slots>.exts,
+					%<slots>.vrbs,
+					%<slots>.scrs));
+	if (%<add_tail>.id != NULL)  /* END-id given */
+	    if (!equalId(%ID.id, %<add_tail>.id))
+		lmLog(`&%<add_tail>.id->srcp, 201, sevWAR, %ID.id->string);
+    %%
+    ;
+
+<add_tail>		-- RETURNS: id
+    = 'END' 'ADD' [ 'TO' ] <optional_id> ['.']
+    %% %<add_tail>.id = %<optional_id>.id; %%
+    ;
+
+
 ---> INSTANCE
 <instance>			-- RETURNS: ins
     = 'THE' ID <optional_heritage> <slots> <instance tail>
@@ -687,8 +732,11 @@ static int val(char str[])
 					%<slots>.atrs,
 					%<slots>.cnt,
 					%<slots>.dscr,
+					`&%<slots>.dscrSrcp,
 					%<slots>.ment,
+					`&%<slots>.mentSrcp,
 					%<slots>.art,
+					`&%<slots>.artSrcp,
 					%<slots>.does,
 					%<slots>.exts,
 					%<slots>.vrbs,
@@ -762,24 +810,30 @@ static int val(char str[])
             if(%<slots>.dscr != NULL)
                 /* DESCRIPTION already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
-	    else 
+	    else {
 	        %<slots>.dscr = %<slot>.dscr;
+		%<slots>.dscrSrcp = %<slot>.srcp;
+	    }
         }
 
 	if (%<slot>.ment != NULL) {
             if (%<slots>.ment != NULL)
                 /* MENTIONED already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
-	    else
+	    else {
                 %<slots>.ment = %<slot>.ment;
+		%<slots>.mentSrcp = %<slot>.srcp;
+	    }
         }
 
 	if (%<slot>.art != NULL) {
             if (%<slots>.art != NULL)
                 /* ARTICLE already declared */
 	        lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
-            else 
+            else { 
 	        %<slots>.art = %<slot>.art;
+		%<slots>.artSrcp = %<slot>.srcp;
+	    }
         }
 
 	if (%<slot>.does != NULL) {
@@ -852,8 +906,11 @@ static int val(char str[])
 
     ! <article>
     %%{ List *art = %<article>.art;
+        Srcp srcp = %<article>.srcp;
+
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.art = art;
+	%<slot>.srcp = srcp;
     }%%
 
     ! <does>
@@ -1017,7 +1074,7 @@ static int val(char str[])
     ;
 
 <name>			-- RETURNS: nam
-    = 'NAME' <ids>					%+('ARTICLE', 'IN', 'EXIT')
+    = 'NAME' <ids> [ '.' ]					%+('ARTICLE', 'IN', 'EXIT')
     %%
 	%<name>.nam = %<ids>.idList;
     %%

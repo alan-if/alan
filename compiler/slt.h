@@ -28,10 +28,13 @@ typedef struct SlotsNode {	/* SLOTS  */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
   List *description;		/* Long description statements */
+  Srcp descriptionSrcp;
   Aword descriptionAddress;	/* ACODE address to long description code */
-  List *art;			/* Article printing statements */
-  Aword artadr;			/* ACODE address to article statements */
+  List *article;		/* Article printing statements */
+  Srcp articleSrcp;
+  Aword articleAddress;		/* ACODE address to article statements */
   List *mentioned;		/* Short (inventory like) statements */
+  Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */
   CntNod *container;		/* Pointer to container property node */
   List *verbs;			/* List of verbs */

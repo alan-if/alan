@@ -13,6 +13,7 @@
 
 typedef enum ListKind {
   LIST_UNK,
+  LIST_ADD,
   LIST_ALT,
   LIST_ATR,
   LIST_CASE,
@@ -48,6 +49,7 @@ typedef enum ListKind {
 typedef struct List {		/* GENERIC LISTS */
   ListKind kind;
   union {
+    struct AddNode *add;
     struct AltNod *alt;
     struct AtrNod *atr;
     struct ChkNod *chk;

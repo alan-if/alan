@@ -26,6 +26,7 @@ extern void dustm();
 extern void duext();
 extern void dustx();
 extern void duvrb();
+extern void dumpAdd();
 extern void duelm();
 extern void dumpAttribute();
 extern void dumpRestriction();
@@ -38,6 +39,7 @@ extern void dumpRestriction();
 */
 void initDumpNodeList()
 {
+  dumpNodeTable[LIST_ADD] = &dumpAdd;
   dumpNodeTable[LIST_CLA] = &dumpClass;
   dumpNodeTable[LIST_INS] = &dumpInstance;
   dumpNodeTable[LIST_ATR] = &dumpAttribute;

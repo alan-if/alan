@@ -36,6 +36,7 @@ TESTSRCS = \
 # Sources required for both builds
 BUILDSRCS = \
 	alan.c \
+	add.c \
 	alt.c \
 	chk.c \
 	cnt.c \

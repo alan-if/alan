@@ -199,14 +199,14 @@ int smScAction(
     smContinueToken	= -2
   };
   switch(smInternalCode) {
-  case 101:		/* INTEGER*/ 
+  case 102:		/* INTEGER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
-  case 102:		/* IDENTIFIER*/ 
+  case 103:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
@@ -216,7 +216,7 @@ int smScAction(
 }
     break;
 
-  case 103:		/* IDENTIFIER*/ 
+  case 104:		/* IDENTIFIER*/ 
     {{
 	char *c;
 
@@ -234,7 +234,7 @@ int smScAction(
 }
     break;
 
-  case 104:		/* STRING*/ 
+  case 105:		/* STRING*/ 
     {
       int len = 0;		/* The total length of the copied data */
       Bool space = FALSE;
@@ -268,7 +268,7 @@ int smScAction(
 }
     break;
 
-  case 109:		/* INCLUDE*/ 
+  case 110:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -303,7 +303,7 @@ int smScAction(
 }
     break;
 
-  case 110:		/* IDENTIFIER*/ 
+  case 111:		/* IDENTIFIER*/ 
     {{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }

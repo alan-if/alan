@@ -143,12 +143,12 @@ List *sortAttributes(List *attributes)
 
 /*----------------------------------------------------------------------
 
-  inheritAttribute()
+  copyAttribute()
 
   Make a copy of an attribute
 
 */
-static AtrNod *inheritAttribute(AtrNod *theOriginal)
+static AtrNod *copyAttribute(AtrNod *theOriginal)
 {
   AtrNod *theCopy = NEW(AtrNod);
 
@@ -160,18 +160,18 @@ static AtrNod *inheritAttribute(AtrNod *theOriginal)
 
 /*----------------------------------------------------------------------
 
-  inheritAttributeList()
+  copyAttributeList()
 
   Make a copy of a complete attribute list
 
 */
-static List *inheritAttributeList(List *theOriginal)
+static List *copyAttributeList(List *theOriginal)
 {
   List *theCopy = NULL;
   List *traversal;
 
   for (traversal = theOriginal; traversal != NULL; traversal = traversal->next)
-    theCopy = concat(theCopy, inheritAttribute(traversal->element.atr),
+    theCopy = concat(theCopy, copyAttribute(traversal->element.atr),
 		     LIST_ATR);
   return theCopy;
 }
@@ -182,31 +182,31 @@ static List *inheritAttributeList(List *theOriginal)
 
   combineAttributes()
 
-  Insert all attributes from the inherited list that are not there
+  Insert all attributes from the list to add that are not there
   already, then sort the list.
 
 */
-List *combineAttributes(List *ownAttributes, List *inheritedAttributes)
+List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 {
   List *own = ownAttributes;
-  List *inherited = inheritedAttributes;
+  List *toAdd = attributesToAdd;
   List *added = NULL;
 
   while (own != NULL) {
-    if (inherited == NULL)
+    if (toAdd == NULL)
       break;
-    else if (own->element.atr->id->code == inherited->element.atr->id->code) {
+    else if (own->element.atr->id->code == toAdd->element.atr->id->code) {
       own = own->next;
-      inherited = inherited->next;
-    } else if (own->element.atr->id->code < inherited->element.atr->id->code) {
+      toAdd = toAdd->next;
+    } else if (own->element.atr->id->code < toAdd->element.atr->id->code) {
       own = own->next;
-    } else if (own->element.atr->id->code > inherited->element.atr->id->code) {
-      insert(own, inheritAttribute(inherited->element.atr), LIST_ATR);
-      inherited = inherited->next;
+    } else if (own->element.atr->id->code > toAdd->element.atr->id->code) {
+      insert(own, copyAttribute(toAdd->element.atr), LIST_ATR);
+      toAdd = toAdd->next;
     }
   }
-  if (inherited != NULL)
-    added = combine(added, inheritAttributeList(inherited));
+  if (toAdd != NULL)
+    added = combine(added, copyAttributeList(toAdd));
   own = combine(ownAttributes, added);
   own = sortAttributes(own);
   return own;
