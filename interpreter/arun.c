@@ -1011,6 +1011,8 @@ static void do_it()
   alt[0] = findalt(header->vrbs, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
+    if (trcflg)
+      printf("\n<VERB %d, CHECK, GLOBAL:>\n", cur.vrb);
     if (!trycheck(alt[0]->checks, TRUE)) return;
     if (fail) return;
   }
@@ -1018,6 +1020,8 @@ static void do_it()
   /* Now CHECKs in this location */
   alt[1] = findalt(locs[cur.loc-LOCMIN].vrbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0) {
+    if (trcflg)
+      printf("\n<VERB %d, CHECK, in LOCATION:>\n", cur.vrb);
     if (!trycheck(alt[1]->checks, TRUE)) return;
     if (fail) return;
   }
@@ -1034,6 +1038,8 @@ static void do_it()
 	syserr("Illegal parameter type.");
       /* CHECKs in the parameters */
       if (alt[i+2] != 0 && alt[i+2]->checks != 0) {
+	if (trcflg)
+	  printf("\n<VERB %d, CHECK, in Parameter #%d:>\n", cur.vrb, i);
 	if (!trycheck(alt[i+2]->checks, TRUE)) return;
 	if (fail) return;
       }
