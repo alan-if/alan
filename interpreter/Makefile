@@ -114,7 +114,6 @@ Makefile.amiga.:
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
 arun.make.:
-arun.make.:
 	@echo Updating arun.make!
 	@echo !Automagically created makefile for Arun interpreter on VMS > arun.make
 	@echo CQ=/STANDARD=PORTABLE >> arun.make
