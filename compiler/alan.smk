@@ -169,11 +169,16 @@ int scannedLines()
 	(void) strlow(smToken->chars);
     %%;
 
-  ID = '\'' ([^\'\n]!'\'''\'')* '\''	-- quoted id
+  ID = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
 	char *c;
 
+	/* If terminated by \n illegal! */
+	if (smThis->smText[smThis->smLength-1] == '\n')
+	  lmLog(&smToken->srcp, 152, sevERR, "");
+
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+	/* Replace any doubled quotes by single */
 	for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
 	    strcpy(c, &c[1]);
 	    c++;
