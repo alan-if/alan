@@ -398,7 +398,7 @@ static void prepareNames(void)
   
   /* -- create string data file names -- */
   strcpy(txtfnm, advnam);
-  strcat(txtfnm, ".txt");
+  strcat(txtfnm, ".tmp");
   strcpy(datfnm, advnam);
   strcat(datfnm, ".dat");
   

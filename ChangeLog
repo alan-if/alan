@@ -1,3 +1,7 @@
+Mon Nov  9 10:25:21 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Changed the extensions on the temporary text file from .txt to .tmp
+
 Thu Nov  5 14:48:54 MET 1998
 
 	* v2.8(3)
