@@ -16,7 +16,6 @@
 
 typedef struct List {		/* GENERIC LISTS */
   struct List *next;		/* Pointer to next list node */
-  struct List *tail;		/* Pointer to last list node */
   union {
     struct Id *id;
     struct Statement *statement;
@@ -35,8 +34,8 @@ typedef struct List {		/* GENERIC LISTS */
 
 #ifdef _PROTOTYPES_
 
-/* Concat an element to a list */
-extern List *concat(List *lst, void *elem);
+/* Append an element to a list */
+extern List *append(List *lst, void *elem);
 
 /* Combine two generic lists */
 extern List *combine(List *lst1, List *lst2);
@@ -45,7 +44,7 @@ extern List *combine(List *lst1, List *lst2);
 extern void dumpList(List *lst, NodeKind nod);
 
 #else
-extern List *concat();
+extern List *append();
 extern List *combine();
 extern void dumpList();
 #endif

@@ -90,6 +90,24 @@ Instance *newInstance(srcp, id, heritage, name, where, attributes, container,
 
 /*======================================================================
 
+  initInstances()
+
+  Initialise any predefines Instances (the Hero..)
+
+  */
+#ifdef _PROTOTYPES_
+void initInstances(void)
+#else
+void initInstances()
+#endif
+{
+  /* 4f - initialise the predefines instances */
+}
+
+
+
+/*======================================================================
+
   analyseInstance()
 
   Do the analysis for a Instance.

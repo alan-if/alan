@@ -8,6 +8,9 @@
 #include "types.h"
 
 #include "Symbol.h"
+#include "List.h"
+#include "Class.h"
+#include "Instance.h"
 
 #include "alan.h"
 #include "lmList.h"
@@ -75,7 +78,7 @@ Symbol *newSymbol(id, kind)
       s1 = s1->higher;
     else {
       redefined(id);
-      s1->kind = UNKNOWN_SYMBOL;
+      s1->kind = ERROR_SYMBOL;
       return s1;
     }
   }
@@ -103,7 +106,7 @@ Symbol *newSymbol(id, kind)
   case INSTANCE_SYMBOL: new->code = ++count.instance; break;
   case DIRECTION_SYMBOL: new->code = ++count.direction; break;
   case VERB_SYMBOL: new->code = ++count.verb; break;
-  case UNKNOWN_SYMBOL: break;
+  case ERROR_SYMBOL: break;
   default: syserr("Unknown symbol kind in newSymbol()"); break;
   }
 
@@ -147,4 +150,83 @@ Symbol *lookup(string)
   }
 
   return(NULL);
+}
+
+
+
+/*======================================================================
+
+  isA()
+
+  Does the identifier inherit the class? Does not verify the symbol.
+
+  */
+#ifdef _PROTOTYPES_
+Bool isA(Id *id,		/* IN - the Id to check */
+	 char className[]	/* IN - the name of the class it should belong to*/
+)
+#else
+Bool isA(id, className)
+     Id *id;
+     char className[];
+#endif
+{
+  List *heritage, *h;
+  Symbol *symbol;
+
+  symbol = lookup(id->string);
+  switch (symbol->kind) {
+  case CLASS_SYMBOL: heritage = symbol->info.class->heritage; break;
+  case INSTANCE_SYMBOL: heritage = symbol->info.instance->heritage; break;
+  default: syserr("Unexpected symbol kind in isA()."); break;
+  }
+
+  for (h = heritage; h; h = h->next)
+    if (strcmp(heritage->element.id->string, className) == 0)
+      return TRUE;
+
+  for (h = heritage; h; h = h->next)
+    if (isA(id, className))
+      return TRUE;
+
+  return FALSE;
+}
+
+
+
+/*======================================================================
+
+  classCheck()
+
+  Verify that the identifier inherits the class indicated by the code.
+  If not issue an error message.
+
+  */
+#ifdef _PROTOTYPES_
+void classCheck(Id *id,		/* IN - the Identifier to check */
+		char className[] /* IN - the name of the class it should belong to*/
+)
+#else
+void classCheck(id, className)
+     Id *id;
+     char className[];
+#endif
+{
+  Symbol *symbol;
+
+  symbol = lookup(className);
+
+  if (symbol == NULL) {		/* Didn't exist, so create an error symbol */
+    lmLog(&id->srcp, 224, sevERR, className);
+    symbol = newSymbol(newId(&nullSrcp, className), ERROR_SYMBOL);
+    return;
+  }
+
+  if (symbol->kind != CLASS_SYMBOL && symbol->kind != ERROR_SYMBOL) {
+    lmLog(&id->srcp, 225, sevERR, className);
+    return;
+  }
+
+  if (!isA(id, className))
+    lmLogv(&id->srcp, 225, sevERR, id->string, className, NULL);
 }

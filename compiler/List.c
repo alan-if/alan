@@ -7,6 +7,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
+#include "alan.h"
 #include "List.h"
 
 #include "dump.h"
@@ -16,36 +17,36 @@
 
 /*======================================================================
 
-  concat()
+  append()
 
-  Generic list concatenation.
+  Append an element to a list.
 
   */
 #ifdef _PROTOTYPES_
-List *concat(List *list, void *element)
-                		/* IN - List to concat to */
-                   		/* IN - Pointer to any element type */
+List *append(List *list,	/* IN - List to append to */
+	     void *element)	/* IN - Pointer to any element type */
 #else
-List *concat(list, element)
-     List *list;		/* IN - List to concat to */
-     void *element;		/* IN - Pointer to any element type */
+List *append(list, element)
+     List *list;
+     void *element;
 #endif
 {
   List *new;			/* The newly created list node */
+  List *l;
 
-  if (element == NULL) return(list);
+  if (element == NULL)
+    syserr("Appending a NULL element.");
 
   new = NEW(List);
 
-  new->element.anyType = (void *) element;
+  new->element.anyType = element;
 
   new->next = NULL;
   if (list == NULL) {
-    new->tail = new;		/* This node is tail */
     return(new);
   } else {
-    list->tail->next = new;	/* Concat at end of list */
-    list->tail = new;		/* New node is tail */
+    for (l = list; l->next; l = l->next); /* Go to end */
+    l->next = new;		/* Append at end of list */
     return(list);
   }
 }
@@ -67,11 +68,13 @@ List *combine(list1, list2)
      List *list1, *list2;	/* IN - Lists to combine */
 #endif
 {
+  List *l;
+
   if (list1 == NULL) return(list2);
   if (list2 == NULL) return(list1);
-
-  list1->tail->next = list2;	/* Combine at end of list1 */
-  list1->tail = list2->tail;	/* Tail of list2 is tail */
+ 
+  for (l = list1; l->next; l = l->next); /* Go to end */
+  l->next = list2;	/* Combine at end of list1 */
   return(list1);
 }
 

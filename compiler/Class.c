@@ -133,7 +133,7 @@ void initClasses()
   object = newClass(&nullSrcp,
 		    newId(&nullSrcp,
 			  "object"),
-		    concat(NULL, newId(&nullSrcp,
+		    append(NULL, newId(&nullSrcp,
 				       "thing")), /* heritage */
 		    NULL,	/* name */
 		    newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
@@ -152,7 +152,7 @@ void initClasses()
   location = newClass(&nullSrcp,
 		      newId(&nullSrcp,
 			    "location"),
-		      concat(NULL, newId(&nullSrcp,
+		      append(NULL, newId(&nullSrcp,
 					 "thing")), /* heritage */
 		      NULL,	/* name */
 		      newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
@@ -171,7 +171,7 @@ void initClasses()
   actor = newClass(&nullSrcp,
 		   newId(&nullSrcp,
 			 "actor"),
-		   concat(NULL, newId(&nullSrcp,
+		   append(NULL, newId(&nullSrcp,
 				      "thing")), /* heritage */
 		   NULL,	/* name */
 		   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
@@ -190,7 +190,7 @@ void initClasses()
   container = newClass(&nullSrcp,
 		       newId(&nullSrcp,
 			     "container"),
-		       concat(NULL, newId(&nullSrcp,
+		       append(NULL, newId(&nullSrcp,
 					  "thing")), /* heritage */
 		       NULL,	/* name */
 		       newWhere(&nullSrcp, WHERE_DEFAULT, NULL),

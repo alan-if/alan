@@ -90,7 +90,7 @@ void analyseAdventure()
     switch (adventure.where->kind) {
     case WHERE_AT:
       if (adventure.where->what->kind == WHAT_ID)
-	symcheck(adventure.where->what->id, LOCATION_CLASS, NULL);
+	classCheck(adventure.where->what->id, "location");
       else
 	lmLog(&adventure.where->srcp, 211, sevERR, "");
       break;

@@ -19,8 +19,7 @@ typedef enum SymbolKind {
   INSTANCE_SYMBOL,
   VERB_SYMBOL,
   DIRECTION_SYMBOL,
-  SCRIPT_SYMBOL,
-  UNKNOWN_SYMBOL
+  ERROR_SYMBOL
 } SymbolKind;
 
 typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
@@ -48,9 +47,17 @@ extern Symbol *newSymbol(Id *id,
 /* Lookup a symbol */
 extern Symbol *lookup(char symbol[]);
 
+/* Check that a symbol belongs to a particular class */
+extern void classCheck(Id *id, char className[]);
+
+/* Does the identifier inherit the indicate class? */
+extern Bool isA(Id *id, char className[]);
+
 #else
 extern Symbol *newSymbol();
 extern Symbol *lookup();
+extern void classCheck();
+extern Bool isA();
 #endif
 
 #endif

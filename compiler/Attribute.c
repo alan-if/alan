@@ -63,6 +63,25 @@ Attribute *newAttribute(srcp, type, id, value, fpos, len)
 }
 
 
+/*======================================================================
+
+  analyseAttributes()
+
+  Analyse all entries in an attribute list.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseAttributes(List *attributes) /* IN - List of attribute nodes */
+#else
+void analyseAttributes(attributes)
+     List *attributes;
+#endif
+{
+  /* 4f - analyseAttributes not implemented */
+}
+
+
+
 /*----------------------------------------------------------------------
 
   generateAttribute()
@@ -89,30 +108,11 @@ static void generateAttribute(attribute)
     /* 4f - shouldn't this apply for all inherited attributes ? */
     new = newAttribute(&attribute->srcp, STRING_TYPE, NULL, attribute->value, attribute->fpos, attribute->len);
     new->adr = attribute->adr;
-    adventure.stringAttributes = concat(adventure.stringAttributes, new);
+    adventure.stringAttributes = append(adventure.stringAttributes, new);
   }
   emit(attribute->value);
   emit(attribute->stradr);
 }
-
-
-/*======================================================================
-
-  analyseAttributes()
-
-  Analyse all entries in an attribute list.
-
- */
-#ifdef _PROTOTYPES_
-void analyseAttributes(List *attributes) /* IN - List of attribute nodes */
-#else
-void analyseAttributes(attributes)
-     List *attributes;
-#endif
-{
-  /* 4f - analyseAttributes not implemented */
-}
-
 
 
 /*======================================================================

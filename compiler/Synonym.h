@@ -41,7 +41,7 @@ extern void analyseSynonyms(void);
 extern void dumpSynonym(Synonym *synonym);
 
 #else
-extern SynonymNod *newSynonym();
+extern Synonym *newSynonym();
 extern void analyseSynonyms();
 extern void dumpSynonym();
 #endif
