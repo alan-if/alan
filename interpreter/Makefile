@@ -1,23 +1,27 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-SHELL	= /bin/sh
+ARCHS	= sun4 solaris2 hp
+VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g``
 
 GCC	= gcc
-CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
+CPP	= $(GCC) -MM $(INCLUDE)
 
-CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
+CC	= $(GCC) -pedantic -Wall
 
-CFLAGS	= $(DEBUG)
+
+CFLAGS	= $(DEBUG) $(INCLUDE)
 
 LD	= $(GCC) $(DEBUG)
-LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
+LDFLAGS	= $(LQ)
+
+sun4 := INCLUDE	= -I/usr/local/include/ansi
 
 tcov := CC = acc -a
 tcov := LD = acc -a
 
 
-#.KEEP_STATE:
+.KEEP_STATE:
 
 #--
 SRCS = debug.c \
@@ -30,9 +34,13 @@ SRCS = debug.c \
 	decode.c \
 	term.c \
 	params.c \
+	readline.c \
+	c25to26.c \
 	sysdep.c
 
 MAINSRC = arun.c
+
+VERSIONSRCS = $(SRCS) $(MAINSRC)
 
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
@@ -44,12 +52,42 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov release: arun
-
-arun: $(OBJECTS) $(MAINOBJ) .version version.o Makefile
-	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+debug all tcov: objarch arun dumpacd genalan
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
+
+arch:
+	make `arch`
+
+release:
+	@for a in $(ARCHS) ; do \
+		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
+			cp $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
+		else \
+			echo $(ALANDIR)/bin/$$a/arun is not fresh! ; \
+			touch ../.notfresh ; \
+		fi ; \
+	done
+
+
+sun4 solaris1 solaris2 hp: objarch fromsrc
+
+objarch:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test `cat .arch` != `arch`; then \
+	    echo "Removing *.o for `cat .arch`!" ; \
+	    rm *.o; \
+	    echo `arch` > .arch; \
+	fi
+
+arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
+	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+
+dumpacd: dumpacd.o spa.o
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
+
+genalan: genalan.o spa.o
+	$(CC) -o genalan $(CFLAGS) genalan.o spa.o
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -66,22 +104,30 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	cp arun $(ALANDIR)/bin/`arch`
 
 version.h version.c: ../version.sh
-	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
+	-chdir ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.version: $(OBJECTS)
+.version: $(SRCS)
 	venum +t
 	touch .version
 
+spa.o: spa.h spa.c
+
+spa.h: ../compiler/spa.h
+	ln -s ../compiler/spa.h spa.h
+
+spa.c: ../compiler/spa.c
+	ln -s ../compiler/spa.c spa.c
+
 #--
-archives: src interpreter.lha. interpreter.zip.
+amiga: src
+	lha u interpreter.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
-interpreter.lha.:
-	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
+archives: amiga interpreter.zip.
 
-interpreter.zip.:
+pc:
 	ramp iso2pc sysdep.c SYSDEP.C
 	zip -k -u interpreter.zip *.[ch] Makefile.dos
 	zip -k -m interpreter.zip *.[CH]
@@ -134,6 +180,6 @@ arun.make: dependencies.mk
 	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
 
 mac:
-	refreshMac $(HOME)/mac/Alan/Interpreter
+	refreshMac $(HOME)/mac/Alan/interpreter
 
 include dependencies.mk

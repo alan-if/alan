@@ -37,25 +37,28 @@ static void switches(argc, argv)
     if (argv[i][0] == '-') {
       switch (tolower(argv[i][1])) {
       case 'i':
-		errflg = FALSE;
-		break;
+	errflg = FALSE;
+	break;
       case 't':
-		trcflg = TRUE;
-		break;
+	trcflg = TRUE;
+	break;
       case 'd':
-		dbgflg = TRUE;
-		break;
+	dbgflg = TRUE;
+	break;
       case 's':
-		trcflg = TRUE;
-		stpflg = TRUE;
-		break;
+	trcflg = TRUE;
+	stpflg = TRUE;
+	break;
       case 'l':
-		logflg = TRUE;
-		break;
+	logflg = TRUE;
+	break;
+      case 'v':
+	verbose = TRUE;
+	break;
       default:
-		printf("Unrecognized switch, -%c\n", argv[i][1]);
-		terminate(0);
-	  }
+	printf("Unrecognized switch, -%c\n", argv[i][1]);
+	terminate(0);
+      }
     } else {
       advnam = argv[i];
       if ((strcmp(&advnam[strlen(advnam)-4], ".acd") == 0)
@@ -100,7 +103,8 @@ void args(argc, argv)
   } else {
     strncpy(prgbuf, (char *)&CurApName[1], CurApName[0]);
     prgbuf[CurApName[0]] = '\0';
-    if (strcmp(prgbuf, "arun") != 0)
+    if (strcmp(prgbuf, "arun") != 0 &&
+	strcmp(prgbuf, "Arun.project") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
     else {
@@ -116,8 +120,10 @@ void args(argc, argv)
 #ifdef __amiga__
 #include <workbench/startup.h>
 #include <intuition/intuition.h>
+#include <workbench/workbench.h>
 #include <functions.h>
 #include <fcntl.h>
+extern struct Library *IconBase;
 
   if (argc == 0) { /* If started from Workbench get WbArgs */
     struct WBStartup *WBstart;
@@ -125,33 +131,17 @@ void args(argc, argv)
     struct FileHandle *handle;
     struct Process *proc = (struct Process *)FindTask(0);
     extern struct _dev *_devtab;
+    struct DiskObject *existingIcon;
 
+    if ((IconBase = OpenLibrary("icon.library", 0)) == NULL)
+      syserr("Could not open 'icon.library'");
     WBstart = (struct WBStartup *)argv;
     advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
     if (WBstart->sm_NumArgs > 0) {
       CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
       advnam = WBstart->sm_ArgList[1].wa_Name;
     }
-    /* 4f_ni - Get ToolTypes! */
-
-    /* Create a console */
-    strcpy(connam, "newcon:10/10/480/160/");
-    strcat(connam, advnam);
-
-    con = Open(connam, MODE_NEWFILE);
-    handle = (struct FileHandle *)((long)con << 2);
-    proc->pr_ConsoleTask = (APTR)(handle->fh_Type);
-
-    /* AztecC stdio console set up */
-    _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
-
-    WBstart = (struct WBStartup *)argv;
-    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
-    if (WBstart->sm_NumArgs > 0) {
-      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
-      advnam = WBstart->sm_ArgList[1].wa_Name;
-    }
-    /* 4f_ni - Get ToolTypes! */
+    /* Possibly other tooltypes ... */
   } else {
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)
@@ -167,8 +157,8 @@ void args(argc, argv)
   }
 #else
 #ifdef __dos__
-  if ((prgnam = strrchr(argv[0], ':')) == NULL
-      && (prgnam = strrchr(argv[0], '\\')) == NULL)
+  if ((prgnam = strrchr(argv[0], '\\')) == NULL
+      && (prgnam = strrchr(argv[0], ':')) == NULL)
     prgnam = argv[0];
   else
     prgnam++;

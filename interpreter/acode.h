@@ -1,9 +1,9 @@
 #ifndef _ACODE_H_
 #define _ACODE_H_
 
-typedef long Aword;		/* Type for an ACODE word */
-typedef long Aaddr;		/* Type for an ACODE address */
-typedef long Abool;		/* Type for an ACODE Boolean value */
+typedef unsigned long Aword;		/* Type for an ACODE word */
+typedef unsigned long Aaddr;		/* Type for an ACODE address */
+typedef unsigned long Abool;		/* Type for an ACODE Boolean value */
 
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
@@ -151,7 +151,7 @@ typedef enum VarClass {
 
 typedef struct AcdHdr {
 /* Important info */
-  Aword vers;			/* 01 - Version of compiler */
+  char vers[4];			/* 01 - Version of compiler */
   Aword size;			/* 02 - Size of ACD-file in Awords */
 /* Options */
   Abool pack;			/* 03 - Is the text packed ? */
@@ -233,7 +233,7 @@ typedef enum MsgKind {
   M_SAVENAME,
   M_RESTOREFROM,
   M_RETRY,
-  M_NOMSG,
+  M_ARTICLE,			/* INTRODUCED: v2.6 but replaced the M_NOMSG*/
   MSGMAX
 } MsgKind;
 

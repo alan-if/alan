@@ -1,5 +1,5 @@
-#ifndef _TYPES_H_
-#define _TYPES_H_
+#ifndef _ATYPES_H_
+#define _ATYPES_H_
 /*----------------------------------------------------------------------*\
 
   types.h
@@ -122,7 +122,7 @@ typedef struct LocElem {	/* LOCATION TABLE */
 } LocElem;
 
 typedef struct ExtElem {	/* EXIT TABLE structure */
-  Abool rev;			/* Flag for reversing process */
+  Abool done;			/* Flag for reverse/convert process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */
@@ -158,7 +158,7 @@ typedef struct ClaElem {	/* CLASS DEFINITION TABLE */
 } ClaElem;
 
 typedef struct AltElem {	/* VERB ALTERNATIVE TABLE */
-  Abool rev;			/* Flag for reversing process */
+  Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */
   Aword qual;			/* Verb execution qualifier */
   Aaddr checks;			/* Address of the check table */
@@ -170,6 +170,16 @@ typedef struct AtrElem {	/* ATTRIBUTE LIST */
   Aaddr stradr;			/* Address to the name */
 } AtrElem;
 
+typedef struct ObjElem25 {	/* OBJECT TABLE of 2.5 format*/
+  Aword loc;			/* Current location */
+  Abool describe;		/* Describe flag */
+  Aaddr atrs;			/* Address of attribute list */
+  Aword cont;			/* Index to container properties if any */
+  Aaddr vrbs;			/* Address to local verb table */
+  Aaddr dscr1;			/* Address to Aword description code */
+  Aaddr dscr2;			/* Address to short description code */
+} ObjElem25;
+
 typedef struct ObjElem {	/* OBJECT TABLE */
   Aword loc;			/* Current location */
   Abool describe;		/* Describe flag */
@@ -177,6 +187,8 @@ typedef struct ObjElem {	/* OBJECT TABLE */
   Aword cont;			/* Index to container properties if any */
   Aaddr vrbs;			/* Address to local verb table */
   Aaddr dscr1;			/* Address to Aword description code */
+  Aaddr art;			/* Article printing code? Else use default */
+				/* INTRODUCED: v2.6 */
   Aaddr dscr2;			/* Address to short description code */
 } ObjElem;
 

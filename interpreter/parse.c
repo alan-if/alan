@@ -10,6 +10,11 @@
 #include <ctype.h>
 
 #include "types.h"
+
+#ifdef USE_READLINE
+#include "readline.h"
+#endif
+
 #include "arun.h"
 #include "inter.h"
 #include "exe.h"
@@ -18,8 +23,6 @@
 #include "params.h"
 
 #include "parse.h"
-
-
 
 
 #define LISTLEN 100
@@ -69,9 +72,10 @@ int vrbcode;			/* The code for that verb */
 /* PRIVATE DATA */
 
 static char buf[LISTLEN+1];	/* The input buffer */
+static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
 
 
-static Boolean eol = TRUE;	/* End of line? Yes, initially */
+static Boolean eol = TRUE;	/* Looking at End of line? Yes, initially */
 
 
 
@@ -154,10 +158,10 @@ static char *gettoken(buf)
     *marker = oldch;
   else
     marker = buf;
-  while (isSpace(*marker) && *marker != '\0' && *marker != '\n') marker++;
+  while (*marker != '\0' && isSpace(*marker) && *marker != '\n') marker++;
   buf = marker;
-  if (isLetter(*marker))
-    while (isLetter(*marker)||isdigit(*marker)) marker++;
+  if (isISOLetter(*marker))
+    while (*marker&&(isISOLetter(*marker)||isdigit(*marker))) marker++;
   else if (isdigit(*marker))
     while (isdigit(*marker)) marker++;
   else if (*marker == '\"') {
@@ -183,22 +187,31 @@ static void getline()
   para();
   do {
     printf("> ");
+#ifdef USE_READLINE
+    if (!readline(buf)) {
+      newline();
+      quit();
+    }
+#else
     if (fgets(buf, LISTLEN, stdin) == NULL) {
       newline();
       quit();
     }
+#endif
     getPageSize();
     anyOutput = FALSE;
     if (logflg)
-#ifdef __amiga__
+#ifndef __amiga__
       fprintf(logfil, "%s\n", buf);
 #else
       fprintf(logfil, "%s", buf);
 #endif
 #if ISO == 0
-    toIso(buf, buf);
+    toIso(isobuf, buf);
+#else
+    strcpy(isobuf, buf);
 #endif
-    token = gettoken(buf);
+    token = gettoken(isobuf);
     if (token != NULL && strcmp("debug", token) == 0 && header->debug) {
       dbgflg = TRUE;
       debug();
@@ -223,13 +236,13 @@ static void scan()
   getline();
   wrds[0] = 0;
   for (i = 0; i < litCount; i++)
-    if (litValues[i].type == TYPSTR)
+    if (litValues[i].type == TYPSTR && litValues[i].value != 0)
       free((char *) litValues[i].value);
   i = 0;
   litCount = 0;
   do {
-    if (isLetter(token[0])) {
-      (void) strlow(token);
+    if (isISOLetter(token[0])) {
+      (void) stringLower(token);
       w = lookup(token);
       if (!isNoise(w))
 	wrds[i++] = w;
@@ -640,7 +653,7 @@ static void try(mlst)
     } else {
       if (!claCheck(cla)) {
 	interpret(cla->stms);
-	error(M_NOMSG);		/* Return to player */
+	error(MSGMAX);		/* Return to player without saying anything */
       }
     }
     checked[cla->code-1] = TRUE; /* Remember that it's already checked */

@@ -11,6 +11,8 @@
 #include "types.h"
 #include "arun.h"
 #include "inter.h"
+#include "debug.h"
+#include "exe.h"
 #include "stack.h"
 
 #include "rules.h"
@@ -31,19 +33,29 @@ void rules()
     change = FALSE;
     for (i = 1; !endOfTable(&ruls[i-1]); i++) 
       if (!ruls[i-1].run) {
-	if (trcflg)
-	  printf("\nRULE %d: Evaluating", i);
+	if (trcflg) {
+	  printf("\n<RULE %d (at ", i);
+	  debugsay(cur.loc);
+	  if (!stpflg)
+	    printf("), Evaluating");
+	  else
+	    printf("), Evaluating:>\n");
+	}
 	interpret(ruls[i-1].exp);
 	if (pop()) {
 	  change = TRUE;
 	  ruls[i-1].run = TRUE;
 	  if (trcflg)
 	    if (!stpflg)
-	      printf(", Executing!");
-	    else
-	      printf("\nRULE %d: Executing", i);
+	      printf(", Executing:>\n");
+	    else {
+	      printf("\nRULE %d (at ", i);
+	      debugsay(cur.loc);
+	      printf("), Executing:>\n");
+	    }
 	  interpret(ruls[i-1].stms);
-	}
+	} else if (trcflg && !stpflg)
+	  printf(":>\n");
       }
   }
 }

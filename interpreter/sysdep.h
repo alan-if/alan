@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-  sysdep.h				Date: 1992-07-16/thoni@rabbit
+  sysdep.h				Date: 1995-08-19/thoni@softlab.se
 
   System dependencies file for Alan Adventure Language system 
 
@@ -14,12 +14,20 @@
 #define __amiga__
 #endif
 
+#ifndef __sun__
 #ifdef sun
 #define __sun__
 #endif
+#endif
 
+#ifdef _INCLUDE_HPUX_SOURCE
+#define __hp__
+#endif
+
+#ifndef __unix__
 #ifdef unix
 #define __unix__
+#endif
 #endif
 
 #ifdef vax
@@ -34,6 +42,9 @@
 #define __dos__
 #endif
 
+#ifdef __BORLANDC__
+#define __dos__
+#endif
 
 /*----------------------------------------------------------------------
 
@@ -68,7 +79,11 @@
 #include <string.h>
 #endif
 
+#ifdef __sun__
+#endif
+
 #ifdef __unix__
+#define USE_READLINE
 #define MULTI
 #endif
 
@@ -89,39 +104,6 @@ extern size_t strftime (char *, size_t, const char *, const struct tm *);
 
 #endif
 
-
-#ifdef __amiga__
-
-/* Return codes */
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE  1
-
-/* Define some library routines needed for the Aztec C compiler */
-/* <memory.h> */
-typedef int size_t;
-extern void *malloc();
-
-/* <string.h> */
-extern char *strcpy();
-extern char *strncpy();
-extern char *strcat();
-extern char *strncat();
-extern char *strchr();
-extern char *strrchr();
-extern char *strpbrk();
-extern int strcmp();
-extern int strncmp();
-extern int strlen();
-extern int strspn();
-extern int strcspn();
-
-
-/* These where necessary to implement in SYSDEP.C although they should exist */
-extern void memcpy();
-extern void memset();
-extern char *strdup();
-#endif
-
 #ifdef __mac__
 #define _PROTOTYPES_
 #include <stdlib.h>
@@ -135,6 +117,7 @@ extern char *strdup();
 #define WRITE_MODE "wb"
 
 extern char *strdup(char *str);
+
 #endif
 
 #ifdef __dos__
@@ -151,20 +134,32 @@ extern char *strdup(char *str);
 /* Return codes */
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
-#endif
 
+extern char *strdup(char *str);
+
+#endif
 
 
 #ifdef _PROTOTYPES_
 
-extern int isSpace(int c);	/* IN - Character to test */
-extern int isLower(int c);	/* IN - Character to test */
-extern int isUpper(int c);	/* IN - Character to test */
-extern int isLetter(int c);	/* IN - Character to test */
-extern char lowerCase(int c);	/* IN - Character to convert */
-extern char upperCase(int c);	/* IN - Character to convert */
-extern char *strlow(char str[]); /* INOUT - String to convert */
-extern char *strupp(char str[]); /* INOUT - String to convert */
+/* Native character functions */
+extern int isSpace(int c);	/* IN - Native character to test */
+extern int isLower(int c);	/* IN - Native character to test */
+extern int isUpper(int c);	/* IN - Native character to test */
+extern int isLetter(int c);	/* IN - Native character to test */
+extern int toLower(int c);	/* IN - Native character to convert */
+extern int toUpper(int c);	/* IN - Native character to convert */
+extern char *strlow(char str[]); /* INOUT - Native string to convert */
+extern char *strupp(char str[]); /* INOUT - Native string to convert */
+
+/* ISO character functions */
+extern int isISOLetter(int c);	/* IN - ISO character to test */
+extern char toLowerCase(int c);	/* IN - ISO character to convert */
+extern char toUpperCase(int c);	/* IN - ISO character to convert */
+extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
+extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
+
+/* ISO string conversion functions */
 extern void toIso(char copy[],	/* OUT - Mapped string */
 		  char original[]); /* IN - string to convert */
 extern void fromIso(char copy[], /* OUT - Mapped string */
@@ -174,10 +169,17 @@ extern int isSpace();
 extern int isLower();
 extern int isUpper();
 extern int isLetter();
-extern char lowerCase();
-extern char upperCase();
+extern int toLower();
+extern int toUpper();
 extern char *strlow();
 extern char *strupp();
+
+extern int isISOLetter();
+extern char toLowerCase();
+extern char toUpperCase();
+extern char *stringLower();
+extern char *stringUpper();
+
 extern void toIso();
 extern void fromIso();
 #endif

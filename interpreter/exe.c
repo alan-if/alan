@@ -8,6 +8,10 @@
 
 #include "types.h"
 
+#ifdef USE_READLINE
+#include "readline.h"
+#endif
+
 #include "arun.h"
 #include "parse.h"
 #include "inter.h"
@@ -185,7 +189,7 @@ Boolean confirm(msgno)
      MsgKind msgno;
 #endif
 {
-  char str[80];
+  char buf[80];
   char *msg, ch = '\0';
   int i;
 
@@ -197,7 +201,11 @@ Boolean confirm(msgno)
 #endif
   output(msg);
   col = 1;
-  if (gets(str) == NULL) return FALSE;
+#ifdef USE_READLINE
+  if (!readline(buf)) return FALSE;
+#else
+  if (gets(buf) == NULL) return FALSE;
+#endif
 
   /* Use a character inside parenthesis as affirmative */
   for (i = 0; msg[i]; i++)
@@ -206,7 +214,7 @@ Boolean confirm(msgno)
       break;
     }
   free(msg);
-  return (str[0] == '\0' || (ch && toupper(str[0]) == toupper(ch)));
+  return (buf[0] == '\0' || (ch && toupper(buf[0]) == toupper(ch)));
 }
 
 
@@ -303,7 +311,7 @@ static Aword getatr(atradr, atr)
   AtrElem *at;
 
   at = (AtrElem *) addrTo(atradr);
-  return(at[atr-1].val);
+  return at[atr-1].val;
 }
   
 
@@ -588,7 +596,7 @@ static Aword locatr(loc, atr)
      Aword loc, atr;
 #endif
 {
-  return(getatr(locs[loc-LOCMIN].atrs, atr));
+  return getatr(locs[loc-LOCMIN].atrs, atr);
 }
 
 
@@ -600,7 +608,7 @@ static Aword objatr(obj, atr)
      Aword obj, atr;
 #endif
 {
-  return(getatr(objs[obj-OBJMIN].atrs, atr));
+  return getatr(objs[obj-OBJMIN].atrs, atr);
 }
 
 #ifdef _PROTOTYPES_
@@ -610,17 +618,7 @@ static Aword actatr(act, atr)
      Aword act, atr;
 #endif
 {
-  Aword val;			/* Value */
-  char str[80];
-
-  val = getatr(acts[act-ACTMIN].atrs, atr);
-  if (val != EOF)
-    return(val);
-  else {
-    sprintf(str, "Unknown actor attribute requested (%ld, %ld).", act, atr);
-    syserr(str);
-  }
-  return(EOF);
+  return getatr(acts[act-ACTMIN].atrs, atr);
 }
 
 #ifdef _PROTOTYPES_
@@ -1105,6 +1103,28 @@ static void saylit(lit)
   }    
 }
 
+	
+#ifdef _PROTOTYPES_
+void sayarticle(Aword id)
+#else
+void sayarticle(id)
+     Aword id;
+#endif
+{
+  if (!isObj(id))
+    syserr("Trying to say article of something *not* an object.");
+  if (objs[id-OBJMIN].art != 0)
+    interpret(objs[id-OBJMIN].art);
+  else if (msgs[M_ARTICLE].fpos == 0 && msgs[M_ARTICLE].len == 0)
+    /* It's a converted 2.5 game */
+    /* They didn't have ARTICLE */
+    /* so it is probably built into the description */
+    ;
+  else
+    prmsg(M_ARTICLE);
+}
+
+
 #ifdef _PROTOTYPES_
 void say(Aword id)
 #else
@@ -1159,6 +1179,7 @@ static void dscrobj(obj)
     interpret(objs[obj-OBJMIN].dscr1);
   else {
     prmsg(M_SEEOBJ1);
+    sayarticle(obj);
     say(obj);
     prmsg(M_SEEOBJ4);
     if (objs[obj-OBJMIN].cont != 0)
@@ -1299,6 +1320,7 @@ void list(cnt)
 	  prmsg(M_CONTAINS3);
 	}
 	multiple = TRUE;
+	sayarticle(prevobj);
 	say(prevobj);
       }
       prevobj = i;
@@ -1308,6 +1330,7 @@ void list(cnt)
   if (found) {
     if (multiple)
       prmsg(M_CONTAINS4);
+    sayarticle(prevobj);
     say(prevobj);
     prmsg(M_CONTAINS5);
   } else {
@@ -1383,12 +1406,14 @@ void dscrobjs()
 	objs[i-OBJMIN].describe) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
+	sayarticle(i);
 	say(i);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needsp = FALSE;
 	  prmsg(M_SEEOBJ2);
+	  sayarticle(prevobj);
 	  say(prevobj);
 	}
 	multiple = TRUE;
@@ -1399,6 +1424,7 @@ void dscrobjs()
   if (found) {
     if (multiple) {
       prmsg(M_SEEOBJ3);
+      sayarticle(prevobj);
       say(prevobj);
     }
     prmsg(M_SEEOBJ4);
@@ -1489,19 +1515,37 @@ void save()
   prmsg(M_SAVEWHERE);
   sprintf(str, "(%s) : ", savfnm);
   output(str);
-  gets(str); col = 1;
+#ifdef USE_READLINE
+  readline(str);
+#else
+  gets(str);
+#endif
   if (str[0] == '\0')
     strcpy(str, savfnm);
+  col = 1;
   if ((savfil = fopen(str, "r")) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
-      error(M_NOMSG);
+      error(MSGMAX);		/* Return to player without saying anything */
   if ((savfil = fopen(str, "w")) == NULL)
     error(M_SAVEFAILED);
   strcpy(savfnm, str);
 
   /* Save version of interpreter and name of game */
+#ifdef REVERSED
+  {
+    Aword v;
+    char *vp = (char *)&v;
+
+    vp[3] = (int)(header->vers>>24)&0xff;
+    vp[2] = (int)(header->vers>>16)&0xff;
+    vp[1] = (int)(header->vers>>8)&0xff;
+    vp[0] = (int)(header->vers)&0xff;
+    fwrite((void *)&v, sizeof(Aword), 1, savfil);
+  }
+#else
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
+#endif
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
@@ -1560,7 +1604,7 @@ void restore()
   FILE *savfil;
   char str[256];
   AtrElem *atr;
-  Aword savedVersion;
+  char savedVersion[4];
   char savedName[256];
 
   /* First save ? */
@@ -1571,7 +1615,14 @@ void restore()
   prmsg(M_RESTOREFROM);
   sprintf(str, "(%s) : ", savfnm);
   output(str);
-  gets(str); col = 1;
+#ifdef USE_READLINE
+  readline(str);
+#else
+  gets(str);
+#endif
+  if (str[0] == '\0')
+    strcpy(str, savfnm);
+  col = 1;
   if (str[0] == '\0')
     strcpy(str, savfnm);	/* Use the name temporarily */
   if ((savfil = fopen(str, "r")) == NULL)
@@ -1579,7 +1630,8 @@ void restore()
   strcpy(savfnm, str);		/* Save it for future use */
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
-  if (savedVersion != header->vers) {
+  /* 4f - save file version check doesn't seem to work on PC's! */
+  if (strncmp(savedVersion, header->vers, 4)) {
     fclose(savfil);
     error(M_SAVEVERS);
     return;

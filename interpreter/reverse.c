@@ -140,9 +140,9 @@ static void reverseAlts(adr)
 {
   AltElem *e = (AltElem *)&memory[adr];
 
-  if (adr != 0 && !endOfTable(e) && !e->rev) {
+  if (adr != 0 && !endOfTable(e) && !e->done) {
     reverseTable(adr, sizeof(AltElem));
-    e->rev = TRUE;
+    e->done = TRUE;
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
@@ -234,25 +234,40 @@ static void reverseActs(adr)
 }    
 
 #ifdef _PROTOTYPES_
-static void reverseObjs(Aword adr)
+static void reverseObjs(Aword adr, Boolean v2_5)
 #else
-static void reverseObjs(adr)
+static void reverseObjs(adr, v2_5)
      Aword adr;
+     Boolean v2_5;		/* TRUE if it's a v2.5 format game */
 #endif
 {
   ObjElem *e = (ObjElem *) &memory[adr];
+  ObjElem25 *e25 = (ObjElem25 *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ObjElem));
-    while (!endOfTable(e)) {
-      reverseTable(e->atrs, sizeof(AtrElem));
-      reverseVrbs(e->vrbs);
-      reverseStms(e->dscr1);
-      reverseStms(e->dscr2);
-      e++;
+  if (v2_5) {
+    if (adr != 0 && !endOfTable(e25)) {
+      reverseTable(adr, sizeof(ObjElem25));
+      while (!endOfTable(e25)) {
+	reverseTable(e25->atrs, sizeof(AtrElem));
+	reverseVrbs(e25->vrbs);
+	reverseStms(e25->dscr1);
+	reverseStms(e25->dscr2);
+	e25++;
+      }
+    }
+  } else {
+    if (adr != 0 && !endOfTable(e)) {
+      reverseTable(adr, sizeof(ObjElem));
+      while (!endOfTable(e)) {
+	reverseTable(e->atrs, sizeof(AtrElem));
+	reverseVrbs(e->vrbs);
+	reverseStms(e->dscr1);
+	reverseStms(e->dscr2);
+	e++;
+      }
     }
   }
-}    
+}
 
 
 #ifdef _PROTOTYPES_
@@ -267,7 +282,7 @@ static void reverseExts(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(ExtElem));
     while (!endOfTable(e)) {
-      if (!e->rev) {
+      if (!e->done) {
 	reverseChks(e->checks);
 	reverseStms(e->action);
       }
@@ -457,7 +472,8 @@ void reverseHdr(hdr)
 {
   int i;
 
-  for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+  /* Reverse all words in the header except the first (version marking) */
+  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
     reverse(&((Aword *)hdr)[i]);
 }
 
@@ -471,9 +487,10 @@ void reverseHdr(hdr)
 
   */
 #ifdef _PROTOTYPES_
-void reverseACD(void)
+void reverseACD(Boolean v2_5)
 #else
-void reverseACD()
+void reverseACD(v2_5)
+     Boolean v2_5;
 #endif
 {
   reverseHdr(header);
@@ -482,7 +499,7 @@ void reverseACD()
   reverseTable(header->latrs, sizeof(AtrElem));
   reverseTable(header->aatrs, sizeof(AtrElem));
   reverseActs(header->acts);
-  reverseObjs(header->objs);
+  reverseObjs(header->objs, v2_5);
   reverseLocs(header->locs);
   reverseStxs(header->stxs);
   reverseVrbs(header->vrbs);

@@ -10,6 +10,12 @@
 #include <ctype.h>
 
 #include "types.h"
+#include "version.h"
+
+#ifdef USE_READLINE
+#include "readline.h"
+#endif
+
 
 #include "inter.h"
 #include "arun.h"
@@ -288,16 +294,21 @@ void debug()
       para();
     do {
       output("ABUG> ");
+#ifdef USE_READLINE
+      (void) readline(buf);
+#else
       fgets(buf, 255, stdin);
+#endif
       lin = 1;
       c = buf[0];
       i = 0;
       sscanf(&buf[1], "%d", &i);
-    } while (c == '\0');
-  
-    switch (upperCase(c)) {
+    } while (buf && c == '\0');
+
+    switch (toUpper(c)) {
     case 'H':
     case '?':
+      output(product.longHeader);
       output("$nABUG Commands:\
       $iO [n] -- show object[s]\
       $iA [n] -- show actor[s]\
@@ -308,7 +319,7 @@ void debug()
       $iT -- toggle trace mode\
       $iS -- toggle step mode\
       $iX -- exit debug mode\
-      $iQ -- quit game\n");
+      $iQ -- quit game");
       break;
     case 'Q':
       terminate(0);
@@ -316,6 +327,9 @@ void debug()
       dbgflg = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
+#ifdef USE_READLINE
+      free(buf);
+#endif
       return;
     case 'O':
       if (i == 0)
@@ -360,3 +374,30 @@ void debug()
   }
 }
 
+
+/*======================================================================
+
+  debugsay()
+
+  Say somethin, but make sure we don't disturb anything and that it is
+  shown to the player.
+
+*/
+#ifdef _PROTOTYPES_
+void debugsay(int item)
+#else
+void debugsay(item)
+     int item;
+#endif
+{
+  saveInfo();
+  needsp = FALSE;
+  col = 1;
+  if (item == 0)
+    printf("$null$");
+  else
+    say(item);
+  needsp = FALSE;
+  col = 1;
+  restoreInfo();
+}

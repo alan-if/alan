@@ -12,9 +12,11 @@
 #include "arun.h"
 
 #include <time.h>
+#ifdef USE_READLINE
+#include "readline.h"
+#endif
 
 #include "version.h"
-
 
 #include "args.h"
 #include "parse.h"
@@ -27,7 +29,7 @@
 #include "stack.h"
 #include "exe.h"
 #include "term.h"
-
+#include "c25to26.h"		/* Auto-converter from 2.5 to 2.6 format */
 
 /* PUBLIC DATA */
 
@@ -58,6 +60,7 @@ Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
 
+Boolean verbose = FALSE;
 Boolean errflg = TRUE;
 Boolean trcflg = FALSE;
 Boolean dbgflg = FALSE;
@@ -90,6 +93,7 @@ static jmp_buf jmpbuf;		/* Error return long jump buffer */
 
 
 /*======================================================================
+
   terminate()
 
   Terminate the execution of the adventure, e.g. close windows,
@@ -104,10 +108,15 @@ void terminate(code)
 #endif
 {
 #ifdef __amiga__
+#include <fcntl.h>
+  extern struct _dev *_devtab;
   char buf[85];
   
   if (con) { /* Running from WB, created a console so kill it */
-    Close(Input());
+    /* Running from WB, so we created a console and
+       hacked the Aztec C device table to use it for all I/O
+       so now we need to make it close it (once!) */
+    _devtab[1].fd = _devtab[2].fd = 0;
   }
 #endif
   free(memory);
@@ -116,6 +125,7 @@ void terminate(code)
 
 
 /*======================================================================
+
   syserr()
 
   Print a little text blaming the user for the system error.
@@ -153,6 +163,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 
 
 /*======================================================================
+
   error()
 
   Print an error message, force new player input and abort.
@@ -165,7 +176,7 @@ void error(msgno)
      MsgKind msgno;		/* IN - The error message number */
 #endif
 {
-  if (msgno != M_NOMSG)
+  if (msgno != MSGMAX)
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
@@ -175,6 +186,7 @@ void error(msgno)
 
 
 /*======================================================================
+
   newline()
 
   Make a newline, but check for screen full.
@@ -193,7 +205,11 @@ void newline()
     printf("\n");
     needsp = FALSE;
     prmsg(M_MORE);
+#ifdef USE_READLINE
+    (void) readline(buf);
+#else
     fgets(buf, 256, stdin);
+#endif
     getPageSize();
     lin = 0;
   } else
@@ -205,6 +221,7 @@ void newline()
 
 
 /*======================================================================
+
   para()
 
   Make a new paragraph, i.e one empty line (one or two newlines).
@@ -290,6 +307,7 @@ static void just(str)
 
 
 /*----------------------------------------------------------------------
+
   space()
 
   Output a space if needed.
@@ -347,6 +365,7 @@ static void sayparam(p)
 
 
 /*----------------------------------------------------------------------
+
   prsym()
 
   Print an expanded symbolic reference.
@@ -370,7 +389,7 @@ static void prsym(str)
      char *str;			/* IN - The string starting with '$' */
 #endif
 {
-  switch (lowerCase(str[1])) {
+  switch (toLower(str[1])) {
   case 'n':
     newline();
     break;
@@ -405,9 +424,15 @@ static void prsym(str)
   case 'p':
     para();
     break;
-  case 't':
-    printf("\t");
+  case 't': {
+    int i;
+    int spaces = 4-(col-1)%4;
+    
+    for (i = 0; i<spaces; i++) printf(" ");
+    col = col + spaces;
+    needsp = FALSE;
     break;
+  }
   case '$':
     skipsp = TRUE;
     break;
@@ -467,8 +492,8 @@ void output(original)
 }
 
 
-
 /*======================================================================
+
   prmsg()
 
   Print a message from the message table.
@@ -615,6 +640,8 @@ Boolean exitto(to, from)
 
   Check that the object given is valid, else print an error message
   or find out what he wanted.
+
+  This routine is not used any longer, kept for sentimental reasons ;-)
 
   */
 void checkobj(obj)
@@ -824,20 +851,35 @@ void go(dir)
       if (ext->code == dir) {
 	ok = TRUE;
 	if (ext->checks != 0) {
-	  if (trcflg)
-	    printf("\nEXIT %d from %d, Checking: ", dir, cur.loc);
+	  if (trcflg) {
+	    printf("\n<EXIT %d (%s) from %d (", dir,
+		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
+	    debugsay(cur.loc);
+	    printf("), Checking:>\n");
+	  }
 	  ok = trycheck(ext->checks, TRUE);
 	}
 	if (ok) {
 	  oldloc = cur.loc;
 	  if (ext->action != 0) {
-	    if (trcflg)
-	      printf("\nEXIT %d from %d, Executing: ", dir, cur.loc);
+	    if (trcflg) {
+	      printf("\n<EXIT %d (%s) from %d (", dir, 
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
+	      debugsay(cur.loc);
+	      printf("), Executing:>\n");
+	    }	    
 	    interpret(ext->action);
 	  }
 	  /* Still at the same place? */
-	  if (where(HERO) == oldloc)
+	  if (where(HERO) == oldloc) {
+	    if (trcflg) {
+	      printf("\n<EXIT %d (%s) from %d (", dir, 
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
+	      debugsay(cur.loc);
+	      printf("), Moving:>\n");
+	    }
 	    locate(HERO, ext->next);
+	  }
 	}
 	return;
       }
@@ -1015,9 +1057,9 @@ static void do_it()
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
 	    if (alt[i]->qual == (Aword)Q_BEFORE)
-	      printf("\nVERB %s (BEFORE), Body: ", trace);
+	      printf("\n<VERB %s (BEFORE), Body:>\n", trace);
 	    else
-	      printf("\nVERB %s (ONLY), Body: ", trace);
+	      printf("\n<VERB %s (ONLY), Body:>\n", trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1040,7 +1082,7 @@ static void do_it()
 	      strcpy(trace, "in LOCATION");
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
-	    printf("\nVERB %s, Body: ", trace);
+	    printf("\n<VERB %s, Body:>\n", trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1061,7 +1103,7 @@ static void do_it()
 	    strcpy(trace, "in LOCATION");
 	  else
 	    sprintf(trace, "in PARAMETER %d", i-1);
-	  printf("\nVERB %s (AFTER), Body: ", trace);
+	  printf("\n<VERB %s (AFTER), Body:>\n", trace);
 	}
 	interpret(alt[i]->action);
 	if (fail) return;
@@ -1086,7 +1128,7 @@ void action(
 )
 #else
 void action(plst)
-     ParamElem plst[];		/* IN - Plural parameters */
+     ParamElem plst[];
 #endif
 {
   int i, pno;
@@ -1135,8 +1177,11 @@ static void eventchk()
       cur.loc = eventq[etop].where;
     else
       cur.loc = where(eventq[etop].where);
-    if (trcflg)
-      printf("\nEVENT %d: ", eventq[etop].event);
+    if (trcflg) {
+      printf("\n<EVENT %d (at ", eventq[etop].event);
+      debugsay(cur.loc);
+      printf("):>\n");
+    }
     interpret(evts[eventq[etop].event-EVTMIN].code);
   }
 }
@@ -1151,6 +1196,7 @@ static void eventchk()
 
   codfil
   filenames
+
   checkvers()
   load()
   checkdebug()
@@ -1181,32 +1227,34 @@ static void checkvers(header)
      AcdHdr *header;
 #endif
 {
-  char *v = (char *)header;
-  char *c = v+1;
-  Aword vers;
+  char vers[4];
   char state[2];
 
-  /* Check version of .ACD file */
-  vers = product.version.version<<8;
-  vers+= product.version.revision;
+  /* Construct our own version */
+  vers[0] = product.version.version;
+  vers[1] = product.version.revision;
 
+  /* Check version of .ACD file */
   if (dbgflg) {
-    state[0] = header->vers&0x0000000ff;
+    state[0] = header->vers[3];
     state[1] = '\0';
-    printf("Version of '%s' is %d.%d(%d)%s.",
+    printf("<Version of '%s' is %d.%d(%d)%s>",
 	   advnam,
-	   (int)(header->vers>>24)&0xff,
-	   (int)(header->vers>>16)&0xff,
-	   (int)(header->vers>>8)&0xff,
-	   (header->vers&0xff)==0? "": state);
+	   (int)(header->vers[0]),
+	   (int)(header->vers[1]),
+	   (int)(header->vers[2]),
+	   (header->vers[3])==0? "": state);
     newline();
   }
 
-  if (((*v)<<8)+(*c) != vers) {
-    if (errflg)
+  /* Compatible if version and revision match... */
+  if (strncmp(header->vers, vers, 2) != 0) {
+    if (header->vers[0] == 2 && header->vers[1] == 5) /* Check for 2.5 version */
+      /* This we can convert later... */;
+    else if (errflg)
       syserr("Incompatible version of ACODE program.");
     else
-      printf("WARNING! Incompatible version of ACODE program.\n");
+      printf("<WARNING! Incompatible version of ACODE program.>\n");
   }
 }
 
@@ -1222,39 +1270,45 @@ static void load(void)
 static void load()
 #endif
 {
-  AcdHdr hdr;
+  AcdHdr tmphdr;
   Aword crc = 0;
   int i;
   char err[100];
 
   rewind(codfil);
-  fread(&hdr, sizeof(hdr), 1, codfil);
+  fread(&tmphdr, sizeof(tmphdr), 1, codfil);
   rewind(codfil);
-  checkvers(&hdr);
+  checkvers(&tmphdr);
 
   /* Allocate and load memory */
 
 #ifdef REVERSED
-  reverseHdr(&hdr);
+  reverseHdr(&tmphdr);
 #endif
+
+  /* No memory allocated yet? */
   if (memory == NULL)
-    memory = allocate(hdr.size*sizeof(Aword));
+    if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
+      /* We need some more memory to expand 2.5 format*/
+      memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1+2)*sizeof(Aword));
+    else
+      memory = allocate(tmphdr.size*sizeof(Aword));
   header = (AcdHdr *) addrTo(0);
 
-  memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
-  if (memTop != hdr.size)
+  memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
+  if (memTop != tmphdr.size)
     syserr("Could not read all ACD code.");
 
   /* Calculate checksum */
-  for (i = sizeof(hdr)/sizeof(Aword); i < memTop; i++) {
+  for (i = sizeof(tmphdr)/sizeof(Aword); i < memTop; i++) {
     crc += memory[i]&0xff;
     crc += (memory[i]>>8)&0xff;
     crc += (memory[i]>>16)&0xff;
     crc += (memory[i]>>24)&0xff;
   }
-  if (crc != hdr.acdcrc) {
+  if (crc != tmphdr.acdcrc) {
     sprintf(err, "Checksum error in .ACD file (0x%lx instead of 0x%lx).",
-	    crc, hdr.acdcrc);
+	    crc, tmphdr.acdcrc);
     if (errflg)
       syserr(err);
     else
@@ -1262,10 +1316,22 @@ static void load()
   }
 
 #ifdef REVERSED
-  if (dbgflg|trcflg|stpflg)
-    printf("Hmm, please wait a moment while I set things up....\n");
-  reverseACD();		/* Reverse all words in the ACD file */
+  if (dbgflg||trcflg||stpflg)
+    output("<Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....");
+  reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
+  if (dbgflg||trcflg||stpflg)
+    output("OK.>$n");
 #endif
+
+  /* Check for 2.5 version */
+  if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) {
+    if (dbgflg||trcflg||stpflg)
+      output("<Hmm, this is a v2.5 game, please wait while I convert it...");
+    c25to26ACD();
+    if (dbgflg||trcflg||stpflg)
+      output("OK.>$n");
+  }
+
 }
 
 
@@ -1283,7 +1349,7 @@ static void checkdebug()
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
     if (dbgflg|trcflg|stpflg)
-      printf("Sorry, '%s' is not compiled for debug!", advnam);
+      printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
     para();
     dbgflg = FALSE;
     trcflg = FALSE;
@@ -1363,8 +1429,9 @@ static void start()
   cur.tick = 0;
   cur.loc = startloc = where(HERO);
   cur.act = HERO;
+  cur.score = 0;
   if (trcflg)
-    printf("\nSTART: ");
+    printf("\n<START:>\n");
   interpret(header->start);
   para();
 
@@ -1421,12 +1488,13 @@ static void movactor()
   ScrElem *scr;
   StepElem *step;
   ActElem *act = (ActElem *) &acts[cur.act-ACTMIN];
-  char str[80];
 
   cur.loc = where(cur.act);
-  if (cur.act == HERO)
+  if (cur.act == HERO) {
     parse();
-  else if (act->script != 0) {
+    fail = FALSE;			/* fail only aborts one actor */
+    rules();
+  } else if (act->script != 0) {
     for (scr = (ScrElem *) addrTo(act->scradr); !endOfTable(scr); scr++)
       if (scr->code == act->script) {
 	/* Find correct step in the list by indexing */
@@ -1435,32 +1503,44 @@ static void movactor()
 	/* Now execute it, maybe. First check wait count */
 	if (step->after > act->count) {
 	  /* Wait some more */
+	  if (trcflg) {
+	    printf("\n<ACTOR %d, ", cur.act);
+	    debugsay(cur.act);
+	    printf(" (at ");
+	    debugsay(cur.loc);
+	    printf("), SCRIPT %ld, STEP %ld, Waiting %ld more>\n",
+		   act->script, act->step+1, step->after-act->count);
+	  }
 	  act->count++;
+	  rules();
 	  return;
 	} else
 	  act->count = 0;
 	/* Then check possible expression */
 	if (step->exp != 0) {
 	  if (trcflg) {
-	    saveInfo();
-	    sprintf(str, "$nACTOR %d ($a), SCRIPT %d, STEP %d, Evaluating: ",
-		   cur.act, act->script, act->step+1);
-	    output(str);
-	    restoreInfo();
+	    printf("\n<ACTOR %d, ", cur.act);
+	    debugsay(cur.act);
+	    printf(" (at ");
+	    debugsay(cur.loc);
+	    printf("), SCRIPT %ld, STEP %ld, Evaluating:>\n",
+		   act->script, act->step+1);
 	  }
 	  interpret(step->exp);
-	  if (!(Abool)pop())
-	    /* Hadn't happened yet */
-	   return;
+	  if (!(Abool)pop()) {
+	    rules();
+	    return; /* Hadn't happened yet */
+	  }
 	}
 	/* OK, so finally let him do his thing */
 	act->step++;		/* Increment step number before executing... */
 	if (trcflg) {
-	  saveInfo();
-	  sprintf(str, "$nACTOR %d ($a), SCRIPT %d, STEP %d, Executing: ",
-		 cur.act, act->script, act->step);
-	  output(str);
-	  restoreInfo();
+	  printf("\n<ACTOR %d, ", cur.act);
+	  debugsay(cur.act);
+	  printf(" (at ");
+	  debugsay(cur.loc);
+	  printf("), SCRIPT %ld, STEP %ld, Executing:>\n",
+		 act->script, act->step);
 	}
 	interpret(step->stm);
 	step++;
@@ -1468,18 +1548,20 @@ static void movactor()
 	if (act->step != 0 && endOfTable(step))
 	  /* No more steps in this script, so stop him */
 	  act->script = 0;
+	fail = FALSE;			/* fail only aborts one actor */
 	rules();
 	return;
       }
     syserr("Unknown actor script.");
   } else if (trcflg) {
-    saveInfo();
-    sprintf(str, "$nACTOR %d ($a), Idle\n", cur.act);
-    output(str);
-    restoreInfo();
+    printf("\n<ACTOR %d, ", cur.act);
+    debugsay(cur.act);
+    printf(" (at ");
+    debugsay(cur.loc);
+    printf("), Idle>\n");
+    rules();
+    return;
   }
-  fail = FALSE;			/* fail only aborts one actor */
-  rules();
 }
 
 /*----------------------------------------------------------------------
@@ -1543,7 +1625,7 @@ static void openFiles()
 #endif
 
     time(&tick);
-    sprintf(logfnm, "%s%s%d%s.log", str, advnam, tick, usr);
+    sprintf(logfnm, "%s%s%d%s.log", str, advnam, (int)tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
       logflg = FALSE;
   }
@@ -1580,8 +1662,11 @@ int main(argc, argv)
   header->pagwidth = 70;
   getPageSize();
 
-  if (dbgflg) {
-    printf("Arun, Adventure Interpreter version %s.", product.version.string);
+  if (dbgflg||verbose) {
+    if (dbgflg) printf("<");
+    printf("Arun, Adventure Interpreter version %s (%s %s)",
+	   product.version.string, product.date, product.time);
+    if (dbgflg) printf(">");
     newline();
   }
   
