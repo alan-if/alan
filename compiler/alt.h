@@ -43,7 +43,6 @@ typedef struct AltNod {		/* ALTERNATIVE */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new verb Alternative node */
 extern AltNod *newalt(Srcp *srcp,
@@ -61,11 +60,5 @@ extern Aaddr gealts(List *alts, ActNod *act);
 /* Dump a verb Alternative */
 extern void dualt(AltNod *alt);
 
-#else
-extern AltNod *newalt();
-extern void analts();
-extern Aaddr gealts();
-extern void dualt();
-#endif
 
 #endif

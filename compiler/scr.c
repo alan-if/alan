@@ -32,7 +32,6 @@
   Allocates and initialises a new script node.
 
   */
-#ifdef _PROTOTYPES_
 ScrNod *newscr(
      Srcp *srcp,                /* IN - Source Position */
      NamNod *nam,               /* IN - Name for the script */
@@ -40,14 +39,6 @@ ScrNod *newscr(
      List *descr,               /* IN - Optional description */
      List *stps                 /* IN - List of steps */
 )
-#else
-ScrNod *newscr(srcp, code, nam, descr, stps)
-     Srcp *srcp;                /* IN - Source Position */
-     NamNod *nam;               /* IN - Name for the script */
-     int code;                  /* IN - Number of the script */
-     List *descr;               /* IN - Optional description */
-     List *stps;                /* IN - List of steps */
-#endif
 {
   ScrNod *new;          /* The newly allocated node */
 
@@ -73,13 +64,7 @@ ScrNod *newscr(srcp, code, nam, descr, stps)
   Analyze the scripts for one actor.
 
   */
-#ifdef _PROTOTYPES_
 void anscrs(List *scrs, ActNod *act)
-#else
-void anscrs(scrs, act)
-     List *scrs;
-     ActNod *act;
-#endif
 {
   List *lst;
   List *scrlst;
@@ -136,12 +121,7 @@ void anscrs(scrs, act)
   Generate script routines for an actor.
 
   */
-#ifdef _PROTOTYPES_
 Aword gescrs(ActNod *act)
-#else
-Aword gescrs(act)
-  ActNod *act;
-#endif
 {
   List *lst;
   Aword scradr;
@@ -179,12 +159,7 @@ Aword gescrs(act)
   Dump a Script node
 
   */
-#ifdef _PROTOTYPES_
 void duscr(ScrNod *scr)
-#else
-void duscr(scr)
-     ScrNod *scr;
-#endif
 {
   put("SCR: "); dusrcp(&scr->srcp); in();
   put("code: "); duint(scr->code); nl();

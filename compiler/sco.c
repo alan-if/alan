@@ -32,11 +32,7 @@ int scotot = 0;
   Prepare score handling by allocating space to collect them in
 
   */
-#ifdef _PROTOTYPES_
 void prepscos(void)
-#else
-void prepscos()
-#endif
 {
   adv.scores = (int *) allocate((scocnt+1)*sizeof(int));
 }
@@ -49,11 +45,7 @@ void prepscos()
   Generate information on the scores.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr gesco(void)
-#else
-Aaddr gesco()
-#endif
 {
   int i;
   Aaddr adr;

@@ -19,13 +19,9 @@
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Dynamic String */
 extern char *newstr(char str[]);
 
-#else
-extern char *newstr();
-#endif
 
 #endif

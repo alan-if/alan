@@ -58,7 +58,6 @@ typedef enum nodkd {
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 extern void put(char str[]);
 extern void nl(void);
@@ -70,17 +69,5 @@ extern void duptr(void *adr);
 extern void duint(int i);
 extern void duBool(Bool b);
 
-#else
-extern void put();
-extern void nl();
-extern void in();
-extern void out();
-extern void dusrcp();
-extern void duadr();
-extern void duptr();
-extern void dustr();
-extern void duint();
-extern void duBool();
-#endif
 
 #endif

@@ -35,15 +35,8 @@
   Allocates and initialises a namnod.
 
   */
-#ifdef _PROTOTYPES_
-NamNod *newnam(Srcp *srcp, char *str)
-                		/* IN - Source Position */
-                		/* IN - The string */
-#else
-NamNod *newnam(srcp, str)
-     Srcp *srcp;		/* IN - Source Position */
-     char str[];		/* IN - The string */
-#endif
+NamNod *newnam(Srcp *srcp,	/* IN - Source Position */
+	       char *str)	/* IN - The string */
 {
   NamNod *new;			/* The newly allocated area */
 
@@ -68,15 +61,8 @@ NamNod *newnam(srcp, str)
   Check if two names matches.
 
   */
-#ifdef _PROTOTYPES_
-Bool eqnams(NamNod *nam1, NamNod *nam2)
-                  		/* IN - The first name */
-                  		/* IN - Second name */
-#else
-Bool eqnams(nam1, nam2)
-     NamNod *nam1;		/* IN - The first name */
-     NamNod *nam2;		/* IN - Second name */
-#endif
+Bool eqnams(NamNod *nam1,	/* IN - The first name */
+	    NamNod *nam2)	/* IN - Second name */
 {
   return (strcmp(nam1->str, nam2->str) == 0);
 }
@@ -89,17 +75,9 @@ Bool eqnams(nam1, nam2)
   Analyse a list of names (output an appropriate text).
 
   */
-#ifdef _PROTOTYPES_
-int annams(List *nams, NamNod *nam, Bool cap)
-                		/* IN - List of names to use */
-                 		/* IN - A single name if nams == NULL */
-                 		/* IN - Capitalize the words? */
-#else
-int annams(nams, nam, cap)
-     List *nams;		/* IN - List of names to use */
-     NamNod *nam;		/* IN - A single name if nams == NULL */
-     Bool cap;		/* IN - Capitalize the words? */
-#endif
+int annams(List *nams,		/* IN - List of names to use */
+	   NamNod *nam,		/* IN - A single name if nams == NULL */
+	   Bool cap)		/* IN - Capitalize the words? */
 {
   List *namlst;
   char buf[80];
@@ -141,13 +119,7 @@ int annams(nams, nam, cap)
   parameter, get that parameter.
 
   */
-#ifdef _PROTOTYPES_
-void genam(NamNod *nam)
-                 		/* IN - The name to generate for */
-#else
-void genam(nam)
-     NamNod *nam;		/* IN - The name to generate for */
-#endif
+void genam(NamNod *nam)		/* IN - The name to generate for */
 {
   switch (nam->kind) {
   case NAMPAR:
@@ -204,12 +176,7 @@ void genam(nam)
   Dump a NAM-node.
 
   */
-#ifdef _PROTOTYPES_
 void dunam(NamNod *nam)
-#else
-void dunam(nam)
-     NamNod *nam;
-#endif
 {
   if (nam == NULL) {
     put("NULL");

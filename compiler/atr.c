@@ -35,24 +35,12 @@ int atrmax;
   Allocates and initialises an atrnod.
 
  */
-#ifdef _PROTOTYPES_
-AtrNod *newatr(Srcp *srcp, TypeKind typ, NamNod *nam, int val, long int fpos, int len)
-                		/* IN - Source Position */
-                  		/* IN - Type of this atribute */
-                 		/* IN - The name */
-             			/* IN - The initial value */
-               			/* IN - File position for initial string */
-             			/* IN - D:o length */
-#else
-AtrNod *newatr(srcp, typ, nam, val, fpos, len)
-     Srcp *srcp;		/* IN - Source Position */
-     TypeKind typ;		/* IN - Type of this atribute */
-     NamNod *nam;		/* IN - The name */
-     int val;			/* IN - The initial value */
-     long fpos;			/* IN - File position for initial string */
-     int len;			/* IN - D:o length */
-#endif
-
+AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
+	       TypeKind typ,	/* IN - Type of this atribute */
+	       NamNod *nam,	/* IN - The name */
+	       int val,		/* IN - The initial value */
+	       long int fpos,	/* IN - File position for initial string */
+	       int len)		/* IN - D:o length */
 {
   AtrNod *new;			/* The newly allocated area */
 
@@ -80,16 +68,9 @@ AtrNod *newatr(srcp, typ, nam, val, fpos, len)
   Finds an attribute node in a supplied list by its name.
 
  */
-#ifdef _PROTOTYPES_
-AtrNod *findatr(char *atr, List *atrlst, List *defatrs)
-                		/* IN - name of attribute to find */
-                  		/* IN - attribute list */
-#else
-AtrNod *findatr(atr, atrlst, defatrs)
-     char atr[];		/* IN - name of attribute to find */
-     List *atrlst;		/* IN - attribute list */
-     List *defatrs;		/* IN - default attribute list */
-#endif
+AtrNod *findatr(char *atr,	/* IN - name of attribute to find */
+		List *atrlst,	/* IN - attribute list */
+		List *defatrs)	/* IN - default attributes to search also */
 {
   List *lst;
 
@@ -113,13 +94,7 @@ AtrNod *findatr(atr, atrlst, defatrs)
   Verify the existence of a attribute for a particular parameter.
 
   */
-#ifdef _PROTOTYPES_
 AtrNod *paramatr(NamNod *nam, ElmNod *elm)
-#else
-AtrNod *paramatr(nam, elm)
-     NamNod *nam;
-     ElmNod *elm;
-#endif
 {
   AtrNod *atr = NULL;
 
@@ -148,13 +123,7 @@ AtrNod *paramatr(nam, elm)
   Verify the existence of a attribute for a symbol.
 
   */
-#ifdef _PROTOTYPES_
 AtrNod *symatr(NamNod *nam, SymNod *sym)
-#else
-AtrNod *matr(nam, sym)
-     NamNod *nam;
-     SymNod *sym;
-#endif
 {
   AtrNod *atr = NULL;
 
@@ -185,11 +154,7 @@ AtrNod *matr(nam, sym)
   Number all default attributes.
 
  */
-#ifdef _PROTOTYPES_
 void prepatrs(void)
-#else
-void prepatrs()
-#endif
 {
   List *lst;			/* List pointer*/
   AtrNod *atr;			/* Found default attribute */
@@ -250,13 +215,7 @@ void prepatrs()
   Analyze a list of attributes.
 
  */
-#ifdef _PROTOTYPES_
-void anatrs(List *atrs)
-                  		/* IN - pointer to a pointer to the list */
-#else
-void anatrs(atrs)
-     List *atrs;		/* IN - pointer to a pointer to the list */
-#endif
+void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 {
   List *al;
 
@@ -279,13 +238,7 @@ void anatrs(atrs)
   Sort a list of attributes.
 
  */
-#ifdef _PROTOTYPES_
-void sortatr(List **alstp)
-                  		/* IN - pointer to a pointer to the list */
-#else
-void sortatr(alstp)
-     List **alstp;		/* IN - pointer to a pointer to the list */
-#endif
+void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
 {
   Bool change;		/* Change during sorting */
   List **lstp;			/* Pointer to a list pointer */
@@ -315,13 +268,7 @@ void sortatr(alstp)
   geatr()
 
   */
-#ifdef _PROTOTYPES_
-static void geatr(AtrNod *atr)
-                 		/* IN - Attribute to generate for */
-#else
-static void geatr(atr)
-     AtrNod *atr;		/* IN - Attribute to generate for */
-#endif
+static void geatr(AtrNod *atr)	/* IN - Attribute to generate for */
 {
   AtrNod *new;
 
@@ -348,17 +295,9 @@ static void geatr(atr)
   Generate all entries in an attribute list.
 
  */
-#ifdef _PROTOTYPES_
-Aword geatrs(List *atrs, List *datrs, List *gatrs)
-                	/* IN - List of attribute nodes */
-                 	/* IN - List of class default attributes */
-                 	/* IN - List of general default attributes */
-#else
-Aword geatrs(atrs, datrs)
-     List *atrs;	/* IN - List of attribute nodes */
-     List *datrs;	/* IN - List of class default attributes */
-     List *gatrs;	/* IN - List of general default attributes */
-#endif
+Aword geatrs(List *atrs,	/* IN - List of attribute nodes */
+	     List *datrs,	/* IN - List of class default attributes */
+	     List *gatrs)	/* IN - List of general default attributes */
 {
   Aaddr adr;
   List *lst, *dlst, *glst;
@@ -496,11 +435,7 @@ Aword geatrs(atrs, datrs)
   Dump an Attribute node.
 
  */
-#ifdef _PROTOTYPES_
 Aaddr geinit(void)
-#else
-Aaddr geinit()
-#endif
 {
   List *atrs;
   Aaddr adr = emadr();
@@ -523,12 +458,7 @@ Aaddr geinit()
   Dump an Attribute node.
 
  */
-#ifdef _PROTOTYPES_
 void duatr(AtrNod *atr)
-#else
-void duatr(atr)
-     AtrNod *atr;
-#endif
 {
   put("ATR: "); dusrcp(&atr->srcp); in();
   put("typ: "); dutyp(atr->typ); nl();

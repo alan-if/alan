@@ -48,7 +48,6 @@ extern int objcount;
 
 /* Methods */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Object node */
 extern ObjNod *newobj(Srcp *srcp,
@@ -74,12 +73,5 @@ extern Aaddr geobjs(void);
 /* Dump an Object node */
 extern void duobj(ObjNod *obj);
 
-#else
-extern ObjNod *newobj();
-extern void prepobjs();
-extern void anobjs();
-extern Aaddr geobjs();
-extern void duobj();
-#endif
 
 #endif

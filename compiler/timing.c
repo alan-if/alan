@@ -10,12 +10,7 @@
  ! Start a phase timing.
  */
 
-#ifdef _PROTOTYPES_
 void tistart(TIBUFP tb)
-#else
-void tistart(tb)
-TIBUFP tb;
-#endif
 {
 #ifdef MULTI
     times((struct tms *)tb);
@@ -31,12 +26,7 @@ TIBUFP tb;
  ! Start a phase timing.
  */
 
-#ifdef _PROTOTYPES_
 void tistop(TIBUFP tb)
-#else
-void tistop(tb)
-TIBUFP tb;
-#endif
 {
 #ifdef MULTI
     times((struct tms *)tb);
@@ -52,14 +42,7 @@ TIBUFP tb;
  ! Print required time.
  */
 
-#ifdef _PROTOTYPES_
 void tipr(TIBUFP tb, TI_TIME type, TI_MODE mode)
-#else
-void tipr(tb, type, mode)
-TIBUFP tb;
-TI_TIME type;
-TI_MODE mode;
-#endif
 {
     long ms, s, sec, min;
 

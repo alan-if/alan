@@ -41,13 +41,8 @@
   Check if two types are equal. If one is TYPUNK they are.
 
   */
-#ifdef _PROTOTYPES_
-Bool eqtyp(TypeKind typ1, TypeKind typ2)
-                         	/* IN - types to compare */
-#else
-Bool eqtyp(typ1, typ2)
-     TypeKind typ1, typ2;	/* IN - types to compare */
-#endif
+Bool eqtyp(TypeKind typ1,	/* IN - types to compare */
+	   TypeKind typ2)
 {
   if (typ1 == TYPERR || typ2 == TYPERR) syserr("Unintialised type in eqtyp()");
   return (typ1 == TYPUNK || typ2 == TYPUNK || typ1 == typ2);
@@ -62,15 +57,8 @@ Bool eqtyp(typ1, typ2)
   Allocates and initialises an expnod.
 
  */
-#ifdef _PROTOTYPES_
-ExpNod *newexp(Srcp *srcp, ExpKind class)
-                		/* IN - Source Position */
-                   		/* IN - The expression class */
-#else
-ExpNod *newexp(srcp, class)
-     Srcp *srcp;		/* IN - Source Position */
-     ExpKind class;		/* IN - The expression class */
-#endif
+ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
+	       ExpKind class)	/* IN - The expression class */
 {
   ExpNod *new;			/* The newly allocated area */
 
@@ -94,17 +82,9 @@ ExpNod *newexp(srcp, class)
   Analyze a WHR expression.
 
  */
-#ifdef _PROTOTYPES_
-static void anexpwhr(ExpNod *exp, EvtNod *evt, List *pars)
-                 		/* IN - The expression to analyze */
-                 		/* IN - Possibly inside event */
-                		/* IN - Possible parameters */
-#else
-static void anexpwhr(exp, evt, pars)
-     ExpNod *exp;		/* IN - The expression to analyze */
-     EvtNod *evt;		/* IN - Possibly inside event */
-     List *pars;		/* IN - Possible parameters */
-#endif
+static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
+		     EvtNod *evt, /* IN - Possibly inside event */
+		     List *pars) /* IN - Possible parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -179,17 +159,9 @@ static void anexpwhr(exp, evt, pars)
   Analyze an ATR expression.
 
   */
-#ifdef _PROTOTYPES_
-static void anatr(ExpNod *exp, EvtNod *evt, List *pars)
-                 		/* IN - The expression to analyze */
-                 		/* IN - Possibly inside Event? */
-                		/* IN - List of parameters */
-#else
-static void anatr(exp, evt, pars)
-     ExpNod *exp;		/* IN - The expression to analyze */
-     EvtNod *evt;		/* IN - Possibly inside Event? */
-     List *pars;		/* IN - List of parameters */
-#endif
+static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
+		  EvtNod *evt,	/* IN - Possibly inside Event? */
+		  List *pars)	/* IN - List of parameters */
 {
   AtrNod *atr;
   SymNod *sym;			/* The symbol table node */
@@ -297,17 +269,9 @@ static void anatr(exp, evt, pars)
   Analyze a binary expression and find out its type.
 
  */
-#ifdef _PROTOTYPES_
-static void anbin(ExpNod *exp, EvtNod *evt, List *pars)
-                 
-                 		/* IN - Possibly inside event */
-                
-#else
-static void anbin(exp, evt, pars)
-     ExpNod *exp;
-     EvtNod *evt;		/* IN - Possibly inside event */
-     List *pars;
-#endif
+static void anbin(ExpNod *exp,                 
+		  EvtNod *evt,	/* IN - Possibly inside event */
+		  List *pars)	/* IN - List of parameters available */
 {
   anexp(exp->fields.bin.left, evt, pars);
   anexp(exp->fields.bin.right, evt, pars);
@@ -380,17 +344,9 @@ static void anbin(exp, evt, pars)
   Analyze an aggregate expression.
 
  */
-#ifdef _PROTOTYPES_
-static void anagr(ExpNod *exp, EvtNod *evt, List *pars)
-                 		/* IN - The expression to analyze */
-                 		/* IN - Possibly inside Event? */
-                
-#else
-static void anagr(exp, evt, pars)
-     ExpNod *exp;		/* IN - The expression to analyze */
-     EvtNod *evt;		/* IN - Possibly inside Event? */
-     List *pars;
-#endif
+static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
+		  EvtNod *evt,	/* IN - Possibly inside Event? */
+		  List *pars)
 {
   AtrNod *atr = NULL;
 
@@ -418,13 +374,7 @@ static void anagr(exp, evt, pars)
   Analyse a random expression.
 
   */
-#ifdef _PROTOTYPES_
-static void anrnd(ExpNod *exp)
-                 		/* IN - Expression to analyse */
-#else
-static void anrnd(exp)
-     ExpNod *exp;		/* IN - Expression to analyse */
-#endif
+static void anrnd(ExpNod *exp)	/* IN - Expression to analyse */
 {
   if (exp->fields.rnd.from == exp->fields.rnd.to)
     lmLog(&exp->srcp, 416, sevINF, "");
@@ -439,17 +389,9 @@ static void anrnd(exp)
   Analyse a WHT expression.
 
   */
-#ifdef _PROTOTYPES_
-static void anexpwht(ExpNod *exp, EvtNod *evt, List *pars)
-                 		/* IN - Expression to analyse */
-                 		/* IN - Possibly inside Event? */
-                		/* IN - Possible parameter list in this context */
-#else
-static void anexpwht(exp, evt, pars)
-     ExpNod *exp;		/* IN - Expression to analyse */
-     EvtNod *evt;		/* IN - Possibly inside Event? */
-     List *pars;		/* IN - Possible parameter list in this context */
-#endif
+static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
+		     EvtNod *evt, /* IN - Possibly inside Event? */
+		     List *pars) /* IN - Possible parameter list in this context */
 {
   ElmNod *par;
   SymNod *sym;
@@ -502,17 +444,9 @@ static void anexpwht(exp, evt, pars)
   Analyze one expression.
 
   */
-#ifdef _PROTOTYPES_
-void anexp(ExpNod *exp, EvtNod *evt, List *pars)
-                 		/* IN - The expression to analyze */
-                 		/* IN - Possibly inside event */
-                		/* IN - Possible verb parameters */
-#else
-void anexp(exp, evt, pars)
-     ExpNod *exp;		/* IN - The expression to analyze */
-     EvtNod *evt;		/* IN - Possibly inside event */
-     List *pars;		/* IN - Possible verb parameters */
-#endif
+void anexp(ExpNod *exp,		/* IN - The expression to analyze */
+	   EvtNod *evt,		/* IN - Possibly inside event */
+	   List *pars)		/* IN - Possible verb parameters */
 {
   if (exp == NULL) return;	/* Ignore empty expressions (syntax error) */
   
@@ -568,13 +502,7 @@ void anexp(exp, evt, pars)
   Generate a binary expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexpbin(ExpNod *exp)
-                 	/* IN - Expression node */
-#else
-static void geexpbin(exp)
-     ExpNod *exp;	/* IN - Expression node */
-#endif
+static void geexpbin(ExpNod *exp) /* IN - Expression node */
 {
   geexp(exp->fields.bin.right);
   geexp(exp->fields.bin.left);
@@ -633,13 +561,7 @@ static void geexpbin(exp)
   Generate a where-expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexpwhr(ExpNod *exp)
-                 	/* IN - Expression node */
-#else
-static void geexpwhr(exp)
-     ExpNod *exp;	/* IN - Expression node */
-#endif
+static void geexpwhr(ExpNod *exp) /* IN - Expression node */
 {
   switch(exp->fields.whr.wht->fields.wht.wht->wht) {
     
@@ -725,13 +647,7 @@ static void geexpwhr(exp)
   Generate an attribute-expression.
 
  */
-#ifdef _PROTOTYPES_
-static void geexpatr(ExpNod *exp)
-                 	/* IN - Expression node */
-#else
-static void geexpatr(exp)
-     ExpNod *exp;	/* IN - Expression node */
-#endif
+static void geexpatr(ExpNod *exp) /* IN - Expression node */
 {
   emit0(C_CONST, exp->fields.atr.atr->code);
   gewht(exp->fields.atr.wht->fields.wht.wht);
@@ -751,13 +667,7 @@ static void geexpatr(exp)
   Generate the code for an aggregate expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexpagr(ExpNod *exp)
-                 	/* IN - The expression to generate */
-#else
-static void geexpagr(exp)
-     ExpNod *exp;	/* IN - The expression to generate */
-#endif
+static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
 {
   gewhr(exp->fields.agr.whr);
 
@@ -780,13 +690,7 @@ static void geexpagr(exp)
   Generate code for a random expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexprnd(ExpNod *exp)
-                 	/* IN - The expression to generate */
-#else
-static void geexprnd(exp)
-     ExpNod *exp;	/* IN - The expression to generate */
-#endif
+static void geexprnd(ExpNod *exp) /* IN - The expression to generate */
 {
   if (exp->fields.rnd.from < exp->fields.rnd.to) {
     emit0(C_CONST, exp->fields.rnd.to);
@@ -806,13 +710,7 @@ static void geexprnd(exp)
   Generate the code for a SCORE expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexpscore(ExpNod *exp)
-                 	/* IN - The expression to generate */
-#else
-static void geexpscore(exp)
-     ExpNod *exp;	/* IN - The expression to generate */
-#endif
+static void geexpscore(ExpNod *exp) /* IN - The expression to generate */
 {
   emit0(C_CURVAR, V_SCORE);
 }
@@ -825,13 +723,7 @@ static void geexpscore(exp)
   Generate the code for a WHAT expression.
 
   */
-#ifdef _PROTOTYPES_
-static void geexpwht(ExpNod *exp)
-                 	/* IN - The expression to generate */
-#else
-static void geexpwht(exp)
-     ExpNod *exp;	/* IN - The expression to generate */
-#endif
+static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
 {
   gewht(exp->fields.wht.wht);
 }
@@ -845,13 +737,7 @@ static void geexpwht(exp)
   Generate the code for an expression.
 
   */
-#ifdef _PROTOTYPES_
-void geexp(ExpNod *exp)
-                 	/* IN - The expression to generate */
-#else
-void geexp(exp)
-     ExpNod *exp;	/* IN - The expression to generate */
-#endif
+void geexp(ExpNod *exp)		/* IN - The expression to generate */
 {
   if (exp == NULL) {
     emit0(C_CONST, 0);
@@ -914,12 +800,7 @@ void geexp(exp)
   Dump an operator
 
   */
-#ifdef _PROTOTYPES_
 static void duop(OpKind op)
-#else
-static void duop(op)
-     OpKind op;
-#endif
 {
   switch (op) {
   case OP_AND:
@@ -971,12 +852,7 @@ static void duop(op)
   Dump an aggregate kind.
 
   */
-#ifdef _PROTOTYPES_
 static void duagr(AgrKind agr)
-#else
-static void duagr(agr)
-     AgrKind agr;
-#endif
 {
   switch (agr) {
   case AGR_SUM:
@@ -1000,12 +876,7 @@ static void duagr(agr)
   Dump a type indication.
 
   */
-#ifdef _PROTOTYPES_
 void dutyp(TypeKind typ)
-#else
-void dutyp(typ)
-     TypeKind typ;
-#endif
 {
   switch (typ) {
   case TYPBOOL:
@@ -1032,12 +903,7 @@ void dutyp(typ)
   Dump an expression node.
 
  */
-#ifdef _PROTOTYPES_
 void duexp(ExpNod *exp)
-#else
-void duexp(exp)
-     ExpNod *exp;
-#endif
 {
   if (exp == NULL) {
     put("NULL");

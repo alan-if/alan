@@ -46,21 +46,7 @@ int objcount = 0;
   Allocates and initialises an objnod.
 
  */
-#ifdef _PROTOTYPES_
 ObjNod *newobj(Srcp *srcp, NamNod *nam, List *namslst, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *art, List *ment, List *vrbs)
-#else
-ObjNod *newobj(srcp, nam, namslst, whr, props, atrs, dscr, art, ment, vrbs)
-     Srcp *srcp;		/* IN - Source Position */
-     NamNod *nam;		/* IN - The object name */
-     List *namslst;		/* IN - List of adjectives and a noun */
-     WhrNod *whr;		/* IN - Where initially */
-     CntNod *props;		/* IN - Properties */
-     List *atrs;		/* IN - Attributes */
-     List *dscr,;		/* IN - And its description statements */
-     List *art;			/* IN - Article statments */
-     List *ment;		/* IN - Short description (mentioned) */
-     List *vrbs;		/* IN - The verbs handled by the object */
-#endif
 {
   ObjNod *new;			/* The newly allocated area */
   SymNod *sym;
@@ -113,11 +99,7 @@ ObjNod *newobj(srcp, nam, namslst, whr, props, atrs, dscr, art, ment, vrbs)
   the object code to the container.
 
  */
-#ifdef _PROTOTYPES_
 void prepobjs(void)
-#else
-void prepobjs()
-#endif
 {
   ObjNod *obj;			/* Object */
   List *olst;			/* List pointer */
@@ -159,13 +141,7 @@ void prepobjs()
   Analyze one object.
 
  */
-#ifdef _PROTOTYPES_
-static void anobj(ObjNod *obj)
-                 	/* IN - The object to analyze */
-#else
-static void anobj(obj)
-     ObjNod *obj;	/* IN - The object to analyze */
-#endif
+static void anobj(ObjNod *obj)	/* IN - The object to analyze */
 {
   SymNod *sym;		/* Sym table entry */
   ElmNod *elm;
@@ -231,11 +207,7 @@ static void anobj(obj)
   Analyze all objects in a list.
 
  */
-#ifdef _PROTOTYPES_
 void anobjs(void)
-#else
-void anobjs()
-#endif
 {
   List *obj;
 
@@ -252,13 +224,7 @@ void anobjs()
   Generate the code for the descriptions of this object.
 
  */
-#ifdef _PROTOTYPES_
-static void geobjdscrs(ObjNod *obj)
-                 	/* IN - The object to generate for */
-#else
-static void geobjdscrs(obj)
-     ObjNod *obj;	/* IN - The object to generate for */
-#endif
+static void geobjdscrs(ObjNod *obj) /* IN - The object to generate for */
 {
   if (obj->dscr != NULL) {
     obj->dscradr = emadr();
@@ -289,13 +255,7 @@ static void geobjdscrs(obj)
   Generate the entry in the objlst for one object.
 
  */
-#ifdef _PROTOTYPES_
-static void geobjent(ObjNod *obj)
-                 	/* IN - The object to generate */
-#else
-static void geobjent(obj)
-     ObjNod *obj;	/* IN - The object to generate */
-#endif
+static void geobjent(ObjNod *obj) /* IN - The object to generate */
 {
   /* Initial location or containment */
   switch (obj->whr->whr) {
@@ -342,13 +302,7 @@ static void geobjent(obj)
   Generate the code for an object.
 
  */
-#ifdef _PROTOTYPES_
-static void geobj(ObjNod *obj)
-                 		/* IN - The object */
-#else
-static void geobj(obj)
-     ObjNod *obj;		/* IN - The object */
-#endif
+static void geobj(ObjNod *obj)	/* IN - The object */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -366,11 +320,7 @@ static void geobj(obj)
   Generate code for all global objects.
 
  */
-#ifdef _PROTOTYPES_
 Aaddr geobjs(void)
-#else
-Aaddr geobjs()
-#endif
 {
   List *lst;		/* Traversal pointer */
   Aaddr adr;
@@ -399,12 +349,7 @@ Aaddr geobjs()
   Dump an Object node.
 
  */
-#ifdef _PROTOTYPES_
 void duobj(ObjNod *obj)
-#else
-void duobj(obj)
-     ObjNod *obj;
-#endif
 {
   if (obj == NULL) {
     put("NULL");

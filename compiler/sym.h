@@ -30,7 +30,6 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* List a message indicating a redefined symbol */
 extern void redefined(Srcp *srcp,
@@ -53,11 +52,5 @@ extern void symcheck(SymNod **sym,
 		     NamKind props,
 		     List *pars);
 
-#else
-extern void redefined();
-extern int newsym();
-extern SymNod *lookup();
-extern void symcheck();
-#endif
 
 #endif

@@ -45,15 +45,8 @@
   Generic list concatenation.
 
   */
-#ifdef _PROTOTYPES_
-List *concat(List *list, void *element)
-                		/* IN - List to concat to */
-                   		/* IN - Pointer to any element type */
-#else
-List *concat(list, element)
-     List *list;		/* IN - List to concat to */
-     void *element;		/* IN - Pointer to any element type */
-#endif
+List *concat(List *list,	/* IN - List to concat to */
+	     void *element)	/* IN - Pointer to any element type */
 {
   List *new;			/* The newly created list node */
 
@@ -83,13 +76,8 @@ List *concat(list, element)
   Generic list combination.
 
   */
-#ifdef _PROTOTYPES_
-List *combine(List *list1, List *list2)
-                         	/* IN - Lists to combine */
-#else
-List *combine(list1, list2)
-     List *list1, *list2;	/* IN - Lists to combine */
-#endif
+List *combine(List *list1,	/* IN - Lists to combine */
+	      List *list2)
 {
   if (list1 == NULL) return(list2);
   if (list2 == NULL) return(list1);
@@ -108,13 +96,7 @@ List *combine(list1, list2)
   Dump a particular node.
 
   */
-#ifdef _PROTOTYPES_
 static void dunod(void *nod, NodKind class)
-#else
-static void dunod(nod, class)
-    void *nod;
-    NodKind class;
-#endif
 {
   switch (class){
   case ACTNOD: duact(nod); break;
@@ -151,15 +133,8 @@ static void dunod(nod, class)
   Dump a list of nodes
 
   */
-#ifdef _PROTOTYPES_
-void dulst(List *lst, NodKind class)
-               			/* IN - The list */
-                   		/* IN - Class of the elements */
-#else
-void dulst(lst, class)
-     List *lst;			/* IN - The list */
-     NodKind class;		/* IN - Class of the elements */
-#endif
+void dulst(List *lst,		/* IN - The list */
+	   NodKind class)	/* IN - Class of the elements */
 {
   if (lst == NULL) {
     put("NULL");
@@ -183,15 +158,8 @@ void dulst(lst, class)
   Dump a list of lists of nodes
 
   */
-#ifdef _PROTOTYPES_
-void dulst2(List *lstlst, NodKind class)
-               			/* IN - The list of lists*/
-                   		/* IN - Class of the elements */
-#else
-void dulst2(lstlst, class)
-     List *lstlst;			/* IN - The list */
-     NodKind class;		/* IN - Class of the elements */
-#endif
+void dulst2(List *lstlst,	/* IN - The list of lists*/
+	    NodKind class)	/* IN - Class of the elements */
 {
   if (lstlst == NULL) {
     put("NULL");

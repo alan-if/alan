@@ -15,7 +15,6 @@
 
 
 /* FUNCTIONS */
-#ifdef _PROTOTYPES_
 
 extern void eminit(char acdfnm[]);
 extern Aword emadr(void);
@@ -24,13 +23,5 @@ extern void emit(Aword word);
 extern void emit0(OpClass class, Aword op);
 extern void emterm(AcdHdr *hdr);
 
-#else
-extern void eminit();
-extern Aword emadr();
-extern void emitstr();
-extern void emit();
-extern void emit0();
-extern void emterm();
-#endif
 
 #endif

@@ -42,7 +42,6 @@ extern int actcount;
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Initialise actor data */
 extern void initact(void);
@@ -70,13 +69,5 @@ extern Aword geacts(void);
 /* Dump an Actor node */
 extern void duact(ActNod *act);
 
-#else
-extern void initact();
-extern ActNod *newact();
-extern void prepacts();
-extern void anacts();
-extern Aword geacts();
-extern void duact();
-#endif
 
 #endif

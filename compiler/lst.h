@@ -50,7 +50,6 @@ typedef struct List {		/* GENERIC LISTS */
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Concat an element to a list */
 extern List *concat(List *lst, void *elem);
@@ -64,11 +63,5 @@ extern void dulst(List *lst, NodKind nod);
 /* Dump a list of lists of nodes */
 extern void dulst2(List *lstlst, NodKind nod);
 
-#else
-extern List *concat();
-extern List *combine();
-extern void dulst();
-extern void dulst2();
-#endif
 
 #endif

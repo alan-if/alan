@@ -31,7 +31,6 @@ typedef struct ScrNod {		/* SCRIPT */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Script node */
 extern ScrNod *newscr(Srcp *srcp,
@@ -50,11 +49,5 @@ extern Aword gescrs(ActNod *act);
 /* Dump a Script node */
 extern void duscr(ScrNod *scr);
 
-#else
-extern ScrNod *newscr();
-extern void anscrs();
-extern Aword gescrs();
-extern void duscr();
-#endif
 
 #endif

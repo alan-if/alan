@@ -34,7 +34,6 @@ typedef struct ResNod {		/* RESTRICTION */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new element Restriction node */
 extern ResNod *newres(Srcp *srcp,
@@ -52,11 +51,5 @@ extern Aaddr geress(List *ress, StxNod *stx);
 /* Dump a Restriction node */
 extern void dures(ResNod *res);
 
-#else
-extern ResNod *newres();
-extern void anress();
-extern Aaddr geress();
-extern void dures();
-#endif
 
 #endif

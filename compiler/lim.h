@@ -29,7 +29,6 @@ typedef struct LimNod {		/* LIMIT */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Limit node */
 extern LimNod *newlim(Srcp *srcp,
@@ -45,11 +44,5 @@ extern Aword gelims(CntNod *cnt);
 /* Dump a Limit node */
 extern void dulim(LimNod *lim);
 
-#else
-extern LimNod *newlim();
-extern void anlim();
-extern Aword gelims();
-extern void dulim();
-#endif
 
 #endif

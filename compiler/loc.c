@@ -39,27 +39,14 @@ int loccount = 0;
   Allocates and initialises a new locnod.
 
  */
-#ifdef _PROTOTYPES_
-LocNod *newloc(Srcp *srcp, NamNod *nam, List *nams, List *atrs, List *dscr, List *does, List *exts, List *vrbs)
-                	/* IN - Source Position */
-                 	/* IN - Name of the location */
-                	/* IN - List of names */
-                	/* IN - Attribute list */
-                	/* IN - Description statements */
-                	/* IN - What to do when entered */
-                	/* IN - List of exits */
-                	/* IN - List of vrbs */
-#else
-LocNod *newloc(srcp, nam, nams, atrs, dscr, does, exts, vrbs)
-     Srcp *srcp;	/* IN - Source Position */
-     NamNod *nam;	/* IN - Name of the location */
-     List *nams;	/* IN - List of names */
-     List *atrs;	/* IN - Attribute list */
-     List *dscr;	/* IN - Description statements */
-     List *does;	/* IN - What to do when entered */
-     List *exts;	/* IN - List of exits */
-     List *vrbs;	/* IN - List of vrbs */
-#endif
+LocNod *newloc(Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - Name of the location */
+	       List *nams,	/* IN - List of names */
+	       List *atrs,	/* IN - Attribute list */
+	       List *dscr,	/* IN - Description statements */
+	       List *does,	/* IN - What to do when entered */
+	       List *exts,	/* IN - List of exits */
+	       List *vrbs)	/* IN - List of vrbs */
 {
   LocNod *new;		/* The newly allocated node */
   SymNod *sym;		/* Symbol table entry */
@@ -94,11 +81,7 @@ LocNod *newloc(srcp, nam, nams, atrs, dscr, does, exts, vrbs)
   Prepare all locations, like giving their attributes unique numbers.
 
  */
-#ifdef _PROTOTYPES_
 void preplocs(void)
-#else
-void preplocs()
-#endif
 {
   List *llst;		/* List pointer */
   List *alst;		/* List pointer */
@@ -134,13 +117,7 @@ void preplocs()
   Analyzes one location by calling the analyzers for the subtrees.
 
  */
-#ifdef _PROTOTYPES_
-static void anloc(LocNod *loc)
-                		/* IN - Location to analyze */
-#else
-static void anloc(loc)
-    LocNod *loc;		/* IN - Location to analyze */
-#endif
+static void anloc(LocNod *loc)	/* IN - Location to analyze */
 {
   long fpos;
   int len = 0;
@@ -179,11 +156,7 @@ static void anloc(loc)
   locations.
 
  */
-#ifdef _PROTOTYPES_
 void anlocs(void)
-#else
-void anlocs()
-#endif
 {
     List *loc;        /* Traversal pointer */
 
@@ -200,13 +173,7 @@ void anlocs()
   Generate the procedure to print the location name.
 
  */
-#ifdef _PROTOTYPES_
-static Aaddr gelocnam(LocNod *loc)
-                 		/* IN - The location */
-#else
-static Aaddr gelocnam(loc)
-     LocNod *loc;		/* IN - The location */
-#endif
+static Aaddr gelocnam(LocNod *loc) /* IN - The location */
 {
   Aaddr namadr = emadr();
 
@@ -224,13 +191,7 @@ static Aaddr gelocnam(loc)
   Generate the procedure to describe a location.
 
  */
-#ifdef _PROTOTYPES_
-static Aaddr gelocdscr(LocNod *loc)
-                 		/* IN - The location to describe */
-#else
-static Aaddr gelocdscr(loc)
-     LocNod *loc;		/* IN - The location to describe */
-#endif
+static Aaddr gelocdscr(LocNod *loc) /* IN - The location to describe */
 {
   Aaddr dscradr = emadr();
 
@@ -253,13 +214,7 @@ static Aaddr gelocdscr(loc)
   Generate the procedure to be executed upon entry of a location.
 
  */
-#ifdef _PROTOTYPES_
-static Aaddr gelocdoes(LocNod *loc)
-                 		/* IN - The location */
-#else
-static Aaddr gelocdoes(loc)
-     LocNod *loc;		/* IN - The location */
-#endif
+static Aaddr gelocdoes(LocNod *loc) /* IN - The location */
 {
   Aaddr doesadr = emadr();
 
@@ -280,13 +235,7 @@ static Aaddr gelocdoes(loc)
   Generate procedures and data for a location.
 
  */
-#ifdef _PROTOTYPES_
-static void geloc(LocNod *loc)
-                 		/* IN - The location to generate */
-#else
-static void geloc(loc)
-     LocNod *loc;		/* IN - The location to generate */
-#endif
+static void geloc(LocNod *loc)	/* IN - The location to generate */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -308,13 +257,7 @@ static void geloc(loc)
   Generate one entry in the location list.
 
  */
-#ifdef _PROTOTYPES_
-static void gelocent(LocNod *loc)
-                 		/* IN - The location to generate for */
-#else
-static void gelocent(loc)
-     LocNod *loc;		/* IN - The location to generate for */
-#endif
+static void gelocent(LocNod *loc) /* IN - The location to generate for */
 {
   /* First pointer to description and procedures */
   emit(loc->namsadr);
@@ -341,11 +284,7 @@ static void gelocent(loc)
   acode address to the location table.
 
  */
-#ifdef _PROTOTYPES_
 Aword gelocs(void)
-#else
-Aword gelocs()
-#endif
 {
   List *lst;		/* Traversal pointer */
   Aword adr;
@@ -371,12 +310,7 @@ Aword gelocs()
   Dump a location!
 
  */
-#ifdef _PROTOTYPES_
 void duloc(LocNod *loc)
-#else
-void duloc(loc)
-     LocNod *loc;
-#endif
 {
   if (loc == NULL) {
     put("NULL");

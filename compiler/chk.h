@@ -22,7 +22,6 @@ typedef struct ChkNod {		/* CHECK */
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Check node */
 extern ChkNod *newchk(ExpNod *exp, List *stms);
@@ -36,11 +35,5 @@ extern Aaddr gechks(List *chks, ActNod *act);
 /* Dump a Check node */
 extern void duchk(ChkNod *chk);
 
-#else
-extern ChkNod *newchk();
-extern void anchks();
-extern Aaddr gechks();
-extern void duchk();
-#endif
 
 #endif

@@ -38,7 +38,6 @@ extern AdvNod adv;
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Initialise some data */
 extern void initadv(void);
@@ -55,12 +54,5 @@ extern void duadv(enum dmpkd dmp);
 /* Print out a short summary of the adventure */
 extern void summary(void);
 
-#else
-extern void initadv();
-extern void anadv();
-extern void geadv();
-extern void duadv();
-extern void summary();
-#endif
 
 #endif

@@ -33,12 +33,7 @@ static Aaddr pc = 0;
 static Aword crc = 0;
 
 
-#ifdef _PROTOTYPES_
 static void buffer(Aword w)
-#else
-static void buffer(w)
-     Aword w;
-#endif
 {
   crc += w&0xff;			/* Check sum calculation */
   crc += (w>>8)&0xff;
@@ -52,13 +47,7 @@ static void buffer(w)
 
 
 #ifdef REVERSED
-#ifdef _PROTOTYPES_
-static Aword reversed(Aword w)
-             			/* IN - The ACODE word to swap bytes in */
-#else
-static Aword reversed(w)
-     Aword w;			/* IN - The ACODE word to swap bytes in */
-#endif
+static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
 {
   Aword s;			/* The swapped ACODE word */
   char *wp, *sp;
@@ -75,23 +64,13 @@ static Aword reversed(w)
 #endif
 
 
-#ifdef _PROTOTYPES_
 Aword emadr(void)
-#else
-Aword emadr()
-#endif
 {
   return(pc);
 }
 
 
-#ifdef _PROTOTYPES_
-void emit(Aword c)
-             			/* IN - Constant to emit */
-#else
-void emit(c)
-     Aword c;			/* IN - Constant to emit */
-#endif
+void emit(Aword c)		/* IN - Constant to emit */
 {
 #ifdef REVERSED
       buffer(reversed(c));
@@ -115,12 +94,7 @@ void emit(c)
   the word must be reversed before emitting it.
 
 */
-#ifdef _PROTOTYPES_
 void emitstr(char *str)
-#else
-void emitstr(str)
-     char str[];
-#endif
 {
   int i;
   char *copy;
@@ -162,16 +136,10 @@ void emitstr(str)
 }
 
 
-#ifdef _PROTOTYPES_
 void emit0(
-     OpClass class,		/* IN - Operation class */
-     Aword op			/* IN - Operation, instr, const or var */
+	   OpClass class,	/* IN - Operation class */
+	   Aword op		/* IN - Operation, instr, const or var */
 )
-#else
-void emit0(class, op)
-     OpClass class;		/* IN - Operation class */
-     Aword op;			/* IN - Operation, instr, const or var */
-#endif
 {
   emit(((Aword)class<<28)|((Aword)op&0x0fffffff));
 }
@@ -407,14 +375,9 @@ static struct DiskObject iconObject = {
   };
 #endif
 
-#ifdef _PROTOTYPES_
 void eminit(
-     char *acdfnm		/* IN - File name for ACODE instructions */
+	    char *acdfnm	/* IN - File name for ACODE instructions */
 )
-#else
-void eminit(acdfnm)
-     char acdfnm[];		/* IN - File name for ACODE instructions */
-#endif
 {
   int i;
 
@@ -455,12 +418,7 @@ void eminit(acdfnm)
 }
 
 
-#ifdef _PROTOTYPES_
 void emterm(AcdHdr *hdr)
-#else
-void emterm(hdr)
-     AcdHdr *hdr;
-#endif
 {
   Aword *hp;			/* Pointer to header as words */
   int i;

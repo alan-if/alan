@@ -176,13 +176,7 @@ static struct {char *id; char *english; char *swedish;} defmsg[] =
   prettier is not inserted.
 
  */
-#ifdef _PROTOTYPES_
-void getxt(char *txt)
-                		/* IN - The text to output */
-#else
-void getxt(txt)
-     char txt[];		/* IN - The text to output */
-#endif
+void getxt(char *txt)		/* IN - The text to output */
 {
   int i;
 
@@ -201,14 +195,7 @@ void getxt(txt)
   Create a new message node.
 
  */
-#ifdef _PROTOTYPES_
 MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms)
-#else
-MsgNod *newmsg(srcp, nam, stms)
-     Srcp *srcp;		/* IN - Source position of possible user declaration */
-     NamNod *nam;		/* IN - If user declared the name used */
-     List *stms;		/* IN - List of statements */
-#endif
 {
   MsgNod *msg;
 
@@ -232,11 +219,7 @@ MsgNod *newmsg(srcp, nam, stms)
   noting their position.
 
  */
-#ifdef _PROTOTYPES_
 void prepmsgs(void)
-#else
-void prepmsgs()
-#endif
 {
   int msgno;
   List *smsgs = NULL;		/* The constructed list */
@@ -349,11 +332,7 @@ void prepmsgs()
   Analyze the statements in the system messages
 
   */
-#ifdef _PROTOTYPES_
 void anmsgs(void)
-#else
-void anmsgs()
-#endif
 {
   List *lst;
 
@@ -373,12 +352,7 @@ void anmsgs()
   Generate statements for the message construct
 
   */
-#ifdef _PROTOTYPES_
 static void gemsgent(MsgNod *msg)
-#else
-static void gemsgent(msg)
-MsgNod *msg;
-#endif
 {
   msg->stmadr = emadr();	/* Save address to messages statements */
   gestms(msg->stms, NULL);
@@ -392,11 +366,7 @@ MsgNod *msg;
   Generate error and other messages depending on the selected language.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr gemsgs(void)
-#else
-Aaddr gemsgs()
-#endif
 {
   Aaddr adr;
   List *lst;

@@ -57,11 +57,7 @@ static Aword end;
   Initialise any structures and data needed.
 
   */
-#ifdef _PROTOTYPES_
 void initadv(void)
-#else
-void initadv()
-#endif
 {
   initact();
   initcnt();
@@ -76,11 +72,7 @@ void initadv()
   Calculate min and max codes for all entities.
 
   */
-#ifdef _PROTOTYPES_
 static void prepcodes(void)
-#else
-static void prepcodes()
-#endif
 {
   objmin = 1;
   objmax = objmin + objcount - 1;
@@ -108,11 +100,7 @@ static void prepcodes()
   Analyse the adventure.
 
  */
-#ifdef _PROTOTYPES_
 void anadv(void)
-#else
-void anadv()
-#endif
 {
   SymNod *sym;
   ElmNod *elm;
@@ -179,13 +167,7 @@ void anadv()
   Set the max and min codes for objects, actors etc. in the header.
 
   */
-#ifdef _PROTOTYPES_
-static void gecodes(AcdHdr *hdr)
-                 		/* IN - The header to fill in */
-#else
-static void gecodes(hdr)
-     AcdHdr *hdr;		/* IN - The header to fill in */
-#endif
+static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
 {
   hdr->objmin = objmin;
   hdr->objmax = objmax;
@@ -211,13 +193,7 @@ static void gecodes(hdr)
   Generate the whole adventure.
 
  */
-#ifdef _PROTOTYPES_
-void geadv(char *acdfnm)
-                   		/* IN - ACODE file name */
-#else
-void geadv(acdfnm)
-     char acdfnm[];		/* IN - ACODE file name */
-#endif
+void geadv(char *acdfnm)	/* IN - ACODE file name */
 {
   eminit(acdfnm);		/* Initialise code emit */
   eninit();			/* Initialise encoding */
@@ -280,12 +256,7 @@ void geadv(acdfnm)
   Dump the Adventure.
 
  */
-#ifdef _PROTOTYPES_
 void duadv(enum dmpkd dmp)
-#else
-void duadv(dmp)
-     enum dmpkd dmp;
-#endif
 {
   if (dmp&DMPALL)
     dmp = (enum dmpkd)-1L;
@@ -317,11 +288,7 @@ void duadv(dmp)
   Print out a short summary of the adventure.
 
  */
-#ifdef _PROTOTYPES_
 void summary(void)
-#else
-void summary()
-#endif
 {
   char str[80];
   

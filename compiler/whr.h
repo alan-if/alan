@@ -36,7 +36,6 @@ typedef struct WhrNod {		/* WHERE node */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Allocate a new Where node */
 extern WhrNod *newwhr(Srcp *srcp,
@@ -52,10 +51,5 @@ extern void gewhr(WhrNod *whr);
 /* Dump a Where node */
 extern void duwhr(WhrNod *whr);
 
-#else
-extern WhrNod *newwhr();
-extern void gewhr();
-extern void duwhr();
-#endif
 
 #endif

@@ -35,7 +35,6 @@ extern int atrmax;
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Attribute node */
 extern AtrNod *newatr(Srcp *srcp,
@@ -76,17 +75,5 @@ extern Aaddr geinit(void);
 /* Dump an Attribute node */
 extern void duatr(AtrNod *atr);
 
-#else
-extern AtrNod *newatr();
-extern AtrNod *findatr();
-extern AtrNod *paramatr();
-extern AtrNod *symatr();
-extern void sortatr();
-extern void anatrs();
-extern void prepatrs();
-extern Aaddr geatrs();
-extern Aaddr geinit();
-extern void duatr();
-#endif
 
 #endif

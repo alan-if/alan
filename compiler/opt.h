@@ -55,7 +55,6 @@ extern OptDef opts[NOPT];
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Register an integer option */
 extern void optint(char id[],
@@ -75,11 +74,5 @@ extern void optBool(char id[],
 
 /* Generate all option values */
 extern void geopt(AcdHdr *header);
-#else
-extern void optint();
-extern void optenum();
-extern void optBool();
-extern void geopt();
-#endif
 
 #endif

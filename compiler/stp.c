@@ -30,19 +30,10 @@
   Allocates and initialises a new Step node.
 
   */
-#ifdef _PROTOTYPES_
-StpNod *newstp(Srcp *srcp, int after, ExpNod *exp, List *stms)
-                	/* IN - Source Position */
-               			/* IN - Ticks to wait */
-                 	/* IN - Expression to wait for */
-                	/* IN - List of statements */
-#else
-StpNod *newstp(srcp, after, exp, stms)
-     Srcp *srcp;	/* IN - Source Position */
-     int after;			/* IN - Ticks to wait */
-     ExpNod *exp;	/* IN - Expression to wait for */
-     List *stms;	/* IN - List of statements */
-#endif
+StpNod *newstp(Srcp *srcp,	/* IN - Source Position */
+	       int after,	/* IN - Ticks to wait */
+	       ExpNod *exp,	/* IN - Expression to wait for */
+	       List *stms)	/* IN - List of statements */
 {
   StpNod *new;		/* The newly allocated node */
 
@@ -66,15 +57,8 @@ StpNod *newstp(srcp, after, exp, stms)
   Analyse a list of Steps
 
   */
-#ifdef _PROTOTYPES_
-void anstps(List *stps, ActNod *act)
-                		/* IN - The steps to analyse */
-                 		/* IN - Possibly inside Actor? */
-#else
-void anstps(stps, act)
-     List *stps;		/* IN - The steps to analyse */
-     ActNod *act;		/* IN - Possibly inside Actor? */
-#endif
+void anstps(List *stps,		/* IN - The steps to analyse */
+	    ActNod *act)	/* IN - Possibly inside Actor? */
 {
   List *lst;
 
@@ -94,15 +78,8 @@ void anstps(stps, act)
   Generate code for all steps in a script for a particular actor.
 
   */
-#ifdef _PROTOTYPES_
-Aaddr gestps(List *stps, ActNod *act)
-                		/* IN - The steps to generate */
-                 		/* IN - Inside any actor */
-#else
-Aaddr gestps(stps, act)
-     List *stps;		/* IN - The steps to generate */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+Aaddr gestps(List *stps,	/* IN - The steps to generate */
+	     ActNod *act)	/* IN - Inside any actor */
 {
   List *lst;
   Aaddr adr;
@@ -139,12 +116,7 @@ Aaddr gestps(stps, act)
   Dump a Step node.
 
   */
-#ifdef _PROTOTYPES_
 void dustp(StpNod *stp)
-#else
-void dustp(stp)
-     StpNod *stp;
-#endif
 {
   put("STP: "); dusrcp(&stp->srcp); in();
   put("after: "); duint(stp->after); nl();

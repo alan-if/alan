@@ -35,7 +35,6 @@ extern int dircount;
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Exit node */
 extern ExtNod *newext(Srcp *srcp,
@@ -53,11 +52,5 @@ extern Aaddr geexts(List *exts);
 /* Dump an Exit node */
 extern void duext(ExtNod *ext);
 
-#else
-extern ExtNod *newext();
-extern void anexts();
-extern Aaddr geexts();
-extern void duext();
-#endif
 
 #endif

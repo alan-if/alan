@@ -43,17 +43,9 @@
   Allocates and initialises a limnod.
 
   */
-#ifdef _PROTOTYPES_
-LimNod *newlim(Srcp *srcp, AtrNod *atr, List *stms)
-                		/* IN - Source Position */
-                 		/* IN - The attribute */
-                		/* IN - Statments */
-#else
-LimNod *newlim(srcp, atr, stms)
-     Srcp *srcp;		/* IN - Source Position */
-     AtrNod *atr;		/* IN - The attribute */
-     List *stms;		/* IN - Statments */
-#endif
+LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
+	       AtrNod *atr,	/* IN - The attribute */
+	       List *stms)	/* IN - Statments */
 {
   LimNod *new;			/* The newly allocated area */
 
@@ -80,13 +72,7 @@ LimNod *newlim(srcp, atr, stms)
   The predefined attribute COUNT is also allowed.
 
   */
-#ifdef _PROTOTYPES_
-void anlim(LimNod *lim)
-                 		/* IN - The container to analyze */
-#else
-void anlim(lim)
-     LimNod *lim;		/* IN - The container to analyze */
-#endif
+void anlim(LimNod *lim)		/* IN - The container to analyze */
 {
   AtrNod *atr, *a;		/* Attribute nodes */
 
@@ -119,15 +105,8 @@ void anlim(lim)
   Generate one limit for a container.
 
   */
-#ifdef _PROTOTYPES_
-static void gelim(LimNod *lim, int cnt)
-                 	/* IN - The limit */
-             			/* IN - the code of the container */
-#else
-static void gelim(lim, cnt)
-     LimNod *lim;	/* IN - The limit */
-     int cnt;			/* IN - the code of the container */
-#endif
+static void gelim(LimNod *lim,	/* IN - The limit */
+		  int cnt)	/* IN - the code of the container */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -146,13 +125,7 @@ static void gelim(lim, cnt)
   Generate a limit table entry for one container.
 
   */
-#ifdef _PROTOTYPES_
-static void geliment(LimNod *lim)
-                 	/* IN - The limit to generate for */
-#else
-static void geliment(lim)
-     LimNod *lim;	/* IN - The limit to generate for */
-#endif
+static void geliment(LimNod *lim) /* IN - The limit to generate for */
 {
   emit(lim->atr->nam->code);
   emit(lim->atr->val);
@@ -167,13 +140,7 @@ static void geliment(lim)
   Generate limit checks for one container.
 
   */
-#ifdef _PROTOTYPES_
-Aword gelims(CntNod *cnt)
-                 	/* IN - The container to generate for */
-#else
-Aword gelims(cnt)
-     CntNod *cnt;	/* IN - The container to generate for */
-#endif
+Aword gelims(CntNod *cnt)	/* IN - The container to generate for */
 {
   List *lst;		/* List of limits */
   Aword limadr;
@@ -201,12 +168,7 @@ Aword gelims(cnt)
   Dump a limit node.
 
   */
-#ifdef _PROTOTYPES_
 void dulim(LimNod *lim)
-#else
-void dulim(lim) 
-     LimNod *lim;
-#endif
 {
   put("LIM: "); dusrcp(&lim->srcp); in();
   put("atr: "); duatr(lim->atr); nl();

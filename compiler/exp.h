@@ -121,7 +121,6 @@ typedef struct ExpNod {		/* EXPRESSION */
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Expression node */
 extern ExpNod *newexp(Srcp *srcp,
@@ -143,13 +142,5 @@ extern void dutyp(TypeKind typ);
 /* Dump an Expression */
 extern void duexp(ExpNod *exp);
 
-#else
-extern ExpNod *newexp();
-extern Bool eqtyp();
-extern void anexp();
-extern void geexp();
-extern void dutyp();
-extern void duexp();
-#endif
 
 #endif

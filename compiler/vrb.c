@@ -39,17 +39,9 @@ int vrbcount = 0;
   Allocates and initialises a vrbnod.
 
   */
-#ifdef _PROTOTYPES_
-VrbNod *newvrb(Srcp *srcp, List *nams, List *alts)
-                		/* IN - Source Position */
-                		/* IN - The verb names */
-                		/* IN - List of alternatives  */
-#else
-VrbNod *newvrb(srcp, nams, alts)
-     Srcp *srcp;		/* IN - Source Position */
-     List *nams;		/* IN - The verb names */
-     List *alts;		/* IN - List of alternatives  */
-#endif
+VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
+	       List *nams,	/* IN - The verb names */
+	       List *alts)	/* IN - List of alternatives  */
 {
   VrbNod *new;			/* The newly allocated area */
   SymNod *sym;
@@ -86,17 +78,9 @@ VrbNod *newvrb(srcp, nams, alts)
   Analyze one verb.
 
   */
-#ifdef _PROTOTYPES_
-static void anvrb(VrbNod *vrb, ObjNod *obj, ActNod *act)
-                 		/* IN - The verb to analyze */
-                 
-                 
-#else
-static void anvrb(vrb, obj, act)
-     VrbNod *vrb;		/* IN - The verb to analyze */
-     ObjNod *obj;
-     ActNod *act;
-#endif
+static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
+		  ObjNod *obj,                 
+		  ActNod *act)
 {
   List *lst, *nams, *stxs = NULL;
   StxNod *stx;
@@ -149,17 +133,9 @@ static void anvrb(vrb, obj, act)
   Analyze all verbs in a list.
 
   */
-#ifdef _PROTOTYPES_
-void anvrbs(List *vrbs, ObjNod *obj, ActNod *act)
-                		/* IN - The verbs to analyze */
-                 
-                 
-#else
-void anvrbs(vrbs, obj, act)
-     List *vrbs;		/* IN - The verbs to analyze */
-     ObjNod *obj;
-     ActNod *act;
-#endif
+void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
+	    ObjNod *obj,                 
+	    ActNod *act)
 {
   List *vrb, *nam, *lst, *other;
 
@@ -193,15 +169,8 @@ void anvrbs(vrbs, obj, act)
   Generate a procedure for the actions of a verb.
 
   */
-#ifdef _PROTOTYPES_
-static void gevrb(VrbNod *vrb, ActNod *act)
-                 		/* IN - The verb to generate */
-                 		/* IN - Inside any actor */
-#else
-static void gevrb(vrb, act)
-     VrbNod *vrb;		/* IN - The verb to generate */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+static void gevrb(VrbNod *vrb,	/* IN - The verb to generate */
+		  ActNod *act)	/* IN - Inside any actor */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -220,13 +189,7 @@ static void gevrb(vrb, act)
   Generate entries for one VERB.
 
   */
-#ifdef _PROTOTYPES_
-static void gevrbent(VrbNod *vrb)
-                 		/* IN - Verb to generate entry for */
-#else
-static void gevrbent(vrb)
-     VrbNod *vrb;		/* IN - Verb to generate entry for */
-#endif
+static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
 {
   List *nam;
 
@@ -245,15 +208,8 @@ static void gevrbent(vrb)
   Generate all verbs in a list.
 
   */
-#ifdef _PROTOTYPES_
-Aaddr gevrbs(List *vrbs, ActNod *act)
-                		/* IN - The list of verbs */
-                 		/* IN - Inside any actor */
-#else
-Aaddr gevrbs(vrbs, act)
-     List *vrbs;		/* IN - The list of verbs */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+Aaddr gevrbs(List *vrbs,	/* IN - The list of verbs */
+	     ActNod *act)	/* IN - Inside any actor */
 {
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
@@ -283,12 +239,7 @@ Aaddr gevrbs(vrbs, act)
   Dump a verb node.
 
   */
-#ifdef _PROTOTYPES_
 void duvrb (VrbNod *vrb)
-#else
-void duvrb (vrb)
-     VrbNod *vrb;
-#endif
 {
   if (vrb == NULL) {
     put("NULL");

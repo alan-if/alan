@@ -30,17 +30,9 @@
   Create a new synonym node.
 
   */
-#ifdef _PROTOTYPES_
-SynNod *newsyn(Srcp *srcp, List *nams, NamNod *nam)
-                	/* IN - Source position of the synonym */
-                	/* IN - List of synonyms */
-                 	/* IN - For the target name */
-#else
-SynNod *newsyn(srcp, nams, nam)
-     Srcp *srcp;	/* IN - Source position of the synonym */
-     List *nams;	/* IN - List of synonyms */
-     NamNod *nam;	/* IN - For the target name */
-#endif
+SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
+	       List *nams,	/* IN - List of synonyms */
+	       NamNod *nam)	/* IN - For the target name */
 {
   SynNod *new;
 
@@ -65,11 +57,7 @@ SynNod *newsyn(srcp, nams, nam)
   and inserting the synonyms.
 
   */
-#ifdef _PROTOTYPES_
 void ansyns(void)
-#else
-void ansyns()
-#endif
 {
   List *lst;		/* Traversal pointer for target list */
   List *slst;		/* Traversal pointer for synonyms lists */
@@ -101,12 +89,7 @@ void ansyns()
   Dump the contents of a Synonym node.
 
   */
-#ifdef _PROTOTYPES_
 void dusyn(SynNod *syn)
-#else
-void dusyn(syn)
-     SynNod *syn;
-#endif
 {
   if (syn == NULL) {
     put("NULL");

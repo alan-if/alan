@@ -22,16 +22,10 @@ extern List *includePaths;	/* The list of include paths to check */
 
 /* Common procedures */
 
-#ifdef _PROTOTYPES_
 
 extern void unimpl(Srcp *srcp, char *phase);
 extern void syserr(char str[]);
 extern void *allocate(int len);
 
-#else
-extern void unimpl();
-extern void syserr();
-extern void *allocate();
-#endif
 
 #endif

@@ -76,11 +76,7 @@ static struct {
   Start total timing.
 
  */
-#ifdef _PROTOTYPES_
 static void starttot(void)
-#else
-static void starttot()
-#endif
 {
   tistart(&totTime);
 }
@@ -93,11 +89,7 @@ static void starttot()
   Start compilation timing.
 
  */
-#ifdef _PROTOTYPES_
 static void startcomp(void)
-#else
-static void startcomp()
-#endif
 {
   tistart(&compTime);
 }
@@ -110,11 +102,7 @@ static void startcomp()
   Start timing.
 
  */
-#ifdef _PROTOTYPES_
 static void start(void)
-#else
-static void start()
-#endif
 {
   tistart(&tbuf);
 }
@@ -127,11 +115,7 @@ static void start()
   Note the time of parsing.
 
  */
-#ifdef _PROTOTYPES_
 static void endpars(void)
-#else
-static void endpars()
-#endif
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -149,11 +133,7 @@ static void endpars()
   Note the time of semantic analysis.
 
  */
-#ifdef _PROTOTYPES_
 static void endsem(void)
-#else
-static void endsem()
-#endif
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -171,11 +151,7 @@ static void endsem()
   Note the time of back-end acode generation.
 
  */
-#ifdef _PROTOTYPES_
 static void endgen(void)
-#else
-static void endgen()
-#endif
 {
   tistop(&tbuf);
 #ifdef MULTI
@@ -193,11 +169,7 @@ static void endgen()
   Note compilation time.
 
  */
-#ifdef _PROTOTYPES_
 static void endcomp(void)
-#else
-static void endcomp()
-#endif
 {
   tistop(&compTime);
 #ifdef MULTI
@@ -215,11 +187,7 @@ static void endcomp()
   Note total time.
 
  */
-#ifdef _PROTOTYPES_
 static void endtotal(void)
-#else
-static void endtotal()
-#endif
 {
   tistop(&totTime);
 #ifdef MULTI
@@ -237,11 +205,7 @@ static void endtotal()
   Print elapsed times.
 
  */
-#ifdef _PROTOTYPES_
 static void prtimes(void)
-#else
-static void prtimes()
-#endif
 {
   char str[80];
   
@@ -277,11 +241,7 @@ static void prtimes()
   Print some statistics.
 
  */
-#ifdef _PROTOTYPES_
 static void stats(void)
-#else
-static void stats()
-#endif
 {
   int lins;
   char str[80];
@@ -326,12 +286,7 @@ static void stats()
   Terminate the program with an error code.
 
  */
-#ifdef _PROTOTYPES_
 void terminate(int ecode)
-#else
-void terminate(ecode)
-     int ecode;		/* IN  - Error code */
-#endif
 {
 #ifdef __MWERKS__
 	printf("Command-Q to quit.");
@@ -345,15 +300,8 @@ void terminate(ecode)
   An unimplemented constrution was encountered.
 
  */
-#ifdef _PROTOTYPES_
-void unimpl(Srcp *srcp, char *phase)
-                		/* IN  - Where? */
-                 		/* IN  - What phase? */
-#else
-void unimpl(srcp, phase)
-     Srcp *srcp;		/* IN  - Where? */
-     char *phase;		/* IN  - What phase? */
-#endif
+void unimpl(Srcp *srcp,		/* IN  - Where? */
+	    char *phase)	/* IN  - What phase? */
 {
   lmLog(srcp, 998, sevWAR, phase);
 }
@@ -366,12 +314,7 @@ void unimpl(srcp, phase)
   Some kind of internal system error was detected. Log it.
 
  */
-#ifdef _PROTOTYPES_
 void syserr(char *str)
-#else
-void syserr(str)
-     char str[];
-#endif
 {
   lmLog(&nulsrcp, 997, sevSYS, str);
   lmList("", 0, 79, liTINY, sevALL);
@@ -386,13 +329,7 @@ void syserr(str)
   Safely allocate new memory.
 
 */
-#ifdef _PROTOTYPES_
-void *allocate(int len)
-             			/* IN - Length to allocate */
-#else
-void *allocate(len)
-     int len;			/* IN - Length to allocate */
-#endif
+void *allocate(int len)		/* IN - Length to allocate */
 {
   void *p = malloc((size_t)len);
 
@@ -518,11 +455,7 @@ SPA_END
   Prepare all file names needed.
 
  */
-#ifdef _PROTOTYPES_
 static void prepareNames(void)
-#else
-static void prepareNames()
-#endif
 {
   /* Save source file name */
   strcpy(srcfnm, srcptr);
@@ -572,15 +505,9 @@ static void prepareNames()
 
 \************************************************************************/
 
-#ifdef _PROTOTYPES_
 int main(int argc,		/* IN - argument count */
 	 char **argv		/* IN - program arguments */
 )
-#else
-int main(argc,argv)
-     int argc;			/* IN - argument count */
-     char *argv[];		/* IN - program arguments */
-#endif
 {
   int nArgs;			/* Number of supplied args */
   lmSev sevs;			/* Set of listing severities */

@@ -41,15 +41,8 @@
   Allocates and initialises a stmnod.
 
   */
-#ifdef _PROTOTYPES_
-StmNod *newstm(Srcp *srcp, StmKind class)
-                                /* IN - Source Position */
-                                /* IN - The statement class */
-#else
-StmNod *newstm(srcp, class)
-     Srcp *srcp;                /* IN - Source Position */
-     StmKind class;             /* IN - The statement class */
-#endif
+StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
+	       StmKind class)	/* IN - The statement class */
 {
   StmNod *new;                  /* The newly allocated area */
 
@@ -72,17 +65,9 @@ StmNod *newstm(srcp, class)
   Analyze a DESCRIBE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void andescribe(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possibly inside Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void andescribe(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - Possibly inside Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void andescribe(StmNod *stm, /* IN - The statement to analyze */
+		       EvtNod *evt, /* IN - Possibly inside Event? */
+		       List *pars) /* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -117,17 +102,9 @@ static void andescribe(stm, evt, pars)
   Analyze a SAY statement.
 
   */
-#ifdef _PROTOTYPES_
-static void ansay(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possibly inside Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void ansay(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - Possibly inside Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void ansay(StmNod *stm,	/* IN - The statement to analyze */
+		  EvtNod *evt,	/* IN - Possibly inside Event? */
+		  List *pars)	/* IN - Possible syntax parameters */
 {
   anexp(stm->fields.say.exp, evt, pars);
 }
@@ -140,15 +117,8 @@ static void ansay(stm, evt, pars)
   Analyze a LIST statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anlist(StmNod *stm, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possible syntax parameters */
-#else
-static void anlist(stm, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anlist(StmNod *stm,	/* IN - The statement to analyze */
+		   List *pars)	/* IN - Possible syntax parameters */
 {
   cntcheck(stm->fields.list.wht, pars);
 }
@@ -161,17 +131,9 @@ static void anlist(stm, pars)
   Analyze an EMPTY statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anempty(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Inside event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void anempty(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - Inside event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anempty(StmNod *stm, /* IN - The statement to analyze */
+		    EvtNod *evt, /* IN - Inside event? */
+		    List *pars)	/* IN - Possible syntax parameters */
 {
   cntcheck(stm->fields.list.wht, pars);
   anwhr(stm->fields.empty.whr, evt, pars);
@@ -185,17 +147,9 @@ static void anempty(stm, evt, pars)
   Analyze a LOCATE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anlocate(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possibly inside actor */
-                                /* IN - Possible syntax parameters */
-#else
-static void anlocate(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - Possibly inside actor */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anlocate(StmNod *stm, /* IN - The statement to analyze */
+		     EvtNod *evt, /* IN - Possibly inside actor */
+		     List *pars) /* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -253,17 +207,9 @@ static void anlocate(stm, evt, pars)
   Analyze a MAKE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anmake(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - inside an Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void anmake(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - inside an Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anmake(StmNod *stm,	/* IN - The statement to analyze */
+		   EvtNod *evt,	/* IN - inside an Event? */
+		   List *pars)	/* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -332,17 +278,9 @@ static void anmake(stm, evt, pars)
   Analyze a SET statement
 
   */
-#ifdef _PROTOTYPES_
-static void anset(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - inside an Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void anset(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - inside an Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anset(StmNod *stm,	/* IN - The statement to analyze */
+		  EvtNod *evt,	/* IN - inside an Event? */
+		  List *pars)	/* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -418,17 +356,9 @@ static void anset(stm, evt, pars)
   Analyze a INCR/DECR statement
 
   */
-#ifdef _PROTOTYPES_
-static void anincr(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - inside an Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void anincr(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - inside an Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anincr(StmNod *stm,	/* IN - The statement to analyze */
+		   EvtNod *evt,	/* IN - inside an Event? */
+		   List *pars)	/* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -501,17 +431,9 @@ static void anincr(stm, evt, pars)
   Analyze a SCHEDULE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anschedule(StmNod *stm, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - inside an Event? */
-                                /* IN - Possible syntax parameters */
-#else
-static void anschedule(stm, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     EvtNod *evt;               /* IN - inside an Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anschedule(StmNod *stm, /* IN - The statement to analyze */
+		       EvtNod *evt, /* IN - inside an Event? */
+		       List *pars) /* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -545,13 +467,7 @@ static void anschedule(stm, evt, pars)
   Analyze a CANCEL statement.
 
   */
-#ifdef _PROTOTYPES_
-static void ancancel(StmNod *stm)
-                                /* IN - The statement to analyze */
-#else
-static void ancancel(stm)
-     StmNod *stm;               /* IN - The statement to analyze */
-#endif
+static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -567,19 +483,10 @@ static void ancancel(stm)
   Analyze an IF statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anif(StmNod *stm, ActNod *act, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possibly inside Actor */
-                                /* IN - Possibly inside Event */
-                                /* IN - Possible syntax parameters */
-#else
-static void anif(stm, act, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     ActNod *act;               /* IN - Possibly inside Actor */
-     EvtNod *evt;               /* IN - Possibly inside Event */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anif(StmNod *stm,	/* IN - The statement to analyze */
+		 ActNod *act,	/* IN - Possibly inside Actor */
+		 EvtNod *evt,	/* IN - Possibly inside Event */
+		 List *pars)	/* IN - Possible syntax parameters */
 {
   anexp(stm->fields.iff.exp, evt, pars);
   if (!eqtyp(stm->fields.iff.exp->typ, TYPBOOL))
@@ -600,17 +507,9 @@ static void anif(stm, act, evt, pars)
   not).
 
   */
-#ifdef _PROTOTYPES_
-static void anuse(StmNod *stm, ActNod *act, List *pars)
-                                /* IN - Statement to analyze */
-                                /* IN - Possibly inside Actor */
-                                /* IN - Possible syntax parameters */
-#else
-static void anuse(stm, act, pars)
-     StmNod *stm;               /* IN - Statement to analyze */
-     ActNod *act;               /* IN - Possibly inside Actor */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anuse(StmNod *stm,	/* IN - Statement to analyze */
+		  ActNod *act,	/* IN - Possibly inside Actor */
+		  List *pars)	/* IN - Possible syntax parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -660,19 +559,10 @@ static void anuse(stm, act, pars)
   Analyze one statement.
 
   */
-#ifdef _PROTOTYPES_
-static void anstm(StmNod *stm, ActNod *act, EvtNod *evt, List *pars)
-                                /* IN - The statement to analyze */
-                                /* IN - Possibly inside Actor */
-                                /* IN - Possibly inside Event */
-                                /* IN - Possible syntax parameters */
-#else
-static void anstm(stm, act, evt, pars)
-     StmNod *stm;               /* IN - The statement to analyze */
-     ActNod *act;               /* IN - Possibly inside Actor */
-     EvtNod *evt;               /* IN - Possibly inside Event */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+static void anstm(StmNod *stm,	/* IN - The statement to analyze */
+		  ActNod *act,	/* IN - Possibly inside Actor */
+		  EvtNod *evt,	/* IN - Possibly inside Event */
+		  List *pars)	/* IN - Possible syntax parameters */
 {
   switch (stm->class) {
   case STM_NOP:
@@ -744,19 +634,10 @@ static void anstm(stm, act, evt, pars)
   Analyze all statements in a list.
 
   */
-#ifdef _PROTOTYPES_
-void anstms(List *stms, ActNod *act, EvtNod *evt, List *pars)
-                                /* IN - The list of statements to analyze */
-                                /* IN - Within Actor? */
-                                /* IN - Within Event? */
-                                /* IN - Possible syntax parameters */
-#else
-void anstms(stms, act, evt, pars)
-     List *stms;                /* IN - The list of statements to analyze */
-     ActNod *act;               /* IN - Within Actor? */
-     EvtNod *evt;               /* IN - Within Event? */
-     List *pars;                /* IN - Possible syntax parameters */
-#endif
+void anstms(List *stms,		/* IN - The list of statements to analyze */
+	    ActNod *act,	/* IN - Within Actor? */
+	    EvtNod *evt,	/* IN - Within Event? */
+	    List *pars)		/* IN - Possible syntax parameters */
 {
   while (stms != NULL) {
     anstm(stms->element.stm, act, evt, pars);
@@ -773,13 +654,7 @@ void anstms(stms, act, evt, pars)
   data file (and encoded if requested!).
 
   */
-#ifdef _PROTOTYPES_
-static void geprint(StmNod *stm)
-                                /* IN - The statement to generate */
-#else
-static void geprint(stm)
-     StmNod *stm;               /* IN - The statement to generate */
-#endif
+static void geprint(StmNod *stm) /* IN - The statement to generate */
 {
   encode(&stm->fields.print.fpos, &stm->fields.print.len);
   emit0(C_CONST, stm->fields.print.len);
@@ -796,13 +671,7 @@ static void geprint(stm)
   Generate a SCORE statement
 
   */
-#ifdef _PROTOTYPES_
-static void gescore(StmNod *stm)
-                                /* IN - The statement to generate */
-#else
-static void gescore(stm)
-     StmNod *stm;               /* IN - The statement to generate */
-#endif
+static void gescore(StmNod *stm) /* IN - The statement to generate */
 {
   emit0(C_CONST, stm->fields.score.count);
   emit0(C_STMOP, I_SCORE);
@@ -817,13 +686,7 @@ static void gescore(stm)
   Generate code to implement a DESCRIBE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gedescribe(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void gedescribe(stm)
-     StmNod *stm;               /* IN - Statement */
-#endif
+static void gedescribe(StmNod *stm) /* IN - Statement */
 {
   switch (stm->fields.describe.wht->wht) {
 
@@ -859,13 +722,7 @@ static void gedescribe(stm)
   Generate code for a SAY statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gesay(StmNod *stm)
-                                /* IN - The statement to analyze */
-#else
-static void gesay(stm)
-     StmNod *stm;               /* IN - The statement to analyze */
-#endif
+static void gesay(StmNod *stm)	/* IN - The statement to analyze */
 {
   geexp(stm->fields.say.exp);
   switch (stm->fields.say.exp->typ) {
@@ -892,13 +749,7 @@ static void gesay(stm)
   Generate code to implement a LIST statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gelist(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void gelist(stm)
-     StmNod *stm;               /* IN - Statement */
-#endif
+static void gelist(StmNod *stm)	/* IN - Statement */
 {
   if (stm->fields.list.wht->wht == WHT_ID) {
     genam(stm->fields.list.wht->nam);
@@ -916,13 +767,7 @@ static void gelist(stm)
   Generate code to implement the EMPTY statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geempty(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void geempty(stm)
-     StmNod *stm;               /* IN - Statement */
-#endif
+static void geempty(StmNod *stm) /* IN - Statement */
 {
   if (stm->fields.empty.wht->wht == WHT_ID) {
     gewhr(stm->fields.empty.whr);
@@ -941,13 +786,7 @@ static void geempty(stm)
   Generate code to implement a LOCATE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gelocate(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void gelocate(stm)
-    StmNod *stm;                /* IN - Statement */
-#endif
+static void gelocate(StmNod *stm) /* IN - Statement */
 {
   gewhr(stm->fields.locate.whr);
   gewht(stm->fields.locate.wht);
@@ -963,13 +802,7 @@ static void gelocate(stm)
   Generate code to implement a MAKE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gemake(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void gemake(stm)
-    StmNod *stm;                /* IN - Statement */
-#endif
+static void gemake(StmNod *stm)	/* IN - Statement */
 {
   emit0(C_CONST, !stm->fields.make.not);
   emit0(C_CONST, stm->fields.make.atr->code);
@@ -987,13 +820,7 @@ static void gemake(stm)
   Generate code to implement a SET statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geset(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void geset(stm)
-    StmNod *stm;                /* IN - Statement */
-#endif
+static void geset(StmNod *stm)	/* IN - Statement */
 {
   geexp(stm->fields.set.exp);
 
@@ -1014,13 +841,7 @@ static void geset(stm)
   Generate code to implement a INCR/DECR statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geincr(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void geincr(stm)
-    StmNod *stm;                /* IN - Statement */
-#endif
+static void geincr(StmNod *stm)	/* IN - Statement */
 {
   if (stm->fields.incr.step != NULL)
     geexp(stm->fields.incr.step);
@@ -1044,13 +865,7 @@ static void geincr(stm)
   Generate code to implement a SCHEDULE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geschedule(StmNod *stm)
-                                /* IN - Statement */
-#else
-static void geschedule(stm)
-     StmNod *stm;               /* IN - Statement */
-#endif
+static void geschedule(StmNod *stm) /* IN - Statement */
 {
   emit0(C_CONST, stm->fields.schedule.when);
 
@@ -1083,13 +898,7 @@ static void geschedule(stm)
   Generate code to implement the CANCEL statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gecancel(StmNod *stm)
-                                /* IN - Statement to generate */
-#else
-static void gecancel(stm)
-     StmNod *stm;               /* IN - Statement to generate */
-#endif
+static void gecancel(StmNod *stm) /* IN - Statement to generate */
 {
   genam(stm->fields.schedule.nam);
   emit0(C_STMOP, I_CANCEL);
@@ -1102,15 +911,8 @@ static void gecancel(stm)
   Generate code to implement a IF statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geif(StmNod *stm, ActNod *act)
-                                /* IN - Statement */
-                                /* IN - Inside any actor */
-#else
-static void geif(stm, act)
-     StmNod *stm;               /* IN - Statement */
-     ActNod *act;               /* IN - Inside any actor */
-#endif
+static void geif(StmNod *stm,	/* IN - Statement */
+		 ActNod *act)	/* IN - Inside any actor */
 {
   geexp(stm->fields.iff.exp);
   emit0(C_STMOP, I_IF);
@@ -1131,15 +933,7 @@ static void geif(stm, act)
   Generate USE statement.
 
   */
-#ifdef _PROTOTYPES_
-static void geuse(StmNod *stm, ActNod *act)
-                                /* IN - Statement */
-                 
-#else
-static void geuse(stm, act)
-     StmNod *stm;               /* IN - Statement */
-     ActNod *act;
-#endif
+static void geuse(StmNod *stm, ActNod *act) /* IN - Statement */
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
@@ -1161,15 +955,7 @@ static void geuse(stm, act)
   Generate SYSTEM statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gesystem(StmNod *stm, ActNod *act)
-                                /* IN - Statement */
-                 
-#else
-static void gesystem(stm, act)
-     StmNod *stm;               /* IN - Statement */
-     ActNod *act;
-#endif
+static void gesystem(StmNod *stm, ActNod *act) /* IN - Statement */
 {
   encode(&stm->fields.system.fpos, &stm->fields.system.len);
   emit0(C_CONST, stm->fields.system.len);
@@ -1186,15 +972,8 @@ static void gesystem(stm, act)
   Generate code for one statement.
 
   */
-#ifdef _PROTOTYPES_
-static void gestm(StmNod *stm, ActNod *act)
-                                /* IN - The statement to generate */
-                                /* IN - Inside actor? */
-#else
-static void gestm(stm, act)
-     StmNod *stm;               /* IN - The statement to generate */
-     ActNod *act;               /* IN - Inside actor? */
-#endif
+static void gestm(StmNod *stm,	/* IN - The statement to generate */
+		  ActNod *act)	/* IN - Inside actor? */
 {
   switch (stm->class) {
 
@@ -1301,15 +1080,8 @@ static void gestm(stm, act)
   Generate code for all the statements in a list.
 
   */
-#ifdef _PROTOTYPES_
-void gestms(List *stms, ActNod *act)
-                                /* IN - The statements to generate */
-                                /* IN - Inside any actor */
-#else
-void gestms(stms, act)
-     List *stms;                /* IN - The statements to generate */
-     ActNod *act;               /* IN - Inside any actor */
-#endif
+void gestms(List *stms,		/* IN - The statements to generate */
+	    ActNod *act)	/* IN - Inside any actor */
 {
   while (stms != NULL) {
     gestm(stms->element.stm, act);
@@ -1326,12 +1098,7 @@ void gestms(stms, act)
   Dump a statement node.
 
   */
-#ifdef _PROTOTYPES_
 void dustm(StmNod *stm)
-#else
-void dustm(stm)
-     StmNod *stm;
-#endif
 {
   if (stm == NULL) {
     put("NULL");

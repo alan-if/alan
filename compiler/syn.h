@@ -27,7 +27,6 @@ typedef struct SynNod {
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Synonym node */
 extern SynNod *newsyn(Srcp *srcp,
@@ -39,10 +38,5 @@ extern void ansyns(void);
 
 extern void dusyn(SynNod *syn);
 
-#else
-extern SynNod *newsyn();
-extern void ansyns();
-extern void dusyn();
-#endif
 
 #endif

@@ -147,7 +147,6 @@ typedef struct StmNod {		/* STATEMENT */
 
 /* Methods: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Statement node */
 extern StmNod *newstm(Srcp *srcp,
@@ -165,11 +164,5 @@ extern void gestms(List *stms, ActNod *act);
 /* Dump a statement node */
 extern void dustm(StmNod *stm);
 
-#else
-extern StmNod *newstm();
-extern void anstms();
-extern void gestms();
-extern void dustm();
-#endif
 
 #endif

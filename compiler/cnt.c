@@ -41,21 +41,11 @@ int cntcount = 0;
   Allocates and initialises a cntnod.
 
  */
-#ifdef _PROTOTYPES_
-CntNod *newcnt(Srcp *srcp, NamNod *nam, List *lims, List *hstms, List *estms)
-                	/* IN - Source Position */
-                 	/* IN - The name of the container */
-                	/* IN - Limits */
-                 	/* IN - Header statements */
-                 	/* IN - Else (empty) statements */
-#else
-CntNod *newcnt(srcp, nam, lims, hstms, estms)
-     Srcp *srcp;	/* IN - Source Position */
-     NamNod *nam;	/* IN - The name of the container */
-     List *lims;	/* IN - Limits */
-     List *hstms;	/* IN - Header statements */
-     List *estms;	/* IN - Else (empty) statements */
-#endif
+CntNod *newcnt(Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - The name of the container */
+	       List *lims,	/* IN - Limits */
+	       List *hstms,	/* IN - Header statements */
+	       List *estms)	/* IN - Else (empty) statements */
 {
   CntNod *new;		/* The newly allocated area */
   CntNod *cnt;
@@ -103,11 +93,7 @@ CntNod *newcnt(srcp, nam, lims, hstms, estms)
   Do initialisation of containers.
 
   */
-#ifdef _PROTOTYPES_
 void initcnt(void)
-#else
-void initcnt()
-#endif
 {
   adv.cnts = concat(NULL,
 		    newcnt(&nulsrcp, newnam(&nulsrcp, "inventory"),
@@ -124,15 +110,8 @@ void initcnt()
   error message.
 
  */
-#ifdef _PROTOTYPES_
-void cntcheck(WhtNod *wht, List *pars)
-                 		/* IN - What to check */
-                		/* IN - Possible parameters */
-#else
-void cntcheck(wht, pars)
-     WhtNod *wht;		/* IN - What to check */
-     List *pars;		/* IN - Possible parameters */
-#endif
+void cntcheck(WhtNod *wht,	/* IN - What to check */
+	      List *pars)	/* IN - Possible parameters */
 {
   SymNod *sym;			/* The symbol table node */
   ObjNod *obj;			/* Possible object node */
@@ -203,13 +182,7 @@ void cntcheck(wht, pars)
   Analyze one container.
 
   */
-#ifdef _PROTOTYPES_
-void ancnt(CntNod *cnt)
-                		/* IN - The container to analyze */
-#else
-void ancnt(cnt)
-    CntNod *cnt;		/* IN - The container to analyze */
-#endif
+void ancnt(CntNod *cnt)		/* IN - The container to analyze */
 {
   long fpos;			/* File position of name text */
   int len;			/* and length */
@@ -245,11 +218,7 @@ void ancnt(cnt)
   Analyze the global containers of this adventure.
 
   */
-#ifdef _PROTOTYPES_
 void ancnts(void)
-#else
-void ancnts()
-#endif
 {
   List *cnts;	/* List of containers */
 
@@ -266,13 +235,7 @@ void ancnts()
   Generate code for one container.
 
   */
-#ifdef _PROTOTYPES_
-static void gecnt(CntNod *cnt)
-                 		/* IN - The container to generate */
-#else
-static void gecnt(cnt)
-     CntNod *cnt;		/* IN - The container to generate */
-#endif
+static void gecnt(CntNod *cnt)	/* IN - The container to generate */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -309,13 +272,7 @@ static void gecnt(cnt)
   Generate an entry in the global container list.
 
   */
-#ifdef _PROTOTYPES_
-static void gecntent(CntNod *cnt)
-                 		/* IN - The container to generate entry for */
-#else
-static void gecntent(cnt)
-     CntNod *cnt;		/* IN - The container to generate entry for */
-#endif
+static void gecntent(CntNod *cnt) /* IN - The container to generate entry for */
 {
   emit(cnt->limadr);
   emit(cnt->hadr);
@@ -335,11 +292,7 @@ static void gecntent(cnt)
   Generate code for all containers.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr gecnts(void)
-#else
-Aaddr gecnts()
-#endif
 {
   List *lst;			/* The list of containers */
   Aaddr adr;
@@ -369,12 +322,7 @@ Aaddr gecnts()
   Dump a Container node.
 
   */
-#ifdef _PROTOTYPES_
 void ducnt(CntNod *cnt)
-#else
-void ducnt(cnt)
-     CntNod *cnt;
-#endif
 {
   if (cnt == NULL) {
     put("NULL");

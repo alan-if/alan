@@ -32,7 +32,6 @@ typedef struct WhtNod {		/* WHAT nodes */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new What node */
 extern WhtNod *newwht(Srcp *srcp,
@@ -45,10 +44,5 @@ extern void gewht(WhtNod *wht);
 /* Dump a What node */
 extern void duwht(WhtNod *wht);
 
-#else
-extern WhtNod *newwht();
-extern void gewht();
-extern void duwht();
-#endif
 
 #endif

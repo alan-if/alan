@@ -27,7 +27,6 @@ typedef struct MsgNod {
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new node with a message declaration */
 extern MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms);
@@ -44,12 +43,5 @@ extern Aword gemsgs(void);
 /* Generate a text string as a encoded message in the data file */
 extern void getxt(char txt[]);
 
-#else
-extern MsgNod *newmsg();
-extern void prepmsgs();
-extern void anmsgs();
-extern Aword gemsgs();
-extern void getxt();
-#endif
 
 #endif

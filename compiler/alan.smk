@@ -41,13 +41,8 @@ extern smScContext lexContext;
 /* List of file names */
 extern List *fileNames;
 
-#ifdef _PROTOTYPES_
 extern Bool smScanEnter(char fnm[], Bool search);
 extern int scannedLines(void);
-#else
-extern Bool smScanEnter();
-extern int scannedLines();
-#endif
 
 %%DECLARATIONS
 
@@ -67,17 +62,10 @@ int scannedLines();
 /* PRIVATE */
 static lines = 0;		/* Updated at end of each file */
 
-#ifdef _PROTOTYPES_
 Bool smScanEnter(
 		 char fnm[],	/* IN - Name of file to open */
 		 Bool search	/* IN - Search the include paths */
 ){
-#else
-Bool smScanEnter(fnm, search)
-  char fnm[];			/* IN - Name of file to open */
-  Bool search;			/* IN - Search the include paths */
-{
-#endif
   smScContext this;
   char fnmbuf[300] = "";
 
@@ -130,11 +118,7 @@ Bool smScanEnter(fnm, search)
   return TRUE;
 }
 
-#ifdef _PROTOTYPES_
 int scannedLines(void)
-#else
-int scannedLines()
-#endif
 {
   return(lines - 1);
 }

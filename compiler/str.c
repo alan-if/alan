@@ -33,13 +33,7 @@ static struct strnod {         /* A tree containing all ids */
   dynamically allocates space for it. Returns a pointer to the string.
 
   */
-#ifdef _PROTOTYPES_
-char *newstr(char *str)
-                		/* IN - The string to insert */
-#else
-char *newstr(str)
-     char str[];		/* IN - The string to insert */
-#endif
+char *newstr(char *str)		/* IN - The string to insert */
 {
   struct strnod *s, *next;	/* To traversal pointers */
   int comp = 1;			/* Comparison value */

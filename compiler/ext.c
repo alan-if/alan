@@ -41,21 +41,11 @@ int dircount = 0;
   Allocates and initialises an extnod.
 
  */
-#ifdef _PROTOTYPES_
-ExtNod *newext(Srcp *srcp, List *dirs, NamNod *to, List *chks, List *stms)
-                		/* IN - Source Position */
-                		/* IN - Directions of this ext */
-                		/* IN - Name of the location it leads to */
-                		/* IN - List of checks to perform first */
-                		/* IN - The statements to execute */
-#else
-ExtNod *newext(srcp, dirs, to, chks, stms)
-     Srcp *srcp;		/* IN - Source Position */
-     List *dirs;		/* IN - Directions of this ext */
-     NamNod *to;		/* IN - Name of the location it leads to */
-     List *chks;		/* IN - List of checks to perform first */
-     List *stms;		/* IN - The statements to execute */
-#endif
+ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
+	       List *dirs,	/* IN - Directions of this ext */
+	       NamNod *to,	/* IN - Name of the location it leads to */
+	       List *chks,	/* IN - List of checks to perform first */
+	       List *stms)	/* IN - The statements to execute */
 {
   ExtNod *new;			/* The newly created node */
   SymNod *sym;
@@ -94,13 +84,7 @@ ExtNod *newext(srcp, dirs, to, chks, stms)
   Analyzes one exit.
 
  */
-#ifdef _PROTOTYPES_
-static void anext(ExtNod *ext)
-                 		/* IN - Exit to analyze */
-#else
-static void anext(ext)
-     ExtNod *ext;		/* IN - Exit to analyze */
-#endif
+static void anext(ExtNod *ext)	/* IN - Exit to analyze */
 {
   SymNod *sym;			/* Symbol table entry */
   ElmNod *elm;
@@ -121,13 +105,7 @@ static void anext(ext)
   exits.
 
  */
-#ifdef _PROTOTYPES_
-void anexts(List *exts)
-                		/* IN - List of exits to analyze */
-#else
-void anexts(exts)
-     List *exts;		/* IN - List of exits to analyze */
-#endif
+void anexts(List *exts)		/* IN - List of exits to analyze */
 {
   List *ext, *dir, *lst, *other;
 
@@ -166,13 +144,7 @@ void anexts(exts)
   Generate the stms for one exit.
 
  */
-#ifdef _PROTOTYPES_
-static Aaddr geexstms(ExtNod *ext)
-                 		/* IN - The exit to generate */
-#else
-static Aaddr geexstms(ext)
-     ExtNod *ext;		/* IN - The exit to generate */
-#endif
+static Aaddr geexstms(ExtNod *ext) /* IN - The exit to generate */
 {
   Aaddr stmadr = emadr();
 
@@ -193,13 +165,7 @@ static Aaddr geexstms(ext)
   Generate one exit in an exit list.
 
  */
-#ifdef _PROTOTYPES_
-static void geextent(ExtNod *ext)
-                 		/* IN - The exit to generate */
-#else
-static void geextent(ext)
-     ExtNod *ext;		/* IN - The exit to generate */
-#endif
+static void geextent(ExtNod *ext) /* IN - The exit to generate */
 {
   List *dir;
   Bool same = FALSE;
@@ -232,13 +198,7 @@ static void geextent(ext)
   Generate the data structure for the exits for a location.
 
  */
-#ifdef _PROTOTYPES_
-Aaddr geexts(List *exts)
-                		/* IN - The exits */
-#else
-Aaddr geexts(exts)
-     List *exts;		/* IN - The exits */
-#endif
+Aaddr geexts(List *exts)	/* IN - The exits */
 {
   List *lst;			/* Traversal pointer */
   Aaddr extadr;			/* The adress where the exits start */
@@ -271,12 +231,7 @@ Aaddr geexts(exts)
   Dump an Exit node.
 
  */
-#ifdef _PROTOTYPES_
 void duext(ExtNod *ext)
-#else
-void duext(ext)
-     ExtNod *ext;
-#endif
 {
   if (ext == NULL) {
     put("NULL");

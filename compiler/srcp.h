@@ -22,10 +22,6 @@ typedef struct Srcp {
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 extern void dusrcp(Srcp *srcp);
-#else
-extern void dusrcp();
-#endif
 
 #endif

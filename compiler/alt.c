@@ -34,21 +34,11 @@
   Allocates and initialises a syntax element node.
 
  */
-#ifdef _PROTOTYPES_
-AltNod *newalt(Srcp *srcp, NamNod *nam, List *chks, QualKind qual, List *stms)
-                		/* IN - Source Position */
-                 		/* IN - The name */
-                		/* IN - Checks */
-                   		/* IN - Action qualifier */
-                		/* IN - Statements (does-part) */
-#else
-AltNod *newalt(srcp, nam, chks, qual, stms)
-     Srcp *srcp;		/* IN - Source Position */
-     NamNod *nam;		/* IN - The name */
-     List *chks;		/* IN - Checks */
-     QualKind qual;		/* IN - Action qualifier */
-     List *stms;		/* IN - Statements (does-part) */
-#endif
+AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - The name */
+	       List *chks,	/* IN - Checks */
+	       QualKind qual,	/* IN - Action qualifier */
+	       List *stms)	/* IN - Statements (does-part) */
 {
   AltNod *new;			/* The newly created node */
 
@@ -74,17 +64,9 @@ AltNod *newalt(srcp, nam, chks, qual, stms)
   Analyzes one verb alternative node.
 
  */
-#ifdef _PROTOTYPES_
-static void analt(AltNod *alt, ActNod *act, List *pars)
-                 		/* IN - Alternative to analyze */
-                 		/* IN - Possibly inside Actor? */
-                		/* IN - Possible parameters */
-#else
-static void analt(alt, act, pars)
-     AltNod *alt;		/* IN - Alternative to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor? */
-     List *pars;		/* IN - Possible parameters */
-#endif
+static void analt(AltNod *alt,	/* IN - Alternative to analyze */
+		  ActNod *act,	/* IN - Possibly inside Actor? */
+		  List *pars)	/* IN - Possible parameters */
 {
   List *lst;
 
@@ -115,17 +97,9 @@ static void analt(alt, act, pars)
   each.
 
  */
-#ifdef _PROTOTYPES_
-void analts(List *alts, ActNod *act, List *pars)
-                		/* IN - List of alternative to analyze */
-                 		/* IN - Possibly inside Actor? */
-                		/* IN - Possible parameter list */
-#else
-void analts(alts, act, pars)
-     List *alts;		/* IN - List of alternative to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor? */
-     List *pars;		/* IN - Possible parameter list */
-#endif
+void analts(List *alts,		/* IN - List of alternative to analyze */
+	    ActNod *act,	/* IN - Possibly inside Actor? */
+	    List *pars)		/* IN - Possible parameter list */
 {
   List *lst;
 
@@ -142,13 +116,7 @@ void analts(alts, act, pars)
   Generate an entry in an alt-table
   
   */
-#ifdef _PROTOTYPES_
-static void gealtent(AltNod *alt)
-                 		/* IN - The alt to make an entry for */
-#else
-static void gealtent(alt)
-     AltNod *alt;		/* IN - The alt to make an entry for */
-#endif
+static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
 {
   emit(0);			/* Auto-Reverse flag */
 
@@ -191,15 +159,8 @@ static void gealtent(alt)
   Generate code for one syntax element node.
 
  */
-#ifdef _PROTOTYPES_
-static void gealt(AltNod *alt, ActNod *act)
-                 		/* IN - Syntax element to generate */
-                 		/* IN - Inside any actor */
-#else
-static void gealt(alt, act)
-     AltNod *alt;		/* IN - Syntax element to generate */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+static void gealt(AltNod *alt,	/* IN - Syntax element to generate */
+		  ActNod *act)	/* IN - Inside any actor */
 {
   /* First the action, if there is any */
   if (alt->stms == NULL)
@@ -226,15 +187,8 @@ static void gealt(alt, act)
   Generate the data structure for the syntax elements.
 
  */
-#ifdef _PROTOTYPES_
-Aaddr gealts(List *alts, ActNod *act)
-                		/* IN - The elements */
-                 		/* IN - Inside any actor */
-#else
-Aaddr gealts(alts, act)
-     List *alts;		/* IN - The elements */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+Aaddr gealts(List *alts,	/* IN - The elements */
+	     ActNod *act)	/* IN - Inside any actor */
 {
   List *lst;
   Aaddr altadr;
@@ -259,12 +213,7 @@ Aaddr gealts(alts, act)
   Dump a verb qualifier.
 
   */
-#ifdef _PROTOTYPES_
 static void duqual (QualKind qual)
-#else
-static void duqual (qual)
-     QualKind qual;
-#endif
 {
   switch (qual) {
   case QUAL_AFTER:   put("AFTER"); break;
@@ -284,12 +233,7 @@ static void duqual (qual)
   Dump a verb Alternative node.
 
  */
-#ifdef _PROTOTYPES_
 void dualt(AltNod *alt)
-#else
-void dualt(alt)
-     AltNod *alt;
-#endif
 {
   if (alt == NULL) {
     put("NULL");

@@ -40,7 +40,6 @@ extern int loccount;
 
 /* Functions: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Location node */
 extern LocNod *newloc(Srcp *srcp,
@@ -64,12 +63,5 @@ extern Aword gelocs(void);
 /* Dump a Location node */
 extern void duloc(LocNod *loc);
 
-#else
-extern LocNod *newloc();
-extern void preplocs();
-extern void anlocs();
-extern Aword gelocs();
-extern void duloc();
-#endif
 
 #endif

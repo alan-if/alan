@@ -18,12 +18,7 @@
   Dump a Source Position.
 
   */
-#ifdef _PROTOTYPES_
 void dusrcp(Srcp *srcp)
-#else
-void dusrcp(srcp)
-     Srcp *srcp;
-#endif
 {
   char str[20];
 

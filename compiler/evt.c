@@ -36,17 +36,9 @@ int evtcount = 0;
   Allocates and initialises a new evtnod.
 
   */
-#ifdef _PROTOTYPES_
-EvtNod *newevt(Srcp *srcp, NamNod *nam, List *stms)
-                	/* IN - Source Position */
-                 	/* IN - Name of the event */
-                	/* IN - Statements to execute */
-#else
-EvtNod *newevt(srcp, nam, stms)
-     Srcp *srcp;	/* IN - Source Position */
-     NamNod *nam;	/* IN - Name of the event */
-     List *stms;	/* IN - Statements to execute */
-#endif
+EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - Name of the event */
+	       List *stms)	/* IN - Statements to execute */
 {
   EvtNod *new;		/* The newly allocated node */
   SymNod *sym;		/* Symbol table entry */
@@ -78,11 +70,7 @@ EvtNod *newevt(srcp, nam, stms)
   events.
 
   */
-#ifdef _PROTOTYPES_
 void anevts(void)
-#else
-void anevts()
-#endif
 {
     List *evts;		/* Traversal pointer */
 
@@ -101,13 +89,7 @@ void anevts()
   Generate one event.
 
   */
-#ifdef _PROTOTYPES_
-static void geevt(EvtNod *evt)
-                 	/* IN - The event to generate */
-#else
-static void geevt(evt)
-     EvtNod *evt;	/* IN - The event to generate */
-#endif
+static void geevt(EvtNod *evt)	/* IN - The event to generate */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -129,11 +111,7 @@ static void geevt(evt)
   Generate the events.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr geevts(void)
-#else
-Aaddr geevts()
-#endif
 {
   List *lst;	/* Traversal pointer */
   Aaddr adr;
@@ -160,12 +138,7 @@ Aaddr geevts()
   Dump an Event node.
 
   */
-#ifdef _PROTOTYPES_
 void duevt(EvtNod *evt)
-#else
-void duevt(evt)
-     EvtNod *evt;
-#endif
 {
   if (evt == NULL) {
     put("NULL");

@@ -39,13 +39,7 @@ static WrdNod *lwrd;	/* The last word found by findwrd() */
   Look for a word in the dictionary.
 
   */
-#ifdef _PROTOTYPES_
-WrdNod *findwrd(char *str)
-                		/* IN - The string */
-#else
-WrdNod *findwrd(str)
-     char str[];		/* IN - The string */
-#endif
+WrdNod *findwrd(char *str)	/* IN - The string */
 {
   WrdNod *wrd;			/* Traversal pointers */
   int comp = 1;			/* Result of comparison */
@@ -73,19 +67,11 @@ WrdNod *findwrd(str)
   Creates a new wrdnod and links it in the wrdtree.
 
   */
-#ifdef _PROTOTYPES_
-int newwrd(char *str, WrdKind class, int code, NamNod *ref)
-                		/* IN - Name of the new word */
-                   		/* IN - and its class */
-              			/* IN - and code */
-                 		/* IN - What it refers to */
-#else
-int newwrd(str, class, code, ref)
-     char str[];		/* IN - Name of the new word */
-     WrdKind class;		/* IN - and its class */
-     int code;			/* IN - and code */
-     NamNod *ref;		/* IN - What it refers to */
-#endif
+int newwrd(char *str,		/* IN - Name of the new word */
+	   WrdKind class,	/* IN - and its class */
+	   int code,		/* IN - and code */
+	   NamNod *ref)		/* IN - The entity nodes it refers to,
+				   NamNod is generic */
 {
   WrdNod *new;			/* The newly created wrdnod */
   WrdNod *wrd;			/* The wrdnod found in dictionary */
@@ -149,11 +135,7 @@ int newwrd(str, class, code, ref)
   selected language, for example.
  
   */
-#ifdef _PROTOTYPES_
 void prepwrds(void)
-#else
-void prepwrds()
-#endif
 {
 
   /* Some words in the dictionary */
@@ -198,13 +180,7 @@ static int refidx;
   Generate reference lists for all entries in the Dictionary.
 
   */
-#ifdef _PROTOTYPES_
-static void gewrdref(WrdNod *wrd)
-                          /* IN - Word to generate for */
-#else
-static void gewrdref(wrd)
-     WrdNod *wrd;         /* IN - Word to generate for */
-#endif
+static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
 {
   List *lst;
   
@@ -245,13 +221,7 @@ static void gewrdref(wrd)
   Generate strings for all entries in the dictionary.
 
   */
-#ifdef _PROTOTYPES_
-static void gewrdstr(WrdNod *wrd)
-                          /* IN - Word to generate for */
-#else
-static void gewrdstr(wrd)
-     WrdNod *wrd;         /* IN - Word to generate for */
-#endif
+static void gewrdstr(WrdNod *wrd) /* IN - Word to generate for */
 {
   if (wrd == NULL)
     return;
@@ -278,13 +248,7 @@ static void gewrdstr(wrd)
   the dictionary.
 
   */
-#ifdef _PROTOTYPES_
-static void gewrdent(WrdNod *wrd)
-                          /* IN - The word to generate an entry for */
-#else
-static void gewrdent(wrd)
-     WrdNod *wrd;         /* IN - The word to generate an entry for */
-#endif
+static void gewrdent(WrdNod *wrd) /* IN - The word to generate an entry for */
 {
   if (wrd->low != NULL)
     gewrdent(wrd->low);
@@ -318,11 +282,7 @@ static void gewrdent(wrd)
   Generates the words in the dictionary of course.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr gewrds(void)
-#else
-Aaddr gewrds()
-#endif
 {
   Aaddr adr;
 

@@ -66,12 +66,7 @@ static char **enumtbl[NOPT] = {
   Convert an option name to a code.
 
   */
-#ifdef _PROTOTYPES_
 static int optcode(char *id)
-#else
-static int optcode(id)
-     char id[];
-#endif
 {
   int opt;
 
@@ -90,13 +85,7 @@ static int optcode(id)
   Convert an option enum name to a code.
 
   */
-#ifdef _PROTOTYPES_
 static int enumcode(int opt, char *id)
-#else
-static int enumcode(opt, id)
-     int opt;
-     char id[];
-#endif
 {
   char **names;
   int i;
@@ -119,14 +108,7 @@ static int enumcode(opt, id)
   Handle an INTEGER option.
 
   */
-#ifdef _PROTOTYPES_
 void optint(char *id, Srcp *srcp, int val)
-#else
-void optint(id, srcp, val)
-     char id[];
-     Srcp *srcp;
-     int val;
-#endif
 {
   int opt;
 
@@ -159,14 +141,7 @@ void optint(id, srcp, val)
   Handle an ENUM option.
 
   */
-#ifdef _PROTOTYPES_
 void optenum(char *id, Srcp *srcp, char *val)
-#else
-void optenum(id, srcp, val)
-     char id[];
-     Srcp *srcp;
-     char val[];
-#endif
 {
   int opt, code;
 
@@ -203,14 +178,7 @@ void optenum(id, srcp, val)
   Handle a BOOLEAN option.
 
   */
-#ifdef _PROTOTYPES_
 void optBool(char *id, Srcp *srcp, int val)
-#else
-void optBool(id, srcp, val)
-     char id[];
-     Srcp *srcp;
-     int val;
-#endif
 {
   int opt;
 
@@ -241,13 +209,8 @@ void optBool(id, srcp, val)
   Generate all options, i.e. copy the values into the header.
 
   */
-#ifdef _PROTOTYPES_
 void geopt(AcdHdr *header)
                     	/* OUT - the header struct to fill */
-#else
-void geopt(header)
-     AcdHdr *header;	/* OUT - the header struct to fill */
-#endif
 {
   header->paglen = opts[OPTLEN].value;
   header->pagwidth = opts[OPTWIDTH].value;

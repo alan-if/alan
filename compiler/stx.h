@@ -36,7 +36,6 @@ typedef struct StxNod {		/* SYNTAX */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Syntax node */
 extern StxNod *newstx(Srcp *srcp,
@@ -60,13 +59,5 @@ extern Aaddr gestxs(void);
 /* Dump a Syntax node */
 extern void dustx(StxNod *stx);
 
-#else
-extern StxNod *newstx();
-extern StxNod *defaultStx();
-extern Bool eqparams();
-extern void anstxs();
-extern Aaddr gestxs();
-extern void dustx();
-#endif
 
 #endif

@@ -42,7 +42,6 @@ extern int cntcount;
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Initialise container data */
 extern void initcnt(void);
@@ -69,13 +68,5 @@ extern Aaddr gecnts(void);
 /* Dump a Container node */
 extern void ducnt(CntNod *cnt);
 
-#else
-extern void initcnt();
-extern CntNod *newcnt();
-extern void ancnts();
-extern void cntcheck();
-extern Aaddr gecnts();
-extern void ducnt();
-#endif
 
 #endif

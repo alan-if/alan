@@ -32,7 +32,6 @@ extern int rulcount;
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Allocate a new Rule node */
 extern RulNod *newrul(Srcp *srcp,
@@ -48,11 +47,5 @@ extern Aaddr geruls(void);
 /* Dump a Rule node */
 extern void durul(RulNod *rul);
 
-#else
-extern RulNod *newrul();
-extern void anruls();
-extern Aaddr geruls();
-extern void durul();
-#endif
 
 #endif

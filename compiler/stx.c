@@ -35,19 +35,10 @@
   Allocates and initialises a syntax node.
 
  */
-#ifdef _PROTOTYPES_
-StxNod *newstx(Srcp *srcp, NamNod *nam, List *elms, List *ress)
-                		/* IN - Source Position */
-                 		/* IN - Name of the verb it defines */
-                		/* IN - List of elements */
-                		/* IN - List of class restrictions */
-#else
-StxNod *newstx(srcp, nam, elms, ress)
-     Srcp *srcp;		/* IN - Source Position */
-     NamNod *nam;		/* IN - Name of the verb it defines */
-     List *elms;		/* IN - List of elements */
-     List *ress;		/* IN - List of class restrictions */
-#endif
+StxNod *newstx(Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - Name of the verb it defines */
+	       List *elms,	/* IN - List of elements */
+	       List *ress)	/* IN - List of class restrictions */
 {
   StxNod *new;			/* The newly created node */
 
@@ -74,13 +65,7 @@ StxNod *newstx(srcp, nam, elms, ress)
   Analyzes one syntax node.
 
  */
-#ifdef _PROTOTYPES_
-static void anstx(StxNod *stx)
-                 		/* IN - Syntax node to analyze */
-#else
-static void anstx(stx)
-     StxNod *stx;		/* IN - Syntax node to analyze */
-#endif
+static void anstx(StxNod *stx)	/* IN - Syntax node to analyze */
 {
   SymNod *sym;
 
@@ -114,11 +99,7 @@ static void anstx(stx)
   each one.
 
  */
-#ifdef _PROTOTYPES_
 void anstxs(void)
-#else
-void anstxs()
-#endif
 {
   List *lst, *other;
 
@@ -149,13 +130,7 @@ void anstxs()
   Syntax x = x (object).
 
  */
-#ifdef _PROTOTYPES_
-StxNod *defaultStx(char *vrbstr)
-                   		/* IN - The string for the verb */
-#else
-StxNod *defaultStx(vrbstr)
-     char vrbstr[];		/* IN - The string for the verb */
-#endif
+StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
 {
   StxNod *stx;
   List *elms;
@@ -182,15 +157,8 @@ StxNod *defaultStx(vrbstr)
   compatible (same ordering with same parameter names).
 
   */
-#ifdef _PROTOTYPES_
-Bool eqparams(StxNod *stx1, StxNod *stx2)
-                  		/* IN - Syntax node to compare */
-                  		/* IN - Syntax node to compare */
-#else
-Bool eqparams(stx1, stx2)
-     StxNod *stx1;		/* IN - Syntax node to compare */
-     StxNod *stx2;		/* IN - Syntax node to compare */
-#endif
+Bool eqparams(StxNod *stx1,	/* IN - Syntax node to compare */
+	      StxNod *stx2)	/* IN - Syntax node to compare */
 {
   List *elm1, *elm2;
 
@@ -213,13 +181,7 @@ Bool eqparams(stx1, stx2)
   Generate one syntax node.
 
  */
-#ifdef _PROTOTYPES_
-static void gestx(StxNod *stx)
-                 		/* IN - Syntax node to generate for */
-#else
-static void gestx(stx)
-     StxNod *stx;		/* IN - Syntax node to generate for */
-#endif
+static void gestx(StxNod *stx)	/* IN - Syntax node to generate for */
 {
   WrdNod *wrd;
   List *lst = NULL;
@@ -254,13 +216,7 @@ static void gestx(stx)
   Generate a table entry for one syntax node.
 
  */
-#ifdef _PROTOTYPES_
-static void gestxent(StxNod *stx)
-                 		/* IN - Syntax node to generate for */
-#else
-static void gestxent(stx)
-     StxNod *stx;		/* IN - Syntax node to generate for */
-#endif
+static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
@@ -280,11 +236,7 @@ static void gestxent(stx)
   adventure.
 
  */
-#ifdef _PROTOTYPES_
 Aaddr gestxs(void)
-#else
-Aaddr gestxs()
-#endif
 {
   List *lst;
   Aaddr stxadr;
@@ -314,12 +266,7 @@ Aaddr gestxs()
   Dump an Syntax node.
 
  */
-#ifdef _PROTOTYPES_
 void dustx(StxNod *stx)
-#else
-void dustx(stx)
-     StxNod *stx;
-#endif
 {
   if (stx == NULL) {
     put("NULL");

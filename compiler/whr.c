@@ -29,17 +29,9 @@
   Create a new Where node.
 
   */
-#ifdef _PROTOTYPES_
-WhrNod *newwhr(Srcp *srcp, WhrKind whr, WhtNod *wht)
-                		/* IN - Source position */
-                 		/* IN - Where kind */
-                 		/* IN - What */
-#else
-WhrNod *newwhr(srcp, whr, wht)
-     Srcp *srcp;		/* IN - Source position */
-     WhrKind whr;		/* IN - Where kind */
-     WhtNod *wht;		/* IN - What */
-#endif
+WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
+	       WhrKind whr,	/* IN - Where kind */
+	       WhtNod *wht)	/* IN - What */
 {
   WhrNod *new;
 
@@ -62,17 +54,9 @@ WhrNod *newwhr(srcp, whr, wht)
   Analyse a where reference.
 
   */
-#ifdef _PROTOTYPES_
-void anwhr(WhrNod *whr, EvtNod *evt, List *pars)
-                 		/* IN - Where node */
-                 		/* IN - Inside Event? */
-                		/* IN - Possible parameters */
-#else
-void anwhr(whr, evt, pars)
-     WhrNod *whr;		/* IN - Where node */
-     EvtNod *evt;		/* IN - Inside Event? */
-     List *pars;		/* IN - Possible parameters */
-#endif
+void anwhr(WhrNod *whr,		/* IN - Where node */
+	   EvtNod *evt,		/* IN - Inside Event? */
+	   List *pars)		/* IN - Possible parameters */
 {
   SymNod *sym;
   ElmNod *elm;
@@ -120,13 +104,7 @@ void anwhr(whr, evt, pars)
   Generate a location reference according to the WHR.
 
   */
-#ifdef _PROTOTYPES_
-void gewhr(WhrNod *whr)
-                 		/* IN - Where node */
-#else
-void gewhr(whr)
-     WhrNod *whr;		/* IN - Where node */
-#endif
+void gewhr(WhrNod *whr)		/* IN - Where node */
 {
   switch (whr->whr) {
 
@@ -175,12 +153,7 @@ void gewhr(whr)
   Dump a Where node
 
   */
-#ifdef _PROTOTYPES_
 void duwhr(WhrNod *whr)
-#else
-void duwhr(whr)
-     WhrNod *whr;
-#endif
 {
   if (whr == NULL) {
     put("NULL");

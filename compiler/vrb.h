@@ -36,7 +36,6 @@ extern int vrbcount;
 
 /* Methods: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Verb node */
 extern VrbNod *newvrb(Srcp *srcp,
@@ -54,11 +53,5 @@ extern Aaddr gevrbs(List *vrbs, ActNod *act);
 /* Dump a Verb */
 extern void duvrb(VrbNod *vrb);
 
-#else
-extern VrbNod *newvrb();
-extern void anvrbs();
-extern Aaddr gevrbs();
-extern void duvrb();
-#endif
 
 #endif

@@ -45,28 +45,16 @@ int actcount = 0;
   Allocates and initialises a new actnod.
 
  */
-#ifdef _PROTOTYPES_
-ActNod *newact(Srcp *srcp, NamNod *nam, List *namslst, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *vrbs, List *scrs)
-                		/* IN - Source Position */
-                 		/* IN - Name of the actor */
-                		/* IN - List of names */
-                 		/* IN - Where initially */
-                		/* IN - Attribute list */
-                		/* IN - Description statements */
-                		/* IN - Local verbs */
-                		/* IN - List of scripts */
-#else
-ActNod *newact(srcp, nam, namslst, whr, props, atrs, dscr, vrbs, scrs)
-     Srcp *srcp;		/* IN - Source Position */
-     NamNod *nam;		/* IN - Name of the actor */
-     List *namslst;		/* IN - List of lists of names */
-     WhrNod *whr;		/* IN - Where initially */
-     CntNod *props;		/* IN - Container properties */
-     List *atrs;		/* IN - Attribute list */
-     List *dscr;		/* IN - Description statements */
-     List *vrbs;		/* IN - Local verbs */
-     List *scrs;		/* IN - List of scripts */
-#endif
+ActNod *newact(
+	       Srcp *srcp,	/* IN - Source Position */
+	       NamNod *nam,	/* IN - Name of the actor */
+	       List *namslst,	/* IN - List of names */
+	       WhrNod *whr,	/* IN - Where initially */
+	       CntNod *props,	/* IN - The container properties, if any */
+	       List *atrs,	/* IN - Attribute list */
+	       List *dscr,	/* IN - Description statements */
+	       List *vrbs,	/* IN - Local verbs */
+	       List *scrs)	/* IN - List of scripts */
 {
   ActNod *new;			/* The newly allocated node */
   SymNod *sym;			/* Symbol table entry */
@@ -134,11 +122,7 @@ ActNod *newact(srcp, nam, namslst, whr, props, atrs, dscr, vrbs, scrs)
   Do initialisation of actors.
 
  */
-#ifdef _PROTOTYPES_
 void initact(void)
-#else
-void initact()
-#endif
 {
   /* The HERO */
   adv.acts = concat(NULL,
@@ -162,11 +146,7 @@ void initact()
   Prepare all actors and their attributes.
 
  */
-#ifdef _PROTOTYPES_
 void prepacts(void)
-#else
-void prepacts()
-#endif
 {
   List *lst;			/* List pointer */
   ActNod *act;			/* Actor node */
@@ -220,12 +200,7 @@ void prepacts()
   Analyze one actor.
   
   */
-#ifdef _PROTOTYPES_
 static void anact(ActNod *act)
-#else
-static void anact(act)
-     ActNod *act;
-#endif
 {
   long fpos;
   int len;
@@ -299,11 +274,7 @@ static void anact(act)
   Analyze the actors in this adventure.
 
  */
-#ifdef _PROTOTYPES_
 void anacts(void)
-#else
-void anacts()
-#endif
 {
   List *act;		/* Traversal pointer */
 
@@ -321,12 +292,7 @@ void anacts()
   Generate the script routines etc. for one actor.
 
  */
-#ifdef _PROTOTYPES_
 static void geact(ActNod *act)
-#else
-static void geact(act)
-     ActNod *act;
-#endif
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -363,13 +329,7 @@ static void geact(act)
   Generate a table entry for one actor.
 
  */
-#ifdef _PROTOTYPES_
-static void geactent(ActNod *act)
-                 		/* IN - The actor to generate */
-#else
-static void geactent(act)
-     ActNod *act;		/* IN - The actor to generate */
-#endif
+static void geactent(ActNod *act) /* IN - The actor to generate */
 {
 
   if (act->nam->code == 1) 	/* The hero! */
@@ -413,11 +373,7 @@ static void geactent(act)
   actor table.
 
  */
-#ifdef _PROTOTYPES_
 Aword geacts(void)
-#else
-Aword geacts()
-#endif
 {
   List *lst;
   Aword adr;
@@ -443,12 +399,7 @@ Aword geacts()
   Dump an Actor node.
 
  */
-#ifdef _PROTOTYPES_
 void duact(ActNod *act)
-#else
-void duact(act)
-     ActNod *act;
-#endif
 {
   put("ACT: "); dusrcp(&act->srcp); in();
   put("nam: "); dunam(act->nam); nl();

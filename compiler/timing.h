@@ -23,12 +23,6 @@ typedef enum { TIP_PROC, TIP_CHILD, TIP_REAL } TI_TIME;
 typedef enum { TIP_S_F, TIP_M_S, TIP_M_S_F } TI_MODE;
 
 
-#ifdef _PROTOTYPES_
 extern void tistart(TIBUFP tb);
 extern void tistop(TIBUFP tb);
 extern void tipr(TIBUFP tb, TI_TIME type, TI_MODE mode);
-#else
-extern void tistart();
-extern void tistop();
-extern void tipr();
-#endif

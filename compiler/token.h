@@ -25,8 +25,5 @@ typedef struct Token {
 /* Data: */
 
 /* Functions: */
-#ifdef _PROTOTYPES_
-#else
-#endif
 
 #endif

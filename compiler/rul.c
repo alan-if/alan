@@ -35,17 +35,9 @@ int rulcount = 0;
   Allocates and initialises a new rulnod.
 
   */
-#ifdef _PROTOTYPES_
-RulNod *newrul(Srcp *srcp, ExpNod *exp, List *stms)
-                	/* IN - Source Position */
-                 	/* IN - Expression to wait for */
-                	/* IN - List of statements */
-#else
-RulNod *newrul(srcp, exp, stms)
-     Srcp *srcp;	/* IN - Source Position */
-     ExpNod *exp;	/* IN - Expression to wait for */
-     List *stms;	/* IN - List of statements */
-#endif
+RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
+	       ExpNod *exp,	/* IN - Expression to wait for */
+	       List *stms)	/* IN - List of statements */
 {
   RulNod *new;		/* The newly allocated node */
 
@@ -70,12 +62,7 @@ RulNod *newrul(srcp, exp, stms)
   Analyze one rule
 
   */
-#ifdef _PROTOTYPES_
 static void anrul(RulNod *rul)
-#else
-static void anrul(rul)
-     RulNod *rul;
-#endif
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -93,11 +80,7 @@ static void anrul(rul)
   Analyze the rules in this adventure;
 
   */
-#ifdef _PROTOTYPES_
 void anruls(void)
-#else
-void anruls()
-#endif
 {
   List *rul;		/* Traversal pointer */
 
@@ -115,11 +98,7 @@ void anruls()
   Generate all rules to be checked between actor moves.
 
   */
-#ifdef _PROTOTYPES_
 Aaddr geruls(void)
-#else
-Aaddr geruls()
-#endif
 {
   List *lst;
   Aaddr adr;
@@ -153,12 +132,7 @@ Aaddr geruls()
   Dump a Rule node
 
   */
-#ifdef _PROTOTYPES_
 void durul(RulNod *rul)
-#else
-void durul(rul)
-     RulNod *rul;
-#endif
 {
   put("RUL: "); dusrcp(&rul->srcp); in();
   put("exp: "); duexp(rul->exp); nl();

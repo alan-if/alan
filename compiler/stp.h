@@ -33,7 +33,6 @@ typedef struct StpNod {		/* STEP */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 extern StpNod *newstp(Srcp *srcp,
 		      int after,
@@ -49,11 +48,5 @@ extern Aaddr gestps(List *stps, ActNod *act);
 /* Dump a Step node */
 extern void dustp(StpNod *stp);
 
-#else
-extern StpNod *newstp();
-extern void anstps();
-extern Aaddr gestps();
-extern void dustp();
-#endif
 
 #endif

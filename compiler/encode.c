@@ -41,13 +41,7 @@ static int
   Increment the frequency for a particular character.
 
  */
-#ifdef _PROTOTYPES_
-void incFreq(int ch)
-            			/* IN - The character to increment for */
-#else
-void incFreq(ch)
-     int ch;			/* IN - The character to increment for */
-#endif
+void incFreq(int ch)		/* IN - The character to increment for */
 {
   chFreq[ch]++;
 
@@ -65,23 +59,13 @@ static int buffer;			/* Bit buffer */
 static int bitsToGo;			/* Available space in buffer */
 
 
-#ifdef _PROTOTYPES_
 static void startOutputingBits(void)
-#else
-static void startOutputingBits()
-#endif
 {
   bitsToGo = 8;
 }
 
 
-#ifdef _PROTOTYPES_
-static void outputBit(int bit)
-             			/* IN - the bit to output */
-#else
-static void outputBit(bit)
-     int bit;			/* IN - the bit to output */
-#endif
+static void outputBit(int bit)	/* IN - the bit to output */
 {
   buffer = buffer>>1;		/* Make space for another bit */
   if (bit)
@@ -96,11 +80,7 @@ static void outputBit(bit)
 }
 
 
-#ifdef _PROTOTYPES_
 static void doneOutputingBits(void)
-#else
-static void doneOutputingBits()
-#endif
 {
   putc(buffer>>bitsToGo, datfil);
   txtlen++;
@@ -114,13 +94,7 @@ static int bitsToFollow;	/* Number of bits to output */
 				/* after next bit */
 
 
-#ifdef _PROTOTYPES_
-static void bitPlusFollow(int bit)
-             			/* IN - the bit to output */
-#else
-static void bitPlusFollow(bit)
-     int bit;			/* IN - the bit to output */
-#endif
+static void bitPlusFollow(int bit) /* IN - the bit to output */
 {
   outputBit(bit);
   while (bitsToFollow) {
@@ -130,11 +104,7 @@ static void bitPlusFollow(bit)
 }
 
 
-#ifdef _PROTOTYPES_
 static void startEncoding(void)
-#else
-static void startEncoding()
-#endif
 {
   low = 0;
   high = TOPVALUE;
@@ -142,12 +112,7 @@ static void startEncoding()
 }
 
 
-#ifdef _PROTOTYPES_
 static void encodeChar(int ch)
-#else
-static void encodeChar(ch)
-     int ch;
-#endif
 {
   int symbol = ch + 1;
   long range;			/* Size of the current code region */
@@ -179,11 +144,7 @@ static void encodeChar(ch)
 }
 
 
-#ifdef _PROTOTYPES_
 static void doneEncoding(void)
-#else
-static void doneEncoding()
-#endif
 {
   /* Output two bits that selects the current code range */
   bitsToFollow++;
@@ -203,11 +164,7 @@ static void doneEncoding()
   by dividing all character frequencies by 2.
 
  */
-#ifdef _PROTOTYPES_
 void eninit(void)
-#else
-void eninit()
-#endif
 {
   int i;
   Bool ok = FALSE;		/* Model is ok? */
@@ -246,15 +203,8 @@ void eninit()
   just copied.
 
  */
-#ifdef _PROTOTYPES_
-void encode(long int *fpos, int *length)
-                		/* INOUT - The file position */
-                 		/* INOUT - Data length */
-#else
-void encode(fpos, length)
-     long *fpos;		/* INOUT - The file position */
-     int *length;		/* INOUT - Data length */
-#endif
+void encode(long int *fpos,	/* INOUT - The file position */
+	    int *length)	/* INOUT - Data length */
 {
   int len;
   int ch;
@@ -290,11 +240,7 @@ void encode(fpos, length)
   text again. 
 
   */
-#ifdef _PROTOTYPES_
 Aaddr gefreq(void)
-#else
-Aaddr gefreq()
-#endif
 {
   int i;
   Aaddr adr = emadr();
@@ -318,11 +264,7 @@ Aaddr gefreq()
   Terminate the encoding process.
 
  */
-#ifdef _PROTOTYPES_
 void enterm(void)
-#else
-void enterm()
-#endif
 {
   int t;
 

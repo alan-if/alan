@@ -22,17 +22,9 @@
   Create a new What node.
 
   */
-#ifdef _PROTOTYPES_
-WhtNod *newwht(Srcp *srcp, WhtKind wht, NamNod *nam)
-                		/* IN - Source position */
-                 		/* IN - What kind */
-                 		/* IN - Name or NULL */
-#else
-WhtNod *newwht(srcp, wht, nam)
-     Srcp *srcp;		/* IN - Source position */
-     WhtKind wht;		/* IN - What kind */
-     NamNod *nam;		/* IN - Name or NULL */
-#endif
+WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
+	       WhtKind wht,	/* IN - What kind */
+	       NamNod *nam)	/* IN - Name or NULL */
 {
   WhtNod *new;
 
@@ -56,13 +48,7 @@ WhtNod *newwht(srcp, wht, nam)
   Generate code for a reference to What.
 
   */
-#ifdef _PROTOTYPES_
-void gewht(WhtNod *wht)
-                 		/* IN - What to generate */
-#else
-void gewht(wht)
-     WhtNod *wht;		/* IN - What to generate */
-#endif
+void gewht(WhtNod *wht)		/* IN - What to generate */
 {
   switch (wht->wht) {
   case WHT_OBJ:
@@ -89,12 +75,7 @@ void gewht(wht)
   Dump a WHT node.
 
   */
-#ifdef _PROTOTYPES_
 void duwht(WhtNod *wht)
-#else
-void duwht(wht)
-     WhtNod *wht;
-#endif
 {
   if (wht == NULL) {
     put("NULL");

@@ -55,7 +55,6 @@ typedef struct NamNod {		/* NAME */
 
 /* Methods: */
 
-#ifdef _PROTOTYPES_
 
 /* Create a new Name node */
 extern NamNod *newnam(Srcp *srcp,
@@ -75,12 +74,5 @@ extern void genam(NamNod *nam);
 /* Dump a Name node */
 extern void dunam(NamNod *nam);
 
-#else
-extern NamNod *newnam();
-extern Bool eqnams();
-extern int annams();
-extern void genam();
-extern void dunam();
-#endif
 
 #endif

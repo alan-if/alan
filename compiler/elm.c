@@ -44,18 +44,10 @@ typedef struct ElmEntry {
   Allocates and initialises a syntax element node.
 
  */
-#ifdef _PROTOTYPES_
-ElmNod *newelm(Srcp *srcp,		/* IN - Source Position */
-			   ElmKind kind, /* IN - Kind of element (parm or word) */
-			   NamNod *nam,	/* IN - The name */
-			   int flags) /* IN - Flags for omni/multiple... */
-#else
-ElmNod *newelm(srcp, kind, nam, multiple)
-     Srcp *srcp;
-     ElmKind kind;
-     NamNod *nam;
-     Bool multiple;
-#endif
+ElmNod *newelm(Srcp *srcp,	/* IN - Source Position */
+	       ElmKind kind,	/* IN - Kind of element (parm or word) */
+	       NamNod *nam,	/* IN - The name */
+	       int flags)	/* IN - Flags for omni/multiple... */
 {
   ElmNod *new;					/* The newly created node */
 
@@ -81,13 +73,7 @@ ElmNod *newelm(srcp, kind, nam, multiple)
   Analyzes one syntax element node.
 
  */
-#ifdef _PROTOTYPES_
-static void anelm(ElmNod *elm)
-                 		/* IN - Syntax element to analyze */
-#else
-static void anelm(elm)
-     ElmNod *elm;		/* IN - Syntax element to analyze */
-#endif
+static void anelm(ElmNod *elm)	/* IN - Syntax element to analyze */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -114,18 +100,11 @@ static void anelm(elm)
 
   Analyzes all elements in a list by calling the analyzer for all.
  */
-#ifdef _PROTOTYPES_
 List *anelms(
-     List *elms,		/* IN - List to analyze */
-     List *ress,		/* IN - The class restrictions */
-     StxNod *stx		/* IN - The stx we're in */
+	     List *elms,	/* IN - List to analyze */
+	     List *ress,	/* IN - The class restrictions */
+	     StxNod *stx	/* IN - The stx we're in */
 )
-#else
-List *anelms(elms, ress, stx)
-     List *elms;		/* IN - List to analyze */
-     List *ress;		/* IN - The class restrictions */
-     StxNod *stx;		/* IN - The stx we're in */
-#endif
 {
   ElmNod *elm = elms->element.elm; /* Set to be the first */
   List *lst, *resLst, *pars = NULL;
@@ -191,15 +170,8 @@ List *anelms(elms, ress, stx)
   the same.
 
   */
-#ifdef _PROTOTYPES_
-static Bool eqElms(List *elm1, List *elm2)
-                		/* IN - One list pointer */
-                		/* IN - The other */
-#else
-static Bool eqElms(elm1, elm2)
-     List *elm1;		/* IN - One list pointer */
-     List *elm2;		/* IN - The other */
-#endif
+static Bool eqElms(List *elm1,	/* IN - One list pointer */
+		   List *elm2)	/* IN - The other */
 {
   if (elm1 == NULL)
     return (elm2 == NULL);
@@ -222,13 +194,7 @@ static Bool eqElms(elm1, elm2)
   was terminated here.
 
   */
-#ifdef _PROTOTYPES_
-static Aaddr advance(List *elmsList)
-                    		/* IN - The list to advance */
-#else
-static Aaddr advance(elmsList)
-     List *elmsList;		/* IN - The list to advance */
-#endif
+static Aaddr advance(List *elmsList) /* IN - The list to advance */
 {
   List *elms;
   Aaddr resadr = 0;		/* Saved address to class restriction */
@@ -249,13 +215,7 @@ static Aaddr advance(elmsList)
   Remove the first element from a list and return that.
 
   */
-#ifdef _PROTOTYPES_
-static List *first(List **listP)
-                  		/* IN OUT - Address of pointer to list */
-#else
-static List *first(listP)
-     List **listP;		/* IN OUT - Address of pointer to list */
-#endif
+static List *first(List **listP) /* IN OUT - Address of pointer to list */
 {
   List *theFirst = *listP;
 
@@ -279,13 +239,7 @@ static List *first(listP)
   geelms().
 
   */
-#ifdef _PROTOTYPES_
-static List *partition(List **elmsListP)
-                      		/* INOUT - Address to pointer to the list */
-#else
-static List *partition(elmsListP)
-     List **elmsListP;		/* INOUT - Address to pointer to the list */
-#endif
+static List *partition(List **elmsListP) /* INOUT - Address to pointer to the list */
 {
   List *part, *rest, *elms, *this, *p;
   Bool emptyFound = FALSE;	/* Have we already found an empty element? */
@@ -344,14 +298,7 @@ static List *partition(elmsListP)
   this group pointing to the next level for each group, a.s.o.
 
  */
-#ifdef _PROTOTYPES_
-Aaddr geelms(List *elms, StxNod *stx)
-                		/* IN - The elements */
-#else
-Aaddr geelms(elms, stx)
-     List *elms;		/* IN - The elements */
-     StxNod *stx;		/* IN - The Syntax this belongs to */
-#endif
+Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
 {
   List *lst;			/* Traversal list */
   List *part;			/* The current partion */
@@ -415,12 +362,7 @@ Aaddr geelms(elms, stx)
   Dump a Syntax element node.
 
  */
-#ifdef _PROTOTYPES_
 void duelm(ElmNod *elm)
-#else
-void duelm(elm)
-     ElmNod *elm;
-#endif
 {
   if (elm == NULL) {
     put("NULL");

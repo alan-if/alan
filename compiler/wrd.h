@@ -34,7 +34,6 @@ extern int words[];
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Find a Word in the dictonary */
 extern WrdNod *findwrd(char str[]);
@@ -51,11 +50,5 @@ extern void prepwrds(void);
 /* Generate all Words in the dictionary */
 extern Aaddr gewrds(void);
 
-#else
-extern WrdNod *findwrd();
-extern int newwrd();
-extern void prepwrds();
-extern Aaddr gewrds();
-#endif
 
 #endif

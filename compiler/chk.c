@@ -29,15 +29,8 @@
   Allocates and initialises a chknod.
 
  */
-#ifdef _PROTOTYPES_
-ChkNod *newchk(ExpNod *exp, List *stms)
-                 		/* IN - Expression for this CHECK */
-                		/* IN - Statements for a false CHECK */
-#else
-ChkNod *newchk(exp, stms)
-     ExpNod *exp;		/* IN - Expression for this CHECK */
-     List *stms;		/* IN - Statements for a false CHECK */
-#endif
+ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
+	       List *stms)	/* IN - Statements for a false CHECK */
 {
   ChkNod *new;			/* The newly allocated area */
 
@@ -59,17 +52,9 @@ ChkNod *newchk(exp, stms)
   Analyze one CHECK.
 
  */
-#ifdef _PROTOTYPES_
-static void anchk(ChkNod *chk, ActNod *act, List *pars)
-                 		/* IN - Check to analyze */
-                 		/* IN - Possibly inside Actor? */
-                		/* IN - Possible parameters */
-#else
-static void anchk(chk, act, pars)
-     ChkNod *chk;		/* IN - Check to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor? */
-     List *pars;		/* IN - Possible parameters */
-#endif
+static void anchk(ChkNod *chk,	/* IN - Check to analyze */
+		  ActNod *act,	/* IN - Possibly inside Actor? */
+		  List *pars)	/* IN - Possible parameters */
 {
     anexp(chk->exp, NULL, pars);
     anstms(chk->stms, act, NULL, pars);
@@ -84,17 +69,9 @@ static void anchk(chk, act, pars)
   Analyze all CHECKs in a list.
 
  */
-#ifdef _PROTOTYPES_
-void anchks(List *chks, ActNod *act, List *pars)
-                		/* IN - Checks to analyze */
-                 		/* IN - Possibly inside Actor? */
-                		/* IN - Possible parameter list */
-#else
-void anchks(chks, act, pars)
-     List *chks;		/* IN - Checks to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor? */
-     List *pars;		/* IN - Possible parameter list */
-#endif
+void anchks(List *chks,		/* IN - Checks to analyze */
+	    ActNod *act,	/* IN - Possibly inside Actor? */
+	    List *pars)		/* IN - Possible parameter list */
 {
   while (chks != NULL) {
     anchk(chks->element.chk, act, pars);
@@ -112,15 +89,9 @@ void anchks(chks, act, pars)
   Generate code for the CHECKs for a verb or exit.
 
  */
-#ifdef _PROTOTYPES_
-Aword gechks(List *chks, ActNod *act)		/* RETURNS - Address to check table */
-                		/* IN - The CHECKs to generate */
-                 		/* IN - Inside any actor */
-#else
-Aword gechks(chks, act)		/* RETURNS - Address to check table */
-     List *chks;		/* IN - The CHECKs to generate */
-     ActNod *act;		/* IN - Inside any actor */
-#endif
+Aword gechks(List *chks,	/* IN - The CHECKs to generate */
+	     ActNod *act)	/* IN - Inside any actor */
+     /* RETURNS - Address to check table */
 {
   List *lst;			/* Traversal pointer */
   Aword tbladr;			/* Save ACODE address to check table */
@@ -162,12 +133,7 @@ Aword gechks(chks, act)		/* RETURNS - Address to check table */
   Dump a Check node.
 
  */
-#ifdef _PROTOTYPES_
 void duchk(ChkNod *chk)
-#else
-void duchk(chk)
-     ChkNod *chk;
-#endif
 {
   if (chk == NULL) {
     put("NULL");

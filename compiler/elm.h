@@ -43,7 +43,6 @@ typedef struct ElmNod {		/* ELEMENT */
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Syntax Element node */
 extern ElmNod *newelm(Srcp *srcp,
@@ -60,11 +59,5 @@ extern Aaddr geelms(List *elms, StxNod *stx);
 /* Dump a Syntax node */
 extern void duelm(ElmNod *elm);
 
-#else
-extern ElmNod *newelm();
-extern List *anelms();
-extern Aaddr geelms();
-extern void duelm();
-#endif
 
 #endif

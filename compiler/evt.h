@@ -34,7 +34,6 @@ extern int evtcount;
 
 
 /* Functions: */
-#ifdef _PROTOTYPES_
 
 /* Create a new Event node */
 extern EvtNod *newevt(Srcp *srcp,
@@ -50,11 +49,5 @@ extern Aaddr geevts(void);
 /* Dump an Event node */
 extern void duevt(EvtNod *evt);
 
-#else
-extern EvtNod *newevt();
-extern void anevts();
-extern Aaddr geevts();
-extern void duevt();
-#endif
 
 #endif

@@ -31,23 +31,14 @@ static char strbuf[256] = "";
 static int indent = 0;
 
 
-#ifdef _PROTOTYPES_
 void put(char *str)
-#else
-void put(str)
-     char str[];
-#endif
 {
   strcat(strbuf, str);
 }
 
 
 
-#ifdef _PROTOTYPES_
 void nl(void)
-#else
-void nl()
-#endif
 {
   int i;
 
@@ -59,33 +50,20 @@ void nl()
 }
 
 
-#ifdef _PROTOTYPES_
 void in(void)
-#else
-void in()
-#endif
 {
   indent++;
   nl();
 }
 
 
-#ifdef _PROTOTYPES_
 void out(void)
-#else
-void out()
-#endif
 {
   indent--;
 }
 
 
-#ifdef _PROTOTYPES_
 void dustr(char *s)
-#else
-void dustr(s)
-     char s[];
-#endif
 {
   put("\"");
   put(s);
@@ -93,12 +71,7 @@ void dustr(s)
 }
 
 
-#ifdef _PROTOTYPES_
 void duint(int i)
-#else
-void duint(i)
-     int i;
-#endif
 {
   char buf[20];
 
@@ -107,12 +80,7 @@ void duint(i)
 }
 
 
-#ifdef _PROTOTYPES_
 void duadr(int i)
-#else
-void duadr(i)
-     int i;
-#endif
 {
   char buf[20];
 
@@ -121,12 +89,7 @@ void duadr(i)
 }
 
 
-#ifdef _PROTOTYPES_
 void duptr(void *adr)
-#else
-void duptr(adr)
-     char *adr;
-#endif
 {
   char buf[20];
 
@@ -135,12 +98,7 @@ void duptr(adr)
 }
 
 
-#ifdef _PROTOTYPES_
 void duBool(Bool b)
-#else
-void duBool(b)
-     Bool b;
-#endif
 {
   if (b)
     put("TRUE");

@@ -70,12 +70,7 @@
 
 %%DECLARATIONS
 
-#ifdef _PROTOTYPES_
 static int val(char str[])
-#else
-static int val(str)
-     char str[];
-#endif
 {
   int temp;
 

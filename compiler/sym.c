@@ -34,17 +34,9 @@ static SymNod *symtree = NULL;
   Calls lmLog() with correct code according to the symnod sent.
 
   */
-#ifdef _PROTOTYPES_
-void redefined(Srcp *srcp, SymNod *sym, char *str)
-                		/* IN - Source position */
-                 		/* IN - The previous definition */
-                		/* IN - The symbol name */
-#else
-void redefined(srcp, sym, str)
-     Srcp *srcp;		/* IN - Source position */
-     SymNod *sym;		/* IN - The previous definition */
-     char str[];		/* IN - The symbol name */
-#endif
+void redefined(Srcp *srcp,	/* IN - Source position */
+	       SymNod *sym,	/* IN - The previous definition */
+	       char *str)	/* IN - The symbol name */
 {
   int code;			/* Error code */
 
@@ -71,17 +63,9 @@ void redefined(srcp, sym, str)
   Creates a new symnod and links it in the symtree.
 
   */
-#ifdef _PROTOTYPES_
-int newsym(char *str, NamKind class, void *ref)
-                		/* IN - Name of the new symbol */
-                   		/* IN - and its class */
-               			/* IN - Reference to the symbols node */
-#else
-int newsym(str, class, ref)
-     char str[];		/* IN - Name of the new symbol */
-     NamKind class;		/* IN - and its class */
-     void *ref;			/* IN - Reference to the symbols node */
-#endif
+int newsym(char *str,		/* IN - Name of the new symbol */
+	   NamKind class,	/* IN - and its class */
+	   void *ref)		/* IN - Reference to the symbols node */
 {
   SymNod *new;			/* The newly created symnod */
   SymNod *s1,*s2;		/* Traversal pointers */
@@ -141,13 +125,7 @@ int newsym(str, class, ref)
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-#ifdef _PROTOTYPES_
-SymNod *lookup(char *str)
-                		/* IN - The name to look up */
-#else
-SymNod *lookup(str)
-     char str[];		/* IN - The name to look up */
-#endif
+SymNod *lookup(char *str)	/* IN - The name to look up */
 {
   SymNod *s1,*s2;		/* Traversal pointers */
   int comp;			/* Result of comparison */
@@ -180,13 +158,7 @@ SymNod *lookup(str)
   Create a string indicating the types in the set.
 
   */
-#ifdef _PROTOTYPES_
-static char *symstr(NamKind syms) 
-                  		/* IN - A set of symbol types */
-#else
-static char *symstr(syms) 
-     NamKind syms;		/* IN - A set of symbol types */
-#endif
+static char *symstr(NamKind syms) /* IN - A set of symbol types */
 {
   static char *sym[] = {
     "an Object",
@@ -236,7 +208,6 @@ static char *symstr(syms)
   sym depending on which one was used if no error.
 
   */
-#ifdef _PROTOTYPES_
 void symcheck(
     SymNod **sym,		/* OUT - Found symbol */
     ElmNod **elm,		/* OUT - Found parameter  */
@@ -245,15 +216,6 @@ void symcheck(
     NamKind props,		/* IN - A set of symbol properties */
     List *pars			/* IN - Possible parameters */
 )
-#else
-void symcheck(sym, elm, nam, classes, props, pars)
-     SymNod **sym;		/* OUT - Found symbol */
-     ElmNod **elm;		/* OUT - Found parameter  */
-     NamNod *nam;		/* IN - The name to check */
-     NamKind classes;		/* IN - A set of symbol classes */
-     NamKind props;		/* IN - A set of symbol properties */
-     List *pars;		/* IN - Possible parameters */
-#endif
 {
   List *lst;			/* Parameter traversal pointer*/
   NamKind elmclasses;		/* Classes defined for the parameter */
