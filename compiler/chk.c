@@ -6,9 +6,6 @@
 \*----------------------------------------------------------------------*/
 
 
-#include "srcp.h"
-#include "lmList.h"
-
 #include "alan.h"
 
 #include "lst.h"		/* LST-nodes */
@@ -181,5 +178,3 @@ void duchk(chk)
   put("stms: "); dulst(chk->stms, STMNOD); nl();
   put("stmadr: "); duint(chk->stmadr); out();
 }
-
-

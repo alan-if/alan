@@ -19,7 +19,7 @@
 static FILE *acdfil;
 static Aword buff[BLOCKLEN];
 
-static int pc = 0;
+static Aaddr pc = 0;
 static Aword crc = 0;
 
 
@@ -422,7 +422,7 @@ void eminit(acdfnm)
   acdfil = fopen(acdfnm, WRITE_MODE);
 
   /* Make space for ACODE header */
-  for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+  for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++)
       emit(0L);
 
 #ifdef __mac__
@@ -480,7 +480,7 @@ void emterm(hdr)
   hdr->vers = v;
 
   hp = (Aword *) hdr;		/* Point to header */
-  for (i=0; i<sizeof(AcdHdr)/sizeof(Aword); i++) /* Emit header */
+  for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
     emit(*hp++);
   fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
   fclose(acdfil);

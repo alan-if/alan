@@ -253,14 +253,14 @@ static List *first(listP)
      List **listP;		/* IN OUT - Address of pointer to list */
 #endif
 {
-  List *first = *listP;
+  List *theFirst = *listP;
 
-  *listP = first->next;
+  *listP = theFirst->next;
 
-  first->next = NULL;
-  first->tail = first;
+  theFirst->next = NULL;
+  theFirst->tail = theFirst;
 
-  return first;
+  return theFirst;
 }
 
 
@@ -311,7 +311,8 @@ static List *partition(elmsListP)
       if (rest == this)
 	rest = elms;
       else {
-	for (p = rest; p->next != this; p = p->next);
+	for (p = rest; p->next != this; p = p->next)
+	  ;
 	p->next = elms;
       }
     } else {

@@ -255,22 +255,22 @@ static void prtimes()
   lmLiPrint("");
   lmLiPrint(       "        Timing");
   lmLiPrint(       "        ------");
-  sprintf(str,   "        Parse Time:             %6ld", tim.pars);
+  (void)sprintf(str,   "        Parse Time:             %6ld", tim.pars);
   lmLiPrint(str);
   if (tim.sem != 0) {
-    sprintf(str, "        Analysis Time:          %6ld", tim.sem);
+    (void)sprintf(str, "        Analysis Time:          %6ld", tim.sem);
     lmLiPrint(str);
   }
   if (tim.gen != 0) {
-    sprintf(str, "        Code Generation Time:   %6ld", tim.gen);
+    (void)sprintf(str, "        Code Generation Time:   %6ld", tim.gen);
     lmLiPrint(str);
   }
-  sprintf(str,   "        ------------------------------");
+  (void)sprintf(str,   "        ------------------------------");
   lmLiPrint(str);
-  sprintf(str,   "        Compilation Time:       %6ld", tim.comp);
+  (void)sprintf(str,   "        Compilation Time:       %6ld", tim.comp);
   lmLiPrint(str);
   lmLiPrint("");
-  sprintf(str,   "        Total Time:             %6ld", tim.tot);
+  (void)sprintf(str,   "        Total Time:             %6ld", tim.tot);
   lmLiPrint(str);
 }
 
@@ -297,20 +297,20 @@ static void stats()
   
   lins = scannedLines();
   if (fileNo > 1)
-    sprintf(str, "        %d source lines read from %d files.", lins, fileNo);
+    (void)sprintf(str, "        %d source lines read from %d files.", lins, fileNo);
   else
-    sprintf(str, "        %d source lines read.", lins);
+    (void)sprintf(str, "        %d source lines read.", lins);
   lmLiPrint(str);
   lmLiPrint("");
   
   if (tim.tot != 0 && tim.comp != 0) {
-    sprintf(str, "        %d lines/CPUminute.",
+    (void)sprintf(str, "        %d lines/CPUminute.",
 	    (int)(60L*1000L*(long)lins/tim.comp));
     lmLiPrint(str);
     lmLiPrint("");
   }
   
-  sprintf(str,   "        Estimated dynamic memory usage = %d bytes.",
+  (void)sprintf(str,   "        Estimated dynamic memory usage = %d bytes.",
 	  (char *)malloc(10000)-(char *)heap);
   lmLiPrint(str);
   lmLiPrint("");

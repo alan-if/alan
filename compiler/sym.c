@@ -124,7 +124,7 @@ int newsym(str, class, ref)
   case NAMEVT: new->code = ++evtcount; break;
   case NAMCNT: new->code = ++cntcount; break;
   case NAMACT: new->code = ++actcount; break;
-  default: break;
+  default: new->code = 0; break;
   }
   
   new->ref = ref;

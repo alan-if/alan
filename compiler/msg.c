@@ -226,8 +226,17 @@ void prepmsgs()
       getxt(buf);
     }
 #else
+#ifdef __dos__
+    { 
+      char buf[256];
+
+      toIso(buf, *msgp);
+      getxt(buf);
+    }
+#else
     getxt(*msgp);
-#endif   
+#endif
+#endif
     msgp++;
   }
 

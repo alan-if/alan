@@ -433,7 +433,7 @@ static char map[256]
   *c = '\0';
 #else
   if (copy != original)
-    strcpy(copy, original);
+    (void)strcpy(copy, original);
 #endif
 }
 
@@ -494,6 +494,6 @@ static char map[256]
   *c = '\0';
 #else
   if (copy != original)
-    strcpy(copy, original);
+    (void)strcpy(copy, original);
 #endif
 }

@@ -166,7 +166,7 @@ void cntcheck(wht, pars)
 	break;
       default:
 	break;
-    }
+      }
     break;
 
   case WHT_LOC:

@@ -211,7 +211,7 @@ mac:
 	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
 amiga:
-	make NONANSI
+#	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
 
 pc:

@@ -3,17 +3,13 @@
  */
 
 
-#include "srcp.h"
-
 #include "alan.h"
 
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
 #include "nam.h"		/* NAM-nodes */
-#include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "whr.h"                /* WHR-nodes */
-#include "wht.h"                /* WHT-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "vrb.h"                /* VRB-nodes */
@@ -32,7 +28,7 @@
 
 
 static char strbuf[256] = "";
-static int indent;
+static int indent = 0;
 
 
 #ifdef _PROTOTYPES_
