@@ -159,7 +159,7 @@ Aaddr generateScripts(AcdHdr *header)
 /*======================================================================*/
 void dumpScript(Script *scr)
 {
-  put("SCRIPT: "); dumpSrcp(&scr->srcp); indent();
+  put("SCRIPT: "); dumpSrcp(scr->srcp); indent();
   put("id: "); dumpId(scr->id); nl();
   put("steps: "); dumpList(scr->steps, STEP_LIST); nl();
   put("stepAddress: "); dumpAddress(scr->stepAddress); out();

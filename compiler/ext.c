@@ -294,7 +294,7 @@ void dumpExit(Exit *ext)
     return;
   }
 
-  put("EXT: "); dumpSrcp(&ext->srcp); indent();
+  put("EXT: "); dumpSrcp(ext->srcp); indent();
   put("dirs: "); dumpList(ext->dirs, ID_LIST); nl();
   put("target: "); dumpId(ext->target); nl();
   put("chks: "); dumpList(ext->chks, CHECK_LIST); nl();

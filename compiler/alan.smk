@@ -210,13 +210,13 @@ void setCharacterSet(int set)
 
 %%MAP
 
-  [a-z]		= [A-Z];
-  [\xe0-\xf6]	= [\xC0-\xD6];
-  [\xf8-\xfd]	= [\xD8-\xDE];
+  [A-Z]		= [a-z];
+  [\xC0-\xD6]	= [\xe0-\xf6];
+  [\xD8-\xDE]	= [\xf8-\xfe];
 
 %%DEFINITIONS
 
-  letter	= [A-Z\xC0-\xD6\xD8-\xDE];
+  letter	= [a-z\xe0-\xf6\xf8-\xfe];
   digit		= [0-9];
 
 ------------------------------------------------------------------------------
@@ -288,7 +288,7 @@ void setCharacterSet(int set)
       smToken->len = len;
     %%;
 
-  'IMPORT' = 'IMPORT' 
+  'import' = 'import' 
     %%
       Srcp srcp, start;
       Token token;
@@ -319,42 +319,42 @@ void setCharacterSet(int set)
 	lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   %%;
 
-  'LOCATION' = 'LOCATION'
+  'location' = 'location'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'ACTOR' = 'ACTOR'
+  'actor' = 'actor'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'OPAQUE' = 'OPAQUE'
+  'opaque' = 'opaque'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'ON' = 'ON'
+  'on' = 'on'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'OF' = 'OF'
+  'of' = 'of'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'FIRST' = 'FIRST'
+  'first' = 'first'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'INTO' = 'INTO'
+  'into' = 'into'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
-  'TAKING' = 'TAKING'
+  'taking' = 'taking'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
@@ -369,38 +369,40 @@ void setCharacterSet(int set)
 
   comment = '--' [^\n]*;
 
-  include = '$INCLUDE' 
+  include = '$include' 
     %%
       Srcp srcp, start;
       Token token;
       int i;
       char c;
 
-      lmLog(`&smToken->srcp, 154, sevWAR, ""); /* INCLUDE is deprecated */
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
       if (token.code == sm_MAIN_IDENTIFIER_Token) {
 	/* Found an ID which is a file name */
-	do {
-	  i = smScSkip(smThis, 1);
-	  c = smThis->smText[smThis->smLength-1];
-	} while (c != '\n' && i != 0); /* Skip to end of line or EOF */
-
 	srcp = token.srcp;	/* Insert the file before next line */
 	srcp.line++;
 	srcp.col = 1;
 
+	/* Skip to end of line or EOF */
+	do {
+	  i = smScSkip(smThis, 1);
+	  c = smThis->smText[smThis->smLength-1];
+	} while (c != '\n' && i != 0);
+
+      	lmLog(`&smToken->srcp, 154, sevWAR, token.chars); /* INCLUDE is deprecated */
 	if (smScanEnter(token.chars, TRUE)) {
+	  smToken->srcp.file = fileNo-1;
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
 	  /* Use the new scanner to get next token and return it */
 	  return smScan(lexContext, smToken);
-	} else
+	} else /* Did not find the file */
 	  lmLog(`&token.srcp, 199, sevFAT, token.chars);
-      } else
-	lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
+      } else  /* Did not scan any file name */
+	lmLog(`&token.srcp, 151, sevFAT, token.chars);
   %%;
 
 

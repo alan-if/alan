@@ -126,7 +126,17 @@ static void addNames(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->names != NULL)
-    lmLogv(&props->names->element.id->srcp, 341, sevERR, "names", "(yet)", NULL);
+    lmLogv(&props->names->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addInitialize(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->initialize != NULL)
+    lmLogv(&props->initialize->srcp, 341, sevERR, "Initialize", "(yet)", NULL);
 }
 
 
@@ -136,7 +146,7 @@ static void addPronouns(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->pronouns != NULL)
-    lmLogv(&props->pronounsSrcp, 341, sevERR, "pronouns", "(yet)", NULL);
+    lmLogv(&props->pronounsSrcp, 341, sevERR, "Pronoun", "(yet)", NULL);
 }
 
 
@@ -282,6 +292,10 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
       lmLogv(&add->props->attributes->element.atr->srcp, 424, sevERR, "attributes", originalSymbol->string, NULL);
     propsCount++;
 
+    if (add->props->initialize)
+      lmLogv(&add->props->initialize->srcp, 424, sevERR, "initialize", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->descriptionChecks || add->props->descriptionStatements)
       lmLogv(&add->props->descriptionSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
     propsCount+=2;
@@ -332,6 +346,7 @@ static void addAddition(AddNode *add)
     addNames(add, originalClass); propCount++;
     addPronouns(add, originalClass); propCount++;
     addAttributes(add, originalClass); propCount++;
+    addInitialize(add, originalClass); propCount++;
     addDescriptionCheck(add, originalClass); propCount++;
     addDescription(add, originalClass); propCount++;
     addEntered(add, originalClass);  propCount++;
@@ -360,7 +375,7 @@ void addAdditions(void)
 /*======================================================================*/
 void dumpAdd(AddNode *add)
 {
-  put("ADD: "); dumpSrcp(&add->srcp); indent();
+  put("ADD: "); dumpSrcp(add->srcp); indent();
   put("toId: "); dumpId(add->toId); nl();
   put("props: "); dumpProps(add->props); out();
 }

@@ -21,6 +21,7 @@
 #include "cnt_x.h"
 #include "ext_x.h"
 #include "id_x.h"
+#include "initialize_x.h"
 #include "lst_x.h"
 #include "nam_x.h"
 #include "scr_x.h"
@@ -43,7 +44,7 @@ Properties *newEmptyProps(void)
 /*======================================================================*/
 Properties *newProps(Where *whr, List *names,
 		     Srcp pronounsSrcp, List *pronouns,
-		     List *attributes,
+		     List *attributes, Initialize *init,
 		     Container *container,
 		     Srcp descriptionCheckSrcp, List *descriptionChecks,
 		     Srcp descriptionSrcp, List *description,
@@ -67,8 +68,8 @@ Properties *newProps(Where *whr, List *names,
   new->pronouns = pronouns;
   new->attributes = attributes;
 
+  new->initialize = init;
   new->container = container;
-
   new->descriptionCheckSrcp = descriptionCheckSrcp;
   new->descriptionChecks = descriptionChecks;
   new->descriptionSrcp = descriptionSrcp;
@@ -195,6 +196,7 @@ void analyzeProps(Properties *props, Context *context)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   /* Don't analyze attributes since those are analyzed already */
+  analyzeInitialize(props->initialize, context);
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->enteredStatements, context);
@@ -339,6 +341,7 @@ void dumpProps(Properties *props)
   put("whr: "); dumpWhere(props->whr); nl();
   put("names: "); dumpListOfLists(props->names, NAME_LIST); nl();
   put("pronoun: "); dumpList(props->pronouns, ID_LIST); nl();
+  put("initialize: "); dumpInitialize(props->initialize); nl();
   put("container: "); dumpContainer(props->container); nl();
   put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();

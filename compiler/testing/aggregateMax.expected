@@ -13,7 +13,7 @@ aggregateMax.alan
   *2*   226 E : Attributes can not be used for filtering applied to all
                 instances. Filter out instances of a particular class by adding
                 a 'Isa <class>' filter.
-  *3*   101 E : Syntax error. Inserting tokens: 'HERE'
+  *3*   101 E : Syntax error. Inserting "here" before this token.
 
    10.    If Max Of y Here, At l = 9 Then "" End If.
 =====>       1      2       3
@@ -37,7 +37,7 @@ aggregateMax.alan
   *2*   226 E : Attributes can not be used for filtering applied to all
                 instances. Filter out instances of a particular class by adding
                 a 'Isa <class>' filter.
-  *3*   102 E : Syntax error. Ignoring tokens: 'AT'
+  *3*   102 E : Syntax error. Ignoring "at".
 
    12.    If Max Of y Is x Then "" End If.
 =====>       1      2 3

@@ -12,6 +12,7 @@
 /* USE: */
 #include "../interpreter/acode.h"
 #include "ins.h"
+#include "initialize.h"
 #include "context.h"
 
 
@@ -25,7 +26,7 @@ extern Properties *newProps(Where *whr,
 			    List *names,
 			    Srcp pronounsSrcp,
 			    List *pronoun,
-			    List *attributes,
+			    List *attributes, Initialize *init,
 			    Container *cnt,
 			    Srcp descriptionCheckSrcp,
 			    List *descriptionCheck,

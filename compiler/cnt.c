@@ -281,7 +281,7 @@ void dumpContainer(Container *container)
     return;
   }
 
-  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->body->srcp); indent();
+  put("CONTAINER: "); dumpPointer(container); dumpSrcp(container->body->srcp); indent();
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
   put("body: "); dumpPointer(container->body); nl();

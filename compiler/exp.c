@@ -1322,7 +1322,7 @@ void dumpExpression(Expression *exp)
     break;
   }
 
-  dumpSrcp(&exp->srcp);
+  dumpSrcp(exp->srcp);
   indent();
   put("type: "); dumpType(exp->type); nl();
   put("class: "); dumpPointer(exp->class); nl();

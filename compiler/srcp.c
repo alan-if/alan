@@ -30,11 +30,11 @@ Bool equalSrcp(Srcp srcp1, Srcp srcp2)
   Dump a Source Position.
 
   */
-void dumpSrcp(Srcp *srcp)
+void dumpSrcp(Srcp srcp)
 {
   char str[20];
 
-  sprintf(str, "(%d,%d,%d)", srcp->file, srcp->line, srcp->col);
+  sprintf(str, "(%d,%d,%d)", srcp.file, srcp.line, srcp.col);
   put(str);
 }
 

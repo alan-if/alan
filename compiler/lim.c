@@ -140,7 +140,7 @@ Aword generateLimits(ContainerBody *info)
 /*======================================================================*/
 void dumpLimit(LimNod *lim)
 {
-  put("LIM: "); dumpSrcp(&lim->srcp); indent();
+  put("LIM: "); dumpSrcp(lim->srcp); indent();
   put("atr: "); dumpAttribute(lim->atr); nl();
   put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
 }

@@ -6,7 +6,7 @@ setLocal.alan
    26.      Set l To 4.
 =====>            1
 
-  *1*   101 E : Syntax error. Inserting tokens: 'OF' Identifier ('$genid1')
+  *1*   101 E : Syntax error. Inserting "of <identifier>" before this token.
 
 
         1 error(s).

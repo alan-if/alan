@@ -18,7 +18,7 @@ static void testMultipleAddAttribute()
   Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
   Properties *theFirstAttributeProps = newProps(NULL, NULL, nulsrcp, NULL,
 						concat(NULL, theFirstAttribute,
-						       ATTRIBUTE_LIST),
+						       ATTRIBUTE_LIST), 0,
 						NULL,
 						nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 						NULL, FALSE, nulsrcp,
@@ -26,7 +26,7 @@ static void testMultipleAddAttribute()
 						NULL, NULL, NULL);
   Properties *theSecondAttributeProps = newProps(NULL, NULL, nulsrcp, NULL,
 						 concat(NULL, theSecondAttribute,
-							ATTRIBUTE_LIST),
+							ATTRIBUTE_LIST), 0,
 						 NULL,
 						 nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 						 NULL, FALSE, nulsrcp,

@@ -66,14 +66,23 @@ void pmISym(
     Token *token		/* OUT the created scanner symbol */
 )
 {
+    char *selectedString;
+
     if (insToks < MaxTokens) {
 	/* Concatenate the token string
 	 */
 	if (insToks > 0) strcat(insStr, " ");
-	if (code == 0) strcat(insStr, "Unknown Token");
-	else if (code == 1) strcat(insStr, "End Of File");
-	else if (*printString != '\0') strcat(insStr, printString);
-	else strcat(insStr, symString);
+	if (code == 0) strcat(insStr, "<unknown token>");
+	else if (code == 1) strcat(insStr, "<end of file>");
+	else {
+		if (*printString != '\0') selectedString = printString;
+		else selectedString = symString;
+		if (selectedString[0] == '\'') {
+			strcat(insStr, &selectedString[1]);
+			insStr[strlen(insStr)-1] = '\0';
+		} else
+			strcat(insStr, selectedString);
+	}
     } else if (insToks == MaxTokens) {
 	strcat(insStr, " ...");
     }/*if*/
@@ -112,13 +121,24 @@ void pmDSym(
     char *printString			/* IN terminals print string */
 )
 {
+    char *selectedString;
     if (delToks < MaxTokens) {
 	/* Concatenate the symbol strings */
 	if (delToks > 0) strcat(delStr, " ");
-	if (token->code == 0) strcat(delStr, "Unknown Token");
-	else if (token->code == 1) strcat(delStr, "End Of File");
-	else if (*printString != '\0') strcat(delStr, printString);
-	else strcat(delStr, symString);
+	if (token->code == 0) strcat(delStr, "<unknown token>");
+	else {
+#ifdef DELETEIDENTIFIERASINPUTTED
+		if (token->code == 2) selectedString = token->chars;
+		else
+#endif
+		if (*printString != '\0') selectedString = printString;
+		else selectedString = symString;
+		if (selectedString[0] == '\'') {
+			strcat(delStr, &selectedString[1]);
+			delStr[strlen(delStr)-1] = '\0';
+		} else
+			strcat(delStr, selectedString);
+	}
     } else if (delToks == MaxTokens) {
 	strcat(delStr, " ...");
     }/*if*/

@@ -6,6 +6,7 @@ Every object2 Isa object
   Definite Form "form"
   Pronoun 'pronoun'
   Mentioned "mentioned"
+  Initialize "initialize"
   Verb take End Verb.
 End Every.
 

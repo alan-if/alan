@@ -124,7 +124,7 @@ void dumpId(IdNode *id)
     return;
   }
 
-  put("ID: "); dumpSrcp(&id->srcp);
+  put("ID: "); dumpSrcp(id->srcp);
   put(", "); dumpString(id->string);
   put(", code: "); dumpInt(id->code);
   put(", symbol: "); dumpPointer(id->symbol);

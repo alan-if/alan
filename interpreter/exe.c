@@ -1793,7 +1793,7 @@ static void restoreGame(FILE *saveFile)
 
   /* Verify version of compiler/interpreter of saved game with us */
   fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
-  if (strncmp(savedVersion, header->vers, 4))
+  if (!ignoreErrorOption && strncmp(savedVersion, header->vers, 4))
     error(M_SAVEVERS);
 
   /* Verify name of game */
@@ -1804,7 +1804,7 @@ static void restoreGame(FILE *saveFile)
 
   /* Verify unique id of game */
   fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
-  if (savedUid != header->uid)
+  if (!ignoreErrorOption && savedUid != header->uid)
     error(M_SAVEVERS);
 
   /* Restore current values */

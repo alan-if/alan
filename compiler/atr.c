@@ -702,7 +702,7 @@ static void dumpInheritance(AttributeInheritance inheritance)
 /*======================================================================*/
 void dumpAttribute(Attribute *atr)
 {
-  put("ATR: "); dumpSrcp(&atr->srcp); indent();
+  put("ATR: "); dumpSrcp(atr->srcp); indent();
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();

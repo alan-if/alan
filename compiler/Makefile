@@ -63,6 +63,7 @@ BUILDSRCS = \
 	scr.c \
 	srcp.c \
 	stm.c \
+	initialize.c \
 	stp.c \
 	str.c \
 	syn.c \

@@ -93,7 +93,7 @@ static lmMsgs msg[] = {
     { "151   ", "File name missing for $INCLUDE directive." },
     { "152   ", "Unterminated quoted identifier." },
     { "153   ", "Image file missing." },
-    { "154   ", "INCLUDE directive is deprecated. Use \'import\' statement instead." },
+    { "154   ", "$INCLUDE directive is deprecated. Use \'import\' statement instead." },
     { "198   ", "Could not open output file \'%1\' for writing." },
     { "199   ", "Adventure source file (%1) not found." },
     { "200   ", "Mismatched block identifier, \'%1\' assumed." },

@@ -8,7 +8,11 @@
 #include "sysdep.h"
 #include "types.h"
 #include "util.h"
+#ifdef __POSIX__
+#include <sys/time.h>
+#else
 #include <sys/timeb.h>
+#endif
 
 #ifdef __mac__
 #include "Files.h"
@@ -557,7 +561,11 @@ void emitHeader()
 {
   Aword *hp;			/* Pointer to header as words */
   int i;
+#ifdef __POSIX__
+  struct timeval times;
+#else
   struct timeb times;
+#endif
 
   (void) rewind(acdfil);
   pc = 0;
@@ -588,8 +596,18 @@ void emitHeader()
     acdHeader.vers[3] = (Aword)alan.version.state[0];
   }
 
+  /* The timestamping isn't important, it is only used to give the
+     compiled game a semi-unique id so that loading a saved game can
+     not be done if it was not created with exactly the same compiled
+     game. You can remove it or replace it by something other. It does
+     not affect game compatibility. */
+#ifdef __POSIX__
+  gettimeofday(&times, NULL);
+  acdHeader.uid = times.tv_usec;
+#else
   ftime(&times);
   acdHeader.uid = times.millitm;
+#endif
 
   hp = (Aword *) &acdHeader;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */

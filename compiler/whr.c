@@ -173,7 +173,7 @@ void dumpWhere(Where *whr)
     return;
   }
 
-  put("WHR: "); dumpSrcp(&whr->srcp); indent();
+  put("WHR: "); dumpSrcp(whr->srcp); indent();
   put("whr: "); if (whr->directly) put("DIRECTLY ");
   switch (whr->kind) {
   case WHERE_DEFAULT: put("DEFAULT"); break;

@@ -65,7 +65,7 @@ void testGenerateClasses()
 void testGenerateEmptyClassEntry()
 {
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL,
-			       NULL, NULL,
+			       NULL, 0, NULL,
 			       nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,

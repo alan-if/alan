@@ -87,7 +87,7 @@ void dumpSynonyms(Synonym *syn)
     return;
   }
 
-  put("SYN: "); dumpSrcp(&syn->srcp); indent();
+  put("SYN: "); dumpSrcp(syn->srcp); indent();
   put("id: "); dumpId(syn->id); nl();
   put("ids: "); dumpList(syn->ids, ID_LIST); out();
 }

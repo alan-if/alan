@@ -14,6 +14,7 @@
 #include "whr.h"
 #include "cnt.h"
 #include "form.h"
+#include "initialize.h"
 
 #include "../interpreter/acode.h"
 
@@ -22,7 +23,9 @@
 
 	Initial location
 	Name(s)
+	Pronouns
 	Attributes
+	Initialization
 	Description Check
 	Description Statements
 	Entered Statements
@@ -34,7 +37,8 @@
 	Scripts
 	Exits
 */
-#define NOOFPROPS 14
+
+#define NOOFPROPS 15
 
 /* Types */
 
@@ -49,6 +53,9 @@ typedef struct Properties {
   List *pronouns;		/* List of words that can be used as pronouns */
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
+
+  Initialize *initialize;	/* The Initialize node */
+
   Srcp descriptionCheckSrcp;
   List *descriptionChecks;
   Aword descriptionChecksAddress;/* ACODE address to description checks */

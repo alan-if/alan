@@ -65,7 +65,7 @@
 #endif
 
 #ifdef __MINGW32__
-#define __windows__
+#define __windows__ 
 #endif
 
 #ifdef __CYGWIN32__

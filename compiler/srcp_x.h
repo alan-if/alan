@@ -17,7 +17,7 @@
 
 
 /* FUNCTIONS: */
-extern void dumpSrcp(Srcp *srcp);
+extern void dumpSrcp(Srcp srcp);
 extern Bool equalSrcp(Srcp srcp1, Srcp srcp2);
 
 #endif

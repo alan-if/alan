@@ -31,7 +31,7 @@ void testContentOfSymbol() {
   Container *container = newContainer(newContainerBody(nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
   IdNode *id = newId(nulsrcp, "id");
-  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,
+  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, container,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,
@@ -403,7 +403,7 @@ static void testInheritOpaqueAttribute() {
 					  NULL, NULL, NULL, NULL);
   Container *pCont = newContainer(pBody);
   Properties *pProps = newProps(NULL, NULL, nulsrcp,
-			       NULL, NULL, pCont, nulsrcp,
+			       NULL, NULL, 0, pCont, nulsrcp,
 			       NULL, nulsrcp,
 			       NULL, nulsrcp,
 			       NULL, nulsrcp,
@@ -418,7 +418,7 @@ static void testInheritOpaqueAttribute() {
 						      FALSE), ATTRIBUTE_LIST);
 						      
   Properties *cProps = newProps(NULL, NULL, nulsrcp,
-				NULL, attributes, NULL, nulsrcp,
+				NULL, attributes, 0, NULL, nulsrcp,
 				NULL, nulsrcp,
 				NULL, nulsrcp,
 				NULL, nulsrcp,

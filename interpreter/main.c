@@ -84,7 +84,7 @@ Aword *freq;			/* Cumulative character frequencies */
 int dictsize;
 
 Bool verbose = FALSE;
-Bool ignoreErrorOption = TRUE;
+Bool ignoreErrorOption = FALSE;
 Bool debugOption = FALSE;
 Bool sectionTraceOption = FALSE;
 Bool tracePushOption = FALSE;

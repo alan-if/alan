@@ -11,7 +11,7 @@ import.alan
     3.  options
 =====>  1
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'OPTIONS'
+  *1*   102 E : Syntax error. Ignoring "options".
 
     4.    import 'options'.
 =====>           1
@@ -21,7 +21,7 @@ import.alan
     8.    import 'body'.
 =====>    1      2
 
-  *1*   102 E : Syntax error. Ignoring tokens: 'IMPORT'
+  *1*   102 E : Syntax error. Ignoring "import".
   *2*   199 F : Adventure source file (body) not found.
 
 

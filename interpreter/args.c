@@ -38,7 +38,7 @@ static void switches(int argc, char *argv[])
 #endif
       {
       case 'i':
-	ignoreErrorOption = FALSE;
+	ignoreErrorOption = TRUE;
 	break;
       case 't':
 	sectionTraceOption = TRUE;
@@ -97,7 +97,7 @@ static void switches(int argc, char *argv[])
 
 /*----------------------------------------------------------------------*/
 static Bool matchInterpreterName(char *string) {
-  return stricmp(string, PROGNAME) == 0;
+  return strcasecmp(string, PROGNAME) == 0;
 }
 
 

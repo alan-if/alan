@@ -1257,7 +1257,7 @@ void dumpStatement(Statement *stm)
   case EACH_STATEMENT: put("EACH "); break;
   case STYLE_STATEMENT: put("STYLE "); break;
   }
-  dumpSrcp(&stm->srcp);
+  dumpSrcp(stm->srcp);
 
   switch(stm->kind) {
   case LOOK_STATEMENT:

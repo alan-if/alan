@@ -40,11 +40,7 @@ void initInstances()
 }
 
 
-/*======================================================================
-
-  addHero()
-
-*/
+/*======================================================================*/
 void addHero(void)
 {
   Symbol *hero = lookup("hero");
@@ -59,17 +55,11 @@ void addHero(void)
 }
 
 
-/*======================================================================
-
-  newInstance()
-
-  Allocates and initialises an instance node.
-
-  */
-Instance *newInstance(Srcp *srcp,	/* IN - Source Position */
-		    IdNode *id,
-		    IdNode *parent,
-		    Properties *props)
+/*======================================================================*/
+Instance *newInstance(Srcp *srcp,
+		      IdNode *id,
+		      IdNode *parent,
+		      Properties *props)
 {
   Instance *new;                  /* The newly allocated area */
 
@@ -238,6 +228,6 @@ void generateInstances(AcdHdr *header)
 /*======================================================================*/
 void dumpInstance(Instance *ins)
 {
-  put("INS: "); dumpSrcp(&ins->srcp); indent();
+  put("INS: "); dumpSrcp(ins->srcp); indent();
   put("props: "); dumpProps(ins->props); out();
 }

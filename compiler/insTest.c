@@ -28,7 +28,7 @@ void testCreateIns()
 
 void testGenerateEmptyInstanceEntry()
 {
-  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL,
+  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, NULL,
 			       nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,

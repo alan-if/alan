@@ -20,10 +20,13 @@ static void testCopyAttributes() {
   memory = allocate(6*sizeof(AttributeEntry));
   a = (AttributeEntry *)&memory[1];
 
+  header = allocate(sizeof(AcdHdr));
   header->instanceMax = 2;
   admin = allocate(3*sizeof(AdminEntry));
   instance = allocate(3*sizeof(InstanceEntry));
 
+  /* Create two attribute lists which consists of two attributes each,
+     each is terminated by EOF */
   a[0].code = 13;
   a[0].value = 15;
   a[0].stringAddress = 17;
@@ -43,7 +46,7 @@ static void testCopyAttributes() {
   instance[1].initialAttributes = 1;
   instance[2].initialAttributes = 10;
 
-  attributeArea = copyAttributes(14);
+  attributeArea = copyAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
 
   ASSERT(admin[1].attributes[0].code == 13);
   ASSERT(admin[1].attributes[0].value == 15);

@@ -216,22 +216,25 @@ static void warnForUnimplementedInheritance(Properties *props) {
   int propCount = 0;		/* To count that we catch all */
 
   /* We can currently inherit:
-
   	Initial location
   	Names
+	Pronouns
   	Attributes
+	Container
 	DescriptionCheck
 	DescriptionStatements
 	Entered
 	Definite
 	Indefinite
-	Container
 	Script
 	Exit
 	Verb
   */
   propCount = 13;
 
+  if (props->initialize != NULL)
+    lmLog(&props->initialize->srcp, 343, sevWAR, "Initialize clause");
+  propCount++;
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
   propCount++;
@@ -343,7 +346,7 @@ Aaddr generateClasses(void)
 /*======================================================================*/
 void dumpClass(Class *cla)
 {
-  put("CLA: "); dumpSrcp(&cla->srcp); indent();
+  put("CLA: "); dumpSrcp(cla->srcp); indent();
   put("props: "); dumpProps(cla->props); out();
 }
 
