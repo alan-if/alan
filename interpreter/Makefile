@@ -1,8 +1,6 @@
 # Makefile for arun			      Date: 1990-10-16/thoni@rabbit
 #
 
-SHELL	= /bin/sh
-
 GCC	= gcc
 CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
@@ -13,12 +11,13 @@ CFLAGS	= $(DEBUG)
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ) -lreadline -ltermcap -lns -L/usr/local/lib/4.1.2 -L/usr/local/lib
 
+sun3 solaris2 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
 
 tcov := CC = acc -a
 tcov := LD = acc -a
 
 
-#.KEEP_STATE:
+.KEEP_STATE:
 
 #--
 SRCS = debug.c \
@@ -47,7 +46,15 @@ all release:=	DEBUG= -O
 #-- MAIN TARGET
 debug all tcov release: arun
 
-arun: $(OBJECTS) $(MAINOBJ) .version version.o Makefile
+sun3 solaris2 hp: fromsrc
+
+testarch:
+	if test `cat .arch` != $@; then \
+	    \rm *.o; \
+	fi
+	echo $@ > .arch
+
+arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
@@ -67,7 +74,7 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	cp arun $(ALANDIR)/bin/`arch`
 
 version.h version.c: ../version.sh
-	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
+	-chdir ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c

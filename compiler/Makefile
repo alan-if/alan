@@ -87,7 +87,17 @@ VMSLINKOBJS = ${SRCS:.c=}
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov all release: alan alan.prod Makefile
+debug tcov release: all
+
+sun3 solaris2 hp: testarch fromsrc
+
+testarch:
+	if test `cat .arch` != $@; then \
+	    \rm *.o; \
+	fi
+	echo $@ > .arch
+
+all: alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
@@ -162,13 +172,9 @@ alan.prod: alan.pml
 
 savetm:
 	mv alan.tmk alan.tmk.orig
-#	-mkdir tmorig
-#	cp -p $(TMSRCS) tmorig
 	
 restoretm:
 	mv -f alan.tmk.orig alan.tmk
-#	cd tmorig; cp -p $(TMSRCS) ..
-#	-\rm -r tmorig
 
 NONANSI:
 	make savetm
@@ -191,7 +197,7 @@ MSDOS:
 	make restoretm
 	-rm .?mkstamp
 
-mac:
+mac: src
 	smk -set MAC alan
 	-rm .smkstamp
 	refreshMac $(HOME)/mac/Alan/Compiler
@@ -200,21 +206,18 @@ mac:
 	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
 	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
-#-- ARCHIVE
-amiga:sysdep.h sysdep.c acode.h version.h
+amiga: src
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
 
-archives: amiga compiler.zip.
-
-compiler.zip.:
+pc: src
 	make MSDOS
 	zip -k -u compiler.zip *.[ch] Makefile.dos
 	zip -k -m compiler.zip *.[CH]
 
 #--
 CLEAN: clean
-	-rm alanCommon.h pmParse* pmPaSema* pmErr* smScan* smScSema* lmList* alan.voc alan.[psl]mt
+	-rm alanCommon.h pmParse* pmPaSema* pmErr* smScan* smScSema* lmList* alan.voc *.o
 
 clean:
 	-rm core *~ *.zoo *.bak *.lzh
