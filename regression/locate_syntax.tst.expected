@@ -1,0 +1,105 @@
+########## locate_syntax ##########
+alan locate_syntax
+arun locate_syntax < locate_syntax.input
+########## /bin/sh  locate_syntax.tst ##########
+
+
+locate_syntax.alan
+
+  27.       LOCATE OBJECT HERE.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  28.       LOCATE OBJECT AT LOCATION.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  29.       LOCATE OBJECT AT OBJECT.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   409 E : No parameter defined in this context.
+
+  30.       LOCATE OBJECT AT unknown_id.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   310 E : Identifier 'unknown_id' not defined.
+
+  31.       LOCATE OBJECT AT location_id.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  32.       LOCATE OBJECT AT object_id.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  33.       LOCATE OBJECT AT hero.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  34.       LOCATE OBJECT IN LOCATION.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   311 E : Must refer to a Container.
+
+  35.       LOCATE OBJECT IN OBJECT.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   409 E : No parameter defined in this context.
+
+  36.       LOCATE OBJECT IN unknown_id.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  37.       LOCATE OBJECT IN location_id.
+====>              1
+
+  *1*   409 E : No parameter defined in this context.
+
+  38.       LOCATE OBJECT IN object_id.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   318 E : Entity 'object_id' is not a Container.
+
+  39.       LOCATE OBJECT IN hero.
+====>              1         2
+
+  *1*   409 E : No parameter defined in this context.
+  *2*   318 E : Entity 'hero' is not a Container.
+
+  41.       LOCATE LOCATION HERE.
+====>       1
+
+  *1*   311 E : Must refer to an Object or an Actor.
+
+  43.       LOCATE location_id HERE.
+====>              1
+
+  *1*   311 E : Must refer to an Object or an Actor.
+
+  45.       LOCATE event_id HERE.
+====>              1
+
+  *1*   311 E : Must refer to an Object or an Actor.
+
+  46.       LOCATE container_id HERE.
+====>              1
+
+  *1*   311 E : Must refer to an Object or an Actor.
+
+
+        23 error(s).
+        No detected warnings.
+        2 informational message(s).
+
+locate_syntax.tst: locate_syntax.input: No such file or directory

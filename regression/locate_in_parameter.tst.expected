@@ -1,0 +1,24 @@
+########## locate_in_parameter ##########
+alan locate_in_parameter
+arun locate_in_parameter < locate_in_parameter.input
+########## /bin/sh  locate_in_parameter.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Try put-in.
+
+
+L.
+There is a c and a o here.
+
+> The c contains a o. The c contains a o. The c contains a o.
+
+> You can't put anything in o
+
+> You can't put anything in o
+
+> 
+
+Do you want to restart (y) ? 

@@ -1,0 +1,24 @@
+########## dial ##########
+alan dial
+arun dial < dial.input
+########## /bin/sh  dial.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+Try 'turn dial to <n>'.
+
+
+L.
+There is a dial here.
+
+> The dial is now set to 45.
+
+> The dial is now set to 0.
+
+> '-'? I don't know that word.
+
+> 
+
+Do you want to restart (y) ? 

@@ -1,0 +1,15 @@
+Location l
+End Location l.
+
+
+Object o At l
+
+  Verb v
+    Does
+      "You $v the $1."
+  End Verb v.
+
+End Object o.
+
+Start At l.
+  "v the o..."

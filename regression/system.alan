@@ -1,0 +1,14 @@
+Location wet1
+  Description
+    System "xv /home/users/thoni/images/women/Wet-09.jpg &".
+
+  Exit s,e,w,n To wet2.
+End Location.
+
+Location wet2
+  Description
+    System "xv /home/users/thoni/images/women/Wet-12.jpg &".
+  Exit s,e,w,n To wet1.
+End Location.
+
+Start At wet1.

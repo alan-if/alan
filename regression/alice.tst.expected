@@ -1,0 +1,329 @@
+########## alice ##########
+alan alice
+arun alice < alice.input
+########## /bin/sh  alice.tst ##########
+
+
+alice.alan
+
+   1.   From maths.nott.ac.uk!aoh@piaggio.maths.nott.ac.uk Sat Feb 19 11:58:59 
+        1994
+====>   1          2    3  4 5   67       8     9    9  9      9        9  9
+
+  *1*   101 E : 'OPTIONS' inserted.
+  *1*   601 W : Unknown option, 'from'.
+  *2*   601 W : Unknown option, 'nott'.
+  *3*   601 W : Unknown option, 'ac'.
+  *4*   601 W : Unknown option, 'uk'.
+  *5*   102 F : Unknown Token deleted.
+  *6*   102 F : Unknown Token deleted.
+  *7*   101 E : '.' inserted.
+  *7*   601 W : Unknown option, 'piaggio'.
+  *8*   601 W : Unknown option, 'maths'.
+  *9*   601 W : Unknown option, 'nott'.
+  *9*   601 W : Unknown option, 'ac'.
+  *9*   601 W : Unknown option, 'uk'.
+  *9*   103 E : ID INTEGER INTEGER INTEGER INTEGER ... replaced by '.' 'OBJECT'
+        'ATTRIBUTES' ID.
+  *9*   102 F : Unknown Token deleted.
+  *9*   102 F : Unknown Token deleted.
+
+   2.   Return-Path: <maths.nott.ac.uk!aoh@piaggio.maths.nott.ac.uk>
+====>          1   2                  3   4
+
+  *1*   103 E : ID '<' ID '.' ID ... replaced by INTEGER '.' 'START' 'HERE'
+        '.'.
+  *2*   102 F : Unknown Token deleted.
+  *3*   102 F : Unknown Token deleted.
+  *4*   102 F : Unknown Token deleted.
+
+   3.   From: "Professor A O'Hagan" <aoh@maths.nott.ac.uk>
+====>       1                       2   3      4
+
+  *1*   102 F : Unknown Token deleted.
+  *2*   103 E : '<' replaced by 'MAKE'.
+  *3*   102 F : Unknown Token deleted.
+  *4*   104 E : Severe syntax error, construct ignored.
+
+   4.   Date: Sat, 19 Feb 94 10:46:21 GMT
+====>       1                  2  3
+
+  *1*   102 F : Unknown Token deleted.
+  *2*   102 F : Unknown Token deleted.
+  *3*   102 F : Unknown Token deleted.
+
+   5.   To: thoni@softlab.se
+====>     1      2
+
+  *1*   102 F : Unknown Token deleted.
+  *2*   102 F : Unknown Token deleted.
+
+   6.   Subject: ALAN bug?
+====>          1         2
+
+  *1*   102 F : Unknown Token deleted.
+  *2*   102 F : Unknown Token deleted.
+
+   7.   Content-Length: 12715
+====>                 1
+
+  *1*   102 F : Unknown Token deleted.
+
+  12.   the questions you asked yet, but will do some time!
+====>                                                     1
+
+  *1*   102 F : Unknown Token deleted.
+
+  16.   Compile and run it, and you will start in the "cellar".  Then "open the
+         door"
+====>                                                 1       2
+
+  *1*   101 E : '.' inserted.
+  *2*   102 E : '.' 'THEN' deleted.
+
+  17.   and go "north".  As you go through the north exit from the cellar, an e
+        vent
+====>   1             2
+
+  *1*   102 E : 'AND' ID deleted.
+  *2*   104 E : Severe syntax error, construct ignored.
+
+  18.   "gorilla_kill" is scheduled.  If you don't cancel this by giving the
+====>   1              2  3              4   5  6
+
+  *1*   101 E : ID inserted.
+  *2*   103 E : 'IS' replaced by 'SAY'.
+  *3*   310 E : Identifier 'scheduled' not defined.
+  *4*   310 E : Identifier 'you' not defined.
+  *5*   103 E : ID ID ID 'TO' ID ... replaced by 'THEN' STRING 'END' 'IF' '.'
+        ....
+  *6*   152 E : Unterminated quoted identifier.
+
+  19.   banana to the gorilla, this event is triggered, then event "wakeup" the
+        n
+====>                                     1                  2     3        4
+
+  *1*   103 E : 'IS' ID ',' 'THEN' replaced by '.'.
+  *2*   332656 E : << Lister: No message for code 332656 found >>
+  *3*   101 E : ID inserted.
+  *4*   102 E : 'THEN' ID ID 'AND' ID deleted.
+
+  20.   happens immediately and a "quit" occurs.  But when you run the adventur
+        e,
+====>                                    1                     2
+
+  *1*   103 E : ID '.' ID replaced by 'END' 'EVENT' '.'.
+  *2*   103 E : ID ID ID ',' ID ... replaced by '=>' STRING.
+
+  21.   you should find that when "gorilla_kill" occurs no messages are printed
+         out.
+====>                                            1                  2          
+         3
+
+  *1*   102 E : ID ID ID deleted.
+  *2*   420 E : Invalid What specification in attribute reference.
+  *3*   103 E : ID '.' '(' ID replaced by '=>'.
+
+  22.   (Both "gorilla_kill" and "wakeup" should generate messages.)  You just
+====>                        1            2      3                 4
+
+  *1*   102 E : 'AND' deleted.
+  *2*   103 E : ID replaced by 'MAKE'.
+  *3*   310 E : Identifier 'generate' not defined.
+  *4*   103 E : ')' ID ID ID ID ... replaced by 'START'.
+
+  23.   get the question (new in version 2.5) whether you want to restart.
+====>                                    1
+
+  *1*   103 E : INTEGER '.' INTEGER ')' ID ... replaced by '.'.
+
+  25.   There is another way for "gorilla_kill" to  be triggered.  After you "g
+        ive
+====>                                           1                  2
+
+  *1*   103 E : 'TO' replaced by 'MAKE'.
+  *2*   102 E : 'AFTER' ID deleted.
+
+  26.   banana to gorilla" the gorilla gets hungry again after a while.  If you
+         are
+====>                      1
+
+  *1*   102 E : ID ID ID ID ID ... deleted.
+
+  27.   still in the "cage", or go back in, there is no way to escape and 
+====>         1            2
+
+  *1*   103 E : 'IN' ID replaced by 'THEN'.
+  *2*   102 E : ',' 'OR' ID ID 'IN' ... deleted.
+
+  28.   "gorilla_kill" is inevitable.  If "gorilla_kill" is triggered in this w
+        ay,
+====>                  1                                              2
+
+  *1*   103 E : 'IS' replaced by 'SAY'.
+  *2*   102 E : 'IN' ID ID ',' ID ... deleted.
+
+  29.   the messages do get printed and everything works fine.
+====>                                              1
+
+  *1*   102 E : ID ID '.' ID ID ... deleted.
+
+  31.   It seems to me that there is a bug in ALAN which causes the messages to
+         be
+====>                                  1           2
+
+  *1*   101 E : 'OR' inserted.
+  *2*   103 E : ID ID ID ID 'TO' ... replaced by 'THEN'.
+
+  32.   missed when "gorilla_kill" happens one way, but not the other.  Of cour
+        se,
+====>                              1
+
+  *1*   102 E : ID ID ID ',' ID ... deleted.
+
+  33.   it may be my program, but I cannot see why!  Can you check this out for
+         me
+====>                                             1
+
+  *1*   102 F : Unknown Token deleted.
+
+  34.   please?
+====>         1
+
+  *1*   102 F : Unknown Token deleted.
+
+  38.   Tony O'Hagan
+====>         1
+
+  *1*   152 E : Unterminated quoted identifier.
+
+  40.   (Yes, A is for Anthony, which is shortened to Tony.  You are the same, 
+        Thoni!)
+====>                                                                          
+             1
+
+  *1*   102 F : Unknown Token deleted.
+
+  42.   Here is the file: it is straight from DOS, hence the extra ^M at end of
+====>                   1                                          2         3
+
+  *1*   102 F : Unknown Token deleted.
+  *2*   102 F : Unknown Token deleted.
+  *3*   104 E : Severe syntax error, construct ignored.
+
+  43.   every line.  I haven't worked out how to get my editor on the Sun to de
+        lete
+====>                       1
+
+  *1*   152 E : Unterminated quoted identifier.
+
+  44.   them!
+====>       1
+
+  *1*   102 F : Unknown Token deleted.
+
+  63.   LOCATION ATTRIBUTES
+====>            1
+
+  *1*   102 E : 'ATTRIBUTES' deleted.
+
+  64.   	NOT wet.
+====>   	    1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  66.   OBJECT ATTRIBUTES
+====>          1
+
+  *1*   102 E : 'ATTRIBUTES' deleted.
+
+  67.   	NOT openable.
+====>   	    1
+
+  *1*   104 E : Severe syntax error, construct ignored.
+
+ 103.   VERB take CHECK obj IS takeable ELSE "You can't take that!"
+====>                          1
+
+  *1*   404 E : Attribute to a parameter must be a default attribute.
+
+ 105.   	AND obj IS reachable ELSE "You can't reach it."
+====>   	           1
+
+  *1*   404 E : Attribute to a parameter must be a default attribute.
+
+ 123.   VERB move CHECK obj IS moveable	ELSE "It won't budge."
+====>                          1
+
+  *1*   404 E : Attribute to a parameter must be a default attribute.
+
+ 307.   		CHECK cage_door IS NOT closed ELSE "The door is closed"
+====>   		                       1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 317.   	DESCRIPTION IF cage_door IS NOT closed THEN
+====>   	                                1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 323.   	VERB open DOES ONLY MAKE cage_door NOT closed.
+====>   	                                       1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 324.   		MAKE cage_door1 NOT closed.
+====>   		                    1
+
+  *1*   315 E : Attribute not defined for 'cage_door1'.
+
+ 332.   	VERB close DOES ONLY MAKE cage_door closed.
+====>   	                                    1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 333.   		MAKE cage_door1 closed.
+====>   		                1
+
+  *1*   315 E : Attribute not defined for 'cage_door1'.
+
+ 364.   		CHECK cage_door IS NOT closed ELSE "The door is closed."
+====>   		                       1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 406.   	DESCRIPTION IF cage_door IS NOT closed THEN
+====>   	                                1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 412.   	VERB open DOES ONLY MAKE cage_door NOT closed.
+====>   	                                       1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 413.   		MAKE cage_door1 NOT closed.
+====>   		                    1
+
+  *1*   315 E : Attribute not defined for 'cage_door1'.
+
+ 419.   	VERB close DOES ONLY MAKE cage_door closed.
+====>   	                                    1
+
+  *1*   315 E : Attribute not defined for 'cage_door'.
+
+ 420.   		MAKE cage_door1 closed.
+====>   		                1
+
+  *1*   315 E : Attribute not defined for 'cage_door1'.
+
+
+
+        997 S : SYSTEM ERROR: Unrecognized switch in redefined()
+
+
+        88 error(s).
+        9 warning(s).
+        25 informational message(s).
+
+alice.tst: alice.input: No such file or directory

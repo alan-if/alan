@@ -1,0 +1,43 @@
+OPTIONS
+  Debug.
+
+OBJECT ATTRIBUTES
+  writeable.
+  str "".
+
+SYNTAX write = 'write' (s) 'on' (o)
+  WHERE s ISA STRING ELSE "You can only strings of characters on the $2."
+
+VERB write
+  CHECK o IS writeable
+    ELSE "You can't write on that."
+  DOES
+    SET str OF o TO s.
+END VERB write.
+
+SYNTAX l = 'l'.
+
+VERB l DOES LOOK. END VERB.
+
+VERB examine
+  DOES
+    DESCRIBE OBJECT.
+END VERB.
+
+OBJECT wall NAME wall AT loc
+  HAS str "Kilroy was here!".
+  DESCRIPTION
+    IF str of wall NOT = "" THEN
+      "On the wall is written '$$"
+      SAY str OF wall.
+      "$$'."
+    END IF.
+END OBJECT wall.
+
+LOCATION loc
+  DESCRIPTION
+    DESCRIBE wall.
+END LOCATION.
+
+START AT loc.
+  "Try writing something on the wall."

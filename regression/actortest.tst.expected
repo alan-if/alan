@@ -1,0 +1,20 @@
+########## actortest ##########
+alan actortest
+arun actortest < actortest.input
+########## /bin/sh  actortest.tst ##########
+
+
+actortest.alan
+
+   2.     locate actor in cont.
+====>     1      2
+
+  *1*   402 E : An Actor can't be inside a Container.
+  *2*   412 E : ACTOR is not allowed inside Events.
+
+
+        2 error(s).
+        No detected warnings.
+        2 informational message(s).
+
+actortest.tst: actortest.input: No such file or directory

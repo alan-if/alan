@@ -1,0 +1,27 @@
+########## hero_container ##########
+alan hero_container
+arun hero_container < hero_container.input
+########## /bin/sh  hero_container.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Try 'i hero' and 'put thing in cont'. You are empty-handed.
+
+
+L.
+There is a cont and a thing here.
+
+> You are empty-handed.
+
+> That can't carry anything.
+
+> That can't carry anything.
+
+> Taken.
+
+> 
+> 
+
+Do you want to restart (y) ? 

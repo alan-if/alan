@@ -1,0 +1,51 @@
+########## script_description ##########
+alan script_description
+arun script_description < script_description.input
+########## /bin/sh  script_description.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here. Suddenly Alan starts to clean the windows.
+
+> L.
+Alan is here cleaning the windows. Alan starts mopping the floor.
+
+> L.
+Alan is here mopping the floor. Alan goes back to doing nothing.
+
+> L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here. Suddenly Alan starts to clean the windows.
+
+> L.
+Alan is here cleaning the windows. Alan starts mopping the floor.
+
+> L.
+Alan is here mopping the floor. Alan goes back to doing nothing.
+
+> L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here.
+
+> L.
+The idle Alan is here. Suddenly Alan starts to clean the windows.
+
+> 
+
+Do you want to restart (y) ? 

@@ -1,0 +1,91 @@
+########## parse ##########
+alan parse
+arun parse < parse.input
+########## /bin/sh  parse.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+Input parse test: 
+    v - single verb 
+    vo - verb & object 
+    voo - verb & object 
+    vowo - verb & object 'with' object 
+
+Also try 'them', 'it', 'all' etc.
+
+
+L.
+There is a o1, a o2, a o3 and a o4 here.
+
+> Verb v.
+
+> Verb vo on o1.
+
+> Verb vo on o2.
+
+> Verb vo on o2.
+
+> I don't know what you mean by 'them'.
+
+> (o1) Verb vo on o1.
+
+(o2) Verb vo on o2.
+
+(o3) Verb vo on o3.
+
+(o4) Verb vo on o4.
+
+> (o1) Verb vo on o1.
+
+(o2) Verb vo on o2.
+
+(o3) Verb vo on o3.
+
+(o4) Verb vo on o4.
+
+> Verb voo on o1 and o2.
+
+> I don't know what you mean by 'them'.
+
+> (o1) Verb voo on o1 and o3.
+
+(o2) Verb voo on o2 and o3.
+
+(o3) Verb voo on o3 and o3.
+
+(o4) Verb voo on o4 and o3.
+
+> (o1) Verb voo on o1 and o3.
+
+(o2) Verb voo on o2 and o3.
+
+(o3) Verb voo on o3 and o3.
+
+(o4) Verb voo on o4 and o3.
+
+> (o1) Verb voo on o1 and o3.
+
+(o2) Verb voo on o2 and o3.
+
+(o3) Verb voo on o3 and o3.
+
+(o4) Verb voo on o4 and o3.
+
+> Verb vowo on o1 with o2.
+
+> I don't know what you mean by 'them'.
+
+> (o1) Verb vowo on o1 with o2.
+
+(o2) Verb vowo on o2 with o2.
+
+(o3) Verb vowo on o3 with o2.
+
+(o4) Verb vowo on o4 with o2.
+
+> You can't do that.
+
+> 
+
+Do you want to restart (y) ? 

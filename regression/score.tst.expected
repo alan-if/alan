@@ -1,0 +1,26 @@
+########## score ##########
+alan score
+arun score < score.input
+rm score.sav
+########## /bin/sh  score.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+> You have scored 0 points out of 10.
+
+> Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? 
+> You have scored 0 points out of 10. Event.
+
+> Enter file name to restore from (score.sav) : 
+> 
+
+Do you want to restart (y) ? 

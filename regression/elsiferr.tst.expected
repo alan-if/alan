@@ -1,0 +1,29 @@
+########## elsiferr ##########
+alan elsiferr
+arun elsiferr < elsiferr.input
+########## /bin/sh  elsiferr.tst ##########
+
+
+elsiferr.alan
+
+  15.     If 1 = l1 then ""
+====>          1
+
+  *1*   331 E : Incompatible types in expression.
+
+  18.     elsif 4 = l4 then ""
+====>             1
+
+  *1*   331 E : Incompatible types in expression.
+
+  22.     If l1 = 1 then ""
+====>           1
+
+  *1*   331 E : Incompatible types in expression.
+
+
+        3 error(s).
+        No detected warnings.
+        10 informational message(s).
+
+elsiferr.tst: elsiferr.input: No such file or directory

@@ -1,0 +1,43 @@
+########## weather ##########
+alan weather
+arun weather < weather.input
+########## /bin/sh  weather.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Outside.
+You are outside in the Sibirian winter night.
+
+> Time goes by.
+
+> Time goes by.
+
+> Time goes by.
+
+> Time goes by. The temperature is NOT that of sunny Southern California.
+It's rather quite chilly.
+
+> Time goes by. You can feel a cold wind sweeping down from the Sibirian
+wastelands.
+
+> Time goes by.
+
+> Time goes by.
+
+> Time goes by. You feel something gently touching your chin. It's a snow
+flake. The temperature is NOT that of sunny Southern California. It's
+rather quite chilly. Big snow flakes are falling.
+
+> Time goes by. Big snow flakes are falling.
+
+> Time goes by. You can feel a cold wind sweeping down from the Sibirian
+wastelands. Big snow flakes are falling.
+
+> Time goes by. Big snow flakes are falling.
+
+> 
+
+Do you want to restart (y) ? 
