@@ -145,6 +145,7 @@ static lmMsgs msg[] = {
     { "334   ", "Multiple syntaxes are defined with this structure (words and parameters)." },
     { "335   ", "ELSE clause of a DEPENDING statement must be the last." },
     { "336   ", "You can not ADD %1 to a class." },
+    { "337   ", "You can not Say boolean values." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not ADD %1 TO classes. %2" },
     { "350   ", "Can not inherit from something not a class." },
@@ -195,7 +196,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 115}
+    {0, 116}
 };
 static lmMessages currMsect = (lmMessages)0;
 

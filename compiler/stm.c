@@ -90,17 +90,12 @@ static void andescribe(StmNod *stm,
 
 
 
-/*----------------------------------------------------------------------
-
-  ansay()
-
-  Analyze a SAY statement.
-
-  */
-static void ansay(StmNod *stm,
-		  Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeSay(StmNod *stm, Context *context)
 {
   analyzeExpression(stm->fields.say.exp, context);
+  if (stm->fields.say.exp->type == BOOLEAN_TYPE)
+    lmLog(&stm->srcp, 337, sevERR, "");
 }
 
 
@@ -556,7 +551,7 @@ static void analyzeStatement(StmNod *stm,
     andescribe(stm, context);
     break;
   case SAY_STATEMENT:
-    ansay(stm, context);
+    analyzeSay(stm, context);
     break;
   case LIST_STATEMENT:
     analyzeList(stm, context);
