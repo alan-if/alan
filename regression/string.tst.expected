@@ -1,15 +1,15 @@
 ########## string ##########
-alan string
-arun string < string.input
+../compiler/alan string
+../interpreter/arun -n string < string.input
 ########## /bin/sh  string.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 1 45 Hello! "Debug"!
 
 
-String's Lair.
+String's Lair
 quit!
 
 Do you want to RESTART, RESTORE or QUIT ? 

@@ -1,16 +1,16 @@
 ########## pack ##########
-alan pack
-arun pack < pack.input
+../compiler/alan pack
+../interpreter/arun -n pack < pack.input
 ########## /bin/sh  pack.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Start At l.
 
 
-L.
+L
 This is a text.
 
 > 

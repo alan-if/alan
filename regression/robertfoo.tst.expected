@@ -1,48 +1,52 @@
 ########## robertfoo ##########
-alan robertfoo
-arun -d robertfoo < robertfoo.input
+../compiler/alan robertfoo
+../interpreter/arun -n -d robertfoo < robertfoo.input
 ########## /bin/sh  robertfoo.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        8 informational message(s).
+
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
+<Version of 'robertfoo' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 
-James Farty.
+James Farty
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
 ABUG> x
 
 
 > a
-Case 1a.
+Case 1a
 Case 1a with choice z. 
 mtest < 2
 
-Case 1b.
+Case 1b
 case 1b with choice a
 
 > a
-James Farty.
+James Farty
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
 > a
-Case 1a.
+Case 1a
 Case 1a with choice z. 
 mtest < 2
 
-Case 1b.
+Case 1b
 case 1b with choice a
 
 > a
-James Farty.
+James Farty
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
 > a
-Case 1a.
+Case 1a
 Case 1a with choice z. 
-mtest < 2
+mtest > 2
 
-Case 1b.
+Case 1b
 case 1b with choice a
 
 > b

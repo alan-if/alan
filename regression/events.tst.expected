@@ -1,14 +1,14 @@
 ########## events ##########
-alan events
-arun events < events.input
+../compiler/alan events
+../interpreter/arun -n events < events.input
 ########## /bin/sh  events.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-Loc.
+Loc
 
 > z
 Happens every turn.

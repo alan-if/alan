@@ -1,10 +1,10 @@
 ########## savebug ##########
-alan savebug
-arun savebug < savebug.input
+../compiler/alan savebug
+../interpreter/arun -n savebug < savebug.input
 ########## /bin/sh  savebug.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        18 informational message(s).
 
 
 One day you notice that you are trapped in a closet. Strange. 
@@ -14,7 +14,7 @@ Written by Mikko Vuorinen (mvuorine@cc.helsinki.fi)
 Release 2; Compiled with Alan 2.7(5)
 
 
-Inside the Closet.
+Inside the Closet
 This walk-in closet you are trapped in is actually quite big, but not big
 enough to be any more than a single location. The door leading out of
 here looks strong enough to withstand the blows of a sledgehammer. Next

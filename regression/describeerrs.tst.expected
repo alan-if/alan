@@ -1,5 +1,5 @@
 ########## describeerrs ##########
-alan describeerrs
+../compiler/alan describeerrs
 ########## /bin/sh  describeerrs.tst ##########
 
 
@@ -18,5 +18,5 @@ describeerrs.alan
 
         2 error(s).
         No detected warnings.
-        2 informational message(s).
+        5 informational message(s).
 

@@ -1,13 +1,13 @@
 ########## time ##########
-alan time
-arun time < time.input
+../compiler/alan time
+../interpreter/arun -n time < time.input
 ########## /bin/sh  time.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 
-L.
+L
 There is a o1, a o2 and a oc here.
 
 > time

@@ -1,5 +1,5 @@
 ########## heroes ##########
-alan heroes
+../compiler/alan heroes
 ########## /bin/sh  heroes.tst ##########
 
 
@@ -13,5 +13,5 @@ heroes.alan
 
         1 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

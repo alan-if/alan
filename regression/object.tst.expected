@@ -1,5 +1,5 @@
 ########## object ##########
-alan object
+../compiler/alan object
 ########## /bin/sh  object.tst ##########
 
 
@@ -38,5 +38,5 @@ object.alan
 
         6 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

@@ -1,14 +1,14 @@
 ########## locverbchk ##########
-alan locverbchk
-arun locverbchk < locverbchk.input
+../compiler/alan locverbchk
+../interpreter/arun -n locverbchk < locverbchk.input
 ########## /bin/sh  locverbchk.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-Somewhere.
+Somewhere
 
 > jump
 You can't do that here.

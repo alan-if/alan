@@ -1,10 +1,10 @@
 ########## jungle ##########
-alan jungle
-arun jungle < jungle.input
+../compiler/alan jungle
+../interpreter/arun -n jungle < jungle.input
 ########## /bin/sh  jungle.tst ##########
 
         No warnings or errors detected.
-        8 informational message(s).
+        20 informational message(s).
 
 
 
@@ -12,7 +12,7 @@ arun jungle < jungle.input
 headache? And where is 'here'? And who am I?'
 
 
-Path.
+Path
 You are standing on a barely visible path in the middle of nowhere. The
 path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should
@@ -29,7 +29,7 @@ just beside you.
 The vine is quite slippery, but you still manage to climb well into the
 trees.
 
-Trees.
+Trees
 You have now ended up high above the ground in the middle of the trees
 and vines. The vegetation is so thick up here that it seems almost like a
 green floor. Some kind of vaguely familiar fungus is growing here on a
@@ -39,7 +39,7 @@ vine.
 Taken!
 
 > down
-Path.
+Path
 You are standing on a barely visible path in the middle of nowhere. The
 path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should
@@ -53,7 +53,7 @@ touching your head. A particulary long and thick vine is hanging down
 just beside you.
 
 > south
-Clearing.
+Clearing
 Here the jungle opens up a bit and the path takes you straight into a
 clearing. The path seems to continue on the south side of the clearing
 some fifty paces away. An enormous tiger is standing here blocking your
@@ -68,7 +68,7 @@ After a short while a strange odour starts perspiring from your body.
 When you approaches the tiger it looks confused. Then it really takes in
 your smell. It suddenly bolts, turns and takes off into the jungle.
 
-Camp.
+Camp
 Here is the scattered parts of what ones was the camp of your expedition.
 The sight of it makes your memory come back. When you were attacked last
 night of a herd of wild elephants everyone fled in panic. You yourself
@@ -84,7 +84,7 @@ Do you want to RESTART, RESTORE or QUIT ? restart
 headache? And where is 'here'? And who am I?'
 
 
-Path.
+Path
 You are standing on a barely visible path in the middle of nowhere. The
 path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should

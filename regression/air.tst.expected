@@ -1,16 +1,16 @@
 ########## air ##########
-alan air
-arun air < air.input
+../compiler/alan air
+../interpreter/arun -n air < air.input
 ########## /bin/sh  air.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        5 informational message(s).
 
 
 Breath air!
 
 
-This.
+This
 
 > breath air
 You survive by breathing.

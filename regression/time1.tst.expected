@@ -1,6 +1,6 @@
 ########## time1 ##########
-alan time1
-arun time1 < time1.input
+../compiler/alan time1
+../interpreter/arun -n time1 < time1.input
 ########## /bin/sh  time1.tst ##########
 
 
@@ -19,7 +19,7 @@ time1.alan
 
         No detected errors.
         2 warning(s).
-        10 informational message(s).
+        105 informational message(s).
 
 
  A Matter of Time 
@@ -93,7 +93,7 @@ bringing Clarisse along. Also, you know you must hurry.
 
 
 <More>
-Clearings.
+Clearings
 You decide that it is too dangerous for Clarisse and quickly position
 yourself in the machine. You nervously start the controls and hope for
 the best. Tha machine begins to shake and you notice a strange grinding
@@ -115,7 +115,7 @@ able to fix them. That is, if you ever find him. There appears to be an
 greasy substance around the control panel.
 
 > n
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -125,19 +125,19 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > w
-Forest.
+Forest
 You are standing in the jungle. Little light is shining through the
 leaves and the air is very thick. A trail leads to the east and west.
 
 > w
-Swamp.
+Swamp
 You are standing in a swampy area. Vines are hanging down from the trees.
 The air is very humid and moist. A large tree is standing before you.
 
 > climb tree
 You climb up the large tree.
 
-Tree.
+Tree
 You are located up in a tree. You can see down around you for quite a
 distance. Swampy land surrounds this area blocking further travel. You
 can spot a hill to your Northeast. Leaves and vines block a full view of
@@ -147,17 +147,17 @@ the surrounding lands.
 Taken.
 
 > d
-Swamp.
+Swamp
 You are standing in a swampy area. Vines are hanging down from the trees.
 The air is very humid and moist. A large tree is standing before you.
 
 > e
-Forest.
+Forest
 You are standing in the jungle. Little light is shining through the
 leaves and the air is very thick. A trail leads to the east and west.
 
 > e
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -167,7 +167,7 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > s
-Clearings.
+Clearings
 There appears to be a trail leading to the north and to the east. Towards
 the north it seems to be rocky and to the east you think you hear some
 type of river. You can see large tracks to the east. Other than this
@@ -178,7 +178,7 @@ trail there seems to be no other exits. You are surrounded by forests.
 You scoop out some of the substance onto a leaf.
 
 > n
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -188,13 +188,13 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > n
-Hill.
+Hill
 You are standing in front of a large hill. There is a small cave within
 sight. You can see a path leading to the top of the hill. There is less
 plant life located here.
 
 > n
-Cave.
+Cave
 You are standing in a small, damp cave. To the east is a dark tunnel. 
 There is an old iron box here.
 
@@ -220,7 +220,7 @@ but it is edible.
 Taken.
 
 > e
-Tunnel.
+Tunnel
 You are standing in a small tunnel. The tunnel is quite short and ends
 abruptly. The ground is quite sticky with a strange mud-like substance.
 The only exit is to the west.
@@ -229,17 +229,17 @@ The only exit is to the west.
 You fill the cans up with mud.
 
 > w
-Cave.
+Cave
 You are standing in a small, damp cave. To the east is a dark tunnel.
 
 > s
-Hill.
+Hill
 You are standing in front of a large hill. There is a small cave within
 sight. You can see a path leading to the top of the hill. There is less
 plant life located here.
 
 > s
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -249,19 +249,19 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > w
-Forest.
+Forest
 You are standing in the jungle. Little light is shining through the
 leaves and the air is very thick. A trail leads to the east and west.
 
 > w
-Swamp.
+Swamp
 You are standing in a swampy area. Vines are hanging down from the trees.
 The air is very humid and moist. A large tree is standing before you.
 
 > climb tree
 You climb up the large tree.
 
-Tree.
+Tree
 You are located up in a tree. You can see down around you for quite a
 distance. Swampy land surrounds this area blocking further travel. You
 can spot a hill to your Northeast. Leaves and vines block a full view of
@@ -271,17 +271,17 @@ the surrounding lands.
 You cut down the vines.
 
 > d and e and e
-Swamp.
+Swamp
 You are standing in a swampy area. Vines are hanging down from the trees.
 The air is very humid and moist. A large tree is standing before you.
 
 
-Forest.
+Forest
 You are standing in the jungle. Little light is shining through the
 leaves and the air is very thick. A trail leads to the east and west.
 
 
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -291,7 +291,7 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > s
-Clearings.
+Clearings
 There appears to be a trail leading to the north and to the east. Towards
 the north it seems to be rocky and to the east you think you hear some
 type of river. You can see large tracks to the east. Other than this
@@ -299,7 +299,7 @@ trail there seems to be no other exits. You are surrounded by forests.
  The time machine is located here.
 
 > e
-River.
+River
 You are standing on a dirt path. Directly before you is a waterfall that
 is moving very fast. At the bottom of the falls you can make out a river
 with a long coastline. 
@@ -320,7 +320,7 @@ The metal is a rusty and dirty.
 You clean off the metal using the nearby water.
 
 > w
-Clearings.
+Clearings
 There appears to be a trail leading to the north and to the east. Towards
 the north it seems to be rocky and to the east you think you hear some
 type of river. You can see large tracks to the east. Other than this
@@ -328,7 +328,7 @@ trail there seems to be no other exits. You are surrounded by forests.
  The time machine is located here.
 
 > n
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -338,13 +338,13 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > n
-Hill.
+Hill
 You are standing in front of a large hill. There is a small cave within
 sight. You can see a path leading to the top of the hill. There is less
 plant life located here.
 
 > up
-Hilltop.
+Hilltop
 You are standing on top of the hill. You can see smoke in the far
 distance to your southeast. Since it doesn't appear cloudy you doubt
 lightning stuck and it doesn't seem a likely place for a brush fire. You
@@ -360,13 +360,13 @@ distance, across the river along the shoreline. It must be the Professor.
 You now have an approximate idea of where he is.
 
 > d
-Hill.
+Hill
 You are standing in front of a large hill. There is a small cave within
 sight. You can see a path leading to the top of the hill. There is less
 plant life located here.
 
 > s
-Trail.
+Trail
 You are heading north on a trail leading to some hills and mountains. The
 view is very lovely. You look about the area, but you do not see any
 animal life nearby. You wonder where the Professor could be. If he took
@@ -376,7 +376,7 @@ the forest or took the other path.
  You can see a trail leading to a small opening in the trees.
 
 > s
-Clearings.
+Clearings
 There appears to be a trail leading to the north and to the east. Towards
 the north it seems to be rocky and to the east you think you hear some
 type of river. You can see large tracks to the east. Other than this
@@ -384,7 +384,7 @@ trail there seems to be no other exits. You are surrounded by forests.
  The time machine is located here.
 
 > e
-River.
+River
 You are standing on a dirt path. Directly before you is a waterfall that
 is moving very fast. At the bottom of the falls you can make out a river
 with a long coastline. 
@@ -393,7 +393,7 @@ with a long coastline.
 trees and bushes. There is a raft here.
 
 > sail raft
-Shore.
+Shore
 You travel down the falls on your raft. It holds together surprisingly
 well. The river takes you downstream farther than you had wished. Your
 raft is heading for a a number of dangerous rocks along the coastline.

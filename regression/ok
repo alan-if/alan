@@ -1,0 +1,5 @@
+#! /bin/sh
+#
+cp $1.output $1.tst.expected
+rm $1.diff
+touch $1.diff

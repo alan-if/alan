@@ -1,14 +1,13 @@
 ########## apostrophe ##########
-alan apostrophe
-arun apostrophe < apostrophe.input
-########## /bin/sh  apostrophe.tst ##########
+../compiler/alan apostrophe
+../interpreter/arun -n apostrophe < apostrophe.input########## /bin/sh  apostrophe.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 
 
-L.
+L
 There is a robin's cape here.
 
 > x robin's cape

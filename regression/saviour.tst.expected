@@ -1,12 +1,12 @@
 ########## saviour ##########
-alan -debug saviour
-arun -n -d saviour < saviour.input
+../compiler/alan -debug saviour
+../interpreter/arun -n -d saviour < saviour.input
 ########## /bin/sh  saviour.tst ##########
 
         No warnings or errors detected.
-        17 informational message(s).
+        54 informational message(s).
 
-<Arun, Adventure Interpreter version 2.8(6) (2001-01-10 22:38:14)>
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
 <Version of 'saviour' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
@@ -25,7 +25,7 @@ This game was produced with the ALAN Adventure Development System and is
 brought to you by ThoNi&GorFo Adventure Factories.
 
 
-Outside The Tall Building.
+Outside The Tall Building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
@@ -39,20 +39,20 @@ ABUG> x
 You are empty-handed.
 
 > north
-Hall.
+Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
 has fallen to the floor. At the west end is a staircase, and to the south
 is the exit. To the east is a folding door. It is closed.
 
 > west
-Stairs.
+Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
 in, but be careful if you are going to use it. There is a passage leading
 up, and another leading down into a dark cellar. To the east is the
 hallway. A strange smell emerges from below.
 
 > up
-First Floor.
+First Floor
 The landing on the first floor is as dirty as all the others. Meters and
 meters of old cables are laying around, leading into a room to the east.
 The stairs leads up and down. They still seem alright. Through the dirty
@@ -60,7 +60,7 @@ windows the barren field outside the building can be seen. Almost
 completely covered by dust, there is an old book laying on the floor here.
 
 > east
-Office.
+Office
 In front of you is a deserted office area. Desks and chairs are piled up
 in one corner. The ventilation system has partly fallen to the floor,
 tearing part of the ceiling down with it. Under the twisted tubing a
@@ -78,7 +78,7 @@ Almost completely covered by dust, there is an old book laying on the
 floor here.
 
 > up
-Second Floor.
+Second Floor
 The second landing of the stairs is well kept through the ages. Some rust
 has gotten a grip on the fence but it is still rock steady. The window
 glass is still present in the frames, altough covered with dust so that
@@ -86,7 +86,7 @@ the sunlight can barely be seen through them. There is a doorway to the
 east.
 
 > east
-Terminal Room.
+Terminal Room
 This must be the old terminal room. Old and dusty, most of them cracked
 and broken, off-white computer terminals are standing on desks that once
 were called 'ergonomic'. Nowhere can any connections for the terminals be
@@ -103,7 +103,7 @@ Taken.
 Second Floor (again)
 
 > up
-Third Floor.
+Third Floor
 On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
 probably not to be trusted any longer and the stairs themselves are
 getting weaker. A puddle of water on the floor shows that the weather has
@@ -112,14 +112,14 @@ that can be heared. Foremerly there was an entrance to the east which is
 now totally blocked.
 
 > up
-Fourth Floor.
+Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
 gone. Small pieces of glass and rusty metal covers the stairs that leads
 up and down. Be careful where you put your feet! There are doors to the
 east and to the north.
 
 > east
-Computer Room.
+Computer Room
 A room of old computers, cables, disk drives, tape stations and floppy
 disks are spread out all over the floor. The exit is to the west. An
 ancient computer is standing in the centre of the room.
@@ -144,7 +144,7 @@ Please login. Enter USERID:'
 Fourth Floor (again)
 
 > north
-Windy Room.
+Windy Room
 In the middle of the room is a light spot on the floor. The light is
 comming from a hole in the ceiling. A strong wind can be felt comming
 through the hole. Bricks and stones covers the floor. The remains of bird
@@ -159,7 +159,7 @@ ceiling, where it now is standing.
 The steps of the ladder feels a bit weak, some more than others, but you
 manage to climb all the way without falling down.
 
-Walless Room.
+Walless Room
 Through the hole in the floor the end of a ladder is extending. Three of
 the walls in this room are missing and the wind is strong in your hair
 and clothes. Piles of bricks and wood are everywhere. Far, far below you
@@ -174,7 +174,7 @@ Otherwise there is nothing special about the nest.
 Taken.
 
 > down
-Windy Room.
+Windy Room
 In the middle of the room is a light spot on the floor. The light is
 comming from a hole in the ceiling. A strong wind can be felt comming
 through the hole. Bricks and stones covers the floor. The remains of bird
@@ -186,13 +186,13 @@ through the hole in the ceiling.
 Fourth Floor (again)
 
 > up
-Fifth Floor.
+Fifth Floor
 This must be the top of the top landing of the staircase. With a pounding
 heart and breath you look around and see two doorways. A small one to the
 south, and to the east a long corridor.
 
 > south
-Clock Room.
+Clock Room
 The room is so small and low that you can't stand straight. In one of the
 walls an elaborate clockwork is mounted. It is in very good shape it
 seems.
@@ -205,13 +205,13 @@ in the south a loud flapping of wings is heard.
 Fifth Floor (again)
 
 > east
-Corridor.
+Corridor
 A long east-west corridor extends in both directions. There are exits in
 both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
 the floor is covered with litter from bats.
 
 > east
-Small Office.
+Small Office
 This looks like a small office. Near the window there is a large desk. 
 There is a drawer in the desk. A small window lets some light in. The
 wallpaper has nearly all fallen to the floor and the chair is only a pile
@@ -252,7 +252,7 @@ Corridor (again)
 Fifth Floor (again)
 
 > down
-Fourth Floor.
+Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
 gone. Small pieces of glass and rusty metal covers the stairs that leads
 up and down. Be careful where you put your feet! There are doors to the
@@ -282,7 +282,7 @@ The key clicks in the lock as the door unlocks.
 The door opens, revealing the entrance to a dusty old cafeteria.
 
 > east
-Cafe.
+Cafe
 This is the entrance to the old cafeteria. The kitchen and all the
 furniture is long gone, but there is still some paper boxes and old
 plates here. In one corner of the cafeteria there is a vending machine.
@@ -305,7 +305,7 @@ cafeteria.
 Stairs (again)
 
 > down
-Cellar.
+Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
 room. The stairs lead up. A thin beam of light has found its way all the
 way down here. In the light from the sun some rats can be seen.
@@ -319,7 +319,7 @@ asleep in the sunshine.
 Silently sneaking past the sleeping rats, you enter the dark room to the
 west.
 
-Store.
+Store
 This must be an old storage room. There seems to be any amount of old
 crap here. Keytops from ancient keyboards are scattered all over the
 place, and keyboard overlays can be seen laying around here and there. I
@@ -331,21 +331,21 @@ another shelf there is a spool of computer tape.
 Taken.
 
 > east
-Cellar.
+Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
 room. The stairs lead up. A thin beam of light has found its way all the
 way down here. In the light from the sun some rats can be seen. They are
 all sleeping.
 
 > up
-Stairs.
+Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
 in, but be careful if you are going to use it. There is a passage leading
 up, and another leading down into a dark cellar. To the east is the
 hallway. A strange smell emerges from below.
 
 > up
-First Floor.
+First Floor
 The landing on the first floor is as dirty as all the others. Meters and
 meters of old cables are laying around, leading into a room to the east.
 The stairs leads up and down. They still seem alright. Through the dirty
@@ -353,7 +353,7 @@ windows the barren field outside the building can be seen. Almost
 completely covered by dust, there is an old book laying on the floor here.
 
 > up
-Second Floor.
+Second Floor
 The second landing of the stairs is well kept through the ages. Some rust
 has gotten a grip on the fence but it is still rock steady. The window
 glass is still present in the frames, altough covered with dust so that
@@ -367,7 +367,7 @@ Third Floor (again)
 Fourth Floor (again)
 
 > east
-Computer Room.
+Computer Room
 A room of old computers, cables, disk drives, tape stations and floppy
 disks are spread out all over the floor. The exit is to the west. A worn
 old terminal is standing here. An ancient computer is standing in the
@@ -425,7 +425,7 @@ With a loud POP! the computer stops suddenly and the terminal turns blank.
 Fourth Floor (again)
 
 > down
-Third Floor.
+Third Floor
 On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
 probably not to be trusted any longer and the stairs themselves are
 getting weaker. A puddle of water on the floor shows that the weather has
@@ -445,7 +445,7 @@ floor here.
 Stairs (again)
 
 > east
-Hall.
+Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
 has fallen to the floor. At the west end is a staircase, and to the south
 is the exit. To the east is a folding door. It is open revealing the

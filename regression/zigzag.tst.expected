@@ -1,6 +1,6 @@
 ########## zigzag ##########
-alan zigzag
-arun zigzag < zigzag.input
+../compiler/alan zigzag
+../interpreter/arun -n zigzag < zigzag.input
 ########## /bin/sh  zigzag.tst ##########
 
 
@@ -14,10 +14,11 @@ zigzag.alan
 
         No detected errors.
         1 warning(s).
+        3 informational message(s).
 
 
 
-Inside.
+Inside
 You are now on the inside
 
 > zig zag

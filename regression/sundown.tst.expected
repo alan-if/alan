@@ -1,16 +1,16 @@
 ########## sundown ##########
-alan sundown
-arun sundown < sundown.input
+../compiler/alan sundown
+../interpreter/arun -n sundown < sundown.input
 ########## /bin/sh  sundown.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Hero is here.
 
 
-Place.
+Place
 
 > z
 

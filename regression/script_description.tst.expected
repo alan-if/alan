@@ -1,61 +1,61 @@
 ########## script_description ##########
-alan script_description
-arun script_description < script_description.input
+../compiler/alan script_description
+../interpreter/arun -n script_description < script_description.input
 ########## /bin/sh  script_description.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here. Suddenly Alan starts to clean the windows.
 
 > l
-L.
+L
 Alan is here cleaning the windows. Alan starts mopping the floor.
 
 > l
-L.
+L
 Alan is here mopping the floor. Alan goes back to doing nothing.
 
 > l
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here. Suddenly Alan starts to clean the windows.
 
 > l
-L.
+L
 Alan is here cleaning the windows. Alan starts mopping the floor.
 
 > l
-L.
+L
 Alan is here mopping the floor. Alan goes back to doing nothing.
 
 > l
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here.
 
 > l
-L.
+L
 The idle Alan is here. Suddenly Alan starts to clean the windows.
 
 > 

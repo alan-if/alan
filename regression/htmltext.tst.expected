@@ -1,5 +1,5 @@
 ########## htmltext ##########
-alan htmltext
+../compiler/alan htmltext
 ########## /bin/sh  htmltext.tst ##########
 
 
@@ -32,5 +32,5 @@ htmltext.alan
 
         6 error(s).
         1 warning(s).
-        3 informational message(s).
+        4 informational message(s).
 

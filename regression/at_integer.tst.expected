@@ -1,5 +1,5 @@
 ########## at_integer ##########
-alan at_integer
+../compiler/alan at_integer
 ########## /bin/sh  at_integer.tst ##########
 
 
@@ -14,5 +14,5 @@ at_integer.alan
 
         1 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

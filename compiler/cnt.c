@@ -163,9 +163,9 @@ void cntcheck(WhtNod *wht,	/* IN - What to check */
       lmLog(&wht->srcp, 409, sevERR, "");
     else
       if (pars->element.elm->res == NULL ||
-	  (pars->element.elm->res->resKd & CONTAINER_RESTRICTION) ||
-	  (pars->element.elm->res->resKd & CONTAINEROBJECT_RESTRICTION) ||
-	  (pars->element.elm->res->resKd & CONTAINERACTOR_RESTRICTION))
+	  (pars->element.elm->res->classbits & NAMCNT) ||
+	  (pars->element.elm->res->classbits & NAMCOBJ) ||
+	  (pars->element.elm->res->classbits & NAMCACT))
 	lmLog(&wht->srcp, 312, sevERR, "a Container");
     break;
 

@@ -1,28 +1,28 @@
 ########## wall ##########
-alan wall
-arun wall < wall.input
+../compiler/alan wall
+../interpreter/arun -n wall < wall.input
 ########## /bin/sh  wall.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        5 informational message(s).
 
 
 
-Loc1.
+Loc1
 e to loc2. There is a wall here.
 
 > examine wall
 There is a wall here.
 
 > e
-Loc2.
+Loc2
 w to loc1.
 
 > examine wall
 I can't see any wall here.
 
 > w
-Loc1.
+Loc1
 e to loc2. There is a wall here.
 
 > examine wall

@@ -1,18 +1,18 @@
 ########## score ##########
-alan score
-arun score < score.input
+../compiler/alan score
+../interpreter/arun -n score < score.input
 rm score.sav
 ########## /bin/sh  score.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
 are saved correctly.
 
 
-L.
+L
 hej
 
 > f

@@ -1,10 +1,10 @@
 ########## integer ##########
-alan integer
-arun integer < integer.input
+../compiler/alan integer
+../interpreter/arun -n integer < integer.input
 ########## /bin/sh  integer.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Should be -3: -3 Should be -4: -4

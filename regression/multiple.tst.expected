@@ -1,14 +1,14 @@
 ########## multiple ##########
-alan multiple
-arun multiple < multiple.input
+../compiler/alan multiple
+../interpreter/arun -n multiple < multiple.input
 ########## /bin/sh  multiple.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 
 
-Loc.
+Loc
 There is a shiny long thing, a rusty long thing, a shiny short thing and a 
 rusty short thing here.
 

@@ -1,10 +1,10 @@
 ########## contar ##########
-alan contar
-arun contar < contar.input
+../compiler/alan contar
+../interpreter/arun -n contar < contar.input
 ########## /bin/sh  contar.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 
 
@@ -17,7 +17,7 @@ and
     'l'
 
 
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here.
 
 > take box
@@ -34,7 +34,7 @@ It would be a good trick to put the box inside the box, if you could do
 it!!
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > take paper
@@ -49,7 +49,7 @@ The paper is not a container.
 Ok! The box contains a paper.
 
 > l
-Somewhere.
+Somewhere
 There is a box and a ball here. You are empty-handed.
 
 > take ball
@@ -64,7 +64,7 @@ The ball is not a container.
 There is not room for any more in the box.
 
 > l
-Somewhere.
+Somewhere
 There is a box and a ball here. You are empty-handed.
 
 > 
@@ -81,7 +81,7 @@ The box contains a paper.
 The paper is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box and a ball here. You are empty-handed.
 
 > take paper
@@ -96,7 +96,7 @@ The paper is not a container.
 The paper is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > take ball
@@ -111,7 +111,7 @@ The ball is not a container.
 The paper is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > 
@@ -128,7 +128,7 @@ The box is empty.
 The ball is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > take paper
@@ -143,7 +143,7 @@ The paper is not a container.
 The ball is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > take ball
@@ -158,7 +158,7 @@ The ball is not a container.
 The ball is not a container.
 
 > l
-Somewhere.
+Somewhere
 There is a box, a ball and a paper here. You are empty-handed.
 
 > 

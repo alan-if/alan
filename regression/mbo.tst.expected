@@ -1,31 +1,32 @@
 ########## mbo ##########
-alan mbo
-arun mbo < mbo.input
+../compiler/alan mbo
+../interpreter/arun -n mbo < mbo.input
 ########## /bin/sh  mbo.tst ##########
 
         No warnings or errors detected.
+        66 informational message(s).
 
 
 < introduction >
 
 
-Outer Ward.
+Outer Ward
 < in front of the castle > < heavy iron portcullis > is raised.
 
 > n
-Castle Gate.
+Castle Gate
 < castle entrance > < heavy iron portcullis > is raised.
 
 > n
-In Front Of Main Building.
+In Front Of Main Building
 < in front of main building > < dark marble door > is open.
 
 > w
-Inner Ward.
+Inner Ward
 < south-west corner of inner ward >
 
 > n
-West Of Main Building.
+West Of Main Building
 < west of inner building > < sturdy iron door > is closed.
 
 > 

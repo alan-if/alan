@@ -1,5 +1,5 @@
 ########## attrs ##########
-alan attrs
+../compiler/alan attrs
 ########## /bin/sh  attrs.tst ##########
 
 
@@ -28,5 +28,5 @@ attrs.alan
 
         4 error(s).
         No detected warnings.
-        2 informational message(s).
+        4 informational message(s).
 

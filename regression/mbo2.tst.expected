@@ -1,19 +1,20 @@
 ########## mbo2 ##########
-alan mbo2
-arun mbo2 < mbo2.input
+../compiler/alan mbo2
+../interpreter/arun -n mbo2 < mbo2.input
 ########## /bin/sh  mbo2.tst ##########
 
         No warnings or errors detected.
+        3 informational message(s).
 
 
 
-Northern part of island.
+Northern part of island
 
     This is northern part of the island. A sandy beach leads to west and
 east from here.
 
 > east
-Northern part of island.
+Northern part of island
 
     This is northern part of the island. A sandy beach leads to west and
 east from here.

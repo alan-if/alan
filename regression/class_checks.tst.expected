@@ -1,10 +1,10 @@
 ########## class_checks ##########
-alan class_checks
-arun class_checks < class_checks.input
+../compiler/alan class_checks
+../interpreter/arun -n class_checks < class_checks.input
 ########## /bin/sh  class_checks.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
     sca - container actor
@@ -14,7 +14,7 @@ arun class_checks < class_checks.input
     so - object
 
 
-L.
+L
 There is a co and a o here. Ca is here. A is here.
 
 > sca ca

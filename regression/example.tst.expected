@@ -1,14 +1,14 @@
 ########## example ##########
-alan example
-arun example < example.input
+../compiler/alan example
+../interpreter/arun -n example < example.input
 ########## /bin/sh  example.tst ##########
 
         No warnings or errors detected.
-        4 informational message(s).
+        9 informational message(s).
 
 
 
-Bright_place.
+Bright_place
 
 > take vase
 You already have it.
@@ -20,13 +20,13 @@ Dropped.
 Taken.
 
 > n
-Dark_place.
+Dark_place
 
 > throw vase
 You can't aim in the dark.
 
 > s
-Bright_place.
+Bright_place
 
 > throw vase
 Dropped. The nice vase flies into billions of pieces.

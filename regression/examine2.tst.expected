@@ -1,5 +1,5 @@
 ########## examine2 ##########
-alan examine2
+../compiler/alan examine2
 ########## /bin/sh  examine2.tst ##########
 
 
@@ -14,5 +14,5 @@ examine2.alan
 
         1 error(s).
         No detected warnings.
-        1 informational message(s).
+        4 informational message(s).
 

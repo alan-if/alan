@@ -1,16 +1,16 @@
 ########## qual ##########
-alan qual
-arun qual < qual.input
+../compiler/alan qual
+../interpreter/arun -n qual < qual.input
 ########## /bin/sh  qual.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 
 Try 'v o'.
 
 
-L.
+L
 There is a o here.
 
 > v o

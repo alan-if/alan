@@ -1,14 +1,14 @@
 ########## pat ##########
-alan pat
-arun pat < pat.input
+../compiler/alan pat
+../interpreter/arun -n pat < pat.input
 ########## /bin/sh  pat.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 
-L.
+L
 There is a o here.
 
 > unlock o

@@ -1,6 +1,6 @@
 ########## pot ##########
-alan pot
-arun pot < pot.input
+../compiler/alan pot
+../interpreter/arun -n pot < pot.input
 ########## /bin/sh  pot.tst ##########
 
 
@@ -11,13 +11,13 @@ arun pot < pot.input
 
         No detected errors.
         1 warning(s).
-        2 informational message(s).
+        5 informational message(s).
 
 
 Try 'x' on the objects, then 'plant the pot plant in the plant pot'.
 
 
-L.
+L
 There is a pot plant and a plant pot here.
 
 > plant the pot plant in the plant pot

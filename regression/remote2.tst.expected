@@ -1,16 +1,16 @@
 ########## remote2 ##########
-alan remote2
-arun remote2 < remote2.input
+../compiler/alan remote2
+../interpreter/arun -n remote2 < remote2.input
 ########## /bin/sh  remote2.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        12 informational message(s).
 
 
 Try 'take all', 'drop all' and 'omni all'
 
 
-Loc.
+Loc
 There is a shiny long thing, a rusty long thing, a shiny short thing, a 
 rusty short thing and a golden long thing here.
 

@@ -1,14 +1,14 @@
 ########## iso ##########
-alan iso
-arun iso < iso.input
+../compiler/alan iso
+../interpreter/arun -n iso < iso.input
 ########## /bin/sh  iso.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-Едцедц.
+Едцедц
 
 > 
 

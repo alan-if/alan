@@ -1,14 +1,14 @@
 ########## look ##########
-alan look
-arun look < look.input
+../compiler/alan look
+../interpreter/arun -n look < look.input
 ########## /bin/sh  look.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-L.
+L
 
 
 As you enter the twilight zone of Adventures, you stumble and fall to

@@ -1,16 +1,16 @@
 ########## actorverb ##########
-alan actorverb
-arun actorverb < actorverb.input
+../compiler/alan actorverb
+../interpreter/arun -n actorverb < actorverb.input
 ########## /bin/sh  actorverb.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 
 Examine Fred!
 
 
-W.
+W
 Fred is here.
 
 > examine fred

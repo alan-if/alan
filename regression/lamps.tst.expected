@@ -1,14 +1,14 @@
 ########## lamps ##########
-alan lamps
-arun lamps < lamps.input
+../compiler/alan lamps
+../interpreter/arun -n lamps < lamps.input
 ########## /bin/sh  lamps.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        8 informational message(s).
 
 
 
-Outside The Big Building.
+Outside The Big Building
 There is a dusty blue lamp, a dusty golden lamp, a clean blue lamp and a 
 clean golden lamp here.
 

@@ -1,10 +1,10 @@
 ########## demo ##########
-alan demo
-arun demo < demo.input
+../compiler/alan demo
+../interpreter/arun -n demo < demo.input
 ########## /bin/sh  demo.tst ##########
 
         No warnings or errors detected.
-        8 informational message(s).
+        14 informational message(s).
 
 
 
@@ -12,7 +12,7 @@ Welcome to a small ADVENTURE written in ALAN.
 
 
 
-Round Room.
+Round Room
 This is a round room with no descernible corners, 'G} och st{ll
 dig i h|rnet Nisse!' On the floor there is a dusty book. It is
 closed.
@@ -24,7 +24,7 @@ It is much too dark in here to see anything.
 I can't see any lamp here.
 
 > w
-Square Room.
+Square Room
 It is very dark in here. In the north wall of the room there is
 a door. There is an old lamp here.
 

@@ -212,7 +212,7 @@ EVENT go_dark
 	LOCATE hero AT darkplace.
 END EVENT go_dark.
 
-LOCATION darkplace NAME 'in' the dark
+LOCATION darkplace NAME 'in' 'the' dark
 	DESCRIPTION "You cannot see where you are going or what you
 		are doing."
 		EMPTY inventory AT nowhere.

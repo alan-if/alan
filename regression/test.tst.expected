@@ -1,5 +1,5 @@
 ########## test ##########
-alan test
+../compiler/alan test
 ########## /bin/sh  test.tst ##########
 
 
@@ -62,5 +62,5 @@ test.alan
 
         10 error(s).
         1 warning(s).
-        3 informational message(s).
+        11 informational message(s).
 

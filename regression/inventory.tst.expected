@@ -1,14 +1,14 @@
 ########## inventory ##########
-alan inventory
-arun inventory < inventory.input
+../compiler/alan inventory
+../interpreter/arun -n inventory < inventory.input
 ########## /bin/sh  inventory.tst ##########
 
         No warnings or errors detected.
-        5 informational message(s).
+        11 informational message(s).
 
 
 
-Loc.
+Loc
 There is an o1, an o2, an o3 and an o4 here.
 
 > take o1

@@ -1,10 +1,10 @@
 ########## neg ##########
-alan neg
-arun neg < neg.input
+../compiler/alan neg
+../interpreter/arun -n neg < neg.input
 ########## /bin/sh  neg.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Should say 6: 6 Should say 5: 5

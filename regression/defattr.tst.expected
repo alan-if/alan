@@ -1,5 +1,5 @@
 ########## defattr ##########
-alan defattr
+../compiler/alan defattr
 ########## /bin/sh  defattr.tst ##########
 
 
@@ -18,5 +18,5 @@ defattr.alan
 
         2 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

@@ -1,15 +1,15 @@
 ########## default_strings ##########
-alan default_strings
-arun default_strings < default_strings.input
+../compiler/alan default_strings
+../interpreter/arun -n default_strings < default_strings.input
 ########## /bin/sh  default_strings.tst ##########
 
         No warnings or errors detected.
-        3 informational message(s).
+        6 informational message(s).
 
 lstr lstr Hej hopp i lingonskogen.
 
 
-L3.
+L3
 
 > 
 

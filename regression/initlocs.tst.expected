@@ -1,5 +1,5 @@
 ########## initlocs ##########
-alan initlocs
+../compiler/alan initlocs
 ########## /bin/sh  initlocs.tst ##########
 
 
@@ -62,5 +62,5 @@ initlocs.alan
 
         10 error(s).
         1 warning(s).
-        3 informational message(s).
+        11 informational message(s).
 

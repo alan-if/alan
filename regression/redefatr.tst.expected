@@ -1,10 +1,10 @@
 ########## redefatr ##########
-alan redefatr
-arun redefatr < redefatr.input
+../compiler/alan redefatr
+../interpreter/arun -n redefatr < redefatr.input
 ########## /bin/sh  redefatr.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 The redefined attributes are as follows:
@@ -18,7 +18,7 @@ global of o = 42
 global of hero = 42
 
 
-L.
+L
 There is a o here.
 
 > 

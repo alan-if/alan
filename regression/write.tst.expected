@@ -1,21 +1,21 @@
 ########## write ##########
-alan write
-arun write < write.input
+../compiler/alan write
+../interpreter/arun -n write < write.input
 ########## /bin/sh  write.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 Try writing something on the wall.
 
 
-Loc.
+Loc
 On the wall is written 'Kilroy was here!'.
 
 > write "Kilroy was here!" on the wall
 
 > l
-Loc.
+Loc
 On the wall is written 'Kilroy was here!'.
 
 > 

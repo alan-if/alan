@@ -1,33 +1,34 @@
 ########## visits ##########
-alan visits
-arun visits < visits.input
+../compiler/alan visits
+../interpreter/arun -n visits < visits.input
 ########## /bin/sh  visits.tst ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 
 
-Same.
+Same
 This is the same Location.
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same.
+Same
 This is the same Location.
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > 
 

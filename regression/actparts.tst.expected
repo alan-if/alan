@@ -1,5 +1,5 @@
 ########## actparts ##########
-alan actparts
+../compiler/alan actparts
 ########## /bin/sh  actparts.tst ##########
 
 
@@ -18,5 +18,5 @@ actparts.alan
 
         2 error(s).
         No detected warnings.
-        3 informational message(s).
+        4 informational message(s).
 

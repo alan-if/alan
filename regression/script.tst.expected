@@ -1,14 +1,14 @@
 ########## script ##########
-alan script
-arun script < script.input
+../compiler/alan script
+../interpreter/arun -n script < script.input
 ########## /bin/sh  script.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-L.
+L
 Torbjörn is here.
 
 > z

@@ -1,13 +1,13 @@
 ########## open ##########
-alan open
-arun open < open.input
+../compiler/alan open
+../interpreter/arun -n open < open.input
 ########## /bin/sh  open.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
-L.
+L
 There is a trunk and a thing here.
 
 > put thing in trunk

@@ -1,17 +1,17 @@
 ########## genatr ##########
-alan genatr
-arun genatr < genatr.input
+../compiler/alan genatr
+../interpreter/arun -n genatr < genatr.input
 ########## /bin/sh  genatr.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 
 Try the v verb on the o. LOCATION should have 42, Hero 96 and Object from
 42 and counting.
 
 
-L.
+L
 Here we have int_attr = 42. There is a o here.
 
 > v o

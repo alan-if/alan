@@ -1,18 +1,18 @@
 ########## actor_at_object_in_cont ##########
 ../compiler/alan actor_at_object_in_cont
-arun actor_at_object_in_cont < actor_at_object_in_cont.input
+../interpreter/arun -n actor_at_object_in_cont < actor_at_object_in_cont.input
 ########## /bin/sh  actor_at_object_in_cont.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        6 informational message(s).
 
 Locating hero at obj which is in container, should end up at L.
 
-L.
+L
 There is a cont here.
 
 
-Loc.
+Loc
 
 > 
 

@@ -1,15 +1,15 @@
 ########## ask_data ##########
-alan ask_data
-arun ask_data < ask_data.input
+../compiler/alan ask_data
+../interpreter/arun -n ask_data < ask_data.input
 ########## /bin/sh  ask_data.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 Ask Mr. Data about the ball, the computer or Geordie.
 
 
-Home.
+Home
 Mr Data is here.
 
 > ask data about the computer

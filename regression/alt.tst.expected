@@ -1,16 +1,16 @@
 ########## alt ##########
-alan alt
-arun alt < alt.input
+../compiler/alan alt
+../interpreter/arun -n alt < alt.input
 ########## /bin/sh  alt.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
 To test verb alternatives try 'PUT obj1 in obj2' and vice versa.
 
 
-L.
+L
 There is a obj1 and a obj2 here.
 
 > put obj1 in obj2

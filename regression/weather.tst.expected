@@ -1,14 +1,14 @@
 ########## weather ##########
-alan weather
-arun weather < weather.input
+../compiler/alan weather
+../interpreter/arun -n weather < weather.input
 ########## /bin/sh  weather.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 
-Outside.
+Outside
 You are outside in the Sibirian winter night.
 
 > wait

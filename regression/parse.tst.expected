@@ -1,10 +1,10 @@
 ########## parse ##########
-alan parse
-arun parse < parse.input
+../compiler/alan parse
+../interpreter/arun -n parse < parse.input
 ########## /bin/sh  parse.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 Input parse test: 
     v - single verb 
@@ -15,7 +15,7 @@ Input parse test:
 Also try 'them', 'it', 'all' etc.
 
 
-L.
+L
 There is a o1, a o2, a o3 and a o4 here.
 
 > v

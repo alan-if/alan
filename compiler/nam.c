@@ -169,6 +169,35 @@ void genam(NamNod *nam)		/* IN - The name to generate for */
 }
 
 
+
+/*======================================================================
+
+  dumpNamKind()
+
+  Dump a NAM kind.
+
+  */
+void dumpNamKind(NamKind kind)
+{
+  switch (kind) {
+  case NAMUNK: put("UNKNOWN"); break;
+  case NAMOBJ: put("OBJECT"); break;
+  case NAMACT: put("ACTOR"); break;
+  case NAMCNT: put("CONTAINER"); break;
+  case NAMDIR: put("DIRECTION"); break;
+  case NAMLOC: put("LOCATION"); break;
+  case NAMVRB: put("VERB"); break;
+  case NAMATR: put("ATTRIBUTE"); break;
+  case NAMEVT: put("EVENT"); break;
+  case NAMPAR: put("PARAMETER"); break;
+  case NAMWRD: put("WORD"); break;
+  case NAMNUM: put("NUMBER"); break;
+  case NAMSTR: put("STRING"); break;
+  default: put("*** ERROR ***"); break;
+  }
+}
+
+
 /*======================================================================
 
   dunam()
@@ -185,22 +214,6 @@ void dunam(NamNod *nam)
 
   put("NAM: "); dusrcp(&nam->srcp); in();
   put("string: "); dustr(nam->str); nl();
-  put("kind: ");
-  switch (nam->kind) {
-  case NAMUNK: put("UNKNOWN"); break;
-  case NAMOBJ: put("OBJECT"); break;
-  case NAMACT: put("ACTOR"); break;
-  case NAMCNT: put("CONTAINER"); break;
-  case NAMDIR: put("DIRECTION"); break;
-  case NAMLOC: put("LOCATION"); break;
-  case NAMVRB: put("VERB"); break;
-  case NAMATR: put("ATTRIBUTE"); break;
-  case NAMEVT: put("EVENT"); break;
-  case NAMPAR: put("PARAMETER"); break;
-  case NAMWRD: put("WORD"); break;
-  case NAMNUM: put("NUMBER"); break;
-  case NAMSTR: put("STRING"); break;
-  default: put("*** ERROR ***"); break;
-  } nl();
+  put("kind: "); dumpNamKind(nam->kind); nl();
   put("code: "); duint(nam->code); out();
 }

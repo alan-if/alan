@@ -1,5 +1,5 @@
 ########## params ##########
-alan params
+../compiler/alan params
 ########## /bin/sh  params.tst ##########
 
 
@@ -25,5 +25,5 @@ params.alan
 
         4 error(s).
         No detected warnings.
-        4 informational message(s).
+        6 informational message(s).
 

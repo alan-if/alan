@@ -1,16 +1,16 @@
 ########## long ##########
-alan long
-arun long < long.input
+../compiler/alan long
+../interpreter/arun -n long < long.input
 ########## /bin/sh  long.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Try 'text'.
 
 
-L.
+L
 
 > text
 This is a very very very very very very very long string too see if very

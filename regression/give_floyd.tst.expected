@@ -1,16 +1,16 @@
 ########## give_floyd ##########
-alan give_floyd
-arun give_floyd < give_floyd.input
+../compiler/alan give_floyd
+../interpreter/arun -n give_floyd < give_floyd.input
 ########## /bin/sh  give_floyd.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 
 Take all, then give floyd a widget.
 
 
-L.
+L
 There is a light widget, a heavy widget and a floyd here.
 
 > take all

@@ -1,16 +1,16 @@
 ########## dollar ##########
-alan dollar
-arun dollar < dollar.input
+../compiler/alan dollar
+../interpreter/arun -n dollar < dollar.input
 ########## /bin/sh  dollar.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 OOH! There is a hand written remark in the margin here, it says 'HejHo'.
 
 
-L.
+L
 
 > 
 

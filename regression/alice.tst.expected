@@ -1,14 +1,14 @@
 ########## alice ##########
-alan alice
-arun alice < alice.input
+../compiler/alan alice
+../interpreter/arun -n alice < alice.input
 ########## /bin/sh  alice.tst ##########
 
         No warnings or errors detected.
-        8 informational message(s).
+        23 informational message(s).
 
 
 
-Wine Cellar.
+Wine Cellar
 The wine cellar must have been a marvellous place when the racks all
 around the walls were filled with enticing and dusty bottles of wine.
 Unfortunately, they are now all empty. There are passages leading east
@@ -22,49 +22,49 @@ It opens noisily on rusty hinges. A fearsome noise erupts from within the
 dark room to the north.
 
 > n
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door
 leads into the wine cellar. There is a fork here.
 
 > look
-Cage.
+Cage
 Somehow the lamp fails to make much impression here. Shine as brightly as
 it may, the room is gloomy and menacing. As your eyes adjust to the dark,
 you see . . . a huge and menacing gorilla. To the south an open door

@@ -1,5 +1,5 @@
 ########## where ##########
-alan where
+../compiler/alan where
 
 ########## /bin/sh  where.tst ##########
 
@@ -15,5 +15,5 @@ where.alan
 
         1 error(s).
         No detected warnings.
-        2 informational message(s).
+        4 informational message(s).
 

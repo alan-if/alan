@@ -1,5 +1,5 @@
 ########## samesyntax ##########
-alan samesyntax
+../compiler/alan samesyntax
 ########## /bin/sh  samesyntax.tst ##########
 
 
@@ -20,5 +20,5 @@ samesyntax.alan
 
         No detected errors.
         2 warning(s).
-        1 informational message(s).
+        2 informational message(s).
 

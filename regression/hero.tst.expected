@@ -1,15 +1,15 @@
 ########## hero ##########
-alan hero
-arun hero < hero.input
+../compiler/alan hero
+../interpreter/arun -n hero < hero.input
 ########## /bin/sh  hero.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 Try to examine yourself.
 
 
-Kitchen.
+Kitchen
 There is a nail here.
 
 > examine me

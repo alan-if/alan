@@ -1,11 +1,14 @@
 ########## oatrs ##########
-alan oatrs -debug
-arun -s -d oatrs < oatrs.input
+../compiler/alan oatrs -debug
+../interpreter/arun -n -s -d oatrs < oatrs.input
 ########## /bin/sh  oatrs.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
+<Version of 'oatrs' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 <START:>
 
@@ -30,7 +33,7 @@ arun -s -d oatrs < oatrs.input
   b7: PRINT 	   10,     1	"L"
   b8: RETURN
 --------------------------------------------------
-.
+
 
 ABUG> o 1
 OBJECT 1 : o 

@@ -1,10 +1,10 @@
 ########## atr ##########
-alan atr
-arun atr < atr.input
+../compiler/alan atr
+../interpreter/arun -n atr < atr.input
 ########## /bin/sh  atr.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 X is a. O is b. Actor is a.

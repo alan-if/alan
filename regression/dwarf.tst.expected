@@ -1,15 +1,15 @@
 ########## dwarf ##########
-alan dwarf
-arun dwarf < dwarf.input
+../compiler/alan dwarf
+../interpreter/arun -n dwarf < dwarf.input
 ########## /bin/sh  dwarf.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 Kill the dwarf!
 
 
-Place.
+Place
 There is a stone here. Dwarf is here.
 
 > kill dwarf

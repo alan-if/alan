@@ -1,15 +1,18 @@
 ########## byron ##########
-alan -debug byron
-arun -d byron < byron.input
+../compiler/alan -debug byron
+../interpreter/arun -n -d byron < byron.input
 ########## /bin/sh  byron.tst ##########
 
         No warnings or errors detected.
-        3 informational message(s).
+        11 informational message(s).
 
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
+<Version of 'byron' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 Hamburgers make excellent pets!
 
 
-The Beginning.
+The Beginning
 In the beginning, there was the void... There is a huge door to the north. 
 It is closed.
 
@@ -20,7 +23,7 @@ ABUG> x
 The door opens with a errie creaking sound.
 
 
-The End.
+The End
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is open.
 
@@ -34,7 +37,7 @@ You can't go that way.
 You can't go that way.
 
 > e
-Staircase.
+Staircase
 You are at the bottom of a long and winding staircase which opens to the
 west.
 
@@ -93,7 +96,7 @@ You climb down a few flights of stairs. You have reached the bottom! Pop
 goes the weasal!
 
 > w
-The End.
+The End
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is closed.
 
@@ -104,17 +107,17 @@ The door opens with a errie creaking sound.
 You can't go that way.
 
 > e
-Staircase.
+Staircase
 You are at the bottom of a long and winding staircase which opens to the
 west. Pop goes the weasal!
 
 > w
-The End.
+The End
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is open.
 
 > s
-The Beginning.
+The Beginning
 In the beginning, there was the void... There is a huge door to the north. 
 It is open.
 

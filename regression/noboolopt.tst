@@ -1,4 +1,4 @@
 ../compiler/alan noboolopt
-file noboolopt.dat
-../compiler/alan -pack noboolopt
-file noboolopt.dat
+../interpreter/arun -n -d noboolopt < noboolopt.input
+../compiler/alan -debug noboolopt
+../interpreter/arun -n -d noboolopt < noboolopt.input

@@ -1,16 +1,16 @@
 ########## actnams ##########
 ../compiler/alan actnams
-arun actnams < actnams.input
+../interpreter/arun -n actnams < actnams.input
 ########## /bin/sh  actnams.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 Try 'hello tim' and 'hello Tim Allen'.
 
 
-L.
+L
 Tim is here.
 
 > hello tim

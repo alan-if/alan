@@ -1,5 +1,5 @@
 ########## paramatr ##########
-alan paramatr
+../compiler/alan paramatr
 ########## /bin/sh  paramatr.tst ##########
 
 
@@ -28,5 +28,5 @@ paramatr.alan
 
         4 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

@@ -1,16 +1,17 @@
 ########## adjverb ##########
-alan adjverb
-arun adjverb < adjverb.input
+../compiler/alan adjverb
+../interpreter/arun -n adjverb < adjverb.input
 ########## /bin/sh  adjverb.tst ##########
 
 
 
-        320 W : Word 'mail' belongs to multiple word classes.
+        320 W : Word 'mail' belongs to multiple word classes (adjective and
+                verb).
 
 
         No detected errors.
         1 warning(s).
-        3 informational message(s).
+        6 informational message(s).
 
 
 Test the use of the same words as an adjective and a verb. Try 
@@ -18,7 +19,7 @@ Test the use of the same words as an adjective and a verb. Try
     x mail box
 
 
-L.
+L
 There is a letter and a mail box here.
 
 > mail letter

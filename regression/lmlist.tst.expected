@@ -1,7 +1,7 @@
 ########## lmlist ##########
-alan lmlist
+../compiler/alan lmlist
 ########## /bin/sh  lmlist.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 

@@ -1,16 +1,16 @@
 ########## dial ##########
-alan dial
-arun dial < dial.input
+../compiler/alan dial
+../interpreter/arun -n dial < dial.input
 ########## /bin/sh  dial.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        4 informational message(s).
 
 
 Try 'turn dial to <n>'.
 
 
-L.
+L
 There is a dial here.
 
 > turn dial to 45

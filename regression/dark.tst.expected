@@ -1,73 +1,73 @@
 ########## dark ##########
-alan dark
-arun dark < dark.input
+../compiler/alan dark
+../interpreter/arun -n dark < dark.input
 ########## /bin/sh  dark.tst ##########
 
         No warnings or errors detected.
-        3 informational message(s).
+        6 informational message(s).
 
 
 Try moving 'in' and 'out' with and without the lamp. You can light the
 lamp and drop it. Also try 'look' in various situations.
 
 
-Outdoors.
+Outdoors
 Out here in the sun you can see everything.
 
 > l
-Outdoors.
+Outdoors
 Out here in the sun you can see everything.
 
 > in
-Indoors.
+Indoors
 You can not see anything in the dark.
 
 > l
 You cannot see anything without any light.
 
 > out
-Outdoors.
+Outdoors
 Out here in the sun you can see everything.
 
 > take lamp
 
 > in
-Indoors.
+Indoors
 You can not see anything in the dark.
 
 > light lamp
-Indoors.
+Indoors
 This is usually a very dark room. But in this light you can see...
 
 > l
-Indoors.
+Indoors
 This is usually a very dark room. But in this light you can see...
 
 > out
-Outdoors.
+Outdoors
 Out here in the sun you can see everything.
 
 > drop lamp
 
 > in
-Indoors.
+Indoors
 You can not see anything in the dark.
 
 > l
 You cannot see anything without any light.
 
 > out
-Outdoors.
+Outdoors
 Out here in the sun you can see everything. There is a lamp here.
 
 > take lamp
 
 > in
-Indoors.
+Indoors
 This is usually a very dark room. But in this light you can see...
 
 > l
-Indoors.
+Indoors
 This is usually a very dark room. But in this light you can see...
 
 > 

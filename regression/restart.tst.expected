@@ -1,20 +1,20 @@
 ########## restart ##########
-alan restart
-arun restart < restart.input
+../compiler/alan restart
+../interpreter/arun -n restart < restart.input
 ########## /bin/sh  restart.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 Going w will give you 5 points. Then restart (or q) to find out if scores
 are cleared.
 
 
-L1.
+L1
 
 > w
-L2.
+L2
 
 > score
 You have scored 5 points out of 5.
@@ -27,7 +27,7 @@ Going w will give you 5 points. Then restart (or q) to find out if scores
 are cleared.
 
 
-L1.
+L1
 
 > score
 You have scored 0 points out of 5.

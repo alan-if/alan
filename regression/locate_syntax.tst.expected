@@ -1,5 +1,5 @@
 ########## locate_syntax ##########
-alan locate_syntax
+../compiler/alan locate_syntax
 
 ########## /bin/sh  locate_syntax.tst ##########
 
@@ -99,5 +99,5 @@ locate_syntax.alan
 
         22 error(s).
         No detected warnings.
-        2 informational message(s).
+        5 informational message(s).
 

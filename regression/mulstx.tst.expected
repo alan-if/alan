@@ -1,6 +1,6 @@
 ########## mulstx ##########
-alan mulstx
-arun mulstx < mulstx.input
+../compiler/alan mulstx
+../interpreter/arun -n mulstx < mulstx.input
 ########## /bin/sh  mulstx.tst ##########
 
 
@@ -30,15 +30,15 @@ mulstx.alan
 
         No detected errors.
         6 warning(s).
-        5 informational message(s).
+        7 informational message(s).
 
 
 
-L.
+L
 There is a obj here.
 
 > look
-L.
+L
 There is a obj here.
 
 > look at obj

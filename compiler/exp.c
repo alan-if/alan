@@ -436,9 +436,9 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
     symcheck(&sym, &par, exp->fields.wht.wht->nam, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
     if (par) {
       if (par->res)
-	if (par->res->resKd & INTEGER_RESTRICTION)
+	if (par->res->classbits & NAMNUM)
 	  exp->typ = TYPINT;
-	else if (par->res->resKd & STRING_RESTRICTION)
+	else if (par->res->classbits & NAMSTR)
 	  exp->typ = TYPSTR;
         else
 	  exp->typ = TYPENT;
@@ -537,6 +537,11 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
 
   case EXPBTW:
     anexpbtw(exp, evt, pars);
+    break;
+
+  case EXPISA:
+    /* FIXME unimplemented */
+    unimpl(&exp->srcp, "analyzer");
     break;
 
   default:

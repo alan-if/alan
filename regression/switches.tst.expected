@@ -1,11 +1,35 @@
 ########## switches ##########
-alan -h
-arun -h
-arun -help
+../compiler/alan -h
+../interpreter/arun -n -h
+../interpreter/arun -n -help
 ########## /bin/sh  switches.tst ##########
 Parameter error: Ambiguous option, -h
 Usage: ALAN <adventure> [-help] [options]
 Unrecognized switch, -h
+Usage:
+
+    arun [<switches>] <adventure>
+
+where the possible optional switches are:
+    -v    verbose mode
+    -l    log player commands and game output to a file
+    -i    ignore version and checksum errors
+    -n    no Status Line
+    -d    enter debug mode
+    -t    trace game execution
+    -s    single instruction trace
 
 Unrecognized switch, -h
+Usage:
+
+    arun [<switches>] <adventure>
+
+where the possible optional switches are:
+    -v    verbose mode
+    -l    log player commands and game output to a file
+    -i    ignore version and checksum errors
+    -n    no Status Line
+    -d    enter debug mode
+    -t    trace game execution
+    -s    single instruction trace
 

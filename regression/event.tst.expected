@@ -1,35 +1,36 @@
 ########## event ##########
-alan event
-arun event < event.input
+../compiler/alan event
+../interpreter/arun -n event < event.input
 ########## /bin/sh  event.tst ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 Schedule e1 after 2. 'c' to cancel it.
 
 
-L.
+L
 
 > look
-L.
+L
 
 > look
-L.
+L
 E1 running. Schedule e1 after 2.
 
 > look
-L.
+L
 
 > c
 
 > look
-L.
+L
 
 > look
-L.
+L
 
 > look
-L.
+L
 
 > 
 

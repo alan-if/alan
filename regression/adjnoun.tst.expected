@@ -1,10 +1,10 @@
 ########## adjnoun ##########
-alan adjnoun
-arun adjnoun < adjnoun.input
+../compiler/alan adjnoun
+../interpreter/arun -n adjnoun < adjnoun.input
 ########## /bin/sh  adjnoun.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        5 informational message(s).
 
 
 Test the use of the same words as an adjective and an noun. Try 
@@ -12,7 +12,7 @@ Test the use of the same words as an adjective and an noun. Try
     x piece of metal
 
 
-L.
+L
 There is a metal box and a piece of metal here.
 
 > x metal box

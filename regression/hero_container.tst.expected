@@ -1,16 +1,16 @@
 ########## hero_container ##########
-alan hero_container
-arun hero_container < hero_container.input
+../compiler/alan hero_container
+../interpreter/arun -n hero_container < hero_container.input
 ########## /bin/sh  hero_container.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
 Try 'i hero' and 'put thing in cont'. You are empty-handed.
 
 
-L.
+L
 There is a cont and a thing here.
 
 > i hero

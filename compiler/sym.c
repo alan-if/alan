@@ -262,19 +262,7 @@ void symcheck(
 	}
     } else {
       /* Find its defined classes and check against them */
-      /* FIXME: Currently we only allow a single class in restrictions, use the first */
-      /* For now we try to generate the old type of bit pattern */
-      switch ((*elm)->res->resKd) {
-      case ID_RESTRICTION: unimpl(&(*elm)->srcp, "Symbolising"); break;
-      case INTEGER_RESTRICTION: elmclasses = NAMNUM; break;
-      case STRING_RESTRICTION: elmclasses = NAMSTR; break;
-      case OBJECT_RESTRICTION: elmclasses = NAMOBJ; break;
-      case ACTOR_RESTRICTION: elmclasses = NAMACT; break;
-      case CONTAINER_RESTRICTION: elmclasses = NAMCNT; break;
-      case CONTAINEROBJECT_RESTRICTION: elmclasses = NAMCOBJ; break;
-      case CONTAINERACTOR_RESTRICTION: elmclasses = NAMCACT; break;
-      default: syserr("Unknown restriction kind in symcheck()");
-      }
+      elmclasses = (*elm)->res->classbits & (~NAMCNT); /* Ignore container prop */
 
       if ((classes & elmclasses) != elmclasses ) {
 	/* "Parameter not uniquely defined as a" */
@@ -290,7 +278,7 @@ void symcheck(
 	  /* Check properties */
 	  if (props != NAMANY) {
 	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
-		((*elm)->res->resKd & props) != props)
+		((*elm)->res->classbits & props) != props)
 	      lmLog(&nam->srcp, 312, sevERR, symstr(props));
 	    *elm = NULL;
 	  }

@@ -1,11 +1,11 @@
 ########## scoreexp ##########
-alan scoreexp
-arun scoreexp < scoreexp.input
+../compiler/alan scoreexp
+../interpreter/arun -n scoreexp < scoreexp.input
 
 ########## /bin/sh  scoreexp.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 You have no scores.

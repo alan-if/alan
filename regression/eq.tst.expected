@@ -1,15 +1,15 @@
 ########## eq ##########
-alan eq
-arun eq < eq.input
+../compiler/alan eq
+../interpreter/arun -n eq < eq.input
 ########## /bin/sh  eq.tst ##########
 
         No warnings or errors detected.
-        4 informational message(s).
+        7 informational message(s).
 
 Different.
 
 
-L.
+L
 There is a a and a b here.
 
 > eq a b

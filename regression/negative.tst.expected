@@ -1,14 +1,13 @@
 ########## negative ##########
-alan negative
-arun negative < negative.input
-########## /bin/sh  negative.tst ##########
+../compiler/alan negative
+../interpreter/arun -n negative < negative.input########## /bin/sh  negative.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 
-Nowhere.
+Nowhere
 There is a dumbobject here. Pos of DumpObject = 1 Neg of DumpObject = -2 
 Zero of DumpObject = 0 
 

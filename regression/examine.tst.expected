@@ -1,13 +1,13 @@
 ########## examine ##########
-alan examine
-arun examine < examine.input
+../compiler/alan examine
+../interpreter/arun -n examine < examine.input
 ########## /bin/sh  examine.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
-L.
+L
 There is a c here. A is here.
 
 > examine c

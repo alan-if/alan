@@ -1,16 +1,16 @@
 ########## saycommand ##########
-alan saycommand
-arun saycommand < saycommand.input
+../compiler/alan saycommand
+../interpreter/arun -n saycommand < saycommand.input
 ########## /bin/sh  saycommand.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 Try to say things. For example objects and string. Try strings with
 multinational characters in them.
 
 
-L.
+L
 There is a o here.
 
 > say hello

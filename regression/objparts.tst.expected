@@ -1,5 +1,5 @@
 ########## objparts ##########
-alan objparts
+../compiler/alan objparts
 ########## /bin/sh  objparts.tst ##########
 
 
@@ -28,5 +28,5 @@ objparts.alan
 
         4 error(s).
         No detected warnings.
-        3 informational message(s).
+        5 informational message(s).
 

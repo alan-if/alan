@@ -1,13 +1,13 @@
 ########## recursive_describe ##########
-alan recursive_describe
-arun recursive_describe < recursive_describe.input
+../compiler/alan recursive_describe
+../interpreter/arun -n recursive_describe < recursive_describe.input
 ########## /bin/sh  recursive_describe.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
-L.
+L
 
 
 As you enter the twilight zone of Adventures, you stumble and fall to

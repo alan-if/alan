@@ -1,10 +1,10 @@
 ########## say ##########
-alan say
-arun say < say.input
+../compiler/alan say
+../interpreter/arun -n say < say.input
 ########## /bin/sh  say.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 1 45 Hello! string
 

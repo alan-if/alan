@@ -1,16 +1,16 @@
 ########## oil ##########
-alan oil
-arun oil < oil.input
+../compiler/alan oil
+../interpreter/arun -n oil < oil.input
 ########## /bin/sh  oil.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
 'Oil using oil'!
 
 
-L.
+L
 There is oil and water here.
 
 > oil using oil

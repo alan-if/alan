@@ -1,16 +1,16 @@
 ########## body ##########
-alan body
-arun body < body.input
+../compiler/alan body
+../interpreter/arun -n body < body.input
 ########## /bin/sh  body.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        6 informational message(s).
 
 
 Examine your arms! 'i' for inventory.
 
 
-This.
+This
 
 > examine arm
 I don't know which arm you mean.

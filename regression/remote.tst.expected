@@ -1,16 +1,16 @@
 ########## remote ##########
-alan remote
-arun remote < remote.input
+../compiler/alan remote
+../interpreter/arun -n remote < remote.input
 ########## /bin/sh  remote.tst ##########
 
         No warnings or errors detected.
-        3 informational message(s).
+        7 informational message(s).
 
 
 Try 'x r' and 'x p' for present and remote object.
 
 
-Present.
+Present
 There is a p here.
 
 > x r

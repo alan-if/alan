@@ -1,10 +1,11 @@
 ########## scriptbug ##########
-alan scriptbug
-arun scriptbug < scriptbug.input
+../compiler/alan scriptbug
+../interpreter/arun -n scriptbug < scriptbug.input
 
 ########## /bin/sh  scriptbug.tst ##########
 
         No warnings or errors detected.
+        5 informational message(s).
 
 Example for named scripts 'bug'.
  by stevgrif@moc.govt.nz
@@ -16,20 +17,20 @@ elindh.pnilsson@ebox.tninet.se
  (Compiled with Alan 2.7xxx for xxxxx OS.)
 
 
-Choose.
+Choose
 This game contains two zones
 
  Go west to the zone where scripts are named
  or east to where scripts are numbered.
 
 > w
-Named1.
+Named1
 You're at a place with an exit to the west. 
 
 (or you could go east back to the choose location.)
 
 > w
-Named2.
+Named2
 you can exit east from this place. Annabelle is here. 
 annabelle says "HI!", which really annoys you.
 
@@ -44,7 +45,7 @@ Time passes...
 "hi its me again" says annabelle.
 
 > e
-Named1.
+Named1
 You're at a place with an exit to the west. 
 
 (or you could go east back to the choose location.) 
@@ -52,7 +53,7 @@ You're at a place with an exit to the west.
 "hi its me again" says annabelle.
 
 > e
-Choose.
+Choose
 This game contains two zones
 
  Go west to the zone where scripts are named
@@ -61,7 +62,7 @@ This game contains two zones
 "hi its me again" says annabelle.
 
 > e
-Numbered1.
+Numbered1
 You're at a place with an exit to the east. 
 
 (or you could go west back to the choose location.) 
@@ -69,7 +70,7 @@ You're at a place with an exit to the east.
 "hi its me again" says annabelle.
 
 > e
-Numbered2.
+Numbered2
 you can exit east from this place. Bosse is here. 
 
 "hi its me again" says annabelle. 

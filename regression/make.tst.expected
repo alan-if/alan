@@ -1,5 +1,5 @@
 ########## make ##########
-alan make
+../compiler/alan make
 ########## /bin/sh  make.tst ##########
 
 
@@ -70,5 +70,5 @@ make.alan
 
         14 error(s).
         No detected warnings.
-        2 informational message(s).
+        5 informational message(s).
 

@@ -1,17 +1,17 @@
 ########## clock ##########
-alan clock
-arun -n clock < clock.input
+../compiler/alan clock
+../interpreter/arun -n clock < clock.input
 ########## /bin/sh  clock.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        4 informational message(s).
 
 
-[2J[24;1H
+
 Waiting for a train
 
 
-Platform.
+Platform
 You are standing on a subway platform, clutching a timetable, hoping your
 train will arrive soon. There is a clock here. 
 

@@ -1,16 +1,16 @@
 ########## clean_with ##########
-alan clean_with
-arun clean_with < clean_with.input
+../compiler/alan clean_with
+../interpreter/arun -n clean_with < clean_with.input
 ########## /bin/sh  clean_with.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        5 informational message(s).
 
 
 Testing syntax for 'clean with' and default for 'clean'.
 
 
-L.
+L
 There is a o1 and a o2 here.
 
 > clean o1 with o2

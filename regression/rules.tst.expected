@@ -1,15 +1,15 @@
 ########## rules ##########
-alan rules
-arun rules < rules.input
+../compiler/alan rules
+../interpreter/arun -n rules < rules.input
 ########## /bin/sh  rules.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 This test will execute 100000 rules...
 
 
-L.
+L
 A1 is here. A2 is here. A3 is here. A4 is here. A5 is here. A6 is here. A7 
 is here. A8 is here. A9 is here. A10 is here. A11 is here. A12 is here. 
 A13 is here. A14 is here. A15 is here. A16 is here. A17 is here. A18 is

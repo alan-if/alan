@@ -1,6 +1,6 @@
 ########## examine3 ##########
-alan examine3
-arun examine3 < examine3.input
+../compiler/alan examine3
+../interpreter/arun -n examine3 < examine3.input
 ########## /bin/sh  examine3.tst ##########
 
 
@@ -21,10 +21,11 @@ examine3.alan
 
         No detected errors.
         2 warning(s).
+        3 informational message(s).
 
 
 
-L1.
+L1
 There is a o here. A is here.
 
 > examine a

@@ -1,28 +1,28 @@
 ########## survival ##########
-alan survival
-arun survival < survival.input
+../compiler/alan survival
+../interpreter/arun -n survival < survival.input
 ########## /bin/sh  survival.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        57 informational message(s).
 
 
 
-Crashsite.
+Crashsite
 There is a spaceship here.
 
 > in
-Inside Airlock.
+Inside Airlock
 
 > s
-Aft Cargo And Fuel Store.
+Aft Cargo And Fuel Store
 There is a tube of sealant here.
 
 > e
-Spacecraft Engine Room.
+Spacecraft Engine Room
 
 > u
-Spacecraft Control Room.
+Spacecraft Control Room
 There is a electronic key here.
 
 > take key

@@ -1,5 +1,5 @@
 ########## container ##########
-alan container
+../compiler/alan container
 ########## /bin/sh  container.tst ##########
 
 
@@ -14,5 +14,5 @@ container.alan
 
         2 error(s).
         No detected warnings.
-        2 informational message(s).
+        4 informational message(s).
 

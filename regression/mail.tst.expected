@@ -1,13 +1,13 @@
 ########## mail ##########
-alan mail
-arun mail < mail.input
+../compiler/alan mail
+../interpreter/arun -n mail < mail.input
 ########## /bin/sh  mail.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        5 informational message(s).
 
 
-L.
+L
 There is a mail box and a some mail here.
 
 > take mail

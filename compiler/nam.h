@@ -71,6 +71,9 @@ extern int annams(List *nams,
 /* Generate a reference to a name depending on class */
 extern void genam(NamNod *nam);
 
+/* Dump a NAM kind */
+extern void dumpNamKind(NamKind kind);
+
 /* Dump a Name node */
 extern void dunam(NamNod *nam);
 

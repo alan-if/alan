@@ -1,5 +1,5 @@
 ########## locparts ##########
-alan locparts
+../compiler/alan locparts
 ########## /bin/sh  locparts.tst ##########
 
 
@@ -28,5 +28,5 @@ locparts.alan
 
         3 error(s).
         1 warning(s).
-        2 informational message(s).
+        3 informational message(s).
 

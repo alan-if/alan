@@ -100,12 +100,13 @@ AtrNod *paramatr(NamNod *nam, ElmNod *elm)
 
 #ifdef FIXME
 Must be rewritten to traverse the class hierarchy
+#else
   if (elm->res == NULL || elm->res->single) {
     /* No restriction (default = OBJECT) or explicit single class! */
-    if (elm->res == NULL || (elm->res->classes & NAMOBJ) != 0 || (elm->res->classes & NAMCOBJ) != 0)
+    if (elm->res == NULL || (elm->res->classbits & NAMOBJ) != 0 || (elm->res->classbits & NAMCOBJ) != 0)
       /* Object or Container Object! */
       atr = findatr(nam->str, adv.oatrs, adv.atrs);
-    else if ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0)
+    else if ((elm->res->classbits & NAMACT) != 0 || (elm->res->classbits & NAMCACT) != 0)
       /* Actor or Container Actor! */
       atr = findatr(nam->str, adv.aatrs, adv.atrs);
     else /* Containers, Integers and Strings have no attributes... */

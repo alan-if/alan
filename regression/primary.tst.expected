@@ -1,5 +1,5 @@
 ########## primary ##########
-alan primary
+../compiler/alan primary
 
 ########## /bin/sh  primary.tst ##########
 
@@ -109,5 +109,5 @@ primary.alan
 
         18 error(s).
         No detected warnings.
-        2 informational message(s).
+        4 informational message(s).
 

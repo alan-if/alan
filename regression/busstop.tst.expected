@@ -1,14 +1,14 @@
 ########## busstop ##########
-alan busstop
-arun busstop < busstop.input
+../compiler/alan busstop
+../interpreter/arun -n busstop < busstop.input
 ########## /bin/sh  busstop.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        5 informational message(s).
 
 
 
-At the Bus Stop.
+At the Bus Stop
 A car drives by. There is a bus and a sign here. Martha is here.
 
 > examine the car

@@ -186,7 +186,9 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
     else if (stm->fields.locate.wht->wht == WHT_ID) {
       if (sym != NULL && sym->class == NAMACT)
         lmLog(&stm->srcp, 402, sevERR, "");
-      else if (elm != NULL && elm->res != NULL && ((elm->res->resKd & ACTOR_RESTRICTION) != 0 || (elm->res->resKd & CONTAINERACTOR_RESTRICTION) != 0))
+      else if (elm != NULL && elm->res != NULL
+	       && ((elm->res->classbits & NAMACT) != 0
+		   || (elm->res->classbits & NAMCACT) != 0))
         lmLog(&stm->srcp, 402, sevERR, "");
     }
     break;

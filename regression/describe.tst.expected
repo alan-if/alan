@@ -1,23 +1,23 @@
 ########## describe ##########
-alan describe
-arun describe < describe.input
+../compiler/alan describe
+../interpreter/arun -n describe < describe.input
 ########## /bin/sh  describe.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 'd' for describe, 'l' for look.
 
 
-Grand Location.
+Grand Location
 You are at a Grand Location. There is a o here.
 
 > d
 You are at a Grand Location.
 
 > l
-Grand Location.
+Grand Location
 You are at a Grand Location. There is a o here.
 
 > 

@@ -1,14 +1,15 @@
 ########## actor ##########
 ../compiler/alan actor
-arun actor < actor.input
+../interpreter/arun -n actor < actor.input
 ########## /bin/sh  actor.tst ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 Examine Kalle & yourself.
 
 
-L.
+L
 Stor Liten Kalle is here.
 
 > examine kalle
@@ -18,7 +19,7 @@ You can't do that.
 me is here.!@# Kalle is here.
 
 > w
-L.
+L
 Stor Liten Kalle is here. Kalle is here. Event 1.
 
 > 

@@ -24,54 +24,57 @@ TMSRCS = \
 
 TMOBJS = ${TMSRCS:.c=.o}
 
-VERSIONOBJECTS = \
-	alan.o \
-	main.o \
-	options.o \
-	act.o \
-	adv.o \
-	alt.o \
-	atr.o \
-	chk.o \
-	cla.o \
-	cnt.o \
-	dump.o \
-	encode.o \
-	emit.o \
-	elm.o \
-	evt.o \
-	exp.o \
-	ext.o \
-	ins.o \
-	lim.o \
-	loc.o \
-	lst.o \
-	msg.o \
-	nam.o \
-	obj.o \
-	opt.o \
-	res.o \
-	rul.o \
-	sco.o \
-	scr.o \
-	slt.o \
-	srcp.o \
-	stm.o \
-	stp.o \
-	stx.o \
-	str.o \
-	sym.o \
-	syn.o \
-	vrb.o \
-	whr.o \
-	wht.o \
-	wrd.o \
-	timing.o \
-	spa.o \
-	sysdep.o \
-	$(TMOBJS)
+SRCS = \
+	alan.c \
+	main.c \
+	options.c \
+	act.c \
+	adv.c \
+	alt.c \
+	atr.c \
+	chk.c \
+	cla.c \
+	cnt.c \
+	dump.c \
+	encode.c \
+	emit.c \
+	elm.c \
+	evt.c \
+	exp.c \
+	ext.c \
+	ins.c \
+	lim.c \
+	loc.c \
+	lst.c \
+	msg.c \
+	nam.c \
+	obj.c \
+	opt.c \
+	res.c \
+	rul.c \
+	sco.c \
+	scr.c \
+	slt.c \
+	srcp.c \
+	stm.c \
+	stp.c \
+	stx.c \
+	str.c \
+	sym.c \
+	syn.c \
+	vrb.c \
+	whr.c \
+	wht.c \
+	wrd.c \
+	timing.c \
+	spa.c \
+	sysdep.c
 
-OBJECTS = $(VERSIONOBJECTS) alan.version.o
+VERSIONSRCS = $(SRCS) $(EXTRAS)
+
+VERSIONOBJECTS = ${SRCS:.c=.o}
+
+OBJECTS = $(VERSIONOBJECTS) $(TMOBJS) alan.version.o
 
 all alan alan.exe : $(OBJECTS) Makefile
 	gcc -o alan $(OBJECTS) $(LDFLAGS)	
@@ -103,7 +106,7 @@ version.h :
 	cd ..; venum -write always -all alan
 	cp ../version.h .
 
-alan.version.c: $(VERSIONOBJECTS) ../alan.version
+alan.version.c: $(VERSIONSRCS) ../alan.version
 	cd ..; venum alan time
 	cp ../alan.version.c .
 

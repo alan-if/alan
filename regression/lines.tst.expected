@@ -1,9 +1,10 @@
 ########## lines ##########
-alan lines
-arun lines < lines.input
+../compiler/alan lines
+../interpreter/arun -n lines < lines.input
 ########## /bin/sh  lines.tst ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 
 
@@ -12,7 +13,7 @@ arun lines < lines.input
             ************************
 
 
-Nowhere.
+Nowhere
 You are nowhere.
 
 > quit

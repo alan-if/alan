@@ -1,18 +1,18 @@
 ########## driving ##########
-alan driving
-arun driving < driving.input
+../compiler/alan driving
+../interpreter/arun -n driving < driving.input
 ########## /bin/sh  driving.tst ##########
 
         No warnings or errors detected.
-        3 informational message(s).
+        7 informational message(s).
 
 
 
-Garage.
+Garage
 There is a little red sporty ferrari here.
 
 > enter car
-Inside the Ferrari.
+Inside the Ferrari
 This sporty little red vehicle can really take you places...
 
 > drive
@@ -30,7 +30,7 @@ approach your own garage.
 You slow to a stop and turn the engine off.
 
 > out
-Garage.
+Garage
 There is a little red sporty ferrari here.
 
 > 

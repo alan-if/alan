@@ -1,14 +1,14 @@
 ########## svenska ##########
-alan svenska
-arun svenska < svenska.input
+../compiler/alan svenska
+../interpreter/arun -n svenska < svenska.input
 ########## /bin/sh  svenska.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-L.
+L
 ÄÅÖäåö[]\{}|
 
 > Ö

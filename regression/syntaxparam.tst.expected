@@ -1,14 +1,14 @@
 ########## syntaxparam ##########
-alan syntaxparam
-arun syntaxparam < syntaxparam.input
+../compiler/alan syntaxparam
+../interpreter/arun -n syntaxparam < syntaxparam.input
 ########## /bin/sh  syntaxparam.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
 
-L.
+L
 There is a obj here. A is here.
 
 > take obj

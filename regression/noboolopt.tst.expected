@@ -1,16 +1,38 @@
 ########## noboolopt ##########
-alan noboolopt
-file noboolopt.dat
-alan -pack noboolopt
-file noboolopt.dat
+../compiler/alan noboolopt
+../interpreter/arun -n -d noboolopt < noboolopt.input
+../compiler/alan -debug noboolopt
+../interpreter/arun -n -d noboolopt < noboolopt.input
 ########## /bin/sh  noboolopt.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
-noboolopt.dat:	ascii text
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
+<Version of 'noboolopt' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+<Sorry, 'noboolopt' is not compiled for debug!>
+
+
+
+L
+
+> q
+'q'? I don't know that word.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
-noboolopt.dat:	data
+<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
+<Version of 'noboolopt' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+
+L
+
+ABUG> q
+

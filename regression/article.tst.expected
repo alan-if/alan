@@ -1,14 +1,14 @@
 ########## article ##########
-alan article
-arun article < article.input
+../compiler/alan article
+../interpreter/arun -n article < article.input
 ########## /bin/sh  article.tst ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        12 informational message(s).
 
 
 
-L1.
+L1
 This is the description of a described object. There is an unknown object
 , something, a thing, a mentioned object and an unmentionable object here.
 

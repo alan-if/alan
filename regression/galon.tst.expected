@@ -1,13 +1,13 @@
 ########## galon ##########
-alan galon
-arun galon < galon.input
+../compiler/alan galon
+../interpreter/arun -n galon < galon.input
 ########## /bin/sh  galon.tst ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        3 informational message(s).
 
 
-L.
+L
 There is a obj here.
 
 > take obj

@@ -1,19 +1,20 @@
 ########## mountain ##########
-alan mountain
-arun mountain < mountain.input
+../compiler/alan mountain
+../interpreter/arun -n mountain < mountain.input
 ########## /bin/sh  mountain.tst ##########
 
         No warnings or errors detected.
+        8 informational message(s).
 
 Look at that view!!!
 
 
-Scenic Vista.
+Scenic Vista
 Far in the distance you can see the Pebbly Mountain raising towards the
 sky.
 
 > look
-Scenic Vista.
+Scenic Vista
 Far in the distance you can see the Pebbly Mountain raising towards the
 sky.
 
@@ -30,7 +31,7 @@ You can't get any better look using stone.
 Smart ass!
 
 > e
-A Road to the Hills.
+A Road to the Hills
 
 > look at mountain using binoculars
 This close to the mountain there is not much that you see better through
@@ -43,7 +44,7 @@ You can't get any better look using stone.
 Smart ass!
 
 > e
-Hills.
+Hills
 There is a mountain here.
 
 > look at mountain using binoculars

@@ -1,5 +1,5 @@
 ########## empty ##########
-alan empty
+../compiler/alan empty
 ########## /bin/sh  empty.tst ##########
 
 
@@ -128,5 +128,5 @@ empty.alan
 
         24 error(s).
         No detected warnings.
-        2 informational message(s).
+        5 informational message(s).
 

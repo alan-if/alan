@@ -1,5 +1,5 @@
 ########## exp ##########
-alan exp
+../compiler/alan exp
 ########## /bin/sh  exp.tst ##########
 
 
@@ -434,5 +434,5 @@ exp.alan
 
         92 error(s).
         No detected warnings.
-        5 informational message(s).
+        7 informational message(s).
 
