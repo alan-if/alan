@@ -283,9 +283,9 @@ void statusline(void)
   interpret(instance[where(HERO)].mentioned);
 
   if (header->maxscore > 0)
-    sprintf(line, "Score %d(%d)/%d moves", cur.score, (int)header->maxscore, cur.tick);
+    sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maxscore, current.tick);
   else
-    sprintf(line, "%d moves", cur.tick);
+    sprintf(line, "%d moves", current.tick);
   glk_window_move_cursor(glkStatusWin, glkWidth - col - strlen(line), 0);
   printf(line);
   needsp = FALSE;
