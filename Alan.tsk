@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>166.89</origest>
-<currest>166.89</currest>
-<elapsed>52.89</elapsed>
+<origest>168.89</origest>
+<currest>168.89</currest>
+<elapsed>54.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
-<elapsed>2</elapsed>
+<origest>25</origest>
+<currest>25</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.24</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>8</origest>
 <currest>8</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>ISA expression</desc>
@@ -65,7 +65,7 @@ has been done an actor is a container which is not recognized by verifyContainer
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -74,7 +74,7 @@ has been done an actor is a container which is not recognized by verifyContainer
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -294,8 +294,8 @@ substring searching
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -326,6 +326,29 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
+<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and aviod doing it a second time if the structure is such that multiple structures refered to the same substructure.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Optimize generation of containers</desc>
+<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
+
+This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
+
+A prerequisite action would be to fix this multiple reversing problem.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -44,7 +44,6 @@ addToLiteral.alan
 =====>    1
 
   *1*   424 E : You can not ADD container to non-instantiable class 'literal'.
-  *1*   341 E : Can not ADD container TO classes. (yet)
 
     9.    Exit e To l.
 =====>    1
@@ -63,7 +62,7 @@ addToLiteral.alan
   *1*   424 E : You can not ADD attributes to non-instantiable class 'string'.
 
 
-        17 error(s).
+        16 error(s).
         No detected warnings.
         1 informational message(s).
 

@@ -28,11 +28,6 @@ addto.alan
 
   *1*   341 E : Can not ADD mentioned TO classes. (yet)
 
-    9.    Container
-=====>    1
-
-  *1*   341 E : Can not ADD container TO classes. (yet)
-
    11.    Script s. Step "hello"
 =====>    1
 
@@ -44,7 +39,7 @@ addto.alan
   *1*   341 E : Can not ADD exits TO classes. (yet)
 
 
-        9 error(s).
+        8 error(s).
         No detected warnings.
         2 informational message(s).
 

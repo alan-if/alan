@@ -34,28 +34,38 @@ int containerCount = 0;
 
 
 
-/*======================================================================
+/*======================================================================*/
+ContainerBody *newContainerBody(Srcp *srcp, /* IN - Source Position */
+				List *lims, /* IN - Limits */
+				List *hstms, /* IN - Header statements */
+				List *estms) /* IN - Else (empty) statements */
+{
+  ContainerBody *new;		/* The newly allocated area */
 
-  newContainer()
+  new = NEW(ContainerBody);
 
- */
-Container *newContainer(Srcp *srcp, /* IN - Source Position */
-		     List *lims, /* IN - Limits */
-		     List *hstms, /* IN - Header statements */
-		     List *estms) /* IN - Else (empty) statements */
+  new->srcp = *srcp;
+  new->analyzed = FALSE;
+  new->limits = lims;
+  new->hstms = hstms;
+  new->estms = estms;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Container *newContainer(ContainerBody *body)
 {
   Container *new;		/* The newly allocated area */
 
   showProgress();
 
   new = NEW(Container);
+  new->ownerProperties = NULL;
+  new->body = body;
 
-  new->srcp = *srcp;
-  new->lims = lims;
-  new->hstms = hstms;
-  new->estms = estms;
-
-  new->code = ++containerCount;
+  adv.cnts = concat(adv.cnts, new, CONTAINER_LIST);
 
   return(new);
 }
@@ -96,89 +106,98 @@ void verifyContainer(What *wht,
     break;
 
   default:
-    syserr("Unrecognized switch in cntcheck()");
+    syserr("Unrecognized switch in verifyContainer()");
     break;
   }
 }
 
 
 
-/*======================================================================
-
-  analyzeContainer()
-
-  Analyze one container.
-
-  */
-void analyzeContainer(Container *cnt, Context *context)
+/*======================================================================*/
+void analyzeContainer(Container *theContainer, Context *context)
 {
   List *lims;			/* List of limits */
 
-  if (cnt == NULL) return;
+  if (theContainer == NULL) return;
 
   showProgress();
 
-  if (cnt->ownerProperties == NULL)
-    syserr("Container without an owner.");
+  if (context->kind == INSTANCE_CONTEXT)
+    theContainer->ownerProperties = context->instance->props;
 
-  /* Analyze the limits */
-  for (lims = cnt->lims; lims != NULL; lims = lims->next)
-    anlim(lims->element.lim);
+  if (!theContainer->body->analyzed) {
+    /* Analyze the limits */
+    for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
+      anlim(lims->element.lim);
 
-  /* Analyze header and empty statments */
-  analyzeStatements(cnt->hstms, context);
-  analyzeStatements(cnt->estms, context);
+    /* Analyze header and empty statments */
+    analyzeStatements(theContainer->body->hstms, context);
+    analyzeStatements(theContainer->body->estms, context);
+    theContainer->body->analyzed = TRUE;
+  }
+}
+
+
+
+/*======================================================================*/
+void numberContainers(void)
+{
+  List *lst;			/* The list of containers */
+
+  /* We must number the containers in the order that they have in the
+     adv-list since that is the order the container bodies will be
+     generated into the ContainerEntry table */
+  for (lst = adv.cnts; lst != NULL; lst = lst->next)
+    if (lst->element.cnt->ownerProperties != NULL)
+      lst->element.cnt->code = ++containerCount;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void generateContainer(Container *cnt)
+static void generateContainerBody(ContainerBody *body)
 {
   showProgress();
 
-  cnt->limadr = generateLimits(cnt);
+#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
+  if (!body->generated) {
+#endif
+    body->limadr = generateLimits(body);
 
-  if (cnt->hstms != NULL) {
-    cnt->hadr = emadr();
-    generateStatements(cnt->hstms);
-    emit0(I_RETURN);
-  } else
-    cnt->hadr = 0;
-  
-  if (cnt->estms != NULL) {
-    cnt->eadr = emadr();
-    generateStatements(cnt->estms);
-    emit0(I_RETURN);
-  } else
-    cnt->eadr = 0;
+    if (body->hstms != NULL) {
+      body->hadr = emadr();
+      generateStatements(body->hstms);
+      emit0(I_RETURN);
+    } else
+      body->hadr = 0;
+
+    if (body->estms != NULL) {
+      body->eadr = emadr();
+      generateStatements(body->estms);
+      emit0(I_RETURN);
+    } else
+      body->eadr = 0;
+#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
+    body->generated = TRUE;
+  }
+#endif
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  gecntent()
-
-  Generate an entry in the global container list.
-
-  */
-static void gecntent(Container *cnt)
+/*----------------------------------------------------------------------*/
+static void generateContainerEntry(Container *cnt)
 {
   ContainerEntry entry;
 
-  entry.limits = cnt->limadr;
-  entry.header = cnt->hadr;
-  entry.empty = cnt->eadr;
+  entry.limits = cnt->body->limadr;
+  entry.header = cnt->body->hadr;
+  entry.empty = cnt->body->eadr;
   entry.owner = cnt->ownerProperties->id->symbol->code;
   emitEntry(&entry, sizeof(entry));
 }
 
 
-/*======================================================================
-
-  generateContainers()
-
-  */
+/*======================================================================*/
 Aaddr generateContainers(AcdHdr *header)
 {
   List *lst;			/* The list of containers */
@@ -189,12 +208,14 @@ Aaddr generateContainers(AcdHdr *header)
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      generateContainer(lst->element.cnt);
+      if (lst->element.cnt->ownerProperties != NULL)
+	generateContainerBody(lst->element.cnt->body);
   
     adr = emadr();		/* Save ACODE address to container list */
     /* Container list */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      gecntent(lst->element.cnt);
+      if (lst->element.cnt->ownerProperties != NULL)
+	generateContainerEntry(lst->element.cnt);
   }
   emit(EOF);
 
@@ -217,15 +238,15 @@ void dumpContainer(Container *container)
     return;
   }
 
-  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
+  put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->body->srcp); in();
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
-  put("lims: "); dumpList(container->lims, LIMIT_LIST); nl();
-  put("limadr: "); dumpAddress(container->limadr); nl();
-  put("hstms: "); dumpList(container->hstms, STATEMENT_LIST); nl();
-  put("hadr: "); dumpAddress(container->hadr); nl();
-  put("estms: "); dumpList(container->estms, STATEMENT_LIST); nl();
-  put("eadr: "); dumpAddress(container->eadr); out();
+  put("info->lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
+  put("info->limadr: "); dumpAddress(container->body->limadr); nl();
+  put("info->hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
+  put("info->hadr: "); dumpAddress(container->body->hadr); nl();
+  put("info->estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
+  put("info->eadr: "); dumpAddress(container->body->eadr); out();
 }
 
 

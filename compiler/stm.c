@@ -617,7 +617,9 @@ void analyzeStatements(List *stms,
   */
 static void generatePrint(StmNod *stm)
 {
-  encode(&stm->fields.print.fpos, &stm->fields.print.len);
+  if (!stm->fields.print.encoded)
+    encode(&stm->fields.print.fpos, &stm->fields.print.len);
+  stm->fields.print.encoded = TRUE;
   emit2(I_PRINT, stm->fields.print.fpos, stm->fields.print.len);
 }
 

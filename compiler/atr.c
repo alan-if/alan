@@ -391,10 +391,9 @@ static void generateAttribute(Attribute *attribute)
   Attribute *new;
 
   if (attribute->type == STRING_TYPE) {
-    if (!attribute->encoded) {
+    if (!attribute->encoded)
       encode(&attribute->fpos, &attribute->len);
-      attribute->encoded = TRUE;
-    }
+    attribute->encoded = TRUE;
     attribute->address = emadr(); /* Record on which Aadress to put it */
 
     /* Now make a copy to use for initialisation if attribute is

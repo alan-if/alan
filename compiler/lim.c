@@ -98,7 +98,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
 
 
 /*----------------------------------------------------------------------*/
-static void generateLimit(LimNod *lim, int cnt)
+static void generateLimit(LimNod *lim)
 {
   showProgress();
 
@@ -122,27 +122,21 @@ static void generateLimitEntry(LimNod *lim)
 }
 
 
-/*======================================================================
-
-  gelims()
-
-  Generate limit checks for one container.
-
-  */
-Aword generateLimits(Container *cnt)
+/*======================================================================*/
+Aword generateLimits(ContainerBody *info)
 {
   List *lst;		/* List of limits */
   Aword limadr;
 
-  if (cnt->lims == NULL)
+  if (info->limits == NULL)
     return(0);
 
   /* First code for all limits */
-  for (lst = cnt->lims; lst != NULL; lst = lst->next)
-    generateLimit(lst->element.lim, cnt->code);
+  for (lst = info->limits; lst != NULL; lst = lst->next)
+    generateLimit(lst->element.lim);
 
   limadr = emadr();		/* Save ACODE address to limit table */
-  for (lst = cnt->lims; lst != NULL; lst = lst->next)
+  for (lst = info->limits; lst != NULL; lst = lst->next)
     generateLimitEntry(lst->element.lim);
   emit(EOF);
   return(limadr);

@@ -1069,12 +1069,11 @@ static int val(char str[])
 <container properties>					-- RETURNS: cnt, srcp
     = [ 'WITH' ] 'CONTAINER' <container_body>
     %%
-	%<container properties>.cnt = newContainer(`&%'CONTAINER'.srcp,
+	%<container properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
 						   %<container_body>.lims,
 						   %<container_body>.stms,
-						   %<container_body>.stms2);
+						   %<container_body>.stms2));
         %<container properties>.srcp = %'CONTAINER'.srcp;
-	adv.cnts = concat(adv.cnts, %<container properties>.cnt, CONTAINER_LIST);
     %%
     ;
 

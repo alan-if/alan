@@ -329,6 +329,24 @@ void testNewFrame()
 }
 
 
+void testReplicateContainer()
+{
+  Symbol *child = newSymbol(newId(&nulsrcp, "child"), CLASS_SYMBOL);
+  Symbol *parent = newSymbol(newId(&nulsrcp, "parent"), CLASS_SYMBOL);
+  Container *container = newContainer( newContainerBody(&nulsrcp, (void *)1, (void *)2, (void *)3));
+
+  child->fields.entity.props = NEW(Properties);
+  parent->fields.entity.props = NEW(Properties);
+  setParent(child, parent);
+  parent->fields.entity.props->container = container;
+
+  replicateContainer(child);
+
+  ASSERT(child->fields.entity.props->container->body->limits == (void *)1);
+  ASSERT(child->fields.entity.props->container->body->hstms == (void *)2);
+  ASSERT(child->fields.entity.props->container->body->estms == (void *)3);
+}
+
 
 void registerSymUnitTests()
 {
@@ -343,5 +361,6 @@ void registerSymUnitTests()
   registerUnitTest(testVerbSymbols);
   registerUnitTest(testLookupScript);
   registerUnitTest(testNewFrame);
+  registerUnitTest(testReplicateContainer);
 }
 

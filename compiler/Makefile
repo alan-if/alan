@@ -171,7 +171,7 @@ unit : $(TESTOBJS)
 
 
 # Run all tests!
-test: unit
+test : unit
 	cd testing; regr
 
 #

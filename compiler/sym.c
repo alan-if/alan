@@ -15,6 +15,7 @@
 
 #include "srcp_x.h"
 #include "cla_x.h"
+#include "cnt_x.h"
 #include "id_x.h"
 #include "atr_x.h"
 #include "exp_x.h"
@@ -677,8 +678,26 @@ static void replicateAttributes(Symbol *symbol)
 /*----------------------------------------------------------------------*/
 static void replicateContainer(Symbol *symbol)
 {
-  if (propertiesOf(symbol)->container == NULL)
-    propertiesOf(symbol)->container = propertiesOfParentOf(symbol)->container;
+  /* A container node can be generated once, we only have to keep
+     container code and owner property pointer local so the global
+     part can just be pointed to. */
+
+  if (propertiesOf(symbol)->container == NULL && propertiesOfParentOf(symbol)->container != NULL) {
+    Properties *props = propertiesOf(symbol);
+#ifndef OPTIMIZE_CONTAINER_BODY_GENERATION
+    /* Create a new Container Instance and copy parents Container Body */
+    Properties *parentProps = propertiesOfParentOf(symbol);
+    ContainerBody *body = newContainerBody(&parentProps->container->body->srcp,
+					   parentProps->container->body->limits,
+					   parentProps->container->body->hstms,
+					   parentProps->container->body->estms);
+    props->container = newContainer(body);
+#else
+    /* Create a new Container Instance and link parents Container */
+    props->container = newContainer(propertiesOfParentOf(symbol)->container->body);
+#endif
+    props->container->ownerProperties = props;
+  }
 }
 
 
@@ -687,9 +706,10 @@ static void replicateScripts(Symbol *symbol)
 {
   /* The parent may and may not have scripts. Any of those should be
   accessible from the current instance, however if it is overridden it
-  should use the local version. So we simply lookup scripts using the
-  parental chain. This means that an instance only have the local
-  scripts in its list. So there is nothing to do here. */
+  should use the local version. During run-time we simply lookup
+  scripts using the parental chain. This means that an instance only
+  have the local scripts in its list. So there is nothing to do
+  here. */
 }
 
 
@@ -700,6 +720,7 @@ static void replicate(Symbol *symbol)
     replicateAttributes(symbol);
     replicateContainer(symbol);
     replicateScripts(symbol);
+    replicateContainer(symbol);
   }
 }
 

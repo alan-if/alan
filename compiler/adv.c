@@ -130,6 +130,8 @@ void analyzeAdventure(void)
   analyzeInstances();
   theHero->fields.entity.props->whr = adv.whr;
 
+  numberContainers();
+
   if (verbose) printf("\n\tEvents: ");
   anevts();
 

@@ -66,8 +66,6 @@ Properties *newProps(List *names,
   new->attributes = attributes;
 
   new->container = container;
-  if (new->container != NULL)
-    new->container->ownerProperties = new;
 
   new->descriptionSrcp = *descriptionSrcp;
   new->descriptionChecks = descriptionChecks;

@@ -53,6 +53,66 @@ AddNode *newAdd(Srcp *srcp,
   return(new);
 }
 
+/*----------------------------------------------------------------------*/
+static void addAttributes(AddNode *add, Symbol *originalSymbol)
+{
+  List *addedAttributes = add->props->attributes;
+  Properties *originalProps = originalSymbol->fields.entity.props;
+  List *originalAttributes = originalProps->attributes;
+  List *l;
+
+  if (addedAttributes == NULL) return;
+
+  for TRAVERSE(l, addedAttributes) {
+    Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
+    if (originalAttribute != NULL) /* It was found in the original */
+      lmLog(&l->element.atr->id->srcp, 336, sevERR, "an attribute which already exists");
+  }
+  originalProps->attributes = combine(originalProps->attributes,
+				      addedAttributes);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addContainer(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->container == NULL) return;
+
+  if (original->fields.entity.props->container != NULL)
+    lmLog(&add->props->container->body->srcp, 336, sevERR,
+	  "container properties when the class already have it");
+  else
+    original->fields.entity.props->container = add->props->container;
+  
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addVerbs(AddNode *add, Symbol *originalSymbol)
+{
+  Properties *originalProps = originalSymbol->fields.entity.props;
+  List *verbList;
+  List *verbIdList;
+  Bool multipleVerb = FALSE;
+
+  if (add->props->verbs != NULL) {
+    if (originalSymbol == entitySymbol)
+      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
+    for TRAVERSE(verbList, add->props->verbs) {
+      for TRAVERSE(verbIdList, verbList->element.vrb->ids)
+	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {
+	  multipleVerb = TRUE;
+	  lmLogv(&verbList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
+	}
+    }
+    if (!multipleVerb)
+      originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
+  }
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void addInitialLocation(AddNode *add, Symbol *original)
@@ -71,26 +131,6 @@ static void addNames(AddNode *add, Symbol *original)
 
   if (props->names != NULL)
     lmLogv(&props->names->element.id->srcp, 341, sevERR, "names", "(yet)", NULL);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void addAttributes(AddNode *add, Symbol *originalSymbol)
-{
-  List *addedAttributes = add->props->attributes;
-  Properties *originalProps = originalSymbol->fields.entity.props;
-  List *originalAttributes = originalProps->attributes;
-  List *l;
-
-  if (addedAttributes == NULL) return;
-
-  for (l = addedAttributes; l != NULL; l = l->next) {
-    Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
-    if (originalAttribute != NULL) /* It was found in the original */
-      lmLog(&l->element.atr->id->srcp, 336, sevERR, "an existing attribute");
-  }
-  originalProps->attributes = combine(originalProps->attributes,
-				      addedAttributes);
 }
 
 
@@ -139,41 +179,6 @@ static void addMentioned(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
-static void addContainer(AddNode *add, Symbol *original)
-{
-  Properties *props = add->props;
-
-  if (props->container != NULL)
-    lmLogv(&props->container->srcp, 341, sevERR, "container", "(yet)", NULL);
-
-}
-
-
-/*----------------------------------------------------------------------*/
-static void addVerbs(AddNode *add, Symbol *originalSymbol)
-{
-  Properties *originalProps = originalSymbol->fields.entity.props;
-  List *verbList;
-  List *verbIdList;
-  Bool multipleVerb = FALSE;
-
-  if (add->props->verbs != NULL) {
-    if (originalSymbol == entitySymbol)
-      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
-    for TRAVERSE(verbList, add->props->verbs) {
-      for TRAVERSE(verbIdList, verbList->element.vrb->ids)
-	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {
-	  multipleVerb = TRUE;
-	  lmLogv(&verbList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
-	}
-    }
-    if (!multipleVerb)
-      originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void addScripts(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
@@ -213,7 +218,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     if (add->props->mentioned)
       lmLogv(&add->props->mentionedSrcp, 424, sevERR, "mentioned", originalSymbol->string, NULL);
     if (add->props->container)
-      lmLogv(&add->props->container->srcp, 424, sevERR, "container", originalSymbol->string, NULL);
+      lmLogv(&add->props->container->body->srcp, 424, sevERR, "container", originalSymbol->string, NULL);
     if (add->props->scripts)
       lmLogv(&add->props->scripts->element.scr->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
     if (add->props->exits)

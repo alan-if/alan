@@ -23,10 +23,14 @@ static int memTop = 0;			/* Top of load memory */
 
 static char *acdfnm;
 
+
+
 /* Dump flags */
 
 static int dictionaryFlag, classesFlag, instancesFlag, syntaxesFlag,
 verbsFlag, eventsFlag, containersFlag, rulesFlag, statementsFlag;
+
+
 
 int eot(Aword *adr)
 {
@@ -51,14 +55,15 @@ static void indent(int level)
 }
 
 
+static char *dumpAddress(Aword address)
+{
+  static char buffer[100];
+  sprintf(buffer, "%ld(0x%lx)", address, address);
+  return buffer;
+}
 
-/*----------------------------------------------------------------------
 
-  dumpAwords()
-
-  Dump a list of Awords
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpAwords(Aaddr awords)
 {
   Aword *adr;
@@ -73,13 +78,7 @@ static void dumpAwords(Aaddr awords)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpWrdClass()
-
-  Dump the classes of a Word in the dictionary
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpWrdClass(Aword class)
 {
   if ((class&((Aword)1L<<WRD_VRB)) != 0) printf("Verb ");
@@ -99,13 +98,7 @@ static void dumpWrdClass(Aword class)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpDict()
-
-  Dump the dictionary
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpDict(int level, Aword dict)
 {
   WrdEntry *wrd;
@@ -125,20 +118,22 @@ static void dumpDict(int level, Aword dict)
     indent(level+1);
     printf("CODE: %ld\n", wrd->code);
     indent(level+1);
-    printf("ADJREFS: %ld(0x%lx)", wrd->adjrefs, wrd->adjrefs);
+    printf("ADJREFS: %s", dumpAddress(wrd->adjrefs));
     if (wrd->adjrefs != 0) {
       printf(" -> ");
       dumpAwords(wrd->adjrefs);
     } else
       printf("\n");
     indent(level+1);
-    printf("NOUNREFS: %ld(0x%lx)", wrd->nounrefs, wrd->nounrefs);
+    printf("NOUNREFS: %s", dumpAddress(wrd->nounrefs));
     if (wrd->nounrefs != 0) {
       printf(" -> ");
       dumpAwords(wrd->nounrefs);
     } else
       printf("\n");
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -163,11 +158,13 @@ static void dumpAtrs(int level, Aword atrs)
     indent(level+1);
     printf("VAL: %ld\n", atr->value);
     indent(level+1);
-    printf("STRINGADDRESS: %ld(0x%lx)", atr->stringAddress, atr->stringAddress);
+    printf("STRINGADDRESS: %s", dumpAddress(atr->stringAddress));
     if (atr->stringAddress != 0)
       printf(" -> \"%s\"", (char *)&memory[atr->stringAddress]);
     printf("\n");
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -189,10 +186,12 @@ static void dumpChks(int level, Aword chks)
     indent(level);
     printf("CHK:\n");
     indent(level+1);
-    printf("EXP: %ld(0x%lx)\n", chk->exp, chk->exp);
+    printf("EXP: %s\n", dumpAddress(chk->exp));
     indent(level+1);
-    printf("STMS: %ld(0x%lx)\n", chk->stms, chk->stms);
+    printf("STMS: %s\n", dumpAddress(chk->stms));
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -236,22 +235,84 @@ static void dumpAlts(int level, Aword alts)
     indent(level+1);
     printf("QUAL: "); dumpQual(alt->qual); printf("\n");
     indent(level+1);
-    printf("CHECKS: %ld(0x%lx)\n", alt->checks, alt->checks);
+    printf("CHECKS: %s\n", dumpAddress(alt->checks));
     dumpChks(level+2, alt->checks);
     indent(level+1);
-    printf("ACTION: %ld(0x%lx)\n", alt->action, alt->action);
+    printf("ACTION: %s\n", dumpAddress(alt->action));
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void dumpContainers(int level, Aword cnts)
+{
+  ContainerEntry *cnt;
 
-  dumpVrbs()
+  if (cnts == 0) return;
 
-  Dump a list of verbs
+  for (cnt = (ContainerEntry *)pointerTo(cnts); !endOfTable(cnt); cnt++) {
+    indent(level);
+    printf("CONTAINER:\n");
+    indent(level+1);
+    printf("OWNER: %ld\n", cnt->owner);
+    indent(level+1);
+    printf("LIMITS: %s\n", dumpAddress(cnt->limits));
+    indent(level+1);
+    printf("HEADER: %s\n", dumpAddress(cnt->header));
+    indent(level+1);
+    printf("EMPTY: %s\n", dumpAddress(cnt->empty));
+  }
+  indent(level);
+  printf("EOF\n");
+}
 
- */
+
+
+/*----------------------------------------------------------------------*/
+static void dumpInstances(int level, Aword instances)
+{
+  InstanceEntry *instance;
+
+  if (instances == 0) return;
+
+  for (instance = (InstanceEntry *)pointerTo(instances); !endOfTable(instance); instance++) {
+    indent(level);
+    printf("INSTANCE:\n");
+    indent(level+1);
+    printf("code: %ld\n", instance->code);
+    indent(level+1);
+    printf("idAdress: %s\n", dumpAddress(instance->idAddress));
+    indent(level+1);
+    printf("parent: %ld\n", instance->parent);
+    indent(level+1);
+    printf("location: %ld\n", instance->location);
+    indent(level+1);
+    printf("container: %ld\n", instance->container);
+    indent(level+1);
+    printf("attributes: %s\n", dumpAddress(instance->attributes));
+    indent(level+1);
+    printf("checks: %s\n", dumpAddress(instance->checks));
+    indent(level+1);
+    printf("description: %s\n", dumpAddress(instance->description));
+    indent(level+1);
+    printf("mentioned: %s\n", dumpAddress(instance->mentioned));
+    indent(level+1);
+    printf("article: %s\n", dumpAddress(instance->article));
+    indent(level+1);
+    printf("exits: %s\n", dumpAddress(instance->exits));
+    indent(level+1);
+    printf("verbs: %s\n", dumpAddress(instance->verbs));
+  }
+  indent(level);
+  printf("EOF\n");
+}
+
+
+
+/*----------------------------------------------------------------------*/
 static void dumpVrbs(int level, Aword vrbs)
 {
   VerbEntry *vrb;
@@ -264,9 +325,11 @@ static void dumpVrbs(int level, Aword vrbs)
     indent(level+1);
     printf("CODE: %ld\n", vrb->code);
     indent(level+1);
-    printf("ALT: %ld(0x%lx)\n", vrb->alts, vrb->alts);
+    printf("ALT: %s\n", dumpAddress(vrb->alts));
     dumpAlts(level+2, vrb->alts);
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -290,13 +353,15 @@ static void dumpExts(int level, Aword exts)
     indent(level+1);
     printf("CODE: %ld\n", ext->code);
     indent(level+1);
-    printf("CHECKS: %ld(0x%lx)\n", ext->checks, ext->checks);
+    printf("CHECKS: %s\n", dumpAddress(ext->checks));
     dumpChks(level+2, ext->checks);
     indent(level+1);
-    printf("ACTION: %ld(0x%lx)\n", ext->action, ext->action);
+    printf("ACTION: %s\n", dumpAddress(ext->action));
     indent(level+1);
-    printf("TARGET: %ld(0x%lx)\n", ext->target, ext->target);
+    printf("TARGET: %s\n", dumpAddress(ext->target));
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -318,13 +383,15 @@ static void dumpElms(int level, Aword elms)
     indent(level);
     printf("ELM: #%ld\n", elm->code);
     indent(level+1);
-    printf("FLAGS: %ld(0x%lx)\n", elm->flags, elm->flags);
+    printf("FLAGS: %s\n", dumpAddress(elm->flags));
     indent(level+1);
-    printf("NEXT (%s): %ld(0x%lx)\n", elm->code==-2?"cla":"elm", elm->next, elm->next);
+    printf("NEXT (%s): %s\n", elm->code==-2?"cla":"elm", dumpAddress(elm->next));
     if(elm->code != EOS) {
       dumpElms(level+2, elm->next);
     }
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -346,9 +413,11 @@ static void dumpStxs(int level, Aword stxs)
     indent(level);
     printf("STX: #%ld\n", stx->code);
     indent(level+1);
-    printf("ELMS: %ld(0x%lx)\n", stx->elms, stx->elms);
+    printf("ELMS: %s\n", dumpAddress(stx->elms));
     dumpElms(level+2, stx->elms);
   }
+  indent(level);
+  printf("EOF\n");
 }
 
 
@@ -698,28 +767,50 @@ static void dumpACD(void)
   Aword crc = 0;
   int i;
 
-  printf("VERSION: %d.%d(%d)%c\n", header->vers[0],
-	 header->vers[1], header->vers[2], header->vers[3]?header->vers[3]:' ');
-  printf("SIZE: %ld(0x%lx)\n", header->size, header->size);
+  printf("VERSION: %d.%d(%d)%c\n", header->vers[3],
+	 header->vers[2], header->vers[1], header->vers[0]?header->vers[0]:' ');
+
+  printf("SIZE: %s\n", dumpAddress(header->size));
+
   printf("PACK: %s\n", header->pack?"Yes":"No");
+
   printf("PAGELENGTH: %ld\n", header->pageLength);
+
   printf("PAGEWIDTH: %ld\n", header->pageWidth);
+
   printf("DEBUG: %s\n", header->debug?"Yes":"No");
-  printf("DICTIONARY: %ld(0x%lx)\n", header->dictionary, header->dictionary);
+
+  printf("DICTIONARY: %s\n", dumpAddress(header->dictionary));
   if (dictionaryFlag) dumpDict(1, header->dictionary);
-  printf("SYNTAXTABLE: %ld(0x%lx)\n", header->syntaxTableAddress, header->syntaxTableAddress);
+
+  printf("SYNTAXTABLE: %s\n", dumpAddress(header->syntaxTableAddress));
   if (syntaxesFlag) dumpStxs(1, header->syntaxTableAddress);
-  printf("VERBTABLE: %ld(0x%lx)\n", header->verbTableAddress, header->verbTableAddress);
+
+  printf("VERBTABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
-  printf("EVENTTABLE: %ld(0x%lx)\n", header->eventTableAddress, header->eventTableAddress);
-  printf("CONTAINERTABLE: %ld(0x%lx)\n", header->containerTableAddress, header->containerTableAddress);
-  printf("RULETABLE: %ld(0x%lx)\n", header->ruleTableAddress, header->ruleTableAddress);
-  printf("INIT: %ld(0x%lx)\n", header->init, header->init);
-  printf("START: %ld(0x%lx)\n", header->start, header->start);
-  printf("MESSAGETABLE: %ld(0x%lx)\n", header->messageTableAddress, header->messageTableAddress);
+
+  printf("EVENTTABLE: %s\n", dumpAddress(header->eventTableAddress));
+
+  printf("CONTAINERTABLE: %s\n", dumpAddress(header->containerTableAddress));
+  if (containersFlag) dumpContainers(1, header->containerTableAddress);
+
+  printf("INSTANCETABLE: %s\n", dumpAddress(header->instanceTableAddress));
+  if (instancesFlag) dumpInstances(1, header->instanceTableAddress);
+
+  printf("RULETABLE: %s\n", dumpAddress(header->ruleTableAddress));
+
+  printf("INIT: %s\n", dumpAddress(header->init));
+
+  printf("START: %s\n", dumpAddress(header->start));
+
+  printf("MESSAGETABLE: %s\n", dumpAddress(header->messageTableAddress));
+
   printf("MAXSCORE: %ld\n", header->maxscore);
-  printf("SCORES: %ld(0x%lx)\n", header->scores, header->scores);
-  printf("FREQ: %ld(0x%lx)\n", header->freq, header->freq);
+
+  printf("SCORES: %s\n", dumpAddress(header->scores));
+
+  printf("FREQ: %s\n", dumpAddress(header->freq));
+
   printf("ACDCRC: 0x%lx ", header->acdcrc);
   /* Calculate checksum */
   for (i = sizeof(*header)/sizeof(Aword); i < memTop; i++) {
@@ -750,11 +841,16 @@ static void load(char acdfnm[])
   FILE *codfil;
 
   if ((codfil = fopen(acdfnm, "rb")) == NULL) {
-    printf("Could not open ACD-file '%s'\n", acdfnm);
+    printf("Could not open ACD-file: '%s'\n", acdfnm);
     exit(1);
   }
 
   fread(&tmphdr, sizeof(tmphdr), 1, codfil);
+  if (tmphdr.tag[3] != 'A' && tmphdr.tag[1] != 'A' && tmphdr.tag[2] != 'A' && tmphdr.tag[0] != 'N') {
+    printf("Not an ACD-file: '%s'\n", acdfnm);
+    exit(1);
+  }    
+
   rewind(codfil);
 
   /* Allocate and load memory */

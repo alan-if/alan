@@ -15,21 +15,24 @@
 
 
 /* Types: */
-
-typedef struct Container {
+typedef struct ContainerInfo {
   Srcp srcp;			/* Source position */
-  IdNode *nam;			/* Name of the container */
-  List *namstms;		/* Name printing statements */
-  Aaddr namadr;			/* ACODE address to name statement */
-  int code;			/* Code for this container */
-  struct Properties *ownerProperties;	/* Pointer to parents properties */
-  List *lims;			/* Limits */
+  Bool analyzed;		/* Is this container definition analyzed? */
+  Bool generated;		/* And generated? */
+  List *limits;			/* Limits */
   Aaddr limadr;			/* ACODE address to limit table */
   List *hstms;			/* Header statements */
   Aaddr hadr;			/* ACODE address to header statements */
   List *estms;			/* 'Empty' statements */
   Aaddr eadr;			/* ACODE address to 'empty' statements */  
+} ContainerBody;
+
+typedef struct Container {	/* To be used in instances */
+  int code;			/* Code for this container */
+  struct Properties *ownerProperties;	/* Pointer to parents properties */
+  ContainerBody *body;		/* Common info */
 } Container;
+
 
 
 #endif

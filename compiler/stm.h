@@ -55,6 +55,7 @@ typedef struct StmNod {		/* STATEMENT */
   union {			/* Class dependent fields */
 
     struct {			/* for PRINT */
+      Bool encoded;
       long fpos;		/* Position in the text file */
       int len;			/* and length */
     } print;

@@ -6,7 +6,7 @@ addToAttributes.alan
     6.    Has open 5.
 =====>        1
 
-  *1*   336 E : You can not ADD an existing attribute to a class.
+  *1*   336 E : You can not ADD an attribute which already exists.
 
 
         1 error(s).

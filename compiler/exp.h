@@ -86,6 +86,7 @@ typedef struct Expression {
     } val;
 
     struct {			/* For STRING */
+      Bool encoded;
       long fpos;
       int len;
     } str;

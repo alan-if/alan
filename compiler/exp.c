@@ -772,7 +772,9 @@ void generateExpression(Expression *exp)
     break;
     
   case STRING_EXPRESSION:
-    encode(&exp->fields.str.fpos, &exp->fields.str.len);
+    if (!exp->fields.str.encoded)
+      encode(&exp->fields.str.fpos, &exp->fields.str.len);
+    exp->fields.str.encoded = TRUE;
     emit2(I_GETSTR, exp->fields.str.fpos, exp->fields.str.len);
     break;
     
