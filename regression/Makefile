@@ -5,9 +5,8 @@ all:
 	steam test
 
 
-archives: CASES regression.dos
+amiga: CASES
 	lha c regression.lha *.alan *.input *.expected regression regression.amiga CASES
-	zip -k regression.zip *.alan *.input *.expected regression regression.dos
 
 CASES: *.alan
 	ls -1 *.alan | sed -e s/.alan// > CASES
@@ -60,4 +59,3 @@ mac:
 	    ramp iso2mac $${case}.alan $(HOME)/mac/Alan/Regression/$${case}.alan ; \
 	done
 	@echo Run each test manually!
-	
