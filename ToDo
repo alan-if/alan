@@ -1,4 +1,6 @@
 ToDo:
+	* Short-circuiting expressions, is it necessary? Can it be done?
+
 	* Think about punctuation! Can it be made optional?
 
 	* Checks on containers to augment limits.
