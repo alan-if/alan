@@ -12,18 +12,20 @@ EXE	= arun.exe
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 CFLAGS	= $(COMPILEFLAGS)
 ARCH	= $(CYGWIN)$(OPTIMIZE)
+LIBS	=
 
 #Settings for Windows GLK variant
 GLKROOT = ../../WindowsGLK
 GLKDEFS = -DHAVE_WINGLK
 GLKINCLUDE = -I$(GLKROOT)/Include
 GLKLIB = $(GLKROOT)/Glk.lib
+
 winarun: CFLAGS = $(COMPILEFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
-winarun: LIB = $(LIB) $(GLKLIB)
+winarun: LIBS = $(GLKLIB)
 winarun: EXE = winarun.exe
 dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC
-dmalloc: LIB = /usr/local/lib/libdmalloc.a
+dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 release: OPTIMIZE = -O4
 
 # Define this to make interpreter log each crc calculation step
@@ -60,14 +62,14 @@ MAINSRCS = \
 	set.c \
 	arun.c
 
-VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)
-VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
+VERSIONSRCS = $(MAINSRCS) $(BUILDSRCS)
+VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 all arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
-	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
@@ -81,7 +83,7 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	cp winarun.exe ../bin
 
 dmalloc: checkTarget $(ARUNOBJECTS)
-	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
@@ -135,7 +137,7 @@ TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJECTS = ${TESTSRCS:.c=.o} alan.version.o
 
 unit : checkTarget $(TESTOBJECTS)
-	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIB)
+	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIBS)
 
 unitTest: unit
 	@./unit

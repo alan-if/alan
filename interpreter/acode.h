@@ -1,6 +1,8 @@
 #ifndef _ACODE_H_
 #define _ACODE_H_
 
+#define ACODEEXTENSION ".a3c"
+
 /* Basic types */
 typedef unsigned long Aword;		/* Type for an ACODE word */
 typedef unsigned long Aaddr;		/* Type for an ACODE address */

@@ -65,7 +65,11 @@
 #endif
 
 #ifdef __MINGW32__
-#define __win__
+#define __windows__
+#endif
+
+#ifdef __CYGWIN32__
+#define __cygwin__
 #endif
 
 #ifdef __PACIFIC__

@@ -14,10 +14,10 @@
     *not* be compiled into the Glk library itself.
 */
 
+#include "args.h"
 #include "glk.h"
 #include "glkstart.h"
 #include "glkio.h"
-#include "args.h"
 #include "resources.h"
 
 glkunix_argumentlist_t glkunix_arguments[] = {
@@ -53,10 +53,30 @@ int glkunix_startup_code(glkunix_startup_t *data)
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
 #include <windows.h>
+
+static int argCount;
+static char *argumentVector[10];
+
+
+static void splitArgs(char *commandLine) {
+  char *cp = commandLine;
+
+  while (*cp) {
+    while (*cp && isspace(*cp)) cp++;
+    if (*cp) {
+      argumentVector[argCount++] = cp;
+      while (*cp && !isspace(*cp)) cp++;
+      if (*cp) {
+	*cp = '\0';
+	cp++;
+      }
+    }    
+  }
+}
+    
+
 int winglk_startup_code(const char* cmdline)
 {
-  char *argumentVector[2];
-
   winglk_app_set_name("Arun");
   winglk_set_gui(IDR_ARUN);
 
@@ -70,8 +90,9 @@ int winglk_startup_code(const char* cmdline)
 
   /* now process the command line arguments */
   argumentVector[0] = "";
-  argumentVector[1] = (char *)cmdline;
-  args(2, &argumentVector);
+  argCount = 1;
+  splitArgs(strdup(cmdline));
+  args(argCount, argumentVector);
 
   glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
     winmethod_Fixed, 1, wintype_TextGrid, 0);

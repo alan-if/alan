@@ -61,7 +61,8 @@ FILE *logFile;
 #endif
 
 /* File names */
-extern char *adventureName;
+extern char *adventureName;	/* The name of the game */
+extern char *adventureFileName;
 
 /* Screen formatting info */
 extern int col, lin;

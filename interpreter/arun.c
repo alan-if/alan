@@ -31,6 +31,24 @@
 #include "dmalloc.h"
 #endif
 
+
+/*----------------------------------------------------------------------*/
+static char *gameName(char *fullPathName) {
+  char *foundGameName;
+  if ((foundGameName = strrchr(fullPathName, '\\')) == NULL
+      && (foundGameName = strrchr(adventureFileName, '>')) == NULL
+      && (foundGameName = strrchr(adventureFileName, ']')) == NULL
+      && (foundGameName = strrchr(adventureFileName, '/')) == NULL
+      && (foundGameName = strrchr(fullPathName, ':')) == NULL)
+    foundGameName = strdup(fullPathName);
+  else
+    foundGameName = strdup(foundGameName+1);
+  
+  foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
+  return foundGameName;
+}
+
+
 /*======================================================================
 
   main()
@@ -80,34 +98,30 @@ int main(
     newline();
   }
   
-  if (adventureName == NULL || strcmp(adventureName, "") == 0) {
+  if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
 #ifdef HAVE_WINGLK
-    char *filename;
-    filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
-		"Alan Game Files (*.a3c)|*.a3c||");
-    if (filename) {
-      char *directoryPart;
-      if (((directoryPart = strrchr(filename, '\\')) == NULL)
-	  && ((directoryPart = strrchr(filename, ':')) == NULL))
-	adventureName = strdup(filename);
-      else
-	adventureName = strdup(directoryPart+1);
-      adventureName[strlen(adventureName)-4] = '\0'; /* Strip off .A3C */
-    } else {
+    adventureFileName = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
+							   "Alan Game Files (*.a3c)|*.a3c||");
+    if (adventureFileName == NULL) {
       printf("You should supply a game file to play.\n");
       usage();
       terminate(0);
     }
   }
-  winglk_app_set_name(adventureName);
-  winglk_window_set_title(adventureName);
-
 #else
     printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
   }
 #endif
+
+  adventureName = gameName(adventureFileName);
+
+#ifdef HAVE_WINGLK
+  winglk_app_set_name(adventureName);
+  winglk_window_set_title(adventureName);
+#endif
+
 
 #ifdef TRYING_TO_SET_ICON_HAVE_WINGLK
   HWND mainWindow = FindWindow(NULL, adventureName);

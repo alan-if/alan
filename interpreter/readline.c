@@ -252,7 +252,7 @@ static void newLine(char ch);
 static void delFwd(char ch);
 static void delBwd(char ch);
 
-#ifdef __unix__
+#ifdef __cygwin__
 static KeyMap keymap[] = {
   {0x00, 0x07, NULL},
   {0x08, 0x08, delBwd},
@@ -265,22 +265,12 @@ static KeyMap keymap[] = {
   {0x00, 0x00, NULL}
 };
 
-/* I can't figure out what really coverns the esc-map characters... */
-#ifdef __solarisX__
-static KeyMap escmap[] = {
-  {0x00, 0x4e, NULL},
-  {0x4f, 0x4f, arrowHook},
-  {0x50, 0xff, NULL},
-  {0x00, 0x00, NULL}
-};
-#else
 static KeyMap escmap[] = {
   {0x00, 0x5a, NULL},
   {0x5b, 0x5b, arrowHook},
   {0x5c, 0xff, NULL},
   {0x00, 0x00, NULL}
 };
-#endif
 
 static KeyMap arrowmap[] = {
   {0x00, 0x31, NULL},
@@ -296,7 +286,7 @@ static KeyMap arrowmap[] = {
 
 #endif
 
-#ifdef __win__
+#ifdef __windows__
 static KeyMap keymap[] = {
   {0x00, 0x01, NULL},
   {0x02, 0x02, leftArrow},

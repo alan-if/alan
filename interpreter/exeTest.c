@@ -284,10 +284,11 @@ static void testSaveRestore() {
   eventQueueTop = 0;
   scores = &scoreTable;
   adventureName = "adventure";
+  adventureFileName = "adventure.a3c";
 
   /* Init header */
   header->instanceMax = 3;
-  header->attributesAreaSize = 20*sizeof(AttributeEntry)/sizeof(Aword);
+  header->attributesAreaSize = 21*sizeof(AttributeEntry)/sizeof(Aword);
 
   /* Initialize a fake instance table */
   instance = malloc(4*sizeof(InstanceEntry));
@@ -297,7 +298,7 @@ static void testSaveRestore() {
   instance[3].initialAttributes = 12; /* Shouldn't matter where.. */
 
   /* Allocate an attribute area and initialize it */
-  attributes = malloc(20*sizeof(AttributeEntry));
+  attributes = malloc(21*sizeof(AttributeEntry));
   for (i = 0; i<20; i++) {
     attributes[i].code = i;
     attributes[i].value = i;

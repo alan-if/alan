@@ -38,13 +38,13 @@ int main(int argc, char **argv)
   DWORD eventsRead;
   int ch;
 #ifdef __win__
-  HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
-  (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);
+  HANDLE hwnd = GetStdHandle(STD_INPUT_HANDLE);
+  (void) SetConsoleMode(hwnd, ENABLE_ECHO_INPUT);
 #endif
 
   while (!endOfInput) {
     fflush(stdout);
-    if (!ReadConsoleInput(handle, &inputRecord, 1, &eventsRead)) {
+    if (!ReadConsoleInput(hwnd, &inputRecord, 1, &eventsRead)) {
       printf("ReadConsoleInput() failed!\n");
       return 0;
     }

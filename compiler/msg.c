@@ -206,11 +206,11 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
   {M_UNDONE, "undone",
    "Undone.",
    "Ogjort.",
-   "Undone."},			/* TODO: - undone in german? */
+   "Annuliert."},
   {M_NO_UNDO, "no_undo",
    "Nothing more to undo.",
    "Det finns inte mer att göra ogjort.",
-   "Nothing more to undo."},	/* TODO: - "NO_UNDO in german? */
+   "Es gibt nichts mehr zu annulieren."},
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>395.89</origest>
-<currest>394.89</currest>
-<elapsed>230.89</elapsed>
+<origest>396.89</origest>
+<currest>395.89</currest>
+<elapsed>233.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>88</origest>
-<currest>88</currest>
-<elapsed>36</elapsed>
+<origest>89</origest>
+<currest>89</currest>
+<elapsed>39</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>40</origest>
 <currest>40</currest>
-<elapsed>36</elapsed>
+<elapsed>39</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -478,21 +478,31 @@ Newline need to set needsp = FALSE and output need to adhere to it when it has p
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Saved name of game in a save-file should not contain path</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document PRONOUN</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document new messages</desc>
+<notes>Also note the change in the conversion appendix
+NOTE any instance for which noun in noSuch()</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Saved name of game in a save-file should not contain path</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -505,28 +515,27 @@ Newline need to set needsp = FALSE and output need to adhere to it when it has p
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Document new messages</desc>
-<notes>Also note the change in the conversion appendix
-NOTE any instance for which noun in noSuch()</notes>
+<desc>Increment: version 3.0.35</desc>
+<notes/>
+<priority>2</priority>
+<origest>34</origest>
+<currest>34</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Increment: version 3.0.35</desc>
-<notes/>
-<priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

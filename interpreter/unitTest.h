@@ -41,9 +41,11 @@ void unitAssert(int x, char sourceFile[], int lineNumber)
 static void unitTest(void)
 {
   Case *current;
+  int casesRun = 0;
 
   for (current = caseList; current != NULL; current = current->next) {
     (*current->theCase)();
+    casesRun++;
   }
   if (failed == 0)
     printf("All %d unit tests PASSED!!\n", passed);

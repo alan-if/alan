@@ -40,8 +40,8 @@ static void testMatchEndOfSyntax() {
   ElementEntry *element;
   ElementEntry *elementTable;
 
-  memory = allocate(100);
-  elementTable = (ElementEntry *)&memory[50];
+  memory = allocate(100*sizeof(Aword));
+  elementTable = (ElementEntry *)&memory[20];
 
   /* No words */
   playerWords[0] = EOF;
@@ -68,7 +68,7 @@ static void testMatchParameterElement() {
   ElementEntry *element;
   ElementEntry *elementTable;
 
-  memory = allocate(100);
+  memory = allocate(100*sizeof(Aword));
   elementTable = (ElementEntry *)&memory[50];
 
   /* No words */
@@ -105,7 +105,7 @@ static void testMatchParseTree() {
   Bool plural;
   ParamEntry parameters[10];
 
-  memory = allocate(100);
+  memory = allocate(100*sizeof(Aword));
   elementTable = (ElementEntry *)&memory[50];
 
   /* Emulate end of player input */

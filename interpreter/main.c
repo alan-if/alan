@@ -99,7 +99,8 @@ Bool anyOutput = FALSE;
 
 
 /* The files and filenames */
-char *adventureName;
+char *adventureName;		/* The name of the game */
+char *adventureFileName;
 FILE *textFile;
 #ifdef HAVE_GLK
 strid_t logFile;
@@ -958,7 +959,7 @@ static void checkvers(AcdHdr *header)
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
-	   adventureName,
+	   adventureFileName,
 	   (int)(header->vers[0]),
 	   (int)(header->vers[1]),
 	   (int)(header->vers[2]),
@@ -1063,7 +1064,7 @@ static void checkdebug(void)
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
     if (debugOption|sectionTraceOption|singleStepOption) {
-      printf("<Sorry, '%s' is not compiled for debug!>\n", adventureName);
+      printf("<Sorry, '%s' is not compiled for debug!>\n", adventureFileName);
       terminate(0);
     }
     para();
@@ -1242,8 +1243,7 @@ static void openFiles(void)
   time_t tick;
 
   /* Open Acode file */
-  strcpy(codfnm, adventureName);
-  strcat(codfnm, ".a3c");
+  strcpy(codfnm, adventureFileName);
   if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure code file '");
     strcat(str, codfnm);
@@ -1252,8 +1252,7 @@ static void openFiles(void)
   }
 
   /* Open Text file */
-  strcpy(txtfnm, adventureName);
-  strcat(txtfnm, ".a3c");
+  strcpy(txtfnm, adventureFileName);
   if ((textFile = fopen(txtfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure text data file '");
     strcat(str, txtfnm);
@@ -1263,19 +1262,8 @@ static void openFiles(void)
 
   /* If logging open log file */
   if (transcriptOption || logOption) {
-    char *namstart;
-
-    if((namstart = strrchr(adventureName, ']')) == NULL
-       && (namstart = strrchr(adventureName, '>')) == NULL
-       && (namstart = strrchr(adventureName, '/')) == NULL
-       && (namstart = strrchr(adventureName, '\\')) == NULL
-       && (namstart = strrchr(adventureName, ':')) == NULL)
-      namstart = &adventureName[0];
-    else
-      namstart++;
-
     time(&tick);
-    sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
+    sprintf(logfnm, "%s%d%s.log", adventureName, (int)tick, usr);
 #ifdef HAVE_GLK
     glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
     frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logfnm, 0);

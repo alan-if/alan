@@ -7,8 +7,27 @@
 \*----------------------------------------------------------------------*/
 
 #include "main.h"
-
 #include "term.h"
+
+#ifdef __windows__
+
+#include <windows.h>
+
+HWND getConsoleHandle(void) {
+  char oldTitle[1000];
+  char newTitle[1000];
+  HWND handle;
+
+  GetConsoleTitle(oldTitle, 1000);
+
+  wsprintf(newTitle, "Arun console%d-%d", GetTickCount(), GetCurrentProcessId());
+  SetConsoleTitle(newTitle);
+  Sleep(50);
+  handle = FindWindow(NULL, newTitle);
+  SetConsoleTitle(oldTitle);
+  return handle;
+}
+#endif
 
 
 /*======================================================================
@@ -19,11 +38,7 @@
   from the header.
 
  */
-#ifdef _PROTOTYPES_
 void getPageSize(void)
-#else
-void getPageSize()
-#endif
 {
 #ifdef HAVE_GLK
   pageLength = 0;
