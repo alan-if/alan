@@ -199,9 +199,9 @@ void optenum(id, srcp, val)
 
   */
 #ifdef _PROTOTYPES_
-void optBoolean(char *id, Srcp *srcp)
+void optBool(char *id, Srcp *srcp)
 #else
-void optBoolean(id, srcp)
+void optBool(id, srcp)
      char id[];
      Srcp *srcp;
 #endif

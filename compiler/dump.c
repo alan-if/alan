@@ -126,10 +126,10 @@ void duadr(adr)
 
 
 #ifdef _PROTOTYPES_
-void duBoolean(Boolean b)
+void duBool(Bool b)
 #else
-void duBoolean(b)
-     Boolean b;
+void duBool(b)
+     Bool b;
 #endif
 {
   if (b)

@@ -210,7 +210,7 @@ void eninit()
 #endif
 {
   int i;
-  Boolean ok = FALSE;		/* Model is ok? */
+  Bool ok = FALSE;		/* Model is ok? */
 
   while (!ok) {
     /* Set up cumulative frequency counts */

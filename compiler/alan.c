@@ -31,10 +31,10 @@
 #include "smScan.h"
 
 #ifdef _PROTOTYPES_
-extern Boolean smScanEnter(char fnm[]);
+extern Bool smScanEnter(char fnm[]);
 extern int scannedLines(void);	/* Number of scanned lines */
 #else
-extern Boolean smScanEnter();
+extern Bool smScanEnter();
 extern int scannedLines();	/* Number of scanned lines */
 #endif
 
@@ -49,7 +49,7 @@ FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
-Boolean verbose;		/* Verbose mode */
+Bool verbose;		/* Verbose mode */
 
 
 /* PRIVATE */
@@ -404,16 +404,16 @@ static char lstfnm[255];	/*   - " -   of listing file */
 
 
 static char *srcptr;		/* Pointer to adventure name */
-static Boolean warnings;	/* Show warnings */
-static Boolean infos;		/* Show informational messages */
-static Boolean fulflg;		/* Full listing on the screen */
-static Boolean lstflg;		/* Create listing file */
+static Bool warnings;	/* Show warnings */
+static Bool infos;		/* Show informational messages */
+static Bool fulflg;		/* Full listing on the screen */
+static Bool lstflg;		/* Create listing file */
 static int lcount;		/* Number of lines per page */
 static int ccount;		/* -"-    columns */
 static DmpKind dmpflg = 0;	/* Dump internal form flags */
-static Boolean dbgflg = 0;	/* Debug option flags */
-static Boolean packflg = 0;	/* Pack option flags */
-static Boolean sumflg;		/* Print a summary */
+static Bool dbgflg = 0;	/* Debug option flags */
+static Bool packflg = 0;	/* Pack option flags */
+static Bool sumflg;		/* Print a summary */
 
 static SPA_FUN(usage)
 {

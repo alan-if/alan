@@ -33,7 +33,7 @@ typedef struct ElmEntry {
   int code;			/* Word code, if 0 means parameter */
   Aaddr adr;			/* Address to next level for this */
 				/* entry */
-  Boolean multiple;		/* Multiple indicator */
+  Bool multiple;		/* Multiple indicator */
 } ElmEntry;
 
 
@@ -45,7 +45,7 @@ typedef struct ElmEntry {
 
  */
 #ifdef _PROTOTYPES_
-ElmNod *newelm(Srcp *srcp, ElmKind kind, NamNod *nam, Boolean multiple)
+ElmNod *newelm(Srcp *srcp, ElmKind kind, NamNod *nam, Bool multiple)
                 		/* IN - Source Position */
                   		/* IN - Kind of element (parm or word) */
                  		/* IN - The name */
@@ -55,7 +55,7 @@ ElmNod *newelm(srcp, kind, nam, multiple)
      Srcp *srcp;		/* IN - Source Position */
      ElmKind kind;		/* IN - Kind of element (parm or word) */
      NamNod *nam;		/* IN - The name */
-     Boolean multiple;		/* IN - May this parameter by multiple */
+     Bool multiple;		/* IN - May this parameter by multiple */
 #endif
 {
   ElmNod *new;			/* The newly created node */
@@ -127,8 +127,8 @@ List *anelms(elms, ress, stx)
   ElmNod *elm = elms->element.elm; /* Set to be the first */
   List *lst, *resLst, *pars = NULL;
   int paramNo = 1;
-  Boolean multiple = FALSE;
-  Boolean found;
+  Bool multiple = FALSE;
+  Bool found;
 
   if (elm->kind != ELMWRD)
     /* First element must be a player word */
@@ -189,11 +189,11 @@ List *anelms(elms, ress, stx)
 
   */
 #ifdef _PROTOTYPES_
-static Boolean eqElms(List *elm1, List *elm2)
+static Bool eqElms(List *elm1, List *elm2)
                 		/* IN - One list pointer */
                 		/* IN - The other */
 #else
-static Boolean eqElms(elm1, elm2)
+static Bool eqElms(elm1, elm2)
      List *elm1;		/* IN - One list pointer */
      List *elm2;		/* IN - The other */
 #endif
@@ -285,7 +285,7 @@ static List *partition(elmsListP)
 #endif
 {
   List *part, *rest, *elms, *this, *p;
-  Boolean emptyFound = FALSE;	/* Have we already found an empty element? */
+  Bool emptyFound = FALSE;	/* Have we already found an empty element? */
 
   if (*elmsListP == NULL)
     return NULL;

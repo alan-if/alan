@@ -65,7 +65,7 @@ typedef struct ExpNod {		/* EXPRESSION */
   Srcp srcp;			/* Source position of the expression */
   ExpKind class;		/* Class of the expression */
   TypeKind typ;			/* Type of the expression */
-  Boolean not;			/* Was there a NOT ? */
+  Bool not;			/* Was there a NOT ? */
   union {
 
     struct {			/* for WHERE */
@@ -129,7 +129,7 @@ extern ExpNod *newexp(Srcp *srcp,
 extern void anexp(ExpNod *exp, EvtNod *evt, List *params);
 
 /* Compare two types */
-extern Boolean eqtyp(TypeKind typ1,
+extern Bool eqtyp(TypeKind typ1,
 		  TypeKind typ2);
 
 /* Generate code for an Expression */
@@ -143,7 +143,7 @@ extern void duexp(ExpNod *exp);
 
 #else
 extern ExpNod *newexp();
-extern Boolean eqtyp();
+extern Bool eqtyp();
 extern void anexp();
 extern void geexp();
 extern void dutyp();

@@ -165,7 +165,7 @@ void sortatr(alstp)
      List **alstp;		/* IN - pointer to a pointer to the list */
 #endif
 {
-  Boolean change;		/* Change during sorting */
+  Bool change;		/* Change during sorting */
   List **lstp;			/* Pointer to a list pointer */
   List *tmp1, *tmp2;		/* Temporary pointers */
 
@@ -243,7 +243,7 @@ Aword geatrs(atrs, datrs)
     return(0);
 
   /* First generate the names of the attributes if needed */ 
-  if ((Boolean) opts[OPTDEBUG].value) {
+  if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
       lst->element.atr->stradr = emadr();
       emitstr(lst->element.atr->nam->str);

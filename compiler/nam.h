@@ -62,12 +62,12 @@ extern NamNod *newnam(Srcp *srcp,
 		      char str[]);
 
 /* Compare two names */
-extern Boolean eqnams(NamNod *nam1, NamNod *nam2);
+extern Bool eqnams(NamNod *nam1, NamNod *nam2);
 
 /* Analyse names, returns length of name text */
 extern int annams(List *nams,
 		  NamNod *nam,
-		  Boolean caps);
+		  Bool caps);
 
 /* Generate a reference to a name depending on class */
 extern void genam(NamNod *nam);
@@ -77,7 +77,7 @@ extern void dunam(NamNod *nam);
 
 #else
 extern NamNod *newnam();
-extern Boolean eqnams();
+extern Bool eqnams();
 extern int annams();
 extern void genam();
 extern void dunam();

@@ -24,7 +24,7 @@ typedef struct StxNod {		/* SYNTAX */
   List *elms;			/* List of elements */
   List *ress;			/* List of class restrictions */
   List *pars;			/* AN - List of parameters */
-  Boolean generated;		/* AN - Already generated? */
+  Bool generated;		/* AN - Already generated? */
   Aaddr elmsadr;		/* GE - Address to element table for */
 				/* all stxs with the same first word */
   Aaddr resadr;			/* GE - Address to class restriction checks */
@@ -48,7 +48,7 @@ extern StxNod *newstx(Srcp *srcp,
 extern StxNod *defaultStx(char vrbstr[]);
 
 /* Compare parameter lists of two syntaxes */
-extern Boolean eqparams(StxNod *stx1,
+extern Bool eqparams(StxNod *stx1,
 			StxNod *stx2);
 
 /* Analyze a list of Syntaxs */
@@ -63,7 +63,7 @@ extern void dustx(StxNod *stx);
 #else
 extern StxNod *newstx();
 extern StxNod *defaultStx();
-extern Boolean eqparams();
+extern Bool eqparams();
 extern void anstxs();
 extern Aaddr gestxs();
 extern void dustx();

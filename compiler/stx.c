@@ -179,11 +179,11 @@ StxNod *defaultStx(vrbstr)
 
   */
 #ifdef _PROTOTYPES_
-Boolean eqparams(StxNod *stx1, StxNod *stx2)
+Bool eqparams(StxNod *stx1, StxNod *stx2)
                   		/* IN - Syntax node to compare */
                   		/* IN - Syntax node to compare */
 #else
-Boolean eqparams(stx1, stx2)
+Bool eqparams(stx1, stx2)
      StxNod *stx1;		/* IN - Syntax node to compare */
      StxNod *stx2;		/* IN - Syntax node to compare */
 #endif
@@ -322,7 +322,7 @@ void dustx(stx)
 
   put("STX: "); duadr(stx); dusrcp(&stx->srcp); in();
   put("nam: "); dunam(stx->nam); nl();
-  put("generated: "); duBoolean(stx->generated); nl();
+  put("generated: "); duBool(stx->generated); nl();
   put("elmsadr: "); duint(stx->elmsadr); nl();
   put("elms: "); dulst(stx->elms, ELMNOD); nl();
   put("resadr: "); duint(stx->resadr); nl();

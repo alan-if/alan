@@ -67,11 +67,11 @@ NamNod *newnam(srcp, str)
 
   */
 #ifdef _PROTOTYPES_
-Boolean eqnams(NamNod *nam1, NamNod *nam2)
+Bool eqnams(NamNod *nam1, NamNod *nam2)
                   		/* IN - The first name */
                   		/* IN - Second name */
 #else
-Boolean eqnams(nam1, nam2)
+Bool eqnams(nam1, nam2)
      NamNod *nam1;		/* IN - The first name */
      NamNod *nam2;		/* IN - Second name */
 #endif
@@ -88,7 +88,7 @@ Boolean eqnams(nam1, nam2)
 
   */
 #ifdef _PROTOTYPES_
-int annams(List *nams, NamNod *nam, Boolean cap)
+int annams(List *nams, NamNod *nam, Bool cap)
                 		/* IN - List of names to use */
                  		/* IN - A single name if nams == NULL */
                  		/* IN - Capitalize the words? */
@@ -96,7 +96,7 @@ int annams(List *nams, NamNod *nam, Boolean cap)
 int annams(nams, nam, cap)
      List *nams;		/* IN - List of names to use */
      NamNod *nam;		/* IN - A single name if nams == NULL */
-     Boolean cap;		/* IN - Capitalize the words? */
+     Bool cap;		/* IN - Capitalize the words? */
 #endif
 {
   List *namlst;

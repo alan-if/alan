@@ -113,7 +113,7 @@ static int val(str)
 	res %% ResNod *%1%%,
 	ress %% List *%1%%,
 	classkd %% NamKind %1%%,
-	single %% Boolean %1%%,
+	single %% Bool %1%%,
 	syn %% SynNod *%1%%,
 	syns %% List *%1%%,
 	scr %% ScrNod *%1%%,
@@ -124,8 +124,8 @@ static int val(str)
 	whr %% WhrNod *%1%%,
 	wht %% WhtNod *%1%%,
 	agr %% AgrKind %1%%,
-	not %% Boolean %1%%,
-	minus %% Boolean %1%%,
+	not %% Bool %1%%,
+	minus %% Bool %1%%,
 	op %% OpKind %1%%,
 	str %% char *%1%%,
 	val %% int %1%%,
@@ -162,7 +162,7 @@ options			-- RETURNS: <nothing>
 option			-- RETURNS: <nothing>
     = ID '.'
     %%
-	optBoolean(%ID.chars, `&%ID.srcp);
+	optBool(%ID.chars, `&%ID.srcp);
     %%
 
     ! ID ID '.'

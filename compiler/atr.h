@@ -20,7 +20,7 @@ typedef struct AtrNod {		/* ATTRIBUTE */
   Aword stradr;			/* Acode address to the attribute name */
   Aword adr;			/* Acode address to the attribute value */
   int val;			/* The initial value */
-  Boolean encoded;		/* For string attributes... */
+  Bool encoded;		/* For string attributes... */
   long fpos;
   int len;
 } AtrNod;

@@ -105,7 +105,7 @@ static void geevt(evt)
      EvtNod *evt;	/* IN - The event to generate */
 #endif
 {
-  if ((Boolean) opts[OPTDEBUG].value) {
+  if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();
     emitstr(evt->nam->str);
   }

@@ -33,10 +33,10 @@
 extern smScContext lexContext;
 
 #ifdef _PROTOTYPES_
-extern Boolean smScanEnter(char fnm[]);
+extern Bool smScanEnter(char fnm[]);
 extern int scannedLines(void);
 #else
-extern Boolean smScanEnter();
+extern Bool smScanEnter();
 extern int scannedLines();
 #endif
 
@@ -55,11 +55,11 @@ int scannedLines();
 static lines = 0;		/* Updated at end of each file */
 
 #ifdef _PROTOTYPES_
-Boolean smScanEnter(
+Bool smScanEnter(
 	char fnm[]		/* IN - Name of file to open */
 ){
 #else
-Boolean smScanEnter(fnm)
+Bool smScanEnter(fnm)
 	char fnm[];		/* IN - Name of file to open */
 {
 #endif
@@ -161,7 +161,7 @@ int scannedLines()
   STRING = '"' ([^"]!'"''"')* '"'
     %%
       int len = 0;		/* The total length of the copied data */
-      Boolean space = FALSE;
+      Bool space = FALSE;
       int i, c;
 
       smToken->fpos = ftell(txtfil); /* Remember where it starts */

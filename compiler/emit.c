@@ -265,6 +265,22 @@ void eminit(acdfnm)
   /* Make space for ACODE header */
   for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
       emit(0L);
+
+#ifdef __mac__
+  /* Add FinderInfo to point to Arun */
+  {
+    char fnm[256];
+    short vRefNum = 0;
+    FInfo finfo;
+    OSErr oe;
+
+    fnm[0] = (char)strlen(acdfnm);
+    strncpy(&fnm[1], acdfnm, fnm[0]);
+    oe = GetFInfo(fnm, 0, &finfo);
+
+    printf("oe = %d\n", oe);
+  }
+#endif
 }
 
 
@@ -307,8 +323,4 @@ void emterm(hdr)
     emit(*hp++);
   fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
   fclose(acdfil);
-
-#ifdef __mac__
-  Set info to point to Arun.....
-#endif
 }

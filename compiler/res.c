@@ -35,7 +35,7 @@
 
  */
 #ifdef _PROTOTYPES_
-ResNod *newres(Srcp *srcp, NamNod *nam, Boolean single, NamKind classes, List *stms)
+ResNod *newres(Srcp *srcp, NamNod *nam, Bool single, NamKind classes, List *stms)
                 		/* IN - Source Position */
                  		/* IN - The name */
                     		/* IN - TRUE if single class */
@@ -45,7 +45,7 @@ ResNod *newres(Srcp *srcp, NamNod *nam, Boolean single, NamKind classes, List *s
 ResNod *newres(srcp, nam, single, classes, stms)
      Srcp *srcp;		/* IN - Source Position */
      NamNod *nam;		/* IN - The name */
-     Boolean single;		/* IN - TRUE if single class */
+     Bool single;		/* IN - TRUE if single class */
      NamKind classes;		/* IN - Allowed classes */
      List *stms;		/* IN - Statements to execute otherwise */
 #endif
@@ -83,7 +83,7 @@ static void anres(res, params)
      List *params;		/* IN - Possible syntax parameters */
 #endif
 {
-  Boolean found = FALSE;
+  Bool found = FALSE;
   List *p;
 
   /* Check for the id in the parameter list */

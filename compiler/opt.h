@@ -35,7 +35,7 @@ typedef enum OptTyp {
 /* The Option Definitions */
 typedef struct OptDef {
   OptTyp type;
-  Boolean used;
+  Bool used;
   char *name;
   short value;
 } OptDef;
@@ -67,8 +67,8 @@ extern void optenum(char id[],
 		    Srcp *srcp,
 		    char val[]);
 
-/* Register a Booleanean option */
-extern void optBoolean(char id[],
+/* Register a Boolean option */
+extern void optBool(char id[],
 		       Srcp *srcp);
 
 
@@ -77,7 +77,7 @@ extern void geopt(AcdHdr *header);
 #else
 extern void optint();
 extern void optenum();
-extern void optBoolean();
+extern void optBool();
 extern void geopt();
 #endif
 

@@ -1509,7 +1509,7 @@ void dustm(stm)
       break;
     case STM_MAKE:
       put("wht: "); duwht(stm->fields.list.wht); nl();
-      put("not: "); duBoolean(stm->fields.make.not); nl();
+      put("not: "); duBool(stm->fields.make.not); nl();
       put("atr: "); dunam(stm->fields.make.atr);
       break;
     case STM_SET:

@@ -42,10 +42,10 @@
 
   */
 #ifdef _PROTOTYPES_
-Boolean eqtyp(TypeKind typ1, TypeKind typ2)
+Bool eqtyp(TypeKind typ1, TypeKind typ2)
                          	/* IN - types to compare */
 #else
-Boolean eqtyp(typ1, typ2)
+Bool eqtyp(typ1, typ2)
      TypeKind typ1, typ2;	/* IN - types to compare */
 #endif
 {

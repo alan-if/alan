@@ -66,7 +66,7 @@ extern void out(void);
 extern void dustr(char s[]);
 extern void duadr(void *adr);
 extern void duint(int i);
-extern void duBoolean(Boolean b);
+extern void duBool(Bool b);
 
 #else
 extern void put();
@@ -77,7 +77,7 @@ extern void dusrcp();
 extern void duadr();
 extern void dustr();
 extern void duint();
-extern void duBoolean();
+extern void duBool();
 #endif
 
 #endif

@@ -92,7 +92,7 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* for MAKE */
       WhtNod *wht;		/* What? */
-      Boolean not;		/* Was there a NOT ? */
+      Bool not;		/* Was there a NOT ? */
       NamNod *atr;
     } make;
 

@@ -15,7 +15,7 @@ extern int fileNo;		/* Number of last found file */
 extern FILE *txtfil;		/* File for collected text */
 extern FILE *datfil;		/* File for encoded text */
 extern char advnam[];		/* The name of the adventure */
-extern Boolean verbose;		/* Verbose output */
+extern Bool verbose;		/* Verbose output */
 
 
 /* Common procedures */

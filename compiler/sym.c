@@ -205,7 +205,7 @@ static char *symstr(syms)
     "a Rule"
     };
   static char str[255];		/* To hold the string */
-  Boolean found = FALSE;
+  Bool found = FALSE;
   int i;
 
   /* 4f_Hack to not have repetitions */
