@@ -2036,7 +2036,7 @@ typedef struct {
 } VocTab[142];
 			     
 static VocTab voc = {{1,255,255,"EndOfText",""}
-,{2,1,1,"Identifier","Identifier"}
+,{2,1,1,"Identifier","identifier"}
 ,{3,1,1,"','",""}
 ,{4,1,1,"'.'",""}
 ,{5,1,1,"'{'",""}

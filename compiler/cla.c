@@ -275,7 +275,7 @@ void analyzeClasses(void)
 static void generateClassData(Class *cla)
 {
   generateCommonPropertiesData(cla->props);
-  if (debugOption) {
+  if (debugFlag) {
     cla->props->idAddress = nextEmitAddress();
     emitString(cla->props->id->string);
   }

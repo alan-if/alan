@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>396.89</origest>
-<currest>395.89</currest>
-<elapsed>248.89</elapsed>
+<origest>397.89</origest>
+<currest>396.89</currest>
+<elapsed>249.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>57</origest>
-<currest>57</currest>
-<elapsed>11</elapsed>
+<origest>58</origest>
+<currest>58</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
-<elapsed>11</elapsed>
+<origest>31</origest>
+<currest>31</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -132,6 +132,15 @@ This is not true. The legacy only indicates that the parameter should be an obje
 <notes>Usefullness?
 
 Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>-ide switch to output messages with character positions</desc>
+<notes>In AlanIDE it would be nice to use character positions instead of line markers.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -19,6 +19,7 @@
 #include "id_x.h"
 #include "atr_x.h"
 #include "exp_x.h"
+#include "ext_x.h"
 #include "lst_x.h"
 #include "type_x.h"
 #include "prop_x.h"

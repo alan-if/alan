@@ -168,7 +168,7 @@ void analyzeAdventure(void)
 
   analyzeAllWords();
 
-  if (debugOption)
+  if (debugFlag)
     analyzeSourceFilenames();
 }
 

@@ -48,7 +48,7 @@ static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
 static SPA_FUN(addInclude)
 {
   /* Add the include path to our list */
-  includePaths = concat(includePaths, spaArgument(1), STRING_LIST);
+  importPaths = concat(importPaths, spaArgument(1), STRING_LIST);
   /* Now we can skip the include path */
   spaSkip(1);
 }
@@ -70,19 +70,20 @@ static SPA_DECLARE(options)
      SPA_HELP("help", "this help", usage, xit)
 #endif
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
-     SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
-     SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
+     SPA_FLAG("warnings", "[don't] show warning messages", warningFlag, TRUE, NULL)
+     SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
      SPA_FUNCTION("import <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
      SPA_KEYWORD("charset <set>", "which character set source is in (iso|mac|dos)", charset, charsets, 0, NULL)
-     SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccflg, FALSE, NULL)
-     SPA_FLAG("full", "full source in the list file (or on screen)", fulflg, FALSE, NULL)
+     SPA_FLAG("ide", "list messages in a format appropriate for AlanIDE\n", ideFlag, FALSE, NULL)
+     SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccFlag, FALSE, NULL)
+     SPA_FLAG("full", "full source in the list file (or on screen)", fullFlag, FALSE, NULL)
      SPA_INTEGER("height <lines>", "height of pages in list file", lcount, 74, NULL)
      SPA_INTEGER("width <characters>", "width of pages in list file", ccount, 112, NULL)
-     SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
-     SPA_FLAG("debug", "force debug option in adventure", debugOption, FALSE, NULL)
-     SPA_FLAG("pack", "force pack option in adventure", packflg, FALSE, NULL)
-     SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
+     SPA_FLAG("listing", "create listing file", listingFlag, FALSE, NULL)
+     SPA_FLAG("debug", "force debug option in adventure", debugFlag, FALSE, NULL)
+     SPA_FLAG("pack", "force pack option in adventure", packFlag, FALSE, NULL)
+     SPA_FLAG("summary", "print a summary", summaryFlag, FALSE, NULL)
 #ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
@@ -98,7 +99,7 @@ rules\n\
 everything\n\
 after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
-after code generation", dmpflg, "ypxsvciker!123", NULL, NULL)
+after code generation", dumpFlags, "ypxsvciker!123", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

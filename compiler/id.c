@@ -61,8 +61,8 @@ void symbolizeId(IdNode *id)
 {
   id->symbol = lookup(id->string);
   if (id->symbol == NULL) {
-    if (id->string[0] != '<')
-      /* Generated identifiers start with '<', don't report errors on those */
+    if (id->string[0] != '$')
+      /* Generated identifiers start with '$', don't report errors on those */
       lmLog(&id->srcp, 310, sevERR, id->string);
   } else
     id->code = id->symbol->code;

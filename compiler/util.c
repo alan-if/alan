@@ -110,7 +110,7 @@ static int test_severity(char *err, lmSev sevs)
 
 
 /*----------------------------------------------------------------------*/
-static void cc_listing(lmSev sevs)
+static void specialListing(lmSev sevs)
 {
   int i,j;
   char err[1024], line[1024];
@@ -127,10 +127,16 @@ static void cc_listing(lmSev sevs)
       else
 	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
 	  fnm = fnm->next;
-      sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
-	      fnm->element.str, srcp.line, srcp.col, err, srcp.col);
-      sprintf(line, "\"%s\", line %d(%d): %s\n",
-	      fnm->element.str, srcp.line, srcp.col, err);
+      if (ccFlag)
+	sprintf(line, "\"%s\", line %d(%d): %s\n",
+		fnm->element.str, srcp.line, srcp.col, err);
+      else if (ideFlag)
+	sprintf(line, "\"%s\", positions %d-%d: %s\n",
+		fnm->element.str, srcp.startpos, srcp.endpos, err);
+      else
+	sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
+		fnm->element.str, srcp.line, srcp.col, err, srcp.col);
+
 #ifdef __mac__
       lmLiPrint(line);
 #else
@@ -180,10 +186,10 @@ static void listing(lmSev sevs)
 
 /*======================================================================*/
 void listing(char *listFileName, int lines, int columns,
-		    lmTyp listingType, lmSev severities) {
-  if (ccflg) {
+	     lmTyp listingType, lmSev severities) {
+  if (ccFlag || ideFlag) {
     lmList(listFileName, lines, columns, 0, 0);	/* Sort and prepare for retrieval */
-    cc_listing(severities);
+    specialListing(severities);
   } else
     lmList(listFileName, lines, columns, listingType, severities);
 }

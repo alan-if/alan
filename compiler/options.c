@@ -14,15 +14,16 @@
 char *srcptr;			/* Pointer to adventure name */
 Bool verbose;			/* Verbose mode */
 int charset;			/* Which charset to read source in */
-Bool warnings;			/* Show warnings */
-Bool infos;			/* Show informational messages */
-Bool fulflg;			/* Full source listing */
-Bool lstflg;			/* Create listing file */
-Bool ccflg;			/* Show messages as old 'cc' */
+Bool warningFlag;			/* Show warnings */
+Bool infoFlag;			/* Show informational messages */
+Bool fullFlag;			/* Full source listing */
+Bool listingFlag;		/* Create listing file */
+Bool ccFlag;			/* Show messages as old 'cc' */
+Bool ideFlag;			/* Format messages for AlanIDE */
 int lcount;			/* Number of lines per page */
 int ccount;			/* -"-    columns */
-DmpKind dmpflg = DUMP_NOTHING;	/* Dump internal form flags */
-Bool debugOption = 0;		/* Debug option flags */
-Bool packflg = 0;		/* Pack option flags */
-Bool sumflg;			/* Print a summary */
-List *includePaths = NULL;	/* List of additional include paths */
+DmpKind dumpFlags = DUMP_NOTHING;	/* Dump internal form flags */
+Bool debugFlag = 0;		/* Debug option flag */
+Bool packFlag = 0;		/* Pack option flag */
+Bool summaryFlag;		/* Print a summary flag */
+List *importPaths = NULL;	/* List of additional import directories */

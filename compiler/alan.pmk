@@ -68,9 +68,11 @@
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
       sprintf(token->chars, "$genid%d", idno++);
+#ifdef INSERTIDINMESSAGE
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");
+#endif
     } else
       strcpy(token->chars, symString);
 }
@@ -99,7 +101,7 @@ static int val(char str[])
   cases %% List *%1%%,
   chk %% ChkNod *%1%%,
   chks %% List *%1%%,
-  cla %% ClaNod *%1%%,
+  cla %% Class *%1%%,
   clas %% List *%1%%,
   cnt %% Container *%1%%,
   cnts %% List *%1%%,
@@ -118,7 +120,7 @@ static int val(char str[])
   evts %% List *%1%%,
   exp %% Expression *%1%%,
   exps %% List *%1%%,
-  ext %% ExtNod *%1%%,
+  ext %% Exit *%1%%,
   exts %% List *%1%%,
   first %% Bool %1%%,
   form %% List *%1%%,
@@ -177,7 +179,7 @@ static int val(char str[])
 
 %%TERMINALS
 
-    Identifier = 2,1,1 => 'Identifier';
+    Identifier = 2,1,1 => 'identifier';
 
 %%RECOVERY
 
@@ -1048,7 +1050,7 @@ static int val(char str[])
 
 
     ! <exit>
-    %%{ ExtNod *ext = %<exit>.ext;
+    %%{ Exit *ext = %<exit>.ext;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.ext = ext;
     }%%
@@ -1071,11 +1073,11 @@ static int val(char str[])
 <exit>			-- RETURNS: ext
     = 'EXIT' <id_list> 'TO' ID <optional_exit_body> '.'
     %%
-	%<exit>.ext = newext(`&%'EXIT'.srcp,
-			   %<id_list>.idList,
-			   %ID.id,
-			   %<optional_exit_body>.chks,
-			   %<optional_exit_body>.stms);
+	%<exit>.ext = newExit(`&%'EXIT'.srcp,
+				%<id_list>.idList,
+				%ID.id,
+				%<optional_exit_body>.chks,
+				%<optional_exit_body>.stms);
 	if (%<optional_exit_body>.id != NULL) { /* END-id given */
 	    if (compareStrings(%<id_list>.str, %<optional_exit_body>.id->string) != 0)
 		lmLog(`&%<optional_exit_body>.id->srcp, 200, sevWAR, %<id_list>.str);

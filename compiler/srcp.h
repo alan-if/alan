@@ -16,6 +16,8 @@ typedef struct Srcp {
   int file;
   int line;
   int col;
+  int startpos;
+  int endpos;
 } Srcp;
 
 #endif

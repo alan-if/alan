@@ -77,7 +77,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 #else
       if ((this->fd = open(fnmbuf, 0)) < 0) {
 #endif
-	for (ip = includePaths; ip != NULL; ip = ip->next) {
+	for (ip = importPaths; ip != NULL; ip = ip->next) {
 	  strcpy(fnmbuf, ip->element.str);
 #ifndef __mac__
 	  if (ip->element.str[strlen(ip->element.str)] != '/')
@@ -412,6 +412,8 @@ int smScPostHook(
 
 
   smToken->srcp.file = smThis->fileNo;
+  smToken->srcp.startpos = smThis->smPosition;
+  smToken->srcp.endpos = smThis->smNextPosition;
   if (smToken->code == sm_MAIN_ENDOFTEXT_Token) {
     lines += smThis->smLine;
     close(smThis->fd);

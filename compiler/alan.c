@@ -329,10 +329,10 @@ void compile(void) {
   pmParse();
   endParseTiming();			/* End of parsing pass */
 
-  if ((dmpflg&DUMP_1) > 0) {
+  if ((dumpFlags&DUMP_1) > 0) {
     listing("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
-    dumpAdventure(dmpflg);
+    dumpAdventure(dumpFlags);
     terminate(EXIT_FAILURE);
   }
 
@@ -342,10 +342,10 @@ void compile(void) {
   analyzeAdventure();			/* Analyze the adventure */
   endSemanticsTiming();			/* End of semantic pass */
 
-  if ((dmpflg&DUMP_2) > 0) {
+  if ((dumpFlags&DUMP_2) > 0) {
     listing("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
-    dumpAdventure(dmpflg);
+    dumpAdventure(dumpFlags);
     terminate(EXIT_FAILURE);
   }
 
@@ -363,8 +363,8 @@ void compile(void) {
     _fcreator = 'Arun';
     _ftype = 'Adat';
 #endif
-    opts[OPTDEBUG].value = debugOption; /* Debugging enabled? */
-    if (packflg)		/* Force packing */
+    opts[OPTDEBUG].value = debugFlag; /* Debugging enabled? */
+    if (packFlag)		/* Force packing */
       opts[OPTPACK].value = TRUE;
     startTiming();
     generateAdventure(acdfnm, txtfnm, datfnm);
@@ -374,42 +374,42 @@ void compile(void) {
   }
   endCompilationTiming();
 
-  if (dmpflg == 0) {
+  if (dumpFlags == 0) {
     unlink(txtfnm);
     unlink(datfnm);
   }
 
   /* Check what messages to show on the screen */
   sevs = sevALL;
-  if (!warnings)
+  if (!warningFlag)
     sevs &= ~sevWAR;
-  if (!infos)
+  if (!infoFlag)
     sevs &= ~sevINF;
 
   /* Create listing files and list messages on the screen */
 #ifdef __mac__
   listing(sevs);
 #else
-  if (lstflg) {			/* If -l option, create list file */
-    listing(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevs /*sevALL*/);
-    if (dmpflg) {
+  if (listingFlag) {			/* If -l option, create list file */
+    listing(lstfnm, lcount, ccount, fullFlag?liFULL:liTINY, sevs /*sevALL*/);
+    if (dumpFlags) {
       lmSkipLines(0);
-      dumpAdventure(dmpflg);
+      dumpAdventure(dumpFlags);
     }
-    if (sumflg) {
+    if (summaryFlag) {
       if (lmSeverity() < sevERR)
 	summary();
       statistics();
     }
   }
 
-  listing("", 0, 79, lstflg?liTINY:(fulflg?liFULL:liTINY), sevs);
+  listing("", 0, 79, listingFlag?liTINY:(fullFlag?liFULL:liTINY), sevs);
 
-  if (dmpflg != 0 && !lstflg) {
+  if (dumpFlags != 0 && !listingFlag) {
     lmSkipLines(0);
-    dumpAdventure(dmpflg);
+    dumpAdventure(dumpFlags);
   }
-  if (sumflg) {
+  if (summaryFlag) {
     if (lmSeverity() < sevERR)
       summary();
     endTotalTiming();			/* Stop timer */
