@@ -22,12 +22,13 @@ static void makeParameterElement(ElementEntry *element) {
 
 static void makeWordElement(ElementEntry *element, int code, int next) {
   element->code = code;
+  element->next = next;
 }
 
 
-static void makeDictionary(int index, int class, int code) {
+static void makeDictionary(int index, int code, int classBits) {
   dictionary[index].code = code;
-  dictionary[index].class = class;
+  dictionary[index].classBits = classBits;
 }
 
 
@@ -128,7 +129,7 @@ static void testMatchParseTree() {
 
   /* Test word, EOF with word, EOS */
   dictionary = allocate(100);
-  makeDictionary(0, 1, PREPOSITION_WORD);
+  makeDictionary(0, 1, PREPOSITION_BIT);
   dictsize = 1;
   playerWords[0] = 0;		/* A preposition with code 0 */
   playerWords[1] = EOF;

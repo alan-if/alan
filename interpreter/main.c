@@ -73,7 +73,7 @@ Aword *scores;			/* Score table pointer */
 /* Amachine structures - Static */
 ContainerEntry *container;	/* Container table pointer */
 ClassEntry *class;		/* Class table pointer */
-WrdEntry *dictionary;			/* Dictionary pointer */
+DictionaryEntry *dictionary;	/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
 ParseEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
@@ -752,47 +752,47 @@ Bool isStr(Aword x)
 
 /* Word classes are numbers but in the dictonary they are generated as bits */
 Bool isVerb(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<VERB_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<VERB_WORD))!=0;
 }
 
 Bool isConj(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<CONJUNCTION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<CONJUNCTION_WORD))!=0;
 }
 
 Bool isBut(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<BUT_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<BUT_WORD))!=0;
 }
 
 Bool isThem(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<THEM_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<THEM_WORD))!=0;
 }
 
 Bool isIt(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<IT_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<IT_WORD))!=0;
 }
 
 Bool isNoun(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<NOUN_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<NOUN_WORD))!=0;
 }
 
 Bool isAdjective(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<ADJECTIVE_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<ADJECTIVE_WORD))!=0;
 }
 
 Bool isPreposition(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<PREPOSITION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<PREPOSITION_WORD))!=0;
 }
 
 Bool isAll(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<ALL_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<ALL_WORD))!=0;
 }
 
 Bool isDir(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<DIRECTION_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<DIRECTION_WORD))!=0;
 }
 
 Bool isNoise(int word) {
-  return word < dictsize && (dictionary[word].class&((Aword)1L<<NOISE_WORD))!=0;
+  return word < dictsize && (dictionary[word].classBits&((Aword)1L<<NOISE_WORD))!=0;
 }
 
 Bool isLiteralWord(int word) {
@@ -1072,7 +1072,7 @@ static void checkdebug(void)
 static void initStaticData(void)
 {
   /* Dictionary */
-  dictionary = (WrdEntry *) pointerTo(header->dictionary);
+  dictionary = (DictionaryEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dictionary[dictsize]); dictsize++);
 

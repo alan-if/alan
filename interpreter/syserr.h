@@ -11,7 +11,6 @@
 /* Data: */
 
 /* Functions: */
-#define SYSERR(m) syserr(m, __FUNCTION__)
 extern void syserr(char *msg);
 
 #endif

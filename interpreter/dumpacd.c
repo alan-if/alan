@@ -105,14 +105,14 @@ static void dumpWrdClass(Aword class)
 
 
 /*----------------------------------------------------------------------*/
-static void dumpDict(int level, Aword dict)
+static void dumpDict(int level, Aword dictionary)
 {
-  WrdEntry *wrd;
+  DictionaryEntry *wrd;
   int w = 0;
 
-  if (dict == 0) return;
+  if (dictionary == 0) return;
 
-  for (wrd = (WrdEntry *)pointerTo(dict); !endOfTable(wrd); wrd++) {
+  for (wrd = (DictionaryEntry *)pointerTo(dictionary); !endOfTable(wrd); wrd++) {
     indent(level);
     printf("WORD: [%d]\n", w);
     indent(level+1);
@@ -121,7 +121,7 @@ static void dumpDict(int level, Aword dict)
       printf(" -> \"%s\"", (char *)&memory[wrd->wrd]);
     printf("\n");
     indent(level+1);
-    printf("class: %ld = ", wrd->class); dumpWrdClass(wrd->class);
+    printf("class: %ld = ", wrd->classBits); dumpWrdClass(wrd->classBits);
     indent(level+1);
     printf("code: %ld\n", wrd->code);
     indent(level+1);

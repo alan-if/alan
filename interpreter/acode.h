@@ -27,19 +27,42 @@ typedef long CodeValue;
 
 /* AMACHINE Word Classes, bit positions */
 typedef int WrdKind;
-#define  SYNONYM_WORD 0		/* 1 - Synonym */
-#define  ADJECTIVE_WORD 1		/* 2 - Adjective */
-#define  ALL_WORD 2		/* 4 - All */
-#define  BUT_WORD 3		/* 8 - But */
-#define  CONJUNCTION_WORD 4		/* 16 - Conjunction */
-#define  PREPOSITION_WORD 5		/* 32 - Preposition */
-#define  DIRECTION_WORD 6		/* 64 - Direction */
-#define  IT_WORD 7		/* 128 - It */
-#define  NOISE_WORD 8		/* 256 - Noise word */
-#define  NOUN_WORD 9		/* 512 - Noun */
-#define  ACTOR_WORD 10		/* 1024 - Actor */
-#define  THEM_WORD 11		/* 2048 - Them */
-#define  VERB_WORD 12		/* 4096 - Verb */
+#define  SYNONYM_WORD 0
+#define  SYNONYM_BIT (((Aword)1)<<SYNONYM_WORD)
+
+#define  ADJECTIVE_WORD (SYNONYM_WORD+1)
+#define  ADJECTIVE_BIT (((Aword)1)<<ADJECTIVE_WORD)
+
+#define  ALL_WORD (ADJECTIVE_WORD+1)
+#define  ALL_BIT (((Aword)1)<<ALL_WORD)
+
+#define  BUT_WORD (ALL_WORD+1)
+#define  BUT_BIT (((Aword)1)<<BUT_WORD)
+
+#define  CONJUNCTION_WORD (BUT_WORD+1)
+#define  CONJUNCTION_BIT (((Aword)1)<<CONJUNCTION_WORD)
+
+#define  PREPOSITION_WORD (CONJUNCTION_WORD+1)
+#define  PREPOSITION_BIT (((Aword)1)<<PREPOSITION_WORD)
+
+#define  DIRECTION_WORD (PREPOSITION_WORD+1)
+#define  DIRECTION_BIT (((Aword)1)<<DIRECTION_WORD)
+
+#define  IT_WORD (DIRECTION_WORD+1)
+#define  IT_BIT (((Aword)1)<<IT_WORD)
+
+#define  NOISE_WORD (IT_WORD+1)
+#define  NOISE_BIT (((Aword)1<<NOISE_WORD)
+
+#define  NOUN_WORD (NOISE_WORD+1)
+#define  NOUN_BIT (((Aword)1)<<NOUN_WORD)
+
+#define  THEM_WORD (NOUN_WORD+1)
+#define  THEM_BIT (((Aword)1)<<THEM_WORD)
+
+#define  VERB_WORD (THEM_WORD+1)
+#define  VERB_BIT (((Aword)1)<<VERB_WORD)
+
 #define  WRD_CLASSES 13
 
 

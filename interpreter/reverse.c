@@ -129,14 +129,14 @@ static void reverseMsgs(Aword adr)
 
 static void reverseDictionary(Aword adr)
 {
-  WrdEntry *e = (WrdEntry *) &memory[adr];
+  DictionaryEntry *e = (DictionaryEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!endOfTable(e)) {
-    reverseTable(adr, sizeof(WrdEntry));
+    reverseTable(adr, sizeof(DictionaryEntry));
     while (!endOfTable(e)) {
-      if ((e->class & (1L<<SYNONYM_WORD)) == 0) { /* Do not do this for synonyms */
+      if ((e->classBits & (1L<<SYNONYM_WORD)) == 0) { /* Do not do this for synonyms */
 	reverseTable(e->adjrefs, sizeof(Aword));
 	reverseTable(e->nounrefs, sizeof(Aword));
       }

@@ -696,31 +696,47 @@ static Bool isParameterWord(int word) {
 static ElementEntry *matchParseTree(ParamEntry multipleList[],
 				    ElementEntry *elms,
 				    Bool *anyPlural) {
+  ElementEntry *currentEntry = elms;
 
   while (TRUE) {		/* Traverse the possible branches to
 				   find a match */
+    ElementEntry *elms;
+
     /* End of input? */
     if (playerWords[wordIndex] == EOF || isConj(playerWords[wordIndex])) {
-      elms = matchEndOfSyntax(elms);
-      if (elms == NULL)	return NULL;
-      break;
-    } else if (isPreposition(playerWords[wordIndex]) && elms->code != 0) {
-      /* A preposition? Or rather an intermediate word? */
-      /* TODO If the word is also a adjective or noun and we can have a
-	 parameter here we must try it as a parameter */
-      elms = matchWordElement(elms, dictionary[playerWords[wordIndex]].code);
-      if (elms == NULL) return NULL;
-      wordIndex++;		/* Word matched, go to next */
-    } else if (isParameterWord(playerWords[wordIndex])) {
-      elms = matchParameterElement(elms);
-      if (elms == NULL) return NULL;
-      parseParameter(elms->flags, anyPlural, multipleList);
-    } else
+      elms = matchEndOfSyntax(currentEntry);
+      if (elms == NULL)
 	return NULL;
-    elms = (ElementEntry *) pointerTo(elms->next);
-  }
+      else
+	return elms;
+    }
 
-  return elms;
+    if (isParameterWord(playerWords[wordIndex])) {
+      elms = matchParameterElement(currentEntry);
+      if (elms != NULL) {
+	parseParameter(elms->flags, anyPlural, multipleList);
+	currentEntry = (ElementEntry *) pointerTo(elms->next);
+	continue;
+      } /* didn't allow a parameter so fall through
+	   and try with a preposition... */
+    }
+
+    if (isPreposition(playerWords[wordIndex])) {
+      /* A preposition? Or rather an intermediate word? */
+      elms = matchWordElement(currentEntry, dictionary[playerWords[wordIndex]].code);
+      if (elms != NULL) {
+	wordIndex++;		/* Word matched, go to next */
+	currentEntry = (ElementEntry *) pointerTo(elms->next);
+	continue;
+      }
+    }
+
+    /* If we get here we couldn't match anything... */
+    return NULL;
+  }
+  /* And this should never happen ... */
+  syserr("Fall-through");
+  return NULL;
 }
 
 

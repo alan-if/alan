@@ -38,7 +38,7 @@ extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
-extern WrdEntry *dictionary;		/* Dictionary pointer */
+extern DictionaryEntry *dictionary;		/* Dictionary pointer */
 extern ClassEntry *class;	/* Class table pointer */
 extern ContainerEntry *container; /* Container table pointer */
 
