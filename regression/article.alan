@@ -51,6 +51,37 @@ DESCRIPTION
   "This is the description of a described object."
 END OBJECT.
 
+OBJECT m NAME 'mentioned' thing AT l1
+MENTIONED
+  "mentioned object"
+END OBJECT.
+
+OBJECT u NAME 'unmentionable' thing AT l1
+ARTICLE
+  "an"
+MENTIONED
+  "unmentionable object"
+END OBJECT.
+
+-- Testing free order of descriptions
+OBJECT adm
+ARTICLE "a"
+DESCRIPTION "d"
+MENTIONED "m"
+END OBJECT adm.
+
+OBJECT amd
+ARTICLE "a"
+MENTIONED "m"
+DESCRIPTION "d"
+END OBJECT amd.
+
+OBJECT dma
+DESCRIPTION "d"
+MENTIONED "m"
+ARTICLE "a"
+END OBJECT dma.
+
 Location l1
 End Location l1.
 
