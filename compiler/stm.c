@@ -38,9 +38,7 @@
 
 
 /*======================================================================*/
-StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
-	       StmKind class
-)	/* IN - The statement class */
+StmNod *newStatement(Srcp *srcp, StmKind class)
 {
   StmNod *new;                  /* The newly allocated area */
 

@@ -25,7 +25,7 @@
 
 
 /* Create a new Statement node */
-extern StmNod *newstm(Srcp *srcp, StmKind class);
+extern StmNod *newStatement(Srcp *srcp, StmKind class);
 
 /* Analyze a list of statements */
 extern void analyzeStatements(List *stms,

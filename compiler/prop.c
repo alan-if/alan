@@ -152,7 +152,7 @@ static void analyzeName(Properties *props)
 #endif
 
     /* Then create a PRINT statement */
-    stm = newstm(&nulsrcp, PRINT_STATEMENT);
+    stm = newStatement(&nulsrcp, PRINT_STATEMENT);
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
     props->mentioned = concat(NULL, stm, LIST_STATEMENT);

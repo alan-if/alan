@@ -1045,7 +1045,7 @@ static int val(char str[])
     %%
 	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL) {
 	  %<description>.chks = NULL;
-	  %<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
+	  %<description>.stms = concat(NULL, newStatement(`&%'DESCRIPTION'.srcp,
 						NOP_STATEMENT), STATEMENT_LIST);
           %<description>.srcp = %'DESCRIPTION'.srcp;
           %<description>.srcp2 = nulsrcp;
@@ -1077,7 +1077,7 @@ static int val(char str[])
 <article>			-- RETURNS: indefinite, srcp
     = 'ARTICLE' 
     %%
-	%<article>.indefinite = concat(NULL, newstm(`&%'ARTICLE'.srcp,
+	%<article>.indefinite = concat(NULL, newStatement(`&%'ARTICLE'.srcp,
 							NOP_STATEMENT), STATEMENT_LIST);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
@@ -1441,33 +1441,33 @@ static int val(char str[])
 <output_statement>		-- RETURNS: stm
     = STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
-	%<output_statement>.stm = newstm(`&%STRING.srcp, PRINT_STATEMENT);
+	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
 	%<output_statement>.stm->fields.print.len = %STRING.len;
     %%
 
     ! 'DESCRIBE' <what> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'DESCRIBE'.srcp, DESCRIBE_STATEMENT);
+	%<output_statement>.stm = newStatement(`&%'DESCRIBE'.srcp, DESCRIBE_STATEMENT);
 	%<output_statement>.stm->fields.describe.wht = %<what>.wht;
     %%
 
     ! 'SAY' <form> <expression> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'SAY'.srcp, SAY_STATEMENT);
+	%<output_statement>.stm = newStatement(`&%'SAY'.srcp, SAY_STATEMENT);
 	%<output_statement>.stm->fields.say.exp = %<expression>.exp;
 	%<output_statement>.stm->fields.say.form = %<form>.form;
     %%
 
     ! 'LIST' <what> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'LIST'.srcp, LIST_STATEMENT);
+	%<output_statement>.stm = newStatement(`&%'LIST'.srcp, LIST_STATEMENT);
 	%<output_statement>.stm->fields.list.wht = %<what>.wht;
     %%	  
 
     ! 'SHOW' ID '.'
     %%
-	%<output_statement>.stm = newstm(`&%'SHOW'.srcp, SHOW_STATEMENT);
+	%<output_statement>.stm = newStatement(`&%'SHOW'.srcp, SHOW_STATEMENT);
 	%<output_statement>.stm->fields.show.filename = %ID.id;
     %%	  
     ;
@@ -1486,14 +1486,14 @@ static int val(char str[])
 <manipulation_statement>			-- RETURNS: stm
     = 'EMPTY' <what> <optional_where> '.'
     %%
-	%<manipulation_statement>.stm = newstm(`&%'EMPTY'.srcp, EMPTY_STATEMENT);
+	%<manipulation_statement>.stm = newStatement(`&%'EMPTY'.srcp, EMPTY_STATEMENT);
 	%<manipulation_statement>.stm->fields.empty.wht = %<what>.wht;
 	%<manipulation_statement>.stm->fields.empty.where = %<optional_where>.whr;
     %%	  
 
     ! 'LOCATE' <what> <where> '.'
     %%
-	%<manipulation_statement>.stm = newstm(`&%'LOCATE'.srcp, LOCATE_STATEMENT);
+	%<manipulation_statement>.stm = newStatement(`&%'LOCATE'.srcp, LOCATE_STATEMENT);
 	%<manipulation_statement>.stm->fields.locate.wht = %<what>.wht;
 	%<manipulation_statement>.stm->fields.locate.whr = %<where>.whr;
     %%	  
@@ -1504,7 +1504,7 @@ static int val(char str[])
 <event_statement>			-- RETURNS: stm
     = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> '.'
     %%
-	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, SCHEDULE_STATEMENT);
+	%<event_statement>.stm = newStatement(`&%'SCHEDULE'.srcp, SCHEDULE_STATEMENT);
 	%<event_statement>.stm->fields.schedule.id  = %ID.id;
 	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
 	%<event_statement>.stm->fields.schedule.when = %<expression>.exp;
@@ -1512,7 +1512,7 @@ static int val(char str[])
 
     ! 'CANCEL' ID '.'
     %%
-	%<event_statement>.stm = newstm(`&%'CANCEL'.srcp, CANCEL_STATEMENT);
+	%<event_statement>.stm = newStatement(`&%'CANCEL'.srcp, CANCEL_STATEMENT);
 	%<event_statement>.stm->fields.cancel.id = %ID.id;
     %%	  
     ;
@@ -1522,7 +1522,7 @@ static int val(char str[])
 <assignment_statement>		-- RETURNS: stm
     = 'MAKE' <what> <something> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'MAKE'.srcp, MAKE_STATEMENT);
+	%<assignment_statement>.stm = newStatement(`&%'MAKE'.srcp, MAKE_STATEMENT);
 	%<assignment_statement>.stm->fields.make.wht = %<what>.wht;
 	%<assignment_statement>.stm->fields.make.not = %<something>.not;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
@@ -1530,7 +1530,7 @@ static int val(char str[])
 
     ! 'SET' <attribute_reference> 'TO' <expression> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'SET'.srcp, SET_STATEMENT);
+	%<assignment_statement>.stm = newStatement(`&%'SET'.srcp, SET_STATEMENT);
 	%<assignment_statement>.stm->fields.set.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.set.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.set.exp = %<expression>.exp;
@@ -1538,7 +1538,7 @@ static int val(char str[])
 
     ! 'INCREASE' <attribute_reference> <optional_by_clause> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'INCREASE'.srcp, INCREASE_STATEMENT);
+	%<assignment_statement>.stm = newStatement(`&%'INCREASE'.srcp, INCREASE_STATEMENT);
 	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
@@ -1546,7 +1546,7 @@ static int val(char str[])
 
     ! 'DECREASE' <attribute_reference> <optional_by_clause> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'DECREASE'.srcp, DECREASE_STATEMENT);
+	%<assignment_statement>.stm = newStatement(`&%'DECREASE'.srcp, DECREASE_STATEMENT);
 	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
@@ -1583,7 +1583,7 @@ static int val(char str[])
 <if_statement>			-- RETURNS: stm
     = 'IF' <expression> 'THEN' <statements> <optional_elsif_list> <optional_else_part> 'END' 'IF' '.'
     %%
-	%<if_statement>.stm = newstm(`&%'IF'.srcp, IF_STATEMENT);
+	%<if_statement>.stm = newStatement(`&%'IF'.srcp, IF_STATEMENT);
 	%<if_statement>.stm->fields.iff.exp = %<expression>.exp;
 	%<if_statement>.stm->fields.iff.thn = %<statements>.stms;
 	if (%<optional_elsif_list>.stms == NULL)
@@ -1615,7 +1615,7 @@ static int val(char str[])
     %%{
 	StmNod *stm;
 
-	stm = newstm(`&%'ELSIF'.srcp, IF_STATEMENT);
+	stm = newStatement(`&%'ELSIF'.srcp, IF_STATEMENT);
 	stm->fields.iff.exp = %<expression>.exp;
 	stm->fields.iff.thn = %<statements>.stms;
 	stm->fields.iff.els = NULL;
@@ -1628,7 +1628,7 @@ static int val(char str[])
     %%{
 	StmNod *stm;
 
-	stm = newstm(`&%'ELSIF'.srcp, IF_STATEMENT);
+	stm = newStatement(`&%'ELSIF'.srcp, IF_STATEMENT);
 	stm->fields.iff.exp = %<expression>.exp;
 	stm->fields.iff.thn = %<statements>.stms;
 	stm->fields.iff.els = NULL;
@@ -1657,7 +1657,7 @@ static int val(char str[])
 <depending_statement>
     = 'DEPENDING' 'ON' <primary> <depend_cases> 'END' ('DEPEND'|'DEPENDING') '.'
     %%{ StmNod *stm;
-	stm = newstm(`&%'DEPENDING'.srcp, DEPEND_STATEMENT);
+	stm = newStatement(`&%'DEPENDING'.srcp, DEPEND_STATEMENT);
 	stm->fields.depend.exp = %<primary>.exp;
 	stm->fields.depend.cases = %<depend_cases>.cases;
 
@@ -1680,14 +1680,14 @@ static int val(char str[])
 <depend_case>				-- RETURNS: stm
     = <right_hand_side> ':' <statements>
     %%
-        %<depend_case>.stm = newstm(`&%':'.srcp, DEPENDCASE_STATEMENT);
+        %<depend_case>.stm = newStatement(`&%':'.srcp, DEPENDCASE_STATEMENT);
         %<depend_case>.stm->fields.depcase.exp = %<right_hand_side>.exp;
         %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
     %%
 
     ! 'ELSE' <statements>
     %%
-        %<depend_case>.stm = newstm(`&%'ELSE'.srcp, DEPENDCASE_STATEMENT);
+        %<depend_case>.stm = newStatement(`&%'ELSE'.srcp, DEPENDCASE_STATEMENT);
         %<depend_case>.stm->fields.depcase.exp = NULL;
         %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
     %%
@@ -1697,7 +1697,7 @@ static int val(char str[])
 <repetition_statement>			-- RETURNS: stm
     = 'FOR' 'EACH' ID <optional_loop_restriction> 'DO' <statements> 'END' <for_each> ['.']
     %%
-	%<repetition_statement>.stm = newstm(`&%'FOR'.srcp, EACH_STATEMENT);
+	%<repetition_statement>.stm = newStatement(`&%'FOR'.srcp, EACH_STATEMENT);
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
 	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
 	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restriction>.id;
@@ -1725,14 +1725,14 @@ static int val(char str[])
 <actor_statement>			-- RETURNS: stm
     = 'USE' 'SCRIPT' ID <optional_for_actor> '.'
     %%
-	%<actor_statement>.stm = newstm(`&%'USE'.srcp, USE_STATEMENT);
+	%<actor_statement>.stm = newStatement(`&%'USE'.srcp, USE_STATEMENT);
 	%<actor_statement>.stm->fields.use.script = %ID.id;
 	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
     %%
 
     ! 'STOP' ID '.'
     %%
-	%<actor_statement>.stm = newstm(`&%'STOP'.srcp, STOP_STATEMENT);
+	%<actor_statement>.stm = newStatement(`&%'STOP'.srcp, STOP_STATEMENT);
 	%<actor_statement>.stm->fields.stop.actor = %ID.id;
     %%
     ;
@@ -1753,32 +1753,32 @@ static int val(char str[])
 <special_statement>	-- RETURNS: stm
     = 'QUIT' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'QUIT'.srcp, QUIT_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'QUIT'.srcp, QUIT_STATEMENT);
     %%
 
     ! 'LOOK' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'LOOK'.srcp, LOOK_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'LOOK'.srcp, LOOK_STATEMENT);
     %%
 
     ! 'SAVE' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SAVE'.srcp, SAVE_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'SAVE'.srcp, SAVE_STATEMENT);
     %%
 
     ! 'RESTORE' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, RESTORE_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'RESTORE'.srcp, RESTORE_STATEMENT);
     %%
 
     ! 'RESTART' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, RESTART_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'RESTART'.srcp, RESTART_STATEMENT);
     %%
 
     ! 'SCORE' <optional_integer> '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SCORE'.srcp, SCORE_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'SCORE'.srcp, SCORE_STATEMENT);
 	if (%<optional_integer>.str != NULL) {
 	    %<special_statement>.stm->fields.score.score =
 						val(%<optional_integer>.str);
@@ -1789,13 +1789,13 @@ static int val(char str[])
 
     ! 'VISITS' Integer '.'
     %%
-	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, VISITS_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'VISITS'.srcp, VISITS_STATEMENT);
 	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
     %%
 
     ! 'SYSTEM' STRING '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SYSTEM'.srcp, SYSTEM_STATEMENT);
+	%<special_statement>.stm = newStatement(`&%'SYSTEM'.srcp, SYSTEM_STATEMENT);
 	%<special_statement>.stm->fields.system.fpos = %STRING.fpos;
 	%<special_statement>.stm->fields.system.len = %STRING.len;
     %%
