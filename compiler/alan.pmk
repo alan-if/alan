@@ -67,7 +67,7 @@
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "genid%d", idno++);
+      sprintf(token->chars, "$genid%d", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");
@@ -256,6 +256,8 @@ static int val(char str[])
 
     ! <rule>
     %% adv.ruls = concat(adv.ruls, %<rule>.rul, RULE_LIST); %%
+
+    ! 'IMPORT'
     ;
 
 ----> ATTRIBUTES

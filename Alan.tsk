@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>369.89</origest>
-<currest>368.89</currest>
+<origest>367.89</origest>
+<currest>366.89</currest>
 <elapsed>199.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>62</origest>
-<currest>62</currest>
+<origest>60</origest>
+<currest>60</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
+<origest>25</origest>
+<currest>25</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -83,15 +83,6 @@ Possibly this would create a need for OVERRIDE NAME, or in the same way for all 
 <task>
 <desc>Make INCLUDE a grammar symbol to only allow structured includes</desc>
 <notes>Still need to do it in the scanner though...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>-l &amp; -c options to arun does not work</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -178,24 +169,6 @@ The same goes for all subclasses of entity that the player has made, or rather e
 "Every topic Isa entity" should give all topics the non-locaition, non-description feature.
 
 VERIFICATION: Only objects, and actors are automatically described. Things are not. But things have location?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Restrictions should allow location tests?</desc>
-<notes>But you could have restrictions which tested one 
-parameter with a "location test". The semantics would 
-be something like:
-
-1) if you use a location test for a parameter as a 
-restriction, then you are in complete charge of scoping 
-for that parameter
-2) if you don't, the interpreter will use the standard 
-method
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -858,6 +831,24 @@ do with type determination.
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Restrictions should allow location tests?</desc>
+<notes>But you could have restrictions which tested one 
+parameter with a "location test". The semantics would 
+be something like:
+
+1) if you use a location test for a parameter as a 
+restriction, then you are in complete charge of scoping 
+for that parameter
+2) if you don't, the interpreter will use the standard 
+method
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 </task>

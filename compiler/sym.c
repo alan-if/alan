@@ -503,8 +503,8 @@ Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
   Symbol *sym = lookupInContext(id->string, context);
 
   if (!sym) {
-    if (id->string[0] != '<')
-      /* Error generated ids start with '<', we don't want to report on those */
+    if (id->string[0] != '$')
+      /* Error generated id, we don't want to report on those */
       lmLog(&id->srcp, 310, sevERR, id->string);
   } else if (sym->kind == PARAMETER_SYMBOL) {
     if (sym->fields.parameter.element->kind != ID_RESTRICTION)
