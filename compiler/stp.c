@@ -10,10 +10,10 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "exp_x.h"
 
 #include "lmList.h"
 
-#include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "ins.h"                /* INS-nodes */
@@ -122,7 +122,7 @@ void dustp(StpNod *stp)
 {
   put("STP: "); dumpSrcp(&stp->srcp); in();
   put("after: "); dumpInt(stp->after); nl();
-  put("exp: "); duexp(stp->exp); nl();
+  put("exp: "); dumpExpression(stp->exp); nl();
   put("expadr: "); duadr(stp->expadr); nl();
   put("stms: "); dulst(stp->stms, LIST_STM); nl();
   put("stmadr: "); duadr(stp->stmadr); out();

@@ -6,9 +6,10 @@
 #include "sym.h"
 #include "id.h"
 #include "exp.h"
+#include "acode.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum {
   UNKNOWN_INHERITANCE,

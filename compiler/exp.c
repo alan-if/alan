@@ -5,6 +5,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "exp_x.h"
+
 #include "util.h"
 
 #include "srcp_x.h"
@@ -241,6 +243,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 
 
 /*----------------------------------------------------------------------
+
   anbin()
 
   Analyze a binary expression and find out its type.
@@ -328,6 +331,7 @@ static void anbin(ExpNod *exp,
 
 
 /*----------------------------------------------------------------------
+
   anagr()
 
   Analyze an aggregate expression.
@@ -858,12 +862,12 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
 
 
 /*----------------------------------------------------------------------
-  duop()
+  dumpOperator()
 
   Dump an operator
 
   */
-static void duop(OpKind op)
+static void dumpOperator(OpKind op)
 {
   switch (op) {
   case OP_AND:
@@ -937,12 +941,12 @@ static void duagr(AgrKind agr)
 
 /*======================================================================
 
-  dutyp()
+  dumpType()
 
   Dump a type indication.
 
   */
-void dutyp(TypeKind typ)
+void dumpType(TypeKind typ)
 {
   switch (typ) {
   case TYPBOOL:
@@ -964,12 +968,12 @@ void dutyp(TypeKind typ)
 
 /*======================================================================
 
-  duexp()
+  dumpExpression()
 
   Dump an expression node.
 
  */
-void duexp(ExpNod *exp)
+void dumpExpression(ExpNod *exp)
 {
   if (exp == NULL) {
     put("NULL");
@@ -1020,11 +1024,11 @@ void duexp(ExpNod *exp)
 
   switch (exp->class) {
   case EXPWHR:
-    put("wht: "); duexp(exp->fields.whr.wht); nl();
+    put("wht: "); dumpExpression(exp->fields.whr.wht); nl();
     put("whr: "); duwhr(exp->fields.whr.whr);
     break;
   case EXPATR:
-    put("wht: "); duexp(exp->fields.atr.wht); nl();
+    put("wht: "); dumpExpression(exp->fields.atr.wht); nl();
     put("atr: "); dumpId(exp->fields.atr.atr);
     break;
   case EXPINT:
@@ -1035,9 +1039,9 @@ void duexp(ExpNod *exp)
     put("len: "); dumpInt(exp->fields.str.len);
     break;
   case EXPBIN:
-    put("operator: "); duop(exp->fields.bin.op); nl();
-    put("left: "); duexp(exp->fields.bin.left); nl();
-    put("right: "); duexp(exp->fields.bin.right);
+    put("operator: "); dumpOperator(exp->fields.bin.op); nl();
+    put("left: "); dumpExpression(exp->fields.bin.left); nl();
+    put("right: "); dumpExpression(exp->fields.bin.right);
     break;
   case EXPAGR:
     put("agr: "); duagr(exp->fields.agr.agr); nl();
@@ -1045,8 +1049,8 @@ void duexp(ExpNod *exp)
     put("whr: "); duwhr(exp->fields.agr.whr);
     break;
   case EXPRND:
-    put("from: "); duexp(exp->fields.rnd.from); nl();
-    put("to: "); duexp(exp->fields.rnd.to);
+    put("from: "); dumpExpression(exp->fields.rnd.from); nl();
+    put("to: "); dumpExpression(exp->fields.rnd.to);
     break;
   case EXPWHT:
     put("wht: "); duwht(exp->fields.wht.wht);
@@ -1054,9 +1058,9 @@ void duexp(ExpNod *exp)
   case EXPSCORE:
     break;
   case EXPBTW:
-    put("val: "); duexp(exp->fields.btw.val); nl();
-    put("low: "); duexp(exp->fields.btw.low); nl();
-    put("high: "); duexp(exp->fields.btw.high);
+    put("val: "); dumpExpression(exp->fields.btw.val); nl();
+    put("low: "); dumpExpression(exp->fields.btw.low); nl();
+    put("high: "); dumpExpression(exp->fields.btw.high);
     break;
   case EXPISA:
 				/* FIXME */

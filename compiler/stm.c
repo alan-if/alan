@@ -14,11 +14,11 @@
 #include "whr_x.h"
 #include "atr_x.h"
 #include "lst_x.h"
+#include "exp_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-node */
-#include "exp.h"                /* EXP-nodes */
 #include "wht.h"                /* WHT-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "scr.h"                /* SCR-nodes */
@@ -224,11 +224,10 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
 		   EvtNod *evt,	/* IN - inside an Event? */
 		   List *pars)	/* IN - Possible syntax parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
   AtrNod *atr = NULL;
 
   switch (stm->fields.make.wht->kind) {
+
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
@@ -240,6 +239,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
         stm->fields.make.atr->code = atr->id->code;
     }
     break;
+
   case WHT_LOC:
     atr = findAttribute(NULL, stm->fields.make.atr);
     if (atr == NULL)            /* Attribute not found globally */
@@ -247,6 +247,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     else
       stm->fields.make.atr->code = atr->id->code;
     break;
+
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
@@ -256,6 +257,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
     else
       stm->fields.make.atr->code = atr->id->code;
     break;
+
   case WHT_ID:
     atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr);
     if (atr != NULL) {
@@ -265,6 +267,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
         stm->fields.make.atr->code = atr->id->code;
     }
     break;
+
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
@@ -288,6 +291,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
   AtrNod *atr;
 
   switch (stm->fields.set.wht->kind) {
+
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
@@ -319,20 +323,6 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     break;
 
   case WHT_ID:
-#ifdef FIXME
-    namcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-             NAMANY, pars);
-    if (elm) {
-      atr = paramatr(stm->fields.set.atr, elm);
-      if (atr == NULL)          /* Not a default attribute */
-        lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "a parameter");
-    } else if (sym) {
-      atr = symatr(stm->fields.set.atr, sym);
-      if (atr == NULL)
-        lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
-              stm->fields.set.wht->id->string);
-    }
-#endif
     atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr);
     if (atr) {
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
@@ -369,11 +359,10 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
 		   EvtNod *evt,	/* IN - inside an Event? */
 		   List *pars)	/* IN - Possible syntax parameters */
 {
-  SymNod *sym;
-  ElmNod *elm;
   AtrNod *atr;
 
   switch (stm->fields.incr.wht->kind) {
+
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
@@ -385,6 +374,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
         stm->fields.incr.atr->code = atr->id->code;
     }
     break;
+
   case WHT_LOC:
     atr = findAttribute(NULL, stm->fields.incr.atr);
     if (atr == NULL)            /* attribute not found globally */
@@ -392,6 +382,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     else
       stm->fields.incr.atr->code = atr->id->code;
     break;
+
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
@@ -401,6 +392,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
     else
       stm->fields.incr.atr->code = atr->id->code;
     break;
+
   case WHT_ID:
     atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr);
     if (atr) {
@@ -1325,7 +1317,7 @@ void dustm(StmNod *stm)
       put("wht: "); duwht(stm->fields.describe.wht);
       break;
     case STM_SAY:
-      put("exp: "); duexp(stm->fields.say.exp);
+      put("exp: "); dumpExpression(stm->fields.say.exp);
       break;
     case STM_LIST:
       put("wht: "); duwht(stm->fields.list.wht);
@@ -1346,24 +1338,24 @@ void dustm(StmNod *stm)
     case STM_SET:
       put("wht: "); duwht(stm->fields.set.wht); nl();
       put("atr: "); dumpId(stm->fields.set.atr); nl();
-      put("exp: "); duexp(stm->fields.set.exp);
+      put("exp: "); dumpExpression(stm->fields.set.exp);
       break;
     case STM_INCR:
     case STM_DECR:
       put("wht: "); duwht(stm->fields.incr.wht); nl();
       put("atr: "); dumpId(stm->fields.incr.atr); nl();
-      put("step: "); duexp(stm->fields.incr.step);
+      put("step: "); dumpExpression(stm->fields.incr.step);
       break;
     case STM_SCHEDULE:
       put("id: "); dumpId(stm->fields.schedule.id); nl();
       put("whr: "); duwhr(stm->fields.locate.whr); nl();
-      put("when: "); duexp(stm->fields.schedule.when);
+      put("when: "); dumpExpression(stm->fields.schedule.when);
       break;
     case STM_CANCEL:
       put("id: "); dumpId(stm->fields.cancel.id);
       break;
     case STM_IF:
-      put("exp: "); duexp(stm->fields.iff.exp); nl();
+      put("exp: "); dumpExpression(stm->fields.iff.exp); nl();
       put("thn: "); dulst(stm->fields.iff.thn, LIST_STM); nl();
       put("els: "); dulst(stm->fields.iff.els, LIST_STM);
       break;

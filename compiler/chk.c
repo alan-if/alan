@@ -10,8 +10,8 @@
 #include "options.h"
 
 #include "lst_x.h"
+#include "exp_x.h"
 
-#include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 
@@ -141,7 +141,7 @@ void duchk(ChkNod *chk)
   }
 
   put("CHK: "); in();
-  put("exp: "); duexp(chk->exp); nl();
+  put("exp: "); dumpExpression(chk->exp); nl();
   put("expadr: "); duadr(chk->expadr); nl();
   put("stms: "); dulst(chk->stms, LIST_STM); nl();
   put("stmadr: "); duadr(chk->stmadr); out();

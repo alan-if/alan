@@ -10,13 +10,13 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "exp_x.h"
 
 #include "lmList.h"
 
 #include "acode.h"
 
 #include "adv.h"		/* ADV-node */
-#include "exp.h"                /* EXP-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "rul.h"                /* RUL-nodes */
 
@@ -137,7 +137,7 @@ Aaddr geruls(void)
 void durul(RulNod *rul)
 {
   put("RUL: "); dumpSrcp(&rul->srcp); in();
-  put("exp: "); duexp(rul->exp); nl();
+  put("exp: "); dumpExpression(rul->exp); nl();
   put("expadr: "); duadr(rul->expadr); nl();
   put("stms: "); dulst(rul->stms, LIST_STM); nl();
   put("stmadr: "); duadr(rul->stmadr); out();

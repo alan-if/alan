@@ -25,6 +25,7 @@
 #include "ext_x.h"
 #include "atr_x.h"
 #include "lst_x.h"
+#include "exp_x.h"
 
 #include "lmList.h"
 
@@ -34,7 +35,6 @@
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
-#include "exp.h"                /* EXP-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "msg.h"                /* MSG-nodes */
 #include "opt.h"		/* OPTIONS */

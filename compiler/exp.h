@@ -7,16 +7,16 @@
 
 \*----------------------------------------------------------------------*/
 
+
 /* USE other definitions */
 #include "alan.h"
 #include "srcp.h"
 #include "wht.h"
 #include "whr.h"
-#include "evt.h"
 #include "id.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum TypeKind {		/* TYPE kinds */
   TYPUNK,
@@ -131,35 +131,6 @@ typedef struct ExpNod {		/* EXPRESSION */
 
   } fields;
 } ExpNod;
-
-
-
-/* Data: */
-
-
-
-/* Functions: */
-
-
-/* Create a new Expression node */
-extern ExpNod *newexp(Srcp *srcp,
-			     ExpKind class);
-
-/* Analyze an Expression */
-extern void anexp(ExpNod *exp, EvtNod *evt, List *params);
-
-/* Compare two types */
-extern Bool eqtyp(TypeKind typ1,
-		  TypeKind typ2);
-
-/* Generate code for an Expression */
-extern void geexp(ExpNod *exp);
-
-/* Dump a Type */
-extern void dutyp(TypeKind typ);
-
-/* Dump an Expression */
-extern void duexp(ExpNod *exp);
 
 
 #endif

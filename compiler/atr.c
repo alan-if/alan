@@ -444,7 +444,7 @@ static void dumpInheritance(AttributeInheritance inheritance)
 void dumpAttribute(AtrNod *atr)
 {
   put("ATR: "); dumpSrcp(&atr->srcp); in();
-  put("typ: "); dutyp(atr->typ); nl();
+  put("type: "); dumpType(atr->typ); nl();
   put("id: "); dumpId(atr->id); nl();
   put("inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("stringAddress: "); duadr(atr->stringAddress); nl();
