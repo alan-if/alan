@@ -119,11 +119,6 @@ typedef struct VerbEntry {	/* VERB TABLE */
   Aaddr alts;			/* Address to alternatives */
 } VerbEntry;
 
-typedef struct StxEntry {	/* SYNTAX TABLE */
-  Aword code;			/* Code for verb word */
-  Aaddr elms;			/* Address to element tables */
-} StxEntry;
-
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */

@@ -344,10 +344,10 @@ static void reverseStxs(adr)
      Aword adr;
 #endif
 {
-  StxEntry *e = (StxEntry *) &memory[adr];
+  ParseEntry *e = (ParseEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(StxEntry));
+    reverseTable(adr, sizeof(ParseEntry));
     while (!endOfTable(e)) {
       reverseElms(e->elms);
       e++;
@@ -477,7 +477,7 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseDictionary(header->dictionary);
-  reverseStxs(header->syntaxTableAddress);
+  reverseStxs(header->parseTableAddress);
   reverseVerbs(header->verbTableAddress);
   reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);

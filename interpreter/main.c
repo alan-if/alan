@@ -62,7 +62,7 @@ ContainerEntry *container;	/* Container table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
 WrdEntry *dict;			/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
-StxEntry *stxs;			/* Syntax table pointer */
+ParseEntry *stxs;			/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
 MsgEntry *msgs;			/* Message table pointer */
@@ -1108,7 +1108,7 @@ static void initheader()
     events--;
   }
 
-  stxs = (StxEntry *) pointerTo(header->syntaxTableAddress);
+  stxs = (ParseEntry *) pointerTo(header->parseTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
   ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
   msgs = (MsgEntry *) pointerTo(header->messageTableAddress);
@@ -1119,16 +1119,8 @@ static void initheader()
 }
 
 
-/*----------------------------------------------------------------------
-
-  initstrings()
-
-  */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void initstrings(void)
-#else
-static void initstrings()
-#endif
 {
   IniEntry *init;
   AttributeEntry *attribute;
@@ -1141,16 +1133,8 @@ static void initstrings()
 }
 
 
-/*----------------------------------------------------------------------
-
-  start()
-
- */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void start(void)
-#else
-static void start()
-#endif
 {
   int startloc;
 
@@ -1169,17 +1153,8 @@ static void start()
 
 
 
-/*----------------------------------------------------------------------
-  init()
-
-  Initialization, program load etc.
-
-  */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void init(void)
-#else
-static void init()
-#endif
 {
   int i;
 

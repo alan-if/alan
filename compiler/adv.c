@@ -168,13 +168,13 @@ void generateAdventure(char acodeFileName[],
     return;
   
   if (verbose) printf("\n\tDictionary: ");
-  acdHeader.dictionary = generateAllWords();	/* Dictionary */
+  acdHeader.dictionary = generateAllWords();
 
   if (verbose) printf("\n\tSyntax Definitions: ");
-  acdHeader.syntaxTableAddress = generateAllSyntaxes();	/* Syntax definitions */ 
+  acdHeader.parseTableAddress = generateAllSyntaxes();
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.verbTableAddress = generateVerbs(adv.vrbs); /* Global verbs */
+  acdHeader.verbTableAddress = generateVerbs(adv.vrbs);
 
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();

@@ -27,7 +27,7 @@ static char *acdfnm;
 
 /* Dump flags */
 
-static int dictionaryFlag, classesFlag, instancesFlag, syntaxesFlag,
+static int dictionaryFlag, classesFlag, instancesFlag, parseFlag, syntaxesFlag,
 verbsFlag, eventsFlag, containersFlag, rulesFlag, statementsFlag;
 
 
@@ -406,13 +406,13 @@ static void dumpElms(int level, Aword elms)
   Dump a list of syntax descriptions
 
  */
-static void dumpStxs(int level, Aword stxs)
+static void dumpParseTable(int level, Aword stxs)
 {
-  StxEntry *stx;
+  ParseEntry *stx;
 
   if (stxs == 0) return;
 
-  for (stx = (StxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
+  for (stx = (ParseEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
     printf("STX: Verb #%ld\n", stx->code);
     indent(level+1);
@@ -786,8 +786,8 @@ static void dumpACD(void)
   printf("DICTIONARY: %s\n", dumpAddress(header->dictionary));
   if (dictionaryFlag) dumpDict(1, header->dictionary);
 
-  printf("SYNTAXTABLE: %s\n", dumpAddress(header->syntaxTableAddress));
-  if (syntaxesFlag) dumpStxs(1, header->syntaxTableAddress);
+  printf("PARSETABLE: %s\n", dumpAddress(header->parseTableAddress));
+  if (parseFlag) dumpParseTable(1, header->parseTableAddress);
 
   printf("VERBTABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
@@ -920,7 +920,8 @@ static SPA_DECLARE(options)
      SPA_FLAG("dictionary", "dump details on dictionary entries", dictionaryFlag, FALSE, NULL)
      SPA_FLAG("classes", "dump details on class entries", classesFlag, FALSE, NULL)
      SPA_FLAG("instances", "dump details on instance entries", instancesFlag, FALSE, NULL)
-     SPA_FLAG("syntaxes", "dump details on syntax entries", syntaxesFlag, FALSE, NULL)
+     SPA_FLAG("parses", "dump details on parse table entries", parseFlag, FALSE, NULL)
+     SPA_FLAG("syntaxes", "dump details on syntax mapping entries", syntaxesFlag, FALSE, NULL)
      SPA_FLAG("verbs", "dump details on verb entries", verbsFlag, FALSE, NULL)
      SPA_FLAG("events", "dump details on event entries", eventsFlag, FALSE, NULL)
      SPA_FLAG("containers", "dump details on container entries", containersFlag, FALSE, NULL)

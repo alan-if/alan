@@ -95,6 +95,12 @@ Allow concatenated right hand sides. If no ISA use "Isa object" by default for c
 
 Also need to consider how to warn for the same verb declared without a parameter at global level and with a parameter. Is this the same as declaring it with two separate syntax declarations? No, if done so the compiler complains.
 
+DESIGN: Change to verb code in the syntax to a syntax code. Number all syntaxes. For each syntax connect it to a verb, Choose one syntax to represent the canonical parameter order. For each syntax create a table that maps the parameters to the canonical order.
+
+TASK: Introduce the syntax mapping table, first to map to the same order.
+TASK: Map parameters through the mapping table
+TASK: allow multiple syntaxes for same verb
+TASK: create multiple entries for same verb in syntax mapping table
 </notes>
 <priority>2</priority>
 <origest>1</origest>

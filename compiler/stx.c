@@ -223,7 +223,7 @@ Bool eqparams(Syntax *stx1, Syntax *stx2)
 
 
 /*----------------------------------------------------------------------*/
-static void gestx(Syntax *stx)  /* IN - Syntax node to generate for */
+static void generateParseTree(Syntax *stx)
 {
   WordNode *wrd;
   List *lst = NULL;
@@ -254,7 +254,7 @@ static void gestx(Syntax *stx)  /* IN - Syntax node to generate for */
 
 
 /*----------------------------------------------------------------------*/
-static void generateSyntaxEntry(Syntax *stx)
+static void generateParseEntry(Syntax *stx)
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
@@ -278,12 +278,12 @@ Aaddr generateAllSyntaxes(void)
 
   /* Then the actual stxs */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    gestx(lst->element.stx);
+    generateParseTree(lst->element.stx);
 
   /* Then a table of entries */
   stxadr = nextEmitAddress();
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    generateSyntaxEntry(lst->element.stx);
+    generateParseEntry(lst->element.stx);
   emit(EOF);
   return(stxadr);
 }
@@ -299,7 +299,7 @@ void dumpSyntax(Syntax *stx)
   }
 
   put("STX: "); dumpPointer(stx); dumpSrcp(&stx->srcp); in();
-  put("id: "); dumpId(stx->id); nl();
+  put("verbId: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); dumpAddress(stx->elmsadr); nl();
   put("elements: "); dumpList(stx->elements, ELEMENT_LIST); nl();

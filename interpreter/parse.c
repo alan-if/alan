@@ -631,7 +631,7 @@ static void try(mlst)
 #endif
 {
   ElementEntry *elms;		/* Pointer to entryent list */
-  StxEntry *stx;		/* Pointer to syntax list */
+  ParseEntry *stx;		/* Pointer to syntax list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, p;
