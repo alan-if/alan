@@ -18,7 +18,7 @@
 
 /* DATA: */
 
-extern int atrmax;
+extern int attributeAreaSize;
 
 
 /* FUNCTIONS: */

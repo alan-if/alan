@@ -119,20 +119,20 @@ static void showInstance(int ins)
   if (!isA(ins, header->locationClassId)) {
     sprintf(str, "$iLocation: ");
     output(str);
-    if (instance[ins].location == 0)
+    if (admin[ins].location == 0)
       output("- (0)");
-    else if (isLoc(instance[ins].location)) {
-      say(instance[ins].location);
+    else if (isLoc(admin[ins].location)) {
+      say(admin[ins].location);
       sprintf(str, "(%ld)", where(ins));
       output(str);
-    } else if (isCnt(instance[ins].location)) {
+    } else if (isCnt(admin[ins].location)) {
 
-      if (isObj(instance[ins].location))
+      if (isObj(admin[ins].location))
 	output("in");
-      else if (isAct(instance[ins].location))
+      else if (isAct(admin[ins].location))
 	output("carried by");
-      say(instance[ins].location);
-      sprintf(str, "(%ld)", instance[ins].location);
+      say(admin[ins].location);
+      sprintf(str, "(%ld)", admin[ins].location);
       output(str);
 
     } else
@@ -350,7 +350,7 @@ static void showEvents(void)
 #endif
     output(str);
     scheduled = FALSE;
-    for (i = 0; i < etop; i++)
+    for (i = 0; i < eventQueueTop; i++)
       if ((scheduled = (eventQueue[i].event == event)))
 	break;
     if (scheduled) {

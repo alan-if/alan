@@ -1,0 +1,34 @@
+########## alan syserr1 ##########
+
+
+syserr1.alan
+
+    1.  Verb x
+=====>       1
+
+  *1*   230 I : No syntax defined for this global verb, automatically used 'x'.
+
+    3.      Increase v Of l.
+=====>                    1
+
+  *1*   319 E : Identifier 'l' is not an instance.
+
+    6.  Verb l
+=====>       1
+
+  *1*   230 I : No syntax defined for this global verb, automatically used 'l'.
+
+   11.  The l Isa location
+=====>      1
+
+  *1*   303 E : 'l' already declared as a Verb.
+
+
+
+        997 S : SYSTEM ERROR: Not a CLASS or INSTANCE in 'inheritsFrom()'
+
+
+        3 error(s).
+        No detected warnings.
+        2 informational message(s).
+

@@ -198,9 +198,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aword parent;			/* Code for the parent class, 0 if none */
-  Aword location;		/* Code for current location */
+  Aword location;		/* DYNAMIC - Code for current location */
   Aword container;		/* Code for a possible container property */
-  Aaddr attributes;		/* Address of attribute list */
+  Aaddr attributes;		/* DYNAMIC CONTENT - Address of attribute list */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr mentioned;		/* Address to short description code */
@@ -317,10 +317,12 @@ typedef struct AcdHdr {
   Aaddr ruleTableAddress;
   Aaddr messageTableAddress;
 /* Miscellaneous */
+  Aint attributesAreaSize;	/* Size of attribute data area in Awords */
   Aaddr init;			/* String init table */
   Aaddr start;			/* Address to Start code */
   Aword maxscore;		/* Maximum score */
   Aaddr scores;			/* Score table */
+  Aint scoresMax;		/* Max index into scores table */
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
   Aword txtcrc;			/* Checksum for text data file */

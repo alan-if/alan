@@ -109,9 +109,43 @@ static void testAggregateInstructions(void)
 }
 
 
+#ifdef UNDO
+static Aword undoInstructionCode[] = {4, /* Dummy to not execute at zero */
+				      INSTRUCTION(I_UNDO),
+				      INSTRUCTION(I_RETURN)};
+
+static void testUndoInstruction()
+{
+  AcdHdr undoHeader;
+  InstanceEntry undoInstances[3];
+  AdminEntry undoAdmin[3];
+  Aint undoScores[13];
+
+  instance = undoInstances;
+  admin = undoAdmin;
+  scores = undoScores;
+  undoHeader.instanceMax = 3;
+  undoHeader.scoresMax = 14;
+  header = &undoHeader;
+
+  memory = undoInstructionCode;
+  memTop = 100;
+
+  pushGameState();
+  interpret(1);			/* Interpret the UNDO */
+  ASSERT(pop());
+
+  interpret(1);			/* Interpret the UNDO again, should fail */
+  ASSERT(!pop());
+}
+#endif
+
 void registerInterUnitTests(void)
 {
   registerUnitTest(testBlockInstructions);
   registerUnitTest(testForInstructions);
   registerUnitTest(testAggregateInstructions);
+#ifdef UNDO
+  registerUnitTest(testUndoInstruction);
+#endif
 }

@@ -39,6 +39,119 @@ Boolean looking = FALSE;        /* LOOKING? flag */
 int dscrstkp = 0;               /* Describe-stack pointer */
 
 
+/* PRIVATE TYPES */
+typedef struct GameState {
+
+  /* Event queue */
+  int eventQueueSize;
+  EventQueueEntry *eventQueue;
+  int eventQueueTop;		/* Event queue top pointer */
+
+  /* Amachine data structures - Dynamic */
+  AdminEntry *admin;		/* Administrative data about instances */
+  AttributeEntry *attributes;	/* Attributes data area */
+  Aword *scores;		/* Score table pointer */
+
+} GameState;
+
+/* PRIVATE DATA */
+static int gameStateTop = 0;
+static int gameStateSize = 0;
+static GameState *gameState = NULL;
+
+/*----------------------------------------------------------------------*/
+static void ensureSpaceForGameState() {
+  if (gameStateTop == gameStateSize) {
+    gameState = realloc(gameState, (gameStateSize+2)*sizeof(GameState));
+    if (gameState == NULL) syserr("Out of memory in pushGameState()");
+    gameStateSize += 2;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static Boolean gameStateChanged(void)
+{
+  int i;
+  Aword *previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
+  Aword *previousAdmin = (Aword *)gameState[gameStateTop-1].admin;
+  Aword *previousAttributes = (Aword *)gameState[gameStateTop-1].attributes;
+  Aword *previousScores = (Aword *)gameState[gameStateTop-1].scores;
+
+  /* Compare current game state with last saved */
+  if (gameState[gameStateTop-1].eventQueueSize != eventQueueSize) return TRUE;
+
+  for (i = 0; i < eventQueueTop*sizeof(EventQueueEntry)/sizeof(Aword); i++)
+    if (((Aword*)eventQueue)[i] != previousEventQueue[i]) return TRUE;
+
+  if (admin == NULL) syserr("admin[] == NULL in pushGameState()");
+  for (i = 0; i < header->instanceMax*sizeof(AdminEntry)/sizeof(Aword); i++)
+    if (((Aword*)admin)[i] != previousAdmin[i]) return TRUE;
+
+  if (attributes == NULL) syserr("attributes[] == NULL in pushGameState()");
+  for (i = 0; i < header->attributesAreaSize; i++)
+    if (((Aword*)attributes)[i] != previousAttributes[i]) return TRUE;
+
+  for (i = 0; i < header->scoresMax; i++)
+    if (scores[i] != previousScores[i]) return TRUE;
+
+  return FALSE;
+}
+
+
+/*======================================================================*/
+void pushGameState(void) {
+
+  ensureSpaceForGameState();
+
+  if (gameStateChanged()) {
+    gameState[gameStateTop].eventQueueSize = eventQueueSize;
+    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueSize*sizeof(EventQueueEntry));
+    gameState[gameStateTop].eventQueueTop = eventQueueTop;
+
+    gameState[gameStateTop].admin = duplicate(admin, header->instanceMax*sizeof(AdminEntry));
+    gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
+    gameState[gameStateTop].scores = duplicate(scores, header->scoresMax*sizeof(Aword));
+
+    gameStateTop++;
+  }
+
+}
+  
+  
+/*======================================================================*/
+Boolean popGameState(void) {
+
+  if (gameStateTop == 0) {
+    return FALSE;
+  }
+
+  gameStateTop--;
+
+  eventQueueSize = gameState[gameStateTop].eventQueueSize;
+  eventQueueTop = gameState[gameStateTop].eventQueueTop;
+  memcpy(eventQueue, gameState[gameStateTop].eventQueue,
+	 eventQueueSize*sizeof(EventQueueEntry));
+  free(gameState[gameStateTop].eventQueue);
+
+  if (admin == NULL) syserr("admin[] == NULL in popGameState()");
+  memcpy(admin, gameState[gameStateTop].admin,
+ 	 header->instanceMax*sizeof(AdminEntry));
+  free(gameState[gameStateTop].admin);
+
+  if (attributes == NULL) syserr("attributes[] == NULL in pushGameState()");
+  memcpy(attributes, gameState[gameStateTop].attributes,
+	 header->attributesAreaSize*sizeof(Aword));
+  free(gameState[gameStateTop].attributes);
+
+  memcpy(scores, gameState[gameStateTop].scores,
+	 header->scoresMax*sizeof(Aword));
+  free(gameState[gameStateTop].scores);
+
+  return TRUE;
+}
+
+/* Forward: */
 void describeInstances(void);
 
 
@@ -188,7 +301,17 @@ Boolean confirm(MsgKind msgno)
 
 
 /*======================================================================*/
-void quit(void)
+Boolean undo(void) {
+  if (gameStateTop != 0) {
+    gameStateTop--;
+    return popGameState();
+  } else
+    return FALSE;
+}
+
+
+/*======================================================================*/
+void quitGame(void)
 {
   char buf[80];
 
@@ -233,15 +356,15 @@ void cancelEvent(Aword evt)
 {
   int i;
 
-  for(i = etop-1; i>=0; i--)
+  for(i = eventQueueTop-1; i>=0; i--)
     if (eventQueue[i].event == evt) {
-      while (i < etop-1) {
+      while (i < eventQueueTop-1) {
 	eventQueue[i].event = eventQueue[i+1].event;
 	eventQueue[i].time = eventQueue[i+1].time;
 	eventQueue[i].where = eventQueue[i+1].where;
 	i++;
       }
-      etop--;
+      eventQueueTop--;
       return;
     }
 }
@@ -250,10 +373,10 @@ void cancelEvent(Aword evt)
 /*======================================================================*/
 void increaseEventQueue(void)
 {
-  eventQueue = realloc(eventQueue, (etop+2)*sizeof(EventQueueEntry));
+  eventQueue = realloc(eventQueue, (eventQueueTop+2)*sizeof(EventQueueEntry));
   if (eventQueue == NULL) syserr("Out of memory in increaseEventQueue()");
 
-  EventQueueSize = etop + 2;
+  eventQueueSize = eventQueueTop + 2;
 }
 
 
@@ -264,13 +387,13 @@ void schedule(Aword event, Aword where, Aword after)
   
   cancelEvent(event);
   /* Check for overflow */
-  if (etop == EventQueueSize)
+  if (eventQueueTop == eventQueueSize)
     increaseEventQueue();
   
   time = current.tick+after;
   
   /* Bubble this event down */
-  for (i = etop; i >= 1 && eventQueue[i-1].time <= time; i--) {
+  for (i = eventQueueTop; i >= 1 && eventQueue[i-1].time <= time; i--) {
     eventQueue[i].event = eventQueue[i-1].event;
     eventQueue[i].time = eventQueue[i-1].time;
     eventQueue[i].where = eventQueue[i-1].where;
@@ -279,16 +402,17 @@ void schedule(Aword event, Aword where, Aword after)
   eventQueue[i].time = time;
   eventQueue[i].where = where;
   eventQueue[i].event = event;
-  etop++;
+  eventQueueTop++;
 }
 
 
 
 /*======================================================================*/
-AttributeEntry *findAttribute(Aaddr address, int code)
+AttributeEntry *findAttribute(AttributeEntry *attributeTable,
+			      Aint attributeCode)
 {
-  AttributeEntry *attribute = (AttributeEntry *) pointerTo(address);
-  while (attribute->code != code) {
+  AttributeEntry *attribute = attributeTable;
+  while (attribute->code != attributeCode) {
     attribute++;
     if (*((Aword *)attribute) == EOF)
       syserr("Attribute not found.");
@@ -300,27 +424,23 @@ AttributeEntry *findAttribute(Aaddr address, int code)
 
 
 /*----------------------------------------------------------------------*/
-static Aword getatr(
-     Aaddr atradr,              /* IN - ACODE address to attribute table */
-     Aaddr code                  /* IN - The attribute to read */
-)
+static Aword getAttribute(AttributeEntry *attributeTable,
+			  Aint attributeCode)
 {
-  AttributeEntry *attribute = findAttribute(atradr, code);
+  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 
   return attribute->value;
 }
   
 
 /*----------------------------------------------------------------------*/
-static void setatr(
-     Aaddr atradr,              /* IN - ACODE address to attribute table */
-     Aword code,                 /* IN - attribute code */
-     Aword val                  /* IN - new value */
-)
+static void setAttribute(AttributeEntry *attributeTable,
+			 Aword attributeCode,
+			 Aword newValue)
 {
-  AttributeEntry *at = findAttribute(atradr, code);
+  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 
-  at->value = val;
+  attribute->value = newValue;
 }
 
 
@@ -330,7 +450,7 @@ void make(Aword id, Aword code, Aword val)
   char str[80];
 
   if (id > 0 && id <= header->instanceMax) {
-    setatr(instance[id].attributes, code, val);
+    setAttribute(admin[id].attributes, code, val);
     if (isA(id, LOCATION))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   }  else {
@@ -346,7 +466,7 @@ void set(Aword id, Aword atr, Aword val)
   char str[80];
 
   if (id > 0 && id <= header->instanceMax) {
-    setatr(instance[id].attributes, atr, val);
+    setAttribute(admin[id].attributes, atr, val);
     if (isA(id, LOCATION))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   } else {
@@ -357,7 +477,7 @@ void set(Aword id, Aword atr, Aword val)
 
 
 /*======================================================================*/
-void setstr(Aword id, Aword atr, Aword str)
+void setStringAttribute(Aword id, Aword atr, Aword str)
 {
   free((char *)attributeOf(id, atr));
   set(id, atr, str);
@@ -366,38 +486,36 @@ void setstr(Aword id, Aword atr, Aword str)
 
 
 /*----------------------------------------------------------------------*/
-static void incratr(
-	Aaddr atradr,           /* IN - ACODE address to attribute table */
-	Aword code,		/* IN - attribute code */
-	Aword step              /* IN - step to increment by */
-)
+static void incrementAttribute(AttributeEntry *attributeTable,
+			       Aint attributeCode,
+			       Aint step)
 {
-  AttributeEntry *at = findAttribute(atradr, code);
+  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
   
-  at->value += step;
+  attribute->value += step;
 }
 
 
 /*======================================================================*/
-void incr(Aword id, Aword atr, Aword step)
+void increase(Aword id, Aword attributeCode, Aword step)
 {
   char str[80];
 
   if (id > 0 && id <= header->instanceMax)
-    incratr(instance[id].attributes, atr, step);
+    incrementAttribute(admin[id].attributes, attributeCode, step);
   else {
-    sprintf(str, "Can't INCR instance attribute (%ld, %ld).", id, atr);
+    sprintf(str, "Can't INCR instance attribute (%ld, %ld).", id, attributeCode);
     syserr(str);
   }
 }
 
 /*======================================================================*/
-void decr(Aword id, Aword atr, Aword step)
+void decrease(Aword id, Aword atr, Aword step)
 {
   char str[80];
 
   if (id > 0 && id <= header->instanceMax)
-    incratr(instance[id].attributes, atr, -step);
+    incrementAttribute(admin[id].attributes, atr, -step);
   else {
     sprintf(str, "Can't DECR instance attribute (%ld, %ld).", id, atr);
     syserr(str);
@@ -407,7 +525,7 @@ void decr(Aword id, Aword atr, Aword step)
 
 
 /*----------------------------------------------------------------------*/
-static Aword litatr(Aword lit, Aword atr)
+static Aword literalAttribute(Aword lit, Aword atr)
 {
   char str[80];
 
@@ -427,10 +545,10 @@ Aword attributeOf(Aword id, Aword atr)
   char str[80];
 
   if (isLit(id))
-    return litatr(id, atr);
+    return literalAttribute(id, atr);
   else {
     if (id > 0 && id <= header->instanceMax)
-      return getatr(instance[id].attributes, atr);
+      return getAttribute(admin[id].attributes, atr);
     else {
       sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
       syserr(str);
@@ -476,7 +594,7 @@ Aword where(Aword id)
     sprintf(str, "Can't WHERE item (%ld > instanceMax).", id);
     syserr(str);
   } else
-    return instance[id].location;
+    return admin[id].location;
   syserr("Fall through to end in where()");
   return 0;
 }
@@ -494,7 +612,7 @@ Aint agrmax(Aword atr, Aword whr)
       if (isLoc(whr)) {
 	if (where(i) == whr && attributeOf(i, atr) > max)
 	  max = attributeOf(i, atr);
-      } else if (instance[i].location == whr && attributeOf(i, atr) > max)
+      } else if (admin[i].location == whr && attributeOf(i, atr) > max)
 	max = attributeOf(i, atr);
     }
   }
@@ -513,7 +631,7 @@ Aint agrsum(Aword atr, Aword whr)
       if (isLoc(whr)) {
 	if (where(i) == whr)
 	  sum += attributeOf(i, atr);
-      } else if (instance[i].location == whr)
+      } else if (admin[i].location == whr)
 	sum += attributeOf(i, atr);
     }
   }
@@ -532,7 +650,7 @@ Aint agrcount(Aword whr)
       if (isLoc(whr)) {
 	if (where(i) == whr)
 	  count++;
-      } else if (instance[i].location == whr)
+      } else if (admin[i].location == whr)
 	count++;
     }
   }
@@ -549,9 +667,9 @@ static void locateObject(Aword obj, Aword whr)
     if (checklim(whr, obj))
       return;
     else
-      instance[obj].location = whr;
+      admin[obj].location = whr;
   } else {
-    instance[obj].location = whr;
+    admin[obj].location = whr;
     /* Make sure the location is described since it's changed */
     admin[whr].visitsCount = 0;
   }
@@ -564,9 +682,9 @@ static void locateActor(Aword act, Aword whr)
   Aword prevloc = current.location;
 
   current.location = whr;
-  instance[act].location = whr;
+  admin[act].location = whr;
   if (act == HERO) {
-    if (admin[instance[act].location].visitsCount % (current.visits+1) == 0)
+    if (admin[admin[act].location].visitsCount % (current.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -616,9 +734,9 @@ void locate(Aword id, Aword whr)
   }
 
   /* First check if the instance is in a container, if so run extract checks */
-  if (isCnt(instance[id].location)) {    /* In something? */
-    current.instance = instance[id].location;
-    containerId = instance[instance[id].location].container;
+  if (isCnt(admin[id].location)) {    /* In something? */
+    current.instance = admin[id].location;
+    containerId = instance[admin[id].location].container;
     theContainer = &container[containerId];
 
     if (theContainer->extractChecks != 0) {
@@ -655,14 +773,14 @@ static Abool instanceHere(Aword id)
 {
   Aword owner;
 
-  if (isCnt(instance[id].location)) {    /* In something? */
-    owner = instance[id].location;
-    if (instance[owner].location != 0)
+  if (isCnt(admin[id].location)) {    /* In something? */
+    owner = admin[id].location;
+    if (admin[owner].location != 0)
       return(isHere(owner));
     else /* If the container wasn't anywhere, assume where HERO is! */
       return(where(HERO) == current.location);
   } else
-    return(instance[id].location == current.location);
+    return(admin[id].location == current.location);
 }
 
 
@@ -687,9 +805,9 @@ Aword isHere(Aword id)
 /*----------------------------------------------------------------------*/
 static Aword objnear(Aword obj)
 {
-  if (isCnt(instance[obj].location)) {    /* In something? */
-    if (isObj(instance[obj].location) || isAct(instance[obj].location))
-      return(isNear(instance[obj].location));
+  if (isCnt(admin[obj].location)) {    /* In something? */
+    if (isObj(admin[obj].location) || isAct(admin[obj].location))
+      return(isNear(admin[obj].location));
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
       return(FALSE);
   } else
@@ -745,7 +863,7 @@ Abool in(Aword theInstance, Aword cnt)
   if (!isCnt(cnt))
     syserr("IN in a non-container.");
 
-  return (instance[theInstance].location == cnt);
+  return (admin[theInstance].location == cnt);
 }
 
 
@@ -1008,13 +1126,13 @@ void describeInstances(void)
 
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == current.location && isA(i, OBJECT) &&
+    if (admin[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed && haveDescription(i))
       describe(i);
 
   /* Then list all other objects here */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == current.location && isA(i, OBJECT) &&
+    if (admin[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
@@ -1044,7 +1162,7 @@ void describeInstances(void)
   
   /* Now for all actors */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == current.location && i != HERO && isA(i, ACTOR)
+    if (admin[i].location == current.location && i != HERO && isA(i, ACTOR)
 	&& !admin[i].alreadyDescribed)
       describe(i);
 
@@ -1267,18 +1385,17 @@ void saveGame(void)
   /* Save current values */
   fwrite((void *)&current, sizeof(current), 1, saveFile);
 
-  /* Save admin about each instance and its location & attributes */
+  /* Save admin about each instance and its attributes */
   for (i = 1; i <= header->instanceMax; i++) {
     fwrite((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    fwrite((void *)&instance[i].location, sizeof(Aword), 1, saveFile);
     if (instance[i].attributes != 0)
-      for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->value, sizeof(Aword), 1, saveFile);
+      for (atr = admin[i].attributes; !endOfTable(atr); atr++)
+	fwrite((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
   }
 
   /* Save the event queue */
-  eventQueue[etop].time = 0;        /* Mark the top */
-  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), etop+1, saveFile);
+  eventQueue[eventQueueTop].time = 0;        /* Mark the top */
+  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop+1, saveFile);
 
   /* Save scores */
   for (i = 0; scores[i] != EOF; i++)
@@ -1356,19 +1473,18 @@ void restoreGame(void)
   /* Restore admin and attributes for instances */
   for (i = 1; i <= header->instanceMax; i++) {
     fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    fread((void *)&instance[i].location, sizeof(Aword), 1, saveFile);
     if (instance[i].attributes != 0)
-      for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
-	fread((void *)&atr->value, sizeof(Aword), 1, saveFile);
+      for (atr = admin[i].attributes; !endOfTable(atr); atr++)
+	fread((void *)&atr->value, sizeof(AttributeEntry), 1, saveFile);
   }
 
   /* Restore the eventQueue */
-  etop = 0;
+  eventQueueTop = 0;
   do {
-    fread((void *)&eventQueue[etop], sizeof(eventQueue[0]), 1, saveFile);
-    etop++;
-  } while (eventQueue[etop-1].time != 0);
-  etop--;
+    fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), 1, saveFile);
+    eventQueueTop++;
+  } while (eventQueue[eventQueueTop-1].time != 0);
+  eventQueueTop--;
 
   /* Restore scores */
   for (i = 0; scores[i] != EOF; i++)

@@ -63,7 +63,7 @@ static int sumatr(atr, cnt)
 
   for (i = 1; i <= header->instanceMax; i++)
     if (isObj(i)) {
-      if (instance[i].location == cnt) { /* Then it's in this container */
+      if (admin[i].location == cnt) { /* Then it's in this container */
 	if (instance[i].container != 0)	/* This is also a container! */
 	  sum = sum + sumatr(atr, i);
 	sum = sum + attributeOf(i, atr);

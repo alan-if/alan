@@ -14,6 +14,7 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "wrd_x.h"
+#include "atr_x.h"
 #include "context_x.h"
 
 #include "sysdep.h"
@@ -231,6 +232,7 @@ void generateInstances(AcdHdr *header)
   header->instanceTableAddress = generateInstanceTable();
 
   header->instanceMax = instanceCount;
+  header->attributesAreaSize = attributeAreaSize;
   header->theHero = theHero->code;
 }
 

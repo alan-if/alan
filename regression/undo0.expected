@@ -1,0 +1,68 @@
+########## alan undo0 ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+########## arun undo0 ##########
+
+
+P
+You have x:ed 0 times before.
+
+> l
+P
+You have x:ed 0 times before.
+
+> x
+
+> undo
+
+> l
+P
+You have x:ed 0 times before.
+
+> x
+
+> x
+
+> l
+P
+You have x:ed 2 times before.
+
+> undo
+
+> l
+P
+You have x:ed 1 times before.
+
+> undo
+
+> l
+P
+You have x:ed 0 times before.
+
+> undo
+
+> undo
+
+> undo
+
+> l
+P
+You have x:ed 0 times before.
+
+> x
+
+> l
+P
+You have x:ed 1 times before.
+
+> undo
+
+> l
+P
+You have x:ed 0 times before.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

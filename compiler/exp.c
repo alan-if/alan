@@ -540,6 +540,10 @@ void analyzeExpression(Expression *expression,
     expression->type = INTEGER_TYPE;
     break;
 
+  case UNDO_EXPRESSION:
+    expression->type = BOOLEAN_TYPE;
+    break;
+
   case WHAT_EXPRESSION:
     analyzeWhatExpression(expression, context);
     break;
@@ -745,11 +749,10 @@ static void generateRandomExpression(Expression *exp)
 
 
 /*----------------------------------------------------------------------*/
-static void geexpscore(Expression *exp) /* IN - The expression to generate */
+static void generateScoreExpression(Expression *exp)
 {
   emitVariable(V_SCORE);
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -832,7 +835,7 @@ void generateExpression(Expression *exp)
     break;
     
   case SCORE_EXPRESSION:
-    geexpscore(exp);
+    generateScoreExpression(exp);
     break;
 
   case WHAT_EXPRESSION:
@@ -1029,6 +1032,7 @@ void dumpExpression(Expression *exp)
     put("wht: "); dumpWhat(exp->fields.wht.wht);
     break;
   case SCORE_EXPRESSION:
+  case UNDO_EXPRESSION:
     break;
   case BETWEEN_EXPRESSION:
     put("val: "); dumpExpression(exp->fields.btw.val); nl();

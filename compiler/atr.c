@@ -31,8 +31,7 @@
 
 /* Exported data: */
 
-int atrmax;
-
+int attributeAreaSize = 0;	/* # of Awords needed for attribute storage */
 
 
 /*======================================================================
@@ -301,13 +300,7 @@ static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 }
 
 
-/*----------------------------------------------------------------------
-
-  resolveThisAttribute()
-
-  Resolve an attribute reference for reference to THIS instance.
-
-*/
+/*----------------------------------------------------------------------*/
 static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
@@ -407,9 +400,12 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
 
   adr = nextEmitAddress();
 
-  for (lst = atrs; lst != NULL; lst = lst->next)
+  for (lst = atrs; lst != NULL; lst = lst->next) {
     generateAttribute(lst->element.atr);
+    attributeAreaSize++;
+  }
   emit(EOF);
+  attributeAreaSize++;
 
   return(adr);
 }

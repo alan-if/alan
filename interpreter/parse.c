@@ -200,12 +200,12 @@ static void getline()
 #ifdef USE_READLINE
     if (!readline(buf)) {
       newline();
-      quit();
+      quitGame();
     }
 #else
     if (fgets(buf, LISTLEN, stdin) == NULL) {
       newline();
-      quit();
+      quitGame();
     }
 #endif
     getPageSize();
@@ -222,10 +222,16 @@ static void getline()
     strcpy(isobuf, buf);
 #endif
     token = gettoken(isobuf);
-    if (token != NULL && strcmp("debug", token) == 0 && header->debug) {
-      debugOption = TRUE;
-      debug();
-      token = NULL;
+    if (token != NULL) {
+      if (strcmp("debug", token) == 0 && header->debug) {
+	debugOption = TRUE;
+	debug();
+	token = NULL;
+      } else if (strcmp("undo", token) == 0) {
+	undo();
+	wrds[wrdidx] = EOF;		/* Force new player input */
+	longjmp(error_label, TRUE);
+      }
     }
   } while (token == NULL);
   eol = FALSE;

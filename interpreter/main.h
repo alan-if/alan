@@ -25,10 +25,10 @@ extern int conjWord;		/* First conjunction in dictionary */
 extern Aword *memory;
 extern AcdHdr *header;
 
- /* Event queue */
-extern int EventQueueSize;
+/* Event queue */
+extern int eventQueueSize;
 extern EventQueueEntry *eventQueue;
-extern int etop;		/* Event queue top pointer */
+extern int eventQueueTop;		/* Event queue top pointer */
 
 /* Amachine variables */
 extern CurVars current;
@@ -36,6 +36,7 @@ extern CurVars current;
 /* Amachine data structures - Dynamic */
 extern InstanceEntry *instance; /* Instance table pointer */
 extern AdminEntry *admin;	/* Administrative data about instances */
+extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
@@ -63,8 +64,9 @@ extern char *adventureName;
 extern int col, lin;
 extern int pageLength, pageWidth;
 
-/* Long jump buffer for restart */
+/* Long jump buffer for restart, errors and undo */
 extern jmp_buf restart_label;
+extern jmp_buf error_label;
 
 extern Boolean verbose;
 extern Boolean ignoreErrorOption;
@@ -83,8 +85,9 @@ extern Boolean needsp;
 #define endOfTable(x) eot((Aword *) x)
 
 
-#ifdef _PROTOTYPES_
+/* Functions: */
 extern void *allocate(unsigned long len);
+extern void *duplicate(void *original, unsigned long len);
 extern void terminate(int code);
 extern void usage(void);
 extern void error(MsgKind msg);
@@ -106,26 +109,5 @@ extern Boolean isStr(Aword x);
 
 /* Run the game! */
 extern void run(void);
-
-#else
-extern void *allocate();
-extern void terminate();
-extern void syserr();
-extern void usage();
-extern void error();
-extern void output();
-extern void statusline();
-extern void prmsg();
-extern void print();
-extern void para();
-extern void newline();
-extern Boolean eot();
-extern Boolean isObj();
-extern Boolean isCnt();
-extern Boolean isAct();
-extern Boolean isLoc();
-extern Boolean isLit();
-extern void run();
-#endif
 
 #endif

@@ -365,7 +365,7 @@ void interpret(Aaddr adr)
       case I_QUIT: {
 	if (singleStepOption)
 	  printf("QUIT\t\t\t\t");
-	quit();
+	quitGame();
 	break;
       }
       case I_LOOK: {
@@ -475,7 +475,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption) {
 	  printf("STRSET\t%5ld, %5ld, %5ld\t\t", id, atr, str);
 	}
-	setstr(id, atr, str);
+	setStringAttribute(id, atr, str);
 	break;
       }
       case I_INCR: {
@@ -486,7 +486,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption) {
 	  printf("INCR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
-	incr(id, atr, step);
+	increase(id, atr, step);
 	break;
       }
       case I_DECR: {
@@ -497,7 +497,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption) {
 	  printf("DECR\t%5ld, %5ld, %5ld\t\t", id, atr, step);
 	}
-	decr(id, atr, step);
+	decrease(id, atr, step);
 	break;
       }
       case I_ATTRIBUTE: {

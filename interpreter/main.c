@@ -55,13 +55,14 @@ int conjWord;			/* First conjunction in dictonary, for ',' */
 CurVars current;
 
 /* The event queue */
-int EventQueueSize = 0;
+int eventQueueSize = 0;
 EventQueueEntry *eventQueue = NULL; /* Event queue */
-int etop = 0;                   /* Event queue top pointer */
+int eventQueueTop = 0;                   /* Event queue top pointer */
 
 /* Amachine structures - Dynamic */
 InstanceEntry *instance;	/* Instance table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
+AttributeEntry *attributes;	/* Dynamic attribute values */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
@@ -105,11 +106,11 @@ Boolean needsp = FALSE;
 Boolean skipsp = FALSE;
 
 /* Restart jump buffer */
-jmp_buf restart_label;
+jmp_buf restart_label;		/* Restart long jump return point */
+jmp_buf error_label;		/* Error (or undo) long jump return point*/
 
 
 /* PRIVATE DATA */
-static jmp_buf jmpbuf;		/* Error return long jump buffer */
 
 
 /*======================================================================
@@ -230,35 +231,19 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 }
 
 
-/*======================================================================
-
-  error()
-
-  Print an error message, force new player input and abort.
-
-  */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void error(MsgKind msgno)	/* IN - The error message number */
-#else
-void error(msgno)
-     MsgKind msgno;		/* IN - The error message number */
-#endif
 {
+  /* Print an error message, force new player input and abort. */
   if (msgno != MSGMAX)
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
-  longjmp(jmpbuf,TRUE);
+  longjmp(error_label,TRUE);
 }
 
 
-/*======================================================================
-
-  statusline()
-
-  Print the the status line on the top of the screen.
-
-  */
+/*======================================================================*/
 void statusline(void)
 {
 #ifdef GLK
@@ -403,19 +388,8 @@ void clear(void)
 }
 
 
-/*======================================================================
-
-  allocate()
-
-  Safely allocate new memory.
-
-*/
-#ifdef _PROTOTYPES_
-void *allocate(unsigned long len)		/* IN - Length to allocate */
-#else
-void *allocate(len)
-     unsigned long len;			/* IN - Length to allocate */
-#endif
+/*======================================================================*/
+void *allocate(unsigned long len)
 {
   void *p = (void *)calloc((size_t)len, 1);
 
@@ -426,19 +400,18 @@ void *allocate(len)
 }
 
 
-/*----------------------------------------------------------------------
+/*======================================================================*/
+void *duplicate(void *original, unsigned long len)
+{
+  void *p = allocate(len);
 
-  just()
+  memcpy(p, original, len);
+  return p;
+}
 
-  Justify a string so that it wraps at end of screen.
 
- */
-#ifdef _PROTOTYPES_
-static void just(char str[])
-#else
-static void just(str)
-     char str[];
-#endif
+/*----------------------------------------------------------------------*/
+static void justify(char str[])
 {
 #ifdef GLK
   logprint(str);
@@ -521,9 +494,9 @@ static void sayparam(p)
     say(params[p].code);
   else				/* Yes, so use them... */
     for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
-      just((char *)pointerTo(dict[wrds[i]].wrd));
+      justify((char *)pointerTo(dict[wrds[i]].wrd));
       if (i < params[p].lastWord)
-	just(" ");
+	justify(" ");
     }
 }
 
@@ -589,7 +562,7 @@ static void prsym(str)
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'v':
-    just((char *)pointerTo(dict[verbWord].wrd));
+    justify((char *)pointerTo(dict[verbWord].wrd));
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'p':
@@ -645,7 +618,7 @@ void output(original)
     ch = *symptr;		/* Terminate before symbol */
     *symptr = '\0';
     if (strlen(str) > 0) {
-      just(str);		/* Output part before '$' */
+      justify(str);		/* Output part before '$' */
       if (str[strlen(str)-1] == ' ')
 	needsp = FALSE;
     }
@@ -654,7 +627,7 @@ void output(original)
     str = &symptr[2];		/* Advance to after symbol and continue */
   }
   if (str[0] != 0) {
-    just(str);			/* Output trailing part */
+    justify(str);			/* Output trailing part */
     skipsp = FALSE;
     if (str[strlen(str)-1] != ' ')
       needsp = TRUE;
@@ -865,18 +838,18 @@ static void eventCheck(void)
 static void eventCheck()
 #endif
 {
-  while (etop != 0 && eventQueue[etop-1].time == current.tick) {
-    etop--;
-    if (isLoc(eventQueue[etop].where))
-      current.location = eventQueue[etop].where;
+  while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].time == current.tick) {
+    eventQueueTop--;
+    if (isLoc(eventQueue[eventQueueTop].where))
+      current.location = eventQueue[eventQueueTop].where;
     else
-      current.location = where(eventQueue[etop].where);
+      current.location = where(eventQueue[eventQueueTop].where);
     if (traceOption) {
-      printf("\n<EVENT %d (at ", eventQueue[etop].event);
+      printf("\n<EVENT %d (at ", eventQueue[eventQueueTop].event);
       traceSay(current.location);
       printf("):>\n");
     }
-    interpret(events[eventQueue[etop].event].code);
+    interpret(events[eventQueue[eventQueueTop].event].code);
   }
 }
 
@@ -973,16 +946,8 @@ static void checkvers(header)
 }
 
 
-/*----------------------------------------------------------------------
-
-  load()
-
- */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void load(void)
-#else
-static void load()
-#endif
 {
   AcdHdr tmphdr;
   Aword crc = 0;
@@ -1044,16 +1009,8 @@ static void load()
 }
 
 
-/*----------------------------------------------------------------------
-
-  checkdebug()
-
- */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void checkdebug(void)
-#else
-static void checkdebug()
-#endif
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
@@ -1075,23 +1032,17 @@ static void checkdebug()
 }
 
 
-/*----------------------------------------------------------------------
-
-  initheader()
-
- */
-#ifdef _PROTOTYPES_
-static void initheader(void)
-#else
-static void initheader()
-#endif
+/*----------------------------------------------------------------------*/
+static void initStaticData(void)
 {
-  /* Allocate for administrative table */
-  admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
-
   dict = (WrdEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
+
+
+  /* All table addresses are converted to pointers, then adjusted to
+     point to the (imaginary) element before the actual table so that [0]
+     does not exist. Instead indices goes from 1 and we can use [1]. */
 
   if (header->instanceTableAddress == 0)
     syserr("Instance table pointer == 0");
@@ -1126,7 +1077,7 @@ static void initheader()
 
 
 /*----------------------------------------------------------------------*/
-static void initstrings(void)
+static void initStrings(void)
 {
   IniEntry *init;
   AttributeEntry *attribute;
@@ -1136,6 +1087,70 @@ static void initstrings(void)
     attribute = pointerTo(init->adr);
     attribute->value = pop();
   }
+}
+
+/*----------------------------------------------------------------------*/
+static Aint sizeOfAttributeData(void)
+{
+  int i;
+  int size = 0;
+
+  for (i=1; i<=header->instanceMax; i++) {
+    AttributeEntry *attribute = pointerTo(instance[i].attributes);
+    while (*((Aword *)attribute) != EOF) {
+      size++;
+      attribute++;
+    }
+    size++;
+  }
+
+  if (size != header->attributesAreaSize)
+    syserr("Attribute area size calculated wrong.");
+  return size;
+}
+
+
+/*----------------------------------------------------------------------*/
+static AttributeEntry *copyAttributes(void)
+{
+  AttributeEntry *attributeArea = allocate(sizeOfAttributeData()*sizeof(AttributeEntry));
+  AttributeEntry *currentAttributeData = attributeArea;  
+  int i;
+
+  for (i=1; i<=header->instanceMax; i++) {
+    AttributeEntry *originalAttribute = pointerTo(instance[i].attributes);
+    admin[i].attributes = currentAttributeData;
+    while (*((Aword *)originalAttribute) != EOF) {
+      *currentAttributeData = *originalAttribute;
+      currentAttributeData++;
+      originalAttribute++;
+    }
+    *currentAttributeData = *originalAttribute;
+  }
+
+  return attributeArea;
+}
+  
+
+
+
+/*----------------------------------------------------------------------*/
+static void initDynamicData(void)
+{
+  int instanceId;
+
+  /* Allocate for administrative table */
+  admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
+
+  /* Initialise string attributes */
+  initStrings();
+
+  /* Create game state copy of attributes */
+  attributes = copyAttributes();
+
+  /* Set initial locations */
+  for (instanceId = 1; instanceId <= header->instanceMax; instanceId++)
+    admin[instanceId].location = instance[instanceId].location;
 }
 
 
@@ -1154,11 +1169,59 @@ static void start(void)
   interpret(header->start);
   para();
 
-  instance[HERO].location = 0;
+  admin[HERO].location = 0;
   locate(HERO, startloc);
 }
 
 
+
+/*----------------------------------------------------------------------*/
+static void openFiles(void)
+{
+  char str[256];
+  char *usr = "";
+  time_t tick;
+
+  /* Open Acode file */
+  strcpy(codfnm, adventureName);
+  strcat(codfnm, ".a3c");
+  if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
+    strcpy(str, "Can't open adventure code file '");
+    strcat(str, codfnm);
+    strcat(str, "'.");
+    syserr(str);
+  }
+
+  /* Open Text file */
+  strcpy(txtfnm, adventureName);
+  strcat(txtfnm, ".a3c");
+  if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
+    strcpy(str, "Can't open adventure text data file '");
+    strcat(str, txtfnm);
+    strcat(str, "'.");
+    syserr(str);
+  }
+
+  /* If logging open log file */
+  if (logOption) {
+    char *namstart;
+
+    if((namstart = strrchr(adventureName, ']')) == NULL
+       && (namstart = strrchr(adventureName, '>')) == NULL
+       && (namstart = strrchr(adventureName, '/')) == NULL
+       && (namstart = strrchr(adventureName, '\\')) == NULL
+       && (namstart = strrchr(adventureName, ':')) == NULL)
+      namstart = &adventureName[0];
+    else
+      namstart++;
+
+    time(&tick);
+    sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
+    if ((logfil = fopen(logfnm, "w")) == NULL)
+      logOption = FALSE;
+  }
+}
+    
 
 /*----------------------------------------------------------------------*/
 static void init(void)
@@ -1166,7 +1229,7 @@ static void init(void)
   int i;
 
   /* Initialise some status */
-  etop = 0;			/* No pending events */
+  eventQueueTop = 0;			/* No pending events */
   if (eventQueue == NULL)	/* Make sure there is an event queue */
     increaseEventQueue();
 
@@ -1185,11 +1248,9 @@ static void init(void)
 
   load();
 
-  initheader();
+  initStaticData();
+  initDynamicData();
   checkdebug();
-
-  /* Initialise string attributes */
-  initstrings();
 
   getPageSize();
 
@@ -1218,11 +1279,8 @@ static Boolean traceActor(int theActor)
   return traceOption;
 }
 
-/*----------------------------------------------------------------------
 
-  scriptName()
-
-*/
+/*----------------------------------------------------------------------*/
 static char *scriptName(int theActor, int theScript)
 {
   ScriptEntry *scriptEntry = pointerTo(header->scriptTableAddress);
@@ -1235,19 +1293,8 @@ static char *scriptName(int theActor, int theScript)
 }
 
 
-/*----------------------------------------------------------------------
-
-  movactor()
-
-  Let the current actor move. If player, ask him.
-
- */
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void moveActor(int theActor)
-#else
-static void moveActor(theActor)
-     int theActor;
-#endif
 {
   ScriptEntry *scr;
   StepEntry *step;
@@ -1257,6 +1304,7 @@ static void moveActor(theActor)
   current.instance = theActor;
   current.location = where(theActor);
   if (theActor == HERO) {
+    /* Ask him! */
     parse();
     fail = FALSE;			/* fail only aborts one actor */
   } else if (admin[theActor].script != 0) {
@@ -1316,71 +1364,7 @@ static void moveActor(theActor)
   current.instance = previousInstance;
 }
 
-/*----------------------------------------------------------------------
-
-  openFiles()
-
-  Open the necessary files.
-
-  */
-#ifdef _PROTOTYPES_
-static void openFiles(void)
-#else
-static void openFiles()
-#endif
-{
-  char str[256];
-  char *usr = "";
-  time_t tick;
-
-  /* Open Acode file */
-  strcpy(codfnm, adventureName);
-  strcat(codfnm, ".a3c");
-  if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
-    strcpy(str, "Can't open adventure code file '");
-    strcat(str, codfnm);
-    strcat(str, "'.");
-    syserr(str);
-  }
-
-  /* Open Text file */
-  strcpy(txtfnm, adventureName);
-  strcat(txtfnm, ".a3c");
-  if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
-    strcpy(str, "Can't open adventure text data file '");
-    strcat(str, txtfnm);
-    strcat(str, "'.");
-    syserr(str);
-  }
-
-  /* If logging open log file */
-  if (logOption) {
-    char *namstart;
-
-    if((namstart = strrchr(adventureName, ']')) == NULL
-       && (namstart = strrchr(adventureName, '>')) == NULL
-       && (namstart = strrchr(adventureName, '/')) == NULL
-       && (namstart = strrchr(adventureName, '\\')) == NULL
-       && (namstart = strrchr(adventureName, ':')) == NULL)
-      namstart = &adventureName[0];
-    else
-      namstart++;
-
-    time(&tick);
-    sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
-    if ((logfil = fopen(logfnm, "w")) == NULL)
-      logOption = FALSE;
-  }
-}
-    
-
-/*======================================================================
-
-  run()
-
-  Run the adventure
-
-  */
+/*======================================================================*/
 void run(void)
 {
   int i;
@@ -1399,10 +1383,12 @@ void run(void)
     if (debugOption)
       debug();
 
+    pushGameState();
+
     eventCheck();
     current.tick++;
-    (void) setjmp(jmpbuf);
 
+    (void) setjmp(error_label);	/* Return here if any error during execution */
 
     /* Move all characters, hero first */
     moveActor(header->theHero);

@@ -424,7 +424,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
   if ((child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL) ||
       (ancestor->kind != CLASS_SYMBOL))
-    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
+    return FALSE;		/* Probably spurious */
 
   p = child;			/* To be the class itself is OK */
   while (p && p != ancestor)

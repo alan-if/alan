@@ -1995,6 +1995,11 @@ static int val(char str[])
     %%
 	%<primary>.exp = newexp(`&%'SCORE'.srcp, SCORE_EXPRESSION);
     %%
+
+    ! 'UNDO'
+    %%
+	%<primary>.exp = newexp(`&%'UNDO'.srcp, UNDO_EXPRESSION);
+    %%
     ;
 
 

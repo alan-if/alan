@@ -14,6 +14,7 @@ extern int dscrstkp;		/* Point into describe stack */
 
 
 /* Functions: */
+extern Boolean undo(void);
 extern void sys(Aword fpos, Aword len);
 extern Boolean confirm(MsgKind msgno);
 extern Aword attributeOf(Aword instance, Aword atr);
@@ -21,15 +22,15 @@ extern void say(Aword instance);
 extern void saynum(Aword num);
 extern void saystr(char *str);
 extern Aword strattr(Aword id, Aword atr);
-extern void setstr(Aword id, Aword atr, Aword str);
+extern void setStringAttribute(Aword id, Aword atr, Aword str);
 extern void getstr(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void look(void);
 extern void showImage(Aword image, Aword align);
 extern void make(Aword id, Aword atr, Aword val);
 extern void set(Aword id, Aword atr, Aword val);
-extern void incr(Aword id, Aword atr, Aword step);
-extern void decr(Aword id, Aword atr, Aword step);
+extern void increase(Aword id, Aword atr, Aword step);
+extern void decrease(Aword id, Aword atr, Aword step);
 extern void use(Aword act, Aword scr);
 extern void stop(Aword act);
 extern void describe(Aword id);
@@ -41,7 +42,9 @@ extern void visits(Aword v);
 extern void schedule(Aword evt, Aword whr, Aword aft);
 extern void cancelEvent(Aword evt);
 extern void increaseEventQueue(void);
-extern void quit(void);
+extern void pushGameState(void);
+extern Boolean popGameState(void);
+extern void quitGame(void);
 extern void restartGame(void);
 extern void saveGame(void);
 extern void restoreGame(void);

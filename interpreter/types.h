@@ -71,6 +71,8 @@ typedef struct CurVars {
 } CurVars;
 
 typedef struct AdminEntry {	/* Administrative data about instances */
+  Aint location;
+  AttributeEntry *attributes;
   Abool alreadyDescribed;
   Aint visitsCount;
   Aint script;
@@ -127,8 +129,6 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aaddr action;			/* Address of the action code */
 } AltEntry;
 
-
-/* ClassEntry & InstanceEntry moved to acode.h */
 
 typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */
