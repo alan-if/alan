@@ -14,7 +14,8 @@ tcov := CC = acc -a
 tcov := LD = acc -a
 
 LD	= $(GCC) $(DEBUG)
-LDFLAGS	= -L/usr/local/lib/4.1.2
+
+sun4:= LDFLAGS	= -L/usr/local/lib/4.1.2
 
 
 EXTRAS = \
@@ -92,10 +93,10 @@ debug tcov release: all
 sun3 solaris2 hp: testarch fromsrc
 
 testarch:
-	if test `cat .arch` != $@; then \
+	if test `cat .arch` != `arch`; then \
 	    \rm *.o; \
 	fi
-	echo $@ > .arch
+	echo `arch` > .arch
 
 all: alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`

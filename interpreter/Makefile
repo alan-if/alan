@@ -9,9 +9,11 @@ CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(GCC) $(DEBUG)
-LDFLAGS	= $(LQ) -lreadline -ltermcap -lns -L/usr/local/lib/4.1.2 -L/usr/local/lib
+LDFLAGS	= $(LQ)
 
-sun3 solaris2 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
+sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L/usr/local/lib/4.1.2 -L/usr/local/lib
+sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
+solaris2 := LDFLAGS = $(LQ) -L/usr/local/lib
 
 tcov := CC = acc -a
 tcov := LD = acc -a
@@ -46,13 +48,13 @@ all release:=	DEBUG= -O
 #-- MAIN TARGET
 debug all tcov release: arun
 
-sun3 solaris2 hp: fromsrc
+sun3 solaris2 hp: testarch fromsrc
 
 testarch:
-	if test `cat .arch` != $@; then \
+	if test `cat .arch` != `arch`; then \
 	    \rm *.o; \
 	fi
-	echo $@ > .arch
+	echo `arch` > .arch
 
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
