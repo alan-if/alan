@@ -1,0 +1,63 @@
+VERB 'hilfe' DOES
+"
+$p--Interaktive Geschichten 
+$nversetzen Dich in eine virtuelle Welt, wo Du verschiedene Aufgaben lösen
+mußt. Dies geschieht durch Eingabe von Befehlen mit der Tastatur. Im
+Spiel kann man sich an verschiedene
+$p-- Orte, 
+$nsogenannte Räume, begeben. Am Bildschirm wird eine Beschreibung
+des Ortes ausgegeben, wenn er zum ersten mal besucht wird.
+Später kann man sich UMSEHEN (Abkürzung L).
+Für Bewegungen werden normalerweise die vier Himmelsrichtungen
+benutzt. Sie können duch Eingabe der Anfangsbuchstaben abgekürzt werden.
+Manchmal ist es zweckmäßig zur WARTEn, bis etwas passiert.
+$nIn den Räumen befinden sich (na klar) auch
+$p--Gegenstände.
+$nMeist kann man sie betrachten oder untersuchen, machmal auch
+mitnehmen. Dies geschieht durch Komamndos wie NIMM DAS BUCH oder
+UNTERSUCHE DAS FERNROHR, aber auch NIMM ALLES AUSSER DEM DYNAMIT.
+Gegenstände dienen oft dazu, die Aufgaben des Spieles zu lösen. So ist
+kann es nötig sein, einen Schlüssel zu besitzen, der zu dem Tresor paßt.
+Gegenstände handhabt man, indem man einen kurzen Befehlssatz
+eingibt. Artikel können weggelassen werden. Wichtige Befehle sind NIMM,
+UNTERSUCHE (Abkürzung: U) , LEGE AB, LIES, ÖFFNE. Es gibt natürlich noch
+eine Reihe anderer Befehle: so mußt Du vielleicht eine Leiter BAUEn
+oder einen Kuchen BACKEn. 
+$p--Sätze
+$ndie der Computer verstehen könnte sind z.B.
+$nNIMM DAS BROT
+$nNIMM ALLES AUSSER DER BRENNENDEN DYNAMITSTANGE
+$nLEGE DIE LAMPE WEG
+$nUNTERSUCHE DIE GELBE BRIEFMARKE
+$nÖFFNE DEN TRESOR MIT DEM SCHWEISSBRENNER
+$nDRÜCKE DEN ROTEN KNOPF
+$pDie 
+$n--Liste der Gegenstände, 
+$nwelche man besitzt, läßt sich durch LISTE (Abkürzung I) 
+anzeigen.
+In der Geschichte spielen vielleicht auch 
+$p--andere Personen 
+$neine Rolle. Mit ihnen
+kann man insbesondere reden (REDE MIT MADONNA ÜBER DAS ""WETTER""). Wichtig
+ist hier, daß das Gesprächsthema in Anführungsstriche gesetzt wird.$n
+Manchmal kann man Personen auch Gegenstände  
+geben (GIB DEM COLUMBO DEN MANTEL) oder zeigen (ZEIGE KOJAK DEN KAMM).
+$nEine Reihe von 
+$p--weiteren Befehlen
+$ndient zur Steuerung des Spiels:
+$nHILFE - zeigt diesen Text an
+$nENDE - beendet das Programm
+$nSAVE -- speichert den Spielstand
+$nLOAD - lädt einen Spielstand
+$nPUNKTE - Gibt die ereichten Punkte aus
+$pZum Schluß noch ein paar
+$p-- Hinweise:
+$n -Raumbeschreibungen gründlich lesen, vielleicht auch eine Karte $n anfertigen.
+$n -Gegenstände untersuchen.
+$n -Versteht ein Programm das Verb nicht, mal ein anderes versuchen 
+$n$t(Programmierer sind auch bloß Menschen.)
+$n -Mit anderen gemeinsam spielen.
+"
+END VERB.
+SYNTAX 'hilfe' = 'hilfe'.
+

@@ -1,0 +1,15 @@
+---------------------------------------------------------
+-- Szene Wohnhaus
+---------------------------------------------------------
+
+$include 'flur1.ala'
+$include 'keller.ala'
+$include 'wohnraum.ala'
+$include 'bad.ala'
+$include 'biblio.ala'
+$include 'schlafzi.ala'
+$include 'kueche.ala'
+$include 'flur2.ala'
+$include 'marc.ala'
+$include 'labor.ala'
+$include 'p_oskar.ala'

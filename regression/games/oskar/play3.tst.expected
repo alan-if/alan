@@ -1,0 +1,109 @@
+########## play3 ##########
+alan oskar.ala
+arun oskar < play.3
+########## /bin/sh  play3.tst ##########
+
+
+message.ala
+
+   39.1 MESSAGE RETRY: "Willst Du noch mal anfangen (y) ?"
+=====>          1
+
+  *1*   223 W : Unknown message identifier.
+
+
+
+        No detected errors.
+        1 warning(s).
+
+
+ 
+             Oskar und der Tod, v1.1 
+             ----------------------- 
+
+eine interaktive Geschichte 
+
+Wenn Du noch nie eine solche Geschichte gespielt hast, gib 'Hilfe' ein. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+In dem verbeulten Briefkasten mit der Aufschrift 
+
+    T. Fink, Privatdetektiv. 
+
+    Ermittlungen für Wirtschaft und Privat. 
+
+lag ein dunkelbrauner Brief. Er war mit einem Federhalter geschrieben und
+stammte von einem Herrn Oskar Lintzmeyer aus Dodeleben. 
+Er fühle sich -- so schrieb er - seit einiger Zeit bedroht. Genaueres ist
+nicht zu erfahren, nur daß man ihm 'nach dem Leben trachtet'. Typischer
+Fall von Verfolgungswahn oder Verkalkung. Aber 500 Mark Tagessatz sind
+eine Menge Geld. 
+
+<mehr>
+Eine Wahl hast Du nicht, denn Dein Konto ist leer. Mit den letzten
+50 Mark kaufst Du eine Fahrkarte nach Finsterwalde, dem nächstgelegenen
+Bahnhof. 
+
+
+Bahnsteig.
+Bahnsteig von Finsterwalde: S: Bahnhofshalle. 
+
+Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen, an
+dessen Enden Brennesseln und Strauchwerk wachsen. Auch im Rißmuster des
+Betons haben sich bereits Pflanzen angesiedelt. Die sonnenbeschienenen 
+Gleise strömen den Geruch von altem Öl aus. Ein Schild warnt vor dem
+Überschreiten der Gleise.
+
+> 
+> f581122
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> w
+Wohnzimmer.
+Wohnzimmer. O: unterer Flur, S: Bibliothek 
+
+Das Wohnzimmer ist ein großer, heller Raum mit vier Fenstern. Die
+Möbilierung beweist einen recht guten Geschmack - ein Buffet aus heller
+Eiche und ein runder Eßtisch mit vier Stühlen. Zudem ein Sofa, ein
+Couchtisch und zwei Sessel sowie ein fast antikes Radio. 
+
+Oskar ist im Zimmer.
+
+> x tafelbesteck
+Nicht auffälliges daran zu entdecken.
+
+> rede mit oskar über tafelbesteck
+Das Gesprächsthema *muß* in Anführungsstriche, also etwa
+ REDE MIT Oskar ÜBER das "Wetter"
+
+> rede mit oskar über gold
+Weit und breit kein gold.
+
+> rede mit tafelbesteck über gold
+Weit und breit kein gold.
+
+> rede mit oskar über das "Wetter"
+So schönes Wetter haten wir lange nicht mehr. Ich hatte schon gedacht, es
+wird überhaupt nicht mehr Frühling. Manchmal frage ich mich auch, ob ich
+den nächsten Frühling überhaupt noch erlebe, mit meiner Krankheit.
+
+> rede mit oskar über  "Krankheit"
+Mit geht's in letzter Zeit gar nicht gut. Ich fühle mich immer so
+abgeschlagen. Und diese Kopfschmerzen! Dazu ist mir oft noch übel und
+schwindlich.
+
+> rede mit oskar über das "Schönheit und Vergänglichkeit"
+Du sprichst mit Oskar eine Weile über Schönheit und Vergänglichkeit ,
+aber Du merkst, daß ihn das nicht wirklich interessiert.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

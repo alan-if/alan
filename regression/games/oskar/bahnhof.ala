@@ -1,0 +1,466 @@
+------------------------------------------------------------
+--- Szene am Bahnhof (Prolog)
+------------------------------------------------------------
+
+verb move_fast does
+use script 1 for oskar.
+locate hero at Flur1.
+end verb.
+syntax move_fast = F581122.
+
+OBJECT Mark in inventory
+is steckbar.
+is entnehmbar.
+article "eine deutsche"
+end object.
+synonyms Geld=Mark.
+
+
+-------------------------------------------------------------
+LOCATION Bahnsteig  
+-------------------------------------------------------------
+
+DESCRIPTION
+ "Bahnsteig von Finsterwalde:  S: Bahnhofshalle.
+  $pDer Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen,
+  an dessen Enden Brennesseln und Strauchwerk wachsen.
+  Auch im Rißmuster des Betons haben sich bereits Pflanzen angesiedelt.
+  Die sonnenbeschienenen Gleise strömen den Geruch von altem Öl aus.
+  Ein Schild warnt vor dem Überschreiten der Gleise."
+  EXIT s TO Bahnhof.
+END LOCATION.
+
+OBJECT Beton AT Bahnsteig
+DESCRIPTION ""
+VERB UNTERSUCHE
+  CHECK Knopf IS sichtbar
+  ELSE
+    LOCATE Knopf AT Bahnsteig.
+    MAKE Knopf sichtbar.
+    "In einem Riß in dem Betonboden, zwischen Schmutz, Kies und
+     Löwenzahn, bemerkst Du einen kleinen silbernen
+     Knopf. Er ist in den Schmutz eingetreten und nahezu unsichtbar.
+     Muß ein edles Teil sein, zu dem er gehörte."
+  DOES 
+  "Risse im Beton, gefüllt mit Schmutz, Kies, Löwenzahn und Gras - sonst nix."
+END VERB.
+END OBJECT.
+synonyms Risse, Rissmuster=Beton.
+
+OBJECT Knopf AT limbo
+IS NOT sichtbar.
+IS entnehmbar.
+is steckbar.
+article "einen silbernen"
+VERB nimm DOES
+  LOCATE KNOPF in INVENTORY.
+  score 1.
+  say "$n".
+  SCORE.
+END VERB.
+END OBJECT.
+
+
+object Pflanze at bahnsteig
+description ""
+verb untersuche does
+  "Du kannst nichts besonderes daran entdecken."
+end verb.
+end object.
+synonyms pflanzen, Strauchwerk, Brennessel, Brennesseln=Pflanze.
+
+
+-------------------------------------------------------------
+LOCATION Bahnhof
+-------------------------------------------------------------
+DESCRIPTION
+ "Bahnhofshalle:  N: Bahnsteig, S: Straße, O: Telefon, W: Toilette.
+  $pEine flackernde Leuchtstofflampe erhellt das menschenleere
+  Gebäude. Aus zwei Türen mit der Aufschrift 'Damen' und 'Herren' dringt
+  ein durchdringender Geruch. Die Tür zur Herrentoilette steht weit offen.
+  Die hölzernen Laden des Schalters sind herabgelassen."
+  EXIT n TO Bahnsteig.
+  EXIT s TO Strasse.
+  EXIT o to Telefonzelle.
+  exit w to Toilette.
+END LOCATION.
+
+
+-------------------------------------------------------------
+LOCATION Telefonzelle
+-------------------------------------------------------------
+IS NOT bereit.
+DESCRIPTION
+ "Telefonzelle:  W: Bahnhofsgebäude.
+  $pDas graues SIEMENS-Telefon befindet sich in einer Plexiglas-Nische."
+  EXIT w TO Bahnhof.
+  VERB telefoniere,wähle CHECK Telefonzelle IS bereit
+    ELSE "Du mußt erst Geld in den Schlitz stecken."
+    AND (nummer)=0130581122
+    else "Es nimmt niemand ab"
+    does
+      "Eine Frauenstimme sagt:
+       $nHier ist die automatische Auftragsannahme von Fritz' Pizza-Blitz.
+       Leider ist im Moment nur noch eine Sorte Pizza im Angebot,
+       Pizza Florida. Bitte sagen Sie uns, AN wen wir LIEFERN sollen.
+       Unser automatischer Adreßcomputer ermittelt die Anschrift automatisch."
+  END VERB.
+  verb wähle_no_nr,telefoniere_no_nr does
+    "Mit welcher Nummer willst Du telefonieren?"
+  end verb.
+  verb liefere_ohne_anschrift does
+    "'Es tut mir leid, Sie müssen sich deutlicher ausdrücken' sagt die
+    bekannte Frauenstimme. Bitte bestellen Sie mit
+    $nLIEFERE AN gefolgt von einer Person in unserem Liefergebiet.'"
+  end verb.
+  verb liefere check telefonzelle is bereit else
+    "Ich verstehe nicht."
+    does
+    if obj=Lintzmeyer then
+
+      "Jetzt ist der Computerklang in der Stimme unüberhörbar:
+      $n'Die Lieferung erfolgt an Marc beziehungsweise Oskar Lintzmeyer in Dodeleben, Am Felde 7. Guten Appetit.'"
+      locate mark here.
+      locate pizza_blitz at strasse.
+      use script 1 for pizza_blitz.
+      "$pIm Geldrückgabefach klimpert es. Ah ja, eine 130er Nummer!"
+      score 1. "$n" SCORE.
+    else
+      "Die Frauenstimme sagt: 'Unser Adreßcomputer kennt den Adressaten nicht.
+      Möglicherweise wohnt er außerhalb unseres Liefergebietes.'
+      Bitte nennen Sie einen anderen Adressaten oder LEGEn Sie AUF."
+    end if.
+  end verb.
+  verb auflegen check telefonzelle is bereit else "Der Hörer _ist_ aufegelegt."
+  does
+    make telefonzelle not bereit.
+    locate mark here.
+    "Im Geldrückgabefach klimpert es."
+  end verb.
+END LOCATION.
+
+syntax auflegen = lege auf.
+
+syntax telefoniere=telefoniere mit (nummer) where nummer isa integer
+    else "Telefoniere mit <nummer>"
+syntax wähle = wähle (nummer) where nummer isa integer
+    else "Wähle <nummer>"
+syntax telefoniere_no_nr = telefoniere.
+syntax wähle_no_nr=wähle.
+
+syntax liefere = liefere an (obj) where obj isa object else
+  "Die Frauenstimme sagt: 'Unser Adreßcomputer kennt den Adressaten nicht.
+  Möglicherweise wohnt er außerhalb unseres Liefergebietes.
+  Bitte nennen Sie einen anderen Adressaten oder LEGEn Sie AUF.'"
+syntax liefere_ohne_anschrift = liefere.
+synonyms liefre, liefer, sende = liefere.
+
+
+object Telefon at telefonzelle
+description ""
+verb untersuche does
+  "Ein gewohnliches Telefon mit einem Schlitz zum Münzeinwurf und Wähltasten.
+   Wenn Du jemanden anrufen willst: TELEFONIERE MIT nummer"
+end verb.
+end object.
+
+object Lintzmeyer at telefonzelle
+description ""
+end object.
+
+object Schlitz at Telefonzelle
+description ""
+verb stecke_in
+  check (obj) in inventory else "Das hast Du gar nicht."
+  and (obj) is steckbar else "WAS willst Du hier reinstecken??"
+  and (obj) = Mark else "Groschen, Markstücke oder 5-Markstücke.
+    Nix anderes. "
+  does
+    make telefonzelle bereit.
+    locate mark at limbo.
+    "Es ertönt ein Freizeichen. Du kannst jetzt eine nUmmer WÄHLEN."
+end verb.
+end object.
+
+
+
+------------------------------------------------------------
+location toilette
+------------------------------------------------------------
+description "
+  Die Herrentoilette. O: Bahnhofshalle, W: Zum WC
+  $pDas Waschbecken ist verstopft, sein Boden mit
+  Zigarettenstummeln bedeckt.
+  Ein randvolles Pinkelbecken strömt einen animalischen
+  Gestank aus.
+  An der Tür zum WC befindet sich ein Schloß mit Münzeinwurf."
+exit o to bahnhof.
+exit w to wc
+  check schloss is not geschlossen else "Tja, die Tür ist zu"
+  does "Die Tür ist offen."
+end exit.
+end location.
+
+syntax 'stecke_in' = 'stecke' (obj) 'in'  (ind).
+object Schloss at Toilette
+is geschlossen.
+is schlitzförmig.
+description ""
+  if schloss is geschlossen then "Die Tür zum WC ist verschlossen."
+    else "Die Tür zum WC ist offen."
+  end if.
+  verb untersuche does
+    "Das Schloß an der WC-Tür trägt die Aufschrift
+     $n$tBitte 50 Pfg. IN den MÜNZEINWURF STECKEn."
+  end verb.
+  verb stecke_in
+  check (obj) in inventory else "Das hast Du gar nicht."
+  and (obj) is steckbar else "WAS willst Du hier reinstecken??"
+  and (obj) = knopf else "Der Automat akzeptiert nur 50-Pfennig-Stücke."
+  does
+    make schloss not geschlossen.
+    locate knopf at limbo.
+    "Das Schloß öffnet mit einem leisen 'Klick'"
+    score 1.
+    "$n"
+    SCORE.
+   end verb.
+verb öffne does
+  "Die Verriegelung  ist sehr robust. Vielleicht solltest Du doch lieber
+   etwas in das Schloß stecken?"
+end verb.
+end object.
+synonyms WC,Tür,Münzeinwurf=Schloss.
+syntax öffne=öffne (obj).
+
+----------------------------------------------------
+location wc
+----------------------------------------------------
+description "
+  O: Toilette.
+  $pDas WC ist erstaunlich sauber. 
+  Allerdings ist die Tür über und über mit Sprüchen bekritzelt."
+exit o to toilette.
+end location.
+
+object Sprüche at wc
+description ""
+  verb lies does
+    "Das meiste sind 'Bekanntschafftsanzeigen' (Männer suchen Männer). 
+    Außerdem scheint es hier im Ort eine neue Sportart zu geben, Pizza-Surfen.
+    Eine Bestenliste und die Spielregeln stehen auch hier."
+  end verb.
+end object.
+synonyms gekritzel, spruch= sprüche.
+
+object anzeige at wc
+description ""
+  verb lies does "Dies ist ein jugend_freies_ Spiel!" end verb.
+end object.
+synonyms anzeigen, bekanntschaftsanzeige, bekanntschaftsanzeigen = anzeige.
+
+object bestenliste at wc
+description ""
+  verb lies does 
+	"$nOlaf: 87 km$nJan 31 km$nOnkel Bob 24km."
+  end verb.
+end object.
+
+object Spielregeln at wc
+description ""
+  verb lies does 
+    "Hallo Jungs!
+     $pWillkommen zum Pizza-Surf-Wettbewerb
+     $pMitmachen kann jeder, aber etwas Mut und Geschicklichkeit
+     braucht man schon. (Denkt an Frieder, der sich das Schlüsselbein
+     gebochen hat). Da es immer wieder Streit über die genauen Regeln
+     gab -- hier sind sie:
+     $n-Nur anonyme Bestellungen zählen, keine bezahlten.
+     $n-Natürlich dürft ihr nicht trampen, ihr müßt die ganze Fahrt
+     auf der Stoßstange stehen.
+     $n-Wer zum Schluß erwischt oder auch nur gesehen wird, verliert seine
+     km! Da Fritz schon Lunte gerochen hat, macht dies die Sache
+     immer schwieriger. Hiermit ist auch geklärt, ob Olafs Rekord zählt: 
+     Er tut es nicht, denn
+     $n$t1. Hat sein Bruder die Pizza bestellt und bezahlt.
+     $n$t2. Wird berichtet, daß er Fritz grinsend erzählt hat, daß eine
+     $n$tPizza + Anfahrt billiger ist als ein Taxi. Aus sicherer Entfernung,
+     versteht sich."
+  end verb.
+end object.
+
+------------------------------------------------------
+location strasse
+------------------------------------------------------
+description 
+"Bahnhofsstraße.  N: Bahnhof, S: Straße, O: Fritz' Pizza-Blitz, W: Taxistand
+$pDie menschenleere Allee führt bis zum Horizont. Das einzige Geschäft - Fritz'
+Pizza-Blitz - wirbt mit einem Gewinnspiel: 
+$n$t0130581122 anrufen und gewinnen!
+$n$tJede 10. Pizza frei!"
+exit n to bahnhof.
+exit w to strasse check "Im Moment sind keine Taxis hier."
+end exit w.
+exit o to strasse check "Die Tür ist verschlossen. 
+  Offensichtlich gibt es keinen Direktverkauf. Es werden 
+  nur telefonische Bestellungen angenommen."
+end exit o.
+exit s to strasse2.  
+end location.
+
+actor pizza_blitz at limbo
+has in_fahrt  0.
+description ""
+script 1.
+   step
+     set in_fahrt of pizza_blitz to 1. 
+     "Zeit, um die Mark zu nehmen"
+   step 
+     set in_fahrt of pizza_blitz to 2. 
+    "Zeit, um nach Osten zu gehen"
+   -- Zeit für 'S'. Falls die Mark nicht genommen wurde: Skript.
+   step 
+     set in_fahrt of pizza_blitz to 3. 
+     "$nDas automatische Hubtor der Garage öffnet sich langsam."
+     use script 2.
+-- Ein zweiter Skript als Synchronisationspunkt - nicht bei
+-- allen Aktionen des Spielers soll hier Zeit vergehen.
+script 2.
+   step 
+     set in_fahrt of pizza_blitz to 4.
+     locate Transporter here.
+     locate Fahrer here.
+     locate kette here.
+     locate Stossstange here.
+    "$nAus der Garage fährt ein blauer Ford-Lieferwagen heraus. Der Fahrer
+     hält an, um das Garagentor mit seiner Fernbedienung zu schließen."
+   step
+     set in_fahrt of pizza_blitz to 5. 
+    "$nDas Lieferauto der Fa. Pizza-Blitz setzt sich langsam in Fahrt."
+   step 
+     set in_fahrt of pizza_blitz to 0. 
+     "$nFern am Ende der Straße in ein blauer Ford-Transporter zu sehen."
+     locate pizza_blitz at limbo.
+     locate Transporter at limbo.
+     locate Fahrer at limbo.
+     locate Stossstange at limbo.
+     locate kette at limbo.
+end actor.
+
+verb springe_auf does "Worauf soll ich aufspringen?" end verb.
+
+verb springe_auf_objekt
+check obj=stossstange or obj=transporter
+else "Darauf kann man nicht springen."
+does
+  if in_fahrt of pizza_blitz = 4 then
+    "Der Fahrer bemerkt leider, daß Du sein Auto benutzen willst.
+     Er haut Dir links und rechts eine 'runter, so daß die Hören und
+     Sehen vergeht. Als Du zu Dir kommst, siehst Du das Auto am
+     Horizont verschwinden."
+     locate pizza_blitz at limbo.
+     locate Transporter at limbo.
+     locate Fahrer at limbo.
+     locate Stossstange at limbo.
+     locate Kette at limbo.
+  else if in_fahrt of pizza_blitz = 6 then
+    "Das Auto ist schon ziemlich schnell. Bei dem Versuch, aufzuspringen,
+    rutschst Du ab und stürzt auf das Pflaster.  Du kommst zum Glück
+    mit ein paar blauen Flecken davon."
+  else if in_fahrt of pizza_blitz = 5 then
+    "Unbemerkt steigst Du auf die Stoßstange und hältst Dich an der Kette
+    fest. Auf der Fahrt nach Dodeleben frieren Dir fast die Finger ab und
+    in der Kurve hinter der Sandgrube (im Volksmund: die Todeskurve) wirst
+    Du fast heruntergeschleudert.
+    $nAls aber das Auto vor dem Anwesen der Lintzmeyers die Fahrt verlangsamt,
+    kannst Du gefahrlos abspringen. Der Fahrer klingelt, es erscheint ein
+älterer Herr in der Tür. A ja, sicherlich Herr Oskar Lintzmeyer.
+Nach einem kurzen Streit mit dem Fahrer über die Gültigkeit von mündlichen
+Aufträgen verschwinden Fahrer und Auto.$p
+Du stellst Dich Herrn Lintzmeyer vor. Er ist erfreut, jetzt Hilfe zu haben und
+bietet Dir auch gleich das ""Du"" an.$p
+
+Du erfährst jetzt auch mehr über das, was ihn bedrückt. Er fühle sich seit
+einiger  Zeit hier im Haus bedroht, sagt er. Genaueres kann er nicht
+sagen, es sei mehr gefühlsmäßig.
+Auf jeden Fall habe er gesundheitlich rapide abgebaut. Wenn nicht bald etwas
+geschehe, sei dies wohl sein Ende, meinte Oskar.$p
+Du erfährst, daß außer Oskar hier im Haus noch sein Neffe Marc wohnt.$n
+ Du erhältst die Erlaubnis, Dich überall im Haus umzusehen. Oskar
+verläßt Dich im Flur des geräumigen Wohnhauses.$n"
+    use script 1 for oskar.
+    locate hero at Flur1.
+    score 1. "$n" SCORE.
+  end if. end if. end if.
+end verb.
+
+
+syntax springe_auf = 'springe' 'auf'.
+syntax springe_auf_objekt = 'springe' 'auf' (obj) where obj isa OBJECT
+  else "Darauf kann man nicht springen"
+synonyms steige, klettre, klettere=springe.
+
+----------------------------------------------------
+-- Die ewig lange Straße nach Dodeleben
+----------------------------------------------------
+location strasse2
+description 
+"Straße nach Dodeleben  N: Bahnhofsstraße, S: nach Dodeleben
+$p'Dodeleben 12 km'
+$nsteht auf dem Ortsausgangsschild."
+exit n to strasse.
+exit s to strasse3 
+  does 
+  set schritte of schrittzähler to 12000.
+end exit.
+end location.
+
+location strasse3
+description 
+"Straße von Finsterwalde (N) nach Dodeleben (S) 
+$pNoch " say schritte of schrittzähler. "Schritte nach Dodeleben."
+exit s to strasse3 does
+  if schritte of schrittzähler =  11800
+    then if faltblatt not in inventory then
+      locate Faltblatt here.
+    end if.
+  end if.
+  if schritte of schrittzähler <> 11800
+    then locate Faltblatt at limbo.
+  end if.
+  if schritte of schrittzähler = 100
+    then 
+      locate hero at Flur1.
+      "Mit wundgelaufenen Füßen erreichst Du das Wohnhaus. Die Tür steht
+       aus irgendeinem Grund offen, so daß Du unbemerkt hineingelangen
+       kannst."
+  end if.
+  set schritte of schrittzähler to schritte of schrittzähler -100.
+end exit.
+exit n to strasse3 does
+  if schritte of schrittzähler = 12000
+    then locate hero at strasse.
+  end if.
+  if schritte of schrittzähler <> 11800 then 
+    if Faltblatt not in inventory then locate Faltblatt at limbo.
+  end if. end if.
+  set schritte of schrittzähler to schritte of schrittzähler +100.
+end exit.
+end location.
+
+object schrittzähler
+has schritte 100.
+end object schrittzähler.
+
+object Faltblatt name Blatt Papier at limbo 
+is entnehmbar.
+article "ein"
+VERB nimm DOES LOCATE Faltblatt in INVENTORY.  END VERB.
+verb lies, untersuche check Faltblatt in inventory else
+  "Du hast es gar nicht."
+ does  
+  "Wenn Du _wirklich_ noch die ganzen 12 km zu Fuß gehen willst,
+  dann solltest Du lieber doch keine interaktive Geschichte spielen."
+end verb.
+end object.
+
