@@ -72,7 +72,7 @@ Bool smScanEnter(fnm)
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
-#ifdef __mac_
+#ifdef __mac__
   else if ((this->fd = open(fnm, O_TEXT)) < 0)
 #else
   else if ((this->fd = open(fnm, 0)) < 0)
@@ -109,7 +109,7 @@ int scannedLines()
 
   if (verbose) {
 	printf(".");
-	fflush(NULL);
+	fflush(stdout);
   }
   return read(smThis->fd, (char *)smBuffer, smLength);
 
