@@ -185,12 +185,12 @@ void print(Aword fpos, Aword len)
       if (header->pack)
 	info = pushDecode();
       else
-	savfp = ftell(txtfil);
+	savfp = ftell(textFile);
     }
     printFlag = TRUE;           /* We're printing now! */
 
     /* Position to start of text */
-    fseek(txtfil, fpos+header->stringOffset, 0);
+    fseek(textFile, fpos+header->stringOffset, 0);
 
     if (header->pack)
       startDecoding();
@@ -202,7 +202,7 @@ void print(Aword fpos, Aword len)
 	if (header->pack)
 	  ch = decodeChar();
 	else
-	  ch = getc(txtfil);
+	  ch = getc(textFile);
 	if (ch == EOFChar)      /* Or end of text? */
 	  break;
 	str[i] = ch;
@@ -220,7 +220,7 @@ void print(Aword fpos, Aword len)
       if (header->pack)
 	popDecode(info);
       else
-	fseek(txtfil, savfp, 0);
+	fseek(textFile, savfp, 0);
     }
   }
 }
@@ -247,7 +247,7 @@ void getStringFromFile(Aword fpos, Aword len)
   push((Aword) buf);
 
   /* Position to start of text */
-  fseek(txtfil, fpos+header->stringOffset, 0);
+  fseek(textFile, fpos+header->stringOffset, 0);
 
   if (header->pack)
     startDecoding();
@@ -255,7 +255,7 @@ void getStringFromFile(Aword fpos, Aword len)
     if (header->pack)
       *(buf++) = decodeChar();
     else
-      *(buf++) = getc(txtfil);
+      *(buf++) = getc(textFile);
 
   /* Terminate string with zero */
   *buf = '\0';

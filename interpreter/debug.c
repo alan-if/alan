@@ -21,7 +21,7 @@
 #include "readline.h"
 #endif
 
-
+#include "types.h"
 #include "inter.h"
 #include "main.h"
 #include "parse.h"
@@ -37,7 +37,7 @@
 
 /* PUBLIC: */
 int breakpointCount = 0;
-int breakpoint[BREAKPOINTMAX];
+Breakpoint breakpoint[BREAKPOINTMAX];
 
 
 
@@ -411,11 +411,11 @@ static void listBreakpoints() {
   Boolean found = FALSE;
 
   for (i = 0; i < BREAKPOINTMAX; i++)
-    if (breakpoint[i] != 0) {
+    if (breakpoint[i].line != 0) {
       if (!found)
 	printf("Breakpoints set:\n");
       found = TRUE;
-      printf("\t%d\n", breakpoint[i]);
+      printf("\t%d in '%s'\n", breakpoint[i].line, sourceFileName(breakpoint[i].file));
     }
   if (!found)
     printf("No breakpoints set.\n");
@@ -427,46 +427,55 @@ Boolean breakpointIndex(int line) {
   int i;
 
   for (i = 0; i < BREAKPOINTMAX; i++)
-    if (breakpoint[i] == line) {
-      breakpoint[i] = line;
+    if (breakpoint[i].line == line) {
+      breakpoint[i].line = line;
       return i;
     }
   return(-1);
 }
 
 
+static int availableBreakpointSlot() {
+  int i;
+  for (i = 0; i < BREAKPOINTMAX; i++)
+    if (breakpoint[i].line == 0) {
+      return i;
+    }
+  return -1;
+}
+
+
+
 /*----------------------------------------------------------------------*/
-static void setBreakpoint(int line) {
+static void setBreakpoint(int line, int file) {
   /* FIXME - we can only set breakpoints in main file */
   int i = breakpointIndex(line);
-  Boolean found = FALSE;
 
   if (i != -1)
     printf("Breakpoint already set at line %d.\n", line);
   else {
-    for (i = 0; i < BREAKPOINTMAX; i++)
-      if (breakpoint[i] == 0) {
-	breakpoint[i] = line;
-	found = TRUE;
-	break;
-      }
-    if (!found)
+    i = availableBreakpointSlot();
+    if (i == -1)
       printf("No room for more breakpoints. Delete one first.\n");
-    else
-      printf("Breakpoint set at line %d.\n", line);
+    else {
+      breakpoint[i].line = line;
+      breakpoint[i].file = file;
+      printf("Breakpoint set at line %d in '%s'.\n", line, sourceFileName(file));
+    }
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void deleteBreakpoint(int line) {
+static void deleteBreakpoint(int line, int file) {
   int i = breakpointIndex(line);
 
   if (i == -1)
-    printf("Breakpoint at line %d not found.\n", line);
+    printf("Breakpoint at line %d in '%s' not found.\n", line, sourceFileName(file));
   else {
-    breakpoint[i] = 0;
-    printf("Breakpoint at line %d deleted.\n", line);
+    breakpoint[i].line = 0;
+    printf("Breakpoint at line %d in '%s' deleted.\n",
+	   line, sourceFileName(file));
   }
 }
 
@@ -614,16 +623,16 @@ void debug(Boolean calledFromBreakpoint, int line, int fileNumber)
       if (i == 0)
 	listBreakpoints();
       else
-	setBreakpoint(i);
+	setBreakpoint(i, fileNumber);
       break;
     case 'D':
       if (i == 0) {
 	if (calledFromBreakpoint)
-	  deleteBreakpoint(line);
+	  deleteBreakpoint(line, fileNumber);
 	else
 	  printf("No current breakpoint to delete.\n");
       } else
-	deleteBreakpoint(i);
+	deleteBreakpoint(i, fileNumber);
       break;
     case 'N':
       stopAtNextLine = TRUE;

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>295.89</origest>
-<currest>294.89</currest>
-<elapsed>134.89</elapsed>
+<origest>296.89</origest>
+<currest>295.89</currest>
+<elapsed>135.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>47</currest>
-<elapsed>9</elapsed>
+<origest>48</origest>
+<currest>48</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
-<elapsed>7</elapsed>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -139,7 +139,7 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 </task>
 <task>
 <desc>Symbolic step and breakpoints</desc>
-<notes>Implement a feature to make it possible to singel step per source line.
+<notes>Implement a feature to make it possible to single step per source line.
 
 Design:
 - a new instruction LINE &lt;no&gt;, &lt;file&gt;
@@ -149,7 +149,7 @@ Design:
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -157,36 +157,7 @@ Design:
 <notes>Entered
   Locate x Here.
 
-This clause should not be run if the actor x is already in the room and the actor is the executing actor.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify UNDO</desc>
-<notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>All instances not inheriting from anything should inherit directly from entity</desc>
-<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
-
-Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
+This clause should not be run if the actor x is already in the room.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -212,8 +183,10 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
+
+Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -221,10 +194,17 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
-
-  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -244,21 +224,6 @@ DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
  =2 : RESTART.
  =3 : QUIT.
 END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attribute references without "of" in certain contexts</desc>
-<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
-
-  The x
-     Has y,
-     Description Say y.
-  End The x.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -363,11 +328,20 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 </task>
 </task>
 <task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -398,25 +372,6 @@ results in:
 
 Fix it!
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Obscure error message for aggregate filters without ","</desc>
-<notes>"Count Isa object In inventory" (missing comma) parses as:
-
-"Count Isa object" "In inventory"
-
-which is correct but gives the confusing error message:
-
-  *1*   311 E : Must refer to an instance.
-
-pointing to "count" since that is the left hand side of the assumed expression
-
-&lt;something&gt; &lt;where&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -666,6 +621,73 @@ Possibly we could have the embedded tags:
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.35</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Attributes of class type</desc>
+<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute references without "of" in certain contexts</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Obscure error message for aggregate filters without ","</desc>
+<notes>"Count Isa object In inventory" (missing comma) parses as:
+
+"Count Isa object" "In inventory"
+
+which is correct but gives the confusing error message:
+
+  *1*   311 E : Must refer to an instance.
+
+pointing to "count" since that is the left hand side of the assumed expression
+
+&lt;something&gt; &lt;where&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
@@ -677,6 +699,15 @@ Possibly we could have the embedded tags:
 <isopen>1</isopen>
 <task>
 <desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List line numbers for which LINE instructions are generated?</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -835,19 +866,6 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <notes>Usefullness?
 
 Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attributes of class type</desc>
-<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

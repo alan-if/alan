@@ -83,13 +83,18 @@ static void switches(argc, argv)
 	debugOption = TRUE;
 	break;
       case 'l':
-	logOption = TRUE;
+	transcriptOption = TRUE;
+	logOption = FALSE;
 	break;
       case 'v':
 	verbose = TRUE;
 	break;
       case 'n':
 	statusLineOption = FALSE;
+	break;
+      case 'c':
+	logOption = TRUE;
+	transcriptOption = FALSE;
 	break;
       case 'r':
 	regressionTestOption = TRUE;

@@ -9,8 +9,8 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
 
-  if (logOption)
-    fclose(logfil);
+  if (transcriptOption || logOption)
+    fclose(logFile);
   newline();
 
 #ifdef __amiga__

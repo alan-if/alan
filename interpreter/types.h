@@ -165,6 +165,11 @@ typedef struct LiteralEntry {	/* LITERAL */
   Aword value;
 } LiteralEntry;
 
+typedef struct Breakpoint {	/* BREAKPOINT */
+  int line;
+  int file;
+} Breakpoint;
+
 #define MAXPARAMS 9
 #define MAXENTITY (header->instanceMax)
 

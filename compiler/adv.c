@@ -181,10 +181,11 @@ static Aaddr generateSourceFileTable() {
   int count = 0;
   Aaddr adr = nextEmitAddress();
 
-  for (count = 0; count < length(fileNames); count++) {
-    encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
-    emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
-  }
+  if (opts[OPTDEBUG].value)
+    for (count = 0; count < length(fileNames); count++) {
+      encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
+      emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
+    }
   emit(EOF);
   return adr;
 }

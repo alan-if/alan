@@ -181,9 +181,7 @@ static void getline(void)
 #if defined(HAVE_ANSI) || defined(GLK)
     statusline();
 #endif
-    printf("> ");
-    if (logOption)
-      fprintf(logfil, "> ");
+    logPrint("> ");
 #ifdef USE_READLINE
     if (!readline(buf)) {
       newline();
@@ -197,11 +195,11 @@ static void getline(void)
 #endif
     getPageSize();
     anyOutput = FALSE;
-    if (logOption)
+    if (transcriptOption || logOption)
 #ifndef __amiga__
-      fprintf(logfil, "%s\n", buf);
+      fprintf(logFile, "%s\n", buf);
 #else
-      fprintf(logfil, "%s", buf);
+      fprintf(transcriptFile, "%s", buf);
 #endif
 #if ISO == 0
     toIso(isobuf, buf, NATIVECHARSET);

@@ -327,7 +327,7 @@ The outside Isa location Name Outside 'The' Tall Building
 End The outside.
 
 
-The hall Isa location
+The Hall Isa location
     Description
         "Inside the entrance is a hallway full of dust and pieces of
          the ceiling has fallen to the floor. At the west end is a
@@ -442,7 +442,7 @@ The door Isa object At hall
 END The door.
 
 
-The stairs Isa location
+The stairs Isa location Name Stairs
     Description
         "You are at the landing of an old staircase. It seem steady
          enough to walk in, but be careful if you are going to use it.

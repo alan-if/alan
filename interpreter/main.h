@@ -54,8 +54,8 @@ extern Aword *freq;		/* Cumulated frequencies */
 extern int dictsize;		/* Number of entries in dictionary */
 
 /* The text and message file */
-extern FILE *txtfil;
-extern FILE *logfil;
+extern FILE *textFile;
+extern FILE *logFile;
 
 /* File names */
 extern char *adventureName;
@@ -75,6 +75,7 @@ extern Boolean traceOption;
 extern Boolean tracePushOption;
 extern Boolean traceStackOption;
 extern Boolean singleStepOption;
+extern Boolean transcriptOption;
 extern Boolean logOption;
 extern Boolean statusLineOption;
 extern Boolean regressionTestOption;

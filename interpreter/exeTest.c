@@ -124,7 +124,7 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
   for (i = 0; i < fpos; i++) fputc(' ', testFile);
   fprintf(testFile, testString);
   fclose(testFile);
-  txtfil = fopen(testFileName, "rb");
+  textFile = fopen(testFileName, "rb");
 }
 
 
@@ -143,7 +143,7 @@ void testGetString()
   header->stringOffset = 1;
   getStringFromFile(fpos, strlen(testString)-1);
   ASSERT(strcmp((char *)pop(), &testString[1])==0);
-  fclose(txtfil);
+  fclose(textFile);
   unlink(testFileName);
 }
 

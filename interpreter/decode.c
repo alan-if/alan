@@ -28,7 +28,7 @@ static int inputBit()
   int bit;
 
   if (!bitsToGo) {		/* More bits available ? */
-    decodeBuffer = getc(txtfil); /* No, so get more */
+    decodeBuffer = getc(textFile); /* No, so get more */
     if (decodeBuffer == EOF) {
       garbageBits++;
       if (garbageBits > VALUEBITS-2)
@@ -139,7 +139,7 @@ void *pushDecode()
   DecodeInfo *info;
 
   info = (DecodeInfo *) allocate(sizeof(DecodeInfo));
-  info->fpos = ftell(txtfil);
+  info->fpos = ftell(textFile);
   info->buffer = decodeBuffer;
   info->bits = bitsToGo;
   info->value = value;
@@ -166,7 +166,7 @@ void popDecode(i)
 {
   DecodeInfo *info = (DecodeInfo *) i;
 
-  fseek(txtfil, info->fpos, 0);
+  fseek(textFile, info->fpos, 0);
   decodeBuffer = info->buffer;
   bitsToGo = info->bits;
   value = info->value;

@@ -86,6 +86,7 @@ Boolean traceOption = FALSE;
 Boolean tracePushOption = FALSE;
 Boolean traceStackOption = FALSE;
 Boolean singleStepOption = FALSE;
+Boolean transcriptOption = FALSE;
 Boolean logOption = FALSE;
 Boolean statusLineOption = TRUE;
 Boolean regressionTestOption = FALSE;
@@ -95,8 +96,8 @@ Boolean anyOutput = FALSE;
 
 /* The files and filenames */
 char *adventureName;
-FILE *txtfil;
-FILE *logfil;
+FILE *textFile;
+FILE *logFile;
 
 
 /* Screen formatting info */
@@ -157,8 +158,8 @@ void terminate(code)
 #endif
     newline();
   free(memory);
-  if (logOption)
-    fclose(logfil);
+  if (transcriptOption)
+    fclose(logFile);
 
 #ifdef __MWERKS__
   printf("Command-Q to close window.");
@@ -277,16 +278,16 @@ void statusline(void)
 
 /*======================================================================
 
-  logprint()
+  logPrint()
 
   Print some text and log it if logging is on.
 
  */
-void logprint(char str[])
+void logPrint(char str[])
 {
   printf(str);
-  if (logOption)
-    fprintf(logfil, str);
+  if (transcriptOption)
+    fprintf(logFile, str);
 }
 
 
@@ -298,7 +299,7 @@ void newline(void)
   char buf[256];
   
   if (lin >= pageLength - 1) {
-    logprint("\n");
+    logPrint("\n");
     needSpace = FALSE;
     prmsg(M_MORE);
 #ifdef USE_READLINE
@@ -309,7 +310,7 @@ void newline(void)
     getPageSize();
     lin = 0;
   } else
-    logprint("\n");
+    logPrint("\n");
   
   lin++;
 #else
@@ -376,7 +377,7 @@ void *duplicate(void *original, unsigned long len)
 static void justify(char str[])
 {
 #ifdef GLK
-  logprint(str);
+  logPrint(str);
 #else
   int i;
   char ch;
@@ -395,7 +396,7 @@ static void justify(char str[])
     if (i > 0) {		/* If it fits ... */
       ch = str[i];		/* Save space or NULL */
       str[i] = '\0';		/* Terminate string */
-      logprint(str);		/* and print it */
+      logPrint(str);		/* and print it */
       skipsp = FALSE;		/* If skipping, now we're done */
       str[i] = ch;		/* Restore character */
       /* Skip white after printed portion */
@@ -403,7 +404,7 @@ static void justify(char str[])
     }
     newline();			/* Then start a new line */
   }
-  logprint(str);			/* Print tail */
+  logPrint(str);			/* Print tail */
 #endif
   col = col + strlen(str);	/* Update column */
 }
@@ -422,7 +423,7 @@ static void space(void)
     skipsp = FALSE;
   else {
     if (needSpace) {
-      logprint(" ");
+      logPrint(" ");
       col++;
     }
   }
@@ -503,7 +504,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     break;
   case 'i':
     newline();
-    logprint("    ");
+    logPrint("    ");
     col = 5;
     needSpace = FALSE;
     break;
@@ -551,7 +552,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     int i;
     int spaces = 4-(col-1)%4;
     
-    for (i = 0; i<spaces; i++) logprint(" ");
+    for (i = 0; i<spaces; i++) logPrint(" ");
     col = col + spaces;
     needSpace = FALSE;
     break;
@@ -561,7 +562,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     capitalize = FALSE;
     break;
   default:
-    logprint("$");
+    logPrint("$");
     break;
   }
 
@@ -1193,7 +1194,7 @@ static void openFiles(void)
   /* Open Text file */
   strcpy(txtfnm, adventureName);
   strcat(txtfnm, ".a3c");
-  if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
+  if ((textFile = fopen(txtfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure text data file '");
     strcat(str, txtfnm);
     strcat(str, "'.");
@@ -1201,7 +1202,7 @@ static void openFiles(void)
   }
 
   /* If logging open log file */
-  if (logOption) {
+  if (transcriptOption || logOption) {
     char *namstart;
 
     if((namstart = strrchr(adventureName, ']')) == NULL
@@ -1215,8 +1216,10 @@ static void openFiles(void)
 
     time(&tick);
     sprintf(logfnm, "%s%d%s.log", namstart, (int)tick, usr);
-    if ((logfil = fopen(logfnm, "w")) == NULL)
+    if ((logFile = fopen(logfnm, "w")) == NULL) {
+      transcriptOption = FALSE;
       logOption = FALSE;
+    }
   }
 }
     
