@@ -212,9 +212,14 @@ void eninit()
   int i;
   Bool ok = FALSE;		/* Model is ok? */
 
+  /* Now make sure there is at least one character of each */
+  for (i = 0; i <= EOFChar; i++)
+    if (chFreq[i] == 0)
+      chFreq[i] = 1;
+
+  /* Calculate and verify that the cumulative freq. is within range */
   while (!ok) {
     /* Set up cumulative frequency counts */
-    chFreq[EOFChar] = 1;
     cumFreq[NOOFSYMBOLS] = 0;
     for (i = NOOFSYMBOLS; i; i--)
       cumFreq[i-1] = cumFreq[i] + chFreq[i-1];
@@ -227,6 +232,7 @@ void eninit()
     } else
       ok = TRUE;
   }
+
 }
 
 
