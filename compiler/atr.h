@@ -29,7 +29,9 @@ typedef struct Attribute {
   Bool encoded;			/* For string attributes... */
   long fpos;
   long len;
-  IdNode *instance;		/* For INSTANCE type attributes */
+  TypeKind setType;		/* Type of elements in SET attributes */
+  IdNode *instance;		/* For INSTANCE and SET type attributes */
+  List *set;			/* An expression list for the initial set */
 } Attribute;
 
 #endif

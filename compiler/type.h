@@ -19,7 +19,8 @@ typedef enum TypeKind {		/* TYPE kinds */
   INTEGER_TYPE,
   BOOLEAN_TYPE,
   STRING_TYPE,
-  INSTANCE_TYPE
+  INSTANCE_TYPE,
+  SET_TYPE
 } TypeKind;
 
 #endif

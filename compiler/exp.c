@@ -176,6 +176,23 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 
 /*======================================================================*/
+Expression *newStringExpression(Srcp srcp, long fpos, int len)
+{
+  Expression *exp = newExpression(&srcp, STRING_EXPRESSION);
+  exp->fields.str.fpos = fpos;
+  exp->fields.str.len = len;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newIntegerExpression(Srcp srcp, int value)
+{
+  Expression *exp = newExpression(&srcp, INTEGER_EXPRESSION);
+  exp->fields.val.val = value;
+  return exp;
+}
+
+/*======================================================================*/
 Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
   Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
   exp->fields.atr.atr = attribute;
@@ -1079,6 +1096,9 @@ void dumpType(TypeKind typ)
     break;
   case INSTANCE_TYPE:
     put("INSTANCE");
+    break;
+  case SET_TYPE:
+    put("SET");
     break;
   case ERROR_TYPE:
     put("UNKNOWN");

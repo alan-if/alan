@@ -153,6 +153,7 @@ static int val(char str[])
   sayForm %% SayForm %1%%,
   scr %% Script *%1%%,
   scrs %% List *%1%%,
+  set %% List *%1%%,
   srcp %% Srcp %1%%,
   srcp2 %% Srcp %1%%,
   stm %% StmNod *%1%%,
@@ -273,47 +274,63 @@ static int val(char str[])
 <attribute definition>		-- RETURNS: atr
     = ID
     %%
-	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
-						BOOLEAN_TYPE,
-						%ID.id,
-						TRUE, 0, 0, NULL);
+	%<attribute definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, TRUE);
     %%
 
     ! 'NOT' ID
     %%
-	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
-						BOOLEAN_TYPE,
-						%ID.id,
-						FALSE, 0, 0, NULL);
+	%<attribute definition>.atr = newBooleanAttribute(%ID.id->srcp,	%ID.id, FALSE);
     %%
 
     ! ID <optional_minus> Integer
     %%
 	if (%<optional_minus>.minus)
-		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
-							INTEGER_TYPE,
-							%ID.id,
-							-val(%Integer.chars), 0, 0, NULL);
+		%<attribute definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, -val(%Integer.chars));
 	else
-		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
-							INTEGER_TYPE,
-							%ID.id,
-							val(%Integer.chars), 0, 0, NULL);
+		%<attribute definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, val(%Integer.chars));
     %%
 
     ! ID STRING	
     %%
-	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
-						STRING_TYPE,
-						%ID.id,
-						0, %STRING.fpos, %STRING.len, NULL);
+	%<attribute definition>.atr = newStringAttribute(%ID.id->srcp, %ID.id, %STRING.fpos, %STRING.len);
     %%
     ! ID ID
     %%
-	%<attribute definition>.atr = newAttribute(`&%1ID.id->srcp,
-						INSTANCE_TYPE,
-						%1ID.id,
-						0, 0, 0, %2ID.id);
+	%<attribute definition>.atr = newReferenceAttribute(%1ID.id->srcp, %1ID.id, %2ID.id);
+    %%
+
+    ! ID '{' <set members> '}'
+    %%
+	%<attribute definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id, %<set members>.set);
+    %%
+    ;
+
+<set members>				-- RETURNS: set
+    = <set member>
+    %%
+	%<set member>.set = concat(NULL, %<set member>.exp, EXPRESSION_LIST);
+    %%
+
+    ! <set members> ',' <set member>
+    %%
+	%<set members>.set = concat(%<set members>.set, %<set member>.exp, EXPRESSION_LIST);
+    %%
+    ;
+
+<set member>				-- RETURNS exp
+    = ID
+    %%
+	%<set member>.exp = newWhatExpression(%ID.srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
+    %%
+
+    ! <optional_minus> Integer
+    %%
+	%<set member>.exp = newIntegerExpression(%Integer.srcp, %<optional_minus>.minus?-val(%Integer.chars):val(%Integer.chars));
+    %%
+
+    ! STRING
+    %%
+	%<set member>.exp = newStringExpression(%STRING.srcp, %STRING.fpos, %STRING.len);
     %%
     ;
 
@@ -1313,10 +1330,7 @@ static int val(char str[])
 
     ! 'COUNT' Integer
     %%
-	%<limit_attribute>.atr = newAttribute(`&%'COUNT'.srcp,
-				      INTEGER_TYPE,
-				      newId(`&%'COUNT'.srcp, "count"),
-				      val(%Integer.chars), 0, 0, NULL);
+	%<limit_attribute>.atr = newIntegerAttribute(%'COUNT'.srcp, newId(`&%'COUNT'.srcp, "count"), val(%Integer.chars));
     %%
     ;
 

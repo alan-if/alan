@@ -10,12 +10,22 @@
 #include "cla_x.h"
 #include "prop_x.h"
 
+void testCreateSetAttribute()
+{
+  List *set = concat(NULL, newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(&nulsrcp, "setAttribute"), set);
+  ASSERT(atr->type == SET_TYPE);
+  ASSERT(length(atr->set) == 1);
+  ASSERT(atr->set->element.exp->kind == INTEGER_EXPRESSION);
+}
+
+
 void testMultipleAtr()
 {
   List *attributeList;
 
-  attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0, NULL), ATTRIBUTE_LIST);
-  attributeList = concat(attributeList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0, NULL), ATTRIBUTE_LIST);
+  attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
+  attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
 
   readEcode();
   checkMultipleAttributes(attributeList);
@@ -27,10 +37,8 @@ void testFindInList()
 {
   List *attributes = NULL;
   IdNode *id = newId(&nulsrcp, "theAttribute");
-  Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE, id, 0, 0, 0, NULL);
-  Attribute *anotherAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
-				    newId(&nulsrcp, "another"),
-				    0, 0, 0, NULL);
+  Attribute *theAttribute = newBooleanAttribute(nulsrcp, id, FALSE);
+  Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(&nulsrcp, "another"), FALSE);
 
   /* Test empty list */
   ASSERT(findAttribute(attributes, id) == NULL);
@@ -73,8 +81,8 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, firstString), 0, 0, 0, NULL), ATTRIBUTE_LIST);
-  theList = concat(theList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, secondString), 0, 0, 0, NULL), ATTRIBUTE_LIST);
+  theList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
+  theList = concat(theList, newBooleanAttribute(nulsrcp, newId(&nulsrcp, secondString), FALSE), ATTRIBUTE_LIST);
   return theList;
 }
 
@@ -239,7 +247,7 @@ static Bool attributesAreSorted(List *list)
 
 void testSortAttributes()
 {
-  List *attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0, NULL), ATTRIBUTE_LIST);
+  List *attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
   ASSERT(sortAttributes(NULL) == NULL);
@@ -296,6 +304,7 @@ static void testResolveThisAttributeForClass()
 
 void registerAtrUnitTests()
 {
+  registerUnitTest(testCreateSetAttribute);
   registerUnitTest(testMultipleAtr);
   registerUnitTest(testAttributeListsInSymbolTable);
   registerUnitTest(testSortAttributes);

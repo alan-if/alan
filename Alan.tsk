@@ -546,8 +546,6 @@ FOR EACH entity DO
 but that is not allowed:
 
 FOR EACH instance ISA entity DO
-
-
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -793,6 +791,15 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add Entered</desc>
 <notes/>
 <priority>2</priority>
@@ -974,7 +981,7 @@ Yes, you could allow inherting the complete exit and just override the target lo
 <isopen>1</isopen>
 </task>
 <task>
-<desc>For loop</desc>
+<desc>For loop Filters</desc>
 <notes>Possibly we can port the aggregate filters to the For Each loop.
 
 To get
@@ -1016,6 +1023,28 @@ This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
 <desc>New execution model</desc>
 <notes>If we use addresses as the primary addressing mechanism we could more easily support new attribute reference format.
 
@@ -1045,8 +1074,7 @@ However this does not go well with separated data since that is not adressed by 
 </task>
 <task>
 <desc>CHECKs on containers</desc>
-<notes>
-Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
+<notes>Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1157,28 +1185,6 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Some kind of procedures</desc>
-<notes>NEED: to be able to execute common code without mis-using e.g events.
-
-ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
-
-Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Actor conversation</desc>
 <notes>A simple first step would be to recognize command format &lt;actor&gt;, &lt;command&gt; and respond with a message indicating that it is not possible to order other actors about.
 </notes>
@@ -1239,15 +1245,6 @@ Perhaps this is not a great problem.</notes>
 <task>
 <desc>Compile command version of interpreter with mingw</desc>
 <notes>It is possible if not using TERMIO, but how do we then present status line?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

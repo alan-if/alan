@@ -34,8 +34,7 @@ void testAttributeToThis()
   Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(&nulsrcp, "Atr");
-  Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
-					 theAttributeId, 0, 0, 0, NULL);
+  Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
   Context *theContext = newContext(INSTANCE_CONTEXT, theInstance);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
   Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);

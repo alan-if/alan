@@ -34,14 +34,14 @@
 int attributeAreaSize = 0;	/* # of Awords needed for attribute storage */
 
 
-/*======================================================================*/
-Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
+/*----------------------------------------------------------------------*/
+static Attribute *newAttribute(Srcp *srcp, /* IN - Source Position */
 			TypeKind type,	/* IN - Type of this atribute */
 			IdNode *id,	/* IN - The id */
 			int value,      /* IN - The initial value */
 			long int fpos,	/* IN - File pos. for initial string */
 			int len,	/* IN - D:o length */
-			IdNode *instance) /* IN - Initial instance */
+			IdNode *instance, List *set) /* IN - Initial instance */
 {
   Attribute *new;			/* The newly allocated area */
 
@@ -59,6 +59,62 @@ Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
   new->fpos = fpos;
   new->len = len;
   new->instance = instance;
+  new->set = set;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value)
+{
+  Attribute *new;			/* The newly allocated area */
+
+  new = newAttribute(&srcp, BOOLEAN_TYPE, id, value, 0, 0, NULL, NULL);
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Attribute *newStringAttribute(Srcp srcp, IdNode *id, long fpos, int len)
+{
+  Attribute *new;			/* The newly allocated area */
+
+  new = newAttribute(&srcp, STRING_TYPE, id, 0, fpos, len, NULL, NULL);
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value)
+{
+  Attribute *new;			/* The newly allocated area */
+
+  new = newAttribute(&srcp, INTEGER_TYPE, id, value, 0, 0, NULL, NULL);
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance)
+{
+  Attribute *new;			/* The newly allocated area */
+
+  new = newAttribute(&srcp, INSTANCE_TYPE, id, 0, 0, 0, instance, NULL);
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Attribute *newSetAttribute(Srcp srcp, IdNode *id, List *set)
+{
+  Attribute *new;			/* The newly allocated area */
+
+  new = newAttribute(&srcp, SET_TYPE, id, 0, 0, 0, NULL, set);
 
   return(new);
 }
@@ -386,8 +442,7 @@ static void generateAttribute(Attribute *attribute)
     /* Now make a copy to use for initialisation if attribute is
        inherited, else the address will be overwritten by generation
        of other instances of the same attribute */
-    new = newAttribute(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
-		       attribute->fpos, attribute->len, NULL);
+    new = newStringAttribute(attribute->srcp, NULL, attribute->fpos, attribute->len);
     new->address = attribute->address;
     adv.stratrs = concat(adv.stratrs, new, ATTRIBUTE_LIST);
   }
@@ -464,9 +519,28 @@ void dumpAttribute(Attribute *atr)
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
-  put("address: "); dumpAddress(atr->address);
-  put(", stringAddress: "); dumpAddress(atr->stringAddress); nl();
-  put("value: "); dumpInt(atr->value);
-  put(", fpos: "); dumpInt(atr->fpos);
-  put(", len: "); dumpInt(atr->len); out();
+  put("address: "); dumpAddress(atr->address); nl();
+  switch (atr->type) {
+  case STRING_TYPE:
+    put(", stringAddress: "); dumpAddress(atr->stringAddress); nl();
+    put(", fpos: "); dumpInt(atr->fpos);
+    put(", len: "); dumpInt(atr->len);
+    break;
+  case INTEGER_TYPE:
+    put("value: "); dumpInt(atr->value);
+    break;
+  case BOOLEAN_TYPE:
+    put("value: "); dumpBool(atr->value);
+    break;
+  case INSTANCE_TYPE:
+    put("instance: "); dumpId(atr->instance);
+    break;
+  case SET_TYPE:
+    put("set: "); dumpList(atr->set, EXPRESSION_LIST);
+    break;
+  default:
+    put("***ERROR***");
+    break;
+  }
+  out();
 }

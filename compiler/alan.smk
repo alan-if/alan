@@ -208,7 +208,7 @@ void setCharacterSet(int set)
 
 %%MAP
 
-  [a-}]		= [A-\]];		-- include old-style nation characters
+  [a-z]		= [A-Z];
   [\xe0-\xf6]	= [\xC0-\xD6];
   [\xf8-\xfd]	= [\xD8-\xDE];
 

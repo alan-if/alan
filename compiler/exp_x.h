@@ -22,6 +22,8 @@
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
 extern Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat);
+extern Expression *newStringExpression(Srcp srcp, long fpos, int len);
+extern Expression *newIntegerExpression(Srcp srcp, int value);
 extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
 

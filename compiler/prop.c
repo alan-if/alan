@@ -112,8 +112,7 @@ static void symbolizeParent(Properties *props)
 static void addOpaqueAttribute(Properties *props, Bool opaque)
 {
   IdNode *opaqueId = newId(&nulsrcp, "opaque");
-  Attribute *attribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
-				      opaqueId, opaque, 0, 0, NULL);
+  Attribute *attribute = newBooleanAttribute(nulsrcp, opaqueId, opaque);
 
   attribute->id->code = OPAQUEATTRIBUTE;	/* Pre-defined 'opaque' code */
   props->attributes = concat(props->attributes, attribute, ATTRIBUTE_LIST);

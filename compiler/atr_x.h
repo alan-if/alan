@@ -24,13 +24,11 @@ extern int attributeAreaSize;
 /* FUNCTIONS: */
 
 /* Create a new Attribute node */
-extern Attribute *newAttribute(Srcp *srcp,
-			       TypeKind typ,
-			       IdNode *id,
-			       int val,
-			       long fpos,
-			       int len,
-			       IdNode *instance);
+extern Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value);
+extern Attribute *newStringAttribute(Srcp srcp, IdNode *id, long fpos, int len);
+extern Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value);
+extern Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance);
+extern Attribute *newSetAttribute(Srcp srcp, IdNode *id, List *set);
 
 extern void symbolizeAttributes(List *attributeList);
 extern List *sortAttributes(List *attributeList);
