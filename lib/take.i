@@ -1,4 +1,4 @@
- gorfo@ida.liu.seOBJECT ATTRIBUTES
+OBJECT ATTRIBUTES
 	takeable.
 
 SYNONYMS

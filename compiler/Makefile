@@ -5,13 +5,13 @@ ARCHS	= sun4 solaris2 hp
 VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
 
-GCC	= gcc
+GCC	= gcc -ansi -Wall
 CPP	= $(GCC) -MM -ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
-CC = $(GCC) -pedantic -Wall
+CC = $(GCC)
 CFLAGS	= $(DEBUG) $(INCLUDE)
 
 tcov := CC = acc -a
@@ -84,11 +84,8 @@ ALLSRCS = $(MAINSRC) $(SRCS) $(TMSRCS)
 
 VERSIONSRCS = $(SRCS) $(MAINSRC) $(EXTRAS)
 
-LIB = alan.a
-
-#.KEEP_STATE:
-
 OBJECTS = ${ALLSRCS:.c=.o}
+
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
