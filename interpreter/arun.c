@@ -12,6 +12,10 @@
 #include "arun.h"
 
 #include <time.h>
+#ifdef __sun__
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
 
 #include "version.h"
 
@@ -90,6 +94,7 @@ static jmp_buf jmpbuf;		/* Error return long jump buffer */
 
 
 /*======================================================================
+
   terminate()
 
   Terminate the execution of the adventure, e.g. close windows,
@@ -116,6 +121,7 @@ void terminate(code)
 
 
 /*======================================================================
+
   syserr()
 
   Print a little text blaming the user for the system error.
@@ -153,6 +159,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 
 
 /*======================================================================
+
   error()
 
   Print an error message, force new player input and abort.
@@ -175,6 +182,7 @@ void error(msgno)
 
 
 /*======================================================================
+
   newline()
 
   Make a newline, but check for screen full.
@@ -193,7 +201,11 @@ void newline()
     printf("\n");
     needsp = FALSE;
     prmsg(M_MORE);
+#ifdef __sun__
+    (void) readline("");
+#else
     fgets(buf, 256, stdin);
+#endif
     getPageSize();
     lin = 0;
   } else
@@ -205,6 +217,7 @@ void newline()
 
 
 /*======================================================================
+
   para()
 
   Make a new paragraph, i.e one empty line (one or two newlines).
@@ -290,6 +303,7 @@ static void just(str)
 
 
 /*----------------------------------------------------------------------
+
   space()
 
   Output a space if needed.
@@ -347,6 +361,7 @@ static void sayparam(p)
 
 
 /*----------------------------------------------------------------------
+
   prsym()
 
   Print an expanded symbolic reference.
@@ -467,8 +482,8 @@ void output(original)
 }
 
 
-
 /*======================================================================
+
   prmsg()
 
   Print a message from the message table.
@@ -824,15 +839,21 @@ void go(dir)
       if (ext->code == dir) {
 	ok = TRUE;
 	if (ext->checks != 0) {
-	  if (trcflg)
-	    printf("\nEXIT %d from %d, Checking: ", dir, cur.loc);
+	  if (trcflg) {
+	    printf("\n<EXIT %d from %d (", dir, cur.loc);
+	    debugsay(cur.loc);
+	    printf("), Checking:>\n");
+	  }
 	  ok = trycheck(ext->checks, TRUE);
 	}
 	if (ok) {
 	  oldloc = cur.loc;
 	  if (ext->action != 0) {
-	    if (trcflg)
-	      printf("\nEXIT %d from %d, Executing: ", dir, cur.loc);
+	    if (trcflg) {
+	      printf("\n<EXIT %d from %d (", dir, cur.loc);
+	      debugsay(cur.loc);
+	      printf("), Executing:>\n");
+	    }	    
 	    interpret(ext->action);
 	  }
 	  /* Still at the same place? */
@@ -1015,9 +1036,9 @@ static void do_it()
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
 	    if (alt[i]->qual == (Aword)Q_BEFORE)
-	      printf("\nVERB %s (BEFORE), Body: ", trace);
+	      printf("\n<VERB %s (BEFORE), Body:>\n", trace);
 	    else
-	      printf("\nVERB %s (ONLY), Body: ", trace);
+	      printf("\n<VERB %s (ONLY), Body:>\n", trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1040,7 +1061,7 @@ static void do_it()
 	      strcpy(trace, "in LOCATION");
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
-	    printf("\nVERB %s, Body: ", trace);
+	    printf("\n<VERB %s, Body:>\n", trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1061,7 +1082,7 @@ static void do_it()
 	    strcpy(trace, "in LOCATION");
 	  else
 	    sprintf(trace, "in PARAMETER %d", i-1);
-	  printf("\nVERB %s (AFTER), Body: ", trace);
+	  printf("\n<VERB %s (AFTER), Body:>\n", trace);
 	}
 	interpret(alt[i]->action);
 	if (fail) return;
@@ -1086,7 +1107,7 @@ void action(
 )
 #else
 void action(plst)
-     ParamElem plst[];		/* IN - Plural parameters */
+     ParamElem plst[];
 #endif
 {
   int i, pno;
@@ -1135,8 +1156,11 @@ static void eventchk()
       cur.loc = eventq[etop].where;
     else
       cur.loc = where(eventq[etop].where);
-    if (trcflg)
-      printf("\nEVENT %d: ", eventq[etop].event);
+    if (trcflg) {
+      printf("\n<EVENT %d (at ", eventq[etop].event);
+      debugsay(cur.loc);
+      printf("):>\n");
+    }
     interpret(evts[eventq[etop].event-EVTMIN].code);
   }
 }
@@ -1283,7 +1307,7 @@ static void checkdebug()
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
     if (dbgflg|trcflg|stpflg)
-      printf("Sorry, '%s' is not compiled for debug!", advnam);
+      printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
     para();
     dbgflg = FALSE;
     trcflg = FALSE;
@@ -1364,7 +1388,7 @@ static void start()
   cur.loc = startloc = where(HERO);
   cur.act = HERO;
   if (trcflg)
-    printf("\nSTART: ");
+    printf("\n<START:>\n");
   interpret(header->start);
   para();
 
@@ -1421,7 +1445,6 @@ static void movactor()
   ScrElem *scr;
   StepElem *step;
   ActElem *act = (ActElem *) &acts[cur.act-ACTMIN];
-  char str[80];
 
   cur.loc = where(cur.act);
   if (cur.act == HERO) {
@@ -1437,30 +1460,44 @@ static void movactor()
 	/* Now execute it, maybe. First check wait count */
 	if (step->after > act->count) {
 	  /* Wait some more */
+	  if (trcflg) {
+	    printf("\n<ACTOR %d, ", cur.act);
+	    debugsay(cur.act);
+	    printf(" (at ");
+	    debugsay(cur.loc);
+	    printf("), SCRIPT %ld, STEP %ld, Waiting %ld more>\n",
+		   act->script, act->step+1, step->after-act->count);
+	  }
 	  act->count++;
+	  rules();
 	  return;
 	} else
 	  act->count = 0;
 	/* Then check possible expression */
 	if (step->exp != 0) {
 	  if (trcflg) {
-	    saveInfo();
-	    sprintf(str, "$nACTOR %d ($a), SCRIPT %ld, STEP %ld, Evaluating: ",
-		   cur.act, act->script, act->step+1);
-	    output(str);
-	    restoreInfo();
+	    printf("\n<ACTOR %d, ", cur.act);
+	    debugsay(cur.act);
+	    printf(" (at ");
+	    debugsay(cur.loc);
+	    printf("), SCRIPT %ld, STEP %ld, Evaluating:>\n",
+		   act->script, act->step+1);
 	  }
 	  interpret(step->exp);
-	  if (!(Abool)pop()) return; /* Hadn't happened yet */
+	  if (!(Abool)pop()) {
+	    rules();
+	    return; /* Hadn't happened yet */
+	  }
 	}
 	/* OK, so finally let him do his thing */
 	act->step++;		/* Increment step number before executing... */
 	if (trcflg) {
-	  saveInfo();
-	  sprintf(str, "$nACTOR %d ($a), SCRIPT %ld, STEP %ld, Executing: ",
-		 cur.act, act->script, act->step);
-	  output(str);
-	  restoreInfo();
+	  printf("\n<ACTOR %d, ", cur.act);
+	  debugsay(cur.act);
+	  printf(" (at ");
+	  debugsay(cur.loc);
+	  printf("), SCRIPT %ld, STEP %ld, Executing:>\n",
+		 act->script, act->step);
 	}
 	interpret(step->stm);
 	step++;
@@ -1474,10 +1511,13 @@ static void movactor()
       }
     syserr("Unknown actor script.");
   } else if (trcflg) {
-    saveInfo();
-    sprintf(str, "$nACTOR %d ($a), Idle", cur.act);
-    output(str);
-    restoreInfo();
+    printf("\n<ACTOR %d, ", cur.act);
+    debugsay(cur.act);
+    printf(", at ");
+    debugsay(cur.loc);
+    printf("), Idle>\n");
+    rules();
+    return;
   }
 }
 
