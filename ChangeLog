@@ -1,3 +1,9 @@
+Wed Feb 28 17:32:04 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Fixed a small problem with reversing of game files on big-endian
+	machines, the object article code was not reversed usually causing
+	an "executing outside memory" error
+
 Fri Jan 26 13:56:04 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Fixed problem with conversion of 2.5 games, when the same exit
