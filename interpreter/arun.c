@@ -1316,16 +1316,20 @@ static void load()
   }
 
 #ifdef REVERSED
-  printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
+  if (dbgflg||trcflg||stpflg)
+    output("<Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....");
   reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
-  printf("OK.\n");
+  if (dbgflg||trcflg||stpflg)
+    output("OK.>$n");
 #endif
 
   /* Check for 2.5 version */
   if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) {
-    printf("Hmm, this is a v2.5 game, please wait while I convert it...\n");
+    if (dbgflg||trcflg||stpflg)
+      output("<Hmm, this is a v2.5 game, please wait while I convert it...");
     c25to26ACD();
-    printf("OK.\n");
+    if (dbgflg||trcflg||stpflg)
+      output("OK.>$n");
   }
 
 }

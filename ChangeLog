@@ -1,3 +1,8 @@
+Fri Jan 26 13:56:04 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Fixed problem with conversion of 2.5 games, when the same exit
+        had multiple directions
+
 Mon Nov 13 16:24:09 1995  Thomas Nilsson  <thoni@rabbit>
 
 	* Added auto convert code for 2.5 games, the interpreter should
