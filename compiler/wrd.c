@@ -39,7 +39,7 @@ WordNode *findWord(char *str)	/* IN - The string */
   wrd = wrdtree;
   while (wrd != NULL) {
     lwrd = wrd;			/* Set last word found */
-    comp = strcmp(str, lwrd->str);
+    comp = strcmp(str, lwrd->string);
     if (comp == 0)
       return(lwrd);
     if (comp < 0)
@@ -70,48 +70,54 @@ static Bool findReference(Instance *ref, List *referenceList)
 
 
 /*======================================================================*/
-int newWord(char *str,		/* IN - Name of the new word */
-	    WrdKind class,	/* IN - and its class */
-	    int code,		/* IN - and code */
-	    Instance *ref)	/* IN - The entity nodes it refers to */
+int newWord(char *theWord,
+	    WrdKind class,
+	    int code,
+	    Instance *references)
 {
-  WordNode *new;			/* The newly created wrdnod */
-  WordNode *wrd;			/* The wrdnod found in dictionary */
+  WordNode *new;
+  WordNode *existingWord;
+  char *string;
 
-  if (str == NULL)
-    return 0;
+  if (theWord == NULL)
+    syserr("theWord == NULL in '%s()'", __FUNCTION__);
+
+  /* Convert the word to lower case before storing it in the dictionary */
+  string = strdup(theWord);
+  stringLower(string);
 
   /* Find the word if it exists */
-  wrd = findWord(str);
-  if (wrd != NULL) {
-    if (!findReference(ref, wrd->ref[class])) {
+  existingWord = findWord(string);
+  if (existingWord != NULL) {
+    if (!findReference(references, existingWord->ref[class])) {
       /* Add another reference */
-      wrd->classbits |= 1L<<class;
-      wrd->ref[class] = concat(wrd->ref[class], ref, REFERENCE_LIST);
-      if (wrd->code == -1)
+      existingWord->classbits |= 1L<<class;
+      existingWord->ref[class] = concat(existingWord->ref[class],
+					references, REFERENCE_LIST);
+      if (existingWord->code == -1)
 	/* It was previously without a code */
-	wrd->code = code;
+	existingWord->code = code;
     }
-    return wrd->code;
+    return existingWord->code;
   }
 
   new = NEW(WordNode);
 
   new->classbits = 1L<<class;
-  new->str = str;
+  new->string = string;
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
   if (class != SYNONYM_WORD)
-    new->ref[class] = concat(NULL, ref, REFERENCE_LIST);
+    new->ref[class] = concat(NULL, references, REFERENCE_LIST);
   else
-    new->ref[class] = (List *) ref;
+    new->ref[class] = (List *) references;
 
   new->low = NULL;
   new->high = NULL;
 
   if (wrdtree == NULL)
     wrdtree = new;
-  else if (strcmp(str, lwrd->str) < 0) /* Use last word found by findwrd() */
+  else if (strcmp(string, lwrd->string) < 0) /* Use last word found by findwrd() */
     lwrd->low = new;
   else
     lwrd->high = new;
@@ -210,15 +216,15 @@ void analyzeWord(WordNode *wrd)
 
   if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
     /* Synonyms can not be of any other class */
-    lmLog(NULL, 333, sevERR, wrd->str);
+    lmLog(NULL, 333, sevERR, wrd->string);
 
   else if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
     /* Directions and verbs don't work as expected */
-    lmLogv(NULL, 320, sevWAR, wrd->str, "direction", "verb", NULL);
+    lmLogv(NULL, 320, sevWAR, wrd->string, "direction", "verb", NULL);
 
   else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
     /* Adjectives and verbs don't work as expected */
-    lmLogv(NULL, 320, sevWAR, wrd->str, "adjective", "verb", NULL);
+    lmLogv(NULL, 320, sevWAR, wrd->string, "adjective", "verb", NULL);
 
   analyzeWord(wrd->high);
 
@@ -296,7 +302,7 @@ static void gewrdstr(WordNode *wrd) /* IN - Word to generate for */
   
   /* Then this node */
   wrd->stradr = nextEmitAddress();	/* Save address to string */
-  emitString(wrd->str);
+  emitString(wrd->string);
   
   /* Then for higher */
   gewrdstr(wrd->high);

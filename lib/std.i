@@ -33,6 +33,9 @@ $include 'wear.i'   -- + remove, undress, put on
 $include 'help.i'    -- + notes, hint
 
 
+-- Scenery
+$include 'scenery.i'
+
 -- Inventory verb and inventory limits (including clothing items)
 $include 'invent.i'
 

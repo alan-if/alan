@@ -256,10 +256,12 @@ static void reverseClasses(Aword adr)
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ClassEntry));
     while (!endOfTable(e)) {
-      reverseChks(e->checks);
+      reverseChks(e->descriptionChecks);
       reverseStms(e->description);
+      reverseStms(e->entered);
       reverseStms(e->definite);
       reverseStms(e->indefinite);
+      reverseStms(e->mentioned);
       reverseVerbs(e->verbs);
       e++;
     }

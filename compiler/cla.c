@@ -178,13 +178,14 @@ static void warnForUnimplementedInheritance(Properties *props) {
   	Attributes
 	DescriptionCheck
 	DescriptionStatements
+	Entered
 	Definite
 	Indefinite
 	Container
 	Script
 	Verb
   */
-  propCount = 8;
+  propCount = 9;
 
   if (props->whr != NULL)
     lmLog(&props->whr->srcp, 343, sevWAR, "initial location");
@@ -192,10 +193,6 @@ static void warnForUnimplementedInheritance(Properties *props) {
 
   if (props->names != NULL)
     lmLog(&props->names->element.lst->element.id->srcp, 343, sevWAR, "Names");
-  propCount++;
-
-  if (props->enteredStatements != NULL)
-    lmLog(&props->enteredSrcp, 343, sevWAR, "Entered clause");
   propCount++;
 
   if (props->mentioned != NULL)
@@ -260,10 +257,12 @@ static void generateClassEntry(ClaNod *cla)
     entry.parent = cla->props->parentId->symbol->code;
 
   entry.idAddress = cla->props->idAddress;
-  entry.checks = cla->props->descriptionChecksAddress;
+  entry.descriptionChecks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
+  entry.entered = cla->props->enteredAddress;
   entry.definite = cla->props->definiteAddress;
   entry.indefinite = cla->props->indefiniteAddress;
+  entry.mentioned = cla->props->mentionedAddress;
   entry.verbs = cla->props->verbsAddress;
 
   emitEntry(&entry, sizeof(entry));

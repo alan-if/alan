@@ -42,9 +42,6 @@ You can find an index of sorts in the file 'index.txt'.
 
 Additional notes and tips about using std.i are in the file 'notes.txt'.
 
-The 'changes.txt' outlines a history of changes to the library files 
-since version 0.3
-
 ----
 
 About the structure of the library
@@ -97,6 +94,10 @@ The 'proposed standard library was written by Thomas Nilsson
 <thomas.nilsson@progindus.se>. This version of the library has been 
 updated by Stephen Griffiths (sg@xtra.co.nz). Please email bug reports 
 and suggestions to Stephen.
+
+The library was converted to V3 with some radical updates, such as
+named_actor and scenery classes, printing of definite and indefinite
+forms etc. by Thomas Nilsson.
 
 ----
 

@@ -197,10 +197,12 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
-  Aaddr checks;			/* Address of description checks */
+  Aaddr descriptionChecks;	/* Address of description checks */
   Aaddr description;		/* Address of description code */
+  Aaddr entered;		/* Address of code for Entered clause */
   Aaddr definite;		/* Address of definite article code */
   Aaddr indefinite;		/* Address of indefinite article code */
+  Aaddr mentioned;		/* Address of code for Mentioned clause */
   Aaddr verbs;			/* Address of verb table */
 } ClassEntry;
 

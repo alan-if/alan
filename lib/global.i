@@ -33,24 +33,25 @@ Container
 End The hero.
 
 
--- To make instance names always be capitalized (e.g. for persons), give the
--- instance a capitalised name in single quotes plus another name without the
--- quotes. Arun will use the object's leftmost (first) name in
--- the SAY statement and the player will be able to use the uncapitalised
--- name in player commands
+-- To make instance names always be capitalized (e.g. for persons),
+-- give the instance a capitalised name in single quotes. Since
+-- development version 3.0.29 you don't need another name without the
+-- quotes. The compiler converts all player words to lower case before
+-- entering them in the dictionary. 
+--
+-- Deprecated:
+-- Arun will use the object's leftmost (first) name in the SAY
+-- statement and the player will be able to use the uncapitalised name
+-- in player commands
 --      eg: -- 
 --         The robot Isa actor At spaceship Name 'Floyd' Name floyd 
 
 Add To Every thing
   Is
     Not plural.
-    Not named.
 End Add To thing. 
 
-Add To Every actor
-Is
-  named.
-End Add To actor.
-
--- V3: We should add a "person" class instead which has articles set up
--- for no articles and reasonable defaults
+Every named_actor Isa actor
+  Definite Article ""
+  Indefinite Article ""
+End Every named_actor.

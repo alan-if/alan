@@ -144,6 +144,11 @@ static void analyzeName(Properties *props)
   StmNod *stm;
 
   if (props->mentioned == NULL) {
+    /* FIXME Actually we should not construct a Mentioned, better
+       would be to generate it during runtime. However, to do this we
+       would require that we store the names so that they can be
+       printed, preferably exactly as the author wrote them. An entry
+       called name which would be a list of strings would suffice. */
     /* Generate a mentioned from the first of the names */
     /* First output the formatted name to the text file */
     fpos = ftell(txtfil);

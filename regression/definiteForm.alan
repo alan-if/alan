@@ -1,6 +1,7 @@
-Option swedish.
+Option
+  Language swedish.
 
-Add To Every object.
+Add To Every object
   Verb ta
     Does
       "Du kan inte ta" Say the stol. "."

@@ -691,6 +691,16 @@ static void locateObject(Aword obj, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
+static void executeInheritedEntered(Aint theClass) {
+  if (theClass == 0) return;
+  if (class[theClass].entered)
+    interpret(class[theClass].entered);
+  else
+    executeInheritedEntered(class[theClass].parent);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void locateActor(Aword movingActor, Aword whr)
 {
   Aword previousLocation = current.location;
@@ -720,11 +730,12 @@ static void locateActor(Aword movingActor, Aword whr)
     admin[where(HERO)].visitsCount %= (current.visits+1);
   } else
     admin[whr].visitsCount = 0;
+  current.actor = movingActor;
   if (instance[current.location].entered != 0) {
-    current.actor = movingActor;
     interpret(instance[current.location].entered);
-    current.actor = previousActor;
-  }
+  } else
+    executeInheritedEntered(instance[current.location].parent);
+  current.actor = previousActor;
 
   if (current.actor != movingActor)
     current.location = previousLocation;
@@ -866,6 +877,25 @@ Abool in(Aword theInstance, Aword cnt)
 
 
 
+/*----------------------------------------------------------------------*/
+static void executeInheritedMentioned(Aword theClass) {
+  if (theClass == 0) return;
+
+  if (class[theClass].mentioned)
+    interpret(class[theClass].mentioned);
+  else
+    executeInheritedMentioned(class[theClass].parent);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void mention(Aword id) {
+  if (instance[id].mentioned)
+    interpret(instance[id].mentioned);
+  else
+    executeInheritedMentioned(instance[id].parent);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void saylit(Aword lit)
@@ -905,7 +935,7 @@ static void sayInstance(Aword id)
 	}
 	return;
       }
-  interpret(instance[id].mentioned);
+  mention(id);
 }
 
 
@@ -1005,13 +1035,14 @@ void sayForm(Aword id, SayForm form)
 
 FORWARD void list(Aword cnt);
 
+
 /*----------------------------------------------------------------------*/
 static Boolean inheritedDescriptionCheck(Aint classId)
 {
   if (classId == 0) return TRUE;
   if (!inheritedDescriptionCheck(class[classId].parent)) return FALSE;
-  if (class[classId].checks == 0) return TRUE;
-  return trycheck(class[classId].checks, TRUE);
+  if (class[classId].descriptionChecks == 0) return TRUE;
+  return trycheck(class[classId].descriptionChecks, TRUE);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1127,7 +1158,7 @@ static void describeActor(Aword act)
   else if (haveDescription(act))
     describeAnything(act);
   else {
-    interpret(instance[act].mentioned);
+    mention(act);
     prmsg(M_SEEACT);
     if (instance[act].container != 0)
       describeContainer(act);
@@ -1243,7 +1274,7 @@ void look(void)
   glk_set_style(style_Subheader);
 #endif
 
-  interpret(instance[current.location].mentioned);
+  mention(current.location);
 
 #ifdef GLK
   glk_set_style(style_Normal);

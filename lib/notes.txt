@@ -19,10 +19,10 @@ rest of the library '.i' files so they're automatically added to your game.)
 		-- "My Game" by Fred Smart
 
 		-- add the code from the std.i library to this game
-		$INCLUDE 'std.i'
+		$include 'std.i'
 
 		-- beginning of your game's actual code
-		THE abc ISA LOCATION
+		The abc Isa location
 			etc etc ......
 
 
@@ -101,14 +101,14 @@ DOES statements in your game sourcecode so that the player can use any of
 the different syntaxes.
 
  - eg:
-	THE rock ISA OBJECT AT somewhere
-		DESCRIPTION "etc etc"
+	The rock Isa object At somewhere
+		Description "etc etc"
 
-		VERB examine, look_at, search
-			DOES
+		Verb examine, look_at, search
+			Does
 				"Its a pretty dull rock, actually"
-		END VERB.
-	END THE rock.
+		End Verb.
+	End The rock.
 
 
 The most important of these groups of different-but-equivalent verbs are:
@@ -126,12 +126,14 @@ in particular circumstances or perhaps throughout the whole game.
 
 
 
-named attribute
+Named instances
 ---------------
-The 'named' attribute (defined in global.i) records whether an actor or 
-object has a real 'proper' name or a generic name - eg 'Fred' is a real 
-name, 'the bus-driver' is not a real name. The library uses the attribute to 
-format text messages properly
+
+Instances that have "proper" names, such as actors with names (mr
+Andersson) will have to be handled specially since the default is to
+put an article (definite or indefinite) before printing the
+instance. The way to handle these are to use the predefined class
+"named_actor" which specifies that these articles should be emtpy
 
  - eg: 
 	x fred
@@ -142,16 +144,16 @@ format text messages properly
  should return a phrase with a 'the' added
 	You see nothing unusual about the driver.
 
-By default in std.i, actors are 'named', objects are not.
+For the first case make Fred a named_actor.
 
-If you want an object to have a name you must define two names for that 
-object - the first one with a capital letter for Arun to use when formatting 
-text, the second all in lower case so the player can refer to the object in
-player commands (because all player commands are read as lowercase by the Arun
-game interpreter)
+If you want an object to have a capitalized name you must define its name
+as a quoted identifier.
+
  - eg:
-	THE robot ISA OBJECT AT spaceship NAME 'Floyd' NAME floyd 
+	The robot Isa object At spaceship Name 'Floyd' ...
 
+The player will still be able to refer to it since it is converted to
+lower case before entered into the dictionary of player words.
 
 
 Inventory and Container Capacity Limits
@@ -172,20 +174,20 @@ weight limit of 4 so that even objects of the default size can't be put in
 it.
  -eg:
 
-	the cbox isa object name chocolate box at somewhere
-		is 
-			not closed.
-			closeable.
+    The cbox Isa object Name Chocolate Box At somewhere
+	Is 
+	    Not closed.
+	    closeable.
 
-		container
-			limits
-				count 10 then
-					"You can't put anything more in there." 
-				weight 4 THEN
-					"You cannot fit that item in there."
+	With Container
+	    Limits
+		Count 10 Else
+		    "You can't put anything more in there."
+		weight 4 Else
+		    "You cannot fit that item in there."
 
-		description 
-			"etc etc....
+	Description 
+	    "etc etc....
 
 
 
@@ -195,30 +197,33 @@ By default objects have several attributes that allow the player to
 manipulate the object in various ways. For some objects at a location these 
 verbs (eg push <obj>, etc) may not make any sense. So, for example, make 
 distant but examinable objects not takeable, pushable, touchable, or 
-searchable
+searchable. This is actually already defined in the class "scenery".
  - eg:
 
-	the mountains isa object at somewhere
-		is 
-			not searchable.
-			not takeable.
-			not pushable.
-			not touchable.
+    The mountains Isa scenery At somewhere
 
-		description
-			"From here you can see a range of rugged snow-capped mountains 
-			to the west."
+	Description
+	    "From here you can see a range of rugged snow-capped mountains 
+		to the west."
 
-		verb examine
-			does only
-				describe mountains.
-		end verb.
+	Verb examine
+	    Does Only
+		Describe mountains.
+	End Verb.
 
-	end the mountains.
+    End The mountains.
 
+The mountains will then be:
+
+    Is 
+	Not searchable.
+	Not takeable.
+	Not pushable.
+	Not touchable.
 
 
 
 ============================
 Stephen Griffiths, June 2002
   (sg@xtra.co.nz)
+Updated by Thomas Nilsson Jan 2004
