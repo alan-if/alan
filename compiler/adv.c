@@ -8,7 +8,7 @@
 #include "alan.h"
 
 #include "srcp.h"
-#include "alanList.h"
+#include "lmList.h"
 
 #include "acode.h"
 
@@ -320,7 +320,7 @@ void summary()
 {
   char str[80];
   
-  lmSkip(8);
+  lmSkipLines(8);
   
   lmPrint("");
   lmPrint("        Summary");

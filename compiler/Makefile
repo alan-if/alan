@@ -4,7 +4,7 @@
 
 CPP	= gcc -MM
 
-TMLIB	= $TMHOME/lib/ansi-c
+TMLIB	= $(TMHOME)/lib/ansi-c
 
 #CC	= acc -Xc -vc
 CC	= gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
