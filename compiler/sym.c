@@ -488,7 +488,7 @@ void setParameters(Symbol *verb, List *parameters)
   if (verb == NULL) return;
 
   if (verb->kind != VERB_SYMBOL) {
-    /* Probably a semantic error! */
+    /* Probably a syntactic error! */
     verb->fields.verb.parameterSymbols = NULL;
     return;
     /*    syserr("Not a verb in setParameters()"); */
@@ -670,8 +670,9 @@ static Properties *propertiesOfParentOf(Symbol *s) {return s->fields.entity.pare
 /*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
 {
-  propertiesOf(symbol)->attributes = combineAttributes(propertiesOf(symbol)->attributes,
-						  propertiesOfParentOf(symbol)->attributes);
+  propertiesOf(symbol)->attributes =
+    combineAttributes(propertiesOf(symbol)->attributes,
+		      propertiesOfParentOf(symbol)->attributes);
 }
 
 

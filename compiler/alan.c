@@ -516,11 +516,10 @@ void compile(void) {
     /* Yes, so generate an adventure */
     if (verbose) printf("Generating:");
 #ifdef __MWERKS__
-	_fcreator = 'Arun';
-	_ftype = 'Adat';
+    _fcreator = 'Arun';
+    _ftype = 'Adat';
 #endif
-    if (debugOption)			/* Force debugging */
-      opts[OPTDEBUG].value = TRUE;
+    opts[OPTDEBUG].value = debugOption; /* Debugging enabled? */
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
     start();

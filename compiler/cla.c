@@ -20,6 +20,7 @@
 
 #include "emit.h"
 #include "util.h"
+#include "options.h"
 #include "dump.h"
 #include "lmList.h"
 
@@ -185,6 +186,17 @@ void analyzeClasses(void)
 
 
 /*----------------------------------------------------------------------*/
+static void generateClassData(ClaNod *cla)
+{
+  generateClassPropertiesData(cla->props);
+  if (debugOption) {
+    cla->props->idAddress = emadr();
+    emitString(cla->props->id->string);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateClassEntry(ClaNod *cla)
 {
   ClassEntry entry;
@@ -198,18 +210,12 @@ static void generateClassEntry(ClaNod *cla)
   else
     entry.parent = cla->props->parentId->symbol->code;
 
+  entry.idAddress = cla->props->idAddress;
   entry.checks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
   entry.verbs = cla->props->verbsAddress;
 
   emitEntry(&entry, sizeof(entry));
-}
-
-
-/*----------------------------------------------------------------------*/
-static void generateClassData(ClaNod *cla)
-{
-  generateClassPropertiesData(cla->props);
 }
 
 
@@ -227,6 +233,7 @@ Aaddr generateClasses(void)
   acdHeader.literalClassId = literalSymbol->code;
   acdHeader.integerClassId = integerSymbol->code;
   acdHeader.stringClassId = stringSymbol->code;
+  acdHeader.classMax = classCount;
 
   for (l = allClasses; l; l = l->next)
     generateClassData(l->element.cla);

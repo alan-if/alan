@@ -1,5 +1,12 @@
 The nonLocation
-  Exit w To nonLocation.
+  Exit w To l.
 End The nonLocation.
 
-Start At nonLocation.
+The anotherNonLocation Isa object
+  Exit w To l.
+End The anotherNonLocation.
+
+The l Isa location
+End The l.
+
+Start At l.
