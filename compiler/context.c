@@ -84,16 +84,16 @@ IdNode *classIdInContext(Context *context)
 /*======================================================================*/
 Bool thisIsaContainer(Context *context)
 {
-  Properties *props;
+  Symbol *symbol;
 
   if (context->instance != NULL)
-    props = context->instance->props;
+    symbol = context->instance->props->id->symbol;
   else if (context->class != NULL)
-    props = context->class->props;
+    symbol = context->class->props->id->symbol;
   else
     return FALSE;
 
-  return props->container != NULL;
+  return isContainer(symbol);
 }
 
 

@@ -167,14 +167,16 @@ UNITSRCS = unit.c \
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
+unittests: unit
+	@./unit
+
 .PHONY: unit
 unit : $(TESTOBJS)
 	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
-	@./unit
 
 .PHONY:test
 # Run all tests!
-test : unit
+test : unittests
 	cd testing; regr
 
 #
@@ -226,4 +228,3 @@ alan.version.c:  ../alan.version
 
 #
 include dependencies.mk
-

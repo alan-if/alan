@@ -401,6 +401,7 @@ Bool isContainer(Symbol *symbol) {
       return symbol->fields.parameter.restrictedToContainer
 	|| isContainer(symbol->fields.parameter.class);
     case CLASS_SYMBOL:
+    case INSTANCE_SYMBOL:
       return symbol->fields.entity.props->container != NULL
 	|| isContainer(symbol->fields.entity.parent);
     default:
@@ -660,7 +661,11 @@ static void replicateContainer(Symbol *symbol)
 
   if (propertiesOf(symbol)->container == NULL && propertiesOfParentOf(symbol)->container != NULL) {
     Properties *props = propertiesOf(symbol);
-#ifdef DONT_OPTIMIZE_CONTAINER_BODY_GENERATION
+#define OPTIMIZE_CONTAINER_BODY_GENERATION
+#ifdef OPTIMIZE_CONTAINER_BODY_GENERATION
+    /* Create a new Container Instance and link parents Container */
+    props->container = newContainer(propertiesOfParentOf(symbol)->container->body);
+#else
     /* Create a new Container Instance and copy parents Container Body */
     Properties *parentProps = propertiesOfParentOf(symbol);
     ContainerBody *body = newContainerBody(&parentProps->container->body->srcp,
@@ -670,9 +675,6 @@ static void replicateContainer(Symbol *symbol)
 					   parentProps->container->body->extractChecks,
 					   parentProps->container->body->extractStatements);
     props->container = newContainer(body);
-#else
-    /* Create a new Container Instance and link parents Container */
-    props->container = newContainer(propertiesOfParentOf(symbol)->container->body);
 #endif
     props->container->ownerProperties = props;
   }
