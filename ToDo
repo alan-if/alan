@@ -1,5 +1,15 @@
 ToDo:
 
+	* Think about punctuation! Can it be made optional?
+
+	* Checks on containers to augment limits.
+
+	* New clause in containers to use when extracting something
+	out of the container.
+
+	* More flexiblity in order of clauses, should be possible to
+	be almost completely free.
+
 	* Document how to create floating objects.
 
 	* Change the interpreter to only look at its own name if no
@@ -21,16 +31,13 @@ ToDo:
 	removed from an actor? How to specify if this is possible and what
 	the actor does?
 
+	* Actor conversation al a INFOCOM "floyd, get the card"
+
 	* Procedures!
 
 	* Conversion between 2.6 and 2.7 games (Not really needed)
 
 	* Listing of saved games
-
-	* More flexible syntax inside LOCATION, ACTOR etc. e.g. VERB, EXIT
-	in any order.
-
-	* Clean up the manual with respect to the  MESSAGE-descriptions
 
 	* The VERBDIR problem (check regression test verbdir), using the
 	same word as both a verb and a direction does not work.
@@ -100,4 +107,6 @@ Done:
 	* Presence check after syntax check?
 
 	* If the HERO is redefined mulitple times it does not work well.
+
+	* Clean up the manual with respect to the  MESSAGE-descriptions
 
