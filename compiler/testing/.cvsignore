@@ -1,9 +1,1 @@
-*.acd
-*.dat
-*.diff
-*.lis
-*.output
-*.tmp
-*~
-*.exe.stackdump
-
+*.acd*.dat*.diff*.lis*.output*.tmp*~*.exe.stackdump*.a3c
