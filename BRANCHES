@@ -8,15 +8,14 @@ making of releases, porting and other CM stuff.
 	source files, you can't do a release if they are not (in that
 	case you have to make them...)
 
-	a tag (vXYZ) is set at the current HEAD in the main branch, a
+	A tag (vXYZ) is set at the current HEAD in the main branch, a
 	branch tag is also set here (vXYZ_branch)
 
-	the sources for amiga, pc and linux is prepared for 'shipment'
-	by first setting a tag and a branch tag (vXYZtarget and
-	vXYZtarget_branch) and then packing (or whatever) the sources
-
-	finally the venum is upgraded and committed (the next build
-	will make vX.Y(Z+1))
+	The sources for amiga, pc and linux is prepared for 'shipment'
+	by a branch tag (vXYZtarget). They can then later be packed
+	(or whatever). The file LASTRELEASE will contain the venum of
+	the last released version. Finally the venum is upgraded and
+	committed (the next build will make vX.Y(Z+1))
 
 
 "make <platform>"
