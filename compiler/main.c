@@ -271,7 +271,7 @@ int main(int argc,		/* IN - argument count */
     terminate(EXIT_FAILURE);
   } else if (nArgs > 1)
     terminate(EXIT_FAILURE);
-  
+
   compile();
   return(0);
 }
