@@ -3,7 +3,7 @@
 
 ARCH	= `uname -sr | sed -e "s% %/%g"`
 
-ARCHS	= sun4 solaris2 hp
+ARCHS	= sun4 solaris2 #hp
 VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
 GCC	= gcc
