@@ -33,6 +33,7 @@ OBJECTS = $(VERSIONOBJECTS) alan.version.o
 
 arun.exe : $(OBJECTS)
 	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
+	-mkdir ../bin
 	cp arun.exe ../bin
 
 dumpacd: dumpacd.o reverse.o spa.o
