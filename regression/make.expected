@@ -1,0 +1,30 @@
+########## make ##########
+The room
+  Isa location.
+  Is Not dark.
+  Description
+    "This is a room."
+    If room Is dark Then "It is dark." Else "It is not dark." End If.
+    Make room dark.
+
+  Exit e To room.
+    
+End The room.
+
+Start At room.
+########## alan make.alan ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room. It is not dark.
+
+> e
+Room
+This is a room. It is dark.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
