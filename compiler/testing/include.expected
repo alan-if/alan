@@ -1,0 +1,43 @@
+########## include ##########
+
+
+include.alan
+
+    7.    Include l In nSet Of l.
+=====>            1
+
+  *1*   410 E : Incompatible types in INCLUDE statement. The Set can only
+                contain integer.
+
+    8.    Include l In l.
+=====>                 1
+
+  *1*   330 E : Wrong type of expression in context of INCLUDE statement. Must
+                be of Set type.
+
+    9.    Include l In unknown of l.
+=====>                 1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   10.    Include l In unknown:unknown.
+=====>                 1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   11.    Include l In l:unknown.
+=====>                   1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   12.    Include 4 In iSet Of l.
+=====>            1
+
+  *1*   410 E : Incompatible types in INCLUDE statement. The Set can only
+                contain instances of 'location' and its subclasses.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

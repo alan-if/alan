@@ -56,6 +56,7 @@ BUILDSRCS = \
 	nam.c \
 	opt.c \
 	rul.c \
+	set.c \
 	sco.c \
 	scr.c \
 	srcp.c \

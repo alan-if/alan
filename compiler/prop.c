@@ -137,7 +137,7 @@ static void analyzeName(Properties *props)
 {
   long fpos;
   int len = 0;
-  StmNod *stm;
+  Statement *stm;
 
   if (props->mentioned == NULL) {
     /* FIXME Actually we should not construct a Mentioned, better

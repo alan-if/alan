@@ -37,6 +37,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   SHOW_STATEMENT,
   EMPTY_STATEMENT,
   LOCATE_STATEMENT,
+  INCLUDE_STATEMENT,
   MAKE_STATEMENT,
   SET_STATEMENT,
   INCREASE_STATEMENT,
@@ -75,7 +76,7 @@ typedef struct StmNod {		/* STATEMENT */
     } visits;
 
     struct {			/* for DESCRIBE */
-      Expression *wht;		/* What? */
+      Expression *what;		/* What? */
     } describe;
 
     struct {			/* for SAY */
@@ -92,14 +93,19 @@ typedef struct StmNod {		/* STATEMENT */
     } show;
 
     struct {			/* for EMPTY */
-      Expression *wht;		/* What? */
+      Expression *what;		/* What? */
       Where *where;		/* Where? */
     } empty;
 
     struct {			/* for LOCATE */
-      Expression *wht;		/* What? */
-      Where *whr;		/* Where? */
+      Expression *what;		/* What? */
+      Where *where;		/* Where? */
     } locate;
+
+    struct {			/* for INCLUDE */
+      Expression *what;		/* What? */
+      Expression *set;		/* In which set? */
+    } include;
 
     struct {			/* for MAKE */
       Expression *wht;		/* What? */
@@ -173,7 +179,7 @@ typedef struct StmNod {		/* STATEMENT */
     } strip;
 
   } fields;
-} StmNod;
+} Statement;
 
 
 

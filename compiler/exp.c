@@ -17,6 +17,7 @@
 #include "wht_x.h"
 #include "cnt_x.h"
 #include "lst_x.h"
+#include "set_x.h"
 #include "context_x.h"
 
 #include "lmList.h"
@@ -211,49 +212,6 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *clas
 
 
 /*----------------------------------------------------------------------*/
-Symbol *classOfMembers(Expression *exp)
-{
-  /* Find what classes a Set contains */
-  switch (exp->kind) {
-  case ATTRIBUTE_EXPRESSION:
-    return exp->fields.atr.atr->setClass;
-    break;
-  default:
-    SYSERR("Unexpected Expression kind");
-    break;
-  }
-  return NULL;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void verifySetMember(Expression *theSet, Expression *theMember) {
-
-  switch (theMember->type) {
-  case INTEGER_TYPE: theMember->class = integerSymbol; break;
-  case STRING_TYPE: theMember->class = stringSymbol; break;
-  case INSTANCE_TYPE: break;
-  default: SYSERR("Unexpected member type");
-  }
-  if (theMember->class != NULL)
-    if (!inheritsFrom(theSet->class, theMember->class)) {
-      char *setContentsMessage;
-      char buffer[1000];
-      if (theSet->class != NULL) {
-	if (theSet->class->fields.entity.isBasicType)
-	  setContentsMessage = theSet->class->string;
-	else {
-	  sprintf(buffer, "instances of %s and its subclasses", theSet->class->string);
-	  setContentsMessage = buffer;
-	}
-      } else
-	setContentsMessage = "unknown class";
-      lmLog(&theMember->srcp, 410, sevERR, setContentsMessage);
-    }
-}
-  
-
-/*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {
   Expression *what = exp->fields.whr.wht;
@@ -309,7 +267,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 
   if (where->kind == WHERE_IN && where->what->type == SET_TYPE) {
     where->kind = WHERE_INSET;
-    verifySetMember(where->what, what);
+    verifySetMember(where->what, what, "Set member test");
   }
   exp->type = BOOLEAN_TYPE;
 }

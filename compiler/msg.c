@@ -284,7 +284,7 @@ void prepareMessages(void)
   List *umsgs;			/* Iteration pointer into user messages list */
   List *lst, *rest;
   /* The dummy list of statements */
-  StmNod *stm;
+  Statement *stm;
   List *stms = NULL;
 
   if (sizeof(defmsg)/sizeof(defmsg[0]) != MSGMAX+1)

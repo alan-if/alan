@@ -13,7 +13,7 @@ inSet.alan
 =====>       1
 
   *1*   410 E : Incompatible types in Set member test. The Set can only contain
-                instances of location and its subclasses.
+                instances of 'location' and its subclasses.
 
 
         2 error(s).

@@ -64,8 +64,7 @@ increaseSemantics.alan
    24.      Increase a Of l By b Of l.
 =====>                           1
 
-  *1*   408 E : Expression in INCREASE/DECREASE statement must be of integer
-                type.
+  *1*   408 E : Expression in INCREASE statement must be of integer type.
 
 
         11 error(s).

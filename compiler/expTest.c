@@ -16,12 +16,12 @@ void testVerifySetMember() {
   theSet->type = INTEGER_TYPE;
   theMember->type = INSTANCE_TYPE;
   theMember->class = locationSymbol;
-  verifySetMember(theSet, theMember);
+  verifySetMember(theSet, theMember, "Set member test");
   ASSERT(readEcode() == 410);
 
   theSet->class = locationSymbol;
   theSet->type = INSTANCE_TYPE;
-  verifySetMember(theSet, theMember);
+  verifySetMember(theSet, theMember, "Set member test");
   ASSERT(readEcode() == 0);
 }
 

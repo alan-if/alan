@@ -25,8 +25,11 @@
 
 
 /* Create a new Statement node */
-extern StmNod *newStatement(Srcp *srcp, StmKind class);
-extern StmNod *newDescribeStatement(Srcp srcp, Expression *what);
+extern Statement *newStatement(Srcp *srcp, StmKind class);
+extern Statement *newDescribeStatement(Srcp srcp, Expression *what);
+extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
+extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
+extern Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set);
 
 /* Analyze a list of statements */
 extern void analyzeStatements(List *stms,
@@ -36,7 +39,7 @@ extern void analyzeStatements(List *stms,
 extern void generateStatements(List *stms);
 
 /* Dump a statement node */
-extern void dumpStatement(StmNod *stm);
+extern void dumpStatement(Statement *stm);
 
 
 #endif

@@ -19,6 +19,7 @@
 #include "atr_x.h"
 #include "cnt_x.h"
 #include "exp_x.h"
+#include "set_x.h"
 #include "sym_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
@@ -39,13 +40,13 @@
 
 
 /*======================================================================*/
-StmNod *newStatement(Srcp *srcp, StmKind class)
+Statement *newStatement(Srcp *srcp, StmKind class)
 {
-  StmNod *new;                  /* The newly allocated area */
+  Statement *new;                  /* The newly allocated area */
 
   showProgress();
 
-  new = NEW(StmNod);
+  new = NEW(Statement);
 
   new->srcp = *srcp;
   new->class = class;
@@ -54,31 +55,79 @@ StmNod *newStatement(Srcp *srcp, StmKind class)
 }
 
 /*======================================================================*/
-StmNod *newDescribeStatement(Srcp srcp, Expression *what)
+Statement *newDescribeStatement(Srcp srcp, Expression *what)
 {
-  StmNod *new;                  /* The newly allocated area */
+  Statement *new;                  /* The newly allocated area */
 
   showProgress();
 
   new = newStatement(&srcp, DESCRIBE_STATEMENT);
 
-  new->fields.describe.wht = what;
+  new->fields.describe.what = what;
 
   return(new);
 }
 
 
 
-/*----------------------------------------------------------------------*/
-static void analyzeDescribe(StmNod *stm, Context *context)
+/*======================================================================*/
+Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where)
 {
-  analyzeExpression(stm->fields.describe.wht, context);
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, LOCATE_STATEMENT);
+
+  new->fields.locate.what = what;
+  new->fields.locate.where = where;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, EMPTY_STATEMENT);
+
+  new->fields.empty.what = what;
+  new->fields.empty.where = where;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, INCLUDE_STATEMENT);
+
+  new->fields.include.what = what;
+  new->fields.include.set = set;
+
+  return(new);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeDescribe(Statement *stm, Context *context)
+{
+  analyzeExpression(stm->fields.describe.what, context);
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSay(StmNod *stm, Context *context)
+static void analyzeSay(Statement *stm, Context *context)
 {
   analyzeExpression(stm->fields.say.exp, context);
 
@@ -95,7 +144,7 @@ static void analyzeSay(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeList(StmNod *stm, Context *context)	
+static void analyzeList(Statement *stm, Context *context)	
 {
   analyzeExpression(stm->fields.list.wht, context);
   verifyContainerExpression(stm->fields.list.wht, context, "LIST statement");
@@ -103,10 +152,10 @@ static void analyzeList(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeEmpty(StmNod *stm, Context *context)
+static void analyzeEmpty(Statement *stm, Context *context)
 {
-  analyzeExpression(stm->fields.empty.wht, context);
-  verifyContainerExpression(stm->fields.empty.wht, context, "EMPTY statement");
+  analyzeExpression(stm->fields.empty.what, context);
+  verifyContainerExpression(stm->fields.empty.what, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
   if (stm->fields.empty.where->kind == WHERE_NEAR)
     lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "LOCATE");
@@ -114,12 +163,12 @@ static void analyzeEmpty(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeLocate(StmNod *stm, Context *context)
+static void analyzeLocate(Statement *stm, Context *context)
 {
   Symbol *whtSymbol = NULL;
   Symbol *contentClass = NULL;
-  Expression *what = stm->fields.locate.wht;
-  Where *whr = stm->fields.locate.whr;
+  Expression *what = stm->fields.locate.what;
+  Where *whr = stm->fields.locate.where;
 
   analyzeExpression(what, context);
   if (what->type != ERROR_TYPE) {
@@ -168,7 +217,7 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeMake(StmNod *stm, Context *context)
+static void analyzeMake(Statement *stm, Context *context)
 {
   Expression *wht = stm->fields.make.wht;
   Attribute *atr = NULL;
@@ -181,7 +230,7 @@ static void analyzeMake(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSet(StmNod *stm, Context *context)
+static void analyzeSet(Statement *stm, Context *context)
 {
   Expression *exp = stm->fields.set.exp;
   Expression *wht = stm->fields.set.wht;
@@ -206,7 +255,7 @@ static void analyzeSet(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIncrease(StmNod *stm, Context *context)
+static void analyzeIncrease(Statement *stm, Context *context)
 {
   analyzeExpression(stm->fields.incr.wht, context);
 
@@ -214,13 +263,31 @@ static void analyzeIncrease(StmNod *stm, Context *context)
     analyzeExpression(stm->fields.incr.step, context);
     if (stm->fields.incr.step->type != INTEGER_TYPE
 	&& stm->fields.incr.step->type != ERROR_TYPE)
-      lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression", "INCREASE/DECREASE statement", "integer", NULL);
+      lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
+	     stm->class==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
+	     "integer", NULL);
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSchedule(StmNod *stm, Context *context)
+static void analyzeInclude(Statement *stm, Context *context)
+{
+  Expression *what = stm->fields.include.what;
+  Expression *set = stm->fields.include.set;
+
+  analyzeExpression(what, context);
+  analyzeExpression(set, context);
+  if (set->type != ERROR_TYPE) {
+    if (set->type != SET_TYPE)
+      lmLogv(&set->srcp, 330, sevERR, "Set", "INCLUDE statement", NULL);
+    else
+      verifySetMember(set, what, "INCLUDE statement");
+  }
+}
+
+/*----------------------------------------------------------------------*/
+static void analyzeSchedule(Statement *stm, Context *context)
 {
   Symbol *sym;
 
@@ -253,7 +320,7 @@ static void analyzeSchedule(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeCancel(StmNod *stm) /* IN - The statement to analyze */
+static void analyzeCancel(Statement *stm) /* IN - The statement to analyze */
 {
   Symbol *sym;
 
@@ -262,7 +329,7 @@ static void analyzeCancel(StmNod *stm) /* IN - The statement to analyze */
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIf(StmNod *stm, Context *context)
+static void analyzeIf(Statement *stm, Context *context)
 {
   analyzeExpression(stm->fields.iff.exp, context);
   if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
@@ -274,7 +341,7 @@ static void analyzeIf(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeUse(StmNod *stm, Context *context)
+static void analyzeUse(Statement *stm, Context *context)
 {
   /* Analyze a USE statement. It must refer to a script that is
   defined within the mentioned actor. If the actor is not specified
@@ -324,7 +391,7 @@ static void analyzeUse(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeStop(StmNod *stm, Context *context)
+static void analyzeStop(Statement *stm, Context *context)
 {
   Symbol *sym;
   Expression *exp = stm->fields.stop.actor;
@@ -341,7 +408,7 @@ static void analyzeStop(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeDepend(StmNod *stm, Context *context)
+static void analyzeDepend(Statement *stm, Context *context)
 {
   /* Analyze a DEPENDING statement. It has partial expressions in the
      cases which must be connected to the depend expression. */
@@ -391,7 +458,7 @@ static void analyzeDepend(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeEach(StmNod *stm, Context *context)
+static void analyzeEach(Statement *stm, Context *context)
 {
   Symbol *classSymbol = NULL;
   Symbol *loopSymbol;
@@ -424,7 +491,7 @@ static void analyzeEach(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeShow(StmNod *stm, Context *context)
+static void analyzeShow(Statement *stm, Context *context)
 {
   FILE *imagefile;
 
@@ -437,7 +504,7 @@ static void analyzeShow(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeStrip(StmNod *stm, Context *context)
+static void analyzeStrip(Statement *stm, Context *context)
 {
   if (stm->fields.strip.count != NULL) {
     analyzeExpression(stm->fields.strip.count, context);
@@ -463,7 +530,7 @@ static void analyzeStrip(StmNod *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeStatement(StmNod *stm, Context *context)
+static void analyzeStatement(Statement *stm, Context *context)
 {
   switch (stm->class) {
   case NOP_STATEMENT:
@@ -507,6 +574,9 @@ static void analyzeStatement(StmNod *stm, Context *context)
   case INCREASE_STATEMENT:
   case DECREASE_STATEMENT:
     analyzeIncrease(stm, context);
+    break;
+  case INCLUDE_STATEMENT:
+    analyzeInclude(stm, context);
     break;
   case SCHEDULE_STATEMENT:
     analyzeSchedule(stm, context);
@@ -555,7 +625,7 @@ void analyzeStatements(List *stms,
 
 
 /*----------------------------------------------------------------------*/
-static void generatePrint(StmNod *stm)
+static void generatePrint(Statement *stm)
 {
   /* Generate the code for a PRINT-stm. The text is found and copied
      to the data file (and encoded if requested!). */
@@ -569,7 +639,7 @@ static void generatePrint(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateScore(StmNod *stm)
+static void generateScore(Statement *stm)
 {
   emitConstant(stm->fields.score.count);
   emit0(I_SCORE);
@@ -578,15 +648,15 @@ static void generateScore(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateDescribe(StmNod *stm)
+static void generateDescribe(Statement *stm)
 {
-  generateExpression(stm->fields.describe.wht);
+  generateExpression(stm->fields.describe.what);
   emit0(I_DESCRIBE);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void generateSay(StmNod *stm)
+static void generateSay(Statement *stm)
 {
   generateExpression(stm->fields.say.exp);
   switch (stm->fields.say.exp->type) {
@@ -607,7 +677,7 @@ static void generateSay(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateList(StmNod *stm)
+static void generateList(Statement *stm)
 {
   generateExpression(stm->fields.list.wht);
   emit0(I_LIST);
@@ -615,27 +685,27 @@ static void generateList(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateShow(StmNod *stm)
+static void generateShow(Statement *stm)
 {
   emit2(I_SHOW, stm->fields.show.filename->code, 0);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void generateEmpty(StmNod *stm)
+static void generateEmpty(Statement *stm)
 {
   generateWhere(stm->fields.empty.where);
-  generateExpression(stm->fields.empty.wht);
+  generateExpression(stm->fields.empty.what);
   emit0(I_EMPTY);
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static void generateLocate(StmNod *stm)
+static void generateLocate(Statement *stm)
 {
-  generateWhere(stm->fields.locate.whr);
-  generateExpression(stm->fields.locate.wht);
+  generateWhere(stm->fields.locate.where);
+  generateExpression(stm->fields.locate.what);
   emit0(I_LOCATE);
 }
 
@@ -656,7 +726,7 @@ static void generateLvalue(Expression *exp) {
 
 
 /*----------------------------------------------------------------------*/
-static void generateMake(StmNod *stm)
+static void generateMake(Statement *stm)
 {
   emitConstant(!stm->fields.make.not);
   emitConstant(stm->fields.make.atr->code);
@@ -666,7 +736,7 @@ static void generateMake(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateSet(StmNod *stm)
+static void generateSet(Statement *stm)
 {
   generateLvalue(stm->fields.set.wht);
 
@@ -680,7 +750,7 @@ static void generateSet(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateIncrease(StmNod *stm)
+static void generateIncrease(Statement *stm)
 {
   if (stm->fields.incr.step != NULL)
     generateExpression(stm->fields.incr.step);
@@ -696,7 +766,7 @@ static void generateIncrease(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateSchedule(StmNod *stm)
+static void generateSchedule(Statement *stm)
 {
   generateExpression(stm->fields.schedule.when);
 
@@ -723,7 +793,7 @@ static void generateSchedule(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateCancel(StmNod *stm) /* IN - Statement to generate */
+static void generateCancel(Statement *stm) /* IN - Statement to generate */
 {
   generateId(stm->fields.schedule.id);
   emit0(I_CANCEL);
@@ -731,7 +801,7 @@ static void generateCancel(StmNod *stm) /* IN - Statement to generate */
 
 
 /*----------------------------------------------------------------------*/
-static void generateIf(StmNod *stm)
+static void generateIf(Statement *stm)
 {
   generateExpression(stm->fields.iff.exp);
   emit0(I_IF);
@@ -745,7 +815,7 @@ static void generateIf(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateUse(StmNod *stm)
+static void generateUse(Statement *stm)
 {
   if (stm->fields.use.actorExp == NULL) { /* No actor specified, use current */
     emitConstant(stm->fields.use.script->code);
@@ -760,7 +830,7 @@ static void generateUse(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateStop(StmNod *stm)
+static void generateStop(Statement *stm)
 {
   generateExpression(stm->fields.stop.actor);
   emit0(I_STOP);
@@ -768,7 +838,7 @@ static void generateStop(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateDepend(StmNod *stm)
+static void generateDepend(Statement *stm)
 {
   /* Generate DEPENDING statement.
 
@@ -832,7 +902,7 @@ static void generateDepend(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateEach(StmNod *statement)
+static void generateEach(Statement *statement)
 {
   /* Generate a new FRAME */
   emit1(I_FRAME, 1);		/* One local variable in this block */
@@ -866,7 +936,7 @@ static void generateEach(StmNod *statement)
 }
 
 /*----------------------------------------------------------------------*/
-static void generateStrip(StmNod *stm)
+static void generateStrip(Statement *stm)
 {
   /* First generate the attribute reference for any INTO clause */
   if (stm->fields.strip.into != NULL)
@@ -898,7 +968,7 @@ static void generateStrip(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateSystem(StmNod *stm)
+static void generateSystem(Statement *stm)
 {
   encode(&stm->fields.system.fpos, &stm->fields.system.len);
   emitConstant(stm->fields.system.len);
@@ -909,7 +979,7 @@ static void generateSystem(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateStatement(StmNod *stm)
+static void generateStatement(Statement *stm)
 {
   if ((Bool)opts[OPTDEBUG].value)
     emitLine(stm->srcp);
@@ -1045,7 +1115,7 @@ void generateStatements(List *stms)
 
 
 /*======================================================================*/
-void dumpStatement(StmNod *stm)
+void dumpStatement(Statement *stm)
 {
   if (stm == NULL) {
     put("NULL");
@@ -1086,6 +1156,9 @@ void dumpStatement(StmNod *stm)
     break;
   case EMPTY_STATEMENT:
     put("EMPTY ");
+    break;
+  case INCLUDE_STATEMENT:
+    put("INCLUDE ");
     break;
   case SCHEDULE_STATEMENT:
     put("SCHEDULE ");
@@ -1163,7 +1236,7 @@ void dumpStatement(StmNod *stm)
       put("score: "); dumpInt(stm->fields.score.score);
       break;
     case DESCRIBE_STATEMENT:
-      put("wht: "); dumpExpression(stm->fields.describe.wht);
+      put("wht: "); dumpExpression(stm->fields.describe.what);
       break;
     case SAY_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.say.exp); nl();
@@ -1173,12 +1246,16 @@ void dumpStatement(StmNod *stm)
       put("wht: "); dumpExpression(stm->fields.list.wht);
       break;
     case EMPTY_STATEMENT:
-      put("wht: "); dumpExpression(stm->fields.empty.wht); nl();
+      put("wht: "); dumpExpression(stm->fields.empty.what); nl();
       put("whr: "); dumpWhere(stm->fields.empty.where);
       break;
     case LOCATE_STATEMENT:
-      put("wht: "); dumpExpression(stm->fields.locate.wht); nl();
-      put("whr: "); dumpWhere(stm->fields.locate.whr);
+      put("wht: "); dumpExpression(stm->fields.locate.what); nl();
+      put("whr: "); dumpWhere(stm->fields.locate.where);
+      break;
+    case INCLUDE_STATEMENT:
+      put("wht: "); dumpExpression(stm->fields.include.what); nl();
+      put("set: "); dumpExpression(stm->fields.include.set);
       break;
     case MAKE_STATEMENT:
       put("wht: "); dumpExpression(stm->fields.make.wht); nl();
