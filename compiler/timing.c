@@ -2,6 +2,7 @@
 
 #include <time.h>
 #ifdef __sun__
+#include <sys/times.h>
 #endif
 
 #include "sysdep.h"
@@ -21,7 +22,7 @@ TIBUFP tb;
 #endif
 {
 #ifdef MULTI
-    times(tb);
+    times((struct tms *)tb);
     tb->pu_start = tb->proc_user_time;
     tb->cu_start = tb->child_user_time;
 #endif
@@ -42,7 +43,7 @@ TIBUFP tb;
 #endif
 {
 #ifdef MULTI
-    times(tb);
+    times((struct tms *)tb);
     tb->pu_elapsed = TICK * (tb->proc_user_time - tb->pu_start);
     tb->cu_elapsed = TICK * (tb->child_user_time - tb->cu_start);
 #endif
