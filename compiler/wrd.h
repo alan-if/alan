@@ -15,7 +15,7 @@
 
 /* TYPES: */
 
-typedef struct WrdNod {		/* DICTIONARY ENTRY */
+typedef struct WordNode {	/* DICTIONARY ENTRY */
   int classbits;		/* Class of this entry as a bit in the set */
   int code;			/* Code for the word */
   char *str;			/* Name of this entry */
@@ -23,7 +23,7 @@ typedef struct WrdNod {		/* DICTIONARY ENTRY */
   Aaddr stradr;			/* ACODE address to string */
   Aaddr nounrefadr;		/* ACODE address to reference table */
   Aaddr adjrefadr;		/* ACODE address to reference table */
-  struct WrdNod *low, *high;	/* Links */
-} WrdNod;
+  struct WordNode *low, *high;	/* Links */
+} WordNode;
 
 #endif

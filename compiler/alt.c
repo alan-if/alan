@@ -66,7 +66,7 @@ static void analyzeAlternative(AltNod *alt,
 
   if (alt->id != NULL) {
     /* Alternatives given, find out for which parameter this one is */
-    parameter = findParameter(alt->id, context->verb->fields.verb.parameterSymbols);
+    parameter = lookupParameter(alt->id, context->verb->fields.verb.parameterSymbols);
     if (parameter == NULL)
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
     else {

@@ -198,7 +198,6 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr article;		/* Address of article code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
-  Aaddr scripts;		/* Address of scripts */
 } InstanceEntry;
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
@@ -280,6 +279,8 @@ typedef struct AcdHdr {
   Aword theHero;		/* The hero instance code (id) */
   Aaddr containerTableAddress;
   Aword containerMax;
+  Aaddr scriptTableAddress;
+  Aword scriptMax;
   Aaddr eventTableAddress;
   Aword eventMax;
   Aaddr syntaxTableAddress;

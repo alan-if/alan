@@ -108,6 +108,7 @@ void dumpWhat(What *wht)
   case WHAT_LOCATION: put("LOCATION"); break;
   case WHAT_ACTOR: put("ACTOR"); break;
   case WHAT_ID: put("ID "); break;
+  case WHAT_THIS: put("THIS"); break;
   default: put("*** ERROR ***"); break;
   }
   nl();

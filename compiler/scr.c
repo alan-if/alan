@@ -24,6 +24,8 @@
 #include "dump.h"
 
 
+static int scriptCode = 0;		/* Numbering code */
+static List *allScripts;
 
 
 /*======================================================================
@@ -45,8 +47,11 @@ Script *newScript(Srcp *srcp,
 
   new->srcp = *srcp;
   new->id = id;
+  new->id->code = ++scriptCode;
   new->description = description;
   new->steps = steps;
+
+  allScripts = concat(allScripts, new, SCRIPT_LIST);
 
   return(new);
 }
@@ -60,22 +65,19 @@ Script *newScript(Srcp *srcp,
   Prepare scripts for this actor (i.e. number them)
 
   */
-void prepareScripts(List *scrs, Instance *ins)
+void prepareScripts(List *scrs, IdNode *id)
 {
   List *lst;
   List *scrlst;
-  int code = 0;			/* Numbering code */
 
   if (scrs == NULL) return;
 
-  /* Look for redefinition of script names and give numbers to scripts */
+  /* Look for redefinition of script names */
   for (lst = scrs; lst != NULL; lst = lst->next) {
-    lst->element.scr->id->code = ++code;
-
     /* Any multiple of this name ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
       if (equalId(lst->element.scr->id, scrlst->element.scr->id))
-	lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->props->id->string);
+	lmLog(&scrlst->element.scr->srcp, 403, sevERR, id->string);
     }
   }
 }
@@ -95,8 +97,10 @@ void analyzeScripts(List *scripts, Context *context)
   if (scripts == NULL) return;
 
   /* Error if defined for HERO */
-  if (scripts != NULL && context->instance->props->id->symbol == theHero)
+  if (context->instance != 0) {
+    if (scripts != NULL && context->instance->props->id->symbol == theHero)
       lmLog(&scripts->element.scr->srcp, 411, sevWAR, "Script");
+  }
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
@@ -121,16 +125,17 @@ static Aaddr generateScriptDescription(Script *script)
   return address;
 }
 
+
 /*======================================================================*/
-Aword generateScripts(List *scripts)
+Aaddr generateScripts(AcdHdr *header)
 {
   List *lst;
-  Aword scradr;
+  Aaddr scriptTableAddress;
   ScriptEntry entry;
 
-  if (scripts == NULL) return 0;
+  if (allScripts == NULL) return 0;
 
-  for (lst = scripts; lst != NULL; lst = lst->next) {
+  for (lst = allScripts; lst != NULL; lst = lst->next) {
     lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps);
     lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr);
     lst->element.scr->stringAddress = emadr();
@@ -138,8 +143,8 @@ Aword generateScripts(List *scripts)
   }
 
   /* Script table */
-  scradr = emadr();
-  for (lst = scripts; lst != NULL; lst = lst->next) {
+  scriptTableAddress = emadr();
+  for (lst = allScripts; lst != NULL; lst = lst->next) {
     entry.stringAddress = lst->element.scr->stringAddress;
     entry.code = lst->element.scr->id->code;
     entry.description = lst->element.scr->descriptionAddress;
@@ -147,9 +152,8 @@ Aword generateScripts(List *scripts)
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
-  return(scradr);
+  return(scriptTableAddress);
 }
-
 
 
 /*======================================================================

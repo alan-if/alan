@@ -16,6 +16,7 @@
 #include "id.h"
 #include "atr.h"
 #include "context.h"
+#include "scr.h"
 
 
 /* DATA: */
@@ -40,7 +41,7 @@ extern void initSymbols(void);
 extern Symbol *newSymbol(IdNode *id,
 			 SymbolKind kind);
 
-/* Check if an Id exists in this contest and if so if of an allowed kind */
+/* Check if an Id exists in this context and if so if of an allowed kind */
 extern Symbol *symcheck(
     IdNode *id,
     SymbolKind kind,
@@ -50,12 +51,14 @@ extern Symbol *symcheck(
 /* Lookup a symbol, check in parameters first */
 extern Symbol *lookup(char idString[]);
 
+extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
+
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
 extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
-extern Symbol *findParameter(IdNode *parameterId, List *parameterSymbols);
+extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
 extern void setParameters(Symbol *verb, List *parameters);
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);

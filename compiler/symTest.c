@@ -240,6 +240,47 @@ void testCreateClassSymbol()
   unitAssert(inheritsFrom(sym, obj));
 }
 
+static void testLookupScript()
+{
+  Symbol *classSymbol;
+  Symbol *instanceSymbol;
+  IdNode *notAScriptId = newId(&nulsrcp, "notAScript");
+  IdNode *script1Id = newId(&nulsrcp, "script1");
+  IdNode *script2Id = newId(&nulsrcp, "script2");
+  IdNode *script3Id = newId(&nulsrcp, "script3");
+  IdNode *script4Id = newId(&nulsrcp, "script4");
+  Script script1 = {{0,0,0}, script1Id};
+  Script script2 = {{0,0,0}, script2Id};
+  Script script3 = {{0,0,0}, script3Id};
+  Script script4 = {{0,0,0}, script4Id};
+  List *classScripts;
+  List *instanceScripts;
+
+  initAdventure();
+  classSymbol = newSymbol(newId(&nulsrcp, "aClass"), CLASS_SYMBOL);
+  instanceSymbol = newSymbol(newId(&nulsrcp, "anInstance"), INSTANCE_SYMBOL);
+  setParent(instanceSymbol, classSymbol);
+  classScripts = concat(NULL, &script1, SCRIPT_LIST);
+  classScripts = concat(classScripts, &script2, SCRIPT_LIST);
+  instanceScripts = concat(NULL, &script3, SCRIPT_LIST);
+  instanceScripts = concat(instanceScripts, &script4, SCRIPT_LIST);
+
+  classSymbol->fields.entity.props = NEW(Properties);
+  classSymbol->fields.entity.props->scripts = classScripts;
+  instanceSymbol->fields.entity.props = NEW(Properties);
+  instanceSymbol->fields.entity.props->scripts = instanceScripts;
+
+  unitAssert(lookupScript(classSymbol, notAScriptId) == NULL);
+  unitAssert(lookupScript(classSymbol, script1Id) == &script1);
+  unitAssert(lookupScript(classSymbol, script2Id) == &script2);
+
+  unitAssert(lookupScript(instanceSymbol, notAScriptId) == NULL);
+  unitAssert(lookupScript(instanceSymbol, script1Id) == &script1);
+  unitAssert(lookupScript(instanceSymbol, script2Id) == &script2);
+  unitAssert(lookupScript(instanceSymbol, script3Id) == &script3);
+  unitAssert(lookupScript(instanceSymbol, script4Id) == &script4);
+}
+
 
 void registerSymUnitTests()
 {
@@ -252,5 +293,6 @@ void registerSymUnitTests()
   registerUnitTest(testSymbolTableInit);
   registerUnitTest(testCreateClassSymbol);
   registerUnitTest(testVerbSymbols);
+  registerUnitTest(testLookupScript);
 }
 

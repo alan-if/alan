@@ -169,6 +169,7 @@ void analyzeProps(Properties *props, Context *context)
 
   if (props->scripts && !inheritsFrom(props->id->symbol, actorSymbol))
     lmLog(&props->id->srcp, 353, sevERR, props->id->string);
+  prepareScripts(props->scripts, props->id);
   analyzeScripts(props->scripts, context);
 }
 
@@ -196,7 +197,6 @@ void generateClassPropertiesData(Properties *props)
     emit0(C_STMOP, I_RETURN);
   }
 
-  props->scriptsAddress = generateScripts(props->scripts);
   props->verbsAddress = generateVerbs(props->verbs);
   props->exitsAddress = generateExits(props->exits);
 }
@@ -232,7 +232,6 @@ void generateInstancePropertiesData(Properties *props)
   } else
     emit(0);
 
-  props->scriptsAddress = generateScripts(props->scripts);
   props->verbsAddress = generateVerbs(props->verbs);
   props->exitsAddress = generateExits(props->exits);
 }
@@ -261,7 +260,6 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   entry->article = props->articleAddress;
   entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
-  entry->scripts = props->scriptsAddress;
 }
 
 

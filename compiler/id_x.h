@@ -18,11 +18,14 @@
 
 
 /* METHODS: */
-
 extern IdNode *newId(Srcp *srcp, char str[]);
 extern Bool equalId(IdNode *id1, IdNode *id2);
 extern void symbolizeId(IdNode *id);
 extern void generateId(IdNode *id);
 extern void dumpId(IdNode *id);
 #endif
+
+
+
+
 

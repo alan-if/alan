@@ -221,14 +221,8 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 
 
 
-/*======================================================================
-
-  anatrs()
-
-  Analyze a list of attributes.
-
- */
-void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
+/*======================================================================*/
+void analyzeAttributes(List *atrs)
 {
   List *al;
 

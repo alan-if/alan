@@ -216,7 +216,7 @@ void initSymbols()
 }
 
 
-/*======================================================================
+/*----------------------------------------------------------------------
 
   lookupInParameterList()
 
@@ -233,12 +233,9 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
   return NULL;
 }
 
-/*======================================================================
 
-  findParameter()
-
-*/
-Symbol *findParameter(IdNode *parameterId, List *parameterSymbols)
+/*======================================================================*/
+Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
 {
   List *p;
 
@@ -303,6 +300,7 @@ Symbol *lookupInContext(char *idString, Context *context)
       break;
     case EVENT_CONTEXT:
     case RULE_CONTEXT:
+    case CLASS_CONTEXT:
     case INSTANCE_CONTEXT:
       foundSymbol = lookup(idString);
       break;
@@ -318,15 +316,26 @@ Symbol *lookupInContext(char *idString, Context *context)
 }
 
 
+/*======================================================================*/
+Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
+{
+  List *scripts = theSymbol->fields.entity.props->scripts;
+
+  while (theSymbol != NULL) {
+    scripts = theSymbol->fields.entity.props->scripts;
+    while (scripts != NULL) {
+      if (equalId(scriptName, scripts->element.scr->id))
+	return scripts->element.scr;
+      scripts = scripts->next;
+    }
+    theSymbol = parentOf(theSymbol);
+  }
+
+  return NULL;
+}
 
 
-/*======================================================================
-
-  setParent()
-
-  Set the parent of a Class Symbol to be another Symbol
-
-  */
+/*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
@@ -335,13 +344,7 @@ void setParent(Symbol *child, Symbol *parent)
 }
 
 
-/*======================================================================
-
-  parentOf()
-
-  Get the parent of a Class Symbol
-
-  */
+/*======================================================================*/
 Symbol *parentOf(Symbol *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
@@ -613,11 +616,23 @@ static void replicateContainer(Symbol *symbol)
 
 
 /*----------------------------------------------------------------------*/
+static void replicateScripts(Symbol *symbol)
+{
+  /* The parent may and may not have scripts. Any of those should be
+  accessible from the current instance, however if it is overridden it
+  should use the local version. So we simply lookup scripts using the
+  parental chain. This means that an instance only have the local
+  scripts in its list. So there is nothing to do here. */
+}
+
+
+/*----------------------------------------------------------------------*/
 static void replicate(Symbol *symbol)
 {
   if (haveParent(symbol)) {
     replicateAttributes(symbol);
     replicateContainer(symbol);
+    replicateScripts(symbol);
   }
 }
 

@@ -117,7 +117,7 @@ static void analyzeRestriction(
   Symbol *parameter;
   Context *context = newContext(VERB_CONTEXT);
 
-  parameter = findParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
+  parameter = lookupParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
 

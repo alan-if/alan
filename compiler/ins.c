@@ -92,17 +92,14 @@ Instance *newInstance(Srcp *srcp,	/* IN - Source Position */
 
   /* Note instance name in the dictionary */
   if (new->props->names == NULL)		/* Use the object name */
-    newwrd(new->props->id->string, WRD_NOUN, new->props->id->code, new);
+    newWord(new->props->id->string, WRD_NOUN, new->props->id->code, new);
   else {
     for (nameList = new->props->names; nameList != NULL; nameList = nameList->next) {
       for (list = nameList->element.lst; list->next != NULL; list = list->next)
-	newwrd(list->element.id->string, WRD_ADJ, 0, new);
-      newwrd(list->element.id->string, WRD_NOUN, list->element.id->code, new);
+	newWord(list->element.id->string, WRD_ADJ, 0, new);
+      newWord(list->element.id->string, WRD_NOUN, list->element.id->code, new);
     }
   }
-
-  prepareScripts(new->props->scripts, new);
-
   return(new);
 }
 

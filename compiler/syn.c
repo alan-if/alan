@@ -62,8 +62,8 @@ void ansyns(void)
 {
   List *lst;		/* Traversal pointer for target list */
   List *slst;		/* Traversal pointer for synonyms lists */
-  WrdNod *wrd;		/* Target word */
-  WrdNod *swrd;		/* Synonym word */
+  WordNode *wrd;		/* Target word */
+  WordNode *swrd;		/* Synonym word */
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
     showProgress();
@@ -77,7 +77,7 @@ void ansyns(void)
         if (swrd != NULL && (swrd->classbits&(1L<<WRD_SYN)))
 	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
 	else
-          newwrd(slst->element.id->string, WRD_SYN, 0, (void *) wrd);
+          newWord(slst->element.id->string, WRD_SYN, 0, (void *) wrd);
       }
   }
 }

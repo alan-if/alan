@@ -16,6 +16,7 @@
 #include "context_x.h"
 #include "ins_x.h"
 #include "lst_x.h"
+#include "scr_x.h"
 #include "srcp_x.h"
 #include "stm_x.h"
 #include "stx_x.h"
@@ -181,6 +182,9 @@ void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
 
   if (verbose) printf("\n\tContainers: ");
   acdHeader.containerTableAddress = generateContainers(&acdHeader);
+
+  if (verbose) printf("\n\tScripts: ");
+  acdHeader.scriptTableAddress = generateScripts(&acdHeader);
 
   if (verbose) printf("\n\tEvents: ");
   acdHeader.eventTableAddress = generateEvents(&acdHeader);

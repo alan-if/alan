@@ -1744,7 +1744,7 @@ static Boolean traceActor(int theActor)
 */
 static char *scriptName(int theActor, int theScript)
 {
-  ScriptEntry *scriptEntry = addrTo(instance[theActor].scripts);
+  ScriptEntry *scriptEntry = addrTo(header->scriptTableAddress);
 
   while (theScript > 1) {
     scriptEntry++;
@@ -1780,7 +1780,7 @@ static void moveActor(theActor)
     parse();
     fail = FALSE;			/* fail only aborts one actor */
   } else if (admin[theActor].script != 0) {
-    for (scr = (ScriptEntry *) addrTo(instance[theActor].scripts); !endOfTable(scr); scr++) {
+    for (scr = (ScriptEntry *) addrTo(header->scriptTableAddress); !endOfTable(scr); scr++) {
       if (scr->code == admin[theActor].script) {
 	/* Find correct step in the list by indexing */
 	step = (StepEntry *) addrTo(scr->steps);

@@ -23,11 +23,12 @@ verify()
     then
 	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
 	then
+	    ok=`expr $ok + 1`
 	    echo -n "[K"
 	    rm $case.output
 	else
 	    failed=`expr $failed + 1`
-	    echo "FAILED!!!"
+	    echo "*** FAILED!!! ***"
 	fi
     else if [ -f $case.suspended ]
     then
@@ -41,6 +42,7 @@ verify()
 }
 
 cases=0
+ok=0
 failed=0
 suspended=0
 new=0
@@ -90,8 +92,8 @@ then
   then
     echo All $cases OK!
   else
-    echo rest OK!
+    echo $ok OK!
   fi
 else
-  echo "*** $failed failed! ***"
+  echo "*** $failed FAILED! ***"
 fi

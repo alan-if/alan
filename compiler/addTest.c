@@ -36,6 +36,7 @@ static void testMultipleAddAttribute()
   AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
 
   Symbol *aSymbol = lookup("aClassId");
+
   unitAssert(length(aSymbol->fields.entity.props->attributes) == 0);
 
   addAttributes(add1, aSymbol);

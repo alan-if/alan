@@ -6,32 +6,42 @@
 run ()
 {
     echo -n "$case : "
-    echo "########## alan $case ##########" >$case.output
-    ../alan -include ../../lib $case >>$case.output 2>&1
-    cases=`expr $cases + 1`
-    if [ -f $case.a3c ] ; then rm $case.a3c ; fi
+    if [ ! -f $case.suspended ]
+    then
+	echo "########## alan $case ##########" >$case.output
+	../alan -include ../../lib $case >>$case.output 2>&1
+	cases=`expr $cases + 1`
+    fi
 }
 
 verify()
 {
     if [ -f $case.expected ]
     then
-	if diff -q -b $case.output $case.expected 1> /dev/null
+	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
 	then
+	    ok=`expr $ok + 1`
 	    echo -n "[K"
 	    rm $case.output
 	else
 	    failed=`expr $failed + 1`
-	    echo "failed!"
+	    echo "*** FAILED!!! ***"
 	fi
+    else if [ -f $case.suspended ]
+    then
+	suspended=`expr $suspended + 1`
+	echo "Suspended..."
     else
 	new=`expr $new + 1`
 	echo "NEW!"
     fi
+    fi
 }
 
 cases=0
+ok=0
 failed=0
+suspended=0
 new=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
@@ -47,6 +57,18 @@ if [ $# != 0 ] ; then
     fi
   done
 else
+  for d in *; do
+    if [ -d $d ]
+    then
+	if [ -f $d/regr ]
+	then
+	    echo "Recursing: $d"
+	    cd $d; regr; cd ..
+	    echo "Leaving: $d"
+	fi
+    fi
+  done
+
   for f in *.alan ; do
     case=`basename $f .alan`
     run
@@ -57,15 +79,18 @@ if test $new -ne 0
 then
   echo -n "$new new, "
 fi
+if test $suspended -ne 0
+then
+  echo -n "$suspended suspended, "
+fi
 if test $failed -eq 0
 then
   if test $new -eq 0
   then
     echo All $cases OK!
   else
-    echo rest OK!
+    echo $ok OK!
   fi
 else
-  echo "*** $failed failed! ***"
+  echo "*** $failed FAILED! ***"
 fi
-

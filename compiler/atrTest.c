@@ -18,7 +18,7 @@ void testMultipleAtr()
   attributeList = concat(attributeList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), ATTRIBUTE_LIST);
 
   readEcode();
-  anatrs(attributeList);
+  analyzeAttributes(attributeList);
   unitAssert(readEcode() == 218 && readSev() == sevERR);
 }
 

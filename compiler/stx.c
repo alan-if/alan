@@ -229,7 +229,7 @@ Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
  */
 static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
 {
-  WrdNod *wrd;
+  WordNode *wrd;
   List *lst = NULL;
   List *elements = NULL;            /* A list of parallell elms-lists */
 

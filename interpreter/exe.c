@@ -1159,7 +1159,7 @@ static void describeActor(act)
   ScriptEntry *scr = NULL;
 
   if (admin[act].script != 0) {
-    for (scr = (ScriptEntry *) addrTo(instance[act].scripts); !endOfTable(scr); scr++)
+    for (scr = (ScriptEntry *) addrTo(header->scriptTableAddress); !endOfTable(scr); scr++)
       if (scr->code == admin[act].script)
 	break;
     if (endOfTable(scr)) scr = NULL;

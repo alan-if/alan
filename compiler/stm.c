@@ -444,9 +444,8 @@ static void analyzeUse(StmNod *stm,
 		       Context *context)
 {
   Symbol *sym;
-  List *lst;
-  List *scripts = NULL;
-  IdNode *id = NULL;
+  Script *script;
+  IdNode *actorId = NULL;
 
   if (stm->fields.use.actor == NULL && context->instance != NULL)
     lmLog(&stm->srcp, 401, sevERR, "");
@@ -457,29 +456,21 @@ static void analyzeUse(StmNod *stm,
       if (sym) {
 	if (sym->kind == PARAMETER_SYMBOL)
 	  lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
-	else {
-	  scripts = sym->fields.entity.props->scripts;
-	  id = sym->fields.entity.props->id;
-	}
+	actorId = sym->fields.entity.props->id;
       }
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
 	syserr("Unexpected context in analyzeUse()");
-      scripts = context->instance->props->scripts;
-      id = context->instance->props->id;
+      actorId = context->instance->props->id;
     }
 
-    /* Loop over actors scripts to check if script is defined */
-    for (lst = scripts; lst != NULL; lst = lst->next) {
-      if (equalId(lst->element.scr->id, stm->fields.use.script)) {
-	stm->fields.use.scriptno = lst->element.scr->id->code;
-	break;		/* Found it so break loop */
-      }
-    }
-    if (lst == NULL)
-      lmLog(&stm->fields.use.script->srcp, 400, sevERR, id->string);
-
-  }
+    /* Find the script */
+    script = lookupScript(actorId->symbol, stm->fields.use.script);
+    if (script != NULL)
+      stm->fields.use.scriptno = script->id->code;
+    else
+      lmLog(&stm->fields.use.script->srcp, 400, sevERR, actorId->string);
+  }  
 }  
 
 

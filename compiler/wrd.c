@@ -26,8 +26,8 @@ int words[WRD_CLASSES+1];
 
 
 /* Private: */
-static WrdNod *wrdtree = NULL;
-static WrdNod *lwrd;	/* The last word found by findwrd() */
+static WordNode *wrdtree = NULL;
+static WordNode *lwrd;	/* The last word found by findwrd() */
 
 
 /*======================================================================
@@ -37,9 +37,9 @@ static WrdNod *lwrd;	/* The last word found by findwrd() */
   Look for a word in the dictionary.
 
   */
-WrdNod *findwrd(char *str)	/* IN - The string */
+WordNode *findwrd(char *str)	/* IN - The string */
 {
-  WrdNod *wrd;			/* Traversal pointers */
+  WordNode *wrd;			/* Traversal pointers */
   int comp = 1;			/* Result of comparison */
 
   wrd = wrdtree;
@@ -77,18 +77,18 @@ static Bool findReference(Instance *ref, List *referenceList)
 
 /*======================================================================
 
-  newwrd()
+  newWord()
 
-  Creates a new wrdnod and links it in the wrdtree.
+  Creates a new WordNode and links it in the wrdtree.
 
   */
-int newwrd(char *str,		/* IN - Name of the new word */
-	   WrdKind class,	/* IN - and its class */
-	   int code,		/* IN - and code */
-	   Instance *ref)		/* IN - The entity nodes it refers to */
+int newWord(char *str,		/* IN - Name of the new word */
+	    WrdKind class,	/* IN - and its class */
+	    int code,		/* IN - and code */
+	    Instance *ref)	/* IN - The entity nodes it refers to */
 {
-  WrdNod *new;			/* The newly created wrdnod */
-  WrdNod *wrd;			/* The wrdnod found in dictionary */
+  WordNode *new;			/* The newly created wrdnod */
+  WordNode *wrd;			/* The wrdnod found in dictionary */
 
   if (str == NULL)
     return 0;
@@ -107,7 +107,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
     return wrd->code;
   }
 
-  new = NEW(WrdNod);
+  new = NEW(WordNode);
 
   new->classbits = 1L<<class;
   new->str = str;
@@ -152,27 +152,27 @@ void prepwrds(void)
   /* Some words in the dictionary */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
-    newwrd("go", WRD_NOISE, 0, NULL);
-    newwrd("the", WRD_NOISE, 0, NULL);
-    newwrd("them", WRD_THEM, 0, NULL);
-    newwrd("except", WRD_BUT, 0, NULL);
-    newwrd("it", WRD_IT, 0, NULL);
-    newwrd("but", WRD_BUT, 0, NULL);
-    newwrd("and", WRD_CONJ, 0, NULL);
-    newwrd("all", WRD_ALL, 0, NULL);
-    newwrd("everything", WRD_ALL, 0, NULL);
-    newwrd("then", WRD_CONJ, 0, NULL);
+    newWord("go", WRD_NOISE, 0, NULL);
+    newWord("the", WRD_NOISE, 0, NULL);
+    newWord("them", WRD_THEM, 0, NULL);
+    newWord("except", WRD_BUT, 0, NULL);
+    newWord("it", WRD_IT, 0, NULL);
+    newWord("but", WRD_BUT, 0, NULL);
+    newWord("and", WRD_CONJ, 0, NULL);
+    newWord("all", WRD_ALL, 0, NULL);
+    newWord("everything", WRD_ALL, 0, NULL);
+    newWord("then", WRD_CONJ, 0, NULL);
     break;
   case L_SWEDISH:
-    newwrd("gå", WRD_NOISE, 0, NULL);
-    newwrd("dem", WRD_THEM, 0, NULL);
-    newwrd("utom", WRD_BUT, 0, NULL);
-    newwrd("den", WRD_IT, 0, NULL);
-    newwrd("det", WRD_IT, 0, NULL);
-    newwrd("förutom", WRD_BUT, 0, NULL);
-    newwrd("och", WRD_CONJ, 0, NULL);
-    newwrd("allt", WRD_ALL, 0, NULL);
-    newwrd("alla", WRD_ALL, 0, NULL);
+    newWord("gå", WRD_NOISE, 0, NULL);
+    newWord("dem", WRD_THEM, 0, NULL);
+    newWord("utom", WRD_BUT, 0, NULL);
+    newWord("den", WRD_IT, 0, NULL);
+    newWord("det", WRD_IT, 0, NULL);
+    newWord("förutom", WRD_BUT, 0, NULL);
+    newWord("och", WRD_CONJ, 0, NULL);
+    newWord("allt", WRD_ALL, 0, NULL);
+    newWord("alla", WRD_ALL, 0, NULL);
     break;
   default:
     syserr("unrecognized language in prepwrds()");
@@ -189,7 +189,7 @@ void prepwrds(void)
   defined to be of multiple word classes that we want to warn about.
 
 */
-void anwrd(WrdNod *wrd)
+void anwrd(WordNode *wrd)
 {
 #define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
 #define ISASYNONYM(w) HASBIT(WRD_SYN, (w))
@@ -242,7 +242,7 @@ static int refidx;
   Generate reference lists for all entries in the Dictionary.
 
   */
-static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
+static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
 {
   List *lst;
   
@@ -283,7 +283,7 @@ static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
   Generate strings for all entries in the dictionary.
 
   */
-static void gewrdstr(WrdNod *wrd) /* IN - Word to generate for */
+static void gewrdstr(WordNode *wrd) /* IN - Word to generate for */
 {
   if (wrd == NULL)
     return;
@@ -310,7 +310,7 @@ static void gewrdstr(WrdNod *wrd) /* IN - Word to generate for */
   the dictionary.
 
   */
-static void gewrdent(WrdNod *wrd) /* IN - The word to generate an entry for */
+static void gewrdent(WordNode *wrd) /* IN - The word to generate an entry for */
 {
   if (wrd->low != NULL)
     gewrdent(wrd->low);
@@ -321,10 +321,10 @@ static void gewrdent(WrdNod *wrd) /* IN - The word to generate an entry for */
   emit(wrd->stradr);
   if (wrd->classbits == (1L<<WRD_SYN)) {
     /* If it is a synonym generate same as for original but mark as synonym */
-    emit(((WrdNod *)wrd->ref[WRD_SYN])->classbits|(1L<<WRD_SYN));
-    emit(((WrdNod *)wrd->ref[WRD_SYN])->code);
-    emit(((WrdNod *)wrd->ref[WRD_SYN])->adjrefadr);
-    emit(((WrdNod *)wrd->ref[WRD_SYN])->nounrefadr);
+    emit(((WordNode *)wrd->ref[WRD_SYN])->classbits|(1L<<WRD_SYN));
+    emit(((WordNode *)wrd->ref[WRD_SYN])->code);
+    emit(((WordNode *)wrd->ref[WRD_SYN])->adjrefadr);
+    emit(((WordNode *)wrd->ref[WRD_SYN])->nounrefadr);
   } else {
     emit(wrd->classbits);
     emit(wrd->code);

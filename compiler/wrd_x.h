@@ -24,10 +24,10 @@ extern int words[];
 /* FUNCTIONS: */
 
 /* Find a Word in the dictonary */
-extern WrdNod *findwrd(char str[]);
+extern WordNode *findwrd(char str[]);
 
 /* Insert a Word into the dictionary */
-extern int newwrd(char wrd[],
+extern int newWord(char wrd[],
 		  WrdKind class,
 		  int code,
 		  Instance *ref);

@@ -5,25 +5,25 @@ Verb z
     ""
 End Verb z.
 
-Actor torbjörn At l
+The torbjörn Isa actor At l
 
   Script swimming.
     Step
       "Swimming."
-      Use script 12 For torbjörn.
+      Use script s12 For torbjörn.
  
- Script 12.
+ Script s12.
    Step
      "Doing 12."
 
-  Script 33.
+  Script s33.
     Step
       "Doing 33."
 
-End Actor.
+End The.
 
-Location l
-End Location.
+The l Isa location
+End The l.
 
 Start at l.
-  Use script swimming for torbjörn.
+  Use Script swimming For torbjörn.

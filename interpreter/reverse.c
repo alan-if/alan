@@ -291,7 +291,6 @@ static void reverseInstances(adr)
       reverseStms(e->description);
       reverseExits(e->exits);
       reverseVerbs(e->verbs);
-      reverseScrs(e->scripts);
       e++;
     }
   }
@@ -481,6 +480,7 @@ void reverseACD(v2_5)
   reverseVerbs(header->verbTableAddress);
   reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);
+  reverseScrs(header->scriptTableAddress);
   reverseContainers(header->containerTableAddress);
   reverseEvts(header->eventTableAddress);
   reverseRuls(header->ruleTableAddress);
