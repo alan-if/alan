@@ -369,7 +369,6 @@ Aaddr geelms(elms, stx)
       /* This partition was at end of syntax */
       if (part->next != NULL) /* More than one element in this partition? */
 	/* That means that two syntax's are the same */
-	/* 4f_ni - Log err message for equal syntax */
 	lmLog(&stx->srcp, 334, sevWAR, "");
       entry->code = EOS;	/* End Of Syntax */
       /* Point to the generated class restriction table */

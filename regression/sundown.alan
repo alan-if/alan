@@ -41,8 +41,8 @@ VERB z
   DOES
     ""
 END VERB z.
-LOCATION place
 
+LOCATION place
 END LOCATION.
 
 SYNTAX eat = eat.
