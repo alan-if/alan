@@ -4,8 +4,8 @@
 GCC	= gcc
 CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
-INCLUDE	= -I$(HOME)/include
-CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
+INCLUDE	= -I/usr/local/include/ansi -I$(HOME)/include
+CC	= $(GCC) -ansi -pedantic -Wall
 
 CFLAGS	= $(DEBUG) $(INCLUDE)
 
@@ -13,10 +13,13 @@ LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
 
 LDFLAGS = $(LQ) -lreadline -ltermcap -L$(HOME)/lib/`arch`
-sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
-sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
-solaris2 := LDFLAGS = $(LQ) -lreadline -ltermcap -lucb -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 
+sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
+
+sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
+
+solaris2 := LDFLAGS = $(LQ) -lreadline -ltermcap -lc -lucb -L$(HOME)/lib/`arch`
+solaris2 := INCLUDE=-I/usr/include -I$(HOME)/include
 
 tcov := CC = acc -a
 tcov := LD = acc -a

@@ -1,3 +1,48 @@
+From maths.nott.ac.uk!aoh@piaggio.maths.nott.ac.uk Sat Feb 19 11:58:59 1994
+Return-Path: <maths.nott.ac.uk!aoh@piaggio.maths.nott.ac.uk>
+From: "Professor A O'Hagan" <aoh@maths.nott.ac.uk>
+Date: Sat, 19 Feb 94 10:46:21 GMT
+To: thoni@softlab.se
+Subject: ALAN bug?
+Content-Length: 12715
+
+Dear Thomas,
+
+Thank you for your latest message.  I have not had time to think about
+the questions you asked yet, but will do some time!
+
+This time I am sending you what seems to me to be a bug.  The file at the
+end of this message is part of an adventure I have been working on.
+Compile and run it, and you will start in the "cellar".  Then "open the door"
+and go "north".  As you go through the north exit from the cellar, an event
+"gorilla_kill" is scheduled.  If you don't cancel this by giving the
+banana to the gorilla, this event is triggered, then event "wakeup" then
+happens immediately and a "quit" occurs.  But when you run the adventure,
+you should find that when "gorilla_kill" occurs no messages are printed out.
+(Both "gorilla_kill" and "wakeup" should generate messages.)  You just
+get the question (new in version 2.5) whether you want to restart.
+
+There is another way for "gorilla_kill" to  be triggered.  After you "give
+banana to gorilla" the gorilla gets hungry again after a while.  If you are
+still in the "cage", or go back in, there is no way to escape and 
+"gorilla_kill" is inevitable.  If "gorilla_kill" is triggered in this way,
+the messages do get printed and everything works fine.
+
+It seems to me that there is a bug in ALAN which causes the messages to be
+missed when "gorilla_kill" happens one way, but not the other.  Of course,
+it may be my program, but I cannot see why!  Can you check this out for me
+please?
+
+Best wishes,
+
+Tony O'Hagan
+
+(Yes, A is for Anthony, which is shortened to Tony.  You are the same, Thoni!)
+
+Here is the file: it is straight from DOS, hence the extra ^M at end of
+every line.  I haven't worked out how to get my editor on the Sun to delete
+them!
+
 -------------------------------------------------------------------------------------
 --
 --  This is the main ALICE file.  Is $INCLUDEs other
@@ -261,7 +306,7 @@ LOCATION cellar NAME wine cellar
 	EXIT n TO cage
 		CHECK cage_door IS NOT closed ELSE "The door is closed"
 		DOES IF gorilla IS NOT fed THEN 
-			SCHEDULE gorilla_kill AT cage AFTER 6.
+			SCHEDULE gorilla_kill AFTER 6.
 		END IF.
 	END EXIT n.
 	EXIT e TO bolt_hole.

@@ -1,10 +1,6 @@
 /* time.c */
 
 #include <time.h>
-#ifdef __sun__
-#include <sys/times.h>
-#endif
-
 #include "sysdep.h"
 #include "timing.h"
 

@@ -55,7 +55,7 @@ extern ElmNod *newelm(Srcp *srcp,
 extern List *anelms(List *elms, List *ress, StxNod *stx);
 
 /* Generate code for a list of Syntax elements */
-extern Aaddr geelms(List *elms);
+extern Aaddr geelms(List *elms, StxNod *stx);
 
 /* Dump a Syntax node */
 extern void duelm(ElmNod *elm);

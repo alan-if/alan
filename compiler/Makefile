@@ -88,17 +88,18 @@ VMSLINKOBJS = ${SRCS:.c=}
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov release all: alan alan.prod Makefile
+debug tcov release all: objarch alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
 sun3 solaris2 hp: objarch fromsrc
 
 objarch:
-	@if test `cat .arch` != `arch`; then \
-	    \rm *.o; \
+	if test -f .arch; then :; else echo "none" > .arch; fi
+	if test `cat .arch` != `arch`; then \
+	    rm *.o; \
+	    echo `arch` > .arch; \
 	fi
-	@echo `arch` > .arch
 
 alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -108,22 +109,22 @@ src: tm sysdep.h sysdep.c acode.h version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 
 tm: .pmkstamp .smkstamp .lmkstamp
 
 .lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
 	lmk $(LMKQ) alan
-	@touch .lmkstamp
+	touch .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp
 	pmk $(PMKQ) alan
-	@touch .pmkstamp
+	touch .pmkstamp
 
 .smkstamp : .pmkstamp alan.smk alan.voc $(TMLIB)/Scan.imp
 	smk $(SMKQ) alan
-	@touch .smkstamp
+	touch .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
@@ -170,7 +171,7 @@ alan.prod: alan.pml
 #- Other machines
 
 savetm:
-	@if test -f alan.tmk.orig; then \
+	if test -f alan.tmk.orig; then \
 	    echo "There is already an original!"; \
 	    exit 1; \
 	fi
@@ -227,41 +228,41 @@ clean:
 	-rm core *~ *.zoo *.bak *.lzh
 
 #--
-#FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
+#FILETER = | sed -e "\,/usr/, d" -e "s,./,," | sort -u 
 FILETER =
 depend: dependencies.mk. Makefile.amiga Makefile.dos # alan.make
 
 dependencies.mk.:
-	@echo "Updating dependencies.mk!"
-	@echo > dependencies.mk
-	@for f in *.c; \
+	echo "Updating dependencies.mk!"
+	echo > dependencies.mk
+	for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
 
 Makefile.amiga: dependencies.mk Makefile
-	@echo Updating Makefile.amiga!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
+	echo Updating Makefile.amiga!
+	sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
+	echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
 Makefile.dos: dependencies.mk Makefile
-	@echo Updating Makefile.dos!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cp "#Makefile.tmp#" Makefile.dos
-	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
+	echo Updating Makefile.dos!
+	sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
+	echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	cp "#Makefile.tmp#" Makefile.dos
+	sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
 
 alan.make: dependencies.mk
-	@echo Updating alan.make!
-	@echo !Automagically created makefile for Alan compiler on VMS > alan.make
-	@echo CQ=/STANDARD=PORTABLE >> alan.make
-	@echo OBJECTS = $(VMSOBJECTS) >> alan.make
-	@echo >> alan.make
-	@cat dependencies.mk >> alan.make
-	@echo >> alan.make
-	@echo alan.exe : "#(OBJECTS)" version.obj >> alan.make
-	@/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
-	@/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
+	echo Updating alan.make!
+	echo !Automagically created makefile for Alan compiler on VMS > alan.make
+	echo CQ=/STANDARD=PORTABLE >> alan.make
+	echo OBJECTS = $(VMSOBJECTS) >> alan.make
+	echo >> alan.make
+	cat dependencies.mk >> alan.make
+	echo >> alan.make
+	echo alan.exe : "#(OBJECTS)" version.obj >> alan.make
+	/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
+	/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
 
 include dependencies.mk
