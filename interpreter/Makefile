@@ -13,7 +13,7 @@ debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(GCC)
-LDFLAGS	= $(LQ)
+LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
 
 VERSIONFILE = [0-9]*_[0-9]*_[0-9]*
 

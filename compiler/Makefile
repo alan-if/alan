@@ -155,7 +155,7 @@ MSDOS:
 	mv -f alan.tmk.sun alan.tmk
 
 version.c + version.h: ../$(VERSIONFILE)
-	@-cd ..; sh version.sh
+	@-cd ..; rm $(VERSIONFILE); sh version.sh
 	@-rm $(VERSIONFILE)
 	@cp ../$(VERSIONFILE) .
 	venum -c
