@@ -1,0 +1,17 @@
+########## InheritInstance ##########
+../compiler/alan InheritInstance
+########## /bin/sh  InheritInstance.tst ##########
+
+
+InheritInstance.alan
+
+   1.   Every c1 Isa THING, i1
+====>                       1
+
+  *1*   300 E : 'i1' not defined as a class.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,15 @@
+Every c1 Isa 'actor'
+  Script s1.
+    Step ""
+End Every c1.
+
+Every c2 Isa 'actor'
+  Script s1.
+    Step ""
+End Every c2.
+
+Every c12 Isa c1, c2
+End Every c12.
+
+Start At c12.
+

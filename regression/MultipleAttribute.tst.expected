@@ -1,0 +1,22 @@
+########## MultipleAttribute ##########
+../compiler/alan MultipleAttribute
+########## /bin/sh  MultipleAttribute.tst ##########
+
+
+MultipleAttribute.alan
+
+   3.     Has thingy "thing".
+====>         1
+
+  *1*   218 E : Multiple definition of attribute 'thingy'.
+
+   6.   Start At c1.
+====>            1
+
+  *1*   300 E : 'c1' not defined as an instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

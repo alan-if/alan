@@ -1,0 +1,17 @@
+########## OneThing ##########
+../compiler/alan OneThing
+########## /bin/sh  OneThing.tst ##########
+
+
+OneThing.alan
+
+   4.   START AT ball.
+====>            1
+
+  *1*   223 E : 'ball' does not inherit the 'location' class.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

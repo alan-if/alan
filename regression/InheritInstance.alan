@@ -1,0 +1,8 @@
+Every c1 Isa THING, i1
+End Every c1.
+
+The i1 Isa THING
+End The i1.
+
+Start At i1.
+

@@ -1,0 +1,17 @@
+########## ScriptMismatch ##########
+../compiler/alan ScriptMismatch
+########## /bin/sh  ScriptMismatch.tst ##########
+
+
+ScriptMismatch.alan
+
+  14.   Start At c12.
+====>            1
+
+  *1*   300 E : 'c12' not defined as an instance.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

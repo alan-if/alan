@@ -1,0 +1,17 @@
+########## OneClass ##########
+../compiler/alan OneClass
+########## /bin/sh  OneClass.tst ##########
+
+
+OneClass.alan
+
+   4.   START AT room.
+====>            1
+
+  *1*   300 E : 'room' not defined as an instance.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+
