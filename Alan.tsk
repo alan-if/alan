@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>306.89</origest>
-<currest>305.89</currest>
-<elapsed>147.89</elapsed>
+<origest>307.89</origest>
+<currest>306.89</currest>
+<elapsed>148.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>49</origest>
-<currest>49</currest>
-<elapsed>13</elapsed>
+<origest>50</origest>
+<currest>50</currest>
+<elapsed>14</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
-<elapsed>13</elapsed>
+<origest>15</origest>
+<currest>15</currest>
+<elapsed>14</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -129,6 +129,16 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow reading player input from file</desc>
+<notes>A '@' as the first character will make the interpreter read the rest of the line as a file name. It tries to open that file and read lines from it one at a time, as if the player had input them.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Bug: Aggregates does not work</desc>
 <notes>Should they only address objects as it says in the docs? No, probably it should have a class restriction as an optional clause and object as a default.</notes>
 <priority>2</priority>
@@ -195,6 +205,15 @@ Could not repeat this!</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Add "Batch input" to WinGLK menu</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Default save name in WinArun should be basename of game</desc>
 <notes/>
 <priority>2</priority>
@@ -251,15 +270,6 @@ DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
  =2 : RESTART.
  =3 : QUIT.
 END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Move sysdep et.al to a common directory</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -578,7 +578,8 @@ Boolean readline(char usrbuf[])
     if (!fgets(buffer, 255, commandFile)) {
       fclose(commandFile);
       readingCommands = FALSE;
-    }
+    } else
+      printf(buffer);
   } else {
     fflush(stdout);
     bufidx = 0;
@@ -598,8 +599,10 @@ Boolean readline(char usrbuf[])
 
     if (buffer[0] == '@')
       if ((commandFile = fopen(&buffer[1], "r")) != NULL)
-	if (fgets(buffer, 255, commandFile))
+	if (fgets(buffer, 255, commandFile)) {
 	  readingCommands = TRUE;
+	  printf(buffer);
+	}
   }
   strcpy(usrbuf, (char *)buffer);  
   return TRUE;

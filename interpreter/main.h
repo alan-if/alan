@@ -98,6 +98,7 @@ extern void output(char string[]);
 extern void prmsg(MsgKind msg);
 extern void para(void);
 extern void newline(void);
+extern void logPrint(char string[]);
 
 extern Boolean eot(Aword *adr);
 extern Boolean isObj(Aword x);
