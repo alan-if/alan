@@ -455,6 +455,7 @@ static void simple(olst)
       if (lstlen(pmlst) == 0)
 	error(M_WHAT_THEM);
       lstcpy(olst, pmlst);
+      olst[0].firstWord = EOF;	/* No words used */
       wrdidx++;
     } else {
       unambig(olst);		/* Look for unambigous noun phrase */
@@ -501,7 +502,7 @@ static void complex(olst)
     plural = TRUE;
     buildall(alst);		/* Build list of all objects */
     wrdidx++;
-    if (isBut(wrds[wrdidx])) {
+    if (wrds[wrdidx] != EOF && isBut(wrds[wrdidx])) {
       wrdidx++;
       simple(olst);
       if (lstlen(olst) == 0)
