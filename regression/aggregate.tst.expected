@@ -1,5 +1,5 @@
 ########## aggregate ##########
-alan aggregate.alan
+alan aggregate
 arun aggregate < aggregate.input
 ########## /bin/sh  aggregate.tst ##########
 

@@ -1,2 +1,2 @@
-alan pack.alan
+alan pack
 arun pack < pack.input

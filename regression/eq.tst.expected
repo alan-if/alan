@@ -1,0 +1,23 @@
+########## eq ##########
+alan eq
+arun eq < eq.input
+########## /bin/sh  eq.tst ##########
+
+        No warnings or errors detected.
+        4 informational message(s).
+
+Different.
+
+
+L.
+There is a a and a b here.
+
+> Different.
+
+> Same.
+
+> Same.
+
+> 
+
+Do you want to restart (y) ? 

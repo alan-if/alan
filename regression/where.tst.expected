@@ -1,0 +1,20 @@
+########## where ##########
+alan where
+arun where < where.input
+########## /bin/sh  where.tst ##########
+
+
+where.alan
+
+  16.     locate an_object at integer_parameter.
+====>                         1
+
+  *1*   312 E : Parameter not uniquely defined as an Object or an Actor or a
+        Location, which is required.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+
+where.tst: where.input: No such file or directory

@@ -1,2 +1,2 @@
-alan vastspace.alan
+alan vastspace
 arun vastspace < vastspace.input

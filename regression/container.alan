@@ -1,0 +1,29 @@
+Options
+    Debug.
+
+Object Attributes
+    open.
+
+Syntax
+    put_in = 'put' (o) 'in' (c)
+	Where c Isa Container
+	    Else "You can't put anything in the $2."
+
+Verb put_in
+    Check c Is open
+	Else "It isn't open."
+    Does
+	Locate o in c.
+End Verb.
+
+
+Object cont At l
+    Container
+End Object.
+
+
+Location l
+End Location.
+
+
+Start At l.

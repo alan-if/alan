@@ -1,0 +1,37 @@
+########## random ##########
+alan random
+arun random < random.input
+########## /bin/sh  random.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+'r' to generate a random number.
+
+
+L.
+
+> 4
+
+> 5
+
+> 4
+
+> 1
+
+> 6
+
+> 5
+
+> 10
+
+> 3
+
+> 4
+
+> 7
+
+> 
+
+Do you want to restart (y) ? 

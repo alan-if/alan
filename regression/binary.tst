@@ -1,2 +1,2 @@
-alan binary.alan
+alan binary
 arun binary < binary.input

@@ -1,0 +1,29 @@
+########## example ##########
+alan example
+arun example < example.input
+########## /bin/sh  example.tst ##########
+
+        No warnings or errors detected.
+        4 informational message(s).
+
+
+
+Bright_place.
+
+> You already have it.
+
+> Dropped.
+
+> Taken.
+
+> Dark_place.
+
+> You can't aim in the dark.
+
+> Bright_place.
+
+> Dropped. The nice vase flies into billions of pieces.
+
+> 
+
+Do you want to restart (y) ? 

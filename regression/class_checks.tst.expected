@@ -1,5 +1,5 @@
 ########## class_checks ##########
-alan class_checks.alan
+alan class_checks
 arun class_checks < class_checks.input
 ########## /bin/sh  class_checks.tst ##########
 

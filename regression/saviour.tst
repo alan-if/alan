@@ -1,2 +1,2 @@
-alan saviour.alan
+alan saviour
 arun saviour < saviour.input

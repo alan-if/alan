@@ -1,0 +1,90 @@
+########## score ##########
+alan score
+arun score < score.input
+########## /bin/sh  score.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+> You have scored 0 points out of 10.
+
+> Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? Event.
+
+> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? 
+> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+<More>Enter file name to save in (r) : That file already exists, overwrite (y) ? 
+> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+Enter file name to save in (r) : That file already exists, overwrite (y) ? 
+> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+Enter file name to save in (r) : That file already exists, overwrite (y) ? 
+<More>> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+Enter file name to save in (r) : That file already exists, overwrite (y) ? 
+> 
+
+Do you want to restart (y) ? 
+Try 's' for save, 'r' for restore and 'f' to show score, to see if scores
+are saved correctly.
+
+
+L.
+hej
+
+Enter file name to save in (r) : That file already exists, overwrite (y) ? 
+> 
+<More>
+
+Do you want to restart (y) ? 

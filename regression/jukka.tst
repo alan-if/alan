@@ -1,2 +1,2 @@
-alan jukka.alan
+alan jukka
 arun jukka < jukka.input

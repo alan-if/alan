@@ -1,0 +1,31 @@
+########## params ##########
+alan params
+arun params < params.input
+########## /bin/sh  params.tst ##########
+
+
+params.alan
+
+   1.   SYNTAX p = a (a) b (a).
+====>                       1
+
+  *1*   216 E : Parameter 'a' multiply defined in this SYNTAX.
+
+   8.       if a = p then
+====>              1
+
+  *1*   311 E : Must refer to an Object or a Container or an Actor or an
+        Integer or a String or a Location.
+
+  10.       elsif x = y then
+====>             1   2
+
+  *1*   310 E : Identifier 'x' not defined.
+  *2*   310 E : Identifier 'y' not defined.
+
+
+        4 error(s).
+        No detected warnings.
+        4 informational message(s).
+
+params.tst: params.input: No such file or directory

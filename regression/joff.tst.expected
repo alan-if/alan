@@ -1,0 +1,23 @@
+########## joff ##########
+alan joff
+arun joff < joff.input
+########## /bin/sh  joff.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Northeast of fence.
+You are standing on a barren patch of ground between the woods, which are
+to the east and north of you, and the corner of a high wire fence. The
+fence stretches away to the west and south. The fence is empty. A tartan
+rug (perhaps left by forgetful picnicers ?) lies here.
+
+> Taken
+
+Done.
+
+> 
+
+Do you want to restart (y) ? 

@@ -1,2 +1,2 @@
-alan slott.alan
+alan slott
 arun slott < slott.input

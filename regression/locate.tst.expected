@@ -1,0 +1,46 @@
+########## locate ##########
+alan locate
+arun locate < locate.input
+########## /bin/sh  locate.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Try 'locate obj'.
+
+
+Location_id.
+There is a obj here.
+
+> Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+
+Location_id.
+There is a obj here.
+<More>
+Location_id.
+There is a obj here.
+
+> 
+
+Do you want to restart (y) ? 

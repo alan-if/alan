@@ -1,5 +1,5 @@
 ########## iso ##########
-alan iso.alan
+alan iso
 arun iso < iso.input
 ########## /bin/sh  iso.tst ##########
 

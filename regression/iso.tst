@@ -1,2 +1,2 @@
-alan iso.alan
+alan iso
 arun iso < iso.input

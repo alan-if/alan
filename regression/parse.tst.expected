@@ -1,5 +1,5 @@
 ########## parse ##########
-alan parse.alan
+alan parse
 arun parse < parse.input
 ########## /bin/sh  parse.tst ##########
 

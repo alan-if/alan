@@ -1,0 +1,36 @@
+########## rules ##########
+alan rules
+arun rules < rules.input
+########## /bin/sh  rules.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+This test will execute 100000 rules...
+
+
+L.
+A1 is here. A2 is here. A3 is here. A4 is here. A5 is here. A6 is here. A7 
+is here. A8 is here. A9 is here. A10 is here. A11 is here. A12 is here. 
+A13 is here. A14 is here. A15 is here. A16 is here. A17 is here. A18 is
+here. A19 is here. A120 is here. A121 is here. A122 is here. A123 is here. 
+A124 is here. A125 is here. A126 is here. A127 is here. A128 is here. A129 
+is here. A130 is here. A131 is here. A132 is here. A133 is here. A134 is
+here. A135 is here. A136 is here. A137 is here. A138 is here. A139 is
+here. A140 is here. A141 is here. A142 is here. A143 is here. A144 is
+here. A145 is here. A146 is here. A147 is here. A148 is here. A149 is
+here. A150 is here. A151 is here. A152 is here. A153 is here. A154 is
+here. A155 is here. A156 is here. A157 is here. A158 is here. A159 is
+here. A160 is here. A161 is here. A162 is here. A163 is here. A164 is
+here. A165 is here. A166 is here. A167 is here. A168 is here. A169 is
+here. A170 is here. A171 is here. A172 is here. A173 is here. A174 is
+here. A175 is here. A176 is here. A177 is here. A178 is here. A179 is
+here. A180 is here. A181 is here. A182 is here. A183 is here. A184 is
+here. A185 is here. A186 is here. A187 is here. A188 is here. A189 is
+here. A190 is here. A191 is here. A192 is here. A193 is here. A194 is
+here. A195 is here. A196 is here. A197 is here. A198 is here. A199 is
+<More>here. A1100 is here.
+
+> 
+
+Do you want to restart (y) ? 

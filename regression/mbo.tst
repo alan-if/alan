@@ -1,2 +1,2 @@
-alan mbo.alan
+alan mbo
 arun mbo < mbo.input

@@ -1,0 +1,48 @@
+take box
+drop box
+list box
+put box in box
+l
+take paper
+drop paper
+list paper
+put paper in box
+l
+take ball
+drop ball
+list ball
+put ball in box
+l
+
+take box
+drop box
+list box
+put box in paper
+l
+take paper
+drop paper
+list paper
+put paper in paper
+l
+take ball
+drop ball
+list ball
+put ball in paper
+l
+
+take box
+drop box
+list box
+put box in ball
+l
+take paper
+drop paper
+list paper
+put paper in ball
+l
+take ball
+drop ball
+list ball
+put ball in ball
+l
+

@@ -1,2 +1,2 @@
-alan jungle.alan
+alan jungle
 arun jungle < jungle.input

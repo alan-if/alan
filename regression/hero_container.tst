@@ -1,2 +1,2 @@
-alan hero_container.alan
+alan hero_container
 arun hero_container < hero_container.input

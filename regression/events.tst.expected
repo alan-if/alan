@@ -1,0 +1,31 @@
+########## events ##########
+alan events
+arun events < events.input
+########## /bin/sh  events.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Loc.
+
+> Happens every turn.
+
+> Happens every 2. Happens every turn.
+
+> Happens every turn.
+
+> Happens every 2. Happens every turn.
+
+> Happens every turn.
+
+> Happens every 2. Happens every turn.
+
+> Happens every turn.
+
+> Happens every 2. Happens every turn.
+
+> 
+
+Do you want to restart (y) ? 

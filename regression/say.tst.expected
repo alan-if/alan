@@ -1,0 +1,11 @@
+########## say ##########
+alan say
+arun say < say.input
+########## /bin/sh  say.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+1 45 Hello! string
+
+Do you want to restart (y) ? 

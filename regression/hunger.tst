@@ -1,2 +1,2 @@
-alan hunger.alan
+alan hunger
 arun hunger < hunger.input

@@ -1,5 +1,5 @@
 ########## pack ##########
-alan pack.alan
+alan pack
 arun pack < pack.input
 ########## /bin/sh  pack.tst ##########
 

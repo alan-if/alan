@@ -1,0 +1,15 @@
+Syntax q = 'quit'.
+Synonyms q = 'quit'.
+Verb q
+  Does
+    Quit.
+End Verb.
+
+Location Same
+  Description
+    "This is the same Location."
+  Exit w To Same.
+End Location.
+
+Start At Same.
+  Visits 3.

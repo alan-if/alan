@@ -1,2 +1,2 @@
-alan time.alan
+alan time
 arun time < time.input

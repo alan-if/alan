@@ -1,2 +1,2 @@
-alan parse.alan
+alan parse
 arun parse < parse.input

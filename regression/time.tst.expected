@@ -1,5 +1,5 @@
 ########## time ##########
-alan time.alan
+alan time
 arun time < time.input
 ########## /bin/sh  time.tst ##########
 
