@@ -1,6 +1,7 @@
 Fri Nov 10 15:53:37 1995  Thomas Nilsson  <thoni@rabbit>
 
-	* Introduced user definable messages. 
+	* Introduced user definable messages. This caused introduction of
+	a new reserved word: MESSAGE, which may cause some incompatibilities
 
 
 Tue Sep 26 21:05:10 1995  Thomas Nilsson  <thoni@rabbit>
@@ -19,6 +20,8 @@ Tue Sep 26 21:05:10 1995  Thomas Nilsson  <thoni@rabbit>
 	objects that require it (those whos name start with a vowel
 	sound). For objects that doesn't need an article define an empty
 	ARTICLE clause.
+
+	It also means that their is now a new reserved word ARTICLE.
 
 	It is also now possible to define the ARTICLE, MENTIONED and
 	DESCRIPTION on objects in any order.
