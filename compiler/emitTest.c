@@ -13,7 +13,7 @@ void testEmit()
   int expectedAddress;
   Aword emitTestArray[5] = {1, 2, 3, 4, 5};
 
-  initEmit("unit.a3c");
+ initEmit("unit.a3c");
 
   expectedAddress = emadr();
 

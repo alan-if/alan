@@ -123,9 +123,10 @@ static void reverseHdr(AcdHdr *hdr)
 static void loadACD(char fileName[])
 {
   AcdHdr tmphdr;
-  FILE *acdFile = fopen(fileName, "r");
+  int readSize = 0;
+  FILE *acdFile = fopen(fileName, "rb");
 
-  fread(&tmphdr, sizeof(tmphdr), 1, acdFile);
+  readSize = fread(&tmphdr, 1, sizeof(tmphdr), acdFile);
 
 #ifdef REVERSED
   reverseHdr(&tmphdr);
