@@ -1,0 +1,28 @@
+########## busstop ##########
+alan busstop
+arun busstop < busstop.input
+########## /bin/sh  busstop.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+At the Bus Stop.
+A car drives by. There is a bus and a sign here. Martha is here.
+
+> examine the car
+You can not examine the car.
+
+> examine the bus
+The bus is red. ... and stopped at the bus stop.
+
+> examine the sign
+There is nothing special about it.
+
+> examine martha
+Martha resents being scrutinized in that way.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
