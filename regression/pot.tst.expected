@@ -5,13 +5,12 @@ arun pot < pot.input
 
 
 
-        320 W : Word 'plant' belongs to multiple word classes.
-        320 W : Word 'pot' belongs to multiple word classes.
-        320 W : Word 'plant' belongs to multiple word classes.
+        320 W : Word 'plant' belongs to multiple word classes (adjective and
+                verb).
 
 
         No detected errors.
-        3 warning(s).
+        1 warning(s).
         2 informational message(s).
 
 

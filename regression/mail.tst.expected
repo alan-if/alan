@@ -3,13 +3,7 @@ alan mail
 arun mail < mail.input
 ########## /bin/sh  mail.tst ##########
 
-
-
-        320 W : Word 'mail' belongs to multiple word classes.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         2 informational message(s).
 
 

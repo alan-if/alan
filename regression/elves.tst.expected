@@ -3,15 +3,7 @@ alan elves -include ../lib
 arun elves < elves.input
 ########## /bin/sh  elves.tst ##########
 
-
-
-        320 W : Word 'boy' belongs to multiple word classes.
-        320 W : Word 'girl' belongs to multiple word classes.
-        320 W : Word 'u' belongs to multiple word classes.
-
-
-        No detected errors.
-        3 warning(s).
+        No warnings or errors detected.
         1 informational message(s).
 
 

@@ -3,13 +3,7 @@ alan oil
 arun oil < oil.input
 ########## /bin/sh  oil.tst ##########
 
-
-
-        320 W : Word 'oil' belongs to multiple word classes.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         1 informational message(s).
 
 

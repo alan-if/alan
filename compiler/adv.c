@@ -155,6 +155,8 @@ void anadv(void)
 
   if (adv.stms != NULL)
     anstms(adv.stms, NULL, NULL, NULL);
+
+  anwrds();
 }
 
 

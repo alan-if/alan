@@ -82,14 +82,8 @@ int newwrd(char *str,		/* IN - Name of the new word */
   /* Find the word if it exists */
   wrd = findwrd(str);
   if (wrd != NULL) {
-    if ((1L<<class)&(~wrd->classbits)) { /* Multiple word classes */
-      if (class==WRD_SYN || ((1L<<WRD_SYN)&wrd->classbits))
-	lmLog(NULL, 333, sevERR, str);
-      else
-	lmLog(NULL, 320, sevWAR, str);
-      wrd->classbits |= 1L<<class;
-    }
     /* Add another reference */
+    wrd->classbits |= 1L<<class;
     wrd->ref[class] = concat(wrd->ref[class], ref, REFNOD);
     if (wrd->code == -1)
       /* It was previously without a code */
@@ -168,6 +162,57 @@ void prepwrds(void)
     syserr("unrecognized language in prepwrds()");
     break;
   }
+}
+
+
+/*----------------------------------------------------------------------
+
+  anwrd()
+
+  Analyze one word in the dictionary to find any words that are
+  defined to be of multiple word classes that we want to warn about.
+
+*/
+void anwrd(WrdNod *wrd)
+{
+#define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
+#define ISASYNONYM(w) HASBIT(WRD_SYN, (w))
+#define ISADIRECTION(w) HASBIT(WRD_DIR, (w))
+#define ISAVERB(w) HASBIT(WRD_VRB, (w))
+#define ISAADJECTIVE(w) HASBIT(WRD_ADJ, (w))
+
+  if (wrd == NULL) return;
+
+  anwrd(wrd->low);
+
+  if (ISASYNONYM(wrd->classbits) && (~(1L<<WRD_SYN))&wrd->classbits)
+    /* Synonyms can not be of any other class */
+    lmLog(NULL, 333, sevERR, wrd->str);
+
+  else if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
+    /* Directions and verbs don't work as expected */
+    lmLogv(NULL, 320, sevWAR, wrd->str, "direction", "verb", NULL);
+
+  else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
+    /* Directions and verbs don't work as expected */
+    lmLogv(NULL, 320, sevWAR, wrd->str, "adjective", "verb", NULL);
+
+  anwrd(wrd->high);
+
+}
+
+
+/*======================================================================
+
+  anwrds()
+
+  Analyze the dictionary to find any words that are defined to be of
+  multiple word classes that we want to warn about.
+
+*/
+void anwrds(void)
+{
+  anwrd(wrdtree);
 }
 
 

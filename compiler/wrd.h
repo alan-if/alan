@@ -47,6 +47,9 @@ extern int newwrd(char wrd[],
 /* Prepare Words in dictionary */
 extern void prepwrds(void);
 
+/* Analyse the Words in dictionary */
+extern void anwrds(void);
+
 /* Generate all Words in the dictionary */
 extern Aaddr gewrds(void);
 

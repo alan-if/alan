@@ -3,13 +3,7 @@ alan adjnoun
 arun adjnoun < adjnoun.input
 ########## /bin/sh  adjnoun.tst ##########
 
-
-
-        320 W : Word 'metal' belongs to multiple word classes.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         2 informational message(s).
 
 

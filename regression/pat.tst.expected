@@ -3,13 +3,7 @@ alan pat
 arun pat < pat.input
 ########## /bin/sh  pat.tst ##########
 
-
-
-        320 W : Word 'unlock' belongs to multiple word classes.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         1 informational message(s).
 
 
