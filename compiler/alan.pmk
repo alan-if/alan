@@ -24,6 +24,7 @@
 #include "sym_x.h"
 #include "res_x.h"
 #include "whr_x.h"
+#include "slt_x.h"
 
 #include "lmList.h"
 
@@ -43,7 +44,6 @@
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
 #include "scr.h"                /* SCR-nodes */
-#include "slt.h"                /* SLOTS-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */

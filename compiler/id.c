@@ -10,10 +10,10 @@
 #include <stdio.h>
 
 #include "srcp_x.h"
+#include "sym_x.h"
 
 #include "elm.h"
 #include "str.h"
-#include "sym.h"
 #include "util.h"
 #include "dump.h"
 #include "lmList.h"

@@ -35,6 +35,7 @@ version.h : ../version.h
 	cp ../version.h .
 
 tm: .pmkstamp .smkstamp .lmkstamp
+	touch .tmstamp
 
 .lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
 	lmk $(LMKQ) alan

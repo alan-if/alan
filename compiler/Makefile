@@ -3,33 +3,38 @@
 
 CPP	= gcc -MM -ansi
 
-COMPILER= -DCOMPILER=\"[CygWin32]\"
+COMPILER= -DCOMPILER=\"[GCC/CygWin32]\"
 
 CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(COMPILER)
 
 LDFLAGS = -g
 
-EXTRAS = \
+TMSRCS = \
 	alan.tmk \
 	alan.lmk \
 	alan.smk \
 	alan.pmk \
 	Makefile
 
-TMSRCS = \
+TMCSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c\
 	lmList.c
 
-TMOBJS = ${TMSRCS:.c=.o}
-
-UNITSRCS = \
+# Sources which are in the unit tests
+TESTSRCS = \
+	ins.c \
+	cla.c \
 	adv.c \
+	sym.c \
+
+# Sources required for both builds
+BUILDSRCS = \
+	alan.c \
 	alt.c \
 	atr.c \
 	chk.c \
-	cla.c \
 	dump.c \
 	encode.c \
 	emit.c \
@@ -38,7 +43,6 @@ UNITSRCS = \
 	exp.c \
 	ext.c \
 	id.c \
-	ins.c \
 	lim.c \
 	lst.c \
 	msg.c \
@@ -53,7 +57,6 @@ UNITSRCS = \
 	stp.c \
 	stx.c \
 	str.c \
-	sym.c \
 	syn.c \
 	vrb.c \
 	whr.c \
@@ -62,30 +65,37 @@ UNITSRCS = \
 	timing.c \
 	util.c \
 	spa.c \
-	sysdep.c
+	sysdep.c \
+	options.c
 
-SRCS = \
-	alan.c \
+
+# Sources required for Alan
+ALANSRCS = \
 	main.c \
-	options.c \
-	$(UNITSRCS)
+	cla.c \
+	ins.c \
+	sym.c \
+	adv.c
+
+MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
+MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
+
+VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
 
-VERSIONSRCS = $(SRCS) $(EXTRAS)
-
-VERSIONOBJECTS = ${SRCS:.c=.o}
-
-OBJECTS = $(VERSIONOBJECTS) $(TMOBJS) alan.version.o
-
-all alan alan.exe : test $(OBJECTS) Makefile
-	gcc -o alan $(OBJECTS) $(LDFLAGS)	
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main targets
+#
+# If you build this on any machine without ToolMaker, remove "src"
+#
+all alan : .tmstamp test $(MAINOBJECTS) Makefile
+	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)	
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
-spa.o: spa.c spa.h
-	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
-
-smScanx.o: smScanx.c
+.tmstamp: $(TMSRCS)
+	$(MAKE) -f Makefile.tm
 
 src:
 	$(MAKE) -f Makefile.src
@@ -94,56 +104,37 @@ fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
 
-UNITOBJS = ${UNITSRCS:.c=.o}
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Unit testing
+#
 
-# Run all unit tests
-unit : unit.o \
-	alt.o \
-	atr.o \
-	chk.o \
-	dump.o \
-	encode.o \
-	emit.o \
-	elm.o \
-	evt.o \
-	exp.o \
-	ext.o \
-	id.o \
-	lim.o \
-	lst.o \
-	msg.o \
-	opt.o \
-	res.o \
-	rul.o \
-	sco.o \
-	scr.o \
-	slt.o \
-	srcp.o \
-	stm.o \
-	stp.o \
-	stx.o \
-	str.o \
-	syn.o \
-	vrb.o \
-	whr.o \
-	wht.o \
-	wrd.o \
-	timing.o \
-	util.o \
-	spa.o \
-	sysdep.o \
-	unitList.o \
-	alan.o \
-	options.o \
-	alan.version.o \
-	pmParse.o pmPaSema.o \
-	pmErr.o \
-	smScanx.o smScSema.o
+# Sources for the test framework
+UNITSRCS = unit.c \
+	unitList.c \
+	pmParse.c pmPaSema.c \
+	pmErr.c \
+	smScanx.c smScSema.c
 
+TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
+TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+
+unit : $(TESTOBJS) 
+
+# Run all unit tests!
 test: unit
 	@echo -n "******************************"
 	@unit
 	@echo "******************************"
+
+#
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+
+spa.o: spa.c spa.h
+	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
+
+smScanx.o: smScanx.c
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

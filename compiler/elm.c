@@ -117,7 +117,7 @@ List *anelms(
 )
 {
   ElmNod *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
-  List *lst, *resLst, *pars = NULL;
+  List *lst, *pars = NULL;
   int paramNo = 1;
   Bool multiple = FALSE;
   Bool found;

@@ -8,6 +8,7 @@
 \*======================================================================*/
 
 #include "lmList.h"
+#include <stdio.h>
 
 /* Public for checking */
 int lastEcode;
@@ -81,5 +82,5 @@ extern void lmLiEnter(Srcp *pos,
 {}
 
 extern int lmMsg(int i, Srcp *pos, char *msg)
-{}
+{return 0;}
 
