@@ -150,10 +150,6 @@ int scannedLines()
 
 %%READER
 
-  if (verbose) {
-	printf(".");
-	fflush(stdout);
-  }
   return read(smThis->fd, (char *)smBuffer, smLength);
 
 

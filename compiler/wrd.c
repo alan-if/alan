@@ -287,6 +287,8 @@ static void gewrdent(wrd)
     gewrdent(wrd->low);
   
   /* Generate for this word */
+  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+
   emit(wrd->stradr);
   if (wrd->classbits == (1L<<WRD_SYN)) {
     /* If it is a synonym generate same as for original but mark as synonym */

@@ -130,25 +130,25 @@ void anadv()
   prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */
 
-  if (verbose) printf("\n\tSyntax definitions...");
+  if (verbose) printf("\n\tSyntax definitions: ");
   anstxs();
-  if (verbose) printf("\n\tVerbs...");
+  if (verbose) printf("\n\tVerbs: ");
   anvrbs(adv.vrbs, NULL, NULL);
-  if (verbose) printf("\n\tLocations...");
+  if (verbose) printf("\n\tLocations: ");
   anlocs();
-  if (verbose) printf("\n\tObjects...");
+  if (verbose) printf("\n\tObjects: ");
   anobjs();
-  if (verbose) printf("\n\tActors...");
+  if (verbose) printf("\n\tActors: ");
   anacts();
-  if (verbose) printf("\n\tContainers...");
+  if (verbose) printf("\n\tContainers: ");
   ancnts();
-  if (verbose) printf("\n\tEvents...");
+  if (verbose) printf("\n\tEvents: ");
   anevts();
-  if (verbose) printf("\n\tRules...");
+  if (verbose) printf("\n\tRules: ");
   anruls();
-  if (verbose) printf("\n\tSynonyms...");
+  if (verbose) printf("\n\tSynonyms: ");
   ansyns();
-  if (verbose) printf("\n\tMessages...");
+  if (verbose) printf("\n\tMessages:");
   anmsgs();
   if (verbose) printf("\n");
 
@@ -227,29 +227,29 @@ void geadv(acdfnm)
   /* Max and min codes */
   gecodes(&header);
   
-  if (verbose) printf("\n\tDictionary...");
+  if (verbose) printf("\n\tDictionary: ");
   header.dict = gewrds();	/* Dictionary */
-  if (verbose) printf("\n\tSyntax Definitions...");
+  if (verbose) printf("\n\tSyntax Definitions: ");
   header.stxs = gestxs();	/* Syntax definitions */ 
-  if (verbose) printf("\n\tVerbs...");
+  if (verbose) printf("\n\tVerbs: ");
   header.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
-  if (verbose) printf("\n\tContainers...");
+  if (verbose) printf("\n\tContainers: ");
   header.cnts = gecnts();	/* Containers */
-  if (verbose) printf("\n\tObjects...");
+  if (verbose) printf("\n\tObjects: ");
   header.objs = geobjs();	/* Objects */
-  if (verbose) printf("\n\tLocations...");
+  if (verbose) printf("\n\tLocations: ");
   header.locs = gelocs();	/* Locations */
-  if (verbose) printf("\n\tActors...");
+  if (verbose) printf("\n\tActors: ");
   header.acts = geacts();	/* Actors */
-  if (verbose) printf("\n\tEvents...");
+  if (verbose) printf("\n\tEvents: ");
   header.evts = geevts();	/* Events */
-  if (verbose) printf("\n\tRules...");
+  if (verbose) printf("\n\tRules: ");
   header.ruls = geruls();	/* Rules */
   header.scores = gesco();	/* Scores */
   header.maxscore = scotot;	/* Total score */
-  if (verbose) printf("\n\tMessages...");
+  if (verbose) printf("\n\tMessages: ");
   header.msgs = gemsgs();	/* Messages */
-  if (verbose) printf("\n\tCharacter Encoding...");
+  if (verbose) printf("\n\tCharacter Encoding: ");
   header.freq = gefreq();	/* Character frequencies */
 
   /* Options */

@@ -597,7 +597,7 @@ int main(argc,argv)
   }
 
   /* OK, found it so now compile it! */
-  if (verbose) printf("Parsing");
+  if (verbose) printf("Parsing: ");
   startcomp();			/* Start timing compilation */
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
 
