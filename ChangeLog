@@ -1,3 +1,8 @@
+Thu Dec 12 14:53:12 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Removed the directory part of the log file name, meaning that
+	log file is always written in the user directory.
+
 Thu Aug 29 19:34:09 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* LANGUAGE IMPROVEMENT: Added the more Alan-ish way to specify
@@ -22,9 +27,9 @@ Wed Aug 28 09:00:58 1996  Thomas Nilsson  <thoni@rabbit>
         read ;-)
 
 	* LANGUAGE IMPROVEMENT: Added a new statement RESTART to restart
-	the current game. It causes a prompt for confirmation (the new
-	REALLY message which can be changed as all standard messages using
-	the MESSAGE construct).
+ 	the current game. It causes a prompt for confirmation (the new
+ 	REALLY message, which can be changed using the MESSAGE construct,
+ 	like all the standard messages).
 
 	* DOCUMENTATION: Changed format of the grammar description, now
 	using the more clear (?) <xyz> format for non-terminals.
@@ -57,8 +62,9 @@ Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
 
 Tue May 21 13:39:39 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* LANGUAGE IMPROVEMENT: Allowed the previously reserved words
-        ARTICLE, MESSAGE, QUIT, SAVE and RESTORE to be used as identifiers
+	* LANGUAGE IMPROVEMENT: Allowed the previously completely reserved
+ 	words ARTICLE, MESSAGE, QUIT, SAVE and RESTORE to be used as
+ 	identifiers
 
 Fri Apr 12 11:05:41 1996  Thomas Nilsson  <thoni@rabbit>
 

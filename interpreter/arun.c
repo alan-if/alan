@@ -29,7 +29,7 @@
 #include "stack.h"
 #include "exe.h"
 #include "term.h"
-#include "c25to26.h"		/* Auto-converter from 2.5 to 2.6 format */
+
 
 /* PUBLIC DATA */
 
@@ -1630,29 +1630,8 @@ static void openFiles()
 
   /* If logging open log file */
   if (logflg) {
-#ifdef __amiga__
-    strcpy(str, "AlanDir:log/");
-    usr = "";
-#else
-#ifdef __vax__
-    strcpy(str, "ALANDIR:");
-    usr = "";
-#else
-#ifdef __unix__
-    if (getenv("ALANDIR") == NULL)
-      strcpy(str, "");
-    else {
-      strcpy(str, getenv("ALANDIR"));
-      strcat(str, "/log/");
-    }
-    if ((usr = getenv("USER")) == NULL)
-      usr = "";
-#endif
-#endif
-#endif
-
     time(&tick);
-    sprintf(logfnm, "%s%s%d%s.log", str, advnam, (int)tick, usr);
+    sprintf(logfnm, "%s%d%s.log", advnam, (int)tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
       logflg = FALSE;
   }
