@@ -22,11 +22,11 @@
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
+extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern Symbol *contentOf(Expression *what, Context *context);
-extern Bool expressionIsContainer(Expression *exp, Context *context);
-extern void expressionIsNotContainer(Expression *exp, Context *context, char construct[]);
+extern void verifyContainerExpression(Expression *what, Context *context, char referer[]);
 extern Symbol *symbolOfExpression(Expression *exp, Context *context);
 extern void generateExpression(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);

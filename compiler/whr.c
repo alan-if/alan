@@ -49,7 +49,7 @@ void symbolizeWhere(Where *whr)
   case WHR_NEAR:
   case WHERE_AT:
   case WHR_IN:
-    symbolizeWhat(whr->what->fields.wht.wht);
+    symbolizeExpression(whr->what);
     break;
   default:
     break;
@@ -90,13 +90,7 @@ void analyzeWhere(Where *whr, Context *context) {
       lmLogv(&whr->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
     break;
   case WHR_IN:
-    analyzeExpression(whr->what, context);
-    if (whr->what->type != ERROR_TYPE) {
-      if (whr->what->type != INSTANCE_TYPE)
-	lmLogv(&whr->what->srcp, 428, sevERR, "Expression after IN", "an instance", NULL);
-      else if (!expressionIsContainer(whr->what, context))
-	expressionIsNotContainer(whr->what, context, "Expression after IN");
-    }
+    verifyContainerExpression(whr->what, context, "Expression after IN");
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);

@@ -6,13 +6,13 @@ makeSemantics.alan
     5.      Make Current Actor a.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
     6.      Make Current Location a.
 =====>                            1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
     8.      Make c c.
@@ -28,13 +28,13 @@ makeSemantics.alan
    13.      Make Current Actor a.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
    14.      Make Current Location a.
 =====>                            1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
    16.      Make c c.

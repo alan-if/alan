@@ -36,6 +36,22 @@
 
 
 
+/*======================================================================*/
+void symbolizeExpression(Expression *exp) {
+  switch (exp->kind) {
+  case WHERE_EXPRESSION:
+    symbolizeExpression(exp->fields.whr.wht);
+    symbolizeExpression(exp->fields.whr.wht);
+    break;
+  case WHAT_EXPRESSION:
+    symbolizeWhat(exp->fields.wht.wht);
+    break;
+  default:
+    syserr("Unexpected Expression kind in '%s()'", __FUNCTION__);
+  }
+}
+
+
 
 /*======================================================================*/
 Bool equalTypes(TypeKind typ1, TypeKind typ2)
@@ -46,21 +62,35 @@ Bool equalTypes(TypeKind typ1, TypeKind typ2)
 }
 
 
-/*======================================================================*/
-Bool expressionIsContainer(Expression *exp, Context *context) {
+/*----------------------------------------------------------------------*/
+static Bool expressionIsContainer(Expression *exp, Context *context) {
   return symbolIsContainer(symbolOfExpression(exp, context));
 }
 
-/*======================================================================*/
-void expressionIsNotContainer(Expression *exp, Context *context, char construct[]) {
+/*----------------------------------------------------------------------*/
+static void expressionIsNotContainer(Expression *exp, Context *context,
+				     char constructDescription[]) {
   switch (exp->kind) {
   case WHAT_EXPRESSION:
-    whatIsNotContainer(exp->fields.wht.wht, context, construct); break;
+    whatIsNotContainer(exp->fields.wht.wht, context, constructDescription); break;
   case ATTRIBUTE_EXPRESSION:
-    lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the infered class of the attribute does not have the Container property", NULL);
+    lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the class of the attribute infered from its initial value does not have the Container property", NULL);
     break;
   default:
     syserr("Unexpected Expression kind in '%s()'", __FUNCTION__);
+  }
+}
+
+/*======================================================================*/
+void verifyContainerExpression(Expression *what, Context *context,
+			       char constructDescription[]) {
+
+  analyzeExpression(what, context);
+  if (what->type != ERROR_TYPE) {
+    if (what->type != INSTANCE_TYPE)
+      lmLogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
+    else if (!expressionIsContainer(what, context))
+      expressionIsNotContainer(what, context, constructDescription);
   }
 }
 
@@ -148,21 +178,30 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 /*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {
-  analyzeExpression(exp->fields.whr.wht, context);
-  if (exp->type != ERROR_TYPE) {
-    if (exp->type != INSTANCE_TYPE)
-      lmLogv(&exp->fields.whr.wht->srcp, 428, sevERR, "Expression", "an instance", NULL);
+  Expression *what = exp->fields.whr.wht;
+  Where *where = exp->fields.whr.whr;
+
+  analyzeExpression(what, context);
+  if (what->type != ERROR_TYPE) {
+    if (what->type != INSTANCE_TYPE)
+      lmLogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
     else {
-      switch (exp->fields.whr.wht->fields.wht.wht->kind) {
-      case WHAT_ACTOR:
-	if (context->kind == EVENT_CONTEXT)
-	  lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
+      switch (what->kind) {
+      case WHAT_EXPRESSION:
+	switch (what->fields.wht.wht->kind) {
+	case WHAT_LOCATION:
+	  lmLogv(&what->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
+	  break;
+	case WHAT_ID:
+	case WHAT_THIS:
+	case WHAT_ACTOR:
+	  break;
+	default:
+	  syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+	  break;
+	}
 	break;
-      case WHAT_LOCATION:
-	lmLogv(&exp->fields.whr.wht->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
-	break;
-      case WHAT_ID:
-      case WHAT_THIS:
+      case ATTRIBUTE_EXPRESSION:
 	break;
       default:
 	syserr("Unrecognized switch in '%s()'", __FUNCTION__);
@@ -171,31 +210,18 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     }
   }
 
-  switch (exp->fields.whr.whr->kind) {
+  switch (where->kind) {
   case WHR_HERE:
   case WHR_NEAR:
     break;
   case WHERE_AT:
-    switch (exp->fields.whr.whr->what->fields.wht.wht->kind) {
-    case WHAT_THIS:
-      break;
-    case WHAT_ID:
-      symcheck(exp->fields.whr.whr->what->fields.wht.wht->id, INSTANCE_SYMBOL, context);
-      break;
-    case WHAT_LOCATION:
-      exp->fields.whr.whr->kind = WHR_HERE;
-      break;
-    case WHAT_ACTOR:
-      if (context->kind == EVENT_CONTEXT)
-	lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
-      break;
-    default:
-      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-      break;
-    }
+    analyzeExpression(where->what, context);
+    if (where->what->type != ERROR_TYPE)
+      if (where->what->type != INSTANCE_TYPE)
+	lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
     break;
   case WHR_IN:
-    verifyContainer(exp->fields.whr.whr->what->fields.wht.wht, context, "Expression after IN");
+    verifyContainerExpression(where->what, context, "Expression after IN");
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
@@ -226,26 +252,27 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId,
 static void analyzeAttributeExpression(Expression *exp, Context *context)
 {
   Attribute *atr;
+  Expression *what = exp->fields.atr.wht;
 
-  analyzeExpression(exp->fields.atr.wht, context);
+  analyzeExpression(what, context);
 
-  switch (exp->fields.atr.wht->kind) {
-  case WHAT_EXPRESSION: {
-    atr = resolveAttribute(exp->fields.atr.wht,
-			   exp->fields.atr.atr, context);
+  switch (what->kind) {
+  case WHAT_EXPRESSION:
+    atr = resolveAttribute(what, exp->fields.atr.atr, context);
     exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
     if (exp->type == INSTANCE_TYPE && atr->instance->symbol != NULL)
       exp->class = atr->instance->symbol->fields.entity.parent;
     break;
-  }
 
   case ATTRIBUTE_EXPRESSION:
-    if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE)) {
-      exp->type = ERROR_TYPE;
-      lmLogv(&exp->fields.atr.wht->srcp, 428, sevERR, "Expression", "an instance", NULL);
-    } else {
-      atr = resolveAttribute(exp->fields.atr.wht, exp->fields.atr.atr, context);
-      exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+    if (what->type != ERROR_TYPE) {
+      if (what->type != INSTANCE_TYPE) {
+	exp->type = ERROR_TYPE;
+	lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
+      } else {
+	atr = resolveAttribute(what, exp->fields.atr.atr, context);
+	exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+      }
     }
     break;
 

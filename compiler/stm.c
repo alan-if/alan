@@ -102,14 +102,14 @@ static void analyzeSay(StmNod *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeList(StmNod *stm, Context *context)	
 {
-  verifyContainer(stm->fields.list.wht, context, "LIST statement");
+  verifyContainerExpression(stm->fields.list.wht, context, "LIST statement");
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeEmpty(StmNod *stm, Context *context)
 {
-  verifyContainer(stm->fields.list.wht, context, "EMPTY statement");
+  verifyContainer(stm->fields.empty.wht, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
 }
 
@@ -631,7 +631,7 @@ static void generateSay(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateList(StmNod *stm)
 {
-  generateWhat(stm->fields.list.wht);
+  generateExpression(stm->fields.list.wht);
   emit0(I_LIST);
 }
 
@@ -1220,7 +1220,7 @@ void dumpStatement(StmNod *stm)
       put("form: "); dumpForm(stm->fields.say.form);
       break;
     case LIST_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.list.wht);
+      put("wht: "); dumpExpression(stm->fields.list.wht);
       break;
     case EMPTY_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.empty.wht); nl();

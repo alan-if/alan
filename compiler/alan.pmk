@@ -1566,7 +1566,7 @@ static int val(char str[])
     ! 'LIST' <what> '.'
     %%
 	%<output_statement>.stm = newStatement(`&%'LIST'.srcp, LIST_STATEMENT);
-	%<output_statement>.stm->fields.list.wht = %<what>.wht;
+	%<output_statement>.stm->fields.list.wht = %<what>.exp;
     %%	  
 
     ! 'SHOW' ID '.'
@@ -2249,8 +2249,7 @@ static int val(char str[])
 <what>			-- RETURNS: exp
     = <simple_what>
     %%
-	%<what>.exp = newExpression(`&%<simple_what>.srcp, WHAT_EXPRESSION);
-	%<what>.exp->fields.wht.wht = %<simple_what>.wht;
+	%<what>.exp = newWhatExpression(%<simple_what>.srcp, %<simple_what>.wht);
     %%
 
     ! <attribute_reference>
@@ -2260,7 +2259,7 @@ static int val(char str[])
     ;
 
 <simple_what>			-- RETURNS: srcp, wht
-    = ID
+    = ID					%-('OF')
     %%
 	%<simple_what>.wht = newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id);
 	%<simple_what>.srcp = %ID.id->srcp;
@@ -2530,6 +2529,11 @@ ID
     ! 'ON'
     %%
 	%ID.id = newId(`&%'ON'.srcp, %'ON'.chars);
+    %%
+
+    ! 'OF'
+    %%
+	%ID.id = newId(`&%'OF'.srcp, %'OF'.chars);
     %%
 
     ! 'FIRST'

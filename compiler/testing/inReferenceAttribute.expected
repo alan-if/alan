@@ -17,8 +17,8 @@ inReferenceAttribute.alan
 =====>                  1
 
   *1*   311 E : Expression is not guaranteed to be a Container, because the
-                infered class of the attribute does not have the Container
-                property.
+                class of the attribute infered from its initial value does not
+                have the Container property.
 
 
         3 error(s).

@@ -13,11 +13,11 @@ End The ct.
 
 
 Start At l.
-  If u In u Then "u in u" End If.
-  If co In co Then "co in co" End If.
-  If ct In co Then "co in ct" End If.
-  If l In l Then "l in l" End If.
-  If i Of l In l Then "i Of l In l" End If.
-  If l Of l In l Then "l Of l In l" End If.
-  If l Of l In l Of l Then "l Of l In l Of l" End If.
-  If l Of actor In co Then "l Of actor In co" End If.
+  If u In u Then "" End If.
+  If co In co Then "" End If.
+  If ct In co Then "" End If.
+  If l In l Then "" End If.
+  If i Of l In l Then "" End If.
+  If l Of l In l Then "" End If.
+  If l Of l In l Of l Then "" End If.
+  If l Of actor In co Then "" End If.

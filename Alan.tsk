@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>321.89</origest>
-<currest>320.89</currest>
+<origest>322.89</origest>
+<currest>321.89</currest>
 <elapsed>166.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>52</origest>
-<currest>52</currest>
+<origest>53</origest>
+<currest>53</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
+<origest>27</origest>
+<currest>27</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -205,6 +205,15 @@ We also need some way to re-output the state.</notes>
 <task>
 <desc>Example: composite object</desc>
 <notes>Like a box with a couple of buttons on it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The usage text for the compiler says that include directories are searched before, THATS WRONG!</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

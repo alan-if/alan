@@ -84,7 +84,7 @@ typedef struct StmNod {		/* STATEMENT */
     } say;
 
     struct {			/* for LIST */
-      What *wht;		/* What? */
+      Expression *wht;		/* What? */
     } list;
 
     struct {			/* for SHOW */

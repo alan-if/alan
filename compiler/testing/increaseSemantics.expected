@@ -6,25 +6,25 @@ increaseSemantics.alan
     6.      Increase a Of Current Actor By 7.
 =====>               1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
     7.      Increase a Of Current Location By 7.
 =====>               1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
    10.      Increase a Of l By a Of Current Actor.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
    11.      Increase a Of l By a Of Current Location.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
    16.      Increase a Of This By 7.
@@ -35,13 +35,13 @@ increaseSemantics.alan
    17.      Increase a Of Current Actor By 7.
 =====>               1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
    18.      Increase a Of Current Location By 7.
 =====>               1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
    20.      Increase a Of l By a Of This.
@@ -52,13 +52,13 @@ increaseSemantics.alan
    21.      Increase a Of l By a Of Current Actor.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
    22.      Increase a Of l By a Of Current Location.
 =====>                         1
 
-  *1*   314 E : Attribute 'a' is not defined for the current location since the
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
                 class 'location' does not have it.
 
    24.      Increase a Of l By b Of l.

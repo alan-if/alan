@@ -1,0 +1,28 @@
+########## alan locateAtId ##########
+
+
+locateAtId.alan
+
+    5.    Locate unknown At unknown.
+=====>           1          2
+
+  *1*   310 E : Identifier 'unknown' not defined.
+  *2*   310 E : Identifier 'unknown' not defined.
+
+    6.    Locate object At object.
+=====>           1         2
+
+  *1*   319 E : Identifier 'object' is not an instance.
+  *2*   319 E : Identifier 'object' is not an instance.
+
+    7.    Locate l At l.
+=====>           1
+
+  *1*   405 E : Instances inheriting from Location can not be used in Locate
+                statement.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+
