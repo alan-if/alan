@@ -13,11 +13,6 @@ this.alan
 
   *1*   421 E : THIS instance is not defined in this context.
 
-   16.        Say This.
-=====>            1
-
-  *1*   421 E : THIS instance is not defined in this context.
-
    22.    Say This.
 =====>        1
 
@@ -29,7 +24,7 @@ this.alan
   *1*   421 E : THIS instance is not defined in this context.
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 

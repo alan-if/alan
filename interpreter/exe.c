@@ -1008,6 +1008,24 @@ void sayarticle(id)
 }
 
 
+static void sayInstance(Aword id)
+{
+  int p, i;
+
+  if (params != NULL)
+    for (p = 0; params[p].code != EOF; p++)
+      if (params[p].code == id) {
+	if (params[p].firstWord == EOF) /* Any words he used? */
+	  break;
+	else				/* Yes, so use them... */
+	  for (i = params[p].firstWord; i <= params[p].lastWord; i++)
+	    output((char *)addrTo(dict[wrds[i]].wrd));
+	return;
+      }
+  interpret(instance[id].mentioned);
+}
+
+
 #ifdef _PROTOTYPES_
 void say(Aword id)
 #else
@@ -1028,7 +1046,7 @@ void say(id)
 	sprintf(str, "Can't SAY instance (%ld > instanceMax).", id);
 	syserr(str);
       } else
-	interpret(instance[id].mentioned);
+	sayInstance(id);
     }
   }
 }
