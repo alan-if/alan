@@ -1195,6 +1195,7 @@ static void eventchk()
 
   codfil
   filenames
+
   checkvers()
   load()
   checkdebug()
@@ -1314,13 +1315,17 @@ static void load()
   }
 
 #ifdef REVERSED
-  if (dbgflg|trcflg|stpflg)
-    printf("Hmm, please wait a moment while I set things up....\n");
+  printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
   reverseACD();		/* Reverse all words in the ACD file */
+  printf("OK.\n");
 #endif
 
-  if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) /* Check for 2.5 version */
+  /* Check for 2.5 version */
+  if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) {
+    printf("Hmm, this is a v2.5 game, please wait while I convert it...\n");
     c25to26ACD();
+    printf("OK.\n");
+  }
 
 }
 
