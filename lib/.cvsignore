@@ -1,1 +1,8 @@
 .HoldDirectoryFinderInfoForMacNFS
+[0-9]*_[0-9]*_[0-9]*.*
+alanlib*.tgz
+alanlib*.zip
+test.acd
+test.dat
+version.c
+version.h
