@@ -1,6 +1,6 @@
 ########## pack ##########
-alan pack
-arun pack < pack.input
+../compiler/alan pack
+../interpreter/arun.exe -n pack < pack.input
 ########## /bin/sh  pack.tst ##########
 
         No warnings or errors detected.

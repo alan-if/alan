@@ -1,16 +1,16 @@
 ########## noboolopt ##########
-alan noboolopt
+../compiler/alan noboolopt
 file noboolopt.dat
-alan -pack noboolopt
+../compiler/alan -pack noboolopt
 file noboolopt.dat
 ########## /bin/sh  noboolopt.tst ##########
 
         No warnings or errors detected.
         1 informational message(s).
 
-noboolopt.dat:	ascii text
+noboolopt.dat: ASCII English text, with very long lines, with no line terminators
 
         No warnings or errors detected.
         1 informational message(s).
 
-noboolopt.dat:	data
+noboolopt.dat: data

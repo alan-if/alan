@@ -1,5 +1,5 @@
 ########## locate_syntax ##########
-alan locate_syntax
+../compiler/alan locate_syntax
 
 ########## /bin/sh  locate_syntax.tst ##########
 

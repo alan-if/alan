@@ -1,6 +1,6 @@
 ########## pat ##########
-alan pat
-arun pat < pat.input
+../compiler/alan pat
+../interpreter/arun.exe -n pat < pat.input
 ########## /bin/sh  pat.tst ##########
 
         No warnings or errors detected.

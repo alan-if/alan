@@ -1,6 +1,6 @@
 ########## sundown ##########
-alan sundown
-arun sundown < sundown.input
+../compiler/alan sundown
+../interpreter/arun.exe -n sundown < sundown.input
 ########## /bin/sh  sundown.tst ##########
 
         No warnings or errors detected.

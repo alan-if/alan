@@ -1,6 +1,6 @@
 ########## write ##########
-alan write
-arun write < write.input
+../compiler/alan write
+../interpreter/arun.exe -n write < write.input
 ########## /bin/sh  write.tst ##########
 
         No warnings or errors detected.

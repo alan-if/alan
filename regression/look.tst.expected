@@ -1,6 +1,6 @@
 ########## look ##########
-alan look
-arun look < look.input
+../compiler/alan look
+../interpreter/arun.exe -n look < look.input
 ########## /bin/sh  look.tst ##########
 
         No warnings or errors detected.

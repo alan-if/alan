@@ -1,6 +1,6 @@
 ########## atr ##########
-alan atr
-arun atr < atr.input
+../compiler/alan atr
+../interpreter/arun.exe -n atr < atr.input
 ########## /bin/sh  atr.tst ##########
 
         No warnings or errors detected.

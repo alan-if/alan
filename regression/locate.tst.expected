@@ -1,6 +1,6 @@
 ########## locate ##########
-alan locate
-arun locate < locate.input
+../compiler/alan locate
+../interpreter/arun.exe -n locate < locate.input
 ########## /bin/sh  locate.tst ##########
 
         No warnings or errors detected.

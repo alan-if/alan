@@ -1,5 +1,5 @@
 ########## make ##########
-alan make
+../compiler/alan make
 ########## /bin/sh  make.tst ##########
 
 

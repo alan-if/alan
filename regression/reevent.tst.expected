@@ -1,5 +1,5 @@
 ########## reevent ##########
-alan reevent.alan
+../compiler/alan reevent.alan
 ########## /bin/sh  reevent.tst ##########
 
 

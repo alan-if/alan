@@ -1,5 +1,5 @@
 ########## examine2 ##########
-alan examine2
+../compiler/alan examine2
 ########## /bin/sh  examine2.tst ##########
 
 

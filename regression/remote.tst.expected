@@ -1,6 +1,6 @@
 ########## remote ##########
-alan remote
-arun remote < remote.input
+../compiler/alan remote
+../interpreter/arun.exe -n remote < remote.input
 ########## /bin/sh  remote.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## saycommand ##########
-alan saycommand
-arun saycommand < saycommand.input
+../compiler/alan saycommand
+../interpreter/arun.exe -n saycommand < saycommand.input
 ########## /bin/sh  saycommand.tst ##########
 
         No warnings or errors detected.

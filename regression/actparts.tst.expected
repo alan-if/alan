@@ -1,5 +1,5 @@
 ########## actparts ##########
-alan actparts
+../compiler/alan actparts
 ########## /bin/sh  actparts.tst ##########
 
 

@@ -1,6 +1,6 @@
 ########## unlock ##########
-alan unlock
-arun unlock < unlock.input
+../compiler/alan unlock
+../interpreter/arun.exe -n unlock < unlock.input
 ########## /bin/sh  unlock.tst ##########
 
         No warnings or errors detected.

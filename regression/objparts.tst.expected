@@ -1,5 +1,5 @@
 ########## objparts ##########
-alan objparts
+../compiler/alan objparts
 ########## /bin/sh  objparts.tst ##########
 
 

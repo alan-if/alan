@@ -1,6 +1,6 @@
 ########## wall ##########
-alan wall
-arun wall < wall.input
+../compiler/alan wall
+../interpreter/arun.exe -n wall < wall.input
 ########## /bin/sh  wall.tst ##########
 
         No warnings or errors detected.

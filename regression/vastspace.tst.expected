@@ -1,6 +1,6 @@
 ########## vastspace ##########
-alan vastspace
-arun vastspace < vastspace.input
+../compiler/alan vastspace
+../interpreter/arun.exe -n vastspace < vastspace.input
 ########## /bin/sh  vastspace.tst ##########
 
         No warnings or errors detected.

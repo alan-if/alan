@@ -1,6 +1,6 @@
 ########## driving ##########
-alan driving
-arun driving < driving.input
+../compiler/alan driving
+../interpreter/arun.exe -n driving < driving.input
 ########## /bin/sh  driving.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## dark ##########
-alan dark
-arun dark < dark.input
+../compiler/alan dark
+../interpreter/arun.exe -n dark < dark.input
 ########## /bin/sh  dark.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## obj_in_cont ##########
-alan obj_in_cont
-arun obj_in_cont < obj_in_cont.input
+../compiler/alan obj_in_cont
+../interpreter/arun.exe -n obj_in_cont < obj_in_cont.input
 ########## /bin/sh  obj_in_cont.tst ##########
 
         No warnings or errors detected.

@@ -1,5 +1,5 @@
 ########## defattr ##########
-alan defattr
+../compiler/alan defattr
 ########## /bin/sh  defattr.tst ##########
 
 

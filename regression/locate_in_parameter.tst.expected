@@ -1,6 +1,6 @@
 ########## locate_in_parameter ##########
-alan locate_in_parameter
-arun locate_in_parameter < locate_in_parameter.input
+../compiler/alan locate_in_parameter
+../interpreter/arun.exe -n locate_in_parameter < locate_in_parameter.input
 ########## /bin/sh  locate_in_parameter.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## joff ##########
-alan joff
-arun joff < joff.input
+../compiler/alan joff
+../interpreter/arun.exe -n joff < joff.input
 ########## /bin/sh  joff.tst ##########
 
         No warnings or errors detected.

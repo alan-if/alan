@@ -1,6 +1,6 @@
 ########## adjnoun ##########
-alan adjnoun
-arun adjnoun < adjnoun.input
+../compiler/alan adjnoun
+../interpreter/arun.exe -n adjnoun < adjnoun.input
 ########## /bin/sh  adjnoun.tst ##########
 
         No warnings or errors detected.

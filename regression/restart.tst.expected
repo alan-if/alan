@@ -1,6 +1,6 @@
 ########## restart ##########
-alan restart
-arun restart < restart.input
+../compiler/alan restart
+../interpreter/arun.exe -n restart < restart.input
 ########## /bin/sh  restart.tst ##########
 
         No warnings or errors detected.

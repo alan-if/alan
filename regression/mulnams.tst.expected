@@ -1,7 +1,6 @@
 ########## mulnams ##########
-alan mulnams
-arun mulnams < mulnams.input
-########## /bin/sh  mulnams.tst ##########
+../compiler/alan mulnams
+../interpreter/arun.exe -n mulnams < mulnams.input########## /bin/sh  mulnams.tst ##########
 
         No warnings or errors detected.
         2 informational message(s).

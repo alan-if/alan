@@ -1,5 +1,5 @@
 ########## locparts ##########
-alan locparts
+../compiler/alan locparts
 ########## /bin/sh  locparts.tst ##########
 
 

@@ -1,6 +1,6 @@
 ########## stx ##########
-alan stx
-arun stx < stx.input
+../compiler/alan stx
+../interpreter/arun.exe -n stx < stx.input
 ########## /bin/sh  stx.tst ##########
 
 

@@ -1,5 +1,5 @@
 ########## at_integer ##########
-alan at_integer
+../compiler/alan at_integer
 ########## /bin/sh  at_integer.tst ##########
 
 

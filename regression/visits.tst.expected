@@ -1,6 +1,6 @@
 ########## visits ##########
-alan visits
-arun visits < visits.input
+../compiler/alan visits
+../interpreter/arun.exe -n visits < visits.input
 ########## /bin/sh  visits.tst ##########
 
         No warnings or errors detected.
@@ -11,23 +11,23 @@ Same.
 This is the same Location.
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > w
 Same.
 This is the same Location.
 
 > w
-Same (again).
+Same (again)
 
 > w
-Same (again).
+Same (again)
 
 > 
 

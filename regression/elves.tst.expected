@@ -1,6 +1,6 @@
 ########## elves ##########
-alan elves -include ../lib
-arun elves < elves.input
+../compiler/alan elves -include ../lib
+../interpreter/arun.exe -n elves < elves.input
 ########## /bin/sh  elves.tst ##########
 
         No warnings or errors detected.
@@ -15,18 +15,18 @@ Boy Elf is here. Girl Elf is here.
 I don't know which elf you mean.
 
 > take boy
-You can't take people with you!
+You can't take that with you!
 
 > take girl
-You can't take people with you!
+You can't take that with you!
 
 > take boy elf
-You can't take people with you!
+You can't take that with you!
 
 > take girl elf and boy
-(girl elf) You can't take people with you!
+(girl elf) You can't take that with you!
 
-(boy) You can't take people with you!
+(boy) You can't take that with you!
 
 
 > 

@@ -1,6 +1,6 @@
 ########## alice ##########
-alan alice
-arun alice < alice.input
+../compiler/alan alice
+../interpreter/arun.exe -n alice < alice.input
 ########## /bin/sh  alice.tst ##########
 
         No warnings or errors detected.

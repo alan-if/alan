@@ -1,6 +1,6 @@
 ########## dungeon ##########
-alan dungeon
-arun dungeon < dungeon.input
+../compiler/alan dungeon
+../interpreter/arun.exe -n dungeon < dungeon.input
 ########## /bin/sh  dungeon.tst ##########
 
         No warnings or errors detected.
@@ -71,7 +71,7 @@ feels like clay. A nasty-looking knife is lying here.
 (nasty knife) Taken!
 
 > d
-Kitchen (again).
+Kitchen (again)
 A table seems to have been used recently for the preparation of food. The 
 table is empty. To the east is a small window which is open.
 

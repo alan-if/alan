@@ -1,6 +1,6 @@
 ########## hide ##########
-alan hide
-arun hide < hide.input
+../compiler/alan hide
+../interpreter/arun.exe -n hide < hide.input
 ########## /bin/sh  hide.tst ##########
 
         No warnings or errors detected.

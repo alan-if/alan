@@ -1,6 +1,6 @@
 ########## survival ##########
-alan survival
-arun survival < survival.input
+../compiler/alan survival
+../interpreter/arun.exe -n survival < survival.input
 ########## /bin/sh  survival.tst ##########
 
         No warnings or errors detected.

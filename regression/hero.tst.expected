@@ -1,6 +1,6 @@
 ########## hero ##########
-alan hero
-arun hero < hero.input
+../compiler/alan hero
+../interpreter/arun.exe -n hero < hero.input
 ########## /bin/sh  hero.tst ##########
 
         No warnings or errors detected.

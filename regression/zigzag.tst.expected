@@ -1,6 +1,6 @@
 ########## zigzag ##########
-alan zigzag
-arun zigzag < zigzag.input
+../compiler/alan zigzag
+../interpreter/arun.exe -n zigzag < zigzag.input
 ########## /bin/sh  zigzag.tst ##########
 
 

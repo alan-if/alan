@@ -1,6 +1,6 @@
 ########## locverbchk ##########
-alan locverbchk
-arun locverbchk < locverbchk.input
+../compiler/alan locverbchk
+../interpreter/arun.exe -n locverbchk < locverbchk.input
 ########## /bin/sh  locverbchk.tst ##########
 
         No warnings or errors detected.

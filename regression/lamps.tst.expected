@@ -1,6 +1,6 @@
 ########## lamps ##########
-alan lamps
-arun lamps < lamps.input
+../compiler/alan lamps
+../interpreter/arun.exe -n lamps < lamps.input
 ########## /bin/sh  lamps.tst ##########
 
         No warnings or errors detected.

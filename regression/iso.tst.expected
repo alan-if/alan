@@ -1,6 +1,6 @@
 ########## iso ##########
-alan iso
-arun iso < iso.input
+../compiler/alan iso
+../interpreter/arun.exe -n iso < iso.input
 ########## /bin/sh  iso.tst ##########
 
         No warnings or errors detected.

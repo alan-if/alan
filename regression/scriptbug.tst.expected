@@ -1,6 +1,6 @@
 ########## scriptbug ##########
-alan scriptbug
-arun scriptbug < scriptbug.input
+../compiler/alan scriptbug
+../interpreter/arun.exe -n scriptbug < scriptbug.input
 
 ########## /bin/sh  scriptbug.tst ##########
 

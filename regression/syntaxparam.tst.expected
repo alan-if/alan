@@ -1,6 +1,6 @@
 ########## syntaxparam ##########
-alan syntaxparam
-arun syntaxparam < syntaxparam.input
+../compiler/alan syntaxparam
+../interpreter/arun.exe -n syntaxparam < syntaxparam.input
 ########## /bin/sh  syntaxparam.tst ##########
 
         No warnings or errors detected.

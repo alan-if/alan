@@ -1,6 +1,6 @@
 ########## uwe ##########
-alan uwe
-arun uwe < uwe.input
+../compiler/alan uwe
+../interpreter/arun.exe -n uwe < uwe.input
 ########## /bin/sh  uwe.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## french ##########
-alan french
-arun french < french.input
+../compiler/alan french
+../interpreter/arun.exe -n french < french.input
 ########## /bin/sh  french.tst ##########
 
         No warnings or errors detected.

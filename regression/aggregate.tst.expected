@@ -1,6 +1,6 @@
 ########## aggregate ##########
-alan aggregate
-arun aggregate < aggregate.input
+../compiler/alan aggregate
+../interpreter/arun.exe -n aggregate < aggregate.input
 ########## /bin/sh  aggregate.tst ##########
 
         No warnings or errors detected.

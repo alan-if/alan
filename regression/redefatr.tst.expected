@@ -1,6 +1,6 @@
 ########## redefatr ##########
-alan redefatr
-arun redefatr < redefatr.input
+../compiler/alan redefatr
+../interpreter/arun.exe -n redefatr < redefatr.input
 ########## /bin/sh  redefatr.tst ##########
 
         No warnings or errors detected.

@@ -1,12 +1,12 @@
 ########## saviour ##########
-alan -debug saviour
-arun -n -d saviour < saviour.input
+../compiler/alan -debug saviour
+../interpreter/arun.exe -n -d saviour < saviour.input
 ########## /bin/sh  saviour.tst ##########
 
         No warnings or errors detected.
         17 informational message(s).
 
-<Arun, Adventure Interpreter version 2.8(6) (2001-01-10 22:38:14)>
+<Arun, Adventure Interpreter version 2.8(6) (2001-07-13 13:15:23)>
 <Version of 'saviour' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 

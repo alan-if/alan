@@ -1,5 +1,5 @@
 ########## lmlist ##########
-alan lmlist
+../compiler/alan lmlist
 ########## /bin/sh  lmlist.tst ##########
 
         No warnings or errors detected.

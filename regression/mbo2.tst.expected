@@ -1,6 +1,6 @@
 ########## mbo2 ##########
-alan mbo2
-arun mbo2 < mbo2.input
+../compiler/alan mbo2
+../interpreter/arun.exe -n mbo2 < mbo2.input
 ########## /bin/sh  mbo2.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## string ##########
-alan string
-arun string < string.input
+../compiler/alan string
+../interpreter/arun.exe -n string < string.input
 ########## /bin/sh  string.tst ##########
 
         No warnings or errors detected.

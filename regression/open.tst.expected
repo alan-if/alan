@@ -1,6 +1,6 @@
 ########## open ##########
-alan open
-arun open < open.input
+../compiler/alan open
+../interpreter/arun.exe -n open < open.input
 ########## /bin/sh  open.tst ##########
 
         No warnings or errors detected.

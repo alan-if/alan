@@ -1,6 +1,6 @@
 ########## slott ##########
-alan slott
-arun slott < slott.input
+../compiler/alan slott
+../interpreter/arun.exe -n slott < slott.input
 ########## /bin/sh  slott.tst ##########
 
         No warnings or errors detected.
@@ -31,7 +31,7 @@ allt lyckas du åstadkomma en liten sandhög som av vinden snart fördelas
 ut över stranden igen.
 
 > v
-Mitten Av Ön (igen).
+Mitten Av Ön (igen)
 Det finns en palm här.
 
 > gräv
@@ -81,7 +81,7 @@ Det enda som egentligen antyder att detta är ett kök är den jättestora
 eldstaden i mitten av rummet.
 
 > s
-Borggården (igen).
+Borggården (igen)
 
 > ö
 Skattkammaren.
@@ -118,7 +118,7 @@ lagt Våra skatter i Vår madrass.
 Du släpar omkring på en spade och en gulnad papperslapp.
 
 > v och v
-Borggården (igen).
+Borggården (igen)
 
 
 Sängkammaren.

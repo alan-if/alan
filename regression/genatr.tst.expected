@@ -1,6 +1,6 @@
 ########## genatr ##########
-alan genatr
-arun genatr < genatr.input
+../compiler/alan genatr
+../interpreter/arun.exe -n genatr < genatr.input
 ########## /bin/sh  genatr.tst ##########
 
         No warnings or errors detected.

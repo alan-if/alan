@@ -1,6 +1,6 @@
 ########## messages ##########
-alan messages
-arun messages < messages.input
+../compiler/alan messages
+../interpreter/arun.exe -n messages < messages.input
 ########## /bin/sh  messages.tst ##########
 
         No warnings or errors detected.
@@ -17,22 +17,22 @@ L1.
 L2.
 
 > w
-L1 (here again).
+L1 (here again)
 
 > w
-L2 (here again).
+L2 (here again)
 
 > w
-L1 (here again).
+L1 (here again)
 
 > e
 There is no exit in that direction.
 
 > w
-L2 (here again).
+L2 (here again)
 
 > e
-L2 (here again).
+L2 (here again)
 
 > 
 

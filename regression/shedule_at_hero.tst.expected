@@ -1,6 +1,6 @@
 ########## shedule_at_hero ##########
-alan shedule_at_hero
-arun shedule_at_hero < shedule_at_hero.input
+../compiler/alan shedule_at_hero
+../interpreter/arun.exe -n shedule_at_hero < shedule_at_hero.input
 ########## /bin/sh  shedule_at_hero.tst ##########
 
         No warnings or errors detected.

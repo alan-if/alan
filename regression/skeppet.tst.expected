@@ -1,6 +1,6 @@
 ########## skeppet ##########
-alan skeppet
-arun skeppet < skeppet.input
+../compiler/alan skeppet
+../interpreter/arun.exe -n skeppet < skeppet.input
 ########## /bin/sh  skeppet.tst ##########
 
         No warnings or errors detected.

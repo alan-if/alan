@@ -1,6 +1,6 @@
 ########## button ##########
-alan button
-arun button < button.input
+../compiler/alan button
+../interpreter/arun.exe -n button < button.input
 ########## /bin/sh  button.tst ##########
 
         No warnings or errors detected.

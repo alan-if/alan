@@ -1,11 +1,12 @@
 ########## adjverb ##########
-alan adjverb
-arun adjverb < adjverb.input
+../compiler/alan adjverb
+../interpreter/arun.exe -n adjverb < adjverb.input
 ########## /bin/sh  adjverb.tst ##########
 
 
 
-        320 W : Word 'mail' belongs to multiple word classes.
+        320 W : Word 'mail' belongs to multiple word classes (adjective and
+                verb).
 
 
         No detected errors.

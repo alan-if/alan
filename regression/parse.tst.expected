@@ -1,6 +1,6 @@
 ########## parse ##########
-alan parse
-arun parse < parse.input
+../compiler/alan parse
+../interpreter/arun.exe -n parse < parse.input
 ########## /bin/sh  parse.tst ##########
 
         No warnings or errors detected.

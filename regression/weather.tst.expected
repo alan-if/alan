@@ -1,6 +1,6 @@
 ########## weather ##########
-alan weather
-arun weather < weather.input
+../compiler/alan weather
+../interpreter/arun.exe -n weather < weather.input
 ########## /bin/sh  weather.tst ##########
 
         No warnings or errors detected.

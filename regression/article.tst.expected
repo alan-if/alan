@@ -1,6 +1,6 @@
 ########## article ##########
-alan article
-arun article < article.input
+../compiler/alan article
+../interpreter/arun.exe -n article < article.input
 ########## /bin/sh  article.tst ##########
 
         No warnings or errors detected.

@@ -1,6 +1,6 @@
 ########## alt ##########
-alan alt
-arun alt < alt.input
+../compiler/alan alt
+../interpreter/arun.exe -n alt < alt.input
 ########## /bin/sh  alt.tst ##########
 
         No warnings or errors detected.

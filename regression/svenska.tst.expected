@@ -1,6 +1,6 @@
 ########## svenska ##########
-alan svenska
-arun svenska < svenska.input
+../compiler/alan svenska
+../interpreter/arun.exe -n svenska < svenska.input
 ########## /bin/sh  svenska.tst ##########
 
         No warnings or errors detected.

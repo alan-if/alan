@@ -1,6 +1,6 @@
 ########## actor_at_object_in_cont ##########
 ../compiler/alan actor_at_object_in_cont
-arun actor_at_object_in_cont < actor_at_object_in_cont.input
+../interpreter/arun.exe -n actor_at_object_in_cont < actor_at_object_in_cont.input
 ########## /bin/sh  actor_at_object_in_cont.tst ##########
 
         No warnings or errors detected.

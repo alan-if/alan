@@ -1,11 +1,14 @@
 ########## random ##########
-alan -debug random
-arun -d random < random.input
+../compiler/alan -debug random
+../interpreter/arun.exe -n -d random < random.input
 ########## /bin/sh  random.tst ##########
 
         No warnings or errors detected.
         1 informational message(s).
 
+<Arun, Adventure Interpreter version 2.8(6) (2001-07-13 13:15:23)>
+<Version of 'random' is 2.8(6)>
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 'r' to generate a random number.
 
 
@@ -18,31 +21,31 @@ ABUG> x
 1
 
 > r
-9
+4
 
 > r
-9
+5
 
 > r
-8
-
-> r
-9
-
-> r
-8
-
-> r
-6
-
-> r
-2
+7
 
 > r
 3
 
 > r
 1
+
+> r
+1
+
+> r
+6
+
+> r
+6
+
+> r
+6
 
 > 
 
