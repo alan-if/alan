@@ -101,10 +101,12 @@ static void symbolizeClass(ClaNod *cla)
   symbolizeSlots(cla->slots);
 
   if (cla->slots->parent != NULL) {
-    if (cla->slots->parent->kind != CLASS_SYMBOL)
-      lmLog(&cla->slots->parent->srcp, 350, sevERR, "");
-    else
-      setParent(cla->slots->symbol, cla->slots->parent->symbol);
+    if (cla->slots->parent->symbol != NULL) {
+      if (cla->slots->parent->symbol->kind != CLASS_SYMBOL)
+	lmLog(&cla->slots->parent->srcp, 350, sevERR, "");
+      else
+	setParent(cla->slots->symbol, cla->slots->parent->symbol);
+    }
   }
 }
 

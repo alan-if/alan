@@ -25,7 +25,6 @@ typedef enum IdKind {
 typedef struct IdNode {		/* ID */
   Srcp srcp;			/* Source position of the identifier */
   char *string;			/* String representation */
-  IdKind kind;			/* What kind of ID */
   SymNod *symbol;		/* Symbol table pointer */
 } IdNode;
 

@@ -10,15 +10,15 @@
 #include "srcp_x.h"
 #include "whr_x.h"
 #include "id_x.h"
+#include "atr_x.h"
+#include "sym_x.h"
+#include "wht_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
-#include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "exp.h"		/* EXP-nodes */
-#include "atr.h"		/* ATR-nodes */
-#include "wht.h"		/* WHT-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "ins.h"		/* INS-nodes */
 
