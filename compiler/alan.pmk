@@ -170,7 +170,7 @@ adventure
 ---> OPTIONS
 optional_options	-- RETURNS: <nothing>
     =
-    ! 'OPTIONS' options					%+('MESSAGE')
+    ! 'OPTIONS' options					%+('MESSAGE', 'DEFAULT')
     ;
 
 options			-- RETURNS: <nothing>
@@ -275,28 +275,28 @@ unit
 
 ----> DEFAULTS
 default				-- RETURNS: atrs
-    = 'ATTRIBUTES' attributes				%+('MESSAGE')
+    = 'DEFAULT' 'ATTRIBUTES' attributes			%+('MESSAGE', 'DEFAULT')
     %%
 	%default.atrs = %attributes.atrs;
     %%
     ;
 
 location_default		-- RETURNS: atrs
-    = 'LOCATION' 'ATTRIBUTES' attributes		%+('MESSAGE')
+    = 'LOCATION' 'ATTRIBUTES' attributes		%+('MESSAGE', 'DEFAULT')
     %%
 	%location_default.atrs = %attributes.atrs;
     %%
     ;
 
 object_default			-- RETURNS: atrs
-    = 'OBJECT' 'ATTRIBUTES' attributes			%+('MESSAGE')
+    = 'OBJECT' 'ATTRIBUTES' attributes			%+('MESSAGE', 'DEFAULT')
     %%
 	%object_default.atrs = %attributes.atrs;
     %%
     ;
 
 actor_default			-- RETURNS: atrs
-    = 'ACTOR' 'ATTRIBUTES' attributes			%+('MESSAGE')
+    = 'ACTOR' 'ATTRIBUTES' attributes			%+('MESSAGE', 'DEFAULT')
     %%
 	%actor_default.atrs = %attributes.atrs;
     %%
@@ -357,7 +357,7 @@ attribute		-- RETURNS: atr
 
 ---> SYNONYMS
 synonyms			-- RETURNS: syns
-    = 'SYNONYMS' synonym_list	       			%+('MESSAGE')
+    = 'SYNONYMS' synonym_list	       			%+('MESSAGE', 'DEFAULT')
     %%
 	%synonyms.syns = %synonym_list.syns;
     %%
@@ -386,7 +386,7 @@ synonym				-- RETURNS: syn
 
 ---> MESSAGES
 messages			-- RETURNS: msgs
-    = 'MESSAGE' message_list				%+('MESSAGE')
+    = 'MESSAGE' message_list				%+('MESSAGE', 'DEFAULT')
     %%
 	%messages.msgs = %message_list.msgs;
     %%
@@ -415,7 +415,7 @@ message				-- RETURNS: msg
 
 ---> SYNTAX
 syntax
-    = 'SYNTAX' syntax_list				%+('MESSAGE')
+    = 'SYNTAX' syntax_list				%+('MESSAGE', 'DEFAULT')
     %%
 	%syntax.stxs = %syntax_list.stxs;
     %%
@@ -2058,6 +2058,11 @@ ID
     = IDENT
     %%
         %ID.nam = newnam(`&%IDENT.srcp, %IDENT.chars);
+    %%
+
+    ! 'DEFAULT'
+    %%
+        %ID.nam = newnam(`&%'DEFAULT'.srcp, "default");
     %%
 
     ! 'ARTICLE'

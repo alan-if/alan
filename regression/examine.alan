@@ -1,7 +1,7 @@
 Options
 	debug.
 
-Attributes
+Default Attributes
 	NOT openable.
 	closed.
 
