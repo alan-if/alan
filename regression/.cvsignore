@@ -3,6 +3,7 @@
 *.diff
 *.output
 CASES
+dosregr.zip
 regression.dos
 regression.lha
 regression.zip

@@ -23,13 +23,15 @@ Wed Aug 28 09:00:58 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* LANGUAGE IMPROVEMENT: Added a new statement RESTART to restart
 	the current game. It causes a prompt for confirmation (the new
-	REALLY message which can be set to change it).
+	REALLY message which can be changed as all standard messages using
+	the MESSAGE construct).
 
 	* DOCUMENTATION: Changed format of the grammar description, now
 	using the more clear (?) <xyz> format for non-terminals.
 
-	* SIGNIFICANT LANGUAGE IMPROVEMENT: Added a other special
-	indicator for parameters in the syntax construct. In the same way
+	* SIGNIFICANT LANGUAGE IMPROVEMENT: Reference to objects/actors
+	not at the current location allowed! Another special indicator for
+	parameters in the syntax construct has been added. In the same way
 	as it has been possible to indicate that a parameter can be
 	multiple, it is now possible to indicate that the parameter need
 	*not* be present to be considered.  Disambiguation between
