@@ -55,6 +55,7 @@ extern lmSev readSev();
 #include "advTest.c"
 #include "symTest.c"
 #include "whrTest.c"
+#include "emitTest.c"
 
 
 int main()
@@ -66,6 +67,7 @@ int main()
   registerAdvUnitTests();
   registerSymUnitTests();
   registerWhrUnitTests();
+  registerEmitUnitTests();
 
   unitTest();
 
@@ -83,21 +85,6 @@ void registerUnitTest(void (*aCase)())
     lastCase = lastCase->next;
     lastCase->theCase = aCase;
   }
-}
-
-static Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
-{
-  Aword s;                      /* The swapped ACODE word */
-  char *wp, *sp;
-  int i;
-  
-  wp = (char *) &w;
-  sp = (char *) &s;
-
-  for (i = 0; i < sizeof(Aword); i++)
-    sp[sizeof(Aword)-1 - i] = wp[i];
-
-  return s;
 }
 
 

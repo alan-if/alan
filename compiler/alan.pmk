@@ -793,7 +793,7 @@ static int val(char str[])
 	%<slot>.nam = nam;
     }%%
 
-    ! <where>
+    ! <where> ['.']
     %%{ WhrNod *whr = %<where>.whr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.whr = whr;

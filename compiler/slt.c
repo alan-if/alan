@@ -48,7 +48,7 @@ SlotsNode *newSlots(List *names,
 		    WhrNod *whr,
 		    List *atrs,
 		    CntNod *cnt,
-		    List *dscr,
+		    List *description,
 		    List *mentioned,
 		    List *art,
 		    List *does,
@@ -66,7 +66,7 @@ SlotsNode *newSlots(List *names,
   new->whr = whr;
   new->atrs = atrs;
   new->cnt = cnt;
-  new->dscr = dscr;
+  new->description = description;
   new->mentioned = mentioned;
   new->art = art;
   new->vrbs = vrbs;
@@ -128,12 +128,19 @@ void analyzeSlots(SlotsNode *slots)
  */
 void generateSlotsData(SlotsNode *slots)
 {
-  slots->idAddr = emadr();
+  slots->idAddress = emadr();
   emitstr(slots->id->string);
 
   slots->mentionedAddress = emadr();
   gestms(slots->mentioned, NULL);
   emit0(C_STMOP, I_RETURN);
+
+  if (slots->description != NULL) {
+    slots->descriptionAddress = emadr();
+    gestms(slots->description, NULL);
+    emit0(C_STMOP, I_RETURN);
+  }
+
 }
 
 
@@ -144,16 +151,15 @@ void generateSlotsData(SlotsNode *slots)
   Generate entries for one Slots node.
 
  */
-void generateSlotsEntry(SlotsNode *slots)
+void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
 {
-  emit(generateInitialLocation(slots->whr));
-  emit(slots->atradr);		/* attributes */
-  emit(slots->dscradr);		/* description */
-  emit(0);			/* describe flag */
-  emit(slots->mentionedAddress);
-  emit(slots->artadr);		/* article */
-  emit(slots->extadr);		/* exits */
-  emit(slots->vrbadr);		/* verbs */
+  entry->location = generateInitialLocation(slots->whr);
+  entry->attributes = slots->atradr;
+  entry->description = slots->descriptionAddress;
+  entry->mentioned = slots->mentionedAddress;
+  entry->article = slots->artadr;
+  entry->exits = slots->extadr;
+  entry->verbs = slots->vrbadr;
 }
 
 
@@ -175,8 +181,8 @@ void dumpSlots(SlotsNode *slots)
 #endif
   put("atrs: "); dulst(slots->atrs, LIST_ATR); nl();
   put("atradr: "); duadr(slots->atradr); nl();
-  put("dscr: "); dulst(slots->dscr, LIST_STM); nl();
-  put("dscradr: "); duadr(slots->dscradr); nl();
+  put("description: "); dulst(slots->description, LIST_STM); nl();
+  put("descriptionAddress: "); duadr(slots->descriptionAddress); nl();
   put("art: "); dulst(slots->art, LIST_STM); nl();
   put("artadr: "); duadr(slots->artadr); nl();
   put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();

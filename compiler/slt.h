@@ -21,14 +21,14 @@
 
 typedef struct SlotsNode {	/* SLOTS  */
   IdNode *id;			/* Identifier */
-  Aaddr idAddr;
+  Aaddr idAddress;
   List *names;			/* List of lists of adjectives and a noun (ids)*/
   WhrNod *whr;			/* Where is it initially? */
   CntNod *cnt;			/* Container properties */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address to attribute list */
-  List *dscr;			/* Long description statements */
-  Aword dscradr;		/* ACODE address to long description code */
+  List *description;		/* Long description statements */
+  Aword descriptionAddress;	/* ACODE address to long description code */
   List *art;			/* Article printing statements */
   Aword artadr;			/* ACODE address to article statements */
   List *mentioned;		/* Short (inventory like) statements */

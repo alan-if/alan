@@ -182,14 +182,17 @@ static void generateInstanceData(InsNod *ins)
 */
 static void generateInstanceEntry(InsNod *ins)
 {
-  emit(ins->symbol->code);	/* First own code */
-  emit(ins->slots->idAddr);	/* Address to the id string */
-  if (ins->parent == NULL)	/* Then parents */
-    emit(0);
-  else
-    emit(ins->parent->symbol->code);
+  InstanceEntry entry;
 
-  generateSlotsEntry(ins->slots);
+  entry.code = ins->symbol->code; /* First own code */
+  entry.idAddress = ins->slots->idAddress; /* Address to the id string */
+  if (ins->parent == NULL)	/* Then parents */
+    entry.parent = 0;
+  else
+    entry.parent = ins->parent->symbol->code;
+
+  generateSlotsEntry(&entry, ins->slots);
+  emitN((Aword *)&entry, sizeof(entry)/sizeof(Aword));
 }
 
 

@@ -185,19 +185,8 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword parent;			/* Code for the parent class, 0 if none */
 } ClassEntry;
 
-typedef struct InstanceEntry {	/* INSTANCE TABLE */
-  Aword code;			/* Own code */
-  Aaddr idAddr;			/* Address to identifier */
-  Aword parent;			/* Code for the parent class, 0 if none */
-  Aword location;		/* Code for current location */
-  Aaddr atrs;			/* Address of attribute list */
-  Aaddr description;		/* Address of description code */
-  Abool describe;		/* Is this to be described? */
-  Aaddr mentioned;		/* Address of "mentioned" code */
-  Aaddr art;			/* Address of article code */
-  Aaddr exts;			/* Address of exit list */
-  Aaddr vrbs;			/* Address of local verb list */
-} InstanceEntry;
+
+/* InstanceEntry moved to acode.h */
 
 typedef struct ObjEntry25 {	/* OBJECT TABLE of 2.5 format*/
   Aword loc;			/* Current location */

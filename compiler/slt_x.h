@@ -10,6 +10,7 @@
 #include "slt.h"
 
 /* USE: */
+#include "acode.h"
 
 
 /* DATA: */
@@ -33,7 +34,7 @@ extern SlotsNode *newSlots(List *nams,
 extern void symbolizeSlots(SlotsNode *slots);
 extern void analyzeSlots(SlotsNode *slts);
 extern void generateSlotsData(SlotsNode *slts);
-extern void generateSlotsEntry(SlotsNode *slts);
+extern void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slts);
 extern void dumpSlots(SlotsNode *slots);
 
 

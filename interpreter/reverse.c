@@ -172,9 +172,9 @@ static void reverseAlts(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseVrbs(Aword adr)
+static void reverseVerbs(Aword adr)
 #else
-static void reverseVrbs(adr)
+static void reverseVerbs(adr)
      Aword adr;
 #endif
 {
@@ -231,28 +231,9 @@ static void reverseScrs(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseInstances(Aword adr)
+static void reverseExits(Aword adr)
 #else
-static void reverseInstances(adr)
-     Aword adr;
-#endif
-{
-  InstanceEntry *e = (InstanceEntry *) &memory[adr];
-
-  if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(InstanceEntry));
-    while (!endOfTable(e)) {
-      reverseStms(e->mentioned);
-      e++;
-    }
-  }
-}
-
-
-#ifdef _PROTOTYPES_
-static void reverseExts(Aword adr)
-#else
-static void reverseExts(adr)
+static void reverseExits(adr)
      Aword adr;
 #endif
 {
@@ -269,6 +250,29 @@ static void reverseExts(adr)
     }
   }
 }    
+
+
+#ifdef _PROTOTYPES_
+static void reverseInstances(Aword adr)
+#else
+static void reverseInstances(adr)
+     Aword adr;
+#endif
+{
+  InstanceEntry *e = (InstanceEntry *) &memory[adr];
+
+  if (adr != 0 && !endOfTable(e)) {
+    reverseTable(adr, sizeof(InstanceEntry));
+    while (!endOfTable(e)) {
+      reverseStms(e->mentioned);
+      reverseStms(e->description);
+      reverseExits(e->exits);
+      reverseVerbs(e->verbs);
+      e++;
+    }
+  }
+}
+
 
 #ifdef _PROTOTYPES_
 static void reverseClas(Aword adr)
@@ -454,7 +458,7 @@ void reverseACD(v2_5)
   reverseTable(header->latrs, sizeof(AtrEntry));
   reverseTable(header->aatrs, sizeof(AtrEntry));
   reverseStxs(header->stxs);
-  reverseVrbs(header->vrbs);
+  reverseVerbs(header->vrbs);
   reverseInstances(header->instanceTableAddress);
   reverseTable(header->classTableAddress, sizeof(ClassEntry));
   reverseEvts(header->evts);

@@ -65,14 +65,14 @@ void testGenerateInstances()
   loadACD("unit.acd");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
   unitAssert(convertFromACD(instanceTable->code) == ins->symbol->code);
-  unitAssert(convertFromACD(instanceTable->idAddr) == ins->slots->idAddr);
+  unitAssert(convertFromACD(instanceTable->idAddress) == ins->slots->idAddress);
   unitAssert(convertFromACD(instanceTable->parent) == (ins->parent?ins->parent->symbol->code:0));
-  unitAssert(convertFromACD(instanceTable->atrs) == ins->slots->atradr);
-  unitAssert(convertFromACD(instanceTable->description) == ins->slots->dscradr);
+  unitAssert(convertFromACD(instanceTable->attributes) == ins->slots->atradr);
+  unitAssert(convertFromACD(instanceTable->description) == ins->slots->descriptionAddress);
   unitAssert(convertFromACD(instanceTable->mentioned) == ins->slots->mentionedAddress);
-  unitAssert(convertFromACD(instanceTable->art) == ins->slots->artadr);
-  unitAssert(convertFromACD(instanceTable->exts) == ins->slots->extadr);
-  unitAssert(convertFromACD(instanceTable->vrbs) == ins->slots->vrbadr);
+  unitAssert(convertFromACD(instanceTable->article) == ins->slots->artadr);
+  unitAssert(convertFromACD(instanceTable->exits) == ins->slots->extadr);
+  unitAssert(convertFromACD(instanceTable->verbs) == ins->slots->vrbadr);
 }
 
 

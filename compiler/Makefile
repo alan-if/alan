@@ -39,7 +39,6 @@ BUILDSRCS = \
 	chk.c \
 	dump.c \
 	encode.c \
-	emit.c \
 	elm.c \
 	evt.c \
 	exp.c \
@@ -78,7 +77,8 @@ ALANSRCS = \
 	ins.c \
 	sym.c \
 	whr.c \
-	adv.c
+	adv.c \
+	emit.c \
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
@@ -164,6 +164,8 @@ alan.version.c: $(VERSIONSRCS) ../alan.version
 	cd ..; venum alan time
 	cp ../alan.version.c .
 
+acode.h: ../interpreter/acode.h
+	cp ../interpreter/acode.h .
 #
 include dependencies.mk
 

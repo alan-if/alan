@@ -1,6 +1,7 @@
 #ifndef _ACODE_H_
 #define _ACODE_H_
 
+/* Basic types */
 typedef unsigned long Aword;		/* Type for an ACODE word */
 typedef unsigned long Aaddr;		/* Type for an ACODE address */
 typedef unsigned long Abool;		/* Type for an ACODE Boolean value */
@@ -162,6 +163,25 @@ typedef enum VarClass {
 #define I_CLASS(x) ((x)>>28)
 #define I_OP(x)    ((x&0x8000000)?(x)|0x0f0000000:(x)&0x0fffffff)
 
+
+/* AMACHINE Table entry types */
+
+typedef struct InstanceEntry {	/* INSTANCE TABLE */
+  Aword code;			/* Own code */
+  Aaddr idAddress;		/* Address to identifier */
+  Aword parent;			/* Code for the parent class, 0 if none */
+  Aword location;		/* Code for current location */
+  Aaddr attributes;		/* Address of attribute list */
+  Aaddr description;		/* Address of description code */
+  Abool describe;		/* Is this to be described? */
+  Aaddr mentioned;		/* Address of "mentioned" code */
+  Aaddr article;		/* Address of article code */
+  Aaddr exits;			/* Address of exit list */
+  Aaddr verbs;			/* Address of local verb list */
+} InstanceEntry;
+
+
+/* AMACHINE Header */
 
 typedef struct AcdHdr {
 /* Important info */

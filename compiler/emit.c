@@ -90,6 +90,19 @@ void emit(Aword c)		/* IN - Constant to emit */
 }
 
 
+void emitN(Aword words[], int noOfWords) /* IN - Constant to emit */
+{
+  int i;
+
+  for (i = 0; i < noOfWords; i++)
+#ifdef REVERSED
+      buffer(reversed(words[i]));
+#else
+      buffer(words[i]);
+#endif
+}
+
+
 /*----------------------------------------------------------------------
 
   emitstr()
