@@ -9,6 +9,7 @@
 #include "sysdep.h"
 #include "types.h"
 #include "act.h"
+#include "set.h"
 #include "debug.h"
 #include "syserr.h"
 
@@ -788,12 +789,28 @@ static void verifyId(Aword id, char action[]) {
 
 
 /*======================================================================*/
+/* Return the current position of an instance */
 Aword where(Aword id)
 {
   verifyId(id, "WHERE");
   return admin[id].location;
 }
 
+
+
+/*======================================================================*/
+/* Return the *location* of an instance */
+Aword location(Aword id)
+{
+  int loc;
+
+  verifyId(id, "LOCATION");
+
+  loc = admin[id].location;
+  while (loc != 0 && !isA(loc, LOCATION))
+    loc = admin[loc].location;
+  return loc;
+}
 
 
 /*======================================================================*/
@@ -840,6 +857,7 @@ Aint agrcount(Aword whr)
   Aword i;
   Aword count = 0;
 
+  /* TODO transform into DIRECTLY handling and add transitive version */
   for (i = 1; i <= header->instanceMax; i++) {
     if (isObj(i)) {
       if (isLoc(whr)) {
@@ -866,7 +884,7 @@ static void locateIntoContainer(Aword ins, Aword whr) {
 /*----------------------------------------------------------------------*/
 static void locateObject(Aword obj, Aword whr)
 {
-  if (isCnt(whr)) { /* Into a container */
+  if (isContainer(whr)) { /* Into a container */
     locateIntoContainer(obj, whr);
   } else {
     admin[obj].location = whr;
@@ -896,7 +914,7 @@ static void locateActor(Aword movingActor, Aword whr)
   /* FIXME: Actors locating into containers is dubious, anyway as it
    is now it allows the hero to be located into a container. And what
    happens with current location if so... */
-  if (isCnt(whr))
+  if (isContainer(whr))
     locateIntoContainer(movingActor, whr);
   else {
     current.location = whr;
@@ -941,7 +959,7 @@ void locate(Aword id, Aword whr)
   verifyId(whr, "LOCATE AT");
 
   /* First check if the instance is in a container, if so run extract checks */
-  if (isCnt(admin[id].location)) {    /* In something? */
+  if (isContainer(admin[id].location)) {    /* In something? */
     current.instance = admin[id].location;
     containerId = instance[admin[id].location].container;
     theContainer = &container[containerId];
@@ -980,7 +998,7 @@ static Abool instanceHere(Aword id)
 {
   Aword owner;
 
-  if (isCnt(admin[id].location)) {    /* In something? */
+  if (isContainer(admin[id].location)) {    /* In something? */
     owner = admin[id].location;
     if (admin[owner].location != 0)
       return(isHere(owner));
@@ -1002,7 +1020,7 @@ Aword isHere(Aword id)
 /*----------------------------------------------------------------------*/
 static Aword objnear(Aword obj)
 {
-  if (isCnt(admin[obj].location)) {    /* In something? */
+  if (isContainer(admin[obj].location)) {    /* In something? */
     if (isObj(admin[obj].location) || isAct(admin[obj].location))
       return(isNear(admin[obj].location));
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
@@ -1055,12 +1073,21 @@ Abool isA(Aword instanceId, Aword ancestor)
 
 
 /*======================================================================*/
+/* Transitively look in a container to see if the instance is in it. */
 Abool in(Aword theInstance, Aword cnt)
 {
-  if (!isCnt(cnt))
+  int loc;
+
+  if (!isContainer(cnt))
     syserr("IN in a non-container.");
 
-  return (admin[theInstance].location == cnt);
+  loc = admin[theInstance].location;
+  while (loc != 0)
+    if (loc == cnt)
+      return TRUE;
+    else
+      loc = admin[loc].location;
+  return FALSE;
 }
 
 
@@ -1526,8 +1553,8 @@ void list(Aword cnt)
 
   for (i = 1; i <= header->instanceMax; i++) {
     if (isA(i, OBJECT) || isA(i, ACTOR)) {
-      /* We can only see objects and actors */
-      if (in(i, cnt)) {		/* Yes, it's in this container */
+      /* We can only see objects and actors directly in this container... */
+      if (admin[i].location == cnt) { /* Yes, it's in this container */
 	if (!found) {
 	  found = TRUE;
 	  if (container[props].header != 0)
@@ -1828,7 +1855,7 @@ void restore(void)
 
 
 /*----------------------------------------------------------------------*/
-Aword rnd(Aword from, Aword to)
+Aword randomInteger(Aword from, Aword to)
 {
   if (to == from)
     return to;
@@ -1838,6 +1865,38 @@ Aword rnd(Aword from, Aword to)
     return (rand()/10)%(from-to+1)+to;
 }
 
+
+
+/*----------------------------------------------------------------------*/
+Aword randomInContainer(Aint cont)
+{
+  int count = agrcount(cont);
+  int selected;
+  int instance;
+
+  if (count == 0)
+    syserr("Nothing in container in 'randomInContainer()'");
+
+  selected = randomInteger(0, count-1);
+  /* TODO transform this to DIRECTLY handling and add transitive version */
+  for (instance = 1; selected > 0; instance++)
+    if (admin[instance].location == cont)
+      selected--;
+  return instance;
+}
+
+/*----------------------------------------------------------------------*/
+Aword randomInSet(Aset set)
+{
+  int count = setSize((Set *)set);
+  int selected;
+
+  if (count == 0)
+    syserr("Nothing in set in 'randomInSet()'");
+
+  selected = randomInteger(0, count-1);
+  return getMember((Set *)set, selected);
+}
 
 
 /*----------------------------------------------------------------------*/

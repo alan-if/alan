@@ -1347,7 +1347,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stm->fields.say.exp = pmSeSt[pmStkP+3].exp;
 	pmSeSt[pmStkP+1].stm->fields.say.form = pmSeSt[pmStkP+2].sayForm;
     	break;}
-    case 206: { /* <output_statement> = 'LIST' <what> '.'; */
+    case 206: { /* <output_statement> = 'LIST' <primary> '.'; */
 #line 1589 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, LIST_STATEMENT);
@@ -1368,14 +1368,14 @@ int rule			/* IN production number */
     case 210: { /* <say_form> = 'AN'; */
 #line 1607 "alan.pmk"
  pmSeSt[pmStkP+1].sayForm = SAY_INDEFINITE; 	break;}
-    case 211: { /* <manipulation_statement> = 'EMPTY' <what> <optional_where> '.'; */
+    case 211: { /* <manipulation_statement> = 'EMPTY' <primary> <optional_where> '.'; */
 #line 1614 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newEmptyStatement(pmSySt[pmStkP+1].srcp,
 							  pmSeSt[pmStkP+2].exp,
 							  pmSeSt[pmStkP+3].whr);
     	break;}
-    case 212: { /* <manipulation_statement> = 'LOCATE' <what> <where> '.'; */
+    case 212: { /* <manipulation_statement> = 'LOCATE' <primary> <where> '.'; */
 #line 1621 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newLocateStatement(pmSySt[pmStkP+1].srcp,
@@ -1410,7 +1410,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, CANCEL_STATEMENT);
 	pmSeSt[pmStkP+1].stm->fields.cancel.id = pmSeSt[pmStkP+2].id;
     	break;}
-    case 217: { /* <assignment_statement> = 'MAKE' <what> <something> '.'; */
+    case 217: { /* <assignment_statement> = 'MAKE' <primary> <something> '.'; */
 #line 1664 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, MAKE_STATEMENT);
@@ -1912,327 +1912,330 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].exp = pmSeSt[pmStkP+1].exp;
     	break;}
-    case 301: { /* <primary> = 'RANDOM' <primary> 'TO' <primary>; */
+    case 302: { /* <primary> = 'RANDOM' <primary> 'TO' <primary>; */
 #line 2242 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+1].srcp, RANDOM_EXPRESSION);
-	pmSeSt[pmStkP+1].exp->fields.rnd.from	= pmSeSt[pmStkP+2].exp;
-	pmSeSt[pmStkP+1].exp->fields.rnd.to	= pmSeSt[pmStkP+4].exp;
+	pmSeSt[pmStkP+1].exp = newRandomRangeExpression(pmSySt[pmStkP+1].srcp, pmSeSt[pmStkP+2].exp, pmSeSt[pmStkP+4].exp);
+    	break;}
+    case 301: { /* <primary> = 'RANDOM' 'IN' <primary>; */
+#line 2247 "alan.pmk"
+
+	pmSeSt[pmStkP+1].exp = newRandomInExpression(pmSySt[pmStkP+1].srcp, pmSeSt[pmStkP+3].exp);
     	break;}
     case 299: { /* <primary> = 'SCORE'; */
-#line 2249 "alan.pmk"
+#line 2252 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newExpression(&pmSySt[pmStkP+1].srcp, SCORE_EXPRESSION);
     	break;}
-    case 303: { /* <aggregate> = <aggregator> 'OF' ID; */
-#line 2257 "alan.pmk"
+    case 304: { /* <aggregate> = <aggregator> 'OF' ID; */
+#line 2260 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSeSt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].agr = pmSeSt[pmStkP+1].agr;
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+3].id;
     	break;}
-    case 302: { /* <aggregate> = 'COUNT'; */
-#line 2264 "alan.pmk"
+    case 303: { /* <aggregate> = 'COUNT'; */
+#line 2267 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].agr = COUNT_AGGREGATE;
 	pmSeSt[pmStkP+1].id = NULL;
     	break;}
-    case 304: { /* <aggregator> = 'MAX'; */
-#line 2273 "alan.pmk"
+    case 305: { /* <aggregator> = 'MAX'; */
+#line 2276 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].agr = MAX_AGGREGATE;
     	break;}
-    case 305: { /* <aggregator> = 'MIN'; */
-#line 2279 "alan.pmk"
+    case 306: { /* <aggregator> = 'MIN'; */
+#line 2282 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].agr = MIN_AGGREGATE;
     	break;}
-    case 306: { /* <aggregator> = 'SUM'; */
-#line 2285 "alan.pmk"
+    case 307: { /* <aggregator> = 'SUM'; */
+#line 2288 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
 	pmSeSt[pmStkP+1].agr = SUM_AGGREGATE;
     	break;}
-    case 307: { /* <something> = <optional_not> ID; */
-#line 2294 "alan.pmk"
+    case 308: { /* <something> = <optional_not> ID; */
+#line 2297 "alan.pmk"
 
 	pmSeSt[pmStkP+1].not = pmSeSt[pmStkP+1].not;
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+2].id;
     	break;}
-    case 308: { /* <what> = <simple_what>; */
-#line 2302 "alan.pmk"
+    case 309: { /* <what> = <simple_what>; */
+#line 2305 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newWhatExpression(pmSeSt[pmStkP+1].srcp, pmSeSt[pmStkP+1].wht);
     	break;}
-    case 309: { /* <what> = <attribute_reference>; */
-#line 2307 "alan.pmk"
+    case 310: { /* <what> = <attribute_reference>; */
+#line 2310 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = pmSeSt[pmStkP+1].exp;
     	break;}
-    case 310: { /* <simple_what> = ID; */
-#line 2314 "alan.pmk"
+    case 311: { /* <simple_what> = ID; */
+#line 2317 "alan.pmk"
 
 	pmSeSt[pmStkP+1].wht = newWhat(&pmSeSt[pmStkP+1].id->srcp, WHAT_ID, pmSeSt[pmStkP+1].id);
 	pmSeSt[pmStkP+1].srcp = pmSeSt[pmStkP+1].id->srcp;
     	break;}
-    case 312: { /* <simple_what> = 'CURRENT' 'ACTOR'; */
-#line 2320 "alan.pmk"
+    case 313: { /* <simple_what> = 'CURRENT' 'ACTOR'; */
+#line 2323 "alan.pmk"
 
 	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_ACTOR, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 313: { /* <simple_what> = 'CURRENT' 'LOCATION'; */
-#line 2326 "alan.pmk"
+    case 314: { /* <simple_what> = 'CURRENT' 'LOCATION'; */
+#line 2329 "alan.pmk"
 
 	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_LOCATION, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 311: { /* <simple_what> = 'THIS'; */
-#line 2332 "alan.pmk"
+    case 312: { /* <simple_what> = 'THIS'; */
+#line 2335 "alan.pmk"
 
 	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_THIS, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 314: { /* <attribute_reference> = ID 'OF' <what>; */
-#line 2341 "alan.pmk"
+    case 315: { /* <attribute_reference> = ID 'OF' <what>; */
+#line 2344 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newAttributeExpression(pmSySt[pmStkP+2].srcp, pmSeSt[pmStkP+1].id, FALSE, pmSeSt[pmStkP+3].exp);
     	break;}
-    case 315: { /* <attribute_reference> = <what> ':' ID; */
-#line 2346 "alan.pmk"
+    case 316: { /* <attribute_reference> = <what> ':' ID; */
+#line 2349 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newAttributeExpression(pmSySt[pmStkP+2].srcp, pmSeSt[pmStkP+3].id, FALSE, pmSeSt[pmStkP+1].exp);
     	break;}
-    case 316: { /* <optional_where> =; */
-#line 2353 "alan.pmk"
+    case 317: { /* <optional_where> =; */
+#line 2356 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = newWhere(&nulsrcp, WHERE_DEFAULT, NULL);
     	break;}
-    case 317: { /* <optional_where> = <where>; */
-#line 2358 "alan.pmk"
+    case 318: { /* <optional_where> = <where>; */
+#line 2361 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = pmSeSt[pmStkP+1].whr;
     	break;}
-    case 318: { /* <where> = 'HERE'; */
-#line 2365 "alan.pmk"
+    case 319: { /* <where> = 'HERE'; */
+#line 2368 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_HERE, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 319: { /* <where> = 'NEARBY'; */
-#line 2371 "alan.pmk"
+    case 320: { /* <where> = 'NEARBY'; */
+#line 2374 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_NEAR, NULL);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 320: { /* <where> = 'AT' <what>; */
-#line 2377 "alan.pmk"
+    case 321: { /* <where> = 'AT' <what>; */
+#line 2380 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_AT, pmSeSt[pmStkP+2].exp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 321: { /* <where> = 'IN' <what>; */
-#line 2383 "alan.pmk"
+    case 322: { /* <where> = 'IN' <what>; */
+#line 2386 "alan.pmk"
 
         pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_IN, pmSeSt[pmStkP+2].exp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 322: { /* <binop> = '+'; */
-#line 2391 "alan.pmk"
+    case 323: { /* <binop> = '+'; */
+#line 2394 "alan.pmk"
 
 	pmSeSt[pmStkP+1].op = PLUS_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 323: { /* <binop> = '-'; */
-#line 2397 "alan.pmk"
+    case 324: { /* <binop> = '-'; */
+#line 2400 "alan.pmk"
 
 	pmSeSt[pmStkP+1].op = MINUS_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 324: { /* <binop> = '*'; */
-#line 2403 "alan.pmk"
+    case 325: { /* <binop> = '*'; */
+#line 2406 "alan.pmk"
 
 	pmSeSt[pmStkP+1].op = MULT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 325: { /* <binop> = '/'; */
-#line 2409 "alan.pmk"
+    case 326: { /* <binop> = '/'; */
+#line 2412 "alan.pmk"
 
 	pmSeSt[pmStkP+1].op = DIV_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 326: { /* <relop> = '<>'; */
-#line 2418 "alan.pmk"
+    case 327: { /* <relop> = '<>'; */
+#line 2421 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = NE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 327: { /* <relop> = '='; */
-#line 2424 "alan.pmk"
+    case 328: { /* <relop> = '='; */
+#line 2427 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = EQ_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 328: { /* <relop> = '=='; */
-#line 2430 "alan.pmk"
+    case 329: { /* <relop> = '=='; */
+#line 2433 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = EXACT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 329: { /* <relop> = '>='; */
-#line 2436 "alan.pmk"
+    case 330: { /* <relop> = '>='; */
+#line 2439 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = GE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 330: { /* <relop> = '<='; */
-#line 2442 "alan.pmk"
+    case 331: { /* <relop> = '<='; */
+#line 2445 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = LE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 331: { /* <relop> = '>'; */
-#line 2448 "alan.pmk"
+    case 332: { /* <relop> = '>'; */
+#line 2451 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = GT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 332: { /* <relop> = '<'; */
-#line 2454 "alan.pmk"
+    case 333: { /* <relop> = '<'; */
+#line 2457 "alan.pmk"
 
         pmSeSt[pmStkP+1].op   = LT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 333: { /* <optional_qual> =; */
-#line 2464 "alan.pmk"
+    case 334: { /* <optional_qual> =; */
+#line 2467 "alan.pmk"
 
         pmSeSt[pmStkP+1].qual = QUAL_DEFAULT;
     	break;}
-    case 334: { /* <optional_qual> = 'BEFORE'; */
-#line 2469 "alan.pmk"
+    case 335: { /* <optional_qual> = 'BEFORE'; */
+#line 2472 "alan.pmk"
 
         pmSeSt[pmStkP+1].qual = QUAL_BEFORE;
         pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 335: { /* <optional_qual> = 'AFTER'; */
-#line 2475 "alan.pmk"
+    case 336: { /* <optional_qual> = 'AFTER'; */
+#line 2478 "alan.pmk"
 
         pmSeSt[pmStkP+1].qual = QUAL_AFTER;
         pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 336: { /* <optional_qual> = 'ONLY'; */
-#line 2481 "alan.pmk"
+    case 337: { /* <optional_qual> = 'ONLY'; */
+#line 2484 "alan.pmk"
 
         pmSeSt[pmStkP+1].qual = QUAL_ONLY;
         pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
-    case 337: { /* <optional_not> =; */
-#line 2490 "alan.pmk"
+    case 338: { /* <optional_not> =; */
+#line 2493 "alan.pmk"
 
         pmSeSt[pmStkP+1].not = FALSE;
     	break;}
-    case 338: { /* <optional_not> = 'NOT'; */
-#line 2495 "alan.pmk"
+    case 339: { /* <optional_not> = 'NOT'; */
+#line 2498 "alan.pmk"
 
         pmSeSt[pmStkP+1].not = TRUE;
     	break;}
-    case 339: { /* <optional_id> =; */
-#line 2502 "alan.pmk"
+    case 340: { /* <optional_id> =; */
+#line 2505 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = NULL;
     	break;}
-    case 340: { /* <optional_id> = ID; */
-#line 2507 "alan.pmk"
+    case 341: { /* <optional_id> = ID; */
+#line 2510 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+1].id;
     	break;}
-    case 341: { /* <ids> = ID; */
-#line 2514 "alan.pmk"
+    case 342: { /* <ids> = ID; */
+#line 2517 "alan.pmk"
 
         pmSeSt[pmStkP+1].idList = concat(NULL, pmSeSt[pmStkP+1].id, ID_LIST);
     	break;}
-    case 342: { /* <ids> = <ids> ID; */
-#line 2519 "alan.pmk"
+    case 343: { /* <ids> = <ids> ID; */
+#line 2522 "alan.pmk"
 
         pmSeSt[pmStkP+1].idList = concat(pmSeSt[pmStkP+1].idList, pmSeSt[pmStkP+2].id, ID_LIST);
     	break;}
-    case 343: { /* <id_list> = ID; */
-#line 2526 "alan.pmk"
+    case 344: { /* <id_list> = ID; */
+#line 2529 "alan.pmk"
 
         pmSeSt[pmStkP+1].str = newString(pmSeSt[pmStkP+1].id->string);
         pmSeSt[pmStkP+1].idList = concat(NULL, pmSeSt[pmStkP+1].id, ID_LIST);
     	break;}
-    case 344: { /* <id_list> = <id_list> ',' ID; */
-#line 2532 "alan.pmk"
+    case 345: { /* <id_list> = <id_list> ',' ID; */
+#line 2535 "alan.pmk"
 
         pmSeSt[pmStkP+1].str = pmSeSt[pmStkP+1].str;
         pmSeSt[pmStkP+1].idList = concat(pmSeSt[pmStkP+1].idList, pmSeSt[pmStkP+3].id, ID_LIST);
     	break;}
-    case 345: { /* <optional_integer> =; */
-#line 2540 "alan.pmk"
+    case 346: { /* <optional_integer> =; */
+#line 2543 "alan.pmk"
 
         pmSeSt[pmStkP+1].str = NULL;
     	break;}
-    case 346: { /* <optional_integer> = Integer; */
-#line 2545 "alan.pmk"
+    case 347: { /* <optional_integer> = Integer; */
+#line 2548 "alan.pmk"
 
         pmSeSt[pmStkP+1].str = newString(pmSySt[pmStkP+1].chars);
     	break;}
-    case 347: { /* <optional_minus> =; */
-#line 2552 "alan.pmk"
+    case 348: { /* <optional_minus> =; */
+#line 2555 "alan.pmk"
 
 	pmSeSt[pmStkP+1].minus = FALSE;
     	break;}
-    case 348: { /* <optional_minus> = '-'; */
-#line 2557 "alan.pmk"
+    case 349: { /* <optional_minus> = '-'; */
+#line 2560 "alan.pmk"
 
 	pmSeSt[pmStkP+1].minus = TRUE;
     	break;}
-    case 349: { /* ID = Identifier; */
-#line 2564 "alan.pmk"
+    case 350: { /* ID = Identifier; */
+#line 2567 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 350: { /* ID = 'LOCATION'; */
-#line 2569 "alan.pmk"
+    case 351: { /* ID = 'LOCATION'; */
+#line 2572 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 351: { /* ID = 'ACTOR'; */
-#line 2574 "alan.pmk"
+    case 352: { /* ID = 'ACTOR'; */
+#line 2577 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 352: { /* ID = 'OPAQUE'; */
-#line 2579 "alan.pmk"
+    case 353: { /* ID = 'OPAQUE'; */
+#line 2582 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 353: { /* ID = 'ON'; */
-#line 2584 "alan.pmk"
+    case 354: { /* ID = 'ON'; */
+#line 2587 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 354: { /* ID = 'OF'; */
-#line 2589 "alan.pmk"
+    case 355: { /* ID = 'OF'; */
+#line 2592 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 355: { /* ID = 'FIRST'; */
-#line 2594 "alan.pmk"
+    case 356: { /* ID = 'FIRST'; */
+#line 2597 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 356: { /* ID = 'INTO'; */
-#line 2599 "alan.pmk"
+    case 357: { /* ID = 'INTO'; */
+#line 2602 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 357: { /* ID = 'TAKING'; */
-#line 2604 "alan.pmk"
+    case 358: { /* ID = 'TAKING'; */
+#line 2607 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}

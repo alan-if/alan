@@ -7,9 +7,9 @@ countIsaThing.alan
 =====>                         1
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, things and instances without any
-                inheritance). It is recommended to apply it to only instances
-                of a particular class. Perhaps you mean 'COUNT Isa object'?
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
 
 
         No detected errors.

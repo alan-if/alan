@@ -7,9 +7,9 @@ aggregate.alan
 =====>       1     2
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, things and instances without any
-                inheritance). It is recommended to apply it to only instances
-                of a particular class. Perhaps you mean 'COUNT Isa object'?
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
   *2*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" before
                 this symbol.
 
@@ -17,26 +17,26 @@ aggregate.alan
 =====>       1           2
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, things and instances without any
-                inheritance). It is recommended to apply it to only instances
-                of a particular class. Perhaps you mean 'COUNT Isa object'?
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
   *2*   224 E : Multiple use of Where in filter list for COUNT Aggregation.
 
    11.    If Count At l = 9 Then "" End If.
 =====>       1
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, things and instances without any
-                inheritance). It is recommended to apply it to only instances
-                of a particular class. Perhaps you mean 'COUNT Isa object'?
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
 
    12.    If Count Is x Then "" End If.
 =====>       1     2
 
   *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, things and instances without any
-                inheritance). It is recommended to apply it to only instances
-                of a particular class. Perhaps you mean 'COUNT Isa object'?
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
   *2*   226 E : Attributes can not be used for filtering applied to all

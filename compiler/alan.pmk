@@ -1585,10 +1585,10 @@ static int val(char str[])
 	%<output_statement>.stm->fields.say.form = %<say_form>.sayForm;
     %%
 
-    ! 'LIST' <what> '.'
+    ! 'LIST' <primary> '.'
     %%
 	%<output_statement>.stm = newStatement(`&%'LIST'.srcp, LIST_STATEMENT);
-	%<output_statement>.stm->fields.list.wht = %<what>.exp;
+	%<output_statement>.stm->fields.list.wht = %<primary>.exp;
     %%	  
 
     ! 'SHOW' ID '.'
@@ -1610,17 +1610,17 @@ static int val(char str[])
 
 ----> Manipulation Statements
 <manipulation_statement>			-- RETURNS: stm
-    = 'EMPTY' <what> <optional_where> '.'
+    = 'EMPTY' <primary> <optional_where> '.'
     %%
 	%<manipulation_statement>.stm = newEmptyStatement(%'EMPTY'.srcp,
-							  %<what>.exp,
+							  %<primary>.exp,
 							  %<optional_where>.whr);
     %%	  
 
-    ! 'LOCATE' <what> <where> '.'
+    ! 'LOCATE' <primary> <where> '.'
     %%
 	%<manipulation_statement>.stm = newLocateStatement(%'LOCATE'.srcp,
-							   %<what>.exp,
+							   %<primary>.exp,
 							   %<where>.whr);
     %%
 
@@ -1660,10 +1660,10 @@ static int val(char str[])
 
 ----> Assignment Statements
 <assignment_statement>				-- RETURNS: stm
-    = 'MAKE' <what> <something> '.'
+    = 'MAKE' <primary> <something> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'MAKE'.srcp, MAKE_STATEMENT);
-	%<assignment_statement>.stm->fields.make.wht = %<what>.exp;
+	%<assignment_statement>.stm->fields.make.wht = %<primary>.exp;
 	%<assignment_statement>.stm->fields.make.not = %<something>.not;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
     %%
@@ -2240,9 +2240,12 @@ static int val(char str[])
 
     ! 'RANDOM' <primary> 'TO' <primary>
     %%
-	%<primary>.exp = newExpression(`&%'RANDOM'.srcp, RANDOM_EXPRESSION);
-	%<primary>.exp->fields.rnd.from	= %2<primary>.exp;
-	%<primary>.exp->fields.rnd.to	= %3<primary>.exp;
+	%<primary>.exp = newRandomRangeExpression(%'RANDOM'.srcp, %2<primary>.exp, %3<primary>.exp);
+    %%
+
+    ! 'RANDOM' 'IN' <primary>
+    %%
+	%1<primary>.exp = newRandomInExpression(%'RANDOM'.srcp, %2<primary>.exp);
     %%
 
     ! 'SCORE'

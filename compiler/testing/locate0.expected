@@ -55,7 +55,8 @@ locate0.alan
    22.    Locate o In o.
 =====>                1
 
-  *1*   318 E : The 'o' does not have the container property.
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
 
 
         10 error(s).

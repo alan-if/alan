@@ -114,7 +114,7 @@ void verifyContainer(What *wht, Context *context, char construct[])
       switch (sym->kind) {
       case INSTANCE_SYMBOL:
 	if (sym->fields.entity.props->container == NULL)
-	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
+	  lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
 	break;
       case PARAMETER_SYMBOL:
 	if (!symbolIsContainer(sym))

@@ -12,7 +12,8 @@ expression.alan
 =====>       1             2
 
   *1*   319 E : Identifier 'object' is not an instance.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
 
         3 error(s).

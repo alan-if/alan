@@ -106,7 +106,7 @@ extern void logPrint(char string[]);
 
 extern Bool eot(Aword *adr);
 extern Bool isObj(Aword x);
-extern Bool isCnt(Aword x);
+extern Bool isContainer(Aword x);
 extern Bool isAct(Aword x);
 extern Bool isLoc(Aword x);
 extern Bool isLiteral(Aword x);

@@ -19,7 +19,8 @@ saviourV2_x.alan
 =====>            1         2
 
   *1*   319 E : Identifier 'OBJECT' is not an instance.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
    53.  	LOCATE OBJECT HERE.
 =====>  	       1
@@ -71,7 +72,8 @@ saviourV2_x.alan
   118.      CHECK o NOT IN hero
 =====>                     1
 
-  *1*   318 E : The 'hero' does not have the container property.
+  *1*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   134.  VERB insert_into
 =====>  1
@@ -86,7 +88,8 @@ saviourV2_x.alan
   179.  	LIST hero.
 =====>  	     1
 
-  *1*   318 E : The 'hero' does not have the container property.
+  *1*   318 E : The 'hero' does not have the container property, which is
+                required in LIST statement.
 
   208.  VERB take
 =====>  1
@@ -97,7 +100,8 @@ saviourV2_x.alan
 =====>            1             2
 
   *1*   319 E : Identifier 'OBJECT' is not an instance.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   212.      AND OBJECT IS takeable
 =====>          1
@@ -108,7 +112,8 @@ saviourV2_x.alan
 =====>                 1         2
 
   *1*   319 E : Identifier 'OBJECT' is not an instance.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   224.  VERB type
 =====>  1
@@ -204,7 +209,8 @@ saviourV2_x.alan
   313.  		IF tape IN hero THEN
 =====>  		           1
 
-  *1*   318 E : The 'hero' does not have the container property.
+  *1*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   325.  END LOCATION.
 =====>      1
@@ -233,13 +239,15 @@ saviourV2_x.alan
 =====>  		   1           2
 
   *1*   310 E : Identifier 'keys' not defined.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   399.          ELSIF keys NOT IN hero THEN
 =====>                1           2
 
   *1*   310 E : Identifier 'keys' not defined.
-  *2*   318 E : The 'hero' does not have the container property.
+  *2*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   406.  END OBJECT.
 =====>      1
@@ -471,7 +479,8 @@ saviourV2_x.alan
   637.          IF ladder IN hero THEN
 =====>                       1
 
-  *1*   318 E : The 'hero' does not have the container property.
+  *1*   318 E : The 'hero' does not have the container property, which is
+                required in Expression after IN.
 
   655.  END OBJECT.
 =====>      1

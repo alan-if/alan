@@ -7,7 +7,7 @@ aggregateMax.alan
 =====>       1      2 3
 
   *1*   225 W : The MAX aggregate will be applied to every instance (including
-                locations, things and instances without any inheritance). It is
+                locations, entities and instances of their subclasses). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
   *2*   226 E : Attributes can not be used for filtering applied to all
@@ -20,7 +20,7 @@ aggregateMax.alan
 =====>       1      2       3
 
   *1*   225 W : The MAX aggregate will be applied to every instance (including
-                locations, things and instances without any inheritance). It is
+                locations, entities and instances of their subclasses). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
   *2*   226 E : Attributes can not be used for filtering applied to all
@@ -32,7 +32,7 @@ aggregateMax.alan
 =====>       1      2       3
 
   *1*   225 W : The MAX aggregate will be applied to every instance (including
-                locations, things and instances without any inheritance). It is
+                locations, entities and instances of their subclasses). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
   *2*   226 E : Attributes can not be used for filtering applied to all
@@ -44,7 +44,7 @@ aggregateMax.alan
 =====>       1      2 3
 
   *1*   225 W : The MAX aggregate will be applied to every instance (including
-                locations, things and instances without any inheritance). It is
+                locations, entities and instances of their subclasses). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean

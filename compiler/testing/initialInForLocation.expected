@@ -6,7 +6,8 @@ initialInForLocation.alan
     4.  The o Isa object In l
 =====>                      1
 
-  *1*   318 E : The 'l' does not have the container property.
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
 
     7.  The cont Isa object In object
 =====>                         1
@@ -24,7 +25,8 @@ initialInForLocation.alan
 
   *1*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
-  *2*   318 E : The 'o' does not have the container property.
+  *2*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
 
 
         5 error(s).

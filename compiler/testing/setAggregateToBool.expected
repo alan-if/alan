@@ -9,7 +9,7 @@ setAggregateToBool.alan
   *1*   331 E : Incompatible types in target and expression in SET statement.
   *2*   419 E : Target for SET statement can not be of boolean type.
   *3*   225 W : The SUM aggregate will be applied to every instance (including
-                locations, things and instances without any inheritance). It is
+                locations, entities and instances of their subclasses). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'SUM Isa object'?
   *4*   226 E : Attributes can not be used for filtering applied to all

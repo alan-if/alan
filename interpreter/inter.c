@@ -269,6 +269,14 @@ static void traceIntegerTopValue() {
     printf("\t=%ld\t", top());
 }
 
+static void traceInstanceTopValue() {
+  if (singleStepOption) {
+    printf("\t=%ld\t(", top());
+    traceSay(top());
+    printf(")");
+  }
+}
+
 static char *stringValue(Aword adress) {
   static char string[100];
 
@@ -633,7 +641,16 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("WHERE \t%5ld\t", id);
 	push(where(id));
-	traceIntegerTopValue();
+	traceInstanceTopValue();
+	break;
+      }
+      case I_LOCATION: {
+	Aword id;
+	id = pop();
+	if (singleStepOption)
+	  printf("LOCATION \t%5ld\t", id);
+	push(location(id));
+	traceInstanceTopValue();
 	break;
       }
       case I_HERE: {
@@ -642,10 +659,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("HERE \t%5ld", id);
 	push(isHere(id));
-	if (singleStepOption) {
-	  if (top()) printf("\t=TRUE\t");
-	  else printf("\t=FALSE\t");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_NEAR: {
@@ -675,6 +689,19 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("STOP \t%5ld\t\t\t", actor);
 	stop(actor);
+	break;
+      }
+      case I_AT: {
+	Aword ins, loc;
+	loc = pop();
+	ins = pop();
+	if (singleStepOption)
+	  printf("AT \t%5ld, %5ld ", ins, loc);
+	push(in(ins, loc));
+	if (singleStepOption) {
+	  if (top()) printf("\t=TRUE\t");
+	  else printf("\t=FALSE\t");
+	}
 	break;
       }
       case I_IN: {
@@ -936,7 +963,25 @@ void interpret(Aaddr adr)
 	to = pop();
 	if (singleStepOption)
 	  printf("RANDOM \t%5ld, %5ld", from, to);
-	push(rnd(from, to));
+	push(randomInteger(from, to));
+	traceIntegerTopValue();
+	break;
+      }
+      case I_RNDINCONT: {
+	Aint cont;
+	cont = pop();
+	if (singleStepOption)
+	  printf("RNDINCONT \t%5ld", cont);
+	push(randomInContainer(cont));
+	traceInstanceTopValue();
+	break;
+      }
+      case I_RNDINSET: {
+	Aword set;
+	set = pop();
+	if (singleStepOption)
+	  printf("RNDINSET \t%5ld", set);
+	push(randomInSet(set));
 	traceIntegerTopValue();
 	break;
       }

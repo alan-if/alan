@@ -86,7 +86,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
     if (sym)
       switch (sym->kind) {
       case INSTANCE_SYMBOL:
-	lmLog(&wht->srcp, 318, sevERR, wht->id->string);
+	lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
 	break;
       case PARAMETER_SYMBOL:
 	lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container", "because it is not restricted to Container in the Syntax", NULL);

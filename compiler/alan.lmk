@@ -59,7 +59,7 @@
 222	'Identifier \'%1\' in class restriction is not a parameter.';
 223	'This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run.';
 224	'Multiple use of %1 in filter list for %2.';
-225	'The %1 aggregate will be applied to every instance (including locations, things and instances without any inheritance). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?';
+225	'The %1 aggregate will be applied to every instance (including locations, entities and instances of their subclasses). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?';
 226	'Attributes can not be used for filtering applied to all instances. Filter out instances of a particular class by adding a \'Isa <class>\' filter.';
 227	'An unconditional check prohibits the declared statements (DOES) to ever be executed.';
 
@@ -90,7 +90,7 @@
 315	'Attribute not defined for \'%1\'.';
 316	'Attribute \'%1\' is not defined for %2 \'%3\' since the class (\'%4\') does not have it.';
 317	'Attribute \'%1\' is not defined for %2 since its class (\'%3\') does not have it.';
-318	'The \'%1\' does not have the container property.';
+318	'The \'%1\' does not have the container property, which is required in %2.';
 319	'Identifier \'%1\' is not %2.';
 320	'Word \'%1\' belongs to multiple word classes (%2 and %3).';
 321	'Synonym target word \'%1\' not defined.';

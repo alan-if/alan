@@ -117,6 +117,23 @@ Expression *newBinaryExpression(Srcp srcp, OperatorKind kind,
 
 
 /*======================================================================*/
+Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to) {
+  Expression *exp = newExpression(&srcp, RANDOM_EXPRESSION);
+  exp->fields.rnd.from = from;
+  exp->fields.rnd.to = to;
+  return exp;
+}
+
+
+/*======================================================================*/
+Expression *newRandomInExpression(Srcp srcp, Expression *what) {
+  Expression *exp = newExpression(&srcp, RANDOM_IN_EXPRESSION);
+  exp->fields.rin.what = what;
+  return exp;
+}
+
+
+/*======================================================================*/
 void symbolizeExpression(Expression *exp) {
   switch (exp->kind) {
   case WHERE_EXPRESSION:
@@ -630,6 +647,22 @@ static void analyzeRandom(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
+static void analyzeRandomIn(Expression *exp, Context *context)
+{
+  analyzeExpression(exp->fields.rin.what, context);
+  if (exp->fields.rin.what->type != SET_TYPE) { /* In a container or in a set? */
+    verifyContainerExpression(exp->fields.rin.what, context,
+			      "'Random In' expression");
+    exp->type = INSTANCE_TYPE;
+    exp->class = contentOf(exp->fields.rin.what, context);
+  } else {
+    exp->class = exp->fields.rin.what->class;
+    exp->type = classToType(exp->fields.rin.what->class);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
   Symbol *symbol;
@@ -778,6 +811,10 @@ void analyzeExpression(Expression *expression,
     analyzeRandom(expression, context);
     break;
 
+  case RANDOM_IN_EXPRESSION:
+    analyzeRandomIn(expression, context);
+    break;
+
   case SCORE_EXPRESSION:
     expression->type = INTEGER_TYPE;
     break;
@@ -792,10 +829,6 @@ void analyzeExpression(Expression *expression,
 
   case ISA_EXPRESSION:
     analyzeIsaExpression(expression, context);
-    break;
-
-  default:
-    SYSERR("Unrecognized switch");
     break;
   }
 }
@@ -881,12 +914,12 @@ static void generateWhereExpression(Expression *exp)
     generateExpression(what);
     emit0(I_HERE);
     if (exp->not) emit0(I_NOT);
-    return;
+    break;
   case WHERE_NEAR:
     generateExpression(what);
     emit0(I_NEAR);
     if (exp->not) emit0(I_NOT);
-    return;
+    break;
   case WHERE_IN:
   case WHERE_INSET:
     generateExpression(what);
@@ -896,20 +929,19 @@ static void generateWhereExpression(Expression *exp)
     else
       emit0(I_INSET);
     if (exp->not) emit0(I_NOT);
-    return;
+    break;
   case WHERE_AT:
     generateExpression(what);
-    emit0(I_WHERE);
+    emit0(I_LOCATION);
+    generateWhere(where);
+    emit0(I_EQ);
+    if (exp->not) emit0(I_NOT);
     break;
   default:
     unimpl(exp->srcp, "Code Generator");
     emitConstant(0);
-    return;
+    break;
   }
-  
-  generateWhere(where);
-  emit0(I_EQ);
-  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -1022,6 +1054,15 @@ static void generateRandomExpression(Expression *exp)
   emit0(I_RND);
 }
 
+/*----------------------------------------------------------------------*/
+static void generateRandomInExpression(Expression *exp)
+{
+  generateExpression(exp->fields.rin.what);
+  if (exp->fields.rin.what->type == SET_TYPE)
+    emit0(I_RNDINSET);
+  else
+    emit0(I_RNDINCONT);
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -1108,6 +1149,10 @@ void generateExpression(Expression *exp)
     
   case RANDOM_EXPRESSION:
     generateRandomExpression(exp);
+    break;
+    
+  case RANDOM_IN_EXPRESSION:
+    generateRandomInExpression(exp);
     break;
     
   case SCORE_EXPRESSION:
@@ -1226,6 +1271,9 @@ void dumpExpression(Expression *exp)
   case RANDOM_EXPRESSION:
     put("RND ");
     break;
+  case RANDOM_IN_EXPRESSION:
+    put("RIN ");
+    break;
   case SCORE_EXPRESSION:
     put("SCORE ");
     break;
@@ -1239,9 +1287,6 @@ void dumpExpression(Expression *exp)
   case ISA_EXPRESSION:
     if (exp->not) put("NOT ");
     put("ISA ");
-    break;
-  default:
-    put("*** Expression kind not implemented in dump() *** ");
     break;
   }
 
@@ -1279,6 +1324,9 @@ void dumpExpression(Expression *exp)
   case RANDOM_EXPRESSION:
     put("from: "); dumpExpression(exp->fields.rnd.from); nl();
     put("to: "); dumpExpression(exp->fields.rnd.to);
+    break;
+  case RANDOM_IN_EXPRESSION:
+    put("what: "); dumpExpression(exp->fields.rin.what);
     break;
   case WHAT_EXPRESSION:
     put("wht: "); dumpWhat(exp->fields.wht.wht);

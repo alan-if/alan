@@ -11,20 +11,23 @@ empty.alan
    18.    Empty o Nearby.
 =====>          1 2
 
-  *1*   318 E : The 'o' does not have the container property.
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in EMPTY statement.
   *2*   415 E : Invalid Where specification in LOCATE statement.
 
    19.    Empty l At unknown.
 =====>          1    2
 
-  *1*   318 E : The 'l' does not have the container property.
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in EMPTY statement.
   *2*   310 E : Identifier 'unknown' not defined.
 
    20.    Empty unknown of unknown In o.
 =====>                     1          2
 
   *1*   310 E : Identifier 'unknown' not defined.
-  *2*   318 E : The 'o' does not have the container property.
+  *2*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
 
    21.    Empty unknown of o In c.
 =====>          1

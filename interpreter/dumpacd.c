@@ -28,7 +28,7 @@ static char *acdfnm;
 /* Dump flags */
 
 static int dictionaryFlag, classesFlag, instancesFlag, parseFlag, syntaxesFlag,
-  initFlag, verbsFlag, eventsFlag, containersFlag, rulesFlag, statementsFlag;
+  initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag;
 
 
 
@@ -248,6 +248,30 @@ static void dumpContainers(int level, Aword cnts)
 
 
 /*----------------------------------------------------------------------*/
+static void dumpExts(int level, Aword exts)
+{
+  ExitEntry *ext;
+
+  if (exts == 0) return;
+
+  for (ext = (ExitEntry *)pointerTo(exts); !endOfTable(ext); ext++) {
+    indent(level);
+    printf("EXIT:\n");
+    indent(level+1);
+    printf("code: %ld\n", ext->code);
+    indent(level+1);
+    printf("checks: %s\n", dumpAddress(ext->checks));
+    dumpChks(level+2, ext->checks);
+    indent(level+1);
+    printf("action: %s\n", dumpAddress(ext->action));
+    indent(level+1);
+    printf("target: %s\n", dumpAddress(ext->target));
+  }
+}
+
+
+
+/*----------------------------------------------------------------------*/
 static void dumpClasses(int level, Aword classes)
 {
   ClassEntry *class;
@@ -321,6 +345,8 @@ static void dumpInstances(int level, Aword instances)
     printf("article: %s\n", dumpAddress(instance->indefinite));
     indent(level+1);
     printf("exits: %s\n", dumpAddress(instance->exits));
+    if (exitsFlag && instance->exits)
+      dumpExts(level+2, instance->exits);
     indent(level+1);
     printf("verbs: %s\n", dumpAddress(instance->verbs));
   }
@@ -343,30 +369,6 @@ static void dumpVrbs(int level, Aword vrbs)
     indent(level+1);
     printf("alternative: %s\n", dumpAddress(vrb->alts));
     dumpAlts(level+2, vrb->alts);
-  }
-}
-
-
-
-/*----------------------------------------------------------------------*/
-static void dumpExts(int level, Aword exts)
-{
-  ExitEntry *ext;
-
-  if (exts == 0) return;
-
-  for (ext = (ExitEntry *)pointerTo(exts); !endOfTable(ext); ext++) {
-    indent(level);
-    printf("exit:\n");
-    indent(level+1);
-    printf("code: %ld\n", ext->code);
-    indent(level+1);
-    printf("checks: %s\n", dumpAddress(ext->checks));
-    dumpChks(level+2, ext->checks);
-    indent(level+1);
-    printf("action: %s\n", dumpAddress(ext->action));
-    indent(level+1);
-    printf("target: %s\n", dumpAddress(ext->target));
   }
 }
 
@@ -487,6 +489,7 @@ static void dumpStatements(Aword pc)
       case I_AGREND: printf("AGREND"); break;
       case I_AGRSTART: printf("AGRSTART"); break;
       case I_AND: printf("AND"); break;
+      case I_AT: printf("AT"); break;
       case I_ATTRIBUTE: printf("ATTRIBUTE"); break;
       case I_BTW: printf("BETWEEN "); break;
       case I_CANCEL: printf("CANCEL"); break;
@@ -545,7 +548,9 @@ static void dumpStatements(Aword pc)
       case I_RESTART: printf("RESTART"); break;
       case I_RESTORE: printf("RESTORE"); break;
       case I_RETURN: printf("RETURN"); printf("\n"); return;
-      case I_RND: printf("RANDOM "); break;
+      case I_RND: printf("RND "); break;
+      case I_RNDINCONT: printf("RNDINCONT "); break;
+      case I_RNDINSET: printf("RNDINSET "); break;
       case I_SAVE: printf("SAVE"); break;
       case I_SAY: printf("SAY"); break;
       case I_SAYINT: printf("SAYINT"); break;
@@ -781,6 +786,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("verbs", "dump details on verb entries", verbsFlag, FALSE, NULL)
      SPA_FLAG("events", "dump details on event entries", eventsFlag, FALSE, NULL)
      SPA_FLAG("containers", "dump details on container entries", containersFlag, FALSE, NULL)
+     SPA_FLAG("exits", "dump details on exits in any instance having exits", exitsFlag, FALSE, NULL)
      SPA_INTEGER("statements <address>", "dump statement opcodes starting at <address>", statementsFlag, 0, NULL)
 SPA_END
 

@@ -409,6 +409,16 @@ Bool isClass(Symbol *symbol) {
 
 
 /*======================================================================*/
+TypeKind classToType(Symbol* symbol) {
+  if (symbol->kind != CLASS_SYMBOL)
+    SYSERR("Not a class");
+  if (symbol == integerSymbol) return INTEGER_TYPE;
+  else if (symbol == stringSymbol) return STRING_TYPE;
+  else return INSTANCE_TYPE;
+}
+
+
+/*======================================================================*/
 Bool symbolIsContainer(Symbol *symbol) {
   if (symbol != NULL) {
     switch (symbol->kind) {

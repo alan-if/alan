@@ -143,7 +143,7 @@ static void showInstance(int ins)
       say(admin[ins].location);
       sprintf(str, "(%ld)", where(ins));
       output(str);
-    } else if (isCnt(admin[ins].location)) {
+    } else if (isContainer(admin[ins].location)) {
 
       if (isObj(admin[ins].location))
 	output("in");

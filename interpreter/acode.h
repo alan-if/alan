@@ -6,6 +6,7 @@ typedef unsigned long Aword;		/* Type for an ACODE word */
 typedef unsigned long Aaddr;		/* Type for an ACODE address */
 typedef unsigned long Abool;		/* Type for an ACODE Boolean value */
 typedef signed long Aint;		/* Type for an ACODE Integer value */
+typedef signed long Aset;		/* Type for an ACODE Set value */
 
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
@@ -135,6 +136,7 @@ typedef enum InstClass {
   I_STOP,
   I_IN,
   I_INSET,
+  I_AT,
   I_DESCRIBE,
   I_SAY,
   I_SAYINT,
@@ -146,13 +148,14 @@ typedef enum InstClass {
   I_STRATTR,			/* Push a copy of a string attribute */
   I_HERE,
   I_NEAR,
-  I_WHERE,
+  I_WHERE,			/* Current position of an instance */
+  I_LOCATION,			/* The location of an instance */
   I_AND,
   I_OR,
   I_NE,
   I_EQ,
   I_STREQ,			/* String compare */
-  I_STREXACT,
+  I_STREXACT,			/* Exact match */
   I_LE,
   I_GE,
   I_LT,
@@ -164,6 +167,8 @@ typedef enum InstClass {
   I_NOT,
   I_UMINUS,
   I_RND,
+  I_RNDINCONT,
+  I_RNDINSET,
   I_AGRSTART,			/* Aggregate looping instructions */
   I_AGRCHECK,
   I_AGREND,

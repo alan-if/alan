@@ -70,7 +70,7 @@ Bool checklim(
   LimEntry *lim;
   Aword props;
 
-  if (!isCnt(cnt))
+  if (!isContainer(cnt))
     syserr("Checking limits for a non-container.");
 
   /* Find the container properties */

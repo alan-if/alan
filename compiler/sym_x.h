@@ -67,6 +67,7 @@ extern void inheritCheck(IdNode *id, char *what, char classOrInstance[], char cl
 
 extern void setParameters(Symbol *verb, List *parameters);
 
+extern TypeKind classToType(Symbol *symbol);
 extern Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id);
 extern Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id);
 extern void numberAllAttributes(void);

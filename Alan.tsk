@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>369.89</origest>
-<currest>368.89</currest>
-<elapsed>209.89</elapsed>
+<origest>370.89</origest>
+<currest>369.89</currest>
+<elapsed>212.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>62</origest>
-<currest>62</currest>
-<elapsed>15</elapsed>
+<origest>63</origest>
+<currest>63</currest>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>26</origest>
 <currest>26</currest>
-<elapsed>15</elapsed>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -205,8 +205,39 @@ Interpreter finds instances and *then* calls author defined code.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<desc>RANDOM IN &lt;container&gt;</desc>
+<notes>Randomly select one of the instances in the container
+
+Has type of the container TAKES</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Random In &lt;set&gt;</desc>
+<notes>Returns one value in the set.
+
+How to handle the empty set???? Run-time error obviously.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Container listings should not show up if it only contains things.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>IN &amp; AT operators</desc>
+<notes>Change IN &amp; AT operators to both be transitive.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -217,21 +248,13 @@ Interpreter finds instances and *then* calls author defined code.</notes>
 <desc>Transitive AT/IN</desc>
 <notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>2</origest>
+<currest>2</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 <task>
-<desc>IN &amp; AT operators</desc>
-<notes>Currently IN only applies to containment, i.e only for actors and objects with container properties.
-
-AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
-
-It has been suggested that IN could be used generally for intransitive location comparisons. This would mean that IN would also be used to test if an instance is at the location without considering what any containers at that location would contain.
-
-This would mean to change IN to not only be applicable to containers but also locations.
-</notes>
+<desc>Add DIRECTLY to syntax for all WHERE expressions</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -239,25 +262,14 @@ This would mean to change IN to not only be applicable to containers but also lo
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document inheritance rules for each construct</desc>
-<notes>Isn't it already?
-
-Ensure that entities have no location and no description. Implement this also as errors. Also implement error if no inheritance is specified. (Currently this is reported as a dubious use.)
-</notes>
+<desc>Generate code for DIRECTLY</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Container listings should not show up if it only contains entities.</desc>
-<notes>This prompts an investigation of if entities are actually "hidden", they should be since visibility and description is added by thing.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>Converter should move global verbs with parameters into a class</desc>
@@ -327,30 +339,18 @@ Message CANTSEE:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>RANDOM IN &lt;container&gt;</desc>
-<notes>Randomly select one of the instances in the container
-
-Has type of the container TAKES</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Random In &lt;set&gt;</desc>
-<notes>Returns one value in the set.
-
-How to handle the empty set???? Run-time error obviously.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Saved name of game in a save-file should not contain path</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document inheritance rules for each construct</desc>
+<notes>Isn't it already?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -362,13 +362,22 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
+<origest>21</origest>
+<currest>21</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

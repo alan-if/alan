@@ -28,6 +28,8 @@ extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNod
 extern Expression *newWhatExpression(Srcp srcp, What *what);
 extern Expression *newWhereExpression(Srcp srcp, Where *where);
 extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind, IdNode *attribute, List *filters);
+extern Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to);
+extern Expression *newRandomInExpression(Srcp srcp, Expression *what);
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);

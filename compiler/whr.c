@@ -35,6 +35,7 @@ Where *newWhere(Srcp *srcp, WhereKind kind, Expression *wht) {
   new->srcp = *srcp;
   new->kind = kind;
   new->what = wht;
+  new->directly = FALSE;
 
   return(new);
 }
@@ -137,7 +138,7 @@ void generateWhere(Where *where)
   case WHERE_AT:
     generateExpression(where->what);
     if (!inheritsFrom(where->what->class, locationSymbol))
-      emit0(I_WHERE);
+      emit0(I_LOCATION);
     break;
 
   case WHERE_IN:

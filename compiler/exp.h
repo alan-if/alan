@@ -28,6 +28,7 @@ typedef enum ExpressionKind {		/* EXPRESSION kinds */
   STRING_EXPRESSION,
   AGGREGATE_EXPRESSION,
   RANDOM_EXPRESSION,
+  RANDOM_IN_EXPRESSION,
   SCORE_EXPRESSION,
   WHAT_EXPRESSION,
   BETWEEN_EXPRESSION,
@@ -105,6 +106,10 @@ typedef struct Expression {
       struct Expression *from;
       struct Expression *to;
     } rnd;
+
+    struct {			/* For RANDOM IN */
+      struct Expression *what;
+    } rin;
 
     struct {			/* For WHAT */
       What *wht;

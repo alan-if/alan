@@ -33,6 +33,20 @@ static void copyMembers(Aword *source, Aword *destination, int size)
   memcpy(destination, source, size*sizeof(Aword));
 }	
 
+
+/*======================================================================*/
+int setSize(Set *theSet) {
+  return theSet->size;
+}
+
+
+/*======================================================================*/
+Aword getMember(Set *theSet, Aint theMember) {
+  if (theMember > theSet->size) syserr("Accessing nonexistion member in a set");
+  return theSet->members[theMember];
+}
+
+
 /*======================================================================*/
 Bool inSet(Set *theSet, Aword member)
 {

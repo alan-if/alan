@@ -580,7 +580,7 @@ static Bool inOpaqueContainer(int originalInstance)
 {
   int instance = admin[originalInstance].location;
 
-  while (isCnt(instance)) {
+  while (isContainer(instance)) {
     if (attributeOf(instance, OPAQUEATTRIBUTE))
       return TRUE;
     instance = admin[instance].location;

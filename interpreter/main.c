@@ -725,7 +725,7 @@ Bool isObj(Aword x)
   return isA((x), OBJECT);
 }
 
-Bool isCnt(Aword x)
+Bool isContainer(Aword x)
 {
   return (x) != 0 && instance[x].container != 0;
 }
