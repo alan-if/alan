@@ -6,8 +6,8 @@ all:
 
 
 archives:
-	lha c regression.lha regression *.alan *.input *.ok
-	zip -k regression.zip regression *.alan *.input *.ok
+	lha c regression.lha *.alan *.input *.ok regression regression.amiga
+	zip -k regression.zip *.alan *.input *.ok regression
 
 vms:
 	-rm regression.com

@@ -96,7 +96,7 @@ alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 
-src: tm version.h
+src: tm sysdep.h sysdep.c acode.h version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
