@@ -328,22 +328,6 @@ static void reverseElms(Aword adr)
 }    
 
 
-static void reverseParseTable(Aword adr)
-{
-  ParseEntry *e = (ParseEntry *) &memory[adr];
-
-  if (alreadyDone(adr)) return;
-
-  if (!endOfTable(e)) {
-    reverseTable(adr, sizeof(ParseEntry));
-    while (!endOfTable(e)) {
-      reverseElms(e->elms);
-      e++;
-    }
-  }
-}    
-
-
 static void reverseSyntaxTable(Aword adr)
 {
   SyntaxEntry *e = (SyntaxEntry *) &memory[adr];
@@ -352,6 +336,22 @@ static void reverseSyntaxTable(Aword adr)
 
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(SyntaxEntry));
+    while (!endOfTable(e)) {
+      reverseElms(e->elms);
+      e++;
+    }
+  }
+}    
+
+
+static void reverseParameterTable(Aword adr)
+{
+  ParameterEntry *e = (ParameterEntry *) &memory[adr];
+
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
+    reverseTable(adr, sizeof(ParameterEntry));
     while (!endOfTable(e)) {
       reverseTable(e->parameterMapping, sizeof(Aword));
       e++;
@@ -468,8 +468,8 @@ void reverseACD(void)
 {
   reverseHdr(header);
   reverseDictionary(header->dictionary);
-  reverseParseTable(header->parseTableAddress);
   reverseSyntaxTable(header->syntaxTableAddress);
+  reverseParameterTable(header->parameterTableAddress);
   reverseVerbs(header->verbTableAddress);
   reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);

@@ -823,23 +823,23 @@ static Aint mapSyntax(Aint syntaxNumber)
   /* 
      Find the syntax map, use the verb code from it and remap the parameters
    */
-  SyntaxEntry *syntax;
+  ParameterEntry *parameterMapTable;
   Aword *parameterMap;
   Aint parameterIndex;
   ParamEntry originalParameters[MAXPARAMS];
 
-  for (syntax = pointerTo(header->syntaxTableAddress); !endOfTable(syntax); syntax++)
-    if (syntax->syntaxNumber == syntaxNumber)
+  for (parameterMapTable = pointerTo(header->parameterTableAddress); !endOfTable(parameterMapTable); parameterMapTable++)
+    if (parameterMapTable->syntaxNumber == syntaxNumber)
       break;
-  if (endOfTable(syntax)) syserr("Could not find syntax in mapping table.");
+  if (endOfTable(parameterMapTable)) syserr("Could not find syntax in mapping table.");
 
-  parameterMap = pointerTo(syntax->parameterMapping);
+  parameterMap = pointerTo(parameterMapTable->parameterMapping);
   copyParameterList(originalParameters, parameters);
   for (parameterIndex = 1; originalParameters[parameterIndex-1].instance != EOF;
        parameterIndex++)
     parameters[parameterIndex-1] = originalParameters[parameterMap[parameterIndex-1]-1];
 
-  return syntax->verbCode;
+  return parameterMapTable->verbCode;
 }
 
 
@@ -956,8 +956,8 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 
 
 /*----------------------------------------------------------------------*/
-static ParseEntry *findSyntax(int verbCode) {
-  ParseEntry *stx;
+static SyntaxEntry *findSyntax(int verbCode) {
+  SyntaxEntry *stx;
   for (stx = stxs; !endOfTable(stx); stx++)
     if (stx->code == verbCode)
       return(stx);
@@ -982,7 +982,7 @@ static void disambiguateUsingChecks(ParamEntry candidates[], int position) {
 static void try(ParamEntry multipleParameters[])
 {
   ElementEntry *elms;		/* Pointer to element list */
-  ParseEntry *stx;		/* Pointer to syntax parse list */
+  SyntaxEntry *stx;		/* Pointer to syntax parse list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Bool anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, multiplePosition;

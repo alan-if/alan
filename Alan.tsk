@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>399.89</origest>
-<currest>398.89</currest>
-<elapsed>254.89</elapsed>
+<origest>400.89</origest>
+<currest>399.89</currest>
+<elapsed>255.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>61</origest>
-<currest>61</currest>
-<elapsed>17</elapsed>
+<origest>62</origest>
+<currest>62</currest>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>17</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -213,7 +213,7 @@ We need a mapping which implies that we need to discover file extensions in reso
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -226,25 +226,46 @@ Word as verb and direction
 Which of the above works, and what is the problem with each that doesn't?
 </notes>
 <priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Word-clash</desc>
+<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
+Words can't be prepositions and verbs at the same time. See gestx()
+
+New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
+</notes>
+<priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Word-clash</desc>
-<notes>Multiclass word problem 1: The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
+<desc>Multiclass word problem 1: VERB &amp; DIRECTION</desc>
+<notes>Multiclass word problem 1: VERB &amp; DIRECTION
+The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
 
-Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
+This does not work since the first word in the player input must indicate which type of command it is.
 
-Words can't be prepositions and verbs at the same time. See gestx()
-
-New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
+Document this and make the message and error?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiclass word problem 2: ADJECTIVE &amp; VERB</desc>
+<notes>Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Locals should override directions</desc>

@@ -365,7 +365,7 @@ static void generateParseTree(Syntax *stx)
 /*----------------------------------------------------------------------*/
 static void generateParseEntry(Syntax *stx)
 {
-  ParseEntry entry;
+  SyntaxEntry entry;
 
   if (stx->elementsAddress != 0) {
     /* The code for the verb word */
@@ -396,7 +396,7 @@ static void generateRestrictionTable(void) {
 
 
 /*======================================================================*/
-Aaddr generateParseTable(void) {
+Aaddr generateSyntaxTable(void) {
   List *lst;
   Aaddr parseTableAddress;
 
@@ -441,16 +441,16 @@ static void generateParameterMapping(Syntax *syntax)
 
 
 /*======================================================================*/
-Aaddr generateSyntaxMapping(void)
+Aaddr generateParameterMappingTable(void)
 {
   List *list;
-  Aaddr syntaxMappingTableAddress;
-  SyntaxEntry entry;
+  Aaddr parameterMappingTableAddress;
+  ParameterEntry entry;
 
   TRAVERSE(list, adv.stxs)
     generateParameterMapping(list->element.stx);
 
-  syntaxMappingTableAddress = nextEmitAddress();
+  parameterMappingTableAddress = nextEmitAddress();
   TRAVERSE(list, adv.stxs) {
     entry.syntaxNumber = list->element.stx->number;
     entry.parameterMapping = list->element.stx->parameterMappingAddress;
@@ -459,7 +459,7 @@ Aaddr generateSyntaxMapping(void)
   }
   emit(EOF);
 
-  return syntaxMappingTableAddress;
+  return parameterMappingTableAddress;
 }
 
   

@@ -27,7 +27,7 @@ static char *acdfnm;
 
 /* Dump flags */
 
-static int dictionaryFlag, classesFlag, instanceFlag, parseFlag, syntaxesFlag,
+static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag, parameterMapFlag,
   initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag,
   messagesFlag;
 
@@ -445,13 +445,13 @@ static void dumpParameterMap(Aword mappingAddress)
 
 
 /*----------------------------------------------------------------------*/
-static void dumpSyntaxTable(int level, Aword stxs)
+static void dumpParameterMapTable(int level, Aword stxs)
 {
-  SyntaxEntry *stx;
+  ParameterEntry *stx;
 
   if (stxs == 0) return;
 
-  for (stx = (SyntaxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
+  for (stx = (ParameterEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
     printf("syntax map: Syntax #%ld\n", stx->syntaxNumber);
     indent(level+1);
@@ -466,13 +466,13 @@ static void dumpSyntaxTable(int level, Aword stxs)
 
 
 /*----------------------------------------------------------------------*/
-static void dumpParseTable(int level, Aword stxs)
+static void dumpSyntaxTable(int level, Aword stxs)
 {
-  ParseEntry *stx;
+  SyntaxEntry *stx;
 
   if (stxs == 0) return;
 
-  for (stx = (ParseEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
+  for (stx = (SyntaxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
     printf("syntax: Verb #%ld\n", stx->code);
     indent(level+1);
@@ -705,10 +705,10 @@ static void dumpACD(void)
   printf("DEBUG: %s\n", header->debug?"Yes":"No");
   printf("DICTIONARY: %s\n", dumpAddress(header->dictionary));
   if (dictionaryFlag) dumpDict(1, header->dictionary);
-  printf("PARSE TABLE: %s\n", dumpAddress(header->parseTableAddress));
-  if (parseFlag) dumpParseTable(1, header->parseTableAddress);
   printf("SYNTAX TABLE: %s\n", dumpAddress(header->syntaxTableAddress));
-  if (syntaxesFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
+  if (syntaxFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
+  printf("PARAMETER MAP TABLE: %s\n", dumpAddress(header->parameterTableAddress));
+  if (parameterMapFlag) dumpParameterMapTable(1, header->parameterTableAddress);
   printf("VERB TABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
   printf("EVENT TABLE: %s\n", dumpAddress(header->eventTableAddress));
@@ -832,8 +832,8 @@ static SPA_DECLARE(options)
      SPA_FLAG("classes", "dump details on class entries", classesFlag, FALSE, NULL)
      SPA_INTEGER("instance", "dump details on instance entry, use 0 for all", instanceFlag, -1, NULL)
      SPA_FLAG("init", "dump string and set initialization tables", initFlag, FALSE, NULL)
-     SPA_FLAG("parses", "dump details on parse table entries", parseFlag, FALSE, NULL)
-     SPA_FLAG("syntaxes", "dump details on syntax mapping entries", syntaxesFlag, FALSE, NULL)
+     SPA_FLAG("syntax", "dump details on syntax table entries", syntaxFlag, FALSE, NULL)
+     SPA_FLAG("parameter", "dump details on parameter mapping entries", parameterMapFlag, FALSE, NULL)
      SPA_FLAG("verbs", "dump details on verb entries", verbsFlag, FALSE, NULL)
      SPA_FLAG("events", "dump details on event entries", eventsFlag, FALSE, NULL)
      SPA_FLAG("containers", "dump details on container entries", containersFlag, FALSE, NULL)

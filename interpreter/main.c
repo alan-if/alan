@@ -75,7 +75,7 @@ ContainerEntry *container;	/* Container table pointer */
 ClassEntry *class;		/* Class table pointer */
 DictionaryEntry *dictionary;	/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
-ParseEntry *stxs;		/* Syntax table pointer */
+SyntaxEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
 MessageEntry *msgs;			/* Message table pointer */
@@ -297,13 +297,7 @@ static int updateColumn(int currentColumn, char *string) {
 
 
 
-/*======================================================================
-
-  logPrint()
-
-  Print some text and log it if logging is on.
-
- */
+/*======================================================================*/
 void printAndLog(char string[])
 {
 #ifdef HAVE_GLK
@@ -1126,7 +1120,7 @@ static void initStaticData(void)
 	   header->scoresMax*sizeof(Aword));
 
 
-  stxs = (ParseEntry *) pointerTo(header->parseTableAddress);
+  stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
   ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
   msgs = (MessageEntry *) pointerTo(header->messageTableAddress);

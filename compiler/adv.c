@@ -201,11 +201,11 @@ void generateAdventure(char acodeFileName[],
   if (verbose) printf("\n\tDictionary: ");
   acdHeader.dictionary = generateAllWords();
 
-  if (verbose) printf("\n\tParseTable: ");
-  acdHeader.parseTableAddress = generateParseTable();
+  if (verbose) printf("\n\tSyntaxTable: ");
+  acdHeader.syntaxTableAddress = generateSyntaxTable();
 
-  if (verbose) printf("\n\tSyntax Mapping: ");
-  acdHeader.syntaxTableAddress = generateSyntaxMapping();
+  if (verbose) printf("\n\Parameter Mapping: ");
+  acdHeader.parameterTableAddress = generateParameterMappingTable();
   acdHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
   if (verbose) printf("\n\tVerbs: ");

@@ -87,7 +87,7 @@ static SPA_DECLARE(options)
 #ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
-parsetable\n\
+parameter mapping table\n\
 syntaxes\n\
 symbols\n\
 verbs\n\

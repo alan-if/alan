@@ -324,16 +324,16 @@ typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
 				/* ... or restrictions if code == EOS */
 } ElementEntry;
 
-typedef struct ParseEntry {	/* PARSE TABLE */
+typedef struct SyntaxEntry {	/* SYNTAX TABLE */
   Aint code;			/* Code for verb word */
   Aaddr elms;			/* Address to element tables */
-} ParseEntry;
+} SyntaxEntry;
 
-typedef struct SyntaxEntry {	/* SYNTAX MAPPING TABLE */
+typedef struct ParameterEntry {	/* PARAMETER MAPPING TABLE */
   Aint syntaxNumber;
   Aaddr parameterMapping;
   Aint verbCode;
-} SyntaxEntry;
+} ParameterEntry;
 
 typedef struct EventEntry {	/* EVENT TABLE */
   Aaddr stringAddress;		/* Address to name string */
@@ -417,8 +417,8 @@ typedef struct AcdHdr {
   Aword scriptMax;
   Aaddr eventTableAddress;
   Aword eventMax;
-  Aaddr parseTableAddress;
   Aaddr syntaxTableAddress;
+  Aaddr parameterTableAddress;
   Aword syntaxMax;
   Aaddr dictionary;
   Aaddr verbTableAddress;
