@@ -6,11 +6,11 @@ arun examine3 < examine3.input
 
 examine3.alan
 
-   5.   syntax examine = examine (obj)
-====>                  1
+    5.  syntax examine = examine (obj)
+=====>                 1
 
   *1*   334 W : Multiple syntaxes are defined with this structure (words and
-        parameters).
+                parameters).
 
 
         No detected errors.

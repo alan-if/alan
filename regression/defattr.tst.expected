@@ -5,8 +5,8 @@ alan defattr
 
 defattr.alan
 
-   6.       boolean_attr 3.
-====>       1
+    6.      boolean_attr 3.
+=====>      1
 
   *1*   332 E : Type of local attribute must match default attribute.
 

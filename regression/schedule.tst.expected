@@ -6,29 +6,29 @@ alan schedule
 
 schedule.alan
 
-  28.       CANCEL unknown_id.
-====>              1
+   28.      CANCEL unknown_id.
+=====>             1
 
   *1*   310 E : Identifier 'unknown_id' not defined.
 
-  37.       SCHEDULE event_id IN unknown_id AFTER 7.
-====>                         1
+   37.      SCHEDULE event_id IN unknown_id AFTER 7.
+=====>                        1
 
   *1*   415 E : Invalid Where specification in SCHEDULE statement.
 
-  38.       SCHEDULE event_id IN location_id AFTER 7.
-====>                         1
+   38.      SCHEDULE event_id IN location_id AFTER 7.
+=====>                        1
 
   *1*   415 E : Invalid Where specification in SCHEDULE statement.
 
-  39.       SCHEDULE event_id IN object_id AFTER 7.
-====>                         1  2
+   39.      SCHEDULE event_id IN object_id AFTER 7.
+=====>                        1  2
 
   *1*   415 E : Invalid Where specification in SCHEDULE statement.
   *2*   318 E : Entity 'object_id' is not a Container.
 
-  40.       SCHEDULE event_id IN container_id AFTER 7.
-====>                         1
+   40.      SCHEDULE event_id IN container_id AFTER 7.
+=====>                        1
 
   *1*   415 E : Invalid Where specification in SCHEDULE statement.
 

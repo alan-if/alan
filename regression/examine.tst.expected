@@ -5,23 +5,23 @@ alan examine
 
 examine.alan
 
-  14.       If Obj Is openable Then
-====>                 1
+   14.      If Obj Is openable Then
+=====>                1
 
   *1*   405 E : The class of a parameter used in attribute expression must be
-        uniquely defined.
+                uniquely defined.
 
-  16.         If Obj Is closed Then
-====>                   1
+   16.        If Obj Is closed Then
+=====>                  1
 
   *1*   405 E : The class of a parameter used in attribute expression must be
-        uniquely defined.
+                uniquely defined.
 
-  19.           List Obj.
-====>                1
+   19.          List Obj.
+=====>               1
 
   *1*   312 E : Parameter not uniquely defined as a Container, which is
-        required.
+                required.
 
 
         3 error(s).

@@ -5,8 +5,8 @@ alan -inc ../regression include
 
 include.alan
 
-   1.   $include 'abc'
-====>   1        2
+    1.  $include 'abc'
+=====>  1        2
 
   *1*   101 E : 'OBJECT' 'ATTRIBUTES' Identifier ('$genid#1') '.' inserted.
   *2*   199 F : Adventure source file (abc) not found.
@@ -15,8 +15,8 @@ include.alan
 
 ../regression/include.inc
 
-   1.1  START.
-====>        1
+    1.1 START.
+=====>       1
 
   *1*   101 E : 'HERE' inserted.
   *1*   211 E : Adventure must start at a Location.

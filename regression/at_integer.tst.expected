@@ -5,11 +5,11 @@ alan at_integer
 
 at_integer.alan
 
-  10.       If Hero At i Then
-====>                  1
+   10.      If Hero At i Then
+=====>                 1
 
   *1*   312 E : Parameter not uniquely defined as an Object or an Actor or a
-        Location, which is required.
+                Location, which is required.
 
 
         1 error(s).

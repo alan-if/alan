@@ -5,8 +5,8 @@ alan actortest
 
 actortest.alan
 
-   2.     locate actor in cont.
-====>     1      2
+    2.    locate actor in cont.
+=====>    1      2
 
   *1*   402 E : An Actor can't be inside a Container.
   *2*   412 E : ACTOR is not allowed inside Events.

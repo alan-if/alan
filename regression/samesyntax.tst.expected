@@ -5,11 +5,11 @@ alan samesyntax
 
 samesyntax.alan
 
-   2.   SYNTAX v1 = v (o1) s (o2).
-====>             1
+    2.  SYNTAX v1 = v (o1) s (o2).
+=====>            1
 
   *1*   334 W : Multiple syntaxes are defined with this structure (words and
-        parameters).
+                parameters).
 
 
         No detected errors.

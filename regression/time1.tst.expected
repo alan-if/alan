@@ -6,13 +6,13 @@ arun time1 < time1.input
 
 time1.alan
 
-  38.        northeast = ne.
-====>                    1
+   38.       northeast = ne.
+=====>                   1
 
   *1*   321 W : Synonym target word 'ne' not defined.
 
-  41.        southwest = sw.
-====>                    1
+   41.       southwest = sw.
+=====>                   1
 
   *1*   321 W : Synonym target word 'sw' not defined.
 

@@ -3,3 +3,61 @@ Thu Jul 25 11:23:10 1996  Thomas Nilsson  <thoni@rabbit>
 	* The "plant pot plant in plant pot" problem
 
 	* Allow subparts of LOCATIONS to be in any order
+
+	* METAVERB, som skulle betyda att det inte tar någon tick
+
+	* Namngivna scripts: SCRIPT <id>, USE <id> FOR actor
+
+	* MESSAGE : STATEMENTS
+
+	* Potentiellt problem: icke-ISO sortering av orden i dictionary i .acd
+
+	* Kontrollera $<n> m.a.p syntax-parametrar
+
+	* Förhindra samma ord som ADJ & VERB
+
+	* Hur hantera mörka platser och andra globala krav?
+
+	* SCHEDULE <event> <where> WHEN <expr>.
+
+	* ASK, CONFIRM?
+
+	* SCENERY word, word, word.
+
+	* BACKGROUND för att visa bild bakom texten
+
+	* PLAY för att spela upp ljud
+
+	* SHOW för att visa en bild
+
+	* SYNTAX look_up = 'look' 'up' (str) ['in' (lexikon)], dvs. optionella delar
+
+	* Närvarokontroll av parametrar efter syntaxkontroll?
+
+	* EXIT ELSE ...
+
+	* Actor-clash hantering, dvs. vad sker när man tar ut något ur en aktör?
+
+	* Status Line
+
+	* Ny dictionary-hantering
+
+	* EXIT out TO RETURN ....
+
+	* Kontroll på 'locate hero' i DESCRIPTIONS (=> recursive look)
+
+	* Återställ utskriftshanteringen av strängar dvs. ska omgärdas av quote
+
+	* SCORE & MAXSCORE som variabler
+
+	* > bollen, Vad vill du göra med bollen?, >sparka den
+
+	* Snygga upp manualen map. MESSAGE-beskrivningarna
+
+	* QUIT-hanteringen
+
+	* Flexiblare syntax även inom LOCATION, ACTOR etc. t.ex VERB, EXIT i valfri ordn.
+
+	* VERBDIR problemet (kolla regression-biblioteket), Samma ord som
+        Verb och Directions fungerar inte
+

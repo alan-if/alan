@@ -5,11 +5,11 @@ alan examine2
 
 examine2.alan
 
-  18.   		LIST obj.
-====>   		     1
+   18.  		LIST obj.
+=====>  		     1
 
   *1*   312 E : Parameter not uniquely defined as a Container, which is
-        required.
+                required.
 
 
         1 error(s).

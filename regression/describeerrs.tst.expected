@@ -5,13 +5,13 @@ alan describeerrs
 
 describeerrs.alan
 
-  27.       DESCRIBE OBJECT.
-====>                1
+   27.      DESCRIBE OBJECT.
+=====>               1
 
   *1*   409 E : No parameter defined in this context.
 
-  29.       DESCRIBE unknown_id.
-====>                1
+   29.      DESCRIBE unknown_id.
+=====>               1
 
   *1*   310 E : Identifier 'unknown_id' not defined.
 

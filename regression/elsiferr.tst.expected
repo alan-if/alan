@@ -6,18 +6,18 @@ alan elsiferr
 
 elsiferr.alan
 
-  15.     If 1 = l1 then ""
-====>          1
+   15.    If 1 = l1 then ""
+=====>         1
 
   *1*   331 E : Incompatible types in expression.
 
-  18.     elsif 4 = l4 then ""
-====>             1
+   18.    elsif 4 = l4 then ""
+=====>            1
 
   *1*   331 E : Incompatible types in expression.
 
-  22.     If l1 = 1 then ""
-====>           1
+   22.    If l1 = 1 then ""
+=====>          1
 
   *1*   331 E : Incompatible types in expression.
 

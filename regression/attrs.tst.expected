@@ -5,23 +5,23 @@ alan attrs
 
 attrs.alan
 
-   3.   	NOT hungry.
-====>   	    1
+    3.  	NOT hungry.
+=====>  	    1
 
   *1*   218 E : Multiple definition of attribute 'hungry'.
 
-   8.        NOT dark.
-====>            1
+    8.       NOT dark.
+=====>           1
 
   *1*   218 E : Multiple definition of attribute 'dark'.
 
-  13.        NOT dark.
-====>            1
+   13.       NOT dark.
+=====>           1
 
   *1*   218 E : Multiple definition of attribute 'dark'.
 
-  18.        NOT dark.
-====>            1
+   18.       NOT dark.
+=====>           1
 
   *1*   218 E : Multiple definition of attribute 'dark'.
 

@@ -6,11 +6,11 @@ arun stx < stx.input
 
 stx.alan
 
-   1.   SYNTAX v = 'verb' (o).
-====>            1
+    1.  SYNTAX v = 'verb' (o).
+=====>           1
 
   *1*   334 W : Multiple syntaxes are defined with this structure (words and
-        parameters).
+                parameters).
 
 
         No detected errors.

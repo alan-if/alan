@@ -5,8 +5,8 @@ alan actor_in
 
 actor_in.alan
 
-  18.         Locate Hero In cont.
-====>         1
+   18.        Locate Hero In cont.
+=====>        1
 
   *1*   402 E : An Actor can't be inside a Container.
 

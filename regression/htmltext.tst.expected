@@ -5,8 +5,8 @@ alan htmltext
 
 htmltext.alan
 
-   5.            ""I think I may be losing my mind!", says Frodo.  ""Just now I
-====>                                               1 2    3         4    5
+    5.           ""I think I may be losing my mind!", says Frodo.  ""Just now I
+=====>                                              1 2    3         4    5
 
   *1*   103 E : ',' replaced by 'MAKE'.
   *2*   310 E : Identifier 'says' not defined.
@@ -14,20 +14,20 @@ htmltext.alan
   *4*   207 W : VERB 'just' is not defined.
   *5*   101 E : '=' inserted.
 
-   6.            had an overwhelming urge to <I>read</I> someone!""
-====>                                     1                     2
+    6.           had an overwhelming urge to <I>read</I> someone!""
+=====>                                    1                     2
 
   *1*   103 E : 'TO' '<' Identifier '>' Identifier ... replaced by '.' 'START'
-        'HERE' '.'.
+                'HERE' '.'.
   *2*   102 F : Unknown Token deleted.
 
-   7.            "
-====>            1
+    7.           "
+=====>           1
 
   *1*   102 F : Unknown Token deleted.
 
-   9.   Verb read
-====>   1
+    9.  Verb read
+=====>  1
 
   *1*   104 E : Severe syntax error, construct ignored.
 
