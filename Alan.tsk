@@ -4,88 +4,18 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>258.89</origest>
-<currest>257.89</currest>
+<origest>260.89</origest>
+<currest>259.89</currest>
 <elapsed>108.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>45</currest>
-<elapsed>10</elapsed>
+<origest>40</origest>
+<currest>40</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.28</desc>
-<notes/>
-<priority>2</priority>
-<origest>8</origest>
-<currest>7</currest>
-<elapsed>7</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Capitalization of nouns</desc>
-<notes>Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
-
-design: Interpreter capitalizes last word in SAY routines, compiler generates this option for some languages.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Support for German</desc>
-<notes>Initial version done. Will have to update when SAY forms are available.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Location ENTERED</desc>
-<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
-
-ADVENT requires full implementation.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter should convert all statements in CAVE</desc>
-<notes/>
-<priority>2</priority>
-<origest>3</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter should set current directory to source file</desc>
-<notes>Description:
-Otherwise the includes won't work currectly. This is only a problem when executing from WinGUI.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinAlan</desc>
-<notes>As it is impossible to use Windows app from the console and attach output to the console we will have to make a WinAlan.exe and an alan.exe
-
-It should also work from the desktop by double-clicking. Output should go in same directory.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
@@ -97,6 +27,32 @@ It should also work from the desktop by double-clicking. Output should go in sam
 <task>
 <desc>Capitalizing of "proper_name" in library and doc</desc>
 <notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Article handling</desc>
+<notes>Need:
+Instances are mentioned and described in a number of situations. Sometimes it is necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
+
+I can't open &lt;indefinite form&gt;.
+You can't take &lt;definite form&gt;.
+
+Analysis:
+Maybe we need INDEFINITE &amp; DEFINITE forms but also PLURAL form and in the form "any xx". We could have sub clauses for ARTICLE,  PRONOUN an PLURAL
+
+Design:
+The article Isa b
+  Definite
+    Article "the".
+    Pronoun "it".
+    Plural "articles"
+  Indefinite "any article"
 
 Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
 
@@ -111,15 +67,15 @@ Perhaps:
 Name stol
 Definite Form "stolen"
 Indefinite Form "en stol"
-Plural "stolar"
+Plural "stolar"??? Need plural definite AND indefinite???
 
 With corresponding:
 Say o. : use Name =&gt; "stol"
 Say The o. : use Definite =&gt; "stolen"
 Say A o. : use Indefinite =&gt; "en stol"
-Say Any o. : use Plural =&gt; "stolar"
+Say Any o. : use Plural =&gt; "stolar"??? Not needed, use "I can't see any" Say o. "." for now.
 
-We could have Indefinite Form and Indefinite Article both not both. "Say The x ."would then use Definite Form if there is one or construct it from Definite Article + Mentioned. "Say A x." would then use Indefinite Form if available, or else Indefinite Article + Mentioned.
+We could have Indefinite Form and Indefinite Article both not allow both in the same declaration. "Say The x ."would then use Definite Form if there is one or construct it from Definite Article + Mentioned. "Say A x." would then use Indefinite Form if available, or else Indefinite Article + Mentioned.
 
 Since Mentioned is constructed from the Name clause the following would work:
 
@@ -152,35 +108,12 @@ Verb talk_to
 
 Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
 
-</notes>
+Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Article handling</desc>
-<notes>Need:
-Instances are mentioned and described in a number of situations. Sometimes it is necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
-
-I can't open &lt;indefinite form&gt;.
-You can't take &lt;definite form&gt;.
-
-Analysis:
-Maybe we need INDEFINITE &amp; DEFINITE forms but also PLURAL form and in the form "any xx". We could have sub clauses for ARTICLE,  PRONOUN an PLURAL
-
-Design:
-The article Isa b
-  Definite
-    Article "the".
-    Pronoun "it".
-    Plural "articles"
-  Indefinite "any article"</notes>
-<priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -244,7 +177,6 @@ Requires sections something like:
 <isopen>1</isopen>
 </task>
 </task>
-</task>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
 <notes>Step 1: prohibit containers to contain anything not an object? How?
@@ -275,19 +207,8 @@ What to do when an instance not an object is moved into the container?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
-<notes>DONE for verbs
-
-TODO: Descriptions, ?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>RESTART does not work well in WinArun</desc>
-<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<desc>Pronoun synonyms in player input</desc>
+<notes>Personal pronouns are nice if allowed in input. "He", "she" could be default synonyms for "it".</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -308,8 +229,8 @@ TODO: Descriptions, ?</notes>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>20</origest>
+<currest>20</currest>
 <elapsed>3</elapsed>
 <isopen>0</isopen>
 <task>
@@ -321,6 +242,15 @@ Design: add a counter field in the message entries and sort on those also.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RESTART does not work well in WinArun</desc>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -603,8 +533,8 @@ Check for consistency with other instances of local overides.</notes>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>0</elapsed>
 <isopen>0</isopen>
 <task>
@@ -639,6 +569,17 @@ FOR EACH instance ISA entity DO
 
 
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
+<notes>DONE for verbs
+
+TODO: Descriptions, ?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2091,10 +2032,10 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>94.89</origest>
-<currest>94.89</currest>
-<elapsed>94.89</elapsed>
-<isopen>0</isopen>
+<origest>102.89</origest>
+<currest>101.89</currest>
+<elapsed>101.89</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
@@ -4630,6 +4571,76 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <task>
 <desc>Windows file selection dialogue for compiler</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.28</desc>
+<notes/>
+<priority>2</priority>
+<origest>8</origest>
+<currest>7</currest>
+<elapsed>7</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Capitalization of nouns</desc>
+<notes>Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
+
+design: Interpreter capitalizes last word in SAY routines, compiler generates this option for some languages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Support for German</desc>
+<notes>Initial version done. Will have to update when SAY forms are available.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Location ENTERED</desc>
+<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.
+
+ADVENT requires full implementation.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should convert all statements in CAVE</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should set current directory to source file</desc>
+<notes>Description:
+Otherwise the includes won't work currectly. This is only a problem when executing from WinGUI.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinAlan</desc>
+<notes>As it is impossible to use Windows app from the console and attach output to the console we will have to make a WinAlan.exe and an alan.exe
+
+It should also work from the desktop by double-clicking. Output should go in same directory.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -1,0 +1,37 @@
+Syntax x = x (a) Where a Isa actor Else "You can only do that to actors."
+
+Add To Every actor
+  Verb x
+    Does
+      "Saying a = '$$" Say a. "$$'"
+      "Saying this = '$$" Say this. "$$'"
+      "In string = '$1'."
+      Look.
+  End Verb.
+End Add.
+
+The mr_a Isa actor
+  At l.
+  Name mr 'A'
+  Name a
+
+End The mr_a.
+
+The mr_b Isa actor
+  At l.
+  Name mr b
+
+  Mentioned "mr B (mentioned)"
+
+End The mr_b.
+
+The mr_c Isa actor
+  At l.
+  Name mr c
+
+End The mr_c.
+
+The l Isa location
+End The l.
+
+Start At l.

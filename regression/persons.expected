@@ -1,0 +1,27 @@
+########## alan persons ##########
+
+        No warnings or errors detected.
+
+########## arun persons ##########
+
+
+L
+Mr nocaps is here. Mr Caps is here. Janitor is here.
+
+> x mr nocaps
+Verb: mr nocaps End Verb. Event e: mr nocaps, mr Caps, janitor. Mr nocaps 
+is here. Mr Caps is here. Janitor is here. End Event. Event ll:
+
+L
+Mr nocaps is here. Mr Caps is here. Janitor is here. End Event.
+
+> x caps
+Verb: caps End Verb.
+
+> x the janitor
+Verb: janitor End Verb.
+
+> 
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
