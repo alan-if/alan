@@ -3,6 +3,11 @@ ToDo:
 
 	* RANDOM should allow expressions
 
+	* Allow ISA DIRECTION in syntax restrictions? OK, how do we
+	then perform the natural
+
+		SYNTAX go = go (d) WHERE d ISA DIRECTION?
+
 	* Experiment with making unknow words into strings:
 
 		say hello to the guard => say "hello" to the guard
