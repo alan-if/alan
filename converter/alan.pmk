@@ -35,6 +35,7 @@
       strcpy(token->chars, symString);
 }
 %%DECLARATIONS
+
 static int val(char str[])
 {
   int temp;
@@ -65,7 +66,7 @@ static void outdent()
 
 static char *(v3Keywords[]) = {
   "look", "quit", "in", "say", "locate", "make", "with", "empty",
-  "container", "wait", "score", "save", "restore", "restart", "at",
+  "container", "wait", "score", "save", "restore", "restart", "at", "of",
   "to", "show", "use", "empty", "for", "each", "set", "start", "the", NULL};
 
 
@@ -79,6 +80,30 @@ static void idPrint(char id[])
   else fprintf(outFile, id);
 }
 
+static void onlyOneSpace(char string[])
+{
+  int i = 0;
+  int j;
+
+  while (string[i] != '\0') {
+    while (string[i] != '\0' && !isspace(string[i])) i++;
+    if (string[i] != '\0' && string[i+1] != '\0')
+      string[i] = ' ';
+      if (isspace(string[i+1])) {
+	string[i+1] = ' ';
+        j = i+1;
+        while (string[j] != '\0' && isspace(string[j])) j++;
+        if (string[j] == '\0')
+	  string[i] = '\0';
+        else {
+          strcpy(&string[i+1], &string[j]);
+	  i++;
+	}
+      }
+    if (string[i] != '\0') i++;
+  }
+}
+
 static void stringPrint(char string[])
 {
   int ch, i;
@@ -87,6 +112,8 @@ static void stringPrint(char string[])
   Bool printed = FALSE;
 
   newline();
+  onlyOneSpace(string);
+
   endOfLine = 75-level*2;
   while (endOfLine < strlen(remaining)) {
     while(remaining[endOfLine] != ' ' && remaining[endOfLine] != '\0' && endOfLine > 0) endOfLine--;
@@ -314,7 +341,7 @@ static void stringPrint(char string[])
     = <syntax_item1> <syntax_item2>
     ;
 <syntax_item1>
-    = ID '=' %% newline(); idPrint(%ID.string); fprintf(outFile, " = "); %%
+    = ID '=' %% newline(); idPrint(%ID.string); fprintf(outFile, " ="); %%
     ;
 <syntax_item2>
     = <syntax_elements> <optional_class_restrictions>
@@ -465,12 +492,17 @@ static void stringPrint(char string[])
     ;
 
 <location_body_part>
-     = %% newline(); %% <is> <attributes>				%+('EXIT')
+    = %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%				%+('EXIT')
     ! <description>
-    ! <does>
+    ! <location_does>
     ! <exit>
     ! <verb>
     ;
+
+<location_does>
+    = 'DOES' %% newline(); fprintf(outFile, "Entered"); indent(); %% <optional_qual> <statements> %% outdent(); %%
+    ;
+
 <location_tail>
     = 'END' 'LOCATION' <optional_id> '.'
 	%% outdent(); newline(); fprintf(outFile, "End The "); %%
@@ -483,7 +515,7 @@ static void stringPrint(char string[])
     ;
 <exit>
     = 'EXIT' %% newline(); fprintf(outFile, "Exit "); %% <id_list> <to_id> <optional_exit_body> '.'
-    %% fprintf(outFile, "."); %%
+    %% fprintf(outFile, "."); newline(); %%
     ;
 <to_id>
     = 'TO' ID %% fprintf(outFile, " To `%s", %ID.string); %%
@@ -559,7 +591,7 @@ static void stringPrint(char string[])
     ! 'ARTICLE' <statements>
     ;
 <mentioned>
-    = 'MENTIONED' <statements>
+    = 'MENTIONED' %% newline(); fprintf(outFile, "Mentioned"); indent(); %% <statements> %% outdent(); newline(); %%
     ;
 <optional_name>
     =
@@ -603,7 +635,7 @@ static void stringPrint(char string[])
     ! <limits> <limit>
     ;
 <limit>
-    = <limit_attribute> 'THEN' %% fprintf(outFile, "Then"); indent(); %%<statements>			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    = <limit_attribute> 'THEN' %% indent(); newline(); fprintf(outFile, "Then"); indent(); %%<statements> %% outdent(); outdent(); %%			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     ;
 <limit_attribute>
     = <attribute>
@@ -620,7 +652,7 @@ static void stringPrint(char string[])
 
 ---> EVENTS
 <event>
-    = <event_header> %% indent(); %% <statements> <event_tail> %% fprintf(outFile, "`%s.", %<event_header>.string); %%
+    = <event_header> %% indent(); %% <statements> <event_tail> %% fprintf(outFile, "`%s.", %<event_header>.string); newline(); %%
     ;
 <event_header>
     ='EVENT' ID
@@ -635,7 +667,7 @@ static void stringPrint(char string[])
 ---> ACTORS
 <actor>
     = <actor_header> <actor_body> <actor_tail>
-	%% fprintf(outFile, "`%s.", %<actor_header>.string); %%
+	%% fprintf(outFile, "`%s.", %<actor_header>.string); newline(); %%
     ;
 
 <actor_header>
@@ -685,7 +717,7 @@ static void stringPrint(char string[])
     ;
 
 <script2>
-    = <optional_description> <step_list>
+    = <optional_description> <step_list> %% outdent(); %%
     ;
 
 <step_list>
@@ -696,7 +728,7 @@ static void stringPrint(char string[])
 <step>
     = 'STEP' %% newline(); fprintf(outFile, "Step"); indent(); %% <statements> %% outdent(); %%
     ! <step_after_integer> <statements> %% outdent(); %%
-    ! 'STEP' 'WAIT' 'UNTIL' %% newline(); fprintf(outFile, "Step"); indent(); %% <expression> <statements> %% outdent(); %%
+    ! 'STEP' 'WAIT' 'UNTIL' %% newline(); fprintf(outFile, "Step Wait Until "); indent(); %% <expression> <statements> %% outdent(); %%
     ;
 
 <step_after_integer>
@@ -705,12 +737,12 @@ static void stringPrint(char string[])
 
 ----> RULES
 <rule>
-    = 'WHEN' %% newline(); fprintf(outFile, "When "); %% <expression> '=>' %% fprintf(outFile, "=>"); indent(); newline(); %% <statements> %% outdent(); %%
+    = 'WHEN' %% newline(); fprintf(outFile, "When "); %% <expression> '=>' %% fprintf(outFile, " =>"); indent(); %% <statements> %% outdent(); newline(); %%
     ;
 
 ---> START
 <start>
-    = 'START'  %% newline(); newline(); fprintf(outFile, "Start "); %% <where> '.' %% fprintf(outFile, "."); indent(); newline(); %% <optional_statements>
+    = 'START'  %% newline(); newline(); fprintf(outFile, "Start "); %% <where> '.' %% fprintf(outFile, "."); indent(); %% <optional_statements>
     ;
 
 ---> STATEMENTS
@@ -766,8 +798,13 @@ static void stringPrint(char string[])
 
 ----> Event Statements
 <event_statement>
-    = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> <fullstop>
-    ! 'CANCEL' ID <fullstop>
+    = <schedule1> <optional_where> 'AFTER' %% fprintf(outFile, " After "); %% <expression> <fullstop>
+    ! 'CANCEL' ID '.'
+    %% newline(); fprintf(outFile, "Cancel `%s.", %ID.string); %%
+    ;
+
+<schedule1>
+    = 'SCHEDULE' ID %% newline(); fprintf(outFile, "Schedule `%s ", %ID.string); %%
     ;
 
 ----> Assignment Statements
@@ -837,12 +874,16 @@ static void stringPrint(char string[])
 
 ----> Actor statement
 <actor_statement>
-    = 'USE' 'SCRIPT' %% newline(); fprintf(outFile, "Use Script "); %% <integer_or_id> <optional_for_actor> '.'
+    = 'USE' 'SCRIPT' %% newline(); fprintf(outFile, "Use Script "); %% <script_reference> <optional_for_actor> <fullstop>
+    ;
+
+<script_reference>
+    = <integer_or_id> %% fprintf(outFile, %<integer_or_id>.string); %% 
     ;
 
 <optional_for_actor>
     =
-    ! 'FOR' ID %% fprintf(outFile, "For `%s", %ID.string); %%
+    ! 'FOR' ID %% fprintf(outFile, " For `%s", %ID.string); %%
     ;
 
 ---> EXPRESSIONS
@@ -876,14 +917,14 @@ static void stringPrint(char string[])
     ! STRING %% stringPrint(%STRING.chars); %%
     ! <what>
     ! <attribute_reference>
-    ! <aggregate> <where>
-    ! 'RANDOM' %% fprintf(outFile, "Random "); %% <primary> 'TO' %% fprintf(outFile, "To "); %% <primary>
+    ! <aggregate> %% fprintf(outFile, "Isa object, "); %% <where>
+    ! 'RANDOM' %% fprintf(outFile, "Random "); %% <primary> 'TO' %% fprintf(outFile, " To "); %% <primary>
     ! 'SCORE' %% fprintf(outFile, "Score"); %%
     ;
 
 <aggregate>
-    = 'SUM' 'OF' ID %% fprintf(outFile, " Sum Of "); idPrint(%ID.string); %%
-    ! 'MAX' 'OF' ID %% fprintf(outFile, " Max Of "); idPrint(%ID.string); %%
+    = 'SUM' 'OF' ID %% fprintf(outFile, " (Sum Of "); idPrint(%ID.string); %%
+    ! 'MAX' 'OF' ID %% fprintf(outFile, " (Max Of "); idPrint(%ID.string); %%
     ! 'COUNT' %% fprintf(outFile, " Count "); %%
     ;
 
