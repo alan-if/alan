@@ -49,6 +49,7 @@ BUILDSRCS = \
 	elm.c \
 	encode.c \
 	evt.c \
+	form.c \
 	id.c \
 	lim.c \
 	msg.c \
@@ -71,7 +72,7 @@ BUILDSRCS = \
 
 
 # More Sources required for Alan program build
-# Excluded from BUILDSRCS because they are in the unit tests
+# Excluded from BUILDSRCS because there are unit tests for these
 ALANSRCS = \
 	adv.c \
 	add.c \

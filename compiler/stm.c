@@ -22,6 +22,7 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
+#include "form_x.h"
 
 #include "lmList.h"
 
@@ -1155,7 +1156,8 @@ void dumpStatement(StmNod *stm)
       put("wht: "); dumpWhat(stm->fields.describe.wht);
       break;
     case SAY_STATEMENT:
-      put("exp: "); dumpExpression(stm->fields.say.exp);
+      put("exp: "); dumpExpression(stm->fields.say.exp); nl();
+      put("form: "); dumpForm(stm->fields.say.form);
       break;
     case LIST_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.list.wht);
