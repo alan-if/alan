@@ -122,16 +122,16 @@ obj.o : obj.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h
   emit.h stm.h obj.h cnt.h act.h loc.h ext.h wrd.h vrb.h 
 opt.o : opt.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h acode.h \
   opt.h emit.h 
-pmErr.o : pmErr.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h lmList.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h atr.h \
+pmErr.o : pmErr.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h lst.h \
+  dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h atr.h \
   emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h stp.h \
   elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
 pmPaSema.o : pmPaSema.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h \
-  lmList.h adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
+  lst.h dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
   atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \
   stp.h elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
 pmParse.o : pmParse.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h \
-  lmList.h adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
+  lst.h dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
   atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \
   stp.h elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h pmParse.h 
 res.o : res.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h res.h \
@@ -146,9 +146,9 @@ scr.o : scr.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h acode
   lst.h dump.h nam.h stm.h wht.h whr.h evt.h exp.h obj.h cnt.h act.h loc.h ext.h \
   stp.h scr.h emit.h 
 smScSema.o : smScSema.c sysdep.h types.h alan.h srcp.h lmList.h alanCommon.h \
-  token.h encode.h acode.h smScan.h 
+  token.h encode.h acode.h smScan.h lst.h dump.h str.h 
 smScan.o : smScan.c sysdep.h types.h alan.h srcp.h lmList.h alanCommon.h token.h \
-  encode.h acode.h smScan.h 
+  encode.h acode.h smScan.h lst.h dump.h 
 spa.o : spa.c spa.h 
 srcp.o : srcp.c alan.h sysdep.h types.h srcp.h dump.h 
 stm.o : stm.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
