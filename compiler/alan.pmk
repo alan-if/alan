@@ -16,40 +16,41 @@
 
 #include "lmList.h"
 
+#include "act.h"                /* ACT-nodes */
 #include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "syn.h"                /* SYN-nodes */
-#include "exp.h"                /* EXP-nodes */
-#include "atr.h"                /* ATR-nodes */
 #include "alt.h"                /* ALT-nodes */
+#include "atr.h"                /* ATR-nodes */
+#include "chk.h"                /* CHK-nodes */
+#include "cnt.h"		/* CNT-nodes */
+#include "elm.h"                /* ELM-nodes */
+#include "evt.h"                /* EVT-nodes */
+#include "exp.h"                /* EXP-nodes */
+#include "ext.h"                /* EXT-nodes */
+#include "lim.h"		/* LIM-nodes */
+#include "loc.h"                /* LOC-nodes */
+#include "lst.h"		/* LST-nodes */
+#include "msg.h"                /* MSG-nodes */
+#include "nam.h"		/* NAM-nodes */
+#include "obj.h"		/* OBJ-nodes */
+#include "opt.h"		/* OPTIONS */
+#include "res.h"                /* RES-nodes */
+#include "rul.h"                /* RUL-nodes */
+#include "sco.h"                /* SCORES */
+#include "scr.h"                /* SCR-nodes */
+#include "stm.h"		/* STM-nodes */
+#include "stp.h"                /* STP-nodes */
+#include "str.h"		/* STRINGS */
+#include "stx.h"                /* STX-nodes */
+#include "syn.h"                /* SYN-nodes */
+#include "vrb.h"                /* VRB-nodes */
 #include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
-#include "stm.h"		/* STM-nodes */
-#include "chk.h"                /* CHK-nodes */
-#include "vrb.h"                /* VRB-nodes */
-#include "lim.h"		/* LIM-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "ext.h"                /* EXT-nodes */
-#include "loc.h"                /* LOC-nodes */
-#include "stp.h"                /* STP-nodes */
-#include "stx.h"                /* STX-nodes */
-#include "elm.h"                /* ELM-nodes */
-#include "res.h"                /* RES-nodes */
-#include "scr.h"                /* SCR-nodes */
-#include "act.h"                /* ACT-nodes */
-#include "evt.h"                /* EVT-nodes */
-#include "rul.h"                /* RUL-nodes */
-#include "msg.h"                /* MSG-nodes */
 
-#include "str.h"		/* STRINGS */
-#include "sco.h"                /* SCORES */
-#include "opt.h"		/* OPTIONS */
 
 %%SCANNER
 
     smScan(lexContext, token);
+
 
 %%INSERTSYMBOL
 
@@ -76,62 +77,64 @@ static int val(str)
 
 %%ATTRIBUTES
 
+	act %% ActNod *%1%%,
+	acts %% List *%1%%,
+	agr %% AgrKind %1%%,
 	alt %% AltNod *%1%%,
 	alts %% List *%1%%,
 	atr %% AtrNod *%1%%,
 	atrs %% List *%1%%,
-	vrb %% VrbNod *%1%%,
-	vrbs %% List *%1%%,
-	loc %% LocNod *%1%%,
-	locs %% List *%1%%,
-	obj %% ObjNod *%1%%,
-	objs %% List *%1%%,
-	cnt %% CntNod *%1%%,
-	cnts %% List *%1%%,
-	evt %% EvtNod *%1%%,
-	evts %% List *%1%%,
 	chk %% ChkNod *%1%%,
 	chks %% List *%1%%,
-	ext %% ExtNod *%1%%,
-	exts %% List *%1%%,
-	rul %% RulNod *%1%%,
-	ruls %% List *%1%%,
-	act %% ActNod *%1%%,
-	acts %% List *%1%%,
-	lim %% LimNod *%1%%,
-	lims %% List *%1%%,
+	classkd %% NamKind %1%%,
+	cnt %% CntNod *%1%%,
+	cnts %% List *%1%%,
+	elm %% ElmNod *%1%%,
+	elms %% List *%1%%,
+	evt %% EvtNod *%1%%,
+	evts %% List *%1%%,
 	exp %% ExpNod *%1%%,
 	exps %% List *%1%%,
+	ext %% ExtNod *%1%%,
+	exts %% List *%1%%,
+	lim %% LimNod *%1%%,
+	lims %% List *%1%%,
+	loc %% LocNod *%1%%,
+	locs %% List *%1%%,
+	minus %% Bool %1%%,
+	msg %% MsgNod *%1%%,
+	msgs %% List *%1%%,
+	nam %% NamNod *%1%%,
+	nams %% List *%1%%,
+	not %% Bool %1%%,
+	obj %% ObjNod *%1%%,
+	objs %% List *%1%%,
+	op %% OpKind %1%%,
+	qual %% QualKind %1%%,
+	res %% ResNod *%1%%,
+	ress %% List *%1%%,
+	rul %% RulNod *%1%%,
+	ruls %% List *%1%%,
+	scr %% ScrNod *%1%%,
+	scrs %% List *%1%%,
+	single %% Bool %1%%,
+	srcp %% Srcp %1%%,
 	stm %% StmNod *%1%%,
 	stms %% List *%1%%,
 	stms2 %% List *%1%%,
 	stms3 %% List *%1%%,
-	nam %% NamNod *%1%%,
-	nams %% List *%1%%,
-	stx %% StxNod *%1%%,
-	stxs %% List *%1%%,
-	elm %% ElmNod *%1%%,
-	elms %% List *%1%%,
-	res %% ResNod *%1%%,
-	ress %% List *%1%%,
-	classkd %% NamKind %1%%,
-	single %% Bool %1%%,
-	syn %% SynNod *%1%%,
-	syns %% List *%1%%,
-	scr %% ScrNod *%1%%,
-	scrs %% List *%1%%,
 	stp %% StpNod *%1%%,
 	stps %% List *%1%%,
-	qual %% QualKind %1%%,
-	whr %% WhrNod *%1%%,
-	wht %% WhtNod *%1%%,
-	agr %% AgrKind %1%%,
-	not %% Bool %1%%,
-	minus %% Bool %1%%,
-	op %% OpKind %1%%,
 	str %% char *%1%%,
+	stx %% StxNod *%1%%,
+	stxs %% List *%1%%,
+	syn %% SynNod *%1%%,
+	syns %% List *%1%%,
 	val %% int %1%%,
-	srcp %% Srcp %1%%;
+	vrb %% VrbNod *%1%%,
+	vrbs %% List *%1%%,
+	whr %% WhrNod *%1%%,
+	wht %% WhtNod *%1%%;
 
 %%RECOVERY
 
@@ -203,6 +206,11 @@ unit
     ! synonyms
     %%
 	adv.syns = combine(adv.syns, %synonyms.syns);
+    %%
+
+    ! messages
+    %%
+	adv.msgs = combine(adv.msgs, %messages.msgs);
     %%
 
     ! syntax
@@ -347,6 +355,35 @@ synonym				-- RETURNS: syn
 	%synonym.syn = newsyn(`&%'='.srcp,
 			      %id_list.nams,
 			      newnam(`&%ID.srcp, %ID.chars));
+    %%
+    ;
+
+---> MESSAGES
+messages			-- RETURNS: msgs
+    = 'MESSAGE' message_list
+    %%
+	%messages.msgs = %message_list.msgs;
+    %%
+    ;
+
+message_list			-- RETURNS: msgs
+    = message
+    %%
+	%message_list.msgs = concat(NULL, %message.msg);
+    %%
+
+    ! message_list message
+    %%
+	%message_list.msgs = concat(%message_list.msgs, %message.msg);
+    %%
+    ;
+
+message				-- RETURNS: msg
+    = ID ':' STRING
+    %%
+	%message.msg = newmsg(`&%':'.srcp,
+			      newnam(`&%ID.srcp, %ID.chars),
+			      %STRING.fpos, %STRING.len);
     %%
     ;
 

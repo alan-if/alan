@@ -126,7 +126,7 @@ void anadv()
   preplocs();			/* D:o */
   prepacts();			/* D:o */
   prepwrds();			/* Prepare words in the dictionary */
-  prepmsgs();			/* Prepare standard messages */
+  prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */
 
   if (verbose) printf("\n\tSyntax definitions...");

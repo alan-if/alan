@@ -53,6 +53,7 @@
 220	'Multiple definition of \'%1\'.';
 221	'Multiple class restriction for parameter \'%1\'.';
 222	'Identifier \'%1\' in class definition is not a parameter.';
+223	'Unknown message identifier.';
 230	'No syntax defined for this verb, assumed \'%1 (object)\'.';
 
 301	'\'%1\' also defined as a Direction.';
