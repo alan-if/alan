@@ -11,20 +11,20 @@ Start At l.
   If hero In iSet Of l Then "hero in iset, ok," Else "Not ok," End If.
   If t In iSet Of l Then "t in iset, ok," Else "Not ok," End If.
 
-  Remove t From iSet Of l.
+  Exclude t From iSet Of l.
   If hero In iSet Of l Then "hero in iset, ok," Else "Not ok," End If.
   If t In iSet Of l Then "t in iset, Not ok," Else "ok," End If.
 
-  Remove hero from l:iSet.
+  Exclude hero from l:iSet.
   If hero In iSet Of l Then "hero in iset, Not ok," Else "ok," End If.
   If t In iSet Of l Then "t in iset, Not ok," Else "ok," End If.
 
-  Remove hero from l:iSet.
+  Exclude hero from l:iSet.
   If hero In iSet Of l Then "hero in iset, Not ok," Else "ok," End If.
   If t In iSet Of l Then "t in iset, Not ok," Else "ok," End If.
 
-  Remove 4 From nSet Of l.
-  Remove size Of t From l:nSet.
+  Exclude 4 From nSet Of l.
+  Exclude size Of t From l:nSet.
   If 3 In nSet of L Then "ok," Else "Not ok," End If.
   If 4 In nSet of L Then "Not ok," Else "ok," End If.
   If 7 In nSet of L Then "ok," Else "Not ok," End If.

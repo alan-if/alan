@@ -26,18 +26,16 @@ SYNTAX
 			ELSE "You can't examine that!"
 
 SYNTAX
-	look_at = 'look' 'at' (obj) *
-		WHERE obj ISA THING
-			ELSE "You can't examine that!"
+	examine = 'look' 'at' (obj) *.
 
-Add To Every object
-  VERB examine, look_at
-	CHECK obj IS examinable
-		ELSE 
-			"You can't examine" Say The obj. "."
-	DOES
-		"There is nothing special about" Say The obj. "."
-  END VERB.
+Add To Every thing
+  Verb examine
+    Check obj Is examinable
+      Else 
+	"You can't examine" Say The obj. "."
+    Does
+      "There is nothing special about" Say The obj. "."
+  End Verb.
 End Add To.
 
 

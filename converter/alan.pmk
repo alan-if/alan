@@ -359,7 +359,7 @@ static void stringPrint(char string[])
     ! <optional_indicators> <indicator>
 	%%
 	    %<optional_indicators>.string = realloc(%<optional_indicators>.string,
-		strlen(%<optional_indicators>.string) + %<indicator>.string + 1);
+		strlen(%<optional_indicators>.string) + strlen(%<indicator>.string) + 1);
 	    strcat(%<optional_indicators>.string, %<indicator>.string);
 	%%
     ;
@@ -868,7 +868,7 @@ static void stringPrint(char string[])
     ;
 
 <depend_case>
-    = <right_hand_side> ':' %% fprintf(outFile, " : "); indent(); %% <statements> %% outdent(); %%
+    = <right_hand_side> ':' %% fprintf(outFile, " Then "); indent(); %% <statements> %% outdent(); %%
     ! 'ELSE' %% fprintf(outFile, "Else "); indent(); %% <statements> %% outdent(); %%
     ;
 

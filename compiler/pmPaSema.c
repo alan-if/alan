@@ -281,30 +281,30 @@ int rule			/* IN production number */
     case 30: { /* <optional members> =; */
 #line 310 "alan.pmk"
  pmSeSt[pmStkP+1].set = NULL; 	break;}
-    case 31: { /* <optional members> = <set members>; */
+    case 31: { /* <optional members> = <set_members>; */
 #line 312 "alan.pmk"
  pmSeSt[pmStkP+1].set = pmSeSt[pmStkP+1].set; 	break;}
-    case 32: { /* <set members> = <set member>; */
+    case 32: { /* <set_members> = <set_member>; */
 #line 317 "alan.pmk"
 
 	pmSeSt[pmStkP+1].set = concat(NULL, pmSeSt[pmStkP+1].exp, EXPRESSION_LIST);
     	break;}
-    case 33: { /* <set members> = <set members> ',' <set member>; */
+    case 33: { /* <set_members> = <set_members> ',' <set_member>; */
 #line 322 "alan.pmk"
 
 	pmSeSt[pmStkP+1].set = concat(pmSeSt[pmStkP+1].set, pmSeSt[pmStkP+3].exp, EXPRESSION_LIST);
     	break;}
-    case 34: { /* <set member> = ID; */
+    case 34: { /* <set_member> = ID; */
 #line 329 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newWhatExpression(pmSeSt[pmStkP+1].id->srcp, newWhat(&pmSeSt[pmStkP+1].id->srcp, WHAT_ID, pmSeSt[pmStkP+1].id));
     	break;}
-    case 35: { /* <set member> = <optional_minus> Integer; */
+    case 35: { /* <set_member> = <optional_minus> Integer; */
 #line 334 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newIntegerExpression(pmSySt[pmStkP+2].srcp, pmSeSt[pmStkP+1].minus?-val(pmSySt[pmStkP+2].chars):val(pmSySt[pmStkP+2].chars));
     	break;}
-    case 36: { /* <set member> = STRING; */
+    case 36: { /* <set_member> = STRING; */
 #line 339 "alan.pmk"
 
 	pmSeSt[pmStkP+1].exp = newStringExpression(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].fpos, pmSySt[pmStkP+1].len);
@@ -826,7 +826,7 @@ int rule			/* IN production number */
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].atrs = pmSeSt[pmStkP+2].atrs;
     	break;}
-    case 106: { /* <property> = <container properties>; */
+    case 106: { /* <property> = <container_properties>; */
 #line 960 "alan.pmk"
 {
         Container *cnt = pmSeSt[pmStkP+1].cnt;
@@ -1069,7 +1069,7 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].nam = pmSeSt[pmStkP+2].idList;
     	break;}
-    case 146: { /* <container properties> = __genSym#9 <optionally_opaque> 'CONTAINER' <container_body>; */
+    case 146: { /* <container_properties> = __genSym#9 <optionally_opaque> 'CONTAINER' <container_body>; */
 #line 1245 "alan.pmk"
 
 	pmSeSt[pmStkP+1].cnt = newContainer(newContainerBody(&pmSySt[pmStkP+3].srcp,
@@ -1389,10 +1389,10 @@ int rule			/* IN production number */
 							    pmSeSt[pmStkP+2].exp,
 							    pmSeSt[pmStkP+4].exp);
     	break;}
-    case 213: { /* <manipulation_statement> = 'REMOVE' <primary> 'FROM' <what> '.'; */
+    case 213: { /* <manipulation_statement> = 'EXCLUDE' <primary> 'FROM' <what> '.'; */
 #line 1633 "alan.pmk"
 
-	pmSeSt[pmStkP+1].stm = newRemoveStatement(pmSySt[pmStkP+1].srcp,
+	pmSeSt[pmStkP+1].stm = newExcludeStatement(pmSySt[pmStkP+1].srcp,
 							    pmSeSt[pmStkP+2].exp,
 							    pmSeSt[pmStkP+4].exp);
     	break;}
@@ -1584,7 +1584,7 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].cases = concat(pmSeSt[pmStkP+1].cases, pmSeSt[pmStkP+2].stm, CASE_LIST);
     	break;}
-    case 248: { /* <depend_case> = <right_hand_side> ':' <statements>; */
+    case 248: { /* <depend_case> = <right_hand_side> 'THEN' <statements>; */
 #line 1856 "alan.pmk"
 
         pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+2].srcp, DEPENDCASE_STATEMENT);

@@ -315,7 +315,7 @@ int rule			/* IN production number */
 #line 360 "alan.pmk"
 
 	    pmSeSt[pmStkP+1].string = realloc(pmSeSt[pmStkP+1].string,
-		strlen(pmSeSt[pmStkP+1].string) + pmSeSt[pmStkP+2].string + 1);
+		strlen(pmSeSt[pmStkP+1].string) + strlen(pmSeSt[pmStkP+2].string) + 1);
 	    strcat(pmSeSt[pmStkP+1].string, pmSeSt[pmStkP+2].string);
 		break;}
     case 62: { /* <indicator> = '*'; */
@@ -769,7 +769,7 @@ int rule			/* IN production number */
  outdent(); 	break;}
     case 300: { /* __genSym#65 =; */
 #line 871 "alan.pmk"
- fprintf(outFile, " : "); indent(); 	break;}
+ fprintf(outFile, " Then "); indent(); 	break;}
     case 298: { /* <depend_case> = 'ELSE' __genSym#66 <statements>; */
 #line 872 "alan.pmk"
  outdent(); 	break;}

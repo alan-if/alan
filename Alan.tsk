@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>333.89</origest>
-<currest>332.89</currest>
-<elapsed>184.89</elapsed>
+<origest>336.89</origest>
+<currest>335.89</currest>
+<elapsed>185.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>51</origest>
-<currest>51</currest>
-<elapsed>12</elapsed>
+<origest>54</origest>
+<currest>54</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>12</elapsed>
+<origest>16</origest>
+<currest>16</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -192,11 +192,41 @@ We also need some way to re-output the state.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>DEPEND does not work with identifiers in the cases</desc>
-<notes>DEPEND On X
+<desc>Change DEPEND case separator to 'THEN'</desc>
+<notes>DEPEND does not work with identifiers in the cases
+DEPEND On X
 = bartender : ...
 
-Doesn't work any more... If it ever did...</notes>
+Doesn't work any more... If it ever did...
+
+Change ':' to 'THEN'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Empty player input to forfeit player turn</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Set may not contain Strings</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify converters handling of quoted ids especially for new reserved words</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

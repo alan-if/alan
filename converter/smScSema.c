@@ -191,8 +191,6 @@ int smScAction(
 
   case 102:		/* IDENT*/ 
     {{
-	char *c;
-
 	/* If terminated by \n illegal! */
 	if (smThis->smText[smThis->smLength-1] == '\n')
 	  lmLog(&smToken->srcp, 152, sevERR, "");

@@ -67,7 +67,7 @@
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "<generated identifier #%d>", idno++);
+      sprintf(token->chars, "genid%d", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");
@@ -308,36 +308,36 @@ static int val(char str[])
 <optional members>
     =
     %% %<optional members>.set = NULL; %%
-    ! <set members>
-    %% %<optional members>.set = %<set members>.set; %%
+    ! <set_members>
+    %% %<optional members>.set = %<set_members>.set; %%
     ;
 
-<set members>				-- RETURNS: set
-    = <set member>
+<set_members>				-- RETURNS: set
+    = <set_member>
     %%
-	%<set member>.set = concat(NULL, %<set member>.exp, EXPRESSION_LIST);
+	%<set_member>.set = concat(NULL, %<set_member>.exp, EXPRESSION_LIST);
     %%
 
-    ! <set members> ',' <set member>
+    ! <set_members> ',' <set_member>
     %%
-	%<set members>.set = concat(%<set members>.set, %<set member>.exp, EXPRESSION_LIST);
+	%<set_members>.set = concat(%<set_members>.set, %<set_member>.exp, EXPRESSION_LIST);
     %%
     ;
 
-<set member>				-- RETURNS exp
+<set_member>				-- RETURNS exp
     = ID
     %%
-	%<set member>.exp = newWhatExpression(%ID.id->srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
+	%<set_member>.exp = newWhatExpression(%ID.id->srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
     %%
 
     ! <optional_minus> Integer
     %%
-	%<set member>.exp = newIntegerExpression(%Integer.srcp, %<optional_minus>.minus?-val(%Integer.chars):val(%Integer.chars));
+	%<set_member>.exp = newIntegerExpression(%Integer.srcp, %<optional_minus>.minus?-val(%Integer.chars):val(%Integer.chars));
     %%
 
     ! STRING
     %%
-	%<set member>.exp = newStringExpression(%STRING.srcp, %STRING.fpos, %STRING.len);
+	%<set_member>.exp = newStringExpression(%STRING.srcp, %STRING.fpos, %STRING.len);
     %%
     ;
 
@@ -956,10 +956,10 @@ static int val(char str[])
 	%<property>.atrs = %<attributes>.atrs;
     %%
 
-    ! <container properties>
+    ! <container_properties>
     %%{
-        Container *cnt = %<container properties>.cnt;
-        Srcp srcp = %<container properties>.srcp;
+        Container *cnt = %<container_properties>.cnt;
+        Srcp srcp = %<container_properties>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.cnt = cnt;
@@ -1240,10 +1240,10 @@ static int val(char str[])
     ;
 
 ---> CONTAINERS
-<container properties>					-- RETURNS: cnt, srcp
+<container_properties>					-- RETURNS: cnt, srcp
     = [ 'WITH' ] <optionally_opaque> 'CONTAINER' <container_body>
     %%
-	%<container properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
+	%<container_properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
 					%<optionally_opaque>.opaque,
 					%<container_body>.id,
 					%<container_body>.lims,
@@ -1251,7 +1251,7 @@ static int val(char str[])
 					%<container_body>.stms2,
 					%<container_body>.chks,
 					%<container_body>.stms3));
-        %<container properties>.srcp = %'CONTAINER'.srcp;
+        %<container_properties>.srcp = %'CONTAINER'.srcp;
     %%
     ;
 
@@ -1629,9 +1629,9 @@ static int val(char str[])
 							    %<what>.exp);
     %%	  
 
-    ! 'REMOVE' <primary> 'FROM' <what> '.'
+    ! 'EXCLUDE' <primary> 'FROM' <what> '.'
     %%
-	%<manipulation_statement>.stm = newRemoveStatement(%'REMOVE'.srcp,
+	%<manipulation_statement>.stm = newExcludeStatement(%'EXCLUDE'.srcp,
 							    %<primary>.exp,
 							    %<what>.exp);
     %%	  
@@ -1852,9 +1852,9 @@ static int val(char str[])
     ;
 
 <depend_case>				-- RETURNS: stm
-    = <right_hand_side> ':' <statements>
+    = <right_hand_side> 'THEN' <statements>
     %%
-        %<depend_case>.stm = newStatement(`&%':'.srcp, DEPENDCASE_STATEMENT);
+        %<depend_case>.stm = newStatement(`&%'THEN'.srcp, DEPENDCASE_STATEMENT);
         %<depend_case>.stm->fields.depcase.exp = %<right_hand_side>.exp;
         %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
     %%
@@ -2231,7 +2231,7 @@ static int val(char str[])
 	%<primary>.exp->fields.str.len = %STRING.len;
     %%
 
-    ! <what>					%-(':')
+    ! <what>
     %%
 	%<primary>.exp = %<what>.exp;
     %%
@@ -2371,13 +2371,13 @@ static int val(char str[])
 	%<where>.srcp = %'NEARBY'.srcp;
     %%
 
-    ! 'AT' <what>			%-(':')
+    ! 'AT' <what>
     %%
         %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.exp);
 	%<where>.srcp = %'AT'.srcp;
     %%
 
-    ! 'IN' <what>			%-(':')
+    ! 'IN' <what>
     %%
         %<where>.whr = newWhere(`&%'IN'.srcp, WHERE_IN, %<what>.exp);
 	%<where>.srcp = %'IN'.srcp;

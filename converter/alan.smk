@@ -213,8 +213,6 @@ void setCharacterSet(int set)
 
   IDENT = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
-	char *c;
-
 	/* If terminated by \n illegal! */
 	if (smThis->smText[smThis->smLength-1] == '\n')
 	  lmLog(&smToken->srcp, 152, sevERR, "");

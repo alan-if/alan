@@ -119,7 +119,7 @@ Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
 
 
 /*======================================================================*/
-Statement *newRemoveStatement(Srcp srcp, Expression *what, Expression *set)
+Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 {
   Statement *new;                  /* The newly allocated area */
 
