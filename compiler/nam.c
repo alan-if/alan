@@ -188,6 +188,7 @@ void genam(nam)
     emit0(C_CONST, nam->code);
     break;
   default:
+    emit0(C_CONST, 0);
     unimpl(&nam->srcp, "Code Generator");
     break;
   }

@@ -37,7 +37,7 @@ typedef long NamKind;
 #define NAMPAR ((long)NAMEVT<<1) /* 4096 */
 #define NAMWRD ((long)NAMPAR<<1) /* 8192 */
 #define NAMRUL ((long)NAMWRD<<1) /* 16384 */
-#define NAMUNK ((long)NAMRUL<<1) /* 65536 */
+#define NAMUNK ((long)NAMRUL<<1) /* 32768 */
 #define NAMANY (-1L)			/* Any class or property */
 
 
