@@ -246,7 +246,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 {
   List *part, *rest, *elms, *this, *p;
 
-  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind ==ELMEOS)
+  if (*elmsListP == NULL)
     return NULL;
 
   /* Remove the first element from the list to form the partition */

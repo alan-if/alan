@@ -7,3 +7,5 @@ test.dat
 version.c
 version.h
 alanlib.version.imp
+*~
+*.Z
