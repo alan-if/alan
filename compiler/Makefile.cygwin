@@ -1,4 +1,4 @@
-# Makefile for Alan using CygWin
+# Makefile for Alan compiler using CygWin32 on Windows
 
 COMPILER= -DCOMPILER=\"[CygWinB20]\"
 

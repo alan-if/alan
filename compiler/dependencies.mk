@@ -7,9 +7,10 @@ adv.o: adv.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h acode.h adv.h whr.h evt.h nam.h wht.h sym.h \
  elm.h res.h stx.h stm.h exp.h obj.h cnt.h act.h loc.h ext.h vrb.h \
  rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h encode.h
-alan.o: alan.c sysdep.h types.h alan.h srcp.h lst.h dump.h version.h \
- adv.h whr.h evt.h nam.h acode.h wht.h opt.h lmList.h alanCommon.h \
- token.h pmParse.h smScan.h timing.h spa.h
+alan.o: alan.c sysdep.h types.h alan.h srcp.h lst.h dump.h \
+ alan.version.h version.h adv.h whr.h evt.h nam.h acode.h wht.h opt.h \
+ lmList.h alanCommon.h token.h pmParse.h smScan.h options.h timing.h
+alan.version.o: alan.version.c alan.version.h version.h
 alt.o: alt.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h sym.h nam.h acode.h elm.h res.h stx.h alt.h \
  act.h cnt.h wht.h whr.h evt.h chk.h exp.h stm.h obj.h loc.h ext.h \
@@ -33,7 +34,7 @@ elm.o: elm.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h sym.h nam.h acode.h elm.h res.h stx.h wrd.h \
  emit.h
 emit.o: emit.c sysdep.h types.h alan.h srcp.h lst.h dump.h acode.h \
- version.h emit.h
+ alan.version.h version.h emit.h
 encode.o: encode.c alan.h sysdep.h types.h srcp.h lst.h dump.h acode.h \
  opt.h emit.h encode.h
 evt.o: evt.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
@@ -62,6 +63,8 @@ lst.o: lst.c alan.h sysdep.h types.h srcp.h lst.h dump.h nam.h acode.h \
  exp.h emit.h chk.h ext.h lim.h loc.h obj.h rul.h scr.h stm.h stp.h \
  syn.h vrb.h
 macSpa.o: macSpa.c
+main.o: main.c alan.h sysdep.h types.h srcp.h lst.h dump.h spa.h \
+ options.h alan.version.h version.h
 msg.o: msg.c sysdep.h alan.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h adv.h whr.h evt.h nam.h acode.h wht.h msg.h \
  stm.h exp.h obj.h cnt.h act.h loc.h ext.h opt.h emit.h encode.h
@@ -74,6 +77,7 @@ obj.o: obj.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  ext.h wrd.h vrb.h
 opt.o: opt.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h acode.h opt.h emit.h
+options.o: options.c types.h dump.h sysdep.h options.h lst.h
 pmErr.o: pmErr.c srcp.h smScan.h alanCommon.h token.h sysdep.h types.h \
  lst.h dump.h lmList.h act.h nam.h alan.h acode.h cnt.h wht.h whr.h \
  evt.h adv.h alt.h atr.h sym.h elm.h res.h stx.h exp.h emit.h chk.h \
@@ -128,7 +132,6 @@ syn.o: syn.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  wrd.h emit.h
 sysdep.o: sysdep.c sysdep.h
 timing.o: timing.c sysdep.h timing.h
-version.o: version.c version.h
 vrb.o: vrb.c alan.h sysdep.h types.h srcp.h lst.h dump.h lmList.h \
  alanCommon.h token.h acode.h adv.h whr.h evt.h nam.h wht.h alt.h \
  act.h cnt.h sym.h elm.h res.h stx.h obj.h vrb.h emit.h

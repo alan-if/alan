@@ -1,31 +1,15 @@
-# Makefile for alan compiler
+# Makefile for alan compiler on Windows using Cygwin32
 #
 
-ARCH	= `uname -sr | sed -e "s% %/%g"`
-
-ARCHS	= sun4 solaris2 #hp
-VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
-
-
-GCC	= gcc -ansi -Wall
-CPP	= $(GCC) -MM -ansi
+CPP	= gcc -MM -ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
+COMPILER= -DCOMPILER=\"[CygWinB20]\"
 
-CC = $(GCC)
-CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\"
+CFLAGS = -g -Wall -funsigned-char -D__win__ $(INCLUDE) -mno-cygwin $(COMPILER)
 
-tcov := CC = acc -a
-tcov := LD = acc -a
-
-LD	= $(GCC) $(DEBUG)
-
-sun4:= LDFLAGS	= -L/usr/local/lib/4.1.2
-sun4:= INCLUDE = -I/usr/local/include/ansi
-
-solaris1:= LDFLAGS = -L/usr/local/lib/4.1.2
-solaris1:= INCLUDE = -I/usr/local/include/ansi
+LDFLAGS = -g -mno-cygwin
 
 EXTRAS = \
 	alan.tmk \
@@ -40,101 +24,70 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c
 
-SRCS = \
-	alan.c \
-	options.c \
-	dump.c \
-	emit.c \
-	encode.c \
-	act.c \
-	adv.c \
-	alt.c \
-	atr.c \
-	chk.c \
-	cnt.c \
-	elm.c \
-	evt.c \
-	exp.c \
-	ext.c \
-	lim.c \
-	loc.c \
-	lst.c \
-	msg.c \
-	nam.c \
-	obj.c \
-	opt.c \
-	res.c \
-	rul.c \
-	sco.c \
-	scr.c \
-	srcp.c \
-	stm.c \
-	stp.c \
-	str.c \
-	stx.c \
-	sym.c \
-	syn.c \
-	vrb.c \
-	whr.c \
-	wht.c \
-	wrd.c \
-	timing.c \
-	sysdep.c \
-	spa.c
+TMOBJS = ${TMSRCS:.c=.o}
 
-MAINSRC = main.c
+OBJECTS = \
+	alan.o \
+	alan.version.o \
+	main.o \
+	options.o \
+	act.o \
+	adv.o \
+	alt.o \
+	atr.o \
+	chk.o \
+	cnt.o \
+	dump.o \
+	encode.o \
+	emit.o \
+	elm.o \
+	evt.o \
+	exp.o \
+	ext.o \
+	lim.o \
+	loc.o \
+	lst.o \
+	msg.o \
+	nam.o \
+	obj.o \
+	opt.o \
+	res.o \
+	rul.o \
+	sco.o \
+	scr.o \
+	srcp.o \
+	stm.o \
+	stp.o \
+	stx.o \
+	str.o \
+	sym.o \
+	syn.o \
+	vrb.o \
+	whr.o \
+	wht.o \
+	wrd.o \
+	timing.o \
+	spa.o \
+	sysdep.o \
+	$(TMOBJS)
 
-ALLSRCS = $(MAINSRC) $(SRCS) $(TMSRCS)
+all alan alan.exe : tm $(OBJECTS) Makefile
+	gcc -o alan $(OBJECTS) $(LDFLAGS)
+	cp alan.exe ../bin
 
-VERSIONSRCS = $(SRCS) $(MAINSRC) $(EXTRAS)
+spa.o: spa.c spa.h
+	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
-OBJECTS = ${ALLSRCS:.c=.o}
+smScanx.o: smScanx.c
 
-VMSOBJECTS = ${SRCS:.c=.obj}
-VMSLINKOBJS = ${SRCS:.c=}
+alan.version.c : ../alan.version.c alan.version.h
+	cp ../alan.version.c .
 
+alan.version.h : ../alan.version.h version.h
+	cp ../alan.version.h .
 
-#-- MAIN TARGET
-
-DEBUG= -g
-
-all debug tcov: objarch alan Makefile
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp alan $(ALANDIR)/bin/`arch`
-	cp alan.prod $(ALANDIR)
-
-arch:
-	make `arch`
-
-release:
-	@-for a in $(ARCHS) ; do \
-		if fresh $(ALANDIR)/bin/$$a/alan \: $(SRCS) ; then \
-			cp $(ALANDIR)/bin/$$a/alan $(ALANDIR)/bin/$$a/alan$(VERSION) ; \
-		else \
-		    echo $(ALANDIR)/bin/$$a/alan is not fresh against: ; \
-		    for f in $(SRCS) ; do \
-		        if fresh $(ALANDIR)/bin/$$a/alan \: $$f ; then \
-			    : ; \
-			else \
-			    echo $$f ; \
-			    touch ../.notfresh ; \
-			fi \
-		    done \
-		fi ; \
-	done
-
-sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
-
-objarch:
-	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test `cat .arch` != $(ARCH); then \
-	    echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
-	    rm $(OBJECTS) version.o; \
-	    echo $(ARCH) > .arch; \
-	fi
-
-alan: tm $(OBJECTS) .version version.o
-	$(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
+version.h : ../version.h
+	cp ../version.h .
 
 src: tm smScanx.c sysdep.h sysdep.c acode.h version.h
 
@@ -155,22 +108,22 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	touch .pmkstamp
 
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp Makefile
-	smk $(SMKQ) alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
-	@echo "/* ISO scanner tables */" > smScan.iso.new
-	@echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
-	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
-	@echo ";" >> smScan.iso.new
-	@echo "" >> smScan.iso.new
-	@echo "UByte1 smIsoDFAcolVal[256]={" >> smScan.iso.new
-	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
-	@echo ";" >> smScan.iso.new
-	@echo "" >> smScan.iso.new
-	@echo "UByte1 smIsoDFAerrCol[256]={" >> smScan.iso.new
-	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
-	@echo ";" >> smScan.iso.new
-	@echo "" >> smScan.iso.new
-	@if test -f smScan.iso ; then \
+	smk alan
+	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
+	echo "/* ISO scanner tables */" > smScan.iso.new
+	echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
+	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	echo ";" >> smScan.iso.new
+	echo "" >> smScan.iso.new
+	echo "UByte1 smIsoDFAcolVal[256]={" >> smScan.iso.new
+	sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	echo ";" >> smScan.iso.new
+	echo "" >> smScan.iso.new
+	echo "UByte1 smIsoDFAerrCol[256]={" >> smScan.iso.new
+	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	echo ";" >> smScan.iso.new
+	echo "" >> smScan.iso.new
+	if test -f smScan.iso ; then \
 		if cmp smScan.iso smScan.iso.new ; then \
 			rm smScan.iso.new ; \
 		else \
@@ -179,21 +132,21 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	else \
 		mv smScan.iso.new smScan.iso ; \
 	fi ;
-	smk $(SMKQ) -set MAC alan
-	@echo "/* MAC scanner tables */" > smScan.mac.new
-	@echo "UByte1 smMacMap[256]={" >> smScan.mac.new
-	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	@echo ";" >> smScan.mac.new
-	@echo "" >> smScan.mac.new
-	@echo "UByte1 smMacDFAcolVal[256]={" >> smScan.mac.new
-	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	@echo ";" >> smScan.mac.new
-	@echo "" >> smScan.mac.new
-	@echo "UByte1 smMacDFAerrCol[256]={" >> smScan.mac.new
-	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	@echo ";" >> smScan.mac.new
-	@echo "" >> smScan.mac.new
-	@if test -f smScan.mac ; then \
+	smk -set MAC alan
+	echo "/* MAC scanner tables */" > smScan.mac.new
+	echo "UByte1 smMacMap[256]={" >> smScan.mac.new
+	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	echo ";" >> smScan.mac.new
+	echo "" >> smScan.mac.new
+	echo "UByte1 smMacDFAcolVal[256]={" >> smScan.mac.new
+	sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	echo ";" >> smScan.mac.new
+	echo "" >> smScan.mac.new
+	echo "UByte1 smMacDFAerrCol[256]={" >> smScan.mac.new
+	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	echo ";" >> smScan.mac.new
+	echo "" >> smScan.mac.new
+	if test -f smScan.mac ; then \
 		if cmp smScan.mac smScan.mac.new ; then \
 			rm smScan.mac.new ; \
 		else \
@@ -202,25 +155,21 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	else \
 		mv smScan.mac.new smScan.mac ; \
 	fi ;
-#	Use the MSDOS source for code as it contains HUGE pointer arithmetic if necessary
-	@make savetm
-	@sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-	smk $(SMKQ) -set PC alan
-	@make restoretm
-	@echo "/* DOS scanner tables */" > smScan.dos.new
-	@echo "UByte1 smDosMap[256]={" >> smScan.dos.new
-	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	@echo ";" >> smScan.dos.new
-	@echo "" >> smScan.dos.new
-	@echo "UByte1 smDosDFAcolVal[256]={" >> smScan.dos.new
-	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	@echo ";" >> smScan.dos.new
-	@echo "" >> smScan.dos.new
-	@echo "UByte1 smDosDFAerrCol[256]={" >> smScan.dos.new
-	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	@echo ";" >> smScan.dos.new
-	@echo "" >> smScan.dos.new
-	@if test -f smScan.dos ; then \
+	smk -set PC alan
+	echo "/* DOS scanner tables */" > smScan.dos.new
+	echo "UByte1 smDosMap[256]={" >> smScan.dos.new
+	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	echo ";" >> smScan.dos.new
+	echo "" >> smScan.dos.new
+	echo "UByte1 smDosDFAcolVal[256]={" >> smScan.dos.new
+	sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	echo ";" >> smScan.dos.new
+	echo "" >> smScan.dos.new
+	echo "UByte1 smDosDFAerrCol[256]={" >> smScan.dos.new
+	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	echo ";" >> smScan.dos.new
+	echo "" >> smScan.dos.new
+	if test -f smScan.dos ; then \
 		if cmp smScan.dos smScan.dos.new ; then \
 			rm smScan.dos.new ; \
 		else \
@@ -229,21 +178,20 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	else \
 		mv smScan.dos.new smScan.dos ; \
 	fi
+	sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
+	cat smScan.head > smScanx.c
+	echo "UByte1 *smMap;" >> smScanx.c
+	echo "UByte1 *smDFAcolVal;" >> smScanx.c
+	echo "UByte1 *smDFAerrCol;" >> smScanx.c
+	echo "" >> smScanx.c
+	cat smScan.iso >> smScanx.c
+	cat smScan.mac >> smScanx.c
+	cat smScan.dos >> smScanx.c
+	cat smScan.tbl >> smScanx.c
+	cat smScan.tail >> smScanx.c
 	touch .smkstamp
 
 smScanx.c : .smkstamp
-	@sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
-	@cat smScan.head > smScanx.c
-	@echo "UByte1 *smMap;" >> smScanx.c
-	@echo "UByte1 *smDFAcolVal;" >> smScanx.c
-	@echo "UByte1 *smDFAerrCol;" >> smScanx.c
-	@echo "" >> smScanx.c
-	@cat smScan.iso >> smScanx.c
-	@cat smScan.mac >> smScanx.c
-	@cat smScan.dos >> smScanx.c
-	@cat smScan.tbl >> smScanx.c
-	@cat smScan.tail >> smScanx.c
-
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
@@ -256,27 +204,6 @@ smScan.h smScSema.c:
 lmList.h lmList.c:
 	-rm .lmkstamp
 	make .lmkstamp
-
-malloc: tm $(OBJECTS) version.o
-	$(CC) -c $(CFLAGS) -DMALLOC alan.c
-	$(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
-	-rm alan.o
-
-purify: tm $(OBJECTS) version.o alan.o
-	purify -handle-signals= $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
-
-quantify: tm $(OBJECTS) version.o alan.o
-	quantify -append-logfile -filename-prefix=%v -windows=no $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
-
-version.h version.c: ../version.sh
-	-cd ..; rm [0-9]*_[0-9]*_[0-9]*.*; sh version.sh
-	-rm [0-9]*_[0-9]*_[0-9]*.*
-	cp ../[0-9]*_[0-9]*_[0-9]*.* .
-	venum -c
-
-.version: $(VERSIONSRCS)
-	venum +t
-	touch .version
 
 acode.h: ../interpreter/acode.h
 	-ln -s ../interpreter/acode.h
@@ -310,12 +237,6 @@ NONANSI:
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
 	make src	
-#	This was because some compilers on DOS can't cope with standard
-#	pointer arithmetic in the generated scanner code
-#	make savetm
-#	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-#	smk $(SMKQ) -set PC alan
-#	make restoretm
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
@@ -323,24 +244,15 @@ MSDOS:
 	ramp iso2pc sysdep.c SYSDEP.C
 
 mac:
-	make src
-	-mkdir macsrc
-	refreshMac macsrc
-	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
-	ramp iso2mac pmParse.tmp macsrc/pmParse.c
-	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
-	ramp iso2mac pmPaSema.tmp macsrc/pmPaSema.c
-	-cd macsrc; sit *.[ch]
-	mv macsrc/archive.sit compiler.sit
+	@echo "Can't do that yet!"
 
 amiga:
-#	make NONANSI
 	make src
 	lha u compiler.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
 pc:
 	make MSDOS
-	zip -k -u compiler.zip *.[ch] Makefile.dos makefile.gpp Makefile.mgw
+	zip -k -u compiler.zip *.[ch] Makefile.dos makefile.gpp
 	zip -k -m compiler.zip *.[CH]
 
 #--
@@ -353,9 +265,9 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/, d" -e "s,./,," | sort -u 
 FILETER =
-depend: dependencies.mk. Makefile.amiga Makefile.mgw makefile.gpp Makefile.cygwin
+depend: dependencies Makefile.amiga Makefile.mgw makefile.gpp
 
-dependencies.mk.:
+dependencies:
 	@echo "Updating dependencies.mk!"
 	@echo > dependencies.mk
 	@for f in *.c; \
@@ -382,13 +294,5 @@ Makefile.mgw: dependencies.mk Makefile
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cp "#Makefile.tmp#" Makefile.mgw
 	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.mgw
-
-Makefile.cygwin: dependencies.mk Makefile
-	@echo Updating Makefile.cygwin!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.cygwin > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cat "#Makefile.tmp#" dependencies.mk > Makefile.cygwin
-
-
 
 include dependencies.mk

@@ -1,4 +1,25 @@
 ToDo:
+	* Functions
+		(Andrew Duncan Heale <helix@yoyo.cc.monash.edu.au>)
+
+	* Multiple sentences for the same verb:
+	    turn_on = 'turn' 'on' (obj).
+	    turn_on = 'turn' (obj) 'on'.
+	    turn_on = 'on' (obj). -- for the lazy people
+		(Andrew Duncan Heale <helix@yoyo.cc.monash.edu.au>)
+
+	* How to read the end point of a direction?
+		(Andrew Duncan Heale <helix@yoyo.cc.monash.edu.au>)
+
+	* Could it be possible to use the CHECKs (as in the ALL
+	handling) when disambiguating between multiple objects refered
+	to in a command (Jürg Lech's TAKE BOX when one is in the
+	inventory and one on the floor).
+
+	* Fix the broken DEPEND. It should only execute the expression
+	once. The current code generation and interpretation is
+	wrong. Consider "DEPENDING ON RANDOM 1 TO 8".
+
 	* WinArun with -l does not position the cursor at the bottom
 	of the screen after writing the first status line
 
@@ -239,6 +260,7 @@ ToDo:
 
 
 DONE:
+	* Amiga Arun2.8 crahes on "arun -help"
 
 	* The character set used by the compiler (when reading the
 	source code) ought to be configurable through an option

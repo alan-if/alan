@@ -61,7 +61,7 @@ int scannedLines();
 
 
 /* PRIVATE */
-static lines = 0;		/* Updated at end of each file */
+static int lines = 0;		/* Updated at end of each file */
 
 Bool smScanEnter(
 		 char fnm[],	/* IN - Name of file to open */

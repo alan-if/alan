@@ -5,9 +5,9 @@
 alan.prod
 alansrc*.lha
 alansrc*.zip
-compiler.zip
-interpre.zip
-version.c
-version.h
+compiler*.zip
+interpre*.zip
+version.[ch]
 alan.exe
 arun.exe
+alan.version.[ch]
