@@ -256,7 +256,7 @@ Aaddr gefreq(void)
     return 0;
   else {
     for (i = 0; i < NOOFSYMBOLS+1; i++) {
-      if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+      showProgress();
       emit(cumFreq[i]);
     }
     emit(EOF);

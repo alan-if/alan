@@ -18,7 +18,7 @@ typedef enum {
   INHERITED
 } AttributeInheritance;
 
-typedef struct AtrNod {		/* ATTRIBUTE */
+typedef struct Attribute {
   Srcp srcp;			/* Source position of the attribute */
   TypeKind type;		/* Type of this attribute */
   IdNode *id;			/* Id of the attribute */
@@ -29,6 +29,6 @@ typedef struct AtrNod {		/* ATTRIBUTE */
   Bool encoded;			/* For string attributes... */
   long fpos;
   int len;
-} AtrNod;
+} Attribute;
 
 #endif

@@ -42,18 +42,18 @@ int atrmax;
   Allocates and initialises an atrnod.
 
  */
-AtrNod *newAttribute(Srcp *srcp,	/* IN - Source Position */
+Attribute *newAttribute(Srcp *srcp,	/* IN - Source Position */
 		     TypeKind type,	/* IN - Type of this atribute */
 		     IdNode *id,	/* IN - The id */
 		     int value,		/* IN - The initial value */
 		     long int fpos,	/* IN - File position for initial string */
 		     int len)		/* IN - D:o length */
 {
-  AtrNod *new;			/* The newly allocated area */
+  Attribute *new;			/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
-  new = NEW(AtrNod);
+  new = NEW(Attribute);
 
   new->srcp = *srcp;
   new->type = type;
@@ -95,7 +95,7 @@ void checkMultipleAttributes(List *atrs)
   findAttribute()
 
 */
-AtrNod *findAttribute(List *attributes, IdNode *id)
+Attribute *findAttribute(List *attributes, IdNode *id)
 {
   List *this;
 
@@ -151,11 +151,11 @@ List *sortAttributes(List *attributes)
   Make a copy of an attribute
 
 */
-static AtrNod *copyAttribute(AtrNod *theOriginal)
+static Attribute *copyAttribute(Attribute *theOriginal)
 {
-  AtrNod *theCopy = NEW(AtrNod);
+  Attribute *theCopy = NEW(Attribute);
 
-  memcpy(theCopy, theOriginal, sizeof(AtrNod));
+  memcpy(theCopy, theOriginal, sizeof(Attribute));
   theCopy->inheritance = INHERITED;
   return theCopy;
 }
@@ -175,7 +175,7 @@ static List *copyAttributeList(List *theOriginal)
 
   for (traversal = theOriginal; traversal != NULL; traversal = traversal->next)
     theCopy = concat(theCopy, copyAttribute(traversal->element.atr),
-		     LIST_ATR);
+		     ATTRIBUTE_LIST);
   return theCopy;
 }
 
@@ -207,7 +207,7 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
     } else if (own->element.atr->id->code < toAdd->element.atr->id->code) {
       own = own->next;
     } else if (own->element.atr->id->code > toAdd->element.atr->id->code) {
-      insert(own, copyAttribute(toAdd->element.atr), LIST_ATR);
+      insert(own, copyAttribute(toAdd->element.atr), ATTRIBUTE_LIST);
       toAdd = toAdd->next;
     }
   }
@@ -249,9 +249,9 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
   Resolve an attribute reference for an identifier.
 
 */
-static AtrNod *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *context)
+static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
   Symbol *sym;
   Symbol *classOfParameter;
 
@@ -285,9 +285,9 @@ static AtrNod *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *contex
   Resolve an attribute reference for reference to current Actor.
 
 */
-static AtrNod *resolveActorAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
 
   atr = findAttribute(actorSymbol->fields.claOrIns.slots->attributes, attribute);
   if (atr == NULL)
@@ -303,9 +303,9 @@ static AtrNod *resolveActorAttribute(IdNode *attribute, Context *context)
   Resolve an attribute reference for reference to current Location.
 
 */
-static AtrNod *resolveLocationAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
 
   atr = findAttribute(locationSymbol->fields.claOrIns.slots->attributes, attribute);
   if (atr == NULL)
@@ -321,9 +321,9 @@ static AtrNod *resolveLocationAttribute(IdNode *attribute, Context *context)
   Resolve an attribute reference for reference to THIS instance.
 
 */
-static AtrNod *resolveThisAttribute(IdNode *attribute, Context *context)
+static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
 
   if (context->instance == NULL) return NULL;
 
@@ -342,7 +342,7 @@ static AtrNod *resolveThisAttribute(IdNode *attribute, Context *context)
   parameters and return a reference to the attribute node, if all is well.
 
  */
-AtrNod *resolveAttributeReference(What *what, IdNode *attribute, Context *context)
+Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *context)
 {
   switch (what->kind) {
   case WHAT_ID: return resolveIdAttribute(what->id, attribute, context); break;
@@ -360,10 +360,10 @@ AtrNod *resolveAttributeReference(What *what, IdNode *attribute, Context *contex
   generateAttribute()
 
   */
-static void generateAttribute(AtrNod *attribute)
+static void generateAttribute(Attribute *attribute)
 {
   AttributeEntry entry;
-  AtrNod *new;
+  Attribute *new;
 
   if (attribute->type == STRING_TYPE) {
     if (!attribute->encoded) {
@@ -378,7 +378,7 @@ static void generateAttribute(AtrNod *attribute)
     new = newAttribute(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
 		 attribute->fpos, attribute->len);
     new->address = attribute->address;
-    adv.stratrs = concat(adv.stratrs, new, LIST_ATR);
+    adv.stratrs = concat(adv.stratrs, new, ATTRIBUTE_LIST);
   }
 
   entry.code = attribute->id->code;
@@ -464,7 +464,7 @@ static void dumpInheritance(AttributeInheritance inheritance)
   Dump an Attribute node.
 
  */
-void dumpAttribute(AtrNod *atr)
+void dumpAttribute(Attribute *atr)
 {
   put("ATR: "); dumpSrcp(&atr->srcp); in();
   put("type: "); dumpType(atr->type);

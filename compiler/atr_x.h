@@ -25,7 +25,7 @@ extern int atrmax;
 
 
 /* Create a new Attribute node */
-extern AtrNod *newAttribute(Srcp *srcp,
+extern Attribute *newAttribute(Srcp *srcp,
 		      TypeKind typ,
 		      IdNode *id,
 		      int val,
@@ -34,11 +34,11 @@ extern AtrNod *newAttribute(Srcp *srcp,
 
 extern void checkMultipleAttributes(List *attributeList);
 extern List *sortAttributes(List *attributeList);
-extern AtrNod *findAttribute(List *attributeList, IdNode *id);
+extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
 extern Aaddr generateAttributes(List *attributeList);
 extern Aaddr generateStringInit(void);
-extern void dumpAttribute(AtrNod *atr);
-extern AtrNod *resolveAttributeReference(What *ofWhat, IdNode *attribute, Context *context);
+extern void dumpAttribute(Attribute *atr);
+extern Attribute *resolveAttributeReference(What *ofWhat, IdNode *attribute, Context *context);
 
 #endif

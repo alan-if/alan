@@ -38,7 +38,7 @@ Step *newStep(Srcp *srcp,	/* IN - Source Position */
 {
   Step *new;		/* The newly allocated node */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(Step);
 

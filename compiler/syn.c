@@ -37,7 +37,7 @@ SynNod *newsyn(Srcp *srcp,	/* IN - Source position of the synonym */
 {
   SynNod *new;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(SynNod);
 
@@ -66,7 +66,7 @@ void ansyns(void)
   WrdNod *swrd;		/* Synonym word */
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
-    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+    showProgress();
     wrd = findwrd(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);

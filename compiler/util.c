@@ -30,6 +30,22 @@ long allocated;		/* Calculated memory usage */
 
 /* FUNCTIONS */
 
+
+
+/*======================================================================
+
+  showProgress()
+
+*/
+void showProgress() {
+  if (verbose) {
+    printf("%8ld\b\b\b\b\b\b\b\b", counter++);
+    fflush(stdout);
+  }
+}
+
+
+
 /*======================================================================
 
   allocate()

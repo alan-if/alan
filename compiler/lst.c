@@ -22,7 +22,7 @@ void (*(dumpNodeTable[LIST_LAST_KIND]))();
 extern void dualt();
 extern void duchk();
 extern void duelm();
-extern void duext();
+extern void dumpExit();
 extern void dumpAdd();
 extern void dumpAttribute();
 extern void dumpClass();
@@ -43,14 +43,14 @@ extern void dumpVerb();
 */
 void initDumpNodeList()
 {
-  dumpNodeTable[LIST_ADD] = &dumpAdd;
+  dumpNodeTable[ADD_LIST] = &dumpAdd;
   dumpNodeTable[LIST_ALT] = &dualt;
-  dumpNodeTable[LIST_ATR] = &dumpAttribute;
+  dumpNodeTable[ATTRIBUTE_LIST] = &dumpAttribute;
   dumpNodeTable[LIST_CHK] = &duchk;
   dumpNodeTable[LIST_CLA] = &dumpClass;
   dumpNodeTable[LIST_CNT] = &dumpPointer;
   dumpNodeTable[LIST_ELM] = &duelm;
-  dumpNodeTable[LIST_EXT] = &duext;
+  dumpNodeTable[LIST_EXT] = &dumpExit;
   dumpNodeTable[LIST_ID] = &dumpId;
   dumpNodeTable[LIST_INS] = &dumpInstance;
   dumpNodeTable[LIST_RES] = &dumpRestriction;

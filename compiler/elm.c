@@ -45,7 +45,7 @@ ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
 {
   ElmNod *new;                                  /* The newly created node */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(ElmNod);
 
@@ -70,7 +70,7 @@ ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
  */
 static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 {
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   switch (elm->kind) {
   case WORD_ELEMENT:
@@ -278,7 +278,7 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
   if (elms == NULL)
     return 0;           /* End of chain */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   /* Move all to their next elm */
   resadr = advance(elms);

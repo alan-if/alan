@@ -1,0 +1,36 @@
+add to every thing
+  has
+    bulkiness 10.
+end add to thing.
+
+
+Syntax put_in = put (do) 'in' (io)
+  Where io Isa container
+    Else "You can only put things in containers"
+
+Verb put_in
+  Does
+    Locate do In io.
+End Verb.
+
+the jug isa object At aaa
+  container
+    limits
+      count 10 then
+        "Too much stuff"
+      bulkiness 50 then
+        "too heavy"
+end the jug.
+
+The o1 Isa object At aaa
+End The o1.
+
+The o2 Isa object At aaa
+  Has bulkiness 50.
+End The o2.
+
+the aaa isa location
+end the aaa.
+
+start at aaa.
+

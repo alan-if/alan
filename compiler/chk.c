@@ -34,7 +34,7 @@ ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
 {
   ChkNod *new;			/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(ChkNod);
 

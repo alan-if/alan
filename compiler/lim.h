@@ -18,7 +18,7 @@
 
 typedef struct LimNod {		/* LIMIT */
   Srcp srcp;			/* Source position */
-  AtrNod *atr;			/* The attribute that limits */
+  Attribute *atr;			/* The attribute that limits */
   List *stms;			/* Statements to execute when exceeded */
   Aaddr stmadr;			/* ACODE address to statements */
 } LimNod;
@@ -32,7 +32,7 @@ typedef struct LimNod {		/* LIMIT */
 
 /* Create a new Limit node */
 extern LimNod *newlim(Srcp *srcp,
-		      AtrNod *atr,
+		      Attribute *atr,
 		      List *stms);
 
 /* Analyse a Limit node */

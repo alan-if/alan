@@ -468,7 +468,7 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 */
 static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 {
-  AtrNod *foundAttribute;
+  Attribute *foundAttribute;
 
   if (symbol == NULL)
     return NULL;
@@ -491,7 +491,7 @@ static Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
   From a symbol traverse its inheritance tree to find a named attribute.
 
 */
-AtrNod *findInheritedAttribute(Symbol *symbol, IdNode *id)
+Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
 {
   Symbol *definingSymbol =
     definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
@@ -510,7 +510,7 @@ AtrNod *findInheritedAttribute(Symbol *symbol, IdNode *id)
 static void numberAttributes(Symbol *symbol)
 {
   List *theList;
-  AtrNod *inheritedAttribute;
+  Attribute *inheritedAttribute;
   Symbol *definingSymbol;
 
   if (symbol->fields.claOrIns.attributesNumbered) return;
@@ -606,7 +606,7 @@ static Slots *slotsOfParentOf(Symbol *s) {return s->fields.claOrIns.parent->fiel
 static void replicateAttributes(Symbol *symbol)
 {
   slotsOf(symbol)->attributes = combineAttributes(slotsOf(symbol)->attributes,
-						    slotsOfParentOf(symbol)->attributes);
+						  slotsOfParentOf(symbol)->attributes);
 }
 
 
@@ -624,6 +624,18 @@ static void replicateContainer(Symbol *symbol)
 
 /*----------------------------------------------------------------------
 
+  replicateDescription()
+
+*/
+static void replicateDescription(Symbol *symbol)
+{
+  if (slotsOf(symbol)->description == NULL)
+    slotsOf(symbol)->description = slotsOfParentOf(symbol)->description;
+}
+
+
+/*----------------------------------------------------------------------
+
   replicate()
 
 */
@@ -631,6 +643,7 @@ static void replicate(Symbol *symbol)
 {
   if (haveParent(symbol)) {
     replicateAttributes(symbol);
+    replicateDescription(symbol);
     replicateContainer(symbol);
   }
 }

@@ -13,9 +13,9 @@
 
 typedef enum ListKind {
   UNKNOWN_LIST,
-  LIST_ADD,
+  ADD_LIST,
   LIST_ALT,
-  LIST_ATR,
+  ATTRIBUTE_LIST,
   LIST_CASE,
   LIST_CHK,
   LIST_CLA,
@@ -51,7 +51,7 @@ typedef struct List {		/* GENERIC LISTS */
   union {
     struct AddNode *add;
     struct AltNod *alt;
-    struct AtrNod *atr;
+    struct Attribute *atr;
     struct ChkNod *chk;
     struct ClaNod *cla;
     struct InsNod *ins;

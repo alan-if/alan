@@ -42,7 +42,7 @@ AddNode *newAdd(Srcp *srcp,
 {
   AddNode *new;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(AddNode);
 
@@ -103,7 +103,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
   if (addedAttributes == NULL) return;
 
   for (l = addedAttributes; l != NULL; l = l->next) {
-    AtrNod *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
+    Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
     if (originalAttribute != NULL) /* It was found in the original */
       lmLog(&l->element.atr->id->srcp, 336, sevERR, "an existing attribute");
   }

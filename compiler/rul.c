@@ -44,7 +44,7 @@ RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
 {
   RulNod *new;		/* The newly allocated node */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(RulNod);
 
@@ -69,7 +69,7 @@ static void analyzeRule(RulNod *rul)
 {
   Context context;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   context.kind = RULE_CONTEXT;
   anexp(rul->exp, &context);
@@ -110,7 +110,7 @@ Aaddr generateRules(void)
   Aaddr adr;
 
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
-    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+    showProgress();
     lst->element.rul->expadr = emadr();
     geexp(lst->element.rul->exp, 0);
     emit0(C_STMOP, I_RETURN);

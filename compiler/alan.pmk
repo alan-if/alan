@@ -95,7 +95,7 @@ static int val(char str[])
   alts %% List *%1%%,
   art %% List *%1%%,		-- of StmNod: article-clause,
   artSrcp %% Srcp %1%%,
-  atr %% AtrNod *%1%%,
+  atr %% Attribute *%1%%,
   atrs %% List *%1%%,
   bits %% int %1%%,
   cases %% List *%1%%,
@@ -246,12 +246,12 @@ static int val(char str[])
 <attributes>		-- RETURNS: atrs
     = <attribute definition> '.'
     %%
-	%<attributes>.atrs = concat(NULL, %<attribute definition>.atr, LIST_ATR);
+	%<attributes>.atrs = concat(NULL, %<attribute definition>.atr, ATTRIBUTE_LIST);
     %%
 
     ! <attributes> <attribute definition> '.'
     %%
-	%<attributes>.atrs = concat(%<attributes>.atrs, %<attribute definition>.atr, LIST_ATR);
+	%<attributes>.atrs = concat(%<attributes>.atrs, %<attribute definition>.atr, ATTRIBUTE_LIST);
     %%
     ;
 

@@ -255,7 +255,7 @@ void dumpAdventure(enum dmpKd dmp)
     dumpList(adv.clas, LIST_CLA);
     nl();
     put("additions: ");
-    dumpList(adv.adds, LIST_ADD);
+    dumpList(adv.adds, ADD_LIST);
   } else
     put("--");
   nl();

@@ -24,11 +24,7 @@ extern long counter;		/* And counter for verbose mode */
 
 /* FUNCTIONS */
 
-#define progressMeter() {\
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }\
-\
-}
-
+extern void showProgress(void);
 extern void *allocate(int len);
 extern void unimpl(Srcp *srcp, char *phase);
 extern void syserr(char *str);

@@ -29,7 +29,7 @@ void testLength()
 void testInsert()
 {
   IdNode *anElement = newId(&nulsrcp, "anElement");
-  List *aList = concat(NULL, anElement, LIST_ATR);
+  List *aList = concat(NULL, anElement, ATTRIBUTE_LIST);
 
 #ifdef SYSERR
   insert(NULL, NULL, LIST_ATR);
@@ -39,7 +39,7 @@ void testInsert()
   unitAssert(readEcode() == 997 && readSev() == sevERR);
 #endif
 
-  insert(aList, anElement, LIST_ATR);
+  insert(aList, anElement, ATTRIBUTE_LIST);
   unitAssert(length(aList) == 2);
 }
 

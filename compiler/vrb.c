@@ -38,7 +38,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
   Symbol *sym;
   List *lst;			/* Traversal pointer */
 
-  progressMeter();
+  showProgress();
 
   new = NEW(Verb);
 
@@ -72,7 +72,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
   StxNod *stx;
   Context *context = copyContext(previousContext);
 
-  progressMeter();
+  showProgress();
 
   /* First find the syntax definitions for all verbs */
   for (ids = theVerb->ids; ids; ids = ids->next) {
@@ -166,7 +166,7 @@ void analyzeVerbs(List *verbs, Context *context)
 /*----------------------------------------------------------------------*/
 static void generateVerb(Verb *vrb, int currentInstance)
 {
-  progressMeter();
+  showProgress();
 
   if (vrb->alternatives == NULL)
     vrb->altAddress = 0;

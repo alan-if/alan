@@ -12,8 +12,8 @@ void testMultipleAtr()
 {
   List *attributeList;
 
-  attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
-  attributeList = concat(attributeList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
+  attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), ATTRIBUTE_LIST);
+  attributeList = concat(attributeList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), ATTRIBUTE_LIST);
 
   readEcode();
   anatrs(attributeList);
@@ -25,8 +25,8 @@ void testFindInList()
 {
   List *attributes = NULL;
   IdNode *id = newId(&nulsrcp, "theAttribute");
-  AtrNod *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE, id, 0, 0, 0);
-  AtrNod *anotherAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
+  Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE, id, 0, 0, 0);
+  Attribute *anotherAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
 				    newId(&nulsrcp, "another"),
 				    0, 0, 0);
 
@@ -34,16 +34,16 @@ void testFindInList()
   unitAssert(findAttribute(attributes, id) == NULL);
 
   /* Test one element */
-  attributes = concat(attributes, theAttribute, LIST_ATR);
+  attributes = concat(attributes, theAttribute, ATTRIBUTE_LIST);
   unitAssert(findAttribute(attributes, id) == theAttribute);
 
   /* Test last element */
-  attributes = combine(concat(NULL, anotherAttribute, LIST_ATR), attributes);
-  attributes = combine(concat(NULL, anotherAttribute, LIST_ATR), attributes);
+  attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
+  attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
   unitAssert(findAttribute(attributes, id) == theAttribute);
 
   /* Test in the middle */
-  attributes = concat(attributes, anotherAttribute, LIST_ATR);
+  attributes = concat(attributes, anotherAttribute, ATTRIBUTE_LIST);
   unitAssert(findAttribute(attributes, id) == theAttribute);
 }
 
@@ -71,14 +71,14 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, firstString), 0, 0, 0), LIST_ATR);
-  theList = concat(theList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, secondString), 0, 0, 0), LIST_ATR);
+  theList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, firstString), 0, 0, 0), ATTRIBUTE_LIST);
+  theList = concat(theList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, secondString), 0, 0, 0), ATTRIBUTE_LIST);
   return theList;
 }
 
 static int attributeCode(Slots *slots, char *string)
 {
-  AtrNod *atr = findAttribute(slots->attributes, newId(&nulsrcp, string));
+  Attribute *atr = findAttribute(slots->attributes, newId(&nulsrcp, string));
   return atr->id->code;
 }
 
@@ -237,7 +237,7 @@ static Bool attributesAreSorted(List *list)
 
 void testSortAttributes()
 {
-  List *attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0), LIST_ATR);
+  List *attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
   unitAssert(sortAttributes(NULL) == NULL);

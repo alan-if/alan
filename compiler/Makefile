@@ -45,7 +45,6 @@ BUILDSRCS = \
 	elm.c \
 	encode.c \
 	evt.c \
-	exp.c \
 	id.c \
 	lim.c \
 	msg.c \
@@ -80,6 +79,7 @@ ALANSRCS = \
 	cla.c \
 	res.c \
 	emit.c \
+	exp.c \
 	ext.c \
 	ins.c \
 	lst.c \
@@ -145,7 +145,7 @@ unit : $(TESTOBJS)
 
 # Run all unit tests!
 test: unit
-	@unit
+	@./unit
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

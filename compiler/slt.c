@@ -68,7 +68,7 @@ Slots *newSlots(List *names,
 {
   Slots *new;                  /* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(Slots);
 
@@ -276,7 +276,7 @@ void dumpSlots(Slots *slots)
   put("names: "); dumpList(slots->names, LIST_NAM); nl();
   put("whr: "); duwhr(slots->whr); nl();
   put("container: "); dumpContainer(slots->container); nl();
-  put("attributes: "); dumpList(slots->attributes, LIST_ATR); nl();
+  put("attributes: "); dumpList(slots->attributes, ATTRIBUTE_LIST); nl();
   put("attributeAddress: "); dumpAddress(slots->attributeAddress); nl();
   put("description: "); dumpList(slots->description, LIST_STM); nl();
   put("descriptionAddress: "); dumpAddress(slots->descriptionAddress); nl();

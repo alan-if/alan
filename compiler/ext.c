@@ -50,7 +50,7 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
   Symbol *sym;
   List *lst;			/* Traversal pointer */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(ExtNod);
 
@@ -244,12 +244,12 @@ Aaddr generateExits(List *exts, int currentInstance)
 
 /*======================================================================
 
-  duext()
+  dumpExit()
 
   Dump an Exit node.
 
  */
-void duext(ExtNod *ext)
+void dumpExit(ExtNod *ext)
 {
   if (ext == NULL) {
     put("NULL");

@@ -71,7 +71,7 @@ typedef struct ExpNod {		/* EXPRESSION */
     } whr;
 
     struct {			/* for ATTRIBUTE */
-      struct ExpNod *wht;	/* What is? */
+      struct ExpNod *wht;	/* Attribute of what? */
       struct IdNode *atr;	/* Id of the attribute */
     } atr;
 

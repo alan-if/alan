@@ -44,7 +44,7 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 {
   EvtNod *new;		/* The newly allocated node */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(EvtNod);
 
@@ -74,7 +74,7 @@ void anevts(void)
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
       if (verbose) {
-	printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout);
+	showProgress();
       }
       context->event = evts->element.evt;
       analyzeStatements(evts->element.evt->stms, context);
@@ -92,7 +92,7 @@ void anevts(void)
   */
 static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
 {
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();

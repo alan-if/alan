@@ -36,7 +36,7 @@ WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
 {
   WhrNod *new;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(WhrNod);
 

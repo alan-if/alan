@@ -134,7 +134,7 @@ typedef struct pmGrammar {
     List *cases;
     int bits;
     List *atrs;
-    AtrNod *atr;
+    Attribute *atr;
     Srcp artSrcp;
     List *art;
     List *alts;
@@ -209,7 +209,7 @@ int rule			/* IN production number */
  adv.clas = concat(adv.clas, pmSeSt[pmStkP+1].cla, LIST_CLA); 	break;}
     case 18: { /* <unit> = <add>; */
 #line 233 "alan.pmk"
- adv.adds = concat(adv.adds, pmSeSt[pmStkP+1].add, LIST_ADD); 	break;}
+ adv.adds = concat(adv.adds, pmSeSt[pmStkP+1].add, ADD_LIST); 	break;}
     case 13: { /* <unit> = <instance>; */
 #line 236 "alan.pmk"
  adv.inss = concat(adv.inss, pmSeSt[pmStkP+1].ins, LIST_INS); 	break;}
@@ -222,12 +222,12 @@ int rule			/* IN production number */
     case 20: { /* <attributes> = <attribute definition> '.'; */
 #line 248 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atrs = concat(NULL, pmSeSt[pmStkP+1].atr, LIST_ATR);
+	pmSeSt[pmStkP+1].atrs = concat(NULL, pmSeSt[pmStkP+1].atr, ATTRIBUTE_LIST);
     	break;}
     case 21: { /* <attributes> = <attributes> <attribute definition> '.'; */
 #line 253 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atrs = concat(pmSeSt[pmStkP+1].atrs, pmSeSt[pmStkP+2].atr, LIST_ATR);
+	pmSeSt[pmStkP+1].atrs = concat(pmSeSt[pmStkP+1].atrs, pmSeSt[pmStkP+2].atr, ATTRIBUTE_LIST);
     	break;}
     case 22: { /* <attribute definition> = ID; */
 #line 260 "alan.pmk"

@@ -138,7 +138,7 @@ typedef struct pmGrammar {
     List *cases;
     int bits;
     List *atrs;
-    AtrNod *atr;
+    Attribute *atr;
     Srcp artSrcp;
     List *art;
     List *alts;

@@ -43,12 +43,12 @@
 
   */
 LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
-	       AtrNod *atr,	/* IN - The attribute */
+	       Attribute *atr,	/* IN - The attribute */
 	       List *stms)	/* IN - Statments */
 {
   LimNod *new;			/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(LimNod);
 
@@ -73,9 +73,9 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
   */
 void anlim(LimNod *lim)		/* IN - The container to analyze */
 {
-  AtrNod *atr, *a;		/* Attribute nodes */
+  Attribute *atr, *a;		/* Attribute nodes */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   /* Analyze the attribute */
   atr = lim->atr;
@@ -106,7 +106,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   */
 static void gelim(LimNod *lim, int cnt, int currentInstance)
 {
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   /* Generate statements */
   lim->stmadr = emadr();	/* Save ACODE address to statements */

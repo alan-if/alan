@@ -62,7 +62,7 @@ ExpNod *newexp(Srcp *srcp, ExpressionKind kind)
 {
   ExpNod *new;			/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(ExpNod);
 
@@ -144,7 +144,7 @@ static void anexpwhr(ExpNod *exp, Context *context)
   verifyExpressionAttribute()
 
 */
-static TypeKind verifyExpressionAttribute(IdNode *attributeId, AtrNod *foundAttribute)
+static TypeKind verifyExpressionAttribute(IdNode *attributeId, Attribute *foundAttribute)
 {
   if (foundAttribute == NULL) {	/* Attribute not found */
     return UNKNOWN_TYPE;
@@ -152,7 +152,7 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId, AtrNod *foundAttr
     attributeId->code = foundAttribute->id->code;
     return foundAttribute->type;
   } else
-    syserr("Attribute with symbol in anexpatr()");
+    syserr("Attribute with symbol in verifyExpressionAttribute()");
   return ERROR_TYPE;
 }
 
@@ -167,7 +167,7 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId, AtrNod *foundAttr
 static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 		     Context *context)
 {
-  AtrNod *atr;
+  Attribute *atr;
 
   if (exp->fields.atr.wht->kind == WHAT_EXPRESSION) {
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
@@ -179,6 +179,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 
     case WHAT_LOCATION:
     case WHAT_ID:
+    case WHAT_THIS:
       break;
 
     default:
@@ -289,7 +290,7 @@ static void anbin(ExpNod *exp,
 static void anagr(ExpNod *exp,
 		  Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
 
   exp->type = INTEGER_TYPE;
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {

@@ -50,7 +50,7 @@ StxNod *newstx(Srcp *srcp,
 {
   StxNod *new;                  /* The newly created node */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(StxNod);
 
@@ -101,7 +101,7 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 {
   Symbol *verbSymbol;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   /* Find which verb it defines */
   verbSymbol = lookup(stx->id->string);
@@ -234,7 +234,7 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
   List *elements = NULL;            /* A list of parallell elms-lists */
 
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
   
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */

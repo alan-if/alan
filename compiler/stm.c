@@ -48,7 +48,7 @@ StmNod *newstm(Srcp *srcp,	/* IN - Source Position */
 {
   StmNod *new;                  /* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(StmNod);
 
@@ -199,7 +199,7 @@ static void analyzeLocate(StmNod *stm,
   Verify that a found attribute can be used in a MAKE statement.
 
 */
-static void verifyMakeAttribute(IdNode *attributeId, AtrNod *foundAttribute)
+static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 {
   if (foundAttribute != NULL) {
     if (foundAttribute->type != BOOLEAN_TYPE)
@@ -221,7 +221,7 @@ static void verifyMakeAttribute(IdNode *attributeId, AtrNod *foundAttribute)
 static void anmake(StmNod *stm,
 		   Context *context)
 {
-  AtrNod *atr = NULL;
+  Attribute *atr = NULL;
 
   switch (stm->fields.make.wht->kind) {
 
@@ -250,7 +250,7 @@ static void anmake(StmNod *stm,
   verifySetTarget()
 
 */
-static void verifySetTarget(IdNode *attributeId, AtrNod  *foundAttribute)
+static void verifySetTarget(IdNode *attributeId, Attribute  *foundAttribute)
 {
   if (foundAttribute) {
     if (foundAttribute->type != INTEGER_TYPE && foundAttribute->type != STRING_TYPE)
@@ -271,7 +271,7 @@ static void verifySetTarget(IdNode *attributeId, AtrNod  *foundAttribute)
 static void anset(StmNod *stm,
 		  Context *context)
 {
-  AtrNod *atr;
+  Attribute *atr;
 
   switch (stm->fields.set.wht->kind) {
 
@@ -312,7 +312,7 @@ static void anset(StmNod *stm,
 static void anincr(StmNod *stm,
 		   Context *context)
 {
-  AtrNod *atr;
+  Attribute *atr;
 
   switch (stm->fields.incr.wht->kind) {
 

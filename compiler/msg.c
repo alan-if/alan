@@ -197,7 +197,7 @@ MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms)
 {
   MsgNod *msg;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   msg = NEW(MsgNod);
 
@@ -339,7 +339,7 @@ void anmsgs(void)
 
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
-    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+    showProgress();
     analyzeStatements(lst->element.msg->stms, NULL);
   }
 
@@ -374,7 +374,7 @@ Aaddr gemsgs(void)
 
   /* First generate the statements for each message */
   for (lst = adv.msgs; lst; lst = lst->next) {
-    if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+    showProgress();
     gemsgent(lst->element.msg);
   }
 

@@ -46,7 +46,7 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
 {
   CntNod *new;		/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   new = NEW(CntNod);
 
@@ -120,7 +120,7 @@ void analyzeContainer(CntNod *cnt, Context *context)
 
   if (cnt == NULL) return;
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   if (cnt->ownerSlots == NULL)
     syserr("Container without an owner.");
@@ -144,7 +144,7 @@ void analyzeContainer(CntNod *cnt, Context *context)
   */
 static void gecnt(CntNod *cnt, int currentInstance)
 {
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   cnt->limadr = gelims(cnt, currentInstance);
 

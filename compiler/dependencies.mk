@@ -1,13 +1,13 @@
 add.o: add.c add_x.h add.h types.h id.h sym.h lst.h type.h srcp.h \
  slt.h whr.h wht.h cnt.h ../interpreter/acode.h slt_x.h ins.h \
  context.h evt.h sym_x.h elm.h stx.h res.h atr.h exp.h alan.h sysdep.h \
- id_x.h srcp_x.h atr_x.h vrb.h scr.h ext.h adv.h dump.h util.h \
+ id_x.h srcp_x.h atr_x.h lst_x.h vrb.h scr.h ext.h adv.h dump.h util.h \
  lmList.h alanCommon.h token.h
 addTest.o: addTest.c add.c add_x.h add.h types.h id.h sym.h lst.h \
  type.h srcp.h slt.h whr.h wht.h cnt.h ../interpreter/acode.h slt_x.h \
  ins.h context.h evt.h sym_x.h elm.h stx.h res.h atr.h exp.h alan.h \
- sysdep.h id_x.h srcp_x.h atr_x.h vrb.h scr.h ext.h adv.h dump.h \
- util.h lmList.h alanCommon.h token.h
+ sysdep.h id_x.h srcp_x.h atr_x.h lst_x.h vrb.h scr.h ext.h adv.h \
+ dump.h util.h lmList.h alanCommon.h token.h
 adv.o: adv.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
  alanCommon.h token.h add_x.h add.h id.h sym.h type.h slt.h whr.h \
  wht.h cnt.h ../interpreter/acode.h cla_x.h cla.h cnt_x.h context.h \
@@ -87,6 +87,11 @@ exp.o: exp.c exp_x.h exp.h alan.h sysdep.h types.h lst.h srcp.h wht.h \
  slt.h cnt.h util.h srcp_x.h whr_x.h id_x.h atr_x.h atr.h elm.h stx.h \
  res.h sym_x.h wht_x.h cnt_x.h lmList.h alanCommon.h token.h adv.h \
  dump.h emit.h encode.h
+expTest.o: expTest.c exp.c exp_x.h exp.h alan.h sysdep.h types.h lst.h \
+ srcp.h wht.h id.h sym.h type.h whr.h context.h evt.h \
+ ../interpreter/acode.h ins.h slt.h cnt.h util.h srcp_x.h whr_x.h \
+ id_x.h atr_x.h atr.h elm.h stx.h res.h sym_x.h wht_x.h cnt_x.h \
+ lmList.h alanCommon.h token.h adv.h dump.h emit.h encode.h
 ext.o: ext.c ext_x.h ext.h ../interpreter/acode.h srcp.h lst.h id.h \
  sym.h types.h type.h context.h evt.h ins.h slt.h whr.h wht.h cnt.h \
  alan.h sysdep.h util.h srcp_x.h sym_x.h elm.h stx.h res.h atr.h exp.h \
@@ -236,8 +241,9 @@ unit.o: unit.c sysdep.h ../interpreter/acode.h unitTest.h lmList.h \
  cnt_x.h stm_x.h stm.h stx_x.h vrb_x.h vrb.h whr_x.h ext.h rul.h syn.h \
  atr_x.h msg.h sco.h opt.h options.h encode.h wht_x.h symTest.c sym.c \
  exp_x.h elm_x.h whrTest.c whr.c extTest.c ext.c ext_x.h chk_x.h chk.h \
- emitTest.c emit.c alan.version.h version.h atrTest.c atr.c addTest.c \
- add.c resTest.c res.c res_x.h wrdTest.c wrd.c paramTest.c
+ emitTest.c emit.c alan.version.h version.h atrTest.c atr.c expTest.c \
+ exp.c addTest.c add.c resTest.c res.c res_x.h wrdTest.c wrd.c \
+ paramTest.c
 unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
 util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
  token.h

@@ -316,7 +316,7 @@ static void gewrdent(WrdNod *wrd) /* IN - The word to generate an entry for */
     gewrdent(wrd->low);
   
   /* Generate for this word */
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  showProgress();
 
   emit(wrd->stradr);
   if (wrd->classbits == (1L<<WRD_SYN)) {
