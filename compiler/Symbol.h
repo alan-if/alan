@@ -45,6 +45,9 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
 extern Symbol *newSymbol(Id *id,
 			 SymbolKind kind);
 
+/* Convert a symbol type to a character string */
+extern char *symbolKindString(SymbolKind kind);
+
 /* Lookup a symbol */
 extern Symbol *lookup(char symbol[]);
 
@@ -62,6 +65,7 @@ extern Bool anyIsA(List *ids, char className[]);
 
 #else
 extern Symbol *newSymbol();
+extern char *symbolKindString();
 extern Symbol *lookup();
 extern Symbol *symbolCheck();
 extern void classCheck();

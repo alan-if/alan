@@ -107,6 +107,10 @@ void analyseSlot(id, slot)
   Bool remove;			/* Forced to remove the item? */
   List *localAttributes;
   Attribute *attribute;
+  List *localScripts;
+  Script *script;
+  List *localExits;
+  Exit *exit;
 
   slot->state = LOOKING_FOR_CIRCLES;
   /* Verify that the inherited slots exist and are classes */
@@ -123,6 +127,7 @@ void analyseSlot(id, slot)
 	  analyseSlot(symbol->info.class->id, symbol->info.class->slot);
 	/* Now collect the inhertied attributes, scripts etc. into the list */
 	inheritAttributes(symbol->info.class->slot, &slot->inheritedAttributeLists);
+	inheritExits(symbol->info.class->slot, &slot->inheritedExitLists);
 	inheritScripts(symbol->info.class->slot, &slot->inheritedScriptLists);
       }
     } else			/* Not a class, remove it! */
@@ -136,7 +141,9 @@ void analyseSlot(id, slot)
       sentinel = list;
   }
   slot->state = NUMBERING_ATTRIBUTES;
-  /* Number the attributes */
+  /* Analyse and number the attributes */
+  analyseAttributes(slot->attributes);
+  /* 4f - check that the attributes that are inherited but have no local definition don't clash */
   for (localAttributes = slot->attributes; localAttributes; localAttributes = localAttributes->next) {
     attribute = findAttributeInLists(&id->srcp, localAttributes->element.attribute->id,
 				     slot->inheritedAttributeLists);
@@ -153,35 +160,64 @@ void analyseSlot(id, slot)
   /* 4f - Analyse the where */
 
   /* Analyse the container */
-  if (slot->container && !anyIsA(slot->heritage, "container"))
-    lmLogv(&slot->container->srcp, 223, sevERR, id->string, "container", NULL);
-  else
+  if (slot->container) {
+    if (!anyIsA(slot->heritage, "container"))
+      lmLogv(&slot->container->srcp, 223, sevERR, id->string, "container", NULL);
     analyseContainer(slot->container);
+  }
 
   /* Analyse the surroundings */
-  if (slot->surroundings && !anyIsA(slot->heritage, "location"))
-    lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR, id->string, "location", NULL);
-  else
+  if (slot->surroundings) {
+    if (!anyIsA(slot->heritage, "location"))
+      lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR, id->string,
+	     "location", NULL);
     /* 4f - Analyse the surroundings statements */
+  }
 
   /* 4f - Analyse the description */
   /* 4f - Analyse the mentioned */
   /* 4f - Analyse the does */
 
   /* Analyse the exits */
-  if (slot->exits && !anyIsA(slot->heritage, "location"))
-    lmLogv(&slot->exits->element.exit->srcp, 223, sevERR, id->string, "location", NULL);
-  else
-    /* 4f - Analyse the exits */;
+  if (slot->exits) {
+    if (!anyIsA(slot->heritage, "location"))
+      lmLogv(&slot->exits->element.exit->srcp, 223, sevERR, id->string, "location",
+	     NULL);
+    analyseExits(slot->exits);
+    /* Find and resolve inherited exits */
+    for (localExits = slot->exits; localExits; localExits = localExits->next) {
+      List *direction;
+
+      for (direction = localExits->element.exit->directions; direction;
+	   direction = direction->next)
+	exit = findExitInLists(&id->srcp, direction->element.id,
+			       slot->inheritedExitLists);
+      /* The directions are numbered through the symbol table ! */
+    }
+    /* 4f - check that exits that are inherited but have no local definition
+       don't clash */
+  }
 
   /* 4f - Analyse the verbs */
-
+  
   /* Analyse the scripts */
-  /* 4f - find and resolve inherited scripts, as above for attributes */
-  if (slot->scripts && !anyIsA(slot->heritage, "actor"))
-    lmLogv(&slot->scripts->element.script->srcp, 223, sevERR, id->string, "actor", NULL);
-  else
-    /* 4f - Analyse the scripts */;
+  slot->state = NUMBERING_SCRIPTS;
+  if (slot->scripts) {
+    if (!anyIsA(slot->heritage, "actor"))
+      lmLogv(&slot->scripts->element.script->srcp, 223, sevERR, id->string, "actor", NULL);
+    analyseScripts(slot->scripts);
+    /* Find and resolve inherited scripts */
+    for (localScripts = slot->scripts; localScripts; localScripts = localScripts->next) {
+      script = findScriptInLists(&id->srcp, localScripts->element.script->id,
+				 slot->inheritedScriptLists);
+      if (script == NULL)
+	localScripts->element.script->code = ++scriptCount;
+      else
+	localScripts->element.script->code = script->code;
+    }
+    /* 4f - check that scripts that are inherited but have no local definition
+       don't clash */
+  }
 
   slot->state = FINISHED;
 }

@@ -14,6 +14,7 @@
 #include "List.h"
 #include "Id.h"
 #include "Does.h"
+#include "Slot.h"
 
 #include "acode.h"
 
@@ -45,6 +46,13 @@ extern Exit *newExit(Srcp *srcp,
 		     List *checks,
 		     Does *does);
 
+/* Find an exit id in a list of exit lists */
+extern Exit *findExitInLists(Srcp *srcp, Id *id, List *lists);
+
+/* Collect all exits inherited from a slot */
+extern void inheritExits(Slot *slot,
+			 List **exitListsP);
+
 /* Analyze a list of Exits */
 extern void analyseExits(List *exits);
 
@@ -56,9 +64,10 @@ extern void dumpExit(Exit *exit);
 
 #else
 extern Exit *newExit();
-extern void anExits();
-extern Aaddr geExits();
-extern void duExit();
+extern void inheritExits();
+extern void analyseExits();
+extern Aaddr generateExits();
+extern void dumpExit();
 #endif
 
 #endif

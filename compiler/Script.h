@@ -33,6 +33,8 @@ typedef struct Script {		/* SCRIPT */
 
 /* Data: */
 
+extern int scriptCount;
+
 
 /* Functions: */
 #ifdef _PROTOTYPES_
@@ -42,6 +44,9 @@ extern Script *newScript(Srcp *srcp,
 			 Id *id,
 			 List *description,
 			 List *steps);
+
+/* Find an script id in a list of script lists */
+extern Script *findScriptInLists(Srcp *srcp, Id *id, List *lists);
 
 /* Collect all scripts inherited from a slot */
 extern void inheritScripts(Slot *slot,
@@ -58,6 +63,8 @@ extern void dumpScript(Script *script);
 
 #else
 extern Script *newScript();
+extern Script *findScriptInLists();
+extern void inheritScripts();
 extern void analyseScripts();
 extern Aword generateScripts();
 extern void dumpScript();

@@ -151,7 +151,7 @@ Symbol *lookup(string)
 
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
 
   symbolKindString()
 
@@ -160,9 +160,9 @@ Symbol *lookup(string)
 
   */
 #ifdef __PROTOTYPES_
-static char *symbolKindString(SymbolKind kind)
+char *symbolKindString(SymbolKind kind)
 #else
-static char *symbolKindString(kind)
+char *symbolKindString(kind)
      SymbolKind kind;
 #endif
 {
@@ -229,7 +229,7 @@ Bool isA(id, className)
      char className[];
 #endif
 {
-  List *heritage, *h;
+  List *heritage;
   Symbol *symbol;
 
   symbol = lookup(id->string);
@@ -239,13 +239,8 @@ Bool isA(id, className)
   default: syserr("Unexpected symbol kind in isA()."); break;
   }
 
-  for (h = heritage; h; h = h->next)
-    if (strcmp(h->element.id->string, className) == 0)
-      return TRUE;
-
-  for (h = heritage; h; h = h->next)
-    if (isA(h->element.id, className))
-      return TRUE;
+  if (anyIsA(heritage, className))
+    return TRUE;
 
   return FALSE;
 }
@@ -272,7 +267,10 @@ Bool anyIsA(ids, className)
   List *list;
 
   for (list = ids; list; list = list->next)
-    if (isA(ids->element.id, className))
+    if (strcmp(list->element.id->string, className) == 0)
+      return TRUE;
+  for (list = ids; list; list = list->next)
+    if (isA(list->element.id, className))
       return TRUE;
   return FALSE;
 }

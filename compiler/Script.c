@@ -11,7 +11,13 @@
 #include "Statement.h"
 #include "Step.h"
 
+#include "lmList.h"
 #include "dump.h"
+
+
+/* Public: */
+
+int scriptCount;
 
 
 
@@ -50,6 +56,68 @@ Script *newScript(srcp, id, description, steps)
 }
 
 
+
+/*======================================================================
+
+  findScript()
+
+  Find an script in a list and return a pointer to it.
+
+ */
+#ifdef _PROTOTYPES_
+Script *findScript(Id *id,	/* IN - The script id to find */
+		   List *scripts) /* IN - List of script nodes */
+#else
+Script *findScript(id, scripts)
+     Id *id;
+     List *scripts;
+#endif
+{
+  List *list;
+
+  for (list = scripts; list; list = list->next)
+    if (equalIds(id, list->element.script->id))
+      return (list->element.script);
+  return NULL;
+}
+
+
+
+/*======================================================================
+
+  findScriptInLists()
+
+  Find an script in a list of script list and return a pointer to it.
+
+ */
+#ifdef _PROTOTYPES_
+Script *findScriptInLists(Srcp *srcp, /* IN - The source position to point to in case of error */
+			  Id *id, /* IN - The script id to find */
+			  List *lists) /* IN - The lists of script lists */
+#else
+Script *findScriptInLists(srcp, id, lists)
+     Srcp *srcp;
+     Id *id;
+     List *lists;
+#endif
+{
+  List *list;
+  Script *found1 = NULL, *found2 = NULL;
+
+  for (list = lists; list; list = list->next) {
+    found1 = findScript(id, list->element.list);
+    if (found2)
+      if (found1 != found2) {
+	lmLogv(srcp, 229, sevERR, "script", id->string);
+	return (found1);
+      }
+    found2 = found1;
+  }
+  return (found1);
+}
+
+
+
 /*======================================================================
 
   inheritScripts()
@@ -80,7 +148,8 @@ void inheritScripts(slot, scriptListsP)
 }
 
 
-/*======================================================================
+
+/*----------------------------------------------------------------------
 
   analyseScript()
 
@@ -88,15 +157,54 @@ void inheritScripts(slot, scriptListsP)
 
  */
 #ifdef _PROTOTYPES_
-void analyseScript(Script *script)
+static void analyseScript(Script *script)
 #else
-void analyseScript(script)
+static void analyseScript(script)
      Script *script;
 #endif
 {
-  /* 4f - find out code for the script */
   analyseStatements(script->description, NULL, NULL);
   analyseSteps(script->steps);
+}
+
+
+
+/*======================================================================
+
+  analyseScripts()
+
+  Analyse all entries in an script list. Remove duplicates.
+  When entity types of scripts are introduced, also register the
+  class.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseScripts(List *scripts) /* IN - List of script nodes */
+#else
+void analyseScripts(scripts)
+     List *scripts;
+#endif
+{
+  List *list, *next, *sentinel;
+  Bool remove;
+
+  for (list = scripts; list; list = list->next) {
+    sentinel = list;
+    analyseScript(list->element.script); /* Analyse the script in itself */
+    for (next = list->next; next; next = next->next) {
+      /* Check for duplicates */
+      remove = FALSE;
+      if (equalIds(next->element.script->id, list->element.script->id)) {
+	lmLogv(&next->element.script->id->srcp, 218, sevERR, "script",
+	       list->element.script->id->string, NULL);
+	remove = TRUE;
+      }
+      if (remove) {
+	sentinel->next = next->next; /* Unlink the item */
+      } else
+	sentinel = next;
+    }
+  }
 }
 
 

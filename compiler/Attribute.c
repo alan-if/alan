@@ -110,13 +110,13 @@ Attribute *findAttributeInLists(srcp, id, lists)
 #endif
 {
   List *list;
-  Attribute *found1, *found2 = NULL;
+  Attribute *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
     found1 = findAttribute(id, list->element.list);
     if (found2)
       if (found1 != found2) {
-	lmLog(srcp, 229, sevERR, id->string);
+	lmLogv(srcp, 229, sevERR, "attribute", id->string);
 	return (found1);
       }
     found2 = found1;
@@ -160,7 +160,9 @@ void inheritAttributes(slot, attributeListsP)
 
   analyseAttributes()
 
-  Analyse all entries in an attribute list.
+  Analyse all entries in an attribute list. Remove duplicates.
+  When entity types of attributes are introduced, also register the
+  class.
 
  */
 #ifdef _PROTOTYPES_
@@ -170,7 +172,25 @@ void analyseAttributes(attributes)
      List *attributes;
 #endif
 {
-  /* 4f - analyseAttributes not implemented */
+  List *list, *next, *sentinel;
+  Bool remove;
+
+  for (list = attributes; list; list = list->next) {
+    sentinel = list;
+    for (next = list->next; next; next = next->next) {
+      /* Check for duplicates */
+      remove = FALSE;
+      if (equalIds(next->element.attribute->id, list->element.attribute->id)) {
+	lmLogv(&next->element.attribute->id->srcp, 218, sevERR, "attribute",
+	       list->element.attribute->id->string, NULL);
+	remove = TRUE;
+      }
+      if (remove) {
+	sentinel->next = next->next; /* Unlink the item */
+      } else
+	sentinel = next;
+    }
+  }
 }
 
 

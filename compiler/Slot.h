@@ -24,6 +24,7 @@ typedef enum AnalyseState {
   IDLE,
   LOOKING_FOR_CIRCLES,
   NUMBERING_ATTRIBUTES,
+  NUMBERING_SCRIPTS,
   FINISHED
 } AnalyseState;
 
@@ -40,6 +41,7 @@ typedef struct Slot {		/* Slot Node */
   List *mentioned;
   Does *does;
   List *exits;
+  List *inheritedExitLists;
   List *verbs;
   List *scripts;
   List *inheritedScriptLists;
