@@ -449,7 +449,7 @@ int rule			/* IN production number */
 			   pmSeSt[pmStkP+1].idList,
 			   pmSeSt[pmStkP+2].alts);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
-	    if (strcmp(pmSeSt[pmStkP+1].str, pmSeSt[pmStkP+3].id->string) != 0)
+	    if (compareStrings(pmSeSt[pmStkP+1].str, pmSeSt[pmStkP+3].id->string) != 0)
 		lmLog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].str);
 	}
     	break;}
@@ -883,7 +883,7 @@ int rule			/* IN production number */
 			   pmSeSt[pmStkP+5].chks,
 			   pmSeSt[pmStkP+5].stms);
 	if (pmSeSt[pmStkP+5].id != NULL) { /* END-id given */
-	    if (strcmp(pmSeSt[pmStkP+2].str, pmSeSt[pmStkP+5].id->string) != 0)
+	    if (compareStrings(pmSeSt[pmStkP+2].str, pmSeSt[pmStkP+5].id->string) != 0)
 		lmLog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].str);
 	}
     	break;}

@@ -93,7 +93,7 @@ static void insertSymbol(Symbol *symbol)
   
   while (s1 != NULL) {
     s2 = s1;
-    comp = strcmp(symbol->string, s1->string);
+    comp = compareStrings(symbol->string, s1->string);
     if (comp < 0)
       s1 = s1->lower;
     else
@@ -262,7 +262,7 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
   List *l;
 
   for (l = parameterSymbols; l != NULL; l = l->next)
-    if (strcmp(idString, l->element.sym->fields.parameter.element->id->string) == 0)
+    if (compareStrings(idString, l->element.sym->fields.parameter.element->id->string) == 0)
       return l->element.sym;
   return NULL;
 }
@@ -295,7 +295,7 @@ Symbol *lookup(char *idString)
 
   while (s1 != NULL) {
     s2 = s1;
-    comp = strcmp(idString, s1->string);
+    comp = compareStrings(idString, s1->string);
     if (comp == 0)
       return(s1);
     else if (comp < 0)
@@ -316,7 +316,7 @@ static Symbol *lookupInFrames(char *idString)
 
   while (thisFrame != NULL) {
     for (localSymbolList = thisFrame->localSymbols; localSymbolList != NULL; localSymbolList = localSymbolList->next) {
-      if (strcmp(idString, localSymbolList->element.sym->string) == 0)
+      if (compareStrings(idString, localSymbolList->element.sym->string) == 0)
 	return localSymbolList->element.sym;
     }
     thisFrame = thisFrame->outerFrame;

@@ -211,7 +211,6 @@ int smScAction(
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
           toNative(smToken->chars, smToken->chars, charset);
-	(void) strlow(smToken->chars);
     
 }
     break;

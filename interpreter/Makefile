@@ -37,7 +37,6 @@ GLKSRCS = glkstart.c glkio.c
 
 # Build sources are in main build an in unit test
 BUILDSRCS = \
-	sysdep.c \
 	rules.c \
 	debug.c \
 	args.c \
@@ -50,7 +49,9 @@ BUILDSRCS = \
 	main.c
 
 # Main sources are only in main build because unit #includes them
-MAINSRCS = exe.c \
+MAINSRCS = \
+	exe.c \
+	sysdep.c \
 	stack.c \
 	inter.c \
 	reverse.c \

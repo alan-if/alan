@@ -26,8 +26,8 @@ int words[WRD_CLASSES+1];
 
 
 /* Private: */
-static WordNode *wrdtree = NULL;
-static WordNode *lwrd;	/* The last word found by findwrd() */
+static WordNode *wordTree = NULL;
+static WordNode *lastWordFound;	/* The last word found by findwrd() */
 
 
 /*======================================================================*/
@@ -36,16 +36,16 @@ WordNode *findWord(char *str)	/* IN - The string */
   WordNode *wrd;			/* Traversal pointers */
   int comp = 1;			/* Result of comparison */
 
-  wrd = wrdtree;
+  wrd = wordTree;
   while (wrd != NULL) {
-    lwrd = wrd;			/* Set last word found */
-    comp = strcmp(str, lwrd->string);
+    lastWordFound = wrd;			/* Set last word found */
+    comp = compareStrings(str, lastWordFound->string);
     if (comp == 0)
-      return(lwrd);
+      return(lastWordFound);
     if (comp < 0)
-      wrd = lwrd->low;
+      wrd = lastWordFound->low;
     else
-      wrd = lwrd->high;
+      wrd = lastWordFound->high;
   }
   return(NULL);
 }
@@ -115,12 +115,13 @@ int newWord(char *theWord,
   new->low = NULL;
   new->high = NULL;
 
-  if (wrdtree == NULL)
-    wrdtree = new;
-  else if (strcmp(string, lwrd->string) < 0) /* Use last word found by findwrd() */
-    lwrd->low = new;
+  if (wordTree == NULL)
+    wordTree = new;
+  else if (compareStrings(string, lastWordFound->string) < 0)
+    /* Use last word found by findWord() */
+    lastWordFound->low = new;
   else
-    lwrd->high = new;
+    lastWordFound->high = new;
 
   words[class]++;
   words[WRD_CLASSES]++;
@@ -237,7 +238,7 @@ void analyzeWords(void)
   /* Analyze the dictionary to find any words that are defined to be
   of multiple word classes that we want to warn about. */
 
-  analyzeWord(wrdtree);
+  analyzeWord(wordTree);
 }
 
 
@@ -359,15 +360,15 @@ Aaddr generateAllWords(void)
 
   /* First generate reference lists */
   refidx = 0;
-  gewrdref(wrdtree);
+  gewrdref(wordTree);
 
   /* and strings */
-  gewrdstr(wrdtree);
+  gewrdstr(wordTree);
 
   /* Now traverse the wrdtree and generate dictionary entries */
   refidx = 0;
   adr = nextEmitAddress();		/* Save ACODE address to dictionary */
-  gewrdent(wrdtree);
+  gewrdent(wordTree);
 
   emit(EOF);
 

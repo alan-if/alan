@@ -17,6 +17,7 @@
 #include <time.h>
 #include "sysdep.h"
 
+
 #ifdef GLK
 #include "glk.h"
 #endif
@@ -326,6 +327,21 @@ char *stringUpper(char str[])   /* INOUT - ISO string to convert */
     *s = IsoToUpperCase(*s);
   return(str);
 }
+
+/*----------------------------------------------------------------------*/
+int compareStrings(char *str1, char *str2)
+{
+  char *s1 = str1, *s2 = str2;
+
+  while (*s1 != '\0' && *s2 != '\0') {
+    if (IsoToLowerCase(*s1) < IsoToLowerCase(*s2)) return -1;
+    if (IsoToLowerCase(*s1) > IsoToLowerCase(*s2)) return 1;
+    s1++;
+    s2++;
+  }
+  return IsoToLowerCase(*s2) - IsoToLowerCase(*s1);
+}
+
 
 
 /*----------------------------------------------------------------------

@@ -523,7 +523,7 @@ static int val(char str[])
 			   %<verb_header>.idList,
 			   %<verb_body>.alts);
 	if (%<verb_tail>.id != NULL) { /* END-id given */
-	    if (strcmp(%<verb_header>.str, %<verb_tail>.id->string) != 0)
+	    if (compareStrings(%<verb_header>.str, %<verb_tail>.id->string) != 0)
 		lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
 	}
     %%
@@ -1017,7 +1017,7 @@ static int val(char str[])
 			   %<optional_exit_body>.chks,
 			   %<optional_exit_body>.stms);
 	if (%<optional_exit_body>.id != NULL) { /* END-id given */
-	    if (strcmp(%<id_list>.str, %<optional_exit_body>.id->string) != 0)
+	    if (compareStrings(%<id_list>.str, %<optional_exit_body>.id->string) != 0)
 		lmLog(`&%<optional_exit_body>.id->srcp, 200, sevWAR, %<id_list>.str);
 	}
     %%

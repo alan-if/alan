@@ -6,6 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alan.h"
+#include "sysdep.h"
 
 #include "srcp_x.h"
 #include "lmList.h"
@@ -72,7 +73,7 @@ static int optcode(char *id)
   int opt;
 
   for (opt = 0; opt <= NOPT-1; opt++)
-    if (strcmp(opts[opt].name, id) == 0)
+    if (compareStrings(opts[opt].name, id) == 0)
       return(opt);
 
   return(EOF);
@@ -95,7 +96,7 @@ static int enumcode(int opt, char *id)
     return(EOF);
 
   for (i = 0; names[i] != NULL; i++)
-    if (strcmp(names[i], id) == 0)
+    if (compareStrings(names[i], id) == 0)
       return(i);
 
   return(EOF);
@@ -147,7 +148,7 @@ void optenum(char *id, Srcp *srcp, char *val)
   int opt, code;
 
   if ((opt = optcode(id)) == EOF) {
-    if (strcmp(id, "no") == 0) {
+    if (compareStrings(id, "no") == 0) {
       /* This was actually a NO optBool */
       optBool(val, srcp, FALSE);
     } else

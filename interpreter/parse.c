@@ -112,19 +112,15 @@ static void unknown(token)
 static char *token;
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static int lookup(
      char wrd[]
 )
-#else
-static int lookup(wrd)
-     char wrd[];
-#endif
 {
   int i;
 
   for (i = 0; !endOfTable(&dict[i]); i++) {
-    if (strcmp(wrd, (char *) pointerTo(dict[i].wrd)) == 0)
+    if (stringEqualsIgnoringCase(wrd, (char *) pointerTo(dict[i].wrd)))
       return (i);
   }
   unknown(wrd);
@@ -132,14 +128,9 @@ static int lookup(wrd)
 }
 
 
-#ifdef _PROTOTYPES_
 static int number(
      char token[]		/* IN - The string to convert to a number */
 )
-#else
-static int number(token)
-     char token[];		/* IN - The string to convert to a number */
-#endif
 {
   int i;
 
@@ -182,12 +173,8 @@ static char *gettoken(buf)
   return buf;
 }
 
-
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void getline(void)
-#else
-static void getline()
-#endif
 {
   para();
   do {
@@ -258,7 +245,7 @@ static void scan()
   litCount = 0;
   do {
     if (isISOLetter(token[0])) {
-      (void) stringLower(token);
+      /*      (void) stringLower(token); */
       w = lookup(token);
       if (!isNoise(w))
 	wrds[i++] = w;

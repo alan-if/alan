@@ -358,7 +358,7 @@ void prepareMessages(void)
     List *garb;			/* The standard message stm list is garbage */
     /* Find what number the user defined message has */
     for (msgno = 0; defmsg[msgno].id != NULL; msgno++)
-      if (strcmp(defmsg[msgno].id, umsgs->element.msg->id->string) == 0)
+      if (compareStrings(defmsg[msgno].id, umsgs->element.msg->id->string) == 0)
 	break;
     if (defmsg[msgno].id == NULL)
       lmLog(&umsgs->element.msg->id->srcp, 700, sevWAR, NULL);

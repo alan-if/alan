@@ -1,21 +1,22 @@
 /*----------------------------------------------------------------------*\
   sysdep.c
 
-  This file contains necessary system dependent routines and routines
-  possibly not implemented in the current environment.
+  This file contains necessary system dependent routines.
+
+  Routines possibly not implemented in the current environment:
 
   strdup()
-
-  realloc()
   strlow()
   strupp()
-  memcpy()
-  memset()
+
+  Native and ISO string handling.
 
 \*----------------------------------------------------------------------*/
 
 #include <time.h>
 #include "sysdep.h"
+#include "types.h"
+
 
 #ifdef GLK
 #include "glk.h"
@@ -325,6 +326,19 @@ char *stringUpper(char str[])   /* INOUT - ISO string to convert */
   for (s = str; *s; s++)
     *s = IsoToUpperCase(*s);
   return(str);
+}
+
+Boolean stringEqualsIgnoringCase(char *str1, char *str2)
+{
+  char *s1 = str1, *s2 = str2;
+
+  while (*s1 != '\0' && *s2 != '\0') {
+    if (IsoToLowerCase(*s1) != IsoToLowerCase(*s2))
+      return FALSE;
+    s1++;
+    s2++;
+  }
+  return *s1 == '\0' && *s2 == '\0';
 }
 
 

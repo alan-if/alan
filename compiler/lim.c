@@ -75,7 +75,7 @@ void analyzeLimit(LimNod *lim)
 
   /* Analyze the attribute */
   atr = lim->atr;
-  if (strcmp(atr->id->string, "count") == 0)
+  if (compareStrings(atr->id->string, "count") == 0)
     atr->id->code = I_COUNT;	/* Use instruction code for COUNT meta attribute */
   else {
     a = findAttribute(objectSymbol->fields.entity.props->attributes, atr->id);

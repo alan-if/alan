@@ -328,6 +328,7 @@ extern char IsoToLowerCase(int c); /* IN - ISO character to convert */
 extern char IsoToUpperCase(int c); /* IN - ISO character to convert */
 extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
 extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
+extern int compareStrings(char str1[], char str2[]);
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */

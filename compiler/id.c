@@ -55,7 +55,7 @@ Bool equalId(IdNode *id1,
 	     IdNode *id2)
 {
   if (id1 && id2)
-    return (strcmp(id1->string, id2->string) == 0);
+    return (compareStrings(id1->string, id2->string) == 0);
   else
     syserr("ID == NULL in '%s()'", __FUNCTION__);
   return FALSE;

@@ -5,31 +5,31 @@
 ########## arun traversingInheritedLocations2 ##########
 
 
-Inheritedroom
+InheritedRoom
 
 > n
-Otherroom
+OtherRoom
 
 > n
 You can't go that way.
 
 > s
-Inheritedroom
+InheritedRoom
 
 > s
 You can't go that way.
 
 > n
-Otherroom
+OtherRoom
 
 > s
-Inheritedroom
+InheritedRoom
 
 > n
-Otherroom
+OtherRoom
 
 > s
-Inheritedroom
+InheritedRoom
 
 > w
 'w'? I don't know that word.
@@ -38,7 +38,7 @@ Inheritedroom
 You can't go that way.
 
 > n
-Otherroom
+OtherRoom
 
 > 
 

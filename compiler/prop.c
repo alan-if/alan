@@ -154,12 +154,10 @@ static void analyzeName(Properties *props)
     /* Generate a mentioned from the first of the names */
     /* First output the formatted name to the text file */
     fpos = ftell(txtfil);
-    len = analyzeNames(props->names, props->id,
-#ifdef CAPITALIZEACTORS
+    len = analyzeNames(props->names, props->id, FALSE);
+#ifdef CAPITALIZEACTORSANDLOCATIONS
 		       inheritsFrom(props->id->symbol, locationSymbol) ||
 		       inheritsFrom(props->id->symbol, actorSymbol));
-#else
-		 inheritsFrom(props->id->symbol, locationSymbol));
 #endif
 
     /* Then create a PRINT statement */

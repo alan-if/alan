@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>284.89</origest>
-<currest>283.89</currest>
+<origest>287.89</origest>
+<currest>286.89</currest>
 <elapsed>127.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>38</origest>
-<currest>38</currest>
+<origest>39</origest>
+<currest>39</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -166,8 +166,8 @@ Or should we force inheritance clause? That would make it easier for a beginner 
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>11</origest>
+<currest>11</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -264,6 +264,15 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Move sysdep et.al to a common directory</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -556,8 +565,8 @@ is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>107</origest>
-<currest>107</currest>
+<origest>109</origest>
+<currest>109</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1885,6 +1894,24 @@ Is it possible to do both? Current view is that a the feature with hiding names 
 Step 1: Don't ever use player input
 
 Step 2: Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>'again' verb</desc>
+<notes>Requires meta-handling like 'undo'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow full stop/period/'.' as a sentence breaker in player commands</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -4457,7 +4484,7 @@ properly producing a blank line.
 <origest>16</origest>
 <currest>16</currest>
 <elapsed>16</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
 <notes/>

@@ -63,7 +63,7 @@ void syserr(char str[])
 #include "stackTest.c"
 #include "interTest.c"
 #include "reverseTest.c"
-
+#include "sysdepTest.c"
 
 int main()
 {
@@ -71,6 +71,7 @@ int main()
   registerStackUnitTests();
   registerInterUnitTests();
   registerReverseUnitTests();
+  registerSysdepUnitTests();
 
   unitTest();
 

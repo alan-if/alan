@@ -130,7 +130,7 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 
   allClasses = concat(allClasses, new, CLASS_LIST);
 
-  if (strcmp(id->string, "container") == 0)
+  if (compareStrings(id->string, "container") == 0)
     lmLogv(&id->srcp, 260, sevERR, "class", "'container'", "the built-in container property", NULL);
 
   return(new);
