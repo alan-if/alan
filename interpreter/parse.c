@@ -287,7 +287,7 @@ typedef struct PronounEntry {	/* To remember parameter/pronoun relations */
 } PronounEntry;
 
 static PronounEntry *pronounList = NULL;
-static int allWord;		/* Word index of the ALL_WORD found */
+static int allWordIndex;		/* Word index of the ALL_WORD found */
 static int allLength;		/* No. of objects matching 'all' */
 
 
@@ -323,48 +323,36 @@ static void nonverb(void) {
 static void errorWhich(ParamEntry alternative[]) {
   int p;			/* Index into the list of alternatives */
 
+  parameters[1].code = EOF;
+  parameters[0] = alternative[0];
   printMessage(M_WHICH_ONE_START);
-  sayForm(alternative[0].code, SAY_DEFINITE);
   for (p = 1; !endOfTable(&alternative[p+1]); p++) {
+    parameters[0] = alternative[p];
     printMessage(M_WHICH_ONE_COMMA);
-    sayForm(alternative[p].code, SAY_DEFINITE);
   }
+  parameters[0] = alternative[p];
   printMessage(M_WHICH_ONE_OR);
-  sayForm(alternative[p].code, SAY_DEFINITE);
-  printMessage(M_WHICH_ONE_END);
   error(MSGMAX);		/* Return with empty error message */
 }
 
 
 /*----------------------------------------------------------------------*/
-static void errorWhat(int word) {
-  char quotedWord[100];
+static void errorWhat(int playerWordIndex) {
 
-  printMessage(M_WHAT_START);
-  sprintf(quotedWord, "'%s'", (char*)pointerTo(dictionary[word].wrd));
-  output(quotedWord);
-  printMessage(M_WHAT_END);
-  error(MSGMAX);		/* Return with empty error message */
+  /* Trick message handling to output the word */
+  parameters[0].code = 0;
+  parameters[0].firstWord = parameters[0].lastWord = playerWordIndex;
+  parameters[1].code = EOF;
+  error(M_WHAT_WORD);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void errorNoSuch(ParamEntry parameter) {
-#ifdef NEW
-  int w;
-
-  printMessage(M_NO_SUCH_START);
-  for (w = parameter.firstWord; w <= parameter.lastWord; w++) {
-    output((char*)pointerTo(dictionary[playerWords[w]].wrd));
-  }
-  printMessage(M_NO_SUCH_END);
-#else
   parameters[0] = parameter;
   parameters[0].code = 0;	/* Indicate to use words and not names */
   parameters[1].code = EOF;
-  printMessage(M_NO_SUCH);
-#endif
-  error(MSGMAX);		/* Return with empty error message */
+  error(M_NO_SUCH);
 }
 
 
@@ -380,10 +368,10 @@ static void buildAll(ParamEntry list[]) {
       list[i++].firstWord = EOF;
     }
   if (!found)
-    errorWhat(playerWords[wordIndex]);
+    errorWhat(wordIndex);
   else
     list[i].code = EOF;
-  allWord = playerWords[wordIndex];
+  allWordIndex = wordIndex;
 }
 
 
@@ -480,7 +468,7 @@ static void unambig(ParamEntry plst[])
   if (isPronoun(playerWords[wordIndex])) {
     int p = getPronounInstance(playerWords[wordIndex]);
     if (p == 0)
-      errorWhat(playerWords[wordIndex]);
+      errorWhat(wordIndex);
     wordIndex++;		/* Consume the pronoun */
     plst[0].code = p;
     plst[0].firstWord = EOF;	/* No words used! */
@@ -578,7 +566,7 @@ static void simple(ParamEntry olst[]) {
 	  previousMultipleList[i].code = 0;
       compress(previousMultipleList);
       if (listLength(previousMultipleList) == 0)
-	errorWhat(playerWords[wordIndex]);
+	errorWhat(wordIndex);
       copyParameterList(olst, previousMultipleList);
       olst[0].firstWord = EOF;	/* No words used */
       wordIndex++;
@@ -911,7 +899,7 @@ static void try(ParamEntry multipleParameters[])
     compress(multipleParameters);
     if (listLength(multipleParameters) == 0) {
       parameters[0].code = EOF;
-      errorWhat(allWord);
+      errorWhat(allWordIndex);
     }
   } else if (anyPlural) {
     compress(multipleParameters);

@@ -425,11 +425,8 @@ typedef struct AcdHdr {
 /* Error message numbers */
 typedef enum MsgKind {
   M_WHAT,
-  M_WHAT_START,
-  M_WHAT_END,
-  M_WHAT_ALL,
+  M_WHAT_WORD,
   M_MULTIPLE,
-  M_WANT,
   M_NOUN,
   M_AFTER_BUT,
   M_BUT_ALL,
@@ -437,7 +434,6 @@ typedef enum MsgKind {
   M_WHICH_ONE_START,
   M_WHICH_ONE_COMMA,
   M_WHICH_ONE_OR,
-  M_WHICH_ONE_END,
   M_NO_SUCH,
   M_NO_WAY,
   M_CANT0,
