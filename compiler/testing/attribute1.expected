@@ -10,7 +10,7 @@ Every secondClass
   Isa firstClass.
   Has
 	a1 101.
-	a22 22.
+	a21 22.
 End Every secondClass.
 
 The firstInstance
