@@ -1,0 +1,1005 @@
+%%OPTIONS
+
+	Prefix 'pm';
+	Listerprefix 'lm';
+	List Grammar, Statistics;
+--	List Grammar, Statistics, Items;
+	StackLimit 64;
+	Pack RDS;
+	Line;
+--	Debug;
+	No Resolve;
+
+%%IMPORT
+
+#include "srcp.h"
+#include "smScan.h"
+#include "token.h"
+#include "lmList.h"
+#include "a2a3.h"
+
+%%SCANNER
+    smScan(lexContext, token);
+
+%%INSERTSYMBOL
+{
+  static int idno = 1;
+    /* Make the requested token */
+    token->code = code;
+    if (token->code == sm_MAIN_IDENT_Token) {
+      sprintf(token->chars, "$genid#%d", idno++);
+      strcat(insStr, " ('");
+      strcat(insStr, token->chars);
+      strcat(insStr, "')");
+    } else
+      strcpy(token->chars, symString);
+}
+%%DECLARATIONS
+static int val(char str[])
+{
+  int temp;
+  sscanf(str, "%d", &temp);
+  return(temp);
+}
+
+static int level = 0;
+static void newline()
+{
+  int i;
+  fprintf(outFile, "\n");
+  if (level < 0) printf("Level = %d", level);
+  for (i = 0; i < level; i++)
+    fprintf(outFile, "  ");
+}
+
+static void indent()
+{
+  level++;
+}
+
+static void outdent()
+{
+  level--;
+}
+
+
+static char *(v3Keywords[]) = {
+  "look", "quit", "in", "say", "locate", "make", "with", "empty",
+  "container", "wait", "score", "save", "restore", "restart", "at",
+  "to", "show", "use", "empty", "for", "each", "set", "start", "the", NULL};
+
+
+static void idPrint(char id[])
+{
+  int wordIndex = 0;
+
+  while (v3Keywords[wordIndex] != NULL && strcmp(id, v3Keywords[wordIndex]) != 0)
+    wordIndex++;
+  if (v3Keywords[wordIndex] != NULL) fprintf(outFile, "'%s'", id);
+  else fprintf(outFile, id);
+}
+
+static void stringPrint(char string[])
+{
+  int ch, i;
+  int endOfLine;
+  char *remaining = string;
+  Bool printed = FALSE;
+
+  newline();
+  endOfLine = 75-level*2;
+  while (endOfLine < strlen(remaining)) {
+    while(remaining[endOfLine] != ' ' && remaining[endOfLine] != '\0' && endOfLine > 0) endOfLine--;
+    ch = remaining[endOfLine];
+    remaining[endOfLine] = '\0';
+    for (i = 0; i < endOfLine; i++) if (remaining[i] == '\n') remaining[i] = ' ';
+    if (printed) fprintf(outFile, " ");
+    fprintf(outFile, remaining);
+    remaining[endOfLine] = ch;
+    remaining = &remaining[endOfLine];
+    while(*remaining == ' ' || *remaining == '\n') remaining++;
+    newline();
+    printed = TRUE;
+    endOfLine = 75-level*2;
+  }
+  if (printed) fprintf(outFile, " ");
+  for (i = 0; i < strlen(remaining); i++)
+    if (remaining[i] == '\n')
+      remaining[i] = ' ';
+  fprintf(outFile, remaining);
+}
+
+
+%%ATTRIBUTES
+	string %% char *%1%%,
+	val %% int %1%%;
+%%TERMINALS
+    IDENT = 2,1,1 => 'Identifier';
+%%RECOVERY
+    Fiducial('VERB', 'DOES', 'EXIT', 'ACTOR', 'EVENT', 'START', 'OBJECT',
+		'SYNTAX', 'SCRIPT', 'LOCATION', 'SYNONYMS', 'CONTAINER',
+		'MENTIONED', 'ATTRIBUTES', 'DESCRIPTION', 'END', 'CHECK');
+    Separator(',');
+    Skip(IDENT, Integer, '.');
+%%RULES
+
+--> ADVENTURE
+<adventure>
+    = <optional_options> <units> <start>
+    ;
+
+---> OPTIONS
+<optional_options>
+    =
+    ! 'OPTIONS' 
+	%% fprintf(outFile, "Options"); indent(); newline(); %%
+	<options>
+	%% outdent(); newline(); newline(); %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+<options>
+    = <option> %% newline(); %% 
+    ! <options> <option>
+    ;
+<option>
+    = ID '.'
+    %%
+	fprintf(outFile, "`%s.", %ID.string);
+    %%
+    ! ID ID '.'
+    %%
+	fprintf(outFile, "`%s `%s.", %1ID.string, %2ID.string);
+    %%
+    ! ID Integer '.'
+    %%
+	fprintf(outFile, "`%s `%d.", %ID.string, val(%Integer.chars));
+    %%
+    ;
+
+---> UNITS
+<units>
+    = <unit>
+    ! <units> <unit>
+    ;
+<unit>
+    = <default>
+    ! <object_default>
+    ! <location_default>
+    ! <actor_default>
+    ! <synonyms>
+    ! <messages>
+    ! <syntax>
+    ! <verb>
+    ! <location>
+    ! <object>
+    ! <event>
+    ! <container>
+    ! <actor>
+    ! <rule>
+    ;
+
+----> DEFAULTS
+<default>
+    = 'DEFAULT' 
+    %%
+	newline();
+	fprintf(outFile, "Add To Every thing");
+	indent();
+	newline();
+	fprintf(outFile, "Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	fprintf(outFile, "End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<location_default>
+    = 'LOCATION'
+    %%
+	newline();
+	fprintf(outFile, "Add To Every location");
+	indent();
+	newline();
+	fprintf(outFile, "Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	fprintf(outFile, "End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<object_default>
+    = 'OBJECT'
+    %%
+	newline();
+	fprintf(outFile, "Add To Every object");
+	indent();
+	newline();
+	fprintf(outFile, "Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	fprintf(outFile, "End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<actor_default>
+    = 'ACTOR'
+    %%
+	newline();
+	fprintf(outFile, "Add To Every actor");
+	indent();
+	newline();
+	fprintf(outFile, "Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	fprintf(outFile, "End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+----> ATTRIBUTES
+<attributes>
+    = <attribute> '.' %% fprintf(outFile, "."); %%
+    ! <attributes> <attribute> '.' %% fprintf(outFile, "."); %%
+    ;
+
+<attribute>
+    = ID %% newline(); idPrint(%ID.string); %%
+    ! 'NOT' ID %% newline(); fprintf(outFile, "Not "); idPrint(%ID.string); %%
+    ! ID <optional_minus> Integer %% newline(); idPrint(%ID.string); fprintf(outFile, " `%s`%s", %<optional_minus>.string, %Integer.chars); %%
+    ! ID STRING %% newline(); idPrint(%ID.string); fprintf(outFile, " "); stringPrint(%STRING.chars); %%
+    ;
+
+---> <SYNONYMS>
+<synonyms>
+    = 'SYNONYMS' %% newline(); fprintf(outFile, "Synonyms"); indent(); newline(); %%
+	<synonym_list>	%% outdent(); newline(); %% %+('MESSAGE', 'DEFAULT')
+    ;
+<synonym_list>
+    = <synonym>
+    ! <synonym_list> <synonym>
+    ;
+<synonym>
+    = <id_list> '=' ID '.' %% fprintf(outFile, " = "); idPrint(%ID.string); fprintf(outFile, "."); newline(); %%
+    ;
+
+---> <MESSAGES>
+<messages>
+    = 'MESSAGE' <message_list>				%+('MESSAGE', 'DEFAULT')
+    ;
+<message_list>
+    = <message>
+    ! <message_list> <message>
+    ;
+<message>
+    = ID ':' <statements>			%-('QUIT', 'SAVE', 'RESTART', 'RESTORE')
+    ;
+
+---> <SYNTAX>
+<syntax>
+    = 'SYNTAX' %% newline(); fprintf(outFile, "Syntax"); indent(); %%
+	<syntax_list> %% outdent(); newline(); %% 		%+('MESSAGE', 'DEFAULT')
+    ;
+<syntax_list>
+    = <syntax_item>
+    ! <syntax_list> <syntax_item>
+    ;
+<syntax_item>
+    = <syntax_item1> <syntax_item2>
+    ;
+<syntax_item1>
+    = ID '=' %% newline(); idPrint(%ID.string); fprintf(outFile, " = "); %%
+    ;
+<syntax_item2>
+    = <syntax_elements> <optional_class_restrictions>
+    ;
+<syntax_elements>
+    = <syntax_element>
+    ! <syntax_elements> <syntax_element>
+    ;
+<syntax_element>
+    = ID %% fprintf(outFile, " "); idPrint(%ID.string); %%
+    ! '(' ID ')' <optional_indicators> %% fprintf(outFile, " ("); idPrint(%ID.string); fprintf(outFile, ")"); fprintf(outFile, %<optional_indicators>.string); %%
+    ;
+<optional_indicators>
+    = %% %<optional_indicators>.string = malloc(1); strcpy(%<optional_indicators>.string, ""); %%
+    ! <optional_indicators> <indicator>
+	%%
+	    %<optional_indicators>.string = realloc(%<optional_indicators>.string,
+		strlen(%<optional_indicators>.string) + %<indicator>.string + 1);
+	    strcat(%<optional_indicators>.string, %<indicator>.string);
+	%%
+    ;
+<indicator>
+    = '*' %% %<indicator>.string = "*"; %%
+    ! '!' %% %<indicator>.string = "!"; %%
+    ;
+
+<optional_class_restrictions>
+    = '.' %% fprintf(outFile, "."); %%
+    ! 'WHERE' %% indent(); newline(); fprintf(outFile, "Where "); indent(); %% <class_restrictions>
+    %% outdent(); outdent(); newline(); %%
+    ;
+
+<class_restrictions>
+    = <class_restriction>
+    ! <class_restrictions> 'AND' %% outdent(); newline(); fprintf(outFile, "And "); indent(); %% <class_restriction>
+    ;
+
+<class_restriction>
+    = <class_restriction1> <class_restriction2> %% outdent(); %%
+    ;
+
+<class_restriction1>
+    = ID 'ISA' %% fprintf(outFile, "`%s Isa ", %ID.string); %%
+    ;
+
+<class_restriction2> 
+    = <classes>	'ELSE' %% newline(); fprintf(outFile, "Else "); indent(); %%<statements> 	%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    ;
+
+<classes>
+    = <class_identifier> %% fprintf(outFile, %<class_identifier>.string); %%
+    ! <classes> 'OR' <class_identifier> %% fprintf(outFile, " -- ****OR**** `%s", %<class_identifier>.string); %%
+    ;
+
+<class_identifier>
+    = 'OBJECT' %% %<class_identifier>.string = "object"; %%
+    ! 'ACTOR' %% %<class_identifier>.string = "actor"; %%
+    ! 'CONTAINER'  %% %<class_identifier>.string = "container"; %%
+    ! 'CONTAINER' 'OBJECT'  %% %<class_identifier>.string = "**** container object ****"; %%
+    ! 'CONTAINER' 'ACTOR'  %% %<class_identifier>.string = "**** container actor ****"; %%
+    ! 'INTEGER'  %% %<class_identifier>.string = "integer"; %%
+    ! 'STRING'  %% %<class_identifier>.string = "string"; %%
+    ;
+
+---> VERBS
+<optional_verbs>
+    =
+    ! <optional_verbs> <verb>
+    ;
+<verb>
+    = <verb_header> <verb_body> <verb_tail>
+    ;
+<verb_header>
+    = 'VERB' %% newline(); fprintf(outFile, "Verb "); %% <id_list> %% indent(); %%
+    ;
+<verb_body>
+    = <simple_verb_body>
+    ! <verb_alternatives>
+    ;
+<verb_alternatives>
+    = <verb_alternative>
+    ! <verb_alternatives> <verb_alternative>
+    ;
+<verb_alternative>
+    = <verb_alternative1> <simple_verb_body> %% outdent(); %%
+    ;
+<verb_alternative1>
+    = 'WHEN' ID %% newline(); fprintf(outFile, "When `%s", %ID.string); indent(); %%
+    ;
+<simple_verb_body>
+    = <optional_checks> <optional_does>
+    ;
+<verb_tail>
+    = 'END' 'VERB' %% outdent(); newline(); fprintf(outFile, "End Verb"); %% <optional_id> '.' %% fprintf(outFile, "."); newline(); %%
+    ;
+
+----> CHECKS
+<optional_checks>
+    =
+    ! <check1> <statements> %% outdent(); %%
+    ! <check1> <check_list> %% outdent(); %%
+    ;
+
+<check1>
+    = 'CHECK' %% newline(); fprintf(outFile, "Check "); indent(); %%;
+
+<check_list>
+    = <check>
+    ! <check_list> 'AND' %% outdent(); newline(); fprintf(outFile, "And "); indent(); %% <check>
+    ;
+<check>
+    = <expression> 'ELSE' %% newline(); fprintf(outFile, "Else "); indent(); %% <statements> %% outdent(); %%
+    ;
+
+----> DOES
+<optional_does>
+    =
+    ! <does>
+    -- Propagate!
+    ;
+<does>
+    = 'DOES' %% newline(); fprintf(outFile, "Does"); indent(); %% <optional_qual> <statements> %% outdent(); %%
+    ;
+
+---> LOCATION
+<location>
+    = <location_header> <location_body> <location_tail> %% fprintf(outFile, "`%s.", %<location_header>.string); %%
+    ;
+
+<location_header>
+    = <location_id> <optional_name>
+    %% %<location_header>.string = %<location_id>.string; %%
+    ;
+
+<location_id>
+    = 'LOCATION' ID
+    %%
+	newline(); newline();
+	fprintf(outFile, "The `%s Isa location" , %ID.string);
+	indent(); newline();
+	%<location_id>.string = %ID.string;
+    %%
+    ;
+
+<location_body>
+    =
+    ! <location_body> <location_body_part>
+    ;
+
+<location_body_part>
+     = %% newline(); %% <is> <attributes>				%+('EXIT')
+    ! <description>
+    ! <does>
+    ! <exit>
+    ! <verb>
+    ;
+<location_tail>
+    = 'END' 'LOCATION' <optional_id> '.'
+	%% outdent(); newline(); fprintf(outFile, "End The "); %%
+    ;
+
+----> EXITS
+<optional_exits>
+    =
+    ! <optional_exits> <exit>
+    ;
+<exit>
+    = 'EXIT' %% newline(); fprintf(outFile, "Exit "); %% <id_list> <to_id> <optional_exit_body> '.'
+    %% fprintf(outFile, "."); %%
+    ;
+<to_id>
+    = 'TO' ID %% fprintf(outFile, " To `%s", %ID.string); %%
+    ;
+<optional_exit_body>
+    =
+    ! %% indent(); %% <optional_checks> <optional_does> 'END' 'EXIT' <optional_id>
+    %% outdent(); newline(); fprintf(outFile, "End Exit`%s`%s", %<optional_id>.string[0]?" ":"", %<optional_id>.string); %%
+    ;
+
+---> OBJECTS
+<object>
+    = <object_header> <object_body> <object_tail>
+	%% fprintf(outFile, "`%s.", %<object_header>.string); %%
+    ;
+
+<object_header>
+    = <object_id> <optional_where> <optional_names> <optional_where>
+	%% %<object_header>.string = %<object_id>.string;%%
+    ;
+
+<object_id>
+    = 'OBJECT' ID
+    %%
+	newline(); newline(); fprintf(outFile, "The `%s Isa object", %ID.string);
+	indent(); newline();
+	%<object_id>.string = %ID.string;
+    %%
+    ;
+
+<object_body>
+    = 
+    ! <object_body> <object_body_part>
+    ;
+
+<object_body_part>
+    = <properties>
+    ! %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%					%+('ARTICLE')
+    ! <description>
+    ! <mentioned>
+    ! <article>
+    ! <verb>
+    ;
+
+<object_tail>
+    = 'END' 'OBJECT' <optional_id> '.'
+	%% outdent(); newline(); fprintf(outFile, "End The "); %%
+    ;
+
+--
+-- Attributes
+--
+<optional_attributes>
+    =
+    ! <optional_attributes> <is> %% indent(); newline(); %% <attributes> %% outdent(); %%			%+('ARTICLE')
+    ;
+<is>
+    = 'IS' %% fprintf(outFile, "Is "); %%
+    ! 'ARE' %% fprintf(outFile, "Are "); %%
+    ! 'HAS' %% fprintf(outFile, "Has "); %%
+    ;
+<optional_description>
+    =
+    ! <description> 
+    -- Propagate!
+    ;
+<description>
+    = 'DESCRIPTION' %% newline(); fprintf(outFile, "Description"); newline(); %%
+    ! 'DESCRIPTION' %% newline(); fprintf(outFile, "Description"); indent(); %% <statements> %% outdent(); newline(); %%
+    ;
+<article>
+    = 'ARTICLE'
+    ! 'ARTICLE' <statements>
+    ;
+<mentioned>
+    = 'MENTIONED' <statements>
+    ;
+<optional_name>
+    =
+    ! <name>
+    ;
+<optional_names>
+    =
+    ! <optional_names> <name>
+    ;
+<name>
+    = 'NAME' %% fprintf(outFile, "Name "); %% <ids> %% newline(); %%					%+('ARTICLE', 'IN', 'EXIT')
+    ;
+
+---> CONTAINERS
+<properties>
+    = 'CONTAINER' %% newline(); fprintf(outFile, "With Container"); indent(); %% <container_body> %% outdent(); %%
+    ;
+<container>
+    = <container_header> <container_body> <container_tail>
+	%% fprintf(outFile, "`%s.", %<container_header>.string); newline(); %%
+    ;
+<container_header>
+    = 'CONTAINER' ID %% newline(); fprintf(outFile, "The `%s", %ID.string);
+			indent(); newline();
+			fprintf(outFile, "Container");
+			%<container_header>.string = %ID.string; indent(); %%
+    ;
+<container_body>
+    =  <optional_limits> <optional_header> <optional_empty>
+    ;
+<container_tail>
+    = 'END' 'CONTAINER' <optional_id> '.'
+	%% outdent(); outdent(); newline(); fprintf(outFile, "End The "); %%
+    ;
+<optional_limits>
+    =
+    ! 'LIMITS' %% newline(); fprintf(outFile, "Limits"); indent(); %% <limits> %% outdent(); %%					%+('ARTICLE')
+    ;
+<limits>
+    = <limit>
+    ! <limits> <limit>
+    ;
+<limit>
+    = <limit_attribute> 'THEN' %% fprintf(outFile, "Then"); indent(); %%<statements>			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    ;
+<limit_attribute>
+    = <attribute>
+    ! 'COUNT' Integer %% newline(); fprintf(outFile, "Count `%s", %Integer.chars); %%
+    ;
+<optional_header>
+    =
+    ! 'HEADER' %% newline(); fprintf(outFile, "Header"); indent(); %% <statements> %% outdent(); %%
+    ;
+<optional_empty>
+    =
+    ! 'ELSE' %% newline(); fprintf(outFile, "Else"); indent(); %% <statements> %% outdent(); %%
+    ;
+
+---> EVENTS
+<event>
+    = <event_header> %% indent(); %% <statements> <event_tail> %% fprintf(outFile, "`%s.", %<event_header>.string); %%
+    ;
+<event_header>
+    ='EVENT' ID
+    %% newline(); fprintf(outFile, "Event `%s", %ID.string);
+	%<event_header>.string = %ID.string; %%
+    ;
+<event_tail>
+    = 'END' 'EVENT' <optional_id> '.'
+     %% outdent(); newline(); fprintf(outFile, "End Event "); %%
+    ;
+
+---> ACTORS
+<actor>
+    = <actor_header> <actor_body> <actor_tail>
+	%% fprintf(outFile, "`%s.", %<actor_header>.string); %%
+    ;
+
+<actor_header>
+    = <actor_id> <optional_where> <optional_names> <optional_where>
+	%% %<actor_header>.string = %<actor_id>.string; %%
+    ;
+
+<actor_id>
+    = 'ACTOR' ID
+    %%
+	newline(); newline(); fprintf(outFile, "The `%s Isa actor", %ID.string);
+	indent(); newline();
+	%<actor_id>.string = %ID.string;
+    %%
+    ;
+
+<actor_body>
+    = 
+    ! <actor_body> <actor_body_part>
+    ;
+
+<actor_body_part>
+    = <properties>
+    ! %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%
+    ! <description>
+    ! <verb>
+    ! <script>
+    ;
+<actor_tail>
+    = 'END' 'ACTOR' <optional_id> '.'
+	%% outdent(); newline(); fprintf(outFile, "End The "); %%
+    ;
+
+----> SCRIPTS
+<optional_actor_script>
+    = 
+    ! <optional_actor_script> <script>
+    ;
+
+<script>
+    = <script1> <script2>
+    ;
+
+<script1>
+    = 'SCRIPT' <integer_or_id> '.'
+    %% newline(); fprintf(outFile, "Script `%s", %<integer_or_id>.string); indent(); %%
+    ;
+
+<script2>
+    = <optional_description> <step_list>
+    ;
+
+<step_list>
+    = <step>
+    ! <step_list> <step>
+    ;
+
+<step>
+    = 'STEP' %% newline(); fprintf(outFile, "Step"); indent(); %% <statements> %% outdent(); %%
+    ! <step_after_integer> <statements> %% outdent(); %%
+    ! 'STEP' 'WAIT' 'UNTIL' %% newline(); fprintf(outFile, "Step"); indent(); %% <expression> <statements> %% outdent(); %%
+    ;
+
+<step_after_integer>
+    = 'STEP' 'AFTER' Integer %% newline(); fprintf(outFile, "Step After `%s", %Integer.chars); indent(); %%
+    ;
+
+----> RULES
+<rule>
+    = 'WHEN' %% newline(); fprintf(outFile, "When "); %% <expression> '=>' %% fprintf(outFile, "=>"); indent(); newline(); %% <statements> %% outdent(); %%
+    ;
+
+---> START
+<start>
+    = 'START'  %% newline(); newline(); fprintf(outFile, "Start "); %% <where> '.' %% fprintf(outFile, "."); indent(); newline(); %% <optional_statements>
+    ;
+
+---> STATEMENTS
+<optional_statements>
+    =
+    ! <statements>
+    ;
+
+<statements>
+    = <statement>
+    ! <statements> <statement>
+    ;
+
+<statement>
+    = <output_statement>
+    ! <manipulation_statement>
+    ! <assignment_statement>
+    ! <comparison_statement>
+    ! <actor_statement>
+    ! <event_statement>
+    ! <special_statement>
+    ;
+
+<fullstop>
+    = '.' %% fprintf(outFile, "."); %%
+    ;
+
+----> Output Statements
+<output_statement>
+    = STRING %% stringPrint(%STRING.chars); %%
+    ! 'DESCRIBE' %% newline(); fprintf(outFile, "Describe "); %% <what> <fullstop>
+    ! 'SAY' %% newline(); fprintf(outFile, "Say "); %% <expression> <fullstop>
+    ! 'LIST' %% newline(); fprintf(outFile, "Say "); %% <what> <fullstop>
+    ;
+
+<special_statement>
+    = 'QUIT' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'LOOK' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'SAVE' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'RESTORE' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'RESTART' '.' %% newline(); fprintf(outFile, "Quit."); %%
+    ! 'SCORE' %% newline(); fprintf(outFile, "Score "); %% <optional_integer> '.'  %% fprintf(outFile, "."); %%
+    ! 'VISITS' Integer '.' %% newline(); fprintf(outFile, "Visits `%s.", %Integer.chars); %%
+    ! 'SYSTEM' STRING '.' %% newline(); fprintf(outFile, "****System**** "); stringPrint(%STRING.chars); %%
+    ;
+	
+
+----> Manipulation Statements
+<manipulation_statement>
+    = 'EMPTY' %% newline(); fprintf(outFile, "Empty "); %% <what> %% fprintf(outFile, " "); %% <optional_where> <fullstop>
+    ! 'LOCATE' %% newline(); fprintf(outFile, "Locate "); %% <what> %% fprintf(outFile, " "); %% <where> <fullstop>
+    ;
+
+----> Event Statements
+<event_statement>
+    = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> <fullstop>
+    ! 'CANCEL' ID <fullstop>
+    ;
+
+----> Assignment Statements
+<assignment_statement>
+    = 'MAKE' %% newline(); fprintf(outFile, "Make "); %% <what> %% fprintf(outFile, " "); %% <something> <fullstop>
+    ! 'SET' %% newline(); fprintf(outFile, "Set "); %% <attribute_reference> 'TO' %% fprintf(outFile, " To "); %% <expression> <fullstop>
+    ! 'INCREASE' %% newline(); fprintf(outFile, "Increase "); %% <attribute_reference> <optional_by_clause> <fullstop>
+    ! 'DECREASE' %% newline(); fprintf(outFile, "Decrease "); %% <attribute_reference> <optional_by_clause> <fullstop>
+    ;
+
+<optional_by_clause>
+    =
+    ! 'BY' %% fprintf(outFile, " By "); %% <expression>
+    ;
+
+----> Comparison Statements
+<comparison_statement>
+    = <if_statement>
+    ! <depending_statement>
+    ;
+
+<if_statement>
+    = 'IF' %% newline(); fprintf(outFile, "If "); %%
+	<expression> 'THEN' %% fprintf(outFile, " Then"); indent(); %%
+	<statements> <optional_elsif_list> <optional_else_part>
+	'END' 'IF' '.' %% outdent(); newline(); fprintf(outFile, "End If."); %%
+    ;
+
+<optional_elsif_list>
+    =
+    ! <elsif_list>
+    ;
+    
+<elsif_list>
+    = <elsif>
+    ! <elsif_list> <elsif>
+    ;
+
+<elsif>
+    = 'ELSIF' %% outdent(); newline(); fprintf(outFile, "Elsif "); %%
+	<expression> 'THEN' %% fprintf(outFile, " Then "); indent(); %%
+	<statements>
+    ;
+
+<optional_else_part>
+    =
+    ! 'ELSE' %% outdent(); newline(); fprintf(outFile, "Else "); indent(); %%
+	<statements>
+    ;
+
+<depending_statement>
+    = 'DEPENDING' 'ON' %% newline(); fprintf(outFile, "Depending On "); %%
+	<primary> %% indent(); newline(); %%
+	<depend_cases>
+      'END' 'DEPEND' '.' %% outdent(); newline(); fprintf(outFile, "End Depend."); %%
+    ;
+
+<depend_cases>
+    = <depend_case>
+    ! <depend_cases> %% newline(); %% <depend_case>
+    ;
+
+<depend_case>
+    = <right_hand_side> ':' %% fprintf(outFile, " : "); indent(); %% <statements> %% outdent(); %%
+    ! 'ELSE' %% fprintf(outFile, "Else "); indent(); %% <statements> %% outdent(); %%
+    ;
+
+----> Actor statement
+<actor_statement>
+    = 'USE' 'SCRIPT' %% newline(); fprintf(outFile, "Use Script "); %% <integer_or_id> <optional_for_actor> '.'
+    ;
+
+<optional_for_actor>
+    =
+    ! 'FOR' ID %% fprintf(outFile, "For `%s", %ID.string); %%
+    ;
+
+---> EXPRESSIONS
+<expression>
+    = <term>
+    ! <expression> 'OR' %% fprintf(outFile, " Or "); %% <term>
+    ;
+
+<term>
+    = <factor>
+    ! <term> 'AND' %% fprintf(outFile, " And "); %% <factor>
+    ;
+
+<factor>
+    = <primary>
+    ! <primary> %% fprintf(outFile, " "); %% <right_hand_side>
+    ;
+
+<right_hand_side>
+    = <binop> <primary>
+    ! <optional_not> <relop> <primary>
+    ! <optional_not> <where>
+    ! <is> <something>
+    ! <optional_not> 'BETWEEN' %% fprintf(outFile, " Between "); %% <factor> 'AND' %% fprintf(outFile, " And "); %% <factor>
+    ! <optional_not> 'CONTAINS' %% fprintf(outFile, " Contains "); %% <factor>
+    ;
+
+<primary>
+    = '(' %% fprintf(outFile, "("); %% <expression> ')' %% fprintf(outFile, ")"); %%
+    ! <optional_minus> Integer %% fprintf(outFile, "`%s`%s", %<optional_minus>.string, %Integer.chars); %%
+    ! STRING %% stringPrint(%STRING.chars); %%
+    ! <what>
+    ! <attribute_reference>
+    ! <aggregate> <where>
+    ! 'RANDOM' %% fprintf(outFile, "Random "); %% <primary> 'TO' %% fprintf(outFile, "To "); %% <primary>
+    ! 'SCORE' %% fprintf(outFile, "Score"); %%
+    ;
+
+<aggregate>
+    = 'SUM' 'OF' ID %% fprintf(outFile, " Sum Of "); idPrint(%ID.string); %%
+    ! 'MAX' 'OF' ID %% fprintf(outFile, " Max Of "); idPrint(%ID.string); %%
+    ! 'COUNT' %% fprintf(outFile, " Count "); %%
+    ;
+
+---> MISCELLANEOUS
+<something>
+    = <optional_not> ID %% idPrint(%ID.string); %%
+    ;
+
+<what>
+    = 'OBJECT' %% fprintf(outFile, "**** object ****"); %%
+    ! 'LOCATION' %% fprintf(outFile, "Current Location"); %%
+    ! 'ACTOR' %% fprintf(outFile, "Current Actor"); %%
+    ! ID %% idPrint(%ID.string); %%
+    ;
+
+<optional_where>
+    =					%-('HERE', 'NEARBY', 'AT', 'IN')
+    ! <where>
+    ;
+
+<where>
+    = 'HERE' %% fprintf(outFile, "Here"); %%
+    ! 'NEARBY' %% fprintf(outFile, "Nearby"); %%
+    ! 'AT' %% fprintf(outFile, "At "); %% <what> 
+    ! 'IN' %% fprintf(outFile, "In "); %% <what>
+    ;
+
+<binop>
+    = '+' %% fprintf(outFile, "+"); %%
+    ! '-' %% fprintf(outFile, "-"); %%
+    ! '*' %% fprintf(outFile, "*"); %%
+    ! '/' %% fprintf(outFile, "/"); %%
+    ;
+
+<relop>
+    = '<>' %% fprintf(outFile, "<>"); %%
+    ! '=' %% fprintf(outFile, "="); %%
+    ! '==' %% fprintf(outFile, "=="); %%
+    ! '>=' %% fprintf(outFile, ">="); %%
+    ! '<=' %% fprintf(outFile, "<="); %%
+    ! '>' %% fprintf(outFile, ">"); %%
+    ! '<' %% fprintf(outFile, "<"); %%
+    ;
+
+<optional_qual>
+    =
+    ! 'BEFORE' %% fprintf(outFile, " Before"); %%
+    ! 'AFTER' %% fprintf(outFile, " After"); %%
+    ! 'ONLY' %% fprintf(outFile, " Only"); %%
+    ;
+
+<optional_not>
+    =
+    ! 'NOT' %% fprintf(outFile, "Not "); %%
+    ;
+
+<optional_id>
+    = %% %<optional_id>.string = ""; %%
+    ! ID %% %<optional_id>.string = %ID.string; %%
+    ;
+
+<ids>
+    = ID %% idPrint(%ID.string); %%
+    ! <ids> ID %% fprintf(outFile, " "); idPrint(%ID.string); %%
+    ;
+
+<id_list>
+    = ID %% idPrint(%ID.string); %%
+    ! <id_list> ',' ID %% fprintf(outFile, ", "); idPrint(%ID.string); %%
+    ;
+
+<optional_integer>
+    =
+    ! Integer %% fprintf(outFile, %Integer.chars); %%
+    ;
+
+<optional_minus>
+    = %% %<optional_minus>.string = ""; %%
+    ! '-' %% %<optional_minus>.string = "-"; %%
+    ;
+
+<attribute_reference>
+    = <id_of> <what> 
+    ;
+
+<id_of>
+    = ID 'OF' %% idPrint(%ID.string); fprintf(outFile, " Of "); %%
+    ;
+
+<integer_or_id>
+    = Integer %% %<integer_or_id>.string = malloc(strlen(%Integer.chars)+2);
+		sprintf(%<integer_or_id>.string, "s`%s", %Integer.chars); %%
+    ! ID %% %<integer_or_id>.string = %ID.string; %%
+    ;
+
+ID
+    = IDENT %% %ID.string = %IDENT.chars; %%
+    ! 'DEFAULT' %% %ID.string = "default"; %%
+    ! 'ARTICLE' %% %ID.string = "article"; %%
+    ! 'MESSAGE' %% %ID.string = "message"; %%
+    ! 'QUIT' %% %ID.string = "quit"; %%
+    ! 'SAVE' %% %ID.string = "save"; %%
+    ! 'RESTORE' %% %ID.string = "restore"; %%
+    ! 'RESTART' %% %ID.string = "restart"; %%
+    ! 'WAIT' %% %ID.string = "wait"; %%
+    ! 'BETWEEN' %% %ID.string = "between"; %%
+    ! 'CONTAINS' %% %ID.string = "contains"; %%
+    ! 'ON' %% %ID.string = "on"; %%
+    ! 'IN' %% %ID.string = "in"; %%
+    ! 'AFTER' %% %ID.string = "after"; %%
+    ! 'BEFORE' %% %ID.string = "before"; %%
+    ! 'CHECK' %% %ID.string = "check"; %%
+    ! 'DEPEND' %% %ID.string = "depend"; %%
+    ! 'EXIT' %% %ID.string = "exit"; %%
+    ! 'FOR' %% %ID.string = "for"; %%
+    ! 'INTEGER' %% %ID.string = "integer"; %%
+    ! 'ISA' %% %ID.string = "isa"; %%
+    ! 'LIMITS' %% %ID.string = "limits"; %%
+    ;
