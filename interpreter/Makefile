@@ -145,7 +145,7 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER = 
-depend: dependencies.mk. Makefile.amiga makefile.gpp Makefile.mgw
+depend: dependencies.mk. Makefile.amiga makefile.gpp Makefile.mgw Makefile.cygwin
 
 dependencies.mk.:
 	@echo Updating dependencies.mk!
@@ -154,6 +154,13 @@ dependencies.mk.:
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER)>> "dependencies.mk"; \
 	done
+
+Makefile.cygwin: dependencies.mk Makefile
+	@echo Updating Makefile.cygwin!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.cygwin > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cat "#Makefile.tmp#" dependencies.mk > Makefile.cygwin
+
 
 Makefile.amiga: dependencies.mk Makefile
 	@echo Updating Makefile.amiga!
@@ -184,3 +191,4 @@ mac:
 
 
 include dependencies.mk
+

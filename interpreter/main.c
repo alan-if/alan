@@ -116,6 +116,7 @@ void terminate(code)
 #endif
 {
 #ifdef __amiga__
+#ifdef AZTEC_C
 #include <fcntl.h>
   extern struct _dev *_devtab;
   char buf[85];
@@ -125,9 +126,21 @@ void terminate(code)
        hacked the Aztec C device table to use it for all I/O
        so now we need to make it close it (once!) */
     _devtab[1].fd = _devtab[2].fd = 0;
-  }
+  } else
+#else
+  /* Geek Gadgets GCC */
+#include <workbench/startup.h>
+#include <clib/dos_protos.h>
+#include <clib/intuition_protos.h>
+
+  if (_WBenchMsg != NULL) {
+    Close(window);
+    if (_WBenchMsg->sm_ArgList != NULL)
+      UnLock(CurrentDir(cd));
+  } else
 #endif
-  newline();
+#endif
+    newline();
   free(memory);
   if (logflg)
     fclose(logfil);
@@ -187,6 +200,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
   newline();
 
 #ifdef __amiga__
+#ifdef AZTEC_C
   {
     char buf[80];
 
@@ -195,6 +209,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
       gets(buf);
     }
   }
+#endif
 #endif
 
   terminate(0);
@@ -1380,7 +1395,7 @@ static void checkvers(header)
 #endif
       if (errflg) {
 	char str[80];
-	sprintf(str, "Incompatible version of ACODE program. Game is %d.%d, interpreter %d.%d.",
+	sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
 		(int)(header->vers[0]),
 		(int)(header->vers[1]),
 		alan.version.version,
@@ -1570,7 +1585,7 @@ static void start()
 {
   int startloc;
 
-  cur.tick = 0;
+  cur.tick = -1;
   cur.loc = startloc = where(HERO);
   cur.act = HERO;
   cur.score = 0;

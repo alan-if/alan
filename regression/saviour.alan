@@ -893,7 +893,7 @@ LOCATION fifth NAME Fifth Floor
     DESCRIPTION
         "This must be the top of the top landing of the staircase.
          With a pounding heart and breath you look around and see two
-         doorways. A small one to the north, and to the east a long
+         doorways. A small one to the south, and to the east a long
          corridor."
 
     EXIT down TO fourth.

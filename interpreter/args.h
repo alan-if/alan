@@ -7,10 +7,22 @@
 \*----------------------------------------------------------------------*/
 
 #ifdef __amiga__
+
 #include <libraries/dosextens.h>
 
+#ifdef AZTEC_C
 extern struct FileHandle *con;
+#else
 
+#include <intuition/intuition.h>
+#include <workbench/startup.h>
+
+extern struct WBStartup *_WBenchMsg; /* From libnix */
+
+extern BPTR window;
+extern BPTR cd;
+
+#endif
 #endif
 
 #ifdef _PROTOTYPES_

@@ -43,9 +43,10 @@ int main(argc, argv)
   lin = col = 1;
   header->paglen = 24;
   header->pagwidth = 70;
-  getPageSize();
 
   args(argc, argv);
+
+  getPageSize();
 
   if (dbgflg||verbose) {
     if (dbgflg) printf("<");

@@ -119,9 +119,7 @@ void sys(fpos, len)
 
   getstr(fpos, len);            /* Returns address to string on stack */
   command = (char *)pop();
-#ifndef __amiga__
   system(command);
-#endif
   free(command);
 }
 
@@ -1707,9 +1705,9 @@ Aword rnd(from, to)
   if (to == from)
     return to;
   else if (to > from)
-    return rand()%(to-from+1)+from;
+    return (rand()/10)%(to-from+1)+from;
   else
-    return rand()%(from-to+1)+to;
+    return (rand()/10)%(from-to+1)+to;
 }
 
 

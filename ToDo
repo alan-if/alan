@@ -1,11 +1,29 @@
 ToDo:
-	* QUIT question and prompt. "Restore, reStart or Quit (R/S/Q) ?"
+	* WinArun with -l does not position the cursor at the bottom
+	of the screen after writing the first status line
+
+	* QUIT question & prompt. "Restore, reStart or Quit (R/S/Q)?"
+	Preferably it should be possible to automatically deduce the
+	response characters from the format (see item below on
+	CONFIRM). Note also that there should possibly also be a
+	difference between the QUIT statement (to really end the game)
+	and the QUIT player command which should/Could allow restart
+	etc. as per the next item:
 
 	* Confirmations, e.g. if the player says quit the game should
 	allow the player to change his mind. (Although not if the game
 	quit because of a false move or some such.) E.g
 
 		IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+	or even
+
+		DEPENDING ON CONFIRM "Restore, reStart, Quit or go
+					Back to the game (R/S/Q/B)?"
+		=1 : RESTORE.
+		=2 : RESTART.
+		=3 : QUIT.
+		END DEPEND.
 
 	* Space bar in <more>
 

@@ -51,14 +51,15 @@ void getPageSize()
 #include <libraries/dosextens.h>
 #include <intuition/intuition.h>
 #include <graphics/text.h>
-#include <functions.h>
+#include <clib/exec_protos.h>
+
   struct Process * proc;
   struct InfoData *id;
   struct Window *win; 
   struct TextFont *textFont;
   struct StandardPacket *packet;
 
-  proc = (struct Process *) FindTask(0);
+  proc = (struct Process *) FindTask(0L);
 
   id = (struct InfoData *) allocate(sizeof(struct InfoData));
 

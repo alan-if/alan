@@ -47,7 +47,7 @@ static void showatrs(atradr)
 
   i = 1;
   for (at = (AtrElem *) addrTo(atradr); !endOfTable(at); at++) {
-    sprintf(str, "$i%3d: %ld (%s)", i, at->val, (char *) addrTo(at->stradr));
+    sprintf(str, "$i%3ld: %ld (%s)", i, at->val, (char *) addrTo(at->stradr));
 #if ISO == 0
     fromIso(str, str);
 #endif
@@ -68,7 +68,7 @@ static void showobjs()
 
   output("OBJECTS:");
   for (obj = OBJMIN; obj <= OBJMAX; obj++) {
-    sprintf(str, "$i%3d: ", obj);
+    sprintf(str, "$i%3ld: ", obj);
     output(str);
     say(obj);
   }
@@ -136,7 +136,7 @@ static void showcnts()
 
   output("CONTAINERS:");
   for (cnt = CNTMIN; cnt <= CNTMAX; cnt++) {
-    sprintf(str, "$i%3d: ", cnt);
+    sprintf(str, "$i%3ld: ", cnt);
     output(str);
     if (cnts[CNT].nam != 0)
       interpret(cnts[CNT].nam);
@@ -208,7 +208,7 @@ static void showlocs()
 
   output("LOCATIONS:");
   for (loc = LOCMIN; loc <= LOCMAX; loc++) {
-    sprintf(str, "$i%3d: ", loc);
+    sprintf(str, "$i%3ld: ", loc);
     output(str);
     say(loc);
   }
@@ -253,7 +253,7 @@ static void showacts()
 
   output("ACTORS:");
   for (act = ACTMIN; act <= ACTMAX; act++) {
-    sprintf(str, "$i%3d:", act);
+    sprintf(str, "$i%3ld:", act);
     output(str);
     say(act);
   }

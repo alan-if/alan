@@ -353,7 +353,7 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/, d" -e "s,./,," | sort -u 
 FILETER =
-depend: dependencies.mk. Makefile.amiga Makefile.mgw makefile.gpp
+depend: dependencies.mk. Makefile.amiga Makefile.mgw makefile.gpp Makefile.cygwin
 
 dependencies.mk.:
 	@echo "Updating dependencies.mk!"
@@ -382,6 +382,13 @@ Makefile.mgw: dependencies.mk Makefile
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cp "#Makefile.tmp#" Makefile.mgw
 	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.mgw
+
+Makefile.cygwin: dependencies.mk Makefile
+	@echo Updating Makefile.cygwin!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.cygwin > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cat "#Makefile.tmp#" dependencies.mk > Makefile.cygwin
+
 
 
 include dependencies.mk

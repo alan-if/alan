@@ -25,7 +25,13 @@ extern void args(int argc, char* argv[]);
 
 #ifdef __amiga__
 #include <libraries/dosextens.h>
+#ifdef AZTEC_C
 struct FileHandle *con = NULL;
+#else
+/* Geek Gadgets GCC */
+BPTR window;
+BPTR cd;
+#endif
 #endif
 
 
@@ -82,6 +88,64 @@ static void switches(argc, argv)
 }
 
 
+
+#ifdef __amiga__
+
+#include <intuition/intuition.h>
+#include <workbench/workbench.h>
+
+#include <clib/exec_protos.h>
+#include <clib/dos_protos.h>
+#include <clib/icon_protos.h>
+
+#include <fcntl.h>
+
+extern struct Library *IconBase;
+
+#ifndef AZTEC_C
+/* Actually Geek Gadgets GCC with libnix */
+
+/* Aztec C has its own pre-main wbparse which was used in Arun 2.7, with GCC we
+   need to do it ourselves. */
+
+#include <clib/intuition_protos.h>
+
+extern unsigned long *__stdfiledes; /* The libnix standard I/O file descriptors */
+
+void
+wb_parse(void)
+{
+  char *cp;
+  struct DiskObject *dop;
+  struct FileHandle *fhp;
+
+  if (_WBenchMsg->sm_NumArgs == 1) /* If no argument use program icon/info */
+    dop = GetDiskObject((UBYTE *)_WBenchMsg->sm_ArgList[0].wa_Name);
+  else {
+    BPTR olddir = CurrentDir(_WBenchMsg->sm_ArgList[1].wa_Lock);
+    dop = GetDiskObject((UBYTE *)_WBenchMsg->sm_ArgList[1].wa_Name);
+    CurrentDir(olddir);
+  }
+  if (dop != 0 && (cp = (char *)FindToolType((UBYTE **)dop->do_ToolTypes, 
+					     (UBYTE *)"WINDOW")) != NULL)
+    ;
+  else /* Could not find a WINDOW tool type */
+    cp = "CON:10/10/480/160/Arun:Default Window/CLOSE";
+  if ((window = Open((UBYTE *)cp, (long)MODE_OLDFILE))) {
+    fhp = (struct FileHandle *) ((long)window << 2);
+    SetConsoleTask(fhp->fh_Type);
+    SelectInput(window);
+    SelectOutput(window);
+    __stdfiledes[0] = Input();
+    __stdfiledes[1] = Output();
+  } else
+    exit(-1L);
+  FreeDiskObject(dop);
+}
+#endif
+#endif
+
+
 #ifdef _PROTOTYPES_
 void args(
      int argc,
@@ -117,31 +181,26 @@ void args(argc, argv)
 
 #else
 #ifdef __amiga__
-#include <workbench/startup.h>
-#include <intuition/intuition.h>
-#include <workbench/workbench.h>
-#include <functions.h>
-#include <fcntl.h>
-extern struct Library *IconBase;
 
-  if (argc == 0) { /* If started from Workbench get WbArgs */
+  if (argc == 0) { /* If started from Workbench get WbArgs : Aztec C & GG GCC */
     struct WBStartup *WBstart;
-    char connam[100];
-    struct FileHandle *handle;
-    struct Process *proc = (struct Process *)FindTask(0);
-    extern struct _dev *_devtab;
-    struct DiskObject *existingIcon;
 
     if ((IconBase = OpenLibrary("icon.library", 0)) == NULL)
       syserr("Could not open 'icon.library'");
+    /* If started from WB normal main is called with argc == 0 and argv = WBstartup message */
     WBstart = (struct WBStartup *)argv;
+#ifndef AZTEC_C
+    /* Geek Gadgets GCC */
+    wb_parse();
+#endif
     advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
     if (WBstart->sm_NumArgs > 0) {
-      CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
+      cd = CurrentDir(DupLock(WBstart->sm_ArgList[1].wa_Lock));
       advnam = WBstart->sm_ArgList[1].wa_Name;
     }
     /* Possibly other tooltypes ... */
   } else {
+    /* Started from a CLI */
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)
       prgnam = argv[0];
