@@ -1,0 +1,29 @@
+########## mbo ##########
+alan mbo.alan
+arun mbo < mbo.input
+########## /bin/sh  mbo.tst ##########
+
+        No warnings or errors detected.
+
+
+< introduction >
+
+
+Outer Ward.
+< in front of the castle > < heavy iron portcullis > is raised.
+
+> Castle Gate.
+< castle entrance > < heavy iron portcullis > is raised.
+
+> In Front Of Main Building.
+< in front of main building > < dark marble door > is open.
+
+> Inner Ward.
+< south-west corner of inner ward >
+
+> West Of Main Building.
+< west of inner building > < sturdy iron door > is closed.
+
+> 
+
+Do you want to restart (y) ? 

@@ -1,0 +1,46 @@
+########## hunger ##########
+alan hunger.alan
+arun hunger < hunger.input
+########## /bin/sh  hunger.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Macdonalds.
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are getting hungrier...
+
+> Macdonalds.
+You are close to dying of hunger...
+
+> Macdonalds.
+You are close to dying of hunger...
+
+> Macdonalds.
+You are close to dying of hunger...
+
+> Macdonalds.
+You are close to dying of hunger...
+
+> Macdonalds.
+You die of hunger.
+
+Do you want to restart (y) ? 

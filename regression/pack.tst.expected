@@ -1,0 +1,18 @@
+########## pack ##########
+alan pack.alan
+arun pack < pack.input
+########## /bin/sh  pack.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Start At l.
+
+
+L.
+This is a text.
+
+> 
+
+Do you want to restart (y) ? 

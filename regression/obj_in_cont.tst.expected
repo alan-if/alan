@@ -1,0 +1,22 @@
+########## obj_in_cont ##########
+alan obj_in_cont.alan
+arun obj_in_cont < obj_in_cont.input
+########## /bin/sh  obj_in_cont.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+The hammer should be in the toolbox: The toolbox contains a hammer. 
+
+Now try 'examine toolbox'.
+
+
+L.
+There is a toolbox here.
+
+> There is a toolbox here. The toolbox contains a hammer.
+
+> 
+
+Do you want to restart (y) ? 

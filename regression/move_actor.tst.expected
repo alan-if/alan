@@ -1,0 +1,16 @@
+########## move_actor ##########
+alan move_actor.alan
+arun move_actor < move_actor.input
+########## /bin/sh  move_actor.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+L1.
+
+> ... Adam walks into l1. Adam walks out of l1.
+
+> 
+
+Do you want to restart (y) ? 
