@@ -1,0 +1,23 @@
+The l Isa Location
+End The l.
+
+Verb test
+  Does
+    If Location Here Then	-- Locations can not be anywhere
+	""
+    End If.
+    If l Here Then		-- Single classed Locations can not be anywhere
+	""
+    End If.
+    If x Here Then		-- unknown identifer
+	""
+    End If.
+End Verb.
+
+Event e
+    If Actor Here Then		-- No ACTOR in events
+	""
+    End If.
+End Event.
+
+Start At l.
