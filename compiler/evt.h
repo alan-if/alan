@@ -30,25 +30,12 @@ typedef struct EvtNod {		/* EVENT */
 
 /* Data: */
 
-extern int evtmin, evtmax;
-extern int evtcount;
-
-
 
 /* Functions: */
 
-/* Create a new Event node */
-extern EvtNod *newevt(Srcp *srcp,
-		      IdNode *id,
-		      List *stms);
-
-/* Analyze all Events */
+extern EvtNod *newevt(Srcp *srcp, IdNode *id, List *stms);
 extern void anevts(void);
-
-/* Generate code for all Events */
-extern Aaddr geevts(void);
-
-/* Dump an Event node */
+extern Aaddr generateEvents(AcdHdr *header);
 extern void duevt(EvtNod *evt);
 
 

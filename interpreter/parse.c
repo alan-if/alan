@@ -331,7 +331,7 @@ static void buildall(list)
   int o, i = 0;
   Boolean found = FALSE;
   
-  for (o = OBJMIN; o <= OBJMAX; o++)
+  for (o = 1; o <= header->instanceMax; o++)
     if (isHere(o)) {
       found = TRUE;
       list[i].code = o;

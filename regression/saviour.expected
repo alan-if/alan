@@ -57,6 +57,9 @@ The stairs leads up and down. They still seem alright. Through the dirty
 windows the barren field outside the building can be seen. Almost
 completely covered by dust, there is an old book laying on the floor here.
 
+> take all
+(old book) Taken.
+
 > east
 Office
 In front of you is a deserted office area. Desks and chairs are piled up
@@ -72,8 +75,6 @@ Taken.
 
 > west
 First Floor (again)
-Almost completely covered by dust, there is an old book laying on the
-floor here.
 
 > up
 Second Floor
@@ -123,8 +124,8 @@ disks are spread out all over the floor. The exit is to the west. An
 ancient computer is standing in the centre of the room.
 
 > i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
+You are carrying a old book, a 3 metre long ladder, a rather heavy
+computer terminal and a small coin.
 
 > connect terminal
 The terminal is now connected to the nearby computer.
@@ -262,8 +263,6 @@ Second Floor (again)
 
 > down
 First Floor (again)
-Almost completely covered by dust, there is an old book laying on the
-floor here.
 
 > down
 Stairs (again)
@@ -345,8 +344,7 @@ First Floor
 The landing on the first floor is as dirty as all the others. Meters and
 meters of old cables are laying around, leading into a room to the east.
 The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen. Almost
-completely covered by dust, there is an old book laying on the floor here.
+windows the barren field outside the building can be seen.
 
 > up
 Second Floor
@@ -432,8 +430,6 @@ Second Floor (again)
 
 > down
 First Floor (again)
-Almost completely covered by dust, there is an old book laying on the
-floor here.
 
 > down
 Stairs (again)
@@ -446,8 +442,8 @@ is the exit. To the east is a folding door. It is open revealing the
 entrance to a cafeteria.
 
 > i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
+You are carrying a spool of computer tape, a old book, a set of rusty keys 
+and a dirty manual.
 
 > south
 As you walk out through the door the large building collapses in a huge

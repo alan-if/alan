@@ -34,8 +34,6 @@
 #define CNTMAX (header->cntmax)
 #define LITMIN (header->locmax+1)
 #define LITMAX (header->locmax+1+litCount)
-#define EVTMIN (header->evtmin)
-#define EVTMAX (header->evtmax)
 
 #define HERO (header->theHero)
 #define OBJECT (header->objectClassId)
@@ -181,16 +179,11 @@ typedef struct RulEntry {	/* RULE TABLE */
   Aaddr stms;			/* Address to run */
 } RulEntry;
 
-typedef struct EvtEntry {	/* EVENT TABLE */
-  Aaddr stradr;			/* Address to name string */
-  Aaddr code;			/* Address of code to run */
-} EvtEntry;
-
-typedef struct EvtqEntry {	/* EVENT QUEUE ENTRIES */
+typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
   int time;
   int event;
   int where;
-} EvtqEntry;
+} EventQueueEntry;
 
 typedef struct IniEntry {	/* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */

@@ -343,10 +343,10 @@ static void reverseEvts(adr)
      Aword adr;
 #endif
 {
-  EvtEntry *e = (EvtEntry *) &memory[adr];
+  EventEntry *e = (EventEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(EvtEntry));
+    reverseTable(adr, sizeof(EventEntry));
     while (!endOfTable(e)) {
       reverseStms(e->code);
       e++;
@@ -461,7 +461,7 @@ void reverseACD(v2_5)
   reverseInstances(header->instanceTableAddress);
   reverseTable(header->classTableAddress, sizeof(ClassEntry));
   reverseContainers(header->containerTableAddress);
-  reverseEvts(header->evts);
+  reverseEvts(header->eventTableAddress);
   reverseRuls(header->ruls);
   reverseTable(header->init, sizeof(IniEntry));
   reverseStms(header->start);

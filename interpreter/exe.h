@@ -9,7 +9,7 @@
 \*----------------------------------------------------------------------*/
 
 /* The event queue */
-extern EvtqEntry eventq[];	/* Event queue */
+extern EventQueueEntry eventQueue[]; /* Event queue */
 extern int etop;		/* Event queue top pointer */
 extern Boolean looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */

@@ -27,6 +27,7 @@ int instanceCount = 0;
 int directionCount = 0;
 int attributeCount = 0;
 int verbCount = 0;
+int eventCount = 0;
 
 Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
 
@@ -188,6 +189,9 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   case VERB_SYMBOL:
     new->code = ++verbCount;
     break;
+  case EVENT_SYMBOL:
+    new->code = ++eventCount;
+    break;
   default: syserr("Unexpected switch on SYMBOLKIND in newSymbol()"); break;
   }
 
@@ -296,6 +300,10 @@ Symbol *lookupInContext(char *idString, Context *context)
     switch (context->kind){
     case VERB_CONTEXT:
       foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
+      break;
+    case EVENT_CONTEXT:
+    case RULE_CONTEXT:
+      foundSymbol = lookup(idString);
       break;
     default:
       syserr("Unexpected context kind in lookupInContext()");

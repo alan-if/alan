@@ -37,9 +37,8 @@ extern ContainerEntry *container; /* Container table pointer */
 
 extern VrbEntry *vrbs;		/* Verb table pointer */
 extern StxEntry *stxs;		/* Syntax table pointer */
-extern ObjEntry *objs;		/* Object table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
-extern EvtEntry *evts;		/* Event table pointer */
+extern EventEntry *events;	/* Event table pointer */
 extern MsgEntry *msgs;		/* Message table pointer */
 extern Aword *scores;		/* Score table pointer */
 extern Aword *freq;		/* Cumulated frequencies */

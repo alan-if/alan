@@ -14,14 +14,6 @@
 
 /* TYPES: */
 
-typedef enum IdKind {
-  CLASS_ID,
-  INSTANCE_ID,
-  EVENT_ID,
-  VERB_ID
-} IdKind;
-
-
 typedef struct IdNode {		/* ID */
   Srcp srcp;			/* Source position of the identifier */
   char *string;			/* String representation */

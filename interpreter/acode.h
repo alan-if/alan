@@ -229,6 +229,10 @@ typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
 				/* ... or class check if EOS */
 } ElementEntry;
 
+typedef struct EventEntry {	/* EVENT TABLE */
+  Aaddr stringAddress;		/* Address to name string */
+  Aaddr code;		
+} EventEntry;
 
 
 
@@ -255,6 +259,9 @@ typedef struct AcdHdr {
   Aword theHero;		/* The hero instance code (id) */
   Aaddr containerTableAddress;
   Aaddr dictionary;
+  Aaddr eventTableAddress;
+  Aword eventMax;
+
 
 /* Old data follows: */
   Aaddr oatrs;			/* 08 - Object default attributes */
@@ -264,7 +271,6 @@ typedef struct AcdHdr {
 				/* 3.0 Inserted Class and Instance tables */
   Aaddr stxs;			/* 0d - Syntax table */
   Aaddr vrbs;			/* 0e - Verb table */
-  Aaddr evts;			/* 0f - Event table */
   Aaddr ruls;			/* 11 - Rule table */
   Aaddr init;			/* 12 - String init table */
   Aaddr start;			/* 13 - Address to Start code */

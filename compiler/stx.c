@@ -118,8 +118,7 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
     
     stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
     setParameters(verbSymbol, stx->parameters);
-    analyzeRestrictions(stx->restrictionLists,
-			verbSymbol->fields.verb.parameterSymbols);
+    analyzeRestrictions(stx->restrictionLists, verbSymbol);
     setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
     
     /* Link last syntax element to this stx to prepare for code generation */

@@ -61,6 +61,72 @@ static void showatrs(atradr)
 
 
 #ifdef _PROTOTYPES_
+static void showinstances(void)
+#else
+static void showinstances()
+#endif
+{
+  char str[80];
+  int ins;
+
+  output("INSTANCES:");
+  for (ins = 1; ins <= header->instanceMax; ins++) {
+    sprintf(str, "$i%3d: ", ins);
+    output(str);
+    say(ins);
+  }
+}
+
+
+#ifdef _PROTOTYPES_
+static void showinstance(
+  int ins
+)
+#else
+static void showinstance(ins)
+  int ins;
+#endif
+{
+  char str[80];
+
+  if (ins > header->instanceMax) {
+    sprintf(str, "Instance code %d is out of range", ins);
+    output(str);
+    return;
+  }
+
+  output("The \"$$");
+  say(ins);
+  sprintf(str, "$$\" (code = %d) :", ins);
+  output(str);
+
+  sprintf(str, "$iLocation = %ld", where(ins));
+  output(str);
+  if (isLoc(instance[ins].location)) {
+    output("($$");
+    say(instance[ins].location);
+    output("$$)");
+  } else if (isCnt(instance[ins].location)) {
+
+    if (isObj(instance[ins].location))
+      output("in");
+    else if (isAct(instance[ins].location))
+      output("carried by");
+    say(instance[ins].location);
+
+  } else if (instance[ins].location == 0)
+    output("(nowhere)");
+  else
+    output("Illegal location!");
+
+
+  output("$iAttributes =");
+  showatrs(instance[ins].attributes);
+
+}
+
+
+#ifdef _PROTOTYPES_
 static void showobjs(void)
 #else
 static void showobjs()
@@ -70,10 +136,12 @@ static void showobjs()
   int obj;
 
   output("OBJECTS:");
-  for (obj = OBJMIN; obj <= OBJMAX; obj++) {
-    sprintf(str, "$i%3d: ", obj);
-    output(str);
-    say(obj);
+  for (obj = 1; obj <= header->instanceMax; obj++) {
+    if (isObj(obj)) {
+      sprintf(str, "$i%3d: ", obj);
+      output(str);
+      say(obj);
+    }
   }
 }
 
@@ -91,20 +159,23 @@ static void showobj(obj)
 
 
   if (!isObj(obj)) {
-    sprintf(str, "Object number out of range. Between %ld and %ld, please.", OBJMIN, OBJMAX);
+    sprintf(str, "Instance %d is not an object", obj);
     output(str);
     return;
   }
 
-  sprintf(str, "OBJECT %d :", obj);
-  output(str);
+  output("The \"");
   say(obj);
+  sprintf(str, "\" (code = %d) Isa object :", obj);
+  output(str);
 
   sprintf(str, "$iLocation = %ld", where(obj));
   output(str);
-  if (isLoc(instance[obj].location))
+  if (isLoc(instance[obj].location)) {
+    output("($$");
     say(instance[obj].location);
-  else if (isCnt(instance[obj].location)) {
+    output("$$)");
+  } else if (isCnt(instance[obj].location)) {
 
     if (isObj(instance[obj].location))
       output("in");
@@ -113,7 +184,7 @@ static void showobj(obj)
     say(instance[obj].location);
 
   } else if (instance[obj].location == 0)
-    output("nowhere");
+    output("(nowhere)");
   else
     output("Illegal location!");
 
@@ -198,10 +269,12 @@ static void showlocs()
   int loc;
 
   output("LOCATIONS:");
-  for (loc = LOCMIN; loc <= LOCMAX; loc++) {
-    sprintf(str, "$i%3d: ", loc);
-    output(str);
-    say(loc);
+  for (loc = 1; loc <= header->instanceMax; loc++) {
+    if (isLoc(loc)) {
+      sprintf(str, "$i%3d: ", loc);
+      output(str);
+      say(loc);
+    }
   }
 }
 
@@ -219,14 +292,15 @@ static void showloc(loc)
 
 
   if (!isLoc(loc)) {
-    sprintf(str, "Location number out of range. Between %ld and %ld, please.", LOCMIN, LOCMAX);
+    sprintf(str, "Instance %d is not a location.", loc);
     output(str);
     return;
   }
 
-  sprintf(str, "LOCATION %d :", loc);
-  output(str);
+  output("The ");
   say(loc);
+  sprintf(str, "(code = %d) Isa location :", loc);
+  output(str);
 
   output("$iAttributes =");
   showatrs(instance[loc].attributes);
@@ -243,10 +317,12 @@ static void showacts()
   int act;
 
   output("ACTORS:");
-  for (act = ACTMIN; act <= ACTMAX; act++) {
-    sprintf(str, "$i%3d:", act);
-    output(str);
-    say(act);
+  for (act = 1; act <= header->instanceMax; act++) {
+    if (isAct(act)) {
+      sprintf(str, "$i%3d:", act);
+      output(str);
+      say(act);
+    }
   }
 }
 
@@ -264,23 +340,26 @@ static void showact(act)
   Boolean oldstp;
   
   if (!isAct(act)) {
-    sprintf(str, "Actor number out of range. Between %ld and %ld, please.", ACTMIN, ACTMAX);
+    sprintf(str, "Instance %d is not an actor.", act);
     output(str);
     return;
   }
   
-  sprintf(str, "ACTOR %d :", act);
-  output(str);
   oldstp = stpflg; stpflg = FALSE; /* Make sure not to trace this! */
+  output("The \"$$");
   say(act);
+  sprintf(str, "$$\" (code = %d) Isa actor", act);
+  output(str);
   stpflg = oldstp;
 
   sprintf(str, "$iLocation = %ld", instance[act].location);
   output(str);
-  if (isLoc(instance[act].location))
+  if (isLoc(instance[act].location)) {
+    output("($$");
     say(instance[act].location);
-  else if (instance[act].location == 0)
-    output("nowhere");
+    output("$$)");
+  } else if (instance[act].location == 0)
+    output("(nowhere)");
   else
     output("Illegal location!");
 
@@ -296,30 +375,30 @@ static void showact(act)
 
 
 #ifdef _PROTOTYPES_
-static void showevts(void)
+static void showEvents(void)
 #else
-static void showevts()
+static void showEvents()
 #endif
 {
-  int evt, i;
+  int event, i;
   char str[80];
   Boolean scheduled;
 
   output("EVENTS:");
-  for (evt = EVTMIN; evt <= EVTMAX; evt++) {
-    sprintf(str, "$i%d (%s):", evt, (char *)addrTo(evts[evt-EVTMIN].stradr));
+  for (event = 1; event <= header->eventMax; event++) {
+    sprintf(str, "$i%d (%s):", event, (char *)addrTo(events[event].stringAddress));
 #if ISO == 0
     fromIso(str, str);
 #endif
     output(str);
     scheduled = FALSE;
     for (i = 0; i < etop; i++)
-      if ((scheduled = (eventq[i].event == evt)))
+      if ((scheduled = (eventQueue[i].event == event)))
 	break;
     if (scheduled) {
-      sprintf(str, "Scheduled for +%d, at ", eventq[i].time-cur.tick);
+      sprintf(str, "Scheduled for +%d, at ", eventQueue[i].time-cur.tick);
       output(str);
-      say(eventq[i].where);
+      say(eventQueue[i].where);
     } else
       output("Not scheduled.");
   }
@@ -386,9 +465,10 @@ void debug()
     case '?':
       output(alan.longHeader);
       output("$nABUG Commands:\
-      $iO [n] -- show object[s]\
-      $iA [n] -- show actor[s]\
-      $iL [n] -- show location[s]\
+      $iI [n] -- show instance[s]\
+      $iO [n] -- show instances that are object[s]\
+      $iA [n] -- show instances that are actor[s]\
+      $iL [n] -- show instances that are location[s]\
       $iC [n] -- show container[s]\
       $iE -- show events\
       $iG -- go on\
@@ -404,6 +484,12 @@ void debug()
     case 'G':
       restoreInfo();
       return;
+    case 'I':
+      if (i == 0)
+	showinstances();
+      else
+	showinstance(i);
+      break;
     case 'O':
       if (i == 0)
         showobjs();
@@ -429,7 +515,7 @@ void debug()
 	showloc(i);
       break;
     case 'E':
-      showevts();
+      showEvents();
       break;
     case 'S':
       if ((stp = !stp))

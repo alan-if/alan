@@ -42,7 +42,6 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 	       List *stms)	/* IN - Statements to execute */
 {
   EvtNod *new;		/* The newly allocated node */
-  Symbol *sym;		/* Symbol table entry */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -52,15 +51,7 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
   new->id = id;
   new->stms = stms;
   
-  sym = lookup(id->string);
-  if (sym == NULL)
-#ifndef FIXME
-    syserr("UNIMPL: newevt() - symbol code handling");
-#else
-    new->id->code = newsym(id->str, NAMEVT, new);
-#endif
-  else
-    redefined(id, sym);
+  new->id->symbol = newSymbol(id, EVENT_SYMBOL);
 
   return(new);
 }
@@ -94,12 +85,12 @@ void anevts(void)
 
 /*----------------------------------------------------------------------
 
-  geevt()
+  generateEvent()
 
   Generate one event.
 
   */
-static void geevt(EvtNod *evt)	/* IN - The event to generate */
+static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -116,26 +107,31 @@ static void geevt(EvtNod *evt)	/* IN - The event to generate */
 
 /*======================================================================
 
-  geevts()
+  generateEvents()
 
   Generate the events.
 
   */
-Aaddr geevts(void)
+Aaddr generateEvents(AcdHdr *header)
 {
   List *lst;	/* Traversal pointer */
   Aaddr adr;
+  EventEntry entry;
   
   /* First all the events */
   for (lst = adv.evts; lst != NULL; lst = lst->next)
-    geevt(lst->element.evt);
-  
+    generateEvent(lst->element.evt);
+
   adr = emadr();		/* Save address of event table */
   for (lst = adv.evts; lst != NULL; lst = lst->next) {
-    emit(lst->element.evt->namadr);
-    emit(lst->element.evt->stmadr);
+    entry.stringAddress = lst->element.evt->namadr;
+    entry.code = lst->element.evt->stmadr;
+    emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
+
+  header->eventMax = eventCount;
+
   return(adr);
 }
 

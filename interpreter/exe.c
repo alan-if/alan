@@ -28,7 +28,7 @@
 /* PUBLIC DATA */
 
 /* The event queue */
-EvtqEntry eventq[N_EVTS];        /* Event queue */
+EventQueueEntry eventQueue[N_EVTS];        /* Event queue */
 int etop = 0;                   /* Event queue top pointer */
 
 Boolean looking = FALSE;        /* LOOKING? flag */
@@ -259,11 +259,11 @@ void cancl(evt)
   int i;
 
   for(i = etop-1; i>=0; i--)
-    if (eventq[i].event == evt) {
+    if (eventQueue[i].event == evt) {
       while (i < etop-1) {
-	eventq[i].event = eventq[i+1].event;
-	eventq[i].time = eventq[i+1].time;
-	eventq[i].where = eventq[i+1].where;
+	eventQueue[i].event = eventQueue[i+1].event;
+	eventQueue[i].time = eventQueue[i+1].time;
+	eventQueue[i].where = eventQueue[i+1].where;
 	i++;
       }
       etop--;
@@ -288,15 +288,15 @@ void schedule(evt, whr, aft)
   time = cur.tick+aft;
   
   /* Bubble this event down */
-  for (i = etop; i >= 1 && eventq[i-1].time <= time; i--) {
-    eventq[i].event = eventq[i-1].event;
-    eventq[i].time = eventq[i-1].time;
-    eventq[i].where = eventq[i-1].where;
+  for (i = etop; i >= 1 && eventQueue[i-1].time <= time; i--) {
+    eventQueue[i].event = eventQueue[i-1].event;
+    eventQueue[i].time = eventQueue[i-1].time;
+    eventQueue[i].where = eventQueue[i-1].where;
   }
   
-  eventq[i].time = time;
-  eventq[i].where = whr;
-  eventq[i].event = evt;
+  eventQueue[i].time = time;
+  eventQueue[i].where = whr;
+  eventQueue[i].event = evt;
   etop++;
 }
 
@@ -570,6 +570,7 @@ Aword strattr(id, atr)
 
   */
 
+#ifdef FIXME
 #ifdef _PROTOTYPES_
 static Aword objloc(Aword obj)
 #else
@@ -586,6 +587,8 @@ static Aword objloc(obj)
   else
     return(objs[obj-OBJMIN].loc);
 }
+
+#endif
 
 
 #ifdef _PROTOTYPES_
@@ -627,12 +630,14 @@ Aint agrmax(atr, whr)
   Aword i;
   Aint max = 0;
 
-  for (i = OBJMIN; i <= OBJMAX; i++) {
-    if (isLoc(whr)) {
-      if (where(i) == whr && attribute(i, atr) > max)
+  for (i = 1; i <= header->instanceMax; i++) {
+    if (isObj(i)) {
+      if (isLoc(whr)) {
+	if (where(i) == whr && attribute(i, atr) > max)
+	  max = attribute(i, atr);
+      } else if (instance[i].location == whr && attribute(i, atr) > max)
 	max = attribute(i, atr);
-    } else if (objs[i-OBJMIN].loc == whr && attribute(i, atr) > max)
-	max = attribute(i, atr);
+    }
   }
   return(max);
 }
@@ -647,12 +652,14 @@ Aint agrsum(atr, whr)
   Aword i;
   Aint sum = 0;
 
-  for (i = OBJMIN; i <= OBJMAX; i++) {
-    if (isLoc(whr)) {
-      if (where(i) == whr)
+  for (i = 1; i <= header->instanceMax; i++) {
+    if (isObj(i)) {
+      if (isLoc(whr)) {
+	if (where(i) == whr)
+	  sum += attribute(i, atr);
+      } else if (instance[i].location == whr)
 	sum += attribute(i, atr);
-    } else if (objs[i-OBJMIN].loc == whr)
-      sum += attribute(i, atr);
+    }
   }
   return(sum);
 }
@@ -668,12 +675,14 @@ Aint agrcount(whr)
   Aword i;
   Aword count = 0;
 
-  for (i = OBJMIN; i <= OBJMAX; i++) {
-    if (isLoc(whr)) {
-      if (where(i) == whr)
+  for (i = 1; i <= header->instanceMax; i++) {
+    if (isObj(i)) {
+      if (isLoc(whr)) {
+	if (where(i) == whr)
+	  count++;
+      } else if (instance[i].location == whr)
 	count++;
-    } else if (objs[i-OBJMIN].loc == whr)
-	count++;
+    }
   }
   return(count);
 }
@@ -787,7 +796,7 @@ static Abool instanceHere(id)
      Aword obj;
 #endif
 {
-  Aword cnt, owner;
+  Aword owner;
 
   if (isCnt(instance[id].location)) {    /* In something? */
     owner = instance[id].location;
@@ -821,6 +830,7 @@ Aword isHere(id)
   return EOF;
 }
 
+
 /*----------------------------------------------------------------------
 
   isNear()
@@ -834,9 +844,9 @@ static Aword objnear(obj)
      Aword obj;
 #endif
 {
-  if (isCnt(objs[obj-OBJMIN].loc)) {    /* In something? */
-    if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
-      return(isNear(objs[obj-OBJMIN].loc));
+  if (isCnt(instance[obj].location)) {    /* In something? */
+    if (isObj(instance[obj].location) || isAct(instance[obj].location))
+      return(isNear(instance[obj].location));
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
       return(FALSE);
   } else
@@ -1390,8 +1400,8 @@ void save()
 #endif
 
   /* Save the event queue */
-  eventq[etop].time = 0;        /* Mark the top */
-  fwrite((void *)&eventq[0], sizeof(eventq[0]), etop+1, savfil);
+  eventQueue[etop].time = 0;        /* Mark the top */
+  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), etop+1, savfil);
 
   /* Save scores */
   for (i = 0; scores[i] != EOF; i++)
@@ -1488,12 +1498,12 @@ void restore()
   }
 #endif
 
-  /* Restore the eventq */
+  /* Restore the eventQueue */
   etop = 0;
   do {
-    fread((void *)&eventq[etop], sizeof(eventq[0]), 1, savfil);
+    fread((void *)&eventQueue[etop], sizeof(eventQueue[0]), 1, savfil);
     etop++;
-  } while (eventq[etop-1].time != 0);
+  } while (eventQueue[etop-1].time != 0);
   etop--;
 
   /* Restore scores */

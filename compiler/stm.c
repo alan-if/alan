@@ -411,7 +411,7 @@ static void anschedule(StmNod *stm,
 {
   Symbol *sym;
 
-  sym = symcheck(stm->fields.schedule.id, EVENT_ID, NULL);
+  sym = symcheck(stm->fields.schedule.id, EVENT_SYMBOL, NULL);
 
   /* Now lookup where */
   analyzeWhere(stm->fields.schedule.whr, context);
@@ -450,7 +450,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 {
   Symbol *sym;
 
-  sym = symcheck(stm->fields.cancel.id, EVENT_ID, NULL);
+  sym = symcheck(stm->fields.cancel.id, EVENT_SYMBOL, NULL);
 }
 
 

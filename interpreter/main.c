@@ -64,9 +64,8 @@ WrdEntry *dict;			/* Dictionary pointer */
 LocEntry *locs;			/* Location table pointer */
 VrbEntry *vrbs;			/* Verb table pointer */
 StxEntry *stxs;			/* Syntax table pointer */
-ObjEntry *objs;			/* Object table pointer */
 RulEntry *ruls;			/* Rule table pointer */
-EvtEntry *evts;			/* Event table pointer */
+EventEntry *events;		/* Event table pointer */
 MsgEntry *msgs;			/* Message table pointer */
 Aword *scores;			/* Score table pointer */
 Aword *freq;			/* Cumulative character frequencies */
@@ -908,11 +907,13 @@ static int sumatr(atr, cnt)
   int i;
   int sum = 0;
 
-  for (i = OBJMIN; i <= OBJMAX; i++)
-    if (objs[i-OBJMIN].loc == cnt) {	/* Then it's in this container */
-      if (objs[i-OBJMIN].cont != 0)	/* This is also a container! */
-	sum = sum + sumatr(atr, i);
-      sum = sum + attribute(i, atr);
+  for (i = 1; i <= header->instanceMax; i++)
+    if (isObj(i)) {
+      if (instance[i].location == cnt) { /* Then it's in this container */
+	if (instance[i].container != 0)	/* This is also a container! */
+	  sum = sum + sumatr(atr, i);
+	sum = sum + attribute(i, atr);
+      }
     }
   return(sum);
 }
@@ -1146,7 +1147,7 @@ Boolean possible()
       return FALSE;
   
   for (i = 0; params[i].code != EOF; i++) {
-    alt[i+2] = findalt(objs[params[i].code-OBJMIN].vrbs, i+1);
+    alt[i+2] = findalt(instance[params[i].code].verbs, i+1);
     /* CHECKs in a possible parameter */
     if (alt[i+2] != 0 && alt[i+2]->checks != 0)
       if (!trycheck(alt[i+2]->checks, FALSE))
@@ -1353,28 +1354,29 @@ void action(plst)
 
 
 /*----------------------------------------------------------------------
-  eventchk()
+
+  eventCheck()
 
   Check if any events are pending. If so execute them.
   */
 #ifdef _PROTOTYPES_
-static void eventchk(void)
+static void eventCheck(void)
 #else
-static void eventchk()
+static void eventCheck()
 #endif
 {
-  while (etop != 0 && eventq[etop-1].time == cur.tick) {
+  while (etop != 0 && eventQueue[etop-1].time == cur.tick) {
     etop--;
-    if (isLoc(eventq[etop].where))
-      cur.loc = eventq[etop].where;
+    if (isLoc(eventQueue[etop].where))
+      cur.loc = eventQueue[etop].where;
     else
-      cur.loc = where(eventq[etop].where);
+      cur.loc = where(eventQueue[etop].where);
     if (trcflg) {
-      printf("\n<EVENT %d (at ", eventq[etop].event);
+      printf("\n<EVENT %d (at ", eventQueue[etop].event);
       debugsay(cur.loc);
       printf("):>\n");
     }
-    interpret(evts[eventq[etop].event-EVTMIN].code);
+    interpret(events[eventQueue[etop].event].code);
   }
 }
 
@@ -1604,9 +1606,13 @@ static void initheader()
     container--;
   }
 
+  if (header->containerTableAddress != 0) {
+    events = (EventEntry *) addrTo(header->eventTableAddress);
+    events--;
+  }
+
   vrbs = (VrbEntry *) addrTo(header->vrbs);
   stxs = (StxEntry *) addrTo(header->stxs);
-  evts = (EvtEntry *) addrTo(header->evts);
   ruls = (RulEntry *) addrTo(header->ruls);
   msgs = (MsgEntry *) addrTo(header->msgs);
   scores = (Aword *) addrTo(header->scores);
@@ -1882,7 +1888,7 @@ void run(void)
     if (dbgflg)
       debug();
 
-    eventchk();
+    eventCheck();
     cur.tick++;
     (void) setjmp(jmpbuf);
 

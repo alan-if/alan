@@ -174,25 +174,35 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   
   if (verbose) printf("\n\tDictionary: ");
   acdHeader.dictionary = gewrds();	/* Dictionary */
+
   if (verbose) printf("\n\tSyntax Definitions: ");
   acdHeader.stxs = gestxs();	/* Syntax definitions */ 
+
   if (verbose) printf("\n\tVerbs: ");
   acdHeader.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
+
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();
+
   if (verbose) printf("\n\tInstances: ");
   generateInstances(&acdHeader);
+
   if (verbose) printf("\n\tContainers: ");
   acdHeader.containerTableAddress = generateContainers();
 
   if (verbose) printf("\n\tEvents: ");
-  acdHeader.evts = geevts();	/* Events */
+  acdHeader.eventTableAddress = generateEvents(&acdHeader);
+
   if (verbose) printf("\n\tRules: ");
   acdHeader.ruls = geruls();	/* Rules */
+
   acdHeader.scores = gesco();	/* Scores */
+
   acdHeader.maxscore = scotot;	/* Total score */
+
   if (verbose) printf("\n\tMessages: ");
   acdHeader.msgs = gemsgs();	/* Messages */
+
   if (verbose) printf("\n\tCharacter Encoding: ");
   acdHeader.freq = gefreq();	/* Character frequencies */
 

@@ -112,13 +112,13 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
  */
 static void analyzeRestriction(
   ResNod *res,			/* IN - Restriction node to analyze */
-  List *parameterSymbols	/* IN - The syntax parameters as symbols */
+  Symbol *theVerb		/* IN - The verb symbol */
 )
 {
   Symbol *parameter;
   Context context;
 
-  parameter = findParameter(res->parameterId, parameterSymbols);
+  parameter = findParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
 
@@ -142,13 +142,13 @@ static void analyzeRestriction(
  */
 void analyzeRestrictions(
     List *restrictions,		/* IN - List of nodes to analyze */
-    List *parameterSymbols	/* IN - The parameters */
+    Symbol *theVerb		/* IN - The verb */
 )
 {
   List *lst;
 
   for (lst = restrictions; lst != NULL; lst = lst->next)
-    analyzeRestriction(lst->element.res, parameterSymbols);
+    analyzeRestriction(lst->element.res, theVerb);
 }
 
 

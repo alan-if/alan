@@ -48,6 +48,18 @@ if [ $# != 0 ] ; then
     fi
   done
 else
+  for d in *; do
+    if [ -d $d ]
+    then
+	if [ -f $d/regr ]
+	then
+	    echo "Recursing: $d"
+	    cd $d; regr; cd ..
+	    echo "Leaving: $d"
+	fi
+    fi
+  done
+
   for f in *.alan ; do
     case=`basename $f .alan`
     run
@@ -69,4 +81,3 @@ then
 else
   echo "*** $failed failed! ***"
 fi
-
