@@ -102,8 +102,7 @@ static void insertSymbol(SymNod *symbol)
 
   */
 SymNod *newsym(char *string,	/* IN - Name of the new symbol */
-		SymbolKind kind, /* IN - What kind of symbol */
-		void *ref)	/* IN - Reference to the symbols node */
+	       SymbolKind kind) /* IN - What kind of symbol */
 {
   SymNod *new;                  /* The newly created symnod */
   
@@ -115,8 +114,6 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   new->kind = kind;
   new->string = string;
 
-  new->ref.cla = (ClaNod *)ref;
-  
   insertSymbol(new);
 
   switch (kind) {
@@ -158,10 +155,10 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   */
 void initSymbols()
 {
-  SymNod *thing = newsym("thing", CLASS_SYMBOL, NULL);
-  SymNod *object = newsym("object", CLASS_SYMBOL, NULL);
-  SymNod *actor = newsym("actor", CLASS_SYMBOL, NULL);
-  SymNod *location = newsym("location", CLASS_SYMBOL, NULL);
+  SymNod *thing = newsym("thing", CLASS_SYMBOL);
+  SymNod *object = newsym("object", CLASS_SYMBOL);
+  SymNod *actor = newsym("actor", CLASS_SYMBOL);
+  SymNod *location = newsym("location", CLASS_SYMBOL);
 
   setParent(location, thing);
   setParent(object, thing);

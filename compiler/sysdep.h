@@ -92,6 +92,7 @@
 #define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #endif
 
 #ifdef __vms__

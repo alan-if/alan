@@ -59,7 +59,7 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol->code = newsym(lst->element.id->string, VERB_SYMBOL, new);
+      lst->element.id->symbol->code = newsym(lst->element.id->string, VERB_SYMBOL);
       lst->element.id->kind = VERB_ID;
     } else if (sym->kind == VERB_SYMBOL) {
       lst->element.id->symbol->code = sym->code;

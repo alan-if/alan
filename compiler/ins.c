@@ -26,7 +26,7 @@
   */
 InsNod *newins(Srcp *srcp,	/* IN - Source Position */
 	       IdNod *id,
-	       List *heritage,
+	       IdNod *heritage,
 	       Slots *slt)
 {
   InsNod *new;                  /* The newly allocated area */
@@ -81,6 +81,6 @@ void dumpInstance(InsNod *ins)
 {
   put("INS: "); dusrcp(&ins->srcp); in();
   put("id: "); dumpId(ins->id); nl();
-  put("heritage: "); dulst(ins->heritage, LIST_NAM); nl();
+  put("heritage: "); dumpId(ins->heritage); nl();
   put("slots: "); dumpSlots(ins->slt); nl();
 }

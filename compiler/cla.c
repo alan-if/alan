@@ -46,7 +46,7 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new->heritage = heritage;
   new->slt = slt;
 
-  new->symbol = newsym(id->string, CLASS_SYMBOL, new);
+  new->symbol = newsym(id->string, CLASS_SYMBOL);
 
   allClasses = concat(allClasses, new, LIST_CLA);
 

@@ -42,41 +42,35 @@ static char symbolName3[] = "p-is-higher";
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {
-  int x;
-  SymNod *sym1 = newsym(symbolName1, CLASS_SYMBOL, &x);
+  SymNod *sym1 = newsym(symbolName1, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName1);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName1) == 0);
   unitAssert(sym2->kind == CLASS_SYMBOL);
-  unitAssert(sym2->ref.cla == (struct ClaNod *)&x);
 }
 
 
 /* Test symbol table by inserting a symbol with a higher name */
 void testBuildSymbolHigher()
 {
-  int x;
-  SymNod *sym1 = newsym(symbolName2, CLASS_SYMBOL, &x);
+  SymNod *sym1 = newsym(symbolName2, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName2);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName2) == 0);
   unitAssert(sym2->kind == CLASS_SYMBOL);
-  unitAssert(sym2->ref.cla == (struct ClaNod *)&x);
 }
 
 /* Test symbol table by inserting a symbol with a lower name */
 void testBuildSymbolLower()
 {
-  int x;
-  SymNod *sym1 = newsym(symbolName3, CLASS_SYMBOL, &x);
+  SymNod *sym1 = newsym(symbolName3, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName3);
 
   unitAssert(sym1 == sym2);
   unitAssert(strcmp(sym2->string, symbolName3) == 0);
   unitAssert(sym2->kind == CLASS_SYMBOL);
-  unitAssert(sym2->ref.cla == (struct ClaNod *)&x);
 }
 
 /* Test inheritance by setting it and retrieving it */
@@ -159,14 +153,19 @@ void testCreateCla()
   Srcp srcp = {12,3,45};
   IdNod *id = newid(&srcp, "cla");
   IdNod *heritage = newid(&nulsrcp, "object");
-  ClaNod *cla = newcla(&srcp, id, heritage, NULL);
-  SymNod *sym, *obj = lookup("object");
+  SymNod *sym, *obj;
+
+  (void) newcla(&srcp, id, heritage, NULL);
 
   symbolizeClasses();
 
   sym = lookup("cla");
+  obj = lookup("object");
 
-  unitAssert(sym && sym->ref.cla == cla);
+  unitAssert(sym);
+  unitAssert(obj);
+  unitAssert(strcmp(sym->string, "cla") == 0);
+  unitAssert(strcmp(obj->string, "object") == 0);
   unitAssert(inheritsFrom(sym, obj));
 }
 

@@ -21,8 +21,9 @@
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
   struct IdNod *id;		/* Name of the instance */
-  List *heritage;		/* The instances heritage */
-  Slots *slt;			/* Slots */
+  struct SymNod *symbol;	/* Pointer to symbol table node */
+  struct IdNod *heritage;	/* The instances heritage */
+  struct Slots *slt;		/* Slots */
 } InsNod;
 
 
@@ -35,8 +36,8 @@ extern int instanceCount;
 
 /* Create a new Instance node */
 extern InsNod *newins(Srcp *srcp,
-		      struct IdNod *id,
-		      List *heritage,
+		      IdNod *id,
+		      IdNod *heritage,
 		      Slots *slt);
 
 /* Analyze all Instances */

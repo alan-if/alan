@@ -31,10 +31,6 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
   int code;			/* Internal code for this symbol in its kind */
   struct SymNod *low, *high;	/* Links to build a binary search tree */
   union {
-    struct ClaNod *cla;
-    struct InsNod *ins;
-  } ref;
-  union {
     struct {
       struct SymNod *parent;
     } cla;
@@ -59,8 +55,7 @@ extern void redefined(Srcp *srcp,
 
 /* Create a new symbol node */
 extern SymNod *newsym(char str[],
-		      SymbolKind kind,
-		      void *ref);
+		      SymbolKind kind);
 
 /* Initialise the symbol table with predefined classes etc. */
 extern void initSymbols();
