@@ -285,6 +285,7 @@ mac:
 
 amiga:
 #	make NONANSI
+	make src
 	lha u compiler.lha *.c *.h Makefile Makefile.amiga dependencies.mk
 
 pc:
