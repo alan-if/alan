@@ -1,5 +1,5 @@
 -- global.i
--- Library version 0.4.1
+-- Library version 0.5.0
 
 -- 0.4.1 -- due to ALANv3 changes:
 --          added definition of 'hero' (the player character) as a
