@@ -1,16 +1,16 @@
 -- invent.i
--- Library version 0.1
+-- Library version 0.1, 0.2
 
 
 SYNONYMS
-	i, inventory = invent.
+    i, inventory = invent.
 
 SYNTAX
-	invent = invent.
+    invent = invent.
 
 VERB invent
-	DOES
-		LIST inventory.
+    DOES
+	LIST inventory.
 END VERB invent.
 
 

@@ -1,5 +1,5 @@
 -- take.i
--- Library version 0.1
+-- Library version 0.2
 
 DEFAULT ATTRIBUTES
     InAnimate.
@@ -24,11 +24,11 @@ SYNTAX
 SYNTAX
     pick_up1 = pick up (obj)*
 	WHERE obj ISA OBJECT
-	    ELSE "You can't take people with you!"
+	    ELSE "You can't take that with you!"
 
     pick_up2 = pick (obj)* up
 	WHERE obj ISA OBJECT
-	    ELSE "You can't take people with you!"
+	    ELSE "You can't take that with you!"
 
 
 VERB take, pick_up1, pick_up2
@@ -47,18 +47,13 @@ SYNONYMS
     discard = drop.
 
 SYNTAX
-    drop = drop (obj) *.
+    drop = drop (obj)*.
 
 SYNTAX
-    put_down1 = put (obj) * down
-	WHERE obj ISA OBJECT
-	    ELSE "You can't put that anywhere."
-
+    put_down1 = put (obj) * down.
 
 SYNTAX
-    put_down2 = put down (obj) * 
-	WHERE obj ISA OBJECT
-	    ELSE "You can't put that anywhere."
+    put_down2 = put down (obj)*.
 
 
 VERB drop, put_down1, put_down2
@@ -80,18 +75,20 @@ SYNTAX
 
 VERB take_from
     CHECK obj NOT IN Inventory
-        ELSE "You already have the $1"
+        ELSE "You already have the $1."
     DOES
         IF holder=hero THEN
             "You can't take things from yourself!"
         ELSIF holder IS InAnimate THEN
             "You take the"
             SAY obj.
+	    "$$."
             LOCATE obj IN Inventory.
         ELSE    
             SAY holder.
             "won't let you take the"
             SAY obj.
+	    "$$."
         END IF.
 END VERB.
 

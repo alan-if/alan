@@ -1,5 +1,5 @@
 -- throw.i
--- Library version 0.1
+-- Library version 0.1, 0.2
 
 
 SYNONYMS
@@ -30,7 +30,7 @@ SYNTAX
 
     throw_to = throw (obj1) 'to' (obj2)
 	WHERE obj1 ISA OBJECT
-	    ELSE "You can't be seriuos."
+	    ELSE "You can't be serious."
 	AND obj2 ISA OBJECT OR ACTOR
 	    ELSE "You can't throw anything at that."
 

@@ -1,5 +1,5 @@
 -- examine.i
--- Library version 0.1
+-- Library version 0.2
 
 
 DEFAULT ATTRIBUTES
@@ -27,6 +27,6 @@ VERB examine, look_at, search
     CHECK obj IS examinable
 	ELSE "You can't examine that!"
     DOES
-	"There is nothing special about $o."
+	"There is nothing special about the $o."
 END VERB.
 

@@ -1,5 +1,5 @@
 -- touch.i
---
+-- Library version 0.1, 0.2
 
 OBJECT ATTRIBUTES
     NOT touchable.

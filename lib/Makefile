@@ -1,22 +1,19 @@
-VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
+#VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
+VERSION = `grep alanlib_versionString alanlib.version.imp | sed -e s/^\\.*\\(\\"// -e s/\\"\\)$$// | sed -e s/\\\\./_/g`
 
 all: version
 	@echo Building Alan Standard Library version $(VERSION)
 	@-rm *.tgz *.zip *.tar.Z
-	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe
-	@zip alanlib$(VERSION).zip *.i ReadMe
+	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
+	@wzzip alanlib$(VERSION).zip *.i ReadMe index.txt
 	@cp *.zip *.tar.Z ../../www/download
 	@cp ReadMe ../../www/download/library.txt
-	@venum +c
+	@venum correction
 	@make newVersion
 
-version: version.sh
-	-rm [0-9]*_[0-9]*_[0-9]*
-	sh version.sh
+version:
+	venum alanlib time -output imp
+	echo version = \"$(VERSION)\"
 
 newVersion:
-	echo "cat > `ls [0-9]*_[0-9]*_[0-9]*.* ` <<EOF" > version.sh
-	echo "AlanLib" >> version.sh
-	echo "Alan Standard Library" >> version.sh
-	echo "EOF" >> version.sh
-	cvs commit -m 'New Version' version.sh
+	cvs commit -m 'New Version' alanlib.version

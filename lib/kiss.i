@@ -1,5 +1,5 @@
 -- kiss.i
--- Library version 0.1
+-- Library version 0.1, 0.2
 
 SYNTAX
     kiss = kiss (obj)
@@ -14,6 +14,7 @@ DOES
         IF obj IS InAnimate THEN
             "You kiss the"
             SAY obj.
+	    "$$."
         ELSE    
             SAY obj.
             "avoids your advances."

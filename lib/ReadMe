@@ -1,8 +1,30 @@
 Alan Library
 ------------
 
-These files constitute the start of a proposed Alan library. Its
-primary merit at this time is the proposed structure.
+These files are the proposed Alan standard library version 0.2.
+
+Files which are exactly the same as (or completely compatible with)
+library version 0.1 have the following in their second line:
+
+	-- Library version 0.1, 0.2
+
+Files which are changed so that they are not *exactly* compatible have
+only:
+
+	-- Library version 0.2
+
+This might make it easier to decide if a new version of the library
+will affect your work. Note however that even very small incompatible
+changes are considered *incompatible*. One example in this version is
+the introduction of one single "the" in a message. This might seem
+trivial but might change the appearance of the message if the author
+had made allowance for this deficency in his work.
+
+You can find an index of sorts in the file 'index.txt'.
+
+
+
+About the structure of the library
 
 The library consists of a set of files each focusing on one aspect of
 player commands or actions. One such file should contain everything

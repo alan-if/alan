@@ -1,0 +1,142 @@
+General comments
+----------------
+I'm thinking of the standard library as remaining simple and general.
+Stuff like handling light and darkness and other such things in
+chapter six of manual could be added but then it would make using the
+library much harder for beginners.
+
+I like the split into separate files. It gives structure and helps an
+author isolate their own customisation from the standard library. There
+are disadvantages when trying to find particular items though. (Especially
+for people like me without an editor that can open and search all the
+separate files simultaneously.)
+
+Perhaps some sort of index would be handy especially if the library
+gets much bigger. Something documenting all the default attributes,verbs
+etc in one list somewhere, eg:
+-- OBJECT ATTRIBUTES
+-- Closeable    -- Open.i
+-- Open         -- Open.i
+-- On           -- Turn.i
+
+Especially useful for finding verbs like 'Put_...' which I'd have
+sprayed all over library - mostly in put.i but put_down would be in take.i
+coz its synonomous with 'drop' amd put_on in wear.i (as in "put on hat" as
+opposed to put_on as in "put hat on hat-stand")
+
+       
+
+My Changes to 0.0(2)
+--------------------
+(Changes that I expect may be controversial have been marked with ***
+
+I made some comments about things that I didn't change, the points that
+are only comments have "(no change made)" at the end.)
+
+
+
+std.i
+-----
+    - added filename and space for version info at top of each file (useful
+    if concatenate all the files into one perhaps to print or global search)
+    - list verbs in each file if not the in the file's name
+    - added $include for read.i and put.i
+    - added turn.i for switching things off and on
+    - added new files talk, give.i (for NPC interaction)
+    *** added new files attack, kiss.i (in most games I get frustrated enough
+    to hit something or bored enough to kiss someone at some stage in a game.)
+    *** I looked through standard.ala. I found verbs in there that I did
+    NOT want to add to std.i. (no change made) But maybe they should be
+    included :
+            - wear/put on and remove/take off clothes (coz while its easy to
+            do 'put on hat' its not so easy to program the need to put socks
+            on before shoes etc)
+            - play,play_with, pull
+            - light, extinguish, put out (light source object)
+
+
+take.i
+------
+    - concerned about 'can't take people' msg in case the actors aren't
+    people (could be monsters, animals); can't think of anything good to
+    replace it with though - just "You can only take objects."  (no change made) 
+    - combined the pickup verbs with take as definition is the same
+    - changed "u" to "up" in syntax of pick_up verbs to match the
+    redefinition of direction words in nowhere.i
+    ***added put down verbs as alternatives to drop, syntax definitions are
+    in put.i with the other put verbs (a bit of an awkward arrangement)
+    ***added take_from (from container object or actor)
+
+open.i
+------
+    - is it necessary to have openable AND closeable attributes? I'm trying
+    to think of something that could be one but not the other. I think you
+    could just test the closeable attribute to see if something can be
+    opened (no change made) 
+    - same concern about assuming non-objects are people as take.i  (no change made) 
+    - changed 'close' to 'open' in 2nd class-check msg for open_with syntax
+
+lock.i
+------
+    - why have check obj here when its an Alan default check? I couldn't
+    think why so I took the checks out
+    ***added checks for whether the key was in inventory
+    - added a DOES section to the _with verbs
+
+throw.i
+-------
+    ***what is the UNLESS doing in these verbs, its commented out so I just
+    removed them to be tidy
+
+push.i
+------
+    - the verbs do nothing, maybe should have default "You push the $1"
+    response even if the only reason is so newbie authors know something
+    happened. I presume you're presuming that every push will need to
+    be handled as a special case within an object or whatever.(no change made)
+
+touch.i
+-------
+    - as with push, the verbs do nothing, maybe should have default
+    "You touch the $1" response (no change made)
+
+examine.i
+---------
+    - added x as synonym
+    - added 'look at' as verb alternative for examine
+    - added search synonym for examine, maybe should be separate but
+    synonomous verb?
+    ***disabled "examine all", ie:removed multiple indicator from examine
+    and look_at
+
+give.i
+------
+    - added this verb
+
+turn.i
+------
+    - have created both "turn on" and "switch on" verbs rather than make
+    switch a synonym for turn coz are likely to also have a "turn (obj)"
+    verb where "turn" = "rotate"
+
+help.i
+------
+    - added hint, credits verbs
+
+nowhere.i
+---------
+    ***changed the directions to full words and the synonyms to
+    abbreviations, a personal preference, mainly so verbs like
+    pick up (obj) can be be defined as such rather than pick u (obj)
+
+
+talk.i
+------
+    - new file with some basic ask/tell verbs (done quickly so its
+    particularly ugly, sorry)
+
+
+meta.i
+------
+    - added restart, again and undo verbs
+
