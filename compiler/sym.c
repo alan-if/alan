@@ -264,7 +264,10 @@ SymNod *symcheck(		/* OUT - Found symbol */
     List *pars			/* IN - Possible parameters valid in this context */
     )
 {
-  syserr("UNIMPL: symcheck() - body");
+  SymNod *sym = lookup(string);
+
+  if (!sym)
+    lmLog(
   return NULL;
 }
 

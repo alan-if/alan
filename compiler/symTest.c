@@ -39,6 +39,15 @@ static char symbolName1[] = "n-is-in-the-middle";
 static char symbolName2[] = "b-is-lower";
 static char symbolName3[] = "p-is-higher";
 
+
+void testSymCheck()
+{
+  ElmNod *elm;
+  SymNod *sym = symcheck(&elm, "unknown", CLASS_SYMBOL, NULL);
+
+  unitAssert(sym == NULL);
+}
+
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {

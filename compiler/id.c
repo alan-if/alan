@@ -44,39 +44,18 @@ IdNode *newId(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
-  idcheck()
-
-  Check if an identifier is known, if so return its symbol else give an error
-  message indicating what it should have been. Also check the possible
-  parameters, if any of those match use it instead. Will set elm if it
-  was a parameter.
-
-  */
-SymNod *idcheck(		/* OUT - Found symbol */
-    ElmNod **elm,               /* OUT - Found parameter  */
-    IdNode *id,			/* IN - The name to check */
-    IdKind kinds,		/* IN - A set of allowed symbol kinds */
-    List *pars                  /* IN - Possible parameters valid in this context */
-)
-{
-  syserr("UNIMPL: idcheck() - body"); return NULL;
-}
-
-
-/*======================================================================
-
   equalId()
 
   Check if two ids matches.
 
   */
-Bool equalId(IdNode *id1,	/* IN - The first id */
-	     IdNode *id2)	/* IN - Second id */
+Bool equalId(IdNode *id1,
+	     IdNode *id2)
 {
   if (id1 && id2)
     return (strcmp(id1->string, id2->string) == 0);
   else
-    syserr("ID == NULL in eqids()");
+    syserr("ID == NULL in equalId()");
   return FALSE;
 }
 

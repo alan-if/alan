@@ -14,7 +14,7 @@ static int passed = 0;
 static int failed = 0;
 
 /* Assert a particular test */
-#define unitAssert(x) ({(x)?passed++:failed++; unitReportProgress(failed, passed);})
+#define unitAssert(x) ({(x)?passed++:fail(),failed++; unitReportProgress(failed, passed);})
 
 
 /* Run the tests in the test case array*/
@@ -30,6 +30,10 @@ static void unitTest(void)
   else
     printf("\n%d of %d cases FAILED!!\n", failed, passed+failed);
 }
+
+
+static void fail()
+{}
 
 
 static void unitReportProgress(failed, passed)

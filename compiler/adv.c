@@ -66,6 +66,7 @@ void initadv(void)
 
 
 
+#ifdef FIXME
 /*----------------------------------------------------------------------
 
   prepcodes()
@@ -75,7 +76,6 @@ void initadv(void)
   */
 static void prepcodes(void)
 {
-#ifdef FIXME
   objmin = 1;
   objmax = objmin + objcount - 1;
   actmin = objmax + 1;
@@ -92,8 +92,8 @@ static void prepcodes(void)
   evtmax = evtmin + evtcount - 1;
   rulmin = 1;
   rulmax = rulmin + rulcount - 1;
-#endif
 }
+#endif
 
 
 /*----------------------------------------------------------------------
@@ -103,15 +103,14 @@ static void prepcodes(void)
 */
 static void analyzeStartAt(void)
 {
+  SymNod *sym;
+  ElmNod *elm;
+
   if (adv.whr != NULL) 
     switch (adv.whr->whr) {
     case WHR_AT:
       if (adv.whr->wht->wht == WHT_ID)
-#ifdef FIXME
-	check(&sym, &elm, adv.whr->wht->id, NAMLOC, NAMANY, NULL);
-#else
-      ;
-#endif
+	sym = symcheck(&elm, adv.whr->wht->id->string, INSTANCE_SYMBOL, NULL);
       else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;
