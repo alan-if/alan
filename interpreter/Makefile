@@ -8,8 +8,6 @@ CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 
-purify:=		CC = acc -Xc -vc
-debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(GCC)
@@ -47,7 +45,7 @@ LIB = arun.a
 #-- MAIN TARGET
 debug all: arun
 
-debug:=	DEBUG= -g
+debug purify:=	DEBUG= -g
 all:=	DEBUG= -O
 
 arun: $(OBJECTS) $(MAINOBJ) version.o Makefile
