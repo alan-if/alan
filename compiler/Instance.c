@@ -67,7 +67,7 @@ void initInstances(void)
 void initInstances()
 #endif
 {
-  /* 4f - initialise the predefines instances */
+  /* 4f - initialise the predefined instances (hero, inventory?) */
 }
 
 

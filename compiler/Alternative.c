@@ -10,8 +10,10 @@
 #include "types.h"
 
 #include "Alternative.h"
-#include "Statement.h"
+#include "Check.h"
+#include "Element.h"
 
+#include "lmList.h"
 #include "dump.h"
 
 
@@ -65,7 +67,22 @@ void analyseAlternative(alternative, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - Analyse alternative */
+  List *list;
+
+  /* Verify that the ID is in the parameter list */
+  if (alternative->id != NULL) {
+    /* Alternatives given, find out which one */
+    for (list = parameters; list != NULL; list = list->next)
+      if (equalIds(list->element.element->id, alternative->id))
+	break;
+    if (list == NULL)
+      lmLog(&alternative->id->srcp, 214, sevERR, alternative->id->string);
+    else
+      alternative->code = list->element.element->code;
+  } 
+
+  analyseChecks(alternative->checks, parameters);
+  analyseDoes(alternative->does, parameters);
 }
 
 

@@ -9,9 +9,11 @@
 #include "alan.h"
 
 #include "Slot.h"
-#include "Class.h"
+
 #include "Attribute.h"
+#include "Class.h"
 #include "Exit.h"
+#include "Name.h"
 #include "Script.h"
 #include "Statement.h"
 #include "Symbol.h"
@@ -159,7 +161,9 @@ void analyseSlot(id, slot)
       localAttributes->element.attribute->code = attribute->code;
   }
 
-  /* 4f - Analyse the name */
+  /* Analyse the name */
+  if (slot->name)
+    analyseName(slot->name);
 
   /* Analyse the where */
   if (slot->where)
@@ -169,7 +173,7 @@ void analyseSlot(id, slot)
   if (slot->container) {
     if (!anyIsA(slot->heritage, "container"))
       lmLogv(&slot->container->srcp, 223, sevERR, id->string, "container", NULL);
-    analyseContainer(slot->container);
+    analyseContainer(slot->container, slot->attributes, slot->inheritedAttributeLists);
   }
 
   /* Analyse the surroundings */

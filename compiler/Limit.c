@@ -10,6 +10,7 @@
 #include "Limit.h"
 
 #include "Statement.h"
+#include "Class.h"
 
 #include "lmList.h"
 #include "dump.h"
@@ -47,19 +48,19 @@ Limit *newLimit(srcp, attribute, statements)
 }
 
 
-/*======================================================================
+/*----------------------------------------------------------------------
 
   analyseLimit()
 
-  Analyze a LIMIT.
+  Analyze a LIMIT. Only OBJECTS can be in a container, so limits can
+  only refer attributes for all OBJECTS.
 
  */
 #ifdef _PROTOTYPES_
-void analyseLimit(Limit *limit, Slot *slot)
+static void analyseLimit(Limit *limit)
 #else
-void analyseLimit(limit, slot)
+static void analyseLimit(limit)
      Limit *limit;
-     Slot *slot;
 #endif
 {
   Attribute *attribute, *a;
@@ -69,7 +70,9 @@ void analyseLimit(limit, slot)
   if (strcmp(attribute->id->string, "count") == 0)
     attribute->code = 0;		/* Use zero for the COUNT attribute */
   else {
-    a = findInheritedAttribute(attribute->id, slot);
+    /* Only OBJECT attributes are allowed in the limits */
+    a = findAttribute(attribute->id, objectClass->slot->attributes,
+		      objectClass->slot->inheritedAttributeLists);
     if (a == NULL)
       lmLog(&attribute->srcp, 407, sevERR, "");
     else if (attribute->type != INTEGER_TYPE)
@@ -79,6 +82,39 @@ void analyseLimit(limit, slot)
   }
 
   analyseStatements(limit->statements, NULL, NULL);
+}
+
+
+
+/*======================================================================
+
+  analyseLimits()
+
+  Analyze a list of LIMITs.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseLimits(List *limits)
+#else
+void analyseLimits(limits)
+     List *limits;
+#endif
+{
+  List *list, *other;
+  
+
+  for (list = limits; list != NULL; list = list->next) {
+    /* Analyse the limit */
+    analyseLimit(list->element.limit);
+    /* Verify that the attributes are not multiply used */
+    for (other = list->next; other; other = other->next)
+      if (equalIds(list->element.limit->attribute->id,
+		   other->element.limit->attribute->id)) {
+	lmLog(&other->element.limit->attribute->id->srcp, 219, sevERR,
+	      other->element.limit->attribute->id->string);
+	break;
+      }
+  }
 }
 
 

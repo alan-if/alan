@@ -59,16 +59,13 @@ extern void addDefaultAttributes(List *locationAttributes,
 				 List *objectAttributes,
 				 List *actorAttributes);
 
-/* Find a particular attribute in a list */
+/* Find a particular attribute in a list, or possibly inherited lists */
 extern Attribute *findAttribute(Id *id,
-				List *attributes);
+				List *attributes,
+				List *lists);
 
 /* Find an attribute id in a list of attribute lists */
 extern Attribute *findAttributeInLists(Srcp *srcp, Id *id, List *lists);
-
-/* Find a particular attribute in a list */
-extern Attribute *findInheritedAttribute(Id *id,
-					 Slot *slot);
 
 /* Collect all attributes inherited from a slot */
 extern void inheritAttributes(Slot *slot,

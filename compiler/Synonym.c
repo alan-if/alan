@@ -52,14 +52,13 @@ Synonym *newSynonym(srcp, synonyms, id)
 
  */
 #ifdef _PROTOTYPES_
-void analyseSynonym(Synonym *synonym, List *parameters)
+void analyseSynonym(Synonym *synonym)
 #else
-void analyseSynonym(synonym, parameters)
+void analyseSynonym(synonym)
      Synonym *synonym;
-     List *parameters;
 #endif
 {
-  /* 4f - Analyse synonyms */
+  /* 4f - Analyse a synonym node */
 }
 
 

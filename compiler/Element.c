@@ -55,11 +55,9 @@ Element *newElement(srcp, kind, id, multiple)
 
  */
 #ifdef _PROTOTYPES_
-List *analyseElements(List *elements, List *restrictions, Syntax *syntax)
+List *analyseElements(Syntax *syntax)
 #else
-List *analyseElement(elements, restrictions, syntax)
-     List *elements;
-     List *restrictions;
+List *analyseElement(syntax)
      Syntax *syntax;
 #endif
 {

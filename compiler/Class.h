@@ -30,6 +30,12 @@ typedef struct Class {		/* Class Node */
 /* Pseudo constants for the predefined classes */
 extern int THING_CLASS, LOCATION_CLASS, OBJECT_CLASS, ACTOR_CLASS, CONTAINER_CLASS;
 
+extern Class *thingClass;
+extern Class *objectClass;
+extern Class *actorClass;
+extern Class *locationClass;
+extern Class *containerClass;
+
 
 /* Functions: */
 #ifdef _PROTOTYPES_

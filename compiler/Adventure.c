@@ -124,8 +124,12 @@ void analyseAdventure()
     analyseRule(list->element.rule);
   }
 
-  /* 4f - Analyse the synonyms */
+  /* Analyse the synonyms */
   if (verbose) printf("\n\tSynonyms");
+  for (list = adventure.synonyms; list; list = list->next) {
+    if (verbose) printf(".");
+    analyseSynonym(list->element.synonym);
+  }
   if (verbose) printf("\n");
 
   /* Analyse the start section */

@@ -59,13 +59,18 @@ Container *newContainer(srcp, limits, header, empty)
 
  */
 #ifdef _PROTOTYPES_
-void analyseContainer(Container *container)
+void analyseContainer(Container *container, List *attributes, List *inheritedAttributeLists)
 #else
-void analyseContainer(container)
+void analyseContainer(container, attributes, inheritedAttributeLists)
      Container *container;
+     List *attributes;
+     List *inheritedAttributeLists;
 #endif
 {
-  /* 4f - Analyse container */
+  /* Analyse container properties */
+  analyseLimits(container->limits);
+  analyseStatements(container->header, NULL, NULL);
+  analyseStatements(container->empty, NULL, NULL);
 }
 
 

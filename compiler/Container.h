@@ -40,7 +40,9 @@ extern Container *newContainer(Srcp *srcp,
 			       List *emptyStatements);
 
 /* Analyse one Container */
-extern void analyseContainer(Container *container);
+extern void analyseContainer(Container *container,
+			     List *attributes,
+			     List *inheritedAttributeLists);
 
 /* Generate code for all Containers */
 extern void generateContainer(Container *container);

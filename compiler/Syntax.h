@@ -22,6 +22,7 @@
 typedef struct Syntax {		/* SYNTAX */
   Srcp srcp;			/* Source position of this syntax */
   Id *id;			/* Name of the verb */
+  int code;			/* The verb code */
   List *elements;		/* List of elements */
   List *restrictions;		/* List of class restrictions */
   List *parameters;		/* AN - List of parameters */

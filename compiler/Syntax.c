@@ -8,7 +8,11 @@
 
 
 #include "Syntax.h"
+
+#include "Element.h"
+#include "Restriction.h"
 #include "Statement.h"
+#include "Symbol.h"
 
 #include "lmList.h"
 #include "dump.h"
@@ -63,7 +67,24 @@ void analyseSyntax(syntax)
      Syntax *syntax;
 #endif
 {
-  /* 4f - Analyse syntax */
+  Symbol *symbol;
+  List *list;
+
+  /* Find which verb it defines */
+  symbol = lookup(syntax->id->string);
+  if (symbol == NULL)
+    lmLog(&syntax->id->srcp, 207, sevWAR, syntax->id->string);
+  else if (symbol->kind == VERB_SYMBOL)
+    syntax->code = symbol->code;
+  else if (symbol->kind != ERROR_SYMBOL)
+    lmLog(&syntax->id->srcp, 208, sevWAR, syntax->id->string);
+
+  syntax->parameters = analyseElements(syntax);
+  analyseRestrictions(syntax->restrictions, syntax->parameters);
+
+  /* Link the last syntax element to this syntax node for code generation */
+  for (list = syntax->elements; list->next; list = list->next);
+  list->element.element->syntax = syntax;
 }
 
 

@@ -76,19 +76,23 @@ Attribute *newAttribute(srcp, type, id, value, fpos, len)
  */
 #ifdef _PROTOTYPES_
 Attribute *findAttribute(Id *id, /* IN - The attribute id to find */
-			 List *attributes) /* IN - List of attribute nodes */
+			 List *attributes, /* IN - List of attribute nodes */
+			 List *lists) /* IN - Lists of inherited attributes */
 #else
-Attribute *findAttribute(id, attributes)
+Attribute *findAttribute(id, attributes, lists)
      Id *id;
      List *attributes;
+     List *lists;
 #endif
 {
   List *list;
+  Attribute *attribute;
 
   for (list = attributes; list; list = list->next)
     if (equalIds(id, list->element.attribute->id))
       return (list->element.attribute);
-  return NULL;
+  attribute = findAttributeInLists(&attribute->id->srcp, id, lists);
+  return attribute;
 }
 
 
@@ -115,7 +119,7 @@ Attribute *findAttributeInLists(srcp, id, lists)
   Attribute *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found1 = findAttribute(id, list->element.list);
+    found1 = findAttribute(id, list->element.list, NULL);
     if (found2)
       if (found1 != found2) {
 	lmLogv(srcp, 229, sevERR, "attribute", id->string);
@@ -124,34 +128,6 @@ Attribute *findAttributeInLists(srcp, id, lists)
     found2 = found1;
   }
   return (found1);
-}
-
-
-
-/*======================================================================
-
-  findInheritedAttribute()
-
-  Find an attribute by looking in local or inherited lists.
-
- */
-#ifdef _PROTOTYPES_
-Attribute *findInheritedAttribute(Id *id, /* IN - The attribute id to find */
-				  Slot *slot) /* IN - The slot to invenstigate */
-#else
-Attribute *findInheritedAttribute(id, slot)
-     Id *id;
-     Slot *slot;
-#endif
-{
-  Attribute *attribute;
-
-  attribute = findAttribute(id, slot->attributes);
-  if (attribute == NULL)
-    attribute = findAttributeInLists(&attribute->id->srcp, id,
-				     slot->inheritedAttributeLists);
-
-  return attribute;
 }
 
 

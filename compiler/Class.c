@@ -19,6 +19,17 @@
 /* Pseudo constants for the predefined classes */
 int THING_CLASS, LOCATION_CLASS, OBJECT_CLASS, ACTOR_CLASS, CONTAINER_CLASS;
 
+/* PUBLIC */
+
+Class *thingClass;
+Class *objectClass;
+Class *actorClass;
+Class *locationClass;
+Class *containerClass;
+
+
+
+
 
 /* PRIVATE */
 
@@ -71,14 +82,8 @@ void initClasses(void)
 void initClasses()
 #endif
 {
-  Class *thing;
-  Class *object;
-  Class *location;
-  Class *actor;
-  Class *container;
-
   /* Create THING class */
-  thing = newClass(&nullSrcp,
+  thingClass = newClass(&nullSrcp,
 		   newId(&nullSrcp,
 			 "thing"),
 		   newSlot( NULL,	/* heritage */
@@ -93,10 +98,10 @@ void initClasses()
 			   NULL,	/* exits */
 			   NULL,	/* verbs */
 			   NULL));	/* scripts */
-  THING_CLASS = thing->code;
+  THING_CLASS = thingClass->code;
 
   /* Create OBJECT class */
-  object = newClass(&nullSrcp,
+  objectClass = newClass(&nullSrcp,
 		    newId(&nullSrcp,
 			  "object"),
 		    newSlot(append(NULL, newId(&nullSrcp,
@@ -112,10 +117,10 @@ void initClasses()
 			    NULL,	/* exits */
 			    NULL,	/* verbs */
 			    NULL));	/* scripts */
-  OBJECT_CLASS = object->code;
+  OBJECT_CLASS = objectClass->code;
 
   /* Create LOCATION class */
-  location = newClass(&nullSrcp,
+  locationClass = newClass(&nullSrcp,
 		      newId(&nullSrcp,
 			    "location"),
 		      newSlot(append(NULL, newId(&nullSrcp,
@@ -131,10 +136,10 @@ void initClasses()
 			      NULL,	/* exits */
 			      NULL,	/* verbs */
 			      NULL));	/* scripts */
-  LOCATION_CLASS = location->code;
+  LOCATION_CLASS = locationClass->code;
 
   /* Create ACTOR class */
-  actor = newClass(&nullSrcp,
+  actorClass = newClass(&nullSrcp,
 		   newId(&nullSrcp,
 			 "actor"),
 		   newSlot(append(NULL, newId(&nullSrcp,
@@ -150,10 +155,10 @@ void initClasses()
 			   NULL,	/* exits */
 			   NULL,	/* verbs */
 			   NULL));	/* scripts */
-  ACTOR_CLASS = actor->code;
+  ACTOR_CLASS = actorClass->code;
 
   /* Create CONTAINER class */
-  container = newClass(&nullSrcp,
+  containerClass = newClass(&nullSrcp,
 		       newId(&nullSrcp,
 			     "container"),
 		       newSlot(append(NULL, newId(&nullSrcp,
@@ -169,7 +174,7 @@ void initClasses()
 			       NULL,	/* exits */
 			       NULL,	/* verbs */
 			       NULL));	/* scripts */
-  CONTAINER_CLASS = container->code;
+  CONTAINER_CLASS = containerClass->code;
 }
 
 

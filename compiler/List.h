@@ -20,14 +20,17 @@ typedef struct List {		/* GENERIC LISTS */
     struct Attribute *attribute;
     struct Class *class;
     struct Check *check;
+    struct Element *element;
     struct Event *event;
     struct Exit *exit;
     struct Id *id;
     struct Instance *instance;
+    struct Limit *limit;
     struct List *list;
     struct Rule *rule;
     struct Script *script;
     struct Statement *statement;
+    struct Synonym *synonym;
     struct Syntax *syntax;
     struct Verb *verb;
     char *string;

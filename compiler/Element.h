@@ -33,7 +33,7 @@ typedef struct Element {	/* ELEMENT */
   ElementKind kind;		/* Kind of Parameter */
   Id *id;			/* Name */
   Bool multiple;		/* Multiple indicator */
-  int number;			/* AN - parameter number */
+  int code;			/* AN - parameter number */
   List *restrictions;		/* AN - link to the class restriction check */
   Syntax *syntax;		/* AN - pointer back to syntax node */
 } Element;
@@ -53,9 +53,7 @@ extern Element *newElement(Srcp *srcp,
 			   Bool multiple);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */
-extern List *analyseElements(List *elements,
-			     List *restrictions,
-			     Syntax *syntax);
+extern List *analyseElements(Syntax *syntax);
 
 /* Generate code for a list of Syntax elements */
 extern Aaddr generateElements(List *elements);

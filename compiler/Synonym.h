@@ -35,14 +35,14 @@ extern Synonym *newSynonym(Srcp *srcp,
 			   List *synonyms,
 			   Id *id);
 
-/* Analyse the Synonyms by finding the target word and inserting synonyms */
-extern void analyseSynonyms(void);
+/* Analyse the Synonym by finding the target word and inserting synonyms */
+extern void analyseSynonym(Synonym *synonym);
 
 extern void dumpSynonym(Synonym *synonym);
 
 #else
 extern Synonym *newSynonym();
-extern void analyseSynonyms();
+extern void analyseSynonym();
 extern void dumpSynonym();
 #endif
 

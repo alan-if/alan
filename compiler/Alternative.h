@@ -23,6 +23,7 @@
 typedef struct Alternative {	/* ALTERNATIVE */
   Srcp srcp;			/* Source position of this alternative */
   Id *id;			/* The parameter ID */
+  int code;			/* The parameter number */
   List *checks;			/* Checks */
   Aaddr chkadr;			/* ACODE address to check table */
   Does *does;			/* Does-part */
