@@ -18,6 +18,7 @@ vms:
 	    cat `basename $${f} .alan`.input >> `basename $${f} .alan`.com ; \
 	    echo $$ diff/output=$${case}.diff $${case}.output $${case}.ok >> regression.com ; \
 	done
+	echo $$ pur >> regression.com
 	echo $$ dir/size *.diff >> regression.com
 	/usr/5bin/echo "thoni\ncd alan/regression\nprompt\nmput *.com *.alan *.ok\n" | ftp gollum
 	rm *.com
