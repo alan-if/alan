@@ -1,15 +1,15 @@
 4.2 venum # venum 4.2 beta
-Alan
-Adventure Language System
-3
+alan
+
+1
 0
-24
-development
-1055171463 2003-06-09 17:11:03
+0
+
+1055967355 2003-06-18 22:15:55
 thoni
 
-$v.$r.$c{s $s}
+$v.$r{s $s}{c($c)}
 $n $V
-$H{z -- $z} ($D $t)
-
+$H{z -- $z} ($d $t{u, $u{h@$h}}{o/$o})
+$n $V $D $T{u $u}{h@$h}{o/$o}
 cygwin32
