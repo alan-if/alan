@@ -19,7 +19,7 @@
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */
-  SlotsNode *slots;
+  Slots *slots;
 } InsNod;
 
 

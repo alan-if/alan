@@ -18,7 +18,7 @@
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  SlotsNode *slots;
+  Slots *slots;
   Aaddr adr;			/* Generated at address */
 } ClaNod;
 

@@ -49,7 +49,7 @@ void testFindInList()
 
 static ClaNod *createClass(char string[], List *attributes)
 {
-  SlotsNode *slots = newEmptySlots();
+  Slots *slots = newEmptySlots();
   ClaNod *theClass;
 
   slots->attributes = attributes;
@@ -59,7 +59,7 @@ static ClaNod *createClass(char string[], List *attributes)
 
 static InsNod *createInstance(char string[], List *attributes)
 {
-  SlotsNode *slots = newEmptySlots();
+  Slots *slots = newEmptySlots();
   InsNod *theInstance;
 
   slots->attributes = attributes;
@@ -76,7 +76,7 @@ static List *create2Attributes(char firstString[], char secondString[])
   return theList;
 }
 
-static int attributeCode(SlotsNode *slots, char *string)
+static int attributeCode(Slots *slots, char *string)
 {
   AtrNod *atr = findAttribute(slots->attributes, newId(&nulsrcp, string));
   return atr->id->code;

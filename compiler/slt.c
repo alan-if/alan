@@ -37,9 +37,9 @@
   Allocates and initialises a empty slots node.
 
   */
-SlotsNode *newEmptySlots(void)
+Slots *newEmptySlots(void)
 {
-  return NEW(SlotsNode);
+  return NEW(Slots);
 }
 
 
@@ -51,7 +51,7 @@ SlotsNode *newEmptySlots(void)
   Allocates and initialises a slots node.
 
   */
-SlotsNode *newSlots(List *names,
+Slots *newSlots(List *names,
 		    WhrNod *whr,
 		    List *attributes,
 		    CntNod *container,
@@ -66,11 +66,11 @@ SlotsNode *newSlots(List *names,
 		    List *verbs,
 		    List *scripts)
 {
-  SlotsNode *new;                  /* The newly allocated area */
+  Slots *new;                  /* The newly allocated area */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(SlotsNode);
+  new = NEW(Slots);
 
   new->names = names;
   new->whr = whr;
@@ -102,7 +102,7 @@ SlotsNode *newSlots(List *names,
   Symbolize parent of a Slots node.
 
  */
-static void symbolizeParent(SlotsNode *slots)
+static void symbolizeParent(Slots *slots)
 {
   Symbol *parent;
 
@@ -127,7 +127,7 @@ static void symbolizeParent(SlotsNode *slots)
   Symbolize data for one Slots node.
 
  */
-void symbolizeSlots(SlotsNode *slots)
+void symbolizeSlots(Slots *slots)
 {
   symbolizeParent(slots);
   checkMultipleAttributes(slots->attributes);
@@ -142,7 +142,7 @@ void symbolizeSlots(SlotsNode *slots)
 
 */
 
-static void analyzeName(SlotsNode *slots)
+static void analyzeName(Slots *slots)
 {
   long fpos;
   int len = 0;
@@ -173,7 +173,7 @@ static void analyzeName(SlotsNode *slots)
   Analyze one Slots node.
 
  */
-void analyzeSlots(SlotsNode *slots, Context *context)
+void analyzeSlots(Slots *slots, Context *context)
 {
   if (slots->whr != NULL) verifyInitialLocation(slots->whr);
   if (inheritsFrom(slots->id->symbol, locationSymbol) && slots->whr != NULL)
@@ -204,7 +204,7 @@ void analyzeSlots(SlotsNode *slots, Context *context)
   Generate data for one Slots node.
 
  */
-void generateSlotsData(SlotsNode *slots, InsNod *instance)
+void generateSlotsData(Slots *slots, InsNod *instance)
 {
   slots->idAddress = emadr();
   emitstr(slots->id->string);
@@ -237,7 +237,7 @@ void generateSlotsData(SlotsNode *slots, InsNod *instance)
   Generate entries for one Slots node.
 
  */
-void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
+void generateSlotsEntry(InstanceEntry *entry, Slots *slots)
 {
   entry->code = slots->id->symbol->code; /* First own code */
   entry->idAddress = slots->idAddress; /* Address to the id string */
@@ -269,7 +269,7 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
   Dump a Slots node.
 
  */
-void dumpSlots(SlotsNode *slots)
+void dumpSlots(Slots *slots)
 {
   put("SLOTS: "); dumpPointer(slots); in();
   put("id: "); dumpId(slots->id); nl();

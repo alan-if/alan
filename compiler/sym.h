@@ -36,8 +36,8 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
     struct {
       struct Symbol *parent;
       Bool attributesNumbered;
-      Bool attributesReplicated;
-      struct SlotsNode *slots;
+      Bool replicated;
+      struct Slots *slots;
     } claOrIns;
 
     struct {

@@ -122,7 +122,7 @@ void anadv(void)
   symbolizeAdv();
   addAdditions();
   numberAllAttributes();
-  replicateInheritedAttributes();
+  replicateInherited();
 
   prepwrds();			/* Prepare words in the dictionary */
   prepmsgs();			/* Prepare standard and user messages */

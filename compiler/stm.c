@@ -527,11 +527,12 @@ static void analyzeUse(StmNod *stm,
 	  break;		/* Found it so break loop */
       }
     }
-    if (lst == NULL)
+    if (lst == NULL) {
       if (stm->fields.use.script != NULL)
 	lmLog(&stm->fields.use.script->srcp, 400, sevERR, id->string);
       else
 	lmLog(&stm->srcp, 400, sevERR, id->string);
+    }
   }
 }  
 

@@ -23,7 +23,7 @@ extern void addHero(void);
 extern InsNod *newInstance(Srcp *srcp,
 			   IdNode *id,
 			   IdNode *heritage,
-			   SlotsNode *slt);
+			   Slots *slt);
 extern void symbolizeInstances(void);
 extern void analyzeInstances(void);
 extern void generateInstances(AcdHdr *header);

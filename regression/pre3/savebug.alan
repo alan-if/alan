@@ -15,10 +15,11 @@ message
     more: "<< Press Enter >>"
     seeobject1: "$pThere is"
 
-location limbo
-end location.
+The limbo Isa location
+end The.
 
-object attributes
+Add To every object
+Is 
 opened.
 insider.
 -- if container is insider GET ALL does not work
@@ -29,6 +30,7 @@ not openable.
 -- semi_openable = can't be opened but OPEN and CLOSE provide a response
 not semi_openable.
 size 1.
+End Add To.
 
 synonyms
     east = e.
@@ -41,11 +43,19 @@ synonyms
     southwest = sw.
     up = u.
     down = d.
-    through, thru, 'at', 'to', over, into, on, onto = 'in'.
+    through, thru, 'at', 'to', over, into, 'on', onto = 'in'.
     'out' = 'off'.
 
-actor hero name me name myself
+The hero Isa actor name me name myself
 has level 2.
+
+container 
+    limits
+        count 5 then "You can't carry any more."
+    header "You are carrying"
+    else
+        "You are empty-handed."
+
 verb stand, enter, get_in, get_off, climb, climb_in does only
     "That is quite absurd, don't you think?"
 end verb.
@@ -103,20 +113,13 @@ end verb.
 verb fuck_it does only
     "Fuck you indeed."
 end verb.
-end actor.
+end The hero.
 
-container inventory
-    limits
-        count 5 then "You can't carry any more."
-    header "You are carrying"
-    else
-        "You are empty-handed."
-end container.
-
-container body
+The body
+container
     header "You are wearing"
     else ""
-end container.
+end The.
 
 -- verbit
 
@@ -137,14 +140,14 @@ verb get, take
     check obj is loose
         else
             "That is not something you can carry around."
-    and obj not in inventory
+    and obj not in hero
         else
             "You are already carrying the"
             say obj.
             "$$."
     and obj not in body
         else
-            locate obj in inventory.
+            locate obj in hero.
             "You take off the"
             say obj.
             "$$."
@@ -153,20 +156,20 @@ verb get, take
 --            end if.
     and obj is not inside
         else
-            locate obj in inventory.
+            locate obj in hero.
             make obj not inside.
             "Done."
     does
-        locate obj in inventory.
+        locate obj in hero.
         "Done."
 end verb.
 
 syntax get_in = 'get' 'in' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 syntax get_off = 'get' 'off' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 verb get_in, get_off does
@@ -196,7 +199,7 @@ verb take_off, take_off2, undress
         say obj.
         "$$."
     does
-        locate obj in inventory.
+        locate obj in hero.
         "You take off the"
         say obj.
         "$$."
@@ -205,13 +208,13 @@ end verb.
 syntax take_from = 'take' (obj) 'from' (cont) *
     where obj isa object
         else "Now you are being silly."
-    and cont isa container object or container actor
+    and cont isa container
         else "You can't do that."
 
 syntax get_from = 'get' (obj) 'from' (cont) *
     where obj isa object
         else "Now you are being silly."
-    and cont isa container object or container actor
+    and cont isa container
         else "You can't do that."
 
 verb get_from, take_from
@@ -226,7 +229,7 @@ verb get_from, take_from
             say cont.
             "$$."
     does
-        locate obj in inventory.
+        locate obj in hero.
         make obj not inside.
         "Done."
 end verb.
@@ -251,7 +254,7 @@ verb give
             "That's difficult to do when you are wearing the"
             say obj.
             "$$."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
             say obj.
@@ -269,7 +272,7 @@ verb give_to
             "That's difficult to do when you are wearing the"
             say obj.
             "$$."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
             say obj.
@@ -318,19 +321,19 @@ synonyms
     disembark, 'exit' = leave.
 
 syntax climb_in = 'climb' 'in' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't climb that."
 
 syntax climb = climb (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't climb that."
 
 syntax enter = enter (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't enter that."
 
 syntax leave = leave (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 verb leave, enter, climb_in, climb does
@@ -361,7 +364,7 @@ verb wear, put_on, put_on2
             "You are already wearing the"
             say obj.
             "$$."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
             say obj.
@@ -391,7 +394,7 @@ verb drop
             "That's difficult to do when you are wearing the"
             say obj.
             "$$."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
             say obj.
@@ -417,7 +420,7 @@ syntax put_on2 = 'put' 'in' (obj)
 syntax put = 'put' (obj) 'in' (cont)
     where obj isa object
         else "Whatever turns you on."
-    and cont isa container object
+    and cont isa container
         else "That would not accomplish anything at all."
 
 verb put
@@ -434,7 +437,7 @@ verb put
             "But the"
             say obj.
             "is already there."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
              say obj.
@@ -465,7 +468,7 @@ end verb.
 -- empty
 
 syntax 'empty' = 'empty' (obj)
-    where obj isa container object
+    where obj isa container
         else "You can't empty that."
 
 verb 'empty'
@@ -473,7 +476,7 @@ verb 'empty'
         else "You can't do that when you are wearing the"
         say obj.
         "$$."
-    and obj in inventory
+    and obj in hero
         else "You are not carrying the"
         say obj.
         "$$."
@@ -559,7 +562,7 @@ synonyms
     grope, fiddle, touch = feel.
 
 syntax feel = feel (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 verb feel does
@@ -584,7 +587,7 @@ verb throw
             "That's difficult to do when you are wearing the"
             say obj.
             "$$."
-    and obj in inventory
+    and obj in hero
         else
             "You are not carrying the"
             say obj.
@@ -596,7 +599,7 @@ end verb.
 syntax throw_at = 'throw' (obj) 'in' (target)
     where obj isa object
         else "Woohaa!"
-    and target isa object or actor
+    and target isa thing
         else "You can't do that."
 
 verb throw_at
@@ -610,7 +613,7 @@ verb throw_at
                 "That's difficult to do when you're wearing the"
                 say obj.
                 "$$."
-        and obj in inventory
+        and obj in hero
         else
             "You're not carrying the"
             say obj.
@@ -626,7 +629,7 @@ syntax sit = 'sit' 'in' (obj)
         else "Kinky."
 
 verb sit
-    check obj not in inventory
+    check obj not in hero
         else
             "Sitting on something while carrying it is very silly."
     and obj not in body
@@ -637,11 +640,11 @@ verb sit
 end verb.
 
 syntax stand = 'stand' 'in' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 verb stand
-    check obj not in inventory
+    check obj not in hero
         else
             "Standing on something while carrying it is impossible."
     and obj not in body
@@ -659,13 +662,13 @@ synonyms
     inv, inventory = i.
 
 verb i does
-    if count in inventory = 0 and count in body > 0 then
+    if count in hero = 0 and count in body > 0 then
         list body.
     else
-        list inventory.
+        list hero.
         list body.
     end if.
---    if backpack in inventory and count in backpack > 0 then
+--    if backpack in hero and count in backpack > 0 then
 --        list backpack.
 --    end if.
     if coat in body and count in coat > 0 then
@@ -680,7 +683,7 @@ synonyms
     x, exam, inspect, 'check' = examine.
 
 syntax examine = examine (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't examine that."
 
 verb examine does
@@ -700,7 +703,7 @@ verb read does
 end verb.
 
 syntax search = search (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't search that."
 
 verb search does
@@ -717,15 +720,15 @@ synonyms
     halt = stop.
 
 syntax turn = turn (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't turn that."
 
 syntax push = push (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't push that."
 
 syntax pull = pull (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't pull that."
 
 syntax turn_on = 'turn' 'in' (obj)
@@ -788,7 +791,7 @@ verb kill does
 end verb.
 
 syntax hit = hit (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't hit that."
 
 synonyms
@@ -799,7 +802,7 @@ verb hit does
 end verb.
 
 syntax kick = kick (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't kick that."
 
 verb kick does
@@ -831,7 +834,7 @@ verb cut_with
     and tool is loose
         else
             "You are not cutting anything with that."
-    and tool in inventory
+    and tool in hero
         else
             "But you are not carrying the"
             say tool.
@@ -864,7 +867,7 @@ end verb.
 syntax ask = 'ask' (act) 'about' (obj) !
     where act isa actor
         else "Hello? Anybody home?"
-    and obj isa object or actor
+    and obj isa thing
         else "You can't do that."
 
 verb ask does
@@ -904,7 +907,7 @@ syntax look_behind = 'look' 'behind' (obj)
         else "Look! Behind you, a three-headed monkey!"
 
 syntax look_in = 'look' 'in' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 synonyms
@@ -967,7 +970,7 @@ verb fart does
 end verb.
 
 syntax kiss = kiss (act)
-    where act isa object or actor
+    where act isa thing
         else "You can't do that."
 
 synonyms
@@ -985,13 +988,13 @@ synonyms
 syntax listen = listen.
 
 syntax listen_to = 'listen' 'in' (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 syntax bare_smell = smell.
 
 syntax smell = smell (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 verb smell does
@@ -1092,7 +1095,7 @@ end verb.
 syntax just_blow = blow.
 
 syntax blow = blow (obj)
-    where obj isa object or actor
+    where obj isa thing
         else "You can't do that."
 
 synonyms
@@ -1177,14 +1180,14 @@ end verb.
 
 
 --
-object closed_chest in limbo
+The closed_chest Isa object in limbo
 container
-end object.
+end The.
 
 when pot in shelves and coat in pot and hair in coat => make door
 winnable.
 
-location closet name 'Inside the Closet'
+The closet name 'Inside the Closet' Isa location
 description "This walk-in closet you are trapped in is actually quite big,
 but not big enough to be any more than a single location. The door leading
 out of here looks strong enough to withstand the blows of a sledgehammer."
@@ -1245,9 +1248,9 @@ does
     "$p*** You have won ***"
     quit.
 end exit.
-end location.
+end The.
 
-object book at limbo
+The book at limbo Isa object
 mentioned "Book of Gnomes"
 is loose.
 is not examined.
@@ -1260,16 +1263,16 @@ end verb.
 verb get, take does only
     """What do you think you are doing? Hands off!"""
 end verb.
-end object.
+end The.
 
-object the_closet at closet name closet name stuff name junk name things
+The the_closet at closet name closet name stuff name junk name things Isa object
 description ""
 verb examine, look_in, search, push, pull, turn, kick, hit does only
     "This is just a closet full of junk."
 end verb.
-end object.
+end The.
 
-object wall at closet
+The wall at closet Isa object
 description ""
 verb examine, look_in does only
     "A thick, solid, concrete wall."
@@ -1302,9 +1305,9 @@ does only
     "There appears to be a narrow crack in the wall."
     locate crack here.
 end verb.
-end object.
+end The.
 
-object crack at limbo name narrow crack name narrow
+The crack at limbo name narrow crack name narrow Isa object
 description ""
 verb examine, look_in, search
     check cloth at limbo
@@ -1320,9 +1323,9 @@ end verb.
 verb enter, get_in, climb_in, climb does only
     "You are not a worm."
 end verb.
-end object.
+end The.
 
-object cloth at limbo name cloth name piece
+The cloth at limbo name cloth name piece Isa object
 mentioned "piece of cloth"
 is loose.
 is not taken.
@@ -1336,9 +1339,9 @@ end verb.
 verb pull does only
     schedule entering after 0.
 end verb.
-end object.
+end The.
 
-object door at closet name closet door
+The door at closet name closet door Isa object
 is openable.
 is not opened.
 is not winnable.
@@ -1387,9 +1390,9 @@ does only
     "You pull the door closed."
     make door not opened.
 end verb.
-end object.
+end The.
 
-object chest at closet name small wooden chest name small name wooden
+The chest at closet name small wooden chest name small name wooden Isa object
 is openable.
 is not opened.
 has size 1.
@@ -1443,9 +1446,9 @@ end verb.
 verb close does
     empty chest in closed_chest.
 end verb.
-end object.
+end The.
 
-object shelves at closet name metal shelves name metal shelf name metal
+The shelves at closet name metal shelves name metal shelf name metal Isa object
 has size 3.
 container
     header "On a shelf among some less interesting things you can see"
@@ -1475,9 +1478,9 @@ verb put does only
     "on the top shelf."
     locate obj in shelves.
 end verb.
-end object.
+end The.
 
-object coat in closed_chest name leather jacket name leather name coat name
+The coat in closed_chest name leather jacket name leather name coat name Isa object
 pockets name pocket name black
 is loose.
 is cloth.
@@ -1502,7 +1505,7 @@ end verb.
 verb search does only
     list coat.
 end verb.
-end object.
+end The.
 
 --
 event entering
@@ -1702,7 +1705,7 @@ verb ask does only
 end verb.
 end actor.
 
-object beard in fip
+The beard in fip Isa object
 mentioned "Fip's beard"
 article ""
 is not pulled.
@@ -1718,7 +1721,7 @@ does only
     deeply insulted as he starts combing and trimming his beard back into
     shape."
     make beard pulled.
-    locate hair in inventory.
+    locate hair in hero.
 end verb.
 verb examine, look_in does only
     "Fip's beard is grey and fluffy."
@@ -1727,9 +1730,9 @@ verb search does only
     """And what do you think you are doing? Get your dirty hands off my
     beautiful beard! Why don't you grow your own beard, you ox."""
 end verb.
-end object.
+end The.
 
-object hair name beard hair name grey name gray
+The hair name beard hair name grey name gray Isa object
 is loose.
 article "some"
 verb examine, look_in does only
@@ -1738,9 +1741,9 @@ end verb.
 verb eat does only
     "Absolutely not!"
 end verb.
-end object.
+end The.
 
-object pot name plant pot name red name plant name clay
+The pot name plant pot name red name plant name clay Isa object
 is loose.
 has size 2.
 container
@@ -1758,7 +1761,7 @@ end verb.
 verb hit, kick does only
     "Don't do that - it's probably quite fragile."
 end verb.
-end object.
+end The.
 
 --
 syntax guess = guess (num)

@@ -1119,7 +1119,7 @@ The manual Isa object Name dirty technical manual
          $pOOH! There is a hand written remark in the margin here,
          it says '$$"
         If pwindex OF manual = 0 Then
-            Set pwindex Of manual To 3.
+            Set pwindex Of manual To 1.
         End If.
         If pwindex Of manual = 1 Then
              Set password Of manual To "NilGu".

@@ -19,7 +19,7 @@
 
 /* Types */
 
-typedef struct SlotsNode {	/* SLOTS  */
+typedef struct Slots {		/* SLOTS  */
   IdNode *id;			/* Identifier */
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */
@@ -43,7 +43,7 @@ typedef struct SlotsNode {	/* SLOTS  */
   Aaddr scriptsAddress;		/* ACODE address to scripts */
   List *exits;			/* List of exits */
   Aaddr exitsAddress;		/* ACODE address to exits table */
-} SlotsNode;
+} Slots;
 
 
 #endif

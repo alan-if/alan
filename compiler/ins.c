@@ -67,7 +67,7 @@ void addHero(void)
 InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
 		    IdNode *id,
 		    IdNode *parent,
-		    SlotsNode *slt)
+		    Slots *slt)
 {
   InsNod *new;                  /* The newly allocated area */
   List *nameList, *list;

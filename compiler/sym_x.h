@@ -57,7 +57,7 @@ extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
 extern Symbol *findParameter(IdNode *parameterId, List *parameterSymbols);
 extern void setParameters(Symbol *verb, List *parameters);
 extern void numberAllAttributes(void);
-extern void replicateInheritedAttributes(void);
+extern void replicateInherited(void);
 extern void dumpSymbols(void);
 
 #endif

@@ -38,7 +38,7 @@
 AddNode *newAdd(Srcp *srcp,
 		IdNode *id,
 		IdNode *parent,
-		SlotsNode *slt)
+		Slots *slt)
 {
   AddNode *new;
 
@@ -67,7 +67,7 @@ AddNode *newAdd(Srcp *srcp,
 */
 static void addInitialLocation(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->whr != NULL)
     lmLogv(&slots->whr->srcp, 341, sevERR, "initial location", "(yet)", NULL);
@@ -96,7 +96,7 @@ static void addNames(AddNode *add, Symbol *original)
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
   List *addedAttributes = add->slots->attributes;
-  SlotsNode *originalSlots = originalSymbol->fields.claOrIns.slots;
+  Slots *originalSlots = originalSymbol->fields.claOrIns.slots;
   List *originalAttributes = originalSlots->attributes;
   List *l;
 
@@ -119,7 +119,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
 */
 static void addDescription(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->description != NULL)
     lmLogv(&slots->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
@@ -134,7 +134,7 @@ static void addDescription(AddNode *add, Symbol *original)
 */
 static void addArticle(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->article != NULL)
     lmLogv(&slots->articleSrcp, 341, sevERR, "article", "(yet)", NULL);
@@ -149,7 +149,7 @@ static void addArticle(AddNode *add, Symbol *original)
 */
 static void addMentioned(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->mentioned != NULL)
     lmLogv(&slots->mentionedSrcp, 341, sevERR, "mentioned", "(yet)", NULL);
@@ -164,7 +164,7 @@ static void addMentioned(AddNode *add, Symbol *original)
 */
 static void addContainer(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->container != NULL)
     lmLogv(&slots->container->srcp, 341, sevERR, "container", "(yet)", NULL);
@@ -179,7 +179,7 @@ static void addContainer(AddNode *add, Symbol *original)
 */
 static void addVerbs(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->verbs != NULL)
     lmLogv(&slots->verbs->element.vrb->srcp, 341, sevERR, "verbs", "(yet)", NULL);
@@ -194,7 +194,7 @@ static void addVerbs(AddNode *add, Symbol *original)
 */
 static void addScripts(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->scripts != NULL)
     lmLogv(&slots->scripts->element.scr->srcp, 341, sevERR, "scripts", "(yet)", NULL);
@@ -209,7 +209,7 @@ static void addScripts(AddNode *add, Symbol *original)
 */
 static void addExits(AddNode *add, Symbol *original)
 {
-  SlotsNode *slots = add->slots;
+  Slots *slots = add->slots;
 
   if (slots->exits != NULL)
     lmLogv(&slots->exits->element.ext->srcp, 341, sevERR, "exits", "(yet)", NULL);

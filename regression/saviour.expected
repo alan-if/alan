@@ -244,7 +244,7 @@ The text inside the manual reads:
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'SveGr'.
+OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > west
 Corridor (again)
@@ -382,19 +382,19 @@ The text inside the manual reads:
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'SveGr'.
+OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > type "nilgu"
 'ERROR: Wrong USERID.
 Please login. Enter USERID:'
 
 > type "oscsv"
-'ERROR: Wrong USERID.
-Please login. Enter USERID:'
+'Welcome OscSv!
+
+Enter command:'
 
 > type "svegr"
-'Welcome SveGr!
-
+'ERROR: Unknown command.
 Enter command:'
 
 > type "backup"

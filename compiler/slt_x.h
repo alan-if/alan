@@ -19,9 +19,9 @@
 
 /* METHODS: */
 
-extern SlotsNode *newEmptySlots(void);
+extern Slots *newEmptySlots(void);
 
-extern SlotsNode *newSlots(List *nams,
+extern Slots *newSlots(List *nams,
 			   WhrNod *whr,
 			   List *atrs,
 			   CntNod *cnt,
@@ -36,11 +36,11 @@ extern SlotsNode *newSlots(List *nams,
 			   List *vrbs,
 			   List *scrs);
 
-extern void symbolizeSlots(SlotsNode *slots);
-extern void analyzeSlots(SlotsNode *slts, Context *context);
-extern void generateSlotsData(SlotsNode *slts, InsNod *instance);
-extern void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slts);
-extern void dumpSlots(SlotsNode *slots);
+extern void symbolizeSlots(Slots *slots);
+extern void analyzeSlots(Slots *slts, Context *context);
+extern void generateSlotsData(Slots *slts, InsNod *instance);
+extern void generateSlotsEntry(InstanceEntry *entry, Slots *slts);
+extern void dumpSlots(Slots *slots);
 
 
 #endif

@@ -72,7 +72,7 @@ void initClasses()
 ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 		 IdNode *id,
 		 IdNode *parent,
-		 SlotsNode *slots)
+		 Slots *slots)
 {
   ClaNod *new;                  /* The newly allocated area */
 

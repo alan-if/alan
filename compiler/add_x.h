@@ -19,7 +19,7 @@
 extern AddNode *newAdd(Srcp *srcp,
 		       IdNode *id,
 		       IdNode *parent,
-		       SlotsNode *slt);
+		       Slots *slt);
 extern void addAdditions(void);
 extern void dumpAdd(AddNode *add);
 

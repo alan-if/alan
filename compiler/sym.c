@@ -175,13 +175,13 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
     new->code = ++classCount;
     new->fields.claOrIns.parent = NULL;
     new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.attributesReplicated = FALSE;
+    new->fields.claOrIns.replicated = FALSE;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
     new->fields.claOrIns.parent = NULL;
     new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.attributesReplicated = FALSE;
+    new->fields.claOrIns.replicated = FALSE;
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
@@ -593,6 +593,9 @@ void numberAllAttributes(void)
 }
 
 
+static Bool haveParent(Symbol *s) {return s->fields.claOrIns.parent != NULL;}
+static Slots *slotsOf(Symbol *s) {return s->fields.claOrIns.slots;}
+static Slots *slotsOfParentOf(Symbol *s) {return s->fields.claOrIns.parent->fields.claOrIns.slots;}
 
 /*----------------------------------------------------------------------
 
@@ -601,69 +604,94 @@ void numberAllAttributes(void)
 */
 static void replicateAttributes(Symbol *symbol)
 {
-  if (symbol->fields.claOrIns.parent != NULL)
-    symbol->fields.claOrIns.slots->attributes = combineAttributes(symbol->fields.claOrIns.slots->attributes,
-								  symbol->fields.claOrIns.parent->fields.claOrIns.slots->attributes);
+  slotsOf(symbol)->attributes = combineAttributes(slotsOf(symbol)->attributes,
+						    slotsOfParentOf(symbol)->attributes);
 }
 
 
 /*----------------------------------------------------------------------
 
-  replicateParentAttributes()
-
-  Recurse the parental chain and replicate the attributes.
+  replicateContainer()
 
 */
-static void replicateParentAttributes(Symbol *symbol)
+static void replicateContainer(Symbol *symbol)
 {
-  if (symbol == NULL || symbol->fields.claOrIns.attributesReplicated) return;
-
-  replicateParentAttributes(symbol->fields.claOrIns.parent);
-  replicateAttributes(symbol);
-  symbol->fields.claOrIns.attributesReplicated = TRUE;
+  if (slotsOf(symbol)->container == NULL)
+    slotsOf(symbol)->container = slotsOfParentOf(symbol)->container;
 }
 
 
 /*----------------------------------------------------------------------
 
-  replicateAttributesRecursively()
+  replicate()
 
 */
-static void replicateAttributesRecursively(Symbol *symbol)
+static void replicate(Symbol *symbol)
+{
+  if (haveParent(symbol)) {
+    replicateAttributes(symbol);
+    replicateContainer(symbol);
+  }
+}
+
+
+/*----------------------------------------------------------------------
+
+  replicateParent()
+
+  Recurse the parental chain and replicate the inherited things.
+
+*/
+static void replicateParent(Symbol *symbol)
+{
+  if (symbol == NULL || symbol->fields.claOrIns.replicated)
+    return;
+
+  replicateParent(symbol->fields.claOrIns.parent);
+  replicate(symbol);
+  symbol->fields.claOrIns.replicated = TRUE;
+}
+
+
+/*----------------------------------------------------------------------
+
+  replicateRecursively()
+
+*/
+static void replicateRecursively(Symbol *symbol)
 {
   if (symbol == NULL) return;
 
   if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
 
-    /* We have attributes that are not numbered already */
-    replicateParentAttributes(symbol->fields.claOrIns.parent);
-    replicateAttributes(symbol);
+    /* We have not replicated this symbol yet, so do it now */
+    replicateParent(symbol->fields.claOrIns.parent);
+    replicate(symbol);
   }
 
   /* Recurse in the symbolTree */
-  if (symbol->lower != NULL) replicateAttributesRecursively(symbol->lower);
-  if (symbol->higher != NULL) replicateAttributesRecursively(symbol->higher);
+  if (symbol->lower != NULL) replicateRecursively(symbol->lower);
+  if (symbol->higher != NULL) replicateRecursively(symbol->higher);
 }
 
 
 
 /*======================================================================
 
-  replicateInheritedAttributes()
+  replicateInherited()
 
   Traverse the heritage of the symbol and replicate all inherited
-  attributes that are not locally redefined, thus creating a complete
-  list of all attributes that this symbol has.
+  attributes, scripts etc. that are not locally redefined, thus
+  creating a complete list of all attributes etc. that this symbol has.
 
-  We will mark a completed symbol with "complete" so that we can use
+  We will mark a completed symbol with "replicated" so that we can use
   it directly if we encounter it later instead of redoing it.
 
 */
-void replicateInheritedAttributes(void)
+void replicateInherited(void)
 {
-  replicateAttributesRecursively(symbolTree);
+  replicateRecursively(symbolTree);
 }
-
 
 
 /*----------------------------------------------------------------------

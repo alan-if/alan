@@ -1382,34 +1382,13 @@ void save()
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
 
-#ifdef SAVE_WORKING
-  /* Save actors */
-  for (i = ACTMIN; i <= ACTMAX; i++) {
-    fwrite((void *)&acts[i-ACTMIN].loc, sizeof(Aword), 1, savfil);
-    fwrite((void *)&acts[i-ACTMIN].script, sizeof(Aword), 1, savfil);
-    fwrite((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
-    fwrite((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
-    if (acts[i-ACTMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+  /* Save admin about each instance and its attributes */
+  for (i = 1; i <= header->instanceMax; i++) {
+    fwrite((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
+    if (instance[i].attributes != 0)
+      for (atr = (AttributeEntry *) addrTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
-
-  /* Save locations */
-  for (i = LOCMIN; i <= LOCMAX; i++) {
-    fwrite((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
-    if (locs[i-LOCMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
-  }
-
-  /* Save objects */
-  for (i = OBJMIN; i <= OBJMAX; i++) {
-    fwrite((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
-    if (objs[i-OBJMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->value, sizeof(atr->value), 1, savfil);
-  }
-#endif
 
   /* Save the event queue */
   eventQueue[etop].time = 0;        /* Mark the top */
@@ -1479,36 +1458,16 @@ void restore()
     return;
   }
 
-#ifdef SAVE_WORKING
   /* Restore current values */
   fread((void *)&cur, sizeof(cur), 1, savfil);
-  /* Restore actors */
-  for (i = ACTMIN; i <= ACTMAX; i++) {
-    fread((void *)&acts[i-ACTMIN].loc, sizeof(Aword), 1, savfil);
-    fread((void *)&acts[i-ACTMIN].script, sizeof(Aword), 1, savfil);
-    fread((void *)&acts[i-ACTMIN].step, sizeof(Aword), 1, savfil);
-    fread((void *)&acts[i-ACTMIN].count, sizeof(Aword), 1, savfil);
-    if (acts[i-ACTMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(acts[i-ACTMIN].atrs); !endOfTable(atr); atr++)
+
+  /* Restore admin and attributes for instances */
+  for (i = 1; i <= header->instanceMax; i++) {
+    fread((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
+    if (instance[i].attributes != 0)
+      for (atr = (AttributeEntry *) addrTo(instance[i].attributes); !endOfTable(atr); atr++)
 	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
   }
-
-  /* Restore locations */
-  for (i = LOCMIN; i <= LOCMAX; i++) {
-    fread((void *)&locs[i-LOCMIN].describe, sizeof(Aword), 1, savfil);
-    if (locs[i-LOCMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(locs[i-LOCMIN].atrs); !endOfTable(atr); atr++)
-	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
-  }
-
-  /* Restore objects */
-  for (i = OBJMIN; i <= OBJMAX; i++) {
-    fread((void *)&objs[i-OBJMIN].loc, sizeof(Aword), 1, savfil);
-    if (objs[i-OBJMIN].atrs)
-      for (atr = (AttributeEntry *) addrTo(objs[i-OBJMIN].atrs); !endOfTable(atr); atr++)
-	fread((void *)&atr->value, sizeof(atr->value), 1, savfil);
-  }
-#endif
 
   /* Restore the eventQueue */
   etop = 0;
