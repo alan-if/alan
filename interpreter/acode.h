@@ -310,6 +310,7 @@ typedef struct AcdHdr {
   Aaddr eventTableAddress;
   Aword eventMax;
   Aaddr parseTableAddress;
+  Aaddr syntaxTableAddress;
   Aword syntaxMax;
   Aaddr dictionary;
   Aaddr verbTableAddress;

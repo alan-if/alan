@@ -54,7 +54,7 @@ Adventure adv;
 
 
 /* PRIVATE */
-static Aword end;
+
 
 
 /*======================================================================*/
@@ -170,8 +170,11 @@ void generateAdventure(char acodeFileName[],
   if (verbose) printf("\n\tDictionary: ");
   acdHeader.dictionary = generateAllWords();
 
-  if (verbose) printf("\n\tSyntax Definitions: ");
-  acdHeader.parseTableAddress = generateAllSyntaxes();
+  if (verbose) printf("\n\tParseTable: ");
+  acdHeader.parseTableAddress = generateParseTable();
+
+  if (verbose) printf("\n\tSyntax Mapping: ");
+  acdHeader.syntaxTableAddress = generateSyntaxMapping();
 
   if (verbose) printf("\n\tVerbs: ");
   acdHeader.verbTableAddress = generateVerbs(adv.vrbs);
@@ -341,7 +344,8 @@ void summary(void)
   }
   (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
   lmLiPrint(str);
-  (void)sprintf(str,   "        Acode:                  %6d words (%d bytes)", (int)end, (int)((long)end*(long)sizeof(Aword)));
+  (void)sprintf(str,   "        Acode:                  %6ld words (%ld bytes)",
+		acdHeader.size, acdHeader.size*sizeof(Aword));
   lmLiPrint(str);
   (void)sprintf(str,   "        Text data:              %6d bytes", txtlen);
   lmLiPrint(str);

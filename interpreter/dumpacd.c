@@ -51,7 +51,7 @@ static void indent(int level)
   int i;
 
   for (i = 0; i < level; i++)
-    printf("    ");
+    printf("|   ");
 }
 
 
@@ -138,13 +138,7 @@ static void dumpDict(int level, Aword dict)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpAtrs()
-
-  Dump a list of attributes
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpAtrs(int level, Aword atrs)
 {
   AttributeEntry *atr;
@@ -169,13 +163,7 @@ static void dumpAtrs(int level, Aword atrs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpChks()
-
-  Dump a list of checks
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpChks(int level, Aword chks)
 {
   ChkEntry *chk;
@@ -196,13 +184,7 @@ static void dumpChks(int level, Aword chks)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpQual()
-
-  Dump a Qualifier
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpQual(Aword qual)
 {
   switch (qual) {
@@ -214,13 +196,7 @@ static void dumpQual(Aword qual)
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpAlts()
-
-  Dump a list of verbs
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpAlts(int level, Aword alts)
 {
   AltEntry *alt;
@@ -334,13 +310,7 @@ static void dumpVrbs(int level, Aword vrbs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpExts()
-
-  Dump a list of exits
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpExts(int level, Aword exts)
 {
   ExitEntry *ext;
@@ -366,13 +336,7 @@ static void dumpExts(int level, Aword exts)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpElms()
-
-  Dump a list of syntax elements
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpElms(int level, Aword elms)
 {
   ElementEntry *elm;
@@ -399,13 +363,43 @@ static void dumpElms(int level, Aword elms)
 
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void dumpParameterMap(Aword mappingAddress)
+{
+  Aword *mapping;
 
-  dumpStxs()
+  if (mappingAddress == 0) return;
 
-  Dump a list of syntax descriptions
+  for (mapping = (Aword*)pointerTo(mappingAddress); !endOfTable(mapping); mapping++) {
+    printf("[%ld]", *mapping);
+  }
+}
 
- */
+
+
+/*----------------------------------------------------------------------*/
+static void dumpSyntaxTable(int level, Aword stxs)
+{
+  SyntaxEntry *stx;
+
+  if (stxs == 0) return;
+
+  for (stx = (SyntaxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
+    indent(level);
+    printf("STX: Syntax #%ld\n", stx->syntaxNumber);
+    indent(level+1);
+    printf("PARAMETERMAPPING: %s = \n", dumpAddress(stx->parameterMapping));
+    dumpParameterMap(stx->parameterMapping);
+    indent(level+1);
+    printf("VERBCODE: #%ld\n", dumpAddress(stx->verbCode));
+  }
+  indent(level);
+  printf("EOF\n");
+}
+
+
+
+/*----------------------------------------------------------------------*/
 static void dumpParseTable(int level, Aword stxs)
 {
   ParseEntry *stx;
@@ -425,14 +419,8 @@ static void dumpParseTable(int level, Aword stxs)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpStms()
-
-  Dump a list of statements
-
- */
-static void dumpStms(Aword pc)
+/*----------------------------------------------------------------------*/
+static void dumpStatements(Aword pc)
 {
   Aword i;
 
@@ -758,13 +746,7 @@ static void dumpStms(Aword pc)
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpACD()
-
-  Dump the header and all data
-
- */
+/*----------------------------------------------------------------------*/
 static void dumpACD(void)
 {
   Aword crc = 0;
@@ -788,6 +770,9 @@ static void dumpACD(void)
 
   printf("PARSETABLE: %s\n", dumpAddress(header->parseTableAddress));
   if (parseFlag) dumpParseTable(1, header->parseTableAddress);
+
+  printf("SYNTAXTABLE: %s\n", dumpAddress(header->syntaxTableAddress));
+  if (syntaxesFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
 
   printf("VERBTABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
@@ -816,7 +801,7 @@ static void dumpACD(void)
 
   printf("ACDCRC: 0x%lx ", header->acdcrc);
   /* Calculate checksum */
-  for (i = sizeof(*header)/sizeof(Aword); i < memTop; i++) {
+  for (i = sizeof(*header)/sizeof(Aword)+1; i < memTop; i++) {
     crc += memory[i]&0xff;
     crc += (memory[i]>>8)&0xff;
     crc += (memory[i]>>16)&0xff;
@@ -828,16 +813,12 @@ static void dumpACD(void)
     printf("Ok.\n");
   printf("TXTCRC: 0x%lx\n", header->txtcrc);
   if (statementsFlag != 0)
-    dumpStms(statementsFlag);
+    dumpStatements(statementsFlag);
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  load()
-
- */
+/*----------------------------------------------------------------------*/
 static void load(char acdfnm[])
 {
   AcdHdr tmphdr;

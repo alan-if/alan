@@ -271,9 +271,22 @@ static void generateParseEntry(Syntax *stx)
 
 
 /*----------------------------------------------------------------------*/
-static Aaddr generateParseTable(void) {
+static void generateRestrictionTable(void) {
+  List *lst;
+
+  /* Generate all syntax parameter restriction checks */
+  TRAVERSE(lst, adv.stxs)
+    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists,
+								 lst->element.stx);
+}
+
+
+/*======================================================================*/
+Aaddr generateParseTable(void) {
   List *lst;
   Aaddr parseTableAddress;
+
+  generateRestrictionTable();
 
   TRAVERSE(lst, adv.stxs)
     generateParseTree(lst->element.stx);
@@ -288,17 +301,6 @@ static Aaddr generateParseTable(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void generateRestrictionTable(void) {
-  List *lst;
-
-  /* Generate all syntax parameter restriction checks */
-  TRAVERSE(lst, adv.stxs)
-    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists,
-								 lst->element.stx);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void generateParameterMapping(Syntax *syntax)
 {
   List *list;
@@ -307,13 +309,13 @@ static void generateParameterMapping(Syntax *syntax)
   TRAVERSE(list, syntax->parameters)
     /* Generate a parameter mapping entry */
     ;
-
+  emit(EOF);
   syntax->parameterMappingAddress = parameterMappingTableAddress;
 }
 
 
-/*----------------------------------------------------------------------*/
-static void generateSyntaxMapping(void)
+/*======================================================================*/
+Aaddr generateSyntaxMapping(void)
 {
   List *list;
   Aaddr syntaxMappingTableAddress;
@@ -324,25 +326,17 @@ static void generateSyntaxMapping(void)
 
   syntaxMappingTableAddress = nextEmitAddress();
   TRAVERSE(list, adv.stxs) {
-    entry.verbCode = list->element.stx->number;
+    entry.syntaxNumber = list->element.stx->number;
     entry.parameterMapping = list->element.stx->parameterMappingAddress;
     entry.verbCode = list->element.stx->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
+
+  return syntaxMappingTableAddress;
 }
 
   
-/*======================================================================*/
-Aaddr generateAllSyntaxes(void)
-{
-  generateSyntaxMapping();
-  generateRestrictionTable();
-  return generateParseTable();
-}
-
-
-
 /*======================================================================*/
 void dumpSyntax(Syntax *stx)
 {

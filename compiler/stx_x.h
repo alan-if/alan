@@ -12,7 +12,6 @@
 /* USE: */
 
 
-
 /* DATA: */
 
 
@@ -32,7 +31,8 @@ extern Bool eqparams(Syntax *stx1,
 		     Syntax *stx2);
 
 extern void analyzeSyntaxes(void);
-extern Aaddr generateAllSyntaxes(void);
+extern Aaddr generateParseTable(void);
+extern Aaddr generateSyntaxMapping(void);
 extern void dumpSyntax(Syntax *stx);
 
 

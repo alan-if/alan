@@ -13,20 +13,18 @@
 #include "reverse.h"
 
 
-/*----------------------------------------------------------------------
+#define NATIVE(w)   \
+    ( (((Aword)((w)[3])      ) & 0x000000ff)    \
+    | (((Aword)((w)[2]) <<  8) & 0x0000ff00)    \
+    | (((Aword)((w)[1]) << 16) & 0x00ff0000)    \
+    | (((Aword)((w)[0]) << 24) & 0xff000000))
 
-  reversed()
-
-  Return the reversed bytes in the Aword
-
-*/
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
-#else
-Aword reversed(w)
-     Aword w;                   /* IN - The ACODE word to swap bytes of */
-#endif
 {
+#ifdef TRYNATIVE
+  return NATIVE(&w);
+#else
   Aword s;                      /* The swapped ACODE word */
   char *wp, *sp;
   int i;
@@ -38,33 +36,27 @@ Aword reversed(w)
     sp[sizeof(Aword)-1 - i] = wp[i];
 
   return s;
+#endif
 }
 
 
-#ifdef _PROTOTYPES_
 void reverse(Aword *w)          /* IN - The ACODE word to reverse bytes in */
-#else
-void reverse(w)
-     Aword *w;                  /* IN - The ACODE word to reverse bytes in */
-#endif
 {
   *w = reversed(*w);
 }
 
 
-#ifdef _PROTOTYPES_
 static void reverseTable(Aword adr, int len)
-#else
-static void reverseTable(adr, len)
-     Aword adr;
-     int len;
-#endif
 {
   Aword *e = &memory[adr];
   int i;
 
   if (adr != 0)
     while (!endOfTable(e)) {
+      if (len < sizeof(Aword)) {
+	printf("***Wrong size in 'reverseTable()' ***");
+	exit(-1);
+      }	       
       for (i = 0; i < len/sizeof(Aword); i++) {
 	reverse(e);
 	e++;
@@ -73,12 +65,7 @@ static void reverseTable(adr, len)
 }
 
 
-#ifdef _PROTOTYPES_
 static void reverseStms(Aword adr)
-#else
-static void reverseStms(adr)
-     Aword adr;
-#endif
 {
   Aword *e = &memory[adr];
 
@@ -91,12 +78,7 @@ static void reverseStms(adr)
 }
 
 
-#ifdef _PROTOTYPES_
 static void reverseMsgs(Aword adr)
-#else
-static void reverseMsgs(adr)
-     Aword adr;
-#endif
 {
   MsgEntry *e = (MsgEntry *) &memory[adr];
 
@@ -110,12 +92,7 @@ static void reverseMsgs(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseDictionary(Aword adr)
-#else
-static void reverseDictionary(adr)
-     Aword adr;
-#endif
 {
   WrdEntry *e = (WrdEntry *) &memory[adr];
 
@@ -131,12 +108,8 @@ static void reverseDictionary(adr)
   }
 }    
 
-#ifdef _PROTOTYPES_
+
 static void reverseChks(Aword adr)
-#else
-static void reverseChks(adr)
-     Aword adr;
-#endif
 {
   ChkEntry *e = (ChkEntry *) &memory[adr];
 
@@ -150,12 +123,8 @@ static void reverseChks(adr)
   }
 }    
 
-#ifdef _PROTOTYPES_
+
 static void reverseAlts(Aword adr)
-#else
-static void reverseAlts(adr)
-     Aword adr;
-#endif
 {
   AltEntry *e = (AltEntry *)&memory[adr];
 
@@ -171,12 +140,7 @@ static void reverseAlts(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseVerbs(Aword adr)
-#else
-static void reverseVerbs(adr)
-     Aword adr;
-#endif
 {
   VerbEntry *e = (VerbEntry *)&memory[adr];
 
@@ -190,12 +154,7 @@ static void reverseVerbs(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseSteps(Aword adr)
-#else
-static void reverseSteps(adr)
-     Aword adr;
-#endif
 {
   StepEntry *e = (StepEntry *) &memory[adr];
 
@@ -210,12 +169,7 @@ static void reverseSteps(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseScrs(Aword adr)
-#else
-static void reverseScrs(adr)
-     Aword adr;
-#endif
 {
   ScriptEntry *e = (ScriptEntry *) &memory[adr];
 
@@ -230,12 +184,7 @@ static void reverseScrs(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseExits(Aword adr)
-#else
-static void reverseExits(adr)
-     Aword adr;
-#endif
 {
   ExitEntry *e = (ExitEntry *) &memory[adr];
 
@@ -252,12 +201,7 @@ static void reverseExits(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseClasses(Aword adr)
-#else
-static void reverseClasses(adr)
-     Aword adr;
-#endif
 {
   ClassEntry *e = (ClassEntry *) &memory[adr];
 
@@ -273,12 +217,7 @@ static void reverseClasses(adr)
 }
 
 
-#ifdef _PROTOTYPES_
 static void reverseInstances(Aword adr)
-#else
-static void reverseInstances(adr)
-     Aword adr;
-#endif
 {
   InstanceEntry *e = (InstanceEntry *) &memory[adr];
 
@@ -298,12 +237,7 @@ static void reverseInstances(adr)
 }
 
 
-#ifdef _PROTOTYPES_
 static void reverseRestrictions(Aword adr)
-#else
-static void reverseRestrictions(adr)
-     Aword adr;
-#endif
 {
   RestrictionEntry *e = (RestrictionEntry *) &memory[adr];
 
@@ -317,12 +251,7 @@ static void reverseRestrictions(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseElms(Aword adr)
-#else
-static void reverseElms(adr)
-     Aword adr;
-#endif
 {
   ElementEntry *e = (ElementEntry *) &memory[adr];
 
@@ -337,12 +266,7 @@ static void reverseElms(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
-static void reverseStxs(Aword adr)
-#else
-static void reverseStxs(adr)
-     Aword adr;
-#endif
+static void reverseParseTable(Aword adr)
 {
   ParseEntry *e = (ParseEntry *) &memory[adr];
 
@@ -355,12 +279,22 @@ static void reverseStxs(adr)
   }
 }    
 
-#ifdef _PROTOTYPES_
+
+static void reverseSyntaxTable(Aword adr)
+{
+  SyntaxEntry *e = (SyntaxEntry *) &memory[adr];
+
+  if (adr != 0 && !endOfTable(e)) {
+    reverseTable(adr, sizeof(SyntaxEntry));
+    while (!endOfTable(e)) {
+      reverseTable(e->parameterMapping, sizeof(Aword));
+      e++;
+    }
+  }
+}    
+
+
 static void reverseEvts(Aword adr)
-#else
-static void reverseEvts(adr)
-     Aword adr;
-#endif
 {
   EventEntry *e = (EventEntry *) &memory[adr];
 
@@ -374,13 +308,7 @@ static void reverseEvts(adr)
 }    
 
 
-
-#ifdef _PROTOTYPES_
 static void reverseLims(Aword adr)
-#else
-static void reverseLims(adr)
-     Aword adr;
-#endif
 {
   LimEntry *e = (LimEntry *) &memory[adr];
 
@@ -394,12 +322,7 @@ static void reverseLims(adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseContainers(Aword adr)
-#else
-§static void reverseContainers(adr)
-     Aword adr;
-#endif
 {
   ContainerEntry *e = (ContainerEntry *) &memory[adr];
 
@@ -417,12 +340,7 @@ static void reverseContainers(Aword adr)
 }    
 
 
-#ifdef _PROTOTYPES_
 static void reverseRuls(Aword adr)
-#else
-static void reverseRuls(adr)
-     Aword adr;
-#endif
 {
   RulEntry *e = (RulEntry *) &memory[adr];
 
@@ -438,19 +356,8 @@ static void reverseRuls(adr)
 
 
 
-/*----------------------------------------------------------------------
-
-  reverseHdr()
-
-  Reverse the header structure.
-
-*/
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 void reverseHdr(AcdHdr *hdr)
-#else
-void reverseHdr(hdr)
-     AcdHdr *hdr;
-#endif
 {
   int i;
 
@@ -477,7 +384,8 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseDictionary(header->dictionary);
-  reverseStxs(header->parseTableAddress);
+  reverseParseTable(header->parseTableAddress);
+  reverseSyntaxTable(header->syntaxTableAddress);
   reverseVerbs(header->verbTableAddress);
   reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);

@@ -149,10 +149,10 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.o
 # Dependencies
 #
 depend:
-	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
+	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
-	  $(CPP) $(GLKDEFS) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
+	  $(CPP) $(GLKDEFS) $(CFLAGS) $(GLKINCLUDE) -I../compiler $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 
