@@ -1,8 +1,7 @@
 -- throw.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - verbs changed for named attribute
-
+-- 0.4.1 - converted to ALANv3
 
 SYNONYMS
 	dump, cast = throw.

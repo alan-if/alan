@@ -1,9 +1,13 @@
 -- read.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---    - added 'the' in read CHECK msg
---    - use named attribute in formatting text
+-- 0.4.1 - converted to ALANv3
+
+
+ADD TO EVERY OBJECT 
+IS
+	NOT readable.
+END ADD TO OBJECT.
 
 
 SYNTAX

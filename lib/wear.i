@@ -1,7 +1,13 @@
 -- wear.i
--- library version 0.3
+-- library version 0.4.1
 
--- 0.3 (new file)
+-- 0.4.1 - converted to ALANv3
+
+
+ADD TO EVERY OBJECT 
+IS
+	NOT wearable.
+END ADD TO OBJECT.
 
 
 SYNTAX 

@@ -1,23 +1,7 @@
 -- talk.i
--- Library version 0.3.1
+-- Library version 0.4.1
 
-
--- 0.3.1
---      - renamed old talk_to verb to talk_about
---      - added new talk_to verb with syntax of "talk to <act>"
-
-
--- 0.3 
---  - renamed some verbs for stylistic consistency with 
---    other verb names in the library
---          talkto --> talk_to
---          talkabout --> talk_about
---          sayword --> say_word
---          sayto --> say_to
---  - changed verbs to check if object/actors are 'named'
---  - added 'can_talk' attribute
---  - removed talk_about coz required separate verb definitions to ask verb
---                  which is far too much work for game author
+-- 0.4.1 - converted to ALANv3
 
 
 -- for verbs like 'ask' and 'tell' you need to individually program responses
@@ -44,6 +28,17 @@
 --     END VERB ask.
 --     ....
 -- END ACTOR Simon.
+
+
+ADD TO EVERY THING 
+IS
+	NOT can_talk.
+END ADD TO THING.
+
+ADD TO EVERY ACTOR 
+IS
+	can_talk.
+END ADD TO ACTOR.
 
 
 SYNONYMS
@@ -114,34 +109,6 @@ VERB ask
 		END IF.
 END VERB.
 
-
--- 0.3 - removed this verb because too much to expect author to program every
--- conversation twice - because talk_about syntax is incompatible with the 
--- verb 'ask' can't put "verb ask, talk_about" 
---"SYNTAX talk_about = talk about (topic)! with (act) 
---    WHERE topic ISA THING 
---  ELSE "You can't ask about that."
---    AND act ISA THING
---  ELSE "You can't talk to that."
---
---VERB talk_about
---    CHECK act HAS can_talk
---  ELSE "You can't talk to that."
---    DOES 
---  """I don't think I need to know about"
---  IF topic IS named THEN
---      SAY topic.
---  ELSE
---      "$1"
---  END IF.
---  ","" says"
---  IF act IS named THEN
---      SAY act. 
---  ELSE
---      "the $2"
---  END IF. 
---  "$$."
---END VERB.
 
 
 SYNTAX talk_to = talk 'to' (act) about (topic)!

@@ -1,13 +1,13 @@
 			--------------------------
 			Some Usage Notes for std.i
 			--------------------------
-				 (version 0.3.1)
+				 (version 0.4)
 
 
 Three steps to using the library
 --------------------------------
- 1 - Store all the std.i library files in a separate subdirectory or file 
-folder from your game's files
+ 1 - Store all the std.i library files in a subdirectory or file folder 
+separate from your game's files
 
 
  2 - Add an 'include' statement for the main 'std.i' file at the top of your 
@@ -22,7 +22,7 @@ rest of the library '.i' files so they're automatically added to your game.)
 		$INCLUDE 'std.i'
 
 		-- beginning of your game's actual code
-		LOCATION abc
+		THE abc ISA LOCATION
 			etc etc ......
 
 
@@ -101,14 +101,14 @@ DOES statements in your game sourcecode so that the player can use any of
 the different syntaxes.
 
  - eg:
-	OBJECT rock AT somewhere
+	THE rock ISA OBJECT AT somewhere
 		DESCRIPTION "etc etc"
 
 		VERB examine, look_at, search
 			DOES
 				"Its a pretty dull rock, actually"
 		END VERB.
-	END OBJECT.
+	END THE rock.
 
 
 The most important of these groups of different-but-equivalent verbs are:
@@ -150,7 +150,7 @@ text, the second all in lower case so the player can refer to the object in
 player commands (because all player commands are read as lowercase by the Arun
 game interpreter)
  - eg:
-	OBJECT robot AT spaceship NAME 'Floyd' NAME floyd 
+	THE robot ISA OBJECT AT spaceship NAME 'Floyd' NAME floyd 
 
 
 
@@ -172,7 +172,7 @@ weight limit of 4 so that even objects of the default size can't be put in
 it.
  -eg:
 
-	object cbox name chocolate box at somewhere
+	the cbox isa object name chocolate box at somewhere
 		is 
 			not closed.
 			closeable.
@@ -198,7 +198,7 @@ distant but examinable objects not takeable, pushable, touchable, or
 searchable
  - eg:
 
-	object mountains at somewhere
+	the mountains isa object at somewhere
 		is 
 			not searchable.
 			not takeable.
@@ -214,11 +214,11 @@ searchable
 				describe mountains.
 		end verb.
 
-	end object.
+	end the mountains.
 
 
 
 
-================================
-Stephen Griffiths, February 2001
+============================
+Stephen Griffiths, June 2002
   (sg@xtra.co.nz)

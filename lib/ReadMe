@@ -1,7 +1,7 @@
 Alan Library
 ------------
 
-These files are the proposed Alan standard library version 0.3.1. The 
+These files are the proposed Alan standard library version 0.4.1. The 
 actual library files (the files with a filename extension of ".i") are
 added to the source code of your game by "$include'ing" the main file
 called std.i -- see the text file 'notes.txt' for details.
@@ -12,12 +12,12 @@ with which it is completely compatible
 For example, if its completely compatible with, or unchanged from, the last
 three library versions then the line will read:
 
-	-- Library version 0.1, 0.2, 0.3
+	-- Library version 0.2, 0.3, 0.4
 
 Files which are changed so that they are not *exactly* compatible with any 
-previous versions except for library 0.3 then the second line will be:
+previous versions except for library 0.4.1 then the second line will be:
 
-	-- Library version 0.3
+	-- Library version 0.4.1
 
 This might make it easier to decide if this new version of the library
 will affect your work. Note however that even very small incompatible
@@ -31,6 +31,9 @@ in his work.
 You can find an index of sorts in the file 'index.txt'.
 
 Additional notes and tips about using std.i are in the file 'notes.txt'.
+
+The 'changes.txt' outlines a history of changes to the library files 
+since version 0.3
 
 ----
 
@@ -59,6 +62,7 @@ equivalent).
 So a viable set of commands to modify the eat.i file *just for this
 game* would be:
 
+	C:\> cd MY\GAME
 	C:\MY\GAME> copy \ALAN\LIBRARY\eat.i eat.i
 	C:\MY\GAME> edit eat.i
 	C:\MY\GAME> alan -include \ALAN\LIBRARY game.alan
@@ -70,9 +74,9 @@ just to start using the new library, thus benefitting from new
 features in the new version of the library, except where you made your
 local modifications, eg:
 
-	C:\MY\GAME> alan -include \ALAN\2.8\LIBRARY game.alan
+	C:\MY\GAME> alan -include \ALAN\LIBRARY game.alan
 
-This is the reasoning behind the proposed structure. 
+This is the reasoning behind the proposed multi-file library structure. 
 
 ----
 

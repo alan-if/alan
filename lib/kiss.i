@@ -1,7 +1,9 @@
 -- kiss.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - use named attribute to format DOES text
+-- 0.4.1 - converted to ALANv3
+
+
 
 SYNTAX
 	kiss = kiss (obj)
@@ -10,7 +12,7 @@ SYNTAX
 
 VERB kiss
 	DOES
-		IF obj=hero THEN
+		IF obj=HERO THEN
 			"Well, if you must!"
 		ELSE
 			IF obj IS InAnimate THEN

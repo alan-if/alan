@@ -1,7 +1,7 @@
 ===========================
 INDEX over the Alan Library
 =========================== 
-Library Version 0.3.2 -- April, 2001
+Library Version 0.4.1 -- June, 2002
 
 
 There are two indices here. Each is divided into categories
@@ -20,8 +20,10 @@ using the library.
 Alphabetical order:
 ===================
 
+ACTOR
+	hero                                      -- global.i
+
 CONTAINER
-	inventory                                 -- invent.i
 	worn                                      -- invent.i
 
 LOCATION
@@ -32,6 +34,7 @@ DEFAULT ATTRIBUTES
 	examinable                                -- examine.i
 	InAnimate                                 -- take.i
 	NOT named                                 -- global.i
+	NOT plural                                -- global.i
 	pushable                                  -- push.i
 	searchable                                -- examine.i
 	NOT Shootable                             -- attack.i
@@ -225,6 +228,7 @@ DEFAULT ATTRIBUTES
 	searchable                                -- examine.i
 
 	NOT named                                 -- global.i
+	NOT plural                                -- global.i
 
 	pushable                                  -- push.i
 
@@ -439,6 +443,9 @@ SYNTAX
 	undress = undress                         -- wear.i
 	wear = wear (obj)                         -- wear.i
 
+
+ACTOR
+	hero                                      -- global.i
 
 CONTAINER
 	inventory                                 -- invent.i

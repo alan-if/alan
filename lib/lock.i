@@ -1,7 +1,14 @@
 -- lock.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - use named attribute to format CHECK and DOES text
+-- 0.4.1 - converted to ALANv3
+
+
+ADD TO EVERY OBJECT 
+IS
+	NOT lockable.
+	locked.
+END ADD TO OBJECT. 
 
 SYNTAX
 	lock = lock (obj)

@@ -1,14 +1,21 @@
 -- examine.i
--- Library version 0.3.1
+-- Library version 0.4.1
+
+-- 0.4.1 - converted to ALANv3
 
 
--- 0.3.1
---  - added verb "look in <object>"
---
--- 0.3 
---  - use 'named' attribute to format DOES text
---  - added searchable attribute, separated default search definition
---          from look_at & examine definition
+ADD TO EVERY THING 
+IS
+	examinable.
+	searchable.
+END ADD TO THING. 
+
+ADD TO EVERY ACTOR 
+IS
+	NOT searchable.
+END ADD TO ACTOR.
+
+----
 
 SYNONYMS
 	x, inspect, 'check' = examine.

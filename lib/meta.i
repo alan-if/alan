@@ -1,12 +1,5 @@
 -- meta.i
--- Library version 0.3.2
-
-
--- 0.3.2
---      converted to Alan v3 syntax
--- 0.3 
---      - changed text for 'again' command
---      - made q a separate verb instead of synonym of quit
+-- Library version 0.3, 0.4
 
 
 SYNTAX

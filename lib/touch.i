@@ -1,12 +1,13 @@
 -- touch.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---      - changed verbs to check 'named' attribute
---      - make actors touchable
---      - make objects default 'touchable' 
---      - add check so can't "touch_with" an object with itself
+-- 0.4.1 - converted to ALANv3
 
+
+ADD TO EVERY THING 
+IS
+	touchable.
+END ADD TO THING.
 
 
 SYNTAX

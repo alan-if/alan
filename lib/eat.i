@@ -1,8 +1,14 @@
 -- eat.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - use 'named' attribute to format DOES text
+-- 0.4.1 - converted to ALANv3
 
+
+ADD TO EVERY OBJECT 
+IS
+	NOT edible.
+	NOT drinkable.
+END ADD TO OBJECT. 
 
 SYNTAX
 	eat = eat (obj)

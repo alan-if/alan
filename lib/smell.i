@@ -1,7 +1,7 @@
 -- smell.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - new 
+-- 0.4.1 - converted to ALANv3
 
 
 SYNTAX

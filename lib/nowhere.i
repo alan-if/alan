@@ -1,12 +1,9 @@
 -- nowhere.i
--- Library version 0.3.2
+-- Library version 0.4.1
 
--- 0.3.2
---      converted to Alan v3 syntax
+-- 0.4.1 - converted to ALANv3
 
 
--- Useful for placing disappearing things
--- Also defines the default directions
 
 SYNONYMS
 	n = north.
@@ -19,6 +16,9 @@ SYNONYMS
 	sw = southwest.
 	u = up.
 	d = down.
+
+-- Useful for placing disappearing things
+-- Also defines the default directions
 
 
 THE nowhere ISA LOCATION.

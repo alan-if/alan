@@ -1,12 +1,7 @@
 -- put.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---    - use named attribute in formatting message text
---    - put in verb
---          changed put object in itself message from vague 'that'd be a 
---                    good trick'
-
+-- 0.4.1 - converted to ALANv3
 
 
 SYNONYMS

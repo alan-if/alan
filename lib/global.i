@@ -1,9 +1,17 @@
 -- global.i
+-- Library version 0.4.1
 
--- Library 0.3.2
---      added 'plural' attribute (but its not used for anything)
---      converted to Alan v3 syntax
+-- 0.4.1 -- due to ALANv3 changes,
+--          added definition of 'hero' (the player character) as a container
+--          for holding the player's "inventory", removed inventory object
+--          from invent.i
 
+-- synonyms for player's character so can "examine myself" "look at me" etc
+-- and synonyms for "it" so can say "look at guard" and then "salute him"
+
+SYNONYMS
+	me, myself, self = HERO.
+	her, him = it.
 
 THE HERO ISA ACTOR
 CONTAINER 
@@ -11,22 +19,14 @@ CONTAINER
 		COUNT 10 THEN
 			"You can't carry anything more. You have to drop something 
 			first."
---                weight 50 THEN
---                        "You can't carry anything more. You have to drop something 
---                        first."
+		weight 50 THEN
+				"You can't carry anything more. You have to drop something 
+				first."
 	HEADER
 		"You are carrying"
 	ELSE
 		"You are empty-handed."
 END THE HERO.
-
-
--- synonyms for player's character so can "examine myself" "look at me" etc
--- and synonyms for "it" so can say "look at guard" and then "salute him"
-
-SYNONYMS
-	me, myself, self = hero.
-	her, him = it.
 
 
 -- 'named' used in std.i messages to distinguish between actors with real 
@@ -45,41 +45,9 @@ ADD TO EVERY THING
 IS
 	NOT plural.
 	NOT named.
-	touchable. --from turn
-	NOT can_talk. --from talk
-	InAnimate. -- from take
-	pushable. -- from push
-	examinable.  -- from examine
-	searchable.  -- from examine
-	NOT Shootable. -- from attack
 END ADD TO THING. 
-
 
 ADD TO EVERY ACTOR
 IS
 	named.
-	can_talk. --from talk
-	NOT InAnimate. --from talk
-	weight 50. -- from invent
-	NOT searchable. -- from examine
 END ADD TO ACTOR.
-
-
-ADD TO EVERY object
-IS
-	NOT wearable. -- from wear
-	NOT 'on'.  --from turn
-	NOT switchable. --from turn
-	takeable. -- from take
-	NOT readable. -- from read
-	NOT closeable. --from open
-	closed. --from open
-	NOT lockable.  -- from lock
-	locked.  -- from lock
-	weight 5. --from invent
-	NOT edible. -- from eat
-	NOT drinkable.  -- from eat
-	NOT Weapon. -- from attack
-END ADD TO object. 
-
-

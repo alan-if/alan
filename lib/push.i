@@ -1,9 +1,13 @@
 -- push.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---      - use the named attribute to format 'CHECK' and 'DOES' text
---      - objects & actors now 'pushable' by default
+-- 0.4.1 - converted to ALANv3
+
+ADD TO EVERY THING 
+IS
+	pushable.
+END ADD TO THING.
+
 
 SYNTAX
 	push = push (obj)

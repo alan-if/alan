@@ -1,7 +1,15 @@
 -- turn.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 - changed verbs to use 'named' attribute
+-- 0.4.1 - converted to ALANv3
+
+
+ADD TO EVERY OBJECT 
+IS
+	NOT 'on'.
+	NOT switchable.
+END ADD TO OBJECT.
+
 
 SYNTAX
 	turn_on1 = turn 'on' (obj)

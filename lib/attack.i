@@ -1,14 +1,19 @@
 -- attack.i
--- Library version 0.3.2
+-- Library version 0.4.1
 
--- 0.3.2
---      converted to Alan v3 syntax
+-- 0.4.1 - converted to ALANv3
 
--- 0.3 
---  - allow 'attack' of objects as well as actors
---  - use named attribute to format DOES text
---  - added verb shoot_at0 ('shoot at <object>')
 
+ADD TO EVERY THING
+IS 
+   NOT Shootable.
+END ADD TO THING. 
+
+ADD TO EVERY OBJECT
+IS
+	NOT Weapon.
+	not shootable.
+END ADD TO OBJECT. 
 
 
 SYNONYMS

@@ -1,10 +1,14 @@
 -- open.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---      - use named attribute to CHECK and DOES text
---      - changed 'close' check to "you can only close objects' as not
---          all actors will necessarily be 'people'
+-- 0.4.1 - converted to ALANv3
+
+
+ADD TO EVERY OBJECT 
+IS
+	NOT closeable.
+	closed.
+END ADD TO OBJECT. 
 
 SYNTAX
 	open = open (obj)

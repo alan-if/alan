@@ -1,9 +1,25 @@
 -- take.i
--- Library version 0.3
+-- Library version 0.4.1
 
--- 0.3 
---      - adjusted verbs to make use of named attribute
---      - added a weight check to 'take' verb
+-- 0.4.1 - converted to ALANv3
+
+
+
+ADD TO EVERY THING 
+IS
+	InAnimate.
+END ADD TO THING.
+
+ADD TO EVERY OBJECT 
+IS
+	takeable.
+END ADD TO OBJECT.
+
+ADD TO EVERY ACTOR 
+IS
+	NOT InAnimate.
+END ADD TO ACTOR.
+
 
 SYNONYMS
 	get, carry, obtain, grab, steal, confiscate, hold = take.
