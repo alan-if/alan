@@ -85,13 +85,7 @@ Properties *newProps(List *names,
 
 
 
-/*----------------------------------------------------------------------
-
-  symbolizeParent()
-
-  Symbolize parent property node.
-
- */
+/*----------------------------------------------------------------------*/
 static void symbolizeParent(Properties *props)
 {
   Symbol *parent;
@@ -132,8 +126,7 @@ static void analyzeName(Properties *props)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = analyzeNames(props->names, props->id,
-		 inheritsFrom(props->id->symbol, locationSymbol) ||
-		 inheritsFrom(props->id->symbol, actorSymbol));
+		 inheritsFrom(props->id->symbol, locationSymbol));
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, PRINT_STATEMENT);
