@@ -1062,9 +1062,9 @@ static void do_it()
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
 	    if (alt[i]->qual == (Aword)Q_BEFORE)
-	      printf("\n<VERB %s (BEFORE), Body:>\n", trace);
+	      printf("\n<VERB %d, %s (BEFORE), Body:>\n", cur.vrb, trace);
 	    else
-	      printf("\n<VERB %s (ONLY), Body:>\n", trace);
+	      printf("\n<VERB %d, %s (ONLY), Body:>\n", cur.vrb, trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1087,7 +1087,7 @@ static void do_it()
 	      strcpy(trace, "in LOCATION");
 	    else
 	      sprintf(trace, "in PARAMETER %d", i-1);
-	    printf("\n<VERB %s, Body:>\n", trace);
+	    printf("\n<VERB %d, %s, Body:>\n", cur.vrb, trace);
 	  }
 	  interpret(alt[i]->action);
 	  if (fail) return;
@@ -1108,7 +1108,7 @@ static void do_it()
 	    strcpy(trace, "in LOCATION");
 	  else
 	    sprintf(trace, "in PARAMETER %d", i-1);
-	  printf("\n<VERB %s (AFTER), Body:>\n", trace);
+	  printf("\n<VERB %d, %s (AFTER), Body:>\n", cur.vrb, trace);
 	}
 	interpret(alt[i]->action);
 	if (fail) return;
