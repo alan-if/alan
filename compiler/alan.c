@@ -255,22 +255,22 @@ static void prtimes()
   lmLiPrint("");
   lmLiPrint(       "        Timing");
   lmLiPrint(       "        ------");
-  sprintf(str,   "        Parse Time:             %6d", tim.pars);
+  sprintf(str,   "        Parse Time:             %6ld", tim.pars);
   lmLiPrint(str);
   if (tim.sem != 0) {
-    sprintf(str, "        Analysis Time:          %6d", tim.sem);
+    sprintf(str, "        Analysis Time:          %6ld", tim.sem);
     lmLiPrint(str);
   }
   if (tim.gen != 0) {
-    sprintf(str, "        Code Generation Time:   %6d", tim.gen);
+    sprintf(str, "        Code Generation Time:   %6ld", tim.gen);
     lmLiPrint(str);
   }
   sprintf(str,   "        ------------------------------");
   lmLiPrint(str);
-  sprintf(str,   "        Compilation Time:       %6d", tim.comp);
+  sprintf(str,   "        Compilation Time:       %6ld", tim.comp);
   lmLiPrint(str);
   lmLiPrint("");
-  sprintf(str,   "        Total Time:             %6d", tim.tot);
+  sprintf(str,   "        Total Time:             %6ld", tim.tot);
   lmLiPrint(str);
 }
 
