@@ -1,3 +1,9 @@
+Mon Aug 31 13:32:32 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Allowed aposthrophe as a part of input words allowing "take
+ 	robin's cape". Thanks to Elden Buerkle" <frankfile@hotmail.com>
+ 	for this suggestion.
+
 Mon Aug 24 10:54:04 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Removed the "save-bug" on DOS caused by not opening in binary
@@ -336,10 +342,4 @@ Wed Dec  8 16:15:01 1993  Thomas Nilsson  (thoni@rabbit)
 	* Added Restart question to the QUIT statement.
 
 	* Allowed save to multiple files.
-
-
-
-
-
-
 

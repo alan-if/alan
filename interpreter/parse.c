@@ -161,7 +161,7 @@ static char *gettoken(buf)
   while (*marker != '\0' && isSpace(*marker) && *marker != '\n') marker++;
   buf = marker;
   if (isISOLetter(*marker))
-    while (*marker&&(isISOLetter(*marker)||isdigit(*marker))) marker++;
+    while (*marker&&(isISOLetter(*marker)||isdigit(*marker)||*marker=='\'')) marker++;
   else if (isdigit(*marker))
     while (isdigit(*marker)) marker++;
   else if (*marker == '\"') {
