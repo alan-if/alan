@@ -1,0 +1,28 @@
+Options
+  Debug.
+
+Syntax take = take (o).
+Verb take
+  Does
+    Locate o In Inventory.
+    "Taken."
+End Verb.
+
+--Syntax screw = screw (o).
+--Verb screw
+--  Does
+--    "Screw you..."
+--End Verb.
+
+Object screwdriver Name screw driver At l
+End Object.
+
+Object screw At l
+End Object.
+
+
+Location l
+End Location l.
+
+
+Start At l.

@@ -1,0 +1,13 @@
+#! /bin/csh
+#
+# Script to regression test Alan and Arun
+
+foreach f ( *.alan )
+  set case = `basename $f .alan`
+  echo ----- $case ------
+  alan $case
+  arun $case < $case.input > $case.output
+  diff $case.output $case.ok >& $case.diff
+end
+ls -s *.diff
+
