@@ -784,6 +784,7 @@ void locate(id, whr)
   char str[80];
   Aword containerId;
   ContainerEntry *theContainer;
+  Aword previousInstance = current.instance;
 
   if (id == 0) {
     sprintf(str, "Can't LOCATE instance (%ld).", id);
@@ -801,8 +802,10 @@ void locate(id, whr)
 
   /* First check if the instance is in a container, if so run extract checks */
   if (isCnt(instance[id].location)) {    /* In something? */
+    current.instance = instance[id].location;
     containerId = instance[instance[id].location].container;
     theContainer = &container[containerId];
+
     if (theContainer->extractChecks != 0) {
       if (traceOption) {
 	printf("\n<EXTRACT from ");
@@ -813,6 +816,7 @@ void locate(id, whr)
 	fail = TRUE;
 	return;
       }
+      current.instance = previousInstance;
     }
     if (theContainer->extractStatements != 0) {
       if (traceOption) {
