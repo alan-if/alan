@@ -20,7 +20,9 @@
 #include "parse.h"
 #include "inter.h"
 #include "rules.h"
+#ifdef REVERSED
 #include "reverse.h"
+#endif
 #include "debug.h"
 #include "stack.h"
 #include "exe.h"
@@ -1260,7 +1262,7 @@ static void load()
   }
 
 #ifdef REVERSED
-  printf("Hmm, need to reverse the adventure on this type of machine.\nWait a moment while I'll fix it....\n");
+  printf("Hmm, need to reverse the data on this type of machine.\nWait a moment while I'll fix it....\n");
   reverseACD();		/* Reverse all words in the ACD file */
 #endif
 }

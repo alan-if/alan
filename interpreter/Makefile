@@ -23,7 +23,6 @@ SRCS = debug.c \
 	exe.c \
 	inter.c \
 	parse.c \
-	reverse.c \
 	rules.c \
 	stack.c \
 	decode.c \
