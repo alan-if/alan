@@ -9,6 +9,7 @@
 
 
 /* USE: */
+#include "lst.h"
 
 
 /* TYPES: */
@@ -29,9 +30,11 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
   union {
     struct {
       struct SymNod *parent;
+      List *attributes;
     } cla;
     struct {
       struct SymNod *parent;
+      List *attributes;
     } ins;
   } fields;
 } SymNod;

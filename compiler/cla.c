@@ -15,6 +15,7 @@
 #include "id_x.h"
 #include "sym_x.h"
 #include "slt_x.h"
+#include "lst_x.h"
 
 #include "emit.h"
 #include "util.h"
@@ -65,7 +66,7 @@ void initClasses()
 ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,
 	       IdNode *parent,
-	       SlotsNode *slt)
+	       SlotsNode *slots)
 {
   ClaNod *new;                  /* The newly allocated area */
 
@@ -74,14 +75,15 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ClaNod);
 
   new->srcp = *srcp;
-  if (slt == NULL)
+  if (slots == NULL)
     new->slots = newEmptySlots();
   else
-    new->slots = slt;
+    new->slots = slots;
 
   new->slots->id = id;
   new->slots->parent = parent;
   new->slots->symbol = newsym(id->string, CLASS_SYMBOL);
+  new->slots->symbol->fields.cla.attributes = new->slots->attributes;
 
   allClasses = concat(allClasses, new, LIST_CLA);
 
