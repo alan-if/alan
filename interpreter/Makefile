@@ -2,9 +2,10 @@
 #
 
 SHELL	= /bin/sh
-CPP	= gcc -MM -ansi -I/usr/local/include/ansi
 
-GCC	= gcc2.4.5
+GCC	= gcc
+CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
+
 CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 
 purify:=		CC = acc -Xc -vc

@@ -1,7 +1,7 @@
 # Makefile for alan compiler
 #
 
-GCC	= gcc2.4.5
+GCC	= gcc
 CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 TMLIB	= $(TMHOME)/lib/ansi-c
