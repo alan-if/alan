@@ -101,6 +101,10 @@ void emitEntry(void *address, int noOfBytes)
   int i;
   Aword *words = address;
 
+  /* Should never start an entry with an EOF word since the reversal process
+     depends on it for terminating. */
+  if (words[0] == EOF) syserr("First word of an entry should never be EOF, in %s().", __FUNCTION__);
+
   if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.", NULL);
 
   for (i = 0; i < noOfBytes/sizeof(Aword); i++)

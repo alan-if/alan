@@ -69,3 +69,5 @@ glkstart.o: glkstart.c ../../WindowsGLK/Include/glk.h glkstart.h glkio.h \
 glkio.o: glkio.c ../../WindowsGLK/Include/glk.h glkio.h
 glkio.o: glkio.c ../../WindowsGLK/Include/glk.h glkio.h
 dumpacd.o: dumpacd.c types.h sysdep.h acode.h reverse.h ../compiler/spa.h
+reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
+reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h

@@ -973,7 +973,7 @@ static void liOpenOutput(
   else {
     out.file = fopen(out.name, "w");
     if (out.file == NULL) {	/* Couldn't open list file */
-      out.file = stdout;	/* So list on stderr instead */
+      out.file = stdout;	/* So list on standard output instead */
       out.name = NULL;		/* Remember! */
     }
   }

@@ -216,7 +216,8 @@ typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
 } AttributeEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
-  Abool done;			/* Flag for reverse/convert process */
+  Abool duplicate;		/* Is this a duplicate (exit e,v) used
+				   in reverse/convert process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */
@@ -275,9 +276,8 @@ typedef struct ScriptEntry {	/* SCRIPT TABLE */
 } ScriptEntry;
 
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
-  Abool done;			/* Flag for patching (reverse/convert) process */
-  Aword param;			/* Parameter number */
   Aword qual;			/* Verb execution qualifier */
+  Aword param;			/* Parameter number */
   Aaddr checks;			/* Address of the check table */
   Aaddr action;			/* Address of the action code */
 } AltEntry;

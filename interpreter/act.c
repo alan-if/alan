@@ -213,9 +213,6 @@ void go(dir)
 }
 
 
-
-
-
 /*----------------------------------------------------------------------*/
 static AltEntry *findAlternativeInVerbList(Aaddr verbListAddress,
 					   Aint parameter)
@@ -227,9 +224,10 @@ static AltEntry *findAlternativeInVerbList(Aaddr verbListAddress,
 
   for (verb = (VerbEntry *) pointerTo(verbListAddress); !endOfTable(verb); verb++)
     if (verb->code == current.verb) {
-      for (alt = (AltEntry *) pointerTo(verb->alts); !endOfTable(alt); alt++)
+      for (alt = (AltEntry *) pointerTo(verb->alts); !endOfTable(alt); alt++) {
 	if (alt->param == parameter || alt->param == 0)
 	  return alt;
+      }
       return NULL;
     }
   return NULL;

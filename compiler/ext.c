@@ -191,7 +191,7 @@ static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
   ExitEntry entry;
 
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
-    entry.done = same;			/* For reversing process */
+    entry.duplicate = same;			/* For reversing process */
     entry.code = dir->element.id->symbol->code;
     entry.checks = ext->chks? ext->chkadr : 0;
     entry.action = ext->stms? ext->stmadr : 0;

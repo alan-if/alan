@@ -142,7 +142,6 @@ static void generateAlternativeEntry(AltNod *alt)
 {
   AltEntry entry;
 
-  entry.done = 0;			/* Auto-Reverse flag FIXME - do be removed*/
   entry.param = alt->parameterNumber;
   entry.qual = generateQualifier(alt->qual);
   entry.checks = alt->chkadr;

@@ -127,10 +127,30 @@ static void reverseChks(Aword adr)
 static void reverseAlts(Aword adr)
 {
   AltEntry *e = (AltEntry *)&memory[adr];
+  static Aword *done = NULL;
+  static int numberDone = 0;
+  int i;
+  Boolean found = FALSE;
 
+  if (adr == 0) return;
+#define DONE_HANDLING
+#ifdef DONE_HANDLING
+  /* Have we already done it? */
+  for (i = 0; i < numberDone; i++) if (done[i] == adr) {found = TRUE; break;}
+  if (found) return;
+
+  done = realloc(done, (numberDone+1)*sizeof(Aword));
+  done[numberDone] = adr;
+  numberDone++;
+
+  if (adr != 0 && !endOfTable(e)) {
+#else
   if (adr != 0 && !endOfTable(e) && !e->done) {
+#endif
     reverseTable(adr, sizeof(AltEntry));
+#ifndef DONE_HANDLING
     e->done = TRUE;
+#endif
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
@@ -191,7 +211,7 @@ static void reverseExits(Aword adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(ExitEntry));
     while (!endOfTable(e)) {
-      if (!e->done) {
+      if (!e->duplicate) {
 	reverseChks(e->checks);
 	reverseStms(e->action);
       }
