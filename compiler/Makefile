@@ -186,8 +186,8 @@ DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
 	make savetm
 	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-	make tm
 	smk -set PC alan
+	make src	
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
@@ -200,6 +200,7 @@ mac:
 	smk -set MAC alan
 	-rm .smkstamp
 	make src
+	-rm .smkstamp
 	refreshMac $(HOME)/mac/Alan/Compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
 	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
