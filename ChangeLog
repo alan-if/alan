@@ -1,6 +1,14 @@
+Wed Aug 12 17:29:00 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Added a 'charset' command line option. You can now use source
+	files directly in ISO, MAC or DOS character sets and the compiler
+	still produces correct output. Handy when using national
+	characters primarily in Win/Dos environments, you can now edit the
+	source using a Win-based editor and compile in a DOS shell.
+
 Tue Aug 11 11:20:23 1998  Thomas Nilsson  <thoni@rabbit>
 
-	* Restored the command line editing on Solaris2
+	* Refixed the command line editing on Solaris2
 
 Mon Aug 10 11:55:08 MET DST 1998
 

@@ -3,6 +3,7 @@
 .HoldDirectoryFinderInfoForMacNFS
 .arch
 .make.dependency.*
+.nfs*
 .nfsCEA5
 .pure
 .version
@@ -30,13 +31,16 @@ pmParse.h
 pmParse.tmp
 smScSema.c
 smScan.c
+smScan.dos
 smScan.h
 smScan.head
 smScan.iso
 smScan.mac
 smScan.pc
 smScan.tail
+smScan.tbl
+smScan.tmp
 smScanx.c
+svenska.dos
 version.c
 version.h
-.nfs*
