@@ -17,11 +17,10 @@ extern int litCount;
 
 extern int verbWord;
 
-#ifdef _PROTOTYPES_
+
+/* Functions: */
 
 /* Parse a new player command */
 extern void parse(void);
+extern void initParse(void);
 
-#else
-extern void parse();
-#endif

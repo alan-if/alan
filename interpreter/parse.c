@@ -83,16 +83,8 @@ static char isobuf[LISTLEN+1];	/* The input buffer in ISO */
 static Boolean eol = TRUE;	/* Looking at End of line? Yes, initially */
 
 
-
-#ifdef _PROTOTYPES_
-static void unknown(
-     char token[]
-)
-#else
-static void unknown(token)
-     char token[];
-#endif
-{
+/*----------------------------------------------------------------------*/
+static void unknown(char token[]) {
   char *str = allocate((int)strlen(token)+4);
 
   str[0] = '\'';
@@ -128,25 +120,17 @@ static int lookup(
 }
 
 
-static int number(
-     char token[]		/* IN - The string to convert to a number */
-)
-{
+
+/*----------------------------------------------------------------------*/
+static int number(char token[]) {
   int i;
 
   sscanf(token, "%d", &i);
   return i;
 }
 
-#ifdef _PROTOTYPES_
-static char *gettoken(
-     char *buf
-)
-#else
-static char *gettoken(buf)
-     char *buf;
-#endif
-{
+/*----------------------------------------------------------------------*/
+static char *gettoken(char *buf) {
   static char *marker;
   static char oldch;
 
@@ -294,12 +278,8 @@ static void scan()
 static int allLength;		/* No. of objects matching 'all' */
 
 
-#ifdef _PROTOTYPES_
-static void nonverb(void)
-#else
-static void nonverb()
-#endif
-{
+/*----------------------------------------------------------------------*/
+static void nonverb(void) {
   if (isDir(wrds[wrdidx])) {
     wrdidx++;
     if (wrds[wrdidx] != EOF && !isConj(wrds[wrdidx]))
@@ -312,16 +292,8 @@ static void nonverb()
     error(M_WHAT);
 }
 
-
-#ifdef _PROTOTYPES_
-static void buildall(
-     ParamEntry list[]
-)
-#else
-static void buildall(list)
-     ParamEntry list[];
-#endif
-{
+/*----------------------------------------------------------------------*/
+static void buildall(ParamEntry list[]) {
   int o, i = 0;
   Boolean found = FALSE;
   
@@ -448,15 +420,8 @@ static void unambig(ParamEntry plst[])
 }
   
   
-#ifdef _PROTOTYPES_
-static void simple(
-     ParamEntry olst[]
-)
-#else
-static void simple(olst)
-     ParamEntry olst[];
-#endif
-{
+/*----------------------------------------------------------------------*/
+static void simple(ParamEntry olst[]) {
   static ParamEntry *tlst = NULL;
   int savidx = wrdidx;
   Boolean savplur = FALSE;
@@ -814,12 +779,16 @@ static void match(mlst)
 }
 
 
-#ifdef _PROTOTYPES_
-void parse(void)
-#else
-void parse()
-#endif
-{
+/*======================================================================*/
+void initParse(void) {
+  wrdidx = 0;
+  wrds[0] = EOF;
+}
+
+
+/*======================================================================*/
+void parse(void) {
+
   if (mlst == NULL) {		/* Allocate large enough paramlists */
     mlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
     mlst[0].code = EOF;
@@ -854,3 +823,4 @@ void parse()
     nonverb();
   }
 }
+

@@ -1249,6 +1249,7 @@ static void init(void)
 
   initStaticData();
   initDynamicData();
+  initParse();
   checkdebug();
 
   getPageSize();
@@ -1375,6 +1376,10 @@ void run(void)
   load();			/* Load program */
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
+#ifdef GLK
+  glk_cancel_line_event(glkMainWin, NULL);
+#endif
+
   init();			/* Initialise and start the adventure */
 
   while (TRUE) {
