@@ -8,6 +8,8 @@
 
 #include "add.c"
 
+#include "sym.h"
+
 static void testMultipleAddAttribute()
 {
   IdNode *theId = newId(&nulsrcp, "aClassId");
@@ -34,10 +36,11 @@ static void testMultipleAddAttribute()
 						 &nulsrcp, NULL, NULL, NULL);
   AddNode *add1 = newAdd(&nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(&nulsrcp, theId, NULL, theSecondAttributeProps);
+  Symbol *aSymbol;
 
   theClass = newClass(&nulsrcp, theId, NULL, NULL);
-  Symbol *aSymbol = lookup("aClassId");
-
+  aSymbol = lookup("aClassId");
+  ASSERT(aSymbol != NULL);
   ASSERT(length(aSymbol->fields.entity.props->attributes) == 0);
 
   addAttributes(add1, aSymbol);
