@@ -15,5 +15,6 @@ arun lines < lines.input
 Nowhere.
 You are nowhere.
 
-> 
+> quit
+
 Do you want to restart (y) ? 
