@@ -472,6 +472,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
       switch (symbol->kind) {
       case PARAMETER_SYMBOL:
 	exp->type = symbol->fields.parameter.type;
+	exp->class = symbol->fields.parameter.class;
 	break;
       case LOCAL_SYMBOL:
 	exp->type = symbol->fields.local.type;
