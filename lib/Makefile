@@ -6,8 +6,6 @@ all: version
 	@-rm *.tgz *.zip *.tar.Z
 	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
 	@wzzip alanlib$(VERSION).zip *.i ReadMe index.txt
-	@venum correction
-	@make newVersion
 
 version:
 	venum alanlib time -output imp
