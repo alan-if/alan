@@ -44,3 +44,5 @@ smScanx.unix
 unit.a3c
 version.[ch]
 alan.pmi
+alan.smt2
+alan.pmt2
