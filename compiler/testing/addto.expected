@@ -6,28 +6,28 @@ addto.alan
     1.  Add To Every Thing
 =====>               1
 
-  *1*   336 E : You can not ADD scripts to a class which is not a subclass of
-                actor.
+  *1*   336 E : You can not Add scripts to a class which is not a subclass of
+                the predefined class 'actor'.
 
     2.    Isa thing.
 =====>        1
 
-  *1*   341 E : Can not ADD heritage TO classes. 
+  *1*   341 E : Can not Add heritage to classes. 
 
     3.    At l.
 =====>    1
 
-  *1*   341 E : Can not ADD initial location TO classes. (yet)
+  *1*   341 E : Can not Add initial location to classes. (yet)
 
     8.    Mentioned "mentioned"
 =====>    1
 
-  *1*   341 E : Can not ADD mentioned TO classes. (yet)
+  *1*   341 E : Can not Add mentioned to classes. (yet)
 
    12.    Exit e To l.
 =====>    1
 
-  *1*   431 E : You can not add Exits to a class not inheriting from the
+  *1*   336 E : You can not Add Exits to something not inheriting from the
                 predefined class 'location'.
 
 

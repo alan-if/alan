@@ -238,7 +238,7 @@ static void addScripts(AddNode *add, Symbol *original)
   if (props->scripts == NULL) return;
 
   if (!inheritsFrom(original, actorSymbol)) {
-    lmLog(&add->toId->srcp, 336, sevERR, "scripts to a class which is not a subclass of actor");
+    lmLog(&add->toId->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
     doNotAdd = TRUE;
   }
   TRAVERSE(addedScripts, props->scripts) {
@@ -271,7 +271,7 @@ static void addExits(AddNode *add, Symbol *originalSymbol)
   if (add->props->exits != NULL) {
     symbolizeExits(add->props->exits);
     if (!inheritsFrom(originalSymbol, locationSymbol)) {
-      lmLog(&add->props->exits->element.ext->srcp, 431, sevERR, "");
+      lmLog(&add->props->exits->element.ext->srcp, 336, sevERR, "Exits to something not inheriting from the predefined class 'location'");
       inhibitAdd = TRUE;
     }
 

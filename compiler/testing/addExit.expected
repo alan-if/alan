@@ -18,7 +18,7 @@ addExit.alan
    24.    Exit n To unknown.
 =====>    1         2
 
-  *1*   431 E : You can not add Exits to a class not inheriting from the
+  *1*   336 E : You can not Add Exits to something not inheriting from the
                 predefined class 'location'.
   *2*   310 E : Identifier 'unknown' not defined.
 

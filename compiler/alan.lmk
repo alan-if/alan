@@ -107,13 +107,13 @@
 333	'The word \'%1\' is defined to be both a synonym and another word class.';
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
 335	'ELSE clause of a DEPENDING statement must be the last.';
-336	'You can not ADD %1.';
-337	'You can not SAY values of %1 type.';
+336	'You can not Add %1.';
+337	'You can not Say values of %1 type.';
 338	'A Where specification is required in Aggregate statements.';
 339	'You can only use Definite/Indefinite forms to Say instances. For other types of values use \'Say\' without Definite/Indefinite indicator.';
 
 340	'Initial location for \'%1\' declared twice. This occurence ignored.';
-341	'Can not ADD %1 TO classes. %2';
+341	'Can not Add %1 to classes. %2';
 342	'Can not inherit %1.';
 343	'Can not inherit %1. (Yet!)';
 350	'Can not inherit from something not a class.';
@@ -153,7 +153,6 @@
 428	'%1 must refer to %2.';
 429	'No inheritance defined, everything must inherit from a class.';
 430	'Incompatible instance. You can only assign instances of class \'%1\' and its subclasses.';
-431	'You can not add Exits to a class not inheriting from the predefined class \'location\'.';
 
 440	'%1 filters can currently only accept boolean attributes.';
 

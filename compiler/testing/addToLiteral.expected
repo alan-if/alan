@@ -6,8 +6,8 @@ addToLiteral.alan
     1.  Add To Every literal
 =====>               1
 
-  *1*   336 E : You can not ADD scripts to a class which is not a subclass of
-                actor.
+  *1*   336 E : You can not Add scripts to a class which is not a subclass of
+                the predefined class 'actor'.
 
     2.    Is a1.
 =====>       1
@@ -24,13 +24,13 @@ addToLiteral.alan
 
   *1*   424 E : You can not add initial location to non-instantiable class
                 'literal'.
-  *1*   341 E : Can not ADD initial location TO classes. (yet)
+  *1*   341 E : Can not Add initial location to classes. (yet)
 
     5.    Mentioned "hej"
 =====>    1
 
   *1*   424 E : You can not add mentioned to non-instantiable class 'literal'.
-  *1*   341 E : Can not ADD mentioned TO classes. (yet)
+  *1*   341 E : Can not Add mentioned to classes. (yet)
 
     6.    Article "the"
 =====>    1
@@ -52,7 +52,7 @@ addToLiteral.alan
 =====>    1
 
   *1*   424 E : You can not add exits to non-instantiable class 'literal'.
-  *1*   431 E : You can not add Exits to a class not inheriting from the
+  *1*   336 E : You can not Add Exits to something not inheriting from the
                 predefined class 'location'.
 
    13.    Is a1.

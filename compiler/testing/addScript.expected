@@ -24,8 +24,8 @@ addScript.alan
    24.  Add To Every thing
 =====>               1
 
-  *1*   336 E : You can not ADD scripts to a class which is not a subclass of
-                actor.
+  *1*   336 E : You can not Add scripts to a class which is not a subclass of
+                the predefined class 'actor'.
 
 
         4 error(s).
