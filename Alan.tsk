@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>368.89</origest>
 <currest>367.89</currest>
-<elapsed>202.89</elapsed>
+<elapsed>204.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>61</origest>
 <currest>61</currest>
-<elapsed>8</elapsed>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>25</origest>
 <currest>25</currest>
-<elapsed>8</elapsed>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -113,16 +113,7 @@ Possibly this would create a need for OVERRIDE NAME, or in the same way for all 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -148,7 +139,7 @@ find an unambiguous phrasing.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -189,6 +180,15 @@ VERIFICATION: Only objects, and actors are automatically described. Things are n
 <notes>There are a couple of ways to get instances into player "scope".
 
 Interpreter finds instances and *then* calls author defined code.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

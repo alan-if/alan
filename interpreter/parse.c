@@ -335,6 +335,24 @@ static void buildall(ParamEntry list[]) {
 }
 
 
+
+
+/*----------------------------------------------------------------------*/
+static void whichOne(ParamEntry alternative[]) {
+  int p;			/* Index into the list of alternatives */
+
+  prmsg(M_WHICH_ONE1);
+  sayForm(alternative[0].code, SAY_DEFINITE);
+  for (p = 1; !endOfTable(&alternative[p+1]); p++) {
+    prmsg(M_WHICH_ONE_COMMA);
+    sayForm(alternative[p].code, SAY_DEFINITE);
+  }
+  prmsg(M_WHICH_ONE_OR);
+  sayForm(alternative[p].code, SAY_DEFINITE);
+  prmsg(M_WHICH_ONE_END);
+  error(MSGMAX);		/* Return with empty error message */
+}
+
 /*----------------------------------------------------------------------*/
 static void unambig(ParamEntry plst[])
 {
@@ -435,7 +453,7 @@ static void unambig(ParamEntry plst[])
     parameters[0].lastWord = lastWord;
     parameters[1].code = EOF;	/* But be sure to terminate */
     if (listLength(plst) > 1)
-      error(M_WHICH_ONE);
+      whichOne(plst);
     else if (found && listLength(plst) == 0)
       error(M_WHICH_ONE);
   } else {
