@@ -1,3 +1,9 @@
+Thu Dec 30 16:31:15 1993  Thomas Nilsson  (thoni@rabbit)
+
+	* 2.5(1)
+
+	* Fixed restart bug in interpreter
+
 Wed Dec  8 16:15:01 1993  Thomas Nilsson  (thoni@rabbit)
 
 	* 2.5!
