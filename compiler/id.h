@@ -3,17 +3,16 @@
 /*----------------------------------------------------------------------*\
 
 				ID.H
-			      Name Nodes
+			Identifier Nodes Types
 
 \*----------------------------------------------------------------------*/
 
 /* USE: */
-#include "types.h"
-
 #include "sym.h"
+#include "srcp.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum IdKind {
   CLASS_ID,
@@ -27,28 +26,9 @@ typedef struct IdNode {		/* ID */
   Srcp srcp;			/* Source position of the identifier */
   char *string;			/* String representation */
   IdKind kind;			/* What kind of ID */
-  struct SymNod *symbol;	/* Symbol table pointer */
+  SymNod *symbol;		/* Symbol table pointer */
 } IdNode;
 
-
-/* Data: */
-
-
-/* Methods: */
-
-
-/* Create a new Id node */
-extern IdNode *newId(Srcp *srcp,
-		    char str[]);
-
-/* Check if two IDs are the same */
-extern Bool equalId(IdNode *id1,	/* IN - The first id */
-		    IdNode *id2);	/* IN - Second id */
-
-/* Generate an Id node */
-extern void geid(IdNode *id);
-
-/* Dump an Id node */
-extern void dumpId(IdNode *id);
-
 #endif
+
+

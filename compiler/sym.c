@@ -5,9 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#ifndef UNIT
-#include "sym.h"                /* SYMbol nodes */
-#endif
+#include "sym_x.h"                /* SYMbol nodes */
 
 /* IMPORTS */
 #include "sysdep.h"
@@ -94,6 +92,25 @@ static void insertSymbol(SymNod *symbol)
 }
 
 
+/*----------------------------------------------------------------------
+
+  symbolKind()
+
+  Return a pointer to a string representation of the SymbolKind
+
+  */
+static char *symbolKind(SymbolKind kind)
+{
+  switch (kind) {
+  case CLASS_SYMBOL: return "class";
+  case INSTANCE_SYMBOL: return "instance";
+  case VERB_SYMBOL: return "verb";
+  default: syserr("Unimplemented case in symbolKind()");
+  }
+}
+
+
+
 /*======================================================================
 
   newsym()
@@ -128,19 +145,6 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
   }
 
-#ifdef FIXME
-  switch (class) {
-  case NAMDIR: new->code = ++dircount; break;
-  case NAMLOC: new->code = ++loccount; break;
-  case NAMVRB: new->code = ++vrbcount; break;
-  case NAMOBJ: new->code = ++objcount; break;
-  case NAMEVT: new->code = ++evtcount; break;
-  case NAMCNT: new->code = ++cntcount; break;
-  case NAMACT: new->code = ++actcount; break;
-  default: new->code = 0; break;
-  }
-#endif
-  
   return new;
 }
 
@@ -173,19 +177,19 @@ void initSymbols()
   Look for a symbol. If found return a pointer to its symnod, else NULL.
 
   */
-SymNod *lookup(char *string)       /* IN - The name to look up */
+SymNod *lookup(char *idString)	/* IN - The Id to look up */
 {
   SymNod *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  if (string == NULL) return(NULL);
+  if (idString == NULL) return(NULL);
 
   s1 = symtree;
   s2 = NULL;
 
   while (s1 != NULL) {
     s2 = s1;
-    comp = strcmp(string, s1->string);
+    comp = strcmp(idString, s1->string);
     if (comp == 0)
       return(s1);
     else if (comp < 0)
@@ -259,16 +263,16 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 */
 SymNod *symcheck(		/* OUT - Found symbol */
     ElmNod **elm,		/* OUT - Found parameter  */
-    char *string,		/* IN - The Id to check */
+    IdNode *id,			/* IN - The Id to check */
     SymbolKind kind,		/* IN - Allowed identifier kind */
     List *pars			/* IN - Possible parameters valid in this context */
     )
 {
-  SymNod *sym = lookup(string);
+  SymNod *sym = lookup(id->string);
 
-  if (!sym)
-    lmLog(
-  return NULL;
+  if (!sym) 
+    lmLog(&id->srcp, 310, sevERR, id->string);
+  else if (sym->kind != kind)
+    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL );
+  return sym;
 }
-
-

@@ -70,6 +70,7 @@
 312	'Parameter not uniquely defined as %1, which is required.';
 315	'Attribute not defined for \'%1\'.';
 318	'Entity \'%1\' is not a Container.';
+319	'Identifier \'%1\' is not a %2.';
 320	'Word \'%1\' belongs to multiple word classes (%2 and %3).';
 321	'Synonym target word \'%1\' not defined.';
 322	'Word \'%1\' already defined as a synonym.';

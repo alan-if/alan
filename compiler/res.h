@@ -10,7 +10,6 @@
 
 /* USE: */
 #include "srcp.h"
-#include "stx.h"
 #include "lst.h"
 #include "id.h"
 
@@ -33,36 +32,12 @@ typedef enum ResKind {
 
 typedef struct ResNod {		/* RESTRICTION */
   Srcp srcp;			/* SY - Source position of this element */
-  struct IdNode *id;		/* SY - Parameter name to apply restriction to */
+  IdNode *id;			/* SY - Parameter name to apply restriction to */
   Bool single;			/* AN - A single class in the list? */
   List *classes;		/* SY - Which named class or classes must it be */
   int classbits;		/* AN - Bits for the classes the parameter must be */
   List *stms;			/* SY - Statements to execute if not */
   Aaddr stmadr;			/* GE - Address to generated statements */
 } ResNod;
-
-
-
-/* Data: */
-
-
-/* Functions: */
-
-/* Create a new element Restriction node */
-extern ResNod *newres(Srcp *srcp,
-		      struct IdNode *id,
-		      Bool single,
-		      List *classes,
-		      List *stms);
-
-/* Analyze a list of Restriction nodes */
-extern void anress(List *ress, List *params);
-
-/* Generate code for a list of Restriction nodes */
-extern Aaddr geress(List *ress, StxNod *stx);
-
-/* Dump a Restriction node */
-extern void dures(ResNod *res);
-
 
 #endif

@@ -5,21 +5,20 @@
 
 \*----------------------------------------------------------------------*/
 
-#ifndef UNIT
 #include "cla.h"
-#endif
-
 
 /* IMPORT */
 #include <stdio.h>
-
 #include "types.h"
-#include "id.h"
+
+#include "srcp_x.h"
+#include "id_x.h"
+#include "sym_x.h"
+
 #include "util.h"
 #include "dump.h"
 #include "lmList.h"
 
-#include "sym.h"
 
 
 /* PRIVATE DATA */

@@ -109,7 +109,7 @@ unit:
 
 # All unit tests
 symTest.o : symTest.c sym.c unitTest.h
-symTest : symTest.o util.o lmList.o id.o cla.o dump.o srcp.o str.o lst.o slt.o
+symTest : symTest.o util.o unitList.o id.o cla.o dump.o srcp.o str.o lst.o slt.o
 
 sym:
 	$(MAKE) $@Test; $@Test

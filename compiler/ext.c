@@ -8,10 +8,9 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp.h"
-#include "lmList.h"
-
-#include "sym.h"		/* SYM-nodes */
+#include "srcp_x.h"
+#include "sym_x.h"
+#include "id_x.h"
 #include "lst.h"		/* LST-nodes */
 #include "nam.h"		/* NAM-nodes */
 #include "stm.h"		/* STM-nodes */
@@ -22,9 +21,8 @@
 #include "ins.h"                /* INS-nodes */
 
 #include "emit.h"
-
+#include "lmList.h"
 #include "acode.h"
-
 #include "dump.h"
 
 

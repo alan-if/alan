@@ -8,20 +8,17 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
-#include "res.h"                /* RES-nodes */
-
-#include "sym.h"		/* SYM-nodes */
-#include "lst.h"		/* LST-nodes */
-#include "id.h"			/* ID-nodes */
+#include "res_x.h"
+#include "sym_x.h"
+#include "id_x.h"
 #include "stm.h"                /* STM-nodes */
+#include "lst.h"		/* LST-nodes */
 
 #include "emit.h"
-
 #include "acode.h"
-
 #include "dump.h"
 
 

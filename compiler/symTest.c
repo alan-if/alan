@@ -11,11 +11,16 @@
 #include <stdio.h>
 
 #include "sym.c"
+#include "id_x.h"
 
 
 static void (*(cases[]))();
 
 #include "unitTest.h"
+
+/* From unitList.c */  
+extern int lastEcode;
+extern lmSev lastSev;
 
 
 int main()
@@ -42,10 +47,22 @@ static char symbolName3[] = "p-is-higher";
 
 void testSymCheck()
 {
+  Srcp srcp = {14, 12, 333};
   ElmNod *elm;
-  SymNod *sym = symcheck(&elm, "unknown", CLASS_SYMBOL, NULL);
+  IdNode *unknownId = newId(&srcp, "unknownId");
+  IdNode *aClassId = newId(&srcp, "aClassId");
+  SymNod *aClassSymbol = newsym("aClassId", CLASS_SYMBOL);
+  SymNod *foundSymbol;
 
-  unitAssert(sym == NULL);
+  foundSymbol = symcheck(&elm, unknownId, CLASS_SYMBOL, NULL);
+  unitAssert(foundSymbol == NULL);
+  unitAssert(lastEcode == 310); /* Unknown id */
+  unitAssert(lastSev == sevERR);
+
+  foundSymbol = symcheck(&elm, aClassId, INSTANCE_SYMBOL, NULL);
+  unitAssert(foundSymbol == aClassSymbol);
+  unitAssert(lastEcode == 319);
+  unitAssert(lastSev == sevERR);
 }
 
 /* Test symbol table by inserting a symbol with an initial name */
@@ -171,8 +188,8 @@ void testCreateCla()
   sym = lookup("cla");
   obj = lookup("object");
 
-  unitAssert(sym);
-  unitAssert(obj);
+  unitAssert(sym != NULL);
+  unitAssert(obj != NULL);
   unitAssert(strcmp(sym->string, "cla") == 0);
   unitAssert(strcmp(obj->string, "object") == 0);
   unitAssert(inheritsFrom(sym, obj));
@@ -180,6 +197,7 @@ void testCreateCla()
 
 
 static void (*(cases[]))() = {
+  &testSymCheck,
   &testBuildSymbol1,
   &testBuildSymbolLower,
   &testBuildSymbolHigher,

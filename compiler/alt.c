@@ -7,19 +7,19 @@
 
 #include "util.h"
 
-#include "srcp.h"
 #include "lmList.h"
 
-#include "sym.h"		/* SYM-nodes */
+#include "srcp_x.h"
+#include "id_x.h"
+
 #include "lst.h"		/* LST-nodes */
 #include "alt.h"                /* ALT-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "stm.h"                /* STM-nodes */
+#include "elm.h"
 
 #include "emit.h"
-
 #include "acode.h"
-
 #include "dump.h"
 
 

@@ -17,6 +17,10 @@ static void (*(cases[]))();
 
 #include "unitTest.h"
 
+/* From unitList.c */  
+extern int lastEcode;
+extern lmSev lastSev;
+
 
 int main()
 {
@@ -28,9 +32,6 @@ int main()
   return 0;
 }
 
-/* From unitList.c */  
-extern int lastEcode;
-extern lmSev lastSev;
 
 void testInitAdv()
 {
