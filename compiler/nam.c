@@ -105,6 +105,8 @@ int annams(nams, nam, cap)
 
   if (nams != NULL) {
     for (namlst = nams; namlst != NULL; namlst = namlst->next) {
+      if (strlen(namlst->element.nam->str) > 79)
+	namlst->element.nam->str[79] = '\0';
       if (cap)
 	sprintf(buf, "%c%s", upperCase(namlst->element.nam->str[0]),
 		&namlst->element.nam->str[1]);
