@@ -84,9 +84,10 @@ static void anstx(stx)
 
   /* Find which verb it defines */
   sym = lookup(stx->nam->str);	/* Find earlier definition */
-  if (sym == NULL)
-    lmLog(&stx->nam->srcp, 207, sevWAR, stx->nam->str);
-  else if (sym->class != NAMVRB)
+  if (sym == NULL) {
+    if (stx->nam->str[0] != '$') /* generated id? */
+      lmLog(&stx->nam->srcp, 207, sevWAR, stx->nam->str);
+  } else if (sym->class != NAMVRB)
     lmLog(&stx->nam->srcp, 208, sevWAR, stx->nam->str);
   else {
     stx->nam->kind = NAMVRB;

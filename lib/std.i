@@ -9,6 +9,7 @@ $include 'touch.i'
 
 $include 'invent.i'
 
+$include 'help.i'
 
 -- The limbo location and directions
 $include 'nowhere.i'

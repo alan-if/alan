@@ -36,3 +36,15 @@ VERB 'score'
     	SCORE.
 END VERB 'score'.
 
+
+SYNONYMS
+    z = 'wait'.
+
+SYNTAX
+    'wait' = 'wait'.
+
+VERB 'wait'
+    DOES
+    	"Time passes..."
+END VERB.
+
