@@ -1,16 +1,21 @@
 /*--------------------------------------------------------------------*\
-    spa.c				Date: 1993-03-11/reibert@roo
+    spa.c				Date: 1995-04-13/reibert@home
 
     spa -- standard process of arguments (SoftLabs way)
 
     Author: Reibert Arbring.
-    	    Copyright (c) 1989 - 1993 SoftLab ab
+    	    Copyright (c) 1989 - 1995 SoftLab ab
 
     Legal Notice: As in spa.h
 
     History:
-    4.0    - 1992-03-09/reibert@mac  -- SPA_ITEM outdated, "locale" messages,
-    				    	mac adaption, many new features, files, alert
+    4.2(1) - 1994-05-13/reibert@home -- Errors more severe 
+    4.2    - 1994-04-30/reibert@home -- SPA_COMMENT 
+    4.1(1) - 1994-01-08/reibert@home -- spaExit 
+    4.1    - 1993-11-01/reibert@home -- CMS/changed float interface 
+    4.0(1) - 1992-03-12/reibert@home -- bits: * 
+    4.0    - 1992-03-09/reibert@home -- SPA_ITEM outdated, "locale" messages,
+    				    	mac adaption, files, alert
 ----
     3.1    - 1992-02-26/reibert@roo  -- SPA_PRINT_DEFAULT
     3.0(3) - 1993-02-16/thoni@rabbit -- SPA_Set with '--' requires no argument
@@ -31,8 +36,8 @@
     1.0    - 89-08-09/Reibert Olsson
 \*--------------------------------------------------------------------*/
 #include "spa.h"
-#if _SPA_H_!=4
-error "SPA header file version 4 required"
+#if _SPA_H_!=42
+error "SPA header file version 4.2 required"
 #endif
 
 #include <stdio.h>
@@ -40,6 +45,8 @@ error "SPA header file version 4 required"
 #ifdef __NEWC__
 #include <stdlib.h>
 #include <stdarg.h>
+#else
+#include <varargs.h>
 #endif
 
 typedef int boolean;
@@ -66,31 +73,32 @@ typedef int boolean;
 #endif
 
 #if SPA_LANG==46		/* Swedish */
-char *SpaFlagKeyWords[] = {
+PRIVATE char *SpaFlagKeyWords[] = {
     "AV",    "PÅ",
     "NEJ",   "JA",
     "FALSK", "SANN",
     "NIL",   "T",
     NULL
 };
-char *SpaDefaultFormat = " (standard: %s)";
-char *SpaStrArg = "Parametrar:";
-char *SpaStrOpt = "Tillval:";
-char *SpaStrUsg = "Användning:";
-char *SpaStrNMK = "Nyckelord passar ej";
-char *SpaStrAMK = "Tvetydigt keyword";
-char *SpaStrNMO = "Tillval passar ej";
-char *SpaStrAMO = "Tvetydigt tillval";
-char *SpaStrILF = "Okänd funktionstyp";
-char *SpaStrISC = "Otillåtet mängdtecken";
-char *SpaStrIVE = "Heltal förväntat";
-char *SpaStrRVE = "Flyttal förväntat";
-char *SpaStrFRE = "Filen kunde ej öppnas för läsning";
-char *SpaStrFWE = "Filen kunde ej öppnas för skrivning";
-char *SpaStrTMA = "Överflödig parameter";
-char *SpaStrAE = "Parameterfel";
+PRIVATE char *SpaDefaultFormat = " (skönsvärde: %s)";
+PRIVATE char *SpaStrArg = "Parametrar:";
+PRIVATE char *SpaStrOpt = "Tillval:";
+PRIVATE char *SpaStrUsg = "Användning:";
+PRIVATE char *SpaStrNMK = "Nyckelord passar ej";
+PRIVATE char *SpaStrAMK = "Tvetydigt nyckelord";
+PRIVATE char *SpaStrNMO = "Tillval passar ej";
+PRIVATE char *SpaStrAMO = "Tvetydigt tillval";
+PRIVATE char *SpaStrILF = "Okänd funktionstyp";
+PRIVATE char *SpaStrISC = "Otillåtet mängdtecken";
+PRIVATE char *SpaStrVE  = "Förväntat värde saknas";
+PRIVATE char *SpaStrIVE = "Heltal förväntat";
+PRIVATE char *SpaStrRVE = "Flyttal förväntat";
+PRIVATE char *SpaStrFRE = "Filen kunde ej öppnas för läsning";
+PRIVATE char *SpaStrFWE = "Filen kunde ej öppnas för skrivning";
+PRIVATE char *SpaStrTMA = "Överflödig parameter";
+PRIVATE char *SpaStrAE  = "Parameterfel";
 
-char *SpaAlertStr[] = {
+PRIVATE char *SpaAlertStr[] = {
     "Avlusning", "Information", "Varning", "Fel",
     "Allvarligt fel", "Internt fel", "Okänt fel",
     "Exekveringen avbryts"
@@ -98,7 +106,7 @@ char *SpaAlertStr[] = {
 
 #else				/* English */
 
-char *SpaFlagKeyWords[] = {	/* The table for flag as argument */
+PRIVATE char *SpaFlagKeyWords[] = {	/* The table for flag as argument */
     "OFF",   "ON",
     "FALSE", "TRUE",
     "NO",    "YES",
@@ -106,35 +114,32 @@ char *SpaFlagKeyWords[] = {	/* The table for flag as argument */
     NULL
 };
 
-char *SpaDefaultFormat = " (default: %s)"; /* How to print default values */
-char *SpaStrArg = "Arguments:";
-char *SpaStrOpt = "Options:";
-char *SpaStrUsg = "Usage:";
-char *SpaStrNMK = "Non-matching keyword";
-char *SpaStrAMK = "Ambiguous keyword";
-char *SpaStrNMO = "Non-matching option";
-char *SpaStrAMO = "Ambiguous option";
-char *SpaStrILF = "Illegal function type";
-char *SpaStrISC = "Illegal set character";
-char *SpaStrIVE = "Integer value expected";
-char *SpaStrRVE = "Real value expected";
-char *SpaStrFRE = "File not opened for reading";
-char *SpaStrFWE = "File not opened for writing";
-char *SpaStrTMA = "Superfluous argument";
-char *SpaStrAE = "Argument error";
+PRIVATE char *SpaDefaultFormat = " (default: %s)"; /* How to print default values */
+PRIVATE char *SpaStrArg = "Arguments:";
+PRIVATE char *SpaStrOpt = "Options:";
+PRIVATE char *SpaStrUsg = "Usage:";
+PRIVATE char *SpaStrNMK = "Non-matching keyword";
+PRIVATE char *SpaStrAMK = "Ambiguous keyword";
+PRIVATE char *SpaStrNMO = "Non-matching option";
+PRIVATE char *SpaStrAMO = "Ambiguous option";
+PRIVATE char *SpaStrILF = "Illegal function type";
+PRIVATE char *SpaStrISC = "Illegal set character";
+PRIVATE char *SpaStrVE  = "Value expected";
+PRIVATE char *SpaStrIVE = "Integer value expected";
+PRIVATE char *SpaStrRVE = "Real value expected";
+PRIVATE char *SpaStrFRE = "File could not be opened for reading";
+PRIVATE char *SpaStrFWE = "File could not be opened for writing";
+PRIVATE char *SpaStrTMA = "Superfluous argument";
+PRIVATE char *SpaStrAE  = "Argument error";
 
-char *SpaAlertStr[] = {
+PRIVATE char *SpaAlertStr[] = {
     "Debug", "Information", "Warning", "Error",
     "Fatal error", "Internal error", "Unknown error",
     "Execution stopped"
 };
 
-
 #endif
 
-char *SpaProgramName = "";	/* Tail of argv[0] */
-
-PUBLIC char SpaAlertLevel = 'I'; /* Print this level and higher */
 
 /*----------------------------------------------------------------------
    These are to make the parameters to spaProcess accessible throughout
@@ -149,8 +154,8 @@ PRIVATE _SPA_ITEM *pOptions;
 #ifdef __NEWC__
 
 #define safeExecute(fun, item, raw, on) \
-  if (fun) (*(void (*)(char *, char *, int))fun)((item->name), raw, on)
-/*  if (fun) (*(SpaFun)fun)((item->name), raw, on) */
+  if (fun) (*(void (*)(char *, char *, int))fun)(item->name, raw, on)
+/*  if (fun) (*(SpaFun)fun)(item->name, raw, on) */
 
 #define FUNCTION(N,A) N(
 #define PROCEDURE(N,A) void N(
@@ -178,17 +183,22 @@ PRIVATE SpaErrFun *pErrFun;	/* Points to errorfunction */
 
 #define spaErr(m, a, s) (*pErrFun)(s, m, a)
 
-PRIVATE struct {
+
+PRIVATE struct {		/* Code reduction data structure */
     FILE *deffile;
     char *iomode;
-    char *errmsg;
 } fileDefault[2] = {		/* We assume _SPA_OutFile-_SPA_InFile == 1 */
-    { stdin, "r", NULL },	/* Set errmsg before use! */
-    { stdout, "w", NULL }
+#ifdef CMS
+    { NULL, "r" },		/* Set file before use! */
+    { NULL, "w" }
+#else
+    { stdin, "r" },
+    { stdout, "w" }
+#endif
 };
 #define mode(T) (fileDefault[(T)-_SPA_InFile].iomode)
 #define file(T) (fileDefault[(T)-_SPA_InFile].deffile)
-#define emsg(T) (fileDefault[(T)-_SPA_InFile].errmsg)
+
 
 #if SPA_IGNORE_CASE
 #include <ctype.h>
@@ -210,10 +220,10 @@ PRIVATE int FUNCTION(match, (p, s))
     IN(register char, *s)	/* SPA_ITEM string */
 IS {
     while (*p) {
-    	if (*s<=' ' || lwr(*s)!=lwr(*p)) return FALSE;
+    	if (*s==' ' || lwr(*s)!=lwr(*p)) return FALSE;
     	s++; p++;
     }
-    return (*s>' '? SPA_MATCH_PREFIX: _SPA_EXACT);
+    return (*s!=' '? SPA_MATCH_PREFIX: _SPA_EXACT);
 }
 
 
@@ -257,12 +267,12 @@ IS {
 
     switch (find(thisWord, (char *)keyWords, sizeof(char *), 0, &found)) {
     case 0:
-	spaErr(SpaStrNMK, thisWord, 'E');
+	spaErr(SpaStrNMK, thisWord, 'F');
     	break;
     case 1: 
     	break;
     default:
-	spaErr(SpaStrAMK, thisWord, 'E');
+	spaErr(SpaStrAMK, thisWord, 'F');
 	break;
     }
     return found<0 ? def: found;
@@ -270,8 +280,6 @@ IS {
 
 
 /*----------------------------------------------------------------------
-    printItem()
-
     Print help line for one SPA_ITEM.
 */
 PRIVATE PROCEDURE(printItem, (name, help, def, set, kws))
@@ -310,21 +318,23 @@ IS {
 
 
 /*----------------------------------------------------------------------
-    pAName()
-
     Print a SPA_ITEMs name as argument. Static area!
 */
-PRIVATE char pName[128];	/* Used by pOName */
+PRIVATE char pName[128];	/* Used by p[AO]Name */
 
 PRIVATE char* FUNCTION(pAName, (item))
     IN(_SPA_ITEM *, item)
 IS {
     switch (item->type) {
     case _SPA_Flag:
+#ifdef CMS
+	sprintf(pName, "(%s!%s)", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
+#else
 	sprintf(pName, "[%s|%s]", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
+#endif
 	break;
     case _SPA_Bits:
-	sprintf(pName, "{%s}", (char *)item->arg);
+	sprintf(pName, "{%s}", item->s);
 	break;
     default:
 	sprintf(pName, "<%s>", item->name);
@@ -335,31 +345,30 @@ IS {
 
 
 /*----------------------------------------------------------------------
-    pOName()
-
     Print a SPA_ITEMs name as option. Static area!
 */
 PRIVATE char* FUNCTION(pOName, (item))
     IN(_SPA_ITEM *, item)
 IS {
+    static char *fmt[] = {
+#ifdef CMS
+	"-%s", "-(-)%s", "-(-)%s {%s}"
+#else
+	"-%s", "-[-]%s", "-[-]%s {%s}"
+#endif
+    };
+    int i = 0;		 /* -> fmt[0] */
+
     switch (item->type) {
-    case _SPA_Flag:
-	sprintf(pName, "-[-]%s", item->name);
-	break;
-    case _SPA_Bits:
-	sprintf(pName, "-[-]%s {%s}", item->name, (char *)item->arg);
-	break;
-    default:
-	sprintf(pName, "-%s", item->name);
-	break;
+    case _SPA_Bits: i++; /* -> fmt[2] */
+    case _SPA_Flag: i++; /* -> fmt[1] */
     }
+    sprintf(pName, fmt[i], item->name, item->s);
     return pName;
 }
 
 
 /*----------------------------------------------------------------------
-    reportItem()
-
     Report one SPA_ITEM.
 */
 PRIVATE PROCEDURE(reportItem, (item, name))
@@ -370,36 +379,41 @@ IS {
     char *set = NULL;
     char **kws = NULL;
 
-    if (item->type==_SPA_None) return;
+    switch (item->type) {
+    case _SPA_None: return;
+    case _SPA_Comment:
+    	printf("%s\n", (item->help? item->help: ""));
+    	return;
+    }
     
     /* Set default values */
     *def = 0;
 #if SPA_PRINT_DEFAULT
-    switch (item->type) {	
+    switch (item->type) {
     case _SPA_Flag:
-	strcpy(def, (int)item->def? SpaFlagKeyWords[1]: SpaFlagKeyWords[0]);
+	strcpy(def, item->i? SpaFlagKeyWords[1]: SpaFlagKeyWords[0]);
 	break;
     case _SPA_Integer:
-	sprintf(def, "%d", (int)item->def);
+	sprintf(def, "%d", item->i);
 	break;
     case _SPA_Float:
-	sprintf(def, "%g", *(float *)(item->def));
+	sprintf(def, "%g", item->f);
 	break;
     case _SPA_String:
     case _SPA_InFile:
     case _SPA_OutFile:
-	if (item->def) strcpy(def, (char*)item->def);
+	if (item->s) strcpy(def, item->s);
 	break;
     case _SPA_KeyWord:
-	kws = (char **)item->arg;
-	strcpy(def, kws[(int)item->def]);
+	kws = item->sp;
+	strcpy(def, kws[item->i]);
 	break;
     case _SPA_Bits: {
 	register int i = 0, j = 1;
 	def[0] = '{';
-	set = (char *)item->arg;	
+	set = item->s;	
 	for (; set[i]; i++) {
-	    if ((1<<i)&(int)item->def) def[j++] = set[i];
+	    if ((1<<i)&item->i) def[j++] = set[i];
 	}
 	def[j++] = '}'; def[j] = 0;
     } break;
@@ -412,8 +426,6 @@ IS {
 
 
 /*----------------------------------------------------------------------
-    report()
-
     Make a report list out of the arguments and options.
 */
 PRIVATE PROCEDURE(report, (args, opts))
@@ -439,10 +451,10 @@ IS {
 PRIVATE PROCEDURE(assertFile, (item))
     IN(register _SPA_ITEM, *item)
 IS {
-    if (!*((FILE **)item->var)) { /* open failure */
-	spaErr(emsg(item->type), pArgV[pArg], 'E');
-	*((FILE **)item->var) = file(item->type);
-	*((char **)item->arg) = "";
+    if (!*item->FP) { /* open failure */
+	spaErr((item->type==_SPA_InFile? SpaStrFRE: SpaStrFWE), pArgV[pArg], 'F');
+	*item->FP = file(item->type);
+	*item->sp = item->s;
     }
 }
 
@@ -451,49 +463,49 @@ IS {
 */
 PRIVATE PROCEDURE(setDefault, (item))
     IN(register _SPA_ITEM, *item)
-IS {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
+IS {
     switch (item->type) {
     case _SPA_Flag:
     case _SPA_Integer:
     case _SPA_KeyWord:
     case _SPA_Bits:
-	*((int *)item->var) = (int)item->def;
+	*item->ip = item->i;
 	break;
     case _SPA_Float:
-	*((float *)item->var) = *(float *)(item->def);
+	*item->fp = item->f;
 	break;
     case _SPA_String:
-	*((char **)item->var) = (char *)item->def;
+	*item->sp = item->s;
 	break;
     case _SPA_InFile:
     case _SPA_OutFile:
-	*((char **)item->arg) = (char *)item->def;
-	if (*((char **)item->arg) && **((char **)item->arg))
-	    *((FILE **)item->var) = fopen(*(char **)item->arg, mode(item->type));
-	else *((FILE **)item->var) = file(item->type);
+	*item->sp = item->s;
+	if (*item->sp && **item->sp)
+	    *item->FP = fopen(*item->sp, mode(item->type));
+	else *item->FP = file(item->type);
 	assertFile(item);
 	break;
     case _SPA_Function:
     case _SPA_Help:
+    case _SPA_Comment:
     case _SPA_None:
 	break;
+    case _SPA_Private:
     default:
-	spaErr(SpaStrILF, item->name, 'F');
+	spaErr(SpaStrILF, item->name, 'S');
 	break;
     }
 }
 
 
 /*----------------------------------------------------------------------
-    execute()
-
     Execute an SPA_ITEM.
 */
 PRIVATE PROCEDURE(execute, (item, option, on))
     IN(register _SPA_ITEM, *item) X
     IN(boolean, option) X	/* True if argv was an option */
     IN(register boolean, on)	/* True if argv was an on-option */
-IS {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
+IS {
     if (item) {
 
 	if (option)
@@ -501,6 +513,7 @@ IS {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
 	    case _SPA_Flag:
 	    case _SPA_Function:
 	    case _SPA_Help:
+    	    case _SPA_Comment:
 	    case _SPA_None:
 		break;
 	    default:
@@ -508,15 +521,16 @@ IS {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
 		if (++pArg>=pArgC) {
 		    --pArg;	/* Too far, backup */
 		    setDefault(item);
+		    spaErr(SpaStrVE, pArgV[pArg], 'E');
+		    goto postFun;
 		}
 	    }
 	
 	switch (item->type) {
 	case _SPA_Flag:
-	    if (option) *((int *)item->var)= on;
+	    if (option) *item->ip = on;
 	    else {		/* Parse the argument */
-		*((int *)item->var) =
-		    findKeyWord(pArgV[pArg], SpaFlagKeyWords, (int)item->def)&1 ;
+		*item->ip = findKeyWord(pArgV[pArg], SpaFlagKeyWords, item->i)&1 ;
 	    }
 	    break;
 	case _SPA_Bits: {
@@ -524,84 +538,100 @@ IS {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
 	    boolean bon = on;
 
 	    for (arg= pArgV[pArg]; *arg; arg++) { /* Go thru argument */
-		if (*arg=='-') { bon= !bon; continue; }
-		for (bp= (char *)item->arg; *bp; bp++) /* and descriptor*/
+		if (*arg=='-') { bon = !bon; continue; }
+		if (*arg=='*') { *item->ip = bon? -1: 0; continue; }
+		for (bp= item->s; *bp; bp++) /* and descriptor*/
 		    if (lwr(*arg)==lwr(*bp)) break;
 		if (*bp) {
 		    if (bon)
-			*((int *)item->var) |= 1<<(bp-(char *)item->arg);
+			*item->ip |= 1<<(bp-item->s);
 		    else
-			*((int *)item->var) &= ~(1<<(bp-(char *)item->arg));
+			*item->ip &= ~(1<<(bp-item->s));
 		} else {
 		    static char tmp[128];
 		    sprintf(tmp, "%s: %c", item->name, *arg);
-		    spaErr(SpaStrISC, tmp, 'W');
+		    spaErr(SpaStrISC, tmp, 'E');
 		}
 	    }
 	} break;
 	case _SPA_Integer:
-	    if (sscanf(pArgV[pArg], "%i", (int *)(item->var))!=1) {
+	    if (sscanf(pArgV[pArg], "%i", item->ip)!=1) {
 		/* Number not ok */
 		setDefault(item);
-		spaErr(SpaStrIVE, pArgV[pArg], 'W');
+		spaErr(SpaStrIVE, pArgV[pArg], 'E');
 	    }
 	    break;
 	case _SPA_Float:
-	    if (sscanf(pArgV[pArg], "%g", (float *)(item->var))!=1) {
+	    if (sscanf(pArgV[pArg], "%g", item->fp)!=1) {
 		/* Number not ok */
 		setDefault(item);
-		spaErr(SpaStrRVE, pArgV[pArg], 'W');
+		spaErr(SpaStrRVE, pArgV[pArg], 'E');
 	    }
 	    break;
 	case _SPA_String:
-	    *((char **)item->var)= pArgV[pArg];
+	    *item->sp= pArgV[pArg];
 	    break;
 	case _SPA_KeyWord:
-	    *((int *)item->var)= findKeyWord(pArgV[pArg], (char **)item->arg, (int)item->def);
+	    *item->ip= findKeyWord(pArgV[pArg], item->sp, item->i);
 	    break;
 	case _SPA_InFile:
 	case _SPA_OutFile:
-	    *((char **)item->arg) = pArgV[pArg];
-	    if (*((char **)item->arg) && **((char **)item->arg)) {
-		if (*((FILE **)item->var)==file(item->type))
-		    *((FILE **)item->var) = fopen(*(char **)item->arg, mode(item->type));
+#ifdef CMS
+	    {	/* We do assemble CMS 3-part file names into one string */
+		char *file, *extension, *disk;
+	    
+		file = pArgV[pArg];
+		if (extension = spaArgument(1)) pArg++; else { extension = ""; } 
+		if (disk = spaArgument(1)) pArg++; else { disk = ""; }
+		*item->sp = (char*)malloc( 40 ); /* What is the maximum? */
+	    		/* strlen(file) + strlen(extension) + strlen(disk) + 3 */
+		sprintf(*item->sp,"%s %s %s", file, extension, disk);
+		pArgV[pArg] = *item->sp; /* ! This could cause trouble if a hook reads previous items */
+            }
+#else
+	    *item->sp = pArgV[pArg];
+#endif
+	    if (*item->sp && **item->sp) {
+		if (*item->FP==file(item->type))
+		    *item->FP = fopen(*item->sp, mode(item->type));
 		else
-		    *((FILE **)item->var) =
-			freopen(*(char **)item->arg, mode(item->type), *((FILE **)item->var));
-	    } else *((FILE **)item->var) = file(item->type);
+		    *item->FP =
+			freopen(*item->sp, mode(item->type), *item->FP);
+	    } else *item->FP = file(item->type);
 	    assertFile(item);
 	    break;
 	case _SPA_Help:
-	    safeExecute(item->var, item, pArgV[pArg], on);
+	    safeExecute(item->hFun, item, pArgV[pArg], on);
 	    report(pArguments, pOptions);
 	    break;
+    	case _SPA_Comment:
 	case _SPA_Function:
 	case _SPA_None:
+	case _SPA_Private:
 	    break;
 	default:
+	    /* This means that someone has dribbled with the option tables */
 	    spaErr(SpaStrILF, pArgV[pArg], 'S');
-	    break;		/* This means that someone has dribbled with the */
-	    /* option tables */
+	    break;
 	}
-
+    postFun:
 	safeExecute(item->postFun, item, pArgV[pArg], on);
     }
 }
 
 
 /*----------------------------------------------------------------------
-    option()
-
-    Detect if an argv-item is an option, if so do as specified.
+    Detect if current argv-item is an option, if so do as specified.
 */
-PRIVATE boolean FUNCTION(option, (argvItem, options))
-    IN(register char, *argvItem) X	/* User argument */
+PRIVATE boolean FUNCTION(option, (options))
     IN(_SPA_ITEM, options[])		/* Possible options */
 IS {
     int found;
-
+    register char *argvItem = pArgV[pArg];
+    register int start;
+    
     if (argvItem[0]=='-') {
-    	register int start= (argvItem[1]=='-'? 2: 1);
+    	start = (argvItem[1]=='-'? 2: 1);
     	if (argvItem[start]) {
    	    switch (find(&argvItem[start],
 			 (char *)options,
@@ -631,22 +661,21 @@ IS {
 */
 
 /*----------------------------------------------------------------------
-    biErrFun()
-
-    Error function, prints on stderr.
+    Error function, uses spaAlert.
 */
 PRIVATE SPA_ERRFUN(biErrFun) {
+    spaAlert(sev, "%s: %s: %s", SpaStrAE, msg, add);
 }
 
 PRIVATE SPA_FUN(biExit) { exit(1); (prettyName, rawName, on); }
 
 PRIVATE SPA_FUN(biArgTooMany) {
-    spaErr(SpaStrTMA, rawName, 'W');
+    spaErr(SpaStrTMA, rawName, 'E');
     (prettyName, on);
 }
 
 PRIVATE SPA_DECLARE(biArguments)
-  SPA_FUNCTION("", "", biArgTooMany)
+  SPA_FUNCTION("", NULL, biArgTooMany)
 SPA_END
 
 #ifdef __NEWC__
@@ -657,24 +686,34 @@ PRIVATE void biUsage();
 
 PRIVATE SPA_DECLARE(biOptions)
 #if SPA_LANG==46
-  SPA_HELP("Hjälp", "Ger denna utskrift", biUsage, biExit)
+  SPA_HELP("hjälp", "ger denna utskrift", biUsage, biExit)
 #else
   SPA_HELP("help", "this help", biUsage, biExit)
 #endif
 SPA_END
 
-PRIVATE SPA_FUN(biUsage) {
-    register int i;
+#ifdef CMS
+# define oSTART	" ("
+# define oALT	"!"
+# define oSTOP	")..."
+#else
+# define oSTART	" ["
+# define oALT	"|"
+# define oSTOP	"]..."
+#endif
 
-    printf("%s %s", SpaStrUsg, SpaProgramName);
+PRIVATE SPA_FUN(biUsage) {
+    register int i, j;
+
+    printf("%s %s", SpaStrUsg, SpaAlertName);
     if (pOptions!=biOptions) {
-    	printf(" [");
-	for (i=0; pOptions[i].name; i++)
+    	printf(oSTART);
+	for (i=j=0; pOptions[i].name; i++)
 	    if (pOptions[i].type && *pOptions[i].name) {
+		if (j++>0) printf(oALT);
 		printf(pOName(&pOptions[i]));
-		if (pOptions[i+1].name && *pOptions[i+1].name) printf("|");
 	    }
-    	printf("]...");
+    	printf(oSTOP);
     }
     if (pArguments!=biArguments) {
 	for (i=0; pArguments[i].name; i++)
@@ -687,26 +726,83 @@ PRIVATE SPA_FUN(biUsage) {
 
 
 /***********************************************************************
-    Public functions.
+    Public data & functions.
 */
 
 /*======================================================================
-    spaArgument()
-
-    Return Nth relative argument, NULL if outside argv.
+    Program name for Alerts (tail of argv[0])
 */
-PUBLIC char * FUNCTION(spaArgument, (n))
-    IN(int, n)
+PUBLIC char *SpaAlertName = NULL;
+
+/*======================================================================
+    Alert at this level and higher
+*/
+PUBLIC char SpaAlertLevel = 'I';
+
+/*======================================================================
+    File for alert messages (default stderr)
+*/
+PUBLIC FILE *SpaAlertFile
+#ifdef CMS
+	= NULL;	/* In this env stderr isn't a constant */
+#else
+	= stderr;
+#endif
+
+/*----------------------------------------------------------------------
+    Returns error severity as a number [0..6].
+*/
+PRIVATE int FUNCTION(level, (sev))
+    IN(char, sev)		/* Index in SpaAlertStr */
 IS {
-    register int t= pArg+n;
-    
-    return ( (t>=pArgC || t<0)? NULL: pArgV[t] );
+    static char *sevstr = "DIWEFS";
+    register char *s;
+	
+    s = strchr(sevstr, sev);
+    return s? s-sevstr: 6;
+}
+
+/*======================================================================
+    Error notification (name: sev! <fmt ...>) to user.
+    Exits on severe errors.
+*/
+#ifdef __NEWC__
+PUBLIC void spaAlert(		/* Error notification; Exits on severe errors */
+    char sev,			/* IN - [DIWEFS] */
+    char * fmt,			/* IN - printf-format for additional things */
+    ...				/* IN - additional things */
+){
+#else
+PUBLIC void spaAlert(va_alist)
+    va_dcl
+{
+    char sev;
+    char *fmt;
+#endif
+    va_list ap;
+    register int lev;
+
+#ifdef __NEWC__
+    va_start(ap, fmt);
+#else
+    va_start(ap);
+    sev = va_arg(ap, char);
+    fmt = va_arg(ap, char *);
+#endif
+    lev = level(sev);
+    if (lev>=level(SpaAlertLevel)) {
+	if (SpaAlertName) fprintf(SpaAlertFile, "%s: ", SpaAlertName);
+	fprintf(SpaAlertFile, "%s! ", SpaAlertStr[lev]);
+	vfprintf(SpaAlertFile, fmt, ap);
+	fprintf(SpaAlertFile, "\n");
+    }
+    va_end(ap);
+
+    if (lev>3 /*level('E')*/) { spaAlert('I', SpaAlertStr[7]); exit(1); }
 }
 
 
 /*======================================================================
-    spaArgumentNo()
-
     Return Nth argument in argv, NULL if outside argv.
 */
 PUBLIC char * FUNCTION(spaArgumentNo, (n))
@@ -717,8 +813,16 @@ IS {
 
 
 /*======================================================================
-    spaSkip()
+    Return Nth relative argument, NULL if outside argv.
+*/
+PUBLIC char * FUNCTION(spaArgument, (n))
+    IN(int, n)
+IS {
+    spaArgumentNo(pArg+n);
+}
 
+
+/*======================================================================
     Skip arguments N steps forward (or backward), stays inside argv.
 */
 PUBLIC PROCEDURE(spaSkip, (n))
@@ -731,8 +835,6 @@ IS {
 
 
 /*======================================================================
-    spaProcess()
-
     Will walk through the arguments and try to act according to spec's.
     Must not be called recursivly.
 */
@@ -745,9 +847,12 @@ PUBLIC int FUNCTION(_spaProcess, (argc, argv, arguments, options, errfun))
 IS {
     register int a, n;
     register char *s;
-    
-    fileDefault[0].errmsg = SpaStrFRE;
-    fileDefault[1].errmsg = SpaStrFWE;
+
+#ifdef CMS
+    fileDefault[0].deffile = stdin;
+    fileDefault[1].deffile = stdout;
+    if (!SpaAlertFile) SpaAlertFile = stderr;
+#endif
 
     pArgC= argc;
     pArgV= (char **)argv;
@@ -755,9 +860,9 @@ IS {
     pArguments= (arguments? arguments: biArguments);
     pErrFun= (errfun? errfun: biErrFun);
 
-    if (!*SpaProgramName) {	/* If no name given, get it from argv[0] */
+    if (!SpaAlertName) {	/* If no name given, get it from argv[0] */
     	s = strrchr(argv[0], '/');
-    	SpaProgramName = s? s+1: argv[0];
+    	SpaAlertName = s? s+1: argv[0];
     }
 
     for (n= 0; pArguments[n].name; n++) setDefault(&pArguments[n]);
@@ -770,7 +875,7 @@ IS {
     }
 
     for (a= n= 0, pArg= 1; pArg<pArgC; pArg++)
-	if (!option(pArgV[pArg], pOptions)) {
+	if (!option(pOptions)) {
 	    n++;
 	    if (pArguments[a].name) {
 		execute(&pArguments[a], FALSE, TRUE);
@@ -780,9 +885,20 @@ IS {
     return n;
 }
 
+/*======================================================================
+    (Clean up and then) exit.
+*/
+PUBLIC PROCEDURE(spaExit, (exitCode))
+    IN(int, exitCode) 
+IS {
+    exit(exitCode);
+}
+
+/*======================================================================
+    Special wrapper for THINK-C/MacOs emulated argv handling.
+*/
 #ifdef THINK_C
 #include <console.h>
-
 PUBLIC int FUNCTION(_spaPreProcess, (argc, argv, arguments, options, errfun))
     IN(int, *argc) X
     IN(char, **argv[]) X
@@ -790,6 +906,7 @@ PUBLIC int FUNCTION(_spaPreProcess, (argc, argv, arguments, options, errfun))
     IN(_SPA_ITEM, options[]) X
     IN(SpaErrFun, *errfun)
 IS {
+   console_options.title = CurApName;
    *argc = ccommand(argv);
    return _spaProcess(*argc, *argv, arguments, options, errfun);
 }
