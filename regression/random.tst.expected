@@ -6,7 +6,7 @@ arun -d random < random.input
         No warnings or errors detected.
         1 informational message(s).
 
-<Arun, Adventure Interpreter version 2.6 (1995-12-12 15:51:44)>
+<Arun, Adventure Interpreter version 2.6 (1996-01-25 15:44:19)>
 <Version of 'random' is 2.6(0)>
 'r' to generate a random number.
 
