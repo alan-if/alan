@@ -2,8 +2,8 @@
 #
 
 
-CFLAGS	= -n +l +d $(CQ)
-LDFLAGS	= -lcl32 -lml -g $(LQ)
+CFLAGS	= -bs -md
+LDFLAGS	= -lcl -lml -g 
 
 OBJECTS = \
 	pmPaSema.o pmParse.o pmErr.o \
@@ -53,14 +53,8 @@ alan: $(OBJECTS) sysdep.o version.o
 	ln -o $@ -g $(OBJECTS) sysdep.o version.o $(LDFLAGS)
 	copy alan /
 
-pmPaSema.o: pmPaSema.c
-	cc $(CFLAGS) -y500 pmPaSema.c
-
-lmList.o: lmList.c
-	cc $(CFLAGS) -z4000 lmList.c
-
-emit.o: emit.c
-	cc $(CFLAGS) -DWORDADDRESS -L400 emit.c
+#emit.o: emit.c
+#	cc $(CFLAGS) -DWORDADDRESS -L400 emit.c
 
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
@@ -92,7 +86,6 @@ dump.o : dump.c srcp.h alan.h sysdep.h types.h adv.h lst.h dump.h whr.h evt.h \
   vrb.h stx.h lim.h scr.h stp.h rul.h lmList.h alanCommon.h token.h 
 elm.o : elm.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
   nam.h lst.h dump.h acode.h elm.h res.h stx.h wrd.h emit.h 
-emit.o : emit.c sysdep.h types.h alan.h srcp.h acode.h version.h emit.h 
 encode.o : encode.c alan.h sysdep.h types.h srcp.h acode.h opt.h emit.h encode.h 
 evt.o : evt.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h stm.h exp.h \
@@ -106,7 +99,6 @@ ext.o : ext.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h
 lim.o : lim.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h exp.h atr.h emit.h stm.h obj.h \
   cnt.h act.h loc.h ext.h chk.h vrb.h stx.h lim.h rul.h 
-lmList.o : lmList.c lmList.h alanCommon.h srcp.h token.h 
 loc.o : loc.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
   emit.h loc.h ext.h stm.h obj.h cnt.h act.h vrb.h 
@@ -126,10 +118,6 @@ pmErr.o : pmErr.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h lst.h \
   dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h atr.h \
   emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h stp.h \
   elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
-pmPaSema.o : pmPaSema.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h \
-  lst.h dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
-  atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \
-  stp.h elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
 pmParse.o : pmParse.c smScan.h alanCommon.h srcp.h token.h sysdep.h types.h \
   lst.h dump.h lmList.h adv.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
   atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \

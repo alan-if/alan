@@ -2,8 +2,8 @@
 #
 
 
-CFLAGS = -n +l $(CQ)
-LDFLAGS	= -lc32 -g $(LQ)
+CFLAGS = -bs
+LDFLAGS	= -lc -g 
 
 OBJECTS = arun.o \
 	args.o \
@@ -25,14 +25,14 @@ arun: $(OBJECTS) sysdep.o version.o
 	ln -o $@ $(OBJECTS) sysdep.o version.o $(LDFLAGS)
 	copy arun /
 
-arun.o: arun.c
-	cc $(CFLAGS) -e400 -L400 arun.c
+#arun.o: arun.c
+#	cc $(CFLAGS) -e400 -L400 arun.c
 
-term.o: term.c
-	cc $(CFLAGS) -L1000 term.c
+#term.o: term.c
+#	cc $(CFLAGS) -L1000 term.c
 
-args.o: args.c
-	cc $(CFLAGS) -L800 args.c
+#args.o: args.c
+#	cc $(CFLAGS) -L800 args.c
 
 #-- ARCHIVE
 archive:
@@ -40,9 +40,6 @@ archive:
 
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.o : args.c args.h arun.h types.h sysdep.h acode.h 
-arun.o : arun.c sysdep.h types.h acode.h arun.h version.h args.h parse.h inter.h \
-  rules.h debug.h stack.h exe.h term.h 
 debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
 decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
 exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
@@ -55,5 +52,4 @@ reverse.o : reverse.c types.h sysdep.h acode.h arun.h reverse.h
 rules.o : rules.c types.h sysdep.h acode.h arun.h inter.h stack.h rules.h 
 stack.o : stack.c types.h sysdep.h acode.h arun.h stack.h 
 sysdep.o : sysdep.c sysdep.h 
-term.o : term.c arun.h types.h sysdep.h acode.h term.h 
 version.o : version.c version.h 

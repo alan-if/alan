@@ -51,6 +51,7 @@ char *strdup(char str[])		/* IN - String to duplicate */
 #endif
 
 
+<<<<<<< sysdep.c
 #ifdef __amiga__
 
 char *strdup(str)

@@ -96,40 +96,6 @@ extern size_t strftime (char *, size_t, const char *, const struct tm *);
 
 #endif
 
-
-#ifdef __amiga__
-
-/* Return codes */
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE  1
-
-/* Define some library routines needed for the Aztec C compiler */
-/* <memory.h> */
-typedef int size_t;
-extern void *malloc();
-
-/* <string.h> */
-extern char *strcpy();
-extern char *strncpy();
-extern char *strcat();
-extern char *strncat();
-extern char *strchr();
-extern char *strrchr();
-extern char *strpbrk();
-extern int strcmp();
-extern int strncmp();
-extern int strlen();
-extern int strspn();
-extern int strcspn();
-
-
-/* These where necessary to implement in SYSDEP.C although they should exist */
-extern void memcpy();
-extern void memset();
-extern char *strdup();
-
-#endif
-
 #ifdef __mac__
 #define _PROTOTYPES_
 #include <stdlib.h>

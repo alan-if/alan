@@ -6,6 +6,7 @@ CPP	= $(GCC) -MM -ansi -I/usr/local/include/ansi
 
 INCLUDE	= -I/usr/local/include/ansi -I$(HOME)/include
 CC	= $(GCC) -ansi -pedantic -Wall
+#CC	= acc
 
 CFLAGS	= $(DEBUG) $(INCLUDE)
 

@@ -138,26 +138,7 @@ extern struct Library *IconBase;
       CurrentDir(WBstart->sm_ArgList[1].wa_Lock);
       advnam = WBstart->sm_ArgList[1].wa_Name;
     }
-    /* Create a console */
-    if ((existingIcon = GetDiskObject(advnam)) != 0) {
-      char *windowToolType = FindToolType(existingIcon->do_ToolTypes, "WINDOW");
-      if (windowToolType)
-	strcpy(connam, windowToolType);
-      else
-	strcpy(connam, "con:10/10/480/160");
-    } else
-      strcpy(connam, "con:10/10/480/160");
-    strcat(connam, "/");
-    strcat(connam, advnam);
-    if ((con = Open(connam, MODE_NEWFILE)) == NULL) {
-      /* Autorequest! */
-      exit(1);
-    }
-    handle = (struct FileHandle *)((long)con << 2);
-    proc->pr_ConsoleTask = (APTR)(handle->fh_Type);
-
-    /* AztecC stdio console set up */
-    _devtab[0].fd = _devtab[1].fd = _devtab[2].fd = (long)con;
+    /* Possibly other tooltypes ... */
   } else {
     if ((prgnam = strrchr(argv[0], '/')) == NULL
 	&& (prgnam = strrchr(argv[0], ':')) == NULL)
