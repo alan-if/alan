@@ -5,13 +5,18 @@ alan defattr
 
 defattr.alan
 
-    6.      boolean_attr 3.
+    5.    boolean_attr.
+=====>    1
+
+  *1*   332 E : Type of location attribute must match default attribute.
+
+    9.      boolean_attr 3.
 =====>      1
 
   *1*   332 E : Type of local attribute must match default attribute.
 
 
-        1 error(s).
+        2 error(s).
         No detected warnings.
         2 informational message(s).
 

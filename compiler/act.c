@@ -199,7 +199,7 @@ void prepacts()
 	/* Else use default attribute code */
 	alst->element.atr->nam->code = atr->nam->code;
 	if (!eqtyp(alst->element.atr->typ, atr->typ))
-	  lmLog(&alst->element.atr->srcp, 332, sevERR, "");
+	  lmLogv(&alst->element.atr->srcp, 332, sevERR, "local", "default", NULL);
       }
     }
     sortatr(&act->atrs);	/* Sort the attributes for the actor */

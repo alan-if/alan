@@ -73,7 +73,7 @@
 322	'Word \'%1\' already defined as a synonym.';
 330	'Wrong type of expression. Must be of %1 type.';
 331	'Incompatible types in %1.';
-332	'Type of local attribute must match default attribute.';
+332	'Type of %1 attribute must match %2 attribute.';
 333	'The word \'%1\' is defined as a synonym as well as of another word class.';
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
 340	'Initial location for \'%1\' declared twice. This occurence ignored.';

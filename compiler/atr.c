@@ -189,17 +189,54 @@ void prepatrs(void)
 void prepatrs()
 #endif
 {
-  List *lst;       /* List pointer*/
+  List *lst;			/* List pointer*/
+  AtrNod *atr;			/* Found default attribute */
   
   /* Number all default attributes */
   for (lst = adv.atrs; lst != NULL; lst = lst->next)
     lst->element.atr->nam->code = ++atrmax;
-  for (lst = adv.aatrs; lst != NULL; lst = lst->next)
-    lst->element.atr->nam->code = ++aatrmax;
-  for (lst = adv.latrs; lst != NULL; lst = lst->next)
-    lst->element.atr->nam->code = ++latrmax;
-  for (lst = adv.oatrs; lst != NULL; lst = lst->next)
-    lst->element.atr->nam->code = ++oatrmax;
+
+  /* Actor attributes */
+  aatrmax = atrmax;
+  for (lst = adv.aatrs; lst != NULL; lst = lst->next) {
+    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+      /* New attribute for actors */
+      lst->element.atr->nam->code = ++aatrmax;
+    } else {			/* Use default attribute code */
+      /* Was a redefined default attribute, type check it and use same code */
+      if (!eqtyp(lst->element.atr->typ, atr->typ))
+	lmLogv(&lst->element.atr->srcp, 332, sevERR, "actor", "default", NULL);
+      lst->element.atr->nam->code = atr->nam->code;
+    }
+  }
+
+  /* Location attributes */
+  latrmax = atrmax;
+  for (lst = adv.latrs; lst != NULL; lst = lst->next) {
+    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+      /* New attribute for locations */
+      lst->element.atr->nam->code = ++latrmax;
+    } else {			/* Use default attribute code */
+      /* Was a redefined default attribute, type check it and use same code */
+      if (!eqtyp(lst->element.atr->typ, atr->typ))
+	lmLogv(&lst->element.atr->srcp, 332, sevERR, "location", "default", NULL);
+      lst->element.atr->nam->code = atr->nam->code;
+    }
+  }
+
+  /* Object attributes */
+  oatrmax = atrmax;
+  for (lst = adv.oatrs; lst != NULL; lst = lst->next) {
+    if ((atr = findatr(lst->element.atr->nam->str, adv.atrs, NULL)) == NULL) {
+      /* New attribute for objects */
+      lst->element.atr->nam->code = ++oatrmax;
+    } else {			/* Use default attribute code */
+      /* Was a redefined default attribute, type check it and use same code */
+      if (!eqtyp(lst->element.atr->typ, atr->typ))
+	lmLogv(&lst->element.atr->srcp, 332, sevERR, "object", "default", NULL);
+      lst->element.atr->nam->code = atr->nam->code;
+    }
+  }
 }
 
 

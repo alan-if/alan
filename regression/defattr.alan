@@ -1,3 +1,6 @@
+Default Attributes
+  boolean_attr "hej".
+
 Location Attributes
   boolean_attr.
 
