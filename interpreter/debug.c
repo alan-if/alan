@@ -205,7 +205,7 @@ static void showcnts()
   int cnt;
 
   output("CONTAINERS:");
-  for (cnt = CNTMIN; cnt <= CNTMAX; cnt++) {
+  for (cnt = 1; cnt <= header->containerMax; cnt++) {
     sprintf(str, "$i%3d: ", cnt);
     output(str);
     if (container[cnt].owner != 0)
@@ -228,8 +228,8 @@ static void showcnt(cnt)
   int i;
   Abool found = FALSE;
 
-  if (cnt < CNTMIN || cnt > CNTMAX) {
-    sprintf(str, "Container number out of range. Between %ld and %ld, please.", CNTMIN, CNTMAX);
+  if (cnt < 1 || cnt > header->containerMax) {
+    sprintf(str, "Container number out of range. Between 1 and %ld, please.", header->containerMax);
     output(str);
     return;
   }
@@ -469,7 +469,6 @@ void debug()
       $iO [n] -- show instances that are object[s]\
       $iA [n] -- show instances that are actor[s]\
       $iL [n] -- show instances that are location[s]\
-      $iC [n] -- show container[s]\
       $iE -- show events\
       $iG -- go on\
       $iT -- toggle trace mode\

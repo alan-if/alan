@@ -1218,7 +1218,7 @@ void empty(cnt, whr)
 {
   int i;
 
-  for (i = OBJMIN; i <= OBJMAX; i++)
+  for (i = 1; i <= header->instanceMax; i++)
     if (in(i, cnt))
       locate(i, whr);
 }

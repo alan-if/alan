@@ -28,9 +28,6 @@
 
 static struct {char *id; char *english; char *swedish;} defmsg[] =
 {
-  {"huh",
-     "Huh?",
-     "Va?"},
   {"what",
      "I don't understand.",
      "Jag förstår inte."},
@@ -76,9 +73,6 @@ static struct {char *id; char *english; char *swedish;} defmsg[] =
   {"cant",
      "You can't $v the $1.",
      "Du kan inte $v $1."},
-  {"nothing",
-     "There is nothing here that you can $v.",
-     "Det finns inget du kan $v här."},
   {"seeobject1",
      "There is",
      "Det finns"},

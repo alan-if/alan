@@ -60,12 +60,12 @@ RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
 
 /*----------------------------------------------------------------------
 
-  anrul()
+  analyzeRule()
 
   Analyze one rule
 
   */
-static void anrul(RulNod *rul)
+static void analyzeRule(RulNod *rul)
 {
   Context context;
 
@@ -81,17 +81,17 @@ static void anrul(RulNod *rul)
 
 /*======================================================================
 
-  anruls()
+  analyzeRules()
 
   Analyze the rules in this adventure;
 
   */
-void anruls(void)
+void analyzeRules(void)
 {
   List *rul;		/* Traversal pointer */
 
   for (rul = adv.ruls; rul != NULL; rul = rul->next)
-    anrul(rul->element.rul);
+    analyzeRule(rul->element.rul);
 }
 
 
@@ -99,12 +99,12 @@ void anruls(void)
 
 /*======================================================================
 
-  geruls()
+  generateRules()
 
   Generate all rules to be checked between actor moves.
 
   */
-Aaddr geruls(void)
+Aaddr generateRules(void)
 {
   List *lst;
   Aaddr adr;

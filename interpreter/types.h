@@ -24,14 +24,6 @@
 #endif
 #endif
 
-#define ACTMIN (header->actmin)
-#define ACTMAX (header->actmax)
-#define OBJMIN (header->objmin)
-#define OBJMAX (header->objmax)
-#define LOCMIN (header->locmin)
-#define LOCMAX (header->locmax)
-#define CNTMIN (header->cntmin)
-#define CNTMAX (header->cntmax)
 #define LITMIN (header->locmax+1)
 #define LITMAX (header->locmax+1+litCount)
 

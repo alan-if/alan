@@ -141,7 +141,7 @@ void anadv(void)
   anevts();
 
   if (verbose) printf("\n\tRules: ");
-  anruls();
+  analyzeRules();
 
   if (verbose) printf("\n\tSynonyms: ");
   ansyns();
@@ -176,10 +176,10 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   acdHeader.dictionary = gewrds();	/* Dictionary */
 
   if (verbose) printf("\n\tSyntax Definitions: ");
-  acdHeader.stxs = gestxs();	/* Syntax definitions */ 
+  acdHeader.syntaxTableAddress = gestxs();	/* Syntax definitions */ 
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
+  acdHeader.verbTableAddress = gevrbs(adv.vrbs, NULL); /* Global verbs */
 
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();
@@ -188,20 +188,19 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   generateInstances(&acdHeader);
 
   if (verbose) printf("\n\tContainers: ");
-  acdHeader.containerTableAddress = generateContainers();
+  acdHeader.containerTableAddress = generateContainers(&acdHeader);
 
   if (verbose) printf("\n\tEvents: ");
   acdHeader.eventTableAddress = generateEvents(&acdHeader);
 
   if (verbose) printf("\n\tRules: ");
-  acdHeader.ruls = geruls();	/* Rules */
+  acdHeader.ruleTableAddress = generateRules();
 
   acdHeader.scores = gesco();	/* Scores */
-
   acdHeader.maxscore = scotot;	/* Total score */
 
   if (verbose) printf("\n\tMessages: ");
-  acdHeader.msgs = gemsgs();	/* Messages */
+  acdHeader.messageTableAddress = gemsgs();
 
   if (verbose) printf("\n\tCharacter Encoding: ");
   acdHeader.freq = gefreq();	/* Character frequencies */

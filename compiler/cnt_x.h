@@ -30,7 +30,7 @@ extern CntNod *newContainer(Srcp *srcp,
 
 extern void verifyContainer(WhtNod *wht, Context *context);
 extern void analyzeContainer(CntNod *cnt, Context *context);
-extern Aaddr generateContainers(void);
+extern Aaddr generateContainers(AcdHdr *header);
 extern void dumpContainer(CntNod *container);
 
 #endif

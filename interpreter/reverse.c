@@ -456,16 +456,16 @@ void reverseACD(v2_5)
 {
   reverseHdr(header);
   reverseDictionary(header->dictionary);
-  reverseStxs(header->stxs);
-  reverseVerbs(header->vrbs);
+  reverseStxs(header->syntaxTableAddress);
+  reverseVerbs(header->verbTableAddress);
   reverseInstances(header->instanceTableAddress);
   reverseTable(header->classTableAddress, sizeof(ClassEntry));
   reverseContainers(header->containerTableAddress);
   reverseEvts(header->eventTableAddress);
-  reverseRuls(header->ruls);
+  reverseRuls(header->ruleTableAddress);
   reverseTable(header->init, sizeof(IniEntry));
   reverseStms(header->start);
-  reverseMsgs(header->msgs);
+  reverseMsgs(header->messageTableAddress);
  
   reverseTable(header->scores, sizeof(Aword));
   reverseTable(header->freq, sizeof(Aword));

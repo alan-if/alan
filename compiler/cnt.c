@@ -30,8 +30,7 @@
 
 /* PUBLIC: */
 
-int cntmin, cntmax;
-int cntcount = 0;
+int containerCount = 0;
 
 
 
@@ -56,7 +55,7 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
   new->hstms = hstms;
   new->estms = estms;
 
-  new->code = ++cntcount;
+  new->code = ++containerCount;
 
   return(new);
 }
@@ -191,7 +190,7 @@ static void gecntent(CntNod *cnt)
   generateContainers()
 
   */
-Aaddr generateContainers(void)
+Aaddr generateContainers(AcdHdr *header)
 {
   List *lst;			/* The list of containers */
   Aaddr adr;
@@ -209,6 +208,9 @@ Aaddr generateContainers(void)
       gecntent(lst->element.cnt);
   }
   emit(EOF);
+
+  header->containerMax = containerCount;
+
   return(adr);
 }
 

@@ -809,13 +809,13 @@ Boolean exitto(to, from)
      int to, from;
 #endif
 {
-  ExitEntry *ext;
+  ExitEntry *theExit;
 
-  if (locs[from-LOCMIN].exts == 0)
+  if (instance[from].exits == 0)
     return(FALSE); /* No exits */
 
-  for (ext = (ExitEntry *) addrTo(locs[from-LOCMIN].exts); !endOfTable(ext); ext++)
-    if (ext->target == to)
+  for (theExit = (ExitEntry *) addrTo(instance[from].exits); !endOfTable(theExit); theExit++)
+    if (theExit->target == to)
       return(TRUE);
 
   return(FALSE);
@@ -878,7 +878,7 @@ static int count(cnt)
 {
   int i, j = 0;
   
-  for (i = OBJMIN; i <= OBJMAX; i++)
+  for (i = 1; i <= header->instanceMax; i++)
     if (in(i, cnt))
       /* Then it's in this container also */
       j++;
@@ -1029,34 +1029,34 @@ void go(dir)
      int dir;
 #endif
 {
-  ExitEntry *ext;
+  ExitEntry *theExit;
   Boolean ok;
   Aword oldloc;
 
-  ext = (ExitEntry *) addrTo(instance[cur.loc].exits);
+  theExit = (ExitEntry *) addrTo(instance[cur.loc].exits);
   if (instance[cur.loc].exits != 0)
-    while (!endOfTable(ext)) {
-      if (ext->code == dir) {
+    while (!endOfTable(theExit)) {
+      if (theExit->code == dir) {
 	ok = TRUE;
-	if (ext->checks != 0) {
+	if (theExit->checks != 0) {
 	  if (trcflg) {
 	    printf("\n<EXIT %d (%s) from %d (", dir,
 		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
 	    debugsay(cur.loc);
 	    printf("), Checking:>\n");
 	  }
-	  ok = trycheck(ext->checks, TRUE);
+	  ok = trycheck(theExit->checks, TRUE);
 	}
 	if (ok) {
 	  oldloc = cur.loc;
-	  if (ext->action != 0) {
+	  if (theExit->action != 0) {
 	    if (trcflg) {
 	      printf("\n<EXIT %d (%s) from %d (", dir, 
 		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
 	      debugsay(cur.loc);
 	      printf("), Executing:>\n");
 	    }	    
-	    interpret(ext->action);
+	    interpret(theExit->action);
 	  }
 	  /* Still at the same place? */
 	  if (where(HERO) == oldloc) {
@@ -1066,12 +1066,12 @@ void go(dir)
 	      debugsay(cur.loc);
 	      printf("), Moving:>\n");
 	    }
-	    locate(HERO, ext->target);
+	    locate(HERO, theExit->target);
 	  }
 	}
 	return;
       }
-      ext++;
+      theExit++;
     }
   error(M_NO_WAY);
 }
@@ -1133,7 +1133,7 @@ Boolean possible()
   int i;			/* Parameter index */
   
   fail = FALSE;
-  alt[0] = findalt(header->vrbs, 0);
+  alt[0] = findalt(header->verbTableAddress, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
     if (!trycheck(alt[0]->checks, FALSE)) return FALSE;
@@ -1185,7 +1185,7 @@ static void do_it()
   char trace[80];		/* Trace string buffer */
   
   fail = FALSE;
-  alt[0] = findalt(header->vrbs, 0);
+  alt[0] = findalt(header->verbTableAddress, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
     if (trcflg)
@@ -1606,15 +1606,15 @@ static void initheader()
     container--;
   }
 
-  if (header->containerTableAddress != 0) {
+  if (header->eventTableAddress != 0) {
     events = (EventEntry *) addrTo(header->eventTableAddress);
     events--;
   }
 
-  vrbs = (VrbEntry *) addrTo(header->vrbs);
-  stxs = (StxEntry *) addrTo(header->stxs);
-  ruls = (RulEntry *) addrTo(header->ruls);
-  msgs = (MsgEntry *) addrTo(header->msgs);
+  stxs = (StxEntry *) addrTo(header->syntaxTableAddress);
+  vrbs = (VrbEntry *) addrTo(header->verbTableAddress);
+  ruls = (RulEntry *) addrTo(header->ruleTableAddress);
+  msgs = (MsgEntry *) addrTo(header->messageTableAddress);
   scores = (Aword *) addrTo(header->scores);
 
   if (header->pack)

@@ -240,13 +240,13 @@ typedef struct EventEntry {	/* EVENT TABLE */
 
 typedef struct AcdHdr {
 /* Important info */
-  char vers[4];			/* 01 - Version of compiler */
-  Aword size;			/* 02 - Size of ACD-file in Awords */
+  char vers[4];			/* Version of compiler */
+  Aword size;			/* Size of ACD-file in Awords */
 /* Options */
-  Abool pack;			/* 03 - Is the text packed ? */
-  Aword paglen;			/* 04 - Length of a page */
-  Aword pagwidth;		/* 05 - and width */
-  Aword debug;			/* 06 - Option debug */
+  Abool pack;			/* Is the text packed ? */
+  Aword paglen;			/* Length of a page */
+  Aword pagwidth;		/* and width */
+  Aword debug;			/* Option debug */
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */
   Aword classMax;		/* Number of classes */
@@ -258,41 +258,27 @@ typedef struct AcdHdr {
   Aword instanceMax;		/* Highest number of an instance */
   Aword theHero;		/* The hero instance code (id) */
   Aaddr containerTableAddress;
-  Aaddr dictionary;
+  Aword containerMax;
   Aaddr eventTableAddress;
   Aword eventMax;
-
-
-/* Old data follows: */
-  Aaddr oatrs;			/* 08 - Object default attributes */
-  Aaddr latrs;			/* 09 - Location default attributes */
-  Aaddr aatrs;			/* 0a - Actor default attributes */
-				/* 3.0 Removed Actor, Object and Location tables */
-				/* 3.0 Inserted Class and Instance tables */
-  Aaddr stxs;			/* 0d - Syntax table */
-  Aaddr vrbs;			/* 0e - Verb table */
-  Aaddr ruls;			/* 11 - Rule table */
-  Aaddr init;			/* 12 - String init table */
-  Aaddr start;			/* 13 - Address to Start code */
-  Aword msgs;			/* 14 - Messages table */
+  Aaddr syntaxTableAddress;
+  Aword syntaxMax;
+  Aaddr dictionary;
+  Aaddr verbTableAddress;
+  Aaddr ruleTableAddress;
+  Aaddr messageTableAddress;
 /* Miscellaneous */
-  Aword objmin, objmax;		/* 15 - Interval for object codes */
-  Aword actmin, actmax;		/* 17 - Interval for actor codes */
-  Aword cntmin, cntmax;		/* 19 - Interval for container codes */
-  Aword locmin, locmax;		/* 1b - Interval for location codes */
-  Aword dirmin, dirmax;		/* 1d - Interval for direction codes */
-  Aword evtmin, evtmax;		/* 1f - Interval for event codes */
-  Aword rulmin, rulmax;		/* 21 - Interval for rule codes */
-  Aword maxscore;		/* 23 - Maximum score */
-  Aaddr scores;			/* 24 - Score table */
-  Aaddr freq;			/* 25 - Address to Char freq's for coding */
-  Aword acdcrc;			/* 26 - Checksum for acd code (excl. hdr) */
-  Aword txtcrc;			/* 27 - Checksum for text data file */
+  Aaddr init;			/* String init table */
+  Aaddr start;			/* Address to Start code */
+  Aword maxscore;		/* Maximum score */
+  Aaddr scores;			/* Score table */
+  Aaddr freq;			/* Address to Char freq's for coding */
+  Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
+  Aword txtcrc;			/* Checksum for text data file */
 } AcdHdr;
 
 /* Error message numbers */
 typedef enum MsgKind {
-  M_HUH,			/* Obsolete */
   M_WHAT,
   M_WHAT_ALL,
   M_WHAT_IT,
@@ -308,7 +294,6 @@ typedef enum MsgKind {
   M_NO_WAY,
   M_CANT0,
   M_CANT,
-  M_NOTHING,			/* Obsolete */
   M_SEEOBJ1,
   M_SEEOBJ2,
   M_SEEOBJ3,

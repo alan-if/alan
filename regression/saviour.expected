@@ -60,6 +60,10 @@ completely covered by dust, there is an old book laying on the floor here.
 > take all
 (old book) Taken.
 
+> read the book
+As you carefully try to open the book it falls apart into dust and falls
+to the floor through your fingers.
+
 > east
 Office
 In front of you is a deserted office area. Desks and chairs are piled up
@@ -124,8 +128,8 @@ disks are spread out all over the floor. The exit is to the west. An
 ancient computer is standing in the centre of the room.
 
 > i
-You are carrying a old book, a 3 metre long ladder, a rather heavy
-computer terminal and a small coin.
+You are carrying a 3 metre long ladder, a rather heavy computer terminal 
+and a small coin.
 
 > connect terminal
 The terminal is now connected to the nearby computer.
@@ -240,7 +244,7 @@ The text inside the manual reads:
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'OscSv'.
+OOH! There is a hand written remark in the margin here, it says 'SveGr'.
 
 > west
 Corridor (again)
@@ -378,19 +382,19 @@ The text inside the manual reads:
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'OscSv'.
+OOH! There is a hand written remark in the margin here, it says 'SveGr'.
 
 > type "nilgu"
 'ERROR: Wrong USERID.
 Please login. Enter USERID:'
 
 > type "oscsv"
-'Welcome OscSv!
-
-Enter command:'
+'ERROR: Wrong USERID.
+Please login. Enter USERID:'
 
 > type "svegr"
-'ERROR: Unknown command.
+'Welcome SveGr!
+
 Enter command:'
 
 > type "backup"
@@ -442,8 +446,8 @@ is the exit. To the east is a folding door. It is open revealing the
 entrance to a cafeteria.
 
 > i
-You are carrying a spool of computer tape, a old book, a set of rusty keys 
-and a dirty manual.
+You are carrying a spool of computer tape, a set of rusty keys and a 
+dirty manual.
 
 > south
 As you walk out through the door the large building collapses in a huge

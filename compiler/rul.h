@@ -34,18 +34,10 @@ extern int rulcount;
 /* Functions: */
 
 /* Allocate a new Rule node */
-extern RulNod *newrul(Srcp *srcp,
-		      ExpNod *exp,
-		      List *stms);
-
-/* Analyse all Rules */
-extern void anruls(void);
-
-/* Generate code for all Rules */
-extern Aaddr geruls(void);
-
-/* Dump a Rule node */
-extern void durul(RulNod *rul);
+extern RulNod *newrul(Srcp *srcp, ExpNod *exp, List *stms);
+extern void analyzeRules(void);
+extern Aaddr generateRules(void);
+extern void dumpRules(RulNod *rul);
 
 
 #endif
