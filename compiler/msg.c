@@ -261,7 +261,7 @@ void prepmsgs(void)
     stm->fields.print.fpos = ftell(txtfil);
     stm->fields.print.len = strlen(msgp);
     /* Make a list of it */
-    stms = concat(NULL, stm);
+    stms = concat(NULL, stm, STMNOD);
     msg = newmsg(NULL, NULL, stms);
     /* Save the message text */
 #ifdef __mac__
@@ -285,7 +285,7 @@ void prepmsgs(void)
 #endif
     /* Finally enter it in the list */
     msg->msgno = msgno;
-    smsgs = concat(smsgs, msg);
+    smsgs = concat(smsgs, msg, MSGNOD);
   }
 
   /* Merge user messages to the list */

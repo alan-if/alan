@@ -236,37 +236,37 @@ static int val(char str[])
 
     ! <verb>
     %%
-	adv.vrbs = concat(adv.vrbs, %<verb>.vrb);
+	adv.vrbs = concat(adv.vrbs, %<verb>.vrb, VRBNOD);
     %%
 
     ! <location>
     %%
-	adv.locs = concat(adv.locs, %<location>.loc);
+	adv.locs = concat(adv.locs, %<location>.loc, LOCNOD);
     %%
 
     ! <object>
     %%
-	adv.objs = concat(adv.objs, %<object>.obj);
+	adv.objs = concat(adv.objs, %<object>.obj, OBJNOD);
     %%
 
     ! <event>
     %%
-	adv.evts = concat(adv.evts, %<event>.evt);
+	adv.evts = concat(adv.evts, %<event>.evt, EVTNOD);
     %%
 
     ! <container>
     %%
-	adv.cnts = concat(adv.cnts, %<container>.cnt);
+	adv.cnts = concat(adv.cnts, %<container>.cnt, CNTNOD);
     %%
 
     ! <actor>
     %%
-	adv.acts = concat(adv.acts, %<actor>.act);
+	adv.acts = concat(adv.acts, %<actor>.act, ACTNOD);
     %%
 
     ! <rule>
     %%
-	adv.ruls = concat(adv.ruls, %<rule>.rul);
+	adv.ruls = concat(adv.ruls, %<rule>.rul, RULNOD);
     %%
     ;
 
@@ -303,12 +303,12 @@ static int val(char str[])
 <attributes>		-- RETURNS: atrs
     = <attribute> '.'
     %%
-	%<attributes>.atrs = concat(NULL, %<attribute>.atr);
+	%<attributes>.atrs = concat(NULL, %<attribute>.atr, ATRNOD);
     %%
 
     ! <attributes> <attribute> '.'
     %%
-	%<attributes>.atrs = concat(%<attributes>.atrs, %<attribute>.atr);
+	%<attributes>.atrs = concat(%<attributes>.atrs, %<attribute>.atr, ATRNOD);
     %%
     ;
 
@@ -363,12 +363,12 @@ static int val(char str[])
 <synonym_list>			-- RETURNS: syns
     = <synonym>
     %%
-	%<synonym_list>.syns = concat(NULL, %<synonym>.syn);
+	%<synonym_list>.syns = concat(NULL, %<synonym>.syn, SYNNOD);
     %%
 
     ! <synonym_list> <synonym>
     %%
-	%<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym>.syn);
+	%<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym>.syn, SYNNOD);
     %%
     ;
 
@@ -392,12 +392,12 @@ static int val(char str[])
 <message_list>			-- RETURNS: msgs
     = <message>
     %%
-	%<message_list>.msgs = concat(NULL, %<message>.msg);
+	%<message_list>.msgs = concat(NULL, %<message>.msg, MSGNOD);
     %%
 
     ! <message_list> <message>
     %%
-	%<message_list>.msgs = concat(%<message_list>.msgs, %<message>.msg);
+	%<message_list>.msgs = concat(%<message_list>.msgs, %<message>.msg, MSGNOD);
     %%
     ;
 
@@ -421,12 +421,12 @@ static int val(char str[])
 <syntax_list>
     = <syntax_item>
     %%
-	%<syntax_list>.stxs = concat(NULL, %<syntax_item>.stx);
+	%<syntax_list>.stxs = concat(NULL, %<syntax_item>.stx, STXNOD);
     %%
 
     ! <syntax_list> <syntax_item>
     %%
-	%<syntax_list>.stxs = concat(%<syntax_list>.stxs, %<syntax_item>.stx);
+	%<syntax_list>.stxs = concat(%<syntax_list>.stxs, %<syntax_item>.stx, STXNOD);
     %%
     ;
 
@@ -443,13 +443,14 @@ static int val(char str[])
 <syntax_elements>
     = <syntax_element>
     %%
-	%<syntax_elements>.elms = concat(NULL, %<syntax_element>.elm);
+	%<syntax_elements>.elms = concat(NULL, %<syntax_element>.elm, STXNOD);
     %%
 
     ! <syntax_elements> <syntax_element>
     %%
 	%<syntax_elements>.elms = concat(%<syntax_elements>.elms,
-				       %<syntax_element>.elm);
+				       %<syntax_element>.elm,
+	                                STXNOD);
     %%
     ;
 
@@ -509,13 +510,13 @@ static int val(char str[])
 <class_restrictions>
     = <class_restriction>
     %%
-	%<class_restrictions>.ress = concat(NULL, %<class_restriction>.res);
+	%<class_restrictions>.ress = concat(NULL, %<class_restriction>.res, RESNOD);
     %%
 
     ! <class_restrictions> 'AND' <class_restriction>
     %%
 	%<class_restrictions>.ress = concat(%<class_restrictions>.ress,
-				       %<class_restriction>.res);
+				       %<class_restriction>.res, RESNOD);
     %%
     ;
 
@@ -591,7 +592,7 @@ static int val(char str[])
 
     ! <optional_verbs> <verb>
     %%
-	%<optional_verbs>.vrbs = concat(%<optional_verbs>.vrbs, %<verb>.vrb);
+	%<optional_verbs>.vrbs = concat(%<optional_verbs>.vrbs, %<verb>.vrb, VRBNOD);
     %%
     ;
 
@@ -625,7 +626,8 @@ static int val(char str[])
 					NULL,
 					%<simple_verb_body>.chks,
 					%<simple_verb_body>.qual,
-					%<simple_verb_body>.stms));
+					%<simple_verb_body>.stms),
+				   ALTNOD);
     %%
 
     ! <verb_alternatives>
@@ -636,13 +638,14 @@ static int val(char str[])
 <verb_alternatives>
     = <verb_alternative>
     %%
-	%<verb_alternatives>.alts = concat(NULL, %<verb_alternative>.alt);
+	%<verb_alternatives>.alts = concat(NULL, %<verb_alternative>.alt, ALTNOD);
     %%
 
     ! <verb_alternatives> <verb_alternative>
     %%
 	%<verb_alternatives>.alts = concat(%<verb_alternatives>.alts,
-					 %<verb_alternative>.alt);
+					 %<verb_alternative>.alt,
+	     				ALTNOD);
     %%
     ;
 
@@ -682,7 +685,7 @@ static int val(char str[])
 
     ! 'CHECK' <statements>
     %%
-	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms));
+	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms), STMNOD);
     %%
 
     ! 'CHECK' <check_list>
@@ -694,12 +697,12 @@ static int val(char str[])
 <check_list>		-- RETURNS: chks
     = <check>
     %%
-	%<check_list>.chks = concat(NULL, %<check>.chk);
+	%<check_list>.chks = concat(NULL, %<check>.chk, CHKNOD);
     %%
 
     ! <check_list> 'AND' <check>
     %%
-	%<check_list>.chks = concat(%<check_list>.chks, %<check>.chk);
+	%<check_list>.chks = concat(%<check_list>.chks, %<check>.chk, CHKNOD);
     %%
     ;
 
@@ -792,9 +795,9 @@ static int val(char str[])
 	    lmLog(`&%<location_body_part>.srcp, 210, sevERR, "");
 	}
       else if (%<location_body_part>.ext != NULL)
-	%<location_body>.exts = concat(%<location_body>.exts, %<location_body_part>.ext);
+	%<location_body>.exts = concat(%<location_body>.exts, %<location_body_part>.ext, EXTNOD);
       else
-	%<location_body>.vrbs = concat(%<location_body>.vrbs, %<location_body_part>.vrb);
+	%<location_body>.vrbs = concat(%<location_body>.vrbs, %<location_body_part>.vrb, VRBNOD);
     %%	
     ;
 
@@ -865,7 +868,7 @@ static int val(char str[])
 
     ! <optional_exits> <exit>
     %%
-	%<optional_exits>.exts = concat(%<optional_exits>.exts, %<exit>.ext);
+	%<optional_exits>.exts = concat(%<optional_exits>.exts, %<exit>.ext, EXTNOD);
     %%
     ;
 
@@ -979,7 +982,7 @@ static int val(char str[])
           else
 	    %<object_body>.stms3 = %<object_body_part>.stms3;
         else
- 	  %<object_body>.vrbs  = concat(%<object_body>.vrbs, %<object_body_part>.vrb);
+ 	  %<object_body>.vrbs  = concat(%<object_body>.vrbs, %<object_body_part>.vrb, VRBNOD);
     %%
     ;
 
@@ -1104,7 +1107,7 @@ static int val(char str[])
     = 'DESCRIPTION' 
     %%
 	%<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
-							STM_NOP));
+							STM_NOP), STMNOD);
 	%<description>.srcp = %'DESCRIPTION'.srcp;
     %%
 
@@ -1119,7 +1122,7 @@ static int val(char str[])
     = 'ARTICLE' 
     %%
 	%<article>.stms = concat(NULL, newstm(`&%'ARTICLE'.srcp,
-							STM_NOP));
+							STM_NOP), STMNOD);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
@@ -1160,7 +1163,7 @@ static int val(char str[])
     ! <optional_names> <name>
     %%
 	%<optional_names>.nams2 = concat(%<optional_names>.nams2,
-					     %<name>.nams);
+					     %<name>.nams, NAMNOD);
     %%
     ;
 
@@ -1182,7 +1185,7 @@ static int val(char str[])
 					  %<container_body>.stms,
 					  %<container_body>.stms2);
         %<properties>.srcp = %'CONTAINER'.srcp;
-	adv.cnts = concat(adv.cnts, %<properties>.cnt);
+	adv.cnts = concat(adv.cnts, %<properties>.cnt, CNTNOD);
     %%
     ;
 
@@ -1240,12 +1243,12 @@ static int val(char str[])
 <limits>			-- RETURNS: lims
     = <limit>
     %%
-	%<limits>.lims = concat(NULL, %<limit>.lim);
+	%<limits>.lims = concat(NULL, %<limit>.lim, LIMNOD);
     %%
 
     ! <limits> <limit>
     %%
-	%<limits>.lims = concat(%<limits>.lims, %<limit>.lim);
+	%<limits>.lims = concat(%<limits>.lims, %<limit>.lim, LIMNOD);
     %%
     ;
 
@@ -1388,9 +1391,9 @@ static int val(char str[])
 	  else
 	    %<actor_body>.stms = %<actor_body_part>.stms;
         else if (%<actor_body_part>.vrb != NULL)
- 	  %<actor_body>.vrbs  = concat(%<actor_body>.vrbs, %<actor_body_part>.vrb);
+ 	  %<actor_body>.vrbs  = concat(%<actor_body>.vrbs, %<actor_body_part>.vrb, VRBNOD);
         else
- 	  %<actor_body>.scrs  = concat(%<actor_body>.scrs, %<actor_body_part>.scr);
+ 	  %<actor_body>.scrs  = concat(%<actor_body>.scrs, %<actor_body_part>.scr, VRBNOD);
     %%
     ;
 
@@ -1462,7 +1465,7 @@ static int val(char str[])
     ! <optional_actor_script> <script>
     %%
 	%<optional_actor_script>.scrs = concat(%<optional_actor_script>.scrs,
-					     %<script>.scr);
+					     %<script>.scr, SCRNOD);
     %%
     ;
 
@@ -1480,12 +1483,12 @@ static int val(char str[])
 <step_list>		-- RETURNS: stps
     = <step>
     %%
-	%<step_list>.stps = concat(NULL, %<step>.stp);
+	%<step_list>.stps = concat(NULL, %<step>.stp, STPNOD);
     %%
 
     ! <step_list> <step>
     %%
-	%<step_list>.stps = concat(%<step_list>.stps, %<step>.stp);
+	%<step_list>.stps = concat(%<step_list>.stps, %<step>.stp, STPNOD);
     %%
     ;
 
@@ -1550,12 +1553,12 @@ static int val(char str[])
 <statements>		-- RETURNS: stms
     = <statement>
     %%
-	%<statements>.stms = concat(NULL, %<statement>.stm);
+	%<statements>.stms = concat(NULL, %<statement>.stm, STMNOD);
     %%
 
     ! <statements> <statement>
     %%
-	%<statements>.stms = concat(%<statements>.stms, %<statement>.stm);
+	%<statements>.stms = concat(%<statements>.stms, %<statement>.stm, STMNOD);
     %%
     ;
 
@@ -1795,7 +1798,7 @@ static int val(char str[])
 	stm->fields.iff.els = NULL;
 
 	/* Now make a list of the ELSIF */
-	%<elsif_list>.stms = concat(NULL, stm);
+	%<elsif_list>.stms = concat(NULL, stm, STMNOD);
     }%%
 
     ! <elsif_list> 'ELSIF' <expression> 'THEN' <statements>
@@ -1811,8 +1814,8 @@ static int val(char str[])
 	/* else-part of the last element in the elsif_list to this */
 	/* IF-statement and also concat this element to the list so */
 	/* we'll know were the end is next time */
-	%<elsif_list>.stms->tail->element.stm->fields.iff.els = concat(NULL, stm);
-	%<elsif_list>.stms = concat(%<elsif_list>.stms, stm);
+	%<elsif_list>.stms->tail->element.stm->fields.iff.els = concat(NULL, stm, STMNOD);
+	%<elsif_list>.stms = concat(%<elsif_list>.stms, stm, STMNOD);
     }%%
     ;
 
@@ -2248,12 +2251,12 @@ static int val(char str[])
 <ids>			-- RETURNS: nams
     = ID
     %%
-        %<ids>.nams = concat(NULL, %ID.nam);
+        %<ids>.nams = concat(NULL, %ID.nam, NAMNOD);
     %%
 
     ! <ids> ID
     %%
-        %<ids>.nams = concat(%<ids>.nams, %ID.nam);
+        %<ids>.nams = concat(%<ids>.nams, %ID.nam, NAMNOD);
     %%
     ;
 
@@ -2261,13 +2264,13 @@ static int val(char str[])
     = ID
     %%
         %<id_list>.str = newstr(%ID.nam->str);
-        %<id_list>.nams = concat(NULL, %ID.nam);
+        %<id_list>.nams = concat(NULL, %ID.nam, NAMNOD);
     %%
 
     ! <id_list> ',' ID
     %%
         %<id_list>.str = %<id_list>.str;
-        %<id_list>.nams = concat(%<id_list>.nams, %ID.nam);
+        %<id_list>.nams = concat(%<id_list>.nams, %ID.nam, NAMNOD);
     %%
     ;
 

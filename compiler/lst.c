@@ -46,7 +46,8 @@
 
   */
 List *concat(List *list,	/* IN - List to concat to */
-	     void *element)	/* IN - Pointer to any element type */
+	     void *element,	/* IN - Pointer to any element type */
+	     NodKind kind)	/* IN - Which kind? */
 {
   List *new;			/* The newly created list node */
 
@@ -55,6 +56,7 @@ List *concat(List *list,	/* IN - List to concat to */
   new = NEW(List);
 
   new->element.nam = (NamNod *) element;
+  new->kind = kind;
 
   new->next = NULL;
   if (list == NULL) {

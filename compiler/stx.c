@@ -138,11 +138,13 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   elms = concat(concat(NULL,
 		       newelm(&nulsrcp, ELMWRD, newnam(&nulsrcp,
 						       vrbstr),
-			      FALSE)),
-		newelm(&nulsrcp, ELMPAR, newnam(&nulsrcp, "object"), FALSE));
+			      FALSE),
+		       ELMNOD),
+		newelm(&nulsrcp, ELMPAR, newnam(&nulsrcp, "object"), FALSE),
+		ELMNOD);
   stx = newstx(&nulsrcp, newnam(&nulsrcp, vrbstr), elms, NULL);
 
-  adv.stxs = concat(adv.stxs, stx);
+  adv.stxs = concat(adv.stxs, stx, STXNOD);
   anstx(stx);			/* Make sure the syntax is analysed */
   return stx;
 }
@@ -198,7 +200,7 @@ static void gestx(StxNod *stx)	/* IN - Syntax node to generate for */
     if (wrd->classbits&(1L<<WRD_VRB)) lst = wrd->ref[WRD_VRB];
     /* Create a list of all parallell elements */
     while (lst) {
-      elms = concat(elms, lst->element.stx->elms);
+      elms = concat(elms, lst->element.stx->elms, LSTNOD);
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }

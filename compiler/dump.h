@@ -30,6 +30,7 @@ typedef enum dmpkd {
 
 
 typedef enum nodkd {
+  UNKNOD,
   ACTNOD,
   ALTNOD,
   ATRNOD,
@@ -50,7 +51,11 @@ typedef enum nodkd {
   STPNOD,
   STXNOD,
   SYNNOD,
-  VRBNOD
+  VRBNOD,
+  MSGNOD,
+  STRNOD,
+  REFNOD,
+  LSTNOD
 } NodKind;
 
 

@@ -134,7 +134,7 @@ static void anloc(LocNod *loc)	/* IN - Location to analyze */
   stm = newstm(&nulsrcp, STM_PRINT);
   stm->fields.print.fpos = fpos;
   stm->fields.print.len = len;
-  loc->namstms = concat(NULL, stm);
+  loc->namstms = concat(NULL, stm, STMNOD);
 
   /* Analyse the rest */
   anstms(loc->dscr, NULL, NULL, NULL);

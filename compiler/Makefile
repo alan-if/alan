@@ -222,7 +222,7 @@ purify: tm $(OBJECTS) version.o alan.o
 	purify -handle-signals $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 quantify: tm $(OBJECTS) version.o alan.o
-	quantify $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
+	quantify -append-logfile -filename-prefix=%v -windows=no $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 version.h version.c: ../version.sh
 	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh

@@ -49,7 +49,7 @@ List *includePaths = NULL;	/* List of additional include paths */
 /* PRIVATE */
 
 static void *heap;		/* Address to first free heap area - before */
-
+static long allocated;		/* Calculated memory usage */
 
 
 /* Timing */
@@ -267,6 +267,9 @@ static void stats(void)
   (void)sprintf(str,   "        Estimated dynamic memory usage = %d bytes.",
 	  (char *)malloc(10000)-(char *)heap);
   lmLiPrint(str);
+  (void)sprintf(str,   "        Calculated       - \"\" -        = %ld bytes.",
+	  allocated);
+  lmLiPrint(str);
   lmLiPrint("");
 }
 
@@ -324,6 +327,20 @@ void syserr(char *str)
 
 /*======================================================================
 
+  panic()
+
+  A catastrophe has happened. Print message but do as little as possible.
+
+  */
+void panic(char *str)
+{
+  printf("PANIC!! %s\n", str);
+  terminate(EXIT_FAILURE);
+}
+
+
+/*======================================================================
+
   allocate()
 
   Safely allocate new memory.
@@ -334,7 +351,9 @@ void *allocate(int len)		/* IN - Length to allocate */
   void *p = malloc((size_t)len);
 
   if (p == NULL)
-    syserr("Out of memory");
+    panic("Out of memory");
+
+  allocated += len;
 
   return p;
 }
@@ -400,7 +419,7 @@ static SPA_FUN(xit) {terminate(EXIT_SUCCESS);}
 static SPA_FUN(addInclude)
 {
   /* Add the include path to our list */
-  includePaths = concat(includePaths, spaArgument(1));
+  includePaths = concat(includePaths, spaArgument(1), STRNOD);
   /* Now we can skip the include path */
   spaSkip(1);
 }

@@ -133,7 +133,8 @@ void initact(void)
 			   NULL,
 			   NULL,
 			   NULL,
-			   NULL));
+			   NULL),
+		    ACTNOD);
 }
 
 
@@ -254,7 +255,7 @@ static void anact(ActNod *act)
   stm = newstm(&nulsrcp, STM_PRINT);
   stm->fields.print.fpos = fpos;
   stm->fields.print.len = len;
-  act->namstms = concat(NULL, stm);
+  act->namstms = concat(NULL, stm, NAMNOD);
 
   if (act->props != NULL)
     ancnt(act->props);

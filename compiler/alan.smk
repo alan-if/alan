@@ -110,7 +110,7 @@ Bool smScanEnter(
 
   /* Remember the filename */
   this->fileName = newstr(fnmbuf);
-  fileNames = concat(fileNames, this->fileName);
+  fileNames = concat(fileNames, this->fileName, STRNOD);
   this->fileNo = fileNo++;
   this->previous = lexContext;
   lexContext = this;

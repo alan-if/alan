@@ -281,7 +281,7 @@ static void geatr(AtrNod *atr)	/* IN - Attribute to generate for */
     /* Now make a copy to use for initialisation if attribute is default */
     new = newatr(&atr->srcp, TYPSTR, NULL, atr->val, atr->fpos, atr->len);
     new->adr = atr->adr;
-    adv.stratrs = concat(adv.stratrs, new);
+    adv.stratrs = concat(adv.stratrs, new, ATRNOD);
   }
   emit(atr->val);
   emit(atr->stradr);

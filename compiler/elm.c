@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
                                ELM.C
-			    Element Nodes
+                            Element Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -10,10 +10,10 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "sym.h"				/* SYM-nodes */
-#include "lst.h"				/* LST-nodes */
-#include "stx.h"				/* STX-nodes */
-#include "nam.h"				/* NAM-nodes */
+#include "sym.h"                                /* SYM-nodes */
+#include "lst.h"                                /* LST-nodes */
+#include "stx.h"                                /* STX-nodes */
+#include "nam.h"                                /* NAM-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
 
@@ -30,10 +30,10 @@
 /* PRIVATE: */
 
 typedef struct ElmEntry {
-  int code;			/* Word code, if 0 means parameter */
-  Aaddr adr;			/* Address to next level for this */
-				/* entry */
-  Aword flags;			/* Multiple indicator */
+  int code;                     /* Word code, if 0 means parameter */
+  Aaddr adr;                    /* Address to next level for this */
+                                /* entry */
+  Aword flags;                  /* Multiple indicator */
 } ElmEntry;
 
 
@@ -44,12 +44,12 @@ typedef struct ElmEntry {
   Allocates and initialises a syntax element node.
 
  */
-ElmNod *newelm(Srcp *srcp,	/* IN - Source Position */
-	       ElmKind kind,	/* IN - Kind of element (parm or word) */
-	       NamNod *nam,	/* IN - The name */
-	       int flags)	/* IN - Flags for omni/multiple... */
+ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
+               ElmKind kind,    /* IN - Kind of element (parm or word) */
+               NamNod *nam,     /* IN - The name */
+               int flags)       /* IN - Flags for omni/multiple... */
 {
-  ElmNod *new;					/* The newly created node */
+  ElmNod *new;                                  /* The newly created node */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -60,6 +60,7 @@ ElmNod *newelm(Srcp *srcp,	/* IN - Source Position */
   new->nam = nam;
   new->flags = flags;
   new->res = NULL;
+  new->stx = NULL;
 
   return(new);
 }
@@ -73,17 +74,17 @@ ElmNod *newelm(Srcp *srcp,	/* IN - Source Position */
   Analyzes one syntax element node.
 
  */
-static void anelm(ElmNod *elm)	/* IN - Syntax element to analyze */
+static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   switch (elm->kind) {
   case ELMPAR:
-    elm->nam->kind = NAMPAR;	/* It is a parameter */
+    elm->nam->kind = NAMPAR;    /* It is a parameter */
     elm->nam->code = elm->no;
     break;
   case ELMWRD:
-    elm->nam->kind = NAMWRD;	/* It is a word */
+    elm->nam->kind = NAMWRD;    /* It is a word */
     elm->nam->code = newwrd(elm->nam->str, WRD_PREP, 0, NULL);
     break;
   default:
@@ -101,9 +102,9 @@ static void anelm(ElmNod *elm)	/* IN - Syntax element to analyze */
   Analyzes all elements in a list by calling the analyzer for all.
  */
 List *anelms(
-	     List *elms,	/* IN - List to analyze */
-	     List *ress,	/* IN - The class restrictions */
-	     StxNod *stx	/* IN - The stx we're in */
+             List *elms,        /* IN - List to analyze */
+             List *ress,        /* IN - The class restrictions */
+             StxNod *stx        /* IN - The stx we're in */
 )
 {
   ElmNod *elm = elms->element.elm; /* Set to be the first */
@@ -116,7 +117,7 @@ List *anelms(
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
   else {
-    elm->nam->kind = NAMWRD;	/* It is a word */
+    elm->nam->kind = NAMWRD;    /* It is a word */
     elm->nam->code = newwrd(elm->nam->str, WRD_VRB, 0, (void *)stx);
   }
 
@@ -126,26 +127,26 @@ List *anelms(
     if (lst->element.elm->kind == ELMPAR) {
       lst->element.elm->no = paramNo++;
       if ((lst->element.elm->flags & MULTIPLEBIT) != 0) {
-	if (multiple)
-	  lmLog(&lst->element.elm->srcp, 217, sevWAR, "");
-	else
-	  multiple = TRUE;
+        if (multiple)
+          lmLog(&lst->element.elm->srcp, 217, sevWAR, "");
+        else
+          multiple = TRUE;
       }
-      pars = concat(pars, lst->element.elm);
+      pars = concat(pars, lst->element.elm, ELMNOD);
 
       /* Find any class restrictions and warn for multiple for same parameter */
       found = FALSE;
       for (resLst = ress; resLst; resLst = resLst->next) {
-	if (eqnams(resLst->element.res->nam, lst->element.elm->nam)) {
-	  if (found)
-	    lmLog(&resLst->element.res->nam->srcp, 221, sevERR, resLst->element.res->nam->str);
-	  else {
-	    found = TRUE;
-	    lst->element.elm->res = resLst->element.res;
-	    resLst->element.res->nam->kind = NAMPAR;
-	    resLst->element.res->nam->code = lst->element.elm->no;
-	  }
-	}
+        if (eqnams(resLst->element.res->nam, lst->element.elm->nam)) {
+          if (found)
+            lmLog(&resLst->element.res->nam->srcp, 221, sevERR, resLst->element.res->nam->str);
+          else {
+            found = TRUE;
+            lst->element.elm->res = resLst->element.res;
+            resLst->element.res->nam->kind = NAMPAR;
+            resLst->element.res->nam->code = lst->element.elm->no;
+          }
+        }
       }
     }
     anelm(lst->element.elm);
@@ -155,7 +156,7 @@ List *anelms(
   for (lst = pars; lst != NULL; lst = lst->next)
     for (elms = lst->next; elms != NULL; elms = elms->next) {
       if (eqnams(lst->element.elm->nam, elms->element.elm->nam))
-	lmLog(&elms->element.elm->nam->srcp, 216, sevERR, elms->element.elm->nam->str);
+        lmLog(&elms->element.elm->nam->srcp, 216, sevERR, elms->element.elm->nam->str);
     }
   return pars;
 }
@@ -170,8 +171,8 @@ List *anelms(
   the same.
 
   */
-static Bool eqElms(List *elm1,	/* IN - One list pointer */
-		   List *elm2)	/* IN - The other */
+static Bool eqElms(List *elm1,  /* IN - One list pointer */
+                   List *elm2)  /* IN - The other */
 {
   if (elm1 == NULL)
     return (elm2 == NULL);
@@ -179,9 +180,9 @@ static Bool eqElms(List *elm1,	/* IN - One list pointer */
     return FALSE;
   else
     return (elm1->element.elm->kind == elm2->element.elm->kind &&
-	    (elm1->element.elm->kind == ELMPAR ||
-	     (elm1->element.elm->kind == ELMWRD &&
-	      eqnams(elm1->element.elm->nam, elm2->element.elm->nam))));
+            (elm1->element.elm->kind == ELMPAR ||
+             (elm1->element.elm->kind == ELMWRD &&
+              eqnams(elm1->element.elm->nam, elm2->element.elm->nam))));
 }
 
 
@@ -197,7 +198,7 @@ static Bool eqElms(List *elm1,	/* IN - One list pointer */
 static Aaddr advance(List *elmsList) /* IN - The list to advance */
 {
   List *elms;
-  Aaddr resadr = 0;		/* Saved address to class restriction */
+  Aaddr resadr = 0;             /* Saved address to class restriction */
 
   for (elms = elmsList; elms != NULL; elms = elms->next) {
     if (elms->element.lst->next == NULL)
@@ -234,15 +235,12 @@ static List *first(List **listP) /* IN OUT - Address of pointer to list */
 
   Partitions a list of elmLists into one list containing all elms
   equal to the first one, and one list containing the rest of the list.
-  If there is a empty element in the list make sure we take that one
-  first since the address to its class restrictions is already saved up in
-  geelms().
 
   */
 static List *partition(List **elmsListP) /* INOUT - Address to pointer to the list */
 {
   List *part, *rest, *elms, *this, *p;
-  Bool emptyFound = FALSE;	/* Have we already found an empty element? */
+  Bool emptyFound = FALSE;      /* Have we already found an empty element? */
 
   if (*elmsListP == NULL)
     return NULL;
@@ -254,24 +252,15 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 
   elms = rest;
   while (elms != NULL) {
-    if (elms->element.lst == NULL && !emptyFound) {
-      /* Swap this for the part we already found to take empty elms first */
-      this = first(&elms);
-      if (rest == this)
-	rest = combine(part, elms);
-      else
-	rest = combine(part, rest);
-      part = this;
-      emptyFound = TRUE;
-    } else if (eqElms(part->element.lst, elms->element.lst)) {
+    if (eqElms(part->element.lst, elms->element.lst)) {
       this = first(&elms);
       part = combine(part, this);
       if (rest == this)
-	rest = elms;
+        rest = elms;
       else {
-	for (p = rest; p->next != this; p = p->next)
-	  ;
-	p->next = elms;
+        for (p = rest; p->next != this; p = p->next)
+          ;
+        p->next = elms;
       }
     } else {
       elms = elms->next;
@@ -300,14 +289,14 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
  */
 Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
 {
-  List *lst;			/* Traversal list */
-  List *part;			/* The current partion */
+  List *lst;                    /* Traversal list */
+  List *part;                   /* The current partion */
   Aaddr elmadr, resadr;
-  List *entries = NULL;		/* List of next level entries */
-  ElmEntry *entry;		/* One entry in the list */
+  List *entries = NULL;         /* List of next level entries */
+  ElmEntry *entry;              /* One entry in the list */
 
   if (elms == NULL)
-    return 0;		/* End of chain */
+    return 0;           /* End of chain */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -318,23 +307,23 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
     /* Make one entry for this partition */
     entry = NEW(ElmEntry);
     entry->flags = 0;
-    entries = concat(entries, entry);
+    entries = concat(entries, entry, UNKNOD);
     if (part->element.lst == NULL) {
       /* This partition was at end of syntax */
       if (part->next != NULL) /* More than one element in this partition? */
-	/* That means that two syntax's are the same */
-	lmLog(&stx->srcp, 334, sevWAR, "");
-      entry->code = EOS;	/* End Of Syntax */
+        /* That means that two syntax's are the same */
+        lmLog(&stx->srcp, 334, sevWAR, "");
+      entry->code = EOS;        /* End Of Syntax */
       /* Point to the generated class restriction table */
       entry->adr = resadr;
     } else {
       if (part->element.lst->element.elm->kind == ELMPAR) {
-	/* A parameter! */
-	entry->code = 0;
-	entry->flags = part->element.lst->element.elm->flags;
+        /* A parameter! */
+        entry->code = 0;
+        entry->flags = part->element.lst->element.elm->flags;
       } else {
-	entry->code = part->element.lst->element.elm->nam->code;
-	entry->flags = FALSE;
+        entry->code = part->element.lst->element.elm->nam->code;
+        entry->flags = FALSE;
       }
       entry->adr = geelms(part, stx);
     }

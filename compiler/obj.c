@@ -174,7 +174,7 @@ static void anobj(ObjNod *obj)	/* IN - The object to analyze */
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
     /* Make this a list */
-    obj->ment = concat(NULL, stm);
+    obj->ment = concat(NULL, stm, STMNOD);
   }
 
   /* Check its initial location */

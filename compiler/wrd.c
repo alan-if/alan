@@ -89,7 +89,8 @@ int newwrd(char *str,		/* IN - Name of the new word */
 	lmLog(NULL, 320, sevWAR, str);
       wrd->classbits |= 1L<<class;
     }
-    wrd->ref[class] = concat(wrd->ref[class], ref); /* Add another reference */
+    /* Add another reference */
+    wrd->ref[class] = concat(wrd->ref[class], ref, REFNOD);
     if (wrd->code == -1)
       /* It was previously without a code */
       wrd->code = code;
@@ -103,7 +104,7 @@ int newwrd(char *str,		/* IN - Name of the new word */
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
   if (class != WRD_SYN)
-    new->ref[class] = concat(NULL, ref);
+    new->ref[class] = concat(NULL, ref, REFNOD);
   else
     new->ref[class] = (List *) ref;
 

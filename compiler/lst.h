@@ -13,8 +13,7 @@
 /* Types */
 
 typedef struct List {		/* GENERIC LISTS */
-  struct List *next;		/* Pointer to next list node */
-  struct List *tail;		/* Pointer to last list node */
+  NodKind kind;
   union {
     struct ActNod *act;
     struct AltNod *alt;
@@ -41,8 +40,9 @@ typedef struct List {		/* GENERIC LISTS */
     struct List *lst;
     char *str;
   } element;			/* Pointer to any type of element */
+  struct List *tail;		/* Pointer to last list node */
+  struct List *next;		/* Pointer to next list node */
 } List;
-
 
 /* Data: */
 
@@ -52,7 +52,7 @@ typedef struct List {		/* GENERIC LISTS */
 
 
 /* Concat an element to a list */
-extern List *concat(List *lst, void *elem);
+extern List *concat(List *lst, void *elem, NodKind kind);
 
 /* Combine two generic lists */
 extern List *combine(List *lst1, List *lst2);

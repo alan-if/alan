@@ -100,7 +100,7 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
       lmLog(&nams->element.nam->srcp, 230, sevINF, nams->element.nam->str);
       stx = defaultStx(nams->element.nam->str);
     }
-    stxs = concat(stxs, stx);
+    stxs = concat(stxs, stx, STXNOD);
   }
   stx = stxs->element.stx;	/* Use first syntax */
   vrb->stx = stx;

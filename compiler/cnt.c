@@ -97,7 +97,8 @@ void initcnt(void)
 {
   adv.cnts = concat(NULL,
 		    newcnt(&nulsrcp, newnam(&nulsrcp, "inventory"),
-			   NULL, NULL, NULL));
+			   NULL, NULL, NULL),
+		    CNTNOD);
 }
 
 
@@ -201,7 +202,7 @@ void ancnt(CntNod *cnt)		/* IN - The container to analyze */
     stm = newstm(&nulsrcp, STM_PRINT);
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
-    cnt->namstms = concat(NULL, stm);
+    cnt->namstms = concat(NULL, stm, STMNOD);
   }
 
   /* Analyze the limits */
