@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>306.89</origest>
-<currest>305.89</currest>
-<elapsed>139.89</elapsed>
+<origest>304.89</origest>
+<currest>303.89</currest>
+<elapsed>140.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>50</origest>
-<currest>50</currest>
-<elapsed>5</elapsed>
+<origest>48</origest>
+<currest>48</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
-<elapsed>5</elapsed>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -34,7 +34,7 @@ Or should we only allow this through use of temporary variables? If so how do we
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
-<elapsed>3</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Instance Type in type system</desc>
@@ -76,7 +76,7 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -97,24 +97,6 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-<task>
-<desc>Refactor newwht -&gt; newWhat</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Error message for "Say An 5." et.al</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>RESTART does not work well in WinArun</desc>

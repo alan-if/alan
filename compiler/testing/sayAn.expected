@@ -1,0 +1,31 @@
+########## alan sayAn ##########
+
+
+sayAn.alan
+
+    7.    Say An 4.
+=====>    1
+
+  *1*   339 E : You can only use Definite/Indefinite forms to Say instances.
+                For other types of values use 'Say' without Definite/Indefinite
+                indicator.
+
+    8.    Say An int Of l.
+=====>    1
+
+  *1*   339 E : You can only use Definite/Indefinite forms to Say instances.
+                For other types of values use 'Say' without Definite/Indefinite
+                indicator.
+
+    9.    Say An str Of l.
+=====>    1
+
+  *1*   339 E : You can only use Definite/Indefinite forms to Say instances.
+                For other types of values use 'Say' without Definite/Indefinite
+                indicator.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -159,32 +159,10 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 {
   Attribute *atr;
 
+  analyzeExpression(exp->fields.atr.wht, context);
+
   switch (exp->fields.atr.wht->kind) {
   case WHAT_EXPRESSION: {
-    What *what = exp->fields.atr.wht->fields.wht.wht; 
-    switch (what->kind) {
-    case WHAT_ACTOR:
-      if (context->kind == EVENT_CONTEXT)
-	lmLog(&what->srcp, 412, sevERR, "");
-      break;
-
-    case WHAT_LOCATION:
-      break;
-
-    case WHAT_ID:
-      what->id->symbol = symcheck(what->id, INSTANCE_SYMBOL, context);
-      break;
-
-    case WHAT_THIS:
-      if (!inEntityContext(context))
-	lmLog(&what->srcp, 421, sevERR, "");
-      break;
-
-    default:
-      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-      break;
-    }
-
     atr = resolveAttribute(exp->fields.atr.wht,
 			   exp->fields.atr.atr, context);
     exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
@@ -194,7 +172,6 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
   }
 
   case ATTRIBUTE_EXPRESSION:
-    analyzeExpression(exp->fields.atr.wht, context);
     if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE)) {
       exp->type = ERROR_TYPE;
       lmLog(&exp->fields.atr.wht->srcp, 429, sevERR, "");

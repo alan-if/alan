@@ -17,13 +17,7 @@
 #include "dump.h"
 
 
-/*======================================================================
-
-  newwht()
-
-  Create a new What node.
-
-  */
+/*======================================================================*/
 What *newWhat(Srcp *srcp,	/* IN - Source position */
 	      WhatKind kind,	/* IN - What kind */
 	      IdNode *id)	/* IN - ID or NULL */
