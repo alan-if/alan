@@ -243,7 +243,7 @@ typedef struct MsgElem26 {	/* MESSAGE TABLE */
 
 typedef struct MsgElem {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
-				/* Changed 2.7 from fpos+len in .dat */
+				/* Changed v2.7 from fpos+len in .dat */
 } MsgElem;
 
 

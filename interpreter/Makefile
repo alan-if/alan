@@ -51,7 +51,7 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov: objarch arun dumpacd c25to26
+debug all tcov: objarch arun dumpacd c25to26 c26to27
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
@@ -86,6 +86,9 @@ dumpacd: dumpacd.o spa.o
 
 c25to26: c25to26.o spa.o
 	$(CC) -o c25to26 $(CFLAGS) c25to26.o spa.o
+
+c26to27: c26to27.o spa.o
+	$(CC) -o c26to27 $(CFLAGS) c26to27.o spa.o
 
 genalan: genalan.o spa.o
 	$(CC) -o genalan $(CFLAGS) genalan.o spa.o

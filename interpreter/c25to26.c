@@ -55,7 +55,7 @@ void *allocate(len)
   void *p = (void *)malloc((size_t)len);
 
   if (p == NULL) {
-    printf("Out of memory!");
+    printf("Out of memory!\n");
     exit(1);
   }
 
@@ -736,6 +736,64 @@ static void c25to26ACD()
 
 /*----------------------------------------------------------------------
 
+  copydat()
+
+ */
+static void copydat(char olddat[], char newdat[])
+{
+  FILE *olddatfil = fopen(olddat, "r");
+  FILE *newdatfil = fopen(newdat, "w");
+  char buf[1000];
+  size_t nbytes;
+
+  if (olddatfil == NULL)
+    printf("WARNING - Could not open %s, for input to conversion.", olddat);
+  else if (newdatfil == NULL)
+    printf("WARNING - Could not open %s, for output from conversion.",
+	   newdat);
+  else {
+    /* Copy the original .dat file */
+    while ((nbytes = fread(buf, 1, 1000, olddatfil)) != 0)
+      fwrite(buf, nbytes, 1, newdatfil);
+    fclose(olddatfil);
+    fclose(newdatfil);
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  checkvers()
+
+ */
+#ifdef _PROTOTYPES_
+static void checkvers(AcdHdr *header)
+#else
+static void checkvers(header)
+     AcdHdr *header;
+#endif
+{
+  char vers[4] = {2, 5, 0, 'x'};
+  char state[2];
+
+  /* Compatible if version and revision match... */
+  if (strncmp(header->vers, vers, 2) != 0) {
+    state[0] = header->vers[3];
+    state[1] = '\0';
+    printf("Can not convert Alan programs of version %d.%d(%d)%s, Expected v%d.%d.\n",
+	   (int)(header->vers[0]),
+	   (int)(header->vers[1]),
+	   (int)(header->vers[2]),
+	   (header->vers[3])==0? "": state,
+	   (int)vers[0], (int)vers[1]);
+    exit(1);
+  }
+}
+
+
+/*----------------------------------------------------------------------
+
   load()
 
  */
@@ -745,12 +803,13 @@ static void load(char acdfnm[])
   FILE *codfil;
 
   if ((codfil = fopen(acdfnm, "r")) == NULL) {
-    printf("Could not open ACD-file '%s'\n", acdfnm);
+    printf("Could not open ACD-file '%s'.\n", acdfnm);
     exit(1);
   }
 
   fread(&tmphdr, sizeof(tmphdr), 1, codfil);
   rewind(codfil);
+  checkvers(&tmphdr);
 
   /* Allocate and load memory */
 
@@ -809,7 +868,7 @@ static void store(char outfnm[])
   FILE *newacd = fopen(outfnm, "w");
 
   if (newacd == NULL) {
-    printf("Could not create the new file.");
+    printf("Could not create the new .acd file '%s' for output.\n", outfnm);
     exit(1);
   }
 
@@ -833,8 +892,10 @@ static void store(char outfnm[])
 #include "spa.h"
 
 
-static char *acdfnm;
-static char *outfnm;
+static char *oldnam;
+static char *oldacd, *olddat;
+static char *newnam;
+static char *newacd, *newdat;
 
 
 static SPA_FUN(usage)
@@ -867,8 +928,8 @@ static SPA_FUN(extraArg)
 static SPA_FUN(xit) {exit(EXIT_SUCCESS);}
 
 static SPA_DECLARE(arguments)
-     SPA_STRING("v2.5file", "name of the original v2.5 ACD-file to convert", acdfnm, NULL, NULL)
-     SPA_STRING("v2.6file", "name of the converted ACD-file in v2.6 format", outfnm, NULL, NULL)
+     SPA_STRING("v2.5file", "name of the original v2.5 ACD-file to convert", oldnam, NULL, NULL)
+     SPA_STRING("v2.6file", "name of the converted ACD-file in v2.6 format", newnam, NULL, NULL)
      SPA_FUNCTION("", "extra argument", extraArg)
 SPA_END
 
@@ -887,10 +948,23 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  load(acdfnm);
+  oldacd = (char *)malloc(strlen(oldnam)+5);
+  strcpy(oldacd, oldnam); strcat(oldacd, ".acd");
+
+  olddat = (char *)malloc(strlen(oldnam)+5);
+  strcpy(olddat, oldnam); strcat(olddat, ".dat");
+
+  newacd = (char *)malloc(strlen(newnam)+5);
+  strcpy(newacd, newnam); strcat(newacd, ".acd");
+
+  newdat = (char *)malloc(strlen(newnam)+5);
+  strcpy(newdat, newnam); strcat(newdat, ".dat");
+
+  load(oldacd);
+  copydat(olddat, newdat);
   c25to26ACD();
   newcrc();
-  store(outfnm);
+  store(newacd);
   exit(0);
 }
   

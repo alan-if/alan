@@ -1,5 +1,11 @@
 ToDo:
 
+	* Change the interpreter to only look at its own name if no
+	parameter was given.
+
+	* The conversion programs does not work on little-endians like
+	PCs since the words are then in written out in native format.
+
 	* Think about a way to allow nouns to be capitalized, either
 	automatic but preferably by author choice.
 
