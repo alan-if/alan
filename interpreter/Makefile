@@ -128,5 +128,7 @@ arun.make: dependencies.mk
 	@/usr/5bin/echo \\t$$ link/exe=arun "#(LQ)" $(VMSLINKOBJS) >> arun.make
 	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
 
+mac:
+	refreshMac $(HOME)/mac/Alan/Interpreter
 
 include dependencies.mk

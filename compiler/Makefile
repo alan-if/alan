@@ -235,4 +235,11 @@ alan.make: dependencies.mk
 	@/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
 	@/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
 
+mac:
+	refreshMac $(HOME)/mac/Alan/Compiler
+	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
+	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
+	sed -e 's/extern Token pmSySt\[]/extern Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/extern pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
+	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
+
 include dependencies.mk
