@@ -24,6 +24,10 @@
 
 #include "parse.h"
 
+#ifdef GLK
+#include "glkio.h"
+#endif
+
 
 #define LISTLEN 100
 
@@ -186,7 +190,7 @@ static void getline()
 {
   para();
   do {
-#ifdef HAVE_ANSI
+#if defined(HAVE_ANSI) || defined(GLK)
     statusline();
 #endif
     printf("> ");

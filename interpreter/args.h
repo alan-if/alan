@@ -13,6 +13,10 @@ extern struct FileHandle *con;
 
 #endif
 
+#ifndef PROGNAME
+#define PROGNAME "arun"
+#endif
+
 #ifdef _PROTOTYPES_
 extern void args(int argc, char *argv[]);
 #else

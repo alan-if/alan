@@ -4,6 +4,41 @@
 
  */
 
+#ifdef GLK
+
+#include "readline.h"
+#include "main.h"
+#include "glk.h"
+#include "glkio.h"
+
+/*======================================================================
+
+  readline()
+
+  Read a line from the user, with history and editing
+
+  */
+
+/* 4f - length of user buffer should be used */
+Boolean readline(char usrbuf[])
+{
+  event_t event;
+  glk_request_line_event(glkMainWin, usrbuf, 255, 0);
+  /* FIXME: buffer size should be infallible: all existing calls use 256 or
+     80 character buffers, except parse which uses LISTLEN (currently 100)
+   */
+  do
+  {
+    glk_select(&event);
+    if (evtype_Arrange == event.type)
+      statusline();
+  } while (event.type != evtype_LineInput);
+  usrbuf[event.val1] = 0;
+  return TRUE;
+}
+
+#else
+
 #include "sysdep.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,6 +57,7 @@
 #include "readline.h"
 
 #include "main.h"
+
 
 #ifdef HAVE_TERMIO
 /*----------------------------------------------------------------------*\
@@ -494,3 +530,5 @@ Boolean readline(char usrbuf[])
   strcpy(usrbuf, (char *)buffer);  
   return TRUE;
 }
+
+#endif

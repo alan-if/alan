@@ -17,6 +17,10 @@
 
 #include "rules.h"
 
+#ifdef GLK
+#include "glkio.h"
+#endif
+
 #ifdef _PROTOTYPES_
 void rules(void)
 #else

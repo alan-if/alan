@@ -18,6 +18,9 @@
 
 #include "inter.h"
 
+#ifdef GLK
+#include "glkio.h"
+#endif
 
 /* PRIVATE DATA */
 

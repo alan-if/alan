@@ -36,6 +36,10 @@
 #include "exe.h"
 #include "term.h"
 
+#ifdef GLK
+#include "glk.h"
+#include "glkio.h"
+#endif
 
 /* PUBLIC DATA */
 
@@ -136,7 +140,11 @@ void terminate(code)
   printf("Command-Q to close window.");
 #endif
 
+#ifdef GLK
+  glk_exit();
+#else
   exit(code);
+#endif
 }
 
 /*======================================================================
@@ -151,14 +159,20 @@ void usage()
 #endif
 {
   printf("Usage:\n\n");
-  printf("    arun [<switches>] <adventure>\n\n");
+  printf("    %s [<switches>] <adventure>\n\n", PROGNAME);
   printf("where the possible optional switches are:\n");
+#ifdef GLK
+  glk_set_style(style_Preformatted);
+#endif
   printf("    -v    verbose mode\n");
   printf("    -l    log player commands and game output\n");
   printf("    -i    ignore version and checksum errors\n");
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
   printf("    -s    single instruction trace\n");
+#ifdef GLK
+  glk_set_style(style_Normal);
+#endif
 }
 
 
@@ -232,6 +246,33 @@ void error(msgno)
   */
 void statusline(void)
 {
+#ifdef GLK
+  glui32 glkWidth;
+  char line[100];
+  int pcol = col;
+
+  if (NULL == glkStatusWin)
+    return;
+
+  glk_set_window(glkStatusWin);
+  glk_window_clear(glkStatusWin);
+  glk_window_get_size(glkStatusWin, &glkWidth, NULL);
+
+  col = 1;
+  glk_window_move_cursor(glkStatusWin, 1, 0);
+  say(where(HERO));
+  if (header->maxscore > 0)
+    sprintf(line, "Score %d(%d)/%d moves", cur.score, (int)header->maxscore, cur.tick);
+  else
+    sprintf(line, "%d moves", cur.tick);
+  glk_window_move_cursor(glkStatusWin, glkWidth - col - strlen(line), 0);
+  printf(line);
+  needsp = FALSE;
+
+  col = pcol;
+
+  glk_set_window(glkMainWin); 
+#else
 #ifdef HAVE_ANSI
   char line[100];
   int i;
@@ -253,6 +294,7 @@ void statusline(void)
   needsp = FALSE;
 
   col = pcol;
+#endif
 #endif
 }
 
@@ -286,6 +328,9 @@ void newline(void)
 void newline()
 #endif
 {
+#ifdef GLK
+  glk_put_char('\n');
+#else
   char buf[256];
   
   col = 1;
@@ -305,6 +350,7 @@ void newline()
   
   lin++;
   needsp = FALSE;
+#endif
 }
 
 
@@ -337,12 +383,16 @@ void para()
 #ifdef _PROTOTYPES_
 void clear(void)
 #else
-void para()
+void clear()
 #endif
 {
+#ifdef GLK
+  glk_window_clear(glkMainWin);
+#else
 #ifdef HAVE_ANSI
   printf("\x1b[2J");
   printf("\x1b[%d;1H", paglen);
+#endif
 #endif
 }
 
@@ -384,6 +434,9 @@ static void just(str)
      char str[];
 #endif
 {
+#ifdef GLK
+  logprint(str);
+#else
   int i;
   char ch;
   
@@ -411,6 +464,7 @@ static void just(str)
   }
   logprint(str);			/* Print tail */
   col = col + strlen(str);	/* Update column */
+#endif
 }
 
 

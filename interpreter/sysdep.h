@@ -118,6 +118,13 @@
 #define ISO 1
 #define NATIVECHARSET 0
 
+#ifdef GLK
+#undef ISO
+#define ISO 1
+#undef NATIVECHARSET
+#define NATIVECHARSET 0
+#else	/* Glk is ISO, no matter what the OS */
+
 #ifdef __dos__
 #undef ISO
 #define ISO 0
@@ -139,6 +146,7 @@
 #define NATIVECHARSET 1
 #endif
 
+#endif
 
 /**************************/
 /* Strings for file modes */
@@ -208,6 +216,10 @@
 /* Have termio? */
 /****************/
 
+#ifdef GLK
+/* don't need TERMIO */
+#else
+
 #ifdef __CYGWIN__
 #define HAVE_TERMIO
 #endif
@@ -216,19 +228,30 @@
 #define HAVE_TERMIO
 #endif
 
+#endif
 
 /*******************************/
 /* Is ANSI control available? */
 /*******************************/
 
+#ifdef GLK
+/* don't need ANSI */
+#else
+
 #ifdef __CYGWIN__
 #define HAVE_ANSI
 #endif
 
+#endif
 
 /******************************/
 /* Use the READLINE function? */
 /******************************/
+
+#ifdef GLK
+/* Glk always uses readline(), no matter what the OS */
+#define USE_READLINE
+#else
 
 #ifdef __unix__
 #define USE_READLINE
@@ -242,6 +265,7 @@
 #define USE_READLINE
 #endif
 
+#endif
 
 /* Special cases and definition overrides */
 #ifdef __unix__

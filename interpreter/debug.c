@@ -29,6 +29,9 @@
 
 #include "debug.h"
 
+#ifdef GLK
+#include "glkio.h"
+#endif
 
 #ifdef _PROTOTYPES_
 static void showatrs(
