@@ -151,7 +151,7 @@ typedef enum VarClass {
 
 typedef struct AcdHdr {
 /* Important info */
-  Aword vers;			/* 01 - Version of compiler */
+  char vers[4];			/* 01 - Version of compiler */
   Aword size;			/* 02 - Size of ACD-file in Awords */
 /* Options */
   Abool pack;			/* 03 - Is the text packed ? */
