@@ -541,20 +541,20 @@ The book Isa Object Name old book At First
         Readable.
 
     Description
-        "Almost Completely Covered By Dust, There Is An Old Book
-         Laying On The Floor Here."
+        "Almost completely covered by dust, there is an old book
+         laying on the floor here."
 
-    Verb Examine Does
-        "The Book Looks As If It Could Fall Apart Any Minute, But On
-         The Cover The Three Oval Markings, Also Seen On The Outside
-         Of The Building, Can Barely Be Recognized. There Is Also
-         Something About 'Introduction' And 'Series'-Something."
+    Verb examine Does
+        "The book looks as if it could fall apart any minute, but on
+         the cover the three oval markings, also seen on the outside
+         of the building, can barely be recognized. There is also
+         something about 'Introduction' and 'Series'-something."
     End Verb.
 
-    Verb Read Does
-        "As You Carefully Try To Open The Book It Falls Apart Into
-         Dust And Falls To The Floor Through Your Fingers."
-        Locate Book At Nowhere.
+    Verb read Does
+        "As you carefully try to open the book it falls apart into
+         dust and falls to the floor through your fingers."
+        Locate book At nowhere.
     End Verb.
 End The book.
 

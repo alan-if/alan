@@ -214,7 +214,7 @@ typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
 } RestrictionEntry;
 
 typedef struct ContainerEntry {	/* CONTAINER TABLE */
-  Aword parent;			/* Parent instance index */
+  Aword owner;			/* Owner instance index */
   Aaddr limits;			/* Address to limit check code */
   Aaddr header;			/* Address to header code */
   Aaddr empty;			/* Address to empty code */

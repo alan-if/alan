@@ -127,7 +127,10 @@ List *sortAttributes(List *attributes)
       for (lstp = &sortedList; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
 	tmp1 = *lstp;
 	tmp2 = tmp1->next;
-	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code){
+	if (tmp1->element.atr->id->code != 0 &&
+	    tmp1->element.atr->id->code == tmp2->element.atr->id->code) 
+	  syserr("Sorting multiple attributes with same code.");
+	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code) {
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
 	  tmp2->next = tmp1;
@@ -190,7 +193,7 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 {
   List *own = ownAttributes;
   List *toAdd = attributesToAdd;
-  List *added = NULL;
+  List *new;
 
   while (own != NULL) {
     if (toAdd == NULL)
@@ -206,10 +209,11 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
     }
   }
   if (toAdd != NULL)
-    added = combine(added, copyAttributeList(toAdd));
-  own = combine(ownAttributes, added);
-  own = sortAttributes(own);
-  return own;
+    new = combine(ownAttributes, copyAttributeList(toAdd));
+  else
+    new = ownAttributes;
+
+  return sortAttributes(new);
 }
 
 
@@ -384,12 +388,12 @@ static void dumpInheritance(AttributeInheritance inheritance)
 void dumpAttribute(AtrNod *atr)
 {
   put("ATR: "); dumpSrcp(&atr->srcp); in();
-  put("type: "); dumpType(atr->type); nl();
+  put("type: "); dumpType(atr->type);
+  put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
-  put("inheritance: "); dumpInheritance(atr->inheritance); nl();
-  put("stringAddress: "); dumpAddress(atr->stringAddress); nl();
-  put("address: "); dumpAddress(atr->address); nl();
-  put("value: "); dumpInt(atr->value); nl();
-  put("fpos: "); dumpInt(atr->fpos); nl();
-  put("len: "); dumpInt(atr->len); out();
+  put("address: "); dumpAddress(atr->address);
+  put(", stringAddress: "); dumpAddress(atr->stringAddress); nl();
+  put("value: "); dumpInt(atr->value);
+  put(", fpos: "); dumpInt(atr->fpos);
+  put(", len: "); dumpInt(atr->len); out();
 }

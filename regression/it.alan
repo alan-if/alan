@@ -1,0 +1,12 @@
+Verb x
+  Does
+    "You x the $o."
+End Verb x.
+
+The o Isa object At l
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

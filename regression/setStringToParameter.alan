@@ -1,0 +1,17 @@
+The o Isa object
+  Has pwtry "".
+End The o.
+
+Syntax type = type (str)
+	Where str Isa String 
+        Else "You must supply a string containing what you propose to type."
+
+Verb type
+  Does
+    Set pwtry Of o To str.
+End Verb type.
+
+The l Isa location
+End The l.
+
+Start At l.

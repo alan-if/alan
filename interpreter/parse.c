@@ -378,7 +378,8 @@ static void unambig(plst)
   if (isIt(wrds[wrdidx])) {
     wrdidx++;
     /* Use last object in previous command! */
-    for (i = lstlen(pparams)-1; i >= 0 && (pparams[i].code == 0 || pparams[i].code >= LITMIN); i--);
+    for (i = lstlen(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLit(pparams[i].code)); i--)
+      ;
     if (i < 0)
       error(M_WHAT_IT);
     if (!isHere(pparams[i].code)) {
@@ -605,7 +606,7 @@ static void resolve(ParamEntry plst[])
 
   /* Resolve ambiguities by presence */
   for (i=0; plst[i].code != EOF; i++)
-    if (plst[i].code < LITMIN)	/* Literals are always 'here' */
+    if (!isLit(plst[i].code))	/* Literals are always 'here' */
       if (!isHere(plst[i].code)) {
 	params[0] = plst[i];	/* Copy error param as first one for message */
 	params[1].code = EOF;	/* But be sure to terminate */

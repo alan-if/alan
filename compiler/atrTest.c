@@ -76,14 +76,10 @@ static List *create2Attributes(char firstString[], char secondString[])
   return theList;
 }
 
-static int firstAttributeCode(SlotsNode *slots)
+static int attributeCode(SlotsNode *slots, char *string)
 {
-  return slots->id->symbol->fields.claOrIns.slots->attributes->element.atr->id->code;
-}
-
-static int secondAttributeCode(SlotsNode *slots)
-{
-  return slots->id->symbol->fields.claOrIns.slots->attributes->next->element.atr->id->code;
+  AtrNod *atr = findAttribute(slots->attributes, newId(&nulsrcp, string));
+  return atr->id->code;
 }
 
 static InsNod *firstInstance, *secondInstance;
@@ -141,8 +137,8 @@ void testAttributeListsInSymbolTable()
   int x, y, z;
 
   initadv();
-  firstClassAttributes = create2Attributes("attribute1", "attribute12");
-  secondClassAttributes = create2Attributes("attribute1", "attribute22");
+  firstClassAttributes = create2Attributes("a1", "a12");
+  secondClassAttributes = create2Attributes("a1", "a21");
 
   firstClass = createClass("firstClass", firstClassAttributes);
   secondClass = createClass("secondClass", secondClassAttributes);
@@ -152,8 +148,8 @@ void testAttributeListsInSymbolTable()
   secondClassSymbol = lookup("secondClass");
   unitAssert(secondClassSymbol->fields.claOrIns.slots->attributes == secondClassAttributes);
   
-  firstInstanceAttributes = create2Attributes("attribute11", "attribute12");
-  secondInstanceAttributes = create2Attributes("attribute1", "attribute22");
+  firstInstanceAttributes = create2Attributes("a11", "a12");
+  secondInstanceAttributes = create2Attributes("a1", "a22");
 
   firstInstance = createInstance("firstInstance", firstInstanceAttributes);
   secondInstance = createInstance("secondInstance", secondInstanceAttributes);
@@ -179,29 +175,29 @@ void testAttributeListsInSymbolTable()
 
   numberAllAttributes();
 
-  unitAssert(firstClassAttributes->element.atr->id->code != 0);
-  unitAssert(firstClassAttributes->next->element.atr->id->code != 0);
-  unitAssert(secondClassAttributes->element.atr->id->code != 0);
-  unitAssert(secondClassAttributes->next->element.atr->id->code != 0);
-  unitAssert(firstInstanceAttributes->element.atr->id->code != 0);
-  unitAssert(firstInstanceAttributes->next->element.atr->id->code != 0);
-  unitAssert(secondInstanceAttributes->element.atr->id->code != 0);
-  unitAssert(secondInstanceAttributes->next->element.atr->id->code != 0);
+  unitAssert(attributeCode(firstClass->slots, "a1") != 0);
+  unitAssert(attributeCode(firstClass->slots, "a12") != 0);
+  unitAssert(attributeCode(secondClass->slots, "a1") != 0);
+  unitAssert(attributeCode(secondClass->slots, "a21") != 0);
+  unitAssert(attributeCode(firstInstance->slots, "a11") != 0);
+  unitAssert(attributeCode(firstInstance->slots, "a12") != 0);
+  unitAssert(attributeCode(secondInstance->slots, "a1") != 0);
+  unitAssert(attributeCode(secondInstance->slots, "a22") != 0);
 
-  unitAssert(firstAttributeCode(firstClass->slots) != secondAttributeCode(firstClass->slots));
-  unitAssert(firstAttributeCode(secondClass->slots) != secondAttributeCode(secondClass->slots));
-  unitAssert(firstAttributeCode(firstInstance->slots) != secondAttributeCode(firstInstance->slots));
-  unitAssert(firstAttributeCode(secondInstance->slots) != secondAttributeCode(secondInstance->slots));
+  unitAssert(attributeCode(firstClass->slots, "a1") != attributeCode(firstClass->slots, "a12"));
+  unitAssert(attributeCode(secondClass->slots, "a1") != attributeCode(secondClass->slots, "a21"));
+  unitAssert(attributeCode(firstInstance->slots, "a11") != attributeCode(firstInstance->slots, "a12"));
+  unitAssert(attributeCode(secondInstance->slots, "a1") != attributeCode(secondInstance->slots, "a22"));
 
-  x = firstAttributeCode(firstClass->slots);
-  unitAssert(firstAttributeCode(secondClass->slots) == x);
-  unitAssert(firstAttributeCode(secondInstance->slots) == x);
+  x = attributeCode(firstClass->slots, "a1");
+  unitAssert(attributeCode(secondClass->slots, "a1") == x);
+  unitAssert(attributeCode(secondInstance->slots, "a1") == x);
 
-  y = secondAttributeCode(firstClass->slots);
-  unitAssert(secondAttributeCode(firstInstance->slots) == y);
+  y = attributeCode(firstClass->slots, "a12");
+  unitAssert(attributeCode(firstInstance->slots, "a12") == y);
 
-  z = secondAttributeCode(firstClass->slots);
-  unitAssert(secondAttributeCode(firstInstance->slots) == z);
+  z = attributeCode(secondClass->slots, "a21");
+  unitAssert(attributeCode(secondInstance->slots, "a22") != z);
 }
 
 

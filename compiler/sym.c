@@ -174,13 +174,13 @@ SymNod *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
     new->code = ++classCount;
     new->fields.claOrIns.parent = NULL;
     new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
+    new->fields.claOrIns.attributesReplicated = FALSE;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
     new->fields.claOrIns.parent = NULL;
     new->fields.claOrIns.attributesNumbered = FALSE;
-    new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
+    new->fields.claOrIns.attributesReplicated = FALSE;
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
@@ -521,6 +521,7 @@ static void numberAttributes(SymNod *symbol)
     }
   }
 
+  symbol->fields.claOrIns.slots->attributes = sortAttributes(symbol->fields.claOrIns.slots->attributes);
   symbol->fields.claOrIns.attributesNumbered = TRUE;
 }
 
@@ -583,6 +584,37 @@ void numberAllAttributes(void)
 }
 
 
+
+/*----------------------------------------------------------------------
+
+  replicateAttributes()
+
+*/
+static void replicateAttributes(SymNod *symbol)
+{
+  if (symbol->fields.claOrIns.parent != NULL)
+    symbol->fields.claOrIns.slots->attributes = combineAttributes(symbol->fields.claOrIns.slots->attributes,
+								  symbol->fields.claOrIns.parent->fields.claOrIns.slots->attributes);
+}
+
+
+/*----------------------------------------------------------------------
+
+  replicateParentAttributes()
+
+  Recurse the parental chain and replicate the attributes.
+
+*/
+static void replicateParentAttributes(SymNod *symbol)
+{
+  if (symbol == NULL || symbol->fields.claOrIns.attributesReplicated) return;
+
+  replicateParentAttributes(symbol->fields.claOrIns.parent);
+  replicateAttributes(symbol);
+  symbol->fields.claOrIns.attributesReplicated = TRUE;
+}
+
+
 /*----------------------------------------------------------------------
 
   replicateAttributesRecursively()
@@ -592,22 +624,16 @@ static void replicateAttributesRecursively(SymNod *symbol)
 {
   if (symbol == NULL) return;
 
-  if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
-    return;			/* Only a class or instance have attributes */
+  if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
 
-  if (!symbol->fields.claOrIns.attributesAlreadyReplicated) {
     /* We have attributes that are not numbered already */
-    if (symbol->fields.claOrIns.parent != NULL) {
-      replicateAttributesRecursively(symbol->fields.claOrIns.parent);
-      combineAttributes(symbol->fields.claOrIns.slots->attributes,
-			symbol->fields.claOrIns.parent->fields.claOrIns.slots->attributes);
-    }
-    symbol->fields.claOrIns.attributesAlreadyReplicated = TRUE;
-
-    /* Recurse in the symbolTree */
-    if (symbol->lower != NULL) replicateAttributesRecursively(symbol->lower);
-    if (symbol->higher != NULL) replicateAttributesRecursively(symbol->higher);
+    replicateParentAttributes(symbol->fields.claOrIns.parent);
+    replicateAttributes(symbol);
   }
+
+  /* Recurse in the symbolTree */
+  if (symbol->lower != NULL) replicateAttributesRecursively(symbol->lower);
+  if (symbol->higher != NULL) replicateAttributesRecursively(symbol->higher);
 }
 
 
@@ -664,7 +690,7 @@ static void dumpSymbol(SymNod *symbol)
   put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); in();
   put("string: "); dumpString(symbol->string);
   put(", code: "); dumpInt(symbol->code); nl();
-  put("lower: "); dumpPointer(symbol->lower); put(", higher: "); dumpPointer(symbol->higher); out();
+  put("lower: "); dumpPointer(symbol->lower); put("higher: "); dumpPointer(symbol->higher); out();
 }
 
 

@@ -22,7 +22,7 @@ typedef struct CntNod {		/* CONTAINER */
   List *namstms;		/* Name printing statements */
   Aaddr namadr;			/* ACODE address to name statement */
   int code;			/* Code for this container */
-  struct SlotsNode *parent;	/* Pointer to parent name */
+  struct SlotsNode *ownerSlots;	/* Pointer to parent slots */
   List *lims;			/* Limits */
   Aaddr limadr;			/* ACODE address to limit table */
   List *hstms;			/* Header statements */

@@ -742,7 +742,7 @@ Boolean isCnt(x)
      Aword x;
 #endif
 {
-  return instance[x].container != 0;
+  return x != 0 && instance[x].container != 0;
 }
 
 #ifdef _PROTOTYPES_
@@ -1640,10 +1640,12 @@ static void initstrings()
 #endif
 {
   IniEntry *init;
+  AttributeEntry *attribute;
 
   for (init = (IniEntry *) addrTo(header->init); !endOfTable(init); init++) {
     getstr(init->fpos, init->len);
-    memory[init->adr] = pop();
+    attribute = addrTo(init->adr);
+    attribute->value = pop();
   }
 }
 

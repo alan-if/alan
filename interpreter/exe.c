@@ -781,19 +781,22 @@ void locate(id, whr)
   */
 
 #ifdef _PROTOTYPES_
-static Abool objhere(Aword obj)
+static Abool instanceHere(Aword id)
 #else
-static Abool objhere(obj)
+static Abool instanceHere(id)
      Aword obj;
 #endif
 {
-  if (isCnt(objs[obj-OBJMIN].loc)) {    /* In something? */
-    if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
-      return(isHere(objs[obj-OBJMIN].loc));
+  Aword cnt, owner;
+
+  if (isCnt(instance[id].location)) {    /* In something? */
+    owner = instance[id].location;
+    if (instance[owner].location != 0)
+      return(isHere(owner));
     else /* If the container wasn't anywhere, assume where HERO is! */
       return(where(HERO) == cur.loc);
   } else
-    return(objs[obj-OBJMIN].loc == cur.loc);
+    return(instance[id].location == cur.loc);
 }
 
 
@@ -813,7 +816,7 @@ Aword isHere(id)
     sprintf(str, "Can't HERE instance (%ld > instanceMax).", id);
     syserr(str);
   } else
-    return instance[id].location == cur.loc;
+    return instanceHere(id);
   syserr("Fall through to end in isHere()");
   return EOF;
 }
@@ -1154,7 +1157,7 @@ void list(cnt)
 	  interpret(container[props].header);
 	else {
 	  prmsg(M_CONTAINS1);
-	  say(container[props].parent);
+	  say(container[props].owner);
 	  prmsg(M_CONTAINS2);
 	}
       } else {
@@ -1181,7 +1184,7 @@ void list(cnt)
       interpret(container[props].empty);
     else {
       prmsg(M_EMPTY1);
-      say(container[props].parent);
+      say(container[props].owner);
       prmsg(M_EMPTY2);
     }
   }

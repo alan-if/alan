@@ -1,12 +1,9 @@
 ########## alan saviour ##########
 
         No warnings or errors detected.
-        54 informational message(s).
+        16 informational message(s).
 
 ########## arun saviour ##########
-
-<Version of 'saviour' is 2.8(6)>
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 Welcome to the game of SAVIOUR!
 
@@ -20,17 +17,20 @@ So go forth and be the salvaging hero of all Adventurers!
 
 
 This game was produced with the ALAN Adventure Development System and is
-brought to you by ThoNi&GorFo Adventure Factories.
+brought to you by ThoNi&GorFo Adventure Factories. Visit the Alan Home
+Pages at: 
+
+http://welcome.to/alan-if
 
 
 Outside The Tall Building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
-
 <More>
-ABUG> x
 
+> x
+'x'? I don't know that word.
 
 > 
 > i
@@ -130,7 +130,7 @@ and a small coin.
 The terminal is now connected to the nearby computer.
 
 > kick computer
-Surprisingly. the old computer starts to whirr, the front panel lights
+Surprisingly, the old computer starts to whirr, the front panel lights
 begins to twinkle frantically, and the computer starts up. The connected
 terminal displays the message 'Please login. Enter USERID:'
 

@@ -78,7 +78,7 @@ SlotsNode *newSlots(List *names,
 
   new->container = container;
   if (new->container != NULL)
-    new->container->parent = new;
+    new->container->ownerSlots = new;
 
   new->description = description;
   new->descriptionSrcp = *descriptionSrcp;

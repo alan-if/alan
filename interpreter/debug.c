@@ -137,8 +137,8 @@ static void showcnts()
   for (cnt = CNTMIN; cnt <= CNTMAX; cnt++) {
     sprintf(str, "$i%3d: ", cnt);
     output(str);
-    if (container[cnt].parent != 0)
-      say(container[cnt].parent);
+    if (container[cnt].owner != 0)
+      say(container[cnt].owner);
   }
 
 }
@@ -165,14 +165,14 @@ static void showcnt(cnt)
 
   sprintf(str, "CONTAINER %d :", cnt);
   output(str);
-  if (container[cnt].parent != 0) {
-    cnt = container[cnt].parent;
+  if (container[cnt].owner != 0) {
+    cnt = container[cnt].owner;
     say(cnt);
     sprintf(str, "$iLocation = %ld", where(cnt));
     output(str);
   }
   output("$iContains ");
-  for (i = OBJMIN; i <= OBJMAX; i++) {
+  for (i = 1; i <= header->instanceMax; i++) {
     if (in(i, cnt)) { /* Yes, it's in this container */
       if (!found) {
 	output("$n");

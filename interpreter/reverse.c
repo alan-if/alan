@@ -266,9 +266,11 @@ static void reverseInstances(adr)
     while (!endOfTable(e)) {
       reverseTable(e->attributes, sizeof(AttributeEntry));
       reverseStms(e->mentioned);
+      reverseStms(e->article);
       reverseStms(e->description);
       reverseExits(e->exits);
       reverseVerbs(e->verbs);
+      reverseScrs(e->scripts);
       e++;
     }
   }

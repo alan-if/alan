@@ -124,8 +124,8 @@ void analyzeContainer(CntNod *cnt, Context *context)
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  if (cnt->parent == NULL)
-    syserr("Container without a parent.");
+  if (cnt->ownerSlots == NULL)
+    syserr("Container without an owner.");
 
   /* Analyze the limits */
   for (lims = cnt->lims; lims != NULL; lims = lims->next)
@@ -181,7 +181,7 @@ static void gecntent(CntNod *cnt)
   entry.limits = cnt->limadr;
   entry.header = cnt->hadr;
   entry.empty = cnt->eadr;
-  entry.parent = cnt->parent->id->symbol->code;
+  entry.owner = cnt->ownerSlots->id->symbol->code;
   emitEntry(&entry, sizeof(entry));
 }
 
@@ -228,7 +228,7 @@ void dumpContainer(CntNod *container)
 
   put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
   put("code: "); dumpInt(container->code); nl();
-  put("parent: "); dumpPointer(container->parent); nl();
+  put("ownerSlots: "); dumpPointer(container->ownerSlots); nl();
   put("lims: "); dulst(container->lims, LIST_LIM); nl();
   put("limadr: "); dumpAddress(container->limadr); nl();
   put("hstms: "); dulst(container->hstms, LIST_STM); nl();

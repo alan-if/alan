@@ -36,7 +36,7 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
     struct {
       struct SymNod *parent;
       Bool attributesNumbered;
-      Bool attributesAlreadyReplicated;
+      Bool attributesReplicated;
       struct SlotsNode *slots;
     } claOrIns;
 

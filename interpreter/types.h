@@ -43,7 +43,7 @@
 #define ACTOR (header->actorClassId)
 
 
-#define addrTo(x) (&memory[x])
+#define addrTo(x) ((void *)&memory[x])
 
 /* The word classes are represented as numbers but in the dictonary they are generated as bits */
 #define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_VRB))!=0)
