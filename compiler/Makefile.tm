@@ -28,16 +28,16 @@ all : tm smScanx.c sysdep.h sysdep.c version.h
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
 
-.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
+.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk $(LMKQ) alan
 	touch .lmkstamp
 
-.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp
+.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk $(PMKQ) alan
 	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
 
-.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp
+.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new
@@ -125,13 +125,13 @@ smScanx.c : .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
-	make .pmkstamp
+	make -f Makefile.tm .pmkstamp
 
 smScan.h smScSema.c:
 	-rm .smkstamp
-	make .smkstamp
+	make -f Makefile.tm .smkstamp
 
 lmList.h lmList.c:
 	-rm .lmkstamp
-	make .lmkstamp
+	make -f Makefile.tm .lmkstamp
 

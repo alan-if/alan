@@ -50,16 +50,15 @@ int glkunix_startup_code(glkunix_startup_t *data)
   return TRUE;
 }
 
+#ifdef WINGLK
 #include "WinGlk.h"
 #include <windows.h>
 int winglk_startup_code(const char* cmdline)
 {
   char *argumentVector[2];
 
-#ifdef WINGLK
   winglk_app_set_name("Arun");
   winglk_set_gui(IDR_ARUN);
-#endif
 
   /* First, open a window for error output */
   glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
@@ -80,3 +79,4 @@ int winglk_startup_code(const char* cmdline)
 
   return TRUE;
 }
+#endif

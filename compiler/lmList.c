@@ -116,7 +116,7 @@ static lmMsgs msg[] = {
     { "220   ", "Multiple definition of verb \'%1\' in this context." },
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
     { "222   ", "Identifier \'%1\' in class restriction is not a parameter." },
-    { "223   ", "Unknown message identifier." },
+    { "223   ", "This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
     { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
     { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
     { "301   ", "\'%1\' already declared as a Direction." },
@@ -180,6 +180,7 @@ static lmMsgs msg[] = {
     { "600   ", "Multiple use of option \'%1\', ignored." },
     { "601   ", "Unknown option, \'%1\'." },
     { "602   ", "Illegal value for option \'%1\'." },
+    { "700   ", "Unknown message identifier." },
     { "800   ", "Deprecated construct. Use \'%1\' instead." },
     { "997   ", "SYSTEM ERROR: %1" },
     { "998   ", "Feature not implemented in %1." },
@@ -192,7 +193,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 112}
+    {0, 113}
 };
 static lmMessages currMsect = (lmMessages)0;
 

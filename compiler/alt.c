@@ -64,6 +64,8 @@ static void analyzeAlternative(AltNod *alt,
 			       Context *context)
 {
   Symbol *parameter;
+  int matchedParameters = 0;
+  List *parameters;
 
   if (alt->id != NULL) {
     /* Alternatives given, find out for which parameter this one is */
@@ -74,11 +76,30 @@ static void analyzeAlternative(AltNod *alt,
       alt->id->symbol = parameter;
       alt->parameterNumber = parameter->code;
     }
-  } else
+  } else {			/* No alternative given */
     if (inLocationContext(context))
-      alt->parameterNumber = 0;
-    else if (context->verb != NULL && context->verb->fields.verb.parameterSymbols != NULL)
-      alt->parameterNumber = 1;
+      alt->parameterNumber = -1;
+    else if (context->verb != NULL) {
+      if (context->verb->fields.verb.parameterSymbols != NULL)
+	alt->parameterNumber = 0;
+      for (parameters = context->verb->fields.verb.parameterSymbols;
+	   parameters != NULL;
+	   parameters = parameters->next) {
+	if (context->instance != NULL) {
+	  if (context->instance->props->parentId != NULL)
+	    if (inheritsFrom(context->instance->props->parentId->symbol,
+			     parameters->element.sym->fields.parameter.class))
+	      matchedParameters++;
+	} else if (context->class != NULL) {
+	  if (inheritsFrom(context->class->props->id->symbol,
+			   parameters->element.sym->fields.parameter.class))
+	    matchedParameters++;
+	}
+      }
+      if (matchedParameters > 1)
+	lmLog(&alt->srcp, 223, sevWAR, context->verb->string);
+    }
+  }
 
   analyzeChecks(alt->chks, context);
   analyzeStatements(alt->stms, context);

@@ -3,7 +3,7 @@
   ARUN.C
 
   Main program for interpreter for ALAN Adventure Language
-  Simple terminal style I/O only
+
 
 \*----------------------------------------------------------------------*/
 

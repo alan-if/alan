@@ -58,76 +58,77 @@ End Add To.
 
 
 
-SYNONYMS
-	discard = drop.
+Synonyms
+  discard = drop.
 
-SYNTAX
-	drop = drop (obj)*.
+Syntax
+  drop = drop (obj)*.
 
-SYNTAX
-	put_down1 = put (obj) * down.
+Syntax
+  put_down1 = put (obj) * down.
 
-SYNTAX
-	put_down2 = put down (obj)*.
+Syntax
+  put_down2 = put down (obj)*.
 
 Add To Every object
-  VERB drop, put_down1, put_down2
-	CHECK obj IN HERO
-		ELSE "You aren't carrying that."
-	DOES
-		LOCATE obj HERE.
-		"Dropped."
-  END VERB.
+  Verb drop, put_down1, put_down2
+    Check obj In hero
+      Else "You aren't carrying that."
+    Does
+      Locate obj Here.
+      "Dropped."
+  End Verb.
 End Add To.
 
 
 
-SYNTAX
+Syntax
   take_from = 'take' (obj) 'from' (holder)
-	WHERE obj ISA OBJECT
-	   ELSE "You can only take objects."
-	AND holder ISA THING
-	   ELSE "You can't take things from that!"
-	AND holder ISA CONTAINER
-	   ELSE "You can't take things from that!"
+	Where obj Isa object
+	   Else "You can only take objects."
+	And holder Isa thing
+	   Else "You can't take things from that!"
+	And holder Isa Container
+	   Else "You can't take things from that!"
 
 Add To Every object
-  VERB take_from
-	CHECK obj NOT IN HERO
-		ELSE 
-			"You already have"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $1"
-			END IF.
-			"$$."
-	DOES
-		IF holder=hero THEN
-			"You can't take things from yourself!"
-		ELSIF holder IS InAnimate THEN
-			"You take"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $1"
-			END IF.
-			"$$."
-			LOCATE obj IN HERO.
-		ELSE 
-			IF holder IS named THEN
-				SAY holder.
-			ELSE
-				"The $2"
-			END IF.
-			"won't let you take"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $1"
-			END IF.
-			"$$."
-		END IF.
-  END VERB.
+  Verb take_from
+    When obj
+      Check obj Not In hero
+	Else
+	  "You already have"
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "the $1"
+	  End If.
+	  "$$."
+      Does
+	If holder=hero Then
+	  "You can't take things from yourself!"
+	Elsif holder Is inanimate Then
+	  "You take"
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "the $1"
+	  End If.
+	  "$$."
+	  Locate obj In hero.
+	Else
+	  If holder Is named Then
+	    Say holder.
+	  Else
+	    "The $2"
+	  End If.
+	  "won't let you take"
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "the $1"
+	  End If.
+	  "$$."
+	End If.
+  End Verb.
 End Add.
 

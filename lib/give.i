@@ -5,52 +5,53 @@
 
 
 
-SYNTAX
-	give = 'give' (obj) 'to' (recip)
-		WHERE obj ISA OBJECT
-			ELSE "You can only give away objects."
-		AND recip ISA THING 
-			ELSE "You can't give things to that!"
-		AND recip ISA CONTAINER
-			ELSE "You can't give things to that!"
+Syntax
+  give = 'give' (obj) 'to' (recip)
+    Where obj Isa object
+      Else "You can only give away objects."
+    And recip Isa thing
+      Else "You can't give things to that!"
+    And recip Isa Container
+      Else "You can't give things to that!"
 
 Add To Every object
-  VERB give
-	CHECK obj IN HERO
-		ELSE 
-			"You don't have"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $1"
-			END IF.
-			"$$."
-	DOES
-		IF recip=hero THEN
-			"You already have"
-			IF obj IS named THEN
-				SAY obj.
-			ELSE
-				"the $o"
-			END IF.
-			"$$!"
-		ELSE
-			"You give"
-			IF obj IS named THEN
-				SAY obj.
-				"to"
-			ELSE
-				"the $1 to"
-			END IF.
-			IF recip IS named THEN
-				SAY recip.
-			ELSE 
-				"the $2"
-			END IF.
-			"$$."
-			LOCATE obj IN recip.
-		END IF.
-  END VERB.
+  Verb give
+    When obj
+      Check obj In hero
+	Else
+	  "You don't have"
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "the $1"
+	  End If.
+	  "$$."
+      Does
+	If recip=hero Then
+	  "You already have"
+	  If obj Is named Then
+	    Say obj.
+	  Else
+	    "the $o"
+	  End If.
+	  "$$!"
+	Else
+	  "You give"
+	  If obj Is named Then
+	    Say obj.
+	    "to"
+	  Else
+	    "the $1 to"
+	  End If.
+	  If recip Is named Then
+	    Say recip.
+	  Else
+	    "the $2"
+	  End If.
+	  "$$."
+	  Locate obj In recip.
+	End If.
+  End Verb.
 End Add To.
 
 

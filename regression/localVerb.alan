@@ -1,7 +1,7 @@
 The l1 Isa location
   Exit e To l2.
   Verb x
-  Does "You x in l1"
+    Does "You x in l1"
   End Verb x.
 End The l1.
 

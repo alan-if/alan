@@ -1,4 +1,5 @@
 %%OPTIONS
+
 	Prefix 'pm';
 	Listerprefix 'lm';
 	List Grammar, Statistics;
@@ -527,7 +528,7 @@ static int val(char str[])
     = <simple_verb_body>
     %%
 	%<verb_body>.alts = concat(NULL,
-				 newalt(`&nulsrcp,
+				 newalt(`&%<simple_verb_body>.srcp,
 					NULL,
 					%<simple_verb_body>.chks,
 					%<simple_verb_body>.qual,
@@ -569,6 +570,10 @@ static int val(char str[])
 <simple_verb_body>		-- RETURNS: chks, stms, qual
     = <optional_checks> <optional_does>
     %%
+	if (%<optional_does>.stms == NULL) /* No DOES */
+	  %<simple_verb_body>.srcp = %<optional_checks>.srcp;
+	else
+	  %<simple_verb_body>.srcp = %<optional_does>.srcp;
 	%<simple_verb_body>.chks = %<optional_checks>.chks;
 	%<simple_verb_body>.qual = %<optional_does>.qual;
 	%<simple_verb_body>.stms = %<optional_does>.stms;

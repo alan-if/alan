@@ -2,7 +2,6 @@
 
 	Prefix 'sm';
 	Pack RDS, GCS, LES, ERROR;
-	OS 'UNIX';
 
 %%IMPORT
 

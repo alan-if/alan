@@ -17,10 +17,11 @@ Add To Every object
   End Verb.
 
   Verb write
-    Check o Is writeable
-      Else "You can't write on that."
-    Does
-      Set str Of o To s.
+    When o
+      Check o Is writeable
+        Else "You can't write on that."
+      Does
+        Set str Of o To s.
   End Verb write.
 End Add.
 

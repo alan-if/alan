@@ -17,7 +17,7 @@ First parameter should be an integer.
 First parameter should be an integer.
 
 > lit 123456 "hejhopp"
-Lit: 123456 hejhopp
+Lit: 123456 hejhopp Lit: 123456 hejhopp
 
 > 
 

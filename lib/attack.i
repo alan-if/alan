@@ -1,136 +1,136 @@
 -- attack.i
--- Library version 0.4.1
+-- Library version 3.0.
 
 -- 0.4.1 - converted to ALANv3
 
 
-ADD TO EVERY THING
-IS 
-   NOT Shootable.
-END ADD TO THING. 
+Add To Every thing
+Is 
+   Not Shootable.
+End Add To thing. 
 
-ADD TO EVERY OBJECT
-IS
-	NOT Weapon.
-	not shootable.
-END ADD TO OBJECT. 
-
-
-SYNONYMS
-	kill, fight, hit = attack.
-	fire = shoot.
+Add To Every object
+Is
+	Not weapon.
+	Not shootable.
+End Add To object.
 
 
-SYNTAX
-	attack = attack (act)
-		WHERE act ISA THING
-			ELSE "You can't attack that."
+Synonyms
+  kill, fight, hit = attack.
+  fire = shoot.
+
+
+Syntax
+  attack = attack (act)
+    Where act Isa thing
+      Else "You can't attack that."
 
 Add To Every thing
-  VERB attack
-	DOES
-		"Violence is not the answer."
-  END VERB.
+  Verb attack
+    Does
+      "Violence is not the answer."
+  End Verb.
 End Add To.
 
 
 
-SYNTAX
-	attack_with = attack (act) 'with' (obj)
-		WHERE act ISA THING
-			ELSE "You can't attack that."
-		AND obj ISA OBJECT
-			ELSE "You can't attack anything with that!"
+Syntax
+  attack_with = attack (act) 'with' (obj)
+    Where act Isa thing
+      Else "You can't attack that."
+    And obj Isa object
+      Else "You can't attack anything with that!"
 
 Add To Every thing
-  VERB attack_with
-	CHECK obj IN HERO
-		ELSE "You don't have that object to attack with."
-	AND obj IS Weapon
-		ELSE "No point attacking anything with that!"
-	DOES
-		"Violence is not the answer."
-  END VERB.
+  Verb attack_with
+    When obj
+      Check obj In hero
+        Else "You don't have that object to attack with."
+      And obj Is weapon
+        Else "No point attacking anything with that!"
+      Does
+        "Violence is not the answer."
+  End Verb.
+End Add To.
+
+
+Syntax
+  shoot = shoot (obj)
+    Where obj Isa thing
+      Else "You can't shoot at that."
+
+Add To Every thing
+  Verb shoot
+    Does
+      If obj Is shootable Then
+	"You need to specify what to shoot at."
+      Else
+	"You need to specify what you want to shoot"
+	If obj Is named Then
+	  Say obj.
+	  "with."
+	Else
+	  "the $o with."
+	End If.
+      End If.
+  End Verb.
 End Add To.
 
 
 
-
-SYNTAX
-	shoot = shoot (obj)
-		WHERE obj ISA THING
-			ELSE "You can't shoot at that."
+Syntax
+  shoot_at0 = shoot 'at' (obj)
+    Where obj Isa thing
+      Else "You can't shoot at that."
 
 Add To Every thing
-  VERB shoot
-	DOES
-		IF obj IS Shootable THEN
-			"You need to specify what to shoot at."
-		ELSE
-			"You need to specify what you want to shoot"
-			IF obj IS named THEN
-				SAY obj.
-			"with."
-				ELSE
-			"the $o with."
-				END IF.
-		END IF.
-  END VERB.
+  Verb shoot_at0
+    Does
+      "You need to specify what you want to shoot"
+	If obj Is named Then
+	  Say obj.
+	  "with."
+	Else
+	  "the $o with."
+	End If.
+  End Verb.
 End Add To.
 
 
 
-SYNTAX
-	shoot_at0 = shoot 'at' (obj)
-		WHERE obj ISA THING
-			ELSE "You can't shoot at that."
+Syntax
+  shoot_at = shoot (obj) 'at' (act)
+    Where obj Isa object
+      Else "You can't shoot that."
+    And act Isa thing
+      Else "You can't shoot at that."
+
+  shoot_with = shoot (act) 'with' (obj)
+    Where obj Isa object
+      Else "You can't shoot that."
+    And act Isa thing
+      Else "You can't shoot at that."
 
 Add To Every thing
-  VERB shoot_at0
-	DOES
-		"You need to specify what you want to shoot"
-		IF obj IS named THEN
-			SAY obj.
-			"with."
-		ELSE
-			"the $o with."
-		END IF.
-  END VERB.
-End Add To.
+  Verb shoot_at
+    When obj
+      Check obj In hero
+        Else "You don't have that."
+      And obj Is shootable
+        Else "You can't shoot anything with that."
+      Does
+        "Violence is not the answer."
+  End Verb.
 
-
-
-SYNTAX
-	shoot_at = shoot (obj) 'at' (act)
-		WHERE obj ISA OBJECT
-			ELSE "You can't shoot that."
-		AND act ISA THING
-			ELSE "You can't shoot at that."
-
-	shoot_with = shoot (act) 'with' (obj)
-		WHERE obj ISA OBJECT
-			ELSE "You can't shoot that."
-		AND act ISA THING
-			ELSE "You can't shoot at that."
-
-Add To Every thing
-  VERB shoot_at
-	CHECK obj IN HERO
-		ELSE "You don't have that."
-	AND obj IS Shootable
-		ELSE "You can't shoot anything with that."
-	DOES
-		"Violence is not the answer."
-  END VERB.
-
-
-  VERB shoot_with
-	CHECK obj IN HERO
-		ELSE "You don't have that."
-	AND obj IS Shootable
-		ELSE "You can't shoot anything with that."
-	DOES
-		"Violence is not the answer."
-  END VERB.
+  Verb shoot_with
+    When obj
+      Check obj In hero
+        Else "You don't have that."
+      And obj Is shootable
+        Else "You can't shoot anything with that."
+      Does
+        "Violence is not the answer."
+  End Verb.
 End Add To.
 

@@ -323,8 +323,8 @@ static void findAllAlternatives(AltInfo alt[]) {
     altIndex++;
   }
 
-  altIndex += alternativesFoundInParents(&alt[altIndex], instance[current.location].parent, current.location, 1, 0);
-  alt[altIndex].alt = findAlternativeInInstance(current.location, 0);
+  altIndex += alternativesFoundInParents(&alt[altIndex], instance[current.location].parent, current.location, 1, -1);
+  alt[altIndex].alt = findAlternativeInInstance(current.location, -1);
   if (alt[altIndex].alt != NULL) {
     primeAltInfo(&alt[altIndex], 1, -1, current.location, 0);
     altIndex++;

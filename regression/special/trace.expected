@@ -69,14 +69,14 @@ completely covered by dust, there is an old book laying on the floor here.
 
 > take all
 (old book)
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
  Taken.
 
 > read the book
 
-<VERB 5, GLOBAL, CHECK:>
+<VERB 5, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 As you carefully try to open the book it falls apart into dust and falls
@@ -97,11 +97,11 @@ the floor here.
 
 > take ladder
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 21, in parameter #1, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 <VERB 21, in parameter #1, DOES:>
 
@@ -136,18 +136,18 @@ seems in much better shape than the others.
 
 > take terminal
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 <VERB 21, in parameter #1, DOES:>
  OH! There was a coin under it!
 
 > take coin
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > west
@@ -207,9 +207,9 @@ terminal displays the message 'Please login. Enter USERID:'
 
 > type "nilgu"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -253,7 +253,7 @@ remains of one of the walls, a crow has built it's nest.
 
 > examine nest
 
-<VERB 4, GLOBAL, CHECK:>
+<VERB 4, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 As you turn the nest over for examination, a set of keys falls out.
@@ -261,9 +261,9 @@ Otherwise there is nothing special about the nest.
 
 > take keys
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > down
@@ -341,7 +341,7 @@ possible to get out there anymore.
 
 > examine desk
 
-<VERB 4, GLOBAL, CHECK:>
+<VERB 4, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
@@ -349,7 +349,7 @@ where your fingers leave markings. The desk has one remaining drawer.
 
 > examine desk
 
-<VERB 4, GLOBAL, CHECK:>
+<VERB 4, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
@@ -357,21 +357,21 @@ that shows markings from fingers. The desk has one remaining drawer.
 
 > open drawer
 
-<VERB 9, GLOBAL, CHECK:>
+<VERB 9, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 9, in parameter #1, DOES:>
 Pulling out the drawer a manual falls to the floor.
 
 > take manual
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > read it
 
-<VERB 5, GLOBAL, CHECK:>
+<VERB 5, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 The text inside the manual reads:
@@ -438,13 +438,15 @@ To the east is a folding door. It is closed.
 
 > unlock the door with the keys then open the door
 
-<VERB 8, GLOBAL, CHECK:>
+<VERB 8, in parameter #2, inherited from class 4, CHECK:>
+
+<VERB 8, in parameter #3, inherited from class 4, CHECK:>
 
 <VERB 8, in parameter #1, DOES:>
 The key clicks in the lock as the door unlocks.
 
 
-<VERB 9, GLOBAL, CHECK:>
+<VERB 9, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 9, in parameter #1, DOES:>
 The door opens, revealing the entrance to a dusty old cafeteria.
@@ -464,9 +466,11 @@ some candy.
 
 > insert coin into machine
 
-<VERB 13, GLOBAL, CHECK:>
+<VERB 13, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 13, in parameter #1, CHECK:>
+
+<VERB 13, in parameter #3, inherited from class 4, CHECK:>
 
 <VERB 13, in parameter #1, DOES:>
 A clinking sound is heared from the machine and a candy bar falls out on
@@ -474,9 +478,9 @@ the floor.
 
 > take candy bar
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > west
@@ -504,9 +508,9 @@ way down here. In the light from the sun some rats can be seen.
 
 > drop candy bar
 
-<VERB 1, GLOBAL, CHECK:>
+<VERB 1, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 1, GLOBAL, DOES:>
+<VERB 1, in parameter #2, inherited from class 4, DOES:>
 Dropped.
 <VERB 1, in parameter #1, DOES:>
  The rats throw themselves at the candy devouring it furiously,
@@ -532,9 +536,9 @@ another shelf there is a spool of computer tape.
 
 > take tape
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > east
@@ -607,7 +611,7 @@ The tape is now securely mounted on the tape drive.
 
 > read manual
 
-<VERB 5, GLOBAL, CHECK:>
+<VERB 5, in parameter #2, inherited from class 4, CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 The text inside the manual reads:
@@ -621,9 +625,9 @@ OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > type "nilgu"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -631,9 +635,9 @@ Please login. Enter USERID:'
 
 > type "oscsv"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome OscSv!
@@ -642,9 +646,9 @@ Enter command:'
 
 > type "svegr"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Unknown command.
@@ -652,9 +656,9 @@ Enter command:'
 
 > type "backup"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 The tape starts to spin and after a few moments it stops. Then it starts
@@ -666,16 +670,16 @@ Enter command:'
 
 > take tape
 
-<VERB 21, GLOBAL, CHECK:>
+<VERB 21, in parameter #2, inherited from class 4, CHECK:>
 
-<VERB 21, GLOBAL, DOES:>
+<VERB 21, in parameter #2, inherited from class 4, DOES:>
 Taken.
 
 > type "adventure"
 
-<VERB 22, GLOBAL, CHECK:>
+<VERB 22, in parameter #2, inherited from class 8, CHECK:>
 
-<VERB 22, GLOBAL, DOES:>
+<VERB 22, in parameter #2, inherited from class 8, DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome to adventure!!
