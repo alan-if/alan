@@ -1,17 +1,26 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2003-09-06
+			      2003-09-25
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.26dev) of Alan V3. It features
+This is a development preview (v3.0.27dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
 Windows only.
 
 This package contains the compiler, the interpreter, the manual,
-the source for the Saviour game and a version of the standard library.
+the source for the Saviour game. Included is also a first version of a
+converter program which takes an Alan v2 source file and outputs a V3
+version of the same source.
+
+Changes from v3.0.26 development:
+- Opaque containers
+- Interpreter automatically capitalizes output after full stop (".")
+- Windows GUI and install
+- Parameters are now correctly available in syntax restrictions
+- Converter program
 
 Changes from v3.0.25 development:
 - IMAGE statement to show image inline with output. Only works in
@@ -25,17 +34,6 @@ Changes from v3.0.25 development:
 - Interpreter now don't put a space between an output and the next if
   the next starts with a "." and is either only one character long or
   is followed by a space, ". "
-
-Changes from v3.0.24 development:
-- "STOP <actor>"
-- EXTRACT-clause on containers to check, prohibit and perform actions on extraction
-- DESCRIPTION can now be ADDed to classes
-- "List This" now works as documented
-- WinArun about-box shows version info
-- Fixed SIGSEGV in compiler when trying to write to writeprotected files
-- Ensured that DEPENDING ON works according to docs
-- Documentation updates
-
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
 "GLK.DLL". WindowsGLK DLL is included in this distribution but can
@@ -59,9 +57,9 @@ programmers. The system consists of a compiler, which compiles Alan
 source to a compact and portable form, and an interpreter that
 interprets such a form to allow playing of the game.
 
-The Alan System is register-ware. To use Alan all you need to do is to
-register. Registration can be done with a simple email to the Thomas
-Nilsson (thomas.nilsson@progindus.se).
+The Alan System is register-ware. To use Alan for authoring and
+distributing you games all you need to do is to register. Registration
+can be done with a simple email to thomas.nilsson@progindus.se.
 
 Complete distribution and documentation packages (version 2), as well
 as other related information, are available from the Alan Home Pages
