@@ -62,7 +62,7 @@ arch:
 release:
 	@-for a in $(ARCHS) ; do \
 		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
-			cp $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
+			mv $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
 		else \
 			echo $(ALANDIR)/bin/$$a/arun is not fresh! ; \
 			touch ../.notfresh ; \
