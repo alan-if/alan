@@ -21,7 +21,7 @@ void (*(dumpNodeTable[LAST_LIST_KIND]))();
 /* Import of dump functions to be used in dumpNodeTable */
 extern void dualt();
 extern void duchk();
-extern void duelm();
+extern void dumpElement();
 extern void dumpExit();
 extern void dumpAdd();
 extern void dumpAttribute();
@@ -31,7 +31,7 @@ extern void dumpInstance();
 extern void dumpRestriction();
 extern void dumpScript();
 extern void dustm();
-extern void dustx();
+extern void dumpSyntax();
 extern void dumpStep();
 extern void dumpVerb();
 
@@ -49,13 +49,13 @@ void initDumpNodeList()
   dumpNodeTable[CHECK_LIST] = &duchk;
   dumpNodeTable[CLASS_LIST] = &dumpClass;
   dumpNodeTable[CONTAINER_LIST] = &dumpPointer;
-  dumpNodeTable[ELEMENT_LIST] = &duelm;
+  dumpNodeTable[ELEMENT_LIST] = &dumpElement;
   dumpNodeTable[EXIT_LIST] = &dumpExit;
   dumpNodeTable[ID_LIST] = &dumpId;
   dumpNodeTable[INSTANCE_LIST] = &dumpInstance;
   dumpNodeTable[RESTRICTION_LIST] = &dumpRestriction;
   dumpNodeTable[STATEMENT_LIST] = &dustm;
-  dumpNodeTable[SYNTAX_LIST] = &dustx;
+  dumpNodeTable[SYNTAX_LIST] = &dumpSyntax;
   dumpNodeTable[VERB_LIST] = &dumpVerb;
   dumpNodeTable[SCRIPT_LIST] = &dumpScript;
   dumpNodeTable[STEP_LIST] = &dumpStep;

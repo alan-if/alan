@@ -18,19 +18,16 @@
 /* FUNCTIONS: */
 
 /* Create a new Syntax Element node */
-extern ElmNod *newelm(Srcp *srcp,
-		      ElementKind kind,
-		      IdNode *id,
-		      int flags);
+extern Element *newElment(Srcp *srcp,
+			  ElementKind kind,
+			  IdNode *id,
+			  int flags);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */
-extern List *anelms(List *elms, List *ress, struct StxNod *stx);
+extern List *analyzeElements(List *elms, List *ress, struct Syntax *stx);
 
-/* Generate code for a list of Syntax elements */
-extern Aaddr geelms(List *elms, struct StxNod *stx);
-
-/* Dump a Syntax node */
-extern void duelm(ElmNod *elm);
+extern Aaddr generateElements(List *elms, struct Syntax *stx);
+extern void dumpElement(Element *elm);
 
 
 #endif

@@ -69,8 +69,8 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
 static void analyzeVerb(Verb *theVerb, Context *previousContext)
 {
   List *lst, *ids, *syntaxList = NULL;
-  StxNod *stx;
-  Context *context = copyContext(previousContext);
+  Syntax *stx;
+  Context *context = pushContext(previousContext);
 
   showProgress();
 
@@ -86,7 +86,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
     }
     if (stx == NULL) {
       lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
-      stx = defaultStx(ids->element.id->string);
+      stx = defaultSyntax(ids->element.id->string);
     }
     syntaxList = concat(syntaxList, stx, SYNTAX_LIST);
   }

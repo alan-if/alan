@@ -57,7 +57,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Instance *ins;
     struct ResNod *res;
     struct Container *cnt;
-    struct ElmNod *elm;
+    struct Element *elm;
     struct EvtNod *evt;
     struct Expression *exp;
     struct ExtNod *ext;
@@ -67,7 +67,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Script *scr;
     struct StmNod *stm;
     struct Step *stp;
-    struct StxNod *stx;
+    struct Syntax *stx;
     struct SynNod *syn;
     struct Symbol *sym;
     struct Verb *vrb;

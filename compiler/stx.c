@@ -36,23 +36,17 @@
 /* PUBLIC: */
 
 
-/*======================================================================
-
-  newstx()
-
-  Allocates and initialises a syntax node.
-
- */
-StxNod *newstx(Srcp *srcp,
-               IdNode *id,
-               List *elements,
-               List *restrictionLists)
+/*======================================================================*/
+Syntax *newSyntax(Srcp *srcp,
+		  IdNode *id,
+		  List *elements,
+		  List *restrictionLists)
 {
-  StxNod *new;                  /* The newly created node */
+  Syntax *new;                  /* The newly created node */
 
   showProgress();
 
-  new = NEW(StxNod);
+  new = NEW(Syntax);
 
   new->srcp = *srcp;
   new->id = id;
@@ -97,7 +91,7 @@ static void setDefaultRestriction(List *parameters)
   Analyzes one syntax node.
 
  */
-static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
+static void anstx(Syntax *stx)  /* IN - Syntax node to analyze */
 {
   Symbol *verbSymbol;
 
@@ -116,7 +110,7 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
       stx->id->code = verbSymbol->code;
     }
     
-    stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
+    stx->parameters = analyzeElements(stx->elements, stx->restrictionLists, stx);
     setParameters(verbSymbol, stx->parameters);
     analyzeRestrictions(stx->restrictionLists, verbSymbol);
     setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
@@ -128,15 +122,8 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 
 
 
-/*======================================================================
-
-  anstxs()
-
-  Analyzes all syntax nodes in the adventure by calling the analyzer for
-  each one.
-
- */
-void anstxs(void)
+/*======================================================================*/
+void analyzeSyntaxes(void)
 {
   List *lst, *other;
 
@@ -173,20 +160,20 @@ void anstxs(void)
   Syntax x = x (object).
 
  */
-StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
+Syntax *defaultSyntax(char *vrbstr) /* IN - The string for the verb */
 {
-  StxNod *stx;
+  Syntax *stx;
   List *elements;
 
   elements = concat(concat(concat(NULL,
-			      newelm(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
+			      newElment(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
 			      ELEMENT_LIST),
-		       newelm(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
+		       newElment(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
 		       ELEMENT_LIST),
-		newelm(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
-  stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
+		newElment(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
+  stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   anstx(stx);                   /* Make sure the syntax is analysed */
@@ -203,8 +190,8 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   compatible (same ordering with same parameter names).
 
   */
-Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
-              StxNod *stx2)     /* IN - Syntax node to compare */
+Bool eqparams(Syntax *stx1,     /* IN - Syntax node to compare */
+              Syntax *stx2)     /* IN - Syntax node to compare */
 {
   List *elm1, *elm2;
 
@@ -227,7 +214,7 @@ Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
   Generate one syntax node.
 
  */
-static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
+static void gestx(Syntax *stx)  /* IN - Syntax node to generate for */
 {
   WordNode *wrd;
   List *lst = NULL;
@@ -238,7 +225,7 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
   
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */
-    wrd = findwrd(stx->elements->element.elm->id->string);
+    wrd = findWord(stx->elements->element.elm->id->string);
     /* Ignore words that are not verbs and prepositions */
     if (wrd->classbits&(1L<<WRD_PREP))
       lst = wrd->ref[WRD_PREP];
@@ -250,7 +237,7 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }
-    stx->elmsadr = geelms(elements, stx);
+    stx->elmsadr = generateElements(elements, stx);
   } else
     stx->elmsadr = 0;
 }
@@ -264,7 +251,7 @@ static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
   Generate a table entry for one syntax node.
 
  */
-static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
+static void gestxent(Syntax *stx) /* IN - Syntax node to generate for */
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
@@ -284,7 +271,7 @@ static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
   adventure.
 
  */
-Aaddr gestxs(void)
+Aaddr generateAllSyntaxes(void)
 {
   List *lst;
   Aaddr stxadr;
@@ -307,14 +294,8 @@ Aaddr gestxs(void)
 
 
 
-/*======================================================================
-
-  dustx()
-
-  Dump an Syntax node.
-
- */
-void dustx(StxNod *stx)
+/*======================================================================*/
+void dumpSyntax(Syntax *stx)
 {
   if (stx == NULL) {
     put("NULL");

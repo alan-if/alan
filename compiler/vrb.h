@@ -23,7 +23,7 @@ typedef struct Verb {
   List *alternatives;			/* Alternative bodies */
   Symbol *symbol;
   Aaddr altAddress;		/* AN - Address to alt-table */
-  StxNod *stx;			/* AN - Which syntax defines this verb */
+  Syntax *stx;			/* AN - Which syntax defines this verb */
 } Verb;
 
 #endif

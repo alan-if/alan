@@ -13,7 +13,7 @@ void testNewExt()
   IdNode *direction = newId(&nulsrcp, "w");
   IdNode *targetLocation = newId(&nulsrcp, "aLocation");
   ExtNod *theExit;
-  Context *context = copyContext(NULL);
+  Context *context = pushContext(NULL);
   IdNode *aLocationId = newId(&nulsrcp, "aLocation");
   Symbol *aLocationSymbol;
   int firstAddress;

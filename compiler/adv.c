@@ -46,7 +46,7 @@
 
 
 /* PUBLIC */
-AdvNod adv;
+Adventure adv;
 
 
 /* PRIVATE */
@@ -113,12 +113,12 @@ void analyzeAdventure(void)
   numberAllAttributes();
   replicateInherited();
 
-  prepwrds();			/* Prepare words in the dictionary */
+  prepareWords();			/* Prepare words in the dictionary */
   prepmsgs();			/* Prepare standard and user messages */
   prepscos();			/* Prepare score handling */
 
   if (verbose) printf("\n\tSyntax definitions: ");
-  anstxs();
+  analyzeSyntaxes();
 
   if (verbose) printf("\n\tVerbs: ");
   analyzeVerbs(adv.vrbs, NULL);
@@ -146,19 +146,15 @@ void analyzeAdventure(void)
 
   analyzeStartAt();
 
-  anwrds();
+  analyzeWords();
 }
 
 
 
-/*======================================================================
-
-  geadv()
-
-  Generate the whole adventure.
-
- */
-void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
+/*======================================================================*/
+void generateAdventure(char acodeFileName[],
+		       char textFileName[],
+		       char dataFileName[])
 {
   initEmit(acodeFileName);		/* Initialise code emit */
   initEncoding(textFileName, dataFileName);	/* Initialise encoding */
@@ -166,10 +162,10 @@ void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
     return;
   
   if (verbose) printf("\n\tDictionary: ");
-  acdHeader.dictionary = gewrds();	/* Dictionary */
+  acdHeader.dictionary = generateAllWords();	/* Dictionary */
 
   if (verbose) printf("\n\tSyntax Definitions: ");
-  acdHeader.syntaxTableAddress = gestxs();	/* Syntax definitions */ 
+  acdHeader.syntaxTableAddress = generateAllSyntaxes();	/* Syntax definitions */ 
 
   if (verbose) printf("\n\tVerbs: ");
   acdHeader.verbTableAddress = generateVerbs(adv.vrbs); /* Global verbs */

@@ -67,13 +67,13 @@ void ansyns(void)
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
     showProgress();
-    wrd = findwrd(lst->element.syn->id->string);
+    wrd = findWord(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);
     else
       for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
 	/* Look up the synonym */
-        swrd = findwrd(slst->element.id->string);
+        swrd = findWord(slst->element.id->string);
         if (swrd != NULL && (swrd->classbits&(1L<<WRD_SYN)))
 	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
 	else

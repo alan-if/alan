@@ -30,14 +30,8 @@ static WordNode *wrdtree = NULL;
 static WordNode *lwrd;	/* The last word found by findwrd() */
 
 
-/*======================================================================
-
-  findwrd()
-
-  Look for a word in the dictionary.
-
-  */
-WordNode *findwrd(char *str)	/* IN - The string */
+/*======================================================================*/
+WordNode *findWord(char *str)	/* IN - The string */
 {
   WordNode *wrd;			/* Traversal pointers */
   int comp = 1;			/* Result of comparison */
@@ -94,7 +88,7 @@ int newWord(char *str,		/* IN - Name of the new word */
     return 0;
 
   /* Find the word if it exists */
-  wrd = findwrd(str);
+  wrd = findWord(str);
   if (wrd != NULL) {
     if (!findReference(ref, wrd->ref[class])) {
       /* Add another reference */
@@ -140,13 +134,13 @@ int newWord(char *str,		/* IN - Name of the new word */
 
 /*======================================================================
 
-  prepwrds()
+  prepareWords()
 
   Prepare the dictionary by inserting some words dependent on the
   selected language, for example.
  
   */
-void prepwrds(void)
+void prepareWords(void)
 {
 
   /* Some words in the dictionary */
@@ -189,7 +183,7 @@ void prepwrds(void)
   defined to be of multiple word classes that we want to warn about.
 
 */
-void anwrd(WordNode *wrd)
+void analyzeWord(WordNode *wrd)
 {
 #define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
 #define ISASYNONYM(w) HASBIT(WRD_SYN, (w))
@@ -199,7 +193,7 @@ void anwrd(WordNode *wrd)
 
   if (wrd == NULL) return;
 
-  anwrd(wrd->low);
+  analyzeWord(wrd->low);
 
   if (ISASYNONYM(wrd->classbits) && (~(1L<<WRD_SYN))&wrd->classbits)
     /* Synonyms can not be of any other class */
@@ -213,7 +207,7 @@ void anwrd(WordNode *wrd)
     /* Directions and verbs don't work as expected */
     lmLogv(NULL, 320, sevWAR, wrd->str, "adjective", "verb", NULL);
 
-  anwrd(wrd->high);
+  analyzeWord(wrd->high);
 
 }
 
@@ -226,9 +220,9 @@ void anwrd(WordNode *wrd)
   multiple word classes that we want to warn about.
 
 */
-void anwrds(void)
+void analyzeWords(void)
 {
-  anwrd(wrdtree);
+  analyzeWord(wrdtree);
 }
 
 
@@ -344,7 +338,7 @@ static void gewrdent(WordNode *wrd) /* IN - The word to generate an entry for */
   Generates the words in the dictionary of course.
 
   */
-Aaddr gewrds(void)
+Aaddr generateAllWords(void)
 {
   Aaddr adr;
 

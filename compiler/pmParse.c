@@ -85,7 +85,7 @@ typedef struct pmGrammar {
     List *syns;
     SynNod *syn;
     List *stxs;
-    StxNod *stx;
+    Syntax *stx;
     char *str;
     List *stps;
     Step *stp;
@@ -125,7 +125,7 @@ typedef struct pmGrammar {
     List *evts;
     EvtNod *evt;
     List *elms;
-    ElmNod *elm;
+    Element *elm;
     Srcp descriptionSrcp;
     List *descriptionDoes;
     List *descriptionCheck;

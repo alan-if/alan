@@ -26,7 +26,7 @@ extern ResNod *newRestriction(Srcp *srcp,
 			      RestrictionKind kind,
 			      IdNode *classId,
 			      List *stms);
-extern Aaddr generateRestrictions(List *ress, StxNod *stx);
+extern Aaddr generateRestrictions(List *ress, Syntax *stx);
 extern void analyzeRestrictions(List *ress, Symbol *theVerb);
 extern void dumpRestriction(ResNod *res);
 

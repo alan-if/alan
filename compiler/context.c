@@ -6,36 +6,30 @@
 \*----------------------------------------------------------------------*/
 
 #include "context_x.h"
-
+#include "stddef.h"
 #include "util.h"
 
 
-/*======================================================================
-
-  newContext()
-
-*/
+/*======================================================================*/
 Context *newContext(ContextKind kind)
 {
   Context *new = NEW(Context);
 
   new->kind = kind;
+  new->previous = NULL;
 
   return new;
 }
 
 
-/*======================================================================
-
-  copyContext()
-
-*/
-Context *copyContext(Context *original)
+/*======================================================================*/
+Context *pushContext(Context *previous)
 {
-  Context *copy = NEW(Context);
+  Context *new = NEW(Context);
 
-  if (original)
-    memcpy(copy, original, sizeof(Context));
-  return copy;
+  if (previous)
+    memcpy(new, previous, sizeof(Context));
+  new->previous = previous;
+  return new;
 }
 

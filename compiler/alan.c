@@ -524,7 +524,7 @@ void compile(void) {
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
     start();
-    geadv(acdfnm, txtfnm, datfnm);
+    generateAdventure(acdfnm, txtfnm, datfnm);
     endgen();			/* End of generating pass */
   } else {
     lmLog(NULL, 999, sevINF, "");
@@ -580,7 +580,7 @@ void compile(void) {
 	     srcp.line, err, srcp.col);
     }
   } else
-    lmList("", 0, 79, liTINY, sevs);
+    lmList("", 0, 79, lstflg?liTINY:(fulflg?liFULL:liTINY), sevs);
 
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);

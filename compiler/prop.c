@@ -131,7 +131,7 @@ static void analyzeName(Properties *props)
     /* Generate a mentioned from the first of the names */
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
-    len = annams(props->names, props->id,
+    len = analyzeNames(props->names, props->id,
 		 inheritsFrom(props->id->symbol, locationSymbol) ||
 		 inheritsFrom(props->id->symbol, actorSymbol));
 

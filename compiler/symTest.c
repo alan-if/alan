@@ -53,7 +53,7 @@ void testSymCheck()
 
 static List *createOneParameter(char *id)
 {
-  return concat(NULL, newelm(&nulsrcp, PARAMETER_ELEMENT,
+  return concat(NULL, newElment(&nulsrcp, PARAMETER_ELEMENT,
 			     newId(&nulsrcp, id), 0), ELEMENT_LIST);
 }
 

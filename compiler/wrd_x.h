@@ -24,7 +24,7 @@ extern int words[];
 /* FUNCTIONS: */
 
 /* Find a Word in the dictonary */
-extern WordNode *findwrd(char str[]);
+extern WordNode *findWord(char str[]);
 
 /* Insert a Word into the dictionary */
 extern int newWord(char wrd[],
@@ -32,14 +32,9 @@ extern int newWord(char wrd[],
 		  int code,
 		  Instance *ref);
 
-/* Prepare Words in dictionary */
-extern void prepwrds(void);
-
-/* Analyse the Words in dictionary */
-extern void anwrds(void);
-
-/* Generate all Words in the dictionary */
-extern Aaddr gewrds(void);
+extern void prepareWords(void);
+extern void analyzeWords(void);
+extern Aaddr generateAllWords(void);
 
 
 #endif

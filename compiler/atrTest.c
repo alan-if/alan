@@ -285,7 +285,7 @@ static void testResolveThisAttributeForClass()
 			     NULL,
 			     NULL, &nulsrcp, NULL, &nulsrcp, NULL, NULL, NULL);
   ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theProps);
-  Context context = {CLASS_CONTEXT, NULL, NULL, theClass, NULL};
+  Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;
 
   theResolvedAttribute = resolveThisAttribute(newId(&nulsrcp, "x"), &context);

@@ -24,14 +24,14 @@ typedef enum ElementKind {
   END_OF_SYNTAX
 } ElementKind;
 
-typedef struct ElmNod {		/* ELEMENT */
+typedef struct Element {
   Srcp srcp;			/* Source position of this element */
   ElementKind kind;		/* Kind of Parameter */
   IdNode *id;			/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
   ResNod *res;			/* AN - link to the class restriction check */
-  StxNod *stx;			/* AN - pointer back to syntax node */
-} ElmNod;
+  Syntax *stx;			/* AN - pointer back to syntax node */
+} Element;
 
 
 #endif

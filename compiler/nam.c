@@ -15,16 +15,10 @@
 #include "emit.h"
 
 
-/*======================================================================
-
-  annams()
-
-  Analyse a list of names (output an appropriate text).
-
-  */
-int annams(List *nams,		/* IN - List of names to use */
-	   IdNode *id,		/* IN - An identifier if nams == NULL */
-	   Bool cap)		/* IN - Capitalize the words? */
+/*======================================================================*/
+int analyzeNames(List *nams,	/* IN - List of names to use */
+		 IdNode *id,	/* IN - An identifier if nams == NULL */
+		 Bool cap)	/* IN - Capitalize the words? */
 {
   List *namlst;
   char buf[80];

@@ -206,7 +206,7 @@ static void generateRestrictionEntry(ResNod *res)
  */
 Aaddr generateRestrictions(
     List *restrictions,		/* IN - The element class restriction nodes */
-    StxNod *stx)		/* IN - Syntax node containing the res */
+    Syntax *stx)		/* IN - Syntax node containing the res */
 {
   List *lst;
   Aaddr address;

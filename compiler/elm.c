@@ -31,23 +31,17 @@
 static int level = 0;
 
 
-/*======================================================================
-
-  newelm()
-
-  Allocates and initialises a syntax element node.
-
- */
-ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
-               ElementKind kind, /* IN - Kind of element (parm or word) */
-               IdNode *id,	/* IN - The name */
-               int flags)       /* IN - Flags for omni/multiple... */
+/*======================================================================*/
+Element *newElment(Srcp *srcp,	/* IN - Source Position */
+		   ElementKind kind, /* IN - Kind of element (parm or word) */
+		   IdNode *id,	/* IN - The name */
+		   int flags)	/* IN - Flags for omni/multiple... */
 {
-  ElmNod *new;                                  /* The newly created node */
+  Element *new;                                  /* The newly created node */
 
   showProgress();
 
-  new = NEW(ElmNod);
+  new = NEW(Element);
 
   new->srcp = *srcp;
   new->kind = kind;
@@ -61,14 +55,8 @@ ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
 
 
 
-/*----------------------------------------------------------------------
-
-  anelm()
-
-  Analyzes one syntax element node.
-
- */
-static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
+/*----------------------------------------------------------------------*/
+static void analyzeElement(Element *elm)
 {
   showProgress();
 
@@ -87,18 +75,13 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 
 
 
-/*======================================================================
-
-  anelms()
-
-  Analyzes all elements in a list by calling the analyzer for all.
- */
-List *anelms(List *elms,        /* IN - List to analyze */
-             List *ress,        /* IN - The class restrictions */
-             StxNod *stx        /* IN - The stx we're in */
+/*======================================================================*/
+List *analyzeElements(List *elms,        /* IN - List to analyze */
+		      List *ress,        /* IN - The class restrictions */
+		      Syntax *stx        /* IN - The stx we're in */
 )
 {
-  ElmNod *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
+  Element *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
   List *lst, *pars = NULL;
   List *resLst;
   int paramNo = 1;
@@ -131,7 +114,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
         }
       }
     }
-    anelm(lst->element.elm);
+    analyzeElement(lst->element.elm);
   }
 
   /* Check for multiple definition of parameter names */
@@ -267,7 +250,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
   this group pointing to the next level for each group, a.s.o.
 
  */
-Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
+Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
 {
   List *lst;                    /* Traversal list */
   List *part;                   /* The current partion */
@@ -305,13 +288,13 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
     case PARAMETER_ELEMENT:
       entry->code = 0;
       entry->flags = part->element.lst->element.elm->flags;
-      entry->next = geelms(part, stx);
+      entry->next = generateElements(part, stx);
       break;
 
     case WORD_ELEMENT:
       entry->code = part->element.lst->element.elm->id->code;
       entry->flags = 0;
-      entry->next = geelms(part, stx);
+      entry->next = generateElements(part, stx);
       break;
     }
   }
@@ -328,14 +311,8 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
 
 
 
-/*======================================================================
-
-  duelm()
-
-  Dump a Syntax element node.
-
- */
-void duelm(ElmNod *elm)
+/*======================================================================*/
+void dumpElement(Element *elm)
 {
   if (elm == NULL) {
     put("NULL");

@@ -318,24 +318,32 @@ static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
+  Context *thisContext = context;
+  Bool contextFound = FALSE;
 
-  switch (context->kind) {
-  case CLASS_CONTEXT:
-    if (context->class == NULL) syserr("Context->class == NULL in resolveThisAttribute()");
-
-    atr = findAttribute(context->class->props->attributes, attribute);
-    break;
-
-  case INSTANCE_CONTEXT:
-    if (context->instance == NULL) syserr("context->instance == NULL in resolveThisAttribute()");
-
-    atr = findAttribute(context->instance->props->attributes, attribute);
-    break;
-
-  default:
-    syserr("Unexpected context kind in resolveThisAttribute()");
+  while (!contextFound && thisContext != NULL) {
+    switch (thisContext->kind) {
+    case CLASS_CONTEXT:
+      if (thisContext->class == NULL) syserr("Context->class == NULL in resolveThisAttribute()");
+      
+      atr = findAttribute(thisContext->class->props->attributes, attribute);
+      contextFound = TRUE;
+      break;
+      
+    case INSTANCE_CONTEXT:
+      if (thisContext->instance == NULL) syserr("context->instance == NULL in resolveThisAttribute()");
+      
+      atr = findAttribute(thisContext->instance->props->attributes, attribute);
+      contextFound = TRUE;
+      break;
+      
+    default:
+      thisContext = thisContext->previous;
+    }
   }
-  if (atr == NULL)
+  if (!contextFound)
+    lmLog(&attribute->srcp, 421, sevERR, "");
+  else if (atr == NULL)
     lmLog(&attribute->srcp, 313, sevERR, attribute->string);
   return atr;
 }

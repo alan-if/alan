@@ -45,7 +45,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
     } verb;
 
     struct {
-      struct ElmNod *element;
+      struct Element *element;
       struct Symbol *class;
       Bool restrictedToContainer;
       TypeKind type;

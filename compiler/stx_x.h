@@ -18,27 +18,21 @@
 
 /* FUNCTIONS: */
 
-/* Create a new Syntax node */
-extern StxNod *newstx(Srcp *srcp,
-		      IdNode *verb,
-		      List *comps,
-		      List *ress);
+extern Syntax *newSyntax(Srcp *srcp,
+			 IdNode *verb,
+			 List *comps,
+			 List *ress);
 
-/* Create a deafult syntax node */
-extern StxNod *defaultStx(char vrbstr[]);
+/* Create a default syntax node */
+extern Syntax *defaultSyntax(char vrbstr[]);
 
 /* Compare parameter lists of two syntaxes */
-extern Bool eqparams(StxNod *stx1,
-		     StxNod *stx2);
+extern Bool eqparams(Syntax *stx1,
+		     Syntax *stx2);
 
-/* Analyze a list of Syntaxs */
-extern void anstxs(void);
-
-/* Generate code for a list of Syntaxs */
-extern Aaddr gestxs(void);
-
-/* Dump a Syntax node */
-extern void dustx(StxNod *stx);
+extern void analyzeSyntaxes(void);
+extern Aaddr generateAllSyntaxes(void);
+extern void dumpSyntax(Syntax *stx);
 
 
 #endif

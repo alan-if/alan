@@ -1,0 +1,31 @@
+########## alan inheritVerb2 ##########
+
+
+inheritVerb2.alan
+
+    7.      Does Say c.
+=====>               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+    9.    Verb v
+=====>         1
+
+  *1*   220 W : Multiple definition of verb 'v' in this context.
+
+   10.      Does Say c.
+=====>               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+   14.  Start At l.
+=====>           1
+
+  *1*   310 E : Identifier 'l' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+
+        4 error(s).
+        1 warning(s).
+        2 informational message(s).
+

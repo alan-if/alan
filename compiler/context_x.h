@@ -18,6 +18,6 @@
 /* FUNCTIONS: */
 
 extern Context *newContext(ContextKind kind);
-extern Context *copyContext(Context *context);
+extern Context *pushContext(Context *context);
 
 #endif

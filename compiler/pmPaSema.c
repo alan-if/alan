@@ -81,7 +81,7 @@ typedef struct pmGrammar {
     List *syns;
     SynNod *syn;
     List *stxs;
-    StxNod *stx;
+    Syntax *stx;
     char *str;
     List *stps;
     Step *stp;
@@ -121,7 +121,7 @@ typedef struct pmGrammar {
     List *evts;
     EvtNod *evt;
     List *elms;
-    ElmNod *elm;
+    Element *elm;
     Srcp descriptionSrcp;
     List *descriptionDoes;
     List *descriptionCheck;
@@ -329,10 +329,10 @@ int rule			/* IN production number */
     case 37: { /* <syntax_item> = ID '=' <syntax_elements> <optional_class_restrictions>; */
 #line 377 "alan.pmk"
 
-	pmSeSt[pmStkP+1].stx = newstx(&pmSySt[pmStkP+2].srcp,
+	pmSeSt[pmStkP+1].stx = newSyntax(&pmSySt[pmStkP+2].srcp,
 				  pmSeSt[pmStkP+1].id,
 				  concat(pmSeSt[pmStkP+3].elms,
-				         newelm(&pmSeSt[pmStkP+1].id->srcp, END_OF_SYNTAX,
+				         newElment(&pmSeSt[pmStkP+1].id->srcp, END_OF_SYNTAX,
 				                NULL,
 				                FALSE),
 				         ELEMENT_LIST),
@@ -353,14 +353,14 @@ int rule			/* IN production number */
     case 40: { /* <syntax_element> = ID; */
 #line 405 "alan.pmk"
 
-	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+1].id->srcp, WORD_ELEMENT,
+	pmSeSt[pmStkP+1].elm = newElment(&pmSeSt[pmStkP+1].id->srcp, WORD_ELEMENT,
 				     pmSeSt[pmStkP+1].id,
 				     FALSE);
     	break;}
     case 41: { /* <syntax_element> = '(' ID ')' <optional_indicators>; */
 #line 413 "alan.pmk"
 
-	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+2].id->srcp, PARAMETER_ELEMENT,
+	pmSeSt[pmStkP+1].elm = newElment(&pmSeSt[pmStkP+2].id->srcp, PARAMETER_ELEMENT,
 				     pmSeSt[pmStkP+2].id,
 				     pmSeSt[pmStkP+4].bits);
     	break;}

@@ -169,6 +169,7 @@ static void generateClassEntry(ClaNod *cla)
 
   entry.checks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
+  entry.verbs = cla->props->verbsAddress;
 
   emitEntry(&entry, sizeof(entry));
 }

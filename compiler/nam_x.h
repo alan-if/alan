@@ -21,8 +21,8 @@
 /* METHODS: */
 
 /* Analyse names, returns length of name text */
-extern int annams(List *names,
-		  IdNode *id,
-		  Bool caps);
+extern int analyzeNames(List *names,
+			IdNode *id,
+			Bool caps);
 
 #endif

@@ -125,7 +125,7 @@ static char *symbolKind(SymbolKind kind)
   newParameterSymbol()
 
   */
-static Symbol *newParameterSymbol(char *string, ElmNod *element)
+static Symbol *newParameterSymbol(char *string, Element *element)
 {
   Symbol *new;                  /* The newly created symnod */
   

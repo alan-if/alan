@@ -362,7 +362,7 @@ static void anexpwht(Expression *exp,
 
   case WHAT_THIS:
     if (context->kind == INSTANCE_CONTEXT || context->kind == CLASS_CONTEXT ||
-	(context->kind == VERB_CONTEXT && context->instance != NULL))
+	(context->kind == VERB_CONTEXT && (context->instance != NULL || context->class != NULL)))
       exp->type = INSTANCE_TYPE;
     else
       lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");

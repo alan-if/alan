@@ -4,8 +4,6 @@
 
   Alan compiler main program unit - command-line version
 
-  HEAD -version
-
 \*----------------------------------------------------------------------*/
 
 #include "util.h"
@@ -137,4 +135,3 @@ int main(int argc,		/* IN - argument count */
   compile();
   return(0);
 }
-
