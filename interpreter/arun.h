@@ -56,7 +56,7 @@ extern int paglen, pagwidth;
 /* Long jump buffer for retry */
 extern jmp_buf restart;
 
-extern Boolean errflg, trcflg, dbgflg, stpflg, logflg;
+extern Boolean verbose, errflg, trcflg, dbgflg, stpflg, logflg;
 extern Boolean fail;
 extern Boolean anyOutput;
 extern Boolean needsp;

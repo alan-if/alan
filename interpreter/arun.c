@@ -60,6 +60,7 @@ Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
 
+Boolean verbose = FALSE;
 Boolean errflg = TRUE;
 Boolean trcflg = FALSE;
 Boolean dbgflg = FALSE;
@@ -1657,9 +1658,11 @@ int main(argc, argv)
   header->pagwidth = 70;
   getPageSize();
 
-  if (dbgflg) {
-    printf("<Arun, Adventure Interpreter version %s>",
-	   product.version.string);
+  if (dbgflg||verbose) {
+    if (dbgflg) printf("<");
+    printf("Arun, Adventure Interpreter version %s (%s %s)",
+	   product.version.string, product.date, product.time);
+    if (dbgflg) printf(">");
     newline();
   }
   

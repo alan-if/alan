@@ -52,6 +52,9 @@ static void switches(argc, argv)
       case 'l':
 	logflg = TRUE;
 	break;
+      case 'v':
+	verbose = TRUE;
+	break;
       default:
 	printf("Unrecognized switch, -%c\n", argv[i][1]);
 	terminate(0);
