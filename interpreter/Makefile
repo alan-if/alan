@@ -52,7 +52,7 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov release: objarch arun
+debug all tcov release: objarch arun dumpacd
 
 sun4 sun3 solaris2 hp: objarch fromsrc
 
@@ -68,6 +68,9 @@ arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
+
+dumpacd: dumpacd.c
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.c
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
 	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
