@@ -62,7 +62,7 @@ void analyseWhat(what, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - analyse What */
+  /* 4f - Analyse What */
 }
 
 

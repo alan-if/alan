@@ -10,6 +10,8 @@
 
 #include "Adventure.h"
 #include "Attribute.h"
+#include "Class.h"
+#include "Symbol.h"
 #include "List.h"
 #include "Option.h"
 
@@ -191,6 +193,48 @@ void analyseAttributes(attributes)
 	sentinel = next;
     }
   }
+}
+
+
+
+/*======================================================================
+
+  addDefaultAttributes()
+
+  Add the default attribute lists to the respective class definitions.
+
+  */
+#ifdef _PROTOTYPES_
+void addDefaultAttributes(List *locationDefaults, /* IN - default attributes */
+			  List *objectDefaults,
+			  List *actorDefaults)
+#else
+void addDefaultAttributes(locationDefaults, objectDefaults, actorDefaults)
+     List *locationDefaults;
+     List *objectDefaults;
+     List *actorDefaults;
+#endif
+{
+  Symbol *symbol;
+  Class *class;
+
+  symbol = lookup("location");
+  if (symbol == NULL) syserr("Class LOCATION not defined!");
+  class = symbol->info.class;
+  if (class == NULL) syserr("Symbol LOCATION has no Class!");
+  class->slot->attributes = combine(class->slot->attributes, locationDefaults);
+
+  symbol = lookup("object");
+  if (symbol == NULL) syserr("Class OBJECT not defined!");
+  class = symbol->info.class;
+  if (class == NULL) syserr("Symbol OBJECT has no Class!");
+  class->slot->attributes = combine(class->slot->attributes, objectDefaults);
+
+  symbol = lookup("actor");
+  if (symbol == NULL) syserr("Class ACTOR not defined!");
+  class = symbol->info.class;
+  if (class == NULL) syserr("Symbol ACTOR has no Class!");
+  class->slot->attributes = combine(class->slot->attributes, actorDefaults);
 }
 
 

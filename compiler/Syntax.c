@@ -62,7 +62,7 @@ void analyseSyntax(syntax)
      Syntax *syntax;
 #endif
 {
-  /* 4f - analyse syntax */
+  /* 4f - Analyse syntax */
 }
 
 

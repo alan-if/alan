@@ -62,7 +62,9 @@ void analyseWhere(where, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - analyse Where */
+  /* 4f - Analyse Where */
+  /* 4f - If the instance is defined as a location & something else, */
+  /* 'AT id' might be rather ambigous.. */
 }
 
 

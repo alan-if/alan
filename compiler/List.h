@@ -25,6 +25,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct List *list;
     struct Script *script;
     struct Statement *statement;
+    struct Verb *verb;
     char *string;
     void *anyType;
   } element;			/* Pointer to any type of element */

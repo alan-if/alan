@@ -79,18 +79,45 @@ void analyseAdventure()
 #endif
 {
   List *list;
+  int i;
 
   prepareScores();
 
-  analyseAttributes(adventure.objectAttributes);
-  analyseAttributes(adventure.locationAttributes);
-  analyseAttributes(adventure.actorAttributes);
+  addDefaultAttributes(adventure.locationAttributes,
+		       adventure.objectAttributes,
+		       adventure.actorAttributes);
 
-  /* 4f - Do the analysis of all parts of the adventure! */
-  for (list = adventure.classes; list; list = list->next)
+  /* Do the analysis of all parts of the adventure! */
+
+  /* 4f - Analyse the syntax definitions */
+  if (verbose) printf("\n\tSyntax definitions");
+
+  /* 4f - Analyse the verbs */
+  if (verbose) printf("\n\tVerbs");
+
+  /* Analyse the classes */
+  if (verbose) {printf("\n\tClasses"); i = 0;}
+  for (list = adventure.classes; list; list = list->next) {
+    if (verbose) {printf("."); i++;}
     analyseClass(list->element.class);
-  for (list = adventure.instances; list; list = list->next)
+  }
+
+  /* Analyse the instances */
+  if (verbose) {printf("\n\tInstances"); i = 0;}
+  for (list = adventure.instances; list; list = list->next) {
+    if (verbose) {printf("."); i++;}
     analyseInstance(list->element.instance);
+  }
+
+  /* 4f - Analyse the events */
+  if (verbose) printf("\n\tEvents");
+
+  /* 4f - Analyse the rules */
+  if (verbose) printf("\n\tRules");
+
+  /* 4f - Analyse the synonyms */
+  if (verbose) printf("\n\tSynonyms");
+  if (verbose) printf("\n");
 
   /* Analyse the start section */
   if (adventure.where != NULL) 

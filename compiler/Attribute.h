@@ -54,6 +54,11 @@ extern Attribute *newAttribute(Srcp *srcp,
 			       long fpos,
 			       int len);
 
+/* Add the default attributes to the class definitions */
+extern void addDefaultAttributes(List *locationAttributes,
+				 List *objectAttributes,
+				 List *actorAttributes);
+
 /* Find a particular attribute */
 extern Attribute *findAttribute(Id *id,
 				List *attributes);

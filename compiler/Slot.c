@@ -15,6 +15,7 @@
 #include "Script.h"
 #include "Statement.h"
 #include "Symbol.h"
+#include "Verb.h"
 
 #include "dump.h"
 #include "lmList.h"
@@ -111,6 +112,8 @@ void analyseSlot(id, slot)
   Script *script;
   List *localExits;
   Exit *exit;
+  List *localVerbs;
+  Verb *verb;
 
   slot->state = LOOKING_FOR_CIRCLES;
   /* Verify that the inherited slots exist and are classes */
@@ -128,6 +131,7 @@ void analyseSlot(id, slot)
 	/* Now collect the inhertied attributes, scripts etc. into the list */
 	inheritAttributes(symbol->info.class->slot, &slot->inheritedAttributeLists);
 	inheritExits(symbol->info.class->slot, &slot->inheritedExitLists);
+	inheritVerbs(symbol->info.class->slot, &slot->inheritedVerbLists);
 	inheritScripts(symbol->info.class->slot, &slot->inheritedScriptLists);
       }
     } else			/* Not a class, remove it! */
@@ -157,7 +161,9 @@ void analyseSlot(id, slot)
 
   /* 4f - Analyse the name */
 
-  /* 4f - Analyse the where */
+  /* Analyse the where */
+  if (slot->where)
+    analyseWhere(slot->where, NULL);
 
   /* Analyse the container */
   if (slot->container) {
@@ -169,14 +175,25 @@ void analyseSlot(id, slot)
   /* Analyse the surroundings */
   if (slot->surroundings) {
     if (!anyIsA(slot->heritage, "location"))
-      lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR, id->string,
-	     "location", NULL);
-    /* 4f - Analyse the surroundings statements */
+      lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR,
+	     id->string, "location", NULL);
+    analyseStatements(slot->surroundings, NULL, NULL);
   }
 
-  /* 4f - Analyse the description */
-  /* 4f - Analyse the mentioned */
-  /* 4f - Analyse the does */
+  /* Analyse the description */
+  if (slot->description)
+    analyseStatements(slot->description, NULL, NULL);
+
+  /* Analyse the mentioned */
+  if (slot->mentioned)
+    analyseStatements(slot->mentioned, NULL, NULL);
+
+  /* Analyse the does */
+  if (slot->does) {
+    if (!anyIsA(slot->heritage, "location"))
+      lmLogv(&slot->does->srcp, 223, sevERR, id->string, "location", NULL);
+    analyseDoes(slot->does, NULL);
+  }
 
   /* Analyse the exits */
   if (slot->exits) {
@@ -198,7 +215,21 @@ void analyseSlot(id, slot)
        don't clash */
   }
 
-  /* 4f - Analyse the verbs */
+  /* Analyse the verbs */
+  if (slot->verbs) {
+    analyseVerbs(slot->verbs, NULL);
+    /* Find and resolve inherited verbs */
+    for (localVerbs = slot->verbs; localVerbs; localVerbs = localVerbs->next) {
+      List *ids;
+
+      for (ids = localVerbs->element.verb->ids; ids; ids = ids->next)
+	verb = findVerbInLists(&id->srcp, ids->element.id,
+			       slot->inheritedVerbLists);
+      /* The verbs are numbered through the symbol table ! */
+    }
+    /* 4f - check that verbs that are inherited but have no local definition
+       don't clash */
+  }
   
   /* Analyse the scripts */
   slot->state = NUMBERING_SCRIPTS;
