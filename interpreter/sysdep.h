@@ -7,12 +7,12 @@
   N.B. The test for symbols used here should really be of three types
   - processor name (like PC, x86, ...)
   - os name (DOS, WIN32, Solaris2, ...)
-  - compiler name and version (DJGPP, CYGWINB20, GCC271, THINK-C, ...)
+  - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
   The set symbols should indicate if a feature is on or off like the GNU
   AUTOCONFIG package does.
 
-  This is not done yet!
+  This is not completely done yet!
 
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
@@ -63,8 +63,12 @@
 #define __win__
 #endif
 
+#ifdef __MINGW32__
+#define __win__
+#endif
+
 #ifdef __PACIFIC__
-#define __dos__
+#define  __dos__
 #define HAVE_SHORT_FILENAMES
 #endif
 
@@ -191,17 +195,60 @@
 #define NOTCALLOC
 #endif
 
+#ifdef __MINGW32__
+#define NOTCALLOC
+#endif
+
 #ifdef __unix__
 #define NOTCALLOC
 #endif
 
 
-/* Special cases and definition overrides */
+/****************/
+/* Have termio? */
+/****************/
+
+#ifdef __CYGWIN__
+#define HAVE_TERMIO
+#endif
+
+#ifdef __unix__
+#define HAVE_TERMIO
+#endif
+
+
+/*******************************/
+/* Is ANSI control available? */
+/*******************************/
+
+#ifdef __CYGWIN__
+#define HAVE_ANSI
+#endif
+
+
+/******************************/
+/* Use the READLINE function? */
+/******************************/
 
 #ifdef __unix__
 #define USE_READLINE
+#endif
+
+#ifdef x__dos__
+#define USE_READLINE
+#endif
+
+#ifdef __win__
+#define USE_READLINE
+#endif
+
+
+/* Special cases and definition overrides */
+#ifdef __unix__
 #define MULTI
 #endif
+
+
 
 
 #ifdef __vms__

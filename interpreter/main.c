@@ -223,6 +223,39 @@ void error(msgno)
 }
 
 
+/*======================================================================
+
+  statusline()
+
+  Print the the status line on the top of the screen.
+
+  */
+void statusline(void)
+{
+#ifdef HAVE_ANSI
+  char line[100];
+  int i;
+  int pcol = col;
+
+  /* ansi_position(1,1); ansi_bold_on(); */
+  printf("\x1b[1;1H");
+  printf("\x1b[7m");
+  col = 1;
+  say(where(HERO));
+  if (header->maxscore > 0)
+    sprintf(line, "Score %d(%d)/%d moves", cur.score, (int)header->maxscore, cur.tick);
+  else
+    sprintf(line, "%d moves", cur.tick);
+  for (i=0; i < pagwidth - col - strlen(line); i++) putchar(' ');
+  printf(line);
+  printf("\x1b[m");
+  printf("\x1b[%d;1H", paglen);
+  needsp = FALSE;
+
+  col = pcol;
+#endif
+}
+
 
 /*======================================================================
 
@@ -291,6 +324,26 @@ void para()
   if (col != 1)
     newline();
   newline();
+}
+
+
+/*======================================================================
+
+  clear()
+
+  Clear the screen.
+
+ */
+#ifdef _PROTOTYPES_
+void clear(void)
+#else
+void para()
+#endif
+{
+#ifdef HAVE_ANSI
+  printf("\x1b[2J");
+  printf("\x1b[%d;1H", paglen);
+#endif
 }
 
 
@@ -555,7 +608,7 @@ void output(original)
   
   */
 #ifdef _PROTOTYPES_
-void prmsg(MsgKind msg)	/* IN - message number */
+void prmsg(MsgKind msg)		/* IN - message number */
 #else
 void prmsg(msg)
      MsgKind msg;		/* IN - message number */
@@ -1368,10 +1421,12 @@ static void load()
 
   /* No memory allocated yet? */
   if (memory == NULL) {
+#ifdef V25COMPATIBLE
     if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
       /* We need some more memory to expand 2.5 format*/
       memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1+2)*sizeof(Aword));
     else
+#endif
       memory = allocate(tmphdr.size*sizeof(Aword));
   }
   header = (AcdHdr *) addrTo(0);
@@ -1386,6 +1441,9 @@ static void load()
     crc += (memory[i]>>8)&0xff;
     crc += (memory[i]>>16)&0xff;
     crc += (memory[i]>>24)&0xff;
+#ifdef CRCLOG
+    printf("%6x\t%6lx\t%6lx\n", i, crc, memory[i]);
+#endif
   }
   if (crc != tmphdr.acdcrc) {
     sprintf(err, "Checksum error in .ACD file (0x%lx instead of 0x%lx).",
@@ -1564,6 +1622,7 @@ static void init()
     }
 
   /* Start the adventure */
+  clear();
   start();
 }
 

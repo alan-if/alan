@@ -25,7 +25,7 @@ void getPageSize(void)
 void getPageSize()
 #endif
 {
-#ifdef __sun__
+#ifdef HAVE_TERMIO
 
 #include <sys/termios.h>
 

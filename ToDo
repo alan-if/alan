@@ -1,4 +1,22 @@
 ToDo:
+	* QUIT question and prompt. "Restore, reStart or Quit (R/S/Q) ?"
+
+	* Confirmations, e.g. if the player says quit the game should
+	allow the player to change his mind. (Although not if the game
+	quit because of a false move or some such.) E.g
+
+		IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+	* Space bar in <more>
+
+	* Author modifiable prompt.
+
+	* Text formatting "statements". $b for bold? Use ANSI?
+
+	* Command line editing on DOS
+
+	* Convert regression tests to use new -l to create the output?
+
 	* Separate data and code in the .acd into two separate areas,
 	point to them from the header. This way we could more easily
 	do two things: run from disk (if memory is not large enough to

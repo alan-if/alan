@@ -20,9 +20,11 @@ Entry: -S1,2,2,4,4,8
 Entry: -DLARGE_DATA
 Entry: -DLARGE_MODEL
 Entry: -DCOMPILER='"[PacificC]"'
+Entry: -DCRCLOG
 Endlist:
 
-List: Source Files	Rel Auto
+List: Source Files	Abs Auto
+Entry: READLINE.C
 Entry: RULES.C
 Entry: PARAMS.C
 Entry: EXE.C

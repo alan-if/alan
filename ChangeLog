@@ -1,3 +1,12 @@
+Fri Mar 26 03:21:53 1999    <Thomas Nilsson@THONI>
+
+	* Introduced status line and command line editing on PC using Cygwin.
+
+Some time februari 1999
+
+	* Started to move development to PC
+	* 2.8(4)
+
 Mon Nov  9 10:25:21 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Changed the extensions on the temporary text file from .txt to .tmp

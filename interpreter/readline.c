@@ -4,17 +4,26 @@
 
  */
 
+#include "sysdep.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <unistd.h>
+
+#ifdef HAVE_TERMIO
 #include <termios.h>
+#endif
+
+#ifdef __PACIFIC__
+#include <unixio.h>
+#else
+#include <unistd.h>
+#endif
 
 #include "readline.h"
 
 #include "main.h"
 
-
+#ifdef HAVE_TERMIO
 /*----------------------------------------------------------------------*\
 
   termio handling
@@ -38,6 +47,8 @@ static void restoretermio()
 {
   tcsetattr(0, TCSANOW, &term);
 }
+
+#endif
 
 
 /*----------------------------------------------------------------------*\
@@ -124,12 +135,90 @@ static KeyMap arrowmap[] = {
 
 #endif
 
-static void beep()
+#ifdef __win__
+static KeyMap keymap[] = {
+  {0x00, 0x01, NULL},
+  {0x02, 0x02, leftArrow},
+  {0x03, 0x05, NULL},
+  {0x06, 0x06, rightArrow},
+  {0x07, 0x07, NULL},
+  {0x08, 0x08, delBwd},
+  {0x09, 0x09, NULL},
+  {0x0a, 0x0a, newLine},
+  {0x1b, 0x1b, escHook},
+  {0x1c, 0x7e, insertCh},
+  {0x7f, 0x7f, delFwd},
+  {0x80, 0xff, insertCh},
+  {0x00, 0x00, NULL}
+};
+
+static KeyMap escmap[] = {
+  {0x00, 0x5a, NULL},
+  {0x5b, 0x5b, arrowHook},
+  {0x5c, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+
+static KeyMap arrowmap[] = {
+  {0x00, 0x31, NULL},
+  {0x32, 0x32, insertToggle},
+  {0x33, 0x40, NULL},
+  {0x41, 0x41, upArrow},
+  {0x42, 0x42, downArrow},
+  {0x43, 0x43, rightArrow},
+  {0x44, 0x44, leftArrow},
+  {0x45, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+
+#endif
+
+#ifdef __dos__
+static KeyMap keymap[] = {
+  {0x00, 0x01, NULL},
+  {0x02, 0x02, leftArrow},
+  {0x03, 0x05, NULL},
+  {0x06, 0x06, rightArrow},
+  {0x07, 0x07, NULL},
+  {0x08, 0x08, delBwd},
+  {0x09, 0x09, NULL},
+  {0x0a, 0x0a, newLine},
+  {0x1b, 0x1b, escHook},
+  {0x1c, 0x7e, insertCh},
+  {0x7f, 0x7f, delFwd},
+  {0x80, 0xff, insertCh},
+  {0x00, 0x00, NULL}
+};
+
+static KeyMap escmap[] = {
+  {0x00, 0x5a, NULL},
+  {0x5b, 0x5b, arrowHook},
+  {0x5c, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+
+static KeyMap arrowmap[] = {
+  {0x00, 0x31, NULL},
+  {0x32, 0x32, insertToggle},
+  {0x33, 0x40, NULL},
+  {0x41, 0x41, upArrow},
+  {0x42, 0x42, downArrow},
+  {0x43, 0x43, rightArrow},
+  {0x44, 0x44, leftArrow},
+  {0x45, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+
+#endif
+
+
+static void doBeep(void)
 {
   write(1, "\7", 1);
 }
 
-static void backspace()
+
+static void backspace(void)
 {
   write(1, "\b", 1);
 }
@@ -156,14 +245,15 @@ static void execute(KeyMap map[], unsigned char ch)
 
   for (i = 0; i <= 256; i++) {
     if (i > 0 && map[i].min == 0x00) break; /* End marker is a 0,0,NULL */
-    if (map[i].min <= ch && ch <= map[i].max)
+    if (map[i].min <= ch && ch <= map[i].max) {
       if (map[i].hook != NULL) {
 	map[i].hook(ch);
 	return;
       } else
-	beep();
+	doBeep();
+    }
   }
-  beep();
+  doBeep();
 }
 
 
@@ -217,7 +307,7 @@ static void downArrow(char ch)
 static void rightArrow(char ch)
 {
   if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
-    beep();
+    doBeep();
   else {
     write(1, &buffer[bufidx], 1);
     bufidx++;
@@ -228,7 +318,7 @@ static void rightArrow(char ch)
 static void leftArrow(char ch)
 {
   if (bufidx == 0)
-    beep();
+    doBeep();
   else {
     bufidx--;
     backspace();
@@ -240,7 +330,7 @@ static void insertToggle(char ch)
 {
   read(0, &ch, 1);
   if (ch != 'z')
-    beep();
+    doBeep();
   else
     insert = !insert;
 }
@@ -249,7 +339,7 @@ static void insertToggle(char ch)
 static void delBwd(char ch)
 {
   if (bufidx == 0)
-    beep();
+    doBeep();
   else {
     int i;
 
@@ -267,7 +357,7 @@ static void delBwd(char ch)
 static void delFwd(char ch)
 {
   if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
-    beep();
+    doBeep();
   else {
     int i;
 
@@ -306,7 +396,7 @@ static void newLine(char ch)
 
 static void insertCh(char ch) {
   if (bufidx > LINELENGTH)
-    beep();
+    doBeep();
   else {
     /* If at end advance the NULL */
     if (buffer[bufidx] == '\0')
@@ -328,7 +418,54 @@ static void insertCh(char ch) {
 }
 
 
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
+
+  echoOff()
+
+  */
+static void echoOff()
+{
+#ifdef HAVE_TERMIO
+  newtermio();
+#else
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+
+  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+
+  (void) SetConsoleMode(handle, 0);
+
+#endif
+#endif
+}
+
+
+/*----------------------------------------------------------------------
+
+  echoOn()
+
+  */
+static void echoOn()
+{
+#ifdef HAVE_TERMIO
+  restoretermio();
+#else
+#ifdef __win__
+#include <windows.h>
+#include <winbase.h>
+#include <wincon.h>
+
+  DWORD handle = GetStdHandle(STD_INPUT_HANDLE);
+  (void) SetConsoleMode(handle, ENABLE_ECHO_INPUT);
+
+#endif
+#endif
+}
+
+
+/*======================================================================
 
   readline()
 
@@ -344,16 +481,16 @@ Boolean readline(char usrbuf[])
   histp = histidx;
   buffer[0] = '\0';
   change = TRUE;
-  newtermio();
+  echoOff();
   endOfInput = 0;
   while (!endOfInput) {
     if (read(0, &ch, 1) != 1) {
-      restoretermio();
+      echoOn();
       return FALSE;
     }
     execute(keymap, ch);
   }
-  restoretermio();
+  echoOn();
   strcpy(usrbuf, (char *)buffer);  
   return TRUE;
 }

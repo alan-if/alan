@@ -71,7 +71,7 @@ extern void terminate(int code);
 extern void usage(void);
 extern void error(MsgKind msg);
 extern void syserr(char *msg);
-
+extern void statusline(void);
 extern void output(char string[]);
 extern void prmsg(MsgKind msg);
 extern void para(void);
@@ -102,6 +102,7 @@ extern void syserr();
 extern void usage();
 extern void error();
 extern void output();
+extern void statusline();
 extern void prmsg();
 extern void print();
 extern void para();

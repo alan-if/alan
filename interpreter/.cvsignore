@@ -21,3 +21,5 @@ version.h
 *.OBJ
 *.MAP
 *.SYM
+alan.version.h
+alan.version.c

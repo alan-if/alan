@@ -186,6 +186,9 @@ static void getline()
 {
   para();
   do {
+#ifdef HAVE_ANSI
+    statusline();
+#endif
     printf("> ");
     if (logflg)
       fprintf(logfil, "> ");

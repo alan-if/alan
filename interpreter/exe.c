@@ -213,6 +213,7 @@ void quit()
 #endif
 {
   char buf[80];
+  char choices[10];
 
   para();
   while (TRUE) {
@@ -862,8 +863,6 @@ static void locact(act, whr)
 	para();
       say(where(HERO));
       prmsg(M_AGAIN);
-      needsp = FALSE;
-      output(".");
       newline();
       dscrobjs();
       dscracts();

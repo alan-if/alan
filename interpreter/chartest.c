@@ -28,15 +28,12 @@ void main()
   int endOfInput = 0;
   char ch;
 
-  newtermio();
   while (!endOfInput) {
     fflush(stdout);
     if (read(0, &ch, 1) != 1) {
-      restoretermio();
       return;
     }
     printf("%d %x '%c'\n", (int)ch, (int)ch, ch);
   }
-  restoretermio();
   return;
 }

@@ -1,8 +1,16 @@
 # Makefile for Alan interpreter to be built with CygWin
 
-CFLAGS = -g -Wall -funsigned-char -D__win__ -mno-cygwin -DCOMPILER=\"[CygWinb20]\"
+#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin -I/cygnus/mingw/include -L/cygnus/mingw/lib
+#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin
+CYGWIN =  -DCOMPILER=\"[CygWinb20]\"
 
-LDFLAGS = -g -mno-cygwin
+# Define this to make interpreter log each crc calculation step
+#CRCLOG = -DCRCLOG
+
+CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(VERBOSE) $(CRCLOG)
+
+LDFLAGS = -g $(CYGWIN) $(VERBOSE)
+LIB = ../../Glk/WinGlk/Glk.lib
 
 OBJECTS = arun.o \
 	main.o \
@@ -16,13 +24,14 @@ OBJECTS = arun.o \
 	decode.o \
 	term.o \
 	reverse.o \
+	readline.o \
 	params.o \
 	sysdep.o \
 	alan.version.o
 
 
 arun.exe : $(OBJECTS)
-	gcc -o arun.exe $(OBJECTS) $(LDFLAGS)
+	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
 	cp arun.exe ../bin
 
 dumpacd: dumpacd.o spa.o
