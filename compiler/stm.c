@@ -230,7 +230,7 @@ static void anlocate(stm, evt, pars)
     else if (stm->fields.locate.wht->wht == WHT_ID)
       if (sym != NULL && sym->class == NAMACT)
 	lmLog(&stm->srcp, 402, sevERR, "");
-      else if (elm != NULL && elm->cla != NULL && ((elm->cla->classes & NAMACT) != 0 || (elm->cla->classes & NAMCACT) != 0))
+      else if (elm != NULL && elm->res != NULL && ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0))
 	lmLog(&stm->srcp, 402, sevERR, "");
     break;
   case WHR_NEAR:
@@ -301,10 +301,10 @@ static void anmake(stm, evt, pars)
     if (elm) {
       /* If it was a parameter then it must be a single class and the */
       /* attribute a default attribute for that class */
-      if (elm->cla == NULL || elm->cla->single) {
-	if (elm->cla == NULL || elm->cla->classes == NAMOBJ || elm->cla->classes == NAMCOBJ)
+      if (elm->res == NULL || elm->res->single) {
+	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
 	  atr = findatr(stm->fields.make.atr->str, adv.oatrs);
-	else if (elm->cla->classes == NAMACT || elm->cla->classes == NAMCACT)
+	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
 	  atr = findatr(stm->fields.make.atr->str, adv.aatrs);
 	else
 	  lmLog(&stm->fields.make.wht->nam->srcp, 997, sevSYS,
@@ -414,10 +414,10 @@ static void anset(stm, evt, pars)
     if (elm) {
       /* If it was a parameter then it must be a single class and the */
       /* attribute a default attribute for that class */
-      if (elm->cla == NULL || elm->cla->single) {
-	if (elm->cla == NULL || elm->cla->classes == NAMOBJ || elm->cla->classes == NAMCOBJ)
+      if (elm->res == NULL || elm->res->single) {
+	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
 	  atr = findatr(stm->fields.set.atr->str, adv.oatrs);
-	else if (elm->cla->classes == NAMACT || elm->cla->classes == NAMCACT)
+	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
 	  atr = findatr(stm->fields.set.atr->str, adv.aatrs);
 	else
 	  lmLog(&stm->fields.set.wht->nam->srcp, 997, sevSYS,
@@ -527,10 +527,10 @@ static void anincr(stm, evt, pars)
     if (elm) {
       /* If it was a parameter then it must be a single class and the */
       /* attribute a default attribute for that class */
-      if (elm->cla == NULL || elm->cla->single) {
-	if (elm->cla == NULL || elm->cla->classes == NAMOBJ || elm->cla->classes == NAMCOBJ)
+      if (elm->res == NULL || elm->res->single) {
+	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
 	  atr = findatr(stm->fields.incr.atr->str, adv.oatrs);
-	else if (elm->cla->classes == NAMACT || elm->cla->classes == NAMCACT)
+	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
 	  atr = findatr(stm->fields.incr.atr->str, adv.aatrs);
 	else
 	  lmLog(&stm->fields.incr.wht->nam->srcp, 997, sevSYS,

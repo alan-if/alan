@@ -22,12 +22,12 @@ typedef struct StxNod {		/* SYNTAX */
   Srcp srcp;			/* Source position of this syntax */
   NamNod *nam;			/* Name of the verb */
   List *elms;			/* List of elements */
-  List *clas;			/* List of class definitions */
+  List *ress;			/* List of class restrictions */
   List *pars;			/* AN - List of parameters */
   Boolean generated;		/* AN - Already generated? */
   Aaddr elmsadr;		/* GE - Address to element table for */
 				/* all stxs with the same first word */
-  Aaddr claadr;			/* GE - Address to class checks */
+  Aaddr resadr;			/* GE - Address to class restriction checks */
 } StxNod;
 
 
@@ -42,7 +42,7 @@ typedef struct StxNod {		/* SYNTAX */
 extern StxNod *newstx(Srcp *srcp,
 		      NamNod *verb,
 		      List *comps,
-		      List *classes);
+		      List *ress);
 
 /* Create a deafult syntax node */
 extern StxNod *defaultStx(char vrbstr[]);

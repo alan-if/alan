@@ -36,17 +36,17 @@
 
  */
 #ifdef _PROTOTYPES_
-StxNod *newstx(Srcp *srcp, NamNod *nam, List *elms, List *clas)
+StxNod *newstx(Srcp *srcp, NamNod *nam, List *elms, List *ress)
                 		/* IN - Source Position */
                  		/* IN - Name of the verb it defines */
                 		/* IN - List of elements */
-                		/* IN - List of class definitions */
+                		/* IN - List of class restrictions */
 #else
-StxNod *newstx(srcp, nam, elms, clas)
+StxNod *newstx(srcp, nam, elms, ress)
      Srcp *srcp;		/* IN - Source Position */
      NamNod *nam;		/* IN - Name of the verb it defines */
      List *elms;		/* IN - List of elements */
-     List *clas;		/* IN - List of class definitions */
+     List *ress;		/* IN - List of class restrictions */
 #endif
 {
   StxNod *new;			/* The newly created node */
@@ -56,7 +56,7 @@ StxNod *newstx(srcp, nam, elms, clas)
   new->srcp = *srcp;
   new->nam = nam;
   new->elms = elms;
-  new->clas = clas;
+  new->ress = ress;
 
   new->generated = FALSE;
 
@@ -93,8 +93,8 @@ static void anstx(stx)
     stx->nam->code = sym->code;
   }
 
-  stx->pars = anelms(stx->elms, stx->clas, stx);
-  anclas(stx->clas, stx->pars);
+  stx->pars = anelms(stx->elms, stx->ress, stx);
+  anress(stx->ress, stx->pars);
 
   /* Link the last syntax element to this stx to prepare for code generation */
   stx->elms->tail->element.elm->stx = stx;
@@ -283,9 +283,9 @@ Aaddr gestxs()
   List *lst;
   Aaddr stxadr;
 
-  /* First generate all class checks */
+  /* First generate all class restriction checks */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    lst->element.stx->claadr = geclas(lst->element.stx->clas, lst->element.stx);
+    lst->element.stx->resadr = geress(lst->element.stx->ress, lst->element.stx);
 
   /* Then the actual stxs */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
@@ -325,7 +325,7 @@ void dustx(stx)
   put("generated: "); duBoolean(stx->generated); nl();
   put("elmsadr: "); duint(stx->elmsadr); nl();
   put("elms: "); dulst(stx->elms, ELMNOD); nl();
-  put("claadr: "); duint(stx->claadr); nl();
-  put("clas: "); dulst(stx->clas, CLANOD); nl();
+  put("resadr: "); duint(stx->resadr); nl();
+  put("ress: "); dulst(stx->ress, RESNOD); nl();
   put("pars: "); dulst(stx->pars, ELMNOD); out();
 }

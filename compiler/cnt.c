@@ -179,10 +179,10 @@ void cntcheck(wht, pars)
     if (pars == NULL)
       lmLog(&wht->srcp, 409, sevERR, "");
     else
-      if (pars->element.elm->cla == NULL ||
-	  (pars->element.elm->cla->classes & NAMCNT) ||
-	  (pars->element.elm->cla->classes & NAMCOBJ) ||
-	  (pars->element.elm->cla->classes & NAMCACT))
+      if (pars->element.elm->res == NULL ||
+	  (pars->element.elm->res->classes & NAMCNT) ||
+	  (pars->element.elm->res->classes & NAMCOBJ) ||
+	  (pars->element.elm->res->classes & NAMCACT))
 	lmLog(&wht->srcp, 312, sevERR, "a Container");
     break;
 

@@ -35,7 +35,7 @@
 #include "stp.h"                /* STP-nodes */
 #include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
-#include "cla.h"                /* CLA-nodes */
+#include "res.h"                /* RES-nodes */
 #include "scr.h"                /* SCR-nodes */
 #include "act.h"                /* ACT-nodes */
 #include "evt.h"                /* EVT-nodes */
@@ -110,8 +110,8 @@ static int val(str)
 	stxs %% List *%1%%,
 	elm %% ElmNod *%1%%,
 	elms %% List *%1%%,
-	cla %% ClaNod *%1%%,
-	clas %% List *%1%%,
+	res %% ResNod *%1%%,
+	ress %% List *%1%%,
 	classkd %% NamKind %1%%,
 	single %% Boolean %1%%,
 	syn %% SynNod *%1%%,
@@ -369,12 +369,12 @@ syntax_list
     ;
 
 syntax_item
-    = ID '=' syntax_elements optional_element_classes
+    = ID '=' syntax_elements optional_class_restrictions
     %%
 	%syntax_item.stx = newstx(`&%'='.srcp,
 				  newnam(`&%ID.srcp, %ID.chars),
 				  %syntax_elements.elms,
-				  %optional_element_classes.clas);
+				  %optional_class_restrictions.ress);
     %%
     ;
 
@@ -421,35 +421,35 @@ optional_multiple_indicator
 
     ;
 
-optional_element_classes
+optional_class_restrictions
     = '.'
     %%
-	%optional_element_classes.clas = NULL;
+	%optional_class_restrictions.ress = NULL;
     %%
 
-    ! 'WHERE' element_classes
+    ! 'WHERE' class_restrictions
     %%
-	%optional_element_classes.clas = %element_classes.clas;
+	%optional_class_restrictions.ress = %class_restrictions.ress;
     %%
     ;
 
-element_classes
-    = element_class
+class_restrictions
+    = class_restriction
     %%
-	%element_classes.clas = concat(NULL, %element_class.cla);
+	%class_restrictions.ress = concat(NULL, %class_restriction.res);
     %%
 
-    ! element_classes 'AND' element_class
+    ! class_restrictions 'AND' class_restriction
     %%
-	%element_classes.clas = concat(%element_classes.clas,
-				       %element_class.cla);
+	%class_restrictions.ress = concat(%class_restrictions.ress,
+				       %class_restriction.res);
     %%
     ;
 
-element_class
+class_restriction
     = ID 'ISA' classes 'ELSE' statements
     %%
-	%element_class.cla = newcla(`&%'ISA'.srcp,
+	%class_restriction.res = newres(`&%'ISA'.srcp,
 				    newnam(`&%ID.srcp, %ID.chars),
 				    %classes.single,
 				    %classes.classkd,
@@ -458,53 +458,53 @@ element_class
     ;
 
 classes
-    = class
+    = class_identifier
     %%
-	%classes.classkd = %class.classkd;
+	%classes.classkd = %class_identifier.classkd;
         %classes.single = TRUE;
     %%
 
-    ! classes 'OR' class
+    ! classes 'OR' class_identifier
     %%
-	%classes.classkd = %classes.classkd | %class.classkd;
+	%classes.classkd = %classes.classkd | %class_identifier.classkd;
         %classes.single = FALSE;
     %%
     ;
 
-class
+class_identifier
     = 'OBJECT'
     %%
-	%class.classkd = NAMOBJ;
+	%class_identifier.classkd = NAMOBJ;
     %%
 
     ! 'ACTOR'
     %%
-	%class.classkd = NAMACT;
+	%class_identifier.classkd = NAMACT;
     %%
 
     ! 'CONTAINER'
     %%
-	%class.classkd = NAMCNT;
+	%class_identifier.classkd = NAMCNT;
     %%
 
     ! 'CONTAINER' 'OBJECT'
     %%
-	%class.classkd = NAMCOBJ;
+	%class_identifier.classkd = NAMCOBJ;
     %%
 
     ! 'CONTAINER' 'ACTOR'
     %%
-	%class.classkd = NAMCACT;
+	%class_identifier.classkd = NAMCACT;
     %%
 
     ! 'INTEGER'
     %%
-	%class.classkd = NAMNUM;
+	%class_identifier.classkd = NAMNUM;
     %%
 
     ! 'STRING'
     %%
-	%class.classkd = NAMSTR;
+	%class_identifier.classkd = NAMSTR;
     %%
     ;    
 

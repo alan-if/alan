@@ -36,7 +36,6 @@ SRCS = \
 	alt.c \
 	atr.c \
 	chk.c \
-	cla.c \
 	cnt.c \
 	elm.c \
 	evt.c \
@@ -49,6 +48,7 @@ SRCS = \
 	nam.c \
 	obj.c \
 	opt.c \
+	res.c \
 	rul.c \
 	sco.c \
 	scr.c \
@@ -170,11 +170,11 @@ clean:
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER =
 depend:
-	@cvs update
 	@echo "Updating dependencies.mk, Makefile.amiga"
+	@echo > dependecies.mk
 	@for f in *.c; \
 	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> "dependencies.mk"; \
+	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"

@@ -13,7 +13,6 @@
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "stx.h"		/* STX-nodes */
-#include "cla.h"		/* CLA-nodes */
 #include "nam.h"		/* NAM-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
@@ -67,7 +66,7 @@ ElmNod *newelm(srcp, kind, nam, multiple)
   new->kind = kind;
   new->nam = nam;
   new->multiple = multiple;
-  new->cla = NULL;
+  new->res = NULL;
 
   return(new);
 }
@@ -115,18 +114,18 @@ static void anelm(elm)
 #ifdef _PROTOTYPES_
 List *anelms(
      List *elms,		/* IN - List to analyze */
-     List *clas,		/* IN - The class definitions */
+     List *ress,		/* IN - The class restrictions */
      StxNod *stx		/* IN - The stx we're in */
 )
 #else
-List *anelms(elms, clas, stx)
+List *anelms(elms, ress, stx)
      List *elms;		/* IN - List to analyze */
-     List *clas;		/* IN - The class definitions */
+     List *ress;		/* IN - The class restrictions */
      StxNod *stx;		/* IN - The stx we're in */
 #endif
 {
   ElmNod *elm = elms->element.elm; /* Set to be the first */
-  List *lst, *claLst, *pars = NULL;
+  List *lst, *resLst, *pars = NULL;
   int paramNo = 1;
   Boolean multiple = FALSE;
   Boolean found;
@@ -139,7 +138,7 @@ List *anelms(elms, clas, stx)
     elm->nam->code = newwrd(elm->nam->str, WRD_VRB, 0, (void *)stx);
   }
 
-  /* Analyze the elements, number the parameters and find the class def */
+  /* Analyze the elements, number the parameters and find the class res */
   /* Start with the second since the first is analyzed above */
   for (lst = elms->next; lst != NULL; lst = lst->next) {
     if (lst->element.elm->kind == ELMPAR) {
@@ -152,17 +151,17 @@ List *anelms(elms, clas, stx)
       }
       pars = concat(pars, lst->element.elm);
 
-      /* Find any class checks and warn for multiple for same parameter */
+      /* Find any class restrictions and warn for multiple for same parameter */
       found = FALSE;
-      for (claLst = clas; claLst; claLst = claLst->next) {
-	if (eqnams(claLst->element.cla->nam, lst->element.elm->nam)) {
+      for (resLst = ress; resLst; resLst = resLst->next) {
+	if (eqnams(resLst->element.res->nam, lst->element.elm->nam)) {
 	  if (found)
-	    lmLog(&claLst->element.cla->nam->srcp, 221, sevERR, claLst->element.cla->nam->str);
+	    lmLog(&resLst->element.res->nam->srcp, 221, sevERR, resLst->element.res->nam->str);
 	  else {
 	    found = TRUE;
-	    lst->element.elm->cla = claLst->element.cla;
-	    claLst->element.cla->nam->kind = NAMPAR;
-	    claLst->element.cla->nam->code = lst->element.elm->no;
+	    lst->element.elm->res = resLst->element.res;
+	    resLst->element.res->nam->kind = NAMPAR;
+	    resLst->element.res->nam->code = lst->element.elm->no;
 	  }
 	}
       }
@@ -216,7 +215,7 @@ static Boolean eqElms(elm1, elm2)
   advance()
 
   Advances a whole list of elmList pointers parallell to their next elm.
-  Returns the address to the generated class checks for any syntax that
+  Returns the address to the generated class restrictions for any syntax that
   was terminated here.
 
   */
@@ -229,14 +228,14 @@ static Aaddr advance(elmsList)
 #endif
 {
   List *elms;
-  Aaddr claadr = 0;		/* Saved address to class checks */
+  Aaddr resadr = 0;		/* Saved address to class restriction */
 
   for (elms = elmsList; elms != NULL; elms = elms->next) {
     if (elms->element.lst->next == NULL)
-      claadr = elms->element.lst->element.elm->stx->claadr;
+      resadr = elms->element.lst->element.elm->stx->resadr;
     elms->element.lst = elms->element.lst->next;
   }
-  return claadr;
+  return resadr;
 }
 
 
@@ -273,7 +272,7 @@ static List *first(listP)
   Partitions a list of elmLists into one list containing all elms
   equal to the first one, and one list containing the rest of the list.
   If there is a empty element in the list make sure we take that one
-  first since the address to its class checks is already saved up in
+  first since the address to its class restrictions is already saved up in
   geelms().
 
   */
@@ -351,7 +350,7 @@ Aaddr geelms(elms)
 {
   List *lst;			/* Traversal list */
   List *part;			/* The current partion */
-  Aaddr elmadr, claadr;
+  Aaddr elmadr, resadr;
   List *entries = NULL;		/* List of next level entries */
   ElmEntry *entry;		/* One entry in the list */
 
@@ -359,7 +358,7 @@ Aaddr geelms(elms)
     return 0;		/* End of chain */
 
   /* Move all to their next elm */
-  claadr = advance(elms);
+  resadr = advance(elms);
 
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
     /* Make one entry for this partition */
@@ -373,8 +372,8 @@ Aaddr geelms(elms)
 	/* 4f_ni - Log err message for equal syntax */
 	;
       entry->code = EOS;	/* End Of Syntax */
-      /* Point to the generated class table */
-      entry->adr = claadr;
+      /* Point to the generated class restriction table */
+      entry->adr = resadr;
     } else {
       if (part->element.lst->element.elm->kind == ELMPAR) {
 	/* A parameter! */

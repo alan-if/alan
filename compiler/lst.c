@@ -16,7 +16,7 @@
 #include "alt.h"
 #include "atr.h"
 #include "chk.h"
-#include "cla.h"
+#include "res.h"
 #include "cnt.h"
 #include "elm.h"
 #include "evt.h"
@@ -121,7 +121,7 @@ static void dunod(nod, class)
   case ALTNOD: dualt(nod); break;
   case ATRNOD: duatr(nod); break;
   case CHKNOD: duchk(nod); break;
-  case CLANOD: ducla(nod); break;
+  case RESNOD: dures(nod); break;
   case CNTNOD: ducnt(nod); break;
   case ELMNOD: duelm(nod); break;
   case EVTNOD: duevt(nod); break;

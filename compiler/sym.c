@@ -284,7 +284,7 @@ void symcheck(sym, elm, nam, classes, props, pars)
     nam->kind = NAMPAR;		/* Remember it is a parameter */
     nam->code = (*elm)->no;
     /* Check if classes match */
-    if ((*elm)->cla == NULL) {
+    if ((*elm)->res == NULL) {
       /* No definition, assume OBJECT */
       if ((classes & NAMOBJ) == 0) {
 	lmLog(&nam->srcp, 312, sevERR, symstr(classes));
@@ -292,7 +292,7 @@ void symcheck(sym, elm, nam, classes, props, pars)
       }
     } else {
       /* Check its defined classes */
-      elmclasses = (*elm)->cla->classes & (~NAMCNT); /* Ignore container prop */
+      elmclasses = (*elm)->res->classes & (~NAMCNT); /* Ignore container prop */
       if ((classes & elmclasses) != elmclasses ) {
 	lmLog(&nam->srcp, 312, sevERR, symstr(classes));
 	*elm = NULL;
@@ -306,7 +306,7 @@ void symcheck(sym, elm, nam, classes, props, pars)
 	  /* Check properties */
 	  if (props != NAMANY) {
 	    if ((elmclasses & NAMCACT) == 0 && (elmclasses & NAMCOBJ) == 0 &&
-		(*elm)->cla->classes & props != props)
+		(*elm)->res->classes & props != props)
 	    lmLog(&nam->srcp, 312, sevERR, symstr(props));
 	    *elm = NULL;
 	  }

@@ -242,10 +242,10 @@ static void anatr(exp, evt, pars)
     /* and the attribute a default attribute for that class */
     atr = NULL;
     if (elm) {
-      if (elm->cla == NULL || elm->cla->single) {
-	if (elm->cla == NULL || (elm->cla->classes & NAMOBJ != 0) || (elm->cla->classes & NAMCOBJ) != 0)
+      if (elm->res == NULL || elm->res->single) {
+	if (elm->res == NULL || (elm->res->classes & NAMOBJ != 0) || (elm->res->classes & NAMCOBJ) != 0)
 	  atr = findatr(exp->fields.atr.atr->str, adv.oatrs);
-	else if ((elm->cla->classes & NAMACT) != 0 || (elm->cla->classes & NAMCACT) != 0)
+	else if ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0)
 	  atr = findatr(exp->fields.atr.atr->str, adv.aatrs);
 	else
 	  lmLog(&exp->fields.atr.atr->srcp, 406, sevERR, "");
@@ -476,10 +476,10 @@ static void anexpwht(exp, evt, pars)
   case WHT_ID:
     symcheck(&sym, &par, exp->fields.wht.wht->nam, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
     if (par) {
-      if (par->cla)
-	if (par->cla->classes & (NAMACT+NAMOBJ+NAMLOC+NAMCOBJ+NAMCACT+NAMCNT))
+      if (par->res)
+	if (par->res->classes & (NAMACT+NAMOBJ+NAMLOC+NAMCOBJ+NAMCACT+NAMCNT))
 	  exp->typ = TYPENT;
-	else if (par->cla->classes & NAMSTR)
+	else if (par->res->classes & NAMSTR)
 	  exp->typ = TYPSTR;
         else
 	  exp->typ = TYPINT;
