@@ -22,12 +22,15 @@
 #include "lmList.h"
 
 
+/* PUBLIC DATA */
+
+ClaNod *thing, *object, *location, *actor;
+
+
 
 /* PRIVATE DATA */
 
 static List *allClasses = NULL;
-
-static ClaNod *thing, *object, *location, *actor;
 
 
 

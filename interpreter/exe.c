@@ -1113,10 +1113,8 @@ void sayarticle(id)
      Aword id;
 #endif
 {
-  if (!isObj(id))
-    syserr("Trying to say article of something *not* an object.");
-  if (objs[id-OBJMIN].art != 0)
-    interpret(objs[id-OBJMIN].art);
+  if (instance[id].article != 0)
+    interpret(instance[id].article);
   else
     prmsg(M_ARTICLE);
 }
@@ -1153,18 +1151,6 @@ void say(id)
   describe()
 
   */
-
-#ifdef _PROTOTYPES_
-static void dscrloc(Aword loc)
-#else
-static void dscrloc(loc)
-     Aword loc;
-#endif
-{
-  if (locs[loc-LOCMIN].dscr != 0)
-    interpret(locs[loc-LOCMIN].dscr);
-}
-
 
 #ifdef _PROTOTYPES_
 static void dscrobj(Aword obj)
@@ -1398,8 +1384,8 @@ void dscrobjs()
       describe(i);
 
   /* Then list everything else here */
-  for (i = OBJMIN; i <= OBJMAX; i++)
-    if (instance[i].location == cur.loc &&
+  for (i = 1; i <= header->instanceMax; i++)
+    if (instance[i].location == cur.loc && isA(i, OBJECT) &&
 	instance[i].describe) {
       if (!found) {
 	prmsg(M_SEEOBJ1);

@@ -170,8 +170,8 @@ void anadv(void)
   analyzeClasses();
 
   if (verbose) printf("\n\tInstaces: ");
-  theHero->slots->whr = adv.whr;
   analyzeInstances();
+  theHero->slots->whr = adv.whr;
 
   if (verbose) printf("\n\tEvents: ");
   anevts();
@@ -204,7 +204,7 @@ void anadv(void)
   */
 static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
 {
-  hdr->theHero = theHero->symbol->code;
+  hdr->theHero = theHero->slots->symbol->code;
 
 #ifdef FIXME
   hdr->objmin = objmin;

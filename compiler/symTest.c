@@ -101,9 +101,9 @@ void testInherit2()
   unitAssert(inheritsFrom(sym1, sym2));
   unitAssert(inheritsFrom(sym2, sym3));
   unitAssert(inheritsFrom(sym1, sym3));
+  unitAssert(inheritsFrom(sym3, sym3));
 
   unitAssert(!inheritsFrom(sym3, sym1));
-  unitAssert(!inheritsFrom(sym3, sym3));
   unitAssert(!inheritsFrom(sym3, sym2));
 }
 
@@ -133,8 +133,7 @@ void testSymbolTableInit()
   unitAssert(inheritsFrom(object, thing));
   unitAssert(inheritsFrom(location, thing));
   unitAssert(inheritsFrom(actor, thing));
-
-  unitAssert(!inheritsFrom(thing, thing));
+  unitAssert(inheritsFrom(thing, thing));
 
   setParent(sym1, object);
   setParent(sym2, actor);

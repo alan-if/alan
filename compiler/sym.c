@@ -245,7 +245,7 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
       ancestor->kind != CLASS_SYMBOL)
     syserr("Not a CLASS or INSTANCE in inheritsFrom()");
 
-  p = child->fields.cla.parent;
+  p = child;			/* To be the class itself is OK */
   while (p && p != ancestor)
     p = p->fields.cla.parent;
 
@@ -276,6 +276,7 @@ SymNod *symcheck(		/* OUT - Found symbol */
   return sym;
 }
 
+
 /*======================================================================
 
   inheritCheck
@@ -288,7 +289,7 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 {
   SymNod *theClassSymbol = lookup(className);
 
-  if (theClassSymbol == NULL) syserr("There is no such class in classCheck()");
+  if (theClassSymbol == NULL) syserr("There is no such class in inheritCheck()");
 
   if (!inheritsFrom(id->symbol, theClassSymbol))
     lmLogv(&id->srcp, 351, sevERR, classOrInstance, "location", NULL);

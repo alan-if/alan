@@ -12,7 +12,8 @@
 
 
 /* DATA: */
-extern int classCount;
+extern ClaNod *thing, *object, *location, *actor;
+
 
 /* METHODS: */
 extern void initClasses();

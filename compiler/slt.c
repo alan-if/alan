@@ -14,11 +14,14 @@
 #include "util.h"
 #include "dump.h"
 #include "emit.h"
+#include "lmList.h"
 
 #include "stm.h"
 
 #include "nam_x.h"
 #include "whr_x.h"
+#include "cla_x.h"
+#include "sym_x.h"
 #include "cnt_x.h"
 #include "id_x.h"
 
@@ -76,6 +79,31 @@ SlotsNode *newSlots(List *names,
 
 
 
+/*----------------------------------------------------------------------
+
+  symbolizeParent()
+
+  Symbolize parent of a Slots node.
+
+ */
+static void symbolizeParent(SlotsNode *slots)
+{
+  SymNod *parent;
+
+  if (slots->parent != NULL) {
+    parent = lookup(slots->parent->string);
+    if (parent == NULL)
+      lmLog(&slots->parent->srcp, 310, sevERR, slots->parent->string);
+    else if (parent->kind != CLASS_SYMBOL)
+      lmLog(&slots->parent->srcp, 350, sevERR, "");
+    else {
+      slots->parent->symbol = parent;
+      setParent(slots->symbol, slots->parent->symbol);
+    }
+  }
+}
+
+
 /*======================================================================
 
   symbolizeSlots()
@@ -85,9 +113,38 @@ SlotsNode *newSlots(List *names,
  */
 void symbolizeSlots(SlotsNode *slots)
 {
+  symbolizeParent(slots);
   symbolizeWhr(slots->whr);
 }
 
+
+/*----------------------------------------------------------------------
+
+  analyzeMentioned()
+
+*/
+
+void analyzeMentioned(SlotsNode *slots)
+{
+  long fpos;
+  int len = 0;
+  StmNod *stm;
+
+  if (slots->mentioned == NULL) {
+    /* Generate a mentioned from the first of the names */
+    /* First output the formated name to the text file */
+    fpos = ftell(txtfil);
+    len = annams(slots->names, slots->id,
+		 inheritsFrom(slots->symbol, location->symbol));
+
+    /* Then create a PRINT statement */
+    stm = newstm(&nulsrcp, STM_PRINT);
+    stm->fields.print.fpos = fpos;
+    stm->fields.print.len = len;
+    slots->mentioned = concat(NULL, stm, STM_LIST);
+  } else
+    anstms(slots->mentioned, NULL, NULL, NULL);
+}
 
 /*======================================================================
 
@@ -98,24 +155,8 @@ void symbolizeSlots(SlotsNode *slots)
  */
 void analyzeSlots(SlotsNode *slots)
 {
-  long fpos;
-  int len = 0;
-  StmNod *stm;
-
-  if (slots->mentioned == NULL) {
-    /* Generate a mentioned from the first of the names */
-    /* First output the formated name to the text file */
-    fpos = ftell(txtfil);
-    len = annams(slots->names, slots->id, TRUE);
-
-    /* Then create a PRINT statement */
-    stm = newstm(&nulsrcp, STM_PRINT);
-    stm->fields.print.fpos = fpos;
-    stm->fields.print.len = len;
-    slots->mentioned = concat(NULL, stm, STM_LIST);
-  } else
-    anstms(slots->mentioned, NULL, NULL, NULL);
-
+  if (slots->whr != NULL) verifyAtLocation(slots->whr);
+  analyzeMentioned(slots);
 }
 
 
@@ -131,15 +172,15 @@ void generateSlotsData(SlotsNode *slots)
   slots->idAddress = emadr();
   emitstr(slots->id->string);
 
-  slots->mentionedAddress = emadr();
-  gestms(slots->mentioned, NULL);
-  emit0(C_STMOP, I_RETURN);
-
   if (slots->description != NULL) {
     slots->descriptionAddress = emadr();
     gestms(slots->description, NULL);
     emit0(C_STMOP, I_RETURN);
   }
+
+  slots->mentionedAddress = emadr();
+  gestms(slots->mentioned, NULL);
+  emit0(C_STMOP, I_RETURN);
 
 }
 
@@ -153,6 +194,14 @@ void generateSlotsData(SlotsNode *slots)
  */
 void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
 {
+  entry->code = slots->symbol->code; /* First own code */
+  entry->idAddress = slots->idAddress; /* Address to the id string */
+
+  if (slots->parent == NULL)	/* Then parents */
+    entry->parent = 0;
+  else
+    entry->parent = slots->parent->symbol->code;
+
   entry->location = generateInitialLocation(slots->whr);
   entry->attributes = slots->atradr;
   entry->description = slots->descriptionAddress;

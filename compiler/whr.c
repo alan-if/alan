@@ -78,6 +78,27 @@ void symbolizeWhr(WhrNod *whr)
 
 /*======================================================================
 
+  verifyAtLocation()
+
+*/
+void verifyAtLocation(WhrNod *whr)
+{
+  switch (whr->kind) {
+  case WHR_AT:
+    if (whr->wht->kind == WHT_ID) {
+      inheritCheck(whr->wht->id, "an instance", "location");
+    } else
+      lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
+    break;
+  default:
+      lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
+    break;
+  }
+}
+
+
+/*======================================================================
+
   analyzeWhere()
 
   Analyse a where reference.

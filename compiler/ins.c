@@ -62,44 +62,20 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new = NEW(InsNod);
 
   new->srcp = *srcp;
-  new->parent = parent;
   if (slt)
     new->slots = slt;
   else
     new->slots = newEmptySlots();
   new->slots->id = id;
-  new->symbol = newsym(id->string, INSTANCE_SYMBOL);
+  new->slots->parent = parent;
+
+  new->slots->symbol = newsym(id->string, INSTANCE_SYMBOL);
 
   allInstances = concat(allInstances, new, LIST_INS);
 
   return(new);
 }
 
-
-
-/*----------------------------------------------------------------------
-
-  symbolizeInstanceParent()
-
-  Symbolize a Instance parent node.
-
- */
-static void symbolizeInstanceParent(InsNod *ins)
-{
-  SymNod *parent;
-
-  if (ins->parent != NULL) {
-    parent = lookup(ins->parent->string);
-    if (parent == NULL)
-      lmLog(&ins->parent->srcp, 310, sevERR, ins->parent->string);
-    else if (parent->kind != CLASS_SYMBOL)
-      lmLog(&ins->parent->srcp, 350, sevERR, "");
-    else {
-      ins->parent->symbol = parent;
-      setParent(ins->symbol, ins->parent->symbol);
-    }
-  }
-}
 
 
 /*----------------------------------------------------------------------
@@ -111,7 +87,6 @@ static void symbolizeInstanceParent(InsNod *ins)
  */
 static void symbolizeInstance(InsNod *ins)
 {
-  symbolizeInstanceParent(ins);
   symbolizeSlots(ins->slots);
 }
 
@@ -184,13 +159,6 @@ static void generateInstanceEntry(InsNod *ins)
 {
   InstanceEntry entry;
 
-  entry.code = ins->symbol->code; /* First own code */
-  entry.idAddress = ins->slots->idAddress; /* Address to the id string */
-  if (ins->parent == NULL)	/* Then parents */
-    entry.parent = 0;
-  else
-    entry.parent = ins->parent->symbol->code;
-
   generateSlotsEntry(&entry, ins->slots);
   emitN((Aword *)&entry, sizeof(entry)/sizeof(Aword));
 }
@@ -218,7 +186,7 @@ void generateInstances(AcdHdr *header)
 
   header->instanceTableAddress = adr;
   header->instanceMax = instanceCount;
-  header->theHero = theHero->symbol->code;
+  header->theHero = theHero->slots->symbol->code;
 }
 
 
@@ -233,6 +201,5 @@ void generateInstances(AcdHdr *header)
 void dumpInstance(InsNod *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();
-  put("parent: "); dumpId(ins->parent); nl();
   put("slots: "); dumpSlots(ins->slots); nl();
 }

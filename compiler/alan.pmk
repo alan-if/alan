@@ -6,7 +6,7 @@
 	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
-	Line;
+--	Line;
 --	Debug;
 	No Resolve;
 
@@ -737,47 +737,53 @@ static int val(char str[])
 	%<slots>.scrs = NULL;
     %%
 
-    ! <slots> <slot>
+    ! <slots> [''] <slot>
     %%
 	%<slots>.nams = concat(%<slots>.nams, %<slot>.nam, LIST_NAM);
 
-	if (%<slots>.whr != NULL)
-            /* WHERE clause already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
-	else 
-	    %<slots>.whr = %<slot>.whr;
+        if (%<slot>.whr != NULL)
+            if (%<slots>.whr != NULL) 
+                /* WHERE clause already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
+	    else
+	        %<slots>.whr = %<slot>.whr;
 
 	%<slots>.atrs = combine(%<slots>.atrs, %<slot>.atrs);
 
-	if (%<slots>.cnt != NULL)
-            /* CONTAINER properties already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
-	else 
-	    %<slots>.cnt = %<slot>.cnt;
+	if (%<slot>.cnt != NULL)
+            if (%<slots>.cnt != NULL)
+                /* CONTAINER properties already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
+	    else 
+	        %<slots>.cnt = %<slot>.cnt;
 
-	if (%<slots>.dscr != NULL)
-            /* DESCRIPTION already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
-	else 
-	    %<slots>.dscr = %<slot>.dscr;
+	if (%<slot>.dscr != NULL)
+            if(%<slots>.dscr != NULL)
+                /* DESCRIPTION already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	    else 
+	        %<slots>.dscr = %<slot>.dscr;
 
-	if (%<slots>.ment != NULL)
-            /* MENTIONED already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
-	else 
-	    %<slots>.ment = %<slot>.ment;
+	if (%<slot>.ment != NULL)
+            if (%<slots>.ment != NULL)
+                /* MENTIONED already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
+	    else
+                %<slots>.ment = %<slot>.ment;
 
-	if (%<slots>.art != NULL)
-            /* ARTICLE already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
-	else 
-	    %<slots>.art = %<slot>.art;
+	if (%<slot>.art != NULL)
+            if (%<slots>.art != NULL)
+                /* ARTICLE already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "ARTICLE", "class/instance", NULL);
+            else 
+	        %<slots>.art = %<slot>.art;
 
-	if (%<slots>.does != NULL)
-            /* DOES/ENTERED already declared */
-	    lmLogv(`&%<slot>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
-	else 
-	    %<slots>.does = %<slot>.does;
+	if (%<slot>.does != NULL)
+            if (%<slots>.does != NULL)
+                /* DOES/ENTERED already declared */
+	        lmLogv(`&%<slot>.srcp, 204, sevERR, "DOES/ENTERED", "class/instance", NULL);
+	    else 
+	        %<slots>.does = %<slot>.does;
 
 	%<slots>.exts = concat(%<slots>.exts, %<slot>.ext, LIST_EXT);
 	%<slots>.vrbs = concat(%<slots>.vrbs, %<slot>.vrb, LIST_VRB);
@@ -818,7 +824,7 @@ static int val(char str[])
     }%%
 
     ! <mentioned>
-    %%{ List *ment = %<mentioned>.ment;
+    %%{ List *ment = %<mentioned>.stms;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.ment = ment;
     }%%

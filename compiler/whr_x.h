@@ -22,6 +22,7 @@ extern WhrNod *newwhr(Srcp *srcp,
 		      WhrKind kind,
 		      WhtNod *wht);
 extern void symbolizeWhr(WhrNod *whr);
+extern void verifyAtLocation(WhrNod *whr);
 extern void anwhr(WhrNod *whr, EvtNod *evt, List *pars);
 extern Aword generateInitialLocation(WhrNod *whr);
 extern void gewhr(WhrNod *whr);
