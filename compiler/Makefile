@@ -88,7 +88,7 @@ VMSLINKOBJS = ${SRCS:.c=}
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov release all: alan alan.prod Makefile
+debug tcov release all: objarch alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 

@@ -1,4 +1,4 @@
-/* time.h */
+/* timing.h */
 
 typedef struct {
         long proc_user_time;	/* ticks */
