@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>322.89</origest>
-<currest>321.89</currest>
+<origest>325.89</origest>
+<currest>324.89</currest>
 <elapsed>171.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>52</origest>
-<currest>52</currest>
+<origest>56</origest>
+<currest>56</currest>
 <elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>28</origest>
-<currest>28</currest>
+<origest>18</origest>
+<currest>18</currest>
 <elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
@@ -237,14 +237,84 @@ End The door.
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<desc>Increment: version 3.0.33</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Sets</desc>
+<notes>Some kind of list or array datatype, like TADS lists, with
+appropriate operations (indexing, finding its length, inserting
+an item, deleting an item).
+
+(Greg Ewing in Alan-IF mailing list)
+
+Analysis:
+Requires initialisation e.g Has partners [x, y]
+Should allow loop over
+Should have RANDOM selection
+Reference to element partners[i] (or possibly not)
+Have to allow add (partners + &lt;instance&gt;) and remove (partners - &lt;instance&gt;)
+Watch out for changing array while looping
+
+Design:
+
+declaration: Has set {x, y}.
+Empty sets are not allowed. Set gets least common denominator class if instances. Can use integers and strings too.
+
+add and remove:
+Include &lt;expr&gt; in &lt;expr&gt;.
+Remove &lt;expr&gt; from &lt;expr&gt;.
+</notes>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Declaration of sets</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Include &lt;expr&gt; in &lt;set&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove &lt;expr&gt; From &lt;set&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Random In &lt;set&gt;</desc>
+<notes>Returns one value in the set.
+
+How to handle the empty set????</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>UNDO does not affect heros position</desc>
@@ -258,47 +328,8 @@ We also need some way to re-output the state.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Example: composite object</desc>
-<notes>Like a box with a couple of buttons on it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -327,6 +358,15 @@ Verify what this would mean in a practical example.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Document inheritance rules for each construct</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Default description for a instance should be either in definite or indefinite form.</desc>
 <notes>Is there a problem with current defaults:
  - There is a object here.
@@ -340,21 +380,20 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document inheritance rules for each construct</desc>
-<notes/>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Increment: version 3.0.33</desc>
+<desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -367,12 +406,67 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow locations in initial location and Locate if IN</desc>
-<notes>This would allow collecting locations in heaps.
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
 
-Better: use IN location to mean the exits?
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
 
-OR: defer this until arrays are available.</notes>
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute to OBJECT in MESSAGE</desc>
+<notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.
+
+This would be really good for translations. E.g in german "kein" has different forms depending on case. So the constant string "Ich kann hier kein $1 nicht sehen." is not always correct. However, if messages had parameters we could implement:
+
+Message CANTSEE:
+  "Ich kann hier"
+  If object Is neuter Then "keiner" End If.
+  If object Is masculine Then "kein" End If.
+  If object Is feminine Then "keine" End If.
+  Say object. "sehen."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RANDOM IN &lt;container&gt;</desc>
+<notes>Randomly select one of the instances in the container
+
+Has type of the container TAKES</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -381,7 +475,9 @@ OR: defer this until arrays are available.</notes>
 </task>
 <task>
 <desc>Settings dialogue for compiler on Windows</desc>
-<notes/>
+<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+
+Design:</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -476,11 +572,11 @@ Which of the above works, and what is the problem with each that doesn't?
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.34</desc>
+<desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -491,36 +587,6 @@ Which of the above works, and what is the problem with each that doesn't?
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Arrays</desc>
-<notes>Some kind of list or array datatype, like TADS lists, with
-appropriate operations (indexing, finding its length, inserting
-an item, deleting an item).
-
-(Greg Ewing in Alan-IF mailing list)
-
-Analysis:
-Requires initialisation e.g Has partners [x, y]
-Should allow loop over
-Should have RANDOM selection
-Reference to element partners[i] (or possibly not)
-Have to allow add (partners + &lt;instance&gt;) and remove (partners - &lt;instance&gt;)
-Watch out for changing array while looping</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>RANDOM in array</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
@@ -559,6 +625,19 @@ is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow locations in initial location and Locate if IN</desc>
+<notes>This would allow collecting locations in heaps.
+
+Better: use IN location to mean the exits?
+
+OR: defer this until arrays are available.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Refactor: Allocate parameter lists</desc>
 <notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
@@ -587,27 +666,9 @@ Possibly we could have the embedded tags:
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Attribute to OBJECT in MESSAGE</desc>
-<notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.
-
-This would be really good for translations. E.g in german "kein" has different forms depending on case. So the constant string "Ich kann hier kein $1 nicht sehen." is not always correct. However, if messages had parameters we could implement:
-
-Message CANTSEE:
-  "Ich kann hier"
-  If object Is neuter Then "keiner" End If.
-  If object Is masculine Then "kein" End If.
-  If object Is feminine Then "keine" End If.
-  Say object. "sehen."</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
-<desc>Increment: version 3.0.35</desc>
+<desc>Increment: version 3.0.36</desc>
 <notes/>
 <priority>2</priority>
 <origest>7</origest>
@@ -709,8 +770,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>103</origest>
-<currest>103</currest>
+<origest>102</origest>
+<currest>102</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -725,17 +786,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <task>
 <desc>List line numbers for which LINE instructions are generated?</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>RANDOM IN &lt;container&gt;</desc>
-<notes>Randomly select one of the instances in the container
-
-Has type of the container TAKES</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

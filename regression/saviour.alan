@@ -5,7 +5,7 @@
 -- held. That company was producing Cobol-executing small business computers.
 --
 -- Well, in 1985 I went on to start at my previous company, SoftLab, which as
--- a main area of competence has computer languages and development tools.
+-- a main area of competence had computer languages and development tools.
 -- As a first experiment I implemented the IF language that Göran Forslund and
 -- I had talked about for some time. That was Alan version 0. Since then
 -- Alan has matured and is now in its v2.x:s. This game has been with us
@@ -44,7 +44,7 @@ The pseudowords
     Container 
 End The pseudowords.
 
-Syntax 'drop' = 'drop' (object).
+Syntax drop = 'drop' (object).
 Add To Every object
   Verb drop
     Check object In hero
@@ -54,7 +54,6 @@ Add To Every object
         "Dropped."
   End Verb.
 End Add.
-
 
 Syntax 'save' = 'save'.
 Verb 'save'
@@ -72,13 +71,13 @@ Verb 'restore'
 End Verb 'restore'.
 
 
-Syntax 'examine' = 'examine' (object).
-Syntax 'read' = 'read' (object).
-Syntax 'lock' = 'lock' (object).
-Syntax 'unlock' = 'unlock' (object).
+Syntax examine = 'examine' (object).
+Syntax read = 'read' (object).
+Syntax lock = 'lock' (object).
+Syntax unlock = 'unlock' (object).
 Syntax unlock_with = 'unlock' (o) 'with' (k).
-Syntax 'open' = 'open' (object).
-Syntax 'close' = 'close' (object).
+Syntax open = 'open' (object).
+Syntax close = 'close' (object).
 
 Add To Every object
   Verb examine
@@ -1339,7 +1338,8 @@ The hero Isa actor
         Else "You are empty-handed."
 End The hero.
 
-
+-- This is where it all begins...
+-- 
 Start At outside.
 
     "$pWelcome to the game of SAVIOUR!$pIn this game your mission
