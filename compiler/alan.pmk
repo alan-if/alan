@@ -175,7 +175,7 @@ static int val(char str[])
 
 --> ADVENTURE
 <adventure>
-    = <optional_options> <units> <start>
+    = <optional_options> <declarations> <start>
     ;
 
 ---> OPTIONS
@@ -206,13 +206,13 @@ static int val(char str[])
     %%
     ;
 
----> UNITS
-<units>
+---> DECLARATIONS
+<declarations>
     =
-    ! <units> <unit>
+    ! <declarations> <declaration>
     ;
 
-<unit>
+<declaration>
     = <synonyms>
     %% adv.syns = combine(adv.syns, %<synonyms>.syns); %%
 
@@ -228,8 +228,8 @@ static int val(char str[])
     ! <class>
     %% adv.clas = concat(adv.clas, %<class>.cla, CLASS_LIST); %%
 
-    ! <add>
-    %% adv.adds = concat(adv.adds, %<add>.add, ADD_LIST); %%
+    ! <addition>
+    %% adv.adds = concat(adv.adds, %<addition>.add, ADD_LIST); %%
 
     ! <instance>
     %% adv.inss = concat(adv.inss, %<instance>.ins, INSTANCE_LIST); %%
@@ -303,23 +303,23 @@ static int val(char str[])
     ;
 
 <synonym_list>			-- RETURNS: syns
-    = <synonym>
+    = <synonym_declaration>
     %%
-	%<synonym_list>.syns = concat(NULL, %<synonym>.syn, SYNONYM_LIST);
+	%<synonym_list>.syns = concat(NULL, %<synonym_declaration>.syn, SYNONYM_LIST);
     %%
 
-    ! <synonym_list> <synonym>
+    ! <synonym_list> <synonym_declaration>
     %%
-	%<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym>.syn, SYNONYM_LIST);
+	%<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym_declaration>.syn, SYNONYM_LIST);
     %%
     ;
 
-<synonym>				-- RETURNS: syn
+<synonym_declaration>				-- RETURNS: syn
     = <id_list> '=' ID '.'
     %%
-	%<synonym>.syn = newsyn(`&%'='.srcp,
-			      %<id_list>.idList,
-			      %ID.id);
+	%<synonym_declaration>.syn = newsyn(`&%'='.srcp,
+			     			%<id_list>.idList,
+			      			%ID.id);
     %%
     ;
 
@@ -686,11 +686,11 @@ static int val(char str[])
     ;
 
 
----> ADD
-<add>			-- RETURNS: cla
+---> ADDITION
+<addition>			-- RETURNS: cla
     = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>
     %%
-	%<add>.add = newAdd(`&%'EVERY'.srcp,
+	%<addition>.add = newAdd(`&%'EVERY'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
 				newProps(%<properties>.nams,

@@ -192,31 +192,31 @@ int rule			/* IN production number */
 
 	optint(pmSeSt[pmStkP+1].id->string, &pmSeSt[pmStkP+1].id->srcp, val(pmSySt[pmStkP+2].chars));
     	break;}
-    case 15: { /* <unit> = <synonyms>; */
+    case 15: { /* <declaration> = <synonyms>; */
 #line 217 "alan.pmk"
  adv.syns = combine(adv.syns, pmSeSt[pmStkP+1].syns); 	break;}
-    case 11: { /* <unit> = <messages>; */
+    case 11: { /* <declaration> = <messages>; */
 #line 220 "alan.pmk"
  adv.msgs = combine(adv.msgs, pmSeSt[pmStkP+1].msgs); 	break;}
-    case 16: { /* <unit> = <syntax>; */
+    case 16: { /* <declaration> = <syntax>; */
 #line 223 "alan.pmk"
  adv.stxs = combine(adv.stxs, pmSeSt[pmStkP+1].stxs); 	break;}
-    case 17: { /* <unit> = <verb>; */
+    case 17: { /* <declaration> = <verb>; */
 #line 226 "alan.pmk"
  adv.vrbs = concat(adv.vrbs, pmSeSt[pmStkP+1].vrb, VERB_LIST); 	break;}
-    case 12: { /* <unit> = <class>; */
+    case 12: { /* <declaration> = <class>; */
 #line 229 "alan.pmk"
  adv.clas = concat(adv.clas, pmSeSt[pmStkP+1].cla, CLASS_LIST); 	break;}
-    case 18: { /* <unit> = <add>; */
+    case 18: { /* <declaration> = <addition>; */
 #line 232 "alan.pmk"
  adv.adds = concat(adv.adds, pmSeSt[pmStkP+1].add, ADD_LIST); 	break;}
-    case 13: { /* <unit> = <instance>; */
+    case 13: { /* <declaration> = <instance>; */
 #line 235 "alan.pmk"
  adv.inss = concat(adv.inss, pmSeSt[pmStkP+1].ins, INSTANCE_LIST); 	break;}
-    case 19: { /* <unit> = <event>; */
+    case 19: { /* <declaration> = <event>; */
 #line 238 "alan.pmk"
  adv.evts = concat(adv.evts, pmSeSt[pmStkP+1].evt, EVENT_LIST); 	break;}
-    case 14: { /* <unit> = <rule>; */
+    case 14: { /* <declaration> = <rule>; */
 #line 241 "alan.pmk"
  adv.ruls = concat(adv.ruls, pmSeSt[pmStkP+1].rul, RULE_LIST); 	break;}
     case 20: { /* <attributes> = <attribute definition> '.'; */
@@ -272,22 +272,22 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].syns = pmSeSt[pmStkP+2].syns;
     	break;}
-    case 27: { /* <synonym_list> = <synonym>; */
+    case 27: { /* <synonym_list> = <synonym_declaration>; */
 #line 307 "alan.pmk"
 
 	pmSeSt[pmStkP+1].syns = concat(NULL, pmSeSt[pmStkP+1].syn, SYNONYM_LIST);
     	break;}
-    case 28: { /* <synonym_list> = <synonym_list> <synonym>; */
+    case 28: { /* <synonym_list> = <synonym_list> <synonym_declaration>; */
 #line 312 "alan.pmk"
 
 	pmSeSt[pmStkP+1].syns = concat(pmSeSt[pmStkP+1].syns, pmSeSt[pmStkP+2].syn, SYNONYM_LIST);
     	break;}
-    case 29: { /* <synonym> = <id_list> '=' ID '.'; */
+    case 29: { /* <synonym_declaration> = <id_list> '=' ID '.'; */
 #line 319 "alan.pmk"
 
 	pmSeSt[pmStkP+1].syn = newsyn(&pmSySt[pmStkP+2].srcp,
-			      pmSeSt[pmStkP+1].idList,
-			      pmSeSt[pmStkP+3].id);
+			     			pmSeSt[pmStkP+1].idList,
+			      			pmSeSt[pmStkP+3].id);
     	break;}
     case 30: { /* <messages> = 'MESSAGE' <message_list>; */
 #line 329 "alan.pmk"
@@ -575,7 +575,7 @@ int rule			/* IN production number */
     case 74: { /* <class_tail> = 'END' 'EVERY' <optional_id> __genSym#0; */
 #line 685 "alan.pmk"
  pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+3].id; 	break;}
-    case 77: { /* <add> = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>; */
+    case 77: { /* <addition> = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>; */
 #line 692 "alan.pmk"
 
 	pmSeSt[pmStkP+1].add = newAdd(&pmSySt[pmStkP+3].srcp,
