@@ -208,7 +208,7 @@ void generateAdventure(char acodeFileName[],
   geopt(&acdHeader);
 
   /* Start statements */
-  acdHeader.start = emadr();	/* Save ACODE address to start */
+  acdHeader.start = nextEmitAddress();	/* Save ACODE address to start */
   generateStatements(adv.stms);
   emit0(I_RETURN);
 

@@ -71,18 +71,16 @@ static void switches(argc, argv)
 	break;
       case 't':
 	traceOption = TRUE;
-	break;
-      case 'p':
-	tracePushOption = TRUE;
-	traceOption = TRUE;
-	singleStepOption = TRUE;
+	switch (argv[i][2]) {
+	case '4' : traceStackOption = TRUE;
+	case '3' : tracePushOption = TRUE;
+	case '2' : singleStepOption = TRUE;
+	case '\0':
+	case '1': traceOption = TRUE;
+	}
 	break;
       case 'd':
 	debugOption = TRUE;
-	break;
-      case 's':
-	traceOption = TRUE;
-	singleStepOption = TRUE;
 	break;
       case 'l':
 	logOption = TRUE;

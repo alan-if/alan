@@ -85,18 +85,18 @@ Aaddr generateSteps(List *stps)
 
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL) { /* Expression specified */
-      lst->element.stp->expadr = emadr();
+      lst->element.stp->expadr = nextEmitAddress();
       generateExpression(lst->element.stp->exp);
       emit0(I_RETURN);
     } else
       lst->element.stp->expadr = 0;
-    lst->element.stp->stmadr = emadr();
+    lst->element.stp->stmadr = nextEmitAddress();
     generateStatements(lst->element.stp->stms);
     emit0(I_RETURN);
   }
   
   /* Now generate a step table */
-  adr = emadr();
+  adr = nextEmitAddress();
   for (lst = stps; lst != NULL; lst = lst->next) {
     emit(lst->element.stp->after);
     emit(lst->element.stp->expadr);

@@ -230,7 +230,7 @@ Aaddr generateVerbs(List *vrbs)
     generateVerb(lst->element.vrb);
   
   /* and then the verb table */
-  vrbadr = emadr();
+  vrbadr = nextEmitAddress();
   for (lst = vrbs; lst != NULL; lst = lst->next)
     generateVerbEntry(lst->element.vrb);
   emit(EOF);

@@ -7,7 +7,7 @@ setLocal.alan
 =====>            1
 
   *1*   101 E : Syntax error. Attempting to repair by inserting "'OF'
-                Identifier ('<generated identifier #1>')" here.
+                Identifier ('<generated identifier #1>')" before this symbol.
 
 
         1 error(s).

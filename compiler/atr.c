@@ -90,11 +90,7 @@ void checkMultipleAttributes(List *atrs)
 }
 
 
-/*======================================================================
-
-  findAttribute()
-
-*/
+/*======================================================================*/
 Attribute *findAttribute(List *attributes, IdNode *id)
 {
   List *this;
@@ -236,14 +232,9 @@ void analyzeAttributes(List *atrs)
 }
 
 
-/*----------------------------------------------------------------------
-
-  resolveIdAttribute()
-
-  Resolve an attribute reference for an identifier.
-
-*/
-static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *context)
+/*----------------------------------------------------------------------*/
+static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute,
+				     Context *context)
 {
   Attribute *atr = NULL;
   Symbol *sym;
@@ -282,15 +273,11 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *con
 }
 
 
-/*----------------------------------------------------------------------
-
-  resolveActorAttribute()
-
-  Resolve an attribute reference for reference to current Actor.
-
-*/
+/*----------------------------------------------------------------------*/
 static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 {
+  /* Resolve an attribute reference for reference to current Actor. */
+
   Attribute *atr = NULL;
 
   atr = findAttribute(actorSymbol->fields.entity.props->attributes, attribute);
@@ -300,15 +287,11 @@ static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 }
 
 
-/*----------------------------------------------------------------------
-
-  resolveLocationAttribute()
-
-  Resolve an attribute reference for reference to current Location.
-
-*/
+/*----------------------------------------------------------------------*/
 static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 {
+  /* Resolve an attribute reference for reference to current Location. */
+
   Attribute *atr = NULL;
 
   atr = findAttribute(locationSymbol->fields.entity.props->attributes, attribute);
@@ -380,11 +363,7 @@ Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *con
 }
 
 
-/*----------------------------------------------------------------------
-
-  generateAttribute()
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateAttribute(Attribute *attribute)
 {
   AttributeEntry entry;
@@ -394,7 +373,7 @@ static void generateAttribute(Attribute *attribute)
     if (!attribute->encoded)
       encode(&attribute->fpos, &attribute->len);
     attribute->encoded = TRUE;
-    attribute->address = emadr(); /* Record on which Aadress to put it */
+    attribute->address = nextEmitAddress(); /* Record on which Aadress to put it */
 
     /* Now make a copy to use for initialisation if attribute is
        inherited, else the address will be overwritten by generation
@@ -412,13 +391,7 @@ static void generateAttribute(Attribute *attribute)
 }
 
 
-/*======================================================================
-
-  generateAttributes()
-
-  Generate all entries in an attribute list.
-
- */
+/*======================================================================*/
 Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
 {
   Aaddr adr;
@@ -427,12 +400,12 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
   /* First generate the names of the attributes if needed */ 
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
-      lst->element.atr->stringAddress = emadr();
+      lst->element.atr->stringAddress = nextEmitAddress();
       emitString(lst->element.atr->id->string);
     }
   }
 
-  adr = emadr();
+  adr = nextEmitAddress();
 
   for (lst = atrs; lst != NULL; lst = lst->next)
     generateAttribute(lst->element.atr);
@@ -443,17 +416,13 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
 
 
 
-/*======================================================================
-
-  generateStringInit()
-
-  Generate initialisation value table for string attributes.
-
- */
+/*======================================================================*/
 Aaddr generateStringInit(void)
 {
+  /* Generate initialisation value table for string attributes. */
+
   List *atrs;
-  Aaddr adr = emadr();
+  Aaddr adr = nextEmitAddress();
 
   for (atrs = adv.stratrs; atrs != NULL; atrs = atrs->next) {
     emit(atrs->element.atr->fpos);
@@ -465,11 +434,7 @@ Aaddr generateStringInit(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpInheritance()
-
-*/
+/*----------------------------------------------------------------------*/
 static void dumpInheritance(AttributeInheritance inheritance)
 {
   switch (inheritance) {

@@ -53,14 +53,14 @@ void testGenerateClasses()
   /* Table should start directly after header */
   ASSERT(addr == firstAdr);
   /* header + PREDEFINED classes + 1 EOF should be generated*/
-  ASSERT(emadr() == baseAddress + 1);
+  ASSERT(nextEmitAddress() == baseAddress + 1);
 
   initEmit("unit.a3c");
   symbolizeClasses();
   cla = newClass(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
   ASSERT(addr == firstAdr);	/* Should start at first address after header */
-  ASSERT(emadr() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
+  ASSERT(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
 }
 
 void testGenerateEmptyClassEntry()
@@ -79,7 +79,7 @@ void testGenerateEmptyClassEntry()
   symbolizeAdventure();
 
   generateClassPropertiesData(class->props);
-  entryAddress = emadr();
+  entryAddress = nextEmitAddress();
   generateClassEntry(class);
   terminateEmit();
   emitHeader();

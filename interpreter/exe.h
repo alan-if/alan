@@ -18,7 +18,7 @@ extern int dscrstkp;		/* Point into describe stack */
 /* Functions: */
 extern void sys(Aword fpos, Aword len);
 extern Boolean confirm(MsgKind msgno);
-extern Aword attribute(Aword instance, Aword atr);
+extern Aword attributeOf(Aword instance, Aword atr);
 extern void say(Aword instance);
 extern void saynum(Aword num);
 extern void saystr(char *str);

@@ -200,19 +200,19 @@ void generateClassPropertiesData(Properties *props)
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
   if (props->descriptionStatements != NULL) {
-    props->descriptionAddress = emadr();
+    props->descriptionAddress = nextEmitAddress();
     generateStatements(props->descriptionStatements);
     emit0(I_RETURN);
   }
 
   if (props->article != NULL) {
-    props->articleAddress = emadr();
+    props->articleAddress = nextEmitAddress();
     generateStatements(props->article);
     emit0(I_RETURN);
   }
 
   if (props->mentioned != NULL) {
-    props->mentionedAddress = emadr();
+    props->mentionedAddress = nextEmitAddress();
     generateStatements(props->mentioned);
     emit0(I_RETURN);
   }
@@ -225,7 +225,7 @@ void generateClassPropertiesData(Properties *props)
 /*======================================================================*/
 void generateInstancePropertiesData(Properties *props)
 {
-  props->idAddress = emadr();
+  props->idAddress = nextEmitAddress();
   emitString(props->id->string);
 
   props->attributeAddress = generateAttributes(props->attributes);
@@ -233,20 +233,20 @@ void generateInstancePropertiesData(Properties *props)
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
   if (props->descriptionStatements != NULL) {
-    props->descriptionAddress = emadr();
+    props->descriptionAddress = nextEmitAddress();
     generateStatements(props->descriptionStatements);
     emit0(I_RETURN);
   }
 
   if (props->mentioned != NULL) {
-    props->mentionedAddress = emadr();
+    props->mentionedAddress = nextEmitAddress();
     generateStatements(props->mentioned);
     emit0(I_RETURN);
   } else
     emit(0);
 
   if (props->article != NULL) {
-    props->articleAddress = emadr();
+    props->articleAddress = nextEmitAddress();
     generateStatements(props->article);
     emit0(I_RETURN);
   } else

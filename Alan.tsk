@@ -4,9 +4,9 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>204.89</origest>
-<currest>204.89</currest>
-<elapsed>72.89</elapsed>
+<origest>205.89</origest>
+<currest>205.89</currest>
+<elapsed>73.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>33</origest>
 <currest>33</currest>
-<elapsed>2</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>9</origest>
 <currest>9</currest>
-<elapsed>2</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -60,18 +60,27 @@ Remember to change the reverse routine.</notes>
 <desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
 <notes>New right hand side of expression to augment COUNT aggregate.
 
-First step:
+First step: DONE!
 Allow for it in ACODE.
 
+push initial aggregate value (different for MIN &amp; MAX!!
+AGRSTART:  push 1 (instance index), twice
+&lt;rhs&gt;: code to eval right hand side and leave true or false
+AGRCHECK: if pop() == false then find ENDAGR else continue
+&lt;rhs&gt;: code to eval, leave true or false
+AGRCHECK: d:o
+COUNT: add 1 (or attribute) to element below stack top (aggregate value)
+ENDAGR: if top() &lt;= instanceMax then push(pop()+1) and go to code after AGRSTART else pop() of instance index revealing aggregate value
+
 Second step:
-Allow one right hand side.
+Allow one right hand side. DONE!
 
 Third step:
-Allow concatenated right hand sides.</notes>
+Allow concatenated right hand sides. If no ISA use "Isa object" by default for compatibility reasons?? No. DONE!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -237,9 +246,12 @@ END DEPEND.</notes>
 <desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
 <notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and aviod doing it a second time if the structure is such that multiple structures refered to the same substructure.
 
+It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+
 This would allow code generating once for some inherited constructs:
 -scripts
--descriptions</notes>
+-descriptions
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -503,8 +515,8 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>92</origest>
-<currest>92</currest>
+<origest>93</origest>
+<currest>93</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -512,6 +524,17 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -16,6 +16,7 @@
 #include "sym_x.h"
 #include "wht_x.h"
 #include "cnt_x.h"
+#include "lst_x.h"
 
 #include "lmList.h"
 
@@ -36,14 +37,26 @@
 
 
 /*======================================================================*/
-Bool equalTypes(TypeKind typ1,	/* IN - types to compare */
-		TypeKind typ2)
+Bool equalTypes(TypeKind typ1, TypeKind typ2)
 {
   if (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE)
     syserr("Unintialised type in '%s()'", __FUNCTION__);
   return (typ1 == UNKNOWN_TYPE || typ2 == UNKNOWN_TYPE || typ1 == typ2);
 }
 
+
+/*----------------------------------------------------------------------*/
+static char *aggregateToString(AggregateKind agr)
+{
+  switch (agr) {
+  case SUM_AGGREGATE: return("SUM"); break;
+  case MAX_AGGREGATE: return("MAX"); break;
+  case MIN_AGGREGATE: return("MIN"); break;
+  case COUNT_AGGREGATE: return("COUNT"); break;
+  default: syserr("Unexpected aggregate kind in '%s()'.", __FUNCTION__);
+  }
+  return NULL;
+}
 
 
 /*======================================================================*/
@@ -141,8 +154,7 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId,
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeAttributeExpression(Expression *exp,
-				       Context *context)
+static void analyzeAttributeExpression(Expression *exp, Context *context)
 {
   Attribute *atr;
 
@@ -184,8 +196,7 @@ static Bool isConstantIdentifier(IdNode *id)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeBinaryExpression(Expression *exp,
-				    Context *context)
+static void analyzeBinaryExpression(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.bin.left, context);
   analyzeExpression(exp->fields.bin.right, context);
@@ -260,35 +271,117 @@ static void analyzeBinaryExpression(Expression *exp,
 }
 
 
-
 /*----------------------------------------------------------------------*/
-static void analyzeAggregate(Expression *exp,
-			     Context *context)
+static void analyzeAttributeFilter(Expression *exp, List *lst, IdNode *classId, Symbol *classSymbol)
 {
-  Attribute *atr = NULL;
+  Attribute *atr;
+  IdNode *attribute = lst->element.exp->fields.agr.attribute;
 
-  exp->type = INTEGER_TYPE;
-  if (exp->fields.agr.kind != COUNT_AGGREGATE) {
-    atr = findAttribute(NULL, exp->fields.agr.atr);
-    if (atr == NULL) {		/* attribute not found globally */
-      lmLog(&exp->fields.agr.atr->srcp, 404, sevERR,
-	    "OBJECT in aggregate expression");
+  if (classId == NULL)
+    /* Can not find attributes on all instances, requires ISA filter */
+    lmLog(&lst->element.exp->srcp, 226, sevERR,
+	  aggregateToString(exp->fields.agr.kind));
+  else if (classId->symbol != NULL) {
+    /* Only do attribute semantic check if class is defined */
+    atr = findAttribute(classSymbol->fields.entity.props->attributes,
+			attribute);
+    if (atr == NULL) {
+      lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+	     "instances aggregated over using",
+	     aggregateToString(exp->fields.agr.kind),
+	     classSymbol->string, NULL);
       exp->type = UNKNOWN_TYPE;
     } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
-      lmLog(&exp->fields.agr.atr->srcp, 418, sevERR, "");
+      lmLog(&lst->element.exp->fields.agr.attribute->srcp, 418, sevERR, "");
       exp->type = UNKNOWN_TYPE;
     } else
-      exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
+      exp->fields.agr.attribute->symbol->code = atr->id->symbol->code;
   }
-
-  if (exp->fields.agr.whr)
-    analyzeWhere(exp->fields.agr.whr, context);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeRandom(Expression *exp,
-			  Context *context)
+static void analyzeAggregate(Expression *exp, Context *context)
+{
+  Attribute *atr = NULL;
+  List *lst;
+  Expression *classExpression = NULL;
+  IdNode *classId = NULL;	/* Identifier for class filter if any */
+  Symbol *classSymbol = NULL;
+  Bool foundWhere = FALSE;
+  Bool foundIsa = FALSE;
+
+  exp->type = INTEGER_TYPE;
+
+  /* Pick up the first ISA_EXPRESSION as this will be used to analyze
+     the availability of attributes */
+  TRAVERSE(lst, exp->fields.agr.filters) {
+    if (lst->element.exp->kind == ISA_EXPRESSION) {
+      classExpression = lst->element.exp;
+      classId = classExpression->fields.isa.id;
+      classSymbol = symcheck(classId, CLASS_SYMBOL, context);
+      if (classId->symbol != NULL)
+	/* If this ISA was ok use it, else try to find another */
+	break;
+    }
+  }
+  if (classId == NULL)
+    lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
+
+  TRAVERSE(lst, exp->fields.agr.filters) {
+    switch (lst->element.exp->kind) {
+    case WHERE_EXPRESSION:
+      if (foundWhere)
+	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Where",
+	       aggregateToString(exp->fields.agr.kind), NULL);
+      foundWhere = TRUE;
+      analyzeWhere(lst->element.exp->fields.whr.whr, context);
+      break;
+    case ISA_EXPRESSION:
+      if (foundIsa)
+	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Isa (class)",
+	       aggregateToString(exp->fields.agr.kind), NULL);
+      foundIsa = TRUE;
+      if (lst->element.exp != classExpression)
+	/* The classExpression is analyzed above */
+	(void) symcheck(lst->element.exp->fields.isa.id, CLASS_SYMBOL, context);
+      break;
+    case ATTRIBUTE_EXPRESSION: {
+      analyzeAttributeFilter(exp, lst, classId, classSymbol);
+      break;
+    }
+    default:
+      syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
+    }
+  }
+
+  if (exp->fields.agr.kind != COUNT_AGGREGATE) {
+    /* Now analyze the attribute to do the arithmetic aggregation on */
+    if (!classId)
+      /* No class filter makes arithmetic aggregates impossible since
+	 attributes can never be guaranteed to be defined in all instances. */
+      lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
+    if (classSymbol != NULL) {
+      /* Only do this if there was a correct class filter found */
+      atr = findAttribute(classSymbol->fields.entity.props->attributes,
+			  exp->fields.agr.attribute);
+      if (atr == NULL) {
+	lmLogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
+	       exp->fields.agr.attribute->string,
+	       "instances aggregated over using",
+	       aggregateToString(exp->fields.agr.kind),
+	       classSymbol->string, NULL);
+      } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
+	lmLog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
+      } else
+	exp->fields.agr.attribute->code = atr->id->code;
+    }
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeRandom(Expression *exp, Context *context)
 {
   exp->type = INTEGER_TYPE;
   analyzeExpression(exp->fields.rnd.from, context);
@@ -306,8 +399,7 @@ static void analyzeRandom(Expression *exp,
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeWhatExpression(Expression *exp,
-				  Context *context)
+static void analyzeWhatExpression(Expression *exp, Context *context)
 {
   Symbol *symbol;
 
@@ -360,8 +452,7 @@ static void analyzeWhatExpression(Expression *exp,
 
 
 /*----------------------------------------------------------------------*/
-static void anexpbtw(Expression *exp,
-		     Context *context)
+static void anexpbtw(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.btw.val, context);
   if (!equalTypes(exp->fields.btw.val->type, INTEGER_TYPE))
@@ -468,11 +559,7 @@ void analyzeExpression(Expression *expression,
 }
 
 
-/*======================================================================
-
-  genererateBinaryOperator()
-
-*/
+/*======================================================================*/
 void generateBinaryOperator(Expression *exp)
 {
   switch (exp->fields.bin.op) {
@@ -525,13 +612,7 @@ void generateBinaryOperator(Expression *exp)
 }
 
 
-/*----------------------------------------------------------------------
-
-  geexpbin()
-
-  Generate a binary expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateBinaryExpression(Expression *exp)
 {
   generateExpression(exp->fields.bin.left);
@@ -579,11 +660,7 @@ static void generateWhereExpression(Expression *exp)
 
 
 
-/*======================================================================
-
-  generateAttributeAccess()
-
-*/
+/*======================================================================*/
 void generateAttributeAccess(Expression *exp)
 {
   if (exp->type == STRING_TYPE)
@@ -593,12 +670,7 @@ void generateAttributeAccess(Expression *exp)
 }
 
 
-/*----------------------------------------------------------------------
-  geexpatr()
-
-  Generate an attribute-expression.
-
- */
+/*----------------------------------------------------------------------*/
 static void generateAttributeExpression(Expression *exp)
 {
   generateId(exp->fields.atr.atr);
@@ -608,32 +680,61 @@ static void generateAttributeExpression(Expression *exp)
 }
 
 
-
+/*----------------------------------------------------------------------*/
+static void generateAggregateFilter(Expression *exp)
+{
+  /* When this is run the stack contains the instance id on top */
+  switch (exp->kind) {
+  case WHERE_EXPRESSION:
+    emit0(I_WHERE);
+    generateWhere(exp->fields.whr.whr);
+    emit0(I_EQ);
+    break;
+  case ISA_EXPRESSION:
+    generateId(exp->fields.isa.id);
+    emit0(I_ISA);
+    break;
+  default:
+    syserr("Unimplemented aggregate filter expression in '%s()'", __FUNCTION__);
+  }
+}
 
 /*----------------------------------------------------------------------*/
 static void generateAggregateExpression(Expression *exp)
 {
-  generateWhere(exp->fields.agr.whr);
+  List *lst;
 
+  switch (exp->fields.agr.kind) {
+  case COUNT_AGGREGATE:
+  case MAX_AGGREGATE:
+  case SUM_AGGREGATE: emitConstant(0); break;
+  case MIN_AGGREGATE: emitConstant(-1); break;
+  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+  }
+  emit0(I_AGRSTART);
+
+  TRAVERSE(lst,exp->fields.agr.filters) {
+    generateAggregateFilter(lst->element.exp);
+    emit0(I_AGRCHECK);
+  }
+
+  /* Generate attribute code for all aggregates except COUNT */
   if (exp->fields.agr.kind != COUNT_AGGREGATE)
-    emitConstant(exp->fields.agr.atr->symbol->code);
+    emitConstant(exp->fields.agr.attribute->code);
 
   switch (exp->fields.agr.kind) {
   case SUM_AGGREGATE: emit0(I_SUM); break;
   case MAX_AGGREGATE: emit0(I_MAX); break;
+  case MIN_AGGREGATE: emit0(I_MIN); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
   default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
   }
+  emit0(I_ENDAGR);
 }
 
 
 
-/*----------------------------------------------------------------------
-  geexprnd()
-
-  Generate code for a random expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateRandomExpression(Expression *exp)
 {
   generateExpression(exp->fields.rnd.to);
@@ -643,12 +744,7 @@ static void generateRandomExpression(Expression *exp)
 
 
 
-/*----------------------------------------------------------------------
-  geexpscore()
-
-  Generate the code for a SCORE expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void geexpscore(Expression *exp) /* IN - The expression to generate */
 {
   emitVariable(V_SCORE);
@@ -656,12 +752,7 @@ static void geexpscore(Expression *exp) /* IN - The expression to generate */
 
 
 
-/*----------------------------------------------------------------------
-  geexpwht()
-
-  Generate the code for a WHAT expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateWhatExpression(Expression *exp)
 {
   generateWhat(exp->fields.wht.wht);
@@ -669,11 +760,7 @@ static void generateWhatExpression(Expression *exp)
 
 
 
-/*======================================================================
-
-  generateBetweenCheck()
-
-*/
+/*======================================================================*/
 void generateBetweenCheck(Expression *exp)
 {
   generateExpression(exp->fields.btw.low);
@@ -682,12 +769,7 @@ void generateBetweenCheck(Expression *exp)
 }
 
 
-/*----------------------------------------------------------------------
-  geexpbtw()
-
-  Generate code for a random expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateBetweenExpression(Expression *exp)
 {
   generateExpression(exp->fields.btw.val);
@@ -824,29 +906,15 @@ static void dumpOperator(OperatorKind op)
 }
 
 
-/*----------------------------------------------------------------------
 
-  dumpAggregateKind()
-
-  */
+/*----------------------------------------------------------------------*/
 static void dumpAggregateKind(AggregateKind agr)
 {
-  switch (agr) {
-  case SUM_AGGREGATE: put("SUM"); break;
-  case MAX_AGGREGATE: put("MAX"); break;
-  case COUNT_AGGREGATE: put("COUNT"); break;
-  }
+  put(aggregateToString(agr));
 }
 
 
-
-/*======================================================================
-
-  dumpType()
-
-  Dump a type indication.
-
-  */
+/*======================================================================*/
 void dumpType(TypeKind typ)
 {
   switch (typ) {
@@ -873,13 +941,7 @@ void dumpType(TypeKind typ)
 
 
 
-/*======================================================================
-
-  dumpExpression()
-
-  Dump an expression node.
-
- */
+/*======================================================================*/
 void dumpExpression(Expression *exp)
 {
   if (exp == NULL) {
@@ -922,8 +984,12 @@ void dumpExpression(Expression *exp)
     if (exp->not) put("NOT ");
     put("BTW ");
     break;
+  case ISA_EXPRESSION:
+    if (exp->not) put("NOT ");
+    put("ISA ");
+    break;
   default:
-    put("*** ERROR *** ");
+    put("*** Expression kind not implemented in dump() *** ");
     break;
   }
   dumpSrcp(&exp->srcp);
@@ -952,8 +1018,8 @@ void dumpExpression(Expression *exp)
     break;
   case AGGREGATE_EXPRESSION:
     put("kind: "); dumpAggregateKind(exp->fields.agr.kind); nl();
-    put("atr: "); dumpId(exp->fields.agr.atr); nl();
-    put("whr: "); duwhr(exp->fields.agr.whr);
+    put("attribute: "); dumpId(exp->fields.agr.attribute); nl();
+    put("filters: "); dumpList(exp->fields.agr.filters, EXPRESSION_LIST);
     break;
   case RANDOM_EXPRESSION:
     put("from: "); dumpExpression(exp->fields.rnd.from); nl();
@@ -970,7 +1036,8 @@ void dumpExpression(Expression *exp)
     put("high: "); dumpExpression(exp->fields.btw.high);
     break;
   case ISA_EXPRESSION:
-    /* FIXME */
+    put("wht: "); dumpExpression(exp->fields.isa.wht); nl();
+    put("id: "); dumpId(exp->fields.isa.id);
     break;
   }
   out();

@@ -81,7 +81,7 @@ static lmMsgs msg[] = {
     { "6     ", "        %1 error(s)." },
     { "7     ", "Maximum number of messages exceeded." },
     { "100   ", "Parsing resumed here." },
-    { "101   ", "Syntax error. Attempting to repair by inserting \"%1\" here." },
+    { "101   ", "Syntax error. Attempting to repair by inserting \"%1\" before this symbol." },
     { "102   ", "Syntax error. Attempting to repair by ignoring \"%1\"." },
     { "103   ", "Syntax error. Attempting to repair by replacing \"%1\" by \"%2\"." },
     { "104   ", "Severe syntax error, construct ignored." },
@@ -118,6 +118,9 @@ static lmMsgs msg[] = {
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
     { "222   ", "Identifier \'%1\' in class restriction is not a parameter." },
     { "223   ", "This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
+    { "224   ", "Multiple use of %1 in filter list of %2 Aggregate." },
+    { "225   ", "The %1 aggregate will be applied to every instance (including locations, things and instances without any inheritance). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
+    { "226   ", "Attributes can not be used in %1 aggregate applied to all instances. Filter out only instances of a particular class using a \'Isa <class>\' filter." },
     { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
     { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
     { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it. You can override it by subclassing from class \'%3\'." },
@@ -202,7 +205,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 122}
+    {0, 125}
 };
 static lmMessages currMsect = (lmMessages)0;
 

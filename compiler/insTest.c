@@ -42,7 +42,7 @@ void testGenerateEmptyInstanceEntry()
   symbolizeAdventure();
 
   generateInstancePropertiesData(instance->props);
-  entryAddress = emadr();
+  entryAddress = nextEmitAddress();
   generateInstanceEntry(instance);
   terminateEmit();
   emitHeader();
@@ -69,7 +69,7 @@ void testGenerateInstances()
 
   address = generateInstanceTable();
   ASSERT(address == firstAdr);
-  address = emadr();
+  address = nextEmitAddress();
   ASSERT(address == firstAdr + 1/*EOF*/);
 
   initAdventure();
@@ -78,11 +78,11 @@ void testGenerateInstances()
   symbolizeInstances();
   generateInstanceData(ins);
 
-  instanceTableAddress = emadr();
+  instanceTableAddress = nextEmitAddress();
   generateInstanceEntry(ins);
 
   /* End should be at the size of the table and one instance */
-  address = emadr();
+  address = nextEmitAddress();
   ASSERT(address == instanceTableAddress + instanceSize);
   acdHeader.size = address;
   terminateEmit();

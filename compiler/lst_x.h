@@ -19,7 +19,7 @@ extern void (*(dumpNodeTable[]))();
 
 /* FUNCTIONS: */
 
-#define TRAVERSE(loopVariable,initExpression) (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
+#define TRAVERSE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
 extern void initDumpNodeList();
 extern List *concat(List *lst, void *elem, ListKind kind);

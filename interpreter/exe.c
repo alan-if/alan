@@ -354,7 +354,7 @@ void set(Aword id, Aword atr, Aword val)
 /*======================================================================*/
 void setstr(Aword id, Aword atr, Aword str)
 {
-  free((char *)attribute(id, atr));
+  free((char *)attributeOf(id, atr));
   set(id, atr, str);
 }
 
@@ -417,7 +417,7 @@ static Aword litatr(Aword lit, Aword atr)
 
 
 /*======================================================================*/
-Aword attribute(Aword id, Aword atr)
+Aword attributeOf(Aword id, Aword atr)
 {
   char str[80];
 
@@ -438,7 +438,7 @@ Aword attribute(Aword id, Aword atr)
 /*======================================================================*/
 Aword strattr(Aword id, Aword atr)
 {
-  return (Aword) strdup((char *)attribute(id, atr));
+  return (Aword) strdup((char *)attributeOf(id, atr));
 }
 
 
@@ -459,6 +459,7 @@ static Aword objloc(Aword obj)
 #endif
 
 
+/*======================================================================*/
 Aword where(Aword id)
 {
   char str[80];
@@ -486,10 +487,10 @@ Aint agrmax(Aword atr, Aword whr)
   for (i = 1; i <= header->instanceMax; i++) {
     if (isObj(i)) {
       if (isLoc(whr)) {
-	if (where(i) == whr && attribute(i, atr) > max)
-	  max = attribute(i, atr);
-      } else if (instance[i].location == whr && attribute(i, atr) > max)
-	max = attribute(i, atr);
+	if (where(i) == whr && attributeOf(i, atr) > max)
+	  max = attributeOf(i, atr);
+      } else if (instance[i].location == whr && attributeOf(i, atr) > max)
+	max = attributeOf(i, atr);
     }
   }
   return(max);
@@ -506,9 +507,9 @@ Aint agrsum(Aword atr, Aword whr)
     if (isObj(i)) {
       if (isLoc(whr)) {
 	if (where(i) == whr)
-	  sum += attribute(i, atr);
+	  sum += attributeOf(i, atr);
       } else if (instance[i].location == whr)
-	sum += attribute(i, atr);
+	sum += attributeOf(i, atr);
     }
   }
   return(sum);

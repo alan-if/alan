@@ -34,6 +34,8 @@ extern void dustm();
 extern void dumpSyntax();
 extern void dumpStep();
 extern void dumpVerb();
+extern void dumpExpression();
+
 
 
 /*======================================================================
@@ -59,6 +61,7 @@ void initDumpNodeList()
   dumpNodeTable[VERB_LIST] = &dumpVerb;
   dumpNodeTable[SCRIPT_LIST] = &dumpScript;
   dumpNodeTable[STEP_LIST] = &dumpStep;
+  dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;
 }
 
 

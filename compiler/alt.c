@@ -166,7 +166,7 @@ static void generateAlternative(AltNod *alt)
   if (alt->stms == NULL)
     alt->stmadr = 0;
   else {
-    alt->stmadr = emadr();
+    alt->stmadr = nextEmitAddress();
     generateStatements(alt->stms);
     emit0(I_RETURN);
   }
@@ -189,7 +189,7 @@ Aaddr gealts(List *alts)
   for (lst = alts; lst != NULL; lst = lst->next)
     generateAlternative(lst->element.alt);
 
-  altadr = emadr();
+  altadr = nextEmitAddress();
   for (lst = alts; lst != NULL; lst = lst->next)
     gealtent(lst->element.alt);
   emit(EOF);

@@ -22,6 +22,19 @@ static Aword stack[STACKSIZE];
 static int stackp = 0;
 
 
+/*----------------------------------------------------------------------*/
+void dumpStack(void)
+{
+  int i;
+
+  printf("[");
+  for (i = 0; i < stackp; i++)
+    printf("%ld ", stack[i]);
+  printf("]");
+}
+
+
+
 #ifdef _PROTOTYPES_
 void push(Aword i)
 #else

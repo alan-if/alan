@@ -64,7 +64,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
 
   if (addedAttributes == NULL) return;
 
-  for TRAVERSE(l, addedAttributes) {
+  TRAVERSE(l, addedAttributes) {
     Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
     if (originalAttribute != NULL) /* It was found in the original */
       lmLog(&l->element.atr->id->srcp, 336, sevERR, "an attribute which already exists");
@@ -101,8 +101,8 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
   if (add->props->verbs != NULL) {
     if (originalSymbol == entitySymbol)
       lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
-    for TRAVERSE(verbList, add->props->verbs) {
-      for TRAVERSE(verbIdList, verbList->element.vrb->ids)
+    TRAVERSE(verbList, add->props->verbs) {
+      TRAVERSE(verbIdList, verbList->element.vrb->ids)
 	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {
 	  multipleVerb = TRUE;
 	  lmLogv(&verbList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);

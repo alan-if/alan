@@ -358,7 +358,7 @@ void anmsgs(void)
   */
 static void gemsgent(MsgNod *msg)
 {
-  msg->stmadr = emadr();	/* Save address to messages statements */
+  msg->stmadr = nextEmitAddress();	/* Save address to messages statements */
   generateStatements(msg->stms);
   emit0(I_RETURN);
 }
@@ -381,7 +381,7 @@ Aaddr gemsgs(void)
     gemsgent(lst->element.msg);
   }
 
-  adr = emadr();		/* Save address to messages table */
+  adr = nextEmitAddress();		/* Save address to messages table */
   for (lst = adv.msgs; lst; lst = lst->next)
     emit(lst->element.msg->stmadr);
   emit(EOF);

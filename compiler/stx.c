@@ -281,7 +281,7 @@ Aaddr generateAllSyntaxes(void)
     gestx(lst->element.stx);
 
   /* Then a table of entries */
-  stxadr = emadr();
+  stxadr = nextEmitAddress();
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     generateSyntaxEntry(lst->element.stx);
   emit(EOF);

@@ -199,7 +199,7 @@ static void generateClassData(ClaNod *cla)
 {
   generateClassPropertiesData(cla->props);
   if (debugOption) {
-    cla->props->idAddress = emadr();
+    cla->props->idAddress = nextEmitAddress();
     emitString(cla->props->id->string);
   }
 }
@@ -210,7 +210,7 @@ static void generateClassEntry(ClaNod *cla)
 {
   ClassEntry entry;
 
-  cla->adr = emadr();
+  cla->adr = nextEmitAddress();
 
   entry.code = cla->props->id->symbol->code;	/* First own code */
 
@@ -247,7 +247,7 @@ Aaddr generateClasses(void)
   for (l = allClasses; l; l = l->next)
     generateClassData(l->element.cla);
 
-  adr = emadr();
+  adr = nextEmitAddress();
   for (l = allClasses; l; l = l->next)
     generateClassEntry(l->element.cla);
   emit(EOF);

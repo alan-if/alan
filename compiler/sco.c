@@ -52,7 +52,7 @@ Aaddr gesco(void)
   int i;
   Aaddr adr;
 
-  adr = emadr();		/* Save address of score table */
+  adr = nextEmitAddress();		/* Save address of score table */
   if (scocnt != 0) {
     for (i = 1; i <= scocnt; i++)
       emit(adv.scores[i]);

@@ -118,7 +118,7 @@ static Aaddr generateScriptDescription(Script *script)
   Aaddr address = 0;
 
   if (script->description != NULL) {
-    address = emadr();
+    address = nextEmitAddress();
     generateStatements(script->description);
     emit0(I_RETURN);
   }
@@ -138,12 +138,12 @@ Aaddr generateScripts(AcdHdr *header)
   for (lst = allScripts; lst != NULL; lst = lst->next) {
     lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps);
     lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr);
-    lst->element.scr->stringAddress = emadr();
+    lst->element.scr->stringAddress = nextEmitAddress();
     emitString(lst->element.scr->id->string);
   }
 
   /* Script table */
-  scriptTableAddress = emadr();
+  scriptTableAddress = nextEmitAddress();
   for (lst = allScripts; lst != NULL; lst = lst->next) {
     entry.stringAddress = lst->element.scr->stringAddress;
     entry.code = lst->element.scr->id->code;

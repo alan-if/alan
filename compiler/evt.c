@@ -95,11 +95,11 @@ static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
   showProgress();
 
   if ((Bool) opts[OPTDEBUG].value) {
-    evt->namadr = emadr();
+    evt->namadr = nextEmitAddress();
     emitString(evt->id->string);
   } else
     evt->namadr = 0;
-  evt->stmadr = emadr();
+  evt->stmadr = nextEmitAddress();
   generateStatements(evt->stms);
   emit0(I_RETURN);
 }
@@ -122,7 +122,7 @@ Aaddr generateEvents(AcdHdr *header)
   for (lst = adv.evts; lst != NULL; lst = lst->next)
     generateEvent(lst->element.evt);
 
-  adr = emadr();		/* Save address of event table */
+  adr = nextEmitAddress();		/* Save address of event table */
   for (lst = adv.evts; lst != NULL; lst = lst->next) {
     entry.stringAddress = lst->element.evt->namadr;
     entry.code = lst->element.evt->stmadr;

@@ -15,37 +15,37 @@ void testEmit()
 
  initEmit("unit.a3c");
 
-  expectedAddress = emadr();
+  expectedAddress = nextEmitAddress();
 
   emit(0);
   expectedAddress += 1;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 
   emitString("123");
   expectedAddress += 1;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 
   emitString("1234");
   expectedAddress += 2;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 
   emit0(I_IF);
   expectedAddress += 1;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 
   emitN((Aword *)&emitTestArray, 5);
   expectedAddress += 5;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 
   emitEntry((Aword *)&emitTestArray, 6*4);
   expectedAddress += 6;
-  ASSERT(emadr() == expectedAddress);
-  expectedAddress = emadr();
+  ASSERT(nextEmitAddress() == expectedAddress);
+  expectedAddress = nextEmitAddress();
 }
 
 

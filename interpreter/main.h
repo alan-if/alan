@@ -64,6 +64,7 @@ extern Boolean ignoreErrorOption;
 extern Boolean debugOption;
 extern Boolean traceOption;
 extern Boolean tracePushOption;
+extern Boolean traceStackOption;
 extern Boolean singleStepOption;
 extern Boolean logOption;
 extern Boolean statusLineOption;

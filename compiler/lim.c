@@ -103,7 +103,7 @@ static void generateLimit(LimNod *lim)
   showProgress();
 
   /* Generate statements */
-  lim->stmadr = emadr();	/* Save ACODE address to statements */
+  lim->stmadr = nextEmitAddress();	/* Save ACODE address to statements */
   generateStatements(lim->stms);
   emit0(I_RETURN);
 }
@@ -135,7 +135,7 @@ Aword generateLimits(ContainerBody *info)
   for (lst = info->limits; lst != NULL; lst = lst->next)
     generateLimit(lst->element.lim);
 
-  limadr = emadr();		/* Save ACODE address to limit table */
+  limadr = nextEmitAddress();		/* Save ACODE address to limit table */
   for (lst = info->limits; lst != NULL; lst = lst->next)
     generateLimitEntry(lst->element.lim);
   emit(EOF);

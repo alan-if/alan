@@ -111,15 +111,15 @@ Aaddr generateRules(void)
 
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     showProgress();
-    lst->element.rul->expadr = emadr();
+    lst->element.rul->expadr = nextEmitAddress();
     generateExpression(lst->element.rul->exp);
     emit0(I_RETURN);
-    lst->element.rul->stmadr = emadr();
+    lst->element.rul->stmadr = nextEmitAddress();
     generateStatements(lst->element.rul->stms);
     emit0(I_RETURN);
   }
 
-  adr = emadr();
+  adr = nextEmitAddress();
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     emit(FALSE);		/* Rule run */
     emit(lst->element.rul->expadr); /* Address to expression code */

@@ -76,6 +76,7 @@ Boolean ignoreErrorOption = TRUE;
 Boolean debugOption = FALSE;
 Boolean traceOption = FALSE;
 Boolean tracePushOption = FALSE;
+Boolean traceStackOption = FALSE;
 Boolean singleStepOption = FALSE;
 Boolean logOption = FALSE;
 Boolean statusLineOption = TRUE;
@@ -180,34 +181,21 @@ void usage()
 #ifdef GLK
   glk_set_style(style_Preformatted);
 #endif
-  printf("    -v    verbose mode\n");
-  printf("    -l    log player commands and game output to a file\n");
-  printf("    -n    no Status Line\n");
-  printf("    -d    enter debug mode\n");
-  printf("    -t    trace game execution\n");
-  printf("    -s    single instruction trace\n");
-  printf("    -p    trace all stack push instructions also\n");
-  printf("    -i    ignore version and checksum errors\n");
-  printf("    -r    refrain from printing timestamps (making regression testing easier)\n");
+  printf("    -v       verbose mode\n");
+  printf("    -l       log player commands and game output to a file\n");
+  printf("    -n       no Status Line\n");
+  printf("    -d       enter debug mode\n");
+  printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
+  printf("    -i       ignore version and checksum errors\n");
+  printf("    -r       refrain from printing timestamps (making regression testing easier)\n");
 #ifdef GLK
   glk_set_style(style_Normal);
 #endif
 }
 
 
-/*======================================================================
-
-  syserr()
-
-  Print a little text blaming the user for the system error.
-
- */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void syserr(char *str)
-#else
-void syserr(str)
-     char *str;
-#endif
 {
   output("$n$nAs you enter the twilight zone of Adventures, you stumble \
 and fall to your knees. In front of you, you can vaguely see the outlines \
@@ -487,11 +475,7 @@ static void just(str)
   Output a space if needed.
 
  */
-#ifdef _PROTOTYPES_
 static void space(void)
-#else
-static void space()
-#endif
 {
   if (skipsp)
     skipsp = FALSE;
@@ -648,7 +632,7 @@ void output(original)
   copy = strdup(original);
   str = copy;
 
-  if (str[0] != '$' || str[1] != '$')
+  if (!((str[0] == '$' && str[1] == '$') || (str[0] == '.' && (str[1] == '\0' || str[1] == ' '))))
     space();			/* Output space if needed (& not inhibited) */
 
   while ((symptr = strchr(str, '$')) != (char *) NULL) {
@@ -1078,10 +1062,10 @@ static void checkdebug()
     tracePushOption = FALSE;
   }
 
-  if (debugOption)			/* If debugging */
-    srand(0);			/* use no randomization */
+  if (debugOption)		/* If debugging... */
+    srand(0);			/* ... use no randomization */
   else
-    srand(time(0));		/* seed random generator */
+    srand(time(0));		/* Else seed random generator */
 }
 
 

@@ -190,14 +190,14 @@ static void generateContainerBody(ContainerBody *body)
     body->limadr = generateLimits(body);
 
     if (body->hstms != NULL) {
-      body->hadr = emadr();
+      body->hadr = nextEmitAddress();
       generateStatements(body->hstms);
       emit0(I_RETURN);
     } else
       body->hadr = 0;
 
     if (body->estms != NULL) {
-      body->eadr = emadr();
+      body->eadr = nextEmitAddress();
       generateStatements(body->estms);
       emit0(I_RETURN);
     } else
@@ -209,7 +209,7 @@ static void generateContainerBody(ContainerBody *body)
       body->extractChecksAddress = 0;
 
     if (body->extractStatements != NULL) {
-      body->extractStatementsAddress = emadr();
+      body->extractStatementsAddress = nextEmitAddress();
       generateStatements(body->extractStatements);
       emit0(I_RETURN);
     } else
@@ -245,14 +245,14 @@ Aaddr generateContainers(AcdHdr *header)
   Aaddr adr;
 
   if (adv.cnts == NULL)		/* Any containers at all? */
-    adr = emadr();
+    adr = nextEmitAddress();
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
       if (lst->element.cnt->ownerProperties != NULL)
 	generateContainerBody(lst->element.cnt->body);
   
-    adr = emadr();		/* Save ACODE address to container list */
+    adr = nextEmitAddress();		/* Save ACODE address to container list */
     /* Container list */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
       if (lst->element.cnt->ownerProperties != NULL)

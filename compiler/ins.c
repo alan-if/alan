@@ -204,7 +204,7 @@ static void generateInstanceEntry(Instance *ins)
 */
 static Aaddr generateInstanceTable(void)
 {
-  Aaddr address = emadr();
+  Aaddr address = nextEmitAddress();
   List *l;
 
   for (l = allInstances; l; l = l->next)

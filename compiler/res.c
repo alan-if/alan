@@ -159,7 +159,7 @@ void analyzeRestrictions(
 /*----------------------------------------------------------------------*/
 static void generateRestrictionParts(ResNod *res)
 {
-  res->stmadr = emadr();
+  res->stmadr = nextEmitAddress();
   generateStatements(res->stms);
   emit0(I_RETURN);
 }
@@ -207,7 +207,7 @@ Aaddr generateRestrictions(
   for (lst = restrictions; lst != NULL; lst = lst->next)
     generateRestrictionParts(lst->element.res);
 
-  address = emadr();
+  address = nextEmitAddress();
   for (lst = restrictions; lst != NULL; lst = lst->next)
     generateRestrictionEntry(lst->element.res);
   emit(EOF);

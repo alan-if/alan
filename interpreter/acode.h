@@ -137,8 +137,12 @@ typedef enum InstClass {
   I_NOT,
   I_UMINUS,
   I_RND,
-  I_SUM,			/* SUM-aggregate */
-  I_MAX,			/* MAX-aggregate */
+  I_AGRSTART,			/* Aggregate looping instructions */
+  I_AGRCHECK,
+  I_ENDAGR,
+  I_SUM,			/* Aggregates */
+  I_MAX,
+  I_MIN,
   I_COUNT,			/* COUNT aggregate & limit meta-attribute */
   I_RETURN,
   I_SYSTEM,

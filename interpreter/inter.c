@@ -27,14 +27,8 @@
 static int pc;
 
 
-#ifdef _PROTOTYPES_
-static void interpretIf(
-     Aword v
-)
-#else
-static void interpretIf(v)
-     Aword v;
-#endif
+/*----------------------------------------------------------------------*/
+static void interpretIf(Aword v)
 {
   int lev = 1;
   Aword i;
@@ -70,11 +64,8 @@ static void interpretIf(v)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void interpretElse(void)
-#else
-static void interpretElse()
-#endif
 {
   int lev = 1;
   Aword i;
@@ -97,6 +88,7 @@ static void interpretElse()
 }
 
 
+/*----------------------------------------------------------------------*/
 static void interpretEach(Aint local)
 {
   Aint counter = getLocal(0, local);
@@ -128,6 +120,7 @@ static void interpretEach(Aint local)
 }
 
 
+/*----------------------------------------------------------------------*/
 static void nextEach()
 {
   int level = 1;
@@ -155,30 +148,21 @@ static void nextEach()
 }  
 
 
+/*----------------------------------------------------------------------*/
 static void endEach()
 {
   nextEach();
 }
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void dup(void)
-#else
-static void dup()
-#endif
 {
   push(top());
 }
 
 
-
-#ifdef _PROTOTYPES_
-static void depexec(
-     Aword v
-)
-#else
-static void depexec(v)
-     Aword v;
-#endif
+/*----------------------------------------------------------------------*/
+static void depexec(Aword v)
 {
   int lev = 1;
   Aword i;
@@ -219,11 +203,8 @@ static void depexec(v)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void depcase(void)
-#else
-static void depcase()
-#endif
 {
   int lev = 1;
   Aword i;
@@ -254,18 +235,43 @@ static void depcase()
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
+static void goToENDAGR(void)
+{
+  while (memory[pc] != INSTRUCTION(I_ENDAGR))
+    pc++;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void goToAGRSTART(void)
+{
+  while (memory[pc-1] != INSTRUCTION(I_AGRSTART))
+    pc--;
+}
+
+static void traceBooleanTopValue() {
+  if (singleStepOption) {
+    if (top()) printf("\t=TRUE\t");
+    else printf("\t=FALSE\t");
+  }
+}
+
+static void traceIntegerTopValue() {
+  if (singleStepOption)
+    printf("\t=%ld\t", top());
+}
+
+
+
+
+/*======================================================================*/
 void interpret(Aaddr adr)
-#else
-void interpret(adr)
-     Aaddr adr;
-#endif
 {
   Aaddr oldpc;
   Aword i;
 
   if (adr == 0) syserr("Interpreting at address 0.");
-
   
   if (singleStepOption) printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
   
@@ -279,34 +285,36 @@ void interpret(adr)
     
     switch (I_CLASS(i)) {
     case C_CONST:
-      if (tracePushOption) printf("\n%4x: PUSH  \t%5ld", pc, I_OP(i));
+      if (tracePushOption) printf("\n%4x: PUSH  \t%5ld\t\t\t", pc, I_OP(i));
       push(I_OP(i));
+      if (tracePushOption && traceStackOption)
+	dumpStack();
       break;
     case C_CURVAR:
-      if (tracePushOption) printf("\n%4x: ", pc);
+      if (singleStepOption) printf("\n%4x: ", pc);
       switch (I_OP(i)) {
       case V_PARAM:
-	if (tracePushOption) printf("PARAM \t%5ld\t\t(%ld)", top(), params[top()-1].code);
+	if (singleStepOption) printf("PARAM \t%5ld\t\t=%ld\t", top(), params[top()-1].code);
 	push(params[pop()-1].code);
 	break;
       case V_CURLOC:
-	if (tracePushOption) printf("CURLOC \t\t\t(%d)", current.location);
+	if (singleStepOption) printf("CURLOC \t\t\t=%d\t", current.location);
 	push(current.location);
 	break;
       case V_CURACT:
-	if (tracePushOption) printf("CURACT \t\t\t(%d)", current.actor);
+	if (singleStepOption) printf("CURACT \t\t\t=%d\t", current.actor);
 	push(current.actor);
 	break;
       case V_CURVRB:
-	if (tracePushOption) printf("CURVRB \t\t\t(%d)", current.verb);
+	if (singleStepOption) printf("CURVRB \t\t\t=%d\t", current.verb);
 	push(current.verb);
 	break;
       case V_CURRENT_INSTANCE:
-	if (tracePushOption) printf("CURINS \t\t\t(%d)", current.instance);
+	if (singleStepOption) printf("CURINS \t\t\t=%d\t", current.instance);
 	push(current.instance);
 	break;
       case V_SCORE:
-	if (tracePushOption) printf("CURSCORE \t\t\t(%d)", current.score);
+	if (singleStepOption) printf("CURSCORE \t\t\t=%d\t", current.score);
 	push(current.score);
 	break;
       default:
@@ -323,12 +331,12 @@ void interpret(adr)
 	fpos = pop();
 	len = pop();
 	if (singleStepOption) {
-	  printf("PRINT \t%5ld, %5ld\t\"", fpos, len);
-	  col = 34;		/* To format it better! */
+	  printf("PRINT \t%5ld, %5ld\t\t\"", fpos, len);
+	  col = 41;		/* To break lines better! */
 	}
 	print(fpos, len);
 	if (singleStepOption)
-	  printf("\"");
+	  printf("\"\n\t\t\t\t\t");
 	break;
       }
       case I_SYSTEM: {
@@ -340,6 +348,8 @@ void interpret(adr)
 	  col = 34;		/* To format it better! */
 	}
 	sys(fpos, len);
+	if (singleStepOption)
+	  printf("\"\t\t\t\t");
 	break;
       }
       case I_GETSTR: {
@@ -349,37 +359,36 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("GETSTR\t%5ld, %5ld", fpos, len);
 	getstr(fpos, len);
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_QUIT: {
 	if (singleStepOption)
-	  printf("QUIT");
+	  printf("QUIT\t\t\t\t");
 	quit();
 	break;
       }
       case I_LOOK: {
 	if (singleStepOption)
-	  printf("LOOK");
+	  printf("LOOK\t\t\t\t");
 	look();
 	break;
       }
       case I_SAVE: {
 	if (singleStepOption)
-	  printf("SAVE");
+	  printf("SAVE\t\t\t\t");
 	saveGame();
 	break;
       }
       case I_RESTORE: {
 	if (singleStepOption)
-	  printf("RESTORE");
+	  printf("RESTORE\t\t\t\t");
 	restoreGame();
 	break;
       }
       case I_RESTART: {
 	if (singleStepOption)
-	  printf("RESTART");
+	  printf("RESTART\t\t\t\t");
 	restartGame();
 	break;
       }
@@ -387,7 +396,7 @@ void interpret(adr)
 	Aword cnt;
 	cnt = pop();
 	if (singleStepOption)
-	  printf("LIST \t%5ld", cnt);
+	  printf("LIST \t%5ld\t\t\t", cnt);
 	list(cnt);
 	break;
       }
@@ -396,7 +405,7 @@ void interpret(adr)
 	cnt = pop();
 	whr = pop();
 	if (singleStepOption)
-	  printf("EMPTY \t%5ld, %5ld", cnt, whr);
+	  printf("EMPTY \t%5ld, %5ld\t\t", cnt, whr);
 	empty(cnt, whr);
 	break;
       }
@@ -404,7 +413,7 @@ void interpret(adr)
 	Aword sc;
 	sc = pop();
 	if (singleStepOption)
-	  printf("SCORE \t%5ld\t\t(%ld)", sc, scores[sc-1]);
+	  printf("SCORE \t%5ld\t\t=%ld\t", sc, scores[sc-1]);
 	score(sc);
 	break;
       }
@@ -412,7 +421,7 @@ void interpret(adr)
 	Aword v;
 	v = pop();
 	if (singleStepOption)
-	  printf("VISITS \t%5ld", v);
+	  printf("VISITS \t%5ld\t\t\t", v);
 	visits(v);
 	break;
       }
@@ -422,7 +431,7 @@ void interpret(adr)
 	whr = pop();
 	aft = pop();
 	if (singleStepOption)
-	  printf("SCHEDULE \t%5ld, %5ld, %5ld", evt, whr, aft);
+	  printf("SCHEDULE \t%5ld, %5ld, %5ld\t\t", evt, whr, aft);
 	schedule(evt, whr, aft);
 	break;
       }
@@ -430,7 +439,7 @@ void interpret(adr)
 	Aword evt;
 	evt = pop();
 	if (singleStepOption)
-	  printf("CANCEL \t%5ld", evt);
+	  printf("CANCEL \t%5ld\t\t", evt);
 	cancl(evt);
 	break;
       }
@@ -442,6 +451,7 @@ void interpret(adr)
 	if (singleStepOption) {
 	  printf("MAKE \t%5ld, %5ld, ", id, atr);
 	  if (val) printf("TRUE"); else printf("FALSE");
+	  printf("\t");
 	}
 	make(id, atr, val);
 	break;
@@ -452,7 +462,7 @@ void interpret(adr)
 	atr = pop();
 	val = pop();
 	if (singleStepOption) {
-	  printf("SET \t%5ld, %5ld, %5ld", id, atr, val);
+	  printf("SET \t%5ld, %5ld, %5ld\t\t", id, atr, val);
 	}
 	set(id, atr, val);
 	break;
@@ -463,7 +473,7 @@ void interpret(adr)
 	atr = pop();
 	str = pop();
 	if (singleStepOption) {
-	  printf("STRSET\t%5ld, %5ld, %5ld", id, atr, str);
+	  printf("STRSET\t%5ld, %5ld, %5ld\t\t", id, atr, str);
 	}
 	setstr(id, atr, str);
 	break;
@@ -485,7 +495,7 @@ void interpret(adr)
 	atr = pop();
 	step = pop();
 	if (singleStepOption) {
-	  printf("DECR\t%5ld, %5ld, %5ld", id, atr, step);
+	  printf("DECR\t%5ld, %5ld, %5ld\t\t", id, atr, step);
 	}
 	decr(id, atr, step);
 	break;
@@ -496,9 +506,8 @@ void interpret(adr)
 	atr = pop();
 	if (singleStepOption)
 	  printf("ATTRIBUTE %5ld, %5ld", id, atr);
-	push(attribute(id, atr));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	push(attributeOf(id, atr));
+	traceIntegerTopValue();
 	break;
       }
       case I_STRATTR: {
@@ -508,8 +517,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("STRATTR \t%5ld, %5ld", id, atr);
 	push(strattr(id, atr));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_SHOW: {
@@ -517,7 +525,7 @@ void interpret(adr)
 	image = pop();
 	align = pop();
 	if (singleStepOption)
-	  printf("SHOW \t%5ld, %5ld", image, align);
+	  printf("SHOW \t%5ld, %5ld\t\t", image, align);
 	showImage(image, align);
 	break;
       }
@@ -526,7 +534,7 @@ void interpret(adr)
 	id = pop();
 	whr = pop();
 	if (singleStepOption)
-	  printf("LOCATE \t%5ld, %5ld", id, whr);
+	  printf("LOCATE \t%5ld, %5ld\t\t", id, whr);
 	locate(id, whr);
 	break;
       }
@@ -534,10 +542,9 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (singleStepOption)
-	  printf("WHERE \t%5ld", id);
+	  printf("WHERE \t%5ld\t", id);
 	push(where(id));
-	if (singleStepOption)
-	  printf("\t\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_HERE: {
@@ -547,8 +554,8 @@ void interpret(adr)
 	  printf("HERE \t%5ld", id);
 	push(isHere(id));
 	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
+	  if (top()) printf("\t=TRUE\t");
+	  else printf("\t=FALSE\t");
 	}
 	break;
       }
@@ -559,8 +566,8 @@ void interpret(adr)
 	  printf("NEAR \t%5ld", id);
 	push(isNear(id));
 	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
+	  if (top()) printf("\t=TRUE\t");
+	  else printf("\t=FALSE\t");
 	}
 	break;
       }
@@ -569,7 +576,7 @@ void interpret(adr)
 	act = pop();
 	scr = pop();
 	if (singleStepOption)
-	  printf("USE \t%5ld, %5ld", act, scr);
+	  printf("USE \t%5ld, %5ld\t\t", act, scr);
 	use(act, scr);
 	break;
       }
@@ -577,7 +584,7 @@ void interpret(adr)
 	Aword actor;
 	actor = pop();
 	if (singleStepOption)
-	  printf("STOP \t%5ld", actor);
+	  printf("STOP \t%5ld\t\t\t", actor);
 	stop(actor);
 	break;
       }
@@ -589,8 +596,8 @@ void interpret(adr)
 	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
 	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
+	  if (top()) printf("\t=TRUE\t");
+	  else printf("\t=FALSE\t");
 	}
 	break;
       }
@@ -599,9 +606,11 @@ void interpret(adr)
 	id = pop();
 	if (singleStepOption) {
 	  printf("DESCRIBE \t%5ld\t", id);
-	  col = 34;		/* To format it better! */
+	  col = 41;		/* To format it better! */
 	}
 	describe(id);
+	if (singleStepOption)
+	  printf("\n\t\t\t\t");
 	break;
       }
       case I_SAY: {
@@ -611,27 +620,27 @@ void interpret(adr)
 	  printf("SAY \t%5ld\t\t\"", id);
 	say(id);
 	if (singleStepOption)
-	  printf("\"");
+	  printf("\"\n\t\t\t\t");
 	break;
       }
       case I_SAYINT: {
 	Aword val;
 	val = pop();
 	if (singleStepOption)
-	  printf("SAYINT\t%5ld\t\t\"", val);
+	  printf("SAYINT\t%5ld\t\t\t\"", val);
 	sayint(val);
 	if (singleStepOption)
-	  printf("\"");
+	  printf("\"\n\t\t\t\t\t");
 	break;
       }
       case I_SAYSTR: {
 	Aword adr;
 	adr = pop();
 	if (singleStepOption)
-	  printf("SAYSTR\t%5ld\t\t\"", adr);
+	  printf("SAYSTR\t%5ld\t\t", adr);
 	saystr((char *)adr);
 	if (singleStepOption)
-	  printf("\"");
+	  printf("\n\t\t\t\t");
 	break;
       }
       case I_IF: {
@@ -640,19 +649,20 @@ void interpret(adr)
 	if (singleStepOption) {
 	  printf("IF \t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
+	  printf("\t\t");
 	}
 	interpretIf(v);
 	break;
       }
       case I_ELSE: {
 	if (singleStepOption)
-	  printf("ELSE");
+	  printf("ELSE\t\t\t\t");
 	interpretElse();
 	break;
       }
       case I_ENDIF: {
 	if (singleStepOption)
-	  printf("ENDIF");
+	  printf("ENDIF\t\t\t\t");
 	break;
       }
       case I_AND: {
@@ -665,10 +675,7 @@ void interpret(adr)
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh && rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_OR: {
@@ -681,10 +688,7 @@ void interpret(adr)
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh || rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_NE: {
@@ -694,10 +698,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("NE \t%5ld, %5ld", lh, rh);
 	push(lh != rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_EQ: {
@@ -707,10 +708,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("EQ \t%5ld, %5ld", lh, rh);
 	push(lh == rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_STREQ: {
@@ -720,10 +718,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("STREQ \t%5ld, %5ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_STREXACT: {
@@ -733,10 +728,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("STREXACT \t%5ld, %5ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	free((void *)lh);
 	free((void *)rh);
 	break;
@@ -748,10 +740,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("LE \t%5ld, %5ld", lh, rh);
 	push(lh <= rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_GE: {
@@ -761,10 +750,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("GE \t%5ld, %5ld", lh, rh);
 	push(lh >= rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_LT: {
@@ -774,10 +760,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("LT \t%5ld, %5ld", lh, rh);
 	push(lh < rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_GT: {
@@ -787,10 +770,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("GT \t%5ld, %5ld", lh, rh);
 	push(lh > rh);
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_PLUS: {
@@ -800,8 +780,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("PLUS \t%5ld, %5ld", lh, rh);
 	push(lh + rh);
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_MINUS: {
@@ -811,8 +790,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("MINUS \t%5ld, %5ld", lh, rh);
 	push(lh - rh);
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_MULT: {
@@ -822,8 +800,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("MULT \t%5ld, %5ld", lh, rh);
 	push(lh * rh);
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_DIV: {
@@ -833,8 +810,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("DIV \t%5ld, %5ld", lh, rh);
 	push(lh / rh);
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_NOT: {
@@ -845,42 +821,7 @@ void interpret(adr)
 	  if (val) printf("TRUE"); else printf("FALSE");
 	}
 	push(!val);
-	if (singleStepOption) {
-	  if (top()) printf("\t\t(TRUE)");
-	  else printf("\t\t(FALSE)");
-	}
-	break;
-      }
-      case I_MAX: {
-	Aword atr, whr;
-	atr = pop();
-	whr = pop();
-	if (singleStepOption)
-	  printf("MAX \t%5ld, %5ld", atr, whr);
-	push(agrmax(atr, whr));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
-	break;
-      }
-      case I_SUM: {
-	Aword atr, whr;
-	atr = pop();
-	whr = pop();
-	if (singleStepOption)
-	  printf("SUM \t%5ld, %5ld", atr, whr);
-	push(agrsum(atr, whr));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
-	break;
-      }
-      case I_COUNT: {
-	Aword whr;
-	whr = pop();
-	if (singleStepOption)
-	  printf("COUNT \t%5ld", whr);
-	push(agrcount(whr));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceBooleanTopValue();
 	break;
       }
       case I_RND: {
@@ -890,8 +831,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("RANDOM \t%5ld, %5ld", from, to);
 	push(rnd(from, to));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_BTW: {
@@ -902,8 +842,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("BETWEEN \t%5ld, %5ld, %5ld", val, low, high);
 	push(btw(val, low, high));
-	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	traceIntegerTopValue();
 	break;
       }
       case I_CONTAINS: {
@@ -913,25 +852,109 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("CONTAINS \t%5ld, %5ld", string, substring);
 	push(contains(string, substring));
+	traceIntegerTopValue();
+	break;
+      }
+
+      case I_AGRSTART:
 	if (singleStepOption)
-	  printf("\t(%ld)", top());
+	  printf("AGRSTART\t\t\t\t");
+	push(1);		/* Instance index */
+	dup();			/* Twice! */
+	break;
+      case I_AGRCHECK:
+	if (singleStepOption)
+	  printf("AGRCHECK\t\t\t\t");
+	if (!pop())		/* This filter matched? */
+	  goToENDAGR();		/* If not, skip rest of filter and the aggregate itself */
+	else
+	  dup();
+	break;
+      case I_MIN: {
+	Aint attribute = pop();
+	Aint instanceIndex = pop();
+	Aint min;
+
+	pop();
+	min = pop();
+	if (singleStepOption)
+	  printf("MIN \t%5ld\t", attribute);
+	if (min > attributeOf(instanceIndex, attribute))
+	  push(attributeOf(instanceIndex, attribute));
+	else
+	  push(min);
+	traceIntegerTopValue();
+	push(instanceIndex);
+	break;
+      }
+      case I_MAX: {
+	Aint attribute = pop();
+	Aint instanceIndex = pop();
+	Aint max;
+
+	pop();
+	max = pop();
+	if (singleStepOption)
+	  printf("MAX \t%5ld\t", attribute);
+	if (max < attributeOf(instanceIndex, attribute))
+	  push(attributeOf(instanceIndex, attribute)); 
+	else
+	  push(max);
+	traceIntegerTopValue();
+	push(instanceIndex);
+	break;
+      }
+      case I_SUM: {
+	Aint attribute = pop();
+	Aint instanceIndex = pop();
+	Aint sum;
+
+	pop();
+	sum = pop();
+	if (singleStepOption)
+	  printf("SUM \t%5ld\t", attribute);
+	push(sum + attributeOf(instanceIndex, attribute));
+	traceIntegerTopValue();
+	push(instanceIndex);
+	break;
+      }
+      case I_COUNT: {
+	int instanceIndex = pop();
+	pop();
+	if (singleStepOption)
+	  printf("COUNT\t\t");
+	push(pop() + 1);
+	traceIntegerTopValue();
+	push(instanceIndex);
+	break;
+      }
+      case I_ENDAGR: {
+	int instance = pop();
+
+	if (singleStepOption)
+	  printf("ENDAGR\t%5d\t\t=%ld\t", instance, top());
+	if (instance < MAXENTITY) {
+	  push(instance+1);
+	  dup();
+	  goToAGRSTART();
+	}
 	break;
       }
 
       case I_DUP:
 	if (singleStepOption)
-	  printf("DUP");
+	  printf("DUP\t\t\t\t");
 	dup();
 	break;
 
       case I_DEPEND:
 	if (singleStepOption)
-	  printf("DEPEND");
+	  printf("DEPEND\t\t\t\t");
 	break;
 
       case I_DEPCASE:
 	if (singleStepOption)
-	  printf("DEPCASE");
+	  printf("DEPCASE\t\t\t\t");
 	depcase();
 	break;
 
@@ -941,6 +964,7 @@ void interpret(adr)
 	if (singleStepOption) {
 	  printf("DEPEXEC \t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
+	  printf("\t\t\t");
 	}
 	depexec(v);
 	break;
@@ -948,13 +972,13 @@ void interpret(adr)
 	
       case I_DEPELSE:
 	if (singleStepOption)
-	  printf("DEPELSE");
+	  printf("DEPELSE\t\t\t\t");
 	depcase();
 	break;
 
       case I_ENDDEP:
 	if (singleStepOption)
-	  printf("ENDDEP");
+	  printf("ENDDEP\t\t\t\t");
 	pop();
 	break;
 
@@ -965,10 +989,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("ISA \t%5ld, %5ld", lh, rh);
 	push(isA(lh, rh));
-	if (singleStepOption) {
-	  if (top()) printf("\t(TRUE)");
-	  else printf("\t(FALSE)");
-	}
+	traceBooleanTopValue();
 	break;
       }
 
@@ -976,7 +997,7 @@ void interpret(adr)
 	Aint size;
 	size = pop();
 	if (singleStepOption)
-	  printf("FRAME \t%5ld", size);
+	  printf("FRAME \t%5ld\t\t\t", size);
 	newFrame(size);
 	break;
       }
@@ -988,8 +1009,7 @@ void interpret(adr)
 	if (singleStepOption)
 	  printf("GETLOCAL \t%5ld, %5ld", framesBelow, variableNumber);
 	push(getLocal(framesBelow, variableNumber));
-	if (singleStepOption)
-	  printf("\t(%5ld)", top());
+	traceIntegerTopValue();
 	break;
       }
 
@@ -999,14 +1019,14 @@ void interpret(adr)
 	variableNumber = pop();
 	value = pop();
 	if (singleStepOption)
-	  printf("SETLOCAL \t%5ld, %5ld, %5ld", framesBelow, variableNumber, value);
+	  printf("SETLOCAL \t%5ld, %5ld, %5ld\t\t", framesBelow, variableNumber, value);
 	setLocal(framesBelow, variableNumber, value);
 	break;
       }
 
       case I_ENDFRAME: {
 	if (singleStepOption)
-	  printf("ENDFRAME");
+	  printf("ENDFRAME\t\t\t\t");
 	endFrame();
 	break;
       }
@@ -1014,21 +1034,21 @@ void interpret(adr)
       case I_EACH: {
 	Aint local = pop();
 	if (singleStepOption)
-	  printf("EACH \t%5ld", local);
+	  printf("EACH \t%5ld\t\t\t", local);
 	interpretEach(local);
 	break;
       }
 
       case I_NEXTEACH: {
 	if (singleStepOption)
-	  printf("NEXTEACH");
+	  printf("NEXTEACH\t\t\t\t");
 	nextEach();
 	break;
       }
 
       case I_ENDEACH: {
 	if (singleStepOption)
-	  printf("ENDEACH");
+	  printf("ENDEACH\t\t\t\t");
 	endEach();
 	break;
       }
@@ -1047,6 +1067,8 @@ void interpret(adr)
 	pc = oldpc;
 	return;
       }
+      if (traceStackOption)
+	dumpStack();
       break;
 
     default:

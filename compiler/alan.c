@@ -28,6 +28,8 @@
 
 #include "srcp_x.h"
 #include "adv_x.h"
+#include "images_x.h"
+
 
 /* PUBLIC DATA */
 
@@ -339,61 +341,8 @@ static void prepareNames(void)
 }
 
 
+
 #ifdef __mac__
-/*----------------------------------------------------------------------
-
-	Find out whether error message is of one of the severities
-	being printed.
-
-*/
-
-static int test_severity(char *err, lmSev sevs) {
-	char c;
-	lmSev sev;
-	
-	sscanf(err, "%*d %c", &c);
-	switch (c) {
-		case 'O': sev = sevOK;  break;
-		case 'I': sev = sevINF; break;
-		case 'W': sev = sevWAR; break;
-		case 'E': sev = sevERR; break;
-		case 'F': sev = sevFAT; break;
-		case 'S': sev = sevSYS; break;
-	}
-	return sev & sevs;
-}
-
-/*----------------------------------------------------------------------
-
-	Write unix-style error message list to screen or file
-
-*/
-
-static void cc_listing(lmSev sevs)
-{
-  int i,j;
-  char err[1024], line[1024];
-  Srcp srcp;
-  List *fnm;
-  List nofile;
-	
-  nofile.element.str = "<no file>";
-  for (i = 1; lmMsg(i, &srcp, err); i++) {
-    if (test_severity(err, sevs)) {
-      /* Advance to the correct file name */
-      if (srcp.file == -1) 
-	fnm = &nofile;
-      else
-	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
-	  fnm = fnm->next;
-      sprintf(line, "\"%s\", line %d: ALAN-%s (column %d)\n",
-	      fnm->element.str, srcp.line, err, srcp.col);
-      lmLiPrint(line);
-    }
-  }
-}
-
-
 /*----------------------------------------------------------------------
 
 	Write listing and/or error messages to screen or file
@@ -434,6 +383,65 @@ static void listing(lmSev sevs)
   lmLiTerminate();
 }
 #endif
+
+
+/*----------------------------------------------------------------------
+
+	Find out whether error message is of one of the severities
+	being printed.
+
+*/
+
+/*----------------------------------------------------------------------*/
+static int test_severity(char *err, lmSev sevs)
+{
+  /* Check if the severity was among the wanted ones */
+  char c;
+  lmSev sev;
+
+  sscanf(err, "%*d %c", &c);
+  switch (c) {
+  case 'O': sev = sevOK;  break;
+  case 'I': sev = sevINF; break;
+  case 'W': sev = sevWAR; break;
+  case 'E': sev = sevERR; break;
+  case 'F': sev = sevFAT; break;
+  case 'S': sev = sevSYS; break;
+  }
+  return sev & sevs;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void cc_listing(lmSev sevs)
+{
+  int i,j;
+  char err[1024], line[1024];
+  Srcp srcp;
+  List *fnm;
+  List nofile;
+	
+  nofile.element.str = "<no file>";
+  for (i = 1; lmMsg(i, &srcp, err); i++) {
+    if (test_severity(err, sevs)) {
+      /* Advance to the correct file name */
+      if (srcp.file == -1) 
+	fnm = &nofile;
+      else
+	for (fnm = fileNames, j = 0; j < srcp.file; j++) 
+	  fnm = fnm->next;
+      sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
+	      fnm->element.str, srcp.line, srcp.col, err, srcp.col);
+      sprintf(line, "\"%s\", line %d(%d): %s\n",
+	      fnm->element.str, srcp.line, srcp.col, err);
+#ifdef __mac__
+      lmLiPrint(line);
+#else
+      printf(line);
+#endif
+    }
+  }
+}
 
 
 /************************************************************************\
@@ -560,26 +568,9 @@ void compile(void) {
     }
   }
 
-  if (ccflg) {
-    int i,j;
-    char err[1024];
-    Srcp srcp;
-    List *fnm;
-    List nofile;
-
-    nofile.element.str = "<no file>";
-    /* Print a list on the terminal if errors detected. */
-    for (i=1; lmMsg(i, &srcp, err); i++) {
-      /* Advance to the correct file name */
-      if (srcp.file == -1) 
-		fnm = &nofile;
-      else
-		for (fnm = fileNames, j = 0; j < srcp.file; j++) 
-			fnm = fnm->next;
-      printf("\"%s\", line %d: ALAN-%s (column %d)\n", fnm->element.str,
-	     srcp.line, err, srcp.col);
-    }
-  } else
+  if (ccflg)
+    cc_listing(sevs);
+  else
     lmList("", 0, 79, lstflg?liTINY:(fulflg?liFULL:liTINY), sevs);
 
   if (dmpflg != 0 && !lstflg) {

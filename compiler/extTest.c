@@ -33,9 +33,9 @@ void testNewExt()
   ASSERT(readEcode() == 351);
 
   initEmit("unit.a3c");
-  firstAddress = emadr();
+  firstAddress = nextEmitAddress();
   generateExitEntry(theExit);
-  ASSERT(emadr() == firstAddress + entrySize);
+  ASSERT(nextEmitAddress() == firstAddress + entrySize);
 }
 
 

@@ -3,26 +3,74 @@
 
 aggregate.alan
 
-    5.    If Count = 9 Then "" End If.
-=====>             1
+    9.    If Count = 9 Then "" End If.
+=====>       1     2
 
-  *1*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" here.
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" before
+                this symbol.
 
-    7.    If Count Is x Then "" End If.
-=====>             1
+   10.    If Count Here, At l = 9 Then "" End If.
+=====>       1           2
 
-  *1*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" here.
-  *1*   420 E : Invalid What-specification in attribute reference.
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   224 E : Multiple use of Where in filter list of COUNT Aggregate.
 
-    8.    If Count Isa object = 12 Then "" End If.
-=====>             1          2
+   11.    If Count At l =at 9 Then "" End If.
+=====>       1           2
 
-  *1*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" here.
-  *1*   998 W : Feature not implemented in Analyzer.
-  *2*   331 E : Incompatible types in expression.
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *2*   102 E : Syntax error. Attempting to repair by ignoring "'AT'".
+
+   12.    If Count Is x Then "" End If.
+=====>       1     2
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, things and instances without any
+                inheritance). It is recommended to apply it to only instances
+                of a particular class. Perhaps you mean 'COUNT Isa object'?
+  *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
+                type.
+  *2*   226 E : Attributes can not be used in COUNT aggregate applied to all
+                instances.
+
+   13.    If Count Isa x = 7 Then "" End If.
+=====>                 1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+   14.    If Count Isa l = 7 Then "" End If.
+=====>                 1
+
+  *1*   319 E : Identifier 'l' is not a class.
+
+   16.    If Count Isa object, Isa thing = 12 Then "" End If.
+=====>                         1
+
+  *1*   224 E : Multiple use of Isa (class) in filter list of COUNT Aggregate.
+
+   17.    If Count Isa object, Is z Then "" End If.
+=====>                            1
+
+  *1*   418 E : Aggregate is only allowed on integer type attributes.
+
+   18.    If Count Isa object, Has w = 3 Then "" End If.
+=====>                             1
+
+  *1*   316 E : Attribute 'w' is not defined for instances aggregated over
+                using 'COUNT' since its class ('object') does not have it.
 
 
-        5 error(s).
-        1 warning(s).
+        10 error(s).
+        4 warning(s).
         1 informational message(s).
 

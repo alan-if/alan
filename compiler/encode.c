@@ -252,7 +252,7 @@ void encode(long int *fpos,	/* INOUT - The file position */
 Aaddr gefreq(void)
 {
   int i;
-  Aaddr adr = emadr();
+  Aaddr adr = nextEmitAddress();
 
   if (!opts[OPTPACK].value)
     return 0;

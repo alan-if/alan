@@ -290,7 +290,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
   }
   
   /* Finally, generate this level */
-  elmadr = emadr();
+  elmadr = nextEmitAddress();
   for (lst = entries; lst; lst = lst->next)
     emitEntry(lst->element.eent, sizeof(*entry));
   emit(EOF);

@@ -165,7 +165,7 @@ void analyzeExits(List *exts, Context *context)
 /*----------------------------------------------------------------------*/
 static Aaddr generateExitStatements(ExtNod *ext)
 {
-  Aaddr stmadr = emadr();
+  Aaddr stmadr = nextEmitAddress();
 
   if (ext->stms == NULL)
     return(0);
@@ -213,14 +213,14 @@ Aaddr generateExits(List *exits)
     return(0);
 
   for (lst = exits; lst != NULL; lst = lst->next) {
-    lst->element.ext->chkadr = emadr();
+    lst->element.ext->chkadr = nextEmitAddress();
     if (lst->element.ext->chks != NULL)
       lst->element.ext->chkadr = generateChecks(lst->element.ext->chks);
     lst->element.ext->stmadr = generateExitStatements(lst->element.ext);
     emit0(I_RETURN);
   }
   
-  extadr = emadr();
+  extadr = nextEmitAddress();
   for (lst = exits; lst != NULL; lst = lst->next)
     generateExitEntry(lst->element.ext);
   emit(EOF);

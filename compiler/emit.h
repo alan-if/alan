@@ -19,7 +19,7 @@ AcdHdr acdHeader;
 /* FUNCTIONS */
 
 extern void initEmit(char acodeFileName[]);
-extern Aword emadr(void);
+extern Aword nextEmitAddress(void);
 extern void emitString(char str[]);
 extern void emit(Aword word);
 extern void emitVariable(Aword word);

@@ -275,7 +275,7 @@ void testGenerateAttributes()
      only generate 2.
   */
   address = generateAttributes(firstInstance->props->attributes);
-  ASSERT(emadr() == address + 2*attributeEntrySize + 1);
+  ASSERT(nextEmitAddress() == address + 2*attributeEntrySize + 1);
 }
 
 static void testResolveThisAttributeForClass()

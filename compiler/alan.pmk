@@ -113,6 +113,7 @@ static int val(char str[])
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
   exp %% Expression *%1%%,
+  exps %% List *%1%%,
   expKd %% ExpressionKind %1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
@@ -686,9 +687,9 @@ static int val(char str[])
 
 ---> ADDITION
 <addition>			-- RETURNS: cla
-    = 'ADD' 'TO' 'EVERY' ID <optional_heritage> <properties> <add_tail>
+    = 'ADD' 'TO' ['EVERY'] ID <optional_heritage> <properties> <add_tail>
     %%
-	%<addition>.add = newAdd(`&%'EVERY'.srcp,
+	%<addition>.add = newAdd(`&%'ADD'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
 				newProps(%<properties>.nams,
@@ -1824,7 +1825,7 @@ static int val(char str[])
 
 
 <arithmetic>
-    = <primary>					--%-('NOT')
+    = <primary>
     %%
 	%<arithmetic>.exp = %<primary>.exp;
     %%
@@ -1859,52 +1860,66 @@ static int val(char str[])
 	%<arithmetic>.exp = exp;
         %<arithmetic>.expKd = BINARY_EXPRESSION;
     } %%
+
+    ! <aggregate> <aggregation_filters>
+    %%
+	%<arithmetic>.exp = newexp(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
+	%<arithmetic>.exp->fields.agr.kind = %<aggregate>.agr;
+	%<arithmetic>.exp->fields.agr.attribute = %<aggregate>.id;
+	%<arithmetic>.exp->fields.agr.filters = %<aggregation_filters>.exps;
+    %%
+    ;
+
+
+<aggregation_filters>					-- RETURNS: exps
+    = <aggregation_filter>
+    %%
+        %<aggregation_filters>.exps = concat(NULL, %<aggregation_filter>.exp, EXPRESSION_LIST);
+    %%
+
+    ! <aggregation_filters> ',' <aggregation_filter>
+    %%
+        %<aggregation_filters>.exps = concat(%<aggregation_filters>.exps, %<aggregation_filter>.exp, EXPRESSION_LIST);
+    %%
+    ;
+
+<aggregation_filter>				-- RETURNS: exp, expKd
+    = <optional_not> <where>
+    %% { Expression *exp;
+	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
+	exp->not = %<optional_not>.not;
+	exp->fields.whr.whr = %<where>.whr;
+	%<aggregation_filter>.exp = exp;
+        %<aggregation_filter>.expKd = WHERE_EXPRESSION;
+    } %%
+
+    ! <optional_not> 'ISA' ID
+    %% { Expression *exp;
+	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
+	exp->not = %<optional_not>.not;
+	exp->fields.isa.id = %ID.id;
+	%<aggregation_filter>.exp = exp;
+        %<aggregation_filter>.expKd = ISA_EXPRESSION;
+    } %%
+
+    ! <is> <something>
+    %% { Expression *exp;
+	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
+	exp->not = %<something>.not;
+	exp->fields.atr.atr = %<something>.id;
+	%<aggregation_filter>.exp = exp;
+        %<aggregation_filter>.expKd = ATTRIBUTE_EXPRESSION;
+    } %%
     ;
 
 <right_hand_side>
-    = <binop> <primary>
-    %% { Expression *exp;
-        %<right_hand_side>.expKd = BINARY_EXPRESSION;
-	exp = newexp(`&%<binop>.srcp, BINARY_EXPRESSION);
-	exp->fields.bin.op = %<binop>.op;
-	exp->fields.bin.right = %<primary>.exp;
-	%<right_hand_side>.exp = exp;
-    } %%
-
-    ! <optional_not> <relop> <primary>
+    = <optional_not> <relop> <primary>
     %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
 	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
 	exp->fields.bin.right = %<primary>.exp;
-	%<right_hand_side>.exp = exp;
-    } %%
-
-    ! <optional_not> <where>
-    %% { Expression *exp;
-        %<right_hand_side>.expKd = WHERE_EXPRESSION;
-	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
-	exp->not = %<optional_not>.not;
-	exp->fields.whr.whr = %<where>.whr;
-	%<right_hand_side>.exp = exp;
-    } %%
-
-    ! <optional_not> 'ISA' ID
-    %% { Expression *exp;
-        %<right_hand_side>.expKd = ISA_EXPRESSION;
-	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
-	exp->not = %<optional_not>.not;
-	exp->fields.isa.id = %ID.id;
-	%<right_hand_side>.exp = exp;
-    } %%
-
-    ! <is> <something>
-    %% { Expression *exp;
-        %<right_hand_side>.expKd = ATTRIBUTE_EXPRESSION;
-	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
-	exp->not = %<something>.not;
-	exp->fields.atr.atr = %<something>.id;
 	%<right_hand_side>.exp = exp;
     } %%
 
@@ -1927,6 +1942,8 @@ static int val(char str[])
 	exp->fields.bin.right = %<factor>.exp;
 	%<right_hand_side>.exp = exp;
     } %%
+
+    ! <aggregation_filter>
     ;
 
 
@@ -1966,14 +1983,6 @@ static int val(char str[])
 	%<primary>.exp->fields.atr.wht->fields.wht.wht = %<attribute_reference>.wht;
     %%
 
-    ! <aggregate> <where>
-    %%
-	%<primary>.exp = newexp(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
-	%<primary>.exp->fields.agr.kind	= %<aggregate>.agr;
-	%<primary>.exp->fields.agr.atr = %<aggregate>.id;
-	%<primary>.exp->fields.agr.whr	= %<where>.whr;
-    %%
-
     ! 'RANDOM' <primary> 'TO' <primary>
     %%
 	%<primary>.exp = newexp(`&%'RANDOM'.srcp, RANDOM_EXPRESSION);
@@ -1989,17 +1998,10 @@ static int val(char str[])
 
 
 <aggregate>			-- RETURNS: srcp, agr, id
-    = 'SUM' 'OF' ID
+    = <aggregator> 'OF' ID
     %%
-	%<aggregate>.srcp = %'SUM'.srcp;
-	%<aggregate>.agr = SUM_AGGREGATE;
-	%<aggregate>.id = %ID.id;
-    %%
-
-    ! 'MAX' 'OF' ID
-    %%
-	%<aggregate>.srcp = %'MAX'.srcp;
-	%<aggregate>.agr = MAX_AGGREGATE;
+	%<aggregate>.srcp = %<aggregator>.srcp;
+	%<aggregate>.agr = %<aggregator>.agr;
 	%<aggregate>.id = %ID.id;
     %%
 
@@ -2008,6 +2010,26 @@ static int val(char str[])
 	%<aggregate>.srcp = %'COUNT'.srcp;
 	%<aggregate>.agr = COUNT_AGGREGATE;
 	%<aggregate>.id = NULL;
+    %%
+    ;
+
+<aggregator>
+    = 'MAX'
+    %%
+	%<aggregator>.srcp = %'MAX'.srcp;
+	%<aggregator>.agr = MAX_AGGREGATE;
+    %%
+
+    ! 'MIN'
+    %%
+	%<aggregator>.srcp = %'MIN'.srcp;
+	%<aggregator>.agr = MIN_AGGREGATE;
+    %%
+
+    ! 'SUM'
+    %%
+	%<aggregator>.srcp = %'SUM'.srcp;
+	%<aggregator>.agr = SUM_AGGREGATE;
     %%
     ;
 

@@ -15,6 +15,7 @@
 #include "whr.h"
 #include "id.h"
 #include "type.h"
+#include "lst.h"
 
 
 /* TYPES: */
@@ -54,6 +55,7 @@ typedef enum OperatorKind {		/* OPERATOR kinds */
 typedef enum AggregateKind {
   SUM_AGGREGATE,
   MAX_AGGREGATE,
+  MIN_AGGREGATE,
   COUNT_AGGREGATE
 } AggregateKind;
 
@@ -93,8 +95,8 @@ typedef struct Expression {
 
     struct {			/* For AGGREGATE */
       AggregateKind kind;	/* Kind of aggregate */
-      struct IdNode *atr;	/* Attribute id */
-      struct WhrNod *whr;	/* Where to aggregate */
+      struct IdNode *attribute;	/* Attribute id */
+      struct List *filters;	/* Expressions to filter against */
     } agr;
 
     struct {			/* For RANDOM */

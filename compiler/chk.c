@@ -91,21 +91,21 @@ Aword generateChecks(List *chks)
   /* First checks */
   if (chks->element.chk->exp == NULL) { /* An unconditional CHECK */
     chks->element.chk->expadr = 0;
-    chks->element.chk->stmadr = emadr();
+    chks->element.chk->stmadr = nextEmitAddress();
     generateStatements(chks->element.chk->stms);
     emit0(I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
-      lst->element.chk->expadr = emadr();
+      lst->element.chk->expadr = nextEmitAddress();
       generateExpression(lst->element.chk->exp);
       emit0(I_RETURN);
-      lst->element.chk->stmadr = emadr();
+      lst->element.chk->stmadr = nextEmitAddress();
       generateStatements(lst->element.chk->stms);
       emit0(I_RETURN);
     }
 
   /* Then generate a check table */
-  tbladr = emadr();
+  tbladr = nextEmitAddress();
   for (lst = chks; lst != NULL; lst = lst->next) {
     emit(lst->element.chk->expadr);
     emit(lst->element.chk->stmadr);

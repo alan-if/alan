@@ -82,7 +82,7 @@ static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
 #endif
 
 
-Aword emadr(void)
+Aword nextEmitAddress(void)
 {
   return(pc);
 }
@@ -198,7 +198,7 @@ void emitConstant(Aword arg)
 
 void emit0(Aword op)
 {
-  emit(((Aword)C_STMOP<<28)|((Aword)op&0x0fffffff));
+  emit(INSTRUCTION(op));
 }
 
 
@@ -514,7 +514,7 @@ void terminateEmit()
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
   acdHeader.acdcrc = crc;	/* Save checksum */
-  acdHeader.size = emadr();	/* Save last address as size */
+  acdHeader.size = nextEmitAddress();	/* Save last address as size */
 }
 
 

@@ -248,7 +248,7 @@ static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
   
   /* Then this node */
   if (wrd->classbits&(1L<<WRD_NOUN)) {
-    wrd->nounrefadr = emadr();	/* Save address to noun reference table */
+    wrd->nounrefadr = nextEmitAddress();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_NOUN]; lst != NULL; lst = lst->next)
       generateId(lst->element.ins->props->id);
     emit(EOF);
@@ -256,7 +256,7 @@ static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
     wrd->nounrefadr = 0;
 
   if (wrd->classbits&(1L<<WRD_ADJ)) {
-    wrd->adjrefadr = emadr();	/* Save address to noun reference table */
+    wrd->adjrefadr = nextEmitAddress();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_ADJ]; lst != NULL; lst = lst->next)
       generateId(lst->element.ins->props->id);
     emit(EOF);
@@ -286,7 +286,7 @@ static void gewrdstr(WordNode *wrd) /* IN - Word to generate for */
   gewrdstr(wrd->low);
   
   /* Then this node */
-  wrd->stradr = emadr();	/* Save address to string */
+  wrd->stradr = nextEmitAddress();	/* Save address to string */
   emitString(wrd->str);
   
   /* Then for higher */
@@ -351,7 +351,7 @@ Aaddr generateAllWords(void)
 
   /* Now traverse the wrdtree and generate dictionary entries */
   refidx = 0;
-  adr = emadr();		/* Save ACODE address to dictionary */
+  adr = nextEmitAddress();		/* Save ACODE address to dictionary */
   gewrdent(wrdtree);
 
   emit(EOF);

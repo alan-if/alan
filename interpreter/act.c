@@ -66,7 +66,7 @@ static int sumatr(atr, cnt)
       if (instance[i].location == cnt) { /* Then it's in this container */
 	if (instance[i].container != 0)	/* This is also a container! */
 	  sum = sum + sumatr(atr, i);
-	sum = sum + attribute(i, atr);
+	sum = sum + attributeOf(i, atr);
       }
     }
   return(sum);
@@ -108,7 +108,7 @@ Boolean checklim(cnt, obj)
 	  return(TRUE);		/* Limit check failed */
 	}
       } else {
-	if (sumatr(lim->atr, cnt) + attribute(obj, lim->atr) > lim->val) {
+	if (sumatr(lim->atr, cnt) + attributeOf(obj, lim->atr) > lim->val) {
 	  interpret(lim->stms);
 	  return(TRUE);
 	}

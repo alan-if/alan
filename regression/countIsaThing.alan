@@ -20,5 +20,7 @@ The a3 Isa actor
 End The a3.
 
 Start At l.
-  "Count Here = "  Say Count Here.
-  "Count At l = "  Say Count At l.
+  "Count At l = "  Say Count At l. "."
+  "Count Isa actor At l = "  Say Count Isa actor, At l. "."
+  "Count Isa thing At l = "  Say Count Isa thing, AT l. "."
+
