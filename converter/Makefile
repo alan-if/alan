@@ -34,6 +34,7 @@ TMCSRCS = \
 BUILDSRCS = \
 	a2a3.c \
 	str.c \
+	lst.c \
 	util.c
 
 MAINSRCS = $(TMCSRCS) $(BUILDSRCS)
@@ -47,13 +48,13 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-a2a3: checkTarget tm $(MAINOBJECTS)
-	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
+win: checkTarget tm $(MAINOBJECTS)
+	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp a2a3.exe ../bin
 
-win: checkTarget tm $(MAINOBJECTS)
-	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
+a2a3: checkTarget tm $(MAINOBJECTS)
+	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp a2a3.exe ../bin
 

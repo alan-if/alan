@@ -31,7 +31,10 @@ FILE *outFile;
 static OPENFILENAME ofn;
 
 static int getInFileName() {
-  static char filter[] = "Alan Source Files (*.alan)\0*.alan\0";
+  static char filter[] =
+    "Alan Source Files (*.alan)\0*.alan\0"\
+    "ALA Source Files (*.ala)\0*.ala\0"\
+    "All Files (*.*)\0*.*\0\0";
 
   ofn.lStructSize = sizeof(OPENFILENAME);
   ofn.hInstance = NULL;
@@ -57,15 +60,18 @@ static char *argv[10];
 static int splitCommandLine(char commandLine[])
 {
   char *start = commandLine;
-  char *end = strpbrk(commandLine, " ");
+  char *end = strpbrk(commandLine, " \"");
   int i = 0;
-  int noOfSpaces;
 
   while (end) {
     argv[i] = start;
+    if (*end == '\"') {
+      end = strpbrk(start+1, "\"");
+      end++;
+    }
     *end = '\0';
-    noOfSpaces = strspn(end+1, " ");
-    start = end + 1 + noOfSpaces;
+    start = end+1;
+    while (*start == ' ') start++;
     end = strpbrk(start, " ");
     i++;
   }
@@ -79,7 +85,22 @@ static int splitCommandLine(char commandLine[])
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
-  int args = splitCommandLine(cmdLine);
+  int args;
+  char *exeInCommandLine = strstr(cmdLine, ".exe");
+  int i;
+
+  if (exeInCommandLine) {
+    char *cp = exeInCommandLine+5;
+    while (*cp == ' ') cp++;
+    args = splitCommandLine(cp);
+  } else
+    args = splitCommandLine(cmdLine);
+
+  for (i = 0; i < args; i++) {
+    char buf[199];
+    sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
+    MessageBox(NULL, buf, "Alan V2 to V3 converter", MB_OK);
+  }
 
   if (args>2) {
     printf("Can't have more than two arguments.");
