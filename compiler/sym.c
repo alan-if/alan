@@ -173,13 +173,13 @@ SymNod *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   case CLASS_SYMBOL:
     new->code = ++classCount;
     new->fields.claOrIns.parent = NULL;
-    new->fields.claOrIns.attributesAlreadyNumbered = FALSE;
+    new->fields.claOrIns.attributesNumbered = FALSE;
     new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
     break;
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
     new->fields.claOrIns.parent = NULL;
-    new->fields.claOrIns.attributesAlreadyNumbered = FALSE;
+    new->fields.claOrIns.attributesNumbered = FALSE;
     new->fields.claOrIns.attributesAlreadyReplicated = FALSE;
     break;
   case DIRECTION_SYMBOL:
@@ -492,6 +492,54 @@ AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
 }
 
 
+/*----------------------------------------------------------------------
+
+  numberAttributes()
+
+*/
+static void numberAttributes(SymNod *symbol)
+{
+  List *theList;
+  AtrNod *inheritedAttribute;
+  SymNod *definingSymbol;
+
+  if (symbol->fields.claOrIns.attributesNumbered) return;
+
+  for (theList = symbol->fields.claOrIns.slots->attributes; theList != NULL;
+       theList = theList->next){
+    inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
+    if (inheritedAttribute != NULL) {
+      if (!equalTypes(inheritedAttribute->type, theList->element.atr->type)) {
+	definingSymbol = definingSymbolOfAttribute(symbol, theList->element.atr->id);
+	lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
+      }
+      theList->element.atr->id->code = inheritedAttribute->id->code;
+      theList->element.atr->inheritance = INHERITED_REDEFINED;
+    } else {
+      theList->element.atr->id->code = ++attributeCount;
+      theList->element.atr->inheritance = LOCAL;
+    }
+  }
+
+  symbol->fields.claOrIns.attributesNumbered = TRUE;
+}
+
+
+/*----------------------------------------------------------------------
+
+  numberParentAttributes()
+
+  Recurse the parental chain and number the attributes.
+
+*/
+static void numberParentAttributes(SymNod *symbol)
+{
+  if (symbol == NULL || symbol->fields.claOrIns.attributesNumbered) return;
+
+  numberParentAttributes(symbol->fields.claOrIns.parent);
+  numberAttributes(symbol);
+}
+
 
 /*----------------------------------------------------------------------
 
@@ -500,42 +548,21 @@ AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
   Recurse the parent to number its attributes.
   Number all attributes in the symbol (if it is a class or an instance);
 */
-
 static void numberAttributesRecursively(SymNod *symbol)
 {
-  List *theList;
-  SymNod *definingSymbol;
-  AtrNod *inheritedAttribute;
-
   if (symbol == NULL) return;
-  if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
-    return;			/* Only a class or instance have attributes */
-  if (!symbol->fields.claOrIns.attributesAlreadyNumbered) {
-    /* We have attributes that are not numbered already */
-    if (symbol->fields.claOrIns.parent != NULL)
-      numberAttributesRecursively(symbol->fields.claOrIns.parent);
-  
-    for (theList = symbol->fields.claOrIns.slots->attributes; theList != NULL;
-	 theList = theList->next){
-      inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
-      if (inheritedAttribute != NULL) {
-	if (!eqtyp(inheritedAttribute->typ, theList->element.atr->typ)) {
-	  definingSymbol = definingSymbolOfAttribute(symbol, theList->element.atr->id);
-	  lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
-	}
-	theList->element.atr->id->code = inheritedAttribute->id->code;
-	theList->element.atr->inheritance = INHERITED_REDEFINED;
-      } else {
-	theList->element.atr->id->code = ++attributeCount;
-	theList->element.atr->inheritance = LOCAL;
-      }
-    }
-    symbol->fields.claOrIns.attributesAlreadyNumbered = TRUE;
 
-    /* Recurse in the symbolTree */
-    if (symbol->lower != NULL) numberAttributesRecursively(symbol->lower);
-    if (symbol->higher != NULL) numberAttributesRecursively(symbol->higher);
+  if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
+    /* Only a class or instance have attributes */
+
+    numberParentAttributes(symbol->fields.claOrIns.parent);
+    numberAttributes(symbol);
   }
+
+  /* Recurse in the symbolTree */
+  if (symbol->lower != NULL) numberAttributesRecursively(symbol->lower);
+  if (symbol->higher != NULL) numberAttributesRecursively(symbol->higher);
+
 }
 
 
@@ -636,9 +663,10 @@ static void dumpSymbol(SymNod *symbol)
 
   put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); in();
   put("string: "); dumpString(symbol->string);
-  put(", code: "); dumpInt(symbol->code); out();
+  put(", code: "); dumpInt(symbol->code); nl();
+  put("lower: "); dumpPointer(symbol->lower); put(", higher: "); dumpPointer(symbol->higher); out();
 }
-  
+
 
 /*----------------------------------------------------------------------
 
@@ -662,6 +690,7 @@ static void dumpSymbolsRecursively(SymNod *symbol)
 */
 void dumpSymbols(void)
 {
+  dumpPointer(symbolTree);
   in();
   dumpSymbolsRecursively(symbolTree);
   out();

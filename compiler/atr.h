@@ -20,7 +20,7 @@ typedef enum {
 
 typedef struct AtrNod {		/* ATTRIBUTE */
   Srcp srcp;			/* Source position of the attribute */
-  TypeKind typ;			/* Type of this attribute */
+  TypeKind type;		/* Type of this attribute */
   IdNode *id;			/* Id of the attribute */
   AttributeInheritance inheritance;
   Aword stringAddress;		/* Acode address to the attribute name */

@@ -19,17 +19,19 @@ void (*(dumpNodeTable[LIST_LAST_KIND]))();
 
 
 /* Import of dump functions to be used in dumpNodeTable */
-extern void dumpClass();
-extern void dumpInstance();
-extern void dumpId();
-extern void dustm();
+extern void dualt();
+extern void duchk();
+extern void duelm();
 extern void duext();
+extern void dumpAdd();
+extern void dumpAttribute();
+extern void dumpClass();
+extern void dumpId();
+extern void dumpInstance();
+extern void dumpRestriction();
+extern void dustm();
 extern void dustx();
 extern void duvrb();
-extern void dumpAdd();
-extern void duelm();
-extern void dumpAttribute();
-extern void dumpRestriction();
 
 
 /*======================================================================
@@ -40,17 +42,19 @@ extern void dumpRestriction();
 void initDumpNodeList()
 {
   dumpNodeTable[LIST_ADD] = &dumpAdd;
-  dumpNodeTable[LIST_CLA] = &dumpClass;
-  dumpNodeTable[LIST_INS] = &dumpInstance;
+  dumpNodeTable[LIST_ALT] = &dualt;
   dumpNodeTable[LIST_ATR] = &dumpAttribute;
-  dumpNodeTable[LIST_ID] = &dumpId;
-  dumpNodeTable[LIST_STM] = &dustm;
-  dumpNodeTable[LIST_EXT] = &duext;
+  dumpNodeTable[LIST_CHK] = &duchk;
+  dumpNodeTable[LIST_CLA] = &dumpClass;
+  dumpNodeTable[LIST_CNT] = &dumpPointer;
   dumpNodeTable[LIST_ELM] = &duelm;
+  dumpNodeTable[LIST_EXT] = &duext;
+  dumpNodeTable[LIST_ID] = &dumpId;
+  dumpNodeTable[LIST_INS] = &dumpInstance;
+  dumpNodeTable[LIST_RES] = &dumpRestriction;
+  dumpNodeTable[LIST_STM] = &dustm;
   dumpNodeTable[LIST_STX] = &dustx;
   dumpNodeTable[LIST_VRB] = &duvrb;
-  dumpNodeTable[LIST_CNT] = &dumpPointer;
-  dumpNodeTable[LIST_RES] = &dumpRestriction;
 }
 
 

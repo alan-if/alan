@@ -247,7 +247,7 @@ static void anmake(StmNod *stm,
   case WHT_ID:
     atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
     if (atr != NULL) {
-      if (atr->typ != BOOLEAN_TYPE)
+      if (atr->type != BOOLEAN_TYPE)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
       else
         stm->fields.make.atr->code = atr->id->code;
@@ -310,7 +310,7 @@ static void anset(StmNod *stm,
   case WHT_ID:
     atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
     if (atr) {
-      if (atr->typ != INTEGER_TYPE && atr->typ != STRING_TYPE)
+      if (atr->type != INTEGER_TYPE && atr->type != STRING_TYPE)
         lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
       else
         stm->fields.set.atr->code = atr->id->code;
@@ -324,10 +324,10 @@ static void anset(StmNod *stm,
 
   if (stm->fields.set.exp != NULL) {
     anexp(stm->fields.set.exp, context);
-    if (stm->fields.set.exp->typ != INTEGER_TYPE &&
-        stm->fields.set.exp->typ != STRING_TYPE)
+    if (stm->fields.set.exp->type != INTEGER_TYPE &&
+        stm->fields.set.exp->type != STRING_TYPE)
       lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
-    if (atr && !eqtyp(stm->fields.set.exp->typ, atr->typ))
+    if (atr && !equalTypes(stm->fields.set.exp->type, atr->type))
       lmLog(&stm->srcp, 331, sevERR, "SET statement");
   }
 }
@@ -380,7 +380,7 @@ static void anincr(StmNod *stm,
   case WHT_ID:
     atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
     if (atr) {
-      if (atr->typ != INTEGER_TYPE)
+      if (atr->type != INTEGER_TYPE)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
       else
         stm->fields.incr.atr->code = atr->id->code;
@@ -393,7 +393,7 @@ static void anincr(StmNod *stm,
 
   if (stm->fields.incr.step != NULL) {
     anexp(stm->fields.incr.step, context);
-    if (stm->fields.incr.step->typ != INTEGER_TYPE)
+    if (stm->fields.incr.step->type != INTEGER_TYPE)
       lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
   }
 }
@@ -433,7 +433,7 @@ static void anschedule(StmNod *stm,
 
   /* Analyze the when expression */
   anexp(stm->fields.schedule.when, context);
-  if (stm->fields.schedule.when->typ != INTEGER_TYPE)
+  if (stm->fields.schedule.when->type != INTEGER_TYPE)
     lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");
 
 }
@@ -465,7 +465,7 @@ static void anif(StmNod *stm,
 		 Context *context)
 {
   anexp(stm->fields.iff.exp, context);
-  if (!eqtyp(stm->fields.iff.exp->typ, BOOLEAN_TYPE))
+  if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
     lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
   anstms(stm->fields.iff.thn, context);
   if (stm->fields.iff.els != NULL)
@@ -762,7 +762,7 @@ static void gedescribe(StmNod *stm) /* IN - Statement */
 static void gesay(StmNod *stm)	/* IN - The statement to analyze */
 {
   geexp(stm->fields.say.exp);
-  switch (stm->fields.say.exp->typ) {
+  switch (stm->fields.say.exp->type) {
   case INTEGER_TYPE:
     emit0(C_STMOP, I_SAYINT);
     break;
@@ -863,7 +863,7 @@ static void geset(StmNod *stm)	/* IN - Statement */
 
   emit0(C_CONST, stm->fields.set.atr->code);
   gewht(stm->fields.set.wht);
-  if (stm->fields.set.exp->typ == STRING_TYPE)
+  if (stm->fields.set.exp->type == STRING_TYPE)
     emit0(C_STMOP, I_STRSET);
   else
     emit0(C_STMOP, I_SET);

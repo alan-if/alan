@@ -12,6 +12,8 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "srcp_x.h"
+#include "atr_x.h"
+
 #include "vrb.h"
 #include "scr.h"
 #include "ext.h"
@@ -79,8 +81,6 @@ static void addInitialLocation(AddNode *add, SymNod *original)
 */
 static void addNames(AddNode *add, SymNod *original)
 {
-  SlotsNode *slots = add->slots;
-
 #ifdef FIXME
   if (slots->names != NULL)
     lmLogv(&slots->names->element.nam->srcp, 341, sevERR, "names", "(yet)", NULL);
@@ -93,13 +93,22 @@ static void addNames(AddNode *add, SymNod *original)
   addAttributes()
 
 */
-static void addAttributes(AddNode *add, SymNod *original)
+static void addAttributes(AddNode *add, SymNod *originalSymbol)
 {
-  SlotsNode *slots = add->slots;
+  List *addedAttributes = add->slots->attributes;
+  SlotsNode *originalSlots = originalSymbol->fields.claOrIns.slots;
+  List *originalAttributes = originalSlots->attributes;
+  List *l;
 
-  if (slots->attributes != NULL)
-    lmLogv(&slots->attributes->element.atr->srcp, 341, sevERR, "attributes", "(yet)", NULL);
+  if (addedAttributes == NULL) return;
 
+  for (l = addedAttributes; l != NULL; l = l->next) {
+    AtrNod *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
+    if (originalAttribute != NULL) /* It was found in the original */
+      lmLog(&l->element.atr->id->srcp, 336, sevERR, "an existing attribute");
+  }
+  originalSlots->attributes = combineAttributes(originalSlots->attributes,
+						addedAttributes);
 }
 
 

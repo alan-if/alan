@@ -237,9 +237,8 @@ void dualt(AltNod *alt)
     return;
   }
 
-  put("ALT: "); dumpSrcp(&alt->srcp); in();
+  put("ALT: "); dumpSrcp(&alt->srcp); put(" qual: "); duqual(alt->qual); in();
   put("id: "); dumpId(alt->id); nl();
-  put("qual: "); duqual(alt->qual); nl();
   put("chks: "); dulst(alt->chks, LIST_CHK); nl();
   put("stms: "); dulst(alt->stms, LIST_STM); out();
 }

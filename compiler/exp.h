@@ -61,7 +61,7 @@ typedef enum AgrKind {
 typedef struct ExpNod {		/* EXPRESSION */
   Srcp srcp;			/* Source position of the expression */
   ExpKind class;		/* Class of the expression */
-  TypeKind typ;			/* Type of the expression */
+  TypeKind type;		/* Type of the expression */
   Bool not;			/* Was there a NOT ? */
   union {
 

@@ -43,7 +43,7 @@ int atrmax;
 
  */
 AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
-	       TypeKind typ,	/* IN - Type of this atribute */
+	       TypeKind type,	/* IN - Type of this atribute */
 	       IdNode *id,	/* IN - The id */
 	       int value,	/* IN - The initial value */
 	       long int fpos,	/* IN - File position for initial string */
@@ -56,7 +56,7 @@ AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
   new = NEW(AtrNod);
 
   new->srcp = *srcp;
-  new->typ = typ;
+  new->type = type;
   new->id = id;
   new->inheritance = UNKNOWN_INHERITANCE;
   new->value = value;
@@ -282,7 +282,7 @@ static void generateAttribute(AtrNod *attribute)
   AttributeEntry entry;
   AtrNod *new;
 
-  if (attribute->typ == STRING_TYPE) {
+  if (attribute->type == STRING_TYPE) {
     if (!attribute->encoded) {
       encode(&attribute->fpos, &attribute->len);
       attribute->encoded = TRUE;
@@ -384,7 +384,7 @@ static void dumpInheritance(AttributeInheritance inheritance)
 void dumpAttribute(AtrNod *atr)
 {
   put("ATR: "); dumpSrcp(&atr->srcp); in();
-  put("type: "); dumpType(atr->typ); nl();
+  put("type: "); dumpType(atr->type); nl();
   put("id: "); dumpId(atr->id); nl();
   put("inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("stringAddress: "); dumpAddress(atr->stringAddress); nl();

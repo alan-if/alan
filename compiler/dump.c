@@ -75,7 +75,7 @@ void dumpPointer(void *adr)
 {
   char buf[20];
 
-  sprintf(buf, "{0x%lx} ", (unsigned long)adr);
+  sprintf(buf, "{0x%lx}", (unsigned long)adr);
   put(buf);
 }
 

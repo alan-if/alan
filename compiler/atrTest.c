@@ -89,7 +89,7 @@ static int secondAttributeCode(SlotsNode *slots)
 static InsNod *firstInstance, *secondInstance;
 
 
-static void numberAttributes(List *aList, int n1, int n2)
+static void numberTheAttributes(List *aList, int n1, int n2)
 {
   aList->element.atr->id->code = n1;
   aList->next->element.atr->id->code = n2;
@@ -116,8 +116,8 @@ void testCombineAttributes()
 
   unitAssert(combineAttributes(NULL, NULL) == NULL);
 
-  numberAttributes(ownList, 1, 2);
-  numberAttributes(inheritedList, 2, 3);
+  numberTheAttributes(ownList, 1, 2);
+  numberTheAttributes(inheritedList, 2, 3);
   theCombinedList = combineAttributes(ownList, NULL);
   unitAssert(length(theCombinedList) == length(ownList));
   unitAssert(theCombinedList == ownList);

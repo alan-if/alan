@@ -114,6 +114,7 @@ void analyzeWhere(WhrNod *whr,
   case WHR_AT:
     switch (whr->wht->kind) {
     case WHT_ID:
+      (void) symcheck(whr->wht->id, INSTANCE_SYMBOL, context);
       break;
     default:
       syserr("Unrecognized switch in anexpwhr()");

@@ -13,11 +13,6 @@ addto.alan
 
   *1*   341 E : Can not ADD initial location TO classes. (yet)
 
-    5.    Has x 5.
-=====>        1
-
-  *1*   341 E : Can not ADD attributes TO classes. (yet)
-
     6.    Description "some description."
 =====>    1
 
@@ -49,7 +44,7 @@ addto.alan
   *1*   341 E : Can not ADD exits TO classes. (yet)
 
 
-        9 error(s).
+        8 error(s).
         No detected warnings.
         1 informational message(s).
 

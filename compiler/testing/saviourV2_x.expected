@@ -474,9 +474,10 @@ saviourV2_x.alan
   *1*   220 W : Multiple definition of 'read'.
 
   555.          LOCATE book AT NOWHERE.
-=====>                 1
+=====>                 1       2
 
   *1*   310 E : Identifier 'book' not defined.
+  *2*   310 E : Identifier 'nowhere' not defined.
 
   557.  END OBJECT.
 =====>  1
@@ -569,6 +570,16 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'ladder' not defined.
   *2*   310 E : Identifier 'walless' not defined.
+
+  648.                  LOCATE HERO AT holeroom.
+=====>                                 1
+
+  *1*   310 E : Identifier 'holeroom' not defined.
+
+  650.                  LOCATE HERO AT walless.
+=====>                                 1
+
+  *1*   310 E : Identifier 'walless' not defined.
 
   652.              LOCATE ladder HERE.
 =====>                     1
@@ -732,9 +743,10 @@ saviourV2_x.alan
   *1*   310 E : Identifier 'candy' not defined.
 
   778.              LOCATE coin AT NOWHERE.
-=====>                     1
+=====>                     1       2
 
   *1*   310 E : Identifier 'coin' not defined.
+  *2*   310 E : Identifier 'nowhere' not defined.
 
   781.  END OBJECT.
 =====>  1
@@ -1328,9 +1340,10 @@ saviourV2_x.alan
   *1*   220 W : Multiple definition of 'read'.
 
  1258.          LOCATE candy AT NOWHERE.
-=====>                 1
+=====>                 1        2
 
   *1*   310 E : Identifier 'candy' not defined.
+  *2*   310 E : Identifier 'nowhere' not defined.
 
  1261.      VERB drop
 =====>           1
@@ -1348,9 +1361,10 @@ saviourV2_x.alan
   *1*   310 E : Identifier 'rats' not defined.
 
  1268.              LOCATE candy AT NOWHERE.
-=====>                     1
+=====>                     1        2
 
   *1*   310 E : Identifier 'candy' not defined.
+  *2*   310 E : Identifier 'nowhere' not defined.
 
  1272.  END OBJECT.
 =====>  1
@@ -1380,7 +1394,7 @@ saviourV2_x.alan
   *1*   351 E : Must refer to an instance inheriting from 'location'.
 
 
-        235 error(s).
+        241 error(s).
         171 warning(s).
         56 informational message(s).
 

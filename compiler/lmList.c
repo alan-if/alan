@@ -136,10 +136,11 @@ static lmMsgs msg[] = {
     { "322   ", "Word \'%1\' already defined as a synonym." },
     { "330   ", "Wrong type of expression in context of %2. Must be of %1 type." },
     { "331   ", "Incompatible types in %1." },
-    { "332   ", "Attribute is inherited but does not match its type which is required." },
+    { "332   ", "Attribute is inherited but does not match the original type (in class \'%1\') which is required." },
     { "333   ", "The word \'%1\' is defined to be both a synonym and another word class." },
     { "334   ", "Multiple syntaxes are defined with this structure (words and parameters)." },
     { "335   ", "ELSE clause of a DEPENDING statement must be the last." },
+    { "336   ", "You can not ADD %1 to a class." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not ADD %1 TO classes. %2" },
     { "350   ", "Can not inherit from something not a class." },
@@ -182,7 +183,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 102}
+    {0, 103}
 };
 static lmMessages currMsect = (lmMessages)0;
 

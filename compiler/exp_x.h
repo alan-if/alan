@@ -28,8 +28,8 @@ extern ExpNod *newexp(Srcp *srcp,
 extern void anexp(ExpNod *exp, Context *context);
 
 /* Compare two types */
-extern Bool eqtyp(TypeKind typ1,
-		  TypeKind typ2);
+extern Bool equalTypes(TypeKind typ1,
+		       TypeKind typ2);
 
 /* Generate code for an Expression */
 extern void geexp(ExpNod *exp);
