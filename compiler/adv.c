@@ -209,16 +209,14 @@ static void gecodes(hdr)
 
  */
 #ifdef _PROTOTYPES_
-void geadv(char *acdfnm, Boolean revflg)
+void geadv(char *acdfnm)
                    		/* IN - ACODE file name */
-                    		/* IN - Reversed byte ordering */
 #else
-void geadv(acdfnm, revflg)
+void geadv(acdfnm)
      char acdfnm[];		/* IN - ACODE file name */
-     Boolean revflg;		/* IN - Reversed byte ordering */
 #endif
 {
-  eminit(acdfnm, revflg);	/* Initialise code emit */
+  eminit(acdfnm);		/* Initialise code emit */
   eninit();			/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;

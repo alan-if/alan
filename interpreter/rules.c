@@ -13,6 +13,7 @@
 #include "inter.h"
 #include "stack.h"
 
+#include "rules.h"
 
 #ifdef _PROTOTYPES_
 void rules(void)

@@ -84,10 +84,16 @@ static void unknown(token)
      char token[];
 #endif
 {
-  char str[80];
+  char *str = allocate((int)strlen(token)+4);
 
-  sprintf(str, "'%s'?", token);
+  str[0] = '\'';
+  strcpy(&str[1], token);
+  strcat(str, "'?");
+#if ISO == 0
+  fromIso(str, str);
+#endif
   output(str);
+  free(str);
   eol = TRUE;
   error(KNOW_WORD);
 }
@@ -188,6 +194,9 @@ static void getline()
       fprintf(logfil, "%s\n", buf);
 #else
       fprintf(logfil, "%s", buf);
+#endif
+#if ISO == 0
+    toIso(buf, buf);
 #endif
     token = gettoken(buf);
     if (token != NULL && strcmp("debug", token) == 0 && header->debug) {

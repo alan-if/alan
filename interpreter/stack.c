@@ -10,6 +10,8 @@
 #include "types.h"
 #include "arun.h"
 
+#include "stack.h"
+
 
 /* PRIVATE DATA */
 

@@ -299,9 +299,9 @@ static void makloc(loc, atr, val)
 }
 
 #ifdef _PROTOTYPES_
-void makobj(Aword obj, Aword atr, Aword val)
+static void makobj(Aword obj, Aword atr, Aword val)
 #else
-void makobj(obj, atr, val)
+static  void makobj(obj, atr, val)
 	    Aword obj, atr, val;
 #endif
 {
@@ -309,9 +309,9 @@ void makobj(obj, atr, val)
 }
 
 #ifdef _PROTOTYPES_
-void makact(Aword act, Aword atr, Aword val)
+static void makact(Aword act, Aword atr, Aword val)
 #else
-void makact(act, atr, val)
+static void makact(act, atr, val)
 	    Aword act, atr, val;
 #endif
 {
@@ -326,14 +326,18 @@ void make(id, atr, val)
 	  Aword id, atr, val;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     makobj(id, atr, val);
   else if (isLoc(id))
     makloc(id, atr, val);
   else if (isAct(id))
     makact(id, atr, val);
-  else
-    syserr("Can't MAKE item.");
+  else {
+    sprintf(str, "Can't MAKE item (%ld).", id);
+    syserr(str);
+  }
 }
 
 
@@ -383,14 +387,18 @@ void set(id, atr, val)
      Aword id, atr, val;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     setobj(id, atr, val);
   else if (isLoc(id))
     setloc(id, atr, val);
   else if (isAct(id))
     setact(id, atr, val);
-  else
-    syserr("Can't SET item.");
+  else {
+    sprintf(str, "Can't SET item (%ld).", id);
+    syserr(str);
+  }
 }
 
 
@@ -478,14 +486,18 @@ void incr(id, atr, step)
      Aword id, atr, step;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     incrobj(id, atr, step);
   else if (isLoc(id))
     incrloc(id, atr, step);
   else if (isAct(id))
     incract(id, atr, step);
-  else
-    syserr("Can't INCR item.");
+  else {
+    sprintf(str, "Can't INCR item (%ld).", id);
+    syserr(str);
+  }
 }
 
 #ifdef _PROTOTYPES_
@@ -495,14 +507,18 @@ void decr(id, atr, step)
      Aword id, atr, step;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     incrobj(id, atr, -step);
   else if (isLoc(id))
     incrloc(id, atr, -step);
   else if (isAct(id))
     incract(id, atr, -step);
-  else
-    syserr("Can't DECR item.");
+  else {
+    sprintf(str, "Can't DECR item (%ld).", id);
+    syserr(str);
+  }
 }
 
 
@@ -543,12 +559,15 @@ static Aword actatr(act, atr)
 #endif
 {
   Aword val;			/* Value */
+  char str[80];
 
   val = getatr(acts[act-ACTMIN].atrs, atr);
   if (val != EOF)
     return(val);
-
-  syserr("Unknown actor attribute requested.");
+  else {
+    sprintf(str, "Unknown actor attribute requested (%ld, %ld).", act, atr);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -559,10 +578,14 @@ static Aword litatr(lit, atr)
      Aword lit, atr;
 #endif
 {
+  char str[80];
+
   if (atr == 1)
     return litValues[lit-LITMIN].value;
-  else
-    syserr("Unknown attribute for literal.");
+  else {
+    sprintf(str, "Unknown attribute for literal (%ld).", atr);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -574,6 +597,8 @@ Aword attribute(id, atr)
      Aword id, atr;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     return objatr(id, atr);
   else if (isLoc(id))
@@ -582,8 +607,10 @@ Aword attribute(id, atr)
     return actatr(id, atr);
   else if (isLit(id))
     return litatr(id, atr);
-  else
-    syserr("Can't ATTRIBUTE item.");
+  else {
+    sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -640,12 +667,16 @@ Aword where(id)
      Aword id;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     return objloc(id);
   else if (isAct(id))
     return actloc(id);
-  else
-    syserr("Can't WHERE item.");
+  else {
+    sprintf(str, "Can't WHERE item (%ld).", id);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -795,12 +826,16 @@ void locate(id, whr)
      Aword id, whr;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     locobj(id, whr);
   else if (isAct(id))
     locact(id, whr);
-  else
-    syserr("Can't LOCATE item.");
+  else {
+    sprintf(str, "Can't LOCATE item (%ld).", id);
+    syserr(str);
+  }
 }
 
 
@@ -845,12 +880,16 @@ Aword isHere(id)
      Aword id;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     return objhere(id);
   else if (isAct(id))
     return acthere(id);
-  else
-    syserr("Can't HERE item.");
+  else {
+    sprintf(str, "Can't HERE item (%ld).", id);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -895,12 +934,16 @@ Abool isNear(id)
      Aword id;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     return objnear(id);
   else if (isAct(id))
     return actnear(id);
-  else
-    syserr("Can't NEAR item.");
+  else {
+    sprintf(str, "Can't NEAR item (%ld).", id);
+    syserr(str);
+  }
   return(EOF);
 }
 
@@ -1017,6 +1060,8 @@ void say(id)
      Aword id;
 #endif
 {
+  char str[80];
+
   if (isObj(id))
     sayobj(id);
   else if (isLoc(id))
@@ -1025,8 +1070,10 @@ void say(id)
     sayact(id);
   else if (isLit(id))
     saylit(id);
-  else
-    syserr("Can't SAY item.");
+  else {
+    sprintf(str, "Can't SAY item (%ld).", id);
+    syserr(str);
+  }
 }
 
 
@@ -1106,6 +1153,7 @@ void describe(id)
 #endif
 {
   int i;
+  char str[80];
 
   for (i = 0; i < dscrstkp; i++)
     if (dscrstk[i] == id)
@@ -1118,8 +1166,10 @@ void describe(id)
     dscrloc(id);
   else if (isAct(id))
     dscract(id);
-  else
-    syserr("Can't DESCRIBE item.");
+  else {
+    sprintf(str, "Can't DESCRIBE item (%ld).", id);
+    syserr(str);
+  }
 
   dscrstkp--;
 }
@@ -1138,8 +1188,12 @@ void use(act, scr)
      Aword act, scr;
 #endif
 {
-  if (!isAct(act))
-    syserr("Item is not an Actor.");
+  char str[80];
+
+  if (!isAct(act)) {
+    sprintf(str, "Item is not an Actor (%ld).", act);
+    syserr(str);
+  }
 
   acts[act-ACTMIN].script = scr;
   acts[act-ACTMIN].step = 0;

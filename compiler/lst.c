@@ -166,7 +166,7 @@ void dulst(lst, class)
     return;
   }
   
-  put("LST: "); in();
+  put("LST: "); duadr(lst); in();
   while (lst != NULL) {
     dunod((void *)lst->element.atr, class);
     lst = lst->next;

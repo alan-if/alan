@@ -38,6 +38,7 @@ error "SPA header file version 4 required"
 #include <stdio.h>
 #include <string.h>
 #ifdef __NEWC__
+#include <stdlib.h>
 #include <stdarg.h>
 #else
 #include <varargs.h>

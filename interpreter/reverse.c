@@ -10,18 +10,20 @@
 #include "types.h"
 #include "arun.h"
 
+#include "reverse.h"
+
 
 /*----------------------------------------------------------------------
 
-  swaplong()
+  reversed()
 
   Return the reversed bytes in the Aword
 
 */
 #ifdef _PROTOTYPES_
-static Aword swaplong(Aword w)	/* IN - The ACODE word to swap bytes of */
+Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes of */
 #else
-static Aword swaplong(w)
+Aword reversed(w)
      Aword w;			/* IN - The ACODE word to swap bytes of */
 #endif
 {
@@ -46,11 +48,11 @@ void reverse(w)
      Aword *w;			/* IN - The ACODE word to reverse bytes in */
 #endif
 {
-  *w = swaplong(*w);
+  *w = reversed(*w);
 }
 
 
-#ifdef PROTOTYPES
+#ifdef _PROTOTYPES_
 static void reverseTable(Aword adr, int len)
 #else
 static void reverseTable(adr, len)
@@ -101,8 +103,10 @@ static void reverseWrds(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(WrdElem));
     while (!endOfTable(e)) {
-      reverseTable(e->adjrefs, sizeof(Aword));
-      reverseTable(e->nounrefs, sizeof(Aword));
+      if ((e->class & (1L<<WRD_SYN)) == 0) { /* Do not do this for synonyms */
+	reverseTable(e->adjrefs, sizeof(Aword));
+	reverseTable(e->nounrefs, sizeof(Aword));
+      }
       e++;
     }
   }
@@ -437,6 +441,26 @@ static void reverseRuls(adr)
 
 /*----------------------------------------------------------------------
 
+  reverseHdr()
+
+  Reverse the header structure.
+
+*/
+#ifdef _PROTOTYPES_
+void reverseHdr(AcdHdr *hdr)
+#else
+void reverseHdr(hdr)
+     AcdHdr *hdr;
+#endif
+{
+  int i;
+
+  for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
+    reverse(&((Aword *)hdr)[i]);
+}
+
+/*----------------------------------------------------------------------
+
   reverseACD()
 
   Traverse all the data structures and reverse all integers.
@@ -450,10 +474,7 @@ void reverseACD(void)
 void reverseACD()
 #endif
 {
-  int i;
-
-  for (i = 1; i < sizeof(AcdHdr)/sizeof(Aword); i++)
-    reverse(&memory[i]);
+  reverseHdr(header);
   reverseWrds(header->dict);
   reverseTable(header->oatrs, sizeof(AtrElem));
   reverseTable(header->latrs, sizeof(AtrElem));

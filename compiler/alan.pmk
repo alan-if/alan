@@ -4,8 +4,7 @@
 	Listerprefix 'lm';
 	List Grammar, Statistics;
 	StackLimit 64;
-	ActionPack RDS;
-	GotoPack LES;
+	Pack RDS, GCS, LES, Error;
 
 %%IMPORT
 
@@ -60,8 +59,12 @@
 
 %%DECLARATIONS
 
+#ifdef _PROTOTYPES_
+static int val(char str[])
+#else
 static int val(str)
      char str[];
+#endif
 {
   int temp;
 

@@ -285,7 +285,7 @@ static List *partition(elmsListP)
      List **elmsListP;		/* INOUT - Address to pointer to the list */
 #endif
 {
-  List *part, *rest, *elms, *this;
+  List *part, *rest, *elms, *this, *p;
   Boolean emptyFound = FALSE;	/* Have we already found an empty element? */
 
   if (*elmsListP == NULL)
@@ -312,6 +312,10 @@ static List *partition(elmsListP)
       part = combine(part, this);
       if (rest == this)
 	rest = elms;
+      else {
+	for (p = rest; p->next != this; p = p->next);
+	p->next = elms;
+      }
     } else {
       elms = elms->next;
     }
@@ -418,7 +422,7 @@ void duelm(elm)
     return;
   }
 
-  put("ELM: "); dusrcp(&elm->srcp); in();
+  put("ELM: "); duadr(elm); dusrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
   case ELMPAR:

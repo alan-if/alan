@@ -5,14 +5,10 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "srcp.h"
-
 #include "alan.h"
 
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "exp.h"		/* EXP-nodes */
 #include "atr.h"		/* ATR-nodes */
 #include "obj.h"		/* OBJ-nodes */
 #include "loc.h"		/* LOC-nodes */

@@ -16,6 +16,7 @@
 #include "stack.h"
 #include "sysdep.h"
 
+#include "inter.h"
 
 
 /* PRIVATE DATA */
@@ -123,13 +124,13 @@ void interpret(adr)
     
     switch (I_CLASS(i)) {
     case C_CONST:
-      if (stpflg) printf("PUSH  \t%5d", I_OP(i));
+      if (stpflg) printf("PUSH  \t%5ld", I_OP(i));
       push(I_OP(i));
       break;
     case C_CURVAR:
       switch (I_OP(i)) {
       case V_PARAM:
-	if (stpflg) printf("PARAM \t%5d\t\t(%d)", top(), params[top()-1].code);
+	if (stpflg) printf("PARAM \t%5ld\t\t(%ld)", top(), params[top()-1].code);
 	push(params[pop()-1].code);
 	break;
       case V_CURLOC:
@@ -161,7 +162,7 @@ void interpret(adr)
 	fpos = pop();
 	len = pop();
 	if (stpflg) {
-	  printf("PRINT \t%5d, %5d\t\"", fpos, len);
+	  printf("PRINT \t%5ld, %5ld\t\"", fpos, len);
 	  col = 34;		/* To format it better! */
 	}
 	print(fpos, len);
@@ -174,7 +175,7 @@ void interpret(adr)
 	fpos = pop();
 	len = pop();
 	if (stpflg) {
-	  printf("SYSTEM \t%5d, %5d\t\"", fpos, len);
+	  printf("SYSTEM \t%5ld, %5ld\t\"", fpos, len);
 	  col = 34;		/* To format it better! */
 	}
 	sys(fpos, len);
@@ -185,10 +186,10 @@ void interpret(adr)
 	fpos = pop();
 	len = pop();
 	if (stpflg)
-	  printf("GETSTR\t%5d, %5d", fpos, len);
+	  printf("GETSTR\t%5ld, %5ld", fpos, len);
 	getstr(fpos, len);
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_QUIT: {
@@ -219,7 +220,7 @@ void interpret(adr)
 	Aword cnt;
 	cnt = pop();
 	if (stpflg)
-	  printf("LIST \t%5d", cnt);
+	  printf("LIST \t%5ld", cnt);
 	list(cnt);
 	break;
       }
@@ -228,7 +229,7 @@ void interpret(adr)
 	cnt = pop();
 	whr = pop();
 	if (stpflg)
-	  printf("EMPTY \t%5d, %5d", cnt, whr);
+	  printf("EMPTY \t%5ld, %5ld", cnt, whr);
 	empty(cnt, whr);
 	break;
       }
@@ -236,7 +237,7 @@ void interpret(adr)
 	Aword sc;
 	sc = pop();
 	if (stpflg)
-	  printf("SCORE \t%5d\t\t(%d)", sc, scores[sc-1]);
+	  printf("SCORE \t%5ld\t\t(%ld)", sc, scores[sc-1]);
 	score(sc);
 	break;
       }
@@ -246,7 +247,7 @@ void interpret(adr)
 	whr = pop();
 	aft = pop();
 	if (stpflg)
-	  printf("SCHEDULE \t%5d, %5d, %5d", evt, whr, aft);
+	  printf("SCHEDULE \t%5ld, %5ld, %5ld", evt, whr, aft);
 	schedule(evt, whr, aft);
 	break;
       }
@@ -254,7 +255,7 @@ void interpret(adr)
 	Aword evt;
 	evt = pop();
 	if (stpflg)
-	  printf("CANCEL \t%5d", evt);
+	  printf("CANCEL \t%5ld", evt);
 	cancel(evt);
 	break;
       }
@@ -264,7 +265,7 @@ void interpret(adr)
 	atr = pop();
 	val = pop();
 	if (stpflg) {
-	  printf("MAKE \t%5d, %5d, ", id, atr);
+	  printf("MAKE \t%5ld, %5ld, ", id, atr);
 	  if (val) printf("TRUE"); else printf("FALSE");
 	}
 	make(id, atr, val);
@@ -276,7 +277,7 @@ void interpret(adr)
 	atr = pop();
 	val = pop();
 	if (stpflg) {
-	  printf("SET \t%5d, %5d, %5d", id, atr, val);
+	  printf("SET \t%5ld, %5ld, %5ld", id, atr, val);
 	}
 	set(id, atr, val);
 	break;
@@ -287,7 +288,7 @@ void interpret(adr)
 	atr = pop();
 	str = pop();
 	if (stpflg) {
-	  printf("STRSET\t%5d, %5d, %5d", id, atr, str);
+	  printf("STRSET\t%5ld, %5ld, %5ld", id, atr, str);
 	}
 	setstr(id, atr, str);
 	break;
@@ -298,7 +299,7 @@ void interpret(adr)
 	atr = pop();
 	step = pop();
 	if (stpflg) {
-	  printf("INCR\t%5d, %5d, %5d", id, atr, step);
+	  printf("INCR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
 	incr(id, atr, step);
 	break;
@@ -309,7 +310,7 @@ void interpret(adr)
 	atr = pop();
 	step = pop();
 	if (stpflg) {
-	  printf("DECR\t%5d, %5d, %5d", id, atr, step);
+	  printf("DECR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
 	decr(id, atr, step);
 	break;
@@ -319,10 +320,10 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	if (stpflg)
-	  printf("ATTRIBUTE %5d, %5d", id, atr);
+	  printf("ATTRIBUTE %5ld, %5ld", id, atr);
 	push(attribute(id, atr));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_STRATTR: {
@@ -330,10 +331,10 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	if (stpflg)
-	  printf("STRATTR \t%5d, %5d", id, atr);
+	  printf("STRATTR \t%5ld, %5ld", id, atr);
 	push(strattr(id, atr));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_LOCATE: {
@@ -341,7 +342,7 @@ void interpret(adr)
 	id = pop();
 	whr = pop();
 	if (stpflg)
-	  printf("LOCATE \t%5d, %5d", id, whr);
+	  printf("LOCATE \t%5ld, %5ld", id, whr);
 	locate(id, whr);
 	break;
       }
@@ -349,17 +350,17 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (stpflg)
-	  printf("WHERE \t%5d", id);
+	  printf("WHERE \t%5ld", id);
 	push(where(id));
 	if (stpflg)
-	  printf("\t\t(%d)", top());
+	  printf("\t\t(%ld)", top());
 	break;
       }
       case I_HERE: {
 	Aword id;
 	id = pop();
 	if (stpflg)
-	  printf("HERE \t%5d", id);
+	  printf("HERE \t%5ld", id);
 	push(isHere(id));
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -369,7 +370,7 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (stpflg)
-	  printf("NEAR \t%5d", id);
+	  printf("NEAR \t%5ld", id);
 	push(isNear(id));
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -380,7 +381,7 @@ void interpret(adr)
 	act = pop();
 	scr = pop();
 	if (stpflg)
-	  printf("USE \t%5d, %5d", act, scr);
+	  printf("USE \t%5ld, %5ld", act, scr);
 	use(act, scr);
 	break;
       }
@@ -389,7 +390,7 @@ void interpret(adr)
 	obj = pop();
 	cnt = pop();
 	if (stpflg)
-	  printf("IN \t%5d, %5d ", obj, cnt);
+	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -399,7 +400,7 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (stpflg) {
-	  printf("DESCRIBE \t%5d\t\"", id);
+	  printf("DESCRIBE \t%5ld\t\"", id);
 	  col = 34;		/* To format it better! */
 	}
 	describe(id);
@@ -411,7 +412,7 @@ void interpret(adr)
 	Aword id;
 	id = pop();
 	if (stpflg)
-	  printf("SAY \t%5d\t\t\"", id);
+	  printf("SAY \t%5ld\t\t\"", id);
 	say(id);
 	if (stpflg)
 	  printf("\"");
@@ -421,7 +422,7 @@ void interpret(adr)
 	Aword val;
 	val = pop();
 	if (stpflg)
-	  printf("SAYINT\t%5d\t\t\"", val);
+	  printf("SAYINT\t%5ld\t\t\"", val);
 	sayint(val);
 	if (stpflg)
 	  printf("\"");
@@ -431,7 +432,7 @@ void interpret(adr)
 	Aword adr;
 	adr = pop();
 	if (stpflg)
-	  printf("SAYSTR\t%5d\t\t\"", adr);
+	  printf("SAYSTR\t%5ld\t\t\"", adr);
 	saystr((char *)adr);
 	if (stpflg)
 	  printf("\"");
@@ -491,7 +492,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("NE \t%5d, %5d", lh, rh);
+	  printf("NE \t%5ld, %5ld", lh, rh);
 	push(lh != rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -502,7 +503,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("EQ \t%5d, %5d", lh, rh);
+	  printf("EQ \t%5ld, %5ld", lh, rh);
 	push(lh == rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -513,7 +514,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("STREQ \t%5d, %5d", lh, rh);
+	  printf("STREQ \t%5ld, %5ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -524,7 +525,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("STREXACT \t%5d, %5d", lh, rh);
+	  printf("STREXACT \t%5ld, %5ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -537,7 +538,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("LE \t%5d, %5d", lh, rh);
+	  printf("LE \t%5ld, %5ld", lh, rh);
 	push(lh <= rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -548,7 +549,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("GE \t%5d, %5d", lh, rh);
+	  printf("GE \t%5ld, %5ld", lh, rh);
 	push(lh >= rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -559,7 +560,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("LT \t%5d, %5d", lh, rh);
+	  printf("LT \t%5ld, %5ld", lh, rh);
 	push(lh < rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -570,7 +571,7 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("GT \t%5d, %5d", lh, rh);
+	  printf("GT \t%5ld, %5ld", lh, rh);
 	push(lh > rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
@@ -581,10 +582,10 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("PLUS \t%5d, %5d", lh, rh);
+	  printf("PLUS \t%5ld, %5ld", lh, rh);
 	push(lh + rh);
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_MINUS: {
@@ -592,10 +593,10 @@ void interpret(adr)
 	lh = pop();
 	rh = pop();
 	if (stpflg)
-	  printf("MINUS \t%5d, %5d", lh, rh);
+	  printf("MINUS \t%5ld, %5ld", lh, rh);
 	push(lh - rh);
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_NOT: {
@@ -615,10 +616,10 @@ void interpret(adr)
 	atr = pop();
 	whr = pop();
 	if (stpflg)
-	  printf("MAX \t%5d, %5d", atr, whr);
+	  printf("MAX \t%5ld, %5ld", atr, whr);
 	push(agrmax(atr, whr));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_SUM: {
@@ -626,20 +627,20 @@ void interpret(adr)
 	atr = pop();
 	whr = pop();
 	if (stpflg)
-	  printf("SUM \t%5d, %5d", atr, whr);
+	  printf("SUM \t%5ld, %5ld", atr, whr);
 	push(agrsum(atr, whr));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_COUNT: {
 	Aword whr;
 	whr = pop();
 	if (stpflg)
-	  printf("COUNT \t%5d", whr);
+	  printf("COUNT \t%5ld", whr);
 	push(agrcount(whr));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_RND: {
@@ -647,10 +648,10 @@ void interpret(adr)
 	from = pop();
 	to = pop();
 	if (stpflg)
-	  printf("RANDOM \t%5d, %5d", from, to);
+	  printf("RANDOM \t%5ld, %5ld", from, to);
 	push(rnd(from, to));
 	if (stpflg)
-	  printf("\t(%d)", top());
+	  printf("\t(%ld)", top());
 	break;
       }
       case I_RETURN:

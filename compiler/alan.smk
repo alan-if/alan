@@ -1,6 +1,7 @@
 %%OPTIONS
 
 	Prefix 'sm';
+	Pack RDS, GCS, LES, Error;
 
 %%IMPORT
 
@@ -26,7 +27,18 @@
 
 %%EXPORT
 
+#include "sysdep.h"
+#include "types.h"
+
 extern smScContext lexContext;
+
+#ifdef _PROTOTYPES_
+extern Boolean smScanEnter(char fnm[]);
+extern int scannedLines(void);
+#else
+extern Boolean smScanEnter();
+extern int scannedLines();
+#endif
 
 %%DECLARATIONS
 
@@ -42,9 +54,15 @@ int scannedLines();
 /* PRIVATE */
 static lines = 0;		/* Updated at end of each file */
 
+#ifdef _PROTOTYPES_
+Boolean smScanEnter(
+	char fnm[]		/* IN - Name of file to open */
+){
+#else
 Boolean smScanEnter(fnm)
 	char fnm[];		/* IN - Name of file to open */
 {
+#endif
   smScContext this;
 
   this = smScNew(sm_MAIN_MAIN_Scanner);
@@ -61,7 +79,11 @@ Boolean smScanEnter(fnm)
   return TRUE;
 }
 
+#ifdef _PROTOTYPES_
+int scannedLines(void)
+#else
 int scannedLines()
+#endif
 {
   return(lines - 1);
 }
@@ -78,7 +100,7 @@ int scannedLines()
 %%READER
 
   if (verbose) printf(".");
-  return read(smThis->fd, smBuffer, smLength);
+  return read(smThis->fd, (char *)smBuffer, smLength);
 
 
 %%POSTHOOK
@@ -146,7 +168,7 @@ int scannedLines()
       smToken->fpos = ftell(txtfil); /* Remember where it starts */
       smThis->smText[smThis->smLength-1] = '\0';
 #if ISO == 0
-      toIso(&smThis->smText[1], &smThis->smText[1]);
+      toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1]);
 #endif
 
       for (i = 1; i < smThis->smLength-1; i++) {

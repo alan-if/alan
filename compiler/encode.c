@@ -9,10 +9,11 @@
 #include "alan.h"
 
 #include "acode.h"
-
 #include "opt.h"		/* Options */
-
 #include "emit.h"
+
+#include "encode.h"
+
 
 /* PUBLIC */
 int txtlen = 0;			/* How many bytes of text data? */

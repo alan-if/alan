@@ -10,8 +10,8 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "adv.h"		/* ADV-node */
-
+#include "adv.h"
+#include "sco.h"
 #include "emit.h"
 #include "acode.h"
 

@@ -46,8 +46,7 @@ extern void initadv(void);
 extern void anadv(void);
 
 /* Generate the whole adventure */
-extern void geadv(char acdfnm[],
-		  Boolean revflg);
+extern void geadv(char acdfnm[]);
 
 /* Dump the whole Adventure */
 extern void duadv(enum dmpkd dmp);

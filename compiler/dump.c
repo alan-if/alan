@@ -112,6 +112,20 @@ void duint(i)
 
 
 #ifdef _PROTOTYPES_
+void duadr(void *adr)
+#else
+void duint(adr)
+     char *adr;
+#endif
+{
+  char buf[20];
+
+  sprintf(buf, "{0x%lx} ", (unsigned long)adr);
+  put(buf);
+}
+
+
+#ifdef _PROTOTYPES_
 void duBoolean(Boolean b)
 #else
 void duBoolean(b)

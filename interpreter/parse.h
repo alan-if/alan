@@ -17,7 +17,7 @@ extern int litCount;
 
 extern int vrbwrd;
 
-#ifdef __PROTOTYPES__
+#ifdef _PROTOTYPES_
 
 /* Parse a new player command */
 extern void parse(void);

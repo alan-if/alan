@@ -129,6 +129,14 @@ extern char SpaAlertLevel;	/* Alert on or above this level,
 
 #ifdef __NEWC__
 
+#ifdef THINK_C
+extern int _spaPreProcess(int *argc,
+			  char **argv[],
+			  _SPA_ITEM arguments[],
+			  _SPA_ITEM options[],
+			  SpaErrFun *errfun);
+#endif
+
 extern int _spaProcess(		/* Go thru user arguments and options */
     int argc,			/* IN - As to main */
     char *argv[],		/* IN - As to main */

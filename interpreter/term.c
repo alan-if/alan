@@ -8,6 +8,9 @@
 
 #include "arun.h"
 
+#include "term.h"
+
+
 #ifdef _PROTOTYPES_
 void getPageSize(void)
 #else
@@ -79,7 +82,7 @@ void getPageSize()
     free(id);
 
     /* 4f_ti - Must be calculated w.r.t font size and borders */
-    paglen = win->Height/8-2;
+    paglen = win->Height/8-3;
     pagwidth = win->Width/8-2;
   } else {
     paglen = header->paglen;

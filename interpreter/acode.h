@@ -24,22 +24,22 @@ typedef long CodeValue;
 
 
 /* AMACHINE Word Classes */
-typedef enum WrdKind {
-  WRD_SYN,			/* Synonym */
-  WRD_ADJ,			/* Adjective */
-  WRD_ALL,			/* All */
-  WRD_BUT,			/* But */
-  WRD_CONJ,			/* Conjunction */
-  WRD_PREP,			/* Preposition */
-  WRD_DIR,			/* Direction */
-  WRD_IT,			/* It */
-  WRD_NOISE,			/* Noise word */
-  WRD_NOUN,			/* Noun */
-  WRD_ACT,			/* Actor */
-  WRD_THEM,			/* Them */
-  WRD_VRB,			/* Verb */
-  WRD_CLASSES
-} WrdKind;
+typedef int WrdKind;
+#define  WRD_SYN 0		/* Synonym */
+#define  WRD_ADJ 1		/* Adjective */
+#define  WRD_ALL 2		/* All */
+#define  WRD_BUT 3		/* But */
+#define  WRD_CONJ 4		/* Conjunction */
+#define  WRD_PREP 5		/* Preposition */
+#define  WRD_DIR 6		/* Direction */
+#define  WRD_IT 7		/* It */
+#define  WRD_NOISE 8		/* Noise word */
+#define  WRD_NOUN 9		/* Noun */
+#define  WRD_ACT 10		/* Actor */
+#define  WRD_THEM 11		/* Them */
+#define  WRD_VRB 12		/* Verb */
+#define  WRD_CLASSES 13
+
 
 
 /* Syntax element classifications */
@@ -148,7 +148,6 @@ typedef enum VarClass {
 
 typedef struct AcdHdr {
 /* Important info */
-  Abool rev;			/* 00 - Reversed bytes ? */
   Aword vers;			/* 01 - Version of compiler */
   Aword size;			/* 02 - Size of ACD-file in Awords */
 /* Options */
@@ -184,6 +183,8 @@ typedef struct AcdHdr {
   Aword maxscore;		/* 25 - Maximum score */
   Aaddr scores;			/* 26 - Score table */
   Aaddr freq;			/* 27 - Address to Char freq's for coding */
+  Aword acdcrc;			/* 28 - Checksum for acd code (excl. hdr) */
+  Aword txtcrc;			/* 29 - Checksum for text data file */
 } AcdHdr;
 
 #endif

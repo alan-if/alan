@@ -56,6 +56,7 @@ Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
 
+Boolean errflg = TRUE;
 Boolean trcflg = FALSE;
 Boolean dbgflg = FALSE;
 Boolean stpflg = FALSE;
@@ -193,7 +194,7 @@ void *allocate(len)
      int len;			/* IN - Length to allocate */
 #endif
 {
-  void *p = (void *)malloc(len);
+  void *p = (void *)malloc((size_t)len);
 
   if (p == NULL)
     syserr("Out of memory.");
@@ -395,8 +396,7 @@ void output(original)
   char *str, *copy;
   char *symptr;
 
-  copy = allocate(strlen(original)+1);
-  strcpy(copy, original);
+  copy = strdup(original);
   str = copy;
 
   if (str[0] != '$' || str[1] != '$')
@@ -1109,8 +1109,8 @@ static void eventchk()
 
   codfil
   filenames
-  load()
   checkvers()
+  load()
   checkdebug()
   initheader()
   initstrings()
@@ -1130,62 +1130,24 @@ static char logfnm[256] = "";
 
 /*----------------------------------------------------------------------
 
-  load()
-
- */
-#ifdef _PROTOTYPES_
-static void load(void)
-#else
-static void load()
-#endif
-{
-  AcdHdr hdr;
-
-  fread(&hdr, sizeof(hdr), 1, codfil);
-  rewind(codfil);
-
-  /* Allocate and load memory */
-
-#ifdef REVERSED
-  if (!hdr.rev)
-#else
-  if (hdr.rev)
-#endif
-    reverse(&hdr.size);
-  memory = allocate(hdr.size*sizeof(Aword));
-  header = (AcdHdr *) addrTo(0);
-
-  memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
-
-#ifdef REVERSED
-  if (!hdr.rev) {
-#else
-  if (hdr.rev) {
-#endif
-    printf("Hmm, this program was generated for reversed architectures.\nWait a moment while I'll fix it....\n");
-    reverseACD();		/* Reverse all words in the ACD file */
-  }
-}
-
-
-/*----------------------------------------------------------------------
-
   checkvers()
 
  */
 #ifdef _PROTOTYPES_
-static void checkvers(void)
+static void checkvers(AcdHdr *header)
 #else
-static void checkvers()
+static void checkvers(header)
+     AcdHdr *header;
 #endif
 {
+  char *v = (char *)header;
+  char *c = v+1;
   Aword vers;
   char state[2];
 
   /* Check version of .ACD file */
   vers = product.version.version<<8;
   vers+= product.version.revision;
-
 
   if (dbgflg) {
     state[0] = header->vers&0x0000000ff;
@@ -1199,8 +1161,66 @@ static void checkvers()
     newline();
   }
 
-  if (header->vers>>16 != vers)
-    syserr("Incompatible version of ACODE program.");
+  if (((*v)<<8)+(*c) != vers)
+    if (errflg)
+      syserr("Incompatible version of ACODE program.");
+    else
+      printf("WARNING! Incompatible version of ACODE program.\n");
+}
+
+
+/*----------------------------------------------------------------------
+
+  load()
+
+ */
+#ifdef _PROTOTYPES_
+static void load(void)
+#else
+static void load()
+#endif
+{
+  AcdHdr hdr;
+  Aword crc = 0;
+  int i;
+  char err[100];
+
+  fread(&hdr, sizeof(hdr), 1, codfil);
+  rewind(codfil);
+  checkvers(&hdr);
+
+  /* Allocate and load memory */
+
+#ifdef REVERSED
+  reverseHdr(&hdr);
+#endif
+  memory = allocate(hdr.size*sizeof(Aword));
+  header = (AcdHdr *) addrTo(0);
+
+  memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
+  if (memTop != hdr.size)
+    syserr("Could not read all ACD code.");
+
+  /* Calculate checksum */
+  for (i = sizeof(hdr)/sizeof(Aword); i < memTop; i++) {
+    crc += memory[i]&0xff;
+    crc += (memory[i]>>8)&0xff;
+    crc += (memory[i]>>16)&0xff;
+    crc += (memory[i]>>24)&0xff;
+  }
+  if (crc != hdr.acdcrc) {
+    sprintf(err, "Checksum error in .ACD file (0x%lx instead of 0x%lx).",
+	    crc, hdr.acdcrc);
+    if (errflg)
+      syserr(err);
+    else
+      printf("%s\n", err);
+  }
+
+#ifdef REVERSED
+  printf("Hmm, need to reverse the adventure on this type of machine.\nWait a moment while I'll fix it....\n");
+  reverseACD();		/* Reverse all words in the ACD file */
+#endif
 }
 
 
@@ -1321,7 +1341,6 @@ static void init()
 {
   load();
 
-  checkvers();
   initheader();
   checkdebug();
 
@@ -1519,15 +1538,18 @@ int main(argc, argv)
     prgnam = argv[0];
   else
     prgnam++;
-  if (strcmp(prgnam, "ARUN.EXE") == 0) {
+  if (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0)
+    advfnm[strlen(prgnam)-4] = '\0';
+  if (strcmp(prgnam, "ARUN") == 0) {
 #else
-#if defined __vms__
   if((prgnam = strrchr(argv[0], ']')) == NULL
      && (prgnam = strrchr(argv[0], '>')) == NULL
+     && (prgnam = strrchr(argv[0], '/')) == NULL
      && (prgnam = strrchr(argv[0], ':')) == NULL)
     prgnam = argv[0];
   else
     prgnam++;
+#if defined __vms__
   if (strrchr(prgnam, ';') != NULL)
     *strrchr(prgnam, ';') = '\0';
   if (strcmp(prgnam, "arun.exe") == 0) {
@@ -1538,17 +1560,20 @@ int main(argc, argv)
     for (i = 1; i < argc; i++) {
       if (argv[i][0] == '-') {
 	switch (tolower(argv[i][1])) {
-	case 't':	
+	case 'i':
+	  errflg = FALSE;
+	  break;
+	case 't':
 	  trcflg = TRUE;
 	  break;
-	case 'd':	
+	case 'd':
 	  dbgflg = TRUE;
 	  break;
-	case 's':	
+	case 's':
 	  trcflg = TRUE;
 	  stpflg = TRUE;
 	  break;
-	case 'l':	
+	case 'l':
 	  logflg = TRUE;
 	  break;
 	default:
@@ -1564,7 +1589,7 @@ int main(argc, argv)
   } else {
     /* Another program name use that as the name of the adventure */
     strcpy(advfnm, prgnam);
-#if defined __dos__ || defined __vms__
+#ifdef __vms__
     advfnm[strlen(advfnm)-4] = '\0';
 #endif
   }

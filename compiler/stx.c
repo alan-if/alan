@@ -320,12 +320,12 @@ void dustx(stx)
     return;
   }
 
-  put("STX: "); dusrcp(&stx->srcp); in();
+  put("STX: "); duadr(stx); dusrcp(&stx->srcp); in();
   put("nam: "); dunam(stx->nam); nl();
   put("generated: "); duBoolean(stx->generated); nl();
   put("elmsadr: "); duint(stx->elmsadr); nl();
   put("elms: "); dulst(stx->elms, ELMNOD); nl();
   put("claadr: "); duint(stx->claadr); nl();
-  put("clas: "); dulst(stx->clas, CLANOD); out();
-  put("pars: "); dulst(stx->pars, ELMNOD); nl();
+  put("clas: "); dulst(stx->clas, CLANOD); nl();
+  put("pars: "); dulst(stx->pars, ELMNOD); out();
 }

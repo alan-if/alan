@@ -17,6 +17,9 @@
 #include <time.h>
 #include "sysdep.h"
 
+#ifdef _PROTOTYPES_
+extern void syserr(char str[]);
+#endif
 
 #ifdef __vms__
 
@@ -24,6 +27,8 @@ char *strdup(char str[])		/* IN - String to duplicate */
 {
   char *new = (char *) malloc(strlen(str)+1);
 
+  if (!new)
+    syserr("Out of memory!");
   strcpy(new, str);
   return new;
 }
@@ -31,13 +36,30 @@ char *strdup(char str[])		/* IN - String to duplicate */
 #endif
 
 
-#ifdef AZTEC_C
+#ifdef __mac__
+
+char *strdup(char str[])		/* IN - String to duplicate */
+{
+  char *new = (char *) malloc((size_t)((int)strlen(str)+1));
+
+  if (!new)
+    syserr("Out of memory!");
+  strcpy(new, str);
+  return new;
+}
+
+#endif
+
+
+#ifdef __amiga__
 
 char *strdup(str)
      char str[];			/* IN - String to duplicate */
 {
   char *new = (char *) malloc(strlen(str)+1);
 
+  if (!new)
+    syserr("Out of memory!");
   strcpy(new, str);
   return new;
 }
@@ -268,10 +290,10 @@ static char map[256]
 0xBE,0xB1,0xD9,0xDA,0xCD,0xCC,0xF7,0xA8,0xB0,0xB7,0xAF,0xAC,0xFE,0xB2,0xB4,0xA0};
 #endif
 #endif
-  char *o, *c;
+  unsigned char *o, *c;
 
-  for (o = original, c = copy; *o; o++, c++)
-    *c = map[(int)*o];
+  for (o = (unsigned char *)original, c = (unsigned char *)copy; *o; o++, c++)
+    *c = map[*o];
   *c = '\0';
 #else
   strcpy(copy, original);
@@ -328,10 +350,10 @@ static char map[256]
 0xEB,0xA4,0x95,0xA2,0x93,0xDD,0x94,0xF6,0xDE,0x97,0xA3,0x96,0x81,0xDF,0xFC,0x98};
 #endif
 #endif
-  char *o, *c;
+  unsigned char *o, *c;
 
-  for (o = original, c = copy; *o; o++, c++)
-    *c = map[(int)*o];
+  for (o = (unsigned char *)original, c = (unsigned char *)copy; *o; o++, c++)
+    *c = map[*o];
   *c = '\0';
 #else
   strcpy(copy, original);

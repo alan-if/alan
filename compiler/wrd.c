@@ -249,7 +249,7 @@ static void gewrdref(wrd)
 
   gewrdstr()
 
-  Generate strings for all entries in the Wrdionary.
+  Generate strings for all entries in the dictionary.
 
   */
 #ifdef _PROTOTYPES_
@@ -299,7 +299,8 @@ static void gewrdent(wrd)
   /* Generate for this word */
   emit(wrd->stradr);
   if (wrd->classbits == (1L<<WRD_SYN)) {
-    emit(((WrdNod *)wrd->ref[WRD_SYN])->classbits);
+    /* If it is a synonym generate same as for original but mark as synonym */
+    emit(((WrdNod *)wrd->ref[WRD_SYN])->classbits|(1L<<WRD_SYN));
     emit(((WrdNod *)wrd->ref[WRD_SYN])->code);
     emit(((WrdNod *)wrd->ref[WRD_SYN])->adjrefadr);
     emit(((WrdNod *)wrd->ref[WRD_SYN])->nounrefadr);

@@ -16,6 +16,8 @@
 #include "parse.h"
 #include "exe.h"
 
+#include "debug.h"
+
 
 #ifdef _PROTOTYPES_
 static void showatrs(
@@ -35,6 +37,9 @@ static void showatrs(atradr)
   i = 1;
   for (at = (AtrElem *) addrTo(atradr); !endOfTable(at); at++) {
     sprintf(str, "$i%3d: %ld (%s)", i, at->val, (char *) addrTo(at->stradr));
+#if ISO == 0
+    fromIso(str, str);
+#endif
     output(str);
     i++;
   }
@@ -215,6 +220,9 @@ static void showevts()
   output("EVENTS:");
   for (evt = EVTMIN; evt <= EVTMAX; evt++) {
     sprintf(str, "$i%d (%s):", evt, (char *)addrTo(evts[evt-EVTMIN].stradr));
+#if ISO == 0
+    fromIso(str, str);
+#endif
     output(str);
     for (i = 0; i < etop; i++)
       if ((scheduled = (eventq[i].event == evt)))

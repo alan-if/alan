@@ -13,13 +13,14 @@
 #include "acode.h"
 #include "version.h"
 
+#include "emit.h"
+
 
 static FILE *acdfil;
 static Aword buff[BLOCKLEN];
 
 static int pc = 0;
-
-static Boolean rev;
+static Aword crc = 0;
 
 
 #ifdef _PROTOTYPES_
@@ -29,17 +30,23 @@ static void buffer(w)
      Aword w;
 #endif
 {
+  crc += w&0xff;			/* Check sum calculation */
+  crc += (w>>8)&0xff;
+  crc += (w>>16)&0xff;
+  crc += (w>>24)&0xff;
+
   buff[pc++%BLOCKLEN] = w;
   if (pc%BLOCKLEN == 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 }
 
 
+#ifdef REVERSED
 #ifdef _PROTOTYPES_
-static Aword swaplong(Aword w)
+static Aword reversed(Aword w)
              			/* IN - The ACODE word to swap bytes in */
 #else
-static Aword swaplong(w)
+static Aword reversed(w)
      Aword w;			/* IN - The ACODE word to swap bytes in */
 #endif
 {
@@ -55,7 +62,7 @@ static Aword swaplong(w)
 
   return (s);
 }
-
+#endif
 
 
 #ifdef _PROTOTYPES_
@@ -76,13 +83,28 @@ void emit(c)
      Aword c;			/* IN - Constant to emit */
 #endif
 {
-  if (rev)
-    buffer(swaplong(c));
-  else
-    buffer(c);
+#ifdef REVERSED
+      buffer(reversed(c));
+#else
+      buffer(c);
+#endif
 }
 
 
+/*----------------------------------------------------------------------
+
+  emitstr()
+
+  Function to emit strings to the ACD file. Note that strings are
+  *always* stored with their first character at the lowest address so
+  we have to be careful how we do this.
+
+  On all machines strings can be copied word by word, except if they are
+  not aligned on words. In this case we have to read them byte by byte and
+  create the words. And in this case of course on reversed architectures
+  the word must be reversed before emitting it.
+
+*/
 #ifdef _PROTOTYPES_
 void emitstr(char *str)
 #else
@@ -106,7 +128,7 @@ void emitstr(str)
       w += (unsigned long)((unsigned char)copy[i+2])<<8;
       w += (unsigned long)((unsigned char)copy[i+3]);
 #ifdef REVERSED
-      buffer(swaplong(w));
+      buffer(reversed(w));
 #else
       buffer(w);
 #endif
@@ -115,8 +137,9 @@ void emitstr(str)
 #else
   {
     Aword *w;
-  
-    for (i = 0; i < strlen(copy) + 1; i = i+4) {
+    int len = strlen(copy) + 1;
+
+    for (i = 0; i < len; i = i+4) {
       w =  (Aword *)&copy[i];
       buffer(*w);
     }
@@ -142,18 +165,14 @@ void emit0(class, op)
 
 #ifdef _PROTOTYPES_
 void eminit(
-     char *acdfnm,		/* IN - File name from ACODE instructions */
-     Boolean revflg		/* IN - Reversed byte ordering */
+     char *acdfnm		/* IN - File name from ACODE instructions */
 )
 #else
-void eminit(acdfnm, revflg)
+void eminit(acdfnm)
      char acdfnm[];		/* IN - File name from ACODE instructions */
-     Boolean revflg;		/* IN - Reversed byte ordering */
 #endif
 {
   int i;
-
-  rev = revflg;			/* Remember reversed bytes or not */
 
   acdfil = fopen(acdfnm, WRITE_MODE);
 
@@ -173,25 +192,29 @@ void emterm(hdr)
 {
   Aword *hp;			/* Pointer to header as words */
   Aword v;
+  char *vp = (char *)&v;
   int i;
 
   if (pc%BLOCKSIZE > 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
-#ifdef REVERSED
-  hdr->rev = !rev;		/* Tell ARUN if reversed bytes */
-#else
-  hdr->rev = rev;		/* Tell ARUN if reversed bytes */
-#endif
+  hdr->acdcrc = crc;		/* Save checksum */
 
   (void) rewind(acdfil);
   pc = 0;
 
   /* Construct version marking */
-  v = (Aword)product.version.version<<24;
-  v+= (Aword)product.version.revision<<16;
-  v+= (Aword)product.version.correction<<8;
-  v+= (Aword)product.version.state[0];
+#ifdef REVERSED
+  vp[3] = (Aword)product.version.version;
+  vp[2] = (Aword)product.version.revision;
+  vp[1] = (Aword)product.version.correction;
+  vp[0] = (Aword)product.version.state[0];
+#else
+  vp[0] = (Aword)product.version.version;
+  vp[1] = (Aword)product.version.revision;
+  vp[2] = (Aword)product.version.correction;
+  vp[3] = (Aword)product.version.state[0];
+#endif
   hdr->vers = v;
 
   hp = (Aword *) hdr;		/* Point to header */

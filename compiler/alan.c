@@ -378,7 +378,7 @@ void *allocate(len)
      int len;			/* IN - Length to allocate */
 #endif
 {
-  void *p = malloc(len);
+  void *p = malloc((size_t)len);
 
   if (p == NULL)
     syserr("Out of memory");
@@ -416,16 +416,14 @@ static DmpKind dmpflg = 0;	/* Dump internal form flags */
 static Boolean dbgflg = 0;	/* Debug option flags */
 static Boolean packflg = 0;	/* Pack option flags */
 static Boolean sumflg;		/* Print a summary */
-static Boolean revflg;		/* Reverse byte ordering in .ACD file,
-				   relative to native ordering */
 
-SPA_FUN(usage)
+static SPA_FUN(usage)
 {
   printf("Usage: ALAN <adventure> [-help] [options]\n");
 }
 
 
-SPA_ERRFUN(paramError)
+static SPA_ERRFUN(paramError)
 {
   char *sevstr;
 
@@ -439,16 +437,16 @@ SPA_ERRFUN(paramError)
   exit(EXIT_FAILURE);
 }
 
-SPA_FUN(extraArg)
+static SPA_FUN(extraArg)
 {
   printf("Extra argument: '%s'\n", rawName);
   usage(NULL, NULL, 0);
   exit(EXIT_FAILURE);
 }
 
-SPA_FUN(xit) {exit(EXIT_SUCCESS);}
+static SPA_FUN(xit) {exit(EXIT_SUCCESS);}
 
-SPA_DECLARE(arguments)
+static SPA_DECLARE(arguments)
 #ifdef __dos__
      SPA_STRING("adventure", "file name, default extension '.ala'", srcptr, NULL, NULL)
 #else
@@ -457,14 +455,14 @@ SPA_DECLARE(arguments)
      SPA_FUNCTION("", "extra argument", extraArg)
 SPA_END
 
-SPA_DECLARE(options)
+static SPA_DECLARE(options)
      SPA_HELP("help", "this help", usage, xit)
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
      SPA_FLAG("full", "full listing on the screen", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
-     SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 80, NULL)
+     SPA_INTEGER("width <characters>", "width of pages in listing", ccount, 112, NULL)
      SPA_FLAG("listing", "create listing file", lstflg, FALSE, NULL)
      SPA_BITS("dump", "dump internal form, where '--' means everything and\n\
 symbols\n\
@@ -576,7 +574,7 @@ int main(argc,argv)
 #ifdef MALLOC
   malloc_debug(2);
 #endif
-  heap = malloc(10000);		/* Remember where heap starts */
+  heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);
   lmLiInit(product.shortHeader, srcfnm, lm_ENGLISH_Messages);
   if (!smScanEnter(srcfnm)) {
@@ -619,7 +617,7 @@ int main(argc,argv)
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
     start();
-    geadv(acdfnm, revflg);
+    geadv(acdfnm);
     endgen();			/* End of generating pass */
     fclose(txtfil);
     fclose(datfil);

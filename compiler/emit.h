@@ -17,7 +17,7 @@
 /* FUNCTIONS */
 #ifdef _PROTOTYPES_
 
-extern void eminit(char acdfnm[], Boolean rev);
+extern void eminit(char acdfnm[]);
 extern Aword emadr(void);
 extern void emitstr(char str[]);
 extern void emit(Aword word);

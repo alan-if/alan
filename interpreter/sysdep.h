@@ -98,6 +98,7 @@ extern size_t strftime (char *, size_t, const char *, const struct tm *);
 
 /* Define some library routines needed for the Aztec C compiler */
 /* <memory.h> */
+typedef int size_t;
 extern void *malloc();
 
 /* <string.h> */
@@ -122,12 +123,16 @@ extern char *strdup();
 #endif
 
 #ifdef __mac__
-#define __PROTOTYPES__
+#define _PROTOTYPES_
+#include <stdlib.h>
 #include <string.h>
+#include <unix.h>
 
-/* Return codes */
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE  1
+/* File open mode (binary) */
+#undef READ_MODE
+#define READ_MODE "rb"
+#undef WRITE_MODE
+#define WRITE_MODE "wb"
 
 extern char *strdup(char *str);
 #endif

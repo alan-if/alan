@@ -2,6 +2,7 @@
 
 	Prefix 'lm';
 	Listings single;
+--	Message file;
 
 %%MESSAGES English
 

@@ -6,8 +6,8 @@ CPP	= gcc -MM
 
 TMLIB	= $(TMHOME)/lib/ansi-c
 
-#CC	= acc -Xc -vc
-CC	= gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
+purify:=		CC = acc -Xc -vc
+all debug release:=	CC = gcc -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(CC)
@@ -84,7 +84,7 @@ debug all: alan
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile
+alan: tm $(OBJECTS) version.o $(MAINOBJ) Makefile alan.prod
 	$(LD) -o $@ $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp alan.prod ..
 	cp alan ../`arch`

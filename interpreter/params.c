@@ -17,6 +17,8 @@
 
 #include "types.h"
 
+#include "params.h"
+
 
 #ifdef _PROTOTYPES_
 void compress(ParamElem a[])
