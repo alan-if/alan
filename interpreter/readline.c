@@ -670,6 +670,8 @@ Boolean readline(char usrbuf[])
 	  readingCommands = TRUE;
 	  printf(buffer);
 	}
+    /* Reset line counter only if we read actual player input */
+    lin = 1;
   }
   strcpy(usrbuf, (char *)buffer);  
   return TRUE;

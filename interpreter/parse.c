@@ -210,7 +210,6 @@ static void getline(void)
     }
   } while (token == NULL);
   eol = FALSE;
-  lin = 1;
 }
 
 

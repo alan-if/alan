@@ -1,0 +1,24 @@
+########## alan instanceAndVerb ##########
+
+
+instanceAndVerb.alan
+
+    4.  Verb l
+=====>       1
+
+  *1*   304 E : 'l' already declared as an Instance (The).
+
+    8.  Start At l.
+=====>           1
+
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+
+
+        208 E : 'l' is not a VERB.
+
+
+        3 error(s).
+        No detected warnings.
+        2 informational message(s).
+

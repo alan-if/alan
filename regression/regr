@@ -11,7 +11,7 @@ run ()
 	echo "########## alan $case ##########" >$case.output
 	../bin/alan $case >>$case.output 2>&1
 	echo "########## arun $case ##########" >>$case.output
-	../bin/arun -n $case >>$case.output 2>&1 <$case.input 
+	../bin/arun -r -n $case >>$case.output 2>&1 <$case.input 
 	cases=`expr $cases + 1`
     fi
 }

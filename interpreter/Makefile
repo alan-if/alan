@@ -5,8 +5,8 @@
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r.\\$$c(\\$$s)"`
 
 OPTIMIZE = -g
-CYGWIN	= -mno-cygwin
-#CYGWIN	= 
+#CYGWIN	= -mno-cygwin
+CYGWIN	= 
 EXE	= arun.exe
 
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>308.89</origest>
 <currest>307.89</currest>
-<elapsed>151.89</elapsed>
+<elapsed>156.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>35</origest>
 <currest>35</currest>
-<elapsed>0</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>14</origest>
 <currest>14</currest>
-<elapsed>0</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -43,12 +43,12 @@
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add "Batch input" to WinGLK menu</desc>
+<desc>Add "Playback comamnds" to WinGLK menu</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -57,7 +57,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -70,11 +70,14 @@ Verb a, b
 Here a reference to p1 should be considered to be either Object, Actor or Container
 
 Design:
-At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+At analysis connect a parameter list to the verb and use that instead of the syntax
+
+Actually this is obsolete, since in v3 you can not do that, you can only specify one class.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -313,7 +316,7 @@ FOR EACH instance ISA entity DO
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Investigate mult-class word problems</desc>
+<desc>Investigate multi-class word problems</desc>
 <notes>Word as synonym and verb
 Word as synonym and direction
 Word as verb and direction
@@ -498,7 +501,7 @@ pointing to "count" since that is the left hand side of the assumed expression
 <priority>2</priority>
 <origest>108</origest>
 <currest>108</currest>
-<elapsed>3</elapsed>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Inherit Entered</desc>
@@ -576,6 +579,17 @@ Implementation:
 <task>
 <desc>VISITS is a reserved word that causes many compiler problems</desc>
 <notes>See compiler test case visits.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow parameters as actor in USE statement</desc>
+<notes>Need: to be able to start a specific script for a variable actor.
+
+Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -693,17 +707,6 @@ verbs
 <task>
 <desc>Allow 'A' as well as 'An' in Say statement</desc>
 <notes>Both 'a' and 'an' should be allowed in Say statement. However 'a' is commonly an identifier? Introducing it as a keyword/id introduces grammar conflicts. Investigate!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow parameters as actor in USE statement</desc>
-<notes>Need: to be able to start a specific script for a variable actor.
-
-Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1014,7 +1017,7 @@ syserr() because 'l' is both an instance and a verb.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1815,7 +1818,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

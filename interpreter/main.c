@@ -131,12 +131,7 @@ static Boolean onStatusLine = FALSE; /* Don't log when printing status */
   return buffers...
 
  */
-#ifdef _PROTOTYPES_
 void terminate(int code)
-#else
-void terminate(code)
-     int code;
-#endif
 {
 #ifdef __amiga__
 #ifdef AZTEC_C
@@ -188,11 +183,7 @@ void terminate(code)
   usage()
 
   */
-#ifdef _PROTOTYPES_
 void usage(void)
-#else
-void usage()
-#endif
 {
   printf("\nArun, Adventure Interpreter version %s (%s %s)\n\n",
 	 alan.version.string, alan.date, alan.time);
@@ -203,12 +194,12 @@ void usage()
   glk_set_style(style_Preformatted);
 #endif
   printf("    -v       verbose mode\n");
-  printf("    -l       log player commands and game output to a file\n");
+  printf("    -l       log transcript to a file\n");
   printf("    -n       no Status Line\n");
   printf("    -d       enter debug mode\n");
   printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
   printf("    -i       ignore version and checksum errors\n");
-  printf("    -r       refrain from printing timestamps (making regression testing easier)\n");
+  printf("    -r       refrain from printing timestamps and paging (making regression testing easier)\n");
 #ifdef HAVE_GLK
   glk_set_style(style_Normal);
 #endif
@@ -354,16 +345,14 @@ void newline(void)
 {
 #ifndef HAVE_GLK
   char buf[256];
-  
-  if (lin >= pageLength - 1) {
+
+  if (!regressionTestOption && lin >= pageLength - 1) {
     logPrint("\n");
     needSpace = FALSE;
     prmsg(M_MORE);
-#ifdef USE_READLINE
-    (void) readline(buf);
-#else
+    statusline();
+    fflush(stdout);
     fgets(buf, 256, stdin);
-#endif
     getPageSize();
     lin = 0;
   } else
@@ -689,12 +678,7 @@ void output(char original[])
   Print a message from the message table.
   
   */
-#ifdef _PROTOTYPES_
 void prmsg(MsgKind msg)		/* IN - message number */
-#else
-void prmsg(msg)
-     MsgKind msg;		/* IN - message number */
-#endif
 {
   interpret(msgs[msg].stms);
 }
@@ -710,84 +694,44 @@ void prmsg(msg)
 \*----------------------------------------------------------------------*/
 
 /* How to know we are at end of a table */
-#ifdef _PROTOTYPES_
 Boolean eot(Aword *adr)
-#else
-Boolean eot(adr)
-     Aword *adr;
-#endif
 {
   return *adr == EOF;
 }
 
 
-#ifdef _PROTOTYPES_
 Boolean isObj(Aword x)
-#else
-Boolean isObj(x)
-     Aword x;
-#endif
 {
   return isA(x, OBJECT);
 }
 
-#ifdef _PROTOTYPES_
 Boolean isCnt(Aword x)
-#else
-Boolean isCnt(x)
-     Aword x;
-#endif
 {
   return x != 0 && instance[x].container != 0;
 }
 
-#ifdef _PROTOTYPES_
 Boolean isAct(Aword x)
-#else
-Boolean isAct(x)
-     Aword x;
-#endif
 {
   return isA(x, ACTOR);
 }
 
-#ifdef _PROTOTYPES_
 Boolean isLoc(Aword x)
-#else
-Boolean isLoc(x)
-     Aword x;
-#endif
 {
   return isA(x, LOCATION);
 }
 
 
-#ifdef _PROTOTYPES_
 Boolean isLiteral(Aword x)
-#else
-Boolean isLit(x)
-     Aword x;
-#endif
 {
   return x > header->instanceMax;
 }
 
-#ifdef _PROTOTYPES_
 Boolean isNum(Aword x)
-#else
-Boolean isNum(x)
-     Aword x;
-#endif
 {
   return isLiteral(x) && literal[x-header->instanceMax].type == NUMERIC_LITERAL;
 }
 
-#ifdef _PROTOTYPES_
 Boolean isStr(Aword x)
-#else
-Boolean isStr(x)
-     Aword x;
-#endif
 {
   return isLiteral(x) && literal[x-header->instanceMax].type == STRING_LITERAL;
 }
@@ -801,12 +745,7 @@ Boolean isStr(x)
   Is there an exit from one location to another?
 
   */
-#ifdef _PROTOTYPES_
 Boolean exitto(int to, int from)
-#else
-Boolean exitto(to, from)
-     int to, from;
-#endif
 {
   ExitEntry *theExit;
 
@@ -877,11 +816,7 @@ void checkobj(obj)
 
   Check if any events are pending. If so execute them.
   */
-#ifdef _PROTOTYPES_
 static void eventCheck(void)
-#else
-static void eventCheck()
-#endif
 {
   while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].time == current.tick) {
     eventQueueTop--;
@@ -931,12 +866,7 @@ static char logfnm[256] = "";
   checkvers()
 
  */
-#ifdef _PROTOTYPES_
 static void checkvers(AcdHdr *header)
-#else
-static void checkvers(header)
-     AcdHdr *header;
-#endif
 {
   char vers[4];
   char state[2];
