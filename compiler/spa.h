@@ -150,12 +150,6 @@ extern void  spaSkip(		/* Skip argv-items; Use from a SPA_FUN */
     int offset			/* IN - Number to skip from current */
 );
 
-extern void spaAlert(		/* Error notification; Exits on severe errors */
-    char sev,			/* IN - [DIWEFS] */
-    char * fmt,			/* IN - printf-format for additional things */
-    ...				/* IN - addtional things */
-);
-
 #else
 
 extern char *spaArgument();

@@ -637,7 +637,6 @@ IS {
     Error function, prints on stderr.
 */
 PRIVATE SPA_ERRFUN(biErrFun) {
-    spaAlert(sev, "%s: %s: %s", SpaStrAE, msg, add);
 }
 
 PRIVATE SPA_FUN(biExit) { exit(1); (prettyName, rawName, on); }
@@ -691,64 +690,6 @@ PRIVATE SPA_FUN(biUsage) {
 /***********************************************************************
     Public functions.
 */
-
-/*======================================================================
-    spaAlert()
-
-    Error notification (name: sev! <fmt ...>) to user.
-    Exits on severe errors.
-*/
-PRIVATE int FUNCTION(level, (sev))
-    IN(char, sev)
-IS {
-    register int lev = 0;
-
-    switch (sev) {
-	case 'S': lev++;	/* 5 */
-	case 'F': lev++;	/* 4 */
-	case 'E': lev++;	/* 3 */
-	case 'W': lev++;	/* 2 */
-	case 'I': lev++;	/* 1 */
-	case 'D': break;	/* 0 */
-	default: lev = 6;	/* Index in SpaAlertStr */
-    }
-    return lev;
-}
-
-#ifdef __NEWC__
-PUBLIC void spaAlert(		/* Error notification; Exits on severe errors */
-    char sev,			/* IN - [IWEFS] */
-    char * fmt,			/* IN - printf-format for additional things */
-    ...				/* IN - addtional things */
-){
-#else
-PUBLIC void spaAlert(va_alist)
-    va_dcl
-{
-    char sev;
-    char *fmt;
-#endif
-    va_list ap;
-    int lev;
-
-#ifdef __NEWC__
-    va_start(ap, fmt);
-#else
-    va_start(ap);
-    sev = va_arg(ap, char);
-    fmt = va_arg(ap, char *);
-#endif
-    lev = level(sev);
-    if (lev>=level(SpaAlertLevel)) {
-	fprintf(stderr, "%s: %s! ", SpaProgramName, SpaAlertStr[lev]);
-	vfprintf(stderr, fmt, ap);
-	va_end(ap);
-	fprintf(stderr, "\n");
-    }
-
-    if (lev>3 /*level('E')*/) { spaAlert('I', SpaAlertStr[7]); exit(1); }
-}
-
 
 /*======================================================================
     spaArgument()
