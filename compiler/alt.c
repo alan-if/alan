@@ -60,18 +60,18 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 
 /*----------------------------------------------------------------------
 
-  analt()
+  analyzeAlternatives()
 
   Analyzes one verb alternative node.
 
  */
-static void analt(AltNod *alt,
-		  Context *context)
+static void analyzeAlternative(AltNod *alt,
+			       Context *context)
 {
   Symbol *parameter;
 
   if (alt->id != NULL) {
-    /* Alternatives given, find out which one */
+    /* Alternatives given, find out for which parameter this one is */
     parameter = findParameter(alt->id, context->verb->fields.verb.parameterSymbols);
     if (parameter == NULL)
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
@@ -89,19 +89,19 @@ static void analt(AltNod *alt,
 
 /*======================================================================
 
-  analts()
+  analyzeAlternatives()
 
-  Analyzes all alternatives in a list by calling the analyzer for
+  Analyzes all verb alternatives in a list by calling the analyzer for
   each.
 
  */
 void analyzeAlternatives(List *alts,
-	    Context *context)
+			 Context *context)
 {
   List *lst;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    analt(lst->element.alt, context);
+    analyzeAlternative(lst->element.alt, context);
 }
 
 
