@@ -1,3 +1,5 @@
+*.gz
+.notfresh
 [0-9]*_[0-9]*_[0-9]*.*
 alan.prod
 alansrc*.lha
@@ -6,4 +8,3 @@ compiler.zip
 interpre.zip
 version.c
 version.h
-*.gz

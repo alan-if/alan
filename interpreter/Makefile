@@ -2,7 +2,7 @@
 #
 
 ARCHS	= sun4 solaris2 hp
-VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g``
+VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
 GCC	= gcc
 CPP	= $(GCC) -MM $(INCLUDE)
@@ -60,7 +60,7 @@ arch:
 	make `arch`
 
 release:
-	@for a in $(ARCHS) ; do \
+	@-for a in $(ARCHS) ; do \
 		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
 			cp $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
 		else \
@@ -68,7 +68,6 @@ release:
 			touch ../.notfresh ; \
 		fi ; \
 	done
-
 
 sun4 solaris1 solaris2 hp: objarch fromsrc
 

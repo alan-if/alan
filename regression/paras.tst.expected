@@ -5,7 +5,6 @@ arun -d paras < paras.input
 
         No warnings or errors detected.
 
-<Version of 'paras' is 2.6(1)>
 
 L1.
 This is location 1. E has no exit output, W has exit output.

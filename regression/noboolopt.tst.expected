@@ -1,0 +1,16 @@
+########## noboolopt ##########
+alan noboolopt
+file noboolopt.dat
+alan -pack noboolopt
+file noboolopt.dat
+########## /bin/sh  noboolopt.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+noboolopt.dat:	ascii text
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+noboolopt.dat:	data
