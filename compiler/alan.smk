@@ -169,7 +169,7 @@ int scannedLines()
 	(void) strlow(smToken->chars);
     %%;
 
-  ID = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
+  ID = '\'' ([^\'\n]!'\'''\'')* '\''	-- quoted id
     %%{
 	char *c;
 
