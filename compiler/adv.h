@@ -44,6 +44,8 @@ extern AdvNod adv;
 /* Initialise some data */
 extern void initadv(void);
 
+extern void symbolizeAdv(void);
+
 /* Analyse the whole adventure */
 extern void anadv(void);
 

@@ -36,7 +36,7 @@ void initInstances()
   allInstances = NULL;
 
   theHero = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
-			newId(&nulsrcp, "location"), NULL);
+			newId(&nulsrcp, "actor"), NULL);
   
 }
 

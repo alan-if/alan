@@ -81,6 +81,8 @@ void testHero()
 {
   initadv();
   unitAssert(theHero->symbol->code == 1);
+  symbolizeAdv();
+  unitAssert(inheritsFrom(theHero->symbol, lookup("actor")));
 }
 
 

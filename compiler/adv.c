@@ -99,12 +99,12 @@ static void prepcodes(void)
 #endif
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
 
   symbolizeAdv()
 
 */
-static void symbolizeAdv()
+void symbolizeAdv()
 {
   symbolizeClasses();
   symbolizeInstances();

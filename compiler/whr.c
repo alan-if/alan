@@ -61,6 +61,8 @@ WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
   */
 void symbolizeWhr(WhrNod *whr)
 {
+  if (whr == NULL) return;
+
   switch (whr->kind) {
   case WHR_NEAR:
   case WHR_AT:
