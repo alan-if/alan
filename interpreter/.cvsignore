@@ -17,3 +17,7 @@ interpreter.lha
 interpreter.zip
 version.c
 version.h
+*.obj
+*.OBJ
+*.MAP
+*.SYM

@@ -10,7 +10,12 @@
 #include <ctype.h>
 
 #include "types.h"
+#ifdef HAVE_SHORT_FILENAMES
+#include "av.h"
+#else
 #include "alan.version.h"
+#endif
+
 
 #ifdef USE_READLINE
 #include "readline.h"

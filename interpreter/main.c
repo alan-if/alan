@@ -18,7 +18,11 @@
 #include "readline.h"
 #endif
 
+#ifdef HAVE_SHORT_FILENAMES
+#include "av.h"
+#else
 #include "alan.version.h"
+#endif
 
 #include "args.h"
 #include "parse.h"
@@ -148,13 +152,13 @@ void usage()
 {
   printf("Usage:\n\n");
   printf("    arun [<switches>] <adventure>\n\n");
-  printf("where the optional switches are:\n");
+  printf("where the possible optional switches are:\n");
   printf("    -v    verbose mode\n");
   printf("    -l    log player commands and game output\n");
   printf("    -i    ignore version and checksum errors\n");
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
-  printf("    -s    singel instruction trace\n");
+  printf("    -s    single instruction trace\n");
 }
 
 

@@ -9,7 +9,11 @@
 
 #include "main.h"
 #include "term.h"
+#ifdef HAVE_SHORT_FILENAMES
+#include "av.h"
+#else
 #include "alan.version.h"
+#endif
 #include "args.h"
 
 

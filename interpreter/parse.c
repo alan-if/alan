@@ -209,7 +209,7 @@ static void getline()
       fprintf(logfil, "%s", buf);
 #endif
 #if ISO == 0
-    toIso(isobuf, buf);
+    toIso(isobuf, buf, NATIVECHARSET);
 #else
     strcpy(isobuf, buf);
 #endif

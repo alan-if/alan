@@ -664,7 +664,7 @@ void interpret(adr)
 	lh = pop();
 	if (stpflg)
 	  printf("LT \t%5ld, %5ld", lh, rh);
-	push((signed)lh < (signed)rh);
+	push((signed int)lh < (signed int)rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
 	break;

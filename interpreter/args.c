@@ -9,7 +9,14 @@
 
 \*----------------------------------------------------------------------*/
 
+#ifndef __PACIFIC__
 #include "args.h"
+#else
+/* I have no idea at all why the include does not work in Pacific C ... */
+extern void args(int argc, char* argv[]);
+#endif
+
+
 #include "main.h"
 
 #ifdef __mac__
@@ -77,13 +84,13 @@ static void switches(argc, argv)
 
 #ifdef _PROTOTYPES_
 void args(
-     unsigned argc,
-     char *argv[]
+     int argc,
+     char * argv[]
 )
 #else
 void args(argc, argv)
-     unsigned argc;
-     char *argv[];
+    int argc;
+    char *argv[];
 #endif
 {
   char *prgnam;

@@ -4,10 +4,13 @@
 
   System dependencies file for Alan Adventure Language system 
 
-  N.B. The symbols used here should really be of three types
+  N.B. The test for symbols used here should really be of three types
   - processor name (like PC, x86, ...)
   - os name (DOS, WIN32, Solaris2, ...)
   - compiler name and version (DJGPP, CYGWINB20, GCC271, THINK-C, ...)
+
+  The set symbols should indicate if a feature is on or off like the GNU
+  AUTOCONFIG package does.
 
   This is not done yet!
 
@@ -58,6 +61,11 @@
 
 #ifdef __CYGWIN__
 #define __win__
+#endif
+
+#ifdef __PACIFIC__
+#define __dos__
+#define HAVE_SHORT_FILENAMES
 #endif
 
 
