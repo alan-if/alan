@@ -1,27 +1,26 @@
-########## initialLocation0 ##########
+########## initialLocation1 ##########
 The l
   Isa Location.
 End The l.
 
 The o
   Isa object.
-  At unknown.
+  At o.
 End The o.
 
 Start At l.
-########## alan initialLocation0.alan ##########
+########## alan initialLocation1.alan ##########
 
 
-initialLocation0.alan
+initialLocation1.alan
 
-    7.    At unknown.
+    7.    At o.
 =====>       1
 
-  *1*   310 E : Identifier 'unknown' not defined.
   *1*   351 E : Must refer to an instance inheriting from 'location'.
 
 
-        2 error(s).
+        1 error(s).
         No detected warnings.
         1 informational message(s).
 
