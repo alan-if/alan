@@ -2,6 +2,12 @@
 
 CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
+#Settings for Windows GLK variant
+winglk: GLK = -DGLK
+winglk: GLKINCLUDE = -I../../../../WindowsGLK/Include
+winglk: GLKLIB = ../../../../WindowsGlk/Glk.lib
+winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
@@ -42,10 +48,7 @@ arun : $(ARUNOBJECTS) Makefile dependencies.mk
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
-winglk: GLK = -DGLK
-winglk: GLKINCLUDE = -I../../WindowsGLK/Include
-winglk: GLKLIB = ../../WindowsGlk/Glk.lib
-winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+release: clean winglk
 
 winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
 	gcc -o arun -mwindows $^ $(LDFLAGS) $(GLKLIB)
@@ -54,6 +57,9 @@ winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
 
 arun.res: arun.rc arun.ico
 	windres $< -O coff -o $@
+
+clean:
+	rm *.o
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 

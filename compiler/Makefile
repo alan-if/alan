@@ -103,6 +103,8 @@ alan: $(MAINOBJECTS) test
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
+release: win
+
 win:  $(MAINOBJECTS) alan.res test
 	gcc -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
