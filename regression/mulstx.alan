@@ -3,6 +3,8 @@ SYNTAX
     Where obj Isa Actor
       Else "AT: requires an actor"
 
+  take = 'take' (obj).
+
   look_on = 'look' 'on' (obj)
     Where obj Isa String
       Else "ON: requires a string"
@@ -13,6 +15,15 @@ SYNTAX
     Where obj Isa Object
       Else "BEHIND: requires an object"
 
+  take = 'take' (obj).
+
+  take = 'take' (obj).
+
+
+Verb take
+  Does
+    Locate obj in inventory.
+End Verb take.
 
 Verb 'look'
   Does

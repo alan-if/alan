@@ -10,10 +10,10 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "adv.h"		/* ADV-nodes */
-#include "sym.h"		/* SYM-nodes */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "adv.h"                /* ADV-nodes */
+#include "sym.h"                /* SYM-nodes */
+#include "lst.h"                /* LST-nodes */
+#include "nam.h"                /* NAM-nodes */
 #include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
@@ -35,12 +35,12 @@
   Allocates and initialises a syntax node.
 
  */
-StxNod *newstx(Srcp *srcp,	/* IN - Source Position */
-	       NamNod *nam,	/* IN - Name of the verb it defines */
-	       List *elms,	/* IN - List of elements */
-	       List *ress)	/* IN - List of class restrictions */
+StxNod *newstx(Srcp *srcp,      /* IN - Source Position */
+               NamNod *nam,     /* IN - Name of the verb it defines */
+               List *elms,      /* IN - List of elements */
+               List *ress)      /* IN - List of class restrictions */
 {
-  StxNod *new;			/* The newly created node */
+  StxNod *new;                  /* The newly created node */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -65,14 +65,14 @@ StxNod *newstx(Srcp *srcp,	/* IN - Source Position */
   Analyzes one syntax node.
 
  */
-static void anstx(StxNod *stx)	/* IN - Syntax node to analyze */
+static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 {
   SymNod *sym;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Find which verb it defines */
-  sym = lookup(stx->nam->str);	/* Find earlier definition */
+  sym = lookup(stx->nam->str);  /* Find earlier definition */
   if (sym == NULL) {
     if (stx->nam->str[0] != '$') /* generated id? */
       lmLog(&stx->nam->srcp, 207, sevWAR, stx->nam->str);
@@ -119,7 +119,6 @@ void anstxs(void)
 }
 
 
-
 /*======================================================================
 
   defaultStx()
@@ -135,17 +134,18 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   StxNod *stx;
   List *elms;
 
-  elms = concat(concat(NULL,
-		       newelm(&nulsrcp, ELMWRD, newnam(&nulsrcp,
-						       vrbstr),
-			      FALSE),
-		       ELMNOD),
-		newelm(&nulsrcp, ELMPAR, newnam(&nulsrcp, "object"), FALSE),
-		ELMNOD);
+  elms = concat(concat(concat(NULL,
+                       newelm(&nulsrcp, ELMWRD, newnam(&nulsrcp,
+                                                       vrbstr),
+                              FALSE),
+                       ELMNOD),
+                newelm(&nulsrcp, ELMPAR, newnam(&nulsrcp, "object"), FALSE),
+                ELMNOD),
+		newelm(&nulsrcp, ELMEOS, NULL, FALSE), ELMNOD);
   stx = newstx(&nulsrcp, newnam(&nulsrcp, vrbstr), elms, NULL);
 
   adv.stxs = concat(adv.stxs, stx, STXNOD);
-  anstx(stx);			/* Make sure the syntax is analysed */
+  anstx(stx);                   /* Make sure the syntax is analysed */
   return stx;
 }
 
@@ -159,8 +159,8 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   compatible (same ordering with same parameter names).
 
   */
-Bool eqparams(StxNod *stx1,	/* IN - Syntax node to compare */
-	      StxNod *stx2)	/* IN - Syntax node to compare */
+Bool eqparams(StxNod *stx1,     /* IN - Syntax node to compare */
+              StxNod *stx2)     /* IN - Syntax node to compare */
 {
   List *elm1, *elm2;
 
@@ -172,7 +172,7 @@ Bool eqparams(StxNod *stx1,	/* IN - Syntax node to compare */
     if (elm1->element.elm->flags != elm2->element.elm->flags)
       return FALSE;
   }
-  return elm1 == elm2;		/* Both NULL => equal */
+  return elm1 == elm2;          /* Both NULL => equal */
 }
 
 
@@ -183,11 +183,11 @@ Bool eqparams(StxNod *stx1,	/* IN - Syntax node to compare */
   Generate one syntax node.
 
  */
-static void gestx(StxNod *stx)	/* IN - Syntax node to generate for */
+static void gestx(StxNod *stx)  /* IN - Syntax node to generate for */
 {
   WrdNod *wrd;
   List *lst = NULL;
-  List *elms = NULL;		/* A list of parallell elms-lists */
+  List *elms = NULL;            /* A list of parallell elms-lists */
 
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
@@ -195,9 +195,11 @@ static void gestx(StxNod *stx)	/* IN - Syntax node to generate for */
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */
     wrd = findwrd(stx->elms->element.elm->nam->str);
-    /* Ignore words not verbs and prepositions */
-    if (wrd->classbits&(1L<<WRD_PREP)) lst = wrd->ref[WRD_PREP];
-    if (wrd->classbits&(1L<<WRD_VRB)) lst = wrd->ref[WRD_VRB];
+    /* Ignore words that are not verbs and prepositions */
+    if (wrd->classbits&(1L<<WRD_PREP))
+      lst = wrd->ref[WRD_PREP];
+    if (wrd->classbits&(1L<<WRD_VRB))
+      lst = wrd->ref[WRD_VRB];
     /* Create a list of all parallell elements */
     while (lst) {
       elms = concat(elms, lst->element.stx->elms, LSTNOD);

@@ -37,6 +37,8 @@ typedef struct ElmEntry {
 } ElmEntry;
 
 
+static int level = 0;
+
 /*======================================================================
 
   newelm()
@@ -86,6 +88,8 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
   case ELMWRD:
     elm->nam->kind = NAMWRD;    /* It is a word */
     elm->nam->code = newwrd(elm->nam->str, WRD_PREP, 0, NULL);
+    break;
+  case ELMEOS:
     break;
   default:
     syserr("Unknown element node kind in anelm()");
@@ -180,8 +184,9 @@ static Bool eqElms(List *elm1,  /* IN - One list pointer */
     return FALSE;
   else
     return (elm1->element.elm->kind == elm2->element.elm->kind &&
-            (elm1->element.elm->kind == ELMPAR ||
-             (elm1->element.elm->kind == ELMWRD &&
+	    (elm1->element.elm->kind == ELMEOS ||
+	     elm1->element.elm->kind == ELMPAR ||
+	     (elm1->element.elm->kind == ELMWRD &&
               eqnams(elm1->element.elm->nam, elm2->element.elm->nam))));
 }
 
@@ -201,9 +206,9 @@ static Aaddr advance(List *elmsList) /* IN - The list to advance */
   Aaddr resadr = 0;             /* Saved address to class restriction */
 
   for (elms = elmsList; elms != NULL; elms = elms->next) {
-    if (elms->element.lst->next == NULL)
-      resadr = elms->element.lst->element.elm->stx->resadr;
     elms->element.lst = elms->element.lst->next;
+    if (elms->element.lst->element.elm->kind == ELMEOS)
+      resadr = elms->element.lst->element.elm->stx->resadr;
   }
   return resadr;
 }
@@ -240,15 +245,13 @@ static List *first(List **listP) /* IN OUT - Address of pointer to list */
 static List *partition(List **elmsListP) /* INOUT - Address to pointer to the list */
 {
   List *part, *rest, *elms, *this, *p;
-  Bool emptyFound = FALSE;      /* Have we already found an empty element? */
 
-  if (*elmsListP == NULL)
+  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind ==ELMEOS)
     return NULL;
 
   /* Remove the first element from the list to form the partition */
   rest = *elmsListP;
   part = first(&rest);
-  emptyFound = part->element.lst == NULL;
 
   elms = rest;
   while (elms != NULL) {
@@ -303,42 +306,50 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
   /* Move all to their next elm */
   resadr = advance(elms);
 
+  level++;
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
     /* Make one entry for this partition */
     entry = NEW(ElmEntry);
     entry->flags = 0;
-    entries = concat(entries, entry, UNKNOD);
-    if (part->element.lst == NULL) {
-      /* This partition was at end of syntax */
-      if (part->next != NULL) /* More than one element in this partition? */
+    entries = concat(entries, entry, EENTNOD);
+    switch (part->element.lst->element.elm->kind) {
+
+    case ELMEOS:		/* This partition was at end of syntax */
+      if (part->next != NULL) { /* More than one element in this partition? */
         /* That means that two syntax's are the same */
-        lmLog(&stx->srcp, 334, sevWAR, "");
+	for (lst = part; lst != NULL; lst = lst->next)
+	  lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
+      }
       entry->code = EOS;        /* End Of Syntax */
       /* Point to the generated class restriction table */
       entry->adr = resadr;
-    } else {
-      if (part->element.lst->element.elm->kind == ELMPAR) {
-        /* A parameter! */
-        entry->code = 0;
-        entry->flags = part->element.lst->element.elm->flags;
-      } else {
-        entry->code = part->element.lst->element.elm->nam->code;
-        entry->flags = FALSE;
-      }
+      break;
+
+    case ELMPAR:		/* A parameter! */
+      entry->code = 0;
+      entry->flags = part->element.lst->element.elm->flags;
       entry->adr = geelms(part, stx);
+      break;
+
+    case ELMWRD:		/* A word */
+      entry->code = part->element.lst->element.elm->nam->code;
+      entry->flags = FALSE;
+      entry->adr = geelms(part, stx);
+      break;
     }
   }
   
   /* Finally, generate this level */
   elmadr = emadr();
   for (lst = entries; lst; lst = lst->next) {
-    entry = (ElmEntry *) lst->element.elm;
+    entry = lst->element.eent;
     emit(entry->code);
     emit(entry->flags);
     emit(entry->adr);
   }
   emit(EOF);
 
+  level--;
   return(elmadr);
 }
 
@@ -370,6 +381,9 @@ void duelm(ElmNod *elm)
   }
   case ELMWRD:
     put("WORD"); nl();
+    break;
+  case ELMEOS:
+    put("EOS"); nl();
     break;
   default:
     put("*** ERROR ***"); nl();

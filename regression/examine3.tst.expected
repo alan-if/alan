@@ -12,9 +12,15 @@ examine3.alan
   *1*   334 W : Multiple syntaxes are defined with this structure (words and
                 parameters).
 
+    9.  syntax examine_a = examine (act)
+=====>                   1
+
+  *1*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
 
         No detected errors.
-        1 warning(s).
+        2 warning(s).
 
 
 

@@ -3,8 +3,33 @@ alan mulstx
 arun mulstx < mulstx.input
 ########## /bin/sh  mulstx.tst ##########
 
-        No warnings or errors detected.
-        4 informational message(s).
+
+mulstx.alan
+
+    6.    take = 'take' (obj).
+=====>         1
+
+  *1*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+   18.    take = 'take' (obj).
+=====>    1    2
+
+  *1*   206 W : Multiple definition of SYNTAX for 'take'.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+   20.    take = 'take' (obj).
+=====>    1    2
+
+  *1*   206 W : Multiple definition of SYNTAX for 'take'.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+
+        No detected errors.
+        5 warning(s).
+        5 informational message(s).
 
 
 
@@ -16,13 +41,13 @@ L.
 There is a obj here.
 
 > look at obj
-At: There is a obj here.
+AT: requires an actor
 
 > look on obj
-On: There is a obj here.
+ON: requires a string
 
 > look behind obj
-Behind: There is a obj here.
+Behind: obj
 
 > 
 

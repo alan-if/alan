@@ -24,7 +24,8 @@
 
 typedef enum ElmKind {
   ELMPAR,			/* Parameter Element */
-  ELMWRD			/* Player Word Element */
+  ELMWRD,			/* Player Word Element */
+  ELMEOS			/* End of syntax */
 } ElmKind;
 
 typedef struct ElmNod {		/* ELEMENT */
