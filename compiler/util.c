@@ -124,11 +124,20 @@ void panic(char *str)
   Terminate the program with an error code.
 
  */
+#ifdef WINGUI
+#include <windows.h>
+void terminate(int ecode)
+{
+  if (guiMode)
+    MessageBox(NULL, "Finished", "Alan V3 Compilation Result", MB_OK);
+  exit(ecode);
+}
+#else
 void terminate(int ecode)
 {
 #ifdef __MWERKS__
-	printf("Command-Q to quit.");
+  printf("Command-Q to quit.");
 #endif
-	exit(ecode);
+  exit(ecode);
 }
-
+#endif

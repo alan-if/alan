@@ -41,7 +41,7 @@ static int getInFileName() {
   ofn.lpstrFilter = filter;
   ofn.lpstrCustomFilter = NULL;
   ofn.lpstrFile = fullInFileName;
-  ofn.lpstrTitle = "Choose an Alan V2 source file to convert";
+  ofn.lpstrTitle = "Choose an Alan V2 source file to convert to V3 syntax";
   ofn.nMaxFile = FILENAMESIZE;
   ofn.lpstrFileTitle = inFileName;
   ofn.nMaxFileTitle = FILENAMESIZE;
@@ -84,19 +84,25 @@ static int splitCommandLine(char commandLine[])
   return i;
 }
 
+static char *removeExeResidue(char cmdLine[])
+{
+  /* MingW seems to forget to strip of the whole program name if it
+     contains spaces, Windows surrounds thoose with quote-marks so any
+     residue will end in: */
+  char *cp = strstr(cmdLine, ".exe\"");
+  if (cp)
+    while (*cp == ' ') cp++;
+  else cp = cmdLine;
+  return cp;
+}
+
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
   int args;
-  char *exeInCommandLine = strstr(cmdLine, ".exe");
   int i;
 
-  if (exeInCommandLine) {
-    char *cp = exeInCommandLine+5;
-    while (*cp == ' ') cp++;
-    args = splitCommandLine(cp);
-  } else
-    args = splitCommandLine(cmdLine);
+  args = splitCommandLine(removeExeResidue(cmdLine));
 
   for (i = 0; i < args; i++) {
     char buf[199];

@@ -9,13 +9,15 @@
 #include "lst.h"
 
 /* Public data */
-
 extern int fileNo;		/* Number of last found file */
 extern FILE *txtfil;		/* File for collected text */
 extern FILE *datfil;		/* File for encoded text */
 extern char advnam[];		/* The name of the adventure */
 extern int charset;		/* Which character set the source is in */
 extern List *includePaths;	/* The list of include paths to check */
+#ifdef WINGUI
+extern Bool guiMode;		/* Using the GUI? Or console? */
+#endif
 
 /* Common procedures */
 

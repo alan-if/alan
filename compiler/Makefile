@@ -1,17 +1,17 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
-CYGWIN = -mno-cygwin
+PLATFORM = -mno-cygwin
 OPTIMIZE = -g
 
-
+win:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
-CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
-LDFLAGS	= $(OPTIMIZE) $(CYGWIN)
+CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
+LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
-ARCH	= $(CYGWIN) $(OPTIMIZE)
+ARCH	= $(PLATFORM) $(OPTIMIZE)
 
 CPP	= gcc -MM -ansi
 LD	= gcc
@@ -73,7 +73,6 @@ BUILDSRCS = \
 # More Sources required for Alan program build
 # Excluded from BUILDSRCS because they are in the unit tests
 ALANSRCS = \
-	main.c \
 	adv.c \
 	add.c \
 	atr.c \
@@ -84,6 +83,7 @@ ALANSRCS = \
 	ext.c \
 	ins.c \
 	lst.c \
+	main.c \
 	images.c \
 	sym.c \
 	stx.c \

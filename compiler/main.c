@@ -15,11 +15,7 @@
 
 
 
-/*======================================================================
-
-   SPA Option handling 
-
-*/
+/*======================================================================*/
 
 static SPA_FUN(usage)
 {
@@ -105,7 +101,116 @@ after code generation", dmpflg, "ypxsvciker!123", NULL, NULL)
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END
 
-/*------------ main --------------------------------------------*/
+/*======================================================================*\
+  MAIN
+\*======================================================================*/
+#ifdef WINGUI
+#include <windows.h>
+
+#define FILENAMESIZE 1000
+static char inFileName[FILENAMESIZE];
+static char fullInFileName[FILENAMESIZE];
+static char outFileName[FILENAMESIZE];
+static char fullOutFileName[FILENAMESIZE];
+
+static OPENFILENAME ofn;
+
+static int getInFileName() {
+  static char filter[] =
+    "Alan Source Files (*.alan)\0*.alan\0"\
+    "ALA Source Files (*.ala)\0*.ala\0"\
+    "All Files (*.*)\0*.*\0\0";
+
+  ofn.lStructSize = sizeof(OPENFILENAME);
+  ofn.hInstance = NULL;
+  ofn.lpstrFilter = filter;
+  ofn.lpstrCustomFilter = NULL;
+  ofn.lpstrFile = fullInFileName;
+  ofn.lpstrTitle = "Choose an Alan V3 source file to compile";
+  ofn.nMaxFile = FILENAMESIZE;
+  ofn.lpstrFileTitle = inFileName;
+  ofn.nMaxFileTitle = FILENAMESIZE;
+  ofn.Flags = OFN_HIDEREADONLY;
+  return GetOpenFileName(&ofn);
+}
+
+static int getOutFileName() {
+  ofn.lpstrFile = fullOutFileName;
+  ofn.lpstrFileTitle = outFileName;
+  ofn.lpstrTitle = "Choose a file to store Alan V3 source output in";
+  ofn.Flags = OFN_OVERWRITEPROMPT;
+  return GetSaveFileName(&ofn);
+}
+
+static int argc;
+static char *argv[10];
+
+static int splitCommandLine(char commandLine[])
+{
+  char *start = commandLine;
+  char *end = strpbrk(commandLine, " \"");
+
+  argv[0] = "alan";
+  argc = 1;
+  while (end) {
+    argv[argc] = start;
+    if (*end == '\"') {
+      end = strpbrk(start+1, "\"");
+      end++;
+    }
+    *end = '\0';
+    start = end+1;
+    while (*start == ' ') start++;
+    end = strpbrk(start, " ");
+    argc++;
+  }
+  if (*start != '\0') {
+    argv[argc] = start;
+    argc++;
+  }
+  return argc;
+}
+
+static char *removeExeResidue(char cmdLine[])
+{
+  /* MingW seems to forget to strip of the whole program name if it
+     contains spaces, Windows surrounds those with quote-marks so any
+     residue will end in: */
+  char *cp = strstr(cmdLine, ".exe\"");
+  if (cp)
+    while (cp && *cp == ' ') cp++;
+  else cp = cmdLine;
+  return cp;
+}
+
+
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
+{
+  int nArgs;
+  int i;
+
+  nArgs = splitCommandLine(removeExeResidue(cmdLine));
+
+#ifdef ARGSDISPLAY
+  for (i = 0; i < nArgs; i++) {
+    char buf[199];
+    sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
+    MessageBox(NULL, buf, "Alan V2 to V3 converter", MB_OK);
+  }
+#endif
+
+  if (argc == 1) {
+    if (!getInFileName())
+      return -1;
+    guiMode = TRUE;
+    argv[1] = inFileName;
+    argc = 2;
+    AllocConsole();
+    freopen("CONOUT$", "a", stdout);
+    freopen("CONOUT$", "a", stderr);
+  }
+
+#else
 
 int main(int argc,		/* IN - argument count */
 	 char **argv		/* IN - program arguments */
@@ -118,6 +223,8 @@ int main(int argc,		/* IN - argument count */
   SIOUXSettings.setupmenus = FALSE;
   SIOUXSettings.asktosaveonclose = FALSE;
   SIOUXSettings.showstatusline = FALSE;
+#endif
+
 #endif
 
   /* -- get arguments -- */
@@ -135,3 +242,4 @@ int main(int argc,		/* IN - argument count */
   compile();
   return(0);
 }
+

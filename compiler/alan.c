@@ -39,6 +39,9 @@ FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
 long counter = 0;		/* Number of new's so far, for verbose */
+#ifdef WINGUI
+Bool guiMode = FALSE;		/* Using the GUI? Or console? */
+#endif
 
 
 /* PRIVATE */

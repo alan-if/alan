@@ -36,7 +36,7 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\alan.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\cygwin\home\thoni\Alan\alan\converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\cygwin\home\thoni\Alan\alan\doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>240.89</origest>
-<currest>240.89</currest>
-<elapsed>98.89</elapsed>
+<origest>246.89</origest>
+<currest>246.89</currest>
+<elapsed>101.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>48</origest>
-<currest>48</currest>
-<elapsed>16</elapsed>
+<origest>54</origest>
+<currest>54</currest>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>13</elapsed>
+<origest>18</origest>
+<currest>18</currest>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
@@ -178,7 +178,25 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter program from 2.8 to 3.0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Windows file selection dialogue for compiler</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -191,8 +209,8 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Converter program from 2.8 to 3.0</desc>
-<notes/>
+<desc>Report mingw startup problem</desc>
+<notes>MingW does not correclty strip program names containing space surrounded by quotes from the cmdLine in the call to WinMain. Tell MingW maintainers.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -204,13 +222,40 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
 <notes>Or do we prohibit containers to contain anything not an object? How?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -280,7 +325,7 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -303,7 +348,7 @@ The article Isa b
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -450,28 +495,8 @@ TODO: Descriptions, ?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>SAVE &amp; RESTORE texts as messages</desc>
-<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>RESTART does not work well in WinArun</desc>
 <notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -483,10 +508,10 @@ Check for consistency with other instances of local overides.</notes>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>3</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
@@ -496,6 +521,15 @@ Design: add a counter field in the message entries and sort on those also.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -609,12 +643,12 @@ Multiple %1 '%2'</notes>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
-<desc>Bug: Multiple syntax verbs</desc>
+<desc>Bug: Multiple syntax verb declarations</desc>
 <notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
 E.g.
 Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
@@ -624,6 +658,26 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SAVE &amp; RESTORE texts as messages</desc>
+<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
