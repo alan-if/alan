@@ -70,6 +70,10 @@ static void analyzeDescribe(StmNod *stm, Context *context)
   case WHAT_ID:
     sym = symcheck(stm->fields.describe.wht->id, INSTANCE_SYMBOL, context);
     break;
+  case WHAT_THIS:
+    if (!inEntityContext(context))
+      lmLog(&stm->fields.describe.wht->srcp, 421, sevERR, "");
+    break;
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
@@ -606,6 +610,10 @@ static void generateDescribe(StmNod *stm)
 
   case WHAT_ID:
     generateId(stm->fields.describe.wht->id);
+    break;
+
+  case WHAT_THIS:
+    emitVariable(V_CURRENT_INSTANCE);
     break;
 
   default:
