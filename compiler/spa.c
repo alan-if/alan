@@ -40,8 +40,6 @@ error "SPA header file version 4 required"
 #ifdef __NEWC__
 #include <stdlib.h>
 #include <stdarg.h>
-#else
-#include <varargs.h>
 #endif
 
 typedef int boolean;

@@ -114,7 +114,7 @@ void duint(i)
 #ifdef _PROTOTYPES_
 void duadr(void *adr)
 #else
-void duint(adr)
+void duadr(adr)
      char *adr;
 #endif
 {

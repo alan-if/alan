@@ -466,13 +466,13 @@ static void simple(olst)
       }
     }
     mrglst(tlst, olst);
-    if (isConj(wrds[wrdidx]) &&
+    if (wrds[wrdidx] != EOF && isConj(wrds[wrdidx]) &&
 	(isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1]))) { /* More ? */
       savplur = plural;
       savidx = wrdidx;
       wrdidx++;
       plural = TRUE;
-    } else if (wrds[wrdidx] == EOF || isConj(wrds[wrdidx])) {
+    } else if (wrds[wrdidx] == EOF || isConj(wrds[wrdidx]) || isPrep(wrds[wrdidx])) {
       lstcpy(olst, tlst);
       return;
     } else			/* We don't understand! */

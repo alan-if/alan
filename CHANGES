@@ -9,3 +9,5 @@ Renaming the interpreter makes it look for code and data files with
 A reversed file is loaded and reversed so .ACD files are now
 	compatible across all platforms.
 
+Character sets are converted automatically so national characters are
+	also compatible across all platforms (as much as possible!).

@@ -1532,31 +1532,23 @@ int main(argc, argv)
   argc = ccommand(&argv);
 #endif
 
-  prgnam = argv[0];
-#if defined __dos__
-  if ((prgnam = strrchr(argv[0], '\\')) == NULL)
-    prgnam = argv[0];
-  else
-    prgnam++;
-  if (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0)
-    advfnm[strlen(prgnam)-4] = '\0';
-  if (strcmp(prgnam, "ARUN") == 0) {
-#else
   if((prgnam = strrchr(argv[0], ']')) == NULL
      && (prgnam = strrchr(argv[0], '>')) == NULL
      && (prgnam = strrchr(argv[0], '/')) == NULL
-     && (prgnam = strrchr(argv[0], ':')) == NULL)
+     && (prgnam = strrchr(argv[0], ':')) == NULL
+     && (prgnam = strrchr(argv[0], '\\')) == NULL)
     prgnam = argv[0];
   else
     prgnam++;
 #if defined __vms__
   if (strrchr(prgnam, ';') != NULL)
     *strrchr(prgnam, ';') = '\0';
-  if (strcmp(prgnam, "arun.exe") == 0) {
-#else
-  if (strcmp(prgnam, "arun") == 0) {
 #endif
-#endif
+  if (strlen(prgnam) > 4
+      && (strcmp(&prgnam[strlen(prgnam)-4], ".EXE") == 0
+	  || strcmp(&prgnam[strlen(prgnam)-4], ".exe") == 0))
+    prgnam[strlen(prgnam)-4] = '\0';
+  if (strcmp(prgnam, "arun") == 0 || strcmp(prgnam, "ARUN") == 0) {
     for (i = 1; i < argc; i++) {
       if (argv[i][0] == '-') {
 	switch (tolower(argv[i][1])) {
@@ -1589,9 +1581,6 @@ int main(argc, argv)
   } else {
     /* Another program name use that as the name of the adventure */
     strcpy(advfnm, prgnam);
-#ifdef __vms__
-    advfnm[strlen(advfnm)-4] = '\0';
-#endif
   }
 
   /* Set up page format in case we get a system error */

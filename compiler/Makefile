@@ -122,15 +122,9 @@ MSDOS:
 	mv alan.tmk alan.tmk.sun
 	sed s/SunOS/MSDOS/ alan.tmk.sun > alan.tmk
 	make tm
-	sed $(DOSSUBS) alan.c > ALAN.C
-	sed $(DOSSUBS) pmErr.c > PMERR.C
-	sed $(DOSSUBS) pmErr.h > PMERR.H
-	sed $(DOSSUBS) pmParse.c > PMPARSE.C
-	sed $(DOSSUBS) pmParse.h > PMPARSE.H
-	sed $(DOSSUBS) pmPaSema.c > PMPASEMA.C
-	sed $(DOSSUBS) smScan.c > SMSCAN.C
-	sed $(DOSSUBS) smScan.h > SMSCAN.H
-	sed $(DOSSUBS) smScSema.c > SMSCSEMA.C
+	for f in `grep alanCommon *.[ch]` ; do \
+		sed $(DOSSUBS) $$f > `toupper $$f` ; \
+	end
 	mv -f alan.tmk.sun alan.tmk
 
 version.c: $(OBJECTS) ../[0-9]*
@@ -158,8 +152,8 @@ link:
 archives:
 	-\rm Makefile*~
 	make NONANSI
-	lha c compiler.lha *.c *.h Makefile* dependencies.mk
-	zip -k compiler.zip *.[ch] Makefile.cmd
+	lha u compiler.lha *.c *.h Makefile* dependencies.mk
+	zip -k -f compiler.zip *.[ch] Makefile.cmd
 	make MSDOS
 	zip -k -m compiler.zip *.C *.H
 	touch alan.tmk

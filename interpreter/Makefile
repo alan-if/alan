@@ -62,8 +62,8 @@ version.c: $(OBJECTS) ../[0-9]*
 #--
 archives:
 	-\rm Makefile*~
-	lha c interpreter.lha *.c *.h Makefile* dependencies.mk
-	zip -k interpreter.zip *.[ch] Makefile.cmd
+	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
+	zip -k -f interpreter.zip *.[ch] Makefile.cmd
 
 #--
 CLEAN: clean

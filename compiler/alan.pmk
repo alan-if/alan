@@ -4,7 +4,7 @@
 	Listerprefix 'lm';
 	List Grammar, Statistics;
 	StackLimit 64;
-	Pack RDS, GCS, LES, Error;
+	Pack RDS;
 
 %%IMPORT
 

@@ -25,19 +25,19 @@ typedef long CodeValue;
 
 /* AMACHINE Word Classes */
 typedef int WrdKind;
-#define  WRD_SYN 0		/* Synonym */
-#define  WRD_ADJ 1		/* Adjective */
-#define  WRD_ALL 2		/* All */
-#define  WRD_BUT 3		/* But */
-#define  WRD_CONJ 4		/* Conjunction */
-#define  WRD_PREP 5		/* Preposition */
-#define  WRD_DIR 6		/* Direction */
-#define  WRD_IT 7		/* It */
-#define  WRD_NOISE 8		/* Noise word */
-#define  WRD_NOUN 9		/* Noun */
-#define  WRD_ACT 10		/* Actor */
-#define  WRD_THEM 11		/* Them */
-#define  WRD_VRB 12		/* Verb */
+#define  WRD_SYN 0		/* 1 - Synonym */
+#define  WRD_ADJ 1		/* 2 - Adjective */
+#define  WRD_ALL 2		/* 4 - All */
+#define  WRD_BUT 3		/* 8 - But */
+#define  WRD_CONJ 4		/* 16 - Conjunction */
+#define  WRD_PREP 5		/* 32 - Preposition */
+#define  WRD_DIR 6		/* 64 - Direction */
+#define  WRD_IT 7		/* 128 - It */
+#define  WRD_NOISE 8		/* 256 - Noise word */
+#define  WRD_NOUN 9		/* 512 - Noun */
+#define  WRD_ACT 10		/* 1024 - Actor */
+#define  WRD_THEM 11		/* 2048 - Them */
+#define  WRD_VRB 12		/* 4096 - Verb */
 #define  WRD_CLASSES 13
 
 

@@ -118,14 +118,13 @@ int scannedLines()
 
 %%MAP
 
-  [a-}]		= [A-\]];
-  [\xe0-\xf6]	= [\xc0-\xd6];
-  [\xf8-\xfe]	= [\xd8-\xde];
-
+  [a-}]		= [A-\]];		-- include old-style nation characters
+  [\xe0-\xf6]	= [\xC0-\xD6];
+  [\xf8-\xfe]	= [\xD8-\xDE];
 
 %%DEFINITIONS
 
-  letter	= [A-\]\xc0-\xd6\xd8-\xde];
+  letter	= [A-\]\xC0-\xD6\xD8-\xDE];
   digit		= [0-9];
 
 ------------------------------------------------------------------------------
@@ -200,7 +199,7 @@ int scannedLines()
 
   blanks = [ \n\t]+;
 
-  comment = '--' [^\n]* [\n];
+  comment = '--' [^\n]*;
 
   include = '$INCLUDE' 
     %%
