@@ -1316,7 +1316,7 @@ static void load()
 
 #ifdef REVERSED
   printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
-  reverseACD();		/* Reverse all words in the ACD file */
+  reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
   printf("OK.\n");
 #endif
 
