@@ -3,7 +3,7 @@
 /*----------------------------------------------------------------------*\
 
 				SLT.H
-			     Slots Nodes
+			  Slots Nodes Export
                                                                      
 \*----------------------------------------------------------------------*/
 
@@ -11,6 +11,7 @@
 
 /* USE: */
 #include "acode.h"
+#include "ins.h"
 
 
 /* DATA: */
@@ -33,7 +34,7 @@ extern SlotsNode *newSlots(List *nams,
 
 extern void symbolizeSlots(SlotsNode *slots);
 extern void analyzeSlots(SlotsNode *slts);
-extern void generateSlotsData(SlotsNode *slts);
+extern void generateSlotsData(SlotsNode *slts, InsNod *instance);
 extern void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slts);
 extern void dumpSlots(SlotsNode *slots);
 

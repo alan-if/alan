@@ -1,0 +1,34 @@
+########## verbInInstance ##########
+The l Isa Location
+End The l.
+
+
+The o Isa Object At l
+
+  Verb v
+    Does
+      "You $v the $1."
+  End Verb v.
+
+End The o.
+
+Start At l.
+  "v the o..."
+########## alan verbInInstance.alan ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+v the o...
+
+
+L
+There is a o here.
+
+> v the o
+You v the o.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

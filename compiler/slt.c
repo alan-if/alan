@@ -182,7 +182,7 @@ void analyzeSlots(SlotsNode *slots)
   Generate data for one Slots node.
 
  */
-void generateSlotsData(SlotsNode *slots)
+void generateSlotsData(SlotsNode *slots, InsNod *instance)
 {
   slots->idAddress = emadr();
   emitstr(slots->id->string);
@@ -201,6 +201,9 @@ void generateSlotsData(SlotsNode *slots)
     emit0(C_STMOP, I_RETURN);
   } else
     emit(0);
+
+
+  slots->verbAddress = gevrbs(slots->verbs, instance);
 
   slots->exitsAddress = generateExits(slots->exits);
 }
