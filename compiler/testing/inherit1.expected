@@ -3,6 +3,12 @@
 
 inherit1.alan
 
+    1.  The y
+=====>  1
+
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+
     5.    Isa y
 =====>        1
 
@@ -16,6 +22,6 @@ inherit1.alan
 
 
         3 error(s).
-        No detected warnings.
+        1 warning(s).
         1 informational message(s).
 

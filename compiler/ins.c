@@ -151,6 +151,8 @@ static void analyzeInstance(InsNod *instance)
 
   context->instance = instance;
 
+  if (instance->slots->parentId == NULL && instance->slots->container == NULL)
+    lmLog(&instance->srcp, 422, sevWAR, ""); 
   analyzeSlots(instance->slots, context);
 }
 

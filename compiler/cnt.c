@@ -86,8 +86,7 @@ void verifyContainer(What *wht,
 	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
 	break;
       case PARAMETER_SYMBOL:
-	if (sym->fields.parameter.element->res == NULL
-	    || sym->fields.parameter.element->res->kind != CONTAINER_RESTRICTION)
+	if (!sym->fields.parameter.restrictedToContainer)
 	  lmLogv(&wht->srcp, 312, sevERR, wht->id->string, "a container", NULL);
 	break;
       default:

@@ -18,15 +18,15 @@
 
 /* TYPES: */
 
-typedef enum ElmKind {
+typedef enum ElementKind {
   PARAMETER_ELEMENT,
   WORD_ELEMENT,
   END_OF_SYNTAX
-} ElmKind;
+} ElementKind;
 
 typedef struct ElmNod {		/* ELEMENT */
   Srcp srcp;			/* Source position of this element */
-  ElmKind kind;			/* Kind of Parameter */
+  ElementKind kind;		/* Kind of Parameter */
   IdNode *id;			/* Identifier */
   int flags;			/* Multiple/omni etc. flags */
   ResNod *res;			/* AN - link to the class restriction check */

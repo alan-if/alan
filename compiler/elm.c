@@ -39,7 +39,7 @@ static int level = 0;
 
  */
 ElmNod *newelm(Srcp *srcp,      /* IN - Source Position */
-               ElmKind kind,    /* IN - Kind of element (parm or word) */
+               ElementKind kind, /* IN - Kind of element (parm or word) */
                IdNode *id,	/* IN - The name */
                int flags)       /* IN - Flags for omni/multiple... */
 {
@@ -103,7 +103,6 @@ List *anelms(List *elms,        /* IN - List to analyze */
   List *resLst;
   int paramNo = 1;
   Bool multiple = FALSE;
-  Bool found;
 
   if (elm->kind != WORD_ELEMENT)
     /* First element must be a player word */
@@ -124,17 +123,11 @@ List *anelms(List *elms,        /* IN - List to analyze */
       }
       pars = concat(pars, lst->element.elm, LIST_ELM);
 
-      /* Find any class restrictions and warn for multiple for same parameter */
-      found = FALSE;
+      /* Find first class restrictions */
       for (resLst = ress; resLst; resLst = resLst->next) {
         if (equalId(resLst->element.res->parameterId, lst->element.elm->id)) {
-          if (found)
-            lmLog(&resLst->element.res->parameterId->srcp, 221, sevERR, resLst->element.res->parameterId->string);
-          else {
-            found = TRUE;
-            lst->element.elm->res = resLst->element.res;
-            resLst->element.res->parameterId->code = lst->element.elm->id->code;
-          }
+	  lst->element.elm->res = resLst->element.res;
+	  resLst->element.res->parameterId->code = lst->element.elm->id->code;
         }
       }
     }

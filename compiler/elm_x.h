@@ -19,7 +19,7 @@
 
 /* Create a new Syntax Element node */
 extern ElmNod *newelm(Srcp *srcp,
-		      ElmKind kind,
+		      ElementKind kind,
 		      IdNode *id,
 		      int flags);
 

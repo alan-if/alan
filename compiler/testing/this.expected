@@ -6,17 +6,17 @@ this.alan
     6.      Say This.
 =====>          1
 
-  *1*   421 E : THIS instance is not defined here.
+  *1*   421 E : THIS instance is not defined in this context.
 
    20.    Say This.
 =====>        1
 
-  *1*   421 E : THIS instance is not defined here.
+  *1*   421 E : THIS instance is not defined in this context.
 
    24.    Say This.
 =====>        1
 
-  *1*   421 E : THIS instance is not defined here.
+  *1*   421 E : THIS instance is not defined in this context.
 
 
         3 error(s).

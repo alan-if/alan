@@ -169,7 +169,8 @@ static lmMsgs msg[] = {
     { "418   ", "Aggregate is only allowed on integer type attributes." },
     { "419   ", "%1 SET statement must be of integer or string type." },
     { "420   ", "Invalid What specification in %1." },
-    { "421   ", "THIS instance is not defined here." },
+    { "421   ", "THIS instance is not defined in this context." },
+    { "422   ", "This instance does not inherit from anything, nor does it have a container property. This makes its use dubious." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
@@ -187,7 +188,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 107}
+    {0, 108}
 };
 static lmMessages currMsect = (lmMessages)0;
 

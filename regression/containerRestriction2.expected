@@ -1,0 +1,18 @@
+########## alan containerRestriction2 ##########
+
+        No warnings or errors detected.
+
+########## arun containerRestriction2 ##########
+
+L
+There is a cont1 and a cont2 here.
+
+> put cont2 in cont1
+You can only put contObjects.
+
+> put cont1 in cont2
+put in
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

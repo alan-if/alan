@@ -6,7 +6,7 @@ The hero Isa actor
         Else "You are empty-handed."
 End The hero.
 
-The o
+The o Isa object
 End The o.
 
 The l Isa location

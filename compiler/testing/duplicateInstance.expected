@@ -3,13 +3,21 @@
 
 duplicateInstance.alan
 
-    4.  The x At l
-=====>      1
+    1.  The x AT l
+=====>  1
 
-  *1*   304 E : 'x' already declared as an Instance (The).
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+
+    4.  The x At l
+=====>  1   2
+
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   304 E : 'x' already declared as an Instance (The).
 
 
         1 error(s).
-        No detected warnings.
+        2 warning(s).
         1 informational message(s).
 

@@ -1,0 +1,15 @@
+########## alan noInheritance ##########
+
+
+noInheritance.alan
+
+    1.  The x
+=====>  1
+
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+
+
+        No detected errors.
+        1 warning(s).
+

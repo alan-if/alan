@@ -433,6 +433,7 @@ void setParameters(Symbol *verb, List *parameters)
   for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
     Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, LIST_SYM);
+    parameter->element.elm->id->symbol = parameterSymbol; /* Cross refer */
   }
 
   verb->fields.verb.parameterSymbols = parameterSymbols;

@@ -81,7 +81,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
     break;
 
   case CONTAINER_RESTRICTION:
-    parameter->fields.parameter.class = NULL;
+    parameter->fields.parameter.restrictedToContainer = TRUE;
     parameter->fields.parameter.type = INSTANCE_TYPE;
     break;
 
