@@ -89,7 +89,6 @@ LIB = alan.a
 #.KEEP_STATE:
 
 OBJECTS = ${ALLSRCS:.c=.o}
-MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
@@ -131,8 +130,8 @@ alan: tm $(OBJECTS) .version version.o
 
 src: tm sysdep.h sysdep.c acode.h version.h
 
-fromsrc: $(OBJECTS) $(MAINOBJ) version.o
-	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+fromsrc: $(OBJECTS) version.o
+	$(LD) -o alan version.o $(OBJECTS) $(LDFLAGS)
 	-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 
@@ -185,7 +184,7 @@ lmList.h lmList.c:
 	-rm .lmkstamp
 	make .lmkstamp
 
-malloc: tm $(OBJECTS) version.o $(MAINOBJ)
+malloc: tm $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
 	$(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	-rm alan.o

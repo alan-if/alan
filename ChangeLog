@@ -1,3 +1,7 @@
+Wed Apr  3 00:54:24 1996  Thomas Nilsson  <thoni@heffa>
+
+	* Added the ',' as an alternate conjunction in player input
+
 Thu Feb 29 16:48:06 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Added an "-include" switch which allows multiple directories to
