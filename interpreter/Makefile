@@ -11,7 +11,7 @@ GLKLIB = $(GLKROOT)/Glk.lib
 CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 
 #Settings for Windows GLK variant
-winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
+winarun: CFLAGS = $(OPTIMIZE) $(CYGWIN) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
 winarun: LIB = $(LIB) $(GLKLIB)
 

@@ -193,7 +193,12 @@ static void getline()
 #if defined(HAVE_ANSI) || defined(GLK)
     statusline();
 #endif
+
+#ifdef GLK
+  glk_set_style(style_Input);
+#endif
     printf("> ");
+
     if (logflg)
       fprintf(logfil, "> ");
 #ifdef USE_READLINE
@@ -207,6 +212,11 @@ static void getline()
       quit();
     }
 #endif
+
+#ifdef GLK
+  glk_set_style(style_Normal);
+#endif
+
     getPageSize();
     anyOutput = FALSE;
     if (logflg)

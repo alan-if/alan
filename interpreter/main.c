@@ -348,6 +348,8 @@ void newline()
 {
 #ifdef GLK
   glk_put_char('\n');
+  col = 1;
+  needsp = FALSE;
 #else
   char buf[256];
   
@@ -455,6 +457,7 @@ static void just(str)
 {
 #ifdef GLK
   logprint(str);
+  col = 2;			/* Not == 1, to now output has been done */
 #else
   int i;
   char ch;

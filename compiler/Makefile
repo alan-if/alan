@@ -5,7 +5,7 @@ CPP	= gcc -MM -ansi
 
 COMPILER= -DCOMPILER=\"[CygWin32]\"
 
-CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(COMPILER)
+CFLAGS = $(OPTIMIZE) -g -Wall -funsigned-char $(INCLUDE) $(COMPILER)
 
 LDFLAGS = -g
 
@@ -75,6 +75,11 @@ all alan alan.exe : $(OBJECTS) Makefile
 	-mkdir ../bin
 	cp alan.exe ../bin
 
+.PHONY:release
+release:
+	$(MAKE) "OPTIMIZE=-O4" alan.exe
+
+
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
@@ -93,6 +98,7 @@ version.h :
 	cd ..; venum -write always -all alan
 	cp ../version.h .
 
+.PHONY: ../alan.version
 alan.version.c: $(VERSIONOBJECTS) ../alan.version
 	cd ..; venum alan time
 	cp ../alan.version.c .

@@ -20,6 +20,10 @@
 
 #include "exe.h"
 
+#ifdef GLK
+#include "glk.h"
+#endif
+
 #define WIDTH 80
 
 #define N_EVTS 100
@@ -1487,9 +1491,19 @@ void look()
 
   if (anyOutput)
     para();
+
+#ifdef GLK
+  glk_set_style(style_Subheader);
+#endif
+
   say(cur.loc);
   needsp = FALSE;
   output(".");
+
+#ifdef GLK
+  glk_set_style(style_Normal);
+#endif
+
   newline();
   describe(cur.loc);
   dscrobjs();
