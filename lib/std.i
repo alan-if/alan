@@ -8,3 +8,6 @@ $include 'touch.i'
 
 -- The limbo location
 $include 'limbo.i'
+
+-- Verbose and brief mode
+$include 'brief.i'
