@@ -1855,17 +1855,22 @@ static int val(char str[])
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
 	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
 	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restriction>.id;
+	%<repetition_statement>.stm->fields.each.filter = %<optional_loop_restriction>.exp;
     %%
     ;
 
 <optional_loop_restriction>		-- RETURNS: ID
     =
     %%
+	%<optional_loop_restriction>.exp = NULL;
 	%<optional_loop_restriction>.id = NULL;
     %%
-    ! 'ISA' ID
+
+    ! <aggregation_filter>
     %%
-	%<optional_loop_restriction>.id = %ID.id;
+	%<optional_loop_restriction>.exp = %<aggregation_filter>.exp;
+	if (%<aggregation_filter>.expKd == ISA_EXPRESSION)
+	    %<optional_loop_restriction>.id = %<aggregation_filter>.id;
     %%
     ;
 
@@ -2119,6 +2124,7 @@ static int val(char str[])
     %%
 	%<aggregation_filter>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
         %<aggregation_filter>.expKd = ISA_EXPRESSION;
+	%<aggregation_filter>.id = %ID.id;
     %%
 
     ! <is> <something>

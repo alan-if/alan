@@ -31,12 +31,12 @@ void testInsert()
   IdNode *anElement = newId(&nulsrcp, "anElement");
   List *aList = concat(NULL, anElement, ATTRIBUTE_LIST);
 
-#ifdef SYSERR
-  insert(NULL, NULL, LIST_ATR);
-  unitAssert(readEcode() == 997 && readSev() == sevERR);
+#ifdef THESE_TESTS_CAUSE_INTENTIONAL_SYSERR
+  insert(NULL, NULL, ATTRIBUTE_LIST);
+  ASSERT(readEcode() == 997 && readSev() == sevERR);
 
-  insert(aList, anElement, LIST_ID);
-  unitAssert(readEcode() == 997 && readSev() == sevERR);
+  insert(aList, anElement, ID_LIST);
+  ASSERT(readEcode() == 997 && readSev() == sevERR);
 #endif
 
   insert(aList, anElement, ATTRIBUTE_LIST);

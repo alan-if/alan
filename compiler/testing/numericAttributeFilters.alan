@@ -32,5 +32,5 @@ Start At l.
   "Max Of i Isa thing, At l = "  Say Max Of i Isa thing, At l. ". Should be 12.$n"
   "Min Of i Isa actor, At l = "  Say Min Of i Isa actor, At l. ". Should be 3 (hero).$n"
   "Sum Of i Isa object, At l = "  Say Sum Of i Isa object, AT l. ". Should be 6."
---  "Sum Of i Isa object, At l, Has j 7 = "  Say Sum Of i Isa object, At l, Has j 7. ". Should be 3."
-
+  "Sum Of i Isa object, At l, Has j 7 = "  Say Sum Of i Isa object, At l, Has j 7. ". Should be 3."
+  "Sum Of i Isa object, At l, Has j 7 = "  Say Sum Of i Isa object, At l, Has j 7. ". Should be 3."

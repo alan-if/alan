@@ -15,4 +15,4 @@ Start At l.
   If Count Isa object = 12 Then "" End If.
   If Count Isa object, Isa thing = 12 Then "" End If.
   If Count Isa object, Is z Then "" End If.
-  If Count Isa object, Has w = 3 Then "" End If.
+--  If Count Isa object, Has w 3 Then "" End If.

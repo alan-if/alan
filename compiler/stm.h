@@ -158,9 +158,10 @@ typedef struct StmNod {		/* STATEMENT */
     } depcase;
 
     struct {			/* EACH */
-      List *stms;
       IdNode *loopId;
       IdNode *classId;
+      Expression *filter;
+      List *stms;
     } each;
 
     struct {

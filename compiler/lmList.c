@@ -119,7 +119,7 @@ static lmMsgs msg[] = {
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
     { "222   ", "Identifier \'%1\' in class restriction is not a parameter." },
     { "223   ", "This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
-    { "224   ", "Multiple use of %1 in filter list of %2 Aggregate." },
+    { "224   ", "Multiple use of %1 in filter list for %2 Aggregation." },
     { "225   ", "The %1 aggregate will be applied to every instance (including locations, things and instances without any inheritance). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
     { "226   ", "Attributes can not be used in %1 aggregate applied to all instances. Filter out only instances of a particular class using a \'Isa <class>\' filter." },
     { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
@@ -197,6 +197,7 @@ static lmMsgs msg[] = {
     { "427   ", "A subsequent restriction for the same parameter (\'%1\') should restrict it further, to a subclass of \'%2\'." },
     { "428   ", "%1 must refer to %2." },
     { "430   ", "Incompatible instance. You can only assign instances of class \'%1\' and its subclasses." },
+    { "440   ", "%1 filters can currently only accept boolean attributes." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
@@ -215,7 +216,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 135}
+    {0, 136}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -354,42 +354,36 @@ static void analyzeDepend(StmNod *stm, Context *context)
     expression must be available (the type?) in the expressions nodes.
  */
 
-  for (cases = stm->fields.depend.cases; cases != NULL; cases =
-	 cases->next) {
-
+  for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     if (cases->element.stm->fields.depcase.exp != NULL) {
-      /* Unless it is an ELSE clause set left hand of case expression
-         to be the depend expression */
-      switch (cases->element.stm->fields.depcase.exp->kind) {
-      case BINARY_EXPRESSION:
-	cases->element.stm->fields.depcase.exp->fields.bin.left =
-	  stm->fields.depend.exp;
-	break;
-      case WHERE_EXPRESSION:
-	cases->element.stm->fields.depcase.exp->fields.whr.wht =
-	  stm->fields.depend.exp;
-	break;
-      case ATTRIBUTE_EXPRESSION:
-	cases->element.stm->fields.depcase.exp->fields.atr.wht =
-	  stm->fields.depend.exp;
-	break;
-      case BETWEEN_EXPRESSION:
-	cases->element.stm->fields.depcase.exp->fields.btw.val =
-	  stm->fields.depend.exp;
-	break;
-      default:
-	syserr("Unrecognized switch case on expkd in '%s()'", NULL);
-      }
-    } else
+    	Expression *exp = cases->element.stm->fields.depcase.exp;
+		/* Unless it is an ELSE clause, set left hand of case expression
+		   to be the depend expression */
+		switch (exp->kind) {
+      	case BINARY_EXPRESSION:
+			exp->fields.bin.left = stm->fields.depend.exp;
+			break;
+      	case WHERE_EXPRESSION:
+			exp->fields.whr.wht = stm->fields.depend.exp;
+			break;
+      	case ATTRIBUTE_EXPRESSION:
+			exp->fields.atr.wht = stm->fields.depend.exp;
+			break;
+    	case BETWEEN_EXPRESSION:
+			exp->fields.btw.val = stm->fields.depend.exp;
+			break;
+      	default:
+			SYSERR("Unrecognized switch case on expkd in '%s()'");
+		}
+	} else
       /* If this is an ELSE-case there can not be any other afterwards */
       if (cases->next != NULL)
-	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
+		lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
 
-    /* Analyze the expression and the statements */
-    analyzeExpression(cases->element.stm->fields.depcase.exp, context);
-    analyzeStatements(cases->element.stm->fields.depcase.stms, context);
-
-  }
+	  /* Analyze the expression and the statements */
+	  analyzeExpression(cases->element.stm->fields.depcase.exp, context);
+      analyzeStatements(cases->element.stm->fields.depcase.stms, context);
+	}
 }
 
 
@@ -400,9 +394,15 @@ static void analyzeEach(StmNod *stm, Context *context)
   Symbol *classSymbol = NULL;
   Symbol *loopSymbol;
 
-  /* Analyze loop class and identifier */
+  /* Analyze the partial filter expression */
+  /* TODO generalize to more than ISA expressions */
+#ifndef CLASSID
   if (stm->fields.each.classId != NULL)
     classSymbol = symcheck(stm->fields.each.classId, CLASS_SYMBOL, context);
+#else
+  if (stm->fields.each.filter != NULL)
+    analyzeExpression(stm->fields.each.filter, context);
+#endif
 
   /* Create a new frame and register the loop variable */
   newFrame();
@@ -766,30 +766,6 @@ static void generateStop(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateDependCase(Expression *exp)
-{
-  /* Generate just the right hand part of the expression and the
-     operator of a DEPEND case. */
-
-  switch (exp->kind) {
-  case BINARY_EXPRESSION:
-    generateExpression(exp->fields.bin.right);
-    generateBinaryOperator(exp);
-    break;
-  case ATTRIBUTE_EXPRESSION:
-    generateId(exp->fields.atr.atr);
-    generateAttributeAccess(exp);
-    break;
-  case BETWEEN_EXPRESSION:
-    generateBetweenCheck(exp);
-    break;
-  default:
-    syserr("Unrecognized switch case on expression kind in '%s()'", __FUNCTION__);
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void generateDepend(StmNod *stm)
 {
   /* Generate DEPENDING statement.
@@ -818,7 +794,7 @@ static void generateDepend(StmNod *stm)
   Executing a DEPCASE or DEPELSE indicates the end of executing a
   matching case so skip to the ENDDEP (on this level).
 
-  After the DEPCASE is a DUP to duplicate the depend expression, then
+  After the DEPCASE is a DUP to duplicate the depend value, then
   comes the case expression and then the operator which does the
   compare.
 
@@ -842,7 +818,7 @@ static void generateDepend(StmNod *stm)
 	emit0(I_DEPCASE);
       emit0(I_DUP);
       /* ...and the case expression (right hand + operator) */
-      generateDependCase(cases->element.stm->fields.depcase.exp);
+      generateRightHandExpression(cases->element.stm->fields.depcase.exp);
       emit0(I_DEPEXEC);
     } else
       emit0(I_DEPELSE);
@@ -867,11 +843,10 @@ static void generateEach(StmNod *statement)
   /* Start of loop */
   emit1(I_EACH, 1);
 
-  /* Generate check for class membership */
-  if (statement->fields.each.classId) {
+  /* Generate filter */
+  if (statement->fields.each.filter) {
     emit2(I_GETLOCAL, 0, 1);
-    generateId(statement->fields.each.classId);
-    emit0(I_ISA);
+    generateRightHandExpression(statement->fields.each.filter);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_NEXTEACH);
@@ -1236,6 +1211,12 @@ void dumpStatement(StmNod *stm)
       break;
     case STOP_STATEMENT:
       put("actor: "); dumpExpression(stm->fields.stop.actor);
+      break;
+    case EACH_STATEMENT:
+      put("loopId: "); dumpId(stm->fields.each.loopId); nl();
+      put("classId: "); dumpId(stm->fields.each.classId); nl();
+      put("filter: "); dumpExpression(stm->fields.each.filter); nl();
+      put("stms: "); dumpList(stm->fields.each.stms, STATEMENT_LIST);
       break;
     case VISITS_STATEMENT:
       put("count: "); dumpInt(stm->fields.visits.count);

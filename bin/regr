@@ -119,6 +119,6 @@ if [ -f .case ] ; then
     echo "*** $failed FAILED! ***"
   fi
 else
-  echo No cases to run here.
+  echo No cases to run in `pwd`
 fi
 

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				EXP.C
-			   Expression Nodes
+                                EXP.C
+                           Expression Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -21,10 +21,10 @@
 
 #include "lmList.h"
 
-#include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
-#include "elm.h"		/* ELM-nodes */
-#include "ins.h"		/* INS-nodes */
+#include "adv.h"                /* ADV-node */
+#include "lst.h"                /* LST-nodes */
+#include "elm.h"                /* ELM-nodes */
+#include "ins.h"                /* INS-nodes */
 #include "opt.h"
 
 #include "emit.h"
@@ -69,7 +69,7 @@ static Bool expressionIsContainer(Expression *exp, Context *context) {
 
 /*----------------------------------------------------------------------*/
 static void expressionIsNotContainer(Expression *exp, Context *context,
-				     char constructDescription[]) {
+                                     char constructDescription[]) {
   switch (exp->kind) {
   case WHAT_EXPRESSION:
     whatIsNotContainer(exp->fields.wht.wht, context, constructDescription); break;
@@ -83,7 +83,7 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
 
 /*======================================================================*/
 void verifyContainerExpression(Expression *what, Context *context,
-			       char constructDescription[]) {
+                               char constructDescription[]) {
 
   analyzeExpression(what, context);
   if (what->type != ERROR_TYPE) {
@@ -153,7 +153,7 @@ static char *aggregateToString(AggregateKind agr)
 /*======================================================================*/
 Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 {
-  Expression *new;			/* The newly allocated area */
+  Expression *new;                      /* The newly allocated area */
 
   showProgress();
 
@@ -224,24 +224,24 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     else {
       switch (what->kind) {
       case WHAT_EXPRESSION:
-	switch (what->fields.wht.wht->kind) {
-	case WHAT_LOCATION:
-	  lmLogv(&what->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
-	  break;
-	case WHAT_ID:
-	case WHAT_THIS:
-	case WHAT_ACTOR:
-	  break;
-	default:
-	  syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-	  break;
-	}
-	break;
+        switch (what->fields.wht.wht->kind) {
+        case WHAT_LOCATION:
+          lmLogv(&what->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
+          break;
+        case WHAT_ID:
+        case WHAT_THIS:
+        case WHAT_ACTOR:
+          break;
+        default:
+          syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+          break;
+        }
+        break;
       case ATTRIBUTE_EXPRESSION:
-	break;
+        break;
       default:
-	syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-	break;
+        syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+        break;
       }
     }
   }
@@ -254,7 +254,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     analyzeExpression(where->what, context);
     if (where->what->type != ERROR_TYPE)
       if (where->what->type != INSTANCE_TYPE)
-	lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
+        lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
     break;
   case WHR_IN:
     verifyContainerExpression(where->what, context, "Expression after IN");
@@ -271,7 +271,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 
 /*----------------------------------------------------------------------*/
 static TypeKind verifyExpressionAttribute(IdNode *attributeId,
-					  Attribute *foundAttribute)
+                                          Attribute *foundAttribute)
 {
   if (foundAttribute == NULL) {
     return ERROR_TYPE;
@@ -303,11 +303,11 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
   case ATTRIBUTE_EXPRESSION:
     if (what->type != ERROR_TYPE) {
       if (what->type != INSTANCE_TYPE) {
-	exp->type = ERROR_TYPE;
-	lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
+        exp->type = ERROR_TYPE;
+        lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
       } else {
-	atr = resolveAttribute(what, exp->fields.atr.atr, context);
-	exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+        atr = resolveAttribute(what, exp->fields.atr.atr, context);
+        exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
       }
     }
     break;
@@ -348,12 +348,12 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
       lmLog(&exp->srcp, 331, sevERR, "expression");
     else if (exp->fields.bin.left->type != ERROR_TYPE && exp->fields.bin.right->type != ERROR_TYPE)
       if (exp->fields.bin.left->type == INSTANCE_TYPE) {
-	What *leftWhat = exp->fields.bin.left->fields.wht.wht;
-	What *rightWhat = exp->fields.bin.right->fields.wht.wht;
-	if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
-	  if (isConstantIdentifier(leftWhat->id)
-	      && isConstantIdentifier(rightWhat->id))
-	    lmLog(&exp->srcp, 417, sevINF, NULL);
+        What *leftWhat = exp->fields.bin.left->fields.wht.wht;
+        What *rightWhat = exp->fields.bin.right->fields.wht.wht;
+        if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
+          if (isConstantIdentifier(leftWhat->id)
+              && isConstantIdentifier(rightWhat->id))
+            lmLog(&exp->srcp, 417, sevINF, NULL);
       }
     exp->type = BOOLEAN_TYPE;
     break;
@@ -364,7 +364,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
     if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
     break;
-	    
+            
   case LE_OPERATOR:
   case GE_OPERATOR:
   case LT_OPERATOR:
@@ -378,10 +378,10 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 
   case PLUS_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE)
-	&& !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
+        && !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
     if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE)
-	&& !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
+        && !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
     if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
       lmLog(&exp->srcp, 331, sevERR, "expression");
@@ -416,32 +416,91 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeAttributeFilter(Expression *exp, List *lst, IdNode *classId, Symbol *classSymbol)
+static Bool analyzeAttributeFilter(Expression *theFilterExpression,
+				   IdNode *classId,
+				   char *aggregateString)
 {
-  Attribute *atr;
-  IdNode *attribute = lst->element.exp->fields.agr.attribute;
+  Attribute *attribute;
+  IdNode *attributeId = theFilterExpression->fields.atr.atr;
+  Bool ret = TRUE;
 
   if (classId == NULL)
     /* Can not find attributes on all instances, requires ISA filter */
-    lmLog(&lst->element.exp->srcp, 226, sevERR,
-	  aggregateToString(exp->fields.agr.kind));
+    lmLog(&theFilterExpression->srcp, 226, sevERR, aggregateString);
   else if (classId->symbol != NULL) {
     /* Only do attribute semantic check if class is defined */
-    atr = findAttribute(classSymbol->fields.entity.props->attributes,
-			attribute);
-    if (atr == NULL) {
-      lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
-	     "instances aggregated over using",
-	     aggregateToString(exp->fields.agr.kind),
-	     classSymbol->string, NULL);
-      exp->type = ERROR_TYPE;
-    } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
-      lmLog(&lst->element.exp->fields.agr.attribute->srcp, 418, sevERR, "");
-      exp->type = ERROR_TYPE;
+    attribute = findAttribute(classId->symbol->fields.entity.props->attributes,
+                        attributeId);
+    if (attribute == NULL) {
+      lmLogv(&attributeId->srcp, 316, sevERR, attributeId->string,
+             "instances aggregated over using",
+             aggregateString,
+             classId->symbol->string, NULL);
+      ret = FALSE;
+    } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {
+      lmLog(&attributeId->srcp, 440, sevERR, "Aggregate");
+      ret = FALSE;
     } else
-      exp->fields.agr.attribute->symbol->code = atr->id->symbol->code;
+      attributeId->code = attribute->id->code;
+  }
+  return ret;
+}
+
+
+/*----------------------------------------------------------------------*/
+static IdNode *analyzeClassingFilter(Expression *theAggregateExpression,
+				  Context *context,
+				  Expression *theFilterExpression, IdNode **classId2,
+				  Bool *foundWhere, Bool *foundIsa)
+{
+  IdNode *classId = NULL;
+
+  switch (theFilterExpression->kind) {
+  case ISA_EXPRESSION:
+    if (*foundIsa)
+      lmLogv(&theFilterExpression->srcp, 224, sevERR, "Isa (class)",
+	     aggregateToString(theAggregateExpression->fields.agr.kind), NULL);
+    *foundIsa = TRUE;
+    classId = theFilterExpression->fields.isa.class;
+    (void) symcheck(classId, CLASS_SYMBOL, context);
+    break;
+  case WHERE_EXPRESSION:
+  case ATTRIBUTE_EXPRESSION:
+    break;
+  default:
+    syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
+  }
+  return classId;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeNonClassingFilter(Expression *theAggregateExpression,
+				     Context *context,
+				     Expression *theFilterExpression,
+				     Expression *classExpression, IdNode *classId,
+				     Bool *foundWhere, Bool *foundIsa)
+{
+  switch (theFilterExpression->kind) {
+  case WHERE_EXPRESSION:
+    if (*foundWhere)
+      lmLogv(&theFilterExpression->srcp, 224, sevERR, "Where",
+	     aggregateToString(theAggregateExpression->fields.agr.kind), NULL);
+    *foundWhere = TRUE;
+    analyzeWhere(theFilterExpression->fields.whr.whr, context);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    if (!analyzeAttributeFilter(theFilterExpression, classId,
+				aggregateToString(theAggregateExpression->fields.agr.kind)))
+      theAggregateExpression->type = ERROR_TYPE;
+    break;
+  case ISA_EXPRESSION:
+    break;
+  default:
+    syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
   }
 }
+
 
 
 /*----------------------------------------------------------------------*/
@@ -450,8 +509,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
   Attribute *atr = NULL;
   List *lst;
   Expression *classExpression = NULL;
-  IdNode *classId = NULL;	/* Identifier for class filter if any */
-  Symbol *classSymbol = NULL;
+  IdNode *classId = NULL;       /* Identifier for class filter if any */
   Bool foundWhere = FALSE;
   Bool foundIsa = FALSE;
 
@@ -460,65 +518,38 @@ static void analyzeAggregate(Expression *exp, Context *context)
   /* Pick up the first ISA_EXPRESSION as this will be used to analyze
      the availability of attributes */
   TRAVERSE(lst, exp->fields.agr.filters) {
-    if (lst->element.exp->kind == ISA_EXPRESSION) {
-      classExpression = lst->element.exp;
-      classId = classExpression->fields.isa.class;
-      classSymbol = symcheck(classId, CLASS_SYMBOL, context);
-      if (classId->symbol != NULL)
-	/* If this ISA was ok use it, else try to find another */
-	break;
-    }
-  }
-  if (classId == NULL)
-    lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
+    IdNode *foundClassId = analyzeClassingFilter(exp, context, lst->element.exp, &classId, &foundWhere, &foundIsa);
+    if (foundClassId)
+      classId = foundClassId;
+ }
 
   TRAVERSE(lst, exp->fields.agr.filters) {
-    switch (lst->element.exp->kind) {
-    case WHERE_EXPRESSION:
-      if (foundWhere)
-	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Where",
-	       aggregateToString(exp->fields.agr.kind), NULL);
-      foundWhere = TRUE;
-      analyzeWhere(lst->element.exp->fields.whr.whr, context);
-      break;
-    case ISA_EXPRESSION:
-      if (foundIsa)
-	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Isa (class)",
-	       aggregateToString(exp->fields.agr.kind), NULL);
-      foundIsa = TRUE;
-      if (lst->element.exp != classExpression)
-	/* The classExpression is analyzed above */
-	(void) symcheck(lst->element.exp->fields.isa.class, CLASS_SYMBOL, context);
-      break;
-    case ATTRIBUTE_EXPRESSION: {
-      analyzeAttributeFilter(exp, lst, classId, classSymbol);
-      break;
-    }
-    default:
-      syserr("Unimplemented aggregate filter expression type in '%s()'", __FUNCTION__);
-    }
+    analyzeNonClassingFilter(exp, context, lst->element.exp, classExpression, classId, &foundWhere, &foundIsa);
   }
+
+  if (classId == NULL)
+    lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     /* Now analyze the attribute to do the arithmetic aggregation on */
     if (!classId)
-      /* No class filter makes arithmetic aggregates impossible since
-	 attributes can never be guaranteed to be defined in all instances. */
-      lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
-    if (classSymbol != NULL) {
+      /* Absence of a class filter makes arithmetic aggregates impossible since
+         attributes can never be guaranteed to be defined in all instances. */
+      lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, aggregateToString(exp->fields.agr.kind));
+    else if (classId->symbol != NULL) {
       /* Only do this if there was a correct class filter found */
-      atr = findAttribute(classSymbol->fields.entity.props->attributes,
-			  exp->fields.agr.attribute);
+      atr = findAttribute(classId->symbol->fields.entity.props->attributes,
+                          exp->fields.agr.attribute);
       if (atr == NULL) {
-	lmLogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
-	       exp->fields.agr.attribute->string,
-	       "instances aggregated over using",
-	       aggregateToString(exp->fields.agr.kind),
-	       classSymbol->string, NULL);
+        lmLogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
+               exp->fields.agr.attribute->string,
+               "instances aggregated over using",
+               aggregateToString(exp->fields.agr.kind),
+               classId->symbol->string, NULL);
       } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
-	lmLog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
+        lmLog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
       } else
-	exp->fields.agr.attribute->code = atr->id->code;
+        exp->fields.agr.attribute->code = atr->id->code;
     }
   }
 }
@@ -574,19 +605,19 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     if (symbol != NULL) {
       switch (symbol->kind) {
       case PARAMETER_SYMBOL:
-	exp->type = symbol->fields.parameter.type;
-	exp->class = symbol->fields.parameter.class;
-	break;
+        exp->type = symbol->fields.parameter.type;
+        exp->class = symbol->fields.parameter.class;
+        break;
       case LOCAL_SYMBOL:
-	exp->type = symbol->fields.local.type;
-	break;
+        exp->type = symbol->fields.local.type;
+        break;
       case INSTANCE_SYMBOL:
-	exp->type = INSTANCE_TYPE;
-	exp->class = symbol->fields.entity.parent;
-	break;
+        exp->type = INSTANCE_TYPE;
+        exp->class = symbol->fields.entity.parent;
+        break;
       default:
-	syserr("Unexpected symbolKind in %s()", __FUNCTION__);
-	break;
+        syserr("Unexpected symbolKind in %s()", __FUNCTION__);
+        break;
       }
     } else
       exp->type = ERROR_TYPE;
@@ -627,14 +658,14 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
 
 /*----------------------------------------------------------------------*/
 static void analyzeIsaExpression(Expression *expression,
-				 Context *context)
+                                 Context *context)
 {
   switch (expression->fields.isa.what->kind) {
   case WHAT_EXPRESSION:
     switch (expression->fields.isa.what->fields.wht.wht->kind) {
     case WHAT_ID:
       symcheck(expression->fields.isa.what->fields.wht.wht->id,
-	       INSTANCE_SYMBOL, context);
+               INSTANCE_SYMBOL, context);
       break;
     case WHAT_LOCATION:
     case WHAT_ACTOR:
@@ -656,9 +687,9 @@ static void analyzeIsaExpression(Expression *expression,
 
 /*======================================================================*/
 void analyzeExpression(Expression *expression,
-		       Context *context)
+                       Context *context)
 {
-  if (expression == NULL) 	/* Ignore empty expressions (syntax error) */
+  if (expression == NULL)       /* Ignore empty expressions (syntax error) */
     return;
 
   switch (expression->kind) {
@@ -848,10 +879,12 @@ static void generateAttributeExpression(Expression *exp)
 }
 
 
-/*----------------------------------------------------------------------*/
-static void generateAggregateFilter(Expression *exp)
+/*======================================================================*/
+void generateRightHandExpression(Expression *exp)
 {
-  /* When this is run the stack contains the instance id on top */
+  /* Generate a right hand side expression where the left hand 
+     has been evaluated so that the stack contains the lhs on top.
+     This is used for aggregate and loop filters. */
   switch (exp->kind) {
   case WHERE_EXPRESSION:
     emit0(I_WHERE);
@@ -861,6 +894,17 @@ static void generateAggregateFilter(Expression *exp)
   case ISA_EXPRESSION:
     generateId(exp->fields.isa.class);
     emit0(I_ISA);
+    break;
+  case BINARY_EXPRESSION:
+    generateExpression(exp->fields.bin.right);
+    generateBinaryOperator(exp);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    generateId(exp->fields.atr.atr);
+    generateAttributeAccess(exp);
+    break;
+  case BETWEEN_EXPRESSION:
+    generateBetweenCheck(exp);
     break;
   default:
     syserr("Unimplemented aggregate filter expression in '%s()'", __FUNCTION__);
@@ -882,7 +926,7 @@ static void generateAggregateExpression(Expression *exp)
   emit0(I_AGRSTART);
 
   TRAVERSE(lst,exp->fields.agr.filters) {
-    generateAggregateFilter(lst->element.exp);
+    generateRightHandExpression(lst->element.exp);
     emit0(I_AGRCHECK);
   }
 

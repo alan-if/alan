@@ -23,11 +23,11 @@ extern long counter;		/* And counter for verbose mode */
 
 
 /* FUNCTIONS */
-
+#define SYSERR(m) syserr(m, __FUNCTION__)
+extern void syserr(char *str, char function[]);
 extern void showProgress(void);
 extern void *allocate(int len);
 extern void unimpl(Srcp *srcp, char *phase);
-extern void syserr(char *str, char function[]);
 extern void panic(char *str);
 extern void terminate(int ecode);
 

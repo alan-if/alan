@@ -20,7 +20,7 @@ aggregate.alan
                 (including locations, things and instances without any
                 inheritance). It is recommended to apply it to only instances
                 of a particular class. Perhaps you mean 'COUNT Isa object'?
-  *2*   224 E : Multiple use of Where in filter list of COUNT Aggregate.
+  *2*   224 E : Multiple use of Where in filter list for COUNT Aggregation.
 
    11.    If Count At l =at 9 Then "" End If.
 =====>       1           2
@@ -57,21 +57,17 @@ aggregate.alan
    16.    If Count Isa object, Isa thing = 12 Then "" End If.
 =====>                         1
 
-  *1*   224 E : Multiple use of Isa (class) in filter list of COUNT Aggregate.
+  *1*   224 E : Multiple use of Isa (class) in filter list for COUNT
+                Aggregation.
 
    17.    If Count Isa object, Is z Then "" End If.
-=====>                            1
+=====>       1
 
-  *1*   418 E : Aggregate is only allowed on integer type attributes.
-
-   18.    If Count Isa object, Has w = 3 Then "" End If.
-=====>                             1
-
-  *1*   316 E : Attribute 'w' is not defined for instances aggregated over
-                using 'COUNT' since its class ('object') does not have it.
+  *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
+                type.
 
 
-        10 error(s).
+        9 error(s).
         4 warning(s).
         1 informational message(s).
 
