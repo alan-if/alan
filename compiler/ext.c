@@ -187,16 +187,13 @@ static Aaddr generateExitStatements(ExtNod *ext)
 static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
 {
   List *dir;
-  Bool same = FALSE;
   ExitEntry entry;
 
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
-    entry.duplicate = same;			/* For reversing process */
     entry.code = dir->element.id->symbol->code;
     entry.checks = ext->chks? ext->chkadr : 0;
     entry.action = ext->stms? ext->stmadr : 0;
     entry.target = ext->target->symbol->code;
-    same = TRUE;
     emitEntry(&entry, sizeof(entry));
   }
 }

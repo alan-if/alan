@@ -4,26 +4,26 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>237.89</origest>
-<currest>237.89</currest>
+<origest>238.89</origest>
+<currest>238.89</currest>
 <elapsed>93.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>46</currest>
+<origest>44</origest>
+<currest>44</currest>
 <elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>18</origest>
+<currest>18</currest>
 <elapsed>8</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
 <notes/>
@@ -128,6 +128,18 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Section in the manual to describe automatic formatting</desc>
+<notes>Capitalization after full stop and paragraph.
+No space before full stop.
+$$ reset both auto-formattings.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Automate building the Windows install</desc>
 <notes>sed the VERSION into the Inno Script, and use it also to name the setup.exe</notes>
 <priority>2</priority>
@@ -184,15 +196,6 @@ End The andersson.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>VISITS is a reserved word that causes many compiler problems</desc>
-<notes>See compiler test case visits.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Parameters should be defined in syntax restrictions</desc>
 <notes>This problem was discovered in give.i trying to do
 
@@ -207,18 +210,6 @@ End The andersson.</notes>
 <task>
 <desc>xglk library problem</desc>
 <notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>winarun does not parse its command line</desc>
-<notes>E.g.
-    winarun images -t
-results in
-    Could not open "images -t.a3c"</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -245,15 +236,6 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document inheritance rules for each construct</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Locals should override directions</desc>
 <notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
@@ -271,25 +253,15 @@ END DEPEND.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
-<notes>Add a FUNCTION_SYMBOL to the symbol table.
-Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
 <notes>Or do we prohibit containers to contain anything not an object? How?</notes>
@@ -335,43 +307,8 @@ TODO: Descriptions, ?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: Multiple syntax verbs</desc>
-<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
-E.g.
-Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
-Syntax b = v1 (p1) Where p1 Isa Container ...
-Verb a, b
-Here a reference to p1 should be considered to be either Object, Actor or Container
-
-Design:
-At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Language texts in external files</desc>
-<notes>Need:
-To allow user managed language translations.
-
-Design:
-If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
-
-Implementation:
-1) Allow any id as a value for the language option.
-2) Find an external langauge-specific message file and use it.
-3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -400,7 +337,7 @@ The article Isa b
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Definite article declaration</desc>
 <notes>If a definite article declaration is introduced the following can be made possible:
@@ -501,7 +438,7 @@ Check for consistency with other instances of local overides.</notes>
 <origest>11</origest>
 <currest>11</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
@@ -620,13 +557,95 @@ Multiple %1 '%2'</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.30</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>0</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Bug: Multiple syntax verbs</desc>
+<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
+E.g.
+Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
+Syntax b = v1 (p1) Where p1 Isa Container ...
+Verb a, b
+Here a reference to p1 should be considered to be either Object, Actor or Container
+
+Design:
+At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A very large number of events will not restore correctly after a save</desc>
+<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document inheritance rules for each construct</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.31</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>UNDO needs some kind of response?</desc>
+<notes>Generally: UNDO should say something, standard messages?
+
+Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>95</origest>
-<currest>95</currest>
+<origest>96</origest>
+<currest>96</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -641,8 +660,48 @@ The ... In box</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>A very large number of events will not restore correctly after a save</desc>
-<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
+<desc>Language texts in external files</desc>
+<notes>Need:
+To allow user managed language translations.
+
+Design:
+If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
+
+Implementation:
+1) Allow any id as a value for the language option.
+2) Find an external langauge-specific message file and use it.
+3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>VISITS is a reserved word that causes many compiler problems</desc>
+<notes>See compiler test case visits.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>winarun does not parse its command line</desc>
+<notes>E.g.
+    winarun images -t
+results in
+    Could not open "images -t.a3c"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
+<notes>Add a FUNCTION_SYMBOL to the symbol table.
+Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -690,15 +749,6 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>UNDO needs some kind of response?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: change "newxyz(&amp;srcp, " to just "newxyz(srcp, " for all xyz?</desc>
 <notes/>
 <priority>2</priority>
@@ -735,13 +785,14 @@ verbs
 </task>
 <task>
 <desc>For loop</desc>
-<notes>And then to
+<notes>Possibly we can port the aggregate filters to the For Each loop.
 
- For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
- End For Each [&lt;var&gt;].
+To get
+  For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
+  End For Each [&lt;var&gt;].
 
 
-Done:
+All below is done:
 First (but useless) version would be
 
  For Each Do
@@ -764,24 +815,6 @@ This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>New execution model</desc>
@@ -812,6 +845,17 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>QUIT question &amp; prompt</desc>
+<notes>"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
+
+Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>A picture file with an unknown extension gets passed through</desc>
 <notes>E.g a.jpeg transforms into pic1.jpeg which the glk-does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
 <priority>2</priority>
@@ -822,7 +866,12 @@ However this does not go well with separated data since that is not adressed by 
 </task>
 <task>
 <desc>Add To Every xyz</desc>
-<notes>It should be possible to add features to classes:
+<notes>Investigate what is left to do:
+
+
+All below is done:
+----------------------------
+It should be possible to add features to classes:
 
 Add To Every object ...
 
@@ -892,17 +941,6 @@ Or should we only allow this through use of temporary variables? If so how do we
 <task>
 <desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>QUIT question &amp; prompt</desc>
-<notes>"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
-
-Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1239,6 +1277,28 @@ End The door.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
 <desc>Author modifiable prompt</desc>
 <notes/>
 <priority>2</priority>
@@ -1345,12 +1405,8 @@ Add To Every object
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Some kind of procedures</desc>
-<notes>NEED: to be able to execute common code without mis-using e.g events.
-
-ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
-
-Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<desc>Dynamic creation of instances</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1394,15 +1450,6 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 </task>
 <task>
 <desc>Unit tests for word-handling</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Dynamic creation of instances</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1501,15 +1548,6 @@ But not both THE and the ID...</notes>
 <desc>CHECKs as disambiguations for multiple objects</desc>
 <notes>Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1811,7 +1849,7 @@ What do you want to do with the ball?
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
 <notes>It will not be possible to handle:
@@ -2002,7 +2040,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>78.89</origest>
 <currest>78.89</currest>
 <elapsed>78.89</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
@@ -3116,7 +3154,7 @@ start at aaa.
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>If a SAY refers to a parameter the print out should use the same words</desc>
 <notes>
@@ -3303,7 +3341,7 @@ Inherited attributes which override others with another type should refer to the
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>
@@ -3438,7 +3476,7 @@ This implies collecting a scriptList during analysis, keeping only script refere
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -4004,7 +4042,7 @@ If not present in A3C class names must be available.
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>
@@ -4369,7 +4407,7 @@ properly producing a blank line.
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
 <notes/>

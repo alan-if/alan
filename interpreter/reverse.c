@@ -239,10 +239,8 @@ static void reverseExits(Aword adr)
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ExitEntry));
     while (!endOfTable(e)) {
-      if (!e->duplicate) {
-	reverseChks(e->checks);
-	reverseStms(e->action);
-      }
+      reverseChks(e->checks);
+      reverseStms(e->action);
       e++;
     }
   }

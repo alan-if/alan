@@ -216,8 +216,6 @@ typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
 } AttributeEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
-  Abool duplicate;		/* Is this a duplicate (exit e,v) used
-				   in reverse/convert process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */
