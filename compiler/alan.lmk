@@ -59,6 +59,8 @@
 230	'No syntax defined for this global verb, assumed \'%1\'.';
 231	'No syntax defined for this verb, assumed \'%1 (object)\'.';
 
+240	'%1 \'%2\' already defined for class \'%3\'. You can not add it.';
+
 301	'\'%1\' already declared as a Direction.';
 303	'\'%1\' already declared as a Verb.';
 304	'\'%1\' already declared as an Instance (The).';

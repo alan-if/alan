@@ -153,9 +153,23 @@ static void addContainer(AddNode *add, Symbol *original)
 static void addVerbs(AddNode *add, Symbol *originalSymbol)
 {
   Properties *originalProps = originalSymbol->fields.entity.props;
+  List *verbList;
+  List *verbIdList;
+  Bool multipleVerb = FALSE;
 
-  if (add->props->verbs != NULL)
-    originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
+#define TRAVERSE(loopVariable,initExpression) (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
+
+  if (add->props->verbs != NULL) {
+    for TRAVERSE(verbList, add->props->verbs) {
+      for TRAVERSE(verbIdList, verbList->element.vrb->ids)
+	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {
+	  multipleVerb = TRUE;
+	  lmLogv(&verbList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
+	}
+    }
+    if (!multipleVerb)
+      originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
+  }
 }
 
 

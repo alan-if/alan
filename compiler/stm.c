@@ -920,8 +920,8 @@ static void generateDepend(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateEach(StmNod *statement)
 {
-  /* Generate a new BLOCK */
-  emit1(I_BLOCK, 1);		/* One local variable in this block */
+  /* Generate a new FRAME */
+  emit1(I_FRAME, 1);		/* One local variable in this block */
   frameLevel++;
 
   /* Loop variable is initialised to 0
@@ -948,7 +948,7 @@ static void generateEach(StmNod *statement)
   emit0(I_ENDEACH);
 
   /* End of block */
-  emit0(I_ENDBLOCK);
+  emit0(I_ENDFRAME);
   frameLevel--;
 }
 

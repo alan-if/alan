@@ -4,12 +4,12 @@
 addVerb.alan
 
     7.    Verb x Does "x/y"
-=====>         1
+=====>    1
 
-  *1*   220 W : Multiple definition of verb 'x' in this context.
+  *1*   240 E : Verb 'x' already defined for class 'obj'. You can not add it.
 
 
-        No detected errors.
-        1 warning(s).
-        1 informational message(s).
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
 

@@ -173,11 +173,9 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 <task>
 <desc>ACTOR might be a container</desc>
 <notes>If
-
-Add To Every Actor
-  Container
-End Add To.
-
+  Add To Every Actor
+    Container
+  End Add To.
 has been done an actor is a container which is not recognized by verifyContainer()
 
 </notes>

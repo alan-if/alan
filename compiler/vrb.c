@@ -140,6 +140,21 @@ static IdNode *findIdInList(IdNode *theId, List *theList) {
 }
 
 
+/*======================================================================*/
+Bool foundVerb(IdNode *targetId, List *verbs)
+{
+  List *theVerb;
+  List *theIdInList;
+
+  for (theVerb = verbs; theVerb != NULL; theVerb = theVerb->next) {
+    for (theIdInList = theVerb->element.vrb->ids; theIdInList != NULL; theIdInList = theIdInList->next)
+      if (findIdInList(targetId, theIdInList) != NULL)
+	return TRUE;
+  }
+  return FALSE;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void checkMultipleVerbs(List *verbs)
 {

@@ -119,6 +119,7 @@ static lmMsgs msg[] = {
     { "223   ", "This Verb body will be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
     { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
     { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
+    { "240   ", "%1 \'%2\' already defined for class \'%3\'. You can not add it." },
     { "301   ", "\'%1\' already declared as a Direction." },
     { "303   ", "\'%1\' already declared as a Verb." },
     { "304   ", "\'%1\' already declared as an Instance (The)." },
@@ -193,7 +194,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 113}
+    {0, 114}
 };
 static lmMessages currMsect = (lmMessages)0;
 
