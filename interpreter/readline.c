@@ -14,6 +14,22 @@
 #ifdef WINGLK
 #include "resources.h"
 #include "WinGlk.h"
+
+BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
+{ 
+    switch (message) 
+    { 
+        case WM_COMMAND: 
+            switch (LOWORD(wParam)) 
+            { 
+                case IDOK: 
+                    EndDialog(hwndDlg, wParam); 
+                    return TRUE; 
+            } 
+    } 
+    return FALSE; 
+}
+
 #endif
 
 
@@ -29,6 +45,8 @@
 Boolean readline(char usrbuf[])
 {
   event_t event;
+  INT_PTR e;
+
   glk_request_line_event(glkMainWin, usrbuf, 255, 0);
   /* FIXME: buffer size should be infallible: all existing calls use 256 or
      80 character buffers, except parse which uses LISTLEN (currently 100)
@@ -42,9 +60,9 @@ Boolean readline(char usrbuf[])
       break;
 #ifdef WINGLK
     case winglk_evtype_GuiInput:
-      printf("\n<Windows event: %d>\n", event.val1);
       switch (event.val1) {
       case ID_MENU_ABOUT:
+	e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
 	break;
       }
       break;

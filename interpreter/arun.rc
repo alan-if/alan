@@ -9,7 +9,7 @@ BEGIN
     END
 END
 
-IDR_ARUN             ICON    DISCARDABLE     "arun.ico"
+IDR_ARUN_ICON             ICON    DISCARDABLE     "arun.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,19 +27,20 @@ END
 // Dialog
 //
 
-IDD_ABOUT DIALOGEX 0, 0, 171, 138
+IDD_ABOUT DIALOGEX 0, 0, 220, 140
 STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU
-CAPTION "About"
+CAPTION "About Arun"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,114,117,50,14
-    GROUPBOX        "About Glk",IDC_STATIC,7,7,157,43
-    ICON            IDR_GLK,IDC_STATIC,15,19,20,20,0,WS_EX_CLIENTEDGE
-    LTEXT           "Thomas Nilsson, Windows Glk by David Kinder\nGlk Specification by Andrew Plotkin\nGlk 0.61, Windows release 1.21",
-                    IDC_STATIC,45,19,114,25
-    GROUPBOX        "Additional Credits",IDC_STATIC,7,52,157,59
-    LTEXT           "jpeglib by the Independent JPEG Group.\nlibpng by Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson, and others.\nzlib by Jean-loup Gailly and Mark Adler.\nModPlug by Olivier Lapicque.",
-                    IDC_STATIC,13,64,145,42
+    DEFPUSHBUTTON   "OK",IDOK,160,120,50,15
+    GROUPBOX        "About Arun",IDC_STATIC,10,10,200,50
+    ICON            IDR_ARUN_ICON, IDC_STATIC ,16, 22, 0, 0, SS_ICON, WS_EX_CLIENTEDGE
+    LTEXT           "Alan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
+                    IDC_STATIC,45,20,160,33
+    GROUPBOX        "Additional Credits",IDC_STATIC,10,70,200,40
+    LTEXT           "Initial inspiration to the Alan language: Göran Forslund\nContinuing encuragement and bug finding: Steve Griffiths\nVisit the Alan Home Pages at http://welcome.to/alan-if",
+                    IDC_STATIC,15,80,190,25
 END
+
 

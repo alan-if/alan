@@ -5,25 +5,25 @@ OPTIMIZE = -g
 GLKROOT = ../../WindowsGLK
 
 #Settings for Windows GLK variant
-winglk: GLK = -DGLK -DWINGLK
-winglk: GLKINCLUDE = -I$(GLKROOT)/Include
-winglk: GLKLIB = $(GLKROOT)/Glk.lib
-winglk: CYGWIN = #-mno-cygwin
+winarun: GLK = -DGLK -DWINGLK
+winarun: GLKINCLUDE = -I$(GLKROOT)/Include
+winarun: GLKLIB = $(GLKROOT)/Glk.lib
+winarun: CYGWIN = -mwindows -mno-cygwin
 #-DCOMPILER=\"[GCC/Mingw32]\" 
 
 release: OPTIMIZE = -O4
 
-ARCH	= $(CYGWIN)
+ARCH	= $(CYGWIN) $(OPTIMIZE)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
 
-CFLAGS = $(OPTIMIZE) -Wall -funsigned-char $(CYGWIN) $(CRCLOG) $(GLKINCLUDE) $(GLK)
+CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG) $(GLKINCLUDE) $(GLK)
 
 CPP	= gcc -MM -ansi
 
-LDFLAGS = -g $(CYGWIN) $(VERBOSE)
+LDFLAGS = $(CYGWIN) $(VERBOSE)
 LIB = $(GLKLIB)
 
 GLKSRCS = glkstart.c glkio.c
@@ -50,18 +50,21 @@ VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)
 VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
+WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 arun : checkTarget $(ARUNOBJECTS) Makefile dependencies.mk unit
-	gcc -o arun $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
-	@-mkdir ../bin 2> /dev/null
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
-release: winglk
+release:
+	$(MAKE) "OPTIMIZE=-O4" arun
+	$(MAKE) "OPTIMIZE=-O4" winarun
 
-winglk: checkTarget $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
-	gcc -o arun -mwindows $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
-	@-mkdir ../bin 2> /dev/null
-	cp arun.exe ../bin
+winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
+	gcc -o winarun $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp winarun.exe ../bin
 
 arun.res: arun.rc arun.ico
 	windres $< -O coff -o $@
@@ -131,7 +134,7 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.o
 # Dependencies
 #
 depend:
-	@for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS); \
+	@for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
 	done

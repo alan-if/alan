@@ -78,8 +78,14 @@ int main(argc, argv)
     char *filename;
     filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
 		"Alan Game Files (*.a3c)|*.a3c||");
-    advnam = strdup(filename);
-    advnam[strlen(advnam)-4] = 0; /* Strip of .A3C */
+    if (filename) {
+      advnam = strdup(filename);
+      advnam[strlen(advnam)-4] = 0; /* Strip of .A3C */
+    } else {
+      printf("You should supply a game file to play.\n");
+      usage();
+      terminate(0);
+    }
 #else
     printf("You should supply a game file to play.\n");
     usage();
