@@ -98,6 +98,8 @@ void analyseInstance(instance)
     analyseName(instance->slot->name, (void *)instance);
   else
     newWord(instance->id->string, NOUN_WORD, (void *)instance);
+
+  /* 4f - verify that the instance has an initial location */
 }
 
 

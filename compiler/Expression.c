@@ -11,6 +11,9 @@
 
 #include "Expression.h"
 #include "Statement.h"
+#include "Symbol.h"
+
+#include "lmList.h"
 
 #include "dump.h"
 
@@ -59,8 +62,184 @@ Bool equalTypes(type1, type2)
      TypeKind type1, type2;
 #endif
 {
-  if (type1 == ERROR_TYPE || type2 == ERROR_TYPE) syserr("Unintialised type in equalTypes()");
+  if (type1 == ERROR_TYPE || type2 == ERROR_TYPE)
+    syserr("Unintialised type in equalTypes()");
   return (type1 == UNKNOWN_TYPE || type2 == UNKNOWN_TYPE || type1 == type2);
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseWhereExpression()
+
+  Analyze a WHERE_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseWhereExpression(Expression *expression, List *parameters)
+#else
+void analyseWhereExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* First analyse the WHAT */
+  analyseExpression(expression->fields.where.what, parameters);
+  if (expression->fields.where.what->kind != WHAT_EXPRESSION)
+    lmLog(&expression->fields.where.what->srcp, 311, sevERR, "an Instance");
+  else {
+    switch (expression->fields.where.what->kind) {
+    case WHAT_LOCATION:
+      /* 4f - Warn for single classed LOCATIONS, they can not be anywhere! */
+      break;
+    case WHAT_ACTOR:
+      /* 4f - Can not refer to actors if environment is an EVENT */
+      break;
+    case WHAT_ID:
+      (void) symbolCheck(expression->fields.where.what->fields.what.what->id, INSTANCE_SYMBOL);
+      break;
+    case WHAT_THIS:
+      /* 4f - what this? */
+    default:
+      syserr("Unrecognized switch in analyseWhereExpression().");
+      break;
+    }
+  }
+
+  /* Now analyse the WHERE */
+  switch (expression->fields.where.where->kind) {
+  case WHERE_HERE:
+  case WHERE_NEAR:
+    /* 4f - Warn if environment is a RULE */
+    break;
+  case WHERE_AT:
+    switch (expression->fields.where.where->what->kind) {
+    case WHAT_ID:
+      /* 4f - check the symbol for being a THING */
+      break;
+    case WHAT_LOCATION:
+      expression->fields.where.where->kind = WHERE_HERE;
+      break;
+    case WHAT_THIS:
+      /* 4f - At this? */
+      break;
+    case WHAT_ACTOR:
+      /* 4f - what AT ACTOR */
+      break;
+    default:
+      syserr("Unrecognized switch in analyseWhereExpression().");
+      break;
+    }
+    break;
+  case WHERE_IN:
+    /* 4f - verify that it is a container */
+    break;
+  default:
+      syserr("Unrecognized switch in analyseWhereExpression().");
+    break;
+  }
+  expression->type = BOOLEAN_TYPE;
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseAttributeExpression()
+
+  Analyze a ATTRIBUTE_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseAttributeExpression(Expression *expression, List *parameters)
+#else
+void analyseAttributeExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* 4f - Analyse Attribute Expression */
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseBinaryExpression()
+
+  Analyze a BINARY_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseBinaryExpression(Expression *expression, List *parameters)
+#else
+void analyseBinaryExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* 4f - Analyse Attribute Expression */
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseRandomExpression()
+
+  Analyze a RANDOM_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseRandomExpression(Expression *expression, List *parameters)
+#else
+void analyseRandomExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* 4f - Analyse Random Expression */
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseWhatExpression()
+
+  Analyze a WHAT_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseWhatExpression(Expression *expression, List *parameters)
+#else
+void analyseWhatExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* 4f - Analyse What Expression */
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  analyseAggregateExpression()
+
+  Analyze a AGGREGATE_EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+void analyseAggregateExpression(Expression *expression, List *parameters)
+#else
+void analyseAggregateExpression(expression, parameters)
+     Expression *expression;
+     List *parameters;
+#endif
+{
+  /* 4f - Analyse Aggregate Expression */
 }
 
 
@@ -80,7 +259,38 @@ void analyseExpression(expression, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - analyse expression */
+  if (expression == NULL) return; /* Ignore empty expressions (syntax error) */
+  
+  switch (expression->kind) {
+  case WHERE_EXPRESSION:
+    analyseWhereExpression(expression, parameters);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    analyseAttributeExpression(expression, parameters);
+    break;
+  case BINARY_EXPRESSION:
+    analyseBinaryExpression(expression, parameters);
+    break;
+  case INTEGER_EXPRESSION:
+  case SCORE_EXPRESSION:
+    expression->type = INTEGER_TYPE;
+    break;
+  case STRING_EXPRESSION:
+    expression->type = STRING_TYPE;
+    break;
+  case AGGREGATE_EXPRESSION:
+    analyseAggregateExpression(expression, parameters);
+    break;
+  case RANDOM_EXPRESSION:
+    analyseRandomExpression(expression, parameters);
+    break;
+  case WHAT_EXPRESSION:
+    analyseWhatExpression(expression, parameters);
+    break;
+  default:
+    syserr("Unrecognized switch in analyseExpression()");
+    break;
+  }
 }
 
 

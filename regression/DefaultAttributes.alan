@@ -1,11 +1,11 @@
 Object Attributes
-  Is takeable.
+  takeable.
 
 Actor Attributes
-  Is talkable.
+  talkable.
 
 Location Attributes
-  Is swimable.
+  swimable.
 
 
 The pond Isa location
@@ -18,3 +18,7 @@ The man Isa actor
 End The man.
 
 Start At pond.
+	Make pond swimable.
+	Make ball takeable.
+	Make man talkable.
+
