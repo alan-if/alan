@@ -455,14 +455,14 @@ static void analyzeStrip(StmNod *stm, Context *context)
   if (!equalTypes(stm->fields.strip.from->type, STRING_TYPE))
     lmLogv(&stm->fields.strip.from->srcp, 330, sevERR, "string", "STRIP statement", NULL);
   if (stm->fields.strip.from->kind != ATTRIBUTE_EXPRESSION)
-    lmLog(&stm->fields.strip.from->srcp, 428, sevERR, "an attribute");
+    lmLogv(&stm->fields.strip.from->srcp, 428, sevERR, "Expression", "an attribute", NULL);
 
   if (stm->fields.strip.into != NULL) {
     analyzeExpression(stm->fields.strip.into, context);
     if (!equalTypes(stm->fields.strip.into->type, STRING_TYPE))
       lmLogv(&stm->fields.strip.into->srcp, 330, sevERR, "string", "STRIP statement", NULL);
   if (stm->fields.strip.into->kind != ATTRIBUTE_EXPRESSION)
-    lmLog(&stm->fields.strip.into->srcp, 428, sevERR, "an attribute");
+    lmLogv(&stm->fields.strip.into->srcp, 428, sevERR, "Expression", "an attribute", NULL);
   }
 }
 

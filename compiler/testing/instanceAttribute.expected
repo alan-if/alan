@@ -6,7 +6,8 @@ instanceAttribute.alan
     3.    Has iac object.
 =====>            1
 
-  *1*   311 E : Must refer to an instance.
+  *1*   428 E : Attribute value in reference attribute declaration must refer
+                to an instance.
 
     5.    Has iaix p.
 =====>             1
@@ -27,7 +28,8 @@ instanceAttribute.alan
    18.    Has father object.
 =====>               1
 
-  *1*   311 E : Must refer to an instance.
+  *1*   428 E : Attribute value in reference attribute declaration must refer
+                to an instance.
 
 
         5 error(s).

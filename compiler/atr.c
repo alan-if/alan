@@ -95,7 +95,7 @@ void symbolizeAttributes(List *atrs)
       symbolizeId(this->instance);
       if (this->instance->symbol)
 	if (this->instance->symbol->kind != INSTANCE_SYMBOL)
-	  lmLog(&this->instance->srcp, 311, sevERR, "an instance");
+	  lmLogv(&this->instance->srcp, 428, sevERR, "Attribute value in reference attribute declaration", "an instance", NULL);
     }
   }
 }
