@@ -1201,19 +1201,22 @@ static void sayIndefinite(Aint id) {
 /*----------------------------------------------------------------------*/
 static void sayArticleOrForm(Aint id, SayForm form)
 {
-  switch (form) {
-  case SAY_DEFINITE:
-    sayDefinite(id);
-    break;
-  case SAY_INDEFINITE:
-    sayIndefinite(id);
-    break;
-  case SAY_SIMPLE:
+  if (!isLiteral(id))
+    switch (form) {
+    case SAY_DEFINITE:
+      sayDefinite(id);
+      break;
+    case SAY_INDEFINITE:
+      sayIndefinite(id);
+      break;
+    case SAY_SIMPLE:
+      say(id);
+      break;
+    default:
+      syserr("Unexpected form in 'sayArticleOrForm()'");
+    }
+  else
     say(id);
-    break;
-  default:
-    syserr("Unexpected form in 'sayArticleOrForm()'");
-  }
 }
 
 

@@ -12,8 +12,8 @@
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>54</origest>
-<currest>54</currest>
+<origest>52</origest>
+<currest>52</currest>
 <elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
@@ -353,8 +353,8 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -368,7 +368,11 @@ Would "There is a actor here." be a better default?</notes>
 </task>
 <task>
 <desc>Allow locations in initial location and Locate if IN</desc>
-<notes>This would allow collecting locations in heaps.</notes>
+<notes>This would allow collecting locations in heaps.
+
+Better: use IN location to mean the exits?
+
+OR: defer this until arrays are available.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -413,24 +417,6 @@ Implementation requires:
  - embedded string printing
  - library change
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"no instance" constant ("nothing"?)</desc>
-<notes>What happens if we use that as an initialization? Which type will the attribute get?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Maybe allow "Has neighbour Any object."</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2153,13 +2139,39 @@ This strategy makes it possible to use the same script code for all instances th
 <desc>Obsolete</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>0</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Maybe allow "Has neighbour Any object."</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"no instance" constant ("nothing"?)</desc>
+<notes>What happens if we use that as an initialization? Which type will the attribute get?
+
+A better solution would be:
+
+   Has No &lt;class&gt;.
+
+But still what happens if there is no value? It is better and simpler to ensure that it always points to something. This will never fail, but &lt;no value&gt; will require author controls which we must assume are not always done.
+
+So this is a bad idea!!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
