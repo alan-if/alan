@@ -783,7 +783,7 @@ static int val(char str[])
 	%<properties>.scrs = NULL;
     %%
 
-    ! <properties> [''] <property>
+    ! <properties> <property>
     %%
 	%<properties>.nams = concat(%<properties>.nams, %<property>.nam, NAME_LIST);
 
