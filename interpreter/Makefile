@@ -33,7 +33,6 @@ SRCS = debug.c \
 	term.c \
 	params.c \
 	readline.c \
-	c25to26.c \
 	sysdep.c
 
 MAINSRC = arun.c

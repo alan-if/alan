@@ -13,6 +13,7 @@
 
 #include "adv.h"
 #include "msg.h"
+#include "stm.h"
 #include "opt.h"
 
 #include "emit.h"
@@ -132,14 +133,14 @@ static struct {char *id; char *english; char *swedish;} defmsg[] =
      "Enter file name to save in",
      "Spara äventyret i vilken fil"},
   {"saveoverwrite",
-     "That file already exists, overwrite (y) ? ",
-     "Filen fanns redan, skriva över (j) ? "},
+     "That file already exists, overwrite (RETURN confirms) ? ",
+     "Filen fanns redan, skriva över (RETURN för ja) ? "},
   {"savefailed",
      "Sorry, save failed.",
      "Tyvärr, det gick inte att spara äventyret."},
   {"savemissing",
-     "Sorry, could not open the save file.",
-     "Tyvärr, kunde inte hitta något sparat äventyr."},
+     "Sorry, could not open that save file.",
+     "Tyvärr, kunde inte hitta något sådant sparat äventyr."},
   {"saveversion",
      "Sorry, the save file was created by a different version.",
      "Tyvärr, det sparade äventyret har inte samma version."},
@@ -149,9 +150,12 @@ static struct {char *id; char *english; char *swedish;} defmsg[] =
   {"restorefrom",
      "Enter file name to restore from",
      "Hämta sparat äventyr från vilken fil"},
-  {"retry",
-     "Do you want to restart (y) ? ",
-     "Vill du försöka igen (j) ? "},
+  {"really",
+     "Are you sure (RETURN confirms) ? ",
+     "Är du säker (RETURN för ja) ? "},
+  {"quitaction",
+     "Do you want to RESTART, RESTORE or QUIT ? ",
+     "Vad vill du göra, RESTART, RESTORE or QUIT ? "},
   {"defarticle",
      "a",
      "en"},
@@ -198,13 +202,12 @@ void getxt(txt)
 
  */
 #ifdef _PROTOTYPES_
-MsgNod *newmsg(Srcp *srcp, NamNod *nam, long int fpos, int len)
+MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms)
 #else
-MsgNod *newmsg(srcp, nam, fpos, len)
+MsgNod *newmsg(srcp, nam, stms)
      Srcp *srcp;		/* IN - Source position of possible user declaration */
      NamNod *nam;		/* IN - If user declared the name used */
-     long fpos;			/* IN - The file position */
-     int len;			/* IN - Length of the text */
+     List *stms;		/* IN - List of statements */
 #endif
 {
   MsgNod *msg;
@@ -213,8 +216,7 @@ MsgNod *newmsg(srcp, nam, fpos, len)
 
   if (srcp) msg->srcp = *srcp;
   msg->nam = nam;
-  msg->fpos = fpos;
-  msg->len = len;
+  msg->stms = stms;
 
   return(msg);
 }
@@ -238,6 +240,9 @@ void prepmsgs()
   List *smsgs = NULL;		/* The constructed list */
   List *umsgs;			/* Iteration pointer into user messages list */
   List *lst;
+  /* The dummy list of statements */
+  StmNod *stm;
+  List *stms = NULL;
 
   if (sizeof(defmsg)/sizeof(defmsg[0]) != MSGMAX+1)
     syserr("Incorrect number of messages in message tables");
@@ -266,9 +271,14 @@ void prepmsgs()
       msgp = defmsg[msgno].swedish;
       break;
     }
-    msg = newmsg(NULL, NULL, ftell(txtfil), strlen(msgp));
-    msg->msgno = msgno;
-    smsgs = concat(smsgs, msg);
+    /* Create a PRINT statement and enter the print info */
+    stm = newstm(&nulsrcp, STM_PRINT);
+    stm->fields.print.fpos = ftell(txtfil);
+    stm->fields.print.len = strlen(msgp);
+    /* Make a list of it */
+    stms = concat(NULL, stm);
+    msg = newmsg(NULL, NULL, stms);
+    /* Save the message text */
 #ifdef __mac__
     { 
       char buf[256];
@@ -288,10 +298,14 @@ void prepmsgs()
     getxt(msgp);
 #endif
 #endif
+    /* Finally enter it in the list */
+    msg->msgno = msgno;
+    smsgs = concat(smsgs, msg);
   }
 
   /* Merge user messages to the list */
   for (umsgs = adv.msgs; umsgs; umsgs = umsgs->next) {
+    List *garb;			/* The standard message stm list is garbage */
     /* Find what number the user defined message has */
     for (msgno = 0; defmsg[msgno].id != NULL; msgno++)
       if (strcmp(defmsg[msgno].id, umsgs->element.msg->nam->str) == 0)
@@ -304,11 +318,13 @@ void prepmsgs()
       if (lst == NULL)
 	syserr("Reached end of system messages list.");
 
-      /* Update the message info */
-      lst->element.msg->fpos = umsgs->element.msg->fpos;
-      lst->element.msg->len = umsgs->element.msg->len;
+      /* Update the message statements */
+      garb = lst->element.msg->stms;
+      lst->element.msg->stms = umsgs->element.msg->stms;
 
-      /* And free user message node */
+      /* And system print statement and list and user message node */
+      free(garb->element.stm);
+      free(garb);
       free(umsgs->element.msg);
       umsgs->element.msg = NULL;
     }
@@ -328,6 +344,47 @@ void prepmsgs()
 
 /*======================================================================
 
+  anmsgs()
+
+  Analyze the statements in the system messages
+
+  */
+#ifdef _PROTOTYPES_
+void anmsgs(void)
+#else
+void anmsgs()
+#endif
+{
+  List *lst;
+
+  /* Nothing to do except to analyze the statements */
+  for (lst = adv.msgs; lst; lst = lst->next)
+    anstms(lst->element.msg->stms, NULL, NULL, NULL);
+
+}
+
+
+/*----------------------------------------------------------------------
+
+  gemsgent()
+
+  Generate statements for the message construct
+
+  */
+#ifdef _PROTOTYPES_
+static void gemsgent(MsgNod *msg)
+#else
+static void gemsgent(msg)
+MsgNod *msg;
+#endif
+{
+  msg->stmadr = emadr();	/* Save address to messages statements */
+  gestms(msg->stms, NULL);
+  emit0(C_STMOP, I_RETURN);
+}
+
+/*======================================================================
+
   gemsgs()
 
   Generate error and other messages depending on the selected language.
@@ -342,12 +399,14 @@ Aaddr gemsgs()
   Aaddr adr;
   List *lst;
 
+  /* First generate the statements for each message */
+  for (lst = adv.msgs; lst; lst = lst->next)
+    gemsgent(lst->element.msg);
+
   adr = emadr();		/* Save address to messages table */
-  for (lst = adv.msgs; lst; lst = lst->next) {
-    encode(&lst->element.msg->fpos, &lst->element.msg->len);
-    emit(lst->element.msg->fpos);
-    emit(lst->element.msg->len);
-  }
+  for (lst = adv.msgs; lst; lst = lst->next)
+    emit(lst->element.msg->stmadr);
   emit(EOF);
   return(adr);
 }
+

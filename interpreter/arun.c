@@ -86,7 +86,7 @@ Boolean needsp = FALSE;
 Boolean skipsp = FALSE;
 
 /* Restart jump buffer */
-jmp_buf restart;
+jmp_buf restart_label;
 
 
 /* PRIVATE DATA */
@@ -121,7 +121,10 @@ void terminate(code)
     _devtab[1].fd = _devtab[2].fd = 0;
   }
 #endif
+  newline();
   free(memory);
+  if (logflg)
+    fclose(logfil);
   exit(code);
 }
 
@@ -508,7 +511,7 @@ void prmsg(msg)
      MsgKind msg;		/* IN - message number */
 #endif
 {
-  print(msgs[msg].fpos, msgs[msg].len);
+  interpret(msgs[msg].stms);
 }
 
 
@@ -1255,12 +1258,15 @@ static void checkvers(header)
 
   /* Compatible if version and revision match... */
   if (strncmp(header->vers, vers, 2) != 0) {
+#ifdef V25COMPATIBLE
     if (header->vers[0] == 2 && header->vers[1] == 5) /* Check for 2.5 version */
       /* This we can convert later... */;
-    else if (errflg)
-      syserr("Incompatible version of ACODE program.");
     else
-      output("<WARNING! Incompatible version of ACODE program.>\n");
+#endif
+      if (errflg)
+	syserr("Incompatible version of ACODE program.");
+      else
+	output("<WARNING! Incompatible version of ACODE program.>\n");
   }
 }
 
@@ -1320,18 +1326,19 @@ static void load()
     else {
       output("<WARNING! $$");
       output(err);
-      output("$$ Ignored, proceed on your own risk.>$n");
+      output("$$ Ignored, proceed at your own risk.>$n");
     }
   }
 
 #ifdef REVERSED
   if (dbgflg||trcflg||stpflg)
-    output("<Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....");
+    output("<Hmm, this is a little-endian machine, fixing byte ordering....");
   reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
   if (dbgflg||trcflg||stpflg)
     output("OK.>$n");
 #endif
 
+#ifdef V25COMPATIBLE
   /* Check for 2.5 version */
   if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) {
     if (dbgflg||trcflg||stpflg)
@@ -1340,6 +1347,7 @@ static void load()
     if (dbgflg||trcflg||stpflg)
       output("OK.>$n");
   }
+#endif
 
 }
 
@@ -1696,7 +1704,7 @@ int main(argc, argv)
 
   openFiles();
 
-  setjmp(restart);		/* Return here if he wanted to restart */
+  setjmp(restart_label);	/* Return here if he wanted to restart */
 
   init();			/* Load, initialise and start the adventure */
 

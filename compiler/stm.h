@@ -30,6 +30,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   STM_LOOK,
   STM_SAVE,
   STM_RESTORE,
+  STM_RESTART,
   STM_SCORE,
   STM_VISITS,
   STM_DESCRIBE,

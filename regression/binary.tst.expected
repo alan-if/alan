@@ -9,4 +9,4 @@ arun binary < binary.input
 Binary has now int = 0 Adding 2 gives = 2 Multiplying by 3 gives = 6 
 Division by 2 gives = 3 Subtracting 3 gives = 0
 
-Do you want to restart (y) ? 
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -41,7 +41,7 @@ FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
-Bool verbose;		/* Verbose mode */
+Bool verbose;			/* Verbose mode */
 
 List *includePaths = NULL;	/* List of additional include paths */
 

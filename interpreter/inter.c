@@ -216,6 +216,12 @@ void interpret(adr)
 	restore();
 	break;
       }
+      case I_RESTART: {
+	if (stpflg)
+	  printf("RESTART");
+	restart();
+	break;
+      }
       case I_LIST: {
 	Aword cnt;
 	cnt = pop();

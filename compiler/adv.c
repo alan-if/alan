@@ -148,6 +148,8 @@ void anadv()
   anruls();
   if (verbose) printf("\n\tSynonyms...");
   ansyns();
+  if (verbose) printf("\n\tMessages...");
+  anmsgs();
   if (verbose) printf("\n");
 
   if (adv.whr != NULL) 

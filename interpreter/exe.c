@@ -190,31 +190,19 @@ Boolean confirm(msgno)
 #endif
 {
   char buf[80];
-  char *msg, ch = '\0';
-  int i;
 
-  /* Can't use prmsg() here because we want to look for the '(y)' part */
-  getstr(msgs[msgno].fpos, msgs[msgno].len);
-  msg = (char *)pop();
-#if ISO == 0
-  fromIso(msg, msg);
-#endif
-  output(msg);
-  col = 1;
+  /* This is a bit of a hack since we really want to compare the input,
+     it could be affirmative, but for now any input is NOT! */
+  prmsg(msgno);
+
 #ifdef USE_READLINE
-  if (!readline(buf)) return FALSE;
+  if (!readline(buf)) return TRUE;
 #else
-  if (gets(buf) == NULL) return FALSE;
+  if (gets(buf) == NULL) return TRUE;
 #endif
+  col = 1;
 
-  /* Use a character inside parenthesis as affirmative */
-  for (i = 0; msg[i]; i++)
-    if (msg[i] == '(' && msg[i+2] == ')') {
-      ch = msg[i+1];
-      break;
-    }
-  free(msg);
-  return (buf[0] == '\0' || (ch && toupper(buf[0]) == toupper(ch)));
+  return (buf[0] == '\0');
 }
 
 
@@ -224,12 +212,39 @@ void quit(void)
 void quit()
 #endif
 {
+  char buf[80];
+
   para();
-  if (confirm(M_REALLYQUIT)) {
-    if (logflg)
-      fclose(logfil);
-    newline();
-    terminate(0);
+  while (TRUE) {
+    col = 1;
+    prmsg(M_QUITACTION);
+#ifdef USE_READLINE
+    if (!readline(buf)) terminate(0);
+#else
+    if (gets(buf) == NULL) terminate(0);
+#endif
+    if (strcmp(buf, "restart") == 0)
+      longjmp(restart_label, TRUE);
+    else if (strcmp(buf, "restore") == 0) {
+      restore();
+      return;
+    } else if (strcmp(buf, "quit") == 0)
+      terminate(0);
+  }
+  syserr("Fallthrough in QUIT");
+}
+
+
+
+#ifdef _PROTOTYPES_
+void restart(void)
+#else
+void restart()
+#endif
+{
+  para();
+  if (confirm(M_REALLY)) {
+    longjmp(restart_label, TRUE);
   } else
     return;
   syserr("Fallthrough in QUIT");
@@ -1114,11 +1129,6 @@ void sayarticle(id)
     syserr("Trying to say article of something *not* an object.");
   if (objs[id-OBJMIN].art != 0)
     interpret(objs[id-OBJMIN].art);
-  else if (msgs[M_ARTICLE].fpos == 0 && msgs[M_ARTICLE].len == 0)
-    /* It's a converted 2.5 game */
-    /* They didn't have ARTICLE */
-    /* so it is probably built into the description */
-    ;
   else
     prmsg(M_ARTICLE);
 }

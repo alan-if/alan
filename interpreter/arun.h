@@ -54,15 +54,13 @@ extern char *advnam;
 extern int col, lin;
 extern int paglen, pagwidth;
 
-/* Long jump buffer for retry */
-extern jmp_buf restart;
+/* Long jump buffer for restart */
+extern jmp_buf restart_label;
 
 extern Boolean verbose, errflg, trcflg, dbgflg, stpflg, logflg;
 extern Boolean fail;
 extern Boolean anyOutput;
 extern Boolean needsp;
-
-extern jmp_buf restart;
 
 #define endOfTable(x) eot((Aword *) x)
 

@@ -7,7 +7,7 @@ arun restart < restart.input
         1 informational message(s).
 
 
-Going w will give you 5 points. Then restart (q) to find out if scores
+Going w will give you 5 points. Then restart (or q) to find out if scores
 are cleared.
 
 
@@ -19,11 +19,11 @@ L2.
 > score
 You have scored 5 points out of 5.
 
-> q
+> restart
 
-Do you want to restart (y) ? y
+Are you sure (RETURN confirms) ? 
 
-Going w will give you 5 points. Then restart (q) to find out if scores
+Going w will give you 5 points. Then restart (or q) to find out if scores
 are cleared.
 
 
@@ -34,4 +34,4 @@ You have scored 0 points out of 5.
 
 > 
 
-Do you want to restart (y) ? 
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -668,6 +668,7 @@ static void anstm(stm, act, evt, pars)
   case STM_LOOK:
   case STM_SAVE:
   case STM_RESTORE:
+  case STM_RESTART:
   case STM_VISITS:
   case STM_SYSTEM:
     /* Nothing to analyse */
@@ -1207,6 +1208,10 @@ static void gestm(stm, act)
     emit0(C_STMOP, I_RESTORE);
     break;
 
+  case STM_RESTART:
+    emit0(C_STMOP, I_RESTART);
+    break;
+
   case STM_VISITS:
     emit0(C_CONST, stm->fields.visits.count);
     emit0(C_STMOP, I_VISITS);
@@ -1379,6 +1384,9 @@ void dustm(stm)
   case STM_RESTORE:
     put("RESTORE ");
     break;
+  case STM_RESTART:
+    put("RESTART ");
+    break;
   case STM_VISITS:
     put("VISITS ");
     break;
@@ -1393,6 +1401,7 @@ void dustm(stm)
   case STM_QUIT:
   case STM_SAVE:
   case STM_RESTORE:
+  case STM_RESTART:
     break;
   default:
     in();

@@ -61,7 +61,7 @@ Event2. Event.
 
 > s
 Enter file name to save in (score.sav) : 
-That file already exists, overwrite (y) ? 
+That file already exists, overwrite (RETURN confirms) ? 
 Event.
 
 > f
@@ -76,4 +76,4 @@ You have scored 10 points out of 10.
 
 > 
 
-Do you want to restart (y) ? 
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -1,20 +1,29 @@
 ToDo:
 
-	* Conversion between 2.6 and 2.7 games
-
-	* Named scripts: SCRIPT <id>, USE <id> FOR actor
-
-	* MESSAGE : STATEMENTS
-
-	* Change QUIT message to "Really quit (n) ?"
-
-	* Listing of saved games
-
-	* Font sensitivity (esp. proportional fonts)
+	* Confirm hanteringen är inte bra, måste kunna kolla (y)!
 
 	* The "plant pot plant in plant pot" problem
 
-	* Allow subparts of LOCATIONS to be in any order
+	* Actor-clash hantering, dvs. vad sker när man tar ut något ur en
+        aktör?
+
+	* Procedures!
+
+	* Conversion between 2.6 and 2.7 games (Not really needed)
+
+	* Named scripts: SCRIPT <id>, USE <id> FOR actor
+
+	* Listing of saved games
+
+	* Flexiblare syntax även inom LOCATION, ACTOR etc. t.ex VERB, EXIT
+        i valfri ordn.
+
+	* Snygga upp manualen map. MESSAGE-beskrivningarna
+
+	* VERBDIR problemet (kolla regression-biblioteket), Samma ord som
+        Verb och Directions fungerar inte
+
+	* Font sensitivity (esp. proportional fonts)
 
 	* METAVERB, takes no tick
 
@@ -22,7 +31,7 @@ ToDo:
 
 	* Kontrollera $<n> m.a.p syntax-parametrar
 
-	* Förhindra samma ord som ADJ & VERB
+	* Förhindra samma ord som ADJ & VERB, Varför?
 
 	* Hur hantera mörka platser och andra globala krav?
 
@@ -40,11 +49,7 @@ ToDo:
 
 	* SYNTAX look_up = 'look' 'up' (str) ['in' (lexikon)], dvs. optionella delar
 
-	* Närvarokontroll av parametrar efter syntaxkontroll?
-
 	* EXIT ELSE ...
-
-	* Actor-clash hantering, dvs. vad sker när man tar ut något ur en aktör?
 
 	* Status Line
 
@@ -60,12 +65,13 @@ ToDo:
 
 	* > bollen, Vad vill du göra med bollen?, >sparka den
 
-	* Snygga upp manualen map. MESSAGE-beskrivningarna
+Done:
+
+	* MESSAGE : STATEMENTS
+
+	* Change QUIT message to "Really quit (n) ?"
 
 	* QUIT-hanteringen
 
-	* Flexiblare syntax även inom LOCATION, ACTOR etc. t.ex VERB, EXIT i valfri ordn.
-
-	* VERBDIR problemet (kolla regression-biblioteket), Samma ord som
-        Verb och Directions fungerar inte
+	* Närvarokontroll av parametrar efter syntaxkontroll?
 

@@ -406,17 +406,17 @@ static int val(str)
     ;
 
 <message>				-- RETURNS: msg
-    = ID ':' STRING
+    = ID ':' <statements>			%-('QUIT', 'SAVE', 'RESTART', 'RESTORE')
     %%
 	%<message>.msg = newmsg(`&%':'.srcp,
 			      %ID.nam,
-			      %STRING.fpos, %STRING.len);
+			      %<statements>.stms);
     %%
     ;
 
----> <SYNTAX>
+---> <SYNTAX>				-- RETURNS: stxs
 <syntax>
-    = 'SYNTAX' <syntax_list>				%+('MESSAGE', 'DEFAULT')
+    = 'SYNTAX' <syntax_list>			%+('MESSAGE', 'DEFAULT')
     %%
 	%<syntax>.stxs = %<syntax_list>.stxs;
     %%
@@ -524,7 +524,7 @@ static int val(str)
     ;
 
 <class_restriction>
-    = ID 'ISA' <classes> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY')
+    = ID 'ISA' <classes> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
 	%<class_restriction>.res = newres(`&%'ISA'.srcp,
 				    %ID.nam,
@@ -1128,7 +1128,7 @@ static int val(str)
     ;
 
 <limit>			-- RETURNS: lim
-    = <limit_attribute> 'THEN' <statements>			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY')
+    = <limit_attribute> 'THEN' <statements>			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
 	%<limit>.lim = newlim(`&%'THEN'.srcp,
 			    %<limit_attribute>.atr,
@@ -1446,6 +1446,11 @@ static int val(str)
     ! 'RESTORE' '.'
     %%
 	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, STM_RESTORE);
+    %%
+
+    ! 'RESTART' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, STM_RESTART);
     %%
 
     ! 'SCORE' <optional_integer> '.'
@@ -2100,6 +2105,11 @@ ID
     ! 'RESTORE'
     %%
         %ID.nam = newnam(`&%'RESTORE'.srcp, "restore");
+    %%
+
+    ! 'RESTART'
+    %%
+        %ID.nam = newnam(`&%'RESTART'.srcp, "restart");
     %%
 
     ! 'WAIT'

@@ -76,7 +76,8 @@ ran straight into a tree and must have lost both conciousness and memory.
 'Well, hope the computer still works.' you think. 'I think I stick to
 computer adventures, at least for the immediate future.'
 
-Do you want to restart (y) ? y
+Do you want to RESTART, RESTORE or QUIT ? restart
+
 
 
 'Oh, my head. It hurts. Why am I out here when I've got this kind of
@@ -88,9 +89,9 @@ You are standing on a barely visible path in the middle of nowhere. The
 path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should
 say the path runs in almost straight north/south direction. On both sides
-of the path is the deepest, darkest jungle you've ever seen. I really
 <More>
-wouldn't recommend going that way. The path itself isn't much of a
+of the path is the deepest, darkest jungle you've ever seen. I
+really wouldn't recommend going that way. The path itself isn't much of a
 place to hold on to either. You get the impression that the vegetation is
 trying hard to recapture even this tiny part of land. The trees on both
 sides seems to come closer and there are vines hanging down almost
@@ -99,4 +100,4 @@ just beside you.
 
 > q
 
-Do you want to restart (y) ? 
+Do you want to RESTART, RESTORE or QUIT ? 

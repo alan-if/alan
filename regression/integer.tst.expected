@@ -9,4 +9,4 @@ arun integer < integer.input
 
 Should be -3: -3 Should be -4: -4
 
-Do you want to restart (y) ? 
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -17,8 +17,8 @@ typedef struct MsgNod {
   Srcp srcp;
   NamNod *nam;			/* ID of message type */
   int msgno;			/* It's identity */
-  long fpos;			/* Message string position */
-  int len;			/*  -"- length */
+  List *stms;			/* List of statements */
+  Aaddr stmadr;			/* Address to generated statements */
 } MsgNod;
 
 
@@ -30,10 +30,13 @@ typedef struct MsgNod {
 #ifdef _PROTOTYPES_
 
 /* Create a new node with a message declaration */
-extern MsgNod *newmsg(Srcp *srcp, NamNod *nam, long int fpos, int len);
+extern MsgNod *newmsg(Srcp *srcp, NamNod *nam, List *stms);
 
 /* Prepare all system messages depending on the choosen language */
 extern void prepmsgs(void);
+
+/* Analyze the system messages */
+extern void anmsgs(void);
 
 /* Generate the system messages */
 extern Aword gemsgs(void);
@@ -44,6 +47,7 @@ extern void getxt(char txt[]);
 #else
 extern MsgNod *newmsg();
 extern void prepmsgs();
+extern void anmsgs();
 extern Aword gemsgs();
 extern void getxt();
 #endif

@@ -137,7 +137,8 @@ typedef enum InstClass {
   I_MAX,			/* MAX-aggregate */
   I_COUNT,			/* COUNT-aggregate */
   I_RETURN,
-  I_SYSTEM
+  I_SYSTEM,
+  I_RESTART			/* INTRODUCED: v2.7 */
 } InstClass;
 
 
@@ -237,7 +238,8 @@ typedef enum MsgKind {
   M_SAVEVERS,
   M_SAVENAME,
   M_RESTOREFROM,
-  M_REALLYQUIT,
+  M_REALLY,			/* CHANGED: v2.7 from M_RESTART */
+  M_QUITACTION,			/* INTRODUCED: v2.7, so M_ARTICLE moved */
   M_ARTICLE,			/* INTRODUCED: v2.6 but replaced the M_NOMSG*/
   MSGMAX
 } MsgKind;

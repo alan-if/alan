@@ -230,8 +230,7 @@ typedef struct IniElem {	/* STRING INITIALISATION TABLE */
 } IniElem;
 
 typedef struct MsgElem {	/* MESSAGE TABLE */
-  Aword fpos;			/* File position */
-  Aword len;			/* Length of message */
+  Aaddr stms;			/* Address to statements*/
 } MsgElem;
 
 

@@ -94,7 +94,7 @@ VMSLINKOBJS = ${SRCS:.c=}
 
 DEBUG= -g
 
-all debug tcov: objarch alan alan.prod Makefile
+all debug tcov: objarch alan Makefile
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
@@ -140,6 +140,7 @@ tm: .pmkstamp .smkstamp .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp
 	pmk $(PMKQ) alan
+	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
 
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp
@@ -237,8 +238,6 @@ sysdep.h: ../interpreter/sysdep.h
 sysdep.c: ../interpreter/sysdep.c
 	-ln -s ../interpreter/sysdep.c
 
-alan.prod: alan.pml
-	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 
 #- Other machines
 
