@@ -1,28 +1,31 @@
 ########## random ##########
-alan random
-arun random < random.input
+alan -debug random
+arun -d random < random.input
 ########## /bin/sh  random.tst ##########
 
         No warnings or errors detected.
         1 informational message(s).
 
-
+<Arun, Adventure Interpreter version 2.5(2)>
+<Version of 'random' is 2.5(2)>
 'r' to generate a random number.
 
 
 L.
 
-> 4
+ABUG> 
 
-> 5
+> 6
 
-> 4
-
-> 1
+> 7
 
 > 6
 
 > 5
+
+> 4
+
+> 9
 
 > 10
 
@@ -30,7 +33,7 @@ L.
 
 > 4
 
-> 7
+> 1
 
 > 
 

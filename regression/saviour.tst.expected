@@ -1,11 +1,13 @@
 ########## saviour ##########
-alan saviour
-arun saviour < saviour.input
+alan -debug saviour
+arun -d saviour < saviour.input
 ########## /bin/sh  saviour.tst ##########
 
         No warnings or errors detected.
         17 informational message(s).
 
+<Arun, Adventure Interpreter version 2.5(2)>
+<Version of 'saviour' is 2.5(2)>
 
 Welcome to the game of SAVIOUR!
 
@@ -27,7 +29,9 @@ To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 
-> > You are empty-handed.
+<More>ABUG> 
+
+> You are empty-handed.
 
 > Hall.
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -195,7 +199,9 @@ that shows markings from fingers. The desk has one remaining drawer.
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'SveGr'.
+OOH! There is a hand written remark in the margin here, it says 'NilGu'. 
+
+Funny, isn't that what you tried earlier...
 
 > Corridor (again).
 
@@ -309,16 +315,18 @@ centre of the room. It's powered up and running.
 
 The rest is unfortunately completely illegible. 
 
-OOH! There is a hand written remark in the margin here, it says 'SveGr'.
+OOH! There is a hand written remark in the margin here, it says 'NilGu'. 
 
-> 'ERROR: Wrong USERID.
-Please login. Enter USERID:'
+Funny, isn't that what you tried earlier...
 
-> 'ERROR: Wrong USERID.
-Please login. Enter USERID:'
+> 'Welcome NilGu!
 
-> 'Welcome SveGr!
+Enter command:'
 
+> 'ERROR: Unknown command.
+Enter command:'
+
+> 'ERROR: Unknown command.
 Enter command:'
 
 > The tape starts to spin and after a few moments it stops. Then it starts

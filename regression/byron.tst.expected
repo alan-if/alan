@@ -1,18 +1,21 @@
 ########## byron ##########
-alan byron
-arun byron < byron.input
+alan -debug byron
+arun -d byron < byron.input
 ########## /bin/sh  byron.tst ##########
 
         No warnings or errors detected.
         3 informational message(s).
 
-
+<Arun, Adventure Interpreter version 2.5(2)>
+<Version of 'byron' is 2.5(2)>
 Hamburgers make excellent pets!
 
 
 The Beginning.
 In the beginning, there was the void... There is a huge door to the north. 
 It is closed.
+
+ABUG> 
 
 > The door opens with a errie creaking sound.
 

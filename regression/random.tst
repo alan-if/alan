@@ -1,2 +1,2 @@
-alan random
-arun random < random.input
+alan -debug random
+arun -d random < random.input

@@ -1,2 +1,2 @@
-alan paras
-arun paras < paras.input
+alan -debug paras
+arun -d paras < paras.input

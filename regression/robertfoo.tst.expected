@@ -11,8 +11,7 @@ James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
 > Case 1a.
-Case 1a with choice z. 
-mtest > 2
+Case 1a with choice z. mtest <2 
 
 Case 1b.
 case 1b with choice a
