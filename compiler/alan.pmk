@@ -435,7 +435,11 @@ static int val(char str[])
     %%
 	%<syntax_item>.stx = newstx(`&%'='.srcp,
 				  %ID.nam,
-				  %<syntax_elements>.elms,
+				  concat(%<syntax_elements>.elms,
+				         newelm(`&%ID.nam->srcp, ELMEOS,
+				                NULL,
+				                FALSE),
+				         ELMNOD),
 				  %<optional_class_restrictions>.ress);
     %%
     ;
@@ -443,14 +447,14 @@ static int val(char str[])
 <syntax_elements>
     = <syntax_element>
     %%
-	%<syntax_elements>.elms = concat(NULL, %<syntax_element>.elm, STXNOD);
+	%<syntax_elements>.elms = concat(NULL, %<syntax_element>.elm, ELMNOD);
     %%
 
     ! <syntax_elements> <syntax_element>
     %%
 	%<syntax_elements>.elms = concat(%<syntax_elements>.elms,
 				       %<syntax_element>.elm,
-	                                STXNOD);
+	                                ELMNOD);
     %%
     ;
 
