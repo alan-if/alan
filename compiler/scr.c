@@ -15,13 +15,11 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "stp_x.h"
 #include "sym_x.h"
 
 #include "lmList.h"
 #include "acode.h"
-
-#include "stp.h"                /* STP-nodes */
-
 #include "emit.h"
 #include "dump.h"
 
@@ -33,24 +31,22 @@
   newScript()
 
   */
-ScrNod *newScript(Srcp *srcp,	/* IN - Source Position */
-		  IdNode *id,	/* IN - Name for the script */
-		  int code,	/* IN - Code for the script */
-		  List *descr,	/* IN - Optional description */
-		  List *stps	/* IN - List of steps */
+Script *newScript(Srcp *srcp,
+		  IdNode *id,
+		  List *description,
+		  List *steps
 )
 {
-  ScrNod *new;          /* The newly allocated node */
+  Script *new;          /* The newly allocated node */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(ScrNod);
+  new = NEW(Script);
 
   new->srcp = *srcp;
-  new->code = code;
   new->id = id;
-  new->descr = descr;
-  new->stps = stps;
+  new->description = description;
+  new->steps = steps;
 
   return(new);
 }
@@ -68,36 +64,20 @@ void prepareScripts(List *scrs, InsNod *ins)
 {
   List *lst;
   List *scrlst;
-  int highest;                  /* Highest script code found so far */
+  int code;			/* Numbering code */
 
   if (scrs == NULL) return;
 
-  /* First inspect the codes and save the highest */
-  highest = scrs->element.scr->code;
-  for (lst = scrs; lst != NULL; lst = lst->next)
-    if (lst->element.scr->code > highest)
-      highest = lst->element.scr->code;
-
-  /* Look for redefinition of script names and numbers and give numbers to named scripts */
+  /* Look for redefinition of script names and give numbers to scripts */
   for (lst = scrs; lst != NULL; lst = lst->next) {
+    lst->element.scr->id->code = ++code;
 
-    /* Any multiple of this name or number ? */
+    /* Any multiple of this name ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
-      if (lst->element.scr->id != NULL) {
-        /* It was given a name, then try compare to the name, if any */
-        if (scrlst->element.scr->id != NULL &&
-            equalId(lst->element.scr->id, scrlst->element.scr->id))
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
-      } else /* No name, just the code */
-        if (lst->element.scr->code == scrlst->element.scr->code)
-          lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
+      if (equalId(lst->element.scr->id, scrlst->element.scr->id))
+	lmLog(&scrlst->element.scr->srcp, 403, sevERR, ins->slots->id->string);
     }
-
-    /* If only given a name, use the highest code + 1 as its code */
-    if (lst->element.scr->id != NULL)
-      lst->element.scr->code = ++highest;
   }
-
 }
 
 
@@ -120,16 +100,30 @@ void analyzeScripts(List *scripts, Context *context)
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    anstms(lst->element.scr->descr, context);
+    anstms(lst->element.scr->description, context);
 
     /* Finally, analyse the steps inside the script */
-    anstps(lst->element.scr->stps, context);
+    analyzeSteps(lst->element.scr->steps, context);
   }
 }
 
 
+/*----------------------------------------------------------------------
 
+  generateScriptDescription()
 
+*/
+static Aaddr generateScriptDescription(Script *script, int currentInstance)
+{
+  Aaddr address = 0;
+
+  if (script->description != NULL) {
+    address = emadr();
+    gestms(script->description, currentInstance);
+    emit0(C_STMOP, I_RETURN);
+  }
+  return address;
+}
 
 /*======================================================================
 
@@ -140,23 +134,25 @@ Aword generateScripts(List *scripts, int currentInstance)
 {
   List *lst;
   Aword scradr;
+  ScriptEntry entry;
+
+  if (scripts == NULL) return 0;
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
-    lst->element.scr->stpadr = gestps(lst->element.scr->stps, currentInstance);
-    if (lst->element.scr->descr != NULL) {
-      lst->element.scr->stmadr = emadr();
-      gestms(lst->element.scr->descr, currentInstance);
-      emit0(C_STMOP, I_RETURN);
-    } else
-      lst->element.scr->stmadr = 0;
+    lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps, currentInstance);
+    lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr, currentInstance);
+    lst->element.scr->stringAddress = emadr();
+    emitstr(lst->element.scr->id->string);
   }
 
   /* Script table */
   scradr = emadr();
   for (lst = scripts; lst != NULL; lst = lst->next) {
-    emit(lst->element.scr->code);
-    emit(lst->element.scr->stmadr);
-    emit(lst->element.scr->stpadr);
+    entry.stringAddress = lst->element.scr->stringAddress;
+    entry.code = lst->element.scr->id->code;
+    entry.description = lst->element.scr->descriptionAddress;
+    entry.steps = lst->element.scr->stepAddress;
+    emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
   return(scradr);
@@ -166,18 +162,15 @@ Aword generateScripts(List *scripts, int currentInstance)
 
 /*======================================================================
 
-  duscr()
-
-  Dump a Script node
+  dumpScript()
 
   */
-void duscr(ScrNod *scr)
+void dumpScript(Script *scr)
 {
-  put("SCR: "); dumpSrcp(&scr->srcp); in();
-  put("code: "); dumpInt(scr->code); nl();
+  put("SCRIPT: "); dumpSrcp(&scr->srcp); in();
   put("id: "); dumpId(scr->id); nl();
-  put("stps: "); dulst(scr->stps, LIST_STP); nl();
-  put("stpadr: "); dumpAddress(scr->stpadr); out();
+  put("steps: "); dulst(scr->steps, LIST_STP); nl();
+  put("stepAddress: "); dumpAddress(scr->stepAddress); out();
 }
 
 

@@ -23,16 +23,10 @@
 
 /* FUNCTIONS: */
 
-extern ScrNod *newScript(Srcp *srcp,
-			 IdNode *id,
-			 int code,
-			 List *descr,
-			 List *stps);
-
-extern void prepareScripts(List *scrs, InsNod *ins);
-extern void analyzeScripts(List *scrs, Context *context);
-extern Aword generateScripts(List *scrs, int currentInstance);
-extern void dumpScript(ScrNod *scr);
-
+extern Script *newScript(Srcp *srcp, IdNode *id, List *descr, List *steps);
+extern void prepareScripts(List *scripts, InsNod *ins);
+extern void analyzeScripts(List *scripts, Context *context);
+extern Aword generateScripts(List *scripts, int currentInstance);
+extern void dumpScript(Script *script);
 
 #endif

@@ -100,12 +100,6 @@ typedef struct ActEntry {	/* ACTOR TABLE */
   Aaddr dscr;			/* Address of description code */
 } ActEntry;
 
-typedef struct ScrEntry {	/* SCRIPT TABLE */
-  Aword code;			/* Script number */
-  Aaddr dscr;			/* Optional description statements */
-  Aaddr steps;			/* Address to steps */
-} ScrEntry;
-
 typedef struct StepEntry {	/* STEP TABLE */
   Aword after;			/* After how many ticks? */
   Aaddr exp;			/* Address to expression saying when */

@@ -1,12 +1,8 @@
-########## scriptbug ##########
-../compiler/alan scriptbug
-../interpreter/arun -n scriptbug < scriptbug.input
-
-########## /bin/sh  scriptbug.tst ##########
+########## alan scriptbug ##########
 
         No warnings or errors detected.
-        5 informational message(s).
 
+########## arun scriptbug ##########
 Example for named scripts 'bug'.
  by stevgrif@moc.govt.nz
  scripts based on raif post by Peter Nilsson,

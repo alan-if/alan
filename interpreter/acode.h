@@ -234,6 +234,13 @@ typedef struct EventEntry {	/* EVENT TABLE */
   Aaddr code;		
 } EventEntry;
 
+typedef struct ScriptEntry {	/* SCRIPT TABLE */
+  Aaddr stringAddress;		/* Address to name string */
+  Aword code;			/* Script number */
+  Aaddr description;		/* Optional description statements */
+  Aaddr steps;			/* Address to steps */
+} ScriptEntry;
+
 
 
 /* AMACHINE Header */

@@ -217,12 +217,12 @@ static void reverseScrs(adr)
      Aword adr;
 #endif
 {
-  ScrEntry *e = (ScrEntry *) &memory[adr];
+  ScriptEntry *e = (ScriptEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ScrEntry));
+    reverseTable(adr, sizeof(ScriptEntry));
     while (!endOfTable(e)) {
-      reverseStms(e->dscr);
+      reverseStms(e->description);
       reverseSteps(e->steps);
       e++;
     }

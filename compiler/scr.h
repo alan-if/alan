@@ -16,16 +16,14 @@
 
 /* Types: */
 
-typedef struct ScrNod {		/* SCRIPT */
+typedef struct Script {
   Srcp srcp;			/* Source position */
   IdNode *id;			/* Id for this script (if any) */
-  int code;			/* and its code */
-  List *descr;			/* List of optional description statements */
-  Aaddr stmadr;			/* ACODE address description statements */
-  List *stps;			/* List of step-blocks */
-  Aaddr stpadr;			/* ACODE address to step table */
-} ScrNod;
-
-
+  Aaddr stringAddress;
+  List *description;		/* List of optional description statements */
+  Aaddr descriptionAddress;	/* ACODE address description statements */
+  List *steps;			/* List of step-blocks */
+  Aaddr stepAddress;		/* ACODE address to step table */
+} Script;
 
 #endif

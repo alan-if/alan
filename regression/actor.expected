@@ -13,11 +13,12 @@ Stor Liten Kalle is here.
 You can't do that.
 
 > examine me
-me is here.!@#
+me is here.!@# Kalle is here. Kalle is here.
 
 > w
 L
-Stor Liten Kalle is here. Event 1. He is large. He is 42
+Stor Liten Kalle is here. Kalle is here. Kalle is here. Event 1. He is
+large. He is 42
 
 > 
 

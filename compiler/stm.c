@@ -471,25 +471,14 @@ static void analyzeUse(StmNod *stm,
 
     /* Loop over actors scripts to check if script is defined */
     for (lst = scripts; lst != NULL; lst = lst->next) {
-      if (stm->fields.use.script != NULL) {
-	/* A name was used as reference */
-	if (lst->element.scr->id != NULL &&
-	    equalId(lst->element.scr->id, stm->fields.use.script)) {
-	  stm->fields.use.scriptno = lst->element.scr->code;
-	  break;		/* Found it so break loop */
-	}
-      } else {
-	/* A number was used */
-	if (lst->element.scr->code == stm->fields.use.scriptno)
-	  break;		/* Found it so break loop */
+      if (equalId(lst->element.scr->id, stm->fields.use.script)) {
+	stm->fields.use.scriptno = lst->element.scr->id->code;
+	break;		/* Found it so break loop */
       }
     }
-    if (lst == NULL) {
-      if (stm->fields.use.script != NULL)
-	lmLog(&stm->fields.use.script->srcp, 400, sevERR, id->string);
-      else
-	lmLog(&stm->srcp, 400, sevERR, id->string);
-    }
+    if (lst == NULL)
+      lmLog(&stm->fields.use.script->srcp, 400, sevERR, id->string);
+
   }
 }  
 

@@ -29,8 +29,10 @@ extern void dumpClass();
 extern void dumpId();
 extern void dumpInstance();
 extern void dumpRestriction();
+extern void dumpScript();
 extern void dustm();
 extern void dustx();
+extern void dumpStep();
 extern void duvrb();
 
 
@@ -55,6 +57,8 @@ void initDumpNodeList()
   dumpNodeTable[LIST_STM] = &dustm;
   dumpNodeTable[LIST_STX] = &dustx;
   dumpNodeTable[LIST_VRB] = &duvrb;
+  dumpNodeTable[LIST_SCR] = &dumpScript;
+  dumpNodeTable[LIST_STP] = &dumpStep;
 }
 
 

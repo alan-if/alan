@@ -215,12 +215,9 @@ void gewhr(WhrNod *whr, int currentInstance)
     switch (whr->wht->kind) {
     case WHAT_ID:
       generateWhat(whr->wht, currentInstance);
-#ifdef FIXME
-      /* Do this instance have location properties?
-	 Or should we locate at the same place? */
-      if (whr->wht->id->kind != NAMLOC)
+      /* Instance inherit from location? Or is it at the location of it? */
+      if (!inheritsFrom(whr->wht->id->symbol, locationSymbol))
 	emit0(C_STMOP, I_WHERE);
-#endif
       break;
     case WHAT_LOCATION:
       emit0(C_CURVAR, V_CURLOC);

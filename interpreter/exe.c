@@ -1054,16 +1054,16 @@ static void describeActor(act)
      Aword act;
 #endif
 {
-  ScrEntry *scr = NULL;
+  ScriptEntry *scr = NULL;
 
   if (admin[act].script != 0) {
-    for (scr = (ScrEntry *) addrTo(instance[act].scripts); !endOfTable(scr); scr++)
+    for (scr = (ScriptEntry *) addrTo(instance[act].scripts); !endOfTable(scr); scr++)
       if (scr->code == admin[act].script)
 	break;
     if (endOfTable(scr)) scr = NULL;
   }
-  if (scr != NULL && scr->dscr != 0)
-    interpret(scr->dscr);
+  if (scr != NULL && scr->description != 0)
+    interpret(scr->description);
   else if (instance[act].description != 0)
     interpret(instance[act].description);
   else {

@@ -34,6 +34,7 @@
 #include "scr_x.h"
 #include "slt_x.h"
 #include "stm_x.h"
+#include "stp_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
 #include "vrb_x.h"
@@ -50,7 +51,6 @@
 #include "opt.h"		/* OPTIONS */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
-#include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
 
@@ -68,7 +68,7 @@
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "<generate identifier #%d>", idno++);
+      sprintf(token->chars, "<generated identifier #%d>", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");
@@ -138,14 +138,14 @@ static int val(char str[])
   restrictionKind %% RestrictionKind %1%%,
   rul %% RulNod *%1%%,
   ruls %% List *%1%%,
-  scr %% ScrNod *%1%%,
+  scr %% Script *%1%%,
   scrs %% List *%1%%,
   srcp %% Srcp %1%%,
   stm %% StmNod *%1%%,
   stms %% List *%1%%,
   stms2 %% List *%1%%,
   stms3 %% List *%1%%,
-  stp %% StpNod *%1%%,
+  stp %% Step *%1%%,
   stps %% List *%1%%,
   str %% char *%1%%,
   stx %% StxNod *%1%%,
@@ -936,7 +936,7 @@ static int val(char str[])
     }%%
 
     ! <script>
-    %%{ ScrNod *scr = %<script>.scr;
+    %%{ Script *scr = %<script>.scr;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.scr = scr;
     }%%
@@ -1207,11 +1207,10 @@ static int val(char str[])
 
 ----> SCRIPTS
 <script>			-- RETURNS: scr
-    = 'SCRIPT' <integer_or_id> '.' <optional_description> <step_list>
+    = 'SCRIPT' ID '.' <optional_description> <step_list>
     %%
 	%<script>.scr = newScript(`&%'SCRIPT'.srcp,
-			          %<integer_or_id>.id,
-			          %<integer_or_id>.val,
+			          %ID.id,
 			          %<optional_description>.stms,
 			          %<step_list>.stps);
     %%
@@ -1232,7 +1231,7 @@ static int val(char str[])
 <step>			-- RETURNS: stp
     = 'STEP' <statements>
     %%
-	%<step>.stp = newstp(`&%'STEP'.srcp,
+	%<step>.stp = newStep(`&%'STEP'.srcp,
 			   0,
 			   NULL,
 			   %<statements>.stms);
@@ -1240,7 +1239,7 @@ static int val(char str[])
 
     ! 'STEP' 'AFTER' Integer <statements>
     %%
-	%<step>.stp = newstp(`&%'STEP'.srcp,
+	%<step>.stp = newStep(`&%'STEP'.srcp,
 			   val(%Integer.chars),
 			   NULL,
 			   %<statements>.stms);
@@ -1248,7 +1247,7 @@ static int val(char str[])
 
     ! 'STEP' 'WAIT' 'UNTIL' <expression> <statements>
     %%
-	%<step>.stp = newstp(`&%'STEP'.srcp,
+	%<step>.stp = newStep(`&%'STEP'.srcp,
 			   0,
 			   %<expression>.exp,
 			   %<statements>.stms);
@@ -1629,11 +1628,10 @@ static int val(char str[])
 
 ----> Actor statement
 <actor_statement>			-- RETURNS: stm
-    = 'USE' 'SCRIPT' <integer_or_id> <optional_for_actor> '.'
+    = 'USE' 'SCRIPT' ID <optional_for_actor> '.'
     %%
 	%<actor_statement>.stm = newstm(`&%'USE'.srcp, STM_USE);
-	%<actor_statement>.stm->fields.use.script = %<integer_or_id>.id;
-	%<actor_statement>.stm->fields.use.scriptno = %<integer_or_id>.val;
+	%<actor_statement>.stm->fields.use.script = %ID.id;
 	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
     %%
     ;
@@ -2111,20 +2109,6 @@ static int val(char str[])
 	%<attribute_reference>.srcp = %'OF'.srcp;
 	%<attribute_reference>.id = %ID.id;
 	%<attribute_reference>.wht = %<what>.wht;
-    %%
-    ;
-
-<integer_or_id>			-- RETURNS: id, val
-    = Integer
-    %%
-	%<integer_or_id>.val = val(%Integer.chars);
-	%<integer_or_id>.id = NULL;
-    %%
-
-    ! ID
-    %%
-	%<integer_or_id>.val = 0;
-	%<integer_or_id>.id = %ID.id;
     %%
     ;
 

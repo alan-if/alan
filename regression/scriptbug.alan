@@ -1,29 +1,29 @@
 options debug.
 
-location choose
+the choose isa location
 description "This game contains two zones$p
 Go west to the zone where scripts are named$n
 or east to where scripts are numbered."
 exit west to named1.
 exit east to numbered1.
-end location.
+end the.
 
 
-location named1
+the named1 isa location
 description "You're at a place with an exit to the west.
 $p(or you could go east back to the choose location.)"
 exit west to named2.
 exit east to choose.
-end location.
+end the.
 
-location named2
+the named2 isa location
 description "you can exit east from this place."
 exit east to named1.
-end location.
+end the.
 
 
 
-ACTOR annabelle AT named2
+the annabelle isa ACTOR AT named2
      IS NOT greeted.
 
      SCRIPT howdy.
@@ -38,7 +38,7 @@ ACTOR annabelle AT named2
                "$p""hi its me again"" says annabelle."
                USE SCRIPT follow FOR annabelle.
 
-END ACTOR.
+END THE.
 
 
 
@@ -48,42 +48,42 @@ WHEN hero AT annabelle AND annabelle IS NOT greeted =>
 
 
 
-location numbered1
+the numbered1 isa location
 description "You're at a place with an exit to the east.
 $p(or you could go west back to the choose location.)"
 exit east to numbered2.
 exit west to choose.
-end location.
+end the.
 
-location numbered2
+the numbered2 isa location
 description "you can exit east from this place."
 exit west to numbered1.
-end location.
+end the.
 
 
 
-ACTOR bosse AT numbered2
+the bosse isa ACTOR AT numbered2
      IS NOT greeted.
 
-     SCRIPT 111.
+     SCRIPT s111.
           STEP
                "$nbosse says ""HI!"", which really annoys you."
                MAKE bosse greeted.
-               USE SCRIPT 222 FOR bosse.
+               USE SCRIPT s222 FOR bosse.
 
-     SCRIPT 222.
+     SCRIPT s222.
           STEP
                LOCATE bosse AT hero.
                "$p""hi its me again"" says bosse."
-               USE SCRIPT 222 FOR bosse.
+               USE SCRIPT s222 FOR bosse.
 
-END ACTOR.
+END THE.
 
 
 
 -- To make bosse greet the hero only once (which works):
 WHEN hero AT bosse AND bosse IS NOT greeted =>
-     USE SCRIPT 111 FOR bosse.
+     USE SCRIPT s111 FOR bosse.
 
 
 

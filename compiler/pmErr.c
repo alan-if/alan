@@ -31,6 +31,7 @@
 #include "scr_x.h"
 #include "slt_x.h"
 #include "stm_x.h"
+#include "stp_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
 #include "vrb_x.h"
@@ -47,7 +48,6 @@
 #include "opt.h"		/* OPTIONS */
 #include "rul.h"                /* RUL-nodes */
 #include "sco.h"                /* SCORES */
-#include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
 #include "syn.h"                /* SYN-nodes */
 
@@ -127,7 +127,7 @@ void pmISym(
     /* Make the requested token */
     token->code = code;
     if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "<generate identifier #%d>", idno++);
+      sprintf(token->chars, "<generated identifier #%d>", idno++);
       strcat(insStr, " ('");
       strcat(insStr, token->chars);
       strcat(insStr, "')");

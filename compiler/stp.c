@@ -5,6 +5,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "stp_x.h"
+
+/* USE: */
 #include "alan.h"
 #include "util.h"
 
@@ -14,10 +17,6 @@
 #include "stm_x.h"
 
 #include "lmList.h"
-
-#include "stp.h"                /* STP-nodes */
-#include "ins.h"                /* INS-nodes */
-
 #include "emit.h"
 #include "acode.h"
 #include "dump.h"
@@ -27,21 +26,21 @@
 
 /*======================================================================
 
-  newstp()
+  newStep()
 
   Allocates and initialises a new Step node.
 
   */
-StpNod *newstp(Srcp *srcp,	/* IN - Source Position */
-	       int after,	/* IN - Ticks to wait */
-	       ExpNod *exp,	/* IN - Expression to wait for */
-	       List *stms)	/* IN - List of statements */
+Step *newStep(Srcp *srcp,	/* IN - Source Position */
+	      int after,	/* IN - Ticks to wait */
+	      ExpNod *exp,	/* IN - Expression to wait for */
+	      List *stms)	/* IN - List of statements */
 {
-  StpNod *new;		/* The newly allocated node */
+  Step *new;		/* The newly allocated node */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-  new = NEW(StpNod);
+  new = NEW(Step);
 
   new->srcp = *srcp;
   new->after = after;
@@ -54,13 +53,12 @@ StpNod *newstp(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
-  anstps()
+  analyzeSteps()
 
   Analyse a list of Steps
 
   */
-void anstps(List *stps,
-	    Context *context)
+void analyzeSteps(List *stps, Context *context)
 {
   List *lst;
 
@@ -75,12 +73,12 @@ void anstps(List *stps,
 
 /*======================================================================
 
-  gestps()
+  generateSteps()
 
   Generate code for all steps in a script for a particular Instance.
 
   */
-Aaddr gestps(List *stps, int currentInstance)
+Aaddr generateSteps(List *stps, int currentInstance)
 {
   List *lst;
   Aaddr adr;
@@ -112,12 +110,10 @@ Aaddr gestps(List *stps, int currentInstance)
 
 /*======================================================================
 
-  dustp()
-
-  Dump a Step node.
+  dumpStep()
 
   */
-void dustp(StpNod *stp)
+void dumpStep(Step *stp)
 {
   put("STP: "); dumpSrcp(&stp->srcp); in();
   put("after: "); dumpInt(stp->after); nl();

@@ -1726,8 +1726,25 @@ static Boolean traceActor(int theActor)
   return trcflg;
 }
 
+/*----------------------------------------------------------------------
+
+  scriptName()
+
+*/
+static char *scriptName(int theActor, int theScript)
+{
+  ScriptEntry *scriptEntry = addrTo(instance[theActor].scripts);
+
+  while (theScript > 1) {
+    scriptEntry++;
+    theScript--;
+  }
+  return addrTo(scriptEntry->stringAddress);
+}
+
 
 /*----------------------------------------------------------------------
+
   movactor()
 
   Let the current actor move. If player, ask him.
@@ -1740,7 +1757,7 @@ static void movactor(theActor)
      int theActor;
 #endif
 {
-  ScrEntry *scr;
+  ScriptEntry *scr;
   StepEntry *step;
 
   cur.act = theActor;
@@ -1749,7 +1766,7 @@ static void movactor(theActor)
     parse();
     fail = FALSE;			/* fail only aborts one actor */
   } else if (admin[theActor].script != 0) {
-    for (scr = (ScrEntry *) addrTo(instance[theActor].scripts); !endOfTable(scr); scr++) {
+    for (scr = (ScriptEntry *) addrTo(instance[theActor].scripts); !endOfTable(scr); scr++) {
       if (scr->code == admin[theActor].script) {
 	/* Find correct step in the list by indexing */
 	step = (StepEntry *) addrTo(scr->steps);
@@ -1757,7 +1774,8 @@ static void movactor(theActor)
 	/* Now execute it, maybe. First check wait count */
 	if (step->after > admin[theActor].waitCount) { /* Wait some more ? */
 	  if (traceActor(theActor))
-	    printf("), SCRIPT %ld, STEP %ld, Waiting another %ld turns>\n",
+	    printf("), SCRIPT %s(%ld), STEP %ld, Waiting another %ld turns>\n",
+		   scriptName(theActor, admin[theActor].script),
 		   admin[theActor].script, admin[theActor].step+1,
 		   step->after-admin[theActor].waitCount);
 	  admin[theActor].waitCount++;
@@ -1766,7 +1784,8 @@ static void movactor(theActor)
 	/* Then check possible expression to wait for */
 	if (step->exp != 0) {
 	  if (traceActor(theActor))
-	    printf("), SCRIPT %ld, STEP %ld, Evaluating:>\n",
+	    printf("), SCRIPT %s(%ld), STEP %ld, Evaluating:>\n",
+		   scriptName(theActor, admin[theActor].script),
 		   admin[theActor].script, admin[theActor].step+1);
 	  interpret(step->exp);
 	  if (!(Abool)pop())
@@ -1775,7 +1794,8 @@ static void movactor(theActor)
 	/* OK, so finally let him do his thing */
 	admin[theActor].step++;		/* Increment step number before executing... */
 	if (traceActor(theActor))
-	  printf("), SCRIPT %ld, STEP %ld, Executing:>\n",
+	  printf("), SCRIPT %s(%ld), STEP %ld, Executing:>\n",
+		 scriptName(theActor, admin[theActor].script),
 		 admin[theActor].script, admin[theActor].step);
 	interpret(step->stm);
 	step++;
