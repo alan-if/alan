@@ -753,14 +753,14 @@ Aword where(id)
   */
 
 #ifdef _PROTOTYPES_
-Aword agrmax(Aword atr, Aword whr)
+Aint agrmax(Aword atr, Aword whr)
 #else
-Aword agrmax(atr, whr)
+Aint agrmax(atr, whr)
      Aword atr, whr;
 #endif
 {
   Aword i;
-  Aword max = 0;
+  Aint max = 0;
 
   for (i = OBJMIN; i <= OBJMAX; i++) {
     if (isLoc(whr)) {
@@ -773,14 +773,14 @@ Aword agrmax(atr, whr)
 }
 
 #ifdef _PROTOTYPES_
-Aword agrsum(Aword atr, Aword whr)
+Aint agrsum(Aword atr, Aword whr)
 #else
-Aword agrsum(atr, whr)
+Aint agrsum(atr, whr)
      Aword atr, whr;
 #endif
 {
   Aword i;
-  Aword sum = 0;
+  Aint sum = 0;
 
   for (i = OBJMIN; i <= OBJMAX; i++) {
     if (isLoc(whr)) {
@@ -794,9 +794,9 @@ Aword agrsum(atr, whr)
 
 
 #ifdef _PROTOTYPES_
-Aword agrcount(Aword whr)
+Aint agrcount(Aword whr)
 #else
-Aword agrcount(whr)
+Aint agrcount(whr)
      Aword whr;
 #endif
 {
@@ -1713,13 +1713,15 @@ Aword rnd(from, to)
 
   btw()
 
+  BETWEEN 
+
   */
 
 #ifdef _PROTOTYPES_
-Aword btw(Aword val, Aword low, Aword high)
+Abool btw(Aint val, Aint low, Aint high)
 #else
-Aword btw(val, low, high)
-     Aword val, low, high;
+Abool btw(val, low, high)
+     Aint val, low, high;
 #endif
 {
   if (high > low)

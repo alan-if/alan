@@ -631,7 +631,7 @@ void interpret(adr)
 	break;
       }
       case I_LE: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -644,7 +644,7 @@ void interpret(adr)
 	break;
       }
       case I_GE: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -657,20 +657,20 @@ void interpret(adr)
 	break;
       }
       case I_LT: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
 	  printf("LT \t%5ld, %5ld", lh, rh);
-	push(lh < rh);
+	push((signed)lh < (signed)rh);
 	if (stpflg)
 	  if (top()) printf("\t(TRUE)"); else printf("\t(FALSE)");
 	break;
       }
       case I_GT: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -683,7 +683,7 @@ void interpret(adr)
 	break;
       }
       case I_PLUS: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -696,7 +696,7 @@ void interpret(adr)
 	break;
       }
       case I_MINUS: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -709,7 +709,7 @@ void interpret(adr)
 	break;
       }
       case I_MULT: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -722,7 +722,7 @@ void interpret(adr)
 	break;
       }
       case I_DIV: {
-	Aword lh, rh;
+	Aint lh, rh;
 	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
 	  swap();
 	rh = pop();
@@ -790,7 +790,7 @@ void interpret(adr)
 	break;
       }
       case I_BTW: {
-	Aword low, high, val;
+	Aint low, high, val;
 	high = pop();
 	low = pop();
 	val = pop();

@@ -46,14 +46,14 @@ extern void restore(void);
 extern void say(Aword id);
 extern void sayint(Aword val);
 extern Aword rnd(Aword from, Aword to);
-extern Aword btw(Aword val, Aword from, Aword to);
+extern Abool btw(Aint val, Aint from, Aint to);
 extern Aword contains(Aword string, Aword substring);
 extern Abool streq(char a[], char b[]);
 extern Abool in(Aword obj, Aword cnt);
 extern Aword where(Aword item);
-extern Aword agrmax(Aword atr, Aword whr);
-extern Aword agrsum(Aword atr, Aword whr);
-extern Aword agrcount(Aword whr);
+extern Aint agrmax(Aword atr, Aword whr);
+extern Aint agrsum(Aword atr, Aword whr);
+extern Aint agrcount(Aword whr);
 extern Abool isHere(Aword item);
 extern Abool isNear(Aword item);
 
@@ -89,7 +89,7 @@ extern void restore();
 extern void say();
 extern void sayint();
 extern Aword rnd();
-extern Aword btw();
+extern Abool btw();
 extern Aword contains()
 extern Abool streq();
 extern Abool in();

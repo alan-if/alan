@@ -4,6 +4,7 @@
 typedef unsigned long Aword;		/* Type for an ACODE word */
 typedef unsigned long Aaddr;		/* Type for an ACODE address */
 typedef unsigned long Abool;		/* Type for an ACODE Boolean value */
+typedef signed long Aint;		/* Type for an ACODE Integer value */
 
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
