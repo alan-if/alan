@@ -11,7 +11,7 @@ every0.alan
     4.  Start Here.
 =====>        1
 
-  *1*   211 E : Adventure must start at a Location.
+  *1*   211 E : Adventure must start at an instance inheriting from 'location'.
 
 
         1 error(s).

@@ -1,14 +1,11 @@
-########## every1 ##########
-Every x
-End Every x.
-
-Start At l.
-########## alan every1.alan ##########
+########## start0 ##########
+Start at l.
+########## alan start0.alan ##########
 
 
-every1.alan
+start0.alan
 
-    4.  Start At l.
+    1.  Start at l.
 =====>           1
 
   *1*   310 E : Identifier 'l' not defined.
