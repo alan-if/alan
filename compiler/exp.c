@@ -176,10 +176,20 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 
 /*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Expression *ofWhat) {
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
   Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
   exp->fields.atr.atr = attribute;
+  exp->not = not;
   exp->fields.atr.wht = ofWhat;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class) {
+  Expression *exp = newExpression(&srcp, ISA_EXPRESSION);
+  exp->fields.isa.what = what;
+  exp->not = not;
+  exp->fields.isa.class = class;
   return exp;
 }
 
@@ -435,7 +445,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
   TRAVERSE(lst, exp->fields.agr.filters) {
     if (lst->element.exp->kind == ISA_EXPRESSION) {
       classExpression = lst->element.exp;
-      classId = classExpression->fields.isa.id;
+      classId = classExpression->fields.isa.class;
       classSymbol = symcheck(classId, CLASS_SYMBOL, context);
       if (classId->symbol != NULL)
 	/* If this ISA was ok use it, else try to find another */
@@ -461,7 +471,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
       foundIsa = TRUE;
       if (lst->element.exp != classExpression)
 	/* The classExpression is analyzed above */
-	(void) symcheck(lst->element.exp->fields.isa.id, CLASS_SYMBOL, context);
+	(void) symcheck(lst->element.exp->fields.isa.class, CLASS_SYMBOL, context);
       break;
     case ATTRIBUTE_EXPRESSION: {
       analyzeAttributeFilter(exp, lst, classId, classSymbol);
@@ -602,11 +612,11 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
 static void analyzeIsaExpression(Expression *expression,
 				 Context *context)
 {
-  switch (expression->fields.isa.wht->kind) {
+  switch (expression->fields.isa.what->kind) {
   case WHAT_EXPRESSION:
-    switch (expression->fields.isa.wht->fields.wht.wht->kind) {
+    switch (expression->fields.isa.what->fields.wht.wht->kind) {
     case WHAT_ID:
-      symcheck(expression->fields.isa.wht->fields.wht.wht->id,
+      symcheck(expression->fields.isa.what->fields.wht.wht->id,
 	       INSTANCE_SYMBOL, context);
       break;
     case WHAT_LOCATION:
@@ -622,7 +632,7 @@ static void analyzeIsaExpression(Expression *expression,
       break;
   }
 
-  symcheck(expression->fields.isa.id, CLASS_SYMBOL, context);
+  symcheck(expression->fields.isa.class, CLASS_SYMBOL, context);
 
   expression->type = BOOLEAN_TYPE;
 }
@@ -829,7 +839,7 @@ static void generateAggregateFilter(Expression *exp)
     emit0(I_EQ);
     break;
   case ISA_EXPRESSION:
-    generateId(exp->fields.isa.id);
+    generateId(exp->fields.isa.class);
     emit0(I_ISA);
     break;
   default:
@@ -918,8 +928,8 @@ static void generateBetweenExpression(Expression *exp)
 /*----------------------------------------------------------------------*/
 static void generateIsaExpression(Expression *exp)
 {
-  generateExpression(exp->fields.isa.wht);
-  generateId(exp->fields.isa.id);
+  generateExpression(exp->fields.isa.what);
+  generateId(exp->fields.isa.class);
   emit0(I_ISA);
   if (exp->not) emit0(I_NOT);
 }
@@ -1176,8 +1186,8 @@ void dumpExpression(Expression *exp)
     put("high: "); dumpExpression(exp->fields.btw.high);
     break;
   case ISA_EXPRESSION:
-    put("wht: "); dumpExpression(exp->fields.isa.wht); nl();
-    put("id: "); dumpId(exp->fields.isa.id);
+    put("wht: "); dumpExpression(exp->fields.isa.what); nl();
+    put("id: "); dumpId(exp->fields.isa.class);
     break;
   }
   out();

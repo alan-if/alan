@@ -21,7 +21,8 @@
 /* FUNCTIONS: */
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Expression *ofWhat);
+extern Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat);
+extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
 
 extern void symbolizeExpression(Expression *exp);

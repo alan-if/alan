@@ -161,12 +161,14 @@ saviourV2_x.alan
   *3*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
                 this symbol.
   *3*   310 E : Identifier 'building' not defined.
-  *3*   351 E : Must refer to an instance inheriting from 'location'.
+  *3*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   286.      EXIT north TO hall
 =====>                    1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   290.  END LOCATION.
 =====>      1
@@ -189,18 +191,21 @@ saviourV2_x.alan
 =====>                   1
 
   *1*   310 E : Identifier 'cafe' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   305.      EXIT west TO stairs.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   306.      EXIT south TO outside
 =====>                    1
 
   *1*   310 E : Identifier 'outside' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   313.  		IF tape IN hero THEN
 =====>  		           1
@@ -221,7 +226,8 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   381.              ELSIF k = keys THEN
 =====>                        1
@@ -260,17 +266,20 @@ saviourV2_x.alan
   417.      EXIT up TO first.
 =====>                 1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   418.      EXIT down TO cellar.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   419.      EXIT east TO hall.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   420.  END LOCATION.
 =====>      1
@@ -292,12 +301,14 @@ saviourV2_x.alan
   429.      EXIT up TO stairs.
 =====>                 1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   430.      EXIT west TO store
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   440.  END LOCATION.
 =====>      1
@@ -313,7 +324,8 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   472.  END OBJECT.
 =====>      1
@@ -335,7 +347,8 @@ saviourV2_x.alan
   487.      EXIT east TO cellar.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   488.  END LOCATION.
 =====>      1
@@ -351,7 +364,8 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   512.          ELSIF computer HERE THEN
 =====>                1
@@ -378,17 +392,20 @@ saviourV2_x.alan
   531.      EXIT up TO second.
 =====>                 1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   532.      EXIT down TO stairs.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   533.      EXIT east TO office.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   534.  END LOCATION.
 =====>      1
@@ -404,7 +421,8 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   555.          LOCATE book AT NOWHERE.
 =====>                         1
@@ -431,7 +449,8 @@ saviourV2_x.alan
   570.      EXIT west TO first.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   571.  END LOCATION.
 =====>      1
@@ -447,47 +466,18 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
-
-  582.          ELSIF ladder AT holeroom THEN
-=====>                          1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
-
-  606.      CHECK ladder NOT AT walless 
-=====>                          1
-
-  *1*   310 E : Identifier 'walless' not defined.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   616.          IF ladder AT outside THEN
 =====>                       1
 
   *1*   310 E : Identifier 'outside' not defined.
 
-  619.          ELSIF ladder AT holeroom THEN
-=====>                          1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
-
   637.          IF ladder IN hero THEN
 =====>                       1
 
   *1*   318 E : The 'hero' does not have the container property.
-
-  647.              IF ladder AT walless THEN
-=====>                           1
-
-  *1*   310 E : Identifier 'walless' not defined.
-
-  648.                  LOCATE HERO AT holeroom.
-=====>                                 1
-
-  *1*   310 E : Identifier 'holeroom' not defined.
-
-  650.                  LOCATE HERO AT walless.
-=====>                                 1
-
-  *1*   310 E : Identifier 'walless' not defined.
 
   655.  END OBJECT.
 =====>      1
@@ -509,18 +499,20 @@ saviourV2_x.alan
   666.      EXIT up TO third.
 =====>                 1
 
-  *1*   310 E : Identifier 'third' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   667.      EXIT down TO first.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   668.      EXIT east TO terminal_room.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   669.  END LOCATION.
 =====>      1
@@ -542,7 +534,8 @@ saviourV2_x.alan
   683.      EXIT west TO second.
 =====>                   1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
 
   684.  END LOCATION.
 =====>      1
@@ -558,7 +551,8 @@ saviourV2_x.alan
                 with "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
-  *2*   351 E : Must refer to an instance inheriting from 'location'.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   732.  	IF coin IS NOT found THEN
 =====>  	   1
@@ -588,23 +582,18 @@ saviourV2_x.alan
   755.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier '.'
-                Identifier Identifier 'NAME' ..." with "'THE' 'START' 'HERE'
-                '.'".
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  764.      DESCRIPTION
+=====>      1
+
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
 
   767.      VERB read DOES
-=====>      1    2
+=====>           1
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'read' in this class/instance.
+  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
-
-  771.      VERB insert_into
-=====>      1    2
-
-  *1*   219 E : Global verbs can not have parameters.
-  *2*   201 W : Multiple declaration of verb 'insert_into' in this
-                class/instance. Duplicate in a previous VERB clause.
 
   772.  	CHECK s = machine
 =====>  	          1
@@ -623,217 +612,319 @@ saviourV2_x.alan
   *2*   310 E : Identifier 'NOWHERE' not defined.
 
   781.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
-                Identifier '.' 'LOCATION' Identifier ..." with "'START' 'HERE'
-                '.'".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" with "'THE'".
+
+  784.  LOCATION third NAME Third Floor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'terminal' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'third' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   794.      EXIT up TO fourth.
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  795.      EXIT down TO second.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  796.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'third' assumed.
+
+  799.  LOCATION fourth NAME Fourth Floor
+=====>  1        2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'fourth' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   807.      EXIT up TO fifth.
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  808.      EXIT down TO third.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  809.      EXIT east TO computer_room.
+=====>                   1
+
+  *1*   310 E : Identifier 'computer_room' not defined.
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  810.      EXIT north TO holeroom.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  811.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'fourth' assumed.
+
+  814.  LOCATION holeroom NAME Windy Room
+=====>  1        2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'holeroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   823.      EXIT up TO walless
+=====>                 1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  830.      EXIT south TO fourth.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  831.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier 'CHECK' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'holeroom' assumed.
 
-  827.          DOES
-=====>          1
+  834.  LOCATION walless NAME Walless Room
+=====>  1        2
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'DOES'".
-
-  829.      END EXIT.
-=====>      1
-
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'END' 'EXIT'
-                '.' 'EXIT' Identifier ...".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'walless' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   842.      EXIT down TO holeroom
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  846.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier 'DOES'".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'walless' assumed.
 
-  845.      END EXIT.
-=====>      1
+  848.  OBJECT nest NAME birds nest AT walless
+=====>  1                              2
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'END' 'EXIT'
-                '.' 'END' 'LOCATION' ...".
-
-  862.      VERB examine DOES
-=====>      1    2
-
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  863.          IF nest IS NOT examined THEN
-=====>             1
-
-  *1*   310 E : Identifier 'nest' not defined.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   867.              LOCATE keys HERE.
 =====>                     1
 
   *1*   310 E : Identifier 'keys' not defined.
 
-  868.              MAKE nest examined.
-=====>                   1
-
-  *1*   310 E : Identifier 'nest' not defined.
-
   874.  END OBJECT.
-=====>  1
-
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
-                Identifier '.' Identifier Identifier ..." with "'START' 'HERE'
-                '.'".
-
-  883.      MENTIONED
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'MENTIONED'".
+  *1*   104 E : Severe syntax error, construct ignored.
+
+  880.      DESCRIPTION
+=====>      1
+
+  *1*   204 E : Multiple use of DESCRIPTION clause in this class/instance.
 
   886.      VERB examine DOES
-=====>      1    2
+=====>           1
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
+  *1*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
 
   890.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
-                Identifier '.' 'LOCATION' Identifier ..." with "'START' 'HERE'
-                '.'".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" with "'THE'".
+
+  892.  LOCATION fifth NAME Fifth Floor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'nest' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'fifth' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   899.      EXIT down TO fourth.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  900.      EXIT east TO corr.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  901.      EXIT south TO clockroom.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  902.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'fifth' assumed.
+
+  905.  LOCATION clockroom NAME Clock Room
+=====>  1        2
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'clockroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
 
   910.      EXIT north TO fifth.
+=====>                    1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  911.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'clockroom' assumed.
 
-  928.      VERB examine DOES
-=====>      1    2
+  913.  OBJECT clock AT clockroom
+=====>  1               2
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  931.          IF clock IS broken THEN
-=====>             1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  937.      VERB read DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-
-  942.          IF clock IS NOT wound THEN
-=====>             1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  946.              MAKE clock wound.
-=====>                   1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  947.          ELSIF clock IS NOT broken THEN
-=====>                1
-
-  *1*   310 E : Identifier 'clock' not defined.
-
-  950.              MAKE clock broken.
-=====>                   1
-
-  *1*   310 E : Identifier 'clock' not defined.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
   956.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
-                Identifier '.' 'LOCATION' Identifier ..." with "'START' 'HERE'
-                '.'".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" with "'THE'".
+
+  959.  LOCATION corr NAME Corridor
+=====>  1        2
+
+  *1*   200 W : Mismatched block identifier, 'clock' assumed.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *2*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'corr' does not inherit from 'location', but has EXITs
+                , which can never be traversed.
 
   966.      EXIT east TO deskroom
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  975.  		LOCATE HERO AT outside.
+=====>  		               1
+
+  *1*   310 E : Identifier 'outside' not defined.
+
+  977.      EXIT west TO fifth.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  978.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier 'CHECK' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'corr' assumed.
 
-  976.      END EXIT.
-=====>      1
+  981.  LOCATION deskroom NAME Small Office
+=====>  1        2
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'END' 'EXIT'
-                '.' 'EXIT' Identifier ...".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   352 E : Instance 'deskroom' does not inherit from 'location', but has
+                EXITs, which can never be traversed.
+
+  984.  	DESCRIBE desk.
+=====>  	         1
+
+  *1*   310 E : Identifier 'desk' not defined.
 
   992.      EXIT west TO corr.
+=====>                   1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+  993.  END LOCATION.
 =====>      1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" before
+                this symbol.
+  *1*   200 W : Mismatched block identifier, 'deskroom' assumed.
 
- 1007.      VERB examine DOES
-=====>      1    2
+  995.  OBJECT drawer AT deskroom
+=====>  1                2
 
-  *1*   104 E : Severe syntax error, construct ignored.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1008.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1010.              IF drawer IS NOT 'empty' THEN
-=====>                 1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1016.      VERB open DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1017.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier"
+                with "'THE'".
+  *1*   422 W : This instance does not inherit from anything, nor does it have
+                a container property. This makes its use dubious.
+  *2*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
 
  1019.          ELSIF manual IS NOT found THEN
 =====>                1
@@ -845,32 +936,11 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'manual' not defined.
 
- 1026.          MAKE drawer open.
-=====>               1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1029.      VERB close DOES
-=====>           1
-
-  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1030.         IF drawer IS NOT open THEN
-=====>            1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1034.             MAKE drawer NOT open.
-=====>                  1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1037.  END OBJECT.
-=====>  1
+=====>      1
 
-  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
-                Identifier '.' Identifier Identifier" with "'START'".
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier '.'
+                Identifier Identifier" with "'THE' 'START'".
 
  1041.      IS
 =====>      1
@@ -884,14 +954,6 @@ saviourV2_x.alan
   *1*   104 E : Severe syntax error, construct ignored.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1052.          IF desk IS marked THEN
 =====>             1
@@ -903,28 +965,11 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'desk' not defined.
 
- 1059.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1061.              IF drawer IS NOT 'empty' THEN
-=====>                 1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1067.      VERB open DOES
 =====>           1
 
   *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'open' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1068.          IF drawer IS open THEN
-=====>             1
-
-  *1*   310 E : Identifier 'drawer' not defined.
 
  1070.          ELSIF manual IS NOT found THEN
 =====>                1
@@ -936,28 +981,11 @@ saviourV2_x.alan
 
   *1*   310 E : Identifier 'manual' not defined.
 
- 1077.          MAKE drawer open.
-=====>               1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
  1080.      VERB close DOES
 =====>           1
 
   *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'close' in this class/instance.
-                Duplicate in a previous VERB clause.
-
- 1081.         IF drawer IS NOT open THEN
-=====>            1
-
-  *1*   310 E : Identifier 'drawer' not defined.
-
- 1085.             MAKE drawer NOT open.
-=====>                  1
-
-  *1*   310 E : Identifier 'drawer' not defined.
 
  1088.  END OBJECT.
 =====>  1
@@ -991,22 +1019,10 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1110.      VERB read DOES
 =====>           1
 
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
 
@@ -1084,14 +1100,6 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1159.          IF computer IS NOT running AND computer IS NOT popped THEN
 =====>             1                           2
@@ -1151,22 +1159,10 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1233.      VERB read DOES
 =====>           1
 
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
@@ -1193,22 +1189,10 @@ saviourV2_x.alan
                 Duplicate in a previous VERB clause.
   *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
                 Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *2*   201 W : Multiple declaration of verb 'examine' in this class/instance.
-                Duplicate in a previous VERB clause.
 
  1251.      VERB read DOES
 =====>           1
 
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
-  *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
-                Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
                 Duplicate in a previous VERB clause.
   *1*   201 W : Multiple declaration of verb 'read' in this class/instance.
@@ -1260,10 +1244,11 @@ saviourV2_x.alan
 =====>           1
 
   *1*   310 E : Identifier 'outside' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : START statement must refer to an instance inheriting from
+                'location'.
 
 
-        217 error(s).
-        99 warning(s).
-        42 informational message(s).
+        223 error(s).
+        79 warning(s).
+        29 informational message(s).
 

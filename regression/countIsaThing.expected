@@ -1,4 +1,4 @@
-########## alan countIsaThing ##########
+########## countIsaThing ##########
 
 
 countIsaThing.alan
@@ -15,7 +15,6 @@ countIsaThing.alan
         No detected errors.
         1 warning(s).
 
-########## arun countIsaThing ##########
 
 Count At l = 6. Count Isa actor At l = 3. Count Isa thing At l = 6.
 

@@ -1,0 +1,122 @@
+#! /bin/sh
+#
+# Script for regression testing of Alan and Arun
+# Files:
+#   .regr - the command to be run using the case name as the single arg
+#           also indicates that this directory should be recursed into
+#   .case - the extension (including period) to be considered test cases
+#           if available indicates that there are cases in this directory
+#
+
+run ()
+{
+    echo -n "$case : "
+    if [ ! -f $case.suspended ]
+    then
+	echo "########## $case ##########" >$case.output
+	.regr $case >>$case.output 2>&1
+	cases=`expr $cases + 1`
+    fi
+}
+
+verify()
+{
+    if [ -f $case.suspended ]
+    then
+	suspended=`expr $suspended + 1`
+	echo "Suspended..."
+    else if [ -f $case.expected ]
+    then
+	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
+	then
+	    ok=`expr $ok + 1`
+	    echo -n "[K"
+	    rm $case.output
+	else
+	    failed=`expr $failed + 1`
+	    echo "*** FAILED!!! ***"
+	fi
+    else
+	new=`expr $new + 1`
+	echo "NEW!"
+    fi
+    fi
+}
+
+recurse()
+{
+  for d in *; do
+    if [ -d $d ]
+    then
+	if [ -f $d/.regr ]
+	then
+	    echo "Recursing: $d"
+	    cd $d; regr; cd ..
+	    echo "Leaving: $d"
+	fi
+    fi
+  done
+}
+
+runselected()
+{
+  for f in ${*} ; do
+    case=`basename $f $ext`
+    if [ "$case" != "$f" ]
+    then
+      run
+      verify
+    elif [ -f $case$ext ]
+      then
+	run
+	verify
+    fi
+  done
+}
+
+
+cases=0
+ok=0
+failed=0
+suspended=0
+new=0
+
+recurse
+
+if [ -f .case ] ; then
+  ext=`cat .case`
+  if [ $# != 0 ] ; then
+    runselected ${*}
+  else
+    if [ -f .regr ]
+    then
+      for f in *$ext ; do
+	case=`basename $f $ext`
+	run
+	verify
+      done
+    fi
+  fi
+  if test $new -ne 0
+  then
+    echo -n "$new new, "
+  fi
+  if test $suspended -ne 0
+  then
+    echo -n "$suspended suspended, "
+  fi
+  if test $failed -eq 0
+  then
+    if test $new -eq 0
+    then
+      echo All $cases OK!
+    else
+      echo $ok OK!
+    fi
+  else
+    echo "*** $failed FAILED! ***"
+  fi
+else
+  echo No cases to run here.
+fi
+

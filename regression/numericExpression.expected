@@ -1,6 +1,5 @@
-########## alan numericExpression ##########
+########## numericExpression ##########
 
         No warnings or errors detected.
 
-########## arun numericExpression ##########
-./regr: cannot open numericExpression.input: no such file
+./.regr: cannot open numericExpression.input: no such file

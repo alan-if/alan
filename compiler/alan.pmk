@@ -2043,24 +2043,17 @@ static int val(char str[])
     %%
 
     ! <primary> 'ISA' ID
-    %% { Expression *exp;
-	exp = newExpression(`&%'ISA'.srcp, ISA_EXPRESSION);
-	exp->fields.isa.wht = %<primary>.exp;
-	exp->not = FALSE;
-	exp->fields.isa.id = %ID.id;
-	%<arithmetic>.exp = exp;
+    %%
+	%<arithmetic>.exp = newIsaExpression(%'ISA'.srcp, %<primary>.exp, FALSE, %ID.id);
         %<arithmetic>.expKd = ISA_EXPRESSION;
-    } %%
+    %%
 
     ! <primary> <is> <something>
-    %% { Expression *exp;
-	exp = newExpression(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
-	exp->fields.atr.wht = %<primary>.exp;
-	exp->not = %<something>.not;
-	exp->fields.atr.atr = %<something>.id;
-	%<arithmetic>.exp = exp;
+    %%
+	%<arithmetic>.exp = newAttributeExpression(%<is>.srcp, %<something>.id,
+					 %<something>.not, %<primary>.exp);
         %<arithmetic>.expKd = ATTRIBUTE_EXPRESSION;
-    } %%
+    %%
 
     ! <arithmetic> <binop> <primary>
     %% { Expression *exp;
@@ -2106,22 +2099,17 @@ static int val(char str[])
     } %%
 
     ! <optional_not> 'ISA' ID
-    %% { Expression *exp;
-	exp = newExpression(`&%'ISA'.srcp, ISA_EXPRESSION);
-	exp->not = %<optional_not>.not;
-	exp->fields.isa.id = %ID.id;
-	%<aggregation_filter>.exp = exp;
+    %%
+	%<aggregation_filter>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
         %<aggregation_filter>.expKd = ISA_EXPRESSION;
-    } %%
+    %%
 
     ! <is> <something>
-    %% { Expression *exp;
-	exp = newExpression(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
-	exp->not = %<something>.not;
-	exp->fields.atr.atr = %<something>.id;
-	%<aggregation_filter>.exp = exp;
+    %%
+	%<aggregation_filter>.exp = newAttributeExpression(%<is>.srcp,
+					%<something>.id, %<something>.not, NULL);
         %<aggregation_filter>.expKd = ATTRIBUTE_EXPRESSION;
-    } %%
+    %%
     ;
 
 <right_hand_side>
@@ -2287,7 +2275,7 @@ static int val(char str[])
 <attribute_reference>		-- RETURNS: exp
     = ID 'OF' <what>
     %%
-	%<attribute_reference>.exp = newAttributeExpression(%'OF'.srcp, %ID.id, %<what>.exp);
+	%<attribute_reference>.exp = newAttributeExpression(%'OF'.srcp, %ID.id, FALSE, %<what>.exp);
     %%
     ;
 

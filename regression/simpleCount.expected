@@ -1,4 +1,4 @@
-########## alan simpleCount ##########
+########## simpleCount ##########
 
 
 simpleCount.alan
@@ -23,7 +23,6 @@ simpleCount.alan
         No detected errors.
         2 warning(s).
 
-########## arun simpleCount ##########
 
 Count Here = 6 Count At l = 6
 

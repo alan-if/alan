@@ -121,8 +121,8 @@ typedef struct Expression {
     } cnt;
 
     struct {			/* For ISA */
-      struct Expression *wht;	/* The entity/parameter/what */
-      struct IdNode *id;	/* The class id */
+      struct Expression *what;	/* The entity/parameter/what */
+      struct IdNode *class;	/* The class id */
     } isa;
 
   } fields;

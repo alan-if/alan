@@ -22,7 +22,7 @@ void testSymbolOf() {
   ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
-							      newId(&nulsrcp, "atr"),
+							      newId(&nulsrcp, "atr"), FALSE,
 							      theWhatExp);
   ASSERT(symbolOfExpression(theAttributeExpression, context) == NULL);
 }

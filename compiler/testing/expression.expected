@@ -1,10 +1,10 @@
-########## alan expression ##########
+########## expression ##########
 
 
 expression.alan
 
     5.    If dark Of This Not = 1 Then "It is pitch dark 1." End If.
-=====>       1
+=====>               1
 
   *1*   421 E : THIS instance is not defined in this context.
 
