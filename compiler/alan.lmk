@@ -78,7 +78,7 @@
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
 340	'Initial location for \'%1\' declared twice. This occurence ignored.';
 
-400	'Script not defined for Actor \'%1\'';
+400	'Script not defined for Actor \'%1\'.';
 401	'Actor reference required outside Actor specification.';
 402	'An Actor can\'t be inside a Container.';
 403	'Script multiply defined for Actor \'%1\'.';

@@ -629,9 +629,9 @@ static void anuse(stm, act, pars)
     if (act != NULL) {
       /* Check if script is defined */
       for (lst = act->scrs; lst != NULL; lst = lst->next) {
-	if (lst->element.scr->nam != NULL) {
+	if (stm->fields.use.script != NULL) {
 	  /* A name was given find this */
-	  if (eqnams(lst->element.scr->nam, stm->fields.use.script))
+	  if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script))
 	    break;
 	} else {
 	  /* Use the number to find it */
@@ -640,7 +640,10 @@ static void anuse(stm, act, pars)
 	}
       }
       if (lst == NULL)
-        lmLog(&stm->srcp, 400, sevERR, act->nam->str);
+	if (stm->fields.use.script != NULL)
+	  lmLog(&stm->fields.use.script->srcp, 400, sevERR, act->nam->str);
+	else
+	  lmLog(&stm->srcp, 400, sevERR, act->nam->str);
     }
   }
 }  

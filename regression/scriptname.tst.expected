@@ -15,8 +15,14 @@ scriptname.alan
 
   *1*   403 E : Script multiply defined for Actor 'torbjörn'.
 
+   30.    Use script nonexistant for torbjörn.  Use script 31 for torbjörn.
+=====>               1                          2
 
-        2 error(s).
+  *1*   400 E : Script not defined for Actor 'torbjörn'.
+  *2*   400 E : Script not defined for Actor 'torbjörn'.
+
+
+        4 error(s).
         No detected warnings.
         2 informational message(s).
 

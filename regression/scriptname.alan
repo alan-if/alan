@@ -26,3 +26,5 @@ Location l
 End Location.
 
 Start at l.
+  Use script swimming for torbjörn.  Use script 33 for torbjörn.
+  Use script nonexistant for torbjörn.  Use script 31 for torbjörn.
