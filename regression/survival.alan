@@ -449,12 +449,12 @@ End Location center.
 Object transporter_unit Name transporter unit At center
 End Object transporter_unit.
 
-Object message At center
+Object 'message' At center
 
   Description
     "On one of the big screens there is a message."
 
-End Object message.
+End Object 'message'.
 
 
 ----------------------------------------------------------------------
