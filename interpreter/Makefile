@@ -127,7 +127,7 @@ archives: amiga interpreter.zip.
 
 pc:
 	ramp iso2pc sysdep.c SYSDEP.C
-	zip -k -u interpreter.zip *.[ch] Makefile.dos
+	zip -k -u interpreter.zip *.[ch] Makefile.dos makefile.gpp
 	zip -k -m interpreter.zip *.[CH]
 
 #--
