@@ -8,7 +8,7 @@ all: version
 	@wzzip alanlib$(VERSION).zip *.i ReadMe index.txt
 
 .PHONY: version
-
+.PHONY: ../alan.version
 version: ../alan.version
 	cp ../alan.version alanlib.version
 	venum alanlib time -output imp
