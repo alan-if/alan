@@ -362,8 +362,6 @@ IS {
     switch (item->type) {
     case _SPA_Bits: i++; /* -> fmt[2] */
     case _SPA_Flag: i++; /* -> fmt[1] */
-    default:
-      break;
     }
     sprintf(pName, fmt[i], item->name, item->s);
     return pName;
@@ -386,8 +384,6 @@ IS {
     case _SPA_Comment:
     	printf("%s\n", (item->help? item->help: ""));
     	return;
-    default:
-      break;
     }
     
     /* Set default values */

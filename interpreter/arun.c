@@ -1290,7 +1290,7 @@ static void load()
   if (memory == NULL)
     if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
       /* We need some more memory to expand 2.5 format*/
-      memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1+2)*sizeof(Aword));
+      memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1)*sizeof(Aword));
     else
       memory = allocate(tmphdr.size*sizeof(Aword));
   header = (AcdHdr *) addrTo(0);
