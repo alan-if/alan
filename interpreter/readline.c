@@ -95,7 +95,7 @@ Bool readline(char buffer[])
 	    glk_set_style(style_Input);
 	    printf("restore\n");
 	    glk_set_style(style_Normal);
-	    restoreGame();
+	    restore();
 	    look();
 	    para();
 	    printf("> ");

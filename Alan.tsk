@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>359.89</origest>
-<currest>358.89</currest>
+<origest>365.89</origest>
+<currest>364.89</currest>
 <elapsed>195.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>53</origest>
-<currest>53</currest>
+<origest>59</origest>
+<currest>59</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
+<origest>24</origest>
+<currest>24</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -34,8 +34,9 @@
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Auto-generated syntaxes should have a restriction</desc>
-<notes>The restriction should match the assumed class of the parameter of course.</notes>
+<desc>BUG: multiple syntaxes sometimes results in a "You must supply a noun"</desc>
+<notes>See regression/syntaxOrder
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -45,6 +46,32 @@
 <task>
 <desc>Verify that an inherited set or reference attribute retains the type</desc>
 <notes>It should not restrict the type to the initializers type. Or should it? No, document that the complete type of an attribute is defined at the top level, i.e. the top-most declaration of an attribute will define its type.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit NAMES in an additive way</desc>
+<notes>This would allow:
+
+Every fruit
+  Name fruit
+
+The apple Isa fruit
+The pear Isa fruit
+
+&gt; take the fruit</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Auto-generated syntaxes should have a restriction</desc>
+<notes>The restriction should match the assumed class of the parameter of course.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -317,8 +344,8 @@ Reset it now to see if there is a problem?</notes>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -514,6 +541,19 @@ FOR EACH instance ISA entity DO
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Default description for a instance should be either in definite or indefinite form.</desc>
+<notes>Is there a problem with current defaults:
+ - There is a object here.
+ - Actor is here.
+
+Would "There is a actor here." be a better default?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Allow locations in initial location and Locate if IN</desc>
 <notes>This would allow collecting locations in heaps.
 
@@ -697,17 +737,99 @@ verbs
 </task>
 </task>
 <task>
-<desc>Default description for a instance should be either in definite or indefinite form.</desc>
-<notes>Is there a problem with current defaults:
- - There is a object here.
- - Actor is here.
-
-Would "There is a actor here." be a better default?</notes>
+<desc>Version 3.0 alpha</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>&lt;New Task&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0 beta</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>&lt;New Task&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>&lt;New Task&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.1 beta</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Scope definitions</desc>
+<notes>A suggestion from Greg:
+
+Another thought is that you may want to have more
+than one verb sharing a scope definition. So
+maybe the scope test could be moved out of the
+syntax statement and into a new kind of statement:
+
+   SCOPE topic_scope CONTAINS obj WHERE
+     obj IN known_topics.
+
+and then you would say
+
+   SYNTAX ask_about = 'ask' a 'about' t
+     WHERE
+       t FROM topic_scope
+         ELSE "You've never heard of anything like that."
+       AND t ISA ConversationTopic
+         ELSE "That's not a valid conversation topic."
+
+This would also help to untangle the syntax of
+the WHERE clause and make it clear which parts of
+it are to do with scope and which parts are to
+do with type determination.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
@@ -2167,7 +2289,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>186.89</origest>
 <currest>185.89</currest>
 <elapsed>185.89</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
@@ -5169,7 +5291,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Automatic capitalizing of nouns (e.g in german) only worked for player said words</desc>
 <notes>Now since the parameters don't use the player words this is invalidated. Probably should change strategy so that the player can input any word and the words are stored capitalized (if specified). This would possibly do away with the run-time capitalization and the impossibility for the player to input names of locations which are automatically capsed by the compiler.

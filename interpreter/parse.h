@@ -6,10 +6,10 @@
 
 \*----------------------------------------------------------------------*/
 
-extern int wrds[];		/* List of Parsed Word */
-extern int wrdidx;		/* and an index into it */
+extern int playerWords[];		/* List of Parsed Word */
+extern int wordIndex;		/* and an index into it */
 
-extern ParamEntry *params;	/* List of parameters */
+extern ParamEntry *parameters;	/* List of parameters */
 extern Bool plural;
 
 extern LiteralEntry literal[];

@@ -41,7 +41,6 @@ BUILDSRCS = \
 	rules.c \
 	debug.c \
 	args.c \
-	parse.c \
 	decode.c \
 	term.c \
 	readline.c \
@@ -56,6 +55,7 @@ MAINSRCS = \
 	inter.c \
 	reverse.c \
 	syserr.c \
+	parse.c \
 	main.c \
 	set.c \
 	arun.c

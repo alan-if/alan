@@ -152,7 +152,7 @@ void go(dir)
 	if (theExit->checks != 0) {
 	  if (sectionTraceOption) {
 	    printf("\n<EXIT %d(%s) from ", dir,
-		   (char *)pointerTo(dict[wrds[wrdidx-1]].wrd));
+		   (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd));
 	    traceSay(current.location);
 	    printf("(%d), Checking:>\n", current.location);
 	  }
@@ -163,7 +163,7 @@ void go(dir)
 	  if (theExit->action != 0) {
 	    if (sectionTraceOption) {
 	      printf("\n<EXIT %s(%d) from ", 
-		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), dir);
+		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd), dir);
 	      traceSay(current.location);
 	      printf("(%d), Executing:>\n", current.location);
 	    }	    
@@ -173,7 +173,7 @@ void go(dir)
 	  if (where(HERO) == oldloc) {
 	    if (sectionTraceOption) {
 	      printf("\n<EXIT %s(%d) from ",
-		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), dir);
+		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd), dir);
 	      traceSay(current.location);
 	      printf("(%d), Moving:>\n", current.location);
 	    }
@@ -294,7 +294,7 @@ static void findAllAlternatives(AltInfo alt[]) {
   alt[0].end = TRUE;
   alt[altIndex].alt = findAlternativeInInstance(0, 0);
   if (alt[altIndex].alt != NULL) {
-    primeAltInfo(&alt[altIndex], 0, 0, params[0].code, 0);
+    primeAltInfo(&alt[altIndex], 0, 0, parameters[0].code, 0);
     altIndex++;
   }
 
@@ -305,17 +305,17 @@ static void findAllAlternatives(AltInfo alt[]) {
     altIndex++;
   }
 
-  for (paramIndex = 0; params[paramIndex].code != EOF; paramIndex++) {
-    if (isLiteral(params[paramIndex].code))
+  for (paramIndex = 0; parameters[paramIndex].code != EOF; paramIndex++) {
+    if (isLiteral(parameters[paramIndex].code))
       parent = literal[paramIndex+1].class;
     else
-      parent = instance[params[paramIndex].code].parent;
+      parent = instance[parameters[paramIndex].code].parent;
     altIndex += alternativesFoundInParents(&alt[altIndex], parent,
-					   params[paramIndex].code, 2, paramIndex+1);
-    if (!isLiteral(params[paramIndex].code)) {
-      alt[altIndex].alt = findAlternativeInInstance(params[paramIndex].code, paramIndex+1);
+					   parameters[paramIndex].code, 2, paramIndex+1);
+    if (!isLiteral(parameters[paramIndex].code)) {
+      alt[altIndex].alt = findAlternativeInInstance(parameters[paramIndex].code, paramIndex+1);
       if (alt[altIndex].alt != NULL) {
-	primeAltInfo(&alt[altIndex], 2, paramIndex+1, params[paramIndex].code, 0);
+	primeAltInfo(&alt[altIndex], 2, paramIndex+1, parameters[paramIndex].code, 0);
 	altIndex++;
       }
     }
@@ -514,16 +514,16 @@ void action(plst)
        The code == 0 means this is a multiple position. We must loop
        over this position (and replace it by each present in the plst)
      */
-    for (mpos = 0; params[mpos].code != 0; mpos++); /* Find multiple position */
+    for (mpos = 0; parameters[mpos].code != 0; mpos++); /* Find multiple position */
     sprintf(marker, "($%d)", mpos+1); /* Prepare a printout with $1/2/3 */
     for (i = 0; plst[i].code != EOF; i++) {
-      params[mpos] = plst[i];
+      parameters[mpos] = plst[i];
       output(marker);
       executeCommand();
       if (plst[i+1].code != EOF)
         para();
     }
-    params[mpos].code = 0;
+    parameters[mpos].code = 0;
   } else
     executeCommand();
 }

@@ -867,165 +867,168 @@ int rule			/* IN production number */
     case 344: { /* <what> = ID; */
 #line 956 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
+    case 346: { /* <optional_where> = <where>; */
+#line 962 "alan.pmk"
+ print(" "); 	break;}
     case 347: { /* <where> = 'HERE'; */
-#line 965 "alan.pmk"
+#line 966 "alan.pmk"
  print("Here"); 	break;}
     case 348: { /* <where> = 'NEARBY'; */
-#line 966 "alan.pmk"
+#line 967 "alan.pmk"
  print("Nearby"); 	break;}
     case 351: { /* __genSym#78 =; */
-#line 967 "alan.pmk"
+#line 968 "alan.pmk"
  print("At "); 	break;}
     case 352: { /* __genSym#79 =; */
-#line 968 "alan.pmk"
+#line 969 "alan.pmk"
  print("In "); 	break;}
     case 353: { /* <binop> = '+'; */
-#line 972 "alan.pmk"
+#line 973 "alan.pmk"
  print("+"); 	break;}
     case 354: { /* <binop> = '-'; */
-#line 973 "alan.pmk"
+#line 974 "alan.pmk"
  print("-"); 	break;}
     case 355: { /* <binop> = '*'; */
-#line 974 "alan.pmk"
+#line 975 "alan.pmk"
  print("*"); 	break;}
     case 356: { /* <binop> = '/'; */
-#line 975 "alan.pmk"
+#line 976 "alan.pmk"
  print("/"); 	break;}
     case 357: { /* <relop> = '<>'; */
-#line 979 "alan.pmk"
+#line 980 "alan.pmk"
  print("<>"); 	break;}
     case 358: { /* <relop> = '='; */
-#line 980 "alan.pmk"
+#line 981 "alan.pmk"
  print("="); 	break;}
     case 359: { /* <relop> = '=='; */
-#line 981 "alan.pmk"
+#line 982 "alan.pmk"
  print("=="); 	break;}
     case 360: { /* <relop> = '>='; */
-#line 982 "alan.pmk"
+#line 983 "alan.pmk"
  print(">="); 	break;}
     case 361: { /* <relop> = '<='; */
-#line 983 "alan.pmk"
+#line 984 "alan.pmk"
  print("<="); 	break;}
     case 362: { /* <relop> = '>'; */
-#line 984 "alan.pmk"
+#line 985 "alan.pmk"
  print(">"); 	break;}
     case 363: { /* <relop> = '<'; */
-#line 985 "alan.pmk"
+#line 986 "alan.pmk"
  print("<"); 	break;}
     case 365: { /* <optional_qual> = 'BEFORE'; */
-#line 990 "alan.pmk"
+#line 991 "alan.pmk"
  print(" Before"); 	break;}
     case 366: { /* <optional_qual> = 'AFTER'; */
-#line 991 "alan.pmk"
+#line 992 "alan.pmk"
  print(" After"); 	break;}
     case 367: { /* <optional_qual> = 'ONLY'; */
-#line 992 "alan.pmk"
+#line 993 "alan.pmk"
  print(" Only"); 	break;}
     case 369: { /* <optional_not> = 'NOT'; */
-#line 997 "alan.pmk"
+#line 998 "alan.pmk"
  print("Not "); 	break;}
     case 370: { /* <optional_id> =; */
-#line 1001 "alan.pmk"
+#line 1002 "alan.pmk"
  pmSeSt[pmStkP+1].string = ""; 	break;}
     case 371: { /* <optional_id> = ID; */
-#line 1002 "alan.pmk"
+#line 1003 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+1].string; 	break;}
     case 372: { /* <ids> = ID; */
-#line 1006 "alan.pmk"
+#line 1007 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
     case 373: { /* <ids> = <ids> ID; */
-#line 1007 "alan.pmk"
+#line 1008 "alan.pmk"
  print(" "); idPrint(pmSeSt[pmStkP+2].string); 	break;}
     case 374: { /* <id_list> = ID; */
-#line 1011 "alan.pmk"
+#line 1012 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); 	break;}
     case 375: { /* <id_list> = <id_list> ',' ID; */
-#line 1012 "alan.pmk"
+#line 1013 "alan.pmk"
  print(", "); idPrint(pmSeSt[pmStkP+3].string); 	break;}
     case 377: { /* <optional_integer> = Integer; */
-#line 1017 "alan.pmk"
+#line 1018 "alan.pmk"
  print(pmSySt[pmStkP+1].chars); 	break;}
     case 378: { /* <optional_minus> =; */
-#line 1021 "alan.pmk"
+#line 1022 "alan.pmk"
  pmSeSt[pmStkP+1].string = ""; 	break;}
     case 379: { /* <optional_minus> = '-'; */
-#line 1022 "alan.pmk"
+#line 1023 "alan.pmk"
  pmSeSt[pmStkP+1].string = "-"; 	break;}
     case 381: { /* <id_of> = ID 'OF'; */
-#line 1030 "alan.pmk"
+#line 1031 "alan.pmk"
  idPrint(pmSeSt[pmStkP+1].string); print(" Of "); 	break;}
     case 382: { /* <integer_or_id> = Integer; */
-#line 1034 "alan.pmk"
+#line 1035 "alan.pmk"
  pmSeSt[pmStkP+1].string = malloc(strlen(pmSySt[pmStkP+1].chars)+2);
 		sprintf(pmSeSt[pmStkP+1].string, "s%s", pmSySt[pmStkP+1].chars); 	break;}
     case 383: { /* <integer_or_id> = ID; */
-#line 1036 "alan.pmk"
+#line 1037 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSeSt[pmStkP+1].string; 	break;}
     case 384: { /* ID = IDENT; */
-#line 1040 "alan.pmk"
+#line 1041 "alan.pmk"
  pmSeSt[pmStkP+1].string = pmSySt[pmStkP+1].chars; 	break;}
     case 385: { /* ID = 'DEFAULT'; */
-#line 1041 "alan.pmk"
+#line 1042 "alan.pmk"
  pmSeSt[pmStkP+1].string = "default"; 	break;}
     case 386: { /* ID = 'ARTICLE'; */
-#line 1042 "alan.pmk"
+#line 1043 "alan.pmk"
  pmSeSt[pmStkP+1].string = "article"; 	break;}
     case 387: { /* ID = 'MESSAGE'; */
-#line 1043 "alan.pmk"
+#line 1044 "alan.pmk"
  pmSeSt[pmStkP+1].string = "message"; 	break;}
     case 388: { /* ID = 'QUIT'; */
-#line 1044 "alan.pmk"
+#line 1045 "alan.pmk"
  pmSeSt[pmStkP+1].string = "quit"; 	break;}
     case 389: { /* ID = 'SAVE'; */
-#line 1045 "alan.pmk"
+#line 1046 "alan.pmk"
  pmSeSt[pmStkP+1].string = "save"; 	break;}
     case 390: { /* ID = 'RESTORE'; */
-#line 1046 "alan.pmk"
+#line 1047 "alan.pmk"
  pmSeSt[pmStkP+1].string = "restore"; 	break;}
     case 391: { /* ID = 'RESTART'; */
-#line 1047 "alan.pmk"
+#line 1048 "alan.pmk"
  pmSeSt[pmStkP+1].string = "restart"; 	break;}
     case 392: { /* ID = 'WAIT'; */
-#line 1048 "alan.pmk"
+#line 1049 "alan.pmk"
  pmSeSt[pmStkP+1].string = "wait"; 	break;}
     case 393: { /* ID = 'BETWEEN'; */
-#line 1049 "alan.pmk"
+#line 1050 "alan.pmk"
  pmSeSt[pmStkP+1].string = "between"; 	break;}
     case 394: { /* ID = 'CONTAINS'; */
-#line 1050 "alan.pmk"
+#line 1051 "alan.pmk"
  pmSeSt[pmStkP+1].string = "contains"; 	break;}
     case 395: { /* ID = 'ON'; */
-#line 1051 "alan.pmk"
+#line 1052 "alan.pmk"
  pmSeSt[pmStkP+1].string = "on"; 	break;}
     case 396: { /* ID = 'IN'; */
-#line 1052 "alan.pmk"
+#line 1053 "alan.pmk"
  pmSeSt[pmStkP+1].string = "in"; 	break;}
     case 397: { /* ID = 'AFTER'; */
-#line 1053 "alan.pmk"
+#line 1054 "alan.pmk"
  pmSeSt[pmStkP+1].string = "after"; 	break;}
     case 398: { /* ID = 'BEFORE'; */
-#line 1054 "alan.pmk"
+#line 1055 "alan.pmk"
  pmSeSt[pmStkP+1].string = "before"; 	break;}
     case 399: { /* ID = 'CHECK'; */
-#line 1055 "alan.pmk"
+#line 1056 "alan.pmk"
  pmSeSt[pmStkP+1].string = "check"; 	break;}
     case 400: { /* ID = 'DEPEND'; */
-#line 1056 "alan.pmk"
+#line 1057 "alan.pmk"
  pmSeSt[pmStkP+1].string = "depend"; 	break;}
     case 401: { /* ID = 'EXIT'; */
-#line 1057 "alan.pmk"
+#line 1058 "alan.pmk"
  pmSeSt[pmStkP+1].string = "exit"; 	break;}
     case 402: { /* ID = 'FOR'; */
-#line 1058 "alan.pmk"
+#line 1059 "alan.pmk"
  pmSeSt[pmStkP+1].string = "for"; 	break;}
     case 403: { /* ID = 'INTEGER'; */
-#line 1059 "alan.pmk"
+#line 1060 "alan.pmk"
  pmSeSt[pmStkP+1].string = "integer"; 	break;}
     case 404: { /* ID = 'ISA'; */
-#line 1060 "alan.pmk"
+#line 1061 "alan.pmk"
  pmSeSt[pmStkP+1].string = "isa"; 	break;}
     case 405: { /* ID = 'LIMITS'; */
-#line 1061 "alan.pmk"
+#line 1062 "alan.pmk"
  pmSeSt[pmStkP+1].string = "limits"; 	break;}
     default: break; }
 }/*pmPaSema()*/

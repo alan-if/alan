@@ -338,8 +338,8 @@ void interpret(Aaddr adr)
       if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
       case V_PARAM:
-	if (singleStepOption) printf("PARAM \t%5ld\t\t=%ld\t", top(), params[top()-1].code);
-	push(params[pop()-1].code);
+	if (singleStepOption) printf("PARAM \t%5ld\t\t=%ld\t", top(), parameters[top()-1].code);
+	push(parameters[pop()-1].code);
 	break;
       case V_CURLOC:
 	if (singleStepOption) printf("CURLOC \t\t\t=%d\t", current.location);

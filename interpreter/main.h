@@ -38,7 +38,7 @@ extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
-extern WrdEntry *dict;		/* Dictionary pointer */
+extern WrdEntry *dictionary;		/* Dictionary pointer */
 extern ClassEntry *class;	/* Class table pointer */
 extern ContainerEntry *container; /* Container table pointer */
 
@@ -112,6 +112,20 @@ extern Bool isLoc(Aword x);
 extern Bool isLiteral(Aword x);
 extern Bool isNum(Aword x);
 extern Bool isStr(Aword x);
+
+extern Bool isVerb(int word);
+extern Bool isConj(int word);
+extern Bool isBut(int word);
+extern Bool isThem(int word);
+extern Bool isIt(int word);
+extern Bool isNoun(int word);
+extern Bool isAdjective(int word);
+extern Bool isPreposition(int word);
+extern Bool isAll(int word);
+extern Bool isDir(int word);
+extern Bool isNoise(int word);
+extern Bool isLiteralWord(int word);
+
 
 /* Run the game! */
 extern void run(void);

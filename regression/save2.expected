@@ -1193,8 +1193,6 @@ To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 
-> 
-
 > n
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -1431,13 +1429,14 @@ Fifth Floor (again)
 Corridor (again)
 
 > e
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. It is open. A small window lets some light
-in. The wallpaper has nearly all fallen to the floor and the chair is
-only a pile of broken sticks in one corner. Once the room had a balcony
-but I don't recommend using it now since the floor is gone. Anyway, it is 
-not possible to get out there anymore.
+As soon as you try to move, a tremendous flapping of wings is heard. A
+giant horde of bats take you by their claws, and carry you out through
+the window. Your stomac turns inside out as you look down on the ground
+hundreds of feet below. Fortunately the bats gently put you down outside
+the building.
+
+
+Outside the tall building (again)
 
 > restore
 Enter file name to restore from (save2.sav) : 

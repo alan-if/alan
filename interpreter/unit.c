@@ -64,9 +64,8 @@ void syserr(char msg[])
 
 #include "unitTest.h"
 
-
-
 #include "exeTest.c"
+#include "parseTest.c"
 #include "stackTest.c"
 #include "interTest.c"
 #include "reverseTest.c"
@@ -78,6 +77,7 @@ int main()
 {
   if (setjmp(uniterr_label) == 0) {
     registerExeUnitTests();
+    registerParseUnitTests();
     registerStackUnitTests();
     registerInterUnitTests();
     registerReverseUnitTests();

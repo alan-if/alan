@@ -959,6 +959,7 @@ static void stringPrint(char string[])
 <optional_where>
     =					%-('HERE', 'NEARBY', 'AT', 'IN')
     ! <where>
+    %% print(" "); %%
     ;
 
 <where>

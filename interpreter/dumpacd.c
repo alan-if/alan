@@ -108,12 +108,13 @@ static void dumpWrdClass(Aword class)
 static void dumpDict(int level, Aword dict)
 {
   WrdEntry *wrd;
+  int w = 0;
 
   if (dict == 0) return;
 
   for (wrd = (WrdEntry *)pointerTo(dict); !endOfTable(wrd); wrd++) {
     indent(level);
-    printf("WORD: \n");
+    printf("WORD: [%d]\n", w);
     indent(level+1);
     printf("word: %ld(0x%lx)", wrd->wrd, wrd->wrd);
     if (wrd->wrd != 0)
@@ -137,6 +138,7 @@ static void dumpDict(int level, Aword dict)
       dumpAwords(wrd->nounrefs);
     } else
       printf("\n");
+    w++;
   }
 }
 
@@ -380,9 +382,11 @@ static void dumpElms(int level, Aword elms)
   for (elm = (ElementEntry *)pointerTo(elms); !endOfTable(elm); elm++) {
     indent(level);
     if (elm->code == -2)
-      printf("element: Last Element in this Syntax\n");
-    else
+      printf("element: Last Element in this Parse Tree\n");
+    else if (elm->code != 0)
       printf("element: Word #%ld\n", elm->code);
+    else
+      printf("parameter (code == 0)\n");
     indent(level+1);
     printf("flags: %s\n", dumpAddress(elm->flags));
     indent(level+1);

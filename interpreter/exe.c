@@ -1640,7 +1640,11 @@ static char saveFileName[256];
 
 
 /*----------------------------------------------------------------------*/
+#ifdef HAVE_GLK
+static void saveGame(strid_t saveFile) {
+#else
 static void saveGame(FILE *saveFile) {
+#endif
   int i;
 
   /* Save tag, version of interpreter, name and uid of game */
@@ -1715,7 +1719,11 @@ void save(void)
 
 
 /*----------------------------------------------------------------------*/
+#ifdef HAVE_GLK
+static void restoreGame(strid_t saveFile)
+#else
 static void restoreGame(FILE *saveFile)
+#endif
 {
   int i;
   char savedVersion[4];
@@ -1748,7 +1756,7 @@ static void restoreGame(FILE *saveFile)
   fread((void *)&current, sizeof(current), 1, saveFile);
 
   /* Restore attribute area */
-  fread(attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+  fread((void *)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
   /* Restore admin for instances, remember to reset attribute area pointer */
   for (i = 1; i <= header->instanceMax; i++) {
     AttributeEntry *currentAttributesArea = admin[i].attributes;

@@ -73,7 +73,7 @@ Aword *scores;			/* Score table pointer */
 /* Amachine structures - Static */
 ContainerEntry *container;	/* Container table pointer */
 ClassEntry *class;		/* Class table pointer */
-WrdEntry *dict;			/* Dictionary pointer */
+WrdEntry *dictionary;			/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
 ParseEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
@@ -214,7 +214,7 @@ void error(MsgKind msgno)	/* IN - The error message number */
   /* Print an error message, force new player input and abort. */
   if (msgno != MSGMAX)
     prmsg(msgno);
-  wrds[wrdidx] = EOF;		/* Force new player input */
+  playerWords[wordIndex] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
   longjmp(errorLabel,TRUE);
 }
@@ -484,9 +484,9 @@ static void space(void)
 static void sayPlayerWordsForParameter(int p) {
   int i;
 
-  for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
-    justify((char *)pointerTo(dict[wrds[i]].wrd));
-    if (i < params[p].lastWord)
+  for (i = parameters[p].firstWord; i <= parameters[p].lastWord; i++) {
+    justify((char *)pointerTo(dictionary[playerWords[i]].wrd));
+    if (i < parameters[p].lastWord)
       justify(" ");
   }
 }
@@ -504,7 +504,7 @@ static void sayParameter(int p, int form)
   int i;
 
   for (i = 0; i <= p; i++)
-    if (params[i].code == EOF)
+    if (parameters[i].code == EOF)
       syserr("Nonexistent parameter referenced.");
 
 #ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
@@ -514,11 +514,11 @@ static void sayParameter(int p, int form)
   else
     sayForm(params[p].code, form);
 #else
-  if (params[p].code == 0) {
+  if (parameters[p].code == 0) {
     /* Ambiguous instance referenced, so use the words he used */
     sayPlayerWordsForParameter(p);
   } else
-    sayForm(params[p].code, form);
+    sayForm(parameters[p].code, form);
 #endif
 }
 
@@ -590,7 +590,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'v':
-    justify((char *)pointerTo(dict[verbWord].wrd));
+    justify((char *)pointerTo(dictionary[verbWord].wrd));
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'p':
@@ -715,40 +715,89 @@ Bool eot(Aword *adr)
 
 Bool isObj(Aword x)
 {
-  return isA(x, OBJECT);
+  return isA((x), OBJECT);
 }
 
 Bool isCnt(Aword x)
 {
-  return x != 0 && instance[x].container != 0;
+  return (x) != 0 && instance[x].container != 0;
 }
 
 Bool isAct(Aword x)
 {
-  return isA(x, ACTOR);
+  return isA((x), ACTOR);
 }
 
 Bool isLoc(Aword x)
 {
-  return isA(x, LOCATION);
+  return isA((x), LOCATION);
 }
 
 
 Bool isLiteral(Aword x)
 {
-  return x > header->instanceMax;
+  return (x) > header->instanceMax;
 }
 
 Bool isNum(Aword x)
 {
-  return isLiteral(x) && literal[x-header->instanceMax].type == NUMERIC_LITERAL;
+  return isLiteral(x) && literal[(x)-header->instanceMax].type == NUMERIC_LITERAL;
 }
 
 Bool isStr(Aword x)
 {
-  return isLiteral(x) && literal[x-header->instanceMax].type == STRING_LITERAL;
+  return isLiteral(x) && literal[(x)-header->instanceMax].type == STRING_LITERAL;
 }
 
+
+/* Word classes are numbers but in the dictonary they are generated as bits */
+Bool isVerb(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<VERB_WORD))!=0;
+}
+
+Bool isConj(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<CONJUNCTION_WORD))!=0;
+}
+
+Bool isBut(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<BUT_WORD))!=0;
+}
+
+Bool isThem(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<THEM_WORD))!=0;
+}
+
+Bool isIt(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<IT_WORD))!=0;
+}
+
+Bool isNoun(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<NOUN_WORD))!=0;
+}
+
+Bool isAdjective(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<ADJECTIVE_WORD))!=0;
+}
+
+Bool isPreposition(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<PREPOSITION_WORD))!=0;
+}
+
+Bool isAll(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<ALL_WORD))!=0;
+}
+
+Bool isDir(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<DIRECTION_WORD))!=0;
+}
+
+Bool isNoise(int word) {
+  return word < dictsize && (dictionary[word].class&((Aword)1L<<NOISE_WORD))!=0;
+}
+
+Bool isLiteralWord(int word) {
+  return word >= dictsize;
+}
 
 
 /*======================================================================
@@ -1023,9 +1072,9 @@ static void checkdebug(void)
 static void initStaticData(void)
 {
   /* Dictionary */
-  dict = (WrdEntry *) pointerTo(header->dictionary);
+  dictionary = (WrdEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
-  for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
+  for (dictsize = 0; !endOfTable(&dictionary[dictsize]); dictsize++);
 
   /* Scores */
   

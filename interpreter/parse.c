@@ -35,18 +35,18 @@
 
 /* PUBLIC DATA */
 
-int wrds[LISTLEN/2] = {EOF};	/* List of parsed words */
-int wrdidx;			/* and an index into it */
+int playerWords[LISTLEN/2] = {EOF};	/* List of parsed words */
+int wordIndex;			/* and an index into it */
 
 Bool plural = FALSE;
 
 
 /* Syntax Parameters */
 int paramidx;			/* Index in params */
-ParamEntry *params;		/* List of params */
-static ParamEntry *pparams;	/* Previous parameter list */
-static ParamEntry *mlst;		/* Multiple objects list */
-static ParamEntry *pmlst;	/* Previous multiple list */
+ParamEntry *parameters;		/* List of params */
+static ParamEntry *previousParameters;	/* Previous parameter list */
+static ParamEntry *multipleList;	/* Multiple objects list */
+static ParamEntry *previousMultipleList;	/* Previous multiple list */
 
 /* Literals */
 LiteralEntry literal[MAXPARAMS+1];
@@ -108,8 +108,8 @@ static char *token;
 static int lookup(char wrd[]) {
   int i;
 
-  for (i = 0; !endOfTable(&dict[i]); i++) {
-    if (compareStrings(wrd, (char *) pointerTo(dict[i].wrd)) == 0)
+  for (i = 0; !endOfTable(&dictionary[i]); i++) {
+    if (compareStrings(wrd, (char *) pointerTo(dictionary[i].wrd)) == 0)
       return (i);
   }
   unknown(wrd);
@@ -195,7 +195,7 @@ static void getline(void)
     }
     /* If the player input an empty command he forfeited his command */
     if (strlen(buf) == 0) {
-      wrds[0] = EOF;
+      playerWords[0] = EOF;
       longjmp(forfeitLabel, 0);
     }
 
@@ -212,7 +212,7 @@ static void getline(void)
 	token = NULL;
       } else if (strcmp("undo", token) == 0) {
 	undo();
-	wrds[wrdidx] = EOF;		/* Force new player input */
+	playerWords[wordIndex] = EOF;		/* Force new player input */
 	longjmp(errorLabel, TRUE);
       }
     }
@@ -239,7 +239,7 @@ static void scan(void)
   } else
     getline();
 
-  wrds[0] = 0;
+  playerWords[0] = 0;
   for (i = 0; i < litCount; i++)
     if (literal[i].type == STRING_LITERAL && literal[i].value != 0)
       free((char *) literal[i].value);
@@ -250,12 +250,12 @@ static void scan(void)
       /*      (void) stringLower(token); */
       w = lookup(token);
       if (!isNoise(w))
-	wrds[i++] = w;
+	playerWords[i++] = w;
     } else if (isdigit(token[0]) || token[0] == '\"') {
       litCount++;
       if (litCount > MAXPARAMS)
 	syserr("Too many parameters.");
-      wrds[i++] = dictsize+litCount; /* Word outside dictionary = literal */
+      playerWords[i++] = dictsize+litCount; /* Word outside dictionary = literal */
       if (isdigit(token[0])) {
 	literal[litCount].class = header->integerClassId;
 	literal[litCount].type = NUMERIC_LITERAL;
@@ -269,15 +269,15 @@ static void scan(void)
 	literal[litCount].value = (Aword) str;
       }
     } else if (token[0] == ',') {
-      wrds[i++] = conjWord;
+      playerWords[i++] = conjWord;
     } else if (token[0] == '.') {
       continued = TRUE;
-      wrds[i] = EOF;
+      playerWords[i] = EOF;
       eol = TRUE;
       break;
     } else
       unknown(token);
-    wrds[i] = EOF;
+    playerWords[i] = EOF;
     eol = (token = gettoken(NULL)) == NULL;
   } while (!eol);
 }
@@ -305,14 +305,14 @@ static int allLength;		/* No. of objects matching 'all' */
 
 /*----------------------------------------------------------------------*/
 static void nonverb(void) {
-  if (isDir(wrds[wrdidx])) {
-    wrdidx++;
-    if (wrds[wrdidx] != EOF && !isConj(wrds[wrdidx]))
+  if (isDir(playerWords[wordIndex])) {
+    wordIndex++;
+    if (playerWords[wordIndex] != EOF && !isConj(playerWords[wordIndex]))
       error(M_WHAT);
     else
-      go(dict[wrds[wrdidx-1]].code);
-    if (wrds[wrdidx] != EOF)
-      wrdidx++;
+      go(dictionary[playerWords[wordIndex-1]].code);
+    if (playerWords[wordIndex] != EOF)
+      wordIndex++;
   } else
     error(M_WHAT);
 }
@@ -350,42 +350,42 @@ static void unambig(ParamEntry plst[])
   if (savlst == NULL)
     savlst = (ParamEntry *)allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
-  if (isLiteralWord(wrds[wrdidx])) {
+  if (isLiteralWord(playerWords[wordIndex])) {
     /* Transform the word into a reference to the literal value */
     /* words > dictsize are literals with index = word-dictsize */
-    plst[0].code = (wrds[wrdidx]-dictsize) + header->instanceMax;
+    plst[0].code = (playerWords[wordIndex]-dictsize) + header->instanceMax;
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
-    wrdidx++;
+    wordIndex++;
     return;
   }
 
   plst[0].code = EOF;		/* Make empty */
-  if (isIt(wrds[wrdidx])) {
-    wrdidx++;
+  if (isIt(playerWords[wordIndex])) {
+    wordIndex++;
     /* Use last object in previous command! */
-    for (i = listLength(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLiteral(pparams[i].code)); i--)
+    for (i = listLength(previousParameters)-1; i >= 0 && (previousParameters[i].code == 0 || isLiteral(previousParameters[i].code)); i--)
       ;
     if (i < 0)
       error(M_WHAT_IT);
-    if (!isHere(pparams[i].code)) {
-      params[0].code = pparams[i].code;
-      params[0].firstWord = EOF;
-      params[1].code = EOF;
+    if (!isHere(previousParameters[i].code)) {
+      parameters[0].code = previousParameters[i].code;
+      parameters[0].firstWord = EOF;
+      parameters[1].code = EOF;
       error(M_NO_SUCH);
     }
-    plst[0] = pparams[i];
+    plst[0] = previousParameters[i];
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
     return;
   }
 
-  firstWord = wrdidx;
-  while (wrds[wrdidx] != EOF && isAdj(wrds[wrdidx])) {
+  firstWord = wordIndex;
+  while (playerWords[wordIndex] != EOF && isAdjective(playerWords[wordIndex])) {
     /* If this word can be a noun and there is no noun following break loop */
-    if (isNoun(wrds[wrdidx]) && (wrds[wrdidx+1] == EOF || !isNoun(wrds[wrdidx+1])))
+    if (isNoun(playerWords[wordIndex]) && (playerWords[wordIndex+1] == EOF || !isNoun(playerWords[wordIndex+1])))
       break;
-    copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].adjrefs));
+    copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].adjrefs));
     copyParameterList(savlst, plst);	/* To save it for backtracking */
     if (found)
       intersect(plst, refs);
@@ -393,25 +393,25 @@ static void unambig(ParamEntry plst[])
       copyParameterList(plst, refs);
       found = TRUE;
     }
-    wrdidx++;
+    wordIndex++;
   }
-  if (wrds[wrdidx] != EOF) {
-    if (isNoun(wrds[wrdidx])) {
-      copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].nounrefs));
+  if (playerWords[wordIndex] != EOF) {
+    if (isNoun(playerWords[wordIndex])) {
+      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex]].nounrefs));
       if (found)
 	intersect(plst, refs);
       else {
 	copyParameterList(plst, refs);
 	found = TRUE;
       }
-      wrdidx++;
+      wordIndex++;
     } else
       error(M_NOUN);
   } else if (found) {
-    if (isNoun(wrds[wrdidx-1])) {
+    if (isNoun(playerWords[wordIndex-1])) {
       /* Perhaps the last word was also a noun? */
       copyParameterList(plst, savlst);	/* Restore to before last adjective */
-      copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx-1]].nounrefs));
+      copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex-1]].nounrefs));
       if (plst[0].code == EOF)
 	copyParameterList(plst, refs);
       else
@@ -419,7 +419,7 @@ static void unambig(ParamEntry plst[])
     } else
       error(M_NOUN);
   }
-  lastWord = wrdidx-1;
+  lastWord = wordIndex-1;
 
   /* Allow remote objects, but resolve ambiguities by presence */
   if (listLength(plst) > 1) {
@@ -430,10 +430,10 @@ static void unambig(ParamEntry plst[])
   }
     
   if (listLength(plst) > 1 || (found && listLength(plst) == 0)) {
-    params[0].code = 0;		/* Just make it anything != EOF */
-    params[0].firstWord = firstWord; /* Remember words for errors below */
-    params[0].lastWord = lastWord;
-    params[1].code = EOF;	/* But be sure to terminate */
+    parameters[0].code = 0;		/* Just make it anything != EOF */
+    parameters[0].firstWord = firstWord; /* Remember words for errors below */
+    parameters[0].lastWord = lastWord;
+    parameters[1].code = EOF;	/* But be sure to terminate */
     if (listLength(plst) > 1)
       error(M_WHICH_ONE);
     else if (found && listLength(plst) == 0)
@@ -448,7 +448,7 @@ static void unambig(ParamEntry plst[])
 /*----------------------------------------------------------------------*/
 static void simple(ParamEntry olst[]) {
   static ParamEntry *tlst = NULL;
-  int savidx = wrdidx;
+  int savidx = wordIndex;
   Bool savplur = FALSE;
   int i;
 
@@ -457,34 +457,34 @@ static void simple(ParamEntry olst[]) {
   tlst[0].code = EOF;
 
   for (;;) {
-    if (isThem(wrds[wrdidx])) {
+    if (isThem(playerWords[wordIndex])) {
       plural = TRUE;
-      for (i = 0; pmlst[i].code != EOF; i++)
-	if (!isHere(pmlst[i].code))
-	  pmlst[i].code = 0;
-      compress(pmlst);
-      if (listLength(pmlst) == 0)
+      for (i = 0; previousMultipleList[i].code != EOF; i++)
+	if (!isHere(previousMultipleList[i].code))
+	  previousMultipleList[i].code = 0;
+      compress(previousMultipleList);
+      if (listLength(previousMultipleList) == 0)
 	error(M_WHAT_THEM);
-      copyParameterList(olst, pmlst);
+      copyParameterList(olst, previousMultipleList);
       olst[0].firstWord = EOF;	/* No words used */
-      wrdidx++;
+      wordIndex++;
     } else {
       unambig(olst);		/* Look for unambigous noun phrase */
       if (listLength(olst) == 0) {	/* Failed! */
 	copyParameterList(olst, tlst);
-	wrdidx = savidx;
+	wordIndex = savidx;
 	plural = savplur;
 	return;
       }
     }
     mergeLists(tlst, olst);
-    if (wrds[wrdidx] != EOF
-	&& (isConj(wrds[wrdidx]) &&
-	    (isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1])))) {
+    if (playerWords[wordIndex] != EOF
+	&& (isConj(playerWords[wordIndex]) &&
+	    (isAdjective(playerWords[wordIndex+1]) || isNoun(playerWords[wordIndex+1])))) {
       /* More parameters in a conjunction separated list ? */
       savplur = plural;
-      savidx = wrdidx;
-      wrdidx++;
+      savidx = wordIndex;
+      wordIndex++;
       plural = TRUE;
     } else {
       copyParameterList(olst, tlst);
@@ -510,12 +510,12 @@ static void complex(ParamEntry olst[])
   if (alst == NULL)
     alst = (ParamEntry *) allocate((MAXENTITY+1)*sizeof(ParamEntry));
 
-  if (isAll(wrds[wrdidx])) {
+  if (isAll(playerWords[wordIndex])) {
     plural = TRUE;
     buildall(alst);		/* Build list of all objects */
-    wrdidx++;
-    if (wrds[wrdidx] != EOF && isBut(wrds[wrdidx])) {
-      wrdidx++;
+    wordIndex++;
+    if (playerWords[wordIndex] != EOF && isBut(playerWords[wordIndex])) {
+      wordIndex++;
       simple(olst);
       if (listLength(olst) == 0)
 	error(M_AFTER_BUT);
@@ -536,9 +536,9 @@ static Bool restrictionCheck(RestrictionEntry *restriction)
   Bool ok = FALSE;
 
   if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-    ok = instance[params[restriction->parameter-1].code].container != 0;
+    ok = instance[parameters[restriction->parameter-1].code].container != 0;
   else
-    ok = isA(params[restriction->parameter-1].code, restriction->class);
+    ok = isA(parameters[restriction->parameter-1].code, restriction->class);
   return ok;
 }
 
@@ -596,8 +596,8 @@ static void resolve(ParamEntry plst[])
       /* and so are pure entities */
       continue;
     if (!reachable(plst[i].code)) {
-      params[0] = plst[i];	/* Copy error param as first one for message */
-      params[1].code = EOF;	/* But be sure to terminate */
+      parameters[0] = plst[i];	/* Copy error param as first one for message */
+      parameters[1].code = EOF;	/* But be sure to terminate */
       error(M_NO_SUCH);
     }
   }
@@ -621,22 +621,124 @@ static Aint mapSyntax(Aint syntaxNumber)
   if (endOfTable(syntax)) syserr("Could not find syntax in mapping table.");
 
   parameterMap = pointerTo(syntax->parameterMapping);
-  copyParameterList(originalParameters, params);
+  copyParameterList(originalParameters, parameters);
   for (parameterIndex = 1; originalParameters[parameterIndex-1].code != EOF;
        parameterIndex++)
-    params[parameterIndex-1] = originalParameters[parameterMap[parameterIndex-1]-1];
+    parameters[parameterIndex-1] = originalParameters[parameterMap[parameterIndex-1]-1];
 
   return syntax->verbCode;
 }
-    
-
 
 
 /*----------------------------------------------------------------------*/
-static void try(ParamEntry mlst[])
+static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry mlst[]) {
+
+  plural = FALSE;
+  complex(mlst);
+  if (listLength(mlst) == 0) /* No object!? */
+    error(M_WHAT);
+  if ((flags & OMNIBIT) == 0) /* Omnipotent parameter? */
+    /* If its not an omnipotent parameter, resolve by presence */
+    resolve(mlst);
+  if (plural) {
+    if ((flags & MULTIPLEBIT) == 0)	/* Allowed multiple? */
+      error(M_MULTIPLE);
+    else {
+      /*
+	Mark this as the multiple position in which to insert
+	actual parameter values later
+      */
+      parameters[paramidx++].code = 0;
+      *anyPlural = TRUE;
+    }
+  } else
+    parameters[paramidx++] = mlst[0];
+  parameters[paramidx].code = EOF;
+}
+
+
+/*----------------------------------------------------------------------*/
+static ElementEntry *matchParameterElement(ElementEntry *elms) {
+  /* Require a parameter if elms->code == 0! */
+  while (!endOfTable(elms) && elms->code != 0)
+    elms++;
+  if (endOfTable(elms))
+    return NULL;
+  return(elms);
+}
+
+
+/*----------------------------------------------------------------------*/
+static ElementEntry *matchEndOfSyntax(ElementEntry *elms) {
+  while (!endOfTable(elms) && elms->code != EOS)
+    elms++;
+  if (endOfTable(elms))		/* No match for EOS! */
+    return NULL;
+  return(elms);
+}
+
+/*----------------------------------------------------------------------*/
+static ElementEntry *matchWordElement(ElementEntry *elms, Aint wordCode) {
+  while (!endOfTable(elms) && elms->code != wordCode)
+    elms++;
+  if (endOfTable(elms))
+    return NULL;
+  return(elms);
+}
+
+/*----------------------------------------------------------------------*/
+static Bool isParameterWord(int word) {
+  return isNoun(word) || isAdjective(word) || isAll(word) || isLiteralWord(word) || isIt(word) || isThem(word);
+}
+
+
+/*----------------------------------------------------------------------*/
+static ElementEntry *matchParseTree(ParamEntry multipleList[],
+				    ElementEntry *elms,
+				    Bool *anyPlural) {
+
+  while (TRUE) {		/* Traverse the possible branches to
+				   find a match */
+    /* End of input? */
+    if (playerWords[wordIndex] == EOF || isConj(playerWords[wordIndex])) {
+      elms = matchEndOfSyntax(elms);
+      if (elms == NULL)	return NULL;
+      break;
+    } else if (isPreposition(playerWords[wordIndex]) && elms->code != 0) {
+      /* A preposition? Or rather an intermediate word? */
+      /* TODO If the word is also a adjective or noun and we can have a
+	 parameter here we must try it as a parameter */
+      elms = matchWordElement(elms, dictionary[playerWords[wordIndex]].code);
+      if (elms == NULL) return NULL;
+      wordIndex++;		/* Word matched, go to next */
+    } else if (isParameterWord(playerWords[wordIndex])) {
+      elms = matchParameterElement(elms);
+      if (elms == NULL) return NULL;
+      parseParameter(elms->flags, anyPlural, multipleList);
+    } else
+	return NULL;
+    elms = (ElementEntry *) pointerTo(elms->next);
+  }
+
+  return elms;
+}
+
+
+/*----------------------------------------------------------------------*/
+static ParseEntry *findSyntax(int verbCode) {
+  ParseEntry *stx;
+  for (stx = stxs; !endOfTable(stx); stx++)
+    if (stx->code == verbCode)
+      return(stx);
+  return(NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void try(ParamEntry multipleParameters[])
 {
-  ElementEntry *elms;		/* Pointer to entry list */
-  ParseEntry *stx;		/* Pointer to syntax list */
+  ElementEntry *elms;		/* Pointer to element list */
+  ParseEntry *stx;		/* Pointer to syntax parse list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Bool anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, p;
@@ -648,80 +750,31 @@ static void try(ParamEntry mlst[])
     checked = (Bool *) allocate((MAXENTITY+1)*sizeof(Bool));
   }
 
-  for (stx = stxs; !endOfTable(stx); stx++)
-    if (stx->code == verbWordCode)
-      break;
-  if (endOfTable(stx))
+  stx = findSyntax(verbWordCode);
+  if (stx == NULL)
     error(M_WHAT);
 
-  elms = (ElementEntry *) pointerTo(stx->elms);
-
-  while (TRUE) {
-    /* End of input? */
-    if (wrds[wrdidx] == EOF || isConj(wrds[wrdidx])) {
-	while (!endOfTable(elms) && elms->code != EOS)
-	  elms++;
-	if (endOfTable(elms))
-	  error(M_WHAT);
-	else
-	  break;
-    } else {
-      /* A preposition? */
-      if (isPrep(wrds[wrdidx]) && elms->code != 0) {
-	while (!endOfTable(elms) && elms->code != dict[wrds[wrdidx]].code)
-	  elms++;
-	if (endOfTable(elms))
-	  error(M_WHAT);
-	else
-	  wrdidx++;
-      } else {
-	/* Require a parameter if elms->code == 0! */
-	while (!endOfTable(elms) && elms->code != 0)
-	  elms++;
-	if (endOfTable(elms))
-	  error(M_WHAT);
-	/* Get it! */
-	plural = FALSE;
-	complex(tlst);
-	if (listLength(tlst) == 0) /* No object!? */
-	  error(M_WHAT);
-	if ((elms->flags & OMNIBIT) == 0) /* Omnipotent parameter? */
-	  /* If its not an omnipotent parameter, resolve by presence */
-	  resolve(tlst);
-	if (plural) {
-	  if ((elms->flags & MULTIPLEBIT) == 0)	/* Allowed multiple? */
-	    error(M_MULTIPLE);
-	  else {
-	    /*
-	       Mark this as the multiple position in which to insert
-	       actual parameter values later
-	     */
-	    params[paramidx++].code = 0;
-	    copyParameterList(mlst, tlst);
-	    anyPlural = TRUE;
-	  }
-	} else
-	  params[paramidx++] = tlst[0];
-	params[paramidx].code = EOF;
-      }
-      elms = (ElementEntry *) pointerTo(elms->next);
-    }
-  }
+  elms = matchParseTree(tlst, (ElementEntry *) pointerTo(stx->elms), &anyPlural);
+  if (elms == NULL)
+    error(M_WHAT);
+  if (anyPlural)
+    copyParameterList(multipleParameters, tlst);
   
   /* Set verb code and map parameters */
-  current.verb = mapSyntax(elms->flags); /* Flags of EOS is actually syntax number! */
+  current.verb = mapSyntax(elms->flags); /* Flags of EOS element is
+					    actually syntax number! */
 
   /* Now perform class restriction checks */
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
 
-  for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
+  for (p = 0; parameters[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
   for (restriction = (RestrictionEntry *) pointerTo(elms->next); !endOfTable(restriction); restriction++) {
-    if (params[restriction->parameter-1].code == 0) {
+    if (parameters[restriction->parameter-1].code == 0) {
       /* This was a multiple parameter, so check all and remove failing */
-      for (i = 0; mlst[i].code != EOF; i++) {
-	params[restriction->parameter-1] = mlst[i];
+      for (i = 0; multipleParameters[i].code != EOF; i++) {
+	parameters[restriction->parameter-1] = multipleParameters[i];
 	if (!restrictionCheck(restriction)) {
 	  /* Multiple could be both an explicit list of params and an ALL */
 	  if (allLength == 0) {
@@ -735,10 +788,10 @@ static void try(ParamEntry mlst[])
 	    runRestriction(restriction);
 	    para();
 	  }
-	  mlst[i].code = 0;	  /* In any case remove it from the list */
+	  multipleParameters[i].code = 0;	  /* In any case remove it from the list */
 	}
       }
-      params[restriction->parameter-1].code = 0;
+      parameters[restriction->parameter-1].code = 0;
     } else {
       if (!restrictionCheck(restriction)) {
 	runRestriction(restriction);
@@ -748,37 +801,37 @@ static void try(ParamEntry mlst[])
     checked[restriction->parameter-1] = TRUE; /* Remember that it's already checked */
   }
   /* Now check the rest of the parameters, must be objects */
-  for (p = 0; params[p].code != EOF; p++)
+  for (p = 0; parameters[p].code != EOF; p++)
     if (!checked[p]) {
-      if (params[p].code == 0) {
+      if (parameters[p].code == 0) {
 	/* This was a multiple parameter, check all and remove failing */
-	for (i = 0; mlst[i].code != EOF; i++)
-	  if (mlst[i].code != 0) /* Skip any empty slots */
-	    if (!isObj(mlst[i].code))
-	      mlst[i].code = 0;
-      } else if (!isObj(params[p].code))
+	for (i = 0; multipleParameters[i].code != EOF; i++)
+	  if (multipleParameters[i].code != 0) /* Skip any empty slots */
+	    if (!isObj(multipleParameters[i].code))
+	      multipleParameters[i].code = 0;
+      } else if (!isObj(parameters[p].code))
 	error(M_CANT0);
     }
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {
-    for (p = 0; params[p].code != 0; p++); /* Find multiple marker */
+    for (p = 0; parameters[p].code != 0; p++); /* Find multiple marker */
     for (i = 0; i < allLength; i++) {
-      if (mlst[i].code != 0) {	/* Already empty? */
-	params[p] = mlst[i];
+      if (multipleParameters[i].code != 0) {	/* Already empty? */
+	parameters[p] = multipleParameters[i];
 	if (!possible())
-	  mlst[i].code = 0;	/* Remove this from list */
+	  multipleParameters[i].code = 0;	/* Remove this from list */
       }
     }
-    params[p].code = 0;		/* Restore multiple marker */
-    compress(mlst);
-    if (listLength(mlst) == 0) {
-      params[0].code = EOF;
+    parameters[p].code = 0;		/* Restore multiple marker */
+    compress(multipleParameters);
+    if (listLength(multipleParameters) == 0) {
+      parameters[0].code = EOF;
       error(M_WHAT_ALL);
     }
   } else if (anyPlural) {
-    compress(mlst);
-    if (listLength(mlst) == 0)
+    compress(multipleParameters);
+    if (listLength(multipleParameters) == 0)
       /* If there where multiple parameters but non left, exit without a */
       /* word, assuming we have already said enough */
       error(MSGMAX);
@@ -786,46 +839,40 @@ static void try(ParamEntry mlst[])
   plural = anyPlural;		/* Remember that we found plural objects */
 }
 
-  
-#ifdef _PROTOTYPES_
-static void match(
-     ParamEntry *mlst		/* OUT - List of params allowed by multiple */
-)
-#else
-static void match(mlst)
-     ParamEntry *mlst;		/* OUT - List of params allowed by multiple */
-#endif
+
+/*----------------------------------------------------------------------*/  
+static void match(ParamEntry *mlst) /* OUT - List of params allowed by multiple */
 {
   try(mlst);			/* ... to understand what he said */
-  if (wrds[wrdidx] != EOF && !isConj(wrds[wrdidx]))
+  if (playerWords[wordIndex] != EOF && !isConj(playerWords[wordIndex]))
     error(M_WHAT);
-  if (wrds[wrdidx] != EOF)	/* More on this line? */
-    wrdidx++;			/* If so skip the AND */
+  if (playerWords[wordIndex] != EOF)	/* More on this line? */
+    wordIndex++;			/* If so skip the AND */
 }
 
 
 /*======================================================================*/
 void initParse(void) {
-  wrdidx = 0;
-  wrds[0] = EOF;
+  wordIndex = 0;
+  playerWords[0] = EOF;
 }
 
 
 /*======================================================================*/
 void parse(void) {
 
-  if (mlst == NULL) {		/* Allocate large enough paramlists */
-    mlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    mlst[0].code = EOF;
-    pmlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    params = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    params[0].code = EOF;
-    pparams = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    pparams[0].code = EOF;
+  if (multipleList == NULL) {		/* Allocate large enough paramlists */
+    multipleList = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    multipleList[0].code = EOF;
+    previousMultipleList = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    parameters = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    parameters[0].code = EOF;
+    previousParameters = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    previousParameters[0].code = EOF;
   }
 
-  if (wrds[wrdidx] == EOF) {
-    wrdidx = 0;
+  if (playerWords[wordIndex] == EOF) {
+    wordIndex = 0;
     scan();
   } else if (anyOutput)
     para();
@@ -833,19 +880,19 @@ void parse(void) {
   capitalize = TRUE;
   allLength = 0;
   paramidx = 0;
-  copyParameterList(pparams, params);
-  params[0].code = EOF;
-  copyParameterList(pmlst, mlst);
-  mlst[0].code = EOF;
-  if (isVerb(wrds[wrdidx])) {
-    verbWord = wrds[wrdidx];
-    verbWordCode = dict[verbWord].code;
-    wrdidx++;
-    match(mlst);
-    action(mlst);		/* mlst contains possible multiple params */
+  copyParameterList(previousParameters, parameters);
+  parameters[0].code = EOF;
+  copyParameterList(previousMultipleList, multipleList);
+  multipleList[0].code = EOF;
+  if (isVerb(playerWords[wordIndex])) {
+    verbWord = playerWords[wordIndex];
+    verbWordCode = dictionary[verbWord].code;
+    wordIndex++;
+    match(multipleList);
+    action(multipleList);		/* contains possible multiple params */
   } else {
-    params[0].code = EOF;
-    pmlst[0].code = EOF;
+    parameters[0].code = EOF;
+    previousMultipleList[0].code = EOF;
     nonverb();
   }
 }
