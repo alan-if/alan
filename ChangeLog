@@ -1,3 +1,8 @@
+Sat May 22 20:52:43 1999    <Thomas Nilsson@THONI>
+
+	* Fixed a bug in execution of DEPEND which caused the interpreter
+	to crash if none of the cases matched.
+
 Thu May 20 03:22:31 1999    <Thomas Nilsson@THONI>
 
 	* Fixed a problem with SAY that caused it to print integers and
