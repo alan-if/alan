@@ -67,12 +67,17 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
  */
 static void symbolizeClass(ClaNod *cla)
 {
-  SymNod *heritage = lookup(cla->heritage->string);
-  if (heritage->kind != CLASS_SYMBOL)
-      syserr("UNIMPLEMENTED: symbolizeClass - Can not inherit from something not a class");
+  SymNod *heritage;
 
-  cla->heritage->symbol = heritage;
-  setParent(cla->symbol, cla->heritage->symbol);
+  if (cla->heritage != NULL) {
+    heritage = lookup(cla->heritage->string);
+    if (heritage == NULL || heritage->kind != CLASS_SYMBOL)
+      lmLog(&cla->heritage->srcp, 350, sevERR, "");
+    else {
+      cla->heritage->symbol = heritage;
+      setParent(cla->symbol, cla->heritage->symbol);
+    }
+  }
 }
 
 

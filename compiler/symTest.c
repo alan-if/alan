@@ -1,37 +1,12 @@
 /*======================================================================*\
 
-  unit.c
+  symTest.c
 
-  A unit test main program for the Alan compiler
-  It will include the complete module source and then define some tests
-  and test cases which will be run through the unitTest() runner.
+  A unit test module for SYM nodes in the Alan compiler
 
 \*======================================================================*/
 
-#include <stdio.h>
-
 #include "sym.c"
-#include "id_x.h"
-
-
-static void (*(cases[]))();
-
-#include "unitTest.h"
-
-/* From unitList.c */  
-extern int lastEcode;
-extern lmSev lastSev;
-
-
-int main()
-{
-
-  lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
-
-  unitTest();
-
-  return 0;
-}
   
 
 /*======================================================================
@@ -134,7 +109,7 @@ void testInherit2()
 
 
 /* Test symbol table initialisation */
-void testInitTest()
+void testSymbolTableInit()
 {
   SymNod *thing;
   SymNod *object;
@@ -173,14 +148,15 @@ void testInitTest()
 }
 
 
-/* Create a new CLAss node */
-void testCreateCla()
+/* Create a new CLAss symbol */
+void testCreateClassSymbol()
 {
   Srcp srcp = {12,3,45};
   IdNode *id = newId(&srcp, "cla");
   IdNode *heritage = newId(&nulsrcp, "object");
   SymNod *sym, *obj;
 
+  (void) newcla(&srcp, heritage, NULL, NULL);
   (void) newcla(&srcp, id, heritage, NULL);
 
   symbolizeClasses();
@@ -196,15 +172,15 @@ void testCreateCla()
 }
 
 
-static void (*(cases[]))() = {
-  &testSymCheck,
-  &testBuildSymbol1,
-  &testBuildSymbolLower,
-  &testBuildSymbolHigher,
-  &testInherit1,
-  &testInherit2,
-  &testInitTest,
-  &testCreateCla,
-  NULL
-};
+void registerSymUnitTests()
+{
+  registerUnitTest(testSymCheck);
+  registerUnitTest(testBuildSymbol1);
+  registerUnitTest(testBuildSymbolHigher);
+  registerUnitTest(testBuildSymbolLower);
+  registerUnitTest(testInherit1);
+  registerUnitTest(testInherit2);
+  registerUnitTest(testSymbolTableInit);
+  registerUnitTest(testCreateClassSymbol);
+}
 

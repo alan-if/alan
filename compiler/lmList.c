@@ -130,6 +130,7 @@ static lmMsgs msg[] = {
     { "312   ", "Parameter not uniquely defined as %1, which is required." },
     { "315   ", "Attribute not defined for \'%1\'." },
     { "318   ", "Entity \'%1\' is not a Container." },
+    { "319   ", "Identifier \'%1\' is not a %2." },
     { "320   ", "Word \'%1\' belongs to multiple word classes (%2 and %3)." },
     { "321   ", "Synonym target word \'%1\' not defined." },
     { "322   ", "Word \'%1\' already defined as a synonym." },
@@ -140,6 +141,7 @@ static lmMsgs msg[] = {
     { "334   ", "Multiple syntaxes are defined with this structure (words and parameters)." },
     { "335   ", "ELSE clause of a DEPENDING statement must be the last." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
+    { "350   ", "Can not inherit from something not a class." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "An Actor can\'t be inside a Container." },
@@ -176,7 +178,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 96}
+    {0, 98}
 };
 static lmMessages currMsect = (lmMessages)0;
 

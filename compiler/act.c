@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 
 #include "adv.h"		/* ADV-node */
 #include "sym.h"		/* SYM-nodes */

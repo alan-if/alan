@@ -8,13 +8,13 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-node */
 #include "sym.h"                /* SYM-nodes */
 #include "lst.h"                /* LST-nodes */
-#include "id.h"			/* ID-nodes */
+#include "id_x.h"
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "whr.h"                /* WHR-nodes */

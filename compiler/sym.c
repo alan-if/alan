@@ -10,7 +10,7 @@
 /* IMPORTS */
 #include "sysdep.h"
 #include "util.h"
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 #include "cla.h"		/* CLAss nodes */
 
@@ -107,6 +107,7 @@ static char *symbolKind(SymbolKind kind)
   case VERB_SYMBOL: return "verb";
   default: syserr("Unimplemented case in symbolKind()");
   }
+  return NULL;
 }
 
 

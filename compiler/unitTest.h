@@ -37,10 +37,10 @@ void unitAssert(int x)
 /* Run the tests in the test case array*/
 static void unitTest(void)
 {
-  void (**theCase)();
+  Case *current;
 
-  for (theCase = &cases[0]; *theCase != NULL; theCase++) {
-    (*theCase)();
+  for (current = caseList; current != NULL; current = current->next) {
+    (*current->theCase)();
   }
   if (failed == 0)
     printf("\nAll %d cases PASSED!!\n", passed);

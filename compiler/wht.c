@@ -8,11 +8,11 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
 #include "wht.h"		/* WHT-nodes */
-#include "id.h"			/* ID-nodes */
+#include "id_x.h"
 
 #include "emit.h"
 #include "dump.h"

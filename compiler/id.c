@@ -5,10 +5,11 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "id.h"
+#include "id_x.h"
 
 #include <stdio.h>
 
+#include "srcp_x.h"
 #include "elm.h"
 #include "str.h"
 #include "sym.h"

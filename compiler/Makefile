@@ -24,10 +24,7 @@ TMSRCS = \
 
 TMOBJS = ${TMSRCS:.c=.o}
 
-SRCS = \
-	alan.c \
-	main.c \
-	options.c \
+UNITSRCS = \
 	adv.c \
 	alt.c \
 	atr.c \
@@ -67,6 +64,12 @@ SRCS = \
 	spa.c \
 	sysdep.c
 
+SRCS = \
+	alan.c \
+	main.c \
+	options.c \
+	$(UNITSRCS)
+
 #OBSOLETE
 #	nam.c \
 #	act.c \
@@ -96,45 +99,56 @@ src:
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
-.PHONY: unit
-# Run all unit test
-unit:
-	make sym
-	make cla
-	make ins
-	make adv
 
-# Unit Tests
-# Each unit is built separately with the test in a main program (xxxTest)
+UNITOBJS = ${UNITSRCS:.c=.o}
 
-# All unit tests
-symTest.o : symTest.c sym.c unitTest.h
-symTest : symTest.o util.o unitList.o id.o cla.o dump.o srcp.o str.o lst.o slt.o
+# Run all unit tests
+unit : unit.o \
+	alt.o \
+	atr.o \
+	chk.o \
+	dump.o \
+	encode.o \
+	emit.o \
+	elm.o \
+	evt.o \
+	exp.o \
+	ext.o \
+	id.o \
+	ins.o \
+	lim.o \
+	lst.o \
+	msg.o \
+	opt.o \
+	res.o \
+	rul.o \
+	sco.o \
+	scr.o \
+	slt.o \
+	srcp.o \
+	stm.o \
+	stp.o \
+	stx.o \
+	str.o \
+	syn.o \
+	vrb.o \
+	whr.o \
+	wht.o \
+	wrd.o \
+	timing.o \
+	util.o \
+	spa.o \
+	sysdep.o \
+	unitList.o \
+	alan.o \
+	options.o \
+	alan.version.o \
+	pmParse.o pmPaSema.o \
+	pmErr.o \
+	smScanx.o smScSema.o
 
-sym:
-	$(MAKE) $@Test; $@Test
-
-claTest.o : claTest.c cla.c unitTest.h
-claTest : claTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
-
-cla:
-	$(MAKE) $@Test; $@Test
-
-insTest.o : insTest.c ins.c unitTest.h
-insTest : insTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o lmList.o str.o
-
-ins:
-	$(MAKE) $@Test; $@Test
-
-advTest.o : advTest.c adv.c unitTest.h
-advTest : advTest.o util.o sym.o dump.o id.o lst.o srcp.o slt.o unitList.o str.o \
-	stm.o atr.o wrd.o msg.o sco.o stx.o vrb.o cla.o ins.o evt.o syn.o rul.o \
-	emit.o opt.o whr.o exp.o encode.o wht.o alan.o elm.o res.o alt.o timing.o \
-	srcp.o sysdep.o pmParse.o pmPaSema.o smScanx.o smScSema.o alan.version.o \
-	options.o chk.o pmErr.o ext.o lim.o scr.o stp.o 
-
-adv:
-	$(MAKE) $@Test; $@Test
+test: unit
+	unit
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -92,7 +92,7 @@ static void anext(ExtNod *ext)	/* IN - Exit to analyze */
   SymNod *sym;			/* Symbol table entry */
   ElmNod *elm;
 
-  sym = symcheck(&elm, ext->to->string, INSTANCE_SYMBOL, NULL);
+  sym = symcheck(&elm, ext->to, INSTANCE_SYMBOL, NULL);
   syserr("UNIMPL: check that an instance is a location");
 
   anchks(ext->chks, NULL, NULL);

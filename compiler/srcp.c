@@ -8,7 +8,7 @@
 #include "alan.h"
 #include "dump.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 
 
 /*======================================================================

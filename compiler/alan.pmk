@@ -206,19 +206,7 @@ static int val(char str[])
     ;
 
 <unit>
-    = <default>
-    %% adv.atrs = combine(adv.atrs, %<default>.atrs); %%
-
-    ! <object_default>
-    %% adv.oatrs = combine(adv.oatrs, %<object_default>.atrs); %%
-
-    ! <location_default>
-    %% adv.latrs = combine(adv.latrs, %<location_default>.atrs); %%
-
-    ! <actor_default>
-    %% adv.aatrs = combine(adv.aatrs, %<actor_default>.atrs); %%
-
-    ! <synonyms>
+    = <synonyms>
     %% adv.syns = combine(adv.syns, %<synonyms>.syns); %%
 
     ! <messages>
@@ -244,35 +232,6 @@ static int val(char str[])
 
     ! <rule>
     %% adv.ruls = concat(adv.ruls, %<rule>.rul, LIST_RUL); %%
-    ;
-
-----> DEFAULTS
-<default>				-- RETURNS: atrs
-    = 'DEFAULT' 'ATTRIBUTES' <attributes>		%+('MESSAGE', 'DEFAULT', 'THE')
-    %%
-	%<default>.atrs = %<attributes>.atrs;
-    %%
-    ;
-
-<location_default>		-- RETURNS: atrs
-    = 'LOCATION' 'ATTRIBUTES' <attributes>		%+('MESSAGE', 'DEFAULT', 'THE')
-    %%
-	%<location_default>.atrs = %<attributes>.atrs;
-    %%
-    ;
-
-<object_default>			-- RETURNS: atrs
-    = 'OBJECT' 'ATTRIBUTES' <attributes>			%+('MESSAGE', 'DEFAULT', 'THE')
-    %%
-	%<object_default>.atrs = %<attributes>.atrs;
-    %%
-    ;
-
-<actor_default>			-- RETURNS: atrs
-    = 'ACTOR' 'ATTRIBUTES' <attributes>			%+('MESSAGE', 'DEFAULT', 'THE')
-    %%
-	%<actor_default>.atrs = %<attributes>.atrs;
-    %%
     ;
 
 ----> ATTRIBUTES
@@ -2149,114 +2108,6 @@ ID
 	%ID.id = newId(`&%Identifier.srcp, %Identifier.chars);
     %%
 
-    ! 'DEFAULT'
-    %%
-        %ID.id = newId(`&%'DEFAULT'.srcp, "default");
-    %%
-
-    ! 'THE'
-    %%
-        %ID.id = newId(`&%'THE'.srcp, "the");
-    %%
-
-    ! 'ARTICLE'
-    %%
-        %ID.id = newId(`&%'ARTICLE'.srcp, "article");
-    %%
-
-    ! 'MESSAGE'
-    %%
-        %ID.id = newId(`&%'MESSAGE'.srcp, "message");
-    %%
-
-    ! 'QUIT'
-    %%
-        %ID.id = newId(`&%'QUIT'.srcp, "quit");
-    %%
-
-    ! 'SAVE'
-    %%
-        %ID.id = newId(`&%'SAVE'.srcp, "save");
-    %%
-
-    ! 'RESTORE'
-    %%
-        %ID.id = newId(`&%'RESTORE'.srcp, "restore");
-    %%
-
-    ! 'RESTART'
-    %%
-        %ID.id = newId(`&%'RESTART'.srcp, "restart");
-    %%
-
-    ! 'WAIT'
-    %%
-        %ID.id = newId(`&%'WAIT'.srcp, "wait");
-    %%
-
-    ! 'BETWEEN'
-    %%
-        %ID.id = newId(`&%'BETWEEN'.srcp, "between");
-    %%
-
-    ! 'CONTAINS'
-    %%
-        %ID.id = newId(`&%'CONTAINS'.srcp, "contains");
-    %%
-
-    ! 'ON'
-    %%
-        %ID.id = newId(`&%'ON'.srcp, "on");
-    %%
-
-    ! 'IN'
-    %%
-        %ID.id = newId(`&%'IN'.srcp, "in");
-    %%
-
-    ! 'AFTER'
-    %%
-        %ID.id = newId(`&%'AFTER'.srcp, "after");
-    %%
-
-    ! 'BEFORE'
-    %%
-        %ID.id = newId(`&%'BEFORE'.srcp, "before");
-    %%
-
-    ! 'CHECK'
-    %%
-        %ID.id = newId(`&%'CHECK'.srcp, "check");
-    %%
-
-    ! 'DEPEND'
-    %%
-        %ID.id = newId(`&%'DEPEND'.srcp, "depend");
-    %%
-
-    ! 'EXIT'
-    %%
-        %ID.id = newId(`&%'EXIT'.srcp, "exit");
-    %%
-
-    ! 'FOR'
-    %%
-        %ID.id = newId(`&%'FOR'.srcp, "for");
-    %%
-
-    ! 'ISA'
-    %%
-        %ID.id = newId(`&%'ISA'.srcp, "isa");
-    %%
-
-    ! 'LIMITS'
-    %%
-        %ID.id = newId(`&%'LIMITS'.srcp, "limits");
-    %%
-
-    ! 'THING'
-    %%
-	%ID.id = newId(`&%'THING'.srcp, "thing");
-    %%
+-- Possibly we could add keywords here. But let's not at this point
     ;
 

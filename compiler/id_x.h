@@ -10,6 +10,7 @@
 #include "id.h"
 
 /* USE: */
+#include "types.h"
 #include "sym.h"
 
 /* DATA: */

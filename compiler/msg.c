@@ -9,7 +9,7 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
 #include "adv.h"

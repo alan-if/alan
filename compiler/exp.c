@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
@@ -17,7 +17,7 @@
 #include "atr.h"		/* ATR-nodes */
 #include "whr.h"		/* WHR-nodes */
 #include "wht.h"		/* WHT-nodes */
-#include "id.h"		/* ID-nodes */
+#include "id_x.h"
 #include "elm.h"		/* ELM-nodes */
 #include "ins.h"		/* INS-nodes */
 

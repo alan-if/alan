@@ -921,3 +921,516 @@ wht.o: wht.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
  alanCommon.h token.h wht.h id.h sym.h emit.h acode.h dump.h
 wrd.o: wrd.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
  alanCommon.h token.h acode.h wrd.h id.h sym.h opt.h emit.h dump.h
+act.o: act.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h exp.h alan.h atr.h elm.h emit.h stm.h \
+ ins.h slt.h cnt.h scr.h act.h nam.h loc.h ext.h wrd.h vrb.h stx.h \
+ lmList.h alanCommon.h token.h
+adv.o: adv.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h whr.h \
+ evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h stx.h \
+ ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h options.h \
+ encode.h
+advTest.o: advTest.c adv.c alan.h sysdep.h types.h lst.h util.h srcp.h \
+ lmList.h alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h \
+ whr.h evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h \
+ stx.h ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h \
+ options.h encode.h unitTest.h
+alan.o: alan.c sysdep.h types.h util.h srcp.h alan.h lst.h \
+ alan.version.h version.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h opt.h lmList.h alanCommon.h token.h pmParse.h smScan.h \
+ options.h timing.h
+alan.version.o: alan.version.c alan.version.h version.h
+alt.o: alt.c util.h types.h srcp.h lmList.h alanCommon.h token.h \
+ srcp_x.h id_x.h id.h sym.h lst.h alt.h ins.h whr.h evt.h acode.h \
+ wht.h slt.h cnt.h chk.h exp.h alan.h sysdep.h stm.h elm.h emit.h \
+ dump.h
+atr.o: atr.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h atr.h alan.h exp.h elm.h emit.h ins.h \
+ slt.h cnt.h opt.h lmList.h alanCommon.h token.h encode.h
+chk.o: chk.c util.h types.h srcp.h options.h lst.h dump.h sysdep.h \
+ exp.h alan.h wht.h id.h sym.h whr.h evt.h acode.h stm.h ins.h slt.h \
+ cnt.h chk.h emit.h
+cla.o: cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h whr.h evt.h \
+ acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h \
+ sysdep.h lmList.h alanCommon.h token.h
+claTest.o: claTest.c cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h \
+ whr.h evt.h acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h \
+ dump.h sysdep.h lmList.h alanCommon.h token.h
+cnt.o: cnt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h stm.h ins.h slt.h cnt.h exp.h elm.h lim.h atr.h emit.h obj.h \
+ nam.h
+dump.o: dump.c alan.h sysdep.h types.h lst.h adv.h whr.h evt.h srcp.h \
+ id.h sym.h acode.h wht.h dump.h nam.h elm.h atr.h exp.h emit.h stm.h \
+ ins.h slt.h cnt.h chk.h vrb.h stx.h lim.h ext.h scr.h stp.h rul.h \
+ lmList.h alanCommon.h token.h
+elm.o: elm.c util.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
+ lst.h stx.h id.h acode.h elm.h wrd.h emit.h dump.h sysdep.h
+emit.o: emit.c sysdep.h types.h util.h srcp.h alan.h lst.h acode.h \
+ alan.version.h version.h emit.h
+encode.o: encode.c alan.h sysdep.h types.h lst.h util.h srcp.h acode.h \
+ opt.h emit.h encode.h
+evt.o: evt.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h stm.h \
+ alan.h ins.h slt.h cnt.h exp.h opt.h emit.h
+exp.o: exp.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h exp.h \
+ alan.h atr.h elm.h emit.h ins.h slt.h cnt.h encode.h
+ext.o: ext.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ sym_x.h sym.h elm.h id.h acode.h id_x.h nam.h stm.h wht.h whr.h evt.h \
+ ins.h slt.h cnt.h exp.h chk.h ext.h wrd.h emit.h lmList.h \
+ alanCommon.h token.h dump.h
+id.o: id.c id.h sym.h srcp.h elm.h lst.h acode.h str.h util.h types.h \
+ dump.h sysdep.h
+ins.o: ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h acode.h wht.h \
+ slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h alanCommon.h \
+ token.h
+insTest.o: insTest.c ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h \
+ acode.h wht.h slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h \
+ alanCommon.h token.h unitTest.h
+lim.o: lim.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h chk.h vrb.h \
+ stx.h lim.h ext.h rul.h
+lmList.o: lmList.c lmList.h alanCommon.h types.h token.h srcp.h
+loc.o: loc.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h loc.h ext.h stm.h ins.h slt.h \
+ cnt.h vrb.h stx.h
+lst.o: lst.c lst.h util.h types.h srcp.h dump.h sysdep.h
+macSpa.o: macSpa.c
+main.o: main.c util.h types.h srcp.h alan.h sysdep.h lst.h spa.h \
+ options.h dump.h alan.version.h version.h
+msg.o: msg.c sysdep.h alan.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h msg.h stm.h ins.h slt.h cnt.h exp.h opt.h emit.h encode.h
+nam.o: nam.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h nam.h elm.h id.h sym.h acode.h str.h obj.h whr.h \
+ evt.h wht.h cnt.h act.h ext.h loc.h vrb.h ins.h slt.h stx.h msg.h \
+ dump.h emit.h
+obj.o: obj.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h stm.h ins.h slt.h cnt.h obj.h \
+ loc.h ext.h wrd.h vrb.h stx.h
+opt.o: opt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h opt.h emit.h
+options.o: options.c types.h dump.h sysdep.h options.h lst.h
+pmErr.o: pmErr.c util.h types.h srcp.h smScan.h alanCommon.h token.h \
+ sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h chk.h \
+ cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h stp.h \
+ str.h stx.h syn.h vrb.h
+pmPaSema.o: pmPaSema.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h
+pmParse.o: pmParse.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h pmParse.h
+res.o: res.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ lmList.h alanCommon.h token.h res_x.h res.h id.h sym.h acode.h stx.h \
+ sym_x.h elm.h id_x.h stm.h wht.h whr.h evt.h ins.h slt.h cnt.h exp.h \
+ emit.h dump.h
+rul.o: rul.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h exp.h stm.h ins.h slt.h cnt.h rul.h emit.h
+sco.o: sco.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h sco.h emit.h
+scr.o: scr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h stm.h wht.h id.h sym.h whr.h evt.h ins.h \
+ slt.h cnt.h exp.h stp.h scr.h emit.h dump.h
+slt.o: slt.c slt.h types.h lst.h whr.h evt.h srcp.h id.h sym.h acode.h \
+ wht.h cnt.h util.h dump.h sysdep.h
+smScSema.o: smScSema.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h str.h
+smScan.o: smScan.c sysdep.h types.h alan.h lst.h lmList.h alanCommon.h \
+ token.h srcp.h encode.h acode.h smScan.h
+smScanx.o: smScanx.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h
+spa.o: spa.c spa.h
+srcp.o: srcp.c alan.h sysdep.h types.h lst.h dump.h srcp.h
+stm.o: stm.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h scr.h sco.h \
+ opt.h encode.h
+stp.o: stp.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h exp.h wht.h id.h sym.h whr.h evt.h acode.h stm.h \
+ ins.h slt.h cnt.h stp.h emit.h dump.h
+str.o: str.c str.h sysdep.h types.h util.h srcp.h dump.h
+stx.o: stx.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h res.h stx.h elm.h wrd.h emit.h
+sym.o: sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h id.h acode.h \
+ sysdep.h util.h lmList.h alanCommon.h token.h cla.h slt.h whr.h evt.h \
+ wht.h cnt.h
+symTest.o: symTest.c sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h \
+ id.h acode.h sysdep.h util.h lmList.h alanCommon.h token.h cla.h \
+ slt.h whr.h evt.h wht.h cnt.h id_x.h unitTest.h
+syn.o: syn.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h syn.h wrd.h emit.h
+sysdep.o: sysdep.c sysdep.h
+timing.o: timing.c sysdep.h timing.h
+unit.o: unit.c unitTest.h lmList.h alanCommon.h types.h token.h srcp.h \
+ claTest.c cla.c cla.h id.h sym.h slt.h lst.h whr.h evt.h acode.h \
+ wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h sysdep.h
+unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
+util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
+ token.h
+vrb.o: vrb.c vrb.h srcp.h lst.h ins.h id.h sym.h whr.h evt.h acode.h \
+ wht.h slt.h types.h cnt.h stx.h util.h lmList.h alanCommon.h token.h \
+ adv.h dump.h sysdep.h alt.h emit.h
+whr.o: whr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h sym.h cnt.h wht.h id.h elm.h whr.h evt.h \
+ dump.h emit.h
+wht.o: wht.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h wht.h id.h sym.h emit.h acode.h dump.h
+wrd.o: wrd.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h wrd.h id.h sym.h opt.h emit.h dump.h
+act.o: act.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h exp.h alan.h atr.h elm.h emit.h stm.h \
+ ins.h slt.h cnt.h scr.h act.h nam.h loc.h ext.h wrd.h vrb.h stx.h \
+ lmList.h alanCommon.h token.h
+adv.o: adv.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h whr.h \
+ evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h stx.h \
+ ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h options.h \
+ encode.h
+advTest.o: advTest.c adv.c alan.h sysdep.h types.h lst.h util.h srcp.h \
+ lmList.h alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h \
+ whr.h evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h \
+ stx.h ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h \
+ options.h encode.h unitTest.h
+alan.o: alan.c sysdep.h types.h util.h srcp.h alan.h lst.h \
+ alan.version.h version.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h opt.h lmList.h alanCommon.h token.h pmParse.h smScan.h \
+ options.h timing.h
+alan.version.o: alan.version.c alan.version.h version.h
+alt.o: alt.c util.h types.h srcp.h lmList.h alanCommon.h token.h \
+ srcp_x.h id_x.h id.h sym.h lst.h alt.h ins.h whr.h evt.h acode.h \
+ wht.h slt.h cnt.h chk.h exp.h alan.h sysdep.h stm.h elm.h emit.h \
+ dump.h
+atr.o: atr.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h atr.h alan.h exp.h elm.h emit.h ins.h \
+ slt.h cnt.h opt.h lmList.h alanCommon.h token.h encode.h
+chk.o: chk.c util.h types.h srcp.h options.h lst.h dump.h sysdep.h \
+ exp.h alan.h wht.h id.h sym.h whr.h evt.h acode.h stm.h ins.h slt.h \
+ cnt.h chk.h emit.h
+cla.o: cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h whr.h evt.h \
+ acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h \
+ sysdep.h lmList.h alanCommon.h token.h
+claTest.o: claTest.c cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h \
+ whr.h evt.h acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h \
+ dump.h sysdep.h lmList.h alanCommon.h token.h
+cnt.o: cnt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h stm.h ins.h slt.h cnt.h exp.h elm.h lim.h atr.h emit.h obj.h \
+ nam.h
+dump.o: dump.c alan.h sysdep.h types.h lst.h adv.h whr.h evt.h srcp.h \
+ id.h sym.h acode.h wht.h dump.h nam.h elm.h atr.h exp.h emit.h stm.h \
+ ins.h slt.h cnt.h chk.h vrb.h stx.h lim.h ext.h scr.h stp.h rul.h \
+ lmList.h alanCommon.h token.h
+elm.o: elm.c util.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
+ lst.h stx.h id.h acode.h elm.h wrd.h emit.h dump.h sysdep.h
+emit.o: emit.c sysdep.h types.h util.h srcp.h alan.h lst.h acode.h \
+ alan.version.h version.h emit.h
+encode.o: encode.c alan.h sysdep.h types.h lst.h util.h srcp.h acode.h \
+ opt.h emit.h encode.h
+evt.o: evt.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h stm.h \
+ alan.h ins.h slt.h cnt.h exp.h opt.h emit.h
+exp.o: exp.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h exp.h \
+ alan.h atr.h elm.h emit.h ins.h slt.h cnt.h encode.h
+ext.o: ext.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ sym_x.h sym.h elm.h id.h acode.h id_x.h nam.h stm.h wht.h whr.h evt.h \
+ ins.h slt.h cnt.h exp.h chk.h ext.h wrd.h emit.h lmList.h \
+ alanCommon.h token.h dump.h
+id.o: id.c id.h sym.h srcp.h elm.h lst.h acode.h str.h util.h types.h \
+ dump.h sysdep.h
+ins.o: ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h acode.h wht.h \
+ slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h alanCommon.h \
+ token.h
+insTest.o: insTest.c ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h \
+ acode.h wht.h slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h \
+ alanCommon.h token.h unitTest.h
+lim.o: lim.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h chk.h vrb.h \
+ stx.h lim.h ext.h rul.h
+lmList.o: lmList.c lmList.h alanCommon.h types.h token.h srcp.h
+loc.o: loc.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h loc.h ext.h stm.h ins.h slt.h \
+ cnt.h vrb.h stx.h
+lst.o: lst.c lst.h util.h types.h srcp.h dump.h sysdep.h
+macSpa.o: macSpa.c
+main.o: main.c util.h types.h srcp.h alan.h sysdep.h lst.h spa.h \
+ options.h dump.h alan.version.h version.h
+msg.o: msg.c sysdep.h alan.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h msg.h stm.h ins.h slt.h cnt.h exp.h opt.h emit.h encode.h
+nam.o: nam.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h nam.h elm.h id.h sym.h acode.h str.h obj.h whr.h \
+ evt.h wht.h cnt.h act.h ext.h loc.h vrb.h ins.h slt.h stx.h msg.h \
+ dump.h emit.h
+obj.o: obj.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h stm.h ins.h slt.h cnt.h obj.h \
+ loc.h ext.h wrd.h vrb.h stx.h
+opt.o: opt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h opt.h emit.h
+options.o: options.c types.h dump.h sysdep.h options.h lst.h
+pmErr.o: pmErr.c util.h types.h srcp.h smScan.h alanCommon.h token.h \
+ sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h chk.h \
+ cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h stp.h \
+ str.h stx.h syn.h vrb.h
+pmPaSema.o: pmPaSema.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h
+pmParse.o: pmParse.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h pmParse.h
+res.o: res.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ lmList.h alanCommon.h token.h res_x.h res.h id.h sym.h acode.h stx.h \
+ sym_x.h elm.h id_x.h stm.h wht.h whr.h evt.h ins.h slt.h cnt.h exp.h \
+ emit.h dump.h
+rul.o: rul.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h exp.h stm.h ins.h slt.h cnt.h rul.h emit.h
+sco.o: sco.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h sco.h emit.h
+scr.o: scr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h stm.h wht.h id.h sym.h whr.h evt.h ins.h \
+ slt.h cnt.h exp.h stp.h scr.h emit.h dump.h
+slt.o: slt.c slt.h types.h lst.h whr.h evt.h srcp.h id.h sym.h acode.h \
+ wht.h cnt.h util.h dump.h sysdep.h
+smScSema.o: smScSema.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h str.h
+smScan.o: smScan.c sysdep.h types.h alan.h lst.h lmList.h alanCommon.h \
+ token.h srcp.h encode.h acode.h smScan.h
+smScanx.o: smScanx.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h
+spa.o: spa.c spa.h
+srcp.o: srcp.c alan.h sysdep.h types.h lst.h dump.h srcp.h
+stm.o: stm.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h scr.h sco.h \
+ opt.h encode.h
+stp.o: stp.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h exp.h wht.h id.h sym.h whr.h evt.h acode.h stm.h \
+ ins.h slt.h cnt.h stp.h emit.h dump.h
+str.o: str.c str.h sysdep.h types.h util.h srcp.h dump.h
+stx.o: stx.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h res.h stx.h elm.h wrd.h emit.h
+sym.o: sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h id.h acode.h \
+ sysdep.h util.h lmList.h alanCommon.h token.h cla.h slt.h whr.h evt.h \
+ wht.h cnt.h
+symTest.o: symTest.c sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h \
+ id.h acode.h sysdep.h util.h lmList.h alanCommon.h token.h cla.h \
+ slt.h whr.h evt.h wht.h cnt.h id_x.h unitTest.h
+syn.o: syn.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h syn.h wrd.h emit.h
+sysdep.o: sysdep.c sysdep.h
+timing.o: timing.c sysdep.h timing.h
+unit.o: unit.c unitTest.h lmList.h alanCommon.h types.h token.h srcp.h \
+ claTest.c cla.c cla.h id.h sym.h slt.h lst.h whr.h evt.h acode.h \
+ wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h sysdep.h
+unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
+util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
+ token.h
+vrb.o: vrb.c vrb.h srcp.h lst.h ins.h id.h sym.h whr.h evt.h acode.h \
+ wht.h slt.h types.h cnt.h stx.h util.h lmList.h alanCommon.h token.h \
+ adv.h dump.h sysdep.h alt.h emit.h
+whr.o: whr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h sym.h cnt.h wht.h id.h elm.h whr.h evt.h \
+ dump.h emit.h
+wht.o: wht.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h wht.h id.h sym.h emit.h acode.h dump.h
+wrd.o: wrd.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h wrd.h id.h sym.h opt.h emit.h dump.h
+act.o: act.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h exp.h alan.h atr.h elm.h emit.h stm.h \
+ ins.h slt.h cnt.h scr.h act.h nam.h loc.h ext.h wrd.h vrb.h stx.h \
+ lmList.h alanCommon.h token.h
+adv.o: adv.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h whr.h \
+ evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h stx.h \
+ ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h options.h \
+ encode.h
+advTest.o: advTest.c adv.c alan.h sysdep.h types.h lst.h util.h srcp.h \
+ lmList.h alanCommon.h token.h sym_x.h sym.h elm.h id.h acode.h adv.h \
+ whr.h evt.h wht.h dump.h cla.h slt.h cnt.h ins.h stm.h exp.h vrb.h \
+ stx.h ext.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h \
+ options.h encode.h
+alan.o: alan.c sysdep.h types.h util.h srcp.h alan.h lst.h \
+ alan.version.h version.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h opt.h lmList.h alanCommon.h token.h pmParse.h smScan.h \
+ options.h timing.h
+alan.version.o: alan.version.c alan.version.h version.h
+alt.o: alt.c util.h types.h srcp.h lmList.h alanCommon.h token.h \
+ srcp_x.h id_x.h id.h sym.h lst.h alt.h ins.h whr.h evt.h acode.h \
+ wht.h slt.h cnt.h chk.h exp.h alan.h sysdep.h stm.h elm.h emit.h \
+ dump.h
+atr.o: atr.c util.h types.h srcp.h adv.h lst.h whr.h evt.h id.h sym.h \
+ acode.h wht.h dump.h sysdep.h atr.h alan.h exp.h elm.h emit.h ins.h \
+ slt.h cnt.h opt.h lmList.h alanCommon.h token.h encode.h
+chk.o: chk.c util.h types.h srcp.h options.h lst.h dump.h sysdep.h \
+ exp.h alan.h wht.h id.h sym.h whr.h evt.h acode.h stm.h ins.h slt.h \
+ cnt.h chk.h emit.h
+cla.o: cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h whr.h evt.h \
+ acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h \
+ sysdep.h lmList.h alanCommon.h token.h
+claTest.o: claTest.c cla.c cla.h types.h id.h sym.h srcp.h slt.h lst.h \
+ whr.h evt.h acode.h wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h \
+ dump.h sysdep.h lmList.h alanCommon.h token.h
+cnt.o: cnt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h stm.h ins.h slt.h cnt.h exp.h elm.h lim.h atr.h emit.h obj.h \
+ nam.h
+dump.o: dump.c alan.h sysdep.h types.h lst.h adv.h whr.h evt.h srcp.h \
+ id.h sym.h acode.h wht.h dump.h nam.h elm.h atr.h exp.h emit.h stm.h \
+ ins.h slt.h cnt.h chk.h vrb.h stx.h lim.h ext.h scr.h stp.h rul.h \
+ lmList.h alanCommon.h token.h
+elm.o: elm.c util.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
+ lst.h stx.h id.h acode.h elm.h wrd.h emit.h dump.h sysdep.h
+emit.o: emit.c sysdep.h types.h util.h srcp.h alan.h lst.h acode.h \
+ alan.version.h version.h emit.h
+encode.o: encode.c alan.h sysdep.h types.h lst.h util.h srcp.h acode.h \
+ opt.h emit.h encode.h
+evt.o: evt.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h stm.h \
+ alan.h ins.h slt.h cnt.h exp.h opt.h emit.h
+exp.o: exp.c util.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
+ lst.h whr.h evt.h id.h sym.h acode.h wht.h dump.h sysdep.h exp.h \
+ alan.h atr.h elm.h emit.h ins.h slt.h cnt.h encode.h
+ext.o: ext.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ sym_x.h sym.h elm.h id.h acode.h id_x.h nam.h stm.h wht.h whr.h evt.h \
+ ins.h slt.h cnt.h exp.h chk.h ext.h wrd.h emit.h lmList.h \
+ alanCommon.h token.h dump.h
+id.o: id.c id.h sym.h srcp.h elm.h lst.h acode.h str.h util.h types.h \
+ dump.h sysdep.h
+ins.o: ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h acode.h wht.h \
+ slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h alanCommon.h \
+ token.h
+insTest.o: insTest.c ins.c ins.h srcp.h id.h sym.h lst.h whr.h evt.h \
+ acode.h wht.h slt.h types.h cnt.h sysdep.h util.h dump.h lmList.h \
+ alanCommon.h token.h unitTest.h
+lim.o: lim.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h chk.h vrb.h \
+ stx.h lim.h ext.h rul.h
+lmList.o: lmList.c lmList.h alanCommon.h types.h token.h srcp.h
+loc.o: loc.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h loc.h ext.h stm.h ins.h slt.h \
+ cnt.h vrb.h stx.h
+lst.o: lst.c lst.h util.h types.h srcp.h dump.h sysdep.h
+macSpa.o: macSpa.c
+main.o: main.c util.h types.h srcp.h alan.h sysdep.h lst.h spa.h \
+ options.h dump.h alan.version.h version.h
+msg.o: msg.c sysdep.h alan.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h msg.h stm.h ins.h slt.h cnt.h exp.h opt.h emit.h encode.h
+nam.o: nam.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h nam.h elm.h id.h sym.h acode.h str.h obj.h whr.h \
+ evt.h wht.h cnt.h act.h ext.h loc.h vrb.h ins.h slt.h stx.h msg.h \
+ dump.h emit.h
+obj.o: obj.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h nam.h elm.h exp.h atr.h emit.h stm.h ins.h slt.h cnt.h obj.h \
+ loc.h ext.h wrd.h vrb.h stx.h
+opt.o: opt.c alan.h sysdep.h types.h lst.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h opt.h emit.h
+options.o: options.c types.h dump.h sysdep.h options.h lst.h
+pmErr.o: pmErr.c util.h types.h srcp.h smScan.h alanCommon.h token.h \
+ sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h chk.h \
+ cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h stp.h \
+ str.h stx.h syn.h vrb.h
+pmPaSema.o: pmPaSema.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h
+pmParse.o: pmParse.c util.h types.h srcp.h smScan.h alanCommon.h \
+ token.h sysdep.h lst.h lmList.h adv.h whr.h evt.h id.h sym.h acode.h \
+ wht.h dump.h alt.h ins.h slt.h cnt.h atr.h alan.h exp.h elm.h emit.h \
+ chk.h cla.h ext.h lim.h msg.h opt.h res.h rul.h sco.h scr.h stm.h \
+ stp.h str.h stx.h syn.h vrb.h pmParse.h
+res.o: res.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
+ lmList.h alanCommon.h token.h res_x.h res.h id.h sym.h acode.h stx.h \
+ sym_x.h elm.h id_x.h stm.h wht.h whr.h evt.h ins.h slt.h cnt.h exp.h \
+ emit.h dump.h
+rul.o: rul.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h exp.h stm.h ins.h slt.h cnt.h rul.h emit.h
+sco.o: sco.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h sco.h emit.h
+scr.o: scr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h stm.h wht.h id.h sym.h whr.h evt.h ins.h \
+ slt.h cnt.h exp.h stp.h scr.h emit.h dump.h
+slt.o: slt.c slt.h types.h lst.h whr.h evt.h srcp.h id.h sym.h acode.h \
+ wht.h cnt.h util.h dump.h sysdep.h
+smScSema.o: smScSema.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h str.h
+smScan.o: smScan.c sysdep.h types.h alan.h lst.h lmList.h alanCommon.h \
+ token.h srcp.h encode.h acode.h smScan.h
+smScanx.o: smScanx.c sysdep.h types.h alan.h lst.h lmList.h \
+ alanCommon.h token.h srcp.h encode.h acode.h smScan.h
+spa.o: spa.c spa.h
+srcp.o: srcp.c alan.h sysdep.h types.h lst.h dump.h srcp.h
+stm.o: stm.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h exp.h atr.h elm.h emit.h stm.h ins.h slt.h cnt.h scr.h sco.h \
+ opt.h encode.h
+stp.o: stp.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h exp.h wht.h id.h sym.h whr.h evt.h acode.h stm.h \
+ ins.h slt.h cnt.h stp.h emit.h dump.h
+str.o: str.c str.h sysdep.h types.h util.h srcp.h dump.h
+stx.o: stx.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h adv.h whr.h evt.h id.h sym.h acode.h wht.h \
+ dump.h res.h stx.h elm.h wrd.h emit.h
+sym.o: sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h id.h acode.h \
+ sysdep.h util.h lmList.h alanCommon.h token.h cla.h slt.h whr.h evt.h \
+ wht.h cnt.h
+symTest.o: symTest.c sym.c sym_x.h sym.h types.h elm.h srcp.h lst.h \
+ id.h acode.h sysdep.h util.h lmList.h alanCommon.h token.h cla.h \
+ slt.h whr.h evt.h wht.h cnt.h
+syn.o: syn.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h adv.h whr.h evt.h id.h sym.h wht.h \
+ dump.h syn.h wrd.h emit.h
+sysdep.o: sysdep.c sysdep.h
+timing.o: timing.c sysdep.h timing.h
+unit.o: unit.c unitTest.h lmList.h alanCommon.h types.h token.h srcp.h \
+ claTest.c cla.c cla.h id.h sym.h slt.h lst.h whr.h evt.h acode.h \
+ wht.h cnt.h srcp_x.h id_x.h sym_x.h elm.h util.h dump.h sysdep.h \
+ advTest.c adv.c alan.h adv.h ins.h stm.h exp.h vrb.h stx.h ext.h \
+ rul.h wrd.h syn.h atr.h emit.h msg.h sco.h opt.h options.h encode.h \
+ symTest.c sym.c
+unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
+util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
+ token.h
+vrb.o: vrb.c vrb.h srcp.h lst.h ins.h id.h sym.h whr.h evt.h acode.h \
+ wht.h slt.h types.h cnt.h stx.h util.h lmList.h alanCommon.h token.h \
+ adv.h dump.h sysdep.h alt.h emit.h
+whr.o: whr.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h sym.h cnt.h wht.h id.h elm.h whr.h evt.h \
+ dump.h emit.h
+wht.o: wht.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h wht.h id.h sym.h emit.h acode.h dump.h
+wrd.o: wrd.c alan.h sysdep.h types.h lst.h util.h srcp.h lmList.h \
+ alanCommon.h token.h acode.h wrd.h id.h sym.h opt.h emit.h dump.h

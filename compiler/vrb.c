@@ -9,7 +9,7 @@
 
 #include "util.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-nodes */
@@ -17,7 +17,7 @@
 #include "sym.h"		/* SYM-nodes */
 #include "stx.h"		/* STX-nodes */
 #include "ins.h"		/* INS-nodes */
-#include "id.h"
+#include "id_x.h"
 #include "lst.h"
 
 #include "acode.h"

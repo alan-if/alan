@@ -48,21 +48,21 @@ typedef enum lmMessages {
 /* UNINITIALISED: */
 /* Initialise the lmLister System */
 extern void lmLiInit(char header[],
-		     char src[],
-		     lmMessages msect);
+				 char src[],
+				 lmMessages msect);
 
 /* COLLECTING: */
 /* Log a message at a source position */
 extern void lmLog(Srcp *pos,
-		  int ecode,
-		  lmSev sev,
-		  char *istrs);
+				int ecode,
+				lmSev sev,
+				char *istrs);
 
 /* Log a message at a source position using va_arg handling */
 extern void lmLogv(Srcp *pos,
-		   int ecode,
-		   lmSev sev,
-		   ...);
+				int ecode,
+				lmSev sev,
+				...);
 
 /* Turn listing completely off after a particular source position */
 extern void lmLiOff(Srcp *pos);
@@ -72,8 +72,8 @@ extern void lmLiOn(Srcp *pos);
 
 /* Start reading an included file at a particular source position */
 extern void lmLiEnter(Srcp *pos,
-		      Srcp *start,
-		      char fnm[]);
+				  Srcp *start,
+				  char fnm[]);
 
 /* Stop reading from an included file prematurely */
 extern void lmLiExit(Srcp *pos);
@@ -90,15 +90,15 @@ extern void lmResLocSeverity(void);
 /* RETRIEVING: */
 /* Create a listing of a selected type in a file or the screen */
 extern void lmList(char ofnm[],
-		   int lins,
-		   int cols,
-		   lmTyp typ,
-		   lmSev sevs);
+				 int lins,
+				 int cols,
+				 lmTyp typ,
+				 lmSev sevs);
 
 /* Return the i'th formatted message, return 0 if not found */
 extern int lmMsg(int i,
-		 Srcp *pos,
-		 char *msg);
+			       Srcp *pos,
+			       char *msg);
 
 /* Print a string on a line in the output file */
 extern void lmLiPrint(char str[]);

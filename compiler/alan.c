@@ -20,7 +20,7 @@
 
 #include "alan.version.h"
 
-#include "srcp.h"
+#include "srcp_x.h"
 
 #include "adv.h"
 #include "opt.h"
