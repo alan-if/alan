@@ -20,7 +20,7 @@
 
 /* FUNCTIONS: */
 
-extern ExpNod *newexp(Srcp *srcp, ExpKind class);
+extern ExpNod *newexp(Srcp *srcp, ExpressionKind kind);
 extern void anexp(ExpNod *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern void geexp(ExpNod *exp);

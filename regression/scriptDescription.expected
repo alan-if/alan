@@ -1,11 +1,8 @@
-########## script_description ##########
-../compiler/alan script_description
-../interpreter/arun -n script_description < script_description.input
-########## /bin/sh  script_description.tst ##########
+########## alan scriptDescription ##########
 
         No warnings or errors detected.
-        2 informational message(s).
 
+########## arun scriptDescription ##########
 
 L
 The idle Alan is here.

@@ -58,8 +58,7 @@ Bool equalTypes(TypeKind typ1,	/* IN - types to compare */
   Allocates and initialises an expnod.
 
  */
-ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
-	       ExpKind class)	/* IN - The expression class */
+ExpNod *newexp(Srcp *srcp, ExpressionKind kind)
 {
   ExpNod *new;			/* The newly allocated area */
 
@@ -68,7 +67,7 @@ ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ExpNod);
 
   new->srcp = *srcp;
-  new->class = class;
+  new->kind = kind;
   new->not = FALSE;
 
   return(new);
@@ -84,11 +83,10 @@ ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
   Analyze a WHR expression.
 
  */
-static void anexpwhr(ExpNod *exp,
-		     Context *context)
+static void anexpwhr(ExpNod *exp, Context *context)
 {
   anexp(exp->fields.whr.wht, context);
-  if (exp->fields.whr.wht->class != EXPWHT)
+  if (exp->fields.whr.wht->kind != WHAT_EXPRESSION)
     lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
   else {
     switch (exp->fields.whr.wht->fields.wht.wht->kind) {
@@ -161,7 +159,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 {
   AtrNod *atr;
 
-  if (exp->fields.atr.wht->class == EXPWHT) {
+  if (exp->fields.atr.wht->kind == WHAT_EXPRESSION) {
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
       
     case WHT_ACT:
@@ -238,8 +236,8 @@ static void anbin(ExpNod *exp,
   anexp(exp->fields.bin.right, context);
 
   switch (exp->fields.bin.op) {
-  case OP_AND:
-  case OP_OR:
+  case AND_OPERATOR:
+  case OR_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, BOOLEAN_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
     if (!equalTypes(exp->fields.bin.right->type, BOOLEAN_TYPE))
@@ -247,8 +245,8 @@ static void anbin(ExpNod *exp,
     exp->type = BOOLEAN_TYPE;
     break;
 
-  case OP_NE:
-  case OP_EQ:
+  case NE_OPERATOR:
+  case EQ_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type))
       lmLog(&exp->srcp, 331, sevERR, "expression");
     else if (exp->fields.bin.left->type != UNKNOWN_TYPE && exp->fields.bin.right->type != UNKNOWN_TYPE)
@@ -263,17 +261,17 @@ static void anbin(ExpNod *exp,
     exp->type = BOOLEAN_TYPE;
     break;
 
-  case OP_EXACT:
+  case EXACT_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
     if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
     break;
 	    
-  case OP_LE:
-  case OP_GE:
-  case OP_LT:
-  case OP_GT:
+  case LE_OPERATOR:
+  case GE_OPERATOR:
+  case LT_OPERATOR:
+  case GT_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
     if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
@@ -281,10 +279,10 @@ static void anbin(ExpNod *exp,
     exp->type = BOOLEAN_TYPE;
     break;
 
-  case OP_PLUS:
-  case OP_MINUS:
-  case OP_MULT:
-  case OP_DIV:
+  case PLUS_OPERATOR:
+  case MINUS_OPERATOR:
+  case MULT_OPERATOR:
+  case DIV_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
     if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
@@ -292,7 +290,7 @@ static void anbin(ExpNod *exp,
     exp->type = INTEGER_TYPE;
     break;
 
-  case OP_CONTAINS:
+  case CONTAINS_OPERATOR:
     if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
     if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
@@ -321,7 +319,7 @@ static void anagr(ExpNod *exp,
   AtrNod *atr = NULL;
 
   exp->type = INTEGER_TYPE;
-  if (exp->fields.agr.agr != AGR_COUNT) {
+  if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     atr = findAttribute(NULL, exp->fields.agr.atr);
     if (atr == NULL) {		/* attribute not found globally */
       lmLog(&exp->fields.agr.atr->srcp, 404, sevERR,
@@ -455,49 +453,49 @@ void anexp(ExpNod *exp,
 {
   if (exp == NULL) return;	/* Ignore empty expressions (syntax error) */
   
-  switch (exp->class) {
+  switch (exp->kind) {
     
-  case EXPWHR:
+  case WHERE_EXPRESSION:
     anexpwhr(exp, context);
     break;
     
-  case EXPATR:
+  case ATTRIBUTE_EXPRESSION:
     anexpatr(exp, context);
     break;
 
-  case EXPBIN:
+  case BINARY_EXPRESSION:
     anbin(exp, context);
     break;
     
-  case EXPINT:
+  case INTEGER_EXPRESSION:
     exp->type = INTEGER_TYPE;
     break;
     
-  case EXPSTR:
+  case STRING_EXPRESSION:
     exp->type = STRING_TYPE;
     break;
     
-  case EXPAGR:
+  case AGGREGATE_EXPRESSION:
     anagr(exp, context);
     break;
     
-  case EXPRND:
+  case RANDOM_EXPRESSION:
     anrnd(exp, context);
     break;
 
-  case EXPSCORE:
+  case SCORE_EXPRESSION:
     exp->type = INTEGER_TYPE;
     break;
 
-  case EXPWHT:
+  case WHAT_EXPRESSION:
     anexpwht(exp, context);
     break;
 
-  case EXPBTW:
+  case BETWEEN_EXPRESSION:
     anexpbtw(exp, context);
     break;
 
-  case EXPISA:
+  case ISA_EXPRESSION:
     /* FIXME unimplemented */
     unimpl(&exp->srcp, "analyzer");
     break;
@@ -517,49 +515,49 @@ void anexp(ExpNod *exp,
 void generateBinaryOperator(ExpNod *exp)
 {
   switch (exp->fields.bin.op) {
-  case OP_AND:
+  case AND_OPERATOR:
     emit0(C_STMOP, I_AND);
     break;
-  case OP_OR:
+  case OR_OPERATOR:
     emit0(C_STMOP, I_OR);
     break;
-  case OP_NE:
+  case NE_OPERATOR:
     emit0(C_STMOP, I_NE);
     break;
-  case OP_EQ:
+  case EQ_OPERATOR:
     if (exp->fields.bin.right->type == STRING_TYPE)
       emit0(C_STMOP, I_STREQ);
     else
       emit0(C_STMOP, I_EQ);
     break;
-  case OP_EXACT:
+  case EXACT_OPERATOR:
     emit0(C_STMOP, I_STREXACT);
     break;
-  case OP_LE:
+  case LE_OPERATOR:
     emit0(C_STMOP, I_LE);
     break;
-  case OP_GE:
+  case GE_OPERATOR:
     emit0(C_STMOP, I_GE);
     break;
-  case OP_LT:
+  case LT_OPERATOR:
     emit0(C_STMOP, I_LT);
     break;
-  case OP_GT:
+  case GT_OPERATOR:
     emit0(C_STMOP, I_GT);
     break;
-  case OP_PLUS:
+  case PLUS_OPERATOR:
     emit0(C_STMOP, I_PLUS);
     break;
-  case OP_MINUS:
+  case MINUS_OPERATOR:
     emit0(C_STMOP, I_MINUS);
     break;
-  case OP_MULT:
+  case MULT_OPERATOR:
     emit0(C_STMOP, I_MULT);
     break;
-  case OP_DIV:
+  case DIV_OPERATOR:
     emit0(C_STMOP, I_DIV);
     break;
-  case OP_CONTAINS:
+  case CONTAINS_OPERATOR:
     emit0(C_STMOP, I_CONTAINS);
     break;
   }
@@ -708,13 +706,13 @@ static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
 {
   gewhr(exp->fields.agr.whr);
 
-  if (exp->fields.agr.agr != AGR_COUNT)
+  if (exp->fields.agr.kind != COUNT_AGGREGATE)
     emit0(C_CONST, exp->fields.agr.atr->symbol->code);
 
-  switch (exp->fields.agr.agr) {
-  case AGR_SUM: emit0(C_STMOP, I_SUM); break;
-  case AGR_MAX: emit0(C_STMOP, I_MAX); break;
-  case AGR_COUNT: emit0(C_STMOP, I_COUNT); break;
+  switch (exp->fields.agr.kind) {
+  case SUM_AGGREGATE: emit0(C_STMOP, I_SUM); break;
+  case MAX_AGGREGATE: emit0(C_STMOP, I_MAX); break;
+  case COUNT_AGGREGATE: emit0(C_STMOP, I_COUNT); break;
   default: syserr("Unrecognized switch in geexpagr()");
   }
 }
@@ -804,48 +802,48 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
     return;
   }
   
-  switch (exp->class) {
+  switch (exp->kind) {
     
-  case EXPBIN:
+  case BINARY_EXPRESSION:
     geexpbin(exp);
     break;
     
-  case EXPWHR:
+  case WHERE_EXPRESSION:
     geexpwhr(exp);
     break;
     
-  case EXPATR:
+  case ATTRIBUTE_EXPRESSION:
     geexpatr(exp);
     break;
     
-  case EXPINT:
+  case INTEGER_EXPRESSION:
     emit0(C_CONST, exp->fields.val.val);
     break;
     
-  case EXPSTR:
+  case STRING_EXPRESSION:
     encode(&exp->fields.str.fpos, &exp->fields.str.len);
     emit0(C_CONST, exp->fields.str.len);
     emit0(C_CONST, exp->fields.str.fpos);
     emit0(C_STMOP, I_GETSTR);
     break;
     
-  case EXPAGR:
+  case AGGREGATE_EXPRESSION:
     geexpagr(exp);
     break;
     
-  case EXPRND:
+  case RANDOM_EXPRESSION:
     geexprnd(exp);
     break;
     
-  case EXPSCORE:
+  case SCORE_EXPRESSION:
     geexpscore(exp);
     break;
 
-  case EXPWHT:
+  case WHAT_EXPRESSION:
     geexpwht(exp);
     break;
 
-  case EXPBTW:
+  case BETWEEN_EXPRESSION:
     geexpbtw(exp);
     break;
     
@@ -864,49 +862,49 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
   Dump an operator
 
   */
-static void dumpOperator(OpKind op)
+static void dumpOperator(OperatorKind op)
 {
   switch (op) {
-  case OP_AND:
+  case AND_OPERATOR:
     put("AND");
     break;
-  case OP_OR:
+  case OR_OPERATOR:
     put("OR");
     break;
-  case OP_NE:
+  case NE_OPERATOR:
     put("<>");
     break;
-  case OP_EQ:
+  case EQ_OPERATOR:
     put("=");
     break;
-  case OP_EXACT:
+  case EXACT_OPERATOR:
     put("==");
     break;
-  case OP_LE:
+  case LE_OPERATOR:
     put("<=");
     break;
-  case OP_GE:
+  case GE_OPERATOR:
     put(">=");
     break;
-  case OP_LT:
+  case LT_OPERATOR:
     put("LT");
     break;
-  case OP_GT:
+  case GT_OPERATOR:
     put("GT");
     break;
-  case OP_PLUS:
+  case PLUS_OPERATOR:
     put("PLUS");
     break;
-  case OP_MINUS:
+  case MINUS_OPERATOR:
     put("MINUS");
     break;
-  case OP_MULT:
+  case MULT_OPERATOR:
     put("MULT");
     break;
-  case OP_DIV:
+  case DIV_OPERATOR:
     put("DIV");
     break;
-  case OP_CONTAINS:
+  case CONTAINS_OPERATOR:
     put("CONTAINS");
     break;
   }
@@ -914,23 +912,16 @@ static void dumpOperator(OpKind op)
 
 
 /*----------------------------------------------------------------------
-  duagr()
 
-  Dump an aggregate kind.
+  dumpAggregateKind()
 
   */
-static void duagr(AgrKind agr)
+static void dumpAggregateKind(AggregateKind agr)
 {
   switch (agr) {
-  case AGR_SUM:
-    put("SUM");
-    break;
-  case AGR_MAX:
-    put("MAX");
-    break;
-  case AGR_COUNT:
-    put("COUNT");
-    break;
+  case SUM_AGGREGATE: put("SUM"); break;
+  case MAX_AGGREGATE: put("MAX"); break;
+  case COUNT_AGGREGATE: put("COUNT"); break;
   }
 }
 
@@ -984,37 +975,37 @@ void dumpExpression(ExpNod *exp)
   }
 
   put("EXP: ");
-  switch (exp->class) {
-  case EXPBIN:
+  switch (exp->kind) {
+  case BINARY_EXPRESSION:
     put("BIN ");
     break;
-  case EXPWHR:
+  case WHERE_EXPRESSION:
     put("WHR ");
     if (exp->not) put("NOT ");
     break;
-  case EXPATR:
+  case ATTRIBUTE_EXPRESSION:
     if (exp->not) put("NOT ");
     put("ATR ");
     break;
-  case EXPINT:
+  case INTEGER_EXPRESSION:
     put("INT ");
     break;
-  case EXPSTR:
+  case STRING_EXPRESSION:
     put("STR ");
     break;
-  case EXPAGR:
+  case AGGREGATE_EXPRESSION:
     put("AGR ");
     break;
-  case EXPRND:
+  case RANDOM_EXPRESSION:
     put("RND ");
     break;
-  case EXPSCORE:
+  case SCORE_EXPRESSION:
     put("SCORE ");
     break;
-  case EXPWHT:
+  case WHAT_EXPRESSION:
     put("WHT ");
     break; 
-  case EXPBTW:
+  case BETWEEN_EXPRESSION:
     if (exp->not) put("NOT ");
     put("BTW ");
     break;
@@ -1025,47 +1016,47 @@ void dumpExpression(ExpNod *exp)
   dumpSrcp(&exp->srcp);
   in();
 
-  switch (exp->class) {
-  case EXPWHR:
+  switch (exp->kind) {
+  case WHERE_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.whr.wht); nl();
     put("whr: "); duwhr(exp->fields.whr.whr);
     break;
-  case EXPATR:
+  case ATTRIBUTE_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.atr.wht); nl();
     put("atr: "); dumpId(exp->fields.atr.atr);
     break;
-  case EXPINT:
+  case INTEGER_EXPRESSION:
     put("val: "); dumpInt(exp->fields.val.val);
     break;
-  case EXPSTR:
+  case STRING_EXPRESSION:
     put("fpos: "); dumpInt(exp->fields.str.fpos); nl();
     put("len: "); dumpInt(exp->fields.str.len);
     break;
-  case EXPBIN:
+  case BINARY_EXPRESSION:
     put("operator: "); dumpOperator(exp->fields.bin.op); nl();
     put("left: "); dumpExpression(exp->fields.bin.left); nl();
     put("right: "); dumpExpression(exp->fields.bin.right);
     break;
-  case EXPAGR:
-    put("agr: "); duagr(exp->fields.agr.agr); nl();
+  case AGGREGATE_EXPRESSION:
+    put("kind: "); dumpAggregateKind(exp->fields.agr.kind); nl();
     put("atr: "); dumpId(exp->fields.agr.atr); nl();
     put("whr: "); duwhr(exp->fields.agr.whr);
     break;
-  case EXPRND:
+  case RANDOM_EXPRESSION:
     put("from: "); dumpExpression(exp->fields.rnd.from); nl();
     put("to: "); dumpExpression(exp->fields.rnd.to);
     break;
-  case EXPWHT:
+  case WHAT_EXPRESSION:
     put("wht: "); duwht(exp->fields.wht.wht);
     break;
-  case EXPSCORE:
+  case SCORE_EXPRESSION:
     break;
-  case EXPBTW:
+  case BETWEEN_EXPRESSION:
     put("val: "); dumpExpression(exp->fields.btw.val); nl();
     put("low: "); dumpExpression(exp->fields.btw.low); nl();
     put("high: "); dumpExpression(exp->fields.btw.high);
     break;
-  case EXPISA:
+  case ISA_EXPRESSION:
     /* FIXME */
     break;
   }

@@ -303,6 +303,7 @@ Symbol *lookupInContext(char *idString, Context *context)
       break;
     case EVENT_CONTEXT:
     case RULE_CONTEXT:
+    case INSTANCE_CONTEXT:
       foundSymbol = lookup(idString);
       break;
     default:

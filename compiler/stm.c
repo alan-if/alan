@@ -475,7 +475,7 @@ static void anif(StmNod *stm,
 
 /*----------------------------------------------------------------------
 
-  anuse()
+  analyzeUse()
 
   Analyze a USE statement. It must refer a script that is defined
   within the mentioned actor. If the actor is not specified the
@@ -483,49 +483,55 @@ static void anif(StmNod *stm,
   not).
 
   */
-static void anuse(StmNod *stm,
-		  Context *context)
+static void analyzeUse(StmNod *stm,
+		       Context *context)
 {
   Symbol *sym;
-  ElmNod *elm;
   List *lst;
+  List *scripts = NULL;
+  IdNode *id;
 
-  if (stm->fields.use.actor == NULL && context->kind != INSTANCE_CONTEXT)
+  if (stm->fields.use.actor == NULL && context->instance != NULL)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
     if (stm->fields.use.actor != NULL) {
-      /* Lookup actors node */
+      /* Lookup specified actors symbol */
       sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, context);
-      context->instance = NULL;
-      if (elm)
-        lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
-      else if (sym)
-        /* FIXME : context.instance = sym->ref */;
-    }
-    if (context->instance != NULL && context->instance->slots != NULL) {
-
-      /* Loop over actors scripts to check if script is defined */
-      for (lst = context->instance->slots->scripts; lst != NULL; lst = lst->next) {
-        if (stm->fields.use.script != NULL) {
-          /* A name was used as reference */
-          if (lst->element.scr->id != NULL &&
-	      equalId(lst->element.scr->id, stm->fields.use.script)) {
-	    stm->fields.use.scriptno = lst->element.scr->code;
-	    break;		/* Found it so break loop */
-	  }
-	} else {
-	  /* A number was used */
-	  if (lst->element.scr->code == stm->fields.use.scriptno)
-	    break;		/* Found it so break loop */
+      if (sym) {
+	if (sym->kind == PARAMETER_SYMBOL)
+	  lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
+	else {
+	  scripts = sym->fields.claOrIns.slots->scripts;
+	  id = sym->fields.claOrIns.slots->id;
 	}
       }
-      if (lst == NULL) {
-        if (stm->fields.use.script != NULL)
-          lmLog(&stm->fields.use.script->srcp, 400, sevERR, context->instance->slots->id->string);
-        else
-          lmLog(&stm->srcp, 400, sevERR, context->instance->slots->id->string);
+    } else {
+      if (context->instance == NULL && context->instance->slots == NULL)
+	syserr("Unexpected context in analyzeUse()");
+      scripts = context->instance->slots->scripts;
+      id = context->instance->slots->id;
+    }
+
+    /* Loop over actors scripts to check if script is defined */
+    for (lst = scripts; lst != NULL; lst = lst->next) {
+      if (stm->fields.use.script != NULL) {
+	/* A name was used as reference */
+	if (lst->element.scr->id != NULL &&
+	    equalId(lst->element.scr->id, stm->fields.use.script)) {
+	  stm->fields.use.scriptno = lst->element.scr->code;
+	  break;		/* Found it so break loop */
+	}
+      } else {
+	/* A number was used */
+	if (lst->element.scr->code == stm->fields.use.scriptno)
+	  break;		/* Found it so break loop */
       }
     }
+    if (lst == NULL)
+      if (stm->fields.use.script != NULL)
+	lmLog(&stm->fields.use.script->srcp, 400, sevERR, id->string);
+      else
+	lmLog(&stm->srcp, 400, sevERR, id->string);
   }
 }  
 
@@ -556,20 +562,20 @@ static void andep(StmNod *stm, Context *context)
     if (cases->element.stm->fields.depcase.exp != NULL) {
       /* Unless it is an ELSE clause set left hand of case expression
          to be the depend expression */
-      switch (cases->element.stm->fields.depcase.exp->class) {
-      case EXPBIN:
+      switch (cases->element.stm->fields.depcase.exp->kind) {
+      case BINARY_EXPRESSION:
 	cases->element.stm->fields.depcase.exp->fields.bin.left =
 	  stm->fields.depend.exp;
 	break;
-      case EXPWHR:
+      case WHERE_EXPRESSION:
 	cases->element.stm->fields.depcase.exp->fields.whr.wht =
 	  stm->fields.depend.exp;
 	break;
-      case EXPATR:
+      case ATTRIBUTE_EXPRESSION:
 	cases->element.stm->fields.depcase.exp->fields.atr.wht =
 	  stm->fields.depend.exp;
 	break;
-      case EXPBTW:
+      case BETWEEN_EXPRESSION:
 	cases->element.stm->fields.depcase.exp->fields.btw.val =
 	  stm->fields.depend.exp;
 	break;
@@ -653,7 +659,7 @@ static void anstm(StmNod *stm,
     anif(stm, context);
     break;
   case STM_USE:
-    anuse(stm, context);
+    analyzeUse(stm, context);
     break;
   case STM_DEPEND:
     andep(stm, context);
@@ -995,16 +1001,16 @@ static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
 */
 static void generateDependCase(ExpNod *exp)
 {
-  switch (exp->class) {
-  case EXPBIN:
+  switch (exp->kind) {
+  case BINARY_EXPRESSION:
     geexp(exp->fields.bin.right);
     generateBinaryOperator(exp);
     break;
-  case EXPATR:
+  case ATTRIBUTE_EXPRESSION:
     generateId(exp->fields.atr.atr);
     generateAttributeAccess(exp);
     break;
-  case EXPBTW:
+  case BETWEEN_EXPRESSION:
     generateBetweenCheck(exp);
     break;
   default:

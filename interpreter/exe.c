@@ -1069,6 +1069,8 @@ static void describeActor(act)
   else {
     interpret(instance[act].mentioned);
     prmsg(M_SEEACT);
+    if (instance[act].container != 0)
+      list(act);
   }
   admin[act].alreadyDescribed = TRUE;
 }
@@ -1097,13 +1099,13 @@ void describe(id)
   } else if (id > header->instanceMax) {
     sprintf(str, "Can't DESCRIBE item (%ld > instanceMax).", id);
     syserr(str);
-  } else if (instance[id].description != 0) {
-    interpret(instance[id].description);
-    admin[id].alreadyDescribed = TRUE;
   } else if (isObj(id)) {
     describeObject(id);
   } else if (isAct(id)) {
     describeActor(id);
+  } else if (instance[id].description != 0) {
+    interpret(instance[id].description);
+    admin[id].alreadyDescribed = TRUE;
   }
 
   dscrstkp--;
@@ -1166,14 +1168,19 @@ void list(cnt)
 	if (container[props].header != 0)
 	  interpret(container[props].header);
 	else {
-	  prmsg(M_CONTAINS1);
-	  say(container[props].owner);
-	  prmsg(M_CONTAINS2);
+	  if (isA(container[props].owner, ACTOR)) {
+	    say(container[props].owner);
+	    prmsg(M_CARRIES);
+	  } else {
+	    prmsg(M_CONTAINS0);
+	    say(container[props].owner);
+	    prmsg(M_CONTAINS);
+	  }
 	}
       } else {
 	if (multiple) {
 	  needsp = FALSE;
-	  prmsg(M_CONTAINS3);
+	  prmsg(M_CONTAINSCOMMA);
 	}
 	multiple = TRUE;
 	sayarticle(prevobj);
@@ -1185,17 +1192,22 @@ void list(cnt)
 
   if (found) {
     if (multiple)
-      prmsg(M_CONTAINS4);
+      prmsg(M_CONTAINSAND);
     sayarticle(prevobj);
     say(prevobj);
-    prmsg(M_CONTAINS5);
+    prmsg(M_CONTAINSEND);
   } else {
     if (container[props].empty != 0)
       interpret(container[props].empty);
     else {
-      prmsg(M_EMPTY1);
-      say(container[props].owner);
-      prmsg(M_EMPTY2);
+      if (isA(container[props].owner, ACTOR)) {
+	say(container[props].owner);
+	prmsg(M_EMPTYHANDED);
+      } else {
+	prmsg(M_CONTAINS0);
+	say(container[props].owner);
+	prmsg(M_EMPTY);
+      }
     }
   }
   needsp = TRUE;

@@ -64,7 +64,7 @@ SlotsNode *newSlots(List *names,
 		    List *does,
 		    List *exits,
 		    List *verbs,
-		    List *scrs)
+		    List *scripts)
 {
   SlotsNode *new;                  /* The newly allocated area */
 
@@ -88,6 +88,7 @@ SlotsNode *newSlots(List *names,
   new->articleSrcp = *articleSrcp;
   new->verbs = verbs;
   new->exits = exits;
+  new->scripts = scripts;
 
   return(new);
 }
@@ -172,22 +173,27 @@ static void analyzeName(SlotsNode *slots)
   Analyze one Slots node.
 
  */
-void analyzeSlots(SlotsNode *slots)
+void analyzeSlots(SlotsNode *slots, Context *context)
 {
   if (slots->whr != NULL) verifyInitialLocation(slots->whr);
   if (inheritsFrom(slots->id->symbol, locationSymbol) && slots->whr != NULL)
     lmLog(&slots->whr->srcp, 405, sevERR, "");
-  if (inheritsFrom(slots->id->symbol, actorSymbol) && slots->whr != NULL && slots->whr->kind == WHR_IN)
+  if (inheritsFrom(slots->id->symbol, actorSymbol)
+      && slots->whr != NULL && slots->whr->kind == WHR_IN)
     lmLog(&slots->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(slots);
-  anstms(slots->description, NULL);
+  anstms(slots->description, context);
   anvrbs(slots->verbs, slots->id->symbol);
-  analyzeContainer(slots->container, NULL);
+  analyzeContainer(slots->container, context);
 
   if (slots->exits && !inheritsFrom(slots->id->symbol, locationSymbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
   analyzeExits(slots->exits);
+
+  if (slots->scripts && !inheritsFrom(slots->id->symbol, actorSymbol))
+    lmLog(&slots->id->srcp, 353, sevERR, slots->id->string);
+  analyzeScripts(slots->scripts, context);
 }
 
 

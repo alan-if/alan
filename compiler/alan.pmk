@@ -90,7 +90,7 @@ static int val(char str[])
 %%ATTRIBUTES
 
   add %% AddNode *%1%%,
-  agr %% AgrKind %1%%,
+  agr %% AggregateKind %1%%,
   alt %% AltNod *%1%%,
   alts %% List *%1%%,
   art %% List *%1%%,		-- of StmNod: article-clause,
@@ -113,7 +113,7 @@ static int val(char str[])
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
   exp %% ExpNod *%1%%,
-  expKd %%ExpKind %1%%,
+  expKd %% ExpressionKind %1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
   id %% IdNode *%1%%,
@@ -131,7 +131,7 @@ static int val(char str[])
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
   not %% Bool %1%%,
-  op %% OpKind %1%%,
+  op %% OperatorKind %1%%,
   qual %% QualKind %1%%,
   res %% ResNod *%1%%,
   ress %% List *%1%%,
@@ -1660,9 +1660,9 @@ static int val(char str[])
 
     ! <expression> 'OR' <term>
     %% { ExpNod *exp;
-	exp = newexp(`&%'OR'.srcp, EXPBIN);
+	exp = newexp(`&%'OR'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
-	exp->fields.bin.op    = OP_OR;;
+	exp->fields.bin.op    = OR_OPERATOR;;
 	exp->fields.bin.left  = %<expression>.exp;
 	exp->fields.bin.right = %<term>.exp;
 	%<expression>.exp = exp;
@@ -1677,9 +1677,9 @@ static int val(char str[])
 
     ! <term> 'AND' <factor>
     %% { ExpNod *exp;
-	exp = newexp(`&%'AND'.srcp, EXPBIN);
+	exp = newexp(`&%'AND'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
-	exp->fields.bin.op    = OP_AND;
+	exp->fields.bin.op    = AND_OPERATOR;
 	exp->fields.bin.left  = %<term>.exp;
 	exp->fields.bin.right = %<factor>.exp;
 	%<term>.exp = exp;
@@ -1697,11 +1697,11 @@ static int val(char str[])
         /* <right_hand_side> contains the top expr, hang in the <primary> and
            propagate that node */
         switch (%<right_hand_side>.expKd) {
-	case EXPBIN: %<right_hand_side>.exp->fields.bin.left = %<primary>.exp; break;
-	case EXPWHR: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
-	case EXPATR: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
-	case EXPBTW: %<right_hand_side>.exp->fields.btw.val = %<primary>.exp; break;
-	case EXPISA: %<right_hand_side>.exp->fields.isa.id = %<primary>.id; break;
+	case BINARY_EXPRESSION: %<right_hand_side>.exp->fields.bin.left = %<primary>.exp; break;
+	case WHERE_EXPRESSION: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
+	case ATTRIBUTE_EXPRESSION: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
+	case BETWEEN_EXPRESSION: %<right_hand_side>.exp->fields.btw.val = %<primary>.exp; break;
+	case ISA_EXPRESSION: %<right_hand_side>.exp->fields.isa.id = %<primary>.id; break;
 	default: syserr("Unrecognized switch in <right_hand_side> semantic rule.");
 	}
         %<factor>.exp = %<right_hand_side>.exp;
@@ -1711,8 +1711,8 @@ static int val(char str[])
 <right_hand_side>
     = <binop> <primary>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPBIN;
-	exp = newexp(`&%<binop>.srcp, EXPBIN);
+        %<right_hand_side>.expKd = BINARY_EXPRESSION;
+	exp = newexp(`&%<binop>.srcp, BINARY_EXPRESSION);
 	exp->fields.bin.op = %<binop>.op;
 	exp->fields.bin.right = %<primary>.exp;
 	%<right_hand_side>.exp = exp;
@@ -1720,8 +1720,8 @@ static int val(char str[])
 
     ! <optional_not> <relop> <primary>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPBIN;
-	exp = newexp(`&%<relop>.srcp, EXPBIN);
+        %<right_hand_side>.expKd = BINARY_EXPRESSION;
+	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
 	exp->fields.bin.right = %<primary>.exp;
@@ -1730,8 +1730,8 @@ static int val(char str[])
 
     ! <optional_not> <where>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPWHR;
-	exp = newexp(`&%<where>.srcp, EXPWHR);
+        %<right_hand_side>.expKd = WHERE_EXPRESSION;
+	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
 	%<right_hand_side>.exp = exp;
@@ -1739,8 +1739,8 @@ static int val(char str[])
 
     ! <optional_not> 'ISA' ID
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPISA;
-	exp = newexp(`&%'ISA'.srcp, EXPISA);
+        %<right_hand_side>.expKd = ISA_EXPRESSION;
+	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.isa.id = %ID.id;
 	%<right_hand_side>.exp = exp;
@@ -1748,8 +1748,8 @@ static int val(char str[])
 
     ! <is> <something>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPATR;
-	exp = newexp(`&%<is>.srcp, EXPATR);
+        %<right_hand_side>.expKd = ATTRIBUTE_EXPRESSION;
+	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
 	exp->not = %<something>.not;
 	exp->fields.atr.atr = %<something>.id;
 	%<right_hand_side>.exp = exp;
@@ -1757,8 +1757,8 @@ static int val(char str[])
 
     ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPBTW;
-	exp = newexp(`&%'BETWEEN'.srcp, EXPBTW);
+        %<right_hand_side>.expKd = BETWEEN_EXPRESSION;
+	exp = newexp(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.btw.low = %1<factor>.exp;
 	exp->fields.btw.high = %2<factor>.exp;
@@ -1767,10 +1767,10 @@ static int val(char str[])
 
     ! <optional_not> 'CONTAINS' <factor>
     %% { ExpNod *exp;
-        %<right_hand_side>.expKd = EXPBIN;
-	exp = newexp(`&%'CONTAINS'.srcp, EXPBIN);
+        %<right_hand_side>.expKd = BINARY_EXPRESSION;
+	exp = newexp(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
-	exp->fields.bin.op = OP_CONTAINS;
+	exp->fields.bin.op = CONTAINS_OPERATOR;
 	exp->fields.bin.right = %<factor>.exp;
 	%<right_hand_side>.exp = exp;
     } %%
@@ -1785,7 +1785,7 @@ static int val(char str[])
 
     ! <optional_minus> Integer
     %%
-	%<primary>.exp = newexp(`&%Integer.srcp, EXPINT);
+	%<primary>.exp = newexp(`&%Integer.srcp, INTEGER_EXPRESSION);
 	if (%<optional_minus>.minus)
 	  %<primary>.exp->fields.val.val = -val(%Integer.chars);
 	else
@@ -1794,43 +1794,43 @@ static int val(char str[])
 
     ! STRING
     %%
-	%<primary>.exp = newexp(&%STRING.srcp, EXPSTR);
+	%<primary>.exp = newexp(&%STRING.srcp, STRING_EXPRESSION);
 	%<primary>.exp->fields.str.fpos = %STRING.fpos;
 	%<primary>.exp->fields.str.len = %STRING.len;
     %%
 
     ! <what>
     %%
-	%<primary>.exp = newexp(`&%<what>.srcp, EXPWHT);
+	%<primary>.exp = newexp(`&%<what>.srcp, WHAT_EXPRESSION);
 	%<primary>.exp->fields.wht.wht = %<what>.wht;
     %%
 
     ! <attribute_reference>
     %%
-	%<primary>.exp = newexp(`&%<attribute_reference>.srcp, EXPATR);
+	%<primary>.exp = newexp(`&%<attribute_reference>.srcp, ATTRIBUTE_EXPRESSION);
 	%<primary>.exp->fields.atr.atr = %<attribute_reference>.id;
-	%<primary>.exp->fields.atr.wht = newexp(`&%<attribute_reference>.srcp, EXPWHT);
+	%<primary>.exp->fields.atr.wht = newexp(`&%<attribute_reference>.srcp, WHAT_EXPRESSION);
 	%<primary>.exp->fields.atr.wht->fields.wht.wht = %<attribute_reference>.wht;
     %%
 
     ! <aggregate> <where>
     %%
-	%<primary>.exp = newexp(`&%<aggregate>.srcp, EXPAGR);
-	%<primary>.exp->fields.agr.agr	= %<aggregate>.agr;
+	%<primary>.exp = newexp(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
+	%<primary>.exp->fields.agr.kind	= %<aggregate>.agr;
 	%<primary>.exp->fields.agr.atr = %<aggregate>.id;
 	%<primary>.exp->fields.agr.whr	= %<where>.whr;
     %%
 
     ! 'RANDOM' <primary> 'TO' <primary>
     %%
-	%<primary>.exp = newexp(`&%'RANDOM'.srcp, EXPRND);
+	%<primary>.exp = newexp(`&%'RANDOM'.srcp, RANDOM_EXPRESSION);
 	%<primary>.exp->fields.rnd.from	= %2<primary>.exp;
 	%<primary>.exp->fields.rnd.to	= %3<primary>.exp;
     %%
 
     ! 'SCORE'
     %%
-	%<primary>.exp = newexp(`&%'SCORE'.srcp, EXPSCORE);
+	%<primary>.exp = newexp(`&%'SCORE'.srcp, SCORE_EXPRESSION);
     %%
     ;
 
@@ -1839,21 +1839,21 @@ static int val(char str[])
     = 'SUM' 'OF' ID
     %%
 	%<aggregate>.srcp = %'SUM'.srcp;
-	%<aggregate>.agr = AGR_SUM;
+	%<aggregate>.agr = SUM_AGGREGATE;
 	%<aggregate>.id = %ID.id;
     %%
 
     ! 'MAX' 'OF' ID
     %%
 	%<aggregate>.srcp = %'MAX'.srcp;
-	%<aggregate>.agr = AGR_MAX;
+	%<aggregate>.agr = MAX_AGGREGATE;
 	%<aggregate>.id = %ID.id;
     %%
 
     ! 'COUNT'
     %%
 	%<aggregate>.srcp = %'COUNT'.srcp;
-	%<aggregate>.agr = AGR_COUNT;
+	%<aggregate>.agr = COUNT_AGGREGATE;
 	%<aggregate>.id = NULL;
     %%
     ;
@@ -1917,25 +1917,25 @@ static int val(char str[])
 <binop>			-- RETURNS: op, srcp
     = '+'
     %%
-	%<binop>.op = OP_PLUS;
+	%<binop>.op = PLUS_OPERATOR;
 	%<binop>.srcp = %'+'.srcp;
     %%
 
     ! '-'
     %%
-	%<binop>.op = OP_MINUS;
+	%<binop>.op = MINUS_OPERATOR;
 	%<binop>.srcp = %'-'.srcp;
     %%
 
     ! '*'
     %%
-	%<binop>.op = OP_MULT;
+	%<binop>.op = MULT_OPERATOR;
 	%<binop>.srcp = %'*'.srcp;
     %%
 
     ! '/'
     %%
-	%<binop>.op = OP_DIV;
+	%<binop>.op = DIV_OPERATOR;
 	%<binop>.srcp = %'/'.srcp;
     %%
     ;
@@ -1944,43 +1944,43 @@ static int val(char str[])
 <relop>			-- RETURNS: op, srcp
     = '<>'
     %%
-        %<relop>.op   = OP_NE;
+        %<relop>.op   = NE_OPERATOR;
 	%<relop>.srcp = %'<>'.srcp;
     %%
 
     ! '='
     %%
-        %<relop>.op   = OP_EQ;
+        %<relop>.op   = EQ_OPERATOR;
 	%<relop>.srcp = %'='.srcp;
     %%
 
     ! '=='
     %%
-        %<relop>.op   = OP_EXACT;
+        %<relop>.op   = EXACT_OPERATOR;
 	%<relop>.srcp = %'=='.srcp;
     %%
 
     ! '>='
     %%
-        %<relop>.op   = OP_GE;
+        %<relop>.op   = GE_OPERATOR;
 	%<relop>.srcp = %'>='.srcp;
     %%
 
     ! '<='
     %%
-        %<relop>.op   = OP_LE;
+        %<relop>.op   = LE_OPERATOR;
 	%<relop>.srcp = %'<='.srcp;
     %%
 
     ! '>'
     %%
-        %<relop>.op   = OP_GT;
+        %<relop>.op   = GT_OPERATOR;
 	%<relop>.srcp = %'>'.srcp;
     %%
 
     ! '<'
     %%
-        %<relop>.op   = OP_LT;
+        %<relop>.op   = LT_OPERATOR;
 	%<relop>.srcp = %'<'.srcp;
     %%
     ;

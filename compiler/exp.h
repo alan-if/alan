@@ -19,48 +19,48 @@
 
 /* TYPES: */
 
-typedef enum ExpKind {		/* EXPRESSION kinds */
-  EXPWHR,			/* Where */
-  EXPATR,			/* Attribute */
-  EXPBIN,			/* Binary */
-  EXPINT,			/* Integer literal */
-  EXPSTR,			/* String literal */
-  EXPAGR,			/* Aggregate (max, sum, ...) */
-  EXPRND,			/* Random */
-  EXPSCORE,			/* Score */
-  EXPWHT,			/* Is What */
-  EXPBTW,			/* Between */
-  EXPISA			/* Isa class */
-} ExpKind;
+typedef enum ExpressionKind {		/* EXPRESSION kinds */
+  WHERE_EXPRESSION,
+  ATTRIBUTE_EXPRESSION,
+  BINARY_EXPRESSION,
+  INTEGER_EXPRESSION,
+  STRING_EXPRESSION,
+  AGGREGATE_EXPRESSION,
+  RANDOM_EXPRESSION,
+  SCORE_EXPRESSION,
+  WHAT_EXPRESSION,
+  BETWEEN_EXPRESSION,
+  ISA_EXPRESSION
+} ExpressionKind;
 
-typedef enum OpKind {		/* OPERATOR kinds */
-  OP_PLUS,
-  OP_MINUS,
-  OP_MULT,
-  OP_DIV,
-  OP_AND,
-  OP_OR,
-  OP_NE,			/* Not equal */
-  OP_EQ,			/* Equal */
-  OP_EXACT,			/* Exact comparison on strings */
-  OP_LE,			/* Less or equal */
-  OP_GE,			/* Greater or equal */
-  OP_LT,			/* Less than */
-  OP_GT,			/* Greater than */
-  OP_CONTAINS			/* String contains substring */
-} OpKind;
+typedef enum OperatorKind {		/* OPERATOR kinds */
+  PLUS_OPERATOR,
+  MINUS_OPERATOR,
+  MULT_OPERATOR,
+  DIV_OPERATOR,
+  AND_OPERATOR,
+  OR_OPERATOR,
+  NE_OPERATOR,			/* Not equal */
+  EQ_OPERATOR,			/* Equal */
+  EXACT_OPERATOR,		/* Exact comparison on strings */
+  LE_OPERATOR,			/* Less or equal */
+  GE_OPERATOR,			/* Greater or equal */
+  LT_OPERATOR,			/* Less than */
+  GT_OPERATOR,			/* Greater than */
+  CONTAINS_OPERATOR		/* String contains substring */
+} OperatorKind;
 
 
-typedef enum AgrKind {
-  AGR_SUM,
-  AGR_MAX,
-  AGR_COUNT
-} AgrKind;
+typedef enum AggregateKind {
+  SUM_AGGREGATE,
+  MAX_AGGREGATE,
+  COUNT_AGGREGATE
+} AggregateKind;
 
 
 typedef struct ExpNod {		/* EXPRESSION */
   Srcp srcp;			/* Source position of the expression */
-  ExpKind class;		/* Class of the expression */
+  ExpressionKind kind;		/* What kind of expression */
   TypeKind type;		/* Type of the expression */
   Bool not;			/* Was there a NOT ? */
   union {
@@ -76,7 +76,7 @@ typedef struct ExpNod {		/* EXPRESSION */
     } atr;
 
     struct {			/* for BINARY */
-      OpKind op;		/* Operator */
+      OperatorKind op;		/* Operator */
       struct ExpNod *right;	/* Right operand */
       struct ExpNod *left;	/* Left operand */
     } bin;
@@ -91,7 +91,7 @@ typedef struct ExpNod {		/* EXPRESSION */
     } str;
 
     struct {			/* For AGGREGATE */
-      AgrKind agr;		/* Kind of aggregate */
+      AggregateKind kind;	/* Kind of aggregate */
       struct IdNode *atr;	/* Attribute id */
       struct WhrNod *whr;	/* Where to aggregate */
     } agr;

@@ -7,11 +7,12 @@
 
 #include "ins_x.h"
 
-#include "sym_x.h"
-#include "slt_x.h"
 #include "id_x.h"
-#include "srcp_x.h"
 #include "lst_x.h"
+#include "scr_x.h"
+#include "slt_x.h"
+#include "srcp_x.h"
+#include "sym_x.h"
 #include "wrd_x.h"
 
 #include "sysdep.h"
@@ -99,6 +100,7 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
     }
   }
 
+  prepareScripts(new->slots->scripts, new);
 
   return(new);
 }
@@ -142,9 +144,14 @@ void symbolizeInstances(void)
   Analyze a Instance node.
 
  */
-static void analyzeInstance(InsNod *ins)
+static void analyzeInstance(InsNod *instance)
 {
-  analyzeSlots(ins->slots);
+  Context context;
+
+  context.kind = INSTANCE_CONTEXT;
+  context.instance = instance;
+
+  analyzeSlots(instance->slots, &context);
 }
 
 

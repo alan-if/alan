@@ -9,11 +9,11 @@ Verb 'look'
 End Verb.
 
 
-Location l
-End Location l.
+The l Isa location
+End The l.
 
 
-Actor Alan At l
+The Alan Isa actor At l
   Description
     "The idle Alan is here."
 
@@ -30,7 +30,7 @@ Actor Alan At l
     Step
       "Alan goes back to doing nothing."
       Schedule start_cleaning after 3.
-End Actor Alan.
+End The Alan.
 
 Event start_cleaning
   Use Script 1 For alan.

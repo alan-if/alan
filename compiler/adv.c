@@ -88,6 +88,10 @@ void symbolizeAdv()
 */
 static void analyzeStartAt(void)
 {
+  Context context;
+
+  context.kind = RULE_CONTEXT; /* START has the same environment as a RULE */
+
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {
     case WHR_AT:
@@ -101,7 +105,7 @@ static void analyzeStartAt(void)
       break;
     }
 
-  anstms(adv.stms, NULL);
+  anstms(adv.stms, &context);
 }
 
 

@@ -98,7 +98,7 @@ typedef struct pmGrammar {
     List *ress;
     ResNod *res;
     QualKind qual;
-    OpKind op;
+    OperatorKind op;
     Bool not;
     List *nams;
     List *nam;
@@ -116,7 +116,7 @@ typedef struct pmGrammar {
     IdNode *id;
     List *exts;
     ExtNod *ext;
-   ExpKind expKd;
+    ExpressionKind expKd;
     ExpNod *exp;
     List *evts;
     EvtNod *evt;
@@ -139,7 +139,7 @@ typedef struct pmGrammar {
     List *art;
     List *alts;
     AltNod *alt;
-    AgrKind agr;
+    AggregateKind agr;
     AddNode *add;
 } pmGrammar;
 
@@ -1406,9 +1406,9 @@ int rule			/* IN production number */
     case 206: { /* <expression> = <expression> 'OR' <term>; */
 #line 1662 "alan.pmk"
  { ExpNod *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, EXPBIN);
+	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
-	exp->fields.bin.op    = OP_OR;;
+	exp->fields.bin.op    = OR_OPERATOR;;
 	exp->fields.bin.left  = pmSeSt[pmStkP+1].exp;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1421,9 +1421,9 @@ int rule			/* IN production number */
     case 208: { /* <term> = <term> 'AND' <factor>; */
 #line 1679 "alan.pmk"
  { ExpNod *exp;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, EXPBIN);
+	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
-	exp->fields.bin.op    = OP_AND;
+	exp->fields.bin.op    = AND_OPERATOR;
 	exp->fields.bin.left  = pmSeSt[pmStkP+1].exp;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1439,11 +1439,11 @@ int rule			/* IN production number */
         /* <right_hand_side> contains the top expr, hang in the <primary> and
            propagate that node */
         switch (pmSeSt[pmStkP+2].expKd) {
-	case EXPBIN: pmSeSt[pmStkP+2].exp->fields.bin.left = pmSeSt[pmStkP+1].exp; break;
-	case EXPWHR: pmSeSt[pmStkP+2].exp->fields.whr.wht = pmSeSt[pmStkP+1].exp; break;
-	case EXPATR: pmSeSt[pmStkP+2].exp->fields.atr.wht = pmSeSt[pmStkP+1].exp; break;
-	case EXPBTW: pmSeSt[pmStkP+2].exp->fields.btw.val = pmSeSt[pmStkP+1].exp; break;
-	case EXPISA: pmSeSt[pmStkP+2].exp->fields.isa.id = pmSeSt[pmStkP+1].id; break;
+	case BINARY_EXPRESSION: pmSeSt[pmStkP+2].exp->fields.bin.left = pmSeSt[pmStkP+1].exp; break;
+	case WHERE_EXPRESSION: pmSeSt[pmStkP+2].exp->fields.whr.wht = pmSeSt[pmStkP+1].exp; break;
+	case ATTRIBUTE_EXPRESSION: pmSeSt[pmStkP+2].exp->fields.atr.wht = pmSeSt[pmStkP+1].exp; break;
+	case BETWEEN_EXPRESSION: pmSeSt[pmStkP+2].exp->fields.btw.val = pmSeSt[pmStkP+1].exp; break;
+	case ISA_EXPRESSION: pmSeSt[pmStkP+2].exp->fields.isa.id = pmSeSt[pmStkP+1].id; break;
 	default: syserr("Unrecognized switch in <right_hand_side> semantic rule.");
 	}
         pmSeSt[pmStkP+1].exp = pmSeSt[pmStkP+2].exp;
@@ -1451,8 +1451,8 @@ int rule			/* IN production number */
     case 212: { /* <right_hand_side> = <binop> <primary>; */
 #line 1713 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPBIN;
-	exp = newexp(&pmSeSt[pmStkP+1].srcp, EXPBIN);
+        pmSeSt[pmStkP+1].expKd = BINARY_EXPRESSION;
+	exp = newexp(&pmSeSt[pmStkP+1].srcp, BINARY_EXPRESSION);
 	exp->fields.bin.op = pmSeSt[pmStkP+1].op;
 	exp->fields.bin.right = pmSeSt[pmStkP+2].exp;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1460,8 +1460,8 @@ int rule			/* IN production number */
     case 213: { /* <right_hand_side> = <optional_not> <relop> <primary>; */
 #line 1722 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPBIN;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, EXPBIN);
+        pmSeSt[pmStkP+1].expKd = BINARY_EXPRESSION;
+	exp = newexp(&pmSeSt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.bin.op = pmSeSt[pmStkP+2].op;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
@@ -1470,8 +1470,8 @@ int rule			/* IN production number */
     case 211: { /* <right_hand_side> = <optional_not> <where>; */
 #line 1732 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPWHR;
-	exp = newexp(&pmSeSt[pmStkP+2].srcp, EXPWHR);
+        pmSeSt[pmStkP+1].expKd = WHERE_EXPRESSION;
+	exp = newexp(&pmSeSt[pmStkP+2].srcp, WHERE_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.whr.whr = pmSeSt[pmStkP+2].whr;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1479,8 +1479,8 @@ int rule			/* IN production number */
     case 214: { /* <right_hand_side> = <optional_not> 'ISA' ID; */
 #line 1741 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPISA;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, EXPISA);
+        pmSeSt[pmStkP+1].expKd = ISA_EXPRESSION;
+	exp = newexp(&pmSySt[pmStkP+2].srcp, ISA_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.isa.id = pmSeSt[pmStkP+3].id;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1488,8 +1488,8 @@ int rule			/* IN production number */
     case 215: { /* <right_hand_side> = <is> <something>; */
 #line 1750 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPATR;
-	exp = newexp(&pmSeSt[pmStkP+1].srcp, EXPATR);
+        pmSeSt[pmStkP+1].expKd = ATTRIBUTE_EXPRESSION;
+	exp = newexp(&pmSeSt[pmStkP+1].srcp, ATTRIBUTE_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+2].not;
 	exp->fields.atr.atr = pmSeSt[pmStkP+2].id;
 	pmSeSt[pmStkP+1].exp = exp;
@@ -1497,8 +1497,8 @@ int rule			/* IN production number */
     case 217: { /* <right_hand_side> = <optional_not> 'BETWEEN' <factor> 'AND' <factor>; */
 #line 1759 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPBTW;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, EXPBTW);
+        pmSeSt[pmStkP+1].expKd = BETWEEN_EXPRESSION;
+	exp = newexp(&pmSySt[pmStkP+2].srcp, BETWEEN_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
 	exp->fields.btw.low = pmSeSt[pmStkP+3].exp;
 	exp->fields.btw.high = pmSeSt[pmStkP+5].exp;
@@ -1507,10 +1507,10 @@ int rule			/* IN production number */
     case 216: { /* <right_hand_side> = <optional_not> 'CONTAINS' <factor>; */
 #line 1769 "alan.pmk"
  { ExpNod *exp;
-        pmSeSt[pmStkP+1].expKd = EXPBIN;
-	exp = newexp(&pmSySt[pmStkP+2].srcp, EXPBIN);
+        pmSeSt[pmStkP+1].expKd = BINARY_EXPRESSION;
+	exp = newexp(&pmSySt[pmStkP+2].srcp, BINARY_EXPRESSION);
 	exp->not = pmSeSt[pmStkP+1].not;
-	exp->fields.bin.op = OP_CONTAINS;
+	exp->fields.bin.op = CONTAINS_OPERATOR;
 	exp->fields.bin.right = pmSeSt[pmStkP+3].exp;
 	pmSeSt[pmStkP+1].exp = exp;
     } 	break;}
@@ -1522,7 +1522,7 @@ int rule			/* IN production number */
     case 218: { /* <primary> = <optional_minus> Integer; */
 #line 1787 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+2].srcp, EXPINT);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+2].srcp, INTEGER_EXPRESSION);
 	if (pmSeSt[pmStkP+1].minus)
 	  pmSeSt[pmStkP+1].exp->fields.val.val = -val(pmSySt[pmStkP+2].chars);
 	else
@@ -1531,63 +1531,63 @@ int rule			/* IN production number */
     case 219: { /* <primary> = STRING; */
 #line 1796 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, EXPSTR);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, STRING_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.str.fpos = pmSySt[pmStkP+1].fpos;
 	pmSeSt[pmStkP+1].exp->fields.str.len = pmSySt[pmStkP+1].len;
     	break;}
     case 220: { /* <primary> = <what>; */
 #line 1803 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, EXPWHT);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, WHAT_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.wht.wht = pmSeSt[pmStkP+1].wht;
     	break;}
     case 224: { /* <primary> = <attribute_reference>; */
 #line 1809 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, EXPATR);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, ATTRIBUTE_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.atr.atr = pmSeSt[pmStkP+1].id;
-	pmSeSt[pmStkP+1].exp->fields.atr.wht = newexp(&pmSeSt[pmStkP+1].srcp, EXPWHT);
+	pmSeSt[pmStkP+1].exp->fields.atr.wht = newexp(&pmSeSt[pmStkP+1].srcp, WHAT_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.atr.wht->fields.wht.wht = pmSeSt[pmStkP+1].wht;
     	break;}
     case 222: { /* <primary> = <aggregate> <where>; */
 #line 1817 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, EXPAGR);
-	pmSeSt[pmStkP+1].exp->fields.agr.agr	= pmSeSt[pmStkP+1].agr;
+	pmSeSt[pmStkP+1].exp = newexp(&pmSeSt[pmStkP+1].srcp, AGGREGATE_EXPRESSION);
+	pmSeSt[pmStkP+1].exp->fields.agr.kind	= pmSeSt[pmStkP+1].agr;
 	pmSeSt[pmStkP+1].exp->fields.agr.atr = pmSeSt[pmStkP+1].id;
 	pmSeSt[pmStkP+1].exp->fields.agr.whr	= pmSeSt[pmStkP+2].whr;
     	break;}
     case 225: { /* <primary> = 'RANDOM' <primary> 'TO' <primary>; */
 #line 1825 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, EXPRND);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, RANDOM_EXPRESSION);
 	pmSeSt[pmStkP+1].exp->fields.rnd.from	= pmSeSt[pmStkP+2].exp;
 	pmSeSt[pmStkP+1].exp->fields.rnd.to	= pmSeSt[pmStkP+4].exp;
     	break;}
     case 221: { /* <primary> = 'SCORE'; */
 #line 1832 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, EXPSCORE);
+	pmSeSt[pmStkP+1].exp = newexp(&pmSySt[pmStkP+1].srcp, SCORE_EXPRESSION);
     	break;}
     case 227: { /* <aggregate> = 'SUM' 'OF' ID; */
 #line 1840 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
-	pmSeSt[pmStkP+1].agr = AGR_SUM;
+	pmSeSt[pmStkP+1].agr = SUM_AGGREGATE;
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+3].id;
     	break;}
     case 228: { /* <aggregate> = 'MAX' 'OF' ID; */
 #line 1847 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
-	pmSeSt[pmStkP+1].agr = AGR_MAX;
+	pmSeSt[pmStkP+1].agr = MAX_AGGREGATE;
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+3].id;
     	break;}
     case 226: { /* <aggregate> = 'COUNT'; */
 #line 1854 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
-	pmSeSt[pmStkP+1].agr = AGR_COUNT;
+	pmSeSt[pmStkP+1].agr = COUNT_AGGREGATE;
 	pmSeSt[pmStkP+1].id = NULL;
     	break;}
     case 229: { /* <something> = <optional_not> ID; */
@@ -1639,67 +1639,67 @@ int rule			/* IN production number */
     case 237: { /* <binop> = '+'; */
 #line 1919 "alan.pmk"
 
-	pmSeSt[pmStkP+1].op = OP_PLUS;
+	pmSeSt[pmStkP+1].op = PLUS_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 238: { /* <binop> = '-'; */
 #line 1925 "alan.pmk"
 
-	pmSeSt[pmStkP+1].op = OP_MINUS;
+	pmSeSt[pmStkP+1].op = MINUS_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 239: { /* <binop> = '*'; */
 #line 1931 "alan.pmk"
 
-	pmSeSt[pmStkP+1].op = OP_MULT;
+	pmSeSt[pmStkP+1].op = MULT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 240: { /* <binop> = '/'; */
 #line 1937 "alan.pmk"
 
-	pmSeSt[pmStkP+1].op = OP_DIV;
+	pmSeSt[pmStkP+1].op = DIV_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 241: { /* <relop> = '<>'; */
 #line 1946 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_NE;
+        pmSeSt[pmStkP+1].op   = NE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 242: { /* <relop> = '='; */
 #line 1952 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_EQ;
+        pmSeSt[pmStkP+1].op   = EQ_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 243: { /* <relop> = '=='; */
 #line 1958 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_EXACT;
+        pmSeSt[pmStkP+1].op   = EXACT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 244: { /* <relop> = '>='; */
 #line 1964 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_GE;
+        pmSeSt[pmStkP+1].op   = GE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 245: { /* <relop> = '<='; */
 #line 1970 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_LE;
+        pmSeSt[pmStkP+1].op   = LE_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 246: { /* <relop> = '>'; */
 #line 1976 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_GT;
+        pmSeSt[pmStkP+1].op   = GT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 247: { /* <relop> = '<'; */
 #line 1982 "alan.pmk"
 
-        pmSeSt[pmStkP+1].op   = OP_LT;
+        pmSeSt[pmStkP+1].op   = LT_OPERATOR;
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 248: { /* <optional_qual> =; */

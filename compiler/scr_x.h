@@ -14,6 +14,7 @@
 #include "srcp.h"
 #include "lst.h"
 #include "ins.h"
+#include "context.h"
 
 
 
@@ -29,16 +30,9 @@ extern ScrNod *newScript(Srcp *srcp,
 			 List *stps);
 
 extern Aword generateScripts(InsNod *ins);
-
-/* Prepare the scripts of an Instance for analysis */
-extern void prepscrs(List *scrs, InsNod *ins);
-
-/* Analyse a list of Scripts */
-extern void anscrs(List *scrs,
-		   InsNod *ins);
-
-/* Dump a Script node */
-extern void duscr(ScrNod *scr);
+extern void prepareScripts(List *scrs, InsNod *ins);
+extern void analyzeScripts(List *scrs, Context *context);
+extern void dumpScript(ScrNod *scr);
 
 
 #endif

@@ -102,7 +102,7 @@ typedef struct pmGrammar {
     List *ress;
     ResNod *res;
     QualKind qual;
-    OpKind op;
+    OperatorKind op;
     Bool not;
     List *nams;
     List *nam;
@@ -120,7 +120,7 @@ typedef struct pmGrammar {
     IdNode *id;
     List *exts;
     ExtNod *ext;
-   ExpKind expKd;
+    ExpressionKind expKd;
     ExpNod *exp;
     List *evts;
     EvtNod *evt;
@@ -143,7 +143,7 @@ typedef struct pmGrammar {
     List *art;
     List *alts;
     AltNod *alt;
-    AgrKind agr;
+    AggregateKind agr;
     AddNode *add;
 } pmGrammar;
 

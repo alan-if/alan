@@ -15,6 +15,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "sym_x.h"
 
 #include "lmList.h"
 #include "acode.h"
@@ -58,12 +59,12 @@ ScrNod *newScript(Srcp *srcp,	/* IN - Source Position */
 
 /*======================================================================
 
-  prepscrs()
+  prepareScripts()
 
   Prepare scripts for this actor (i.e. number them)
 
   */
-void prepscrs(List *scrs, InsNod *ins)
+void prepareScripts(List *scrs, InsNod *ins)
 {
   List *lst;
   List *scrlst;
@@ -100,33 +101,29 @@ void prepscrs(List *scrs, InsNod *ins)
 }
 
 
-
 /*======================================================================
 
-  anscrs()
+  analyzeScripts()
 
   Analyze the scripts for one actor.
 
   */
-void anscrs(List *scrs, InsNod *ins)
+void analyzeScripts(List *scripts, Context *context)
 {
   List *lst;
-  Context context;
 
-  if (scrs == NULL) return;
+  if (scripts == NULL) return;
 
   /* Error if defined for HERO */
-  if (scrs != NULL && ins->slots->id->symbol->code == 1)
-      lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
+  if (scripts != NULL && context->instance->slots->id->symbol == theHero)
+      lmLog(&scripts->element.scr->srcp, 411, sevWAR, "Script");
 
-  context.kind = INSTANCE_CONTEXT;
-  context.instance = ins;
-  for (lst = scrs; lst != NULL; lst = lst->next) {
+  for (lst = scripts; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    anstms(lst->element.scr->descr, &context);
+    anstms(lst->element.scr->descr, context);
 
     /* Finally, analyse the steps inside the script */
-    anstps(lst->element.scr->stps, &context);
+    anstps(lst->element.scr->stps, context);
   }
 }
 
@@ -144,7 +141,7 @@ Aword generateScripts(InsNod *ins)
   List *lst;
   Aword scradr;
 
-  if (ins == NULL) syserr("NULL in gescrs()");
+  if (ins == NULL) syserr("NULL in generateScripts()");
   if (ins->slots == NULL || ins->slots->scripts == NULL)
     return(0);
 

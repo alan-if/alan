@@ -1,4 +1,4 @@
-Actor torbjörn
+The torbjörn Isa Actor
 
  Script 12.
    Step
@@ -20,10 +20,10 @@ Actor torbjörn
     Step
       "33 again"
 
-End Actor.
+End The.
 
-Location l
-End Location.
+The l Isa Location
+End The.
 
 Start at l.
   Use script swimming for torbjörn.  Use script 33 for torbjörn.

@@ -1,6 +1,4 @@
-########## scriptname ##########
-../compiler/alan scriptname
-########## /bin/sh  scriptname.tst ##########
+########## alan scriptname ##########
 
 
 scriptname.alan
@@ -24,5 +22,5 @@ scriptname.alan
 
         4 error(s).
         No detected warnings.
-        3 informational message(s).
+        1 informational message(s).
 
