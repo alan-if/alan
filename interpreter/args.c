@@ -111,6 +111,7 @@ void args(argc, argv)
       int argc;
       char **argv[100];
       
+      console_options.title = CurApName;
       argc = ccommand(argv);
       switches(argc, *argv);
     }

@@ -136,6 +136,7 @@ int main(int argc, char **argv)
   gelocs();
 
   printf("START AT l1.\n");
+  exit(EXIT_SUCCESS);
 }
 
 

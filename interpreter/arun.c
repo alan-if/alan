@@ -247,10 +247,10 @@ void para()
 
 */
 #ifdef _PROTOTYPES_
-void *allocate(int len)		/* IN - Length to allocate */
+void *allocate(unsigned long len)		/* IN - Length to allocate */
 #else
 void *allocate(len)
-     int len;			/* IN - Length to allocate */
+     unsigned long len;			/* IN - Length to allocate */
 #endif
 {
   void *p = (void *)malloc((size_t)len);
