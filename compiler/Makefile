@@ -91,7 +91,7 @@ all release :=	DEBUG= -O4
 
 alan: tm alanobj
 
-alanobj: $(OBJECTS) $(MAINOBJ) version version.o Makefile alan.prod
+alanobj: $(OBJECTS) $(MAINOBJ) version.o Makefile alan.prod
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	cp alan.prod $(ALANDIR)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
@@ -99,7 +99,7 @@ alanobj: $(OBJECTS) $(MAINOBJ) version version.o Makefile alan.prod
 
 src: tm version.c version.h
 
-fromsrc: $(OBJECTS) $(MAINOBJ) version.o alan.prod
+fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
@@ -154,14 +154,13 @@ MSDOS:
 	done
 	mv -f alan.tmk.sun alan.tmk
 
-version.c + version.h: ../$(VERSIONFILE)
+version.h:
 	@-cd ..; rm $(VERSIONFILE); sh version.sh
 	@-rm $(VERSIONFILE)
 	@cp ../$(VERSIONFILE) .
 	venum -c
 
-
-version: $(OBJECTS) ../$(VERSIONFILE)
+version.c: $(OBJECTS) ../$(VERSIONFILE)
 	@-rm $(VERSIONFILE)
 	@cp ../$(VERSIONFILE) .
 	venum +t

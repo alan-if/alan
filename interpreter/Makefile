@@ -50,7 +50,7 @@ debug all: arun
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(OBJECTS) $(MAINOBJ) version version.o Makefile
+arun: $(OBJECTS) $(MAINOBJ) version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
@@ -69,13 +69,13 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
-version.c + version.h: ../$(VERSIONFILE)
+version.h:
 	@-cd ..; rm $(VERSIONFILE); sh version.sh
 	@-rm $(VERSIONFILE)
 	@cp ../$(VERSIONFILE) .
 	venum -c
 
-version: $(OBJECTS)
+version.c: $(OBJECTS) ../$(VERSIONFILE)
 	@-rm $(VERSIONFILE)
 	@cp ../$(VERSIONFILE) .
 	venum +t
