@@ -73,12 +73,14 @@ version.h:
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-version.c: $(OBJECTS) $(VERSION)
+version.c: $(OBJECTS)
 	venum +t
 
-$(VERSION): ../$(VERSION)
-	-rm [0-9]*_[0-9]*_[0-9]*
-	cp ../$(VERSION) .
+version.c: ../version.sh
+	cd ..; sh version.sh
+	-rm ../[0-9]*_[0-9]*_[0-9]*
+	cp ../[0-9]*_[0-9]*_[0-9]* .
+	venum -c
 
 #--
 archives: src
