@@ -1,20 +1,30 @@
 Tue Sep 26 21:05:10 1995  Thomas Nilsson  <thoni@rabbit>
 
-	* Added the ARTICLE slot for objects, and removed the article from
-	the default messages. Instead introduced the default article which
-	will be used whenever a specific article is not defined. This
-	means that some tricks that have been used to somewhat remedy the
-	article ('a' was always used!), don't work no more. Remove all
-	'a', 'an' etc. from the texts and names in the Alan source
-	(usually in the MENTION slot and possibly in the HEADER for
-	containers), and introduce the ARTICLE declaration on objects that
-	require it (those whos name start with a vowel sound).
+	* Removed the undefinite article from the default
+	messages. Instead introduced the ARTICLE slot in objects which
+	will be used (if present) before producing the MENTIONED message
+	(which may be constructed automatically). If no article is
+	declared a default is suplied ("a" if using english).
+
+	This means that some tricks that have been used to somewhat remedy
+	the article problem ('a' was always used!), don't work any
+	more. Remove all 'a', 'an' etc. from the texts and names in the
+	Alan source (usually in the MENTIONED slot and possibly in the
+	HEADER for containers), and introduce the ARTICLE declaration on
+	objects that require it (those whos name start with a vowel
+	sound). For objects that doesn't need an article define an empty
+	ARTICLE clause.
+
+	It is also now possible to define the ARTICLE, MENTIONED and
+	DESCRIPTION on objects in any order.
+
 
 Wed Sep  6 10:40:13 1995  Thomas Nilsson  <thoni@rabbit>
 
 	* 2.5(3)
 
-	* Added readline implementation to suns&hp's
+	* Removed bulky GNU readline and added own readline
+        implementation to suns&hp's
 
 Fri Dec 16 17:42:48 1994  Thomas Nilsson  <thoni@rabbit>
 

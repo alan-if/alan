@@ -105,6 +105,7 @@ static int val(str)
 	stm %% StmNod *%1%%,
 	stms %% List *%1%%,
 	stms2 %% List *%1%%,
+	stms3 %% List *%1%%,
 	nam %% NamNod *%1%%,
 	nams %% List *%1%%,
 	stx %% StxNod *%1%%,
@@ -760,10 +761,10 @@ object			-- RETURNS: obj
 			     %object_header.nam,
 			     %object_header.nams,
 			     %object_header.whr,
-			     %object_header.stms,
 			     %object_body.cnt,
 			     %object_body.atrs,
 			     %object_body.stms,
+			     %object_body.stms3,
 			     %object_body.stms2,
 			     %object_body.vrbs);
 	if (%object_tail.nam != NULL) { /* END-id given */
@@ -775,13 +776,12 @@ object			-- RETURNS: obj
 
 
 object_header		-- RETURNS: srcp, nam, nams, whr
-    = 'OBJECT' ID optional_name optional_where optional_article
+    = 'OBJECT' ID optional_name optional_where
     %%
 	%object_header.srcp = %'OBJECT'.srcp;
 	%object_header.nam  = newnam(`&%ID.srcp, %ID.chars);
 	%object_header.nams = %optional_name.nams;
 	%object_header.whr  = %optional_where.whr;
-        %object_header.stms  = %optional_article.stms;
     %%
     ;
 
@@ -792,13 +792,14 @@ object_tail		-- RETURNS: nam
     %%
     ;
 
-object_body		-- RETURNS: cnt, atrs, stms, stms2, vrbs
-    = optional_properties optional_attributes optional_description optional_mentioned optional_verbs
+object_body		-- RETURNS: cnt, atrs, stms, stms2, stms3, vrbs
+    = optional_properties optional_attributes optional_descriptions optional_verbs
     %%
 	%object_body.cnt   = %optional_properties.cnt;
 	%object_body.atrs  = %optional_attributes.atrs;
-	%object_body.stms  = %optional_description.stms;
-	%object_body.stms2 = %optional_mentioned.stms;
+	%object_body.stms  = %optional_descriptions.stms;
+        %object_body.stms2 = %optional_descriptions.stms2;
+	%object_body.stms3 = %optional_descriptions.stms3;
 	%object_body.vrbs  = %optional_verbs.vrbs;
     %%
     ;
@@ -832,35 +833,105 @@ is			-- RETURNS: srcp
     %%
     ;
 
+optional_descriptions	-- RETURNS: stms, stms2, stms3
+    =
+    %%
+	%optional_descriptions.stms  = NULL;
+	%optional_descriptions.stms2 = NULL;
+	%optional_descriptions.stms3 = NULL;
+    %%
+
+    ! optional_descriptions article_or_mentioned_or_description
+    %%
+      if (%article_or_mentioned_or_description.stms3 != NULL)
+	if (%optional_descriptions.stms3 != NULL)
+	  lmLog(`&%article_or_mentioned_or_description.srcp, 219, sevERR, "ARTICLE");
+	else
+	  %optional_descriptions.stms3 = %article_or_mentioned_or_description.stms3;
+      if (%article_or_mentioned_or_description.stms2 != NULL)
+	if (%optional_descriptions.stms2 != NULL)
+	  lmLog(`&%article_or_mentioned_or_description.srcp, 219, sevERR, "MENTIONED");
+	else
+	  %optional_descriptions.stms2 = %article_or_mentioned_or_description.stms2;
+      if (%article_or_mentioned_or_description.stms != NULL)
+	if (%optional_descriptions.stms != NULL)
+	  lmLog(`&%article_or_mentioned_or_description.srcp, 219, sevERR, "DESCRIPTION");
+	else
+	  %optional_descriptions.stms = %article_or_mentioned_or_description.stms;
+    %%
+    ;
+
+
+article_or_mentioned_or_description	-- RETURNS: stms, stms2, stms3
+    = article
+    %%
+	%article_or_mentioned_or_description.stms = NULL;
+	%article_or_mentioned_or_description.stms2 = NULL;
+    %%
+
+    ! mentioned
+    %%
+	%article_or_mentioned_or_description.stms = NULL;
+	%article_or_mentioned_or_description.stms3 = NULL;
+    %%
+
+    ! description
+    %%
+	%article_or_mentioned_or_description.stms2 = NULL;
+	%article_or_mentioned_or_description.stms3 = NULL;
+    %%
+    ;
+
 optional_description	-- RETURNS: stms
     =
     %%
 	%optional_description.stms = NULL;
     %%
 
-    ! 'DESCRIPTION' 
+    ! description 
     %%
-	%optional_description.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
+	%optional_description.stms = %description.stms;
+    %%
+    ;
+
+description		-- RETURNS: stms
+    = 'DESCRIPTION' 
+    %%
+	%description.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
 							STM_NOP));
+	%description.srcp = %'DESCRIPTION'.srcp;
     %%
 
     ! 'DESCRIPTION' statements
     %%
-	%optional_description.stms = %statements.stms;
+	%description.stms = %statements.stms;
+	%description.srcp = %'DESCRIPTION'.srcp;
     %%
     ;
 
-optional_mentioned	-- RETURNS: stms
-    =
+article			-- RETURNS: stms3
+    = 'ARTICLE' 
     %%
-	%optional_mentioned.stms = NULL;
+	%article.stms3 = concat(NULL, newstm(`&%'ARTICLE'.srcp,
+							STM_NOP));
+	%article.srcp = %'ARTICLE'.srcp;
     %%
 
-    ! 'MENTIONED' statements
+    ! 'ARTICLE' statements
     %%
-	%optional_mentioned.stms = %statements.stms;
+	%article.stms3 = %statements.stms;
+	%article.srcp = %'ARTICLE'.srcp;
     %%
     ;
+
+mentioned		-- RETURNS: stms2
+    = 'MENTIONED' statements
+    %%
+	%mentioned.stms2 = %statements.stms;
+	%mentioned.srcp = %'MENTIONED'.srcp;
+    %%
+    ;
+
 
 optional_name		-- RETURNS: nams
     =
@@ -874,17 +945,6 @@ optional_name		-- RETURNS: nams
     %%
     ;
 
-optional_article	-- RETURNS: stms
-    =
-    %%
-	%optional_article.stms = NULL;
-    %%
-
-    ! 'ARTICLE' statements
-    %%
-	%optional_article.stms = %statements.stms;
-    %%
-    ;
 
 ---> CONTAINERS
 optional_properties	-- RETURNS: cnt

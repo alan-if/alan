@@ -177,7 +177,7 @@ typedef struct ObjElem {	/* OBJECT TABLE */
   Aword cont;			/* Index to container properties if any */
   Aaddr vrbs;			/* Address to local verb table */
   Aaddr dscr1;			/* Address to Aword description code */
-  Aaddr art;			/* Aword address to article printing code */
+  Abool art;			/* Use default article? */
 				/* INTRODUCED: v2.6 */
   Aaddr dscr2;			/* Address to short description code */
 } ObjElem;

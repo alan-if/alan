@@ -23,17 +23,17 @@ typedef struct ObjNod {		/* OBJECT */
   NamNod *nam;			/* Name of the object */
   List *nams;			/* List of adjectives and a noun */
   WhrNod *whr;			/* Where is it? */
-  List *art;			/* Article printing statements */
-  Aword artadr;			/* ACODE address to attribute statements */
   CntNod *props;		/* Container properties */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address to attribute list */
   List *namstms;		/* Name printing statements */
   Aword namsadr;		/* ACODE address to name printing */
-  List *dscr1;			/* Long description statements */
-  Aword d1adr;			/* ACODE address to long description code */
-  List *dscr2;			/* Short (inventory) statements */
-  Aword d2adr;			/* ACODE address to short description code */
+  List *dscr;			/* Long description statements */
+  Aword dscradr;		/* ACODE address to long description code */
+  List *art;			/* Article printing statements */
+  Aword artadr;			/* ACODE address to attribute statements */
+  List *ment;			/* Short (inventory like) statements */
+  Aword mentadr;		/* ACODE address to short description (mentioned) code */
   List *vrbs;			/* List of verbs */
   Aword vrbadr;			/* ACODE address to local verb table */
 } ObjNod;
@@ -55,11 +55,11 @@ extern ObjNod *newobj(Srcp *srcp,
 		      NamNod *nam,
 		      List *nams,
 		      WhrNod *whr,
-		      List *art,
 		      CntNod *props,
 		      List *atrs,
-		      List *dscr1,
-		      List *dscr2,
+		      List *dscr,
+		      List *art,
+		      List *ment,
 		      List *vrbs);
 
 /* Analyze all Objects */

@@ -47,18 +47,19 @@ int objcount = 0;
 
  */
 #ifdef _PROTOTYPES_
-ObjNod *newobj(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, List *art, CntNod *props, List *atrs, List *dscr1, List *dscr2, List *vrbs)
+ObjNod *newobj(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *art, List *ment, List *vrbs)
 #else
-ObjNod *newobj(srcp, nam, nams, whr, art, props, atrs, dscr1, dscr2, vrbs)
-     Srcp *srcp;	/* IN - Source Position */
-     NamNod *nam;	/* IN - The object name */
-     List *nams;	/* IN - List of adjectives and a noun */
-     WhrNod *whr;	/* IN - Where initially */
-     List *art;		/* IN - Article statments */
-     CntNod *props;	/* IN - Properties */
-     List *atrs;	/* IN - Attributes */
-     List *dscr1,*dscr2; /* IN - And its description statements */
-     List *vrbs;	/* IN - The verbs handled by the object */
+ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr, art, ment, vrbs)
+     Srcp *srcp;		/* IN - Source Position */
+     NamNod *nam;		/* IN - The object name */
+     List *nams;		/* IN - List of adjectives and a noun */
+     WhrNod *whr;		/* IN - Where initially */
+     CntNod *props;		/* IN - Properties */
+     List *atrs;		/* IN - Attributes */
+     List *dscr,;		/* IN - And its description statements */
+     List *art;			/* IN - Article statments */
+     List *ment;		/* IN - Short description (mentioned) */
+     List *vrbs;		/* IN - The verbs handled by the object */
 #endif
 {
   ObjNod *new;		/* The newly allocated area */
@@ -71,11 +72,11 @@ ObjNod *newobj(srcp, nam, nams, whr, art, props, atrs, dscr1, dscr2, vrbs)
   new->nam = nam;
   new->nams = nams;
   new->whr = whr;
-  new->art = art;
   new->props = props;
   new->atrs = atrs;
-  new->dscr1 = dscr1;
-  new->dscr2 = dscr2;
+  new->dscr = dscr;
+  new->art = art;
+  new->ment = ment;
   new->vrbs = vrbs;
 
   sym = lookup(nam->str);
@@ -170,7 +171,7 @@ static void anobj(obj)
 
 
   /* Make sure there always is a short description */
-  if (obj->dscr2 == NULL) {
+  if (obj->ment == NULL) {
     /* First create list of name printing statements */
     fpos = ftell(txtfil);
     len = annams(obj->nams, obj->nam, FALSE);
@@ -178,7 +179,8 @@ static void anobj(obj)
     stm = newstm(&nulsrcp, STM_PRINT);
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
-    obj->dscr2 = concat(NULL, stm);
+    /* Make this a list */
+    obj->ment = concat(NULL, stm);
   }
 
   /* Check its initial location */
@@ -206,9 +208,9 @@ static void anobj(obj)
   if (obj->props != NULL)
     ancnt(obj->props);
   
-  anstms(obj->dscr1, NULL, NULL, NULL);
+  anstms(obj->dscr, NULL, NULL, NULL);
   anstms(obj->art, NULL, NULL, NULL);
-  anstms(obj->dscr2, NULL, NULL, NULL);
+  anstms(obj->ment, NULL, NULL, NULL);
   anvrbs(obj->vrbs, obj, NULL);
 }
 
@@ -226,10 +228,10 @@ void anobjs(void)
 void anobjs()
 #endif
 {
-    List *obj;
+  List *obj;
 
-    for (obj = adv.objs; obj != NULL; obj = obj->next)
-        anobj(obj->element.obj);
+  for (obj = adv.objs; obj != NULL; obj = obj->next)
+    anobj(obj->element.obj);
 }
 
 
@@ -249,13 +251,14 @@ static void geobjdscrs(obj)
      ObjNod *obj;	/* IN - The object to generate for */
 #endif
 {
-  if (obj->dscr1 != NULL) {
-    obj->d1adr = emadr();
-    gestms(obj->dscr1, NULL);
+  if (obj->dscr != NULL) {
+    obj->dscradr = emadr();
+    gestms(obj->dscr, NULL);
     emit0(C_STMOP, I_RETURN);
   } else
-    obj->d1adr = 0;
+    obj->dscradr = 0;
 
+  /* Generate article statements */
   if (obj->art != NULL) {
     obj->artadr = emadr();
     gestms(obj->art, NULL);
@@ -263,8 +266,8 @@ static void geobjdscrs(obj)
   } else
     obj->artadr = 0;
 
-  obj->d2adr = emadr();
-  gestms(obj->dscr2, NULL);
+  obj->mentadr = emadr();
+  gestms(obj->ment, NULL);
   emit0(C_STMOP, I_RETURN);
 }
 
@@ -316,9 +319,9 @@ static void geobjent(obj)
   emit(obj->vrbadr);
   
   /* The descriptions */
-  emit(obj->d1adr);
+  emit(obj->dscradr);
   emit(obj->artadr);
-  emit(obj->d2adr);
+  emit(obj->mentadr);
 }
 
 
@@ -401,10 +404,12 @@ void duobj(obj)
   put("props: "); ducnt(obj->props); nl();
   put("atrs: "); dulst(obj->atrs, ATRNOD); nl();
   put("atradr: "); duint(obj->atradr); nl();
-  put("dscr1: "); dulst(obj->dscr1, STMNOD); nl();
-  put("d1adr: "); duint(obj->d1adr); nl();
-  put("dscr2: "); dulst(obj->dscr2, STMNOD); nl();
-  put("d2adr: "); duint(obj->d2adr); nl();
+  put("dscr: "); dulst(obj->dscr, STMNOD); nl();
+  put("dscradr: "); duint(obj->dscradr); nl();
+  put("art: "); dulst(obj->art, STMNOD); nl();
+  put("artadr: "); duint(obj->artadr); nl();
+  put("ment: "); dulst(obj->ment, STMNOD); nl();
+  put("mentadr: "); duint(obj->mentadr); nl();
   put("vrbs: "); dulst(obj->vrbs, VRBNOD); nl();
   put("vrbadr: "); duint(obj->vrbadr); out();
 }
