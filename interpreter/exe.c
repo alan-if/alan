@@ -218,6 +218,7 @@ void quit()
   para();
   while (TRUE) {
     col = 1;
+    statusline();
     prmsg(M_QUITACTION);
 #ifdef USE_READLINE
     if (!readline(buf)) terminate(0);
@@ -248,7 +249,7 @@ void restart()
     longjmp(restart_label, TRUE);
   } else
     return;
-  syserr("Fallthrough in QUIT");
+  syserr("Fallthrough in RESTART");
 }
 
 

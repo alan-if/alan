@@ -243,9 +243,9 @@ void statusline(void)
   col = 1;
   say(where(HERO));
   if (header->maxscore > 0)
-    sprintf(line, "Score %d(%d)/%d moves", cur.score, (int)header->maxscore, cur.tick);
+    sprintf(line, "Score %ld(%ld)/%ld moves", cur.score, (int)header->maxscore, cur.tick);
   else
-    sprintf(line, "%d moves", cur.tick);
+    sprintf(line, "%ld moves", cur.tick);
   for (i=0; i < pagwidth - col - strlen(line); i++) putchar(' ');
   printf(line);
   printf("\x1b[m");
