@@ -60,12 +60,10 @@ ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
-all fromsrc: checkTarget unitTest arun dumpacd
+all arun : checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
+	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
-
-arun : $(ARUNOBJECTS) Makefile dependencies.mk
-	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun

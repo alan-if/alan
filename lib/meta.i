@@ -87,11 +87,11 @@ VERB again
 END VERB.
 
 
-SYNTAX
-	undo = undo.
+--SYNTAX
+--    undo = undo.
 
-VERB undo
-	DOES
-		"Unfortunately you cannot 'undo' commands in this game."
-END VERB.
+--VERB undo
+--    DOES
+--        "Unfortunately you cannot 'undo' commands in this game."
+--END VERB.
 

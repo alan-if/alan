@@ -36,23 +36,24 @@ Add To Every object
   END VERB.
 
   VERB touch_with
-	CHECK obj1 IS touchable
-		ELSE "You can't touch that."
-	AND obj1 <> obj2
-		ELSE "It doesn't make sense to touch something with itself."
-	DOES
-		"You touch"
-		IF obj1 IS named THEN
-			SAY obj1.
-			"with"
-		ELSE
-			"the $1 with"
-		END IF.
-		IF obj2 IS named THEN
-			SAY obj2.
-		ELSE
-			"the $2"
-		END IF.
-		"$$."
+	when obj1
+	  CHECK obj1 IS touchable
+		  ELSE "You can't touch that."
+	  AND obj1 <> obj2
+		  ELSE "It doesn't make sense to touch something with itself."
+	  DOES
+		  "You touch"
+		  IF obj1 IS named THEN
+			  SAY obj1.
+			  "with"
+		  ELSE
+			  "the $1 with"
+		  END IF.
+		  IF obj2 IS named THEN
+			  SAY obj2.
+		  ELSE
+			  "the $2"
+		  END IF.
+		  "$$."
   END VERB.
 End Add To.

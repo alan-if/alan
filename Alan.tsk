@@ -4,237 +4,67 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>224.89</origest>
-<currest>224.89</currest>
-<elapsed>83.89</elapsed>
+<origest>229.89</origest>
+<currest>229.89</currest>
+<elapsed>84.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>44</origest>
-<currest>44</currest>
-<elapsed>12</elapsed>
+<origest>39</origest>
+<currest>39</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.26</desc>
-<notes/>
-<priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>10</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Show "imagefile"</desc>
-<notes>Use glk_image_draw() in the text window. Align with imagealign_MarginLeft. Possibly add Show "imagefile" [Left|Right] to use also imagealign_MarginRight.
-
-Use glk_gestalt(gestalt_Graphics, 0) to verify if graphics is available.
-
-Add glk_window_flow_break before every glk_image_draw and before every newline() and para().
-
-PROBLEM: imagealign_MarginXXX is only allowed directly after a newline. Does it work to insert a newline before every SHOW?
-
-DESIGN: create a list of ID:s that collects alla graphics files. Before code generation:
- - sort the files in alphabetic order
- - number them and put that in the ID:s, same names get same ID:s
- - copy the files to resource names (PICnn,ext)
-Code generation then can pickup the resource numbers from the ID:s</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Move current.verb code from "secret" place after class restriction table</desc>
-<notes>Seems like the flags in the EOS syntax element could be used. Verify that it is not used for anything else.
-
-Remember to change the reverse routine.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
-<notes>New right hand side of expression to augment COUNT aggregate.
-
-First step: DONE!
-Allow for it in ACODE.
-
-push initial aggregate value (different for MIN &amp; MAX!!
-AGRSTART:  push 1 (instance index), twice
-&lt;rhs&gt;: code to eval right hand side and leave true or false
-AGRCHECK: if pop() == false then find ENDAGR else continue
-&lt;rhs&gt;: code to eval, leave true or false
-AGRCHECK: d:o
-COUNT: add 1 (or attribute) to element below stack top (aggregate value)
-ENDAGR: if top() &lt;= instanceMax then push(pop()+1) and go to code after AGRSTART else pop() of instance index revealing aggregate value
-
-Second step:
-Allow one right hand side. DONE!
-
-Third step:
-Allow concatenated right hand sides. If no ISA use "Isa object" by default for compatibility reasons?? No. DONE!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verb declarations with multiple verbs</desc>
-<notes>Possibly by introducing an intermediate level we could fix the problem with parameter references such as in
-
- give_to = give (obj) to (act)
- give = give (act) (obj)
-
- verb give, give_to
-    make obj ...  -- obj is parameter #1 in give_to and #2 in give!!
-
-Also need to consider how to warn for the same verb declared without a parameter at global level and with a parameter. Is this the same as declaring it with two separate syntax declarations? No, if done so the compiler complains.
-
-DESIGN: Change to verb code in the syntax to a syntax code. Number all syntaxes. For each syntax connect it to a verb, Choose one syntax to represent the canonical parameter order. For each syntax create a table that maps the parameters to the canonical order.
-
-TASK: Introduce the syntax mapping table, first to map to the same order.
-TASK: Map parameters through the mapping table
-TASK: allow multiple syntaxes for same verb
-TASK: create multiple entries for same verb in syntax mapping table
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Multiple but different syntaxes for same verb</desc>
-<notes>
-For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
-Syntax give_to_actor = give (thing) to (person)
-Syntax give_actor = give (person) (thing)
-Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
-To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
-
-Verb give_to_actor, give_actor ...
-
-We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Missing lines in -full listing</desc>
-<notes>Messages with only informational messages are not shown if listing is filtered using severity
-
-e.g. alan -full inheritVerb1:
-    1.  Every x
-    2.    Isa object.
-    4.      Does Say c.
-=====&gt;               1
-
-  *1*   310 E : Identifier 'c' not defined.
-
-But  alan -full inheritVerb1 -info:
-
-    1.  Every x
-    2.    Isa object.
-    3.    Verb v
-=====&gt;         1
-
-  *1*   231 I : No syntax defined for this verb, assumed 'v (object)'.
-
-    4.      Does Say c.
-=====&gt;               1
-
-  *1*   310 E : Identifier 'c' not defined.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>If a printout start with a "." don't print a space even if needsp is true</desc>
-<notes>This will make most uses of $$ go away.
-
-E.g.
-  "The" Say x. "$$."</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default syntax with parameter</desc>
-<notes>Does it work to refer to the default parameter "object"? Yes.
-How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
-
-Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition? What about if it is in an instance, look at its class? Yes. DONE.
-
-However, there is no possibility to have default restrictions work the same way since we have no idea in which classes the verb is defined. Remember that restrictions are declared together with the syntax which is declared once outside all entities.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO</desc>
-<notes>Investigate the possibility to just reallocate new admin[] and instance[] tables after each turn and make undo backup.
-
-Ok, need to save event queue, instance and admin as well as score table, which needs to be copied in init(),
-
-Remember to handle last UNDO gracefully.
-
-Did not work since the attributes are in the original code. How can we extract them to the dynamic area? Or should be rethink the whole undo thing:
-
-Allocate one big dynamic area in which we copy instance, admin. Attribute areas are copied there for all instances and their new address noted in the instances...
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>0</elapsed>
+<origest>20</origest>
+<currest>20</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
-<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+<desc>Capitalizing of "proper_name" in library and doc</desc>
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
 
-It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+Instead (verify this) the author should:
 
-This would allow code generating once for some inherited constructs:
--scripts
--descriptions
-</notes>
+The anderson Isa actor
+  Name mr 'Andersson' -- first name is printed
+  Name mr andersson -- to allow player use of lowercase
+End The andersson.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update library w.r.t. discovered WHEN-problem multi param verbs</desc>
+<notes>Cf. Steves new library files</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update Makefile to have dist for source</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -247,9 +77,8 @@ This would allow code generating once for some inherited constructs:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
-<notes>Add a FUNCTION_SYMBOL to the symbol table.
-Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
+<desc>VISITS is a reserved word that causes many compiler problems</desc>
+<notes>See compiler test case visits.alan</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -257,8 +86,15 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 <isopen>1</isopen>
 </task>
 <task>
-<desc>VISITS is a reserved word that causes many compiler problems</desc>
-<notes>See compiler test case visits.alan</notes>
+<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
+<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+
+It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+
+This would allow code generating once for some inherited constructs:
+-scripts
+-descriptions
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -368,6 +204,16 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
+<notes>Add a FUNCTION_SYMBOL to the symbol table.
+Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
 <notes/>
 <priority>2</priority>
@@ -403,13 +249,22 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Containers can take any type of instance, how to handle Limits?</desc>
 <notes>Or do we prohibit containers to contain anything not an object? How?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2029,9 +1884,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>68.89</origest>
-<currest>68.89</currest>
-<elapsed>68.89</elapsed>
+<origest>78.89</origest>
+<currest>78.89</currest>
+<elapsed>78.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -3146,7 +3001,7 @@ start at aaa.
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>If a SAY refers to a parameter the print out should use the same words</desc>
 <notes>
@@ -3333,7 +3188,7 @@ Inherited attributes which override others with another type should refer to the
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>
@@ -3468,7 +3323,7 @@ This implies collecting a scriptList during analysis, keeping only script refere
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -4034,7 +3889,7 @@ If not present in A3C class names must be available.
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>
@@ -4149,6 +4004,203 @@ Refer to compiler/testing/addVerb losing line 2</notes>
 </task>
 </task>
 <task>
+<desc>Increment: version 3.0.26</desc>
+<notes/>
+<priority>2</priority>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>10</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Show "imagefile"</desc>
+<notes>Use glk_image_draw() in the text window. Align with imagealign_MarginLeft. Possibly add Show "imagefile" [Left|Right] to use also imagealign_MarginRight.
+
+Use glk_gestalt(gestalt_Graphics, 0) to verify if graphics is available.
+
+Add glk_window_flow_break before every glk_image_draw and before every newline() and para().
+
+PROBLEM: imagealign_MarginXXX is only allowed directly after a newline. Does it work to insert a newline before every SHOW?
+
+DESIGN: create a list of ID:s that collects alla graphics files. Before code generation:
+ - sort the files in alphabetic order
+ - number them and put that in the ID:s, same names get same ID:s
+ - copy the files to resource names (PICnn,ext)
+Code generation then can pickup the resource numbers from the ID:s</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Move current.verb code from "secret" place after class restriction table</desc>
+<notes>Seems like the flags in the EOS syntax element could be used. Verify that it is not used for anything else.
+
+Remember to change the reverse routine.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
+<notes>New right hand side of expression to augment COUNT aggregate.
+
+First step: DONE!
+Allow for it in ACODE.
+
+push initial aggregate value (different for MIN &amp; MAX!!
+AGRSTART:  push 1 (instance index), twice
+&lt;rhs&gt;: code to eval right hand side and leave true or false
+AGRCHECK: if pop() == false then find ENDAGR else continue
+&lt;rhs&gt;: code to eval, leave true or false
+AGRCHECK: d:o
+COUNT: add 1 (or attribute) to element below stack top (aggregate value)
+ENDAGR: if top() &lt;= instanceMax then push(pop()+1) and go to code after AGRSTART else pop() of instance index revealing aggregate value
+
+Second step:
+Allow one right hand side. DONE!
+
+Third step:
+Allow concatenated right hand sides. If no ISA use "Isa object" by default for compatibility reasons?? No. DONE!</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verb declarations with multiple verbs</desc>
+<notes>Possibly by introducing an intermediate level we could fix the problem with parameter references such as in
+
+ give_to = give (obj) to (act)
+ give = give (act) (obj)
+
+ verb give, give_to
+    make obj ...  -- obj is parameter #1 in give_to and #2 in give!!
+
+Also need to consider how to warn for the same verb declared without a parameter at global level and with a parameter. Is this the same as declaring it with two separate syntax declarations? No, if done so the compiler complains.
+
+DESIGN: Change to verb code in the syntax to a syntax code. Number all syntaxes. For each syntax connect it to a verb, Choose one syntax to represent the canonical parameter order. For each syntax create a table that maps the parameters to the canonical order.
+
+TASK: Introduce the syntax mapping table, first to map to the same order.
+TASK: Map parameters through the mapping table
+TASK: allow multiple syntaxes for same verb
+TASK: create multiple entries for same verb in syntax mapping table
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple but different syntaxes for same verb</desc>
+<notes>
+For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
+Syntax give_to_actor = give (thing) to (person)
+Syntax give_actor = give (person) (thing)
+Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
+To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
+
+Verb give_to_actor, give_actor ...
+
+We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Missing lines in -full listing</desc>
+<notes>Messages with only informational messages are not shown if listing is filtered using severity
+
+e.g. alan -full inheritVerb1:
+    1.  Every x
+    2.    Isa object.
+    4.      Does Say c.
+=====&gt;               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+But  alan -full inheritVerb1 -info:
+
+    1.  Every x
+    2.    Isa object.
+    3.    Verb v
+=====&gt;         1
+
+  *1*   231 I : No syntax defined for this verb, assumed 'v (object)'.
+
+    4.      Does Say c.
+=====&gt;               1
+
+  *1*   310 E : Identifier 'c' not defined.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If a printout start with a "." don't print a space even if needsp is true</desc>
+<notes>This will make most uses of $$ go away.
+
+E.g.
+  "The" Say x. "$$."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default syntax with parameter</desc>
+<notes>Does it work to refer to the default parameter "object"? Yes.
+How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
+
+Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition? What about if it is in an instance, look at its class? Yes. DONE.
+
+However, there is no possibility to have default restrictions work the same way since we have no idea in which classes the verb is defined. Remember that restrictions are declared together with the syntax which is declared once outside all entities.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO</desc>
+<notes>Investigate the possibility to just reallocate new admin[] and instance[] tables after each turn and make undo backup.
+
+Ok, need to save event queue, instance and admin as well as score table, which needs to be copied in init(),
+
+Remember to handle last UNDO gracefully.
+
+Did not work since the attributes are in the original code. How can we extract them to the dynamic area? Or should be rethink the whole undo thing:
+
+Allocate one big dynamic area in which we copy instance, admin. Attribute areas are copied there for all instances and their new address noted in the instances...
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
 <desc>Increment: v2.8.8?</desc>
 <notes/>
 <priority>2</priority>
@@ -4202,7 +4254,7 @@ properly producing a blank line.
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
 <notes/>
@@ -4250,9 +4302,9 @@ as parameters or .rc or some other configuration.</notes>
 <task>
 <desc>Fix Toolmaker code generation problem</desc>
 <notes>
-NÃ¤r man genererar kod tex alanCommon.h blir kÃ¤llpositionerna fel vilket gÃ¶r det omÃ¶jligt att generera Alans parser mm. frÃ¥n kÃ¤lltexterna i CVS.
+När man genererar kod tex alanCommon.h blir källpositionerna fel vilket gör det omöjligt att generera Alans parser mm. från källtexterna i CVS.
 
-Verkar bara gÃ¤lla om man kompilerar med Cygwin och kÃ¶r i ett Windows-shell</notes>
+Verkar bara gälla om man kompilerar med Cygwin och kör i ett Windows-shell</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

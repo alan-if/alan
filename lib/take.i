@@ -72,11 +72,11 @@ Syntax
 
 Add To Every object
   Verb drop, put_down1, put_down2
-    Check obj In hero
-      Else "You aren't carrying that."
-    Does
-      Locate obj Here.
-      "Dropped."
+	Check obj In hero
+	  Else "You aren't carrying that."
+	Does
+	  Locate obj Here.
+	  "Dropped."
   End Verb.
 End Add To.
 
@@ -93,42 +93,50 @@ Syntax
 
 Add To Every object
   Verb take_from
-    When obj
-      Check obj Not In hero
-	Else
-	  "You already have"
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "the $1"
-	  End If.
-	  "$$."
-      Does
-	If holder=hero Then
-	  "You can't take things from yourself!"
-	Elsif holder Is inanimate Then
-	  "You take"
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "the $1"
-	  End If.
-	  "$$."
-	  Locate obj In hero.
-	Else
-	  If holder Is named Then
-	    Say holder.
-	  Else
-	    "The $2"
-	  End If.
-	  "won't let you take"
-	  If obj Is named Then
-	    Say obj.
-	  Else
-	    "the $1"
-	  End If.
-	  "$$."
-	End If.
+	When obj
+	  Check obj Not In hero 
+		Else
+		  "You already have"
+		  If obj Is named Then
+			Say obj.
+		  Else
+			"the $1"
+		  End If.
+		  "$$."
+	  And obj In holder
+		Else
+		  If obj Is named Then
+			Say obj.
+		  Else
+			"The $1"
+		  End If.
+		  "is not there."
+	  Does
+		If holder=hero Then
+		  "You can't take things from yourself!"
+		Elsif holder Is inanimate Then
+		  "You take"
+		  If obj Is named Then
+			Say obj.
+		  Else
+			"the $1"
+		  End If.
+		  "$$."
+		  Locate obj In hero.
+		Else
+		  If holder Is named Then
+			Say holder.
+		  Else
+			"The $2"
+		  End If.
+		  "won't let you take"
+		  If obj Is named Then
+			Say obj.
+		  Else
+			"the $1"
+		  End If.
+		  "$$."
+		End If.
   End Verb.
 End Add.
 

@@ -117,7 +117,7 @@ SYNTAX undress = undress.
 Add To Every object
   VERB undress
 	DOES
-		IF COUNT IN worn > 0 THEN
+		IF COUNT Isa Thing, IN worn > 0 THEN
 			EMPTY worn IN HERO.
 			"You remove all the items you were wearing."
 		 ELSE

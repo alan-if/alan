@@ -710,7 +710,7 @@ static int val(char str[])
 					%<properties>.scrs));
 	if (%<add_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<add_tail>.id))
-		lmLog(`&%<add_tail>.id->srcp, 201, sevWAR, %ID.id->string);
+		lmLog(`&%<add_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
@@ -744,7 +744,7 @@ static int val(char str[])
 					%<properties>.scrs));
 	if (%<instance tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<instance tail>.id))
-		lmLog(`&%<instance tail>.id->srcp, 201, sevWAR, %ID.id->string);
+		lmLog(`&%<instance tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
@@ -943,7 +943,7 @@ static int val(char str[])
 			   %<optional_exit_body>.stms);
 	if (%<optional_exit_body>.id != NULL) { /* END-id given */
 	    if (strcmp(%<id_list>.str, %<optional_exit_body>.id->string) != 0)
-		lmLog(`&%<optional_exit_body>.id->srcp, 201, sevWAR, %<id_list>.str);
+		lmLog(`&%<optional_exit_body>.id->srcp, 200, sevWAR, %<id_list>.str);
 	}
     %%
     ;
@@ -1220,7 +1220,7 @@ static int val(char str[])
 			    %<statements>.stms);
 	if (%<event_tail>.id != NULL) { /* END-id given */
 	    if (!equalId(%<event_header>.id, %<event_tail>.id))
-		lmLog(`&%<event_tail>.id->srcp, 201, sevWAR, %<event_header>.id->string);
+		lmLog(`&%<event_tail>.id->srcp, 200, sevWAR, %<event_header>.id->string);
 	}
     %%
     ;
@@ -1994,11 +1994,6 @@ static int val(char str[])
     ! 'SCORE'
     %%
 	%<primary>.exp = newexp(`&%'SCORE'.srcp, SCORE_EXPRESSION);
-    %%
-
-    ! 'UNDO'
-    %%
-	%<primary>.exp = newexp(`&%'UNDO'.srcp, UNDO_EXPRESSION);
     %%
     ;
 

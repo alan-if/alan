@@ -5,7 +5,7 @@
 
 
 ADD TO EVERY OBJECT 
-    IS
+	IS
 	NOT lockable.
 	locked.
 END ADD TO OBJECT. 
@@ -17,7 +17,7 @@ SYNTAX
 			ELSE "You can't lock that."
 
 Add To Every object
-    VERB lock
+	VERB lock
 	CHECK obj IS lockable
 		ELSE "You can't lock that!"
 	AND obj IS NOT locked
@@ -30,7 +30,7 @@ Add To Every object
 		ELSE
 			"The $o is now locked."
 		END IF.
-    END VERB.
+	END VERB.
 End Add To object. 
 
 
@@ -44,27 +44,28 @@ SYNTAX
 
 Add To Every Object
   VERB lock_with
-	CHECK obj IS lockable
-		ELSE "You can't lock that!"
-	AND obj IS NOT locked
-		ELSE "It's already locked."
-	AND key IN HERO
-		ELSE 
-			"You don't have"
-			IF key IS named THEN
-				SAY key.
-			ELSE
-				"the $2"
-			END IF.
-			"$$."
-	DOES
-		MAKE obj locked.
-		IF obj IS named THEN
-			SAY obj.
-			"is now locked."
-		ELSE
-			"The $o is now locked."
-		END IF.
+	when obj
+	  CHECK obj IS lockable
+		  ELSE "You can't lock that!"
+	  AND obj IS NOT locked
+		  ELSE "It's already locked."
+	  AND key IN HERO
+		  ELSE 
+			  "You don't have"
+			  IF key IS named THEN
+				  SAY key.
+			  ELSE
+				  "the $2"
+			  END IF.
+			  "$$."
+	  DOES
+		  MAKE obj locked.
+		  IF obj IS named THEN
+			  SAY obj.
+			  "is now locked."
+		  ELSE
+			  "The $o is now locked."
+		  END IF.
   END VERB.
 End Add.
 
@@ -100,27 +101,28 @@ SYNTAX
 
 Add To Every object
   VERB unlock_with
-	CHECK obj IS lockable
-		ELSE "You can't unlock that!"
-	AND obj IS locked
-		ELSE "It's already unlocked."
-	AND key IN HERO
-		ELSE 
-			"You don't have"
-			IF key IS named THEN
-				SAY key.
-			ELSE
-				"the $2"
-			END IF.
-			"$$."
-	DOES
-		MAKE obj NOT locked.
-		IF obj IS named THEN
-			SAY obj.
-			"is now unlocked."
-		ELSE
-			"The $o is now unlocked."
-		END IF.
+	when obj
+	  CHECK obj IS lockable
+		  ELSE "You can't unlock that!"
+	  AND obj IS locked
+		  ELSE "It's already unlocked."
+	  AND key IN HERO
+		  ELSE 
+			  "You don't have"
+			  IF key IS named THEN
+				  SAY key.
+			  ELSE
+				  "the $2"
+			  END IF.
+			  "$$."
+	  DOES
+		  MAKE obj NOT locked.
+		  IF obj IS named THEN
+			  SAY obj.
+			  "is now unlocked."
+		  ELSE
+			  "The $o is now unlocked."
+		  END IF.
   END VERB.
 End Add.
 

@@ -38,21 +38,22 @@ SYNTAX
 
 Add To Every object
   VERB push_with
-	CHECK obj1 IS pushable
-		ELSE "You can't push that."
-	DOES
-		"Using"
-		IF obj2 IS named THEN
-			SAY obj2.
-			"you push"
-		ELSE
-			"the $2 you push"
-		END IF.
-		IF obj1 IS named THEN
-			SAY obj1.
-		ELSE
-			"the $1"
-		END IF.
-		"$$."
+	when obj1
+	  CHECK obj1 IS pushable
+		  ELSE "You can't push that."
+	  DOES
+		  "Using"
+		  IF obj2 IS named THEN
+			  SAY obj2.
+			  "you push"
+		  ELSE
+			  "the $2 you push"
+		  END IF.
+		  IF obj1 IS named THEN
+			  SAY obj1.
+		  ELSE
+			  "the $1"
+		  END IF.
+		  "$$."
   END VERB.
 End Add To.

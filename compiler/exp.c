@@ -540,10 +540,6 @@ void analyzeExpression(Expression *expression,
     expression->type = INTEGER_TYPE;
     break;
 
-  case UNDO_EXPRESSION:
-    expression->type = BOOLEAN_TYPE;
-    break;
-
   case WHAT_EXPRESSION:
     analyzeWhatExpression(expression, context);
     break;
@@ -1032,7 +1028,6 @@ void dumpExpression(Expression *exp)
     put("wht: "); dumpWhat(exp->fields.wht.wht);
     break;
   case SCORE_EXPRESSION:
-  case UNDO_EXPRESSION:
     break;
   case BETWEEN_EXPRESSION:
     put("val: "); dumpExpression(exp->fields.btw.val); nl();

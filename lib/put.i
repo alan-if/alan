@@ -34,20 +34,29 @@ SYNTAX
 
 Add To Every object
   VERB put_in
-	CHECK obj1 IN HERO
-		ELSE 
-			"You haven't got"
-			IF obj1 IS named THEN
-				SAY obj1.
-			ELSE
-				"the $1"
-			END IF.
-			"$$!"
-	AND obj1 <> obj2
-		ELSE "You can't put something into itself!"
-	DOES
-		LOCATE obj1 IN obj2.
-		"Done."
+	when obj1
+	  CHECK obj1 IN HERO
+		  ELSE 
+			  "You haven't got"
+			  IF obj1 IS named THEN
+				  SAY obj1.
+			  ELSE
+				  "the $1"
+			  END IF.
+			  "$$!"
+	  AND obj1 <> obj2
+		  ELSE "You can't put something into itself!"
+	  And obj2 <> hero
+		  Else "You can't put"
+			  IF obj1 IS named THEN
+				  SAY obj1.
+			  ELSE
+				  "the $1"
+			  END IF.
+			  "into yourself!"
+	  DOES
+		  LOCATE obj1 IN obj2.
+		  "Done."
   END VERB.
 End Add To.
 
@@ -80,33 +89,34 @@ SYNTAX
 
 Add To Every object
   VERB put_near, put_behind, put_on, put_under 
-	CHECK obj1 IN HERO
-		ELSE 
-			"You haven't got"
-			IF obj1 IS named THEN
-				SAY obj1.
-			ELSE
-				"the $1"
-			END IF.
-			"$$!"
-	AND obj2 NOT IN HERO
-		ELSE 
-			"You are carrying"
-			IF obj2 IS named THEN
-				SAY obj2.
-			ELSE
-				"the $2"
-			END IF.
-			"$$!"
-	DOES
-		"Naaah. I'd rather just put"
-		IF obj1 IS named THEN
-			"them"
-		ELSE
-			"it"
-		END IF.
-		"down here."
-		LOCATE obj1 AT obj2.
+	when obj1
+	  CHECK obj1 IN HERO
+		  ELSE 
+			  "You haven't got"
+			  IF obj1 IS named THEN
+				  SAY obj1.
+			  ELSE
+				  "the $1"
+			  END IF.
+			  "$$!"
+	  AND obj2 NOT IN HERO
+		  ELSE 
+			  "You are carrying"
+			  IF obj2 IS named THEN
+				  SAY obj2.
+			  ELSE
+				  "the $2"
+			  END IF.
+			  "$$!"
+	  DOES
+		  "Naaah. I'd rather just put"
+		  IF obj1 IS named THEN
+			  "them"
+		  ELSE
+			  "it"
+		  END IF.
+		  "down here."
+		  LOCATE obj1 AT obj2.
   END VERB.
 End Add To.
 

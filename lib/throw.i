@@ -44,31 +44,40 @@ SYNTAX
 
 Add To Every object
   VERB throw_at, throw_to 
-	CHECK obj1 IN HERO
-		ELSE "You haven't got that!"
-	AND obj2 NOT IN HERO
-		ELSE 
-			"You are carrying"
-			IF obj2 IS named THEN
-				SAY obj2.
-			ELSE
-				"the $2"
-			END IF.
-			"$$!"
-	DOES 
-		IF obj1 IS named THEN
-			SAY obj1.
-			"bounces harmlessly off"
-		ELSE
-			"The $1 bounces harmlessly off"
-		END IF.
-		IF obj2 IS named THEN
-			SAY obj2.
-			"and ends up on the ground."
-		ELSE 
-			"the $2 and ends up on the ground."
-		END IF.
-		LOCATE obj1 HERE.
+	when obj1
+	  CHECK obj1 IN HERO
+		  ELSE "You haven't got that!"
+	  AND obj2 NOT IN HERO
+		  ELSE 
+			  "You are carrying"
+			  IF obj2 IS named THEN
+				  SAY obj2.
+			  ELSE
+				  "the $2"
+			  END IF.
+			  "$$!"
+	  And obj2 <> hero
+		  Else "You can't throw"
+			  IF obj1 IS named THEN
+				  SAY obj1.
+			  ELSE
+				  "the $1"
+			  END IF.
+			  "at yourself."
+	  DOES 
+		  IF obj1 IS named THEN
+			  SAY obj1.
+			  "bounces harmlessly off"
+		  ELSE
+			  "The $1 bounces harmlessly off"
+		  END IF.
+		  IF obj2 IS named THEN
+			  SAY obj2.
+			  "and ends up on the ground."
+		  ELSE 
+			  "the $2 and ends up on the ground."
+		  END IF.
+		  LOCATE obj1 HERE.
   END VERB.
 End Add To.
 
@@ -82,13 +91,22 @@ SYNTAX
 
 Add To Every object
   VERB throw_in
-	CHECK obj1 IN HERO
-		ELSE "You haven't got that!"
-	AND obj1 <> obj2
-		ELSE "Now, that would be a good trick!"
-	DOES 
-		LOCATE obj1 IN obj2.
-		"Done."
+	when obj1
+	  CHECK obj1 IN HERO
+		  ELSE "You haven't got that!"
+	  AND obj1 <> obj2
+		  ELSE "Now, that would be a good trick!"
+	  And obj2 <> hero
+		  Else "You can't put"
+			  IF obj1 IS named THEN
+				  SAY obj1.
+			  ELSE
+				  "the $1"
+			  END IF.
+			  "into yourself!"
+	  DOES 
+		  LOCATE obj1 IN obj2.
+		  "Done."
   END VERB.
 End Add.
 

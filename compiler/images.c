@@ -8,6 +8,8 @@
 #include "images_x.h"
 #include "adv_x.h"
 #include "lst_x.h"
+#include "util.h"
+#include <errno.h>
 
 
 /*----------------------------------------------------------------------*/
@@ -49,9 +51,15 @@ static void copyImageFile(char fileName[], int resourceNumber)
   char resourceFileName[1000];
   int c;
 
-  sprintf(resourceFileName, "pic%03d%s", resourceNumber, extension);
+  sprintf(resourceFileName, "pic%d%s", resourceNumber, extension);
+  
+  if (!unlink(resourceFileName) && errno != ENOFILE && errno != 0) {
+    char errorString[1000];
+    sprintf(errorString, "Could not remove old resource file for %s (%s).", resourceFileName, strerror(errno));
+    syserr(errorString, NULL);
+  }
   theCopy = fopen(resourceFileName, WRITE_MODE);
-
+  if (!theCopy) syserr("Could not open resource file for %s.", resourceFileName);
   while ((c = fgetc(original)) != EOF)
     fputc(c, theCopy);
 

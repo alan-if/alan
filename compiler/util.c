@@ -80,18 +80,23 @@ void unimpl(Srcp *srcp,		/* IN  - Where? */
 }
 
 
-/*======================================================================
-
-  syserr()
-
-  Some kind of internal system error was detected. Log it.
-
- */
+/*======================================================================*/
 void syserr(char *errorMessage, char insertString[])
 {
-  char *messageString = allocate(strlen(errorMessage)+strlen(insertString)+1);
+  char *messageString;
+  int len = 0;
 
-  sprintf(messageString, errorMessage, insertString);
+  len = strlen(errorMessage);
+  len += insertString?strlen(insertString)+1:0;
+  messageString = allocate(len);
+
+  if (insertString) {
+    messageString = allocate(strlen(errorMessage)+strlen(insertString)+1);
+    sprintf(messageString, errorMessage, insertString);
+  } else {
+    messageString = allocate(strlen(errorMessage)+1);
+    sprintf(messageString, errorMessage);
+  }
   lmLog(&nulsrcp, 997, sevSYS, messageString);
   lmList("", 0, 79, liTINY, sevALL);
   terminate(EXIT_FAILURE);

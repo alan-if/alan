@@ -204,7 +204,7 @@ void analyzeWord(WordNode *wrd)
     lmLogv(NULL, 320, sevWAR, wrd->str, "direction", "verb", NULL);
 
   else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
-    /* Directions and verbs don't work as expected */
+    /* Adjectives and verbs don't work as expected */
     lmLogv(NULL, 320, sevWAR, wrd->str, "adjective", "verb", NULL);
 
   analyzeWord(wrd->high);
@@ -212,16 +212,12 @@ void analyzeWord(WordNode *wrd)
 }
 
 
-/*======================================================================
-
-  anwrds()
-
-  Analyze the dictionary to find any words that are defined to be of
-  multiple word classes that we want to warn about.
-
-*/
+/*======================================================================*/
 void analyzeWords(void)
 {
+  /* Analyze the dictionary to find any words that are defined to be
+  of multiple word classes that we want to warn about. */
+
   analyzeWord(wrdtree);
 }
 
