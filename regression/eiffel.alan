@@ -1,0 +1,9 @@
+The Metro Isa location
+End The metro.
+
+The tower Isa object
+  Name Eiffel tower
+  At metro.
+End The Tower.
+
+Start At metro.
