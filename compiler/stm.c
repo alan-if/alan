@@ -175,15 +175,15 @@ static void analyzeLocate(StmNod *stm,
   case WHR_IN:
     switch (stm->fields.locate.wht->kind) {
     case WHT_LOC:
-      lmLog(&stm->srcp, 402, sevERR, "Location");
+      lmLog(&stm->srcp, 402, sevERR, "A Location");
     case WHT_ACT:
-      lmLog(&stm->srcp, 402, sevERR, "Actor");
+      lmLog(&stm->srcp, 402, sevERR, "An  Actor");
       break;
     case WHT_ID:
       if (inheritsFrom(whtSymbol, actorSymbol))
-	lmLog(&stm->srcp, 402, sevERR, "Actor");
+	lmLog(&stm->srcp, 402, sevERR, "An Actor");
       if (inheritsFrom(whtSymbol, locationSymbol))
-	lmLog(&stm->srcp, 402, sevERR, "Location");
+	lmLog(&stm->srcp, 402, sevERR, "A Location");
       break;
     default:
       syserr("Unexpected WhtKind in analyzeLocate()");

@@ -148,7 +148,7 @@ static lmMsgs msg[] = {
     { "352   ", "Instance \'%1\' does not inherit from \'location\', but has EXITs, which can never be traversed." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
-    { "402   ", "An %1 can\'t be inside a Container." },
+    { "402   ", "%1 can not be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "404   ", "Attribute to %1 must be a default attribute." },
     { "405   ", "Instances inheriting from Location can not have initial locations." },

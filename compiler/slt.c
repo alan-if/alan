@@ -171,6 +171,8 @@ void analyzeSlots(SlotsNode *slots)
   if (slots->whr != NULL) verifyInitialLocation(slots->whr);
   if (inheritsFrom(slots->id->symbol, locationSymbol) && slots->whr != NULL)
     lmLog(&slots->whr->srcp, 405, sevERR, "");
+  if (inheritsFrom(slots->id->symbol, actorSymbol) && slots->whr != NULL && slots->whr->kind == WHR_IN)
+    lmLog(&slots->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(slots);
   anstms(slots->description, NULL);
