@@ -45,6 +45,12 @@ Dropped.
 The inventory contains a rusty long thing, a shiny short thing and a 
 rusty short thing.
 
+> take long shiny thing and short rusty thing
+(long shiny thing) Taken.
+
+(short rusty thing) You already have the short rusty thing.
+
+> 
 > 
 
 Do you want to restart (y) ? 

@@ -1,0 +1,33 @@
+########## mulnams ##########
+alan mulnams
+arun mulnams < mulnams.input
+########## /bin/sh  mulnams.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+Try 'x first o1' and 'x second name of o2'. Both should work...
+
+
+L.
+There is a first name of o1 here.
+
+> x first o1
+There is a first name of o1 here.
+
+> x first name of o2
+There is a first name of o1 here.
+
+> x second of o1
+There is a first name of o1 here.
+
+> x second o2
+There is a first name of o1 here.
+
+> x second name of o2
+There is a first name of o1 here.
+
+> 
+
+Do you want to restart (y) ? 
