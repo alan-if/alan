@@ -72,10 +72,10 @@ Bool smScanEnter(fnm)
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
-#ifndef __mac_
-  else if ((this->fd = open(fnm, 0)) < 0)
-#else
+#ifdef __mac_
   else if ((this->fd = open(fnm, O_TEXT)) < 0)
+#else
+  else if ((this->fd = open(fnm, 0)) < 0)
 #endif
     return FALSE;
   else {
