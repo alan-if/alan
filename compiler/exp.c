@@ -532,28 +532,27 @@ static Bool analyzeNonClassingFilter(char *message,
 
 
 /*======================================================================*/
-IdNode *analyzeFilterExpressions(char *message, Expression *exp,
-				 Context *context, IdNode *classId) {
+void analyzeFilterExpressions(char *message, List *filters,
+			      Context *context, IdNode **classId, Bool *error) {
   List *lst;
   Bool foundWhere = FALSE;
   Bool foundIsa = FALSE;
+  IdNode *class = NULL;
 
-  /* Pick up the first ISA_EXPRESSION as this will be used to analyze
-     the availability of attributes */
-  TRAVERSE(lst, exp->fields.agr.filters) {
-    IdNode *foundClassId = analyzeClassingFilter(message, context,
-						 lst->element.exp, &foundIsa);
-    if (foundClassId)
-      classId = foundClassId;
+  /* Analyze the filters which may restrict to a class, return the class id */
+  TRAVERSE(lst, filters) {
+    IdNode *foundClass = analyzeClassingFilter(message, context,
+					    lst->element.exp, &foundIsa);
+    if (foundClass)
+      class = foundClass;
   }
 
-  TRAVERSE(lst, exp->fields.agr.filters) {
+  TRAVERSE(lst, filters) {
     if (!analyzeNonClassingFilter(message,  context, lst->element.exp,
-				  classId, &foundWhere))
-      exp->type = ERROR_TYPE;
+				  class, &foundWhere))
+      *error = TRUE;
   }
-
-  return(classId);
+  *classId = class;
 }
 
 
@@ -562,15 +561,19 @@ static void analyzeAggregate(Expression *exp, Context *context)
 {
   Attribute *atr = NULL;
   IdNode *classId = NULL;       /* Identifier for class filter if any */
+  Bool error = FALSE;
   char message[200] = "";
   exp->type = INTEGER_TYPE;
 
   strcat(message, aggregateToString(exp->fields.agr.kind));
   strcat(message, " Aggregation");
 
-  classId = analyzeFilterExpressions(message, exp, context, classId);
+  analyzeFilterExpressions(message, exp->fields.agr.filters, context,
+			   &classId, &error);
   if (classId == NULL)
     lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
+  if (error)
+    exp->type = ERROR_TYPE;
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     /* Now analyze the attribute to do the arithmetic aggregation on */

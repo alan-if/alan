@@ -167,7 +167,7 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* EACH */
       IdNode *loopId;
       IdNode *classId;
-      Expression *filter;
+      List *filters;
       List *stms;
     } each;
 

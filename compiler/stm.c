@@ -134,6 +134,26 @@ Statement *newRemoveStatement(Srcp srcp, Expression *what, Expression *set)
 }
 
 
+
+/*======================================================================*/
+Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *statements)
+{
+  Statement *new;                  /* The newly allocated area */
+
+  showProgress();
+
+  new = newStatement(&srcp, EACH_STATEMENT);
+
+  new->fields.each.loopId = loopId;
+  new->fields.each.filters = filters;
+  new->fields.each.stms = statements;
+
+  return(new);
+}
+
+
+
+
 /*----------------------------------------------------------------------*/
 static void analyzeDescribe(Statement *stm, Context *context)
 {
@@ -474,28 +494,23 @@ static void analyzeDepend(Statement *stm, Context *context)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void analyzeEach(Statement *stm, Context *context)
 {
-  Symbol *classSymbol = NULL;
   Symbol *loopSymbol;
+  IdNode *classId = NULL;
+  Bool error;
 
-  /* Analyze the partial filter expression */
-  /* TODO generalize to more than ISA expressions */
-#ifndef CLASSID
-  if (stm->fields.each.classId != NULL)
-    classSymbol = symcheck(stm->fields.each.classId, CLASS_SYMBOL, context);
-#else
-  if (stm->fields.each.filter != NULL)
-    analyzeExpression(stm->fields.each.filter, context);
-#endif
+  /* Analyze the partial filter expressions */
+  if (stm->fields.each.filters != NULL)
+    analyzeFilterExpressions("EACH statement", stm->fields.each.filters,
+			     context, &classId, &error);
 
   /* Create a new frame and register the loop variable */
   newFrame();
   loopSymbol = newSymbol(stm->fields.each.loopId, LOCAL_SYMBOL);
-  if (classSymbol != NULL)
-    loopSymbol->fields.local.class = classSymbol;
+  if (classId != NULL && classId->symbol != NULL)
+    loopSymbol->fields.local.class = classId->symbol;
   else
     loopSymbol->fields.local.class = entitySymbol;
   /* Can only loop over instances */
@@ -935,6 +950,8 @@ static void generateDepend(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateEach(Statement *statement)
 {
+  List *filter;
+
   /* Generate a new FRAME */
   emit1(I_FRAME, 1);		/* One local variable in this block */
   frameLevel++;
@@ -946,10 +963,10 @@ static void generateEach(Statement *statement)
   /* Start of loop */
   emit1(I_EACH, 1);
 
-  /* Generate filter */
-  if (statement->fields.each.filter) {
+  /* Generate filters */
+  TRAVERSE(filter, statement->fields.each.filters) {
     emit2(I_GETLOCAL, 0, 1);
-    generateRightHandExpression(statement->fields.each.filter);
+    generateRightHandExpression(filter->element.exp);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_NEXTEACH);
@@ -1272,7 +1289,7 @@ void dumpStatement(Statement *stm)
     case EACH_STATEMENT:
       put("loopId: "); dumpId(stm->fields.each.loopId); nl();
       put("classId: "); dumpId(stm->fields.each.classId); nl();
-      put("filter: "); dumpExpression(stm->fields.each.filter); nl();
+      put("filters: "); dumpList(stm->fields.each.filters, EXPRESSION_LIST); nl();
       put("stms: "); dumpList(stm->fields.each.stms, STATEMENT_LIST);
       break;
     case VISITS_STATEMENT:

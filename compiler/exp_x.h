@@ -31,6 +31,8 @@ extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind, IdNode 
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
+extern void analyzeFilterExpressions(char *message, List *filters,
+					Context *context, IdNode **classId, Bool *error);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern Symbol *contentOf(Expression *what, Context *context);
 extern void verifyContainerExpression(Expression *what, Context *context, char referer[]);

@@ -1657,7 +1657,7 @@ static int val(char str[])
 
 
 ----> Assignment Statements
-<assignment_statement>		-- RETURNS: stm
+<assignment_statement>				-- RETURNS: stm
     = 'MAKE' <what> <something> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'MAKE'.srcp, MAKE_STATEMENT);
@@ -1869,28 +1869,29 @@ static int val(char str[])
 
 ----> Repetition statement
 <repetition_statement>			-- RETURNS: stm
-    = <for_each> ID <optional_loop_restriction> 'DO' <statements> 'END' <for_each> ['.']
+    = <for_each> ID <optional_loop_restrictions> 'DO' <statements> 'END' <for_each> ['.']
     %%
 	%<repetition_statement>.stm = newStatement(`&%<for_each>.srcp, EACH_STATEMENT);
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
 	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
-	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restriction>.id;
-	%<repetition_statement>.stm->fields.each.filter = %<optional_loop_restriction>.exp;
+	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restrictions>.id;
+	%<repetition_statement>.stm->fields.each.filters = %<optional_loop_restrictions>.exps;
     %%
     ;
 
-<optional_loop_restriction>		-- RETURNS: ID
+<optional_loop_restrictions>		-- RETURNS: ID
     =
     %%
-	%<optional_loop_restriction>.exp = NULL;
-	%<optional_loop_restriction>.id = NULL;
+	%<optional_loop_restrictions>.exps = NULL;
+	%<optional_loop_restrictions>.id = NULL;
     %%
 
-    ! <aggregation_filter>
+    ! <filters>
     %%
-	%<optional_loop_restriction>.exp = %<aggregation_filter>.exp;
-	if (%<aggregation_filter>.expKd == ISA_EXPRESSION)
-	    %<optional_loop_restriction>.id = %<aggregation_filter>.id;
+	%<optional_loop_restrictions>.exps = %<filters>.exps;
+	/* While refactoring, for now, use first element */
+	if (%<filters>.exps->element.exp->kind == ISA_EXPRESSION)
+	    %<optional_loop_restrictions>.id = %<filters>.exps->element.exp->fields.isa.class;
     %%
     ;
 
@@ -2108,50 +2109,50 @@ static int val(char str[])
         %<arithmetic>.expKd = BINARY_EXPRESSION;
     } %%
 
-    ! <aggregate> <aggregation_filters>
+    ! <aggregate> <filters>
     %%
 	%<arithmetic>.exp = newAggregateExpression(%<aggregate>.srcp,
 							%<aggregate>.agr,
 							%<aggregate>.id,
-							%<aggregation_filters>.exps);
+							%<filters>.exps);
     %%
     ;
 
 
-<aggregation_filters>					-- RETURNS: exps
-    = <aggregation_filter>
+<filters>					-- RETURNS: exps
+    = <filter>
     %%
-        %<aggregation_filters>.exps = concat(NULL, %<aggregation_filter>.exp, EXPRESSION_LIST);
+        %<filters>.exps = concat(NULL, %<filter>.exp, EXPRESSION_LIST);
     %%
 
-    ! <aggregation_filters> ',' <aggregation_filter>
+    ! <filters> ',' <filter>
     %%
-        %<aggregation_filters>.exps = concat(%<aggregation_filters>.exps, %<aggregation_filter>.exp, EXPRESSION_LIST);
+        %<filters>.exps = concat(%<filters>.exps, %<filter>.exp, EXPRESSION_LIST);
     %%
     ;
 
-<aggregation_filter>				-- RETURNS: exp, expKd
+<filter>				-- RETURNS: exp, expKd
     = <optional_not> <where>
     %% { Expression *exp;
 	exp = newExpression(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->not = %<optional_not>.not;
 	exp->fields.whr.whr = %<where>.whr;
-	%<aggregation_filter>.exp = exp;
-        %<aggregation_filter>.expKd = WHERE_EXPRESSION;
+	%<filter>.exp = exp;
+        %<filter>.expKd = WHERE_EXPRESSION;
     } %%
 
     ! <optional_not> 'ISA' ID
     %%
-	%<aggregation_filter>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
-        %<aggregation_filter>.expKd = ISA_EXPRESSION;
-	%<aggregation_filter>.id = %ID.id;
+	%<filter>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
+        %<filter>.expKd = ISA_EXPRESSION;
+	%<filter>.id = %ID.id;
     %%
 
     ! <is> <something>
     %%
-	%<aggregation_filter>.exp = newAttributeExpression(%<is>.srcp,
+	%<filter>.exp = newAttributeExpression(%<is>.srcp,
 					%<something>.id, %<something>.not, NULL);
-        %<aggregation_filter>.expKd = ATTRIBUTE_EXPRESSION;
+        %<filter>.expKd = ATTRIBUTE_EXPRESSION;
     %%
     ;
 
@@ -2186,7 +2187,7 @@ static int val(char str[])
 	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <aggregation_filter>
+    ! <filter>
     ;
 
 
