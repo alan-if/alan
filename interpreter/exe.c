@@ -188,6 +188,9 @@ Boolean confirm(msgno)
   /* Can't use prmsg() here because we want to look for the '(y)' part */
   getstr(msgs[msgno].fpos, msgs[msgno].len);
   msg = (char *)pop();
+#if ISO == 0
+  fromIso(msg, msg);
+#endif
   output(msg);
   col = 1;
   if (gets(str) == NULL) return FALSE;
