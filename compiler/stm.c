@@ -432,12 +432,18 @@ static void anset(stm, evt, pars)
       switch (sym->class) {
       case NAMOBJ:
 	atr = findatr(stm->fields.set.atr->str, ((ObjNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.set.atr->str, adv.oatrs);
 	break;
       case NAMLOC:
 	atr = findatr(stm->fields.set.atr->str, ((LocNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.set.atr->str, adv.latrs);
 	break;
       case NAMACT:
 	atr = findatr(stm->fields.set.atr->str, ((ActNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.set.atr->str, adv.aatrs);
 	break;
       default:
 	sym = NULL;
@@ -545,12 +551,18 @@ static void anincr(stm, evt, pars)
       switch (sym->class) {
       case NAMOBJ:
 	atr = findatr(stm->fields.incr.atr->str, ((ObjNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.incr.atr->str, adv.oatrs);
 	break;
       case NAMLOC:
 	atr = findatr(stm->fields.incr.atr->str, ((LocNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.incr.atr->str, adv.latrs);
 	break;
       case NAMACT:
 	atr = findatr(stm->fields.incr.atr->str, ((ActNod *)sym->ref)->atrs);
+	if (atr == NULL)
+	  atr = findatr(stm->fields.incr.atr->str, adv.aatrs);
 	break;
       default:
 	sym = NULL;
