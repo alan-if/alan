@@ -178,27 +178,26 @@ savetm:
 	
 restoretm:
 	mv -f alan.tmk.orig alan.tmk
+	-rm .?mkstamp
 
 NONANSI:
 	make savetm
 	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
-	make tm
+	make src
 	make restoretm
-	-rm .?mkstamp
 
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
+	make src	
 	make savetm
 	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
 	smk -set PC alan
-	make src	
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
 	ramp iso2pc msg.c MSG.C
 	ramp iso2pc sysdep.c SYSDEP.C
 	make restoretm
-	-rm .?mkstamp
 
 mac:
 	smk -set MAC alan
@@ -211,11 +210,11 @@ mac:
 	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
 	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
-amiga: src
+amiga:
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
 
-pc: src
+pc:
 	make MSDOS
 	zip -k -u compiler.zip *.[ch] Makefile.dos
 	zip -k -m compiler.zip *.[CH]
