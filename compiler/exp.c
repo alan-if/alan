@@ -180,7 +180,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
     atr = resolveAttribute(exp->fields.atr.wht,
 			   exp->fields.atr.atr, context);
     exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
-    if (exp->type == INSTANCE_TYPE)
+    if (exp->type == INSTANCE_TYPE && atr->instance->symbol != NULL)
       exp->class = atr->instance->symbol->fields.entity.parent;
     break;
   }
@@ -426,36 +426,6 @@ static void analyzeRandom(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool verifyWhatContext(What *what, Context *context) {
-  switch (what->kind) {
-
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT) {
-      lmLog(&what->srcp, 412, sevERR, "");
-      return FALSE;
-    }
-    break;
-
-  case WHAT_LOCATION:
-  case WHAT_ID:
-    break;
-
-  case WHAT_THIS:
-    if (!inEntityContext(context)) {
-      lmLog(&what->srcp, 421, sevERR, "");
-      return FALSE;
-    }
-    break;
-
-  default:
-    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
-    break;
-  }
-  return TRUE;
-}
-
-
-/*----------------------------------------------------------------------*/
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
   Symbol *symbol;
@@ -463,8 +433,10 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 
   if (exp->kind != WHAT_EXPRESSION)
     syserr("Not a WHAT-expression in '%s()'", __FUNCTION__);
-  if (!verifyWhatContext(exp->fields.wht.wht, context))
+  if (!verifyWhatContext(exp->fields.wht.wht, context)) {
+    exp->type = ERROR_TYPE;
     return;
+  }
 
   switch (exp->fields.wht.wht->kind) {
 

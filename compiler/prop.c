@@ -178,7 +178,7 @@ void analyzeProps(Properties *props, Context *context)
 
   if (props->whr != NULL) verifyInitialLocation(props->whr);
   if (inheritsFrom(props->id->symbol, locationSymbol) && props->whr != NULL)
-    lmLog(&props->whr->srcp, 405, sevERR, "");
+    lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
   if (inheritsFrom(props->id->symbol, actorSymbol)
       && props->whr != NULL && props->whr->kind == WHR_IN)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");

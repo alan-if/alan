@@ -1,0 +1,14 @@
+The l Isa location
+End The l.
+
+Event e
+  Locate Current Actor At l.
+End Event.
+
+Start At l.
+  Locate unknown At l.
+  Locate l At l.
+  Locate Current Location At l.
+  Locate Current Actor At l.
+  Locate This At l.
+  Locate actor At l.

@@ -119,24 +119,19 @@ static void analyzeLocate(StmNod *stm, Context *context)
 {
   Symbol *whtSymbol = NULL;
   Symbol *contentClass = NULL;
+  Expression *what = stm->fields.locate.wht;
   Where *whr = stm->fields.locate.whr;
 
-  switch (stm->fields.locate.wht->kind) {
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
-      lmLog(&stm->fields.locate.wht->srcp, 412, sevERR, "");
-    break;
-  case WHAT_LOCATION:
-    lmLogv(&stm->srcp, 324, sevERR, "Current Location", "the What-clause of a Locate statement", NULL);
-    break;
-  case WHAT_ID:
-    whtSymbol = symcheck(stm->fields.locate.wht->id, INSTANCE_SYMBOL, context);
-    break;
-  default:
-    unimpl(&stm->srcp, "Analyzer");
-    break;
+  analyzeExpression(what, context);
+  if (what->type != ERROR_TYPE) {
+    if (what->type != INSTANCE_TYPE)
+      lmLogv(&what->srcp, 428, sevERR, "What-clause in Locate statement", "an instance", NULL);
+    else if (inheritsFrom(what->class, locationSymbol))
+      lmLog(&what->srcp, 405, sevERR, "be used in Locate statement");
+    else
+      whtSymbol = what->class;
   }
-
+      
   analyzeWhere(whr, context);
 
   switch (whr->kind) {
@@ -145,7 +140,7 @@ static void analyzeLocate(StmNod *stm, Context *context)
     break;
   case WHR_IN:
     contentClass = classOfContent(whr, context);
-    if (contentClass != NULL)
+    if (contentClass != NULL && whtSymbol != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
     break;
@@ -665,7 +660,7 @@ static void generateEmpty(StmNod *stm)
 static void generateLocate(StmNod *stm)
 {
   generateWhere(stm->fields.locate.whr);
-  generateWhat(stm->fields.locate.wht);
+  generateExpression(stm->fields.locate.wht);
   emit0(I_LOCATE);
 }
 
@@ -1232,7 +1227,7 @@ void dumpStatement(StmNod *stm)
       put("whr: "); duwhr(stm->fields.empty.where);
       break;
     case LOCATE_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.locate.wht); nl();
+      put("wht: "); dumpExpression(stm->fields.locate.wht); nl();
       put("whr: "); duwhr(stm->fields.locate.whr);
       break;
     case MAKE_STATEMENT:

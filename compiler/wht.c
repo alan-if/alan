@@ -55,6 +55,36 @@ void symbolizeWhat(What *wht)
 
 
 /*======================================================================*/
+Bool verifyWhatContext(What *what, Context *context) {
+  switch (what->kind) {
+
+  case WHAT_ACTOR:
+    if (context->kind == EVENT_CONTEXT) {
+      lmLog(&what->srcp, 412, sevERR, "");
+      return FALSE;
+    }
+    break;
+
+  case WHAT_LOCATION:
+  case WHAT_ID:
+    break;
+
+  case WHAT_THIS:
+    if (!inEntityContext(context)) {
+      lmLog(&what->srcp, 421, sevERR, "");
+      return FALSE;
+    }
+    break;
+
+  default:
+    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
+    break;
+  }
+  return TRUE;
+}
+
+
+/*======================================================================*/
 void generateWhat(What *wht)
 {
   switch (wht->kind) {

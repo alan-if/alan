@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>316.89</origest>
-<currest>315.89</currest>
+<origest>317.89</origest>
+<currest>316.89</currest>
 <elapsed>165.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>46</currest>
+<origest>48</origest>
+<currest>48</currest>
 <elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
@@ -280,21 +280,10 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>11</origest>
+<currest>11</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>UNDO needs some kind of response?</desc>
-<notes>Generally: UNDO should say something, standard messages?
-
-Should we allow UNDO as a response to quit?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
@@ -305,8 +294,28 @@ Should we allow UNDO as a response to quit?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow locations in initial location and Locate if IN</desc>
+<notes>This would allow collecting locations in heaps.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO needs some kind of response?</desc>
+<notes>Generally: UNDO should say something, standard messages?
+
+Should we allow UNDO as a response to quit?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -411,8 +420,8 @@ Which of the above works, and what is the problem with each that doesn't?
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -423,6 +432,36 @@ Which of the above works, and what is the problem with each that doesn't?
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Arrays</desc>
+<notes>Some kind of list or array datatype, like TADS lists, with
+appropriate operations (indexing, finding its length, inserting
+an item, deleting an item).
+
+(Greg Ewing in Alan-IF mailing list)
+
+Analysis:
+Requires initialisation e.g Has partners [x, y]
+Should allow loop over
+Should have RANDOM selection
+Reference to element partners[i] (or possibly not)
+Have to allow add (partners + &lt;instance&gt;) and remove (partners - &lt;instance&gt;)
+Watch out for changing array while looping</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>RANDOM in array</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
@@ -611,8 +650,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>105</origest>
-<currest>105</currest>
+<origest>104</origest>
+<currest>104</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -638,19 +677,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <notes>Randomly select one of the instances in the container
 
 Has type of the container TAKES</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Arrays</desc>
-<notes>Some kind of list or array datatype, like TADS lists, with
-appropriate operations (indexing, finding its length, inserting
-an item, deleting an item).
-
-(Greg Ewing in Alan-IF mailing list)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

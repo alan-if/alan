@@ -1598,7 +1598,8 @@ static int val(char str[])
     ! 'LOCATE' <what> <where> '.'
     %%
 	%<manipulation_statement>.stm = newStatement(`&%'LOCATE'.srcp, LOCATE_STATEMENT);
-	%<manipulation_statement>.stm->fields.locate.wht = %<what>.wht;
+	%<manipulation_statement>.stm->fields.locate.wht = %<what>.exp;
+
 	%<manipulation_statement>.stm->fields.locate.whr = %<where>.whr;
     %%	  
     ;

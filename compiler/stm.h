@@ -97,7 +97,7 @@ typedef struct StmNod {		/* STATEMENT */
     } empty;
 
     struct {			/* for LOCATE */
-      What *wht;		/* What? */
+      Expression *wht;		/* What? */
       Where *whr;		/* Where? */
     } locate;
 

@@ -11,6 +11,7 @@
 
 
 /* USE: */
+#include "context.h"
 
 /* DATA: */
 
@@ -18,6 +19,7 @@
 
 extern What *newWhat(Srcp *srcp, WhatKind wht, struct IdNode *id);
 extern void symbolizeWhat(What *wht);
+extern Bool verifyWhatContext(What *what, Context *context);
 extern void generateWhat(What *wht);
 extern void dumpWhat(What *wht);
 
