@@ -165,7 +165,7 @@ version.c: $(OBJECTS) $(VERSION)
 	venum +t
 
 $(VERSION): ../$(VERSION)
-	-rm ../[0-9]*_[0-9]*_[0-9]*
+	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../$(VERSION) .
 
 acode.h: ../interpreter/acode.h
