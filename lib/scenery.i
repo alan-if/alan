@@ -8,7 +8,7 @@ Every scenery Isa object
 	Not pushable.
 	Not touchable.
 
-    Verb examine, look_at, take, turn
+    Verb examine, look_at, take
 	Does Only
 	    "That's only scenery."
     End Verb.

@@ -188,16 +188,12 @@ static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
   }
 }
 
-
-
-/*======================================================================*/
-void analyzeSyntaxes(void)
-{
+/*----------------------------------------------------------------------*/
+static void connectSyntaxesForSameVerb(List *syntaxes) {
   List *lst, *other;
   Bool error;
 
-  /* Check for multiple definitions of the syntax for a verb */
-  TRAVERSE(lst, adv.stxs) {
+  TRAVERSE(lst, syntaxes) {
     error = FALSE;
     for (other = lst->next; other != NULL; other = other->next) {
       if (equalId(other->element.stx->id, lst->element.stx->id)) {
@@ -213,6 +209,8 @@ void analyzeSyntaxes(void)
 		lst->element.stx->id->string);
 	  error = TRUE;
 	}
+	break;			/* We only need to find one this time around,
+				   others will be found in next traversal */
       }
     }
     if (error) {
@@ -221,10 +219,19 @@ void analyzeSyntaxes(void)
       lmLog(&lst->element.stx->id->srcp, 205, sevWAR, insertString);
     }
   }
+}
+
+
+/*======================================================================*/
+void analyzeSyntaxes(void)
+{
+  List *lst;
+
+  /* Check and connect definitions for multiple syntax for a verb */
+  connectSyntaxesForSameVerb(adv.stxs);
   /* Now do the analysis */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     analyzeSyntax(lst->element.stx);
-
 }
 
 

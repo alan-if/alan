@@ -291,26 +291,12 @@ void logprint(char str[])
 
 
 
-/*======================================================================
-
-  newline()
-
-  Make a newline, but check for screen full.
-
- */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void newline(void)
-#else
-void newline()
-#endif
 {
-#ifdef GLK
-  glk_put_char('\n');
-  needsp = FALSE;
-#else
+#ifndef GLK
   char buf[256];
   
-  col = 1;
   if (lin >= pageLength - 1) {
     logprint("\n");
     needsp = FALSE;
@@ -326,8 +312,11 @@ void newline()
     logprint("\n");
   
   lin++;
-  needsp = FALSE;
+#else
+  glk_put_char('\n');
 #endif
+  col = 1;
+  needsp = FALSE;
 }
 
 
@@ -415,8 +404,8 @@ static void justify(char str[])
     newline();			/* Then start a new line */
   }
   logprint(str);			/* Print tail */
-  col = col + strlen(str);	/* Update column */
 #endif
+  col = col + strlen(str);	/* Update column */
 }
 
 

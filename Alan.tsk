@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>276.89</origest>
-<currest>275.89</currest>
-<elapsed>117.89</elapsed>
+<origest>278.89</origest>
+<currest>277.89</currest>
+<elapsed>120.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>51</origest>
-<currest>51</currest>
-<elapsed>12</elapsed>
+<origest>53</origest>
+<currest>53</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
-<elapsed>9</elapsed>
+<origest>19</origest>
+<currest>19</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
@@ -271,6 +271,44 @@ Implement the structures for "Takes &lt;class&gt; Else &lt;statement&gt;" and us
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Column calculation bugs</desc>
+<notes>$t does not move to next tab pos.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple syntaxes for the same verb does not work for four</desc>
+<notes>syntax x = a (x). x = b (x). x = c (x). x = d (x).
+
+Generates wrong syntax tables for b and c.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Double click on a .alan file makes WinAlan fail to find the file</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Declaration of indefinite and definite forms</desc>
 <notes>The forms should override articles</notes>
 <priority>2</priority>
@@ -325,26 +363,8 @@ Implement the structures for "Takes &lt;class&gt; Else &lt;statement&gt;" and us
 </task>
 </task>
 <task>
-<desc>"Describe this." Does not work.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Double click on a .alan file makes WinAlan fail to find the file</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
