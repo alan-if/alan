@@ -382,11 +382,22 @@ static void anagr(ExpNod *exp,	/* IN - The expression to analyze */
   Analyse a random expression.
 
   */
-static void anrnd(ExpNod *exp)	/* IN - Expression to analyse */
+static void anrnd(ExpNod *exp,	/* IN - Expression to analyse */
+		  EvtNod *evt,	/* IN - Possibly inside Event? */
+		  List *pars)
 {
-  if (exp->fields.rnd.from == exp->fields.rnd.to)
-    lmLog(&exp->srcp, 416, sevINF, "");
   exp->typ = TYPINT;
+  anexp(exp->fields.rnd.from, evt, pars);
+  if (!eqtyp(TYPINT, exp->fields.rnd.from->typ)) {
+    lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
+    exp->typ = TYPUNK;
+  }
+
+  anexp(exp->fields.rnd.to, evt, pars);
+  if (!eqtyp(TYPINT, exp->fields.rnd.to->typ)) {
+    lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
+    exp->typ = TYPUNK;
+  }
 }
 
 
@@ -513,7 +524,7 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
     break;
     
   case EXPRND:
-    anrnd(exp);
+    anrnd(exp, evt, pars);
     break;
 
   case EXPSCORE:
@@ -741,13 +752,8 @@ static void geexpagr(ExpNod *exp) /* IN - The expression to generate */
   */
 static void geexprnd(ExpNod *exp) /* IN - The expression to generate */
 {
-  if (exp->fields.rnd.from < exp->fields.rnd.to) {
-    emit0(C_CONST, exp->fields.rnd.to);
-    emit0(C_CONST, exp->fields.rnd.from);
-  } else {
-    emit0(C_CONST, exp->fields.rnd.from);
-    emit0(C_CONST, exp->fields.rnd.to);
-  }
+  geexp(exp->fields.rnd.from);
+  geexp(exp->fields.rnd.to);
   emit0(C_STMOP, I_RND);
 }
 
@@ -1052,8 +1058,8 @@ void duexp(ExpNod *exp)
     put("whr: "); duwhr(exp->fields.agr.whr);
     break;
   case EXPRND:
-    put("from: "); duint(exp->fields.rnd.from); nl();
-    put("to: "); duint(exp->fields.rnd.to);
+    put("from: "); duexp(exp->fields.rnd.from); nl();
+    put("to: "); duexp(exp->fields.rnd.to);
     break;
   case EXPWHT:
     put("wht: "); duwht(exp->fields.wht.wht);

@@ -104,8 +104,8 @@ typedef struct ExpNod {		/* EXPRESSION */
     } agr;
 
     struct {			/* For RANDOM */
-      int from;
-      int to;
+      struct ExpNod *from;
+      struct ExpNod *to;
     } rnd;
 
     struct {			/* For WHAT */

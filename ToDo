@@ -4,7 +4,7 @@ ToDo:
 
 	* is/are, have/has singular/plural in the documentation
 
-	* Attribute that are entity types. Probably his ties in with
+	* Attribute that are entity types. Probably this ties in with
 	the classing mechanism in that a reference can only be changed
 	to something a sub class of what it was initially set to.
 
@@ -31,8 +31,8 @@ ToDo:
 		MAKE ALL OBJECT WITH size > 3 heavy.
 		SET state OF ALL creature HERE AND IS hungry TO 0.
 
-	* The character set used by the compiler ought to be
-	configurable through an option
+	* The character set used by the compiler (when reading the
+	source code) ought to be configurable through an option
 
 		Option
 		 Charset ISO/DOS/MAC.
@@ -51,8 +51,6 @@ ToDo:
 
 		DEPENDING ON x
 		=1, =3 : ...
-
-	* RANDOM should allow expressions
 
 	* Allow ISA DIRECTION in syntax restrictions? OK, how do we
 	then perform the natural
@@ -174,6 +172,8 @@ ToDo:
 
 
 DONE:
+	* RANDOM should allow expressions
+
 	* SCHEDULE does not allow integer expressions. Really should!
 
 	* Document how to do darkness and light sources

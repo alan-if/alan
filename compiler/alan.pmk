@@ -2079,11 +2079,11 @@ static int val(char str[])
 	%<primary>.exp->fields.agr.whr	= %<where>.whr;
     %%
 
-    ! 'RANDOM' Integer 'TO' Integer
+    ! 'RANDOM' <primary> 'TO' <primary>
     %%
 	%<primary>.exp = newexp(`&%'RANDOM'.srcp, EXPRND);
-	%<primary>.exp->fields.rnd.from	= val(%1Integer.chars);
-	%<primary>.exp->fields.rnd.to	= val(%2Integer.chars);
+	%<primary>.exp->fields.rnd.from	= %2<primary>.exp;
+	%<primary>.exp->fields.rnd.to	= %3<primary>.exp;
     %%
 
     ! 'SCORE'

@@ -1,3 +1,8 @@
+Mon Apr  6 14:41:06 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Made RANDOM accept integer primary expressions as parameters,
+ 	not only literals.
+
 Wed Mar 18 10:26:47 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Made SCHEDULE accept integer expressions, not only literals.

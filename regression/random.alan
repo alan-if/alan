@@ -1,7 +1,7 @@
 Syntax r = r.
 Verb r
   Does
-    say Random 1 to 10.
+    Say Random 1 To 10.
 End Verb.
 
 Location l
