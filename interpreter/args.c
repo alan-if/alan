@@ -100,7 +100,8 @@ void args(argc, argv)
   } else {
     strncpy(prgbuf, (char *)&CurApName[1], CurApName[0]);
     prgbuf[CurApName[0]] = '\0';
-    if (strcmp(prgbuf, "arun") != 0)
+    if (strcmp(prgbuf, "arun") != 0 &&
+	strcmp(prgbuf, "Arun.project") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
     else {
