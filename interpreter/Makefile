@@ -1,17 +1,23 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-#CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
-CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
+#GLK = -DGLK
+#GLKINCLUDE = -I../../WindowsGLK/Include
+#GLKLIB = ../../WindowsGlk/Glk.lib
+
+CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+#CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
+CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG) $(GLKINCLUDE) $(GLK)
 
 CPP	= gcc -MM -ansi
 
 LDFLAGS = -g $(CYGWIN) $(VERBOSE)
-#LIB = ../../Glk/WinGlk/Glk.lib
+LIB = $(GLKLIB)
+
+GLKSRCS = glkstart.c glkio.c
 
 BUILDSRCS = \
 	sysdep.c \
@@ -34,12 +40,17 @@ ARUNSRCS = exe.c \
 VERSIONSRCS= $(ARUNSRCS) $(BUILDSRCS)
 VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 MAINOBJECTS = $(VERSIONOBJECTS) alan.version.o
+GLKOBJECTS = ${GLKSRCS:.c=.o}
 
-
-arun.exe : $(MAINOBJECTS)
-	gcc -o arun.exe $(MAINOBJECTS) $(LDFLAGS) $(LIB)
+arun : $(MAINOBJECTS)
+	gcc -o arun $(MAINOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
+
+glkarun: $(GLKOBJECTS) $(MAINOBJECTS) glkstart.o
+	gcc -o glkarun  $(GLKOBJECTS) $(MAINOBJECTS) $(LDFLAGS) $(GLKLIB)
+	@-mkdir ../bin 2> /dev/null
+	cp glkarun.exe ../bin
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 

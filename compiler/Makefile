@@ -98,15 +98,15 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
+alan: $(MAINOBJECTS) test
+	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
+	@-mkdir ../bin 2> /dev/null
+	cp alan.exe ../bin
+
 all : .tmstamp test alan Makefile
 
 gcov :
 	$(MAKE) "GCOV=-fprofile-arcs -ftest-coverage"
-
-alan: $(MAINOBJECTS)
-	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
-	@-mkdir ../bin 2> /dev/null
-	cp alan.exe ../bin
 
 .tmstamp: $(TMSRCS)
 	$(MAKE) -f Makefile.tm

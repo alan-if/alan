@@ -2,11 +2,13 @@
 
 # Glk definitions
 
-GLKINCLUDEDIR = /usr/local/include/glk
-GLKLIBDIR = /usr/local/lib/glk
+GLKPREFIX = /home/thoni/Alan/WindowsGlk
+GLKINCLUDEDIR = $(GLKPREFIX)/include
+GLKLIBDIR = $(GLKPREFIX)
 GLKMAKEFILE = Make.xglk
-GLKTARGET = xalan 
+GLKTARGET = xalan
 GLK = -DGLK
+GLKLIB = Glk.lib
 
 #A tag describing the type of build 
 COMPILER = -DCOMPILER=\"[glk]\"
@@ -18,7 +20,7 @@ COMPILER = -DCOMPILER=\"[glk]\"
 #CRCLOG = -DCRCLOG
 
 # Define this if the headers are reversed on this platform
-REVERSED = -DREVERSED
+#REVERSED = -DREVERSED
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"$(GLKTARGET)\"
@@ -27,7 +29,7 @@ PROGNAME=-DPROGNAME=\"$(GLKTARGET)\"
 INSTALLDIR = /usr/local/bin
 
 
-include $(GLKINCLUDEDIR)/$(GLKMAKEFILE)
+#include $(GLKINCLUDEDIR)/$(GLKMAKEFILE)
 
 ###  Do not edit below this line  ### 
 
@@ -38,7 +40,7 @@ CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS)
 
 LINK = gcc
 LDFLAGS = -g $(ARUNOPTS)
-LIBS = -L$(GLKLIBDIR) $(LINKLIBS) $(GLKLIB)
+LIBS = $(GLKLIBDIR)/$(GLKLIB) $(LINKLIBS)
 
 INSTALL = install
 INSTFLAGS = -g 0 -o 0 -s
@@ -79,7 +81,7 @@ spa.o: spa.c spa.h
 install: $(GLKTARGET)
 	$(INSTALL) $(INSTFLAGS) $(GLKTARGET) $(INSTALLDIR)
 #	$(INSTALL) $(INSTFLAGS) dumpacd $(INSTALLDIR) 
-		
+
 clean:
 	rm -f $(GLKTARGET) dumpacd *.o *~ .arch
 

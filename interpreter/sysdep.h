@@ -281,8 +281,6 @@
 #endif
 
 
-
-
 #ifdef __vms__
 
 #define MULTI
