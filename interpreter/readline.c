@@ -186,7 +186,7 @@ static void newLine(char ch);
 static void delFwd(char ch);
 static void delBwd(char ch);
 
-#ifdef __XXunix__
+#ifdef __unix__
 static KeyMap keymap[] = {
   {0x00, 0x07, NULL},
   {0x08, 0x08, delBwd},
