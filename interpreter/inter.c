@@ -217,6 +217,10 @@ void interpret(adr)
 	if (stpflg) printf("CURVRB \t\t\t(%d)", cur.vrb);
 	push(cur.vrb);
 	break;
+      case V_CURRENT_INSTANCE:
+	if (stpflg) printf("CURINS \t\t\t(%d)", cur.instance);
+	push(cur.instance);
+	break;
       case V_SCORE:
 	if (stpflg) printf("CURSCORE \t\t\t(%d)", cur.score);
 	push(cur.score);

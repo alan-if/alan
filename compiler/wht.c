@@ -80,7 +80,7 @@ void generateWhat(What *wht, int instanceCode)
     generateId(wht->id);
     break;
   case WHAT_THIS:
-    emit0(C_CONST, instanceCode);
+    emit0(C_CURVAR, V_CURRENT_INSTANCE);
     break;
   default:
     syserr("Unexpected case in generateWhat()");

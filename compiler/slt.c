@@ -300,6 +300,7 @@ void dumpSlots(Slots *slots)
 {
   put("SLOTS: "); dumpPointer(slots); in();
   put("id: "); dumpId(slots->id); nl();
+  put("parentId: "); dumpId(slots->parentId); nl();
   put("names: "); dumpList(slots->names, LIST_NAM); nl();
   put("whr: "); duwhr(slots->whr); nl();
   put("container: "); dumpContainer(slots->container); nl();

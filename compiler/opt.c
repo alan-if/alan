@@ -212,8 +212,8 @@ void optBool(char *id, Srcp *srcp, int val)
 void geopt(AcdHdr *header)
                     	/* OUT - the header struct to fill */
 {
-  header->paglen = opts[OPTLEN].value;
-  header->pagwidth = opts[OPTWIDTH].value;
+  header->pageLength = opts[OPTLEN].value;
+  header->pageWidth = opts[OPTWIDTH].value;
   header->pack = opts[OPTPACK].value;
   header->debug = opts[OPTDEBUG].value;
 }

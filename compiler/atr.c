@@ -325,9 +325,22 @@ static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
 {
   Attribute *atr = NULL;
 
-  if (context->instance == NULL) return NULL;
+  switch (context->kind) {
+  case CLASS_CONTEXT:
+    if (context->class == NULL) syserr("Context->class == NULL in resolveThisAttribute()");
 
-  atr = findAttribute(context->instance->slots->attributes, attribute);
+    atr = findAttribute(context->class->slots->attributes, attribute);
+    break;
+
+  case INSTANCE_CONTEXT:
+    if (context->instance == NULL) syserr("context->instance == NULL in resolveThisAttribute()");
+
+    atr = findAttribute(context->instance->slots->attributes, attribute);
+    break;
+
+  default:
+    syserr("Unexpected context kind in resolveThisAttribute()");
+  }
   if (atr == NULL)
     lmLog(&attribute->srcp, 313, sevERR, attribute->string);
   return atr;

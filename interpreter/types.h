@@ -60,9 +60,9 @@ typedef int Boolean;		/* Boolean values within interpreter */
 typedef struct CurVars {
   int
     vrb,
-    obj,
     loc,
     act,
+    instance,
     tick,
     score,
     visits;

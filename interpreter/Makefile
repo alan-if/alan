@@ -108,6 +108,14 @@ unit : $(TESTOBJS)
 test: unit
 
 
+#
+#
+#
+#
+dumpacd: dumpacd.c reverse.o ../compiler/spa.o
+	gcc -o dumpacd -g -mno-cygwin -I../compiler dumpacd.c ../compiler/spa.o reverse.o
+
+
 
 #
 # Dependencies

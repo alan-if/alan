@@ -92,7 +92,7 @@ FILE *logfil;
 
 /* Screen formatting info */
 int col, lin;
-int paglen, pagwidth;
+int pageLength, pageWidth;
 
 Boolean needsp = FALSE;
 Boolean skipsp = FALSE;
@@ -309,10 +309,10 @@ void statusline(void)
     sprintf(line, "Score %d(%ld)/%d moves", cur.score, header->maxscore, cur.tick);
   else
     sprintf(line, "%ld moves", (long)cur.tick);
-  for (i=0; i < pagwidth - col - strlen(line); i++) putchar(' ');
+  for (i=0; i < pageWidth - col - strlen(line); i++) putchar(' ');
   printf(line);
   printf("\x1b[m");
-  printf("\x1b[%d;1H", paglen);
+  printf("\x1b[%d;1H", pageLength);
   needsp = FALSE;
 
   col = pcol;
@@ -356,7 +356,7 @@ void newline()
   char buf[256];
   
   col = 1;
-  if (lin >= paglen - 1) {
+  if (lin >= pageLength - 1) {
     logprint("\n");
     needsp = FALSE;
     prmsg(M_MORE);
@@ -414,7 +414,7 @@ void clear()
 #ifdef HAVE_ANSI
   if (!statusflg) return;
   printf("\x1b[2J");
-  printf("\x1b[%d;1H", paglen);
+  printf("\x1b[%d;1H", pageLength);
 #endif
 #endif
 }
@@ -463,11 +463,11 @@ static void just(str)
   int i;
   char ch;
   
-  if (col >= pagwidth && !skipsp)
+  if (col >= pageWidth && !skipsp)
     newline();
 
-  while (strlen(str) > pagwidth - col) {
-    i = pagwidth - col - 1;
+  while (strlen(str) > pageWidth - col) {
+    i = pageWidth - col - 1;
     while (!isSpace(str[i]) && i > 0) /* First find wrap point */
       i--;
     if (i == 0 && col == 1)	/* If it doesn't fit at all */
@@ -1185,7 +1185,7 @@ static void do_it()
   Boolean done[MAXPARAMS+2];	/* Is it done */
   int i;			/* Parameter index */
   char trace[80];		/* Trace string buffer */
-  
+
   fail = FALSE;
   alt[0] = findalt(header->verbTableAddress, 0);
   /* Perform global checks */
@@ -1195,8 +1195,9 @@ static void do_it()
     if (!trycheck(alt[0]->checks, TRUE)) return;
     if (fail) return;
   }
-  
+
   /* Now CHECKs in this location */
+  cur.instance = cur.loc;
   alt[1] = findalt(instance[cur.loc].verbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0) {
     if (trcflg)
@@ -1206,6 +1207,7 @@ static void do_it()
   }
   
   for (i = 0; params[i].code != EOF; i++) {
+    cur.instance = params[i].code;
     if (isLit(params[i].code))
       alt[i+2] = 0;
     else {
@@ -1252,6 +1254,7 @@ static void do_it()
 	    else
 	      printf("\n<VERB %d, %s (ONLY), Body:>\n", cur.vrb, trace);
 	  }
+	  cur.instance = params[i-2].code;
 	  interpret(alt[i]->action);
 	  if (fail) return;
 	  if (alt[i]->qual == (Aword)Q_ONLY) return;
@@ -1275,6 +1278,7 @@ static void do_it()
 	      sprintf(trace, "in PARAMETER %d", i-1);
 	    printf("\n<VERB %d, %s, Body:>\n", cur.vrb, trace);
 	  }
+	  cur.instance = params[i-2].code;
 	  interpret(alt[i]->action);
 	  if (fail) return;
 	}
@@ -1296,6 +1300,7 @@ static void do_it()
 	    sprintf(trace, "in PARAMETER %d", i-1);
 	  printf("\n<VERB %d, %s (AFTER), Body:>\n", cur.vrb, trace);
 	}
+	cur.instance = params[i-2].code;
 	interpret(alt[i]->action);
 	if (fail) return;
       }
@@ -1763,8 +1768,11 @@ static void movactor(theActor)
 {
   ScriptEntry *scr;
   StepEntry *step;
+  Aword previousInstance = cur.instance;
+
 
   cur.act = theActor;
+  cur.instance = theActor;
   cur.loc = where(theActor);
   if (theActor == HERO) {
     parse();
@@ -1822,6 +1830,8 @@ static void movactor(theActor)
       printf("), Idle>\n");
     }
   }
+
+  cur.instance = previousInstance;
 }
 
 /*----------------------------------------------------------------------

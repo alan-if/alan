@@ -53,8 +53,8 @@ int main(argc, argv)
 
   /* Set up page format in case we get a system error */
   lin = col = 1;
-  header->paglen = 24;
-  header->pagwidth = 70;
+  header->pageLength = 24;
+  header->pageWidth = 70;
 
   getPageSize();
 

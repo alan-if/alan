@@ -624,18 +624,6 @@ static void replicateContainer(Symbol *symbol)
 
 /*----------------------------------------------------------------------
 
-  replicateDescription()
-
-*/
-static void replicateDescription(Symbol *symbol)
-{
-  if (slotsOf(symbol)->description == NULL)
-    slotsOf(symbol)->description = slotsOfParentOf(symbol)->description;
-}
-
-
-/*----------------------------------------------------------------------
-
   replicate()
 
 */

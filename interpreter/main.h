@@ -54,7 +54,7 @@ extern char *advnam;
 
 /* Screen formatting info */
 extern int col, lin;
-extern int paglen, pagwidth;
+extern int pageLength, pageWidth;
 
 /* Long jump buffer for restart */
 extern jmp_buf restart_label;

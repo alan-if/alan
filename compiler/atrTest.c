@@ -7,6 +7,8 @@
 \*======================================================================*/
 
 #include "atr.c"
+#include "cla_x.h"
+#include "slt_x.h"
 
 void testMultipleAtr()
 {
@@ -283,6 +285,20 @@ void testGenerateAttributes()
 #endif
 }
 
+static void testResolveThisAttributeForClass()
+{
+  List *theAttributes = create2Attributes("x", "y");
+  Slots *theSlots = newSlots(NULL, NULL, theAttributes, NULL, NULL, &nulsrcp,
+			     NULL, &nulsrcp, NULL, &nulsrcp,
+			     NULL, NULL, NULL, NULL);
+  ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theSlots);
+  Context context = {CLASS_CONTEXT, NULL, NULL, theClass, NULL};
+  Attribute *theResolvedAttribute;
+
+  theResolvedAttribute = resolveThisAttribute(newId(&nulsrcp, "x"), &context);
+  unitAssert(theResolvedAttribute == theAttributes->element.atr);
+}
+
 void registerAtrUnitTests()
 {
   registerUnitTest(testMultipleAtr);
@@ -290,5 +306,5 @@ void registerAtrUnitTests()
   registerUnitTest(testSortAttributes);
   registerUnitTest(testCombineAttributes);
   registerUnitTest(testGenerateAttributes);
+  registerUnitTest(testResolveThisAttributeForClass);
 }
-

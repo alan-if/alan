@@ -253,6 +253,25 @@ static void reverseExits(adr)
 
 
 #ifdef _PROTOTYPES_
+static void reverseClasses(Aword adr)
+#else
+static void reverseClasses(adr)
+     Aword adr;
+#endif
+{
+  ClassEntry *e = (ClassEntry *) &memory[adr];
+
+  if (adr != 0 && !endOfTable(e)) {
+    reverseTable(adr, sizeof(ClassEntry));
+    while (!endOfTable(e)) {
+      reverseStms(e->description);
+      e++;
+    }
+  }
+}
+
+
+#ifdef _PROTOTYPES_
 static void reverseInstances(Aword adr)
 #else
 static void reverseInstances(adr)
@@ -458,8 +477,8 @@ void reverseACD(v2_5)
   reverseDictionary(header->dictionary);
   reverseStxs(header->syntaxTableAddress);
   reverseVerbs(header->verbTableAddress);
+  reverseClasses(header->classTableAddress);
   reverseInstances(header->instanceTableAddress);
-  reverseTable(header->classTableAddress, sizeof(ClassEntry));
   reverseContainers(header->containerTableAddress);
   reverseEvts(header->eventTableAddress);
   reverseRuls(header->ruleTableAddress);

@@ -1152,9 +1152,10 @@ static void gestm(StmNod *stm, int currentInstance)
   */
 void gestms(List *stms, int currentInstance)
 {
-  while (stms != NULL) {
-    gestm(stms->element.stm, currentInstance);
-    stms = stms->next;
+  List *current = stms;
+
+  for (current = stms; current != NULL; current = current->next) {
+    gestm(current->element.stm, currentInstance);
   }
 }
 

@@ -11,6 +11,7 @@
 #include "lst.h"
 #include "evt.h"
 #include "ins.h"
+#include "cla.h"
 
 
 /* TYPES: */
@@ -18,6 +19,7 @@
 typedef enum {
   NULL_CONTEXT,
   INSTANCE_CONTEXT,
+  CLASS_CONTEXT,
   EVENT_CONTEXT,
   VERB_CONTEXT,
   RULE_CONTEXT
@@ -28,6 +30,7 @@ typedef struct Context {
   ContextKind kind;
   Symbol *verb;
   InsNod *instance;
+  ClaNod *class;
   EvtNod *event;
 } Context;
 

@@ -157,7 +157,8 @@ typedef enum VarClass {
   V_CURLOC,
   V_CURACT,
   V_CURVRB,
-  V_SCORE
+  V_SCORE,
+  V_CURRENT_INSTANCE
 } VarClass;
 
 
@@ -254,8 +255,8 @@ typedef struct AcdHdr {
 /* Options */
   Abool pack;			/* Is the text packed ? */
   Aword stringOffset;		/* Offset to string data in game file */
-  Aword paglen;			/* Length of a page */
-  Aword pagwidth;		/* and width */
+  Aword pageLength;			/* Length of a page */
+  Aword pageWidth;		/* and width */
   Aword debug;			/* Option debug */
 /* Data structures */
   Aaddr classTableAddress;	/* Class table */

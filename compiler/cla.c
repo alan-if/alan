@@ -16,6 +16,7 @@
 #include "sym_x.h"
 #include "slt_x.h"
 #include "lst_x.h"
+#include "context_x.h"
 
 #include "emit.h"
 #include "util.h"
@@ -143,8 +144,13 @@ void symbolizeClasses(void)
   Analyze a Class node.
 
  */
-static void analyzeClass(ClaNod *cla)
+static void analyzeClass(ClaNod *class)
 {
+  Context *context = newContext(CLASS_CONTEXT);
+
+  context->class = class;
+
+  analyzeSlots(class->slots, context);
 }
 
 

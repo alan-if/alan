@@ -1146,12 +1146,14 @@ void describe(id)
 {
   int i;
   char str[80];
+  Aword previousInstance = cur.instance;
 
   for (i = 0; i < dscrstkp; i++)
     if (dscrstk[i] == id)
       syserr("Recursive DESCRIBE.");
   dscrstk[dscrstkp++] = id;
 
+  cur.instance = id;
   if (id == 0) {
     sprintf(str, "Can't DESCRIBE item (%ld).", id);
     syserr(str);
@@ -1166,6 +1168,7 @@ void describe(id)
     describeAnything(id);
 
   dscrstkp--;
+  cur.instance = previousInstance;
 }
 
 

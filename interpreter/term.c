@@ -26,8 +26,8 @@ void getPageSize()
 #endif
 {
 #ifdef GLK
-  paglen = 0;
-  pagwidth = 0;
+  pageLength = 0;
+  pageWidth = 0;
 
 #else
 #ifdef HAVE_TERMIO
@@ -42,14 +42,14 @@ void getPageSize()
   ecode = ioctl(1, TIOCGWINSZ, &win);
 
   if (ecode != 0 || win.ws_row == 0)
-    paglen = header->paglen;
+    pageLength = header->pageLength;
   else
-    paglen = win.ws_row;
+    pageLength = win.ws_row;
 
   if (ecode != 0 || win.ws_col == 0)
-    pagwidth = header->pagwidth;
+    pageWidth = header->pageWidth;
   else
-    pagwidth = win.ws_col;
+    pageWidth = win.ws_col;
 
 #else
 #ifdef __amiga__
@@ -87,17 +87,17 @@ void getPageSize()
 
     /* Calculate number of characters and lines w.r.t font size and borders */
     textFont = win->IFont;
-    paglen = win->Height/textFont->tf_YSize-2;
-    pagwidth = win->Width/textFont->tf_XSize-3;
+    pageLength = win->Height/textFont->tf_YSize-2;
+    pageWidth = win->Width/textFont->tf_XSize-3;
   } else {
-    paglen = header->paglen;
-    pagwidth = header->pagwidth;
+    pageLength = header->pageLength;
+    pageWidth = header->pageWidth;
   }
 
 #else
 
-  paglen = header->paglen;
-  pagwidth = header->pagwidth;
+  pageLength = header->pageLength;
+  pageWidth = header->pageWidth;
 
 #endif
 #endif

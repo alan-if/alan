@@ -378,7 +378,7 @@ static void anexpwht(ExpNod *exp,
     break;
 
   case WHAT_THIS:
-    if (context->instance == NULL)
+    if (context->kind == INSTANCE_CONTEXT || context->kind == CLASS_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");
     else
       exp->type = INSTANCE_TYPE;

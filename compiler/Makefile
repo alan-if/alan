@@ -149,10 +149,11 @@ TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
 unit : $(TESTOBJS)
+	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 	@./unit
 
 
-# Run all unit tests!
+# Run all tests!
 test: unit all
 	cd testing; regr
 
