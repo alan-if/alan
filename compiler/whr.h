@@ -9,12 +9,10 @@
 
 
 /* USE other definitions */
-#include "evt.h"
 #include "wht.h"
-#include "lst.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum WhrKind {		/* WHERE kinds */
   WHR_DEFAULT,			/* None */
@@ -27,29 +25,9 @@ typedef enum WhrKind {		/* WHERE kinds */
 
 typedef struct WhrNod {		/* WHERE node */
   Srcp srcp;			/* Source position */
-  WhrKind whr;			/* Where kind */
+  WhrKind kind;			/* Where kind */
   WhtNod *wht;			/* What */
 } WhrNod;
-
-
-/* Data: */
-
-
-/* Functions: */
-
-/* Allocate a new Where node */
-extern WhrNod *newwhr(Srcp *srcp,
-		      WhrKind whr,
-		      WhtNod *wht);
-
-/* Analyse a Where reference */
-extern void anwhr(WhrNod *whr, EvtNod *evt, List *pars);
-
-/* Generate a Where reference */
-extern void gewhr(WhrNod *whr);
-
-/* Dump a Where node */
-extern void duwhr(WhrNod *whr);
 
 
 #endif

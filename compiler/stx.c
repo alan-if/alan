@@ -9,12 +9,14 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "id_x.h"
+#include "sym_x.h"
+#include "res_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"                /* ADV-nodes */
-#include "sym.h"                /* SYM-nodes */
 #include "lst.h"                /* LST-nodes */
-#include "res.h"                /* RES-nodes */
 #include "stx.h"                /* STX-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */

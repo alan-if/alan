@@ -160,10 +160,17 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   */
 void initSymbols()
 {
-  SymNod *thing = newsym("thing", CLASS_SYMBOL);
-  SymNod *object = newsym("object", CLASS_SYMBOL);
-  SymNod *actor = newsym("actor", CLASS_SYMBOL);
-  SymNod *location = newsym("location", CLASS_SYMBOL);
+  SymNod *thing;
+  SymNod *object;
+  SymNod *actor;
+  SymNod *location;
+
+  symtree = NULL;
+
+  thing = newsym("thing", CLASS_SYMBOL);
+  object = newsym("object", CLASS_SYMBOL);
+  actor = newsym("actor", CLASS_SYMBOL);
+  location = newsym("location", CLASS_SYMBOL);
 
   setParent(location, thing);
   setParent(object, thing);
@@ -243,6 +250,8 @@ Bool inheritsFrom(SymNod *child, SymNod *ancestor)
 {
   SymNod *p;
 
+  if (child == NULL || ancestor == NULL) return FALSE;
+
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL &&
       ancestor->kind != CLASS_SYMBOL)
     syserr("Not a CLASS or INSTANCE in inheritsFrom()");
@@ -276,4 +285,22 @@ SymNod *symcheck(		/* OUT - Found symbol */
   else if (sym->kind != kind)
     lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL );
   return sym;
+}
+
+/*======================================================================
+
+  inheritCheck
+
+  Check that the given identifier inherits the class passed as a string.
+  This will only be used for built in class checks (location, actor etc.)
+
+*/
+void inheritCheck(IdNode *id, char classOrInstance[], char className[])
+{
+  SymNod *theClassSymbol = lookup(className);
+
+  if (theClassSymbol == NULL) syserr("There is no such class in classCheck()");
+
+  if (!inheritsFrom(id->symbol, theClassSymbol))
+    lmLogv(&id->srcp, 351, sevERR, classOrInstance, "location", NULL);
 }

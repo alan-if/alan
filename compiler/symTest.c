@@ -96,6 +96,8 @@ void testInherit2()
   SymNod *sym2 = lookup(symbolName2);
   SymNod *sym3 = lookup(symbolName3);
 
+  unitAssert(!inheritsFrom(NULL, NULL));
+
   unitAssert(inheritsFrom(sym1, sym2));
   unitAssert(inheritsFrom(sym2, sym3));
   unitAssert(inheritsFrom(sym1, sym3));

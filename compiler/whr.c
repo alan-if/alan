@@ -5,18 +5,22 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "whr_x.h"
+
 #include "alan.h"
 #include "util.h"
 
 #include "srcp_x.h"
+#include "wht_x.h"
+#include "sym_x.h"
+#include "id_x.h"
+
 #include "lmList.h"
 
 #include "acode.h"
 
-#include "sym.h"		/* SYM-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"		/* ELM-nodes */
-#include "whr.h"		/* WHR-nodes */
 
 #include "dump.h"
 #include "emit.h"
@@ -31,7 +35,7 @@
 
   */
 WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
-	       WhrKind whr,	/* IN - Where kind */
+	       WhrKind kind,	/* IN - Where kind */
 	       WhtNod *wht)	/* IN - What */
 {
   WhrNod *new;
@@ -41,10 +45,31 @@ WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
   new = NEW(WhrNod);
 
   new->srcp = *srcp;
-  new->whr = whr;
+  new->kind = kind;
   new->wht = wht;
 
   return(new);
+}
+
+
+/*======================================================================
+
+  symbolizeWhr()
+
+  Symbolize a where reference.
+
+  */
+void symbolizeWhr(WhrNod *whr)
+{
+  switch (whr->kind) {
+  case WHR_NEAR:
+  case WHR_AT:
+  case WHR_IN:
+    symbolizeWht(whr->wht);
+    break;
+  default:
+    break;
+  }
 }
 
 
@@ -62,13 +87,13 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
   SymNod *sym;
   ElmNod *elm;
 
-  switch (whr->whr) {
+  switch (whr->kind) {
   case WHR_DEFAULT:
   case WHR_HERE:
   case WHR_NEAR:
     break;
   case WHR_AT:
-    switch (whr->wht->wht) {
+    switch (whr->wht->kind) {
     case WHT_ID:
 #ifndef FIXME
       syserr("UNIMPL: namcheck() -> idcheck()");
@@ -77,7 +102,7 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
 #endif
       break;
     case WHT_LOC:
-      whr->whr = WHR_HERE;
+      whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
       if (pars == NULL)
@@ -115,10 +140,10 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
   */
 void gewhr(WhrNod *whr)		/* IN - Where node */
 {
-  switch (whr->whr) {
+  switch (whr->kind) {
 
   case WHR_AT:
-    switch (whr->wht->wht) {
+    switch (whr->wht->kind) {
     case WHT_ID:
       gewht(whr->wht);
 #ifdef FIXME
@@ -175,7 +200,7 @@ void duwhr(WhrNod *whr)
 
   put("WHR: "); dumpSrcp(&whr->srcp); in();
   put("whr: ");
-  switch (whr->whr) {
+  switch (whr->kind) {
   case WHR_DEFAULT: put("DEFAULT"); break;
   case WHR_HERE: put("HERE"); break;
   case WHR_AT: put("AT"); break;

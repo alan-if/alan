@@ -8,6 +8,9 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "whr_x.h"
+#include "id_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
@@ -15,9 +18,7 @@
 #include "lst.h"		/* LST-nodes */
 #include "exp.h"		/* EXP-nodes */
 #include "atr.h"		/* ATR-nodes */
-#include "whr.h"		/* WHR-nodes */
 #include "wht.h"		/* WHT-nodes */
-#include "id_x.h"
 #include "elm.h"		/* ELM-nodes */
 #include "ins.h"		/* INS-nodes */
 
@@ -89,9 +90,9 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 
   anexp(exp->fields.whr.wht, evt, pars);
   if (exp->fields.whr.wht->class != EXPWHT)
-    lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
+    lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
   else {
-    switch (exp->fields.whr.wht->fields.wht.wht->wht) {
+    switch (exp->fields.whr.wht->fields.wht.wht->kind) {
     case WHT_OBJ:
       if (pars == NULL)
 	lmLog(&exp->fields.whr.wht->srcp, 409, sevERR, "");
@@ -113,17 +114,17 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 #endif
       break;
     default:
-      syserr("Unrecognized switch in anwhr()");
+      syserr("Unrecognized switch in anexpwhr()");
       break;
     }
   }
 
-  switch (exp->fields.whr.whr->whr) {
+  switch (exp->fields.whr.whr->kind) {
   case WHR_HERE:
   case WHR_NEAR:
     break;
   case WHR_AT:
-    switch (exp->fields.whr.whr->wht->wht) {
+    switch (exp->fields.whr.whr->wht->kind) {
     case WHT_ID:
 #ifndef FIXME
     syserr("UNIMPL: anexpwhr() - namcheck handling");
@@ -132,7 +133,7 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 #endif
       break;
     case WHT_LOC:
-      exp->fields.whr.whr->whr = WHR_HERE;
+      exp->fields.whr.whr->kind = WHR_HERE;
       break;
     case WHT_OBJ:
       if (pars == NULL)
@@ -179,7 +180,7 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
   ElmNod *elm;			/* A parameter element */
 
   if (exp->fields.atr.wht->class == EXPWHT) {
-    switch (exp->fields.atr.wht->fields.wht.wht->wht) {
+    switch (exp->fields.atr.wht->fields.wht.wht->kind) {
       
     case WHT_ACT:
       if (evt != NULL)
@@ -311,8 +312,8 @@ static void anbin(ExpNod *exp,
       lmLog(&exp->srcp, 331, sevERR, "expression");
     else if (exp->fields.bin.left->typ != TYPUNK && exp->fields.bin.right->typ != TYPUNK)
       if (exp->fields.bin.left->typ == TYPENT) {
-	if (exp->fields.bin.left->fields.wht.wht->wht == WHT_ID &&
-	    exp->fields.bin.right->fields.wht.wht->wht == WHT_ID)
+	if (exp->fields.bin.left->fields.wht.wht->kind == WHT_ID &&
+	    exp->fields.bin.right->fields.wht.wht->kind == WHT_ID)
 #ifndef FIXME
 	  syserr("UNIMPL: anbin() - parameter type");
 #else
@@ -438,7 +439,7 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
   ElmNod *par;
   SymNod *sym;
 
-  switch (exp->fields.wht.wht->wht) {
+  switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&exp->fields.wht.wht->srcp, 409, sevERR, "");
@@ -655,10 +656,10 @@ static void geexpbin(ExpNod *exp) /* IN - Expression node */
   */
 static void geexpwhr(ExpNod *exp) /* IN - Expression node */
 {
-  switch(exp->fields.whr.wht->fields.wht.wht->wht) {
+  switch(exp->fields.whr.wht->fields.wht.wht->kind) {
     
   case WHT_OBJ:
-    switch (exp->fields.whr.whr->whr) {
+    switch (exp->fields.whr.whr->kind) {
     case WHR_NEAR:
       emit0(C_CONST, 1);
       emit0(C_CURVAR, V_PARAM);
@@ -690,7 +691,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
     break;
     
   case WHT_ID:
-    switch (exp->fields.whr.whr->whr) {
+    switch (exp->fields.whr.whr->kind) {
     case WHR_HERE:
       geid(exp->fields.whr.wht->fields.wht.wht->id);
       emit0(C_STMOP, I_HERE);

@@ -9,11 +9,10 @@
 #include "util.h"
 
 #include "srcp_x.h"
-#include "lmList.h"
-
-#include "wht.h"		/* WHT-nodes */
+#include "wht_x.h"
 #include "id_x.h"
 
+#include "lmList.h"
 #include "emit.h"
 #include "dump.h"
 
@@ -26,7 +25,7 @@
 
   */
 WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
-	       WhtKind wht,	/* IN - What kind */
+	       WhtKind kind,	/* IN - What kind */
 	       IdNode *id)	/* IN - ID or NULL */
 {
   WhtNod *new;
@@ -36,12 +35,29 @@ WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
   new = NEW(WhtNod);
 
   new->srcp = *srcp;
-  new->wht = wht;
+  new->kind = kind;
   new->id = id;
 
   return(new);
 }
 
+/*======================================================================
+
+  symbolizeWht()
+
+  Symbolize a What reference.
+
+  */
+void symbolizeWht(WhtNod *wht)
+{
+  switch (wht->kind) {
+  case WHT_ID:
+    symbolizeId(wht->id);
+    break;
+  default:
+    break;
+  }
+}
 
 
 /*======================================================================
@@ -53,7 +69,7 @@ WhtNod *newwht(Srcp *srcp,	/* IN - Source position */
   */
 void gewht(WhtNod *wht)		/* IN - What to generate */
 {
-  switch (wht->wht) {
+  switch (wht->kind) {
   case WHT_OBJ:
     emit0(C_CONST, 1);
     emit0(C_CURVAR, V_PARAM);
@@ -87,7 +103,7 @@ void duwht(WhtNod *wht)
 
   put("WHT: "); dumpSrcp(&wht->srcp); in();
   put("wht: ");
-  switch (wht->wht) {
+  switch (wht->kind) {
   case WHT_OBJ: put("OBJECT"); break;
   case WHT_LOC: put("LOCATION"); break;
   case WHT_ACT: put("ACTOR"); break;

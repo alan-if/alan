@@ -1,32 +1,15 @@
-#ifndef _WHT_H_
-#define _WHT_H_
+#ifndef _WHT_X_H_
+#define _WHT_X_H_
 /*----------------------------------------------------------------------*\
 
 				WHT.H
-			      What Nodes
+			  What Nodes Export
                                                                      
 \*----------------------------------------------------------------------*/
 
 
 /* USE: */
-#include "id.h"
-
-
-/* Types: */
-
-typedef enum WhtKind {
-  WHT_OBJ,
-  WHT_LOC,
-  WHT_ACT,
-  WHT_ID
-} WhtKind;
-
-typedef struct WhtNod {		/* WHAT nodes */
-  Srcp srcp;			/* Source position */
-  WhtKind kind;			/* What kind */
-  IdNode *id;			/* What identifier */
-} WhtNod;
-
+#include "wht.h"
 
 /* Data: */
 
@@ -36,7 +19,9 @@ typedef struct WhtNod {		/* WHAT nodes */
 /* Create a new What node */
 extern WhtNod *newwht(Srcp *srcp,
 		      WhtKind wht,
-		      struct IdNode *id);
+		      IdNode *id);
+
+extern void symbolizeWht(WhtNod *wht);
 
 /* Generate a reference to a What */
 extern void gewht(WhtNod *wht);

@@ -5,7 +5,7 @@ for f in ${*} ; do
     cp $case.output $case.expected
     rm $case.diff
     touch $case.diff
-    cvs add $case.expected
-    cvs commit $case.expected
+    cvs add $case.expected 2> /dev/null
+    cvs commit -m "" $case.expected
 done
 

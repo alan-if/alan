@@ -201,7 +201,7 @@ static int val(char str[])
 
 ---> UNITS
 <units>
-    = <unit>
+    =
     ! <units> <unit>
     ;
 
@@ -712,7 +712,7 @@ static int val(char str[])
     ;
 
 <heritage>		-- RETURNS: id
-    = 'ISA' <heritage_id>
+    = 'ISA' <heritage_id> ['.']
     %% %<heritage>.id = %<heritage_id>.id; %%
     ;
 

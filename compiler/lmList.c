@@ -104,7 +104,7 @@ static lmMsgs msg[] = {
     { "208   ", "\'%1\' is not a VERB." },
     { "209   ", "First element in a SYNTAX must be a player word." },
     { "210   ", "Action qualification not allowed here." },
-    { "211   ", "Adventure must start at a Location." },
+    { "211   ", "Adventure must start at an instance inheriting from \'location\'." },
     { "212   ", "Syntax parameter \'%1\' overrides symbol." },
     { "213   ", "Verb alternatives not allowed here." },
     { "214   ", "Parameter not defined in syntax for \'%1\'." },
@@ -129,7 +129,7 @@ static lmMsgs msg[] = {
     { "311   ", "Must refer to %1." },
     { "312   ", "Parameter not uniquely defined as %1, which is required." },
     { "315   ", "Attribute not defined for \'%1\'." },
-    { "318   ", "Entity \'%1\' is not a Container." },
+    { "318   ", "The \'%1\' is not a Container." },
     { "319   ", "Identifier \'%1\' is not a %2." },
     { "320   ", "Word \'%1\' belongs to multiple word classes (%2 and %3)." },
     { "321   ", "Synonym target word \'%1\' not defined." },
@@ -142,6 +142,7 @@ static lmMsgs msg[] = {
     { "335   ", "ELSE clause of a DEPENDING statement must be the last." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "350   ", "Can not inherit from something not a class." },
+    { "351   ", "Must refer to %1 inheriting from \'%2\'." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "An Actor can\'t be inside a Container." },
@@ -178,7 +179,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 98}
+    {0, 99}
 };
 static lmMessages currMsect = (lmMessages)0;
 

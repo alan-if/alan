@@ -27,6 +27,8 @@ extern IdNode *newId(Srcp *srcp,
 extern Bool equalId(IdNode *id1,	/* IN - The first id */
 		    IdNode *id2);	/* IN - Second id */
 
+extern void symbolizeId(IdNode *id);
+
 /* Generate an Id node */
 extern void geid(IdNode *id);
 

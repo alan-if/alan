@@ -10,13 +10,13 @@
 #include <stdio.h>
 
 #include "srcp_x.h"
+
 #include "elm.h"
 #include "str.h"
 #include "sym.h"
 #include "util.h"
 #include "dump.h"
-
-
+#include "lmList.h"
 
 
 /*======================================================================
@@ -58,6 +58,21 @@ Bool equalId(IdNode *id1,
   else
     syserr("ID == NULL in equalId()");
   return FALSE;
+}
+
+
+/*======================================================================
+
+  symboizeId()
+
+  Symbolize an ID-node.
+
+  */
+void symbolizeId(IdNode *id)
+{
+  id->symbol = lookup(id->string);
+  if (id->symbol == NULL) 
+    lmLog(&id->srcp, 310, sevERR, id->string);
 }
 
 

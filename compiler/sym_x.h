@@ -50,4 +50,5 @@ extern SymNod *lookup(char idString[]);
 extern void setParent(SymNod *child, SymNod *parent);
 extern SymNod *parentOf(SymNod *child);
 extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
+extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
 #endif

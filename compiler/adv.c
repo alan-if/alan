@@ -12,11 +12,11 @@
 #include "lmList.h"
 
 #include "sym_x.h"
+#include "whr_x.h"
+#include "ins_x.h"
 
 #include "adv.h"		/* ADV-node */
 #include "cla.h"		/* CLA-nodes */
-#include "ins.h"		/* INS-nodes */
-#include "whr.h"		/* WHR-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "vrb.h"		/* VRB-nodes */
@@ -57,6 +57,7 @@ static Aword end;
   */
 void initadv(void)
 {
+  initSymbols();
   initDumpNodeList();
 
 #ifdef FIXME
@@ -104,6 +105,9 @@ static void prepcodes(void)
 static void symbolizeAdv()
 {
   symbolizeClasses();
+  symbolizeInstances();
+
+  symbolizeWhr(adv.whr);
 }
 
 
@@ -118,11 +122,11 @@ static void analyzeStartAt(void)
   ElmNod *elm;
 
   if (adv.whr != NULL) 
-    switch (adv.whr->whr) {
+    switch (adv.whr->kind) {
     case WHR_AT:
-      if (adv.whr->wht->wht == WHT_ID)
-	sym = symcheck(&elm, adv.whr->wht->id, INSTANCE_SYMBOL, NULL);
-      else
+      if (adv.whr->wht->kind == WHT_ID) {
+	inheritCheck(adv.whr->wht->id, "an instance", "location");
+      } else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;
     default:

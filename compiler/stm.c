@@ -11,6 +11,7 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 #include "id_x.h"
+#include "whr_x.h"
 
 #include "lmList.h"
 
@@ -18,7 +19,6 @@
 #include "lst.h"                /* LST-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
-#include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "scr.h"                /* SCR-nodes */
@@ -72,7 +72,7 @@ static void andescribe(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  switch (stm->fields.describe.wht->wht) {
+  switch (stm->fields.describe.wht->kind) {
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.describe.wht->srcp, 409, sevERR, "");
@@ -161,7 +161,7 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
   SymNod *sym;
   ElmNod *elm;
 
-  switch (stm->fields.locate.wht->wht) {
+  switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.locate.wht->srcp, 409, sevERR, "");
@@ -186,14 +186,14 @@ static void anlocate(StmNod *stm, /* IN - The statement to analyze */
   }
 
   anwhr(stm->fields.locate.whr, evt, pars);
-  switch (stm->fields.locate.whr->whr) {
+  switch (stm->fields.locate.whr->kind) {
   case WHR_HERE:
   case WHR_AT:
     break;
   case WHR_IN:
-    if (stm->fields.locate.wht->wht == WHT_ACT)
+    if (stm->fields.locate.wht->kind == WHT_ACT)
       lmLog(&stm->srcp, 402, sevERR, "");
-    else if (stm->fields.locate.wht->wht == WHT_ID) {
+    else if (stm->fields.locate.wht->kind == WHT_ID) {
 #ifndef FIXME
       syserr("UNIMPL: anlocate()");
 #else
@@ -232,7 +232,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
   ElmNod *elm;
   AtrNod *atr = NULL;
 
-  switch (stm->fields.make.wht->wht) {
+  switch (stm->fields.make.wht->kind) {
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
@@ -308,7 +308,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
   ElmNod *elm;
   AtrNod *atr;
 
-  switch (stm->fields.set.wht->wht) {
+  switch (stm->fields.set.wht->kind) {
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
@@ -391,7 +391,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
   ElmNod *elm;
   AtrNod *atr;
 
-  switch (stm->fields.incr.wht->wht) {
+  switch (stm->fields.incr.wht->kind) {
   case WHT_ACT:
     if (evt != NULL)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
@@ -474,9 +474,9 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
 
   /* Now lookup where */
   anwhr(stm->fields.schedule.whr, evt, pars);
-  switch (stm->fields.schedule.whr->whr) {
+  switch (stm->fields.schedule.whr->kind) {
   case WHR_DEFAULT:
-    stm->fields.schedule.whr->whr = WHR_HERE;
+    stm->fields.schedule.whr->kind = WHR_HERE;
     break;
   case WHR_HERE:
   case WHR_AT:
@@ -793,7 +793,7 @@ static void gescore(StmNod *stm) /* IN - The statement to generate */
   */
 static void gedescribe(StmNod *stm) /* IN - Statement */
 {
-  switch (stm->fields.describe.wht->wht) {
+  switch (stm->fields.describe.wht->kind) {
 
   case WHT_OBJ:
     emit0(C_CONST, 1);
@@ -856,7 +856,7 @@ static void gesay(StmNod *stm)	/* IN - The statement to analyze */
   */
 static void gelist(StmNod *stm)	/* IN - Statement */
 {
-  if (stm->fields.list.wht->wht == WHT_ID) {
+  if (stm->fields.list.wht->kind == WHT_ID) {
     geid(stm->fields.list.wht->id);
     emit0(C_STMOP, I_LIST);
   } else
@@ -874,7 +874,7 @@ static void gelist(StmNod *stm)	/* IN - Statement */
   */
 static void geempty(StmNod *stm) /* IN - Statement */
 {
-  if (stm->fields.empty.wht->wht == WHT_ID) {
+  if (stm->fields.empty.wht->kind == WHT_ID) {
     gewhr(stm->fields.empty.whr);
     geid(stm->fields.empty.wht->id);
     emit0(C_STMOP, I_EMPTY);
@@ -977,7 +977,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
   /* NOTE: we can't use gewhr() because the semantics of the schedule */
   /* statement is such that at scheduling AT something does not mean */
   /* where that something is now but where it is when the event is run! */
-  switch (stm->fields.schedule.whr->whr) {
+  switch (stm->fields.schedule.whr->kind) {
   case WHR_DEFAULT:
   case WHR_HERE:
     emit0(C_CURVAR, V_CURLOC);
