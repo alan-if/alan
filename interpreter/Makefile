@@ -15,8 +15,6 @@ LDFLAGS	= $(LQ)
 
 sun4 := INCLUDE	= -I/usr/local/include/ansi
 
-sun3 := LDFLAGS = $(LQ) -L/usr/local/lib/4.1.2 -L/usr/local/lib
-
 tcov := CC = acc -a
 tcov := LD = acc -a
 
@@ -52,10 +50,17 @@ debug purify:=	DEBUG= -g
 all release:=	DEBUG= -O
 
 #-- MAIN TARGET
-debug all tcov release: objarch arun dumpacd
-	
+debug all tcov: objarch arun dumpacd
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp arun $(ALANDIR)/bin/`arch`
 
-sun4 sun3 solaris2 hp: objarch fromsrc
+
+release: objarch arun dumpacd
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp arun $(ALANDIR)/bin/`arch`/arun
+	cp arun $(ALANDIR)/bin/`arch`/arun$(VERSION)
+
+sun4 solaris1 solaris2 hp: objarch fromsrc
 
 objarch:
 	@if test -f .arch; then :; else echo "none" > .arch; fi
@@ -67,8 +72,6 @@ objarch:
 
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp arun $(ALANDIR)/bin/`arch`
 
 dumpacd: dumpacd.c
 	$(CC) -o dumpacd $(CFLAGS) dumpacd.c

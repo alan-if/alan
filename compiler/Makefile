@@ -92,11 +92,18 @@ VMSLINKOBJS = ${SRCS:.c=}
 
 #-- MAIN TARGET
 
-debug purify:=	DEBUG= -g
-all release :=	DEBUG= -O4
+DEBUG= -g
+release :=	DEBUG= -O4
 
-debug all tcov release: objarch alan alan.prod Makefile
+all debug tcov: objarch alan alan.prod Makefile
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
+	cp alan.prod $(ALANDIR)
+
+release: objarch alan alan.prod Makefile
+	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
+	cp alan $(ALANDIR)/bin/`arch`/alan
+	cp alan $(ALANDIR)/bin/`arch`/alan$(VERSION)
 	cp alan.prod $(ALANDIR)
 
 sun3 sun4 solaris1 solaris2 hp: objarch fromsrc
@@ -111,7 +118,6 @@ objarch:
 
 alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 
 src: tm sysdep.h sysdep.c acode.h version.h
 
