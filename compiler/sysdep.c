@@ -14,8 +14,6 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "config.h"
-
 #include <time.h>
 #include "sysdep.h"
 
@@ -27,8 +25,7 @@
 extern void syserr(char str[]);
 #endif
 
-
-#ifndef HAVE_STRDUP
+#ifdef __vms__
 
 char *strdup(char str[])                /* IN - String to duplicate */
 {
@@ -43,7 +40,22 @@ char *strdup(char str[])                /* IN - String to duplicate */
 #endif
 
 
-#ifndef HAVE_STRFTIME
+#ifdef __mac__
+
+char *strdup(char str[])                /* IN - String to duplicate */
+{
+  char *new = (char *) malloc((size_t)((int)strlen(str)+1));
+
+  if (!new)
+    syserr("Out of memory");
+  strcpy(new, str);
+  return new;
+}
+
+#endif
+
+
+#ifdef __vms__
 
 /* Cheat implementation of strftime */
 size_t strftime (
@@ -63,12 +75,14 @@ size_t strftime (
 
 #endif
 
+#ifdef __dos__
+#endif
 
 #ifdef GLK
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
    case, Glk's Latin-1.  ISO characters are Alan's internal representation,
-   stored in the .A3C file, and must be converted to native before printing.  
+   stored in the .DAT file, and must be converted to native before printing.  
    Glk could just use the ISO routines directly, but its safer to maintain 
    its own tables to guard against future changes in either Alan or Glk (ie. a
    move to Unicode).
@@ -142,7 +156,7 @@ static char uppChrs[] =
 
 #else
 
-/* These work on native character sets */
+/* Theses work on native character sets */
 
 static char spcChrs[] = " \t\n";
 
