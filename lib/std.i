@@ -1,55 +1,55 @@
 -- std.i
--- Library version 0.5.0
+-- Library version 0.6.0
 
 -- All verb definitions have a small, simple default body. To make
 -- them do other things use DOES ONLY in your specialised verb body.
 
 -- player character, etc
-$include 'global.i'
+import 'global.i'.
 
 -- Standard verbs
-$include 'look.i'
-$include 'take.i'    -- + pick up, drop, put down
-$include 'open.i'    -- + close
-$include 'lock.i'    -- + unlock
-$include 'eat.i'     -- + drink
-$include 'throw.i'
-$include 'push.i'
-$include 'touch.i'
-$include 'examine.i' -- + look at, search
-$include 'read.i'
-$include 'put.i'     -- + put near,behind,on,under 
-$include 'give.i'
-$include 'talk.i'    -- + ask, tell, say, shout, 
-$include 'attack.i'  -- + shoot
-$include 'kiss.i'
-$include 'turn.i'    -- + switch
-$include 'listen.i'
-$include 'smell.i'
-$include 'knock.i'
-$include 'jump.i'
-$include 'wear.i'   -- + remove, undress, put on
+import 'look.i'.
+import 'take.i'    -- + pick up, drop, put down.
+import 'open.i'    -- + close.
+import 'lock.i'    -- + unlock.
+import 'eat.i'     -- + drink.
+import 'throw.i'.
+import 'push.i'.
+import 'touch.i'.
+import 'examine.i'. -- + look at, search
+import 'read.i'.
+import 'put.i'.     -- + put near,behind,on,under 
+import 'give.i'.
+import 'talk.i'.    -- + ask, tell, say, shout, 
+import 'attack.i'.  -- + shoot
+import 'kiss.i'.
+import 'turn.i'.    -- + switch
+import 'listen.i'.
+import 'smell.i'.
+import 'knock.i'.
+import 'jump.i'.
+import 'wear.i'.   -- + remove, undress, put on
 
-$include 'help.i'    -- + notes, hint
+import 'help.i'.    -- + notes, hint
 
 
 -- Scenery
-$include 'scenery.i'
+import 'scenery.i'.
 
 -- Inventory verb and inventory limits (including clothing items)
-$include 'invent.i'
+import 'invent.i'.
 
 
 -- The limbo location and directions
 -- Defines directions as full words, and short directions as synonyms to these.
 -- So remember to use the full words in your exits or you will have E 333's
 -- (e.g. 'e' defined both as a synonym and another word class)
-$include 'nowhere.i'
+import 'nowhere.i'.
 
 
 -- Verbose and brief mode
-$include 'brief.i'
+import 'brief.i'.
 
 
 -- Score, save, restore etc.
-$include 'meta.i'
+import 'meta.i'.
