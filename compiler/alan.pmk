@@ -2,8 +2,9 @@
 	Prefix 'pm';
 	Listerprefix 'lm';
 	List Grammar, Statistics;
-
 	StackLimit 64;
+	ActionPack RDS;
+	GotoPack LES;
 
 %%IMPORT
 
@@ -1275,7 +1276,16 @@ special_statement	-- RETURNS: stm
 	} else
 	    %special_statement.stm->fields.score.count = 0;
     %%
+
+    ! 'SYSTEM' STRING
+    %%
+	%special_statement.stm = newstm(`&%'SYSTEM'.srcp, STM_SYSTEM);
+	%special_statement.stm->fields.system.fpos = %STRING.fpos;
+	%special_statement.stm->fields.system.len = %STRING.len;
+    %%
     ;
+	
+
 
 manipulation_statement	-- RETURNS: stm
     = 'EMPTY' what optional_where '.'
@@ -1452,14 +1462,6 @@ optional_for_actor	-- RETURNS: nam
     ;
 
 
-something		-- RETURNS: not, nam
-    = optional_not ID
-    %%
-	%something.not = %optional_not.not;
-	%something.nam = newnam(`&%ID.srcp, %ID.chars);
-    %%
-    ;
-
 ---> EXPRESSIONS
 expression		-- RETURNS: exp
     = term
@@ -1622,6 +1624,14 @@ aggregate			-- RETURNS: srcp, agr, nam
     ;
 
 ---> MISCELLANEOUS
+something		-- RETURNS: not, nam
+    = optional_not ID
+    %%
+	%something.not = %optional_not.not;
+	%something.nam = newnam(`&%ID.srcp, %ID.chars);
+    %%
+    ;
+
 what			-- RETURNS: srcp, wht
     = 'OBJECT'
     %%

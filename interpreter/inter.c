@@ -169,6 +169,17 @@ void interpret(adr)
 	  printf("\"");
 	break;
       }
+      case I_SYSTEM: {
+	Aword fpos, len;
+	fpos = pop();
+	len = pop();
+	if (stpflg) {
+	  printf("SYSTEM \t%5d, %5d\t\"", fpos, len);
+	  col = 34;		/* To format it better! */
+	}
+	sys(fpos, len);
+	break;
+      }
       case I_GETSTR: {
 	Aword fpos, len;
 	fpos = pop();

@@ -128,7 +128,8 @@ typedef enum InstClass {
   I_SUM,			/* SUM-aggregate */
   I_MAX,			/* MAX-aggregate */
   I_COUNT,			/* COUNT-aggregate */
-  I_RETURN
+  I_RETURN,
+  I_SYSTEM
 } InstClass;
 
 

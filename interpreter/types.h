@@ -81,7 +81,7 @@ typedef struct ActElem {	/* ACTOR TABLE */
   Abool describe;		/* Description flag */
   Aaddr nam;			/* Address to name printing code */
   Aaddr atrs;			/* Address to attribute list */
-  Aaddr cont;			/* Code for the container props if any */
+  Aword cont;			/* Code for the container props if any */
   Aword script;			/* Which script is he using */
   Aaddr scradr;			/* Address to script table */
   Aword step;
@@ -137,7 +137,8 @@ typedef struct StxElem {	/* SYNTAX TABLE */
 typedef struct ElmElem {	/* ELEMENT TABLES */
   Aword code;			/* Code for this element, 0 -> parameter */
   Abool multiple;		/* May be multiple (if parameter) */
-  Aaddr next;			/* Address to next elmement table */
+  Aaddr next;			/* Address to next element table ... */
+				/* ... or class check if EOS */
 } ElmElem;
 
 typedef struct ClaElem {	/* CLASS DEFINITION TABLE */
@@ -146,7 +147,8 @@ typedef struct ClaElem {	/* CLASS DEFINITION TABLE */
   Aaddr stms;			/* Exception statements */
 } ClaElem;
 
-typedef struct AltElem {	/* ALTERNATIVE TABLE */
+typedef struct AltElem {	/* VERB ALTERNATIVE TABLE */
+  Abool rev;			/* Flag for reversing process */
   Aword param;			/* Parameter number */
   Aword qual;			/* Verb execution qualifier */
   Aaddr checks;			/* Address of the check table */

@@ -98,6 +98,24 @@ void print(fpos, len)
 
 
 #ifdef _PROTOTYPES_
+void sys(Aword fpos, Aword len)
+#else
+void sys(fpos, len)
+     Aword fpos, len;
+#endif
+{
+  char *command;
+
+  getstr(fpos, len);		/* Returns address to string on stack */
+  command = (char *)pop();
+#ifndef __amiga__
+  system(command);
+#endif
+  free(command);
+}
+
+
+#ifdef _PROTOTYPES_
 void getstr(Aword fpos, Aword len)
 #else
 void getstr(fpos, len)
@@ -1333,6 +1351,7 @@ void look()
   dscracts();
   looking = FALSE;
 }
+
 
 
 

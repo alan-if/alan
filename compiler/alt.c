@@ -148,6 +148,8 @@ static void gealtent(alt)
      AltNod *alt;		/* IN - The alt to make an entry for */
 #endif
 {
+  emit(0);			/* Auto-Reverse flag */
+
   if (alt->nam != NULL)
     emit(alt->nam->code);		/* Parameter number */
   else

@@ -756,6 +756,7 @@ static void anstm(stm, act, evt, pars)
   case STM_LOOK:
   case STM_SAVE:
   case STM_RESTORE:
+  case STM_SYSTEM:
     /* Nothing to analyse */
     break;
   case STM_SCORE:
@@ -1228,6 +1229,31 @@ static void geuse(stm, act)
 
 /*----------------------------------------------------------------------
 
+  gesystem()
+
+  Generate SYSTEM statement.
+
+  */
+#ifdef _PROTOTYPES_
+static void gesystem(StmNod *stm, ActNod *act)
+                 		/* IN - Statement */
+                 
+#else
+static void gesystem(stm, act)
+     StmNod *stm;		/* IN - Statement */
+     ActNod *act;
+#endif
+{
+  encode(&stm->fields.system.fpos, &stm->fields.system.len);
+  emit0(C_CONST, stm->fields.system.len);
+  emit0(C_CONST, stm->fields.system.fpos);
+  emit0(C_STMOP, I_SYSTEM);
+}
+
+
+
+/*----------------------------------------------------------------------
+
   gestm()
 
   Generate code for one statement.
@@ -1319,6 +1345,10 @@ static void gestm(stm, act)
 
   case STM_USE:
     geuse(stm, act);
+    break;
+
+  case STM_SYSTEM:
+    gesystem(stm, act);
     break;
 
   default:

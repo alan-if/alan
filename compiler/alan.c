@@ -433,6 +433,13 @@ SPA_FUNCTION(paramError)
   exit(EXIT_FAILURE);
 }
 
+SPA_FUNCTION(extraArg)
+{
+  printf("Extra argument: '%s'\n", rawName);
+  usage(NULL, NULL, 0, 0);
+  exit(EXIT_FAILURE);
+}
+
 SPA_FUNCTION(xit) {exit(EXIT_SUCCESS);}
 
 SPA_DECLARE(arguments)
@@ -441,7 +448,7 @@ SPA_DECLARE(arguments)
 #else
      SPA_ITEM("adventure", "file name, default extension '.alan'", SPA_Argument, &srcptr, NULL)
 #endif
-     SPA_ITEM("", "", SPA_Function, paramError, NULL)
+     SPA_ITEM("", "extra argument", SPA_Function, extraArg, NULL)
 SPA_END
 
 SPA_DECLARE(options)
@@ -533,12 +540,12 @@ static void prepareNames()
 
 #ifdef _PROTOTYPES_
 int main(int argc,		/* IN - argument count */
-	 char *argv[]		/* IN - program arguments */
+	 char **argv		/* IN - program arguments */
 )
 #else
 int main(argc,argv)
-     int argc;			/* IN - argument count */
-     char *argv[];		/* IN - program arguments */
+     const int argc;			/* IN - argument count */
+     const char *argv[];	/* IN - program arguments */
 #endif
 {
   int nArgs;			/* Number of supplied args */
@@ -552,7 +559,7 @@ int main(argc,argv)
     printf("%s\n\n", product.longHeader);
 
   if (nArgs == 0) {
-    paramError(NULL, NULL, 0, 0);
+    usage(NULL, NULL, 0, 0);
     exit(EXIT_FAILURE);
   } else if (nArgs > 1)
     exit(EXIT_FAILURE);

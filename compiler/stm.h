@@ -43,7 +43,8 @@ typedef enum StmKind {		/* STATEMENT kinds */
   STM_SCHEDULE,
   STM_CANCEL,
   STM_IF,
-  STM_USE
+  STM_USE,
+  STM_SYSTEM
 } StmKind;
     
 
@@ -118,10 +119,15 @@ typedef struct StmNod {		/* STATEMENT */
       List *els;
     } iff;
 
-    struct {
+    struct {			/* USE */
       int script;		/* Which script to use */
       NamNod *actor;		/* For which actor */
     } use;
+
+    struct {			/* SYSTEM */
+      long fpos;		/* Position to string to execute */
+      int len;			/* Length of the string */
+    } system;
 
   } fields;
 } StmNod;

@@ -15,6 +15,7 @@ extern int etop;		/* Event queue top pointer */
 extern int dscrstkp;		/* Point into describe stack */
 
 #ifdef _PROTOTYPES_
+extern void sys(Aword fpos, Aword len);
 extern Aword attribute(Aword item, Aword atr);
 extern void say(Aword item);
 extern void saynum(Aword num);
@@ -52,6 +53,7 @@ extern Abool isHere(Aword item);
 extern Abool isNear(Aword item);
 
 #else
+extern void sys();
 extern Aword attribute();
 extern void say();
 extern void saynum();

@@ -21,6 +21,7 @@
 #include "parse.h"
 #include "inter.h"
 #include "rules.h"
+#include "reverse.h"
 #include "debug.h"
 #include "stack.h"
 #include "exe.h"
@@ -1144,19 +1145,27 @@ static void load()
   fread(&hdr, sizeof(hdr), 1, codfil);
   rewind(codfil);
 
+  /* Allocate and load memory */
+
 #ifdef REVERSED
   if (!hdr.rev)
 #else
   if (hdr.rev)
 #endif
-    syserr("Byte reversed ACODE program, use '-[-]reverse' compiler switch.");
-
-  /* Allocate and load memory */
-  if (hdr.size == 0) /* 2.3 fix */ hdr.size = 50000;
+    reverse(&hdr.size);
   memory = allocate(hdr.size*sizeof(Aword));
   header = (AcdHdr *) addrTo(0);
 
   memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
+
+#ifdef REVERSED
+  if (!hdr.rev) {
+#else
+  if (hdr.rev) {
+#endif
+    printf("Hmm, this program was generated for reversed architectures.\nWait a moment while I'll fix it....\n");
+    reverseACD();		/* Reverse all words in the ACD file */
+  }
 }
 
 

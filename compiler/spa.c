@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------*\
-    spa.c				Date: 1992-02-27/reibert@roo
+    spa.c				Date: 1993-02-16/thoni@rabbit
 
     spa -- standard process of arguments (SoftLabs way)
           
@@ -7,9 +7,10 @@
     	    Copyright (c) 1991 SoftLab ab
 
     History:
+    3.0(3) - 1993-02-16/thoni@rabbit -- SPA_Set with '--' requires no argument
     3.0(2) - 1992-02-26/reibert@roo  -- Ambiguous was misspelled, spaArgumentNo,
     					SPA_PRINT_DEFAULT
-    3.0(1) - 1991-09-23/reibert@roo  -- SPA_Set with -- sets all on (good?)
+    3.0(1) - 1991-09-23/reibert@roo  -- SPA_Set with '--' sets all on (good?)
     3.0    - 1991-08-28/reibert@roo  -- SPA_Keyword, all SPA_funs as arguments
     2.4    - 1990-11-27/reibert@roo  -- SPA_Report, SPA_Toggle etc. removed
     2.3(2) - 1990-11-20/reibert@roo  -- ANSI-C && C++
@@ -319,7 +320,6 @@ PRIVATE void report(args, opts)
 PRIVATE void setDefault(item)
     register _SPA_ITEM *item;
 {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
-    register int i;
 
     switch (item->type) {
     case SPA_Flag:
@@ -528,8 +528,8 @@ PUBLIC void spaSkip(n)
     Must not be called recursivly.
 */
 PUBLIC int spaProcess(argc, argv, arguments, options, errfun)
-    const int argc;
-    const char *argv[];
+    int argc;
+    char *argv[];
     _SPA_ITEM arguments[], options[];
     SpaFun *errfun;
 {

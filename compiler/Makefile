@@ -84,48 +84,52 @@ debug all: alan
 debug:=	DEBUG= -g
 all:=	DEBUG= -O
 
-alan: $(LIB)($(OBJECTS)) version.o alan.o Makefile
+alan: smart $(LIB)($(OBJECTS)) version.o alan.o Makefile
 	ranlib $(LIB)
 	$(LD) -o $@ $(CFLAGS) $(MAINOBJ) version.o $(LIB) $(LDFLAGS)
 	cp alan.prod ..
 	cp alan ../`arch`
 
-pmParse.c pmPaSema.c pmParse.h pmErr.c pmErr.h : alan.pmt $(TMLIB)/Parse.imp
-	imp alan.pmt
+smart: alan.tmk alan.pmk alan.smk alan.lmk $(TMHOME)/lib/ansi-c/*.imp
+	smartMaker -v alan
 
-alan.pmt : alan.pmk alan.tmk
-	pmk alan
+#pmParse.c pmPaSema.c pmParse.h pmErr.c pmErr.h : alan.pmt $(TMLIB)/Parse.imp
+#	imp alan.pmt
+#
+#alan.pmt : alan.pmk alan.tmk
+#	pmk alan
+#
+#smScan.c smScSema.c smScan.h : alan.smt $(TMLIB)/Scan.imp
+#	imp alan.smt
+#
+#alan.smt : alan.smk alan.tmk
+#	smk alan
+#
+#lmList.c lmList.h alanCommon.h : alan.lmt $(TMLIB)/List.imp
+#	imp alan.lmt
+#
+#alan.lmt : alan.lmk alan.tmk
+#	lmk alan
 
-smScan.c smScSema.c smScan.h : alan.smt $(TMLIB)/Scan.imp
-	imp alan.smt
 
-alan.smt : alan.smk alan.tmk
-	smk alan
-
-lmList.c lmList.h alanCommon.h : alan.lmt $(TMLIB)/List.imp
-	imp alan.lmt
-
-alan.lmt : alan.lmk alan.tmk
-	lmk alan
-
-malloc: $(LIB)($(OBJECTS)) version.o alan.o
+malloc: smart $(LIB)($(OBJECTS)) version.o alan.o
 	$(CC) -c $(CFLAGS) -DMALLOC alan.c
 	$(CC) -o alan $(CFLAGS) alan.o version.o /usr/lib/debug/malloc.o $(LIB) $(LDFLAGS)
 	-rm alan.o
 
-purify: $(LIB)($(OBJECTS)) version.o alan.o
+purify: smart $(LIB)($(OBJECTS)) version.o alan.o
 	purify $(CC) -o alan $(CFLAGS) alan.o version.o $(LIB) $(LDFLAGS)
 
 NONANSI:
 	mv alan.tmk alan.tmk.ansi
 	sed -e s/ansi-c/c/ alan.tmk.ansi > alan.tmk
-	make alanCommon.h $(TMSRCS)
+	make smart
 	mv -f alan.tmk.ansi alan.tmk
 
 MSDOS:
 	mv alan.tm alan.tm.ansi
 	sed s/SunOS/MSDOS/ alan.tmk.sun > alan.tmk
-	make alanCommon.h $(TMSRCS)
+	make smart
 	mv -f alan.tmk.sun alan.tmk
 
 version.c: $(LIB)($(OBJECTS)) ../[0-9]*
@@ -153,21 +157,21 @@ link:
 DOSSUBS = -e s/alanToken/alanToke/ -e s/alanParse/alanPars/
 archives:
 	-\rm Makefile*~
-	make MSDOS
-	zip -k compiler.zip *.[ch] Makefile.cmd
-	sed $(DOSSUBS) alan.c > ALAN.C
-	sed $(DOSSUBS) alanErr.c > ALANERR.C
-	sed $(DOSSUBS) alanErr.h > ALANERR.H
-	sed $(DOSSUBS) alanParse.c > ALANPARS.C
-	sed $(DOSSUBS) alanParse.h > ALANPARS.H
-	sed $(DOSSUBS) alanSema.c > ALANSEMA.C
-	sed $(DOSSUBS) alanScan.c > ALANSCAN.C
-	sed $(DOSSUBS) alanScan.h > ALANSCAN.H
-	sed $(DOSSUBS) alanScanSema.c > ALANSCSE.C
-	zip -k -m compiler.zip *.C *.H
 	make NONANSI
 	lha c compiler.lha *.c *.h Makefile* dependencies.mk
-	make .smart
+	zip -k compiler.zip *.[ch] Makefile.cmd
+	make MSDOS
+	sed $(DOSSUBS) alan.c > ALAN.C
+	sed $(DOSSUBS) pmErr.c > PMERR.C
+	sed $(DOSSUBS) pmErr.h > PMERR.H
+	sed $(DOSSUBS) pmParse.c > PMPARSE.C
+	sed $(DOSSUBS) pmParse.h > PMPARSE.H
+	sed $(DOSSUBS) pmPaSema.c > PMPASEMA.C
+	sed $(DOSSUBS) smScan.c > SMSCAN.C
+	sed $(DOSSUBS) smScan.h > SMSCAN.H
+	sed $(DOSSUBS) smScSema.c > SMSCSEMA.C
+	zip -k -m compiler.zip *.C *.H
+	make smart
 
 #-- release
 release:

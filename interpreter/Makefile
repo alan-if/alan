@@ -14,7 +14,17 @@ LDFLAGS	= -lm $(LQ)
 #.KEEP_STATE:
 
 #--
-SRCS = debug.c exe.c inter.c parse.c rules.c stack.c decode.c term.c params.c sysdep.c
+SRCS = debug.c \
+	exe.c \
+	inter.c \
+	parse.c \
+	reverse.c \
+	rules.c \
+	stack.c \
+	decode.c \
+	term.c \
+	params.c \
+	sysdep.c
 
 MAINSRC = arun.c
 

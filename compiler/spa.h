@@ -1,8 +1,8 @@
-/* spa.h			       	Date: 1992-02-27/reibert@roo
+/* spa.h			       	Date: 1993-02-16/thoni@rabbit
 
    spa -- standard process of arguments in SoftLabs way
 
-   Version 3.0(2)
+   Version 3.0(3)
 
    Written by Reibert Olsson.		Copyrigth (c) 1991 SoftLab ab.
 
@@ -83,8 +83,8 @@ typedef enum {			/* Error codes in "numberOf" */
 typedef SPA_FUNCTION(SpaFun);	/* C type for SPA_FUNCTIONS */
 
 int spaProcess(			/* Go thru user arguments and options */
-    const int argc,		/* IN - As to main */
-    const char *argv[],		/* IN - As to main */
+    int argc,		/* IN - As to main */
+    char *argv[],		/* IN - As to main */
     _SPA_ITEM arguments[],	/* IN - User arguments (use SPA_DECLARE) */
     _SPA_ITEM options[],	/* IN - User options (use SPA_DECLARE) */
     SpaFun *errfun		/* IN - Error reciever (a SPA_FUNCTION)
@@ -112,7 +112,6 @@ void  spaSkip(			/* Skip argv-items; Use from a SPA_FUNCTION */
     int numberOf;\
     _SPA_VALUE arg;
 
-#define const
 
 typedef void SpaFun();
 

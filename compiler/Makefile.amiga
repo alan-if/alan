@@ -1,14 +1,14 @@
-# Makefile for alan on an Amiga with AztecC Date: 1990-01-14 14:47:59/toolmake
+# Makefile for alan on an Amiga with AztecC
 #
 
 
-CFLAGS	= -n +l $(CQ)
-LDFLAGS	= -lc32 -lm -g $(LQ)
+CFLAGS	= -n +l +d $(CQ)
+LDFLAGS	= -lcl32 -lml -g $(LQ)
 
 OBJECTS = \
-	alanSema.o alanParse.o alanErr.o \
-	alanScan.o alanScanSema.o \
-	alanList.o \
+	pmPaSema.o pmParse.o pmErr.o \
+	smScan.o smScSema.o \
+	lmList.o \
 	alan.o \
 	act.o \
 	adv.o \
@@ -53,11 +53,11 @@ alan: $(OBJECTS) sysdep.o version.o
 	ln -o $@ -g $(OBJECTS) sysdep.o version.o $(LDFLAGS)
 	copy alan /
 
-alanSema.o: alanSema.c
-	cc $(CFLAGS) -y500 alanSema.c
+pmPaSema.o: pmPaSema.c
+	cc $(CFLAGS) -y500 pmPaSema.c
 
-alanList.o: alanList.c
-	cc $(CFLAGS) -z4000 alanList.c
+lmList.o: lmList.c
+	cc $(CFLAGS) -z4000 lmList.c
 
 emit.o: emit.c
 	cc $(CFLAGS) -DWORDADDRESS emit.c
