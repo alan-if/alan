@@ -83,8 +83,8 @@ jmp_buf restart;
 
 
 /* PRIVATE DATA */
-
 static jmp_buf jmpbuf;		/* Error return long jump buffer */
+
 
 
 /*======================================================================
@@ -126,21 +126,24 @@ void syserr(str)
      char *str;
 #endif
 {
-  char buf[80];
-
   output("$n$nAs you enter the twilight zone of Adventures, you stumble \
 and fall to your knees. In front of you, you can vaguely see the outlines \
 of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
+
   if (logflg)
     fclose(logfil);
   newline();
 
 #ifdef __amiga__
-  if (con) { /* Running from WB, created a console so kill it */
-    printf("press RETURN to quit");
-    gets(buf);
+  {
+    char buf[80];
+
+    if (con) { /* Running from WB, wait for user ack. */
+      printf("press RETURN to quit");
+      gets(buf);
+    }
   }
 #endif
   terminate(0);
@@ -1197,11 +1200,12 @@ static void checkvers(header)
     newline();
   }
 
-  if (((*v)<<8)+(*c) != vers)
+  if (((*v)<<8)+(*c) != vers) {
     if (errflg)
       syserr("Incompatible version of ACODE program.");
     else
       printf("WARNING! Incompatible version of ACODE program.\n");
+  }
 }
 
 
