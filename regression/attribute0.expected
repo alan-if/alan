@@ -1,20 +1,8 @@
-########## attribute0 ##########
-The l
-  Isa location.
-  Has anAttribute.
-
-  Description
-    If l Has anAttribute Then
-      "It has an attribute."
-    End If.
-
-End The l.
-
-Start At l.
-########## alan attribute0.alan ##########
+########## alan attribute0 ##########
 
         No warnings or errors detected.
 
+########## arun attribute0 ##########
 
 
 L

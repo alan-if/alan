@@ -1,17 +1,4 @@
-########## exits ##########
-The l
-  IsA location.
-  Exit w To unknown.
-  Exit e To l.
-  Exit s To o.
-End The l.
-
-The o
-  Isa object.
-End The o.
-
-Start At l.
-########## alan exits.alan ##########
+########## alan exits ##########
 
 
 exits.alan

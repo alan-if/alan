@@ -1,12 +1,4 @@
-########## every5 ##########
-Every x
-End Every x.
-
-The y Isa x
-End The y.
-
-Start At l.
-########## alan every5.alan ##########
+########## alan every5 ##########
 
 
 every5.alan

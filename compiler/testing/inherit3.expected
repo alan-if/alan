@@ -1,18 +1,4 @@
-########## inherit3 ##########
-Every y
-  Isa Location.
-End Every y.
-
-Every x
-  Isa y
-End Every x.
-
-The l
-  Isa x
-End The l.
-
-Start At l.
-########## alan inherit3.alan ##########
+########## alan inherit3 ##########
 
         No warnings or errors detected.
 

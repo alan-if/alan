@@ -1,12 +1,4 @@
-########## every3 ##########
-Every x Isa Object
-  Has
-    boolAtr.
-    intAtr 4.  
-End Every x.
-
-Start At l.
-########## alan every3.alan ##########
+########## alan every3 ##########
 
 
 every3.alan

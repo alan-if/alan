@@ -1,41 +1,8 @@
-########## list ##########
-Options
-    Debug.
-
-Syntax
-    put_in = 'put' (o) 'in' (c)
-	Where c Isa Container
-	    Else "You can't put anything in the $2."
-
-Verb put_in
-    Does
-	Locate o In c.
-	List c.
-	List c1.
-	List c2.
-End Verb.
-
-
-The o Isa object At l
-End The o.
-
-The c1 Isa object At l
-  Container
-End The c1.
-
-The c2 Isa object At l
-  Container
-End The c2.
-
-The l Isa location
-End The l.
-
-
-Start At l.
-########## alan list.alan ##########
+########## alan list ##########
 
         No warnings or errors detected.
 
+########## arun list ##########
 
 L
 There is a o, a c1 and a c2 here.

@@ -1,17 +1,8 @@
-########## simpleContainerObject ##########
-The cont Isa object At loc
-  With Container
-End The cont.
-
-The loc Isa location
-End The loc.
-
-Start At loc.
-  Describe cont.
-########## alan simpleContainerObject.alan ##########
+########## alan simpleContainerObject ##########
 
         No warnings or errors detected.
 
+########## arun simpleContainerObject ##########
 
 There is a cont here. The cont is empty.
 

@@ -1,16 +1,4 @@
-########## attribute2 ##########
-Syntax x = x (o).
-
-Verb x
-  Does
-    "X says (o) has y =" Say y Of o.
-End Verb x.
-
-The l Isa location
-End The l.
-
-Start At l.
-########## alan attribute2.alan ##########
+########## alan attribute2 ##########
 
 
 attribute2.alan

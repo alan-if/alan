@@ -1,15 +1,4 @@
-########## initialLocation2 ##########
-The l
-  Isa Location.
-End The l.
-
-The o
-  Isa object.
-  At l.
-End The o.
-
-Start At l.
-########## alan initialLocation2.alan ##########
+########## alan initialLocation2 ##########
 
         No warnings or errors detected.
 

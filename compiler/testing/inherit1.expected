@@ -1,13 +1,4 @@
-########## inherit1 ##########
-The y
-End The y.
-
-Every x
-  Isa y
-End Every x.
-
-Start At l.
-########## alan inherit1.alan ##########
+########## alan inherit1 ##########
 
 
 inherit1.alan

@@ -1,29 +1,8 @@
-########## traversingInheritedLocations2 ##########
-Every standardLocation
-  Isa location.
-  Is dark.
-End Every standardLocation.
-
-Every normalLocation
-  Isa standardLocation.
-  Is dark.
-End Every normalLocation.
-
-The inheritedRoom
-  Isa normalLocation.
-  Exit n To otherRoom.
-End The inheritedRoom.
-
-The otherRoom
-  Isa normalLocation.
-  Exit s To inheritedRoom.
-End The otherRoom.
-
-Start At inheritedRoom.
-########## alan traversingInheritedLocations2.alan ##########
+########## alan traversingInheritedLocations2 ##########
 
         No warnings or errors detected.
 
+########## arun traversingInheritedLocations2 ##########
 
 
 Inheritedroom

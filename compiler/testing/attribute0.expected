@@ -1,11 +1,4 @@
-########## attribute0 ##########
-The l
-  Isa location.
-  Has anAttribute.
-End The l.
-
-Start At l.
-########## alan attribute0.alan ##########
+########## alan attribute0 ##########
 
         No warnings or errors detected.
 

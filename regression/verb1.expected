@@ -1,26 +1,8 @@
-########## verb1 ##########
-
-Syntax
-  x = x (o).
-
-Verb x
-Does
-  Describe o.
-End Verb x.
-
-
-The kitchen Isa location.
-End The kitchen.
-
-The pot Isa object At kitchen.
-End The pot.
-
-
-Start At kitchen.
-########## alan verb1.alan ##########
+########## alan verb1 ##########
 
         No warnings or errors detected.
 
+########## arun verb1 ##########
 
 
 Kitchen

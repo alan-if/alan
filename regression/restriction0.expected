@@ -1,22 +1,8 @@
-########## restriction0 ##########
-Syntax x = x (y).
-
-The o Isa object At l.
-End The o.
-
-Verb x
-  Does
-    "x the y."
-End Verb x.
-
-The l Isa location.
-End The l.
-
-Start At l.
-########## alan restriction0.alan ##########
+########## alan restriction0 ##########
 
         No warnings or errors detected.
 
+########## arun restriction0 ##########
 
 
 L

@@ -1,10 +1,4 @@
-########## inherit0 ##########
-Every x
-  Isa y
-End Every x.
-
-Start At l.
-########## alan inherit0.alan ##########
+########## alan inherit0 ##########
 
 
 inherit0.alan

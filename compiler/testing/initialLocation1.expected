@@ -1,15 +1,4 @@
-########## initialLocation1 ##########
-The l
-  Isa Location.
-End The l.
-
-The o
-  Isa object.
-  At o.
-End The o.
-
-Start At l.
-########## alan initialLocation1.alan ##########
+########## alan initialLocation1 ##########
 
 
 initialLocation1.alan

@@ -1,16 +1,4 @@
-########## restriction0 ##########
-Syntax x = x (y)
-  Where y Isa x
-    Else "Should be an object."
-
-Verb x
-End Verb x.
-
-The l Isa location.
-End The l.
-
-Start At l.
-########## alan restriction0.alan ##########
+########## alan restriction0 ##########
 
 
 restriction0.alan

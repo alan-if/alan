@@ -6,10 +6,9 @@
 run ()
 {
     echo -n "$case : "
-    echo "########## $case ##########" >$case.output
-    cat $case.alan >> $case.output
-    echo "########## alan $case.alan ##########" >>$case.output
+    echo "########## alan $case ##########" >$case.output
     ../bin/alan $case >>$case.output 2>&1
+    echo "########## arun $case ##########" >>$case.output
     ../bin/arun -n $case >>$case.output 2>&1 <$case.input 
     cases=`expr $cases + 1`
 }

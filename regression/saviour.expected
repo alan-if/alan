@@ -1,10 +1,9 @@
-########## saviour ##########
-../compiler/alan -debug saviour
-../interpreter/arun -n -d -r saviour < saviour.input
-########## /bin/sh  saviour.tst ##########
+########## alan saviour ##########
 
         No warnings or errors detected.
         54 informational message(s).
+
+########## arun saviour ##########
 
 <Version of 'saviour' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>

@@ -1,17 +1,4 @@
-########## attributeOfStringParameter ##########
-Syntax s = s (s)
-	Where s Isa String Else "You can only string strings."
-
-Verb s
-  Does
-    "You s" Say x Of s.
-End Verb s.
-
-The l Isa location
-End The l.
-
-Start At l.
-########## alan attributeOfStringParameter.alan ##########
+########## alan attributeOfStringParameter ##########
 
 
 attributeOfStringParameter.alan

@@ -1,28 +1,8 @@
-########## verb0 ##########
-The kitchen Isa location.
-End The kitchen.
-
-Syntax
-	'look'= 'look'.
-
-Verb 'look'
-Does
-  Look.
-End Verb.
-
-Syntax
-	'quit'= 'quit'.
-
-Verb 'quit'
-Does
-  Quit.
-End Verb.
-
-Start At kitchen.
-########## alan verb0.alan ##########
+########## alan verb0 ##########
 
         No warnings or errors detected.
 
+########## arun verb0 ##########
 
 
 Kitchen

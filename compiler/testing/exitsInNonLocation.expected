@@ -1,10 +1,4 @@
-########## exitsInNonLocation ##########
-The nonLocation
-  Exit w To nonLocation.
-End The nonLocation.
-
-Start At nonLocation.
-########## alan exitsInNonLocation.alan ##########
+########## alan exitsInNonLocation ##########
 
 
 exitsInNonLocation.alan

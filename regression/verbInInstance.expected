@@ -1,24 +1,9 @@
-########## verbInInstance ##########
-The l Isa Location
-End The l.
-
-
-The o Isa Object At l
-
-  Verb v
-    Does
-      "You $v the $1."
-  End Verb v.
-
-End The o.
-
-Start At l.
-  "v the o..."
-########## alan verbInInstance.alan ##########
+########## alan verbInInstance ##########
 
         No warnings or errors detected.
         1 informational message(s).
 
+########## arun verbInInstance ##########
 
 v the o...
 
