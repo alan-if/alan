@@ -1,0 +1,24 @@
+%%OPTIONS
+	Prefix 'alan';
+	Target 'ansi-c';
+	OS 'SunOS';	
+
+%%IMPORT
+
+#include "srcp.h"
+#include "token.h"
+
+%%SRCP
+	NAME Srcp;
+	ROW line;
+	COLUMN col;
+	FILE file;
+
+%%TOKEN
+	NAME Token;
+	SRCP srcp;
+	CODE code;
+	ATTRIBUTES
+		chars,
+		len,
+		fpos;
