@@ -99,7 +99,7 @@ static int val(char str[])
 	evt %% EvtNod *%1%%,
 	evts %% List *%1%%,
 	exp %% ExpNod *%1%%,
-	exps %% List *%1%%,
+        expkd %%ExpKind %1%%,
 	ext %% ExtNod *%1%%,
 	exts %% List *%1%%,
 	lim %% LimNod *%1%%,
@@ -1892,51 +1892,67 @@ static int val(char str[])
 	%<factor>.exp = %<primary>.exp;
     %%
 
-    ! <primary> <binop> <primary>
+    ! <primary> <right_hand_side>
+    %%
+        /* <right_hand_side> contains the top expr, hang in the <primary> and
+           propagate that node */
+        switch (%<right_hand_side>.expkd) {
+	case EXPBIN: %<right_hand_side>.exp->fields.bin.left = %<primary>.exp; break;
+	case EXPWHR: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
+	case EXPATR: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
+	case EXPBTW: %<right_hand_side>.exp->fields.btw.val = %<primary>.exp; break;
+	default: syserr("Unrecognized switch in <right_hand_side> semantic rule.");
+	}
+        %<factor>.exp = %<right_hand_side>.exp;
+    %%
+    ;
+
+<right_hand_side>
+    = <binop> <primary>
     %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPBIN;
 	exp = newexp(`&%<binop>.srcp, EXPBIN);
 	exp->fields.bin.op = %<binop>.op;
-	exp->fields.bin.left = %1<primary>.exp;
-	exp->fields.bin.right = %2<primary>.exp;
-	%<factor>.exp = exp;
+	exp->fields.bin.right = %<primary>.exp;
+	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <primary> <optional_not> <relop> <primary>
+    ! <optional_not> <relop> <primary>
     %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPBIN;
 	exp = newexp(`&%<relop>.srcp, EXPBIN);
 	exp->not = %<optional_not>.not;
 	exp->fields.bin.op = %<relop>.op;
-	exp->fields.bin.left = %1<primary>.exp;
-	exp->fields.bin.right = %2<primary>.exp;
-	%<factor>.exp = exp;
+	exp->fields.bin.right = %<primary>.exp;
+	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <primary> <optional_not> <where>
+    ! <optional_not> <where>
     %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPWHR;
 	exp = newexp(`&%<where>.srcp, EXPWHR);
 	exp->not = %<optional_not>.not;
-	exp->fields.whr.wht = %<primary>.exp;
 	exp->fields.whr.whr = %<where>.whr;
-	%<factor>.exp = exp;
+	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <primary> <is> <something>
+    ! <is> <something>
     %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPATR;
 	exp = newexp(`&%<is>.srcp, EXPATR);
 	exp->not = %<something>.not;
-	exp->fields.atr.wht = %<primary>.exp;
 	exp->fields.atr.atr = %<something>.nam;
-	%<factor>.exp = exp;
+	%<right_hand_side>.exp = exp;
     } %%
 
-    ! <primary> <optional_not> 'BETWEEN' <factor> 'AND' <factor>
+    ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
     %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPBTW;
 	exp = newexp(`&%'BETWEEN'.srcp, EXPBTW);
 	exp->not = %<optional_not>.not;
-	exp->fields.btw.val = %<primary>.exp;
-	exp->fields.btw.low = %2<factor>.exp;
-	exp->fields.btw.high = %3<factor>.exp;
-	%<factor>.exp = exp;
+	exp->fields.btw.low = %1<factor>.exp;
+	exp->fields.btw.high = %2<factor>.exp;
+	%<right_hand_side>.exp = exp;
     } %%
     ;
 
