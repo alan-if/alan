@@ -16,8 +16,6 @@ LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
 tcov := CC = acc -a
 tcov := LD = acc -a
 
-VERSION:sh	= basename ../[0-9]*_[0-9]*_[0-9]*
-
 
 #.KEEP_STATE:
 
@@ -48,7 +46,7 @@ debug all tcov: arun
 debug purify:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(OBJECTS) $(MAINOBJ) version.o Makefile
+arun: $(OBJECTS) $(MAINOBJ) version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
@@ -60,27 +58,22 @@ malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 
-src: version.c version.h
+src: version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
-version.h:
+version.h version.c:
 	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-version.c: $(OBJECTS)
+.PHONY: version
+version: $(OBJECTS)
 	venum +t
-
-version.c: ../version.sh
-	cd ..; sh version.sh
-	-rm ../[0-9]*_[0-9]*_[0-9]*
-	cp ../[0-9]*_[0-9]*_[0-9]* .
-	venum -c
 
 #--
 archives: src

@@ -16,7 +16,6 @@ tcov := LD = acc -a
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= -L/usr/local/lib/4.1.2
 
-VERSION:sh	= basename ../[0-9]*_[0-9]*_[0-9]*
 
 EXTRAS = \
 	alan.tmk \
@@ -89,16 +88,14 @@ debug all tcov: alan
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-.PHONY: alan
+all: alan alan.prod Makefile
 
-alan: tm alanobj alan.prod Makefile
-
-alanobj: $(OBJECTS) $(MAINOBJ) version.o
+alan: tm $(OBJECTS) $(MAINOBJ) version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp alan $(ALANDIR)/bin/`arch`
 
-src: tm version.c version.h
+src: tm version.h
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
@@ -155,20 +152,15 @@ MSDOS:
 	done
 	mv -f alan.tmk.sun alan.tmk
 
-version.h:
-	@-cd ..; rm $(VERSION); sh version.sh
+version.h version.c: ../version.sh
+	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-version.c: $(OBJECTS)
+.PHONY: version
+version: $(OBJECTS)
 	venum +t
-
-version.c: ../version.sh
-	cd ..; sh version.sh
-	-rm ../[0-9]*_[0-9]*_[0-9]*
-	cp ../[0-9]*_[0-9]*_[0-9]* .
-	venum -c
 
 acode.h: ../interpreter/acode.h
 	-ln -s ../interpreter/acode.h
