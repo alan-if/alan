@@ -1,3 +1,11 @@
+Sat May 31 14:25:03 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* Fixed the bug with named script not executing
+
+Sat Mar 29 12:31:24 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* V2.7 finished and tested!
+
 Thu Dec 12 14:53:12 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Removed the directory part of the log file name, meaning that

@@ -1,12 +1,14 @@
 ToDo:
-	* Number registrations!
-
 	* Think about punctuation! Can it be made optional?
 
 	* Checks on containers to augment limits.
 
 	* New clause in containers to use when extracting something
 	out of the container.
+
+	* Actor-clash handling, i.e. what happens when an object is
+	removed from an actor? How to specify if this is possible and what
+	the actor does?
 
 	* More flexiblity in order of clauses, should be possible to
 	be almost completely free.
@@ -28,10 +30,6 @@ ToDo:
 
 	* The "plant pot plant in plant pot" problem
 
-	* Actor-clash handling, i.e. what happens when an object is
-	removed from an actor? How to specify if this is possible and what
-	the actor does?
-
 	* Actor conversation al a INFOCOM "floyd, get the card"
 
 	* Procedures!
@@ -40,13 +38,17 @@ ToDo:
 
 	* Listing of saved games
 
-	* The VERBDIR problem (check regression test verbdir), using the
-	same word as both a verb and a direction does not work.
+	* Multiclass word problem 1: The VERBDIR problem (check
+	regression test verbdir), using the same word as both a verb
+	and a direction does not work.
 
 	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
 	the dictonary handling in the compiler gives the verb the code of
 	the adjective, resulting in execution of the wrong (if any)
 	verb... (See regression test adjverb)
+
+	* New and better dictionary handling in the compiler could remedy
+	the multiple word class problems
 
 	* Font sensitivity (esp. proportional fonts)
 
@@ -79,9 +81,6 @@ ToDo:
 
 	* Status Line
 
-	* New and better dictionary handling in the compiler could remedy
-	the multiple word class problems
-
 	* EXIT out TO RETURN ....
 
 	* Check for 'locate hero'/'look' in DESCRIPTIONS (=> recursive look)
@@ -96,6 +95,7 @@ ToDo:
 	* > THE BALL, What do you want to do with the ball?, > KICK IT
 
 Done:
+	* Number registrations!
 
 	* Named scripts: SCRIPT <id>, USE <id> FOR actor
 
