@@ -58,7 +58,7 @@ typedef enum AggregateKind {
 } AggregateKind;
 
 
-typedef struct ExpNod {		/* EXPRESSION */
+typedef struct Expression {
   Srcp srcp;			/* Source position of the expression */
   ExpressionKind kind;		/* What kind of expression */
   TypeKind type;		/* Type of the expression */
@@ -66,19 +66,19 @@ typedef struct ExpNod {		/* EXPRESSION */
   union {
 
     struct {			/* for WHERE */
-      struct ExpNod *wht;	/* Must be a WHAT */
+      struct Expression *wht;	/* Must be a WHAT */
       WhrNod *whr;
     } whr;
 
     struct {			/* for ATTRIBUTE */
-      struct ExpNod *wht;	/* Attribute of what? */
+      struct Expression *wht;	/* Attribute of what? */
       struct IdNode *atr;	/* Id of the attribute */
     } atr;
 
     struct {			/* for BINARY */
       OperatorKind op;		/* Operator */
-      struct ExpNod *right;	/* Right operand */
-      struct ExpNod *left;	/* Left operand */
+      struct Expression *right;	/* Right operand */
+      struct Expression *left;	/* Left operand */
     } bin;
 
     struct {			/* For VALUE */
@@ -97,8 +97,8 @@ typedef struct ExpNod {		/* EXPRESSION */
     } agr;
 
     struct {			/* For RANDOM */
-      struct ExpNod *from;
-      struct ExpNod *to;
+      struct Expression *from;
+      struct Expression *to;
     } rnd;
 
     struct {			/* For WHAT */
@@ -106,23 +106,23 @@ typedef struct ExpNod {		/* EXPRESSION */
     } wht;
 
     struct {			/* For BETWEEN */
-      struct ExpNod *val;	/* The value */
-      struct ExpNod *low;	/* The boundries */
-      struct ExpNod *high;
+      struct Expression *val;	/* The value */
+      struct Expression *low;	/* The boundries */
+      struct Expression *high;
     } btw;
 
     struct {			/* For CONTAINS */
-      struct ExpNod *str;	/* The string to investigate */
-      struct ExpNod *sub;	/* The substring to find */
+      struct Expression *str;	/* The string to investigate */
+      struct Expression *sub;	/* The substring to find */
     } cnt;
 
     struct {			/* For ISA */
-      struct ExpNod *right;	/* The entity/parameter */
+      struct Expression *wht;	/* The entity/parameter/what */
       struct IdNode *id;	/* The class id */
     } isa;
 
   } fields;
-} ExpNod;
+} Expression;
 
 
 #endif

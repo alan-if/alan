@@ -154,7 +154,7 @@ static lmMsgs msg[] = {
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "405   ", "Instances inheriting from Location can not have initial locations." },
     { "406   ", "Integer and String parameters have no attributes." },
-    { "407   ", "Attribute in LIMITS must be an attribute that every THING has." },
+    { "407   ", "Attribute in LIMITS must be an attribute for every THING." },
     { "408   ", "Attributes in %1 must be of boolean type." },
     { "409   ", "No parameters defined in this context." },
     { "410   ", "A parameter may not be used in %1." },

@@ -58,13 +58,7 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*----------------------------------------------------------------------
-
-  analyzeAlternatives()
-
-  Analyzes one verb alternative node.
-
- */
+/*----------------------------------------------------------------------*/
 static void analyzeAlternative(AltNod *alt,
 			       Context *context)
 {
@@ -87,14 +81,7 @@ static void analyzeAlternative(AltNod *alt,
 
 
 
-/*======================================================================
-
-  analyzeAlternatives()
-
-  Analyzes all verb alternatives in a list by calling the analyzer for
-  each.
-
- */
+/*======================================================================*/
 void analyzeAlternatives(List *alts,
 			 Context *context)
 {

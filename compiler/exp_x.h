@@ -20,14 +20,14 @@
 
 /* FUNCTIONS: */
 
-extern ExpNod *newexp(Srcp *srcp, ExpressionKind kind);
-extern void anexp(ExpNod *exp, Context *context);
+extern Expression *newexp(Srcp *srcp, ExpressionKind kind);
+extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
-extern void geexp(ExpNod *exp, int currentInstance);
-extern void generateBinaryOperator(ExpNod *exp);
-extern void generateAttributeAccess(ExpNod *exp);
-extern void generateBetweenCheck(ExpNod *exp, int currentInstance);
+extern void geexp(Expression *exp, int currentInstance);
+extern void generateBinaryOperator(Expression *exp);
+extern void generateAttributeAccess(Expression *exp);
+extern void generateBetweenCheck(Expression *exp, int currentInstance);
 extern void dumpType(TypeKind typ);
-extern void dumpExpression(ExpNod *exp);
+extern void dumpExpression(Expression *exp);
 
 #endif

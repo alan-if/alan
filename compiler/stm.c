@@ -100,7 +100,7 @@ static void andescribe(StmNod *stm,
 static void ansay(StmNod *stm,
 		  Context *context)
 {
-  anexp(stm->fields.say.exp, context);
+  analyzeExpression(stm->fields.say.exp, context);
 }
 
 
@@ -292,7 +292,7 @@ static void anset(StmNod *stm,
   verifySetTarget(stm->fields.set.atr, atr);
 
   if (stm->fields.set.exp != NULL) {
-    anexp(stm->fields.set.exp, context);
+    analyzeExpression(stm->fields.set.exp, context);
     if (stm->fields.set.exp->type != INTEGER_TYPE &&
         stm->fields.set.exp->type != STRING_TYPE)
       lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
@@ -349,7 +349,7 @@ static void anincr(StmNod *stm,
   }
 
   if (stm->fields.incr.step != NULL) {
-    anexp(stm->fields.incr.step, context);
+    analyzeExpression(stm->fields.incr.step, context);
     if (stm->fields.incr.step->type != INTEGER_TYPE)
       lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
   }
@@ -389,7 +389,7 @@ static void anschedule(StmNod *stm,
   }
 
   /* Analyze the when expression */
-  anexp(stm->fields.schedule.when, context);
+  analyzeExpression(stm->fields.schedule.when, context);
   if (stm->fields.schedule.when->type != INTEGER_TYPE)
     lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");
 
@@ -421,7 +421,7 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 static void anif(StmNod *stm,
 		 Context *context)
 {
-  anexp(stm->fields.iff.exp, context);
+  analyzeExpression(stm->fields.iff.exp, context);
   if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
     lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
   analyzeStatements(stm->fields.iff.thn, context);
@@ -535,7 +535,7 @@ static void andep(StmNod *stm, Context *context)
 	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
 
     /* Analyze the expression and the statements */
-    anexp(cases->element.stm->fields.depcase.exp, context);
+    analyzeExpression(cases->element.stm->fields.depcase.exp, context);
     analyzeStatements(cases->element.stm->fields.depcase.stms, context);
 
   }
@@ -928,7 +928,7 @@ static void geuse(StmNod *stm, int currentInstance)
   operator.
 
 */
-static void generateDependCase(ExpNod *exp, int currentInstance)
+static void generateDependCase(Expression *exp, int currentInstance)
 {
   switch (exp->kind) {
   case BINARY_EXPRESSION:

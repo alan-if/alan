@@ -100,7 +100,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-alan: $(MAINOBJECTS) unit
+alan: tm $(MAINOBJECTS) unit
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
@@ -132,6 +132,8 @@ src:
 fromsrc: $(OBJECTS) alan.version.o
 	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
 
+tm:
+	make -f Makefile.tm
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -154,7 +156,7 @@ unit : $(TESTOBJS)
 
 
 # Run all tests!
-test: unit all
+test: unit
 	cd testing; regr
 
 #

@@ -39,7 +39,7 @@ int rulcount = 0;
 
   */
 RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
-	       ExpNod *exp,	/* IN - Expression to wait for */
+	       Expression *exp,	/* IN - Expression to wait for */
 	       List *stms)	/* IN - List of statements */
 {
   RulNod *new;		/* The newly allocated node */
@@ -72,7 +72,7 @@ static void analyzeRule(RulNod *rul)
   showProgress();
 
   context.kind = RULE_CONTEXT;
-  anexp(rul->exp, &context);
+  analyzeExpression(rul->exp, &context);
   analyzeStatements(rul->stms, &context);
 }
 

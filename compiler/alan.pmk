@@ -5,7 +5,7 @@
 --	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
-	Line;
+--	Line;
 --	Debug;
 	No Resolve;
 
@@ -111,7 +111,7 @@ static int val(char str[])
   elms %% List *%1%%,
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
-  exp %% ExpNod *%1%%,
+  exp %% Expression *%1%%,
   expKd %% ExpressionKind %1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
@@ -1023,7 +1023,7 @@ static int val(char str[])
     = 'DESCRIPTION' 
     %%
 	%<description>.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
-							STM_NOP), LIST_STM);
+							NOP_STATEMENT), LIST_STM);
 	%<description>.srcp = %'DESCRIPTION'.srcp;
     %%
 
@@ -1038,7 +1038,7 @@ static int val(char str[])
     = 'ARTICLE' 
     %%
 	%<article>.art = concat(NULL, newstm(`&%'ARTICLE'.srcp,
-							STM_NOP), LIST_STM);
+							NOP_STATEMENT), LIST_STM);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
@@ -1338,26 +1338,26 @@ static int val(char str[])
 <output_statement>		-- RETURNS: stm
     = STRING
     %%
-	%<output_statement>.stm = newstm(`&%STRING.srcp, STM_PRINT);
+	%<output_statement>.stm = newstm(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
 	%<output_statement>.stm->fields.print.len = %STRING.len;
     %%
 
     ! 'DESCRIBE' <what> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'DESCRIBE'.srcp, STM_DESCRIBE);
+	%<output_statement>.stm = newstm(`&%'DESCRIBE'.srcp, DESCRIBE_STATEMENT);
 	%<output_statement>.stm->fields.describe.wht = %<what>.wht;
     %%
 
     ! 'SAY' <expression> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'SAY'.srcp, STM_SAY);
+	%<output_statement>.stm = newstm(`&%'SAY'.srcp, SAY_STATEMENT);
 	%<output_statement>.stm->fields.say.exp = %<expression>.exp;
     %%
 
     ! 'LIST' <what> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'LIST'.srcp, STM_LIST);
+	%<output_statement>.stm = newstm(`&%'LIST'.srcp, LIST_STATEMENT);
 	%<output_statement>.stm->fields.list.wht = %<what>.wht;
     %%	  
     ;
@@ -1365,32 +1365,32 @@ static int val(char str[])
 <special_statement>	-- RETURNS: stm
     = 'QUIT' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'QUIT'.srcp, STM_QUIT);
+	%<special_statement>.stm = newstm(`&%'QUIT'.srcp, QUIT_STATEMENT);
     %%
 
     ! 'LOOK' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'LOOK'.srcp, STM_LOOK);
+	%<special_statement>.stm = newstm(`&%'LOOK'.srcp, LOOK_STATEMENT);
     %%
 
     ! 'SAVE' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SAVE'.srcp, STM_SAVE);
+	%<special_statement>.stm = newstm(`&%'SAVE'.srcp, SAVE_STATEMENT);
     %%
 
     ! 'RESTORE' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, STM_RESTORE);
+	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, RESTORE_STATEMENT);
     %%
 
     ! 'RESTART' '.'
     %%
-	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, STM_RESTART);
+	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, RESTART_STATEMENT);
     %%
 
     ! 'SCORE' <optional_integer> '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SCORE'.srcp, STM_SCORE);
+	%<special_statement>.stm = newstm(`&%'SCORE'.srcp, SCORE_STATEMENT);
 	if (%<optional_integer>.str != NULL) {
 	    %<special_statement>.stm->fields.score.score =
 						val(%<optional_integer>.str);
@@ -1401,13 +1401,13 @@ static int val(char str[])
 
     ! 'VISITS' Integer '.'
     %%
-	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, STM_VISITS);
+	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, VISITS_STATEMENT);
 	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
     %%
 
     ! 'SYSTEM' STRING '.'
     %%
-	%<special_statement>.stm = newstm(`&%'SYSTEM'.srcp, STM_SYSTEM);
+	%<special_statement>.stm = newstm(`&%'SYSTEM'.srcp, SYSTEM_STATEMENT);
 	%<special_statement>.stm->fields.system.fpos = %STRING.fpos;
 	%<special_statement>.stm->fields.system.len = %STRING.len;
     %%
@@ -1418,14 +1418,14 @@ static int val(char str[])
 <manipulation_statement>			-- RETURNS: stm
     = 'EMPTY' <what> <optional_where> '.'
     %%
-	%<manipulation_statement>.stm = newstm(`&%'EMPTY'.srcp, STM_EMPTY);
+	%<manipulation_statement>.stm = newstm(`&%'EMPTY'.srcp, EMPTY_STATEMENT);
 	%<manipulation_statement>.stm->fields.empty.wht = %<what>.wht;
 	%<manipulation_statement>.stm->fields.empty.whr = %<optional_where>.whr;
     %%	  
 
     ! 'LOCATE' <what> <where> '.'
     %%
-	%<manipulation_statement>.stm = newstm(`&%'LOCATE'.srcp, STM_LOCATE);
+	%<manipulation_statement>.stm = newstm(`&%'LOCATE'.srcp, LOCATE_STATEMENT);
 	%<manipulation_statement>.stm->fields.locate.wht = %<what>.wht;
 	%<manipulation_statement>.stm->fields.locate.whr = %<where>.whr;
     %%	  
@@ -1436,7 +1436,7 @@ static int val(char str[])
 <event_statement>			-- RETURNS: stm
     = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> '.'
     %%
-	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, STM_SCHEDULE);
+	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, SCHEDULE_STATEMENT);
 	%<event_statement>.stm->fields.schedule.id  = %ID.id;
 	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
 	%<event_statement>.stm->fields.schedule.when = %<expression>.exp;
@@ -1444,7 +1444,7 @@ static int val(char str[])
 
     ! 'CANCEL' ID '.'
     %%
-	%<event_statement>.stm = newstm(`&%'CANCEL'.srcp, STM_CANCEL);
+	%<event_statement>.stm = newstm(`&%'CANCEL'.srcp, CANCEL_STATEMENT);
 	%<event_statement>.stm->fields.cancel.id = %ID.id;
     %%	  
     ;
@@ -1454,7 +1454,7 @@ static int val(char str[])
 <assignment_statement>		-- RETURNS: stm
     = 'MAKE' <what> <something> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'MAKE'.srcp, STM_MAKE);
+	%<assignment_statement>.stm = newstm(`&%'MAKE'.srcp, MAKE_STATEMENT);
 	%<assignment_statement>.stm->fields.make.wht = %<what>.wht;
 	%<assignment_statement>.stm->fields.make.not = %<something>.not;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
@@ -1462,7 +1462,7 @@ static int val(char str[])
 
     ! 'SET' <attribute_reference> 'TO' <expression> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'SET'.srcp, STM_SET);
+	%<assignment_statement>.stm = newstm(`&%'SET'.srcp, SET_STATEMENT);
 	%<assignment_statement>.stm->fields.set.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.set.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.set.exp = %<expression>.exp;
@@ -1470,7 +1470,7 @@ static int val(char str[])
 
     ! 'INCREASE' <attribute_reference> <optional_by_clause> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'INCREASE'.srcp, STM_INCR);
+	%<assignment_statement>.stm = newstm(`&%'INCREASE'.srcp, INCREASE_STATEMENT);
 	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
@@ -1478,7 +1478,7 @@ static int val(char str[])
 
     ! 'DECREASE' <attribute_reference> <optional_by_clause> '.'
     %%
-	%<assignment_statement>.stm = newstm(`&%'DECREASE'.srcp, STM_DECR);
+	%<assignment_statement>.stm = newstm(`&%'DECREASE'.srcp, DECREASE_STATEMENT);
 	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
 	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
@@ -1515,7 +1515,7 @@ static int val(char str[])
 <if_statement>			-- RETURNS: stm
     = 'IF' <expression> 'THEN' <statements> <optional_elsif_list> <optional_else_part> 'END' 'IF' '.'
     %%
-	%<if_statement>.stm = newstm(`&%'IF'.srcp, STM_IF);
+	%<if_statement>.stm = newstm(`&%'IF'.srcp, IF_STATEMENT);
 	%<if_statement>.stm->fields.iff.exp = %<expression>.exp;
 	%<if_statement>.stm->fields.iff.thn = %<statements>.stms;
 	if (%<optional_elsif_list>.stms == NULL)
@@ -1547,7 +1547,7 @@ static int val(char str[])
     %%{
 	StmNod *stm;
 
-	stm = newstm(`&%'ELSIF'.srcp, STM_IF);
+	stm = newstm(`&%'ELSIF'.srcp, IF_STATEMENT);
 	stm->fields.iff.exp = %<expression>.exp;
 	stm->fields.iff.thn = %<statements>.stms;
 	stm->fields.iff.els = NULL;
@@ -1560,7 +1560,7 @@ static int val(char str[])
     %%{
 	StmNod *stm;
 
-	stm = newstm(`&%'ELSIF'.srcp, STM_IF);
+	stm = newstm(`&%'ELSIF'.srcp, IF_STATEMENT);
 	stm->fields.iff.exp = %<expression>.exp;
 	stm->fields.iff.thn = %<statements>.stms;
 	stm->fields.iff.els = NULL;
@@ -1589,7 +1589,7 @@ static int val(char str[])
 <depending_statement>
     = 'DEPENDING' 'ON' <primary> <depend_cases> 'END' 'DEPEND' '.'
     %%{ StmNod *stm;
-	stm = newstm(`&%'DEPENDING'.srcp, STM_DEPEND);
+	stm = newstm(`&%'DEPENDING'.srcp, DEPEND_STATEMENT);
 	stm->fields.depend.exp = %<primary>.exp;
 	stm->fields.depend.cases = %<depend_cases>.cases;
 
@@ -1612,14 +1612,14 @@ static int val(char str[])
 <depend_case>				-- RETURNS: stm
     = <right_hand_side> ':' <statements>
     %%
-        %<depend_case>.stm = newstm(`&%':'.srcp, STM_DEPCASE);
+        %<depend_case>.stm = newstm(`&%':'.srcp, DEPENDCASE_STATEMENT);
         %<depend_case>.stm->fields.depcase.exp = %<right_hand_side>.exp;
         %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
     %%
 
     ! 'ELSE' <statements>
     %%
-        %<depend_case>.stm = newstm(`&%'ELSE'.srcp, STM_DEPCASE);
+        %<depend_case>.stm = newstm(`&%'ELSE'.srcp, DEPENDCASE_STATEMENT);
         %<depend_case>.stm->fields.depcase.exp = NULL;
         %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
     %%
@@ -1629,7 +1629,7 @@ static int val(char str[])
 <actor_statement>			-- RETURNS: stm
     = 'USE' 'SCRIPT' ID <optional_for_actor> '.'
     %%
-	%<actor_statement>.stm = newstm(`&%'USE'.srcp, STM_USE);
+	%<actor_statement>.stm = newstm(`&%'USE'.srcp, USE_STATEMENT);
 	%<actor_statement>.stm->fields.use.script = %ID.id;
 	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
     %%
@@ -1656,7 +1656,7 @@ static int val(char str[])
     %%
 
     ! <expression> 'OR' <term>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
 	exp = newexp(`&%'OR'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = OR_OPERATOR;;
@@ -1673,7 +1673,7 @@ static int val(char str[])
     %%
 
     ! <term> 'AND' <factor>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
 	exp = newexp(`&%'AND'.srcp, BINARY_EXPRESSION);
 	exp->not	      = FALSE;
 	exp->fields.bin.op    = AND_OPERATOR;
@@ -1698,7 +1698,7 @@ static int val(char str[])
 	case WHERE_EXPRESSION: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
 	case ATTRIBUTE_EXPRESSION: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
 	case BETWEEN_EXPRESSION: %<right_hand_side>.exp->fields.btw.val = %<primary>.exp; break;
-	case ISA_EXPRESSION: %<right_hand_side>.exp->fields.isa.id = %<primary>.id; break;
+	case ISA_EXPRESSION: %<right_hand_side>.exp->fields.isa.wht = %<primary>.exp; break;
 	default: syserr("Unrecognized switch in <right_hand_side> semantic rule.");
 	}
         %<factor>.exp = %<right_hand_side>.exp;
@@ -1707,7 +1707,7 @@ static int val(char str[])
 
 <right_hand_side>
     = <binop> <primary>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
 	exp = newexp(`&%<binop>.srcp, BINARY_EXPRESSION);
 	exp->fields.bin.op = %<binop>.op;
@@ -1716,7 +1716,7 @@ static int val(char str[])
     } %%
 
     ! <optional_not> <relop> <primary>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
 	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;
@@ -1726,7 +1726,7 @@ static int val(char str[])
     } %%
 
     ! <optional_not> <where>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = WHERE_EXPRESSION;
 	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
 	exp->not = %<optional_not>.not;
@@ -1735,7 +1735,7 @@ static int val(char str[])
     } %%
 
     ! <optional_not> 'ISA' ID
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = ISA_EXPRESSION;
 	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
 	exp->not = %<optional_not>.not;
@@ -1744,7 +1744,7 @@ static int val(char str[])
     } %%
 
     ! <is> <something>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = ATTRIBUTE_EXPRESSION;
 	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
 	exp->not = %<something>.not;
@@ -1753,7 +1753,7 @@ static int val(char str[])
     } %%
 
     ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = BETWEEN_EXPRESSION;
 	exp = newexp(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
 	exp->not = %<optional_not>.not;
@@ -1763,7 +1763,7 @@ static int val(char str[])
     } %%
 
     ! <optional_not> 'CONTAINS' <factor>
-    %% { ExpNod *exp;
+    %% { Expression *exp;
         %<right_hand_side>.expKd = BINARY_EXPRESSION;
 	exp = newexp(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
 	exp->not = %<optional_not>.not;

@@ -18,8 +18,8 @@ void testAttributeToThis()
 					 theAttributeId, 0, 0, 0);
   Context *theContext = newContext(INSTANCE_CONTEXT);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
-  ExpNod *theWhatExp = newexp(&nulsrcp, WHAT_EXPRESSION);
-  ExpNod *theExp = newexp(&nulsrcp, ATTRIBUTE_EXPRESSION);
+  Expression *theWhatExp = newexp(&nulsrcp, WHAT_EXPRESSION);
+  Expression *theExp = newexp(&nulsrcp, ATTRIBUTE_EXPRESSION);
 
   theInstance->slots->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;
@@ -28,13 +28,20 @@ void testAttributeToThis()
   theWhatExp->fields.wht.wht = theWhat;
   theExp->fields.atr.wht = theWhatExp;
 
-  anexpatr(theExp, theContext);
+  analyzeAttributeExpression(theExp, theContext);
   unitAssert(theExp->type == BOOLEAN_TYPE);
 }
 
+static void testAnalyzeIsaExpression()
+{
+  Expression *isaExpression = newexp(&nulsrcp, ISA_EXPRESSION);
+
+  
+}
 
 void registerExpUnitTests()
 {
   registerUnitTest(testAttributeToThis);
+  registerUnitTest(testAnalyzeIsaExpression);
 }
 

@@ -20,7 +20,7 @@
 /* FUNCTIONS: */
 
 /* Create a new Check node */
-extern ChkNod *newchk(ExpNod *exp, List *stms);
+extern ChkNod *newchk(Expression *exp, List *stms);
 
 /* Analyze a list of Checks */
 extern void anchks(List *chks, Context *context);

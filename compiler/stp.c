@@ -33,7 +33,7 @@
   */
 Step *newStep(Srcp *srcp,	/* IN - Source Position */
 	      int after,	/* IN - Ticks to wait */
-	      ExpNod *exp,	/* IN - Expression to wait for */
+	      Expression *exp,	/* IN - Expression to wait for */
 	      List *stms)	/* IN - List of statements */
 {
   Step *new;		/* The newly allocated node */
@@ -64,7 +64,7 @@ void analyzeSteps(List *stps, Context *context)
 
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL)
-      anexp(lst->element.stp->exp, context);
+      analyzeExpression(lst->element.stp->exp, context);
     analyzeStatements(lst->element.stp->stms, context);
   }
 }

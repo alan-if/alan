@@ -58,13 +58,13 @@ Bool equalTypes(TypeKind typ1,	/* IN - types to compare */
   Allocates and initialises an expnod.
 
  */
-ExpNod *newexp(Srcp *srcp, ExpressionKind kind)
+Expression *newexp(Srcp *srcp, ExpressionKind kind)
 {
-  ExpNod *new;			/* The newly allocated area */
+  Expression *new;			/* The newly allocated area */
 
   showProgress();
 
-  new = NEW(ExpNod);
+  new = NEW(Expression);
 
   new->srcp = *srcp;
   new->kind = kind;
@@ -76,16 +76,10 @@ ExpNod *newexp(Srcp *srcp, ExpressionKind kind)
 
 
 
-/*----------------------------------------------------------------------
-
-  anexpwhr()
-
-  Analyze a WHR expression.
-
- */
-static void anexpwhr(ExpNod *exp, Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeWhereExpression(Expression *exp, Context *context)
 {
-  anexp(exp->fields.whr.wht, context);
+  analyzeExpression(exp->fields.whr.wht, context);
   if (exp->fields.whr.wht->kind != WHAT_EXPRESSION)
     lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an instance");
   else {
@@ -139,12 +133,9 @@ static void anexpwhr(ExpNod *exp, Context *context)
 
 
 
-/*----------------------------------------------------------------------
-
-  verifyExpressionAttribute()
-
-*/
-static TypeKind verifyExpressionAttribute(IdNode *attributeId, Attribute *foundAttribute)
+/*----------------------------------------------------------------------*/
+static TypeKind verifyExpressionAttribute(IdNode *attributeId,
+					  Attribute *foundAttribute)
 {
   if (foundAttribute == NULL) {	/* Attribute not found */
     return UNKNOWN_TYPE;
@@ -157,15 +148,9 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId, Attribute *foundA
 }
 
 
-/*----------------------------------------------------------------------
-
-  anexpatr()
-
-  Analyze an ATR expression.
-
-  */
-static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
-		     Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeAttributeExpression(Expression *exp,
+				       Context *context)
 {
   Attribute *atr;
 
@@ -198,16 +183,14 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 
 /*----------------------------------------------------------------------
 
-  anbin()
-
   Analyze a binary expression and find out its type.
 
  */
-static void anbin(ExpNod *exp,
-		  Context *context)
+static void analyzeBinaryExpression(Expression *exp,
+				    Context *context)
 {
-  anexp(exp->fields.bin.left, context);
-  anexp(exp->fields.bin.right, context);
+  analyzeExpression(exp->fields.bin.left, context);
+  analyzeExpression(exp->fields.bin.right, context);
 
   switch (exp->fields.bin.op) {
   case AND_OPERATOR:
@@ -287,7 +270,7 @@ static void anbin(ExpNod *exp,
   Analyze an aggregate expression.
 
  */
-static void anagr(ExpNod *exp,
+static void anagr(Expression *exp,
 		  Context *context)
 {
   Attribute *atr = NULL;
@@ -317,17 +300,17 @@ static void anagr(ExpNod *exp,
   Analyse a random expression.
 
   */
-static void anrnd(ExpNod *exp,
+static void anrnd(Expression *exp,
 		  Context *context)
 {
   exp->type = INTEGER_TYPE;
-  anexp(exp->fields.rnd.from, context);
+  analyzeExpression(exp->fields.rnd.from, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.from->type)) {
     lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
     exp->type = UNKNOWN_TYPE;
   }
 
-  anexp(exp->fields.rnd.to, context);
+  analyzeExpression(exp->fields.rnd.to, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.to->type)) {
     lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
     exp->type = UNKNOWN_TYPE;
@@ -342,7 +325,7 @@ static void anrnd(ExpNod *exp,
   Analyse a WHT expression.
 
   */
-static void anexpwht(ExpNod *exp,
+static void anexpwht(Expression *exp,
 		     Context *context)
 {
   Symbol *symbol;
@@ -378,10 +361,11 @@ static void anexpwht(ExpNod *exp,
     break;
 
   case WHAT_THIS:
-    if (context->kind == INSTANCE_CONTEXT || context->kind == CLASS_CONTEXT)
-      lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");
-    else
+    if (context->kind == INSTANCE_CONTEXT || context->kind == CLASS_CONTEXT ||
+	(context->kind == VERB_CONTEXT && context->instance != NULL))
       exp->type = INSTANCE_TYPE;
+    else
+      lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");
     break;
 
   default:
@@ -391,25 +375,19 @@ static void anexpwht(ExpNod *exp,
 }
 
 
-/*----------------------------------------------------------------------
-
-  anexpbtw()
-
-  Analyse a BTW expression.
-
-  */
-static void anexpbtw(ExpNod *exp,
+/*----------------------------------------------------------------------*/
+static void anexpbtw(Expression *exp,
 		     Context *context)
 {
-  anexp(exp->fields.btw.val, context);
+  analyzeExpression(exp->fields.btw.val, context);
   if (!equalTypes(exp->fields.btw.val->type, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.val->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  anexp(exp->fields.btw.low, context);
+  analyzeExpression(exp->fields.btw.low, context);
   if (!equalTypes(exp->fields.btw.low->type, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.low->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  anexp(exp->fields.btw.high, context);
+  analyzeExpression(exp->fields.btw.high, context);
   if (!equalTypes(exp->fields.btw.high->type, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.high->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
@@ -417,67 +395,90 @@ static void anexpbtw(ExpNod *exp,
 }
 
 
-/*======================================================================
-
-  anexp()
-
-  Analyze one expression.
-
-  */
-void anexp(ExpNod *exp,
-	   Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeIsaExpression(Expression *expression,
+				 Context *context)
 {
-  if (exp == NULL) return;	/* Ignore empty expressions (syntax error) */
-  
-  switch (exp->kind) {
+  switch (expression->fields.isa.wht->kind) {
+  case WHAT_EXPRESSION:
+    switch (expression->fields.isa.wht->fields.wht.wht->kind) {
+    case WHAT_ID:
+      symcheck(expression->fields.isa.wht->fields.wht.wht->id,
+	       INSTANCE_SYMBOL, context);
+      break;
+    case WHAT_LOCATION:
+    case WHAT_ACTOR:
+      break;
+    default:
+      unimpl(&expression->srcp, "Analyzer");
+      break;
+    }
+    break;
+  default:
+      unimpl(&expression->srcp, "Analyzer");
+      break;
+  }
+
+  symcheck(expression->fields.isa.id, CLASS_SYMBOL, context);
+
+  expression->type = BOOLEAN_TYPE;
+}
+
+/*======================================================================*/
+void analyzeExpression(Expression *expression,
+		       Context *context)
+{
+  if (expression == NULL) 	/* Ignore empty expressions (syntax error) */
+    return;
+
+  switch (expression->kind) {
     
   case WHERE_EXPRESSION:
-    anexpwhr(exp, context);
+    analyzeWhereExpression(expression, context);
     break;
     
   case ATTRIBUTE_EXPRESSION:
-    anexpatr(exp, context);
+    analyzeAttributeExpression(expression, context);
     break;
 
   case BINARY_EXPRESSION:
-    anbin(exp, context);
+    analyzeBinaryExpression(expression, context);
     break;
     
   case INTEGER_EXPRESSION:
-    exp->type = INTEGER_TYPE;
+    expression->type = INTEGER_TYPE;
     break;
     
   case STRING_EXPRESSION:
-    exp->type = STRING_TYPE;
+    expression->type = STRING_TYPE;
     break;
     
   case AGGREGATE_EXPRESSION:
-    anagr(exp, context);
+    anagr(expression, context);
     break;
     
   case RANDOM_EXPRESSION:
-    anrnd(exp, context);
+    anrnd(expression, context);
     break;
 
   case SCORE_EXPRESSION:
-    exp->type = INTEGER_TYPE;
+    expression->type = INTEGER_TYPE;
     break;
 
   case WHAT_EXPRESSION:
-    anexpwht(exp, context);
+    anexpwht(expression, context);
     break;
 
   case BETWEEN_EXPRESSION:
-    anexpbtw(exp, context);
+    anexpbtw(expression, context);
     break;
 
   case ISA_EXPRESSION:
-    /* FIXME unimplemented */
-    unimpl(&exp->srcp, "analyzer");
+    analyzeIsaExpression(expression, context);
     break;
 
   default:
-    syserr("Unrecognized switch in anexp()");
+    syserr("Unrecognized switch in analyzeExpression()");
     break;
   }
 }
@@ -488,7 +489,7 @@ void anexp(ExpNod *exp,
   genererateBinaryOperator()
 
 */
-void generateBinaryOperator(ExpNod *exp)
+void generateBinaryOperator(Expression *exp)
 {
   switch (exp->fields.bin.op) {
   case AND_OPERATOR:
@@ -547,7 +548,7 @@ void generateBinaryOperator(ExpNod *exp)
   Generate a binary expression.
 
   */
-static void geexpbin(ExpNod *exp, int currentInstance)
+static void geexpbin(Expression *exp, int currentInstance)
 {
   geexp(exp->fields.bin.left, currentInstance);
   geexp(exp->fields.bin.right, currentInstance);
@@ -563,7 +564,7 @@ static void geexpbin(ExpNod *exp, int currentInstance)
   Generate a where-expression.
 
   */
-static void geexpwhr(ExpNod *exp, int currentInstance)
+static void geexpwhr(Expression *exp, int currentInstance)
 {
   switch(exp->fields.whr.wht->fields.wht.wht->kind) {
     
@@ -614,7 +615,7 @@ static void geexpwhr(ExpNod *exp, int currentInstance)
   generateAttributeAccess()
 
 */
-void generateAttributeAccess(ExpNod *exp)
+void generateAttributeAccess(Expression *exp)
 {
   if (exp->type == STRING_TYPE)
     emit0(C_STMOP, I_STRATTR);
@@ -629,7 +630,7 @@ void generateAttributeAccess(ExpNod *exp)
   Generate an attribute-expression.
 
  */
-static void geexpatr(ExpNod *exp, int currentInstance)
+static void geexpatr(Expression *exp, int currentInstance)
 {
   generateId(exp->fields.atr.atr);
   generateWhat(exp->fields.atr.wht->fields.wht.wht, currentInstance);
@@ -646,7 +647,7 @@ static void geexpatr(ExpNod *exp, int currentInstance)
   Generate the code for an aggregate expression.
 
   */
-static void geexpagr(ExpNod *exp, int currentInstance)
+static void geexpagr(Expression *exp, int currentInstance)
 {
   gewhr(exp->fields.agr.whr, currentInstance);
 
@@ -669,7 +670,7 @@ static void geexpagr(ExpNod *exp, int currentInstance)
   Generate code for a random expression.
 
   */
-static void geexprnd(ExpNod *exp, int currentInstance)
+static void geexprnd(Expression *exp, int currentInstance)
 {
   geexp(exp->fields.rnd.from, currentInstance);
   geexp(exp->fields.rnd.to, currentInstance);
@@ -684,7 +685,7 @@ static void geexprnd(ExpNod *exp, int currentInstance)
   Generate the code for a SCORE expression.
 
   */
-static void geexpscore(ExpNod *exp) /* IN - The expression to generate */
+static void geexpscore(Expression *exp) /* IN - The expression to generate */
 {
   emit0(C_CURVAR, V_SCORE);
 }
@@ -697,7 +698,7 @@ static void geexpscore(ExpNod *exp) /* IN - The expression to generate */
   Generate the code for a WHAT expression.
 
   */
-static void geexpwht(ExpNod *exp, int currentInstance)
+static void geexpwht(Expression *exp, int currentInstance)
 {
   generateWhat(exp->fields.wht.wht, currentInstance);
 }
@@ -709,7 +710,7 @@ static void geexpwht(ExpNod *exp, int currentInstance)
   generateBetweenCheck()
 
 */
-void generateBetweenCheck(ExpNod *exp, int currentInstance)
+void generateBetweenCheck(Expression *exp, int currentInstance)
 {
   geexp(exp->fields.btw.low, currentInstance);
   geexp(exp->fields.btw.high, currentInstance);
@@ -723,10 +724,20 @@ void generateBetweenCheck(ExpNod *exp, int currentInstance)
   Generate code for a random expression.
 
   */
-static void geexpbtw(ExpNod *exp, int currentInstance)
+static void geexpbtw(Expression *exp, int currentInstance)
 {
   geexp(exp->fields.btw.val, currentInstance);
   generateBetweenCheck(exp, currentInstance);
+  if (exp->not) emit0(C_STMOP, I_NOT);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateIsaExpression(Expression *exp)
+{
+  geexp(exp->fields.isa.wht, 0);
+  generateId(exp->fields.isa.id);
+  emit0(C_STMOP, I_ISA);
   if (exp->not) emit0(C_STMOP, I_NOT);
 }
 
@@ -739,7 +750,7 @@ static void geexpbtw(ExpNod *exp, int currentInstance)
   Generate the code for an expression.
 
   */
-void geexp(ExpNod *exp, int currentInstance)
+void geexp(Expression *exp, int currentInstance)
 {
   if (exp == NULL) {
     emit0(C_CONST, 0);
@@ -790,6 +801,10 @@ void geexp(ExpNod *exp, int currentInstance)
   case BETWEEN_EXPRESSION:
     geexpbtw(exp, currentInstance);
     break;
+
+  case ISA_EXPRESSION:
+    generateIsaExpression(exp);
+    break;
     
   default:
     unimpl(&exp->srcp, "Code Generator");
@@ -800,12 +815,7 @@ void geexp(ExpNod *exp, int currentInstance)
 
 
 
-/*----------------------------------------------------------------------
-  dumpOperator()
-
-  Dump an operator
-
-  */
+/*----------------------------------------------------------------------*/
 static void dumpOperator(OperatorKind op)
 {
   switch (op) {
@@ -911,7 +921,7 @@ void dumpType(TypeKind typ)
   Dump an expression node.
 
  */
-void dumpExpression(ExpNod *exp)
+void dumpExpression(Expression *exp)
 {
   if (exp == NULL) {
     put("NULL");

@@ -18,7 +18,7 @@
 
 typedef struct RulNod {		/* RULE */
   Srcp srcp;			/* Source position */
-  ExpNod *exp;			/* Expression */
+  Expression *exp;			/* Expression */
   Aaddr expadr;			/* ACODE address to expression code */
   List *stms;			/* Statements */
   Aaddr stmadr;			/* ACODE address to statements */
@@ -34,7 +34,7 @@ extern int rulcount;
 /* Functions: */
 
 /* Allocate a new Rule node */
-extern RulNod *newrul(Srcp *srcp, ExpNod *exp, List *stms);
+extern RulNod *newrul(Srcp *srcp, Expression *exp, List *stms);
 extern void analyzeRules(void);
 extern Aaddr generateRules(void);
 extern void dumpRules(RulNod *rul);

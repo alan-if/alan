@@ -29,7 +29,7 @@
   Allocates and initialises a chknod.
 
  */
-ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
+ChkNod *newchk(Expression *exp,	/* IN - Expression for this CHECK */
 	       List *stms)	/* IN - Statements for a false CHECK */
 {
   ChkNod *new;			/* The newly allocated area */
@@ -55,7 +55,7 @@ ChkNod *newchk(ExpNod *exp,	/* IN - Expression for this CHECK */
 static void anchk(ChkNod *chk,
 		  Context *context)
 {
-  anexp(chk->exp, context);
+  analyzeExpression(chk->exp, context);
   analyzeStatements(chk->stms, context);
 }
 

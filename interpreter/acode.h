@@ -148,7 +148,8 @@ typedef enum InstClass {
   I_DEPCASE,
   I_DEPEXEC,
   I_DEPELSE,
-  I_DEPEND
+  I_DEPEND,
+  I_ISA
 } InstClass;
 
 

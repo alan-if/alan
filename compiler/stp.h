@@ -20,7 +20,7 @@
 typedef struct Step {
   Srcp srcp;			/* Source position */
   int after;			/* Possibly after some time */
-  ExpNod *exp;			/* or an expression */
+  Expression *exp;			/* or an expression */
   Aaddr expadr;			/* ACODE address to expression */
   List *stms;			/* Statements in this block */
   Aaddr stmadr;			/* ACODE address to statements */

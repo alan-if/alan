@@ -121,7 +121,7 @@ typedef struct pmGrammar {
     List *exts;
     ExtNod *ext;
     ExpressionKind expKd;
-    ExpNod *exp;
+    Expression *exp;
     List *evts;
     EvtNod *evt;
     List *elms;

@@ -385,11 +385,9 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
   Check if an Id exists and if so if it is of an allowed kind in this context
 
 */
-Symbol *symcheck(
-    IdNode *id,
-    SymbolKind kind,
-    Context *context
-    )
+Symbol *symcheck(IdNode *id,
+		 SymbolKind kind,
+		 Context *context)
 {
   Symbol *sym = lookupInContext(id->string, context);
 

@@ -72,7 +72,7 @@ typedef struct StmNod {		/* STATEMENT */
     } describe;
 
     struct {			/* for SAY */
-      ExpNod *exp;		/* What? */
+      Expression *exp;		/* What? */
     } say;
 
     struct {			/* for LIST */
@@ -98,19 +98,19 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for SET */
       What *wht;		/* What? */
       IdNode *atr;
-      ExpNod *exp;		/* The new value */
+      Expression *exp;		/* The new value */
     } set;
 
     struct {			/* for INCR/DECR */
       What *wht;		/* What? */
       IdNode *atr;
-      ExpNod *step;		/* By what? */
+      Expression *step;		/* By what? */
     } incr;
 
     struct {			/* for SCHEDULE */
       IdNode *id;		/* Name of the event */
       WhrNod *whr;		/* Where? */
-      ExpNod *when;
+      Expression *when;
     } schedule;
 
     struct {			/* for CANCEL */
@@ -118,7 +118,7 @@ typedef struct StmNod {		/* STATEMENT */
     } cancel;
 
     struct {			/* for IF */
-      ExpNod *exp;
+      Expression *exp;
       List *thn;
       List *els;
     } iff;
@@ -135,12 +135,12 @@ typedef struct StmNod {		/* STATEMENT */
     } system;
 
     struct {			/* DEPEND */
-      ExpNod *exp;		/* Depending expression */
+      Expression *exp;		/* Depending expression */
       List *cases;		/* The cases */
     } depend;
 
     struct {			/* DEPCASE */
-      ExpNod *exp;		/* The partial right hand expression */
+      Expression *exp;		/* The partial right hand expression */
       List *stms;
     } depcase;
 

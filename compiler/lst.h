@@ -59,7 +59,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct CntNod *cnt;
     struct ElmNod *elm;
     struct EvtNod *evt;
-    struct ExpNod *exp;
+    struct Expression *exp;
     struct ExtNod *ext;
     struct LimNod *lim;
     struct MsgNod *msg;
