@@ -762,49 +762,38 @@ static int val(char str[])
     ;
 
 <location_body>		-- RETURNS: atrs, stms, stms2, exts, vrbs
-    = <location_body_parts>
-    %%
-	%<location_body>.atrs  = %<location_body_parts>.atrs;
-	%<location_body>.stms  = %<location_body_parts>.stms;
-	%<location_body>.stms2 = %<location_body_parts>.stms2;
-	%<location_body>.exts  = %<location_body_parts>.exts;
-	%<location_body>.vrbs  = %<location_body_parts>.vrbs;
-    %%
-    ;
-
-<location_body_parts>
     =
     %%
-	%<location_body_parts>.atrs  = NULL;
-	%<location_body_parts>.stms  = NULL;
-	%<location_body_parts>.stms2 = NULL;
-	%<location_body_parts>.exts  = NULL;
-	%<location_body_parts>.vrbs  = NULL;
+	%<location_body>.atrs  = NULL;
+	%<location_body>.stms  = NULL;
+	%<location_body>.stms2 = NULL;
+	%<location_body>.exts  = NULL;
+	%<location_body>.vrbs  = NULL;
     %%
 
-    ! <location_body_parts> <location_body_part>
+    ! <location_body> <location_body_part>
     %%
       if (%<location_body_part>.atrs != NULL)
-	%<location_body_parts>.atrs = combine(%<location_body_parts>.atrs, %<location_body_part>.atrs);
+	%<location_body>.atrs = combine(%<location_body>.atrs, %<location_body_part>.atrs);
       else if (%<location_body_part>.stms != NULL)
-	if (%<location_body_parts>.stms != NULL)
+	if (%<location_body>.stms != NULL)
           /* DESCRIPTION Already declared */
-	  lmLog(`&%<location_body_part>.srcp, 204, sevERR, "DESCRIPTION");
+	  lmLogv(`&%<location_body_part>.srcp, 204, sevERR, "DESCRIPTION", "location", NULL);
         else
-	  %<location_body_parts>.stms = %<location_body_part>.stms;
+	  %<location_body>.stms = %<location_body_part>.stms;
       else if (%<location_body_part>.stms2 != NULL)
-	if (%<location_body_parts>.stms2 != NULL)
+	if (%<location_body>.stms2 != NULL)
           /* DOES Already declared */
-	  lmLog(`&%<location_body_part>.srcp, 204, sevERR, "DOES");
+	  lmLogv(`&%<location_body_part>.srcp, 204, sevERR, "DOES", "location", NULL);
         else {
-	  %<location_body_parts>.stms2 = %<location_body_part>.stms2;
+	  %<location_body>.stms2 = %<location_body_part>.stms2;
 	  if (%<location_body_part>.qual != QUAL_DEFAULT)
 	    lmLog(`&%<location_body_part>.srcp, 210, sevERR, "");
 	}
       else if (%<location_body_part>.ext != NULL)
-	%<location_body_parts>.exts = concat(%<location_body_parts>.exts, %<location_body_part>.ext);
+	%<location_body>.exts = concat(%<location_body>.exts, %<location_body_part>.ext);
       else
-	%<location_body_parts>.vrbs = concat(%<location_body_parts>.vrbs, %<location_body_part>.vrb);
+	%<location_body>.vrbs = concat(%<location_body>.vrbs, %<location_body_part>.vrb);
     %%	
     ;
 
@@ -949,6 +938,116 @@ static int val(char str[])
     %%
     ;
 
+<object_body>		-- RETURNS: cnt, atrs, stms, stms2, stms3, vrbs
+    = 
+    %%
+	%<object_body>.cnt   = NULL;
+	%<object_body>.atrs  = NULL;
+	%<object_body>.stms  = NULL; /* Description */
+        %<object_body>.stms2 = NULL; /* Mentioned */
+	%<object_body>.stms3 = NULL; /* The article */
+	%<object_body>.vrbs  = NULL;
+    %%
+
+    ! <object_body> <object_body_part>
+    %%
+	if (%<object_body_part>.cnt != NULL)
+          if (%<object_body>.cnt != NULL)
+            /* CONTAINER Already declared */
+	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "CONTAINER", "object", NULL);
+          else
+	    %<object_body>.cnt = %<object_body_part>.cnt;
+        else if (%<object_body_part>.atrs != NULL)
+          %<object_body>.atrs = combine(%<object_body>.atrs, %<object_body_part>.atrs);
+	else if (%<object_body_part>.stms != NULL)
+          if (%<object_body>.stms != NULL)
+            /* DESCRIPTION Already declared */
+	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "DESCRIPTION", "object", NULL);
+	  else
+	    %<object_body>.stms = %<object_body_part>.stms;
+        else if (%<object_body_part>.stms2 != NULL)
+          if (%<object_body>.stms2 != NULL)
+            /* MENTIONED Already declared */
+	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "MENTIONED", "object", NULL);
+          else
+	    %<object_body>.stms2 = %<object_body_part>.stms2;
+        else if (%<object_body_part>.stms3 != NULL)
+          if (%<object_body>.stms3 != NULL)
+            /* ARTICLE Already declared */
+	    lmLogv(`&%<object_body_part>.srcp, 204, sevERR, "ARTICLE", "object", NULL);
+          else
+	    %<object_body>.stms3 = %<object_body_part>.stms3;
+        else
+ 	  %<object_body>.vrbs  = concat(%<object_body>.vrbs, %<object_body_part>.vrb);
+    %%
+    ;
+
+<object_body_part>		-- RETURNS: cnt, atrs, stm, stm2, stm3, vrb
+    = <properties>
+    %%
+	%<object_body_part>.cnt   = %<properties>.cnt;
+	%<object_body_part>.srcp  = %<properties>.srcp;
+	%<object_body_part>.atrs  = NULL;
+	%<object_body_part>.stms  = NULL;
+        %<object_body_part>.stms2 = NULL;
+	%<object_body_part>.stms3 = NULL;
+        %<object_body_part>.vrb   = NULL;
+    %%
+
+    ! <is> <attributes>					%+('ARTICLE')
+    %%
+	%<object_body_part>.atrs  = %<attributes>.atrs;
+	%<object_body_part>.stms  = NULL;
+        %<object_body_part>.stms2 = NULL;
+	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.vrb   = NULL;
+	%<object_body_part>.cnt   = NULL;
+    %%
+
+    ! <description>
+    %%
+	%<object_body_part>.stms  = %<description>.stms;
+	%<object_body_part>.srcp  = %<description>.srcp;
+        %<object_body_part>.stms2 = NULL;
+	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.vrb   = NULL;
+	%<object_body_part>.cnt   = NULL;
+	%<object_body_part>.atrs  = NULL;
+    %%
+
+    ! <mentioned>
+    %%
+        %<object_body_part>.stms2 = %<mentioned>.stms;
+	%<object_body_part>.srcp  = %<mentioned>.srcp;
+	%<object_body_part>.stms3 = NULL;
+	%<object_body_part>.vrb   = NULL;
+	%<object_body_part>.cnt   = NULL;
+	%<object_body_part>.atrs  = NULL;
+	%<object_body_part>.stms  = NULL;
+    %%
+
+    ! <article>
+    %%
+	%<object_body_part>.stms3 = %<article>.stms;
+	%<object_body_part>.srcp  = %<article>.srcp;
+	%<object_body_part>.vrb   = NULL;
+	%<object_body_part>.cnt   = NULL;
+	%<object_body_part>.atrs  = NULL;
+	%<object_body_part>.stms  = NULL;
+        %<object_body_part>.stms2 = NULL;
+    %%
+
+    ! <verb>
+    %%
+	%<object_body_part>.vrb   = %<verb>.vrb;
+	%<object_body_part>.cnt   = NULL;
+	%<object_body_part>.atrs  = NULL;
+	%<object_body_part>.stms  = NULL;
+        %<object_body_part>.stms2 = NULL;
+	%<object_body_part>.stms3 = NULL;
+    %%
+    ;
+
 <object_tail>		-- RETURNS: nam
     = 'END' 'OBJECT' <optional_id> '.'
     %%
@@ -956,17 +1055,10 @@ static int val(char str[])
     %%
     ;
 
-<object_body>		-- RETURNS: cnt, atrs, stms, stms2, stms3, vrbs
-    = <optional_properties> <optional_attributes> <optional_descriptions> <optional_verbs>
-    %%
-	%<object_body>.cnt   = %<optional_properties>.cnt;
-	%<object_body>.atrs  = %<optional_attributes>.atrs;
-	%<object_body>.stms  = %<optional_descriptions>.stms;
-        %<object_body>.stms2 = %<optional_descriptions>.stms2;
-	%<object_body>.stms3 = %<optional_descriptions>.stms3;
-	%<object_body>.vrbs  = %<optional_verbs>.vrbs;
-    %%
-    ;
+
+--
+-- Attributes
+--
 
 <optional_attributes>	-- RETURNS: atrs
     =
@@ -997,55 +1089,6 @@ static int val(char str[])
     %%
     ;
 
-<optional_descriptions>	-- RETURNS: stms, stms2, stms3
-    =
-    %%
-	%<optional_descriptions>.stms  = NULL;
-	%<optional_descriptions>.stms2 = NULL;
-	%<optional_descriptions>.stms3 = NULL;
-    %%
-
-    ! <optional_descriptions> <article_or_mentioned_or_description>
-    %%
-      if (%<article_or_mentioned_or_description>.stms3 != NULL)
-	if (%<optional_descriptions>.stms3 != NULL)
-	  lmLog(`&%<article_or_mentioned_or_description>.srcp, 219, sevERR, "ARTICLE");
-	else
-	  %<optional_descriptions>.stms3 = %<article_or_mentioned_or_description>.stms3;
-      if (%<article_or_mentioned_or_description>.stms2 != NULL)
-	if (%<optional_descriptions>.stms2 != NULL)
-	  lmLog(`&%<article_or_mentioned_or_description>.srcp, 219, sevERR, "MENTIONED");
-	else
-	  %<optional_descriptions>.stms2 = %<article_or_mentioned_or_description>.stms2;
-      if (%<article_or_mentioned_or_description>.stms != NULL)
-	if (%<optional_descriptions>.stms != NULL)
-	  lmLog(`&%<article_or_mentioned_or_description>.srcp, 219, sevERR, "DESCRIPTION");
-	else
-	  %<optional_descriptions>.stms = %<article_or_mentioned_or_description>.stms;
-    %%
-    ;
-
-
-<article_or_mentioned_or_description>	-- RETURNS: stms, stms2, stms3
-    = <article>
-    %%
-	%<article_or_mentioned_or_description>.stms = NULL;
-	%<article_or_mentioned_or_description>.stms2 = NULL;
-    %%
-
-    ! <mentioned>
-    %%
-	%<article_or_mentioned_or_description>.stms = NULL;
-	%<article_or_mentioned_or_description>.stms3 = NULL;
-    %%
-
-    ! <description>
-    %%
-	%<article_or_mentioned_or_description>.stms2 = NULL;
-	%<article_or_mentioned_or_description>.stms3 = NULL;
-    %%
-    ;
-
 <optional_description>	-- RETURNS: stms
     =
     %%
@@ -1053,9 +1096,7 @@ static int val(char str[])
     %%
 
     ! <description> 
-    %%
-	%<optional_description>.stms = %<description>.stms;
-    %%
+    -- Propagate!
     ;
 
 <description>		-- RETURNS: stms, srcp
@@ -1073,25 +1114,25 @@ static int val(char str[])
     %%
     ;
 
-<article>			-- RETURNS: stms3
+<article>			-- RETURNS: stms, srcp
     = 'ARTICLE' 
     %%
-	%<article>.stms3 = concat(NULL, newstm(`&%'ARTICLE'.srcp,
+	%<article>.stms = concat(NULL, newstm(`&%'ARTICLE'.srcp,
 							STM_NOP));
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
     ! 'ARTICLE' <statements>
     %%
-	%<article>.stms3 = %<statements>.stms;
+	%<article>.stms = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
     ;
 
-<mentioned>		-- RETURNS: stms2
+<mentioned>		-- RETURNS: stms, srcp
     = 'MENTIONED' <statements>
     %%
-	%<mentioned>.stms2 = %<statements>.stms;
+	%<mentioned>.stms = %<statements>.stms;
 	%<mentioned>.srcp = %'MENTIONED'.srcp;
     %%
     ;
@@ -1137,14 +1178,20 @@ static int val(char str[])
 	%<optional_properties>.cnt = NULL;
     %%
 
-    ! 'CONTAINER' <container_body>
+    ! <properties>
+    -- Propagate!
+    ;
+
+<properties>					-- RETURNS: cnt, srcp
+    = 'CONTAINER' <container_body>
     %%
-	%<optional_properties>.cnt = newcnt(`&%'CONTAINER'.srcp,
+	%<properties>.cnt = newcnt(`&%'CONTAINER'.srcp,
 					  NULL,
 					  %<container_body>.lims,
 					  %<container_body>.stms,
 					  %<container_body>.stms2);
-	adv.cnts = concat(adv.cnts, %<optional_properties>.cnt);
+        %<properties>.srcp = %'CONTAINER'.srcp;
+	adv.cnts = concat(adv.cnts, %<properties>.cnt);
     %%
     ;
 

@@ -16,6 +16,10 @@ Location free_order
 
   Has light.
 
+  Does Before "Nothing."
+
+  Exit v To free_order.
+
 End Location.
 
 Start At free_order.

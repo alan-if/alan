@@ -15,8 +15,18 @@ locparts.alan
 
   *1*   204 E : Multiple use of DESCRIPTION clause in this location.
 
+   19.    Does Before "Nothing."
+=====>    1
 
-        2 error(s).
-        No detected warnings.
+  *1*   204 E : Multiple use of DOES clause in this location.
+
+   21.    Exit v To free_order.
+=====>         1
+
+  *1*   203 W : Multiple definition of EXIT 'v' in this location.
+
+
+        3 error(s).
+        1 warning(s).
         2 informational message(s).
 

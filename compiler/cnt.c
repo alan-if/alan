@@ -192,6 +192,9 @@ void ancnt(CntNod *cnt)		/* IN - The container to analyze */
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   if (cnt->parent == NULL) {	/* No parent object? */
+    if (cnt->nam == NULL)
+      /* ?!? This is probably a duplicate object container, so create a fake name */
+      cnt->nam = newnam(&cnt->srcp, "$container");
     /* So it needs name printing statements, create it */
     fpos = ftell(txtfil);
     len = annams(NULL, cnt->nam, FALSE);

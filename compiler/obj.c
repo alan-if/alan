@@ -46,7 +46,16 @@ int objcount = 0;
   Allocates and initialises an objnod.
 
  */
-ObjNod *newobj(Srcp *srcp, NamNod *nam, List *namslst, WhrNod *whr, CntNod *props, List *atrs, List *dscr, List *art, List *ment, List *vrbs)
+ObjNod *newobj(Srcp *srcp,
+	       NamNod *nam,
+	       List *namslst,
+	       WhrNod *whr,
+	       CntNod *props,
+	       List *atrs,
+	       List *dscr,
+	       List *art,
+	       List *ment,
+	       List *vrbs)
 {
   ObjNod *new;			/* The newly allocated area */
   SymNod *sym;
