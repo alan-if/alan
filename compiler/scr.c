@@ -59,23 +59,18 @@ ScrNod *newscr(
 
 /*======================================================================
 
-  anscrs()
+  prepscrs()
 
-  Analyze the scripts for one actor.
+  Prepare scripts for this actor (i.e. number them)
 
   */
-void anscrs(List *scrs, ActNod *act)
+void prepscrs(List *scrs, ActNod *act)
 {
   List *lst;
   List *scrlst;
   int highest;                  /* Highest script code found so far */
 
-
   if (scrs == NULL) return;
-
-  /* Error if defined for HERO */
-  if (scrs != NULL && act->nam->code == 1)
-      lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
 
   /* First inspect the codes and save the highest */
   highest = scrs->element.scr->code;
@@ -83,11 +78,8 @@ void anscrs(List *scrs, ActNod *act)
     if (lst->element.scr->code > highest)
       highest = lst->element.scr->code;
 
-  /* Look for redefinition of script names and numbers */
+  /* Look for redefinition of script names and numbers and give numbers to named scripts */
   for (lst = scrs; lst != NULL; lst = lst->next) {
-
-    /* Analyze the statements */
-    anstms(lst->element.scr->descr, act, NULL, NULL);
 
     /* Any multiple of this name or number ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
@@ -104,6 +96,32 @@ void anscrs(List *scrs, ActNod *act)
     /* If only given a name, use the highest code + 1 as its code */
     if (lst->element.scr->nam != NULL)
       lst->element.scr->code = ++highest;
+  }
+
+}
+
+
+
+/*======================================================================
+
+  anscrs()
+
+  Analyze the scripts for one actor.
+
+  */
+void anscrs(List *scrs, ActNod *act)
+{
+  List *lst;
+
+  if (scrs == NULL) return;
+
+  /* Error if defined for HERO */
+  if (scrs != NULL && act->nam->code == 1)
+      lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
+
+  for (lst = scrs; lst != NULL; lst = lst->next) {
+    /* Analyze the statements */
+    anstms(lst->element.scr->descr, act, NULL, NULL);
 
     /* Finally, analyse the steps inside the script */
     anstps(lst->element.scr->stps, act);

@@ -232,9 +232,9 @@ quantify: tm $(OBJECTS) version.o alan.o
 	quantify -append-logfile -filename-prefix=%v -windows=no $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 version.h version.c: ../version.sh
-	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
-	-rm [0-9]*_[0-9]*_[0-9]*
-	cp ../[0-9]*_[0-9]*_[0-9]* .
+	-cd ..; rm [0-9]*_[0-9]*_[0-9]*.*; sh version.sh
+	-rm [0-9]*_[0-9]*_[0-9]*.*
+	cp ../[0-9]*_[0-9]*_[0-9]*.* .
 	venum -c
 
 .version: $(VERSIONSRCS)

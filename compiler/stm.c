@@ -534,18 +534,20 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
         act = sym->ref;
     }
     if (act != NULL) {
-      /* Check if script is defined */
+
+      /* Loop over actors scripts to check if script is defined */
       for (lst = act->scrs; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
-          /* A name was given find this */
-          if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script))
-            stm->fields.use.scriptno = lst->element.scr->code;
-            break;
-        } else {
-          /* Use the number to find it */
-          if (lst->element.scr->code == stm->fields.use.scriptno)
-            break;
-        }
+          /* A name was used as reference */
+          if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script)) {
+	    stm->fields.use.scriptno = lst->element.scr->code;
+	    break;		/* Found it so break loop */
+	  }
+	} else {
+	  /* A number was used */
+	  if (lst->element.scr->code == stm->fields.use.scriptno)
+	    break;		/* Found it so break loop */
+	}
       }
       if (lst == NULL)
         if (stm->fields.use.script != NULL)

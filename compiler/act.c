@@ -144,7 +144,7 @@ void initact(void)
 
   prepacts()
 
-  Prepare all actors and their attributes.
+  Prepare all actors and their attributes and scripts.
 
  */
 void prepacts(void)
@@ -189,7 +189,10 @@ void prepacts(void)
       }
     }
     sortatr(&act->atrs);	/* Sort the attributes for the actor */
+
+    prepscrs(act->scrs, act);	/* Prepare the scripts */
   }
+
 }
 
 

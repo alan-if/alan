@@ -1,6 +1,6 @@
 ToDo:
 
-	* hints on cwsdpmi (as per Stephen Griffiths mail)
+	* ISA ACTOR ought to be available already before the class mechanism
 
 	* is/are, have/has singular/plural in the documentation
 
@@ -118,8 +118,6 @@ ToDo:
 
 	* Procedures!
 
-	* Conversion between 2.6 and 2.7 games (Not really needed)
-
 	* Listing of saved games
 
 	* Font sensitivity (esp. proportional fonts)
@@ -170,8 +168,24 @@ ToDo:
 
 	* > THE BALL, What do you want to do with the ball?, > KICK IT
 
+	* the UNLESS? qualifier would be handy for creating libraries
+	(and possibly otherwise too). The semantics would be that the
+	verb body would be executed only if no other body was
+	found. However this can nearly always be achieved by using
+	ONLY where appropriate.
+
+	* Conversion between 2.6 and 2.7 games (Not really needed)
+
+
 
 DONE:
+
+	* hints on cwsdpmi (as per Stephen Griffiths mail)
+
+	* Publish the proposed library on the web pages.
+
+	* List available games on the home page.
+
 	* RANDOM should allow expressions
 
 	* SCHEDULE does not allow integer expressions. Really should!

@@ -22,3 +22,5 @@ Location l2
 End Location.
 
 Start At l1.
+
+  "Test of using same player word as a direction and a verb."

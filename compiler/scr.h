@@ -39,6 +39,9 @@ extern ScrNod *newscr(Srcp *srcp,
 		      List *descr,
 		      List *stps);
 
+/* Prepare the scripts of an actor for analysis */
+extern void prepscrs(List *scrs, ActNod *act);
+
 /* Analyse a list of Scripts */
 extern void anscrs(List *scrs,
 		   ActNod *act);

@@ -104,9 +104,9 @@ fromsrc: $(OBJECTS) version.o
 	cp arun $(ALANDIR)/bin/`arch`
 
 version.h version.c: ../version.sh
-	-chdir ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
-	-rm [0-9]*_[0-9]*_[0-9]*
-	cp ../[0-9]*_[0-9]*_[0-9]* .
+	-chdir ..; rm [0-9]*_[0-9]*_[0-9]*.*; sh version.sh
+	-rm [0-9]*_[0-9]*_[0-9]*.*
+	cp ../[0-9]*_[0-9]*_[0-9]*.* .
 	venum -c
 
 .version: $(SRCS)
