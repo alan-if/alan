@@ -173,6 +173,8 @@ void usage(void)
 void usage()
 #endif
 {
+  printf("\nArun, Adventure Interpreter version %s (%s %s)\n\n",
+	 alan.version.string, alan.date, alan.time);
   printf("Usage:\n\n");
   printf("    %s [<switches>] <adventure>\n\n", PROGNAME);
   printf("where the possible optional switches are:\n");

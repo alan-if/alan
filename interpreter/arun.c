@@ -73,7 +73,7 @@ int main(argc, argv)
   }
   
   if (strcmp(advnam, "") == 0) {
-    printf("No Adventure name given.\n");
+    printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
   }
