@@ -25,7 +25,6 @@ version.h
 .*stamp
 Compiler.project
 saviour.*
-
 .pure
 alan.pure_hardlink
 alan.pure_linkinfo

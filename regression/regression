@@ -19,5 +19,4 @@ else
     diff $case.output $case.ok > $case.diff
   done
 fi
-ls -s *.diff | grep -v -w 0
-
+ls -s *.diff
