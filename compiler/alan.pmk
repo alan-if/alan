@@ -2325,6 +2325,16 @@ ID
 	%ID.id = newId(`&%'OPAQUE'.srcp, "opaque");
     %%
 
+    ! 'ON'
+    %%
+	%ID.id = newId(`&%'ON'.srcp, "on");
+    %%
+
+    ! 'OF'
+    %%
+	%ID.id = newId(`&%'OF'.srcp, "of");
+    %%
+
 -- Possibly we could add further keywords here. But let's not at this point
     ;
 

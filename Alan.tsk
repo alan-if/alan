@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>240.89</origest>
 <currest>240.89</currest>
-<elapsed>97.89</elapsed>
+<elapsed>98.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>47</currest>
-<elapsed>15</elapsed>
+<origest>48</origest>
+<currest>48</currest>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
-<elapsed>12</elapsed>
+<origest>16</origest>
+<currest>16</currest>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
@@ -166,7 +166,7 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -175,6 +175,42 @@ Warn (in instances that are containers) for declaring them as they would hide th
 
    Where recip Isa container Else Say recip. "cant' carry anything."
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>xglk library problem</desc>
+<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter program from 2.8 to 3.0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.28</desc>
+<notes/>
+<priority>2</priority>
+<origest>15</origest>
+<currest>15</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -333,35 +369,8 @@ REMEBER TO DOCUMENT IT!!!
 </task>
 </task>
 <task>
-<desc>xglk library problem</desc>
-<notes>Report to Zarf about the || -&gt; &amp;&amp; problem and the inconsistency on resource files (Windows look them up using extension, xglk assumes no extension). Does blorb manage them with numbers only? Yes. So that is more portable.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Locals should override directions</desc>
 <notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0.28</desc>
-<notes/>
-<priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Or do we prohibit containers to contain anything not an object? How?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -692,8 +701,8 @@ FOR EACH instance ISA entity DO
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>97</origest>
-<currest>97</currest>
+<origest>96</origest>
+<currest>96</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1423,15 +1432,6 @@ E.g.
  "I have" capacity Of bottle "left."
 
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter program from 2.8 to 3.0</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

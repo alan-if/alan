@@ -1982,6 +1982,16 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "opaque");
     	break;}
+    case 306: { /* ID = 'ON'; */
+#line 2329 "alan.pmk"
+
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "on");
+    	break;}
+    case 307: { /* ID = 'OF'; */
+#line 2334 "alan.pmk"
+
+	pmSeSt[pmStkP+1].id = newId(&pmSySt[pmStkP+1].srcp, "of");
+    	break;}
     default: break; }
 }/*pmPaSema()*/
 

@@ -38,7 +38,7 @@
 202	'Multiple usage of direction \'%1\' in this EXIT.';
 203	'Multiple definition of EXIT \'%1\' in this location.';
 204	'Multiple use of %1 clause in this %2.';
-205	'This is the first occurance of %1, see errors below.';
+205	'This is the first occurrence of %1, see errors below.';
 206	'Incompatible parameters lists for multiple syntax definitions for verb \'%1\'. Multiple syntaxes for the same verb must contain the same number of parameters with the same name, but the order of the parameters can be changed.';
 207	'VERB \'%1\' is not defined.';
 208	'\'%1\' is not a VERB.';
