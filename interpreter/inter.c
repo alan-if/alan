@@ -293,13 +293,13 @@ void interpret(Aaddr adr)
     
     switch (I_CLASS(i)) {
     case C_CONST:
-      if (tracePushOption) printf("\n%4x: PUSH  \t%5ld\t\t\t", pc, I_OP(i));
+      if (tracePushOption) printf("\n%4x: PUSH  \t%5ld\t\t\t", pc-1, I_OP(i));
       push(I_OP(i));
       if (tracePushOption && traceStackOption)
 	dumpStack();
       break;
     case C_CURVAR:
-      if (singleStepOption) printf("\n%4x: ", pc);
+      if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
       case V_PARAM:
 	if (singleStepOption) printf("PARAM \t%5ld\t\t=%ld\t", top(), params[top()-1].code);
@@ -332,7 +332,7 @@ void interpret(Aaddr adr)
       break;
 
     case C_STMOP:
-      if (singleStepOption) printf("\n%4x: ", pc);
+      if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
       case I_PRINT: {
 	Aword fpos, len;
@@ -626,7 +626,7 @@ void interpret(Aaddr adr)
 	form = pop();
 	id = pop();
 	if (singleStepOption)
-	  printf("SAY \t%s %5ld\t\t\"", printForm(form), id);
+	  printf("SAY %s\t%5ld\t\t\t\"", printForm(form), id);
 	if (form == SAY_SIMPLE)
 	  say(id);
 	else

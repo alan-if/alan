@@ -212,9 +212,9 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of entered code (location only) */
-  Aaddr mentioned;		/* Address to short description code */
-  Aaddr indefinite;		/* Address of indefinite article code */
   Aaddr definite;		/* Address of definite article code */
+  Aaddr indefinite;		/* Address of indefinite article code */
+  Aaddr mentioned;		/* Address to short description code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
 } InstanceEntry;

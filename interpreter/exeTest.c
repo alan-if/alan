@@ -100,13 +100,46 @@ static void testPopGameState() {
 }
 
 static void testWhereIllegalId() {
+  header->instanceMax = 1;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
     where(0);
   ASSERT(hadSyserr);
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
-    where(1000);
+    where(2);
+  ASSERT(hadSyserr);
+}
+
+static void testHereIllegalId() {
+  header->instanceMax = 1;
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    isHere(0);
+  ASSERT(hadSyserr);
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    isHere(2);
+  ASSERT(hadSyserr);
+}
+
+static void testLocateIllegalId() {
+  header->instanceMax = 1;
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    locate(0, 1);
+  ASSERT(hadSyserr);
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    locate(2, 1);
+  ASSERT(hadSyserr);
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    locate(1, 0);
+  ASSERT(hadSyserr);
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    locate(1, 2);
   ASSERT(hadSyserr);
 }
 
@@ -118,4 +151,6 @@ void registerExeUnitTests()
   registerUnitTest(testPushGameState);
   registerUnitTest(testPopGameState);
   registerUnitTest(testWhereIllegalId);
+  registerUnitTest(testHereIllegalId);
+  registerUnitTest(testLocateIllegalId);
 }

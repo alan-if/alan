@@ -194,7 +194,7 @@ void analyzeClasses(void)
 /*----------------------------------------------------------------------*/
 static void generateClassData(ClaNod *cla)
 {
-  generateClassPropertiesData(cla->props);
+  generateCommonPropertiesData(cla->props);
   if (debugOption) {
     cla->props->idAddress = nextEmitAddress();
     emitString(cla->props->id->string);

@@ -277,6 +277,7 @@ static void reverseInstances(Aword adr)
       reverseTable(e->attributes, sizeof(AttributeEntry));
       reverseStms(e->entered);
       reverseStms(e->mentioned);
+      reverseStms(e->definite);
       reverseStms(e->indefinite);
       reverseChks(e->checks);
       reverseStms(e->description);

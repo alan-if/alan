@@ -1,5 +1,6 @@
 The o Isa object
-Article If x Is y Then "hej" End If.
+Indefinite Article If x Is y Then "hej" End If.
+Definite Article If x Is y Then "hej" End If.
 End The o.
 
 The l Isa location

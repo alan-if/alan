@@ -52,10 +52,10 @@ Properties *newProps(List *names,
 		     Srcp enteredSrcp,
 		     List *mentioned,
 		     Srcp mentionedSrcp,
-		     List *indefinite,
-		     Srcp indefiniteSrcp,
 		     List *definite,
 		     Srcp definiteSrcp,
+		     List *indefinite,
+		     Srcp indefiniteSrcp,
 		     List *exits,
 		     List *verbs,
 		     List *scripts)
@@ -195,6 +195,7 @@ void analyzeProps(Properties *props, Context *context)
   analyzeStatements(props->enteredStatements, context);
   analyzeStatements(props->mentioned, context);
   analyzeStatements(props->definite, context);
+  analyzeStatements(props->indefinite, context);
   analyzeVerbs(props->verbs, context);
 
   /* Have container ? */
@@ -221,7 +222,7 @@ void analyzeProps(Properties *props, Context *context)
 
 
 /*======================================================================*/
-void generateClassPropertiesData(Properties *props)
+void generateCommonPropertiesData(Properties *props)
 {
   props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
 
@@ -238,8 +239,14 @@ void generateClassPropertiesData(Properties *props)
   }
 
   if (props->definite != NULL) {
-    props->articleAddress = nextEmitAddress();
+    props->definiteAddress = nextEmitAddress();
     generateStatements(props->definite);
+    emit0(I_RETURN);
+  }
+
+  if (props->indefinite != NULL) {
+    props->indefiniteAddress = nextEmitAddress();
+    generateStatements(props->indefinite);
     emit0(I_RETURN);
   }
 
@@ -262,34 +269,8 @@ void generateInstancePropertiesData(Properties *props)
 
   props->attributeAddress = generateAttributes(props->attributes);
 
-  props->descriptionChecksAddress = generateChecks(props->descriptionChecks);
-
-  if (props->descriptionStatements != NULL) {
-    props->descriptionAddress = nextEmitAddress();
-    generateStatements(props->descriptionStatements);
-    emit0(I_RETURN);
-  }
-
-  if (props->enteredStatements != NULL) {
-    props->enteredAddress = nextEmitAddress();
-    generateStatements(props->enteredStatements);
-    emit0(I_RETURN);
-  }
-
-  if (props->mentioned != NULL) {
-    props->mentionedAddress = nextEmitAddress();
-    generateStatements(props->mentioned);
-    emit0(I_RETURN);
-  }
-
-  if (props->definite != NULL) {
-    props->articleAddress = nextEmitAddress();
-    generateStatements(props->definite);
-    emit0(I_RETURN);
-  }
-
-  props->verbsAddress = generateVerbs(props->verbs);
-  props->exitsAddress = generateExits(props->exits);
+  /* Now generate all the things both instances and classes have */
+  generateCommonPropertiesData(props);
 }
 
 
@@ -314,7 +295,8 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   else
     entry->container = 0;
   entry->mentioned = props->mentionedAddress;
-  entry->indefinite = props->articleAddress;
+  entry->definite = props->definiteAddress;
+  entry->indefinite = props->indefiniteAddress;
   entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
 }
@@ -335,8 +317,10 @@ void dumpProps(Properties *props)
   put("descriptionChecksAddress: "); dumpAddress(props->descriptionChecksAddress); nl();
   put("description: "); dumpList(props->descriptionStatements, STATEMENT_LIST); nl();
   put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
-  put("article: "); dumpList(props->definite, STATEMENT_LIST); nl();
-  put("articleAddres: "); dumpAddress(props->articleAddress); nl();
+  put("definite: "); dumpList(props->definite, STATEMENT_LIST); nl();
+  put("definiteAddress: "); dumpAddress(props->definiteAddress); nl();
+  put("indefinite: "); dumpList(props->indefinite, STATEMENT_LIST); nl();
+  put("indefiniteAddress: "); dumpAddress(props->indefiniteAddress); nl();
   put("mentioned: "); dumpList(props->mentioned, STATEMENT_LIST); nl();
   put("mentionedAddress: "); dumpAddress(props->mentionedAddress); nl();
   put("scripts: "); dumpList(props->scripts, SCRIPT_LIST); nl();

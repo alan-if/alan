@@ -43,7 +43,7 @@ extern Properties *newProps(List *nams,
 
 extern void symbolizeProps(Properties *props);
 extern void analyzeProps(Properties *props, Context *context);
-extern void generateClassPropertiesData(Properties *props);
+extern void generateCommonPropertiesData(Properties *props);
 extern void generateInstancePropertiesData(Properties *props);
 extern void generatePropertiesEntry(InstanceEntry *entry, Properties *props);
 extern void dumpProps(Properties *props);

@@ -81,7 +81,7 @@ void testGenerateEmptyClassEntry()
   initEmit("unit.a3c");
   symbolizeAdventure();
 
-  generateClassPropertiesData(class->props);
+  generateCommonPropertiesData(class->props);
   entryAddress = nextEmitAddress();
   generateClassEntry(class);
   terminateEmit();

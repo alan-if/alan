@@ -41,10 +41,11 @@ typedef struct Properties {
   List *definite;		/* Definite Form/Article printing statements */
   Srcp definiteSrcp;
   FormKind definiteType;	/* Form or Article? */
+  Aword definiteAddress;	/* ACODE address to Definite statements */
   List *indefinite;		/* Indefinite Form/Article printing statements */
   Srcp indefiniteSrcp;
   FormKind indefiniteType;	/* Form or Article? */
-  Aword articleAddress;		/* ACODE address to ARTICLE statements */
+  Aword indefiniteAddress;	/* ACODE address to Indefinite statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */

@@ -172,7 +172,9 @@ static void addArticle(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->definite != NULL)
-    lmLogv(&props->definiteSrcp, 341, sevERR, "article", "(yet)", NULL);
+    lmLogv(&props->definiteSrcp, 341, sevERR, "articles", "(yet)", NULL);
+  if (props->indefinite != NULL)
+    lmLogv(&props->indefiniteSrcp, 341, sevERR, "articles", "(yet)", NULL);
 
 }
 
@@ -225,6 +227,8 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
       lmLogv(&add->props->descriptionSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
     if (add->props->definite)
       lmLogv(&add->props->definiteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+    if (add->props->indefinite)
+      lmLogv(&add->props->indefiniteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
     if (add->props->mentioned)
       lmLogv(&add->props->mentionedSrcp, 424, sevERR, "mentioned", originalSymbol->string, NULL);
     if (add->props->container)

@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "decode.h"
+#include "syserr.h"
 
 
 /* Bit output */

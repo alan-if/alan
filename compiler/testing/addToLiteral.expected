@@ -31,7 +31,7 @@ addToLiteral.alan
 =====>    1
 
   *1*   424 E : You can not ADD article to non-instantiable class 'literal'.
-  *1*   341 E : Can not ADD article TO classes. (yet)
+  *1*   341 E : Can not ADD articles TO classes. (yet)
 
     7.    Description ""
 =====>    1

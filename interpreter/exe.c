@@ -671,8 +671,6 @@ Aint agrcount(Aword whr)
 static void locateObject(Aword obj, Aword whr)
 {
   if (isCnt(whr)) { /* Into a container */
-    if (whr == obj)
-      syserr("Locating something inside itself.");
     if (checklim(whr, obj))
       return;
     else
@@ -722,24 +720,12 @@ static void locateActor(Aword movingActor, Aword whr)
 /*======================================================================*/
 void locate(Aword id, Aword whr)
 {
-  char str[80];
   Aword containerId;
   ContainerEntry *theContainer;
   Aword previousInstance = current.instance;
 
-  if (id == 0) {
-    sprintf(str, "Can't LOCATE instance (%ld).", id);
-    syserr(str);
-  } else if (id > header->instanceMax) {
-    sprintf(str, "Can't LOCATE instance (%ld > instanceMax).", id);
-    syserr(str);
-  } else if (whr == 0) {
-    sprintf(str, "Can't LOCATE instance at (%ld).", whr);
-    syserr(str);
-  } else if (whr > header->instanceMax) {
-    sprintf(str, "Can't LOCATE instance at (%ld > instanceMax).", whr);
-    syserr(str);
-  }
+  verifyId(id, "LOCATE");
+  verifyId(whr, "LOCATE AT");
 
   /* First check if the instance is in a container, if so run extract checks */
   if (isCnt(admin[id].location)) {    /* In something? */
@@ -795,18 +781,8 @@ static Abool instanceHere(Aword id)
 /*======================================================================*/
 Aword isHere(Aword id)
 {
-  char str[80];
-
-  if (id == 0) {
-    sprintf(str, "Can't HERE instance (%ld).", id);
-    syserr(str);
-  } else if (id > header->instanceMax) {
-    sprintf(str, "Can't HERE instance (%ld > instanceMax).", id);
-    syserr(str);
-  } else
-    return instanceHere(id);
-  syserr("Fall through to end in isHere()");
-  return EOF;
+  verifyId(id, "HERE");
+  return instanceHere(id);
 }
 
 
@@ -941,12 +917,24 @@ void saystr(char *str)
 
 
 /*======================================================================*/
-void sayArticle(Aword id)
+void sayArticle(Aword id, SayForm form)
 {
-  if (instance[id].indefinite != 0)
-    interpret(instance[id].indefinite);
-  else
-    prmsg(M_INDEFINITE);
+  switch (form) {
+  case SAY_INDEFINITE:
+    if (instance[id].indefinite != 0)
+      interpret(instance[id].indefinite);
+    else
+      prmsg(M_INDEFINITE);
+    break;
+  case SAY_DEFINITE:
+    if (instance[id].definite != 0)
+      interpret(instance[id].definite);
+    else
+      prmsg(M_DEFINITE);
+    break;
+  default:
+    syserr("Unexpected form in sayArticle()");
+  }
 }
 
 
@@ -967,7 +955,7 @@ void say(Aword id)
 /*======================================================================*/
 void sayForm(Aword id, SayForm form)
 {
-  sayArticle(id);
+  sayArticle(id, form);
   say(id);
 }
 
