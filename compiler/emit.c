@@ -379,7 +379,7 @@ static struct DiskObject iconObject = {
   };
 #endif
 
-void eminit(
+void initEmit(
 	    char *acdfnm	/* IN - File name for ACODE instructions */
 )
 {
@@ -426,7 +426,7 @@ void eminit(
 }
 
 
-void emterm(AcdHdr *hdr)
+void terminateEmit(AcdHdr *hdr)
 {
   Aword *hp;			/* Pointer to header as words */
   int i;

@@ -18,6 +18,8 @@ extern int instanceCount;
 
 /* METHODS: */
 
+extern void initInstances();
+
 /* Create a new Instance node */
 extern InsNod *newins(Srcp *srcp,
 		      IdNode *id,

@@ -15,19 +15,22 @@
 #include "smScan.h"
 #include "token.h"
 
+#include "id_x.h"
+#include "ins_x.h"
+#include "cla_x.h"
+#include "sym_x.h"
+
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "chk.h"                /* CHK-nodes */
-#include "cla.h"		/* CLASS-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "ext.h"                /* EXT-nodes */
-#include "ins.h"		/* INS-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */

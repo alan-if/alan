@@ -10,9 +10,10 @@
 /* IMPORTS */
 #include "sysdep.h"
 #include "util.h"
-#include "srcp_x.h"
 #include "lmList.h"
-#include "cla.h"		/* CLAss nodes */
+
+#include "srcp_x.h"
+#include "cla_x.h"
 
 
 int classCount = 0;

@@ -22,6 +22,17 @@ static List *allInstances = NULL;
 
 /*======================================================================
 
+  initInstances()
+
+*/
+void initInstances()
+{
+  allInstances = NULL;
+}
+
+
+/*======================================================================
+
   newins()
 
   Allocates and initialises a insnod.

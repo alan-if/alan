@@ -22,9 +22,7 @@ void testInitAdv()
   ClaNod *cla;
 
 
-  initSymbols();
-  allClasses = NULL;
-  allInstances = NULL;
+  initadv();
 
   cla = newcla(&srcp, atClaId, NULL, NULL);
   ins = newins(&srcp, atInsId, NULL, NULL);

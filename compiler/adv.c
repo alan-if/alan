@@ -14,9 +14,9 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "ins_x.h"
+#include "cla_x.h"
 
 #include "adv.h"		/* ADV-node */
-#include "cla.h"		/* CLA-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "vrb.h"		/* VRB-nodes */
@@ -57,11 +57,13 @@ static Aword end;
   */
 void initadv(void)
 {
+  initClasses();
+  initInstances();
   initSymbols();
   initDumpNodeList();
 
 #ifdef FIXME
-  initcnt();			/* Must do this first to create the inventory */
+  initcnt();		/* Must do this first to create the inventory */
 #endif
 }
 
@@ -225,7 +227,7 @@ static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
  */
 void geadv(char *acdfnm)	/* IN - ACODE file name */
 {
-  eminit(acdfnm);		/* Initialise code emit */
+  initEmit(acdfnm);		/* Initialise code emit */
   eninit();			/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;
@@ -268,7 +270,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   end = emadr();		/* Last address */
   header.size = end;		/* Save size */
   enterm();			/* Terminate ENCODE */
-  emterm(&header);		/* Terminate EMIT */
+  terminateEmit(&header);
   if (verbose) printf("\n");
 }
 

@@ -15,7 +15,7 @@
 #include "slt.h"
 
 
-/* Types */
+/* TYPES: */
 
 typedef struct InsNod {		/* INSTANCE */
   Srcp srcp;			/* Source position */

@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "cla.h"
+#include "cla_x.h"
 
 /* IMPORT */
 #include <stdio.h>
@@ -15,6 +15,7 @@
 #include "id_x.h"
 #include "sym_x.h"
 
+#include "emit.h"
 #include "util.h"
 #include "dump.h"
 #include "lmList.h"
@@ -24,6 +25,20 @@
 /* PRIVATE DATA */
 
 static List *allClasses = NULL;
+
+
+
+
+
+/*======================================================================
+
+  initClasses()
+
+*/
+void initClasses()
+{
+  allClasses = NULL;
+}
 
 
 
@@ -129,6 +144,28 @@ void analyzeClasses(void)
 }
 
 
+/*----------------------------------------------------------------------
+
+  generateClass
+
+*/
+static void generateClass(ClaNod *cla)
+{
+  cla->adr = emadr();
+}
+
+
+/*----------------------------------------------------------------------
+
+  generateClassEntry
+
+*/
+static void generateClassEntry(ClaNod *cla)
+{
+  emit(cla->adr);
+}
+
+
 /*======================================================================
 
   generateClasses()
@@ -138,8 +175,17 @@ void analyzeClasses(void)
  */
 Aaddr generateClasses(void)
 {
-  syserr("UNIMPL: generateClasses");
-  return 0;
+  List *l;
+  Aaddr adr;
+
+  for (l = allClasses; l; l = l->next)
+    generateClass(l->element.cla);
+
+  adr = emadr();
+  for (l = allClasses; l; l = l->next)
+    generateClassEntry(l->element.cla);
+
+  return (adr);
 }
 
 

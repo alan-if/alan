@@ -85,7 +85,7 @@ OBJECTS = $(VERSIONOBJECTS) $(TMOBJS) alan.version.o
 
 all alan alan.exe : test $(OBJECTS) Makefile
 	gcc -o alan $(OBJECTS) $(LDFLAGS)	
-	-mkdir ../bin
+	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
 spa.o: spa.c spa.h

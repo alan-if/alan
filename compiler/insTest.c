@@ -12,15 +12,17 @@ void testCreateIns()
   Srcp srcp = {1,2,3};
   IdNode *id = newId(&srcp, "insId");
   IdNode *heritage = newId(&srcp, "heritageId");
+  InsNod *ins;
 
-  InsNod *ins = newins(&srcp, id, heritage, NULL);
+  initadv();
 
+  ins = newins(&srcp, id, heritage, NULL);
   unitAssert(equalSrcp(srcp, ins->srcp));
   unitAssert(equalId(id, ins->id));
   unitAssert(equalId(heritage, ins->heritage));
 
   symbolizeInstance(ins);
-  unitAssert(readEcode() == 350 && readSev() == sevERR);
+  unitAssert(readEcode() == 310 && readSev() == sevERR);
 }
 
 void registerInsUnitTests()

@@ -116,7 +116,7 @@ List *anelms(
              StxNod *stx        /* IN - The stx we're in */
 )
 {
-  ElmNod *elm = elms->element.elm; /* Set to be the first */
+  ElmNod *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
   List *lst, *resLst, *pars = NULL;
   int paramNo = 1;
   Bool multiple = FALSE;

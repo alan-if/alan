@@ -14,7 +14,7 @@
 #include "slt.h"
 
 
-/* Types */
+/* TYPES: */
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
@@ -22,31 +22,8 @@ typedef struct ClaNod {		/* CLASS */
   SymNod *symbol;		/* Pointer to symbol table node */
   IdNode *heritage;		/* The class' heritage (parent) */
   struct Slots *slt;		/* Slots */
+  Aaddr adr;			/* Generated at address */
 } ClaNod;
-
-
-/* Data: */
-extern int classCount;
-
-/* Methods: */
-
-/* Create a new Claect node */
-extern ClaNod *newcla(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *heritage,
-		      Slots *slt);
-
-/* Symbolize all Classes */
-extern void symbolizeClasses(void);
-
-/* Analyze all Classes */
-extern void analyzeClasses(void);
-
-/* Generate code for all Classes */
-extern Aaddr generateClasses(void);
-
-/* Dump all Class node */
-extern void dumpClasses(void);
 
 
 #endif

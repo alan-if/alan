@@ -5,11 +5,12 @@
 \*======================================================================*/
 
 #include "cla.c"
-
+#include "adv.h"
 #include "ins_x.h"
+#include "emit.h"
 
 
-void testCreateCla()
+void testCreateClass()
 {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(&srcp, "claId");
@@ -33,8 +34,28 @@ void testCreateCla()
 }
 
 
+void testGenerateClasses()
+{
+  Srcp srcp = {12,13,14};
+  ClaNod *cla;
+  Aaddr addr;
+  int firstAdr = sizeof(AcdHdr)/sizeof(Aword);
+
+  initadv();
+
+  addr = generateClasses();
+  unitAssert(addr == 0);	/* Nothing generated */
+
+  initEmit("unit.acd");
+  cla = newcla(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
+  addr = generateClasses();
+  unitAssert(addr == firstAdr);	/* Should start at first address after header*/
+  unitAssert(emadr() == firstAdr + 1);	/* The size of the class table and one class */
+}
+
 void registerClaUnitTests()
 {
-  registerUnitTest(testCreateCla);
+  registerUnitTest(testCreateClass);
+  registerUnitTest(testGenerateClasses);
 }
 
