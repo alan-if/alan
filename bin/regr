@@ -81,7 +81,9 @@ failed=0
 suspended=0
 new=0
 
-recurse
+if [ $# = 0 ] ; then
+  recurse
+fi
 
 if [ -f .case ] ; then
   ext=`cat .case`

@@ -769,25 +769,28 @@ static void generateBinaryExpression(Expression *exp)
 /*----------------------------------------------------------------------*/
 static void generateWhereExpression(Expression *exp)
 {
-  switch (exp->fields.whr.whr->kind) {
+  Where *where = exp->fields.whr.whr;
+  Expression *what = exp->fields.whr.wht;
+
+  switch (where->kind) {
   case WHR_HERE:
-    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    generateExpression(what);
     emit0(I_HERE);
     if (exp->not) emit0(I_NOT);
     return;
   case WHR_NEAR:
-    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    generateExpression(what);
     emit0(I_NEAR);
     if (exp->not) emit0(I_NOT);
     return;
   case WHR_IN:
-    generateWhat(exp->fields.whr.whr->what->fields.wht.wht);
-    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    generateExpression(where->what);
+    generateExpression(what);
     emit0(I_IN);
     if (exp->not) emit0(I_NOT);
     return;
   case WHERE_AT:
-    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    generateExpression(what);
     emit0(I_WHERE);
     break;
   default:
@@ -796,7 +799,7 @@ static void generateWhereExpression(Expression *exp)
     return;
   }
   
-  generateWhere(exp->fields.whr.whr);
+  generateWhere(where);
   emit0(I_EQ);
   if (exp->not) emit0(I_NOT);
 }

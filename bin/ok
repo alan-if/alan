@@ -1,6 +1,7 @@
 #! /bin/sh
 #
+ext=`cat .case`
 for f in ${*} ; do
-    case=`basename $f .alan`
+    case=`basename $f $ext`
     mv $case.output $case.expected
 done

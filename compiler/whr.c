@@ -129,27 +129,13 @@ void generateWhere(Where *where)
   switch (where->kind) {
 
   case WHERE_AT:
-    switch (where->what->fields.wht.wht->kind) {
-    case WHAT_ID:
-      generateWhat(where->what->fields.wht.wht);
-      /* Instance inherit from location? Or is it at the location of it? */
-      if (!inheritsFrom(where->what->fields.wht.wht->id->symbol, locationSymbol))
-	emit0(I_WHERE);
-      break;
-    case WHAT_LOCATION:
-      emitVariable(V_CURLOC);
-      break;
-    case WHAT_ACTOR:
-      emitVariable(V_CURACT);
+    generateExpression(where->what);
+    if (!inheritsFrom(where->what->class, locationSymbol))
       emit0(I_WHERE);
-      break;
-    default:
-      syserr("Unexpected switch on whatKind in '%s()'", __FUNCTION__);
-    }
     break;
 
   case WHR_IN:
-    generateId(where->what->fields.wht.wht->id);
+    generateExpression(where->what);
     break;
 
   case WHR_HERE:
@@ -157,7 +143,7 @@ void generateWhere(Where *where)
     break;
 
   default:
-    syserr("unrecognised switch in '%s()'", __FUNCTION__);
+    syserr("Unrecognised switch in '%s()'", __FUNCTION__);
     break;
   }
 }

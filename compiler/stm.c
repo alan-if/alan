@@ -622,12 +622,9 @@ static void generateShow(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateEmpty(StmNod *stm)
 {
-  if (stm->fields.empty.wht->kind == WHAT_ID) {
-    generateWhere(stm->fields.empty.where);
-    generateExpression(stm->fields.empty.wht);
-    emit0(I_EMPTY);
-  } else
-    unimpl(&stm->srcp, "Code Generator");
+  generateWhere(stm->fields.empty.where);
+  generateExpression(stm->fields.empty.wht);
+  emit0(I_EMPTY);
 }
 
 

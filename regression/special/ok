@@ -1,6 +1,0 @@
-#! /bin/sh
-#
-for f in ${*}.test ; do
-    case=`basename $f .test`
-    mv $case.output $case.expected
-done
