@@ -1,9 +1,0 @@
-The lockable_object Isa object
-  Verb lock
-  End Verb.
-End The.
-
-The l Isa location
-End The l.
-
-Start At l.

@@ -1,6 +1,7 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
+# Cygwin or MingW?
 PLATFORM = -mno-cygwin
 #PLATFORM = 
 OPTIMIZE = -g
