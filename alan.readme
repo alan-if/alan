@@ -1,30 +1,32 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2003-06-03
+			      2003-07-12
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.24dev) of Alan V3. It features
+This is a development preview (v3.0.25dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
 Windows only.
 
 This package contains the compiler, the interpreter, the manual,
 the source for the Saviour game and a version of the standard library.
 
-Changes from v3.0.23 development:
-- Menu entries in WinArun for Restart, Save, Restore
-- ISA expression for testing class membership during run-time
-- Multiple restrictions for the same parameter
-- Actors which are container should now work properly
-- Debugging shows class names and other info in symbolics instead of magic numbers
+Changes from v3.0.24 development:
+- "STOP <actor>"
+- EXTRACT-clause on containers to check, prohibit and perform actions on extraction
+- DESCRIPTION can now be ADDed to classes
+- "List This" now works as documented
+- WinArun about-box shows version info
+- Fixed SIGSEGV in compiler when trying to write to writeprotected files
+- Ensured that DEPENDING ON works according to docs
 - Documentation updates
 
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
 "GLK.DLL". WindowsGLK DLL can be downloaded from
-http://www.ifarchive.org/if-archive/programming/glk/implementations/WindowsGlk-121.zip
+http://www.ifarchive.org/if-archive/programming/glk/implementations/WindowsGlk-?.zip
 
 The command line version 'arun.exe' requires a "cygwin1.dll". The
 Cygwin DLL can be installed from http://www.cygwin.org, click "Install
@@ -38,8 +40,8 @@ The Alan System is one of the most easy-to-use tools to create
 interactive fiction, aka. adventure games. The Alan System is based on
 a special purpose computer language designed to be used by people more
 interested in authoring and designing games than for computer
-programmers. The system consists of a compiler which compiles Alan
-source to a compact and portable form and an interpreter that
+programmers. The system consists of a compiler, which compiles Alan
+source to a compact and portable form, and an interpreter that
 interprets such a form to allow playing of the game.
 
 The Alan System is register-ware. To use Alan all you need to do is to
@@ -61,8 +63,8 @@ and its mirrors.
 For complete copying conditions refer to the file COPYING in the
 distribution or appendix J in the manual.
 
-If you have any problems don't hesitate to contact the authors at the
-following email addresses:
+If you have any problems don't hesitate to contact the author at the
+following email address:
 
 	thomas.nilsson@progindus.se
 
@@ -72,7 +74,7 @@ Alan Home Pages at
 	http://welcome.to/alan-if
 
 
-If you haven't already, join the 1231 people registered. Happy Authoring!
+If you haven't already, join the 1251 people registered. Happy Authoring!
 
 
 	The ThoNi & GorFo Adventure Factories
