@@ -1,8 +1,8 @@
-#ifndef _SYNONYMS_H_
-#define _SYNONYMS_H_
+#ifndef _SYNONYM_H_
+#define _SYNONYM_H_
 /*----------------------------------------------------------------------*\
 
-			      Synonyms.h
+			      Synonym.h
 
 			    Synonym Nodes
                                                                      
