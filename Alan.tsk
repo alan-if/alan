@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>168.89</origest>
-<currest>168.89</currest>
+<origest>170.89</origest>
+<currest>170.89</currest>
 <elapsed>56.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
+<origest>30</origest>
+<currest>30</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -349,19 +349,152 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.28</desc>
+<notes/>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Language texts in external files</desc>
+<notes>Need:
+To allow user managed language translations.
+
+Design:
+If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
+
+Implementation:
+1) Allow any id as a value for the language option.
+2) Find an external langauge-specific message file and use it.
+3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple but different syntaxes for same verb</desc>
+<notes>
+For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
+Syntax give_to_actor = give (thing) to (person)
+Syntax give_actor = give (person) (thing)
+Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
+To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
+
+Verb give_to_actor, give_actor ...
+
+We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Article handling</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Definite article declaration</desc>
+<notes>
+If a definite article declaration is introduced the following can be made possible:
+
+"You can not x" SAY A obj.
+
+"You open" SAY THE obj.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Indefinite article</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Printing of articles</desc>
+<notes>
+How do we use definite and indefinite articles in printouts?
+
+SAY the O.
+
+SAY an O.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SAY a/the &lt;param&gt;</desc>
+<notes>
+A SAY should refer to which form of articles should be used:
+
+ Say A p.
+ Say The o.
+ Say x.
+
+Requires sections something like:
+
+ Definite
+  Article "a".
+
+ Indefinite
+  ""
+
+REMEBER TO DOCUMENT IT!!!
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>89</origest>
-<currest>89</currest>
+<origest>85</origest>
+<currest>85</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Full listing on the screen misses lines</desc>
 <notes>
 Refer to compiler/testing/addVerb losing line 2</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow reverse noun/adjective order</desc>
+<notes>Need:
+To allow latin type of langauges. "molin rouge"
+
+Design:
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -446,25 +579,6 @@ FOR EACH instance ISA entity DO
 </task>
 </task>
 <task>
-<desc>Multiple but different syntaxes for same verb</desc>
-<notes>
-For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
-Syntax give_to_actor = give (thing) to (person)
-Syntax give_actor = give (person) (thing)
-Of course it would then also be handy, almost required, to be able to create "verb synonyms". Currently you would have to add them both to every verb definition. So this complexity is one reason why the "multiple syntax verb" feature has not received very much attention.
-To implement multiple but different syntaxes for the same verb a mapping between parameter positions have to be made. E.g. in
-
-Verb give_to_actor, give_actor ...
-
-We will have to refer to either parameter 1 or 2 for a reference to thing depending on the syntax used. Some kind of mapping table could be used.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Bug: Spaces after $o at end of string</desc>
 <notes>
 SteveG:
@@ -503,80 +617,6 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Article handling</desc>
-<notes/>
-<priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Definite article declaration</desc>
-<notes>
-If a definite article declaration is introduced the following can be made possible:
-
-"You can not x" SAY A obj.
-
-"You open" SAY THE obj.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Indefinite article</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Printing of articles</desc>
-<notes>
-How do we use definite and indefinite articles in printouts?
-
-SAY the O.
-
-SAY an O.
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SAY a/the &lt;param&gt;</desc>
-<notes>
-A SAY should refer to which form of articles should be used:
-
- Say A p.
- Say The o.
- Say x.
-
-Requires sections something like:
-
- Definite
-  Article "a".
-
- Indefinite
-  ""
-
-REMEBER TO DOCUMENT IT!!!
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Separate release &amp; distribution in top level Makefile</desc>

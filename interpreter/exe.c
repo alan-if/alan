@@ -12,7 +12,9 @@
 #include "readline.h"
 #endif
 
+
 #ifdef GLK
+#define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
 

@@ -2,14 +2,19 @@
 
 CYGWIN = #-DCOMPILER=\"[GCC/CygWin32]\"
 OPTIMIZE = -g
+
 GLKROOT = ../../WindowsGLK
+GLKDEFS = -DGLK -DWINGLK
+GLKINCLUDE = -I$(GLKROOT)/Include
+GLKLIB = $(GLKROOT)/Glk.lib
+
+CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 
 #Settings for Windows GLK variant
-winarun: GLK = -DGLK -DWINGLK
-winarun: GLKINCLUDE = -I$(GLKROOT)/Include
-winarun: GLKLIB = $(GLKROOT)/Glk.lib
+winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
-winarun: OPTIMIZE = -g
+winarun: LIB = $(LIB) $(GLKLIB)
+
 #-DCOMPILER=\"[GCC/Mingw32]\" 
 
 release: OPTIMIZE = -O4
@@ -20,12 +25,9 @@ ARCH	= $(CYGWIN)$(OPTIMIZE)
 #CRCLOG = -DCRCLOG
 
 
-CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG) $(GLKINCLUDE) $(GLK)
-
 CPP	= gcc -MM -ansi
 
 LDFLAGS = $(CYGWIN) $(VERBOSE)
-LIB = $(GLKLIB)
 
 GLKSRCS = glkstart.c glkio.c
 
@@ -142,7 +144,7 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.o
 depend:
 	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS); \
 	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
+	  $(CPP) $(CFLAGS) $(GLKINCLUDE) $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 

@@ -19,9 +19,11 @@ winid_t glkStatusWin;
 #define printf glkio_printf
 void glkio_printf(char *, ...);
 
+#ifdef MAP_STDIO_TO_GLK
 #define fgetc(stream) glk_get_char_stream(stream)
 #define fwrite(buf, elementSize, count, stream) glk_put_buffer_stream(stream, buf, elementSize*count);
 #define fread(buf, elementSize, count, stream) glk_get_buffer_stream(stream, buf, elementSize*count);
 #define fclose(stream) glk_stream_close(stream, NULL)
+#endif
 
 #endif

@@ -26,3 +26,6 @@ inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
   inter.h
 arun.o: arun.c main.h types.h sysdep.h acode.h term.h alan.version.h \
   version.h args.h
+glkstart.o: glkstart.c ../../WindowsGLK/Include/glk.h glkstart.h glkio.h \
+  args.h resources.h
+glkio.o: glkio.c ../../WindowsGLK/Include/glk.h glkio.h

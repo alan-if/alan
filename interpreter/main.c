@@ -186,7 +186,7 @@ void usage()
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
   printf("    -s    single instruction trace\n");
-  printf("    -p    trace all stack pushs\n");
+  printf("    -p    trace all stack push instructions also\n");
   printf("    -i    ignore version and checksum errors\n");
   printf("    -r    refrain from printing timestamps (making regression testing easier)\n");
 #ifdef GLK
@@ -272,7 +272,7 @@ void statusline(void)
   char line[100];
   int pcol = col;
 
-  if (NULL == glkStatusWin)
+  if (glkStatusWin == NULL)
     return;
 
   glk_set_window(glkStatusWin);
