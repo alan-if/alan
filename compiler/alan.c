@@ -17,7 +17,6 @@
 #include "alan.h"
 
 /* IMPORTS */
-
 #include "alan.version.h"
 #include "opt.h"
 #include "dump.h"
@@ -30,6 +29,9 @@
 #include "adv_x.h"
 #include "images_x.h"
 
+#ifdef WINGUI
+#include <windows.h>
+#endif
 
 /* PUBLIC DATA */
 
@@ -413,6 +415,7 @@ void compile(void) {
   free(heap);
   lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
   setCharacterSet(charset);
+
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);

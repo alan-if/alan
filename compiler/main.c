@@ -191,9 +191,16 @@ static void remapWindowsFilename(char string[])
 {
   int i;
 
+  if (string[0] == '"') {
+    strcpy(string, &string[1]);
+    string[strlen(string)-1] = '\0';
+  }
+
+#ifdef REMAPSLASH
   for (i = 0; string[i] != '\0'; i++)
     if (string[i] == '\\')
       string[i] = '/';
+#endif
 }
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
@@ -213,17 +220,21 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
 #endif
 
   guiMode = TRUE;
-  if (argc == 1) {
+  if (nArgs == 1) {
     if (!getInFileName())
       return -1;
     argv[1] = fullInFileName;
     argc = 2;
-  } else
+  }
+  else
     /* If we run from a CMD windows we will see Windows-style filenames */
     remapWindowsFilename(argv[1]);
 
 #ifdef ARGSDISPLAY
-  MessageBox(NULL, inFileName, "Alan V3 compiler", MB_OK);
+  MessageBox(NULL, argv[1], "Alan V3 compiler : argv[1]", MB_OK);
+  MessageBox(NULL, fullInFileName, "Alan V3 compiler : fullInFileName", MB_OK);
+  MessageBox(NULL, inFileName, "Alan V3 compiler : inFileName", MB_OK);
+  MessageBox(NULL, fopen(argv[1], "r")!=NULL?"OK":"Not Ok", "Alan V3 compiler : open argv[1]", MB_OK);
 #endif
 
 

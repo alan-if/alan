@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>278.89</origest>
 <currest>277.89</currest>
-<elapsed>120.89</elapsed>
+<elapsed>121.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>53</origest>
 <currest>53</currest>
-<elapsed>15</elapsed>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>19</origest>
 <currest>19</currest>
-<elapsed>12</elapsed>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
@@ -305,7 +305,7 @@ Generates wrong syntax tables for b and c.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
