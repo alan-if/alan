@@ -126,9 +126,10 @@ static lmMsgs msg[] = {
     { "304   ", "\'%1\' already declared as an Instance (The)." },
     { "305   ", "\'%1\' already declared as a Class (Every)." },
     { "307   ", "\'%1\' already declared as an Event." },
+    { "309   ", "THIS instance is not guaranteed to be a container." },
     { "310   ", "Identifier \'%1\' not defined." },
     { "311   ", "Must refer to %1." },
-    { "312   ", "Parameter \'%1\' not uniquely defined as %2, which is required." },
+    { "312   ", "Parameter \'%1\' is not guaranteed to be %2, which is required." },
     { "313   ", "Attribute \'%1\' is not defined for THIS instance." },
     { "314   ", "Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it." },
     { "315   ", "Attribute not defined for \'%1\'." },
@@ -199,7 +200,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 119}
+    {0, 120}
 };
 static lmMessages currMsect = (lmMessages)0;
 
@@ -559,7 +560,7 @@ static void geterr(
 {
   /* initialize */
   *errflg = sevNONE; 
-  *first=0;
+  *first = 0;
   *last = 0;
   if (count.msgs <= 0)
     return;
@@ -578,12 +579,14 @@ static void geterr(
     return;
 
   /* Find last error for the line */
-  for (*last = *first; (*last < count.msgs)
+  if (*first >= 0) {
+    for (*last = *first; (*last < count.msgs)
         && (msarr[*last].pos.file == fil) 
         && (msarr[*last].pos.line == line) 
        ; (*last)++)
-    *errflg |= msarr[*last].sev; /* this severity was found */
-  (*last)--;
+      *errflg |= msarr[*last].sev; /* this severity was found */
+    (*last)--;
+  }
 }
 
 
@@ -722,14 +725,16 @@ static void prsrcl(
   
   /* Possibly output source if requested */
   if (inset(errflg, lstsev)) {
-    if (inset(liERR, lsttyp)) {
+    /* There is a message on this line that we want to show */
+    if (inset(liMSG, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
       if (!src[srclev].printed)
 	prfnm();
       prlin(lbuf, TRUE, FALSE, 0);	/* Error line to follow */
     }
-  } else if (errflg == (lmSev) 0) {
+  } else {
+    /* No interesting message on this line, show it anyway ? */
     if (inset(liOK, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */

@@ -14,7 +14,7 @@ containerRestriction0.alan
    14.  	Locate o In c.	
 =====>  	            1
 
-  *1*   312 E : Parameter 'c' not uniquely defined as a container, which is
+  *1*   312 E : Parameter 'c' is not guaranteed to be a container, which is
                 required.
 
 

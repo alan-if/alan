@@ -1,0 +1,32 @@
+########## alan inheritedExtract ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+########## arun inheritedExtract ##########
+
+
+Bar
+Bartender is here. Bartender is carrying a glass. A slow-moving,
+traditionally dressed waiter is here. Waiter is carrying a menu.
+
+> take glass
+Bartender will not allow you to take anything.
+
+> l
+Bar
+Bartender is here. Bartender is carrying a glass. A slow-moving,
+traditionally dressed waiter is here. Waiter is carrying a menu.
+
+> take menu
+Waiter will not allow you to take anything.
+
+> l
+Bar
+Bartender is here. Bartender is carrying a glass. A slow-moving,
+traditionally dressed waiter is here. Waiter is carrying a menu.
+
+> 
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -2,6 +2,7 @@
 
 OPTIMIZE = -g
 CYGWIN	= -mno-cygwin
+EXE	= arun.exe
 
 GLKROOT = ../../WindowsGLK
 GLKDEFS = -DGLK -DWINGLK
@@ -12,6 +13,7 @@ GLKLIB = $(GLKROOT)/Glk.lib
 winarun: CFLAGS = $(CFLAGS) $(GLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin
 winarun: LIB = $(LIB) $(GLKLIB)
+winarun: EXE = winarun.exe
 
 release: OPTIMIZE = -O4
 
@@ -56,7 +58,7 @@ WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 all: checkTarget unitTest arun
 
-arun : $(ARUNOBJECTS) Makefile dependencies.mk
+arun : $(ARUNOBJECTS) Makefile dependencies.mk $(EXE)
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin

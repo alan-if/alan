@@ -11,19 +11,19 @@
 #include "alan.h"
 #include "util.h"
 
-#include "atr_x.h"
-#include "cnt_x.h"
-#include "exp_x.h"
 #include "id_x.h"
 #include "lst_x.h"
 #include "srcp_x.h"
+#include "adv_x.h"
+#include "atr_x.h"
+#include "cnt_x.h"
+#include "exp_x.h"
 #include "sym_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
 
 #include "lmList.h"
 
-#include "adv.h"                /* ADV-node */
 #include "scr.h"                /* SCR-nodes */
 #include "sco.h"                /* SCORES */
 #include "opt.h"                /* OPTIONS */
@@ -221,6 +221,7 @@ static void analyzeMake(StmNod *stm,
 
   case WHAT_LOCATION:
   case WHAT_ID:
+  case WHAT_THIS:
     break;
 
   default:
@@ -709,11 +710,8 @@ static void generateSay(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateList(StmNod *stm)
 {
-  if (stm->fields.list.wht->kind == WHAT_ID) {
-    generateId(stm->fields.list.wht->id);
-    emit0(I_LIST);
-  } else
-    unimpl(&stm->srcp, "Code Generator");
+  generateWhat(stm->fields.list.wht);
+  emit0(I_LIST);
 }
 
 

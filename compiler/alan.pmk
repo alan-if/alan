@@ -6,7 +6,7 @@
 --	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
-	Line;
+--	Line;
 --	Debug;
 	No Resolve;
 
@@ -19,6 +19,19 @@
 #include "smScan.h"
 #include "token.h"
 
+#include "lmList.h"
+
+#include "alt.h"                /* ALT-nodes */
+#include "evt.h"                /* EVT-nodes */
+#include "lim.h"		/* LIM-nodes */
+#include "msg.h"                /* MSG-nodes */
+#include "opt.h"		/* OPTIONS */
+#include "rul.h"                /* RUL-nodes */
+#include "sco.h"                /* SCORES */
+#include "str.h"		/* STRINGS */
+#include "syn.h"                /* SYN-nodes */
+
+#include "adv_x.h"
 #include "add_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
@@ -40,20 +53,6 @@
 #include "vrb_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
-
-#include "lmList.h"
-
-#include "adv.h"		/* ADV-node */
-#include "alt.h"                /* ALT-nodes */
-#include "evt.h"                /* EVT-nodes */
-#include "lim.h"		/* LIM-nodes */
-#include "msg.h"                /* MSG-nodes */
-#include "opt.h"		/* OPTIONS */
-#include "rul.h"                /* RUL-nodes */
-#include "sco.h"                /* SCORES */
-#include "str.h"		/* STRINGS */
-#include "syn.h"                /* SYN-nodes */
-
 
 %%SCANNER
 
@@ -662,14 +661,14 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionCheckSrcp,
 					%<properties>.descriptionChecks,
-					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
-					`&%<properties>.mentSrcp,
+					%<properties>.mentSrcp,
 					%<properties>.art,
-					`&%<properties>.artSrcp,
+					%<properties>.artSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -696,14 +695,14 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionCheckSrcp,
 					%<properties>.descriptionChecks,
-					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
-					`&%<properties>.mentSrcp,
+					%<properties>.mentSrcp,
 					%<properties>.art,
-					`&%<properties>.artSrcp,
+					%<properties>.artSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -730,14 +729,14 @@ static int val(char str[])
 					%<properties>.whr,
 					%<properties>.atrs,
 					%<properties>.cnt,
-					`&%<properties>.descriptionCheckSrcp,
+					%<properties>.descriptionCheckSrcp,
 					%<properties>.descriptionChecks,
-					`&%<properties>.descriptionSrcp,
+					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
 					%<properties>.ment,
-					`&%<properties>.mentSrcp,
+					%<properties>.mentSrcp,
 					%<properties>.art,
-					`&%<properties>.artSrcp,
+					%<properties>.artSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -878,16 +877,17 @@ static int val(char str[])
 
     ! <description>
     %%{
-        List *descriptionDoes = %<description>.stms;
+        Srcp srcp2 = %<description>.srcp2;
         List *descriptionChecks = %<description>.chks;
         Srcp srcp = %<description>.srcp;
-        Srcp srcp2 = %<description>.srcp2;
+        List *descriptionDoes = %<description>.stms;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.descriptionChecks = descriptionChecks;
-	%<property>.descriptionDoes = descriptionDoes;
-	%<property>.srcp = srcp;
+
 	%<property>.srcp2 = srcp2;
+	%<property>.descriptionChecks = descriptionChecks;
+	%<property>.srcp = srcp;
+	%<property>.descriptionDoes = descriptionDoes;
     }%%
 
     ! <mentioned>
@@ -997,9 +997,10 @@ static int val(char str[])
     %%
     ;
 
-<optional_description>	-- RETURNS: stms
+<optional_description>	-- RETURNS: chks, stms
     =
     %%
+	%<optional_description>.chks = NULL;
 	%<optional_description>.stms = NULL;
     %%
 

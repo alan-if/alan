@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>187.89</origest>
-<currest>187.89</currest>
-<elapsed>61.89</elapsed>
+<origest>191.89</origest>
+<currest>191.89</currest>
+<elapsed>62.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>31</origest>
-<currest>31</currest>
-<elapsed>3</elapsed>
+<origest>34</origest>
+<currest>34</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>3</elapsed>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
@@ -73,8 +73,18 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Full listing on the screen misses lines</desc>
+<notes>
+Refer to compiler/testing/addVerb losing line 2</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add To Descriptions</desc>
-<notes/>
+<notes>Need to code generate separately until we bookkeep reversal addresses.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -151,6 +161,26 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Parser confusion in v2.8</desc>
+<notes>I'm implementing a direction-based movement system. So, for instance,
+I need the verb "left", as well as the verb "turn left".
+
+From Lydia:
+The problem is, when "turn left" exists, ALAN ends up scrambling its
+verb table, resulting in "left" become "quit".
+
+This does not seem to happen with exit directions; for instance, I
+can have an exit "north" and "turn north" will not smash the verb
+table.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Verb declarations with multiple verbs</desc>
 <notes>How do we handle
 
@@ -186,6 +216,24 @@ Also need to consider how to warn for the same verb declared without a parameter
 <isopen>1</isopen>
 </task>
 <task>
+<desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
+<notes>New right hand side of expression to augment COUNT aggregate.
+
+First step:
+Allow for it in ACODE.
+
+Second step:
+Allow one right hand side.
+
+Third step:
+Allow concatenated right hand sides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
 <notes/>
 <priority>2</priority>
@@ -212,6 +260,15 @@ Also need to consider how to warn for the same verb declared without a parameter
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Increment: version 3.0.27</desc>
+<notes/>
+<priority>2</priority>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>String operators</desc>
 <notes>concatenation
@@ -227,24 +284,6 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0.27</desc>
-<notes/>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 <task>
 <desc>Confirmations</desc>
 <notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
@@ -274,6 +313,15 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add To Every xyz &lt;scripts&gt;</desc>
 <notes/>
 <priority>2</priority>
@@ -294,7 +342,10 @@ END DEPEND.</notes>
 <task>
 <desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
 <notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and aviod doing it a second time if the structure is such that multiple structures refered to the same substructure.
-</notes>
+
+This would allow code generating once for some inherited constructs:
+-scripts
+-descriptions</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -473,20 +524,10 @@ REMEBER TO DOCUMENT IT!!!
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>89</origest>
-<currest>89</currest>
+<origest>90</origest>
+<currest>90</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Full listing on the screen misses lines</desc>
-<notes>
-Refer to compiler/testing/addVerb losing line 2</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
 <notes>
@@ -578,9 +619,8 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Make interpreter automatically capitalize words after full stop</desc>
-<notes>
-Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -610,6 +650,25 @@ Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since
 <notes>Usefullness?
 
 Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make interpreter automatically capitalize words after full stop</desc>
+<notes>
+Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>NEAR should be &lt;what&gt; HEAR &lt;what&gt;</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -10,6 +10,7 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "adv_x.h"
 #include "exp_x.h"
 #include "stm_x.h"
 
@@ -18,7 +19,6 @@
 
 #include "../interpreter/acode.h"
 
-#include "adv.h"		/* ADV-node */
 #include "rul.h"                /* RUL-nodes */
 
 #include "emit.h"

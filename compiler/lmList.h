@@ -32,12 +32,12 @@ typedef int lmSev;
 typedef int lmTyp;
 #define liNONE  0
 #define liSUM   (1<<0)		/* Summary */
-#define liERR   (1<<1)		/* Erroneous source lines */
+#define liMSG   (1<<1)		/* Source lines with messages */
 #define liOK    (1<<2)		/* Correct source lines */
 #define liINCL  (1<<3)		/* Look also in PUSHed files */
 #define liHEAD  (1<<4)		/* Heading */
 
-#define liTINY (liSUM|liERR|liHEAD|liINCL)
+#define liTINY (liSUM|liMSG|liHEAD|liINCL)
 #define liFULL (liTINY|liOK)
 
 typedef enum lmMessages {

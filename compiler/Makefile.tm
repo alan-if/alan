@@ -8,8 +8,8 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-TMHOME1	= /cygdrive/c/MinaDo~1/ToolMaker
-TMLIB	= $(TMHOME1)/lib/ansi-c
+
+TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
 	alan.tmk \
@@ -29,16 +29,21 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
 
 .lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
-	lmk $(LMKQ) alan
+	lmk $(LMKQ) -generate tables alan
+	imp alan.lmt
 	touch .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
-	pmk $(PMKQ) alan
+	pmk $(PMKQ) -generate tables alan
+	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.pmt > alan.pmt2
+	imp alan.pmt2
 	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
 
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
-	smk alan
+	smk alan -generate tables
+	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.smt > alan.smt2
+	imp alan.smt2
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new
 	echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
@@ -131,7 +136,7 @@ smScan.h smScSema.c:
 	-rm .smkstamp
 	make -f Makefile.tm .smkstamp
 
-lmList.h lmList.c:
+lmList.h lmList.c alanCommon.h:
 	-rm .lmkstamp
 	make -f Makefile.tm .lmkstamp
 

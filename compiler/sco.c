@@ -9,9 +9,10 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "adv_x.h"
+
 #include "lmList.h"
 
-#include "adv.h"
 #include "sco.h"
 #include "emit.h"
 #include "../interpreter/acode.h"

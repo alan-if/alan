@@ -44,14 +44,14 @@ Properties *newProps(List *names,
 		     Where *whr,
 		     List *attributes,
 		     Container *container,
-		     Srcp *descriptionCheckSrcp,
+		     Srcp descriptionCheckSrcp,
 		     List *descriptionChecks,
-		     Srcp *descriptionSrcp,
+		     Srcp descriptionSrcp,
 		     List *description,
 		     List *mentioned,
-		     Srcp *mentionedSrcp,
+		     Srcp mentionedSrcp,
 		     List *article,
-		     Srcp *articleSrcp,
+		     Srcp articleSrcp,
 		     List *exits,
 		     List *verbs,
 		     List *scripts)
@@ -68,13 +68,14 @@ Properties *newProps(List *names,
 
   new->container = container;
 
-  new->descriptionSrcp = *descriptionSrcp;
+  new->descriptionCheckSrcp = descriptionCheckSrcp;
   new->descriptionChecks = descriptionChecks;
+  new->descriptionSrcp = descriptionSrcp;
   new->descriptionStatements = description;
   new->mentioned = mentioned;
-  new->mentionedSrcp = *mentionedSrcp;
+  new->mentionedSrcp = mentionedSrcp;
   new->article = article;
-  new->articleSrcp = *articleSrcp;
+  new->articleSrcp = articleSrcp;
   new->verbs = verbs;
   new->exits = exits;
   new->scripts = scripts;

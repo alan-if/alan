@@ -265,16 +265,12 @@ UByte1 smDosDFAerrCol[256]={
 
 
 
-
 /*
  * MAP
  *
  * [character] -> character
  *
  */
-
-
-
 
 
 
@@ -359,9 +355,6 @@ static UByte1 smUnknownCode[2]={
 /*
  * DFA
  */
-
-
-
 
   
 static UByte1 smDFAdetRow[354]={
@@ -470,8 +463,6 @@ static UByte1 smDFAerrRow[354]={
 }
 ;
   
-
-
 static UByte2 smDFAval[6215]={
 118,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118
 ,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118,118
@@ -867,8 +858,6 @@ static UByte2 smDFAval[6215]={
   
 
 
-
-
 /* END of scanning tables */
 
 
@@ -897,10 +886,6 @@ static void smSourcePosition(
     for(;smAt<smEnd;smAt++) 
       if(*smAt==10) {
 	smThis->smPosLine=smAt;
-	smThis->smNextLine++;
-
-      } else if ((*smAt==13) && (*(smAt+1)==10)) {
-	smThis->smPosLine=smAt++;
 	smThis->smNextLine++;
 
       }

@@ -13,6 +13,7 @@
 
 #include "srcp_x.h"
 #include "id_x.h"
+#include "adv_x.h"
 #include "sym_x.h"
 #include "res_x.h"
 #include "elm_x.h"
@@ -23,7 +24,6 @@
 
 #include "lmList.h"
 
-#include "adv.h"                /* ADV-nodes */
 #include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"

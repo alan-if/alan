@@ -14,6 +14,7 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
+#include "adv_x.h"
 #include "prop_x.h"
 #include "lst_x.h"
 #include "context_x.h"
@@ -55,39 +56,47 @@ void initClasses()
   allClasses = NULL;
 
   entity = newClass(&nulsrcp, entityId, NULL, NULL);
+  adv.clas = concat(adv.clas, entity, CLASS_LIST);
   entitySymbol = entity->props->id->symbol;
   entity->props->predefined = TRUE;
 
   location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
 		      entityId, NULL);
+  adv.clas = concat(adv.clas, location, CLASS_LIST);
   locationSymbol = location->props->id->symbol;
   location->props->predefined = TRUE;
 
   thing = newClass(&nulsrcp, thingId, entityId, NULL);
+  adv.clas = concat(adv.clas, thing, CLASS_LIST);
   thingSymbol = thing->props->id->symbol;
   thing->props->predefined = TRUE;
 
   object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
 		    thingId, NULL);
+  adv.clas = concat(adv.clas, object, CLASS_LIST);
   objectSymbol = object->props->id->symbol;
   object->props->predefined = TRUE;
 
   actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
 		   thingId, NULL);
+  adv.clas = concat(adv.clas, actor, CLASS_LIST);
   actorSymbol = actor->props->id->symbol;
   actor->props->predefined = TRUE;
 
   literal = newClass(&nulsrcp, literalId, entityId, NULL);
+  adv.clas = concat(adv.clas, literal, CLASS_LIST);
   literalSymbol = literal->props->id->symbol;
   literalSymbol->fields.entity.prohibitedSubclassing = TRUE;
   literal->props->predefined = TRUE;
 
   integer = newClass(&nulsrcp, newId(&nulsrcp, "integer"), literalId, NULL);
+  adv.clas = concat(adv.clas, integer, CLASS_LIST);
   integerSymbol = integer->props->id->symbol;
   integerSymbol->fields.entity.prohibitedSubclassing = TRUE;
   integer->props->predefined = TRUE;
 
   string = newClass(&nulsrcp, newId(&nulsrcp, "string"), literalId, NULL);
+  adv.clas = concat(adv.clas, string, CLASS_LIST);
   stringSymbol = string->props->id->symbol;
   stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
   string->props->predefined = TRUE;

@@ -8,6 +8,7 @@
 #include "add_x.h"
 
 /* IMPORT: */
+#include "adv_x.h"
 #include "prop_x.h"
 #include "sym_x.h"
 #include "id_x.h"
@@ -141,11 +142,10 @@ static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 
   if (props->descriptionChecks != NULL) {
     if (originalSymbol->fields.entity.props->descriptionChecks != NULL)
-      lmLogv(&props->descriptionSrcp, 241, sevERR, "Description Check",
+      lmLogv(&props->descriptionCheckSrcp, 241, sevERR, "Description Check",
 	     originalSymbol->string, NULL);
-
-    lmLogv(&props->descriptionSrcp, 341, sevERR, "description checks",
-	   "(yet!)", NULL);
+    else
+      originalSymbol->fields.entity.props->descriptionChecks = props->descriptionChecks;
   }
 }
 
@@ -156,11 +156,12 @@ static void addDescription(AddNode *add, Symbol *originalSymbol)
   Properties *props = add->props;
 
   if (props->descriptionStatements != NULL) {
-    if (originalSymbol->fields.entity.props->descriptionChecks != NULL)
+    if (originalSymbol->fields.entity.props->descriptionStatements != NULL)
       lmLogv(&props->descriptionSrcp, 241, sevERR, "Description",
 	     originalSymbol->string, NULL);
+    else
+      originalSymbol->fields.entity.props->descriptionStatements = props->descriptionStatements;
 
-    lmLogv(&props->descriptionSrcp, 341, sevERR, "description", "(yet)", NULL);
   }
 }
 

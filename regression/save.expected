@@ -3,7 +3,7 @@
 
 save.alan
 
-  101.      Does
+  109.      Check o Is openable
 =====>      1
 
   *1*   223 W : This Verb body will be executed for every matching parameter in
@@ -11,7 +11,7 @@ save.alan
                 restrictions. You might want to use a WHEN clause to specify
                 for which parameter this alternative is to be run.
 
-  135.      Does Only
+  152.      Check o <> s
 =====>      1
 
   *1*   223 W : This Verb body will be executed for every matching parameter in

@@ -10,12 +10,12 @@
 
 #include "srcp_x.h"
 #include "lst_x.h"
+#include "adv_x.h"
 #include "wrd_x.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
 
-#include "adv.h"		/* ADV-node */
 #include "id_x.h"
 #include "syn.h"		/* SYN-nodes */
 

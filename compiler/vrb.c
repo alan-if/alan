@@ -12,12 +12,12 @@
 #include "sym_x.h"
 #include "lst_x.h"
 #include "id_x.h"
+#include "adv_x.h"
 #include "stx_x.h"
 #include "context_x.h"
 
 #include "lmList.h"
 #include "util.h"
-#include "adv.h"		/* ADV-nodes */
 #include "alt.h"		/* ALT-nodes */
 #include "ins.h"		/* INS-nodes */
 

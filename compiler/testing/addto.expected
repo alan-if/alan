@@ -13,11 +13,6 @@ addto.alan
 
   *1*   341 E : Can not ADD initial location TO classes. (yet)
 
-    6.    Description "some description."
-=====>    1
-
-  *1*   341 E : Can not ADD description TO classes. (yet)
-
     7.    Article "the"
 =====>    1
 
@@ -39,7 +34,7 @@ addto.alan
   *1*   341 E : Can not ADD exits TO classes. (yet)
 
 
-        8 error(s).
+        7 error(s).
         No detected warnings.
         2 informational message(s).
 

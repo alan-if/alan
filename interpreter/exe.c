@@ -45,20 +45,11 @@ Boolean looking = FALSE;        /* LOOKING? flag */
 int dscrstkp = 0;               /* Describe-stack pointer */
 
 
-#ifdef _PROTOTYPES_
 void describeInstances(void);
-#else
-void describeInstances();
-#endif
 
 
 
-#ifdef _PROTOTYPES_
 void print(Aword fpos, Aword len)
-#else
-void print(fpos, len)
-     Aword fpos, len;
-#endif
 {
   char str[2*WIDTH];            /* String buffer */
   int outlen = 0;               /* Current output length */
@@ -119,12 +110,7 @@ void print(fpos, len)
 }
 
 
-#ifdef _PROTOTYPES_
 void sys(Aword fpos, Aword len)
-#else
-void sys(fpos, len)
-     Aword fpos, len;
-#endif
 {
   char *command;
 
@@ -135,12 +121,7 @@ void sys(fpos, len)
 }
 
 
-#ifdef _PROTOTYPES_
 void getstr(Aword fpos, Aword len)
-#else
-void getstr(fpos, len)
-     Aword fpos, len;
-#endif
 {
   char *buf = allocate(len+1);
 
@@ -164,12 +145,7 @@ void getstr(fpos, len)
 
 
 
-#ifdef _PROTOTYPES_
 void score(Aword sc)
-#else
-void score(sc)
-     Aword sc;
-#endif
 {
   char buf[80];
 
@@ -186,23 +162,13 @@ void score(sc)
   }
 }
 
-#ifdef _PROTOTYPES_
 void visits(Aword v)
-#else
-void visits(v)
-     Aword v;
-#endif
 {
   current.visits = v;
 }
 
 
-#ifdef _PROTOTYPES_
 Boolean confirm(MsgKind msgno)
-#else
-Boolean confirm(msgno)
-     MsgKind msgno;
-#endif
 {
   char buf[80];
 
@@ -221,11 +187,7 @@ Boolean confirm(msgno)
 }
 
 
-#ifdef _PROTOTYPES_
 void quit(void)
-#else
-void quit()
-#endif
 {
   char buf[80];
 
@@ -252,11 +214,7 @@ void quit()
 
 
 
-#ifdef _PROTOTYPES_
 void restartGame(void)
-#else
-void restart()
-#endif
 {
   para();
   if (confirm(M_REALLY)) {
@@ -268,12 +226,7 @@ void restart()
 
 
 
-#ifdef _PROTOTYPES_
 void cancl(Aword evt)
-#else
-void cancl(evt)
-     Aword evt;
-#endif
 {
   int i;
 
@@ -291,12 +244,7 @@ void cancl(evt)
 }
 
 
-#ifdef _PROTOTYPES_
 void schedule(Aword evt, Aword whr, Aword aft)
-#else
-void schedule(evt, whr, aft)
-     Aword evt, whr, aft;
-#endif
 {  int i;
    int time;
   
@@ -349,16 +297,10 @@ AttributeEntry *findAttribute(Aaddr address, int code)
   Get an attribute value from an attribute list
 
  */
-#ifdef _PROTOTYPES_
 static Aword getatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
      Aaddr code                  /* IN - The attribute to read */
 )
-#else
-static Aword getatr(atradr, code)
-     Aaddr atradr;              /* IN - ACODE address to attribute table */
-     Aaddr code;                 /* IN - The attribute to read */
-#endif
 {
   AttributeEntry *attribute = findAttribute(atradr, code);
 
@@ -373,18 +315,11 @@ static Aword getatr(atradr, code)
   Set a particular attribute to a value.
 
  */
-#ifdef _PROTOTYPES_
 static void setatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
      Aword code,                 /* IN - attribute code */
      Aword val                  /* IN - new value */
 )
-#else
-static void setatr(atradr, code, val)
-     Aaddr atradr;              /* IN - ACODE address to attribute table */
-     Aword code;                 /* IN - attribute code */
-     Aword val;                 /* IN - new value */
-#endif
 {
   AttributeEntry *at = findAttribute(atradr, code);
 
@@ -398,12 +333,7 @@ static void setatr(atradr, code, val)
 
   */
 
-#ifdef _PROTOTYPES_
 void make(Aword id, Aword code, Aword val)
-#else
-void make(id, code, val)
-	  Aword id, code, val;
-#endif
 {
   char str[80];
 
@@ -424,12 +354,7 @@ void make(id, code, val)
 
  */
 
-#ifdef _PROTOTYPES_
 void set(Aword id, Aword atr, Aword val)
-#else
-void set(id, atr, val)
-     Aword id, atr, val;
-#endif
 {
   char str[80];
 
@@ -444,12 +369,7 @@ void set(id, atr, val)
 }
 
 
-#ifdef _PROTOTYPES_
 void setstr(Aword id, Aword atr, Aword str)
-#else
-void setstr(id, atr, str)
-     Aword id, atr, str;
-#endif
 {
   free((char *)attribute(id, atr));
   set(id, atr, str);
@@ -470,17 +390,11 @@ void setstr(id, atr, str)
   Increment a particular attribute by a value.
 
  */
-#ifdef _PROTOTYPES_
 static void incratr(
 	Aaddr atradr,           /* IN - ACODE address to attribute table */
 	Aword code,		/* IN - attribute code */
 	Aword step              /* IN - step to increment by */
 )
-#else
-static void incratr(atradr, code, step)
-     Aaddr atradr:
-     Aword atr, step;
-#endif
 {
   AttributeEntry *at = findAttribute(atradr, code);
   
@@ -488,12 +402,7 @@ static void incratr(atradr, code, step)
 }
 
 
-#ifdef _PROTOTYPES_
 void incr(Aword id, Aword atr, Aword step)
-#else
-void incr(id, atr, step)
-     Aword id, atr, step;
-#endif
 {
   char str[80];
 
@@ -505,12 +414,7 @@ void incr(id, atr, step)
   }
 }
 
-#ifdef _PROTOTYPES_
 void decr(Aword id, Aword atr, Aword step)
-#else
-void decr(id, atr, step)
-     Aword id, atr, step;
-#endif
 {
   char str[80];
 
@@ -530,12 +434,7 @@ void decr(id, atr, step)
 
   */
 
-#ifdef _PROTOTYPES_
 static Aword litatr(Aword lit, Aword atr)
-#else
-static Aword litatr(lit, atr)
-     Aword lit, atr;
-#endif
 {
   char str[80];
 
@@ -549,12 +448,7 @@ static Aword litatr(lit, atr)
 }
 
 
-#ifdef _PROTOTYPES_
 Aword attribute(Aword id, Aword atr)
-#else
-Aword attribute(id, atr)
-     Aword id, atr;
-#endif
 {
   char str[80];
 
@@ -572,12 +466,7 @@ Aword attribute(id, atr)
 }
 
 
-#ifdef _PROTOTYPES_
 Aword strattr(Aword id, Aword atr)
-#else
-Aword strattr(id, atr)
-     Aword id, atr;
-#endif
 {
   return (Aword) strdup((char *)attribute(id, atr));
 }
@@ -590,12 +479,7 @@ Aword strattr(id, atr)
   */
 
 #ifdef FIXME
-#ifdef _PROTOTYPES_
 static Aword objloc(Aword obj)
-#else
-static Aword objloc(obj)
-     Aword obj;
-#endif
 {
   /* Keep this for container handling */
   if (isCnt(objs[obj-OBJMIN].loc)) /* In something ? */
@@ -610,12 +494,7 @@ static Aword objloc(obj)
 #endif
 
 
-#ifdef _PROTOTYPES_
 Aword where(Aword id)
-#else
-Aword where(id)
-     Aword id;
-#endif
 {
   char str[80];
 
@@ -639,12 +518,7 @@ Aword where(id)
 
   */
 
-#ifdef _PROTOTYPES_
 Aint agrmax(Aword atr, Aword whr)
-#else
-Aint agrmax(atr, whr)
-     Aword atr, whr;
-#endif
 {
   Aword i;
   Aint max = 0;
@@ -661,12 +535,7 @@ Aint agrmax(atr, whr)
   return(max);
 }
 
-#ifdef _PROTOTYPES_
 Aint agrsum(Aword atr, Aword whr)
-#else
-Aint agrsum(atr, whr)
-     Aword atr, whr;
-#endif
 {
   Aword i;
   Aint sum = 0;
@@ -684,12 +553,7 @@ Aint agrsum(atr, whr)
 }
 
 
-#ifdef _PROTOTYPES_
 Aint agrcount(Aword whr)
-#else
-Aint agrcount(whr)
-     Aword whr;
-#endif
 {
   Aword i;
   Aword count = 0;
@@ -713,12 +577,7 @@ Aint agrcount(whr)
 
   */
 
-#ifdef _PROTOTYPES_
 static void locateObject(Aword obj, Aword whr)
-#else
-static void locateObject(obj, whr)
-     Aword obj, whr;
-#endif
 {
   if (isCnt(whr)) { /* Into a container */
     if (whr == obj)
@@ -735,12 +594,7 @@ static void locateObject(obj, whr)
 }
 
 
-#ifdef _PROTOTYPES_
 static void locateActor(Aword act, Aword whr)
-#else
-static void locateActor(act, whr)
-     Aword act, whr;
-#endif
 {
   Aword prevloc = current.location;
 
@@ -774,12 +628,7 @@ static void locateActor(act, whr)
 }
 
 
-#ifdef _PROTOTYPES_
 void locate(Aword id, Aword whr)
-#else
-void locate(id, whr)
-     Aword id, whr;
-#endif
 {
   char str[80];
   Aword containerId;
@@ -841,12 +690,7 @@ void locate(id, whr)
 
   */
 
-#ifdef _PROTOTYPES_
 static Abool instanceHere(Aword id)
-#else
-static Abool instanceHere(id)
-     Aword obj;
-#endif
 {
   Aword owner;
 
@@ -861,12 +705,7 @@ static Abool instanceHere(id)
 }
 
 
-#ifdef _PROTOTYPES_
 Aword isHere(Aword id)
-#else
-Aword isHere(id)
-     Aword id;
-#endif
 {
   char str[80];
 
@@ -889,12 +728,7 @@ Aword isHere(id)
 
   */
 
-#ifdef _PROTOTYPES_
 static Aword objnear(Aword obj)
-#else
-static Aword objnear(obj)
-     Aword obj;
-#endif
 {
   if (isCnt(instance[obj].location)) {    /* In something? */
     if (isObj(instance[obj].location) || isAct(instance[obj].location))
@@ -906,23 +740,13 @@ static Aword objnear(obj)
 }
 
 
-#ifdef _PROTOTYPES_
 static Aword actnear(Aword act)
-#else
-static Aword actnear(act)
-     Aword act;
-#endif
 {
   return(exitto(where(act), current.location));
 }
 
 
-#ifdef _PROTOTYPES_
 Abool isNear(Aword id)
-#else
-Abool isNear(id)
-     Aword id;
-#endif
 {
   char str[80];
 
@@ -963,13 +787,7 @@ Abool isA(Aword instanceId, Aword ancestor)
 
 
 /*======================================================================*/
-#ifdef _PROTOTYPES_
 Abool in(Aword theInstance, Aword cnt)
-#else
-Abool in(theInstance, cnt)
-     Aword theInstance;
-     Aword cnt;
-#endif
 {
   if (!isCnt(cnt))
     syserr("IN in a non-container.");
@@ -984,12 +802,7 @@ Abool in(theInstance, cnt)
 
   */
 
-#ifdef _PROTOTYPES_
 void sayint(Aword val)
-#else
-void sayint(val)
-     Aword val;
-#endif
 {
   char buf[25];
 
@@ -1000,12 +813,7 @@ void sayint(val)
 }
 
 
-#ifdef _PROTOTYPES_
 void saystr(char *str)
-#else
-void saystr(str)
-     char *str;
-#endif
 {
   if (isHere(HERO))
     output(str);
@@ -1013,12 +821,7 @@ void saystr(str)
 }
 
 
-#ifdef _PROTOTYPES_
 static void saylit(Aword lit)
-#else
-static void saylit(lit)
-     Aword lit;
-#endif
 {
   char *str;
 
@@ -1031,12 +834,7 @@ static void saylit(lit)
 }
 
 	
-#ifdef _PROTOTYPES_
 void sayarticle(Aword id)
-#else
-void sayarticle(id)
-     Aword id;
-#endif
 {
   if (instance[id].article != 0)
     interpret(instance[id].article);
@@ -1063,12 +861,7 @@ static void sayInstance(Aword id)
 }
 
 
-#ifdef _PROTOTYPES_
 void say(Aword id)
-#else
-void say(id)
-     Aword id;
-#endif
 {
   char str[80];
 
@@ -1169,16 +962,9 @@ static void describeAnything(Aword id)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 static void describeObject(Aword obj)
-#else
-static void describeObject(obj)
-     Aword obj;
-#endif
 {
-  if (instance[obj].description != 0)
-    interpret(instance[obj].description);
-  else if (haveDescription(obj))
+if (haveDescription(obj))
     describeAnything(obj);
   else {
     prmsg(M_SEEOBJ1);
@@ -1193,12 +979,7 @@ static void describeObject(obj)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 static void describeActor(Aword act)
-#else
-static void describeActor(act)
-     Aword act;
-#endif
 {
   ScriptEntry *scr = NULL;
 
@@ -1210,8 +991,8 @@ static void describeActor(act)
   }
   if (scr != NULL && scr->description != 0)
     interpret(scr->description);
-  else if (instance[act].description != 0)
-    interpret(instance[act].description);
+  else if (haveDescription(act))
+    describeAnything(act);
   else {
     interpret(instance[act].mentioned);
     prmsg(M_SEEACT);
@@ -1227,12 +1008,7 @@ static Boolean descriptionOk;
 static Aword dscrstk[255];
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void describe(Aword id)
-#else
-void describe(id)
-     Aword id;
-#endif
 {
   int i;
   char str[80];
@@ -1268,11 +1044,7 @@ void describe(id)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void describeInstances(void)
-#else
-void describeInstances()
-#endif
 {
   int i;
   int prevobj = 0;
@@ -1317,8 +1089,8 @@ void describeInstances()
   
   /* Now for all actors */
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].location == current.location && isA(i, ACTOR) &&
-	!admin[i].alreadyDescribed && i != HERO)
+    if (instance[i].location == current.location && i != HERO && isA(i, ACTOR)
+	&& !admin[i].alreadyDescribed)
       describe(i);
 
   /* Clear the describe flag for all objects */
@@ -1328,11 +1100,7 @@ void describeInstances()
 
 
 /*======================================================================*/
-#ifdef _PROTOTYPES_
 void look(void)
-#else
-void look()
-#endif
 {
   int i;
 
@@ -1366,12 +1134,7 @@ void look()
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void use(Aword act, Aword scr)
-#else
-void use(act, scr)
-     Aword act, scr;
-#endif
 {
   char str[80];
 
@@ -1385,12 +1148,7 @@ void use(act, scr)
 }
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void stop(Aword act)
-#else
-void stop(act)
-     Aword act;
-#endif
 {
   char str[80];
 
@@ -1406,12 +1164,7 @@ void stop(act)
 
 
 /*======================================================================*/
-#ifdef _PROTOTYPES_
 void list(Aword cnt)
-#else
-void list(cnt)
-     Aword cnt;
-#endif
 {
   int i;
   Aword props;
@@ -1477,13 +1230,7 @@ void list(cnt)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void empty(Aword cnt, Aword whr)
-#else
-void empty(cnt, whr)
-     Aword cnt;
-     Aword whr;
-#endif
 {
   int i;
 
@@ -1501,11 +1248,7 @@ static char saveFileName[256];
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void saveGame(void)
-#else
-void saveGame()
-#endif
 {
   int i;
   AttributeEntry *atr;
@@ -1576,11 +1319,7 @@ void saveGame()
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 void restoreGame(void)
-#else
-void restoreGame()
-#endif
 {
   int i;
   AttributeEntry *atr;
@@ -1672,12 +1411,7 @@ void restoreGame()
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 Aword rnd(Aword from, Aword to)
-#else
-Aword rnd(from, to)
-     Aword from, to;
-#endif
 {
   if (to == from)
     return to;
@@ -1690,12 +1424,7 @@ Aword rnd(from, to)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 Abool btw(Aint val, Aint low, Aint high)
-#else
-Abool btw(val, low, high)
-     Aint val, low, high;
-#endif
 {
   if (high > low)
     return low <= val && val <= high;
@@ -1706,12 +1435,7 @@ Abool btw(val, low, high)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef _PROTOTYPES_
 Aword contains(Aword string, Aword substring)
-#else
-Aword contains(string, substring)
-     Aword string, substring;;
-#endif
 {
   Abool found;
 
@@ -1728,19 +1452,14 @@ Aword contains(string, substring)
 
 
 
-/*----------------------------------------------------------------------
+/*======================================================================
 
   streq()
 
   Compare two strings approximately, ignore case
 
   */
-#ifdef _PROTOTYPES_
 Abool streq(char a[], char b[])
-#else
-Abool streq(a, b)
-     char a[], b[];             /* IN - Strings to compare */
-#endif
 {
   Boolean eq;
 

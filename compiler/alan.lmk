@@ -67,9 +67,10 @@
 304	'\'%1\' already declared as an Instance (The).';
 305	'\'%1\' already declared as a Class (Every).';
 307	'\'%1\' already declared as an Event.';
+309	'THIS instance is not guaranteed to be a container.';
 310	'Identifier \'%1\' not defined.';
 311	'Must refer to %1.';
-312	'Parameter \'%1\' not uniquely defined as %2, which is required.';
+312	'Parameter \'%1\' is not guaranteed to be %2, which is required.';
 313	'Attribute \'%1\' is not defined for THIS instance.';
 314	'Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it.';
 315	'Attribute not defined for \'%1\'.';

@@ -11,12 +11,12 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst_x.h"
+#include "adv_x.h"
 #include "stm_x.h"
 #include "context_x.h"
 
 #include "lmList.h"
 
-#include "adv.h"		/* ADV-node */
 #include "evt.h"                /* EVT-nodes */
 #include "opt.h"                /* Options */
 

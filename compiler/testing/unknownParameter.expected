@@ -19,7 +19,7 @@ unknownParameter.alan
    14.        Locate direct In indirect.
 =====>                         1
 
-  *1*   312 E : Parameter 'indirect' not uniquely defined as a container, which
+  *1*   312 E : Parameter 'indirect' is not guaranteed to be a container, which
                 is required.
 
 

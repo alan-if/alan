@@ -60,13 +60,7 @@ void symbolizeWhat(What *wht)
 }
 
 
-/*======================================================================
-
-  generateWhat()
-
-  Generate code for a reference to What.
-
-  */
+/*======================================================================*/
 void generateWhat(What *wht)
 {
   switch (wht->kind) {

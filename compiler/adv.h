@@ -5,9 +5,6 @@
 #include "lst.h"
 #include "whr.h"
 
-#include "dump.h"
-
-
 /* Types: */
 
 typedef struct Adventure {
@@ -26,21 +23,5 @@ typedef struct Adventure {
   int *scores;			/* Pointer to array of scores */
   List *msgs;			/* List of error messages */
 } Adventure;
-
-
-
-/* Data: */
-extern Adventure adv;
-
-
-/* FUNCTIONS: */
-
-extern void initAdventure(void);
-extern void symbolizeAdventure(void);
-extern void analyzeAdventure(void);
-extern void generateAdventure(char acdfnm[], char txtfnm[], char datfnm[]);
-extern void dumpAdventure(enum dmpKd dmp);
-extern void summary(void);
-
 
 #endif

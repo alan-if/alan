@@ -92,6 +92,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
       lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
       break;
     case WHAT_ID:
+    case WHAT_THIS:
       break;
     default:
       syserr("Unrecognized switch in anexpwhr()");
@@ -105,6 +106,8 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     break;
   case WHERE_AT:
     switch (exp->fields.whr.whr->what->kind) {
+    case WHAT_THIS:
+      break;
     case WHAT_ID:
       symcheck(exp->fields.whr.whr->what->id, INSTANCE_SYMBOL, context);
       break;
@@ -559,45 +562,30 @@ static void generateBinaryExpression(Expression *exp)
 
 
 
-/*----------------------------------------------------------------------
-  geexpwhr()
-
-  Generate a where-expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateWhereExpression(Expression *exp)
 {
-  switch(exp->fields.whr.wht->fields.wht.wht->kind) {
-    
-  case WHAT_ID:
-    switch (exp->fields.whr.whr->kind) {
-    case WHR_HERE:
-      generateId(exp->fields.whr.wht->fields.wht.wht->id);
-      emit0(I_HERE);
-      if (exp->not) emit0(I_NOT);
-      return;
-    case WHR_NEAR:
-      generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(I_NEAR);
-      if (exp->not) emit0(I_NOT);
-      return;
-    case WHR_IN:
-      generateId(exp->fields.whr.whr->what->id);
-      generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(I_IN);
-      if (exp->not) emit0(I_NOT);
-      return;
-    case WHERE_AT:
-      generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(I_WHERE);
-      break;
-    default:
-      unimpl(&exp->srcp, "Code Generator");
-      emitConstant(0);
-      return;
-    }
+  switch (exp->fields.whr.whr->kind) {
+  case WHR_HERE:
+    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    emit0(I_HERE);
+    if (exp->not) emit0(I_NOT);
+    return;
+  case WHR_NEAR:
+    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    emit0(I_NEAR);
+    if (exp->not) emit0(I_NOT);
+    return;
+  case WHR_IN:
+    generateWhat(exp->fields.whr.whr->what);
+    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    emit0(I_IN);
+    if (exp->not) emit0(I_NOT);
+    return;
+  case WHERE_AT:
+    generateWhat(exp->fields.whr.wht->fields.wht.wht);
+    emit0(I_WHERE);
     break;
-    
   default:
     unimpl(&exp->srcp, "Code Generator");
     emitConstant(0);

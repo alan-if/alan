@@ -38,7 +38,6 @@ addToLiteral.alan
 
   *1*   424 E : You can not ADD description to non-instantiable class
                 'literal'.
-  *1*   341 E : Can not ADD description TO classes. (yet)
 
     8.    Container
 =====>    1
@@ -62,7 +61,7 @@ addToLiteral.alan
   *1*   424 E : You can not ADD attributes to non-instantiable class 'string'.
 
 
-        16 error(s).
+        15 error(s).
         No detected warnings.
         1 informational message(s).
 

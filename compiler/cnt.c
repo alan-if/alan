@@ -11,12 +11,12 @@
 #include "alan.h"
 
 #include "srcp_x.h"
+#include "adv_x.h"
 #include "sym_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
 #include "chk_x.h"
 
-#include "adv.h"		/* ADV-node */
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "lim.h"		/* LIM-nodes */
@@ -75,7 +75,20 @@ Container *newContainer(ContainerBody *body)
   return(new);
 }
 
+/*----------------------------------------------------------------------*/
+Bool thisIsaContainer(Context *context)
+{
+  Properties *props;
 
+  if (context->instance != NULL)
+    props = context->instance->props;
+  else if (context->class != NULL)
+    props = context->class->props;
+  else
+    return FALSE;
+
+  return props->container != NULL;
+}
 
 
 /*======================================================================*/
@@ -88,6 +101,10 @@ void verifyContainer(What *wht,
     return;
 
   switch (wht->kind) {
+  case WHAT_THIS:
+    if (!thisIsaContainer(context))
+      lmLog(&wht->srcp, 309, sevERR, "");
+    break;
   case WHAT_ID:
     sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
     if (sym)

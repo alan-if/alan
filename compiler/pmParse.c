@@ -16,6 +16,19 @@
 #include "smScan.h"
 #include "token.h"
 
+#include "lmList.h"
+
+#include "alt.h"                /* ALT-nodes */
+#include "evt.h"                /* EVT-nodes */
+#include "lim.h"		/* LIM-nodes */
+#include "msg.h"                /* MSG-nodes */
+#include "opt.h"		/* OPTIONS */
+#include "rul.h"                /* RUL-nodes */
+#include "sco.h"                /* SCORES */
+#include "str.h"		/* STRINGS */
+#include "syn.h"                /* SYN-nodes */
+
+#include "adv_x.h"
 #include "add_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
@@ -38,20 +51,6 @@
 #include "whr_x.h"
 #include "wht_x.h"
 
-#include "lmList.h"
-
-#include "adv.h"		/* ADV-node */
-#include "alt.h"                /* ALT-nodes */
-#include "evt.h"                /* EVT-nodes */
-#include "lim.h"		/* LIM-nodes */
-#include "msg.h"                /* MSG-nodes */
-#include "opt.h"		/* OPTIONS */
-#include "rul.h"                /* RUL-nodes */
-#include "sco.h"                /* SCORES */
-#include "str.h"		/* STRINGS */
-#include "syn.h"                /* SYN-nodes */
-
-
 /* END %%IMPORT */
 
 #include <string.h>
@@ -65,15 +64,12 @@ typedef unsigned char PmBoolean; /* For logical values */
 
 /* System dependencies */
 
-
 /* These datatypes should be defined to be unsigned integers of length 1, 2
  * and 4 bytes respectively.
  */
-
 typedef unsigned char UByte1;
 typedef unsigned short UByte2;
 typedef unsigned int UByte4;
-
 
 /* Token definition */
 #include "alanCommon.h"

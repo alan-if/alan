@@ -11,6 +11,7 @@
 /* IMPORT: */
 #include "srcp_x.h"
 #include "id_x.h"
+#include "adv_x.h"
 #include "sym_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
@@ -18,7 +19,6 @@
 #include "util.h"
 #include "emit.h"
 
-#include "adv.h"		/* ADV-node */
 #include "ins.h"		/* INS-nodes */
 #include "opt.h"		/* OPT-nodes */
 
