@@ -506,9 +506,10 @@ static int val(char str[])
 
 
 -- A class restriction is a definition of which classes a syntax parameter may belong to
--- A parameter may not be restricted in more than one restriction clause so there can be
--- at most as many restriction clauses as there are parameters. However a parameter can be
--- possibly be restricted to a list of classes in the same restriction clause.
+-- A parameter can be restricted to a list of classes in the same restriction clause.
+-- It will also be possible to restrict a parameter using multiple clauses since we want
+-- different ELSE printouts depending on what it was not. Also inheritance will make a
+-- parameter be restricted in multiple clauses following the class hierarchy.
 <class_restriction_clauses>
     = <class_restriction>
     %%
