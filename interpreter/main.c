@@ -1035,14 +1035,18 @@ static void checkdebug(void)
 /*----------------------------------------------------------------------*/
 static void initStaticData(void)
 {
+  /* Dictionary */
   dict = (WrdEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
 
+  /* Scores */
+  
 
-  /* All table addresses are converted to pointers, then adjusted to
-     point to the (imaginary) element before the actual table so that [0]
-     does not exist. Instead indices goes from 1 and we can use [1]. */
+  /* All addresses to tables indexed by ids are converted to pointers,
+     then adjusted to point to the (imaginary) element before the
+     actual table so that [0] does not exist. Instead indices goes
+     from 1 and we can use [1]. */
 
   if (header->instanceTableAddress == 0)
     syserr("Instance table pointer == 0");
@@ -1065,11 +1069,18 @@ static void initStaticData(void)
     events--;
   }
 
+  /* Scores, if already allocated, copy initial data */
+  if (scores == NULL)
+    scores = duplicate((Aword *) pointerTo(header->scores), header->scoresMax*sizeof(Aword));
+  else
+    memcpy(scores, pointerTo(header->scores),
+	   header->scoresMax*sizeof(Aword));
+
+
   stxs = (ParseEntry *) pointerTo(header->parseTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
   ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
   msgs = (MsgEntry *) pointerTo(header->messageTableAddress);
-  scores = (Aword *) pointerTo(header->scores);
 
   if (header->pack)
     freq = (Aword *) pointerTo(header->freq);
@@ -1246,8 +1257,6 @@ static void init(void)
     output(str);
   }
 
-  load();
-
   initStaticData();
   initDynamicData();
   checkdebug();
@@ -1369,12 +1378,11 @@ void run(void)
 {
   int i;
 
+  openFiles();
+  load();			/* Load program */
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
-
-  openFiles();
-
-  init();			/* Load, initialise and start the adventure */
+  init();			/* Initialise and start the adventure */
 
   while (TRUE) {
 #ifdef MALLOC

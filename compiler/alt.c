@@ -122,43 +122,33 @@ void analyzeAlternatives(List *alts,
 
 
 
-/*----------------------------------------------------------------------
-
-  gealtent()
-
-  Generate an entry in an alt-table
-  
-  */
-static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
+/*----------------------------------------------------------------------*/
+static Aint generateQualifier(QualClass qualifier)
 {
-  emit(0);			/* Auto-Reverse flag */
-
-  emit(alt->parameterNumber);
-
-  switch (alt->qual) {
-  case QUAL_BEFORE:
-    emit(Q_BEFORE);
-    break;
-    
-  case QUAL_AFTER:
-    emit(Q_AFTER);
-    break;
-    
-  case QUAL_ONLY:
-    emit(Q_ONLY);
-    break;
-    
-  case QUAL_DEFAULT:
-    emit(Q_DEFAULT);
-    break;
-    
+  switch (qualifier) {
+  case QUAL_BEFORE: return Q_BEFORE;
+  case QUAL_AFTER: return Q_AFTER;
+  case QUAL_ONLY: return Q_ONLY;
+  case QUAL_DEFAULT: return Q_DEFAULT;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-    break;
+    return Q_DEFAULT;
   }
+}
 
-  emit(alt->chkadr);
-  emit(alt->stmadr);
+
+/*----------------------------------------------------------------------*/
+static void generateAlternativeEntry(AltNod *alt)
+{
+  AltEntry entry;
+
+  entry.done = 0;			/* Auto-Reverse flag FIXME - do be removed*/
+  entry.param = alt->parameterNumber;
+  entry.qual = generateQualifier(alt->qual);
+  entry.checks = alt->chkadr;
+  entry.action = alt->stmadr;
+
+  emitEntry(&entry, sizeof(entry));
 }
 
 
@@ -194,7 +184,7 @@ Aaddr gealts(List *alts)
 
   altadr = nextEmitAddress();
   for (lst = alts; lst != NULL; lst = lst->next)
-    gealtent(lst->element.alt);
+    generateAlternativeEntry(lst->element.alt);
   emit(EOF);
 
   return(altadr);

@@ -220,7 +220,7 @@ MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms)
   noting their position.
 
  */
-void prepmsgs(void)
+void prepareMessages(void)
 {
   int msgno;
   List *smsgs = NULL;		/* The constructed list */

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>231.89</origest>
-<currest>231.89</currest>
-<elapsed>86.89</elapsed>
+<origest>235.89</origest>
+<currest>235.89</currest>
+<elapsed>91.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
-<elapsed>5</elapsed>
+<origest>43</origest>
+<currest>43</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>21</origest>
 <currest>21</currest>
-<elapsed>3</elapsed>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
@@ -54,6 +54,40 @@
 <task>
 <desc>"Increase v Of this" not working</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor gealtent to use Entry</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scores are not kept separate</desc>
+<notes>To avoid reversing twice, restart does not load the program, instead it only initialises the dynamic data areas. Scores was forgotten.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
+<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+
+It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+
+This would allow code generating once for some inherited constructs:
+-scripts
+-descriptions
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -101,31 +135,6 @@ The anderson Isa actor
   Name mr 'Andersson' -- first name is printed
   Name mr andersson -- to allow player use of lowercase
 End The andersson.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
-<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
-
-It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
-
-This would allow code generating once for some inherited constructs:
--scripts
--descriptions
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor gealtent to use Entry</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -269,15 +278,6 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
 
 A prerequisite action would be to fix this multiple reversing problem.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Meta-output should be in []</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -477,15 +477,46 @@ Check for consistency with other instances of local overides.</notes>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>2</elapsed>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
 
 Design: add a counter field in the message entries and sort on those also.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scripting</desc>
+<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
+
+Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
+<notes>Checks are always run it's the bodies that we have to take warn for</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO does not affect heros position</desc>
+<notes>Bug? Save current state also? Why is not current.location set to heros location?
+
+We also need some way to re-output the state.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -562,9 +593,9 @@ Multiple %1 '%2'</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>95</origest>
-<currest>95</currest>
-<elapsed>1</elapsed>
+<origest>96</origest>
+<currest>96</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
@@ -587,6 +618,15 @@ The ... In box</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Meta-output should be in []</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Warn if there is no When clause for every parameter in the syntax</desc>
 <notes/>
 <priority>2</priority>
@@ -600,15 +640,6 @@ The ... In box</notes>
 <notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
  HAVING x = 3
  HAVING y &gt; atr OF b</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
-<notes>Why? What is the problem?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -749,6 +780,15 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
+<notes>Why? What is the problem?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>A picture file with an unknown extension gets passed through</desc>
 <notes>E.g a.jpeg transforms into pic1.jpeg which the glk-does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
 <priority>2</priority>
@@ -813,6 +853,20 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Attributes of class type</desc>
+<notes>
+Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
 <notes/>
 <priority>2</priority>
@@ -865,15 +919,6 @@ E.g. in the example above the IF statement will be executed whenever the 'o' is 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Compile command version of interpreter with mingw</desc>
-<notes>It is possible if not using TERMIO, but how do we then present status line?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Allow reverse noun/adjective order</desc>
 <notes>Need:
 To allow latin type of langauges. "molin rouge"
@@ -910,13 +955,8 @@ Perhaps this is not a great problem.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Attributes of class type</desc>
-<notes>
-Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
+<desc>Compile command version of interpreter with mingw</desc>
+<notes>It is possible if not using TERMIO, but how do we then present status line?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -933,6 +973,15 @@ This must be handled by a new strategy for parameter class analysis. See "Parame
 SteveG: 
 Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1025,6 +1074,15 @@ Use Marnie's (?) example of rules executing many times and resetting the script 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Use Blorb-layer for resources</desc>
+<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Multiple warnings for redefined verbs</desc>
 <notes>
 Verb x, y, x
@@ -1076,15 +1134,6 @@ Greg Ewing, Computer Science Dept, +--------------------------------------+
 University of Canterbury,    | A citizen of NewZealandCorp, a   |
 Christchurch, New Zealand    | wholly-owned subsidiary of USA Inc.  |
 greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1210,7 +1259,7 @@ End The door.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1220,15 +1269,6 @@ appropriate operations (indexing, finding its length, inserting
 an item, deleting an item).
 
 (Greg Ewing in Alan-IF mailing list)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Use Blorb-layer for resources</desc>
-<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1445,6 +1485,15 @@ But not both THE and the ID...</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Lists of case clauses in DEPENDING ON</desc>
 <notes>
 Allow lists of right hand expressions in the DEPENDING ON case clauses:
@@ -1572,15 +1621,6 @@ which would allow:
 LOCATE ALL HERE AT cave.
 MAKE ALL OBJECT WITH size &gt; 3 heavy.
 SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

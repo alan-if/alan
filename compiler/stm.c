@@ -495,7 +495,7 @@ static void analyzeStatement(StmNod *stm, Context *context)
   case SCORE_STATEMENT:
     if (stm->fields.score.count != 0) {
       adv.scores[stm->fields.score.count] = stm->fields.score.score;
-      scotot += stm->fields.score.score;
+      totalScore += stm->fields.score.score;
     }
     break;
   case DESCRIBE_STATEMENT:

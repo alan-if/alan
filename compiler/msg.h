@@ -33,7 +33,7 @@ typedef struct MsgNod {
 extern MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms);
 
 /* Prepare all system messages depending on the choosen language */
-extern void prepmsgs(void);
+extern void prepareMessages(void);
 
 /* Analyze the system messages */
 extern void anmsgs(void);

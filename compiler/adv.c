@@ -118,8 +118,8 @@ void analyzeAdventure(void)
   replicateInherited();
 
   prepareWords();			/* Prepare words in the dictionary */
-  prepmsgs();			/* Prepare standard and user messages */
-  prepscos();			/* Prepare score handling */
+  prepareMessages();			/* Prepare standard and user messages */
+  prepareScores();			/* Prepare score handling */
 
   if (verbose) printf("\n\tSyntax definitions: ");
   analyzeSyntaxes();
@@ -197,8 +197,7 @@ void generateAdventure(char acodeFileName[],
   if (verbose) printf("\n\tRules: ");
   acdHeader.ruleTableAddress = generateRules();
 
-  acdHeader.scores = gesco();	/* Scores */
-  acdHeader.maxscore = scotot;	/* Total score */
+  generateScores(&acdHeader);
 
   if (verbose) printf("\n\tMessages: ");
   acdHeader.messageTableAddress = gemsgs();

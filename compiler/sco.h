@@ -13,18 +13,15 @@
 
 /* Data: */
 
-extern int scocnt;
-extern int scotot;
+extern int scoreCount;
+extern int totalScore;
 
 
 
 /* Functions: */
 
-/* Prepare a score table */
-extern void prepscos(void);
-
-/* Generate the score table */
-extern Aaddr gesco(void);
+extern void prepareScores(void);
+extern void generateScores(AcdHdr *header);
 
 
 #endif

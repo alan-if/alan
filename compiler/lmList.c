@@ -969,11 +969,11 @@ static void liOpenOutput(
     fclose(out.file);
   out.name = ofnm;
   if (strcmp(out.name, "") == 0) /* Output to standard output */
-    out.file = stderr;
+    out.file = stdout;
   else {
     out.file = fopen(out.name, "w");
     if (out.file == NULL) {	/* Couldn't open list file */
-      out.file = stderr;	/* So list on stderr instead */
+      out.file = stdout;	/* So list on stderr instead */
       out.name = NULL;		/* Remember! */
     }
   }

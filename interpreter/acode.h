@@ -274,6 +274,14 @@ typedef struct ScriptEntry {	/* SCRIPT TABLE */
   Aaddr steps;			/* Address to steps */
 } ScriptEntry;
 
+typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
+  Abool done;			/* Flag for patching (reverse/convert) process */
+  Aword param;			/* Parameter number */
+  Aword qual;			/* Verb execution qualifier */
+  Aaddr checks;			/* Address of the check table */
+  Aaddr action;			/* Address of the action code */
+} AltEntry;
+
 
 
 /* AMACHINE Header */

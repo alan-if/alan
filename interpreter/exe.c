@@ -41,6 +41,8 @@ int dscrstkp = 0;               /* Describe-stack pointer */
 
 /* PRIVATE TYPES */
 typedef struct GameState {
+  /* Current data, can't use all of the CurVars (tick changes every move) */
+  int score;
 
   /* Event queue */
   int eventQueueSize;
@@ -81,6 +83,8 @@ static Boolean gameStateChanged(void)
   /* Compare current game state with last saved */
   if (gameState[gameStateTop-1].eventQueueSize != eventQueueSize) return TRUE;
 
+  if (gameState[gameStateTop-1].score != current.score) return TRUE;
+
   for (i = 0; i < eventQueueTop*sizeof(EventQueueEntry)/sizeof(Aword); i++)
     if (((Aword*)eventQueue)[i] != previousEventQueue[i]) return TRUE;
 
@@ -115,7 +119,6 @@ void pushGameState(void) {
 
     gameStateTop++;
   }
-
 }
   
   
@@ -133,6 +136,8 @@ Boolean popGameState(void) {
   memcpy(eventQueue, gameState[gameStateTop].eventQueue,
 	 eventQueueSize*sizeof(EventQueueEntry));
   free(gameState[gameStateTop].eventQueue);
+
+  current.score = gameState[gameStateTop].score;
 
   if (admin == NULL) syserr("admin[] == NULL in popGameState()");
   memcpy(admin, gameState[gameStateTop].admin,

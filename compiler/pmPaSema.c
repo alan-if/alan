@@ -1447,7 +1447,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].str != NULL) {
 	    pmSeSt[pmStkP+1].stm->fields.score.score =
 						val(pmSeSt[pmStkP+2].str);
-	    pmSeSt[pmStkP+1].stm->fields.score.count = ++scocnt;
+	    pmSeSt[pmStkP+1].stm->fields.score.count = ++scoreCount;
 	} else
 	    pmSeSt[pmStkP+1].stm->fields.score.count = 0;
     	break;}

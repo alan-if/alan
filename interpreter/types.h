@@ -121,15 +121,6 @@ typedef struct VerbEntry {	/* VERB TABLE */
   Aaddr alts;			/* Address to alternatives */
 } VerbEntry;
 
-typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
-  Abool done;			/* Flag for patching (reverse/convert) process */
-  Aword param;			/* Parameter number */
-  Aword qual;			/* Verb execution qualifier */
-  Aaddr checks;			/* Address of the check table */
-  Aaddr action;			/* Address of the action code */
-} AltEntry;
-
-
 typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */
   Aword val;			/* And the limiting value */

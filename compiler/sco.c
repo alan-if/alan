@@ -22,41 +22,30 @@
 
 /* PUBLIC: */
 
-int scocnt = 0;
-int scotot = 0;
+int scoreCount = 0;
+int totalScore = 0;
 
 
 
-/*======================================================================
-
-  prepscos()
-
-  Prepare score handling by allocating space to collect them in
-
-  */
-void prepscos(void)
+/*======================================================================*/
+void prepareScores(void)
 {
-  adv.scores = (int *) allocate((scocnt+1)*sizeof(int));
+  adv.scores = (int *) allocate((scoreCount+1)*sizeof(int));
 }
 
 
-/*======================================================================
-
-  gesco()
-
-  Generate information on the scores.
-
-  */
-Aaddr gesco(void)
+/*======================================================================*/
+void generateScores(AcdHdr *header)
 {
   int i;
-  Aaddr adr;
 
-  adr = nextEmitAddress();		/* Save address of score table */
-  if (scocnt != 0) {
-    for (i = 1; i <= scocnt; i++)
+  header->scores = nextEmitAddress();
+  if (scoreCount != 0) {
+    for (i = 1; i <= scoreCount; i++)
       emit(adv.scores[i]);
   }
   emit(EOF);
-  return(adr);
+
+  header->maxscore = totalScore;
+  header->scoresMax = scoreCount;
 }
