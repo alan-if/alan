@@ -2,11 +2,11 @@
 
 	Prefix 'pm';
 	Listerprefix 'lm';
-	List Grammar, Statistics;
---	List Grammar, Statistics, Items;
+--	List Grammar, Statistics;
+	List Grammar, Statistics, Items;
 	StackLimit 64;
 	Pack RDS;
---	Line;
+	Line;
 --	Debug;
 	No Resolve;
 
@@ -183,7 +183,7 @@ static int val(char str[])
 ---> OPTIONS
 <optional_options>	-- RETURNS: <nothing>
     =
-    ! 'OPTIONS' <options>			%+('MESSAGE', 'DEFAULT', 'THE')
+    ! 'OPTIONS' <options>
     ;
 
 <options>			-- RETURNS: <nothing>
@@ -298,7 +298,7 @@ static int val(char str[])
 
 ---> <SYNONYMS>
 <synonyms>			-- RETURNS: syns
-    = 'SYNONYMS' <synonym_list>	       			%+('MESSAGE', 'DEFAULT', 'THE')
+    = 'SYNONYMS' <synonym_list>
     %%
 	%<synonyms>.syns = %<synonym_list>.syns;
     %%
@@ -327,7 +327,7 @@ static int val(char str[])
 
 ---> <MESSAGES>
 <messages>			-- RETURNS: msgs
-    = 'MESSAGE' <message_list>				%+('MESSAGE', 'DEFAULT', 'THE')
+    = 'MESSAGE' <message_list>
     %%
 	%<messages>.msgs = %<message_list>.msgs;
     %%
@@ -346,7 +346,7 @@ static int val(char str[])
     ;
 
 <message>				-- RETURNS: msg
-    = ID ':' <statements>			%-('QUIT', 'SAVE', 'RESTART', 'RESTORE')
+    = ID ':' <statements>
     %%
 	%<message>.msg = newmsg(`&%':'.srcp,
 			      %ID.id,
@@ -356,7 +356,7 @@ static int val(char str[])
 
 ---> <SYNTAX>				-- RETURNS: stxs
 <syntax>
-    = 'SYNTAX' <syntax_list>			%+('MESSAGE', 'DEFAULT', 'THE')
+    = 'SYNTAX' <syntax_list>
     %%
 	%<syntax>.stxs = %<syntax_list>.stxs;
     %%
@@ -477,7 +477,7 @@ static int val(char str[])
     ;
 
 <syntax_restriction>
-    = ID 'ISA' <restriction_class> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    = ID 'ISA' <restriction_class> 'ELSE' <statements>
     %%
 	%<syntax_restriction>.res = newRestriction(`&%'ISA'.srcp,
 			  			  %ID.id,
@@ -859,7 +859,7 @@ static int val(char str[])
 	%<property>.srcp = srcp;
     }%%
 
-    ! <is> <attributes>				%+('EXIT', 'IN', 'ARTICLE')
+    ! <is> <attributes>
     %%
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.atrs = %<attributes>.atrs;
@@ -974,7 +974,7 @@ static int val(char str[])
 	%<optional_attributes>.atrs = NULL;
     %%
 
-    ! <optional_attributes> <is> <attributes>			%+('ARTICLE')
+    ! <optional_attributes> <is> <attributes>
     %%
 	%<optional_attributes>.atrs = combine(%<optional_attributes>.atrs, %<attributes>.atrs);
     %%
@@ -1081,7 +1081,7 @@ static int val(char str[])
     ;
 
 <name>			-- RETURNS: nam
-    = 'NAME' <ids> [ '.' ]					%+('ARTICLE', 'IN', 'EXIT')
+    = 'NAME' <ids> [ '.' ]
     %%
 	%<name>.nam = %<ids>.idList;
     %%
@@ -1120,7 +1120,7 @@ static int val(char str[])
 	%<optional_limits>.lims = NULL;
     %%
 
-    ! 'LIMITS' <limits>					%+('ARTICLE', 'IN', 'EXIT')
+    ! 'LIMITS' <limits>
     %%
 	%<optional_limits>.lims = %<limits>.lims;
     %%
@@ -1139,7 +1139,7 @@ static int val(char str[])
     ;
 
 <limit>			-- RETURNS: lim
-    = <limit_attribute> 'THEN' <statements>			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    = <limit_attribute> 'THEN' <statements>
     %%
 	%<limit>.lim = newlim(`&%'THEN'.srcp,
 			    %<limit_attribute>.atr,
@@ -1385,7 +1385,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
+    = STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
 	%<output_statement>.stm = newstm(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -1773,25 +1773,92 @@ static int val(char str[])
     ;
 
 <factor>			-- RETURNS: exp
-    = <primary>
+    = <arithmetic>
     %%
-	%<factor>.exp = %<primary>.exp;
+	%<factor>.exp = %<arithmetic>.exp;
     %%
 
-    ! <primary> <right_hand_side>
+    ! <factor> <optional_not> <relop> <arithmetic>
+    %% { Expression *exp;
+	exp = newexp(`&%<relop>.srcp, BINARY_EXPRESSION);
+	exp->fields.bin.left = %<factor>.exp;
+	exp->not = %<optional_not>.not;
+	exp->fields.bin.op = %<relop>.op;
+	exp->fields.bin.right = %<arithmetic>.exp;
+	%<factor>.exp = exp;
+        %<factor>.expKd = BINARY_EXPRESSION;
+    } %%
+
+    ! <factor> <optional_not> <where>
+    %% { Expression *exp;
+	exp = newexp(`&%<where>.srcp, WHERE_EXPRESSION);
+	exp->fields.whr.wht = %<factor>.exp;
+	exp->not = %<optional_not>.not;
+	exp->fields.whr.whr = %<where>.whr;
+	%<factor>.exp = exp;
+        %<factor>.expKd = WHERE_EXPRESSION;
+    } %%
+
+    ! <factor> <optional_not> 'BETWEEN' <arithmetic> 'AND' <arithmetic>
+    %% { Expression *exp;
+	exp = newexp(`&%'BETWEEN'.srcp, BETWEEN_EXPRESSION);
+	exp->fields.btw.val = %<factor>.exp;
+	exp->not = %<optional_not>.not;
+	exp->fields.btw.low = %1<arithmetic>.exp;
+	exp->fields.btw.high = %2<arithmetic>.exp;
+	%<factor>.exp = exp;
+        %<factor>.expKd = BETWEEN_EXPRESSION;
+    } %%
+
+    ! <factor> <optional_not> 'CONTAINS' <arithmetic>
+    %% { Expression *exp;
+	exp = newexp(`&%'CONTAINS'.srcp, BINARY_EXPRESSION);
+	exp->fields.bin.left = %<factor>.exp;
+	exp->not = %<optional_not>.not;
+	exp->fields.bin.op = CONTAINS_OPERATOR;
+	exp->fields.bin.right = %<arithmetic>.exp;
+	%<factor>.exp = exp;
+        %<factor>.expKd = BINARY_EXPRESSION;
+    } %%
+    ;
+
+
+<arithmetic>
+    = <primary>					--%-('NOT')
     %%
-        /* <right_hand_side> contains the top expr, hang in the <primary> and
-           propagate that node */
-        switch (%<right_hand_side>.expKd) {
-	case BINARY_EXPRESSION: %<right_hand_side>.exp->fields.bin.left = %<primary>.exp; break;
-	case WHERE_EXPRESSION: %<right_hand_side>.exp->fields.whr.wht = %<primary>.exp; break;
-	case ATTRIBUTE_EXPRESSION: %<right_hand_side>.exp->fields.atr.wht = %<primary>.exp; break;
-	case BETWEEN_EXPRESSION: %<right_hand_side>.exp->fields.btw.val = %<primary>.exp; break;
-	case ISA_EXPRESSION: %<right_hand_side>.exp->fields.isa.wht = %<primary>.exp; break;
-	default: syserr("Unrecognized switch in <right_hand_side> semantic rule.");
-	}
-        %<factor>.exp = %<right_hand_side>.exp;
+	%<arithmetic>.exp = %<primary>.exp;
     %%
+
+    ! <primary> 'ISA' ID
+    %% { Expression *exp;
+	exp = newexp(`&%'ISA'.srcp, ISA_EXPRESSION);
+	exp->fields.isa.wht = %<primary>.exp;
+	exp->not = FALSE;
+	exp->fields.isa.id = %ID.id;
+	%<arithmetic>.exp = exp;
+        %<arithmetic>.expKd = ISA_EXPRESSION;
+    } %%
+
+    ! <primary> <is> <something>
+    %% { Expression *exp;
+	exp = newexp(`&%<is>.srcp, ATTRIBUTE_EXPRESSION);
+	exp->fields.atr.wht = %<primary>.exp;
+	exp->not = %<something>.not;
+	exp->fields.atr.atr = %<something>.id;
+	%<arithmetic>.exp = exp;
+        %<arithmetic>.expKd = ATTRIBUTE_EXPRESSION;
+    } %%
+
+    ! <arithmetic> <binop> <primary>
+    %% { Expression *exp;
+	exp = newexp(`&%<binop>.srcp, BINARY_EXPRESSION);
+ 	exp->not = FALSE;
+	exp->fields.bin.op = %<binop>.op;
+	exp->fields.bin.left = %<arithmetic>.exp;
+	exp->fields.bin.right = %<primary>.exp;
+	%<arithmetic>.exp = exp;
+        %<arithmetic>.expKd = BINARY_EXPRESSION;
+    } %%
     ;
 
 <right_hand_side>
@@ -1878,7 +1945,7 @@ static int val(char str[])
 	  %<primary>.exp->fields.val.val = val(%Integer.chars);
     %%
 
-    ! STRING		%-('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
+    ! STRING		%+('IS', 'ARE', 'HAS', 'AT', 'HERE', 'IN', 'NEARBY')
     %%
 	%<primary>.exp = newexp(&%STRING.srcp, STRING_EXPRESSION);
 	%<primary>.exp->fields.str.fpos = %STRING.fpos;
@@ -1981,7 +2048,7 @@ static int val(char str[])
 
 
 <optional_where>		-- RETURNS: whr
-    =					%-('HERE', 'NEARBY', 'AT', 'IN')
+    =
     %%
         %<optional_where>.whr = newwhr(`&nulsrcp, WHR_DEFAULT, NULL);
     %%

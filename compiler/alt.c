@@ -150,7 +150,7 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
     break;
     
   default:
-    syserr("Unrecognized switch in gealtent()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 

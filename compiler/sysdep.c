@@ -22,7 +22,7 @@
 #endif
 
 #ifdef _PROTOTYPES_
-extern void syserr(char str[]);
+extern void syserr(char str[], char function[]);
 #endif
 
 #ifdef __vms__

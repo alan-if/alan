@@ -1,0 +1,8 @@
+The l Isa location
+End The l.
+
+Start At l.
+  If Count = 9 Then "" End If.
+  If Count At l = 9 Then "" End If.
+  If Count Is x Then "" End If.
+  If Count Isa object = 12 Then "" End If.

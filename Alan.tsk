@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>201.89</origest>
-<currest>201.89</currest>
-<elapsed>71.89</elapsed>
+<origest>204.89</origest>
+<currest>204.89</currest>
+<elapsed>72.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>1</elapsed>
+<origest>33</origest>
+<currest>33</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>1</elapsed>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -46,28 +46,28 @@ Code generation then can pickup the resource numbers from the ID:s</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unit tests for word-handling</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Move current.verb code from "secret" place after class restriction table</desc>
 <notes>Seems like the flags in the EOS syntax element could be used. Verify that it is not used for anything else.
 
 Remember to change the reverse routine.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
+<notes>New right hand side of expression to augment COUNT aggregate.
+
+First step:
+Allow for it in ACODE.
+
+Second step:
+Allow one right hand side.
+
+Third step:
+Allow concatenated right hand sides.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -94,26 +94,8 @@ Also need to consider how to warn for the same verb declared without a parameter
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Default syntax with parameter</desc>
-<notes>Does it work to refer to the default parameter "object"?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>COUNT &lt;right hand side&gt; {AND/OR &lt;right hand side&gt;} &lt;where&gt;</desc>
-<notes>New right hand side of expression to augment COUNT aggregate.
-
-First step:
-Allow for it in ACODE.
-
-Second step:
-Allow one right hand side.
-
-Third step:
-Allow concatenated right hand sides.</notes>
+<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -141,6 +123,19 @@ Allow concatenated right hand sides.</notes>
 <task>
 <desc>Location ENTERED</desc>
 <notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default syntax with parameter</desc>
+<notes>Does it work to refer to the default parameter "object"? Yes.
+How about if it is an actor? No. Because the default syntax is "object Isa object" It should be "object Isa &lt;current class&gt;, but how do we know that?
+
+Is it possible to defer the actual class restriction to execution? Or should we look at the class which has the verb definition?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -443,13 +438,73 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.29</desc>
+<notes/>
+<priority>2</priority>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>List error messages in same order as they where generated</desc>
+<notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
+
+Design: add a counter field in the message entries and sort on those also.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Spaces after $o at end of string</desc>
+<notes>SteveG:
+Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Aggregates does not work</desc>
+<notes>Should they only address objects as it says in the docs? No, probably it should have a class restriction as an optional clause and object as a default.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make distinction on words and symbols and identifiers</desc>
+<notes>The manual should have a clear description of each. In "lexical definitions"?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Priorities of operators stink</desc>
+<notes>Count at l = 8
+-&gt; '=' replaced by 'OR'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>93</origest>
-<currest>93</currest>
+<origest>92</origest>
+<currest>92</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -464,10 +519,8 @@ The ... In box</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor? Allow only WHT_ID?</desc>
-<notes>If we use WHT_ID only we can use "object" as the predefined parameter name in default syntax. This makes it impossible to use OBJECT in verbs with defined syntax.
-
-How about WHT_LOC, &amp; WHT_ACT?</notes>
+<desc>Unit tests for word-handling</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -475,11 +528,10 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: Spaces after $o at end of string</desc>
-<notes>SteveG:
-Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
+<desc>Refactor? Allow only WHT_ID?</desc>
+<notes>If we use WHT_ID only we can use "object" as the predefined parameter name in default syntax. This makes it impossible to use OBJECT in verbs with defined syntax.
 
-</notes>
+How about WHT_LOC, &amp; WHT_ACT?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -597,15 +649,6 @@ FOR EACH instance ISA entity DO
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-<task>
-<desc>Bug: Aggregates does not work</desc>
-<notes>Should they only address objects as it says in the docs? No probably it should have a class restriction as an optional clause and object as a default.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>New execution model</desc>

@@ -70,7 +70,7 @@ static void setDefaultRestriction(List *parameters)
   List *p;
 
   if (parameters != NULL && parameters->kind != SYMBOL_LIST)
-    syserr("Not a symbol list in setDefaultRestriction()");
+    syserr("Not a symbol list in '%s()'", __FUNCTION__);
 
   for (p = parameters; p != NULL; p = p->next)
     if (p->element.sym->fields.parameter.element->res == NULL) {

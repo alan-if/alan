@@ -475,11 +475,8 @@ void compile(void) {
   _ftype = '?\?\?\?';
 #endif
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
-  if (!txtfil) {
-    char buf[1000];
-    sprintf(buf, "Could not open output file '%s' for writing.", txtfnm);
-    syserr(buf);
-  }
+  if (!txtfil)
+    syserr("Could not open output file '%s' for writing.", txtfnm);
 
   /* First initialise */
   initAdventure();

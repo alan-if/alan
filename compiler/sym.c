@@ -78,7 +78,7 @@ void redefined(IdNode *id,
   case INSTANCE_SYMBOL: code = 304; break;
   case CLASS_SYMBOL: code = 305; break;
   case EVENT_SYMBOL: code = 307; break;
-  default: syserr("Unrecognized switch in redefined()"); break;
+  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
   }
 
   lmLog(&id->srcp, code, sevERR, id->string);
@@ -126,7 +126,7 @@ static void insertSymbol(Symbol *symbol)
 static void addLocal(Symbol *new)
 {
   if (currentFrame == NULL)
-    syserr("Adding local variable without an active frame");
+    syserr("Adding local variable without an active frame", NULL);
 
   if (currentFrame->localSymbols == NULL)
     new->fields.local.number = 1;
@@ -145,7 +145,7 @@ static char *symbolKindAsString(SymbolKind kind)
   case CLASS_SYMBOL: return "a class";
   case INSTANCE_SYMBOL: return "an instance";
   case VERB_SYMBOL: return "a verb";
-  default: syserr("Unimplemented case in symbolKind()");
+  default: syserr("Unimplemented case in '%s()'", __FUNCTION__);
   }
   return NULL;
 }
@@ -219,7 +219,7 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
     break;
   case LOCAL_SYMBOL:
     break;
-  default: syserr("Unexpected switch on SYMBOLKIND in newSymbol()"); break;
+  default: syserr("Unexpected switch on SYMBOLKIND in '%s()'", __FUNCTION__);
   }
 
   return new;
@@ -306,7 +306,7 @@ Symbol *lookup(char *idString)
   Symbol *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  if (idString == NULL) syserr("NULL string in lookup()");
+  if (idString == NULL) syserr("NULL string in '%s()'", __FUNCTION__);
 
   s1 = symbolTree;
   s2 = NULL;
@@ -364,7 +364,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
       foundSymbol = lookup(idString);
       break;
     default:
-      syserr("Unexpected context kind in lookupInContext()");
+      syserr("Unexpected context kind in '%s()'", __FUNCTION__);
       break;
     }
     if (foundSymbol != NULL)
@@ -398,7 +398,7 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
 void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
-    syserr("Not a CLASS or INSTANCE in setParent()");
+    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
   child->fields.entity.parent = parent;
 }
 
@@ -407,7 +407,7 @@ void setParent(Symbol *child, Symbol *parent)
 Symbol *parentOf(Symbol *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
-    syserr("Not a CLASS or INSTANCE in parentOf()");
+    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
   return child->fields.entity.parent;
 }
 
@@ -430,7 +430,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
   if ((child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL) ||
       (ancestor->kind != CLASS_SYMBOL))
-    syserr("Not a CLASS or INSTANCE in inheritsFrom()");
+    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
 
   p = child;			/* To be the class itself is OK */
   while (p && p != ancestor)
@@ -453,9 +453,11 @@ Symbol *symcheck(IdNode *id,
 {
   Symbol *sym = lookupInContext(id->string, context);
 
-  if (!sym) 
-    lmLog(&id->srcp, 310, sevERR, id->string);
-  else if (sym->kind == PARAMETER_SYMBOL) {
+  if (!sym) {
+    if (id->string[0] != '<')
+      /* Error generated ids start with '<', we don't want to report on those */
+      lmLog(&id->srcp, 310, sevERR, id->string);
+  } else if (sym->kind == PARAMETER_SYMBOL) {
     if (sym->fields.parameter.element->kind != ID_RESTRICTION)
       lmLogv(&id->srcp, 319, sevERR, id->string,
 	     "a parameter that is restricted to instances of a class", NULL);
@@ -497,7 +499,7 @@ void setParameters(Symbol *verb, List *parameters)
   if (parameters == NULL) return;
 
   if (parameters->kind != ELEMENT_LIST)
-    syserr("Not a parameter list in setParameter()");
+    syserr("Not a parameter list in '%s()'", __FUNCTION__);
 
   for (parameter = parameters; parameter != NULL; parameter = parameter->next) {
     Symbol *parameterSymbol = newParameterSymbol(parameter->element.elm->id->string, parameter->element.elm);
@@ -520,7 +522,7 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
 {
   Symbol *theClassSymbol = lookup(className);
 
-  if (theClassSymbol == NULL) syserr("There is no such class in inheritCheck()");
+  if (theClassSymbol == NULL) syserr("There is no such class in '%s()'", __FUNCTION__);
 
   if (!inheritsFrom(id->symbol, theClassSymbol))
     lmLogv(&id->srcp, 351, sevERR, classOrInstance, "location", NULL);

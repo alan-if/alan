@@ -113,7 +113,7 @@ void analyzeWhere(Where *whr,
     case WHAT_LOCATION:
       break;
     default:
-      syserr("Unrecognized switch in analyzeWhere()");
+      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
       break;
     }
     break;
@@ -121,7 +121,7 @@ void analyzeWhere(Where *whr,
     verifyContainer(whr->what, context);
     break;
   default:
-    syserr("Unrecognized switch in analyzeWhere()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -158,7 +158,7 @@ void anwhr(Where *whr,
 	lmLog(&whr->what->srcp, 412, sevERR, "");
       break;
     default:
-      syserr("Unrecognized switch in anexpwhr()");
+      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
       break;
     }
     break;
@@ -166,7 +166,7 @@ void anwhr(Where *whr,
     verifyContainer(whr->what, context);
     break;
   default:
-    syserr("Unrecognized switch in anwhr()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -188,7 +188,7 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
     case WHR_IN:
     case WHERE_AT:
       return whr->what->id->symbol->code;
-    default: syserr("Unexpected where kind in generateInitialLocation()");
+    default: syserr("Unexpected where kind in '%s()'", __FUNCTION__);
     }
 
   return 0;
@@ -223,7 +223,7 @@ void generateWhere(Where *where)
       emit0(I_WHERE);
       break;
     default:
-      syserr("Unexpected switch on whatKind in generateWhere()");
+      syserr("Unexpected switch on whatKind in '%s()'", __FUNCTION__);
     }
     break;
 
@@ -236,7 +236,7 @@ void generateWhere(Where *where)
     break;
 
   default:
-    syserr("unrecognised switch in gewhr()");
+    syserr("unrecognised switch in '%s()'", __FUNCTION__);
     break;
   }
 }

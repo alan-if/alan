@@ -173,14 +173,14 @@ static void analyzeLocate(StmNod *stm,
 	lmLog(&stm->srcp, 402, sevERR, "A Location");
       break;
     default:
-      syserr("Unexpected WhtKind in analyzeLocate()");
+      syserr("Unexpected WhtKind in '%s()'", __FUNCTION__);
     }
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
-    syserr("Unrecognized switch in analyzeLocate()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -362,7 +362,7 @@ static void anschedule(StmNod *stm,
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
   default:
-    syserr("Unrecognized switch in anschedule()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 
@@ -427,7 +427,7 @@ static void analyzeUse(StmNod *stm,
 	return;
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
-	syserr("Unexpected context in analyzeUse()");
+	syserr("Unexpected context in '%s()'", __FUNCTION__);
       actorId = context->instance->props->id;
     }
 
@@ -506,7 +506,7 @@ static void analyzeDepend(StmNod *stm, Context *context)
 	  stm->fields.depend.exp;
 	break;
       default:
-	syserr("andep(): Unrecognized switch case on expkd.");
+	syserr("Unrecognized switch case on expkd in '%s()'", NULL);
       }
     } else
       /* If this is an ELSE-case there can not be any other afterwards */
@@ -901,7 +901,7 @@ static void generateDependCase(Expression *exp)
     generateBetweenCheck(exp);
     break;
   default:
-    syserr("generateDependingCase(): Unrecognized switch case on expression kind.");
+    syserr("Unrecognized switch case on expression kind in '%s()'", __FUNCTION__);
   }
 }
 

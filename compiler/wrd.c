@@ -169,7 +169,7 @@ void prepareWords(void)
     newWord("alla", WRD_ALL, 0, NULL);
     break;
   default:
-    syserr("unrecognized language in prepwrds()");
+    syserr("Unrecognized language in '%s()'", __FUNCTION__);
     break;
   }
 }

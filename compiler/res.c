@@ -108,7 +108,7 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
     break;
 
   default:
-    syserr("Unimplemented restriction kind in resolveParameterClass()");
+    syserr("Unimplemented restriction kind in '%s()'", __FUNCTION__);
     break;
   }
 
@@ -186,7 +186,7 @@ static void generateRestrictionEntry(ResNod *res)
     restriction.class = RESTRICTIONCLASS_STRING;
     break;
   default:
-    syserr("Unexpected RestrictionKind in generateRestrictionEntry()");
+    syserr("Unexpected RestrictionKind in '%s()'", __FUNCTION__);
     break;
   }
   restriction.stms = res->stmadr;

@@ -81,9 +81,9 @@ static lmMsgs msg[] = {
     { "6     ", "        %1 error(s)." },
     { "7     ", "Maximum number of messages exceeded." },
     { "100   ", "Parsing resumed here." },
-    { "101   ", "%1 inserted." },
-    { "102   ", "%1 deleted." },
-    { "103   ", "%1 replaced by %2." },
+    { "101   ", "Syntax error. Attempting to repair by inserting \"%1\" here." },
+    { "102   ", "Syntax error. Attempting to repair by ignoring \"%1\"." },
+    { "103   ", "Syntax error. Attempting to repair by replacing \"%1\" by \"%2\"." },
     { "104   ", "Severe syntax error, construct ignored." },
     { "105   ", "Syntax error, couldn\'t recover." },
     { "106   ", "Parse stack overflow." },
@@ -149,6 +149,7 @@ static lmMsgs msg[] = {
     { "335   ", "ELSE clause of a DEPENDING statement must be the last." },
     { "336   ", "You can not ADD %1." },
     { "337   ", "You can not Say boolean values." },
+    { "338   ", "A Where specification is required in Aggregate statements." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not ADD %1 TO classes. %2" },
     { "350   ", "Can not inherit from something not a class." },
@@ -175,7 +176,7 @@ static lmMsgs msg[] = {
     { "417   ", "Comparing two constant entities will always yield the same result." },
     { "418   ", "Aggregate is only allowed on integer type attributes." },
     { "419   ", "%1 SET statement must be of integer or string type." },
-    { "420   ", "Invalid What specification in %1." },
+    { "420   ", "Invalid What-specification in %1." },
     { "421   ", "THIS instance is not defined in this context." },
     { "422   ", "This instance does not inherit from anything, nor does it have a container property. This makes its use dubious." },
     { "423   ", "You can not instantiate or sub-class \'%1\'." },
@@ -201,7 +202,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 121}
+    {0, 122}
 };
 static lmMessages currMsect = (lmMessages)0;
 

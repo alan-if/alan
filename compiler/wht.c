@@ -77,7 +77,7 @@ void generateWhat(What *wht)
     emitVariable(V_CURRENT_INSTANCE);
     break;
   default:
-    syserr("Unexpected case in generateWhat()");
+    syserr("Unexpected case in '%s()'", __FUNCTION__);
   }
 }
 

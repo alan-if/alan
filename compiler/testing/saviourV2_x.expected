@@ -7,12 +7,14 @@ saviourV2_x.alan
 =====>  1      2
 
   *1*   601 W : Unknown option, 'object'.
-  *2*   103 E : 'ATTRIBUTES' 'NOT' Identifier '.' 'NOT' ... replaced by '.'.
+  *2*   103 E : Syntax error. Attempting to repair by replacing "'ATTRIBUTES'
+                'NOT' Identifier '.' 'NOT' ..." by "'.'".
 
    46.  CONTAINER pseudowords
 =====>  1
 
-  *1*   102 E : 'CONTAINER' Identifier 'END' 'CONTAINER' '.' deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'CONTAINER'
+                Identifier 'END' 'CONTAINER' '.'".
 
    50.      CHECK OBJECT IN hero
 =====>            1         2
@@ -41,7 +43,7 @@ saviourV2_x.alan
   *1*   319 E : Identifier 'object' is not an instance.
 
    98.  VERB unlock_with
-=====>       1
+=====>  1
 
   *1*   219 E : Global verbs can not have parameters.
 
@@ -59,10 +61,11 @@ saviourV2_x.alan
   114.  	WHERE o ISA ACTOR OR OBJECT
 =====>  	                  1
 
-  *1*   102 E : 'OR' Identifier deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'OR'
+                Identifier".
 
   117.  VERB find
-=====>       1
+=====>  1
 
   *1*   219 E : Global verbs can not have parameters.
 
@@ -72,7 +75,7 @@ saviourV2_x.alan
   *1*   318 E : The 'hero' does not have the container property.
 
   134.  VERB insert_into
-=====>       1
+=====>  1
 
   *1*   219 E : Global verbs can not have parameters.
 
@@ -87,7 +90,7 @@ saviourV2_x.alan
   *1*   318 E : The 'hero' does not have the container property.
 
   208.  VERB take
-=====>       1
+=====>  1
 
   *1*   219 E : Global verbs can not have parameters.
 
@@ -109,7 +112,7 @@ saviourV2_x.alan
   *2*   318 E : The 'hero' does not have the container property.
 
   224.  VERB type
-=====>       1
+=====>  1
 
   *1*   219 E : Global verbs can not have parameters.
 
@@ -146,7 +149,8 @@ saviourV2_x.alan
   274.  LOCATION nowhere
 =====>  1
 
-  *1*   102 E : 'LOCATION' Identifier 'END' 'LOCATION' '.' ... deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'LOCATION'
+                Identifier 'END' 'LOCATION' '.' ...".
 
   279.  LOCATION outside NAME Outside the tall building
 =====>                                1   2    3
@@ -155,9 +159,9 @@ saviourV2_x.alan
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'tall' does not inherit from 'location', but has EXITs
                 , which can never be traversed.
-  *3*   101 E : 'IN' inserted.
+  *3*   101 E : Syntax error. Attempting to repair by inserting "'AT'" here.
   *3*   310 E : Identifier 'building' not defined.
-  *3*   310 E : Identifier 'building' not defined.
+  *3*   351 E : Must refer to an instance inheriting from 'location'.
 
   286.      EXIT north TO hall
 =====>                    1
@@ -167,13 +171,14 @@ saviourV2_x.alan
   290.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'tall' assumed.
 
   294.  LOCATION hall
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'hall' does not inherit from 'location', but has EXITs
@@ -204,13 +209,14 @@ saviourV2_x.alan
   325.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'hall' assumed.
 
   327.  OBJECT door AT hall
 =====>  1              2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -235,13 +241,14 @@ saviourV2_x.alan
   406.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   409.  LOCATION stairs
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'door' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'stairs' does not inherit from 'location', but has
@@ -265,13 +272,14 @@ saviourV2_x.alan
   420.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'stairs' assumed.
 
   423.  LOCATION cellar
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'cellar' does not inherit from 'location', but has
@@ -290,13 +298,14 @@ saviourV2_x.alan
   440.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'cellar' assumed.
 
   442.  OBJECT rats AT cellar
 =====>  1              2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -304,13 +313,14 @@ saviourV2_x.alan
   472.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   475.  LOCATION store
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'rats' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'store' does not inherit from 'location', but has
@@ -324,13 +334,14 @@ saviourV2_x.alan
   488.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'store' assumed.
 
   490.  OBJECT tape AT store
 =====>  1              2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -343,13 +354,14 @@ saviourV2_x.alan
   520.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   523.  LOCATION first Name First Floor 
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'tape' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'first' does not inherit from 'location', but has
@@ -373,13 +385,14 @@ saviourV2_x.alan
   534.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'first' assumed.
 
   536.  OBJECT book NAME old book AT first
 =====>  1                            2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -392,13 +405,14 @@ saviourV2_x.alan
   557.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   560.  LOCATION office
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'book' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'office' does not inherit from 'location', but has
@@ -412,13 +426,14 @@ saviourV2_x.alan
   571.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'office' assumed.
 
   573.  OBJECT ladder AT office
 =====>  1                2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -436,13 +451,14 @@ saviourV2_x.alan
   655.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   658.  LOCATION second NAME Second Floor
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'ladder' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'second' does not inherit from 'location', but has
@@ -466,13 +482,14 @@ saviourV2_x.alan
   669.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'second' assumed.
 
   672.  LOCATION terminal_room NAME Terminal Room
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'terminal_room' does not inherit from 'location', but
@@ -486,13 +503,14 @@ saviourV2_x.alan
   684.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'terminal_room' assumed.
 
   686.  OBJECT terminal AT terminal_room
 =====>  1                  2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -556,13 +574,14 @@ saviourV2_x.alan
   781.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   784.  LOCATION third NAME Third Floor
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'terminal' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'third' does not inherit from 'location', but has
@@ -581,13 +600,14 @@ saviourV2_x.alan
   796.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'third' assumed.
 
   799.  LOCATION fourth NAME Fourth Floor
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'fourth' does not inherit from 'location', but has
@@ -617,13 +637,14 @@ saviourV2_x.alan
   811.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'fourth' assumed.
 
   814.  LOCATION holeroom NAME Windy Room
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'holeroom' does not inherit from 'location', but has
@@ -642,13 +663,14 @@ saviourV2_x.alan
   831.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'holeroom' assumed.
 
   834.  LOCATION walless NAME Walless Room
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'walless' does not inherit from 'location', but has
@@ -662,13 +684,14 @@ saviourV2_x.alan
   846.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'walless' assumed.
 
   848.  OBJECT nest NAME birds nest AT walless
 =====>  1                              2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -696,13 +719,14 @@ saviourV2_x.alan
   890.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   892.  LOCATION fifth NAME Fifth Floor
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'nest' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'fifth' does not inherit from 'location', but has
@@ -726,13 +750,14 @@ saviourV2_x.alan
   902.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'fifth' assumed.
 
   905.  LOCATION clockroom NAME Clock Room
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'clockroom' does not inherit from 'location', but has
@@ -746,13 +771,14 @@ saviourV2_x.alan
   911.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'clockroom' assumed.
 
   913.  OBJECT clock AT clockroom
 =====>  1               2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -760,13 +786,14 @@ saviourV2_x.alan
   956.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier
+                '.'" by "'THE'".
 
   959.  LOCATION corr NAME Corridor
 =====>  1        2
 
   *1*   201 W : Mismatched block identifier, 'clock' assumed.
-  *2*   101 E : 'THE' inserted.
+  *2*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *2*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'corr' does not inherit from 'location', but has EXITs
@@ -790,13 +817,14 @@ saviourV2_x.alan
   978.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'corr' assumed.
 
   981.  LOCATION deskroom NAME Small Office
 =====>  1        2
 
-  *1*   103 E : 'LOCATION' replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'LOCATION'" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   352 E : Instance 'deskroom' does not inherit from 'location', but has
@@ -815,13 +843,14 @@ saviourV2_x.alan
   993.  END LOCATION.
 =====>      1
 
-  *1*   101 E : 'THE' inserted.
+  *1*   101 E : Syntax error. Attempting to repair by inserting "'THE'" here.
   *1*   201 W : Mismatched block identifier, 'deskroom' assumed.
 
   995.  OBJECT drawer AT deskroom
 =====>  1                2
 
-  *1*   103 E : Identifier replaced by 'THE'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier" by
+                "'THE'".
   *1*   422 W : This instance does not inherit from anything, nor does it have
                 a container property. This makes its use dubious.
   *2*   351 E : Must refer to an instance inheriting from 'location'.
@@ -839,12 +868,14 @@ saviourV2_x.alan
  1037.  END OBJECT.
 =====>      1
 
-  *1*   103 E : Identifier '.' Identifier Identifier replaced by 'THE' 'START'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "Identifier '.'
+                Identifier Identifier" by "'THE' 'START'".
 
  1041.      IS
 =====>      1
 
-  *1*   103 E : 'IS' Identifier '.' 'NOT' Identifier ... replaced by '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'IS'
+                Identifier '.' 'NOT' Identifier ..." by "'.'".
 
  1049.      VERB examine DOES
 =====>      1    2
@@ -885,23 +916,26 @@ saviourV2_x.alan
  1088.  END OBJECT.
 =====>  1
 
-  *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
-                'START' 'HERE' '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
+                Identifier '.' Identifier Identifier ..." by "'START' 'HERE'
+                '.'".
 
  1097.          password "".
 =====>                     1
 
-  *1*   102 E : '.' Identifier deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'.'
+                Identifier".
 
  1098.  	pwtry "".
 =====>  	        1
 
-  *1*   102 E : '.' 'DESCRIPTION' deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'.'
+                'DESCRIPTION'".
 
  1103.      MENTIONED
 =====>      1
 
-  *1*   102 E : 'MENTIONED' deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'MENTIONED'".
 
  1106.      VERB examine DOES
 =====>      1    2
@@ -969,13 +1003,15 @@ saviourV2_x.alan
  1132.  END OBJECT.
 =====>  1
 
-  *1*   103 E : 'END' Identifier '.' 'LOCATION' Identifier ... replaced by
-                'START' 'HERE' '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
+                Identifier '.' 'LOCATION' Identifier ..." by "'START' 'HERE'
+                '.'".
 
  1141.      EXIT west TO fourth.
 =====>      1
 
-  *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
+                Identifier 'TO' Identifier '.' ...".
 
  1156.      VERB examine DOES
 =====>      1    2
@@ -1020,13 +1056,15 @@ saviourV2_x.alan
  1203.  END OBJECT.
 =====>  1
 
-  *1*   103 E : 'END' Identifier '.' 'LOCATION' Identifier ... replaced by
-                'START' 'HERE' '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
+                Identifier '.' 'LOCATION' Identifier ..." by "'START' 'HERE'
+                '.'".
 
  1215.      EXIT west TO hall.
 =====>      1
 
-  *1*   102 E : 'EXIT' Identifier 'TO' Identifier '.' ... deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
+                Identifier 'TO' Identifier '.' ...".
 
  1227.      VERB examine DOES
 =====>      1    2
@@ -1046,8 +1084,9 @@ saviourV2_x.alan
  1236.  END OBJECT.
 =====>  1
 
-  *1*   103 E : 'END' Identifier '.' Identifier Identifier ... replaced by
-                'START' 'HERE' '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
+                Identifier '.' Identifier Identifier ..." by "'START' 'HERE'
+                '.'".
 
  1246.      VERB examine DOES
 =====>      1    2
@@ -1086,18 +1125,18 @@ saviourV2_x.alan
  1272.  END OBJECT.
 =====>  1
 
-  *1*   103 E : 'END' Identifier '.' 'ACTOR' Identifier ... replaced by 'START'
-                'HERE' '.'.
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'END'
+                Identifier '.' 'ACTOR' Identifier ..." by "'START' 'HERE' '.'".
 
  1279.          HEADER "You are carrying"
 =====>          1
 
-  *1*   102 E : 'HEADER' deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'HEADER'".
 
  1280.          ELSE "You are empty-handed."
 =====>          1
 
-  *1*   102 E : 'ELSE' deleted.
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'ELSE'".
 
  1281.  END ACTOR.
 =====>  1

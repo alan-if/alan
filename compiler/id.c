@@ -57,7 +57,7 @@ Bool equalId(IdNode *id1,
   if (id1 && id2)
     return (strcmp(id1->string, id2->string) == 0);
   else
-    syserr("ID == NULL in equalId()");
+    syserr("ID == NULL in '%s()'", __FUNCTION__);
   return FALSE;
 }
 
@@ -72,7 +72,8 @@ Bool equalId(IdNode *id1,
 void symbolizeId(IdNode *id)
 {
   id->symbol = lookup(id->string);
-  if (id->symbol == NULL) 
+  if (id->symbol == NULL && id->string[0] != '<')
+    /* Generated identifiers start with '<', don't report errors on those */
     lmLog(&id->srcp, 310, sevERR, id->string);
   else
     id->code = id->symbol->code;
@@ -104,7 +105,7 @@ void generateId(IdNode *id)
 	emitVariable(V_PARAM);
 	break;
       default:
-	syserr("Unexpected type in generateId()");
+	syserr("Unexpected type in '%s()'", __FUNCTION__);
       }
     } else if (id->symbol->kind == LOCAL_SYMBOL) {
       /* Calculate the variable number and frame depth */
@@ -113,7 +114,7 @@ void generateId(IdNode *id)
     } else
       emitConstant(id->symbol->code);
   } else if (id->code == 0)
-    syserr("Generating a symbol-less id with code == 0");
+    syserr("Generating a symbol-less id with code == 0", NULL);
   else
     emit(id->code);
 }

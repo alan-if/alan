@@ -129,7 +129,7 @@ List *sortAttributes(List *attributes)
 	tmp2 = tmp1->next;
 	if (tmp1->element.atr->id->code != 0 &&
 	    tmp1->element.atr->id->code == tmp2->element.atr->id->code) 
-	  syserr("Sorting multiple attributes with same code.");
+	  syserr("Sorting multiple attributes with same code.", NULL);
 	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code) {
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
@@ -334,14 +334,14 @@ static Attribute *resolveThisAttribute(IdNode *attribute, Context *context)
   while (!contextFound && thisContext != NULL) {
     switch (thisContext->kind) {
     case CLASS_CONTEXT:
-      if (thisContext->class == NULL) syserr("Context->class == NULL in resolveThisAttribute()");
+      if (thisContext->class == NULL) syserr("Context->class == NULL in '%s()'", __FUNCTION__);
       
       atr = findAttribute(thisContext->class->props->attributes, attribute);
       contextFound = TRUE;
       break;
       
     case INSTANCE_CONTEXT:
-      if (thisContext->instance == NULL) syserr("context->instance == NULL in resolveThisAttribute()");
+      if (thisContext->instance == NULL) syserr("context->instance == NULL in '%s()'", __FUNCTION__);
       
       atr = findAttribute(thisContext->instance->props->attributes, attribute);
       contextFound = TRUE;
@@ -374,7 +374,7 @@ Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *con
   case WHAT_ACTOR: return resolveActorAttribute(attribute, context); break;
   case WHAT_LOCATION: return resolveLocationAttribute(attribute, context); break;
   case WHAT_THIS: return resolveThisAttribute(attribute, context); break;
-  default: syserr("Unexpected switch in resolveAttrbuteReference()");
+  default: syserr("Unexpected switch in '%s()'", __FUNCTION__);
   }
   return NULL;
 }

@@ -118,7 +118,7 @@ void verifyContainer(What *wht,
 	  lmLogv(&wht->srcp, 312, sevERR, wht->id->string, "a container", NULL);
 	break;
       default:
-	syserr("Unexpected symbol kind in verifyContainer()");
+	syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
       }
     break;
 
@@ -128,7 +128,7 @@ void verifyContainer(What *wht,
     break;
 
   default:
-    syserr("Unrecognized switch in verifyContainer()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }

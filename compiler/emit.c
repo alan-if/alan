@@ -103,7 +103,7 @@ void emitEntry(void *address, int noOfBytes)
   int i;
   Aword *words = address;
 
-  if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.");
+  if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.", NULL);
 
   for (i = 0; i < noOfBytes/sizeof(Aword); i++)
 #ifdef REVERSED
@@ -481,11 +481,8 @@ void initEmit(
 	_ftype = 'Acod';
 #endif
   acdfil = fopen(acdfnm, WRITE_MODE);
-  if (!acdfil) {
-    char buf[1000];
-    sprintf(buf, "Could not open output file '%s' for writing.", acdfnm);
-    syserr(buf);
-  }
+  if (!acdfil)
+    syserr("Could not open output file '%s' for writing.", acdfnm);
 
   /* Make space for ACODE header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++)

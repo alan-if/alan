@@ -35,29 +35,18 @@
 
 
 
-/*======================================================================
-
-  equalTypes()
-
-  Check if two types are equal. If one is TYPUNK they are.
-
-  */
+/*======================================================================*/
 Bool equalTypes(TypeKind typ1,	/* IN - types to compare */
 		TypeKind typ2)
 {
-  if (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE) syserr("Unintialised type in equalTypes()");
+  if (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE)
+    syserr("Unintialised type in '%s()'", __FUNCTION__);
   return (typ1 == UNKNOWN_TYPE || typ2 == UNKNOWN_TYPE || typ1 == typ2);
 }
 
 
 
-/*======================================================================
-
-  newexp()
-
-  Allocates and initialises an expnod.
-
- */
+/*======================================================================*/
 Expression *newexp(Srcp *srcp, ExpressionKind kind)
 {
   Expression *new;			/* The newly allocated area */
@@ -95,7 +84,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     case WHAT_THIS:
       break;
     default:
-      syserr("Unrecognized switch in anexpwhr()");
+      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
       break;
     }
   }
@@ -119,7 +108,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 	lmLog(&exp->fields.whr.whr->srcp, 412, sevERR, "");
       break;
     default:
-      syserr("Unrecognized switch in anexpwhr()");
+      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
       break;
     }
     break;
@@ -127,7 +116,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     verifyContainer(exp->fields.whr.whr->what, context);
     break;
   default:
-    syserr("Unrecognized switch in anexpwhr()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 
@@ -146,7 +135,7 @@ static TypeKind verifyExpressionAttribute(IdNode *attributeId,
     attributeId->code = foundAttribute->id->code;
     return foundAttribute->type;
   } else
-    syserr("Attribute with symbol in verifyExpressionAttribute()");
+    syserr("Attribute with symbol in '%s()'", __FUNCTION__);
   return ERROR_TYPE;
 }
 
@@ -171,7 +160,7 @@ static void analyzeAttributeExpression(Expression *exp,
       break;
 
     default:
-      syserr("Unrecognized switch in anexpatr()");
+      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
       break;
     }
 
@@ -179,8 +168,10 @@ static void analyzeAttributeExpression(Expression *exp,
 				    exp->fields.atr.atr, context);
     exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
 
-  } else
+  } else {
+    exp->type = UNKNOWN_TYPE;
     lmLog(&exp->srcp, 420, sevERR, "attribute reference");
+  }
 }
 
 /*----------------------------------------------------------------------*/
@@ -263,22 +254,16 @@ static void analyzeBinaryExpression(Expression *exp,
     break;
 
   default:
-    syserr("unrecognized binary operator in anbin()");
+    syserr("Unrecognized binary operator in '%s()'", __FUNCTION__);
     break;    
   }
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  anagr()
-
-  Analyze an aggregate expression.
-
- */
-static void anagr(Expression *exp,
-		  Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeAggregate(Expression *exp,
+			     Context *context)
 {
   Attribute *atr = NULL;
 
@@ -296,13 +281,14 @@ static void anagr(Expression *exp,
       exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
   }
 
-  analyzeWhere(exp->fields.agr.whr, context);
+  if (exp->fields.agr.whr)
+    analyzeWhere(exp->fields.agr.whr, context);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void anrnd(Expression *exp,
-		  Context *context)
+static void analyzeRandom(Expression *exp,
+			  Context *context)
 {
   exp->type = INTEGER_TYPE;
   analyzeExpression(exp->fields.rnd.from, context);
@@ -319,15 +305,9 @@ static void anrnd(Expression *exp,
 }
 
 
-/*----------------------------------------------------------------------
-
-  anexpwht()
-
-  Analyse a WHT expression.
-
-  */
-static void anexpwht(Expression *exp,
-		     Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeWhatExpression(Expression *exp,
+				  Context *context)
 {
   Symbol *symbol;
 
@@ -357,7 +337,7 @@ static void anexpwht(Expression *exp,
 	exp->type = INSTANCE_TYPE;
 	break;
       default:
-	syserr("Unexpected symbolKind in anexpwht()");
+	syserr("Unexpected symbolKind in %s()", __FUNCTION__);
 	break;
       }
     } else
@@ -373,7 +353,7 @@ static void anexpwht(Expression *exp,
     break;
 
   default:
-    syserr("Unrecognized switch in anexpwht()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -458,11 +438,11 @@ void analyzeExpression(Expression *expression,
     break;
     
   case AGGREGATE_EXPRESSION:
-    anagr(expression, context);
+    analyzeAggregate(expression, context);
     break;
     
   case RANDOM_EXPRESSION:
-    anrnd(expression, context);
+    analyzeRandom(expression, context);
     break;
 
   case SCORE_EXPRESSION:
@@ -470,7 +450,7 @@ void analyzeExpression(Expression *expression,
     break;
 
   case WHAT_EXPRESSION:
-    anexpwht(expression, context);
+    analyzeWhatExpression(expression, context);
     break;
 
   case BETWEEN_EXPRESSION:
@@ -482,7 +462,7 @@ void analyzeExpression(Expression *expression,
     break;
 
   default:
-    syserr("Unrecognized switch in analyzeExpression()");
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }
@@ -630,12 +610,7 @@ static void generateAttributeExpression(Expression *exp)
 
 
 
-/*----------------------------------------------------------------------
-  geexpagr()
-
-  Generate the code for an aggregate expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateAggregateExpression(Expression *exp)
 {
   generateWhere(exp->fields.agr.whr);
@@ -647,7 +622,7 @@ static void generateAggregateExpression(Expression *exp)
   case SUM_AGGREGATE: emit0(I_SUM); break;
   case MAX_AGGREGATE: emit0(I_MAX); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
-  default: syserr("Unrecognized switch in geexpagr()");
+  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
   }
 }
 
@@ -736,7 +711,7 @@ static void generateIsaExpression(Expression *exp)
 void generateExpression(Expression *exp)
 {
   if (exp == NULL) {
-    syserr("Generating a NULL expression");
+    syserr("Generating a NULL expression", NULL);
     emitConstant(0);
     return;
   }

@@ -231,14 +231,14 @@ void prepmsgs(void)
   List *stms = NULL;
 
   if (sizeof(defmsg)/sizeof(defmsg[0]) != MSGMAX+1)
-    syserr("Incorrect number of messages in message tables");
+    syserr("Incorrect number of messages in message tables", NULL);
 
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
   case L_SWEDISH:
     break;
   default:
-    syserr("unrecognised switch in prepmsgs()");
+    syserr("unrecognised switch in '%s()'", __FUNCTION__);
     return;
   }
 
@@ -249,7 +249,7 @@ void prepmsgs(void)
     char *msgp = NULL;
 
     if (msgno != defmsg[msgno].messageCode)
-      syserr("Wrong code in message table.");
+      syserr("Wrong code in message table.", NULL);
 
     /* Create a message node */
     switch (opts[OPTLANG].value) {
@@ -305,7 +305,7 @@ void prepmsgs(void)
       /* Find that message in the system messages list */
       for (lst = smsgs; lst != NULL && lst->element.msg->msgno != msgno; lst = lst->next);
       if (lst == NULL)
-	syserr("Reached end of system messages list.");
+	syserr("Reached end of system messages list.", NULL);
 
       /* Update the message statements */
       garb = lst->element.msg->stms;
