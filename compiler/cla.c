@@ -178,6 +178,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 
   /* We can currently inherit:
 
+  	Initial location
   	Names
   	Attributes
 	DescriptionCheck
@@ -189,11 +190,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Script
 	Verb
   */
-  propCount = 10;
-
-  if (props->whr != NULL)
-    lmLog(&props->whr->srcp, 343, sevWAR, "initial location");
-  propCount++;
+  propCount = 11;
 
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");

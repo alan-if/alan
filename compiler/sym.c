@@ -746,9 +746,19 @@ static void replicateScripts(Symbol *symbol)
 }
 
 
+
+/*----------------------------------------------------------------------*/
+static void replicateInitialLocation(Symbol *symbol)
+{
+  if (symbol->fields.entity.props->whr == NULL)
+    symbol->fields.entity.props->whr = propertiesOfParentOf(symbol)->whr;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void replicate(Symbol *symbol)
 {
+  replicateInitialLocation(symbol);
   replicateNames(symbol);
   replicateAttributes(symbol);
   replicateContainer(symbol);

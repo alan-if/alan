@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>367.89</origest>
-<currest>366.89</currest>
-<elapsed>201.89</elapsed>
+<origest>368.89</origest>
+<currest>367.89</currest>
+<elapsed>202.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>60</origest>
-<currest>60</currest>
-<elapsed>7</elapsed>
+<origest>61</origest>
+<currest>61</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>25</origest>
 <currest>25</currest>
-<elapsed>7</elapsed>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -104,7 +104,7 @@ Possibly this would create a need for OVERRIDE NAME, or in the same way for all 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -344,12 +344,21 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>20</origest>
+<currest>20</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A container without a description should be listed automatically</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
