@@ -1,13 +1,14 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
-CYGWIN =  -mno-cygwin
+CYGWIN = -mno-cygwin
+OPTIMIZE = -g
 
-#GCOV =	-fprofile-arcs -ftest-coverage
 
-CFLAGS = -g -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
+release:	OPTIMIZE = -O4
+gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
-LDFLAGS = -g $(CYGWIN)
+CFLAGS = $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
 
 CPP	= gcc -MM -ansi
 
@@ -99,14 +100,14 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 #
 
 alan: $(MAINOBJECTS) test
-	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
+	gcc -o alan $(MAINOBJECTS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
 release: win
 
 win:  $(MAINOBJECTS) alan.res test
-	gcc -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
+	gcc -o alan $(MAINOBJECTS) alan.res
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
@@ -125,7 +126,7 @@ src:
 	$(MAKE) -f Makefile.src
 
 fromsrc: $(OBJECTS) alan.version.o
-	$(LD) -o alan $(OBJECTS) alan.version.o $(LDFLAGS)
+	$(LD) -o alan $(OBJECTS) alan.version.o
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
