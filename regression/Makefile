@@ -18,17 +18,21 @@ dos:
 	    base=`basename $${f} .tst` ; \
 	    case=`basename $${f} .tst | awk '{print substr($$1, 1, 8)}'` ; \
 	    echo -n Doing $${base} as $${case} ; \
-	    sed -e "s;$${base};$${case};g" -e "s;input;inp;g" $$f > dosregr/$${case}.tst ; \
+	    sed -e "s;$${base};$${case};g" -e "s;input;inp;g" $$f > dosregr/$${case}.tst~ ; \
+	    echo -n . ; \
+	    ramp iso2pc dosregr/$${case}.tst~  dosregr/$${case}.tst ; \
+	    echo -n . ; \
+	    \rm  dosregr/$${case}.tst~ ; \
 	    echo -n . ; \
 	    if test -f $${base}.input ; then \
-		cp $${base}.input dosregr/$${case}.inp ; \
+		ramp iso2pc $${base}.input dosregr/$${case}.inp ; \
 		echo -n . ; \
 	    fi ; \
 	    if test -f $${base}.alan ; then \
-		cp $${base}.alan dosregr/$${case}.ala ; \
+		ramp iso2pc $${base}.alan dosregr/$${case}.ala ; \
 		echo -n . ; \
 	    fi ; \
-	    cp $${base}.tst.expected dosregr/$${case}.exp ; \
+	    ramp iso2pc $${base}.tst.expected dosregr/$${case}.exp ; \
 	    echo . ; \
 	done
 	zip -k -m dosregr.zip dosregr/*
