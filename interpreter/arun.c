@@ -125,6 +125,11 @@ void terminate(code)
   free(memory);
   if (logflg)
     fclose(logfil);
+
+#ifdef __MWERKS__
+  printf("Command-Q to close window.");
+#endif
+
   exit(code);
 }
 
@@ -163,6 +168,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
     }
   }
 #endif
+
   terminate(0);
 }
 
@@ -1605,7 +1611,7 @@ static void openFiles()
 #endif
 {
   char str[256];
-  char *usr;
+  char *usr = "";
   time_t tick;
 
   /* Open Acode file */
