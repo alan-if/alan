@@ -1817,10 +1817,10 @@ int rule			/* IN production number */
     case 281: { /* <arithmetic> = <aggregate> <aggregation_filters>; */
 #line 2112 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newExpression(&pmSeSt[pmStkP+1].srcp, AGGREGATE_EXPRESSION);
-	pmSeSt[pmStkP+1].exp->fields.agr.kind = pmSeSt[pmStkP+1].agr;
-	pmSeSt[pmStkP+1].exp->fields.agr.attribute = pmSeSt[pmStkP+1].id;
-	pmSeSt[pmStkP+1].exp->fields.agr.filters = pmSeSt[pmStkP+2].exps;
+	pmSeSt[pmStkP+1].exp = newAggregateExpression(pmSeSt[pmStkP+1].srcp,
+							pmSeSt[pmStkP+1].agr,
+							pmSeSt[pmStkP+1].id,
+							pmSeSt[pmStkP+2].exps);
     	break;}
     case 285: { /* <aggregation_filters> = <aggregation_filter>; */
 #line 2123 "alan.pmk"

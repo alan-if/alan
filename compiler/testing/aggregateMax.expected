@@ -10,9 +10,9 @@ aggregateMax.alan
                 locations, things and instances without any inheritance). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
-  *2*   226 E : Attributes can not be used in MAX aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
   *3*   101 E : Syntax error. Attempting to repair by inserting "'HERE'" before
                 this symbol.
 
@@ -23,9 +23,9 @@ aggregateMax.alan
                 locations, things and instances without any inheritance). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
-  *2*   226 E : Attributes can not be used in MAX aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
   *3*   224 E : Multiple use of Where in filter list for MAX Aggregation.
 
    11.    If Max Of y At l =at 9 Then "" End If.
@@ -35,9 +35,9 @@ aggregateMax.alan
                 locations, things and instances without any inheritance). It is
                 recommended to apply it to only instances of a particular
                 class. Perhaps you mean 'MAX Isa object'?
-  *2*   226 E : Attributes can not be used in MAX aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
   *3*   102 E : Syntax error. Attempting to repair by ignoring "'AT'".
 
    12.    If Max Of y Is x Then "" End If.
@@ -49,12 +49,12 @@ aggregateMax.alan
                 class. Perhaps you mean 'MAX Isa object'?
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
-  *2*   226 E : Attributes can not be used in MAX aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
-  *3*   226 E : Attributes can not be used in MAX aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
+  *3*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
 
    13.    If Max Of y Isa x = 7 Then "" End If.
 =====>                    1

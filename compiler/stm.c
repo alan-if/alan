@@ -443,34 +443,34 @@ static void analyzeDepend(Statement *stm, Context *context)
 
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     if (cases->element.stm->fields.depcase.exp != NULL) {
-    	Expression *exp = cases->element.stm->fields.depcase.exp;
-		/* Unless it is an ELSE clause, set left hand of case expression
-		   to be the depend expression */
-		switch (exp->kind) {
-      	case BINARY_EXPRESSION:
-			exp->fields.bin.left = stm->fields.depend.exp;
-			break;
-      	case WHERE_EXPRESSION:
-			exp->fields.whr.wht = stm->fields.depend.exp;
-			break;
-      	case ATTRIBUTE_EXPRESSION:
-			exp->fields.atr.wht = stm->fields.depend.exp;
-			break;
-    	case BETWEEN_EXPRESSION:
-			exp->fields.btw.val = stm->fields.depend.exp;
-			break;
-      	default:
-			SYSERR("Unrecognized switch case on Expression kind");
-		}
-	} else
+      Expression *exp = cases->element.stm->fields.depcase.exp;
+      /* Unless it is an ELSE clause, set left hand of case expression
+	 to be the depend expression */
+      switch (exp->kind) {
+      case BINARY_EXPRESSION:
+	exp->fields.bin.left = stm->fields.depend.exp;
+	break;
+      case WHERE_EXPRESSION:
+	exp->fields.whr.wht = stm->fields.depend.exp;
+	break;
+      case ATTRIBUTE_EXPRESSION:
+	exp->fields.atr.wht = stm->fields.depend.exp;
+	break;
+      case BETWEEN_EXPRESSION:
+	exp->fields.btw.val = stm->fields.depend.exp;
+	break;
+      default:
+	SYSERR("Unrecognized switch case on Expression kind");
+      }
+    } else
       /* If this is an ELSE-case there can not be any other afterwards */
       if (cases->next != NULL)
-		lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
-
-	  /* Analyze the expression and the statements */
-	  analyzeExpression(cases->element.stm->fields.depcase.exp, context);
-      analyzeStatements(cases->element.stm->fields.depcase.stms, context);
-	}
+	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
+    
+    /* Analyze the expression and the statements */
+    analyzeExpression(cases->element.stm->fields.depcase.exp, context);
+    analyzeStatements(cases->element.stm->fields.depcase.stms, context);
+  }
 }
 
 

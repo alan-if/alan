@@ -15,10 +15,10 @@
 
 
 
-/* DATA: */
+/* Data: */
 
 
-/* FUNCTIONS: */
+/* Functions: */
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
 extern Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat);
@@ -27,6 +27,7 @@ extern Expression *newIntegerExpression(Srcp srcp, int value);
 extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
 extern Expression *newWhereExpression(Srcp srcp, Where *where);
+extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind, IdNode *attribute, List *filters);
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);

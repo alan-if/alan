@@ -38,6 +38,77 @@
 
 
 /*======================================================================*/
+Expression *newExpression(Srcp *srcp, ExpressionKind kind)
+{
+  Expression *new;                      /* The newly allocated area */
+
+  showProgress();
+
+  new = NEW(Expression);
+
+  new->srcp = *srcp;
+  new->kind = kind;
+  new->not = FALSE;
+
+  return(new);
+}
+
+
+/*======================================================================*/
+Expression *newWhatExpression(Srcp srcp, What *what) {
+  Expression *exp = newExpression(&srcp, WHAT_EXPRESSION);
+  exp->fields.wht.wht = what;
+  return exp;
+}
+
+
+/*======================================================================*/
+Expression *newStringExpression(Srcp srcp, long fpos, int len)
+{
+  Expression *exp = newExpression(&srcp, STRING_EXPRESSION);
+  exp->fields.str.fpos = fpos;
+  exp->fields.str.len = len;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newIntegerExpression(Srcp srcp, int value)
+{
+  Expression *exp = newExpression(&srcp, INTEGER_EXPRESSION);
+  exp->fields.val.val = value;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
+  Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
+  exp->fields.atr.id = attribute;
+  exp->not = not;
+  exp->fields.atr.wht = ofWhat;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class) {
+  Expression *exp = newExpression(&srcp, ISA_EXPRESSION);
+  exp->fields.isa.what = what;
+  exp->not = not;
+  exp->fields.isa.class = class;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
+				   IdNode *attribute, List *filters) {
+  Expression *exp = newExpression(&srcp, AGGREGATE_EXPRESSION);
+  exp->fields.agr.kind = kind;
+  exp->fields.agr.attribute = attribute;
+  exp->fields.agr.filters = filters;
+  return exp;
+}
+
+
+/*======================================================================*/
 void symbolizeExpression(Expression *exp) {
   switch (exp->kind) {
   case WHERE_EXPRESSION:
@@ -147,67 +218,6 @@ static char *aggregateToString(AggregateKind agr)
   default: SYSERR("Unexpected aggregate kind");
   }
   return NULL;
-}
-
-
-/*======================================================================*/
-Expression *newExpression(Srcp *srcp, ExpressionKind kind)
-{
-  Expression *new;                      /* The newly allocated area */
-
-  showProgress();
-
-  new = NEW(Expression);
-
-  new->srcp = *srcp;
-  new->kind = kind;
-  new->not = FALSE;
-
-  return(new);
-}
-
-
-/*======================================================================*/
-Expression *newWhatExpression(Srcp srcp, What *what) {
-  Expression *exp = newExpression(&srcp, WHAT_EXPRESSION);
-  exp->fields.wht.wht = what;
-  return exp;
-}
-
-
-/*======================================================================*/
-Expression *newStringExpression(Srcp srcp, long fpos, int len)
-{
-  Expression *exp = newExpression(&srcp, STRING_EXPRESSION);
-  exp->fields.str.fpos = fpos;
-  exp->fields.str.len = len;
-  return exp;
-}
-
-/*======================================================================*/
-Expression *newIntegerExpression(Srcp srcp, int value)
-{
-  Expression *exp = newExpression(&srcp, INTEGER_EXPRESSION);
-  exp->fields.val.val = value;
-  return exp;
-}
-
-/*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
-  Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
-  exp->fields.atr.id = attribute;
-  exp->not = not;
-  exp->fields.atr.wht = ofWhat;
-  return exp;
-}
-
-/*======================================================================*/
-Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class) {
-  Expression *exp = newExpression(&srcp, ISA_EXPRESSION);
-  exp->fields.isa.what = what;
-  exp->not = not;
-  exp->fields.isa.class = class;
-  return exp;
 }
 
 
@@ -432,18 +442,14 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool analyzeAttributeFilter(Expression *theFilterExpression,
+static void analyzeAttributeFilter(Expression *theFilterExpression,
 				   IdNode *classId,
 				   char *aggregateString)
 {
   Attribute *attribute;
   IdNode *attributeId = theFilterExpression->fields.atr.id;
-  Bool ret = TRUE;
 
-  if (classId == NULL)
-    /* Can not find attributes on all instances, requires ISA filter */
-    lmLog(&theFilterExpression->srcp, 226, sevERR, aggregateString);
-  else if (classId->symbol != NULL) {
+  if (classId != NULL && classId->symbol != NULL) {
     /* Only do attribute semantic check if class is defined */
     attribute = findAttribute(classId->symbol->fields.entity.props->attributes,
                         attributeId);
@@ -452,22 +458,19 @@ static Bool analyzeAttributeFilter(Expression *theFilterExpression,
              "instances aggregated over using",
              aggregateString,
              classId->symbol->string, NULL);
-      ret = FALSE;
     } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {
       lmLog(&attributeId->srcp, 440, sevERR, "Aggregate");
-      ret = FALSE;
     } else
       attributeId->code = attribute->id->code;
   }
-  return ret;
 }
 
 
 /*----------------------------------------------------------------------*/
-static IdNode *analyzeClassingFilter(Expression *theAggregateExpression,
-				  Context *context,
-				  Expression *theFilterExpression, IdNode **classId2,
-				  Bool *foundWhere, Bool *foundIsa)
+static IdNode *analyzeClassingFilter(char *message,
+				     Context *context,
+				     Expression *theFilterExpression,
+				     Bool *foundIsa)
 {
   IdNode *classId = NULL;
 
@@ -475,7 +478,7 @@ static IdNode *analyzeClassingFilter(Expression *theAggregateExpression,
   case ISA_EXPRESSION:
     if (*foundIsa)
       lmLogv(&theFilterExpression->srcp, 224, sevERR, "Isa (class)",
-	     aggregateToString(theAggregateExpression->fields.agr.kind), NULL);
+	     message, NULL);
     *foundIsa = TRUE;
     classId = theFilterExpression->fields.isa.class;
     (void) symcheck(classId, CLASS_SYMBOL, context);
@@ -484,65 +487,80 @@ static IdNode *analyzeClassingFilter(Expression *theAggregateExpression,
   case ATTRIBUTE_EXPRESSION:
     break;
   default:
-    SYSERR("Unimplemented aggregate filter expression type");
+    SYSERR("Unimplemented aggregate filter type");
   }
   return classId;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeNonClassingFilter(Expression *theAggregateExpression,
+static Bool analyzeNonClassingFilter(char *message,
 				     Context *context,
-				     Expression *theFilterExpression,
-				     Expression *classExpression, IdNode *classId,
-				     Bool *foundWhere, Bool *foundIsa)
+				     Expression *theFilter,
+				     IdNode *classId,
+				     Bool *foundWhere)
 {
-  switch (theFilterExpression->kind) {
+  switch (theFilter->kind) {
   case WHERE_EXPRESSION:
     if (*foundWhere)
-      lmLogv(&theFilterExpression->srcp, 224, sevERR, "Where",
-	     aggregateToString(theAggregateExpression->fields.agr.kind), NULL);
+      lmLogv(&theFilter->srcp, 224, sevERR, "Where", message, NULL);
     *foundWhere = TRUE;
-    analyzeWhere(theFilterExpression->fields.whr.whr, context);
+    analyzeWhere(theFilter->fields.whr.whr, context);
     break;
   case ATTRIBUTE_EXPRESSION:
-    if (!analyzeAttributeFilter(theFilterExpression, classId,
-				aggregateToString(theAggregateExpression->fields.agr.kind)))
-      theAggregateExpression->type = ERROR_TYPE;
+    if (classId == NULL)
+      /* Can not find attributes on all instances, requires ISA filter */
+      lmLog(&theFilter->srcp, 226, sevERR, "");
+    else
+      analyzeAttributeFilter(theFilter, classId, message);
     break;
   case ISA_EXPRESSION:
     break;
   default:
     SYSERR("Unimplemented aggregate filter expression type");
   }
+  return TRUE;
 }
 
+
+/*======================================================================*/
+IdNode *analyzeFilterExpressions(char *message, Expression *exp,
+				 Context *context, IdNode *classId) {
+  List *lst;
+  Bool foundWhere = FALSE;
+  Bool foundIsa = FALSE;
+
+  /* Pick up the first ISA_EXPRESSION as this will be used to analyze
+     the availability of attributes */
+  TRAVERSE(lst, exp->fields.agr.filters) {
+    IdNode *foundClassId = analyzeClassingFilter(message, context,
+						 lst->element.exp, &foundIsa);
+    if (foundClassId)
+      classId = foundClassId;
+  }
+
+  TRAVERSE(lst, exp->fields.agr.filters) {
+    if (!analyzeNonClassingFilter(message,  context, lst->element.exp,
+				  classId, &foundWhere))
+      exp->type = ERROR_TYPE;
+  }
+
+  return(classId);
+}
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeAggregate(Expression *exp, Context *context)
 {
   Attribute *atr = NULL;
-  List *lst;
-  Expression *classExpression = NULL;
   IdNode *classId = NULL;       /* Identifier for class filter if any */
-  Bool foundWhere = FALSE;
-  Bool foundIsa = FALSE;
-
+  char message[200] = "";
   exp->type = INTEGER_TYPE;
 
-  /* Pick up the first ISA_EXPRESSION as this will be used to analyze
-     the availability of attributes */
-  TRAVERSE(lst, exp->fields.agr.filters) {
-    IdNode *foundClassId = analyzeClassingFilter(exp, context, lst->element.exp, &classId, &foundWhere, &foundIsa);
-    if (foundClassId)
-      classId = foundClassId;
- }
+  strcat(message, aggregateToString(exp->fields.agr.kind));
+  strcat(message, " Aggregation");
 
-  TRAVERSE(lst, exp->fields.agr.filters) {
-    analyzeNonClassingFilter(exp, context, lst->element.exp, classExpression, classId, &foundWhere, &foundIsa);
-  }
-
+  classId = analyzeFilterExpressions(message, exp, context, classId);
   if (classId == NULL)
     lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 
@@ -551,7 +569,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
     if (!classId)
       /* Absence of a class filter makes arithmetic aggregates impossible since
          attributes can never be guaranteed to be defined in all instances. */
-      lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, aggregateToString(exp->fields.agr.kind));
+      lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
     else if (classId->symbol != NULL) {
       /* Only do this if there was a correct class filter found */
       atr = findAttribute(classId->symbol->fields.entity.props->attributes,

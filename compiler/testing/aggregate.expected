@@ -40,9 +40,9 @@ aggregate.alan
                 of a particular class. Perhaps you mean 'COUNT Isa object'?
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
-  *2*   226 E : Attributes can not be used in COUNT aggregate applied to all
-                instances. Filter out only instances of a particular class
-                using a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
 
    13.    If Count Isa x = 7 Then "" End If.
 =====>                 1

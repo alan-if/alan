@@ -2110,10 +2110,10 @@ static int val(char str[])
 
     ! <aggregate> <aggregation_filters>
     %%
-	%<arithmetic>.exp = newExpression(`&%<aggregate>.srcp, AGGREGATE_EXPRESSION);
-	%<arithmetic>.exp->fields.agr.kind = %<aggregate>.agr;
-	%<arithmetic>.exp->fields.agr.attribute = %<aggregate>.id;
-	%<arithmetic>.exp->fields.agr.filters = %<aggregation_filters>.exps;
+	%<arithmetic>.exp = newAggregateExpression(%<aggregate>.srcp,
+							%<aggregate>.agr,
+							%<aggregate>.id,
+							%<aggregation_filters>.exps);
     %%
     ;
 
