@@ -8,7 +8,8 @@ this library is a conversion from the proposed Alan standard library
 version 0.4.1.
 
 NOTE that the content of version compatibility lines, index.txt and
-list of changes has not been updated in this version.
+list of changes is not going to be updated while Alan v3 is in
+development state.
 
 The actual library files (the files with a filename extension of ".i")
 are added to the source code of your game by "$include'ing" the main

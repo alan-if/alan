@@ -12,22 +12,31 @@
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
+<origest>39</origest>
+<currest>39</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalizing of "proper_name" in library and doc</desc>
 <notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
 
+But proper_name is used to switch between using articles and names:
+
+If x Has proper_name Then
+  Say x. "looks at you."
+Else
+  "The" Say x. "looks at you."
+End If.
+
+This will not be required when definite and indefinite form printing is implemented.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -110,27 +119,18 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 
 Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>3</origest>
+<currest>3</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Definite article declaration</desc>
-<notes>If a definite article declaration is introduced the following can be made possible:
+<desc>Definite and indefinite article declaration</desc>
+<notes>If a definite and indefinite article declaration is introduced the following can be made possible:
 
 "You can not x" SAY A obj.
 
 "You open" SAY THE obj.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Indefinite article</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -208,7 +208,7 @@ What to do when an instance not an object is moved into the container?
 </task>
 <task>
 <desc>Pronoun synonyms in player input</desc>
-<notes>Personal pronouns are nice if allowed in input. "He", "she" could be default synonyms for "it".</notes>
+<notes>Personal pronouns are nice if allowed in input. "Him", "her" could be default synonyms for "it".</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -229,8 +229,8 @@ What to do when an instance not an object is moved into the container?
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>20</origest>
-<currest>20</currest>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>3</elapsed>
 <isopen>0</isopen>
 <task>
@@ -305,8 +305,8 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add PowerUpdater</desc>
-<notes>Really? Or create own update script on Thoni IIS?</notes>
+<desc>Embedded definite/indefinite forms print</desc>
+<notes>How?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -316,17 +316,6 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <task>
 <desc>Add To Every xyz &lt;scripts&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Scripting</desc>
-<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
-
-Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -587,13 +576,33 @@ TODO: Descriptions, ?</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.33</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Scripting</desc>
+<notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
+
+Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>100</origest>
-<currest>100</currest>
+<origest>101</origest>
+<currest>101</currest>
 <elapsed>2</elapsed>
 <isopen>0</isopen>
 <task>
@@ -1830,6 +1839,15 @@ What do you want to do with the ball?
 <task>
 <desc>Report mingw startup problem</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add PowerUpdater</desc>
+<notes>Really? Or create own update script on Thoni IIS?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

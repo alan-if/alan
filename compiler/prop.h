@@ -19,6 +19,11 @@
 
 /* Types */
 
+typedef enum FormKind {
+  FORM,
+  ARTICLE
+} FormKind;
+
 typedef struct Properties {
   IdNode *id;			/* Identifier */
   Bool predefined;
@@ -37,8 +42,12 @@ typedef struct Properties {
   Srcp enteredSrcp;
   List *enteredStatements;	/* ENTERED statements */
   Aword enteredAddress;		/* ACODE address to ENTERED code */
-  List *article;		/* Article printing statements */
-  Srcp articleSrcp;
+  List *definite;		/* Definite Form/Article printing statements */
+  Srcp definiteSrcp;
+  FormKind definiteType;	/* Form or Article? */
+  List *indefinite;		/* Indefinite Form/Article printing statements */
+  Srcp indefiniteSrcp;
+  FormKind indefiniteType;	/* Form or Article? */
   Aword articleAddress;		/* ACODE address to ARTICLE statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;

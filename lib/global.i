@@ -30,17 +30,16 @@ Container
 End The hero.
 
 
--- 'named' used in std.i messages to distinguish between actors with real 
--- names like Fred (ie: is 'named') and The Bus-driver. 
--- This only automatically works for actors as "SAY object" doesn't 
--- capitalise the first letter even though you might have an object called 
--- Fred. To use this technique with objects, give the object a 
--- capitalised name in single quotes plus another name without the 
--- quotes - arun will use the object's leftmost name in the SAY statement
--- and the player will be able to use the uncapitalised name in player 
--- commands
+-- V3 NOTE: Use of 'named' as used in std.i messages to distinguish between
+-- actors with real names like Fred (ie: is 'named') and The Bus-driver will
+-- go away.
+-- To make instance names always be capitalized (e.g. for persons), give the
+-- instance a capitalised name in single quotes plus another name without the
+-- quotes. Arun will use the object's leftmost (first) name in
+-- the SAY statement and the player will be able to use the uncapitalised
+-- name in player commands
 --      eg: -- 
---         OBJECT robot AT spaceship NAME 'Floyd' NAME floyd 
+--         The robot Isa actor At spaceship Name 'Floyd' Name floyd 
 
 Add To Every thing
   Is
@@ -52,3 +51,6 @@ Add To Every actor
 Is
   named.
 End Add To actor.
+
+-- V3: We should add a "person" class instead which has articles set up
+-- for no articles and reasonable defaults

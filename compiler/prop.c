@@ -78,8 +78,8 @@ Properties *newProps(List *names,
   new->enteredSrcp = enteredSrcp;
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
-  new->article = article;
-  new->articleSrcp = articleSrcp;
+  new->definite = article;
+  new->definiteSrcp = articleSrcp;
   new->verbs = verbs;
   new->exits = exits;
   new->scripts = scripts;
@@ -190,7 +190,7 @@ void analyzeProps(Properties *props, Context *context)
   analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->enteredStatements, context);
   analyzeStatements(props->mentioned, context);
-  analyzeStatements(props->article, context);
+  analyzeStatements(props->definite, context);
   analyzeVerbs(props->verbs, context);
 
   /* Have container ? */
@@ -233,9 +233,9 @@ void generateClassPropertiesData(Properties *props)
     emit0(I_RETURN);
   }
 
-  if (props->article != NULL) {
+  if (props->definite != NULL) {
     props->articleAddress = nextEmitAddress();
-    generateStatements(props->article);
+    generateStatements(props->definite);
     emit0(I_RETURN);
   }
 
@@ -278,9 +278,9 @@ void generateInstancePropertiesData(Properties *props)
     emit0(I_RETURN);
   }
 
-  if (props->article != NULL) {
+  if (props->definite != NULL) {
     props->articleAddress = nextEmitAddress();
-    generateStatements(props->article);
+    generateStatements(props->definite);
     emit0(I_RETURN);
   }
 
@@ -331,7 +331,7 @@ void dumpProps(Properties *props)
   put("descriptionChecksAddress: "); dumpAddress(props->descriptionChecksAddress); nl();
   put("description: "); dumpList(props->descriptionStatements, STATEMENT_LIST); nl();
   put("descriptionAddress: "); dumpAddress(props->descriptionAddress); nl();
-  put("article: "); dumpList(props->article, STATEMENT_LIST); nl();
+  put("article: "); dumpList(props->definite, STATEMENT_LIST); nl();
   put("articleAddres: "); dumpAddress(props->articleAddress); nl();
   put("mentioned: "); dumpList(props->mentioned, STATEMENT_LIST); nl();
   put("mentionedAddress: "); dumpAddress(props->mentionedAddress); nl();

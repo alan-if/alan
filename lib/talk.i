@@ -51,7 +51,7 @@ Syntax
 
 Verb shout
   Does
-    "You make a lot of noise."
+    "You make a lot of noise..."
 End Verb.
 
 
