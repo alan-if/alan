@@ -11,7 +11,7 @@ gcov:	GCOV = -fprofile-arcs -ftest-coverage
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
 LDFLAGS	= $(OPTIMIZE) $(CYGWIN)
 
-ARCH	= $(CYGWIN)
+ARCH	= $(CYGWIN) $(OPTIMIZE)
 
 CPP	= gcc -MM -ansi
 LD	= gcc
@@ -142,7 +142,7 @@ tm:
 .PHONY: checkTarget
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test `cat .arch` != $(ARCH); then \
+	-@if test "`cat .arch`" != "$(ARCH)"; then \
 		echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
 		rm *.o; \
 		echo $(ARCH) > .arch; \

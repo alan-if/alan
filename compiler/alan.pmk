@@ -164,7 +164,7 @@ static int val(char str[])
 %%RECOVERY
 
     Fiducial('VERB', 'DOES', 'EXIT', 'EVENT', 'START',
-		'SYNTAX', 'SCRIPT', 'SYNONYMS', 'CONTAINER',
+		'SYNTAX', 'SCRIPT', 'SYNONYMS', 'CONTAINER', 'WHEN',
 		'MENTIONED', 'ATTRIBUTES', 'DESCRIPTION', 'END', 'CHECK');
 
     Separator(',');

@@ -6,21 +6,18 @@
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.17dev) of Alan V3. It features
+This is a development preview (v3.0.18dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
 Windows only, and you will require a Windows GLK.DLL to run the
-interpreter.
+winarun interpreter. arun.exe requires a cygwin1.dll.
+
 
 This package contains the compiler, the interpreter, the manual,
 the source for the Saviour game and a version of the standard library.
 
-Changes from v3.0.16dev:
-* the THIS expression is implemented and documented
-* made use of WinGLK's file open dialogue
-* a SAY now reacts the same way as old "$o", i.e. if it refers to a syntax
-  parameter it will use the same words the player did
-* refactored inheritance detection to be in the interpreter instead of
-  statically in the compiler
+Changes from v3.0.18dev:
+* much work in the manual
+* DESCRIPTION CHECKs
 
 
 THE LONG STORY:
