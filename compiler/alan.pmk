@@ -1357,7 +1357,7 @@ static int val(char str[])
 
     ! 'LIST' <what> '.'
     %%
-	%<output_statement>.stm = newstm(`&%'LIST'.srcp, STATEMENT_LIST);
+	%<output_statement>.stm = newstm(`&%'LIST'.srcp, LIST_STATEMENT);
 	%<output_statement>.stm->fields.list.wht = %<what>.wht;
     %%	  
     ;

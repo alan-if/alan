@@ -1148,7 +1148,7 @@ int rule			/* IN production number */
     case 169: { /* <output_statement> = 'LIST' <what> '.'; */
 #line 1359 "alan.pmk"
 
-	pmSeSt[pmStkP+1].stm = newstm(&pmSySt[pmStkP+1].srcp, STATEMENT_LIST);
+	pmSeSt[pmStkP+1].stm = newstm(&pmSySt[pmStkP+1].srcp, LIST_STATEMENT);
 	pmSeSt[pmStkP+1].stm->fields.list.wht = pmSeSt[pmStkP+2].wht;
     	break;}
     case 170: { /* <special_statement> = 'QUIT' '.'; */

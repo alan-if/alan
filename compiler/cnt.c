@@ -63,11 +63,7 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
 
 
 
-/*======================================================================
-
-  verifyContainer()
-
- */
+/*======================================================================*/
 void verifyContainer(What *wht,
 		     Context *context)
 {
