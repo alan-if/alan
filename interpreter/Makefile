@@ -178,6 +178,10 @@ arun.make: dependencies.mk
 	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
 
 mac:
-	refreshMac $(HOME)/mac/Alan/interpreter
+	-mkdir macsrc
+	refreshMac macsrc
+	-cd macsrc; sit *.[ch]
+	mv macsrc/archive.sit interpreter.sit
+
 
 include dependencies.mk

@@ -280,11 +280,14 @@ MSDOS:
 
 mac:
 	make src
-	refreshMac $(HOME)/mac/Alan/compiler
+	-mkdir macsrc
+	refreshMac macsrc
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
-	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/compiler/pmParse.c
+	ramp iso2mac pmParse.tmp macsrc/pmParse.c
 	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
-	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/compiler/pmPaSema.c
+	ramp iso2mac pmPaSema.tmp macsrc/pmPaSema.c
+	-cd macsrc; sit *.[ch]
+	mv macsrc/archive.sit compiler.sit
 
 amiga:
 #	make NONANSI
