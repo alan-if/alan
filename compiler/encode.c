@@ -175,6 +175,11 @@ void initEncoding(char *textFileName, char *dataFileName)
   /* Open the temporary text and data files (file of encoded or plain text) */
   txtfil = fopen(textFileName, READ_MODE);
   datfil = fopen(dataFileName, WRITE_MODE);
+  if (!datfil) {
+    char buf[1000];
+    sprintf(buf, "Could not open output file '%s' for writing.", dataFileName);
+    syserr(buf);
+  }
 
   /* Now make sure there is at least one character of each in frequency table */
   for (i = 0; i <= EOFChar; i++)

@@ -1,0 +1,4 @@
+touch writeProtected.a3c
+chmod a-w writeProtected.a3c
+../../compiler/alan writeProtected &>> writeProtected.out
+cp writeProtected.out writeProtected.output
