@@ -2,10 +2,6 @@ Mon Aug 10 11:55:08 MET DST 1998
 
 	* v2.8
 
-Tue Jun  2 11:26:02 MET DST 1998
-
-	* v2.8(2)
-
 Tue Apr 28 17:56:58 1998  Thomas Nilsson  <thoni@rabbit>
 
 	* Fixed a problem with the semantic check of parameters. When
