@@ -32,7 +32,8 @@ Id *newId(srcp, string)
   new = NEW(Id);
 
   new->srcp = *srcp;
-  new->string = string;
+  new->string = allocate(strlen(string)+1);
+  strcpy(new->string, string);
   
   return(new);
 }

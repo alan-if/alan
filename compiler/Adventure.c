@@ -91,9 +91,10 @@ void analyseAdventure()
   if (adventure.where != NULL) 
     switch (adventure.where->kind) {
     case WHERE_AT:
-      if (adventure.where->what->kind == WHAT_ID)
-	classCheck(adventure.where->what->id, "location");
-      else
+      if (adventure.where->what->kind == WHAT_ID) {
+	if (symbolCheck(adventure.where->what->id, INSTANCE_SYMBOL))
+	  classCheck(adventure.where->what->id, "location");
+      } else
 	lmLog(&adventure.where->srcp, 211, sevERR, "");
       break;
     default:
@@ -127,6 +128,7 @@ void generateAdventure(acdFileName)
   if (lmSeverity() > sevWAR)
     return;
   
+#ifdef GENERATE
   if (verbose) printf("\n\tDictionary...");
   header.dict = generateWords();
 
@@ -164,6 +166,7 @@ void generateAdventure(acdFileName)
 
   /* String initialisation table */
   header.init = generateStringInit();
+#endif
 
   end = emitAddress();		/* Last address */
   header.size = end;		/* Save size */

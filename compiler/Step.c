@@ -24,13 +24,13 @@
  */
 #ifdef _PROTOTYPES_
 extern Step *newStep(Srcp *srcp,
-		     int after,	/* IN - After how many steps */
+		     Expression *after,	/* IN - After how many steps */
 		     Expression *expression, /* IN - Logical expression */
 		     List *statements)	/* IN - What to do */
 #else
 Step *newStep(srcp, after, expression, statements)
      Srcp *srcp;
-     int after;
+     Expression *after;
      Expression *expression;
      List *statements;
 #endif
@@ -87,7 +87,7 @@ void dumpStep(step)
   }
 
   put("STEP: "); dumpSrcp(&step->srcp); in();
-  put("after: "); dumpInteger(step->after); nl();
+  put("after: "); dumpExpression(step->after); nl();
   put("expression: "); dumpExpression(step->expression); nl();
   put("statememts: "); dumpList(step->statements, STATEMENT_NODE); out();
 }

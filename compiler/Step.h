@@ -21,7 +21,7 @@
 
 typedef struct Step {		/* STEP */
   Srcp srcp;			/* Source position */
-  int after;			/* Possibly after some time */
+  Expression *after;		/* Possibly after some number of ticks */
   Expression *expression;	/* or an expression */
   Aaddr expadr;			/* ACODE address to expression */
   List *statements;		/* Statements in this block */
@@ -38,7 +38,7 @@ typedef struct Step {		/* STEP */
 #ifdef _PROTOTYPES_
 
 extern Step *newStep(Srcp *srcp,
-		     int after,
+		     Expression *after,
 		     Expression *expression,
 		     List *statements);
 

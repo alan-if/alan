@@ -58,28 +58,30 @@ Symbol *newSymbol(Id *id,	/* IN - Name of the new symbol */
 		  SymbolKind kind) /* IN - and its class */
 #else
 Symbol *newSymbol(id, kind)
-     Id *id;			/* IN - Name of the new symbol */
-     SymbolKind kind;		/* IN - and its class */
+     Id *id;
+     SymbolKind kind;
 #endif
 {
   Symbol *new;			/* The newly created Symbol */
-  Symbol *s1,*s2;		/* Traversal pointers */
+  Symbol *investigatedSymbol,*branchPoint; /* Traversal pointers */
   int comp;			/* Result of comparison */
   
   if (id == NULL || id->string == NULL)
     return (0);
   
-  while (s1 != NULL) {
-    s2 = s1;
-    comp = strcmp(id->string, s1->string);
+  investigatedSymbol = symbols;
+  branchPoint = NULL;
+  while (investigatedSymbol != NULL) {
+    branchPoint = investigatedSymbol;
+    comp = strcmp(id->string, investigatedSymbol->string);
     if (comp < 0)
-      s1 = s1->lower;
-    else if (comp != 0)
-      s1 = s1->higher;
+      investigatedSymbol = investigatedSymbol->lower;
+    else if (comp > 0)
+      investigatedSymbol = investigatedSymbol->higher;
     else {
       redefined(id);
-      s1->kind = ERROR_SYMBOL;
-      return s1;
+      investigatedSymbol->kind = ERROR_SYMBOL;
+      return investigatedSymbol;
     }
   }
   
@@ -91,15 +93,12 @@ Symbol *newSymbol(id, kind)
   new->lower = NULL;
   new->higher = NULL;
   
-  s1 = symbols;
-  s2 = NULL;
-  
-  if (s2 == NULL)
+  if (symbols == NULL)
     symbols = new;
-  else if(comp < 0)
-    s2->lower = new;
+  else if (comp < 0)
+    branchPoint->lower = new;
   else
-    s2->higher = new;
+    branchPoint->higher = new;
   
   switch (kind) {
   case CLASS_SYMBOL: new->code = ++count.class; break;
@@ -130,26 +129,80 @@ Symbol *lookup(string)
      char string[];
 #endif
 {
-  Symbol *s1,*s2;		/* Traversal pointers */
+  Symbol *investigatedSymbol;		/* Traversal pointers */
   int comp;			/* Result of comparison */
 
   if (string == NULL) return(NULL);
 
-  s1 = symbols;
-  s2 = NULL;
+  investigatedSymbol = symbols;
 
-  while (s1 != NULL) {
-    s2 = s1;
-    comp = strcmp(string, s1->string);
+  while (investigatedSymbol != NULL) {
+    comp = strcmp(string, investigatedSymbol->string);
     if (comp == 0)
-      return(s1);
+      return(investigatedSymbol);
     else if (comp < 0)
-      s1 = s1->lower;
+      investigatedSymbol = investigatedSymbol->lower;
     else
-      s1 = s1->higher;
+      investigatedSymbol = investigatedSymbol->higher;
   }
 
   return(NULL);
+}
+
+
+
+/*----------------------------------------------------------------------
+
+  symbolKindString()
+
+  Return a pointer to a string containing the string representation of
+  the SymbolKind
+
+  */
+#ifdef __PROTOTYPES_
+static char *symbolKindString(SymbolKind kind)
+#else
+static char *symbolKindString(kind)
+     SymbolKind kind;
+#endif
+{
+  switch (kind) {
+  case CLASS_SYMBOL: return "a class";
+  case INSTANCE_SYMBOL: return "an instance";
+  case VERB_SYMBOL: return "a verb";
+  case DIRECTION_SYMBOL: return "a direction";
+  default: syserr("Unrecognized symbol kind in symbolKindString()."); return "***ERRROR***";
+  }
+}
+
+
+/*======================================================================
+
+  symbolCheck()
+
+  Verify that the identifier is a symbol of the correct kind.
+  If not issue an error message.
+
+  */
+#ifdef _PROTOTYPES_
+Bool symbolCheck(Id *id,	/* IN - the Identifier to check */
+		 SymbolKind kind) /* IN - The kind of the symbol it should be */
+#else
+Bool symbolCheck(id, kind)
+     Id *id;
+     SymbolKind kind;
+#endif
+{
+  Symbol *symbol;
+
+  symbol = lookup(id->string);
+  if (symbol == NULL || (symbol->kind != kind && symbol->kind != ERROR_SYMBOL)) {
+    if (symbol == NULL)
+      symbol = newSymbol(id, ERROR_SYMBOL);
+    lmLogv(&id->srcp, 300, sevERR, id->string, symbolKindString(kind), NULL);
+    return FALSE;
+  } else
+    return TRUE;
 }
 
 
@@ -182,11 +235,11 @@ Bool isA(id, className)
   }
 
   for (h = heritage; h; h = h->next)
-    if (strcmp(heritage->element.id->string, className) == 0)
+    if (strcmp(h->element.id->string, className) == 0)
       return TRUE;
 
   for (h = heritage; h; h = h->next)
-    if (isA(id, className))
+    if (isA(h->element.id, className))
       return TRUE;
 
   return FALSE;
@@ -228,5 +281,5 @@ void classCheck(id, className)
   }
 
   if (!isA(id, className))
-    lmLogv(&id->srcp, 225, sevERR, id->string, className, NULL);
+    lmLogv(&id->srcp, 223, sevERR, id->string, className, NULL);
 }
