@@ -9,7 +9,7 @@
 
 
 /* USE: */
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "srcp.h"
 #include "lst.h"
 #include "id.h"

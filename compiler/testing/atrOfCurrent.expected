@@ -1,0 +1,22 @@
+########## alan atrOfCurrent ##########
+
+
+atrOfCurrent.alan
+
+    6.    Say x Of Current actor.
+=====>        1
+
+  *1*   314 E : Attribute 'x' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+    7.    Say x Of Current location.
+=====>        1
+
+  *1*   314 E : Attribute 'x' is not defined for the current location since the
+                class 'location' does not have it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,23 @@
+########## alan atrOfCurrent ##########
+
+        No warnings or errors detected.
+
+########## arun atrOfCurrent ##########
+
+42 42
+
+
+L1
+Hero 42 L1 42
+
+> w
+L2
+Hero 42 L2 42 Hero 42 L2 42
+
+> e
+L1
+Hero 42 L1 42 Hero 42 L1 42
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

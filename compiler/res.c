@@ -19,7 +19,7 @@
 
 #include "lmList.h"
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -125,7 +125,7 @@ static void analyzeRestriction(
 
   /* Analyse the statements to execute if the restrictions was not met */
   /* FIXME: we need to send the restriction inverted in the context also */
-  anstms(res->stms, context);
+  analyzeStatements(res->stms, context);
 }
 
 
@@ -263,5 +263,5 @@ void dumpRestriction(ResNod *res)
   put("kind: "); dumpRestrictionKind(res->kind); nl();
   put("parameterId: "); dumpId(res->parameterId); nl();
   put("classId: "); dumpId(res->classId); nl();
-  put("stms: "); dulst(res->stms, LIST_STM); out();
+  put("stms: "); dumpList(res->stms, LIST_STM); out();
 }

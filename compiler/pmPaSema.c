@@ -10,7 +10,7 @@
 
 
 #include "util.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "types.h"
 #include "smScan.h"
@@ -76,7 +76,7 @@ typedef struct pmGrammar {
     What *wht;
     WhrNod *whr;
     List *vrbs;
-    VrbNod *vrb;
+    Verb *vrb;
     int val;
     List *syns;
     SynNod *syn;
@@ -232,7 +232,7 @@ int rule			/* IN production number */
     case 22: { /* <attribute definition> = ID; */
 #line 260 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atr = newatr(&pmSeSt[pmStkP+1].id->srcp,
+	pmSeSt[pmStkP+1].atr = newAttribute(&pmSeSt[pmStkP+1].id->srcp,
 						BOOLEAN_TYPE,
 						pmSeSt[pmStkP+1].id,
 						TRUE, 0, 0);
@@ -240,7 +240,7 @@ int rule			/* IN production number */
     case 23: { /* <attribute definition> = 'NOT' ID; */
 #line 268 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atr = newatr(&pmSeSt[pmStkP+2].id->srcp,
+	pmSeSt[pmStkP+1].atr = newAttribute(&pmSeSt[pmStkP+2].id->srcp,
 						BOOLEAN_TYPE,
 						pmSeSt[pmStkP+2].id,
 						FALSE, 0, 0);
@@ -249,12 +249,12 @@ int rule			/* IN production number */
 #line 276 "alan.pmk"
 
 	if (pmSeSt[pmStkP+2].minus)
-		pmSeSt[pmStkP+1].atr = newatr(&pmSeSt[pmStkP+1].id->srcp,
+		pmSeSt[pmStkP+1].atr = newAttribute(&pmSeSt[pmStkP+1].id->srcp,
 							INTEGER_TYPE,
 							pmSeSt[pmStkP+1].id,
 							-val(pmSySt[pmStkP+3].chars), 0, 0);
 	else
-		pmSeSt[pmStkP+1].atr = newatr(&pmSeSt[pmStkP+1].id->srcp,
+		pmSeSt[pmStkP+1].atr = newAttribute(&pmSeSt[pmStkP+1].id->srcp,
 							INTEGER_TYPE,
 							pmSeSt[pmStkP+1].id,
 							val(pmSySt[pmStkP+3].chars), 0, 0);
@@ -262,7 +262,7 @@ int rule			/* IN production number */
     case 25: { /* <attribute definition> = ID STRING; */
 #line 290 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atr = newatr(&pmSeSt[pmStkP+1].id->srcp,
+	pmSeSt[pmStkP+1].atr = newAttribute(&pmSeSt[pmStkP+1].id->srcp,
 						STRING_TYPE,
 						pmSeSt[pmStkP+1].id,
 						0, pmSySt[pmStkP+2].fpos, pmSySt[pmStkP+2].len);
@@ -441,7 +441,7 @@ int rule			/* IN production number */
     case 55: { /* <verb> = <verb_header> <verb_body> <verb_tail>; */
 #line 519 "alan.pmk"
 
-	pmSeSt[pmStkP+1].vrb = newvrb(&pmSeSt[pmStkP+1].srcp,
+	pmSeSt[pmStkP+1].vrb = newVerb(&pmSeSt[pmStkP+1].srcp,
 			   pmSeSt[pmStkP+1].idList,
 			   pmSeSt[pmStkP+2].alts);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
@@ -800,7 +800,7 @@ int rule			/* IN production number */
     }	break;}
     case 105: { /* <slot> = <verb>; */
 #line 933 "alan.pmk"
-{ VrbNod *vrb = pmSeSt[pmStkP+1].vrb;
+{ Verb *vrb = pmSeSt[pmStkP+1].vrb;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	pmSeSt[pmStkP+1].vrb = vrb;
     }	break;}
@@ -969,7 +969,7 @@ int rule			/* IN production number */
     case 139: { /* <limit_attribute> = 'COUNT' Integer; */
 #line 1147 "alan.pmk"
 
-	pmSeSt[pmStkP+1].atr = newatr(&pmSySt[pmStkP+1].srcp,
+	pmSeSt[pmStkP+1].atr = newAttribute(&pmSySt[pmStkP+1].srcp,
 				      INTEGER_TYPE,
 				      newId(&pmSySt[pmStkP+1].srcp, "count"),
 				      val(pmSySt[pmStkP+2].chars), 0, 0);

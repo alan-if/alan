@@ -16,7 +16,7 @@
 
 #include "lmList.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "adv.h"		/* ADV-node */
 #include "rul.h"                /* RUL-nodes */
@@ -73,7 +73,7 @@ static void analyzeRule(RulNod *rul)
 
   context.kind = RULE_CONTEXT;
   anexp(rul->exp, &context);
-  anstms(rul->stms, &context);
+  analyzeStatements(rul->stms, &context);
 }
 
 
@@ -143,7 +143,7 @@ void durul(RulNod *rul)
   put("RUL: "); dumpSrcp(&rul->srcp); in();
   put("exp: "); dumpExpression(rul->exp); nl();
   put("expadr: "); dumpAddress(rul->expadr); nl();
-  put("stms: "); dulst(rul->stms, LIST_STM); nl();
+  put("stms: "); dumpList(rul->stms, LIST_STM); nl();
   put("stmadr: "); dumpAddress(rul->stmadr); out();
 }
 

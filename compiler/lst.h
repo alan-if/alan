@@ -12,7 +12,7 @@
 /* Types */
 
 typedef enum ListKind {
-  LIST_UNK,
+  UNKNOWN_LIST,
   LIST_ADD,
   LIST_ALT,
   LIST_ATR,
@@ -70,7 +70,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct StxNod *stx;
     struct SynNod *syn;
     struct Symbol *sym;
-    struct VrbNod *vrb;
+    struct Verb *vrb;
     struct ElmEntry *eent;
     struct IdNode *id;
     struct List *lst;

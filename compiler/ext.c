@@ -22,7 +22,7 @@
 
 #include "emit.h"
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -117,7 +117,7 @@ static void analyzeExit(ExtNod *ext, Context *context)
   inheritCheck(ext->target, "an instance", "location");
 
   anchks(ext->chks, context);
-  anstms(ext->stms, context);
+  analyzeStatements(ext->stms, context);
 }
 
 
@@ -257,11 +257,11 @@ void duext(ExtNod *ext)
   }
 
   put("EXT: "); dumpSrcp(&ext->srcp); in();
-  put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
+  put("dirs: "); dumpList(ext->dirs, LIST_ID); nl();
   put("target: "); dumpId(ext->target); nl();
-  put("chks: "); dulst(ext->chks, LIST_CHK); nl();
+  put("chks: "); dumpList(ext->chks, LIST_CHK); nl();
   put("chkadr: "); dumpAddress(ext->chkadr); nl();
-  put("stms: "); dulst(ext->stms, LIST_STM); nl();
+  put("stms: "); dumpList(ext->stms, LIST_STM); nl();
   put("stmadr: "); dumpAddress(ext->stmadr); out();
 }
 

@@ -1,0 +1,25 @@
+########## alan describe ##########
+
+        No warnings or errors detected.
+
+########## arun describe ##########
+
+'d' for describe, 'l' for look.
+
+
+Grand Location
+You are at a Grand Location. There is a o here. A1 is here. This is a2. 
+Mr. A3 is here.
+
+> d
+You are at a Grand Location. Hero is here. A1 is here. This is a2. Mr. A3 
+is here.
+
+> l
+Grand Location
+You are at a Grand Location. There is a o here. A1 is here. This is a2. 
+Mr. A3 is here. Hero is here. A1 is here. This is a2. Mr. A3 is here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -10,7 +10,7 @@
 /* USE: */
 #include "exp.h"
 #include "lst.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 /* TYPES: */

@@ -11,7 +11,7 @@
 #include "util.h"
 #include "sysdep.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "opt.h"		/* Options */
 #include "emit.h"
 

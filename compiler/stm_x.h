@@ -28,7 +28,7 @@
 extern StmNod *newstm(Srcp *srcp, StmKind class);
 
 /* Analyze a list of statements */
-extern void anstms(List *stms,
+extern void analyzeStatements(List *stms,
 		   Context *context);
 
 /* Generate code for a list of statements */

@@ -7,7 +7,7 @@
 \*======================================================================*/
 
 #include "sysdep.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 typedef struct Case {

@@ -21,7 +21,7 @@
 #include "opt.h"                /* Options */
 
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -77,7 +77,7 @@ void anevts(void)
 	printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout);
       }
       context->event = evts->element.evt;
-      anstms(evts->element.evt->stms, context);
+      analyzeStatements(evts->element.evt->stms, context);
     }
 }
 
@@ -153,7 +153,7 @@ void duevt(EvtNod *evt)
 
   put("EVT: "); dumpSrcp(&evt->srcp); in();
   put("id: "); dumpId(evt->id); nl();
-  put("stms: "); dulst(evt->stms, LIST_STM); out();
+  put("stms: "); dumpList(evt->stms, LIST_STM); out();
 }
 
 

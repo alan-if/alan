@@ -21,7 +21,7 @@
 #include "elm.h"
 
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -82,7 +82,7 @@ static void analt(AltNod *alt,
   } 
 
   anchks(alt->chks, context);
-  anstms(alt->stms, context);
+  analyzeStatements(alt->stms, context);
 }
 
 
@@ -237,6 +237,6 @@ void dualt(AltNod *alt)
 
   put("ALT: "); dumpSrcp(&alt->srcp); put(" qual: "); duqual(alt->qual); in();
   put("id: "); dumpId(alt->id); nl();
-  put("chks: "); dulst(alt->chks, LIST_CHK); nl();
-  put("stms: "); dulst(alt->stms, LIST_STM); out();
+  put("chks: "); dumpList(alt->chks, LIST_CHK); nl();
+  put("stms: "); dumpList(alt->stms, LIST_STM); out();
 }

@@ -26,7 +26,7 @@ extern void *allocate(int len);
 #endif
 
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "alan.version.h"
 
 #include "emit.h"

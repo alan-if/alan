@@ -509,7 +509,7 @@ saviourV2_x.alan
   767.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
 
   772.  	CHECK s = machine
 =====>  	          1
@@ -665,7 +665,7 @@ saviourV2_x.alan
   886.      VERB examine DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'examine'.
+  *1*   220 W : Multiple definition of verb 'examine' in this context.
 
   890.  END OBJECT.
 =====>      1
@@ -824,7 +824,7 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
 
  1052.          IF desk IS marked THEN
 =====>             1
@@ -839,7 +839,7 @@ saviourV2_x.alan
  1067.      VERB open DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'open'.
+  *1*   220 W : Multiple definition of verb 'open' in this context.
 
  1070.          ELSIF manual IS NOT found THEN
 =====>                1
@@ -850,6 +850,11 @@ saviourV2_x.alan
 =====>                     1
 
   *1*   310 E : Identifier 'manual' not defined.
+
+ 1080.      VERB close DOES
+=====>           1
+
+  *1*   220 W : Multiple definition of verb 'close' in this context.
 
  1088.  END OBJECT.
 =====>  1
@@ -876,13 +881,13 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
 
  1110.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
 
  1117.  	IF pwindex OF manual = 0 THEN
 =====>  	              1
@@ -950,9 +955,9 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
 
  1159.          IF computer IS NOT running AND computer IS NOT popped THEN
 =====>             1                           2
@@ -984,7 +989,7 @@ saviourV2_x.alan
  1197.      VERB 'start' DOES ONLY
 =====>           1
 
-  *1*   220 W : Multiple definition of 'start'.
+  *1*   220 W : Multiple definition of verb 'start' in this context.
 
  1203.  END OBJECT.
 =====>  1
@@ -1001,16 +1006,16 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
 
  1233.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'read'.
-  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
 
  1236.  END OBJECT.
 =====>  1
@@ -1022,18 +1027,18 @@ saviourV2_x.alan
 =====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
-  *2*   220 W : Multiple definition of 'examine'.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
+  *2*   220 W : Multiple definition of verb 'examine' in this context.
 
  1251.      VERB read DOES
 =====>           1
 
-  *1*   220 W : Multiple definition of 'read'.
-  *1*   220 W : Multiple definition of 'read'.
-  *1*   220 W : Multiple definition of 'read'.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
+  *1*   220 W : Multiple definition of verb 'read' in this context.
 
  1258.          LOCATE candy AT NOWHERE.
 =====>                 1        2
@@ -1044,7 +1049,7 @@ saviourV2_x.alan
  1261.      VERB drop
 =====>           1
 
-  *1*   220 W : Multiple definition of 'drop'.
+  *1*   220 W : Multiple definition of verb 'drop' in this context.
 
  1268.              LOCATE candy AT NOWHERE.
 =====>                     1        2
@@ -1081,6 +1086,6 @@ saviourV2_x.alan
 
 
         216 error(s).
-        78 warning(s).
+        79 warning(s).
         29 informational message(s).
 

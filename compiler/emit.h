@@ -8,7 +8,7 @@
 \*----------------------------------------------------------------------*/
 
 /* USE other definitions */
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 /* DATA */

@@ -22,7 +22,7 @@
 #include "ins.h"		/* INS-nodes */
 #include "opt.h"		/* OPT-nodes */
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "lmList.h"
 #include "encode.h"
@@ -37,17 +37,17 @@ int atrmax;
 
 /*======================================================================
 
-  newatr()
+  newAttribute()
 
   Allocates and initialises an atrnod.
 
  */
-AtrNod *newatr(Srcp *srcp,	/* IN - Source Position */
-	       TypeKind type,	/* IN - Type of this atribute */
-	       IdNode *id,	/* IN - The id */
-	       int value,	/* IN - The initial value */
-	       long int fpos,	/* IN - File position for initial string */
-	       int len)		/* IN - D:o length */
+AtrNod *newAttribute(Srcp *srcp,	/* IN - Source Position */
+		     TypeKind type,	/* IN - Type of this atribute */
+		     IdNode *id,	/* IN - The id */
+		     int value,		/* IN - The initial value */
+		     long int fpos,	/* IN - File position for initial string */
+		     int len)		/* IN - D:o length */
 {
   AtrNod *new;			/* The newly allocated area */
 
@@ -372,7 +372,7 @@ static void generateAttribute(AtrNod *attribute)
     /* Now make a copy to use for initialisation if attribute is
        inherited, else the address will be overwritten by generation
        of other instances of the same attribute */
-    new = newatr(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
+    new = newAttribute(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
 		 attribute->fpos, attribute->len);
     new->address = attribute->address;
     adv.stratrs = concat(adv.stratrs, new, LIST_ATR);

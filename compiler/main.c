@@ -126,7 +126,7 @@ int main(int argc,		/* IN - argument count */
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
   /* Say hello ! */
   if (verbose)
-    printf("%s %s\n\n", alan.longHeader, COMPILER);
+    printf("%s\n\n", alan.longHeader);
 
   if (nArgs == 0) {
     usage(NULL, NULL, 0);

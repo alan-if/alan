@@ -23,6 +23,7 @@
 extern int classCount;
 extern int instanceCount;
 extern int eventCount;
+extern int verbCount;
 
 extern Symbol *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol, *theHero;
 

@@ -112,8 +112,7 @@ static lmMsgs msg[] = {
     { "216   ", "Parameter \'%1\' multiply defined in this SYNTAX." },
     { "217   ", "Only one multiple parameter allowed for each syntax. This one ignored." },
     { "218   ", "Multiple definition of attribute \'%1\'." },
-    { "219   ", "Multiple declaration of %1." },
-    { "220   ", "Multiple definition of \'%1\'." },
+    { "220   ", "Multiple definition of verb \'%1\' in this context." },
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
     { "222   ", "Identifier \'%1\' in class definition is not a parameter." },
     { "223   ", "Unknown message identifier." },
@@ -188,7 +187,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 108}
+    {0, 107}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -27,7 +27,7 @@
 
 #include "emit.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "encode.h"
 
 #include "dump.h"

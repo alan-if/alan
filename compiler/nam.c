@@ -11,7 +11,7 @@
 #include "lst.h"
 #include "msg.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "emit.h"
 
 

@@ -19,7 +19,7 @@ void testNewExt()
   int firstAddress;
   int entrySize = ACDsizeOf(ExitEntry);
 
-  initadv();
+  initAdventure();
   (void) readEcode();
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 

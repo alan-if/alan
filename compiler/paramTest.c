@@ -17,7 +17,7 @@ void testParameterReference()
   IdNode *v1Id = newId(&nulsrcp, "v1");
   Symbol *v1Symbol;
 
-  initadv();
+  initAdventure();
 
   v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   context->verb = v1Symbol;

@@ -19,7 +19,7 @@
 #include "sym_x.h"
 
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "emit.h"
 #include "dump.h"
 
@@ -100,7 +100,7 @@ void analyzeScripts(List *scripts, Context *context)
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    anstms(lst->element.scr->description, context);
+    analyzeStatements(lst->element.scr->description, context);
 
     /* Finally, analyse the steps inside the script */
     analyzeSteps(lst->element.scr->steps, context);
@@ -169,7 +169,7 @@ void dumpScript(Script *scr)
 {
   put("SCRIPT: "); dumpSrcp(&scr->srcp); in();
   put("id: "); dumpId(scr->id); nl();
-  put("steps: "); dulst(scr->steps, LIST_STP); nl();
+  put("steps: "); dumpList(scr->steps, LIST_STP); nl();
   put("stepAddress: "); dumpAddress(scr->stepAddress); out();
 }
 

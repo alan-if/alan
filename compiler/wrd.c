@@ -13,7 +13,7 @@
 #include "lst_x.h"
 
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "util.h"
 #include "opt.h"
 #include "emit.h"

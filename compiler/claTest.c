@@ -43,10 +43,10 @@ void testGenerateClasses()
   int firstAdr = ACDsizeOf(AcdHdr);
   int classSize = ACDsizeOf(ClassEntry);
 
-  initadv();
+  initAdventure();
 
   initEmit("unit.acd");
-  symbolizeAdv();
+  symbolizeAdventure();
   addr = generateClasses();
   /* Table should start directly after header */
   unitAssert(addr == firstAdr);

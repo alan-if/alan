@@ -17,7 +17,7 @@
 #include "cnt_x.h"
 
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 #include "emit.h"
 
@@ -48,14 +48,8 @@ WhrNod *newwhr(Srcp *srcp,	/* IN - Source position */
 }
 
 
-/*======================================================================
-
-  symbolizeWhr()
-
-  Symbolize a where reference.
-
-  */
-void symbolizeWhr(WhrNod *whr)
+/*======================================================================  */
+void symbolizeWhere(WhrNod *whr)
 {
   if (whr == NULL) return;
 
@@ -116,8 +110,10 @@ void analyzeWhere(WhrNod *whr,
     case WHAT_ID:
       (void) symcheck(whr->wht->id, INSTANCE_SYMBOL, context);
       break;
+    case WHAT_LOCATION:
+      break;
     default:
-      syserr("Unrecognized switch in anexpwhr()");
+      syserr("Unrecognized switch in analyzeWhere()");
       break;
     }
     break;

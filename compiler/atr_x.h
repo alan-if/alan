@@ -25,7 +25,7 @@ extern int atrmax;
 
 
 /* Create a new Attribute node */
-extern AtrNod *newatr(Srcp *srcp,
+extern AtrNod *newAttribute(Srcp *srcp,
 		      TypeKind typ,
 		      IdNode *id,
 		      int val,

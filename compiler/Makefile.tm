@@ -23,7 +23,7 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c
 
-all : tm smScanx.c sysdep.h sysdep.c acode.h version.h
+all : tm smScanx.c sysdep.h sysdep.c version.h
 
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp

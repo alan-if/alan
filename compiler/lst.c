@@ -33,7 +33,7 @@ extern void dumpScript();
 extern void dustm();
 extern void dustx();
 extern void dumpStep();
-extern void duvrb();
+extern void dumpVerb();
 
 
 /*======================================================================
@@ -56,7 +56,7 @@ void initDumpNodeList()
   dumpNodeTable[LIST_RES] = &dumpRestriction;
   dumpNodeTable[LIST_STM] = &dustm;
   dumpNodeTable[LIST_STX] = &dustx;
-  dumpNodeTable[LIST_VRB] = &duvrb;
+  dumpNodeTable[LIST_VRB] = &dumpVerb;
   dumpNodeTable[LIST_SCR] = &dumpScript;
   dumpNodeTable[LIST_STP] = &dumpStep;
 }
@@ -90,13 +90,7 @@ void insert(List *thePoint, void *element, ListKind kind)
 }
 
 
-/*======================================================================
-
-  concat()
-
-  Generic list concatenation.
-
-  */
+/*======================================================================*/
 List *concat(List *list,	/* IN - List to concat to */
 	     void *element,	/* IN - Pointer to any element type */
 	     ListKind kind)	/* IN - Which kind of list? */
@@ -162,68 +156,48 @@ int length(List *aList)
 
 
 
-/*----------------------------------------------------------------------
-
-  dunod()
-
-  Dump a particular node kind.
-
-  */
-static void dunod(void *nod, ListKind kind)
+/*----------------------------------------------------------------------*/
+static void dumpNode(void *theNode, ListKind kind)
 {
   if (dumpNodeTable[kind] == NULL) {
     put("*** Not implemented in DUMP. ***");
   } else
-    dumpNodeTable[kind](nod);
+    dumpNodeTable[kind](theNode);
 }
 
 
 
-/*======================================================================
-
-  dulst()
-
-  Dump a list of nodes
-
-  */
-void dulst(List *lst,		/* IN - The list */
-	   ListKind class)	/* IN - Class of the elements */
+/*======================================================================*/
+void dumpList(List *theList, ListKind class)
 {
-  if (lst == NULL) {
+  if (theList == NULL) {
     put("NULL");
     return;
   }
   
-  put("LST: "); dumpPointer(lst); in();
-  while (lst != NULL) {
-    dunod((void *)lst->element.atr, class);
-    lst = lst->next;
-    if (lst != NULL) nl();
+  put("LST: "); dumpPointer(theList); in();
+  while (theList != NULL) {
+    dumpNode((void *)theList->element.atr, class);
+    theList = theList->next;
+    if (theList != NULL) nl();
   }
   out();
 }
 
 
-/*======================================================================
-
-  dulst2()
-
-  Dump a list of lists of nodes
-
-  */
-void dulst2(List *lstlst,	/* IN - The list of lists*/
-	    ListKind class)	/* IN - Class of the elements */
+/*======================================================================*/
+void dumpListOfLists(List *listOfList, ListKind listKind)
 {
-  if (lstlst == NULL) {
+  if (listOfList == NULL) {
     put("NULL");
     return;
   }
   
-  put("LST: "); dumpPointer(lstlst); in();
-  while (lstlst != NULL) {
-    dulst((void *)lstlst->element.lst, class);
-    lstlst = lstlst->next;
-    if (lstlst != NULL) nl();
+  put("LST: "); dumpPointer(listOfList); in();
+  while (listOfList != NULL) {
+    dumpList((void *)listOfList->element.lst, listKind);
+    listOfList = listOfList->next;
+    if (listOfList != NULL) nl();
   }
   out();
 }

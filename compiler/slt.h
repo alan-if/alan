@@ -14,7 +14,7 @@
 #include "whr.h"
 #include "cnt.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 /* Types */

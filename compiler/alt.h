@@ -15,7 +15,7 @@
 #include "id.h"
 #include "context.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 /* TYPES: */

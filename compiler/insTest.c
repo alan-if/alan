@@ -14,7 +14,7 @@ void testCreateIns()
   IdNode *parent = newId(&srcp, "parentId");
   InsNod *ins;
 
-  initadv();
+  initAdventure();
 
   ins = newInstance(&srcp, id, parent, NULL);
   unitAssert(equalSrcp(srcp, ins->srcp));
@@ -36,16 +36,16 @@ void testGenerateInstances()
   int firstAdr = sizeof(AcdHdr)/sizeof(Aword);
   int instanceSize = sizeof(InstanceEntry)/sizeof(Aword);
 
-  initadv();
+  initAdventure();
   initEmit("unit.acd");
-  symbolizeAdv();
+  symbolizeAdventure();
 
   address = generateInstanceTable();
   unitAssert(address == firstAdr);
   address = emadr();
   unitAssert(address == firstAdr + 1/*EOF*/);
 
-  initadv();
+  initAdventure();
   initEmit("unit.acd");
   ins = newInstance(&srcp, newId(&srcp, "aSimpleInstance"), NULL, NULL);
   symbolizeInstances();
@@ -78,12 +78,12 @@ void testHero()
 {
   AcdHdr header;
 
-  initadv();
+  initAdventure();
   unitAssert(theHero == NULL);
   addHero();
   unitAssert(theHero != NULL);
   unitAssert(theHero->code != 0);
-  symbolizeAdv();
+  symbolizeAdventure();
   unitAssert(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
   unitAssert(header.theHero == 1);

@@ -10,7 +10,7 @@
 #include "slt.h"
 
 /* USE: */
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "ins.h"
 #include "context.h"
 

@@ -23,37 +23,37 @@ void testInitAdv()
   ClaNod *cla;
 
 
-  initadv();
+  initAdventure();
 
   cla = newClass(&srcp, atClaId, NULL, NULL);
   ins = newInstance(&srcp, atInsId, NULL, NULL);
   locationIns = newInstance(&srcp, atInsLocId, newId(&srcp, "location"), NULL);
 
   adv.whr = newwhr(&srcp, WHR_HERE, NULL);
-  symbolizeAdv();
+  symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Here */
   unitAssert(readEcode() == 211 && readSev() == sevERR);
 
   adv.whr = newwhr(&srcp, WHR_AT,
 		   newWhat(&srcp, WHAT_ID,
 			   atUnknownId));
-  symbolizeAdv();
+  symbolizeAdventure();
   unitAssert(readSev() == sevERR && readEcode() == 310);
   analyzeStartAt();		/* Can not Start At unknown Id */
   unitAssert(readSev() == sevERR && readEcode() == 351);
 
   adv.whr->wht->id = atClaId;
-  symbolizeAdv();
+  symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not an instance */
   unitAssert(readSev() == sevERR && readEcode() == 351);
  
   adv.whr->wht->id = atInsId;
-  symbolizeAdv();
+  symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not inheriting from location */
   unitAssert(readSev() == sevERR && readEcode() == 351);
 
   adv.whr->wht->id = atInsLocId;
-  symbolizeAdv();
+  symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not a instance */
   unitAssert(readSev() == sevNONE && readEcode() == 0);
 }

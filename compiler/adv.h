@@ -40,23 +40,13 @@ typedef struct AdvNod {		/* ADVenture */
 extern AdvNod adv;
 
 
-/* Functions: */
+/* FUNCTIONS: */
 
-/* Initialise some data */
-extern void initadv(void);
-
-extern void symbolizeAdv(void);
-
-/* Analyse the whole adventure */
-extern void anadv(void);
-
-/* Generate the whole adventure */
+extern void initAdventure(void);
+extern void symbolizeAdventure(void);
+extern void analyzeAdventure(void);
 extern void geadv(char acdfnm[]);
-
-/* Dump the whole Adventure */
-extern void duadv(enum dmpKd dmp);
-
-/* Print out a short summary of the adventure */
+extern void dumpAdventure(enum dmpKd dmp);
 extern void summary(void);
 
 

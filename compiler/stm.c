@@ -424,9 +424,9 @@ static void anif(StmNod *stm,
   anexp(stm->fields.iff.exp, context);
   if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
     lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
-  anstms(stm->fields.iff.thn, context);
+  analyzeStatements(stm->fields.iff.thn, context);
   if (stm->fields.iff.els != NULL)
-    anstms(stm->fields.iff.els, context);
+    analyzeStatements(stm->fields.iff.els, context);
 }
 
 
@@ -536,7 +536,7 @@ static void andep(StmNod *stm, Context *context)
 
     /* Analyze the expression and the statements */
     anexp(cases->element.stm->fields.depcase.exp, context);
-    anstms(cases->element.stm->fields.depcase.stms, context);
+    analyzeStatements(cases->element.stm->fields.depcase.stms, context);
 
   }
 }
@@ -619,15 +619,9 @@ static void anstm(StmNod *stm,
 
 
 
-/*======================================================================
-
-  anstms()
-
-  Analyze all statements in a list.
-
-  */
-void anstms(List *stms,
-	    Context *context)
+/*======================================================================*/
+void analyzeStatements(List *stms,
+		       Context *context)
 {
   while (stms != NULL) {
     anstm(stms->element.stm, context);
@@ -638,13 +632,11 @@ void anstms(List *stms,
 
 /*----------------------------------------------------------------------
 
-  geprint()
-
   Generate the code for a PRINT-stm. The text is found and copied to the
   data file (and encoded if requested!).
 
   */
-static void geprint(StmNod *stm) /* IN - The statement to generate */
+static void geprint(StmNod *stm)
 {
   encode(&stm->fields.print.fpos, &stm->fields.print.len);
   emit0(C_CONST, stm->fields.print.len);
@@ -656,12 +648,10 @@ static void geprint(StmNod *stm) /* IN - The statement to generate */
 
 /*----------------------------------------------------------------------
 
-  gescore()
-
   Generate a SCORE statement
 
   */
-static void gescore(StmNod *stm) /* IN - The statement to generate */
+static void generateScore(StmNod *stm)
 {
   emit0(C_CONST, stm->fields.score.count);
   emit0(C_STMOP, I_SCORE);
@@ -671,12 +661,10 @@ static void gescore(StmNod *stm) /* IN - The statement to generate */
 
 /*----------------------------------------------------------------------
 
-  gedescribe()
-
   Generate code to implement a DESCRIBE statement.
 
   */
-static void gedescribe(StmNod *stm) /* IN - Statement */
+static void generateDescribe(StmNod *stm)
 {
   switch (stm->fields.describe.wht->kind) {
 
@@ -1088,11 +1076,11 @@ static void gestm(StmNod *stm, int currentInstance)
     break;
 
   case STM_SCORE:
-    gescore(stm);
+    generateScore(stm);
     break;
 
   case STM_DESCRIBE:
-    gedescribe(stm);
+    generateDescribe(stm);
     break;
 
   case STM_SAY:
@@ -1318,8 +1306,8 @@ void dustm(StmNod *stm)
       break;
     case STM_IF:
       put("exp: "); dumpExpression(stm->fields.iff.exp); nl();
-      put("thn: "); dulst(stm->fields.iff.thn, LIST_STM); nl();
-      put("els: "); dulst(stm->fields.iff.els, LIST_STM);
+      put("thn: "); dumpList(stm->fields.iff.thn, LIST_STM); nl();
+      put("els: "); dumpList(stm->fields.iff.els, LIST_STM);
       break;
     case STM_USE:
       put("script: "); dumpId(stm->fields.use.script); nl();

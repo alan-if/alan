@@ -28,7 +28,7 @@
 
 #include "emit.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "dump.h"
 
@@ -92,7 +92,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   }
 
   /* Analyze statments */
-  anstms(lim->stms, NULL);
+  analyzeStatements(lim->stms, NULL);
 }
 
 
@@ -176,7 +176,7 @@ void dulim(LimNod *lim)
 {
   put("LIM: "); dumpSrcp(&lim->srcp); in();
   put("atr: "); dumpAttribute(lim->atr); nl();
-  put("stms: "); dulst(lim->stms, LIST_STM); out();
+  put("stms: "); dumpList(lim->stms, LIST_STM); out();
 }
 
 

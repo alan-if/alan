@@ -18,7 +18,7 @@
 
 #include "lmList.h"
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -65,7 +65,7 @@ void analyzeSteps(List *stps, Context *context)
   for (lst = stps; lst != NULL; lst = lst->next) {
     if (lst->element.stp->exp != NULL)
       anexp(lst->element.stp->exp, context);
-    anstms(lst->element.stp->stms, context);
+    analyzeStatements(lst->element.stp->stms, context);
   }
 }
 
@@ -119,7 +119,7 @@ void dumpStep(Step *stp)
   put("after: "); dumpInt(stp->after); nl();
   put("exp: "); dumpExpression(stp->exp); nl();
   put("expadr: "); dumpAddress(stp->expadr); nl();
-  put("stms: "); dulst(stp->stms, LIST_STM); nl();
+  put("stms: "); dumpList(stp->stms, LIST_STM); nl();
   put("stmadr: "); dumpAddress(stp->stmadr); out();
 }
 

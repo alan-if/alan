@@ -481,7 +481,7 @@ void compile(void) {
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
 
   /* First initialise */
-  initadv();
+  initAdventure();
 
   /* Then parse the program and build internal representation */
   start();
@@ -491,20 +491,20 @@ void compile(void) {
   if ((dmpflg&DMP1) > 0) {
     lmList("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
-    duadv(dmpflg);
+    dumpAdventure(dmpflg);
     terminate(EXIT_FAILURE);
   }
 
   /* Analyze the internal form */
   if (verbose) printf("\nAnalyzing:");
   start();
-  anadv();			/* Analyze the adventure */
+  analyzeAdventure();			/* Analyze the adventure */
   endsem();			/* End of semantic pass */
 
   if ((dmpflg&DMP2) > 0) {
     lmList("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
-    duadv(dmpflg);
+    dumpAdventure(dmpflg);
     terminate(EXIT_FAILURE);
   }
 
@@ -557,7 +557,7 @@ void compile(void) {
     lmList(lstfnm, lcount, ccount, fulflg?liFULL:liTINY, sevs /*sevALL*/);
     if (dmpflg) {
       lmSkipLines(0);
-      duadv(dmpflg);
+      dumpAdventure(dmpflg);
     }
     if (sumflg) {
       if (lmSeverity() < sevERR)
@@ -590,7 +590,7 @@ void compile(void) {
 
   if (dmpflg != 0 && !lstflg) {
     lmSkipLines(0);
-    duadv(dmpflg);
+    dumpAdventure(dmpflg);
   }
   if (sumflg) {
     if (lmSeverity() < sevERR)

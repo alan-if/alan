@@ -26,9 +26,9 @@ extern void insert(List *where, void *element, ListKind kind);
 extern int length(List *aList);
 
 /* Dump a list of nodes */
-extern void dulst(List *lst, ListKind nod);
+extern void dumpList(List *lst, ListKind nod);
 
 /* Dump a list of lists of nodes */
-extern void dulst2(List *lstlst, ListKind nod);
+extern void dumpListOfLists(List *lstlst, ListKind nod);
 
 #endif

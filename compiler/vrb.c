@@ -21,7 +21,7 @@
 #include "alt.h"		/* ALT-nodes */
 #include "ins.h"		/* INS-nodes */
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "emit.h"
 #include "dump.h"
@@ -29,29 +29,18 @@
 
 /* PUBLIC: */
 
-int vrbmin, vrbmax;
-int vrbcount = 0;
 
 
-
-/*======================================================================
-
-  newvrb()
-
-  Allocates and initialises a vrbnod.
-
-  */
-VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
-	       List *ids,	/* IN - List of verb ids */
-	       List *alts)	/* IN - List of alternatives  */
+/*======================================================================*/
+Verb *newVerb(Srcp *srcp, List *ids, List *alts)
 {
-  VrbNod *new;			/* The newly allocated area */
+  Verb *new;			/* The newly allocated area */
   Symbol *sym;
   List *lst;			/* Traversal pointer */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  progressMeter();
 
-  new = NEW(VrbNod);
+  new = NEW(Verb);
 
   new->srcp = *srcp;
   new->ids = ids;
@@ -76,24 +65,17 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
 }
 
 
-/*----------------------------------------------------------------------
-
-  anvrb()
-
-  Analyze one verb.
-
-  */
-static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
-		  Context *previousContext)
+/*----------------------------------------------------------------------*/
+static void analyzeVerb(Verb *theVerb, Context *previousContext)
 {
-  List *lst, *ids, *stxs = NULL;
+  List *lst, *ids, *syntaxList = NULL;
   StxNod *stx;
   Context *context = copyContext(previousContext);
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  progressMeter();
 
   /* First find the syntax definitions for all verbs */
-  for (ids = vrb->ids; ids; ids = ids->next) {
+  for (ids = theVerb->ids; ids; ids = ids->next) {
     stx = NULL;
     for (lst = adv.stxs; lst; lst = lst->next) {
       if (lst->element.stx->id->symbol != NULL)
@@ -106,116 +88,109 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
       lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
       stx = defaultStx(ids->element.id->string);
     }
-    stxs = concat(stxs, stx, LIST_STX);
+    syntaxList = concat(syntaxList, stx, LIST_STX);
   }
-  stx = stxs->element.stx;	/* Use first syntax */
-  vrb->stx = stx;
+  stx = syntaxList->element.stx;	/* Use first syntax */
+  theVerb->stx = stx;
     
   /* Check compatible parameter lists for all the ids? */
-  ids = vrb->ids->next;
-  for (lst = stxs->next; lst != NULL; lst = lst->next) {
+  ids = theVerb->ids->next;
+  for (lst = syntaxList->next; lst != NULL; lst = lst->next) {
     if (!eqparams(stx, lst->element.stx))
       lmLog(&ids->element.id->srcp, 215, sevERR,
-	    vrb->ids->element.id->string);
+	    theVerb->ids->element.id->string);
     ids = ids->next;
   }
 
   /* No alternatives allowed in global verb definition */
-  if (context->instance == NULL && vrb->alts->element.alt->id != NULL)
-    lmLog(&vrb->alts->element.alt->srcp, 213, sevERR, "");
+  if (context->instance == NULL && theVerb->alts->element.alt->id != NULL)
+    lmLog(&theVerb->alts->element.alt->srcp, 213, sevERR, "");
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
 
   context->kind = VERB_CONTEXT;
   if (stx != NULL) {
-    context->verb = vrb->symbol;
-    analts(vrb->alts, context);
+    context->verb = theVerb->symbol;
+    analts(theVerb->alts, context);
   } else
-    analts(vrb->alts, context);
+    analts(theVerb->alts, context);
 }
 
 
-/*======================================================================
+/*----------------------------------------------------------------------*/
+static IdNode *findIdInList(IdNode *theId, List *theList) {
+  List *here;
 
-  anvrbs()
+  for (here = theList; here != NULL; here = here->next)
+    if (equalId(here->element.id, theId))
+      return here->element.id;
+  return NULL;
+}
 
-  Analyze all verbs in a list.
 
-  */
-void anvrbs(List *vrbs,		/* IN - The verbs to analyze */
-	    Context *context)
+/*----------------------------------------------------------------------*/
+static void checkMultipleVerbs(List *verbs)
 {
-  List *vrb, *nam, *lst, *other;
+  List *thisVerbDeclaration, *otherVerbs;
+  List *firstId, *otherId;
+  IdNode *foundId;
 
-  for (vrb = vrbs; vrb != NULL; vrb = vrb->next)
-    anvrb(vrb->element.vrb, context);
-
-  /* Check for multiple definitions of a verb */
-  for (vrb = vrbs; vrb != NULL; vrb = vrb->next) {
-    nam = vrb->element.vrb->ids;
-    /* First check other names in this VERB */
-    for (other = nam->next; other != NULL; other = other->next) {
-      if (other->element.id->symbol->code == nam->element.id->symbol->code)
-	lmLog(&other->element.id->srcp, 205, sevWAR,
-	      other->element.id->string);
-    }
-    /* Then the names in the other VERBs */
-    for (lst = vrb->next; lst != NULL; lst = lst->next) {
-      for (other = lst->element.vrb->ids; other != NULL; other = other->next)
-	if (other->element.id->symbol->code == nam->element.id->symbol->code)
-	  lmLog(&other->element.id->srcp, 220, sevWAR, other->element.id->string);
+  for (thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {
+    for (firstId = thisVerbDeclaration->element.vrb->ids; firstId != NULL; firstId = firstId->next) {
+      if ((foundId = findIdInList(firstId->element.id, firstId->next)) != NULL)
+	lmLog(&foundId->srcp, 205, sevWAR, foundId->string);
+      /* Then the names in the other VERBs */
+      for (otherVerbs = thisVerbDeclaration->next; otherVerbs != NULL; otherVerbs = otherVerbs->next) {
+	if ((foundId = findIdInList(firstId->element.id, otherVerbs->element.vrb->ids)) != NULL)
+	  lmLog(&foundId->srcp, 220, sevWAR, foundId->string);
+      }
     }
   }
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  gevrb()
-
-  Generate a procedure for the actions of a verb.
-
-  */
-static void gevrb(VrbNod *vrb, int currentInstance)
+/*======================================================================  */
+void analyzeVerbs(List *verbs, Context *context)
 {
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  List *verb;
 
-  if (vrb->alts == NULL)
-    vrb->altadr = 0;
-  else
-    vrb->altadr = gealts(vrb->alts, currentInstance);
+  for (verb = verbs; verb != NULL; verb = verb->next)
+    analyzeVerb(verb->element.vrb, context);
+
+  checkMultipleVerbs(verbs);
 }
 
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void generateVerb(Verb *vrb, int currentInstance)
+{
+  progressMeter();
 
-  gevrbent()
+  if (vrb->alts == NULL)
+    vrb->altAddress = 0;
+  else
+    vrb->altAddress = gealts(vrb->alts, currentInstance);
+}
 
-  Generate entries for one VERB.
 
-  */
-static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
+
+/*----------------------------------------------------------------------*/
+static void generateVerbEntry(Verb *vrb)
 {
   List *ids;
 
   for (ids = vrb->ids; ids != NULL; ids = ids->next) {
     generateId(ids->element.id);
-    emit(vrb->altadr);
+    emit(vrb->altAddress);
   }
 }
 
 
 
-/*======================================================================
-
-  gevrbs()
-
-  Generate all verbs in a list.
-
-  */
-Aaddr gevrbs(List *vrbs, int currentInstance)
+/*======================================================================*/
+Aaddr generateVerbs(List *vrbs, int currentInstance)
 {
   List *lst;			/* Save the list of verbs */
   Aaddr vrbadr;			/* Address to alt-table */
@@ -225,12 +200,12 @@ Aaddr gevrbs(List *vrbs, int currentInstance)
 
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
-    gevrb(lst->element.vrb, currentInstance);
+    generateVerb(lst->element.vrb, currentInstance);
   
   /* and then the verb table */
   vrbadr = emadr();
   for (lst = vrbs; lst != NULL; lst = lst->next)
-    gevrbent(lst->element.vrb);
+    generateVerbEntry(lst->element.vrb);
   emit(EOF);
 
   return(vrbadr);
@@ -238,14 +213,8 @@ Aaddr gevrbs(List *vrbs, int currentInstance)
 
 
 
-/*======================================================================
-
-  duvrb()
-
-  Dump a verb node.
-
-  */
-void duvrb (VrbNod *vrb)
+/*======================================================================*/
+void dumpVerb (Verb *vrb)
 {
   if (vrb == NULL) {
     put("NULL");
@@ -253,9 +222,9 @@ void duvrb (VrbNod *vrb)
   }
 
   put("VRB: "); dumpSrcp(&vrb ->srcp); in();
-  put("ids: "); dulst(vrb->ids, LIST_ID); nl();
-  put("altadr: "); dumpAddress(vrb->altadr); nl();
-  put("alts: "); dulst(vrb->alts, LIST_ALT); out();
+  put("ids: "); dumpList(vrb->ids, LIST_ID); nl();
+  put("altadr: "); dumpAddress(vrb->altAddress); nl();
+  put("alts: "); dumpList(vrb->alts, LIST_ALT); out();
 }
 
 

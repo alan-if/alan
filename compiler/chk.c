@@ -16,7 +16,7 @@
 #include "util.h"
 #include "options.h"
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 
@@ -56,7 +56,7 @@ static void anchk(ChkNod *chk,
 		  Context *context)
 {
   anexp(chk->exp, context);
-  anstms(chk->stms, context);
+  analyzeStatements(chk->stms, context);
 }
 
 
@@ -139,6 +139,6 @@ void duchk(ChkNod *chk)
   put("CHK: "); in();
   put("exp: "); dumpExpression(chk->exp); nl();
   put("expadr: "); dumpAddress(chk->expadr); nl();
-  put("stms: "); dulst(chk->stms, LIST_STM); nl();
+  put("stms: "); dumpList(chk->stms, LIST_STM); nl();
   put("stmadr: "); dumpAddress(chk->stmadr); out();
 }

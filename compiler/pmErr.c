@@ -10,7 +10,7 @@
 
 
 #include "util.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "types.h"
 #include "smScan.h"

@@ -21,7 +21,7 @@
 #include "lim.h"		/* LIM-nodes */
 
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "util.h"
 #include "emit.h"
 #include "dump.h"
@@ -130,8 +130,8 @@ void analyzeContainer(CntNod *cnt, Context *context)
     anlim(lims->element.lim);
 
   /* Analyze header and empty statments */
-  anstms(cnt->hstms, context);
-  anstms(cnt->estms, context);
+  analyzeStatements(cnt->hstms, context);
+  analyzeStatements(cnt->estms, context);
 }
 
 
@@ -230,11 +230,11 @@ void dumpContainer(CntNod *container)
   put("CONTAINER: "); dumpPointer(container); dumpSrcp(&container->srcp); in();
   put("code: "); dumpInt(container->code); nl();
   put("ownerSlots: "); dumpPointer(container->ownerSlots); nl();
-  put("lims: "); dulst(container->lims, LIST_LIM); nl();
+  put("lims: "); dumpList(container->lims, LIST_LIM); nl();
   put("limadr: "); dumpAddress(container->limadr); nl();
-  put("hstms: "); dulst(container->hstms, LIST_STM); nl();
+  put("hstms: "); dumpList(container->hstms, LIST_STM); nl();
   put("hadr: "); dumpAddress(container->hadr); nl();
-  put("estms: "); dulst(container->estms, LIST_STM); nl();
+  put("estms: "); dumpList(container->estms, LIST_STM); nl();
   put("eadr: "); dumpAddress(container->eadr); out();
 }
 

@@ -13,7 +13,7 @@
 #include "id.h"
 #include "lst.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 /* Types: */

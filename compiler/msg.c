@@ -20,7 +20,7 @@
 
 #include "emit.h"
 #include "encode.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 
 
@@ -340,7 +340,7 @@ void anmsgs(void)
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
     if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
-    anstms(lst->element.msg->stms, NULL);
+    analyzeStatements(lst->element.msg->stms, NULL);
   }
 
 }

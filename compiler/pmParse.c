@@ -10,7 +10,7 @@
 
 
 #include "util.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "types.h"
 #include "smScan.h"
@@ -80,7 +80,7 @@ typedef struct pmGrammar {
     What *wht;
     WhrNod *whr;
     List *vrbs;
-    VrbNod *vrb;
+    Verb *vrb;
     int val;
     List *syns;
     SynNod *syn;

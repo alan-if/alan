@@ -39,8 +39,8 @@
 
 #include "emit.h"
 #include "encode.h"
-#include "acode.h"
 #include "dump.h"
+#include "../interpreter/acode.h"
 
 
 
@@ -52,14 +52,8 @@ AdvNod adv;
 static Aword end;
 
 
-/*======================================================================
-
-  initadv()
-
-  Initialise any structures and data needed.
-
-  */
-void initadv(void)
+/*======================================================================*/
+void initAdventure(void)
 {
   initSymbols();
   initClasses();
@@ -73,12 +67,12 @@ void initadv(void)
   symbolizeAdv()
 
 */
-void symbolizeAdv()
+void symbolizeAdventure()
 {
   symbolizeClasses();
   symbolizeInstances();
 
-  symbolizeWhr(adv.whr);
+  symbolizeWhere(adv.whr);
 }
 
 
@@ -105,21 +99,15 @@ static void analyzeStartAt(void)
       break;
     }
 
-  anstms(adv.stms, context);
+  analyzeStatements(adv.stms, context);
 }
 
 
-/*======================================================================
-
-  anadv()
-
-  Analyse the adventure.
-
- */
-void anadv(void)
+/*====================================================================== */
+void analyzeAdventure(void)
 {
   addHero();
-  symbolizeAdv();
+  symbolizeAdventure();
   addAdditions();
   numberAllAttributes();
   replicateInherited();
@@ -132,7 +120,7 @@ void anadv(void)
   anstxs();
 
   if (verbose) printf("\n\tVerbs: ");
-  anvrbs(adv.vrbs, NULL);
+  analyzeVerbs(adv.vrbs, NULL);
 
   if (verbose) printf("\n\tClasses: ");
   analyzeClasses();
@@ -183,7 +171,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   acdHeader.syntaxTableAddress = gestxs();	/* Syntax definitions */ 
 
   if (verbose) printf("\n\tVerbs: ");
-  acdHeader.verbTableAddress = gevrbs(adv.vrbs, 0); /* Global verbs */
+  acdHeader.verbTableAddress = generateVerbs(adv.vrbs, 0); /* Global verbs */
 
   if (verbose) printf("\n\tClasses: ");
   acdHeader.classTableAddress = generateClasses();
@@ -230,14 +218,8 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
 
 
 
-/*======================================================================
-
-  duadv()
-
-  Dump the Adventure.
-
- */
-void duadv(enum dmpKd dmp)
+/*====================================================================== */
+void dumpAdventure(enum dmpKd dmp)
 {
   if (dmp&DMPALL)
     dmp = (enum dmpKd)-1L;
@@ -247,59 +229,59 @@ void duadv(enum dmpKd dmp)
 
   put("synonyms: ");
   if (dmp&DMPSYN)
-    dulst(adv.syns, LIST_SYN);
+    dumpList(adv.syns, LIST_SYN);
   else
     put("--");
   nl();
 
   put("syntaxes: ");
   if (dmp&DMPSTX)
-    dulst(adv.stxs, LIST_STX);
+    dumpList(adv.stxs, LIST_STX);
   else
     put("--");
   nl();
 
   put("verbs: ");
   if (dmp&DMPVRB)
-    dulst(adv.vrbs, LIST_VRB);
+    dumpList(adv.vrbs, LIST_VRB);
   else
     put("--");
   nl();
 
   put("classes: ");
   if (dmp&DMPCLA) {
-    dulst(adv.clas, LIST_CLA);
+    dumpList(adv.clas, LIST_CLA);
     nl();
     put("additions: ");
-    dulst(adv.adds, LIST_ADD);
+    dumpList(adv.adds, LIST_ADD);
   } else
     put("--");
   nl();
 
   put("instances: ");
   if (dmp&DMPINS)
-    dulst(adv.inss, LIST_INS);
+    dumpList(adv.inss, LIST_INS);
   else
     put("--");
   nl();
 
   put("containers: ");
   if (dmp&DMPCNT)
-    dulst(adv.cnts, LIST_CNT);
+    dumpList(adv.cnts, LIST_CNT);
   else
     put("--");
   nl();
 
   put("events: ");
   if (dmp&DMPEVT)
-    dulst(adv.evts, LIST_EVT);
+    dumpList(adv.evts, LIST_EVT);
   else
     put("--");
   nl();
 
   put("rules: ");
   if (dmp&DMPRUL)
-    dulst(adv.ruls, LIST_RUL);
+    dumpList(adv.ruls, LIST_RUL);
   else
     put("--");
   nl();
@@ -316,7 +298,7 @@ void duadv(enum dmpKd dmp)
   nl();
 
   put("stms: ");
-  dulst(adv.stms, LIST_STM);
+  dumpList(adv.stms, LIST_STM);
   out();
 }
 
@@ -338,8 +320,8 @@ void summary(void)
   lmLiPrint("");
   lmLiPrint("        Summary");
   lmLiPrint("        -------");
-  if (vrbcount != 0) {
-    (void)sprintf(str, "        Verbs:                  %6d", vrbcount);
+  if (verbCount != 0) {
+    (void)sprintf(str, "        Verbs:                  %6d", verbCount);
     lmLiPrint(str);
   }
   if (classCount != 0) {

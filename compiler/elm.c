@@ -19,7 +19,7 @@
 #include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 #include "dump.h"
 
 

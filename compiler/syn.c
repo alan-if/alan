@@ -13,7 +13,7 @@
 #include "wrd_x.h"
 
 #include "lmList.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "adv.h"		/* ADV-node */
 #include "id_x.h"
@@ -99,5 +99,5 @@ void dusyn(SynNod *syn)
 
   put("SYN: "); dumpSrcp(&syn->srcp); in();
   put("id: "); dumpId(syn->id); nl();
-  put("ids: "); dulst(syn->ids, LIST_ID); out();
+  put("ids: "); dumpList(syn->ids, LIST_ID); out();
 }

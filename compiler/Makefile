@@ -1,10 +1,11 @@
 # Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
-#CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
-CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
+CYGWIN =  -mno-cygwin # Does not work because of intricate library problems
 
-CFLAGS = -g -Wall $(CYGWIN) -funsigned-char $(INCLUDE)
+#GCOV =	-fprofile-arcs -ftest-coverage
+
+CFLAGS = -g -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
 
 LDFLAGS = -g $(CYGWIN)
 
@@ -96,9 +97,11 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 #
 # Main targets
 #
-# If you build this on any machine without ToolMaker, remove "src"
-#
+
 all : .tmstamp test alan Makefile
+
+gcov :
+	$(MAKE) "GCOV=-fprofile-arcs -ftest-coverage"
 
 alan: $(MAINOBJECTS)
 	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
@@ -172,8 +175,6 @@ version.h :
 alan.version.c:  ../alan.version
 	cp -p ../alan.version.c .
 
-acode.h: ../interpreter/acode.h
-	cp -p ../interpreter/acode.h .
 #
 include dependencies.mk
 

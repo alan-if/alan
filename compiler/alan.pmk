@@ -13,7 +13,7 @@
 %%IMPORT
 
 #include "util.h"
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "types.h"
 #include "smScan.h"
@@ -153,7 +153,7 @@ static int val(char str[])
   syn %% SynNod *%1%%,
   syns %% List *%1%%,
   val %% int %1%%,
-  vrb %% VrbNod *%1%%,
+  vrb %% Verb *%1%%,
   vrbs %% List *%1%%,
   whr %% WhrNod *%1%%,
   wht %% What *%1%%;
@@ -258,7 +258,7 @@ static int val(char str[])
 <attribute definition>		-- RETURNS: atr
     = ID
     %%
-	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
+	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						BOOLEAN_TYPE,
 						%ID.id,
 						TRUE, 0, 0);
@@ -266,7 +266,7 @@ static int val(char str[])
 
     ! 'NOT' ID
     %%
-	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
+	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						BOOLEAN_TYPE,
 						%ID.id,
 						FALSE, 0, 0);
@@ -275,12 +275,12 @@ static int val(char str[])
     ! ID <optional_minus> Integer
     %%
 	if (%<optional_minus>.minus)
-		%<attribute definition>.atr = newatr(`&%ID.id->srcp,
+		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 							INTEGER_TYPE,
 							%ID.id,
 							-val(%Integer.chars), 0, 0);
 	else
-		%<attribute definition>.atr = newatr(`&%ID.id->srcp,
+		%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 							INTEGER_TYPE,
 							%ID.id,
 							val(%Integer.chars), 0, 0);
@@ -288,7 +288,7 @@ static int val(char str[])
 
     ! ID STRING	
     %%
-	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
+	%<attribute definition>.atr = newAttribute(`&%ID.id->srcp,
 						STRING_TYPE,
 						%ID.id,
 						0, %STRING.fpos, %STRING.len);
@@ -517,7 +517,7 @@ static int val(char str[])
 <verb>			-- RETURNS: vrb
     = <verb_header> <verb_body> <verb_tail>
     %%
-	%<verb>.vrb = newvrb(`&%<verb_header>.srcp,
+	%<verb>.vrb = newVerb(`&%<verb_header>.srcp,
 			   %<verb_header>.idList,
 			   %<verb_body>.alts);
 	if (%<verb_tail>.id != NULL) { /* END-id given */
@@ -930,7 +930,7 @@ static int val(char str[])
     }%%
 
     ! <verb>
-    %%{ VrbNod *vrb = %<verb>.vrb;
+    %%{ Verb *vrb = %<verb>.vrb;
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<slot>.vrb = vrb;
     }%%
@@ -1145,7 +1145,7 @@ static int val(char str[])
 
     ! 'COUNT' Integer
     %%
-	%<limit_attribute>.atr = newatr(`&%'COUNT'.srcp,
+	%<limit_attribute>.atr = newAttribute(`&%'COUNT'.srcp,
 				      INTEGER_TYPE,
 				      newId(`&%'COUNT'.srcp, "count"),
 				      val(%Integer.chars), 0, 0);

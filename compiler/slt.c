@@ -131,7 +131,7 @@ void symbolizeSlots(Slots *slots)
 {
   symbolizeParent(slots);
   checkMultipleAttributes(slots->attributes);
-  symbolizeWhr(slots->whr);
+  symbolizeWhere(slots->whr);
   symbolizeExits(slots->exits);
 }
 
@@ -162,7 +162,7 @@ static void analyzeName(Slots *slots)
     stm->fields.print.len = len;
     slots->mentioned = concat(NULL, stm, STM_LIST);
   } else
-    anstms(slots->mentioned, NULL);
+    analyzeStatements(slots->mentioned, NULL);
 }
 
 
@@ -183,8 +183,8 @@ void analyzeSlots(Slots *slots, Context *context)
     lmLog(&slots->whr->srcp, 402, sevERR, "An Actor");
 
   analyzeName(slots);
-  anstms(slots->description, context);
-  anvrbs(slots->verbs, context);
+  analyzeStatements(slots->description, context);
+  analyzeVerbs(slots->verbs, context);
   analyzeContainer(slots->container, context);
 
   if (slots->exits && !inheritsFrom(slots->id->symbol, locationSymbol))
@@ -225,7 +225,7 @@ void generateSlotsData(Slots *slots)
     emit(0);
 
   slots->scriptsAddress = generateScripts(slots->scripts, slots->id->symbol->code);
-  slots->verbsAddress = gevrbs(slots->verbs, slots->id->symbol->code);
+  slots->verbsAddress = generateVerbs(slots->verbs, slots->id->symbol->code);
   slots->exitsAddress = generateExits(slots->exits, slots->id->symbol->code);
 }
 
@@ -273,21 +273,21 @@ void dumpSlots(Slots *slots)
 {
   put("SLOTS: "); dumpPointer(slots); in();
   put("id: "); dumpId(slots->id); nl();
-  put("names: "); dulst(slots->names, LIST_NAM); nl();
+  put("names: "); dumpList(slots->names, LIST_NAM); nl();
   put("whr: "); duwhr(slots->whr); nl();
   put("container: "); dumpContainer(slots->container); nl();
-  put("attributes: "); dulst(slots->attributes, LIST_ATR); nl();
+  put("attributes: "); dumpList(slots->attributes, LIST_ATR); nl();
   put("attributeAddress: "); dumpAddress(slots->attributeAddress); nl();
-  put("description: "); dulst(slots->description, LIST_STM); nl();
+  put("description: "); dumpList(slots->description, LIST_STM); nl();
   put("descriptionAddress: "); dumpAddress(slots->descriptionAddress); nl();
-  put("article: "); dulst(slots->article, LIST_STM); nl();
+  put("article: "); dumpList(slots->article, LIST_STM); nl();
   put("articleAddres: "); dumpAddress(slots->articleAddress); nl();
-  put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
+  put("mentioned: "); dumpList(slots->mentioned, LIST_STM); nl();
   put("mentionedAddress: "); dumpAddress(slots->mentionedAddress); nl();
-  put("scripts: "); dulst(slots->scripts, LIST_SCR); nl();
+  put("scripts: "); dumpList(slots->scripts, LIST_SCR); nl();
   put("scriptsAddress: "); dumpAddress(slots->scriptsAddress); nl();
-  put("verbs: "); dulst(slots->verbs, LIST_VRB); nl();
+  put("verbs: "); dumpList(slots->verbs, LIST_VRB); nl();
   put("verbsAddress: "); dumpAddress(slots->verbsAddress); nl();
-  put("exits: "); dulst(slots->exits, LIST_EXT); nl();
+  put("exits: "); dumpList(slots->exits, LIST_EXT); nl();
   put("exitsAddress: "); dumpAddress(slots->exitsAddress); out();
 }

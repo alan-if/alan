@@ -235,5 +235,5 @@ void dumpClass(ClaNod *cla)
  */
 void dumpClasses(void)
 {
-  dulst(allClasses, LIST_CLA);
+  dumpList(allClasses, LIST_CLA);
 }

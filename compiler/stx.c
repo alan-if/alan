@@ -28,7 +28,7 @@
 
 #include "emit.h"
 
-#include "acode.h"
+#include "../interpreter/acode.h"
 
 #include "dump.h"
 
@@ -325,8 +325,8 @@ void dustx(StxNod *stx)
   put("id: "); dumpId(stx->id); nl();
   put("generated: "); dumpBool(stx->generated); nl();
   put("elmsadr: "); dumpAddress(stx->elmsadr); nl();
-  put("elements: "); dulst(stx->elements, LIST_ELM); nl();
+  put("elements: "); dumpList(stx->elements, LIST_ELM); nl();
   put("resadr: "); dumpAddress(stx->resadr); nl();
-  put("restrictionLists: "); dulst(stx->restrictionLists, LIST_RES); nl();
-  put("parameters: "); dulst(stx->parameters, LIST_ELM); out();
+  put("restrictionLists: "); dumpList(stx->restrictionLists, LIST_RES); nl();
+  put("parameters: "); dumpList(stx->parameters, LIST_ELM); out();
 }

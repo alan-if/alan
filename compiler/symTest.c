@@ -179,14 +179,14 @@ void testSymbolTableInit()
   Symbol *sym2 = lookup(symbolName2);
   Symbol *sym3 = lookup(symbolName3);
   
-  initadv();
+  initAdventure();
   adv.whr = NULL;
   unitAssert(classCount == 4);	/* Standard classes */
   unitAssert(instanceCount == 0);
   addHero();
   unitAssert(instanceCount == 1);
 
-  symbolizeAdv();
+  symbolizeAdventure();
   thingSymbol = lookup("thing");
   objectSymbol = lookup("object");
   actorSymbol = lookup("actor");

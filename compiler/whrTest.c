@@ -15,7 +15,7 @@ void testInitialLocation()
   InsNod *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
   symbolizeInstance(atLoc);
-  symbolizeWhr(whr);
+  symbolizeWhere(whr);
   unitAssert(generateInitialLocation(NULL) == 0);
 
   unitAssert(generateInitialLocation(whr) == atLoc->slots->id->symbol->code);

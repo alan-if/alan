@@ -15,15 +15,15 @@
 #include "stx.h"
 
 
-/* Types: */
+/* TYPES: */
 
-typedef struct VrbNod {		/* VERB */
+typedef struct Verb {
   Srcp srcp;			/* Source position */
   List *ids;			/* List of verb IDs to perform this action */
   List *alts;			/* Alternative bodies */
   Symbol *symbol;
-  Aaddr altadr;			/* AN - Address to alt-table */
+  Aaddr altAddress;		/* AN - Address to alt-table */
   StxNod *stx;			/* AN - Which syntax defines this verb */
-} VrbNod;
+} Verb;
 
 #endif

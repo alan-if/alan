@@ -12,8 +12,8 @@ void testMultipleAtr()
 {
   List *attributeList;
 
-  attributeList = concat(NULL, newatr(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
-  attributeList = concat(attributeList, newatr(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
+  attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
+  attributeList = concat(attributeList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "anAttr"), 0, 0, 0), LIST_ATR);
 
   readEcode();
   anatrs(attributeList);
@@ -25,8 +25,8 @@ void testFindInList()
 {
   List *attributes = NULL;
   IdNode *id = newId(&nulsrcp, "theAttribute");
-  AtrNod *theAttribute = newatr(&nulsrcp, BOOLEAN_TYPE, id, 0, 0, 0);
-  AtrNod *anotherAttribute = newatr(&nulsrcp, BOOLEAN_TYPE,
+  AtrNod *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE, id, 0, 0, 0);
+  AtrNod *anotherAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
 				    newId(&nulsrcp, "another"),
 				    0, 0, 0);
 
@@ -71,8 +71,8 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = concat(NULL, newatr(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, firstString), 0, 0, 0), LIST_ATR);
-  theList = concat(theList, newatr(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, secondString), 0, 0, 0), LIST_ATR);
+  theList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, firstString), 0, 0, 0), LIST_ATR);
+  theList = concat(theList, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, secondString), 0, 0, 0), LIST_ATR);
   return theList;
 }
 
@@ -136,7 +136,7 @@ void testAttributeListsInSymbolTable()
   Symbol *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
   int x, y, z;
 
-  initadv();
+  initAdventure();
   firstClassAttributes = create2Attributes("a1", "a12");
   secondClassAttributes = create2Attributes("a1", "a21");
 
@@ -237,7 +237,7 @@ static Bool attributesAreSorted(List *list)
 
 void testSortAttributes()
 {
-  List *attributeList = concat(NULL, newatr(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0), LIST_ATR);
+  List *attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0), LIST_ATR);
   List *originalList = attributeList;
 
   unitAssert(sortAttributes(NULL) == NULL);
