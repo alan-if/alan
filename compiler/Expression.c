@@ -74,7 +74,7 @@ void analyseExpression(expression, parameters)
 #ifdef _PROTOTYPES_
 void dumpType(TypeKind type)
 #else
-void dumpQualifier(type)
+void dumpType(type)
      TypeKind type;
 #endif
 {

@@ -27,7 +27,7 @@ Verb *newVerb(Srcp *srcp,	/* IN - Source position */
 	      List *verbs,	/* IN - List of verbs to perform action */
 	      List *alternatives) /* IN - The alternative bodies */
 #else
-Verb *newVerb(srcp, id, statements)
+Verb *newVerb(srcp, verbs, alternatives)
      Srcp *srcp;
      List *verbs;
      List *alternatives;

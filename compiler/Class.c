@@ -33,35 +33,12 @@ int THING_CLASS, LOCATION_CLASS, OBJECT_CLASS, ACTOR_CLASS, CONTAINER_CLASS;
 #ifdef _PROTOTYPES_
 Class *newClass(Srcp *srcp,
 		Id *id,
-		List *heritage,
-		List *name,
-		Where *where,
-		List *attributes,
-		Container *container,
-		List *surroundings,
-		List *description,
-		List *mentioned,
-		Does *does,
-		List *exits,
-		List *verbs,
-		List *scripts)
+		Slot *slot)
 #else
-Class *newClass(srcp, id, heritage, name, where, attributes, container, surroundings,
-		description, mentioned, does, exits, verbs, scripts)
+Class *newClass(srcp, id, slot)
      Srcp *srcp;
      Id *id;
-     List *heritage;
-     List *name;
-     Where *where;
-     List *attributes;
-     Container *container;
-     List *surroundings;
-     List *description;
-     List *mentioned;
-     Does *does;
-     List *exits;
-     List *verbs;
-     List *scripts;
+     Slot *slot;
 #endif
 {
   Class *new;			/* The newly created Class */
@@ -75,18 +52,7 @@ Class *newClass(srcp, id, heritage, name, where, attributes, container, surround
 
   new->srcp = *srcp;
   new->id = id;
-  new->heritage = heritage;
-  new->name = name;
-  new->where = where;
-  new->attributes = attributes;
-  new->container = container;
-  new->surroundings = surroundings;
-  new->description = description;
-  new->mentioned = mentioned;
-  new->does = does;
-  new->exits = exits;
-  new->verbs = verbs;
-  new->scripts = scripts;
+  new->slot = slot;
   
   return(new);
 }
@@ -115,152 +81,97 @@ void initClasses()
   thing = newClass(&nullSrcp,
 		   newId(&nullSrcp,
 			 "thing"),
-		   NULL,	/* heritage */
-		   NULL,	/* name */
-		   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
-		   NULL,	/* attributes */
-		   NULL,	/* container */
-		   NULL,	/* surroundings */
-		   NULL,	/* description */
-		   NULL,	/* mentioned */
-		   NULL,	/* does */
-		   NULL,	/* exits */
-		   NULL,	/* verbs */
-		   NULL);	/* scripts */
+		   newSlot( NULL,	/* heritage */
+			   NULL,	/* name */
+			   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+			   NULL,	/* attributes */
+			   NULL,	/* container */
+			   NULL,	/* surroundings */
+			   NULL,	/* description */
+			   NULL,	/* mentioned */
+			   NULL,	/* does */
+			   NULL,	/* exits */
+			   NULL,	/* verbs */
+			   NULL));	/* scripts */
   THING_CLASS = thing->code;
 
   /* Create OBJECT class */
   object = newClass(&nullSrcp,
 		    newId(&nullSrcp,
 			  "object"),
-		    append(NULL, newId(&nullSrcp,
-				       "thing")), /* heritage */
-		    NULL,	/* name */
-		    newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
-		    NULL,	/* attributes */
-		    NULL,	/* container */
-		    NULL,	/* surroundings */
-		    NULL,	/* description */
-		    NULL,	/* mentioned */
-		    NULL,	/* does */
-		    NULL,	/* exits */
-		    NULL,	/* verbs */
-		    NULL);	/* scripts */
+		    newSlot(append(NULL, newId(&nullSrcp,
+					       "thing")), /* heritage */
+			    NULL,	/* name */
+			    newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+			    NULL,	/* attributes */
+			    NULL,	/* container */
+			    NULL,	/* surroundings */
+			    NULL,	/* description */
+			    NULL,	/* mentioned */
+			    NULL,	/* does */
+			    NULL,	/* exits */
+			    NULL,	/* verbs */
+			    NULL));	/* scripts */
   OBJECT_CLASS = object->code;
 
   /* Create LOCATION class */
   location = newClass(&nullSrcp,
 		      newId(&nullSrcp,
 			    "location"),
-		      append(NULL, newId(&nullSrcp,
-					 "thing")), /* heritage */
-		      NULL,	/* name */
-		      newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
-		      NULL,	/* attributes */
-		      NULL,	/* container */
-		      NULL,	/* surroundings */
-		      NULL,	/* description */
-		      NULL,	/* mentioned */
-		      NULL,	/* does */
-		      NULL,	/* exits */
-		      NULL,	/* verbs */
-		      NULL);	/* scripts */
+		      newSlot(append(NULL, newId(&nullSrcp,
+						 "thing")), /* heritage */
+			      NULL,	/* name */
+			      newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+			      NULL,	/* attributes */
+			      NULL,	/* container */
+			      NULL,	/* surroundings */
+			      NULL,	/* description */
+			      NULL,	/* mentioned */
+			      NULL,	/* does */
+			      NULL,	/* exits */
+			      NULL,	/* verbs */
+			      NULL));	/* scripts */
   LOCATION_CLASS = location->code;
 
   /* Create ACTOR class */
   actor = newClass(&nullSrcp,
 		   newId(&nullSrcp,
 			 "actor"),
-		   append(NULL, newId(&nullSrcp,
-				      "thing")), /* heritage */
-		   NULL,	/* name */
-		   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
-		   NULL,	/* attributes */
-		   NULL,	/* container */
-		   NULL,	/* surroundings */
-		   NULL,	/* description */
-		   NULL,	/* mentioned */
-		   NULL,	/* does */
-		   NULL,	/* exits */
-		   NULL,	/* verbs */
-		   NULL);	/* scripts */
+		   newSlot(append(NULL, newId(&nullSrcp,
+					      "thing")), /* heritage */
+			   NULL,	/* name */
+			   newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+			   NULL,	/* attributes */
+			   NULL,	/* container */
+			   NULL,	/* surroundings */
+			   NULL,	/* description */
+			   NULL,	/* mentioned */
+			   NULL,	/* does */
+			   NULL,	/* exits */
+			   NULL,	/* verbs */
+			   NULL));	/* scripts */
   ACTOR_CLASS = actor->code;
 
   /* Create CONTAINER class */
   container = newClass(&nullSrcp,
 		       newId(&nullSrcp,
 			     "container"),
-		       append(NULL, newId(&nullSrcp,
-					  "thing")), /* heritage */
-		       NULL,	/* name */
-		       newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
-		       NULL,	/* attributes */
-		       NULL,	/* container */
-		       NULL,	/* surroundings */
-		       NULL,	/* description */
-		       NULL,	/* mentioned */
-		       NULL,	/* does */
-		       NULL,	/* exits */
-		       NULL,	/* verbs */
-		       NULL);	/* scripts */
+		       newSlot(append(NULL, newId(&nullSrcp,
+						  "thing")), /* heritage */
+			       NULL,	/* name */
+			       newWhere(&nullSrcp, WHERE_DEFAULT, NULL),
+			       NULL,	/* attributes */
+			       NULL,	/* container */
+			       NULL,	/* surroundings */
+			       NULL,	/* description */
+			       NULL,	/* mentioned */
+			       NULL,	/* does */
+			       NULL,	/* exits */
+			       NULL,	/* verbs */
+			       NULL));	/* scripts */
   CONTAINER_CLASS = container->code;
 }
 
-
-
-/*======================================================================
-
-  analyseClassOrInstance()
-
-  Do the common analysis for a Class or an Instance
-
-  */
-#ifdef _PROTOTYPES_
-void analyseClassOrInstance(List *heritage,
-			    List *name,
-			    Where *where,
-			    List *attributes,
-			    Container *container,
-			    List *surroundings,
-			    List *description,
-			    List *mentioned,
-			    Does *does,
-			    List *exits,
-			    List *verbs,
-			    List *scripts)
-#else
-void analyseClassOrInstance(heritage, name, where, attributes, container,
-			    surroundings, description, mentioned, does,
-			    exits, verbs, scripts)
-     List *heritage;
-     List *name;
-     Where *where;
-     List *attributes;
-     Container *container;
-     List *surroundings;
-     List *description;
-     List *mentioned;
-     Does *does;
-     List *exits;
-     List *verbs;
-     List *scripts;
-#endif
-{
-  /* 4f - Verify that the inherited classes exist */
-  /* 4f - Check for inheritance clashes */
-  /* 4f - Check for circular inheritance */
-  /* 4f - Analyse the name */
-  /* 4f - Analyse the where */
-  /* 4f - Analyse the attributes */
-  /* 4f - Analyse the container */
-  /* 4f - Analyse the surroundings */
-  /* 4f - Analyse the description */
-  /* 4f - Analyse the mentioned */
-  /* 4f - Analyse the does */
-  /* 4f - Analyse the exits */
-  /* 4f - Analyse the verbs */
-  /* 4f - Analyse the scripts */
-}
 
 
 /*======================================================================
@@ -277,73 +188,9 @@ void analyseClass(class)
      Class *class;
 #endif
 {
-  analyseClassOrInstance(class->heritage,
-			 class->name,
-			 class->where,
-			 class->attributes,
-			 class->container,
-			 class->surroundings,
-			 class->description,
-			 class->mentioned,
-			 class->does,
-			 class->exits,
-			 class->verbs,
-			 class->scripts);
+  analyseSlot(class->slot);
 }
 
-
-
-/*======================================================================
-
-  dumpClassOrInstance()
-
-  Do the common analysis for a Class or an Instance
-
-  */
-#ifdef _PROTOTYPES_
-void dumpClassOrInstance(List *heritage,
-			 List *name,
-			 Where *where,
-			 List *attributes,
-			 Container *container,
-			 List *surroundings,
-			 List *description,
-			 List *mentioned,
-			 Does *does,
-			 List *exits,
-			 List *verbs,
-			 List *scripts)
-#else
-void dumpClassOrInstance(heritage, name, where, attributes, container,
-			 surroundings, description, mentioned, does,
-			 exits, verbs, scripts)
-     List *heritage;
-     List *name;
-     Where *where;
-     List *attributes;
-     Container *container;
-     List *surroundings;
-     List *description;
-     List *mentioned;
-     Does *does;
-     List *exits;
-     List *verbs;
-     List *scripts;
-#endif
-{
-  put("heritage: "); dumpList(heritage, ID_NODE);
-  put("name: "); dumpList(name, ID_NODE);
-  put("where: "); dumpWhere(where);
-  put("attributes: "); dumpList(name, ATTRIBUTE_NODE);
-  put("container: "); dumpContainer(container);
-  put("surroundings: "); dumpList(name, STATEMENT_NODE);
-  put("description: "); dumpList(name, STATEMENT_NODE);
-  put("mentioned: "); dumpList(name, STATEMENT_NODE);
-  put("does: "); dumpDoes(does);
-  put("exits: "); dumpList(name, EXIT_NODE);
-  put("verbs: "); dumpList(name, VERB_NODE);
-  put("scripts: "); dumpList(name, SCRIPT_NODE);
-}
 
 
 /*======================================================================
@@ -366,17 +213,6 @@ void dumpClass(class)
   }
 
   put("CLASS: "); dumpSrcp(&class->id->srcp); in();
-  dumpClassOrInstance(class->heritage,
-		      class->name,
-		      class->where,
-		      class->attributes,
-		      class->container,
-		      class->surroundings,
-		      class->description,
-		      class->mentioned,
-		      class->does,
-		      class->exits,
-		      class->verbs,
-		      class->scripts);
-  out();
+  dumpId(class->id); nl();
+  dumpSlot(class->slot); out();
 }

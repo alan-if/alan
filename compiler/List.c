@@ -10,6 +10,10 @@
 #include "alan.h"
 #include "List.h"
 
+#include "Class.h"
+#include "Instance.h"
+#include "Statement.h"
+
 #include "dump.h"
 
 
@@ -88,15 +92,19 @@ List *combine(list1, list2)
 
   */
 #ifdef _PROTOTYPES_
-static void dumpNode(void *nod, NodeKind class)
+static void dumpNode(void *node, NodeKind kind)
 #else
-static void dumpNode(nod, class)
+static void dumpNode(node, kind)
     void *nod;
-    NodeKind class;
+    NodeKind kind;
 #endif
 {
-  switch (class) {
-  default: put("Not implemented in DUMP."); nl(); break;
+  switch (kind) {
+  case CLASS_NODE: dumpClass(node); break;
+  case ID_NODE: dumpId(node); break;
+  case INSTANCE_NODE: dumpInstance(node); break;
+  case STATEMENT_NODE: dumpStatement(node); break;
+  default: put("Not implemented in DUMP."); break;
   }
 }
 

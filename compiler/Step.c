@@ -56,9 +56,9 @@ Step *newStep(srcp, after, expression, statements)
 
  */
 #ifdef _PROTOTYPES_
-void analyseSteps(List *step)
+void analyseSteps(List *steps)
 #else
-void analyseSteps(step)
+void analyseSteps(steps)
      List *steps;
 #endif
 {

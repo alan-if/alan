@@ -48,7 +48,7 @@ extern Symbol *newSymbol(Id *id,
 extern Symbol *lookup(char symbol[]);
 
 /* Check that a symbol is of a particular kind */
-extern Bool symbolCheck(Id *id, SymbolKind kind);
+extern Symbol *symbolCheck(Id *id, SymbolKind kind);
 
 /* Check that a symbol (class or instance) inherits a particular class */
 extern void classCheck(Id *id, char className[]);
@@ -59,7 +59,7 @@ extern Bool isA(Id *id, char className[]);
 #else
 extern Symbol *newSymbol();
 extern Symbol *lookup();
-extern Bool symbolCheck();
+extern Symbol *symbolCheck();
 extern void classCheck();
 extern Bool isA();
 #endif

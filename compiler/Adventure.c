@@ -78,6 +78,7 @@ void analyseAdventure(void)
 void analyseAdventure()
 #endif
 {
+  List *list;
 
   prepareScores();
 
@@ -86,6 +87,10 @@ void analyseAdventure()
   analyseAttributes(adventure.actorAttributes);
 
   /* 4f - Do the analysis of all parts of the adventure! */
+  for (list = adventure.classes; list; list = list->next)
+    analyseClass(list->element.class);
+  for (list = adventure.instances; list; list = list->next)
+    analyseInstance(list->element.instance);
 
   /* Analyse the start section */
   if (adventure.where != NULL) 
@@ -209,6 +214,7 @@ void dumpAdventure(dumpFlags)
   put("where: "); dumpWhere(adventure.where); nl();
   put("statements: "); dumpList(adventure.statements, STATEMENT_NODE); nl();
   put("scores: "); out();
+  nl();
 }
 
 

@@ -181,14 +181,15 @@ static char *symbolKindString(kind)
   symbolCheck()
 
   Verify that the identifier is a symbol of the correct kind.
-  If not issue an error message.
+  If not issue an error message and return NULL, else return a pointer
+  to the symbol.
 
   */
 #ifdef _PROTOTYPES_
-Bool symbolCheck(Id *id,	/* IN - the Identifier to check */
-		 SymbolKind kind) /* IN - The kind of the symbol it should be */
+Symbol *symbolCheck(Id *id,	/* IN - the Identifier to check */
+		    SymbolKind kind) /* IN - The kind of the symbol it should be */
 #else
-Bool symbolCheck(id, kind)
+Symbol *symbolCheck(id, kind)
      Id *id;
      SymbolKind kind;
 #endif
@@ -200,9 +201,9 @@ Bool symbolCheck(id, kind)
     if (symbol == NULL)
       symbol = newSymbol(id, ERROR_SYMBOL);
     lmLogv(&id->srcp, 300, sevERR, id->string, symbolKindString(kind), NULL);
-    return FALSE;
+    return NULL;
   } else
-    return TRUE;
+    return symbol;
 }
 
 
@@ -229,8 +230,8 @@ Bool isA(id, className)
 
   symbol = lookup(id->string);
   switch (symbol->kind) {
-  case CLASS_SYMBOL: heritage = symbol->info.class->heritage; break;
-  case INSTANCE_SYMBOL: heritage = symbol->info.instance->heritage; break;
+  case CLASS_SYMBOL: heritage = symbol->info.class->slot->heritage; break;
+  case INSTANCE_SYMBOL: heritage = symbol->info.instance->slot->heritage; break;
   default: syserr("Unexpected symbol kind in isA()."); break;
   }
 

@@ -13,27 +13,15 @@
 #include "Srcp.h"
 #include "List.h"
 #include "Id.h"
-#include "Where.h"
-#include "Container.h"
-#include "Does.h"
+#include "Slot.h"
 
 /* Types: */
 
 typedef struct Instance {		/* Instance Node */
   Srcp srcp;
   Id *id;
-  List *heritage;
-  List *name;
-  Where *where;
-  List *attributes;
-  Container *container;
-  List *surroundings;
-  List *description;
-  List *mentioned;
-  Does *does;
-  List *exits;
-  List *verbs;
-  List *scripts;
+  int code;
+  Slot *slot;
 } Instance;
 
 
@@ -46,29 +34,25 @@ typedef struct Instance {		/* Instance Node */
 /* Create a new Instance node */
 extern Instance *newInstance(Srcp *srcp,
 			     Id *id,
-			     List *heritage,
-			     List *name,
-			     Where *where,
-			     List *attributes,
-			     Container *container,
-			     List *surroundings,
-			     List *description,
-			     List *mentioned,
-			     Does *does,
-			     List *exits,
-			     List *verbs,
-			     List *scripts);
+			     Slot *slot);
 
 /* Create predefined instances */
 extern void initInstances(void);
 
+/* Analyse an Instance */
+extern void analyseInstance(Instance *instance);
+
 /* Generate Acode for all instances */
-extern generateInstances(void);
+extern Aaddr generateInstances(void);
+
+/* Dump an Instance */
+extern void dumpInstance(Instance *instance);
 
 #else
 extern void initInstances();
 extern Instance *newInstance();
 extern generateInstances();
+extern void dumpInstance();
 #endif
 
 #endif

@@ -124,7 +124,6 @@ void dumpStatement(statement)
 
   put("STATEMENT: "); dumpSrcp(&statement->srcp); in();
   dumpStatementKind(statement->kind);
-  dumpSrcp(&statement->srcp);
 
   switch(statement->kind) {
   case LOOK_STATEMENT:
