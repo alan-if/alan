@@ -37,6 +37,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct StxNod *stx;
     struct SynNod *syn;
     struct VrbNod *vrb;
+    struct ElmEntry *eent;
     struct List *lst;
     char *str;
   } element;			/* Pointer to any type of element */

@@ -55,7 +55,8 @@ typedef enum nodkd {
   MSGNOD,
   STRNOD,
   REFNOD,
-  LSTNOD
+  LSTNOD,
+  EENTNOD
 } NodKind;
 
 
