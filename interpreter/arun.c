@@ -425,9 +425,15 @@ static void prsym(str)
   case 'p':
     para();
     break;
-  case 't':
-    printf("\t");
+  case 't': {
+    int i;
+    int spaces = 4-(col-1)%4;
+
+    for (i = 0; i<spaces; i++) printf(" ");
+    col = col + spaces;
+    needsp = FALSE;
     break;
+  }
   case '$':
     skipsp = TRUE;
     break;

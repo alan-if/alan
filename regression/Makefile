@@ -2,7 +2,7 @@
 #
 
 all:
-	regression
+	resteam
 
 
 archives: CASES regression.dos
@@ -24,11 +24,11 @@ vms:
 	-rm regression.com
 	for f in *.alan ; do \
 	    case=`basename $${f} .alan` ; \
-	    echo $$ @`basename $${f} .alan`/output=`basename $${f} .alan`.output >> regression.com ; \
-	    echo $$ alan $${f} > `basename $${f} .alan`.com ; \
-	    echo $$ arun `basename $${f} .alan` >> `basename $${f} .alan`.com ; \
-	    cat `basename $${f} .alan`.input >> `basename $${f} .alan`.com ; \
-	    echo $$ diff/output=$${case}.diff $${case}.output $${case}.expected >> regression.com ; \
+	    echo $$ @$${case}/output=$${case}.output >> regression.com ; \
+	    echo $$ alan $${case} > $${case}.com ; \
+	    echo $$ arun $${case} >> $${case}.com ; \
+	    cat $${case}.input >> $${case}.com ; \
+	    echo $$ diff/output=$${case}.diff $${case}.output $${case}.tst.expected >> regression.com ; \
 	done
 	echo $$ pur >> regression.com
 	echo $$ dir/size *.diff >> regression.com
@@ -38,9 +38,9 @@ vms:
 	rm *.com
 
 mac:
-	for f in *.alan ; do \
-	    case=`basename $${f} .alan` ; \
-	    ramp iso2mac $${f} $(HOME)/mac/Alan/Regression/$${f} ; \
+	for f in *.tst ; do \
+	    case=`basename $${f} .tst` ; \
+	    ramp iso2mac $${case}.alan $(HOME)/mac/Alan/Regression/$${case}.alan ; \
 	done
 	@echo Run each test manually!
 	

@@ -5,6 +5,7 @@
 	List Grammar, Statistics;
 	StackLimit 64;
 	Pack RDS;
+	Line;
 
 %%IMPORT
 
@@ -53,8 +54,8 @@
 %%INSERTSYMBOL
 
     /* Make the requested token */
-    sym->code = code;
-    strcpy(sym->chars, sstr);
+    token->code = code;
+    strcpy(token->chars, symString);
 
 
 %%DECLARATIONS
