@@ -40,7 +40,7 @@ void rules()
 	if (trcflg) {
 	  printf("\n<RULE %d (at ", i);
 	  debugsay(cur.loc);
-	  if (!stpflg)
+	  if (!stepFlag)
 	    printf("), Evaluating");
 	  else
 	    printf("), Evaluating:>\n");
@@ -50,7 +50,7 @@ void rules()
 	  change = TRUE;
 	  ruls[i-1].run = TRUE;
 	  if (trcflg) {
-	    if (!stpflg)
+	    if (!stepFlag)
 	      printf(", Executing:>\n");
 	    else {
 	      printf("\nRULE %d (at ", i);
@@ -59,7 +59,7 @@ void rules()
 	    }
 	  }
 	  interpret(ruls[i-1].stms);
-	} else if (trcflg && !stpflg)
+	} else if (trcflg && !stepFlag)
 	  printf(":>\n");
       }
   }

@@ -28,11 +28,11 @@ static int pc;
 
 
 #ifdef _PROTOTYPES_
-static void if_(
+static void interpretIf(
      Aword v
 )
 #else
-static void if_(v)
+static void interpretIf(v)
      Aword v;
 #endif
 {
@@ -62,9 +62,9 @@ static void if_(v)
 
 
 #ifdef _PROTOTYPES_
-static void else_(void)
+static void interpretElse(void)
 #else
-static void else_()
+static void interpretElse()
 #endif
 {
   int lev = 1;
@@ -85,6 +85,59 @@ static void else_()
       }
   }
 }
+
+
+static void interpretFor(Aint local)
+{
+  Aint counter = getLocal(0, local);
+  int level = 1;
+  int i;
+
+  counter++;
+  if (counter > header->instanceMax) {
+    while (TRUE) {
+      /* Skip past ENDFOR on the same level */
+      i = memory[pc++];
+      if (I_CLASS(i) == (Aword)C_STMOP)
+	switch (I_OP(i)) {
+	case I_ENDFOR:
+	  level--;
+	  if (level == 0)
+	    return;
+	  break;
+	case I_FOR:
+	  level++;
+	  break;
+	}
+    }
+  } else
+    setLocal(0, local, counter);
+}
+
+
+static void endFor()
+{
+  int level = 1;
+  int i;
+
+  while (TRUE) {
+    /* Skip back past FOR on the same level */
+    i = memory[--pc];
+    if (I_CLASS(i) == (Aword)C_STMOP)
+      switch (I_OP(i)) {
+      case I_ENDFOR:
+	level++;
+	break;
+      case I_FOR:
+	level--;
+	if (level == 0) {
+	  pc--;
+	  return;
+	}
+	break;
+      }
+  }
+}  
 
 
 #ifdef _PROTOTYPES_
@@ -117,10 +170,10 @@ static void depexec(v)
       i = memory[pc++];
       if (I_CLASS(i) == (Aword)C_STMOP)
 	switch (I_OP(i)) {
-	case I_DEPSTART:
+	case I_DEPEND:
 	  lev++;
 	  break;
-	case I_DEPEND:
+	case I_ENDDEP:
 	  if (lev == 1) {
 	    pc--;
 	    return;
@@ -155,10 +208,10 @@ static void depcase()
     i = memory[pc++];
     if (I_CLASS(i) == (Aword)C_STMOP)
       switch (I_OP(i)) {
-      case I_DEPSTART:
+      case I_DEPEND:
 	lev++;
 	break;
-      case I_DEPEND:
+      case I_ENDDEP:
 	lev--;
 	if (lev == 0) {
 	  pc--;
@@ -183,12 +236,12 @@ void interpret(adr)
   if (adr == 0) syserr("Interpreting at address 0.");
 
   
-  if (stpflg) printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
+  if (stepFlag) printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
   
   oldpc = pc;
   pc = adr;
   while(TRUE) {
-    if (stpflg) printf("\n%4x: ", pc);
+    if (stepFlag) printf("\n%4x: ", pc);
     if (pc > memTop)
       syserr("Interpreting outside program.");
 
@@ -196,33 +249,33 @@ void interpret(adr)
     
     switch (I_CLASS(i)) {
     case C_CONST:
-      if (stpflg) printf("PUSH  \t%5ld", I_OP(i));
+      if (stepFlag) printf("PUSH  \t%5ld", I_OP(i));
       push(I_OP(i));
       break;
     case C_CURVAR:
       switch (I_OP(i)) {
       case V_PARAM:
-	if (stpflg) printf("PARAM \t%5ld\t\t(%ld)", top(), params[top()-1].code);
+	if (stepFlag) printf("PARAM \t%5ld\t\t(%ld)", top(), params[top()-1].code);
 	push(params[pop()-1].code);
 	break;
       case V_CURLOC:
-	if (stpflg) printf("CURLOC \t\t\t(%d)", cur.loc);
+	if (stepFlag) printf("CURLOC \t\t\t(%d)", cur.loc);
 	push(cur.loc);
 	break;
       case V_CURACT:
-	if (stpflg) printf("CURACT \t\t\t(%d)", cur.act);
+	if (stepFlag) printf("CURACT \t\t\t(%d)", cur.act);
 	push(cur.act);
 	break;
       case V_CURVRB:
-	if (stpflg) printf("CURVRB \t\t\t(%d)", cur.vrb);
+	if (stepFlag) printf("CURVRB \t\t\t(%d)", cur.vrb);
 	push(cur.vrb);
 	break;
       case V_CURRENT_INSTANCE:
-	if (stpflg) printf("CURINS \t\t\t(%d)", cur.instance);
+	if (stepFlag) printf("CURINS \t\t\t(%d)", cur.instance);
 	push(cur.instance);
 	break;
       case V_SCORE:
-	if (stpflg) printf("CURSCORE \t\t\t(%d)", cur.score);
+	if (stepFlag) printf("CURSCORE \t\t\t(%d)", cur.score);
 	push(cur.score);
 	break;
       default:
@@ -237,12 +290,12 @@ void interpret(adr)
 	Aword fpos, len;
 	fpos = pop();
 	len = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("PRINT \t%5ld, %5ld\t\"", fpos, len);
 	  col = 34;		/* To format it better! */
 	}
 	print(fpos, len);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\"");
 	break;
       }
@@ -250,7 +303,7 @@ void interpret(adr)
 	Aword fpos, len;
 	fpos = pop();
 	len = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("SYSTEM \t%5ld, %5ld\t\"", fpos, len);
 	  col = 34;		/* To format it better! */
 	}
@@ -261,39 +314,39 @@ void interpret(adr)
 	Aword fpos, len;
 	fpos = pop();
 	len = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("GETSTR\t%5ld, %5ld", fpos, len);
 	getstr(fpos, len);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
       case I_QUIT: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("QUIT");
 	quit();
 	break;
       }
       case I_LOOK: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("LOOK");
 	look();
 	break;
       }
       case I_SAVE: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("SAVE");
 	save();
 	break;
       }
       case I_RESTORE: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("RESTORE");
 	restore();
 	break;
       }
       case I_RESTART: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("RESTART");
 	restart();
 	break;
@@ -301,7 +354,7 @@ void interpret(adr)
       case I_LIST: {
 	Aword cnt;
 	cnt = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("LIST \t%5ld", cnt);
 	list(cnt);
 	break;
@@ -310,7 +363,7 @@ void interpret(adr)
 	Aword cnt, whr;
 	cnt = pop();
 	whr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("EMPTY \t%5ld, %5ld", cnt, whr);
 	empty(cnt, whr);
 	break;
@@ -318,7 +371,7 @@ void interpret(adr)
       case I_SCORE: {
 	Aword sc;
 	sc = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SCORE \t%5ld\t\t(%ld)", sc, scores[sc-1]);
 	score(sc);
 	break;
@@ -326,7 +379,7 @@ void interpret(adr)
       case I_VISITS: {
 	Aword v;
 	v = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("VISITS \t%5ld", v);
 	visits(v);
 	break;
@@ -336,7 +389,7 @@ void interpret(adr)
 	evt = pop();
 	whr = pop();
 	aft = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SCHEDULE \t%5ld, %5ld, %5ld", evt, whr, aft);
 	schedule(evt, whr, aft);
 	break;
@@ -344,7 +397,7 @@ void interpret(adr)
       case I_CANCEL: {
 	Aword evt;
 	evt = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("CANCEL \t%5ld", evt);
 	cancl(evt);
 	break;
@@ -354,7 +407,7 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	val = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("MAKE \t%5ld, %5ld, ", id, atr);
 	  if (val) printf("TRUE"); else printf("FALSE");
 	}
@@ -366,7 +419,7 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	val = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("SET \t%5ld, %5ld, %5ld", id, atr, val);
 	}
 	set(id, atr, val);
@@ -377,7 +430,7 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	str = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("STRSET\t%5ld, %5ld, %5ld", id, atr, str);
 	}
 	setstr(id, atr, str);
@@ -388,7 +441,7 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	step = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("INCR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
 	incr(id, atr, step);
@@ -399,7 +452,7 @@ void interpret(adr)
 	id = pop();
 	atr = pop();
 	step = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("DECR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
 	decr(id, atr, step);
@@ -409,10 +462,10 @@ void interpret(adr)
 	Aword id, atr;
 	id = pop();
 	atr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("ATTRIBUTE %5ld, %5ld", id, atr);
 	push(attribute(id, atr));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -420,10 +473,10 @@ void interpret(adr)
 	Aword id, atr;
 	id = pop();
 	atr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("STRATTR \t%5ld, %5ld", id, atr);
 	push(strattr(id, atr));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -431,7 +484,7 @@ void interpret(adr)
 	Aword id, whr;
 	id = pop();
 	whr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("LOCATE \t%5ld, %5ld", id, whr);
 	locate(id, whr);
 	break;
@@ -439,20 +492,20 @@ void interpret(adr)
       case I_WHERE: {
 	Aword id;
 	id = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("WHERE \t%5ld", id);
 	push(where(id));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t\t(%ld)", top());
 	break;
       }
       case I_HERE: {
 	Aword id;
 	id = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("HERE \t%5ld", id);
 	push(isHere(id));
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -461,10 +514,10 @@ void interpret(adr)
       case I_NEAR: {
 	Aword id;
 	id = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("NEAR \t%5ld", id);
 	push(isNear(id));
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -474,7 +527,7 @@ void interpret(adr)
 	Aword act, scr;
 	act = pop();
 	scr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("USE \t%5ld, %5ld", act, scr);
 	use(act, scr);
 	break;
@@ -483,10 +536,10 @@ void interpret(adr)
 	Aword obj, cnt;
 	obj = pop();
 	cnt = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -495,7 +548,7 @@ void interpret(adr)
       case I_DESCRIBE: {
 	Aword id;
 	id = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("DESCRIBE \t%5ld\t", id);
 	  col = 34;		/* To format it better! */
 	}
@@ -505,51 +558,51 @@ void interpret(adr)
       case I_SAY: {
 	Aword id;
 	id = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SAY \t%5ld\t\t\"", id);
 	say(id);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\"");
 	break;
       }
       case I_SAYINT: {
 	Aword val;
 	val = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SAYINT\t%5ld\t\t\"", val);
 	sayint(val);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\"");
 	break;
       }
       case I_SAYSTR: {
 	Aword adr;
 	adr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SAYSTR\t%5ld\t\t\"", adr);
 	saystr((char *)adr);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\"");
 	break;
       }
       case I_IF: {
 	Aword v;
 	v = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("IF \t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
 	}
-	if_(v);
+	interpretIf(v);
 	break;
       }
       case I_ELSE: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("ELSE");
-	else_();
+	interpretElse();
 	break;
       }
       case I_ENDIF: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("ENDIF");
 	break;
       }
@@ -557,13 +610,13 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("AND \t");
 	  if (lh) printf("TRUE, "); else printf("FALSE, ");
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh && rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -573,13 +626,13 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("OR \t");
 	  if (lh) printf("TRUE, "); else printf("FALSE, ");
 	  if (rh) printf("TRUE"); else printf("FALSE");
         }
 	push(lh || rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -589,10 +642,10 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("NE \t%5ld, %5ld", lh, rh);
 	push(lh != rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -602,10 +655,10 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("EQ \t%5ld, %5ld", lh, rh);
 	push(lh == rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -615,10 +668,10 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("STREQ \t%5ld, %5ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -628,10 +681,10 @@ void interpret(adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("STREXACT \t%5ld, %5ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -643,10 +696,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("LE \t%5ld, %5ld", lh, rh);
 	push(lh <= rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -656,10 +709,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("GE \t%5ld, %5ld", lh, rh);
 	push(lh >= rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -669,10 +722,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("LT \t%5ld, %5ld", lh, rh);
 	push(lh < rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -682,10 +735,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("GT \t%5ld, %5ld", lh, rh);
 	push(lh > rh);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -695,10 +748,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("PLUS \t%5ld, %5ld", lh, rh);
 	push(lh + rh);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -706,10 +759,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("MINUS \t%5ld, %5ld", lh, rh);
 	push(lh - rh);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -717,10 +770,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("MULT \t%5ld, %5ld", lh, rh);
 	push(lh * rh);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -728,22 +781,22 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("DIV \t%5ld, %5ld", lh, rh);
 	push(lh / rh);
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
       case I_NOT: {
 	Aword val;
 	val = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("NOT \t");
 	  if (val) printf("TRUE"); else printf("FALSE");
 	}
 	push(!val);
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t\t(TRUE)");
 	  else printf("\t\t(FALSE)");
 	}
@@ -753,10 +806,10 @@ void interpret(adr)
 	Aword atr, whr;
 	atr = pop();
 	whr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("MAX \t%5ld, %5ld", atr, whr);
 	push(agrmax(atr, whr));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -764,20 +817,20 @@ void interpret(adr)
 	Aword atr, whr;
 	atr = pop();
 	whr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SUM \t%5ld, %5ld", atr, whr);
 	push(agrsum(atr, whr));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
       case I_COUNT: {
 	Aword whr;
 	whr = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("COUNT \t%5ld", whr);
 	push(agrcount(whr));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -785,10 +838,10 @@ void interpret(adr)
 	Aword  from, to;
 	from = pop();
 	to = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("RANDOM \t%5ld, %5ld", from, to);
 	push(rnd(from, to));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -797,10 +850,10 @@ void interpret(adr)
 	high = pop();
 	low = pop();
 	val = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("BETWEEN \t%5ld, %5ld, %5ld", val, low, high);
 	push(btw(val, low, high));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
@@ -808,27 +861,27 @@ void interpret(adr)
 	Aword string, substring;
 	substring = pop();
 	string = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("CONTAINS \t%5ld, %5ld", string, substring);
 	push(contains(string, substring));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%ld)", top());
 	break;
       }
 
       case I_DUP:
-	if (stpflg)
+	if (stepFlag)
 	  printf("DUP");
 	dup();
 	break;
 
-      case I_DEPSTART:
-	if (stpflg)
-	  printf("DEPSTART");
+      case I_DEPEND:
+	if (stepFlag)
+	  printf("DEPEND");
 	break;
 
       case I_DEPCASE:
-	if (stpflg)
+	if (stepFlag)
 	  printf("DEPCASE");
 	depcase();
 	break;
@@ -836,7 +889,7 @@ void interpret(adr)
       case I_DEPEXEC: {
 	Aword v;
 	v = pop();
-	if (stpflg) {
+	if (stepFlag) {
 	  printf("DEPEXEC \t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
 	}
@@ -845,14 +898,14 @@ void interpret(adr)
       }
 	
       case I_DEPELSE:
-	if (stpflg)
+	if (stepFlag)
 	  printf("DEPELSE");
 	depcase();
 	break;
 
-      case I_DEPEND:
-	if (stpflg)
-	  printf("DEPEND");
+      case I_ENDDEP:
+	if (stepFlag)
+	  printf("ENDDEP");
 	pop();
 	break;
 
@@ -860,10 +913,10 @@ void interpret(adr)
 	Aint lh, rh;
 	rh = pop();
 	lh = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("ISA \t%5ld, %5ld", lh, rh);
 	push(isA(lh, rh));
-	if (stpflg) {
+	if (stepFlag) {
 	  if (top()) printf("\t(TRUE)");
 	  else printf("\t(FALSE)");
 	}
@@ -873,7 +926,7 @@ void interpret(adr)
       case I_BLOCK: {
 	Aint size;
 	size = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("BLOCK \t%5ld", size);
 	newBlock(size);
 	break;
@@ -883,10 +936,10 @@ void interpret(adr)
 	Aint blocksBelow, variableNumber;
 	variableNumber = pop();
 	blocksBelow = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("GETLOCAL \t%5ld, %5ld", blocksBelow, variableNumber);
 	push(getLocal(blocksBelow, variableNumber));
-	if (stpflg)
+	if (stepFlag)
 	  printf("\t(%5ld)", top());
 	break;
       }
@@ -896,21 +949,36 @@ void interpret(adr)
 	value = pop();
 	variableNumber = pop();
 	blocksBelow = pop();
-	if (stpflg)
+	if (stepFlag)
 	  printf("SETLOCAL \t%5ld, %5ld, %5ld", blocksBelow, variableNumber, value);
 	setLocal(blocksBelow, variableNumber, value);
 	break;
       }
 
       case I_ENDBLOCK: {
-	if (stpflg)
+	if (stepFlag)
 	  printf("ENDBLOCK");
 	endBlock();
 	break;
       }
 
+      case I_FOR: {
+	Aint local = pop();
+	if (stepFlag)
+	  printf("FOR \t%5ld", local);
+	interpretFor(local);
+	break;
+      }
+
+      case I_ENDFOR: {
+	if (stepFlag)
+	  printf("ENDFOR");
+	endFor();
+	break;
+      }
+
       case I_RETURN:
-	if (stpflg)
+	if (stepFlag)
 	  printf("RETURN\n--------------------------------------------------\n");
 	pc = oldpc;
 	return;

@@ -145,16 +145,18 @@ typedef enum InstClass {
   I_BTW,
   I_CONTAINS,
   I_DUP,
-  I_DEPSTART,
+  I_DEPEND,
   I_DEPCASE,
   I_DEPEXEC,
   I_DEPELSE,
-  I_DEPEND,
+  I_ENDDEP,
   I_ISA,
   I_BLOCK,
   I_SETLOCAL,
   I_GETLOCAL,
-  I_ENDBLOCK
+  I_ENDBLOCK,
+  I_FOR,
+  I_ENDFOR
 } InstClass;
 
 

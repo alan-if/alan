@@ -73,7 +73,7 @@ static void switches(argc, argv)
 	break;
       case 's':
 	trcflg = TRUE;
-	stpflg = TRUE;
+	stepFlag = TRUE;
 	break;
       case 'l':
 	logflg = TRUE;

@@ -59,7 +59,7 @@ extern int pageLength, pageWidth;
 /* Long jump buffer for restart */
 extern jmp_buf restart_label;
 
-extern Boolean verbose, errflg, trcflg, dbgflg, stpflg, logflg, statusflg, regressionflg;
+extern Boolean verbose, errflg, trcflg, dbgflg, stepFlag, logflg, statusflg, regressionflg;
 extern Boolean fail;
 extern Boolean anyOutput;
 extern Boolean needsp;

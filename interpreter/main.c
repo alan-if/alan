@@ -76,7 +76,7 @@ Boolean verbose = FALSE;
 Boolean errflg = TRUE;
 Boolean trcflg = FALSE;
 Boolean dbgflg = FALSE;
-Boolean stpflg = FALSE;
+Boolean stepFlag = FALSE;
 Boolean logflg = FALSE;
 Boolean statusflg = TRUE;
 Boolean regressionflg = FALSE;
@@ -1546,10 +1546,10 @@ static void load()
   }
 
 #ifdef REVERSED
-  if (dbgflg||trcflg||stpflg)
+  if (dbgflg||trcflg||stepFlag)
     output("<Hmm, this is a little-endian machine, fixing byte ordering....");
   reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
-  if (dbgflg||trcflg||stpflg)
+  if (dbgflg||trcflg||stepFlag)
     output("OK.>$n");
 #endif
 }
@@ -1568,12 +1568,12 @@ static void checkdebug()
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
-    if (dbgflg|trcflg|stpflg)
+    if (dbgflg|trcflg|stepFlag)
       printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
     para();
     dbgflg = FALSE;
     trcflg = FALSE;
-    stpflg = FALSE;
+    stepFlag = FALSE;
   }
 
   if (dbgflg)			/* If debugging */

@@ -944,7 +944,7 @@ static void generateDependCase(Expression *exp)
 
   Code generation principle:				Stack:
 
-      DEPSTART
+      DEPEND
 
       depend expression					d-exp
 
@@ -958,29 +958,29 @@ static void generateDependCase(Expression *exp)
       DEPELSE--+ optional
       stmsn----+
 
-      DEPEND
+      ENDDEP
 
   DEPSTART does nothing but must be there to indicate start of a new
   level for skipping over statements.
 
   Executing a DEPCASE or DEPELSE indicates the end of executing a
-  matching case so skip to the DEPEND (on this level).
+  matching case so skip to the ENDDEP (on this level).
 
   After the DEPCASE is a DUP to duplicate the depend expression, then
   comes the case expression and then the operator which does the
   compare.
 
   DEPEXEC inspects the results on the stack top and if true continues
-  else skips to the instruction after next DEPCASE, DEPELSE or to the DEPEND.
+  else skips to the instruction after next DEPCASE, DEPELSE or to the ENDDEP.
 
-  DEPEND just pops off the initially pushed depend expression.
+  ENDDEP just pops off the initially pushed depend expression.
 
   */
 static void generateDepend(StmNod *stm)
 {
   List *cases;
 
-  emit0(C_STMOP, I_DEPSTART);
+  emit0(C_STMOP, I_DEPEND);
   generateExpression(stm->fields.depend.exp);
   /* For each case: */
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
@@ -998,7 +998,7 @@ static void generateDepend(StmNod *stm)
     /* ...and then the statements */
     generateStatements(cases->element.stm->fields.depcase.stms);
   }
-  emit0(C_STMOP, I_DEPEND);
+  emit0(C_STMOP, I_ENDDEP);
 }
 
 

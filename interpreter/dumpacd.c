@@ -621,8 +621,8 @@ static void dumpStms(Aword pc)
 	break;
       }
 
-      case I_DEPSTART:
-	printf("DEPSTART");
+      case I_DEPEND:
+	printf("DEPEND");
 	break;
 
       case I_DEPCASE:
@@ -638,8 +638,8 @@ static void dumpStms(Aword pc)
 	printf("DEPELSE");
 	break;
 
-      case I_DEPEND:
-	printf("DEPEND");
+      case I_ENDDEP:
+	printf("ENDDEP");
 	break;
 
       case I_RETURN:

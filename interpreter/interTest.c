@@ -44,9 +44,34 @@ static void testBlockInstructions()
   unitAssert(pop() == 33);
 }  
 
-  
+
+static Aword forInstructionCode[] = {4, /* Dummy to not execute at zero */
+				     2,
+				     INSTRUCTION(I_BLOCK),
+				     1, /* Local loop variable */
+				     INSTRUCTION(I_FOR),
+				     2,
+				     INSTRUCTION(I_FOR),
+				     INSTRUCTION(I_ENDFOR),
+				     INSTRUCTION(I_ENDFOR),
+				     INSTRUCTION(I_RETURN)};
+
+static AcdHdr testForHeader;
+
+static void testForInstructions()
+{
+  testForHeader.instanceMax = 2;
+  header = &testForHeader;
+  memory = forInstructionCode;
+
+  interpret(1);
+
+  unitAssert(getLocal(0, 1) == 2);
+  unitAssert(getLocal(0, 2) == 2);
+}
 
 void registerInterUnitTests()
 {
   registerUnitTest(testBlockInstructions);
+  registerUnitTest(testForInstructions);
 }
