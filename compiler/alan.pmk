@@ -1247,12 +1247,22 @@ static int val(char str[])
 
 ----> RULES
 <rule>			-- RETURNS: rul
-    = 'WHEN' <expression> '=>' <statements>
+    = 'WHEN' <expression> <then> <statements> <optional_end_when>
     %%
 	%<rule>.rul = newrul(`&%'WHEN'.srcp,
 			   %<expression>.exp,
 			   %<statements>.stms);
     %%
+    ;
+
+<then>
+    = '=>'
+    ! 'THEN'
+    ;
+
+<optional_end_when>
+    =
+    ! 'END' 'WHEN' ['.']
     ;
 
 ---> START

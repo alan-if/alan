@@ -28,6 +28,7 @@ alan.version.[ch]
 alan.voc
 compiler.lha
 compiler.zip
+emitTestAcode
 exp.patch
 pmPaSema.tmp
 pmParse.tmp
