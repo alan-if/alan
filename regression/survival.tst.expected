@@ -1,0 +1,28 @@
+########## survival ##########
+alan survival
+arun survival < survival.input
+########## /bin/sh  survival.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Crashsite.
+There is a spaceship here.
+
+> Inside Airlock.
+
+> Aft Cargo And Fuel Store.
+There is a tube of sealant here.
+
+> Spacecraft Engine Room.
+
+> Spacecraft Control Room.
+There is a electronic key here.
+
+> 'take'? I don't know that word.
+
+> 
+
+Do you want to restart (y) ? 
