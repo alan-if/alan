@@ -401,7 +401,7 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
       lst->element.atr->stringAddress = emadr();
-      emitstr(lst->element.atr->id->string);
+      emitString(lst->element.atr->id->string);
     }
   }
 

@@ -142,7 +142,7 @@ Aword generateScripts(List *scripts, int currentInstance)
     lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps, currentInstance);
     lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr, currentInstance);
     lst->element.scr->stringAddress = emadr();
-    emitstr(lst->element.scr->id->string);
+    emitString(lst->element.scr->id->string);
   }
 
   /* Script table */

@@ -157,10 +157,10 @@ void analyzeAdventure(void)
   Generate the whole adventure.
 
  */
-void geadv(char *acdfnm)	/* IN - ACODE file name */
+void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
 {
-  initEmit(acdfnm);		/* Initialise code emit */
-  eninit();			/* Initialise encoding */
+  initEmit(acodeFileName);		/* Initialise code emit */
+  initEncoding(textFileName, dataFileName);	/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;
   
@@ -197,8 +197,6 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   if (verbose) printf("\n\tCharacter Encoding: ");
   acdHeader.freq = gefreq();	/* Character frequencies */
 
-  /* Copy the string data to the a3c-file and remember the offset */
-  acdHeader.stringOffset = 0;
 
   /* Options */
   geopt(&acdHeader);
@@ -211,10 +209,11 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   /* String initialisation table */
   acdHeader.init = generateStringInit();
 
-  end = emadr();		/* Last address */
-  acdHeader.size = end;		/* Save size */
-  enterm();			/* Terminate ENCODE */
+  acdHeader.size = emadr();	/* Save last address as size */
+  terminateEncoding();
   terminateEmit();
+  emitTextDataToAcodeFile(dataFileName);
+  emitHeader();
   if (verbose) printf("\n");
 }
 

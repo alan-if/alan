@@ -96,7 +96,7 @@ static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
 
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();
-    emitstr(evt->id->string);
+    emitString(evt->id->string);
   } else
     evt->namadr = 0;
   evt->stmadr = emadr();

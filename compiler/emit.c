@@ -122,7 +122,7 @@ void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 
 /*----------------------------------------------------------------------
 
-  emitstr()
+  emitString()
 
   Function to emit strings to the ACD file. Note that strings are
   *always* stored with their first character at the lowest address so
@@ -134,7 +134,7 @@ void emitN(void *address, int noOfWords) /* IN - Constant to emit */
   the word must be reversed before emitting it.
 
 */
-void emitstr(char *str)
+void emitString(char *str)
 {
   int i;
   char *copy;
@@ -463,15 +463,32 @@ void initEmit(
 }
 
 
-void terminateEmit(void)
+void terminateEmit()
 {
-  Aword *hp;			/* Pointer to header as words */
-  int i;
-
   if (pc%BLOCKSIZE > 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
   acdHeader.acdcrc = crc;		/* Save checksum */
+}
+
+
+void emitTextDataToAcodeFile(char dataFileName[])
+{
+  int c;
+  FILE *dataFile = fopen(dataFileName, READ_MODE);
+
+  acdHeader.stringOffset = 0; /* ftell(acdfil); */
+
+  while ((c = fgetc(dataFile)) != EOF)
+    fputc(c, acdfil);
+  fclose(dataFile);
+}
+
+
+void emitHeader()
+{
+  Aword *hp;			/* Pointer to header as words */
+  int i;
 
   (void) rewind(acdfil);
   pc = 0;

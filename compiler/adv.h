@@ -45,7 +45,7 @@ extern AdvNod adv;
 extern void initAdventure(void);
 extern void symbolizeAdventure(void);
 extern void analyzeAdventure(void);
-extern void geadv(char acdfnm[]);
+extern void geadv(char acdfnm[], char txtfnm[], char datfnm[]);
 extern void dumpAdventure(enum dmpKd dmp);
 extern void summary(void);
 

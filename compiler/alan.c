@@ -519,17 +519,15 @@ void compile(void) {
 	_fcreator = 'Arun';
 	_ftype = 'Adat';
 #endif
-    datfil = fopen(datfnm, WRITE_MODE);
     txtfil = fopen(txtfnm, "r");
     if (dbgflg)			/* Force debugging */
       opts[OPTDEBUG].value = TRUE;
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
     start();
-    geadv(acdfnm);
+    geadv(acdfnm, txtfnm, datfnm);
     endgen();			/* End of generating pass */
     fclose(txtfil);
-    fclose(datfil);
   } else {
     lmLog(NULL, 999, sevINF, "");
   }

@@ -160,19 +160,23 @@ static void doneEncoding(void)
 
 /*======================================================================
 
-  eninit()
+  initEncoding()
 
   Prepare for encoding. Calculate the cumulative frequencies for all
   characters encountered in the text. If the model overflows restart
   by dividing all character frequencies by 2.
 
  */
-void eninit(void)
+void initEncoding(char *textFileName, char *dataFileName)
 {
   int i;
   Bool ok = FALSE;		/* Model is ok? */
 
-  /* Now make sure there is at least one character of each */
+  /* Open the temporary text and data files (file of encoded or plain text) */
+  txtfil = fopen(textFileName, READ_MODE);
+  datfil = fopen(dataFileName, WRITE_MODE);
+
+  /* Now make sure there is at least one character of each in frequency table */
   for (i = 0; i <= EOFChar; i++)
     if (chFreq[i] == 0)
       chFreq[i] = 1;
@@ -262,13 +266,14 @@ Aaddr gefreq(void)
 
 /*======================================================================
 
-  enterm()
+  terminateEncoding()
 
   Terminate the encoding process.
 
  */
-void enterm(void)
+void terminateEncoding(void)
 {
+#ifdef __vms__
   int t;
 
   /* Make sure text data file does not end in the last 512-byte block. */
@@ -276,4 +281,8 @@ void enterm(void)
   /* record file!! (RMS stinks!!) */
   for (t = 512-(txtlen%512)+1; t>0; t--)
     putc(0, datfil);
+#endif
+
+  fclose(datfil);
+  fclose(txtfil);
 }

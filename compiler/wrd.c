@@ -293,7 +293,7 @@ static void gewrdstr(WrdNod *wrd) /* IN - Word to generate for */
   
   /* Then this node */
   wrd->stradr = emadr();	/* Save address to string */
-  emitstr(wrd->str);
+  emitString(wrd->str);
   
   /* Then for higher */
   gewrdstr(wrd->high);

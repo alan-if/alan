@@ -59,6 +59,7 @@ void testGenerateInstances()
   unitAssert(address == instanceTableAddress + instanceSize);
   acdHeader.size = address;
   terminateEmit();
+  emitHeader();
 
   loadACD("unit.acd");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];

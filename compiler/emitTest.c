@@ -22,12 +22,12 @@ void testEmit()
   unitAssert(emadr() == expectedAddress);
   expectedAddress = emadr();
 
-  emitstr("123");
+  emitString("123");
   expectedAddress += 1;
   unitAssert(emadr() == expectedAddress);
   expectedAddress = emadr();
 
-  emitstr("1234");
+  emitString("1234");
   expectedAddress += 2;
   unitAssert(emadr() == expectedAddress);
   expectedAddress = emadr();
@@ -49,8 +49,38 @@ void testEmit()
 }
 
 
+static void generateTextDataFile(char textDataFileName[], char textData[])
+{
+  FILE *textDataFile = fopen(textDataFileName, WRITE_MODE);
+  fwrite(textData, strlen(textData), 1, textDataFile);
+  fclose(textDataFile);
+}
+
+
+static void testEmitTextDataToAcodeFile()
+{
+  char textDataFileName[] = "emitTestData";
+  char textData[] = "asfasjfalsfhwerouwr87340183482jlasfls";
+  int i;
+
+  generateTextDataFile(textDataFileName, textData);
+  acdfil = fopen("emitTestAcode", WRITE_MODE);
+  emitTextDataToAcodeFile(textDataFileName);
+  fclose(acdfil);
+  acdfil = fopen("emitTestAcode", READ_MODE);
+  for (i = 0; i < strlen(textData); i ++)
+    if (fgetc(acdfil) != textData[i]) {
+      unitAssert(FALSE);
+    }
+  fclose(acdfil);
+  unlink(textDataFileName);
+}
+  
+
+
 void registerEmitUnitTests()
 {
   registerUnitTest(testEmit);
+  registerUnitTest(testEmitTextDataToAcodeFile);
 }
 

@@ -207,7 +207,7 @@ void analyzeSlots(Slots *slots, Context *context)
 void generateSlotsData(Slots *slots)
 {
   slots->idAddress = emadr();
-  emitstr(slots->id->string);
+  emitString(slots->id->string);
 
   slots->attributeAddress = generateAttributes(slots->attributes);
 
