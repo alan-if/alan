@@ -15,7 +15,7 @@
 #endif
 
 #ifndef __sun__
-#ifdef sun
+#ifdef sun+++
 #define __sun__
 #endif
 #endif
