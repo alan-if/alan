@@ -8,7 +8,7 @@ test.alan
    1.   VERB inventory DOES "i" END VERB.
 ====>        1
 
-  *1*   305 E : 'inventory' also defined as a Container.
+  *1*   305 E : 'inventory' already declared as a Container.
 
    9.   OBJECT obj1 HERE
 ====>   1
