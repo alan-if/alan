@@ -509,11 +509,11 @@ static void prepareNames()
   strcpy(advnam, srcptr);
 
   /* -- check for .ALAN suffix and add one if missing -- */
-  if(strrchr(srcfnm, '.') == NULL) { /* Point to last '.' */
+  if(strrchr(srcptr, '.') == NULL) { /* Point to last '.' */
 #ifdef __dos__
-    strcat(srcfnm, ".ala");	/* Was there none add */
+    strcat(srcptr, ".ala");	/* Was there none add */
 #else
-    strcat(srcfnm, ".alan");	/* Was there none add */
+    strcat(srcptr, ".alan");	/* Was there none add */
 #endif
   } else
     *(strrchr(advnam, '.')) = '\0';
