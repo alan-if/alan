@@ -1115,6 +1115,11 @@ void sayarticle(id)
     syserr("Trying to say article of something *not* an object.");
   if (objs[id-OBJMIN].art != 0)
     interpret(objs[id-OBJMIN].art);
+  else if (msgs[M_ARTICLE].fpos == 0 && msgs[M_ARTICLE].len == 0)
+    /* It's a converted 2.5 game */
+    /* They didn't have ARTICLE */
+    /* so it is probably built into the description */
+    ;
   else
     prmsg(M_ARTICLE);
 }
@@ -1599,7 +1604,7 @@ void restore()
   FILE *savfil;
   char str[256];
   AtrElem *atr;
-  Aword savedVersion;
+  char savedVersion[4];
   char savedName[256];
 
   /* First save ? */
@@ -1626,7 +1631,7 @@ void restore()
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
   /* 4f - save file version check doesn't seem to work on PC's! */
-  if (savedVersion != header->vers) {
+  if (strncmp(savedVersion, header->vers, 4)) {
     fclose(savfil);
     error(M_SAVEVERS);
     return;

@@ -29,7 +29,7 @@
 #include "stack.h"
 #include "exe.h"
 #include "term.h"
-
+#include "c25to26.h"		/* Auto-converter from 2.5 to 2.6 format */
 
 /* PUBLIC DATA */
 
@@ -1225,29 +1225,31 @@ static void checkvers(header)
      AcdHdr *header;
 #endif
 {
-  char *v = (char *)header;
-  char *c = v+1;
-  Aword vers;
+  char vers[4];
   char state[2];
 
-  /* Check version of .ACD file */
-  vers = product.version.version<<8;
-  vers+= product.version.revision;
+  /* Construct our own version */
+  vers[0] = product.version.version;
+  vers[1] = product.version.revision;
 
+  /* Check version of .ACD file */
   if (dbgflg) {
-    state[0] = header->vers&0x0000000ff;
+    state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",
 	   advnam,
-	   (int)(header->vers>>24)&0xff,
-	   (int)(header->vers>>16)&0xff,
-	   (int)(header->vers>>8)&0xff,
-	   (header->vers&0xff)==0? "": state);
+	   (int)(header->vers[0]),
+	   (int)(header->vers[1]),
+	   (int)(header->vers[2]),
+	   (header->vers[3])==0? "": state);
     newline();
   }
 
-  if (((*v)<<8)+(*c) != vers) {
-    if (errflg)
+  /* Compatible if version and revision match... */
+  if (strncmp(header->vers, vers, 2) != 0) {
+    if (header->vers[0] == 2 && header->vers[1] == 5) /* Check for 2.5 version */
+      /* This we can convert later... */;
+    else if (errflg)
       syserr("Incompatible version of ACODE program.");
     else
       printf("<WARNING! Incompatible version of ACODE program.>\n");
@@ -1266,39 +1268,45 @@ static void load(void)
 static void load()
 #endif
 {
-  AcdHdr hdr;
+  AcdHdr tmphdr;
   Aword crc = 0;
   int i;
   char err[100];
 
   rewind(codfil);
-  fread(&hdr, sizeof(hdr), 1, codfil);
+  fread(&tmphdr, sizeof(tmphdr), 1, codfil);
   rewind(codfil);
-  checkvers(&hdr);
+  checkvers(&tmphdr);
 
   /* Allocate and load memory */
 
 #ifdef REVERSED
-  reverseHdr(&hdr);
+  reverseHdr(&tmphdr);
 #endif
+
+  /* No memory allocated yet? */
   if (memory == NULL)
-    memory = allocate(hdr.size*sizeof(Aword));
+    if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
+      /* We need some more memory to expand 2.5 format*/
+      memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1)*sizeof(Aword));
+    else
+      memory = allocate(tmphdr.size*sizeof(Aword));
   header = (AcdHdr *) addrTo(0);
 
-  memTop = fread(addrTo(0), sizeof(Aword), hdr.size, codfil);
-  if (memTop != hdr.size)
+  memTop = fread(addrTo(0), sizeof(Aword), tmphdr.size, codfil);
+  if (memTop != tmphdr.size)
     syserr("Could not read all ACD code.");
 
   /* Calculate checksum */
-  for (i = sizeof(hdr)/sizeof(Aword); i < memTop; i++) {
+  for (i = sizeof(tmphdr)/sizeof(Aword); i < memTop; i++) {
     crc += memory[i]&0xff;
     crc += (memory[i]>>8)&0xff;
     crc += (memory[i]>>16)&0xff;
     crc += (memory[i]>>24)&0xff;
   }
-  if (crc != hdr.acdcrc) {
+  if (crc != tmphdr.acdcrc) {
     sprintf(err, "Checksum error in .ACD file (0x%lx instead of 0x%lx).",
-	    crc, hdr.acdcrc);
+	    crc, tmphdr.acdcrc);
     if (errflg)
       syserr(err);
     else
@@ -1310,6 +1318,10 @@ static void load()
     printf("Hmm, please wait a moment while I set things up....\n");
   reverseACD();		/* Reverse all words in the ACD file */
 #endif
+
+  if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) /* Check for 2.5 version */
+    c25to26ACD();
+
 }
 
 

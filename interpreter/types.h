@@ -122,7 +122,7 @@ typedef struct LocElem {	/* LOCATION TABLE */
 } LocElem;
 
 typedef struct ExtElem {	/* EXIT TABLE structure */
-  Abool rev;			/* Flag for reversing process */
+  Abool done;			/* Flag for reverse/convert process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */
@@ -158,7 +158,7 @@ typedef struct ClaElem {	/* CLASS DEFINITION TABLE */
 } ClaElem;
 
 typedef struct AltElem {	/* VERB ALTERNATIVE TABLE */
-  Abool rev;			/* Flag for reversing process */
+  Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */
   Aword qual;			/* Verb execution qualifier */
   Aaddr checks;			/* Address of the check table */
