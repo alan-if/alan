@@ -1,8 +1,6 @@
 ToDo:
 	* Number registrations!
 
-	* The test case adjverb doesn't work like it should!!!
-
 	* Think about punctuation! Can it be made optional?
 
 	* Checks on containers to augment limits.
@@ -19,7 +17,7 @@ ToDo:
 	parameter was given.
 
 	* The conversion programs does not work on little-endians like
-	PCs since the words are then in written out in native format.
+	PCs since the words are then written out in native format.
 
 	* Think about a way to allow nouns to be capitalized, either
 	automatic but preferably by author choice.
