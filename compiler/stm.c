@@ -320,7 +320,7 @@ static void analyzeUse(StmNod *stm, Context *context)
     if (symbol != NULL) {
       script = lookupScript(symbol, stm->fields.use.script);
       if (script != NULL)
-	stm->fields.use.scriptno = script->id->code;
+	stm->fields.use.script->code = script->id->code;
       else 
 	lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
 	       symbol->kind == CLASS_SYMBOL?"class":"actor",
@@ -779,11 +779,11 @@ static void generateIf(StmNod *stm)
 static void generateUse(StmNod *stm)
 {
   if (stm->fields.use.actorExp == NULL) { /* No actor specified, use current */
-    emitConstant(stm->fields.use.scriptno);
+    emitConstant(stm->fields.use.script->code);
     emitVariable(V_CURRENT_INSTANCE);
     emit0(I_USE);
   } else {
-    emitConstant(stm->fields.use.scriptno);
+    emitConstant(stm->fields.use.script->code);
     generateExpression(stm->fields.use.actorExp);
     emit0(I_USE);
   }
@@ -1265,7 +1265,6 @@ void dumpStatement(StmNod *stm)
       break;
     case USE_STATEMENT:
       put("script: "); dumpId(stm->fields.use.script); nl();
-      put("scriptno: "); dumpInt(stm->fields.use.scriptno); nl();
       put("actor: "); dumpExpression(stm->fields.use.actorExp);
       break;
     case STOP_STATEMENT:
