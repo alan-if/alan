@@ -1,0 +1,54 @@
+########## schedule ##########
+DEFAULT ATTRIBUTES
+    integer_attribute 4.
+
+LOCATION location_id
+END LOCATION location_id.
+
+
+SYNTAX w = w.
+
+VERB w
+DOES
+  "Waiting..."
+END VERB w.
+
+EVENT event_1
+    "This is EVENT_1 happening."
+END EVENT event_1.
+
+EVENT event_2
+    "This is EVENT_2 happening."
+END EVENT event_2.
+
+START AT location_id.
+
+    SCHEDULE event_1 HERE AFTER integer_attribute OF location_id.
+    SCHEDULE event_2 HERE AFTER integer_attribute OF location_id - 3.
+########## alan schedule.alan; arun `basename schedule.alan .alan` < `basename schedule.alan .alan`.input ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Location_id.
+
+> w
+Waiting... This is EVENT_2 happening.
+
+> w
+Waiting...
+
+> w
+Waiting...
+
+> w
+Waiting... This is EVENT_1 happening.
+
+> w
+Waiting...
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
