@@ -11,17 +11,22 @@ arun survival < survival.input
 Crashsite.
 There is a spaceship here.
 
-> Inside Airlock.
+> in
+Inside Airlock.
 
-> Aft Cargo And Fuel Store.
+> s
+Aft Cargo And Fuel Store.
 There is a tube of sealant here.
 
-> Spacecraft Engine Room.
+> e
+Spacecraft Engine Room.
 
-> Spacecraft Control Room.
+> u
+Spacecraft Control Room.
 There is a electronic key here.
 
-> 'take'? I don't know that word.
+> take key
+'take'? I don't know that word.
 
 > 
 

@@ -28,7 +28,8 @@ hör Du Dina föräldrar ropa på Dig! Oh, vad Du är trött på att de alltid skall
 vilja hålla reda på Dig. Som om Du vore någon barnunge! Du är ju trots allt 17
 år.
 
-> På anslagstavlan trängs förra veckans dansbandsaffischer med smålappar om
+> läs anslagstavlan
+På anslagstavlan trängs förra veckans dansbandsaffischer med smålappar om
 borttappade badbyxor. Ett anslag väcker ditt intresse, eftersom det verkar
 vara ganska nytt (det är i alla fall inte sönderslitet ännu, och det är
 dessutom klistrat ovanpå de övriga). Det är ett meddelande från Strandens
@@ -36,96 +37,117 @@ astronomiska förening. Snabbt skummar Du igenom texten, och får veta att det i
 kväll kommer att vara ett ovanligt kraftigt tidvatten på grund av solens och
 månens inbördes förhållande.
 
-> Filtplats.
+> n
+Filtplats.
 Här är ett fint ställe att ligga på. Dina föräldrar har redan brett ut sin
 filt här i sanden, och slängt sig ned på den för att inte missa en gnutta sol. 
 
 - Bra att Du kom, säger Din mor. Här får Du lite pengar ifall Du vill köpa
 något. Hon sticker åt Dig några sedlar.
 
-> Strandmitt.
+> o
+Strandmitt.
 Du står mitt på stranden bland en massa okända människor. Borta i väster kan
 Du se dina föräldrar utfläkta på er gamla vanliga utflyktsfilt. En gammal
 skylt står här. I öster är ett gäng i full färd med att bygga ett sandslott,
 som verkar vara något utöver det vanliga. Längs strandens södra kant ligger
 kiosker och småaffärer av diverse slag.
 
-> Glasskiosk.
+> s
+Glasskiosk.
 Här står en glasskiosk, som verkar gå bra. Det är kanske inte så konstigt i
 den här värmen. Här finns glass av alla slag. En stor strut skulle kanske inte
 vara så dumt!
 
-> Du bär på lite pengar.
+> i
+Du bär på lite pengar.
 
-> Försäljaren tar dina pengar och sticker till dig en strut. Det var egentligen
+> köp glass
+Försäljaren tar dina pengar och sticker till dig en strut. Det var egentligen
 inte alls en sådan Du ville ha, men han är redan hos nästa kund.
 
-> Du bär på en storstrut och en lite pengar.
+> i
+Du bär på en storstrut och en lite pengar.
 
-> P_plats.
+> v
+P_plats.
 Du står på Strandbadets stora parkeringsplats, och ser ut över stranden. Rakt
 fram står grinden öppen till stranden. Intill grinden står en stor
 anslagstavla. Så här tidigt är det ännu inte många bilar här.
 
-> Du vandrar hit och dit utan särskilt mål.
+> v
+Du vandrar hit och dit utan särskilt mål.
 
 Klippa.
 Stranden slutar här i en tvär bergvägg, som Du inte har någon chans att
 klättra uppför. Nyfiken försöker Du gå runt den, men finner att klippan verkar
 sträcka sig ända ned till havet.
 
-> Filtplats.
+> o
+Filtplats.
 Här är ett fint ställe att ligga på. Dina föräldrar har redan brett ut sin
 filt här i sanden, och slängt sig ned på den för att inte missa en gnutta sol.
 
-> Strandmitt.
+> o
+Strandmitt.
 Du står mitt på stranden bland en massa okända människor. Borta i väster kan
 Du se dina föräldrar utfläkta på er gamla vanliga utflyktsfilt. En gammal
 skylt står här. I öster är ett gäng i full färd med att bygga ett sandslott,
 som verkar vara något utöver det vanliga. Längs strandens södra kant ligger
 kiosker och småaffärer av diverse slag.
 
-> Tiden lider, och Du med den. Det är nu mitt på dagen, och solen står nästan
+> vänta
+Tiden lider, och Du med den. Det är nu mitt på dagen, och solen står nästan
 rakt upp.
 
-> Sandslott.
+> o
+Sandslott.
 Ett fantastiskt sandslott håller på att växa fram här. Nyfiken går Du runt
 slottet, och finner att det faktiskt går att gå in i borgen. Du sätter Dig på
 borggården. Det känns skönt att ha ett ställe där man kan gömma sig för
 föräldrarnas vakande blickar.
 
-> Kiosk.
+> s
+Kiosk.
 Här finns en liten butik, som verkar sälja allt möjligt. Det verkar inte
 finnas någon här att handla av för tillfället.
 
-> Du kan inte gå åt det hållet.
+> o
+Du kan inte gå åt det hållet.
 
-> Jag ser ingen kniven här.
+> köp kniven
+Jag ser ingen kniven här.
 
-> Du bär på en storstrut och en lite pengar.
+> i
+Du bär på en storstrut och en lite pengar.
 
-> Sandslott.
+> n
+Sandslott.
 Ett fantastiskt sandslott håller på att växa fram här. Nyfiken går Du runt
 slottet, och finner att det faktiskt går att gå in i borgen. Du sätter Dig på
 borggården. Det känns skönt att ha ett ställe där man kan gömma sig för
 föräldrarnas vakande blickar.
 
-> Östanhav.
+> n
+Östanhav.
 Du har hamnat i vattnet långt bort på strandens östra kant. Här är det ensamt
 i vattnet. På stranden innanför dig är det dock fullt med folk, som håller på
 att bygga på ett enormt sandslott.
 
-> Medelhav.
+> v
+Medelhav.
 Du flyter omkring i vattnet strax utanför stranden. Inne på stranden ser Du
 Dina föräldrar lapande sol. Du ser också ett antal småkiosker. I väster tar
 stranden så småningom slut intill en brant klippa.
 
-> Västanhav.
+> v
+Västanhav.
 Du simmar omkring i det behagliga vattnet. Strömmen är ganska stark, och Du
 kommer ofrivilligt att hamna ganska nära klippan i väster. Klippan är här
 liksom på stranden tämligen ogästvänlig, där den tornar upp sig ur vattnet.
 
-> Just som Du tänker vända inåt stranden, är det något som fångar din blick. Det
+> v
+Just som Du tänker vända inåt stranden, är det något som fångar din blick. Det
 utåtgående tidvattnet har sjunkit undan krafigt den senaste timmen, och precis
 i vattenbrynet syns ett mörkt hål. Nyfiken simmar Du närmare och finner vad
 som verkar vara ingången till en tunnel. Försiktigt tar Du dig fram genom den
@@ -137,11 +159,13 @@ Här, dold djupt inne bland de höga, ogästvänliga klipporna, finner Du en liten
 vik. Det verkar nästan som en naturlig båthamn, men Du kan inte se några båtar
 här nu.
 
-> Tiden lider, och Du med den. Solen vandrar sin stilla ban, och sänker sig vid
+> vänta
+Tiden lider, och Du med den. Solen vandrar sin stilla ban, och sänker sig vid
 horisonten. Dina föräldrar ropar på Dig. De tänker visst fara hem, men själv
 har Du ingen lust att åka ännu.
 
-> Nyfikenheten får Dig att besluta Dig för att undersöka det hela närmare.
+> v
+Nyfikenheten får Dig att besluta Dig för att undersöka det hela närmare.
 
 Västviken.
 Längst in i viken är marken stenig och ogästvänlig. Vassa klippor sticker upp
@@ -149,7 +173,8 @@ ur vattnet. Till Din förvåning ser Du lågt ute i vattnet ett helt skeppsskrov,
 som antagligen brukar ligga under vatten normalt, men som nu blottlagts av det
 ovanligt kraftiga tidvattnet.
 
-> Skäret.
+> n
+Skäret.
 Så här långt ute i vattnet kan du knappt se stranden. Ett gammalt rostigt
 stålskrov ligger här på skäret. Det salta vattnet har tärt hårt på skrovet.
 Rosten färgar till och med det annars klara vattnet rött när det kluckar mot
@@ -158,16 +183,19 @@ skrovet. I sidan på skrovet, mitt framför näsan på dig finns ett stort hål
 att det är detta hål som är den direkta orsaken till att skrovet ligger här
 och rostar sönder.
 
-> Hålet verkar vara gjort av någon projektil eller annat trubbigt föremål som
+> undersök hålet
+Hålet verkar vara gjort av någon projektil eller annat trubbigt föremål som
 trängt igenom sidan utifrån. Kanterna är ganska vassa men rosten och vattnet
 har hjälpts åt att slipa bort det värsta, och en fullvuxen karl skulle numera
 kunna ta sig igenom utan att skada sig (om man är försiktig!).
 
-> Så här utanpå kan man inte direkt finna något intressant, om man inte har ett
+> undersök skrovet
+Så här utanpå kan man inte direkt finna något intressant, om man inte har ett
 speciellt intresse av sönderrostande båtar. Du står dessutom så nära att du
 inte riktigt kan få någon överblick över skrovets utseeende.
 
-> Innanför.
+> in
+Innanför.
 Här inne i det rostande skrovet, är det ganska mörkt, men hålet släpper in
 lite av ljuset utifrån. Lite vatten skvalpar fortfarande kring dina fötter,
 det rinner kanske aldrig ur, hålet är ju några decimeter ifrån botten på
@@ -177,10 +205,12 @@ utrymme. I sidan på skrovet, mitt framför näsan på dig finns ett stort hål
 att det är detta hål som är den direkta orsaken till att skrovet ligger här
 och rostar sönder. Det finns en dörr här.
 
-> Visserligen får du ett gott grepp om handtaget, men hur du än tar i så kan du
+> öppna dörren
+Visserligen får du ett gott grepp om handtaget, men hur du än tar i så kan du
 inte rubba dörren en millimeter.
 
-> Motorrummet.
+> akterut
+Motorrummet.
 Här är motorrummet i skeppet. På både styrbords och babords sida av rummet
 finns öppningar, den på babordssidan är något ljusare än den andra. Två enorma
 dieselturbiner fyller nästan hela rummet. Lukten av olja och dieselbränsle 
@@ -189,49 +219,59 @@ legat här i många, många år, så man tycker att lukten borde gått ur nu. En hel
 del skräp ligger här på durken. Gamla rostiga burkar, sladdar och trasor är 
 spridda överallt.
 
-> Håliga_rummet.
+> styrbord
+Håliga_rummet.
 Här har rosten bitit in duktigt i skrovet. Överallt i sidan på skrovet finns
 små, små hål som släpper in lite ljus, precis så mycket att du ser vad du gör. 
 Både för- och akterut finns öppningar i skrovets skott.
 
-> Trapp1.
+> förut
+Trapp1.
 Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan några som
 helst kännetecken förutom den trappa som börjar borta vid styrbordsskottet och
 leder upp. Det finns en trappan här.
 
-> Trapp_top.
+> upp
+Trapp_top.
 Trappan leder upp, men efter en bit ser du att själva hålet är övertäckt av en
 massa brädor. Längre upp än så här kan du inte komma. Det finns en brädorna 
 här.
 
-> Trapp1.
+> ner
+Trapp1.
 Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan några som
 helst kännetecken förutom den trappa som börjar borta vid styrbordsskottet och
 leder upp. Det finns en trappan här.
 
-> Håliga_rummet.
+> akterut
+Håliga_rummet.
 Här har rosten bitit in duktigt i skrovet. Överallt i sidan på skrovet finns
 små, små hål som släpper in lite ljus, precis så mycket att du ser vad du gör. 
 Både för- och akterut finns öppningar i skrovets skott.
 
-> Du kan inte gå åt det hållet.
+> babord
+Du kan inte gå åt det hållet.
 
-> Trapp1.
+> förut
+Trapp1.
 Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan några som
 helst kännetecken förutom den trappa som börjar borta vid styrbordsskottet och
 leder upp. Det finns en trappan här.
 
-> Lastrum1.
+> förut
+Lastrum1.
 Detta är ytterligare ett av de tomma lastrummen på skeppet. Vad det har
 fraktat en gång i tiden är svårt att avgöra, men någon äcklig goja kletar fast
 på dina fötter. Känns inte lukten av tång starkare nu?
 
-> Lastrum2.
+> babord
+Lastrum2.
 Detta är ytterligare ett av de tomma lastrummen på skeppet. Vad det har
 fraktat en gång i tiden är svårt att avgöra, men någon äcklig goja kletar fast
 på dina fötter. Känns inte lukten av tång starkare nu?
 
-> Trapp2.
+> akterut
+Trapp2.
 Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan några som
 helst kännetecken förutom den trappa som börjar borta vid babordsskottet och
 leder upp. I den aktre änden av lastrummet har samlats en stor pöl med vatten.
@@ -240,12 +280,14 @@ sjunker, och det står en bra bit upp på en dörr i den änden av rummet. Dörren
 buktar ordentligt utåt, in mot rummet på aktre sidan av det skottet. Det finns
 en trappan här.
 
-> Babords_hall_1.
+> upp
+Babords_hall_1.
 Ovanför trappan som leder ned till lastrummet börjar en lång hall. Den
 sträcker sig akteröver förbi ett antal hytter. Åt styrbordsidan ser du en
 annan hall leda akterut. Det finns en trappan här.
 
-> Styrbords_hall_1.
+> styrbord
+Styrbords_hall_1.
 Här börjar en lång hall. Den sträcker sig akteröver förbi ett antal hytter.
 Föröver ligger en annan hytt. Åt babordsidan ser du en annan hall leda akterut. 
 Utfläkt över golvet ligger en STOR tolvarmad bläckfisk. Hans tallriksstora
@@ -253,7 +295,8 @@ Utfläkt över golvet ligger en STOR tolvarmad bläckfisk. Hans tallriksstora
 dina fotleder. Hur du än sliter och slingrar dig har du inte en chans att
 komma loss!
 
-> Du har inget att döda den med!
+> döda bläckfisken
+Du har inget att döda den med!
 
 > 
 
