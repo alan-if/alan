@@ -15,6 +15,13 @@ $include 'invent.i'
 
 $include 'help.i'
 
+
+-- Generall synonyms
+
+SYNONYMS
+	thru = through.
+
+
 -- The limbo location and directions
 $include 'nowhere.i'
 

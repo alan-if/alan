@@ -2,7 +2,7 @@ DEFAULT ATTRIBUTES
 	examinable.
 
 SYNONYMS
-	inspect, 'check' = examine.
+	x, search, inspect, 'check' = examine.
 
 SYNTAX
 	examine = examine (obj) *

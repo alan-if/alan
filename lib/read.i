@@ -1,6 +1,9 @@
 OBJECT ATTRIBUTES
     NOT readable.
 
+SYNONYMS
+	browse = read.
+
 SYNTAX
     read = read (obj)
 	WHERE obj ISA OBJECT

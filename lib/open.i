@@ -3,6 +3,9 @@ OBJECT ATTRIBUTES
 	NOT closable.
 	closed.
 
+SYNONYMS
+	unwrap, uncover, undo = open.
+
 SYNTAX
 	open = open (obj)
 		WHERE obj ISA OBJECT
