@@ -149,6 +149,38 @@ AtrNod *symatr(NamNod *nam, SymNod *sym)
 
 /*======================================================================
 
+  sortatr()
+
+  Sort a list of attributes.
+
+ */
+void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
+{
+  Bool change;			/* Change during sorting */
+  List **lstp;			/* Pointer to a list pointer */
+  List *tmp1, *tmp2;		/* Temporary pointers */
+
+  if (*alstp != NULL) {
+    change = TRUE;
+    while (change) {
+      change = FALSE;
+      for (lstp = alstp; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
+	tmp1 = *lstp;
+	tmp2 = tmp1->next;
+	if (tmp1->element.atr->nam->code > tmp2->element.atr->nam->code){
+	  change = TRUE;
+	  tmp1->next = tmp2->next;
+	  tmp2->next = tmp1;
+	  *lstp = tmp2;
+	}
+      }
+    }
+  }
+}
+
+
+/*======================================================================
+
   prepatrs()
 
   Number all default attributes.
@@ -176,6 +208,7 @@ void prepatrs(void)
       lst->element.atr->nam->code = atr->nam->code;
     }
   }
+  sortatr(&adv.aatrs);
 
   /* Location attributes */
   latrmax = atrmax;
@@ -190,6 +223,7 @@ void prepatrs(void)
       lst->element.atr->nam->code = atr->nam->code;
     }
   }
+  sortatr(&adv.latrs);
 
   /* Object attributes */
   oatrmax = atrmax;
@@ -204,6 +238,7 @@ void prepatrs(void)
       lst->element.atr->nam->code = atr->nam->code;
     }
   }
+  sortatr(&adv.oatrs);
 }
 
 
@@ -229,38 +264,6 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
 }
 
 
-
-
-/*======================================================================
-
-  sortatr()
-
-  Sort a list of attributes.
-
- */
-void sortatr(List **alstp)	/* IN - pointer to a pointer to the list */
-{
-  Bool change;		/* Change during sorting */
-  List **lstp;			/* Pointer to a list pointer */
-  List *tmp1, *tmp2;		/* Temporary pointers */
-
-  if (*alstp != NULL) {
-    change = TRUE;
-    while (change) {
-      change = FALSE;
-      for (lstp = alstp; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
-	tmp1 = *lstp;
-	tmp2 = tmp1->next;
-	if (tmp1->element.atr->nam->code > tmp2->element.atr->nam->code){
-	  change = TRUE;
-	  tmp1->next = tmp2->next;
-	  tmp2->next = tmp1;
-	  *lstp = tmp2;
-	}
-      }
-    }
-  }
-}
 
 
 /*----------------------------------------------------------------------
@@ -295,9 +298,9 @@ static void geatr(AtrNod *atr)	/* IN - Attribute to generate for */
   Generate all entries in an attribute list.
 
  */
-Aword geatrs(List *atrs,	/* IN - List of attribute nodes */
-	     List *datrs,	/* IN - List of class default attributes */
-	     List *gatrs)	/* IN - List of general default attributes */
+Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
+             List *datrs,       /* IN - List of class default attributes */
+             List *gatrs)       /* IN - List of general default attributes */
 {
   Aaddr adr;
   List *lst, *dlst, *glst;
@@ -314,13 +317,13 @@ Aword geatrs(List *atrs,	/* IN - List of attribute nodes */
     }
     if (datrs != NULL && datrs->element.atr->stradr == 0)
       for (lst = datrs; lst != NULL; lst = lst->next) {
-	lst->element.atr->stradr = emadr();
-	emitstr(lst->element.atr->nam->str);
+        lst->element.atr->stradr = emadr();
+        emitstr(lst->element.atr->nam->str);
       }
     if (gatrs != NULL && gatrs->element.atr->stradr == 0)
       for (lst = gatrs; lst != NULL; lst = lst->next) {
-	lst->element.atr->stradr = emadr();
-	emitstr(lst->element.atr->nam->str);
+        lst->element.atr->stradr = emadr();
+        emitstr(lst->element.atr->nam->str);
       }
   }
 
@@ -352,70 +355,70 @@ Aword geatrs(List *atrs,	/* IN - List of attribute nodes */
       break;
 
       /* Two lists remaining */
-    case 3:			/* lst, dlst != NULL */
+    case 3:                     /* lst, dlst != NULL */
       if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
-	/* There is a default attribute with lower number, so generate it */
-	geatr(dlst->element.atr);
-	dlst = dlst->next;
+        /* There is a default attribute with lower number, so generate it */
+        geatr(dlst->element.atr);
+        dlst = dlst->next;
       } else {
-	geatr(lst->element.atr);
-	lst = lst->next;
-	dlst = dlst->next;
+        geatr(lst->element.atr);
+        lst = lst->next;
+        dlst = dlst->next;
       }
       break;
 
-    case 5:			/* lst, glst != NULL */
+    case 5:                     /* lst, glst != NULL */
       if (glst->element.atr->nam->code < lst->element.atr->nam->code) {
-	/* There is a default attribute with lower number, so generate it */
-	geatr(glst->element.atr);
-	glst = glst->next;
+        /* There is a default attribute with lower number, so generate it */
+        geatr(glst->element.atr);
+        glst = glst->next;
       } else {
-	geatr(lst->element.atr);
-	lst = lst->next;
-	glst = glst->next;
+        geatr(lst->element.atr);
+        lst = lst->next;
+        glst = glst->next;
       }
       break;
 
-    case 6:			/* dst, glst != NULL */
+    case 6:                     /* dst, glst != NULL */
       if (glst->element.atr->nam->code < dlst->element.atr->nam->code) {
-	/* There is a general default attribute with lower number */
-	geatr(glst->element.atr);
-	glst = glst->next;
+        /* There is a general default attribute with lower number */
+        geatr(glst->element.atr);
+        glst = glst->next;
       } else {
-	geatr(dlst->element.atr);
-	dlst = dlst->next;
-	glst = glst->next;
+        geatr(dlst->element.atr);
+        dlst = dlst->next;
+        glst = glst->next;
       }
       break;
 
       /* And now for the most complex case, all lists != NULL */
     case 7:
       if (glst->element.atr->nam->code < dlst->element.atr->nam->code && glst->element.atr->nam->code < lst->element.atr->nam->code) {
-	/* There is a general default attribute with lower number than
-	   the one in the class default list and in the local list,
-	   so generate it */
-	geatr(glst->element.atr);
-	glst = glst->next;
+        /* There is a general default attribute with lower number than
+           the one in the class default list and in the local list,
+           so generate it */
+        geatr(glst->element.atr);
+        glst = glst->next;
       } else if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
-	/* There is a class default attribute with lower number than
-	   the one in the local list, so generate it */
-	geatr(dlst->element.atr);
-	if (glst->element.atr->nam->code == dlst->element.atr->nam->code)
-	  /* If the global attribute has the same number advance it too */
-	  glst = glst->next;
-	/* Advance the class default */
-	dlst = dlst->next;
+        /* There is a class default attribute with lower number than
+           the one in the local list, so generate it */
+        geatr(dlst->element.atr);
+        if (glst->element.atr->nam->code == dlst->element.atr->nam->code)
+          /* If the global attribute has the same number advance it too */
+          glst = glst->next;
+        /* Advance the class default */
+        dlst = dlst->next;
       } else {
-	/* The local attribute is a local instance of some default attribute */
-	geatr(lst->element.atr);
-	/* If the general deafult attribute has the same number advance it */
-	if (glst->element.atr->nam->code == lst->element.atr->nam->code)
-	  glst = glst->next;
-	/* If the class default attribute has the same number advance it */
-	if (dlst->element.atr->nam->code == lst->element.atr->nam->code)
-	  glst = glst->next;
-	/* Advance local attribute */
-	lst = lst->next;
+        /* The local attribute is a local instance of some default attribute */
+        geatr(lst->element.atr);
+        /* If the general deafult attribute has the same number advance it */
+        if (glst->element.atr->nam->code == lst->element.atr->nam->code)
+          glst = glst->next;
+        /* If the class default attribute has the same number advance it */
+        if (dlst->element.atr->nam->code == lst->element.atr->nam->code)
+          dlst = dlst->next;
+        /* Advance local attribute */
+        lst = lst->next;
       }
       break;
 
@@ -432,7 +435,7 @@ Aword geatrs(List *atrs,	/* IN - List of attribute nodes */
 
   geinit()
 
-  Dump an Attribute node.
+  Generate initialisation value table for string attributes.
 
  */
 Aaddr geinit(void)

@@ -1,11 +1,18 @@
 ToDo:
-	* The character set used by the compiler ought to be
-	configurable through an option
 
-		Option
-		 Charset ISO/DOS/MAC.
+	* is/are, have/has singular/plural in the documentation
 
-	* Describe the typical Alan "application" in the manual
+	* Attribute that are entity types. Probably his ties in with
+	the classing mechanism in that a reference can only be changed
+	to something a sub class of what it was initially set to.
+
+	* The 3.0 beta things:
+		EVERY x <class declaration>
+		THE y ISA x ...
+		THING, OBJECT, LOCATION, ACTOR, CONTAINER predefined.
+
+	which implies a more general "entity" type particularly in the
+	interpreter.
 
 	* EMPTY location where, or possibly LOCATE ALL <condition>
 	<where> (This was prompted by the darkness and light example,
@@ -20,12 +27,15 @@ ToDo:
 
 		LOCATE ALL HERE AT cave.
 		MAKE ALL OBJECT WITH size > 3 heavy.
-		SET state OF ALL machine HERE HAVING power TO on.
+		SET state OF ALL creature HERE AND IS hungry TO 0.
 
-	* The 3.0 beta things:
-		EVERY x <class declaration>
-		THE y ISA x ...
-		THING, OBJECT, LOCATION, ACTOR, CONTAINER predefined.
+	* The character set used by the compiler ought to be
+	configurable through an option
+
+		Option
+		 Charset ISO/DOS/MAC.
+
+	* Describe the typical Alan "application" in the manual
 
 	* Investigate the possibility to allow:
 
@@ -219,4 +229,6 @@ DONE:
 
 	* Change the interpreter to only look at its own name if no
 	parameter was given.
+
+	* Fix the lerchj attribute bug (regression/oatrs)
 

@@ -267,6 +267,7 @@ void duadv(enum dmpkd dmp)
   put("atrs: "); dulst(adv.atrs, ATRNOD); nl();
   put("oatrs: "); dulst(adv.oatrs, ATRNOD); nl();
   put("latrs: "); dulst(adv.latrs, ATRNOD); nl();
+  put("aatrs: "); dulst(adv.aatrs, ATRNOD); nl();
   put("scores: "); nl();
   put("syns: "); if (dmp&DMPSYN) dulst(adv.syns, SYNNOD); else put("--"); nl();
   put("stxs: "); if (dmp&DMPSTX) dulst(adv.stxs, STXNOD); else put("--"); nl();

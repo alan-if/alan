@@ -1,3 +1,10 @@
+Thu Nov 27 13:39:04 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* Removed a bug in the attribute generation code which gave wrong
+	indices to attributes for e.g. an object which had redefinition of
+	default attributes in the middle of its attribute list. Thanks to
+	Jürgen Lerch (lerchj@rz.uni-duesseldorf.de) for reporting this.
+
 Tue Oct 21 18:42:02 1997  Thomas Nilsson  <thoni@rabbit>
 
 	* Changed the interpreter to only look at its own name only if no
