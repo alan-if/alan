@@ -4,145 +4,18 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>163.89</origest>
-<currest>163.89</currest>
-<elapsed>47.89</elapsed>
+<origest>166.89</origest>
+<currest>166.89</currest>
+<elapsed>50.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>23.83</origest>
-<currest>23.83</currest>
-<elapsed>4.83</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.23</desc>
-<notes/>
-<priority>2</priority>
-<origest>7.83</origest>
-<currest>7.83</currest>
-<elapsed>4.83</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
-<notes>Create a temporary structure in the symbol table
-This structure should be refered to first to see if the identifier is there
-
-Requires:
-  Two new calls newFrame and killFrame
-  A Frame stack in the symbol table.
-
-DONE:
-- Frame handling
-- Local symbols
-
-TODO:
-- Calculate levels below from frame level (how to remember frames during code generation?)
-- Generate GET/SET-LOCAL from ID with symbols of LOCAL kind</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verb bodies should by default apply to all parameters</desc>
-<notes>Default parameter for a WHEN-less verb body should be reset to 0 (meaning it will execute for all parameter places).
-(It did not work to force a WHEN clause, this was not the common case).
-Document this behaviour and point out that if a verb body gets executed more than once you should consider a WHEN clause on that verb.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for verb bodies with no WHEN clauses if it has more than one parameter</desc>
-<notes>Verbs in locations are represented by the parameter number -1, a no-when-clause body by 0, and others by their parameter number</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Adding a Verb that is already present gives sub-optimal error message</desc>
-<notes>Design:
-Refactor out a function verbAlreadyDeclared() which takes an existing verb identifier and looks for it in a verb list.
-This could be called from both analyzeVerbs() and addVerb().
-
-Requirement:
-See exampe, a better message would be "Can not add because it is already defined for obj." Would require a loop like the one in property analysis, which could probably be refactored out.
-
-addVerb.alan
-
-    1.  Every obj Isa object
-    3.    End Verb.
-    4.  End Every.
-    5.
-    6.  Add To Every obj
-    7.    Verb x Does "x/y"
-=====&gt;         1
-
-  *1*   220 W : Multiple definition of verb 'x' in this context.
-
-    8.    End Verb.
-    9.  End Add.
-   10.
-   11.  The l Isa location
-   12.  End The l.
-   13.
-   14.  Start At l.
-   15.
-
-        No detected errors.
-        1 warning(s).
-        1 informational message(s).</notes>
-<priority>2</priority>
-<origest>0.83</origest>
-<currest>0.83</currest>
-<elapsed>0.83</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document verb lookup, especially for alternatives and locations</desc>
-<notes>Remember that a verb added to an entity will be inherite by both locations and things and will be executed for both the current location and the parameter(s)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Mentioned clause in location should override Name clause</desc>
-<notes>Also warn for this.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>24</origest>
+<currest>24</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Prohibit SAY for boolean attributes</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for verbs added to entity</desc>
-<notes>
-.. since this is inherited by both locations and things. Probably they mean to put it on things.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.24</desc>
 <notes/>
@@ -161,13 +34,19 @@ addVerb.alan
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: Multiple syntax verbs</desc>
-<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
-E.g.
-Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
-Syntax b = v1 (p1) Where p1 Isa Container ...
-Verb a, b
-Here a reference to p1 should be considered to be either Object, Actor or Container
+<desc>Multiple restrictions for the same parameter</desc>
+<notes>
+Must allow for gradually refinement of a parameter in a restriction:
+
+Where p Isa thing Else ...
+And p Isa object Else ...
+And p Isa movable_object Else ...
+
+Analysis should verify that later restrictions restrict to subclasses of the earlier.
+
+This also should be noted in the symbol-&gt;fields.parameter.class so that the most restrictive is used.
+
+Also check "Restrictions can only restrict to one class" in Strategies
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -201,7 +80,8 @@ has been done an actor is a container which is not recognized by verifyContainer
 </task>
 <task>
 <desc>Can't assign to loop variable</desc>
-<notes/>
+<notes>Check and error message? Or does the current syntax make it impossible?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -267,27 +147,6 @@ END DEPEND.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Multiple restrictions for the same parameter</desc>
-<notes>
-Must allow for gradually refinement of a parameter in a restriction:
-
-Where p Isa thing Else ...
-And p Isa object Else ...
-And p Isa movable_object Else ...
-
-Analysis should verify that later restrictions restrict to subclasses of the earlier.
-
-This also should be noted in the symbol-&gt;fields.parameter.class so that the most restrictive is used.
-
-Also check "Restrictions can only restrict to one class" in Strategies
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Stop ACTOR</desc>
 <notes>
 To interupt an actors execution of a script you have to have an empty script and do:
@@ -300,6 +159,21 @@ Another suggestion would be:
 
 START actor USING script.
 STOP actor.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Multiple syntax verbs</desc>
+<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
+E.g.
+Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
+Syntax b = v1 (p1) Where p1 Isa Container ...
+Verb a, b
+Here a reference to p1 should be considered to be either Object, Actor or Container
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -348,8 +222,8 @@ STOP actor.
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -361,16 +235,6 @@ STOP actor.
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-</task>
-<task>
-<desc>Pending</desc>
-<notes/>
-<priority>2</priority>
-<origest>95</origest>
-<currest>95</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
 <task>
 <desc>Verb declarations with multiple verbs</desc>
 <notes>How do we handle
@@ -398,6 +262,37 @@ Also need to consider how to warn for the same verb declared without a parameter
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Default syntax with parameter</desc>
+<notes>Does it work to refer to the default parameter "object"?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) = 0</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>String operators</desc>
+<notes>
+concatenation
+substring extraction
+substring searching
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Locals should override directions</desc>
 <notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
@@ -406,6 +301,59 @@ Also need to consider how to warn for the same verb declared without a parameter
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Increment: version 3.0.27</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Clause on containers for removing things/Actor clash</desc>
+<notes>
+Actor-clash handling, i.e. what happens when an object is removed from an actor? How to specify if this is possible and what the actor does? Possibly a new clause in containers:
+
+ REMOVED
+   CHECK monster Is sleeping
+   DOES Make monster Not sleeping.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;scripts&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Pending</desc>
+<notes/>
+<priority>2</priority>
+<origest>87</origest>
+<currest>87</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Full listing on the screen misses lines</desc>
 <notes>
@@ -492,24 +440,6 @@ FOR EACH instance ISA entity DO
 </task>
 </task>
 <task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;scripts&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Multiple but different syntaxes for same verb</desc>
 <notes>
 For multiple syntax verbs to be really useful it should be possible to use the parameters in different order in the syntaxes:
@@ -529,34 +459,12 @@ We will have to refer to either parameter 1 or 2 for a reference to thing depend
 <isopen>1</isopen>
 </task>
 <task>
-<desc>String operators</desc>
-<notes>
-concatenation
-substring extraction
-substring searching
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Bug: Spaces after $o at end of string</desc>
 <notes>
 SteveG:
 Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
 
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) = 0</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -774,22 +682,6 @@ Currently they are not described at all.</notes>
 regression/pending/instanceAndVerb.alan
 
 syserr() because 'l' is both an instance and a verb.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Clause on containers for removing things/Actor clash</desc>
-<notes>
-Actor-clash handling, i.e. what happens when an object is removed from an actor? How to specify if this is possible and what the actor does? Possibly a new clause in containers:
-
- REMOVED
-   CHECK monster Is sleeping
-   DOES Make monster Not sleeping.
-
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1253,6 +1145,20 @@ Could it be possible to use the CHECKs (as in the ALL handling) when disambiguat
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Restrictions may make warning for multiply executed verb bodies wrong</desc>
+<notes>If a syntax has more than one parameter and one is restricted to classes to which the verb body does not apply, the body will not be executed more than once:
+
+Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
+
+Add To Every object
+  Verb x ...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>How to read the end point of a direction?</desc>
 <notes>
 Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
@@ -1578,31 +1484,6 @@ make the types be pointers instead of nodes ("ClassNodePtr cla" instead of "Clas
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Global CHECK?</desc>
-<notes>
-What is this for?
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Restrictions may make warning for multiply executed verb bodies wrong</desc>
-<notes>If a syntax has more than one parameter and one is restricted to classes to which the verb body does not apply, the body will not be executed more than once:
-
-Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
-
-Add To Every object
-  Verb x ...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Strategies</desc>
@@ -1750,13 +1631,24 @@ This strategy makes it possible to use the same script code for all instances th
 <desc>Obsolete</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Global CHECK?</desc>
+<notes>
+What is this for?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1789,9 +1681,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>42.06</origest>
-<currest>42.06</currest>
-<elapsed>42.06</elapsed>
+<origest>49.89</origest>
+<currest>49.89</currest>
+<elapsed>49.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -3418,7 +3310,7 @@ Objects are now default-described by the mention-clause which is generated by th
 <origest>10.06</origest>
 <currest>10.06</currest>
 <elapsed>10.06</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Pre-defined classes literal, integer &amp; string</desc>
 <notes>Need to have those class numbers also in the interpreter (ACODE.h)
@@ -3562,6 +3454,133 @@ Verify and produce an error.</notes>
 <task>
 <desc>Warn for locations with container property</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.23</desc>
+<notes/>
+<priority>2</priority>
+<origest>7.83</origest>
+<currest>7.83</currest>
+<elapsed>7.83</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
+<notes>Create a temporary structure in the symbol table
+This structure should be refered to first to see if the identifier is there
+
+Requires:
+  Two new calls newFrame and killFrame
+  A Frame stack in the symbol table.
+
+DONE:
+- Frame handling
+- Local symbols
+
+TODO:
+- Calculate levels below from frame level (how to remember frames during code generation?)
+- Generate GET/SET-LOCAL from ID with symbols of LOCAL kind</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verb bodies should by default apply to all parameters</desc>
+<notes>Default parameter for a WHEN-less verb body should be reset to 0 (meaning it will execute for all parameter places).
+(It did not work to force a WHEN clause, this was not the common case).
+Document this behaviour and point out that if a verb body gets executed more than once you should consider a WHEN clause on that verb.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for verb bodies with no WHEN clauses if it has more than one parameter</desc>
+<notes>Verbs in locations are represented by the parameter number -1, a no-when-clause body by 0, and others by their parameter number</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Adding a Verb that is already present gives sub-optimal error message</desc>
+<notes>Design:
+Refactor out a function verbAlreadyDeclared() which takes an existing verb identifier and looks for it in a verb list.
+This could be called from both analyzeVerbs() and addVerb().
+
+Requirement:
+See exampe, a better message would be "Can not add because it is already defined for obj." Would require a loop like the one in property analysis, which could probably be refactored out.
+
+addVerb.alan
+
+    1.  Every obj Isa object
+    3.    End Verb.
+    4.  End Every.
+    5.
+    6.  Add To Every obj
+    7.    Verb x Does "x/y"
+=====&gt;         1
+
+  *1*   220 W : Multiple definition of verb 'x' in this context.
+
+    8.    End Verb.
+    9.  End Add.
+   10.
+   11.  The l Isa location
+   12.  End The l.
+   13.
+   14.  Start At l.
+   15.
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).</notes>
+<priority>2</priority>
+<origest>0.83</origest>
+<currest>0.83</currest>
+<elapsed>0.83</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document verb lookup, especially for alternatives and locations</desc>
+<notes>Remember that a verb added to an entity will be inherite by both locations and things and will be executed for both the current location and the parameter(s)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Mentioned clause in location should override Name clause</desc>
+<notes>Also warn for this.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Prohibit SAY for boolean attributes</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for verbs added to entity</desc>
+<notes>
+.. since this is inherited by both locations and things. Probably they mean to put it on things.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

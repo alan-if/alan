@@ -1,6 +1,28 @@
+2003-02-28    <Thomas Nilsson@THONI>
+
+	* v3.0.23dev
+
+	* Implemented a looping construct, For Each.
+
+	* Verb bodies are now executed only for those parameters they have
+	an alternative for.
+
+	* Global verbs removed. Use inheritance instead. Verbs in the
+	current location still executed first.
+
 Wed Jan 29 08:54:25     2003
 
-	* v3.0.22
+	* v3.0.22dev
+
+	* pre-defined class hierarchy "finished", including integer and
+	string (to which you can add verbs)
+
+	* verbs with parameters must be associated to a class or instance
+
+	* execution of checks and verb bodies through out the complete
+	inheritance tree of the parameters
+
+	* updated library for current semantics
 
 Mon Jan 20 23:22:41     2003
 
