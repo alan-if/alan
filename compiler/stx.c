@@ -99,26 +99,27 @@ static void setDefaultRestriction(List *parameters)
  */
 static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 {
-  SymNod *sym;
+  SymNod *verbSymbol;
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Find which verb it defines */
-  sym = lookup(stx->id->string);  /* Find earlier definition */
-  if (sym == NULL) {
+  verbSymbol = lookup(stx->id->string);  /* Find earlier definition */
+  if (verbSymbol == NULL) {
     if (stx->id->string[0] != '$') /* generated id? */
       lmLog(&stx->id->srcp, 207, sevWAR, stx->id->string);
-  } else if (sym->kind != VERB_SYMBOL)
+  } else if (verbSymbol->kind != VERB_SYMBOL)
     lmLog(&stx->id->srcp, 208, sevWAR, stx->id->string);
   else {
-    stx->id->symbol = sym;
-    stx->id->code = sym->code;
+    stx->id->symbol = verbSymbol;
+    stx->id->code = verbSymbol->code;
   }
 
   stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
-  setParameters(sym, stx->parameters);
-  anress(stx->restrictionLists, sym->fields.verb.parameterSymbols);
-  setDefaultRestriction(sym->fields.verb.parameterSymbols);
+  setParameters(verbSymbol, stx->parameters);
+  analyzeRestrictions(stx->restrictionLists,
+		      verbSymbol->fields.verb.parameterSymbols);
+  setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
 
   /* Link the last syntax element to this stx to prepare for code generation */
   stx->elements->tail->element.elm->stx = stx;
@@ -290,7 +291,7 @@ Aaddr gestxs(void)
 
   /* First generate all class restriction checks */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    lst->element.stx->resadr = geress(lst->element.stx->restrictionLists, lst->element.stx);
+    lst->element.stx->resadr = generateRestrictions(lst->element.stx->restrictionLists, lst->element.stx);
 
   /* Then the actual stxs */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)

@@ -21,20 +21,13 @@
 
 /* FUNCTIONS: */
 
-/* Create a new element Restriction node */
-extern ResNod *newres(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *class,
-		      List *stms);
-
-/* Analyze a list of Restriction nodes */
-extern void anress(List *ress, List *params);
-
-/* Generate code for a list of Restriction nodes */
-extern Aaddr geress(List *ress, StxNod *stx);
-
-/* Dump a Restriction node */
-extern void dures(ResNod *res);
+extern ResNod *newRestriction(Srcp *srcp,
+			      IdNode *id,
+			      IdNode *class,
+			      List *stms);
+extern Aaddr generateRestrictions(List *ress, StxNod *stx);
+extern void analyzeRestrictions(List *ress, List *params);
+extern void dumpRestriction(ResNod *res);
 
 
 #endif

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
                                RES.C
-		   Element Class Restriction Nodes
+		   Syntax Element Restriction Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -29,15 +29,16 @@
 
 /*======================================================================
 
-  newres()
+  newRestriction()
 
   Allocates and initialises an element class restriction node.
 
  */
-ResNod *newres(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,	/* IN - The name */
-	       IdNode *classId,	/* IN - Allowed class */
-	       List *stms)	/* IN - Statements to execute otherwise */
+ResNod *newRestriction(
+    Srcp *srcp,			/* IN - Source Position */
+    IdNode *id,			/* IN - The name */
+    IdNode *classId,		/* IN - Allowed class */
+    List *stms)			/* IN - Statements to execute otherwise */
 {
   ResNod *new;			/* The newly created node */
 
@@ -55,34 +56,23 @@ ResNod *newres(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*----------------------------------------------------------------------
-
-  anres()
-
-  Analyzes one element class restriction node.
-
- */
-static void anres(
-     ResNod *res,		/* IN - Restriction node to analyze */
-     List *params		/* IN - The syntax parameters as symbols */
-)
+static SymNod *findParameter(ResNod *res, List *parameterSymbols)
 {
-  Bool found = FALSE;
   List *p;
-  Context context;
-  SymNod *classSymbol;
 
-  /* Check for the id in the parameter list */
-  for (p = params; p != NULL; p = p->next) {
+  for (p = parameterSymbols; p != NULL; p = p->next) {
     if (p->element.sym->kind != PARAMETER_SYMBOL)
-      syserr("Not a parameter symbol in anres()");
-    if (equalId(res->id, p->element.sym->fields.parameter.element->id)) {
-      found = TRUE;
-      break;
-    }
+      syserr("Not a parameter symbol in analyzeRestriction()");
+    if (equalId(res->id, p->element.sym->fields.parameter.element->id))
+      return p->element.sym;
   }
-  if (!found)
-    lmLog(&res->id->srcp, 222, sevERR, res->id->string);
+  return NULL;
+}
+
+
+static void resolveParameterClass(ResNod *res, SymNod *parameter)
+{
+  SymNod *classSymbol;
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
   if (res->classId == NULL) {
@@ -104,9 +94,30 @@ static void anres(
   }
 
   /* Set the class in the corresponding parameter symbol */
-  p->element.sym->fields.parameter.class = classSymbol;
-  p->element.sym->fields.parameter.type = INSTANCE_TYPE;
+  parameter->fields.parameter.class = classSymbol;
+  parameter->fields.parameter.type = INSTANCE_TYPE;
+}
 
+/*----------------------------------------------------------------------
+
+  analyzeRestriction()
+
+  Analyzes one element class restriction node.
+
+ */
+static void analyzeRestriction(
+  ResNod *res,			/* IN - Restriction node to analyze */
+  List *parameterSymbols	/* IN - The syntax parameters as symbols */
+)
+{
+  SymNod *parameter;
+  Context context;
+
+  parameter = findParameter(res, parameterSymbols);
+  if (parameter == NULL)
+    lmLog(&res->id->srcp, 222, sevERR, res->id->string);
+
+  resolveParameterClass(res, parameter);
 
   /* Analyse the statements to execute if the restrictions was not met */
   /* FIXME: we need to send the restriction inverted in the context also */
@@ -118,33 +129,31 @@ static void anres(
 
 /*======================================================================
 
-  anress()
+  analyzeRestrictions()
 
   Analyzes all class restriction nodes in a list by calling the analyzer
   for each.
 
  */
-void anress(
-    List *ress,			/* IN - List of nodes to analyze */
-    List *params		/* IN - The parameters */
+void analyzeRestrictions(
+    List *restrictions,		/* IN - List of nodes to analyze */
+    List *parameterSymbols	/* IN - The parameters */
 )
 {
   List *lst;
 
-  for (lst = ress; lst != NULL; lst = lst->next)
-    anres(lst->element.res, params);
+  for (lst = restrictions; lst != NULL; lst = lst->next)
+    analyzeRestriction(lst->element.res, parameterSymbols);
 }
 
 
 
 /*----------------------------------------------------------------------
 
-  geres()
-
-  Generate code for one syntax class restriction node.
+  generateRestrictionParts()
 
  */
-static void geres(ResNod *res)	/* IN - Node to generate */
+static void generateRestrictionParts(ResNod *res)
 {
   res->stmadr = emadr();
   gestms(res->stms, NULL);
@@ -155,12 +164,10 @@ static void geres(ResNod *res)	/* IN - Node to generate */
 
 /*----------------------------------------------------------------------
 
-  geresent()
-
-  Generate an entry for one restriction node.
+  generateRestrictionEntry()
 
  */
-static void geresent(ResNod *res) /* IN - Node to generate */
+static void generateRestrictionEntry(ResNod *res)
 {
   RestrictionEntry restriction;
 
@@ -175,29 +182,28 @@ static void geresent(ResNod *res) /* IN - Node to generate */
 
 /*======================================================================
 
-  geress()
-
-  Generate the data structure for the element class restrictions.
+  generateRestrictions()
 
  */
-Aaddr geress(List *ress,	/* IN - The element class restriction nodes */
-	     StxNod *stx)	/* IN - Syntax node containing the res */
+Aaddr generateRestrictions(
+    List *restrictions,		/* IN - The element class restriction nodes */
+    StxNod *stx)		/* IN - Syntax node containing the res */
 {
   List *lst;
-  Aaddr resadr;
+  Aaddr address;
 
-  for (lst = ress; lst != NULL; lst = lst->next)
-    geres(lst->element.res);
+  for (lst = restrictions; lst != NULL; lst = lst->next)
+    generateRestrictionParts(lst->element.res);
 
-  resadr = emadr();
-  for (lst = ress; lst != NULL; lst = lst->next)
-    geresent(lst->element.res);
+  address = emadr();
+  for (lst = restrictions; lst != NULL; lst = lst->next)
+    generateRestrictionEntry(lst->element.res);
 
   /* End it with an End of file and the code for the verb */
   emit(EOF);
   generateId(stx->id);
 
-  return(resadr);
+  return(address);
 }
 
 

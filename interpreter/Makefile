@@ -11,22 +11,23 @@ CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 LDFLAGS = -g $(CYGWIN) $(VERBOSE)
 #LIB = ../../Glk/WinGlk/Glk.lib
 
-VERSIONOBJECTS = arun.o \
-	main.o \
-	debug.o \
-	args.o \
-	exe.o \
-	inter.o \
-	parse.o \
-	rules.o \
-	stack.o \
-	decode.o \
-	term.o \
-	reverse.o \
-	readline.o \
-	params.o \
-	sysdep.o
+VERSIONSRCS = arun.c \
+	main.c \
+	debug.c \
+	args.c \
+	exe.c \
+	inter.c \
+	parse.c \
+	rules.c \
+	stack.c \
+	decode.c \
+	term.c \
+	reverse.c \
+	readline.c \
+	params.c \
+	sysdep.c
 
+VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 OBJECTS = $(VERSIONOBJECTS) alan.version.o
 
 
@@ -34,9 +35,6 @@ arun.exe : $(OBJECTS)
 	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
-
-dumpacd: dumpacd.o reverse.o spa.o
-	$(CC) -o dumpacd $(CFLAGS) dumpacd.o reverse.o spa.o
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
@@ -51,15 +49,17 @@ strip:
 #
 alan.version.h :
 	cd ..; venum -write always -all alan
-	cp ../alan.version.h .
+	cp -p ../alan.version.h .
 
 version.h :
 	cd ..; venum -write always -all alan
-	cp ../version.h .
+	cp -p ../version.h .
 
-alan.version.c: $(VERSIONOBJECTS) ../alan.version
+../alan.version: $(VERSIONSRCS) 
 	cd ..; venum alan time
-	cp ../alan.version.c .
+
+alan.version.c:  ../alan.version
+	cp -p ../alan.version.c .
 
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---

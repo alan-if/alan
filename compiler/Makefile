@@ -96,7 +96,9 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 #
 # If you build this on any machine without ToolMaker, remove "src"
 #
-all alan : .tmstamp test $(MAINOBJECTS) Makefile
+all : .tmstamp test alan Makefile
+
+alan: $(MAINOBJECTS)
 	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
@@ -130,9 +132,7 @@ unit : $(TESTOBJS)
 
 # Run all unit tests!
 test: unit
-	@echo -n "******************************"
 	@unit
-	@echo "******************************"
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -158,18 +158,20 @@ depend:
 #
 alan.version.h :
 	cd ..; venum -write always -all alan
-	cp ../alan.version.h .
+	cp -p ../alan.version.h .
 
 version.h :
 	cd ..; venum -write always -all alan
-	cp ../version.h .
+	cp -p ../version.h .
 
-alan.version.c: $(VERSIONSRCS) ../alan.version
+../alan.version: $(VERSIONSRCS) 
 	cd ..; venum alan time
-	cp ../alan.version.c .
+
+alan.version.c:  ../alan.version
+	cp -p ../alan.version.c .
 
 acode.h: ../interpreter/acode.h
-	cp ../interpreter/acode.h .
+	cp -p ../interpreter/acode.h .
 #
 include dependencies.mk
 

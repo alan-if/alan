@@ -468,10 +468,10 @@ static int val(char str[])
 <class_restriction>
     = ID 'ISA' <class_id> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
-	%<class_restriction>.res = newres(`&%'ISA'.srcp,
-			  		%ID.id,
-					%<class_id>.id,
-				    	%<statements>.stms);
+	%<class_restriction>.res = newRestriction(`&%'ISA'.srcp,
+			  			  %ID.id,
+						  %<class_id>.id,
+						  %<statements>.stms);
     %%
     ;
 

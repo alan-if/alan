@@ -399,10 +399,10 @@ int rule			/* IN production number */
     case 49: { /* <class_restriction> = ID 'ISA' <class_id> 'ELSE' <statements>; */
 #line 470 "alan.pmk"
 
-	pmSeSt[pmStkP+1].res = newres(&pmSySt[pmStkP+2].srcp,
-			  		pmSeSt[pmStkP+1].id,
-					pmSeSt[pmStkP+3].id,
-				    	pmSeSt[pmStkP+5].stms);
+	pmSeSt[pmStkP+1].res = newRestriction(&pmSySt[pmStkP+2].srcp,
+			  			  pmSeSt[pmStkP+1].id,
+						  pmSeSt[pmStkP+3].id,
+						  pmSeSt[pmStkP+5].stms);
     	break;}
     case 50: { /* <class_id> = ID; */
 #line 480 "alan.pmk"

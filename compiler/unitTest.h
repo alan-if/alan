@@ -43,8 +43,10 @@ static void unitTest(void)
     (*current->theCase)();
   }
   if (failed == 0)
-    printf("\nAll %d cases PASSED!!\n", passed);
-  else
-    printf("\n%d of %d cases FAILED!!\n", failed, passed+failed);
+    printf("All %d unit tests PASSED!!\n", passed);
+  else {
+    printf("******************************\n");
+    printf("%d of %d unit tests FAILED!!\n", failed, passed+failed);
+    printf("******************************\n");
+  }
 }
-
