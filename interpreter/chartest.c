@@ -5,7 +5,7 @@
 
 #define __win__
 
-#ifndef __MINGW32__
+#ifndef _x_MINGW32__
 #include <termios.h>
 
 static struct termios term;

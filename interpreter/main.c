@@ -1312,6 +1312,7 @@ static void moveActor(int theActor)
   if (theActor == HERO) {
     /* Ask him! */
     parse();
+    capitalize = TRUE;
     fail = FALSE;			/* fail only aborts one actor */
   } else if (admin[theActor].script != 0) {
     for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++) {
@@ -1379,9 +1380,6 @@ void run(void)
   load();			/* Load program */
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
-#ifdef HAVE_WINGLK
-  winglk_app_set_name(adventureName);
-#endif
 
   init();			/* Initialise and start the adventure */
 

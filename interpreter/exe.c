@@ -1650,7 +1650,8 @@ void saveGame(void)
   frefid_t saveFileRef;
   strid_t saveFile;
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Write, 0);
-  if (saveFileRef == NULL) return;
+  if (saveFileRef == NULL)
+    error(M_SAVEFAILED);
   saveFile = glk_stream_open_file(saveFileRef, filemode_Write, 0);
 
 #else

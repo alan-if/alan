@@ -96,13 +96,15 @@ int main(
       usage();
       terminate(0);
     }
+  } else {
+    winglk_app_set_name(adventureName);
+    
 #else
     printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
 #endif
   }
-
 #ifdef HAVE_WINGLK
   winglk_window_set_title(adventureName);
 #endif

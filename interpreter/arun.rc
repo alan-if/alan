@@ -6,11 +6,11 @@ BEGIN
     POPUP "&Arun"
     BEGIN
         MENUITEM "Res&tart",			ID_MENU_RESTART
-        MENUITEM "&Save",			ID_MENU_SAVE
-        MENUITEM "&Restore",			ID_MENU_RESTORE
-        MENUITEM "Record &commands",		ID_MENU_RECORD
-        MENUITEM "&Playback commands",		ID_MENU_PLAYBACK
-        MENUITEM "&Transcript",			ID_MENU_TRANSCRIPT
+        MENUITEM "&Save...",			ID_MENU_SAVE
+        MENUITEM "&Restore...",			ID_MENU_RESTORE
+        MENUITEM "Record &commands...",		ID_MENU_RECORD
+        MENUITEM "&Playback commands...",	ID_MENU_PLAYBACK
+        MENUITEM "&Transcript...",		ID_MENU_TRANSCRIPT
         MENUITEM "&About Arun",			ID_MENU_ABOUT
     END
 END
