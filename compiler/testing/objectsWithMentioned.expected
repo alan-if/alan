@@ -1,0 +1,24 @@
+########## objectsWithMentioned ##########
+The l
+  Isa Location.
+End The l.
+
+The o
+  Isa object.
+  At l.
+  Mentioned
+    "an object called 'o'"
+End The o.
+
+The p
+  Isa object.
+  At l.
+  Mentioned
+    "an object called 'p'"
+End The p.
+
+Start At l.
+########## alan objectsWithMentioned.alan ##########
+
+        No warnings or errors detected.
+
