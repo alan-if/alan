@@ -1,12 +1,16 @@
+Fri Jul 26 10:45:16 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Font sensitivity (esp. proportional fonts)
+
 Thu Jul 25 11:23:10 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* The "plant pot plant in plant pot" problem
 
 	* Allow subparts of LOCATIONS to be in any order
 
-	* METAVERB, som skulle betyda att det inte tar någon tick
+	* METAVERB, takes no tick
 
-	* Namngivna scripts: SCRIPT <id>, USE <id> FOR actor
+	* Named scripts: SCRIPT <id>, USE <id> FOR actor
 
 	* MESSAGE : STATEMENTS
 

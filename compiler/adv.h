@@ -11,6 +11,7 @@
 /* Types: */
 
 typedef struct AdvNod {		/* ADVenture */
+  List *atrs;			/* List of default attributes */
   List *oatrs;			/* List of default object attributes */
   List *latrs;			/* List of default location attributes */
   List *aatrs;			/* List of default actor attributes */

@@ -5,8 +5,10 @@
 #include "alan.h"
 
 #include "srcp.h"
+#include "sym.h"
 #include "nam.h"
 #include "exp.h"
+#include "elm.h"
 
 #include "emit.h"
 
@@ -20,13 +22,15 @@ typedef struct AtrNod {		/* ATTRIBUTE */
   Aword stradr;			/* Acode address to the attribute name */
   Aword adr;			/* Acode address to the attribute value */
   int val;			/* The initial value */
-  Bool encoded;		/* For string attributes... */
+  Bool encoded;			/* For string attributes... */
   long fpos;
   int len;
 } AtrNod;
 
 
 /* Data: */
+
+extern int atrmax;
 
 
 /* Functions: */
@@ -43,10 +47,17 @@ extern AtrNod *newatr(Srcp *srcp,
 
 /* Find a particular attribute */
 extern AtrNod *findatr(char atr[],
-		       List *lst);
+		       List *lst,
+		       List *def);
 
 /* Sort the attributes in a list */
 extern void sortatr(List **alstp);
+
+/* Verify parameter attribute */
+extern AtrNod *paramatr(NamNod *nam, ElmNod *elm);
+
+/* Verify a symbol attribute */
+extern AtrNod *symatr(NamNod *nam, SymNod *sym);
 
 /* Prepare all default attributes before analysis */
 extern void prepatrs(void);
@@ -56,7 +67,8 @@ extern void anatrs(List *atrs);
 
 /* Generate an attribute table */
 extern Aaddr geatrs(List *atrs,
-		    List *datrs);
+		    List *datrs,
+		    List *gatrs);
 
 /* Generate the string initialisation table */
 extern Aaddr geinit(void);
@@ -67,6 +79,8 @@ extern void duatr(AtrNod *atr);
 #else
 extern AtrNod *newatr();
 extern AtrNod *findatr();
+extern AtrNod *paramatr();
+extern AtrNod *symatr();
 extern void sortatr();
 extern void anatrs();
 extern void prepatrs();

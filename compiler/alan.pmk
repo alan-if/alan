@@ -202,7 +202,12 @@ units
     ;
 
 unit
-    = object_default
+    = default
+    %%
+	adv.atrs = combine(adv.atrs, %default.atrs);
+    %%
+
+    ! object_default
     %%
 	adv.oatrs = combine(adv.oatrs, %object_default.atrs);
     %%
@@ -269,6 +274,13 @@ unit
     ;
 
 ----> DEFAULTS
+default				-- RETURNS: atrs
+    = 'ATTRIBUTES' attributes				%+('MESSAGE')
+    %%
+	%default.atrs = %attributes.atrs;
+    %%
+    ;
+
 location_default		-- RETURNS: atrs
     = 'LOCATION' 'ATTRIBUTES' attributes		%+('MESSAGE')
     %%

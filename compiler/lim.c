@@ -93,7 +93,7 @@ void anlim(lim)
   if (strcmp(atr->nam->str, "count") == 0)
     atr->nam->code = 0;		/* Use zero for the COUNT attribute */
   else {
-    a = findatr(atr->nam->str, adv.oatrs);
+    a = findatr(atr->nam->str, adv.oatrs, adv.atrs);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->typ != TYPINT)

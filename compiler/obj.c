@@ -133,7 +133,7 @@ void prepobjs()
     /* Then number all attributes */
     i = oatrmax + 1;	/* First local is higher than global attrs. */
     for (alst = obj->atrs; alst != NULL; alst = alst->next) {
-      atr = findatr(alst->element.atr->nam->str, adv.oatrs);
+      atr = findatr(alst->element.atr->nam->str, adv.oatrs, adv.atrs);
       if (atr == NULL)
 	/* Must be a local attribute */
 	alst->element.atr->nam->code = i++;
@@ -346,7 +346,7 @@ static void geobj(obj)
      ObjNod *obj;		/* IN - The object */
 #endif
 {
-  obj->atradr = geatrs(obj->atrs, adv.oatrs);
+  obj->atradr = geatrs(obj->atrs, adv.oatrs, adv.atrs);
   geobjdscrs(obj);
   obj->vrbadr = gevrbs(obj->vrbs, NULL);
 }

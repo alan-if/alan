@@ -117,6 +117,7 @@ void anadv()
   SymNod *sym;
   ElmNod *elm;
 
+  anatrs(adv.atrs);
   anatrs(adv.oatrs);
   anatrs(adv.latrs);
   anatrs(adv.aatrs);
@@ -288,6 +289,7 @@ void duadv(dmp)
     dmp = (enum dmpkd)-1L;
 
   put("ADV: "); in();
+  put("atrs: "); dulst(adv.atrs, ATRNOD); nl();
   put("oatrs: "); dulst(adv.oatrs, ATRNOD); nl();
   put("latrs: "); dulst(adv.latrs, ATRNOD); nl();
   put("scores: "); nl();

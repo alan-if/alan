@@ -1,0 +1,33 @@
+########## multclass ##########
+alan multclass
+########## /bin/sh  multclass.tst ##########
+
+
+multclass.alan
+
+   21.        IF dobj IS propernamed THEN
+=====>                   1
+
+  *1*   404 E : Attribute to a parameter must be a default attribute.
+
+   28.    AND dobj IS takable
+=====>                1
+
+  *1*   404 E : Attribute to a parameter must be a default attribute.
+
+   33.      LOCATE dobj IN inventory.
+=====>      1
+
+  *1*   402 E : An Actor can't be inside a Container.
+
+   36.  
+=====>  1
+
+  *1*   101 E : 'START' 'HERE' '.' inserted.
+  *1*   211 E : Adventure must start at a Location.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -22,7 +22,7 @@
 typedef struct ResNod {		/* RESTRICTION */
   Srcp srcp;			/* Source position of this element */
   NamNod *nam;			/* Name */
-  Bool single;		/* TRUE if a single class */
+  Bool single;			/* TRUE if a single class */
   NamKind classes;		/* The classes the id may have */
   List *stms;			/* Statements to execute if not */
   Aaddr stmadr;			/* GE - Address to generated statements */

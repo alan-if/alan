@@ -1,3 +1,9 @@
+Fri Jul 26 13:48:24 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Added general default attribute available for all Actors,
+	Objects and Locations. Allows for example examine to act on both
+	actors and objects in a much better way.
+
 Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Allowed arbitrary order between initial location and names on
@@ -13,7 +19,7 @@ Tue May 21 13:39:39 1996  Thomas Nilsson  <thoni@rabbit>
 Fri Apr 12 11:05:41 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Finally allowed "no" prefix for boolean options, as in "No
-        Debug", note that the current version of the manual is wrong
+        Debug", note that the 2.6 version of the manual is wrong
 
 	* Fixed the unexisting FPU and article problems in the DOS port
 
@@ -135,7 +141,7 @@ Wed Dec  8 16:15:01 1993  Thomas Nilsson  (thoni@rabbit)
 	* Allowed multiple default attribute declarations.
 
 	* Allowed string quotes within strings and single quotes within
-	qouted ids (double them).
+	quoted ids (double them).
 
 	* Renaming the interpreter makes it look for code and data files
 	with the same basename.

@@ -192,7 +192,6 @@ static void anatr(exp, evt, pars)
   AtrNod *atr;
   SymNod *sym;			/* The symbol table node */
   ElmNod *elm;			/* A parameter element */
-  List *defatrs;		/* Default attributes to consult */
 
   if (exp->fields.atr.wht->class == EXPWHT) {
     switch (exp->fields.atr.wht->fields.wht.wht->wht) {
@@ -201,7 +200,7 @@ static void anatr(exp, evt, pars)
       if (evt != NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 412, sevERR, "");
       else {
-	atr = findatr(exp->fields.atr.atr->str, adv.aatrs);
+	atr = findatr(exp->fields.atr.atr->str, adv.aatrs, adv.atrs);
 	if (atr == NULL) {		/* attribute not found globally */
 	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "ACTOR");
 	  exp->typ = TYPUNK;
@@ -213,7 +212,7 @@ static void anatr(exp, evt, pars)
       break;
 
     case WHT_LOC:
-      atr = findatr(exp->fields.atr.atr->str, adv.latrs);
+      atr = findatr(exp->fields.atr.atr->str, adv.latrs, adv.atrs);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "LOCATION");
 	exp->typ = TYPUNK;
@@ -226,7 +225,7 @@ static void anatr(exp, evt, pars)
     case WHT_OBJ:
       if (pars == NULL)
 	lmLog(&exp->fields.atr.wht->fields.wht.wht->srcp, 409, sevERR, "");
-      atr = findatr(exp->fields.atr.atr->str, adv.oatrs);
+      atr = findatr(exp->fields.atr.atr->str, adv.oatrs, adv.atrs);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "OBJECT");
 	exp->typ = TYPUNK;
@@ -239,50 +238,34 @@ static void anatr(exp, evt, pars)
     case WHT_ID:
       symcheck(&sym, &elm, exp->fields.atr.wht->fields.wht.wht->nam,
 	       NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-      /* If it was a parameter the parameter must be of a single class */
-      /* and the attribute a default attribute for that class */
       atr = NULL;
       if (elm) {
-	if (elm->res == NULL || elm->res->single) {
-	  if (elm->res == NULL || (elm->res->classes & NAMOBJ) != 0 || (elm->res->classes & NAMCOBJ) != 0)
-	    atr = findatr(exp->fields.atr.atr->str, adv.oatrs);
-	  else if ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0)
-	    atr = findatr(exp->fields.atr.atr->str, adv.aatrs);
-	  else
-	    lmLog(&exp->fields.atr.atr->srcp, 406, sevERR, "");
-	  if (atr == NULL) {	/* Not a default attribute */
-	    lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "a parameter");
-	    exp->typ = TYPUNK;
-	  } else {
-	    exp->fields.atr.atr->code = atr->nam->code;
-	    exp->typ = atr->typ;
-	  }
-	} else
-	  lmLog(&exp->fields.atr.atr->srcp, 405, sevERR, "attribute expression");
+	/* It was an element, i.e. syntax parameter */
+	atr = paramatr(exp->fields.atr.atr, elm);
+	if (atr == NULL) {	/* Not a default attribute */
+	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "a parameter");
+	  exp->typ = TYPUNK;
+	} else {
+	  exp->fields.atr.atr->code = atr->nam->code;
+	  exp->typ = atr->typ;
+	}
       } else if (sym) {
 	switch (sym->class) {
 	case NAMLOC:
-	  sym = lookup(exp->fields.atr.wht->fields.wht.wht->nam->str);
-	  atr = findatr(exp->fields.atr.atr->str, ((LocNod *)sym->ref)->atrs);
-	  defatrs = adv.latrs;	/* Default attributes are location attrs. */
+	  atr = findatr(exp->fields.atr.atr->str, ((LocNod *)sym->ref)->atrs, adv.latrs);
 	  break;
 	case NAMOBJ:
-	  sym = lookup(exp->fields.atr.wht->fields.wht.wht->nam->str);
-	  atr = findatr(exp->fields.atr.atr->str, ((ObjNod *)sym->ref)->atrs);
-	  defatrs = adv.oatrs;	/* Default attributes are object attrs. */
+	  atr = findatr(exp->fields.atr.atr->str, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
 	  break;
 	case NAMACT:
-	  sym = lookup(exp->fields.atr.wht->fields.wht.wht->nam->str);
-	  atr = findatr(exp->fields.atr.atr->str, ((ActNod *)sym->ref)->atrs);
-	  defatrs = adv.aatrs;	/* Default attributes are actor attrs. */
+	  atr = findatr(exp->fields.atr.atr->str, ((ActNod *)sym->ref)->atrs, adv.aatrs);
 	  break;
 	default:
-	  defatrs = NULL;
 	  break;
 	}
 	if (atr == NULL) {	/* Attribute not found locally */
-	  /* Try default attributes */
-	  if ((atr = findatr(exp->fields.atr.atr->str, defatrs)) == NULL) {
+	  /* Try general default attributes */
+	  if ((atr = findatr(exp->fields.atr.atr->str, adv.atrs, NULL)) == NULL) {
 	    /* Still didn't find it */
 	    lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
 		  exp->fields.atr.wht->fields.wht.wht->nam->str);
@@ -410,7 +393,7 @@ static void anagr(exp, evt, pars)
 
   exp->typ = TYPINT;
   if (exp->fields.agr.agr != AGR_COUNT) {
-    atr = findatr(exp->fields.agr.atrnam->str, adv.oatrs);
+    atr = findatr(exp->fields.agr.atrnam->str, adv.oatrs, adv.atrs);
     if (atr == NULL) {		/* attribute not found globally */
       lmLog(&exp->fields.agr.atrnam->srcp, 404, sevERR,
 	    "OBJECT in aggregate expression");

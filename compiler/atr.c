@@ -22,6 +22,10 @@
 #include "dump.h"
 
 
+/* Exported data: */
+
+int atrmax;
+
 
 
 /*======================================================================
@@ -75,13 +79,14 @@ AtrNod *newatr(srcp, typ, nam, val, fpos, len)
 
  */
 #ifdef _PROTOTYPES_
-AtrNod *findatr(char *atr, List *atrlst)
+AtrNod *findatr(char *atr, List *atrlst, List *defatrs)
                 		/* IN - name of attribute to find */
                   		/* IN - attribute list */
 #else
-AtrNod *findatr(atr, atrlst)
+AtrNod *findatr(atr, atrlst, defatrs)
      char atr[];		/* IN - name of attribute to find */
      List *atrlst;		/* IN - attribute list */
+     List *defatrs;		/* IN - default attribute list */
 #endif
 {
   List *lst;
@@ -90,10 +95,86 @@ AtrNod *findatr(atr, atrlst)
     if (strcmp(lst->element.atr->nam->str, atr) == 0)
       return (lst->element.atr);
 
+  for (lst = defatrs; lst != NULL; lst = lst->next)
+    if (strcmp(lst->element.atr->nam->str, atr) == 0)
+      return (lst->element.atr);
+
   return(NULL);
 }
 
 
+
+/*======================================================================
+
+  paramatr()
+
+  Verify the existence of a attribute for a particular parameter.
+
+  */
+#ifdef _PROTOTYPES_
+AtrNod *paramatr(NamNod *nam, ElmNod *elm)
+#else
+AtrNod *paramatr(nam, elm)
+     NamNod *nam;
+     ElmNod *elm;
+#endif
+{
+  AtrNod *atr = NULL;
+
+  if (elm->res == NULL || elm->res->single) {
+    /* No restriction (default = OBJECT) or explicit single class! */
+    if (elm->res == NULL || (elm->res->classes & NAMOBJ) != 0 || (elm->res->classes & NAMCOBJ) != 0)
+      /* Object or Container Object! */
+      atr = findatr(nam->str, adv.oatrs, adv.atrs);
+    else if ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0)
+      /* Actor or Container Actor! */
+      atr = findatr(nam->str, adv.aatrs, adv.atrs);
+    else /* Containers, Integers and Strings have no attributes... */
+      lmLog(&nam->srcp, 406, sevERR, "");
+  } else
+    /* Multiple classes, so can only be in general default attributes */
+    atr = findatr(nam->str, adv.atrs, NULL);
+
+  return atr;
+}
+
+
+/*======================================================================
+
+  symatr()
+
+  Verify the existence of a attribute for a symbol.
+
+  */
+#ifdef _PROTOTYPES_
+AtrNod *symatr(NamNod *nam, SymNod *sym)
+#else
+AtrNod *matr(nam, sym)
+     NamNod *nam;
+     SymNod *sym;
+#endif
+{
+  AtrNod *atr = NULL;
+
+  switch (sym->class) {
+  case NAMOBJ:
+    atr = findatr(nam->str, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
+    break;
+  case NAMLOC:
+    atr = findatr(nam->str, ((LocNod *)sym->ref)->atrs, adv.latrs);
+    break;
+  case NAMACT:
+    atr = findatr(nam->str, ((ActNod *)sym->ref)->atrs, adv.aatrs);
+    break;
+  }
+  if (atr == NULL) {	/* Attribute not found locally */
+    /* Try general default attributes */
+    atr = findatr(nam->str, adv.atrs, NULL);
+  }
+  return atr;
+}
+
+  
 
 /*======================================================================
 
@@ -111,6 +192,8 @@ void prepatrs()
   List *lst;       /* List pointer*/
   
   /* Number all default attributes */
+  for (lst = adv.atrs; lst != NULL; lst = lst->next)
+    lst->element.atr->nam->code = ++atrmax;
   for (lst = adv.aatrs; lst != NULL; lst = lst->next)
     lst->element.atr->nam->code = ++aatrmax;
   for (lst = adv.latrs; lst != NULL; lst = lst->next)
@@ -227,19 +310,22 @@ static void geatr(atr)
 
  */
 #ifdef _PROTOTYPES_
-Aword geatrs(List *atrs, List *datrs)
+Aword geatrs(List *atrs, List *datrs, List *gatrs)
                 	/* IN - List of attribute nodes */
-                 	/* IN - List of default attributes */
+                 	/* IN - List of class default attributes */
+                 	/* IN - List of general default attributes */
 #else
 Aword geatrs(atrs, datrs)
      List *atrs;	/* IN - List of attribute nodes */
-     List *datrs;	/* IN - List of default attributes */
+     List *datrs;	/* IN - List of class default attributes */
+     List *gatrs;	/* IN - List of general default attributes */
 #endif
 {
   Aaddr adr;
-  List *lst, *dlst;
+  List *lst, *dlst, *glst;
+  int state;
 
-  if (atrs == NULL && datrs == NULL)
+  if (atrs == NULL && datrs == NULL && gatrs == NULL)
     return(0);
 
   /* First generate the names of the attributes if needed */ 
@@ -253,28 +339,110 @@ Aword geatrs(atrs, datrs)
 	lst->element.atr->stradr = emadr();
 	emitstr(lst->element.atr->nam->str);
       }
+    if (gatrs != NULL && gatrs->element.atr->stradr == 0)
+      for (lst = gatrs; lst != NULL; lst = lst->next) {
+	lst->element.atr->stradr = emadr();
+	emitstr(lst->element.atr->nam->str);
+      }
   }
 
   adr = emadr();
 
   lst = atrs;
   dlst = datrs;
-  while (lst != NULL || dlst != NULL) {
-    if (dlst == NULL) {
+  glst = gatrs;
+
+  /* This might look like magic but the state is simply a vector indicating
+     which lists are not NULL, lst != NULL is bit 0 */
+  do {
+    state = (lst?1:0) | (dlst?1:0)<<1 | (glst?1:0)<<2;
+
+    switch (state) {
+
+      /* Single lists first */
+    case 1:
       geatr(lst->element.atr);
       lst = lst->next;
-    } else if (lst == NULL) {
+      break;
+    case 2:
       geatr(dlst->element.atr);
       dlst = dlst->next;
-    } else if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
-      geatr(dlst->element.atr);
-      dlst = dlst->next;
-    } else {
-      geatr(lst->element.atr);
-      lst = lst->next;
-      dlst = dlst->next;
+      break;
+    case 4:
+      geatr(glst->element.atr);
+      glst = glst->next;
+      break;
+
+      /* Two lists remaining */
+    case 3:			/* lst, dlst != NULL */
+      if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
+	/* There is a default attribute with lower number, so generate it */
+	geatr(dlst->element.atr);
+	dlst = dlst->next;
+      } else {
+	geatr(lst->element.atr);
+	lst = lst->next;
+	dlst = dlst->next;
+      }
+      break;
+
+    case 5:			/* lst, glst != NULL */
+      if (glst->element.atr->nam->code < lst->element.atr->nam->code) {
+	/* There is a default attribute with lower number, so generate it */
+	geatr(glst->element.atr);
+	glst = glst->next;
+      } else {
+	geatr(lst->element.atr);
+	lst = lst->next;
+	glst = glst->next;
+      }
+      break;
+
+    case 6:			/* dst, glst != NULL */
+      if (glst->element.atr->nam->code < dlst->element.atr->nam->code) {
+	/* There is a general default attribute with lower number */
+	geatr(glst->element.atr);
+	glst = glst->next;
+      } else {
+	geatr(dlst->element.atr);
+	dlst = dlst->next;
+	glst = glst->next;
+      }
+      break;
+
+      /* And now for the most complex case, all lists != NULL */
+    case 7:
+      if (glst->element.atr->nam->code < dlst->element.atr->nam->code && glst->element.atr->nam->code < lst->element.atr->nam->code) {
+	/* There is a general default attribute with lower number than
+	   the one in the class default list and in the local list,
+	   so generate it */
+	geatr(glst->element.atr);
+	glst = glst->next;
+      } else if (dlst->element.atr->nam->code < lst->element.atr->nam->code) {
+	/* There is a class default attribute with lower number than
+	   the one in the local list, so generate it */
+	geatr(dlst->element.atr);
+	if (glst->element.atr->nam->code == dlst->element.atr->nam->code)
+	  /* If the global attribute has the same number advance it too */
+	  glst = glst->next;
+	/* Advance the class default */
+	dlst = dlst->next;
+      } else {
+	/* The local attribute is a local instance of some default attribute */
+	geatr(lst->element.atr);
+	/* If the general deafult attribute has the same number advance it */
+	if (glst->element.atr->nam->code == lst->element.atr->nam->code)
+	  glst = glst->next;
+	/* If the class default attribute has the same number advance it */
+	if (dlst->element.atr->nam->code == lst->element.atr->nam->code)
+	  glst = glst->next;
+	/* Advance local attribute */
+	lst = lst->next;
+      }
+      break;
+
     }
-  }
+  } while (state != 0);
   emit(EOF);
 
   return(adr);

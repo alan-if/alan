@@ -1,12 +1,12 @@
 Options
 	debug.
 
-Object Attributes
+Attributes
 	NOT openable.
 	closed.
 
 Syntax examine = 'examine' (obj)
-	where obj Isa Object or Actor
+	where obj Isa Container Object or Container Actor
 	  else "You can't examine that."
 
 Verb examine

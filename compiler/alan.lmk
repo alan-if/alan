@@ -83,8 +83,7 @@
 402	'An Actor can\'t be inside a Container.';
 403	'Script number multiply defined for Actor \'%1\'.';
 404	'Attribute to %1 must be a default attribute.';
-405	'The class of a parameter used in %1 must be uniquely defined.';
-406	'A parameter defined as Container have no default attributes.';
+406	'A Container, Integer or String have no default attributes.';
 407	'Attribute in LIMITS must be a default object attribute.';
 408	'Attributes in %1 must be of boolean type.';
 409	'No parameter defined in this context.';

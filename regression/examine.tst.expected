@@ -1,30 +1,22 @@
 ########## examine ##########
 alan examine
+arun examine < examine.input
 ########## /bin/sh  examine.tst ##########
 
-
-examine.alan
-
-   14.      If Obj Is openable Then
-=====>                1
-
-  *1*   405 E : The class of a parameter used in attribute expression must be
-                uniquely defined.
-
-   16.        If Obj Is closed Then
-=====>                  1
-
-  *1*   405 E : The class of a parameter used in attribute expression must be
-                uniquely defined.
-
-   19.          List Obj.
-=====>               1
-
-  *1*   312 E : Parameter not uniquely defined as a Container, which is
-                required.
+        No warnings or errors detected.
+        1 informational message(s).
 
 
-        3 error(s).
-        No detected warnings.
-        2 informational message(s).
+L.
+There is a c here. A is here.
 
+> examine c
+
+The c is closed.
+
+> examine a
+You can't examine that.
+
+> 
+
+Do you want to restart (y) ? 

@@ -272,7 +272,7 @@ static void anmake(stm, evt, pars)
     if (evt != NULL)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.make.atr->str, adv.aatrs);
+      atr = findatr(stm->fields.make.atr->str, adv.aatrs, adv.atrs);
       if (atr == NULL) 		/* Attribute not found globally */
 	lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -280,7 +280,7 @@ static void anmake(stm, evt, pars)
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.make.atr->str, adv.latrs);
+    atr = findatr(stm->fields.make.atr->str, adv.latrs, adv.atrs);
     if (atr == NULL) 		/* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -289,7 +289,7 @@ static void anmake(stm, evt, pars)
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.make.atr->str, adv.oatrs);
+    atr = findatr(stm->fields.make.atr->str, adv.oatrs, adv.atrs);
     if (atr == NULL) 		/* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
     else
@@ -299,46 +299,12 @@ static void anmake(stm, evt, pars)
     symcheck(&sym, &elm, stm->fields.make.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
 	     NAMANY, pars);
     if (elm) {
-      /* If it was a parameter then it must be a single class and the */
-      /* attribute a default attribute for that class */
-      if (elm->res == NULL || elm->res->single) {
-	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
-	  atr = findatr(stm->fields.make.atr->str, adv.oatrs);
-	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
-	  atr = findatr(stm->fields.make.atr->str, adv.aatrs);
-	else
-	  lmLog(&stm->fields.make.wht->nam->srcp, 997, sevSYS,
-		"Parameter is of unknown class");
-	if (atr == NULL)	/* Attribute not found globally */
-	  lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "a parameter");
-      } else {
-	atr = NULL;
-	lmLog(&stm->fields.make.atr->srcp, 405, sevERR, "MAKE statement");
-      }
+      atr = paramatr(stm->fields.make.atr, elm);
+      if (atr == NULL)		/* Not a default attribute */
+	lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
-      switch (sym->class) {
-      case NAMOBJ:
-	atr = findatr(stm->fields.make.atr->str, ((ObjNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.make.atr->str, adv.oatrs);
-      break;
-      case NAMLOC:
-	atr = findatr(stm->fields.make.atr->str, ((LocNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.make.atr->str, adv.latrs);
-	break;
-      case NAMACT:
-	atr = findatr(stm->fields.make.atr->str, ((ActNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.make.atr->str, adv.aatrs);
-	break;
-      default:
-	sym = NULL;
-	atr = NULL;
-	break;
-      }
-      if (atr == NULL)		/* Attribute not found locally or */
-				/* globally */
+      atr = symatr(stm->fields.make.atr, sym);
+      if (atr == NULL)
 	lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
 	      stm->fields.make.wht->nam->str);
     }
@@ -354,7 +320,7 @@ static void anmake(stm, evt, pars)
   }
 }
 
-
+  
 
 
 /*----------------------------------------------------------------------
@@ -385,7 +351,7 @@ static void anset(stm, evt, pars)
     if (evt != NULL)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.set.atr->str, adv.aatrs);
+      atr = findatr(stm->fields.set.atr->str, adv.aatrs, adv.atrs);
       if (atr == NULL) 		/* attribute not found globally */
 	lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -393,7 +359,7 @@ static void anset(stm, evt, pars)
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.set.atr->str, adv.latrs);
+    atr = findatr(stm->fields.set.atr->str, adv.latrs, adv.atrs);
     if (atr == NULL) 		/* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -402,7 +368,7 @@ static void anset(stm, evt, pars)
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.set.atr->str, adv.oatrs);
+    atr = findatr(stm->fields.set.atr->str, adv.oatrs, adv.atrs);
     if (atr == NULL) 		/* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
     else
@@ -412,45 +378,12 @@ static void anset(stm, evt, pars)
     symcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
 	     NAMANY, pars);
     if (elm) {
-      /* If it was a parameter then it must be a single class and the */
-      /* attribute a default attribute for that class */
-      if (elm->res == NULL || elm->res->single) {
-	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
-	  atr = findatr(stm->fields.set.atr->str, adv.oatrs);
-	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
-	  atr = findatr(stm->fields.set.atr->str, adv.aatrs);
-	else
-	  lmLog(&stm->fields.set.wht->nam->srcp, 997, sevSYS,
-		"Parameter is of unknown class");
-	if (atr == NULL) 	/* Attribute not found globally */
-	  lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "a parameter");
-      } else {
-	atr = NULL;
-	lmLog(&stm->fields.set.atr->srcp, 405, sevERR, "SET statement");
-      }
+      atr = paramatr(stm->fields.set.atr, elm);
+      if (atr == NULL)		/* Not a default attribute */
+	lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
-      switch (sym->class) {
-      case NAMOBJ:
-	atr = findatr(stm->fields.set.atr->str, ((ObjNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.set.atr->str, adv.oatrs);
-	break;
-      case NAMLOC:
-	atr = findatr(stm->fields.set.atr->str, ((LocNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.set.atr->str, adv.latrs);
-	break;
-      case NAMACT:
-	atr = findatr(stm->fields.set.atr->str, ((ActNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.set.atr->str, adv.aatrs);
-	break;
-      default:
-	sym = NULL;
-	atr = NULL;
-	break;
-      }
-      if (atr == NULL)	/* Attribute not found locally */
+      atr = symatr(stm->fields.set.atr, sym);
+      if (atr == NULL)
 	lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
 	      stm->fields.set.wht->nam->str);
     }
@@ -504,7 +437,7 @@ static void anincr(stm, evt, pars)
     if (evt != NULL)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
     else {
-      atr = findatr(stm->fields.incr.atr->str, adv.aatrs);
+      atr = findatr(stm->fields.incr.atr->str, adv.aatrs, adv.atrs);
       if (atr == NULL) 		/* attribute not found globally */
 	lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
       else
@@ -512,7 +445,7 @@ static void anincr(stm, evt, pars)
     }
     break;
   case WHT_LOC:
-    atr = findatr(stm->fields.incr.atr->str, adv.latrs);
+    atr = findatr(stm->fields.incr.atr->str, adv.latrs, adv.atrs);
     if (atr == NULL) 		/* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
     else
@@ -521,7 +454,7 @@ static void anincr(stm, evt, pars)
   case WHT_OBJ:
     if (pars == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
-    atr = findatr(stm->fields.incr.atr->str, adv.oatrs);
+    atr = findatr(stm->fields.incr.atr->str, adv.oatrs, adv.atrs);
     if (atr == NULL) 		/* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
     else
@@ -531,45 +464,12 @@ static void anincr(stm, evt, pars)
     symcheck(&sym, &elm, stm->fields.incr.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
 	     NAMANY, pars);
     if (elm) {
-      /* If it was a parameter then it must be a single class and the */
-      /* attribute a default attribute for that class */
-      if (elm->res == NULL || elm->res->single) {
-	if (elm->res == NULL || elm->res->classes == NAMOBJ || elm->res->classes == NAMCOBJ)
-	  atr = findatr(stm->fields.incr.atr->str, adv.oatrs);
-	else if (elm->res->classes == NAMACT || elm->res->classes == NAMCACT)
-	  atr = findatr(stm->fields.incr.atr->str, adv.aatrs);
-	else
-	  lmLog(&stm->fields.incr.wht->nam->srcp, 997, sevSYS,
-		"Parameter is of unknown class");
-	if (atr == NULL) 	/* Attribute not found globally */
-	  lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "a parameter");
-      } else {
-	atr = NULL;
-	lmLog(&stm->fields.incr.atr->srcp, 405, sevERR, "INCREASE/DECREASE");
-      }
+      atr = paramatr(stm->fields.incr.atr, elm);
+      if (atr == NULL)		/* Not a default attribute */
+	lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
-      switch (sym->class) {
-      case NAMOBJ:
-	atr = findatr(stm->fields.incr.atr->str, ((ObjNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.incr.atr->str, adv.oatrs);
-	break;
-      case NAMLOC:
-	atr = findatr(stm->fields.incr.atr->str, ((LocNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.incr.atr->str, adv.latrs);
-	break;
-      case NAMACT:
-	atr = findatr(stm->fields.incr.atr->str, ((ActNod *)sym->ref)->atrs);
-	if (atr == NULL)
-	  atr = findatr(stm->fields.incr.atr->str, adv.aatrs);
-	break;
-      default:
-	sym = NULL;
-	atr = NULL;
-	break;
-      }
-      if (atr == NULL)	/* Attribute not found locally */
+      atr = symatr(stm->fields.incr.atr, sym);
+      if (atr == NULL)
 	lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
 	      stm->fields.incr.wht->nam->str);
     }

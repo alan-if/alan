@@ -191,7 +191,7 @@ void prepacts()
     anatrs(act->atrs);
     i = aatrmax + 1;		/* First local is higher than global attrs. */
     for (alst = act->atrs; alst != NULL; alst = alst->next) {
-      atr = findatr(alst->element.atr->nam->str, adv.aatrs);
+      atr = findatr(alst->element.atr->nam->str, adv.aatrs, adv.atrs);
       if (atr == NULL)
 	/* Must be a local attribute */
 	alst->element.atr->nam->code = i++;
@@ -323,7 +323,7 @@ static void geact(act)
 #endif
 {
   /* Attributes */
-  act->atradr = geatrs(act->atrs, adv.aatrs);
+  act->atradr = geatrs(act->atrs, adv.aatrs, adv.atrs);
   
   /* Scripts */
   act->scradr = gescrs(act);

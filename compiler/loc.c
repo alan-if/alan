@@ -109,7 +109,7 @@ void preplocs()
     i = latrmax + 1;		/* First local is higher than global attrs. */
     anatrs(llst->element.loc->atrs);
     for (alst = llst->element.loc->atrs; alst != NULL; alst = alst->next) {
-      atr = findatr(alst->element.atr->nam->str, adv.latrs);
+      atr = findatr(alst->element.atr->nam->str, adv.latrs, adv.atrs);
       if (atr == NULL)
 	/* Must be a local attribute */
 	alst->element.atr->nam->code = i++;
@@ -284,7 +284,7 @@ static void geloc(loc)
      LocNod *loc;		/* IN - The location to generate */
 #endif
 {
-  loc->atradr = geatrs(loc->atrs, adv.latrs);
+  loc->atradr = geatrs(loc->atrs, adv.latrs, adv.atrs);
   loc->namsadr = gelocnam(loc);
   loc->dscradr = gelocdscr(loc);
   loc->doesadr = gelocdoes(loc);
