@@ -53,9 +53,6 @@ alan: $(OBJECTS) sysdep.o version.o
 	ln -o $@ -g $(OBJECTS) sysdep.o version.o $(LDFLAGS)
 	copy alan /
 
-#emit.o: emit.c
-#	cc $(CFLAGS) -DWORDADDRESS -L400 emit.c
-
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 
@@ -86,6 +83,7 @@ dump.o : dump.c srcp.h alan.h sysdep.h types.h adv.h lst.h dump.h whr.h evt.h \
   vrb.h stx.h lim.h scr.h stp.h rul.h lmList.h alanCommon.h token.h 
 elm.o : elm.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h \
   nam.h lst.h dump.h acode.h elm.h res.h stx.h wrd.h emit.h 
+emit.o : emit.c sysdep.h types.h alan.h srcp.h acode.h version.h emit.h 
 encode.o : encode.c alan.h sysdep.h types.h srcp.h acode.h opt.h emit.h encode.h 
 evt.o : evt.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h stm.h exp.h \
@@ -99,6 +97,7 @@ ext.o : ext.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h sym.h
 lim.o : lim.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h exp.h atr.h emit.h stm.h obj.h \
   cnt.h act.h loc.h ext.h chk.h vrb.h stx.h lim.h rul.h 
+lmList.o : lmList.c lmList.h alanCommon.h srcp.h token.h 
 loc.o : loc.c alan.h sysdep.h types.h srcp.h lmList.h alanCommon.h token.h adv.h \
   lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
   emit.h loc.h ext.h stm.h obj.h cnt.h act.h vrb.h 

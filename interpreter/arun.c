@@ -119,7 +119,6 @@ void terminate(code)
     _devtab[1].fd = _devtab[2].fd = 0;
   }
 #endif
-
   free(memory);
   exit(code);
 }
