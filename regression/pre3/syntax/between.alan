@@ -1,8 +1,0 @@
-Location l
- a 1.
- b 2.
-End location l.
-
-start at l.
-  set x between 23 or l.
-

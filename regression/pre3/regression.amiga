@@ -1,7 +1,0 @@
-forline case CASES \
-  "echo ----- $case ------ ;\
-  alan $case ;\
-  arun $case <$case.input >$case.output ;\
-  diff $case.output $case.ok >$case.diff"
-ls -s *.diff
-
