@@ -21,7 +21,6 @@
 /* METHODS: */
 
 /* Analyse names, returns length of name text */
-extern int analyzeNames(List *names,
-			IdNode *id);
+extern int analyzeNames(List *names, IdNode *id);
 
 #endif

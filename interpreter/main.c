@@ -180,11 +180,7 @@ void terminate(int code)
 #endif
 }
 
-/*======================================================================
-
-  usage()
-
-  */
+/*======================================================================*/
 void usage(void)
 {
   printf("\nArun, Adventure Interpreter version %s (%s %s)\n\n",
@@ -197,6 +193,7 @@ void usage(void)
 #endif
   printf("    -v       verbose mode\n");
   printf("    -l       log transcript to a file\n");
+  printf("    -c       log player commands to a file\n");
   printf("    -n       no Status Line\n");
   printf("    -d       enter debug mode\n");
   printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");

@@ -566,7 +566,7 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 
   Symbol *theClassSymbol = lookup(className);
 
-  if (theClassSymbol == NULL) syserr("There is no such class in '%s()'", __FUNCTION__);
+  if (theClassSymbol == NULL) SYSERR("There is no such class");
 
   if (!inheritsFrom(id->symbol, theClassSymbol))
     lmLogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
@@ -686,6 +686,17 @@ static Properties *propertiesOfParentOf(Symbol *s) {return s->fields.entity.pare
 
 
 /*----------------------------------------------------------------------*/
+static void replicateNames(Symbol *symbol)
+{
+  if (propertiesOf(symbol)->names == NULL)
+    propertiesOf(symbol)->names = propertiesOfParentOf(symbol)->names;
+  else if (propertiesOfParentOf(symbol)->names != NULL)
+    propertiesOf(symbol)->names = combine(propertiesOf(symbol)->names,
+					  propertiesOfParentOf(symbol)->names);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
 {
   propertiesOf(symbol)->attributes =
@@ -738,11 +749,10 @@ static void replicateScripts(Symbol *symbol)
 /*----------------------------------------------------------------------*/
 static void replicate(Symbol *symbol)
 {
-  if (haveParent(symbol)) {
-    replicateAttributes(symbol);
-    replicateContainer(symbol);
-    replicateScripts(symbol);
-  }
+  replicateNames(symbol);
+  replicateAttributes(symbol);
+  replicateContainer(symbol);
+  replicateScripts(symbol);
 }
 
 
@@ -756,34 +766,32 @@ static void replicate(Symbol *symbol)
 */
 static void replicateParent(Symbol *symbol)
 {
-  if (symbol == NULL || symbol->fields.entity.replicated)
-    return;
+  if (symbol == NULL) return;
 
-  replicateParent(symbol->fields.entity.parent);
-  replicate(symbol);
+  if (symbol->fields.entity.replicated) {
+    return;
+  }
+
+  if (haveParent(symbol)) {
+    replicateParent(symbol->fields.entity.parent);
+    replicate(symbol);
+  }
   symbol->fields.entity.replicated = TRUE;
 }
 
 
-/*----------------------------------------------------------------------
-
-  replicateRecursively()
-
-*/
-static void replicateRecursively(Symbol *symbol)
+/*----------------------------------------------------------------------*/
+static void replicateSymbolTree(Symbol *symbol)
 {
   if (symbol == NULL) return;
 
   if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
-
-    /* We have not replicated this symbol yet, so do it now */
-    replicateParent(symbol->fields.entity.parent);
-    replicate(symbol);
+      replicateParent(symbol);
   }
 
   /* Recurse in the symbolTree */
-  if (symbol->lower != NULL) replicateRecursively(symbol->lower);
-  if (symbol->higher != NULL) replicateRecursively(symbol->higher);
+  if (symbol->lower != NULL) replicateSymbolTree(symbol->lower);
+  if (symbol->higher != NULL) replicateSymbolTree(symbol->higher);
 }
 
 
@@ -802,7 +810,7 @@ static void replicateRecursively(Symbol *symbol)
 */
 void replicateInherited(void)
 {
-  replicateRecursively(symbolTree);
+  replicateSymbolTree(symbolTree);
 }
 
 

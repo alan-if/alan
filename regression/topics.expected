@@ -1,0 +1,54 @@
+########## topics ##########
+
+
+topics.alan
+
+    5.      And t Isa topic
+=====>                1
+
+  *1*   427 W : A subsequent restriction for the same parameter ('t') should
+                restrict it further, to a subclass of 'entity'.
+
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).
+
+
+
+Bar
+Mr Andersson is here. Bartender is here. Waitress is here.
+
+> talk about the weather with mr andersson
+'the weather, well, you know...' says mr Andersson.
+
+> ask bartender about the killer
+'the killer, well, you know...' says the bartender.
+
+> ask bartender about weather
+The bartender says 'I do not know anything about the weather.' The
+bartender leaves the bar through the front door.
+
+> x killer
+You can't do that.
+
+> x weather
+You can't do that.
+
+> 
+
+> ask waitress about weather
+'the weather, well, you know...' says the waitress.
+
+> talk to waitress about killer
+The waitress says 'I do not know anything about the killer.'
+
+> 
+Through the front door the bartender enters the bar from the street.
+
+> ask bartender about weather
+'the weather, well, you know...' says the bartender.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

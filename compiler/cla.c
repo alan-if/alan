@@ -178,6 +178,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 
   /* We can currently inherit:
 
+  	Names
   	Attributes
 	DescriptionCheck
 	DescriptionStatements
@@ -188,14 +189,10 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Script
 	Verb
   */
-  propCount = 9;
+  propCount = 10;
 
   if (props->whr != NULL)
     lmLog(&props->whr->srcp, 343, sevWAR, "initial location");
-  propCount++;
-
-  if (props->names != NULL)
-    lmLog(&props->names->element.lst->element.id->srcp, 343, sevWAR, "Names");
   propCount++;
 
   if (props->mentioned != NULL)

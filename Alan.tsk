@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>367.89</origest>
-<currest>366.89</currest>
-<elapsed>196.89</elapsed>
+<origest>369.89</origest>
+<currest>368.89</currest>
+<elapsed>199.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>61</origest>
-<currest>61</currest>
-<elapsed>2</elapsed>
+<origest>62</origest>
+<currest>62</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
-<elapsed>2</elapsed>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -49,7 +49,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -58,7 +58,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -71,7 +71,18 @@ Every fruit
 The apple Isa fruit
 The pear Isa fruit
 
-&gt; take the fruit</notes>
+&gt; take the fruit
+
+Possibly this would create a need for OVERRIDE NAME, or in the same way for all properties inherited additive. Which ones are that?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make INCLUDE a grammar symbol to only allow structured includes</desc>
+<notes>Still need to do it in the scanner though...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -79,8 +90,8 @@ The pear Isa fruit
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Make INCLUDE a grammar symbol to only allow structured includes</desc>
-<notes>Still need to do it in the scanner though...</notes>
+<desc>-l &amp; -c options to arun does not work</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -854,8 +865,8 @@ do with type determination.
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>100</origest>
-<currest>100</currest>
+<origest>101</origest>
+<currest>101</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -868,6 +879,15 @@ Words can't be prepositions and verbs at the same time. See gestx()
 
 New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Override additively inherited properties</desc>
+<notes>Names are inherited in an additive way, is there a need for overriding NAMES from the parent? If so is this common to more properties? Which ones are inherited in an additive way?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2307,7 +2327,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>186.89</origest>
 <currest>185.89</currest>
 <elapsed>185.89</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
@@ -2582,7 +2602,7 @@ Traversing between instances inheriting from location more than one level.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Syntaxes for simple verbs</desc>
 <notes>
@@ -5614,7 +5634,7 @@ Could not repeat this!</notes>
 <origest>18</origest>
 <currest>18</currest>
 <elapsed>18</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
 <notes>Investigate Stop actor.
@@ -5836,7 +5856,7 @@ End The door.
 <origest>17</origest>
 <currest>17</currest>
 <elapsed>17</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Sets</desc>
 <notes>Some kind of list or array datatype, like TADS lists, with

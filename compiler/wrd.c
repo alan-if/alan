@@ -92,6 +92,7 @@ int newWord(char *theWord,
     if (!findReference(references, existingWord->ref[class])) {
       /* Add another reference */
       existingWord->classbits |= 1L<<class;
+      /* TODO - don't add the same instance more than once */
       existingWord->ref[class] = concat(existingWord->ref[class],
 					references, REFERENCE_LIST);
       if (existingWord->code == -1)
