@@ -1,4 +1,6 @@
-ToDoTHAT:
+ToDo:
+
+	* Document how to create floating objects.
 
 	* Change the interpreter to only look at its own name if no
 	parameter was given.
