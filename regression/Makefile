@@ -20,7 +20,7 @@ dos:
 	    echo -n Doing $${base} as $${case} ; \
 	    sed -e "s;$${base};$${case};g" -e "s;input;inp;g" $$f > dosregr/$${case}.tst~ ; \
 	    echo -n . ; \
-	    ramp iso2pc dosregr/$${case}.tst~  dosregr/$${case}.tst ; \
+	    ramp iso2pc dosregr/$${case}.tst~  dosregr/$${case}.bat ; \
 	    echo -n . ; \
 	    \rm  dosregr/$${case}.tst~ ; \
 	    echo -n . ; \
