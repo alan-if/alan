@@ -1,0 +1,9 @@
+Syntax noverb = x.
+
+Syntax v = v.
+
+Syntax v = v (o) 'to' (a)
+	Where x Isa thing
+	  Else "Not to that!"
+
+Start At l.
