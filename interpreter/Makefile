@@ -1,6 +1,7 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
+CYGWIN = -DCOMPILER=\"[GCC/CygWin32]\"
+OPTIMIZE = -g
 
 #Settings for Windows GLK variant
 winglk: GLK = -DGLK
@@ -8,10 +9,13 @@ winglk: GLKINCLUDE = -I../../WindowsGLK/Include
 winglk: GLKLIB = ../../../../WindowsGlk/Glk.lib
 winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
 
+release: OPTIMIZE = -O4
+
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG) $(GLKINCLUDE) $(GLK)
+
+CFLAGS = $(OPTIMIZE) -Wall -funsigned-char $(CYGWIN) $(CRCLOG) $(GLKINCLUDE) $(GLK)
 
 CPP	= gcc -MM -ansi
 
@@ -59,7 +63,7 @@ arun.res: arun.rc arun.ico
 	windres $< -O coff -o $@
 
 clean:
-	rm *.o
+	-rm *.o
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 

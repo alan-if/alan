@@ -104,7 +104,7 @@ alan: $(MAINOBJECTS) test
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
-release: win
+release: clean win
 
 win:  $(MAINOBJECTS) alan.res test
 	gcc -o alan $(MAINOBJECTS) alan.res
@@ -118,6 +118,9 @@ all : .tmstamp test alan Makefile
 
 gcov :
 	$(MAKE) "GCOV=-fprofile-arcs -ftest-coverage"
+
+clean:
+	-rm *.o
 
 .tmstamp: $(TMSRCS)
 	$(MAKE) -f Makefile.tm
