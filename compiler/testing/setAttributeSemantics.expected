@@ -18,8 +18,14 @@ setAttributeSemantics.alan
 
   *1*   310 E : Identifier 'x' not defined.
 
+    6.    Has emptySet {}.
+=====>        1
 
-        3 error(s).
+  *1*   413 E : Empty Sets are not allowed. At least one member is necessary to
+                infer the type and class of members.
+
+
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 

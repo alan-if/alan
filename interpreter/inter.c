@@ -554,6 +554,16 @@ void interpret(Aaddr adr)
 	decrease(id, atr, step);
 	break;
       }
+      case I_INCLUDE: {
+	Aword member, set;
+	set = pop();
+	member = pop();
+	if (singleStepOption) {
+	  printf("INCLUDE\t%5ld, %5ld\t\t", member, set);
+	}
+	addToSet((Set *)set, member);
+	break;
+      }
       case I_ATTRIBUTE: {
 	Aword id, atr;
 	id = pop();

@@ -269,44 +269,48 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
   TypeKind inferedType = UNINITIALIZED_TYPE;
   Symbol *inferedClass = NULL;
 
-  TRAVERSE(elements, thisAttribute->set) {
-    Expression *exp = elements->element.exp;
-    analyzeExpression(exp, NULL);
-    if (inferedType == UNINITIALIZED_TYPE)
-      inferedType = exp->type;
-    if (!equalTypes(inferedType, exp->type))
-      lmLogv(&exp->srcp, 408, sevERR, "Expressions", "Set attribute", "the same", NULL);
-    else if (exp->type == ERROR_TYPE)
-      inferedType = ERROR_TYPE;
-    else
-      switch (exp->type) {
-      case INSTANCE_TYPE:
-	if (inferedClass == NULL)
-	  inferedClass = exp->class;
-	else {
-	  while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
-	    /* They are not of the same class so we need to find a common ancestor */
-	    inferedClass = inferedClass->fields.entity.parent;
-	    if (inferedClass == NULL)
-	      SYSERR("No common ancestor found for Set members");
+  if (thisAttribute->set == NULL)
+    lmLog(&thisAttribute->srcp, 413, sevERR, "");
+  else {
+    TRAVERSE(elements, thisAttribute->set) {
+      Expression *exp = elements->element.exp;
+      analyzeExpression(exp, NULL);
+      if (inferedType == UNINITIALIZED_TYPE)
+	inferedType = exp->type;
+      if (!equalTypes(inferedType, exp->type))
+	lmLogv(&exp->srcp, 408, sevERR, "Expressions", "Set attribute", "the same", NULL);
+      else if (exp->type == ERROR_TYPE)
+	inferedType = ERROR_TYPE;
+      else
+	switch (exp->type) {
+	case INSTANCE_TYPE:
+	  if (inferedClass == NULL)
+	    inferedClass = exp->class;
+	  else {
+	    while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
+	      /* They are not of the same class so we need to find a common ancestor */
+	      inferedClass = inferedClass->fields.entity.parent;
+	      if (inferedClass == NULL)
+		SYSERR("No common ancestor found for Set members");
+	    }
 	  }
+	  break;
+	case INTEGER_TYPE:
+	  inferedClass = integerSymbol;
+	  break;
+	case STRING_TYPE:
+	  inferedClass = stringSymbol;
+	  break;
+	default:
+	  SYSERR("Unexpected type kind");
+	  break;
 	}
-	break;
-      case INTEGER_TYPE:
-	inferedClass = integerSymbol;
-	break;
-      case STRING_TYPE:
-	inferedClass = stringSymbol;
-	break;
-      default:
-	SYSERR("Unexpected type kind");
-	break;
-      }
+    }
+    thisAttribute->setType = inferedType;
+    if (inferedType == ERROR_TYPE)
+      thisAttribute->type = ERROR_TYPE;
+    thisAttribute->setClass = inferedClass;
   }
-  thisAttribute->setType = inferedType;
-  if (inferedType == ERROR_TYPE)
-    thisAttribute->type = ERROR_TYPE;
-  thisAttribute->setClass = inferedClass;
 }
 
 

@@ -462,316 +462,250 @@ static void dumpStatements(Aword pc)
     
 	switch (I_CLASS(i)) {
 	case C_CONST:
- 		printf("PUSH  \t%5ld", I_OP(i));
-		break;
+	  printf("PUSH  \t%5ld", I_OP(i));
+	  break;
     case C_CURVAR:
       switch (I_OP(i)) {
       case V_PARAM:
-		printf("PARAM");
-		break;
+	printf("PARAM");
+	break;
       case V_CURLOC:
-		printf("CURLOC");
-		break;
+	printf("CURLOC");
+	break;
       case V_CURACT:
-		printf("CURACT");
-		break;
+	printf("CURACT");
+	break;
       case V_CURVRB:
-		printf("CURVRB");
-		break;
+	printf("CURVRB");
+	break;
       case V_SCORE:
-		printf("CURSCORE");
-		break;
+	printf("CURSCORE");
+	break;
       default:
-		syserr("Unknown CURVAR instruction.");
-		break;
+	syserr("Unknown CURVAR instruction.");
+	break;
       }
       break;
       
     case C_STMOP: 
       switch (I_OP(i)) {
-      case I_LINE: {
-		printf("LINE");
-		break;
-      }
-      case I_PRINT: {
-		printf("PRINT");
-		break;
-      }
-      case I_SYSTEM: {
-		printf("SYSTEM");
-		break;
-      }
-      case I_GETSTR: {
-		printf("GETST");
-		break;
-      }
-      case I_QUIT: {
-		printf("QUIT");
-		break;
-      }
-      case I_LOOK: {
+      case I_LINE:
+	printf("LINE");
+	break;
+      case I_PRINT:
+	printf("PRINT");
+	break;
+      case I_SYSTEM:
+	printf("SYSTEM");
+	break;
+      case I_GETSTR:
+	printf("GETST");
+	break;
+      case I_QUIT:
+	printf("QUIT");
+	break;
+      case I_LOOK:
 	printf("LOOK");
 	break;
-      }
-      case I_SAVE: {
+      case I_SAVE:
 	printf("SAVE");
 	break;
-      }
-      case I_RESTORE: {
+      case I_RESTORE:
 	printf("RESTORE");
 	break;
-      }
-      case I_RESTART: {
+      case I_RESTART:
 	printf("RESTART");
 	break;
-      }
-      case I_LIST: {
+      case I_LIST:
 	printf("LIST");
 	break;
-      }
-      case I_EMPTY: {
+      case I_EMPTY:
 	printf("EMPTY");
 	break;
-      }
-      case I_SCORE: {
+      case I_SCORE:
 	printf("SCORE");
 	break;
-      }
-      case I_VISITS: {
+      case I_VISITS:
 	printf("VISITS");
 	break;
-      }
-      case I_SCHEDULE: {
+      case I_SCHEDULE:
 	printf("SCHEDULE");
 	break;
-      }
-      case I_CANCEL: {
+      case I_CANCEL:
 	printf("CANCEL");
 	break;
-      }
-      case I_MAKE: {
+      case I_MAKE:
 	printf("MAKE");
 	break;
-      }
-      case I_SET: {
+      case I_SET:
 	printf("SET");
 	break;
-      }
-      case I_STRSET: {
+      case I_STRSET:
 	printf("STRSET");
 	break;
-      }
-      case I_INCR: {
+      case I_INCR:
 	printf("INCR");
 	break;
-      }
-      case I_DECR: {
+      case I_DECR:
 	printf("DECR");
 	break;
-      }
-      case I_ATTRIBUTE: {
+      case I_INCLUDE:
+	printf("INCLUDE");
+	break;
+      case I_ATTRIBUTE:
 	printf("ATTRIBUTE");
 	break;
-      }
-      case I_STRATTR: {
+      case I_STRATTR:
 	printf("STRATTR");
 	break;
-      }
-      case I_LOCATE: {
+      case I_LOCATE:
 	printf("LOCATE");
 	break;
-      }
-      case I_WHERE: {
+      case I_WHERE:
 	printf("WHERE");
 	break;
-      }
-      case I_HERE: {
+      case I_HERE:
 	printf("HERE");
 	break;
-      }
-      case I_NEAR: {
+      case I_NEAR:
 	printf("NEAR");
 	break;
-      }
-      case I_USE: {
+      case I_USE:
 	printf("USE");
 	break;
-      }
-      case I_IN: {
+      case I_IN:
 	printf("IN ");
 	break;
-      }
-      case I_DESCRIBE: {
+      case I_DESCRIBE:
 	printf("DESCRIBE ");
 	break;
-      }
-      case I_SAY: {
+      case I_SAY:
 	printf("SAY");
 	break;
-      }
-      case I_SAYINT: {
+      case I_SAYINT:
 	printf("SAYINT");
 	break;
-      }
-      case I_SAYSTR: {
+      case I_SAYSTR:
 	printf("SAYSTR");
 	break;
-      }
-      case I_IF: {
+      case I_IF:
 	printf("IF");
 	break;
-      }
-      case I_ELSE: {
+      case I_ELSE:
 	printf("ELSE");
 	break;
-      }
-      case I_ENDIF: {
+      case I_ENDIF:
 	printf("ENDIF");
 	break;
-      }
-      case I_AND: {
+      case I_AND:
 	printf("AND");
 	break;
-      }
-      case I_OR: {
+      case I_OR:
 	printf("OR");
 	break;
-      }
-      case I_NE: {
+      case I_NE:
 	printf("NE");
 	break;
-      }
-      case I_EQ: {
+      case I_EQ:
 	printf("EQ ");
 	break;
-      }
-      case I_STREQ: {
+      case I_STREQ:
 	printf("STREQ ");
 	break;
-      }
-      case I_STREXACT: {
+      case I_STREXACT:
 	printf("STREXACT ");
 	break;
-      }
-      case I_LE: {
+      case I_LE:
 	printf("LE ");
 	break;
-      }
-      case I_GE: {
+      case I_GE:
 	printf("GE ");
 	break;
-      }
-      case I_LT: {
+      case I_LT:
 	printf("LT ");
 	break;
-      }
-      case I_GT: {
+      case I_GT:
 	printf("GT ");
 	break;
-      }
-      case I_PLUS: {
+      case I_PLUS:
 	printf("PLUS ");
 	break;
-      }
-      case I_MINUS: {
+      case I_MINUS:
 	printf("MINUS ");
 	break;
-      }
-      case I_MULT: {
+      case I_MULT:
 	printf("MULT ");
 	break;
-      }
-      case I_DIV: {
+      case I_DIV:
 	printf("DIV ");
 	break;
-      }
-      case I_NOT: {
+      case I_NOT:
 	printf("NOT ");
 	break;
-      }
-      case I_MAX: {
+      case I_MAX:
 	printf("MAX ");
 	break;
-      }
-      case I_SUM: {
+      case I_SUM:
 	printf("SUM ");
 	break;
-      }
-      case I_COUNT: {
+      case I_COUNT:
 	printf("COUNT ");
 	break;
-      }
-      case I_RND: {
+      case I_RND:
 	printf("RANDOM ");
 	break;
-      }
-      case I_BTW: {
+      case I_BTW:
 	printf("BETWEEN ");
 	break;
-      }
-      case I_CONTAINS: {
+      case I_CONTAINS:
 	printf("CONTAINS ");
 	break;
-      }
-
+      case I_INSET:
+	printf("INSET ");
+	break;
       case I_DEPEND:
 	printf("DEPEND");
 	break;
-
       case I_DEPCASE:
 	printf("DEPCASE");
 	break;
-
-      case I_DEPEXEC: {
+      case I_DEPEXEC:
 	printf("DEPEXEC");
 	break;
-      }
-	
       case I_DEPELSE:
 	printf("DEPELSE");
 	break;
-
       case I_ENDDEP:
 	printf("ENDDEP");
 	break;
-
       case I_RETURN:
 	printf("RETURN");
 	printf("\n");
 	return;
-
       case I_FRAME:
 	printf("BLOCK");
 	break;
-
       case I_ENDFRAME:
 	printf("ENDBLOCK");
 	break;
-
       case I_GETLOCAL:
 	printf("GETLOCAL");
 	break;
-
       case I_SETLOCAL:
 	printf("SETLOCAL");
 	break;
-
       case I_EACH:
 	printf("EACH");
 	break;
-
       case I_ENDEACH:
 	printf("ENDEACH");
 	break;
-
       case I_STRIP:
 	printf("STRIP");
 	break;
-
       case I_POP:
 	printf("POP");
 	break;
-
       default:
 	printf("*** Unknown STMOP instruction ***");
 	break;

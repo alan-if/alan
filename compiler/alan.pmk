@@ -299,10 +299,17 @@ static int val(char str[])
 	%<attribute definition>.atr = newReferenceAttribute(%1ID.id->srcp, %1ID.id, %2ID.id);
     %%
 
-    ! ID '{' <set members> '}'
+    ! ID '{' <optional members> '}'
     %%
-	%<attribute definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id, %<set members>.set);
+	%<attribute definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id, %<optional members>.set);
     %%
+    ;
+
+<optional members>
+    =
+    %% %<optional members>.set = NULL; %%
+    ! <set members>
+    %% %<optional members>.set = %<set members>.set; %%
     ;
 
 <set members>				-- RETURNS: set

@@ -766,6 +766,15 @@ static void generateIncrease(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
+static void generateInclude(Statement *stm)
+{
+  generateExpression(stm->fields.include.what);
+  generateExpression(stm->fields.include.set);
+  emit0(I_INCLUDE);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateSchedule(Statement *stm)
 {
   generateExpression(stm->fields.schedule.when);
@@ -1057,6 +1066,10 @@ static void generateStatement(Statement *stm)
   case INCREASE_STATEMENT:
   case DECREASE_STATEMENT:
     generateIncrease(stm);
+    break;
+
+  case INCLUDE_STATEMENT:
+    generateInclude(stm);
     break;
 
   case SCHEDULE_STATEMENT:

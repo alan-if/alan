@@ -39,10 +39,11 @@ void verifySetMember(Expression *theSet, Expression *theMember, char contextMess
   case INTEGER_TYPE: theMember->class = integerSymbol; break;
   case STRING_TYPE: theMember->class = stringSymbol; break;
   case INSTANCE_TYPE: break;
+  case SET_TYPE: break;
   default: SYSERR("Unexpected member type");
   }
   if (theMember->class != NULL)
-    if (!inheritsFrom(theSet->class, theMember->class)) {
+    if (!inheritsFrom(theMember->class, theSet->class)) {
       char *setContentsMessage;
       char buffer[1000];
       if (theSet->class != NULL) {

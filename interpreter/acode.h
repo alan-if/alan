@@ -106,6 +106,7 @@ typedef enum InstClass {
 				/* on top of stack */
   I_INCR,			/* Increase an attribute */
   I_DECR,			/* Decrease a numeric attribute */
+  I_INCLUDE,			/* Include a value in a set */
   I_USE,
   I_STOP,
   I_IN,

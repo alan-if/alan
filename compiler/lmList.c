@@ -182,6 +182,7 @@ static lmMsgs msg[] = {
     { "410   ", "Incompatible types in %1. The Set can only contain %2." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
     { "412   ", "Current Actor is not defined in Events." },
+    { "413   ", "Empty Sets are not allowed. At least one member is necessary to infer the type and class of members." },
     { "414   ", "Invalid initial location for %1." },
     { "415   ", "Invalid Where specification in %1 statement." },
     { "416   ", "Interval of size 1 in RANDOM expression." },
@@ -217,7 +218,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 137}
+    {0, 138}
 };
 static lmMessages currMsect = (lmMessages)0;
 
