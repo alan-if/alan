@@ -127,18 +127,8 @@ Bool trycheck(Aaddr adr,	/* IN - ACODE address to check table */
 }
 
 
-/*======================================================================
-  go()
-
-  Move hero in a direction.
-
-  */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void go(int dir)
-#else
-void go(dir)
-     int dir;
-#endif
 {
   ExitEntry *theExit;
   Bool ok;

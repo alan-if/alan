@@ -272,10 +272,10 @@ void score(Aword sc)
   char buf[80];
 
   if (sc == 0) {
-    prmsg(M_SCORE1);
+    printMessage(M_SCORE1);
     sprintf(buf, "%d", current.score);
     output(buf);
-    prmsg(M_SCORE2);
+    printMessage(M_SCORE2);
     sprintf(buf, "%ld.", header->maxscore);
     output(buf);
   } else {
@@ -299,7 +299,7 @@ Bool confirm(MsgKind msgno)
 
   /* This is a bit of a hack since we really want to compare the input,
      it could be affirmative, but for now any input is NOT! */
-  prmsg(msgno);
+  printMessage(msgno);
 
 #ifdef USE_READLINE
   if (!readline(buf)) return TRUE;
@@ -316,10 +316,10 @@ Bool confirm(MsgKind msgno)
 Bool undo(void) {
   if (gameStateTop != 0) {
     gameStateTop--;
-    prmsg(M_UNDONE);
+    printMessage(M_UNDONE);
     return popGameState();
   } else {
-    prmsg(M_NO_UNDO);
+    printMessage(M_NO_UNDO);
     return FALSE;
   }
 }
@@ -334,7 +334,7 @@ void quitGame(void)
   while (TRUE) {
     col = 1;
     statusline();
-    prmsg(M_QUITACTION);
+    printMessage(M_QUITACTION);
 #ifdef USE_READLINE
     if (!readline(buf)) terminate(0);
 #else
@@ -937,7 +937,7 @@ static void locateActor(Aword movingActor, Aword whr)
       if (anyOutput)
 	para();
       say(where(HERO, TRUE));
-      prmsg(M_AGAIN);
+      printMessage(M_AGAIN);
       newline();
       describeInstances();
     }
@@ -1194,7 +1194,7 @@ void saystr(char *str)
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedDefiniteForm(Aword theClass) {
   if (theClass == 0) {
-    prmsg(M_DEFINITE);
+    printMessage(M_DEFINITE);
     return FALSE;
   } else {
     if (class[theClass].definite) {
@@ -1220,7 +1220,7 @@ static void sayDefinite(Aint id) {
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedIndefiniteForm(Aword theClass) {
   if (theClass == 0) {
-    prmsg(M_INDEFINITE);
+    printMessage(M_INDEFINITE);
     return FALSE;
   } else {
     if (class[theClass].indefinite) {
@@ -1402,9 +1402,9 @@ static void describeObject(Aword obj)
   if (haveDescription(obj))
     describeAnything(obj);
   else {
-    prmsg(M_SEEOBJ1);
+    printMessage(M_SEEOBJ1);
     sayForm(obj, SAY_INDEFINITE);
-    prmsg(M_SEEOBJ4);
+    printMessage(M_SEEOBJ4);
     if (instance[obj].container != 0)
       describeContainer(obj);
   }
@@ -1429,7 +1429,7 @@ static void describeActor(Aword act)
     describeAnything(act);
   else {
     mention(act);
-    prmsg(M_SEEACT);
+    printMessage(M_SEEACT);
     if (instance[act].container != 0)
       describeContainer(act);
   }
@@ -1481,13 +1481,13 @@ void describeInstances(void)
     if (admin[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed) {
       if (!found) {
-	prmsg(M_SEEOBJ1);
+	printMessage(M_SEEOBJ1);
 	sayForm(i, SAY_INDEFINITE);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needSpace = FALSE;
-	  prmsg(M_SEEOBJ2);
+	  printMessage(M_SEEOBJ2);
 	  sayForm(prevobj, SAY_INDEFINITE);
 	}
 	multiple = TRUE;
@@ -1497,10 +1497,10 @@ void describeInstances(void)
 
   if (found) {
     if (multiple) {
-      prmsg(M_SEEOBJ3);
+      printMessage(M_SEEOBJ3);
       sayForm(prevobj, SAY_INDEFINITE);
     }
-    prmsg(M_SEEOBJ4);
+    printMessage(M_SEEOBJ4);
   }
   
   /* Now for all actors */
@@ -1572,17 +1572,17 @@ void list(Aword cnt)
 	  else {
 	    if (isA(container[props].owner, ACTOR)) {
 	      say(container[props].owner);
-	      prmsg(M_CARRIES);
+	      printMessage(M_CARRIES);
 	    } else {
-	      prmsg(M_CONTAINS0);
+	      printMessage(M_CONTAINS0);
 	      say(container[props].owner);
-	      prmsg(M_CONTAINS);
+	      printMessage(M_CONTAINS);
 	    }
 	  }
 	} else {
 	  if (multiple) {
 	    needSpace = FALSE;
-	    prmsg(M_CONTAINSCOMMA);
+	    printMessage(M_CONTAINSCOMMA);
 	  }
 	  multiple = TRUE;
 	  sayForm(previouslyFoundInstance, SAY_INDEFINITE);
@@ -1594,20 +1594,20 @@ void list(Aword cnt)
 
   if (found) {
     if (multiple)
-      prmsg(M_CONTAINSAND);
+      printMessage(M_CONTAINSAND);
     sayForm(previouslyFoundInstance, SAY_INDEFINITE);
-    prmsg(M_CONTAINSEND);
+    printMessage(M_CONTAINSEND);
   } else {
     if (container[props].empty != 0)
       interpret(container[props].empty);
     else {
       if (isA(container[props].owner, ACTOR)) {
 	say(container[props].owner);
-	prmsg(M_EMPTYHANDED);
+	printMessage(M_EMPTYHANDED);
       } else {
-	prmsg(M_CONTAINS0);
+	printMessage(M_CONTAINS0);
 	say(container[props].owner);
-	prmsg(M_EMPTY);
+	printMessage(M_EMPTY);
       }
     }
   }
@@ -1732,7 +1732,7 @@ void save(void)
     strcpy(saveFileName, adventureName);
     strcat(saveFileName, ".sav");
   }
-  prmsg(M_SAVEWHERE);
+  printMessage(M_SAVEWHERE);
   sprintf(str, "(%s) : ", saveFileName);
   output(str);
 #ifdef USE_READLINE
@@ -1837,7 +1837,7 @@ void restore(void)
     strcpy(saveFileName, adventureName);
     strcat(saveFileName, ".sav");
   }
-  prmsg(M_RESTOREFROM);
+  printMessage(M_RESTOREFROM);
   sprintf(str, "(%s) : ", saveFileName);
   output(str);
 #ifdef USE_READLINE

@@ -1,11 +1,11 @@
 ########## it ##########
 
         No warnings or errors detected.
-        1 informational message(s).
+        2 informational message(s).
 
 
 
-L
+L1
 There is a o here.
 
 > x o
@@ -16,6 +16,21 @@ You x the o.
 
 > x them
 I don't know what you mean by 'them'.
+
+> x it
+You x the o.
+
+> i
+I
+
+> x it
+I don't know what you mean by 'it'.
+
+> x o
+You x the o.
+
+> x it
+You x the o.
 
 > 
 

@@ -6,7 +6,7 @@
 
 \*----------------------------------------------------------------------*/
 
-extern int playerWords[];		/* List of Parsed Word */
+extern int playerWords[];	/* List of Parsed Word */
 extern int wordIndex;		/* and an index into it */
 
 extern ParamEntry *parameters;	/* List of parameters */

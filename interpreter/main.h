@@ -99,7 +99,7 @@ extern void usage(void);
 extern void error(MsgKind msg);
 extern void statusline(void);
 extern void output(char string[]);
-extern void prmsg(MsgKind msg);
+extern void printMessage(MsgKind msg);
 extern void para(void);
 extern void newline(void);
 extern void logPrint(char string[]);

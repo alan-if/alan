@@ -167,7 +167,7 @@ You are empty-handed.
 You have scored 5 points out of 135.
 
 > raise ladder
-I can't see any 3 metre long ladder here.
+I can't see any ladder here.
 
 > climb it
 I don't know what you mean by 'it'.
@@ -195,7 +195,7 @@ You are empty-handed.
 You have scored 5 points out of 135.
 
 > examine nest
-I can't see any birds nest here.
+I can't see any nest here.
 
 > score
 You have scored 5 points out of 135.
@@ -220,7 +220,7 @@ You are empty-handed.
 You have scored 5 points out of 135.
 
 > take keys
-I can't see any set of rusty keys here.
+I can't see any keys here.
 
 > score
 You have scored 5 points out of 135.
@@ -520,7 +520,7 @@ You are empty-handed.
 You have scored 5 points out of 135.
 
 > take manual
-I can't see any dirty manual here.
+I can't see any manual here.
 
 > score
 You have scored 5 points out of 135.

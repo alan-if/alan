@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>382.89</origest>
-<currest>381.89</currest>
-<elapsed>221.89</elapsed>
+<origest>386.89</origest>
+<currest>385.89</currest>
+<elapsed>225.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>75</origest>
-<currest>75</currest>
-<elapsed>27</elapsed>
+<origest>79</origest>
+<currest>79</currest>
+<elapsed>31</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
-<elapsed>27</elapsed>
+<origest>37</origest>
+<currest>37</currest>
+<elapsed>31</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -305,7 +305,7 @@ How to handle the above example? Probably by looking in the scope for any instan
 <priority>2</priority>
 <origest>8</origest>
 <currest>8</currest>
-<elapsed>6</elapsed>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Grammar, internal form and dump</desc>
@@ -372,7 +372,7 @@ Probably we want to have unique word code for every unique word, and then a code
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -381,17 +381,32 @@ Probably we want to have unique word code for every unique word, and then a code
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
 <task>
+<desc>Player reference to single object using 'them'</desc>
+<notes>Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Change M_NO_SUCH so that it uses the words the player used</desc>
-<notes>This means dividing it into two messages
-
-"There is no" (player words) "here."
-
-And making it a special error function instead of directly using error(),</notes>
+<notes>This means setting a flag so that sayParameter() knows to use the player words and not the instance names.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Output names in correct case</desc>
+<notes>Store names in dictionary in original case, compare to player input case-insensitive.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -435,13 +450,31 @@ Message CANTSEE:
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Document PRONOUN</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document new messages</desc>
+<notes>Also note the change in the conversion appendix</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
+<origest>27</origest>
+<currest>27</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -617,6 +650,17 @@ Design:</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>How to handle special dictionary entries in unsupported languages?</desc>
+<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
+
+New clause?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Disambiguation using checks</desc>
 <notes>Example:
 
@@ -742,8 +786,8 @@ OR: defer this until arrays are available.</notes>
 <desc>Increment: version 3.0.36</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -820,15 +864,6 @@ which is correct but gives the confusing error message:
 pointing to "count" since that is the left hand side of the assumed expression
 
 &lt;something&gt; &lt;where&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Player reference to single object using 'them'</desc>
-<notes>Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

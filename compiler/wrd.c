@@ -191,18 +191,14 @@ int newAdjectiveWord(char *theWord, Instance *reference) {
 void prepareWords(void)
 {
 
-  /* Some words in the dictionary */
+  /* Enter some words in the dictionary. Predefined pronouns are added
+     to the classes, not here */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
     newWord("go", NOISE_WORD, 0, NULL);
     newWord("the", NOISE_WORD, 0, NULL);
     newWord("them", THEM_WORD, 0, NULL);
     newWord("except", EXCEPT_WORD, 0, NULL);
-#ifdef OLDPRONOUNHANDLING
-    newWord("it", PRONOUN_WORD, 0, NULL);
-    newWord("him", PRONOUN_WORD, 0, NULL);
-    newWord("her", PRONOUN_WORD, 0, NULL);
-#endif
     newWord("but", EXCEPT_WORD, 0, NULL);
     newWord("and", CONJUNCTION_WORD, 0, NULL);
     newWord("all", ALL_WORD, 0, NULL);
@@ -213,12 +209,6 @@ void prepareWords(void)
     newWord("gå", NOISE_WORD, 0, NULL);
     newWord("dem", THEM_WORD, 0, NULL);
     newWord("utom", EXCEPT_WORD, 0, NULL);
-#ifdef OLDPRONOUNHANDLING
-    newWord("den", PRONOUN_WORD, 0, NULL);
-    newWord("det", PRONOUN_WORD, 0, NULL);
-    newWord("henne", PRONOUN_WORD, 0, NULL);
-    newWord("honom", PRONOUN_WORD, 0, NULL);
-#endif
     newWord("förutom", EXCEPT_WORD, 0, NULL);
     newWord("och", CONJUNCTION_WORD, 0, NULL);
     newWord("allt", ALL_WORD, 0, NULL);
@@ -231,11 +221,6 @@ void prepareWords(void)
     newWord("der", NOISE_WORD, 0, NULL);
     newWord("das", NOISE_WORD, 0, NULL);
     newWord("die", NOISE_WORD, 0, NULL);
-#ifdef OLDPRONOUNHANDLING
-    newWord("es", PRONOUN_WORD, 0, NULL);
-    newWord("ihn", PRONOUN_WORD, 0, NULL);
-    newWord("sie", PRONOUN_WORD, 0, NULL);
-#endif
     newWord("und", CONJUNCTION_WORD, 0, NULL);
     newWord("alles", ALL_WORD, 0, NULL);
     break;

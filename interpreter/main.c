@@ -210,7 +210,7 @@ void error(MsgKind msgno)	/* IN - The error message number */
 {
   /* Print an error message, force new player input and abort. */
   if (msgno != MSGMAX)
-    prmsg(msgno);
+    printMessage(msgno);
   playerWords[wordIndex] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
   longjmp(errorLabel,TRUE);
@@ -349,7 +349,7 @@ void newline(void)
   if (!regressionTestOption && lin >= pageLength - 1) {
     logPrint("\n");
     needSpace = FALSE;
-    prmsg(M_MORE);
+    printMessage(M_MORE);
     statusline();
     fflush(stdout);
     fgets(buf, 256, stdin);
@@ -489,13 +489,7 @@ static void sayPlayerWordsForParameter(int p) {
 }
 
 
-/*----------------------------------------------------------------------
-
-  sayParameter()
-
-  A parameter needs to be said, find out which instance it is and say it.
-
-*/
+/*----------------------------------------------------------------------*/
 static void sayParameter(int p, int form)
 {
   int i;
@@ -691,14 +685,8 @@ void output(char original[])
 }
 
 
-/*======================================================================
-
-  prmsg()
-
-  Print a message from the message table.
-  
-  */
-void prmsg(MsgKind msg)		/* IN - message number */
+/*======================================================================*/
+void printMessage(MsgKind msg)		/* IN - message number */
 {
   interpret(msgs[msg].stms);
 }
