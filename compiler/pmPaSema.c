@@ -538,7 +538,7 @@ int rule			/* IN production number */
     case 72: { /* <class> = 'EVERY' ID <optional_heritage> <slots> <class_tail>; */
 #line 646 "alan.pmk"
 
-	pmSeSt[pmStkP+1].cla = newcla(&pmSySt[pmStkP+1].srcp,
+	pmSeSt[pmStkP+1].cla = newClass(&pmSySt[pmStkP+1].srcp,
 				pmSeSt[pmStkP+2].id,
 				pmSeSt[pmStkP+3].id,
 				newSlots(pmSeSt[pmStkP+4].nams,

@@ -256,7 +256,7 @@ void gewhr(WhrNod *whr)		/* IN - Where node */
     break;
 
   case WHR_IN:
-    geid(whr->wht->id);
+    generateId(whr->wht->id);
     break;
 
   case WHR_HERE:

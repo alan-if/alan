@@ -121,7 +121,7 @@ Aaddr gestps(List *stps,	/* IN - The steps to generate */
 void dustp(StpNod *stp)
 {
   put("STP: "); dumpSrcp(&stp->srcp); in();
-  put("after: "); duint(stp->after); nl();
+  put("after: "); dumpInt(stp->after); nl();
   put("exp: "); duexp(stp->exp); nl();
   put("expadr: "); duadr(stp->expadr); nl();
   put("stms: "); dulst(stp->stms, LIST_STM); nl();

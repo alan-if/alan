@@ -297,7 +297,7 @@ static void generateAttribute(AtrNod *attribute) /* IN - Attribute to generate f
     adv.stratrs = concat(adv.stratrs, new, LIST_ATR);
   }
 
-  entry.code = attribute->code;
+  entry.code = attribute->id->code;
   entry.value = attribute->value;
   entry.stringAddress = attribute->stringAddress;
   emitN(&entry, ACDsizeOf(entry));
@@ -372,7 +372,7 @@ void duatr(AtrNod *atr)
   put("id: "); dumpId(atr->id); nl();
   put("stringAddress: "); duadr(atr->stringAddress); nl();
   put("address: "); duadr(atr->address); nl();
-  put("value: "); duint(atr->value); nl();
-  put("fpos: "); duint(atr->fpos); nl();
-  put("len: "); duint(atr->len); out();
+  put("value: "); dumpInt(atr->value); nl();
+  put("fpos: "); dumpInt(atr->fpos); nl();
+  put("len: "); dumpInt(atr->len); out();
 }

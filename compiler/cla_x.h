@@ -19,10 +19,10 @@ extern ClaNod *thing, *object, *location, *actor;
 extern void initClasses();
 
 /* Create a new Class node */
-extern ClaNod *newcla(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *parent,
-		      SlotsNode *slt);
+extern ClaNod *newClass(Srcp *srcp,
+			IdNode *id,
+			IdNode *parent,
+			SlotsNode *slt);
 
 /* Symbolize all Classes */
 extern void symbolizeClasses(void);

@@ -53,7 +53,7 @@ static ClaNod *createClass(char string[], List *attributes)
   ClaNod *theClass;
 
   slots->attributes = attributes;
-  theClass = newcla(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
+  theClass = newClass(&nulsrcp, newId(&nulsrcp, string), NULL, slots);
   return theClass;
 }
 
@@ -78,12 +78,12 @@ static List *create2Attributes(char firstString[], char secondString[])
 
 static int firstAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.attributes->element.atr->code;
+  return slots->symbol->fields.claOrIns.attributes->element.atr->id->code;
 }
 
 static int secondAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.attributes->next->element.atr->code;
+  return slots->symbol->fields.claOrIns.attributes->next->element.atr->id->code;
 }
 
 static InsNod *firstInstance, *secondInstance;
@@ -134,14 +134,14 @@ void testAttributeListsInSymbolTable()
 
   numberAllAttributes();
 
-  unitAssert(firstClassAttributes->element.atr->code != 0);
-  unitAssert(firstClassAttributes->next->element.atr->code != 0);
-  unitAssert(secondClassAttributes->element.atr->code != 0);
-  unitAssert(secondClassAttributes->next->element.atr->code != 0);
-  unitAssert(firstInstanceAttributes->element.atr->code != 0);
-  unitAssert(firstInstanceAttributes->next->element.atr->code != 0);
-  unitAssert(secondInstanceAttributes->element.atr->code != 0);
-  unitAssert(secondInstanceAttributes->next->element.atr->code != 0);
+  unitAssert(firstClassAttributes->element.atr->id->code != 0);
+  unitAssert(firstClassAttributes->next->element.atr->id->code != 0);
+  unitAssert(secondClassAttributes->element.atr->id->code != 0);
+  unitAssert(secondClassAttributes->next->element.atr->id->code != 0);
+  unitAssert(firstInstanceAttributes->element.atr->id->code != 0);
+  unitAssert(firstInstanceAttributes->next->element.atr->id->code != 0);
+  unitAssert(secondInstanceAttributes->element.atr->id->code != 0);
+  unitAssert(secondInstanceAttributes->next->element.atr->id->code != 0);
 
   unitAssert(firstAttributeCode(firstClass->slots) != secondAttributeCode(firstClass->slots));
   unitAssert(firstAttributeCode(secondClass->slots) != secondAttributeCode(secondClass->slots));

@@ -29,8 +29,7 @@ extern Bool equalId(IdNode *id1,	/* IN - The first id */
 
 extern void symbolizeId(IdNode *id);
 
-/* Generate an Id node */
-extern void geid(IdNode *id);
+extern void generateId(IdNode *id);
 
 /* Dump an Id node */
 extern void dumpId(IdNode *id);

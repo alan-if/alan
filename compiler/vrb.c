@@ -61,6 +61,7 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
       lst->element.id->symbol = newsym(lst->element.id->string, VERB_SYMBOL);
+      lst->element.id->code = lst->element.id->symbol->code;
     } else if (sym->kind == VERB_SYMBOL) {
       lst->element.id->symbol->code = sym->code;
     } else
@@ -192,7 +193,7 @@ static void gevrbent(VrbNod *vrb) /* IN - Verb to generate entry for */
   List *ids;
 
   for (ids = vrb->ids; ids != NULL; ids = ids->next) {
-    geid(ids->element.id);
+    generateId(ids->element.id);
     emit(vrb->altadr);
   }
 }

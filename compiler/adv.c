@@ -67,37 +67,6 @@ void initadv(void)
 }
 
 
-
-#ifdef FIXME
-/*----------------------------------------------------------------------
-
-  prepcodes()
-
-  Calculate min and max codes for all entities.
-
-  */
-static void prepcodes(void)
-{
-  objmin = 1;
-  objmax = objmin + objcount - 1;
-  actmin = objmax + 1;
-  actmax = actmin + actcount - 1;
-  cntmin = actmax + 1;
-  cntmax = cntmin + cntcount - 1;
-  locmin = cntmax + 1;
-  locmax = locmin + loccount - 1;
-  dirmin = locmax + 1;
-  dirmax = dirmin + dircount - 1;
-  vrbmin = dirmax + 1;
-  vrbmax = vrbmin + vrbcount - 1;
-  evtmin = 1;
-  evtmax = evtmin + evtcount - 1;
-  rulmin = 1;
-  rulmax = rulmin + rulcount - 1;
-}
-#endif
-
-
 /*======================================================================
 
   symbolizeAdv()
@@ -146,10 +115,9 @@ static void analyzeStartAt(void)
 void anadv(void)
 {
   symbolizeAdv();
+  numberAllAttributes();
 
 #ifdef FIXME
-  prepcodes();			/* Set up the codes for all entities */
-  prepatrs();			/* Number default attributes */
   prepinss();			/* Sort out the local attributes etc. */
 #endif
   prepwrds();			/* Prepare words in the dictionary */

@@ -604,38 +604,6 @@ void decr(id, atr, step)
   */
 
 #ifdef _PROTOTYPES_
-static Aword locatr(Aword loc, Aword atr)
-#else
-static Aword locatr(loc, atr)
-     Aword loc, atr;
-#endif
-{
-  return getatr(locs[loc-LOCMIN].atrs, atr);
-}
-
-
-
-#ifdef _PROTOTYPES_
-static Aword objatr(Aword obj, Aword atr)
-#else
-static Aword objatr(obj, atr)
-     Aword obj, atr;
-#endif
-{
-  return getatr(objs[obj-OBJMIN].atrs, atr);
-}
-
-#ifdef _PROTOTYPES_
-static Aword actatr(Aword act, Aword atr)
-#else
-static Aword actatr(act, atr)
-     Aword act, atr;
-#endif
-{
-  return getatr(acts[act-ACTMIN].atrs, atr);
-}
-
-#ifdef _PROTOTYPES_
 static Aword litatr(Aword lit, Aword atr)
 #else
 static Aword litatr(lit, atr)
@@ -663,17 +631,15 @@ Aword attribute(id, atr)
 {
   char str[80];
 
-  if (isObj(id))
-    return objatr(id, atr);
-  else if (isLoc(id))
-    return locatr(id, atr);
-  else if (isAct(id))
-    return actatr(id, atr);
-  else if (isLit(id))
+  if (isLit(id))
     return litatr(id, atr);
   else {
-    sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
-    syserr(str);
+    if (id > 0 && id <= header->instanceMax)
+      getatr(instance[id].attributes, atr);
+    else {
+      sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
+      syserr(str);
+    }
   }
   return(EOF);
 }

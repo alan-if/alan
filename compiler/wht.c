@@ -81,7 +81,7 @@ void gewht(WhtNod *wht)		/* IN - What to generate */
     emit0(C_CURVAR, V_CURACT);
     break;
   case WHT_ID:
-    geid(wht->id);
+    generateId(wht->id);
     break;
   }
 }

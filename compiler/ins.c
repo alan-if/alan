@@ -69,6 +69,7 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->slots->parent = parent;
 
   new->slots->symbol = newsym(id->string, INSTANCE_SYMBOL);
+  new->slots->id->code = new->slots->symbol->code;
   new->slots->symbol->fields.claOrIns.attributes = new->slots->attributes;
 
   allInstances = concat(allInstances, new, LIST_INS);

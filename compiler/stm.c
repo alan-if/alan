@@ -806,7 +806,7 @@ static void gedescribe(StmNod *stm) /* IN - Statement */
     break;
 
   case WHT_ID:
-    geid(stm->fields.describe.wht->id);
+    generateId(stm->fields.describe.wht->id);
     break;
 
   default:
@@ -854,7 +854,7 @@ static void gesay(StmNod *stm)	/* IN - The statement to analyze */
 static void gelist(StmNod *stm)	/* IN - Statement */
 {
   if (stm->fields.list.wht->kind == WHT_ID) {
-    geid(stm->fields.list.wht->id);
+    generateId(stm->fields.list.wht->id);
     emit0(C_STMOP, I_LIST);
   } else
     unimpl(&stm->srcp, "Code Generator");
@@ -873,7 +873,7 @@ static void geempty(StmNod *stm) /* IN - Statement */
 {
   if (stm->fields.empty.wht->kind == WHT_ID) {
     gewhr(stm->fields.empty.whr);
-    geid(stm->fields.empty.wht->id);
+    generateId(stm->fields.empty.wht->id);
     emit0(C_STMOP, I_EMPTY);
   } else
     unimpl(&stm->srcp, "Code Generator");
@@ -988,7 +988,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
     unimpl(&stm->srcp, "Code Generator");
     return;
   }
-  geid(stm->fields.schedule.id);
+  generateId(stm->fields.schedule.id);
   emit0(C_STMOP, I_SCHEDULE);
 }
 
@@ -1002,7 +1002,7 @@ static void geschedule(StmNod *stm) /* IN - Statement */
   */
 static void gecancel(StmNod *stm) /* IN - Statement to generate */
 {
-  geid(stm->fields.schedule.id);
+  generateId(stm->fields.schedule.id);
   emit0(C_STMOP, I_CANCEL);
 }
 
@@ -1039,11 +1039,11 @@ static void geuse(StmNod *stm, InsNod *ins) /* IN - Statement */
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
     emit0(C_CONST, stm->fields.use.scriptno);
-    geid(ins->slots->id);
+    generateId(ins->slots->id);
     emit0(C_STMOP, I_USE);
   } else {
     emit0(C_CONST, stm->fields.use.scriptno);
-    geid(stm->fields.use.actor);
+    generateId(stm->fields.use.actor);
     emit0(C_STMOP, I_USE);
   }
 }
@@ -1346,12 +1346,12 @@ void dustm(StmNod *stm)
     in();
     switch(stm->class) {
     case STM_PRINT:
-      put("fpos: "); duint(stm->fields.print.fpos); nl();
-      put("len: "); duint(stm->fields.print.len);
+      put("fpos: "); dumpInt(stm->fields.print.fpos); nl();
+      put("len: "); dumpInt(stm->fields.print.len);
       break;
     case STM_SCORE:
-      put("count: "); duint(stm->fields.score.count); nl();
-      put("score: "); duint(stm->fields.score.score);
+      put("count: "); dumpInt(stm->fields.score.count); nl();
+      put("score: "); dumpInt(stm->fields.score.score);
       break;
     case STM_DESCRIBE:
       put("wht: "); duwht(stm->fields.describe.wht);
@@ -1401,11 +1401,11 @@ void dustm(StmNod *stm)
       break;
     case STM_USE:
       put("script: "); dumpId(stm->fields.use.script); nl();
-      put("scriptno: "); duint(stm->fields.use.scriptno); nl();
+      put("scriptno: "); dumpInt(stm->fields.use.scriptno); nl();
       put("actor: "); dumpId(stm->fields.use.actor);
       break;
     case STM_VISITS:
-      put("count: "); duint(stm->fields.visits.count);
+      put("count: "); dumpInt(stm->fields.visits.count);
       break;
     default:
       break;

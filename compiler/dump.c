@@ -1,6 +1,8 @@
-/*
- ! Internal form DUMP routines for the ALAN compiler
- */
+/*----------------------------------------------------------------------*\
+
+  Internal form DUMP routines for the ALAN compiler
+
+\*----------------------------------------------------------------------*/
 
 #include "sysdep.h"
 #include "lmList.h"
@@ -50,7 +52,7 @@ void dustr(char *s)
 }
 
 
-void duint(int i)
+void dumpInt(int i)
 {
   char buf[20];
 

@@ -24,7 +24,7 @@ void testInitAdv()
 
   initadv();
 
-  cla = newcla(&srcp, atClaId, NULL, NULL);
+  cla = newClass(&srcp, atClaId, NULL, NULL);
   ins = newInstance(&srcp, atInsId, NULL, NULL);
   locationIns = newInstance(&srcp, atInsLocId, newId(&srcp, "location"), NULL);
 

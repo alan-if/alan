@@ -81,8 +81,10 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
       lmLog(&stx->id->srcp, 207, sevWAR, stx->id->string);
   } else if (sym->kind != VERB_SYMBOL)
     lmLog(&stx->id->srcp, 208, sevWAR, stx->id->string);
-  else
+  else {
     stx->id->symbol = sym;
+    stx->id->code = sym->code;
+  }
 
   stx->pars = anelms(stx->elms, stx->ress, stx);
   anress(stx->ress, stx->pars);

@@ -405,6 +405,6 @@ void duelm(ElmNod *elm)
     put("*** ERROR ***"); nl();
     break;
   }
-  put("no: "); duint(elm->no); nl();
+  put("no: "); dumpInt(elm->no); nl();
   put("id: "); dumpId(elm->id); out();
 }

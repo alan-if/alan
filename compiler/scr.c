@@ -181,7 +181,7 @@ Aword gescrs(InsNod *ins)
 void duscr(ScrNod *scr)
 {
   put("SCR: "); dumpSrcp(&scr->srcp); in();
-  put("code: "); duint(scr->code); nl();
+  put("code: "); dumpInt(scr->code); nl();
   put("id: "); dumpId(scr->id); nl();
   put("stps: "); dulst(scr->stps, LIST_STP); nl();
   put("stpadr: "); duadr(scr->stpadr); out();

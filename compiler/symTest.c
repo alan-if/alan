@@ -164,8 +164,8 @@ void testCreateClassSymbol()
   IdNode *heritage = newId(&nulsrcp, "object");
   SymNod *sym, *obj;
 
-  (void) newcla(&srcp, heritage, NULL, NULL);
-  (void) newcla(&srcp, id, heritage, NULL);
+  (void) newClass(&srcp, heritage, NULL, NULL);
+  (void) newClass(&srcp, id, heritage, NULL);
 
   symbolizeClasses();
 

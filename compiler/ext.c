@@ -64,10 +64,12 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
     sym = lookup(lst->element.id->string); /* Find any earlier definition */
     if (sym == NULL) {
       lst->element.id->symbol = newsym(lst->element.id->string, DIRECTION_SYMBOL);
+      lst->element.id->code = lst->element.id->symbol->code;
       newwrd(lst->element.id->string, WRD_DIR, lst->element.id->symbol->code, NULL);
-    } else if (sym->kind == DIRECTION_SYMBOL)
+    } else if (sym->kind == DIRECTION_SYMBOL) {
       lst->element.id->symbol = sym;
-    else
+      lst->element.id->code = lst->element.id->symbol->code;
+    } else
       redefined(&lst->element.id->srcp, sym, lst->element.id->string);
   }
 

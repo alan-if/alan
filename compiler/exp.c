@@ -163,12 +163,13 @@ static void anexpwhr(ExpNod *exp, /* IN - The expression to analyze */
 
 
 /*----------------------------------------------------------------------
-  anatr()
+
+  anexpatr()
 
   Analyze an ATR expression.
 
   */
-static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
+static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 		  EvtNod *evt,	/* IN - Possibly inside Event? */
 		  List *pars)	/* IN - List of parameters */
 {
@@ -219,60 +220,31 @@ static void anatr(ExpNod *exp,	/* IN - The expression to analyze */
       break;
 
     case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: anatr() - namcheck handling");
-#else
-      namcheck(&sym, &elm, exp->fields.atr.wht->fields.wht.wht->id,
-	       NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-#endif
-      atr = NULL;
-      if (elm) {
-	/* It was an element, i.e. syntax parameter */
-	atr = paramatr(exp->fields.atr.atr, elm);
-	if (atr == NULL) {	/* Not a default attribute */
-	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "a parameter");
+      /* Ignore parameters for now */
+      sym = symcheck(&elm, exp->fields.atr.wht->fields.wht.wht->id, INSTANCE_SYMBOL, NULL);
+      if (sym) {
+	if (sym->kind == INSTANCE_SYMBOL) {
+	  exp->fields.atr.wht->fields.wht.wht->id->code = sym->code;
+	  atr = findAttribute(sym->fields.claOrIns.attributes, exp->fields.atr.atr);
+	} else if (sym->kind == PARAMETER_SYMBOL) {
+	  /* We need to find its class restriction */
+	  /* Then find attributes for that class */ 
+	  ;
+	}
+	if (atr == NULL) {	/* Attribute not found */
+	  lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
+		exp->fields.atr.wht->fields.wht.wht->id->string);
 	  exp->typ = TYPUNK;
-	} else {
-	  exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
+	} else if (exp->fields.atr.atr->symbol == NULL) {
+	  exp->fields.atr.atr->code = atr->id->code;
 	  exp->typ = atr->typ;
-	}
-      } else if (sym) {
-#ifndef FIXME
-      syserr("UNIMPLEMENTED - anatr() : attribute to identifier");
-#else
-	switch (sym->class) {
-	case NAMLOC:
-	  atr = findatr(exp->fields.atr.atr->str, ((LocNod *)sym->ref)->atrs, adv.latrs);
-	  break;
-	case NAMOBJ:
-	  atr = findatr(exp->fields.atr.atr->str, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
-	  break;
-	case NAMACT:
-	  atr = findatr(exp->fields.atr.atr->str, ((ActNod *)sym->ref)->atrs, adv.aatrs);
-	  break;
-	default:
-	  break;
-	}
-#endif
-	if (atr == NULL) {	/* Attribute not found locally */
-	  /* Try general default attributes */
-	  if ((atr = findAttribute(NULL, exp->fields.atr.atr)) == NULL) {
-	    /* Still didn't find it */
-	    lmLog(&exp->fields.atr.atr->srcp, 315, sevERR,
-		  exp->fields.atr.wht->fields.wht.wht->id->string);
-	    exp->typ = TYPUNK;
-	  }
-	}
+	} else
+	  syserr("Attribute with symbol in anexpatr()");
       }
-      if (atr != NULL) {
-	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
-	exp->typ = atr->typ;
-      } else
-	exp->typ = TYPUNK;
       break;
 
     default:
-      syserr("Unrecognized switch in anatr()");
+      syserr("Unrecognized switch in anexpatr()");
       break;
     }
   } else
@@ -526,7 +498,7 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
     break;
     
   case EXPATR:
-    anatr(exp, evt, pars);
+    anexpatr(exp, evt, pars);
     break;
     
   case EXPBIN:
@@ -667,14 +639,14 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
-      geid(exp->fields.whr.whr->wht->id);
+      generateId(exp->fields.whr.whr->wht->id);
       emit0(C_CONST, 1);
       emit0(C_CURVAR, V_PARAM);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_AT:
-      geid(exp->fields.whr.whr->wht->id);
+      generateId(exp->fields.whr.whr->wht->id);
       emit0(C_STMOP, I_WHERE);
       break;
     default:
@@ -687,7 +659,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
   case WHT_ID:
     switch (exp->fields.whr.whr->kind) {
     case WHR_HERE:
-      geid(exp->fields.whr.wht->fields.wht.wht->id);
+      generateId(exp->fields.whr.wht->fields.wht.wht->id);
       emit0(C_STMOP, I_HERE);
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
@@ -697,7 +669,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
       if (exp->not) emit0(C_STMOP, I_NOT);
       return;
     case WHR_IN:
-      geid(exp->fields.whr.whr->wht->id);
+      generateId(exp->fields.whr.whr->wht->id);
       gewht(exp->fields.whr.wht->fields.wht.wht);
       emit0(C_STMOP, I_IN);
       if (exp->not) emit0(C_STMOP, I_NOT);
@@ -736,7 +708,7 @@ static void geexpwhr(ExpNod *exp) /* IN - Expression node */
  */
 static void geexpatr(ExpNod *exp) /* IN - Expression node */
 {
-  emit0(C_CONST, exp->fields.atr.atr->symbol->code);
+  generateId(exp->fields.atr.atr);
   gewht(exp->fields.atr.wht->fields.wht.wht);
   if (exp->typ == TYPSTR)
     emit0(C_STMOP, I_STRATTR);
@@ -1068,11 +1040,11 @@ void duexp(ExpNod *exp)
     put("atr: "); dumpId(exp->fields.atr.atr);
     break;
   case EXPINT:
-    put("val: "); duint(exp->fields.val.val);
+    put("val: "); dumpInt(exp->fields.val.val);
     break;
   case EXPSTR:
-    put("fpos: "); duint(exp->fields.str.fpos); nl();
-    put("len: "); duint(exp->fields.str.len);
+    put("fpos: "); dumpInt(exp->fields.str.fpos); nl();
+    put("len: "); dumpInt(exp->fields.str.len);
     break;
   case EXPBIN:
     put("operator: "); duop(exp->fields.bin.op); nl();

@@ -165,6 +165,7 @@ void analyzeSlots(SlotsNode *slots)
   anatrs(slots->attributes);
 
   analyzeMentioned(slots);
+  anstms(slots->description, NULL, NULL, NULL);
 
   if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);

@@ -41,7 +41,7 @@ extern void out(void);
 extern void dustr(char s[]);
 extern void duadr(int adr);
 extern void duptr(void *adr);
-extern void duint(int i);
+extern void dumpInt(int i);
 extern void dumpBool(Bool b);
 
 

@@ -19,7 +19,7 @@ void testCreateClass()
   InsNod *ins;
 
   /* Create a class with unknown inheritance */
-  ClaNod *cla = newcla(&srcp, id, parent, NULL);
+  ClaNod *cla = newClass(&srcp, id, parent, NULL);
 
   unitAssert(equalSrcp(cla->srcp, srcp));
   unitAssert(equalId(cla->slots->id, id));
@@ -55,7 +55,7 @@ void testGenerateClasses()
 
   initEmit("unit.acd");
   symbolizeClasses();
-  cla = newcla(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
+  cla = newClass(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
   unitAssert(addr == firstAdr);	/* Should start at first address after header */
   unitAssert(emadr() == firstAdr + 5*classSize + 1);	/* 5 classes + EOF */

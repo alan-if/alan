@@ -12,6 +12,7 @@
 #include "srcp_x.h"
 #include "sym_x.h"
 
+#include "emit.h"
 #include "elm.h"
 #include "str.h"
 #include "util.h"
@@ -73,19 +74,22 @@ void symbolizeId(IdNode *id)
   id->symbol = lookup(id->string);
   if (id->symbol == NULL) 
     lmLog(&id->srcp, 310, sevERR, id->string);
+  else
+    id->code = id->symbol->code;
 }
 
 
 /*======================================================================
 
-  geid()
-
-  Generate an ID-node.
+  generateId()
 
   */
-void geid(IdNode *id)
+void generateId(IdNode *id)
 {
-  syserr("UNIMPL: geid() - body");
+  if (id->symbol != NULL)
+    emit(id->symbol->code);
+  else
+    emit(id->code);
 }
 
 
@@ -105,5 +109,6 @@ void dumpId(IdNode *id)
   }
 
   put("ID: "); dumpSrcp(&id->srcp); in();
-  put("string: "); dumpString(id->string); out();
+  put("string: "); dumpString(id->string); nl();
+  put("code: "); dumpInt(id->code); out();
 }

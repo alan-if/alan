@@ -171,7 +171,7 @@ Aaddr geress(List *ress,	/* IN - The element class restriction nodes */
 
   /* End it with an End of file and the code for the verb */
   emit(EOF);
-  geid(stx->id);
+  generateId(stx->id);
 
   return(resadr);
 }

@@ -377,9 +377,9 @@ static void numberAttributesRecursively(SymNod *symbol)
 	  definingSymbol = definingSymbolOfAttribute(symbol, theList->element.atr->id);
 	  lmLog(&theList->element.atr->srcp, 332, sevERR, definingSymbol->string);
 	}
-	theList->element.atr->code = inheritedAttribute->code;
+	theList->element.atr->id->code = inheritedAttribute->id->code;
       } else
-	theList->element.atr->code = ++attributeCount;
+	theList->element.atr->id->code = ++attributeCount;
     }
     symbol->fields.claOrIns.attributesAlreadyNumbered = TRUE;
 

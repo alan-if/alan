@@ -44,12 +44,12 @@ void initClasses()
 {
   allClasses = NULL;
 
-  thing = newcla(&nulsrcp, newId(&nulsrcp, "thing"), NULL, NULL);
-  object = newcla(&nulsrcp, newId(&nulsrcp, "object"),
+  thing = newClass(&nulsrcp, newId(&nulsrcp, "thing"), NULL, NULL);
+  object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
 		  newId(&nulsrcp, "thing"), NULL);
-  location = newcla(&nulsrcp, newId(&nulsrcp, "location"),
+  location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
 		    newId(&nulsrcp, "thing"), NULL);
-  actor = newcla(&nulsrcp, newId(&nulsrcp, "actor"),
+  actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
 		 newId(&nulsrcp, "thing"), NULL);
 
 }
@@ -63,10 +63,10 @@ void initClasses()
   Allocates and initialises a class node.
 
   */
-ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,
-	       IdNode *parent,
-	       SlotsNode *slots)
+ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
+		 IdNode *id,
+		 IdNode *parent,
+		 SlotsNode *slots)
 {
   ClaNod *new;                  /* The newly allocated area */
 
@@ -83,6 +83,7 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new->slots->id = id;
   new->slots->parent = parent;
   new->slots->symbol = newsym(id->string, CLASS_SYMBOL);
+  new->slots->id->code = new->slots->symbol->code;
   new->slots->symbol->fields.claOrIns.attributes = new->slots->attributes;
 
   allClasses = concat(allClasses, new, LIST_CLA);

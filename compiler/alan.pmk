@@ -644,7 +644,7 @@ static int val(char str[])
 <class>			-- RETURNS: cla
     = 'EVERY' ID <optional_heritage> <slots> <class_tail>
     %%
-	%<class>.cla = newcla(`&%'EVERY'.srcp,
+	%<class>.cla = newClass(`&%'EVERY'.srcp,
 				%ID.id,
 				%<optional_heritage>.id,
 				newSlots(%<slots>.nams,

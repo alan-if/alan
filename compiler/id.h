@@ -26,6 +26,7 @@ typedef struct IdNode {		/* ID */
   Srcp srcp;			/* Source position of the identifier */
   char *string;			/* String representation */
   SymNod *symbol;		/* Symbol table pointer */
+  int code;
 } IdNode;
 
 #endif
