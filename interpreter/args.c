@@ -102,8 +102,8 @@ void args(argc, argv)
     if (strcmp(prgbuf, "arun") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
-	else
-	  advnam = advbuf;
+    else
+      advnam = advbuf;
     oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
  }
 #else

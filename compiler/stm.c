@@ -1467,6 +1467,9 @@ void dustm(stm)
   case STM_RESTORE:
     put("RESTORE ");
     break;
+  case STM_VISITS:
+    put("VISITS ");
+    break;
   default:
     put("*** UNKNOWN ***");
     break;
@@ -1539,6 +1542,9 @@ void dustm(stm)
     case STM_USE:
       put("script: "); duint(stm->fields.use.script); nl();
       put("actor: "); dunam(stm->fields.use.actor);
+      break;
+    case STM_VISITS:
+      put("count: "); duint(stm->fields.visits.count);
       break;
     default:
       break;

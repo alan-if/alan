@@ -284,6 +284,9 @@ void duadv(dmp)
      enum dmpkd dmp;
 #endif
 {
+  if (dmp&DMPALL)
+    dmp = (enum dmpkd)-1L;
+
   put("ADV: "); in();
   put("oatrs: "); dulst(adv.oatrs, ATRNOD); nl();
   put("latrs: "); dulst(adv.latrs, ATRNOD); nl();

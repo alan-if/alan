@@ -24,7 +24,8 @@ typedef enum dmpkd {
     DMPCNT = (long)DMPOBJ<<1,
     DMPEVT = (long)DMPCNT<<1,
     DMPACT = (long)DMPEVT<<1,
-    DMPRUL = (long)DMPACT<<1
+    DMPRUL = (long)DMPACT<<1,
+    DMPALL = (long)DMPRUL<<1
 } DmpKind;
 
 
