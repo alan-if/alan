@@ -1,4 +1,4 @@
-cat > 2_8_1. <<EOF
+cat > 2_8_2. <<EOF
 Alan
 Adventure Language System
 EOF
