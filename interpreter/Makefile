@@ -13,7 +13,8 @@ CFLAGS	= $(DEBUG) $(INCLUDE)
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= $(LQ)
 
-LDFLAGS = $(LQ) -lreadline -ltermcap -L$(HOME)/lib/`arch`
+#LDFLAGS = $(LQ) -readline -ltermcap -L$(HOME)/lib/`arch`
+LDFLAGS = $(LQ)
 
 sun4 := LDFLAGS = $(LQ) -lreadline -ltermcap -lns -L$(HOME)/lib/`arch` -L/usr/local/lib/4.1.2 -L/usr/local/lib
 

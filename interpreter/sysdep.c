@@ -51,54 +51,6 @@ char *strdup(char str[])		/* IN - String to duplicate */
 #endif
 
 
-<<<<<<< sysdep.c
-#ifdef __amiga__
-
-char *strdup(str)
-     char str[];			/* IN - String to duplicate */
-{
-  char *new = (char *) malloc(strlen(str)+1);
-
-  if (!new)
-    syserr("Out of memory");
-  strcpy(new, str);
-  return new;
-}
-
-
-void memcpy(out, in, length)
-    char *out;
-    char *in;
-    int length;
-{
-  while(length--)
-    *out++ = *in++;
-}
-
-
-void memset(mem, val, length)
-    char *mem;
-    char val;
-    int length;
-{
-  while(length--)
-    *mem++ = val;
-}
-
-void *realloc(old, newLength)
-     void *old;			/* IN - address to the old area */
-     int newLength;		/* IN - new length */
-{
-  void *new;
-
-  new = malloc(newLength);
-  memcpy(new, old, newLength);
-  free(old);
-  return new;
-}
-
-#endif
-
 #ifdef __vms__
 
 /* Cheat implementation of strftime */

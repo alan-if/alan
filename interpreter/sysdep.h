@@ -75,7 +75,7 @@
 #endif
 
 #ifdef __unix__
-#define USE_READLINE
+/* #define USE_READLINE */
 #define MULTI
 #endif
 
