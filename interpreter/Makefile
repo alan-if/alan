@@ -54,10 +54,11 @@ debug all tcov release: objarch arun
 sun3 solaris2 hp: objarch fromsrc
 
 objarch:
-	@if test `cat .arch` != `arch`; then \
-	    \rm *.o; \
+	if test -f .arch; then :; else echo "none" > .arch; fi
+	if test `cat .arch` != `arch`; then \
+	    rm *.o; \
+	    echo `arch` > .arch; \
 	fi
-	@echo `arch` > .arch
 
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
