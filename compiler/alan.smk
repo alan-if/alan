@@ -157,7 +157,7 @@ int scannedLines()
 
     count = read(smThis->fd, (char *)smBuffer, smLength);
     for (pos = 0; pos < count; pos++)
-      if (smBuffer[pos] = '\r')
+      if (smBuffer[pos] == '\r')
 	smBuffer[pos] = '\n';
 
     return count;

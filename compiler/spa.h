@@ -65,6 +65,15 @@ has been advised of the possibility of such damages.
 #define __NEWC__
 #endif
 #ifdef THINK_C
+#ifndef __mac__
+#define __mac__
+#endif
+#define __NEWC__
+#endif
+#ifdef __MWERKS__
+#ifndef __mac__
+#define __mac__
+#endif
 #define __NEWC__
 #endif
 #ifdef CMS
@@ -149,7 +158,7 @@ typedef struct _SPA_ITEM {	/* PRIVATE structure for items */
 #define SPA_END {0},{0}};
 
 
-#ifdef THINK_C
+#ifdef __mac__
 #define spaProcess(C,V,A,O,E) _spaPreProcess(&C,&V,A,O,E)
 
 extern int _spaPreProcess(	/* Wrapper to _spaProcess (which see) */

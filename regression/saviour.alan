@@ -5,7 +5,7 @@
 -- held. That company was producing Cobol-executing small business computers.
 --
 -- Well, in 1985 I went on to start at my current company, SoftLab, which as
--- a main area of competence has computer langauges and development tools.
+-- a main area of competence has computer languages and development tools.
 -- As a first experiment I implemented the IF language that Göran Forslund and
 -- I had talked about for some time. That was Alan version 0. Since then
 -- Alan has matured and is now in its v2.x:s. This game has been with us
@@ -15,7 +15,7 @@
 -- does not show the real potential of Alan (but perhaps some of its elegance
 -- can be glimpsed ;-) But due to popular demand I am now placing this at
 --
---	ftp.gmd.de:/if-archive
+--	ftp://ftp.gmd.de/pub/if-archive
 --
 -- Probably under programming/alan/examples (unless Volker Blasius doesn't
 -- have any better suggestion)
