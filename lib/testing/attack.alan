@@ -1,0 +1,15 @@
+$include 'std.i'
+
+The p Isa location
+End The p.
+
+The obj Isa object In hero
+  Is shootable.
+End The obj.
+
+The act Isa actor At p
+  Is named.
+  Definite Article ""
+End The act.
+
+Start At p.

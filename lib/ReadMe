@@ -1,7 +1,7 @@
 Alan Library
 ------------
 
-The files in this distribution are an early development version of an
+The files in this distribution constitutes a development version of an
 Alan v3 standard library. As Alan v3 is still in development stages
 this is work in progress and use is on your own risk. The basis for
 this library is a conversion from the proposed Alan standard library
@@ -15,25 +15,26 @@ The actual library files (the files with a filename extension of ".i")
 are added to the source code of your game by "$include'ing" the main
 file called std.i -- see the text file 'notes.txt' for details.
 
-The second line of each library file lists the previous library versions 
-with which it is completely compatible
+The second line of each library file lists the previous library
+versions with which it is completely compatible.
 
-For example, if its completely compatible with, or unchanged from, the last
-three library versions then the line will read:
+For example, if its completely compatible with, or unchanged from, the
+last three library versions then the line will read:
 
 	-- Library version 0.2, 0.3, 0.4
 
-Files which are changed so that they are not *exactly* compatible with any 
-previous versions except for library 0.4.1 then the second line will be:
+Files which are changed so that they are not *exactly* compatible with
+any previous versions except for library 0.4.1 then the second line
+will be:
 
 	-- Library version 0.4.1
 
 This might make it easier to decide if this new version of the library
 will affect your work. Note however that even very small incompatible
-changes are considered *incompatible*. For example, the introduction of 
-one single "the" in a message might seem trivial but might change the 
-appearance of the message if the author had made allowance for this deficency 
-in his work.
+changes are considered *incompatible*. For example, the introduction
+of one single "the" in a message might seem trivial but might change
+the appearance of the message if the author had made allowance for
+this deficency in his work.
 
 ----
 
@@ -101,7 +102,7 @@ and suggestions to Stephen.
 
 Visit the Alan Home Pages at
 
-	http://www.welcome.to/alan-if
+	http://welcome.to/alan-if
 
 
 Steve's comments:

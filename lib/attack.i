@@ -59,6 +59,8 @@ Syntax
   shoot = shoot (obj)
     Where obj Isa thing
       Else "You can't shoot at that."
+  shoot = shoot 'at' (obj).
+
 
 Add To Every thing
   Verb shoot
@@ -67,33 +69,8 @@ Add To Every thing
 	"You need to specify what to shoot at."
       Else
 	"You need to specify what you want to shoot"
-	If obj Is named Then
-	  Say obj.
-	  "with."
-	Else
-	  "the $o with."
-	End If.
+        Say The obj. "with."
       End If.
-  End Verb.
-End Add To.
-
-
-
-Syntax
-  shoot_at0 = shoot 'at' (obj)
-    Where obj Isa thing
-      Else "You can't shoot at that."
-
-Add To Every thing
-  Verb shoot_at0
-    Does
-      "You need to specify what you want to shoot"
-	If obj Is named Then
-	  Say obj.
-	  "with."
-	Else
-	  "the $o with."
-	End If.
   End Verb.
 End Add To.
 
