@@ -30,7 +30,7 @@ static void buffer(w)
      Aword w;
 #endif
 {
-  crc += w&0xff;			/* Check sum calculation */
+  crc += w&0xff;                        /* Check sum calculation */
   crc += (w>>8)&0xff;
   crc += (w>>16)&0xff;
   crc += (w>>24)&0xff;
@@ -44,13 +44,13 @@ static void buffer(w)
 #ifdef REVERSED
 #ifdef _PROTOTYPES_
 static Aword reversed(Aword w)
-             			/* IN - The ACODE word to swap bytes in */
+				/* IN - The ACODE word to swap bytes in */
 #else
 static Aword reversed(w)
-     Aword w;			/* IN - The ACODE word to swap bytes in */
+     Aword w;                   /* IN - The ACODE word to swap bytes in */
 #endif
 {
-  Aword s;			/* The swapped ACODE word */
+  Aword s;                      /* The swapped ACODE word */
   char *wp, *sp;
   int i;
   
@@ -77,10 +77,10 @@ Aword emadr()
 
 #ifdef _PROTOTYPES_
 void emit(Aword c)
-             			/* IN - Constant to emit */
+				/* IN - Constant to emit */
 #else
 void emit(c)
-     Aword c;			/* IN - Constant to emit */
+     Aword c;                   /* IN - Constant to emit */
 #endif
 {
 #ifdef REVERSED
@@ -154,13 +154,13 @@ void emitstr(str)
 
 #ifdef _PROTOTYPES_
 void emit0(
-     OpClass class,		/* IN - Operation class */
-     Aword op			/* IN - Operation, instr, const or var */
+     OpClass class,             /* IN - Operation class */
+     Aword op                   /* IN - Operation, instr, const or var */
 )
 #else
 void emit0(class, op)
-     OpClass class;		/* IN - Operation class */
-     Aword op;			/* IN - Operation, instr, const or var */
+     OpClass class;             /* IN - Operation class */
+     Aword op;                  /* IN - Operation, instr, const or var */
 #endif
 {
   emit(((Aword)class<<28)|((Aword)op&0x0fffffff));
@@ -340,27 +340,27 @@ static UWORD iconData2[400] = {
 			};
 
 static struct Image iconImage1 = {
-  0,				/* LeftEdge */
-  0,				/* TopEdge */
-  79,				/* Width */
-  40,				/* Height */
-  2,				/* Depth */
-  &iconData1,		/* ImageData */
-  3,				/* PlanePick */
-  0,				/* PlaneOnOff */
-  NULL				/* NextImage */
+  0,                            /* LeftEdge */
+  0,                            /* TopEdge */
+  79,                           /* Width */
+  40,                           /* Height */
+  2,                            /* Depth */
+  &iconData1,           /* ImageData */
+  3,                            /* PlanePick */
+  0,                            /* PlaneOnOff */
+  NULL                          /* NextImage */
   };
 
 static struct Image iconImage2 = {
-  0,				/* LeftEdge */
-  0,				/* TopEdge */
-  79,				/* Width */
-  40,				/* Height */
-  2,				/* Depth */
-  &iconData2,		/* ImageData */
-  3,				/* PlanePick */
-  0,				/* PlaneOnOff */
-  NULL				/* NextImage */
+  0,                            /* LeftEdge */
+  0,                            /* TopEdge */
+  79,                           /* Width */
+  40,                           /* Height */
+  2,                            /* Depth */
+  &iconData2,           /* ImageData */
+  3,                            /* PlanePick */
+  0,                            /* PlaneOnOff */
+  NULL                          /* NextImage */
   };
 
 static UBYTE *toolTypes[] = {
@@ -370,40 +370,40 @@ static UBYTE *toolTypes[] = {
 static struct DiskObject iconObject = {
   WB_DISKMAGIC, WB_DISKVERSION,
   {
-    NULL,			/* NextGadget */
-    215,			/* LeftEdge */
-    20,				/* TopEdge */
-    79,				/* Width */
-    41,				/* Height */
-    GADGIMAGE|GADGHIMAGE,	/* Flags */
-    RELVERIFY|GADGIMMEDIATE,	/* Activation */
-    BOOLGADGET,			/* GadgetType */
-    (APTR)&iconImage1,		/* GadgetRender */
-    (APTR)&iconImage2,		/* SelectRender */
-    NULL,			/* GadgetText */
-    0,				/* MutualExclude */
-    NULL,			/* SpecialInfo */
-    0,				/* GadgetId */
-    NULL			/* UserData */
+    NULL,                       /* NextGadget */
+    215,                        /* LeftEdge */
+    20,                         /* TopEdge */
+    79,                         /* Width */
+    41,                         /* Height */
+    GADGIMAGE|GADGHIMAGE,       /* Flags */
+    RELVERIFY|GADGIMMEDIATE,    /* Activation */
+    BOOLGADGET,                 /* GadgetType */
+    (APTR)&iconImage1,          /* GadgetRender */
+    (APTR)&iconImage2,          /* SelectRender */
+    NULL,                       /* GadgetText */
+    0,                          /* MutualExclude */
+    NULL,                       /* SpecialInfo */
+    0,                          /* GadgetId */
+    NULL                        /* UserData */
     },
-  WBPROJECT,			/* Type */
-  "AlanDir:arun",		/* DefaultTool */
-  &toolTypes,				/* ToolTypes */
-  NO_ICON_POSITION,		/* CurrentX */
-  NO_ICON_POSITION,		/* CurrentY */
-  NULL,				/* DrawerData */
-  NULL,				/* ToolWindow */
-  0				/* StackSize */
+  WBPROJECT,                    /* Type */
+  "AlanDir:arun",               /* DefaultTool */
+  &toolTypes,                           /* ToolTypes */
+  NO_ICON_POSITION,             /* CurrentX */
+  NO_ICON_POSITION,             /* CurrentY */
+  NULL,                         /* DrawerData */
+  NULL,                         /* ToolWindow */
+  0                             /* StackSize */
   };
 #endif
 
 #ifdef _PROTOTYPES_
 void eminit(
-     char *acdfnm		/* IN - File name for ACODE instructions */
+     char *acdfnm               /* IN - File name for ACODE instructions */
 )
 #else
 void eminit(acdfnm)
-     char acdfnm[];		/* IN - File name for ACODE instructions */
+     char acdfnm[];             /* IN - File name for ACODE instructions */
 #endif
 {
   int i;
@@ -452,24 +452,31 @@ void emterm(hdr)
      AcdHdr *hdr;
 #endif
 {
-  Aword *hp;			/* Pointer to header as words */
+  Aword *hp;                    /* Pointer to header as words */
   int i;
 
   if (pc%BLOCKSIZE > 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
-  hdr->acdcrc = crc;		/* Save checksum */
+  hdr->acdcrc = crc;            /* Save checksum */
 
   (void) rewind(acdfil);
   pc = 0;
 
   /* Construct version marking */
+#ifdef REVERSED  
+  hdr->vers[3] = (Aword)product.version.version;
+  hdr->vers[2] = (Aword)product.version.revision;
+  hdr->vers[1] = (Aword)product.version.correction;
+  hdr->vers[0] = (Aword)product.version.state[0];
+#else
   hdr->vers[0] = (Aword)product.version.version;
   hdr->vers[1] = (Aword)product.version.revision;
   hdr->vers[2] = (Aword)product.version.correction;
   hdr->vers[3] = (Aword)product.version.state[0];
+#endif
 
-  hp = (Aword *) hdr;		/* Point to header */
+  hp = (Aword *) hdr;           /* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
     emit(*hp++);
   fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */

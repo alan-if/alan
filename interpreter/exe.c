@@ -1532,20 +1532,7 @@ void save()
   strcpy(savfnm, str);
 
   /* Save version of interpreter and name of game */
-#ifdef REVERSED
-  {
-    Aword v;
-    char *vp = (char *)&v;
-
-    vp[3] = (int)(header->vers>>24)&0xff;
-    vp[2] = (int)(header->vers>>16)&0xff;
-    vp[1] = (int)(header->vers>>8)&0xff;
-    vp[0] = (int)(header->vers)&0xff;
-    fwrite((void *)&v, sizeof(Aword), 1, savfil);
-  }
-#else
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
-#endif
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);

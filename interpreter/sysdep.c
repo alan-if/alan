@@ -23,7 +23,7 @@ extern void syserr(char str[]);
 
 #ifdef __vms__
 
-char *strdup(char str[])		/* IN - String to duplicate */
+char *strdup(char str[])                /* IN - String to duplicate */
 {
   char *new = (char *) malloc(strlen(str)+1);
 
@@ -38,7 +38,7 @@ char *strdup(char str[])		/* IN - String to duplicate */
 
 #ifdef __mac__
 
-char *strdup(char str[])		/* IN - String to duplicate */
+char *strdup(char str[])                /* IN - String to duplicate */
 {
   char *new = (char *) malloc((size_t)((int)strlen(str)+1));
 
@@ -72,23 +72,6 @@ size_t strftime (
 #endif
 
 #ifdef __dos__
-
-/* Cheat implementation of strftime */
-size_t strftime (
-		 char *outbuf,
-		 size_t len,
-		 const char *format,
-		 const struct tm *t)
-{
-  char buf[100];
-  time_t ticks;
-
-  time(&ticks);
-  strcpy(buf, ctime(&ticks));
-  buf[strlen(buf)-1] = '\0';
-  strcpy(outbuf, &buf[4]);
-}
-
 #endif
 
 
@@ -113,10 +96,10 @@ static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ¿¡¬√ƒ≈∆«… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€€›ﬁ
 #endif
 
 #ifdef _PROTOTYPES_
-int isSpace(int c)		/* IN - Native character to test */
+int isSpace(int c)              /* IN - Native character to test */
 #else
 int isSpace(c)
-     int c;			/* IN - Native character to test */
+     int c;                     /* IN - Native character to test */
 #endif
 {
   return (c != '\0' && strchr(spcChrs, c) != 0);
@@ -124,10 +107,10 @@ int isSpace(c)
 
 
 #ifdef _PROTOTYPES_
-int isLower(int c)		/* IN - Native character to test */
+int isLower(int c)              /* IN - Native character to test */
 #else
 int isLower(c)
-     int c;			/* IN - Native character to test */
+     int c;                     /* IN - Native character to test */
 #endif
 {
   return (c != '\0' && strchr(lowChrs, c) != 0);
@@ -135,20 +118,20 @@ int isLower(c)
 
 
 #ifdef _PROTOTYPES_
-int isUpper(int c)		/* IN - Native character to test */
+int isUpper(int c)              /* IN - Native character to test */
 #else
 int isUpper(c)
-     int c;			/* IN - Native character to test */
+     int c;                     /* IN - Native character to test */
 #endif
 {
   return (c != '\0' && strchr(uppChrs, c) != 0);
 }
 
 #ifdef _PROTOTYPES_
-int isLetter(int c)		/* IN - Native character to test */
+int isLetter(int c)             /* IN - Native character to test */
 #else
 int isLetter(c)
-     int c;			/* IN - Native character to test */
+     int c;                     /* IN - Native character to test */
 #endif
 {
   return(c != '\0' && (isLower(c)? !0: isUpper(c)));
@@ -156,10 +139,10 @@ int isLetter(c)
 
 
 #ifdef _PROTOTYPES_
-int toLower(int c)		/* IN - Native character to convert */
+int toLower(int c)              /* IN - Native character to convert */
 #else
 int toLower(c)
-     int c;			/* IN - Native character to convert */
+     int c;                     /* IN - Native character to convert */
 #endif
 {
 #ifdef __dos__
@@ -184,10 +167,10 @@ int toLower(c)
 }
 
 #ifdef _PROTOTYPES_
-int toUpper(int c)		/* IN - Native character to convert */
+int toUpper(int c)              /* IN - Native character to convert */
 #else
 int toUpper(c)
-     int c;			/* IN - Native character to convert */
+     int c;                     /* IN - Native character to convert */
 #endif
 {
 #ifdef __dos__
@@ -212,10 +195,10 @@ int toUpper(c)
 }
 
 #ifdef _PROTOTYPES_
-char *strlow(char str[])	/* INOUT - Native string to convert */
+char *strlow(char str[])        /* INOUT - Native string to convert */
 #else
 char *strlow(str)
-     char str[];		/* INOUT - Native string to convert */
+     char str[];                /* INOUT - Native string to convert */
 #endif
 {
   char *s;
@@ -227,10 +210,10 @@ char *strlow(str)
 
 
 #ifdef _PROTOTYPES_
-char *strupp(char str[])	/* INOUT - Native string to convert */
+char *strupp(char str[])        /* INOUT - Native string to convert */
 #else
 char *strupp(str)
-     char str[];		/* INOUT - Native string to convert */
+     char str[];                /* INOUT - Native string to convert */
 #endif
 {
   char *s;
@@ -244,10 +227,10 @@ char *strupp(str)
 /* The following work on ISO characters */
 
 #ifdef _PROTOTYPES_
-int isLowerCase(int c)		/* IN - ISO character to test */
+int isLowerCase(int c)          /* IN - ISO character to test */
 #else
 int isLowerCase(c)
-     int c;			/* IN - ISO character to test */
+     int c;                     /* IN - ISO character to test */
 #endif
 {
   static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
@@ -256,10 +239,10 @@ int isLowerCase(c)
 
 
 #ifdef _PROTOTYPES_
-int isUpperCase(int c)		/* IN - ISO character to test */
+int isUpperCase(int c)          /* IN - ISO character to test */
 #else
 int isUpperCase(c)
-     int c;			/* IN - ISO character to test */
+     int c;                     /* IN - ISO character to test */
 #endif
 {
   static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
@@ -268,10 +251,10 @@ int isUpperCase(c)
 
 
 #ifdef _PROTOTYPES_
-int isISOLetter(int c)		/* IN - ISO character to test */
+int isISOLetter(int c)          /* IN - ISO character to test */
 #else
 int isISOLetter(c)
-     int c;			/* IN - ISO character to test */
+     int c;                     /* IN - ISO character to test */
 #endif
 {
   return (isLowerCase(c) || isUpperCase(c));
@@ -279,7 +262,7 @@ int isISOLetter(c)
 
 
 #ifdef _PROTOTYPES_
-char toLowerCase(int c)		/* IN - ISO character to convert */
+char toLowerCase(int c)         /* IN - ISO character to convert */
 #else
 char toLowerCase(c)
      int c;
@@ -290,7 +273,7 @@ char toLowerCase(c)
 
 
 #ifdef _PROTOTYPES_
-char toUpperCase(int c)		/* IN - ISO character to convert */
+char toUpperCase(int c)         /* IN - ISO character to convert */
 #else
 char toUpperCase(c)
      int c;
@@ -301,10 +284,10 @@ char toUpperCase(c)
 
 
 #ifdef _PROTOTYPES_
-char *stringLower(char str[])	/* INOUT - ISO string to convert */
+char *stringLower(char str[])   /* INOUT - ISO string to convert */
 #else
 char *stringLower(str)
-     char str[];		/* INOUT - ISO string to convert */
+     char str[];                /* INOUT - ISO string to convert */
 #endif
 {
   char *s;
@@ -316,10 +299,10 @@ char *stringLower(str)
 
 
 #ifdef _PROTOTYPES_
-char *stringUpper(char str[])	/* INOUT - ISO string to convert */
+char *stringUpper(char str[])   /* INOUT - ISO string to convert */
 #else
 char *stringUpper(str)
-     char str[];		/* INOUT - ISO string to convert */
+     char str[];                /* INOUT - ISO string to convert */
 #endif
 {
   char *s;
@@ -330,16 +313,16 @@ char *stringUpper(str)
 }
 
 #ifdef _PROTOTYPES_
-void toIso(char copy[],	/* OUT - Mapped string */
-	     char original[])	/* IN - string to convert */
+void toIso(char copy[], /* OUT - Mapped string */
+	     char original[])   /* IN - string to convert */
 #else
 void toIso(copy, original)
-     char copy[];		/* OUT - Mapped string */
-     char original[];		/* IN - string to convert */
+     char copy[];               /* OUT - Mapped string */
+     char original[];           /* IN - string to convert */
 #endif
 {
 #if ISO == 0
-static char map[256]
+static unsigned char map[256]
 #if defined __mac__
 = {
 0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0A,0x0E,0x0F,
@@ -391,16 +374,16 @@ static char map[256]
 }
 
 #ifdef _PROTOTYPES_
-void fromIso(char copy[],	/* OUT - Mapped string */
-	     char original[])	/* IN - string to convert */
+void fromIso(char copy[],       /* OUT - Mapped string */
+	     char original[])   /* IN - string to convert */
 #else
 void fromIso(copy, original)
-     char copy[];		/* OUT - Mapped string */
-     char original[];		/* IN - string to convert */
+     char copy[];               /* OUT - Mapped string */
+     char original[];           /* IN - string to convert */
 #endif
 {
 #if ISO == 0
-static char map[256]
+static unsigned char map[256]
 #if defined __mac__
 = {
 0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0D,0x0B,0x0C,0x0D,0x0E,0x0F,

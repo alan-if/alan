@@ -14,7 +14,7 @@
 #ifdef _PROTOTYPES_
 
 extern void reverseHdr(AcdHdr *hdr);
-extern void reverseACD(void);
+extern void reverseACD(Boolean v25);
 extern void reverse(Aword *word);
 extern Aword reversed(Aword word);
 
