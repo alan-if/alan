@@ -5,20 +5,24 @@ The dr_phil Isa actor At l
   Name dr phil
 End The dr_phil.
 
-Add To Every object
+Add To Every actor
   Verb put_in
     When i Does
       Locate i In c.
   End Verb.
 End Add.
 
-The cont Isa object At l
+Every contObj Isa object
+  Container
+End Every contObj.
+
+The cont Isa contObj
   Container
 End The cont.
 
 Syntax
   put_in = put (i) 'in' (c)
-    Where c Isa container
+    Where c Isa contObj
       Else "You can not put anything in that."
     And i Isa actor
       Else "You can only put actors into containers ;-)"

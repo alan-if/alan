@@ -80,3 +80,20 @@ IdNode *classIdInContext(Context *context)
 
   return(classId);
 }
+
+/*======================================================================*/
+Bool thisIsaContainer(Context *context)
+{
+  Properties *props;
+
+  if (context->instance != NULL)
+    props = context->instance->props;
+  else if (context->class != NULL)
+    props = context->class->props;
+  else
+    return FALSE;
+
+  return props->container != NULL;
+}
+
+

@@ -21,5 +21,5 @@ extern Context *pushContext(Context *context);
 extern Bool inEntityContext(Context *context);
 extern Bool inLocationContext(Context *context);
 extern IdNode *classIdInContext(Context *context);
-
+extern Bool thisIsaContainer(Context *context);
 #endif

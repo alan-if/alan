@@ -164,9 +164,10 @@ static lmMsgs msg[] = {
     { "342   ", "Can not inherit %1." },
     { "343   ", "Can not inherit %1. (Yet!)" },
     { "350   ", "Can not inherit from something not a class." },
-    { "351   ", "Must refer to %1 inheriting from \'%2\'." },
+    { "351   ", "%1 must refer to %2 inheriting from \'%3\'." },
     { "352   ", "%1 \'%2\' does not inherit from \'%3\', but has %4." },
     { "354   ", "%1 \'%2\' inherits from \'%3\', but has %4." },
+    { "355   ", "Initial location can only refer to instances inheriting from \'location\' using AT or to instances having the container property using IN." },
     { "400   ", "Script not defined for %1 \'%2\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
@@ -214,7 +215,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 134}
+    {0, 135}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -3,12 +3,12 @@ End The l.
 
 The o1 Isa object At l
   Container
-    Takes unknown.
+    Taking unknown.
 End The o1.
 
 The o2 Isa object At l.
   Container
-    Takes location.
+    Taking location.
     Limits unknown 4 Else "Too much."
   Verb put_in
     When o

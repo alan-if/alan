@@ -144,28 +144,10 @@ static void analyzeLocate(StmNod *stm, Context *context)
   case WHERE_AT:
     break;
   case WHR_IN:
-#ifdef OLD
-    switch (stm->fields.locate.wht->kind) {
-    case WHAT_LOCATION:
-      lmLog(&stm->srcp, 402, sevERR, "A Location");
-    case WHAT_ACTOR:
-      lmLog(&stm->srcp, 402, sevERR, "An  Actor");
-      break;
-    case WHAT_ID:
-      if (inheritsFrom(whtSymbol, actorSymbol))
-	lmLog(&stm->srcp, 402, sevERR, "An Actor");
-      if (inheritsFrom(whtSymbol, locationSymbol))
-	lmLog(&stm->srcp, 402, sevERR, "A Location");
-      break;
-    default:
-      syserr("Unexpected WhtKind in '%s()'", __FUNCTION__);
-    }
-#else
-    contentClass = classOfContent(whr);
+    contentClass = classOfContent(whr, context);
     if (contentClass != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
-#endif
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
@@ -316,7 +298,7 @@ static void analyzeUse(StmNod *stm, Context *context)
       analyzeExpression(exp, context);
       if (exp->type != ERROR_TYPE)
 	if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
-	  lmLog(&exp->srcp, 410, sevERR, "USE statement");
+	  lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
 	  return;
 	}
       symbol = symbolOf(exp);
@@ -358,7 +340,7 @@ static void analyzeStop(StmNod *stm, Context *context)
     sym = symbolOf(exp);
     if (sym) {
       if (!inheritsFrom(sym, actorSymbol))
-	lmLog(&stm->fields.stop.actor->srcp, 410, sevERR, "STOP statement");
+	lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);
     }
   }
 }

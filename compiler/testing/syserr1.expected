@@ -16,7 +16,8 @@ syserr1.alan
    17.  Start At l.
 =====>           1
 
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : START statement must refer to an instance inheriting from
+                'location'.
 
 
         3 error(s).

@@ -66,7 +66,8 @@ void symbolizeWhere(Where *whr)
 
 
 /*======================================================================*/
-Symbol *classOfContent(Where *where) {
+/* Find what classes a container takes */
+Symbol *classOfContent(Where *where, Context *context) {
   Symbol *symbol = NULL;
   Properties *props;
 
@@ -81,6 +82,14 @@ Symbol *classOfContent(Where *where) {
       break;
     case WHAT_ID:
       symbol = where->what->id->symbol;
+      break;
+    case WHAT_THIS:
+      if (context->instance != NULL)
+	symbol = context->instance->props->id->symbol;
+      else if (context->class != NULL)
+	symbol = context->class->props->id->symbol;
+      else
+	return NULL;
       break;
     default:
       syserr("Unexpected What kind in '%s()'", __FUNCTION__);	
@@ -118,15 +127,15 @@ void verifyInitialLocation(Where *whr)
   switch (whr->kind) {
   case WHERE_AT:
     if (whr->what->kind == WHAT_ID) {
-      inheritCheck(whr->what->id, "an instance", "location");
+      inheritCheck(whr->what->id, "Initial location using AT", "an instance", "location");
     } else
-      lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
+      lmLog(&whr->srcp, 355, sevERR, "");
     break;
   case WHR_IN:
     verifyContainer(whr->what, NULL);
     break;
   default:
-      lmLogv(&whr->srcp, 351, sevERR, "an instance", "location", NULL);
+    lmLogv(&whr->srcp, 355, sevERR, "");
     break;
   }
 }

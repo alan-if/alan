@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>312.89</origest>
-<currest>311.89</currest>
-<elapsed>163.89</elapsed>
+<origest>315.89</origest>
+<currest>314.89</currest>
+<elapsed>164.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>42</origest>
-<currest>42</currest>
-<elapsed>10</elapsed>
+<origest>45</origest>
+<currest>45</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>21</origest>
 <currest>21</currest>
-<elapsed>10</elapsed>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -152,7 +152,7 @@ Simply allow an expression as the actor in USE statement, inheritance etc. will 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -271,8 +271,8 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -280,6 +280,15 @@ Would "There is a actor here." be a better default?</notes>
 <notes>Generally: UNDO should say something, standard messages?
 
 Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: add a context.symbol</desc>
+<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -393,8 +402,8 @@ Which of the above works, and what is the problem with each that doesn't?
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -408,6 +417,15 @@ Which of the above works, and what is the problem with each that doesn't?
 </task>
 <task>
 <desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression in List statement.</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -485,8 +503,8 @@ Message CANTSEE:
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -513,6 +531,15 @@ Multiple VERB '%1'
 with
 
 Multiple %1 '%2'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>PLAY statement</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -609,6 +636,19 @@ Has type of the container TAKES</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Arrays</desc>
+<notes>Some kind of list or array datatype, like TADS lists, with
+appropriate operations (indexing, finding its length, inserting
+an item, deleting an item).
+
+(Greg Ewing in Alan-IF mailing list)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add Entered</desc>
 <notes/>
 <priority>2</priority>
@@ -620,6 +660,21 @@ Has type of the container TAKES</notes>
 <task>
 <desc>Infinite loops can occur if the articles try to Say The this.</desc>
 <notes>There are a number of situations that can cause infinite interpreter loops. Like the recursive describe. Possibly they can be detected in the same way.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherting all props</desc>
+<notes>Investigate which ones are left!!!!
+
+DONE:
+attributes
+scripts
+verbs
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -646,24 +701,6 @@ Has type of the container TAKES</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Language texts in external files</desc>
-<notes>Need:
-To allow user managed language translations.
-
-Design:
-If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
-
-Implementation:
-1) Allow any id as a value for the language option.
-2) Find an external langauge-specific message file and use it.
-3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>VISITS is a reserved word that causes many compiler problems</desc>
 <notes>See compiler test case visits.alan</notes>
 <priority>2</priority>
@@ -678,16 +715,6 @@ Implementation:
     winarun images -t
 results in
     Could not open "images -t.a3c"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
-<notes>Add a FUNCTION_SYMBOL to the symbol table.
-Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -746,6 +773,34 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Refactor UNDO? and SCORE to be FUNCTION_SYMBOLS</desc>
+<notes>Add a FUNCTION_SYMBOL to the symbol table.
+Look up all WHAT_ID expressions and transform them into function_expressions with function code instead.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Language texts in external files</desc>
+<notes>Need:
+To allow user managed language translations.
+
+Design:
+If an external file with the name used in the langauge option this should be used as texts for the pre-defined interpreter messages.
+
+Implementation:
+1) Allow any id as a value for the language option.
+2) Find an external langauge-specific message file and use it.
+3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Refactor: change "newxyz(&amp;srcp, " to just "newxyz(srcp, " for all xyz?</desc>
 <notes/>
 <priority>2</priority>
@@ -759,21 +814,6 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <notes>Usefullness?
 
 Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherting all props</desc>
-<notes>Investigate which ones are left!!!!
-
-DONE:
-attributes
-scripts
-verbs
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -888,6 +928,16 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
+<desc>CHECKs on containers</desc>
+<notes>
+Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>QUIT question &amp; prompt</desc>
 <notes>"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
 
@@ -989,6 +1039,28 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Some kind of procedures</desc>
+<notes>NEED: to be able to execute common code without mis-using e.g events.
+
+ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
+
+Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Functions</desc>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Actor conversation</desc>
@@ -1256,28 +1328,6 @@ The hero Isa actor
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Some kind of procedures</desc>
-<notes>NEED: to be able to execute common code without mis-using e.g events.
-
-ANALYSIS: we could add a new property, METHOD or ACTION or ... Which could be declared in classes and instances. It would be inherited normally, so you could "Do method Of instance." or "method:instance" or "open:door". In the last case we would probably not have methods in same namespace as verbs.
-
-Still to figure out how to send parameters, and to make analysis of availability of syntax parameters (complicated to investigate all invocations to verify their environment).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Functions</desc>
-<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Author modifiable prompt</desc>
 <notes/>
 <priority>2</priority>
@@ -1311,19 +1361,6 @@ Still to figure out how to send parameters, and to make analysis of availability
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Arrays</desc>
-<notes>Some kind of list or array datatype, like TADS lists, with
-appropriate operations (indexing, finding its length, inserting
-an item, deleting an item).
-
-(Greg Ewing in Alan-IF mailing list)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1450,16 +1487,6 @@ Set a Of i To 4.
 
 which seems a bit superflous.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>CHECKs on containers</desc>
-<notes>
-Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -5101,7 +5128,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Automatic capitalizing of nouns (e.g in german) only worked for player said words</desc>
 <notes>Now since the parameters don't use the player words this is invalidated. Probably should change strategy so that the player can input any word and the words are stored capitalized (if specified). This would possibly do away with the run-time capitalization and the impossibility for the player to input names of locations which are automatically capsed by the compiler.

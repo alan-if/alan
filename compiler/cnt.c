@@ -17,6 +17,7 @@
 #include "stm_x.h"
 #include "chk_x.h"
 #include "id_x.h"
+#include "context_x.h"
 
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
@@ -84,22 +85,6 @@ Container *newContainer(ContainerBody *body)
   return(new);
 }
 
-/*----------------------------------------------------------------------*/
-Bool thisIsaContainer(Context *context)
-{
-  Properties *props;
-
-  if (context->instance != NULL)
-    props = context->instance->props;
-  else if (context->class != NULL)
-    props = context->class->props;
-  else
-    return FALSE;
-
-  return props->container != NULL;
-}
-
-
 /*======================================================================*/
 void verifyContainer(What *wht, Context *context)
 {
@@ -122,7 +107,7 @@ void verifyContainer(What *wht, Context *context)
 	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
 	break;
       case PARAMETER_SYMBOL:
-	if (!sym->fields.parameter.restrictedToContainer)
+	if (!isContainer(sym))
 	  lmLogv(&wht->srcp, 312, sevERR, wht->id->string, "a container", NULL);
 	break;
       default:
@@ -131,8 +116,12 @@ void verifyContainer(What *wht, Context *context)
     break;
 
   case WHAT_LOCATION:
-  case WHAT_ACTOR:
     lmLog(&wht->srcp, 311, sevERR, "a Container");
+    break;
+
+  case WHAT_ACTOR:
+    if (actorSymbol->fields.entity.props->container == NULL)
+      lmLog(&wht->srcp, 311, sevERR, "a Container");
     break;
 
   default:

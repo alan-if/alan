@@ -394,6 +394,24 @@ Bool isClass(Symbol *symbol) {
 
 
 /*======================================================================*/
+Bool isContainer(Symbol *symbol) {
+  if (symbol != NULL) {
+    switch (symbol->kind) {
+    case PARAMETER_SYMBOL:
+      return symbol->fields.parameter.restrictedToContainer
+	|| isContainer(symbol->fields.parameter.class);
+    case CLASS_SYMBOL:
+      return symbol->fields.entity.props->container != NULL
+	|| isContainer(symbol->fields.entity.parent);
+    default:
+      syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);
+    }
+  }
+  return FALSE;
+}
+
+
+/*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
@@ -493,7 +511,7 @@ void setParameters(Symbol *verb, List *parameters)
 }
 
 /*======================================================================*/
-void inheritCheck(IdNode *id, char classOrInstance[], char className[])
+void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 {
   /* Check that the given identifier inherits the class passed as a string.
      This will only be used for built in class checks (location, actor etc.)
@@ -504,7 +522,7 @@ void inheritCheck(IdNode *id, char classOrInstance[], char className[])
   if (theClassSymbol == NULL) syserr("There is no such class in '%s()'", __FUNCTION__);
 
   if (!inheritsFrom(id->symbol, theClassSymbol))
-    lmLogv(&id->srcp, 351, sevERR, classOrInstance, "location", NULL);
+    lmLogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
 }
 
 

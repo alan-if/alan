@@ -323,13 +323,6 @@ int smScAction(
 }
     break;
 
-  case  96:		/* 'VISITS'*/ 
-    {
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
-    
-}
-    break;
-
   case 133:		/* INCLUDE*/ 
     {
       Srcp srcp, start;

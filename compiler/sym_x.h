@@ -62,6 +62,7 @@ extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
 extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
 extern Bool isClass(Symbol *symbol);
+extern Bool isContainer(Symbol *symbol);
 
 extern void newFrame(void);
 extern void deleteFrame(void);
@@ -70,7 +71,7 @@ extern void deleteFrame(void);
 extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
 extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
-extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
+extern void inheritCheck(IdNode *id, char *what, char classOrInstance[], char className[]);
 
 extern void setParameters(Symbol *verb, List *parameters);
 

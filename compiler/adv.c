@@ -97,7 +97,7 @@ static void analyzeStartAt(void)
     switch (adv.whr->kind) {
     case WHERE_AT:
       if (adv.whr->what->kind == WHAT_ID) {
-	inheritCheck(adv.whr->what->id, "an instance", "location");
+	inheritCheck(adv.whr->what->id, "START statement", "an instance", "location");
       } else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;

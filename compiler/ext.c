@@ -114,7 +114,7 @@ void symbolizeExits(List *theExitList)
  */
 static void analyzeExit(ExtNod *ext, Context *context)
 {
-  inheritCheck(ext->target, "an instance", "location");
+  inheritCheck(ext->target, "Target of an Exit", "an instance", "location");
 
   analyzeChecks(ext->chks, context);
   analyzeStatements(ext->stms, context);

@@ -27,10 +27,10 @@ void testClassOfContent()
 				    NULL, NULL,NULL);
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
-  ASSERT(classOfContent(whereInLocation) == NULL);
+  ASSERT(classOfContent(whereInLocation, NULL) == NULL);
 
   symbolizeId(takesId);
-  ASSERT(classOfContent(whereInId) == locationSymbol);
+  ASSERT(classOfContent(whereInId, NULL) == locationSymbol);
 }
 
 void testInitialLocation()

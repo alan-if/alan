@@ -6,7 +6,8 @@ useReferenceAttributeActor.alan
    10.    Use Script unknownScript For nonactor Of l.
 =====>                                          1
 
-  *1*   410 E : USE statement must refer to an instance inheriting from actor.
+  *1*   351 E : USE statement must refer to an instance inheriting from
+                'actor'.
 
    11.    Use Script unknownScript For janitor Of l.
 =====>               1

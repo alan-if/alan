@@ -23,7 +23,8 @@ inheritVerb2.alan
 =====>           1
 
   *1*   310 E : Identifier 'l' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
+  *1*   351 E : START statement must refer to an instance inheriting from
+                'location'.
 
 
         4 error(s).
