@@ -47,21 +47,14 @@ int objcount = 0;
 
  */
 #ifdef _PROTOTYPES_
-ObjNod *newobj(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, CntNod *props, List *atrs, List *dscr1, List *dscr2, List *vrbs)
-                	/* IN - Source Position */
-                 	/* IN - The object name */
-                	/* IN - List of adjectives and a noun */
-                 	/* IN - Where initially */
-                   	/* IN - Properties */
-                	/* IN - Attributes */
-                         /* IN - And its description statements */
-                	/* IN - The verbs handled by the object */
+ObjNod *newobj(Srcp *srcp, NamNod *nam, List *nams, WhrNod *whr, List *art, CntNod *props, List *atrs, List *dscr1, List *dscr2, List *vrbs)
 #else
-ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr1, dscr2, vrbs)
+ObjNod *newobj(srcp, nam, nams, whr, art, props, atrs, dscr1, dscr2, vrbs)
      Srcp *srcp;	/* IN - Source Position */
      NamNod *nam;	/* IN - The object name */
      List *nams;	/* IN - List of adjectives and a noun */
      WhrNod *whr;	/* IN - Where initially */
+     List *art;		/* IN - Article statments */
      CntNod *props;	/* IN - Properties */
      List *atrs;	/* IN - Attributes */
      List *dscr1,*dscr2; /* IN - And its description statements */
@@ -78,6 +71,7 @@ ObjNod *newobj(srcp, nam, nams, whr, props, atrs, dscr1, dscr2, vrbs)
   new->nam = nam;
   new->nams = nams;
   new->whr = whr;
+  new->art = art;
   new->props = props;
   new->atrs = atrs;
   new->dscr1 = dscr1;
@@ -213,6 +207,7 @@ static void anobj(obj)
     ancnt(obj->props);
   
   anstms(obj->dscr1, NULL, NULL, NULL);
+  anstms(obj->art, NULL, NULL, NULL);
   anstms(obj->dscr2, NULL, NULL, NULL);
   anvrbs(obj->vrbs, obj, NULL);
 }
@@ -260,6 +255,13 @@ static void geobjdscrs(obj)
     emit0(C_STMOP, I_RETURN);
   } else
     obj->d1adr = 0;
+
+  if (obj->art != NULL) {
+    obj->artadr = emadr();
+    gestms(obj->art, NULL);
+    emit0(C_STMOP, I_RETURN);
+  } else
+    obj->artadr = 0;
 
   obj->d2adr = emadr();
   gestms(obj->dscr2, NULL);
@@ -315,6 +317,7 @@ static void geobjent(obj)
   
   /* The descriptions */
   emit(obj->d1adr);
+  emit(obj->artadr);
   emit(obj->d2adr);
 }
 

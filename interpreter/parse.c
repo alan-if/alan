@@ -653,7 +653,7 @@ static void try(mlst)
     } else {
       if (!claCheck(cla)) {
 	interpret(cla->stms);
-	error(M_NOMSG);		/* Return to player */
+	error(MSGMAX);		/* Return to player without saying anything */
       }
     }
     checked[cla->code-1] = TRUE; /* Remember that it's already checked */

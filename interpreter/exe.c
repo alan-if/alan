@@ -1103,6 +1103,23 @@ static void saylit(lit)
   }    
 }
 
+	
+#ifdef _PROTOTYPES_
+void sayarticle(Aword id)
+#else
+void sayarticle(id)
+     Aword id;
+#endif
+{
+  if (!isObj(id))
+    syserr("Trying to say article of something *not* an object.");
+  if (objs[id-OBJMIN].art != 0)
+    interpret(objs[id-OBJMIN].art);
+  else
+    prmsg(M_ARTICLE);
+}
+
+
 #ifdef _PROTOTYPES_
 void say(Aword id)
 #else
@@ -1157,6 +1174,7 @@ static void dscrobj(obj)
     interpret(objs[obj-OBJMIN].dscr1);
   else {
     prmsg(M_SEEOBJ1);
+    sayarticle(obj);
     say(obj);
     prmsg(M_SEEOBJ4);
     if (objs[obj-OBJMIN].cont != 0)
@@ -1297,6 +1315,7 @@ void list(cnt)
 	  prmsg(M_CONTAINS3);
 	}
 	multiple = TRUE;
+	sayarticle(prevobj);
 	say(prevobj);
       }
       prevobj = i;
@@ -1306,6 +1325,7 @@ void list(cnt)
   if (found) {
     if (multiple)
       prmsg(M_CONTAINS4);
+    sayarticle(prevobj);
     say(prevobj);
     prmsg(M_CONTAINS5);
   } else {
@@ -1381,12 +1401,14 @@ void dscrobjs()
 	objs[i-OBJMIN].describe) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
+	sayarticle(i);
 	say(i);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needsp = FALSE;
 	  prmsg(M_SEEOBJ2);
+	  sayarticle(prevobj);
 	  say(prevobj);
 	}
 	multiple = TRUE;
@@ -1397,6 +1419,7 @@ void dscrobjs()
   if (found) {
     if (multiple) {
       prmsg(M_SEEOBJ3);
+      sayarticle(prevobj);
       say(prevobj);
     }
     prmsg(M_SEEOBJ4);
@@ -1498,13 +1521,26 @@ void save()
   if ((savfil = fopen(str, "r")) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
-      error(M_NOMSG);
+      error(MSGMAX);		/* Return to player without saying anything */
   if ((savfil = fopen(str, "w")) == NULL)
     error(M_SAVEFAILED);
   strcpy(savfnm, str);
 
   /* Save version of interpreter and name of game */
+#ifdef REVERSED
+  {
+    Aword v;
+    char *vp = (char *)&v;
+
+    vp[3] = (int)(header->vers>>24)&0xff;
+    vp[2] = (int)(header->vers>>16)&0xff;
+    vp[1] = (int)(header->vers>>8)&0xff;
+    vp[0] = (int)(header->vers)&0xff;
+    fwrite((void *)&v, sizeof(Aword), 1, savfil);
+  }
+#else
   fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
+#endif
   fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
   /* Save current values */
   fwrite((void *)&cur, sizeof(cur), 1, savfil);
@@ -1589,6 +1625,7 @@ void restore()
   strcpy(savfnm, str);		/* Save it for future use */
 
   fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
+  /* 4f - save file version check doesn't seem to work on PC's! */
   if (savedVersion != header->vers) {
     fclose(savfil);
     error(M_SAVEVERS);

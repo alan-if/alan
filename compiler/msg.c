@@ -44,12 +44,12 @@ static char *engmsg[] =
   "You can't $v the $1.",
   "There is nothing here that you can $v.",
   "There is",
-  ", ",
+  "$$, ",
   "and ",
   "here.",
   "is here.",
   "The",
-  "contains ",
+  "contains",
   ", ",
   "and ",
   "$$.",
@@ -68,7 +68,8 @@ static char *engmsg[] =
   "Sorry, the save file did not contain a save for this adventure.",
   "Enter file name to restore from",
   "Do you want to restart (y) ? ",
-  NULL
+  "a",
+  NULL				/* MUST end with NULL */
 };
 
 static char *swemsg[] = {
@@ -114,7 +115,8 @@ static char *swemsg[] = {
   "Tyvärr, det var inte detta äventyr som var sparat i den filen.",
   "Hämta sparat äventyr från vilken fil",
   "Vill du försöka igen (j) ? ",
-  NULL
+  "en",
+  NULL				/* MUST end with NULL */
 };
 
 
@@ -196,9 +198,9 @@ void prepmsgs()
   List *lst = NULL;	/* The constructed list */
 
 
-  if (sizeof(swemsg)/sizeof(swemsg[0]) != MSGMAX)
+  if (sizeof(swemsg)/sizeof(swemsg[0]) != MSGMAX+1)
     syserr("Incorrect number of messages in swedish message tables");
-  if (sizeof(engmsg)/sizeof(engmsg[0]) != MSGMAX)
+  if (sizeof(engmsg)/sizeof(engmsg[0]) != MSGMAX+1)
     syserr("Incorrect number of messages in english message tables");
 
   switch (opts[OPTLANG].value) {

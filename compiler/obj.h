@@ -23,6 +23,8 @@ typedef struct ObjNod {		/* OBJECT */
   NamNod *nam;			/* Name of the object */
   List *nams;			/* List of adjectives and a noun */
   WhrNod *whr;			/* Where is it? */
+  List *art;			/* Article printing statements */
+  Aword artadr;			/* ACODE address to attribute statements */
   CntNod *props;		/* Container properties */
   List *atrs;			/* Attributes ... */
   Aword atradr;			/* ACODE address to attribute list */
@@ -53,6 +55,7 @@ extern ObjNod *newobj(Srcp *srcp,
 		      NamNod *nam,
 		      List *nams,
 		      WhrNod *whr,
+		      List *art,
 		      CntNod *props,
 		      List *atrs,
 		      List *dscr1,

@@ -760,6 +760,7 @@ object			-- RETURNS: obj
 			     %object_header.nam,
 			     %object_header.nams,
 			     %object_header.whr,
+			     %object_header.stms,
 			     %object_body.cnt,
 			     %object_body.atrs,
 			     %object_body.stms,
@@ -774,12 +775,13 @@ object			-- RETURNS: obj
 
 
 object_header		-- RETURNS: srcp, nam, nams, whr
-    = 'OBJECT' ID optional_name optional_where
+    = 'OBJECT' ID optional_name optional_where optional_article
     %%
 	%object_header.srcp = %'OBJECT'.srcp;
 	%object_header.nam  = newnam(`&%ID.srcp, %ID.chars);
 	%object_header.nams = %optional_name.nams;
 	%object_header.whr  = %optional_where.whr;
+        %object_header.stms  = %optional_article.stms;
     %%
     ;
 
@@ -869,6 +871,18 @@ optional_name		-- RETURNS: nams
     ! 'NAME' ids
     %%
 	%optional_name.nams = %ids.nams;
+    %%
+    ;
+
+optional_article	-- RETURNS: stms
+    =
+    %%
+	%optional_article.stms = NULL;
+    %%
+
+    ! 'ARTICLE' statements
+    %%
+	%optional_article.stms = %statements.stms;
     %%
     ;
 

@@ -175,7 +175,7 @@ void error(msgno)
      MsgKind msgno;		/* IN - The error message number */
 #endif
 {
-  if (msgno != M_NOMSG)
+  if (msgno != MSGMAX)
     prmsg(msgno);
   wrds[wrdidx] = EOF;		/* Force new player input */
   dscrstkp = 0;			/* Reset describe stack */
