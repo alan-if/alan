@@ -4,7 +4,7 @@
 
   Handles the various startup methods on all machines.
 
-  Main function args() will set up global variable advnam and the flags,
+  Main function args() will set up global variable adventureName and the flags,
   the terminal will also be set up and connected.
 
 \*----------------------------------------------------------------------*/
@@ -41,8 +41,6 @@ BPTR cd;
 #include "glk.h"
 #include "glkio.h"
 #endif
-
-char *advnam = NULL;
 
 #ifdef _PROTOTYPES_
 static void switches(
@@ -215,7 +213,7 @@ void args(argc, argv)
 #endif
 
 	GetMacArgs(advbuf);
-	advnam = advbuf;
+	adventureName = advbuf;
 
 #else
 
@@ -239,10 +237,10 @@ void args(argc, argv)
     /* Geek Gadgets GCC */
     wb_parse();
 #endif
-    advnam = prgnam = WBstart->sm_ArgList[0].wa_Name;
+    adventureName = prgnam = WBstart->sm_ArgList[0].wa_Name;
     if (WBstart->sm_NumArgs > 0) {
       cd = CurrentDir(DupLock(WBstart->sm_ArgList[1].wa_Lock));
-      advnam = WBstart->sm_ArgList[1].wa_Name;
+      adventureName = WBstart->sm_ArgList[1].wa_Name;
     }
     /* Possibly other tooltypes ... */
   } else {
@@ -254,10 +252,10 @@ void args(argc, argv)
       prgnam++;
     /* Now look at the switches and arguments */
     switches(argc, argv);
-    if (advnam[0] == '\0')
+    if (adventureName[0] == '\0')
       /* No game given, try program name */
       if (stricmp(prgnam, PROGNAME) != 0)
-	advnam = strdup(argv[0]);
+	adventureName = strdup(argv[0]);
   }
 #else
 
@@ -307,10 +305,10 @@ void args(argc, argv)
     prgnam[strlen(prgnam)-4] = '\0';
   /* Now look at the switches and arguments */
   switches(argc, argv);
-  if (advnam[0] == '\0')
+  if (adventureName[0] == '\0')
     /* No game given, try program name */
     if (strcmp(prgnam, PROGNAME) != 0)
-      advnam = strdup(argv[0]);
+      adventureName = strdup(argv[0]);
 #else
 
 /***********************************************************************\
@@ -327,10 +325,10 @@ void args(argc, argv)
     *strrchr(prgnam, ';') = '\0';
   /* Now look at the switches and arguments */
   switches(argc, argv);
-  if (advnam == NULL)
+  if (adventureName == NULL)
     /* No game given, try program name */
     if (strcmp(prgnam, PROGNAME) != 0)
-      advnam = strdup(argv[0]);
+      adventureName = strdup(argv[0]);
 #else
 
 
