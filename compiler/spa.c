@@ -192,7 +192,7 @@ PRIVATE struct {		/* Code reduction data structure */
     FILE *deffile;
     char *iomode;
 } fileDefault[2] = {		/* We assume _SPA_OutFile-_SPA_InFile == 1 */
-#ifdef CMS
+#ifdef STDIONONCONST
     { NULL, "r" },		/* Set file before use! */
     { NULL, "w" }
 #else
@@ -751,7 +751,7 @@ PUBLIC char SpaAlertLevel = 'I';
     File for alert messages (default stderr)
 */
 PUBLIC FILE *SpaAlertFile
-#ifdef CMS
+#ifdef STDIONONCONST
 	= NULL;	/* In this env stderr isn't a constant */
 #else
 	= stderr;
@@ -856,7 +856,7 @@ IS {
     register int a, n;
     register char *s;
 
-#ifdef CMS
+#ifdef STDIONONCONST
     fileDefault[0].deffile = stdin;
     fileDefault[1].deffile = stdout;
     if (!SpaAlertFile) SpaAlertFile = stderr;

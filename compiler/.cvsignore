@@ -1,4 +1,5 @@
-*.d
+alan.exe
+*.o
 .*stamp
 .HoldDirectoryFinderInfoForMacNFS
 .arch
