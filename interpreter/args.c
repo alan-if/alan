@@ -79,14 +79,14 @@ void args(argc, argv)
   char *prgnam;
 
 #ifdef __mac__
+#include <console.h>
   short msg, files;
   static char advbuf[256], prgbuf[256];
+  AppFile af;
+  OSErr oe;
 
   CountAppFiles(&msg, &files);
   if (msg==0 && files>0) {		/* Found files! */
-    AppFile af;
-    OSErr oe;
-
     GetAppFiles(1, &af);
     advnam = (char *)af.fName;
     strncpy(advbuf, (char *)&af.fName[1], af.fName[0]);
@@ -102,10 +102,16 @@ void args(argc, argv)
     if (strcmp(prgbuf, "arun") != 0)
       /* Another program name use that as the name of the adventure */
       advnam = prgbuf;
-    else
+    else {
+      int argc;
+      char **argv[100];
+      
+      argc = ccommand(argv);
+      switches(argc, *argv);
       advnam = advbuf;
+    }
     oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
- }
+  }
 #else
 #ifdef __amiga__
 #include <workbench/startup.h>
