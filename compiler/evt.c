@@ -108,7 +108,8 @@ static void geevt(evt)
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = emadr();
     emitstr(evt->nam->str);
-  }
+  } else
+    evt->namadr = 0;
   evt->stmadr = emadr();
   gestms(evt->stms, NULL);
   emit0(C_STMOP, I_RETURN);

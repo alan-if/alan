@@ -518,8 +518,10 @@ static void prepareNames()
 #else
     strcat(srcptr, ".alan");	/* Was there none add */
 #endif
-  } else
-    *(strrchr(advnam, '.')) = '\0';
+  } else {
+    char *p = strrchr(advnam, '.');
+    *p = '\0';
+  }
   
   /* -- create list file name -- */
   strcpy(lstfnm, advnam);
