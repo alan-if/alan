@@ -607,6 +607,28 @@ void interpret(adr)
 	  printf("\t(%ld)", top());
 	break;
       }
+      case I_MULT: {
+	Aword lh, rh;
+	lh = pop();
+	rh = pop();
+	if (stpflg)
+	  printf("MULT \t%5ld, %5ld", lh, rh);
+	push(lh * rh);
+	if (stpflg)
+	  printf("\t(%ld)", top());
+	break;
+      }
+      case I_DIV: {
+	Aword lh, rh;
+	lh = pop();
+	rh = pop();
+	if (stpflg)
+	  printf("DIV \t%5ld, %5ld", lh, rh);
+	push(lh / rh);
+	if (stpflg)
+	  printf("\t(%ld)", top());
+	break;
+      }
       case I_NOT: {
 	Aword val;
 	val = pop();

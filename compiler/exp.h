@@ -42,6 +42,8 @@ typedef enum ExpKind {		/* EXPRESSION kinds */
 typedef enum OpKind {		/* OPERATOR kinds */
   OP_PLUS,
   OP_MINUS,
+  OP_MULT,
+  OP_DIV,
   OP_AND,
   OP_OR,
   OP_NE,			/* Not equal */

@@ -123,6 +123,8 @@ typedef enum InstClass {
   I_GT,
   I_PLUS,
   I_MINUS,
+  I_MULT,
+  I_DIV,
   I_NOT,
   I_UMINUS,
   I_RND,

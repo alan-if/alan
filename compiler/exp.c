@@ -366,6 +366,8 @@ static void anbin(exp, evt, pars)
 
   case OP_PLUS:
   case OP_MINUS:
+  case OP_MULT:
+  case OP_DIV:
     if (!eqtyp(exp->fields.bin.left->typ, TYPINT))
       lmLog(&exp->fields.bin.left->srcp, 330, sevERR, "integer");
     if (!eqtyp(exp->fields.bin.right->typ, TYPINT))
@@ -621,6 +623,12 @@ static void geexpbin(exp)
     break;
   case OP_MINUS:
     emit0(C_STMOP, I_MINUS);
+    break;
+  case OP_MULT:
+    emit0(C_STMOP, I_MULT);
+    break;
+  case OP_DIV:
+    emit0(C_STMOP, I_DIV);
     break;
   }
   if (exp->not) emit0(C_STMOP, I_NOT);
@@ -955,6 +963,12 @@ static void duop(op)
     break;
   case OP_MINUS:
     put("MINUS");
+    break;
+  case OP_MULT:
+    put("MULT");
+    break;
+  case OP_DIV:
+    put("DIV");
     break;
   }
 }

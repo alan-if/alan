@@ -1717,6 +1717,18 @@ binop			-- RETURNS: op, srcp
 	%binop.op = OP_MINUS;
 	%binop.srcp = %'-'.srcp;
     %%
+
+    ! '*'
+    %%
+	%binop.op = OP_MULT;
+	%binop.srcp = %'*'.srcp;
+    %%
+
+    ! '/'
+    %%
+	%binop.op = OP_DIV;
+	%binop.srcp = %'/'.srcp;
+    %%
     ;
 
 
