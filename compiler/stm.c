@@ -110,19 +110,15 @@ static void ansay(StmNod *stm,
 
 /*----------------------------------------------------------------------
 
-  anlist()
+  analyzeList()
 
   Analyze a LIST statement.
 
   */
-static void anlist(StmNod *stm,
-		   Context *context)	
+static void analyzeList(StmNod *stm,
+			Context *context)	
 {
-#ifndef FIXME
-  syserr("UNIMPL: anlist() - cntcheck");
-#else
-  cntcheck(stm->fields.list.wht, pars);
-#endif
+  verifyContainer(stm->fields.list.wht, context);
 }
 
 
@@ -629,7 +625,7 @@ static void anstm(StmNod *stm,
     ansay(stm, context);
     break;
   case STM_LIST:
-    anlist(stm, context);
+    analyzeList(stm, context);
     break;
   case STM_EMPTY:
     anempty(stm, context);

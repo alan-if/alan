@@ -54,7 +54,7 @@ extern void setParent(SymNod *child, SymNod *parent);
 extern SymNod *parentOf(SymNod *child);
 extern Bool inheritsFrom(SymNod *child, SymNod *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
-
+extern SymNod *findParameter(IdNode *parameterId, List *parameterSymbols);
 extern void setParameters(SymNod *verb, List *parameters);
 extern void numberAllAttributes(void);
 extern void replicateInheritedAttributes(void);

@@ -58,56 +58,45 @@ ResNod *newRestriction(
 
 
 
-static SymNod *findParameter(ResNod *res, List *parameterSymbols)
-{
-  List *p;
-
-  for (p = parameterSymbols; p != NULL; p = p->next) {
-    if (p->element.sym->kind != PARAMETER_SYMBOL)
-      syserr("Not a parameter symbol in analyzeRestriction()");
-    if (equalId(res->parameterId, p->element.sym->fields.parameter.element->id))
-      return p->element.sym;
-  }
-  return NULL;
-}
-
-
 static void resolveParameterClass(ResNod *res, SymNod *parameter)
 {
   SymNod *classSymbol;
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
-  if (res->classId == NULL) {
-    classSymbol = object->slots->id->symbol;
+  switch (res->kind) {
+  case ID_RESTRICTION: 
+    classSymbol = lookup(res->classId->string);
+    if (classSymbol != NULL)
+      if (classSymbol->kind != CLASS_SYMBOL) {
+	lmLog(&res->classId->srcp, 317, sevERR, "");
+	classSymbol = NULL;
+      } else {
+	res->classId->symbol = classSymbol;
+	res->classId->code = classSymbol->code;
+      }
+    else
+      lmLog(&res->classId->srcp, 317, sevERR, "");
     /* Set the class in the corresponding parameter symbol */
     parameter->fields.parameter.class = classSymbol;
     parameter->fields.parameter.type = INSTANCE_TYPE;
-  } else {
-    switch (res->kind) {
-    case ID_RESTRICTION: 
-      classSymbol = lookup(res->classId->string);
-      if (classSymbol != NULL)
-	if (classSymbol->kind != CLASS_SYMBOL) {
-	  lmLog(&res->classId->srcp, 317, sevERR, "");
-	  classSymbol = NULL;
-	} else {
-	  res->classId->symbol = classSymbol;
-	  res->classId->code = classSymbol->code;
-	}
-      else
-	lmLog(&res->classId->srcp, 317, sevERR, "");
-      /* Set the class in the corresponding parameter symbol */
-      parameter->fields.parameter.class = classSymbol;
-      parameter->fields.parameter.type = INSTANCE_TYPE;
-      break;
+    break;
 
-    case CONTAINER_RESTRICTION:
-      break;
+  case CONTAINER_RESTRICTION:
+    break;
 
-    default:
-      syserr("Unimplemented restriction kind in resolveParameterClass()");
-      break;
-    }
+  case STRING_RESTRICTION:
+    parameter->fields.parameter.class = NULL;
+    parameter->fields.parameter.type = STRING_TYPE;
+    break;
+
+  case INTEGER_RESTRICTION:
+    parameter->fields.parameter.class = NULL;
+    parameter->fields.parameter.type = INTEGER_TYPE;
+    break;
+
+  default:
+    syserr("Unimplemented restriction kind in resolveParameterClass()");
+    break;
   }
 
 }
@@ -127,7 +116,7 @@ static void analyzeRestriction(
   SymNod *parameter;
   Context context;
 
-  parameter = findParameter(res, parameterSymbols);
+  parameter = findParameter(res->parameterId, parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
 
@@ -237,14 +226,33 @@ Aaddr generateRestrictions(
 }
 
 
+
+/*----------------------------------------------------------------------
+
+  dumpRestrictionKind()
+
+*/
+static void dumpRestrictionKind(RestrictionKind kind)
+{
+  switch (kind) {
+  case ID_RESTRICTION: put("ID"); break;
+  case INTEGER_RESTRICTION: put("INTEGER"); break;
+  case STRING_RESTRICTION: put("STRING"); break;
+  case CONTAINER_RESTRICTION: put("CONTAINER"); break;
+  default: put("*** UNKNOWN ***"); break;
+  }
+}
+
+
+
 /*======================================================================
 
-  dures()
+  dumpRestriction()
 
-  Dump a syntax element Class restriction node.
+  Dump a syntax parameter restriction node.
 
  */
-void dures(ResNod *res)
+void dumpRestriction(ResNod *res)
 {
   if (res == NULL) {
     put("NULL");
@@ -252,6 +260,7 @@ void dures(ResNod *res)
   }
 
   put("RES: "); dumpSrcp(&res->srcp); in();
+  put("kind: "); dumpRestrictionKind(res->kind); nl();
   put("parameterId: "); dumpId(res->parameterId); nl();
   put("classId: "); dumpId(res->classId); nl();
   put("stms: "); dulst(res->stms, LIST_STM); out();

@@ -106,75 +106,6 @@ AtrNod *findAttribute(List *attributes, IdNode *id)
 }
 
 
-
-/*======================================================================
-
-  paramatr()
-
-  Verify the existence of an attribute for a particular parameter.
-
-  */
-AtrNod *paramatr(IdNode *id, ElmNod *elm)
-{
-  AtrNod *atr = NULL;
-
-#ifndef FIXME
-      syserr("UNIMPLEMENTED: paramatr()");
-#else
-  if (elm->res == NULL || elm->res->single) {
-    /* No restriction (default = OBJECT) or explicit single class! */
-    if (elm->res == NULL || (elm->res->classbits & NAMOBJ) != 0 || (elm->res->classbits & NAMCOBJ) != 0)
-      /* Object or Container Object! */
-      atr = findatr(id->string, adv.oatrs, adv.atrs);
-    else if ((elm->res->classbits & NAMACT) != 0 || (elm->res->classbits & NAMCACT) != 0)
-      /* Actor or Container Actor! */
-      atr = findatr(id->string, adv.aatrs, adv.atrs);
-    else /* Containers, Integers and Strings have no attributes... */
-      lmLog(&id->srcp, 406, sevERR, "");
-  } else
-    /* Multiple classes, so can only be in general default attributes */
-    atr = findatr(id->string, adv.atrs, NULL);
-#endif
-
-  return atr;
-}
-
-
-/*======================================================================
-
-  symatr()
-
-  Verify the existence of an attribute for a symbol.
-
-  */
-AtrNod *symatr(IdNode *id, SymNod *sym)
-{
-  AtrNod *atr = NULL;
-
-#ifndef FIXME
-  syserr("UNIMPLEMENTED: symatr() - traverse class hierarchy");
-#else
-  switch (sym->kind) {
-  case NAMOBJ:
-    atr = findatr(id->string, ((ObjNod *)sym->ref)->atrs, adv.oatrs);
-    break;
-  case NAMLOC:
-    atr = findatr(id->string, ((LocNod *)sym->ref)->atrs, adv.latrs);
-    break;
-  case NAMACT:
-    atr = findatr(id->string, ((ActNod *)sym->ref)->atrs, adv.aatrs);
-    break;
-  }
-  if (atr == NULL) {	/* Attribute not found locally */
-    /* Try general default attributes */
-    atr = findatr(id->string, adv.atrs, NULL);
-  }
-#endif
-  return atr;
-}
-
-  
-
 /*======================================================================
 
   sortAttributes()
@@ -326,11 +257,14 @@ AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *cont
       if (atr == NULL)
 	lmLog(&attribute->srcp, 315, sevERR, what->id->string);
     } else if (sym->kind == PARAMETER_SYMBOL) {
-      classOfParameter = sym->fields.parameter.class;
-      atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
-      if (atr == NULL)
-	lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
-	       what->id->string, classOfParameter->string, NULL);
+      if (sym->fields.parameter.class != NULL) {
+	classOfParameter = sym->fields.parameter.class;
+	atr = findAttribute(classOfParameter->fields.claOrIns.slots->attributes, attribute);
+	if (atr == NULL)
+	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+		 what->id->string, classOfParameter->string, NULL);
+      } else
+	lmLog(&attribute->srcp, 406, sevERR, "");
     }
     return atr;
   } else /* no symbol found */

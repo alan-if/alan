@@ -81,10 +81,10 @@ static void setDefaultRestriction(List *parameters)
     syserr("Not a symbol list in setDefaultRestriction()");
 
   for (p = parameters; p != NULL; p = p->next)
-    if (p->element.sym->fields.parameter.class == NULL) {
-      p->element.sym->fields.parameter.class = object->slots->id->symbol;
+    if (p->element.sym->fields.parameter.element->res == NULL) {
+      p->element.sym->fields.parameter.class = objectSymbol;
       p->element.sym->fields.parameter.type = INSTANCE_TYPE;
-    }      
+    }
 }
 
 
@@ -147,20 +147,19 @@ void anstxs(void)
   /* Check for multiple definitions of the syntax for a verb */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     for (other = lst->next; other != NULL; other = other->next) {
-      if (other->element.stx->id->symbol->code != -1 || lst->element.stx->id->symbol->code != -1)
-	if (other->element.stx->id->symbol->code == lst->element.stx->id->symbol->code) {
-	  if (!lst->element.stx->muldef){
-	    lmLog(&lst->element.stx->id->srcp, 206, sevWAR,
-		  lst->element.stx->id->string);
-	    lst->element.stx->muldef = TRUE;
-	  }
-	  if (!other->element.stx->muldef){
-	    lmLog(&other->element.stx->id->srcp, 206, sevWAR,
-		  other->element.stx->id->string);
-	    other->element.stx->muldef = TRUE;
-	  }
-	  break;
+      if (equalId(other->element.stx->id, lst->element.stx->id)) {
+	if (!lst->element.stx->muldef){
+	  lmLog(&lst->element.stx->id->srcp, 206, sevWAR,
+		lst->element.stx->id->string);
+	  lst->element.stx->muldef = TRUE;
 	}
+	if (!other->element.stx->muldef){
+	  lmLog(&other->element.stx->id->srcp, 206, sevWAR,
+		other->element.stx->id->string);
+	  other->element.stx->muldef = TRUE;
+	}
+	break;
+      }
     }
 }
 

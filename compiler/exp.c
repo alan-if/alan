@@ -15,12 +15,12 @@
 #include "atr_x.h"
 #include "sym_x.h"
 #include "wht_x.h"
+#include "cnt_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
-#include "exp.h"		/* EXP-nodes */
 #include "elm.h"		/* ELM-nodes */
 #include "ins.h"		/* INS-nodes */
 
@@ -118,11 +118,7 @@ static void anexpwhr(ExpNod *exp,
   case WHR_AT:
     switch (exp->fields.whr.whr->wht->kind) {
     case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: anexpwhr() - namcheck handling");
-#else
-      namcheck(&sym, &elm, exp->fields.whr.whr->wht->id, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-#endif
+      symcheck(exp->fields.whr.whr->wht->id, INSTANCE_SYMBOL, context);
       break;
     case WHT_LOC:
       exp->fields.whr.whr->kind = WHR_HERE;
@@ -141,11 +137,7 @@ static void anexpwhr(ExpNod *exp,
     }
     break;
   case WHR_IN:
-#ifndef FIXME
-    syserr("UNIMPL: cntcheck");
-#else
-    cntcheck(exp->fields.whr.whr->wht, pars);
-#endif
+    verifyContainer(exp->fields.whr.whr->wht, context);
     break;
   default:
     syserr("Unrecognized switch in anexpwhr()");
@@ -261,14 +253,11 @@ static void anbin(ExpNod *exp,
       lmLog(&exp->srcp, 331, sevERR, "expression");
     else if (exp->fields.bin.left->typ != UNKNOWN_TYPE && exp->fields.bin.right->typ != UNKNOWN_TYPE)
       if (exp->fields.bin.left->typ == INSTANCE_TYPE) {
-	if (exp->fields.bin.left->fields.wht.wht->kind == WHT_ID &&
-	    exp->fields.bin.right->fields.wht.wht->kind == WHT_ID)
-#ifndef FIXME
-	  syserr("UNIMPL: anbin() - parameter type");
-#else
-	  if (exp->fields.bin.left->fields.wht.wht->id->kind != NAMPAR
-	      && exp->fields.bin.right->fields.wht.wht->id->kind != NAMPAR)
-#endif
+	WhtNod *leftWhat = exp->fields.bin.left->fields.wht.wht;
+	WhtNod *rightWhat = exp->fields.bin.right->fields.wht.wht;
+	if (leftWhat->kind == WHT_ID && rightWhat->kind == WHT_ID)
+	  if (leftWhat->id->symbol->kind != PARAMETER_SYMBOL
+	      && rightWhat->id->symbol->kind != PARAMETER_SYMBOL)
 	    lmLog(&exp->srcp, 417, sevINF, NULL);
       }
     exp->typ = BOOLEAN_TYPE;
@@ -406,8 +395,17 @@ static void anexpwht(ExpNod *exp,
   case WHT_ID:
     symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL, context);
     if (symbol != NULL) {
-      if (symbol->kind == PARAMETER_SYMBOL)
+      switch (symbol->kind) {
+      case PARAMETER_SYMBOL:
 	exp->typ = symbol->fields.parameter.type;
+	break;
+      case INSTANCE_SYMBOL:
+	exp->typ = INSTANCE_TYPE;
+	break;
+      default:
+	syserr("Unexpected symbolKind in anexpwht()");
+	break;
+      }
     } else
       exp->typ = UNKNOWN_TYPE;
     break;
@@ -1043,7 +1041,7 @@ void dumpExpression(ExpNod *exp)
     put("high: "); dumpExpression(exp->fields.btw.high);
     break;
   case EXPISA:
-				/* FIXME */
+    /* FIXME */
     break;
   }
   out();

@@ -21,9 +21,8 @@ extern int cntcount;
 
 
 
-/* Functions: */
+/* FUNCTIONS: */
 
-extern void initContainers(void);
 extern CntNod *newContainer(Srcp *srcp,
 			    List *lims,
 			    List *hstms,

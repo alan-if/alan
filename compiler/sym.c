@@ -221,6 +221,24 @@ static SymNod *lookupInParameterList(char *idString, List *parameterSymbols)
   return NULL;
 }
 
+/*======================================================================
+
+  findParameter()
+
+*/
+SymNod *findParameter(IdNode *parameterId, List *parameterSymbols)
+{
+  List *p;
+
+  for (p = parameterSymbols; p != NULL; p = p->next) {
+    if (p->element.sym->kind != PARAMETER_SYMBOL)
+      syserr("Not a parameter symbol in analyzeRestriction()");
+    if (equalId(parameterId, p->element.sym->fields.parameter.element->id))
+      return p->element.sym;
+  }
+  return NULL;
+}
+
 
 /*======================================================================
 
@@ -357,10 +375,10 @@ SymNod *symcheck(
 
   if (!sym) 
     lmLog(&id->srcp, 310, sevERR, id->string);
-  else if (sym->kind == PARAMETER_SYMBOL)
-    /* FIXME: Investigate restrictions to see if it has required kind */
-    ;
-  else if (sym->kind != kind) {
+  else if (sym->kind == PARAMETER_SYMBOL) {
+    if (sym->fields.parameter.element->kind != ID_RESTRICTION)
+      lmLogv(&id->srcp, 319, sevERR, id->string, "parameter that is restricted to instances of a class", NULL);      
+  } else if (sym->kind != kind) {
     lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL);
     return NULL;
   }

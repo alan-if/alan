@@ -13,6 +13,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 #include "stm_x.h"
+#include "sym_x.h"
 
 
 #include "alt.h"                /* ALT-nodes */
@@ -67,22 +68,16 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 static void analt(AltNod *alt,
 		  Context *context)
 {
-  List *lst;
+  SymNod *parameter;
 
   if (alt->id != NULL) {
     /* Alternatives given, find out which one */
-    for (lst = context->verb->fields.verb.parameterSymbols; lst != NULL; lst = lst->next)
-      if (equalId(lst->element.sym->fields.parameter.element->id, alt->id))
-	break;
-    if (lst == NULL)
+    parameter = findParameter(alt->id, context->verb->fields.verb.parameterSymbols);
+    if (parameter == NULL)
       lmLog(&alt->id->srcp, 214, sevERR, alt->id->string);
     else {
-#ifndef FIXME
-      syserr("UNIMPLEMENTED: analt");
-#else
-      alt->id->kind = NAMPAR;
-      alt->id->code = lst->element.elm->nam->code;
-#endif
+      alt->id->symbol = parameter;
+      alt->id->code = parameter->code;
     }
   } 
 

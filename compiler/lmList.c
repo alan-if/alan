@@ -151,7 +151,7 @@ static lmMsgs msg[] = {
     { "402   ", "An %1 can\'t be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "404   ", "Attribute to %1 must be a default attribute." },
-    { "406   ", "A Container, Integer or String have no default attributes." },
+    { "406   ", "Integer and String parameters have no attributes." },
     { "407   ", "Attribute in LIMITS must be a default object attribute." },
     { "408   ", "Attributes in %1 must be of boolean type." },
     { "409   ", "No parameters defined in this context." },

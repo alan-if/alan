@@ -1,3 +1,4 @@
+########## saviour ##########
 -- This is a short game in Alan. It's got very little comments and is not
 -- written as an example (in which case it would have been much better
 -- documented ;-). Instead it was the first adventure game I ever wrote,
@@ -1298,3 +1299,111 @@ Start At outside.
     "$phttp://welcome.to/alan-if"
 
     Visits 2.
+########## alan saviour.alan ##########
+
+
+saviour.alan
+
+   53.      Check object In hero
+=====>                      1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+   80.      Check object Is examinable
+=====>                      1
+
+  *1*   316 E : Attribute 'examinable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+   86.      Check object Is readable
+=====>                      1
+
+  *1*   316 E : Attribute 'readable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+   92.      Check object Is openable
+=====>                      1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+  102.      Check o Is openable
+=====>                 1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'o' since its
+                class ('object') does not have it.
+
+  109.          object Is openable
+=====>                    1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+  121.      Check o Not In hero
+=====>                     1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  145.      Check object Is startable
+=====>                      1
+
+  *1*   316 E : Attribute 'startable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+  183.          List hero.
+=====>               1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  213.      Check object Not In hero
+=====>            1             2
+
+  *1*   319 E : Identifier 'object' is not a instance.
+  *2*   318 E : The 'hero' is not a Container.
+
+  216.      And object Is takeable
+=====>          1
+
+  *1*   319 E : Identifier 'object' is not a instance.
+
+  220.          Locate object In hero.
+=====>                 1         2
+
+  *1*   319 E : Identifier 'object' is not a instance.
+  *2*   318 E : The 'hero' is not a Container.
+
+  315.                  If tape In hero Then
+=====>                             1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  384.                  If keys Not In hero Then
+=====>                                 1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  401.          Elsif keys Not In hero Then
+=====>                            1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  639.          If ladder In hero Then
+=====>                       1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+
+        18 error(s).
+        No detected warnings.
+        17 informational message(s).
+
+
+
+As you enter the twilight zone of Adventures, you stumble and fall
+to your knees. In front of you, you can vaguely see the outlines of
+an Adventure that never was.
+
+SYSTEM ERROR: Can't open adventure code file 'saviour.acd'. 
+
+
+

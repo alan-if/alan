@@ -41,12 +41,4 @@ extern Aaddr generateStringInit(void);
 extern void dumpAttribute(AtrNod *atr);
 extern AtrNod *resolveAttributeReference(WhtNod *ofWhat, IdNode *attribute, Context *context);
 
-/* Verify parameter attribute */
-extern AtrNod *paramatr(IdNode *id, ElmNod *elm);
-
-/* Verify a symbol attribute */
-extern AtrNod *symatr(IdNode *id, SymNod *sym);
-
-
-
 #endif

@@ -1,0 +1,51 @@
+########## stringStringSyntax ##########
+Syntax string = string (string)
+	Where string Isa String Else "You can only string strings."
+
+Verb string
+  Does
+    "You string" Say string.
+End Verb string.
+
+The l Isa location
+End The l.
+
+Start At l.
+########## alan stringStringSyntax.alan ##########
+
+
+stringStringSyntax.alan
+
+    1.  Syntax string = string (string)
+=====>         1        2       3
+
+  *1*   103 E : 'STRING' replaced by Identifier ('$genid#1').
+  *2*   102 E : 'STRING' deleted.
+  *3*   103 E : 'STRING' replaced by Identifier ('$genid#2').
+
+    2.  	Where string Isa String Else "You can only string strings."
+=====>  	      1
+
+  *1*   103 E : 'STRING' replaced by Identifier ('$genid#3').
+
+    4.  Verb string
+=====>       1
+
+  *1*   103 E : 'STRING' replaced by Identifier ('$genid#4').
+
+    6.      "You string" Say string.
+=====>                       1
+
+  *1*   103 E : 'STRING' replaced by Identifier ('$genid#5').
+  *1*   310 E : Identifier '$genid#5' not defined.
+
+    7.  End Verb string.
+=====>           1
+
+  *1*   102 E : 'STRING' deleted.
+
+
+        8 error(s).
+        No detected warnings.
+        2 informational message(s).
+

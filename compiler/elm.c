@@ -111,7 +111,7 @@ List *anelms(List *elms,        /* IN - List to analyze */
   else
     elm->id->code = newwrd(elm->id->string, WRD_VRB, 0, (void *)stx);
 
-  /* Analyze the elements, number the parameters and find the class res */
+  /* Analyze the elements, number the parameters and find the class restriction */
   /* Start with the second since the first is analyzed above */
   for (lst = elms->next; lst != NULL; lst = lst->next) {
     if (lst->element.elm->kind == PARAMETER_ELEMENT) {

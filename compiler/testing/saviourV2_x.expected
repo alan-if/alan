@@ -1320,10 +1320,190 @@ saviourV2_x.alan
 
   *1*   230 I : No syntax defined for this verb, assumed 'drop (object)'.
 
+   50.      CHECK OBJECT IN hero
+=====>                      1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+   76.  VERB examine
+=====>       1
+
+  *1*   230 I : No syntax defined for this verb, assumed 'examine (object)'.
+
+   77.      CHECK OBJECT IS examinable
+=====>                      1
+
+  *1*   316 E : Attribute 'examinable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+   82.  VERB read
+=====>       1
+
+  *1*   230 I : No syntax defined for this verb, assumed 'read (object)'.
+
+   83.      CHECK OBJECT IS readable
+=====>                      1
+
+  *1*   316 E : Attribute 'readable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+   88.  VERB lock, unlock
+=====>       1     2
+
+  *1*   230 I : No syntax defined for this verb, assumed 'lock (object)'.
+  *2*   230 I : No syntax defined for this verb, assumed 'unlock (object)'.
+
+   89.      CHECK OBJECT IS openable
+=====>                      1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+   99.      CHECK o IS openable
+=====>                 1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'o' since its
+                class ('object') does not have it.
+
+  104.  VERB open, close
+=====>       1     2
+
+  *1*   230 I : No syntax defined for this verb, assumed 'open (object)'.
+  *2*   230 I : No syntax defined for this verb, assumed 'close (object)'.
+
+  106.  	OBJECT IS openable
+=====>  	          1
+
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
   114.  	WHERE o ISA ACTOR OR OBJECT
 =====>  	                  1
 
   *1*   102 E : 'OR' Identifier deleted.
+
+  118.      CHECK o NOT IN hero
+=====>                     1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  125.  VERB insert
+=====>       1
+
+  *1*   230 I : No syntax defined for this verb, assumed 'insert (object)'.
+
+  140.  VERB 'start'
+=====>       1
+
+  *1*   230 I : No syntax defined for this verb, assumed 'start (object)'.
+
+  141.      CHECK OBJECT IS startable
+=====>                      1
+
+  *1*   316 E : Attribute 'startable' is not defined for parameter 'object'
+                since its class ('object') does not have it.
+
+  179.  	LIST hero.
+=====>  	     1
+
+  *1*   318 E : The 'hero' is not a Container.
+
+  209.      CHECK OBJECT NOT IN hero
+=====>            1             2
+
+  *1*   319 E : Identifier 'object' is not a instance.
+  *2*   318 E : The 'hero' is not a Container.
+
+  212.      AND OBJECT IS takeable
+=====>          1
+
+  *1*   319 E : Identifier 'object' is not a instance.
+
+  216.          LOCATE OBJECT IN hero.
+=====>                 1         2
+
+  *1*   319 E : Identifier 'object' is not a instance.
+  *2*   318 E : The 'hero' is not a Container.
+
+  225.      CHECK terminal HERE
+=====>            1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  227.      AND terminal IS connected
+=====>          1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  230.      AND computer IS running
+=====>          1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  233.  	IF terminal IS showing_msg1 THEN
+=====>  	   1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  234.  	    IF str = password OF manual THEN
+=====>  	                         1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+  235.  		"'Welcome" SAY password of manual. "$$!$pEnter command:'"
+=====>  		                           1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+  236.  		MAKE terminal NOT showing_msg1.
+=====>  		     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  237.  		MAKE terminal showing_msg2.
+=====>  		     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  240.  		SET pwtry OF manual TO str.
+=====>  		             1
+
+  *1*   310 E : Identifier 'manual' not defined.
+
+  242.  	ELSIF terminal IS showing_msg2 THEN
+=====>  	      1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  244.  		IF tape IS NOT mounted THEN "'ERROR: No tape mounted.'"
+=====>  		   1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+  250.  		    MAKE tape copied.
+=====>  		         1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+  263.  		MAKE computer NOT running.
+=====>  		     1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  264.  		MAKE computer popped.
+=====>  		     1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  265.  		MAKE terminal NOT showing_msg1.
+=====>  		     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
+
+  266.  		MAKE terminal NOT showing_msg2.
+=====>  		     1
+
+  *1*   310 E : Identifier 'terminal' not defined.
 
   274.  LOCATION nowhere
 =====>  1
@@ -1387,6 +1567,83 @@ saviourV2_x.alan
 
   *1*   104 E : Severe syntax error, construct ignored.
 
+  349.          IF door IS NOT closed THEN
+=====>             1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  351.          ELSIF door IS locked THEN
+=====>                1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  356.              MAKE door NOT closed.
+=====>                   1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  362.          IF door IS closed THEN
+=====>             1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  365.              MAKE door closed.
+=====>                   1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  376.          WHEN o DOES
+=====>          1
+
+  *1*   213 E : Verb alternatives not allowed here.
+
+  377.              IF door IS NOT closed THEN
+=====>                 1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  379.              ELSIF door IS NOT locked THEN
+=====>                    1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  381.              ELSIF k = keys THEN
+=====>                        1
+
+  *1*   310 E : Identifier 'keys' not defined.
+
+  382.  		IF keys NOT IN hero THEN
+=====>  		   1           2
+
+  *1*   310 E : Identifier 'keys' not defined.
+  *2*   318 E : The 'hero' is not a Container.
+
+  386.                      MAKE door NOT locked.
+=====>                           1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  395.          IF door IS NOT closed THEN
+=====>             1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  397.          ELSIF door IS locked THEN
+=====>                1
+
+  *1*   310 E : Identifier 'door' not defined.
+
+  399.          ELSIF keys NOT IN hero THEN
+=====>                1           2
+
+  *1*   310 E : Identifier 'keys' not defined.
+  *2*   318 E : The 'hero' is not a Container.
+
+  403.              MAKE door locked.
+=====>                   1
+
+  *1*   310 E : Identifier 'door' not defined.
+
   406.  END OBJECT.
 =====>  1
 
@@ -1438,6 +1695,31 @@ saviourV2_x.alan
 
   *1*   104 E : Severe syntax error, construct ignored.
 
+  453.          IF rats ARE hungry THEN
+=====>             1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
+  459.              MAKE rats hungry.
+=====>                   1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
+  463.      VERB kick DOES
+=====>           1
+
+  *1*   230 I : No syntax defined for this verb, assumed 'kick (object)'.
+
+  464.          IF rats ARE hungry THEN
+=====>             1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
+  469.              MAKE rats hungry.
+=====>                   1
+
+  *1*   310 E : Identifier 'rats' not defined.
+
   472.  END OBJECT.
 =====>  1
 
@@ -1465,9 +1747,30 @@ saviourV2_x.alan
   *1*   102 E : 'MENTIONED' deleted.
 
   509.      VERB mount DOES
-=====>      1
+=====>      1    2
 
   *1*   104 E : Severe syntax error, construct ignored.
+  *2*   230 I : No syntax defined for this verb, assumed 'mount (object)'.
+
+  510.          IF tape IS mounted THEN
+=====>             1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+  512.          ELSIF computer HERE THEN
+=====>                1
+
+  *1*   310 E : Identifier 'computer' not defined.
+
+  514.              MAKE tape mounted.
+=====>                   1
+
+  *1*   310 E : Identifier 'tape' not defined.
+
+  515.              LOCATE tape HERE.
+=====>                     1
+
+  *1*   310 E : Identifier 'tape' not defined.
 
   520.  END OBJECT.
 =====>  1
@@ -1494,6 +1797,11 @@ saviourV2_x.alan
 =====>      1
 
   *1*   104 E : Severe syntax error, construct ignored.
+
+  555.          LOCATE book AT NOWHERE.
+=====>                 1
+
+  *1*   310 E : Identifier 'book' not defined.
 
   557.  END OBJECT.
 =====>  1
@@ -1525,6 +1833,11 @@ saviourV2_x.alan
 =====>      1
 
   *1*   104 E : Severe syntax error, construct ignored.
+
+  606.      CHECK ladder NOT AT walless 
+=====>            1
+
+  *1*   310 E : Identifier 'ladder' not defined.
 
   655.  END OBJECT.
 =====>  1
@@ -1910,10 +2223,10 @@ saviourV2_x.alan
 
 
 
-        997 S : SYSTEM ERROR: UNIMPL: cntcheck
+        997 S : SYSTEM ERROR: UNIMPL: anexpwhr() - namcheck handling
 
 
-        82 error(s).
+        139 error(s).
         1 warning(s).
-        40 informational message(s).
+        50 informational message(s).
 

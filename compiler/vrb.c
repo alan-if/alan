@@ -97,10 +97,11 @@ static void anvrb(VrbNod *vrb,	/* IN - The verb to analyze */
   for (ids = vrb->ids; ids; ids = ids->next) {
     stx = NULL;
     for (lst = adv.stxs; lst; lst = lst->next) {
-      if (lst->element.stx->id->symbol->code == ids->element.id->symbol->code) {
-	stx = lst->element.stx;
-	break;
-      }
+      if (lst->element.stx->id->symbol != NULL)
+	if (lst->element.stx->id->symbol->code == ids->element.id->symbol->code) {
+	  stx = lst->element.stx;
+	  break;
+	}
     }
     if (stx == NULL) {
       lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);

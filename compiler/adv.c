@@ -63,10 +63,6 @@ void initadv(void)
   initClasses();
   initInstances();
   initDumpNodeList();
-
-#ifdef FIXME
-  initcnt();		/* Must do this first to create the inventory */
-#endif
 }
 
 
@@ -159,37 +155,6 @@ void anadv(void)
 
 
 
-
-/*----------------------------------------------------------------------
-
-  gecodes()
-
-  Set the max and min codes for objects, actors etc. in the header.
-
-  */
-static void gecodes(AcdHdr *hdr) /* IN - The header to fill in */
-{
-  hdr->theHero = theHero->slots->id->symbol->code;
-
-#ifdef FIXME
-  hdr->objmin = objmin;
-  hdr->objmax = objmax;
-  hdr->actmin = actmin;
-  hdr->actmax = actmax;
-  hdr->cntmin = cntmin;
-  hdr->cntmax = cntmax;
-  hdr->dirmin = dirmin;
-  hdr->dirmax = dirmax;
-  hdr->locmin = locmin;
-  hdr->locmax = locmax;
-  hdr->evtmin = evtmin;
-  hdr->evtmax = evtmax;
-  hdr->rulmin = rulmin;
-  hdr->rulmax = rulmax;
-#endif
-}
-
-
 /*======================================================================
 
   geadv()
@@ -203,9 +168,6 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   eninit();			/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;
-  
-  /* Max and min codes */
-  gecodes(&acdHeader);
   
   if (verbose) printf("\n\tDictionary: ");
   acdHeader.dictionary = gewrds();	/* Dictionary */
