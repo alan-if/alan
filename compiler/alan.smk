@@ -42,7 +42,7 @@ extern smScContext lexContext;
 extern List *fileNames;
 
 #ifdef _PROTOTYPES_
-extern Bool smScanEnter(char fnm[]);
+extern Bool smScanEnter(char fnm[], Bool search);
 extern int scannedLines(void);
 #else
 extern Bool smScanEnter();
@@ -69,33 +69,64 @@ static lines = 0;		/* Updated at end of each file */
 
 #ifdef _PROTOTYPES_
 Bool smScanEnter(
-	char fnm[]		/* IN - Name of file to open */
+		 char fnm[],	/* IN - Name of file to open */
+		 Bool search	/* IN - Search the include paths */
 ){
 #else
-Bool smScanEnter(fnm)
-	char fnm[];		/* IN - Name of file to open */
+Bool smScanEnter(fnm, search)
+  char fnm[];			/* IN - Name of file to open */
+  Bool search;			/* IN - Search the include paths */
 {
 #endif
   smScContext this;
-
-  /* Remember the filename */
-  fileNames = concat(fileNames, newstr(fnm));
+  char fnmbuf[300] = "";
 
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
-#ifdef __mac__
-  else if ((this->fd = open(fnm, O_TEXT)) < 0)
-#else
-  else if ((this->fd = open(fnm, 0)) < 0)
-#endif
-    return FALSE;
   else {
-    this->fileName = fnm;
-    this->fileNo = fileNo++;
-    this->previous = lexContext;
-    lexContext = this;
+    List *ip;
+
+    if (search) {
+      for (ip = includePaths; ip != NULL; ip = ip->next) {
+	strcpy(fnmbuf, ip->element.str);
+	if (ip->element.str[strlen(ip->element.str)] != '/')
+	  strcat(fnmbuf, "/");
+	strcat(fnmbuf, fnm);
+#ifdef __mac__
+	if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
+#else
+	if ((this->fd = open(fnmbuf, 0)) > 0)
+#endif
+	  break;
+      }
+      if (ip == NULL) {
+	strcpy(fnmbuf, fnm);
+#ifdef __mac__
+	if ((this->fd = open(fnmbuf, O_TEXT)) < 0)
+#else
+	if ((this->fd = open(fnmbuf, 0)) < 0)
+#endif
+	  return FALSE;
+      }
+    } else {
+      strcat(fnmbuf, fnm);
+#ifdef __mac__
+      if ((this->fd = open(fnmbuf, O_TEXT)) < 0)
+#else
+      if ((this->fd = open(fnmbuf, 0)) < 0)
+#endif
+	return FALSE;
+    }
   }
+
+  /* Remember the filename */
+  this->fileName = newstr(fnmbuf);
+  fileNames = concat(fileNames, this->fileName);
+  this->fileNo = fileNo++;
+  this->previous = lexContext;
+  lexContext = this;
+
   return TRUE;
 }
 
@@ -250,10 +281,10 @@ int scannedLines()
 	srcp.line++;
 	srcp.col = 1;
 
-	if (smScanEnter(token.chars)) {
+	if (smScanEnter(token.chars, TRUE)) {
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
-	  lmLiEnter(`&srcp, `&start, token.chars);
+	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
 	  /* Use the new scanner to get next token and return it */
 	  return smScan(lexContext, smToken);
 	} else

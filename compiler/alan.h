@@ -6,6 +6,7 @@
 
 /* USE other definitions */
 #include "srcp.h"
+#include "lst.h"
 
 
 /* Public data */
@@ -16,7 +17,7 @@ extern FILE *txtfil;		/* File for collected text */
 extern FILE *datfil;		/* File for encoded text */
 extern char advnam[];		/* The name of the adventure */
 extern Bool verbose;		/* Verbose output */
-
+extern List *includePaths;	/* The list of include paths to check */
 
 /* Common procedures */
 

@@ -30,14 +30,6 @@
 #include "pmParse.h"
 #include "smScan.h"
 
-#ifdef _PROTOTYPES_
-extern Bool smScanEnter(char fnm[]);
-extern int scannedLines(void);	/* Number of scanned lines */
-#else
-extern Bool smScanEnter();
-extern int scannedLines();	/* Number of scanned lines */
-#endif
-
 
 /* PUBLIC DATA */
 
@@ -51,6 +43,7 @@ FILE *datfil;			/* File of encoded text */
 int fileNo = 0;			/* File number to use next */
 Bool verbose;		/* Verbose mode */
 
+List *includePaths = NULL;	/* List of additional include paths */
 
 /* PRIVATE */
 
@@ -447,6 +440,15 @@ static SPA_FUN(extraArg)
 
 static SPA_FUN(xit) {exit(EXIT_SUCCESS);}
 
+static SPA_FUN(addInclude)
+{
+  /* Add the include path to our list */
+  includePaths = concat(includePaths, spaArgument(1));
+  /* Now we can skip the include path */
+  spaSkip(1);
+}
+
+
 static SPA_DECLARE(arguments)
 #ifdef __dos__
      SPA_STRING("adventure", "file name, default extension '.ala'", srcptr, NULL, NULL)
@@ -463,6 +465,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
+     SPA_FUNCTION("include <path>", "additional directory to search before current when looking for included files", addInclude)
      SPA_FLAG("cc", "show messages on the screen in old 'cc' format", ccflg, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
@@ -585,7 +588,7 @@ int main(argc,argv)
   heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);
   lmLiInit(product.shortHeader, srcfnm, lm_ENGLISH_Messages);
-  if (!smScanEnter(srcfnm)) {
+  if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
     lmList("", 0, 79, liERR, sevALL); /* TINY list on the screen*/

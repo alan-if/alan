@@ -1,3 +1,8 @@
+Thu Feb 29 16:48:06 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Added an "-include" switch which allows multiple directories to
+	be searched for included files
+
 Wed Feb 28 17:32:04 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Fixed a small problem with reversing of game files on big-endian

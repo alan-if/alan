@@ -221,12 +221,12 @@ savetm:
 	@if test -f alan.tmk.orig; then \
 	    echo "There is already an original!"; \
 	    exit 1; \
-	@fi
-	mv alan.tmk alan.tmk.orig
+	fi
+	@cp -p alan.tmk alan.tmk.orig
 	
 restoretm:
-	@mv -f alan.tmk.orig alan.tmk
-	-rm .?mkstamp
+	@cp -p alan.tmk.orig alan.tmk
+	@-rm alan.tmk.orig
 
 NONANSI:
 	make savetm
