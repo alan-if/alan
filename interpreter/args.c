@@ -211,7 +211,7 @@ void args(argc, argv)
     switches(argc, argv);
   else
     /* Another program name use that as the name of the adventure */
-    strcpy(advnam, prgnam);
+    advnam = prgnam;
 #else
   Unimplemented OS!
 #endif
