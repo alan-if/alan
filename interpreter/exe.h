@@ -11,7 +11,7 @@
 /* The event queue */
 extern EvtqElem eventq[];	/* Event queue */
 extern int etop;		/* Event queue top pointer */
-
+extern Boolean looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */
 
 #ifdef _PROTOTYPES_

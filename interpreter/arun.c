@@ -1386,6 +1386,11 @@ static void init(void)
 static void init()
 #endif
 {
+  /* Initialise some status */
+  etop = 0;			/* No pending events */
+  looking = FALSE;		/* Not looking now */
+  dscrstkp = 0;			/* No describe in progress */
+
   load();
 
   initheader();

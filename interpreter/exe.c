@@ -27,6 +27,10 @@
 EvtqElem eventq[N_EVTS];	/* Event queue */
 int etop = 0;			/* Event queue top pointer */
 
+Boolean looking = FALSE;	/* LOOKING? flag */
+
+int dscrstkp = 0;		/* Describe-stack pointer */
+
 
 #ifdef _PROTOTYPES_
 void dscrobjs(void);
@@ -1191,7 +1195,6 @@ static void dscract(act)
 
 
 static Aword dscrstk[255];
-int dscrstkp = 0;
 
 #ifdef _PROTOTYPES_
 void describe(Aword id)
@@ -1433,7 +1436,6 @@ void look()
 #endif
 {
   int i;
-  static Boolean looking = FALSE;
 
   if (looking)
     syserr("Recursive LOOK.");
