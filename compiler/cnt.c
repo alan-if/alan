@@ -16,6 +16,7 @@
 #include "lst_x.h"
 #include "stm_x.h"
 #include "chk_x.h"
+#include "id_x.h"
 
 #include "stm.h"		/* STM-nodes */
 #include "elm.h"		/* ELM-nodes */
@@ -38,6 +39,7 @@ int containerCount = 0;
 /*======================================================================*/
 ContainerBody *newContainerBody(Srcp *srcp,
 				Bool opaque,
+				IdNode *takes,
 				List *lims,
 				List *hstms,
 				List *estms,
@@ -52,6 +54,10 @@ ContainerBody *newContainerBody(Srcp *srcp,
   new->analyzed = FALSE;
   new->generated = FALSE;
   new->opaque = opaque;
+  if (takes != NULL)
+    new->taking = takes;
+  else
+    new->taking = newId(&nulsrcp, "object");
   new->limits = lims;
   new->hstms = hstms;
   new->estms = estms;
@@ -95,8 +101,7 @@ Bool thisIsaContainer(Context *context)
 
 
 /*======================================================================*/
-void verifyContainer(What *wht,
-		     Context *context)
+void verifyContainer(What *wht, Context *context)
 {
   Symbol *sym;
 
@@ -151,9 +156,13 @@ void analyzeContainer(Container *theContainer, Context *context)
     theContainer->ownerProperties = context->instance->props;
 
   if (!theContainer->body->analyzed) {
+    /* Analyze which class of instances it takes */
+    IdNode *id = theContainer->body->taking;
+    id->symbol = symcheck(id, CLASS_SYMBOL, context);
+
     /* Analyze the limits */
     for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-      analyzeLimit(lims->element.lim);
+      analyzeLimit(lims->element.lim, id->symbol);
 
     /* Analyze header and empty statments */
     analyzeStatements(theContainer->body->hstms, context);
@@ -228,7 +237,7 @@ static void generateContainerEntry(Container *cnt)
 {
   ContainerEntry entry;
 
-  entry.class = objectSymbol->code; /* Currently only allow objects */
+  entry.class = cnt->body->taking->symbol->code;
   entry.limits = cnt->body->limadr;
   entry.header = cnt->body->hadr;
   entry.empty = cnt->body->eadr;
@@ -280,6 +289,7 @@ void dumpContainer(Container *container)
   put("code: "); dumpInt(container->code); nl();
   put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
   put("body: "); dumpPointer(container->body); nl();
+  put("body.takes: "); dumpId(container->body->taking); nl();
   put("body.lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
   put("body.limadr: "); dumpAddress(container->body->limadr); nl();
   put("body.hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();

@@ -284,6 +284,7 @@ void statusline(void)
 }
 
 
+
 /*----------------------------------------------------------------------*/
 static int updateColumn(int currentColumn, char *string) {
   char *newlinePosition = strrchr(string, '\n');
@@ -1372,7 +1373,8 @@ void run(void)
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
 
-  init();			/* Initialise and start the adventure */
+  if (setjmp(error_label) == 0)
+    init();			/* Initialise and start the adventure */
 
   while (TRUE) {
 #ifdef MALLOC

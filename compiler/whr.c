@@ -65,6 +65,48 @@ void symbolizeWhere(Where *whr)
 }
 
 
+/*======================================================================*/
+Symbol *classOfContent(Where *where) {
+  Symbol *symbol = NULL;
+  Properties *props;
+
+  switch(where->kind) {
+  case WHR_IN:
+    switch (where->what->kind) {
+    case WHAT_LOCATION:
+      symbol = locationSymbol;
+      break;
+    case WHAT_ACTOR:
+      symbol = actorSymbol;
+      break;
+    case WHAT_ID:
+      symbol = where->what->id->symbol;
+      break;
+    default:
+      syserr("Unexpected What kind in '%s()'", __FUNCTION__);	
+    }
+    if (symbol != NULL) {
+      switch (symbol->kind) {
+      case INSTANCE_SYMBOL:
+      case CLASS_SYMBOL:
+	props = symbol->fields.entity.props;
+	if (props != NULL)
+	  if (props->container != NULL)
+	    return props->container->body->taking->symbol;
+	break;
+      case PARAMETER_SYMBOL:
+	return symbol->fields.parameter.class;
+      default:
+	syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);	
+      }
+    }
+    break;
+  default:
+    syserr("Unexpected Where kind in '%s()'", __FUNCTION__);
+  }
+  return NULL;
+}
+
 
 /*======================================================================
 

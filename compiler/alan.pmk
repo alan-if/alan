@@ -692,16 +692,16 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
-					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.mentioned,
+					%<properties>.entered,
 					%<properties>.mentionedSrcp,
+					%<properties>.mentioned,
+					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.definiteSrcp,
+					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -732,16 +732,16 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
-					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.mentioned,
+					%<properties>.entered,
 					%<properties>.mentionedSrcp,
+					%<properties>.mentioned,
+					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.definiteSrcp,
+					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -772,16 +772,16 @@ static int val(char str[])
 					%<properties>.descriptionChecks,
 					%<properties>.descriptionSrcp,
 					%<properties>.descriptionDoes,
-					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.mentioned,
+					%<properties>.entered,
 					%<properties>.mentionedSrcp,
+					%<properties>.mentioned,
+					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.definiteSrcp,
+					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
 					%<properties>.vrbs,
 					%<properties>.scrs));
@@ -1221,6 +1221,7 @@ static int val(char str[])
     %%
 	%<container properties>.cnt = newContainer(newContainerBody(`&%'CONTAINER'.srcp,
 					%<optionally_opaque>.opaque,
+					%<container_body>.id,
 					%<container_body>.lims,
 					%<container_body>.stms,
 					%<container_body>.stms2,
@@ -1240,15 +1241,31 @@ static int val(char str[])
 
 
 <container_body>		-- RETURNS: lims, stms, stms2
-    =  <optional_limits> <optional_header> <optional_empty> <optional_extract>
+    =  <optional_taking> <optional_limits> <optional_header> <optional_empty> <optional_extract>
     %%
+	%<container_body>.id  = %<optional_taking>.id;
 	%<container_body>.lims  = %<optional_limits>.lims;
 	%<container_body>.stms  = %<optional_header>.stms;
 	%<container_body>.stms2 = %<optional_empty>.stms;
 	%<container_body>.chks = %<optional_extract>.chks;
 	%<container_body>.stms3 = %<optional_extract>.stms;
     %%
+
+    ! '.'
     ;
+
+<optional_taking>		-- RETURNS: id
+    =
+    %%
+	%<optional_taking>.id = NULL;
+    %%
+
+    ! 'TAKING' ID '.'
+    %%
+	%<optional_taking>.id = %ID.id;
+    %%
+    ;
+
 
 <optional_limits>		-- RETURNS: lims
     =

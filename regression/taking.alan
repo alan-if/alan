@@ -1,0 +1,24 @@
+The l Isa location
+End The l.
+
+The o1 Isa object At l
+  Container
+    Taking actor.
+End The o1.
+
+The o2 Isa object At l.
+  Container
+    Taking location.
+    Limits size 4 Else "Too much."
+End The o2.
+
+Syntax
+  put_in = put (o)! 'in' (c)
+    Where o Isa entity
+      Else "You can only put entities in containers here."
+    And c Isa container
+      Else "You can only put things in containers."
+
+Start At l.
+
+

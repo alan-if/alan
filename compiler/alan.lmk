@@ -117,6 +117,7 @@
 401	'Actor reference required outside Actor specification.';
 402	'%1 can not be inside a Container.';
 403	'Script multiply defined for Actor \'%1\'.';
+404	'Container is restricted to contain instances of \'%1\' and its subclasses.';
 405	'Instances inheriting from Location can not have initial locations.';
 406	'Integer and String parameters have no attributes.';
 407	'Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'.';

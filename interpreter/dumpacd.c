@@ -55,6 +55,12 @@ static void indent(int level)
 }
 
 
+static char *dumpBoolean(Boolean bool)
+{
+  return bool?"true":"false";
+}
+
+
 static char *dumpAddress(Aword address)
 {
   static char buffer[100];
@@ -227,11 +233,53 @@ static void dumpContainers(int level, Aword cnts)
     indent(level+1);
     printf("owner: %ld\n", cnt->owner);
     indent(level+1);
+    printf("taking: %ld\n", cnt->class);
+    indent(level+1);
     printf("limits: %s\n", dumpAddress(cnt->limits));
     indent(level+1);
     printf("header: %s\n", dumpAddress(cnt->header));
     indent(level+1);
     printf("empty: %s\n", dumpAddress(cnt->empty));
+  }
+}
+
+
+
+/*----------------------------------------------------------------------*/
+static void dumpClasses(int level, Aword classes)
+{
+  ClassEntry *class;
+
+  if (classes == 0) return;
+
+  for (class = (ClassEntry *)pointerTo(classes); !endOfTable(class); class++) {
+    indent(level);
+    printf("CLASS #%ld:\n", class->code);
+    indent(level+1);
+    printf("idAdress: %s", dumpAddress(class->idAddress));
+    if (class->idAddress != NULL)
+      printf(" \"%s\"", pointerTo(class->idAddress));
+    printf("\n");
+    indent(level+1);
+    printf("parent: %ld\n", class->parent);
+    indent(level+1);
+    printf("descriptionChecks: %s\n", dumpAddress(class->descriptionChecks));
+    indent(level+1);
+    printf("description: %s\n", dumpAddress(class->description));
+    indent(level+1);
+    printf("entered: %s\n", dumpAddress(class->entered));
+    indent(level+1);
+    printf("definite: %s\n", dumpAddress(class->definite));
+    indent(level+1);
+    printf("definiteIsForm: %s\n", dumpBoolean(class->indefiniteIsForm));
+    indent(level+1);
+    printf("indefinite: %s\n", dumpAddress(class->indefinite));
+    indent(level+1);
+    printf("indefiniteIsForm: %s\n", dumpBoolean(class->indefiniteIsForm));
+    indent(level+1);
+    printf("mentioned: %s\n", dumpAddress(class->mentioned));
+    indent(level+1);
+    printf("verbs: %s\n", dumpAddress(class->verbs));
   }
 }
 
@@ -258,9 +306,9 @@ static void dumpInstances(int level, Aword instances)
     indent(level+1);
     printf("container: %ld\n", instance->container);
     indent(level+1);
-    printf("attributes: %s\n", dumpAddress(instance->attributes)); {
+    printf("attributes: %s\n", dumpAddress(instance->attributes));
+    if (instance->attributes)
       dumpAtrs(level+1, instance->attributes);
-    }
     indent(level+1);
     printf("checks: %s\n", dumpAddress(instance->checks));
     indent(level+1);
@@ -775,6 +823,9 @@ static void dumpACD(void)
   printf("CONTAINER TABLE: %s\n", dumpAddress(header->containerTableAddress));
   if (containersFlag) dumpContainers(1, header->containerTableAddress);
 
+  printf("CLASS TABLE: %s\n", dumpAddress(header->classTableAddress));
+  if (classesFlag) dumpClasses(1, header->classTableAddress);
+
   printf("INSTANCE TABLE: %s\n", dumpAddress(header->instanceTableAddress));
   if (instancesFlag) dumpInstances(1, header->instanceTableAddress);
 
@@ -818,7 +869,7 @@ static void load(char acdfnm[])
   FILE *codfil;
 
   if ((codfil = fopen(acdfnm, "rb")) == NULL) {
-    printf("Could not open ACD-file: '%s'\n", acdfnm);
+    printf("Could not open Acode-file: '%s'\n", acdfnm);
     exit(1);
   }
 

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>310.89</origest>
-<currest>309.89</currest>
-<elapsed>160.89</elapsed>
+<origest>312.89</origest>
+<currest>311.89</currest>
+<elapsed>161.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>37</origest>
-<currest>37</currest>
-<elapsed>7</elapsed>
+<origest>38</origest>
+<currest>38</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
-<elapsed>7</elapsed>
+<origest>19</origest>
+<currest>19</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -123,12 +123,21 @@ New clause on containers:
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Unify messages 311, 351, 410, 428</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Programmer Pitch in manual</desc>
+<notes>Alan is an application oriented language. It features constructs that are natural to an author of Interactive Fiction. Alan is a strictly typed, compiled, objectoriented language with single inheritance. Classes inherits properties from their superclasses. The class system allows polymorphism so that instances of subclasses are valid wherever a superclass is specified. There are no explicit types, instead types are inferred from the expressions.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -528,8 +537,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>108</origest>
-<currest>108</currest>
+<origest>109</origest>
+<currest>109</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -544,6 +553,17 @@ pointing to "count" since that is the left hand side of the assumed expression
 <task>
 <desc>List line numbers for which LINE instructions are generated?</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RANDOM IN &lt;container&gt;</desc>
+<notes>Randomly select one of the instances in the container
+
+Has type of the container TAKES</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -1,0 +1,25 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+The l3 Isa location
+End The l3.
+
+The l4 Isa location
+End The l4.
+
+The l5 Isa location
+End The l5.
+
+The world Isa Object At l1
+  Container Taking location.
+End The world.
+
+Start At l1.
+  Locate l1 In world.
+  Locate l2 In world.
+  Locate l3 In world.
+  Locate l4 In world.
+  Locate l5 In world.

@@ -118,6 +118,8 @@ static void analyzeEmpty(StmNod *stm, Context *context)
 static void analyzeLocate(StmNod *stm, Context *context)
 {
   Symbol *whtSymbol = NULL;
+  Symbol *contentClass = NULL;
+  Where *whr = stm->fields.locate.whr;
 
   switch (stm->fields.locate.wht->kind) {
   case WHAT_ACTOR:
@@ -135,12 +137,14 @@ static void analyzeLocate(StmNod *stm, Context *context)
     break;
   }
 
-  analyzeWhere(stm->fields.locate.whr, context);
-  switch (stm->fields.locate.whr->kind) {
+  analyzeWhere(whr, context);
+
+  switch (whr->kind) {
   case WHR_HERE:
   case WHERE_AT:
     break;
   case WHR_IN:
+#ifdef OLD
     switch (stm->fields.locate.wht->kind) {
     case WHAT_LOCATION:
       lmLog(&stm->srcp, 402, sevERR, "A Location");
@@ -156,6 +160,12 @@ static void analyzeLocate(StmNod *stm, Context *context)
     default:
       syserr("Unexpected WhtKind in '%s()'", __FUNCTION__);
     }
+#else
+    contentClass = classOfContent(whr);
+    if (contentClass != NULL)
+      if (!inheritsFrom(whtSymbol, contentClass))
+	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
+#endif
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
@@ -321,10 +331,17 @@ static void analyzeUse(StmNod *stm, Context *context)
       script = lookupScript(symbol, stm->fields.use.script);
       if (script != NULL)
 	stm->fields.use.script->code = script->id->code;
-      else 
+      else {
+	char *str;
+	switch (symbol->kind) {
+	case CLASS_SYMBOL: str = "class"; break;
+	case INSTANCE_SYMBOL: str = "actor"; break;
+	case PARAMETER_SYMBOL: str = "parameter"; break;
+	default: syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+	}
 	lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
-	       symbol->kind == CLASS_SYMBOL?"class":"actor",
-	       symbol->string, NULL);
+	       str, symbol->string, NULL);
+      }
     }
   }  
 }

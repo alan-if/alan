@@ -1,0 +1,21 @@
+########## alan takes ##########
+
+
+takes.alan
+
+    6.      Takes unknown.
+=====>            1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   12.      Limits unknown 4 Else "Too much."
+=====>             1
+
+  *1*   407 E : Attribute in Limits must be an attribute for every instance of
+                the class the container accepts, in this case 'location'.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -360,8 +360,21 @@ static Symbol *lookupInContext(char *idString, Context *context)
 /*======================================================================*/
 Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
 {
+  List *scripts;
+
   while (theSymbol != NULL) {
-    List *scripts = theSymbol->fields.entity.props->scripts;
+    switch (theSymbol->kind) {
+    case INSTANCE_SYMBOL:
+    case CLASS_SYMBOL:
+      scripts = theSymbol->fields.entity.props->scripts;
+      break;
+    case PARAMETER_SYMBOL:
+      theSymbol = theSymbol->fields.parameter.class;
+      scripts = theSymbol->fields.entity.props->scripts;
+      break;
+    default:
+      syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+    }
     while (scripts != NULL) {
       if (equalId(scriptName, scripts->element.script->id))
 	return scripts->element.script;

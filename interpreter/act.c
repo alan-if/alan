@@ -37,30 +37,21 @@ static int count(int cnt)	/* IN - the container to count in */
 /*----------------------------------------------------------------------
   sumatr()
 
-  Sum the values of one attribute in a container. Recursively.
+  Sum the values of one attribute in a container. Possibly recursively.
 
   */
-#ifdef _PROTOTYPES_
 static int sumatr(
      Aword atr,			/* IN - the attribute to sum over */
      Aword cnt			/* IN - the container to sum */
-)
-#else
-static int sumatr(atr, cnt)
-     Aword atr;			/* IN - the attribute to sum over */
-     Aword cnt;			/* IN - the container to sum */
-#endif
-{
+) {
   int i;
   int sum = 0;
 
   for (i = 1; i <= header->instanceMax; i++)
-    if (isObj(i)) {
-      if (admin[i].location == cnt) { /* Then it's in this container */
-	if (instance[i].container != 0)	/* This is also a container! */
-	  sum = sum + sumatr(atr, i);
-	sum = sum + attributeOf(i, atr);
-      }
+    if (in(i, cnt)) {		/* Then it's in this container */
+      if (instance[i].container != 0)	/* This is also a container! */
+	sum = sum + sumatr(atr, i);
+      sum = sum + attributeOf(i, atr);
     }
   return(sum);
 }

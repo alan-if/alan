@@ -62,7 +62,7 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 
 
 /*======================================================================*/
-void analyzeLimit(LimNod *lim)
+void analyzeLimit(LimNod *lim, Symbol *classSymbol)
 {
   /* Analyze one limit. The attributes that defines the limits must be
      attributes for all instances the container accepts because we
@@ -70,22 +70,22 @@ void analyzeLimit(LimNod *lim)
      COUNT is also allowed.
   */
 
-  Attribute *atr, *a;		/* Attribute nodes */
+  Attribute *attribute, *foundAttribute;
 
   showProgress();
 
   /* Analyze the attribute */
-  atr = lim->atr;
-  if (compareStrings(atr->id->string, "count") == 0)
-    atr->id->code = I_COUNT;	/* Use instruction code for COUNT meta attribute */
-  else {
-    a = findAttribute(objectSymbol->fields.entity.props->attributes, atr->id);
-    if (a == NULL)
-      lmLog(&atr->srcp, 407, sevERR, "object");
-    else if (atr->type != INTEGER_TYPE)
-      unimpl(&atr->srcp, "Analyzer");
+  attribute = lim->atr;
+  if (compareStrings(attribute->id->string, "count") == 0)
+    attribute->id->code = 1-I_COUNT;	/* Use instruction code for COUNT meta attribute */
+  else if (classSymbol != NULL) {
+    foundAttribute = findAttribute(classSymbol->fields.entity.props->attributes, attribute->id);
+    if (foundAttribute == NULL)
+      lmLog(&attribute->srcp, 407, sevERR, classSymbol->string);
+    else if (attribute->type != INTEGER_TYPE)
+      unimpl(&attribute->srcp, "Analyzer");
     else
-      atr->id->code = a->id->code;
+      attribute->id->code = foundAttribute->id->code;
   }
 
   /* Analyze statments */
@@ -110,10 +110,7 @@ static void generateLimit(LimNod *lim)
 /*----------------------------------------------------------------------*/
 static void generateLimitEntry(LimNod *lim)
 {
-  if (lim->atr->id->code == I_COUNT)
-    emit(1-I_COUNT);
-  else
-    emit(lim->atr->id->code);
+  emit(lim->atr->id->code);
   emit(lim->atr->value);
   emit(lim->stmadr);
 }

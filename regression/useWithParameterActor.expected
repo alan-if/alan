@@ -1,0 +1,52 @@
+########## alan useWithParameterActor ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+########## arun useWithParameterActor ##########
+
+
+School
+Janitor is here. Teacher is here.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> work janitor
+Janitor works.
+
+> l
+School
+The janitor is working. Teacher is here. Janitor works.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> work teacher
+Teacher works.
+
+> l
+School
+Janitor is here. The teacher is working. Teacher works.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> l
+School
+Janitor is here. Teacher is here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

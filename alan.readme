@@ -6,7 +6,7 @@
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.31dev) of Alan V3. It features
+This is a development preview (v3.0.32dev) of Alan V3. It features
 many new enhancements especially object orientation. This version is
 Windows only.
 
@@ -18,6 +18,11 @@ same source.
 Depending on if you used the ZIP-archive or the Windows installer you
 will get command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in v3.0.32 development:
+- Added transcript, recorded commands and playback
+- Allowed expressions as reference to actor in USE and STOP statements
+- Containers can now specify which class they take
 
 Changes in v3.0.31 development:
 - Added reference attributes so that attributes can refer to
@@ -39,11 +44,6 @@ Changes in v3.0.30 development:
   relevant, this also allows syserr's to show which source line.
 - Fixed a infinite recursion problem with ENTERED clause. The ENTERED
   clause will now only be executed if the actor is not already there.
-
-Changes in v3.0.29 development:
-- New article handling, now allows for both definite and indefinite articles
-  and for cases (languages) that have more complex forms than just articles
-- Possibility to print the simple, definite or definite forms
 
 
 Note: To run the GUI interpreter 'winarun' you will need a Windows
@@ -101,7 +101,7 @@ Alan Home Pages at
 	http://welcome.to/alan-if
 
 
-If you haven't already, join the 1261 people registered. Happy Authoring!
+If you haven't already, join the 1272 people registered. Happy Authoring!
 
 Thomas Nilsson
 thomas@junovagen.se

@@ -1,0 +1,32 @@
+########## alan taking ##########
+
+
+taking.alan
+
+   12.      Limits size 4 Else "Too much."
+=====>             1
+
+  *1*   407 E : Attribute in Limits must be an attribute for every instance of
+                the class the container accepts, in this case 'location'.
+
+   16.    put_in = put (o)! 'in' (c)
+=====>    1
+
+  *1*   207 E : VERB 'put_in' is not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
+########## arun taking ##########
+
+
+As you enter the twilight zone of Adventures, you stumble and fall
+to your knees. In front of you, you can vaguely see the outlines of
+an Adventure that never was.
+
+SYSTEM ERROR: Can't open adventure code file 'taking.a3c'. 
+
+
+

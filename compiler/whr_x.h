@@ -23,6 +23,7 @@ extern Where *newwhr(Srcp *srcp,
 		      What *wht);
 extern void symbolizeWhere(Where *whr);
 extern void verifyInitialLocation(Where *whr);
+extern Symbol *classOfContent(Where *where);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Where *whr);
 extern void generateWhere(Where *whr);
