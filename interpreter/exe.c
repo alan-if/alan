@@ -1494,6 +1494,7 @@ void saveGame()
 #endif
 
   /* Save version of interpreter and name of game */
+  fwrite((void *)"ASAV", 1, 4, saveFile);
   fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
   fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
   /* Save current values */
@@ -1531,6 +1532,7 @@ void restoreGame()
   AttributeEntry *atr;
   char savedVersion[4];
   char savedName[256];
+  char str[256];
 
 #ifdef GLK
   frefid_t saveFileRef;
@@ -1542,7 +1544,6 @@ void restoreGame()
 #else
 
   FILE *saveFile;
-  char str[256];
 
   /* First save ? */
   if (saveFileName[0] == '\0') {
@@ -1569,6 +1570,10 @@ void restoreGame()
 
 #endif
 
+  fread((void *)&str, 1, 4, saveFile);
+  str[4] = '\0';
+  if (strcmp(str, "ASAV") != 0)
+    error(M_NOTASAVEFILE);
   fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
   if (strncmp(savedVersion, header->vers, 4)) {
     error(M_SAVEVERS);

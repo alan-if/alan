@@ -68,14 +68,16 @@ Boolean readline(char usrbuf[])
 	restartGame();
 	break;
       case ID_MENU_SAVE:
-	printf("save");
+	glk_set_style(style_Input);
+	printf("save\n");
 	glk_set_style(style_Normal);
 	saveGame();
 	para();
 	printf("> ");
 	break;
       case ID_MENU_RESTORE:
-	printf("restore");
+	glk_set_style(style_Input);
+	printf("restore\n");
 	glk_set_style(style_Normal);
 	restoreGame();
 	look();
