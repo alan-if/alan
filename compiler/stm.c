@@ -255,15 +255,9 @@ static void verifySetTarget(IdNode *attributeId, Attribute  *foundAttribute)
 }
 
 
-/*----------------------------------------------------------------------
-
-  anset()
-
-  Analyze a SET statement
-
-  */
-static void anset(StmNod *stm,
-		  Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeSet(StmNod *stm,
+		       Context *context)
 {
   Attribute *atr;
 
@@ -296,15 +290,9 @@ static void anset(StmNod *stm,
 }
 
 
-/*----------------------------------------------------------------------
-
-  anincr()
-
-  Analyze a INCR/DECR statement
-
-  */
-static void anincr(StmNod *stm,
-		   Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeIncrease(StmNod *stm,
+			    Context *context)
 {
   Attribute *atr;
 
@@ -390,14 +378,8 @@ static void anschedule(StmNod *stm,
 }
 
 
-/*----------------------------------------------------------------------
-
-  ancancel()
-
-  Analyze a CANCEL statement.
-
-  */
-static void ancancel(StmNod *stm) /* IN - The statement to analyze */
+/*----------------------------------------------------------------------*/
+static void analyzeCancel(StmNod *stm) /* IN - The statement to analyze */
 {
   Symbol *sym;
 
@@ -405,15 +387,9 @@ static void ancancel(StmNod *stm) /* IN - The statement to analyze */
 }
 
 
-/*----------------------------------------------------------------------
-
-  anif()
-
-  Analyze an IF statement.
-
-  */
-static void anif(StmNod *stm,
-		 Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeIf(StmNod *stm,
+		      Context *context)
 {
   analyzeExpression(stm->fields.iff.exp, context);
   if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
@@ -470,13 +446,11 @@ static void analyzeUse(StmNod *stm,
 
 /*----------------------------------------------------------------------
 
-  andep()
-
   Analyze a DEPENDING statement. It has partial expressions in the
   cases which must be connected to the depend expression.
 
   */
-static void andep(StmNod *stm, Context *context)
+static void analyzeDepend(StmNod *stm, Context *context)
 {
   List *cases;
 
@@ -532,8 +506,12 @@ static void andep(StmNod *stm, Context *context)
 static void analyzeEach(StmNod *stm,
 			Context *context)
 {
+  Symbol *classSymbol;
+
   /* 4f - Analyze loop class and identifier */
-  
+  if (stm->fields.each.classId != NULL)
+    classSymbol = symcheck(stm->fields.each.classId, CLASS_SYMBOL, context);
+
   /* Analyze the statements in the loop body */
   analyzeStatements(stm->fields.each.stms, context);
 }
@@ -580,26 +558,26 @@ static void analyzeStatement(StmNod *stm,
     analyzeMake(stm, context);
     break;
   case SET_STATEMENT:
-    anset(stm, context);
+    analyzeSet(stm, context);
     break;
   case INCREASE_STATEMENT:
   case DECREASE_STATEMENT:
-    anincr(stm, context);
+    analyzeIncrease(stm, context);
     break;
   case SCHEDULE_STATEMENT:
     anschedule(stm, context);
     break;
   case CANCEL_STATEMENT:
-    ancancel(stm);
+    analyzeCancel(stm);
     break;
   case IF_STATEMENT:
-    anif(stm, context);
+    analyzeIf(stm, context);
     break;
   case USE_STATEMENT:
     analyzeUse(stm, context);
     break;
   case DEPEND_STATEMENT:
-    andep(stm, context);
+    analyzeDepend(stm, context);
     break;
   case EACH_STATEMENT:
     analyzeEach(stm, context);
@@ -629,7 +607,7 @@ void analyzeStatements(List *stms,
   data file (and encoded if requested!).
 
   */
-static void geprint(StmNod *stm)
+static void generatePrint(StmNod *stm)
 {
   encode(&stm->fields.print.fpos, &stm->fields.print.len);
   emit2(I_PRINT, stm->fields.print.fpos, stm->fields.print.len);
@@ -637,11 +615,7 @@ static void geprint(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  Generate a SCORE statement
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateScore(StmNod *stm)
 {
   emitConstant(stm->fields.score.count);
@@ -650,11 +624,7 @@ static void generateScore(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  Generate code to implement a DESCRIBE statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateDescribe(StmNod *stm)
 {
   switch (stm->fields.describe.wht->kind) {
@@ -679,13 +649,7 @@ static void generateDescribe(StmNod *stm)
 }
 
 
-/*----------------------------------------------------------------------
-
-  gesay()
-
-  Generate code for a SAY statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateSay(StmNod *stm)
 {
   generateExpression(stm->fields.say.exp);
@@ -706,14 +670,8 @@ static void generateSay(StmNod *stm)
 }
 
 
-/*----------------------------------------------------------------------
-
-  gelist()
-
-  Generate code to implement a LIST statement.
-
-  */
-static void gelist(StmNod *stm)	/* IN - Statement */
+/*----------------------------------------------------------------------*/
+static void generateList(StmNod *stm)
 {
   if (stm->fields.list.wht->kind == WHAT_ID) {
     generateId(stm->fields.list.wht->id);
@@ -747,13 +705,7 @@ static void generateLocate(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  gemake()
-
-  Generate code to implement a MAKE statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateMake(StmNod *stm)
 {
   emitConstant(!stm->fields.make.not);
@@ -765,13 +717,7 @@ static void generateMake(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  geset()
-
-  Generate code to implement a SET statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateSet(StmNod *stm)
 {
   generateExpression(stm->fields.set.exp);
@@ -786,13 +732,7 @@ static void generateSet(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  geincr()
-
-  Generate code to implement a INCR/DECR statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateIncrease(StmNod *stm)
 {
   if (stm->fields.incr.step != NULL)
@@ -810,13 +750,7 @@ static void generateIncrease(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  geschedule()
-
-  Generate code to implement a SCHEDULE statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateSchedule(StmNod *stm)
 {
   generateExpression(stm->fields.schedule.when);
@@ -843,26 +777,14 @@ static void generateSchedule(StmNod *stm)
 }
 
 
-/*----------------------------------------------------------------------
-
-  gecancel()
-
-  Generate code to implement the CANCEL statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateCancel(StmNod *stm) /* IN - Statement to generate */
 {
   generateId(stm->fields.schedule.id);
   emit0(I_CANCEL);
 }
 
-/*----------------------------------------------------------------------
-
-  geif()
-
-  Generate code to implement a IF statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateIf(StmNod *stm)
 {
   generateExpression(stm->fields.iff.exp);
@@ -877,13 +799,7 @@ static void generateIf(StmNod *stm)
 
 
 
-/*----------------------------------------------------------------------
-
-  geuse()
-
-  Generate USE statement.
-
-  */
+/*----------------------------------------------------------------------*/
 static void generateUse(StmNod *stm)
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
@@ -901,10 +817,8 @@ static void generateUse(StmNod *stm)
 
 /*----------------------------------------------------------------------
 
-  gedepcase()
-
-  Will generate just the right hand part of the expression and the
-  operator.
+  Generate just the right hand part of the expression and the
+  operator of a DEPEND case.
 
 */
 static void generateDependCase(Expression *exp)
@@ -928,8 +842,6 @@ static void generateDependCase(Expression *exp)
 
 
 /*----------------------------------------------------------------------
-
-  gedep()
 
   Generate DEPENDING statement.
 
@@ -998,11 +910,22 @@ static void generateEach(StmNod *statement)
   /* Generate a new BLOCK */
   emit1(I_BLOCK, 1);		/* One local variable in this block */
 
-  /* Init loop variable to 1 */
-  emit3(I_SETLOCAL, 0, 1, 1);
+  /* Init loop variable to 0 since the EACH statement will increment it */
+  emit3(I_SETLOCAL, 0, 1, 0);
 
   /* Start of loop */
   emit1(I_EACH, 1);
+
+  /* Generate check for class membership */
+  if (statement->fields.each.classId) {
+    emit2(I_GETLOCAL, 0, 1);
+    generateId(statement->fields.each.classId);
+    emit0(I_ISA);
+    emit0(I_NOT);
+    emit0(I_IF);
+    emit0(I_NEXTEACH);
+    emit0(I_ENDIF);
+  } 
 
   generateStatements(statement->fields.each.stms);
 
@@ -1035,7 +958,7 @@ static void generateStatement(StmNod *stm)
     break;
 
   case PRINT_STATEMENT:
-    geprint(stm);
+    generatePrint(stm);
     break;
 
   case QUIT_STATEMENT:
@@ -1076,7 +999,7 @@ static void generateStatement(StmNod *stm)
     break;
 
   case LIST_STATEMENT:
-    gelist(stm);
+    generateList(stm);
     break;
 
   case EMPTY_STATEMENT:

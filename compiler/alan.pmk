@@ -373,7 +373,7 @@ static int val(char str[])
     ;
 
 <syntax_item>
-    = ID '=' <syntax_elements> <optional_class_restrictions>
+    = ID '=' <syntax_elements> <optional_syntax_restrictions>
     %%
 	%<syntax_item>.stx = newSyntax(`&%'='.srcp,
 				  	%ID.id,
@@ -383,7 +383,7 @@ static int val(char str[])
 							   NULL,
 							   FALSE),
 						ELEMENT_LIST),
-					%<optional_class_restrictions>.ress);
+					%<optional_syntax_restrictions>.ress);
     %%
     ;
 
@@ -442,42 +442,42 @@ static int val(char str[])
     %%
     ;
 
-<optional_class_restrictions>
+<optional_syntax_restrictions>
     = '.'
     %%
-	%<optional_class_restrictions>.ress = NULL;
+	%<optional_syntax_restrictions>.ress = NULL;
     %%
 
-    ! 'WHERE' <class_restriction_clauses>
+    ! 'WHERE' <syntax_restriction_clauses>
     %%
-	%<optional_class_restrictions>.ress = %<class_restriction_clauses>.ress;
+	%<optional_syntax_restrictions>.ress = %<syntax_restriction_clauses>.ress;
     %%
     ;
 
 
--- A class restriction is a definition of which classes a syntax parameter may
+-- A syntax restriction is a definition of which classes a syntax parameter may
 -- belong to. A parameter can be restricted to a list of classes in the same
 -- restriction clause. It is also possible to restrict a parameter using
 -- multiple clauses since we want different ELSE printouts depending on what
 -- it was not. Also inheritance will make a parameter be restricted in multiple
 -- clauses following the class hierarchy.
-<class_restriction_clauses>
-    = <class_restriction>
+<syntax_restriction_clauses>
+    = <syntax_restriction>
     %%
-	%<class_restriction_clauses>.ress = concat(NULL, %<class_restriction>.res, RESTRICTION_LIST);
+	%<syntax_restriction_clauses>.ress = concat(NULL, %<syntax_restriction>.res, RESTRICTION_LIST);
     %%
 
-    ! <class_restriction_clauses> 'AND' <class_restriction>
+    ! <syntax_restriction_clauses> 'AND' <syntax_restriction>
     %%
-	%<class_restriction_clauses>.ress = concat(%<class_restriction_clauses>.ress,
-				       %<class_restriction>.res, RESTRICTION_LIST);
+	%<syntax_restriction_clauses>.ress = concat(%<syntax_restriction_clauses>.ress,
+				       %<syntax_restriction>.res, RESTRICTION_LIST);
     %%
     ;
 
-<class_restriction>
+<syntax_restriction>
     = ID 'ISA' <restriction_class> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
-	%<class_restriction>.res = newRestriction(`&%'ISA'.srcp,
+	%<syntax_restriction>.res = newRestriction(`&%'ISA'.srcp,
 			  			  %ID.id,
 						  %<restriction_class>.restrictionKind,
 						  %<restriction_class>.id,
@@ -1583,13 +1583,25 @@ static int val(char str[])
 
 ----> Repetition statement
 <repetition_statement>			-- RETURNS: stm
-    = 'FOR' 'EACH' ID [ ':' ID ] 'DO' <statements> 'END' <for_each> ['.']
+    = 'FOR' 'EACH' ID <optional_loop_restriction> 'DO' <statements> 'END' <for_each> ['.']
     %%
 	%<repetition_statement>.stm = newstm(`&%'FOR'.srcp, EACH_STATEMENT);
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
+	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
+	%<repetition_statement>.stm->fields.each.classId = %<optional_loop_restriction>.id;
     %%
     ;
 
+<optional_loop_restriction>		-- RETURNS: ID
+    =
+    %%
+	%<optional_loop_restriction>.id = NULL;
+    %%
+    ! 'ISA' ID
+    %%
+	%<optional_loop_restriction>.id = %ID.id;
+    %%
+    ;
 
 <for_each>
     = 'FOR'

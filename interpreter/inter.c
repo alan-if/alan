@@ -115,7 +115,7 @@ static void interpretEach(Aint local)
 }
 
 
-static void endEach()
+static void nextEach()
 {
   int level = 1;
   int i;
@@ -140,6 +140,11 @@ static void endEach()
   }
 }  
 
+
+static void endEach()
+{
+  nextEach();
+}
 
 #ifdef _PROTOTYPES_
 static void dup(void)
@@ -966,8 +971,15 @@ void interpret(adr)
       case I_EACH: {
 	Aint local = pop();
 	if (stepFlag)
-	  printf("FOR \t%5ld", local);
+	  printf("EACH \t%5ld", local);
 	interpretEach(local);
+	break;
+      }
+
+      case I_NEXTEACH: {
+	if (stepFlag)
+	  printf("NEXTEACH");
+	nextEach();
 	break;
       }
 

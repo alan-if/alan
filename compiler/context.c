@@ -6,7 +6,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "context_x.h"
-#include "stddef.h"
+#include "string.h"
 #include "util.h"
 
 

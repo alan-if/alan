@@ -103,6 +103,6 @@ int main(argc, argv)
   return;
 #else
   return(EXIT_SUCCESS);
-#endif;
+#endif
 }
 

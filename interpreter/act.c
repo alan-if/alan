@@ -240,36 +240,6 @@ static AltEntry *findAlternativeInVerbList(Aaddr verbListAddress,
 
 
 
-/*----------------------------------------------------------------------
-
-  findalt()
-
-  Find the verb alternative wanted for an instance and return
-  the address to it. If the instance == 0 then look globally.
-
- */
-static AltEntry *findalt(
-     Aint inInstance,		/* IN - Which instance to check (0=global) */
-     Aint parameter		/* IN - Which parameter to match */
-)
-{
-  Aaddr verbListAddress;
-  AltEntry *foundAlt;
-  Aint parent;
-
-  if (inInstance == 0)
-    return findAlternativeInVerbList(header->verbTableAddress, parameter);
-
-  foundAlt = findAlternativeInVerbList(instance[inInstance].verbs, parameter);
-  parent = instance[inInstance].parent;
-  while (!foundAlt && parent) {
-    foundAlt = findAlternativeInVerbList(class[parent].verbs, parameter);
-    parent = class[parent].parent;
-  }
-  return foundAlt;
-}
-
-
 /*----------------------------------------------------------------------*/
 static AltEntry *findAlternativeInInstance(
      Aint inInstance,		/* IN - Which instance to check (0=global) */
@@ -307,6 +277,17 @@ typedef struct AltInfo {
 } AltInfo;
 
 
+/*----------------------------------------------------------------------*/
+static void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)
+{
+  altInfo->level = level;
+  altInfo->parameter = parameter;
+  altInfo->instance = instance;
+  altInfo->class = class;
+  altInfo->done = FALSE;
+  altInfo->end = FALSE;
+}
+
 
 
 /*----------------------------------------------------------------------*/
@@ -317,35 +298,20 @@ static void findAllAlternatives(AltInfo alt[]) {
 
   alt[altIndex].alt = findAlternativeInInstance(0, 0);
   if (alt[altIndex].alt != NULL) {
-    alt[altIndex].level = 0;
-    alt[altIndex].parameter = 0; /* Globals are executed for first param */
-    alt[altIndex].instance = params[0].code;
-    alt[altIndex].class = 0;
-    alt[altIndex].done = FALSE;
-    alt[altIndex].end = FALSE;
+    primeAltInfo(&alt[altIndex], 0, 0, params[0].code, 0);
     altIndex++;
   }
 
   alt[altIndex].alt = findAlternativeInInstance(current.location, 0);
   if (alt[altIndex].alt != NULL) {
-    alt[altIndex].level = 1;
-    alt[altIndex].parameter = -1;		/* in location */
-    alt[altIndex].instance = current.location;
-    alt[altIndex].class = 0;
-    alt[altIndex].done = FALSE;
-    alt[altIndex].end = FALSE;
+    primeAltInfo(&alt[altIndex], 1, -1, current.location, 0);
     altIndex++;
   }
   parent = instance[current.location].parent;
   while (parent) {
     alt[altIndex].alt = findAlternativeInClass(parent, 0);
     if (alt[altIndex].alt != NULL) {
-      alt[altIndex].level = 1;
-      alt[altIndex].parameter = -1;		/* in location */
-      alt[altIndex].instance = current.location;
-      alt[altIndex].class = parent;
-      alt[altIndex].done = FALSE;
-      alt[altIndex].end = FALSE;
+      primeAltInfo(&alt[altIndex], 1, -1, current.location, parent);
       altIndex++;
     }
     parent = class[parent].parent;
@@ -355,12 +321,7 @@ static void findAllAlternatives(AltInfo alt[]) {
     if (!isLit(params[paramIndex].code)) {
       alt[altIndex].alt = findAlternativeInInstance(params[paramIndex].code, paramIndex+1);
       if (alt[altIndex].alt != NULL) {
-	alt[altIndex].level = 2;
-	alt[altIndex].parameter = paramIndex;
-	alt[altIndex].instance = params[paramIndex].code;
-	alt[altIndex].class = 0;
-	alt[altIndex].done = FALSE;
-	alt[altIndex].end = FALSE;
+	primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code, 0);
 	altIndex++;
       }
     }
@@ -369,12 +330,8 @@ static void findAllAlternatives(AltInfo alt[]) {
       while (parent) {
 	alt[altIndex].alt = findAlternativeInClass(parent, paramIndex+1);
 	if (alt[altIndex].alt != NULL) {
-	  alt[altIndex].level = 2;
-	  alt[altIndex].parameter = paramIndex;
-	  alt[altIndex].instance = params[paramIndex].code;
-	  alt[altIndex].class = parent;
-	  alt[altIndex].done = FALSE;
-	  alt[altIndex].end = FALSE;
+	  primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code,
+		       parent);
 	  altIndex++;
 	}
 	parent = class[parent].parent;

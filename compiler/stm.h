@@ -147,6 +147,8 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* EACH */
       List *stms;
+      IdNode *loopId;
+      IdNode *classId;
     } each;
 
   } fields;
