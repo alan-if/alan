@@ -1,11 +1,14 @@
 ToDo:
 
-	* Confirm hanteringen är inte bra, måste kunna kolla (y)!
+	* Confirm handling was trashed in 2.7. Any input is considered as
+	non-affirmative. Need to change this so that a '(y)' can be used
+	and input as affirmative.
 
 	* The "plant pot plant in plant pot" problem
 
-	* Actor-clash hantering, dvs. vad sker när man tar ut något ur en
-        aktör?
+	* Actor-clash handling, i.e. what happens when an object is
+	removed from an actor? How to specify if this is possible and what
+	the actor does?
 
 	* Procedures!
 
@@ -13,55 +16,64 @@ ToDo:
 
 	* Listing of saved games
 
-	* Flexiblare syntax även inom LOCATION, ACTOR etc. t.ex VERB, EXIT
-        i valfri ordn.
+	* More flexible syntax inside LOCATION, ACTOR etc. e.g. VERB, EXIT
+	in any order.
 
-	* Snygga upp manualen map. MESSAGE-beskrivningarna
+	* Clean up the manual with respect to the  MESSAGE-descriptions
 
-	* VERBDIR problemet (kolla regression-biblioteket), Samma ord som
-        Verb och Directions fungerar inte
+	* The VERBDIR problem (check regression test verbdir), using the
+	same word as both a verb and a direction does not work.
 
 	* Font sensitivity (esp. proportional fonts)
 
 	* METAVERB, takes no tick
 
-	* Potentiellt problem: icke-ISO sortering av orden i dictionary i .acd
+	* Potential problem: non-ISO sorting of dictionary
 
-	* Kontrollera $<n> m.a.p syntax-parametrar
+	* Verify $<n> w.r.t the syntax parameters
 
-	* Förhindra samma ord som ADJ & VERB, Varför?
+	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
+	the dictonary handling in the compiler gives the verb the code of
+	the adjective, resulting in execution of the wrong (if any) verb...
 
-	* Hur hantera mörka platser och andra globala krav?
+	* How to handle darkness and other global requirements on e.g. the
+	location descriptions?
 
 	* SCHEDULE <event> <where> WHEN <expr>.
 
-	* ASK, CONFIRM?
+	* ASK, CONFIRM statement?
 
 	* SCENERY word, word, word.
 
-	* BACKGROUND för att visa bild bakom texten
+	* BACKGROUND to display a background picture (where appropriate),
+	I like the Zork Zero thing...
 
-	* PLAY för att spela upp ljud
+	* PLAY statement, to play sounds (for how long?)
 
-	* SHOW för att visa en bild
+	* SHOW statement, to show a picture (how to place it?)
 
-	* SYNTAX look_up = 'look' 'up' (str) ['in' (lexikon)], dvs. optionella delar
+	* SYNTAX look_up = 'look' 'up' (str) ['in' (lexikon)],
+	i.e. optional parts of a syntax which can be given default parameters
 
 	* EXIT ELSE ...
 
 	* Status Line
 
-	* Ny dictionary-hantering
+	* New and better dictionary handling in the compiler could remedy
+	the multiple word class problems
 
 	* EXIT out TO RETURN ....
 
-	* Kontroll på 'locate hero' i DESCRIPTIONS (=> recursive look)
+	* Check for 'locate hero'/'look' in DESCRIPTIONS (=> recursive look)
 
-	* Återställ utskriftshanteringen av strängar dvs. ska omgärdas av quote
+	* Replace printout of string attributes? Shouldn't they be
+	surrounded by qoutes, as they are not indended as part of the
+	descriptions but an attribute of an object, like the text written
+	on a card.
 
-	* SCORE & MAXSCORE som variabler
+	* SCORE & MAXSCORE as variables
 
-	* > bollen, Vad vill du göra med bollen?, >sparka den
+	* > THE BALL, What do you want to do with the ball?, > KICK IT
 
 Done:
 
@@ -73,5 +85,5 @@ Done:
 
 	* QUIT-hanteringen
 
-	* Närvarokontroll av parametrar efter syntaxkontroll?
+	* Presence check after syntax check?
 
