@@ -82,13 +82,13 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
   if (strcmp(atr->id->string, "count") == 0)
     atr->id->code = I_COUNT;		/* Use instruction code for COUNT meta attribute */
   else {
-    a = findAttribute(NULL, atr->id);
+    a = findAttribute(thingSymbol->fields.claOrIns.slots->attributes, atr->id);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
     else if (atr->type != INTEGER_TYPE)
       unimpl(&atr->srcp, "Analyzer");
     else
-      atr->id->symbol->code = a->id->symbol->code;
+      atr->id->code = a->id->code;
   }
 
   /* Analyze statments */
@@ -125,13 +125,10 @@ static void gelim(LimNod *lim, int cnt, int currentInstance)
   */
 static void geliment(LimNod *lim) /* IN - The limit to generate for */
 {
-  if (lim->atr->id->symbol == NULL) {
-    if (lim->atr->id->code == I_COUNT)
-      emit(I_COUNT);
-    else
-      syserr("Generating a limit attribute without symbol.");
-  } else
-    emit(lim->atr->id->symbol->code);
+  if (lim->atr->id->code == I_COUNT)
+    emit(I_COUNT);
+  else
+    emit(lim->atr->id->code);
   emit(lim->atr->value);
   emit(lim->stmadr);
 }
