@@ -71,6 +71,7 @@ typedef struct Expression {
 
     struct {			/* for WHERE */
       struct Expression *wht;	/* Must be a WHAT */
+      Bool directly;		/* DIRECTLY? */
       Where *whr;
     } whr;
 
@@ -116,7 +117,7 @@ typedef struct Expression {
     } wht;
 
     struct {			/* For BETWEEN */
-      struct Expression *val;	/* The value */
+      struct Expression *exp;	/* The value */
       struct Expression *low;	/* The boundries */
       struct Expression *high;
     } btw;

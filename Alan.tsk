@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>370.89</origest>
 <currest>369.89</currest>
-<elapsed>212.89</elapsed>
+<elapsed>213.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>63</origest>
 <currest>63</currest>
-<elapsed>18</elapsed>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>26</origest>
 <currest>26</currest>
-<elapsed>18</elapsed>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -236,22 +236,22 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Transitive AT/IN</desc>
+<notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
 <desc>IN &amp; AT operators</desc>
 <notes>Change IN &amp; AT operators to both be transitive.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Transitive AT/IN</desc>
-<notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 <task>
 <desc>Add DIRECTLY to syntax for all WHERE expressions</desc>
 <notes/>

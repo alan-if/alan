@@ -36,7 +36,7 @@
 
 
 /*======================================================================*/
-Expression *newExpression(Srcp *srcp, ExpressionKind kind)
+static Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 {
   Expression *new;                      /* The newly allocated area */
 
@@ -61,11 +61,30 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 
 /*======================================================================*/
+Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not,
+			       Bool directly, Where *where) {
+  Expression *exp = newExpression(&srcp, WHERE_EXPRESSION);
+  exp->fields.whr.wht = what;
+  exp->not = not;
+  exp->fields.whr.directly = directly;
+  exp->fields.whr.whr = where;
+  return exp;
+}
+
+
+/*======================================================================*/
 Expression *newStringExpression(Srcp srcp, long fpos, int len)
 {
   Expression *exp = newExpression(&srcp, STRING_EXPRESSION);
   exp->fields.str.fpos = fpos;
   exp->fields.str.len = len;
+  return exp;
+}
+
+/*======================================================================*/
+Expression *newScoreExpression(Srcp srcp)
+{
+  Expression *exp = newExpression(&srcp, SCORE_EXPRESSION);
   return exp;
 }
 
@@ -78,7 +97,8 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 }
 
 /*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expression *ofWhat) {
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
+				   Expression *ofWhat) {
   Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
   exp->fields.atr.id = attribute;
   exp->not = not;
@@ -87,7 +107,8 @@ Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not, Expre
 }
 
 /*======================================================================*/
-Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not, IdNode *class) {
+Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
+			     IdNode *class) {
   Expression *exp = newExpression(&srcp, ISA_EXPRESSION);
   exp->fields.isa.what = what;
   exp->not = not;
@@ -106,12 +127,25 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 }
 
 /*======================================================================*/
-Expression *newBinaryExpression(Srcp srcp, OperatorKind kind,
-				Bool not, Expression *left, Expression *right) {
+Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
+				OperatorKind kind, Expression *right) {
   Expression *exp = newExpression(&srcp, BINARY_EXPRESSION);
-  exp->fields.bin.op = kind;
   exp->fields.bin.left = left;
+  exp->not = not;
+  exp->fields.bin.op = kind;
   exp->fields.bin.right = right;
+  return exp;
+}
+
+
+/*======================================================================*/
+Expression *newBetweenExpression(Srcp srcp, Expression *expression, Bool not,
+				Expression *low, Expression *high) {
+  Expression *exp = newExpression(&srcp, BETWEEN_EXPRESSION);
+  exp->fields.btw.exp = expression;
+  exp->not = not;
+  exp->fields.btw.low = low;
+  exp->fields.btw.high = high;
   return exp;
 }
 
@@ -729,9 +763,9 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeBetweenExpression(Expression *exp, Context *context)
 {
-  analyzeExpression(exp->fields.btw.val, context);
-  if (!equalTypes(exp->fields.btw.val->type, INTEGER_TYPE))
-    lmLogv(&exp->fields.btw.val->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+  analyzeExpression(exp->fields.btw.exp, context);
+  if (!equalTypes(exp->fields.btw.exp->type, INTEGER_TYPE))
+    lmLogv(&exp->fields.btw.exp->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   analyzeExpression(exp->fields.btw.low, context);
   if (!equalTypes(exp->fields.btw.low->type, INTEGER_TYPE))
@@ -1092,7 +1126,7 @@ void generateBetweenCheck(Expression *exp)
 /*----------------------------------------------------------------------*/
 static void generateBetweenExpression(Expression *exp)
 {
-  generateExpression(exp->fields.btw.val);
+  generateExpression(exp->fields.btw.exp);
   generateBetweenCheck(exp);
   if (exp->not) emit0(I_NOT);
 }
@@ -1334,7 +1368,7 @@ void dumpExpression(Expression *exp)
   case SCORE_EXPRESSION:
     break;
   case BETWEEN_EXPRESSION:
-    put("val: "); dumpExpression(exp->fields.btw.val); nl();
+    put("val: "); dumpExpression(exp->fields.btw.exp); nl();
     put("low: "); dumpExpression(exp->fields.btw.low); nl();
     put("high: "); dumpExpression(exp->fields.btw.high);
     break;
