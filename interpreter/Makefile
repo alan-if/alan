@@ -53,6 +53,7 @@ all release:=	DEBUG= -O
 
 #-- MAIN TARGET
 debug all tcov release: objarch arun dumpacd
+	
 
 sun4 sun3 solaris2 hp: objarch fromsrc
 
