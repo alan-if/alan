@@ -60,9 +60,10 @@ malloc: $(OBJECTS) version.o
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 	cp arun ../`arch`/arun
 
+src: version.c version.h
+
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
-	cp arun ../`arch`/arun
 
 version.c + version.h: ../[0-9]*
 	-@cd ..;rm ../[0-9]*_[0-9]*_[0-9]*;sh version.sh
@@ -76,7 +77,7 @@ version: $(OBJECTS)
 	venum +t
 
 #--
-archives:
+archives: src
 	-rm Makefile*~
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
 	zip -k -f interpreter.zip *.[ch] Makefile.cmd

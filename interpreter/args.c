@@ -192,7 +192,7 @@ void args(argc, argv)
     /* Another program name use that as the name of the adventure */
     strcpy(advnam, prgnam);
 #else
-#if defined __sun__
+#if defined __unix__
   if ((prgnam = strrchr(argv[0], '/')) == NULL)
     prgnam = argv[0];
   else
