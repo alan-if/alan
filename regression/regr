@@ -14,7 +14,7 @@ if [ $# != 0 ] ; then
 	echo "########## alan $case.alan ##########" >>$case.output
 	../bin/alan $case >>$case.output 2>&1
 	../bin/arun -n $case >>$case.output 2>&1 < $case.input
-	if diff -q -b $case.output $case.expected
+	if diff -q -b $case.output $case.expected 1> /dev/null
 	then
 	    echo -n "[K"
 	    rm $case.output
@@ -33,7 +33,7 @@ else
     echo "########## alan $case.alan ##########" >>$case.output
     ../bin/alan $case >>$case.output 2>&1
     ../bin/arun -n $case >>$case.output 2>&1 < $case.input
-    if diff -q -b $case.output $case.expected
+    if diff -q -b $case.output $case.expected 1> /dev/null
     then
 	echo -n "[K"
 	rm $case.output
