@@ -219,7 +219,7 @@ malloc: tm $(OBJECTS) version.o
 	-rm alan.o
 
 purify: tm $(OBJECTS) version.o alan.o
-	purify -handle-signals $(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
+	purify -handle-signals $(LD) -o alan $(OBJECTS) version.o $(LDFLAGS)
 
 version.h version.c: ../version.sh
 	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
@@ -249,7 +249,7 @@ savetm:
 	    exit 1; \
 	fi
 	@cp -p alan.tmk alan.tmk.orig
-	
+
 restoretm:
 	@cp -p alan.tmk.orig alan.tmk
 	@-rm alan.tmk.orig

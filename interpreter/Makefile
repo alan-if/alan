@@ -88,7 +88,7 @@ genalan: genalan.o spa.o
 	$(CC) -o genalan $(CFLAGS) genalan.o spa.o
 
 purify: $(OBJECTS) version.o $(MAINOBJ)
-	purify $(LD) -o arun $(CFLAGS) $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
+	purify $(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
 
 malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
