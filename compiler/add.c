@@ -15,7 +15,7 @@
 #include "atr_x.h"
 #include "lst_x.h"
 
-#include "vrb.h"
+#include "vrb_x.h"
 #include "scr.h"
 #include "ext.h"
 
@@ -157,9 +157,9 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
   List *verbIdList;
   Bool multipleVerb = FALSE;
 
-#define TRAVERSE(loopVariable,initExpression) (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
-
   if (add->props->verbs != NULL) {
+    if (originalSymbol == entitySymbol)
+      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
     for TRAVERSE(verbList, add->props->verbs) {
       for TRAVERSE(verbIdList, verbList->element.vrb->ids)
 	if (foundVerb(verbIdList->element.id, originalProps->verbs)) {

@@ -1,9 +1,9 @@
-########## alan entitiesAreEverywhere ##########
+########## alan warnForVerbsOnEntity ##########
 
 
-entitiesAreEverywhere.alan
+warnForVerbsOnEntity.alan
 
-   10.    Verb v
+    2.    Verb x
 =====>    1
 
   *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
@@ -14,21 +14,5 @@ entitiesAreEverywhere.alan
 
         No detected errors.
         1 warning(s).
+        1 informational message(s).
 
-########## arun entitiesAreEverywhere ##########
-
-
-L
-
-> v x
-You can't.
-
-> v y
-I can't see any y here.
-
-> v hero
-You v the hero. You v the hero.
-
-> 
-
-Do you want to RESTART, RESTORE or QUIT ? 

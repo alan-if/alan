@@ -1,0 +1,20 @@
+########## alan sayTypes ##########
+
+
+sayTypes.alan
+
+    6.    Say l Isa location.
+=====>    1
+
+  *1*   337 E : You can not Say boolean values.
+
+    9.    Say b Of l.
+=====>    1
+
+  *1*   337 E : You can not Say boolean values.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

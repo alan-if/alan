@@ -178,6 +178,7 @@ static lmMsgs msg[] = {
     { "423   ", "You can not instantiate or sub-class \'%1\'." },
     { "424   ", "You can not ADD %1 to non-instantiable class \'%2\'." },
     { "425   ", "A Mentioned clause overrides the Name for an instance inheriting from location." },
+    { "426   ", "Adding a Verb to the pre-defined class \'entity\' will result in multiple executions of it, since it will be inherited by both all locations and all objects. This is probably not what you want. Try adding it to \'thing\' instead." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
@@ -196,7 +197,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 116}
+    {0, 117}
 };
 static lmMessages currMsect = (lmMessages)0;
 
