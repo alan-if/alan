@@ -1,2 +1,2 @@
 #!/bin/sh
-windiff $1.expected $1.output
+diff $1.expected $1.output

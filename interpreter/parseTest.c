@@ -25,14 +25,16 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
   element->next = next;
 }
 
+static DictionaryEntry *makeDictionary(int size) {
+  dictsize = size;
+  return allocate(size*sizeof(DictionaryEntry));
+}
 
-static void makeDictionary(int index, int code, int classBits) {
-  if (index > dictsize) syserr("makeDictonary() out of size");
+static void makeDictionaryEntry(int index, int code, int classBits) {
+  if (index > dictsize) syserr("makeDictionaryEntry() out of size");
   dictionary[index].code = code;
   dictionary[index].classBits = classBits;
 }
-
-
 
 static void testMatchEndOfSyntax() {
   ElementEntry *element;
@@ -129,9 +131,8 @@ static void testMatchParseTree() {
   ASSERT(element == &elementTable[1]);
 
   /* Test word, EOF with word, EOS */
-  dictionary = allocate(100);
-  makeDictionary(0, 1, PREPOSITION_BIT);
-  dictsize = 1;
+  dictionary = makeDictionary(100);
+  makeDictionaryEntry(0, 1, PREPOSITION_BIT);
   playerWords[0] = 0;		/* A preposition with code 0 */
   playerWords[1] = EOF;
   makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
@@ -146,14 +147,13 @@ static void testMatchParseTree() {
 static void testNoOfPronouns() {
   int i;
 
-  dictsize = 30;
-  dictionary = allocate(dictsize*sizeof(DictionaryEntry));
+  dictionary = makeDictionary(30);
 
   for (i = 0; i < dictsize; i++)
     if (i%3 == 0)
-      makeDictionary(i, dictsize+i, PRONOUN_BIT);
+      makeDictionaryEntry(i, dictsize+i, PRONOUN_BIT);
     else
-      makeDictionary(i, dictsize+1, VERB_BIT);
+      makeDictionaryEntry(i, dictsize+1, VERB_BIT);
 
   ASSERT(noOfPronouns() == 10);
 
@@ -161,8 +161,30 @@ static void testNoOfPronouns() {
 }
 
 
+static void testSetupParameterForWord() {
+  header->maxParameters = 10;
+  dictionary = makeDictionary(20);
+  memory = allocate(40*sizeof(Aword));
+
+  makeDictionaryEntry(2, 23, VERB_BIT);
+  memcpy(&memory[12], "qwerty", 7);
+  dictionary[2].wrd = 12;
+
+  playerWords[1] = 2;
+  litCount = 0;
+  setupParameterForWord(1, 1);
+
+  ASSERT(parameters[0].instance == instanceFromLiteral(1));
+  ASSERT(parameters[1].instance == EOF);
+
+  free(dictionary);
+  free(memory);
+}
+
+
 void registerParseUnitTests()
 {
+  registerUnitTest(testSetupParameterForWord);
   registerUnitTest(testMatchEndOfSyntax);
   registerUnitTest(testMatchParameterElement);
   registerUnitTest(testMatchParseTree);

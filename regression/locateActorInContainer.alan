@@ -2,10 +2,14 @@ The l Isa location
 End The l.
 
 The dr_phil Isa actor At l
-  Name dr phil
+  Name dr Phil
 End The dr_phil.
 
 Add To Every actor
+
+  Definite Article
+  Indefinite Article
+
   Verb put_in
     When i Does
       Locate i In c.

@@ -284,7 +284,7 @@ static void findAllAlternatives(AltInfo alt[]) {
   alt[0].end = TRUE;
   alt[altIndex].alt = findAlternativeInInstance(0, 0);
   if (alt[altIndex].alt != NULL) {
-    primeAltInfo(&alt[altIndex], 0, 0, parameters[0].code, 0);
+    primeAltInfo(&alt[altIndex], 0, 0, parameters[0].instance, 0);
     altIndex++;
   }
 
@@ -295,17 +295,17 @@ static void findAllAlternatives(AltInfo alt[]) {
     altIndex++;
   }
 
-  for (paramIndex = 0; parameters[paramIndex].code != EOF; paramIndex++) {
-    if (isLiteral(parameters[paramIndex].code))
+  for (paramIndex = 0; parameters[paramIndex].instance != EOF; paramIndex++) {
+    if (isLiteral(parameters[paramIndex].instance))
       parent = literal[paramIndex+1].class;
     else
-      parent = instance[parameters[paramIndex].code].parent;
+      parent = instance[parameters[paramIndex].instance].parent;
     altIndex += alternativesFoundInParents(&alt[altIndex], parent,
-					   parameters[paramIndex].code, 2, paramIndex+1);
-    if (!isLiteral(parameters[paramIndex].code)) {
-      alt[altIndex].alt = findAlternativeInInstance(parameters[paramIndex].code, paramIndex+1);
+					   parameters[paramIndex].instance, 2, paramIndex+1);
+    if (!isLiteral(parameters[paramIndex].instance)) {
+      alt[altIndex].alt = findAlternativeInInstance(parameters[paramIndex].instance, paramIndex+1);
       if (alt[altIndex].alt != NULL) {
-	primeAltInfo(&alt[altIndex], 2, paramIndex+1, parameters[paramIndex].code, 0);
+	primeAltInfo(&alt[altIndex], 2, paramIndex+1, parameters[paramIndex].instance, 0);
 	altIndex++;
       }
     }
@@ -504,16 +504,16 @@ void action(plst)
        The code == 0 means this is a multiple position. We must loop
        over this position (and replace it by each present in the plst)
      */
-    for (mpos = 0; parameters[mpos].code != 0; mpos++); /* Find multiple position */
+    for (mpos = 0; parameters[mpos].instance != 0; mpos++); /* Find multiple position */
     sprintf(marker, "($%d)", mpos+1); /* Prepare a printout with $1/2/3 */
-    for (i = 0; plst[i].code != EOF; i++) {
+    for (i = 0; plst[i].instance != EOF; i++) {
       parameters[mpos] = plst[i];
       output(marker);
       executeCommand();
-      if (plst[i+1].code != EOF)
+      if (plst[i+1].instance != EOF)
         para();
     }
-    parameters[mpos].code = 0;
+    parameters[mpos].instance = 0;
   } else
     executeCommand();
 }

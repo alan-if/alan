@@ -23,4 +23,8 @@ extern int verbWord;
 /* Parse a new player command */
 extern void parse(void);
 extern void initParse(void);
-
+extern int literalFromInstance(Aint instance);
+extern Aint instanceFromLiteral(int literalIndex);
+extern void setupParameterForInstance(int parameter, Aint instance);
+extern void setupParameterForInteger(int parameter, Aint value);
+extern void restoreParameters();

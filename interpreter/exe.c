@@ -11,6 +11,8 @@
 #include "act.h"
 #include "set.h"
 #include "debug.h"
+#include "params.h"
+#include "parse.h"
 #include "syserr.h"
 
 #ifdef USE_READLINE
@@ -167,6 +169,22 @@ Bool popGameState(void) {
 void describeInstances(void);
 
 
+/*----------------------------------------------------------------------*/
+static void printMessageUsingParameter(MsgKind message, int i) {
+  setupParameterForInstance(1, i);
+  printMessage(message);
+  restoreParameters();
+}
+
+/*----------------------------------------------------------------------*/
+static void printMessageUsing2Parameters(MsgKind message, int instance1,
+					 int instance2) {
+  setupParameterForInstance(1, instance1);
+  setupParameterForInstance(2, instance2);
+  printMessage(message);
+  restoreParameters();
+}
+
 /*======================================================================*/
 void print(Aword fpos, Aword len)
 {
@@ -269,15 +287,11 @@ void getStringFromFile(Aword fpos, Aword len)
 /*======================================================================*/
 void score(Aword sc)
 {
-  char buf[80];
-
   if (sc == 0) {
-    printMessage(M_SCORE1);
-    sprintf(buf, "%d", current.score);
-    output(buf);
-    printMessage(M_SCORE2);
-    sprintf(buf, "%ld.", header->maxscore);
-    output(buf);
+    setupParameterForInteger(1, current.score);
+    printMessage(M_SCORE_START);
+    setupParameterForInteger(1, header->maxscore);
+    printMessage(M_SCORE_END);
   } else {
     current.score += scores[sc-1];
     scores[sc-1] = 0;
@@ -542,14 +556,13 @@ void decrease(Aword id, Aword atr, Aword step)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static Aword literalAttribute(Aword lit, Aword atr)
 {
   char str[80];
 
   if (atr == 1)
-    return literal[lit-header->instanceMax].value;
+    return literal[literalFromInstance(lit)].value;
   else {
     sprintf(str, "Unknown attribute for literal (%ld).", atr);
     syserr(str);
@@ -881,13 +894,13 @@ Aint agrcount(Aword whr)
 }
 
 /*----------------------------------------------------------------------*/
-static void locateIntoContainer(Aword ins, Aword whr) {
-  if (!isA(ins, container[instance[whr].container].class))
-    error(M_CANNOTCONTAIN);
-  else if (checklim(whr, ins))
+static void locateIntoContainer(Aword theInstance, Aword theContainer) {
+  if (!isA(theInstance, container[instance[theContainer].container].class))
+    printMessageUsing2Parameters(M_CANNOTCONTAIN, theContainer, theInstance);
+  else if (checklim(theContainer, theInstance))
     error(MSGMAX);		/* Return to player without any message */
   else
-    admin[ins].location = whr;
+    admin[theInstance].location = theContainer;
 }
 
 
@@ -1128,10 +1141,10 @@ static void sayLiteral(Aword lit)
   char *str;
 
   if (isNum(lit))
-    sayint(literal[lit-header->instanceMax].value);
+    sayInteger(literal[lit-header->instanceMax].value);
   else {
     str = (char *)strdup((char *)literal[lit-header->instanceMax].value);
-    saystr(str);
+    sayString(str);
   }    
 }
 
@@ -1171,7 +1184,7 @@ static void sayInstance(Aword id)
 
 
 /*======================================================================*/
-void sayint(Aword val)
+void sayInteger(Aword val)
 {
   char buf[25];
 
@@ -1183,7 +1196,7 @@ void sayint(Aword val)
 
 
 /*======================================================================*/
-void saystr(char *str)
+void sayString(char *str)
 {
   if (isHere(HERO, FALSE))
     output(str);
@@ -1305,7 +1318,6 @@ void sayForm(Aword id, SayForm form)
 
 FORWARD void list(Aword cnt);
 
-
 /*----------------------------------------------------------------------*/
 static Bool inheritedDescriptionCheck(Aint classId)
 {
@@ -1402,9 +1414,8 @@ static void describeObject(Aword obj)
   if (haveDescription(obj))
     describeAnything(obj);
   else {
-    printMessage(M_SEEOBJ1);
-    sayForm(obj, SAY_INDEFINITE);
-    printMessage(M_SEEOBJ4);
+    printMessageUsingParameter(M_SEE_OBJ_START, obj);
+    printMessage(M_SEE_OBJ_END);
     if (instance[obj].container != 0)
       describeContainer(obj);
   }
@@ -1428,8 +1439,7 @@ static void describeActor(Aword act)
   else if (haveDescription(act))
     describeAnything(act);
   else {
-    mention(act);
-    printMessage(M_SEEACT);
+    printMessageUsingParameter(M_SEE_ACT, act);
     if (instance[act].container != 0)
       describeContainer(act);
   }
@@ -1466,9 +1476,8 @@ void describe(Aword id)
 void describeInstances(void)
 {
   int i;
-  int prevobj = 0;
-  Bool found = FALSE;
-  Bool multiple = FALSE;
+  int lastInstanceFound = 0;
+  int found = 0;
 
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
@@ -1480,27 +1489,26 @@ void describeInstances(void)
   for (i = 1; i <= header->instanceMax; i++)
     if (admin[i].location == current.location && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed) {
-      if (!found) {
-	printMessage(M_SEEOBJ1);
-	sayForm(i, SAY_INDEFINITE);
-	found = TRUE;
-      } else {
-	if (multiple) {
-	  needSpace = FALSE;
-	  printMessage(M_SEEOBJ2);
-	  sayForm(prevobj, SAY_INDEFINITE);
+      if (found == 0) {
+	printMessageUsingParameter(M_SEE_OBJ_START, i);
+	if (instance[i].container && agrcount(i) > 0) {
+	  printMessage(M_SEE_OBJ_END);
+	  describeContainer(i);
+	  continue;		/* Actually start another list. */
 	}
-	multiple = TRUE;
+      } else {
+	if (found > 1)
+	  printMessageUsingParameter(M_SEE_OBJ_COMMA, lastInstanceFound);
       }
-      prevobj = i;
+      found++;
+      lastInstanceFound = i;
     }
 
-  if (found) {
-    if (multiple) {
-      printMessage(M_SEEOBJ3);
-      sayForm(prevobj, SAY_INDEFINITE);
+  if (found > 0) {
+    if (found > 1) {
+      printMessageUsingParameter(M_SEE_OBJ_AND, lastInstanceFound);
     }
-    printMessage(M_SEEOBJ4);
+    printMessage(M_SEE_OBJ_END);
   }
   
   /* Now for all actors */
@@ -1570,19 +1578,15 @@ void list(Aword cnt)
 	  if (container[props].header != 0)
 	    interpret(container[props].header);
 	  else {
-	    if (isA(container[props].owner, ACTOR)) {
-	      say(container[props].owner);
-	      printMessage(M_CARRIES);
-	    } else {
-	      printMessage(M_CONTAINS0);
-	      say(container[props].owner);
-	      printMessage(M_CONTAINS);
-	    }
+	    if (isA(container[props].owner, ACTOR))
+	      printMessageUsingParameter(M_CARRIES, container[props].owner);
+	    else
+	      printMessageUsingParameter(M_CONTAINS, container[props].owner);
 	  }
 	} else {
 	  if (multiple) {
 	    needSpace = FALSE;
-	    printMessage(M_CONTAINSCOMMA);
+	    printMessage(M_CONTAINS_COMMA);
 	  }
 	  multiple = TRUE;
 	  sayForm(previouslyFoundInstance, SAY_INDEFINITE);
@@ -1594,21 +1598,17 @@ void list(Aword cnt)
 
   if (found) {
     if (multiple)
-      printMessage(M_CONTAINSAND);
+      printMessage(M_CONTAINS_AND);
     sayForm(previouslyFoundInstance, SAY_INDEFINITE);
-    printMessage(M_CONTAINSEND);
+    printMessage(M_CONTAINS_END);
   } else {
     if (container[props].empty != 0)
       interpret(container[props].empty);
     else {
-      if (isA(container[props].owner, ACTOR)) {
-	say(container[props].owner);
-	printMessage(M_EMPTYHANDED);
-      } else {
-	printMessage(M_CONTAINS0);
-	say(container[props].owner);
-	printMessage(M_EMPTY);
-      }
+      if (isA(container[props].owner, ACTOR))
+	printMessageUsingParameter(M_EMPTYHANDED, container[props].owner);
+      else
+	printMessageUsingParameter(M_EMPTY, container[props].owner);
     }
   }
   needSpace = TRUE;
@@ -1898,7 +1898,7 @@ Aword randomInContainer(Aint cont)
 /*----------------------------------------------------------------------*/
 Aword randomInSet(Aset set)
 {
-  int count = setSize((Set *)set);
+  int count = sizeOfSet((Set *)set);
   int selected;
 
   if (count == 0)

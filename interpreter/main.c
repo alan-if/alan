@@ -495,7 +495,7 @@ static void sayParameter(int p, int form)
   int i;
 
   for (i = 0; i <= p; i++)
-    if (parameters[i].code == EOF)
+    if (parameters[i].instance == EOF)
       syserr("Nonexistent parameter referenced.");
 
 #ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
@@ -509,7 +509,7 @@ static void sayParameter(int p, int form)
     /* Ambiguous instance referenced, so use the words he used */
     sayPlayerWordsForParameter(p);
   } else
-    sayForm(parameters[p].code, form);
+    sayForm(parameters[p].instance, form);
 #endif
 }
 

@@ -410,6 +410,7 @@ typedef struct AcdHdr {
   Aaddr messageTableAddress;
 /* Miscellaneous */
   Aint attributesAreaSize;	/* Size of attribute data area in Awords */
+  Aint maxParameters;		/* Maximum number of parameters in any syntax */
   Aaddr stringInitTable;	/* String init table address */
   Aaddr setInitTable;		/* Set init table address */
   Aaddr start;			/* Address to Start code */
@@ -438,23 +439,21 @@ typedef enum MsgKind {
   M_NO_WAY,
   M_CANT0,
   M_CANT,
-  M_SEEOBJ1,
-  M_SEEOBJ2,
-  M_SEEOBJ3,
-  M_SEEOBJ4,
-  M_SEEACT,
-  M_CONTAINS0,
+  M_SEE_OBJ_START,
+  M_SEE_OBJ_COMMA,
+  M_SEE_OBJ_AND,
+  M_SEE_OBJ_END,
+  M_SEE_ACT,
   M_CONTAINS,
   M_CARRIES,
-  M_CONTAINSCOMMA,
-  M_CONTAINSAND,
-  M_CONTAINSEND,
-  M_CANNOTCONTAIN,
+  M_CONTAINS_COMMA,
+  M_CONTAINS_AND,
+  M_CONTAINS_END,
   M_EMPTY,
   M_EMPTYHANDED,
-  M_SCORE1,
-  M_SCORE2,
-  M_SCOREEND,
+  M_CANNOTCONTAIN,
+  M_SCORE_START,
+  M_SCORE_END,
   M_UNKNOWN_WORD,
   M_MORE,
   M_AGAIN,

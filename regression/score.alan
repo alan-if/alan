@@ -1,0 +1,17 @@
+Message havescored:
+  If Parameter1 > 10 Then
+    "Excellent score of"
+  Else
+    "Score of"
+  End If.
+  Say parameter1.
+
+The l Isa location
+End The l.
+
+Verb s
+  Does
+    Score.
+End Verb.
+
+Start At l.

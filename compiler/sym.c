@@ -43,7 +43,11 @@ Symbol *literalSymbol;
 Symbol *stringSymbol;
 Symbol *integerSymbol;
 Symbol *theHero;
-Symbol *messageVerbSymbol;
+Symbol *messageVerbSymbolForInstance;
+Symbol *messageVerbSymbolFor2Instances;
+Symbol *messageVerbSymbolForString;
+Symbol *messageVerbSymbolFor2Strings;
+Symbol *messageVerbSymbolForInteger;
 
 
 
@@ -239,16 +243,60 @@ Symbol *newVerbSymbol(IdNode *id) {
   return new;
 }
 
+/*----------------------------------------------------------------------*/
+static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
+  List *pl = s->fields.verb.parameterSymbols;
+  int p;
+
+  for (p = 1; p < parameter; p++)
+    pl = pl->next;
+
+  pl->element.sym->fields.parameter.class = class;
+  if (class == stringSymbol)
+    pl->element.sym->fields.parameter.type = STRING_TYPE;
+  else if (class == integerSymbol)
+    pl->element.sym->fields.parameter.type = INTEGER_TYPE;
+  else
+    pl->element.sym->fields.parameter.type = INSTANCE_TYPE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
+  Symbol *symbol;
+  char name[50];
+  int p;
+  IdNode *id;
+  List *elementList = NULL;
+
+  sprintf(name, "$message%d%s$", parameterCount, typeSymbol->string);
+  symbol = newVerbSymbol(newId(nulsrcp, name));
+
+  for (p = 1; p <= parameterCount; p++) {
+    sprintf(name, "parameter%d", p);
+    id = newId(nulsrcp, name);
+    elementList = concat(elementList,
+			 newParameterElement(nulsrcp, id, 0),
+			 ELEMENT_LIST);
+    id->code = p;
+  }
+  
+  setParameters(symbol, elementList);
+
+  for (p = 1; p <= parameterCount; p++)
+    setParameterClass(symbol, p, typeSymbol);
+  return(symbol);
+}
+
+
 
 /*======================================================================*/
-void createMessageVerb() {
-  IdNode *id = newId(nulsrcp, "parameter");
-  Element *element = newParameterElement(nulsrcp, id, 0);
-  List *elements = concat(NULL, element, ELEMENT_LIST);
-
-  id->code = 1;			/* First and only parameter */
-  messageVerbSymbol = newVerbSymbol(newId(nulsrcp, "$message$"));
-  setParameters(messageVerbSymbol, elements);
+void createMessageVerbs() {
+  messageVerbSymbolForInstance = createMessageVerb(1, entitySymbol);
+  messageVerbSymbolForString = createMessageVerb(1, stringSymbol);
+  messageVerbSymbolForInteger = createMessageVerb(1, integerSymbol);
+  messageVerbSymbolFor2Strings = createMessageVerb(2, stringSymbol);
+  messageVerbSymbolFor2Instances = createMessageVerb(2, entitySymbol);
 }
 
 
@@ -258,7 +306,9 @@ void initSymbols()
   symbolTree = NULL;
   instanceCount = 0;
   classCount = 0;
-  attributeCount = PREDEFINEDATTRIBUTES;
+  attributeCount = PREDEFINEDATTRIBUTES; /* Set number of attributes
+					    predefined so counting
+					    starts at next number */
 }
 
 

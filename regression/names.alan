@@ -10,6 +10,11 @@ Add To Every thing
   End Verb.
 End Add To.
 
+Add To Every actor
+  Definite Article
+  Indefinite Article
+End Add.
+
 
 The mr_a Isa actor At l
   Name mr a

@@ -1,6 +1,15 @@
 The l Isa location
 End The l.
 
+Add To Every object
+  Has size 4.
+  Verb put_in
+    When c
+      Does
+        Locate o In c.
+  End Verb.
+End Add.
+
 The o1 Isa object At l
   Container
     Taking actor.
@@ -8,14 +17,14 @@ End The o1.
 
 The o2 Isa object At l.
   Container
-    Taking location.
-    Limits size 4 Else "Too much."
+    Taking object.
+    Limits size 1 Else "Too much."
 End The o2.
 
 Syntax
   put_in = put (o)! 'in' (c)
-    Where o Isa entity
-      Else "You can only put entities in containers here."
+    Where o Isa thing
+      Else "You can only put things in containers here."
     And c Isa container
       Else "You can only put things in containers."
 

@@ -6,7 +6,7 @@
 
 
 Bar
-Bartender is here. The bartender is carrying a glass. A slow-moving,
+The bartender is here. The bartender is carrying a glass. A slow-moving,
 traditionally dressed waiter is here. The waiter is carrying a menu.
 
 > take glass
@@ -14,7 +14,7 @@ The bartender will not allow you to take anything.
 
 > l
 Bar
-Bartender is here. The bartender is carrying a glass. A slow-moving,
+The bartender is here. The bartender is carrying a glass. A slow-moving,
 traditionally dressed waiter is here. The waiter is carrying a menu.
 
 > take menu
@@ -22,7 +22,7 @@ The waiter is annoyed by your presupposition.
 
 > l
 Bar
-Bartender is here. The bartender is carrying a glass. A slow-moving,
+The bartender is here. The bartender is carrying a glass. A slow-moving,
 traditionally dressed waiter is here. The waiter is empty-handed. He is
 rather annoyed.
 

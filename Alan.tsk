@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>388.89</origest>
-<currest>387.89</currest>
-<elapsed>226.89</elapsed>
+<origest>395.89</origest>
+<currest>394.89</currest>
+<elapsed>228.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>81</origest>
-<currest>81</currest>
-<elapsed>32</elapsed>
+<origest>88</origest>
+<currest>88</currest>
+<elapsed>34</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>37</origest>
-<currest>37</currest>
-<elapsed>32</elapsed>
+<origest>40</origest>
+<currest>40</currest>
+<elapsed>34</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -414,6 +414,15 @@ Probably we want to have unique word code for every unique word, and then a code
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Remove special handling of actors with respect to definite/indefinite forms</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Parameter available for attribute checks in some MESSAGEs</desc>
 <notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.
 
@@ -440,6 +449,27 @@ M_CANT
 M_SEEOBJ1 et al.
 M_CONTAINS et al.
 M_CARRIES et at.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add message handling for UNKNOWN word</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Wrong space formatting in regression inheritContainer</desc>
+<notes>This is probably because it is an embedded symbol so after printing the symbo there is both a newline and the next character in the string is a space.
+
+Newline need to set needsp = FALSE and output need to adhere to it when it has printed the symbol and ignore any leading spaces in the rest of the string.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -477,7 +507,8 @@ M_CARRIES et at.
 </task>
 <task>
 <desc>Document new messages</desc>
-<notes>Also note the change in the conversion appendix</notes>
+<notes>Also note the change in the conversion appendix
+NOTE any instance for which noun in noSuch()</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -489,13 +520,22 @@ M_CARRIES et at.
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
+<origest>33</origest>
+<currest>33</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>INIT clause as property</desc>
 <notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Literal should not inherit from Thing</desc>
+<notes>It should be a separate base class</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -582,6 +622,15 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Confirmations</desc>
 <notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
 
@@ -652,6 +701,15 @@ Check for consistency with other instances of local overides.</notes>
 <task>
 <desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Events as attributes</desc>
+<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -762,6 +820,15 @@ Word as verb and direction
 
 Which of the above works, and what is the problem with each that doesn't?
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
+<notes>with "Say No x." and "$-1" as print forms.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

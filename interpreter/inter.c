@@ -352,8 +352,8 @@ void interpret(Aaddr adr)
       switch (I_OP(i)) {
       case V_PARAM:
 	if (singleStepOption) printf("PARAM \t%5ld\t\t=%ld\t", top(),
-				     parameters[top()-1].code);
-	push(parameters[pop()-1].code);
+				     parameters[top()-1].instance);
+	push(parameters[pop()-1].instance);
 	break;
       case V_CURLOC:
 	if (singleStepOption) printf("CURLOC \t\t\t=%d\t", current.location);
@@ -746,7 +746,7 @@ void interpret(Aaddr adr)
 	val = pop();
 	if (singleStepOption)
 	  printf("SAYINT\t%5ld\t\t\t\"", val);
-	sayint(val);
+	sayInteger(val);
 	if (singleStepOption)
 	  printf("\"\n\t\t\t\t\t");
 	break;
@@ -756,7 +756,7 @@ void interpret(Aaddr adr)
 	adr = pop();
 	if (singleStepOption)
 	  printf("SAYSTR\t%5ld\t\t", adr);
-	saystr((char *)adr);
+	sayString((char *)adr);
 	if (singleStepOption)
 	  printf("\n\t\t\t\t");
 	break;

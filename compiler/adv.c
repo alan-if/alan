@@ -206,6 +206,7 @@ void generateAdventure(char acodeFileName[],
 
   if (verbose) printf("\n\tSyntax Mapping: ");
   acdHeader.syntaxTableAddress = generateSyntaxMapping();
+  acdHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
   if (verbose) printf("\n\tVerbs: ");
   acdHeader.verbTableAddress = generateVerbs(adv.vrbs);

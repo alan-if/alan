@@ -37,14 +37,18 @@ extern Symbol *literalSymbol;
 extern Symbol *stringSymbol;
 extern Symbol *integerSymbol;
 extern Symbol *theHero;
-extern Symbol *messageVerbSymbol;
+extern Symbol *messageVerbSymbolForInstance;
+extern Symbol *messageVerbSymbolFor2Instances;
+extern Symbol *messageVerbSymbolForString;
+extern Symbol *messageVerbSymbolFor2Strings;
+extern Symbol *messageVerbSymbolForInteger;
 
 
 /* FUNCTIONS: */
 
 extern void redefined(IdNode *id, Symbol *sym);
 extern void initSymbols(void);
-extern void createMessageVerb();
+extern void createMessageVerbs();
 
 extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
 extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);

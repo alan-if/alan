@@ -124,7 +124,7 @@ typedef struct MessageEntry {	/* MESSAGE TABLE */
 } MessageEntry;
 
 typedef struct ParamEntry {	/* PARAMETER */
-  Aword code;			/* Instance code for the parameter
+  Aword instance;		/* Instance code for the parameter
 				   (0=multiple) */
   Abool useWords;		/* Indicate to use words instead of
 				   instance code when saying */

@@ -21,11 +21,12 @@ description "you can exit east from this place."
 exit east to named1.
 end the.
 
-
+Add To every ACtor
+     Definite Article
+End Add.
 
 the annabelle isa ACTOR AT named2
      IS NOT greeted.
-
      SCRIPT howdy.
           STEP
                "$nannabelle says ""HI!"", which really annoys you."

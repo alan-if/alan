@@ -1,6 +1,10 @@
 Syntax x = x (p) Where p Isa actor Else "You can only do that to actors."
 
 Add To Every actor
+
+  Definite Article
+  Indefinite Article
+
   Verb x
     Does
       "Saying p = '$$" Say p. "$$'"

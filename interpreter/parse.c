@@ -43,7 +43,6 @@ Bool plural = FALSE;
 /* Syntax Parameters */
 int paramidx;			/* Index in params */
 ParamEntry *parameters;		/* List of params */
-static ParamEntry *previousParameters;	/* Previous parameter list */
 static ParamEntry *previousMultipleList;	/* Previous multiple list */
 
 /* Literals */
@@ -207,12 +206,43 @@ static void getline(void)
 }
 
 
+/*======================================================================*/
+int literalFromInstance(Aint instance) {
+  return instance-header->instanceMax;
+}
+
+/*======================================================================*/
+Aint instanceFromLiteral(int literalIndex) {
+  return literalIndex+header->instanceMax;
+}
+
+/*----------------------------------------------------------------------*/
+static void createIntegerLiteral(int integerValue) {
+  litCount++;
+  if (litCount > MAXPARAMS)
+    syserr("Too many parameters.");
+
+  literal[litCount].class = header->integerClassId;
+  literal[litCount].type = NUMERIC_LITERAL;
+  literal[litCount].value = integerValue;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void createStringLiteral(char *unquotedString) {
+  litCount++;
+  if (litCount > MAXPARAMS)
+    syserr("Too many parameters.");
+  literal[litCount].class = header->stringClassId;
+  literal[litCount].type = STRING_LITERAL;
+  literal[litCount].value = (Aword) strdup(unquotedString);
+}
+
 /*----------------------------------------------------------------------*/
 static void scan(void)
 {
   int i;
   int w;
-  char *str;
   static Bool continued = FALSE;
 
   if (continued) {
@@ -238,22 +268,15 @@ static void scan(void)
       if (!isNoise(w))
 	playerWords[i++] = w;
     } else if (isdigit(token[0]) || token[0] == '\"') {
-      litCount++;
-      if (litCount > MAXPARAMS)
-	syserr("Too many parameters.");
-      playerWords[i++] = dictsize+litCount; /* Word outside dictionary = literal */
       if (isdigit(token[0])) {
-	literal[litCount].class = header->integerClassId;
-	literal[litCount].type = NUMERIC_LITERAL;
-	literal[litCount].value = number(token);
+	createIntegerLiteral(number(token));
       } else {
-	literal[litCount].class = header->stringClassId;
-	literal[litCount].type = STRING_LITERAL;
-	/* Remove the string quotes while copying */
-	str = strdup(&token[1]);
-	str[strlen(token)-2] = '\0';
-	literal[litCount].value = (Aword) str;
+	char *unquotedString = strdup(token);
+	unquotedString[strlen(token)-1] = '\0';
+	createStringLiteral(&unquotedString[1]);
+	free(unquotedString);
       }
+      playerWords[i++] = dictsize+litCount; /* Word outside dictionary = literal */
     } else if (token[0] == ',') {
       playerWords[i++] = conjWord;
     } else if (token[0] == '.') {
@@ -266,6 +289,85 @@ static void scan(void)
     playerWords[i] = EOF;
     eol = (token = gettoken(NULL)) == NULL;
   } while (!eol);
+}
+
+
+/*----------------------------------------------------------------------*\
+
+  Parameter allocation, saving and restoring
+
+\*----------------------------------------------------------------------*/
+
+
+/*======================================================================*/
+void allocateParameters(ParamEntry **area, int size) {
+  if (*area == NULL) {
+    *area = (ParamEntry *) allocate(sizeof(ParamEntry)*(size+1));
+    (*area)->instance = EOF;
+  }
+}
+
+static ParamEntry savedParameters[3];
+
+/*----------------------------------------------------------------------*/
+static void setupParameterForWord(int parameter, int playerWordIndex) {
+
+  /* Trick message handling to output the word, create a string literal */
+  createStringLiteral(pointerTo(dictionary[playerWords[playerWordIndex]].wrd));
+
+  allocateParameters(&parameters, header->maxParameters);
+
+  parameters[parameter-1].instance = instanceFromLiteral(litCount);	/* A faked literal */
+  parameters[parameter-1].useWords = TRUE;
+  parameters[parameter-1].firstWord = parameters[parameter-1].lastWord = playerWordIndex;
+  parameters[parameter].instance = EOF;
+}
+
+
+/*======================================================================*/
+void setupParameterForInstance(int parameter, Aint instance) {
+
+  if (parameter > 2)
+    syserr("Saving more parameters than expected");
+
+  allocateParameters(&parameters, header->maxParameters);
+
+  savedParameters[parameter-1] = parameters[parameter-1];
+  savedParameters[parameter].instance = EOF;
+
+  parameters[parameter-1].instance = instance;
+  parameters[parameter-1].useWords = FALSE;
+  parameters[parameter].instance = EOF;
+}
+
+
+/*======================================================================*/
+void setupParameterForInteger(int parameter, Aint value) {
+
+  if (parameter > 2)
+    syserr("Saving more parameters than expected");
+
+  allocateParameters(&parameters, header->maxParameters);
+
+  savedParameters[parameter-1] = parameters[parameter-1];
+  savedParameters[parameter].instance = EOF;
+
+  createIntegerLiteral(value);
+  parameters[parameter-1].instance = instanceFromLiteral(litCount);
+  parameters[parameter-1].useWords = FALSE;
+  parameters[parameter].instance = EOF;
+}
+
+
+/*======================================================================*/
+void restoreParameters() {
+  int p = 0;
+
+  while (savedParameters[p].instance != EOF) {
+    parameters[p] = savedParameters[p];
+    p++;
+  }
+  parameters[p] = savedParameters[p];
 }
 
 
@@ -324,7 +426,7 @@ static void nonverb(void) {
 static void errorWhich(ParamEntry alternative[]) {
   int p;			/* Index into the list of alternatives */
 
-  parameters[1].code = EOF;
+  parameters[1].instance = EOF;
   parameters[0] = alternative[0];
   printMessage(M_WHICH_ONE_START);
   for (p = 1; !endOfTable(&alternative[p+1]); p++) {
@@ -338,25 +440,15 @@ static void errorWhich(ParamEntry alternative[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void setupParameterForWord(int position, int playerWordIndex) {
-  /* Trick message handling to output the word */
-  parameters[position].code = 0;	/* At least not EOF */
-  parameters[position].useWords = TRUE;
-  parameters[position].firstWord = parameters[position].lastWord = playerWordIndex;
-  parameters[position+1].code = EOF;
-}
-
-
-/*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
-  setupParameterForWord(0, playerWordIndex);
+  setupParameterForWord(1, playerWordIndex);
   error(M_WHAT_WORD);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void errorAfterBut() {
-  setupParameterForWord(0, butWordIndex);
+  setupParameterForWord(1, butWordIndex);
   error(M_AFTER_BUT);
 }
 
@@ -380,8 +472,8 @@ static int fakePlayerWordForAll() {
 
 /*----------------------------------------------------------------------*/
 static void errorButAfterAll(int butWordIndex) {
-  setupParameterForWord(0, butWordIndex);
-  setupParameterForWord(1, fakePlayerWordForAll());
+  setupParameterForWord(1, butWordIndex);
+  setupParameterForWord(2, fakePlayerWordForAll());
   error(M_BUT_ALL);
 }
 
@@ -400,10 +492,10 @@ static Aint findInstanceForNoun(int wordIndex) {
 /*----------------------------------------------------------------------*/
 static void errorNoSuch(ParamEntry parameter) {
   parameters[0] = parameter;
-  if (parameters[0].code == 0)
-    parameters[0].code = findInstanceForNoun(playerWords[parameter.lastWord]);
+  if (parameters[0].instance == 0)
+    parameters[0].instance = findInstanceForNoun(playerWords[parameter.lastWord]);
   parameters[0].useWords = TRUE; /* Indicate to use words and not names */
-  parameters[1].code = EOF;
+  parameters[1].instance = EOF;
   error(M_NO_SUCH);
 }
 
@@ -416,13 +508,13 @@ static void buildAll(ParamEntry list[]) {
   for (o = 1; o <= header->instanceMax; o++)
     if (isHere(o, FALSE)) {
       found = TRUE;
-      list[i].code = o;
+      list[i].instance = o;
       list[i++].firstWord = EOF;
     }
   if (!found)
     errorWhat(wordIndex);
   else
-    list[i].code = EOF;
+    list[i].instance = EOF;
   allWordIndex = wordIndex;
 }
 
@@ -476,13 +568,13 @@ static void resolve(ParamEntry plst[])
   if (allLength > 0) return;	/* ALL has already done this */
 
   /* Resolve ambiguities by presence */
-  for (i=0; plst[i].code != EOF; i++) {
-    if (isLiteral(plst[i].code))	/* Literals are always 'here' */
+  for (i=0; plst[i].instance != EOF; i++) {
+    if (isLiteral(plst[i].instance))	/* Literals are always 'here' */
       continue;
-    if (instance[plst[i].code].parent == header->entityClassId)
+    if (instance[plst[i].instance].parent == header->entityClassId)
       /* and so are pure entities */
       continue;
-    if (!reachable(plst[i].code)) {
+    if (!reachable(plst[i].instance)) {
       errorNoSuch(plst[i]);
     }
   }
@@ -507,22 +599,22 @@ static void unambig(ParamEntry plst[])
   if (isLiteralWord(playerWords[wordIndex])) {
     /* Transform the word into a reference to the literal value */
     /* words > dictsize are literals with index = word-dictsize */
-    plst[0].code = (playerWords[wordIndex]-dictsize) + header->instanceMax;
+    plst[0].instance = (playerWords[wordIndex]-dictsize) + header->instanceMax;
     plst[0].firstWord = EOF;	/* No words used! */
-    plst[1].code = EOF;
+    plst[1].instance = EOF;
     wordIndex++;
     return;
   }
 
-  plst[0].code = EOF;		/* Make an empty parameter list */
+  plst[0].instance = EOF;		/* Make an empty parameter list */
   if (isPronoun(playerWords[wordIndex])) {
     int p = getPronounInstance(playerWords[wordIndex]);
     if (p == 0)
       errorWhat(wordIndex);
     wordIndex++;		/* Consume the pronoun */
-    plst[0].code = p;
+    plst[0].instance = p;
     plst[0].firstWord = EOF;	/* No words used! */
-    plst[1].code = EOF;
+    plst[1].instance = EOF;
     return;
   }
 
@@ -558,7 +650,7 @@ static void unambig(ParamEntry plst[])
       /* Perhaps the last word was also a noun? */
       copyParameterList(plst, savlst);	/* Restore to before last adjective */
       copyReferences(refs, (Aword *)pointerTo(dictionary[playerWords[wordIndex-1]].nounRefs));
-      if (plst[0].code == EOF)
+      if (plst[0].instance == EOF)
 	copyParameterList(plst, refs);
       else
 	intersect(plst, refs);
@@ -569,18 +661,18 @@ static void unambig(ParamEntry plst[])
 
   /* Allow remote objects, but resolve ambiguities by reachability */
   if (listLength(plst) > 1) {
-    for (i=0; plst[i].code != EOF; i++)
-      if (!reachable(plst[i].code))
-	plst[i].code = 0;
+    for (i=0; plst[i].instance != EOF; i++)
+      if (!reachable(plst[i].instance))
+	plst[i].instance = 0;
     compress(plst);
   }
     
   if (listLength(plst) > 1 || (foundNoun && listLength(plst) == 0)) {
-    parameters[0].code = 0;	/* Just make it anything != EOF */
+    parameters[0].instance = 0;	/* Just make it anything != EOF */
     parameters[0].useWords = TRUE; /* Remember words for errors below */
     parameters[0].firstWord = firstWord;
     parameters[0].lastWord = lastWord;
-    parameters[1].code = EOF;	/* But be sure to terminate */
+    parameters[1].instance = EOF;	/* But be sure to terminate */
     if (listLength(plst) > 1)
       errorWhich(plst);
     else if (foundNoun && listLength(plst) == 0)
@@ -601,7 +693,7 @@ static void simple(ParamEntry olst[]) {
 
   if (tlst == NULL)
     tlst = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-  tlst[0].code = EOF;
+  tlst[0].instance = EOF;
 
   for (;;) {
     /* Special handling here since THEM_WORD is a common pronoun, so
@@ -612,9 +704,9 @@ static void simple(ParamEntry olst[]) {
 	&& ((isPronoun(playerWords[wordIndex]) && listLength(previousMultipleList) > 0)
 	    || !isPronoun(playerWords[wordIndex]))) {
       plural = TRUE;
-      for (i = 0; previousMultipleList[i].code != EOF; i++)
-	if (!reachable(previousMultipleList[i].code))
-	  previousMultipleList[i].code = 0;
+      for (i = 0; previousMultipleList[i].instance != EOF; i++)
+	if (!reachable(previousMultipleList[i].instance))
+	  previousMultipleList[i].instance = 0;
       compress(previousMultipleList);
       if (listLength(previousMultipleList) == 0)
 	errorWhat(wordIndex);
@@ -682,9 +774,9 @@ static Bool restrictionCheck(RestrictionEntry *restriction)
   Bool ok = FALSE;
 
   if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-    ok = instance[parameters[restriction->parameter-1].code].container != 0;
+    ok = instance[parameters[restriction->parameter-1].instance].container != 0;
   else
-    ok = isA(parameters[restriction->parameter-1].code, restriction->class);
+    ok = isA(parameters[restriction->parameter-1].instance, restriction->class);
   return ok;
 }
 
@@ -721,7 +813,7 @@ static Aint mapSyntax(Aint syntaxNumber)
 
   parameterMap = pointerTo(syntax->parameterMapping);
   copyParameterList(originalParameters, parameters);
-  for (parameterIndex = 1; originalParameters[parameterIndex-1].code != EOF;
+  for (parameterIndex = 1; originalParameters[parameterIndex-1].instance != EOF;
        parameterIndex++)
     parameters[parameterIndex-1] = originalParameters[parameterMap[parameterIndex-1]-1];
 
@@ -745,12 +837,12 @@ static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry mlst[]) {
     else {
       /* Mark this as the multiple position in which to insert actual
 	 parameter values later */
-      parameters[paramidx++].code = 0;
+      parameters[paramidx++].instance = 0;
       *anyPlural = TRUE;
     }
   } else
     parameters[paramidx++] = mlst[0];
-  parameters[paramidx].code = EOF;
+  parameters[paramidx].instance = EOF;
 }
 
 
@@ -885,12 +977,12 @@ static void try(ParamEntry multipleParameters[])
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
 
-  for (p = 0; parameters[p].code != EOF; p++) /* Mark all parameters unchecked */
+  for (p = 0; parameters[p].instance != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
   for (restriction = (RestrictionEntry *) pointerTo(elms->next); !endOfTable(restriction); restriction++) {
-    if (parameters[restriction->parameter-1].code == 0) {
+    if (parameters[restriction->parameter-1].instance == 0) {
       /* This was a multiple parameter, so check all and remove failing */
-      for (i = 0; multipleParameters[i].code != EOF; i++) {
+      for (i = 0; multipleParameters[i].instance != EOF; i++) {
 	parameters[restriction->parameter-1] = multipleParameters[i];
 	if (!restrictionCheck(restriction)) {
 	  /* Multiple could be both an explicit list of params and an ALL */
@@ -905,10 +997,10 @@ static void try(ParamEntry multipleParameters[])
 	    runRestriction(restriction);
 	    para();
 	  }
-	  multipleParameters[i].code = 0;	  /* In any case remove it from the list */
+	  multipleParameters[i].instance = 0;	  /* In any case remove it from the list */
 	}
       }
-      parameters[restriction->parameter-1].code = 0;
+      parameters[restriction->parameter-1].instance = 0;
     } else {
       if (!restrictionCheck(restriction)) {
 	runRestriction(restriction);
@@ -918,32 +1010,32 @@ static void try(ParamEntry multipleParameters[])
     checked[restriction->parameter-1] = TRUE; /* Remember that it's already checked */
   }
   /* Now check the rest of the parameters, must be objects */
-  for (p = 0; parameters[p].code != EOF; p++)
+  for (p = 0; parameters[p].instance != EOF; p++)
     if (!checked[p]) {
-      if (parameters[p].code == 0) {
+      if (parameters[p].instance == 0) {
 	/* This was a multiple parameter, check all and remove failing */
-	for (i = 0; multipleParameters[i].code != EOF; i++)
-	  if (multipleParameters[i].code != 0) /* Skip any empty slots */
-	    if (!isObj(multipleParameters[i].code))
-	      multipleParameters[i].code = 0;
-      } else if (!isObj(parameters[p].code))
+	for (i = 0; multipleParameters[i].instance != EOF; i++)
+	  if (multipleParameters[i].instance != 0) /* Skip any empty slots */
+	    if (!isObj(multipleParameters[i].instance))
+	      multipleParameters[i].instance = 0;
+      } else if (!isObj(parameters[p].instance))
 	error(M_CANT0);
     }
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {
-    for (p = 0; parameters[p].code != 0; p++); /* Find multiple marker */
+    for (p = 0; parameters[p].instance != 0; p++); /* Find multiple marker */
     for (i = 0; i < allLength; i++) {
-      if (multipleParameters[i].code != 0) {	/* Already empty? */
+      if (multipleParameters[i].instance != 0) {	/* Already empty? */
 	parameters[p] = multipleParameters[i];
 	if (!possible())
-	  multipleParameters[i].code = 0;	/* Remove this from list */
+	  multipleParameters[i].instance = 0;	/* Remove this from list */
       }
     }
-    parameters[p].code = 0;		/* Restore multiple marker */
+    parameters[p].instance = 0;		/* Restore multiple marker */
     compress(multipleParameters);
     if (listLength(multipleParameters) == 0) {
-      parameters[0].code = EOF;
+      parameters[0].instance = EOF;
       errorWhat(allWordIndex);
     }
   } else if (anyPlural) {
@@ -1033,26 +1125,25 @@ static void notePronounParameters(ParamEntry *parameters) {
 
   clearPronounEntries();
   for (p = parameters; !endOfTable(p); p++) {
-    int pronoun = pronounForInstance(p->code);
+    int pronoun = pronounForInstance(p->instance);
     if (pronoun > 0)
-      enterPronoun(pronoun, p->code);
+      enterPronoun(pronoun, p->instance);
   }
 }
 
 
 /*======================================================================*/
 void parse(void) {
+  static ParamEntry *parsedParameters; /* List of parameters parsed */
   static ParamEntry *multipleList;	/* Multiple objects list */
+  static ParamEntry *previousParameters;	/* Previous parameter list */
 
-  if (multipleList == NULL) {		/* Allocate large enough paramlists */
-    multipleList = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    multipleList[0].code = EOF;
-    previousMultipleList = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    parameters = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    parameters[0].code = EOF;
-    previousParameters = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
-    previousParameters[0].code = EOF;
-  }
+  /* Allocate large enough paramlists */
+  allocateParameters(&parsedParameters, header->maxParameters);
+  allocateParameters(&parameters, header->maxParameters);
+  allocateParameters(&previousParameters, header->maxParameters);
+  allocateParameters(&multipleList, header->instanceMax);
+  allocateParameters(&previousMultipleList, header->instanceMax);
 
   if (playerWords[wordIndex] == EOF) {
     wordIndex = 0;
@@ -1064,19 +1155,19 @@ void parse(void) {
   allLength = 0;
   paramidx = 0;
   copyParameterList(previousParameters, parameters);
-  parameters[0].code = EOF;
+  parameters[0].instance = EOF;
   copyParameterList(previousMultipleList, multipleList);
-  multipleList[0].code = EOF;
+  multipleList[0].instance = EOF;
   if (isVerb(playerWords[wordIndex])) {
     verbWord = playerWords[wordIndex];
     verbWordCode = dictionary[verbWord].code;
     wordIndex++;
     match(multipleList);
-    action(multipleList);		/* contains possible multiple params */
     notePronounParameters(parameters);
+    action(multipleList);		/* contains possible multiple params */
   } else {
-    parameters[0].code = EOF;
-    previousMultipleList[0].code = EOF;
+    parameters[0].instance = EOF;
+    previousMultipleList[0].instance = EOF;
     nonverb();
   }
 }

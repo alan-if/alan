@@ -373,6 +373,28 @@ void testReplicateContainer()
   ASSERT(child->fields.entity.props->container->body->estms == (void *)3);
 }
 
+static void testCreateMessageVerbs()
+{
+  Symbol *v, *p;
+  Symbol *typeSymbol = newClassSymbol(newId(nulsrcp, "type"), NULL, NULL);
+
+  v = createMessageVerb(0, typeSymbol);
+  ASSERT(v->kind == VERB_SYMBOL);
+  ASSERT(length(v->fields.verb.parameterSymbols) == 0);
+
+  v = createMessageVerb(2, typeSymbol);
+  ASSERT(v->kind == VERB_SYMBOL);
+  ASSERT(length(v->fields.verb.parameterSymbols) == 2);
+
+  p = v->fields.verb.parameterSymbols->element.sym;
+  ASSERT(p->kind == PARAMETER_SYMBOL);
+  ASSERT(p->fields.parameter.type == INSTANCE_TYPE);
+  ASSERT(p->fields.parameter.class == typeSymbol);
+  p = v->fields.verb.parameterSymbols->next->element.sym;
+  ASSERT(p->kind == PARAMETER_SYMBOL);
+  ASSERT(p->fields.parameter.type == INSTANCE_TYPE);
+  ASSERT(p->fields.parameter.class == typeSymbol);
+}
 
 void registerSymUnitTests()
 {
@@ -389,5 +411,6 @@ void registerSymUnitTests()
   registerUnitTest(testLookupScript);
   registerUnitTest(testNewFrame);
   registerUnitTest(testReplicateContainer);
+  registerUnitTest(testCreateMessageVerbs);
 }
 

@@ -8,11 +8,6 @@ stringStringSyntax.alan
 
   *1*   208 E : 'string' is not a VERB.
 
-    2.  	Where string Isa string Else "You can only string strings."
-=====>  	      1
-
-  *1*   222 E : Identifier 'string' in class restriction is not a parameter.
-
     4.  Verb string
 =====>       1
 
@@ -28,7 +23,7 @@ stringStringSyntax.alan
         208 E : 'string' is not a VERB.
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         2 informational message(s).
 

@@ -36,7 +36,7 @@ static void copyMembers(Aword *source, Aword *destination, int size)
 
 
 /*======================================================================*/
-int setSize(Set *theSet) {
+int sizeOfSet(Set *theSet) {
   return theSet->size;
 }
 

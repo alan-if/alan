@@ -11,7 +11,7 @@ messageParameter.alan
                 all locations and all objects. This is probably not what you
                 want. Try adding it to 'thing' instead.
 
-   64.    Verb kick
+   67.    Verb kick
 =====>         1
 
   *1*   232 W : Default syntax for this verb restricted the parameter to class
@@ -49,6 +49,9 @@ You can't do that.
 > x s
 Try again and specify either neuter a large s, neuter the small s or 
 neuter the medium s.
+
+> x them
+??? them ???
 
 > 
 

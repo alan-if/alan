@@ -164,21 +164,20 @@ static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
   if (verbSymbol == NULL) {
     if (stx->id->string[0] != '$') /* generated id? */
       lmLog(&stx->id->srcp, 207, sevERR, stx->id->string);
-  } else {
-    if (verbSymbol->kind != VERB_SYMBOL)
-      lmLog(&stx->id->srcp, 208, sevERR, stx->id->string);
-    else {
-      stx->id->symbol = verbSymbol;
-      stx->id->code = verbSymbol->code;
-    }
-    
+  } else if (verbSymbol->kind != VERB_SYMBOL)
+    lmLog(&stx->id->srcp, 208, sevERR, stx->id->string);
+  else {
+    stx->id->symbol = verbSymbol;
+    stx->id->code = verbSymbol->code;
+
     stx->parameters = analyzeElements(stx->elements, stx->restrictionLists, stx);
     /* Register the parameters, use last syntax if multiple */
     if (stx->firstSyntax)
       setParameters(verbSymbol, stx->parameters);
+
     analyzeRestrictions(stx->restrictionLists, verbSymbol);
     setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
-    
+
     /* Link last syntax element to this stx to prepare for code generation */
     (tailOf(stx->elements))->element.elm->stx = stx;
   }

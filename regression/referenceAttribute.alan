@@ -10,6 +10,11 @@ Add To Every object
   Has i 0.
 End Add.
 
+Add To Every actor
+  Definite Article
+  Indefinite Article
+End Add.
+
 The a Isa actor At l
 End The a.
 

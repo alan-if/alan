@@ -39,8 +39,8 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Jag vet inte vad du menar med '$1'.",
    "Ich verstehe nicht was Du mit '$1' meinst."},
   {M_MULTIPLE, "multiple",
-   "You can't refer to multiple objects with '$v'.",
-   "Du kan inte ge flera objekt tillsammans med '$v'.",
+   "You can't refer to multiple things with '$v'.",
+   "Du kan inte ange flera saker tillsammans med '$v'.",
    "Du kannst Dich nicht auf mehrere Gegenstände mit '$v' beziehen."},
   {M_NOUN, "noun",
    "You must supply a noun.",
@@ -73,7 +73,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
   {M_NO_SUCH, "nosuch",
    "I can't see any $1 here.",
    "Jag ser ingen $1 här.",
-   "Ich kann hier keinen $1 sehen."},		/* FIXME: keine(feminine), keinen(masculine), kein(neuter) */
+   "Ich kann hier keinen $1 sehen."}, /* FIXME: keine(feminine), keinen(masculine), kein(neuter) */
   {M_NO_WAY, "noway",
    "You can't go that way.",
    "Du kan inte gå åt det hållet.",
@@ -86,77 +86,67 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "You can't $v $+1.",
    "Du kan inte $v $+1.",
    "Du kannst $+1 nicht $v."},
-  {M_SEEOBJ1, "seeobject1",	/* TODO?: change to use embedded parameter */
-   "There is",
-   "Det finns",
-   "Es gibt"},
-  {M_SEEOBJ2, "seeobjectcomma",
-   ", ",
-   ", ",
-   ", "},
-  {M_SEEOBJ3, "seeobjectand",
-   "and",
-   "och",
-   "und"},
-  {M_SEEOBJ4, "seeobjectend",
+  {M_SEE_OBJ_START, "seeobjectstart",
+   "There is $01",
+   "Det finns $01",
+   "Es gibt $01"},
+  {M_SEE_OBJ_COMMA, "seeobjectcomma",
+   ", $01",
+   ", $01",
+   ", $01"},
+  {M_SEE_OBJ_AND, "seeobjectand",
+   "and $01",
+   "och $01",
+   "und $01"},
+  {M_SEE_OBJ_END, "seeobjectend",
    "here.",
    "här.",
    "hier."},
-  {M_SEEACT, "seeactor",
-   "is here.",
-   "är här.",
-   "ist hier."},
-  {M_CONTAINS0, "contains0",	/* TODO: should not include "the" but
-				   use definite form instead */
-   "The",
-   "",
-   "Der"},			/* TODO: der(masculine),
-				   die(feminine), das(neuter) */
-  {M_CONTAINS, "contains",	/* TODO refactor to use parameter
-				   handling like WHICH_ONE_XXX */
-   "contains",
-   "innehåller",
-   "enthält"},
-  {M_CARRIES, "carries",	/* TODO D:o */
-   "carries",
-   "bär på",
-   "trägt"},
-  {M_CONTAINSCOMMA, "containscomma", /* TODO D:o */
-   "$$, ",
-   "$$, ",
-   "$$, "},
-  {M_CONTAINSAND, "containsand", /* TODO D:o */
+  {M_SEE_ACT, "seeactor",
+   "$+1 is here.",
+   "$+1 är här.",
+   "$+1 ist hier."},
+  /* Two messages for default HEADER */
+  {M_CONTAINS, "contains",
+   "$+1 contains",
+   "$+1 innehåller",
+   "$+1 enthält"},
+  {M_CARRIES, "carries",
+   "$+1 carries",
+   "$+1 bär på",
+   "$+1 trägt"},
+  {M_CONTAINS_COMMA, "containscomma",
+   ",",
+   ",",
+   ","},
+  {M_CONTAINS_AND, "containsand",
    "and",
    "och",
    "und"},
-  {M_CONTAINSEND, "containsend", /* TODO D:o */
-   "$$.",
-   "$$.",
-   "$$."},
-  {M_CANNOTCONTAIN, "cannotcontain",
-   "It can not contain that.",
-   "Den kan inte innehålla det.",
-   "Es kan es nicht trägen."},
-  {M_EMPTY, "isempty",
-   "is empty.",
-   "är tom.",
-   "ist leer."},
-  {M_EMPTYHANDED, "emptyhanded",
-   "is empty-handed.",
-   "är tomhänt.",
-   "trägt nichts."},
-  {M_SCORE1, "havescored",
-   "You have scored",
-   "Du har samlat",
-   "Du hast"},
-  {M_SCORE2, "scoreoutof",
-   "points out of",
-   "poäng av",
-   "Punkte von"},
-  {M_SCOREEND, "scoreend",
+  {M_CONTAINS_END, "containsend",
    ".",
    ".",
    "."},
+  {M_EMPTY, "isempty",
+   "$+1 is empty.",
+   "$+1 är tom.",
+   "$+1 ist leer."},
+  {M_EMPTYHANDED, "emptyhanded",
+   "$+1 is empty-handed.",
+   "$+1 är tomhänt.",
+   "$+1 trägt nichts."},
+  {M_CANNOTCONTAIN, "cannotcontain",
+   "$+1 can not contain $+2.",
+   "$+1 kan inte innehålla $+2.",
+   "$+1 kan $+2 nicht trägen."},
+  {M_SCORE_START, "havescored",
+   "You have scored $1",
+   "Du har samlat $1",
+   "Du hast $1"},
+  {M_SCORE_END, "scoreoutof",
+   "points out of $1.",
+   "poäng av $1.",
+   "Punkte von $1."},
   {M_UNKNOWN_WORD, "unknownword",
    "I don't know that word.",
    "Jag känner inte till det ordet.",
@@ -284,7 +274,7 @@ void prepareMessages(void)
   List *stms = NULL;
 
 
-  createMessageVerb();
+  createMessageVerbs();
 
   if (sizeof(defmsg)/sizeof(defmsg[0]) != MSGMAX+1)
     syserr("Incorrect number of messages in message tables", NULL);
@@ -390,38 +380,45 @@ void prepareMessages(void)
 /*----------------------------------------------------------------------*/
 Context *contextFor(MsgKind messageNo) {
   switch (messageNo) {
-  case M_NO_SUCH:
   case M_WHICH_ONE_START:
   case M_WHICH_ONE_COMMA:
   case M_WHICH_ONE_OR:
+  case M_NO_SUCH:
   case M_CANT:
-    return newContext(VERB_CONTEXT, messageVerbSymbol);
-  case M_WHAT:
+  case M_SEE_OBJ_START:
+  case M_SEE_OBJ_COMMA:
+  case M_SEE_OBJ_AND:
+  case M_SEE_ACT:
+  case M_CONTAINS:
+  case M_CARRIES:
+  case M_EMPTY:
+  case M_EMPTYHANDED:
+    return newContext(VERB_CONTEXT, messageVerbSymbolForInstance);
+
   case M_WHAT_WORD:
+  case M_AFTER_BUT:
+    return newContext(VERB_CONTEXT, messageVerbSymbolForString);
+
+  case M_BUT_ALL:
+    return newContext(VERB_CONTEXT, messageVerbSymbolFor2Strings);
+
+  case M_CANNOTCONTAIN:
+    return newContext(VERB_CONTEXT, messageVerbSymbolFor2Instances);
+
+  case M_SCORE_START:
+  case M_SCORE_END:
+    return newContext(VERB_CONTEXT, messageVerbSymbolForInteger);
+
+  case M_WHAT:
   case M_MULTIPLE:
   case M_NOUN:
-  case M_AFTER_BUT:
-  case M_BUT_ALL:
   case M_NOT_MUCH:
   case M_NO_WAY:
   case M_CANT0:
-  case M_SEEOBJ1:
-  case M_SEEOBJ2:
-  case M_SEEOBJ3:
-  case M_SEEOBJ4:
-  case M_SEEACT:
-  case M_CONTAINS0:
-  case M_CONTAINS:
-  case M_CARRIES:
-  case M_CONTAINSCOMMA:
-  case M_CONTAINSAND:
-  case M_CONTAINSEND:
-  case M_CANNOTCONTAIN:
-  case M_EMPTY:
-  case M_EMPTYHANDED:
-  case M_SCORE1:
-  case M_SCORE2:
-  case M_SCOREEND:
+  case M_SEE_OBJ_END:
+  case M_CONTAINS_COMMA:
+  case M_CONTAINS_AND:
+  case M_CONTAINS_END:
   case M_UNKNOWN_WORD:
   case M_MORE:
   case M_AGAIN:
@@ -442,8 +439,8 @@ Context *contextFor(MsgKind messageNo) {
     return NULL;
   case MSGMAX:
     SYSERR("Unexpected message number");
-    return NULL;
   }
+  return NULL;
 }
 
 
