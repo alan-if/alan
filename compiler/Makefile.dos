@@ -1,6 +1,6 @@
 CFLAGS = /Zi /AL
 
-LDFLAGS = /Fb /Fealan /F 2000
+LDFLAGS = /Fb /Fealan
 
 OBJECTS = \
 	pmPaSema.obj pmParse.obj pmErr.obj \
