@@ -108,7 +108,6 @@ void args(argc, argv)
       
       argc = ccommand(argv);
       switches(argc, *argv);
-      advnam = advbuf;
     }
     oe = SetVol(NULL, af.vRefNum); /* 4f_ti Should use volume of program */
   }

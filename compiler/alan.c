@@ -467,7 +467,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("summary", "print a summary", sumflg, FALSE, NULL)
 #ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
-symbols\n\
+synonyms\n\
 syntax\n\
 verbs\n\
 locations\n\

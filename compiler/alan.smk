@@ -72,7 +72,7 @@ Bool smScanEnter(fnm)
   this = smScNew(sm_MAIN_MAIN_Scanner);
   if (fnm == NULL)
     this->fd = 0;
-#ifndef _mac_
+#ifndef __mac_
   else if ((this->fd = open(fnm, 0)) < 0)
 #else
   else if ((this->fd = open(fnm, O_TEXT)) < 0)
