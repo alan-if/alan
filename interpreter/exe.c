@@ -1405,13 +1405,17 @@ void look()
 
   if (anyOutput)
     para();
+
 #ifdef GLK
   glk_set_style(style_Subheader);
 #endif
-  say(cur.loc);
+
+  interpret(instance[cur.loc].mentioned);
+
 #ifdef GLK
   glk_set_style(style_Normal);
 #endif
+
   newline();
   describe(cur.loc);
   describeInstances();

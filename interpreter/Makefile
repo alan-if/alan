@@ -8,7 +8,7 @@ GLKROOT = ../../WindowsGLK
 winglk: GLK = -DGLK -DWINGLK
 winglk: GLKINCLUDE = -I$(GLKROOT)/Include
 winglk: GLKLIB = $(GLKROOT)/Glk.lib
-winglk: CYGWIN = -mno-cygwin
+winglk: CYGWIN = #-mno-cygwin
 #-DCOMPILER=\"[GCC/Mingw32]\" 
 
 release: OPTIMIZE = -O4

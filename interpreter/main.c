@@ -281,7 +281,8 @@ void statusline(void)
 
   col = 1;
   glk_window_move_cursor(glkStatusWin, 1, 0);
-  say(where(HERO));
+  interpret(instance[where(HERO)].mentioned);
+
   if (header->maxscore > 0)
     sprintf(line, "Score %d(%d)/%d moves", cur.score, (int)header->maxscore, cur.tick);
   else
@@ -303,8 +304,10 @@ void statusline(void)
   /* ansi_position(1,1); ansi_bold_on(); */
   printf("\x1b[1;1H");
   printf("\x1b[7m");
+
   col = 1;
-  say(where(HERO));
+  interpret(instance[where(HERO)].mentioned);
+
   if (header->maxscore > 0)
     sprintf(line, "Score %d(%ld)/%d moves", cur.score, header->maxscore, cur.tick);
   else
