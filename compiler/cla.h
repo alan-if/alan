@@ -3,51 +3,64 @@
 /*----------------------------------------------------------------------*\
 
 				CLA.H
-			      Syntax Element Nodes
+			     Class Nodes
                                                                      
 \*----------------------------------------------------------------------*/
 
 
 /* USE: */
 #include "srcp.h"
-#include "stx.h"
-#include "lst.h"
 #include "nam.h"
+#include "lst.h"
+#include "whr.h"
+#include "cnt.h"
 
-#include "acode.h"
 
-
-/* Types: */
+/* Types */
 
 typedef struct ClaNod {		/* CLASS */
-  Srcp srcp;			/* Source position of this element */
-  NamNod *nam;			/* Name */
-  Boolean single;		/* TRUE if a single class */
-  NamKind classes;		/* The classes the id may have */
-  List *stms;			/* Statements to execute if not */
-  Aaddr stmadr;			/* GE - Address to generated statements */
+  Srcp srcp;			/* Source position */
+  NamNod *nam;			/* Name of the class */
+  List *heritage;		/* The list of inherited classes */
+  List *nams;			/* Name Slot: List of adjectives and a noun */
+  WhrNod *whr;			/* Where Slot: Initial location */
+  List *atrs;			/* Attributes Slot: */
+  CntNod *props;		/* Container Slot: limits, header, empty */
+  List *surr;			/* Surroundings Slot: inside description */
+  List *descr;			/* Description Slot: outside description */
+  List *mentioned;		/* Mentioned Slot: short form */
+  List *does;			/* Does Slot: when entered */
+  List *exits;			/* Exits Slot: how to exit */
+  List *verbs;			/* Verbs Slot: local verbs */
+  List *script;			/* Script Slot: what it does */
 } ClaNod;
-
 
 
 /* Data: */
 
+/* Methods */
 
-/* Functions: */
 #ifdef _PROTOTYPES_
 
-/* Create a new element Class node */
-extern ClaNod *newcla(Srcp *srcp,
+/* Create a new Class node */
+extern ClaNod *newcla(
+		      Srcp srcp,
 		      NamNod *nam,
-		      Boolean single,
-		      NamKind classes,
-		      List *stms);
+		      List *heritage,
+		      List *nams,
+		      WhrNod *whr,
+		      List *atrs,
+		      CntNod *props,
+		      List *surr,
+		      List *descr,
+		      List *mentioned,
+		      List *does,
+		      List *exits,
+		      List *verbs,
+		      List *script);
 
-/* Analyze a list of Class nodes */
-extern void anclas(List *clas, List *params);
-
-/* Generate code for a list of Class nodes */
-extern Aaddr geclas(List *clas, StxNod *stx);
+/* Analyze all Classes */
+extern void anclas(void);
 
 /* Dump a Class node */
 extern void ducla(ClaNod *cla);
@@ -55,7 +68,6 @@ extern void ducla(ClaNod *cla);
 #else
 extern ClaNod *newcla();
 extern void anclas();
-extern Aaddr geclas();
 extern void ducla();
 #endif
 

@@ -5,6 +5,7 @@
 	List Grammar, Statistics;
 	StackLimit 64;
 	Pack RDS;
+	No Resolve;
 
 %%IMPORT
 
@@ -75,61 +76,67 @@ static int val(str)
 
 %%ATTRIBUTES
 
+	act %% ActNod *%1%%,
+	acts %% List *%1%%,
+	agr %% AgrKind %1%%,
 	alt %% AltNod *%1%%,
 	alts %% List *%1%%,
 	atr %% AtrNod *%1%%,
 	atrs %% List *%1%%,
-	vrb %% VrbNod *%1%%,
-	vrbs %% List *%1%%,
-	loc %% LocNod *%1%%,
-	locs %% List *%1%%,
-	obj %% ObjNod *%1%%,
-	objs %% List *%1%%,
-	cnt %% CntNod *%1%%,
-	cnts %% List *%1%%,
-	evt %% EvtNod *%1%%,
-	evts %% List *%1%%,
 	chk %% ChkNod *%1%%,
 	chks %% List *%1%%,
-	ext %% ExtNod *%1%%,
-	exts %% List *%1%%,
-	rul %% RulNod *%1%%,
-	ruls %% List *%1%%,
-	act %% ActNod *%1%%,
-	acts %% List *%1%%,
-	lim %% LimNod *%1%%,
-	lims %% List *%1%%,
+	cla %% ClaNod *%1%%,
+	classkd %% NamKind %1%%,
+	cnt %% CntNod *%1%%,
+	cnts %% List *%1%%,
+	descr %% List *%1%%,
+	dos %% DosNod *%1%%,
+	elm %% ElmNod *%1%%,
+	elms %% List *%1%%,
+	evt %% EvtNod *%1%%,
+	evts %% List *%1%%,
 	exp %% ExpNod *%1%%,
 	exps %% List *%1%%,
+	ext %% ExtNod *%1%%,
+	exts %% List *%1%%,
+	ins %% InsNod *%1%%,
+	lim %% LimNod *%1%%,
+	lims %% List *%1%%,
+	loc %% LocNod *%1%%,
+	locs %% List *%1%%,
+	ment %% List *%1%%,
+	minus %% Boolean %1%%,
+	nam %% NamNod *%1%%,
+	nams %% List *%1%%,
+	not %% Boolean %1%%,
+	obj %% ObjNod *%1%%,
+	objs %% List *%1%%,
+	op %% OpKind %1%%,
+	qual %% QualKind %1%%,
+	res %% ResNod *%1%%,
+	ress %% List *%1%%,
+	rul %% RulNod *%1%%,
+	ruls %% List *%1%%,
+	scr %% ScrNod *%1%%,
+	scrs %% List *%1%%,
+	single %% Boolean %1%%,
+	surr %% List *%1%%,
+	srcp %% Srcp %1%%,
 	stm %% StmNod *%1%%,
 	stms %% List *%1%%,
 	stms2 %% List *%1%%,
-	nam %% NamNod *%1%%,
-	nams %% List *%1%%,
-	stx %% StxNod *%1%%,
-	stxs %% List *%1%%,
-	elm %% ElmNod *%1%%,
-	elms %% List *%1%%,
-	res %% ResNod *%1%%,
-	ress %% List *%1%%,
-	classkd %% NamKind %1%%,
-	single %% Bool %1%%,
-	syn %% SynNod *%1%%,
-	syns %% List *%1%%,
-	scr %% ScrNod *%1%%,
-	scrs %% List *%1%%,
 	stp %% StpNod *%1%%,
 	stps %% List *%1%%,
-	qual %% QualKind %1%%,
-	whr %% WhrNod *%1%%,
-	wht %% WhtNod *%1%%,
-	agr %% AgrKind %1%%,
-	not %% Bool %1%%,
-	minus %% Bool %1%%,
-	op %% OpKind %1%%,
 	str %% char *%1%%,
+	stx %% StxNod *%1%%,
+	stxs %% List *%1%%,
+	syn %% SynNod *%1%%,
+	syns %% List *%1%%,
 	val %% int %1%%,
-	srcp %% Srcp %1%%;
+	vrb %% VrbNod *%1%%,
+	vrbs %% List *%1%%,
+	whr %% WhrNod *%1%%,
+	wht %% WhtNod *%1%%;
 
 %%RECOVERY
 
@@ -161,20 +168,15 @@ options			-- RETURNS: <nothing>
 
 option			-- RETURNS: <nothing>
     = ID '.'
-    %%
-	optBool(%ID.chars, `&%ID.srcp);
-    %%
+    %% optBool(%ID.chars, `&%ID.srcp); %%
 
     ! ID ID '.'
-    %%
-	optenum(%ID.chars, `&%ID.srcp, %2ID.chars);
-    %%
+    %% optenum(%ID.chars, `&%ID.srcp, %2ID.chars); %%
 
     ! ID INTEGER '.'
-    %%
-	optint(%ID.chars, `&%ID.srcp, val(%INTEGER.chars));
-    %%
+    %% optint(%ID.chars, `&%ID.srcp, val(%INTEGER.chars)); %%
     ;
+
 
 ---> UNITS
 units
@@ -183,100 +185,294 @@ units
     ;
 
 unit
-    = object_default
-    %%
-	adv.oatrs = combine(adv.oatrs, %object_default.atrs);
-    %%
-
-    ! location_default
-    %%
-	adv.latrs = combine(adv.latrs, %location_default.atrs);
-    %%
-
-    ! actor_default
-    %%
-	adv.aatrs = combine(adv.aatrs, %actor_default.atrs);
-    %%
-
-    ! synonyms
-    %%
-	adv.syns = combine(adv.syns, %synonyms.syns);
-    %%
+    = synonyms
+    %% adv.syns = combine(adv.syns, %synonyms.syns); %%
 
     ! syntax
-    %%
-	adv.stxs = combine(adv.stxs, %syntax.stxs);
-    %%
+    %% adv.stxs = combine(adv.stxs, %syntax.stxs); %%
 
-    ! verb
-    %%
-	adv.vrbs = concat(adv.vrbs, %verb.vrb);
-    %%
-
-    ! location
-    %%
-	adv.locs = concat(adv.locs, %location.loc);
-    %%
-
-    ! object
-    %%
-	adv.objs = concat(adv.objs, %object.obj);
-    %%
+    ! class
+    %% adv.clas = concat(adv.clas, %class.cla); %%
+	
+    ! instance
+    %% adv.inss = concat(adv.inss, %instance.ins); %%
 
     ! event
-    %%
-	adv.evts = concat(adv.evts, %event.evt);
-    %%
-
-    ! container
-    %%
-	adv.cnts = concat(adv.cnts, %container.cnt);
-    %%
-
-    ! actor
-    %%
-	adv.acts = concat(adv.acts, %actor.act);
-    %%
+    %% adv.evts = concat(adv.evts, %event.evt); %%
 
     ! rule
+    %% adv.ruls = concat(adv.ruls, %rule.rul); %%
+    ;
+
+
+---> SYNONYMS
+synonyms			-- RETURNS: syns
+    = 'SYNONYMS' synonym_list
+    %% %synonyms.syns = %synonym_list.syns; %%
+    ;
+
+synonym_list			-- RETURNS: syns
+    = synonym
+    %% %synonym_list.syns = concat(NULL, %synonym.syn); %%
+
+    ! synonym_list synonym
+    %% %synonym_list.syns = concat(%synonym_list.syns, %synonym.syn); %%
+    ;
+
+synonym				-- RETURNS: syn
+    = id_list '=' ID '.'
     %%
-	adv.ruls = concat(adv.ruls, %rule.rul);
+	%synonym.syn = newsyn(`&%'='.srcp,
+			      %id_list.nams,
+			      newnam(`&%ID.srcp, %ID.chars));
     %%
     ;
 
-----> DEFAULTS
-location_default		-- RETURNS: atrs
-    = 'LOCATION' 'ATTRIBUTES' attributes
+---> SYNTAX			-- RETURNS: stxs
+syntax
+    = 'SYNTAX' syntax_list
+    %% %syntax.stxs = %syntax_list.stxs; %%
+    ;
+
+syntax_list			-- RETURNS: stxs
+    = syntax_item
+    %% %syntax_list.stxs = concat(NULL, %syntax_item.stx); %%
+
+    ! syntax_list syntax_item
+    %% %syntax_list.stxs = concat(%syntax_list.stxs, %syntax_item.stx); %%
+    ;
+
+syntax_item			-- RETURNS: stx
+    = ID '=' syntax_elements optional_class_restrictions
     %%
-	%location_default.atrs = %attributes.atrs;
+	%syntax_item.stx = newstx(`&%'='.srcp,
+				  newnam(`&%ID.srcp, %ID.chars),
+				  %syntax_elements.elms,
+				  %optional_class_restrictions.ress);
     %%
     ;
 
-object_default			-- RETURNS: atrs
-    = 'OBJECT' 'ATTRIBUTES' attributes
+syntax_elements			-- RETURNS: elms
+    = syntax_element
+    %% %syntax_elements.elms = concat(NULL, %syntax_element.elm); %%
+
+    ! syntax_elements syntax_element
+    %% %syntax_elements.elms = concat(%syntax_elements.elms, %syntax_element.elm); %%
+    ;
+
+syntax_element			-- RETURNS: elm
+    = ID
     %%
-	%object_default.atrs = %attributes.atrs;
+	%syntax_element.elm = newelm(`&%ID.srcp, ELMWRD,
+				     newnam(`&%ID.srcp, %ID.chars),
+				     FALSE);
+    %%
+
+    ! '(' ID ')' optional_multiple_indicator
+    %%
+	%syntax_element.elm = newelm(`&%ID.srcp, ELMPAR,
+				     newnam(`&%ID.srcp, %ID.chars),
+				     !%optional_multiple_indicator.single);
     %%
     ;
 
-actor_default			-- RETURNS: atrs
-    = 'ACTOR' 'ATTRIBUTES' attributes
+optional_multiple_indicator		-- RETURNS: single
+    =
+    %% %optional_multiple_indicator.single = TRUE; %%
+
+    ! '*'
+    %% %optional_multiple_indicator.single = FALSE; %%
+    ;
+
+
+optional_class_restrictions		-- RETURNS: ress
+    = '.'
+    %% %optional_class_restrictions.ress = NULL; %%
+
+    ! 'WHERE' class_restrictions
+    %% %optional_class_restrictions.ress = %class_restrictions.ress; %%
+    ;
+
+class_restrictions			-- RETURNS: ress
+    = class_restriction
+    %% %class_restrictions.ress = concat(NULL, %class_restriction.res); %%
+
+    ! class_restrictions 'AND' class_restriction
+    %% %class_restrictions.ress = concat(%class_restrictions.ress, %class_restriction.res); %%
+    ;
+
+class_restriction			-- RETURNS: res
+    = ID 'ISA' class_identifier 'ELSE' statements
     %%
-	%actor_default.atrs = %attributes.atrs;
+	%class_restriction.res = newres(`&%'ISA'.srcp,
+				    newnam(`&%ID.srcp, %ID.chars),
+				    %class_identifier.single,
+				    %class_identifier.classkd,
+				    %statements.stms);
     %%
     ;
+
+class_identifier
+    = ID
+    ! 'INTEGER'
+    ! 'STRING'
+    ;    
+
+
+---> VERBS
+optional_verbs		-- RETURNS: vrbs
+    =
+    %% %optional_verbs.vrbs = NULL; %%
+
+    ! verbs
+    %% %optional_verbs.vrbs = %verbs.vrbs; %%
+    ;
+
+verbs			-- RETURNS: vrbs
+    = verb
+    %% %verbs.vrbs = concat(NULL, %verb.vrb); %%
+
+    ! verbs verb
+    %% %verbs.vrbs = concat(%verbs.vrbs, %verb.vrb); %%
+    ;
+
+verb			-- RETURNS: vrb
+    = verb_header verb_body verb_tail
+    %%
+	%verb.vrb = newvrb(`&%verb_header.srcp,
+			   %verb_header.nams,
+			   %verb_body.alts);
+	if (%verb_tail.nam != NULL) { /* END-id given */
+	    if (strcmp(%verb_header.str, %verb_tail.nam->str) != 0)
+		lmLog(`&%verb_tail.nam->srcp, 201, sevWAR, %verb_header.str);
+	}
+    %%
+    ;
+
+verb_header		-- RETURNS: srcp, str, nams
+    = 'VERB' id_list
+    %%
+	%verb_header.srcp   = %'VERB'.srcp;
+	%verb_header.str    = %id_list.str;
+	%verb_header.nams   = %id_list.nams;
+    %%
+    ;
+
+verb_body			-- RETURNS: alts
+    = simple_verb_body
+    %%
+	%verb_body.alts = concat(NULL,
+				 newalt(`&nulsrcp,
+					NULL,
+					%simple_verb_body.chks,
+					%simple_verb_body.qual,
+					%simple_verb_body.stms));
+    %%
+
+    ! verb_alternatives
+    %% %verb_body.alts = %verb_alternatives.alts; %%
+    ;
+
+verb_alternatives		-- RETURNS: alts
+    = verb_alternative
+    %% %verb_alternatives.alts = concat(NULL, %verb_alternative.alt); %%
+
+    ! verb_alternatives verb_alternative
+    %% %verb_alternatives.alts = concat(%verb_alternatives.alts, %verb_alternative.alt); %%
+    ;
+
+verb_alternative		-- RETURNS: alt
+    = 'WHEN' ID simple_verb_body
+    %%
+	%verb_alternative.alt = newalt(`&%'WHEN'.srcp,
+				       newnam(`&%ID.srcp, %ID.chars),
+				       %simple_verb_body.chks,
+				       %simple_verb_body.dos);
+    %%
+    ;
+
+simple_verb_body		-- RETURNS: chks, dos
+    = optional_checks optional_does
+    %%
+	%simple_verb_body.chks = %optional_checks.chks;
+	%simple_verb_body.dos = %optional_does.dos;
+    %%
+    ;
+
+verb_tail		-- RETURNS: nam
+    = 'END' 'VERB' optional_id '.'
+    %% %verb_tail.nam = %optional_id.nam; %%
+    ;
+
+----> CHECKS
+optional_checks		-- RETURNS: chks
+    =
+    %% %optional_checks.chks = NULL; %%
+
+    ! 'CHECK' statements
+    %% %optional_checks.chks = concat(NULL, newchk(NULL, %statements.stms)); %%
+
+    ! 'CHECK' check_list
+    %% %optional_checks.chks = %check_list.chks; %%
+    ;
+
+check_list		-- RETURNS: chks
+    = check
+    %%
+	%check_list.chks = concat(NULL, %check.chk);
+    %%
+
+    ! check_list 'AND' check
+    %%
+	%check_list.chks = concat(%check_list.chks, %check.chk);
+    %%
+    ;
+
+check			-- RETURNS: chk
+    = expression 'ELSE' statements
+    %%
+	%check.chk = newchk(%expression.exp, %statements.stms);
+    %%
+    ;
+
+----> DOES
+optional_does		-- RETURNS: dos
+    =
+    %% optional_does.dos = NULL; %%
+
+    ! does
+    %% optional_does.dos = %does.dos; %%
+    ;
+
+does			-- RETURNS: dos
+    = 'DOES' optional_qual statements
+    %% %does.dos = newdos(`&%'DOES'.srcp, %optional_qual.qual, %statements.stms); %%
+    ;
+
 
 ----> ATTRIBUTES
-attributes		-- RETURNS: atrs
-    = attribute '.'
-    %%
-	%attributes.atrs = concat(NULL, %attribute.atr);
-    %%
+optional_attributes	-- RETURNS: atrs
+    =
+    %% optional_attributes.atrs = NULL; %%
 
-    ! attributes attribute '.'
-    %%
-	%attributes.atrs = concat(%attributes.atrs, %attribute.atr);
-    %%
+    ! attributes
+    %% optional_attributes.atrs = %attributes.atrs; %%
+    ;
+
+attributes		-- RETURNS: atrs
+    = is attribute_list
+    %% %attributes.atrs = attribute_list.atrs; %%
+
+    ! attributes is attribute_list
+    %% %attributes.atrs = concat(%attribute_list.atrs, %attributes.atr); %%
+    ;
+
+attribute_list		-- RETURNS: atrs
+    = attribute '.'
+    %% %attribute_list.atrs = concat(NULL, %attribute.atr); %%
+
+    ! attribute_list attribute '.'
+    %% %attribute_list.atrs = concat(%attribute_list.atrs, %attribute.atr); %%
     ;
 
 attribute		-- RETURNS: atr
@@ -319,402 +515,117 @@ attribute		-- RETURNS: atr
     %%
     ;
 
----> SYNONYMS
-synonyms			-- RETURNS: syns
-    = 'SYNONYMS' synonym_list
-    %%
-	%synonyms.syns = %synonym_list.syns;
-    %%
+is			-- RETURNS: srcp
+    = 'IS'
+    %% %is.srcp = %'IS'.srcp; %%
+
+    ! 'ARE'
+    %% %is.srcp = %'ARE'.srcp; %%
+
+    ! 'HAS'
+    %% %is.srcp = %'HAS'.srcp; %%
     ;
 
-synonym_list			-- RETURNS: syns
-    = synonym
-    %%
-	%synonym_list.syns = concat(NULL, %synonym.syn);
-    %%
 
-    ! synonym_list synonym
-    %%
-	%synonym_list.syns = concat(%synonym_list.syns, %synonym.syn);
-    %%
+---> CLASS
+class			-- RETURNS: cla
+    = 'EVERY' ID optional_heritage slots class_tail
+    %%{
+	NamNod *nam = newnam(`&%ID.srcp, %ID.chars);
+
+	%class.cla = newcla(`&%'EVERY'.srcp,
+				nam,
+				%optional_heritage.nams,
+				%slots.nams,
+				%slots.whr,
+				%slots.cnt,
+				%slots.surr,
+				%slots.descr,
+				%slots.ment,
+				%slots.dos,
+				%slots.exts,
+				%slots.vrbs,
+				%slots.scrs);
+	if (%class_tail.nam != NULL) { /* END-id given */
+	    if (!eqnams(nam, %class_tail.nam))
+		lmLog(`&%class_tail.nam->srcp, 201, sevWAR, nam->str);
+    }%%
     ;
 
-synonym				-- RETURNS: syn
-    = id_list '=' ID '.'
-    %%
-	%synonym.syn = newsyn(`&%'='.srcp,
-			      %id_list.nams,
-			      newnam(`&%ID.srcp, %ID.chars));
-    %%
+class_tail		-- RETURNS: nam
+    = 'END' 'EVERY' optional_id '.'
+    %% %class_tail.nam = %optional_id.nam; %%
     ;
 
----> SYNTAX
-syntax
-    = 'SYNTAX' syntax_list
-    %%
-	%syntax.stxs = %syntax_list.stxs;
-    %%
+
+---> INSTANCE
+instance			-- RETURNS: ins
+    = 'THE' ID heritage slots instance_tail
+    %%{
+	NamNod *nam = newnam(`&%ID.srcp, %ID.chars);
+
+	%instance.ins = newins(`&%'THE'.srcp,
+				nam,
+				%heritage.nams,
+				%slots.nams,
+				%slots.whr,
+				%slots.cnt,
+				%slots.surr,
+				%slots.descr,
+				%slots.ment,
+				%slots.dos,
+				%slots.exts,
+				%slots.vrbs,
+				%slots.scrs);
+	if (!eqnams(nam, %instance_tail.nam))
+		lmLog(`&%instance_tail.nam->srcp, 201, sevWAR, nam->str);
+    }%%
     ;
 
-syntax_list
-    = syntax_item
-    %%
-	%syntax_list.stxs = concat(NULL, %syntax_item.stx);
-    %%
-
-    ! syntax_list syntax_item
-    %%
-	%syntax_list.stxs = concat(%syntax_list.stxs, %syntax_item.stx);
-    %%
+instance_tail		-- RETURNS: nam
+    = 'END' 'THE' optional_id '.'
+    %% %instance_tail.nam = %optional_id.nam; %%
     ;
 
-syntax_item
-    = ID '=' syntax_elements optional_class_restrictions
-    %%
-	%syntax_item.stx = newstx(`&%'='.srcp,
-				  newnam(`&%ID.srcp, %ID.chars),
-				  %syntax_elements.elms,
-				  %optional_class_restrictions.ress);
-    %%
-    ;
-
-syntax_elements
-    = syntax_element
-    %%
-	%syntax_elements.elms = concat(NULL, %syntax_element.elm);
-    %%
-
-    ! syntax_elements syntax_element
-    %%
-	%syntax_elements.elms = concat(%syntax_elements.elms,
-				       %syntax_element.elm);
-    %%
-    ;
-
-syntax_element
-    = ID
-    %%
-	%syntax_element.elm = newelm(`&%ID.srcp, ELMWRD,
-				     newnam(`&%ID.srcp, %ID.chars),
-				     FALSE);
-    %%
-
-    ! '(' ID ')' optional_multiple_indicator
-
-    %%
-	%syntax_element.elm = newelm(`&%ID.srcp, ELMPAR,
-				     newnam(`&%ID.srcp, %ID.chars),
-				     !%optional_multiple_indicator.single);
-    %%
-    ;
-
-optional_multiple_indicator
+optional_heritage
     =
-    %%
-	%optional_multiple_indicator.single = TRUE;
-    %%
+    %% %optional_heritage.nams = NULL; %%
 
-    ! '*'
-    %%
-	%optional_multiple_indicator.single = FALSE;
-    %%
-
+    ! heritage
+    %% %optional_heritage.nams = %heritage.nams; %%
     ;
 
-optional_class_restrictions
-    = '.'
-    %%
-	%optional_class_restrictions.ress = NULL;
-    %%
-
-    ! 'WHERE' class_restrictions
-    %%
-	%optional_class_restrictions.ress = %class_restrictions.ress;
-    %%
-    ;
-
-class_restrictions
-    = class_restriction
-    %%
-	%class_restrictions.ress = concat(NULL, %class_restriction.res);
-    %%
-
-    ! class_restrictions 'AND' class_restriction
-    %%
-	%class_restrictions.ress = concat(%class_restrictions.ress,
-				       %class_restriction.res);
-    %%
-    ;
-
-class_restriction
-    = ID 'ISA' classes 'ELSE' statements
-    %%
-	%class_restriction.res = newres(`&%'ISA'.srcp,
-				    newnam(`&%ID.srcp, %ID.chars),
-				    %classes.single,
-				    %classes.classkd,
-				    %statements.stms);
-    %%
-    ;
-
-classes
-    = class_identifier
-    %%
-	%classes.classkd = %class_identifier.classkd;
-        %classes.single = TRUE;
-    %%
-
-    ! classes 'OR' class_identifier
-    %%
-	%classes.classkd = %classes.classkd | %class_identifier.classkd;
-        %classes.single = FALSE;
-    %%
-    ;
-
-class_identifier
-    = 'OBJECT'
-    %%
-	%class_identifier.classkd = NAMOBJ;
-    %%
-
-    ! 'ACTOR'
-    %%
-	%class_identifier.classkd = NAMACT;
-    %%
-
-    ! 'CONTAINER'
-    %%
-	%class_identifier.classkd = NAMCNT;
-    %%
-
-    ! 'CONTAINER' 'OBJECT'
-    %%
-	%class_identifier.classkd = NAMCOBJ;
-    %%
-
-    ! 'CONTAINER' 'ACTOR'
-    %%
-	%class_identifier.classkd = NAMCACT;
-    %%
-
-    ! 'INTEGER'
-    %%
-	%class_identifier.classkd = NAMNUM;
-    %%
-
-    ! 'STRING'
-    %%
-	%class_identifier.classkd = NAMSTR;
-    %%
-    ;    
-
-
----> VERBS
-optional_verbs		-- RETURNS: vrbs
-    =
-    %%
-	%optional_verbs.vrbs = NULL;
-    %%
-
-    ! optional_verbs verb
-    %%
-	%optional_verbs.vrbs = concat(%optional_verbs.vrbs, %verb.vrb);
-    %%
-    ;
-
-verb			-- RETURNS: vrb
-    = verb_header verb_body verb_tail
-    %%
-	%verb.vrb = newvrb(`&%verb_header.srcp,
-			   %verb_header.nams,
-			   %verb_body.alts);
-	if (%verb_tail.nam != NULL) { /* END-id given */
-	    if (strcmp(%verb_header.str, %verb_tail.nam->str) != 0)
-		lmLog(`&%verb_tail.nam->srcp, 201, sevWAR, %verb_header.str);
-	}
-    %%
-    ;
-
-verb_header		-- RETURNS: srcp, str, nams
-    = 'VERB' id_list
-    %%
-	%verb_header.srcp   = %'VERB'.srcp;
-	%verb_header.str    = %id_list.str;
-	%verb_header.nams   = %id_list.nams;
-    %%
-    ;
-
-verb_body
-    = simple_verb_body
-    %%
-	%verb_body.alts = concat(NULL,
-				 newalt(`&nulsrcp,
-					NULL,
-					%simple_verb_body.chks,
-					%simple_verb_body.qual,
-					%simple_verb_body.stms));
-    %%
-
-    ! verb_alternatives
-    %%
-	%verb_body.alts = %verb_alternatives.alts;
-    %%
-    ;
-
-verb_alternatives
-    = verb_alternative
-    %%
-	%verb_alternatives.alts = concat(NULL, %verb_alternative.alt);
-    %%
-
-    ! verb_alternatives verb_alternative
-    %%
-	%verb_alternatives.alts = concat(%verb_alternatives.alts,
-					 %verb_alternative.alt);
-    %%
-    ;
-
-verb_alternative
-    = 'WHEN' ID simple_verb_body
-    %%
-	%verb_alternative.alt = newalt(`&%'WHEN'.srcp,
-				       newnam(`&%ID.srcp, %ID.chars),
-				       %simple_verb_body.chks,
-				       %simple_verb_body.qual,
-				       %simple_verb_body.stms);
-    %%
-    ;
-
-simple_verb_body		-- RETURNS: chks, stms, qual
-    = optional_checks optional_does
-    %%
-	%simple_verb_body.chks = %optional_checks.chks;
-	%simple_verb_body.qual = %optional_does.qual;
-	%simple_verb_body.stms = %optional_does.stms;
-    %%
-    ;
-
-verb_tail		-- RETURNS: nam
-    = 'END' 'VERB' optional_id '.'
-    %%
-	%verb_tail.nam	= %optional_id.nam;
-    %%
-    ;
-
-----> CHECKS
-optional_checks		-- RETURNS: chks
-    =
-    %%
-	%optional_checks.chks = NULL;
-    %%
-
-    ! 'CHECK' statements
-    %%
-	%optional_checks.chks = concat(NULL, newchk(NULL, %statements.stms));
-    %%
-
-    ! 'CHECK' check_list
-    %%
-	%optional_checks.chks = %check_list.chks;
-    %%
-    ;
-
-check_list		-- RETURNS: chks
-    = check
-    %%
-	%check_list.chks = concat(NULL, %check.chk);
-    %%
-
-    ! check_list 'AND' check
-    %%
-	%check_list.chks = concat(%check_list.chks, %check.chk);
-    %%
-    ;
-
-check			-- RETURNS: chk
-    = expression 'ELSE' statements
-    %%
-	%check.chk = newchk(%expression.exp, %statements.stms);
-    %%
-    ;
-
-----> DOES
-optional_does		-- RETURNS: qual, srcp, stms
-    =
-    %%
-	%optional_does.qual = QUAL_DEFAULT;
-	%optional_does.stms = NULL;
-    %%
-
-    ! 'DOES' optional_qual statements
-    %%
-	%optional_does.qual = %optional_qual.qual;
-	%optional_does.srcp = %optional_qual.srcp;
-	%optional_does.stms = %statements.stms;
-    %%
+heritage
+    = 'ISA' id_list
+    %% %heritage.nams = %id_list.nams; %%
     ;
 
 
----> LOCATION
-location		-- RETURNS: loc
-    = location_header location_body location_tail
-    %%
-	%location.loc = newloc(`&%location_header.srcp,
-			       %location_header.nam,
-			       %location_header.nams,
-			       %location_body.atrs,
-			       %location_body.stms,
-			       %location_body.stms2,
-			       %location_body.exts,
-			       %location_body.vrbs);
-	if (%location_tail.nam != NULL) { /* END-id given */
-	    if (!eqnams(%location_header.nam, %location_tail.nam))
-		lmLog(`&%location_tail.nam->srcp, 201, sevWAR,
-			%location_header.nam->str);
-	}
-    %%
-    ;
-
-
-location_header		-- RETURNS: srcp, nam, nams
-    = 'LOCATION' ID optional_name
-    %%
-	%location_header.srcp = %'LOCATION'.srcp;
-	%location_header.nam  = newnam(`&%ID.srcp, %ID.chars);
-	%location_header.nams = %optional_name.nams;
-    %%
-    ;
-
-location_body		-- RETURNS: atrs, stms, stms2, exts, vrbs
-    = optional_attributes optional_description optional_does optional_exits optional_verbs
-    %%
-	%location_body.atrs  = %optional_attributes.atrs;
-	%location_body.stms  = %optional_description.stms;
-	%location_body.stms2 = %optional_does.stms;
-	%location_body.exts  = %optional_exits.exts;
-	%location_body.vrbs  = %optional_verbs.vrbs;
-	if (%optional_does.qual != QUAL_DEFAULT)
-	     lmLog(`&%optional_does.srcp, 210, sevERR, "");
-    %%	
-    ;
-
-location_tail		-- RETURNS: nam
-    = 'END' 'LOCATION' optional_id '.'
-    %%
-	%location_tail.nam = %optional_id.nam;
-    %%
+slots			-- RETURNS: nams, whr, atrs, cnt, 
+    = optional_name optional_where optional_attributes optional_container
+	optional_surroundings optional_description optional_mentioned
+	optional_does optional_exits optional_verbs optional_scripts
+    -- %copy%
     ;
 
 ----> EXITS
 optional_exits		-- RETURNS: exts
     =
+    %% optional_exits.exts = NULL; %%
+
+    ! exits
+    %% optional_exits.exts = %exits.exts; %%
+    ;
+
+exits			-- RETURNS: exts
+    = exit
     %%
-	%optional_exits.exts = NULL;
+	%exits.exts = concat(%exits.exts, %exit.ext);
     %%
 
-    ! optional_exits exit
+    ! exits exit
     %%
-	%optional_exits.exts = concat(%optional_exits.exts, %exit.ext);
+	%exits.exts = concat(%exits.exts, %exit.ext);
     %%
     ;
 
@@ -751,253 +662,141 @@ optional_exit_body	-- RETURNS: chks, stms, nam
     %%
     ;
 
----> OBJECTS
-object			-- RETURNS: obj
-    = object_header object_body object_tail
-    %%
-	%object.obj = newobj(`&%object_header.srcp,
-			     %object_header.nam,
-			     %object_header.nams,
-			     %object_header.whr,
-			     %object_body.cnt,
-			     %object_body.atrs,
-			     %object_body.stms,
-			     %object_body.stms2,
-			     %object_body.vrbs);
-	if (%object_tail.nam != NULL) { /* END-id given */
-	    if (!eqnams(%object_header.nam, %object_tail.nam))
-		lmLog(`&%object_tail.nam->srcp, 201, sevWAR, %object_header.nam->str);
-	}
-    %%
-    ;
 
-
-object_header		-- RETURNS: srcp, nam, nams, whr
-    = 'OBJECT' ID optional_name optional_where
-    %%
-	%object_header.srcp = %'OBJECT'.srcp;
-	%object_header.nam  = newnam(`&%ID.srcp, %ID.chars);
-	%object_header.nams = %optional_name.nams;
-	%object_header.whr  = %optional_where.whr;
-    %%
-    ;
-
-object_tail		-- RETURNS: nam
-    = 'END' 'OBJECT' optional_id '.'
-    %%
-	%object_tail.nam = %optional_id.nam;
-    %%
-    ;
-
-object_body		-- RETURNS: cnt, atrs, stms, stms2, vrbs
-    = optional_properties optional_attributes optional_description optional_mentioned optional_verbs
-    %%
-	%object_body.cnt   = %optional_properties.cnt;
-	%object_body.atrs  = %optional_attributes.atrs;
-	%object_body.stms  = %optional_description.stms;
-	%object_body.stms2 = %optional_mentioned.stms;
-	%object_body.vrbs  = %optional_verbs.vrbs;
-    %%
-    ;
-
-optional_attributes	-- RETURNS: atrs
+-- SURROUNDINGS
+optional_surroundings		-- RETURNS: stms
     =
+    %% optional_surroundings.stms = NULL; %%
+
+    ! surroundings
+    %% optional_surroundings.stms = %surroundings.stms; %%
+    ;
+
+surroundings
+    = 'SURROUNDINGS' 
     %%
-	%optional_attributes.atrs = NULL;
+	%surroundings.stms = concat(NULL, newstm(`&%'SURROUNDINGS'.srcp,
+						STM_NOP));
     %%
 
-    ! optional_attributes is attributes
+    ! 'SURROUNDINGS' statements
     %%
-	%optional_attributes.atrs = combine(%optional_attributes.atrs, %attributes.atrs);
+	%surroundings.stms = %statements.stms;
     %%
     ;
 
-is			-- RETURNS: srcp
-    = 'IS'
-    %%
-	%is.srcp = %'IS'.srcp;
-    %%
 
-    ! 'ARE'
-    %%
-	%is.srcp = %'ARE'.srcp;
-    %%
-
-    ! 'HAS'
-    %%
-	%is.srcp = %'HAS'.srcp;
-    %%
-    ;
-
-optional_description	-- RETURNS: stms
+-- DESCRIPTION
+optional_description		-- RETURNS: stms
     =
-    %%
-	%optional_description.stms = NULL;
-    %%
+    %% optional_description.stms = NULL; %%
 
-    ! 'DESCRIPTION' 
+    ! description
+    %% optional_description.stms = %description.stms; %%
+    ;
+
+description
+    = 'DESCRIPTION' 
     %%
-	%optional_description.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
-							STM_NOP));
+	%description.stms = concat(NULL, newstm(`&%'DESCRIPTION'.srcp,
+						STM_NOP));
     %%
 
     ! 'DESCRIPTION' statements
     %%
-	%optional_description.stms = %statements.stms;
+	%description.stms = %statements.stms;
     %%
     ;
 
+
+-- MENTIONED
 optional_mentioned	-- RETURNS: stms
     =
-    %%
-	%optional_mentioned.stms = NULL;
-    %%
+    %% optional_mentioned.stms = NULL; %%
 
-    ! 'MENTIONED' statements
+    ! mentioned
+    %% optional_mentioned.stms = %mentioned.stms; %%
+    ;
+
+mentioned		-- RETURNS: stms
+    = 'MENTIONED' statements
     %%
-	%optional_mentioned.stms = %statements.stms;
+	%mentioned.stms = %statements.stms;
     %%
     ;
 
+
+-- NAME
 optional_name		-- RETURNS: nams
-    =
-    %%
-	%optional_name.nams = NULL;
-    %%
+    = 
+    %% optional_name.nams = NULL; %%
 
-    ! 'NAME' ids
-    %%
-	%optional_name.nams = %ids.nams;
-    %%
+    ! name
+    %% optional_name.nams = %name.nams; %%
     ;
 
----> CONTAINERS
-optional_properties	-- RETURNS: cnt
-    =
-    %%
-	%optional_properties.cnt = NULL;
-    %%
+name			-- RETURNS: nams
+    = 'NAME' ids
+    %% %name.nams = %ids.nams; %%
+    ;
 
-    ! 'CONTAINER' container_body
-    %%
-	%optional_properties.cnt = newcnt(`&%'CONTAINER'.srcp,
-					  NULL,
-					  %container_body.lims,
-					  %container_body.stms,
-					  %container_body.stms2);
-	adv.cnts = concat(adv.cnts, %optional_properties.cnt);
-    %%
+---> CONTAINER PROPERTIES
+optional_container	-- RETURNS: cnt
+    =
+    %% optional_container.cnt = NULL; %%
+
+    ! container
+    %% optional_container.cnt = %container.cnt; %%
     ;
 
 container		-- RETURNS: cnt
-    = container_header container_body container_tail
+    =  'CONTAINER' optional_limits optional_header optional_empty
     %%
-	%container.cnt = newcnt(`&%container_header.srcp,
-				%container_header.nam,
-				%container_body.lims,
-				%container_body.stms,
-				%container_body.stms2);
-	if (%container_tail.nam != NULL) { /* END-id given */
-	    if (!eqnams(%container_header.nam, %container_tail.nam))
-		lmLog(`&%container_tail.nam->srcp, 201, sevWAR, %container_header.nam->str);
-	}
-    %%
-    ;
-
-container_header	-- RETURNS: srcp, nam
-    = 'CONTAINER' ID
-    %%
-	%container_header.srcp = %'CONTAINER'.srcp;
-	%container_header.nam  = newnam(`&%ID.srcp, %ID.chars);
-    %%
-    ;
-
-container_body		-- RETURNS: lims, stms, stms2
-    =  optional_limits optional_header optional_empty
-    %%
-	%container_body.lims  = %optional_limits.lims;
-	%container_body.stms  = %optional_header.stms;
-	%container_body.stms2 = %optional_empty.stms;
-    %%
-    ;
-
-container_tail		-- RETURNS: nam
-    = 'END' 'CONTAINER' optional_id '.'
-    %%
-	%container_tail.nam  = %optional_id.nam;
+	%container.cnt = newcnt('&%'CONTAINER'.srcp, %optional_limits.lims,
+				%optional_header.stms, %optional_empty.stms);
     %%
     ;
 
 optional_limits		-- RETURNS: lims
     =
-    %%
-	%optional_limits.lims = NULL;
-    %%
+    %% %optional_limits.lims = NULL; %%
 
     ! 'LIMITS' limits
-    %%
-	%optional_limits.lims = %limits.lims;
-    %%
+    %% %optional_limits.lims = %limits.lims; %%
     ;
 
 limits			-- RETURNS: lims
     = limit
-    %%
-	%limits.lims = concat(NULL, %limit.lim);
-    %%
+    %% %limits.lims = concat(NULL, %limit.lim); %%
 
     ! limits limit
-    %%
-	%limits.lims = concat(%limits.lims, %limit.lim);
-    %%
+    %% %limits.lims = concat(%limits.lims, %limit.lim); %%
     ;
 
 limit			-- RETURNS: lim
-    = limit_attribute 'THEN' statements
+    = attribute 'THEN' statements
     %%
 	%limit.lim = newlim(`&%'THEN'.srcp,
-			    %limit_attribute.atr,
+			    %attribute.atr,
 			    %statements.stms);
     %%
     ;
 
-limit_attribute		-- RETURNS: atr
-    = attribute
-    %%
-	%limit_attribute.atr = %attribute.atr;
-    %%
-
-    ! 'COUNT' INTEGER
-    %%
-	%limit_attribute.atr = newatr(`&%'COUNT'.srcp,
-				      TYPINT,
-				      newnam(`&%'COUNT'.srcp, "count"),
-				      val(%INTEGER.chars), 0, 0);
-    %%
-    ;
 
 optional_header		-- RETURNS: stms
     =
-    %%
-	%optional_header.stms = NULL;
-    %%
+    %% %optional_header.stms = NULL; %%
 
     ! 'HEADER' statements
-    %%
-	%optional_header.stms = %statements.stms;
-    %%
+    %% %optional_header.stms = %statements.stms; %%
     ;
 
 optional_empty		-- RETURNS: stms
     =
-    %%
-	%optional_empty.stms = NULL;
-    %%
+    %% %optional_empty.stms = NULL; %%
 
     ! 'ELSE' statements
-    %%
-	%optional_empty.stms = %statements.stms;
-    %%
+    %% %optional_empty.stms = %statements.stms; %%
     ;
 
 ---> EVENTS
@@ -1024,71 +823,17 @@ event_header		-- RETURNS: srcp, nam
 
 event_tail		-- RETURNS: nam
     = 'END' 'EVENT' optional_id '.'
-    %%
-	%event_tail.nam = %optional_id.nam;
-    %%
+    %% %event_tail.nam = %optional_id.nam; %%
     ;
 
----> ACTORS
-actor			-- RETURNS: act
-    = actor_header actor_body actor_tail
-    %%
-	%actor.act = newact(`&%actor_header.srcp,
-			    %actor_header.nam,
-			    %actor_header.nams,
-			    %actor_header.whr,
-			    %actor_body.cnt,
-			    %actor_body.atrs,
-			    %actor_body.stms,
-			    %actor_body.vrbs,
-			    %actor_body.scrs);
-	if (%actor_tail.nam != NULL) { /* END-id given */
-	    if (!eqnams(%actor_header.nam, %actor_tail.nam))
-		lmLog(`&%actor_tail.nam->srcp, 201, sevWAR, %actor_header.nam->str);
-	}
-    %%
-    ;
-
-actor_header		-- RETURNS: srcp, nam, nams, whr
-    = 'ACTOR' ID optional_name optional_where
-    %%
-	%actor_header.srcp = %'ACTOR'.srcp;
-	%actor_header.nam  = newnam(`&%ID.srcp, %ID.chars);
-	%actor_header.nams = %optional_name.nams;
-	%actor_header.whr  = %optional_where.whr;
-    %%
-    ;
-
-actor_body		-- RETURNS: cnt, atrs, stms, vrbs, scrs
-    = optional_properties optional_attributes optional_description optional_verbs optional_actor_script
-    %%
-	%actor_body.cnt = %optional_properties.cnt;
-	%actor_body.atrs = %optional_attributes.atrs;
-	%actor_body.stms = %optional_description.stms;
-	%actor_body.vrbs = %optional_verbs.vrbs;
-	%actor_body.scrs = %optional_actor_script.scrs;
-    %%
-    ;
-
-actor_tail		-- RETURNS: nam
-    = 'END' 'ACTOR' optional_id '.'
-    %%
-	%actor_tail.nam = %optional_id.nam;
-    %%
-    ;
 
 ----> SCRIPTS
-optional_actor_script	-- RETURNS: scrs
-    = 
-    %%
-	%optional_actor_script.scrs = NULL;
-    %%
+optional_scripts	-- RETURNS: scrs
+    =
+    %% %optional_scripts.scrs = NULL; %%
 
-    ! optional_actor_script script
-    %%
-	%optional_actor_script.scrs = concat(%optional_actor_script.scrs,
-					     %script.scr);
-    %%
+    ! optional_scripts script
+    %% %optional_scripts.scrs = concat(%optional_scripts.scrs, %script.scr); %%
     ;
 
 script			-- RETURNS: scr
@@ -1103,14 +848,10 @@ script			-- RETURNS: scr
 
 step_list		-- RETURNS: stps
     = step
-    %%
-	%step_list.stps = concat(NULL, %step.stp);
-    %%
+    %% %step_list.stps = concat(NULL, %step.stp); %%
 
     ! step_list step
-    %%
-	%step_list.stps = concat(%step_list.stps, %step.stp);
-    %%
+    %% %step_list.stps = concat(%step_list.stps, %step.stp); %%
     ;
 
 step			-- RETURNS: stp
@@ -1161,63 +902,41 @@ start
 ---> STATEMENTS
 optional_statements	-- RETURNS: stms
     =
-    %%
-	%optional_statements.stms = NULL;
-    %%
+    %% %optional_statements.stms = NULL; %%
 
     ! statements
-    %%
-	%optional_statements.stms = %statements.stms;
-    %%
+    %% %optional_statements.stms = %statements.stms; %%
     ;
 
 statements		-- RETURNS: stms
     = statement
-    %%
-	%statements.stms = concat(NULL, %statement.stm);
-    %%
+    %% %statements.stms = concat(NULL, %statement.stm); %%
 
     ! statements statement
-    %%
-	%statements.stms = concat(%statements.stms, %statement.stm);
-    %%
+    %% %statements.stms = concat(%statements.stms, %statement.stm); %%
     ;
 
 statement		-- RETURNS: stm
     = output_statement
-    %%
-	%statement.stm = %output_statement.stm;
-    %%
+    %% %statement.stm = %output_statement.stm; %%
 
     ! manipulation_statement
-    %%
-	%statement.stm = %manipulation_statement.stm;
-    %%
+    %% %statement.stm = %manipulation_statement.stm; %%
 
     ! assignment_statement
-    %%
-	%statement.stm = %assignment_statement.stm;
-    %%
+    %% %statement.stm = %assignment_statement.stm; %%
 
     ! if_statement
-    %%
-	%statement.stm = %if_statement.stm;
-    %%
+    %% %statement.stm = %if_statement.stm; %%
 
     ! actor_statement
-    %%
-	%statement.stm = %actor_statement.stm;
-    %%
+    %% %statement.stm = %actor_statement.stm; %%
 
     ! event_statement
-    %%
-	%statement.stm = %event_statement.stm;
-    %%
+    %% %statement.stm = %event_statement.stm; %%
 
     ! special_statement
-    %%
-	%statement.stm = %special_statement.stm;
-    %%
+    %% %statement.stm = %special_statement.stm; %%
     ;
 
 output_statement		-- RETURNS: stm
@@ -1249,24 +968,16 @@ output_statement		-- RETURNS: stm
 
 special_statement	-- RETURNS: stm
     = 'QUIT' '.'
-    %%
-	%special_statement.stm = newstm(`&%'QUIT'.srcp, STM_QUIT);
-    %%
+    %% %special_statement.stm = newstm(`&%'QUIT'.srcp, STM_QUIT); %%
 
     ! 'LOOK' '.'
-    %%
-	%special_statement.stm = newstm(`&%'LOOK'.srcp, STM_LOOK);
-    %%
+    %% %special_statement.stm = newstm(`&%'LOOK'.srcp, STM_LOOK); %%
 
     ! 'SAVE' '.'
-    %%
-	%special_statement.stm = newstm(`&%'SAVE'.srcp, STM_SAVE);
-    %%
+    %% %special_statement.stm = newstm(`&%'SAVE'.srcp, STM_SAVE); %%
 
     ! 'RESTORE' '.'
-    %%
-	%special_statement.stm = newstm(`&%'RESTORE'.srcp, STM_RESTORE);
-    %%
+    %% %special_statement.stm = newstm(`&%'RESTORE'.srcp, STM_RESTORE); %%
 
     ! 'SCORE' optional_integer '.'
     %%
@@ -1364,14 +1075,10 @@ assignment_statement		-- RETURNS: stm
 
 optional_by_clause
     =
-    %%
-	%optional_by_clause.exp = NULL;
-    %%
+    %% %optional_by_clause.exp = NULL; %%
 
     ! 'BY' expression
-    %%
-	%optional_by_clause.exp = %expression.exp;
-    %%
+    %% %optional_by_clause.exp = %expression.exp; %%
     ;
 
 if_statement			-- RETURNS: stm
@@ -1394,14 +1101,10 @@ if_statement			-- RETURNS: stm
 
 optional_elsif_list
     =
-    %%
-	%optional_elsif_list.stms = NULL;
-    %%
+    %% %optional_elsif_list.stms = NULL; %%
 
     ! elsif_list
-    %%
-	%optional_elsif_list.stms = %elsif_list.stms;
-    %%
+    %% %optional_elsif_list.stms = %elsif_list.stms; %%
     ;
     
 elsif_list		-- RETURNS: stms
@@ -1438,14 +1141,10 @@ elsif_list		-- RETURNS: stms
 
 optional_else_part		-- RETURNS: stms
     =
-    %%
-	%optional_else_part.stms = NULL;
-    %%
+    %% %optional_else_part.stms = NULL; %%
 
     ! 'ELSE' statements
-    %%
-	%optional_else_part.stms = %statements.stms;
-    %%
+    %% %optional_else_part.stms = %statements.stms; %%
     ;
 
 actor_statement			-- RETURNS: stm
@@ -1459,23 +1158,17 @@ actor_statement			-- RETURNS: stm
 
 optional_for_actor	-- RETURNS: nam
     =
-    %%
-	%optional_for_actor.nam = NULL;
-    %%
+    %% %optional_for_actor.nam = NULL; %%
 
     ! 'FOR' ID
-    %%
-	%optional_for_actor.nam = newnam(`&%ID.srcp, %ID.chars);
-    %%
+    %% %optional_for_actor.nam = newnam(`&%ID.srcp, %ID.chars); %%
     ;
 
 
 ---> EXPRESSIONS
 expression		-- RETURNS: exp
     = term
-    %%
-	%expression.exp = %term.exp;
-    %%
+    %% %expression.exp = %term.exp; %%
 
     ! expression 'OR' term
     %% { ExpNod *exp;
@@ -1490,9 +1183,7 @@ expression		-- RETURNS: exp
 
 term			-- RETURNS: exp
     = factor
-    %%
-	%term.exp = %factor.exp;
-    %%
+    %% %term.exp = %factor.exp; %%
 
     ! term 'AND' factor
     %% { ExpNod *exp;
@@ -1507,9 +1198,7 @@ term			-- RETURNS: exp
 
 factor			-- RETURNS: exp
     = primary
-    %%
-	%factor.exp = %primary.exp;
-    %%
+    %% %factor.exp = %primary.exp; %%
 
     ! primary binop primary
     %% { ExpNod *exp;
@@ -1552,9 +1241,7 @@ factor			-- RETURNS: exp
 
 primary				-- RETURNS: exp
     = '(' expression ')'
-    %%
-	%primary.exp = %expression.exp;
-    %%
+    %% %primary.exp = %expression.exp; %%
 
     ! optional_minus INTEGER
     %%
@@ -1602,9 +1289,7 @@ primary				-- RETURNS: exp
     %%
 
     ! 'SCORE'
-    %%
-	%primary.exp = newexp(`&%'SCORE'.srcp, EXPSCORE);
-    %%
+    %% %primary.exp = newexp(`&%'SCORE'.srcp, EXPSCORE); %%
     ;
 
 
@@ -1631,7 +1316,7 @@ aggregate			-- RETURNS: srcp, agr, nam
     %%
     ;
 
----> MISCELLANEOUS
+---> SOMETHING
 something		-- RETURNS: not, nam
     = optional_not ID
     %%
@@ -1667,16 +1352,13 @@ what			-- RETURNS: srcp, wht
     ;
 
 
+---> WHERE
 optional_where		-- RETURNS: whr
     =
-    %%
-        %optional_where.whr = newwhr(`&nulsrcp, WHR_DEFAULT, NULL);
-    %%
+    %% %optional_where.whr = newwhr(`&nulsrcp, WHR_DEFAULT, NULL); %%
     
     ! where
-    %%
-        %optional_where.whr = %where.whr;
-    %%
+    %% %optional_where.whr = %where.whr; %%
     ;
 
 where			-- RETURNS: srcp, whr
@@ -1705,6 +1387,8 @@ where			-- RETURNS: srcp, whr
     %%
     ;
 
+
+-- BINARY OPERATORS
 binop			-- RETURNS: op, srcp
     = '+'
     %%
@@ -1716,18 +1400,6 @@ binop			-- RETURNS: op, srcp
     %%
 	%binop.op = OP_MINUS;
 	%binop.srcp = %'-'.srcp;
-    %%
-
-    ! '*'
-    %%
-	%binop.op = OP_MULT;
-	%binop.srcp = %'*'.srcp;
-    %%
-
-    ! '/'
-    %%
-	%binop.op = OP_DIV;
-	%binop.srcp = %'/'.srcp;
     %%
     ;
 
@@ -1777,7 +1449,7 @@ relop			-- RETURNS: op, srcp
     ;
 
 
-
+-- QUALIFIERS
 optional_qual		-- RETURNS: qual, srcp
     =
     %%
@@ -1804,40 +1476,29 @@ optional_qual		-- RETURNS: qual, srcp
     ;
 
 
+---> MISCELLANEOUS
 optional_not
     =
-    %%
-        %optional_not.not = FALSE;
-    %%
+    %% %optional_not.not = FALSE; %%
 
     ! 'NOT'
-    %%
-        %optional_not.not = TRUE;
-    %%
+    %% %optional_not.not = TRUE; %%
     ;
 
 optional_id
     =
-    %%
-        %optional_id.nam = NULL;
-    %%
+    %% %optional_id.nam = NULL; %%
 
     ! ID
-    %%
-        %optional_id.nam = newnam(`&%ID.srcp, %ID.chars);
-    %%
+    %% %optional_id.nam = newnam(`&%ID.srcp, %ID.chars); %%
     ;
 
 ids			-- RETURNS: nams
     = ID
-    %%
-        %ids.nams = concat(NULL, newnam(`&%ID.srcp, %ID.chars));
-    %%
+    %% %ids.nams = concat(NULL, newnam(`&%ID.srcp, %ID.chars)); %%
 
     ! ids ID
-    %%
-        %ids.nams = concat(%ids.nams, newnam(`&%ID.srcp, %ID.chars));
-    %%
+    %% %ids.nams = concat(%ids.nams, newnam(`&%ID.srcp, %ID.chars)); %%
     ;
 
 id_list			-- RETURNS: str, nams
@@ -1856,26 +1517,18 @@ id_list			-- RETURNS: str, nams
 
 optional_integer	-- RETURNS: str
     =
-    %%
-        %optional_integer.str = NULL;
-    %%
+    %% %optional_integer.str = NULL; %%
 
     ! INTEGER
-    %%
-        %optional_integer.str = newstr(%INTEGER.chars);
-    %%
+    %% %optional_integer.str = newstr(%INTEGER.chars); %%
     ;
 
 optional_minus			-- RETURNS: minus
     =
-    %%
-	%optional_minus.minus = FALSE;
-    %%
+    %% %optional_minus.minus = FALSE; %%
 
     ! '-'
-    %%
-	%optional_minus.minus = TRUE;
-    %%
+    %% %optional_minus.minus = TRUE; %%
     ;
 
 attribute_reference		-- RETURNS: wht, nam
