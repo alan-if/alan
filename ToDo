@@ -2,13 +2,9 @@ ToDo:
 
 	* Document how to produce a SCRIPT-file
 
-	* MAC (or general?): allow .ACD/.DAT as well as .acd/.dat
-
-	* The character set used by the compiler (when reading the
-	source code) ought to be configurable through an option
-
-		Option
-		 Charset ISO/DOS/MAC.
+	* MAC (or general?): allow .ACD/.DAT as well as .acd/.dat,
+	this also goes for the names in save files, should be
+	converted to lower case always
 
 	* Investigate the possibility to allow:
 
@@ -69,7 +65,9 @@ ToDo:
 
 		say hello to the guard => say "hello" to the guard
 
-	if "hello" is an unknown word
+	if "hello" is an unknown word. This could be made
+	automatically be the interpreter when encountering an unknown
+	word.
 
 	* Break out the main program from the interpreter so that it
 	becomes easier to build windowed versions. This implies also a
@@ -188,6 +186,12 @@ ToDo:
 
 
 DONE:
+
+	* The character set used by the compiler (when reading the
+	source code) ought to be configurable through an option
+
+		Option
+		 Charset ISO/DOS/MAC.
 
 	* hints on cwsdpmi (as per Stephen Griffiths mail)
 

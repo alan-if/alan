@@ -1544,7 +1544,7 @@ event red_idea
 "$p""Hmm. Too bad the Book couldn't help you. But hey, let's play a guessing
 game, okay? I think of a number between 1 and 100 and you try to guess it.
 Ready?"""
-set number of fip to random 1 to 100.
+set number of fip to random 1 to 1.
 use script 12 for fip.
 end event.
 

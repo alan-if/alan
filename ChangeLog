@@ -1,3 +1,8 @@
+Mon Aug 24 10:54:04 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Removed the "save-bug" on DOS caused by not opening in binary
+ 	mode.
+
 Fri Aug 21 15:49:17 MET DST 1998
 
 	* v2.8(1)
