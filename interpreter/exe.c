@@ -131,8 +131,12 @@ void getstr(fpos, len)
 {
   char *buf = allocate(len+1);
 
-  push((Aword) buf);            /* Push the address to the string */
-  fseek(txtfil, fpos, 0);       /* Position to start of text */
+  /* Push the address to the string */
+  push((Aword) buf);
+
+  /* Position to start of text */
+  fseek(txtfil, fpos+header->stringOffset, 0);
+
   if (header->pack)
     startDecoding();
   while (len--)
@@ -140,6 +144,8 @@ void getstr(fpos, len)
       *(buf++) = decodeChar();
     else
       *(buf++) = getc(txtfil);
+
+  /* Terminate string with zero */
   *buf = '\0';
 }
 

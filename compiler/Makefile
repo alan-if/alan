@@ -133,7 +133,7 @@ UNITSRCS = unit.c \
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
-unit : $(TESTOBJS) 
+unit : $(TESTOBJS)
 
 # Run all unit tests!
 test: unit

@@ -8,37 +8,41 @@ CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 
+CPP	= gcc -MM -ansi
+
 LDFLAGS = -g $(CYGWIN) $(VERBOSE)
 #LIB = ../../Glk/WinGlk/Glk.lib
 
-VERSIONSRCS = arun.c \
-	main.c \
+BUILDSRCS = \
+	sysdep.c \
+	rules.c \
 	debug.c \
 	args.c \
-	exe.c \
 	inter.c \
 	parse.c \
-	rules.c \
 	stack.c \
 	decode.c \
 	term.c \
 	reverse.c \
 	readline.c \
 	params.c \
-	sysdep.c
+	main.c
 
+ARUNSRCS = exe.c \
+	arun.c
+
+VERSIONSRCS= $(ARUNSRCS) $(BUILDSRCS)
 VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
-OBJECTS = $(VERSIONOBJECTS) alan.version.o
+MAINOBJECTS = $(VERSIONOBJECTS) alan.version.o
 
 
-arun.exe : $(OBJECTS)
-	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
+arun.exe : $(MAINOBJECTS)
+	gcc -o arun.exe $(MAINOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
-
 
 strip:
 	strip arun
@@ -61,31 +65,32 @@ version.h :
 alan.version.c:  ../alan.version
 	cp -p ../alan.version.c .
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Unit testing
+#
 
-#---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.o: args.c args.h main.h types.h sysdep.h acode.h
-arun.o: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
-chartest.o: chartest.c alan.version.h
-debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
- main.h parse.h exe.h debug.h alan.version.h
-decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
-dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
-exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
- inter.h stack.h decode.h exe.h
-genalan.o: genalan.c spa.h
-inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
- inter.h
-main.o: main.c sysdep.h types.h acode.h main.h readline.h version.h \
- args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h alan.version.h
-params.o: params.c types.h sysdep.h acode.h params.h
-parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
- exe.h term.h debug.h params.h parse.h
-readline.o: readline.c readline.h types.h sysdep.h acode.h main.h
-reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
-rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
- stack.h rules.h
-spa.o: spa.c spa.h
-stack.o: stack.c types.h sysdep.h acode.h main.h stack.h
-sysdep.o: sysdep.c sysdep.h
-term.o: term.c main.h types.h sysdep.h acode.h term.h
-version.o: version.c version.h
+# Sources for the test framework
+UNITSRCS = unit.c
+
+TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
+TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+
+unit : $(TESTOBJS)
+
+# Run all unit tests!
+test: unit
+	@unit
+
+
+#
+# Dependencies
+#
+depend:
+	@for f in $(UNITSRCS) $(BUILDSRCS) $(ARUNSRCS); \
+	  do \
+	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
+	done
+	mv dependencies.new dependencies.mk
+
+include dependencies.mk

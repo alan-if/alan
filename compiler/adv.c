@@ -197,6 +197,9 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   if (verbose) printf("\n\tCharacter Encoding: ");
   acdHeader.freq = gefreq();	/* Character frequencies */
 
+  /* Copy the string data to the a3c-file and remember the offset */
+  acdHeader.stringOffset = 0;
+
   /* Options */
   geopt(&acdHeader);
 

@@ -252,6 +252,7 @@ typedef struct AcdHdr {
   Aword size;			/* Size of ACD-file in Awords */
 /* Options */
   Abool pack;			/* Is the text packed ? */
+  Aword stringOffset;		/* Offset to string data in game file */
   Aword paglen;			/* Length of a page */
   Aword pagwidth;		/* and width */
   Aword debug;			/* Option debug */
