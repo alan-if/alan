@@ -39,9 +39,30 @@ Expression *newExpression(srcp, kind)
 
   new->srcp = *srcp;
   new->kind = kind;
+  new->type = ERROR_TYPE;
 
   return(new);
 }
+
+
+/*======================================================================
+
+  equalTypes()
+
+  Analyze a EXPRESSION.
+
+ */
+#ifdef _PROTOTYPES_
+Bool equalTypes(TypeKind type1, TypeKind type2)
+#else
+Bool equalTypes(type1, type2)
+     TypeKind type1, type2;
+#endif
+{
+  if (type1 == ERROR_TYPE || type2 == ERROR_TYPE) syserr("Unintialised type in equalTypes()");
+  return (type1 == UNKNOWN_TYPE || type2 == UNKNOWN_TYPE || type1 == type2);
+}
+
 
 
 /*======================================================================

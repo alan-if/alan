@@ -22,7 +22,7 @@
 
 /* Types: */
 
-typedef struct Attribute {		/* ATTRIBUTE */
+typedef struct Attribute {	/* ATTRIBUTE */
   Srcp srcp;			/* Source position of the attribute */
   TypeKind type;		/* Type of this attribute */
   Id *id;			/* Name of the attribute */
@@ -37,6 +37,8 @@ typedef struct Attribute {		/* ATTRIBUTE */
 
 
 /* Data: */
+
+extern int attributeCount;
 
 
 /* Functions: */
@@ -55,6 +57,9 @@ extern Attribute *newAttribute(Srcp *srcp,
 extern Attribute *findAttribute(Id *id,
 				List *attributes);
 
+/* Find an attribute id in a list of attribute lists */
+extern Attribute *findAttributeInLists(Id *id, List *lists);
+
 /* Analyze a list of attribute nodes */
 extern void analyseAttributes(List *attributes);
 
@@ -70,12 +75,9 @@ extern void dumpAttribute(Attribute *attribute);
 #else
 extern Attribute *newAttribute();
 extern Attribute *findAttribute();
-extern void sortattribute();
-extern void anattributes();
-extern void prepattributes();
-extern Aaddr geattributes();
-extern Aaddr geinit();
-extern void duattribute();
+extern Attribute *findAttributeInLists();
+extern Aaddr generateStringInit();
+extern void dumpAttribute();
 #endif
 
 #endif

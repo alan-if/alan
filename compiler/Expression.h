@@ -21,11 +21,12 @@
 /* Types: */
 
 typedef enum TypeKind {		/* TYPE kinds */
-  UNKNOWN_TYPE,
+  ERROR_TYPE,
   INTEGER_TYPE,
   BOOLEAN_TYPE,
   STRING_TYPE,
-  INSTANCE_TYPE
+  INSTANCE_TYPE,
+  UNKNOWN_TYPE
 } TypeKind;
 
 typedef enum ExpressionKind {		/* EXPRESSION kinds */
@@ -133,8 +134,8 @@ extern void analyseExpression(Expression *expression,
 			      List *params);
 
 /* Compare two types */
-extern Bool equalTypes(TypeKind typ1,
-		       TypeKind typ2);
+extern Bool equalTypes(TypeKind type1,
+		       TypeKind type2);
 
 /* Generate code for an Expression */
 extern void generateExpression(Expression *expression);

@@ -12,6 +12,7 @@
 #include "Symbol.h"
 #include "Class.h"
 
+#include "lmList.h"
 #include "dump.h"
 
 
@@ -85,7 +86,10 @@ void analyseInstance(instance)
      Instance *instance;
 #endif
 {
-  analyseSlot(instance->slot);
+  if (listLength(instance->slot->heritage) > 1)
+    lmLog(&instance->srcp, 227, sevERR, NULL);
+  else
+    analyseSlot(instance->slot);
 }
 
 

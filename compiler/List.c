@@ -10,12 +10,44 @@
 #include "alan.h"
 #include "List.h"
 
+#include "Attribute.h"
 #include "Class.h"
 #include "Instance.h"
 #include "Statement.h"
 
 #include "dump.h"
 
+
+
+
+/*======================================================================
+
+  prepend()
+
+  Prepend an element to a list.
+
+  */
+#ifdef _PROTOTYPES_
+List *prepend(void *element,	/* IN - Pointer to any element type */
+	      List *list)	/* IN - List to prepend to */
+#else
+List *prepend(element, list)
+     void *element;
+     List *list;
+#endif
+{
+  List *new;			/* The newly created list node */
+
+  if (element == NULL)
+    syserr("Prepending a NULL element.");
+
+  new = NEW(List);
+
+  new->element.anyType = element;
+
+  new->next = list;
+  return new;
+}
 
 
 
@@ -54,6 +86,33 @@ List *append(list, element)
     return(list);
   }
 }
+
+
+
+/*======================================================================
+
+  listLength()
+
+  Return number of elements in a list.
+
+  */
+#ifdef _PROTOTYPES_
+int listLength(List *list)	/* IN - List to count */
+#else
+int listLength(list)
+     List *list;
+#endif
+{
+  int i = 0;
+
+  while (list != NULL) {
+    i++;
+    list = list->next;
+  }
+  return i;
+}
+  
+
 
 
 
@@ -100,11 +159,13 @@ static void dumpNode(node, kind)
 #endif
 {
   switch (kind) {
+  case ADDRESS_NODE: dumpAddress(node); break;
+  case ATTRIBUTE_NODE: dumpAttribute(node); break;
   case CLASS_NODE: dumpClass(node); break;
   case ID_NODE: dumpId(node); break;
   case INSTANCE_NODE: dumpInstance(node); break;
   case STATEMENT_NODE: dumpStatement(node); break;
-  default: put("Not implemented in DUMP."); break;
+  default: put("Not implemented in dumpList()."); break;
   }
 }
 

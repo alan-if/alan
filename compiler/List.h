@@ -21,6 +21,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Attribute *attribute;
     struct Class *class;
     struct Instance *instance;
+    struct List *list;
     struct Statement *statement;
     char *string;
     void *anyType;
@@ -36,17 +37,25 @@ typedef struct List {		/* GENERIC LISTS */
 
 #ifdef _PROTOTYPES_
 
+/* Prepend an element to a list */
+extern List *prepend(void *element, List *list);
+
 /* Append an element to a list */
-extern List *append(List *lst, void *elem);
+extern List *append(List *list, void *element);
+
+/* Return number of elements in a list */
+extern int listLength(List *list);
 
 /* Combine two generic lists */
-extern List *combine(List *lst1, List *lst2);
+extern List *combine(List *list1, List *list2);
 
 /* Dump a list of nodes */
-extern void dumpList(List *lst, NodeKind nod);
+extern void dumpList(List *list, NodeKind node);
 
 #else
+extern List *prepend();
 extern List *append();
+extern int listLength();
 extern List *combine();
 extern void dumpList();
 #endif

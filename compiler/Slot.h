@@ -33,6 +33,7 @@ typedef struct Slot {		/* Slot Node */
   List *name;
   Where *where;
   List *attributes;
+  List *inheritedAttributeLists;
   Container *container;
   List *surroundings;
   List *description;

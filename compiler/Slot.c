@@ -10,6 +10,7 @@
 
 #include "Slot.h"
 #include "Class.h"
+#include "Attribute.h"
 #include "Symbol.h"
 
 #include "dump.h"
@@ -68,6 +69,7 @@ Slot *newSlot(heritage, name, where, attributes, container, surroundings,
   new->name = name;
   new->where = where;
   new->attributes = attributes;
+  new->inheritedAttributeLists = NULL;
   new->container = container;
   new->surroundings = surroundings;
   new->description = description;
@@ -98,6 +100,8 @@ void analyseSlot(slot)
   List *list, *sentinel = NULL;
   Symbol *symbol;
   Bool remove;			/* Forced to remove the item? */
+  List *localAttributes;
+  Attribute *attribute;
 
   slot->state = LOOKING_FOR_CIRCLES;
   /* Verify that the inherited slots exist and are classes */
@@ -105,11 +109,17 @@ void analyseSlot(slot)
     remove = FALSE;
     if ((symbol = symbolCheck(list->element.id, CLASS_SYMBOL)) != NULL) {
       /* Ok, it was a class, now check for circular inheritance */
-      if (symbol->info.class->slot->state == IDLE)
-	analyseClass(symbol->info.class);
-      else if (symbol->info.class->slot->state == LOOKING_FOR_CIRCLES) {
+      if (symbol->info.class->slot->state == LOOKING_FOR_CIRCLES) {
 	lmLog(&list->element.id->srcp, 226, sevERR, list->element.id->string);
 	remove = TRUE;
+      } else {
+	if (symbol->info.class->slot->state != FINISHED)
+	  analyseSlot(symbol->info.class->slot);
+	if (symbol->info.class->slot->attributes != NULL)
+	  slot->inheritedAttributeLists = prepend(symbol->info.class->slot->attributes,
+						  symbol->info.class->slot->inheritedAttributeLists);
+	else
+	  slot->inheritedAttributeLists = symbol->info.class->slot->inheritedAttributeLists;
       }
     } else
       remove = TRUE;
@@ -122,6 +132,17 @@ void analyseSlot(slot)
       sentinel = list;
   }
   slot->state = NUMBERING_ATTRIBUTES;
+  /* Number the attributes */
+  for (localAttributes = slot->attributes; localAttributes; localAttributes = localAttributes->next) {
+    attribute = findAttributeInLists(localAttributes->element.attribute->id,
+				     slot->inheritedAttributeLists);
+    if (attribute == NULL)
+      localAttributes->element.attribute->code = ++attributeCount;
+    else if (!equalTypes(localAttributes->element.attribute->type, attribute->type))
+      lmLog(&localAttributes->element.attribute->srcp, 228, sevERR, NULL);
+    else
+      localAttributes->element.attribute->code = attribute->code;
+  }
 
   /* 4f - Check for inheritance clashes */
   /* 4f - Analyse the name */
@@ -163,13 +184,14 @@ void dumpSlot(slot)
   put("heritage: "); dumpList(slot->heritage, ID_NODE); nl();
   put("name: "); dumpList(slot->name, ID_NODE); nl();
   put("where: "); dumpWhere(slot->where); nl();
-  put("attributes: "); dumpList(slot->name, ATTRIBUTE_NODE); nl();
+  put("attributes: "); dumpList(slot->attributes, ATTRIBUTE_NODE); nl();
+  put("inheritedAttributeLists: "); dumpList(slot->inheritedAttributeLists, ADDRESS_NODE); nl();
   put("container: "); dumpContainer(slot->container); nl();
-  put("surroundings: "); dumpList(slot->name, STATEMENT_NODE); nl();
-  put("description: "); dumpList(slot->name, STATEMENT_NODE); nl();
-  put("mentioned: "); dumpList(slot->name, STATEMENT_NODE); nl();
+  put("surroundings: "); dumpList(slot->surroundings, STATEMENT_NODE); nl();
+  put("description: "); dumpList(slot->description, STATEMENT_NODE); nl();
+  put("mentioned: "); dumpList(slot->mentioned, STATEMENT_NODE); nl();
   put("does: "); dumpDoes(slot->does); nl();
-  put("exits: "); dumpList(slot->name, EXIT_NODE); nl();
-  put("verbs: "); dumpList(slot->name, VERB_NODE); nl();
-  put("scripts: "); dumpList(slot->name, SCRIPT_NODE); out();
+  put("exits: "); dumpList(slot->exits, EXIT_NODE); nl();
+  put("verbs: "); dumpList(slot->verbs, VERB_NODE); nl();
+  put("scripts: "); dumpList(slot->scripts, SCRIPT_NODE); out();
 }

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-				ATTRIBUTE.C
+			     Attribute.c
 
 			   Attribute Nodes
 
@@ -19,6 +19,8 @@
 #include "dump.h"
 
 
+/* Public: */
+int attributeCount = 0;
 
 
 /*======================================================================
@@ -61,6 +63,63 @@ Attribute *newAttribute(srcp, type, id, value, fpos, len)
 
   return(new);
 }
+
+
+/*======================================================================
+
+  findAttribute()
+
+  Find an attribute in a list and return a pointer to it.
+
+ */
+#ifdef _PROTOTYPES_
+Attribute *findAttribute(Id *id, /* IN - The attribute id to find */
+			 List *attributes) /* IN - List of attribute nodes */
+#else
+Attribute *findAttribute(id, attributes)
+     Id *id;
+     List *attributes;
+#endif
+{
+  List *list;
+
+  for (list = attributes; list; list = list->next)
+    if (equalIds(id, list->element.attribute->id))
+      return (list->element.attribute);
+  return NULL;
+}
+
+
+
+/*======================================================================
+
+  findAttributeInLists()
+
+  Find an attribute in a list of attribute list and return a pointer to it.
+
+  4f - findAttributeInLists should also signal for multiple finds
+
+ */
+#ifdef _PROTOTYPES_
+Attribute *findAttributeInLists(Id *id, /* IN - The attribute id to find */
+			 List *lists) /* IN - The lists of attribute lists */
+#else
+Attribute *findAttributeInLists(id, lists)
+     Id *id;
+     List *lists;
+#endif
+{
+  List *list;
+  Attribute *found;
+
+  for (list = lists; list; list = list->next) {
+    found = findAttribute(id, list->element.list);
+    if (found)
+      return (found);
+  }
+  return NULL;
+}
+
 
 
 /*======================================================================
