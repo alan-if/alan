@@ -80,10 +80,12 @@ static void showobj(obj)
 #endif
 {
   char str[80];
+#define OBJ (obj-OBJMIN)
 
 
   if (!isObj(obj)) {
-    output("Object number out of range.");
+    sprintf(str, "Object number out of range. Between %ld and %ld, please.", OBJMIN, OBJMAX);
+    output(str);
     return;
   }
 
@@ -93,25 +95,100 @@ static void showobj(obj)
 
   sprintf(str, "$iLocation = %ld", where(obj));
   output(str);
-  if (isLoc(objs[obj-OBJMIN].loc))
-    say(objs[obj-OBJMIN].loc);
-  else if (isCnt(objs[obj-OBJMIN].loc)) {
-    if (isObj(objs[obj-OBJMIN].loc)) {
+  if (isLoc(objs[OBJ].loc))
+    say(objs[OBJ].loc);
+  else if (isCnt(objs[OBJ].loc)) {
+    if (isObj(objs[OBJ].loc)) {
       output("in");
-      say(objs[obj-OBJMIN].loc);
-    } else if (isAct(objs[obj-OBJMIN].loc)) {
+      say(objs[OBJ].loc);
+    } else if (isAct(objs[OBJ].loc)) {
       output("carried by");
-      say(objs[obj-OBJMIN].loc);
+      say(objs[OBJ].loc);
     } else
-      interpret(cnts[objs[obj-OBJMIN].loc-CNTMIN].nam);
-  } else if (objs[obj-OBJMIN].loc == 0)
+      interpret(cnts[objs[OBJ].loc-CNTMIN].nam);
+  } else if (objs[OBJ].loc == 0)
     output("nowhere");
   else
     output("Illegal location!");
 
 
   output("$iAttributes =");
-  showatrs(objs[obj-OBJMIN].atrs);
+  showatrs(objs[OBJ].atrs);
+
+#undef OBJ
+}
+
+
+#ifdef _PROTOTYPES_
+static void showcnts(void)
+#else
+static void showcnts()
+#endif
+{
+  char str[80];
+  int cnt;
+#define  CNT (cnt-CNTMIN)
+
+  output("CONTAINERS:");
+  for (cnt = CNTMIN; cnt <= CNTMAX; cnt++) {
+    sprintf(str, "$i%3d: ", cnt);
+    output(str);
+    if (cnts[CNT].nam != 0)
+      interpret(cnts[CNT].nam);
+    if (cnts[CNT].parent != 0)
+      say(cnts[CNT].parent);
+  }
+
+#undef CNT
+}
+
+
+#ifdef _PROTOTYPES_
+static void showcnt(
+  int cnt
+)
+#else
+static void showcnt(cnt)
+  int cnt;
+#endif
+{
+  char str[80];
+  int i;
+  Abool found = FALSE;
+#define  CNT (cnt-CNTMIN)
+
+  if (cnt < CNTMIN || cnt > CNTMAX) {
+    sprintf(str, "Container number out of range. Between %ld and %ld, please.", CNTMIN, CNTMAX);
+    output(str);
+    return;
+  }
+
+  sprintf(str, "CONTAINER %d :", cnt);
+  output(str);
+  if (cnts[CNT].nam != 0)
+    interpret(cnts[CNT].nam);
+  if (cnts[CNT].parent != 0) {
+    cnt = cnts[CNT].parent;
+    say(cnt);
+    sprintf(str, "$iLocation = %ld", where(cnt));
+    output(str);
+  }
+  output("$iContains ");
+  for (i = OBJMIN; i <= OBJMAX; i++) {
+    if (in(i, cnt)) { /* Yes, it's in this container */
+      if (!found) {
+	output("$n");
+	found = TRUE;
+      }
+      sprintf(str, "$t$t%d: ", i);
+      output(str);
+      say(i);
+    }
+  }
+  if (!found)
+    output("nothing");
+
+#undef CNT
 }
 
 
@@ -146,7 +223,8 @@ static void showloc(loc)
 
   
   if (!isLoc(loc)) {
-    output("Location number out of range.");
+    sprintf(str, "Location number out of range. Between %ld and %ld, please.", LOCMIN, LOCMAX);
+    output(str);
     return;
   }
 
@@ -190,7 +268,8 @@ static void showact(act)
   Boolean oldstp;
   
   if (!isAct(act)) {
-    output("Actor number out of range.");
+    sprintf(str, "Actor number out of range. Between %ld and %ld, please.", ACTMIN, ACTMAX);
+    output(str);
     return;
   }
   
@@ -335,7 +414,10 @@ void debug()
 	showobj(i);
       break;
     case 'C':
-      printf("Not Implemented Yet!\n");
+      if (i == 0)
+        showcnts();
+      else
+	showcnt(i);
       break;
     case 'A':
       if (i == 0)

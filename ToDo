@@ -1,9 +1,31 @@
 ToDo:
-	* Document how to do darkness
+	* The character set used by the compiler ought to be
+	configurable through an option
 
-	* Document the DEPENDING ON statement
+		Option
+		 Charset ISO/DOS/MAC.
 
-	* Add IN to the identifier/reserved word set
+	* Describe the typical Alan "application" in the manual
+
+	* EMPTY location where, or possibly LOCATE ALL <condition>
+	<where> (This was prompted by the darkness and light example,
+	the problem being that objects at the location are described
+	by the implicit LOOK performed when locating the hero there)
+
+	* Extend <what> to be also
+
+		"ALL" [ <condition> { "AND" <condition> } ]
+
+	which would allow:
+
+		LOCATE ALL HERE AT cave.
+		MAKE ALL OBJECT WITH size > 3 heavy.
+		SET state OF ALL machine HERE HAVING power TO on.
+
+	* The 3.0 beta things:
+		EVERY x <class declaration>
+		THE y ISA x ...
+		THING, OBJECT, LOCATION, ACTOR, CONTAINER predefined.
 
 	* Investigate the possibility to allow:
 
@@ -12,7 +34,11 @@ ToDo:
 	This implies 1) a notion of plural nouns (in english generally
 	's' and 2) new built in multiple reference algorithm
 
-	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
+	* Allow lists of right hand expressions in the DEPENDING ON
+	case clauses:
+
+		DEPENDING ON x
+		=1, =3 : ...
 
 	* RANDOM should allow expressions
 
@@ -38,10 +64,6 @@ ToDo:
 	* Check out the MaxZip and MaxTADS guy. Possibly that
 	framework would be used for Arun on the Mac, MaxArun.
 
-	* Document that the inventory is actually the container of the
-	hero (when that is true), and that the hero is a container
-	actor.
-
 	* Think about punctuation ('.') in the language! Can it be
         made more optional?
 
@@ -56,8 +78,21 @@ ToDo:
 
 	* Vehicles?
 
-	* Change the interpreter to only look at its own name if no
-	parameter was given.
+	* Multiclass word problem 1: The VERBDIR problem (check
+	regression test verbdir), using the same word as both a verb
+	and a direction does not work.
+
+	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
+	the dictionary handling in the compiler (newwrd) returns the
+        code of the found word which is the same as the adjective,
+        resulting in execution of the wrong (if any) verb... (See
+        regression test adjverb) Somehow we must separate word codes
+        from the codes used by the objects, verbs etc.
+
+	* Words can't be prepositions and verbs at the same time. See gestx()
+
+	* New and better dictionary handling in the compiler could remedy
+	the multiple word class problems
 
 	* The conversion programs does not work on little-endians like
 	PCs since the words are then written out in native format.
@@ -76,22 +111,6 @@ ToDo:
 	* Conversion between 2.6 and 2.7 games (Not really needed)
 
 	* Listing of saved games
-
-	* Multiclass word problem 1: The VERBDIR problem (check
-	regression test verbdir), using the same word as both a verb
-	and a direction does not work.
-
-	* Multiclass word problem2: ADJECTIVE & VERB, doesn't work because
-	the dictionary handling in the compiler (newwrd) returns the
-        code of the found word which is the same as the adjective,
-        resulting in execution of the wrong (if any) verb... (See
-        regression test adjverb) Somehow we must separate word codes
-        from the codes used by the objects, verbs etc.
-
-	* Words can't be prepositions and verbs at the same time. See gestx()
-
-	* New and better dictionary handling in the compiler could remedy
-	the multiple word class problems
 
 	* Font sensitivity (esp. proportional fonts)
 
@@ -143,7 +162,17 @@ ToDo:
 
 
 DONE:
-	* Document that the hero is a container
+	* Document how to do darkness and light sources
+
+	* Document the DEPENDING ON statement
+
+	* Add IN to the identifier/reserved word set
+
+	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
+
+	* Document that the inventory is actually the container of the
+	hero (when that is true), and that the hero is a container
+	actor.
 
 	* Make the HERO a container actor with the inventory as the
 	container if possible.
@@ -185,4 +214,9 @@ DONE:
 	* If the HERO is redefined mulitple times it does not work well.
 
 	* Clean up the manual with respect to the MESSAGE-descriptions
+
+	* Listing containers in the debugger
+
+	* Change the interpreter to only look at its own name if no
+	parameter was given.
 
