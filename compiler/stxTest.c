@@ -11,11 +11,11 @@ void testCountParameters()
 {
   List *elementList;
 
-  elementList = concat(NULL, newElement(&nulsrcp, PARAMETER_ELEMENT, NULL, 0), ELEMENT_LIST);
+  elementList = concat(NULL, newParameterElement(nulsrcp, NULL, 0), ELEMENT_LIST);
   ASSERT(countParameters(elementList) == 1);
-  elementList = concat(elementList, newElement(&nulsrcp, WORD_ELEMENT, NULL, 0), ELEMENT_LIST);
+  elementList = concat(elementList, newWordElement(nulsrcp, NULL), ELEMENT_LIST);
   ASSERT(countParameters(elementList) == 1);
-  elementList = concat(elementList, newElement(&nulsrcp, PARAMETER_ELEMENT, NULL, 0), ELEMENT_LIST);
+  elementList = concat(elementList, newParameterElement(nulsrcp, NULL, 0), ELEMENT_LIST);
   ASSERT(countParameters(elementList) == 2);
 }
 
@@ -24,14 +24,14 @@ void testCompatibleParameterLists()
 {
   Syntax s1, s2;
 
-  s1.elements = concat(NULL, newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "a"), 0), ELEMENT_LIST);
-  s2.elements = concat(NULL, newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "a"), 0), ELEMENT_LIST);
+  s1.elements = concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
+  s2.elements = concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
 	     
 
-  s2.elements = concat(s2.elements, newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp, "x"), 0), ELEMENT_LIST);
+  s2.elements = concat(s2.elements, newWordElement(nulsrcp, newId(nulsrcp, "x")), ELEMENT_LIST);
   ASSERT(compatibleParameterLists(&s1, &s2));
 
-  s1.elements = concat(s1.elements, newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "b"), 0), ELEMENT_LIST);
+  s1.elements = concat(s1.elements, newParameterElement(nulsrcp, newId(nulsrcp, "b"), 0), ELEMENT_LIST);
   ASSERT(!compatibleParameterLists(&s1, &s2));
 }
 
@@ -40,13 +40,12 @@ void testCompatibleParameterLists()
 void testConnectSyntaxForSameVerb()
 {
   List *elements = concat(NULL,
-			  newElement(&nulsrcp, PARAMETER_ELEMENT, 
-				     newId(&nulsrcp, "a"), 0),
+			  newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0),
 			  ELEMENT_LIST);
-  IdNode *verbId1 = newId(&nulsrcp, "verb");
-  IdNode *verbId2 = newId(&nulsrcp, "verb");
-  IdNode *verbId3 = newId(&nulsrcp, "verb");
-  IdNode *verbId4 = newId(&nulsrcp, "verb");
+  IdNode *verbId1 = newId(nulsrcp, "verb");
+  IdNode *verbId2 = newId(nulsrcp, "verb");
+  IdNode *verbId3 = newId(nulsrcp, "verb");
+  IdNode *verbId4 = newId(nulsrcp, "verb");
 
   Syntax *s1 = newSyntax(nulsrcp, verbId1, elements, NULL, nulsrcp);
   Syntax *s2 = newSyntax(nulsrcp, verbId2, elements, NULL, nulsrcp);

@@ -136,7 +136,7 @@ static int val(char str[])
   mentioned %% List *%1%%,		-- of Statement: mentioned-clause,
   mentionedSrcp %% Srcp %1%%,
   minus %% Bool %1%%,
-  msg %% MsgNod *%1%%,
+  msg %% Message *%1%%,
   msgs %% List *%1%%,
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
@@ -396,9 +396,9 @@ static int val(char str[])
 <message>				-- RETURNS: msg
     = ID ':' <statements>
     %%
-	%<message>.msg = newmsg(`&%':'.srcp,
-			      %ID.id,
-			      %<statements>.stms);
+	%<message>.msg = newMessage(`&%':'.srcp,
+				      	%ID.id,
+					%<statements>.stms);
     %%
     ;
 
@@ -428,10 +428,7 @@ static int val(char str[])
 	%<syntax_item>.stx = newSyntax(%'='.srcp,
 				  	%ID.id,
 				  	concat(%<syntax_elements>.elms,
-				        	newElement(`&%ID.id->srcp,
-							   END_OF_SYNTAX,
-							   NULL,
-							   FALSE),
+				        	newEndOfSyntax(),
 						ELEMENT_LIST),
 					%<optional_syntax_restrictions>.ress,
 					%<optional_syntax_restrictions>.srcp);
@@ -455,15 +452,13 @@ static int val(char str[])
 <syntax_element>
     = ID
     %%
-	%<syntax_element>.elm = newElement(`&%ID.id->srcp, WORD_ELEMENT,
-					   %ID.id,
-					   FALSE);
+	%<syntax_element>.elm = newWordElement(%ID.id->srcp, %ID.id);
     %%
 
     ! '(' ID ')' <optional_indicators>
 
     %%
-	%<syntax_element>.elm = newElement(`&%ID.id->srcp, PARAMETER_ELEMENT,
+	%<syntax_element>.elm = newParameterElement(%ID.id->srcp,
 					   %ID.id,
 					   %<optional_indicators>.bits);
     %%
@@ -1365,7 +1360,7 @@ static int val(char str[])
 
     ! 'COUNT' Integer
     %%
-	%<limit_attribute>.atr = newIntegerAttribute(%'COUNT'.srcp, newId(`&%'COUNT'.srcp, "count"), val(%Integer.chars));
+	%<limit_attribute>.atr = newIntegerAttribute(%'COUNT'.srcp, newId(%'COUNT'.srcp, "count"), val(%Integer.chars));
     %%
     ;
 
@@ -2584,47 +2579,47 @@ static int val(char str[])
 ID
     = Identifier
     %%
-	%ID.id = newId(`&%Identifier.srcp, %Identifier.chars);
+	%ID.id = newId(%Identifier.srcp, %Identifier.chars);
     %%
 
     ! 'LOCATION'
     %%
-	%ID.id = newId(`&%'LOCATION'.srcp, %'LOCATION'.chars);
+	%ID.id = newId(%'LOCATION'.srcp, %'LOCATION'.chars);
     %%
 
     ! 'ACTOR'
     %%
-	%ID.id = newId(`&%'ACTOR'.srcp, %'ACTOR'.chars);
+	%ID.id = newId(%'ACTOR'.srcp, %'ACTOR'.chars);
     %%
 
     ! 'OPAQUE'
     %%
-	%ID.id = newId(`&%'OPAQUE'.srcp, %'OPAQUE'.chars);
+	%ID.id = newId(%'OPAQUE'.srcp, %'OPAQUE'.chars);
     %%
 
     ! 'ON'
     %%
-	%ID.id = newId(`&%'ON'.srcp, %'ON'.chars);
+	%ID.id = newId(%'ON'.srcp, %'ON'.chars);
     %%
 
     ! 'OF'
     %%
-	%ID.id = newId(`&%'OF'.srcp, %'OF'.chars);
+	%ID.id = newId(%'OF'.srcp, %'OF'.chars);
     %%
 
     ! 'FIRST'
     %%
-	%ID.id = newId(`&%'FIRST'.srcp, %'FIRST'.chars);
+	%ID.id = newId(%'FIRST'.srcp, %'FIRST'.chars);
     %%
 
     ! 'INTO'
     %%
-	%ID.id = newId(`&%'INTO'.srcp, %'INTO'.chars);
+	%ID.id = newId(%'INTO'.srcp, %'INTO'.chars);
     %%
 
     ! 'TAKING'
     %%
-	%ID.id = newId(`&%'TAKING'.srcp, %'TAKING'.chars);
+	%ID.id = newId(%'TAKING'.srcp, %'TAKING'.chars);
     %%
 
 

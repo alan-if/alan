@@ -18,7 +18,6 @@
 /* FUNCTIONS: */
 
 /* Create a new Syntax Element node */
-extern Element *newElement(Srcp *srcp, ElementKind kind, IdNode *id, int flags);
 extern Element *newWordElement(Srcp srcp, IdNode *id);
 extern Element *newParameterElement(Srcp srcp, IdNode *id, int flags);
 extern Element *newEndOfSyntax();

@@ -10,11 +10,11 @@
 
 void testNewExt()
 {
-  IdNode *direction = newId(&nulsrcp, "w");
-  IdNode *targetLocation = newId(&nulsrcp, "aLocation");
+  IdNode *direction = newId(nulsrcp, "w");
+  IdNode *targetLocation = newId(nulsrcp, "aLocation");
   ExtNod *theExit;
   Context *context = pushContext(NULL);
-  IdNode *aLocationId = newId(&nulsrcp, "aLocation");
+  IdNode *aLocationId = newId(nulsrcp, "aLocation");
   Symbol *aLocationSymbol;
   int firstAddress;
   int entrySize = ACDsizeOf(ExitEntry);

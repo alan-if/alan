@@ -48,7 +48,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol = newSymbol(lst->element.id, VERB_SYMBOL);
+      lst->element.id->symbol = newVerbSymbol(lst->element.id);
       lst->element.id->code = lst->element.id->symbol->code;
     } else if (sym->kind == VERB_SYMBOL) {
       lst->element.id->symbol = sym;
@@ -92,7 +92,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
       } else {
 	IdNode *className = classIdInContext(context);
 	if (className == NULL)
-	  className = newId(&nulsrcp, "object");
+	  className = newId(nulsrcp, "object");
 	lmLogv(&ids->element.id->srcp, 231, sevINF, ids->element.id->string,
 	       className->string, NULL);
 	stx = defaultSyntax1(ids->element.id, context);

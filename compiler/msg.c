@@ -13,6 +13,8 @@
 #include "lst_x.h"
 #include "adv_x.h"
 #include "stm_x.h"
+#include "sym_x.h"
+#include "context_x.h"
 #include "lmList.h"
 
 #include "msg.h"
@@ -44,14 +46,14 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "You must supply a noun.",
    "Du måste ge ett substantiv.",
    "Du musst ein Gegenstandswort angeben."},
-  {M_AFTER_BUT, "afterbut",	/* TODO refactor to use player word */
-   "You must give an object after 'but'.",
-   "Det borde vara ett objekt efter 'utom'.",
-   "Du musst einen Gegenstand nach 'aber' angeben."},
-  {M_BUT_ALL, "butall",		/* TODO refactor to use player word */
-   "You can only use 'but' after 'all'.",
-   "Du kan bara använda 'utom' efter 'allt'.",
-   "Du kannst 'ausser' nur nach 'alles' verwenden."},	/* german: "Nimm alles ausser der Lampe." */
+  {M_AFTER_BUT, "afterbut",
+   "You must give an object after '$1'.",
+   "Det borde vara ett objekt efter '$1'.",
+   "Du musst einen Gegenstand nach '$1' angeben."},
+  {M_BUT_ALL, "butall",
+   "You can only use '$1' after '$2'.",
+   "Du kan bara använda '$1' efter '$2'.",
+   "Du kannst '$1' nur nach '$2' verwenden."},	/* german: "Nimm alles ausser der Lampe." */
   {M_NOT_MUCH, "notmuch",
    "That doesn't leave much to $v!",
    "Det blir inte så mycket kvar att $v då!",
@@ -84,14 +86,14 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "You can't $v $+1.",
    "Du kan inte $v $+1.",
    "Du kannst $+1 nicht $v."},
-  {M_SEEOBJ1, "seeobject1",
+  {M_SEEOBJ1, "seeobject1",	/* TODO?: change to use embedded parameter */
    "There is",
    "Det finns",
    "Es gibt"},
   {M_SEEOBJ2, "seeobjectcomma",
-   "$$, ",
-   "$$, ",
-   "$$, "},
+   ", ",
+   ", ",
+   ", "},
   {M_SEEOBJ3, "seeobjectand",
    "and",
    "och",
@@ -104,10 +106,12 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "is here.",
    "är här.",
    "ist hier."},
-  {M_CONTAINS0, "contains0",	/* FIXME: should not include "the" but use definite form instead */
+  {M_CONTAINS0, "contains0",	/* TODO: should not include "the" but
+				   use definite form instead */
    "The",
    "",
-   "Der"},		/* FIXME: der(masculine), die(feminine), das(neuter) */
+   "Der"},			/* TODO: der(masculine),
+				   die(feminine), das(neuter) */
   {M_CONTAINS, "contains",	/* TODO refactor to use parameter
 				   handling like WHICH_ONE_XXX */
    "contains",
@@ -150,9 +154,9 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "poäng av",
    "Punkte von"},
   {M_SCOREEND, "scoreend",
-   "",
-   "",
-   ""},
+   ".",
+   ".",
+   "."},
   {M_UNKNOWN_WORD, "unknownword",
    "I don't know that word.",
    "Jag känner inte till det ordet.",
@@ -251,20 +255,14 @@ void generateText(char *txt)		/* IN - The text to output */
 
 
 
-/*======================================================================
-
-  newmsg()
-
-  Create a new message node.
-
- */
-MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms)
+/*======================================================================*/
+Message *newMessage(Srcp *srcp, IdNode *id, List *stms)
 {
-  MsgNod *msg;
+  Message *msg;
 
   showProgress();
 
-  msg = NEW(MsgNod);
+  msg = NEW(Message);
 
   if (srcp) msg->srcp = *srcp;
   msg->id = id;
@@ -274,14 +272,7 @@ MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms)
 }
 
 
-/*======================================================================
-
-  prepmsgs()
-
-  Prepare all system messages by writing them out to the text file and
-  noting their position.
-
- */
+/*======================================================================*/
 void prepareMessages(void)
 {
   int msgno;
@@ -291,6 +282,9 @@ void prepareMessages(void)
   /* The dummy list of statements */
   Statement *stm;
   List *stms = NULL;
+
+
+  createMessageVerb();
 
   if (sizeof(defmsg)/sizeof(defmsg[0]) != MSGMAX+1)
     syserr("Incorrect number of messages in message tables", NULL);
@@ -305,10 +299,9 @@ void prepareMessages(void)
     return;
   }
 
-  
   /* For all messages in the pointed to table */
   for (msgno = 0; defmsg[msgno].id; msgno++) {
-    MsgNod *msg;
+    Message *msg;
     char *msgp = NULL;
 
     if (msgno != defmsg[msgno].messageCode)
@@ -332,7 +325,7 @@ void prepareMessages(void)
     stm->fields.print.len = strlen(msgp);
     /* Make a list of it */
     stms = concat(NULL, stm, STATEMENT_LIST);
-    msg = newmsg(NULL, NULL, stms);
+    msg = newMessage(NULL, NULL, stms);
     /* Save the message text */
 #ifdef __mac__
     { 
@@ -394,22 +387,76 @@ void prepareMessages(void)
 }
 
 
+/*----------------------------------------------------------------------*/
+Context *contextFor(MsgKind messageNo) {
+  switch (messageNo) {
+  case M_NO_SUCH:
+  case M_WHICH_ONE_START:
+  case M_WHICH_ONE_COMMA:
+  case M_WHICH_ONE_OR:
+  case M_CANT:
+    return newContext(VERB_CONTEXT, messageVerbSymbol);
+  case M_WHAT:
+  case M_WHAT_WORD:
+  case M_MULTIPLE:
+  case M_NOUN:
+  case M_AFTER_BUT:
+  case M_BUT_ALL:
+  case M_NOT_MUCH:
+  case M_NO_WAY:
+  case M_CANT0:
+  case M_SEEOBJ1:
+  case M_SEEOBJ2:
+  case M_SEEOBJ3:
+  case M_SEEOBJ4:
+  case M_SEEACT:
+  case M_CONTAINS0:
+  case M_CONTAINS:
+  case M_CARRIES:
+  case M_CONTAINSCOMMA:
+  case M_CONTAINSAND:
+  case M_CONTAINSEND:
+  case M_CANNOTCONTAIN:
+  case M_EMPTY:
+  case M_EMPTYHANDED:
+  case M_SCORE1:
+  case M_SCORE2:
+  case M_SCOREEND:
+  case M_UNKNOWN_WORD:
+  case M_MORE:
+  case M_AGAIN:
+  case M_SAVEWHERE:
+  case M_SAVEOVERWRITE:
+  case M_SAVEFAILED:
+  case M_SAVEMISSING:
+  case M_NOTASAVEFILE:
+  case M_SAVEVERS:
+  case M_SAVENAME:
+  case M_RESTOREFROM:
+  case M_REALLY:
+  case M_QUITACTION:
+  case M_INDEFINITE:
+  case M_DEFINITE:
+  case M_UNDONE:
+  case M_NO_UNDO:
+    return NULL;
+  case MSGMAX:
+    SYSERR("Unexpected message number");
+    return NULL;
+  }
+}
 
-/*======================================================================
 
-  anmsgs()
-
-  Analyze the statements in the system messages
-
-  */
-void anmsgs(void)
+/*======================================================================*/
+void analyzeMessages(void)
 {
   List *lst;
 
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
+    Message *msg = lst->element.msg;
     showProgress();
-    analyzeStatements(lst->element.msg->stms, NULL);
+    analyzeStatements(msg->stms, contextFor(msg->msgno));
   }
 
 }
@@ -422,7 +469,7 @@ void anmsgs(void)
   Generate statements for the message construct
 
   */
-static void gemsgent(MsgNod *msg)
+static void gemsgent(Message *msg)
 {
   msg->stmadr = nextEmitAddress();	/* Save address to messages statements */
   generateStatements(msg->stms);

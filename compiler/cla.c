@@ -53,31 +53,31 @@ static void addPredefinedProperties() {
   /* Add pronouns */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
-    thing->props->pronouns = concat(NULL, newId(&nulsrcp, "it"), ID_LIST);
+    thing->props->pronouns = concat(NULL, newId(nulsrcp, "it"), ID_LIST);
     actor->props->pronouns = concat(concat(NULL,
-					   newId(&nulsrcp, "him"),
+					   newId(nulsrcp, "him"),
 					   ID_LIST),
-				    newId(&nulsrcp, "her"),
+				    newId(nulsrcp, "her"),
 				    ID_LIST);
 
     break;
   case L_SWEDISH:
     thing->props->pronouns = concat(concat(NULL,
-					    newId(&nulsrcp, "den"),
+					    newId(nulsrcp, "den"),
 					    ID_LIST),
-				     newId(&nulsrcp, "det"),
+				     newId(nulsrcp, "det"),
 				     ID_LIST);
     actor->props->pronouns = concat(concat(NULL,
-					    newId(&nulsrcp, "henne"), ID_LIST),
-				     newId(&nulsrcp, "honom"), ID_LIST);
+					    newId(nulsrcp, "henne"), ID_LIST),
+				     newId(nulsrcp, "honom"), ID_LIST);
     break;
   case L_GERMAN:
     thing->props->pronouns = concat(concat(concat(NULL,
-						  newId(&nulsrcp, "es"),
+						  newId(nulsrcp, "es"),
 						  ID_LIST),
-					   newId(&nulsrcp, "ihn"),
+					   newId(nulsrcp, "ihn"),
 					   ID_LIST),
-				    newId(&nulsrcp, "sie"),
+				    newId(nulsrcp, "sie"),
 				    ID_LIST);
     break;
   }
@@ -87,14 +87,14 @@ static void addPredefinedProperties() {
 /*======================================================================*/
 void initClasses()
 {
-  IdNode *thingId = newId(&nulsrcp, "thing");
-  IdNode *entityId = newId(&nulsrcp, "entity");
-  IdNode *literalId = newId(&nulsrcp, "literal");
-  IdNode *locationId = newId(&nulsrcp, "location");
-  IdNode *objectId = newId(&nulsrcp, "object");
-  IdNode *actorId = newId(&nulsrcp, "actor");
-  IdNode *integerId = newId(&nulsrcp, "integer");
-  IdNode *stringId = newId(&nulsrcp, "string");
+  IdNode *thingId = newId(nulsrcp, "thing");
+  IdNode *entityId = newId(nulsrcp, "entity");
+  IdNode *literalId = newId(nulsrcp, "literal");
+  IdNode *locationId = newId(nulsrcp, "location");
+  IdNode *objectId = newId(nulsrcp, "object");
+  IdNode *actorId = newId(nulsrcp, "actor");
+  IdNode *integerId = newId(nulsrcp, "integer");
+  IdNode *stringId = newId(nulsrcp, "string");
 
   allClasses = NULL;
 

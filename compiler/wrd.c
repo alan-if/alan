@@ -101,7 +101,6 @@ static int newWord(char *theWord, WrdKind class, int code, void *references)
 
   /* Convert the word to lower case before storing it in the dictionary */
   string = strdup(theWord);
-  stringLower(string);
 
   /* Find the word if it exists */
   existingWord = findWord(string);

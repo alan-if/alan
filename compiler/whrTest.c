@@ -10,7 +10,7 @@
 
 void testClassOfContent()
 {
-  IdNode *id = newId(&nulsrcp, "inCont");
+  IdNode *id = newId(nulsrcp, "inCont");
   Expression *whatLocation = newWhatExpression(nulsrcp,
 						 newWhat(&nulsrcp,
 							 WHAT_LOCATION,
@@ -18,7 +18,7 @@ void testClassOfContent()
   Expression *whatId = newWhatExpression(nulsrcp,
 					 newWhat(&nulsrcp,
 						 WHAT_ID, id));
-  IdNode *takesId = newId(&nulsrcp, "location");
+  IdNode *takesId = newId(nulsrcp, "location");
   ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId,
 						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
@@ -41,7 +41,7 @@ void testClassOfContent()
 
 void testInitialLocation()
 {
-  IdNode *id = newId(&nulsrcp, "atLoc");
+  IdNode *id = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhat(&nulsrcp,
 							   WHAT_ID, id)));

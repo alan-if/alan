@@ -113,7 +113,7 @@ typedef struct pmGrammar {
     List *nams;
     List *nam;
     List *msgs;
-    MsgNod *msg;
+    Message *msg;
     Bool minus;
     Srcp mentionedSrcp;
     List *mentioned;

@@ -16,19 +16,19 @@ void testLength()
 
   ASSERT(length(aList) == 0);
 
-  aList = concat(aList, newId(&nulsrcp, "id1"), ID_LIST);
+  aList = concat(aList, newId(nulsrcp, "id1"), ID_LIST);
   ASSERT(length(aList) == 1);
 
-  aList = concat(aList, newId(&nulsrcp, "id2"), ID_LIST);
+  aList = concat(aList, newId(nulsrcp, "id2"), ID_LIST);
   ASSERT(length(aList) == 2);
 
-  aList = concat(aList, newId(&nulsrcp, "id3"), ID_LIST);
+  aList = concat(aList, newId(nulsrcp, "id3"), ID_LIST);
   ASSERT(length(aList) == 3);
 }
 
 void testInsert()
 {
-  IdNode *anElement = newId(&nulsrcp, "anElement");
+  IdNode *anElement = newId(nulsrcp, "anElement");
   List *aList = concat(NULL, anElement, ATTRIBUTE_LIST);
 
 #ifdef THESE_TESTS_CAUSE_INTENTIONAL_SYSERR
@@ -45,9 +45,9 @@ void testInsert()
 
 void testTailOf()
 {
-  List *listOfOne = concat(NULL, newId(&nulsrcp, "anId"), ID_LIST);
-  List *listOfTwo = concat(concat(NULL, newId(&nulsrcp, "anId"), ID_LIST),
-			   newId(&nulsrcp, "anId"), ID_LIST);
+  List *listOfOne = concat(NULL, newId(nulsrcp, "anId"), ID_LIST);
+  List *listOfTwo = concat(concat(NULL, newId(nulsrcp, "anId"), ID_LIST),
+			   newId(nulsrcp, "anId"), ID_LIST);
 			   
   ASSERT(tailOf(NULL) == NULL);
   ASSERT(tailOf(listOfOne) == listOfOne);

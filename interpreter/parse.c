@@ -287,7 +287,8 @@ typedef struct PronounEntry {	/* To remember parameter/pronoun relations */
 } PronounEntry;
 
 static PronounEntry *pronounList = NULL;
-static int allWordIndex;		/* Word index of the ALL_WORD found */
+static int allWordIndex;	/* Word index of the ALL_WORD found */
+static int butWordIndex;	/* Word index of the BUT_WORD found */
 static int allLength;		/* No. of objects matching 'all' */
 
 
@@ -337,20 +338,71 @@ static void errorWhich(ParamEntry alternative[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void errorWhat(int playerWordIndex) {
-
+static void setupParameterForWord(int position, int playerWordIndex) {
   /* Trick message handling to output the word */
-  parameters[0].code = 0;
-  parameters[0].firstWord = parameters[0].lastWord = playerWordIndex;
-  parameters[1].code = EOF;
+  parameters[position].code = 0;	/* At least not EOF */
+  parameters[position].useWords = TRUE;
+  parameters[position].firstWord = parameters[position].lastWord = playerWordIndex;
+  parameters[position+1].code = EOF;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void errorWhat(int playerWordIndex) {
+  setupParameterForWord(0, playerWordIndex);
   error(M_WHAT_WORD);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void errorAfterBut() {
+  setupParameterForWord(0, butWordIndex);
+  error(M_AFTER_BUT);
+}
+
+/*----------------------------------------------------------------------*/
+static int fakePlayerWordForAll() {
+  /* Look through the dictionary and find any ALL_WORD, then add a
+     player word so that it can be used in the message */
+  int p, d;
+
+  for (p = 0; playerWords[p] != EOF; p++);
+  playerWords[p+1] = EOF;	/* Make room for one more word */
+  allWordIndex = p;
+  for (d = 0; d < dictsize; d++)
+    if (isAll(d)) {
+      playerWords[p] = d;
+      return p;
+    }
+  syserr("No ALLWORD found");
+  return 0;
+}
+
+/*----------------------------------------------------------------------*/
+static void errorButAfterAll(int butWordIndex) {
+  setupParameterForWord(0, butWordIndex);
+  setupParameterForWord(1, fakePlayerWordForAll());
+  error(M_BUT_ALL);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Aint findInstanceForNoun(int wordIndex) {
+  /* Assume the last word used is the noun, then find any instance
+     with this noun */
+  DictionaryEntry *d = &dictionary[wordIndex];
+  if (d->nounRefs == 0 || d->nounRefs == EOF)
+    syserr("No references for noun");
+  return *(Aint*)pointerTo(d->nounRefs);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void errorNoSuch(ParamEntry parameter) {
   parameters[0] = parameter;
-  parameters[0].code = 0;	/* Indicate to use words and not names */
+  if (parameters[0].code == 0)
+    parameters[0].code = findInstanceForNoun(playerWords[parameter.lastWord]);
+  parameters[0].useWords = TRUE; /* Indicate to use words and not names */
   parameters[1].code = EOF;
   error(M_NO_SUCH);
 }
@@ -415,11 +467,9 @@ static Bool reachable(int instance)
 /*----------------------------------------------------------------------*/
 static void resolve(ParamEntry plst[])
 {
-  /*
-    In case the syntax did not indicate omnipotent powers (allowed
-    access to remote object), we need to remove non-present
-    parameters
-  */
+  /* In case the syntax did not indicate omnipotent powers (allowed
+     access to remote object), we need to remove non-present
+     parameters */
 
   int i;
 
@@ -526,8 +576,9 @@ static void unambig(ParamEntry plst[])
   }
     
   if (listLength(plst) > 1 || (foundNoun && listLength(plst) == 0)) {
-    parameters[0].code = 0;		/* Just make it anything != EOF */
-    parameters[0].firstWord = firstWord; /* Remember words for errors below */
+    parameters[0].code = 0;	/* Just make it anything != EOF */
+    parameters[0].useWords = TRUE; /* Remember words for errors below */
+    parameters[0].firstWord = firstWord;
     parameters[0].lastWord = lastWord;
     parameters[1].code = EOF;	/* But be sure to terminate */
     if (listLength(plst) > 1)
@@ -594,17 +645,9 @@ static void simple(ParamEntry olst[]) {
     }
   }
 }
+
   
-  
-/*----------------------------------------------------------------------
-
-  complex()
-
-  Above this procedure we can use the is* tests, but not below since
-  they work on words. Below all is converted to indices into the
-  entity tables. Particularly this goes for literals...
-
-*/
+/*----------------------------------------------------------------------*/
 static void complex(ParamEntry olst[])
 {
   static ParamEntry *alst = NULL;
@@ -617,10 +660,11 @@ static void complex(ParamEntry olst[])
     buildAll(alst);		/* Build list of all objects */
     wordIndex++;
     if (playerWords[wordIndex] != EOF && isBut(playerWords[wordIndex])) {
+      butWordIndex = wordIndex;
       wordIndex++;
       simple(olst);
       if (listLength(olst) == 0)
-	error(M_AFTER_BUT);
+	errorAfterBut();
       subtractListFromList(alst, olst);
       if (listLength(alst) == 0)
 	error(M_NOT_MUCH);
@@ -699,10 +743,8 @@ static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry mlst[]) {
     if ((flags & MULTIPLEBIT) == 0)	/* Allowed multiple? */
       error(M_MULTIPLE);
     else {
-      /*
-	Mark this as the multiple position in which to insert
-	actual parameter values later
-      */
+      /* Mark this as the multiple position in which to insert actual
+	 parameter values later */
       parameters[paramidx++].code = 0;
       *anyPlural = TRUE;
     }
@@ -786,6 +828,9 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 	continue;
       }
     }
+
+    if (isBut(playerWords[wordIndex]))
+      errorButAfterAll(wordIndex);
 
     /* If we get here we couldn't match anything... */
     return NULL;

@@ -14,6 +14,7 @@
 
 #include "srcp_x.h"
 #include "cla_x.h"
+#include "elm_x.h"
 #include "cnt_x.h"
 #include "id_x.h"
 #include "atr_x.h"
@@ -42,6 +43,7 @@ Symbol *literalSymbol;
 Symbol *stringSymbol;
 Symbol *integerSymbol;
 Symbol *theHero;
+Symbol *messageVerbSymbol;
 
 
 
@@ -229,6 +231,26 @@ Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
   new->fields.entity.parent = parent;
   return new;
 }
+
+
+/*======================================================================*/
+Symbol *newVerbSymbol(IdNode *id) {
+  Symbol *new = newSymbol(id, VERB_SYMBOL);
+  return new;
+}
+
+
+/*======================================================================*/
+void createMessageVerb() {
+  IdNode *id = newId(nulsrcp, "parameter");
+  Element *element = newParameterElement(nulsrcp, id, 0);
+  List *elements = concat(NULL, element, ELEMENT_LIST);
+
+  id->code = 1;			/* First and only parameter */
+  messageVerbSymbol = newVerbSymbol(newId(nulsrcp, "$message$"));
+  setParameters(messageVerbSymbol, elements);
+}
+
 
 /*======================================================================*/
 void initSymbols()
@@ -533,7 +555,6 @@ Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context)
 
 
 
-
 /*======================================================================*/
 void setParameters(Symbol *verb, List *parameters)
 {
@@ -545,15 +566,13 @@ void setParameters(Symbol *verb, List *parameters)
 
   if (verb->kind != VERB_SYMBOL) {
     /* Probably a syntactic error! */
-    verb->fields.verb.parameterSymbols = NULL;
     return;
-    /*    syserr("Not a verb in setParameters()"); */
   }
 
   if (parameters == NULL) return;
 
   if (parameters->kind != ELEMENT_LIST)
-    syserr("Not a parameter list in '%s()'", __FUNCTION__);
+    SYSERR("Not a parameter list");
 
   TRAVERSE(param, parameters) {
     Symbol *parameterSymbol = newParameterSymbol(param->element.elm->id->string, param->element.elm);

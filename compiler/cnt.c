@@ -58,7 +58,7 @@ ContainerBody *newContainerBody(Srcp *srcp,
   if (takes != NULL)
     new->taking = takes;
   else
-    new->taking = newId(&nulsrcp, "object");
+    new->taking = newId(nulsrcp, "object");
   new->limits = lims;
   new->hstms = hstms;
   new->estms = estms;

@@ -1,10 +1,14 @@
 ########## eiffel ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 
 
 Metro
+There is a Eiffel tower here.
+
+> x eiffel tower
 There is a Eiffel tower here.
 
 > 

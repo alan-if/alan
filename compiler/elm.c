@@ -31,11 +31,11 @@
 static int level = 0;
 
 
-/*======================================================================*/
-Element *newElement(Srcp *srcp,	/* IN - Source Position */
-		    ElementKind kind, /* IN - Kind of element (parm or word) */
-		    IdNode *id,	/* IN - The name */
-		    int flags)	/* IN - Flags for omni/multiple... */
+/*----------------------------------------------------------------------*/
+static Element *newElement(Srcp *srcp,	/* IN - Source Position */
+			   ElementKind kind, /* IN - Kind of element (parm or word) */
+			   IdNode *id,	/* IN - The name */
+			   int flags)	/* IN - Flags for omni/multiple... */
 {
   Element *new;                                  /* The newly created node */
 
@@ -89,8 +89,6 @@ Element *newEndOfSyntax()
 }
 
 
-
-
 /*----------------------------------------------------------------------*/
 static void analyzeElement(Element *elm)
 {
@@ -108,7 +106,6 @@ static void analyzeElement(Element *elm)
     break;
   }
 }
-
 
 
 /*======================================================================*/

@@ -46,7 +46,7 @@ extern VerbEntry *vrbs;		/* Verb table pointer */
 extern ParseEntry *stxs;		/* Syntax table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
 extern EventEntry *events;	/* Event table pointer */
-extern MsgEntry *msgs;		/* Message table pointer */
+extern MessageEntry *msgs;		/* Message table pointer */
 extern Aword *freq;		/* Cumulated frequencies */
 
 extern int dictsize;		/* Number of entries in dictionary */

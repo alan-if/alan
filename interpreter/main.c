@@ -78,7 +78,7 @@ VerbEntry *vrbs;		/* Verb table pointer */
 ParseEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
-MsgEntry *msgs;			/* Message table pointer */
+MessageEntry *msgs;			/* Message table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
@@ -505,7 +505,7 @@ static void sayParameter(int p, int form)
   else
     sayForm(params[p].code, form);
 #else
-  if (parameters[p].code == 0) {
+  if (parameters[p].useWords) {
     /* Ambiguous instance referenced, so use the words he used */
     sayPlayerWordsForParameter(p);
   } else
@@ -516,8 +516,6 @@ static void sayParameter(int p, int form)
 
 /*----------------------------------------------------------------------
 
-  prsym()
-
   Print an expanded symbolic reference.
 
   N = newline
@@ -527,7 +525,7 @@ static void sayParameter(int p, int form)
   O = current object -> first parameter!
   <n> = n:th parameter
   +<n> = definite form of n:th parameter
-  -<n> = definite form of n:th parameter
+  0<n> = indefinite form of n:th parameter
   V = current verb
   A = current actor
   T = tabulation
@@ -1116,7 +1114,7 @@ static void initStaticData(void)
   stxs = (ParseEntry *) pointerTo(header->parseTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
   ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
-  msgs = (MsgEntry *) pointerTo(header->messageTableAddress);
+  msgs = (MessageEntry *) pointerTo(header->messageTableAddress);
 
   if (header->pack)
     freq = (Aword *) pointerTo(header->freq);

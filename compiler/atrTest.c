@@ -13,7 +13,7 @@
 void testCreateSetAttribute()
 {
   List *set = concat(NULL, newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
-  Attribute *atr = newSetAttribute(nulsrcp, newId(&nulsrcp, "setAttribute"), set);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), set);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(length(atr->set) == 1);
   ASSERT(atr->set->element.exp->kind == INTEGER_EXPRESSION);
@@ -24,10 +24,10 @@ void testInferClassInSetAttribute()
   initAdventure();
   symbolizeClasses();
 
-  IdNode *classId = newId(&nulsrcp, "object");
-  Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "t"), classId, NULL);
-  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(&nulsrcp, "t"))), EXPRESSION_LIST);
-  Attribute *atr = newSetAttribute(nulsrcp, newId(&nulsrcp, "setAttribute"), set);
+  IdNode *classId = newId(nulsrcp, "object");
+  Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "t"), classId, NULL);
+  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(nulsrcp, "t"))), EXPRESSION_LIST);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), set);
 
   symbolizeInstance(instance);
   analyzeSetMembersClass(atr);
@@ -36,13 +36,13 @@ void testInferClassInSetAttribute()
   ASSERT(atr->setClass == objectSymbol);
   ASSERT(length(atr->set) == 1);
 
-  classId = newId(&nulsrcp, "location");
-  instance = newInstance(&nulsrcp, newId(&nulsrcp, "u"), classId, NULL);
+  classId = newId(nulsrcp, "location");
+  instance = newInstance(&nulsrcp, newId(nulsrcp, "u"), classId, NULL);
   set = concat(set,
 	       newWhatExpression(nulsrcp,
 				 newWhat(&nulsrcp,
 					 WHAT_ID,
-					 newId(&nulsrcp, "u"))),
+					 newId(nulsrcp, "u"))),
 	       EXPRESSION_LIST);
 
   symbolizeInstance(instance);
@@ -58,8 +58,8 @@ void testMultipleAtr()
 {
   List *attributeList;
 
-  attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
-  attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
+  attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
+  attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
 
   readEcode();
   checkMultipleAttributes(attributeList);
@@ -70,9 +70,9 @@ void testMultipleAtr()
 void testFindInList()
 {
   List *attributes = NULL;
-  IdNode *id = newId(&nulsrcp, "theAttribute");
+  IdNode *id = newId(nulsrcp, "theAttribute");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, id, FALSE);
-  Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(&nulsrcp, "another"), FALSE);
+  Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "another"), FALSE);
 
   /* Test empty list */
   ASSERT(findAttribute(attributes, id) == NULL);
@@ -97,7 +97,7 @@ static ClaNod *createClass(char string[], List *attributes)
   ClaNod *theClass;
 
   props->attributes = attributes;
-  theClass = newClass(&nulsrcp, newId(&nulsrcp, string), NULL, props);
+  theClass = newClass(&nulsrcp, newId(nulsrcp, string), NULL, props);
   return theClass;
 }
 
@@ -107,7 +107,7 @@ static Instance *createInstance(char string[], List *attributes)
   Instance *theInstance;
 
   props->attributes = attributes;
-  theInstance = newInstance(&nulsrcp, newId(&nulsrcp, string), NULL, props);
+  theInstance = newInstance(&nulsrcp, newId(nulsrcp, string), NULL, props);
   return theInstance;
 }
 
@@ -115,14 +115,14 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
-  theList = concat(theList, newBooleanAttribute(nulsrcp, newId(&nulsrcp, secondString), FALSE), ATTRIBUTE_LIST);
+  theList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
+  theList = concat(theList, newBooleanAttribute(nulsrcp, newId(nulsrcp, secondString), FALSE), ATTRIBUTE_LIST);
   return theList;
 }
 
 static int attributeCode(Properties *props, char *string)
 {
-  Attribute *atr = findAttribute(props->attributes, newId(&nulsrcp, string));
+  Attribute *atr = findAttribute(props->attributes, newId(nulsrcp, string));
   return atr->id->code;
 }
 
@@ -281,7 +281,7 @@ static Bool attributesAreSorted(List *list)
 
 void testSortAttributes()
 {
-  List *attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(&nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
+  List *attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
   ASSERT(sortAttributes(NULL) == NULL);
@@ -328,11 +328,11 @@ static void testResolveThisAttributeForClass()
 				  NULL, FALSE, nulsrcp,
 				  NULL, FALSE,
 				  NULL, NULL, NULL);
-  ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theProps);
+  ClaNod *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;
 
-  theResolvedAttribute = resolveAttributeOfThis(newId(&nulsrcp, "x"), &context);
+  theResolvedAttribute = resolveAttributeOfThis(newId(nulsrcp, "x"), &context);
   ASSERT(theResolvedAttribute == theAttributes->element.atr);
 }
 

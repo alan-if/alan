@@ -10,8 +10,8 @@
 void testCreateIns()
 {
   Srcp srcp = {1,2,3};
-  IdNode *id = newId(&srcp, "insId");
-  IdNode *parent = newId(&srcp, "parentId");
+  IdNode *id = newId(srcp, "insId");
+  IdNode *parent = newId(srcp, "parentId");
   Instance *ins;
 
   initAdventure();
@@ -33,7 +33,7 @@ void testGenerateEmptyInstanceEntry()
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,
 			       NULL, NULL, NULL);
-  Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, props);
+  Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "aInstance"), NULL, props);
   int entryAddress;
   InstanceEntry *entry;
   
@@ -74,7 +74,7 @@ void testGenerateInstances()
 
   initAdventure();
   initEmit("unit.a3c");
-  ins = newInstance(&srcp, newId(&srcp, "aSimpleInstance"), NULL, NULL);
+  ins = newInstance(&srcp, newId(srcp, "aSimpleInstance"), NULL, NULL);
   symbolizeInstances();
   generateInstanceData(ins);
 

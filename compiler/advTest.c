@@ -14,10 +14,10 @@ void testInitAdv()
 {
   Srcp srcp = {2,3,4};
 
-  IdNode *atUnknownId = newId(&srcp, "atUnknownId");
-  IdNode *atInsId = newId(&srcp, "atInsId");
-  IdNode *atInsLocId = newId(&srcp, "atInsLocId");
-  IdNode *atClaId = newId(&srcp, "atClaId");
+  IdNode *atUnknownId = newId(srcp, "atUnknownId");
+  IdNode *atInsId = newId(srcp, "atInsId");
+  IdNode *atInsLocId = newId(srcp, "atInsLocId");
+  IdNode *atClaId = newId(srcp, "atClaId");
 
   Instance *ins;
   Instance *locationIns;
@@ -28,7 +28,7 @@ void testInitAdv()
 
   cla = newClass(&srcp, atClaId, NULL, NULL);
   ins = newInstance(&srcp, atInsId, NULL, NULL);
-  locationIns = newInstance(&srcp, atInsLocId, newId(&srcp, "location"), NULL);
+  locationIns = newInstance(&srcp, atInsLocId, newId(srcp, "location"), NULL);
 
   adv.whr = newWhere(&srcp, WHERE_HERE, NULL);
   symbolizeAdventure();

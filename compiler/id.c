@@ -20,14 +20,8 @@
 #include "lmList.h"
 
 
-/*======================================================================
-
-  newId()
-
-  Allocates and initialises a idnod.
-
-  */
-IdNode *newId(Srcp *srcp,	/* IN - Source Position */
+/*======================================================================*/
+IdNode *newId(Srcp srcp,	/* IN - Source Position */
 	      char *str)	/* IN - The string */
 {
   IdNode *new;			/* The newly allocated area */
@@ -36,7 +30,7 @@ IdNode *newId(Srcp *srcp,	/* IN - Source Position */
 
   new = NEW(IdNode);
   
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->string  = newString(str);
   new->symbol = NULL;
 

@@ -51,8 +51,8 @@ void addHero(void)
   Instance *theHeroInstance;
 
   if (hero == NULL) {
-    theHeroInstance = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
-				  newId(&nulsrcp, "actor"), NULL);
+    theHeroInstance = newInstance(&nulsrcp, newId(nulsrcp, "hero"),
+				  newId(nulsrcp, "actor"), NULL);
     theHero = theHeroInstance->props->id->symbol;
   } else
     theHero = hero;

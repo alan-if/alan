@@ -119,13 +119,17 @@ typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
   int where;
 } EventQueueEntry;
 
-typedef struct MsgEntry {	/* MESSAGE TABLE */
+typedef struct MessageEntry {	/* MESSAGE TABLE */
   Aaddr stms;			/* Address to statements*/
-} MsgEntry;
+} MessageEntry;
 
 typedef struct ParamEntry {	/* PARAMETER */
-  Aword code;			/* Instance code for the parameter (0=multiple) */
-  Aword firstWord;		/* Index to first word used by player */
+  Aword code;			/* Instance code for the parameter
+				   (0=multiple) */
+  Abool useWords;		/* Indicate to use words instead of
+				   instance code when saying */
+  Aword firstWord;		/* Index to first word used by
+				   player */
   Aword lastWord;		/* d:o to last */
 } ParamEntry;
 

@@ -37,16 +37,19 @@ extern Symbol *literalSymbol;
 extern Symbol *stringSymbol;
 extern Symbol *integerSymbol;
 extern Symbol *theHero;
+extern Symbol *messageVerbSymbol;
 
 
 /* FUNCTIONS: */
 
 extern void redefined(IdNode *id, Symbol *sym);
 extern void initSymbols(void);
+extern void createMessageVerb();
 
 extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
 extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);
 extern Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent);
+extern Symbol *newVerbSymbol(IdNode *id);
 extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);
 
 /* Lookup a symbol */

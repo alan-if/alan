@@ -11,9 +11,9 @@
 void testParameterReference()
 {
   List *parameters;
-  IdNode *p1Id = newId(&nulsrcp, "p1");
+  IdNode *p1Id = newId(nulsrcp, "p1");
   Symbol *foundSymbol;
-  IdNode *v1Id = newId(&nulsrcp, "v1");
+  IdNode *v1Id = newId(nulsrcp, "v1");
   Symbol *v1Symbol;
   Context *context;
 

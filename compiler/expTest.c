@@ -30,7 +30,7 @@ void testSymbolOf() {
   initSymbols();
   ASSERT(symbolOfExpression(NULL, context) == NULL);
 
-  Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
+  Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   What *theWhat = newWhat(&nulsrcp, WHAT_ID, theInstance->props->id);
   Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
@@ -38,7 +38,7 @@ void testSymbolOf() {
   ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
-							      newId(&nulsrcp, "atr"), FALSE,
+							      newId(nulsrcp, "atr"), FALSE,
 							      theWhatExp);
   ASSERT(symbolOfExpression(theAttributeExpression, context) == NULL);
 }
@@ -47,9 +47,9 @@ void testSymbolOf() {
 
 void testAttributeToThis()
 {
-  Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
+  Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
-  IdNode *theAttributeId = newId(&nulsrcp, "Atr");
+  IdNode *theAttributeId = newId(nulsrcp, "Atr");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
   Context *theContext = newContext(INSTANCE_CONTEXT, theInstance);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);

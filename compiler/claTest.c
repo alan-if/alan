@@ -13,8 +13,8 @@
 void testCreateClass()
 {
   Srcp srcp = {1,2,3};
-  IdNode *id = newId(&srcp, "claId");
-  IdNode *parent = newId(&srcp, "parentId");
+  IdNode *id = newId(srcp, "claId");
+  IdNode *parent = newId(srcp, "parentId");
   Instance *ins;
 
   /* Create a class with unknown inheritance */
@@ -56,7 +56,7 @@ void testGenerateClasses()
 
   initEmit("unit.a3c");
   symbolizeClasses();
-  cla = newClass(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
+  cla = newClass(&srcp, newId(srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
   ASSERT(addr == firstAdr);	/* Should start at first address after header */
   ASSERT(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
@@ -70,7 +70,7 @@ void testGenerateEmptyClassEntry()
 			       NULL, FALSE, nulsrcp,
 			       NULL, FALSE,
 			       NULL, NULL, NULL);
-  ClaNod *class = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, props);
+  ClaNod *class = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, props);
   int entryAddress;
   ClassEntry *entry;
   

@@ -69,11 +69,7 @@ void initAdventure(void)
 }
 
 
-/*======================================================================
-
-  symbolizeAdv()
-
-*/
+/*======================================================================*/
 void symbolizeAdventure()
 {
   symbolizeClasses();
@@ -83,11 +79,7 @@ void symbolizeAdventure()
 }
 
 
-/*----------------------------------------------------------------------
-
-  analyzeStartAt
-
-*/
+/*----------------------------------------------------------------------*/
 static void analyzeStartAt(void)
 {
   /* START has the same environment as a RULE */
@@ -168,7 +160,7 @@ void analyzeAdventure(void)
   analyzeSynonyms();
 
   if (verbose) printf("\n\tMessages:");
-  anmsgs();
+  analyzeMessages();
 
   if (verbose) printf("\n");
 

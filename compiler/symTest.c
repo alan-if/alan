@@ -25,12 +25,12 @@ static IdNode *symbolId3;
 
 
 void testContentOfSymbol() {
-  IdNode *contentClassId = newId(&nulsrcp, "contentClassId");
+  IdNode *contentClassId = newId(nulsrcp, "contentClassId");
   Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
-  IdNode *content = newId(&nulsrcp, "content");
+  IdNode *content = newId(nulsrcp, "content");
   Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
-  IdNode *id = newId(&nulsrcp, "id");
+  IdNode *id = newId(nulsrcp, "id");
   Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, container,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL,
@@ -40,7 +40,7 @@ void testContentOfSymbol() {
 			       nulsrcp, NULL, FALSE,
 			       NULL, NULL, NULL);
   Symbol *classTakingContent = newClassSymbol(id, props, NULL);
-  IdNode *instanceId = newId(&nulsrcp, "instance");
+  IdNode *instanceId = newId(nulsrcp, "instance");
   Symbol *instance = newInstanceSymbol(instanceId, newEmptyProps(), classTakingContent);
   content->symbol = contentSymbol;
 
@@ -53,10 +53,10 @@ void testContentOfSymbol() {
 void testSymCheck()
 {
   Srcp srcp = {14, 12, 333};
-  IdNode *unknownId = newId(&srcp, "unknownId");
-  IdNode *aClassId = newId(&srcp, "aClassId");
+  IdNode *unknownId = newId(srcp, "unknownId");
+  IdNode *aClassId = newId(srcp, "aClassId");
   Symbol *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
-  IdNode *anInstanceId = newId(&srcp, "anInstanceId");
+  IdNode *anInstanceId = newId(srcp, "anInstanceId");
   Symbol *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
   Symbol *foundSymbol;
 
@@ -79,13 +79,13 @@ void testSymCheck()
 
 static List *createOneParameter(char *id)
 {
-  return concat(NULL, newElement(&nulsrcp, PARAMETER_ELEMENT,
-			     newId(&nulsrcp, id), 0), ELEMENT_LIST);
+  return concat(NULL, newParameterElement(nulsrcp,
+			     newId(nulsrcp, id), 0), ELEMENT_LIST);
 }
 
 void testVerbSymbols()
 {
-  IdNode *v1Id = newId(&nulsrcp, "v1");
+  IdNode *v1Id = newId(nulsrcp, "v1");
   Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   Symbol *foundSymbol;
   List *parameters, *l, *p;
@@ -122,9 +122,9 @@ void testBuildSymbol1()
   Symbol *sym1;
   Symbol *sym2;
 
-  symbolId1 = newId(&nulsrcp, symbolName1);
-  symbolId2 = newId(&nulsrcp, symbolName2);
-  symbolId3 = newId(&nulsrcp, symbolName3);
+  symbolId1 = newId(nulsrcp, symbolName1);
+  symbolId2 = newId(nulsrcp, symbolName2);
+  symbolId3 = newId(nulsrcp, symbolName3);
 
   sym1 = newSymbol(symbolId1, CLASS_SYMBOL);
   sym2 = lookup(symbolName1);
@@ -252,8 +252,8 @@ void testSymbolTableInit()
 void testCreateClassSymbol()
 {
   Srcp srcp = {12,3,45};
-  IdNode *id = newId(&srcp, "cla");
-  IdNode *heritage = newId(&nulsrcp, "object");
+  IdNode *id = newId(srcp, "cla");
+  IdNode *heritage = newId(nulsrcp, "object");
   Symbol *sym, *obj;
 
   (void) newClass(&srcp, heritage, NULL, NULL);
@@ -275,11 +275,11 @@ static void testLookupScript()
 {
   Symbol *classSymbol;
   Symbol *instanceSymbol;
-  IdNode *notAScriptId = newId(&nulsrcp, "notAScript");
-  IdNode *script1Id = newId(&nulsrcp, "script1");
-  IdNode *script2Id = newId(&nulsrcp, "script2");
-  IdNode *script3Id = newId(&nulsrcp, "script3");
-  IdNode *script4Id = newId(&nulsrcp, "script4");
+  IdNode *notAScriptId = newId(nulsrcp, "notAScript");
+  IdNode *script1Id = newId(nulsrcp, "script1");
+  IdNode *script2Id = newId(nulsrcp, "script2");
+  IdNode *script3Id = newId(nulsrcp, "script3");
+  IdNode *script4Id = newId(nulsrcp, "script4");
   Script script1 = {{0,0,0}, script1Id};
   Script script2 = {{0,0,0}, script2Id};
   Script script3 = {{0,0,0}, script3Id};
@@ -288,8 +288,8 @@ static void testLookupScript()
   List *instanceScripts;
 
   initAdventure();
-  classSymbol = newSymbol(newId(&nulsrcp, "aClass"), CLASS_SYMBOL);
-  instanceSymbol = newSymbol(newId(&nulsrcp, "anInstance"), INSTANCE_SYMBOL);
+  classSymbol = newSymbol(newId(nulsrcp, "aClass"), CLASS_SYMBOL);
+  instanceSymbol = newSymbol(newId(nulsrcp, "anInstance"), INSTANCE_SYMBOL);
   setParent(instanceSymbol, classSymbol);
   classScripts = concat(NULL, &script1, SCRIPT_LIST);
   classScripts = concat(classScripts, &script2, SCRIPT_LIST);
@@ -320,14 +320,14 @@ void testNewFrame()
   Symbol *parameterSymbol;
   Symbol *localSymbol1;
   Symbol *localSymbol2;
-  IdNode *parameterId = newId(&nulsrcp, "p");
-  IdNode *localId = newId(&nulsrcp, "p");
+  IdNode *parameterId = newId(nulsrcp, "p");
+  IdNode *localId = newId(nulsrcp, "p");
   Context context;
 
   initAdventure();
   /* Create a verb v with a parameter p */
-  verbSymbol = newSymbol(newId(&nulsrcp, "v"), VERB_SYMBOL);
-  element = newElement(&nulsrcp, PARAMETER_ELEMENT, parameterId, 0);
+  verbSymbol = newSymbol(newId(nulsrcp, "v"), VERB_SYMBOL);
+  element = newParameterElement(nulsrcp, parameterId, 0);
   parameterSymbol = newParameterSymbol("p", element);
 
   verbSymbol->fields.verb.parameterSymbols = concat(NULL, parameterSymbol, SYMBOL_LIST);
@@ -357,8 +357,8 @@ void testNewFrame()
 
 void testReplicateContainer()
 {
-  Symbol *child = newSymbol(newId(&nulsrcp, "child"), CLASS_SYMBOL);
-  Symbol *parent = newSymbol(newId(&nulsrcp, "parent"), CLASS_SYMBOL);
+  Symbol *child = newSymbol(newId(nulsrcp, "child"), CLASS_SYMBOL);
+  Symbol *parent = newSymbol(newId(nulsrcp, "parent"), CLASS_SYMBOL);
   Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
 
   child->fields.entity.props = NEW(Properties);

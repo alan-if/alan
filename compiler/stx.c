@@ -245,12 +245,11 @@ Syntax *defaultSyntax0(char *verbName)
   List *elements;
 
   elements = concat(concat(NULL,
-			   newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
-								    verbName),
-				      FALSE),
+			   newWordElement(nulsrcp, newId(nulsrcp,
+							  verbName)),
 			   ELEMENT_LIST),
-		    newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
-  stx = newSyntax(nulsrcp, newId(&nulsrcp, verbName), elements, NULL, nulsrcp);
+		    newEndOfSyntax(), ELEMENT_LIST);
+  stx = newSyntax(nulsrcp, newId(nulsrcp, verbName), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
@@ -277,29 +276,29 @@ Syntax *defaultSyntax1(IdNode *verb, Context *context)
 
   classId = classIdInContext(context);
   if (classId == NULL)		/* No class, so use any, should not occur? */
-    classId = newId(&nulsrcp, "object");
+    classId = newId(nulsrcp, "object");
 
   elements = concat(concat(concat(NULL,
 				  newWordElement(nulsrcp,
-						 newId(&nulsrcp, verb->string)),
+						 newId(nulsrcp, verb->string)),
 				  ELEMENT_LIST),
-			   newParameterElement(nulsrcp, newId(&nulsrcp,
+			   newParameterElement(nulsrcp, newId(nulsrcp,
 							      classId->string),
 					       0),
 			   ELEMENT_LIST),
 		    newEndOfSyntax(),
 		    ELEMENT_LIST);
-  stx = newSyntax(nulsrcp, newId(&nulsrcp, verb->string), elements, NULL, nulsrcp);
+  stx = newSyntax(nulsrcp, newId(nulsrcp, verb->string), elements, NULL, nulsrcp);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
 
   /* Add restriction for the parameter class in context */
   stx->restrictionLists = concat(NULL,
 				 newRestriction(&nulsrcp,
-						newId(&nulsrcp,
+						newId(nulsrcp,
 						      classId->string),
 						ID_RESTRICTION,
-						newId(&nulsrcp,
+						newId(nulsrcp,
 						      classId->string),
 						NULL),
 				 RESTRICTION_LIST);

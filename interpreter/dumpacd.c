@@ -28,7 +28,8 @@ static char *acdfnm;
 /* Dump flags */
 
 static int dictionaryFlag, classesFlag, instancesFlag, parseFlag, syntaxesFlag,
-  initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag;
+  initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag,
+  messagesFlag;
 
 
 
@@ -600,6 +601,23 @@ static void dumpStatements(Aword pc)
 
 
 /*----------------------------------------------------------------------*/
+void dumpMessages(Aaddr messageTable)
+{
+  MessageEntry *entry;
+  int level = 1;
+  int count = 0;
+
+  if (messageTable == 0) return;
+
+  for (entry = (MessageEntry *)pointerTo(messageTable); !endOfTable(entry); entry++) {
+    indent(level);
+    printf("MESSAGE: (%d) ", count++);
+    printf("stms: %ld\n", entry->stms);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 void dumpStringInit(Aaddr stringInitTable)
 {
   StringInitEntry *entry;
@@ -692,6 +710,7 @@ static void dumpACD(void)
   if (initFlag) dumpSetInit(header->setInitTable);
   printf("START: %s\n", dumpAddress(header->start));
   printf("MESSAGE TABLE: %s\n", dumpAddress(header->messageTableAddress));
+  if (messagesFlag) dumpMessages(header->messageTableAddress);
   printf("MAX SCORE: %ld\n", header->maxscore);
   printf("SCORES: %s\n", dumpAddress(header->scores));
   printf("FREQUENCY TABLE: %s\n", dumpAddress(header->freq));
@@ -802,6 +821,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("verbs", "dump details on verb entries", verbsFlag, FALSE, NULL)
      SPA_FLAG("events", "dump details on event entries", eventsFlag, FALSE, NULL)
      SPA_FLAG("containers", "dump details on container entries", containersFlag, FALSE, NULL)
+     SPA_FLAG("messages", "dump details on messages entries", messagesFlag, FALSE, NULL)
      SPA_FLAG("exits", "dump details on exits in any instance having exits", exitsFlag, FALSE, NULL)
      SPA_INTEGER("statements <address>", "dump statement opcodes starting at <address>", statementsFlag, 0, NULL)
 SPA_END

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>386.89</origest>
-<currest>385.89</currest>
-<elapsed>225.89</elapsed>
+<origest>388.89</origest>
+<currest>387.89</currest>
+<elapsed>226.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>79</origest>
-<currest>79</currest>
-<elapsed>31</elapsed>
+<origest>81</origest>
+<currest>81</currest>
+<elapsed>32</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>37</origest>
 <currest>37</currest>
-<elapsed>31</elapsed>
+<elapsed>32</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -149,7 +149,7 @@ find an unambiguous phrasing.
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>4</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Enforce inheritance</desc>
 <notes>No instances or classes can be declared without a parent. Don't know what this would mean...</notes>
@@ -242,7 +242,7 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>IN &amp; AT operators</desc>
 <notes>Change IN &amp; AT operators to both be transitive.</notes>
@@ -306,7 +306,7 @@ How to handle the above example? Probably by looking in the scope for any instan
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>8</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Grammar, internal form and dump</desc>
 <notes/>
@@ -410,11 +410,11 @@ Probably we want to have unique word code for every unique word, and then a code
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Attribute to OBJECT in MESSAGE</desc>
+<desc>Parameter available for attribute checks in some MESSAGEs</desc>
 <notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.
 
 This would be really good for translations. E.g in german "kein" has different forms depending on case. So the constant string "Ich kann hier kein $1 nicht sehen." is not always correct. However, if messages had parameters we could implement:
@@ -424,7 +424,23 @@ Message CANTSEE:
   If object Is neuter Then "keiner" End If.
   If object Is masculine Then "kein" End If.
   If object Is feminine Then "keine" End If.
-  Say object. "sehen."</notes>
+  Say object. "sehen."
+
+
+Design:
+
+Messages to allow are:
+M_WHICH_ONE_START
+M_WHICH_ONE_COMMA
+M_WHICH_ONE_OR
+M_NO_SUCH
+
+Possibly also (when refactored)
+M_CANT
+M_SEEOBJ1 et al.
+M_CONTAINS et al.
+M_CARRIES et at.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -441,9 +457,8 @@ Message CANTSEE:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document inheritance rules for each construct</desc>
-<notes>Isn't it already?
-</notes>
+<desc>Document PRONOUN</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -451,8 +466,9 @@ Message CANTSEE:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document PRONOUN</desc>
-<notes/>
+<desc>Document inheritance rules for each construct</desc>
+<notes>Isn't it already?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -473,13 +489,35 @@ Message CANTSEE:
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
+<origest>29</origest>
+<currest>29</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>INIT clause as property</desc>
 <notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document that $n prints using player words and Say does not.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

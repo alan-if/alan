@@ -17,10 +17,10 @@
 typedef struct MsgNod {
   Srcp srcp;
   IdNode *id;			/* ID of message type */
-  int msgno;			/* It's identity */
+  MsgKind msgno;		/* It's identity */
   List *stms;			/* List of statements */
   Aaddr stmadr;			/* Address to generated statements */
-} MsgNod;
+} Message;
 
 
 /* Data: */
@@ -30,13 +30,13 @@ typedef struct MsgNod {
 /* Functions: */
 
 /* Create a new node with a message declaration */
-extern MsgNod *newmsg(Srcp *srcp, IdNode *id, List *stms);
+extern Message *newMessage(Srcp *srcp, IdNode *id, List *stms);
 
 /* Prepare all system messages depending on the choosen language */
 extern void prepareMessages(void);
 
 /* Analyze the system messages */
-extern void anmsgs(void);
+extern void analyzeMessages(void);
 
 /* Generate the system messages */
 extern Aword gemsgs(void);

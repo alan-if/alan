@@ -926,7 +926,7 @@ The fifth Isa location NAME Fifth Floor
 End The fifth.
 
 
-The clockroom Isa location Name Clock Room
+The clockroom Isa location Name 'Clock Room'
     Description
         "The room is so small and low that you can't stand straight."
         Describe clock.
@@ -1156,7 +1156,7 @@ The manual Isa object Name dirty technical manual
 End The manual.
 
 
-The computer_room Isa location Name Computer Room
+The computer_room Isa location Name 'Computer Room'
     Description
         "A room of old computers, cables, disk drives, tape stations
          and floppy disks are spread out all over the floor. The exit

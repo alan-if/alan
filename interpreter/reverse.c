@@ -113,12 +113,12 @@ static void reverseStms(Aword adr)
 
 static void reverseMsgs(Aword adr)
 {
-  MsgEntry *e = (MsgEntry *) &memory[adr];
+  MessageEntry *e = (MessageEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!endOfTable(e)) {
-    reverseTable(adr, sizeof(MsgEntry));
+    reverseTable(adr, sizeof(MessageEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
