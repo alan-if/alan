@@ -108,17 +108,18 @@ dependencies.mk.:
 	  $(CPP) $(CFLAGS) $$f $(FILETER)>> "dependencies.mk"; \
 	done
 
-Makefile.amiga: dependencies.mk
+Makefile.amiga: dependencies.mk Makefile
 	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-Makefile.dos: dependencies.mk
+Makefile.dos: dependencies.mk Makefile
 	@echo Updating Makefile.dos!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cat "#Makefile.tmp#" dependencies.mk > Makefile.dos
+	@cp "#Makefile.tmp#" Makefile.dos
+	@sed -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
 
 arun.make: dependencies.mk
 	@echo Updating arun.make!

@@ -98,7 +98,9 @@ static void showobj(obj)
       say(objs[obj-OBJMIN].loc);
     } else
       interpret(cnts[objs[obj-OBJMIN].loc-CNTMIN].nam);
-  } else
+  } else if (objs[obj-OBJMIN].loc == 0)
+    output("nowhere");
+  else
     output("Illegal location!");
 
 
@@ -194,7 +196,12 @@ static void showact(act)
 
   sprintf(str, "$iLocation = %ld", acts[act-ACTMIN].loc);
   output(str);
-  say(acts[act-ACTMIN].loc);
+  if (isLoc(acts[act-ACTMIN].loc))
+    say(acts[act-ACTMIN].loc);
+  else if (acts[act-ACTMIN].loc == 0)
+    output("nowhere");
+  else
+    output("Illegal location!");
 
   sprintf(str, "$iScript = %ld", acts[act-ACTMIN].script);
   output(str);

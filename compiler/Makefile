@@ -183,7 +183,7 @@ link:
 	$(LD) -o alan $(CFLAGS) $(MAINOBJ) $(OBJECTS) version.o $(LDFLAGS)
 
 #-- ARCHIVE
-archives:
+archives: src
 	-\rm Makefile*~
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
@@ -213,18 +213,18 @@ dependencies.mk.:
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
 
-Makefile.amiga: dependencies.mk
+Makefile.amiga: dependencies.mk Makefile
 	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-Makefile.dos: dependencies.mk
+Makefile.dos: dependencies.mk Makefile
 	@echo Updating Makefile.dos!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cp "#Makefile.tmp#" Makefile.dos
-	@sed $(DOSSUBS) dependencies.mk >> Makefile.dos
+	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.dos
 
 alan.make: dependencies.mk
 	@echo Updating alan.make!

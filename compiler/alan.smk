@@ -1,7 +1,7 @@
 %%OPTIONS
 
 	Prefix 'sm';
-	Pack RDS, GCS, LES, Error;
+	Pack RDS, GCS, LES, ERROR;
 
 %%IMPORT
 

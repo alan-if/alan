@@ -1,41 +1,43 @@
-CFLAGS = /Zi /Al
+CFLAGS = /Zi /AM
 
 LDFLAGS = /Fb /Fearun 
 
-SRCS = arun.c \
-	debug.c \
-	args.c \
-	exe.c \
-	inter.c \
-	parse.c \
-	rules.c \
-	stack.c \
-	decode.c \
-	term.c \
-	reverse.c \
-	params.c \
-	sysdep.c
+OBJECTS = arun.obj \
+	debug.obj \
+	args.obj \
+	exe.obj \
+	inter.obj \
+	parse.obj \
+	rules.obj \
+	stack.obj \
+	decode.obj \
+	term.obj \
+	reverse.obj \
+	params.obj \
+	sysdep.obj \
+	version.obj
 
-OBJECTS = ${SRCS:.c=.o}
 
 arun.exe : $(OBJECTS)
 	cl $(LDFLAGS) $(CFLAGS) $**
+	copy arun.exe ..
+
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
-args.o : args.c args.h arun.h types.h sysdep.h acode.h 
-arun.o : arun.c sysdep.h types.h acode.h arun.h version.h args.h parse.h inter.h \
+args.obj : args.c args.h arun.h types.h sysdep.h acode.h 
+arun.obj : arun.c sysdep.h types.h acode.h arun.h version.h args.h parse.h inter.h \
   rules.h debug.h stack.h exe.h term.h 
-debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
-decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
-exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
+debug.obj : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
+decode.obj : decode.c arun.h types.h sysdep.h acode.h decode.h 
+exe.obj : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
   exe.h 
-inter.o : inter.c types.h sysdep.h acode.h arun.h parse.h exe.h stack.h inter.h 
-params.o : params.c types.h sysdep.h acode.h params.h 
-parse.o : parse.c types.h sysdep.h acode.h arun.h inter.h exe.h term.h debug.h \
+inter.obj : inter.c types.h sysdep.h acode.h arun.h parse.h exe.h stack.h inter.h 
+params.obj : params.c types.h sysdep.h acode.h params.h 
+parse.obj : parse.c types.h sysdep.h acode.h arun.h inter.h exe.h term.h debug.h \
   params.h parse.h 
-reverse.o : reverse.c types.h sysdep.h acode.h arun.h reverse.h 
-rules.o : rules.c types.h sysdep.h acode.h arun.h inter.h stack.h rules.h 
-stack.o : stack.c types.h sysdep.h acode.h arun.h stack.h 
-sysdep.o : sysdep.c sysdep.h 
-term.o : term.c arun.h types.h sysdep.h acode.h term.h 
-version.o : version.c version.h 
+reverse.obj : reverse.c types.h sysdep.h acode.h arun.h reverse.h 
+rules.obj : rules.c types.h sysdep.h acode.h arun.h inter.h stack.h rules.h 
+stack.obj : stack.c types.h sysdep.h acode.h arun.h stack.h 
+sysdep.obj : sysdep.c sysdep.h 
+term.obj : term.c arun.h types.h sysdep.h acode.h term.h 
+version.obj : version.c version.h 
