@@ -264,8 +264,9 @@ static void reverseExts(adr)
 {
   ExtElem *e = (ExtElem *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (adr != 0 && !endOfTable(e) && !e->rev) {
     reverseTable(adr, sizeof(ExtElem));
+    e->rev = TRUE;
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);

@@ -122,6 +122,7 @@ typedef struct LocElem {	/* LOCATION TABLE */
 } LocElem;
 
 typedef struct ExtElem {	/* EXIT TABLE structure */
+  Abool rev;			/* Flag for reversing process */
   Aword code;			/* Direction code */
   Aaddr checks;			/* Address of check table */
   Aaddr action;			/* Address of action code */

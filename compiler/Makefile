@@ -83,12 +83,11 @@ VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
 #-- MAIN TARGET
-debug all tcov: alan
 
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-all: alan alan.prod Makefile
+debug tcov all: alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 

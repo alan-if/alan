@@ -186,22 +186,23 @@ static Aaddr geexstms(ext)
 
 /*----------------------------------------------------------------------
 
-  geexent()
+  geextent()
 
   Generate one exit in an exit list.
 
  */
 #ifdef _PROTOTYPES_
-static void geexent(ExtNod *ext)
+static void geextent(ExtNod *ext)
                  		/* IN - The exit to generate */
 #else
-static void geexent(ext)
+static void geextent(ext)
      ExtNod *ext;		/* IN - The exit to generate */
 #endif
 {
   List *dir;
   
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
+    emit(0);			/* For reversing process */
     emit(dir->element.nam->code);
 
     if (ext->chks != NULL)
@@ -251,7 +252,7 @@ Aaddr geexts(exts)
   
   extadr = emadr();
   for (lst = exts; lst != NULL; lst = lst->next)
-    geexent(lst->element.ext);
+    geextent(lst->element.ext);
   emit(EOF);
   return(extadr);
 }
