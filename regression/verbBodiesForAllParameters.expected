@@ -1,0 +1,28 @@
+########## alan verbBodiesForAllParameters ##########
+
+
+verbBodiesForAllParameters.alan
+
+    5.      Does
+=====>      1
+
+  *1*   223 W : This Verb Alternative will be executed for every parameter in
+                the syntax. Use a WHEN clause to specify for which parameter
+                this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+########## arun verbBodiesForAllParameters ##########
+
+
+L
+There is a o here.
+
+> v o o o
+You v the o. You v the o. You v the o.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
