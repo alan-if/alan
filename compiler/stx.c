@@ -135,7 +135,7 @@ void anstxs(void)
 
   defaultStx()
 
-  Returns the address a defaut syntax node which is used for verbs
+  Returns the address a default syntax node which is used for verbs
   without any defined syntax:
 
   Syntax x = x (object).
@@ -147,13 +147,13 @@ StxNod *defaultStx(char *vrbstr) /* IN - The string for the verb */
   List *elms;
 
   elms = concat(concat(concat(NULL,
-			      newelm(&nulsrcp, ELMWRD, newId(&nulsrcp,
+			      newelm(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
 			      LIST_ELM),
-		       newelm(&nulsrcp, ELMPAR, newId(&nulsrcp, "object"), FALSE),
+		       newelm(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
 		       LIST_ELM),
-		newelm(&nulsrcp, ELMEOS, NULL, FALSE), LIST_ELM);
+		newelm(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), LIST_ELM);
   stx = newstx(&nulsrcp, newId(&nulsrcp, vrbstr), elms, NULL);
 
   adv.stxs = concat(adv.stxs, stx, LIST_STX);
@@ -236,7 +236,7 @@ static void gestxent(StxNod *stx) /* IN - Syntax node to generate for */
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
-    emit(stx->elms->element.elm->id->symbol->code);
+    emit(stx->elms->element.elm->id->code);
     /* Address to syntax element tables */
     emit(stx->elmsadr);
   }

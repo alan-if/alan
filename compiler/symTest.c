@@ -25,7 +25,7 @@ void testSymCheck()
   Srcp srcp = {14, 12, 333};
   IdNode *unknownId = newId(&srcp, "unknownId");
   IdNode *aClassId = newId(&srcp, "aClassId");
-  SymNod *aClassSymbol = newsym("aClassId", CLASS_SYMBOL);
+  SymNod *aClassSymbol = newSymbol("aClassId", CLASS_SYMBOL);
   SymNod *foundSymbol;
 
   foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
@@ -40,7 +40,7 @@ void testSymCheck()
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {
-  SymNod *sym1 = newsym(symbolName1, CLASS_SYMBOL);
+  SymNod *sym1 = newSymbol(symbolName1, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName1);
 
   unitAssert(sym1 == sym2);
@@ -52,7 +52,7 @@ void testBuildSymbol1()
 /* Test symbol table by inserting a symbol with a higher name */
 void testBuildSymbolHigher()
 {
-  SymNod *sym1 = newsym(symbolName2, CLASS_SYMBOL);
+  SymNod *sym1 = newSymbol(symbolName2, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName2);
 
   unitAssert(sym1 == sym2);
@@ -63,7 +63,7 @@ void testBuildSymbolHigher()
 /* Test symbol table by inserting a symbol with a lower name */
 void testBuildSymbolLower()
 {
-  SymNod *sym1 = newsym(symbolName3, CLASS_SYMBOL);
+  SymNod *sym1 = newSymbol(symbolName3, CLASS_SYMBOL);
   SymNod *sym2 = lookup(symbolName3);
 
   unitAssert(sym1 == sym2);

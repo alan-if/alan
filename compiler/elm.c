@@ -80,25 +80,19 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 {
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
-#ifndef FIXME
-  syserr("UNIMPLEMENTED: anelm() - parameter coding");
-#else
   switch (elm->kind) {
-  case ELMPAR:
-    elm->id->kind = NAMPAR;    /* It is a parameter */
+  case PARAMETER_ELEMENT:
     elm->id->code = elm->no;
     break;
-  case ELMWRD:
-    elm->id->kind = NAMWRD;    /* It is a word */
-    elm->id->code = newwrd(elm->id->str, WRD_PREP, 0, NULL);
+  case WORD_ELEMENT:
+    elm->id->code = newwrd(elm->id->string, WRD_PREP, 0, NULL);
     break;
-  case ELMEOS:
+  case END_OF_SYNTAX:
     break;
   default:
     syserr("Unknown element node kind in anelm()");
     break;
   }
-#endif
 }
 
 
@@ -109,8 +103,7 @@ static void anelm(ElmNod *elm)  /* IN - Syntax element to analyze */
 
   Analyzes all elements in a list by calling the analyzer for all.
  */
-List *anelms(
-             List *elms,        /* IN - List to analyze */
+List *anelms(List *elms,        /* IN - List to analyze */
              List *ress,        /* IN - The class restrictions */
              StxNod *stx        /* IN - The stx we're in */
 )
@@ -121,22 +114,16 @@ List *anelms(
   Bool multiple = FALSE;
   Bool found;
 
-#ifndef FIXME
-  syserr("UNIMPLEMENTED: anelms() - parameter classing and numbering");
-#else
-  if (elm->kind != ELMWRD)
+  if (elm->kind != WORD_ELEMENT)
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
-  else {
-    elm->id->kind = NAMWRD;    /* It is a word */
-    elm->id->code = newwrd(elm->id->str, WRD_VRB, 0, (void *)stx);
-  }
-#endif
+  else
+    elm->id->code = newwrd(elm->id->string, WRD_VRB, 0, (void *)stx);
 
   /* Analyze the elements, number the parameters and find the class res */
   /* Start with the second since the first is analyzed above */
   for (lst = elms->next; lst != NULL; lst = lst->next) {
-    if (lst->element.elm->kind == ELMPAR) {
+    if (lst->element.elm->kind == PARAMETER_ELEMENT) {
       lst->element.elm->no = paramNo++;
       if ((lst->element.elm->flags & MULTIPLEBIT) != 0) {
         if (multiple)
@@ -196,9 +183,9 @@ static Bool eqElms(List *elm1,  /* IN - One list pointer */
     return FALSE;
   else
     return (elm1->element.elm->kind == elm2->element.elm->kind &&
-	    (elm1->element.elm->kind == ELMEOS ||
-	     elm1->element.elm->kind == ELMPAR ||
-	     (elm1->element.elm->kind == ELMWRD &&
+	    (elm1->element.elm->kind == END_OF_SYNTAX ||
+	     elm1->element.elm->kind == PARAMETER_ELEMENT ||
+	     (elm1->element.elm->kind == WORD_ELEMENT &&
               equalId(elm1->element.elm->id, elm2->element.elm->id))));
 }
 
@@ -219,7 +206,7 @@ static Aaddr advance(List *elmsList) /* IN - The list to advance */
 
   for (elms = elmsList; elms != NULL; elms = elms->next) {
     elms->element.lst = elms->element.lst->next;
-    if (elms->element.lst->element.elm->kind == ELMEOS)
+    if (elms->element.lst->element.elm->kind == END_OF_SYNTAX)
       resadr = elms->element.lst->element.elm->stx->resadr;
   }
   return resadr;
@@ -258,7 +245,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 {
   List *part, *rest, *elms, *this, *p;
 
-  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind ==ELMEOS)
+  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind == END_OF_SYNTAX)
     return NULL;
 
   /* Remove the first element from the list to form the partition */
@@ -326,7 +313,7 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
     entries = concat(entries, entry, LIST_EENT);
     switch (part->element.lst->element.elm->kind) {
 
-    case ELMEOS:		/* This partition was at end of syntax */
+    case END_OF_SYNTAX:		/* This partition was at end of syntax */
       if (part->next != NULL) { /* More than one element in this partition? */
         /* That means that two syntax's are the same */
 	for (lst = part; lst != NULL; lst = lst->next)
@@ -337,13 +324,13 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
       entry->adr = resadr;
       break;
 
-    case ELMPAR:		/* A parameter! */
+    case PARAMETER_ELEMENT:
       entry->code = 0;
       entry->flags = part->element.lst->element.elm->flags;
       entry->adr = geelms(part, stx);
       break;
 
-    case ELMWRD:		/* A word */
+    case WORD_ELEMENT:
 #ifndef FIXME
       syserr("UNIMPL: geelms() - code for word in syntax");
 #else
@@ -388,17 +375,17 @@ void duelm(ElmNod *elm)
   put("ELM: "); duptr(elm); dumpSrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
-  case ELMPAR: {
+  case PARAMETER_ELEMENT: {
     char buf[80];
     sprintf(buf, "PARAMETER (Flags: 0x%x)", elm->flags);
     put(buf);
     nl();
     break;
   }
-  case ELMWRD:
+  case WORD_ELEMENT:
     put("WORD"); nl();
     break;
-  case ELMEOS:
+  case END_OF_SYNTAX:
     put("EOS"); nl();
     break;
   default:

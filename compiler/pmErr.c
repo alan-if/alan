@@ -26,6 +26,7 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stx_x.h"
 
 #include "lmList.h"
 
@@ -44,7 +45,6 @@
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
-#include "stx.h"                /* STX-nodes */
 #include "syn.h"                /* SYN-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "wht.h"                /* WHT-nodes */

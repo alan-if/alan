@@ -6,18 +6,21 @@ failed=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename $f .alan`
-    echo -n "$case : "
-    echo "########## $case ##########" >$case.output
-    cat $case.alan >>$case.output
-    echo "########## alan $case.alan ##########" >>$case.output
-    ../bin/alan $case >>$case.output 2>&1
-    ../bin/arun -n $case >>$case.output 2>&1 < $case.input
-    if cmp -s $case.output $case.expected
+    if [ "$case" != "$f" ]
     then
-      echo -n "[K"
-    else
-      failed=`expr $failed + 1`
-      echo "failed!"
+	echo -n "$case : "
+	echo "########## $case ##########" >$case.output
+	cat $case.alan >>$case.output
+	echo "########## alan $case.alan ##########" >>$case.output
+	../bin/alan $case >>$case.output 2>&1
+	../bin/arun -n $case >>$case.output 2>&1 < $case.input
+	if cmp -s $case.output $case.expected
+	then
+	    echo -n "[K"
+	else
+	    failed=`expr $failed + 1`
+	    echo "failed!"
+	fi
     fi
   done
 else

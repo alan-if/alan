@@ -29,6 +29,7 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stx_x.h"
 
 #include "lmList.h"
 
@@ -47,7 +48,6 @@
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
-#include "stx.h"                /* STX-nodes */
 #include "syn.h"                /* SYN-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "wht.h"                /* WHT-nodes */
@@ -373,7 +373,7 @@ static int val(char str[])
 	%<syntax_item>.stx = newstx(`&%'='.srcp,
 				  %ID.id,
 				  concat(%<syntax_elements>.elms,
-				         newelm(`&%ID.id->srcp, ELMEOS,
+				         newelm(`&%ID.id->srcp, END_OF_SYNTAX,
 				                NULL,
 				                FALSE),
 				         LIST_ELM),
@@ -398,7 +398,7 @@ static int val(char str[])
 <syntax_element>
     = ID
     %%
-	%<syntax_element>.elm = newelm(`&%ID.id->srcp, ELMWRD,
+	%<syntax_element>.elm = newelm(`&%ID.id->srcp, WORD_ELEMENT,
 				     %ID.id,
 				     FALSE);
     %%
@@ -406,7 +406,7 @@ static int val(char str[])
     ! '(' ID ')' <optional_indicators>
 
     %%
-	%<syntax_element>.elm = newelm(`&%ID.id->srcp, ELMPAR,
+	%<syntax_element>.elm = newelm(`&%ID.id->srcp, PARAMETER_ELEMENT,
 				     %ID.id,
 				     %<optional_indicators>.bits);
     %%

@@ -13,12 +13,12 @@
 #include "sym_x.h"
 #include "lst_x.h"
 #include "id_x.h"
+#include "stx_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-nodes */
 #include "alt.h"		/* ALT-nodes */
-#include "stx.h"		/* STX-nodes */
 #include "ins.h"		/* INS-nodes */
 
 #include "acode.h"
@@ -60,7 +60,7 @@ VrbNod *newvrb(Srcp *srcp,	/* IN - Source Position */
   for (lst = ids; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol = newsym(lst->element.id->string, VERB_SYMBOL);
+      lst->element.id->symbol = newSymbol(lst->element.id->string, VERB_SYMBOL);
       lst->element.id->code = lst->element.id->symbol->code;
     } else if (sym->kind == VERB_SYMBOL) {
       lst->element.id->symbol->code = sym->code;

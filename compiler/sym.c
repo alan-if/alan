@@ -23,6 +23,7 @@ int classCount = 0;
 int instanceCount = 0;
 int directionCount = 0;
 int attributeCount = 0;
+int verbCount = 0;
 
 
 static SymNod *symTree = NULL;
@@ -119,13 +120,13 @@ static char *symbolKind(SymbolKind kind)
 
 /*======================================================================
 
-  newsym()
+  newSymbol()
 
   Creates a new symnod and links it in the symTree.
 
   */
-SymNod *newsym(char *string,	/* IN - Name of the new symbol */
-	       SymbolKind kind) /* IN - What kind of symbol */
+SymNod *newSymbol(char *string,	/* IN - Name of the new symbol */
+		  SymbolKind kind) /* IN - What kind of symbol */
 {
   SymNod *new;                  /* The newly created symnod */
   
@@ -154,6 +155,9 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
     break;
   case DIRECTION_SYMBOL:
     new->code = ++directionCount;
+    break;
+  case VERB_SYMBOL:
+    new->code = ++verbCount;
     break;
   default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
   }

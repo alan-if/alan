@@ -18,7 +18,7 @@ void testNewExt()
   int entrySize = ACDsizeOf(ExitEntry);
 
   initadv();
-  aLocationSymbol = newsym("aLocation", INSTANCE_SYMBOL);
+  aLocationSymbol = newSymbol("aLocation", INSTANCE_SYMBOL);
 
   theExit = newext(&nulsrcp, concat(NULL, direction, LIST_EXT), targetLocation, NULL, NULL);
   unitAssert(theExit->dirs->element.id->symbol->code = 1);

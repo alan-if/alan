@@ -33,8 +33,8 @@ extern void redefined(Srcp *srcp,
 extern void initSymbols();
 
 /* Create a new symbol node */
-extern SymNod *newsym(char str[],
-		      SymbolKind kind);
+extern SymNod *newSymbol(char str[],
+			 SymbolKind kind);
 
 /* Check if an Id exists and if so if of an allowed kind in this context */
 extern SymNod *symcheck(	/* OUT - Found symbol */

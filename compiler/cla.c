@@ -82,7 +82,7 @@ ClaNod *newClass(Srcp *srcp,	/* IN - Source Position */
 
   new->slots->id = id;
   new->slots->parent = parent;
-  new->slots->symbol = newsym(id->string, CLASS_SYMBOL);
+  new->slots->symbol = newSymbol(id->string, CLASS_SYMBOL);
   new->slots->id->code = new->slots->symbol->code;
   new->slots->symbol->fields.claOrIns.slots = new->slots;
 

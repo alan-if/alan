@@ -8,14 +8,15 @@
 #include "alan.h"
 #include "util.h"
 
-#include "srcp_x.h"
 #include "lmList.h"
 
+#include "cla_x.h"
+#include "ins_x.h"
+#include "lst_x.h"
+#include "srcp_x.h"
+#include "stx_x.h"
 #include "sym_x.h"
 #include "whr_x.h"
-#include "ins_x.h"
-#include "cla_x.h"
-#include "lst_x.h"
 
 #include "adv.h"		/* ADV-node */
 #include "stm.h"		/* STM-nodes */

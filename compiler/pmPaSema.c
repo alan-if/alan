@@ -26,6 +26,7 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "stx_x.h"
 
 #include "lmList.h"
 
@@ -44,7 +45,6 @@
 #include "stm.h"		/* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "str.h"		/* STRINGS */
-#include "stx.h"                /* STX-nodes */
 #include "syn.h"                /* SYN-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "wht.h"                /* WHT-nodes */
@@ -326,7 +326,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stx = newstx(&pmSySt[pmStkP+2].srcp,
 				  pmSeSt[pmStkP+1].id,
 				  concat(pmSeSt[pmStkP+3].elms,
-				         newelm(&pmSeSt[pmStkP+1].id->srcp, ELMEOS,
+				         newelm(&pmSeSt[pmStkP+1].id->srcp, END_OF_SYNTAX,
 				                NULL,
 				                FALSE),
 				         LIST_ELM),
@@ -347,14 +347,14 @@ int rule			/* IN production number */
     case 40: { /* <syntax_element> = ID; */
 #line 400 "alan.pmk"
 
-	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+1].id->srcp, ELMWRD,
+	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+1].id->srcp, WORD_ELEMENT,
 				     pmSeSt[pmStkP+1].id,
 				     FALSE);
     	break;}
     case 41: { /* <syntax_element> = '(' ID ')' <optional_indicators>; */
 #line 408 "alan.pmk"
 
-	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+2].id->srcp, ELMPAR,
+	pmSeSt[pmStkP+1].elm = newelm(&pmSeSt[pmStkP+2].id->srcp, PARAMETER_ELEMENT,
 				     pmSeSt[pmStkP+2].id,
 				     pmSeSt[pmStkP+4].bits);
     	break;}
