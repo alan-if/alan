@@ -25,59 +25,6 @@ static int pc;
 
 
 #ifdef _PROTOTYPES_
-static void skip_else(void)
-#else
-static void skip_else()
-#endif
-{
-  int lev = 1;
-  Aword i;
-
-  while (TRUE) {
-    i = memory[pc++];
-    if (I_CLASS(i) == (Aword)C_STMOP)
-      switch (I_OP(i)) {
-      case I_ELSE:
-	if (lev == 1) return;
-	break;
-      case I_IF:
-	lev++;
-	break;
-      case I_ENDIF:
-	lev--;
-	if (lev == 0) return;
-	break;
-      }
-  }
-}
-
-
-#ifdef _PROTOTYPES_
-static void skip_endif(void)
-#else
-static void skip_endif()
-#endif
-{
-  int lev = 1;
-  Aword i;
-
-  while (TRUE) {
-    i = memory[pc++];
-    if (I_CLASS(i) == (Aword)C_STMOP)
-      switch (I_OP(i)) {
-      case I_ENDIF:
-	lev--;
-	if (lev == 0) return;
-	break;
-      case I_IF:
-	lev++;
-	break;
-      }
-  }
-}
-
-
-#ifdef _PROTOTYPES_
 static void if_(
      Aword v
 )
@@ -86,8 +33,28 @@ static void if_(v)
      Aword v;
 #endif
 {
-  if (!v)
-    skip_else();
+  int lev = 1;
+  Aword i;
+
+  if (!v) {
+    /* Skip to next ELSE or ENDIF on same level */
+    while (TRUE) {
+      i = memory[pc++];
+      if (I_CLASS(i) == (Aword)C_STMOP)
+	switch (I_OP(i)) {
+	case I_ELSE:
+	  if (lev == 1) return;
+	  break;
+	case I_IF:
+	  lev++;
+	  break;
+	case I_ENDIF:
+	  lev--;
+	  if (lev == 0) return;
+	  break;
+	}
+    }
+  }
 }
 
 
@@ -97,7 +64,99 @@ static void else_(void)
 static void else_()
 #endif
 {
-  skip_endif();
+  int lev = 1;
+  Aword i;
+
+  while (TRUE) {
+    /* Skip to ENDIF on the same level */
+    i = memory[pc++];
+    if (I_CLASS(i) == (Aword)C_STMOP)
+      switch (I_OP(i)) {
+      case I_ENDIF:
+	lev--;
+	if (lev == 0) return;
+	break;
+      case I_IF:
+	lev++;
+	break;
+      }
+  }
+}
+
+
+#ifdef _PROTOTYPES_
+static void depstart(void)
+#else
+static void depstart(void)
+#endif
+{
+  /* A DEPSTART was executed so skip across the redundant DEPCASE to
+     start at the first expression */
+  pc++;
+}
+
+
+
+#ifdef _PROTOTYPES_
+static void depexec(
+     Aword v
+)
+#else
+static void depexec(v)
+     Aword v;
+#endif
+{
+  int lev = 1;
+  Aword i;
+
+  if (!v)
+    /* The expression was not true, skip to next CASE on the same
+       level which could be a DEPCASE or DEPELSE */
+    while (TRUE) {
+      i = memory[pc++];
+      if (I_CLASS(i) == (Aword)C_STMOP)
+	switch (I_OP(i)) {
+	case I_DEPSTART:
+	  lev++;
+	  break;
+	case I_DEPEND:
+	  lev--;
+	  break;
+	case I_DEPCASE:
+	case I_DEPELSE:
+	  if (lev == 1) return;
+	  break;
+	}
+    }
+}
+
+
+#ifdef _PROTOTYPES_
+static void depcase(void)
+#else
+static void depcase()
+#endif
+{
+  int lev = 1;
+  Aword i;
+
+  /* Skip to end of DEPENDING block (next DEPEND on same level) because
+     we have just executed a DEPCASE/DEPELSE statement as a result of a DEPCASE
+     catching */
+
+  while (TRUE) {
+    i = memory[pc++];
+    if (I_CLASS(i) == (Aword)C_STMOP)
+      switch (I_OP(i)) {
+      case I_DEPSTART:
+	lev++;
+	break;
+      case I_DEPEND:
+	lev--;
+	if (lev == 0) return;
+	break;
+      }
+  }
 }
 
 
@@ -473,8 +532,8 @@ void interpret(adr)
       }
       case I_AND: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg) {
 	  printf("AND \t");
 	  if (lh) printf("TRUE, "); else printf("FALSE, ");
@@ -487,8 +546,8 @@ void interpret(adr)
       }
       case I_OR: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg) {
 	  printf("OR \t");
 	  if (lh) printf("TRUE, "); else printf("FALSE, ");
@@ -501,8 +560,8 @@ void interpret(adr)
       }
       case I_NE: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("NE \t%5ld, %5ld", lh, rh);
 	push(lh != rh);
@@ -512,8 +571,8 @@ void interpret(adr)
       }
       case I_EQ: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("EQ \t%5ld, %5ld", lh, rh);
 	push(lh == rh);
@@ -523,8 +582,8 @@ void interpret(adr)
       }
       case I_STREQ: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("STREQ \t%5ld, %5ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
@@ -534,8 +593,8 @@ void interpret(adr)
       }
       case I_STREXACT: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("STREXACT \t%5ld, %5ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
@@ -547,8 +606,8 @@ void interpret(adr)
       }
       case I_LE: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("LE \t%5ld, %5ld", lh, rh);
 	push(lh <= rh);
@@ -558,8 +617,8 @@ void interpret(adr)
       }
       case I_GE: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("GE \t%5ld, %5ld", lh, rh);
 	push(lh >= rh);
@@ -569,8 +628,8 @@ void interpret(adr)
       }
       case I_LT: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("LT \t%5ld, %5ld", lh, rh);
 	push(lh < rh);
@@ -580,8 +639,8 @@ void interpret(adr)
       }
       case I_GT: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("GT \t%5ld, %5ld", lh, rh);
 	push(lh > rh);
@@ -591,8 +650,8 @@ void interpret(adr)
       }
       case I_PLUS: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("PLUS \t%5ld, %5ld", lh, rh);
 	push(lh + rh);
@@ -602,8 +661,8 @@ void interpret(adr)
       }
       case I_MINUS: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("MINUS \t%5ld, %5ld", lh, rh);
 	push(lh - rh);
@@ -613,8 +672,8 @@ void interpret(adr)
       }
       case I_MULT: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("MULT \t%5ld, %5ld", lh, rh);
 	push(lh * rh);
@@ -624,8 +683,8 @@ void interpret(adr)
       }
       case I_DIV: {
 	Aword lh, rh;
-	lh = pop();
 	rh = pop();
+	lh = pop();
 	if (stpflg)
 	  printf("DIV \t%5ld, %5ld", lh, rh);
 	push(lh / rh);
@@ -702,8 +761,8 @@ void interpret(adr)
       }
       case I_CONTAINS: {
 	Aword string, substring;
-	string = pop();
 	substring = pop();
+	string = pop();
 	if (stpflg)
 	  printf("CONTAINS \t%5ld, %5ld", string, substring);
 	push(contains(string, substring));
@@ -711,6 +770,41 @@ void interpret(adr)
 	  printf("\t(%ld)", top());
 	break;
       }
+
+      case I_DEPSTART:
+	if (stpflg)
+	  printf("DEPSTART");
+	depstart();
+	break;
+
+      case I_DEPCASE:
+	if (stpflg)
+	  printf("DEPCASE");
+	depcase();
+	break;
+
+      case I_DEPEXEC: {
+	Aword v;
+	v = pop();
+	if (stpflg) {
+	  printf("DEPEXEC \t");
+	  if (v) printf(" TRUE"); else printf("FALSE");
+	}
+	depexec(v);
+	break;
+      }
+	
+      case I_DEPELSE:
+	if (stpflg)
+	  printf("DEPELSE");
+	depcase();
+	break;
+
+      case I_DEPEND:
+	if (stpflg)
+	  printf("DEPEND");
+	break;
+
       case I_RETURN:
 	if (stpflg)
 	  printf("RETURN\n--------------------------------------------------\n");

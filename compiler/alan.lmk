@@ -4,7 +4,7 @@
 	Listings single;
 	Limit 1000;
 --	Message file;
---	Library '.';
+	Library '.';
 
 %%MESSAGES English
 
@@ -78,6 +78,8 @@
 332	'Type of %1 attribute must match %2 attribute.';
 333	'The word \'%1\' is defined to be both a synonym and another word class.';
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
+335	'ELSE clause of a DEPENDING statement must be the last.';
+
 340	'Initial location for \'%1\' declared twice. This occurence ignored.';
 
 400	'Script not defined for Actor \'%1\'.';

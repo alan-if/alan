@@ -551,6 +551,66 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
 }  
 
 
+/*----------------------------------------------------------------------
+
+  andep()
+
+  Analyze a DEPENDING statement. It has partial expressions in the
+  cases which must be connected to the depend expression.
+
+  */
+static void andep(StmNod *stm,	/* IN - Statement to analyze */
+		  ActNod *act,	/* IN - Possibly inside Actor */
+		  List *pars)	/* IN - Possible syntax parameters */
+{
+  List *cases;
+
+ /* The expression will be analysed once for each case so no need to
+    do this separately, is there?
+
+    4f - performance may be somewhat improved by not re-analyze the
+    expression for every case => some indication of an anlyzed
+    expression must be available (the type?) in the expressions nodes */
+
+  for (cases = stm->fields.depend.cases; cases != NULL; cases =
+	 cases->next) {
+
+    if (cases->element.stm->fields.depcase.exp != NULL) {
+      /* Unless it is an ELSE clause set left hand of case expression
+         to be the depend expression */
+      switch (cases->element.stm->fields.depcase.exp->class) {
+      case EXPBIN:
+	cases->element.stm->fields.depcase.exp->fields.bin.left =
+	  stm->fields.depend.exp;
+	break;
+      case EXPWHR:
+	cases->element.stm->fields.depcase.exp->fields.whr.wht =
+	  stm->fields.depend.exp;
+	break;
+      case EXPATR:
+	cases->element.stm->fields.depcase.exp->fields.atr.wht =
+	  stm->fields.depend.exp;
+	break;
+      case EXPBTW:
+	cases->element.stm->fields.depcase.exp->fields.btw.val =
+	  stm->fields.depend.exp;
+	break;
+      default:
+	syserr("andep(): Unrecognized switch case on expkd.");
+      }
+    } else
+      /* If this is an ELSE-case there can not be any other afterwards */
+      if (cases->next != NULL)
+	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
+
+    /* Analyze the expression and the statements */
+    anexp(cases->element.stm->fields.depcase.exp, NULL, pars);
+    anstms(cases->element.stm->fields.depcase.stms, act, NULL, pars);
+
+  }
+}
+
+
 
 /*----------------------------------------------------------------------
 
@@ -618,6 +678,9 @@ static void anstm(StmNod *stm,	/* IN - The statement to analyze */
     break;
   case STM_USE:
     anuse(stm, act, pars);
+    break;
+  case STM_DEPEND:
+    andep(stm, act, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -950,6 +1013,59 @@ static void geuse(StmNod *stm, ActNod *act) /* IN - Statement */
 
 /*----------------------------------------------------------------------
 
+  gedep()
+
+  Generate DEPENDIN statement.
+
+  4f - This is a bit non-optimal since the left hand side of the
+  expression will be evaluated once for each case, but since the
+  current code generation scheme for binary expressions generates the
+  right hand expression first this is currently not possible without
+  making the interpreter incompatible (but on the other hand this way
+  is easier here)
+
+  Code generation principle:
+
+      DEPSTART
+
+      DEPCASE--+
+      exp1     |
+      DEPEND   > repeat for each case
+      stms1----+
+
+      DEPELSE--+ optional
+      stmsn----+
+
+      DEPEND
+  */
+static void gedep(StmNod *stm, ActNod *act) /* IN - Statement */
+{
+  List *cases;
+
+  emit0(C_STMOP, I_DEPSTART);
+
+  /* For each case: */
+  for (cases = stm->fields.depend.cases; cases != NULL; cases =
+	 cases->next) {
+    /* If it is not the ELSE clause ... */
+    if (cases->element.stm->fields.depcase.exp != NULL) {
+      /* Generate a DEPCASE */
+      emit0(C_STMOP, I_DEPCASE);
+      /* ...and the expression */
+      geexp(cases->element.stm->fields.depcase.exp);
+      emit0(C_STMOP, I_DEPEXEC);
+    } else
+      emit0(C_STMOP, I_DEPELSE);
+    /* ...and then the statments */
+    gestms(cases->element.stm->fields.depcase.stms, act);
+  }
+  emit0(C_STMOP, I_DEPEND);
+}
+
+
+
+/*----------------------------------------------------------------------
+
   gesystem()
 
   Generate SYSTEM statement.
@@ -1060,6 +1176,10 @@ static void gestm(StmNod *stm,	/* IN - The statement to generate */
 
   case STM_USE:
     geuse(stm, act);
+    break;
+
+  case STM_DEPEND:
+    gedep(stm, act);
     break;
 
   case STM_SYSTEM:

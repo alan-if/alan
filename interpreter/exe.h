@@ -47,6 +47,7 @@ extern void say(Aword id);
 extern void sayint(Aword val);
 extern Aword rnd(Aword from, Aword to);
 extern Aword btw(Aword val, Aword from, Aword to);
+extern Aword contains(Aword string, Aword substring);
 extern Abool streq(char a[], char b[]);
 extern Abool in(Aword obj, Aword cnt);
 extern Aword where(Aword item);
@@ -89,6 +90,7 @@ extern void say();
 extern void sayint();
 extern Aword rnd();
 extern Aword btw();
+extern Aword contains()
 extern Abool streq();
 extern Abool in();
 extern Aword where();

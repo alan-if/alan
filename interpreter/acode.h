@@ -140,7 +140,12 @@ typedef enum InstClass {
   I_SYSTEM,
   I_RESTART,			/* INTRODUCED: v2.7 */
   I_BTW,			/* INTRODUCED: v2.8 */
-  I_CONTAINS			/*  -""-  */
+  I_CONTAINS,			/*  -""-  */
+  I_DEPSTART,			/*  -""-  */
+  I_DEPCASE,			/*  -""-  */
+  I_DEPEXEC,			/*  -""-  */
+  I_DEPELSE,			/*  -""-  */
+  I_DEPEND			/*  -""-  */
 } InstClass;
 
 

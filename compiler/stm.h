@@ -46,7 +46,9 @@ typedef enum StmKind {		/* STATEMENT kinds */
   STM_CANCEL,
   STM_IF,
   STM_USE,
-  STM_SYSTEM
+  STM_SYSTEM,
+  STM_DEPEND,
+  STM_DEPCASE
 } StmKind;
     
 
@@ -135,6 +137,16 @@ typedef struct StmNod {		/* STATEMENT */
       long fpos;		/* Position to string to execute */
       int len;			/* Length of the string */
     } system;
+
+    struct {			/* DEPEND */
+      ExpNod *exp;		/* Depending expression */
+      List *cases;		/* The cases */
+    } depend;
+
+    struct {			/* DEPCASE */
+      ExpNod *exp;		/* The partial right hand expression */
+      List *stms;
+    } depcase;
 
   } fields;
 } StmNod;

@@ -89,6 +89,7 @@ static int val(char str[])
 	alts %% List *%1%%,
 	atr %% AtrNod *%1%%,
 	atrs %% List *%1%%,
+        cases %% List *%1%%,
 	chk %% ChkNod *%1%%,
 	chks %% List *%1%%,
 	classkd %% NamKind %1%%,
@@ -155,7 +156,7 @@ static int val(char str[])
 
     Separator(',');
 
-    Skip(IDENT, INTEGER, '.');
+    Skip(IDENT, Integer, '.');
 
 %%RULES
 
@@ -186,9 +187,9 @@ static int val(char str[])
 	optenum(%ID.nam->str, `&%ID.nam->srcp, %2ID.nam->str);
     %%
 
-    ! ID INTEGER '.'
+    ! ID Integer '.'
     %%
-	optint(%ID.nam->str, `&%ID.nam->srcp, val(%INTEGER.chars));
+	optint(%ID.nam->str, `&%ID.nam->srcp, val(%Integer.chars));
     %%
     ;
 
@@ -329,18 +330,18 @@ static int val(char str[])
 				FALSE, 0, 0);
     %%
 
-    ! ID <optional_minus> INTEGER
+    ! ID <optional_minus> Integer
     %%
 	if (%<optional_minus>.minus)
 		%<attribute>.atr = newatr(`&%ID.nam->srcp,
 					TYPINT,
 					%ID.nam,
-					-val(%INTEGER.chars), 0, 0);
+					-val(%Integer.chars), 0, 0);
 	else
 		%<attribute>.atr = newatr(`&%ID.nam->srcp,
 					TYPINT,
 					%ID.nam,
-					val(%INTEGER.chars), 0, 0);
+					val(%Integer.chars), 0, 0);
     %%
 
     ! ID STRING	
@@ -1271,12 +1272,12 @@ static int val(char str[])
 	%<limit_attribute>.atr = %<attribute>.atr;
     %%
 
-    ! 'COUNT' INTEGER
+    ! 'COUNT' Integer
     %%
 	%<limit_attribute>.atr = newatr(`&%'COUNT'.srcp,
 				      TYPINT,
 				      newnam(`&%'COUNT'.srcp, "count"),
-				      val(%INTEGER.chars), 0, 0);
+				      val(%Integer.chars), 0, 0);
     %%
     ;
 
@@ -1505,10 +1506,10 @@ static int val(char str[])
 			   %<statements>.stms);
     %%
 
-    ! 'STEP' 'AFTER' INTEGER <statements>
+    ! 'STEP' 'AFTER' Integer <statements>
     %%
 	%<step>.stp = newstp(`&%'STEP'.srcp,
-			   val(%INTEGER.chars),
+			   val(%Integer.chars),
 			   NULL,
 			   %<statements>.stms);
     %%
@@ -1582,9 +1583,9 @@ static int val(char str[])
 	%<statement>.stm = %<assignment_statement>.stm;
     %%
 
-    ! <if_statement>
+    ! <comparison_statement>
     %%
-	%<statement>.stm = %<if_statement>.stm;
+	%<statement>.stm = %<comparison_statement>.stm;
     %%
 
     ! <actor_statement>
@@ -1603,6 +1604,7 @@ static int val(char str[])
     %%
     ;
 
+----> Output Statements
 <output_statement>		-- RETURNS: stm
     = STRING
     %%
@@ -1667,10 +1669,10 @@ static int val(char str[])
 	    %<special_statement>.stm->fields.score.count = 0;
     %%
 
-    ! 'VISITS' INTEGER '.'
+    ! 'VISITS' Integer '.'
     %%
 	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, STM_VISITS);
-	%<special_statement>.stm->fields.visits.count = val(%INTEGER.chars);
+	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
     %%
 
     ! 'SYSTEM' STRING '.'
@@ -1682,7 +1684,7 @@ static int val(char str[])
     ;
 	
 
-
+----> Manipulation Statements
 <manipulation_statement>			-- RETURNS: stm
     = 'EMPTY' <what> <optional_where> '.'
     %%
@@ -1699,13 +1701,15 @@ static int val(char str[])
     %%	  
     ;
 
+
+----> Event Statements
 <event_statement>			-- RETURNS: stm
-    = 'SCHEDULE' ID <optional_where> 'AFTER' INTEGER '.'
+    = 'SCHEDULE' ID <optional_where> 'AFTER' Integer '.'
     %%
 	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, STM_SCHEDULE);
 	%<event_statement>.stm->fields.schedule.nam  = %ID.nam;
 	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
-	%<event_statement>.stm->fields.schedule.when = val(%INTEGER.chars);
+	%<event_statement>.stm->fields.schedule.when = val(%Integer.chars);
     %%	  
 
     ! 'CANCEL' ID '.'
@@ -1715,6 +1719,8 @@ static int val(char str[])
     %%	  
     ;
 
+
+----> Assignment Statements
 <assignment_statement>		-- RETURNS: stm
     = 'MAKE' <what> <something> '.'
     %%
@@ -1760,6 +1766,21 @@ static int val(char str[])
 	%<optional_by_clause>.exp = %<expression>.exp;
     %%
     ;
+
+
+----> Comparison Statements
+<comparison_statement>
+    = <if_statement>
+    %%
+	%<comparison_statement>.stm = %<if_statement>.stm;
+    %%
+
+    ! <depending_statement>
+    %%
+	%<comparison_statement>.stm = %<depending_statement>.stm;
+    %%
+    ;
+
 
 <if_statement>			-- RETURNS: stm
     = 'IF' <expression> 'THEN' <statements> <optional_elsif_list> <optional_else_part> 'END' 'IF' '.'
@@ -1835,6 +1856,46 @@ static int val(char str[])
     %%
     ;
 
+<depending_statement>
+    = 'DEPENDING' 'ON' <primary> <depend_cases> 'END' 'DEPEND' '.'
+    %%{ StmNod *stm;
+	stm = newstm(`&%'DEPENDING'.srcp, STM_DEPEND);
+	stm->fields.depend.exp = %<primary>.exp;
+	stm->fields.depend.cases = %<depend_cases>.cases;
+
+	%<depending_statement>.stm = stm;
+    }%%
+    ;
+
+<depend_cases>				-- RETURNS: cases
+    = <depend_case>
+    %%
+	%<depend_cases>.cases = concat(NULL, %<depend_case>.stm, CASENOD);
+    %%
+
+    ! <depend_cases> <depend_case>
+    %%
+	%<depend_cases>.cases = concat(%<depend_cases>.cases, %<depend_case>.stm, CASENOD);
+    %%
+    ;
+
+<depend_case>				-- RETURNS: stm
+    = <right_hand_side> ':' <statements>
+    %%
+        %<depend_case>.stm = newstm(`&%':'.srcp, STM_DEPCASE);
+        %<depend_case>.stm->fields.depcase.exp = %<right_hand_side>.exp;
+        %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
+    %%
+
+    ! 'ELSE' <statements>
+    %%
+        %<depend_case>.stm = newstm(`&%'ELSE'.srcp, STM_DEPCASE);
+        %<depend_case>.stm->fields.depcase.exp = NULL;
+        %<depend_case>.stm->fields.depcase.stms = %<statements>.stms;
+    %%
+    ;
+
+----> Actor statement
 <actor_statement>			-- RETURNS: stm
     = 'USE' 'SCRIPT' <integer_or_id> <optional_for_actor> '.'
     %%
@@ -1980,13 +2041,13 @@ static int val(char str[])
 	%<primary>.exp = %<expression>.exp;
     %%
 
-    ! <optional_minus> INTEGER
+    ! <optional_minus> Integer
     %%
-	%<primary>.exp = newexp(`&%INTEGER.srcp, EXPINT);
+	%<primary>.exp = newexp(`&%Integer.srcp, EXPINT);
 	if (%<optional_minus>.minus)
-	  %<primary>.exp->fields.val.val = -val(%INTEGER.chars);
+	  %<primary>.exp->fields.val.val = -val(%Integer.chars);
 	else
-	  %<primary>.exp->fields.val.val = val(%INTEGER.chars);
+	  %<primary>.exp->fields.val.val = val(%Integer.chars);
     %%
 
     ! STRING
@@ -2018,11 +2079,11 @@ static int val(char str[])
 	%<primary>.exp->fields.agr.whr	= %<where>.whr;
     %%
 
-    ! 'RANDOM' INTEGER 'TO' INTEGER
+    ! 'RANDOM' Integer 'TO' Integer
     %%
 	%<primary>.exp = newexp(`&%'RANDOM'.srcp, EXPRND);
-	%<primary>.exp->fields.rnd.from	= val(%1INTEGER.chars);
-	%<primary>.exp->fields.rnd.to	= val(%2INTEGER.chars);
+	%<primary>.exp->fields.rnd.from	= val(%1Integer.chars);
+	%<primary>.exp->fields.rnd.to	= val(%2Integer.chars);
     %%
 
     ! 'SCORE'
@@ -2284,9 +2345,9 @@ static int val(char str[])
         %<optional_integer>.str = NULL;
     %%
 
-    ! INTEGER
+    ! Integer
     %%
-        %<optional_integer>.str = newstr(%INTEGER.chars);
+        %<optional_integer>.str = newstr(%Integer.chars);
     %%
     ;
 
@@ -2312,9 +2373,9 @@ static int val(char str[])
     ;
 
 <integer_or_id>			-- RETURNS: nam, val
-    = INTEGER
+    = Integer
     %%
-	%<integer_or_id>.val = val(%INTEGER.chars);
+	%<integer_or_id>.val = val(%Integer.chars);
 	%<integer_or_id>.nam = NULL;
     %%
 
@@ -2379,5 +2440,10 @@ ID
     ! 'CONTAINS'
     %%
         %ID.nam = newnam(`&%'CONTAINS'.srcp, "contains");
+    %%
+
+    ! 'ON'
+    %%
+        %ID.nam = newnam(`&%'ON'.srcp, "on");
     %%
     ;

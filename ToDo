@@ -1,4 +1,10 @@
 ToDo:
+	* Document how to do darkness
+
+	* Document the DEPENDING ON statement
+
+	* Add IN to the identifier/reserved word set
+
 	* Investigate the possibility to allow:
 
 		> TAKE ALL green chairs
@@ -15,14 +21,16 @@ ToDo:
 
 		SYNTAX go = go (d) WHERE d ISA DIRECTION?
 
-	* Experiment with making unknow words into strings:
+	* Experiment with making unknown words into strings:
 
 		say hello to the guard => say "hello" to the guard
 
 	if "hello" is an unknown word
 
 	* Break out the main program from the interpreter so that it
-	becomes easier to build windowed versions.
+	becomes easier to build windowed versions. This implies also a
+	new "API" with functions like put_string(),
+	calculate_length(), space_left() etc...
 
 	* Nested locations? Check how TADS and Inform does locations
 	within locations.
@@ -94,7 +102,11 @@ ToDo:
 	* Verify $<n> w.r.t the syntax parameters
 
 	* How to handle darkness and other global requirements on e.g. the
-	location descriptions?
+	location descriptions? This could possibly be handled by
+	aspects of the descriptions, e.g. VISUAL DESCRIPTION, AUDIAL
+	DESCRIPTION. These could be turned on/off using something like
+	VISUAL ON. This would do away with the ever present test in
+	the descriptions of dark locations.
 
 	* SCHEDULE <event> <where> WHEN <expr>.
 

@@ -181,7 +181,7 @@ int scannedLines(void)
 
 %%RULES
 
-  INTEGER = digit+
+  Integer = digit+
     %%
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     %%;

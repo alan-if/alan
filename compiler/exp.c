@@ -433,9 +433,9 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
 	  exp->typ = TYPINT;
       else
 	exp->typ = TYPENT;
-    } else if (sym) {
+    } else if (sym && sym->class != NAMUNK)
       exp->typ = TYPENT;
-    } else
+    else
       exp->typ = TYPUNK;
     break;
 
@@ -544,8 +544,14 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
   */
 static void geexpbin(ExpNod *exp) /* IN - Expression node */
 {
-  geexp(exp->fields.bin.right);
+  /* 4f - This is actually a non-intutive order since it would have
+     been more natural do start with the left expression. Changing
+     this will make the interpreter incompatible, but would enable a
+     more efficient evaluation of the DEPEND statement since then we
+     could evaluate the left expression only once and then DUP the
+     result once for every CASE */
   geexp(exp->fields.bin.left);
+  geexp(exp->fields.bin.right);
   switch (exp->fields.bin.op) {
   case OP_AND:
     emit0(C_STMOP, I_AND);

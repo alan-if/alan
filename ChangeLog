@@ -1,12 +1,25 @@
-Wed Sep 17 09:00:46 1997  Thomas Nilsson  <thoni@rabbit>
+Tue Sep 23 09:31:45 1997  Thomas Nilsson  <thoni@rabbit>
 
+	* Introduced the DEPENDING statement
+
+Wed Sep 17 09:00:46 1997  Thomas Nilsson  <thoni@rabbit>
+	
 	* Made the hero a container actor. You can now use both the
 	previous pre-defined "inventory" container and the hero as your
 	inventory, they are the same.
 
-	* Improved the analysis of multiple syntaxes fopr the same verb so
+Wed Sep 13 12:40:54 1997  Thomas Nilsson  <thoni@rabbit>
+	
+	* Improved the analysis of multiple syntaxes for the same verb so
  	that it prints one message per occurance of the offending
  	syntaxes.
+
+Wed Sep 10 18:10:23 1997  Thomas Nilsson  <thoni@rabbit>
+
+	* Removed a bug in the generation of syntax declarations:
+ 	sometimes when a short syntax was found between longer ones with
+ 	the same start (prefix) the compiler would loop and allocate
+ 	memory until memory was exhausted.
 
 Wed Aug 27 12:12:05 1997  Thomas Nilsson  <thoni@rabbit>
 
