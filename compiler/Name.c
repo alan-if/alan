@@ -9,6 +9,9 @@
 
 #include "Name.h"
 
+#include "Id.h"
+#include "Word.h"
+
 
 /*======================================================================
 
@@ -18,11 +21,19 @@
 
  */
 #ifdef _PROTOTYPES_
-void analyseName(List *name)
+void analyseName(List *name, void *reference)
 #else
-void analyseName(name)
+void analyseName(name, reference)
      List *name;
+     void *reference;
 #endif
 {
-  /* 4f - Analyse a name */
+  List *list;
+
+  /* Analyse a name by entering adjectives and the noun in the dictionary */
+  for (list = name; list; list = list->next)
+    if (list->next)
+      newWord(list->the.id->string, ADJECTIVE_WORD, reference);
+    else
+      newWord(list->the.id->string, NOUN_WORD, reference);
 }

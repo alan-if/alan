@@ -33,6 +33,7 @@ typedef struct Restriction {	/* RESTRICTION */
   RestrictionKind kind;		/* Kind of class (id, string, integer) */
   Id *class;			/* The class the id must belong to */
   List *statements;		/* Statements to execute if not */
+  int code;			/* AN - Number of the checked parameter */
   Aaddr stmadr;			/* GE - Address to generated statements */
 } Restriction;
 

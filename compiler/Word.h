@@ -9,9 +9,6 @@
 \*----------------------------------------------------------------------*/
 
 /* USE: */
-#include "List.h"
-#include "Id.h"
-
 #include "acode.h"
 
 
@@ -33,9 +30,9 @@ typedef struct Word {		/* DICTIONARY ENTRY */
 #ifdef _PROTOTYPES_
 
 /* Insert a Word into the dictionary */
-extern int newWord(char word[],
-		  WordKind kind,
-		  void *references);
+extern void newWord(char word[],
+		    WordKind kind,
+		    void *reference);
 
 /* Generate the dictionary */
 extern Aaddr generateWords(void);

@@ -76,8 +76,8 @@ Script *findScript(id, scripts)
   List *list;
 
   for (list = scripts; list; list = list->next)
-    if (equalIds(id, list->element.script->id))
-      return (list->element.script);
+    if (equalIds(id, list->the.script->id))
+      return (list->the.script);
   return NULL;
 }
 
@@ -105,7 +105,7 @@ Script *findScriptInLists(srcp, id, lists)
   Script *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found1 = findScript(id, list->element.list);
+    found1 = findScript(id, list->the.list);
     if (found2)
       if (found1 != found2) {
 	lmLogv(srcp, 229, sevERR, "script", id->string);
@@ -190,13 +190,13 @@ void analyseScripts(scripts)
 
   for (list = scripts; list; list = list->next) {
     sentinel = list;
-    analyseScript(list->element.script); /* Analyse the script in itself */
+    analyseScript(list->the.script); /* Analyse the script in itself */
     for (next = list->next; next; next = next->next) {
       /* Check for duplicates */
       remove = FALSE;
-      if (equalIds(next->element.script->id, list->element.script->id)) {
-	lmLogv(&next->element.script->id->srcp, 218, sevERR, "script",
-	       list->element.script->id->string, NULL);
+      if (equalIds(next->the.script->id, list->the.script->id)) {
+	lmLogv(&next->the.script->id->srcp, 218, sevERR, "script",
+	       list->the.script->id->string, NULL);
 	remove = TRUE;
       }
       if (remove) {

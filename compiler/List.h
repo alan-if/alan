@@ -27,15 +27,17 @@ typedef struct List {		/* GENERIC LISTS */
     struct Instance *instance;
     struct Limit *limit;
     struct List *list;
+    struct Restriction *restriction;
     struct Rule *rule;
     struct Script *script;
     struct Statement *statement;
+    struct Step *step;
     struct Synonym *synonym;
     struct Syntax *syntax;
     struct Verb *verb;
     char *string;
     void *anyType;
-  } element;			/* Pointer to any type of element */
+  } the;			/* Pointer to the element */
 } List;
 
 

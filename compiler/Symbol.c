@@ -267,10 +267,10 @@ Bool anyIsA(ids, className)
   List *list;
 
   for (list = ids; list; list = list->next)
-    if (strcmp(list->element.id->string, className) == 0)
+    if (strcmp(list->the.id->string, className) == 0)
       return TRUE;
   for (list = ids; list; list = list->next)
-    if (isA(list->element.id, className))
+    if (isA(list->the.id, className))
       return TRUE;
   return FALSE;
 }

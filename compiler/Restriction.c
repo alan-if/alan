@@ -9,7 +9,12 @@
 
 #include "Restriction.h"
 
+#include "Element.h"
+#include "Statement.h"
+#include "Symbol.h"
+
 #include "dump.h"
+#include "lmList.h"
 
 
 
@@ -50,11 +55,46 @@ Restriction *newRestriction(srcp, id, kind, class, statements)
 }
 
 
+
+/*----------------------------------------------------------------------
+
+  analyseRestriction()
+
+  Analyze a Restriction.
+
+ */
+#ifdef _PROTOTYPES_
+static void analyseRestriction(Restriction *restriction, List *parameters)
+#else
+static void analyseRestriction(restriction, parameters)
+     Restriction *restriction;
+     List *parameters;
+#endif
+{
+  Bool found = FALSE;
+  List *list;
+  Symbol *symbol;
+
+  /* Check for the id in the parameter list */
+  for (list = parameters; list != NULL; list = list->next)
+    if (equalIds(restriction->id, list->the.element->id)) {
+      found = TRUE;
+      break;
+    }
+  if (!found)
+    lmLog(&restriction->id->srcp, 222, sevERR, restriction->id->string);
+  if (restriction->kind == ID_RESTRICTION)
+    symbol = symbolCheck(restriction->class, CLASS_SYMBOL);
+  analyseStatements(restriction->statements, NULL, parameters);
+}
+
+
+
 /*======================================================================
 
   analyseRestrictions()
 
-  Analyze a list of Restrictions.
+  Analyse a list of Restrictions.
 
  */
 #ifdef _PROTOTYPES_
@@ -65,7 +105,11 @@ void analyseRestrictions(restrictions, parameters)
      List *parameters;
 #endif
 {
-  /* 4f - analyse restrictions */
+  List *list;
+
+  /* Check for the id in the parameter list */
+  for (list = restrictions; list != NULL; list = list->next)
+    analyseRestriction(list->the.restriction, parameters);
 }
 
 

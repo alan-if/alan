@@ -47,13 +47,13 @@ Verb *newVerb(srcp, ids, alternatives)
 
   /* Look up all ids in a VERB and enter them as verb symbols */
   for (list = ids; list; list = list->next) {
-    symbol = lookup(list->element.id->string);
+    symbol = lookup(list->the.id->string);
     if (symbol == NULL)
-      symbol = newSymbol(list->element.id, VERB_SYMBOL);
+      symbol = newSymbol(list->the.id, VERB_SYMBOL);
     else if (symbol->kind != ERROR_SYMBOL)
       if (symbol->kind != VERB_SYMBOL) {
 	symbol->kind = ERROR_SYMBOL;
-	lmLogv(&list->element.id->srcp, 300, sevERR, list->element.id->string,
+	lmLogv(&list->the.id->srcp, 300, sevERR, list->the.id->string,
 	       symbolKindString(VERB_SYMBOL), NULL);
       }
   }
@@ -82,9 +82,9 @@ Verb *findVerb(id, verbs)
   List *ids;
 
   for (list = verbs; list; list = list->next)
-    for (ids = list->element.verb->ids; ids; ids = ids->next)
-      if (equalIds(id, ids->element.id))
-	return (list->element.verb);
+    for (ids = list->the.verb->ids; ids; ids = ids->next)
+      if (equalIds(id, ids->the.id))
+	return (list->the.verb);
   return NULL;
 }
 
@@ -112,7 +112,7 @@ Verb *findVerbInLists(srcp, id, lists)
   Verb *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found1 = findVerb(id, list->element.list);
+    found1 = findVerb(id, list->the.list);
     if (found2)
       if (found1 != found2) {
 	lmLogv(srcp, 229, sevERR, "verb", id->string);
@@ -195,20 +195,20 @@ void analyseVerbs(verbs)
   for (list = verbs; list != NULL; list = list->next) {
     /* Analyse the verb */
     if (verbose) printf(".");
-    analyseVerb(list->element.verb);
+    analyseVerb(list->the.verb);
     /* Verify that the ids are not multiply defined */
-    for (ids = list->element.verb->ids; ids; ids = ids->next) {
+    for (ids = list->the.verb->ids; ids; ids = ids->next) {
       /* In this VERB ? */
       for (other = ids->next; other; other = other->next)
-	if (equalIds(ids->element.id, other->element.id)) {
-	  lmLog(&other->element.id->srcp, 204, sevERR, other->element.id->string);
+	if (equalIds(ids->the.id, other->the.id)) {
+	  lmLog(&other->the.id->srcp, 204, sevERR, other->the.id->string);
 	  break;
 	}
       /* Then the ids in the other VERBs */
       for (list2 = list->next; list2; list2 = list2->next)
-	  for (other = list2->element.verb->ids; other; other = other->next)
-	    if (equalIds(ids->element.id, other->element.id)) {
-	      lmLog(&other->element.id->srcp, 205, sevERR, other->element.id->string);
+	  for (other = list2->the.verb->ids; other; other = other->next)
+	    if (equalIds(ids->the.id, other->the.id)) {
+	      lmLog(&other->the.id->srcp, 205, sevERR, other->the.id->string);
 	      break;
 	    }
     }

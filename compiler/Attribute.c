@@ -89,8 +89,8 @@ Attribute *findAttribute(id, attributes, lists)
   Attribute *attribute;
 
   for (list = attributes; list; list = list->next)
-    if (equalIds(id, list->element.attribute->id))
-      return (list->element.attribute);
+    if (equalIds(id, list->the.attribute->id))
+      return (list->the.attribute);
   attribute = findAttributeInLists(&attribute->id->srcp, id, lists);
   return attribute;
 }
@@ -119,7 +119,7 @@ Attribute *findAttributeInLists(srcp, id, lists)
   Attribute *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found1 = findAttribute(id, list->element.list, NULL);
+    found1 = findAttribute(id, list->the.list, NULL);
     if (found2)
       if (found1 != found2) {
 	lmLogv(srcp, 229, sevERR, "attribute", id->string);
@@ -186,9 +186,9 @@ void analyseAttributes(attributes)
     for (next = list->next; next; next = next->next) {
       /* Check for duplicates */
       remove = FALSE;
-      if (equalIds(next->element.attribute->id, list->element.attribute->id)) {
-	lmLogv(&next->element.attribute->id->srcp, 218, sevERR, "attribute",
-	       list->element.attribute->id->string, NULL);
+      if (equalIds(next->the.attribute->id, list->the.attribute->id)) {
+	lmLogv(&next->the.attribute->id->srcp, 218, sevERR, "attribute",
+	       list->the.attribute->id->string, NULL);
 	remove = TRUE;
       }
       if (remove) {
@@ -299,15 +299,15 @@ Aword generateAttributes(attributes)
   /* First generate the names of the attributes if needed */ 
   if ((Bool) options[DEBUG_OPTION].value) {
     for (lst = attributes; lst != NULL; lst = lst->next) {
-      lst->element.attribute->stradr = emitAddress();
-      emitString(lst->element.attribute->id->string);
+      lst->the.attribute->stradr = emitAddress();
+      emitString(lst->the.attribute->id->string);
     }
   }
 
   adr = emitAddress();
 
   for (lst = attributes; lst; lst = lst->next)
-    generateAttribute(lst->element.attribute);
+    generateAttribute(lst->the.attribute);
   emit(EOF);
 
   return(adr);
@@ -333,9 +333,9 @@ Aaddr generateStringInit()
   Aaddr adr = emitAddress();
 
   for (attributes = adventure.stringAttributes; attributes != NULL; attributes = attributes->next) {
-    emit(attributes->element.attribute->fpos);
-    emit(attributes->element.attribute->len);
-    emit(attributes->element.attribute->adr);
+    emit(attributes->the.attribute->fpos);
+    emit(attributes->the.attribute->len);
+    emit(attributes->the.attribute->adr);
   }
   emit(EOF);
   return adr;

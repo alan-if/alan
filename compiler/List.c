@@ -46,7 +46,7 @@ List *prepend(element, list)
 
   new = NEW(List);
 
-  new->element.anyType = element;
+  new->the.anyType = element;
 
   new->next = list;
   return new;
@@ -78,7 +78,7 @@ List *append(list, element)
 
   new = NEW(List);
 
-  new->element.anyType = element;
+  new->the.anyType = element;
 
   new->next = NULL;
   if (list == NULL) {
@@ -166,7 +166,7 @@ List *copyList(list)
 
   new, newList = NEW(List);
   for (oldList = list; oldList; oldList = oldList->next) {
-    newList->element.anyType = oldList->element.anyType;
+    newList->the.anyType = oldList->the.anyType;
     if (oldList->next)
       newList->next = NEW(List);
     newList = newList->next;
@@ -232,7 +232,7 @@ void dumpList(list, kind)
   
   put("LIST: "); dumpAddress(list); in();
   while (list != NULL) {
-    dumpNode((void *)list->element.anyType, kind);
+    dumpNode(list->the.anyType, kind);
     list = list->next;
     if (list != NULL) nl();
   }

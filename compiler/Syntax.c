@@ -84,7 +84,7 @@ void analyseSyntax(syntax)
 
   /* Link the last syntax element to this syntax node for code generation */
   for (list = syntax->elements; list->next; list = list->next);
-  list->element.element->syntax = syntax;
+  list->the.element->syntax = syntax;
 }
 
 
@@ -107,13 +107,13 @@ void analyseSyntaxes(syntaxes)
 
   for (list = syntaxes; list != NULL; list = list->next) {
     if (verbose) printf(".");
-    analyseSyntax(list->element.syntax);
+    analyseSyntax(list->the.syntax);
     
     /* Check for multiple definitions of the syntax for a verb */
     for (other = list->next; other != NULL; other = other->next)
-      if (equalIds(other->element.syntax->id, list->element.syntax->id)) {
-	lmLog(&other->element.syntax->id->srcp, 206, sevWAR,
-	      other->element.syntax->id->string);
+      if (equalIds(other->the.syntax->id, list->the.syntax->id)) {
+	lmLog(&other->the.syntax->id->srcp, 206, sevWAR,
+	      other->the.syntax->id->string);
 	break;
       }
   }

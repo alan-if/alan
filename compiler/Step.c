@@ -62,7 +62,15 @@ void analyseSteps(steps)
      List *steps;
 #endif
 {
-  /* 4f - Analyse steps */
+  List *list;
+
+  for (list = steps; list; list = list->next) {
+    if (list->the.step->after)
+      analyseExpression(list->the.step->after, NULL);
+    if (list->the.step->expression)
+      analyseExpression(list->the.step->expression, NULL);
+    analyseStatements(list->the.step->statements, NULL, NULL);
+  }
 }
 
 

@@ -105,13 +105,13 @@ void analyseLimits(limits)
 
   for (list = limits; list != NULL; list = list->next) {
     /* Analyse the limit */
-    analyseLimit(list->element.limit);
+    analyseLimit(list->the.limit);
     /* Verify that the attributes are not multiply used */
     for (other = list->next; other; other = other->next)
-      if (equalIds(list->element.limit->attribute->id,
-		   other->element.limit->attribute->id)) {
-	lmLog(&other->element.limit->attribute->id->srcp, 219, sevERR,
-	      other->element.limit->attribute->id->string);
+      if (equalIds(list->the.limit->attribute->id,
+		   other->the.limit->attribute->id)) {
+	lmLog(&other->the.limit->attribute->id->srcp, 219, sevERR,
+	      other->the.limit->attribute->id->string);
 	break;
       }
   }

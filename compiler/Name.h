@@ -23,7 +23,7 @@
 #ifdef _PROTOTYPES_
 
 /* Analyse a Name by putting the words into the dictionary */
-extern void analyseName(List *name);
+extern void analyseName(List *name, void *reference);
 
 /* Generate the dictionary */
 extern Aaddr generateName(List *name);

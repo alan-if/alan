@@ -9,8 +9,11 @@
 #include "types.h"
 
 #include "Instance.h"
-#include "Symbol.h"
+
 #include "Class.h"
+#include "Name.h"
+#include "Symbol.h"
+#include "Word.h"
 
 #include "lmList.h"
 #include "dump.h"
@@ -90,6 +93,11 @@ void analyseInstance(instance)
     lmLog(&instance->srcp, 227, sevERR, NULL);
   else
     analyseSlot(instance->id, instance->slot);
+
+  if (instance->slot->name)
+    analyseName(instance->slot->name, (void *)instance);
+  else
+    newWord(instance->id->string, NOUN_WORD, (void *)instance);
 }
 
 

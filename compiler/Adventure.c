@@ -100,35 +100,35 @@ void analyseAdventure()
   if (verbose) printf("\n\tClasses");
   for (list = adventure.classes; list; list = list->next) {
     if (verbose) printf(".");
-    analyseClass(list->element.class);
+    analyseClass(list->the.class);
   }
 
   /* Analyse the instances */
   if (verbose) printf("\n\tInstances");
   for (list = adventure.instances; list; list = list->next) {
     if (verbose) printf(".");
-    analyseInstance(list->element.instance);
+    analyseInstance(list->the.instance);
   }
 
   /* Analyse the events */
   if (verbose) printf("\n\tEvents");
   for (list = adventure.events; list; list = list->next) {
     if (verbose) printf(".");
-    analyseEvent(list->element.event);
+    analyseEvent(list->the.event);
   }
 
   /* Analyse the rules */
   if (verbose) printf("\n\tRules");
   for (list = adventure.rules; list; list = list->next) {
     if (verbose) printf(".");
-    analyseRule(list->element.rule);
+    analyseRule(list->the.rule);
   }
 
   /* Analyse the synonyms */
   if (verbose) printf("\n\tSynonyms");
   for (list = adventure.synonyms; list; list = list->next) {
     if (verbose) printf(".");
-    analyseSynonym(list->element.synonym);
+    analyseSynonym(list->the.synonym);
   }
   if (verbose) printf("\n");
 

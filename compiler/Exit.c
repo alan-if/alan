@@ -55,13 +55,13 @@ Exit *newExit(srcp, directions, to, checks, does)
 
   /* Look up all directions in a exit and enter them as direction symbols */
   for (list = directions; list; list = list->next) {
-    symbol = lookup(list->element.id->string);
+    symbol = lookup(list->the.id->string);
     if (symbol == NULL)
-      symbol = newSymbol(list->element.id, DIRECTION_SYMBOL);
+      symbol = newSymbol(list->the.id, DIRECTION_SYMBOL);
     else if (symbol->kind != ERROR_SYMBOL)
       if (symbol->kind != DIRECTION_SYMBOL) {
 	symbol->kind = ERROR_SYMBOL;
-	lmLogv(&list->element.id->srcp, 300, sevERR, list->element.id->string,
+	lmLogv(&list->the.id->srcp, 300, sevERR, list->the.id->string,
 	       symbolKindString(DIRECTION_SYMBOL), NULL);
       }
   }
@@ -90,9 +90,9 @@ Exit *findExit(id, exits)
   List *direction;
 
   for (list = exits; list; list = list->next)
-    for (direction = list->element.exit->directions; direction; direction = direction->next)
-      if (equalIds(id, direction->element.id))
-	return (list->element.exit);
+    for (direction = list->the.exit->directions; direction; direction = direction->next)
+      if (equalIds(id, direction->the.id))
+	return (list->the.exit);
   return NULL;
 }
 
@@ -120,7 +120,7 @@ Exit *findExitInLists(srcp, id, lists)
   Exit *found1 = NULL, *found2 = NULL;
 
   for (list = lists; list; list = list->next) {
-    found1 = findExit(id, list->element.list);
+    found1 = findExit(id, list->the.list);
     if (found2)
       if (found1 != found2) {
 	lmLogv(srcp, 229, sevERR, "exit", id->string);
@@ -207,20 +207,20 @@ void analyseExits(exits)
 
   for (list = exits; list != NULL; list = list->next) {
     /* Analyse the exit */
-    analyseExit(list->element.exit);
+    analyseExit(list->the.exit);
     /* Verify that the directions are not multiply defined */
-    for (directions = list->element.exit->directions; directions; directions = directions->next) {
+    for (directions = list->the.exit->directions; directions; directions = directions->next) {
       /* In this EXIT ? */
       for (other = directions->next; other; other = other->next)
-	if (equalIds(directions->element.id, other->element.id)) {
-	  lmLog(&other->element.id->srcp, 202, sevERR, other->element.id->string);
+	if (equalIds(directions->the.id, other->the.id)) {
+	  lmLog(&other->the.id->srcp, 202, sevERR, other->the.id->string);
 	  break;
 	}
       /* Then the directions in the other EXITs */
       for (list2 = list->next; list2; list2 = list2->next)
-	  for (other = list2->element.exit->directions; other; other = other->next)
-	    if (equalIds(directions->element.id, other->element.id)) {
-	      lmLog(&other->element.id->srcp, 202, sevERR, other->element.id->string);
+	  for (other = list2->the.exit->directions; other; other = other->next)
+	    if (equalIds(directions->the.id, other->the.id)) {
+	      lmLog(&other->the.id->srcp, 202, sevERR, other->the.id->string);
 	      break;
 	    }
     }

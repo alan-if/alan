@@ -73,12 +73,12 @@ void analyseAlternative(alternative, parameters)
   if (alternative->id != NULL) {
     /* Alternatives given, find out which one */
     for (list = parameters; list != NULL; list = list->next)
-      if (equalIds(list->element.element->id, alternative->id))
+      if (equalIds(list->the.element->id, alternative->id))
 	break;
     if (list == NULL)
       lmLog(&alternative->id->srcp, 214, sevERR, alternative->id->string);
     else
-      alternative->code = list->element.element->code;
+      alternative->code = list->the.element->code;
   } 
 
   analyseChecks(alternative->checks, parameters);

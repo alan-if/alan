@@ -82,7 +82,7 @@ void analyseChecks(checks, parameters)
   List *list;
 
   for (list = checks; list; list = list->next)
-    analyseCheck(list->element.check, parameters);
+    analyseCheck(list->the.check, parameters);
 }
 
 

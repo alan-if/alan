@@ -13,7 +13,6 @@
 #include "Attribute.h"
 #include "Class.h"
 #include "Exit.h"
-#include "Name.h"
 #include "Script.h"
 #include "Statement.h"
 #include "Symbol.h"
@@ -122,10 +121,10 @@ void analyseSlot(id, slot)
   /* Also collect inherited attributes, scripts, etc. */
   for (list = slot->heritage; list; list = list->next) {
     remove = FALSE;
-    if ((symbol = symbolCheck(list->element.id, CLASS_SYMBOL)) != NULL) {
+    if ((symbol = symbolCheck(list->the.id, CLASS_SYMBOL)) != NULL) {
       /* Ok, it was a class, now check for circular inheritance */
       if (symbol->info.class->slot->state == LOOKING_FOR_CIRCLES) {
-	lmLog(&list->element.id->srcp, 226, sevERR, list->element.id->string);
+	lmLog(&list->the.id->srcp, 226, sevERR, list->the.id->string);
 	remove = TRUE;
       } else {
 	if (symbol->info.class->slot->state != FINISHED)
@@ -151,19 +150,17 @@ void analyseSlot(id, slot)
   analyseAttributes(slot->attributes);
   /* 4f - check that the attributes that are inherited but have no local definition don't clash */
   for (localAttributes = slot->attributes; localAttributes; localAttributes = localAttributes->next) {
-    attribute = findAttributeInLists(&id->srcp, localAttributes->element.attribute->id,
+    attribute = findAttributeInLists(&id->srcp, localAttributes->the.attribute->id,
 				     slot->inheritedAttributeLists);
     if (attribute == NULL)
-      localAttributes->element.attribute->code = ++attributeCount;
-    else if (!equalTypes(localAttributes->element.attribute->type, attribute->type))
-      lmLog(&localAttributes->element.attribute->srcp, 228, sevERR, NULL);
+      localAttributes->the.attribute->code = ++attributeCount;
+    else if (!equalTypes(localAttributes->the.attribute->type, attribute->type))
+      lmLog(&localAttributes->the.attribute->srcp, 228, sevERR, NULL);
     else
-      localAttributes->element.attribute->code = attribute->code;
+      localAttributes->the.attribute->code = attribute->code;
   }
 
-  /* Analyse the name */
-  if (slot->name)
-    analyseName(slot->name);
+  /* There is nothing to analyse for the name, defer that to the instances */
 
   /* Analyse the where */
   if (slot->where)
@@ -179,7 +176,7 @@ void analyseSlot(id, slot)
   /* Analyse the surroundings */
   if (slot->surroundings) {
     if (!anyIsA(slot->heritage, "location"))
-      lmLogv(&slot->surroundings->element.statement->srcp, 223, sevERR,
+      lmLogv(&slot->surroundings->the.statement->srcp, 223, sevERR,
 	     id->string, "location", NULL);
     analyseStatements(slot->surroundings, NULL, NULL);
   }
@@ -202,16 +199,16 @@ void analyseSlot(id, slot)
   /* Analyse the exits */
   if (slot->exits) {
     if (!anyIsA(slot->heritage, "location"))
-      lmLogv(&slot->exits->element.exit->srcp, 223, sevERR, id->string, "location",
+      lmLogv(&slot->exits->the.exit->srcp, 223, sevERR, id->string, "location",
 	     NULL);
     analyseExits(slot->exits);
     /* Find and resolve inherited exits */
     for (localExits = slot->exits; localExits; localExits = localExits->next) {
       List *direction;
 
-      for (direction = localExits->element.exit->directions; direction;
+      for (direction = localExits->the.exit->directions; direction;
 	   direction = direction->next)
-	exit = findExitInLists(&id->srcp, direction->element.id,
+	exit = findExitInLists(&id->srcp, direction->the.id,
 			       slot->inheritedExitLists);
       /* The directions are numbered through the symbol table ! */
     }
@@ -226,8 +223,8 @@ void analyseSlot(id, slot)
     for (localVerbs = slot->verbs; localVerbs; localVerbs = localVerbs->next) {
       List *ids;
 
-      for (ids = localVerbs->element.verb->ids; ids; ids = ids->next)
-	verb = findVerbInLists(&id->srcp, ids->element.id,
+      for (ids = localVerbs->the.verb->ids; ids; ids = ids->next)
+	verb = findVerbInLists(&id->srcp, ids->the.id,
 			       slot->inheritedVerbLists);
       /* The verbs are numbered through the symbol table ! */
     }
@@ -239,16 +236,16 @@ void analyseSlot(id, slot)
   slot->state = NUMBERING_SCRIPTS;
   if (slot->scripts) {
     if (!anyIsA(slot->heritage, "actor"))
-      lmLogv(&slot->scripts->element.script->srcp, 223, sevERR, id->string, "actor", NULL);
+      lmLogv(&slot->scripts->the.script->srcp, 223, sevERR, id->string, "actor", NULL);
     analyseScripts(slot->scripts);
     /* Find and resolve inherited scripts */
     for (localScripts = slot->scripts; localScripts; localScripts = localScripts->next) {
-      script = findScriptInLists(&id->srcp, localScripts->element.script->id,
+      script = findScriptInLists(&id->srcp, localScripts->the.script->id,
 				 slot->inheritedScriptLists);
       if (script == NULL)
-	localScripts->element.script->code = ++scriptCount;
+	localScripts->the.script->code = ++scriptCount;
       else
-	localScripts->element.script->code = script->code;
+	localScripts->the.script->code = script->code;
     }
     /* 4f - check that scripts that are inherited but have no local definition
        don't clash */
