@@ -466,14 +466,17 @@ static void simple(olst)
       }
     }
     mrglst(tlst, olst);
-    if (wrds[wrdidx] == EOF || !isConj(wrds[wrdidx])) {	/* No more words! */
+    if (isConj(wrds[wrdidx]) &&
+	(isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1]))) { /* More ? */
+      savplur = plural;
+      savidx = wrdidx;
+      wrdidx++;
+      plural = TRUE;
+    } else if (wrds[wrdidx] == EOF || isConj(wrds[wrdidx])) {
       lstcpy(olst, tlst);
       return;
-    }
-    savplur = plural;
-    savidx = wrdidx;
-    wrdidx++;
-    plural = TRUE;
+    } else			/* We don't understand! */
+      error(WHAT);
   }
 }
   
