@@ -1,23 +1,47 @@
 #! /bin/sh
 #
-# Script to regression test Alan and Arun
-ls *.alan | sed -e s/.alan// > CASES
+# Script for regression testing of Alan and Arun
+#
+# Where the STEAM regression testing utility isn't available this script
+# can be used to run all or selected tests in a batch.
+#
+# Steam is configured to ignore lines that contain version numbering so
+# those test cases that rely on debug mode (to have a repeatable
+# randomizity(?)) will differ by having a line with the version number
+# produced by the -d flag.
+#
+# Usage:
+#	regression [ <cases>... ]
+#
+# After execution a list of all the differing cases is presented
+#
 if [ $# != 0 ] ; then
   for f in ${*} ; do
-    case=`basename $f .alan`
-    echo ----- $case ------
-    alan $case
-    arun $case < $case.input > $case.output
-    diff $case.output $case.ok > $case.diff
-    ls -s $case.diff
+    case=`basename $f .tst`
+    if [ ! $f = $case ] ; then
+      echo ----- $case ------
+      echo "########## $case ##########" >$case.output
+      cat $case.tst >>$case.output
+      echo "########## /bin/sh  $case.tst ##########" >>$case.output
+      sh $case.tst >>$case.output 2>&1
+      diff $case.output $case.tst.expected > $case.diff
+    fi
+  done
+  for f in ${*} ; do
+    case=`basename $f .tst`
+    if [ ! $f = $case ] ; then
+      ls -s $case.diff | grep -v ' 0 '
+    fi
   done
 else
-  for f in *.alan ; do
-    case=`basename $f .alan`
+  for f in *.tst ; do
+    case=`basename $f .tst`
     echo ----- $case ------
-    alan $case
-    arun $case < $case.input > $case.output
-    diff $case.output $case.ok > $case.diff
-    ls -s $case.diff
+    echo "########## $case ##########" >$case.output
+    cat $case.tst >>$case.output
+    echo "########## /bin/sh  $case.tst ##########" >>$case.output
+    sh $case.tst >>$case.output 2>&1
+    diff $case.output $case.tst.expected > $case.diff
   done
+  ls -s *.diff | grep -v ' 0 '
 fi
