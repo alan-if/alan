@@ -1,3 +1,6 @@
+-- put.i
+--
+
 SYNONYMS
 	place = put.
 
@@ -13,6 +16,7 @@ VERB put
 		LOCATE obj HERE.
 		"Dropped."
 END VERB.
+
 
 
 SYNTAX

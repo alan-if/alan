@@ -1,104 +1,102 @@
+-- talk.i
+-- Library version 0.1
+
+-- for verbs like 'ask' and 'tell' you need to individually program responses
+-- to each topic (ie 'obj') for any actor who you want to respond to that
+-- topic
+-- eg:
+-- ACTOR Simon
+--    ....
+--    VERB ask
+--       ....
+--       DOES ONLY
+--          IF obj = ball then
+--              "Simon replies ""I love playing ball sports. Football is
+--              my favourite."""
+--          ELSIF obj = .....
+--          ELSE
+--              "Simon shrugs. ""Sorry, I don't know anything about that."""
+--          END IF.
+--     END VERB ask.
+--     ....
+-- END ACTOR Simon.
+
+
 SYNONYMS
-	inquire, query = ask.
+    yell = shout.
+    scream = shout.
+
+SYNTAX
+    shout = shout.
+
+VERB shout
+    DOES
+        "You make a lot of noise."
+    END VERB.
+
 
 
 SYNTAX
-	ask = ask (act)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
+    sayword = 'say' (obj)!
+        WHERE obj ISA OBJECT OR ACTOR  
+            ELSE "You can't say that."
 
--- ASK
+VERB sayword
+    DOES 
+        "$o? That's a nice word!"
+    END VERB.
+
+
+SYNTAX
+    sayto = 'say' (obj)! 'to' (act)
+        WHERE obj ISA OBJECT OR ACTOR  
+            ELSE "You can't say that."
+        AND act ISA ACTOR
+            ELSE "You can't talk to that."
+
+VERB sayto
+    DOES 
+        SAY act.
+        "doesn't seem interested."
+    END VERB.
+
+
+SYNTAX ask = ask (act) about (obj)!
+    WHERE obj ISA OBJECT OR ACTOR  
+        ELSE "You can't ask about that."
+    AND act ISA ACTOR
+        ELSE "You can't talk to that."
+
 VERB ask
-	DOES
-		IF act IS NOT propername THEN
-			"The $o ignores your question."
-		ELSE
-			"$o ignores your question."
-		END IF.
+    DOES 
+        "The $1 says '$2? I don't know about that!'"
 END VERB.
 
 
--- ASK ABOUT
-SYNTAX
-	ask_about = ask (act) about (obj)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
+SYNTAX talkabout = talk about (obj)! with (act) 
+    WHERE obj ISA OBJECT OR ACTOR  
+        ELSE "You can't ask about that."
+    AND act ISA ACTOR
+        ELSE "You can't talk to that."
 
-VERB ask_about
-	DOES
-		IF act IS NOT propername THEN
-			"The $1 ignores your question."
-		ELSE
-			"$1 ignores your question."
-		END IF.
+VERB talkabout
+    DOES 
+        """I don't think I need to know about $2."" Says a puzzled" SAY act. "$$."
 END VERB.
 
+SYNTAX talkto = talk 'to' (act) about (obj)!
+    WHERE obj ISA OBJECT OR ACTOR  
+        ELSE "You can't ask about that."
+    AND act ISA ACTOR
+        ELSE "You can't talk to that."
 
--- TELL
-SYNONYMS
-	inform = tell.
+SYNTAX tell = tell (act) about (obj)!
+    WHERE obj ISA OBJECT OR ACTOR  
+        ELSE "You can't ask about that."
+    AND act ISA ACTOR
+        ELSE "You can't talk to that."
 
-SYNTAX
-	tell = tell (act)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
-
-VERB tell
-	DOES
-		IF act IS NOT propername THEN
-			"The $o is not impressed."
-		ELSE
-			"$o is not impressed."
-		END IF.
-END VERB.
-
-
--- TELL ABOUT
-SYNTAX
-	tell_about = tell (act) about (obj)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
-
-VERB tell_about
-	DOES
-		IF act IS NOT propername THEN
-			"The $1 is not impressed."
-		ELSE
-			"$1 is not impressed."
-		END IF.
-END VERB.
-
-
--- TALK TO
-SYNONYMS
-	speak = talk.
-
-SYNTAX
-	talk = 'talk' 'to' (act)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
-
-VERB talk
-	DOES
-		IF act IS NOT propername THEN
-			"The $o does not seem to want to talk."
-		ELSE
-			"$o does not seem to want to talk."
-		END IF.
-END VERB.
-
-
--- TALK ABOUT
-SYNTAX
-	talk_about = 'talk to' (act) about (obj)*
-		WHERE act ISA ACTOR
-			ELSE "You know, things don't talk. people do."
-
-VERB talk_about
-	DOES
-		IF act IS NOT propername THEN
-			"The $1 does not seem to want to talk."
-		ELSE
-			"$1 does not seem to want to talk."
-		END IF.
+VERB tell, talkto
+    DOES 
+        """I don't think I need to know about $2."" Says a puzzled" SAY act. "$$."
 END VERB.

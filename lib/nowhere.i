@@ -1,28 +1,32 @@
+-- nowhere.i
+-- Library version 0.1
+
+
 -- Useful for placing disapearing things
 -- Also defines the default directions
 
 SYNONYMS
-    north = n.
-    south = s.
-    east = e.
-    west = w.
-    northeast = ne.
-    southeast = se.
-    northwest = nw.
-    southwest = sw.
-    up = u.
-    down = d.
+    n = north.
+    s = south.
+    e = east.
+    w = west.
+    ne = northeast.
+    se = southeast.
+    nw = northwest.
+    sw = southwest.
+    u = up.
+    d = down.
 
 
 LOCATION nowhere
-    EXIT n TO nowhere.
-    EXIT s TO nowhere.
-    EXIT w TO nowhere.
-    EXIT e TO nowhere.
-    EXIT ne TO nowhere.
-    EXIT se TO nowhere.
-    EXIT nw TO nowhere.
-    EXIT sw TO nowhere.
-    EXIT u TO nowhere.
-    EXIT d TO nowhere.
+    EXIT north TO nowhere.
+    EXIT south TO nowhere.
+    EXIT west TO nowhere.
+    EXIT east TO nowhere.
+    EXIT northeast TO nowhere.
+    EXIT southeast TO nowhere.
+    EXIT northwest TO nowhere.
+    EXIT southwest TO nowhere.
+    EXIT up TO nowhere.
+    EXIT down TO nowhere.
 END LOCATION nowhere.

@@ -1,25 +1,33 @@
+-- std.i
+-- Library version 0.1
+
+-- All verb definitions have a small, simple default body. To make
+-- them do other things use DOES ONLY in your specialised verb body.
+
+
 -- Standard verbs
 $include 'look.i'
-$include 'take.i'
-$include 'open.i'
-$include 'lock.i'
-$include 'eat.i'
+$include 'take.i'    -- + pick up, drop, put down
+$include 'open.i'    -- + close
+$include 'lock.i'    -- + unlock
+$include 'eat.i'     -- + drink
 $include 'throw.i'
-$include 'put.i'
 $include 'push.i'
 $include 'touch.i'
-$include 'examine.i'
+$include 'examine.i' -- + look at, search
 $include 'read.i'
+$include 'put.i'     -- + put near,behind,on,under 
+$include 'give.i'
+$include 'talk.i'    -- + ask, tell, say, shout, 
+$include 'attack.i'  -- + shoot
+$include 'kiss.i'
+$include 'turn.i'    -- + switch
 
+$include 'help.i'    -- + notes, hint
+
+
+-- Inventory verb and inventory limits
 $include 'invent.i'
-
-$include 'help.i'
-
-
--- Generall synonyms
-
-SYNONYMS
-	thru = through.
 
 
 -- The limbo location and directions

@@ -1,8 +1,9 @@
+-- read.i
+-- Library version 0.1
+
+
 OBJECT ATTRIBUTES
     NOT readable.
-
-SYNONYMS
-	browse = read.
 
 SYNTAX
     read = read (obj)
@@ -13,6 +14,8 @@ SYNTAX
 VERB read
     CHECK obj IS readable
         ELSE "There is nothing written on $1."
+    DOES
+        "You read the $1."
 END VERB.
 
 

@@ -3,6 +3,9 @@ $include 'std.i'
 Object o At somewhere
 End Object.
 
+Actor tim At somewhere
+End Actor.
+
 Location somewhere
   Is Not lit.
 

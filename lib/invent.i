@@ -1,3 +1,7 @@
+-- invent.i
+-- Library version 0.1
+
+
 SYNONYMS
 	i, inventory = invent.
 

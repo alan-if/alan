@@ -1,3 +1,7 @@
+-- brief.i
+-- Library version 0.1
+
+
 --
 -- Use "Visits 0." or "Visits 1000." in the START section if you want
 -- the game to start in verbose or brief mode. 

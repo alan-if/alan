@@ -1,8 +1,11 @@
+-- help.i
+-- Library version 0.1
+
 SYNONYMS
-	h = help.
+    h = help.
 
 SYNTAX
-	help = help.
+    help = help.
 
 VERB help
     DOES
@@ -17,3 +20,36 @@ VERB help
     	doing. 'save' and 'restore' allows you to save a game and
     	restore it later.  $pGood Luck!! You'll need it!" 
 END VERB.
+
+
+SYNONYMS
+    hints = hint.
+
+SYNTAX
+    hint = hint.
+
+VERB hint
+    DOES
+        "Unfortunately hints are not available in this game."
+END VERB.
+
+
+SYNONYMS
+    info, notes, author = credits.
+
+SYNTAX
+    credits = credits.
+
+VERB credits
+    DOES
+        "The author retains the copyright to this game.
+        $pThis game was written using the ALAN Adventure Language. 
+        ALAN is an interative fiction authoring system by Thomas Nilsson
+        $nemail address: thoni@softlab.lejonet.se 
+        $pFurther information about the ALAN system can be obtained from
+        the World Wide Web Internet site
+        $ihttp://www.pp.softlab.se/thomas.nilsson/alan"
+END VERB.
+
+
+

@@ -1,3 +1,6 @@
+-- eat.i
+--
+
 OBJECT ATTRIBUTES
 	NOT edible.
 	NOT drinkable.

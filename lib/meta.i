@@ -1,3 +1,5 @@
+-- meta.i
+
 SYNONYMS
     q = quit.
 
@@ -32,6 +34,16 @@ END VERB.
 
 
 SYNTAX
+    restart = restart.
+
+VERB restart
+    DOES
+        RESTART.
+END VERB.
+
+
+
+SYNTAX
     'score' = 'score'.
 
 VERB 'score'
@@ -49,5 +61,26 @@ SYNTAX
 VERB wait
     DOES
     	"Time passes..."
+END VERB.
+
+
+SYNONYMS
+    g = again.
+
+SYNTAX
+    again = again.
+
+VERB again
+    DOES
+        "Press the F3 key to repeat your last command."
+END VERB.
+
+
+SYNTAX
+    undo = undo.
+
+VERB undo
+    DOES
+        "Unfortunately you cannot 'undo' commands in this game."
 END VERB.
 
