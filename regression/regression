@@ -18,30 +18,23 @@
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename $f .tst`
-    if [ ! $f = $case ] ; then
-      echo ----- $case ------
-      echo "########## $case ##########" >$case.output
-      cat $case.tst >>$case.output
-      echo "########## /bin/sh  $case.tst ##########" >>$case.output
-      sh $case.tst >>$case.output 2>&1
-      diff -b $case.output $case.tst.expected > $case.diff
-    fi
-  done
-  for f in ${*} ; do
-    case=`basename $f .tst`
-    if [ ! $f = $case ] ; then
-      ls -s $case.diff | grep -v ' 0 '
-    fi
-  done
-else
-  for f in *.tst ; do
-    case=`basename $f .tst`
-    echo ----- $case ------
+    echo -n "$case : "
     echo "########## $case ##########" >$case.output
     cat $case.tst >>$case.output
     echo "########## /bin/sh  $case.tst ##########" >>$case.output
     sh $case.tst >>$case.output 2>&1
     diff $case.output $case.tst.expected > $case.diff
+    wc -l $case.diff | awk "{print \$1}"
   done
-  ls -s *.diff | grep -v ' 0 '
+else
+  for f in *.tst ; do
+    case=`basename $f .tst`
+    echo -n "$case : "
+    echo "########## $case ##########" >$case.output
+    cat $case.tst >>$case.output
+    echo "########## /bin/sh  $case.tst ##########" >>$case.output
+    sh $case.tst >>$case.output 2>&1
+    diff $case.output $case.tst.expected > $case.diff
+    wc -l $case.diff | awk "{print \$1}"
+  done
 fi
