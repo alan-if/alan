@@ -13,7 +13,7 @@
 #endif
 
 #ifdef GLK
-#include "glk.h"
+#include "glkio.h"
 #endif
 
 #include "main.h"
@@ -1439,8 +1439,9 @@ void empty(cnt, whr)
 
 
 
-
-static char savfnm[256];
+#ifndef GLK
+static char saveFileName[256];
+#endif
 
 
 /*----------------------------------------------------------------------*/
@@ -1451,17 +1452,26 @@ void save()
 #endif
 {
   int i;
-  FILE *savfil;
-  char str[256];
   AttributeEntry *atr;
 
+#ifdef GLK
+  frefid_t saveFileRef;
+  strid_t saveFile;
+  saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Write, 0);
+  saveFile = glk_stream_open_file(saveFileRef, filemode_Write, 0);
+
+#else
+
+  FILE *saveFile;
+  char str[256];
+
   /* First save ? */
-  if (savfnm[0] == '\0') {
-    strcpy(savfnm, advnam);
-    strcat(savfnm, ".sav");
+  if (saveFileName[0] == '\0') {
+    strcpy(saveFileName, advnam);
+    strcat(saveFileName, ".sav");
   }
   prmsg(M_SAVEWHERE);
-  sprintf(str, "(%s) : ", savfnm);
+  sprintf(str, "(%s) : ", saveFileName);
   output(str);
 #ifdef USE_READLINE
   readline(str);
@@ -1469,39 +1479,40 @@ void save()
   gets(str);
 #endif
   if (str[0] == '\0')
-    strcpy(str, savfnm);
+    strcpy(str, saveFileName);
   col = 1;
-  if ((savfil = fopen(str, READ_MODE)) != NULL)
+  if ((saveFile = fopen(str, READ_MODE)) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
       error(MSGMAX);            /* Return to player without saying anything */
-  if ((savfil = fopen(str, WRITE_MODE)) == NULL)
+  if ((saveFile = fopen(str, WRITE_MODE)) == NULL)
     error(M_SAVEFAILED);
-  strcpy(savfnm, str);
+  strcpy(saveFileName, str);
+#endif
 
   /* Save version of interpreter and name of game */
-  fwrite((void *)&header->vers, sizeof(Aword), 1, savfil);
-  fwrite((void *)advnam, strlen(advnam)+1, 1, savfil);
+  fwrite((void *)&header->vers, sizeof(Aword), 1, saveFile);
+  fwrite((void *)advnam, strlen(advnam)+1, 1, saveFile);
   /* Save current values */
-  fwrite((void *)&current, sizeof(current), 1, savfil);
+  fwrite((void *)&current, sizeof(current), 1, saveFile);
 
   /* Save admin about each instance and its attributes */
   for (i = 1; i <= header->instanceMax; i++) {
-    fwrite((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
+    fwrite((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
     if (instance[i].attributes != 0)
       for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
-	fwrite((void *)&atr->value, sizeof(Aword), 1, savfil);
+	fwrite((void *)&atr->value, sizeof(Aword), 1, saveFile);
   }
 
   /* Save the event queue */
   eventQueue[etop].time = 0;        /* Mark the top */
-  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), etop+1, savfil);
+  fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), etop+1, saveFile);
 
   /* Save scores */
   for (i = 0; scores[i] != EOF; i++)
-    fwrite((void *)&scores[i], sizeof(Aword), 1, savfil);
+    fwrite((void *)&scores[i], sizeof(Aword), 1, saveFile);
 
-  fclose(savfil);
+  fclose(saveFile);
 }
 
 
@@ -1513,73 +1524,85 @@ void restore()
 #endif
 {
   int i;
-  FILE *savfil;
-  char str[256];
   AttributeEntry *atr;
   char savedVersion[4];
   char savedName[256];
 
+#ifdef GLK
+  frefid_t saveFileRef;
+  strid_t saveFile;
+  saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Read, 0);
+  saveFile = glk_stream_open_file(saveFileRef, filemode_Read, 0);
+
+#else
+
+  FILE *saveFile;
+  char str[256];
+
   /* First save ? */
-  if (savfnm[0] == '\0') {
-    strcpy(savfnm, advnam);
-    strcat(savfnm, ".sav");
+  if (saveFileName[0] == '\0') {
+    strcpy(saveFileName, advnam);
+    strcat(saveFileName, ".sav");
   }
   prmsg(M_RESTOREFROM);
-  sprintf(str, "(%s) : ", savfnm);
+  sprintf(str, "(%s) : ", saveFileName);
   output(str);
 #ifdef USE_READLINE
   readline(str);
 #else
   gets(str);
 #endif
+
   if (str[0] == '\0')
-    strcpy(str, savfnm);
+    strcpy(str, saveFileName);
   col = 1;
   if (str[0] == '\0')
-    strcpy(str, savfnm);        /* Use the name temporarily */
-  if ((savfil = fopen(str, READ_MODE)) == NULL)
+    strcpy(str, saveFileName);        /* Use the name temporarily */
+  if ((saveFile = fopen(str, READ_MODE)) == NULL)
     error(M_SAVEMISSING);
-  strcpy(savfnm, str);          /* Save it for future use */
+  strcpy(saveFileName, str);          /* Save it for future use */
 
-  fread((void *)&savedVersion, sizeof(Aword), 1, savfil);
+#endif
+
+  fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
   /* 4f - save file version check doesn't seem to work on PC's! */
   if (strncmp(savedVersion, header->vers, 4)) {
-    fclose(savfil);
     error(M_SAVEVERS);
-    return;
+    goto close;
   }
+
   i = 0;
-  while ((savedName[i++] = fgetc(savfil)) != '\0');
+  while ((savedName[i++] = fgetc(saveFile)) != '\0');
   if (strcmp(savedName, advnam) != 0) {
-    fclose(savfil);
     error(M_SAVENAME);
-    return;
+    goto close;
   }
 
   /* Restore current values */
-  fread((void *)&current, sizeof(current), 1, savfil);
+  fread((void *)&current, sizeof(current), 1, saveFile);
 
   /* Restore admin and attributes for instances */
   for (i = 1; i <= header->instanceMax; i++) {
-    fread((void *)&admin[i], sizeof(AdminEntry), 1, savfil);
+    fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
     if (instance[i].attributes != 0)
       for (atr = (AttributeEntry *) pointerTo(instance[i].attributes); !endOfTable(atr); atr++)
-	fread((void *)&atr->value, sizeof(Aword), 1, savfil);
+	fread((void *)&atr->value, sizeof(Aword), 1, saveFile);
   }
 
   /* Restore the eventQueue */
   etop = 0;
   do {
-    fread((void *)&eventQueue[etop], sizeof(eventQueue[0]), 1, savfil);
+    fread((void *)&eventQueue[etop], sizeof(eventQueue[0]), 1, saveFile);
     etop++;
   } while (eventQueue[etop-1].time != 0);
   etop--;
 
   /* Restore scores */
   for (i = 0; scores[i] != EOF; i++)
-    fread((void *)&scores[i], sizeof(Aword), 1, savfil);
+    fread((void *)&scores[i], sizeof(Aword), 1, saveFile);
 
-  fclose(savfil);
+ close:
+  fclose(saveFile);
 }
 
 

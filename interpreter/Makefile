@@ -9,6 +9,7 @@ winarun: GLK = -DGLK -DWINGLK
 winarun: GLKINCLUDE = -I$(GLKROOT)/Include
 winarun: GLKLIB = $(GLKROOT)/Glk.lib
 winarun: CYGWIN = -mwindows -mno-cygwin
+winarun: OPTIMIZE = -g
 #-DCOMPILER=\"[GCC/Mingw32]\" 
 
 release: OPTIMIZE = -O4

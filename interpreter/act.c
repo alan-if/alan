@@ -128,9 +128,8 @@ Boolean checklim(cnt, obj)
   Tries a check, returns TRUE if it passed, FALSE else.
 
   */
-Boolean trycheck(
-     Aaddr adr,			/* IN - ACODE address to check table */
-     Boolean execute		/* IN - Act if it fails ? */
+Boolean trycheck(Aaddr adr,	/* IN - ACODE address to check table */
+		 Boolean execute /* IN - Act if it fails ? */
 )
 {
   ChkEntry *chk;
@@ -179,10 +178,10 @@ void go(dir)
 	ok = TRUE;
 	if (theExit->checks != 0) {
 	  if (traceOption) {
-	    printf("\n<EXIT %d (%s) from %d (", dir,
-		   (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
-	    debugsay(current.location);
-	    printf("), Checking:>\n");
+	    printf("\n<EXIT %d(%s) from ", dir,
+		   (char *)pointerTo(dict[wrds[wrdidx-1]].wrd));
+	    traceSay(current.location);
+	    printf("(%d), Checking:>\n", current.location);
 	  }
 	  ok = trycheck(theExit->checks, EXECUTE);
 	}
@@ -190,20 +189,20 @@ void go(dir)
 	  oldloc = current.location;
 	  if (theExit->action != 0) {
 	    if (traceOption) {
-	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
-	      debugsay(current.location);
-	      printf("), Executing:>\n");
+	      printf("\n<EXIT %s(%d) from ", 
+		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), dir);
+	      traceSay(current.location);
+	      printf("(%d), Executing:>\n", current.location);
 	    }	    
 	    interpret(theExit->action);
 	  }
 	  /* Still at the same place? */
 	  if (where(HERO) == oldloc) {
 	    if (traceOption) {
-	      printf("\n<EXIT %d (%s) from %d (", dir, 
-		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), current.location);
-	      debugsay(current.location);
-	      printf("), Moving:>\n");
+	      printf("\n<EXIT %s(%d) from ",
+		     (char *)pointerTo(dict[wrds[wrdidx-1]].wrd), dir);
+	      traceSay(current.location);
+	      printf("(%d), Moving:>\n", current.location);
 	    }
 	    locate(HERO, theExit->target);
 	  }
@@ -286,6 +285,10 @@ static void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instanc
   altInfo->class = class;
   altInfo->done = FALSE;
   altInfo->end = FALSE;
+
+  altInfo++;
+  altInfo->end = TRUE;
+
 }
 
 
@@ -317,6 +320,7 @@ static void findAllAlternatives(AltInfo alt[]) {
   int altIndex = 0;
   int parent;
 
+  alt[0].end = TRUE;
   alt[altIndex].alt = findAlternativeInInstance(0, 0);
   if (alt[altIndex].alt != NULL) {
     primeAltInfo(&alt[altIndex], 0, 0, params[0].code, 0);
@@ -340,7 +344,7 @@ static void findAllAlternatives(AltInfo alt[]) {
     if (!isLit(params[paramIndex].code)) {
       alt[altIndex].alt = findAlternativeInInstance(params[paramIndex].code, paramIndex+1);
       if (alt[altIndex].alt != NULL) {
-	primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code, 0);
+	primeAltInfo(&alt[altIndex], 2, paramIndex+1, params[paramIndex].code, 0);
 	altIndex++;
       }
     }
@@ -356,9 +360,9 @@ static void traceCheck(AltInfo alt)
   case 0: printf("GLOBAL"); break;
   case 1: printf("in LOCATION"); break;
   default:
-    printf("in parameter #%d", alt.parameter+1);
+    printf("in parameter #%d", alt.parameter);
     if (alt.class != 0)
-      printf(", inherited from class %d", alt.class);
+      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt.class].idAddress), alt.class);
     break;
   }
   printf(", CHECK:>\n");
@@ -430,9 +434,9 @@ static void traceExecution(AltInfo *alt)
     else if (alt->level == 1)
       printf(", in LOCATION");
     else
-      printf(", in parameter #%d", alt->parameter+1);
+      printf(", in parameter #%d", alt->parameter);
     if (alt->class != 0)
-      printf(", inherited from class %d", alt->class);
+      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt->class].idAddress), alt->class);
     printf(", DOES");
     switch (alt->alt->qual) {
     case Q_BEFORE: printf(" (BEFORE)"); break;

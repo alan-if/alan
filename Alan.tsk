@@ -6,24 +6,24 @@
 <priority>2</priority>
 <origest>168.89</origest>
 <currest>168.89</currest>
-<elapsed>54.89</elapsed>
+<elapsed>56.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>25</origest>
-<currest>25</currest>
-<elapsed>4</elapsed>
+<origest>24</origest>
+<currest>24</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.24</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>4</elapsed>
-<isopen>1</isopen>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>0</isopen>
 <task>
 <desc>ISA expression</desc>
 <notes/>
@@ -85,35 +85,7 @@ If not present in A3C class names must be available.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherited Exits</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -122,7 +94,7 @@ END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -269,11 +241,13 @@ Also need to consider how to warn for the same verb declared without a parameter
 </task>
 <task>
 <desc>String operators</desc>
-<notes>
-concatenation
+<notes>concatenation
 substring extraction
 substring searching
-</notes>
+
+
+&lt;s1&gt; + &lt;s2&gt;
+Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -294,8 +268,8 @@ substring searching
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -308,6 +282,25 @@ Actor-clash handling, i.e. what happens when an object is removed from an actor?
    DOES Make monster Not sleeping.
 
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -361,8 +354,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>88</origest>
-<currest>88</currest>
+<origest>89</origest>
+<currest>89</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -402,6 +395,14 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <task>
 <desc>For loop</desc>
 <notes>
+
+And then to
+
+ For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
+ End For Each [&lt;var&gt;].
+
+
+Done:
 First (but useless) version would be
 
  For Each Do
@@ -418,12 +419,6 @@ Which could be extended to
  End For Each [&lt;var&gt;].
 
 This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
-
-And then to
-
- For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
- End For Each [&lt;var&gt;].
-
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -494,6 +489,15 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <task>
 <desc>Refactor: change "newxyz(&amp;srcp, " to just "newxyz(srcp, " for all xyz?</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherited Exits</desc>
+<notes>Usefullness?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

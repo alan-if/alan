@@ -16,7 +16,7 @@ void glkio_printf(char *fmt, ...)
 {
   va_list argp;
   va_start(argp, fmt);
-  if (NULL == glkMainWin)
+  if (glkMainWin == NULL)
     /* assume stdio is available in this case only */
     vprintf(fmt, argp);
   else

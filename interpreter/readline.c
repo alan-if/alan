@@ -50,7 +50,7 @@ Boolean readline(char usrbuf[])
   glk_request_line_event(glkMainWin, usrbuf, 255, 0);
   /* FIXME: buffer size should be infallible: all existing calls use 256 or
      80 character buffers, except parse which uses LISTLEN (currently 100)
-   */
+   */  
   do
   {
     glk_select(&event);
@@ -61,6 +61,15 @@ Boolean readline(char usrbuf[])
 #ifdef WINGLK
     case winglk_evtype_GuiInput:
       switch (event.val1) {
+      case ID_MENU_RESTART:
+	restart();
+	break;
+      case ID_MENU_SAVE:
+	save();
+	break;
+      case ID_MENU_RESTORE:
+	restore();
+	break;
       case ID_MENU_ABOUT:
 	e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
 	break;

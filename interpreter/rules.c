@@ -39,7 +39,7 @@ void rules()
       if (!ruls[i-1].run) {
 	if (traceOption) {
 	  printf("\n<RULE %d (at ", i);
-	  debugsay(current.location);
+	  traceSay(current.location);
 	  if (!singleStepOption)
 	    printf("), Evaluating");
 	  else
@@ -54,7 +54,7 @@ void rules()
 	      printf(", Executing:>\n");
 	    else {
 	      printf("\nRULE %d (at ", i);
-	      debugsay(current.location);
+	      traceSay(current.location);
 	      printf("), Executing:>\n");
 	    }
 	  }

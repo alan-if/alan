@@ -181,6 +181,7 @@ typedef enum VarClass {
 
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
+  Aaddr idAddress;		/* Address to identifier string */
   Aword parent;			/* Code for the parent class, 0 if none */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */

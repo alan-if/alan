@@ -62,7 +62,7 @@ int winglk_startup_code(const char* cmdline)
 
   /* First, open a window for error output */
   glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
-  if (NULL == glkMainWin)
+  if (glkMainWin == NULL)
   {
     printf("FATAL ERROR: Cannot open initial window");
     glk_exit();

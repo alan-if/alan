@@ -898,7 +898,7 @@ static void eventCheck()
       current.location = where(eventQueue[etop].where);
     if (traceOption) {
       printf("\n<EVENT %d (at ", eventQueue[etop].event);
-      debugsay(current.location);
+      traceSay(current.location);
       printf("):>\n");
     }
     interpret(events[eventQueue[etop].event].code);
@@ -970,7 +970,7 @@ static void checkvers(header)
   }
 
   /* Development version require exact match, else only 2 digit match */
-  developmentVersion = (strcmp(alan.version.state, "dev") == 0);
+  developmentVersion = (strcmp(alan.version.state, "development") == 0);
   compareLength = (developmentVersion? 3 : 2);
 
   /* Compatible if version and revision match... */
@@ -1082,8 +1082,10 @@ static void checkdebug()
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
-    if (debugOption|traceOption|singleStepOption)
+    if (debugOption|traceOption|singleStepOption) {
       printf("<Sorry, '%s' is not compiled for debug!>\n", advnam);
+      terminate(0);
+    }
     para();
     debugOption = FALSE;
     traceOption = FALSE;
@@ -1217,6 +1219,16 @@ static void init()
   looking = FALSE;		/* Not looking now */
   dscrstkp = 0;			/* No describe in progress */
 
+  if (debugOption||traceOption||singleStepOption) {
+    char str[80];
+    output("<Hi! This is Alan interactive fiction interpreter Arun,");
+    sprintf(str, "%s version %ld.%ld.%ld!>$n", alan.version.state,
+	    (long)alan.version.version,
+	    (long)alan.version.revision,
+	    (long)alan.version.correction);
+    output(str);
+  }
+
   load();
 
   initheader();
@@ -1245,9 +1257,9 @@ static Boolean traceActor(int theActor)
 {
   if (traceOption) {
     printf("\n<ACTOR %d, ", theActor);
-    debugsay(theActor);
+    traceSay(theActor);
     printf(" (at ");
-    debugsay(current.location);
+    traceSay(current.location);
   }
   return traceOption;
 }
@@ -1340,9 +1352,9 @@ static void moveActor(theActor)
   } else {
     if (traceOption) {
       printf("\n<ACTOR %d, ", theActor);
-      debugsay(theActor);
+      traceSay(theActor);
       printf(" (at ");
-      debugsay(current.location);
+      traceSay(current.location);
       printf("), Idle>\n");
     }
   }

@@ -1,3 +1,5 @@
+<Hi! This is Alan interactive fiction interpreter Arun, development
+version 3.0.24!>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 <START:>
@@ -21,10 +23,10 @@ http://welcome.to/alan-if
 
 
 Outside The Tall Building
-To the north is a tall ancient building with a large entrance. On the top
-there is a clock tower. Most of the windows in the building are broken,
 <More>
-and a sign with three oval objects are hanging lose from the wall.
+To the north is a tall ancient building with a large entrance. On
+the top there is a clock tower. Most of the windows in the building are
+broken, and a sign with three oval objects are hanging lose from the wall.
 
 > x
 'x'? I don't know that word.
@@ -37,9 +39,9 @@ You are empty-handed.
 
 > north
 
-<EXIT 1 (north) from 3 (Outside The Tall Building), Executing:>
+<EXIT north(1) from Outside The Tall Building(3), Executing:>
 
-<EXIT 1 (north) from 3 (Outside The Tall Building), Moving:>
+<EXIT north(1) from Outside The Tall Building(3), Moving:>
 
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -48,7 +50,7 @@ is the exit. To the east is a folding door. It is closed.
 
 > west
 
-<EXIT 3 (west) from 4 (Hall), Moving:>
+<EXIT west(3) from Hall(4), Moving:>
 
 Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
@@ -58,7 +60,7 @@ hallway. A strange smell emerges from below.
 
 > up
 
-<EXIT 5 (up) from 6 (Stairs), Moving:>
+<EXIT up(5) from Stairs(6), Moving:>
 
 First Floor
 The landing on the first floor is as dirty as all the others. Meters and
@@ -69,14 +71,14 @@ completely covered by dust, there is an old book laying on the floor here.
 
 > take all
 (old book)
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
  Taken.
 
 > read the book
 
-<VERB 5, in parameter #2, inherited from class 4, CHECK:>
+<VERB 5, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 As you carefully try to open the book it falls apart into dust and falls
@@ -84,7 +86,7 @@ to the floor through your fingers.
 
 > east
 
-<EXIT 2 (east) from 11 (First Floor), Moving:>
+<EXIT east(2) from First Floor(11), Moving:>
 
 Office
 In front of you is a deserted office area. Desks and chairs are piled up
@@ -97,24 +99,24 @@ the floor here.
 
 > take ladder
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 21, in parameter #1, CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 <VERB 21, in parameter #1, DOES:>
 
 
 > west
 
-<EXIT 3 (west) from 13 (Office), Moving:>
+<EXIT west(3) from Office(13), Moving:>
 
 First Floor (again)
 
 > up
 
-<EXIT 5 (up) from 11 (First Floor), Moving:>
+<EXIT up(5) from First Floor(11), Moving:>
 
 Second Floor
 The second landing of the stairs is well kept through the ages. Some rust
@@ -125,7 +127,7 @@ east.
 
 > east
 
-<EXIT 2 (east) from 15 (Second Floor), Moving:>
+<EXIT east(2) from Second Floor(15), Moving:>
 
 Terminal Room
 This must be the old terminal room. Old and dusty, most of them cracked
@@ -136,29 +138,29 @@ seems in much better shape than the others.
 
 > take terminal
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 <VERB 21, in parameter #1, DOES:>
  OH! There was a coin under it!
 
 > take coin
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > west
 
-<EXIT 3 (west) from 16 (Terminal Room), Moving:>
+<EXIT west(3) from Terminal Room(16), Moving:>
 
 Second Floor (again)
 
 > up
 
-<EXIT 5 (up) from 15 (Second Floor), Moving:>
+<EXIT up(5) from Second Floor(15), Moving:>
 
 Third Floor
 On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
@@ -170,7 +172,7 @@ now totally blocked.
 
 > up
 
-<EXIT 5 (up) from 19 (Third Floor), Moving:>
+<EXIT up(5) from Third Floor(19), Moving:>
 
 Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
@@ -180,7 +182,7 @@ east and to the north.
 
 > east
 
-<EXIT 2 (east) from 20 (Fourth Floor), Moving:>
+<EXIT east(2) from Fourth Floor(20), Moving:>
 
 Computer Room
 A room of old computers, cables, disk drives, tape stations and floppy
@@ -207,9 +209,9 @@ terminal displays the message 'Please login. Enter USERID:'
 
 > type "nilgu"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -217,13 +219,13 @@ Please login. Enter USERID:'
 
 > west
 
-<EXIT 3 (west) from 33 (Computer Room), Moving:>
+<EXIT west(3) from Computer Room(33), Moving:>
 
 Fourth Floor (again)
 
 > north
 
-<EXIT 1 (north) from 20 (Fourth Floor), Moving:>
+<EXIT north(1) from Fourth Floor(20), Moving:>
 
 Windy Room
 In the middle of the room is a light spot on the floor. The light is
@@ -253,7 +255,7 @@ remains of one of the walls, a crow has built it's nest.
 
 > examine nest
 
-<VERB 4, in parameter #2, inherited from class 4, CHECK:>
+<VERB 4, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 As you turn the nest over for examination, a set of keys falls out.
@@ -261,16 +263,16 @@ Otherwise there is nothing special about the nest.
 
 > take keys
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > down
 
-<EXIT 6 (down) from 22 (Walless Room), Executing:>
+<EXIT down(6) from Walless Room(22), Executing:>
 
-<EXIT 6 (down) from 22 (Walless Room), Moving:>
+<EXIT down(6) from Walless Room(22), Moving:>
 
 Windy Room
 In the middle of the room is a light spot on the floor. The light is
@@ -282,13 +284,13 @@ through the hole in the ceiling.
 
 > south
 
-<EXIT 4 (south) from 21 (Windy Room), Moving:>
+<EXIT south(4) from Windy Room(21), Moving:>
 
 Fourth Floor (again)
 
 > up
 
-<EXIT 5 (up) from 20 (Fourth Floor), Moving:>
+<EXIT up(5) from Fourth Floor(20), Moving:>
 
 Fifth Floor
 This must be the top of the top landing of the staircase. With a pounding
@@ -297,7 +299,7 @@ south, and to the east a long corridor.
 
 > south
 
-<EXIT 4 (south) from 25 (Fifth Floor), Moving:>
+<EXIT south(4) from Fifth Floor(25), Moving:>
 
 Clock Room
 The room is so small and low that you can't stand straight. In one of the
@@ -312,13 +314,13 @@ in the south a loud flapping of wings is heard.
 
 > north
 
-<EXIT 1 (north) from 26 (Clock Room), Moving:>
+<EXIT north(1) from Clock Room(26), Moving:>
 
 Fifth Floor (again)
 
 > east
 
-<EXIT 2 (east) from 25 (Fifth Floor), Moving:>
+<EXIT east(2) from Fifth Floor(25), Moving:>
 
 Corridor
 A long east-west corridor extends in both directions. There are exits in
@@ -327,9 +329,9 @@ the floor is covered with litter from bats.
 
 > east
 
-<EXIT 2 (east) from 28 (Corridor), Checking:>
+<EXIT 2(east) from Corridor(28), Checking:>
 
-<EXIT 2 (east) from 28 (Corridor), Moving:>
+<EXIT east(2) from Corridor(28), Moving:>
 
 Small Office
 This looks like a small office. Near the window there is a large desk. 
@@ -341,7 +343,7 @@ possible to get out there anymore.
 
 > examine desk
 
-<VERB 4, in parameter #2, inherited from class 4, CHECK:>
+<VERB 4, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
@@ -349,7 +351,7 @@ where your fingers leave markings. The desk has one remaining drawer.
 
 > examine desk
 
-<VERB 4, in parameter #2, inherited from class 4, CHECK:>
+<VERB 4, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 4, in parameter #1, DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
@@ -357,21 +359,21 @@ that shows markings from fingers. The desk has one remaining drawer.
 
 > open drawer
 
-<VERB 9, in parameter #2, inherited from class 4, CHECK:>
+<VERB 9, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 9, in parameter #1, DOES:>
 Pulling out the drawer a manual falls to the floor.
 
 > take manual
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > read it
 
-<VERB 5, in parameter #2, inherited from class 4, CHECK:>
+<VERB 5, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 The text inside the manual reads:
@@ -385,19 +387,19 @@ OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > west
 
-<EXIT 3 (west) from 29 (Small Office), Moving:>
+<EXIT west(3) from Small Office(29), Moving:>
 
 Corridor (again)
 
 > west
 
-<EXIT 3 (west) from 28 (Corridor), Moving:>
+<EXIT west(3) from Corridor(28), Moving:>
 
 Fifth Floor (again)
 
 > down
 
-<EXIT 6 (down) from 25 (Fifth Floor), Moving:>
+<EXIT down(6) from Fifth Floor(25), Moving:>
 
 Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
@@ -407,55 +409,55 @@ east and to the north.
 
 > down
 
-<EXIT 6 (down) from 20 (Fourth Floor), Moving:>
+<EXIT down(6) from Fourth Floor(20), Moving:>
 
 Third Floor (again)
 
 > down
 
-<EXIT 6 (down) from 19 (Third Floor), Moving:>
+<EXIT down(6) from Third Floor(19), Moving:>
 
 Second Floor (again)
 
 > down
 
-<EXIT 6 (down) from 15 (Second Floor), Moving:>
+<EXIT down(6) from Second Floor(15), Moving:>
 
 First Floor (again)
 
 > down
 
-<EXIT 6 (down) from 11 (First Floor), Moving:>
+<EXIT down(6) from First Floor(11), Moving:>
 
 Stairs (again)
 
 > east
 
-<EXIT 2 (east) from 6 (Stairs), Moving:>
+<EXIT east(2) from Stairs(6), Moving:>
 
 Hall (again)
 To the east is a folding door. It is closed.
 
 > unlock the door with the keys then open the door
 
-<VERB 8, in parameter #2, inherited from class 4, CHECK:>
+<VERB 8, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 8, in parameter #3, inherited from class 4, CHECK:>
+<VERB 8, in parameter #2, inherited from class object(4), CHECK:>
 
 <VERB 8, in parameter #1, DOES:>
 The key clicks in the lock as the door unlocks.
 
 
-<VERB 9, in parameter #2, inherited from class 4, CHECK:>
+<VERB 9, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 9, in parameter #1, DOES:>
 The door opens, revealing the entrance to a dusty old cafeteria.
 
 > east
 
-<EXIT 2 (east) from 4 (Hall), Checking:>
+<EXIT 2(east) from Hall(4), Checking:>
 
-<EXIT 2 (east) from 4 (Hall), Moving:>
+<EXIT east(2) from Hall(4), Moving:>
 
 Cafe
 This is the entrance to the old cafeteria. The kitchen and all the
@@ -466,11 +468,11 @@ some candy.
 
 > insert coin into machine
 
-<VERB 13, in parameter #2, inherited from class 4, CHECK:>
+<VERB 13, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 13, in parameter #1, CHECK:>
 
-<VERB 13, in parameter #3, inherited from class 4, CHECK:>
+<VERB 13, in parameter #2, inherited from class object(4), CHECK:>
 
 <VERB 13, in parameter #1, DOES:>
 A clinking sound is heared from the machine and a candy bar falls out on
@@ -478,14 +480,14 @@ the floor.
 
 > take candy bar
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > west
 
-<EXIT 3 (west) from 35 (Cafe), Moving:>
+<EXIT west(3) from Cafe(35), Moving:>
 
 Hall (again)
 To the east is a folding door. It is open revealing the entrance to a
@@ -493,13 +495,13 @@ cafeteria.
 
 > west
 
-<EXIT 3 (west) from 4 (Hall), Moving:>
+<EXIT west(3) from Hall(4), Moving:>
 
 Stairs (again)
 
 > down
 
-<EXIT 6 (down) from 6 (Stairs), Moving:>
+<EXIT down(6) from Stairs(6), Moving:>
 
 Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
@@ -508,9 +510,9 @@ way down here. In the light from the sun some rats can be seen.
 
 > drop candy bar
 
-<VERB 1, in parameter #2, inherited from class 4, CHECK:>
+<VERB 1, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 1, in parameter #2, inherited from class 4, DOES:>
+<VERB 1, in parameter #1, inherited from class object(4), DOES:>
 Dropped.
 <VERB 1, in parameter #1, DOES:>
  The rats throw themselves at the candy devouring it furiously,
@@ -519,12 +521,12 @@ asleep in the sunshine.
 
 > west
 
-<EXIT 3 (west) from 7 (Cellar), Checking:>
+<EXIT 3(west) from Cellar(7), Checking:>
 
-<EXIT 3 (west) from 7 (Cellar), Executing:>
+<EXIT west(3) from Cellar(7), Executing:>
 Silently sneaking past the sleeping rats, you enter the dark room to the
 west.
-<EXIT 3 (west) from 7 (Cellar), Moving:>
+<EXIT west(3) from Cellar(7), Moving:>
 
 Store
 This must be an old storage room. There seems to be any amount of old
@@ -536,14 +538,14 @@ another shelf there is a spool of computer tape.
 
 > take tape
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > east
 
-<EXIT 2 (east) from 9 (Store), Moving:>
+<EXIT east(2) from Store(9), Moving:>
 
 Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
@@ -553,7 +555,7 @@ all sleeping.
 
 > up
 
-<EXIT 5 (up) from 7 (Cellar), Moving:>
+<EXIT up(5) from Cellar(7), Moving:>
 
 Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
@@ -563,7 +565,7 @@ hallway. A strange smell emerges from below.
 
 > up
 
-<EXIT 5 (up) from 6 (Stairs), Moving:>
+<EXIT up(5) from Stairs(6), Moving:>
 
 First Floor
 The landing on the first floor is as dirty as all the others. Meters and
@@ -573,7 +575,7 @@ windows the barren field outside the building can be seen.
 
 > up
 
-<EXIT 5 (up) from 11 (First Floor), Moving:>
+<EXIT up(5) from First Floor(11), Moving:>
 
 Second Floor
 The second landing of the stairs is well kept through the ages. Some rust
@@ -584,19 +586,19 @@ east.
 
 > up
 
-<EXIT 5 (up) from 15 (Second Floor), Moving:>
+<EXIT up(5) from Second Floor(15), Moving:>
 
 Third Floor (again)
 
 > up
 
-<EXIT 5 (up) from 19 (Third Floor), Moving:>
+<EXIT up(5) from Third Floor(19), Moving:>
 
 Fourth Floor (again)
 
 > east
 
-<EXIT 2 (east) from 20 (Fourth Floor), Moving:>
+<EXIT east(2) from Fourth Floor(20), Moving:>
 
 Computer Room
 A room of old computers, cables, disk drives, tape stations and floppy
@@ -611,7 +613,7 @@ The tape is now securely mounted on the tape drive.
 
 > read manual
 
-<VERB 5, in parameter #2, inherited from class 4, CHECK:>
+<VERB 5, in parameter #1, inherited from class object(4), CHECK:>
 
 <VERB 5, in parameter #1, DOES:>
 The text inside the manual reads:
@@ -625,9 +627,9 @@ OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > type "nilgu"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -635,9 +637,9 @@ Please login. Enter USERID:'
 
 > type "oscsv"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome OscSv!
@@ -646,9 +648,9 @@ Enter command:'
 
 > type "svegr"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Unknown command.
@@ -656,9 +658,9 @@ Enter command:'
 
 > type "backup"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 The tape starts to spin and after a few moments it stops. Then it starts
@@ -670,16 +672,16 @@ Enter command:'
 
 > take tape
 
-<VERB 21, in parameter #2, inherited from class 4, CHECK:>
+<VERB 21, in parameter #1, inherited from class object(4), CHECK:>
 
-<VERB 21, in parameter #2, inherited from class 4, DOES:>
+<VERB 21, in parameter #1, inherited from class object(4), DOES:>
 Taken.
 
 > type "adventure"
 
-<VERB 22, in parameter #2, inherited from class 8, CHECK:>
+<VERB 22, in parameter #1, inherited from class string(8), CHECK:>
 
-<VERB 22, in parameter #2, inherited from class 8, DOES:>
+<VERB 22, in parameter #1, inherited from class string(8), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome to adventure!!
@@ -692,13 +694,13 @@ With a loud POP! the computer stops suddenly and the terminal turns blank.
 
 > west
 
-<EXIT 3 (west) from 33 (Computer Room), Moving:>
+<EXIT west(3) from Computer Room(33), Moving:>
 
 Fourth Floor (again)
 
 > down
 
-<EXIT 6 (down) from 20 (Fourth Floor), Moving:>
+<EXIT down(6) from Fourth Floor(20), Moving:>
 
 Third Floor
 On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
@@ -710,25 +712,25 @@ now totally blocked.
 
 > down
 
-<EXIT 6 (down) from 19 (Third Floor), Moving:>
+<EXIT down(6) from Third Floor(19), Moving:>
 
 Second Floor (again)
 
 > down
 
-<EXIT 6 (down) from 15 (Second Floor), Moving:>
+<EXIT down(6) from Second Floor(15), Moving:>
 
 First Floor (again)
 
 > down
 
-<EXIT 6 (down) from 11 (First Floor), Moving:>
+<EXIT down(6) from First Floor(11), Moving:>
 
 Stairs (again)
 
 > east
 
-<EXIT 2 (east) from 6 (Stairs), Moving:>
+<EXIT east(2) from Stairs(6), Moving:>
 
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -744,7 +746,7 @@ dirty manual.
 
 > south
 
-<EXIT 4 (south) from 4 (Hall), Executing:>
+<EXIT south(4) from Hall(4), Executing:>
 As you walk out through the door the large building collapses in a huge
 pile of bricks and stones. The cloud of dust will not settle for days.
 You should count yourself lucky that you got out in time.

@@ -16,7 +16,7 @@
 extern void saveInfo(void);
 extern void restoreInfo(void);
 extern void debug(void);
-extern void debugsay(int item);
+extern void traceSay(int item);
 #else
 extern void saveInfo();
 extern void restoreInfo();

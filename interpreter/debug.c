@@ -34,11 +34,11 @@
 #endif
 
 #ifdef _PROTOTYPES_
-static void showatrs(
+static void showAttributes(
   Aword atradr
 )
 #else
-static void showatrs(atradr)
+static void showAttributes(atradr)
   Aword atradr;
 #endif
 {
@@ -50,7 +50,7 @@ static void showatrs(atradr)
 
   i = 1;
   for (at = (AttributeEntry *) pointerTo(atradr); !endOfTable(at); at++) {
-    sprintf(str, "$i%3d: %ld (%s)", i, at->value, (char *) pointerTo(at->stringAddress));
+    sprintf(str, "$i$t%s(%d) = %ld", (char *) pointerTo(at->stringAddress), i, at->value);
 #if ISO == 0
     fromIso(str, str);
 #endif
@@ -60,30 +60,54 @@ static void showatrs(atradr)
 }
 
 
+static void showContents(int cnt) {
+  int i;
+  char str[80];
+  Abool found;
+
+  output("$iContains:");
+  for (i = 1; i <= header->instanceMax; i++) {
+    if (in(i, cnt)) { /* Yes, it's in this container */
+      if (!found)
+	found = TRUE;
+      output("$i$t");
+      say(i);
+      sprintf(str, "(%d) ", i);
+      output(str);
+    }
+  }
+  if (!found)
+    output("nothing");
+}
+
+
+
 #ifdef _PROTOTYPES_
-static void showinstances(void)
+static void showInstances(void)
 #else
-static void showinstances()
+static void showInstances()
 #endif
 {
   char str[80];
   int ins;
 
-  output("INSTANCES:");
+  output("Instances:");
   for (ins = 1; ins <= header->instanceMax; ins++) {
     sprintf(str, "$i%3d: ", ins);
     output(str);
     say(ins);
+    if (instance[ins].container)
+      output("(container)");
   }
 }
 
 
 #ifdef _PROTOTYPES_
-static void showinstance(
+static void showInstance(
   int ins
 )
 #else
-static void showinstance(ins)
+static void showInstance(ins)
   int ins;
 #endif
 {
@@ -95,47 +119,65 @@ static void showinstance(ins)
     return;
   }
 
-  output("The \"$$");
+  output("The $$");
   say(ins);
-  sprintf(str, "$$\" (code = %d) :", ins);
+  sprintf(str, "$$ (%d)", ins);
   output(str);
+  if (instance[ins].parent) {
+    sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].idAddress));
+    output(str);
+  }
 
-  sprintf(str, "$iLocation = %ld", where(ins));
-  output(str);
-  if (isLoc(instance[ins].location)) {
-    output("($$");
-    say(instance[ins].location);
-    output("$$)");
-  } else if (isCnt(instance[ins].location)) {
+  if (!isA(ins, header->locationClassId)) {
+    sprintf(str, "$iLocation: ");
+    output(str);
+    if (instance[ins].location == 0)
+      output("- (0)");
+    else if (isLoc(instance[ins].location)) {
+      say(instance[ins].location);
+      sprintf(str, "(%ld)", where(ins));
+      output(str);
+    } else if (isCnt(instance[ins].location)) {
 
-    if (isObj(instance[ins].location))
-      output("in");
-    else if (isAct(instance[ins].location))
-      output("carried by");
-    say(instance[ins].location);
+      if (isObj(instance[ins].location))
+	output("in");
+      else if (isAct(instance[ins].location))
+	output("carried by");
+      say(instance[ins].location);
+      sprintf(str, "(%ld)", instance[ins].location);
+      output(str);
 
-  } else if (instance[ins].location == 0)
-    output("(nowhere)");
-  else
-    output("Illegal location!");
+    } else
+      output("Illegal location!");
+  }
 
+  output("$iAttributes:");
+  showAttributes(instance[ins].attributes);
 
-  output("$iAttributes =");
-  showatrs(instance[ins].attributes);
-
+  if (instance[ins].container)
+    showContents(ins);
+      
+  if (isA(ins, header->actorClassId)) {
+    if (admin[ins].script == 0)
+      output("$iIs idle");
+    else {
+      sprintf(str, "$iExecuting script: %ld, Step: %ld", admin[ins].script, admin[ins].step);
+      output(str);
+    }
+  }
 }
 
 
 #ifdef _PROTOTYPES_
-static void showobjs(void)
+static void showObjects(void)
 #else
-static void showobjs()
+static void showObjects()
 #endif
 {
   char str[80];
   int obj;
 
-  output("OBJECTS:");
+  output("Objects:");
   for (obj = 1; obj <= header->instanceMax; obj++) {
     if (isObj(obj)) {
       sprintf(str, "$i%3d: ", obj);
@@ -147,11 +189,11 @@ static void showobjs()
 
 
 #ifdef _PROTOTYPES_
-static void showobj(
+static void showObject(
   int obj
 )
 #else
-static void showobj(obj)
+static void showObject(obj)
   int obj;
 #endif
 {
@@ -164,33 +206,7 @@ static void showobj(obj)
     return;
   }
 
-  output("The \"");
-  say(obj);
-  sprintf(str, "\" (code = %d) Isa object :", obj);
-  output(str);
-
-  sprintf(str, "$iLocation = %ld", where(obj));
-  output(str);
-  if (isLoc(instance[obj].location)) {
-    output("($$");
-    say(instance[obj].location);
-    output("$$)");
-  } else if (isCnt(instance[obj].location)) {
-
-    if (isObj(instance[obj].location))
-      output("in");
-    else if (isAct(instance[obj].location))
-      output("carried by");
-    say(instance[obj].location);
-
-  } else if (instance[obj].location == 0)
-    output("(nowhere)");
-  else
-    output("Illegal location!");
-
-
-  output("$iAttributes =");
-  showatrs(instance[obj].attributes);
+  showInstance(obj);
 
 }
 
@@ -204,7 +220,7 @@ static void showcnts()
   char str[80];
   int cnt;
 
-  output("CONTAINERS:");
+  output("Containers:");
   for (cnt = 1; cnt <= header->containerMax; cnt++) {
     sprintf(str, "$i%3d: ", cnt);
     output(str);
@@ -216,17 +232,53 @@ static void showcnts()
 
 
 #ifdef _PROTOTYPES_
-static void showcnt(
+static void showClass(int c)
+#else
+static void showClass(c)
+     int c;
+#endif
+{
+  char str[80];
+
+  output("$t");
+  output((char *)pointerTo(class[c].idAddress));
+  sprintf(str, "(%d)", c);
+  output(str);
+  if (class[c].parent != 0) {
+    output("Isa");
+    output((char *)pointerTo(class[class[c].parent].idAddress));
+    sprintf(str, "(%ld)", class[c].parent);
+    output(str);
+  }
+}
+
+
+#ifdef _PROTOTYPES_
+static void showClasses(void)
+#else
+static void showClasses()
+#endif
+{
+  int c;
+
+  output("Classes:");
+  for (c = 1; c <= header->classMax; c++) {
+    output("$n");
+    showClass(c);
+  }
+}
+
+
+#ifdef _PROTOTYPES_
+static void showContainer(
   int cnt
 )
 #else
-static void showcnt(cnt)
+static void showContainer(cnt)
   int cnt;
 #endif
 {
   char str[80];
-  int i;
-  Abool found = FALSE;
 
   if (cnt < 1 || cnt > header->containerMax) {
     sprintf(str, "Container number out of range. Between 1 and %ld, please.", header->containerMax);
@@ -234,41 +286,28 @@ static void showcnt(cnt)
     return;
   }
 
-  sprintf(str, "CONTAINER %d :", cnt);
+  sprintf(str, "Container %d :", cnt);
   output(str);
   if (container[cnt].owner != 0) {
     cnt = container[cnt].owner;
     say(cnt);
-    sprintf(str, "$iLocation = %ld", where(cnt));
+    sprintf(str, "$iLocation: %ld", where(cnt));
     output(str);
   }
-  output("$iContains ");
-  for (i = 1; i <= header->instanceMax; i++) {
-    if (in(i, cnt)) { /* Yes, it's in this container */
-      if (!found) {
-	output("$n");
-	found = TRUE;
-      }
-      sprintf(str, "$t$t%d: ", i);
-      output(str);
-      say(i);
-    }
-  }
-  if (!found)
-    output("nothing");
+  showContents(cnt);
 }
 
 
 #ifdef _PROTOTYPES_
-static void showlocs(void)
+static void showLocations(void)
 #else
-static void showlocs()
+static void showLocations()
 #endif
 {
   char str[80];
   int loc;
 
-  output("LOCATIONS:");
+  output("Locations:");
   for (loc = 1; loc <= header->instanceMax; loc++) {
     if (isLoc(loc)) {
       sprintf(str, "$i%3d: ", loc);
@@ -280,11 +319,11 @@ static void showlocs()
 
 
 #ifdef _PROTOTYPES_
-static void showloc(
+static void showLocation(
   int loc
 )
 #else
-static void showloc(loc)
+static void showLocation(loc)
   int loc;
 #endif
 {
@@ -299,45 +338,47 @@ static void showloc(loc)
 
   output("The ");
   say(loc);
-  sprintf(str, "(code = %d) Isa location :", loc);
+  sprintf(str, "(%d) Isa location :", loc);
   output(str);
 
   output("$iAttributes =");
-  showatrs(instance[loc].attributes);
+  showAttributes(instance[loc].attributes);
 }
 
 
 #ifdef _PROTOTYPES_
-static void showacts(void)
+static void showActors(void)
 #else
-static void showacts()
+static void showActors()
 #endif
 {
   char str[80];
   int act;
 
-  output("ACTORS:");
+  output("Actors:");
   for (act = 1; act <= header->instanceMax; act++) {
     if (isAct(act)) {
-      sprintf(str, "$i%3d:", act);
-      output(str);
+      output("$i");
       say(act);
+      sprintf(str, "(%d)", act);
+      output(str);
+      if (instance[act].container)
+	output("(container)");
     }
   }
 }
 
 
 #ifdef _PROTOTYPES_
-static void showact(
+static void showActor(
   int act
 )
 #else
-static void showact(act)
+static void showActor(act)
   int act;
 #endif
 {
   char str[80];
-  Boolean oldstp;
   
   if (!isAct(act)) {
     sprintf(str, "Instance %d is not an actor.", act);
@@ -345,32 +386,7 @@ static void showact(act)
     return;
   }
   
-  oldstp = singleStepOption; singleStepOption = FALSE; /* Make sure not to trace this! */
-  output("The \"$$");
-  say(act);
-  sprintf(str, "$$\" (code = %d) Isa actor", act);
-  output(str);
-  singleStepOption = oldstp;
-
-  sprintf(str, "$iLocation = %ld", instance[act].location);
-  output(str);
-  if (isLoc(instance[act].location)) {
-    output("($$");
-    say(instance[act].location);
-    output("$$)");
-  } else if (instance[act].location == 0)
-    output("(nowhere)");
-  else
-    output("Illegal location!");
-
-  sprintf(str, "$iScript = %ld", admin[act].script);
-  output(str);
-
-  sprintf(str, "$iStep = %ld", admin[act].step);
-  output(str);
-
-  output("$iAttributes =");
-  showatrs(instance[act].attributes);
+  showInstance(act);
 }
 
 
@@ -448,7 +464,7 @@ void debug()
     if (anyOutput)
       para();
     do {
-      output("ABUG> ");
+      output("abug> ");
 #ifdef USE_READLINE
       (void) readline(buf);
 #else
@@ -465,15 +481,16 @@ void debug()
     case '?':
       output(alan.longHeader);
       output("$nABUG Commands:\
+      $iC [n] -- show class[es]\
       $iI [n] -- show instance[s]\
       $iO [n] -- show instances that are object[s]\
       $iA [n] -- show instances that are actor[s]\
       $iL [n] -- show instances that are location[s]\
       $iE -- show events\
-      $iG -- go on\
+      $iG -- go another player turn\
       $iT -- toggle trace mode\
       $iS -- toggle step mode\
-      $iX -- exit debug mode\
+      $iX -- exit debug mode and return to game\
       $iQ -- quit game");
       break;
     case 'Q':
@@ -485,33 +502,33 @@ void debug()
       return;
     case 'I':
       if (i == 0)
-	showinstances();
+	showInstances();
       else
-	showinstance(i);
+	showInstance(i);
       break;
     case 'O':
       if (i == 0)
-        showobjs();
+        showObjects();
       else
-	showobj(i);
+	showObject(i);
       break;
     case 'C':
       if (i == 0)
-        showcnts();
+        showClasses();
       else
-	showcnt(i);
+	showClass(i);
       break;
     case 'A':
       if (i == 0)
-        showacts();
+        showActors();
       else
-	showact(i);
+	showActor(i);
       break;
     case 'L':
       if (i == 0)
-        showlocs();
+        showLocations();
       else
-	showloc(i);
+	showLocation(i);
       break;
     case 'E':
       showEvents();
@@ -536,21 +553,15 @@ void debug()
 }
 
 
-/*======================================================================
-
-  debugsay()
-
-  Say somethin, but make sure we don't disturb anything and that it is
-  shown to the player.
-
-*/
-#ifdef _PROTOTYPES_
-void debugsay(int item)
-#else
-void debugsay(item)
-     int item;
-#endif
+/*======================================================================*/
+void traceSay(int item)
 {
+  /*
+    Say somethin, but make sure we don't disturb anything and that it is
+    shown to the player. Needed for tracing. During debugging things are
+    set up to avoid this problem.
+  */
+
   saveInfo();
   needsp = FALSE;
   col = 1;

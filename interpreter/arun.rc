@@ -5,11 +5,14 @@ IDR_ARUN MENU DISCARDABLE
 BEGIN
     POPUP "&Arun"
     BEGIN
-        MENUITEM "&About Arun",                 ID_MENU_ABOUT
+        MENUITEM "Res&tart",			ID_MENU_RESTART
+        MENUITEM "&Save",			ID_MENU_SAVE
+        MENUITEM "&Restore",			ID_MENU_RESTORE
+        MENUITEM "&About Arun",			ID_MENU_ABOUT
     END
 END
 
-IDR_ARUN_ICON             ICON    DISCARDABLE     "arun.ico"
+IDR_ARUN      ICON    "arun.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -35,7 +38,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,160,120,50,15
     GROUPBOX        "About Arun",IDC_STATIC,10,10,200,50
-    ICON            IDR_ARUN_ICON, IDC_STATIC ,16, 22, 0, 0, SS_ICON, WS_EX_CLIENTEDGE
+    ICON            IDR_ARUN, IDC_STATIC, 12, 18, 0, 0, 0, WS_EX_CLIENTEDGE
     LTEXT           "Alan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
                     IDC_STATIC,45,20,160,33
     GROUPBOX        "Additional Credits",IDC_STATIC,10,70,200,40
