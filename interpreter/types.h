@@ -237,6 +237,5 @@ typedef struct LitElem {	/* LITERAL */
 
 #define MAXPARAMS 9
 #define MAXENTITY (header->actmax)
-#define PARAMLISTLEN (header->objmax+10)
 
 #endif

@@ -336,10 +336,10 @@ static void unambig(plst)
   int firstWord, lastWord;
 
   if (refs == NULL)
-    refs = (ParamElem *)allocate(MAXENTITY*sizeof(ParamElem));
+    refs = (ParamElem *)allocate((MAXENTITY+1)*sizeof(ParamElem));
 
   if (savlst == NULL)
-    savlst = (ParamElem *)allocate(MAXENTITY*sizeof(ParamElem));
+    savlst = (ParamElem *)allocate((MAXENTITY+1)*sizeof(ParamElem));
 
   if (isLiteral(wrds[wrdidx])) {
     /* Transform the word into a reference to the literal value */
@@ -442,7 +442,7 @@ static void simple(olst)
   int i;
 
   if (tlst == NULL)
-    tlst = (ParamElem *) allocate(sizeof(ParamElem)*header->objmax);
+    tlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
   tlst[0].code = EOF;
 
   for (;;) {
@@ -496,7 +496,7 @@ static void complex(olst)
   static ParamElem *alst = NULL;
 
   if (alst == NULL)
-    alst = (ParamElem *) allocate(MAXENTITY*sizeof(ParamElem));
+    alst = (ParamElem *) allocate((MAXENTITY+1)*sizeof(ParamElem));
 
   if (isAll(wrds[wrdidx])) {
     plural = TRUE;
@@ -565,8 +565,8 @@ static void try(mlst)
   static Boolean *checked = NULL; /* Corresponding parameter checked? */
 
   if (tlst == NULL) {
-    tlst = (ParamElem *) allocate(MAXENTITY*sizeof(ParamElem));
-    checked = (Boolean *) allocate(MAXENTITY*sizeof(Boolean));
+    tlst = (ParamElem *) allocate((MAXENTITY+1)*sizeof(ParamElem));
+    checked = (Boolean *) allocate((MAXENTITY+1)*sizeof(Boolean));
   }
 
   for (stx = stxs; !endOfTable(stx); stx++)
@@ -705,12 +705,12 @@ void parse()
 #endif
 {
   if (mlst == NULL) {		/* Allocate large enough paramlists */
-    mlst = (ParamElem *) allocate(sizeof(ParamElem)*PARAMLISTLEN);
+    mlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
     mlst[0].code = EOF;
-    pmlst = (ParamElem *) allocate(sizeof(ParamElem)*PARAMLISTLEN);
-    params = (ParamElem *) allocate(sizeof(ParamElem)*PARAMLISTLEN);
+    pmlst = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
+    params = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
     params[0].code = EOF;
-    pparams = (ParamElem *) allocate(sizeof(ParamElem)*PARAMLISTLEN);
+    pparams = (ParamElem *) allocate(sizeof(ParamElem)*(MAXENTITY+1));
   }
 
   if (wrds[wrdidx] == EOF) {
