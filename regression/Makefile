@@ -5,11 +5,11 @@ all:
 	steam test
 
 
-amiga: CASES
-	lha c regression.lha *.alan *.input *.expected regression regression.amiga CASES
+amiga:
+	lha c regression.lha *.tst *.alan *.input *.expected regression regression.amiga
 
 CASES: *.alan
-	ls -1 *.alan | sed -e s/.alan// > CASES
+	ls -1 *.tst | sed -e s/.tst// > CASES
 
 dos:
 	-@mkdir dosregr

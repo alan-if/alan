@@ -13,7 +13,7 @@ include.alan
 
 
 
-../regression/include.inc
+include.input
 
     1.1 START.
 =====>       1
