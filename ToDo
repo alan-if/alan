@@ -91,3 +91,5 @@ Done:
 
 	* Presence check after syntax check?
 
+	* If the HERO is redefined mulitple times it does not work well.
+
