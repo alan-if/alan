@@ -55,6 +55,7 @@ void redefined(srcp, sym, str)
   case NAMOBJ: code = 304; break;
   case NAMCNT: code = 305; break;
   case NAMACT: code = 306; break;
+  case NAMEVT: code = 307; break;
   default: syserr("Unrecognized switch in redefined()"); break;
   }
 
