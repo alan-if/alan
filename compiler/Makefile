@@ -201,9 +201,8 @@ MSDOS:
 	make restoretm
 
 mac:
-	smk -set MAC alan
-	-rm .smkstamp
 	make src
+	smk -set MAC alan
 	-rm .smkstamp
 	refreshMac $(HOME)/mac/Alan/Compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
