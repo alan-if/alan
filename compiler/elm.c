@@ -169,7 +169,7 @@ static Aaddr advance(List *elmsList) /* IN - The list to advance */
   for (elms = elmsList; elms != NULL; elms = elms->next) {
     elms->element.lst = elms->element.lst->next;
     if (elms->element.lst->element.elm->kind == END_OF_SYNTAX)
-      resadr = elms->element.lst->element.elm->stx->resadr;
+      resadr = elms->element.lst->element.elm->stx->restrictionsAddress;
   }
   return resadr;
 }

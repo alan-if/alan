@@ -89,7 +89,8 @@ static SPA_DECLARE(options)
 #ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
-syntax\n\
+parse table\n\
+syntax mapping table\n\
 symbols\n\
 verbs\n\
 classes\n\
@@ -100,7 +101,7 @@ rules\n\
 everything\n\
 after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
-after code generation", dmpflg, "yxsvciker!123", NULL, NULL)
+after code generation", dmpflg, "ypxsvciker!123", NULL, NULL)
 #endif
 /*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END

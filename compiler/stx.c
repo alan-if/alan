@@ -43,6 +43,7 @@ Syntax *newSyntax(Srcp *srcp,
 		  List *restrictionLists)
 {
   Syntax *new;                  /* The newly created node */
+  static int number = 1;
 
   showProgress();
 
@@ -50,6 +51,7 @@ Syntax *newSyntax(Srcp *srcp,
 
   new->srcp = *srcp;
   new->id = id;
+  new->number = number++;
   new->elements = elements;
   new->restrictionLists = restrictionLists;
 
@@ -246,9 +248,9 @@ static void generateParseTree(Syntax *stx)
       lst->element.stx->generated = TRUE;
       lst = lst->next;
     }
-    stx->elmsadr = generateElements(elements, stx);
+    stx->elementsAddress = generateElements(elements, stx);
   } else
-    stx->elmsadr = 0;
+    stx->elementsAddress = 0;
 }
 
 
@@ -256,11 +258,14 @@ static void generateParseTree(Syntax *stx)
 /*----------------------------------------------------------------------*/
 static void generateParseEntry(Syntax *stx)
 {
-  if (stx->elmsadr != 0) {
+  ParseEntry entry;
+
+  if (stx->elementsAddress != 0) {
     /* The code for the verb word */
-    emit(stx->elements->element.elm->id->code);
+    entry.code = stx->elements->element.elm->id->code;
     /* Address to syntax element tables */
-    emit(stx->elmsadr);
+    entry.elms = stx->elementsAddress;
+    emitEntry(&entry, sizeof(entry));
   }
 }
 
@@ -274,7 +279,7 @@ Aaddr generateAllSyntaxes(void)
 
   /* First generate all class restriction checks */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    lst->element.stx->resadr = generateRestrictions(lst->element.stx->restrictionLists, lst->element.stx);
+    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists, lst->element.stx);
 
   /* Then the actual stxs */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
@@ -300,10 +305,11 @@ void dumpSyntax(Syntax *stx)
 
   put("STX: "); dumpPointer(stx); dumpSrcp(&stx->srcp); in();
   put("verbId: "); dumpId(stx->id); nl();
+  put("number: "); dumpInt(stx->number); nl();
   put("generated: "); dumpBool(stx->generated); nl();
-  put("elmsadr: "); dumpAddress(stx->elmsadr); nl();
+  put("elmsadr: "); dumpAddress(stx->elementsAddress); nl();
   put("elements: "); dumpList(stx->elements, ELEMENT_LIST); nl();
-  put("resadr: "); dumpAddress(stx->resadr); nl();
+  put("resadr: "); dumpAddress(stx->restrictionsAddress); nl();
   put("restrictionLists: "); dumpList(stx->restrictionLists, RESTRICTION_LIST); nl();
   put("parameters: "); dumpList(stx->parameters, ELEMENT_LIST); out();
 }
