@@ -14,8 +14,8 @@ containerRestriction0.alan
    14.  	Locate o In c.	
 =====>  	            1
 
-  *1*   312 E : Parameter 'c' is not guaranteed to be a container, which is
-                required.
+  *1*   312 E : Parameter 'c' is not guaranteed to be a Container, because it
+                is not restricted to Container in the Syntax.
 
    18.      Does
 =====>      1

@@ -109,20 +109,15 @@ static void resolveParameterClass(ResNod *res, Symbol *parameter)
 }
 
 /*----------------------------------------------------------------------*/
-static void analyzeRestriction(
-  ResNod *res,			/* IN - Restriction node to analyze */
-  Symbol *theVerb		/* IN - The verb symbol */
-)
-{
+static void analyzeRestriction(ResNod *res, Symbol *theVerb) {
   Symbol *parameter;
-  Context *context = newContext(VERB_CONTEXT);
+  Context *context = newContext(VERB_CONTEXT, theVerb);
 
   /* Analyze the statements to execute if the restrictions was not
      met.  Since the parameter class is set incrementally for each
      subsequent restriction it is now set to the class of all
      previously (passed) restrictions. All we have to do is to set up
      a relevant verb context. */
-  context->verb = theVerb;
   analyzeStatements(res->stms, context);
 
   /* Analyze this restriction and set the new class of the parameter */

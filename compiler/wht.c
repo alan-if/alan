@@ -11,6 +11,8 @@
 #include "srcp_x.h"
 #include "wht_x.h"
 #include "id_x.h"
+#include "sym_x.h"
+#include "context_x.h"
 
 #include "lmList.h"
 #include "emit.h"
@@ -35,13 +37,7 @@ What *newWhat(Srcp *srcp,	/* IN - Source position */
   return(new);
 }
 
-/*======================================================================
-
-  symbolizeWhat()
-
-  Symbolize a What reference.
-
-  */
+/*======================================================================*/
 void symbolizeWhat(What *wht)
 {
   switch (wht->kind) {
@@ -49,6 +45,66 @@ void symbolizeWhat(What *wht)
     symbolizeId(wht->id);
     break;
   default:
+    break;
+  }
+}
+
+
+/*======================================================================*/
+Symbol *symbolOfWhat(What *what, Context *context) {
+  switch (what->kind) {
+  case WHAT_THIS:
+    return symbolOfContext(context);
+  case WHAT_LOCATION:
+    return locationSymbol;
+  case WHAT_ACTOR:
+    return actorSymbol;
+  case WHAT_ID:
+    return what->id->symbol;
+  default:
+    syserr("Unexpected What kind in '%s()'", __FUNCTION__);
+  }
+  return NULL;
+}
+
+
+
+/*======================================================================*/
+void whatIsNotContainer(What *wht, Context *context, char construct[])
+{
+  Symbol *sym;
+
+  if (wht == NULL)
+    return;
+
+  switch (wht->kind) {
+  case WHAT_THIS:
+    lmLog(&wht->srcp, 309, sevERR, "");
+    break;
+  case WHAT_ID:
+    sym = wht->id->symbol;
+    if (sym)
+      switch (sym->kind) {
+      case INSTANCE_SYMBOL:
+	lmLog(&wht->srcp, 318, sevERR, wht->id->string);
+	break;
+      case PARAMETER_SYMBOL:
+	lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container", "because it is not restricted to Container in the Syntax", NULL);
+	break;
+      default:
+	syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+      }
+    break;
+
+  case WHAT_LOCATION:
+    break;
+
+  case WHAT_ACTOR:
+    lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
+    break;
+
+  default:
+    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
 }

@@ -123,6 +123,7 @@ static void addOpaqueAttribute(Properties *props, Bool opaque)
 /*======================================================================*/
 void symbolizeProps(Properties *props)
 {
+  symbolizeContainer(props->container);
   symbolizeParent(props);
   symbolizeAttributes(props->attributes);
   if (props->container)
@@ -201,7 +202,7 @@ void analyzeProps(Properties *props, Context *context)
 	     isClass(props->id->symbol)?"Class":"Instance",
 	     props->id->string,
 	     "location",
-	     "CONTAINER properties, which is dubious in use",
+	     "Container properties, which is dubious in use",
 	     NULL);
     analyzeContainer(props->container, context);
   }

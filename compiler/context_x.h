@@ -16,8 +16,9 @@
 
 /* FUNCTIONS: */
 
-extern Context *newContext(ContextKind kind);
+extern Context *newContext(ContextKind kind, void *item);
 extern Context *pushContext(Context *context);
+extern Symbol *symbolOfContext(Context *context);
 extern Bool inEntityContext(Context *context);
 extern Bool inLocationContext(Context *context);
 extern IdNode *classIdInContext(Context *context);

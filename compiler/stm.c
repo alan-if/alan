@@ -139,7 +139,7 @@ static void analyzeLocate(StmNod *stm, Context *context)
   case WHERE_AT:
     break;
   case WHR_IN:
-    contentClass = classOfContent(whr, context);
+    contentClass = contentOf(whr->what, context);
     if (contentClass != NULL && whtSymbol != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
@@ -296,7 +296,7 @@ static void analyzeUse(StmNod *stm, Context *context)
 	  lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
 	  return;
 	}
-      symbol = symbolOf(exp);
+      symbol = symbolOfExpression(exp, context);
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
 	syserr("Unexpected context in '%s()'", __FUNCTION__);
@@ -332,7 +332,7 @@ static void analyzeStop(StmNod *stm, Context *context)
 
   analyzeExpression(exp, context);
   if (exp->type != ERROR_TYPE) {
-    sym = symbolOf(exp);
+    sym = symbolOfExpression(exp, context);
     if (sym) {
       if (!inheritsFrom(sym, actorSymbol))
 	lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);
@@ -735,7 +735,7 @@ static void generateSchedule(StmNod *stm)
     break;
     
   case WHERE_AT:
-    generateWhat(stm->fields.schedule.whr->what);
+    generateWhat(stm->fields.schedule.whr->what->fields.wht.wht);
     break;
 
   default:

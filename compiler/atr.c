@@ -271,7 +271,7 @@ static Attribute *resolveActorAttribute(IdNode *attribute, Context *context)
 
   atr = findAttribute(actorSymbol->fields.entity.props->attributes, attribute);
   if (atr == NULL)
-    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "actor", NULL);
+    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "Actor", "actor", NULL);
   return atr;
 }
 
@@ -285,7 +285,7 @@ static Attribute *resolveLocationAttribute(IdNode *attribute, Context *context)
 
   atr = findAttribute(locationSymbol->fields.entity.props->attributes, attribute);
   if (atr == NULL)
-    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "location", NULL);
+    lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "Location", "location", NULL);
   return atr;
 }
 

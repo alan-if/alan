@@ -70,7 +70,7 @@ EvtNod *newevt(Srcp *srcp,	/* IN - Source Position */
 void anevts(void)
 {
     List *evts;		/* Traversal pointer */
-    Context *context = newContext(EVENT_CONTEXT);
+    Context *context = newContext(EVENT_CONTEXT, 0);
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
       if (verbose) {

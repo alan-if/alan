@@ -8,6 +8,7 @@
 
 #include "adv.c"
 #include "wht_x.h"
+#include "exp_x.h"
 
 void testInitAdv()
 {
@@ -35,24 +36,24 @@ void testInitAdv()
   ASSERT(readEcode() == 211 && readSev() == sevERR);
 
   adv.whr = newWhere(&srcp, WHERE_AT,
-		   newWhat(&srcp, WHAT_ID,
-			   atUnknownId));
+		     newWhatExpression(srcp, newWhat(&srcp, WHAT_ID,
+						      atUnknownId)));
   symbolizeAdventure();
   ASSERT(readSev() == sevERR && readEcode() == 310);
   analyzeStartAt();		/* Can not Start At unknown Id */
   ASSERT(readSev() == sevERR && readEcode() == 351);
 
-  adv.whr->what->id = atClaId;
+  adv.whr->what->fields.wht.wht->id = atClaId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not an instance */
   ASSERT(readSev() == sevERR && readEcode() == 351);
  
-  adv.whr->what->id = atInsId;
+  adv.whr->what->fields.wht.wht->id = atInsId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not inheriting from location */
   ASSERT(readSev() == sevERR && readEcode() == 351);
 
-  adv.whr->what->id = atInsLocId;
+  adv.whr->what->fields.wht.wht->id = atInsLocId;
   symbolizeAdventure();
   analyzeStartAt();		/* Can not Start At Id not a instance */
   ASSERT(readSev() == sevNONE && readEcode() == 0);

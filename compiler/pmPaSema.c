@@ -1998,13 +1998,13 @@ int rule			/* IN production number */
     case 307: { /* <where> = 'AT' <what>; */
 #line 2324 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_AT, pmSeSt[pmStkP+2].wht);
+        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHERE_AT, pmSeSt[pmStkP+2].exp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 308: { /* <where> = 'IN' <what>; */
 #line 2330 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHR_IN, pmSeSt[pmStkP+2].wht);
+        pmSeSt[pmStkP+1].whr = newWhere(&pmSySt[pmStkP+1].srcp, WHR_IN, pmSeSt[pmStkP+2].exp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 309: { /* <binop> = '+'; */

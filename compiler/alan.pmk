@@ -2322,13 +2322,13 @@ static int val(char str[])
 
     ! 'AT' <what>
     %%
-        %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.wht);
+        %<where>.whr = newWhere(`&%'AT'.srcp, WHERE_AT, %<what>.exp);
 	%<where>.srcp = %'AT'.srcp;
     %%
 
     ! 'IN' <what>
     %%
-        %<where>.whr = newWhere(`&%'IN'.srcp, WHR_IN, %<what>.wht);
+        %<where>.whr = newWhere(`&%'IN'.srcp, WHR_IN, %<what>.exp);
 	%<where>.srcp = %'IN'.srcp;
     %%
     ;

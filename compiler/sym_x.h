@@ -49,21 +49,19 @@ extern void initSymbols(void);
 
 /* Create a new symbol node */
 extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
+extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);
+extern Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent);
 
 /* Check if an Id exists in this context and if so if of an allowed kind */
-extern Symbol *symcheck(
-    IdNode *id,
-    SymbolKind kind,
-    Context *context
-    );
+extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);
 
 /* Lookup a symbol */
 extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
 extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
 extern Bool isClass(Symbol *symbol);
-extern Bool isContainer(Symbol *symbol);
-
+extern Bool symbolIsContainer(Symbol *symbol);
+extern Symbol *contentOfSymbol(Symbol *symbol);
 extern void newFrame(void);
 extern void deleteFrame(void);
 

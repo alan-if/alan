@@ -19,8 +19,8 @@ unknownParameter.alan
    14.        Locate direct In indirect.
 =====>                         1
 
-  *1*   312 E : Parameter 'indirect' is not guaranteed to be a container, which
-                is required.
+  *1*   312 E : Parameter 'indirect' is not guaranteed to be a Container,
+                because it is not restricted to Container in the Syntax.
 
 
         2 error(s).

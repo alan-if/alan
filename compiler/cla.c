@@ -211,9 +211,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 /*----------------------------------------------------------------------*/
 static void analyzeClass(ClaNod *class)
 {
-  Context *context = newContext(CLASS_CONTEXT);
-
-  context->class = class;
+  Context *context = newContext(CLASS_CONTEXT, class);
 
   warnForUnimplementedInheritance(class->props);
   analyzeProps(class->props, context);

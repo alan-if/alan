@@ -21,9 +21,13 @@
 /* FUNCTIONS: */
 
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
+extern Expression *newWhatExpression(Srcp srcp, What *what);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
-extern Symbol *symbolOf(Expression *exp);
+extern Symbol *contentOf(Expression *what, Context *context);
+extern Bool expressionIsContainer(Expression *exp, Context *context);
+extern void expressionIsNotContainer(Expression *exp, Context *context, char construct[]);
+extern Symbol *symbolOfExpression(Expression *exp, Context *context);
 extern void generateExpression(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);
 extern void generateAttributeReference(Expression *exp);

@@ -47,18 +47,62 @@ Bool equalTypes(TypeKind typ1, TypeKind typ2)
 
 
 /*======================================================================*/
-Symbol *symbolOf(Expression *exp) {
+Bool expressionIsContainer(Expression *exp, Context *context) {
+  return symbolIsContainer(symbolOfExpression(exp, context));
+}
+
+/*======================================================================*/
+void expressionIsNotContainer(Expression *exp, Context *context, char construct[]) {
+  switch (exp->kind) {
+  case WHAT_EXPRESSION:
+    whatIsNotContainer(exp->fields.wht.wht, context, construct); break;
+  case ATTRIBUTE_EXPRESSION:
+    lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the infered class of the attribute does not have the Container property", NULL);
+    break;
+  default:
+    syserr("Unexpected Expression kind in '%s()'", __FUNCTION__);
+  }
+}
+
+
+/*======================================================================*/
+Symbol *symbolOfExpression(Expression *exp, Context *context) {
   if (exp == NULL) return NULL;
 
   switch (exp->kind) {
   case WHAT_EXPRESSION:
-    return exp->fields.wht.wht->id->symbol;
+    return symbolOfWhat(exp->fields.wht.wht, context);
   case ATTRIBUTE_EXPRESSION:
     return exp->class;
   default:
     syserr("Unexpected expression kind in '%s()'.", __FUNCTION__);
   }
   return NULL;
+}
+
+
+/*======================================================================*/
+Symbol *contentOf(Expression *what, Context *context) {
+
+  /* Find what classes a container takes */
+
+  Symbol *symbol = NULL;
+  Symbol *content = NULL;
+
+  switch (what->kind) {
+  case WHAT_EXPRESSION:
+    symbol = symbolOfWhat(what->fields.wht.wht, context);
+    content = contentOfSymbol(symbol);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    symbol = what->class;
+    content = contentOfSymbol(symbol);
+    break;
+  default:
+    syserr("Unexpected What kind in '%s()'", __FUNCTION__);
+    break;
+  }
+  return content;
 }
 
 
@@ -93,27 +137,37 @@ Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 }
 
 
+/*======================================================================*/
+Expression *newWhatExpression(Srcp srcp, What *what) {
+  Expression *exp = newExpression(&srcp, WHAT_EXPRESSION);
+  exp->fields.wht.wht = what;
+  return exp;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.whr.wht, context);
-  if (exp->fields.whr.wht->kind != WHAT_EXPRESSION)
-    lmLogv(&exp->fields.whr.wht->srcp, 428, sevERR, "Expression", "an instance");
-  else {
-    switch (exp->fields.whr.wht->fields.wht.wht->kind) {
-    case WHAT_ACTOR:
-      if (context->kind == EVENT_CONTEXT)
-	lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
-      break;
-    case WHAT_LOCATION:
-      lmLogv(&exp->fields.whr.wht->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
-      break;
-    case WHAT_ID:
-    case WHAT_THIS:
-      break;
-    default:
-      syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-      break;
+  if (exp->type != ERROR_TYPE) {
+    if (exp->type != INSTANCE_TYPE)
+      lmLogv(&exp->fields.whr.wht->srcp, 428, sevERR, "Expression", "an instance", NULL);
+    else {
+      switch (exp->fields.whr.wht->fields.wht.wht->kind) {
+      case WHAT_ACTOR:
+	if (context->kind == EVENT_CONTEXT)
+	  lmLog(&exp->fields.whr.wht->srcp, 412, sevERR, "");
+	break;
+      case WHAT_LOCATION:
+	lmLogv(&exp->fields.whr.wht->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
+	break;
+      case WHAT_ID:
+      case WHAT_THIS:
+	break;
+      default:
+	syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+	break;
+      }
     }
   }
 
@@ -122,11 +176,11 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
   case WHR_NEAR:
     break;
   case WHERE_AT:
-    switch (exp->fields.whr.whr->what->kind) {
+    switch (exp->fields.whr.whr->what->fields.wht.wht->kind) {
     case WHAT_THIS:
       break;
     case WHAT_ID:
-      symcheck(exp->fields.whr.whr->what->id, INSTANCE_SYMBOL, context);
+      symcheck(exp->fields.whr.whr->what->fields.wht.wht->id, INSTANCE_SYMBOL, context);
       break;
     case WHAT_LOCATION:
       exp->fields.whr.whr->kind = WHR_HERE;
@@ -141,7 +195,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     }
     break;
   case WHR_IN:
-    verifyContainer(exp->fields.whr.whr->what, context, "Expression after IN");
+    verifyContainer(exp->fields.whr.whr->what->fields.wht.wht, context, "Expression after IN");
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
@@ -681,7 +735,7 @@ static void generateWhereExpression(Expression *exp)
     if (exp->not) emit0(I_NOT);
     return;
   case WHR_IN:
-    generateWhat(exp->fields.whr.whr->what);
+    generateWhat(exp->fields.whr.whr->what->fields.wht.wht);
     generateWhat(exp->fields.whr.wht->fields.wht.wht);
     emit0(I_IN);
     if (exp->not) emit0(I_NOT);

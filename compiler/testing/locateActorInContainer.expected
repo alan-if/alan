@@ -6,8 +6,8 @@ locateActorInContainer.alan
    11.        Locate i In c.
 =====>                 1
 
-  *1*   404 E : Container is restricted to contain instances of 'contObj' and
-                its subclasses.
+  *1*   404 E : Container is restricted to only contain instances of 'object'
+                and its subclasses.
 
 
         1 error(s).

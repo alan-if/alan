@@ -10,16 +10,17 @@
 #include "ins_x.h"
 
 void testSymbolOf() {
+  Context *context = newContext(NULL_CONTEXT, NULL);
   initSymbols();
-  ASSERT(symbolOf(NULL) == NULL);
+  ASSERT(symbolOfExpression(NULL, context) == NULL);
 
   Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
   What *theWhat = newWhat(&nulsrcp, WHAT_ID, theInstance->props->id);
   theWhatExp->fields.wht.wht = theWhat;
-  ASSERT(symbolOf(theWhatExp) != NULL);
-  ASSERT(symbolOf(theWhatExp) == theInstance->props->id->symbol);
+  ASSERT(symbolOfExpression(theWhatExp, context) != NULL);
+  ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);
   IdNode *attributeId = newId(&nulsrcp, "atr");
@@ -35,7 +36,7 @@ void testAttributeToThis()
   IdNode *theAttributeId = newId(&nulsrcp, "Atr");
   Attribute *theAttribute = newAttribute(&nulsrcp, BOOLEAN_TYPE,
 					 theAttributeId, 0, 0, 0, NULL);
-  Context *theContext = newContext(INSTANCE_CONTEXT);
+  Context *theContext = newContext(INSTANCE_CONTEXT, theInstance);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
   Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
   Expression *theExp = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);

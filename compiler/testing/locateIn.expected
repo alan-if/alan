@@ -13,8 +13,8 @@ locateIn.alan
    11.    Locate c In c.
 =====>             1
 
-  *1*   404 E : Container is restricted to contain instances of 'location' and
-                its subclasses.
+  *1*   404 E : Container is restricted to only contain instances of 'location'
+                and its subclasses.
 
 
         3 error(s).

@@ -1,0 +1,10 @@
+The l Isa location
+  Has i 0.
+End The l.
+
+The o Isa object
+End The o.
+
+Start At l.
+  Locate o At ref Of l.
+  Locate o At i Of l.

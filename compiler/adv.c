@@ -91,16 +91,18 @@ void symbolizeAdventure()
 static void analyzeStartAt(void)
 {
   /* START has the same environment as a RULE */
-  Context *context = newContext(RULE_CONTEXT);
+  Context *context = newContext(RULE_CONTEXT, NULL);
 
   if (adv.whr != NULL) 
     switch (adv.whr->kind) {
-    case WHERE_AT:
-      if (adv.whr->what->kind == WHAT_ID) {
-	inheritCheck(adv.whr->what->id, "START statement", "an instance", "location");
+    case WHERE_AT: {
+      What *what = adv.whr->what->fields.wht.wht;
+      if (what->kind == WHAT_ID) {
+	inheritCheck(what->id, "START statement", "an instance", "location");
       } else
 	lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;
+    }
     default:
       lmLog(&adv.whr->srcp, 211, sevERR, "");
       break;

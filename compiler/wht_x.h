@@ -19,6 +19,8 @@
 
 extern What *newWhat(Srcp *srcp, WhatKind wht, struct IdNode *id);
 extern void symbolizeWhat(What *wht);
+extern void whatIsNotContainer(What *wht, Context *context, char construct[]);
+extern Symbol *symbolOfWhat(What *what, Context *context);
 extern Bool verifyWhatContext(What *what, Context *context);
 extern void generateWhat(What *wht);
 extern void dumpWhat(What *wht);

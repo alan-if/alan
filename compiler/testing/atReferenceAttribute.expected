@@ -1,0 +1,20 @@
+########## alan atReferenceAttribute ##########
+
+
+atReferenceAttribute.alan
+
+    9.    Locate o At ref Of l.
+=====>                1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   10.    Locate o At i Of l.
+=====>                  1
+
+  *1*   428 E : Expression after AT must refer to an instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

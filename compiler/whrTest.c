@@ -11,9 +11,17 @@
 void testClassOfContent()
 {
   IdNode *id = newId(&nulsrcp, "inCont");
-  Where *whereInLocation = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_LOCATION, id));
-  Where *whereInActor = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ACTOR, id));
-  Where *whereInId = newWhere(&nulsrcp, WHR_IN, newWhat(&nulsrcp, WHAT_ID, id));
+  Expression *whatInLocation = newWhatExpression(nulsrcp,
+						 newWhat(&nulsrcp,
+							 WHAT_LOCATION,
+							 id));
+  Where *whereInActor = newWhere(&nulsrcp, WHR_IN,
+				 newWhatExpression(nulsrcp,
+						   newWhat(&nulsrcp,
+							   WHAT_ACTOR, id)));
+  Expression *whatInId = newWhatExpression(nulsrcp,
+				      newWhat(&nulsrcp,
+					      WHAT_ID, id));
   IdNode *takesId = newId(&nulsrcp, "location");
   ContainerBody *containerBody = newContainerBody(&nulsrcp, FALSE, takesId, NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
@@ -27,16 +35,18 @@ void testClassOfContent()
 				    NULL, NULL,NULL);
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
-  ASSERT(classOfContent(whereInLocation, NULL) == NULL);
+  ASSERT(contentOf(whatInLocation, NULL) == NULL);
 
   symbolizeId(takesId);
-  ASSERT(classOfContent(whereInId, NULL) == locationSymbol);
+  ASSERT(contentOf(whatInId, NULL) == locationSymbol);
 }
 
 void testInitialLocation()
 {
   IdNode *id = newId(&nulsrcp, "atLoc");
-  Where *whr = newWhere(&nulsrcp, WHERE_AT, newWhat(&nulsrcp, WHAT_ID, id));
+  Where *whr = newWhere(&nulsrcp, WHERE_AT,
+			newWhatExpression(nulsrcp, newWhat(&nulsrcp,
+							   WHAT_ID, id)));
   Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
   symbolizeInstance(atLoc);

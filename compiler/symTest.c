@@ -8,7 +8,7 @@
 
 #include "sym.c"
 #include "elm_x.h"
-  
+#include "prop_x.h"
 
 /*======================================================================
 
@@ -22,6 +22,32 @@ static char symbolName3[] = "p-is-higher";
 static IdNode *symbolId1;
 static IdNode *symbolId2;
 static IdNode *symbolId3;
+
+
+void testContentOfSymbol() {
+  IdNode *contentClassId = newId(&nulsrcp, "contentClassId");
+  Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
+  IdNode *content = newId(&nulsrcp, "content");
+  Container *container = newContainer(newContainerBody(&nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
+
+  IdNode *id = newId(&nulsrcp, "id");
+  Properties *props = newProps(NULL, NULL, NULL, container,
+			       nulsrcp, NULL,
+			       nulsrcp, NULL,
+			       nulsrcp, NULL,
+			       nulsrcp, NULL,
+			       nulsrcp, NULL, FALSE,
+			       nulsrcp, NULL, FALSE,
+			       NULL, NULL, NULL);
+  Symbol *classTakingContent = newClassSymbol(id, props, NULL);
+  IdNode *instanceId = newId(&nulsrcp, "instance");
+  Symbol *instance = newInstanceSymbol(instanceId, newEmptyProps(), classTakingContent);
+  content->symbol = contentSymbol;
+
+  ASSERT(contentOfSymbol(classTakingContent) == contentSymbol);
+  ASSERT(contentOfSymbol(instance) == contentSymbol);
+
+}
 
 
 void testSymCheck()
@@ -350,6 +376,7 @@ void testReplicateContainer()
 
 void registerSymUnitTests()
 {
+  registerUnitTest(testContentOfSymbol);
   registerUnitTest(testSymCheck);
   registerUnitTest(testBuildSymbol1);
   registerUnitTest(testBuildSymbolHigher);

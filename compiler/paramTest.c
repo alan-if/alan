@@ -10,17 +10,17 @@
 
 void testParameterReference()
 {
-  Context *context = newContext(VERB_CONTEXT);
   List *parameters;
   IdNode *p1Id = newId(&nulsrcp, "p1");
   Symbol *foundSymbol;
   IdNode *v1Id = newId(&nulsrcp, "v1");
   Symbol *v1Symbol;
+  Context *context;
 
   initAdventure();
 
   v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  context->verb = v1Symbol;
+  context = newContext(VERB_CONTEXT, v1Symbol);
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
 

@@ -19,10 +19,9 @@
 
 /* FUNCTIONS: */
 
-extern Where *newWhere(Srcp *srcp, WhrKind kind, What *wht);
+extern Where *newWhere(Srcp *srcp, WhrKind kind, struct Expression *what);
 extern void symbolizeWhere(Where *whr);
 extern void verifyInitialLocation(Where *whr);
-extern Symbol *classOfContent(Where *where, Context *context);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Where *whr);
 extern void generateWhere(Where *whr);

@@ -134,11 +134,12 @@ static lmMsgs msg[] = {
     { "304   ", "\'%1\' already declared as an Instance (The)." },
     { "305   ", "\'%1\' already declared as a Class (Every)." },
     { "307   ", "\'%1\' already declared as an Event." },
-    { "309   ", "THIS instance is not guaranteed to be a container." },
+    { "309   ", "In this context is THIS not a Container. Neither does the current entity inherit the Container property nor does it declare it." },
     { "310   ", "Identifier \'%1\' not defined." },
-    { "312   ", "Parameter \'%1\' is not guaranteed to be %2, which is required." },
+    { "311   ", "%1 is not guaranteed to be %2, %3." },
+    { "312   ", "%1 \'%2\' is not guaranteed to be %3, %4." },
     { "313   ", "Attribute \'%1\' is not defined for THIS instance." },
-    { "314   ", "Attribute \'%1\' is not defined for the current %2 since the class \'%2\' does not have it." },
+    { "314   ", "Attribute \'%1\' is not defined for the Current %2 since the class \'%3\' does not have it." },
     { "315   ", "Attribute not defined for \'%1\'." },
     { "316   ", "Attribute \'%1\' is not defined for %2 \'%3\' since its class (\'%4\') does not have it." },
     { "317   ", "Attribute \'%1\' is not defined for %2 since its class (\'%3\') does not have it." },
@@ -172,7 +173,7 @@ static lmMsgs msg[] = {
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
-    { "404   ", "Container is restricted to contain instances of \'%1\' and its subclasses." },
+    { "404   ", "Container is restricted to only contain instances of \'%1\' and its subclasses." },
     { "405   ", "Instances inheriting from Location can not %1." },
     { "406   ", "Integer and String parameters have no attributes." },
     { "407   ", "Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'." },
@@ -214,7 +215,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 134}
+    {0, 135}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -104,7 +104,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-alan: checkTarget tm $(MAINOBJECTS) unit
+alan: checkTarget tm $(MAINOBJECTS) unittests
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
@@ -113,7 +113,7 @@ release:
 	$(MAKE) "OPTIMIZE=-O4" alan
 	$(MAKE) "OPTIMIZE=-O4" winalan
 
-winalan: checkTarget $(MAINOBJECTS) alan.res unit
+winalan: checkTarget $(MAINOBJECTS) alan.res unittests
 	$(LD) -o winalan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp winalan.exe ../bin

@@ -15,6 +15,7 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "cnt_x.h"
+#include "exp_x.h"
 
 #include "lmList.h"
 #include "../interpreter/acode.h"
@@ -24,10 +25,7 @@
 
 
 /*======================================================================*/
-Where *newWhere(Srcp *srcp,	/* IN - Source position */
-	       WhrKind kind,	/* IN - Where kind */
-	       What *wht)	/* IN - What */
-{
+Where *newWhere(Srcp *srcp, WhrKind kind, Expression *wht) {
   Where *new;
 
   showProgress();
@@ -51,65 +49,11 @@ void symbolizeWhere(Where *whr)
   case WHR_NEAR:
   case WHERE_AT:
   case WHR_IN:
-    symbolizeWhat(whr->what);
+    symbolizeWhat(whr->what->fields.wht.wht);
     break;
   default:
     break;
   }
-}
-
-
-/*======================================================================*/
-Symbol *classOfContent(Where *where, Context *context) {
-
-  /* Find what classes a container takes */
-
-  Symbol *symbol = NULL;
-  Properties *props;
-
-  switch(where->kind) {
-  case WHR_IN:
-    switch (where->what->kind) {
-    case WHAT_LOCATION:
-      symbol = locationSymbol;
-      break;
-    case WHAT_ACTOR:
-      symbol = actorSymbol;
-      break;
-    case WHAT_ID:
-      symbol = where->what->id->symbol;
-      break;
-    case WHAT_THIS:
-      if (context->instance != NULL)
-	symbol = context->instance->props->id->symbol;
-      else if (context->class != NULL)
-	symbol = context->class->props->id->symbol;
-      else
-	return NULL;
-      break;
-    default:
-      syserr("Unexpected What kind in '%s()'", __FUNCTION__);	
-    }
-    if (symbol != NULL) {
-      switch (symbol->kind) {
-      case INSTANCE_SYMBOL:
-      case CLASS_SYMBOL:
-	props = symbol->fields.entity.props;
-	if (props != NULL)
-	  if (props->container != NULL)
-	    return props->container->body->taking->symbol;
-	break;
-      case PARAMETER_SYMBOL:
-	return symbol->fields.parameter.class;
-      default:
-	syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);	
-      }
-    }
-    break;
-  default:
-    syserr("Unexpected Where kind in '%s()'", __FUNCTION__);
-  }
-  return NULL;
 }
 
 
@@ -118,13 +62,13 @@ void verifyInitialLocation(Where *whr)
 {
   switch (whr->kind) {
   case WHERE_AT:
-    if (whr->what->kind == WHAT_ID) {
-      inheritCheck(whr->what->id, "Initial location using AT", "an instance", "location");
+    if (whr->what->fields.wht.wht->kind == WHAT_ID) {
+      inheritCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "an instance", "location");
     } else
       lmLog(&whr->srcp, 355, sevERR, "");
     break;
   case WHR_IN:
-    verifyContainer(whr->what, NULL, "Expression after IN");
+    verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
     break;
   default:
     lmLogv(&whr->srcp, 355, sevERR, "");
@@ -141,20 +85,18 @@ void analyzeWhere(Where *whr, Context *context) {
   case WHR_NEAR:
     break;
   case WHERE_AT:
-    if (whr->what != NULL)
-      switch (whr->what->kind) {
-      case WHAT_ID:
-	(void) symcheck(whr->what->id, INSTANCE_SYMBOL, context);
-	break;
-      case WHAT_LOCATION:
-	break;
-      default:
-	syserr("Unrecognized switch in '%s()'", __FUNCTION__);
-	break;
-      }
+    analyzeExpression(whr->what, context);
+    if (whr->what->type != ERROR_TYPE && whr->what->type != INSTANCE_TYPE)
+      lmLogv(&whr->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
     break;
   case WHR_IN:
-    verifyContainer(whr->what, context, "Expression after IN");
+    analyzeExpression(whr->what, context);
+    if (whr->what->type != ERROR_TYPE) {
+      if (whr->what->type != INSTANCE_TYPE)
+	lmLogv(&whr->what->srcp, 428, sevERR, "Expression after IN", "an instance", NULL);
+      else if (!expressionIsContainer(whr->what, context))
+	expressionIsNotContainer(whr->what, context, "Expression after IN");
+    }
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
@@ -178,7 +120,7 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
     switch (whr->kind) {
     case WHR_IN:
     case WHERE_AT:
-      return whr->what->id->symbol->code;
+      return whr->what->fields.wht.wht->id->symbol->code;
     default: syserr("Unexpected where kind in '%s()'", __FUNCTION__);
     }
 
@@ -187,23 +129,17 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
 
 
 
-/*======================================================================
-
-  gewhr()
-
-  Generate a location reference according to the WHR.
-
-  */
+/*======================================================================*/
 void generateWhere(Where *where)
 {
   switch (where->kind) {
 
   case WHERE_AT:
-    switch (where->what->kind) {
+    switch (where->what->fields.wht.wht->kind) {
     case WHAT_ID:
-      generateWhat(where->what);
+      generateWhat(where->what->fields.wht.wht);
       /* Instance inherit from location? Or is it at the location of it? */
-      if (!inheritsFrom(where->what->id->symbol, locationSymbol))
+      if (!inheritsFrom(where->what->fields.wht.wht->id->symbol, locationSymbol))
 	emit0(I_WHERE);
       break;
     case WHAT_LOCATION:
@@ -219,7 +155,7 @@ void generateWhere(Where *where)
     break;
 
   case WHR_IN:
-    generateId(where->what->id);
+    generateId(where->what->fields.wht.wht->id);
     break;
 
   case WHR_HERE:
@@ -234,13 +170,7 @@ void generateWhere(Where *where)
 
 
 
-/*----------------------------------------------------------------------
-
-  duwhr()
-
-  Dump a Where node
-
-  */
+/*======================================================================*/
 void dumpWhere(Where *whr)
 {
   if (whr == NULL) {
@@ -258,5 +188,5 @@ void dumpWhere(Where *whr)
   default: put("*** ERROR ***"); break;
   }
   nl();
-  put("wht: "); dumpWhat(whr->what); out();
+  put("wht: "); dumpExpression(whr->what); out();
 }

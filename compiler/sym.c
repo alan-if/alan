@@ -213,7 +213,21 @@ Symbol *newSymbol(IdNode *id,		/* IN - Name of the new symbol */
   return new;
 }
 
+/*======================================================================*/
+Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) {
+  Symbol *new = newSymbol(id, INSTANCE_SYMBOL);
+  new->fields.entity.props = props;
+  new->fields.entity.parent = parent;
+  return new;
+}
 
+/*======================================================================*/
+Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
+  Symbol *new = newSymbol(id, CLASS_SYMBOL);
+  new->fields.entity.props = props;
+  new->fields.entity.parent = parent;
+  return new;
+}
 
 /*======================================================================*/
 void initSymbols()
@@ -394,22 +408,49 @@ Bool isClass(Symbol *symbol) {
 
 
 /*======================================================================*/
-Bool isContainer(Symbol *symbol) {
+Bool symbolIsContainer(Symbol *symbol) {
   if (symbol != NULL) {
     switch (symbol->kind) {
     case PARAMETER_SYMBOL:
       return symbol->fields.parameter.restrictedToContainer
-	|| isContainer(symbol->fields.parameter.class);
+	|| symbolIsContainer(symbol->fields.parameter.class);
     case CLASS_SYMBOL:
     case INSTANCE_SYMBOL:
       return symbol->fields.entity.props->container != NULL
-	|| isContainer(symbol->fields.entity.parent);
+	|| symbolIsContainer(symbol->fields.entity.parent);
     default:
       syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);
     }
   }
   return FALSE;
 }
+
+
+/*======================================================================*/
+Symbol *contentOfSymbol(Symbol *symbol) {
+  Properties *props;
+  if (symbol != NULL) {
+    switch (symbol->kind) {
+    case INSTANCE_SYMBOL:
+    case CLASS_SYMBOL:
+      props = symbol->fields.entity.props;
+      if (props != NULL) {
+	if (props->container != NULL)
+	  return props->container->body->taking->symbol;
+	else
+	  return contentOfSymbol(symbol->fields.entity.parent);
+      }
+      break;
+    case PARAMETER_SYMBOL:
+      return contentOfSymbol(symbol->fields.parameter.class);
+      break;
+    default:
+      syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);	
+    }
+  }
+  return NULL;
+}
+
 
 
 /*======================================================================*/

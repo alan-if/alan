@@ -6,7 +6,7 @@ verifyProps.alan
     1.  The l Isa location
 =====>      1
 
-  *1*   354 E : Instance 'l' inherits from 'location', but has CONTAINER
+  *1*   354 E : Instance 'l' inherits from 'location', but has Container
                 properties, which is dubious in use.
 
     5.  The x Isa thing

@@ -85,6 +85,16 @@ Container *newContainer(ContainerBody *body)
   return(new);
 }
 
+
+/*======================================================================*/
+void symbolizeContainer(Container *theContainer) {
+  if (theContainer != NULL) {
+    IdNode *id = theContainer->body->taking;
+    id->symbol = lookup(id->string);
+  }
+}
+
+
 /*======================================================================*/
 void verifyContainer(What *wht, Context *context, char construct[])
 {
@@ -107,8 +117,8 @@ void verifyContainer(What *wht, Context *context, char construct[])
 	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
 	break;
       case PARAMETER_SYMBOL:
-	if (!isContainer(sym))
-	  lmLogv(&wht->srcp, 312, sevERR, wht->id->string, "a container", NULL);
+	if (!symbolIsContainer(sym))
+	  lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
 	break;
       default:
 	syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
@@ -120,7 +130,7 @@ void verifyContainer(What *wht, Context *context, char construct[])
     break;
 
   case WHAT_ACTOR:
-    if (!isContainer(actorSymbol))
+    if (!symbolIsContainer(actorSymbol))
       lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
     break;
 
@@ -129,7 +139,6 @@ void verifyContainer(What *wht, Context *context, char construct[])
     break;
   }
 }
-
 
 
 /*======================================================================*/
@@ -145,7 +154,7 @@ void analyzeContainer(Container *theContainer, Context *context)
     theContainer->ownerProperties = context->instance->props;
 
   if (!theContainer->body->analyzed) {
-    /* Analyze which class of instances it takes */
+    /* Analyze which class it takes */
     IdNode *id = theContainer->body->taking;
     id->symbol = symcheck(id, CLASS_SYMBOL, context);
 

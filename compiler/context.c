@@ -12,16 +12,43 @@
 
 
 /*======================================================================*/
-Context *newContext(ContextKind kind)
+Context *newContext(ContextKind kind, void *item)
 {
   Context *new = NEW(Context);
 
   new->kind = kind;
   new->previous = NULL;
 
+  switch (kind) {
+  case INSTANCE_CONTEXT: new->instance = (Instance *)item; break;
+  case CLASS_CONTEXT: new->class = (ClaNod *)item; break;
+  case VERB_CONTEXT: new->verb = (Symbol *)item; break;
+  case EVENT_CONTEXT: new->event = (EvtNod *)item; break;
+  case RULE_CONTEXT:
+  case NULL_CONTEXT:
+    break;
+  default:
+    syserr("Unexpected Context kind in '%s()'", __FUNCTION__);
+  }
   return new;
 }
 
+
+/*======================================================================*/
+Symbol *symbolOfContext(Context *context) {
+  switch (context->kind) {
+  case INSTANCE_CONTEXT: return context->instance->props->id->symbol;
+  case CLASS_CONTEXT: return context->class->props->id->symbol;
+  case VERB_CONTEXT: return symbolOfContext(context->previous);
+  case EVENT_CONTEXT:
+  case RULE_CONTEXT:
+  case NULL_CONTEXT:
+    return NULL;
+  default:
+    syserr("Unexpected Context kind in '%s()'", __FUNCTION__);
+  }
+  return NULL;
+}
 
 /*======================================================================*/
 Context *pushContext(Context *previous)
@@ -93,7 +120,7 @@ Bool thisIsaContainer(Context *context)
   else
     return FALSE;
 
-  return isContainer(symbol);
+  return symbolIsContainer(symbol);
 }
 
 
