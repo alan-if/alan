@@ -143,6 +143,36 @@ List *combine(list1, list2)
 
 
 
+/*======================================================================
+
+  copyList()
+
+  Generic list combination.
+
+  */
+#ifdef _PROTOTYPES_
+List *copyList(List *list)	/* IN - Lists to copy */
+#else
+List *copyList(list)
+     List *list;
+#endif
+{
+  List *new, *oldList, *newList;
+
+  if (list == NULL) return NULL;
+
+  new, newList = NEW(List);
+  for (oldList = list; oldList; oldList = oldList->next) {
+    newList->element.anyType = oldList->element.anyType;
+    if (oldList->next)
+      newList->next = NEW(List);
+    newList = newList->next;
+  }
+  return new;
+}
+
+
+
 /*----------------------------------------------------------------------
 
   dumpNode()
@@ -160,6 +190,8 @@ static void dumpNode(node, kind)
 {
   switch (kind) {
   case ADDRESS_NODE: dumpAddress(node); break;
+  case ADDRESSLIST_NODE: dumpList(node, ADDRESS_NODE); break;
+  case ADDRESSLISTLIST_NODE: dumpList(node, ADDRESSLIST_NODE); break;
   case ATTRIBUTE_NODE: dumpAttribute(node); break;
   case CLASS_NODE: dumpClass(node); break;
   case ID_NODE: dumpId(node); break;

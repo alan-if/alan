@@ -258,6 +258,7 @@ void dumpAttribute(attribute)
   put("ATTRIBUTE: "); dumpSrcp(&attribute->srcp); in();
   put("type: "); dumpType(attribute->type); nl();
   put("id: "); dumpId(attribute->id); nl();
+  put("code: "); dumpInteger(attribute->code); nl();
   put("stradr: "); dumpInteger(attribute->stradr); nl();
   put("value: "); dumpInteger(attribute->value); nl();
   put("fpos: "); dumpInteger(attribute->fpos); nl();

@@ -49,6 +49,9 @@ extern int listLength(List *list);
 /* Combine two generic lists */
 extern List *combine(List *list1, List *list2);
 
+/* Copy a list (without copying elements) */
+extern List *copyList(List *list);
+
 /* Dump a list of nodes */
 extern void dumpList(List *list, NodeKind node);
 

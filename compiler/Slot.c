@@ -100,7 +100,7 @@ void analyseSlot(slot)
   List *list, *sentinel = NULL;
   Symbol *symbol;
   Bool remove;			/* Forced to remove the item? */
-  List *localAttributes;
+  List *localAttributes, *inhertitedAttributeList;
   Attribute *attribute;
 
   slot->state = LOOKING_FOR_CIRCLES;
@@ -115,11 +115,15 @@ void analyseSlot(slot)
       } else {
 	if (symbol->info.class->slot->state != FINISHED)
 	  analyseSlot(symbol->info.class->slot);
+	/* Now collect the inhertied attributes into the list */
 	if (symbol->info.class->slot->attributes != NULL)
-	  slot->inheritedAttributeLists = prepend(symbol->info.class->slot->attributes,
-						  symbol->info.class->slot->inheritedAttributeLists);
+	  inhertitedAttributeList = prepend(symbol->info.class->slot->attributes,
+					 copyList(symbol->info.class->slot->inheritedAttributeLists));
 	else
-	  slot->inheritedAttributeLists = symbol->info.class->slot->inheritedAttributeLists;
+	  inhertitedAttributeList = copyList(symbol->info.class->slot->inheritedAttributeLists);
+	/* Now inhertiedAttributes contains all lists of attributes inherited from this class */
+	if (inhertitedAttributeList != NULL)
+	  slot->inheritedAttributeLists = combine(slot->inheritedAttributeLists, inhertitedAttributeList);
       }
     } else
       remove = TRUE;
