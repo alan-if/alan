@@ -2,7 +2,7 @@
 #
 
 ARCHS	= sun4 solaris2 hp
-VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g`
+VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
 
 GCC	= gcc

@@ -822,7 +822,7 @@ IS {
 PUBLIC char * FUNCTION(spaArgument, (n))
     IN(int, n)
 IS {
-    spaArgumentNo(pArg+n);
+    return spaArgumentNo(pArg+n);
 }
 
 

@@ -1,0 +1,13 @@
+########## scoreexp ##########
+alan scoreexp
+arun scoreexp < scoreexp.input
+
+########## /bin/sh  scoreexp.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+You have no scores.
+
+Do you want to restart (y) ? 
