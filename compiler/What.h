@@ -18,6 +18,7 @@
 typedef enum WhatKind {
   WHAT_LOCATION,
   WHAT_ACTOR,
+  WHAT_THIS,
   WHAT_ID
 } WhatKind;
 

@@ -21,12 +21,11 @@
 /* Types: */
 
 typedef enum TypeKind {		/* TYPE kinds */
-  UNKOWN_TYPE,
+  UNKNOWN_TYPE,
   INTEGER_TYPE,
   BOOLEAN_TYPE,
   STRING_TYPE,
-  INSTANTE_TYPE,
-  ERROR_TYPE
+  INSTANCE_TYPE
 } TypeKind;
 
 typedef enum ExpressionKind {		/* EXPRESSION kinds */

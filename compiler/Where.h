@@ -9,7 +9,11 @@
 
 
 /* USE other definitions */
+
+#include "types.h"
+
 #include "What.h"
+#include "List.h"
 
 
 /* Types: */
@@ -42,7 +46,7 @@ extern Where *newWhere(Srcp *srcp,
 		       What *what);
 
 /* Analyse a Where reference */
-extern void analyseWhere(Where *Where);
+extern void analyseWhere(Where *Where, List *parameters);
 
 /* Generate a Where reference */
 extern void generateWhere(Where *Where);

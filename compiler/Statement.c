@@ -52,7 +52,7 @@ void analyseStatements(List *statements,
 		       List *parameters)
 #else
 void analyseStatements(statements, event, parameters)
-     List *statement;
+     List *statements;
      Event *event;
      List *parameters;
 #endif
