@@ -91,7 +91,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
 	stx = defaultSyntax0(ids->element.id->string);
       } else {
-	IdNode *className = classNameIn(context);
+	IdNode *className = classIdInContext(context);
 	if (className == NULL)
 	  className = newId(&nulsrcp, "object");
 	lmLogv(&ids->element.id->srcp, 231, sevINF, ids->element.id->string,

@@ -161,7 +161,7 @@ static void endEach()
 }
 
 /*----------------------------------------------------------------------*/
-static void dup(void)
+static void stackDup(void)
 {
   push(top());
 }
@@ -365,10 +365,14 @@ void interpret(Aaddr adr)
 	Aword file, line;
 	line = pop();
 	file = pop();
-	current.sourceLine = line;
-	current.sourceFile = file;
+	if (singleStepOption)
+	  printf("LINE\t%5ld,\t%5ld", file, line);
 	if (line != 0) {
-	  if (stopAtNextLine || breakpointIndex(line) != -1) {
+	  Boolean atNext = stopAtNextLine && line != current.sourceLine;
+	  Boolean atBreakpoint =  breakpointIndex(line) != -1;
+	  current.sourceLine = line;
+	  current.sourceFile = file;
+	  if (atNext || atBreakpoint) {
 	    stopAtNextLine = FALSE;
 	    debug(TRUE, line, file);
 	  }
@@ -942,7 +946,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("AGRSTART\t\t\t\t");
 	push(1);		/* Instance index */
-	dup();			/* Twice! */
+	stackDup();			/* Twice! */
 	break;
       case I_AGRCHECK:
 	if (singleStepOption)
@@ -950,7 +954,7 @@ void interpret(Aaddr adr)
 	if (!pop())		/* This filter matched? */
 	  goToENDAGR();		/* If not, skip rest of filter and the aggregate itself */
 	else
-	  dup();
+	  stackDup();
 	break;
       case I_MIN: {
 	Aint attribute = pop();
@@ -1017,7 +1021,7 @@ void interpret(Aaddr adr)
 	  printf("ENDAGR\t%5d\t\t=%ld\t", instance, top());
 	if (instance < MAXENTITY) {
 	  push(instance+1);
-	  dup();
+	  stackDup();
 	  goToAGRSTART();
 	}
 	break;
@@ -1026,7 +1030,7 @@ void interpret(Aaddr adr)
       case I_DUP:
 	if (singleStepOption)
 	  printf("DUP\t\t\t\t");
-	dup();
+	stackDup();
 	break;
 
       case I_DEPEND:

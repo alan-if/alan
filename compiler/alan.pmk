@@ -655,11 +655,16 @@ static int val(char str[])
     =
     %%
 	%<optional_does>.qual = QUAL_DEFAULT;
+	%<optional_does>.srcp = nulsrcp;
 	%<optional_does>.stms = NULL;
     %%
 
     ! <does>
-    -- Propagate!
+    %%
+	%<optional_does>.qual = %<does>.qual;
+	%<optional_does>.srcp = %<does>.srcp;
+	%<optional_does>.stms = %<does>.stms;
+    %%
     ;
 
 <does>
@@ -1091,7 +1096,10 @@ static int val(char str[])
     %%
 
     ! <description> 
-    -- Propagate!
+    %%
+	%<optional_description>.chks = %<description>.chks;
+	%<optional_description>.stms = %<description>.stms;
+    %%
     ;
 
 <description>		-- RETURNS: chks, stms, srcp, srcp2
@@ -1602,7 +1610,7 @@ static int val(char str[])
     = 'MAKE' <what> <something> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'MAKE'.srcp, MAKE_STATEMENT);
-	%<assignment_statement>.stm->fields.make.wht = %<what>.wht;
+	%<assignment_statement>.stm->fields.make.wht = %<what>.exp;
 	%<assignment_statement>.stm->fields.make.not = %<something>.not;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
     %%
@@ -1610,24 +1618,21 @@ static int val(char str[])
     ! 'SET' <attribute_reference> 'TO' <expression> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'SET'.srcp, SET_STATEMENT);
-	%<assignment_statement>.stm->fields.set.atr = %<attribute_reference>.id;
-	%<assignment_statement>.stm->fields.set.wht = %<attribute_reference>.wht;
+	%<assignment_statement>.stm->fields.set.wht = %<attribute_reference>.exp;
 	%<assignment_statement>.stm->fields.set.exp = %<expression>.exp;
     %%
 
     ! 'INCREASE' <attribute_reference> <optional_by_clause> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'INCREASE'.srcp, INCREASE_STATEMENT);
-	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
-	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
+	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.exp;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
     %%
 
     ! 'DECREASE' <attribute_reference> <optional_by_clause> '.'
     %%
 	%<assignment_statement>.stm = newStatement(`&%'DECREASE'.srcp, DECREASE_STATEMENT);
-	%<assignment_statement>.stm->fields.incr.atr = %<attribute_reference>.id;
-	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.wht;
+	%<assignment_statement>.stm->fields.incr.wht = %<attribute_reference>.exp;
 	%<assignment_statement>.stm->fields.incr.step = %<optional_by_clause>.exp;
     %%
 
@@ -2161,16 +2166,7 @@ static int val(char str[])
 
     ! <what>
     %%
-	%<primary>.exp = newexp(`&%<what>.srcp, WHAT_EXPRESSION);
-	%<primary>.exp->fields.wht.wht = %<what>.wht;
-    %%
-
-    ! <attribute_reference>
-    %%
-	%<primary>.exp = newexp(`&%<attribute_reference>.srcp, ATTRIBUTE_EXPRESSION);
-	%<primary>.exp->fields.atr.atr = %<attribute_reference>.id;
-	%<primary>.exp->fields.atr.wht = newexp(`&%<attribute_reference>.srcp, WHAT_EXPRESSION);
-	%<primary>.exp->fields.atr.wht->fields.wht.wht = %<attribute_reference>.wht;
+	%<primary>.exp = %<what>.exp;
     %%
 
     ! 'RANDOM' <primary> 'TO' <primary>
@@ -2232,32 +2228,59 @@ static int val(char str[])
     %%
     ;
 
-<what>			-- RETURNS: srcp, wht
+<what>			-- RETURNS: exp
+    = <simple_what>
+    %%
+	%<what>.exp = newexp(`&%<simple_what>.srcp, WHAT_EXPRESSION);
+	%<what>.exp->fields.wht.wht = %<simple_what>.wht;
+    %%
+
+    ! <attribute_reference>
+    %%
+	%<what>.exp = %<attribute_reference>.exp;
+    %%
+    ;
+
+<simple_what>			-- RETURNS: srcp, wht
     = ID
     %%
-	%<what>.wht = newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id);
-	%<what>.srcp = %ID.id->srcp;
+	%<simple_what>.wht = newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id);
+	%<simple_what>.srcp = %ID.id->srcp;
     %%
 
     ! 'CURRENT' 'ACTOR'
     %%
-	%<what>.wht = newWhat(`&%'CURRENT'.srcp, WHAT_ACTOR, NULL);
-	%<what>.srcp = %'CURRENT'.srcp;
+	%<simple_what>.wht = newWhat(`&%'CURRENT'.srcp, WHAT_ACTOR, NULL);
+	%<simple_what>.srcp = %'CURRENT'.srcp;
     %%
 
     ! 'CURRENT' 'LOCATION'
     %%
-	%<what>.wht = newWhat(`&%'CURRENT'.srcp, WHAT_LOCATION, NULL);
-	%<what>.srcp = %'CURRENT'.srcp;
+	%<simple_what>.wht = newWhat(`&%'CURRENT'.srcp, WHAT_LOCATION, NULL);
+	%<simple_what>.srcp = %'CURRENT'.srcp;
     %%
 
     ! 'THIS'
     %%
-	%<what>.wht = newWhat(`&%'THIS'.srcp, WHAT_THIS, NULL);
-	%<what>.srcp = %'THIS'.srcp;
+	%<simple_what>.wht = newWhat(`&%'THIS'.srcp, WHAT_THIS, NULL);
+	%<simple_what>.srcp = %'THIS'.srcp;
     %%
     ;
 
+
+<attribute_reference>		-- RETURNS: srcp, wht, id, exp
+    = ID 'OF' <what>
+    %%
+	%<attribute_reference>.srcp = %'OF'.srcp;
+	%<attribute_reference>.id = %ID.id;
+	%<attribute_reference>.wht = %<what>.wht;
+
+	%<attribute_reference>.exp = newexp(`&%'OF'.srcp, ATTRIBUTE_EXPRESSION);
+	%<attribute_reference>.exp->fields.atr.atr = %ID.id;
+	%<attribute_reference>.exp->fields.atr.wht = %<what>.exp;
+    %%
+
+    ;
 
 <optional_where>		-- RETURNS: whr
     =
@@ -2470,22 +2493,6 @@ static int val(char str[])
     %%
     ;
 
-<attribute_reference>		-- RETURNS: srcp, wht, id
-    = ID 'OF' <what>
-    %%
-	%<attribute_reference>.srcp = %'OF'.srcp;
-	%<attribute_reference>.id = %ID.id;
-	%<attribute_reference>.wht = %<what>.wht;
-    %%
-
-    ! <what> ':' ID
-    %%
-	%<attribute_reference>.srcp = %':'.srcp;
-	%<attribute_reference>.id = %ID.id;
-	%<attribute_reference>.wht = %<what>.wht;
-    %%
-    ;
-
 ID
     = Identifier
     %%
@@ -2510,11 +2517,6 @@ ID
     ! 'ON'
     %%
 	%ID.id = newId(`&%'ON'.srcp, %'ON'.chars);
-    %%
-
-    ! 'OF'
-    %%
-	%ID.id = newId(`&%'OF'.srcp, %'OF'.chars);
     %%
 
     ! 'FIRST'

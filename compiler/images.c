@@ -10,6 +10,7 @@
 #include "lst_x.h"
 #include "util.h"
 #include <errno.h>
+#include <unistd.h>
 
 
 /*----------------------------------------------------------------------*/

@@ -20,6 +20,6 @@ extern Context *newContext(ContextKind kind);
 extern Context *pushContext(Context *context);
 extern Bool inEntityContext(Context *context);
 extern Bool inLocationContext(Context *context);
-extern IdNode *classNameIn(Context *context);
+extern IdNode *classIdInContext(Context *context);
 
 #endif

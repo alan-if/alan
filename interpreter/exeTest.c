@@ -128,8 +128,6 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 }
 
 
-extern void unlink();
-
 void testGetString()
 {
   int fpos = 55;

@@ -33,14 +33,14 @@ Name: "desktopicon"; Description: "Create &desktop icons"; GroupDescription: "Ad
 Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\alan.readme"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\cygwin\home\thoni\Alan\alan\doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "alan.readme"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
+Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]

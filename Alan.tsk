@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>303.89</origest>
-<currest>302.89</currest>
+<origest>304.89</origest>
+<currest>303.89</currest>
 <elapsed>139.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>47</currest>
+<origest>48</origest>
+<currest>48</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
@@ -64,6 +64,22 @@ Or should we only allow this through use of temporary variables? If so how do we
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Expression syntax for accessing attributes of attributes</desc>
+<notes>In order to refer to an attribute of an instance which is refered to by an attribute the expression syntax need to be changed so that it allows:
+
+  Make otherside Of door open.
+  Set size Of bag Of thief To 4.
+
+Possibly at the same time we could introduce a new attribute reference syntax, e.g:
+  Make door:otherside:open.
+  Set thief:bag:size To 4.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Type comparison rules for instance type</desc>
 <notes/>
 <priority>2</priority>
@@ -81,26 +97,19 @@ Or should we only allow this through use of temporary variables? If so how do we
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Expression syntax for accessing attributes of attributes</desc>
-<notes>In order to refer to an attribute of an instance which is refered to by an attribute the expression syntax need to be changed so that it allows:
-
-  Make otherside Of door open.
-  Set size Of bag Of thief To 4.
-
-Possibly at the same time we could introduce a new attribute reference syntax, e.g:
-  Make door:otherside:open.
-  Set thief:bag:size To 4.</notes>
+<desc>RESTART does not work well in WinArun</desc>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>RESTART does not work well in WinArun</desc>
-<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<desc>Unify error messages 408, 413 and 428</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

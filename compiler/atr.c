@@ -327,8 +327,17 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
 }
 
 
-/*======================================================================*/
-Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *context)
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Context *context) {
+  if (class != NULL)
+    return findAttribute(class->fields.entity.props->attributes, attribute);
+  else
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context *context)
 {
   /* Analyze a reference to an attribute. Will handle static identifiers and
      parameters and return a reference to the attribute node, if all is well. */
@@ -343,6 +352,19 @@ Attribute *resolveAttributeReference(What *what, IdNode *attribute, Context *con
   return NULL;
 }
 
+
+/*======================================================================*/
+Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *context) {
+  switch (exp->kind) {
+  case WHAT_EXPRESSION:
+    return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);
+  case ATTRIBUTE_EXPRESSION:
+    return resolveAttributeToClass(exp->class, attributeId, context);
+  default:
+    syserr("Unexpected expression kind in '%s()'", __FUNCTION__);
+  }
+  return NULL;
+}
 
 /*----------------------------------------------------------------------*/
 static void generateAttribute(Attribute *attribute)

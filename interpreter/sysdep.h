@@ -92,6 +92,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #ifdef __STDC__
 #define _PROTOTYPES_

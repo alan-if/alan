@@ -495,7 +495,7 @@ void setStringAttribute(Aword id, Aword atr, char *str)
 
 
 /*----------------------------------------------------------------------*/
-static void incrementAttribute(AttributeEntry *attributeTable,
+static void increaseAttribute(AttributeEntry *attributeTable,
 			       Aint attributeCode,
 			       Aint step)
 {
@@ -511,9 +511,9 @@ void increase(Aword id, Aword attributeCode, Aword step)
   char str[80];
 
   if (id > 0 && id <= header->instanceMax)
-    incrementAttribute(admin[id].attributes, attributeCode, step);
+    increaseAttribute(admin[id].attributes, attributeCode, step);
   else {
-    sprintf(str, "Can't INCR instance attribute (%ld, %ld).", id, attributeCode);
+    sprintf(str, "Can't Increase instance(%ld) attribute(%ld).", id, attributeCode);
     syserr(str);
   }
 }
@@ -524,7 +524,7 @@ void decrease(Aword id, Aword atr, Aword step)
   char str[80];
 
   if (id > 0 && id <= header->instanceMax)
-    incrementAttribute(admin[id].attributes, atr, -step);
+    increaseAttribute(admin[id].attributes, atr, -step);
   else {
     sprintf(str, "Can't DECR instance attribute (%ld, %ld).", id, atr);
     syserr(str);

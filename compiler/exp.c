@@ -159,7 +159,8 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 {
   Attribute *atr;
 
-  if (exp->fields.atr.wht->kind == WHAT_EXPRESSION) {
+  switch (exp->fields.atr.wht->kind) {
+  case WHAT_EXPRESSION:
     switch (exp->fields.atr.wht->fields.wht.wht->kind) {
       
     case WHAT_ACTOR:
@@ -181,11 +182,23 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
       break;
     }
 
-    atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
-				    exp->fields.atr.atr, context);
+    atr = resolveAttribute(exp->fields.atr.wht,
+			   exp->fields.atr.atr, context);
     exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
+    if (exp->type == INSTANCE_TYPE)
+      exp->class = atr->instance->symbol->fields.entity.parent;
+    break;
 
-  } else {
+  case ATTRIBUTE_EXPRESSION:
+    analyzeAttributeExpression(exp->fields.atr.wht, context);
+    if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE))
+      lmLog(&exp->fields.atr.wht->srcp, 429, sevERR, "");
+    else {
+      atr = resolveAttribute(exp->fields.atr.wht, exp->fields.atr.atr, context); 
+    }
+    break;
+
+  default:
     exp->type = UNKNOWN_TYPE;
     lmLog(&exp->srcp, 420, sevERR, "attribute reference");
   }
@@ -417,20 +430,55 @@ static void analyzeRandom(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
+static Bool verifyWhatContext(What *what, Context *context) {
+  switch (what->kind) {
+
+  case WHAT_ACTOR:
+    if (context->kind == EVENT_CONTEXT) {
+      lmLog(&what->srcp, 412, sevERR, "");
+      return FALSE;
+    }
+    break;
+
+  case WHAT_LOCATION:
+  case WHAT_ID:
+    break;
+
+  case WHAT_THIS:
+    if (!inEntityContext(context)) {
+      lmLog(&what->srcp, 421, sevERR, "");
+      return FALSE;
+    }
+    break;
+
+  default:
+    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
+    break;
+  }
+  return TRUE;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
   Symbol *symbol;
+
+  if (exp->kind != WHAT_EXPRESSION) syserr("Not a WHAT-expression in '%s()'", __FUNCTION__);
+  if (!verifyWhatContext(exp->fields.wht.wht, context)) return;
 
   switch (exp->fields.wht.wht->kind) {
 
   case WHAT_LOCATION:
     exp->type = INSTANCE_TYPE;
+    exp->class = locationSymbol;
     break;
 
   case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
     exp->type = INSTANCE_TYPE;
+    exp->class = actorSymbol;
     break;
 
   case WHAT_ID:
@@ -445,6 +493,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 	break;
       case INSTANCE_SYMBOL:
 	exp->type = INSTANCE_TYPE;
+	exp->class = symbol->fields.entity.parent;
 	break;
       default:
 	syserr("Unexpected symbolKind in %s()", __FUNCTION__);
@@ -455,11 +504,8 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     break;
 
   case WHAT_THIS:
-    if (context->kind == INSTANCE_CONTEXT || context->kind == CLASS_CONTEXT ||
-	(context->kind == VERB_CONTEXT && (context->instance != NULL || context->class != NULL)))
-      exp->type = INSTANCE_TYPE;
-    else
-      lmLog(&exp->fields.wht.wht->srcp, 421, sevERR, "");
+    exp->type = INSTANCE_TYPE;
+    exp->class = classIdInContext(context)->symbol;
     break;
 
   default:
@@ -470,7 +516,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void anexpbtw(Expression *exp, Context *context)
+static void analyzeBetweenExpression(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.btw.val, context);
   if (!equalTypes(exp->fields.btw.val->type, INTEGER_TYPE))
@@ -563,7 +609,7 @@ void analyzeExpression(Expression *expression,
     break;
 
   case BETWEEN_EXPRESSION:
-    anexpbtw(expression, context);
+    analyzeBetweenExpression(expression, context);
     break;
 
   case ISA_EXPRESSION:
@@ -695,7 +741,7 @@ void generateAttributeAccess(Expression *exp)
 /*======================================================================*/
 void generateAttributeReference(Expression *exp) {
   generateId(exp->fields.atr.atr);
-  generateWhat(exp->fields.atr.wht->fields.wht.wht);
+  generateExpression(exp->fields.atr.wht);
 }
 
 
@@ -819,9 +865,6 @@ static void generateIsaExpression(Expression *exp)
 /*======================================================================*/
 void generateExpression(Expression *exp)
 {
-  if ((Bool)opts[OPTDEBUG].value)
-    emitLine(exp->srcp);
-
   if (exp == NULL) {
     syserr("Generating a NULL expression", NULL);
     emitConstant(0);

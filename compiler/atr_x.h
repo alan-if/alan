@@ -37,9 +37,9 @@ extern List *sortAttributes(List *attributeList);
 extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
 extern void analyzeAttributes(List *attributeList);
+extern Attribute *resolveAttribute(Expression *exp, IdNode *attribute, Context *context);
 extern Aaddr generateAttributes(List *attributeList);
 extern Aaddr generateStringInit(void);
 extern void dumpAttribute(Attribute *atr);
-extern Attribute *resolveAttributeReference(What *ofWhat, IdNode *attribute, Context *context);
 
 #endif

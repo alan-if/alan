@@ -53,7 +53,7 @@ Bool inLocationContext(Context *context)
 
 
 /*======================================================================*/
-IdNode *classNameIn(Context *context)
+IdNode *classIdInContext(Context *context)
 {
   IdNode *classId = NULL;
 
@@ -65,13 +65,18 @@ IdNode *classNameIn(Context *context)
   case CLASS_CONTEXT:
     classId = context->class->props->id;
     break;
+  case VERB_CONTEXT:
+    if (context->instance)
+      classId = context->instance->props->parentId;
+    else if (context->class)
+      classId = context->class->props->id;
+    else
+      syserr("No instance or class in context in '%s()'", __FUNCTION__);
+    break;
+
   default:
     syserr("Unexpected context in '%s()'.", __FUNCTION__);
   }
 
   return(classId);
 }
-
-
-
-

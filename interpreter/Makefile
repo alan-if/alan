@@ -84,7 +84,7 @@ dmalloc: checkTarget $(ARUNOBJECTS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
-arun.res: arun.rc arun.ico resources.h
+arun.res: arun.rc arun.ico resources.h alan.version.c
 	echo $(VERSION)
 	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
 	windres arun.rc2 -O coff -o $@

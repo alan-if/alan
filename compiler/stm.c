@@ -182,38 +182,13 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
 
 
 /*----------------------------------------------------------------------*/
-static void verifyWhatContext(StmNod *stm, What *what, Context *context) {
-  switch (stm->fields.set.wht->kind) {
-
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
-      lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
-    break;
-
-  case WHAT_LOCATION:
-  case WHAT_ID:
-    break;
-
-  case WHAT_THIS:
-    if (!inEntityContext(context))
-      lmLog(&what->srcp, 421, sevERR, "");
-    break;
-
-  default:
-    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
-    break;
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void analyzeMake(StmNod *stm, Context *context)
 {
   Attribute *atr = NULL;
 
-  verifyWhatContext(stm, stm->fields.make.wht, context);
+  analyzeExpression(stm->fields.make.wht, context);
 
-  atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr, context);
+  atr = resolveAttribute(stm->fields.make.wht, stm->fields.make.atr, context);
   verifyMakeAttribute(stm->fields.make.atr, atr);
 }
 
@@ -234,33 +209,25 @@ static void verifyTargetAttribute(IdNode *attributeId, Attribute  *targetAttribu
 /*----------------------------------------------------------------------*/
 static void analyzeSet(StmNod *stm, Context *context)
 {
-  Attribute *atr;
+  Expression *wht = stm->fields.set.wht;
 
-  verifyWhatContext(stm, stm->fields.set.wht, context);
+  analyzeExpression(stm->fields.set.wht, context);
 
-  atr = resolveAttributeReference(stm->fields.set.wht, stm->fields.set.atr, context);
-  verifyTargetAttribute(stm->fields.set.atr, atr);
+  analyzeExpression(stm->fields.set.exp, context);
 
-  if (stm->fields.set.exp != NULL) {
-    analyzeExpression(stm->fields.set.exp, context);
-    if (stm->fields.set.exp->type != INTEGER_TYPE
-	&& stm->fields.set.exp->type != STRING_TYPE
-	&& stm->fields.set.exp->type != UNKNOWN_TYPE)
-      lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
-    if (atr && !equalTypes(stm->fields.set.exp->type, atr->type))
-      lmLog(&stm->srcp, 331, sevERR, "SET statement");
-  }
+  if (stm->fields.set.exp->type != INTEGER_TYPE
+      && stm->fields.set.exp->type != STRING_TYPE
+      && stm->fields.set.exp->type != UNKNOWN_TYPE)
+    lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
+  if (!equalTypes(stm->fields.set.exp->type, wht->type))
+    lmLog(&stm->srcp, 331, sevERR, "SET statement");
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeIncrease(StmNod *stm, Context *context)
 {
-  Attribute *atr;
-
-  verifyWhatContext(stm, stm->fields.incr.wht, context);
-  atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr, context);
-  verifyTargetAttribute(stm->fields.incr.atr, atr);
+  analyzeExpression(stm->fields.incr.wht, context);
 
   if (stm->fields.incr.step != NULL) {
     analyzeExpression(stm->fields.incr.step, context);
@@ -711,11 +678,26 @@ static void generateLocate(StmNod *stm)
 
 
 /*----------------------------------------------------------------------*/
+static void generateLvalue(Expression *exp) {
+  switch (exp->kind) {
+  case WHAT_EXPRESSION:
+    generateWhat(exp->fields.wht.wht);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    generateId(exp->fields.atr.atr);
+    generateExpression(exp->fields.atr.wht);
+    break;
+  default: syserr("Unexpected expression in '%s()'", __FUNCTION__);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateMake(StmNod *stm)
 {
   emitConstant(!stm->fields.make.not);
   emitConstant(stm->fields.make.atr->code);
-  generateWhat(stm->fields.make.wht);
+  generateLvalue(stm->fields.make.wht);
   emit0(I_MAKE);
 }
 
@@ -723,8 +705,7 @@ static void generateMake(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateSet(StmNod *stm)
 {
-  emitConstant(stm->fields.set.atr->code);
-  generateWhat(stm->fields.set.wht);
+  generateLvalue(stm->fields.set.wht);
 
   generateExpression(stm->fields.set.exp);
 
@@ -743,8 +724,7 @@ static void generateIncrease(StmNod *stm)
   else
     emitConstant(1);
 
-  emitConstant(stm->fields.incr.atr->code);
-  generateWhat(stm->fields.incr.wht);
+  generateLvalue(stm->fields.incr.wht);
   if (stm->class == INCREASE_STATEMENT)
     emit0(I_INCR);
   else
@@ -1268,14 +1248,12 @@ void dumpStatement(StmNod *stm)
       put("atr: "); dumpId(stm->fields.make.atr);
       break;
     case SET_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.set.wht); nl();
-      put("atr: "); dumpId(stm->fields.set.atr); nl();
+      put("wht: "); dumpExpression(stm->fields.set.wht); nl();
       put("exp: "); dumpExpression(stm->fields.set.exp);
       break;
     case INCREASE_STATEMENT:
     case DECREASE_STATEMENT:
-      put("wht: "); dumpWhat(stm->fields.incr.wht); nl();
-      put("atr: "); dumpId(stm->fields.incr.atr); nl();
+      put("wht: "); dumpExpression(stm->fields.incr.wht); nl();
       put("step: "); dumpExpression(stm->fields.incr.step);
       break;
     case SCHEDULE_STATEMENT:

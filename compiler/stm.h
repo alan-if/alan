@@ -102,20 +102,18 @@ typedef struct StmNod {		/* STATEMENT */
     } locate;
 
     struct {			/* for MAKE */
-      What *wht;		/* What? */
+      Expression *wht;		/* What? */
       Bool not;			/* Was there a NOT ? */
       IdNode *atr;		/* Id of the attribute */
     } make;
 
     struct {			/* for SET */
-      What *wht;		/* What? */
-      IdNode *atr;
+      Expression *wht;		/* What? */
       Expression *exp;		/* The new value */
     } set;
 
     struct {			/* for INCR/DECR */
-      What *wht;		/* What? */
-      IdNode *atr;
+      Expression *wht;		/* What? */
       Expression *step;		/* By what? */
     } incr;
 

@@ -279,7 +279,7 @@ Syntax *defaultSyntax1(char *vrbstr, Context *context)
   List *elements;
   IdNode *classId;
 
-  classId = classNameIn(context);
+  classId = classIdInContext(context);
   if (classId == NULL)		/* No class, so use any */
     classId = newId(&nulsrcp, "object");
 

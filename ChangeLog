@@ -1,132 +1,3900 @@
-Sun Aug 29 20:45:38     2004
+2004-09-09 23:32  Thomas Nilsson
 
-	* v3.0.30
+	* New Version
 
-Sat Aug 28 19:16:48     2004
+2004-09-06 23:28  Thomas Nilsson
 
-	* v3.0.30
+	* Added reference attributes (attribute of instance type)
 
-Thu Feb  5 08:12:28     2004
+2004-08-29 20:45  Thomas Nilsson
 
-	* v3.0.29
+	* New Version
 
-Tue Dec 23 17:28:19     2003
+2004-08-29 20:44  Thomas Nilsson
 
-	* v3.0.28
+	* Preparing for v3.0.30 release
 
-Thu Sep 25 09:42:35     2003
+2004-08-29 20:16  Thomas Nilsson
 
-	* v3.0.27
+	* Preparing for v3.0.30 release
 
-Wed Sep 24 22:51:27     2003
+2004-08-28 19:16  Thomas Nilsson
 
-	* v3.0.27
+	* New Version
 
-Sat Sep  6 10:24:51     2003
+2004-08-28 19:09  Thomas Nilsson
 
-	* v3.0.26
+	* Implemented change of semantics for ENTERED, actors which are
+	  already at the location will not trigger ENTERED
 
-Sat Jul 12 11:29:26     2003
+2004-08-28 18:25  Thomas Nilsson
 
-	* v3.0.25
+	* Implemented change of semantics for ENTERED, actors which are
+	  already at the location will not trigger ENTERED
 
-	* "STOP <actor>"
+2004-08-28 18:20  Thomas Nilsson
 
-	* EXTRACT-clause on containers to check, prohibit and perform
-	actions on extraction
+	* Added source line presentation in syserr() if available Added
+	  sanity check for too depp recursion in interpreter
 
-	* DESCRIPTION can now be ADDed to classes
+2004-08-28 11:57  Thomas Nilsson
 
-	* "List This" now works as documented
+	* Corrected "special" regression tests
 
-	* WinArun about-box shows version info
+2004-08-28 11:50  Thomas Nilsson
 
-	* Fixed SIGSEGV in compiler when trying to write to
-	write-protected files
+	* Fixed a problem with capitalizing of "keyword identifiers"
 
-	* Ensured that DEPENDING ON works according to docs
+2004-08-27 23:35  Thomas Nilsson
 
-	* Documentation updates
+	* Documented source line debug features
 
-Thu Jun 12 18:03:07     2003
+2004-08-25 23:32  Thomas Nilsson
 
-	* v3.0.24
-	* Menu entries in WinArun for Restart, Save, Restore
-	* ISA expression for testing class membership during run-time
-	* Multiple restrictions for the same parameter
-	* Actors which are container should now work properly
-	* Debugging shows class names and other info in symbolics
-		instead of magic numbers
-	* Documentation updates
+	* Introduced source line debug features: next source line and
+	  breakpoints
 
-Fri Feb 28 23:51:45     2003
+2004-08-24 20:09  Thomas Nilsson
 
-	* v3.0.23
+	* Added a STRIP statement
 
-	* Implemented a looping construct, For Each.
+2004-07-30 14:29  Thomas Nilsson
 
-	* Verb bodies are now executed only for those parameters they have
-	an alternative for.
+	* Added a string CONCAT expression
 
-	* Global verbs removed. Use inheritance instead. Verbs in the
-	current location still executed first.
+2004-07-30 13:14  Thomas Nilsson
 
-Wed Jan 29 08:54:25     2003
+	* Added a string CONCAT expression
 
-	* v3.0.22dev
+2004-07-30 09:51  Thomas Nilsson
 
-	* pre-defined class hierarchy "finished", including integer and
-	string (to which you can add verbs)
+	* Added embedded symbolic printout of definite and indefinite forms
+	  of parameters
 
-	* verbs with parameters must be associated to a class or instance
+2004-07-27 10:34  Thomas Nilsson
 
-	* execution of checks and verb bodies through out the complete
-	inheritance tree of the parameters
+	* Added embedded symbolic printout of definite and indefinite forms
+	  of parameters
 
-	* updated library for current semantics
+2004-07-27 10:20  Thomas Nilsson
 
-Mon Jan 20 23:22:41     2003
+	* Added embedded symbolic printout of definite and indefinite forms
+	  of parameters
 
-	* v3.0.21
+2004-07-26 22:39  Thomas Nilsson
 
-Wed Jan  1 03:26:44  2003
+	* Added Add Articles
 
-	* v3.0.20 development preview : Inherited scripts and verbs, THIS
-	and attributes in all contexts
+2004-07-26 22:04  Thomas Nilsson
 
-Fri Dec 27 21:33:38  2002
+	* Removed capitalization from generateNames() Renamed getxt() to
+	  generateText()
 
-	* v3.0.19 development preview
+2004-07-26 12:27  Thomas Nilsson
 
-2002-06-25    <thomas.nilsson@progindus.se>
+	* Added test case for sysdep and andersson/neo example from manual
 
-	* Added description checks 
+2004-07-26 11:24  Thomas Nilsson
 
-2002-06-15    <thomas.nilsson@progindus.se>
+	* Changed strategy for comparing identifiers. Now they are stored
+	  as they are in the source file and comparisons are always made
+	  ignoring case.
 
-	* interpreter\main.c (statusline): changed location name printing
-	in look and statusline to ignore player used words and always use
-	MENTIONED instead.
+2004-07-25 19:11  Thomas Nilsson
 
-2002-06-14    <thomas.nilsson@progindus.se>
+	* Checkpoint before change of caps strategy change
 
-	* v3.0.17 development preview released
-	
+2004-02-05 08:12  Thomas Nilsson
 
+	* New Version
 
+2004-02-05 07:54  Thomas Nilsson
 
+	* Added [in]definite forms declaration Inheritance and execution of
+	  them
 
+2004-01-31 12:49  Thomas Nilsson
 
+	* Fixed winalan to find source file if double clicking (quotes
+	  removal)
 
+2004-01-26 22:03  Thomas Nilsson
 
+	* Readded a number of files
 
+2004-01-25 15:00  Thomas Nilsson
 
+	* Fixed a problem with multiple syntaxes for the same verb which
+	  made some not usable
 
+2004-01-06 17:59  Thomas Nilsson
 
+	* Fixed Describe This.
 
+2004-01-03 23:52  Thomas Nilsson
 
+	* Modified handling of locating into container Fixed containers to
+	  know what class of instances to allow and default message of they
+	  do not.  Also changed 'Then' to 'Else' for limits to harmonize
+	  with other guards which have 'Else', actually allowed both but
+	  made converter convert to 'Else'...
 
+2004-01-03 21:55  Thomas Nilsson
 
+	* Added handling of 'this' to articles
 
+2004-01-03 14:26  Thomas Nilsson
 
+	* Inheriting of articles.  Added 'him' and 'her' to default words.
+
+2004-01-01 11:27  Thomas Nilsson
+
+	* Added test cas for attack Used "Say The" form instead of "Is
+	  named".
+
+2004-01-01 11:27  Thomas Nilsson
+
+	* Added "Say The x." to say definite form of an instance.
+
+2003-12-31 00:06  Thomas Nilsson
+
+	* Added "Say The x." to say definite form of an instance.
+
+2003-12-30 20:24  Thomas Nilsson
+
+	* Added "Say An x." to say indefinite form of an instance.
+
+2003-12-29 23:54  Thomas Nilsson
+
+	* Added "Say An x." to say indefinite form of an instance.
+
+2003-12-29 23:01  Thomas Nilsson
+
+	* Added form_x.h & form.c
+
+2003-12-29 22:50  Thomas Nilsson
+
+	* Renamed newstm to newStatement
+
+2003-12-29 22:45  Thomas Nilsson
+
+	* Renamed 'article' to 'indefinite' Added a 'form' type Added
+	  syntax for 'Say An x.' Verified expression in it to be an
+	  instance.
+
+2003-12-27 13:45  Thomas Nilsson
+
+	* Actors are not capitalized by default, only locations
+
+2003-12-27 13:44  Thomas Nilsson
+
+	* Published V3.0.28
+
+2003-12-23 18:15  Thomas Nilsson
+
+	* Published V3.0.28
+
+2003-12-23 18:10  Thomas Nilsson
+
+	* Published V3.0.28
+
+2003-12-23 18:06  Thomas Nilsson
+
+	* Published V3.0.28
+
+2003-12-23 17:32  Thomas Nilsson
+
+	* New Version
+
+2003-12-23 17:28  Thomas Nilsson
+
+	* New Version
+
+2003-12-23 17:24  Thomas Nilsson
+
+	* Added a WinAlan program and console output in Windows GUI-mode
+
+2003-12-23 17:17  Thomas Nilsson
+
+	* Added a WinAlan program and console output in Windows GUI-mode
+
+2003-12-23 09:40  Thomas Nilsson
+
+	* Added a WinAlan program and console output in Windows GUI-mode
+
+2003-11-24 21:09  Thomas Nilsson
+
+	* News about comp results and new feedback
+
+2003-11-24 20:51  Thomas Nilsson
+
+	* Added a "known bugs" text
+
+2003-11-24 20:42  Thomas Nilsson
+
+	* Added a "known bugs" text
+
+2003-11-24 19:46  Thomas Nilsson
+
+	* Added a "known bugs" text
+
+2003-11-07 18:09  Thomas Nilsson
+
+	* Added a "known bugs" text
+
+2003-10-21 12:36  Thomas Nilsson
+
+	* Changed directory to directory of source file (WINGUI) Changed
+	  compiler to mingw (-mno-cygwin)
+
+2003-10-17 16:44  Thomas Nilsson
+
+	* Fixed SEGV for error message for scripts on hero
+
+2003-10-17 16:43  Thomas Nilsson
+
+	* Fixed some GLK formatting issues
+
+2003-10-15 23:01  Thomas Nilsson
+
+	* Added Entered clause
+
+2003-10-13 18:44  Thomas Nilsson
+
+	* Fixed many statements and formattings in converter
+
+2003-10-13 18:43  Thomas Nilsson
+
+	* Support for German, including capitalizing of nouns
+
+2003-09-25 09:42  Thomas Nilsson
+
+	* New Version
+
+2003-09-24 22:54  Thomas Nilsson
+
+	* New Version
+
+2003-09-24 22:51  Thomas Nilsson
+
+	* New Version
+
+2003-09-24 22:28  Thomas Nilsson
+
+	* Added GUI handling to the compiler
+
+2003-09-23 21:54  Thomas Nilsson
+
+	* Added context parameters to restriction analysis
+
+2003-09-23 21:53  Thomas Nilsson
+
+	* Added a2a3 readme, added dialogue titles
+
+2003-09-23 21:45  Thomas Nilsson
+
+	* Handled the special case where MingW does not correctly parse
+	  away the program name (if it includes spaces)
+
+2003-09-23 18:59  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-09-23 15:15  Thomas Nilsson
+
+	* Added first version of v2 to v3 converter
+
+2003-09-23 15:12  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-09-23 15:06  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-09-15 21:20  Thomas Nilsson
+
+	* Added opaque containers by adding a predefined attribute 'opaque'
+
+2003-09-14 12:01  Thomas Nilsson
+
+	* Optimized container generation by only generating the container
+	  bodies once. Which now works since the reversal procedure
+	  remembers which structures have been reversed already.
+
+2003-09-14 11:07  Thomas Nilsson
+
+	* Modified update.sh to only update marking in files changed since
+	  last tag in CVS (=release)
+
+2003-09-11 15:05  Thomas Nilsson
+
+	* Removed unnecessary duplicate indicator in ExitEntry (was used by
+	  reversal procedure, but since that now keeps records of what's
+	  been reversed it is no longer necessary)
+
+2003-09-11 12:49  Thomas Nilsson
+
+	* Added book-keeping of the complete reverse procedure Removed v2.5
+	  compatibility switch
+
+2003-09-11 12:21  Thomas Nilsson
+
+	* Removed capitalizing of actor names when auto-generating
+	  mentioned and descriptions
+
+2003-09-11 11:12  Thomas Nilsson
+
+	* Added a check so to not list empty containers during description
+
+2003-09-11 10:43  Thomas Nilsson
+
+	* Added a script to update version marking in *.i files
+
+2003-09-11 09:26  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-09-10 23:20  Thomas Nilsson
+
+	* Cleaned up formatting of open.i Changed attributes for open Added
+	  test suit for library Added reversal bookkeeping in interpreter
+
+2003-09-10 23:12  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-09-10 10:45  Thomas Nilsson
+
+	* Removed unnecessary done field to AltEntry Added check for EOF in
+	  first Aword in emitEntry Added regression cases for score
+	  handling in undo and restart
+
+2003-09-10 09:29  Thomas Nilsson
+
+	* Generate correct size of score table so that undo of it may work
+	  Fixed GameState to include current score
+
+2003-09-09 23:15  Thomas Nilsson
+
+	* Updated Set, Make and Increase to use new attribute verification
+	  Added semantic test cases
+
+2003-09-09 01:31  Thomas Nilsson
+
+	* Fixed winarun's formatting of paragraphs, newlines and indents
+
+2003-09-07 20:49  Thomas Nilsson
+
+	* Fixed problem with string allocation in SYSERR
+
+2003-09-06 20:18  Thomas Nilsson
+
+	* Added Alan source to download page
+
+2003-09-06 15:51  Thomas Nilsson
+
+	* Added v3.0.26 info
+
+2003-09-06 10:24  Thomas Nilsson
+
+	* New Version
+
+2003-09-06 10:22  Thomas Nilsson
+
+	* Added a terminating NULL in some lmLogv calls causing segv
+
+2003-09-05 23:24  Thomas Nilsson
+
+	* Added undo to manual
+
+2003-09-05 21:42  Thomas Nilsson
+
+	* Added push & pop game state Added undo handling in arun parser
+
+2003-09-02 14:55  Thomas Nilsson
+
+	* Modified default syntax handling so that it uses the class
+	  context to define a more correct syntax and restriction, also
+	  defines parameter name to be that of the class
+
+2003-09-02 14:52  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-08-29 11:31  Thomas Nilsson
+
+	* Added a warning for unconditional checks proceeding DOES in verbs
+	  Modified some multiple declaration messages
+
+2003-08-26 22:54  Thomas Nilsson
+
+	* Updated manual with syntax synonyms and conversion hints for
+	  aggregates
+
+2003-08-26 09:39  Thomas Nilsson
+
+	* Multiple syntaxes: prohibit restrictions in syntax synonyms , use
+	  same restrictions for them
+
+2003-08-25 23:48  Thomas Nilsson
+
+	* Added parameter mapping code in the interpreter
+
+2003-08-25 18:39  Thomas Nilsson
+
+	* Added data structures for syntax mapping
+
+2003-08-24 10:15  Thomas Nilsson
+
+	* Changed syntax table to parse table since we will need a syntax
+	  mapping table.
+
+2003-08-23 01:11  Thomas Nilsson
+
+	* Changed aggregate handling to allow multiple explicit filters
+	  Modified the space handling in interpreter so that a single
+	  period or a string with ". " in the beginning does not generate a
+	  space before them.
+
+2003-08-20 21:26  Thomas Nilsson
+
+	* Modified grammar to prepare for <aggregate> <right hand side> It
+	  is now nearly modification free!!
+
+2003-08-19 12:02  Thomas Nilsson
+
+	* Added Graphics capabilities (SHOW statement) Changed verb code
+	  position from secret place after restrictions to a bit more
+	  logical position in the last syntax element (FLAGS-field)
+
+2003-08-12 19:57  Thomas Nilsson
+
+	* Replaced source code with 2.8(7) version
+
+2003-07-22 12:29  Thomas Nilsson
+
+	* Fixed problem with preposition and verb word clashes
+
+2003-07-12 23:18  Thomas Nilsson
+
+	* Web site and ChangeLog updates
+
+2003-07-12 11:33  Thomas Nilsson
+
+	* New Version
+
+2003-07-12 11:29  Thomas Nilsson
+
+	* New Version
+
+2003-07-12 11:22  Thomas Nilsson
+
+	* Documentation update
+
+2003-07-06 10:53  Thomas Nilsson
+
+	* Added article about v3 design
+
+2003-07-05 23:33  Thomas Nilsson
+
+	* Added arun286 with GLK Changed download layout to table format
+
+2003-06-30 18:50  Thomas Nilsson
+
+	* Added test case for warning about no inheritance Added test for
+	  failed file openings
+
+2003-06-30 07:57  Thomas Nilsson
+
+	* Not needed
+
+2003-06-29 18:37  Thomas Nilsson
+
+	* Added version to the About box Added Makefile commands to
+	  automatically insert it
+
+2003-06-28 16:47  Thomas Nilsson
+
+	* Added possibility to add DescriptionChecks and Description
+	  Allowed THIS to be used in LIST statement and some expressions.
+	  Added pre-defined classes to the adv.classes list so that they
+	  are listed in a dump
+
+2003-06-22 10:39  Thomas Nilsson
+
+	* Fixed END DEPEND to also accept END DEPENDING Fixed
+	  current.instance not set correctly during execution of EXTRACT
+
+2003-06-21 22:12  Thomas Nilsson
+
+	* Added the EXTRACT clause in CONTAINER properties
+
+2003-06-20 00:48  Thomas Nilsson
+
+	* Added a STOP <actor> statement.
+
+2003-06-18 23:02  Thomas Nilsson
+
+	* New Version
+
+2003-06-18 22:15  Thomas Nilsson
+
+	* New Version
+
+2003-06-12 18:06  Thomas Nilsson
+
+	* New Version
+
+2003-06-12 18:03  Thomas Nilsson
+
+	* New Version
+
+2003-05-23 16:18  Thomas Nilsson
+
+	* New Version
+
+2003-05-09 21:49  Thomas Nilsson
+
+	* Updated by TortoiseCVS
+
+2003-05-05 22:35  Thomas Nilsson
+
+	* First version of website
+
+2003-03-26 14:12  Thomas Nilsson
+
+	* Added "add container" and verified that inheriting containers
+	  work in the general case
+
+2003-03-18 07:42  Thomas Nilsson
+
+	* Added test case for ISA expression Added warning for multiple
+	  restrictions for the same parameter where subsequent restriction
+	  is not a subclass
+
+2003-02-28 23:57  Thomas Nilsson
+
+	* New Version
+
+2003-02-28 23:51  Thomas Nilsson
+
+	* New Version
+
+2003-02-28 19:33  Thomas Nilsson
+
+	* Warn for verbs added to entity
+
+2003-02-28 17:42  Thomas Nilsson
+
+	* Added error message for saying boolean values.
+
+2003-02-24 10:52  Thomas Nilsson
+
+	* Fixed less than optimal message when an already existing verb was
+	  added
+
+2003-02-19 22:09  Thomas Nilsson
+
+	* Finished implementation of FOR EACH with references to identifier
+
+2003-01-29 08:54  Thomas Nilsson
+
+	* New Version
+
+2003-01-29 08:46  Thomas Nilsson
+
+	* Prohibited global verbs (again) Updated library (and a lot of
+	  test cases) to not use global verbs Changed parameter coding in
+	  default alternatives so that it is always 1 (run only for first
+	  parameter)
+
+2003-01-27 21:59  Thomas Nilsson
+
+	* Test for adding to literals
+
+2003-01-27 17:01  Thomas Nilsson
+
+	* Added literal, string and integer classes Allowed add verb to
+	  them Removed use of STRING and INTEGER restriction types
+
+2003-01-22 23:49  Thomas Nilsson
+
+	* Added trace of skips in IF, EACH and DEPEND execution
+
+2003-01-22 23:44  Thomas Nilsson
+
+	* Added trace of skips in IF, EACH and DEPEND execution
+
+2003-01-22 23:42  Thomas Nilsson
+
+	* Converted "write" from pre3
+
+2003-01-22 10:20  Thomas Nilsson
+
+	* Added loop restrictions (only loop over a particular class)
+
+2003-01-21 23:51  Thomas Nilsson
+
+	* Added semantic check for container properties on locations
+
+2003-01-20 23:27  Thomas Nilsson
+
+	* New Version
+
+2003-01-20 23:22  Thomas Nilsson
+
+	* New Version
+
+2003-01-20 22:09  Thomas Nilsson
+
+	* Checks in all inherited verbs
+
+2003-01-12 13:43  Thomas Nilsson
+
+	* Made Verbs on global level have default syntax without parameter
+	  Tried to enforce this but did not work, particularly with verbs
+	  for literals Also attempted to remove the location verbs, i.e.
+	  checking and executing verbs in current location, this trashed
+	  the goto-trick
+
+2003-01-10 22:14  Thomas Nilsson
+
+	* Disallowed global verbs to have parameters Added new default
+	  syntax
+
+2003-01-01 03:30  Thomas Nilsson
+
+	* New Version
+
+2003-01-01 03:26  Thomas Nilsson
+
+	* New Version
+
+2003-01-01 03:05  Thomas Nilsson
+
+	* Forgot to change cur->current for WINGLK
+
+2003-01-01 02:57  Thomas Nilsson
+
+	* Added library to the distribution
+
+2003-01-01 02:50  Thomas Nilsson
+
+	* Added library to the distribution
+
+2003-01-01 01:22  Thomas Nilsson
+
+	* Added regression test to verify that attributes to THIS works in
+	  inherited verb bodies
+
+2003-01-01 01:05  Thomas Nilsson
+
+	* Changed findalt() to also consider inherited verb bodies
+
+2003-01-01 00:33  Thomas Nilsson
+
+	* Refactored findalt()
+
+2002-12-30 18:49  Thomas Nilsson
+
+	* Added an optional "END WHEN" to rules and possibility to use
+	  "THEN" instead of "=>"
+
+2002-12-30 18:35  Thomas Nilsson
+
+	* Added inheritance of scripts. Had to move scripts to a global
+	  list in both the compiler and the interpreter. Scripts are now
+	  not generated in the instances but from adv-level.
+
+2002-12-29 12:20  Thomas Nilsson
+
+	* Added FOR and ENDFOR instructions
+
+2002-12-29 01:14  Thomas Nilsson
+
+	* Added ACODE instructions for FOR ENDFOR execution
+
+2002-12-28 09:05  Thomas Nilsson
+
+	* New Version
+
+2002-12-27 21:33  Thomas Nilsson
+
+	* New Version
+
+2002-06-27 21:40  Thomas Nilsson
+
+	* Added execution and documentation of description checks
+
+2002-06-27 21:33  Thomas Nilsson
+
+	* Added execution and documentation of description checks
+
+2002-06-25 21:59  Thomas Nilsson
+
+	* Documented grammar for class and instance properties partly.
+	  Primarily description to be able to use it for implementing the
+	  description checks.
+
+2002-06-24 23:53  Thomas Nilsson
+
+	* Added code generation for description checks.  Lots of renaming.
+	  Removed currentInstance parameter.
+
+2002-06-23 17:22  Thomas Nilsson
+
+	* Removed a strange [''] in a rule in the grammar (Don't know what
+	  it was for...)
+
+2002-06-23 16:40  Thomas Nilsson
+
+	* Refactored the LIST_kinds
+
+2002-06-23 14:26  Thomas Nilsson
+
+	* Refactored Slots to be Properties
+
+2002-06-23 12:42  Thomas Nilsson
+
+	* Fixed About dialogue and Makefile to generate both arun & winarun
+
+2002-06-16 17:07  Thomas Nilsson
+
+	* Changed the location printing (as a heading and in the
+	  statusline) explicitly use the mentioned clause instead of SAY
+	  since that would trash if the player referred to the location.
+
+2002-06-14 00:21  Thomas Nilsson
+
+	* Added ISA expression execution Added resources, open file
+	  dialogue and event loop to WINGLK version of interpreter
+
+2002-06-12 08:46  Thomas Nilsson
+
+	* Added ISA syntax, analysis and code generation
+
+2002-06-09 21:30  Thomas Nilsson
+
+	* Moved THIS-handling and inheritance of descriptions to the
+	  interpreter
+
+2002-06-09 20:55  Thomas Nilsson
+
+	* Alan lib 0.4.1 from SG
+
+2002-06-06 22:25  Thomas Nilsson
+
+	* Refactored description inheritance to occur in interpreter
+	  (initial version)
+
+2002-06-03 16:15  Thomas Nilsson
+
+	* Re-fixed CR/LF problem in alan.pmk
+
+2002-06-01 10:05  Thomas Nilsson
+
+	* Added inheritance of DESCRIPTION
+
+2002-05-29 21:33  Thomas Nilsson
+
+	* Verified container limit attributes against THING attributes
+
+2002-05-28 23:27  Thomas Nilsson
+
+	* Fixed the follwing bugs discovered by SG!
+
+	  - any ADD attribute subsequent to the first was lost - some
+	  combinations of attribute definitions would crash the compiler
+
+2002-05-02 23:48  Thomas Nilsson
+
+	* Added resource files and make rules to add icons to .exe
+
+2002-05-02 08:36  Thomas Nilsson
+
+	* Changed Usage() to include version information
+
+2002-05-02 08:28  Thomas Nilsson
+
+	* Added GLK adaptions so that "make winglk" creates a GLK version
+	  for windows Removed a few file operations so not to leave a .tmp
+
+2002-04-24 10:18  Thomas Nilsson
+
+	* Minor clean up
+
+2002-04-05 21:34  Thomas Nilsson
+
+	* Made verbAlternative nodes use parameterNumber
+
+2002-04-05 17:34  Thomas Nilsson
+
+	* Changed .acd & .dat to .a3c
+
+2002-04-05 16:28  Thomas Nilsson
+
+	* Made regr-script remove all generated files (keeps directory
+	  cleaner)
+
+2002-04-05 16:28  Thomas Nilsson
+
+	* Moved text to Acode file Changed name of Acode file to .A3C (Alan
+	  V3 Code)
+
+2002-04-05 01:44  Thomas Nilsson
+
+	* Refactored the emit and encode init & terminate Added
+	  emitTextDataToAcodeFile
+
+2002-04-03 22:23  thoni
+
+	* test
+
+2002-04-03 22:20  Thomas Nilsson
+
+	* Bädda inte in TrueType teckensnitt
+
+2002-04-03 21:21  Thomas Nilsson
+
+	* Added interpreter unit test harness, and a test to read text from
+	  the string file, added a header field for  offset in the string
+	  file to prepare for combination of code and string data
+
+2002-04-02 00:29  Thomas Nilsson
+
+	* Added "ALAN"-tag to beginning of .acd-file
+
+2002-04-01 22:23  Thomas Nilsson
+
+	* Added checks for multiple verb definitions, and changed the
+	  algorithm to detect them
+
+2001-09-14 08:05  Thomas Nilsson
+
+	* HERE
+
+2001-09-11 08:37  Thomas Nilsson
+
+	* Warn for instances without inheritance Execution of verb bodies
+	  in all parameters Restriction to class AND container
+
+2001-09-06 22:53  Thomas Nilsson
+
+	* CURRENT LOCATION, ACTOR added Execution of actors updated
+
+2001-09-01 12:14  Thomas Nilsson
+
+	* Increment 309: save, default syntax for local verbs ...
+
+2001-08-30 07:38  Thomas Nilsson
+
+	* Increment 308: scripts, names on locations, ...
+
+2001-08-21 21:28  Thomas Nilsson
+
+	* no message
+
+2001-08-20 21:27  Thomas Nilsson
+
+	* Done some cleaning up in the header
+
+2001-08-20 21:10  Thomas Nilsson
+
+	* Done some cleaning up in the header
+
+2001-08-20 09:18  Thomas Nilsson
+
+	* Fixed events
+
+2001-08-17 22:36  Thomas Nilsson
+
+	* Renamed SymNod to Symbol Fixed the DEPENDING ON bug
+
+2001-08-15 17:39  Thomas Nilsson
+
+	* Fixed a problem with replicating added and inherited attributes
+
+2001-08-10 01:13  Thomas Nilsson
+
+	* Fixed "addition" for attributes Minor adjustments to the dump
+	  Improved attribute numbering algorithm
+
+2001-08-09 08:40  Thomas Nilsson
+
+	* Added "AddTo" syntax and nodes
+
+2001-08-08 09:02  Thomas Nilsson
+
+	* Fixed literals handling
+
+2001-08-06 15:15  Thomas Nilsson
+
+	* Allowed redeclaration of the Hero Fixed container handling (at
+	  least for the hero)
+
+2001-08-02 16:27  Thomas Nilsson
+
+	* Added duplicate symbol check in newSymbol()
+
+2001-08-02 14:04  Thomas Nilsson
+
+	* no message
+
+2001-08-02 14:03  Thomas Nilsson
+
+	* Modified the regr script which affected all cases
+
+2001-08-02 13:42  Thomas Nilsson
+
+	* Actors can not have initial locations in containers
+
+2001-08-02 13:36  Thomas Nilsson
+
+	* Locations can not have initial locations
+
+2001-08-02 13:27  Thomas Nilsson
+
+	* Initial location can now be containers
+
+2001-08-02 03:18  Thomas Nilsson
+
+	* Various "unimpl" and "syserr" removed while porting SAVIOUR
+
+2001-08-01 18:04  Thomas Nilsson
+
+	* Added restriction handling of containers Fixed Locate
+
+2001-08-01 09:54  Thomas Nilsson
+
+	* Refactored the restriction analysis Fixed makefiles to not always
+	  set new time which caused recompilations to often Added a test
+	  target in top level makefile
+
+2001-07-31 17:08  Thomas Nilsson
+
+	* Reinstated the container code. Objects and Actors can now be
+	  containers
+
+2001-07-31 02:13  Thomas Nilsson
+
+	* Added code generation for verbs in slots
+
+2001-07-31 01:53  Thomas Nilsson
+
+	* Added analysis for verbs in slots
+
+2001-07-31 01:27  Thomas Nilsson
+
+	* Fixed typing of parameters in restrictions
+
+2001-07-31 00:53  Thomas Nilsson
+
+	* Fixed a duplicated symcheck on analysis of expwhr
+
+2001-07-30 19:31  Thomas Nilsson
+
+	* no message
+
+2001-07-30 18:20  Thomas Nilsson
+
+	* Completed restriction handling (only classes yet) with typing and
+	  interpretation
+
+2001-07-30 14:29  Thomas Nilsson
+
+	* Added handling of restrictions so that the class is looked up and
+	  attached to the parameter symbol
+
+2001-07-30 14:09  Thomas Nilsson
+
+	* no message
+
+2001-07-26 13:40  Thomas Nilsson
+
+	* Fixed newwrd() to not add multiple refrences to the same
+	  instance, so NAMEs works (on objects at least),
+
+2001-07-26 13:39  Thomas Nilsson
+
+	* 'diff -q' still reports difference so added '1> /dev/null'
+
+2001-07-26 13:38  Thomas Nilsson
+
+	* Restored read() in readling which works...
+
+2001-07-24 23:27  Thomas Nilsson
+
+	* Reverted to Cygwin and discarded the readline experiments for
+	  Windows
+
+2001-07-24 19:15  Thomas Nilsson
+
+	* Compiled using MINGW32 instead of CYGWIN32, which required
+	  changing: - malloc() to calloc() - readline to use getchar()
+	  instead of termios - regr-scripts to filter out blanks (different
+	  end-of-line output)
+
+2001-07-22 09:18  Thomas Nilsson
+
+	* Removed acts[] and objs[] from interpreter, cleaned up some and
+	  added first attempt at syntax handling
+
+2001-07-20 22:43  Thomas Nilsson
+
+	* Fixed single word syntaxes and verbs to work in new incarnation
+
+2001-07-20 21:30  Thomas Nilsson
+
+	* Refactored Symbols to point to Slots for Instances and Classes
+	  instead of explicit attribute lists
+
+2001-07-20 01:48  Thomas Nilsson
+
+	* Refactored Symbols to point to Slots for Instances and Classes
+	  instead of explicit attribute lists
+
+2001-07-20 01:28  Thomas Nilsson
+
+	* Removed CR from input files on Unix
+
+2001-07-20 01:09  Thomas Nilsson
+
+	* Fixed MAKE statement
+
+2001-07-19 13:14  Thomas Nilsson
+
+	* Fixed MAKE statement
+
+2001-07-18 21:40  Thomas Nilsson
+
+	* Refactored out resolveAttributeReference() and added SET
+	  statement functionality.
+
+2001-07-18 15:38  Thomas Nilsson
+
+	* Added inheritance of attributes.
+
+2001-07-18 00:50  Thomas Nilsson
+
+	* Managed to get attribute analysis and generation to work
+	  (non-inherited).
+
+2001-07-16 22:05  Thomas Nilsson
+
+	* Numbered all attributes and generated attributes in the ACD
+
+2001-07-15 20:17  Thomas Nilsson
+
+	* Made newcla() add attribute list to the symbol table entries
+
+2001-07-15 18:58  Thomas Nilsson
+
+	* Fixed a problem with non-symbolised parents
+
+2001-07-15 17:16  Thomas Nilsson
+
+	* Added attributes to instances and analysis (= multiple
+	  declaration check) to them
+
+2001-07-15 13:16  Thomas Nilsson
+
+	* Added testcases for traversing inherited locations.  Warned for
+	  non-location instances with exits
+
+2001-07-14 23:23  Thomas Nilsson
+
+	* Added comment on how to handle version marking files on other
+	  machines
+
+2001-07-14 23:17  Thomas Nilsson
+
+	* Added version files to the repository
+
+2001-07-14 23:07  Thomas Nilsson
+
+	* Added version files to the repository
+
+2001-07-14 22:53  Thomas Nilsson
+
+	* no message
+
+2001-07-14 21:39  Thomas Nilsson
+
+	* no message
+
+2001-07-14 20:34  Thomas Nilsson
+
+	* no message
+
+2001-07-14 20:21  Thomas Nilsson
+
+	* no message
+
+2001-07-13 10:14  Thomas Nilsson
+
+	* Execution of simple exits now works.
+
+2001-07-13 10:11  Thomas Nilsson
+
+	* Execution of simple exits now works.
+
+2001-07-13 08:48  Thomas Nilsson
+
+	* Added simple exit analysis (target location only)
+
+2001-07-13 01:31  Thomas Nilsson
+
+	* Changed unit tests for instance generation after refactoring out
+	  generateInstanceTable() Also cleaned up dumping from command line
+	  option
+
+2001-07-12 23:12  Thomas Nilsson
+
+	* Added some frills to and renamed the regressions scripts
+
+2001-07-12 18:30  Thomas Nilsson
+
+	* All version 300 increment issues except moving from location to
+	  location
+
+2001-07-12 01:48  Thomas Nilsson
+
+	* Objects with own MENTIONED are now listed using that.
+
+2001-07-11 21:07  Thomas Nilsson
+
+	* Added handling of descriptions. So now start at a location that
+	  has a description works!!!
+
+2001-07-11 00:05  Thomas Nilsson
+
+	* Made the compiler generate code to label a location, made the
+	  interpreter run through such a game an stop at the prompt!!!!
+
+	  Hurray!!
+
+2001-07-10 01:27  Thomas Nilsson
+
+	* no message
+
+2001-07-09 11:45  Thomas Nilsson
+
+	* no message
+
+2001-07-03 00:02  Thomas Nilsson
+
+	* Changed heros inheritance to be "actor"
+
+2001-07-02 23:54  Thomas Nilsson
+
+	* Added the Hero as an instance
+
+2001-07-01 14:46  Thomas Nilsson
+
+	* Cleaned up the Makefile and re-introduced automatic ToolMaker
+	  running if needed
+
+2001-07-01 08:13  Thomas Nilsson
+
+	* Generated an INS and slots
+
+2001-06-22 10:27  Thomas Nilsson
+
+	* Added the ClassEntry in the interpreter and added test cases to
+	  generate a class entry list
+
+2001-06-22 09:20  Thomas Nilsson
+
+	* Initial test cases for generateClasses working
+
+2001-06-21 21:28  Thomas Nilsson
+
+	* Test cases for inheritance
+
+2001-06-21 18:51  Thomas Nilsson
+
+	* no message
+
+2001-06-21 01:35  Thomas Nilsson
+
+	* Added CVS handling to OK script which was added, as was DIFF and
+	  REGRESSION
+
+2001-06-21 01:31  Thomas Nilsson
+
+	* Test for instance and inheritance Removed act, loc & obj
+
+2001-06-20 19:20  Thomas Nilsson
+
+	* Added regression/ok scripts to testing Added tests for unkown and
+	  non-class inheritance checks
+
+2001-06-20 18:12  Thomas Nilsson
+
+	* Added a test to symbolize a Cla with unknown heritage id
+
+2001-06-20 00:45  Thomas Nilsson
+
+	* Added some XXX_X.h files and added some unit test for symcheck()
+
+2001-06-19 23:03  Thomas Nilsson
+
+	* Before trying out split of .h
+
+2001-06-19 01:59  Thomas Nilsson
+
+	* Added an advTest, unitList (to replace lmList during unit
+	  testing) and made two simple tests for analyzeStartAt
+
+2001-06-19 00:37  Thomas Nilsson
+
+	* no message
+
+2001-06-19 00:07  Thomas Nilsson
+
+	* Added some unit test for cla, change newid to newId
+
+2001-06-18 02:16  Thomas Nilsson
+
+	* no message
+
+2001-06-18 01:01  Thomas Nilsson
+
+	* Change unit testing strategy by replacing the "unit.c" with
+	  xyzTest.c (first out is symTest.c) which made unitTest.h a
+	  reality
+
+2001-06-18 00:59  Thomas Nilsson
+
+	* no message
+
+2001-04-09 23:03  Thomas Nilsson
+
+	* First compilable version after ripping out OBJ, ACT, LOC
+
+2001-04-09 22:55  Thomas Nilsson
+
+	* Moved all old test cases to pre3 subdir
+
+2001-04-09 22:52  Thomas Nilsson
+
+	* Moved all old test cases to pre3 subdir
+
+2001-04-02 18:08  Thomas Nilsson
+
+	* Changed more NAM to ID, does still not work Started changing
+	  (ACT, OBJ, LOC) to INS
+
+2001-04-02 16:59  Thomas Nilsson
+
+	* Changed most NAM to ID, does still not work
+
+2001-01-20 11:17  Thomas Nilsson
+
+	* Added the manual
+
+2001-01-20 11:17  Thomas Nilsson
+
+	* no message
+
+2001-01-18 22:54  Thomas Nilsson
+
+	* Added class, instance and slot parsing and AST-build
+
+2001-01-18 09:24  Thomas Nilsson
+
+	* Added a -r flag to the interpreter to make regression testing
+	  easier
+
+2001-01-18 08:52  Thomas Nilsson
+
+	* Changed the handling of restrictions so that it now is prepared
+	  for real class handling
+
+2001-01-18 08:50  Thomas Nilsson
+
+	* Removed all '.' from location header printouts
+
+2001-01-18 08:49  Thomas Nilsson
+
+	* Rewrote the regression script to use number of lines that differ
+	  Added a few handy commands (ok, clean, check, list, fail)
+
+2001-01-16 18:48  Thomas Nilsson
+
+	* Added a EVERY declaration to the syntax Changed the Restriction
+	  handling to use class identifier lists
+
+2001-01-16 01:36  thomas nilsson
+
+	* Changed all test scripts to explicitly use ../compiler/alan and
+	  ../interpreter/arun
+
+2001-01-15 20:51  Thomas Nilsson
+
+	* Changed .smk to make the scanner accept DOS linefeeds
+
+2001-01-14 15:09  Thomas Nilsson
+
+	* Added the Makefile that creates all source
+
+2001-01-13 03:35  thomas nilsson
+
+	* Fixed makes attempt to compiler ../alan.version
+
+2001-01-13 03:35  thomas nilsson
+
+	* New compilation
+
+2001-01-13 03:13  Thomas Nilsson
+
+	* Create the bin directory
+
+2001-01-13 02:37  Thomas Nilsson
+
+	* no message
+
+2001-01-13 01:35  Thomas Nilsson
+
+	* no message
+
+2001-01-11 00:39  Thomas Nilsson
+
+	* Added some tests from Steve G discovered problems
+
+2001-01-08 23:19  Thomas Nilsson
+
+	* Removed CRCR from the test cases
+
+2001-01-08 21:02  Thomas Nilsson
+
+	* Added the generated files to the repository
+
+2001-01-06 20:39  Thomas Nilsson
+
+	* Moved ToDo to ToDo.txt
+
+2001-01-03 02:52  Thomas Nilsson
+
+	* Fixed error with no space after "$o"-strings.
+
+2000-12-25 13:48  Thomas Nilsson
+
+	* Preparing to move the repository to the new machine
+
+1999-11-14 23:19  Thomas Nilsson
+
+	* Added changes from the GLK port by Joe Mason by mergeing
+	  Branch_v286_glk
+
+1999-11-14 21:21  Thomas Nilsson
+
+	* Added changes from the GLK port by Joe Mason
+
+1999-09-21 23:16  Thomas Nilsson
+
+	* no message
+
+1999-09-21 23:13  Thomas Nilsson
+
+	* no message
+
+1999-07-13 03:46  Thomas Nilsson
+
+	* Added the amiga port source going to 2.8(7)
+
+1999-06-23 01:00  Thomas Nilsson
+
+	* Added a status line before confirm QUIT
+
+1999-05-22 21:57  Thomas Nilsson
+
+	* v2.8(6)
+
+1999-05-22 20:03  Thomas Nilsson
+
+	* fixed a problem with the interpretation of DEPEND where accessing
+	  outside allocated memory could occur in depexec() if a DEPEND had
+	  no cases that matched. depexec() forgot to return if it
+	  encountered a DEPEND on the current level.
+
+1999-05-20 03:27  Thomas Nilsson
+
+	* Fixed a SAY problem causing output to show even the HERO was not
+	  present
+
+1999-05-07 03:38  Thomas Nilsson
+
+	* Added status line and command line editing using CYGWIN
+
+1999-03-22 01:25  Thomas Nilsson
+
+	* Added SG's index and went to 0.2, also made Makefile work under
+	  Bash/Win
+
+1999-03-16 02:26  Thomas Nilsson
+
+	* Added support for Pacific C (DOS 8086 compiler)
+
+1999-03-15 10:06  Thomas Nilsson
+
+	* Removed lots of ^M because of move of repository from Unix to
+	  Windows
+
+1999-03-15 10:03  Thomas Nilsson
+
+	* Removed lots of ^M because of move of repository from Unix to
+	  Windows
+
+1999-02-09 13:11  Thomas Nilsson
+
+	* Included SG's comments
+
+1999-01-02 15:02  Thomas Nilsson
+
+	* Added makefiles for CygWin (b20)
+
+1998-11-13 16:54  thoni
+
+	* HEAD revision tag test
+
+1998-11-10 17:19  thoni
+
+	* Introduced the THE and EVERY constructs
+
+1998-11-10 15:02  thoni
+
+	* New Version
+
+1998-11-10 10:05  thoni
+
+	* Changed extension of temporary text file to .tmp
+
+1998-11-10 10:03  thoni
+
+	* Added darkness and light to the library
+
+1998-11-06 16:04  thoni
+
+	* New Version
+
+1998-11-05 15:11  thoni
+
+	* Fixed arithmethic for negative integers...
+
+1998-11-05 14:55  thoni
+
+	* New Version
+
+1998-11-05 14:48  thoni
+
+	* New Version
+
+1998-11-05 14:25  thoni
+
+	* New Version
+
+1998-11-04 13:26  thoni
+
+	* Fixed arithmethic for negative integers...
+
+1998-09-09 12:57  thoni
+
+	* Added the main and options modules to the Makefile for MGW
+
+1998-09-03 16:55  thoni
+
+	* After a prompt on r.a.i-f added a test case for handling actor
+	  names. Should we allow OBJECT in MESSAGE nothere:?
+
+1998-08-31 13:35  thoni
+
+	* Allowed apostrophe in interpreter parser input words.
+
+1998-08-31 13:34  thoni
+
+	* Made default be NOT takeable.
+
+1998-08-28 16:33  thoni
+
+	* Merged the Greg Ewing source changes
+
+1998-08-28 14:38  thoni
+
+	* New Version
+
+1998-08-28 12:13  thoni
+
+	* Imported the changes made by Greg Ewing in his first port to the
+	  Mac.
+
+1998-08-27 12:32  thoni
+
+	* Minor changes in the makefiles and names
+
+1998-08-24 15:07  thoni
+
+	* Fixed the infamous save-bug, which was caused by the save file
+	  not opened in binary mode (only on PC of course...)
+
+1998-08-24 11:04  thoni
+
+	* New Version
+
+1998-08-23 10:02  thoni
+
+	* Added test case for the infamous save bug, will probably need a
+	  change to be portable
+
+1998-08-21 15:56  thoni
+
+	* New Version
+
+1998-08-21 15:49  thoni
+
+	* New Version
+
+1998-08-21 15:41  thoni
+
+	* New Version
+
+1998-08-21 15:04  thoni
+
+	* New Version
+
+1998-08-21 15:01  thoni
+
+	* New Version
+
+1998-08-17 09:29  thoni
+
+	* No items!
+
+1998-08-14 22:47  thoni
+
+	* Added a few file that where not ignored on PC and also added
+	  Makefile.mgw (MinGW32) for the compiler and interpter
+
+1998-08-12 17:47  thoni
+
+	* Added a 'charset' switch that allows specification of character
+	  set of the input files.
+
+1998-08-12 17:27  thoni
+
+	* Added a 'charset' switch that allows specification of character
+	  set of the input files.
+
+1998-08-11 11:03  thoni
+
+	* Modified the readline keymaps so that it works on solaris2 after
+	  writing a small test program
+
+1998-08-10 14:58  thoni
+
+	* New Version
+
+1998-08-10 11:58  thoni
+
+	* New Version
+
+1998-08-10 11:55  thoni
+
+	* New Version
+
+1998-08-10 11:30  thoni
+
+	* Fixed a problem in debug output for events. Also makde some
+	  changes to the standard library.
+
+1998-08-10 11:13  thoni
+
+	* New Version
+
+1998-08-04 16:01  thoni
+
+	* New Version
+
+1998-08-04 11:17  thoni
+
+	* Fixed a problem with named scripts sometimes not get started.
+	  This was caused by not numbering all scripts before analysing USE
+	  statements. Solution was to move the script numbering to the
+	  prepare-phase.
+
+1998-08-03 13:54  thoni
+
+	* First makeable version of library
+
+1998-06-02 11:26  thoni
+
+	* New Version
+
+1998-06-02 11:24  thoni
+
+	* Removed HP from the architectures
+
+1998-06-02 10:58  thoni
+
+	* Changed mv to cp for release version of binaries
+
+1998-04-29 15:04  thoni
+
+	* Removed old PC/IBM compiler command files
+
+1998-04-28 18:10  thoni
+
+	* Fixed a problem found by Stephen Griffiths with the semantic
+	  check on parameters. When a syntax had no restrictions Alan would
+	  think that it was ok to LIST, when in fact Arun would detect the
+	  obvious run-time error.
+
+1998-04-06 14:55  thoni
+
+	* Changed the RANDOM expression so that it accepts integer primary
+	  expressions instead of only integer literals
+
+1998-03-31 08:29  thoni
+
+	* Made Schedule accept expressions, not only integer (in the AFTER
+	  clause)
+
+1997-11-27 13:56  thoni
+
+	* New Version
+
+1997-11-27 13:53  thoni
+
+	* Fixed an attribute generation bug, which caused attributes for
+	  entities having a default attribute in the middle of its list to
+	  be missnumbered.
+
+1997-10-22 16:05  thoni
+
+	* Added container debugging commands to the interpreter
+
+1997-10-22 16:04  thoni
+
+	* Changed teh interpreter to look at its own name only if no
+	  argument was supplied
+
+1997-10-22 16:03  thoni
+
+	* Used TMPSRC in /tmp to build exported sources
+
+1997-10-22 16:02  thoni
+
+	* Minor edits and spelling corrections
+
+1997-10-22 16:01  thoni
+
+	* Updated to reflect the real process
+
+1997-10-21 20:03  thoni
+
+	* Minor changes, re-addded the time125 test case
+
+1997-10-20 14:56  thoni
+
+	* Added linux REVERSED switch
+
+1997-10-20 14:31  thoni
+
+	* Added linux/REVERSED defines
+
+1997-09-24 14:48  thoni
+
+	* Restored compatibility with 2.7 games by adding a swap of binary
+	  operators if the game swas compiled with 2.7
+
+1997-09-24 14:47  thoni
+
+	* Added the IN (previously) reserved word to the reserved/id group
+
+1997-09-23 17:04  thoni
+
+	* Added the DEPENDING ON statment and test cases.
+
+1997-09-23 16:59  thoni
+
+	* New test case
+
+1997-09-17 16:48  thoni
+
+	* New Version
+
+1997-09-17 09:00  thoni
+
+	* Made the hero a container by using the predefined "inventory" as
+	  his default container. Now you can use both default container
+	  inventory and the actor hero as the inventory, they are the same.
+
+1997-09-16 10:25  thoni
+
+	* Changed word multiple class analysis to only warn for the cases
+	  we know don't work. Also inactivated the test cases which are
+	  problems in this respect.
+
+1997-09-15 12:29  thoni
+
+	* Improved the analysis of multiple syntaxes fopr the same verb so
+	  that it prints one message per occurance of the offending
+	  syntaxes. This required the introduction of a flag variable in
+	  the syntax node.
+
+1997-09-15 09:08  thoni
+
+	* MOdified the Element Lists to also contain an EOS element at the
+	  end. This can hold the pointer back to the syntax which enabled
+	  printouts for equal syntaxes to point at all occurencies
+
+1997-09-15 09:06  thoni
+
+	* Added EEMTRY (syntax Element Entry) to the CONCAT types
+
+1997-09-15 09:05  thoni
+
+	* Fixed type of a CONCAT
+
+1997-09-11 09:44  thoni
+
+	* Modified the list handling to always include a type indicator
+	  (allocate())
+
+1997-09-02 13:11  thoni
+
+	* Changed interpeter to have a main program. The arun module is now
+	  the core unit but called from main(). This presumably will make
+	  it easier to do windowing interpreters...
+
+1997-08-27 11:00  thoni
+
+	* Added a new logical CONTAINS expression, "string CONTAINS
+	  substring"
+
+1997-08-27 10:55  thoni
+
+	* Changed message 330 to include a context parameter.
+
+1997-08-26 14:45  thoni
+
+	* Modified the <factor> grammar so that the right hand side can be
+	  used separately (to prepare for the DEPENDING ON statement).
+
+1997-08-14 15:36  thoni
+
+	* Added the BETWEEN statement and test cases
+
+1997-08-14 14:59  thoni
+
+	* Added the BETWEEN statement and test cases
+
+1997-08-14 14:26  thoni
+
+	* New Version
+
+1997-08-14 11:20  thoni
+
+	* Ideas for new commands added
+
+1997-08-14 11:17  thoni
+
+	* Made the release target mv instead of copy
+
+1997-07-30 13:50  thoni
+
+	* Made the amiga,pc etc. tagging a background process
+
+1997-07-29 20:01  thoni
+
+	* New Version
+
+1997-07-29 20:01  thoni
+
+	* Experimented with making the version as Alpha always between
+	  releases
+
+1997-07-29 19:46  thoni
+
+	* New Version
+
+1997-07-29 19:38  thoni
+
+	* New Version
+
+1997-07-29 19:10  thoni
+
+	* Experimented with maring the version as Alpha always between
+	  releases
+
+1997-07-29 19:10  thoni
+
+	* Added the HP architecture again
+
+1997-07-28 17:49  thoni
+
+	* Updated the branching strategy
+
+1997-07-28 17:43  thoni
+
+	* Minor changes to the src target again...
+
+1997-07-28 11:15  thoni
+
+	* Changed 'release' target so that it does not automatically
+	  generate sources for amiga, pc, and mac. Instead the LASTRELEASE
+	  contains the version last released and is used to set the tag and
+	  export sources at any time for other architectures.
+
+1997-07-28 11:07  thoni
+
+	* Minor changes in the amiga, pc, and mac targets
+
+1997-07-28 11:03  thoni
+
+	* New Version
+
+1997-07-28 10:45  thoni
+
+	* New Version
+
+1997-07-28 10:43  thoni
+
+	* Removed HP from the architectures Checked for Up-to-date before
+	  'release' target
+
+1997-07-28 10:18  thoni
+
+	* New Version
+
+1997-07-28 10:14  thoni
+
+	* New Version
+
+1997-07-28 09:13  thoni
+
+	* Removed the now superflous <optional_properties> non-terminal
+
+1997-07-25 16:51  thoni
+
+	* Rearranged the grammar so that also actor body parts can be given
+	  in any free order.
+
+1997-07-25 13:22  thoni
+
+	* Rearranged the grammar so that also object body parts can be
+	  given in any free order.
+
+1997-07-24 18:34  thoni
+
+	* Rearranged the grammar so that location body parts can be given
+	  in any free order.
+
+1997-07-24 16:20  thoni
+
+	* Removed all #ifdef _PROTOTYPES_ crap in the compiler, so it now
+	  requries an ANSI-C compiler to compile
+
+1997-07-24 13:49  thoni
+
+	* Fixed the "plant the pot plant in the plant pot" problem, which
+	  was really two:
+
+		  the dictionary in the compiler always used the first code
+	  of a
+		  word so when a wrd first entered the dictionary as an
+	  unkown
+		  code (-1) it always got that.
+
+		  the parser in the interpreter did only look for
+	  conjuctions
+		  when deciding on wheter this word (that could be both an
+		  adjective and a noun) should be considered the last word
+	  (and
+		  therefore a noun and not an adjective).
+
+1997-07-24 13:44  thoni
+
+	* Added trace printouts for the checks in verbs also
+
+1997-07-24 11:33  thoni
+
+	* Added MacNFS files to the ignore list
+
+1997-07-24 11:28  thoni
+
+	* Changed some dumping output in the compiler
+
+1997-06-29 20:22  thoni
+
+	* Merged changes from Mac 2.7(3) port
+
+1997-06-29 18:42  thoni
+
+	* Added changes performed during porting to Metrowerks C for the
+	  Mac
+
+1997-06-13 15:50  thoni
+
+	* When renaming the interpreter to a game name, that name now keeps
+	  the path so that the game files are searched for in the same
+	  directory (applies only ot Unix in this version)
+
+1997-06-13 15:50  thoni
+
+	* Added Metrowerks #ifdefs
+
+1997-06-13 08:43  thoni
+
+	* Initial fixes for the Metrowerks compiler on the MAC
+
+1997-05-31 16:57  thoni
+
+	* Automated the ChangeLog entries for releases
+
+1997-05-31 15:34  thoni
+
+	* New Version
+
+1997-05-31 15:29  thoni
+
+	* New Version
+
+1997-05-31 15:27  thoni
+
+	* Changed the script test cases
+
+1997-05-31 14:34  thoni
+
+	* New Version
+
+1997-05-30 14:08  thoni
+
+	* Added test cases for multiple actor names
+
+1997-05-30 14:07  thoni
+
+	* Named scripts did not execute
+
+1997-05-28 16:34  thoni
+
+	* Added a test case to check the switch decoding
+
+1997-05-24 13:17  thoni
+
+	* Added version.sh to the things exported
+
+1997-05-23 10:31  thoni
+
+	* Improved mac-targets to create archives
+
+1997-05-23 09:03  thoni
+
+	* Minor fixes and new test cases
+
+1997-04-15 08:32  thoni
+
+	* Added a 'find' verb to show omnipotent syntax parameters
+
+1997-04-15 08:31  thoni
+
+	* Added a quantify target
+
+1997-01-13 14:45  thoni
+
+	* Moved the converter to ../convert
+
+1997-01-13 14:04  thoni
+
+	* Fixed free-error for static buffer
+
+1997-01-13 14:04  thoni
+
+	* Fixed memory access error with freeing message list
+
+1997-01-13 14:03  thoni
+
+	* Changed verbose progress output to dots
+
+1997-01-13 13:55  thoni
+
+	* Fixed the purify targets to not include the main program twice
+
+1997-01-08 13:06  thoni
+
+	* New Version
+
+1997-01-08 10:33  thoni
+
+	* Changed handling of include to first look in current directory
+
+1997-01-08 10:11  thoni
+
+	* Moved the include.inc to include.input to get it included in
+	  archives Changed handling of include to first look in current
+	  directory
+
+1997-01-03 17:12  thoni
+
+	* Do checkout version.sh for amiga, pc and mac releases
+
+1997-01-03 16:36  thoni
+
+	* New Version
+
+1997-01-03 16:36  thoni
+
+	* Do not checkout regression library for export to amiga and PC
+
+1997-01-03 16:32  thoni
+
+	* Do not checkout regression library for export to amiga and PC
+
+1997-01-03 16:14  thoni
+
+	* Test case for "say" command
+
+1997-01-03 16:13  thoni
+
+	* Added "obsolete" comment on M_HUH and M_NOTHING
+
+1996-12-12 15:44  thoni
+
+	* Removed the directory part of the log file name, meaning that the
+	  log file is always written in the user directory.
+
+1996-12-12 14:40  thoni
+
+	* Used ansi-flag
+
+1996-11-08 16:55  thoni
+
+	* Some minor fixes for regression suites on dos and Amiga
+
+1996-11-08 16:48  thoni
+
+	* Moved the conversion utilities to a separate directory
+
+1996-11-08 16:47  thoni
+
+	* Changed the encoding algorithm to always assume there is at least
+	  one character of every type in the input (problems occured when
+	  trying to encode text after the game has been compiled, as is the
+	  case when converting from v2.6 to v2.7)
+
+1996-10-29 21:40  thoni
+
+	* Since gone for steam no longer necessary
+
+1996-10-25 16:47  thoni
+
+	* Test of conflict handling in pcl-cvs
+
+1996-10-25 16:32  thoni
+
+	* Test of conflict handling in pcl-cvs
+
+1996-10-25 16:27  thoni
+
+	* Added also c26to27 as a stand alone program
+
+1996-10-24 18:28  thoni
+
+	* Added c25to26 as a stand alone program
+
+1996-10-24 18:04  thoni
+
+	* Added c25to26 as a stand alone program
+
+1996-10-23 18:00  thoni
+
+	* Started a restructuring project to make the amachine and stuff
+	  not mix with arun main program
+
+1996-09-24 16:22  thoni
+
+	* Fixed multiple hero declaration bug
+
+1996-09-24 16:17  thoni
+
+	* Added nicer progress counters for verbose mode
+
+1996-09-24 16:16  thoni
+
+	* Changed the reversing of message tables to reflect the new format
+
+1996-09-24 16:15  thoni
+
+	* Added 'src' for pc to produce version files
+
+1996-09-24 16:14  thoni
+
+	* Added test case for multiple HERO definitions
+
+1996-09-24 16:14  thoni
+
+	* Changed default extension for dos regression to .bat
+
+1996-09-19 20:54  thoni
+
+	* New Version
+
+1996-09-19 20:42  thoni
+
+	* Added tests to verify that location, actor and object attributes
+	  match the default attributes. (and test case of course)
+
+1996-09-18 13:28  thoni
+
+	* Added the makefile.gpp to the pc source package
+
+1996-09-17 22:48  thoni
+
+	* Removed the VMS-make making
+
+1996-09-17 22:32  thoni
+
+	* Added two test cases and makefiles for DJGPP on the PC
+
+1996-09-17 15:09  thoni
+
+	* Removed the upper cases which made the test bogus, since they
+	  can't be input!!
+
+1996-09-17 15:07  thoni
+
+	* Added german double-s
+
+1996-08-30 17:40  thoni
+
+	* Added a fix for the asm-generation bug in AztecC 5.2a
+
+1996-08-30 15:31  thoni
+
+	* Changed amiga target to do 'make src'
+
+1996-08-30 12:55  thoni
+
+	* Fixed a bug when error handling inserted a MAKE statement which
+	  could cause a crash in anmake() because the atr-pointer wasn't
+	  initialised properly
+
+1996-08-30 12:54  thoni
+
+	* Changed the arch-test to use 'uname'
+
+1996-08-30 10:56  thoni
+
+	* Went to english
+
+1996-08-30 10:56  thoni
+
+	* Added trace of verb code
+
+1996-08-29 20:19  thoni
+
+	* Fixed a core-bug caused when checking for named scripts in lists
+	  of scripts having non-named scripts
+
+1996-08-29 20:08  thoni
+
+	* Added the possibility to have identifiers to identify scripts
+
+1996-08-28 18:58  thoni
+
+	* Allowed general statements in the MESSAGE construct. This caused
+	  conflicts in the grammar. The reserved words that can also be
+	  identifers are interpreted not as IDs as we now the set of IDs
+	  for messages...
+
+1996-08-28 18:55  thoni
+
+	* Allowed general statements in the MESSAGE construct. This caused
+	  conflicts in the grammar. The reserved words that can also be
+	  identifers are interpreted not as IDs as we now the set of IDs
+	  for messages...
+
+1996-08-28 14:51  thoni
+
+	* Changed the format of non-terminals in the grammar to <xyz>
+	  format
+
+1996-08-28 14:30  thoni
+
+	* New Version
+
+1996-08-28 09:07  thoni
+
+	* Added the omnipotent indicator to the syntax, changed the
+	  disambiguation in the interpreter and added appropriate test
+	  cases
+
+1996-08-22 18:12  thoni
+
+	* Added DEFAULT ATTRIBUTES!
+
+1996-07-26 15:31  thoni
+
+	* Added a long awaited feature: to be able to have general default
+	  attributes that are available in Actors, Objects and Locations
+	  alike.  Also cleaned up some symbol and parameter attribute
+	  checking with the use of two new functions, paramatr() and
+	  symatr(), MUCH PRETTIER!
+
+1996-07-25 16:22  thoni
+
+	* Adapted to new format of listing files
+
+1996-07-25 13:36  thoni
+
+	* First issue of Alan ToDo file
+
+1996-07-25 13:35  thoni
+
+	* A new test case for the "plant the pot plant in the plant pot"
+	  problem
+
+1996-07-25 13:24  thoni
+
+	* A new test case for vehicle implementation
+
+1996-05-24 13:50  thoni
+
+	* Fixed a problem in the parser when all explicitly multiple
+	  parameters where screen (removed) by the class checks.
+
+	  Also added a "($n)" message before each such failed class check.
+
+1996-05-24 13:48  thoni
+
+	* Added test cases for the possibility of multiple names of objects
+	  and actors
+
+1996-05-23 23:44  thoni
+
+	* Added the possibility to have multiple names on actors and
+	  objects. Also allowed arbitrary order between initial location
+	  and names on actors and objects.
+
+1996-05-21 16:38  thoni
+
+	* Some arbitrary changes...
+
+1996-05-17 13:39  thoni
+
+	* Second version of some of the library
+
+1996-05-17 11:56  thoni
+
+	* Second version of some of the library
+
+1996-05-15 18:57  thoni
+
+	* First version of some of the library
+
+1996-05-15 18:52  thoni
+
+	* First version of some of the library
+
+1996-05-03 10:21  thoni
+
+	* New test case for string quotes
+
+1996-04-23 09:57  thoni
+
+	* Made 'ARTICLE', 'MENTIONED' etc. into not necessarily reserved
+	  words. Solved the LALR conflicts cused by this.
+
+	  Also added the insertion of generated ID's to error messages and
+	  made sure that they don't generate a "Identifier $genid#57
+	  undefined." message.
+
+1996-04-17 17:23  thoni
+
+	* Added an rm of alansrc export directory for each target, as it
+	  didn't work if you did multiple non-unix platform releases after
+	  each other (why I don't know)
+
+1996-04-12 17:05  thoni
+
+	* Added a file describing the branching and tagging strategy
+
+1996-04-12 17:05  thoni
+
+	* Removed the branch tagging for amiga, pc etc. assumed to be
+	  performed before checking out a directory to perform the changes
+	  in
+
+1996-04-12 16:25  thoni
+
+	* New Version
+
+1996-04-12 11:34  thoni
+
+	* Old resurrected file, kill it again!
+
+1996-04-12 11:28  thoni
+
+	* Set both an ordinary tag and a branch tag with every export and
+	  release
+
+1996-04-12 11:27  thoni
+
+	* Added #include <time.h>
+
+1996-04-11 22:19  thoni
+
+	* Added make target to generate dos regression suite, not quite
+	  finished yet
+
+1996-04-11 22:18  thoni
+
+	* Added a parameter to optBool (which indicates the value
+	  TRUE/FALSE) and used that to call it from optenum if the option
+	  id is "no" as in
+
+		  no pack
+
+	  thereby finally enabling the no-option
+
+1996-04-11 22:16  thoni
+
+	* Used <unistd.h> instead of <sys/unistd.h> which is more SYSV
+
+1996-04-04 17:05  thoni
+
+	* Removed underscore in file and tag names
+
+1996-04-04 17:04  thoni
+
+	* Added name conversion to DOS environment
+
+1996-04-03 01:25  thoni
+
+	* Added a tag command to newVersion target
+
+1996-04-03 01:17  thoni
+
+	* New Version
+
+1996-04-03 00:53  thoni
+
+	* Mods from pc port merged
+
+1996-04-03 00:08  thoni
+
+	* More test cases
+
+1996-04-02 23:40  thoni
+
+	* Added changes from pc port of 2.6(0)
+
+1996-04-02 17:51  thoni
+
+	* Changed error message from 'also declared' to 'already declared
+	  as'
+
+1996-04-02 17:23  thoni
+
+	* Added the feature of allowing ',' to mean a conjunction Also
+	  fixed a problem with parsing object adjective lists when the last
+	  adjective could also be noun
+
+1996-04-02 17:18  thoni
+
+	* Changed formattin of option description
+
+1996-04-02 17:18  thoni
+
+	* Added event in redefined()
+
+1996-04-02 17:17  thoni
+
+	* Changed 'also defined as' to 'already declared as'
+
+1996-03-21 17:15  thoni
+
+	* Added a test case for local verbs with only checks in them. Also
+	  fixed the test cases which generated "already declared" messages
+	  after changing that message
+
+1996-02-29 17:42  thoni
+
+	* Added the -include option to specify additional directories to
+	  search for included files
+
+1996-02-29 08:38  thoni
+
+	* Added a straing test case to the main branch also
+
+1996-02-28 16:41  thoni
+
+	* Changed generation of scanner to produce just one source,
+	  smScanx.c, which includes all platforms
+
+1996-02-28 09:43  thoni
+
+	* Merged changes from Mac port of 2.6
+
+1996-02-28 09:09  thoni
+
+	* Modifications from Mac port of v2.6, which included a fix for int
+	  -> long in allocate()-parameter
+
+1996-02-28 09:00  thoni
+
+	* Modifications from Mac port of v2.6
+
+1996-02-21 01:18  thoni
+
+	* Merged v26 changes from PC port
+
+1996-02-21 00:54  thoni
+
+	* Changes from PC port of 2.6
+
+1996-02-16 16:22  thoni
+
+	* Improved the regression shell script to work!
+
+1996-02-15 12:33  thoni
+
+	* Changed to rtag for exported source, implying MAIN BRANCH is the
+	  development line
+
+1996-02-15 10:01  thoni
+
+	* Minor changes in verbose output for loading, converting etc.
+
+1996-02-15 10:00  thoni
+
+	* Changed default action when encountering an unidentifible NAM to
+	  generate a zero identity.
+
+1996-02-01 10:41  thoni
+
+	* Added v2.5 data file to MAIN branch
+
+1996-02-01 09:42  thoni
+
+	* Moved 2.5 version ACD file to MAIN branch
+
+1996-02-01 09:08  thoni
+
+	* Minor edits to remove gcc 2.7.2 warnings
+
+1996-01-31 17:31  thoni
+
+	* Made tag -> rtag
+
+1996-01-31 17:25  thoni
+
+	* Added a SkipLines for -d dependent test cases
+
+1996-01-31 17:13  thoni
+
+	* Moved 2.6 branch to the main branch
+
+1996-01-31 17:08  thoni
+
+	* Moved v2_6branch to the main branch
+
+1996-01-31 17:05  thoni
+
+	* Moved v2_6branch to the main branch
+
+1996-01-31 17:01  thoni
+
+	* Moved v2_6branch to the main branch
+
+1996-01-31 16:58  thoni
+
+	* Moved v2_6branch to the main branch
+
+1996-01-31 16:55  thoni
+
+	* Moved v2_6branch to the main branch
+
+1996-01-31 16:52  thoni
+
+	* Moved 2.6 branch to the main branch
+
+1996-01-31 16:39  thoni
+
+	* v2.6 is now moved into the main branch (and is the MAIN branch)
+
+1996-01-31 16:31  thoni
+
+	* v2.6 is now moved into the main branch (and is the MAIN branch)
+
+1996-01-31 16:27  thoni
+
+	* v2.6 is now moved into the main branch (and is the MAIN branch)
+
+1996-01-31 15:54  thoni
+
+	* v2.6 is now moved into the main branch (and is the MAIN branch)
+
+1996-01-31 13:33  thoni
+
+	* Removed files which are only 3.0 experiments
+
+1996-01-29 08:58  thoni
+
+	* Changed generation of SIT-archives for mac
+
+1996-01-29 08:57  thoni
+
+	* Going for 2.6(1)
+
+1996-01-26 16:16  thoni
+
+	* Going for 2.6(1)
+
+1996-01-26 13:55  thoni
+
+	* Fixed a conversion problem with multiple directions in the same
+	  exit declaration
+
+1996-01-26 13:50  thoni
+
+	* New Version
+
+1996-01-25 16:39  thoni
+
+	* Changed version marking to VRC instead of V_R_C
+
+1996-01-25 15:42  thoni
+
+	* Added a return statement to SPA_Argument (A bug in SPA!!!)
+
+1996-01-03 19:37  thoni
+
+	* Setting up for linux export
+
+1996-01-03 18:45  thoni
+
+	* Setting up for linux export
+
+1996-01-03 18:26  thoni
+
+	* Some minor fixes to get 2.6 up and running on PCs
+
+1995-12-12 18:08  thoni
+
+	* New Version
+
+1995-12-12 17:52  thoni
+
+	* Changed the release target to verify that all significant ARCHS
+	  are updated in the $ALANDIR/bin/`arch` directories before
+	  proceeding to make a release
+
+1995-12-12 16:57  thoni
+
+	* New Version
+
+1995-12-12 16:22  thoni
+
+	* Added date to verbose version message
+
+1995-12-12 15:10  thoni
+
+	* Added a verbose flag to arun
+
+1995-12-12 14:36  thoni
+
+	* Fixed conversion code in c25to26
+
+1995-12-08 18:10  thoni
+
+	* New Version
+
+1995-12-08 17:38  thoni
+
+	* Final commit before release 2.6...
+
+1995-12-08 16:16  thoni
+
+	* Version changed to 2.6
+
+1995-11-30 09:54  thoni
+
+	* New Version
+
+1995-11-28 16:14  thoni
+
+	* Made sure no default rules are run for gmake
+
+1995-11-28 15:00  thoni
+
+	* Removed 'Make arch'
+
+1995-11-24 16:23  thoni
+
+	* Conflict test failed, ediff not good enough (Sorry Greg!
+	  (woods@planix.com)
+
+1995-11-22 10:25  thoni
+
+	* Conflict test
+
+1995-11-22 10:21  thoni
+
+	* Added preprocessor test of the __<system>__ defines before
+	  setting them
+
+1995-11-22 10:20  thoni
+
+	* Made reverse v2.5-aware and called it with appropriate indication
+
+1995-11-22 10:19  thoni
+
+	* Moved local definitions of ObjElem25 (v2.5 format object) to
+	  types.h
+
+1995-11-22 10:18  thoni
+
+	* MAKE ALL now makes `arch`
+
+1995-11-17 17:26  thoni
+
+	* Added a test case for running v2.5 format games
+
+1995-11-17 15:07  thoni
+
+	* Added a sun4 target to make -I/usr/local/include/ansi work from
+	  this level
+
+1995-11-17 14:05  thoni
+
+	* Removed the save
+
+1995-11-17 14:04  thoni
+
+	* Generated NULL instead of empty lists for empty verb lists
+
+1995-11-15 09:39  thoni
+
+	* Added dumpacd
+
+1995-11-14 19:57  thoni
+
+	* Added autoconvert code form 2.5 to 2.6
+
+1995-11-14 19:56  thoni
+
+	* Changed the version marking to an array
+
+1995-11-14 19:56  thoni
+
+	* Changed the ->rev to ->done fields
+
+1995-11-14 19:55  thoni
+
+	* Added the dumpacd program
+
+1995-11-14 19:55  thoni
+
+	* Always show the conversion comments
+
+1995-11-13 16:25  thoni
+
+	* Added auto-convert code from 2.5 to 2.6 format
+
+1995-11-13 16:21  thoni
+
+	* Changed version to be an array instead of a word
+
+1995-11-10 16:21  thoni
+
+	* Added user defineable messages which forced a new reserved word
+	  MESSAGE
+
+1995-11-10 15:57  thoni
+
+	* Added user definable message texts and a test case for it
+
+1995-11-09 09:55  thoni
+
+	* Cleaned up the Makefiles a bit, particularly changed VERSION to
+	  be dependent on sources instead of objects
+
+1995-10-27 10:43  thoni
+
+	* Added a test case to test same word as verb and noun
+
+1995-10-06 19:22  thoni
+
+	* Added a test case to test same word as verb and noun
+
+1995-10-06 19:21  thoni
+
+	* Added -k swith to gmake hp
+
+1995-09-29 19:01  thoni
+
+	* Added ARTICLE slot for objects and made it possible to declare
+	  ARTICLE, MENTIONED and DESCRIPTION in any order.
+
+1995-09-29 18:52  thoni
+
+	* Added ARTICLE slot for objects and made it possible to declare
+	  ARTICLE, MENTIONED and DESCRIPTION in any order.
+
+1995-09-27 16:52  thoni
+
+	* Added the article slot for objects. This makes it possible to
+	  change the article on objects without having a mentioned clause.
+	  Changed appropriate test cases also and added a particular test
+	  case for the ARTICLE.
+
+1995-09-27 16:06  thoni
+
+	* Added the article slot for objects. This makes it possible to
+	  change the article on objects without having a mentioned clause.
+	  Changed appropriate test cases also and added a particular test
+	  case for the ARTICLE.
+
+1995-09-21 15:41  thoni
+
+	* New Version
+
+1995-09-21 15:21  thoni
+
+	* Removed article 'a' from standard messages.
+
+1995-09-20 15:30  thoni
+
+	* Test case for same words as adjective and noun Test case for
+	  multiple syntax with the same word as the verb
+
+1995-09-19 15:49  thoni
+
+	* Tiding up so that only 3_0 files are here
+
+1995-09-13 17:35  thoni
+
+	* New Version
+
+1995-09-13 17:19  thoni
+
+	* Added up-to-date check to 'release' target
+
+1995-09-13 17:17  thoni
+
+	* New Version
+
+1995-09-13 17:16  thoni
+
+	* Release 2.5(3), first attempt
+
+1995-09-12 14:02  thoni
+
+	* Readline: downarrow for forward history
+
+1995-09-12 14:01  thoni
+
+	* Added macSpa and v4 spa-files
+
+1995-08-30 08:55  thoni
+
+	* LHArched only the relevant Makefiles
+
+1995-08-30 01:02  thoni
+
+	* Changed the Compiler mac-directory to compiler
+
+1995-08-28 23:41  thoni
+
+	* Added readline made all regression tests start echoing their
+	  input, good!
+
+1995-08-28 23:38  thoni
+
+	* Added readline made all regression tests start echoing their
+	  input, good!
+
+1995-08-28 17:51  thoni
+
+	* Added insert/overwrite support in readline
+
+1995-08-24 16:07  thoni
+
+	* Added module readline and related changes
+
+1995-08-19 18:21  thoni
+
+	* Merged amiga 2.5(2) edits
+
+1995-07-13 16:36  thoni
+
+	* New Version
+
+1995-06-13 11:01  thoni
+
+	* Added input and output to dungeon
+
+1995-06-13 10:38  thoni
+
+	* Changes from the amiga port of 2.5(2)
+
+1995-06-12 18:51  thoni
+
+	* Changes from the amiga port of 2.5(2)
+
+1995-06-12 18:41  thoni
+
+	* Changes from the amiga port of 2.5(2)
+
+1995-03-22 13:16  thoni
+
+	* Added .steamrc and the french test case
+
+1995-03-22 11:23  thoni
+
+	* Made some lint-ish modifications
+
+1994-12-21 10:09  thoni
+
+	* Added skeppet-solution
+
+1994-12-20 15:53  thoni
+
+	* Preparing 2.5(2) release
+
+1994-12-16 09:00  thoni
+
+	* New tests
+
+1994-12-12 13:28  thoni
+
+	* Checked and warned for equal syntax
+
+1994-12-09 17:22  thoni
+
+	* Checked and warned for equal syntax
+
+1994-12-09 17:21  thoni
+
+	* Added comments...
+
+1994-12-09 17:20  thoni
+
+	* Fiddled with ansi
+
+1994-12-09 17:16  thoni
+
+	* No input for container test
+
+1994-11-02 09:14  thoni
+
+	* Removed all non-existant or erroneous 'arun xxx.input'
+
+1994-10-27 21:53  thoni
+
+	* New dependecy lists
+
+1994-10-27 21:52  thoni
+
+	* Added initial test for .arch
+
+1994-10-27 21:30  thoni
+
+	* actorverbs
+
+1994-10-12 17:55  thoni
+
+	* Added strdup-proto on DOS
+
+1994-10-10 20:09  thoni
+
+	* BORLAND is for DOS
+
+1994-10-10 20:09  thoni
+
+	* Changed order of stripping files names on dos
+
+1994-10-10 20:08  thoni
+
+	* Minor fixes
+
+1994-10-10 20:08  thoni
+
+	* Fixed up the Alice test
+
+1994-10-05 19:45  thoni
+
+	* Checked for existing tm.orig
+
+1994-10-05 19:45  thoni
+
+	* Added readline on solaris2
+
+1994-09-30 16:53  thoni
+
+	* Added fcntl.h on amigas...
+
+1994-09-28 12:25  thoni
+
+	* Initial revision
+
+1994-09-13 17:59  thoni
+
+	* Added readline support, better Amiga icons and tooltype WINDOW
+
+1994-09-13 17:58  thoni
+
+	* Updated test for 2.5(2)
+
+1994-09-13 17:29  thoni
+
+	* Updated test for 2.5(2)
+
+1994-09-11 20:01  thoni
+
+	* Added test for checking restart behaviour
+
+1994-09-05 17:26  thoni
+
+	* Minor edits
+
+1994-09-05 17:25  thoni
+
+	* Changed readline things to sun4 (as it is only available there
+	  just now)
+
+1994-09-05 17:24  thoni
+
+	* Ignoring PC files
+
+1994-09-05 17:23  thoni
+
+	* Trying to create autobuild targets for sun3, sun4, solaris etc.
+
+1994-09-05 16:51  thoni
+
+	* Tryinbg to create autobuild targets for sun3, sun4, solaris etc.
+
+1994-09-01 18:52  thoni
+
+	* Testing
+
+1994-07-01 16:41  thoni
+
+	* Dungeon demo test case added
+
+1994-07-01 15:06  thoni
+
+	* Initial revision
+
+1994-07-01 15:03  thoni
+
+	* Used readline for all input/output
+
+1994-07-01 15:02  thoni
+
+	* Fixed error in national character sets (different indices for
+	  upper and lower case char)
+
+1994-07-01 15:01  thoni
+
+	* Used standard <> surrounded printouts for version and debug
+	  output
+
+1994-07-01 14:59  thoni
+
+	* Allowed Arun.project as program name
+
+1994-07-01 14:58  thoni
+
+	* Uisng -debug for random-dependent test cases
+
+1994-06-29 18:49  thoni
+
+	* Problemswith generating ISO characters in non-ISO environments
+
+1994-06-29 17:40  thoni
+
+	* Removed all .lha & .zip files
+
+1994-06-27 12:35  thoni
+
+	* Make amiga
+
+1994-06-23 18:49  thoni
+
+	* New test various cases
+
+1994-06-23 18:46  thoni
+
+	* New test various cases
+
+1994-06-23 18:43  thoni
+
+	* New test various cases
+
+1994-06-23 18:40  thoni
+
+	* New test various cases
+
+1994-06-23 18:36  thoni
+
+	* New test various cases
+
+1994-06-23 18:33  thoni
+
+	* New test various cases
+
+1994-06-23 18:32  thoni
+
+	* Corrected diff in log printout
+
+1994-06-23 18:28  thoni
+
+	* Analyse of local attributes
+
+1994-06-23 11:28  thoni
+
+	* Straightend out native and ISO character functions
+
+1994-06-23 11:28  thoni
+
+	* Included <sys/times.h> on suns
+
+1994-06-23 11:27  thoni
+
+	* Used long format for long printf arguments
+
+1994-06-23 11:27  thoni
+
+	* Used rm .stamp i.s.o touch
+
+1994-06-23 11:10  thoni
+
+	* Using csteam
+
+1994-06-23 11:07  thoni
+
+	* Using csteam
+
+1994-05-13 11:11  thoni
+
+	* New Version
+
+1994-05-13 10:53  thoni
+
+	* Improved handling of unbalanced quotes
+
+1994-04-28 18:02  thoni
+
+	* MBO test case for rules
+
+1994-04-28 18:02  thoni
+
+	* Moved test for READLINE_H to sysdep.h instead of explicit
+
+1994-04-28 18:01  thoni
+
+	* Changed handling of unknown attributes and end of table
+
+1994-04-28 18:00  thoni
+
+	* Looked for default attribute in all expressions
+
+1994-03-01 09:34  thoni
+
+	* Minor change in trace print-out
+
+1994-02-28 17:41  thoni
+
+	* Changed trace print out
+
+1994-02-25 16:22  thoni
+
+	* Test case for too long quoted identifiers
+
+1994-02-25 16:21  thoni
+
+	* Added GNU's readline support for line editing and history on Suns
+
+1994-02-25 16:21  thoni
+
+	* Type casts for statistics
+
+1994-02-25 16:20  thoni
+
+	* Prevented quoted identifiers to contain newline
+
+1994-02-25 16:20  thoni
+
+	* Prevented accidental outof bounds write for very long identifiers
+
+1994-02-25 16:19  thoni
+
+	* Handled version.c differently
+
+1994-02-23 16:46  thoni
+
+	* Added restriction handling
+
+1994-02-23 16:43  thoni
+
+	* Added restriction handling etc. etc
+
+1994-02-12 18:04  thoni
+
+	* Going for 3.0
+
+1994-02-11 21:02  thoni
+
+	* More and changed test cases
+
+1994-02-11 20:59  thoni
+
+	* Goinf for 3.0
+
+1994-02-11 15:42  thoni
+
+	* 3.0 test cases
+
+1994-02-11 13:17  thoni
+
+	* Going for 3.0
+
+1994-02-10 09:53  thoni
+
+	* New 3.0 semantic checks
+
+1994-02-10 09:52  thoni
+
+	* Going for 3.0
+
+1994-02-02 18:40  thoni
+
+	* Going for 3.0
+
+1994-02-02 13:53  thoni
+
+	* Going for 3.0
+
+1994-02-01 15:54  thoni
+
+	* Going for 3.0
+
+1994-02-01 14:25  thoni
+
+	* Going for 3.0
+
+1994-01-31 22:30  thoni
+
+	* Going for 3.0
+
+1994-01-30 23:21  thoni
+
+	* Going for 3.0
+
+1994-01-27 22:52  thoni
+
+	* Going for 3.0
+
+1994-01-27 22:38  thoni
+
+	* Going for 3.0
+
+1994-01-27 15:55  thoni
+
+	* Going for 3.0
+
+1994-01-27 15:05  thoni
+
+	* Going for 3.0
+
+1994-01-27 01:16  thoni
+
+	* Going for 3.0
+
+1994-01-26 18:30  thoni
+
+	* Going for 3.0
+
+1994-01-26 10:19  thoni
+
+	* Going for 3.0
+
+1994-01-25 17:29  thoni
+
+	* Going for 3.0
+
+1994-01-25 16:14  thoni
+
+	* Going for 3.0
+
+1994-01-25 09:46  thoni
+
+	* Going for 3.0
+
+1994-01-23 17:00  thoni
+
+	* Moving to 3.0
+
+1994-01-23 03:24  thoni
+
+	* Changed to WordKind
+
+1994-01-22 19:24  thoni
+
+	* Moving to 3.0
+
+1994-01-22 11:45  thoni
+
+	* new files
+
+1994-01-21 20:27  thoni
+
+	* Initial revision
+
+1994-01-21 12:47  thoni
+
+	* Added option file
+
+1994-01-20 22:19  thoni
+
+	* More headers in the new style
+
+1994-01-19 01:51  thoni
+
+	* Initial revision
+
+1994-01-19 01:39  thoni
+
+	* Trying to change style also...
+
+1994-01-19 01:36  thoni
+
+	* Trying to change style also...
+
+1994-01-11 13:39  thoni
+
+	* 3.0 version
+
+1994-01-10 16:56  thoni
+
+	* 3.0 grammar
+
+1994-01-10 16:24  thoni
+
+	* SCRIPT n => SCRIPT ID
+
+1994-01-10 14:00  thoni
+
+	* Fixed bug in check for comparison of equal entities
+
+1994-01-07 15:10  thoni
+
+	* Fixed back after trouble with 3.0 branch
+
+1994-01-07 15:07  thoni
+
+	* First commit on the 3.0 branch
+
+1994-01-07 14:47  thoni
+
+	* First commit on the 3.0 branch
+
+1994-01-07 12:01  thoni
+
+	* Added '-cc' to show messages in old 'cc' style
+
+1994-01-05 17:16  thoni
+
+	* ISO characters in identifiers
+
+1994-01-05 17:15  thoni
+
+	* 0xFE is not a letter!
+
+1994-01-05 17:15  thoni
+
+	* -full now means to show full source in the listing file (default
+	  is TINY). Always TINY on the screen.
+
+1994-01-05 17:14  thoni
+
+	* Added debug target
+
+1993-12-28 16:43  thoni
+
+	* Added Jungle restart test case
+
+1993-12-28 16:42  thoni
+
+	* Initialised some status variables to cleanup after restart.
+
+1993-12-28 16:41  thoni
+
+	* New Version
+
+1993-12-13 17:21  thoni
+
+	* Changed reverse-marker for exits with the same direction
+
+1993-12-13 14:45  thoni
+
+	* Added
+
+1993-12-13 14:36  thoni
+
+	* Added a filed in exits lists to be able to avoid re-reversing
+	  them when used more than once in an exit list
+
+1993-12-11 17:11  thoni
+
+	* Created regression.dos
+
+1993-12-11 17:11  thoni
+
+	* arun || ARUN
+
+1993-12-11 17:10  thoni
+
+	* Removed /F 2000 stack size specification
+
+1993-12-11 15:29  thoni
+
+	* Converted sysdep.c to MSDOS character sets before archiving
+
+1993-12-11 15:28  thoni
+
+	* Added text to explain commands
+
+1993-12-10 16:01  thoni
+
+	* Moved declaration of buf within #ifdef to avoid warning when not
+	  used
+
+1993-12-10 16:01  thoni
+
+	* Fixed core-dump on Unix if arun was renamed
+
+1993-12-10 16:00  thoni
+
+	* Added ISO-conversion in 'confirm'
+
+1993-12-10 15:59  thoni
+
+	* Assuming native character set in UpperCase/LowerCase
+
+1993-12-10 15:53  thoni
+
+	* Added ISO-conversion of names
+
+1993-12-09 16:10  thoni
+
+	* Convert characters to iso if Mac
+
+1993-12-08 16:18  thoni
+
+	* Initial revision
+
+1993-12-07 16:23  thoni
+
+	* Added mac-target (refresh and patching pmSeSt etc.)
+
+1993-12-07 15:15  thoni
+
+	* Modification for release and Mac-making
+
+1993-12-07 08:32  thoni
+
+	* Minor mods for HP and Amiga
+
+1993-12-07 08:30  thoni
+
+	* New Version
+
+1993-12-06 19:28  thoni
+
+	* 2.5!!!
+
+1993-12-06 19:24  thoni
+
+	* 2.5!!!
+
+1993-12-06 19:22  thoni
+
+	* changed version-marking strategy again!!!!
+
+1993-12-06 18:51  thoni
+
+	* New Version
+
+1993-12-06 18:49  thoni
+
+	* Replaced cvs status check
+
+1993-12-06 17:24  thoni
+
+	* Minor mods to Makefiles for version-management fromsrc/src
+
+1993-12-06 16:32  thoni
+
+	* New Version
+
+1993-12-06 16:11  thoni
+
+	* Minor mods to Makefiles for version-management fromsrc
+
+1993-12-06 13:11  thoni
+
+	* Minor mods to Makefiles for version-management
+
+1993-12-06 09:56  thoni
+
+	* New Version
+
+1993-12-06 09:48  thoni
+
+	* Minor mods to Makefiles
+
+1993-12-06 09:15  thoni
+
+	* New Version
+
+1993-12-05 15:08  thoni
+
+	* Minor mods to Makefiles
+
+1993-12-05 14:58  thoni
+
+	* Minor mods to Makefiles
+
+1993-12-05 14:53  thoni
+
+	* Minor mods to Makefiles
+
+1993-12-05 14:49  thoni
+
+	* Minor mods to Makefiles
+
+1993-12-05 14:28  thoni
+
+	* New Version
+
+1993-12-05 14:07  thoni
+
+	* Minor mods to Makefiles
+
+1993-11-23 17:03  thoni
+
+	* Changed allocation of parambuffers to use MAXENTITY+1
+
+1993-11-23 17:02  thoni
+
+	* Advnam was not initialised on sun, if no args
+
+1993-11-23 17:02  thoni
+
+	* Used gcc for purify
+
+1993-11-23 17:01  thoni
+
+	* Purified emitstr()
+
+1993-11-23 17:01  thoni
+
+	* Adding commit check
+
+1993-11-22 18:03  thoni
+
+	* Extended slott test case
+
+1993-11-22 18:02  thoni
+
+	* Fixed rnd() seed when debugging
+
+1993-11-22 11:08  thoni
+
+	* Added SLOTT test case
+
+1993-11-22 10:42  thoni
+
+	* Fiddling wiht src/fromsrc
+
+1993-11-22 10:12  thoni
+
+	* Automatically made makefiles for DOS (OS/2)
+
+1993-11-22 10:11  thoni
+
+	* modified saviour case and created regression.zip
+
+1993-11-20 17:22  thoni
+
+	* New Version
+
+1993-11-18 11:19  thoni
+
+	* Made Makefile.dos from dependencies.mk
+
+1993-11-18 11:01  thoni
+
+	* Purging
+
+1993-11-17 11:39  thoni
+
+	* MAKE VMS creates regression test for vms and transfers that to
+	  gollum
+
+1993-11-16 15:39  thoni
+
+	* Various fixes
+
+1993-11-16 15:17  thoni
+
+	* Meddling with src/fromsrc
+
+1993-11-16 14:46  thoni
+
+	* Handled fflush() on all systems
+
+1993-11-16 14:45  thoni
+
+	* Changed reference to versionfile to $(VERSIONFILE)...
+
+1993-11-16 14:40  thoni
+
+	* Changed reference to versionfile to $(VERSIONFILE)...
+
+1993-11-06 17:52  thoni
+
+	* Changed preprocessor directive to make sure __mac__
+
+1993-11-06 16:24  thoni
+
+	* Saviour test case added
+
+1993-11-06 16:21  thoni
+
+	* Finishing the regression test cases
+
+1993-11-06 16:20  thoni
+
+	* Replaced the removed 30* messages
+
+1993-11-06 16:19  thoni
+
+	* Added input for parse test case
+
+1993-11-04 21:33  thoni
+
+	* Initial revision
+
+1993-11-02 20:25  thoni
+
+	* Minor edits for __mac__
+
+1993-11-02 10:26  thoni
+
+	* Added * and / operators
+
+1993-10-31 16:47  thoni
+
+	* Handled EOF on confirm question
+
+1993-10-31 16:47  thoni
+
+	* Added ccommand() if started as an application
+
+1993-10-31 16:46  thoni
+
+	* Updating ZIP-archives instead of freshening
+
+1993-10-26 22:46  thoni
+
+	* Changing release procedures
+
+1993-10-26 22:46  thoni
+
+	* New Version
+
+1993-10-26 22:28  thoni
+
+	* Removed Makefile from dependecies to fromsrc
+
+1993-10-26 22:19  thoni
+
+	* gcc2.4.5 -> gcc
+
+1993-10-26 20:21  thoni
+
+	* Changed strategy for release
+
+1993-10-26 18:38  thoni
+
+	* Changed strategy for copying executables
+
+1993-10-26 10:55  thoni
+
+	* TIME -> TIMING renaming
+
+1993-10-25 20:03  thoni
+
+	* Helping to make VMS (rlogin)
+
+1993-10-25 19:59  thoni
+
+	* Helping to make VMS
+
+1993-10-25 19:19  thoni
+
+	* Minor fixes
+
+1993-10-24 18:05  thoni
+
+	* %ld -> %d in case of int's
+
+1993-10-24 17:43  thoni
+
+	* Fixed advbuf-problem on mac
+
+1993-10-24 16:13  thoni
+
+	* Merged hp & vax changes
+
+1993-10-24 16:11  thoni
+
+	* Added saviour.*
+
+1993-10-24 16:07  thoni
+
+	* Modification to be able to make from src
+
+1993-10-23 17:33  thoni
+
+	* Added #ifdef _mac_ on open(O_TEXT)
+
+1993-10-22 18:16  thoni
+
+	* Aestethical edits...
+
+1993-10-22 18:09  thoni
+
+	* Got Mac-version to run?? Changed open() to open(xx,O_TEXT)!!
+
+1993-10-21 11:07  thoni
+
+	* Changed purify compiler to GCC
+
+1993-10-17 16:18  thoni
+
+	* Fixed error in syserr() concerning CONFIRM
+
+1993-09-17 09:10  thoni
+
+	* Fixed problem with source file names that includes e.g. ../ when
+	  looking for .alan extension
+
+1993-09-17 09:09  thoni
+
+	* Modified type cast of filename for GetFInfo call
+
+1993-09-17 09:04  thoni
+
+	* Added target version.c + version.h to create those by running the
+	  ../version.sh and copying [0-9]* and then venum -c
+
+1993-09-15 14:23  thoni
+
+	* Changed Boolean to Bool to avoid tricky clash with Mac-type
+	  Boolean (char).
+
+1993-09-13 23:01  thoni
+
+	* Moved module 'time' to 'timing'
+
+1993-09-13 22:45  thoni
+
+	* merged Mac/Amiga and other changes
+
+1993-09-13 22:18  thoni
+
+	* Added Amiga icons and double-click features
+
+1993-09-13 18:15  thoni
+
+	* Managed  to get it running on a Mac!!!!
+
+1993-08-30 16:14  thoni
+
+	* HP changes
+
+1993-08-30 09:38  thoni
+
+	* Fixed problem with ALL (missed to check for EOF)
+
+1993-08-26 15:41  thoni
+
+	* Minor changes including - missed some container property checks -
+	  cleared out class pointers in wrd-node
+
+1993-08-22 14:41  thoni
+
+	* Added filename question to SAVE and RESTORE
+
+1993-08-22 13:45  thoni
+
+	* Modified message handling to prepare for user defined messages
+	  Merged Amiga changes
+
+1993-08-22 12:18  thoni
+
+	* Added Workbench capabilities
+
+1993-08-22 12:17  thoni
+
+	* New files for argument handling
+
+1993-08-03 19:16  thoni
+
+	* GIC commit test
+
+1993-08-03 18:54  thoni
+
+	* Commit from gic
+
+1993-08-03 11:11  thoni
+
+	* test
+
+1993-08-02 12:24  thoni
+
+	* Conflict test
+
+1993-08-02 11:15  thoni
+
+	* Commit test
+
+1993-08-01 10:46  thoni
+
+	* 2.5 Beta
+
+1993-08-01 10:19  thoni
+
+	* 2.5 Beta
+
+1993-07-19 10:41  thoni
+
+	* Changed cla -> res (restriction) to make room for real classes
+
+1993-07-13 14:52  thoni
+
+	* Minor fixes everywhere to compile on all platforms Bug fixed in
+	  interpreter with prepositions and EOF and Conjunctions
+
+1993-07-06 17:30  thoni
+
+	* Fixed minor error in parsing 'take x then go west' (conjuctions)
+
+1993-07-06 16:02  thoni
+
+	* Making .ACD files compatible across platforms including character
+	  sets!
+
+1993-06-29 19:26  thoni
+
+	* Preparing for mac, amiga and vms release
+
+1993-06-29 09:36  thoni
+
+	* Emerge test
+
+1993-06-28 18:34  thoni
+
+	* Imporved 'make release'
+
+1993-06-28 18:33  thoni
+
+	* Added support for fromIso and toIso handling
+
+1993-06-28 18:32  thoni
+
+	* Added printout of misc. fields
+
+1993-06-28 18:31  thoni
+
+	* Removed spaAlert as ... does not work on amiga :-(
+
+1993-06-22 21:48  thoni
+
+	* Adapting too TM 2.0
+
+1993-05-23 18:18  thoni
+
+	* Conflict fix
+
+1993-05-23 18:11  thoni
+
+	* Conflict test
+
+1993-03-02 10:33  thoni
+
+	* Fixed the reversing of frequency tables.
+
+1993-02-28 09:55  thoni
+
+	* Fixed release and auto version file creation handling
+
+1993-02-28 09:09  thoni
+
+	* Added reversing of ACD files if necessary.
+
+1993-02-14 20:55  thoni
+
+	* Noun and adjective plus minor hacks in spa
+
+1993-02-14 17:42  thoni
+
+	* First attempt at multiple word classes
+
+1993-02-14 17:41  thoni
+
+	* Added CHANGES
+
+1993-02-13 22:23  thoni
+
+	* Added message 333, and changed wrd->class to be bit vector
+
+1993-02-13 20:43  thoni
+
+	* Minor fixes
+
+1993-02-13 20:34  thoni
+
+	* Minor fixes
+
+1993-02-13 19:44  thoni
+
+	* Modified Makefile for CVS and added missing Makefiles
+
+1993-02-13 18:51  thoni
+
+	* First attempt at CVS-ing
+
+1993-02-13 18:44  thoni
+
+	* First attempt at CVS-ing
+
+1993-02-13 18:41  thoni
+
+	* First attempt at CVS-ing
+
+1993-02-13 18:33  thoni
+
+	* First attempt at CVS-ing
+
+1970-01-01 01:00  
+
+	* [no log message]
 
