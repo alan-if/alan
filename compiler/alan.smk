@@ -2,6 +2,7 @@
 
 	Prefix 'sm';
 	Pack RDS, GCS, LES, ERROR;
+	OS 'WIN32';
 
 %%IMPORT
 

@@ -139,7 +139,6 @@ extern pmGrammar pmSeSt[];
 /* %%DECLARATIONS - User data and routines */
 
 
-
 static int val(char str[])
 {
   int temp;

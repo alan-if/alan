@@ -147,8 +147,8 @@ ToDo:
 
 		say hello to the guard => say "hello" to the guard
 
-	if "hello" is an unknown word. This could be made
-	automatically be the interpreter when encountering an unknown
+	if "hello" is an unknown word. This could possibly be made
+	automatically by the interpreter when encountering an unknown
 	word.
 
 	* Break out the main program from the interpreter so that it
