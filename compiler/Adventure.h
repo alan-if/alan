@@ -8,6 +8,8 @@
 \*----------------------------------------------------------------------*/
 
 /* USE other definitions */
+#include "types.h"
+
 #include "List.h"
 #include "Where.h"
 
