@@ -1254,7 +1254,7 @@ static void checkvers(header)
     else if (errflg)
       syserr("Incompatible version of ACODE program.");
     else
-      printf("<WARNING! Incompatible version of ACODE program.>\n");
+      output("<WARNING! Incompatible version of ACODE program.>\n");
   }
 }
 
@@ -1311,8 +1311,11 @@ static void load()
 	    crc, tmphdr.acdcrc);
     if (errflg)
       syserr(err);
-    else
-      printf("%s\n", err);
+    else {
+      output("<WARNING! $$");
+      output(err);
+      output("$$ Ignored, proceed on your own risk.>$n");
+    }
   }
 
 #ifdef REVERSED
