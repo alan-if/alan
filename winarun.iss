@@ -12,6 +12,8 @@ DefaultDirName={pf}\Alan Interpreter for Windows
 DefaultGroupName=Alan V3 Interpreter for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
+OutputDir=.
+OutputBaseFilename=winarunVERSIONsetup
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue

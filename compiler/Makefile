@@ -170,7 +170,7 @@ unit : $(TESTOBJS)
 	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 	@./unit
 
-
+.PHONY:test
 # Run all tests!
 test : unit
 	cd testing; regr

@@ -9,8 +9,7 @@ all: version
 
 .PHONY: version
 
-version: ../alan.version
-	cp ../alan.version alanlib.version
+version:
 	venum alanlib time -output imp
 
 alanlibversion:
