@@ -1,0 +1,20 @@
+########## locationDescription ##########
+The room
+  Isa location.
+  Description
+    "This is a room."
+End The room.
+
+Start At room.
+########## alan locationDescription.alan ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

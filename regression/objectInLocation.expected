@@ -1,0 +1,25 @@
+########## objectInLocation ##########
+The room
+  Isa location.
+  Description
+    "This is a room."
+End The room.
+
+The o
+  Isa object.
+  At room.
+End the o.
+
+Start At room.
+########## alan objectInLocation.alan ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room. There is a o here.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
