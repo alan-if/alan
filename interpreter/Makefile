@@ -1,194 +1,85 @@
-# Makefile for arun			      Date: 1990-10-16/thoni@rabbit
-#
+# Makefile for Alan interpreter to be built with CygWin
 
-ARCH	= `uname -sr | sed -e "s% %/%g"`
+#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin -I/cygnus/mingw/include -L/cygnus/mingw/lib
+#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin
+CYGWIN =  -DCOMPILER=\"[CygWin32]\"
 
-ARCHS	= sun4 solaris2 #hp
-VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
+# Define this to make interpreter log each crc calculation step
+#CRCLOG = -DCRCLOG
 
-GCC	= gcc
-CPP	= $(GCC) -MM $(INCLUDE)
+CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 
-CC	= $(GCC) -Wall
+LDFLAGS = -g $(CYGWIN) $(VERBOSE)
+LIB = ../../Glk/WinGlk/Glk.lib
 
-OS	= `arch`
-CFLAGS	= $(DEBUG) $(INCLUDE) -DCOMPILER=\"[gcc]\" -D__$(OS)__
-
-LD	= $(GCC) $(DEBUG)
-LDFLAGS	= $(LQ)
-
-sun4 := INCLUDE	= -I/usr/local/include/ansi
-sun4 := DEBUG = -g
-
-tcov := CC = acc -a
-tcov := LD = acc -a
-
-
-#--
-SRCS = 	main.c \
-	args.c \
-	exe.c \
-	inter.c \
-	parse.c \
-	rules.c \
-	stack.c \
-	decode.c \
-	params.c \
-	debug.c \
-	sysdep.c \
-	readline.c \
-	term.c
-
-MAINSRC = arun.c
-
-VERSIONSRCS = $(SRCS) $(MAINSRC)
-
-OBJECTS = ${VERSIONSRCS:.c=.o}
-MAINOBJ = ${MAINSRC:.c=.o}
-VMSOBJECTS = ${SRCS:.c=.obj}
-VMSLINKOBJS = ${SRCS:.c=}
+OBJECTS = arun.o \
+	main.o \
+	debug.o \
+	args.o \
+	exe.o \
+	inter.o \
+	parse.o \
+	rules.o \
+	stack.o \
+	decode.o \
+	term.o \
+	reverse.o \
+	readline.o \
+	params.o \
+	sysdep.o \
+	alan.version.o
 
 
-debug purify:=	DEBUG= -g
-all release:=	DEBUG= -O
-dumpacd:=	DEBUG= -g
+arun.exe : $(OBJECTS)
+	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
+	cp arun.exe ../bin
 
-#-- MAIN TARGET
-debug all tcov: objarch arun dumpacd
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp arun $(ALANDIR)/bin/`arch`
+dumpacd: dumpacd.o reverse.o spa.o
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.o reverse.o spa.o
 
-arch:
-	make `arch`
-
-release:
-	@-for a in $(ARCHS) ; do \
-		if fresh $(ALANDIR)/bin/$$a/arun \: $(SRCS) ; then \
-			cp $(ALANDIR)/bin/$$a/arun $(ALANDIR)/bin/$$a/arun$(VERSION) ; \
-		else \
-			echo $(ALANDIR)/bin/$$a/arun is not fresh! ; \
-			touch ../.notfresh ; \
-		fi ; \
-	done
-
-sun4 solaris1 solaris2 hp: objarch fromsrc
-
-objarch:
-	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test `cat .arch` != $(ARCH); then \
-	    echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
-	    rm $(OBJECTS) version.o; \
-	    echo $(ARCH) > .arch; \
-	fi
-
-arun : $(OBJECTS) .version version.o Makefile
-	$(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
-
-dumpacd: dumpacd.o spa.o
-	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
-
-genalan: genalan.o spa.o
-	$(CC) -o genalan $(CFLAGS) genalan.o spa.o
-
-purify: $(OBJECTS) version.o $(MAINOBJ)
-	purify $(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
-
-malloc: $(OBJECTS) version.o
-	$(CC) -c $(CFLAGS) -DMALLOC arun.c
-	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
-
-src: version.h
-
-fromsrc: $(OBJECTS) version.o
-	$(LD) -o arun $(OBJECTS) version.o $(LDFLAGS)
-	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp arun $(ALANDIR)/bin/`arch`
-
-version.h version.c: ../version.sh
-	-chdir ..; rm [0-9]*_[0-9]*_[0-9]*.*; sh version.sh
-	-rm [0-9]*_[0-9]*_[0-9]*.*
-	cp ../[0-9]*_[0-9]*_[0-9]*.* .
-	venum -c
-
-.version: $(SRCS)
-	venum +t
-	touch .version
-
-spa.o: spa.h spa.c
-
-spa.h: ../compiler/spa.h
-	ln -s ../compiler/spa.h spa.h
-
-spa.c: ../compiler/spa.c
-	ln -s ../compiler/spa.c spa.c
-
-#--
-amiga: src
-	lha u interpreter.lha *.c *.h Makefile Makefile.amiga dependencies.mk
-
-archives: amiga interpreter.zip.
-
-pc:	src
-	ramp iso2pc sysdep.c SYSDEP.C
-	zip -k -u interpreter.zip *.[ch] Makefile.dos makefile.gpp
-	zip -k -m interpreter.zip *.[CH]
-
-#--
-CLEAN: clean
-	-rm *.o
-
-#--
-clean:
-	-rm core *~ *.zoo *.bak
+spa.o: spa.c spa.h
+	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
 
-#--
-#FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
-FILETER = 
-depend: dependencies.mk. Makefile.amiga makefile.gpp Makefile.mgw Makefile.cygwin
+strip:
+	strip arun
+	coff2exe arun
 
-dependencies.mk.:
-	@echo Updating dependencies.mk!
-	@rm dependencies.mk
-	@for f in *.c; \
-	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER)>> "dependencies.mk"; \
-	done
+alan.version.c : ../alan.version.c alan.version.h
+	cp ../alan.version.c .
 
-Makefile.cygwin: dependencies.mk Makefile
-	@echo Updating Makefile.cygwin!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.cygwin > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cat "#Makefile.tmp#" dependencies.mk > Makefile.cygwin
+alan.version.h : ../alan.version.h version.h
+	cp ../alan.version.h .
+
+version.h : ../version.h
+	cp ../version.h .
 
 
-Makefile.amiga: dependencies.mk Makefile
-	@echo Updating Makefile.amiga!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-makefile.gpp: dependencies.mk Makefile
-	@echo Updating makefile.gpp!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' makefile.gpp > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cp "#Makefile.tmp#" makefile.gpp
-	@sed -e s/\\.o/\\.obj/ dependencies.mk >> makefile.gpp
-
-Makefile.mgw: dependencies.mk Makefile
-	@echo Updating Makefile.mgw!
-	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.mgw > "#Makefile.tmp#"
-	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
-	@cp "#Makefile.tmp#" Makefile.mgw
-	@sed $(DOSSUBS) -e s/\\.o/\\.obj/ dependencies.mk >> Makefile.mgw
-
-
-mac:
-	-mkdir macsrc
-	refreshMac macsrc
-	-cd macsrc; sit *.[ch]
-	mv macsrc/archive.sit interpreter.sit
-
-
-include dependencies.mk
-
+#---<< GENERATED DEPENDENCIES FOLLOWS >>---
+args.o: args.c args.h main.h types.h sysdep.h acode.h
+arun.o: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
+chartest.o: chartest.c
+debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
+ main.h parse.h exe.h debug.h
+decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
+dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
+exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
+ inter.h stack.h decode.h exe.h
+genalan.o: genalan.c spa.h
+inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
+ inter.h
+main.o: main.c sysdep.h types.h acode.h main.h readline.h version.h \
+ args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h
+params.o: params.c types.h sysdep.h acode.h params.h
+parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
+ exe.h term.h debug.h params.h parse.h
+readline.o: readline.c readline.h types.h sysdep.h acode.h main.h
+reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
+rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
+ stack.h rules.h
+spa.o: spa.c spa.h
+stack.o: stack.c types.h sysdep.h acode.h main.h stack.h
+sysdep.o: sysdep.c sysdep.h
+term.o: term.c main.h types.h sysdep.h acode.h term.h
+version.o: version.c version.h

@@ -310,7 +310,7 @@ static void upArrow(char ch)
   /* Copy the history and write it */
   strcpy((char *)buffer, (char *)history[histp]);
   bufidx = strlen((char *)buffer);
-  write(1, buffer, strlen((char *)buffer));
+  write(1, (void *)buffer, strlen((char *)buffer));
 
 }
 
@@ -332,7 +332,7 @@ static void downArrow(char ch)
   if (histp != histidx) {
     strcpy((char *)buffer, (char *)history[histp]);
     bufidx = strlen((char *)buffer);
-    write(1, buffer, strlen((char *)buffer));
+    write(1, (void *)buffer, strlen((char *)buffer));
   } else {
     bufidx = 0;
     buffer[0] = '\0';
@@ -345,7 +345,7 @@ static void rightArrow(char ch)
   if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
     doBeep();
   else {
-    write(1, &buffer[bufidx], 1);
+    write(1, (void *)&buffer[bufidx], 1);
     bufidx++;
   }
 }
@@ -384,7 +384,7 @@ static void delBwd(char ch)
     bufidx--;
     for (i = 0; i <= strlen((char *)&buffer[bufidx+1]); i++)
       buffer[bufidx+i] = buffer[bufidx+1+i];
-    write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
+    write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
     write(1, " ", 1);
     for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
@@ -399,7 +399,7 @@ static void delFwd(char ch)
 
     change = TRUE;
     strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-    write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
+    write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
     write(1, " ", 1);
     for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
@@ -443,7 +443,7 @@ static void insertCh(char ch) {
       /* If insert mode is on, move the characters ahead */
       for (i = strlen((char *)buffer); i >= bufidx; i--)
 	buffer[i+1] = buffer[i];
-      write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
+      write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
       for (i = strlen((char *)&buffer[bufidx]); i > 0; i--) backspace();
     }
     change = TRUE;
@@ -520,7 +520,7 @@ Boolean readline(char usrbuf[])
   echoOff();
   endOfInput = 0;
   while (!endOfInput) {
-    if (read(0, &ch, 1) != 1) {
+    if (read(0, (void *)&ch, 1) != 1) {
       echoOn();
       return FALSE;
     }

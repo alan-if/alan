@@ -44,11 +44,11 @@ VERB credits
     DOES
         "The author retains the copyright to this game.
         $pThis game was written using the ALAN Adventure Language. 
-        ALAN is an interative fiction authoring system by Thomas Nilsson
-        $nemail address: thoni@softlab.lejonet.se 
+        ALAN is an interactive fiction authoring system by Thomas Nilsson
+        $nemail address: thomas.nilsson@progindus.se 
         $pFurther information about the ALAN system can be obtained from
         the World Wide Web Internet site
-        $ihttp://www.pp.softlab.se/thomas.nilsson/alan"
+        $ihttp://www.welcome.to/alan-if"
 END VERB.
 
 

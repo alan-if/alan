@@ -2,12 +2,12 @@
 
 #CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin -I/cygnus/mingw/include -L/cygnus/mingw/lib
 #CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin
-CYGWIN =  -DCOMPILER=\"[CygWinb20]\"
+CYGWIN =  -DCOMPILER=\"[CygWin32]\"
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(VERBOSE) $(CRCLOG)
+CFLAGS = -g -Wall -funsigned-char $(CYGWIN) $(CRCLOG)
 
 LDFLAGS = -g $(CYGWIN) $(VERBOSE)
 LIB = ../../Glk/WinGlk/Glk.lib

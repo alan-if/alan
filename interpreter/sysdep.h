@@ -47,8 +47,13 @@
 #ifdef THINK_C
 #define __mac__
 #endif
+
 #ifdef __MWERKS__
+#ifdef macintosh
 #define __mac__
+#else
+#define __dos__
+#endif
 #endif
 
 #ifdef DOS
@@ -109,6 +114,9 @@
 #include <unix.h>
 #endif
 
+#ifdef __MWERKS__
+#define strdup _strdup
+#endif
 
 /***********************/
 /* ISO character sets? */

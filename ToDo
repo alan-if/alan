@@ -1,4 +1,12 @@
 ToDo:
+	* Re-implement the "go" handling so that it is no longer a noise
+	word.
+
+	* Make interpreter automatically capitalize words after full
+	stop. Currently might look "xyz. mr x ..." because you can not
+	force NAME "Mr X" since that would be wrong in the common case
+	("You can not take Mr X.")
+
 	* Functions
 		(Andrew Duncan Heale <helix@yoyo.cc.monash.edu.au>)
 

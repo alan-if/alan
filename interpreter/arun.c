@@ -66,8 +66,8 @@ int main(argc, argv)
 
   if (dbgflg||verbose) {
     if (dbgflg) printf("<");
-    printf("Arun, Adventure Interpreter version %s (%s %s) %s",
-	   alan.version.string, alan.date, alan.time, COMPILER);
+    printf("Arun, Adventure Interpreter version %s (%s %s)",
+	   alan.version.string, alan.date, alan.time);
     if (dbgflg) printf(">");
     newline();
   }
