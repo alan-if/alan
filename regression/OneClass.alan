@@ -1,4 +1,0 @@
-EVERY room ISA location
-END EVERY room.
-
-START AT room.

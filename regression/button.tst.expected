@@ -1,8 +1,0 @@
-########## button ##########
-alan button
-arun button < button.input
-########## /bin/sh  button.tst ##########
-
-        No warnings or errors detected.
-
-button.tst: button.input: No such file or directory
