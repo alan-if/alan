@@ -1,0 +1,5 @@
+Allowed multiple default attribute declarations.
+Allowed string quotes within strings and single quotes within qouted
+	ids (double them).
+Renaming the interpreter makes it look for code and data files with
+	the same basename.
