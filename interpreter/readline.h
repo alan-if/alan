@@ -8,11 +8,16 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "types.h"
+
+#define LINELENGTH 80
+#define HISTORYLENGTH 20
+
 #ifdef _PROTOTYPES_
-extern void readline(char usrbuf[]);
+extern Boolean readline(char usrbuf[]);
 
 #else
-extern void readline();
+extern Boolean readline();
 #endif
 
 #endif

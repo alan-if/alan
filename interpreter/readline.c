@@ -1,5 +1,7 @@
 /*
-   gcc -ansi -pedantic -o readline -g readline.c
+
+   Read line from user, with editing and history
+
  */
 
 #include <stdlib.h>
@@ -7,6 +9,11 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <termios.h>
+
+#include "readline.h"
+
+#include "arun.h"
+
 
 /*----------------------------------------------------------------------*\
 
@@ -39,10 +46,17 @@ static void restoretermio()
 
 \*----------------------------------------------------------------------*/
 
-static unsigned char buffer[100];
-static int bufidx = 0;
+static unsigned char buffer[LINELENGTH+1];
+static int bufidx;
+
+static unsigned char *history[HISTORYLENGTH];
+static int histidx;		/* Index where to store next history */
+static int athist;		/* At which entry in history is he pointing now */
+
 static unsigned char ch;
 static int endOfInput = 0;
+static Boolean change;
+static Boolean insert = TRUE;
 
 
 /*----------------------------------------------------------------------*\
@@ -61,6 +75,7 @@ static void upArrow(char ch);
 static void downArrow(char ch);
 static void rightArrow(char ch);
 static void leftArrow(char ch);
+static void insertToggle(char ch);
 static void newLine(char ch);
 static void delFwd(char ch);
 static void delBwd(char ch);
@@ -86,7 +101,9 @@ static KeyMap escmap[] = {
 };
 
 static KeyMap arrowmap[] = {
-  {0x00, 0x40, NULL},
+  {0x00, 0x31, NULL},
+  {0x32, 0x32, insertToggle},
+  {0x33, 0x40, NULL},
   {0x41, 0x41, upArrow},
   {0x42, 0x42, downArrow},
   {0x43, 0x43, rightArrow},
@@ -101,6 +118,12 @@ static void beep()
 {
   write(1, "\7", 1);
 }
+
+static void backspace()
+{
+  write(1, "\b", 1);
+}
+
 
 /*----------------------------------------------------------------------*\
 
@@ -127,7 +150,25 @@ static void execute(KeyMap map[], unsigned char ch)
 
 static void upArrow(char ch)
 {
-  write(1, "UPARROW", 7);
+  int i;
+
+  /* Is there more history ? */
+  if (history[athist] == NULL) {
+    write(1, "\7", 1);
+    return;
+  }
+
+  for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
+  for (i = 0; i < strlen((char *)buffer); i++) write(1, " ", 1); /* Erase all text */
+  for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
+
+  /* Copy the history and write it */
+  strcpy((char *)buffer, (char *)history[athist]);
+  bufidx = strlen((char *)buffer);
+  write(1, buffer, strlen((char *)buffer));
+
+  /* Advance history pointer */
+  athist = (athist+1)%HISTORYLENGTH;
 }
 
 
@@ -139,7 +180,7 @@ static void downArrow(char ch)
 
 static void rightArrow(char ch)
 {
-  if (bufidx > sizeof(buffer) || buffer[bufidx] == '\0')
+  if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
     beep();
   else {
     write(1, &buffer[bufidx], 1);
@@ -154,8 +195,18 @@ static void leftArrow(char ch)
     beep();
   else {
     bufidx--;
-    write(1, "\b", 1);
+    backspace();
   }
+}
+
+
+static void insertToggle(char ch)
+{
+  read(0, &ch, 1);
+  if (ch != 'z')
+    beep();
+  else
+    insert = !insert;
 }
 
 
@@ -165,26 +216,30 @@ static void delBwd(char ch)
     beep();
   else {
     int i;
-    write(1, "\b", 1);
+
+    change = TRUE;
+    backspace();
     bufidx--;
     for (i = 0; i <= strlen((char *)&buffer[bufidx+1]); i++)
       buffer[bufidx+i] = buffer[bufidx+1+i];
     write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
     write(1, " ", 1);
-    for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) write(1, "\b", 1);
+    for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
 }  
 
 static void delFwd(char ch)
 {
-  if (bufidx > sizeof(buffer) || buffer[bufidx] == '\0')
+  if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
     beep();
   else {
     int i;
+
+    change = TRUE;
     strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
     write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
     write(1, " ", 1);
-    for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) write(1, "\b", 1);
+    for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
 }  
 
@@ -202,15 +257,33 @@ static void newLine(char ch)
 {
   endOfInput = 1;
   write(1, "\n", 1);
+
+  /* If the input is not the same as the previous, save it in the history */
+  if (change && strlen((char *)buffer) > 0) {
+    if (history[histidx] == NULL)
+      history[histidx] = (unsigned char *)allocate(LINELENGTH+1);
+    strcpy((char *)history[histidx], (char *)buffer);
+  }
 }
 
 
 static void insertCh(char ch) {
-  if (bufidx > sizeof(buffer))
+  if (bufidx > LINELENGTH)
     beep();
   else {
     /* If at end advance the NULL */
-    if (buffer[bufidx] == '\0') buffer[bufidx+1] = '\0';
+    if (buffer[bufidx] == '\0')
+      buffer[bufidx+1] = '\0';
+    else if (insert) {
+      int i;
+
+      /* If insert mode is on, move the characters ahead */
+      for (i = strlen((char *)buffer); i >= bufidx; i--)
+	buffer[i+1] = buffer[i];
+      write(1, &buffer[bufidx], strlen((char *)&buffer[bufidx]));
+      for (i = strlen((char *)&buffer[bufidx]); i > 0; i--) backspace();
+    }
+    change = TRUE;
     buffer[bufidx] = ch;
     write(1, &ch, 1);
     bufidx++;
@@ -227,16 +300,23 @@ static void insertCh(char ch) {
   */
 
 /* 4f - length of user buffer should be used */
-void readline(char usrbuf[])
+Boolean readline(char usrbuf[])
 {
   fflush(stdout);
   bufidx = 0;
+  athist = histidx;
   buffer[0] = '\0';
+  change = TRUE;
   newtermio();
   endOfInput = 0;
-  while (!endOfInput && read(0, &ch, 1) == 1) {
+  while (!endOfInput) {
+    if (read(0, &ch, 1) != 1) {
+      restoretermio();
+      return FALSE;
+    }
     execute(keymap, ch);
   }
   restoretermio();
   strcpy(usrbuf, (char *)buffer);  
+  return TRUE;
 }
