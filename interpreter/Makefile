@@ -24,8 +24,7 @@ tcov := LD = acc -a
 
 
 #--
-SRCS = debug.c \
-	main.c \
+SRCS = 	main.c \
 	args.c \
 	exe.c \
 	inter.c \
@@ -33,10 +32,11 @@ SRCS = debug.c \
 	rules.c \
 	stack.c \
 	decode.c \
-	term.c \
 	params.c \
+	debug.c \
+	sysdep.c \
 	readline.c \
-	sysdep.c
+	term.c
 
 MAINSRC = arun.c
 
