@@ -66,6 +66,7 @@ objarch:
 	    rm *.o; \
 	    echo `arch` > .arch; \
 	fi
+	@echo arch = `arch`
 
 arun : $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)

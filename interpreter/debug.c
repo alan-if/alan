@@ -10,6 +10,7 @@
 #include <ctype.h>
 
 #include "types.h"
+#include "version.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -307,6 +308,7 @@ void debug()
     switch (toUpper(c)) {
     case 'H':
     case '?':
+      output(product.longHeader);
       output("$nABUG Commands:\
       $iO [n] -- show object[s]\
       $iA [n] -- show actor[s]\
@@ -317,7 +319,7 @@ void debug()
       $iT -- toggle trace mode\
       $iS -- toggle step mode\
       $iX -- exit debug mode\
-      $iQ -- quit game\n");
+      $iQ -- quit game");
       break;
     case 'Q':
       terminate(0);
