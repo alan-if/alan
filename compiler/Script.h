@@ -11,6 +11,7 @@
 
 /* USE other definitions */
 #include "Srcp.h"
+#include "Slot.h"
 #include "List.h"
 #include "Id.h"
 
@@ -41,6 +42,10 @@ extern Script *newScript(Srcp *srcp,
 			 Id *id,
 			 List *description,
 			 List *steps);
+
+/* Collect all scripts inherited from a slot */
+extern void inheritScripts(Slot *slot,
+			   List **scriptListsP);
 
 /* Analyse a list of Scripts */
 extern void analyseScripts(List *scripts);

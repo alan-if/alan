@@ -9,8 +9,8 @@
 #include "alan.h"
 
 #include "Adventure.h"
-#include "List.h"
 #include "Attribute.h"
+#include "List.h"
 #include "Option.h"
 
 #include "acode.h"
@@ -124,6 +124,36 @@ Attribute *findAttributeInLists(srcp, id, lists)
   return (found1);
 }
 
+
+
+/*======================================================================
+
+  inheritAttributes()
+
+  Inherit attributes from a slot, and update the list 
+
+ */
+#ifdef _PROTOTYPES_
+void inheritAttributes(Slot *slot, /* IN - The slot to inherit from */
+		       List **attributeListsP) /* INOUT - Combine with this */
+#else
+void inheritAttributes(slot, attributeListsP)
+     Slot *slot;
+     List **attributeListsP;
+#endif
+{
+  List *inheritedAttributeList;
+
+  if (slot->attributes != NULL)
+    inheritedAttributeList = prepend(slot->attributes,
+				     copyList(slot->inheritedAttributeLists));
+  else
+    inheritedAttributeList = copyList(slot->inheritedAttributeLists);
+  /* Now the inheritedAttributeList contains all lists of attributes
+     inherited from this class */
+  if (inheritedAttributeList != NULL)
+    *attributeListsP = combine(*attributeListsP, inheritedAttributeList);
+}
 
 
 /*======================================================================

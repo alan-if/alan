@@ -52,6 +52,36 @@ Script *newScript(srcp, id, description, steps)
 
 /*======================================================================
 
+  inheritScripts()
+
+  Inherit scripts from a slot, and update the list 
+
+ */
+#ifdef _PROTOTYPES_
+void inheritScripts(Slot *slot, /* IN - The slot to inherit from */
+		    List **scriptListsP) /* INOUT - Combine with this */
+#else
+void inheritScripts(slot, scriptListsP)
+     Slot *slot;
+     List **scriptListsP;
+#endif
+{
+  List *inheritedScriptList;
+
+  if (slot->scripts != NULL)
+    inheritedScriptList = prepend(slot->scripts,
+				     copyList(slot->inheritedScriptLists));
+  else
+    inheritedScriptList = copyList(slot->inheritedScriptLists);
+  /* Now the inheritedScriptList contains all lists of scripts
+     inherited from this class */
+  if (inheritedScriptList != NULL)
+    *scriptListsP = combine(*scriptListsP, inheritedScriptList);
+}
+
+
+/*======================================================================
+
   analyseScript()
 
   Analyze a SCRIPT.

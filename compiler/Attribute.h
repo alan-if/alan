@@ -13,6 +13,7 @@
 #include "alan.h"
 
 #include "Srcp.h"
+#include "Slot.h"
 #include "List.h"
 #include "Id.h"
 #include "Expression.h"
@@ -59,6 +60,10 @@ extern Attribute *findAttribute(Id *id,
 
 /* Find an attribute id in a list of attribute lists */
 extern Attribute *findAttributeInLists(Srcp *srcp, Id *id, List *lists);
+
+/* Collect all attributes inherited from a slot */
+extern void inheritAttributes(Slot *slot,
+			      List **attributeListsP);
 
 /* Analyze a list of attribute nodes */
 extern void analyseAttributes(List *attributes);

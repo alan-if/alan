@@ -200,10 +200,14 @@ Symbol *symbolCheck(id, kind)
   if (symbol == NULL || (symbol->kind != kind && symbol->kind != ERROR_SYMBOL)) {
     if (symbol == NULL)
       symbol = newSymbol(id, ERROR_SYMBOL);
+    else
+      symbol->kind = ERROR_SYMBOL;
     lmLogv(&id->srcp, 300, sevERR, id->string, symbolKindString(kind), NULL);
     return NULL;
-  } else
+  } else if (symbol->kind != ERROR_SYMBOL)
     return symbol;
+  else
+    return NULL;
 }
 
 

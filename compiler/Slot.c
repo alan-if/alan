@@ -105,11 +105,12 @@ void analyseSlot(id, slot)
   List *list, *sentinel = NULL;
   Symbol *symbol;
   Bool remove;			/* Forced to remove the item? */
-  List *localAttributes, *inhertitedAttributeList;
+  List *localAttributes;
   Attribute *attribute;
 
   slot->state = LOOKING_FOR_CIRCLES;
   /* Verify that the inherited slots exist and are classes */
+  /* Also collect inherited attributes, scripts, etc. */
   for (list = slot->heritage; list; list = list->next) {
     remove = FALSE;
     if ((symbol = symbolCheck(list->element.id, CLASS_SYMBOL)) != NULL) {
@@ -120,21 +121,11 @@ void analyseSlot(id, slot)
       } else {
 	if (symbol->info.class->slot->state != FINISHED)
 	  analyseSlot(symbol->info.class->id, symbol->info.class->slot);
-	/* Now collect the inhertied attributes into the list */
-	if (symbol->info.class->slot->attributes != NULL)
-	  inhertitedAttributeList =
-	    prepend(symbol->info.class->slot->attributes,
-		    copyList(symbol->info.class->slot->inheritedAttributeLists));
-	else
-	  inhertitedAttributeList =
-	    copyList(symbol->info.class->slot->inheritedAttributeLists);
-	/* Now inhertiedAttributes contains all lists of attributes inherited
-	   from this class */
-	if (inhertitedAttributeList != NULL)
-	  slot->inheritedAttributeLists =
-	    combine(slot->inheritedAttributeLists, inhertitedAttributeList);
+	/* Now collect the inhertied attributes, scripts etc. into the list */
+	inheritAttributes(symbol->info.class->slot, &slot->inheritedAttributeLists);
+	inheritScripts(symbol->info.class->slot, &slot->inheritedScriptLists);
       }
-    } else
+    } else			/* Not a class, remove it! */
       remove = TRUE;
     if (remove) {
       if (sentinel == NULL)	/* At first item */
@@ -229,5 +220,6 @@ void dumpSlot(slot)
   put("does: "); dumpDoes(slot->does); nl();
   put("exits: "); dumpList(slot->exits, EXIT_NODE); nl();
   put("verbs: "); dumpList(slot->verbs, VERB_NODE); nl();
-  put("scripts: "); dumpList(slot->scripts, SCRIPT_NODE); out();
+  put("scripts: "); dumpList(slot->scripts, SCRIPT_NODE); nl();
+  put("inheritedScriptLists: "); dumpList(slot->inheritedScriptLists, ADDRESS_NODE); out();
 }

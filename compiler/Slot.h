@@ -42,6 +42,7 @@ typedef struct Slot {		/* Slot Node */
   List *exits;
   List *verbs;
   List *scripts;
+  List *inheritedScriptLists;
 } Slot;
 
 
