@@ -11,7 +11,7 @@
 
 static Aword blockInstructionCode[] = {4, /* Dummy to not execute at zero */
 				       4,
-				       INSTRUCTION(I_BLOCK),
+				       INSTRUCTION(I_FRAME),
 				       4,
 				       INSTRUCTION(I_RETURN)};
 
@@ -31,7 +31,7 @@ static void testBlockInstructions()
 
   memory = blockInstructionCode;
   memTop = 100;
-  blockPointer = 47;
+  framePointer = 47;
   originalSp = stackp;
 
   /* Add a block with four local variables */
@@ -47,7 +47,7 @@ static void testBlockInstructions()
 
 static Aword forInstructionCode[] = {4, /* Dummy to not execute at zero */
 				     2,
-				     INSTRUCTION(I_BLOCK),
+				     INSTRUCTION(I_FRAME),
 				     1, /* Local loop variable */
 				     INSTRUCTION(I_EACH),
 				     2,

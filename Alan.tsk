@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>161.06</origest>
-<currest>161.06</currest>
-<elapsed>45.06</elapsed>
+<origest>163.06</origest>
+<currest>163.06</currest>
+<elapsed>46.06</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
-<elapsed>2</elapsed>
+<origest>23</origest>
+<currest>23</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.23</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>8</origest>
 <currest>8</currest>
-<elapsed>2</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
@@ -31,11 +31,19 @@ This structure should be refered to first to see if the identifier is there
 
 Requires:
   Two new calls newFrame and killFrame
-  A Frame stack in the symbol table.</notes>
+  A Frame stack in the symbol table.
+
+DONE:
+- Frame handling
+- Local symbols
+
+TODO:
+- Calculate levels below from frame level (how to remember frames during code generation?)
+- Generate GET/SET-LOCAL from ID with symbols of LOCAL kind</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -242,8 +250,8 @@ END DEPEND.</notes>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -314,6 +322,15 @@ STOP actor.
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Add To Descriptions</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.26</desc>
@@ -338,8 +355,8 @@ STOP actor.
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>94</origest>
-<currest>94</currest>
+<origest>95</origest>
+<currest>95</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -362,6 +379,15 @@ Should we disallow Verb a,b?? Possibly by introducing an intermediate level we c
 Also need to consider how to warn for the same verb declared without a parameter at global level and with a parameter. Is this the same as declaring it with two separate syntax declarations? No, if done so the compiler complains.
 
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -647,11 +647,11 @@ static void dumpStms(Aword pc)
 	printf("\n");
 	return;
 
-      case I_BLOCK:
+      case I_FRAME:
 	printf("BLOCK");
 	break;
 
-      case I_ENDBLOCK:
+      case I_ENDFRAME:
 	printf("ENDBLOCK");
 	break;
 

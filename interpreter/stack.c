@@ -58,43 +58,51 @@ Aword top()
 
 
 /* The AMACHINE Block Frames */
-static int blockPointer = -1;
+static int framePointer = -1;
 
-void newBlock(Aint noOfLocals)
+void newFrame(Aint noOfLocals)
 {
-  push(blockPointer);
-  blockPointer = stackp;
+  push(framePointer);
+  framePointer = stackp;
   for (;noOfLocals > 0; noOfLocals--) push(0);
 }
 
 
 /* Local variables are numbered 1 and up and stored on their index-1 */
-Aword getLocal(Aint blocksBelow, Aint variableNumber)
+Aword getLocal(Aint framesBelow, Aint variableNumber)
 {
-  if (blocksBelow != 0)
-    syserr("Locals in blocks below not implemented yet!");
+  int frame = framePointer;
+  int frameCount;
+
+  if (framesBelow != 0)
+    for (frameCount = framesBelow; frameCount != 0; frameCount--)
+      frame = stack[frame-1];
 
   if (variableNumber < 1)
     syserr("Reading a non-existing block-local variable.");
 
-  return stack[blockPointer + variableNumber-1];
+  return stack[frame + variableNumber-1];
 }
 
-void setLocal(Aint blocksBelow, Aint variableNumber, Aword value)
+void setLocal(Aint framesBelow, Aint variableNumber, Aword value)
 {
-  if (blocksBelow != 0)
-    syserr("Locals in blocks below not implemented yet!");
+  int frame = framePointer;
+  int frameCount;
+
+  if (framesBelow != 0)
+    for (frameCount = framesBelow; frameCount != 0; frameCount--)
+      frame = stack[frame-1];
 
   if (variableNumber < 1)
     syserr("Writing a non-existing block-local variable.");
 
-  stack[blockPointer + variableNumber-1] = value;
+  stack[frame + variableNumber-1] = value;
 }
 
-void endBlock(void)
+void endFrame(void)
 {
-  stackp = blockPointer;
-  blockPointer = pop();
+  stackp = framePointer;
+  framePointer = pop();
 }
 
 

@@ -247,7 +247,6 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *con
 {
   Attribute *atr = NULL;
   Symbol *sym;
-  Symbol *classOfParameter;
 
   sym = symcheck(id, INSTANCE_SYMBOL, context);
   if (sym) {
@@ -261,12 +260,20 @@ static Attribute *resolveIdAttribute(IdNode *id, IdNode *attribute, Context *con
 	if (inheritsFrom(sym->fields.parameter.class, literalSymbol)) {
 	  lmLog(&attribute->srcp, 406, sevERR, "");
 	} else {
-	  classOfParameter = sym->fields.parameter.class;
+	  Symbol *classOfParameter = sym->fields.parameter.class;
 	  atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
 	  if (atr == NULL)
-	    lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
+	    lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
 		   id->string, classOfParameter->string, NULL);
 	}
+      }
+    } if (sym->kind == LOCAL_SYMBOL) {
+      if (sym->fields.local.class) {
+	Symbol *classOfLocal = sym->fields.local.class;
+	atr = findAttribute(classOfLocal->fields.entity.props->attributes, attribute);
+	if (atr == NULL)
+	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "variable",
+		 id->string, classOfLocal->string, NULL);
       }
     }
     return atr;

@@ -1,0 +1,16 @@
+########## alan setLocal ##########
+
+
+setLocal.alan
+
+   26.      Set l To 4.
+=====>            1
+
+  *1*   101 E : 'OF' Identifier ('<generated identifier #1>') inserted.
+  *1*   310 E : Identifier '<generated identifier #1>' not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

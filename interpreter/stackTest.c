@@ -9,18 +9,18 @@
 #include "stack.c"
 
 
-static void testNewBlock()
+static void testNewFrame()
 {
   Aint originalSp;
 
-  blockPointer = 47;
+  framePointer = 47;
   originalSp = stackp;
 
   /* Add a block with four local variables */
-  newBlock(4);
+  newFrame(4);
 
-  ASSERT(stackp == originalSp + 1/*old bp*/ + 4/*Locals*/);
-  ASSERT(blockPointer == originalSp + 1);
+  ASSERT(stackp == originalSp + 1/*old fp*/ + 4/*Locals*/);
+  ASSERT(framePointer == originalSp + 1);
 
   ASSERT(getLocal(0,1) == 0);
   setLocal(0,1,14);
@@ -28,14 +28,35 @@ static void testNewBlock()
   ASSERT(stack[stackp - 4] == 14);
   ASSERT(stack[stackp - 5] == 47);
 
-  endBlock();
+  endFrame();
   ASSERT(stackp == originalSp);
-  ASSERT(blockPointer == 47);
+  ASSERT(framePointer == 47);
+}  
+
+  
+static void testFrameInFrame()
+{
+  Aint originalSp;
+
+  framePointer = 47;
+  originalSp = stackp;
+
+  /* Add a block with one local variables */
+  newFrame(1);
+  setLocal(0,1,14);
+  ASSERT(getLocal(0,1) == 14);
+  newFrame(1);
+  setLocal(0,1,15);
+  ASSERT(getLocal(0,1) == 15);
+  ASSERT(getLocal(1,1) == 14);
+  endFrame();
+  endFrame();
 }  
 
   
 
 void registerStackUnitTests()
 {
-  registerUnitTest(testNewBlock);
+  registerUnitTest(testNewFrame);
+  registerUnitTest(testFrameInFrame);
 }

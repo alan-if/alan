@@ -180,12 +180,16 @@ static void analyzeAttributeExpression(Expression *exp,
     lmLog(&exp->srcp, 420, sevERR, "attribute reference");
 }
 
+/*----------------------------------------------------------------------*/
+static Bool isConstantIdentifier(IdNode *id)
+{
+  return id->symbol->kind != PARAMETER_SYMBOL
+    && id->symbol->kind != LOCAL_SYMBOL;
+}
 
-/*----------------------------------------------------------------------
 
-  Analyze a binary expression and find out its type.
 
- */
+/*----------------------------------------------------------------------*/
 static void analyzeBinaryExpression(Expression *exp,
 				    Context *context)
 {
@@ -211,8 +215,8 @@ static void analyzeBinaryExpression(Expression *exp,
 	What *leftWhat = exp->fields.bin.left->fields.wht.wht;
 	What *rightWhat = exp->fields.bin.right->fields.wht.wht;
 	if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
-	  if (leftWhat->id->symbol->kind != PARAMETER_SYMBOL
-	      && rightWhat->id->symbol->kind != PARAMETER_SYMBOL)
+	  if (isConstantIdentifier(leftWhat->id)
+	      && isConstantIdentifier(rightWhat->id))
 	    lmLog(&exp->srcp, 417, sevINF, NULL);
       }
     exp->type = BOOLEAN_TYPE;
@@ -342,6 +346,9 @@ static void anexpwht(Expression *exp,
       switch (symbol->kind) {
       case PARAMETER_SYMBOL:
 	exp->type = symbol->fields.parameter.type;
+	break;
+      case LOCAL_SYMBOL:
+	exp->type = symbol->fields.local.type;
 	break;
       case INSTANCE_SYMBOL:
 	exp->type = INSTANCE_TYPE;

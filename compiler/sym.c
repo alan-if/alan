@@ -22,6 +22,8 @@
 
 
 /* EXPORTS: */
+int frameLevel = 0;
+
 int classCount = 0;
 int instanceCount = 0;
 int directionCount = 0;
@@ -44,6 +46,17 @@ Symbol *theHero;
 /* PRIVATE: */
 static Symbol *symbolTree = NULL;
 static Bool firstSymbolDumped = TRUE;
+
+typedef struct Frame {
+  /* A frame defines a local scope with local variables.
+     To find a variable you need to do linear search in the list.
+     Since frames may be nested you should recurse until outerFrame == NULL */
+  int level;
+  List *localSymbols;
+  struct Frame *outerFrame;
+} Frame;
+
+static Frame *currentFrame = NULL;
 
 
 /*======================================================================
@@ -109,6 +122,22 @@ static void insertSymbol(Symbol *symbol)
 
 
 /*----------------------------------------------------------------------*/
+static void addLocal(Symbol *new)
+{
+  if (currentFrame == NULL)
+    syserr("Adding local variable without an active frame");
+
+  if (currentFrame->localSymbols == NULL)
+    new->fields.local.number = 1;
+  else
+    new->fields.local.number = currentFrame->localSymbols->element.sym->fields.local.number + 1;
+
+  new->fields.local.level = currentFrame->level;
+
+  currentFrame->localSymbols = concat(currentFrame->localSymbols, new, SYMBOL_LIST);
+}
+
+/*----------------------------------------------------------------------*/
 static char *symbolKindAsString(SymbolKind kind)
 {
   switch (kind) {
@@ -160,8 +189,11 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   new->kind = kind;
   new->string = id->string;
 
-  insertSymbol(new);
-
+  if (kind == LOCAL_SYMBOL)
+    addLocal(new);
+  else
+    insertSymbol(new);
+  
   switch (kind) {
   case CLASS_SYMBOL:
     new->code = ++classCount;
@@ -184,6 +216,8 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
   case EVENT_SYMBOL:
     new->code = ++eventCount;
     break;
+  case LOCAL_SYMBOL:
+    break;
   default: syserr("Unexpected switch on SYMBOLKIND in newSymbol()"); break;
   }
 
@@ -199,6 +233,37 @@ void initSymbols()
   instanceCount = 0;
   classCount = 0;
   attributeCount = 0;
+}
+
+
+/*======================================================================*/
+void newFrame(void)
+{
+  Frame *theNew = NEW(Frame);
+
+  theNew->localSymbols = NULL;
+  if (currentFrame == NULL)
+    theNew->level = 1;
+  else
+    theNew->level = currentFrame->level + 1;
+
+  theNew->outerFrame = currentFrame;
+  currentFrame = theNew;
+}
+
+/*======================================================================*/
+void deleteFrame(void)
+{
+  Frame *outerFrame = currentFrame->outerFrame;
+  List *locals, *next;
+
+  for (locals = currentFrame->localSymbols; locals != NULL; locals = next) {
+    next = locals->next;
+    free(locals);
+  }
+  
+  free(currentFrame);
+  currentFrame = outerFrame;
 }
 
 
@@ -260,17 +325,30 @@ Symbol *lookup(char *idString)
 }
 
 
-/*======================================================================
+/*----------------------------------------------------------------------*/
+static Symbol *lookupInFrames(char *idString)
+{
+  Frame *thisFrame = currentFrame;
+  List *localSymbolList;
 
-  lookupInContext()
+  while (thisFrame != NULL) {
+    for (localSymbolList = thisFrame->localSymbols; localSymbolList != NULL; localSymbolList = localSymbolList->next) {
+      if (strcmp(idString, localSymbolList->element.sym->string) == 0)
+	return localSymbolList->element.sym;
+    }
+    thisFrame = thisFrame->outerFrame;
+  }
+  return NULL;
+}
 
-  Look for a symbol using the context. If found return a pointer to its
-  symnod, else NULL.
 
-  */
-Symbol *lookupInContext(char *idString, Context *context)
+/*----------------------------------------------------------------------*/
+static Symbol *lookupInContext(char *idString, Context *context)
 {
   Symbol *foundSymbol = NULL;
+
+  if ((foundSymbol = lookupInFrames(idString)) != NULL)
+    return foundSymbol;
 
   if (context != NULL) {
     switch (context->kind){
@@ -378,7 +456,10 @@ Symbol *symcheck(IdNode *id,
     lmLog(&id->srcp, 310, sevERR, id->string);
   else if (sym->kind == PARAMETER_SYMBOL) {
     if (sym->fields.parameter.element->kind != ID_RESTRICTION)
-      lmLogv(&id->srcp, 319, sevERR, id->string, "a parameter that is restricted to instances of a class", NULL);      
+      lmLogv(&id->srcp, 319, sevERR, id->string,
+	     "a parameter that is restricted to instances of a class", NULL);
+  } else if (sym->kind == LOCAL_SYMBOL) {
+    ;
   } else if (sym->kind != kind) {
     lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindAsString(kind), NULL);
     return NULL;

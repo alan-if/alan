@@ -15,7 +15,7 @@ static int failed = 0;
 
 static void unitFail(char sourceFile[], int lineNumber)
 {
-  printf("%s:%d: unit test failed!/n", sourceFile, lineNumber);
+  printf("%s:%d: unit test failed!\n", sourceFile, lineNumber);
   failed++;
 }
 

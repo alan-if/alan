@@ -955,42 +955,42 @@ void interpret(adr)
 	break;
       }
 
-      case I_BLOCK: {
+      case I_FRAME: {
 	Aint size;
 	size = pop();
 	if (singleStepOption)
-	  printf("BLOCK \t%5ld", size);
-	newBlock(size);
+	  printf("FRAME \t%5ld", size);
+	newFrame(size);
 	break;
       }
 
       case I_GETLOCAL: {
-	Aint blocksBelow, variableNumber;
-	blocksBelow = pop();
+	Aint framesBelow, variableNumber;
+	framesBelow = pop();
 	variableNumber = pop();
 	if (singleStepOption)
-	  printf("GETLOCAL \t%5ld, %5ld", blocksBelow, variableNumber);
-	push(getLocal(blocksBelow, variableNumber));
+	  printf("GETLOCAL \t%5ld, %5ld", framesBelow, variableNumber);
+	push(getLocal(framesBelow, variableNumber));
 	if (singleStepOption)
 	  printf("\t(%5ld)", top());
 	break;
       }
 
       case I_SETLOCAL: {
-	Aint blocksBelow, variableNumber, value;
-	blocksBelow = pop();
+	Aint framesBelow, variableNumber, value;
+	framesBelow = pop();
 	variableNumber = pop();
 	value = pop();
 	if (singleStepOption)
-	  printf("SETLOCAL \t%5ld, %5ld, %5ld", blocksBelow, variableNumber, value);
-	setLocal(blocksBelow, variableNumber, value);
+	  printf("SETLOCAL \t%5ld, %5ld, %5ld", framesBelow, variableNumber, value);
+	setLocal(framesBelow, variableNumber, value);
 	break;
       }
 
-      case I_ENDBLOCK: {
+      case I_ENDFRAME: {
 	if (singleStepOption)
-	  printf("ENDBLOCK");
-	endBlock();
+	  printf("ENDFRAME");
+	endFrame();
 	break;
       }
 

@@ -32,6 +32,23 @@ void testAttributeToThis()
   ASSERT(theExp->type == BOOLEAN_TYPE);
 }
 
+static void testIsConstantIdentifier()
+{
+  Symbol symbol;
+  IdNode id;
+  SymbolKind kind;
+
+  id.symbol = &symbol;
+
+  for (kind = CLASS_SYMBOL; kind <= LOCAL_SYMBOL; kind++) {
+    symbol.kind = kind;
+    if (kind == PARAMETER_SYMBOL || kind == LOCAL_SYMBOL)
+      ASSERT(!isConstantIdentifier(&id));
+    else
+      ASSERT(isConstantIdentifier(&id));
+  }
+}
+
 static void testAnalyzeIsaExpression()
 {
   
@@ -40,6 +57,7 @@ static void testAnalyzeIsaExpression()
 void registerExpUnitTests()
 {
   registerUnitTest(testAttributeToThis);
+  registerUnitTest(testIsConstantIdentifier);
   registerUnitTest(testAnalyzeIsaExpression);
 }
 

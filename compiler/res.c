@@ -56,7 +56,7 @@ ResNod *newRestriction(
 }
 
 
-
+/*----------------------------------------------------------------------*/
 static void resolveParameterClass(ResNod *res, Symbol *parameter)
 {
   Symbol *classSymbol;

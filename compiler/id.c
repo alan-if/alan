@@ -79,11 +79,7 @@ void symbolizeId(IdNode *id)
 }
 
 
-/*======================================================================
-
-  generateId()
-
-  */
+/*======================================================================*/
 void generateId(IdNode *id)
 {
   if (id->symbol != NULL) {
@@ -110,6 +106,10 @@ void generateId(IdNode *id)
       default:
 	syserr("Unexpected type in generateId()");
       }
+    } else if (id->symbol->kind == LOCAL_SYMBOL) {
+      /* Calculate the variable number and frame depth */
+      emit2(I_GETLOCAL, frameLevel - id->symbol->fields.local.level,
+	    id->symbol->fields.local.number);
     } else
       emitConstant(id->symbol->code);
   } else if (id->code == 0)

@@ -507,13 +507,26 @@ static void analyzeEach(StmNod *stm,
 			Context *context)
 {
   Symbol *classSymbol;
+  Symbol *loopSymbol;
 
-  /* 4f - Analyze loop class and identifier */
+  /* Analyze loop class and identifier */
   if (stm->fields.each.classId != NULL)
     classSymbol = symcheck(stm->fields.each.classId, CLASS_SYMBOL, context);
 
+  /* Create a new frame and register the loop variable */
+  newFrame();
+  loopSymbol = newSymbol(stm->fields.each.loopId, LOCAL_SYMBOL);
+  if (classSymbol != NULL)
+    loopSymbol->fields.local.class = classSymbol;
+  else
+    loopSymbol->fields.local.class = entitySymbol;
+  /* Can only loop over instances */
+  loopSymbol->fields.local.type = INSTANCE_TYPE;
+
   /* Analyze the statements in the loop body */
   analyzeStatements(stm->fields.each.stms, context);
+
+  deleteFrame();
 }
 
 
@@ -909,8 +922,9 @@ static void generateEach(StmNod *statement)
 {
   /* Generate a new BLOCK */
   emit1(I_BLOCK, 1);		/* One local variable in this block */
+  frameLevel++;
 
-  /* Init loop variable is initialised to 0
+  /* Loop variable is initialised to 0
      which works since the EACH statement will
      increment it to 1 (first instance number) */
 
@@ -926,7 +940,7 @@ static void generateEach(StmNod *statement)
     emit0(I_IF);
     emit0(I_NEXTEACH);
     emit0(I_ENDIF);
-  } 
+  }
 
   generateStatements(statement->fields.each.stms);
 
@@ -935,6 +949,7 @@ static void generateEach(StmNod *statement)
 
   /* End of block */
   emit0(I_ENDBLOCK);
+  frameLevel--;
 }
 
 

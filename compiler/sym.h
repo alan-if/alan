@@ -22,7 +22,8 @@ typedef enum SymbolKind {
   VERB_SYMBOL,
   DIRECTION_SYMBOL,
   PARAMETER_SYMBOL,
-  EVENT_SYMBOL
+  EVENT_SYMBOL,
+  LOCAL_SYMBOL
 } SymbolKind;
 
 
@@ -51,6 +52,13 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
       Bool restrictedToContainer;
       TypeKind type;
     } parameter;
+
+    struct {
+      int number;
+      int level;
+      TypeKind type;
+      struct Symbol *class;
+    } local;
 
   } fields;
 } Symbol;

@@ -151,10 +151,10 @@ typedef enum InstClass {
   I_DEPELSE,
   I_ENDDEP,
   I_ISA,
-  I_BLOCK,
+  I_FRAME,
   I_SETLOCAL,
   I_GETLOCAL,
-  I_ENDBLOCK,
+  I_ENDFRAME,
   I_EACH,
   I_NEXTEACH,
   I_ENDEACH

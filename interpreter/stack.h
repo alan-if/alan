@@ -15,10 +15,10 @@
 extern Aword pop(void);
 extern void push(Aword item);
 extern Aword top(void);
-extern void newBlock(Aint noOfLocals);
+extern void newFrame(Aint noOfLocals);
 extern void setLocal(Aint blocksBelow, Aint variableNumber, Aword value);
 extern Aword getLocal(Aint level, Aint variable);
-extern void endBlock(void);
+extern void endFrame(void);
 
 #else
 

@@ -21,6 +21,8 @@
 
 /* DATA: */
 
+extern int frameLevel;
+
 extern int classCount;
 extern int instanceCount;
 extern int eventCount;
@@ -55,18 +57,22 @@ extern Symbol *symcheck(
     Context *context
     );
 
-/* Lookup a symbol, check in parameters first */
+/* Lookup a symbol */
 extern Symbol *lookup(char idString[]);
-
 extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
+extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
+
+extern void newFrame(void);
+extern void deleteFrame(void);
 
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
 extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(IdNode *id, char classOrInstance[], char className[]);
-extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
+
 extern void setParameters(Symbol *verb, List *parameters);
+
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);
 extern void dumpSymbols(void);

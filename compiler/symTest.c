@@ -287,6 +287,49 @@ static void testLookupScript()
 }
 
 
+void testNewFrame()
+{
+  Symbol *verbSymbol;
+  Element *element;
+  Symbol *parameterSymbol;
+  Symbol *localSymbol1;
+  Symbol *localSymbol2;
+  IdNode *parameterId = newId(&nulsrcp, "p");
+  IdNode *localId = newId(&nulsrcp, "p");
+  Context context;
+
+  initAdventure();
+  /* Create a verb v with a parameter p */
+  verbSymbol = newSymbol(newId(&nulsrcp, "v"), VERB_SYMBOL);
+  element = newElement(&nulsrcp, PARAMETER_ELEMENT, parameterId, 0);
+  parameterSymbol = newParameterSymbol("p", element);
+
+  verbSymbol->fields.verb.parameterSymbols = concat(NULL, parameterSymbol, SYMBOL_LIST);
+  context.kind = VERB_CONTEXT;
+  context.verb = verbSymbol;
+  context.previous = NULL;
+  context.class = NULL;
+  context.instance = NULL;
+
+  ASSERT(lookupInContext("p", &context) == parameterSymbol);
+
+  /* Now create a new frame with a local variable "p" */
+  newFrame();
+  localSymbol1 = newSymbol(localId, LOCAL_SYMBOL);
+  ASSERT(lookupInContext("p", &context) == localSymbol1);
+  newFrame();
+  localSymbol2 = newSymbol(localId, LOCAL_SYMBOL);
+  ASSERT(lookupInContext("p", &context) == localSymbol2);
+  ASSERT(localSymbol2->fields.local.level == 2);
+  deleteFrame();
+  ASSERT(lookupInContext("p", &context) == localSymbol1);
+  ASSERT(localSymbol1->fields.local.level == 1);
+  deleteFrame();
+  ASSERT(lookupInContext("p", &context) == parameterSymbol);
+}
+
+
+
 void registerSymUnitTests()
 {
   registerUnitTest(testSymCheck);
@@ -299,5 +342,6 @@ void registerSymUnitTests()
   registerUnitTest(testCreateClassSymbol);
   registerUnitTest(testVerbSymbols);
   registerUnitTest(testLookupScript);
+  registerUnitTest(testNewFrame);
 }
 

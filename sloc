@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "Total = Base - Delete + Added"
+echo "Base = Total + Deleted - Added"
+echo "Added = New files + Added lines"
+echo "Modified = Modified"
+find . -name \*.\[ch\] -or -name \*.alan -or -name \*.input -and -not -name \[psl\]m\*.\[ch\] -and -not -name \*version.\[ch\] | grep -v pre3 > sloc.sourcefiles
+echo -n "TOTAL SOURCE  : "
+wc -l `cat sloc.sourcefiles` | grep total | awk '{ print $1 }'
+cvs diff -c &> sloc.tmp
+echo    "MODIFIED FILES:"
+echo -n "Modified lines: "
+grep ^! sloc.tmp | wc -l | gawk '{ print $1/2 }'
+echo -n "Added lines   : "
+grep ^+ sloc.tmp | wc -l
+echo -n "Removed lines : "
+grep ^- sloc.tmp | wc -l
+echo -n "ADDED FILES   : "
+grep "new entry" sloc.tmp | sed -e "s/cvs server: //g" -e "s/ is a new entry, no comparison available//g" > sloc.new
+wc -l `cat sloc.new` | grep -v total | gawk '{ sum += $1 } END { print sum }'
+rm sloc.*
