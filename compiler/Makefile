@@ -42,7 +42,6 @@ BUILDSRCS = \
 	elm.c \
 	evt.c \
 	exp.c \
-	ext.c \
 	id.c \
 	lim.c \
 	lst.c \
@@ -70,7 +69,8 @@ BUILDSRCS = \
 	options.c
 
 
-# Sources required for Alan (excluded because they are in unit tests)
+# More Sources required for Alan program build
+# Excluded from BUILDSRCS because they are in the unit tests
 ALANSRCS = \
 	main.c \
 	cla.c \
@@ -78,6 +78,7 @@ ALANSRCS = \
 	sym.c \
 	whr.c \
 	adv.c \
+	ext.c \
 	emit.c \
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)

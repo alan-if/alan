@@ -53,5 +53,5 @@ if test $failed -eq 0
 then
   echo All OK!
 else
-  echo *** $failed failed! ***
+  echo "*** $failed failed! ***"
 fi

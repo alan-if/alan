@@ -16,7 +16,8 @@
 typedef enum SymbolKind {
   CLASS_SYMBOL,
   INSTANCE_SYMBOL,
-  VERB_SYMBOL
+  VERB_SYMBOL,
+  DIRECTION_SYMBOL
 } SymbolKind;
 
 

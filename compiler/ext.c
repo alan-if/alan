@@ -41,8 +41,8 @@ int dircount = 0;
 
  */
 ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
-	       List *dirs,	/* IN - Directions of this ext */
-	       IdNode *to,	/* IN - Name of the location it leads to */
+	       List *dirs,	/* IN - Directions of this exit */
+	       IdNode *target,	/* IN - Name of the location it leads to */
 	       List *chks,	/* IN - List of checks to perform first */
 	       List *stms)	/* IN - The statements to execute */
 {
@@ -56,26 +56,38 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 
   new->srcp = *srcp;
   new->dirs = dirs;
-  new->to = to;
+  new->target = target;
   new->chks = chks;
   new->stms = stms;
 
   for (lst = dirs; lst != NULL; lst = lst->next) {
     sym = lookup(lst->element.id->string); /* Find any earlier definition */
-#ifndef FIXME
-    syserr("UNIMPL: newext() - symbol codes and words");
-#else
     if (sym == NULL) {
-      lst->element.id->code = newsym(lst->element.id->string, NAMDIR, new);
-      newwrd(lst->element.id->string, WRD_DIR, lst->element.id->code, NULL);
-    } else if (sym->class == NAMDIR)
-      lst->element.id->code = sym->code;
+      lst->element.id->symbol = newsym(lst->element.id->string, DIRECTION_SYMBOL);
+      newwrd(lst->element.id->string, WRD_DIR, lst->element.id->symbol->code, NULL);
+    } else if (sym->kind == DIRECTION_SYMBOL)
+      lst->element.id->symbol = sym;
     else
       redefined(&lst->element.id->srcp, sym, lst->element.id->string);
-#endif
   }
 
   return(new);
+}
+
+
+
+/*======================================================================
+
+  symbolizeExit()
+
+*/
+void symbolizeExit(ExtNod *theExit)
+{
+  symbolizeId(theExit->target);
+#ifdef FIXME
+  symbolizeChecks(theExit->checks);
+  symbolizeStatements(theExit->does);
+#endif
 }
 
 
@@ -89,10 +101,6 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
  */
 static void anext(ExtNod *ext)	/* IN - Exit to analyze */
 {
-  SymNod *sym;			/* Symbol table entry */
-  ElmNod *elm;
-
-  sym = symcheck(&elm, ext->to, INSTANCE_SYMBOL, NULL);
   syserr("UNIMPL: check that an instance is a location");
 
   anchks(ext->chks, NULL, NULL);
@@ -188,7 +196,7 @@ static void geextent(ExtNod *ext) /* IN - The exit to generate */
     else
       emit(0);
 
-    geid(ext->to);
+    geid(ext->target);
     same = TRUE;
   }
 }
@@ -244,7 +252,7 @@ void duext(ExtNod *ext)
 
   put("EXT: "); dumpSrcp(&ext->srcp); in();
   put("dirs: "); dulst(ext->dirs, LIST_ID); nl();
-  put("to: "); dumpId(ext->to); nl();
+  put("target: "); dumpId(ext->target); nl();
   put("chks: "); dulst(ext->chks, LIST_CHK); nl();
   put("chkadr: "); duadr(ext->chkadr); nl();
   put("stms: "); dulst(ext->stms, LIST_STM); nl();

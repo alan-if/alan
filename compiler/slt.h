@@ -39,8 +39,8 @@ typedef struct SlotsNode {	/* SLOTS  */
   Aword vrbadr;			/* ACODE address to local verb table */
   List *scrs;			/* List of scripts */
   Aaddr scradr;			/* ACODE address to scripts */
-  List *exts;			/* List of exits */
-  Aaddr extadr;			/* ACODE address to exits */
+  List *exits;			/* List of exits */
+  Aaddr exitsAddress;		/* ACODE address to exits table */
 } SlotsNode;
 
 

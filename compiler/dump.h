@@ -22,12 +22,9 @@ typedef enum dmpKd {
   DMPVRB = (long)DMPSTX<<1,
   DMPCLA = (long)DMPVRB<<1,
   DMPINS = (long)DMPCLA<<1,
-  DMPLOC = (long)DMPINS<<1,
-  DMPOBJ = (long)DMPLOC<<1,
-  DMPCNT = (long)DMPOBJ<<1,
+  DMPCNT = (long)DMPINS<<1,
   DMPEVT = (long)DMPCNT<<1,
-  DMPACT = (long)DMPEVT<<1,
-  DMPRUL = (long)DMPACT<<1,
+  DMPRUL = (long)DMPEVT<<1,
   DMPALL = (long)DMPRUL<<1
 } DmpKind;
 

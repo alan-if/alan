@@ -19,7 +19,7 @@
 typedef struct ExtNod {		/* EXIT */
   Srcp srcp;			/* Source position of this exit */
   List *dirs;			/* Directions of the exits */
-  IdNode *to;			/* Id of the location to exit to */
+  IdNode *target;		/* Id of the location to exit to */
   List *chks;			/* List of checks */
   Aaddr chkadr;			/* ACODE address of check code */
   List *stms;			/* List of statements */

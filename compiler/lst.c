@@ -16,8 +16,12 @@
 
 void (*(dumpNodeTable[LIST_LAST_KIND]))();
 
+
+/* Import of dump functions to be used in dumpNodeTable */
 void dumpClass();
 void dumpInstance();
+void dustm();
+void duext();
 
 
 /*======================================================================
@@ -29,6 +33,8 @@ void initDumpNodeList()
 {
   dumpNodeTable[LIST_CLA] = &dumpClass;
   dumpNodeTable[LIST_INS] = &dumpInstance;
+  dumpNodeTable[LIST_STM] = &dustm;
+  dumpNodeTable[LIST_EXT] = &duext;
 }
 
 
@@ -95,7 +101,7 @@ List *combine(List *list1,	/* IN - Lists to combine */
 static void dunod(void *nod, ListKind kind)
 {
   if (dumpNodeTable[kind] == NULL) {
-    put("*** Not implemented in DUMP. ***"); nl();
+    put("*** Not implemented in DUMP. ***");
   } else
     dumpNodeTable[kind](nod);
 }

@@ -38,8 +38,6 @@ void initInstances()
 
   theHero = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
 			newId(&nulsrcp, "actor"), NULL);
-
-  
 }
 
 
@@ -164,6 +162,23 @@ static void generateInstanceEntry(InsNod *ins)
 }
 
 
+/*----------------------------------------------------------------------
+
+  generateInstanceTable()
+
+*/
+static Aaddr generateInstanceTable(void)
+{
+  Aaddr address = emadr();
+  List *l;
+
+  for (l = allInstances; l; l = l->next)
+    generateInstanceEntry(l->element.ins);
+  emit(EOF);
+  return address;
+}
+
+
 /*======================================================================
 
   generateInstances()
@@ -174,17 +189,12 @@ static void generateInstanceEntry(InsNod *ins)
 void generateInstances(AcdHdr *header)
 {
   List *l;
-  Aaddr adr;
 
   for (l = allInstances; l; l = l->next)
     generateInstanceData(l->element.ins);
 
-  adr = emadr();
-  for (l = allInstances; l; l = l->next)
-    generateInstanceEntry(l->element.ins);
-  emit(EOF);
+  header->instanceTableAddress = generateInstanceTable();
 
-  header->instanceTableAddress = adr;
   header->instanceMax = instanceCount;
   header->theHero = theHero->slots->symbol->code;
 }
@@ -201,5 +211,5 @@ void generateInstances(AcdHdr *header)
 void dumpInstance(InsNod *ins)
 {
   put("INS: "); dumpSrcp(&ins->srcp); in();
-  put("slots: "); dumpSlots(ins->slots); nl();
+  put("slots: "); dumpSlots(ins->slots); out();
 }

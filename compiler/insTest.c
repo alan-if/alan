@@ -30,22 +30,20 @@ void testGenerateInstances()
 {
   Srcp srcp = {12,13,14};
   InsNod *ins;
-  Aaddr addr;
+  Aaddr address;
   Aaddr instanceTableAddress;
   InstanceEntry *instanceTable;
   int firstAdr = sizeof(AcdHdr)/sizeof(Aword);
   int instanceSize = sizeof(InstanceEntry)/sizeof(Aword);
-  AcdHdr header;
 
   initadv();
   initEmit("unit.acd");
   symbolizeInstances();
-  generateInstances(&header);
-  unitAssert(header.instanceTableAddress == firstAdr + 3);	/* Only "hero" generated */
-  addr = emadr();
-  unitAssert(addr == firstAdr + 2 + 1*instanceSize + 2);
-  unitAssert(header.theHero == 1);
-  /* 4 Class entries and 1 instance entry */
+
+  address = generateInstanceTable();
+  unitAssert(address == firstAdr);
+  address = emadr();
+  unitAssert(address == firstAdr + 1*instanceSize + 1/*EOF*/);
 
   initadv();
   initEmit("unit.acd");
@@ -57,9 +55,9 @@ void testGenerateInstances()
   generateInstanceEntry(ins);
 
   /* End should be at the size of the table and one instance */
-  addr = emadr();
-  unitAssert(addr == instanceTableAddress + instanceSize);
-  acdHeader.size = addr;
+  address = emadr();
+  unitAssert(address == instanceTableAddress + instanceSize);
+  acdHeader.size = address;
   terminateEmit();
 
   loadACD("unit.acd");
@@ -71,17 +69,21 @@ void testGenerateInstances()
   unitAssert(convertFromACD(instanceTable->description) == ins->slots->descriptionAddress);
   unitAssert(convertFromACD(instanceTable->mentioned) == ins->slots->mentionedAddress);
   unitAssert(convertFromACD(instanceTable->article) == ins->slots->artadr);
-  unitAssert(convertFromACD(instanceTable->exits) == ins->slots->extadr);
+  unitAssert(convertFromACD(instanceTable->exits) == ins->slots->exitsAddress);
   unitAssert(convertFromACD(instanceTable->verbs) == ins->slots->vrbadr);
 }
 
 
 void testHero()
 {
+  AcdHdr header;
+
   initadv();
   unitAssert(theHero->slots->symbol->code == 1);
   symbolizeAdv();
   unitAssert(inheritsFrom(theHero->slots->symbol, lookup("actor")));
+  generateInstances(&header);
+  unitAssert(header.theHero == 1);
 }
 
 

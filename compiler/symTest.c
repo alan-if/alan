@@ -121,6 +121,7 @@ void testSymbolTableInit()
   SymNod *sym3 = lookup(symbolName3);
   
   initadv();
+  adv.whr = NULL;
   unitAssert(classCount == 4);	/* Standard classes */
   unitAssert(instanceCount == 1); /* The Hero */
 

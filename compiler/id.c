@@ -63,7 +63,7 @@ Bool equalId(IdNode *id1,
 
 /*======================================================================
 
-  symboizeId()
+  symbolizeId()
 
   Symbolize an ID-node.
 

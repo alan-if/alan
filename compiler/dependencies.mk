@@ -57,6 +57,10 @@ ext.o: ext.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
  sym_x.h sym.h elm.h id.h acode.h id_x.h nam.h stm.h wht.h whr.h ins.h \
  slt.h cnt.h exp.h evt.h chk.h ext.h wrd.h emit.h lmList.h \
  alanCommon.h token.h dump.h
+extTest.o: extTest.c ext.c alan.h sysdep.h types.h lst.h util.h srcp.h \
+ srcp_x.h sym_x.h sym.h elm.h id.h acode.h id_x.h nam.h stm.h wht.h \
+ whr.h ins.h slt.h cnt.h exp.h evt.h chk.h ext.h wrd.h emit.h lmList.h \
+ alanCommon.h token.h dump.h
 id.o: id.c id_x.h id.h sym.h srcp.h types.h srcp_x.h sym_x.h elm.h \
  lst.h acode.h str.h util.h dump.h sysdep.h lmList.h alanCommon.h \
  token.h
@@ -118,8 +122,9 @@ scr.o: scr.c alan.h sysdep.h types.h lst.h util.h srcp.h srcp_x.h \
  id_x.h id.h sym.h lmList.h alanCommon.h token.h acode.h stm.h wht.h \
  whr.h ins.h slt.h cnt.h exp.h evt.h stp.h scr.h emit.h dump.h
 slt.o: slt.c slt_x.h slt.h types.h lst.h whr.h wht.h id.h sym.h srcp.h \
- cnt.h acode.h alan.h sysdep.h util.h dump.h emit.h stm.h ins.h exp.h \
- evt.h nam_x.h nam.h whr_x.h cnt_x.h id_x.h
+ cnt.h acode.h alan.h sysdep.h util.h dump.h emit.h lmList.h \
+ alanCommon.h token.h stm.h ins.h exp.h evt.h nam_x.h nam.h whr_x.h \
+ cla_x.h cla.h sym_x.h elm.h cnt_x.h id_x.h
 smScSema.o: smScSema.c sysdep.h types.h alan.h lst.h lmList.h \
  alanCommon.h token.h srcp.h encode.h acode.h smScan.h str.h
 smScan.o: smScan.c sysdep.h types.h alan.h lst.h lmList.h alanCommon.h \
@@ -157,8 +162,8 @@ unit.o: unit.c sysdep.h acode.h unitTest.h lmList.h alanCommon.h \
  ../interpreter/sysdep.h ../interpreter/acode.h insTest.c ins.c \
  advTest.c adv.c alan.h whr_x.h evt.h stm.h exp.h vrb.h stx.h ext.h \
  rul.h wrd.h syn.h atr.h msg.h sco.h opt.h options.h encode.h \
- symTest.c sym.c whrTest.c whr.c wht_x.h emitTest.c emit.c \
- alan.version.h version.h
+ symTest.c sym.c whrTest.c whr.c wht_x.h extTest.c ext.c nam.h chk.h \
+ emitTest.c emit.c alan.version.h version.h
 unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
 util.o: util.c util.h types.h srcp.h sysdep.h lmList.h alanCommon.h \
  token.h

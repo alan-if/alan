@@ -18,6 +18,7 @@
 
 int classCount = 0;
 int instanceCount = 0;
+int directionCount = 0;
 
 
 static SymNod *symtree = NULL;
@@ -143,6 +144,9 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   case INSTANCE_SYMBOL:
     new->code = ++instanceCount;
     new->fields.ins.parent = NULL;
+    break;
+  case DIRECTION_SYMBOL:
+    new->code = ++directionCount;
     break;
   default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
   }

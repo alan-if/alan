@@ -207,7 +207,7 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
   entry->description = slots->descriptionAddress;
   entry->mentioned = slots->mentionedAddress;
   entry->article = slots->artadr;
-  entry->exits = slots->extadr;
+  entry->exits = slots->exitsAddress;
   entry->verbs = slots->vrbadr;
 }
 
@@ -237,5 +237,7 @@ void dumpSlots(SlotsNode *slots)
   put("mentioned: "); dulst(slots->mentioned, LIST_STM); nl();
   put("mentionedAddress: "); duadr(slots->mentionedAddress); nl();
   put("vrbs: "); dulst(slots->vrbs, LIST_VRB); nl();
-  put("vrbadr: "); duadr(slots->vrbadr); out();
+  put("vrbadr: "); duadr(slots->vrbadr); nl();
+  put("exits: "); dulst(slots->exits, LIST_EXT); nl();
+  put("exitsAddress: "); duadr(slots->exitsAddress); out();
 }

@@ -169,7 +169,7 @@ void anadv(void)
   if (verbose) printf("\n\tClasses: ");
   analyzeClasses();
 
-  if (verbose) printf("\n\tInstaces: ");
+  if (verbose) printf("\n\tInstances: ");
   analyzeInstances();
   theHero->slots->whr = adv.whr;
 
