@@ -273,7 +273,9 @@
 #define MULTI
 #endif
 
-
+#ifndef ENOENT
+#define ENOENT ENOFILE
+#endif
 
 
 #ifdef __vms__

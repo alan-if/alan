@@ -382,7 +382,7 @@ static void unambig(ParamEntry plst[])
   if (isIt(wrds[wrdidx])) {
     wrdidx++;
     /* Use last object in previous command! */
-    for (i = listLength(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLit(pparams[i].code)); i--)
+    for (i = listLength(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLiteral(pparams[i].code)); i--)
       ;
     if (i < 0)
       error(M_WHAT_IT);
@@ -615,7 +615,7 @@ static void resolve(ParamEntry plst[])
 
   /* Resolve ambiguities by presence */
   for (i=0; plst[i].code != EOF; i++) {
-    if (isLit(plst[i].code))	/* Literals are always 'here' */
+    if (isLiteral(plst[i].code))	/* Literals are always 'here' */
       continue;
     if (instance[plst[i].code].parent == header->entityClassId)
       /* and so are pure entities */

@@ -9,12 +9,12 @@ L
 There is a shiny sharp long thing here.
 
 > x the thing
-You 'x' the thing.
-You 'x' the thing.
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
 
 > x the shiny thing, w
-You 'x' the shiny thing.
-You 'x' the shiny thing.
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
 
 
 L
@@ -25,8 +25,8 @@ L
 There is a shiny sharp long thing here.
 
 > x the shiny long sharp thing, e
-You 'x' the shiny long sharp thing.
-You 'x' the shiny long sharp thing.
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
 
 
 L

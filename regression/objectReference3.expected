@@ -10,16 +10,16 @@ The kitchen is full of utenciles. On one of the walls there is a cupboard.
 On the stove there is a brass pot. It won't boil for a while yet.
 
 > x pot
-You X pot.
+You X boiling pot.
 
 > x brass pot
-You X brass pot.
+You X boiling pot.
 
 > x boiling pot
 You X boiling pot.
 
 > x the pot
-You X pot.
+You X boiling pot.
 
 > 
 

@@ -4,382 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>279.89</origest>
-<currest>278.89</currest>
+<origest>284.89</origest>
+<currest>283.89</currest>
 <elapsed>127.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>54</origest>
-<currest>54</currest>
-<elapsed>22</elapsed>
+<origest>38</origest>
+<currest>38</currest>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.29</desc>
-<notes/>
-<priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
-<elapsed>19</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Article handling</desc>
-<notes>Need:
-Instances are mentioned and described in a number of situations. Sometimes it is necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
-
-I can't open &lt;indefinite form&gt;.
-You can't take &lt;definite form&gt;.
-
-Analysis:
-Maybe we need INDEFINITE &amp; DEFINITE forms but also PLURAL form and in the form "any xx". We could have sub clauses for ARTICLE,  PRONOUN an PLURAL
-
-Design:
-The article Isa b
-  Definite
-    Article "the".
-    Pronoun "it".
-    Plural "articles"
-  Indefinite "any article"
-
-Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
-
-Not all languages have definite and indefinite articles that work well:
-
-Definite "den"
-Indefinite "en"
-Mentioned "stol"
-
-Perhaps:
-
-Name stol
-Definite Form "stolen"
-Indefinite Form "en stol"
-Plural "stolar"??? Need plural definite AND indefinite???
-
-With corresponding:
-Say o. : use Name =&gt; "stol"
-Say The o. : use Definite =&gt; "stolen"
-Say A o. : use Indefinite =&gt; "en stol"
-Say Any o. : use Plural =&gt; "stolar"??? Not needed, use "I can't see any" Say o. "." for now.
-
-We could have Indefinite Form and Indefinite Article both not allow both in the same declaration. "Say The x ."would then use Definite Form if there is one or construct it from Definite Article + Mentioned. "Say A x." would then use Indefinite Form if available, or else Indefinite Article + Mentioned.
-
-Since Mentioned is constructed from the Name clause the following would work:
-
-Every person Isa actor
-  Definite Article ""
-End Every person.
-
-The mr_a Isa person
-  Name mr 'Andersson'
-  Name mr andersson
-End The mr_a
-
-Problem is still what to say when:
-
-&gt; talk to mr andersson
-I can't see any mr andersson here.
-
-But the library could:
-
-Syntax talk_to = talk to (p)! Where p Isa person Else
-
-Add To Every person
-  Verb talk_to
-    Check p Is Here
-      Else "I can't see" Say The p. "here."
-  End Verb talk_to.
-End Add To Every person.
-
-Verb talk_to 
-
-Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
-
-Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Definite and indefinite article declaration</desc>
-<notes>If a definite and indefinite article declaration is introduced the following can be made possible:
-
-"You can not x" SAY A obj.
-
-"You open" SAY THE obj.
-</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Indefinite Article declaration</desc>
-<notes>Rename it an document it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Definite Article declaration</desc>
-<notes>Implement and document.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Printing of articles</desc>
-<notes>How do we use definite and indefinite articles in printouts?
-
-SAY the O.
-
-SAY an O.
-
-</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>SAY an/the &lt;param&gt;</desc>
-<notes>A SAY should refer to which form of articles should be used:
-
- Say The x.  (embedded as $the x$?)
- Say An x.
- Say x.
- 
-Possibly later:
-Say Any x.
-Say No x,
-
-Requires sections something like:
-
- Definite
-  Article "a".
-
- Indefinite
-  ""
-</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>SAY An x.</desc>
-<notes>New variant on the Say statement to use indefinite article. Implement it. Also change "Say x." to mean "Mention" (which it already should).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Say The x.</desc>
-<notes>New variant of Say statement to use Definite article + mentioned.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
-<task>
-<desc>Inheriting Definite and Indefinite articles</desc>
-<notes/>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Inheriting Definite Articles</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inheriting Indefinite Articles</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
-<task>
-<desc>Pronoun synonyms in player input</desc>
-<notes>Personal pronouns are nice if allowed in input. "Him", "her" could be default synonyms for "it".</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Capitalizing of "proper_name" in library and doc</desc>
-<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
-
-Implementation:
-- Document new behaviour. (DONE)
-- Fix library. (To Be Done)
-
-But proper_name is actually used to switch between using articles and names:
-
-If x Has proper_name Then
-  Say x. "looks at you."
-Else
-  "The" Say x. "looks at you."
-End If.
-
-This will not be required when definite and indefinite form printing is implemented.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Problem: if we can put actors in containers how do we handle attributes that might only be available on objects.
-
-Step 1: prohibit containers to contain anything not an object? How?
-What to do when an instance not an object is moved into the container?
-
-Implement the structures for "Takes &lt;class&gt; Else &lt;statement&gt;" and use them with default &lt;class&gt; = object and &lt;statements&gt; "You can't put that in there."
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Column calculation bugs</desc>
-<notes>$t does not move to next tab pos.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"Describe this." Does not work.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Multiple syntaxes for the same verb does not work for four</desc>
-<notes>syntax x = a (x). x = b (x). x = c (x). x = d (x).
-
-Generates wrong syntax tables for b and c.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Double click on a .alan file makes WinAlan fail to find the file</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Declaration of indefinite and definite forms</desc>
-<notes>The forms should override articles</notes>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Declaration of Indefinite Form</desc>
-<notes>Indefinite Form "en stol"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Declaration of Definite Form</desc>
-<notes>Definite Form "stolen"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Say An x. to use Indefinite Form clause if available.</desc>
-<notes>Should use Indefinite Form if available, else Indefinite Article + "Say x."</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Say The x. to use Definite Form if available.</desc>
-<notes>Should use Definite form if available, else Definite Article + "Say x."</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherit Definite/Indefinite Forms</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Figure out the inheritance rules between forms and articles</desc>
-<notes>The [in]definite will be investigated in this instance first and its implementation will rule. If no form or article is defined in the instance the parents will be investigated until one is found. If that is an article the instance will be mentioned, otherwise it is assumed that the parent will implement the full form.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
-<elapsed>3</elapsed>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
@@ -393,8 +36,34 @@ Design: add a counter field in the message entries and sort on those also.</note
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Verify UNDO</desc>
-<notes>Make test cases for each bit of information that is to be undone.</notes>
+<desc>Capitalized names is a problem in parameters since printing of them use player input (Step 1)</desc>
+<notes>E.g.
+  &gt; talk to mr x
+
+Does not output
+
+  Mr X does not want to talk to you.
+
+This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
+
+  &gt; examine rod
+  You can not examine the dynamite.
+
+Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
+
+Step 1: Don't ever use player input
+
+Step 2: Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Automatic capitalizing of nouns (e.g in german) only worked for player said words</desc>
+<notes>Now since the parameters don't use the player words this is invalidated. Probably should change strategy so that the player can input any word and the words are stored capitalized (if specified). This would possibly do away with the run-time capitalization and the impossibility for the player to input names of locations which are automatically capsed by the compiler.
+
+Think this through and make a design!!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -402,64 +71,20 @@ Design: add a counter field in the message entries and sort on those also.</note
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add 'can' to the set of attribute header words</desc>
-<notes>So that we can do
+<desc>Location names are capitalized by the compiler</desc>
+<notes>If a reference to a location is made in a player command the output of it will be capitalized. Would it be better to have the interpreter do it? Probably not.
 
-The gun Isa object
-  Can shoot
+One solution is to leave location names as they are. This forces the author to use quotation to get location names in edit case. And will have to use multiple names if a player is to refer to them.
 
-The girl Isa actor
-  Can talk
+See regression/defaultSyntax1
 
-is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
-</notes>
+There is a solution suggested in compiler/prop.c/analyseName()</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Pronoun declarations</desc>
-<notes>Need:
-"You can not shoot at that." is not very logical when the target is a person.
-
-Analysis:
-To fix this we need a declaration of pronoun, e.g
-
-The woman Isa person
-  Pronoun "her"
-End The woman.
-
-Implementation requires:
- - grammar change
- - run-time execution
- - embedded string printing
- - library change
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>RESTART does not work well in WinArun</desc>
-<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>All instances not inheriting from anything should inherit directly from entity</desc>
-<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>String operators</desc>
@@ -486,6 +111,66 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Embedded definite/indefinite forms print</desc>
+<notes>How?
+&lt;bold&gt;&lt;/bold&gt;, &lt;para/&gt; etc. ?
+&lt;param&gt;o&lt;/param&gt;
+&lt;the&gt;person&lt;/the&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify UNDO</desc>
+<notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
+
+Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.31</desc>
+<notes/>
+<priority>2</priority>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes/>
 <priority>2</priority>
@@ -495,8 +180,8 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
+<desc>RESTART does not work well in WinArun</desc>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -504,8 +189,8 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Embedded definite/indefinite forms print</desc>
-<notes>How?</notes>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should no be entered in the symbol table?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -581,69 +266,9 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Capitalized names is a problem in parameters since printing of them use player input</desc>
-<notes>E.g.
-  &gt; talk to mr x
-
-Does not output
-
-  Mr X does not want to talk to you.
-
-This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
-
-  &gt; examine rod
-  You can not examine the dynamite.
-
-Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
-
-Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0.31</desc>
+<desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
 <origest>8</origest>
@@ -661,21 +286,6 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unify error messages</desc>
-<notes>Check error messages and try to unify such as
-
-Multiple VERB '%1'
-
-with
-
-Multiple %1 '%2'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -756,20 +366,75 @@ Check for consistency with other instances of local overides.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Step 2:
+
+Design:
+
+New clause on containers:
+    Container
+        Takes thing  (Or: Of thing)
+            Else ....</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
-<desc>Increment: version 3.0.32</desc>
+<desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>UNDO needs some kind of response?</desc>
 <notes>Generally: UNDO should say something, standard messages?
 
 Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun declarations</desc>
+<notes>Need:
+"You can not shoot at that." is not very logical when the target is a person.
+
+Analysis:
+To fix this we need a declaration of pronoun, e.g
+
+The woman Isa person
+  Pronoun "her"
+End The woman.
+
+Implementation requires:
+ - grammar change
+ - run-time execution
+ - embedded string printing
+ - library change
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify error messages</desc>
+<notes>Check error messages and try to unify such as
+
+Multiple VERB '%1'
+
+with
+
+Multiple %1 '%2'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -814,20 +479,71 @@ TODO: Descriptions, ?</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Increment: version 3.0.33</desc>
-<notes/>
+<desc>Investigate mult-class word problems</desc>
+<notes>Word as synonym and verb
+Word as synonym and direction
+Word as verb and direction
+....
+
+Which of the above works, and what is the problem with each that doesn't?
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.34</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Scripting</desc>
 <notes>It should be possible to give a command so that the interpreter can read a set of player commands from a file.
 
 Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on error stop, remember to close the file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add 'can' to the set of attribute header words</desc>
+<notes>So that we can do
+
+The gun Isa object
+  Can shoot
+
+The girl Isa actor
+  Can talk
+
+is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -840,21 +556,10 @@ Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>106</origest>
-<currest>106</currest>
+<origest>107</origest>
+<currest>107</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
-<notes>This occurs at a initial location clause:
-
-The ... In box</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Inherit Entered</desc>
 <notes/>
@@ -867,22 +572,6 @@ The ... In box</notes>
 <task>
 <desc>Add Entered</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Containers can take any type of instance, how to handle Limits?</desc>
-<notes>Step 2:
-
-Design:
-
-New clause on containers:
-    Container
-        Takes thing  (Or: Of thing)
-            Else ....</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -967,8 +656,10 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Meta-output should be in []</desc>
-<notes/>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -976,10 +667,28 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 <isopen>1</isopen>
 </task>
 <task>
-<desc>HAVING clause on aggregate filters</desc>
-<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
- HAVING x = 3
- HAVING y &gt; atr OF b</notes>
+<desc>Mutual exclusive boolean attributes</desc>
+<notes>Maybe boolean attributes could be extended so they can
+be declared in mutually-exclusive groups:
+
+  hero attributes
+    is neuter or male or female. -- defaults to first value, i.e. neuter
+
+then after doing
+
+  make hero male
+
+then 'hero is male' would be true and both 'hero is neuter'
+and 'hero is female' would be false.
+
+This would also be useful for open/closed attributes, etc.
+
+  the door isa object
+    is open or closed.
+    is unlocked or locked.
+
+Greg Ewing, Computer Science Dept, +--------------------------------------+
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1011,6 +720,19 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <notes>Usefullness?
 
 Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attributes of class type</desc>
+<notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
+
+LIST ontop OF box.
+
+Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1086,6 +808,43 @@ This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt
 <isopen>1</isopen>
 </task>
 <task>
+<desc>New attribute reference syntax</desc>
+<notes>Allow
+    l:dark
+instead of
+    l is dark
+and
+    o:size
+instead of
+    size of o
+
+Because it could be made more general:
+
+The east_door
+  Isa object.
+  Has other_side west_door.
+  Has size 4.
+End The door.
+
+... If door:other_side:size &gt; 3 Then
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Meta-output should be in []</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>New execution model</desc>
 <notes>If we use addresses as the primary addressing mechanism we could more easily support new attribute reference format.
 
@@ -1126,7 +885,7 @@ Note also that there should possibly also be a difference between the QUIT state
 </task>
 <task>
 <desc>A picture file with an unknown extension gets passed through</desc>
-<notes>E.g a.jpeg transforms into pic1.jpeg which the glk-does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
+<notes>E.g a.jpeg transforms into pic1.jpeg which the glk does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1176,6 +935,7 @@ Thomas N:
 paramatr() in atr.c
 Statements in ELSE-part of a SYNTAX is really typed to the *complement* of the WHERE-part. I.e. the parameters can nearly always be STRINGS and NUMBERS which do not have attributes. This means that it is almost always impossible to refer to attributes in SYNTAX-ELSE clauses.
 This must be handled by a new strategy for parameter class analysis. See "Parameter environment classing"
+
 SteveG: 
 Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
 </notes>
@@ -1203,20 +963,6 @@ this text is &lt;b&gt;bold&lt;/b&gt;
 Or XML-ish:
 
 this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attributes of class type</desc>
-<notes>
-Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
-
-LIST ontop OF box.
-
-Or should we only allow this through use of temporary variables? If so how do we restrict it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1328,8 +1074,7 @@ Currently they are not described at all.</notes>
 </task>
 <task>
 <desc>InstanceAndVerb</desc>
-<notes>
-regression/pending/instanceAndVerb.alan
+<notes>regression/pending/instanceAndVerb.alan
 
 syserr() because 'l' is both an instance and a verb.</notes>
 <priority>2</priority>
@@ -1340,10 +1085,9 @@ syserr() because 'l' is both an instance and a verb.</notes>
 </task>
 <task>
 <desc>Word-clash</desc>
-<notes>
-Multiclass word problem 1: The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
+<notes>Multiclass word problem 1: The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
 
-Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the         code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
+Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
 
 Words can't be prepositions and verbs at the same time. See gestx()
 
@@ -1357,8 +1101,7 @@ New and better dictionary handling in the compiler could remedy the multiple wor
 </task>
 <task>
 <desc>IN &amp; AT operators</desc>
-<notes>
-Currently IN only applies to containment, i.e only for actors and objects with container properties.
+<notes>Currently IN only applies to containment, i.e only for actors and objects with container properties.
 
 AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
 
@@ -1383,8 +1126,7 @@ This would mean to change IN to not only be applicable to containers but also lo
 </task>
 <task>
 <desc>Tips about debugging in the docs</desc>
-<notes>
-Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
+<notes>Use Marnie's (?) example of rules executing many times and resetting the script for an actor.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -1403,8 +1145,7 @@ Use Marnie's (?) example of rules executing many times and resetting the script 
 </task>
 <task>
 <desc>Multiple warnings for redefined verbs</desc>
-<notes>
-Verb x, y, x
+<notes>Verb x, y, x
 ...
 
 Verb x
@@ -1461,37 +1202,7 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 </task>
 <task>
 <desc>Player reference to single object using 'them'</desc>
-<notes>
-Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New attribute reference syntax</desc>
-<notes>
-Allow
- l.dark
-instead of
- l is dark
-and
- o.size
-instead of
- size of o
-
-Because it could be made more general:
-
-The east_door
-  Isa object.
-  Has other_side west_door.
-  Has size 4.
-End The door.
-
-... If door:other_size:size &gt; 3 Then
-
-</notes>
+<notes>Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1526,6 +1237,21 @@ End The door.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow definition of constants</desc>
+<notes>Constant
+  NEUTER = 0.
+  BOY = 1.
+  GIRL = 2.
+
+The hero Isa actor
+  sex NEUTER.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Menu entry for debugging (only available when option is turned on)</desc>
 <notes/>
 <priority>2</priority>
@@ -1545,7 +1271,7 @@ Still to figure out how to send parameters, and to make analysis of availability
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Functions</desc>
 <notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
@@ -1818,7 +1544,7 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Listing of saved games</desc>
+<desc>SCHEDULE &lt;event&gt; &lt;where&gt; WHEN &lt;expr&gt;</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1827,8 +1553,44 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>SCHEDULE &lt;event&gt; &lt;where&gt; WHEN &lt;expr&gt;</desc>
-<notes/>
+<desc>Plural handling</desc>
+<notes>What do we need it for again? Possibly "take all balls"
+
+Possibly could be a new clause so objects would have:
+
+DEFINITE
+  "the ball"
+
+INDEFINITE
+  "a ball"
+
+PLURAL
+  "balls"
+
+Compare http://www.firthworks.com/roger/informfaq/oo.html#11</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Background statement</desc>
+<notes>
+To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Optional syntax parts</desc>
+<notes>SYNTAX
+ look_up = 'look' 'up' (str) ['in' (lexikon)]
+
+i.e. optional parts of a syntax which can be given default parameters.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1845,8 +1607,8 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Try UNIX/MingW as target OS for toolmaker</desc>
-<notes/>
+<desc>Listing of saved games</desc>
+<notes>Already available in most GLK-versions</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1854,9 +1616,8 @@ DEPENDING ON x
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Background statement</desc>
-<notes>
-To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
+<desc>Try UNIX/MingW as target OS for toolmaker</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1927,19 +1688,6 @@ SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Optional syntax parts</desc>
-<notes>SYNTAX
- look_up = 'look' 'up' (str) ['in' (lexikon)]
-
-i.e. optional parts of a syntax which can be given default parameters.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Isa DIRECTION</desc>
 <notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
 
@@ -1948,28 +1696,6 @@ SYNTAX
   WHERE d ISA DIRECTION
   ...
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Plural handling</desc>
-<notes>What do we need it for again? Possibly "take all balls"
-
-Possibly could be a new clause so objects would have:
-
-DEFINITE
-  "the ball"
-
-INDEFINITE
-  "a ball"
-
-PLURAL
-  "balls"
-
-Compare http://www.firthworks.com/roger/informfaq/oo.html#11</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2140,6 +1866,42 @@ No, since that would break *.[ch] convention.</notes>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Capitalized names is a problem in parameters since printing of them use player input (Step 2)</desc>
+<notes>E.g.
+  &gt; talk to mr x
+
+Does not output
+
+  Mr X does not want to talk to you.
+
+This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
+
+  &gt; examine rod
+  You can not examine the dynamite.
+
+Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
+
+Step 1: Don't ever use player input
+
+Step 2: Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
+<notes>This occurs at a initial location clause:
+
+The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Strategies</desc>
@@ -2336,9 +2098,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>101.89</origest>
-<currest>100.89</currest>
-<elapsed>100.89</elapsed>
+<origest>120.89</origest>
+<currest>119.89</currest>
+<elapsed>119.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -4113,7 +3875,7 @@ Verify and produce an error.</notes>
 <origest>7.83</origest>
 <currest>7.83</currest>
 <elapsed>7.83</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
 <notes>Create a temporary structure in the symbol table
@@ -4240,7 +4002,7 @@ addVerb.alan
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>ISA expression</desc>
 <notes/>
@@ -4940,6 +4702,363 @@ It should also work from the desktop by double-clicking. Output should go in sam
 <currest>1</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.29</desc>
+<notes/>
+<priority>2</priority>
+<origest>19</origest>
+<currest>19</currest>
+<elapsed>19</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Article handling</desc>
+<notes>Need:
+Instances are mentioned and described in a number of situations. Sometimes it is necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
+
+I can't open &lt;indefinite form&gt;.
+You can't take &lt;definite form&gt;.
+
+Analysis:
+Maybe we need INDEFINITE &amp; DEFINITE forms but also PLURAL form and in the form "any xx". We could have sub clauses for ARTICLE,  PRONOUN an PLURAL
+
+Design:
+The article Isa b
+  Definite
+    Article "the".
+    Pronoun "it".
+    Plural "articles"
+  Indefinite "any article"
+
+Design? If an instance has a Mentioned clause it should be used instead of any default always. Mentioned should be in undefinite form. How then do Articles apply?
+
+Not all languages have definite and indefinite articles that work well:
+
+Definite "den"
+Indefinite "en"
+Mentioned "stol"
+
+Perhaps:
+
+Name stol
+Definite Form "stolen"
+Indefinite Form "en stol"
+Plural "stolar"??? Need plural definite AND indefinite???
+
+With corresponding:
+Say o. : use Name =&gt; "stol"
+Say The o. : use Definite =&gt; "stolen"
+Say A o. : use Indefinite =&gt; "en stol"
+Say Any o. : use Plural =&gt; "stolar"??? Not needed, use "I can't see any" Say o. "." for now.
+
+We could have Indefinite Form and Indefinite Article both not allow both in the same declaration. "Say The x ."would then use Definite Form if there is one or construct it from Definite Article + Mentioned. "Say A x." would then use Indefinite Form if available, or else Indefinite Article + Mentioned.
+
+Since Mentioned is constructed from the Name clause the following would work:
+
+Every person Isa actor
+  Definite Article ""
+End Every person.
+
+The mr_a Isa person
+  Name mr 'Andersson'
+  Name mr andersson
+End The mr_a
+
+Problem is still what to say when:
+
+&gt; talk to mr andersson
+I can't see any mr andersson here.
+
+But the library could:
+
+Syntax talk_to = talk to (p)! Where p Isa person Else
+
+Add To Every person
+  Verb talk_to
+    Check p Is Here
+      Else "I can't see" Say The p. "here."
+  End Verb talk_to.
+End Add To Every person.
+
+Verb talk_to 
+
+Do we really need all the four forms? Indefinite singular/plural and definite singular/plural?
+
+Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Definite and indefinite article declaration</desc>
+<notes>If a definite and indefinite article declaration is introduced the following can be made possible:
+
+"You can not x" SAY A obj.
+
+"You open" SAY THE obj.
+</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Indefinite Article declaration</desc>
+<notes>Rename it an document it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Definite Article declaration</desc>
+<notes>Implement and document.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Printing of articles</desc>
+<notes>How do we use definite and indefinite articles in printouts?
+
+SAY the O.
+
+SAY an O.
+
+</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>SAY an/the &lt;param&gt;</desc>
+<notes>A SAY should refer to which form of articles should be used:
+
+ Say The x.  (embedded as $the x$?)
+ Say An x.
+ Say x.
+ 
+Possibly later:
+Say Any x.
+Say No x,
+
+Requires sections something like:
+
+ Definite
+  Article "a".
+
+ Indefinite
+  ""
+</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>SAY An x.</desc>
+<notes>New variant on the Say statement to use indefinite article. Implement it. Also change "Say x." to mean "Mention" (which it already should).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Say The x.</desc>
+<notes>New variant of Say statement to use Definite article + mentioned.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Inheriting Definite and Indefinite articles</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Inheriting Definite Articles</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inheriting Indefinite Articles</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>Pronoun synonyms in player input</desc>
+<notes>Personal pronouns are nice if allowed in input. "Him", "her" could be default synonyms for "it".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Capitalizing of "proper_name" in library and doc</desc>
+<notes>Steve mentioned that the library relies on v2 behaviour to automatically caps actor names.
+
+Implementation:
+- Document new behaviour. (DONE)
+- Fix library. (To Be Done)
+
+But proper_name is actually used to switch between using articles and names:
+
+If x Has proper_name Then
+  Say x. "looks at you."
+Else
+  "The" Say x. "looks at you."
+End If.
+
+This will not be required when definite and indefinite form printing is implemented.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Containers can take any type of instance, how to handle Limits?</desc>
+<notes>Problem: if we can put actors in containers how do we handle attributes that might only be available on objects.
+
+Step 1: prohibit containers to contain anything not an object? How?
+What to do when an instance not an object is moved into the container?
+
+Implement the structures for "Takes &lt;class&gt; Else &lt;statement&gt;" and use them with default &lt;class&gt; = object and &lt;statements&gt; "You can't put that in there."
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Column calculation bugs</desc>
+<notes>$t does not move to next tab pos.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"Describe this." Does not work.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple syntaxes for the same verb does not work for four</desc>
+<notes>syntax x = a (x). x = b (x). x = c (x). x = d (x).
+
+Generates wrong syntax tables for b and c.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Double click on a .alan file makes WinAlan fail to find the file</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Declaration of indefinite and definite forms</desc>
+<notes>The forms should override articles</notes>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Declaration of Indefinite Form</desc>
+<notes>Indefinite Form "en stol"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Declaration of Definite Form</desc>
+<notes>Definite Form "stolen"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Say An x. to use Indefinite Form clause if available.</desc>
+<notes>Should use Indefinite Form if available, else Indefinite Article + "Say x."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Say The x. to use Definite Form if available.</desc>
+<notes>Should use Definite form if available, else Definite Article + "Say x."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Definite/Indefinite Forms</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Figure out the inheritance rules between forms and articles</desc>
+<notes>The [in]definite will be investigated in this instance first and its implementation will rule. If no form or article is defined in the instance the parents will be investigated until one is found. If that is an article the instance will be mentioned, otherwise it is assumed that the parent will implement the full form.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 </task>

@@ -103,7 +103,7 @@ extern Boolean isObj(Aword x);
 extern Boolean isCnt(Aword x);
 extern Boolean isAct(Aword x);
 extern Boolean isLoc(Aword x);
-extern Boolean isLit(Aword x);
+extern Boolean isLiteral(Aword x);
 extern Boolean isNum(Aword x);
 extern Boolean isStr(Aword x);
 

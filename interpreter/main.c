@@ -687,7 +687,7 @@ Boolean isLoc(x)
 
 
 #ifdef _PROTOTYPES_
-Boolean isLit(Aword x)
+Boolean isLiteral(Aword x)
 #else
 Boolean isLit(x)
      Aword x;
@@ -703,7 +703,7 @@ Boolean isNum(x)
      Aword x;
 #endif
 {
-  return isLit(x) && literal[x-header->instanceMax].type == NUMERIC_LITERAL;
+  return isLiteral(x) && literal[x-header->instanceMax].type == NUMERIC_LITERAL;
 }
 
 #ifdef _PROTOTYPES_
@@ -713,7 +713,7 @@ Boolean isStr(x)
      Aword x;
 #endif
 {
-  return isLit(x) && literal[x-header->instanceMax].type == STRING_LITERAL;
+  return isLiteral(x) && literal[x-header->instanceMax].type == STRING_LITERAL;
 }
 
 

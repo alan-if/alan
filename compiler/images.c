@@ -53,7 +53,7 @@ static void copyImageFile(char fileName[], int resourceNumber)
 
   sprintf(resourceFileName, "pic%d%s", resourceNumber, extension);
   
-  if (!unlink(resourceFileName) && errno != ENOFILE && errno != 0) {
+  if (!unlink(resourceFileName) && errno != ENOENT && errno != 0) {
     char errorString[1000];
     sprintf(errorString, "Could not remove old resource file for %s (%s).", resourceFileName, strerror(errno));
     syserr(errorString, NULL);

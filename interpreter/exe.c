@@ -550,7 +550,7 @@ Aword attributeOf(Aword id, Aword atr)
 {
   char str[80];
 
-  if (isLit(id))
+  if (isLiteral(id))
     return literalAttribute(id, atr);
   else {
     if (id > 0 && id <= header->instanceMax)
@@ -854,7 +854,7 @@ Abool isA(Aword instanceId, Aword ancestor)
 {
   int parent;
 
-  if (isLit(instanceId))
+  if (isLiteral(instanceId))
     parent = literal[instanceId-header->instanceMax].class;
   else
     parent = instance[instanceId].parent;
@@ -898,7 +898,7 @@ static void mention(Aword id) {
 
 
 /*----------------------------------------------------------------------*/
-static void saylit(Aword lit)
+static void sayLiteral(Aword lit)
 {
   char *str;
 
@@ -914,17 +914,22 @@ static void saylit(Aword lit)
 /*----------------------------------------------------------------------*/
 static void sayInstance(Aword id)
 {
+#ifdef SAYPARAM
   int p, i;
 
+  /* Find the id in the parameters... */
   if (params != NULL)
     for (p = 0; params[p].code != EOF; p++)
       if (params[p].code == id) {
+	/* Found it so.. */
 	if (params[p].firstWord == EOF) /* Any words he used? */
-	  break;
+	  break;		/* No... */
 	else {				/* Yes, so use them... */ 
 	  char *capitalized;
+	  /* Assuming the noun is the last word we can simply output the adjectives... */
 	  for (i = params[p].firstWord; i <= params[p].lastWord-1; i++)
 	    output((char *)pointerTo(dict[wrds[i]].wrd));
+	  /* ... and then the noun, capitalized if necessary */
 	  if (header->capitalizeNouns) {
 	    capitalized = strdup((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
 	    capitalized[0] = IsoToUpperCase(capitalized[0]);
@@ -935,6 +940,7 @@ static void sayInstance(Aword id)
 	}
 	return;
       }
+#endif
   mention(id);
 }
 
@@ -1036,8 +1042,8 @@ void say(Aword id)
   current.instance = id;
 
   if (isHere(HERO)) {
-    if (isLit(id))
-      saylit(id);
+    if (isLiteral(id))
+      sayLiteral(id);
     else {
       verifyId(id, "SAY");
       sayInstance(id);

@@ -19,7 +19,7 @@ rusty short thing here.
 (rusty short thing) Taken.
 
 > take long shiny thing
-You already have the long shiny thing.
+You already have the shiny long thing.
 
 > drop it
 Dropped.
@@ -43,9 +43,9 @@ You are carrying a rusty long thing, a shiny short thing and a rusty
 short thing.
 
 > take long shiny thing and short rusty thing
-(long shiny thing) Taken.
+(shiny long thing) Taken.
 
-(short rusty thing) You already have the short rusty thing.
+(rusty short thing) You already have the rusty short thing.
 
 > take all
 I don't know what you mean by 'all'.
