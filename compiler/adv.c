@@ -228,35 +228,35 @@ void generateAdventure(char acodeFileName[],
 /*====================================================================== */
 void dumpAdventure(enum dmpKd dmp)
 {
-  if (dmp&DMPALL)
+  if (dmp&DUMP_ALL)
     dmp = (enum dmpKd)-1L;
 
 
   put("ADV: "); in();
 
   put("synonyms: ");
-  if (dmp&DMPSYN)
+  if (dmp&DUMP_SYNONYMS)
     dumpList(adv.syns, SYNONYM_LIST);
   else
     put("--");
   nl();
 
   put("syntaxes: ");
-  if (dmp&DMPSTX)
+  if (dmp&DUMP_SYNTAXTABLE)
     dumpList(adv.stxs, SYNTAX_LIST);
   else
     put("--");
   nl();
 
   put("verbs: ");
-  if (dmp&DMPVRB)
+  if (dmp&DUMP_VERBTABLE)
     dumpList(adv.vrbs, VERB_LIST);
   else
     put("--");
   nl();
 
   put("classes: ");
-  if (dmp&DMPCLA) {
+  if (dmp&DUMP_CLASSES) {
     dumpList(adv.clas, CLASS_LIST);
     nl();
     put("additions: ");
@@ -266,35 +266,35 @@ void dumpAdventure(enum dmpKd dmp)
   nl();
 
   put("instances: ");
-  if (dmp&DMPINS)
+  if (dmp&DUMP_INSTANCES)
     dumpList(adv.inss, INSTANCE_LIST);
   else
     put("--");
   nl();
 
   put("containers: ");
-  if (dmp&DMPCNT)
+  if (dmp&DUMP_CONTAINERS)
     dumpList(adv.cnts, CONTAINER_LIST);
   else
     put("--");
   nl();
 
   put("events: ");
-  if (dmp&DMPEVT)
+  if (dmp&DUMP_EVENTS)
     dumpList(adv.evts, EVENT_LIST);
   else
     put("--");
   nl();
 
   put("rules: ");
-  if (dmp&DMPRUL)
+  if (dmp&DUMP_RULES)
     dumpList(adv.ruls, RULE_LIST);
   else
     put("--");
   nl();
 
   put("symbols: ");
-  if (dmp&DMPSYM)
+  if (dmp&DUMP_SYMBOLTABLE)
     dumpSymbols();
   else
     put("--");

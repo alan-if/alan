@@ -85,7 +85,7 @@ static void setDefaultRestriction(List *parameters)
 
 
 /*----------------------------------------------------------------------*/
-static void anstx(Syntax *stx)  /* IN - Syntax node to analyze */
+static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
 {
   Symbol *verbSymbol;
 
@@ -122,7 +122,7 @@ void analyzeSyntaxes(void)
   List *lst, *other;
 
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    anstx(lst->element.stx);
+    analyzeSyntax(lst->element.stx);
 
   /* Check for multiple definitions of the syntax for a verb */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
@@ -166,7 +166,7 @@ Syntax *defaultSyntax0(char *verbName)
   stx = newSyntax(&nulsrcp, newId(&nulsrcp, verbName), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
-  anstx(stx);                   /* Make sure the syntax is analysed */
+  analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
   return stx;
 }
 
@@ -196,7 +196,7 @@ Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
   stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
-  anstx(stx);                   /* Make sure the syntax is analysed */
+  analyzeSyntax(stx);                   /* Make sure the syntax is analysed */
   return stx;
 }
 
@@ -270,27 +270,75 @@ static void generateParseEntry(Syntax *stx)
 }
 
 
+/*----------------------------------------------------------------------*/
+static Aaddr generateParseTable(void) {
+  List *lst;
+  Aaddr parseTableAddress;
 
+  TRAVERSE(lst, adv.stxs)
+    generateParseTree(lst->element.stx);
+
+  parseTableAddress = nextEmitAddress();
+  TRAVERSE(lst, adv.stxs)
+    generateParseEntry(lst->element.stx);
+  emit(EOF);
+
+  return(parseTableAddress);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateRestrictionTable(void) {
+  List *lst;
+
+  /* Generate all syntax parameter restriction checks */
+  TRAVERSE(lst, adv.stxs)
+    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists,
+								 lst->element.stx);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateParameterMapping(Syntax *syntax)
+{
+  List *list;
+  Aaddr parameterMappingTableAddress = nextEmitAddress();
+
+  TRAVERSE(list, syntax->parameters)
+    /* Generate a parameter mapping entry */
+    ;
+
+  syntax->parameterMappingAddress = parameterMappingTableAddress;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateSyntaxMapping(void)
+{
+  List *list;
+  Aaddr syntaxMappingTableAddress;
+  SyntaxEntry entry;
+
+  TRAVERSE(list, adv.stxs)
+    generateParameterMapping(list->element.stx);
+
+  syntaxMappingTableAddress = nextEmitAddress();
+  TRAVERSE(list, adv.stxs) {
+    entry.verbCode = list->element.stx->number;
+    entry.parameterMapping = list->element.stx->parameterMappingAddress;
+    entry.verbCode = list->element.stx->id->code;
+    emitEntry(&entry, sizeof(entry));
+  }
+  emit(EOF);
+}
+
+  
 /*======================================================================*/
 Aaddr generateAllSyntaxes(void)
 {
-  List *lst;
-  Aaddr stxadr;
-
-  /* First generate all class restriction checks */
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists, lst->element.stx);
-
-  /* Then the actual stxs */
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    generateParseTree(lst->element.stx);
-
-  /* Then a table of entries */
-  stxadr = nextEmitAddress();
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    generateParseEntry(lst->element.stx);
-  emit(EOF);
-  return(stxadr);
+  generateSyntaxMapping();
+  generateRestrictionTable();
+  return generateParseTable();
 }
 
 

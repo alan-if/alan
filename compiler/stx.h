@@ -30,6 +30,7 @@ typedef struct Syntax {
   Aaddr elementsAddress;	/* GE - Address to element table for */
 				/* all stxs with the same first word */
   Aaddr restrictionsAddress;	/* GE - Address to class restriction checks */
+  Aaddr parameterMappingAddress;
 } Syntax;
 
 

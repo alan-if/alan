@@ -16,21 +16,22 @@
 
 /* Dump kinds */
 typedef enum dmpKd {
-  DMPNON = 0,
-  DMPSYN = 1L,
-  DMPSTX = (long)DMPSYN<<1,
-  DMPSYM = (long)DMPSTX<<1,
-  DMPVRB = (long)DMPSYM<<1,
-  DMPCLA = (long)DMPVRB<<1,
-  DMPINS = (long)DMPCLA<<1,
-  DMPCNT = (long)DMPINS<<1,
-  DMPEVT = (long)DMPCNT<<1,
-  DMPRUL = (long)DMPEVT<<1,
-  DMPALL = (long)DMPRUL<<1,
-  DMP1 = (long)DMPALL<<1,
-  DMP2 = (long)DMP1<<1,
-  DMP3 = (long)DMP2<<1,
-  DMP4 = (long)DMP3<<1
+  DUMP_NOTHING = 0,
+  DUMP_SYNONYMS = 1L,
+  DUMP_PARSETABLE = (long)DUMP_SYNONYMS<<1,
+  DUMP_SYNTAXTABLE = (long)DUMP_PARSETABLE<<1,
+  DUMP_SYMBOLTABLE = (long)DUMP_SYNTAXTABLE<<1,
+  DUMP_VERBTABLE = (long)DUMP_SYMBOLTABLE<<1,
+  DUMP_CLASSES = (long)DUMP_VERBTABLE<<1,
+  DUMP_INSTANCES = (long)DUMP_CLASSES<<1,
+  DUMP_CONTAINERS = (long)DUMP_INSTANCES<<1,
+  DUMP_EVENTS = (long)DUMP_CONTAINERS<<1,
+  DUMP_RULES = (long)DUMP_EVENTS<<1,
+  DUMP_ALL = (long)DUMP_RULES<<1,
+  DUMP_1 = (long)DUMP_ALL<<1,
+  DUMP_2 = (long)DUMP_1<<1,
+  DUMP_3 = (long)DUMP_2<<1,
+  DUMP_4 = (long)DUMP_3<<1
 } DmpKind;
 
 

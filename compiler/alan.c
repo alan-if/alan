@@ -494,7 +494,7 @@ void compile(void) {
   pmParse();
   endpars();			/* End of parsing pass */
 
-  if ((dmpflg&DMP1) > 0) {
+  if ((dmpflg&DUMP_1) > 0) {
     lmList("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
     dumpAdventure(dmpflg);
@@ -507,7 +507,7 @@ void compile(void) {
   analyzeAdventure();			/* Analyze the adventure */
   endsem();			/* End of semantic pass */
 
-  if ((dmpflg&DMP2) > 0) {
+  if ((dmpflg&DUMP_2) > 0) {
     lmList("", 0, 79, liTINY, sevs);
     lmSkipLines(0);
     dumpAdventure(dmpflg);
