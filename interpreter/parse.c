@@ -348,7 +348,7 @@ static void unambig(plst)
   Boolean found = FALSE;	/* Adjective or noun found ? */
   static ParamElem *refs;	/* Entities referenced by word */
   static ParamElem *savlst;	/* Saved list for backup at EOF */
-  int firstWord, lastWord;
+  int firstWord, lastWord;	/* The words the player used */
 
   if (refs == NULL)
     refs = (ParamElem *)allocate((MAXENTITY+1)*sizeof(ParamElem));
@@ -423,11 +423,13 @@ static void unambig(plst)
       error(M_NOUN);
   lastWord = wrdidx-1;
 
-  /* Resolve ambiguities by presence */
-  for (i=0; plst[i].code != EOF; i++)
-    if (!isHere(plst[i].code))
-      plst[i].code = 0;
-  compress(plst);
+  /* Allow remote objects, but resolve ambiguities by presence */
+  if (lstlen(plst) > 1) {
+    for (i=0; plst[i].code != EOF; i++)
+      if (!isHere(plst[i].code))
+	plst[i].code = 0;
+    compress(plst);
+  }
     
   if (lstlen(plst) > 1 || (found && lstlen(plst) == 0)) {
     params[0].code = 0;		/* Just make it anything != EOF */
@@ -501,7 +503,15 @@ static void simple(olst)
 }
   
   
-  
+/*----------------------------------------------------------------------
+
+  complex()
+
+  Above this procedure we can use the is* tests, but not below since
+  they work on words. Below all is converted to indices into the
+  entity tables. Particularly this goes for literals...
+
+*/
 #ifdef _PROTOTYPES_
 static void complex(
      ParamElem olst[]
@@ -564,6 +574,31 @@ static Boolean claCheck(cla)
   return ok;
 }
 
+	
+/*----------------------------------------------------------------------
+
+  resolve()
+
+  In case the syntax did not indicate omnipotent powers (allowed
+  access to remote object), we need to remove non-present parameters
+
+*/
+static void resolve(ParamElem plst[])
+{
+  int i;
+
+  if (allLength > 0) return;	/* ALL has already done this */
+
+  /* Resolve ambiguities by presence */
+  for (i=0; plst[i].code != EOF; i++)
+    if (plst[i].code < LITMIN)	/* Literals are always 'here' */
+      if (!isHere(plst[i].code)) {
+	params[0] = plst[i];	/* Copy error param as first one for message */
+	params[1].code = EOF;	/* But be sure to terminate */
+	error(M_NO_SUCH);
+      }
+}
+
 
 #ifdef _PROTOTYPES_
 static void try(
@@ -624,8 +659,11 @@ static void try(mlst)
 	complex(tlst);
 	if (lstlen(tlst) == 0) /* No object!? */
 	  error(M_WHAT);
-	if (plural)
-	  if (!elms->multiple)
+	if ((elms->flags & OMNIBIT) == 0) /* Omnipotent parameter? */
+	  /* If its not an omnipotent parameter, resolve by presence */
+	  resolve(tlst);
+	if (plural) {
+	  if ((elms->flags & MULTIPLEBIT) == 0)	/* Allowed multiple? */
 	    error(M_MULTIPLE);
 	  else {
 	    /*
@@ -636,7 +674,7 @@ static void try(mlst)
 	    lstcpy(mlst, tlst);
 	    anyPlural = TRUE;
 	  }
-	else
+	} else
 	  params[paramidx++] = tlst[0];
 	params[paramidx].code = EOF;
       }

@@ -31,7 +31,7 @@ typedef struct ElmNod {		/* ELEMENT */
   Srcp srcp;			/* Source position of this element */
   ElmKind kind;			/* Kind of Parameter */
   NamNod *nam;			/* Name */
-  Bool multiple;		/* Multiple indicator */
+  int flags;			/* Multiple/omni etc. flags */
   int no;			/* AN - parameter number */
   ResNod *res;			/* AN - link to the class restriction check */
   StxNod *stx;			/* AN - pointer back to syntax node */
@@ -49,7 +49,7 @@ typedef struct ElmNod {		/* ELEMENT */
 extern ElmNod *newelm(Srcp *srcp,
 		      ElmKind kind,
 		      NamNod *nam,
-		      Bool multiple);
+		      int flags);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */
 extern List *anelms(List *elms, List *ress, StxNod *stx);

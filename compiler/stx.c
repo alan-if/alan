@@ -196,7 +196,7 @@ Bool eqparams(stx1, stx2)
        elm1 = elm1->next, elm2 = elm2->next) {
     if (!eqnams(elm1->element.elm->nam, elm2->element.elm->nam))
       return FALSE;
-    if (elm1->element.elm->multiple != elm2->element.elm->multiple)
+    if (elm1->element.elm->flags != elm2->element.elm->flags)
       return FALSE;
   }
   return elm1 == elm2;		/* Both NULL => equal */

@@ -45,6 +45,11 @@ typedef int WrdKind;
 /* Syntax element classifications */
 #define EOS (-2)		/* End Of Syntax */
 
+/* Syntax element flag bits */
+#define MULTIPLEBIT 0x1
+#define OMNIBIT 0x2
+
+
 /* Parameter Classes */
 typedef enum ClaKind {		/* NOTE! These must have the same order as */
   CLA_OBJ = 1,			/* the name classes in NAM.H */

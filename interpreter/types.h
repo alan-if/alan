@@ -75,7 +75,6 @@ typedef struct CurVars {
     visits;
 } CurVars;
 
-
 /* The various tables */
 typedef struct WrdElem {	/* Dictionary */
   Aaddr wrd;			/* ACODE address to string */
@@ -146,7 +145,8 @@ typedef struct StxElem {	/* SYNTAX TABLE */
 
 typedef struct ElmElem {	/* ELEMENT TABLES */
   Aword code;			/* Code for this element, 0 -> parameter */
-  Abool multiple;		/* May be multiple (if parameter) */
+  Aword flags;			/* Flags for multiple/omni (if parameter) */
+				/* CHANGED: v2.7 from Abool for multiple */
   Aaddr next;			/* Address to next element table ... */
 				/* ... or class check if EOS */
 } ElmElem;

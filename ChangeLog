@@ -1,3 +1,13 @@
+Wed Aug 28 09:00:58 1996  Thomas Nilsson  <thoni@rabbit>
+
+	* Added a other special indicator for parameters in the syntax
+	construct. In the same way as it has been possible to indicate
+	that a parameter can be multiple, it is now possible to indicate
+	that the parameter need *not* be present to be
+	considered. Disambiguation between multiple objects that matches
+	the words given by the player is performed as before (with
+	presence taking precedence)
+
 Fri Jul 26 13:48:24 1996  Thomas Nilsson  <thoni@rabbit>
 
 	* Added general default attribute available for all Actors,
@@ -6,8 +16,8 @@ Fri Jul 26 13:48:24 1996  Thomas Nilsson  <thoni@rabbit>
 
 Thu May 23 23:42:05 1996  Thomas Nilsson  <thoni@rabbit>
 
-	* Allowed arbitrary order between initial location and names on
-        actors and objects
+	* Allowed arbitrary order between declaration of initial location
+        and names on actors and objects
 
 	* Allowed multiple names on actors and objects
 

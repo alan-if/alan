@@ -15,11 +15,10 @@ htmltext.alan
   *5*   101 E : '=' inserted.
 
     6.           had an overwhelming urge to <I>read</I> someone!""
-=====>                                    1                     2
+=====>                                    1
 
   *1*   103 E : 'TO' '<' Identifier '>' Identifier ... replaced by '.' 'START'
                 'HERE' '.'.
-  *2*   102 F : Unknown Token deleted.
 
     7.           "
 =====>           1
@@ -32,7 +31,7 @@ htmltext.alan
   *1*   104 E : Severe syntax error, construct ignored.
 
 
-        8 error(s).
+        7 error(s).
         1 warning(s).
         3 informational message(s).
 

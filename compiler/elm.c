@@ -30,10 +30,10 @@
 /* PRIVATE: */
 
 typedef struct ElmEntry {
-  int code;						/* Word code, if 0 means parameter */
-  Aaddr adr;					/* Address to next level for this */
-								/* entry */
-  Bool multiple;				/* Multiple indicator */
+  int code;			/* Word code, if 0 means parameter */
+  Aaddr adr;			/* Address to next level for this */
+				/* entry */
+  Aword flags;			/* Multiple indicator */
 } ElmEntry;
 
 
@@ -46,15 +46,15 @@ typedef struct ElmEntry {
  */
 #ifdef _PROTOTYPES_
 ElmNod *newelm(Srcp *srcp,		/* IN - Source Position */
-			   ElmKind kind,	/* IN - Kind of element (parm or word) */
-			   NamNod *nam,		/* IN - The name */
-			   Bool multiple)	/* IN - May this parameter by multiple */
+			   ElmKind kind, /* IN - Kind of element (parm or word) */
+			   NamNod *nam,	/* IN - The name */
+			   int flags) /* IN - Flags for omni/multiple... */
 #else
 ElmNod *newelm(srcp, kind, nam, multiple)
-     Srcp *srcp;				/* IN - Source Position */
-     ElmKind kind;				/* IN - Kind of element (parm or word) */
-     NamNod *nam;				/* IN - The name */
-     Bool multiple;				/* IN - May this parameter by multiple */
+     Srcp *srcp;
+     ElmKind kind;
+     NamNod *nam;
+     Bool multiple;
 #endif
 {
   ElmNod *new;					/* The newly created node */
@@ -64,7 +64,7 @@ ElmNod *newelm(srcp, kind, nam, multiple)
   new->srcp = *srcp;
   new->kind = kind;
   new->nam = nam;
-  new->multiple = multiple;
+  new->flags = flags;
   new->res = NULL;
 
   return(new);
@@ -142,7 +142,7 @@ List *anelms(elms, ress, stx)
   for (lst = elms->next; lst != NULL; lst = lst->next) {
     if (lst->element.elm->kind == ELMPAR) {
       lst->element.elm->no = paramNo++;
-      if (lst->element.elm->multiple) {
+      if ((lst->element.elm->flags & MULTIPLEBIT) != 0) {
 	if (multiple)
 	  lmLog(&lst->element.elm->srcp, 217, sevWAR, "");
 	else
@@ -364,7 +364,7 @@ Aaddr geelms(elms, stx)
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
     /* Make one entry for this partition */
     entry = NEW(ElmEntry);
-    entry->multiple = FALSE;
+    entry->flags = 0;
     entries = concat(entries, entry);
     if (part->element.lst == NULL) {
       /* This partition was at end of syntax */
@@ -378,10 +378,10 @@ Aaddr geelms(elms, stx)
       if (part->element.lst->element.elm->kind == ELMPAR) {
 	/* A parameter! */
 	entry->code = 0;
-	entry->multiple = part->element.lst->element.elm->multiple;
+	entry->flags = part->element.lst->element.elm->flags;
       } else {
 	entry->code = part->element.lst->element.elm->nam->code;
-	entry->multiple = FALSE;
+	entry->flags = FALSE;
       }
       entry->adr = geelms(part, stx);
     }
@@ -392,7 +392,7 @@ Aaddr geelms(elms, stx)
   for (lst = entries; lst; lst = lst->next) {
     entry = (ElmEntry *) lst->element.elm;
     emit(entry->code);
-    emit(entry->multiple);
+    emit(entry->flags);
     emit(entry->adr);
   }
   emit(EOF);
@@ -424,12 +424,13 @@ void duelm(elm)
   put("ELM: "); duadr(elm); dusrcp(&elm->srcp); in();
   put("kind: ");
   switch (elm->kind) {
-  case ELMPAR:
-    put("PARAMETER ");
-    if (elm->multiple)
-      put("(Multiple)");
+  case ELMPAR: {
+    char buf[80];
+    sprintf(buf, "PARAMETER (Flags: 0x%x)", elm->flags);
+    put(buf);
     nl();
     break;
+  }
   case ELMWRD:
     put("WORD"); nl();
     break;

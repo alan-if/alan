@@ -128,6 +128,7 @@ static int val(str)
 	scr %% ScrNod *%1%%,
 	scrs %% List *%1%%,
 	single %% Bool %1%%,
+	bits %% int %1%%,
 	srcp %% Srcp %1%%,
 	stm %% StmNod *%1%%,
 	stms %% List *%1%%,
@@ -163,7 +164,7 @@ static int val(str)
 %%RULES
 
 --> ADVENTURE
-adventure
+<adventure>
     = optional_options units start
     ;
 
@@ -464,26 +465,37 @@ syntax_element
 				     FALSE);
     %%
 
-    ! '(' ID ')' optional_multiple_indicator
+    ! '(' ID ')' optional_indicators
 
     %%
 	%syntax_element.elm = newelm(`&%ID.nam->srcp, ELMPAR,
 				     %ID.nam,
-				     !%optional_multiple_indicator.single);
+				     %optional_indicators.bits);
     %%
     ;
 
-optional_multiple_indicator
+optional_indicators
     =
     %%
-	%optional_multiple_indicator.single = TRUE;
+	%optional_indicators.bits = 0;
     %%
 
-    ! '*'
+    ! optional_indicators indicator
     %%
-	%optional_multiple_indicator.single = FALSE;
+	%optional_indicators.bits |= %indicator.bits;
+    %%
+    ;
+
+indicator
+    = '*'
+    %%
+	%indicator.bits = 0x1;
     %%
 
+    ! '!'
+    %%
+	%indicator.bits = 0x2;
+    %%
     ;
 
 optional_class_restrictions

@@ -21,8 +21,6 @@ tcov := CC = acc -a
 tcov := LD = acc -a
 
 
-.KEEP_STATE:
-
 #--
 SRCS = debug.c \
 	args.c \
