@@ -6,3 +6,4 @@ compiler.zip
 interpre.zip
 version.c
 version.h
+*.gz

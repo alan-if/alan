@@ -29,5 +29,6 @@ pmParse.tmp
 smScSema.c
 smScan.c
 smScan.h
+smScanx.c
 version.c
 version.h

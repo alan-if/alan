@@ -35,7 +35,7 @@ EXTRAS = \
 TMSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
-	smScan.c smScSema.c\
+	smScanx.c smScSema.c\
 	lmList.c
 
 SRCS = \
@@ -148,13 +148,36 @@ tm: .pmkstamp .smkstamp .lmkstamp
 
 .smkstamp : .pmkstamp alan.smk alan.voc $(TMLIB)/Scan.imp
 	smk $(SMKQ) alan
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.iso
+	smk $(SMKQ) -set MAC alan
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.mac
+#	Use the MSDOS source for code as it contains HUGE pointer arithmatic if necessary
+	@make savetm
+	@sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
+	smk $(SMKQ) -set PC alan
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.pc
+	@sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
+	@make restoretm
+	@cat smScan.head > smScanx.c
+	@echo "#if ISO == 1" >> smScanx.c
+	@cat smScan.iso >> smScanx.c
+	@echo "#else" >> smScanx.c
+	@echo "#if __mac__" >> smScanx.c
+	@cat smScan.mac >> smScanx.c
+	@echo "#endif" >> smScanx.c
+	@echo "#if __dos__" >> smScanx.c
+	@cat smScan.pc >> smScanx.c
+	@echo "#endif" >> smScanx.c
+	@echo "#endif" >> smScanx.c
+	@cat smScan.tail >> smScanx.c
+	@rm smScan.head smScan.tail smScan.iso smScan.mac smScan.pc smScan.c
 	touch .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
 	make .pmkstamp
 
-smScan.h smScan.c smScSema.c:
+smScan.h smScanx.c smScSema.c:
 	-rm .smkstamp
 	make .smkstamp
 
@@ -195,14 +218,14 @@ alan.prod: alan.pml
 #- Other machines
 
 savetm:
-	if test -f alan.tmk.orig; then \
+	@if test -f alan.tmk.orig; then \
 	    echo "There is already an original!"; \
 	    exit 1; \
-	fi
+	@fi
 	mv alan.tmk alan.tmk.orig
 	
 restoretm:
-	mv -f alan.tmk.orig alan.tmk
+	@mv -f alan.tmk.orig alan.tmk
 	-rm .?mkstamp
 
 NONANSI:
@@ -214,20 +237,20 @@ NONANSI:
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
 	make src	
-	make savetm
-	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-	smk -set PC alan
+#	This was because some compilers on DOS can't cope with standard
+#	pointer arithemtic in the generated scanner code
+#	make savetm
+#	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
+#	smk $(SMKQ) -set PC alan
+#	make restoretm
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
 	ramp iso2pc msg.c MSG.C
 	ramp iso2pc sysdep.c SYSDEP.C
-	make restoretm
 
 mac:
 	make src
-	smk -set MAC alan
-	-rm .smkstamp
 	refreshMac $(HOME)/mac/Alan/compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
 	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/compiler/pmParse.c
