@@ -1,0 +1,20 @@
+########## initialLocation3 ##########
+The l
+  Isa Location.
+End The l.
+
+The o
+  Isa object.
+  At l.
+End The o.
+
+The p
+  Isa object.
+  At l.
+End The p.
+
+Start At l.
+########## alan initialLocation3.alan ##########
+
+        No warnings or errors detected.
+
