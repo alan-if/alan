@@ -131,11 +131,11 @@ int scannedLines()
 
   [a-}]		= [A-\]];		-- include old-style nation characters
   [\xe0-\xf6]	= [\xC0-\xD6];
-  [\xf8-\xfe]	= [\xD8-\xDE];
+  [\xf8-\xfd]	= [\xD8-\xDD];
 
 %%DEFINITIONS
 
-  letter	= [A-\]\xC0-\xD6\xD8-\xDE];
+  letter	= [A-\]\xC0-\xD6\xD8-\xDD];
   digit		= [0-9];
 
 ------------------------------------------------------------------------------
