@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>292.89</origest>
-<currest>291.89</currest>
+<origest>288.89</origest>
+<currest>287.89</currest>
 <elapsed>130.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>44</origest>
-<currest>44</currest>
+<origest>40</origest>
+<currest>40</currest>
 <elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -87,44 +87,6 @@ There is a solution suggested in compiler/prop.c/analyseName()</notes>
 </task>
 </task>
 <task>
-<desc>Embedded definite/indefinite forms print</desc>
-<notes>How?
-&lt;bold&gt;&lt;/bold&gt;, &lt;para/&gt; etc. ?
-&lt;param&gt;o&lt;/param&gt;
-&lt;the&gt;person&lt;/the&gt;</notes>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Embedded formatting (newline)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Embedded formattion (indentation)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Embedded formatting (paragraph)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Embedded printout (definite form)</desc>
 <notes/>
 <priority>2</priority>
@@ -141,16 +103,6 @@ There is a solution suggested in compiler/prop.c/analyseName()</notes>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Embedded formatting (bold)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>String operators</desc>
@@ -991,16 +943,6 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Actor conversation</desc>
-<notes>A simple first step would be to recognize command format &lt;actor&gt;, &lt;command&gt; and respond with a message indicating that it is not possible to order other actors about.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Bug: Syntax typing error</desc>
 <notes>
 Thomas N:
@@ -1020,9 +962,7 @@ Secondly, I got an error about using an attribute in a CHECK's ELSE statement th
 <task>
 <desc>Text formatting "statements"</desc>
 <notes>
-$b for bold? Use ANSI?
-
-Or how about:
+$b for bold? Use ANSI? Or how about:
 
  $bold$
 
@@ -1053,6 +993,16 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <task>
 <desc>NEAR should be &lt;what&gt; NEAR &lt;what&gt;</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Actor conversation</desc>
+<notes>A simple first step would be to recognize command format &lt;actor&gt;, &lt;command&gt; and respond with a message indicating that it is not possible to order other actors about.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -104,7 +104,7 @@ int col, lin;
 int pageLength, pageWidth;
 
 Boolean capitalize = FALSE;
-Boolean needsp = FALSE;
+Boolean needSpace = FALSE;
 Boolean skipsp = FALSE;
 
 /* Restart jump buffer */
@@ -240,7 +240,7 @@ void statusline(void)
     sprintf(line, "%d moves", current.tick);
   glk_window_move_cursor(glkStatusWin, glkWidth - col - strlen(line), 0);
   printf(line);
-  needsp = FALSE;
+  needSpace = FALSE;
 
   col = pcol;
 
@@ -267,7 +267,7 @@ void statusline(void)
   printf(line);
   printf("\x1b[m");
   printf("\x1b[%d;1H", pageLength);
-  needsp = FALSE;
+  needSpace = FALSE;
 
   col = pcol;
 #endif
@@ -299,7 +299,7 @@ void newline(void)
   
   if (lin >= pageLength - 1) {
     logprint("\n");
-    needsp = FALSE;
+    needSpace = FALSE;
     prmsg(M_MORE);
 #ifdef USE_READLINE
     (void) readline(buf);
@@ -316,7 +316,7 @@ void newline(void)
   glk_put_char('\n');
 #endif
   col = 1;
-  needsp = FALSE;
+  needSpace = FALSE;
 }
 
 
@@ -421,24 +421,35 @@ static void space(void)
   if (skipsp)
     skipsp = FALSE;
   else {
-    if (needsp) {
+    if (needSpace) {
       logprint(" ");
       col++;
     }
   }
-  needsp = FALSE;
+  needSpace = FALSE;
 }
 
+
+/*----------------------------------------------------------------------*/
+static void sayPlayerWordsForParameter(int p) {
+  int i;
+
+  for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
+    justify((char *)pointerTo(dict[wrds[i]].wrd));
+    if (i < params[p].lastWord)
+      justify(" ");
+  }
+}
 
 
 /*----------------------------------------------------------------------
 
-  sayparam()
+  sayParameter()
 
   A parameter needs to be said, find out which instance it is and say it.
 
 */
-static void sayparam(int p)
+static void sayParameter(int p, int form)
 {
   int i;
 
@@ -446,25 +457,18 @@ static void sayparam(int p)
     if (params[i].code == EOF)
       syserr("Nonexistent parameter referenced.");
 
-#ifdef SAYPARAM
-  if (params[p].firstWord == EOF) /* Any words he used? */
-    say(params[p].code);
-  else				/* Yes, so use them... */
-    for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
-      justify((char *)pointerTo(dict[wrds[i]].wrd));
-      if (i < params[p].lastWord)
-	justify(" ");
-    }
+#ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
+  if (params[p].firstWord != EOF) /* Any words he used? */
+    /* Yes, so use them... */
+    sayPlayerWordsForParameter(p);
+  else
+    sayForm(params[p].code, form);
 #else
   if (params[p].code == 0) {
     /* Ambiguous instance referenced, so use the words he used */
-    for (i = params[p].firstWord; i <= params[p].lastWord; i++) {
-      justify((char *)pointerTo(dict[wrds[i]].wrd));
-      if (i < params[p].lastWord)
-	justify(" ");
-    }
+    sayPlayerWordsForParameter(p);
   } else
-    say(params[p].code);
+    sayForm(params[p].code, form);
 #endif
 }
 
@@ -481,27 +485,39 @@ static void sayparam(int p)
   L = current location name
   O = current object -> first parameter!
   <n> = n:th parameter
+  +<n> = definite form of n:th parameter
+  -<n> = definite form of n:th parameter
   V = current verb
   A = current actor
   T = tabulation
   $ = no space needed after this, and don't capitalize
  */
-static void prsym(char *str)	/* IN - The string starting with '$' */
+static char *printSymbol(char *str)	/* IN - The string starting with '$' */
 {
+  int advance = 2;
+
   switch (toLower(str[1])) {
   case 'n':
     newline();
-    needsp = FALSE;
+    needSpace = FALSE;
     break;
   case 'i':
     newline();
     logprint("    ");
     col = 5;
-    needsp = FALSE;
+    needSpace = FALSE;
     break;
   case 'o':
-    sayparam(0);
-    needsp = TRUE;		/* We did print something non-white */
+    sayParameter(0, 0);
+    needSpace = TRUE;		/* We did print something non-white */
+    break;
+  case '+':
+  case '-':
+    if (isdigit(str[2])) {
+      sayParameter(str[2]-'1', str[1]=='+'?SAY_DEFINITE:SAY_INDEFINITE);
+      needSpace = TRUE;
+    }
+    advance = 3;
     break;
   case '1':
   case '2':
@@ -512,24 +528,24 @@ static void prsym(char *str)	/* IN - The string starting with '$' */
   case '7':
   case '8':
   case '9':
-    sayparam(str[1]-'1');
-    needsp = TRUE;		/* We did print something non-white */
+    sayParameter(str[1]-'1', SAY_SIMPLE);
+    needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'l':
     say(current.location);
-    needsp = TRUE;		/* We did print something non-white */
+    needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'a':
     say(current.actor);
-    needsp = TRUE;		/* We did print something non-white */
+    needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'v':
     justify((char *)pointerTo(dict[verbWord].wrd));
-    needsp = TRUE;		/* We did print something non-white */
+    needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'p':
     para();
-    needsp = FALSE;
+    needSpace = FALSE;
     break;
   case 't': {
     int i;
@@ -537,7 +553,7 @@ static void prsym(char *str)	/* IN - The string starting with '$' */
     
     for (i = 0; i<spaces; i++) logprint(" ");
     col = col + spaces;
-    needsp = FALSE;
+    needSpace = FALSE;
     break;
   }
   case '$':
@@ -548,6 +564,8 @@ static void prsym(char *str)	/* IN - The string starting with '$' */
     logprint("$");
     break;
   }
+
+  return &str[advance];
 }
 
 
@@ -584,11 +602,10 @@ void output(char original[])
       }
       justify(str);		/* Output part before '$' */
       if (str[strlen(str)-1] == ' ')
-	needsp = FALSE;
+	needSpace = FALSE;
     }
     *symptr = ch;		/* restore '$' */
-    prsym(symptr);		/* Print the symbolic reference */
-    str = &symptr[2];		/* Advance to after symbol and continue */
+    str = printSymbol(symptr);	/* Print the symbolic reference and advance */
   }
 
   if (capitalize) {
@@ -599,7 +616,7 @@ void output(char original[])
     justify(str);			/* Output trailing part */
     skipsp = FALSE;
     if (str[strlen(str)-1] != ' ')
-      needsp = TRUE;
+      needSpace = TRUE;
   }
   anyOutput = TRUE;
   capitalize = str[strlen(str)-1] == '.';

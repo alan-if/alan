@@ -15,7 +15,6 @@
 
 #include <time.h>
 #include "sysdep.h"
-#include "types.h"
 
 
 #ifdef GLK
@@ -157,9 +156,9 @@ static char uppChrs[] =
 
 #else
 
-/* These work on native character sets */
+/* Theses work on native character sets */
 
-static char spcChrs[] = " \t\n\r";
+static char spcChrs[] = " \t\n";
 
 #ifdef __amiga__
 
@@ -328,18 +327,20 @@ char *stringUpper(char str[])   /* INOUT - ISO string to convert */
   return(str);
 }
 
-Boolean stringEqualsIgnoringCase(char *str1, char *str2)
+/*----------------------------------------------------------------------*/
+int compareStrings(char *str1, char *str2)
 {
   char *s1 = str1, *s2 = str2;
 
   while (*s1 != '\0' && *s2 != '\0') {
-    if (IsoToLowerCase(*s1) != IsoToLowerCase(*s2))
-      return FALSE;
+    if (IsoToLowerCase(*s1) < IsoToLowerCase(*s2)) return -1;
+    if (IsoToLowerCase(*s1) > IsoToLowerCase(*s2)) return 1;
     s1++;
     s2++;
   }
-  return *s1 == '\0' && *s2 == '\0';
+  return IsoToLowerCase(*s2) - IsoToLowerCase(*s1);
 }
+
 
 
 /*----------------------------------------------------------------------

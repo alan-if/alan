@@ -1,16 +1,15 @@
 /*----------------------------------------------------------------------*\
   sysdep.c
 
-  This file contains necessary system dependent routines and routines
-  possibly not implemented in the current environment.
+  This file contains necessary system dependent routines.
+
+  Routines possibly not implemented in the current environment:
 
   strdup()
-
-  realloc()
   strlow()
   strupp()
-  memcpy()
-  memset()
+
+  Native and ISO string handling.
 
 \*----------------------------------------------------------------------*/
 
@@ -23,7 +22,7 @@
 #endif
 
 #ifdef _PROTOTYPES_
-extern void syserr(char str[], char function[]);
+extern void syserr(char str[]);
 #endif
 
 #ifdef __vms__

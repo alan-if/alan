@@ -914,7 +914,7 @@ static void sayLiteral(Aword lit)
 /*----------------------------------------------------------------------*/
 static void sayInstance(Aword id)
 {
-#ifdef SAYPARAM
+#ifdef SAY_INSTANCE_WITH_PLAYER_WORDS_IF_PARAMETER
   int p, i;
 
   /* Find the id in the parameters... */
@@ -1028,6 +1028,9 @@ static void sayArticleOrForm(Aint id, SayForm form)
     break;
   case SAY_INDEFINITE:
     sayIndefinite(id);
+    break;
+  case SAY_SIMPLE:
+    say(id);
     break;
   default:
     syserr("Unexpected form in 'sayArticleOrForm()'");
@@ -1264,7 +1267,7 @@ void describeInstances(void)
 	found = TRUE;
       } else {
 	if (multiple) {
-	  needsp = FALSE;
+	  needSpace = FALSE;
 	  prmsg(M_SEEOBJ2);
 	  sayForm(prevobj, SAY_INDEFINITE);
 	}
@@ -1362,7 +1365,7 @@ void list(Aword cnt)
 	}
       } else {
 	if (multiple) {
-	  needsp = FALSE;
+	  needSpace = FALSE;
 	  prmsg(M_CONTAINSCOMMA);
 	}
 	multiple = TRUE;
@@ -1391,7 +1394,7 @@ void list(Aword cnt)
       }
     }
   }
-  needsp = TRUE;
+  needSpace = TRUE;
   current.instance = previousThis;
 }
 

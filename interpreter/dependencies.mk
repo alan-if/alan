@@ -1,13 +1,12 @@
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h unitTest.h \
   exeTest.c exe.c act.h debug.h readline.h main.h parse.h inter.h stack.h \
   decode.h exe.h stackTest.c stack.c interTest.c inter.c reverseTest.c \
-  reverse.c
+  reverse.c sysdepTest.c sysdep.c
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h unitTest.h \
   exeTest.c exe.c act.h debug.h readline.h glkio.h \
   ../../WindowsGLK/Include/glk.h main.h parse.h inter.h stack.h decode.h \
-  exe.h stackTest.c stack.c interTest.c inter.c reverseTest.c reverse.c
-sysdep.o: sysdep.c sysdep.h
-sysdep.o: sysdep.c sysdep.h ../../WindowsGLK/Include/glk.h
+  exe.h stackTest.c stack.c interTest.c inter.c reverseTest.c reverse.c \
+  sysdepTest.c sysdep.c
 rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
   stack.h rules.h
 rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
@@ -50,6 +49,8 @@ exe.o: exe.c types.h sysdep.h acode.h act.h debug.h syserr.h readline.h \
 exe.o: exe.c types.h sysdep.h acode.h act.h debug.h syserr.h readline.h \
   glkio.h ../../WindowsGLK/Include/glk.h main.h parse.h inter.h stack.h \
   decode.h exe.h
+sysdep.o: sysdep.c sysdep.h
+sysdep.o: sysdep.c sysdep.h ../../WindowsGLK/Include/glk.h
 stack.o: stack.c types.h sysdep.h acode.h main.h syserr.h stack.h
 stack.o: stack.c types.h sysdep.h acode.h main.h syserr.h stack.h
 inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \

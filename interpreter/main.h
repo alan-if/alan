@@ -80,7 +80,7 @@ extern Boolean statusLineOption;
 extern Boolean regressionTestOption;
 extern Boolean fail;
 extern Boolean anyOutput;
-extern Boolean needsp;
+extern Boolean needSpace;
 extern Boolean capitalize;
 
 #define endOfTable(x) eot((Aword *) x)

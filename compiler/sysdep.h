@@ -10,7 +10,7 @@
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
   The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONF package does.
+  AUTOCONFIG package does.
 
   This is not completely done yet!
 
@@ -47,8 +47,13 @@
 #ifdef THINK_C
 #define __mac__
 #endif
+
 #ifdef __MWERKS__
+#ifdef macintosh
 #define __mac__
+#else
+#define __dos__
+#endif
 #endif
 
 #ifdef DOS
@@ -92,7 +97,6 @@
 #define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #endif
 
 #ifdef __vms__
@@ -110,6 +114,9 @@
 #include <unix.h>
 #endif
 
+#ifdef __MWERKS__
+#define strdup _strdup
+#endif
 
 /***********************/
 /* ISO character sets? */
@@ -273,10 +280,6 @@
 #define MULTI
 #endif
 
-#ifndef ENOENT
-#define ENOENT ENOFILE
-#endif
-
 
 #ifdef __vms__
 
@@ -304,11 +307,6 @@ extern char *strdup(char *str);
 
 #endif
 
-#ifdef __MINGW32__
-#undef EXIT_FAILURE
-#define EXIT_FAILURE 1
-#endif
-
 
 #ifdef _PROTOTYPES_
 
@@ -328,7 +326,7 @@ extern char IsoToLowerCase(int c); /* IN - ISO character to convert */
 extern char IsoToUpperCase(int c); /* IN - ISO character to convert */
 extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
 extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
-extern int compareStrings(char str1[], char str2[]);
+extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */

@@ -11,21 +11,21 @@
 
 static void testStringEqualsIgnoringCase()
 {
-  ASSERT(stringEqualsIgnoringCase("abcd", "abcd"));
-  ASSERT(stringEqualsIgnoringCase("abcd", "Abcd"));
-  ASSERT(stringEqualsIgnoringCase("abcd", "aBcd"));
-  ASSERT(stringEqualsIgnoringCase("abcd", "abCd"));
-  ASSERT(stringEqualsIgnoringCase("abcd", "abcD"));
-  ASSERT(stringEqualsIgnoringCase("abcd", "abcd"));
-  ASSERT(stringEqualsIgnoringCase("ABCD", "Abcd"));
-  ASSERT(stringEqualsIgnoringCase("ABCD", "aBcd"));
-  ASSERT(stringEqualsIgnoringCase("ABCD", "abCd"));
-  ASSERT(stringEqualsIgnoringCase("ABCD", "abcD"));
-  ASSERT(!stringEqualsIgnoringCase("abcd", "abcde"));
-  ASSERT(!stringEqualsIgnoringCase("abcde", "Abcd"));
-  ASSERT(!stringEqualsIgnoringCase("abc", "aBcd"));
-  ASSERT(!stringEqualsIgnoringCase("abd", "abCd"));
-  ASSERT(!stringEqualsIgnoringCase("bcd", "abcD"));
+  ASSERT(compareStrings("abcd", "abcd")==0);
+  ASSERT(compareStrings("abcd", "Abcd")==0);
+  ASSERT(compareStrings("abcd", "aBcd")==0);
+  ASSERT(compareStrings("abcd", "abCd")==0);
+  ASSERT(compareStrings("abcd", "abcD")==0);
+  ASSERT(compareStrings("abcd", "abcd")==0);
+  ASSERT(compareStrings("ABCD", "Abcd")==0);
+  ASSERT(compareStrings("ABCD", "aBcd")==0);
+  ASSERT(compareStrings("ABCD", "abCd")==0);
+  ASSERT(compareStrings("ABCD", "abcD")==0);
+  ASSERT(compareStrings("abcd", "abcde")!=0);
+  ASSERT(compareStrings("abcde", "Abcd")!=0);
+  ASSERT(compareStrings("abc", "aBcd")!=0);
+  ASSERT(compareStrings("abd", "abCd")!=0);
+  ASSERT(compareStrings("bcd", "abcD")!=0);
 }
 
 

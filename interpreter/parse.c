@@ -120,7 +120,7 @@ static int lookup(
   int i;
 
   for (i = 0; !endOfTable(&dict[i]); i++) {
-    if (stringEqualsIgnoringCase(wrd, (char *) pointerTo(dict[i].wrd)))
+    if (compareStrings(wrd, (char *) pointerTo(dict[i].wrd)) == 0)
       return (i);
   }
   unknown(wrd);

@@ -497,13 +497,13 @@ void traceSay(int item)
   */
 
   saveInfo();
-  needsp = FALSE;
+  needSpace = FALSE;
   col = 1;
   if (item == 0)
     printf("$null$");
   else
     say(item);
-  needsp = FALSE;
+  needSpace = FALSE;
   col = 1;
   restoreInfo();
 }
