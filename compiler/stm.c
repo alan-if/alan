@@ -329,7 +329,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     }
     if (atr)
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
-        lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "SET statement");
+        lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "Target for");
       else
         stm->fields.set.atr->code = atr->nam->code;
     break;
@@ -342,7 +342,7 @@ static void anset(StmNod *stm,	/* IN - The statement to analyze */
     anexp(stm->fields.set.exp, evt, pars);
     if (stm->fields.set.exp->typ != TYPINT &&
         stm->fields.set.exp->typ != TYPSTR)
-      lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "SET statement");
+      lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "Expression in");
     if (atr && !eqtyp(stm->fields.set.exp->typ, atr->typ))
       lmLog(&stm->srcp, 331, sevERR, "SET statement");
   }

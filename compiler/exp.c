@@ -437,6 +437,34 @@ static void anexpwht(ExpNod *exp, /* IN - Expression to analyse */
   }
 }
 
+
+/*----------------------------------------------------------------------
+
+  anexpbtw()
+
+  Analyse a BTW expression.
+
+  */
+static void anexpbtw(ExpNod *exp, /* IN - Expression to analyse */
+		     EvtNod *evt, /* IN - Possibly inside Event? */
+		     List *pars) /* IN - Possible parameter list in this context */
+{
+  anexp(exp->fields.btw.val, evt, pars);
+  if (!eqtyp(exp->fields.btw.val->typ, TYPINT))
+    lmLog(&exp->fields.btw.val->srcp, 330, sevERR, "integer");
+
+  anexp(exp->fields.btw.low, evt, pars);
+  if (!eqtyp(exp->fields.btw.low->typ, TYPINT))
+    lmLog(&exp->fields.btw.low->srcp, 330, sevERR, "integer");
+
+  anexp(exp->fields.btw.high, evt, pars);
+  if (!eqtyp(exp->fields.btw.high->typ, TYPINT))
+    lmLog(&exp->fields.btw.high->srcp, 330, sevERR, "integer");
+
+  exp->typ = TYPBOOL;
+}
+
+
 /*======================================================================
 
   anexp()
@@ -486,6 +514,10 @@ void anexp(ExpNod *exp,		/* IN - The expression to analyze */
 
   case EXPWHT:
     anexpwht(exp, evt, pars);
+    break;
+
+  case EXPBTW:
+    anexpbtw(exp, evt, pars);
     break;
 
   default:
@@ -730,6 +762,23 @@ static void geexpwht(ExpNod *exp) /* IN - The expression to generate */
 
 
 
+/*----------------------------------------------------------------------
+  geexpbtw()
+
+  Generate code for a random expression.
+
+  */
+static void geexpbtw(ExpNod *exp) /* IN - The expression to generate */
+{
+  geexp(exp->fields.btw.val);
+  geexp(exp->fields.btw.low);
+  geexp(exp->fields.btw.high);
+  emit0(C_STMOP, I_BTW);
+  if (exp->not) emit0(C_STMOP, I_NOT);
+}
+
+
+
 /*======================================================================
 
   geexp()
@@ -785,6 +834,10 @@ void geexp(ExpNod *exp)		/* IN - The expression to generate */
     geexpwht(exp);
     break;
 
+  case EXPBTW:
+    geexpbtw(exp);
+    break;
+    
   default:
     unimpl(&exp->srcp, "Code Generator");
     emit0(C_CONST, 0);
@@ -940,6 +993,10 @@ void duexp(ExpNod *exp)
     break;
   case EXPWHT:
     put("WHT");
+    break; 
+  case EXPBTW:
+    if (exp->not) put("NOT ");
+    put("BTW");
     break;
   default:
     put("*** ERROR *** ");
@@ -982,6 +1039,11 @@ void duexp(ExpNod *exp)
     put("wht: "); duwht(exp->fields.wht.wht);
     break;
   case EXPSCORE:
+    break;
+  case EXPBTW:
+    put("val: "); duexp(exp->fields.btw.val); nl();
+    put("low: "); duexp(exp->fields.btw.low); nl();
+    put("high: "); duexp(exp->fields.btw.high);
     break;
   }
   out();

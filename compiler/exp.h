@@ -36,7 +36,8 @@ typedef enum ExpKind {		/* EXPRESSION kinds */
   EXPAGR,
   EXPRND,
   EXPSCORE,
-  EXPWHT
+  EXPWHT,
+  EXPBTW
 } ExpKind;
 
 typedef enum OpKind {		/* OPERATOR kinds */
@@ -109,6 +110,12 @@ typedef struct ExpNod {		/* EXPRESSION */
     struct {			/* For WHAT */
       WhtNod *wht;
     } wht;
+
+    struct {			/* For BETWEEN */
+      struct ExpNod *val;
+      struct ExpNod *low;
+      struct ExpNod *high;
+    } btw;
 
   } fields;
 } ExpNod;

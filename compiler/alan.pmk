@@ -7,6 +7,7 @@
 	Pack RDS;
 --	Line;
 --	Debug;
+	No Resolve;
 
 %%IMPORT
 
@@ -1925,6 +1926,16 @@ static int val(char str[])
 	exp->not = %<something>.not;
 	exp->fields.atr.wht = %<primary>.exp;
 	exp->fields.atr.atr = %<something>.nam;
+	%<factor>.exp = exp;
+    } %%
+
+    ! <primary> <optional_not> 'BETWEEN' <factor> 'AND' <factor>
+    %% { ExpNod *exp;
+	exp = newexp(`&%'BETWEEN'.srcp, EXPBTW);
+	exp->not = %<optional_not>.not;
+	exp->fields.btw.val = %<primary>.exp;
+	exp->fields.btw.low = %2<factor>.exp;
+	exp->fields.btw.high = %3<factor>.exp;
 	%<factor>.exp = exp;
     } %%
     ;

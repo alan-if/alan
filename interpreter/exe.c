@@ -1711,6 +1711,27 @@ Aword rnd(from, to)
 
 /*----------------------------------------------------------------------
 
+  btw()
+
+  */
+
+#ifdef _PROTOTYPES_
+Aword btw(Aword val, Aword low, Aword high)
+#else
+Aword btw(val, low, high)
+     Aword val, low, high;
+#endif
+{
+  if (high > low)
+    return low <= val && val <= high;
+  else
+    return high <= val && val <= low;
+}
+
+
+
+/*----------------------------------------------------------------------
+
   streq()
 
   Compare two strings approximately, ignore case

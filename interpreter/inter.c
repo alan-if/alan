@@ -688,6 +688,18 @@ void interpret(adr)
 	  printf("\t(%ld)", top());
 	break;
       }
+      case I_BTW: {
+	Aword low, high, val;
+	high = pop();
+	low = pop();
+	val = pop();
+	if (stpflg)
+	  printf("BETWEEN \t%5ld, %5ld, %5ld", val, low, high);
+	push(btw(val, low, high));
+	if (stpflg)
+	  printf("\t(%ld)", top());
+	break;
+      }
       case I_RETURN:
 	if (stpflg)
 	  printf("RETURN\n--------------------------------------------------\n");

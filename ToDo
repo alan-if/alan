@@ -1,9 +1,13 @@
 ToDo:
+	* Experiment with making unknow words into strings:
+
+		say hello to the guard => say "hello" to the guard
+
+	if "hello" is an unknown word
+
 	* DEPENDING ON e1: e2 {, en}: stmts ELSE stmts END DEPENDING.
 
 	* e1 CONTAINS e2 - substring check
-
-	* e1 BETWEEN e1 AND e3
 
 	* Check how TADS and Inform does locations within locations.
 
@@ -115,6 +119,8 @@ ToDo:
 
 
 DONE:
+	* e1 BETWEEN e1 AND e3
+
 	* More flexiblity in order of clauses, should be possible to
 	be almost completely free.
 
