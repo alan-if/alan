@@ -185,7 +185,7 @@ archives:
 	-\rm Makefile*~
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
-	zip -k -f compiler.zip *.[ch] Makefile.cmd
+	zip -k -u compiler.zip *.[ch] Makefile.cmd
 	make MSDOS
 	zip -k -m compiler.zip *.C *.H
 	touch alan.tmk

@@ -82,7 +82,7 @@ version: $(OBJECTS)
 archives: src
 	-rm Makefile*~
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
-	zip -k -f interpreter.zip *.[ch] Makefile.cmd
+	zip -k -u interpreter.zip *.[ch] Makefile.cmd
 
 #--
 CLEAN: clean
