@@ -144,7 +144,7 @@ static void analyzeName(Properties *props)
     /* First output the formatted name to the text file */
     fpos = ftell(txtfil);
     len = analyzeNames(props->names, props->id,
-#ifndef CAPITALIZEONLYLOCATIONS
+#ifdef CAPITALIZEACTORS
 		       inheritsFrom(props->id->symbol, locationSymbol) ||
 		       inheritsFrom(props->id->symbol, actorSymbol));
 #else
