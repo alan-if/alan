@@ -5,7 +5,8 @@
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r.\\$$c(\\$$s)"`
 
 OPTIMIZE = -g
-CYGWIN	= -mno-cygwin
+#CYGWIN	= -mno-cygwin
+CYGWIN	= 
 EXE	= arun.exe
 
 GLKROOT = ../../WindowsGLK

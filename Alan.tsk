@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>191.89</origest>
-<currest>191.89</currest>
+<origest>193.89</origest>
+<currest>193.89</currest>
 <elapsed>68.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>34</origest>
-<currest>34</currest>
+<origest>36</origest>
+<currest>36</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
@@ -136,30 +136,13 @@ Refer to compiler/testing/addVerb losing line 2</notes>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Bug: Multiple syntax verbs</desc>
-<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
-E.g.
-Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
-Syntax b = v1 (p1) Where p1 Isa Container ...
-Verb a, b
-Here a reference to p1 should be considered to be either Object, Actor or Container
-
-Design:
-At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -176,6 +159,20 @@ This does not seem to happen with exit directions; for instance, I
 can have an exit "north" and "turn north" will not smash the verb
 table.
 
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>$p, $n problem in new winarun</desc>
+<notes>So sorry, but I have found a bug in the new ARUN for windows.
+
+Apparently $n (new line) and $p (paragraph, aka one empty line) are 
+indistinguishable. All my $p codes are doing the function of $n, and not 
+properly producing a blank line.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -250,6 +247,16 @@ Allow concatenated right hand sides.</notes>
 <task>
 <desc>Warn for DOES preceeded by an unconditional CHECK</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Location ENTERED</desc>
+<notes>
+The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -366,8 +373,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -382,6 +389,23 @@ Implementation:
 1) Allow any id as a value for the language option.
 2) Find an external langauge-specific message file and use it.
 3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Multiple syntax verbs</desc>
+<notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
+E.g.
+Syntax a = v1 (p1) Where p1 Isa Object Or Actor ...
+Syntax b = v1 (p1) Where p1 Isa Container ...
+Verb a, b
+Here a reference to p1 should be considered to be either Object, Actor or Container
+
+Design:
+At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -663,15 +687,6 @@ Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since
 <isopen>1</isopen>
 </task>
 <task>
-<desc>NEAR should be &lt;what&gt; HEAR &lt;what&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Inherting all props</desc>
 <notes>
 Investigate which ones are left!!!!
@@ -728,6 +743,23 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>New execution model</desc>
+<notes>If we use addresses as the primary addressing mechanism we could more easily support new attribute reference format.
+
+E.g. 
+
+instance 4   -- push address to instance 4:s admin data
+attribute 5 -- lookup its 5-attribute and push its address
+instance 3
+location  -- get location field
+write -- write the top value of the stack to the address beneath</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Allow reverse noun/adjective order</desc>
 <notes>Need:
 To allow latin type of langauges. "molin rouge"
@@ -746,6 +778,15 @@ Design:
 "Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
 
 Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>NEAR should be &lt;what&gt; NEAR &lt;what&gt;</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1229,16 +1270,6 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 <task>
 <desc>Author modifiable prompt</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Location ENTERED</desc>
-<notes>
-The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
