@@ -84,7 +84,7 @@ version: $(OBJECTS)
 archives: src
 	-rm Makefile*~
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
-	zip -k -u interpreter.zip *.[ch] Makefile.cmd
+	zip -k -u interpreter.zip *.[ch] Makefile*
 
 #--
 CLEAN: clean
@@ -98,23 +98,29 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER = 
-depend:
+depend: dependencies.mk. Makefile.amiga Makefile.dos # arun.make
+
+dependencies.mk.:
 	@echo Updating dependencies.mk!
 	@rm dependencies.mk
 	@for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER)>> "dependencies.mk"; \
 	done
-	@make Makefile.amiga.
-#	@make arun.make.
 
-Makefile.amiga.:
+Makefile.amiga: dependencies.mk
 	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-arun.make.:
+Makefile.dos: dependencies.mk
+	@echo Updating Makefile.dos!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cat "#Makefile.tmp#" dependencies.mk > Makefile.dos
+
+arun.make: dependencies.mk
 	@echo Updating arun.make!
 	@echo !Automagically created makefile for Arun interpreter on VMS > arun.make
 	@echo CQ=/STANDARD=PORTABLE >> arun.make

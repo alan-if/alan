@@ -1,43 +1,25 @@
-# Makefile for arun on the AMIGA	      Date: 1989-12-30/thoni@eeyore
-#
+CFLAGS = /Zi /Al
 
+LDFLAGS = /Fb /Fearun 
 
-CFLAGS = -n +l $(CQ)
-LDFLAGS	= -lc32 -g $(LQ)
+SRCS = arun.c \
+	debug.c \
+	args.c \
+	exe.c \
+	inter.c \
+	parse.c \
+	rules.c \
+	stack.c \
+	decode.c \
+	term.c \
+	reverse.c \
+	params.c \
+	sysdep.c
 
-OBJECTS = arun.o \
-	args.o \
-	debug.o \
-	exe.o \
-	inter.o \
-	parse.o \
-	rules.o \
-	stack.o \
-	decode.o \
-	term.o \
-	params.o
-# \
-#	reverse.o
+OBJECTS = ${SRCS:.c=.o}
 
-
-#-- ARUN
-arun: $(OBJECTS) sysdep.o version.o
-	ln -o $@ $(OBJECTS) sysdep.o version.o $(LDFLAGS)
-	copy arun /
-
-arun.o: arun.c
-	cc $(CFLAGS) -e400 -L400 arun.c
-
-term.o: term.c
-	cc $(CFLAGS) -L1000 term.c
-
-args.o: args.c
-	cc $(CFLAGS) -L800 args.c
-
-#-- ARCHIVE
-archive:
-	zoo -add interpreter *.c *.h Makefile.amiga
-
+arun.exe : $(OBJECTS)
+	cl $(LDFLAGS) $(CFLAGS) $**
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 args.o : args.c args.h arun.h types.h sysdep.h acode.h 

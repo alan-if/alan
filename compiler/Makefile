@@ -188,7 +188,7 @@ archives:
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
 	make MSDOS
-	zip -k -u compiler.zip *.[ch] Makefile.cmd
+	zip -k -u compiler.zip *.[ch] Makefile*
 	zip -k -m compiler.zip *.C *.H
 	touch alan.tmk
 	make tm
@@ -203,23 +203,30 @@ clean:
 #--
 #FILETER = | sed -e "\,/usr/include, d" -e "s,./,," | sort -u 
 FILETER =
-depend:
+depend: dependencies.mk. Makefile.amiga Makefile.dos # alan.make
+
+dependencies.mk.:
 	@echo "Updating dependencies.mk!"
 	@echo > dependencies.mk
 	@for f in *.c; \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done
-	@make Makefile.amiga.
-#	@make alan.make.
 
-Makefile.amiga.:
+Makefile.amiga: dependencies.mk
 	@echo Updating Makefile.amiga!
 	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.amiga > "#Makefile.tmp#"
 	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
 	@cat "#Makefile.tmp#" dependencies.mk > Makefile.amiga
 
-alan.make.:
+Makefile.dos: dependencies.mk
+	@echo Updating Makefile.dos!
+	@sed -e '/^#---<< GENERATED DEPENDENCIES FOLLOWS >>---$$/,$$ d' Makefile.dos > "#Makefile.tmp#"
+	@echo "#---<< GENERATED DEPENDENCIES FOLLOWS >>---" >> "#Makefile.tmp#"
+	@cp "#Makefile.tmp#" Makefile.dos
+	@sed $(DOSSUBS) dependencies.mk >> Makefile.dos
+
+alan.make: dependencies.mk
 	@echo Updating alan.make!
 	@echo !Automagically created makefile for Alan compiler on VMS > alan.make
 	@echo CQ=/STANDARD=PORTABLE >> alan.make

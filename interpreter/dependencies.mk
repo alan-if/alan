@@ -1,6 +1,6 @@
 args.o : args.c args.h arun.h types.h sysdep.h acode.h 
 arun.o : arun.c sysdep.h types.h acode.h arun.h version.h args.h parse.h inter.h \
-  rules.h reverse.h debug.h stack.h exe.h term.h 
+  rules.h debug.h stack.h exe.h term.h 
 debug.o : debug.c types.h sysdep.h acode.h inter.h arun.h parse.h exe.h debug.h 
 decode.o : decode.c arun.h types.h sysdep.h acode.h decode.h 
 exe.o : exe.c types.h sysdep.h acode.h arun.h parse.h inter.h stack.h decode.h \
