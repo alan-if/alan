@@ -137,32 +137,6 @@ malloc: tm $(OBJECTS) version.o $(MAINOBJ)
 purify: tm $(OBJECTS) version.o alan.o
 	purify -handle-signals $(LD) -o alan $(CFLAGS) alan.o version.o $(OBJECTS) $(LDFLAGS)
 
-savetm:
-	mv alan.tmk alan.tmk.orig
-#	-mkdir tmorig
-#	cp -p $(TMSRCS) tmorig
-	
-restoretm:
-	mv -f alan.tmk.orig alan.tmk
-#	cd tmorig; cp -p $(TMSRCS) ..
-#	-\rm -r tmorig
-
-NONANSI:
-	make savetm
-	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
-	make tm
-	make restoretm
-
-DOSSUBS = -e s/alanCommon/alanComm/
-MSDOS:
-	make savetm
-	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
-	make tm
-	for f in `grep -l alanCommon *.[ch]` ; do \
-		sed $(DOSSUBS) $$f > `toupper $$f` ; \
-	done
-	make restoretm
-
 version.h version.c: ../version.sh
 	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
@@ -185,9 +159,42 @@ sysdep.c: ../interpreter/sysdep.c
 alan.prod: alan.pml
 	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 
-#-- Cheating MAKE
-link:
-	$(LD) -o alan $(CFLAGS) $(MAINOBJ) $(OBJECTS) version.o $(LDFLAGS)
+#- Other machines
+
+savetm:
+	mv alan.tmk alan.tmk.orig
+#	-mkdir tmorig
+#	cp -p $(TMSRCS) tmorig
+	
+restoretm:
+	mv -f alan.tmk.orig alan.tmk
+#	cd tmorig; cp -p $(TMSRCS) ..
+#	-\rm -r tmorig
+
+NONANSI:
+	make savetm
+	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
+	make tm
+	make restoretm
+
+DOSSUBS = -e s/alanCommon/alanComm/
+MSDOS:
+	make savetm
+	sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
+	make tm
+	smk -set PC alan
+	for f in `grep -l alanCommon *.[ch]` ; do \
+		sed $(DOSSUBS) $$f > `toupper $$f` ; \
+	done
+	make restoretm
+
+mac:
+	smk -set MAC alan
+	refreshMac $(HOME)/mac/Alan/Compiler
+	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
+	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
+	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > pmPaSema.tmp
+	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
 #-- ARCHIVE
 archives: src
@@ -244,12 +251,5 @@ alan.make: dependencies.mk
 	@echo alan.exe : "#(OBJECTS)" version.obj >> alan.make
 	@/usr/5bin/echo \\t$$ link/exe=alan "#(LQ)" $(VMSLINKOBJS) >> alan.make
 	@/usr/5bin/echo \\t$$ copy alan.exe "<->" >> alan.make
-
-mac:
-	refreshMac $(HOME)/mac/Alan/Compiler
-	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > #pmParse.tmp
-	ramp iso2mac #pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
-	sed -e 's/extern Token pmSySt\[]/Token pmSySt\[64]/' -e 's/extern pmGrammar pmSeSt\[]/pmGrammar pmSeSt\[64]/' pmPaSema.c > #pmPaSema.tmp
-	ramp iso2mac #pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
 include dependencies.mk

@@ -26,3 +26,10 @@ vms:
 	rlogin gollum
 	rm *.com
 
+mac:
+	for f in *.alan ; do \
+	    case=`basename $${f} .alan` ; \
+	    ramp iso2mac $${f} $(HOME)/mac/Alan/Regression/$${f} ; \
+	done
+	@echo Run each test manually!
+	

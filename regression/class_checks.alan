@@ -109,3 +109,4 @@ Location l
 End Location.
 
 Start At l.
+	"$isca - container actor$iss - string$isa - actor$isn - number$iso - object"
