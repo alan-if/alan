@@ -1,5 +1,7 @@
 ToDo:
 
+	* hints on cwsdpmi (as per Stephen Griffiths mail)
+
 	* is/are, have/has singular/plural in the documentation
 
 	* Attribute that are entity types. Probably his ties in with
@@ -172,6 +174,8 @@ ToDo:
 
 
 DONE:
+	* SCHEDULE does not allow integer expressions. Really should!
+
 	* Document how to do darkness and light sources
 
 	* Document the DEPENDING ON statement

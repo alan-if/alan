@@ -1704,12 +1704,12 @@ static int val(char str[])
 
 ----> Event Statements
 <event_statement>			-- RETURNS: stm
-    = 'SCHEDULE' ID <optional_where> 'AFTER' Integer '.'
+    = 'SCHEDULE' ID <optional_where> 'AFTER' <expression> '.'
     %%
 	%<event_statement>.stm = newstm(`&%'SCHEDULE'.srcp, STM_SCHEDULE);
 	%<event_statement>.stm->fields.schedule.nam  = %ID.nam;
 	%<event_statement>.stm->fields.schedule.whr  = %<optional_where>.whr;
-	%<event_statement>.stm->fields.schedule.when = val(%Integer.chars);
+	%<event_statement>.stm->fields.schedule.when = %<expression>.exp;
     %%	  
 
     ! 'CANCEL' ID '.'

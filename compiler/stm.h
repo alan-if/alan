@@ -114,7 +114,7 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for SCHEDULE */
       NamNod *nam;		/* Name of the event */
       WhrNod *whr;		/* Where? */
-      int when;
+      ExpNod *when;
     } schedule;
 
     struct {			/* for CANCEL */

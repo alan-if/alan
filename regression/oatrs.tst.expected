@@ -7,7 +7,7 @@ arun -s -d oatrs < oatrs.input
         1 informational message(s).
 
 ADV: 
-.  atrs: LST: {0x7a010} 
+.  atrs: LST: {0x7a178} 
 .  .  ATR: (0,5,3)
 .  .  .  typ: BOOL
 .  .  .  nam: NAM: (0,5,3)
@@ -28,7 +28,7 @@ ADV:
 .  .  .  val: 1
 .  .  .  fpos: 0
 .  .  .  len: 0
-.  oatrs: LST: {0x7a0a0} 
+.  oatrs: LST: {0x7a208} 
 .  .  ATR: (0,10,3)
 .  .  .  typ: BOOL
 .  .  .  nam: NAM: (0,10,3)
@@ -55,7 +55,7 @@ ADV:
 .  syns: NULL
 .  stxs: NULL
 .  vrbs: NULL
-.  locs: LST: {0x7a160} 
+.  locs: LST: {0x7a2c8} 
 .  .  LOC: (0,17,1)
 .  .  .  nam: NAM: (0,17,10)
 .  .  .  .  string: "l"
@@ -64,7 +64,7 @@ ADV:
 .  .  .  nams: NULL
 .  .  .  atrs: NULL
 .  .  .  atradr: 176 (0xb0)
-.  .  .  namstms: LST: {0x7ebe8} 
+.  .  .  namstms: LST: {0x7ed50} 
 .  .  .  .  STM: PRINT (0,0,0)
 .  .  .  .  .  fpos: 10
 .  .  .  .  .  len: 1
@@ -77,7 +77,7 @@ ADV:
 .  .  .  vrbadr: 0 (0x0)
 .  .  .  exts: NULL
 .  .  .  extadr: 0 (0x0)
-.  objs: LST: {0x7a130} 
+.  objs: LST: {0x7a298} 
 .  .  OBJ: (0,12,1)
 .  .  .  nam: NAM: (0,12,8)
 .  .  .  .  string: "o"
@@ -88,7 +88,7 @@ ADV:
 .  .  .  .  whr: DEFAULT
 .  .  .  .  wht: NULL
 .  .  .  props: NULL
-.  .  .  atrs: LST: {0x7a100} 
+.  .  .  atrs: LST: {0x7a268} 
 .  .  .  .  ATR: (0,14,9)
 .  .  .  .  .  typ: BOOL
 .  .  .  .  .  nam: NAM: (0,14,9)
@@ -104,20 +104,20 @@ ADV:
 .  .  .  dscradr: 0 (0x0)
 .  .  .  art: NULL
 .  .  .  artadr: 0 (0x0)
-.  .  .  ment: LST: {0x7ec00} 
+.  .  .  ment: LST: {0x7ed68} 
 .  .  .  .  STM: PRINT (0,0,0)
 .  .  .  .  .  fpos: 9
 .  .  .  .  .  len: 1
 .  .  .  mentadr: 163 (0xa3)
 .  .  .  vrbs: NULL
 .  .  .  vrbadr: 0 (0x0)
-.  cnts: LST: {0x79f80} 
+.  cnts: LST: {0x7a0e8} 
 .  .  CNT: (0,0,0)
 .  .  .  nam: NAM: (0,0,0)
 .  .  .  .  string: "inventory"
 .  .  .  .  kind: UNKNOWN
 .  .  .  .  code: 1
-.  .  .  namstms: LST: {0x7ec48} 
+.  .  .  namstms: LST: {0x7edb0} 
 .  .  .  .  STM: PRINT (0,0,0)
 .  .  .  .  .  fpos: 0
 .  .  .  .  .  len: 9
@@ -134,7 +134,7 @@ ADV:
 .  .  .  estms: NULL
 .  .  .  eadr: 0 (0x0)
 .  evts: NULL
-.  acts: LST: {0x79fb0} 
+.  acts: LST: {0x7a118} 
 .  .  ACT: (0,0,0)
 .  .  .  nam: NAM: (0,0,0)
 .  .  .  .  string: "hero"
@@ -146,7 +146,7 @@ ADV:
 .  .  .  .  wht: NULL
 .  .  .  atrs: NULL
 .  .  .  atradr: 193 (0xc1)
-.  .  .  namstms: LST: {0x7ec18} 
+.  .  .  namstms: LST: {0x7ed80} 
 .  .  .  .  STM: PRINT (0,0,0)
 .  .  .  .  .  fpos: 11
 .  .  .  .  .  len: 4
@@ -166,7 +166,7 @@ ADV:
 .  .  .  .  string: "l"
 .  .  .  .  kind: LOCATION
 .  .  .  .  code: 1
-.  stms: LST: {0x7a1a8} 
+.  stms: LST: {0x7a310} 
 .  .  STM: IF (0,22,3)
 .  .  .  exp: EXP: ATR (0,22,8)
 .  .  .  .  wht: EXP: WHT(0,22,6)
@@ -180,11 +180,11 @@ ADV:
 .  .  .  .  .  string: "object_attr"
 .  .  .  .  .  kind: UNKNOWN
 .  .  .  .  .  code: 4
-.  .  .  thn: LST: {0x7a178} 
+.  .  .  thn: LST: {0x7a2e0} 
 .  .  .  .  STM: PRINT (0,23,5)
 .  .  .  .  .  fpos: 992
 .  .  .  .  .  len: 3
-.  .  .  els: LST: {0x7a190} 
+.  .  .  els: LST: {0x7a2f8} 
 .  .  .  .  STM: PRINT (0,25,5)
 .  .  .  .  .  fpos: 995
 

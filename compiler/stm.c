@@ -457,6 +457,12 @@ static void anschedule(StmNod *stm, /* IN - The statement to analyze */
     syserr("Unrecognized switch in anschedule()");
     break;
   }
+
+  /* Analyze the when expression */
+  anexp(stm->fields.schedule.when, evt, pars);
+  if (stm->fields.schedule.when->typ != TYPINT)
+    lmLog(&stm->fields.schedule.when->srcp, 413, sevERR, "when-clause of SCHEDULE statement");
+
 }
 
 
@@ -930,7 +936,7 @@ static void geincr(StmNod *stm)	/* IN - Statement */
   */
 static void geschedule(StmNod *stm) /* IN - Statement */
 {
-  emit0(C_CONST, stm->fields.schedule.when);
+  geexp(stm->fields.schedule.when);
 
   /* NOTE: we can't use gewhr() because the semantics of the schedule */
   /* statement is such that at scheduling AT something does not mean */
@@ -1350,7 +1356,7 @@ void dustm(StmNod *stm)
     case STM_SCHEDULE:
       put("nam: "); dunam(stm->fields.schedule.nam); nl();
       put("whr: "); duwhr(stm->fields.locate.whr); nl();
-      put("when: "); duint(stm->fields.schedule.when);
+      put("when: "); duexp(stm->fields.schedule.when);
       break;
     case STM_CANCEL:
       put("nam: "); dunam(stm->fields.cancel.nam);
