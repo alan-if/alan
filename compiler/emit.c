@@ -453,8 +453,6 @@ void emterm(hdr)
 #endif
 {
   Aword *hp;			/* Pointer to header as words */
-  Aword v;
-  char *vp = (char *)&v;
   int i;
 
   if (pc%BLOCKSIZE > 0)
@@ -466,18 +464,10 @@ void emterm(hdr)
   pc = 0;
 
   /* Construct version marking */
-#ifdef REVERSED
-  vp[3] = (Aword)product.version.version;
-  vp[2] = (Aword)product.version.revision;
-  vp[1] = (Aword)product.version.correction;
-  vp[0] = (Aword)product.version.state[0];
-#else
-  vp[0] = (Aword)product.version.version;
-  vp[1] = (Aword)product.version.revision;
-  vp[2] = (Aword)product.version.correction;
-  vp[3] = (Aword)product.version.state[0];
-#endif
-  hdr->vers = v;
+  hdr->vers[0] = (Aword)product.version.version;
+  hdr->vers[1] = (Aword)product.version.revision;
+  hdr->vers[2] = (Aword)product.version.correction;
+  hdr->vers[3] = (Aword)product.version.state[0];
 
   hp = (Aword *) hdr;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
