@@ -853,7 +853,7 @@ static void load(char acdfnm[])
 
 #ifdef REVERSED
   printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
-  reverseACD(0);		/* Reverse all words in the ACD file */
+  reverseACD();			/* Reverse all words in the ACD file */
   printf("OK.\n");
 #endif
 }

@@ -82,17 +82,18 @@ static void reverseTable(Aword adr, int len)
   Aword *e = &memory[adr];
   int i;
 
-  if (adr != 0)
-    while (!endOfTable(e)) {
-      if (len < sizeof(Aword)) {
-	printf("***Wrong size in 'reverseTable()' ***");
-	exit(-1);
-      }	       
-      for (i = 0; i < len/sizeof(Aword); i++) {
-	reverse(e);
-	e++;
-      }
+  if (adr == 0) return;
+
+  while (!endOfTable(e)) {
+    if (len < sizeof(Aword)) {
+      printf("***Wrong size in 'reverseTable()' ***");
+      exit(-1);
+    }	       
+    for (i = 0; i < len/sizeof(Aword); i++) {
+      reverse(e);
+      e++;
     }
+  }
 }
 
 
@@ -100,12 +101,13 @@ static void reverseStms(Aword adr)
 {
   Aword *e = &memory[adr];
 
-  if (adr != 0)
-    while (TRUE) {
-      reverse(e);
-      if (*e == ((Aword)C_STMOP<<28|(Aword)I_RETURN)) break;
-      e++;
-    }
+  if (alreadyDone(adr)) return;
+
+  while (TRUE) {
+    reverse(e);
+    if (*e == ((Aword)C_STMOP<<28|(Aword)I_RETURN)) break;
+    e++;
+  }
 }
 
 
@@ -113,7 +115,9 @@ static void reverseMsgs(Aword adr)
 {
   MsgEntry *e = (MsgEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(MsgEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
@@ -127,7 +131,9 @@ static void reverseDictionary(Aword adr)
 {
   WrdEntry *e = (WrdEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(WrdEntry));
     while (!endOfTable(e)) {
       if ((e->class & (1L<<SYNONYM_WORD)) == 0) { /* Do not do this for synonyms */
@@ -144,7 +150,9 @@ static void reverseChks(Aword adr)
 {
   ChkEntry *e = (ChkEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ChkEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
@@ -158,30 +166,11 @@ static void reverseChks(Aword adr)
 static void reverseAlts(Aword adr)
 {
   AltEntry *e = (AltEntry *)&memory[adr];
-  static Aword *done = NULL;
-  static int numberDone = 0;
-  int i;
-  Boolean found = FALSE;
 
-  if (adr == 0) return;
-#define DONE_HANDLING
-#ifdef DONE_HANDLING
-  /* Have we already done it? */
-  for (i = 0; i < numberDone; i++) if (done[i] == adr) {found = TRUE; break;}
-  if (found) return;
+  if (alreadyDone(adr)) return;
 
-  done = realloc(done, (numberDone+1)*sizeof(Aword));
-  done[numberDone] = adr;
-  numberDone++;
-
-  if (adr != 0 && !endOfTable(e)) {
-#else
-  if (adr != 0 && !endOfTable(e) && !e->done) {
-#endif
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(AltEntry));
-#ifndef DONE_HANDLING
-    e->done = TRUE;
-#endif
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
@@ -195,7 +184,9 @@ static void reverseVerbs(Aword adr)
 {
   VerbEntry *e = (VerbEntry *)&memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(VerbEntry));
     while (!endOfTable(e)) {
       reverseAlts(e->alts);
@@ -209,7 +200,9 @@ static void reverseSteps(Aword adr)
 {
   StepEntry *e = (StepEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(StepEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
@@ -224,7 +217,9 @@ static void reverseScrs(Aword adr)
 {
   ScriptEntry *e = (ScriptEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ScriptEntry));
     while (!endOfTable(e)) {
       reverseStms(e->description);
@@ -239,7 +234,9 @@ static void reverseExits(Aword adr)
 {
   ExitEntry *e = (ExitEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ExitEntry));
     while (!endOfTable(e)) {
       if (!e->duplicate) {
@@ -256,7 +253,9 @@ static void reverseClasses(Aword adr)
 {
   ClassEntry *e = (ClassEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ClassEntry));
     while (!endOfTable(e)) {
       reverseChks(e->checks);
@@ -272,7 +271,9 @@ static void reverseInstances(Aword adr)
 {
   InstanceEntry *e = (InstanceEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(InstanceEntry));
     while (!endOfTable(e)) {
       reverseTable(e->attributes, sizeof(AttributeEntry));
@@ -307,7 +308,9 @@ static void reverseElms(Aword adr)
 {
   ElementEntry *e = (ElementEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ElementEntry));
     while (!endOfTable(e)) {
       if (e->code == EOS) reverseRestrictions(e->next);
@@ -322,7 +325,9 @@ static void reverseParseTable(Aword adr)
 {
   ParseEntry *e = (ParseEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ParseEntry));
     while (!endOfTable(e)) {
       reverseElms(e->elms);
@@ -336,7 +341,9 @@ static void reverseSyntaxTable(Aword adr)
 {
   SyntaxEntry *e = (SyntaxEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(SyntaxEntry));
     while (!endOfTable(e)) {
       reverseTable(e->parameterMapping, sizeof(Aword));
@@ -350,7 +357,9 @@ static void reverseEvts(Aword adr)
 {
   EventEntry *e = (EventEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(EventEntry));
     while (!endOfTable(e)) {
       reverseStms(e->code);
@@ -364,7 +373,9 @@ static void reverseLims(Aword adr)
 {
   LimEntry *e = (LimEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(LimEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
@@ -378,7 +389,9 @@ static void reverseContainers(Aword adr)
 {
   ContainerEntry *e = (ContainerEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ContainerEntry));
     while (!endOfTable(e)) {
       reverseLims(e->limits);
@@ -396,7 +409,9 @@ static void reverseRuls(Aword adr)
 {
   RulEntry *e = (RulEntry *) &memory[adr];
 
-  if (adr != 0 && !endOfTable(e)) {
+  if (alreadyDone(adr)) return;
+
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(RulEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
@@ -427,12 +442,7 @@ void reverseHdr(AcdHdr *hdr)
   makes the .ACD files fully compatible across architectures
 
   */
-#ifdef _PROTOTYPES_
-void reverseACD(Boolean v2_5)
-#else
-void reverseACD(v2_5)
-     Boolean v2_5;
-#endif
+void reverseACD(void)
 {
   reverseHdr(header);
   reverseDictionary(header->dictionary);

@@ -1002,7 +1002,7 @@ static void load(void)
 #ifdef REVERSED
   if (debugOption||traceOption||singleStepOption)
     output("<Hmm, this is a little-endian machine, fixing byte ordering....");
-  reverseACD(tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5); /* Reverse all words in the ACD file */
+  reverseACD();			/* Reverse content of the ACD file */
   if (debugOption||traceOption||singleStepOption)
     output("OK.>$n");
 #endif
