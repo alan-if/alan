@@ -93,10 +93,9 @@ static void anstx(stx)
       lmLog(&stx->nam->srcp, 207, sevWAR, stx->nam->str);
   } else if (sym->class != NAMVRB)
     lmLog(&stx->nam->srcp, 208, sevWAR, stx->nam->str);
-  else {
-    stx->nam->kind = NAMVRB;
+  else
     stx->nam->code = sym->code;
-  }
+  stx->nam->kind = NAMVRB;
 
   stx->pars = anelms(stx->elms, stx->ress, stx);
   anress(stx->ress, stx->pars);

@@ -1,0 +1,27 @@
+########## contincont ##########
+alan contincont
+arun contincont < contincont.input
+########## /bin/sh  contincont.tst ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Loc.
+There is a box1 and a box2 here.
+
+> put box1 in box2
+
+> l
+Loc.
+There is a box2 here.
+
+> put box2 in box1
+
+> l
+Loc.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 
