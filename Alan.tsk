@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>310.89</origest>
 <currest>309.89</currest>
-<elapsed>158.89</elapsed>
+<elapsed>160.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>37</origest>
 <currest>37</currest>
-<elapsed>5</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>18</origest>
 <currest>18</currest>
-<elapsed>5</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
@@ -83,52 +83,6 @@ Actually this is obsolete, since in v3 you can not do that, you can only specify
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default description for a instance should be either in definite or indefinite form.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Multiple messages for initial locations which are not declared</desc>
 <notes>The t Isa object In unknown ...
 
@@ -142,45 +96,18 @@ Fix it!
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>SAVE &amp; RESTORE texts as messages</desc>
-<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+<notes>Currently the library (or verb) prints "Saved. OK" even if the save was aborted (like it can be in WinArun). This should instead be a message SAVE_OK and complemented with a SAVE_ABORTED. Same for RESTORE. Possibly they could be made into one OK and ABORTED messages.
 
-Check for consistency with other instances of local overides.</notes>
+This is handled by WinArun now.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>A very large number of events will not restore correctly after a save</desc>
-<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document inheritance rules for each construct</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -209,6 +136,15 @@ New clause on containers:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>UNDO does not affect heros position</desc>
 <notes>Bug? Save current state also? Why is not current.location set to heros location?
 
@@ -222,6 +158,79 @@ We also need some way to re-output the state.</notes>
 <task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A very large number of events will not restore correctly after a save</desc>
+<notes>There seems to be no check for event queue size when reading events back from a save file</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
+
+Verify what this would mean in a practical example.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default description for a instance should be either in definite or indefinite form.</desc>
+<notes>Is there a problem with current defaults:
+ - There is a object here.
+ - Actor is here.
+
+Would "There is a actor here." be a better default?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document inheritance rules for each construct</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

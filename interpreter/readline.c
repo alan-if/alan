@@ -48,14 +48,13 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 Boolean readline(char buffer[])
 {
   event_t event;
-#ifdef HAVE_WINGLK
-  INT_PTR e;
+  static Boolean readingCommands = FALSE;
   static frefid_t commandFileRef;
   static strid_t commandFile;
+#ifdef HAVE_WINGLK
   static frefid_t logFileRef;
+  INT_PTR e;
 #endif
-
-  static Boolean readingCommands = FALSE;
 
   if (readingCommands) {
     if (glk_get_line_stream(commandFile, buffer, 255) == 0) {

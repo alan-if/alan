@@ -42,7 +42,7 @@ extern void analyzeLimit(LimNod *lim);
 extern Aword generateLimits(ContainerBody *info);
 
 /* Dump a Limit node */
-extern void dulim(LimNod *lim);
+extern void dumpLimit(LimNod *lim);
 
 
 #endif

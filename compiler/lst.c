@@ -35,7 +35,7 @@ extern void dumpSyntax();
 extern void dumpStep();
 extern void dumpVerb();
 extern void dumpExpression();
-
+extern void dumpLimit();
 
 
 /*======================================================================
@@ -63,6 +63,7 @@ void initDumpNodeList()
   dumpNodeTable[STEP_LIST] = &dumpStep;
   dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;  
   dumpNodeTable[NAME_LIST] = &dumpId;
+  dumpNodeTable[LIMIT_LIST] = &dumpLimit;
 }
 
 

@@ -65,8 +65,9 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 void analyzeLimit(LimNod *lim)
 {
   /* Analyze one limit. The attributes that defines the limits must be
-     attributes for all THINGS beacuse we must be able to check them
-     at run-time.  The predefined attribute COUNT is also allowed.
+     attributes for all instances the container accepts because we
+     must be able to check them at run-time.  The predefined attribute
+     COUNT is also allowed.
   */
 
   Attribute *atr, *a;		/* Attribute nodes */
@@ -110,7 +111,7 @@ static void generateLimit(LimNod *lim)
 static void generateLimitEntry(LimNod *lim)
 {
   if (lim->atr->id->code == I_COUNT)
-    emit(I_COUNT);
+    emit(1-I_COUNT);
   else
     emit(lim->atr->id->code);
   emit(lim->atr->value);
@@ -141,7 +142,7 @@ Aword generateLimits(ContainerBody *info)
 
 
 /*======================================================================*/
-void dulim(LimNod *lim)
+void dumpLimit(LimNod *lim)
 {
   put("LIM: "); dumpSrcp(&lim->srcp); indent();
   put("atr: "); dumpAttribute(lim->atr); nl();

@@ -72,21 +72,13 @@ static int sumatr(atr, cnt)
   Checks if a limit for a container is exceeded.
 
   */
-#ifdef _PROTOTYPES_
 Boolean checklim(
      Aword cnt,			/* IN - Container code */
      Aword obj			/* IN - The object to add */
-)
-#else
-Boolean checklim(cnt, obj)
-     Aword cnt;			/* IN - Container code */
-     Aword obj;			/* IN - The object to add */
-#endif
-{
+) {
   LimEntry *lim;
   Aword props;
 
-  fail = TRUE;
   if (!isCnt(cnt))
     syserr("Checking limits for a non-container.");
 
@@ -95,7 +87,7 @@ Boolean checklim(cnt, obj)
 
   if (container[props].limits != 0) { /* Any limits at all? */
     for (lim = (LimEntry *) pointerTo(container[props].limits); !endOfTable(lim); lim++)
-      if (lim->atr == I_COUNT) {
+      if (lim->atr == 1-I_COUNT) {
 	if (count(cnt) >= lim->val) {
 	  interpret(lim->stms);
 	  return(TRUE);		/* Limit check failed */
@@ -107,7 +99,6 @@ Boolean checklim(cnt, obj)
 	}
       }
   }
-  fail = FALSE;
   return(FALSE);
 }
 

@@ -1,0 +1,15 @@
+########## alan locateActorInContainer ##########
+
+
+locateActorInContainer.alan
+
+   11.        Locate i In c.
+=====>        1
+
+  *1*   402 E : An Actor can not be inside a Container.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

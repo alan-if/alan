@@ -18,7 +18,9 @@ End The cont.
 
 Syntax
   put_in = put (i) 'in' (c)
-    Where c Isa container Else
-      "You can not put anything in that."
+    Where c Isa container
+      Else "You can not put anything in that."
+    And i Isa actor
+      Else "You can only put actors into containers ;-)"
 
 Start At l.

@@ -1,0 +1,16 @@
+########## alan unknownInitialLocation ##########
+
+
+unknownInitialLocation.alan
+
+    4.  The o Isa object At unknown
+=====>                      1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+  *1*   351 E : Must refer to an instance inheriting from 'location'.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
