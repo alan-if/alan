@@ -53,12 +53,12 @@ void print(fpos, len)
 {
   char str[2*WIDTH];            /* String buffer */
   int outlen = 0;               /* Current output length */
-  int ch;
+  int ch = 0;
   int i;
-  long savfp;                   /* Temporary saved text file position */
+  long savfp = 0;		/* Temporary saved text file position */
   static Boolean printFlag = FALSE; /* Printing already? */
   Boolean savedPrintFlag = printFlag;
-  void *info;                   /* Saved decoding info */
+  void *info = NULL;		/* Saved decoding info */
 
 
   if (len == 0) return;
@@ -1163,7 +1163,7 @@ void list(cnt)
 {
   int i;
   Aword props;
-  Aword prevobj;
+  Aword prevobj = 0;
   Boolean found = FALSE;
   Boolean multiple = FALSE;
 
@@ -1263,7 +1263,7 @@ void describeInstances()
 #endif
 {
   int i;
-  int prevobj;
+  int prevobj = 0;
   Boolean found = FALSE;
   Boolean multiple = FALSE;
 

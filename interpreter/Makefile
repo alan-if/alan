@@ -2,11 +2,12 @@
 
 CYGWIN = -DCOMPILER=\"[GCC/CygWin32]\"
 OPTIMIZE = -g
+GLKROOT = ../../WindowsGLK
 
 #Settings for Windows GLK variant
 winglk: GLK = -DGLK
-winglk: GLKINCLUDE = -I../../WindowsGLK/Include
-winglk: GLKLIB = ../../../../WindowsGlk/Glk.lib
+winglk: GLKINCLUDE = -I$(GLKROOT)/Include
+winglk: GLKLIB = $(GLKROOT)/Glk.lib
 winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
 
 release: OPTIMIZE = -O4

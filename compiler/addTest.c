@@ -37,7 +37,6 @@ static void testMultipleAddAttribute()
 
   Symbol *aSymbol = lookup("aClassId");
   unitAssert(length(aSymbol->fields.claOrIns.slots->attributes) == 0);
-  (theClass);			/* Dummy to avoid "unused" warning */
 
   addAttributes(add1, aSymbol);
   unitAssert(length(aSymbol->fields.claOrIns.slots->attributes) == 1);
@@ -51,5 +50,4 @@ void registerAddUnitTests()
 {
   registerUnitTest(testMultipleAddAttribute);
 }
-
 
