@@ -1,12 +1,11 @@
 ########## paras ##########
 ../compiler/alan -debug paras
-../interpreter/arun -n -d paras < paras.input
+../interpreter/arun -n -d -r paras < paras.input
 ########## /bin/sh  paras.tst ##########
 
         No warnings or errors detected.
         2 informational message(s).
 
-<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
 <Version of 'paras' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 

@@ -82,6 +82,9 @@ static void switches(argc, argv)
       case 'n':
 	statusflg = FALSE;
 	break;
+      case 'r':
+	regressionflg = TRUE;
+	break;
       default:
 	printf("Unrecognized switch, -%c\n", argv[i][1]);
 	usage();

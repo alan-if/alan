@@ -1,2 +1,2 @@
 ../compiler/alan -debug paras
-../interpreter/arun -n -d paras < paras.input
+../interpreter/arun -n -d -r paras < paras.input

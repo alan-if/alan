@@ -64,7 +64,7 @@ int main(argc, argv)
   args(argc, argv);
 #endif
 
-  if (dbgflg||verbose) {
+  if ((dbgflg && ! regressionflg) || verbose) {
     if (dbgflg) printf("<");
     printf("Arun, Adventure Interpreter version %s (%s %s)",
 	   alan.version.string, alan.date, alan.time);

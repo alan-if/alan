@@ -79,6 +79,7 @@ Boolean dbgflg = FALSE;
 Boolean stpflg = FALSE;
 Boolean logflg = FALSE;
 Boolean statusflg = TRUE;
+Boolean regressionflg = FALSE;
 Boolean fail = FALSE;
 Boolean anyOutput = FALSE;
 
@@ -180,11 +181,12 @@ void usage()
 #endif
   printf("    -v    verbose mode\n");
   printf("    -l    log player commands and game output to a file\n");
-  printf("    -i    ignore version and checksum errors\n");
   printf("    -n    no Status Line\n");
   printf("    -d    enter debug mode\n");
   printf("    -t    trace game execution\n");
   printf("    -s    single instruction trace\n");
+  printf("    -i    ignore version and checksum errors\n");
+  printf("    -r    refrain from printing timestamps (making regression testing easier)\n");
 #ifdef GLK
   glk_set_style(style_Normal);
 #endif

@@ -1,12 +1,11 @@
 ########## saviour ##########
 ../compiler/alan -debug saviour
-../interpreter/arun -n -d saviour < saviour.input
+../interpreter/arun -n -d -r saviour < saviour.input
 ########## /bin/sh  saviour.tst ##########
 
         No warnings or errors detected.
         54 informational message(s).
 
-<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
 <Version of 'saviour' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
@@ -29,8 +28,8 @@ Outside The Tall Building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
-<More>
 
+<More>
 ABUG> x
 
 

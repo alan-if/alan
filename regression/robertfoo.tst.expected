@@ -1,12 +1,11 @@
 ########## robertfoo ##########
 ../compiler/alan robertfoo
-../interpreter/arun -n -d robertfoo < robertfoo.input
+../interpreter/arun -n -d -r robertfoo < robertfoo.input
 ########## /bin/sh  robertfoo.tst ##########
 
         No warnings or errors detected.
         8 informational message(s).
 
-<Arun, Adventure Interpreter version 2.8(6) (2001-01-18 07:29:42)>
 <Version of 'robertfoo' is 2.8(6)>
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 

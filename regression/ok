@@ -1,5 +1,9 @@
 #! /bin/sh
 #
-cp $1.output $1.tst.expected
-rm $1.diff
-touch $1.diff
+for f in ${*} ; do
+    case=`basename $f .tst`
+    cp $case.output $case.tst.expected
+    rm $case.diff
+    touch $case.diff
+done
+
