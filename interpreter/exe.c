@@ -1036,6 +1036,27 @@ void say(id)
 
   */
 
+
+static Abool inheritsDescriptionFrom(Aword classId)
+{
+  if (class[classId].description != 0)
+    return TRUE;
+  else if (class[classId].parent != 0)
+    return inheritsDescriptionFrom(class[classId].parent);
+  else
+    return FALSE;
+}  
+
+static Abool haveDescription(Aword instanceId)
+{
+  if (instance[instanceId].description != 0)
+    return TRUE;
+  else if (instance[instanceId].parentClass != 0)
+    return inheritsDescriptionFrom(instance[instanceId].parentClass);
+  else
+    return FALSE;
+}
+
 static void describeClass(Aword id)
 {
   if (class[id].description != 0) {
@@ -1071,6 +1092,8 @@ static void describeObject(obj)
 {
   if (instance[obj].description != 0)
     interpret(instance[obj].description);
+  else if (haveDescription(obj))
+    describeAnything(obj);
   else {
     prmsg(M_SEEOBJ1);
     sayarticle(obj);
@@ -1294,7 +1317,7 @@ void describeInstances()
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	!admin[i].alreadyDescribed && instance[i].description)
+	!admin[i].alreadyDescribed && haveDescription(i))
       describe(i);
 
   /* Then list all other objects here */

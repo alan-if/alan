@@ -48,7 +48,7 @@ VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 
-arun : $(ARUNOBJECTS) Makefile dependencies.mk
+arun : $(ARUNOBJECTS) Makefile dependencies.mk unit
 	gcc -o arun $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
@@ -102,10 +102,11 @@ TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
 unit : $(TESTOBJS)
+	@./unit
 
-# Run all unit tests!
+# Run all tests!
 test: unit
-	@unit
+
 
 
 #

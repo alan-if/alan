@@ -157,10 +157,10 @@ static void analyzeName(Slots *slots)
 		 inheritsFrom(slots->id->symbol, actorSymbol));
 
     /* Then create a PRINT statement */
-    stm = newstm(&nulsrcp, STM_PRINT);
+    stm = newstm(&nulsrcp, PRINT_STATEMENT);
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
-    slots->mentioned = concat(NULL, stm, STM_LIST);
+    slots->mentioned = concat(NULL, stm, LIST_STATEMENT);
   } else
     analyzeStatements(slots->mentioned, NULL);
 }

@@ -258,7 +258,7 @@ void prepmsgs(void)
       break;
     }
     /* Create a PRINT statement and enter the print info */
-    stm = newstm(&nulsrcp, STM_PRINT);
+    stm = newstm(&nulsrcp, PRINT_STATEMENT);
     stm->fields.print.fpos = ftell(txtfil);
     stm->fields.print.len = strlen(msgp);
     /* Make a list of it */

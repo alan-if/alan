@@ -100,7 +100,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-alan: $(MAINOBJECTS) test
+alan: $(MAINOBJECTS) unit
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
@@ -149,10 +149,11 @@ TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
 TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
 unit : $(TESTOBJS)
+	@./unit
+
 
 # Run all unit tests!
-test: unit
-	@./unit
+test: unit all
 	cd testing; regr
 
 #

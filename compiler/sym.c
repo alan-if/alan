@@ -643,7 +643,6 @@ static void replicate(Symbol *symbol)
 {
   if (haveParent(symbol)) {
     replicateAttributes(symbol);
-    replicateDescription(symbol);
     replicateContainer(symbol);
   }
 }

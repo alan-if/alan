@@ -554,61 +554,61 @@ static void anstm(StmNod *stm,
 		  Context *context)
 {
   switch (stm->class) {
-  case STM_NOP:
-  case STM_PRINT:
-  case STM_QUIT:
-  case STM_LOOK:
-  case STM_SAVE:
-  case STM_RESTORE:
-  case STM_RESTART:
-  case STM_VISITS:
-  case STM_SYSTEM:
+  case NOP_STATEMENT:
+  case PRINT_STATEMENT:
+  case QUIT_STATEMENT:
+  case LOOK_STATEMENT:
+  case SAVE_STATEMENT:
+  case RESTORE_STATEMENT:
+  case RESTART_STATEMENT:
+  case VISITS_STATEMENT:
+  case SYSTEM_STATEMENT:
     /* Nothing to analyse */
     break;
-  case STM_SCORE:
+  case SCORE_STATEMENT:
     if (stm->fields.score.count != 0) {
       adv.scores[stm->fields.score.count] = stm->fields.score.score;
       scotot += stm->fields.score.score;
     }
     break;
-  case STM_DESCRIBE:
+  case DESCRIBE_STATEMENT:
     andescribe(stm, context);
     break;
-  case STM_SAY:
+  case SAY_STATEMENT:
     ansay(stm, context);
     break;
-  case STM_LIST:
+  case LIST_STATEMENT:
     analyzeList(stm, context);
     break;
-  case STM_EMPTY:
+  case EMPTY_STATEMENT:
     anempty(stm, context);
     break;
-  case STM_LOCATE:
+  case LOCATE_STATEMENT:
     analyzeLocate(stm, context);
     break;
-  case STM_MAKE:
+  case MAKE_STATEMENT:
     anmake(stm, context);
     break;
-  case STM_SET:
+  case SET_STATEMENT:
     anset(stm, context);
     break;
-  case STM_INCR:
-  case STM_DECR:
+  case INCREASE_STATEMENT:
+  case DECREASE_STATEMENT:
     anincr(stm, context);
     break;
-  case STM_SCHEDULE:
+  case SCHEDULE_STATEMENT:
     anschedule(stm, context);
     break;
-  case STM_CANCEL:
+  case CANCEL_STATEMENT:
     ancancel(stm);
     break;
-  case STM_IF:
+  case IF_STATEMENT:
     anif(stm, context);
     break;
-  case STM_USE:
+  case USE_STATEMENT:
     analyzeUse(stm, context);
     break;
-  case STM_DEPEND:
+  case DEPEND_STATEMENT:
     andep(stm, context);
     break;
   default:
@@ -823,7 +823,7 @@ static void geincr(StmNod *stm, int currentInstance)
 
   emit0(C_CONST, stm->fields.incr.atr->code);
   generateWhat(stm->fields.incr.wht, currentInstance);
-  if (stm->class == STM_INCR)
+  if (stm->class == INCREASE_STATEMENT)
     emit0(C_STMOP, I_INCR);
   else
     emit0(C_STMOP, I_DECR);
@@ -1043,96 +1043,96 @@ static void gestm(StmNod *stm, int currentInstance)
 {
   switch (stm->class) {
 
-  case STM_NOP:
+  case NOP_STATEMENT:
     break;
 
-  case STM_PRINT:
+  case PRINT_STATEMENT:
     geprint(stm);
     break;
 
-  case STM_QUIT:
+  case QUIT_STATEMENT:
     emit0(C_STMOP, I_QUIT);
     break;
 
-  case STM_LOOK:
+  case LOOK_STATEMENT:
     emit0(C_STMOP, I_LOOK);
     break;
 
-  case STM_SAVE:
+  case SAVE_STATEMENT:
     emit0(C_STMOP, I_SAVE);
     break;
 
-  case STM_RESTORE:
+  case RESTORE_STATEMENT:
     emit0(C_STMOP, I_RESTORE);
     break;
 
-  case STM_RESTART:
+  case RESTART_STATEMENT:
     emit0(C_STMOP, I_RESTART);
     break;
 
-  case STM_VISITS:
+  case VISITS_STATEMENT:
     emit0(C_CONST, stm->fields.visits.count);
     emit0(C_STMOP, I_VISITS);
     break;
 
-  case STM_SCORE:
+  case SCORE_STATEMENT:
     generateScore(stm);
     break;
 
-  case STM_DESCRIBE:
+  case DESCRIBE_STATEMENT:
     generateDescribe(stm);
     break;
 
-  case STM_SAY:
+  case SAY_STATEMENT:
     gesay(stm, currentInstance);
     break;
 
-  case STM_LIST:
+  case LIST_STATEMENT:
     gelist(stm);
     break;
 
-  case STM_EMPTY:
+  case EMPTY_STATEMENT:
     geempty(stm, currentInstance);
     break;
 
-  case STM_LOCATE:
+  case LOCATE_STATEMENT:
     gelocate(stm, currentInstance);
     break;
 
-  case STM_MAKE:
+  case MAKE_STATEMENT:
     gemake(stm, currentInstance);
     break;
 
-  case STM_SET:
+  case SET_STATEMENT:
     geset(stm, currentInstance);
     break;
 
-  case STM_INCR:
-  case STM_DECR:
+  case INCREASE_STATEMENT:
+  case DECREASE_STATEMENT:
     geincr(stm, currentInstance);
     break;
 
-  case STM_SCHEDULE:
+  case SCHEDULE_STATEMENT:
     geschedule(stm, currentInstance);
     break;
 
-  case STM_CANCEL:
+  case CANCEL_STATEMENT:
     gecancel(stm);
     break;
 
-  case STM_IF:
+  case IF_STATEMENT:
     geif(stm, currentInstance);
     break;
 
-  case STM_USE:
+  case USE_STATEMENT:
     geuse(stm, currentInstance);
     break;
 
-  case STM_DEPEND:
+  case DEPEND_STATEMENT:
     gedep(stm, currentInstance);
     break;
 
-  case STM_SYSTEM:
+  case SYSTEM_STATEMENT:
     gesystem(stm);
     break;
 
@@ -1176,67 +1176,67 @@ void dustm(StmNod *stm)
 
   put("STM: ");
   switch(stm->class) {
-  case STM_PRINT:
+  case PRINT_STATEMENT:
     put("PRINT ");
     break;
-  case STM_DESCRIBE:
+  case DESCRIBE_STATEMENT:
     put("DESCRIBE ");
     break;
-  case STM_SAY:
+  case SAY_STATEMENT:
     put("SAY ");
     break;
-  case STM_LIST:
+  case LIST_STATEMENT:
     put("LIST ");
     break;
-  case STM_IF:
+  case IF_STATEMENT:
     put("IF ");
     break;
-  case STM_MAKE:
+  case MAKE_STATEMENT:
     put("MAKE ");
     break;
-  case STM_SET:
+  case SET_STATEMENT:
     put("SET ");
     break;
-  case STM_INCR:
+  case INCREASE_STATEMENT:
     put("INCR ");
     break;
-  case STM_DECR:
+  case DECREASE_STATEMENT:
     put("DECR ");
     break;
-  case STM_LOCATE:
+  case LOCATE_STATEMENT:
     put("LOCATE ");
     break;
-  case STM_EMPTY:
+  case EMPTY_STATEMENT:
     put("EMPTY ");
     break;
-  case STM_SCHEDULE:
+  case SCHEDULE_STATEMENT:
     put("SCHEDULE ");
     break;
-  case STM_CANCEL:
+  case CANCEL_STATEMENT:
     put("CANCEL ");
     break;
-  case STM_LOOK:
+  case LOOK_STATEMENT:
     put("LOOK ");
     break;
-  case STM_QUIT:
+  case QUIT_STATEMENT:
     put("QUIT ");
     break;
-  case STM_SCORE:
+  case SCORE_STATEMENT:
     put("SCORE ");
     break;
-  case STM_USE:
+  case USE_STATEMENT:
     put("USE ");
     break;
-  case STM_SAVE:
+  case SAVE_STATEMENT:
     put("SAVE ");
     break;
-  case STM_RESTORE:
+  case RESTORE_STATEMENT:
     put("RESTORE ");
     break;
-  case STM_RESTART:
+  case RESTART_STATEMENT:
     put("RESTART ");
     break;
-  case STM_VISITS:
+  case VISITS_STATEMENT:
     put("VISITS ");
     break;
   default:
@@ -1246,75 +1246,75 @@ void dustm(StmNod *stm)
   dumpSrcp(&stm->srcp);
 
   switch(stm->class) {
-  case STM_LOOK:
-  case STM_QUIT:
-  case STM_SAVE:
-  case STM_RESTORE:
-  case STM_RESTART:
+  case LOOK_STATEMENT:
+  case QUIT_STATEMENT:
+  case SAVE_STATEMENT:
+  case RESTORE_STATEMENT:
+  case RESTART_STATEMENT:
     break;
   default:
     in();
     switch(stm->class) {
-    case STM_PRINT:
+    case PRINT_STATEMENT:
       put("fpos: "); dumpInt(stm->fields.print.fpos); nl();
       put("len: "); dumpInt(stm->fields.print.len);
       break;
-    case STM_SCORE:
+    case SCORE_STATEMENT:
       put("count: "); dumpInt(stm->fields.score.count); nl();
       put("score: "); dumpInt(stm->fields.score.score);
       break;
-    case STM_DESCRIBE:
+    case DESCRIBE_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.describe.wht);
       break;
-    case STM_SAY:
+    case SAY_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.say.exp);
       break;
-    case STM_LIST:
+    case LIST_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.list.wht);
       break;
-    case STM_EMPTY:
+    case EMPTY_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.empty.wht); nl();
       put("whr: "); duwhr(stm->fields.empty.whr);
       break;
-    case STM_LOCATE:
+    case LOCATE_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.locate.wht); nl();
       put("whr: "); duwhr(stm->fields.locate.whr);
       break;
-    case STM_MAKE:
+    case MAKE_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.list.wht); nl();
       put("not: "); dumpBool(stm->fields.make.not); nl();
       put("atr: "); dumpId(stm->fields.make.atr);
       break;
-    case STM_SET:
+    case SET_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.set.wht); nl();
       put("atr: "); dumpId(stm->fields.set.atr); nl();
       put("exp: "); dumpExpression(stm->fields.set.exp);
       break;
-    case STM_INCR:
-    case STM_DECR:
+    case INCREASE_STATEMENT:
+    case DECREASE_STATEMENT:
       put("wht: "); dumpWhat(stm->fields.incr.wht); nl();
       put("atr: "); dumpId(stm->fields.incr.atr); nl();
       put("step: "); dumpExpression(stm->fields.incr.step);
       break;
-    case STM_SCHEDULE:
+    case SCHEDULE_STATEMENT:
       put("id: "); dumpId(stm->fields.schedule.id); nl();
       put("whr: "); duwhr(stm->fields.locate.whr); nl();
       put("when: "); dumpExpression(stm->fields.schedule.when);
       break;
-    case STM_CANCEL:
+    case CANCEL_STATEMENT:
       put("id: "); dumpId(stm->fields.cancel.id);
       break;
-    case STM_IF:
+    case IF_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.iff.exp); nl();
       put("thn: "); dumpList(stm->fields.iff.thn, LIST_STM); nl();
       put("els: "); dumpList(stm->fields.iff.els, LIST_STM);
       break;
-    case STM_USE:
+    case USE_STATEMENT:
       put("script: "); dumpId(stm->fields.use.script); nl();
       put("scriptno: "); dumpInt(stm->fields.use.scriptno); nl();
       put("actor: "); dumpId(stm->fields.use.actor);
       break;
-    case STM_VISITS:
+    case VISITS_STATEMENT:
       put("count: "); dumpInt(stm->fields.visits.count);
       break;
     default:
