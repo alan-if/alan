@@ -111,10 +111,10 @@ void testInherit2()
 /* Test symbol table initialisation */
 void testSymbolTableInit()
 {
-  SymNod *thing;
-  SymNod *object;
-  SymNod *actor;
-  SymNod *location;
+  SymNod *thingSymbol;
+  SymNod *objectSymbol;
+  SymNod *actorSymbol;
+  SymNod *locationSymbol;
 
   SymNod *sym1 = lookup(symbolName1);
   SymNod *sym2 = lookup(symbolName2);
@@ -126,27 +126,32 @@ void testSymbolTableInit()
   unitAssert(instanceCount == 1); /* The Hero */
 
   symbolizeAdv();
-  thing = lookup("thing");
-  object = lookup("object");
-  actor = lookup("actor");
-  location = lookup("location");
+  thingSymbol = lookup("thing");
+  objectSymbol = lookup("object");
+  actorSymbol = lookup("actor");
+  locationSymbol = lookup("location");
 
-  unitAssert(inheritsFrom(object, thing));
-  unitAssert(inheritsFrom(location, thing));
-  unitAssert(inheritsFrom(actor, thing));
-  unitAssert(inheritsFrom(thing, thing));
+  unitAssert(thing->slots->symbol == thingSymbol);
+  unitAssert(object->slots->symbol == objectSymbol);
+  unitAssert(location->slots->symbol == locationSymbol);
+  unitAssert(actor->slots->symbol == actorSymbol);
+  
+  unitAssert(inheritsFrom(objectSymbol, thingSymbol));
+  unitAssert(inheritsFrom(locationSymbol, thingSymbol));
+  unitAssert(inheritsFrom(actorSymbol, thingSymbol));
+  unitAssert(inheritsFrom(thingSymbol, thingSymbol));
 
-  setParent(sym1, object);
-  setParent(sym2, actor);
-  setParent(sym3, location);
+  setParent(sym1, objectSymbol);
+  setParent(sym2, actorSymbol);
+  setParent(sym3, locationSymbol);
 
-  unitAssert(inheritsFrom(sym1, object));
-  unitAssert(inheritsFrom(sym2, actor));
-  unitAssert(inheritsFrom(sym3, location));
+  unitAssert(inheritsFrom(sym1, objectSymbol));
+  unitAssert(inheritsFrom(sym2, actorSymbol));
+  unitAssert(inheritsFrom(sym3, locationSymbol));
 
-  unitAssert(inheritsFrom(sym1, thing));
-  unitAssert(inheritsFrom(sym2, thing));
-  unitAssert(inheritsFrom(sym3, thing));
+  unitAssert(inheritsFrom(sym1, thingSymbol));
+  unitAssert(inheritsFrom(sym2, thingSymbol));
+  unitAssert(inheritsFrom(sym3, thingSymbol));
 
 }
 

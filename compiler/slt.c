@@ -138,7 +138,7 @@ void analyzeMentioned(SlotsNode *slots)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = annams(slots->names, slots->id,
-		 inheritsFrom(slots->symbol, location->symbol));
+		 inheritsFrom(slots->symbol, location->slots->symbol));
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, STM_PRINT);
@@ -159,7 +159,11 @@ void analyzeMentioned(SlotsNode *slots)
 void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
+
   analyzeMentioned(slots);
+
+  if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
+    lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
   analyzeExits(slots->exits);
 }
 

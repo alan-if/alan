@@ -94,7 +94,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # If you build this on any machine without ToolMaker, remove "src"
 #
 all alan : .tmstamp test $(MAINOBJECTS) Makefile
-	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)	
+	gcc -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 

@@ -74,16 +74,14 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
   new = NEW(ClaNod);
 
   new->srcp = *srcp;
-  new->parent = parent;
   if (slt == NULL)
-    new->slt = newEmptySlots();
+    new->slots = newEmptySlots();
   else
-    new->slt = slt;
+    new->slots = slt;
 
-  new->slt->id = id;
-
-
-  new->symbol = newsym(id->string, CLASS_SYMBOL);
+  new->slots->id = id;
+  new->slots->parent = parent;
+  new->slots->symbol = newsym(id->string, CLASS_SYMBOL);
 
   allClasses = concat(allClasses, new, LIST_CLA);
 
@@ -100,20 +98,13 @@ ClaNod *newcla(Srcp *srcp,	/* IN - Source Position */
  */
 static void symbolizeClass(ClaNod *cla)
 {
-  SymNod *parent;
+  symbolizeSlots(cla->slots);
 
-  symbolizeSlots(cla->slt);
-
-  if (cla->parent != NULL) {
-    parent = lookup(cla->parent->string);
-    if (parent == NULL)
-      lmLog(&cla->parent->srcp, 310, sevERR, cla->parent->string);
-    else if (parent->kind != CLASS_SYMBOL)
-      lmLog(&cla->parent->srcp, 350, sevERR, "");
-    else {
-      cla->parent->symbol = parent;
-      setParent(cla->symbol, cla->parent->symbol);
-    }
+  if (cla->slots->parent != NULL) {
+    if (cla->slots->parent->kind != CLASS_SYMBOL)
+      lmLog(&cla->slots->parent->srcp, 350, sevERR, "");
+    else
+      setParent(cla->slots->symbol, cla->slots->parent->symbol);
   }
 }
 
@@ -173,11 +164,11 @@ static void generateClassEntry(ClaNod *cla)
 {
   cla->adr = emadr();
 
-  emit(cla->symbol->code);	/* First own code */
-  if (cla->parent == NULL)	/* Then parents */
+  emit(cla->slots->symbol->code);	/* First own code */
+  if (cla->slots->parent == NULL)	/* Then parents */
     emit(0);
   else
-    emit(cla->parent->symbol->code);
+    emit(cla->slots->parent->symbol->code);
 }
 
 
@@ -193,10 +184,10 @@ Aaddr generateClasses(void)
   List *l;
   Aaddr adr;
 
-  acdHeader.thingClassId = thing->symbol->code;
-  acdHeader.objectClassId = object->symbol->code;
-  acdHeader.locationClassId = location->symbol->code;
-  acdHeader.actorClassId = actor->symbol->code;
+  acdHeader.thingClassId = thing->slots->symbol->code;
+  acdHeader.objectClassId = object->slots->symbol->code;
+  acdHeader.locationClassId = location->slots->symbol->code;
+  acdHeader.actorClassId = actor->slots->symbol->code;
 
   adr = emadr();
   for (l = allClasses; l; l = l->next)
@@ -218,8 +209,7 @@ Aaddr generateClasses(void)
 void dumpClass(ClaNod *cla)
 {
   put("CLA: "); dumpSrcp(&cla->srcp); in();
-  put("parent: "); dumpId(cla->parent); nl();
-  put("slots: "); dumpSlots(cla->slt); out();
+  put("slots: "); dumpSlots(cla->slots); out();
 }
 
 

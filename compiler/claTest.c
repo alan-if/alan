@@ -22,8 +22,8 @@ void testCreateClass()
   ClaNod *cla = newcla(&srcp, id, parent, NULL);
 
   unitAssert(equalSrcp(cla->srcp, srcp));
-  unitAssert(equalId(cla->slt->id, id));
-  unitAssert(equalId(cla->parent, parent));
+  unitAssert(equalId(cla->slots->id, id));
+  unitAssert(equalId(cla->slots->parent, parent));
 
   symbolizeClasses();
   unitAssert(readEcode() == 310 && readSev() == sevERR);

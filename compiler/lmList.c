@@ -143,6 +143,7 @@ static lmMsgs msg[] = {
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "350   ", "Can not inherit from something not a class." },
     { "351   ", "Must refer to %1 inheriting from \'%2\'." },
+    { "352   ", "Instance \'%1\' does not inherit from \'location\', but has EXITs, which can never be traversed." },
     { "400   ", "Script not defined for Actor \'%1\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "An Actor can\'t be inside a Container." },
@@ -179,7 +180,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 99}
+    {0, 100}
 };
 static lmMessages currMsect = (lmMessages)0;
 
@@ -838,12 +839,13 @@ static void prerrm(
 	  line[outIndex] = '\0';
 	  break;
 	}
-	if (outIndex != preCol)	/* Don't overwrite a previous marker */
+	if (outIndex != preCol)	{ /* Don't overwrite a previous marker */
 	  /* If source contained TAB, pad with that instead */
 	  if (src[outIndex] == '\t')
 	    line[OMARG+outIndex] = '\t';
 	  else
 	    line[OMARG+outIndex] = ' ';
+	}
 	outIndex = outIndex + 1;		/* Next column */
       }
       

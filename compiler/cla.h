@@ -18,9 +18,7 @@
 
 typedef struct ClaNod {		/* CLASS */
   Srcp srcp;			/* Source position */
-  SymNod *symbol;		/* Pointer to symbol table node */
-  IdNode *parent;		/* The class' heritage */
-  SlotsNode *slt;		/* Slots */
+  SlotsNode *slots;
   Aaddr adr;			/* Generated at address */
 } ClaNod;
 
