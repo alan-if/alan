@@ -334,12 +334,15 @@ static void analyzeUse(StmNod *stm, Context *context)
 static void analyzeStop(StmNod *stm, Context *context)
 {
   Symbol *sym;
+  Expression *exp = stm->fields.stop.actor;
 
-  /* Lookup specified actors symbol */
-  sym = symcheck(stm->fields.stop.actor, INSTANCE_SYMBOL, context);
-  if (sym) {
-    if (!inheritsFrom(sym, actorSymbol))
-      lmLog(&stm->fields.stop.actor->srcp, 410, sevERR, "STOP statement");
+  analyzeExpression(exp, context);
+  if (exp->type != ERROR_TYPE) {
+    sym = symbolOf(exp);
+    if (sym) {
+      if (!inheritsFrom(sym, actorSymbol))
+	lmLog(&stm->fields.stop.actor->srcp, 410, sevERR, "STOP statement");
+    }
   }
 }
 
@@ -790,7 +793,7 @@ static void generateUse(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateStop(StmNod *stm)
 {
-  generateId(stm->fields.stop.actor);
+  generateExpression(stm->fields.stop.actor);
   emit0(I_STOP);
 }
 
@@ -1266,7 +1269,7 @@ void dumpStatement(StmNod *stm)
       put("actor: "); dumpExpression(stm->fields.use.actorExp);
       break;
     case STOP_STATEMENT:
-      put("actor: "); dumpId(stm->fields.stop.actor);
+      put("actor: "); dumpExpression(stm->fields.stop.actor);
       break;
     case VISITS_STATEMENT:
       put("count: "); dumpInt(stm->fields.visits.count);

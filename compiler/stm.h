@@ -140,7 +140,7 @@ typedef struct StmNod {		/* STATEMENT */
     } use;
 
     struct {			/* STOP */
-      IdNode *actor;		/* Which actor */
+      Expression *actor;	/* Which actor */
     } stop;
 
     struct {			/* SYSTEM */

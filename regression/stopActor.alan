@@ -6,7 +6,7 @@ The bartender Isa actor At l
 End The bartender.
 
 Event stop_bartender
-  Stop bartender.
+  Stop bartender Of l.
 End Event.
 
 Verb z
@@ -14,6 +14,7 @@ Verb z
 End Verb.
 
 The l Isa location
+  Has bartender bartender.
 End The l.
 
 Start At l.

@@ -1582,11 +1582,11 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stm->fields.use.script = pmSeSt[pmStkP+3].id;
 	pmSeSt[pmStkP+1].stm->fields.use.actorExp = pmSeSt[pmStkP+4].exp;
     	break;}
-    case 244: { /* <actor_statement> = 'STOP' ID '.'; */
+    case 244: { /* <actor_statement> = 'STOP' <what> '.'; */
 #line 1857 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, STOP_STATEMENT);
-	pmSeSt[pmStkP+1].stm->fields.stop.actor = pmSeSt[pmStkP+2].id;
+	pmSeSt[pmStkP+1].stm->fields.stop.actor = pmSeSt[pmStkP+2].exp;
     	break;}
     case 246: { /* <optional_for_actor> =; */
 #line 1865 "alan.pmk"
