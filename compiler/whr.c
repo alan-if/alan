@@ -35,7 +35,6 @@ Where *newWhere(Srcp *srcp, WhereKind kind, Expression *wht) {
   new->srcp = *srcp;
   new->kind = kind;
   new->what = wht;
-  new->directly = FALSE;
 
   return(new);
 }
@@ -131,14 +130,18 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
 
 
 /*======================================================================*/
-void generateWhere(Where *where)
+void generateWhere(Where *where, Bool directly)
 {
   switch (where->kind) {
 
   case WHERE_AT:
     generateExpression(where->what);
-    if (!inheritsFrom(where->what->class, locationSymbol))
-      emit0(I_LOCATION);
+    if (!inheritsFrom(where->what->class, locationSymbol)) {
+      if (directly)
+	emit0(I_WHERE);
+      else
+	emit0(I_LOCATION);
+    }
     break;
 
   case WHERE_IN:

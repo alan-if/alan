@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>370.89</origest>
-<currest>369.89</currest>
-<elapsed>213.89</elapsed>
+<origest>373.89</origest>
+<currest>372.89</currest>
+<elapsed>215.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>63</origest>
-<currest>63</currest>
-<elapsed>19</elapsed>
+<origest>66</origest>
+<currest>66</currest>
+<elapsed>21</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
-<elapsed>19</elapsed>
+<origest>25</origest>
+<currest>25</currest>
+<elapsed>21</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -241,7 +241,7 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <priority>2</priority>
 <origest>3</origest>
 <currest>3</currest>
-<elapsed>1</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>IN &amp; AT operators</desc>
@@ -258,7 +258,7 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -267,21 +267,9 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-<task>
-<desc>Converter should move global verbs with parameters into a class</desc>
-<notes>Which class? Will "thing" do? Probably.
-
-Design:
-For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 </task>
 <task>
 <desc>Pronoun declarations</desc>
@@ -362,19 +350,10 @@ Message CANTSEE:
 <desc>Increment: version 3.0.35</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>25</origest>
+<currest>25</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Warn for "This Here" since it always is true, suggest "This At hero"</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>INIT clause as property</desc>
 <notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.</notes>
@@ -385,8 +364,56 @@ Message CANTSEE:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Aggregates and filters must allow DIRECTLY</desc>
+<notes>Currently they are not transitive, but should have the same semantics as IN and AT: DIRECTLY is required to get the non-transitive evaluation</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor DIRECTLY to be on WHERE?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY HERE, DIRECTLY NEAR</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>A container without a description should be listed automatically</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>NEAR should use non-DIRECTLY version of where()</desc>
+<notes>Make test cases for NEAR first</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

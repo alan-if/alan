@@ -117,7 +117,6 @@ static int val(char str[])
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
   exp %% Expression *%1%%,
-  expKd %% ExpressionKind %1%%,
   exps %% List *%1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
@@ -141,7 +140,7 @@ static int val(char str[])
   msgs %% List *%1%%,
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
-  not %% Bool %1%%,
+  present %% Bool %1%%,		-- an optional marker was present
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
   qual %% QualKind %1%%,
@@ -1664,7 +1663,7 @@ static int val(char str[])
     %%
 	%<assignment_statement>.stm = newStatement(`&%'MAKE'.srcp, MAKE_STATEMENT);
 	%<assignment_statement>.stm->fields.make.wht = %<primary>.exp;
-	%<assignment_statement>.stm->fields.make.not = %<something>.not;
+	%<assignment_statement>.stm->fields.make.not = %<something>.present;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
     %%
 
@@ -2038,40 +2037,36 @@ static int val(char str[])
     %%
 	%<factor>.exp = newBinaryExpression(%<relop>.srcp,
 					    %<factor>.exp,
-					    %<optional_not>.not,
+					    %<optional_not>.present,
 					    %<relop>.op,
 					    %<arithmetic>.exp);
-        %<factor>.expKd = BINARY_EXPRESSION;
     %%
 
-    ! <factor> <optional_not> <where>
+    ! <factor> <optional_not> <optional_directly> <where>
     %%
 	%<factor>.exp = newWhereExpression(%<where>.srcp,
 					   %<factor>.exp,
-					   %<optional_not>.not,
-					   FALSE,
+					   %<optional_not>.present,
+					   %<optional_directly>.present,
 					   %<where>.whr);
-        %<factor>.expKd = WHERE_EXPRESSION;
     %%
 
     ! <factor> <optional_not> 'BETWEEN' <arithmetic> 'AND' <arithmetic>
     %%
 	%<factor>.exp = newBetweenExpression(%'BETWEEN'.srcp,
 					     %<factor>.exp,
-					     %<optional_not>.not,
+					     %<optional_not>.present,
 					     %1<arithmetic>.exp,
 					     %2<arithmetic>.exp);
-        %<factor>.expKd = BETWEEN_EXPRESSION;
     %%
 
     ! <factor> <optional_not> 'CONTAINS' <arithmetic>
     %%
 	%<factor>.exp = newBinaryExpression(%'CONTAINS'.srcp,
 					    %<factor>.exp,
-					    %<optional_not>.not,
+					    %<optional_not>.present,
 					    CONTAINS_OPERATOR,
 					    %<arithmetic>.exp);
-        %<factor>.expKd = BINARY_EXPRESSION;
     %%
     ;
 
@@ -2085,14 +2080,12 @@ static int val(char str[])
     ! <primary> 'ISA' ID
     %%
 	%<arithmetic>.exp = newIsaExpression(%'ISA'.srcp, %<primary>.exp, FALSE, %ID.id);
-        %<arithmetic>.expKd = ISA_EXPRESSION;
     %%
 
     ! <primary> <is> <something>
     %%
 	%<arithmetic>.exp = newAttributeExpression(%<is>.srcp, %<something>.id,
-					 %<something>.not, %<primary>.exp);
-        %<arithmetic>.expKd = ATTRIBUTE_EXPRESSION;
+					 %<something>.present, %<primary>.exp);
     %%
 
     ! <arithmetic> <binop> <primary>
@@ -2102,7 +2095,6 @@ static int val(char str[])
 						FALSE,
 						%<binop>.op,
 						%<primary>.exp);
-        %<arithmetic>.expKd = BINARY_EXPRESSION;
     %%
 
     ! <aggregate> <filters>
@@ -2127,7 +2119,7 @@ static int val(char str[])
     %%
     ;
 
-<filter>				-- RETURNS: exp, expKd
+<filter>				-- RETURNS: exp
     = <filter expression>
     ;
 
@@ -2136,30 +2128,26 @@ static int val(char str[])
 -- node at the top in the parse tree and the filter variable must be attached
 -- further down the left branch than in the simpler cases.
 --    ! <is> ID <optional_not> <relop> <primary>
---    %% { Expression *exp;
---       %<filter>.expKd = BINARY_EXPRESSION;
---	exp = newBinaryExpression(%<relop>.srcp, %<relop>.op,
---				%<optional_not>.not, NULL,
+--    %%
+--	%<filter>.exp = newBinaryExpression(%<relop>.srcp, %<relop>.op,
+--				%<optional_not>.present, NULL,
 --				%<primary>.exp);
---	%<filter>.exp = exp;
---    } %%
+--    %%
 --    ;
 
-<filter expression>			-- RETURNS: exp, expKd
-    = <optional_not> <where>
+<filter expression>			-- RETURNS: exp
+    = <optional_not> <optional_directly> <where>
     %%
 	%<filter expression>.exp = newWhereExpression(%<where>.srcp,
 						      NULL,
-						      %<optional_not>.not,
-						      FALSE,
+						      %<optional_not>.present,
+						      %<optional_directly>.present,
 						      %<where>.whr);
-        %<filter expression>.expKd = WHERE_EXPRESSION;
     %%
 
     ! <optional_not> 'ISA' ID
     %%
-	%<filter expression>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.not, %ID.id);
-        %<filter expression>.expKd = ISA_EXPRESSION;
+	%<filter expression>.exp = newIsaExpression(%'ISA'.srcp, NULL, %<optional_not>.present, %ID.id);
 	%<filter expression>.id = %ID.id;
     %%
 
@@ -2167,28 +2155,25 @@ static int val(char str[])
     %%
 	%<filter expression>.exp = newAttributeExpression(%<is>.srcp,
 						%<something>.id,
-						%<something>.not, NULL);
-        %<filter expression>.expKd = ATTRIBUTE_EXPRESSION;
+						%<something>.present, NULL);
     %%
     ;
 
 <right_hand_side>
     = <optional_not> <relop> <primary>
     %%
-        %<right_hand_side>.expKd = BINARY_EXPRESSION;
 	%<right_hand_side>.exp = newBinaryExpression(%<relop>.srcp,
 						     NULL,
-						     %<optional_not>.not,
+						     %<optional_not>.present,
 						     %<relop>.op,
 						     %<primary>.exp);
     %%
 
     ! <optional_not> 'BETWEEN' <factor> 'AND' <factor>
     %%
-        %<right_hand_side>.expKd = BETWEEN_EXPRESSION;
 	%<right_hand_side>.exp = newBetweenExpression(%'BETWEEN'.srcp,
 						      NULL,
-						      %<optional_not>.not,
+						      %<optional_not>.present,
 						      %1<factor>.exp,
 						      %2<factor>.exp);
     %%
@@ -2197,10 +2182,9 @@ static int val(char str[])
     %%
 	%<right_hand_side>.exp = newBinaryExpression(%'CONTAINS'.srcp,
 						     NULL,
-						     %<optional_not>.not,
+						     %<optional_not>.present,
 						     CONTAINS_OPERATOR,
 						     %<factor>.exp);
-        %<right_hand_side>.expKd = BINARY_EXPRESSION;
 
     %%
 
@@ -2291,7 +2275,7 @@ static int val(char str[])
 <something>		-- RETURNS: not, id
     = <optional_not> ID
     %%
-	%<something>.not = %<optional_not>.not;
+	%<something>.present = %<optional_not>.present;
 	%<something>.id = %ID.id;
     %%
     ;
@@ -2487,12 +2471,24 @@ static int val(char str[])
 <optional_not>
     =					%+(Identifier, 'ON', 'OF', 'INTO', 'FIRST', 'ACTOR', 'OPAQUE', 'TAKING', 'LOCATION')
     %%
-        %<optional_not>.not = FALSE;
+        %<optional_not>.present = FALSE;
     %%
 
     ! 'NOT'
     %%
-        %<optional_not>.not = TRUE;
+        %<optional_not>.present = TRUE;
+    %%
+    ;
+
+<optional_directly>
+    =
+    %%
+        %<optional_directly>.present = FALSE;
+    %%
+
+    ! 'DIRECTLY'
+    %%
+        %<optional_directly>.present = TRUE;
     %%
     ;
 

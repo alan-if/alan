@@ -26,7 +26,7 @@ static int count(int cnt)	/* IN - the container to count in */
   int i, j = 0;
   
   for (i = 1; i <= header->instanceMax; i++)
-    if (in(i, cnt))
+    if (in(i, cnt, TRUE))
       /* Then it's in this container also */
       j++;
   return(j);
@@ -48,7 +48,7 @@ static int sumatr(
   int sum = 0;
 
   for (i = 1; i <= header->instanceMax; i++)
-    if (in(i, cnt)) {		/* Then it's in this container */
+    if (in(i, cnt, TRUE)) {		/* Then it's directly in this cont */
       if (instance[i].container != 0)	/* This is also a container! */
 	sum = sum + sumatr(atr, i);
       sum = sum + attributeOf(i, atr);
@@ -170,7 +170,7 @@ void go(dir)
 	    interpret(theExit->action);
 	  }
 	  /* Still at the same place? */
-	  if (where(HERO) == oldloc) {
+	  if (where(HERO, FALSE) == oldloc) {
 	    if (sectionTraceOption) {
 	      printf("\n<EXIT %s(%d) from ",
 		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd), dir);

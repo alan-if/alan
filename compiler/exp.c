@@ -303,6 +303,8 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     analyzeExpression(where->what, context);
     if (where->what->type != SET_TYPE) /* Can be in a container and in a set */
       verifyContainerExpression(where->what, context, "Expression after IN");
+    else if (exp->fields.whr.directly)
+      lmLog(&where->srcp, 325, sevERR, "");
     break;
   default:
     SYSERR("Unrecognized switch");
@@ -946,28 +948,36 @@ static void generateWhereExpression(Expression *exp)
   switch (where->kind) {
   case WHERE_HERE:
     generateExpression(what);
+    emit(exp->fields.whr.directly);
     emit0(I_HERE);
     if (exp->not) emit0(I_NOT);
     break;
   case WHERE_NEAR:
     generateExpression(what);
-    emit0(I_NEAR);
+    if (exp->fields.whr.directly)
+      emit0(I_NEAR_D);
+    else
+      emit0(I_NEAR);
     if (exp->not) emit0(I_NOT);
     break;
   case WHERE_IN:
   case WHERE_INSET:
     generateExpression(what);
     generateExpression(where->what);
-    if (where->kind == WHERE_IN)
+    if (where->kind == WHERE_IN) {
+      emit(exp->fields.whr.directly);
       emit0(I_IN);
-    else
+    } else
       emit0(I_INSET);
     if (exp->not) emit0(I_NOT);
     break;
   case WHERE_AT:
     generateExpression(what);
-    emit0(I_LOCATION);
-    generateWhere(where);
+    if (exp->fields.whr.directly)
+      emit0(I_WHERE);
+    else
+      emit0(I_LOCATION);
+    generateWhere(where, exp->fields.whr.directly);
     emit0(I_EQ);
     if (exp->not) emit0(I_NOT);
     break;
@@ -1014,14 +1024,15 @@ void generateRightHandExpression(Expression *exp)
   switch (exp->kind) {
   case WHERE_EXPRESSION:
     if (exp->fields.whr.whr->kind == WHERE_INSET) {
-      generateWhere(exp->fields.whr.whr);
+      generateWhere(exp->fields.whr.whr, FALSE);
       emit0(I_INSET);
     } else if (exp->fields.whr.whr->kind == WHERE_IN) {
-      generateWhere(exp->fields.whr.whr);
+      generateWhere(exp->fields.whr.whr, FALSE);
+      emit(exp->fields.whr.directly);
       emit0(I_IN);
     } else {
       emit0(I_WHERE);
-      generateWhere(exp->fields.whr.whr);
+      generateWhere(exp->fields.whr.whr, FALSE);
       emit0(I_EQ);
     }
     break;

@@ -489,7 +489,6 @@ static void dumpStatements(Aword pc)
       case I_AGREND: printf("AGREND"); break;
       case I_AGRSTART: printf("AGRSTART"); break;
       case I_AND: printf("AND"); break;
-      case I_AT: printf("AT"); break;
       case I_ATTRIBUTE: printf("ATTRIBUTE"); break;
       case I_BTW: printf("BETWEEN "); break;
       case I_CANCEL: printf("CANCEL"); break;
@@ -572,6 +571,7 @@ static void dumpStatements(Aword pc)
       case I_USE: printf("USE"); break;
       case I_VISITS: printf("VISITS"); break;
       case I_WHERE: printf("WHERE"); break;
+      case I_LOCATION: printf("LOCATION"); break;
       }
       break;
 

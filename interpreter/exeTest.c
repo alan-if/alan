@@ -229,11 +229,11 @@ static void testWhereIllegalId() {
   expectSyserr = TRUE;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
-    where(0);
+    where(0, TRUE);
   ASSERT(hadSyserr);
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
-    where(2);
+    where(2, TRUE);
   ASSERT(hadSyserr);
   expectSyserr = FALSE;
 }
@@ -243,11 +243,11 @@ static void testHereIllegalId() {
   expectSyserr = TRUE;
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
-    isHere(0);
+    isHere(0, FALSE);
   ASSERT(hadSyserr);
   hadSyserr = FALSE;
   if (setjmp(syserr_label) == 0)
-    isHere(2);
+    isHere(2, FALSE);
   ASSERT(hadSyserr);
   expectSyserr = FALSE;
 }

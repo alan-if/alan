@@ -153,6 +153,7 @@ static lmMsgs msg[] = {
     { "322   ", "Word \'%1\' already defined as a synonym." },
     { "323   ", "Can not restrict a parameter to something not a class." },
     { "324   ", "Can not refer to %1 in %2." },
+    { "325   ", "Can not use DIRECTLY with IN operating on a SET." },
     { "329   ", "Attribute is inherited from class \'%1\', but the class %2 in this declaration (\'%3\') is not a subclass of the class infered for the inherited (\'%4\'), which it must be." },
     { "330   ", "Wrong type of expression in context of %2. Must be of %1 type." },
     { "331   ", "Incompatible types in %1." },
@@ -222,7 +223,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 142}
+    {0, 143}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -82,7 +82,7 @@ static void showContents(int cnt)
 
   output("$iContains:");
   for (i = 1; i <= header->instanceMax; i++) {
-    if (in(i, cnt)) { /* Yes, it's in this container */
+    if (in(i, cnt, TRUE)) { /* Yes, it's directly in this container */
       if (!found)
 	found = TRUE;
       output("$i$t");
@@ -140,8 +140,9 @@ static void showInstance(int ins)
     if (admin[ins].location == 0)
       output("- (0)");
     else if (isLoc(admin[ins].location)) {
+      output("at");
       say(admin[ins].location);
-      sprintf(str, "(%ld)", where(ins));
+      sprintf(str, "(%ld)", admin[ins].location);
       output(str);
     } else if (isContainer(admin[ins].location)) {
 
@@ -272,7 +273,7 @@ static void showContainer(int cnt)
   if (container[cnt].owner != 0) {
     cnt = container[cnt].owner;
     say(cnt);
-    sprintf(str, "$iLocation: %ld", where(cnt));
+    sprintf(str, "$iLocation: %ld", where(cnt, TRUE));
     output(str);
   }
   showContents(cnt);
@@ -510,7 +511,7 @@ void saveInfo(void)
   trc = sectionTraceOption; sectionTraceOption = FALSE;
   stp = singleStepOption; singleStepOption = FALSE;
   psh = tracePushOption; tracePushOption = FALSE;
-  loc = current.location; current.location = where(HERO);
+  loc = current.location; current.location = where(HERO, TRUE);
 }
 
 

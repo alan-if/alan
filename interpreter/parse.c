@@ -323,7 +323,7 @@ static void buildall(ParamEntry list[]) {
   Bool found = FALSE;
   
   for (o = 1; o <= header->instanceMax; o++)
-    if (isHere(o)) {
+    if (isHere(o, FALSE)) {
       found = TRUE;
       list[i].code = o;
       list[i++].firstWord = EOF;
@@ -386,7 +386,7 @@ static void unambig(ParamEntry plst[])
       ;
     if (i < 0)
       error(M_WHAT_IT);
-    if (!isHere(previousParameters[i].code)) {
+    if (!isHere(previousParameters[i].code, FALSE)) {
       parameters[0].code = previousParameters[i].code;
       parameters[0].firstWord = EOF;
       parameters[1].code = EOF;
@@ -442,7 +442,7 @@ static void unambig(ParamEntry plst[])
   /* Allow remote objects, but resolve ambiguities by presence */
   if (listLength(plst) > 1) {
     for (i=0; plst[i].code != EOF; i++)
-      if (!isHere(plst[i].code))
+      if (!isHere(plst[i].code, FALSE))
 	plst[i].code = 0;
     compress(plst);
   }
@@ -478,7 +478,7 @@ static void simple(ParamEntry olst[]) {
     if (isThem(playerWords[wordIndex])) {
       plural = TRUE;
       for (i = 0; previousMultipleList[i].code != EOF; i++)
-	if (!isHere(previousMultipleList[i].code))
+	if (!isHere(previousMultipleList[i].code, FALSE))
 	  previousMultipleList[i].code = 0;
       compress(previousMultipleList);
       if (listLength(previousMultipleList) == 0)
@@ -593,7 +593,7 @@ static Bool inOpaqueContainer(int originalInstance)
 static Bool reachable(int instance)
 {
   if (isA(instance, THING))
-    return isHere(instance) && !inOpaqueContainer(instance);
+    return isHere(instance, FALSE) && !inOpaqueContainer(instance);
   else
     return TRUE;
 }

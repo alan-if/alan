@@ -182,7 +182,7 @@ void print(Aword fpos, Aword len)
 
   if (len == 0) return;
 
-  if (isHere(HERO)) {           /* Check if the player will see it */
+  if (isHere(HERO, TRUE)) {	/* Check if the player will see it */
     if (printFlag) {            /* Already printing? */
       /* Save current text file position and/or decoding info */
       if (header->pack)
@@ -790,10 +790,20 @@ static void verifyId(Aword id, char action[]) {
 
 /*======================================================================*/
 /* Return the current position of an instance */
-Aword where(Aword id)
+Aword where(Aword id, Abool directly)
 {
+  int loc;
+
   verifyId(id, "WHERE");
-  return admin[id].location;
+
+  if (directly)
+    return admin[id].location;
+  else {
+    loc = admin[id].location;
+    while (loc != 0 && !isA(loc, LOCATION))
+      loc = admin[loc].location;
+    return loc;
+  }
 }
 
 
@@ -822,7 +832,7 @@ Aint agrmax(Aword atr, Aword whr)
   for (i = 1; i <= header->instanceMax; i++) {
     if (isObj(i)) {
       if (isLoc(whr)) {
-	if (where(i) == whr && attributeOf(i, atr) > max)
+	if (where(i, TRUE) == whr && attributeOf(i, atr) > max)
 	  max = attributeOf(i, atr);
       } else if (admin[i].location == whr && attributeOf(i, atr) > max)
 	max = attributeOf(i, atr);
@@ -841,7 +851,7 @@ Aint agrsum(Aword atr, Aword whr)
   for (i = 1; i <= header->instanceMax; i++) {
     if (isObj(i)) {
       if (isLoc(whr)) {
-	if (where(i) == whr)
+	if (where(i, TRUE) == whr)
 	  sum += attributeOf(i, atr);
       } else if (admin[i].location == whr)
 	sum += attributeOf(i, atr);
@@ -861,7 +871,7 @@ Aint agrcount(Aword whr)
   for (i = 1; i <= header->instanceMax; i++) {
     if (isObj(i)) {
       if (isLoc(whr)) {
-	if (where(i) == whr)
+	if (where(i, TRUE) == whr)
 	  count++;
       } else if (admin[i].location == whr)
 	count++;
@@ -926,13 +936,13 @@ static void locateActor(Aword movingActor, Aword whr)
     else {
       if (anyOutput)
 	para();
-      say(where(HERO));
+      say(where(HERO, TRUE));
       prmsg(M_AGAIN);
       newline();
       describeInstances();
     }
-    admin[where(HERO)].visitsCount++;
-    admin[where(HERO)].visitsCount %= (current.visits+1);
+    admin[where(HERO, TRUE)].visitsCount++;
+    admin[where(HERO, TRUE)].visitsCount %= (current.visits+1);
   } else
     admin[whr].visitsCount = 0;
   current.actor = movingActor;
@@ -994,26 +1004,22 @@ void locate(Aword id, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
-static Abool instanceHere(Aword id)
-{
-  Aword owner;
-
-  if (isContainer(admin[id].location)) {    /* In something? */
-    owner = admin[id].location;
-    if (admin[owner].location != 0)
-      return(isHere(owner));
-    else /* If the container wasn't anywhere, assume where HERO is! */
-      return(where(HERO) == current.location);
-  } else
-    return(admin[id].location == current.location);
-}
-
 
 /*======================================================================*/
-Aword isHere(Aword id)
+Aword isHere(Aword id, Abool directly)
 {
+  Aint owner;
+
   verifyId(id, "HERE");
-  return instanceHere(id);
+
+  if (!directly && isContainer(admin[id].location)) {    /* In something? */
+    owner = admin[id].location;
+    if (admin[owner].location != 0)
+      return(isHere(owner, FALSE));
+    else /* If the container wasn't anywhere, assume where HERO is! */
+      return(where(HERO, TRUE) == current.location);
+  } else			/* DIRECTLY or not in a container */
+    return(admin[id].location == current.location);
 }
 
 
@@ -1026,14 +1032,14 @@ static Aword objnear(Aword obj)
     else  /* If the container wasn't anywhere, assume here, so not nearby! */
       return(FALSE);
   } else
-    return(exitto(where(obj), current.location));
+    return(exitto(where(obj, TRUE), current.location));
 }
 
 
 /*----------------------------------------------------------------------*/
 static Aword actnear(Aword act)
 {
-  return(exitto(where(act), current.location));
+  return(exitto(where(act, TRUE), current.location));
 }
 
 
@@ -1073,21 +1079,25 @@ Abool isA(Aword instanceId, Aword ancestor)
 
 
 /*======================================================================*/
-/* Transitively look in a container to see if the instance is in it. */
-Abool in(Aword theInstance, Aword cnt)
+/* Look in a container to see if the instance is in it. */
+Abool in(Aword theInstance, Aword cnt, Abool directly)
 {
   int loc;
 
   if (!isContainer(cnt))
     syserr("IN in a non-container.");
 
-  loc = admin[theInstance].location;
-  while (loc != 0)
-    if (loc == cnt)
-      return TRUE;
-    else
-      loc = admin[loc].location;
-  return FALSE;
+  if (directly)
+    return admin[theInstance].location == cnt;
+  else {
+    loc = admin[theInstance].location;
+    while (loc != 0)
+      if (loc == cnt)
+	return TRUE;
+      else
+	loc = admin[loc].location;
+    return FALSE;
+  }
 }
 
 
@@ -1165,7 +1175,7 @@ void sayint(Aword val)
 {
   char buf[25];
 
-  if (isHere(HERO)) {
+  if (isHere(HERO, FALSE)) {
     sprintf(buf, "%ld", val);
     output(buf);
   }
@@ -1175,7 +1185,7 @@ void sayint(Aword val)
 /*======================================================================*/
 void saystr(char *str)
 {
-  if (isHere(HERO))
+  if (isHere(HERO, FALSE))
     output(str);
   free(str);
 }
@@ -1262,7 +1272,7 @@ void say(Aword id)
   Aword previousInstance = current.instance;
   current.instance = id;
 
-  if (isHere(HERO)) {
+  if (isHere(HERO, FALSE)) {
     if (isLiteral(id))
       sayLiteral(id);
     else {
@@ -1627,7 +1637,7 @@ void empty(Aword cnt, Aword whr)
   int i;
 
   for (i = 1; i <= header->instanceMax; i++)
-    if (in(i, cnt))
+    if (in(i, cnt, TRUE))
       locate(i, whr);
 }
 

@@ -235,7 +235,7 @@ void statusline(void)
   onStatusLine = TRUE;
   col = 1;
   glk_window_move_cursor(glkStatusWin, 1, 0);
-  interpret(instance[where(HERO)].mentioned);
+  interpret(instance[where(HERO, TRUE)].mentioned);
 
   if (header->maxscore > 0)
     sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maxscore, current.tick);
@@ -262,7 +262,7 @@ void statusline(void)
 
   onStatusLine = TRUE;
   col = 1;
-  interpret(instance[where(HERO)].mentioned);
+  interpret(instance[where(HERO, FALSE)].mentioned);
 
   if (header->maxscore > 0)
     sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maxscore, current.tick);
@@ -892,7 +892,7 @@ static void eventCheck(void)
     if (isLoc(eventQueue[eventQueueTop].where))
       current.location = eventQueue[eventQueueTop].where;
     else
-      current.location = where(eventQueue[eventQueueTop].where);
+      current.location = where(eventQueue[eventQueueTop].where, FALSE);
     if (sectionTraceOption) {
       printf("\n<EVENT %d (at ", eventQueue[eventQueueTop].event);
       traceSay(current.location);
@@ -1215,7 +1215,7 @@ static void start(void)
   int startloc;
 
   current.tick = -1;
-  current.location = startloc = where(HERO);
+  current.location = startloc = where(HERO, FALSE);
   current.actor = HERO;
   current.score = 0;
 
@@ -1366,7 +1366,7 @@ static void moveActor(int theActor)
 
   current.actor = theActor;
   current.instance = theActor;
-  current.location = where(theActor);
+  current.location = where(theActor, FALSE);
   if (theActor == HERO) {
     /* Ask him! */
     if (setjmp(forfeitLabel) == 0) {

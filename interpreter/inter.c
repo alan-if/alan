@@ -277,6 +277,11 @@ static void traceInstanceTopValue() {
   }
 }
 
+static char *booleanValue(Abool bool) {
+  if (bool) return "TRUE";
+  else return "FALSE";
+}
+
 static char *stringValue(Aword adress) {
   static char string[100];
 
@@ -525,11 +530,8 @@ void interpret(Aaddr adr)
 	id = pop();
 	atr = pop();
 	val = pop();
-	if (singleStepOption) {
-	  printf("MAKE \t%5ld, %5ld, ", id, atr);
-	  if (val) printf("TRUE"); else printf("FALSE");
-	  printf("\t");
-	}
+	if (singleStepOption)
+	  printf("MAKE \t%5ld, %5ld, %s\t", id, atr, booleanValue(val));
 	make(id, atr, val);
 	break;
       }
@@ -640,7 +642,7 @@ void interpret(Aaddr adr)
 	id = pop();
 	if (singleStepOption)
 	  printf("WHERE \t%5ld\t", id);
-	push(where(id));
+	push(where(id, TRUE));
 	traceInstanceTopValue();
 	break;
       }
@@ -655,10 +657,12 @@ void interpret(Aaddr adr)
       }
       case I_HERE: {
 	Aword id;
+	Abool directly;
+	directly = pop();
 	id = pop();
 	if (singleStepOption)
-	  printf("HERE \t%5ld", id);
-	push(isHere(id));
+	  printf("HERE \t%5ld, %s\t", id, booleanValue(directly));
+	push(isHere(id, directly));
 	traceBooleanTopValue();
 	break;
       }
@@ -668,10 +672,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("NEAR \t%5ld", id);
 	push(isNear(id));
-	if (singleStepOption) {
-	  if (top()) printf("\t=TRUE\t");
-	  else printf("\t=FALSE\t");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_USE: {
@@ -691,30 +692,16 @@ void interpret(Aaddr adr)
 	stop(actor);
 	break;
       }
-      case I_AT: {
-	Aword ins, loc;
-	loc = pop();
-	ins = pop();
-	if (singleStepOption)
-	  printf("AT \t%5ld, %5ld ", ins, loc);
-	push(in(ins, loc));
-	if (singleStepOption) {
-	  if (top()) printf("\t=TRUE\t");
-	  else printf("\t=FALSE\t");
-	}
-	break;
-      }
       case I_IN: {
 	Aword obj, cnt;
+	Abool directly;
+	directly = pop();
 	cnt = pop();
 	obj = pop();
 	if (singleStepOption)
-	  printf("IN \t%5ld, %5ld ", obj, cnt);
-	push(in(obj, cnt));
-	if (singleStepOption) {
-	  if (top()) printf("\t=TRUE\t");
-	  else printf("\t=FALSE\t");
-	}
+	  printf("IN \t%5ld, %5ld, %s", obj, cnt, booleanValue(directly));
+	push(in(obj, cnt, directly));
+	traceBooleanTopValue();
 	break;
       }
       case I_INSET: {
@@ -724,10 +711,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("INSET \t%5ld, %5ld ", element, set);
 	push(inSet((Set*)set, element));
-	if (singleStepOption) {
-	  if (top()) printf("\t=TRUE\t");
-	  else printf("\t=FALSE\t");
-	}
+	traceBooleanTopValue();
 	break;
       }
       case I_DESCRIBE: {
@@ -802,11 +786,8 @@ void interpret(Aaddr adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (singleStepOption) {
-	  printf("AND \t");
-	  if (lh) printf("TRUE, "); else printf("FALSE, ");
-	  if (rh) printf("TRUE"); else printf("FALSE");
-        }
+	if (singleStepOption)
+	  printf("AND \t%s, %s", booleanValue(lh), booleanValue(rh));
 	push(lh && rh);
 	traceBooleanTopValue();
 	break;
@@ -815,11 +796,8 @@ void interpret(Aaddr adr)
 	Aword lh, rh;
 	rh = pop();
 	lh = pop();
-	if (singleStepOption) {
-	  printf("OR \t");
-	  if (lh) printf("TRUE, "); else printf("FALSE, ");
-	  if (rh) printf("TRUE"); else printf("FALSE");
-        }
+	if (singleStepOption)
+	  printf("OR \t%s, %s", booleanValue(lh), booleanValue(rh));
 	push(lh || rh);
 	traceBooleanTopValue();
 	break;
@@ -949,10 +927,8 @@ void interpret(Aaddr adr)
       case I_NOT: {
 	Aword val;
 	val = pop();
-	if (singleStepOption) {
-	  printf("NOT \t");
-	  if (val) printf("TRUE"); else printf("FALSE");
-	}
+	if (singleStepOption)
+	  printf("NOT \t%s", booleanValue(val));
 	push(!val);
 	traceBooleanTopValue();
 	break;
@@ -1042,6 +1018,7 @@ void interpret(Aaddr adr)
 	push(1);		/* Instance index */
 	stackDup();			/* Twice! */
 	break;
+
       case I_AGRCHECK:
 	if (singleStepOption)
 	  printf("AGRCHECK\t\t\t\t");

@@ -732,7 +732,7 @@ static void generateShow(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateEmpty(Statement *stm)
 {
-  generateWhere(stm->fields.empty.where);
+  generateWhere(stm->fields.empty.where, FALSE);
   generateExpression(stm->fields.empty.what);
   emit0(I_EMPTY);
 }
@@ -742,7 +742,7 @@ static void generateEmpty(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateLocate(Statement *stm)
 {
-  generateWhere(stm->fields.locate.where);
+  generateWhere(stm->fields.locate.where, FALSE);
   generateExpression(stm->fields.locate.what);
   emit0(I_LOCATE);
 }

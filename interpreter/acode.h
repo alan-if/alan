@@ -136,7 +136,6 @@ typedef enum InstClass {
   I_STOP,
   I_IN,
   I_INSET,
-  I_AT,
   I_DESCRIBE,
   I_SAY,
   I_SAYINT,
@@ -148,6 +147,7 @@ typedef enum InstClass {
   I_STRATTR,			/* Push a copy of a string attribute */
   I_HERE,
   I_NEAR,
+  I_NEAR_D,
   I_WHERE,			/* Current position of an instance */
   I_LOCATION,			/* The location of an instance */
   I_AND,
