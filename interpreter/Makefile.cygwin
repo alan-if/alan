@@ -34,8 +34,8 @@ arun.exe : $(OBJECTS)
 	gcc -o arun.exe $(OBJECTS) $(LDFLAGS) $(LIB)
 	cp arun.exe ../bin
 
-dumpacd: dumpacd.o spa.o
-	$(CC) -o dumpacd $(CFLAGS) dumpacd.o spa.o
+dumpacd: dumpacd.o reverse.o spa.o
+	$(CC) -o dumpacd $(CFLAGS) dumpacd.o reverse.o spa.o
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 

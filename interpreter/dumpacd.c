@@ -16,8 +16,8 @@
 
 
 /* The Amachine memory */
-static Aword *memory;
-static AcdHdr *header;
+Aword *memory;
+AcdHdr *header;
 
 static int memTop = 0;			/* Top of load memory */
 
@@ -26,7 +26,20 @@ static char *acdfnm;
 /* Dump flags */
 
 static int dumpdict, dumpatrs, dumpacts, dumpobjs, dumplocs, dumpstxs,
-dumpvrbs, dumpevts, dumpcnts, dumpruls;
+dumpvrbs, dumpevts, dumpcnts, dumpruls, dumpstms;
+
+int eot(Aword *adr)
+{
+  return *adr == EOF;
+}
+
+
+
+static void syserr(char str[])
+{
+  printf("ERROR - %s\n", str);
+  exit(0);
+}
 
 
 static void indent(int level)
@@ -499,6 +512,313 @@ static void dumpStxs(int level, Aword stxs)
 
 /*----------------------------------------------------------------------
 
+  dumpStms()
+
+  Dump a list of statements
+
+ */
+static void dumpStms(Aword pc)
+{
+  Aword i;
+
+  while(TRUE) {
+    printf("\n%4x: ", pc);
+    if (pc > memTop)
+      syserr("Dumping outside program memory.");
+
+    i = memory[pc++];
+    
+    switch (I_CLASS(i)) {
+    case C_CONST:
+      printf("PUSH  \t%5ld", I_OP(i));
+      break;
+    case C_CURVAR:
+      switch (I_OP(i)) {
+      case V_PARAM:
+	printf("PARAM");
+	break;
+      case V_CURLOC:
+	printf("CURLOC");
+	break;
+      case V_CURACT:
+	printf("CURACT");
+	break;
+      case V_CURVRB:
+	printf("CURVRB");
+	break;
+      case V_SCORE:
+	printf("CURSCORE");
+	break;
+      default:
+	syserr("Unknown CURVAR instruction.");
+	break;
+      }
+      break;
+      
+    case C_STMOP: 
+      switch (I_OP(i)) {
+      case I_PRINT: {
+	printf("PRINT");
+      }
+      case I_SYSTEM: {
+	printf("SYSTEM");
+	break;
+      }
+      case I_GETSTR: {
+	printf("GETST");
+	break;
+      }
+      case I_QUIT: {
+	printf("QUIT");
+	break;
+      }
+      case I_LOOK: {
+	printf("LOOK");
+	break;
+      }
+      case I_SAVE: {
+	printf("SAVE");
+	break;
+      }
+      case I_RESTORE: {
+	printf("RESTORE");
+	break;
+      }
+      case I_RESTART: {
+	printf("RESTART");
+	break;
+      }
+      case I_LIST: {
+	printf("LIST");
+	break;
+      }
+      case I_EMPTY: {
+	printf("EMPTY");
+	break;
+      }
+      case I_SCORE: {
+	printf("SCORE");
+	break;
+      }
+      case I_VISITS: {
+	printf("VISITS");
+	break;
+      }
+      case I_SCHEDULE: {
+	printf("SCHEDULE");
+	break;
+      }
+      case I_CANCEL: {
+	printf("CANCEL");
+	break;
+      }
+      case I_MAKE: {
+	printf("MAKE");
+	break;
+      }
+      case I_SET: {
+	printf("SET");
+	break;
+      }
+      case I_STRSET: {
+	printf("STRSET");
+	break;
+      }
+      case I_INCR: {
+	printf("INCR");
+	break;
+      }
+      case I_DECR: {
+	printf("DECR");
+	break;
+      }
+      case I_ATTRIBUTE: {
+	printf("ATTRIBUTE");
+	break;
+      }
+      case I_STRATTR: {
+	printf("STRATTR");
+	break;
+      }
+      case I_LOCATE: {
+	printf("LOCATE");
+	break;
+      }
+      case I_WHERE: {
+	printf("WHERE");
+	break;
+      }
+      case I_HERE: {
+	printf("HERE");
+	break;
+      }
+      case I_NEAR: {
+	printf("NEAR");
+	break;
+      }
+      case I_USE: {
+	printf("USE");
+	break;
+      }
+      case I_IN: {
+	printf("IN ");
+	break;
+      }
+      case I_DESCRIBE: {
+	printf("DESCRIBE ");
+	break;
+      }
+      case I_SAY: {
+	printf("SAY");
+	break;
+      }
+      case I_SAYINT: {
+	printf("SAYINT");
+	break;
+      }
+      case I_SAYSTR: {
+	printf("SAYSTR");
+	break;
+      }
+      case I_IF: {
+	printf("IF");
+	break;
+      }
+      case I_ELSE: {
+	printf("ELSE");
+	break;
+      }
+      case I_ENDIF: {
+	printf("ENDIF");
+	break;
+      }
+      case I_AND: {
+	printf("AND");
+	break;
+      }
+      case I_OR: {
+	printf("OR");
+	break;
+      }
+      case I_NE: {
+	printf("NE");
+	break;
+      }
+      case I_EQ: {
+	printf("EQ ");
+	break;
+      }
+      case I_STREQ: {
+	printf("STREQ ");
+	break;
+      }
+      case I_STREXACT: {
+	printf("STREXACT ");
+	break;
+      }
+      case I_LE: {
+	printf("LE ");
+	break;
+      }
+      case I_GE: {
+	printf("GE ");
+	break;
+      }
+      case I_LT: {
+	printf("LT ");
+	break;
+      }
+      case I_GT: {
+	printf("GT ");
+	break;
+      }
+      case I_PLUS: {
+	printf("PLUS ");
+	break;
+      }
+      case I_MINUS: {
+	printf("MINUS ");
+	break;
+      }
+      case I_MULT: {
+	printf("MULT ");
+	break;
+      }
+      case I_DIV: {
+	printf("DIV ");
+	break;
+      }
+      case I_NOT: {
+	printf("NOT ");
+	break;
+      }
+      case I_MAX: {
+	printf("MAX ");
+	break;
+      }
+      case I_SUM: {
+	printf("SUM ");
+	break;
+      }
+      case I_COUNT: {
+	printf("COUNT ");
+	break;
+      }
+      case I_RND: {
+	printf("RANDOM ");
+	break;
+      }
+      case I_BTW: {
+	printf("BETWEEN ");
+	break;
+      }
+      case I_CONTAINS: {
+	printf("CONTAINS ");
+	break;
+      }
+
+      case I_DEPSTART:
+	printf("DEPSTART");
+	break;
+
+      case I_DEPCASE:
+	printf("DEPCASE");
+	break;
+
+      case I_DEPEXEC: {
+	printf("DEPEXEC");
+	break;
+      }
+	
+      case I_DEPELSE:
+	printf("DEPELSE");
+	break;
+
+      case I_DEPEND:
+	printf("DEPEND");
+	break;
+
+      case I_RETURN:
+	printf("RETURN");
+	return;
+
+      default:
+	syserr("Unknown STMOP instruction.");
+	break;
+      }
+      break;
+
+    default:
+      syserr("Unknown instruction class.");
+      break;
+    }
+  }
+}
+
+
+
+/*----------------------------------------------------------------------
+
   dumpACD()
 
   Dump the header and all data
@@ -564,7 +884,8 @@ static void dumpACD(void)
   else
     printf("Ok.\n");
   printf("TXTCRC: 0x%lx\n", header->txtcrc);
-
+  if (dumpstms != 0)
+    dumpStms(dumpstms);
 }
 
 
@@ -657,7 +978,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("vrbs", "dump details on verb entries", dumpvrbs, FALSE, NULL)
      SPA_FLAG("evts", "dump details on event entries", dumpevts, FALSE, NULL)
      SPA_FLAG("cnts", "dump details on container entries", dumpcnts, FALSE, NULL)
-     SPA_FLAG("ruls", "dump details on rules entries", dumpruls, FALSE, NULL)
+     SPA_INTEGER("stms <address>", "dump statement opcodes starting at <address>", dumpstms, 0, NULL)
 SPA_END
 
 

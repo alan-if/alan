@@ -1043,7 +1043,7 @@ static void geuse(StmNod *stm, ActNod *act) /* IN - Statement */
 
       DEPCASE--+
       exp1     |
-      DEPEND   > repeat for each case
+      DEPEXEC   > repeat for each case
       stms1----+
 
       DEPELSE--+ optional

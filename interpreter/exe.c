@@ -1082,8 +1082,10 @@ void sayint(val)
 {
   char buf[25];
 
-  sprintf(buf, "%ld", val);
-  output(buf);
+  if (isHere(HERO)) {
+    sprintf(buf, "%ld", val);
+    output(buf);
+  }
 }
 
 
@@ -1094,7 +1096,8 @@ void saystr(str)
      char *str;
 #endif
 {
-  output(str);
+  if (isHere(HERO))
+    output(str);
   free(str);
 }
 
@@ -1142,17 +1145,19 @@ void say(id)
 {
   char str[80];
 
-  if (isObj(id))
-    sayobj(id);
-  else if (isLoc(id))
-    sayloc(id);
-  else if (isAct(id))
-    sayact(id);
-  else if (isLit(id))
-    saylit(id);
-  else {
-    sprintf(str, "Can't SAY item (%ld).", id);
-    syserr(str);
+  if (isHere(HERO)) {
+    if (isObj(id))
+      sayobj(id);
+    else if (isLoc(id))
+      sayloc(id);
+    else if (isAct(id))
+      sayact(id);
+    else if (isLit(id))
+      saylit(id);
+    else {
+      sprintf(str, "Can't SAY item (%ld).", id);
+      syserr(str);
+    }
   }
 }
 

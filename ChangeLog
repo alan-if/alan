@@ -1,3 +1,8 @@
+Thu May 20 03:22:31 1999    <Thomas Nilsson@THONI>
+
+	* Fixed a problem with SAY that caused it to print integers and
+ 	strings even when the hero was not present
+
 Fri Mar 26 03:21:53 1999    <Thomas Nilsson@THONI>
 
 	* Introduced status line and command line editing on PC using Cygwin.
