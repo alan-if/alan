@@ -1464,7 +1464,7 @@ static void checkvers(header)
       if (errflg) {
 	char str[80];
 	if (developmentVersion)
-	  sprintf(str, "Incompatible version of ACODE program. Development versions require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
+	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
 		  (long)(header->vers[0]),
 		  (long)(header->vers[1]),
 		  (long)(header->vers[2]),
