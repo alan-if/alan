@@ -89,11 +89,12 @@ debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
 all: alan alan.prod Makefile
+	cp alan $(ALANDIR)/bin/`arch`
+	cp alan.prod $(ALANDIR)
 
-alan: tm $(OBJECTS) $(MAINOBJ) version version.o
+alan: tm $(OBJECTS) $(MAINOBJ) .version version.o
 	$(LD) -o alan $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
-	cp alan $(ALANDIR)/bin/`arch`
 
 src: tm version.h
 
@@ -158,9 +159,9 @@ version.h version.c: ../version.sh
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.PHONY: version
-version: $(OBJECTS)
+.version: $(OBJECTS)
 	venum +t
+	touch .version
 
 acode.h: ../interpreter/acode.h
 	-ln -s ../interpreter/acode.h

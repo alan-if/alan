@@ -71,9 +71,9 @@ version.h version.c:
 	cp ../[0-9]*_[0-9]*_[0-9]* .
 	venum -c
 
-.PHONY: version
-version: $(OBJECTS)
+.version: $(OBJECTS)
 	venum +t
+	touch .version
 
 #--
 archives: src

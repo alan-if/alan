@@ -22,5 +22,7 @@ vms:
 	echo $$ pur >> regression.com
 	echo $$ dir/size *.diff >> regression.com
 	/usr/5bin/echo "thoni\ncd alan/regression\nprompt\nmput *.com *.alan *.ok\n" | ftp gollum
+	echo Rlogin and run regression tests!
+	rlogin gollum
 	rm *.com
 
