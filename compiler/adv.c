@@ -246,7 +246,7 @@ void geadv(acdfnm, revflg)
   header.ruls = geruls();	/* Rules */
   header.scores = gesco();	/* Scores */
   header.maxscore = scotot;	/* Total score */
-  if (verbose) printf("\n\tMessagess...");
+  if (verbose) printf("\n\tMessages...");
   header.msgs = gemsgs();	/* Messages */
   if (verbose) printf("\n\tCharacter Encoding...");
   header.freq = gefreq();	/* Character frequencies */

@@ -319,6 +319,7 @@ PRIVATE void report(args, opts)
 PRIVATE void setDefault(item)
     register _SPA_ITEM *item;
 {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
+    register int i;
 
     switch (item->type) {
     case SPA_Flag:
@@ -360,7 +361,8 @@ PRIVATE void execute(item, option, on)
 {   /* CAVEAT: Much coersion/casting lies ahead, liable to errors. */
     if (item) {
 
-	if (option && item->type!=SPA_Flag && item->type!=SPA_Help) {
+	if (option && item->type!=SPA_Flag && item->type!=SPA_Help
+	    && (item->type==SPA_Set?on:TRUE)) {
 	    /* An option consuming next argument goes here */
 	    if (++pArg>=pArgC) {
 		--pArg;		/* Too far, backup */
@@ -383,23 +385,22 @@ PRIVATE void execute(item, option, on)
 	    break;
 	case SPA_Set: {
 	    register char *arg, *bp;
-	    register int bit;
 
-	    if (!on) *((int *)item->arg1) = -1; /* Set all if --opt */
-	    for (arg= pArgV[pArg]; *arg; arg++) { /* Go thru argument */
+	    if (!on)
+	      *((int *)item->arg1) = -1; /* Set all if --opt */
+	    else {
+	      for (arg= pArgV[pArg]; *arg; arg++) { /* Go thru argument */
 		for (bp= (char *)item->arg2; *bp; bp++) /* and descriptor*/
-		    if (lwr(*arg)==lwr(*bp)) break;
+		  if (lwr(*arg)==lwr(*bp)) break;
 		if (*bp) {
-		    if (on) {
-		      bit = (bp-(char *)item->arg2);
-		      *((int *)item->arg1) |= 1<<bit;
-		    } else {
-		      bit = (bp-(char *)item->arg2);
-		      *((int *)item->arg1) &= ~(1<<bit);
-		    }
+		  if (on)
+			*((int *)item->arg1) |= 1<<(bp-(char *)item->arg2);
+		  else
+		    *((int *)item->arg1) &= ~(1<<(bp-(char *)item->arg2));
 		} else {
-		    spaErr("Illegal set character", pArgV[pArg], SPA_NOT_IN_SET, 'W');
+		  spaErr("Illegal set character", pArgV[pArg], SPA_NOT_IN_SET, 'W');
 		}
+	      }
 	    }
 	} break;
 	case SPA_Numeric:
@@ -527,8 +528,8 @@ PUBLIC void spaSkip(n)
     Must not be called recursivly.
 */
 PUBLIC int spaProcess(argc, argv, arguments, options, errfun)
-    int argc;
-    char *argv[];
+    const int argc;
+    const char *argv[];
     _SPA_ITEM arguments[], options[];
     SpaFun *errfun;
 {

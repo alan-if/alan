@@ -323,10 +323,14 @@ static void unambig(plst)
   int i;
   Boolean found = FALSE;	/* Adjective or noun found ? */
   static ParamElem *refs;	/* Entities referenced by word */
+  static ParamElem *savlst;	/* Saved list for backup at EOF */
   int firstWord, lastWord;
 
   if (refs == NULL)
     refs = (ParamElem *)allocate(MAXENTITY*sizeof(ParamElem));
+
+  if (savlst == NULL)
+    savlst = (ParamElem *)allocate(MAXENTITY*sizeof(ParamElem));
 
   if (isLiteral(wrds[wrdidx])) {
     /* Transform the word into a reference to the literal value */
@@ -358,6 +362,7 @@ static void unambig(plst)
   firstWord = wrdidx;
   while (wrds[wrdidx] != EOF && isAdj(wrds[wrdidx])) {
     cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].adjrefs));
+    lstcpy(savlst, plst);	/* To save it for backtracking */
     if (found)
       isect(plst, refs);
     else {
@@ -366,17 +371,29 @@ static void unambig(plst)
     }
     wrdidx++;
   }
-  if (wrds[wrdidx] != EOF && isNoun(wrds[wrdidx])) {
-    cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].nounrefs));
-    if (found)
-      isect(plst, refs);
-    else {
-      lstcpy(plst, refs);
-      found = TRUE;
-    }
-    wrdidx++;
+  if (wrds[wrdidx] != EOF) {
+    if (isNoun(wrds[wrdidx])) {
+      cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx]].nounrefs));
+      if (found)
+	isect(plst, refs);
+      else {
+	lstcpy(plst, refs);
+	found = TRUE;
+      }
+      wrdidx++;
+    } else
+      error(NOUN);
   } else if (found)
-    error(NOUN);
+    if (isNoun(wrds[wrdidx-1])) {
+      /* Perhaps the last word was also a noun? */
+      lstcpy(plst, savlst);	/* Restore to before last adjective */
+      cpyrefs(refs, (Aword *)addrTo(dict[wrds[wrdidx-1]].nounrefs));
+      if (plst[0].code == EOF)
+	lstcpy(plst, refs);
+      else
+	isect(plst, refs);
+    } else
+      error(NOUN);
   lastWord = wrdidx-1;
 
   /* Resolve ambiguities by presence */

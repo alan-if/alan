@@ -15,8 +15,7 @@
 
 /* Dump kinds */
 typedef enum dmpkd {
-    DMPALL = 1,
-    DMPSYN = (long)DMPALL<<1,
+    DMPSYN = 1L,
     DMPSTX = (long)DMPSYN<<1,
     DMPVRB = (long)DMPSTX<<1,
     DMPLOC = (long)DMPVRB<<1,

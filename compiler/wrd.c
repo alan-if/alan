@@ -102,8 +102,8 @@ int newwrd(str, class, code, ref)
       else
 	lmLog(NULL, 320, sevWAR, str);
       wrd->classbits |= 1L<<class;
-    } else
       wrd->ref[class] = concat(wrd->ref[class], ref); /* Add another reference */
+    }
     return wrd->code;
   }
 

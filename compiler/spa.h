@@ -83,8 +83,8 @@ typedef enum {			/* Error codes in "numberOf" */
 typedef SPA_FUNCTION(SpaFun);	/* C type for SPA_FUNCTIONS */
 
 int spaProcess(			/* Go thru user arguments and options */
-    int argc,			/* IN - As to main */
-    char *argv[],		/* IN - As to main */
+    const int argc,		/* IN - As to main */
+    const char *argv[],		/* IN - As to main */
     _SPA_ITEM arguments[],	/* IN - User arguments (use SPA_DECLARE) */
     _SPA_ITEM options[],	/* IN - User options (use SPA_DECLARE) */
     SpaFun *errfun		/* IN - Error reciever (a SPA_FUNCTION)
@@ -111,6 +111,8 @@ void  spaSkip(			/* Skip argv-items; Use from a SPA_FUNCTION */
     char *rawName;\
     int numberOf;\
     _SPA_VALUE arg;
+
+#define const
 
 typedef void SpaFun();
 

@@ -414,7 +414,6 @@ static Boolean lstflg;		/* Create listing file */
 static int lcount;		/* Number of lines per page */
 static int ccount;		/* -"-    columns */
 static DmpKind dmpflg = 0;	/* Dump internal form flags */
-static char *dmpchars = "!sxvlocear";
 static Boolean dbgflg = 0;	/* Debug option flags */
 static Boolean packflg = 0;	/* Pack option flags */
 static Boolean sumflg;		/* Print a summary */
@@ -429,6 +428,7 @@ SPA_FUNCTION(usage)
 
 SPA_FUNCTION(paramError)
 {
+  printf("Parameter error: %s, '%s'\n", prettyName, rawName);
   usage(NULL, NULL, 0, 0);
   exit(EXIT_FAILURE);
 }
@@ -453,8 +453,7 @@ SPA_DECLARE(options)
      SPA_ITEM("height <lines)", "height of pages in listing", SPA_Numeric, &lcount, 74)
      SPA_ITEM("width <characters>", "width of pages in listing", SPA_Numeric, &ccount, 80)
      SPA_ITEM("listing", "create listing file", SPA_Flag, &lstflg, FALSE)
-     SPA_ITEM("dump", "dump internal form, where\n\
-everything\n\
+     SPA_ITEM("dump", "dump internal form, where '--' means everything and\n\
 symbols\n\
 syntax\n\
 verbs\n\
@@ -463,7 +462,7 @@ objects\n\
 containers\n\
 events\n\
 actors\n\
-rules", SPA_Set, &dmpflg, &dmpchars)
+rules", SPA_Set, &dmpflg, "sxvlocear")
      SPA_ITEM("debug", "force debug option in adventure", SPA_Flag, &dbgflg, FALSE)
      SPA_ITEM("pack", "force pack option in adventure", SPA_Flag, &packflg, FALSE)
      SPA_ITEM("summary", "print a summary", SPA_Flag, &sumflg, FALSE)
@@ -600,7 +599,7 @@ int main(argc,argv)
   /* OK so far ? */
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
-    if (verbose) printf("Generating");
+    if (verbose) printf("Generating:");
     datfil = fopen(datfnm, WRITE_MODE);
     txtfil = fopen(txtfnm, "r");
     if (dbgflg)			/* Force debugging */
@@ -623,9 +622,6 @@ int main(argc,argv)
 #else
     unlink(txtfnm);
 #endif    
-
-  if (dmpflg & DMPALL != 0)	/* Dump everything */
-    dmpflg = ~0;		/* Set all bits */
 
   /* Create listing files and list messages on the screen */
   if (lstflg) {			/* If -l option, create list file */
