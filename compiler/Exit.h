@@ -43,7 +43,7 @@ extern Exit *newExit(Srcp *srcp,
 		     List *directions,
 		     Id *to,
 		     List *checks,
-		     List *statements);
+		     Does *does);
 
 /* Analyze a list of Exits */
 extern void analyseExits(List *exits);
