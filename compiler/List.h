@@ -20,6 +20,7 @@ typedef struct List {		/* GENERIC LISTS */
   union {
     struct Id *id;
     struct Statement *statement;
+    struct Attribute *attribute;
     char *string;
     void *anyType;
   } element;			/* Pointer to any type of element */
