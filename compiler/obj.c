@@ -132,6 +132,7 @@ void prepobjs()
     /* If it is a container set object number in cntnod */
     if (obj->props != NULL)
       obj->props->parent = obj->nam;
+    anatrs(obj->atrs);
     /* Then number all attributes */
     i = oatrmax + 1;	/* First local is higher than global attrs. */
     for (alst = obj->atrs; alst != NULL; alst = alst->next) {

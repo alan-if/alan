@@ -184,6 +184,7 @@ void prepacts()
 	newwrd(namlst->element.nam->str, WRD_NOUN, namlst->element.nam->code, act->nam);
       }
     }
+    anatrs(act->atrs);
     i = aatrmax + 1;		/* First local is higher than global attrs. */
     for (alst = act->atrs; alst != NULL; alst = alst->next) {
       atr = findatr(alst->element.atr->nam->str, adv.aatrs);

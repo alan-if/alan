@@ -123,7 +123,7 @@ void prepatrs()
 
 /*======================================================================
 
-  sortatr()
+  anatrs()
 
   Analyze a list of attributes.
 

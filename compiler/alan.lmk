@@ -92,6 +92,7 @@
 417	'Comparing two constant entities will always yield the same result.';
 418	'Aggregate is only allowed on integer type attributes.';
 419	'Expression in %1 must be of integer or string type.';
+420	'Invalid What specification in %1.';
 
 501	'Location \'%1\' has no EXITs.';
 
