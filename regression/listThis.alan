@@ -12,6 +12,7 @@ The waiter Isa actor
   Description
     "A slow-moving, traditionally dressed waiter is here."
     List This.
+    List This.
     If This Is annoyed Then
       "He is rather annoyed."
     End If.

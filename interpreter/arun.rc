@@ -39,7 +39,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,160,120,50,15
     GROUPBOX        "About Arun",IDC_STATIC,10,10,200,50
     ICON            IDR_ARUN, IDC_STATIC, 12, 18, 0, 0, 0, WS_EX_CLIENTEDGE
-    LTEXT           "Alan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
+    LTEXT           "Pre-view version WINARUNVERSION\nAlan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
                     IDC_STATIC,45,20,160,33
     GROUPBOX        "Additional Credits",IDC_STATIC,10,70,200,40
     LTEXT           "Initial inspiration to the Alan language: Göran Forslund\nContinuing encuragement and bug finding: Steve Griffiths\nVisit the Alan Home Pages at http://welcome.to/alan-if",

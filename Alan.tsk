@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>191.89</origest>
 <currest>191.89</currest>
-<elapsed>62.89</elapsed>
+<elapsed>65.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>34</origest>
 <currest>34</currest>
-<elapsed>4</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>4</elapsed>
+<origest>11</origest>
+<currest>11</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
@@ -88,7 +88,25 @@ Refer to compiler/testing/addVerb losing line 2</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List This. does not work.</desc>
+<notes>See regression/testing/listThis</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>About-box should show version info</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -133,22 +151,13 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>About-box should show version info</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -236,15 +245,6 @@ Allow concatenated right hand sides.</notes>
 <task>
 <desc>Bug: 1 + 1 = 2 parses unnaturally, requires (1+1) </desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>List This. does not work.</desc>
-<notes>See regression/testing/listThis</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

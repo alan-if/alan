@@ -1,4 +1,8 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
+# Note: uses a lot of special stuff, if you are porting, start from
+# one of the other makefiles, such as Makefile.unix
+
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r.\\$$c(\\$$s)"`
 
 OPTIMIZE = -g
 CYGWIN	= -mno-cygwin
@@ -73,7 +77,9 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	cp winarun.exe ../bin
 
 arun.res: arun.rc arun.ico resources.h
-	windres $< -O coff -o $@
+	echo $(VERSION)
+	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
+	windres arun.rc2 -O coff -o $@
 
 clean:
 	-rm *.o
