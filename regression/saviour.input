@@ -27,12 +27,14 @@ take keys
 down
 south
 up
-north
-wind clock
 south
+wind clock
+north
 east
 east
-open desk
+examine desk
+examine desk
+open drawer
 take manual
 read it
 west
@@ -67,6 +69,7 @@ type "oscsv"
 type "svegr"
 type "backup"
 take tape
+type "adventure"
 west
 down
 down

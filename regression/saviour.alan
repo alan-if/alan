@@ -1,8 +1,7 @@
 OPTIONS
     Language English.
-    Width 70.
---    Pack.
---    Debug.
+    Pack.
+    Debug.
 
 OBJECT ATTRIBUTES
     NOT takeable.
@@ -20,6 +19,9 @@ SYNONYMS
     u = up.
     d = down.
 
+
+CONTAINER pseudowords
+END CONTAINER.
 
 VERB drop
     CHECK OBJECT IN hero
@@ -88,8 +90,11 @@ VERB insert
     CHECK "I don't understand what you want to insert the $o into."
 END VERB insert.
 
-
-SYNTAX insert_into = 'insert' (o) 'into' (s).
+SYNONYMS
+	put = 'insert'.
+	'in' = 'into'.
+SYNTAX
+	insert_into = 'insert' (o) 'into' (s).
 VERB insert_into
     CHECK o <> s
 	ELSE "Don't try to be smart with me!"
@@ -371,7 +376,8 @@ LOCATION stairs
         "You are at the landing of an old staircase. It seem steady
          enough to walk in, but be careful if you are going to use it.
          There is a passage leading up, and another leading down into
-         a dark cellar. A strange smell emerges from below."
+         a dark cellar. To the east is the hallway. A strange smell
+	 emerges from below."
 
     EXIT up TO first.
     EXIT down TO cellar.
@@ -389,8 +395,8 @@ LOCATION cellar
     EXIT west TO store
         CHECK rats ARE NOT hungry
 	    ELSE
-		"You can not go in there, the rats are too fierce. They
-		 bite and tear at your legs as soon as you try to get past
+		"You can not go in there, the rats are too fierce. The hungry
+		 rats bite and tear at your legs as soon as you try to get past
 		 them."
         DOES
             "Silently sneaking past the sleeping rats, you enter the
@@ -747,7 +753,8 @@ LOCATION third NAME Third Floor
          stairs themselves are getting weaker. A puddle of water on
          the floor shows that the weather has free access through the
          empty window frames. A whissle by the wind is all that can be
-         heared."
+         heared. Foremerly there was an entrance to the east which is
+	 now totally blocked."
 
     EXIT up TO fourth.
     EXIT down TO second.
@@ -856,7 +863,7 @@ LOCATION fifth NAME Fifth Floor
 
     EXIT down TO fourth.
     EXIT east TO corr.
-    EXIT north TO clockroom.
+    EXIT south TO clockroom.
 END LOCATION.
 
 
@@ -865,7 +872,7 @@ LOCATION clockroom NAME Clock Room
         "The room is so small and low that you can't stand straight."
         DESCRIBE clock.
 
-    EXIT south TO fifth.
+    EXIT north TO fifth.
 END LOCATION.
 
 OBJECT clock AT clockroom
@@ -938,30 +945,71 @@ END LOCATION.
 
 LOCATION deskroom NAME Small Office
     DESCRIPTION
-        "This looks like a small office, at least there is a desk with
-         a drawer here. A small window lets some light in. The
+        "This looks like a small office."
+	DESCRIBE desk.
+        "A small window lets some light in. The
          wallpaper has nearly all fallen to the floor and the chair is
          only a pile of broken sticks in one corner. Once the room had
          a balcony but I don't recommend using it now since the floor
          is gone. Anyway, it is not possible to get out there
          anymore."
-        DESCRIBE desk.
 
     EXIT west TO corr.
 END LOCATION.
 
-OBJECT desk AT deskroom
+OBJECT drawer AT deskroom
     IS
 	openable.
         NOT open.
-        NOT marked.
         NOT 'empty'.
 
     DESCRIPTION
-        "Near the window there is a large desk."
-        IF desk IS open THEN
-            "The drawer in the desk is open."
+	"There is a drawer in the desk."
+        IF drawer IS open THEN
+            "It is open."
         END IF.
+
+    VERB examine DOES
+        IF drawer IS open THEN
+            "The drawer is open."
+            IF drawer IS NOT 'empty' THEN
+                "In it there is a technical manual."
+            END IF.
+        END IF.
+    END VERB.
+
+    VERB open DOES
+        IF drawer IS open THEN
+            "The drawer is already open."
+        ELSIF manual IS NOT found THEN
+            "Pulling out the drawer a manual falls to the floor."
+            LOCATE manual HERE.
+            SCORE 10.
+        ELSE
+            "The desk drawer is now open."
+        END IF.
+        MAKE drawer open.
+    END VERB.
+
+    VERB close DOES
+       IF drawer IS NOT open THEN
+           "The drawer is already closed."
+       ELSE
+           "The drawer is now closed."
+           MAKE drawer NOT open.
+       END IF.
+    END VERB.
+END OBJECT.
+
+
+OBJECT desk AT deskroom
+    IS
+	openable.
+        NOT marked.
+
+    DESCRIPTION
+        "Near the window there is a large desk."
+	DESCRIBE drawer.
 
     VERB examine DOES
         "It is an old desk, made from oak. The top is completely
@@ -973,16 +1021,16 @@ OBJECT desk AT deskroom
             MAKE desk marked.
         END IF.
         "The desk has one remaining drawer."
-        IF desk IS open THEN
+        IF drawer IS open THEN
             "The drawer is open."
-            IF desk IS NOT 'empty' THEN
+            IF drawer IS NOT 'empty' THEN
                 "In it there is a technical manual."
             END IF.
         END IF.
     END VERB.
 
     VERB open DOES
-        IF desk IS open THEN
+        IF drawer IS open THEN
             "The drawer is already open."
         ELSIF manual IS NOT found THEN
             "Pulling out the drawer a manual falls to the floor."
@@ -991,15 +1039,15 @@ OBJECT desk AT deskroom
         ELSE
             "The desk drawer is now open."
         END IF.
-        MAKE desk open.
+        MAKE drawer open.
     END VERB.
 
     VERB close DOES
-       IF desk IS NOT open THEN
+       IF drawer IS NOT open THEN
            "The drawer is already closed."
        ELSE
            "The drawer is now closed."
-           MAKE desk NOT open.
+           MAKE drawer NOT open.
        END IF.
     END VERB.
 END OBJECT.
@@ -1132,7 +1180,7 @@ LOCATION cafe
     EXIT west TO hall.
 END LOCATION.
 
-OBJECT machine AT cafe
+OBJECT machine NAME vending machine AT cafe
     IS
 	readable.
 
@@ -1199,7 +1247,6 @@ END ACTOR.
 
 
 START AT outside.
-    Visits 2.
 
     "$pWelcome to the game of SAVIOUR!$pIn this game your mission
      is to salvage the last copy of the famous ADVENTURE game.
@@ -1209,3 +1256,5 @@ START AT outside.
      salvaging hero of all Adventurers!$p$pThis game was produced
      with the ALAN Adventure Development System and is brought to
      you by ThoNi&GorFo Adventure Factories."
+
+    VISITS 2.
