@@ -1,3 +1,6 @@
+Options
+  Language swedish.
+
 Location l
   Description
     "ÄÅÖäåö[]\{}|"
@@ -6,19 +9,19 @@ End Location l.
 Syntax ä = 'ä'.
 Verb Ä
   Does
-    "Ä"
+    "Ä - A diaresis"
 End Verb.
 
 Syntax Å = 'å'.
 Verb Å
   Does
-    "Å"
+    "Å - A ring"
 End Verb.
 
 Syntax Ö = 'ö'.
 Verb Ö
   Does
-    "Ö"
+    "Ö - O diaresis"
 End Verb.
 
 Start At l.

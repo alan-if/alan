@@ -42,6 +42,7 @@ FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
 Bool verbose;			/* Verbose mode */
+int charset;			/* Which charset to read source in */
 long counter = 0;		/* Number of new's so far, for verbose */
 
 List *includePaths = NULL;	/* List of additional include paths */
@@ -424,6 +425,8 @@ static SPA_FUN(addInclude)
   spaSkip(1);
 }
 
+static char *charsets[] = {"iso", "mac", "dos"};
+
 
 static SPA_DECLARE(arguments)
 #ifdef __dos__
@@ -442,6 +445,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("warnings", "[don't] show warning messages", warnings, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infos, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search before current when\nlooking for included files (may be repeated)", addInclude)
+     SPA_KEYWORD("charset", "which character set source is in", charset, charsets, 0, NULL)
      SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccflg, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file", fulflg, FALSE, NULL)
      SPA_INTEGER("height <lines)", "height of pages in listing", lcount, 74, NULL)
@@ -561,6 +565,7 @@ int main(int argc,		/* IN - argument count */
   heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);
   lmLiInit(product.shortHeader, srcfnm, lm_ENGLISH_Messages);
+  setCharacterSet(charset);
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);

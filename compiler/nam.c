@@ -90,9 +90,9 @@ int annams(List *nams,		/* IN - List of names to use */
       if (cap) {
 	sprintf(buf, "%c%s", toUpperCase(namlst->element.nam->str[0]),
 		&namlst->element.nam->str[1]);
-	toIso(buf, buf);
+	toIso(buf, buf, charset);
       } else
-	toIso(buf, namlst->element.nam->str);
+	toIso(buf, namlst->element.nam->str, charset);
       if (namlst->next)
 	strcat(buf, " ");
       getxt(buf);
@@ -101,9 +101,9 @@ int annams(List *nams,		/* IN - List of names to use */
   } else {
     if (cap) {
       sprintf(buf, "%c%s", toUpper(nam->str[0]), &nam->str[1]);
-      toIso(buf, buf);
+      toIso(buf, buf, charset);
     } else
-      toIso(buf, nam->str);
+      toIso(buf, nam->str, charset);
     getxt(buf);
     len = strlen(buf);
   }

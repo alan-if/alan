@@ -152,9 +152,22 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
 
-.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp
+.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp Makefile
 	smk $(SMKQ) alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.iso.new
+	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
+	@echo "/* ISO scanner tables */" > smScan.iso.new
+	@echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
+	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	@echo ";" >> smScan.iso.new
+	@echo "" >> smScan.iso.new
+	@echo "UByte1 smIsoDFAcolVal[256]={" >> smScan.iso.new
+	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	@echo ";" >> smScan.iso.new
+	@echo "" >> smScan.iso.new
+	@echo "UByte1 smIsoDFAerrCol[256]={" >> smScan.iso.new
+	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
+	@echo ";" >> smScan.iso.new
+	@echo "" >> smScan.iso.new
 	@if test -f smScan.iso ; then \
 		if cmp smScan.iso smScan.iso.new ; then \
 			rm smScan.iso.new ; \
@@ -165,7 +178,19 @@ tm: .pmkstamp .smkstamp .lmkstamp
 		mv smScan.iso.new smScan.iso ; \
 	fi ;
 	smk $(SMKQ) -set MAC alan
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.mac.new
+	@echo "/* MAC scanner tables */" > smScan.mac.new
+	@echo "UByte1 smMacMap[256]={" >> smScan.mac.new
+	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	@echo ";" >> smScan.mac.new
+	@echo "" >> smScan.mac.new
+	@echo "UByte1 smMacDFAcolVal[256]={" >> smScan.mac.new
+	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	@echo ";" >> smScan.mac.new
+	@echo "" >> smScan.mac.new
+	@echo "UByte1 smMacDFAerrCol[256]={" >> smScan.mac.new
+	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
+	@echo ";" >> smScan.mac.new
+	@echo "" >> smScan.mac.new
 	@if test -f smScan.mac ; then \
 		if cmp smScan.mac smScan.mac.new ; then \
 			rm smScan.mac.new ; \
@@ -180,31 +205,41 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	@sed s/SunOS/MSDOS/ alan.tmk.orig > alan.tmk
 	smk $(SMKQ) -set PC alan
 	@make restoretm
-	@sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" smScan.c > smScan.pc.new
-	@if test -f smScan.pc ; then \
-		if cmp smScan.pc smScan.pc.new ; then \
-			rm smScan.pc.new ; \
+	@echo "/* DOS scanner tables */" > smScan.dos.new
+	@echo "UByte1 smDosMap[256]={" >> smScan.dos.new
+	@sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	@echo ";" >> smScan.dos.new
+	@echo "" >> smScan.dos.new
+	@echo "UByte1 smDosDFAcolVal[256]={" >> smScan.dos.new
+	@sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	@echo ";" >> smScan.dos.new
+	@echo "" >> smScan.dos.new
+	@echo "UByte1 smDosDFAerrCol[256]={" >> smScan.dos.new
+	@sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
+	@echo ";" >> smScan.dos.new
+	@echo "" >> smScan.dos.new
+	@if test -f smScan.dos ; then \
+		if cmp smScan.dos smScan.dos.new ; then \
+			rm smScan.dos.new ; \
 		else \
-			mv smScan.pc.new smScan.pc ; \
+			mv smScan.dos.new smScan.dos ; \
 		fi ; \
 	else \
-		mv smScan.pc.new smScan.pc ; \
+		mv smScan.dos.new smScan.dos ; \
 	fi ;
 	touch .smkstamp
 
-smScanx.c : smScan.iso smScan.mac smScan.pc
+smScanx.c : .smkstamp
 	@sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
 	@cat smScan.head > smScanx.c
-	@echo "#if ISO == 1" >> smScanx.c
+	@echo "UByte1 *smMap;" >> smScanx.c
+	@echo "UByte1 *smDFAcolVal;" >> smScanx.c
+	@echo "UByte1 *smDFAerrCol;" >> smScanx.c
+	@echo "" >> smScanx.c
 	@cat smScan.iso >> smScanx.c
-	@echo "#else" >> smScanx.c
-	@echo "#ifdef __mac__" >> smScanx.c
 	@cat smScan.mac >> smScanx.c
-	@echo "#endif" >> smScanx.c
-	@echo "#ifdef __dos__" >> smScanx.c
-	@cat smScan.pc >> smScanx.c
-	@echo "#endif" >> smScanx.c
-	@echo "#endif" >> smScanx.c
+	@cat smScan.dos >> smScanx.c
+	@cat smScan.tbl >> smScanx.c
 	@cat smScan.tail >> smScanx.c
 
 

@@ -103,7 +103,7 @@ void emitstr(char *str)
 #ifdef __unix__
   memset(copy, 0, strlen(str)+4);
 #endif
-  toIso(copy, str);
+  toIso(copy, str, charset);
 
 #ifdef WORDADDRESS
   {

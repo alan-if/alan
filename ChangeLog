@@ -1,6 +1,15 @@
+Tue Aug 11 11:20:23 1998  Thomas Nilsson  <thoni@rabbit>
+
+	* Restored the command line editing on Solaris2
+
 Mon Aug 10 11:55:08 MET DST 1998
 
 	* v2.8
+
+Tue Aug 10 20:35:26 MET DST 1998
+
+	* Fixed another problem with named scripts occuring because they
+	where not always numbered before analysis.
 
 Tue Apr 28 17:56:58 1998  Thomas Nilsson  <thoni@rabbit>
 

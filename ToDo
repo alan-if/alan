@@ -1,5 +1,26 @@
 ToDo:
 
+	* Document how to produce a SCRIPT-file
+
+	* MAC (or general?): allow .ACD/.DAT as well as .acd/.dat
+
+	* The character set used by the compiler (when reading the
+	source code) ought to be configurable through an option
+
+		Option
+		 Charset ISO/DOS/MAC.
+
+	* Investigate the possibility to allow:
+
+		> TAKE ALL green chairs
+
+	This implies 1) a notion of plural nouns (in english generally
+	's' and 2) new built in multiple reference algorithm. First
+	point could be avoided if replaced by
+
+		> TAKE EVERY green chair
+		> PUSH EVERY button
+
 	* ISA ACTOR ought to be available already before the class mechanism
 
 	* is/are, have/has singular/plural in the documentation
@@ -31,20 +52,7 @@ ToDo:
 		MAKE ALL OBJECT WITH size > 3 heavy.
 		SET state OF ALL creature HERE AND IS hungry TO 0.
 
-	* The character set used by the compiler (when reading the
-	source code) ought to be configurable through an option
-
-		Option
-		 Charset ISO/DOS/MAC.
-
 	* Describe the typical Alan "application" in the manual
-
-	* Investigate the possibility to allow:
-
-		> TAKE ALL green chairs
-
-	This implies 1) a notion of plural nouns (in english generally
-	's' and 2) new built in multiple reference algorithm
 
 	* Allow lists of right hand expressions in the DEPENDING ON
 	case clauses:
@@ -108,7 +116,7 @@ ToDo:
 	PCs since the words are then written out in native format.
 
 	* Think about a way to allow nouns to be capitalized, either
-	automatic but preferably by author choice.
+	automatic but preferably by author choice. C.f. german.
 
 	* Confirm handling was trashed in 2.7. Any input is considered as
 	non-affirmative. Need to change this so that a '(y)' can be used
@@ -157,7 +165,8 @@ ToDo:
 
 	* EXIT out TO RETURN ....
 
-	* Check for 'locate hero'/'look' in DESCRIPTIONS (=> recursive look)
+	* Check for 'locate hero'/'look' in DESCRIPTIONS (to prohibit
+	"recursive look")
 
 	* Replace printout of string attributes? Shouldn't they be
 	surrounded by qoutes, as they are not indended as part of the

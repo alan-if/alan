@@ -58,10 +58,17 @@
  */
 
 /* ISO character sets? */
-#if defined __dos__ || defined __mac__
+#ifdef __dos__
 #define ISO 0
+#define NATIVECHARSET 2
+#else
+#ifdef __mac__
+#define ISO 0
+#define NATIVECHARSET 1
 #else
 #define ISO 1
+#define NATIVECHARSET 0
+#endif
 #endif
 
 /* General settings and includes, which work for all environments */
@@ -163,9 +170,15 @@ extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */
-		  char original[]); /* IN - string to convert */
+		  char original[], /* IN - string to convert */
+		  int charset);	/* IN - The current character set */
+
 extern void fromIso(char copy[], /* OUT - Mapped string */
 		    char original[]); /* IN - string to convert */
+
+extern void toNative(char copy[], /* OUT - Mapped string */
+		     char original[], /* IN - string to convert */
+		     int charset); /* IN - current character set */
 #else
 extern int isSpace();
 extern int isLower();

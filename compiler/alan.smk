@@ -43,6 +43,7 @@ extern List *fileNames;
 
 extern Bool smScanEnter(char fnm[], Bool search);
 extern int scannedLines(void);
+extern void setCharacterSet(int charset);
 
 %%DECLARATIONS
 
@@ -124,6 +125,44 @@ int scannedLines(void)
 }
 
 
+extern unsigned char *smMap;
+extern unsigned char *smDFAcolVal;
+extern unsigned char *smDFAerrCol;
+extern unsigned char *smIsoMap;
+extern unsigned char *smIsoDFAcolVal;
+extern unsigned char *smIsoDFAerrCol;
+extern unsigned char *smMacMap;
+extern unsigned char *smMacDFAcolVal;
+extern unsigned char *smMacDFAerrCol;
+extern unsigned char *smDosMap;
+extern unsigned char *smDosDFAcolVal;
+extern unsigned char *smDosDFAerrCol;
+
+static int charset;
+
+void setCharacterSet(int set)
+{
+  charset = set;
+  switch (set) {
+  case 0:
+    smMap = &smIsoMap;
+    smDFAcolVal = &smIsoDFAcolVal;
+    smDFAerrCol = &smIsoDFAerrCol;
+    break;
+  case 1:
+    smMap = &smMacMap;
+    smDFAcolVal = &smMacDFAcolVal;
+    smDFAerrCol = &smMacDFAerrCol;
+    break;
+  case 2:
+    smMap = &smDosMap;
+    smDFAcolVal = &smDosDFAcolVal;
+    smDFAerrCol = &smDosDFAerrCol;
+    break;
+  }
+}
+
+
 %%CONTEXT
 
   smScContext previous;
@@ -190,6 +229,8 @@ int scannedLines(void)
   IDENT = letter (letter ! digit ! '_')*			-- normal id
     %%
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+        if (charset != NATIVECHARSET)
+          toNative(smToken->chars, smToken->chars, charset);
 	(void) strlow(smToken->chars);
     %%;
 
@@ -218,9 +259,8 @@ int scannedLines(void)
 
       smToken->fpos = ftell(txtfil); /* Remember where it starts */
       smThis->smText[smThis->smLength-1] = '\0';
-#if ISO == 0
-      toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1]);
-#endif
+      if (charset != 0) /* Convert string from non ISO characters if needed */
+        toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], charset);
 
       for (i = 1; i < smThis->smLength-1; i++) {
 	/* Write the character */

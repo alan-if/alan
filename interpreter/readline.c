@@ -93,12 +93,21 @@ static KeyMap keymap[] = {
   {0x00, 0x00, NULL}
 };
 
+#ifdef __solaris2__
 static KeyMap escmap[] = {
   {0x00, 0x4e, NULL},
   {0x4f, 0x4f, arrowHook},
   {0x50, 0xff, NULL},
   {0x00, 0x00, NULL}
 };
+#else
+static KeyMap escmap[] = {
+  {0x00, 0x5a, NULL},
+  {0x5b, 0x5b, arrowHook},
+  {0x5c, 0xff, NULL},
+  {0x00, 0x00, NULL}
+};
+#endif
 
 static KeyMap arrowmap[] = {
   {0x00, 0x31, NULL},
