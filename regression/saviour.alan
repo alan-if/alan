@@ -45,10 +45,6 @@ SYNONYMS
     u = up.
     d = down.
 
-The pseudowords
-    Container 
-End The pseudowords.
-
 Verb drop
     Check object In hero
         Else "You don't have the $o."
