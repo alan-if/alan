@@ -171,7 +171,12 @@ void optenum(id, srcp, val)
   int opt, code;
 
   if ((opt = optcode(id)) == EOF) {
-    lmLog(srcp, 601, sevWAR, id);
+    if (strcmp(id, "no") == 0) {
+      /* This was actually a NO optBool */
+      optBool(val, srcp, FALSE);
+    } else
+      /* Unrecognized option */
+      lmLog(srcp, 601, sevWAR, id);
     return;
   }
 
@@ -199,11 +204,12 @@ void optenum(id, srcp, val)
 
   */
 #ifdef _PROTOTYPES_
-void optBool(char *id, Srcp *srcp)
+void optBool(char *id, Srcp *srcp, int val)
 #else
-void optBool(id, srcp)
+void optBool(id, srcp, val)
      char id[];
      Srcp *srcp;
+     int val;
 #endif
 {
   int opt;
@@ -224,7 +230,7 @@ void optBool(id, srcp)
   }
 
   opts[opt].used = TRUE;
-  opts[opt].value = TRUE;
+  opts[opt].value = val;
 }
 
 

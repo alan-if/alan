@@ -69,7 +69,8 @@ extern void optenum(char id[],
 
 /* Register a Boolean option */
 extern void optBool(char id[],
-		       Srcp *srcp);
+		    Srcp *srcp,
+		    int onoff);
 
 
 /* Generate all option values */

@@ -167,7 +167,7 @@ options			-- RETURNS: <nothing>
 option			-- RETURNS: <nothing>
     = ID '.'
     %%
-	optBool(%ID.chars, `&%ID.srcp);
+	optBool(%ID.chars, `&%ID.srcp, TRUE);
     %%
 
     ! ID ID '.'
