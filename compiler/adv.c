@@ -209,7 +209,6 @@ void geadv(char acodeFileName[], char textFileName[], char dataFileName[])
   /* String initialisation table */
   acdHeader.init = generateStringInit();
 
-  acdHeader.size = emadr();	/* Save last address as size */
   terminateEncoding();
   terminateEmit();
   emitTextDataToAcodeFile(dataFileName);

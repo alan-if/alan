@@ -153,6 +153,7 @@ unit : $(TESTOBJS)
 # Run all unit tests!
 test: unit
 	@./unit
+	cd testing; regr
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

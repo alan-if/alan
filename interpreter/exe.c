@@ -1036,6 +1036,32 @@ void say(id)
 
   */
 
+static void describeClass(Aword id)
+{
+  if (class[id].description != 0) {
+    /* This instance has its own description, run it */
+    interpret(class[id].description);
+  } else {
+    /* Search up the inheritance tree, if any, to find a description */
+    if (class[id].parent != 0)
+      describeClass(class[id].parent);
+  }
+}
+
+
+static void describeAnything(Aword id)
+{
+  if (instance[id].description != 0) {
+    /* This instance has its own description, run it */
+    interpret(instance[id].description);
+  } else {
+    /* Search up the inheritance tree to find a description */
+    if (instance[id].parentClass != 0)
+      describeClass(instance[id].parentClass);
+  }
+  admin[id].alreadyDescribed = TRUE;
+}
+
 #ifdef _PROTOTYPES_
 static void describeObject(Aword obj)
 #else
@@ -1113,10 +1139,8 @@ void describe(id)
     describeObject(id);
   } else if (isAct(id)) {
     describeActor(id);
-  } else if (instance[id].description != 0) {
-    interpret(instance[id].description);
-    admin[id].alreadyDescribed = TRUE;
-  }
+  } else
+    describeAnything(id);
 
   dscrstkp--;
 }

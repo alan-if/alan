@@ -182,7 +182,7 @@ void analyzeInstances(void)
 */
 static void generateInstanceData(InsNod *ins)
 {
-  generateSlotsData(ins->slots);
+  generateInstanceSlotsData(ins->slots);
 }
 
 

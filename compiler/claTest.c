@@ -61,9 +61,37 @@ void testGenerateClasses()
   unitAssert(emadr() == firstAdr + 5*classSize + 1);	/* 5 classes + EOF */
 }
 
+void testGenerateEmptyClassEntry()
+{
+  Slots *slots = newSlots(NULL, NULL,
+			  NULL, NULL,
+			  NULL,
+			  &nulsrcp, NULL, &nulsrcp, NULL,
+			  &nulsrcp, NULL, NULL, NULL, NULL);
+  ClaNod *class = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, slots);
+  int entryAddress;
+  ClassEntry *entry;
+  
+  initAdventure();
+  initEmit("unit.a3c");
+  symbolizeAdventure();
+
+  generateClassSlotsData(class->slots);
+  entryAddress = emadr();
+  generateClassEntry(class);
+  terminateEmit();
+  emitHeader();
+
+  loadACD("unit.a3c");
+  entry = (ClassEntry *) &memory[entryAddress];
+  unitAssert(convertFromACD(entry->description) == 0);
+  unitAssert(convertFromACD(entry->parent) == 0);
+}
+
 void registerClaUnitTests()
 {
   registerUnitTest(testCreateClass);
   registerUnitTest(testGenerateClasses);
+  registerUnitTest(testGenerateEmptyClassEntry);
 }
 

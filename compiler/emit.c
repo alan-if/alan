@@ -468,7 +468,8 @@ void terminateEmit()
   if (pc%BLOCKSIZE > 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
-  acdHeader.acdcrc = crc;		/* Save checksum */
+  acdHeader.acdcrc = crc;	/* Save checksum */
+  acdHeader.size = emadr();	/* Save last address as size */
 }
 
 

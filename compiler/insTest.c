@@ -26,6 +26,33 @@ void testCreateIns()
 }
 
 
+void testGenerateEmptyInstanceEntry()
+{
+  Slots *slots = newSlots(NULL, NULL,
+			  NULL, NULL,
+			  NULL,
+			  &nulsrcp, NULL, &nulsrcp, NULL,
+			  &nulsrcp, NULL, NULL, NULL, NULL);
+  InsNod *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, slots);
+  int entryAddress;
+  InstanceEntry *entry;
+  
+  initAdventure();
+  initEmit("unit.a3c");
+  symbolizeAdventure();
+
+  generateInstanceSlotsData(instance->slots);
+  entryAddress = emadr();
+  generateInstanceEntry(instance);
+  terminateEmit();
+  emitHeader();
+
+  loadACD("unit.a3c");
+  entry = (InstanceEntry *) &memory[entryAddress];
+  unitAssert(convertFromACD(entry->description) == 0);
+  unitAssert(convertFromACD(entry->parentClass) == 0);
+}
+
 void testGenerateInstances()
 {
   Srcp srcp = {12,13,14};
@@ -95,6 +122,7 @@ void testHero()
 void registerInsUnitTests()
 {
   registerUnitTest(testCreateIns);
+  registerUnitTest(testGenerateEmptyInstanceEntry);
   registerUnitTest(testGenerateInstances);
   registerUnitTest(testHero);
 }

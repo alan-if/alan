@@ -177,11 +177,28 @@ static void generateClassEntry(ClaNod *cla)
   cla->adr = emadr();
 
   entry.code = cla->slots->id->symbol->code;	/* First own code */
+
   if (cla->slots->parentId == NULL)	/* Then parents */
     entry.parent = 0;
   else
     entry.parent = cla->slots->parentId->symbol->code;
+
+  entry.description = cla->slots->descriptionAddress;
+
   emitEntry(&entry, sizeof(entry));
+}
+
+
+/*----------------------------------------------------------------------
+
+  generateInstanceData
+
+  Generate the data parts for one instance.
+
+*/
+static void generateClassData(ClaNod *cla)
+{
+  generateClassSlotsData(cla->slots);
 }
 
 
@@ -201,6 +218,9 @@ Aaddr generateClasses(void)
   acdHeader.objectClassId = object->slots->id->symbol->code;
   acdHeader.locationClassId = location->slots->id->symbol->code;
   acdHeader.actorClassId = actor->slots->id->symbol->code;
+
+  for (l = allClasses; l; l = l->next)
+    generateClassData(l->element.cla);
 
   adr = emadr();
   for (l = allClasses; l; l = l->next)

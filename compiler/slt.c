@@ -199,12 +199,39 @@ void analyzeSlots(Slots *slots, Context *context)
 
 /*======================================================================
 
-  generateSlotsData()
+  generateClassSlotsData()
 
-  Generate data for one Slots node.
+  Generate data for one Slots node for a Class.
 
  */
-void generateSlotsData(Slots *slots)
+void generateClassSlotsData(Slots *slots)
+{
+  if (slots->description != NULL) {
+    slots->descriptionAddress = emadr();
+    gestms(slots->description, slots->id->symbol->code);
+    emit0(C_STMOP, I_RETURN);
+  }
+
+  if (slots->mentioned != NULL) {
+    slots->mentionedAddress = emadr();
+    gestms(slots->mentioned, slots->id->symbol->code);
+    emit0(C_STMOP, I_RETURN);
+  }
+
+  slots->scriptsAddress = generateScripts(slots->scripts, slots->id->symbol->code);
+  slots->verbsAddress = generateVerbs(slots->verbs, slots->id->symbol->code);
+  slots->exitsAddress = generateExits(slots->exits, slots->id->symbol->code);
+}
+
+
+/*======================================================================
+
+  generateInstanceSlotsData()
+
+  Generate data for one Slots node (for an instance).
+
+ */
+void generateInstanceSlotsData(Slots *slots)
 {
   slots->idAddress = emadr();
   emitString(slots->id->string);
