@@ -15,6 +15,7 @@ You have x:ed 0 times before.
 > x
 
 > undo
+Undone.
 
 > l
 P
@@ -29,22 +30,27 @@ P
 You have x:ed 2 times before.
 
 > undo
+Undone.
 
 > l
 P
 You have x:ed 1 times before.
 
 > undo
+Undone.
 
 > l
 P
 You have x:ed 0 times before.
 
 > undo
+Undone.
 
 > undo
+Nothing more to undo.
 
 > undo
+Nothing more to undo.
 
 > l
 P
@@ -57,6 +63,7 @@ P
 You have x:ed 1 times before.
 
 > undo
+Undone.
 
 > l
 P
@@ -64,4 +71,4 @@ You have x:ed 0 times before.
 
 > 
 
-Do you want to RESTART, RESTORE or QUIT ? 
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

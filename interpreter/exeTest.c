@@ -160,6 +160,8 @@ static void testIncreaseEventQueue()
 }
 
 static void testPushGameState() {
+  admin = allocate(sizeof(AdminEntry));
+  attributes = allocate(3);
   gameState = NULL;
   gameStateTop = 0;
   pushGameState();
@@ -172,7 +174,7 @@ static void testPopGameState() {
   attributes = allocate(3*sizeof(AttributeEntry));
   admin = allocate(3*sizeof(AdminEntry));
 
-  header->attributesAreaSize = 3*sizeof(AttributeEntry);
+  header->attributesAreaSize = 3*sizeof(AttributeEntry)/sizeof(Aword);
   header->instanceMax = 2;
 
   gameState = NULL;
@@ -184,17 +186,36 @@ static void testPopGameState() {
   ASSERT(gameState != NULL);
   ASSERT(gameStateTop == 1);
 
-  eventQueueTop = 1;
+  eventQueueTop = 2;
   eventQueue[1].time = 47;
   attributes[0].value = 11;
   attributes[2].value = 4;
+  admin[2].location = 12;
+  admin[2].alreadyDescribed = 2;
+  admin[2].visitsCount = 13;
+  admin[2].script = 33;
+  admin[2].step = 3886;
+  admin[2].waitCount = 38869878;
   pushGameState();
+
+  admin[2].location = 55;
+  admin[2].alreadyDescribed = 55;
+  admin[2].visitsCount = 55;
+  admin[2].script = 55;
+  admin[2].step = 55;
+  admin[2].waitCount = 55;
 
   eventQueueTop = 0;
   eventQueue[1].time = 1;
   popGameState();
+  ASSERT(admin[2].location == 12);
+  ASSERT(admin[2].alreadyDescribed == 2);
+  ASSERT(admin[2].visitsCount == 13);
+  ASSERT(admin[2].script == 33);
+  ASSERT(admin[2].step == 3886);
+  ASSERT(admin[2].waitCount == 38869878);
 
-  ASSERT(eventQueueTop == 1);
+  ASSERT(eventQueueTop == 2);
   ASSERT(eventQueue[1].time == 47);
 
   popGameState();

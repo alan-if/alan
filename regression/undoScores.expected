@@ -21,6 +21,7 @@ You have scored 5 points out of 5. There is a o here. You have scored 5
 points out of 5.
 
 > undo
+Undone.
 
 > l
 P
@@ -29,4 +30,4 @@ points out of 5.
 
 > 
 
-Do you want to RESTART, RESTORE or QUIT ? 
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

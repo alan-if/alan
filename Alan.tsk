@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>330.89</origest>
-<currest>329.89</currest>
-<elapsed>178.89</elapsed>
+<origest>333.89</origest>
+<currest>332.89</currest>
+<elapsed>184.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>43</origest>
-<currest>43</currest>
-<elapsed>7</elapsed>
+<origest>51</origest>
+<currest>51</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
-<elapsed>7</elapsed>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -119,12 +119,65 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>For loop Filters</desc>
+<notes>Possibly we can port the aggregate filters to the For Each loop.
+
+To get
+  For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
+  End For Each [&lt;var&gt;].
+
+
+All below is done:
+First (but useless) version would be
+
+ For Each Do
+ End For Each.
+
+Next version would be
+
+ For Each &lt;class&gt; Do
+ End For Each.
+
+Which could be extended to
+
+ For Each &lt;class&gt; [&lt;var&gt;] Do
+ End For Each [&lt;var&gt;].
+
+This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>QUIT message should allow UNDO</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO needs some kind of response?</desc>
+<notes>Generally: UNDO should say something, standard messages?
+
+Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -132,6 +185,36 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <notes>Bug? Save current state also? Why is not current.location set to heros location?
 
 We also need some way to re-output the state.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DEPEND does not work with identifiers in the cases</desc>
+<notes>DEPEND On X
+= bartender : ...
+
+Doesn't work any more... If it ever did...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.34</desc>
+<notes/>
+<priority>2</priority>
+<origest>19</origest>
+<currest>19</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Refactor: add a context.symbol</desc>
+<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -175,18 +258,9 @@ I don't know which water you mean.
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Increment: version 3.0.34</desc>
-<notes/>
-<priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Refactor: add a context.symbol</desc>
-<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<desc>Transitive AT/IN</desc>
+<notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -194,8 +268,51 @@ I don't know which water you mean.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Transitive AT/IN</desc>
-<notes>Change At and In to always be transitive (where possible, "Locate x IN y" can obviously not be transitive) Introduce a modifier to AT &amp; IN, DIRECTLY which modifies the behaviour to non-transitive where appropriate.</notes>
+<desc>IN &amp; AT operators</desc>
+<notes>Currently IN only applies to containment, i.e only for actors and objects with container properties.
+
+AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
+
+It has been suggested that IN could be used generally for intransitive location comparisons. This would mean that IN would also be used to test if an instance is at the location without considering what any containers at that location would contain.
+
+This would mean to change IN to not only be applicable to containers but also locations.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun declarations</desc>
+<notes>Need:
+"You can not shoot at that." is not very logical when the target is a person. Neither is
+
+     &gt; ask woman about Sally
+      "Sally, is my daughter. I haven't seen her for twenty years now. I miss her so."
+
+      &gt; ask her about the weather
+       I can't see any Sally here.
+
+
+Analysis:
+To fix this we need a declaration of pronoun, e.g
+
+The woman Isa person
+  Pronoun her
+End The woman.
+
+Implementation requires:
+ - grammar change
+ - run-time execution
+ - embedded string printing (only if we want to be able to use it in strings)
+ - library change
+
+Implementation:
+- send number of unique pronouns to interpreter
+- for each parameter save the instance in that pronoun slot
+- when pronoun is used in input look it up in the slot
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -307,50 +424,6 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <notes>Need: we need to be able to give options to the compiler while still double clicking on it.
 
 Design:</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO needs some kind of response?</desc>
-<notes>Generally: UNDO should say something, standard messages?
-
-Should we allow UNDO as a response to quit?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Pronoun declarations</desc>
-<notes>Need:
-"You can not shoot at that." is not very logical when the target is a person.
-
-Analysis:
-To fix this we need a declaration of pronoun, e.g
-
-The woman Isa person
-  Pronoun "her"
-End The woman.
-
-Implementation requires:
- - grammar change
- - run-time execution
- - embedded string printing
- - library change
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>QUIT message should allow UNDO</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -592,18 +665,87 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.37</desc>
+<notes/>
+<priority>2</priority>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Allow Start section at an arbitrary place in the source</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherting all props</desc>
+<notes>Investigate which ones are left!!!!
+
+DONE:
+attributes
+scripts
+verbs
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>102</origest>
-<currest>102</currest>
-<elapsed>5</elapsed>
+<origest>98</origest>
+<currest>98</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Inherit Entered</desc>
-<notes/>
+<desc>Word-clash</desc>
+<notes>Multiclass word problem 1: The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
+
+Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
+
+Words can't be prepositions and verbs at the same time. See gestx()
+
+New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -629,15 +771,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Infinite loops can occur if the articles try to Say The this.</desc>
 <notes>There are a number of situations that can cause infinite interpreter loops. Like the recursive describe. Possibly they can be detected in the same way.
 </notes>
@@ -648,14 +781,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Inherting all props</desc>
-<notes>Investigate which ones are left!!!!
-
-DONE:
-attributes
-scripts
-verbs
-</notes>
+<desc>Syntax description in the manual</desc>
+<notes>Make sure the grammar syntax is clearly explained</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -695,17 +822,6 @@ verbs
     winarun images -t
 results in
     Could not open "images -t.a3c"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>HAVING clause on aggregate filters</desc>
-<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
- HAVING x = 3
- HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -810,39 +926,6 @@ Yes, you could allow inherting the complete exit and just override the target lo
 <isopen>1</isopen>
 </task>
 <task>
-<desc>For loop Filters</desc>
-<notes>Possibly we can port the aggregate filters to the For Each loop.
-
-To get
-  For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
-  End For Each [&lt;var&gt;].
-
-
-All below is done:
-First (but useless) version would be
-
- For Each Do
- End For Each.
-
-Next version would be
-
- For Each &lt;class&gt; Do
- End For Each.
-
-Which could be extended to
-
- For Each &lt;class&gt; [&lt;var&gt;] Do
- End For Each [&lt;var&gt;].
-
-This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Meta-output should be in []</desc>
 <notes/>
 <priority>2</priority>
@@ -874,6 +957,15 @@ Still to figure out how to send parameters, and to make analysis of availability
 </task>
 </task>
 <task>
+<desc>CHECKs on containers</desc>
+<notes>Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>New execution model</desc>
 <notes>If we use addresses as the primary addressing mechanism we could more easily support new attribute reference format.
 
@@ -893,8 +985,8 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
-<notes>Why? What is the problem?</notes>
+<desc>Dynamic creation of instances</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -902,8 +994,8 @@ However this does not go well with separated data since that is not adressed by 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>CHECKs on containers</desc>
-<notes>Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
+<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
+<notes>Why? What is the problem?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1100,6 +1192,16 @@ Currently they are not described at all.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>CHECKs as disambiguations for multiple objects</desc>
+<notes>Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>InstanceAndVerb</desc>
 <notes>regression/pending/instanceAndVerb.alan
 
@@ -1108,38 +1210,6 @@ syserr() because 'l' is both an instance and a verb.</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Word-clash</desc>
-<notes>Multiclass word problem 1: The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
-
-Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
-
-Words can't be prepositions and verbs at the same time. See gestx()
-
-New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>IN &amp; AT operators</desc>
-<notes>Currently IN only applies to containment, i.e only for actors and objects with container properties.
-
-AT instead is transitive and recurses containment to verify if an instance is at the same place (usually location).
-
-It has been suggested that IN could be used generally for intransitive location comparisons. This would mean that IN would also be used to test if an instance is at the location without considering what any containers at that location would contain.
-
-This would mean to change IN to not only be applicable to containers but also locations.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1343,15 +1413,6 @@ Add To Every object
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Dynamic creation of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Unknown words in player input to create strings</desc>
 <notes>
 Experiment with making unknown words into strings:
@@ -1457,16 +1518,6 @@ This implies 1) a notion of plural nouns (in english generally 's' and 2) new bu
 <notes>Make it possible to have THE and EVERY optional in END clauses.
 
 But not both THE and the ID...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>CHECKs as disambiguations for multiple objects</desc>
-<notes>Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1588,7 +1639,9 @@ Or possibly LOCATE ALL &lt;condition&gt; &lt;where&gt;
 
 This was prompted by the darkness and light example, the problem being that objects at the location are described by the implicit LOOK performed when locating the hero there.
 
-Possibly is nullified if DESCRIPTION CHECK is introduced.</notes>
+Possibly is nullified if DESCRIPTION CHECK is introduced.
+
+The For Each construct with IN &lt;container&gt; or AT &lt;location&gt; can be used to move everything out of the container.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1601,6 +1654,25 @@ Possibly is nullified if DESCRIPTION CHECK is introduced.</notes>
 Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
 
 Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify $&lt;n&gt; w.r.t the syntax parameters</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Depending On with aggregates</desc>
+<notes>
+and other variants (other than the standard binary operator)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1654,25 +1726,6 @@ SYNTAX
   WHERE d ISA DIRECTION
   ...
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify $&lt;n&gt; w.r.t the syntax parameters</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Depending On with aggregates</desc>
-<notes>
-and other variants (other than the standard binary operator)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1753,11 +1806,11 @@ What do you want to do with the ball?
 </task>
 <task>
 <desc>Font sensitivity (esp. proportional fonts)</desc>
-<notes/>
+<notes>No. Leave this to a graphics layer such as GLK.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1858,7 +1911,6 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
 <notes>This occurs at a initial location clause:
@@ -1869,6 +1921,7 @@ The ... In box</notes>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Strategies</desc>

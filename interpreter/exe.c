@@ -48,7 +48,6 @@ typedef struct GameState {
   int score;
 
   /* Event queue */
-  int eventQueueSize;
   EventQueueEntry *eventQueue;
   int eventQueueTop;		/* Event queue top pointer */
 
@@ -77,30 +76,35 @@ static void ensureSpaceForGameState() {
 /*----------------------------------------------------------------------*/
 static Bool gameStateChanged(void)
 {
-  int i;
   Aword *previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
   Aword *previousAdmin = (Aword *)gameState[gameStateTop-1].admin;
   Aword *previousAttributes = (Aword *)gameState[gameStateTop-1].attributes;
   Aword *previousScores = (Aword *)gameState[gameStateTop-1].scores;
 
+  if (gameStateTop == 0) return TRUE;
+
   /* Compare current game state with last saved */
-  if (gameState[gameStateTop-1].eventQueueSize != eventQueueSize) return TRUE;
 
-  if (gameState[gameStateTop-1].score != current.score) return TRUE;
+  if (gameState[gameStateTop-1].eventQueueTop != eventQueueTop) return TRUE;
 
-  for (i = 0; i < eventQueueTop*sizeof(EventQueueEntry)/sizeof(Aword); i++)
-    if (((Aword*)eventQueue)[i] != previousEventQueue[i]) return TRUE;
+  if (eventQueueTop != gameState[gameStateTop-1].eventQueueTop)
+    return TRUE;
+  if (eventQueueTop > 0)
+    if (!memcmp(eventQueue, previousEventQueue, eventQueueTop*sizeof(EventQueueEntry)/sizeof(Aword)))
+      return TRUE;
 
   if (admin == NULL) syserr("admin[] == NULL in pushGameState()");
-  for (i = 0; i < header->instanceMax*sizeof(AdminEntry)/sizeof(Aword); i++)
-    if (((Aword*)admin)[i] != previousAdmin[i]) return TRUE;
 
-  if (attributes == NULL) syserr("attributes[] == NULL in pushGameState()");
-  for (i = 0; i < header->attributesAreaSize; i++)
-    if (((Aword*)attributes)[i] != previousAttributes[i]) return TRUE;
+  if (memcmp(admin, previousAdmin, (header->instanceMax+1)*sizeof(AdminEntry)) != 0)
+    return TRUE;
 
-  for (i = 0; i < header->scoresMax; i++)
-    if (scores[i] != previousScores[i]) return TRUE;
+  if (attributes == NULL) syserr("attributes[] == NULL in gameStateChanged()");
+  if (memcmp(attributes, previousAttributes, header->attributesAreaSize*sizeof(Aword)) != 0)
+    return TRUE;
+
+  if (gameState[gameStateTop-1].score != current.score) return TRUE;
+  if (memcmp(scores, previousScores, header->scoresMax*sizeof(scores[0])) != 0)
+    return TRUE;
 
   return FALSE;
 }
@@ -112,12 +116,13 @@ void pushGameState(void) {
   ensureSpaceForGameState();
 
   if (gameStateChanged()) {
-    gameState[gameStateTop].eventQueueSize = eventQueueSize;
-    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueSize*sizeof(EventQueueEntry));
     gameState[gameStateTop].eventQueueTop = eventQueueTop;
+    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
 
-    gameState[gameStateTop].admin = duplicate(admin, header->instanceMax*sizeof(AdminEntry));
+    gameState[gameStateTop].admin = duplicate(admin, (header->instanceMax+1)*sizeof(AdminEntry));
     gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
+
+    gameState[gameStateTop].score = current.score;
     gameState[gameStateTop].scores = duplicate(scores, header->scoresMax*sizeof(Aword));
 
     gameStateTop++;
@@ -134,17 +139,14 @@ Bool popGameState(void) {
 
   gameStateTop--;
 
-  eventQueueSize = gameState[gameStateTop].eventQueueSize;
   eventQueueTop = gameState[gameStateTop].eventQueueTop;
   memcpy(eventQueue, gameState[gameStateTop].eventQueue,
-	 eventQueueSize*sizeof(EventQueueEntry));
+	 (eventQueueTop+1)*sizeof(EventQueueEntry));
   free(gameState[gameStateTop].eventQueue);
-
-  current.score = gameState[gameStateTop].score;
 
   if (admin == NULL) syserr("admin[] == NULL in popGameState()");
   memcpy(admin, gameState[gameStateTop].admin,
- 	 header->instanceMax*sizeof(AdminEntry));
+ 	 (header->instanceMax+1)*sizeof(AdminEntry));
   free(gameState[gameStateTop].admin);
 
   if (attributes == NULL) syserr("attributes[] == NULL in pushGameState()");
@@ -152,6 +154,7 @@ Bool popGameState(void) {
 	 header->attributesAreaSize*sizeof(Aword));
   free(gameState[gameStateTop].attributes);
 
+  current.score = gameState[gameStateTop].score;
   memcpy(scores, gameState[gameStateTop].scores,
 	 header->scoresMax*sizeof(Aword));
   free(gameState[gameStateTop].scores);
@@ -312,9 +315,12 @@ Bool confirm(MsgKind msgno)
 Bool undo(void) {
   if (gameStateTop != 0) {
     gameStateTop--;
+    prmsg(M_UNDONE);
     return popGameState();
-  } else
+  } else {
+    prmsg(M_NO_UNDO);
     return FALSE;
+  }
 }
 
 
@@ -338,8 +344,12 @@ void quitGame(void)
     else if (strcmp(buf, "restore") == 0) {
       restoreGame();
       return;
-    } else if (strcmp(buf, "quit") == 0)
+    } else if (strcmp(buf, "quit") == 0) {
       terminate(0);
+    } else if (strcmp(buf, "undo") == 0) {
+      undo();
+      return;
+    }
   }
   syserr("Fallthrough in QUIT");
 }

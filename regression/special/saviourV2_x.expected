@@ -49,7 +49,7 @@ saviourV2_x.alan
    99.      CHECK o IS openable
 =====>                 1
 
-  *1*   316 E : Attribute 'openable' is not defined for parameter 'o' since its
+  *1*   316 E : Attribute 'openable' is not defined for parameter 'o' since the
                 class ('object') does not have it.
 
   106.  	OBJECT IS openable

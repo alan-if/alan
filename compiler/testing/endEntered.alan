@@ -1,0 +1,8 @@
+the neatroom isa location
+   entered does
+       "string"
+       "string"
+   end entered.
+end the neatroom.
+
+Start at neatroom.

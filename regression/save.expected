@@ -42,12 +42,133 @@ there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 
 > 
-> x
-'x'? I don't know that word.
+> ;1H
+';'? I don't know that word.
+
+> Welcome to the game of SAVIOUR!
+'Welcome'? I don't know that word.
 
 > 
+> In this game your mission is to salvage the last copy of the famous
+'this'? I don't know that word.
+
+> ADVENTURE game. Legends have it that somewhere inside an ancient building
+'ADVENTURE'? I don't know that word.
+
+> the last copy of this game is still spinning on some old disks. 
+'last'? I don't know that word.
+
+> 
+> If you need help just type 'help'.
+'If'? I don't know that word.
+
+> 
+> So go forth and be the salvaging hero of all Adventurers!
+'So'? I don't know that word.
+
+> 
+> 
+> This game was produced with the ALAN Adventure Development System and is
+'This'? I don't know that word.
+
+> brought to you by ThoNi&GorFo Adventure Factories. Visit the Alan Home
+'brought'? I don't know that word.
+
+> Pages at: 
+'Pages'? I don't know that word.
+
+> 
+> http://welcome.to/alan-if
+'http'? I don't know that word.
+
+> 
+> 
+> Outside the tall building
+I don't understand.
+
+> To the north is a tall ancient building with a large entrance. On the top
+'To'? I don't know that word.
+
+> there is a clock tower. Most of the windows in the building are broken,
+'there'? I don't know that word.
+
+> <More>;1Hm Outside the tall building                           Score 0(135)/-1 mo
+'<'? I don't know that word.
+
+> score
+You have scored 0 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
 > i
 You are empty-handed.
+
+> score
+You have scored 0 points out of 135.
+
+> kick computer
+I can't see any computer here.
+
+> score
+You have scored 0 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 0 points out of 135.
+
+> type "nilgu"
+There is nothing here to type on.
+
+> score
+You have scored 0 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 0 points out of 135.
+
+> west
+You can't go that way.
 
 > score
 You have scored 0 points out of 135.
@@ -99,1279 +220,14 @@ You are empty-handed.
 > score
 You have scored 5 points out of 135.
 
-> west
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> i
-You are empty-handed.
-
-> score
-You have scored 5 points out of 135.
-
-> up
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen. Almost
-completely covered by dust, there is an old book laying on the floor here.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen. Almost
-completely covered by dust, there is an old book laying on the floor here.
-
-> i
-You are empty-handed.
-
-> score
-You have scored 5 points out of 135.
-
-> take all
-(old book) Taken.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are carrying a old book.
-
-> score
-You have scored 5 points out of 135.
-
-> read the book
-As you carefully try to open the book it falls apart into dust and falls
-to the floor through your fingers.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are empty-handed.
-
-> score
-You have scored 5 points out of 135.
-
-> east
-Office
-In front of you is a deserted office area. Desks and chairs are piled up
-in one corner. The ventilation system has partly fallen to the floor,
-tearing part of the ceiling down with it. Under the twisted tubing a
-couple of old coffee makers are crushed to pieces. One shelf, having some
-kind of lettering, no longer readable, is thrown to one side, and another
-is still standing in a corner, full of dust. There is a ladder laying on
-the floor here.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Office
-In front of you is a deserted office area. Desks and chairs are piled up
-in one corner. The ventilation system has partly fallen to the floor,
-tearing part of the ceiling down with it. Under the twisted tubing a
-couple of old coffee makers are crushed to pieces. One shelf, having some
-kind of lettering, no longer readable, is thrown to one side, and another
-is still standing in a corner, full of dust. There is a ladder laying on
-the floor here.
-
-> i
-You are empty-handed.
-
-> score
-You have scored 5 points out of 135.
-
-> take ladder
-Taken.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Office
-In front of you is a deserted office area. Desks and chairs are piled up
-in one corner. The ventilation system has partly fallen to the floor,
-tearing part of the ceiling down with it. Under the twisted tubing a
-couple of old coffee makers are crushed to pieces. One shelf, having some
-kind of lettering, no longer readable, is thrown to one side, and another
-is still standing in a corner, full of dust.
-
-> i
-You are carrying a 3 metre long ladder.
-
-> score
-You have scored 5 points out of 135.
-
-> west
-First Floor (again)
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are carrying a 3 metre long ladder.
-
-> score
-You have scored 5 points out of 135.
-
-> up
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> i
-You are carrying a 3 metre long ladder.
-
-> score
-You have scored 5 points out of 135.
-
-> east
-Terminal Room
-This must be the old terminal room. Old and dusty, most of them cracked
-and broken, off-white computer terminals are standing on desks that once
-were called 'ergonomic'. Nowhere can any connections for the terminals be
-seen. A doorway to the west leads out to the stairs. One of the terminals
-seems in much better shape than the others.
-
-> score
-You have scored 5 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Terminal Room
-This must be the old terminal room. Old and dusty, most of them cracked
-and broken, off-white computer terminals are standing on desks that once
-were called 'ergonomic'. Nowhere can any connections for the terminals be
-seen. A doorway to the west leads out to the stairs. One of the terminals
-seems in much better shape than the others.
-
-> i
-You are carrying a 3 metre long ladder.
-
-> score
-You have scored 5 points out of 135.
-
-> take terminal
-Taken. OH! There was a coin under it!
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Terminal Room
-This must be the old terminal room. Old and dusty, most of them cracked
-and broken, off-white computer terminals are standing on desks that once
-were called 'ergonomic'. Nowhere can any connections for the terminals be
-seen. A doorway to the west leads out to the stairs. There is a small
-coin here.
-
-> i
-You are carrying a 3 metre long ladder and a rather heavy computer
-terminal.
-
-> score
-You have scored 15 points out of 135.
-
-> take coin
-Taken.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Terminal Room
-This must be the old terminal room. Old and dusty, most of them cracked
-and broken, off-white computer terminals are standing on desks that once
-were called 'ergonomic'. Nowhere can any connections for the terminals be
-seen. A doorway to the west leads out to the stairs.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> west
-Second Floor (again)
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> up
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> up
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> east
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. An
-ancient computer is standing in the centre of the room.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. An
-ancient computer is standing in the centre of the room.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. An
-ancient computer is standing in the centre of the room.
-
-> i
-You are carrying a 3 metre long ladder, a rather heavy computer terminal 
-and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> connect terminal
-The terminal is now connected to the nearby computer.
-
-> score
-You have scored 15 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room.
-
-> i
-You are carrying a 3 metre long ladder and a small coin.
-
-> score
-You have scored 15 points out of 135.
-
-> kick computer
-Surprisingly, the old computer starts to whirr, the front panel lights
-begins to twinkle frantically, and the computer starts up. The connected
-terminal displays the message 'Please login. Enter USERID:'
-
-> score
-You have scored 30 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a 3 metre long ladder and a small coin.
-
-> score
-You have scored 30 points out of 135.
-
-> type "nilgu"
-'ERROR: Wrong USERID.
-Please login. Enter USERID:'
-
-> score
-You have scored 30 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a 3 metre long ladder and a small coin.
-
-> score
-You have scored 30 points out of 135.
-
-> west
-Fourth Floor (again)
-
-> score
-You have scored 30 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a 3 metre long ladder and a small coin.
-
-> score
-You have scored 30 points out of 135.
-
-> north
-Windy Room
-In the middle of the room is a light spot on the floor. The light is
-comming from a hole in the ceiling. A strong wind can be felt comming
-through the hole. Bricks and stones covers the floor. The remains of bird
-nests can be seen, but there are no birds anywhere. Perhaps your entrance
-scared them off.
-
-> score
-You have scored 30 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Windy Room
-In the middle of the room is a light spot on the floor. The light is
-comming from a hole in the ceiling. A strong wind can be felt comming
-through the hole. Bricks and stones covers the floor. The remains of bird
-nests can be seen, but there are no birds anywhere. Perhaps your entrance
-scared them off.
-
-> i
-You are carrying a 3 metre long ladder and a small coin.
-
-> score
-You have scored 30 points out of 135.
-
 > raise ladder
-The ladder is just long enough to reach up through the hole in the
-ceiling, where it now is standing.
+I can't see any 3 metre long ladder here.
 
 > climb it
-The steps of the ladder feels a bit weak, some more than others, but you
-manage to climb all the way without falling down.
-
-Walless Room
-Through the hole in the floor the end of a ladder is extending. Three of
-the walls in this room are missing and the wind is strong in your hair
-and clothes. Piles of bricks and wood are everywhere. Far, far below you
-the field surrounding the building can be seen. In one corner, near the
-remains of one of the walls, a crow has built it's nest.
+I can't see any 3 metre long ladder here.
 
 > score
-You have scored 45 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Walless Room
-Through the hole in the floor the end of a ladder is extending. Three of
-the walls in this room are missing and the wind is strong in your hair
-and clothes. Piles of bricks and wood are everywhere. Far, far below you
-the field surrounding the building can be seen. In one corner, near the
-remains of one of the walls, a crow has built it's nest.
-
-> i
-You are carrying a small coin.
-
-> score
-You have scored 45 points out of 135.
-
-> examine nest
-As you turn the nest over for examination, a set of keys falls out.
-Otherwise there is nothing special about the nest.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Walless Room
-Through the hole in the floor the end of a ladder is extending. Three of
-the walls in this room are missing and the wind is strong in your hair
-and clothes. Piles of bricks and wood are everywhere. Far, far below you
-the field surrounding the building can be seen. In one corner, near the
-remains of one of the walls, a crow has built it's nest. A set of rusty
-keys are laying on the floor here.
-
-> i
-You are carrying a small coin.
-
-> score
-You have scored 60 points out of 135.
-
-> take keys
-Taken.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Walless Room
-Through the hole in the floor the end of a ladder is extending. Three of
-the walls in this room are missing and the wind is strong in your hair
-and clothes. Piles of bricks and wood are everywhere. Far, far below you
-the field surrounding the building can be seen. In one corner, near the
-remains of one of the walls, a crow has built it's nest.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> down
-Windy Room
-In the middle of the room is a light spot on the floor. The light is
-comming from a hole in the ceiling. A strong wind can be felt comming
-through the hole. Bricks and stones covers the floor. The remains of bird
-nests can be seen, but there are no birds anywhere. Perhaps your entrance
-scared them off. A ladder is raised in the middle of the room, extending
-through the hole in the ceiling.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Windy Room
-In the middle of the room is a light spot on the floor. The light is
-comming from a hole in the ceiling. A strong wind can be felt comming
-through the hole. Bricks and stones covers the floor. The remains of bird
-nests can be seen, but there are no birds anywhere. Perhaps your entrance
-scared them off. A ladder is raised in the middle of the room, extending
-through the hole in the ceiling.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> south
-Fourth Floor (again)
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> up
-Fifth Floor
-This must be the top of the top landing of the staircase. With a pounding
-heart and breath you look around and see two doorways. A small one to the
-south, and to the east a long corridor.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fifth Floor
-This must be the top of the top landing of the staircase. With a pounding
-heart and breath you look around and see two doorways. A small one to the
-south, and to the east a long corridor.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> south
-Clock Room
-The room is so small and low that you can't stand straight. In one of the
-walls an elaborate clockwork is mounted. It is in very good shape it
-seems.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Clock Room
-The room is so small and low that you can't stand straight. In one of the
-walls an elaborate clockwork is mounted. It is in very good shape it
-seems.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> wind clock
-With a deafening BING BANG the clock begins to chime. From the corridor
-in the south a loud flapping of wings is heard.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Clock Room
-The room is so small and low that you can't stand straight. In one of the
-walls an elaborate clockwork is mounted. It is in very good shape it
-seems.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> north
-Fifth Floor (again)
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fifth Floor
-This must be the top of the top landing of the staircase. With a pounding
-heart and breath you look around and see two doorways. A small one to the
-south, and to the east a long corridor.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> east
-Corridor
-A long east-west corridor extends in both directions. There are exits in
-both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
-the floor is covered with litter from bats.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Corridor
-A long east-west corridor extends in both directions. There are exits in
-both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
-the floor is covered with litter from bats.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> east
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. A small window lets some light in. The
-wallpaper has nearly all fallen to the floor and the chair is only a pile
-of broken sticks in one corner. Once the room had a balcony but I don't
-recommend using it now since the floor is gone. Anyway, it is not
-possible to get out there anymore.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. A small window lets some light in. The
-wallpaper has nearly all fallen to the floor and the chair is only a pile
-of broken sticks in one corner. Once the room had a balcony but I don't
-recommend using it now since the floor is gone. Anyway, it is not
-possible to get out there anymore.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> examine desk
-It is an old desk, made from oak. The top is completely covered by dust 
-where your fingers leave markings. The desk has one remaining drawer.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. A small window lets some light in. The
-wallpaper has nearly all fallen to the floor and the chair is only a pile
-of broken sticks in one corner. Once the room had a balcony but I don't
-recommend using it now since the floor is gone. Anyway, it is not
-possible to get out there anymore.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> examine desk
-It is an old desk, made from oak. The top is completely covered by dust 
-that shows markings from fingers. The desk has one remaining drawer.
-
-> score
-You have scored 60 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. A small window lets some light in. The
-wallpaper has nearly all fallen to the floor and the chair is only a pile
-of broken sticks in one corner. Once the room had a balcony but I don't
-recommend using it now since the floor is gone. Anyway, it is not
-possible to get out there anymore.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 60 points out of 135.
-
-> open drawer
-Pulling out the drawer a manual falls to the floor.
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. It is open. A small window lets some light
-in. The wallpaper has nearly all fallen to the floor and the chair is
-only a pile of broken sticks in one corner. Once the room had a balcony
-but I don't recommend using it now since the floor is gone. Anyway, it is 
-not possible to get out there anymore. There is a dirty technical manual
-here.
-
-> i
-You are carrying a small coin and a set of rusty keys.
-
-> score
-You have scored 70 points out of 135.
-
-> take manual
-Taken.
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. It is open. A small window lets some light
-in. The wallpaper has nearly all fallen to the floor and the chair is
-only a pile of broken sticks in one corner. Once the room had a balcony
-but I don't recommend using it now since the floor is gone. Anyway, it is 
-not possible to get out there anymore.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> read it
-I don't know what you mean by 'it'.
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Small Office
-This looks like a small office. Near the window there is a large desk. 
-There is a drawer in the desk. It is open. A small window lets some light
-in. The wallpaper has nearly all fallen to the floor and the chair is
-only a pile of broken sticks in one corner. Once the room had a balcony
-but I don't recommend using it now since the floor is gone. Anyway, it is 
-not possible to get out there anymore.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> west
-Corridor (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Corridor
-A long east-west corridor extends in both directions. There are exits in
-both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
-the floor is covered with litter from bats.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> west
-Fifth Floor (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fifth Floor
-This must be the top of the top landing of the staircase. With a pounding
-heart and breath you look around and see two doorways. A small one to the
-south, and to the east a long corridor.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> down
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> down
-Third Floor (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> down
-Second Floor (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> down
-First Floor (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> down
-Stairs (again)
-
-> score
-You have scored 70 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 70 points out of 135.
-
-> east
-Hall (again)
-To the east is a folding door. It is closed.
-
-> score
-You have scored 70 points out of 135.
+You have scored 5 points out of 135.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -1387,18 +243,16 @@ has fallen to the floor. At the west end is a staircase, and to the south
 is the exit. To the east is a folding door. It is closed.
 
 > i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
+You are empty-handed.
 
 > score
-You have scored 70 points out of 135.
+You have scored 5 points out of 135.
 
-> unlock the door with the keys then open the door
-The key clicks in the lock as the door unlocks.
-
-The door opens, revealing the entrance to a dusty old cafeteria.
+> examine nest
+I can't see any birds nest here.
 
 > score
-You have scored 80 points out of 135.
+You have scored 5 points out of 135.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -1411,110 +265,19 @@ Enter file name to restore from (save.sav) :
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
 has fallen to the floor. At the west end is a staircase, and to the south
-is the exit. To the east is a folding door. It is open revealing the
-entrance to a cafeteria.
+is the exit. To the east is a folding door. It is closed.
 
 > i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
+You are empty-handed.
 
 > score
-You have scored 80 points out of 135.
+You have scored 5 points out of 135.
 
-> east
-Cafe
-This is the entrance to the old cafeteria. The kitchen and all the
-furniture is long gone, but there is still some paper boxes and old
-plates here. In one corner of the cafeteria there is a vending machine.
-It seems to be working. At least the little light inside is on, showing
-some candy.
+> take keys
+I can't see any set of rusty keys here.
 
 > score
-You have scored 80 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cafe
-This is the entrance to the old cafeteria. The kitchen and all the
-furniture is long gone, but there is still some paper boxes and old
-plates here. In one corner of the cafeteria there is a vending machine.
-It seems to be working. At least the little light inside is on, showing
-some candy.
-
-> i
-You are carrying a small coin, a set of rusty keys and a dirty manual.
-
-> score
-You have scored 80 points out of 135.
-
-> insert coin into machine
-A clinking sound is heared from the machine and a candy bar falls out on
-the floor.
-
-> score
-You have scored 95 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cafe
-This is the entrance to the old cafeteria. The kitchen and all the
-furniture is long gone, but there is still some paper boxes and old
-plates here. In one corner of the cafeteria there is a vending machine.
-It seems to be working. At least the little light inside is on, showing
-some candy. On the floor there is a candy bar.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 95 points out of 135.
-
-> take candy bar
-Taken.
-
-> score
-You have scored 95 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cafe
-This is the entrance to the old cafeteria. The kitchen and all the
-furniture is long gone, but there is still some paper boxes and old
-plates here. In one corner of the cafeteria there is a vending machine.
-It seems to be working. At least the little light inside is on, showing
-some candy.
-
-> i
-You are carrying a set of rusty keys, a dirty manual and a old mouldy
-candy bar.
-
-> score
-You have scored 95 points out of 135.
-
-> west
-Hall (again)
-To the east is a folding door. It is open revealing the entrance to a
-cafeteria.
-
-> score
-You have scored 95 points out of 135.
+You have scored 5 points out of 135.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -1527,765 +290,19 @@ Enter file name to restore from (save.sav) :
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
 has fallen to the floor. At the west end is a staircase, and to the south
-is the exit. To the east is a folding door. It is open revealing the
-entrance to a cafeteria.
+is the exit. To the east is a folding door. It is closed.
 
 > i
-You are carrying a set of rusty keys, a dirty manual and a old mouldy
-candy bar.
+You are empty-handed.
 
 > score
-You have scored 95 points out of 135.
-
-> west
-Stairs (again)
-
-> score
-You have scored 95 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> i
-You are carrying a set of rusty keys, a dirty manual and a old mouldy
-candy bar.
-
-> score
-You have scored 95 points out of 135.
+You have scored 5 points out of 135.
 
 > down
-Cellar
-In front of you is a dark cellar. To the west is a doorway into a dark
-room. The stairs lead up. A thin beam of light has found its way all the
-way down here. In the light from the sun some rats can be seen.
+You can't go that way.
 
 > score
-You have scored 95 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cellar
-In front of you is a dark cellar. To the west is a doorway into a dark
-room. The stairs lead up. A thin beam of light has found its way all the
-way down here. In the light from the sun some rats can be seen.
-
-> i
-You are carrying a set of rusty keys, a dirty manual and a old mouldy
-candy bar.
-
-> score
-You have scored 95 points out of 135.
-
-> drop candy bar
-Dropped. The rats throw themselves at the candy devouring it furiously,
-nearly killing each other. When every little bit is gone they all fall
-asleep in the sunshine.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cellar
-In front of you is a dark cellar. To the west is a doorway into a dark
-room. The stairs lead up. A thin beam of light has found its way all the
-way down here. In the light from the sun some rats can be seen. They are
-all sleeping.
-
-> score
-You have scored 100 points out of 135.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> west
-Silently sneaking past the sleeping rats, you enter the dark room to the
-west.
-
-Store
-This must be an old storage room. There seems to be any amount of old
-crap here. Keytops from ancient keyboards are scattered all over the
-place, and keyboard overlays can be seen laying around here and there. I
-guess they all came out of date long ago. There is also a shelf with old
-program listings. One of the binders is marked with 'DCM V7 891012'. On
-another shelf there is a spool of computer tape.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Store
-This must be an old storage room. There seems to be any amount of old
-crap here. Keytops from ancient keyboards are scattered all over the
-place, and keyboard overlays can be seen laying around here and there. I
-guess they all came out of date long ago. There is also a shelf with old
-program listings. One of the binders is marked with 'DCM V7 891012'. On
-another shelf there is a spool of computer tape.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> take tape
-Taken.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Store
-This must be an old storage room. There seems to be any amount of old
-crap here. Keytops from ancient keyboards are scattered all over the
-place, and keyboard overlays can be seen laying around here and there. I
-guess they all came out of date long ago. There is also a shelf with old
-program listings. One of the binders is marked with 'DCM V7 891012'.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> east
-Cellar
-In front of you is a dark cellar. To the west is a doorway into a dark
-room. The stairs lead up. A thin beam of light has found its way all the
-way down here. In the light from the sun some rats can be seen. They are
-all sleeping.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Cellar
-In front of you is a dark cellar. To the west is a doorway into a dark
-room. The stairs lead up. A thin beam of light has found its way all the
-way down here. In the light from the sun some rats can be seen. They are
-all sleeping.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> up
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> up
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> up
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> up
-Third Floor (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> up
-Fourth Floor (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> east
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> mount tape
-The tape is now securely mounted on the tape drive.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> read manual
-The text inside the manual reads:
-    'You login by typing your Userid, and...' 
-    '... command is executed by typing it's name.' and 
-    'The INFO command lists available commands.' 
-
-The rest is unfortunately completely illegible. 
-
-OOH! There is a hand written remark in the margin here, it says 'NilGu'. 
-
-Funny, isn't that what you tried earlier...
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> type "nilgu"
-'Welcome NilGu!
-
-Enter command:'
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> type "oscsv"
-'ERROR: Unknown command.
-Enter command:'
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> type "svegr"
-'ERROR: Unknown command.
-Enter command:'
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> type "backup"
-The tape starts to spin and after a few moments it stops. Then it starts
-to rewind itself. FLAP, FLAP, and then it stops completely. The terminal
-displays: 
-
-'Backup finished.
-Enter command:'
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> take tape
-Taken.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room. It's powered up and running.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> type "adventure"
-'Welcome to adventure!!
-
-You are standing at the end of a road before a small brick building.
-Around you is a forest. A small stream flows out of the building and down 
-a gully.' 
-
-With a loud POP! the computer stops suddenly and the terminal turns blank.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Computer Room
-A room of old computers, cables, disk drives, tape stations and floppy
-disks are spread out all over the floor. The exit is to the west. A worn
-old terminal is standing here. An ancient computer is standing in the
-centre of the room.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> west
-Fourth Floor (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Fourth Floor
-Even this high up the stairs are intact but the fence and railings are
-gone. Small pieces of glass and rusty metal covers the stairs that leads
-up and down. Be careful where you put your feet! There are doors to the
-east and to the north.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> down
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Third Floor
-On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
-probably not to be trusted any longer and the stairs themselves are
-getting weaker. A puddle of water on the floor shows that the weather has
-free access through the empty window frames. A whissle by the wind is all
-that can be heared. Foremerly there was an entrance to the east which is
-now totally blocked.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> down
-Second Floor (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Second Floor
-The second landing of the stairs is well kept through the ages. Some rust
-has gotten a grip on the fence but it is still rock steady. The window
-glass is still present in the frames, altough covered with dust so that
-the sunlight can barely be seen through them. There is a doorway to the
-east.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> down
-First Floor (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-First Floor
-The landing on the first floor is as dirty as all the others. Meters and
-meters of old cables are laying around, leading into a room to the east.
-The stairs leads up and down. They still seem alright. Through the dirty
-windows the barren field outside the building can be seen.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> down
-Stairs (again)
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Stairs
-You are at the landing of an old staircase. It seem steady enough to walk
-in, but be careful if you are going to use it. There is a passage leading
-up, and another leading down into a dark cellar. To the east is the
-hallway. A strange smell emerges from below.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> east
-Hall
-Inside the entrance is a hallway full of dust and pieces of the ceiling
-has fallen to the floor. At the west end is a staircase, and to the south
-is the exit. To the east is a folding door. It is open revealing the
-entrance to a cafeteria.
-
-> score
-You have scored 100 points out of 135.
+You have scored 5 points out of 135.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -2298,49 +315,424 @@ Enter file name to restore from (save.sav) :
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
 has fallen to the floor. At the west end is a staircase, and to the south
-is the exit. To the east is a folding door. It is open revealing the
-entrance to a cafeteria.
+is the exit. To the east is a folding door. It is closed.
 
 > i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
+You are empty-handed.
 
 > score
-You have scored 100 points out of 135.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
-
-> save
-Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
-Ok. Saved.
-
-> restore
-Enter file name to restore from (save.sav) : 
-
-Hall
-Inside the entrance is a hallway full of dust and pieces of the ceiling
-has fallen to the floor. At the west end is a staircase, and to the south
-is the exit. To the east is a folding door. It is open revealing the
-entrance to a cafeteria.
-
-> i
-You are carrying a spool of computer tape, a set of rusty keys and a 
-dirty manual.
-
-> score
-You have scored 100 points out of 135.
+You have scored 5 points out of 135.
 
 > south
 As you walk out through the door the large building collapses in a huge
 pile of bricks and stones. The cloud of dust will not settle for days.
 You should count yourself lucky that you got out in time.
 
-CONGRATULATIONS!! You managed to save the last copy of the ADVENTURE game.
+The world will now have to live without the last copy of the ADVENTURE
+game.
 
-Do you want to RESTART, RESTORE or QUIT ? 
+Do you want to UNDO, RESTART, RESTORE or QUIT ? score
+Do you want to UNDO, RESTART, RESTORE or QUIT ? save
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+Do you want to UNDO, RESTART, RESTORE or QUIT ? restore
+Enter file name to
+restore from (save.sav) : 
+
+Outside the tall building (again)
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> up
+You can't go that way.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> south
+You can't go that way.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> wind clock
+I can't see any clock here.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Outside the tall building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> north
+Hall (again)
+To the east is a folding door. It is closed.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> east
+You can not go in there, the door is closed.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> east
+You can not go in there, the door is closed.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> examine desk
+I can't see any desk here.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> examine desk
+I can't see any desk here.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> open drawer
+I can't see any drawer here.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> take manual
+I can't see any dirty manual here.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> read it
+I don't know what you mean by 'it'.
+
+> score
+You have scored 5 points out of 135.
+
+> save
+Enter file name to save in (save.sav) : 
+That file already exists, overwrite (RETURN confirms) ? 
+Ok. Saved.
+
+> restore
+Enter file name to restore from (save.sav) : 
+
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> i
+You are empty-handed.
+
+> score
+You have scored 5 points out of 135.
+
+> west
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+> scand a sign with three oval objects are hanging lose from the wall.
+'scand'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> You can't go that way.
+'You'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'ahn'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'r'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'oe'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'soe'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'r'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'cr'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> 'tr'? I don't know that word.
+'''? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+> ;1HmOutside the tall building                             Score 0(135)/0 moves;1H
+';'? I don't know that word.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

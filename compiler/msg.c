@@ -205,17 +205,25 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Är du säker (RETURN för ja) ? ",
    "Bist Du sicher (ENTER bestätigt) ? "},
   {M_QUITACTION, "quitaction",
-   "Do you want to RESTART, RESTORE or QUIT ? ",
-   "Vad vill du göra, RESTART, RESTORE or QUIT ? ",
-   "Möchtest Du RESTART, RESTORE oder QUIT ? "},	/* is this changeable to "NEUSTART, LADEN oder ENDE ?" ? */
+   "Do you want to UNDO, RESTART, RESTORE or QUIT ? ",
+   "Vad vill du göra, UNDO, RESTART, RESTORE or QUIT ? ",
+   "Möchtest Du UNDO, RESTART, RESTORE oder QUIT ? "},	/* TODO: is this changeable to "NEUSTART, LADEN oder ENDE ?" ? */
   {M_INDEFINITE, "indefinitearticle",
    "a",
    "en",
-   "ein"},			/* FIXME: ein(masculine,neuter), eine(feminine)| example: a watch (eine uhr) */
+   "ein"},			/* TODO: ein(masculine,neuter), eine(feminine)| example: a watch (eine uhr) */
   {M_DEFINITE, "definitearticle",
    "the",
    "",
-   "der"},			/* FIXME: der(masculine), die(feminine), das(neuter)| example: the watch (die uhr) */
+   "der"},			/* TODO: der(masculine), die(feminine), das(neuter)| example: the watch (die uhr) */
+  {M_UNDONE, "undone",
+   "Undone.",
+   "Ogjort.",
+   "Undone."},			/* TODO: - undone in german? */
+  {M_NO_UNDO, "noundo",
+   "Nothing more to undo.",
+   "Det finns inte mer att göra ogjort.",
+   "Nothing more to undo."},	/* TODO: - "NO_UNDO in german? */
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };

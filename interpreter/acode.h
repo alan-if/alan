@@ -430,6 +430,8 @@ typedef enum MsgKind {
   M_QUITACTION,
   M_INDEFINITE,
   M_DEFINITE,
+  M_UNDONE,
+  M_NO_UNDO,
   MSGMAX
 } MsgKind;
 

@@ -1111,23 +1111,23 @@ static Aint sizeOfAttributeData(void)
 static AttributeEntry *copyAttributes(void)
 {
   AttributeEntry *attributeArea = allocate(sizeOfAttributeData()*sizeof(AttributeEntry));
-  AttributeEntry *currentAttributeData = attributeArea;  
+  AttributeEntry *currentAttributeArea = attributeArea;  
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
     AttributeEntry *originalAttribute = pointerTo(instance[i].initialAttributes);
-    admin[i].attributes = currentAttributeData;
+    admin[i].attributes = currentAttributeArea;
     while (*((Aword *)originalAttribute) != EOF) {
-      *currentAttributeData = *originalAttribute;
-      currentAttributeData++;
+      *currentAttributeArea = *originalAttribute;
+      currentAttributeArea++;
       originalAttribute++;
     }
-    *currentAttributeData = *originalAttribute;
+    *currentAttributeArea = *originalAttribute;
   }
 
   return attributeArea;
 }
-  
+
 
 
 
