@@ -117,7 +117,7 @@ void anscrs(List *scrs, ActNod *act)
 
   /* Error if defined for HERO */
   if (scrs != NULL && act->nam->code == 1)
-      lmLog(&lst->element.scr->srcp, 411, sevWAR, "Script");
+      lmLog(&scrs->element.scr->srcp, 411, sevWAR, "Script");
 
   for (lst = scrs; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
