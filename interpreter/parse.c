@@ -372,6 +372,59 @@ static int getPronounInstance(int word) {
 
 
 /*----------------------------------------------------------------------*/
+static Bool inOpaqueContainer(int originalInstance)
+{
+  int instance = admin[originalInstance].location;
+
+  while (isContainer(instance)) {
+    if (attributeOf(instance, OPAQUEATTRIBUTE))
+      return TRUE;
+    instance = admin[instance].location;
+  }
+  return FALSE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool reachable(int instance)
+{
+  if (isA(instance, THING))
+    return isHere(instance, FALSE) && !inOpaqueContainer(instance);
+  else
+    return TRUE;
+}
+    
+	
+/*----------------------------------------------------------------------*/
+static void resolve(ParamEntry plst[])
+{
+  /*
+    In case the syntax did not indicate omnipotent powers (allowed
+    access to remote object), we need to remove non-present
+    parameters
+  */
+
+  int i;
+
+  if (allLength > 0) return;	/* ALL has already done this */
+
+  /* Resolve ambiguities by presence */
+  for (i=0; plst[i].code != EOF; i++) {
+    if (isLiteral(plst[i].code))	/* Literals are always 'here' */
+      continue;
+    if (instance[plst[i].code].parent == header->entityClassId)
+      /* and so are pure entities */
+      continue;
+    if (!reachable(plst[i].code)) {
+      parameters[0] = plst[i];	/* Copy error param as first one for message */
+      parameters[1].code = EOF;	/* But be sure to terminate */
+      error(M_NO_SUCH);
+    }
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void unambig(ParamEntry plst[])
 {
   int i;
@@ -398,27 +451,11 @@ static void unambig(ParamEntry plst[])
 
   plst[0].code = EOF;		/* Make an empty parameter list */
   if (isPronoun(playerWords[wordIndex])) {
-#ifdef OLDPRONOUNHANDLING
-    wordIndex++;
-    /* Use last object in previous command! */
-    for (i = listLength(previousParameters)-1; i >= 0 && (previousParameters[i].code == 0 || isLiteral(previousParameters[i].code)); i--)
-      ;
-    if (i < 0)
-      error(M_WHAT_IT);
-    if (!isHere(previousParameters[i].code, FALSE)) {
-      parameters[0].code = previousParameters[i].code;
-      parameters[0].firstWord = EOF;
-      parameters[1].code = EOF;
-      error(M_NO_SUCH);
-    }
-    plst[0] = previousParameters[i];
-#else
     int p = getPronounInstance(playerWords[wordIndex]);
     wordIndex++;
     if (p == 0)
-      error(M_WHAT_IT);
+      error(M_WHAT_IT);		/* TODO change to  */
     plst[0].code = p;
-#endif
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].code = EOF;
     return;
@@ -465,10 +502,10 @@ static void unambig(ParamEntry plst[])
   }
   lastWord = wordIndex-1;
 
-  /* Allow remote objects, but resolve ambiguities by presence */
+  /* Allow remote objects, but resolve ambiguities by reachability */
   if (listLength(plst) > 1) {
     for (i=0; plst[i].code != EOF; i++)
-      if (!isHere(plst[i].code, FALSE))
+      if (!reachable(plst[i].code))
 	plst[i].code = 0;
     compress(plst);
   }
@@ -501,10 +538,16 @@ static void simple(ParamEntry olst[]) {
   tlst[0].code = EOF;
 
   for (;;) {
-    if (isThem(playerWords[wordIndex])) {
+    /* Special handling here since THEM_WORD is a common pronoun, so
+       we check if it is also a pronoun, if it is but there is a list of
+       multi parameters from the previous command, we assume that is
+       what he ment */
+    if (isThem(playerWords[wordIndex])
+	&& ((isPronoun(playerWords[wordIndex]) && listLength(previousMultipleList) > 0)
+	    || !isPronoun(playerWords[wordIndex]))) {
       plural = TRUE;
       for (i = 0; previousMultipleList[i].code != EOF; i++)
-	if (!isHere(previousMultipleList[i].code, FALSE))
+	if (!reachable(previousMultipleList[i].code))
 	  previousMultipleList[i].code = 0;
       compress(previousMultipleList);
       if (listLength(previousMultipleList) == 0)
@@ -598,59 +641,6 @@ static void runRestriction(RestrictionEntry *restriction)
     interpret(restriction->stms);
   else
     error(M_CANT0);
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool inOpaqueContainer(int originalInstance)
-{
-  int instance = admin[originalInstance].location;
-
-  while (isContainer(instance)) {
-    if (attributeOf(instance, OPAQUEATTRIBUTE))
-      return TRUE;
-    instance = admin[instance].location;
-  }
-  return FALSE;
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool reachable(int instance)
-{
-  if (isA(instance, THING))
-    return isHere(instance, FALSE) && !inOpaqueContainer(instance);
-  else
-    return TRUE;
-}
-    
-	
-/*----------------------------------------------------------------------*/
-static void resolve(ParamEntry plst[])
-{
-  /*
-    In case the syntax did not indicate omnipotent powers (allowed
-    access to remote object), we need to remove non-present
-    parameters
-  */
-
-  int i;
-
-  if (allLength > 0) return;	/* ALL has already done this */
-
-  /* Resolve ambiguities by presence */
-  for (i=0; plst[i].code != EOF; i++) {
-    if (isLiteral(plst[i].code))	/* Literals are always 'here' */
-      continue;
-    if (instance[plst[i].code].parent == header->entityClassId)
-      /* and so are pure entities */
-      continue;
-    if (!reachable(plst[i].code)) {
-      parameters[0] = plst[i];	/* Copy error param as first one for message */
-      parameters[1].code = EOF;	/* But be sure to terminate */
-      error(M_NO_SUCH);
-    }
-  }
 }
 
 

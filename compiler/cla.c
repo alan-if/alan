@@ -53,7 +53,7 @@ static void addPredefinedProperties() {
   /* Add pronouns */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
-    object->props->pronouns = concat(NULL, newId(&nulsrcp, "it"), ID_LIST);
+    thing->props->pronouns = concat(NULL, newId(&nulsrcp, "it"), ID_LIST);
     actor->props->pronouns = concat(concat(NULL,
 					   newId(&nulsrcp, "him"),
 					   ID_LIST),
@@ -62,17 +62,17 @@ static void addPredefinedProperties() {
 
     break;
   case L_SWEDISH:
-    object->props->pronouns = concat(concat(NULL,
+    thing->props->pronouns = concat(concat(NULL,
 					    newId(&nulsrcp, "den"),
 					    ID_LIST),
 				     newId(&nulsrcp, "det"),
 				     ID_LIST);
-    object->props->pronouns = concat(concat(NULL,
+    actor->props->pronouns = concat(concat(NULL,
 					    newId(&nulsrcp, "henne"), ID_LIST),
 				     newId(&nulsrcp, "honom"), ID_LIST);
     break;
   case L_GERMAN:
-    actor->props->pronouns = concat(concat(concat(NULL,
+    thing->props->pronouns = concat(concat(concat(NULL,
 						  newId(&nulsrcp, "es"),
 						  ID_LIST),
 					   newId(&nulsrcp, "ihn"),

@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>380.89</origest>
-<currest>379.89</currest>
-<elapsed>220.89</elapsed>
+<origest>382.89</origest>
+<currest>381.89</currest>
+<elapsed>221.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>73</origest>
-<currest>73</currest>
-<elapsed>26</elapsed>
+<origest>75</origest>
+<currest>75</currest>
+<elapsed>27</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>31</origest>
-<currest>31</currest>
-<elapsed>26</elapsed>
+<origest>33</origest>
+<currest>33</currest>
+<elapsed>27</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
@@ -303,9 +303,9 @@ Implementation:
 
 How to handle the above example? Probably by looking in the scope for any instances with the given pronoun.</notes>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>5</elapsed>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Grammar, internal form and dump</desc>
@@ -363,7 +363,7 @@ Probably we want to have unique word code for every unique word, and then a code
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -375,6 +375,28 @@ Probably we want to have unique word code for every unique word, and then a code
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Change M_WHAT_IT so that it uses the pronoun word instead of it</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Change M_NO_SUCH so that it uses the words the player used</desc>
+<notes>This means dividing it into two messages
+
+"There is no" (player words) "here."
+
+And making it a special error function instead of directly using error(),</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Attribute to OBJECT in MESSAGE</desc>
