@@ -257,22 +257,7 @@ static void anmake(StmNod *stm,	/* IN - The statement to analyze */
       stm->fields.make.atr->code = atr->id->code;
     break;
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: namcheck");
-#else
-    namcheck(&sym, &elm, stm->fields.make.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-             NAMANY, pars);
-#endif
-    if (elm) {
-      atr = paramatr(stm->fields.make.atr, elm);
-      if (atr == NULL)          /* Not a default attribute */
-        lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "a parameter");
-    } else if (sym) {
-      atr = symatr(stm->fields.make.atr, sym);
-      if (atr == NULL)
-        lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
-              stm->fields.make.wht->id->string);
-    }
+    atr = resolveAttributeReference(stm->fields.make.wht, stm->fields.make.atr);
     if (atr != NULL) {
       if (atr->typ != TYPBOOL)
         lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
@@ -417,22 +402,7 @@ static void anincr(StmNod *stm,	/* IN - The statement to analyze */
       stm->fields.incr.atr->code = atr->id->code;
     break;
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: namcheck");
-#else
-    namcheck(&sym, &elm, stm->fields.incr.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-             NAMANY, pars);
-#endif
-    if (elm) {
-      atr = paramatr(stm->fields.incr.atr, elm);
-      if (atr == NULL)          /* Not a default attribute */
-        lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "a parameter");
-    } else if (sym) {
-      atr = symatr(stm->fields.incr.atr, sym);
-      if (atr == NULL)
-        lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
-              stm->fields.incr.wht->id->string);
-    }
+    atr = resolveAttributeReference(stm->fields.incr.wht, stm->fields.incr.atr);
     if (atr) {
       if (atr->typ != TYPINT)
         lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");

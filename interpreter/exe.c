@@ -382,53 +382,20 @@ static void setatr(atradr, code, val)
   */
 
 #ifdef _PROTOTYPES_
-static void makloc(Aword loc, Aword atr, Aword val)
+void make(Aword id, Aword code, Aword val)
 #else
-static void makloc(loc, atr, val)
-     Aword loc, atr, val;
-#endif
-{
-  setatr(locs[loc-LOCMIN].atrs, atr, val);
-}
-
-#ifdef _PROTOTYPES_
-static void makobj(Aword obj, Aword atr, Aword val)
-#else
-static  void makobj(obj, atr, val)
-	    Aword obj, atr, val;
-#endif
-{
-  setatr(objs[obj-OBJMIN].atrs, atr, val);
-}
-
-#ifdef _PROTOTYPES_
-static void makact(Aword act, Aword atr, Aword val)
-#else
-static void makact(act, atr, val)
-	    Aword act, atr, val;
-#endif
-{
-  setatr(acts[act-ACTMIN].atrs, atr, val);
-}
-
-
-#ifdef _PROTOTYPES_
-void make(Aword id, Aword atr, Aword val)
-#else
-void make(id, atr, val)
-	  Aword id, atr, val;
+void make(id, code, val)
+	  Aword id, code, val;
 #endif
 {
   char str[80];
 
-  if (isObj(id))
-    makobj(id, atr, val);
-  else if (isLoc(id))
-    makloc(id, atr, val);
-  else if (isAct(id))
-    makact(id, atr, val);
-  else {
-    sprintf(str, "Can't MAKE item (%ld).", id);
+  if (id > 0 && id <= header->instanceMax) {
+    setatr(instance[id].attributes, code, val);
+    if (isA(id, LOCATION))	/* May have changed so describe next time */
+      admin[id].visitsCount = 0;
+  }  else {
+    sprintf(str, "Can't MAKE instance attribute (%ld, %ld).", id, code);
     syserr(str);
   }
 }
@@ -489,7 +456,7 @@ void setstr(id, atr, str)
 #ifdef _PROTOTYPES_
 static void incratr(
 	Aaddr atradr,           /* IN - ACODE address to attribute table */
-	Aword code,              /* IN - attribute code */
+	Aword code,		/* IN - attribute code */
 	Aword step              /* IN - step to increment by */
 )
 #else
@@ -505,39 +472,6 @@ static void incratr(atradr, code, step)
 
 
 #ifdef _PROTOTYPES_
-static void incrloc(Aword loc, Aword atr, Aword step)
-#else
-static void incrloc(loc, atr, step)
-     Aword loc, atr, step;
-#endif
-{
-  incratr(locs[loc-LOCMIN].atrs, atr, step);
-  locs[loc-LOCMIN].describe = 0;
-}
-
-
-#ifdef _PROTOTYPES_
-static void incrobj(Aword obj, Aword atr, Aword step)
-#else
-static void incrobj(obj, atr, step)
-     Aword obj, atr, step;
-#endif
-{
-  incratr(objs[obj-OBJMIN].atrs, atr, step);
-}
-
-#ifdef _PROTOTYPES_
-static void incract(Aword act, Aword atr, Aword step)
-#else
-static void incract(act, atr, step)
-     Aword act, atr, step;
-#endif
-{
-  incratr(acts[act-ACTMIN].atrs, atr, step);
-}
-
-
-#ifdef _PROTOTYPES_
 void incr(Aword id, Aword atr, Aword step)
 #else
 void incr(id, atr, step)
@@ -546,14 +480,10 @@ void incr(id, atr, step)
 {
   char str[80];
 
-  if (isObj(id))
-    incrobj(id, atr, step);
-  else if (isLoc(id))
-    incrloc(id, atr, step);
-  else if (isAct(id))
-    incract(id, atr, step);
+  if (id > 0 && id <= header->instanceMax)
+    incratr(instance[id].attributes, atr, step);
   else {
-    sprintf(str, "Can't INCR item (%ld).", id);
+    sprintf(str, "Can't INCR instance attribute (%ld, %ld).", id, atr);
     syserr(str);
   }
 }
@@ -567,14 +497,10 @@ void decr(id, atr, step)
 {
   char str[80];
 
-  if (isObj(id))
-    incrobj(id, atr, -step);
-  else if (isLoc(id))
-    incrloc(id, atr, -step);
-  else if (isAct(id))
-    incract(id, atr, -step);
+  if (id > 0 && id <= header->instanceMax)
+    incratr(instance[id].attributes, atr, -step);
   else {
-    sprintf(str, "Can't DECR item (%ld).", id);
+    sprintf(str, "Can't DECR instance attribute (%ld, %ld).", id, atr);
     syserr(str);
   }
 }

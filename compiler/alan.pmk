@@ -665,7 +665,7 @@ static int val(char str[])
     ;
 
 <class_tail>		-- RETURNS: id
-    = 'END' 'EVERY' <optional_id> '.'
+    = 'END' 'EVERY' <optional_id> ['.']
     %% %<class_tail>.id = %<optional_id>.id; %%
     ;
 
@@ -695,7 +695,7 @@ static int val(char str[])
     ;
 
 <instance tail>		-- RETURNS: id
-    = 'END' 'THE' <optional_id> '.'
+    = 'END' 'THE' <optional_id> ['.']
     %% %<instance tail>.id = %<optional_id>.id; %%
     ;
 
