@@ -1190,7 +1190,7 @@ static int val(char str[])
 
 ----> SCRIPTS
 <script>			-- RETURNS: scr
-    = 'SCRIPT' ID '.' <optional_description> <step_list>
+    = 'SCRIPT' ID ['.'] <optional_description> <step_list>
     %%
 	%<script>.scr = newScript(`&%'SCRIPT'.srcp,
 			          %ID.id,
@@ -1607,6 +1607,12 @@ static int val(char str[])
 	%<actor_statement>.stm = newstm(`&%'USE'.srcp, USE_STATEMENT);
 	%<actor_statement>.stm->fields.use.script = %ID.id;
 	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
+    %%
+
+    ! 'STOP' ID '.'
+    %%
+	%<actor_statement>.stm = newstm(`&%'STOP'.srcp, STOP_STATEMENT);
+	%<actor_statement>.stm->fields.stop.actor = %ID.id;
     %%
     ;
 

@@ -1349,6 +1349,25 @@ void use(act, scr)
   admin[act].step = 0;
 }
 
+/*----------------------------------------------------------------------*/
+#ifdef _PROTOTYPES_
+void stop(Aword act)
+#else
+void stop(act)
+     Aword act;
+#endif
+{
+  char str[80];
+
+  if (!isAct(act)) {
+    sprintf(str, "Instance is not an Actor (%ld).", act);
+    syserr(str);
+  }
+
+  admin[act].script = 0;
+  admin[act].step = 0;
+}
+
 
 
 /*======================================================================*/

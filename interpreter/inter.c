@@ -564,6 +564,14 @@ void interpret(adr)
 	use(act, scr);
 	break;
       }
+      case I_STOP: {
+	Aword actor;
+	actor = pop();
+	if (singleStepOption)
+	  printf("STOP \t%5ld", actor);
+	stop(actor);
+	break;
+      }
       case I_IN: {
 	Aword obj, cnt;
 	obj = pop();

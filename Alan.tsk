@@ -4,8 +4,8 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>175.89</origest>
-<currest>175.89</currest>
+<origest>176.89</origest>
+<currest>176.89</currest>
 <elapsed>57.89</elapsed>
 <isopen>1</isopen>
 <task>
@@ -126,12 +126,10 @@ A separate statement would be better (INTERRUPT?)
 
 Another suggestion would be:
 
-START &lt;actor&gt; &lt;script&gt;.
 STOP &lt;actor&gt;.
 
 E.g.
 
-start Painter Painting.
 stop Painter.
 </notes>
 <priority>2</priority>
@@ -497,8 +495,8 @@ REMEBER TO DOCUMENT IT!!!
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>88</origest>
-<currest>88</currest>
+<origest>89</origest>
+<currest>89</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -659,6 +657,23 @@ From a mail to SteveG:
 The same goes for statements in the ELSE part of the WHERE clause in the SYNTAX declaration, and that is also how it is implemented (except it has some bugs). 
 The problem is just that the assumption is false for exactly those statements. It is actually exactly the *complement* of what the types specified in the WHERE clause! 
 E.g. in the example above the IF statement will be executed whenever the 'o' is *not* an OBJECT. So you can only allow operations legal for NUMBERS, STRINGS, ACTORS etc, actually everything NOT OBJECT.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Alternativ to USE &lt;script&gt; FOR &lt;actor&gt;</desc>
+<notes>START &lt;actor&gt; &lt;script&gt;.  E.g.
+
+Start george cleaning.
+Start tiger hunting.
+
+(This caused grammar conflicts at three points, since it is impossible to know if to reduce constructs with no 'END' on a 'START' (as if the start section was next) or if to shift it (as if a START &lt;actor&gt; &lt;script&gt; was next)
+
+To fix this better conflict resolutions must be made in the grammar. Conflicts was in MESSAGE, WHERE and WHEN without END WHEN. since they all have lists of statements that are not terminated.
 </notes>
 <priority>2</priority>
 <origest>1</origest>

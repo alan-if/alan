@@ -106,6 +106,7 @@ typedef enum InstClass {
   I_INCR,			/* Increment an attribute */
   I_DECR,			/* Decrement a numeric attribute */
   I_USE,
+  I_STOP,
   I_IN,
   I_DESCRIBE,
   I_SAY,

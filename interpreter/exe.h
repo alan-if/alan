@@ -31,6 +31,7 @@ extern void set(Aword id, Aword atr, Aword val);
 extern void incr(Aword id, Aword atr, Aword step);
 extern void decr(Aword id, Aword atr, Aword step);
 extern void use(Aword act, Aword scr);
+extern void stop(Aword act);
 extern void describe(Aword id);
 extern void list(Aword cnt);
 extern void locate(Aword id, Aword whr);

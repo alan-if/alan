@@ -42,6 +42,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   CANCEL_STATEMENT,
   IF_STATEMENT,
   USE_STATEMENT,
+  STOP_STATEMENT,
   SYSTEM_STATEMENT,
   DEPEND_STATEMENT,
   DEPENDCASE_STATEMENT,
@@ -130,6 +131,10 @@ typedef struct StmNod {		/* STATEMENT */
       IdNode *script;		/* Which script to use (name) */
       IdNode *actor;		/* For which actor */
     } use;
+
+    struct {			/* STOP */
+      IdNode *actor;		/* Which actor */
+    } stop;
 
     struct {			/* SYSTEM */
       long fpos;		/* Position to string to execute */

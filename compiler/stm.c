@@ -441,6 +441,29 @@ static void analyzeUse(StmNod *stm,
 
 /*----------------------------------------------------------------------
 
+  analyzeStop()
+
+  Analyze a STOP statement. It must refer an actor.
+
+  */
+static void analyzeStop(StmNod *stm,
+		       Context *context)
+{
+  Symbol *sym;
+  IdNode *actorId = NULL;
+
+  /* Lookup specified actors symbol */
+  sym = symcheck(stm->fields.stop.actor, INSTANCE_SYMBOL, context);
+  if (sym) {
+    if (sym->kind == PARAMETER_SYMBOL)
+      lmLog(&stm->fields.stop.actor->srcp, 410, sevERR, "STOP statement");
+    actorId = sym->fields.entity.props->id;
+  }
+}
+
+
+/*----------------------------------------------------------------------
+
   Analyze a DEPENDING statement. It has partial expressions in the
   cases which must be connected to the depend expression.
 
@@ -583,6 +606,9 @@ static void analyzeStatement(StmNod *stm,
     break;
   case USE_STATEMENT:
     analyzeUse(stm, context);
+    break;
+  case STOP_STATEMENT:
+    analyzeStop(stm, context);
     break;
   case DEPEND_STATEMENT:
     analyzeDepend(stm, context);
@@ -824,6 +850,12 @@ static void generateUse(StmNod *stm)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateStop(StmNod *stm)
+{
+  generateId(stm->fields.stop.actor);
+  emit0(I_STOP);
+}
 
 /*----------------------------------------------------------------------
 
@@ -1052,6 +1084,10 @@ static void generateStatement(StmNod *stm)
     generateUse(stm);
     break;
 
+  case STOP_STATEMENT:
+    generateStop(stm);
+    break;
+
   case DEPEND_STATEMENT:
     generateDepend(stm);
     break;
@@ -1150,6 +1186,9 @@ void dustm(StmNod *stm)
   case USE_STATEMENT:
     put("USE ");
     break;
+  case STOP_STATEMENT:
+    put("STOP ");
+    break;
   case SAVE_STATEMENT:
     put("SAVE ");
     break;
@@ -1235,6 +1274,9 @@ void dustm(StmNod *stm)
     case USE_STATEMENT:
       put("script: "); dumpId(stm->fields.use.script); nl();
       put("scriptno: "); dumpInt(stm->fields.use.scriptno); nl();
+      put("actor: "); dumpId(stm->fields.use.actor);
+      break;
+    case STOP_STATEMENT:
       put("actor: "); dumpId(stm->fields.use.actor);
       break;
     case VISITS_STATEMENT:

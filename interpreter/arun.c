@@ -77,7 +77,7 @@ int main(argc, argv)
     newline();
   }
   
-  if (adventureName == NULL || (adventureName, "") == 0) {
+  if (adventureName == NULL || strcmp(adventureName, "") == 0) {
 #ifdef WINGLK
     char *filename;
     filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
