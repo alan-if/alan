@@ -32,6 +32,7 @@ static void switches(argc, argv)
 {
   int i;
   
+  advnam = "";
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
       switch (tolower(argv[i][1])) {
