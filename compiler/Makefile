@@ -107,10 +107,17 @@ arch:
 release:
 	@-for a in $(ARCHS) ; do \
 		if fresh $(ALANDIR)/bin/$$a/alan \: $(SRCS) ; then \
-			mv $(ALANDIR)/bin/$$a/alan $(ALANDIR)/bin/$$a/alan$(VERSION) ; \
+			cp $(ALANDIR)/bin/$$a/alan $(ALANDIR)/bin/$$a/alan$(VERSION) ; \
 		else \
-			echo $(ALANDIR)/bin/$$a/alan is not fresh! ; \
-			touch ../.notfresh ; \
+		    echo $(ALANDIR)/bin/$$a/alan is not fresh against: ; \
+		    for f in $(SRCS) ; do \
+		        if fresh $(ALANDIR)/bin/$$a/alan \: $$f ; then \
+			    : ; \
+			else \
+			    echo $$f ; \
+			    touch ../.notfresh ; \
+			fi \
+		    done \
 		fi ; \
 	done
 
