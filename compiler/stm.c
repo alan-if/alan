@@ -490,7 +490,7 @@ static void anif(StmNod *stm,	/* IN - The statement to analyze */
 {
   anexp(stm->fields.iff.exp, evt, pars);
   if (!eqtyp(stm->fields.iff.exp->typ, TYPBOOL))
-    lmLog(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean");
+    lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
   anstms(stm->fields.iff.thn, act, evt, pars);
   if (stm->fields.iff.els != NULL)
     anstms(stm->fields.iff.els, act, evt, pars);

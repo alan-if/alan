@@ -280,9 +280,9 @@ static void anbin(ExpNod *exp,
   case OP_AND:
   case OP_OR:
     if (!eqtyp(exp->fields.bin.left->typ, TYPBOOL))
-      lmLog(&exp->fields.bin.left->srcp, 330, sevERR, "boolean");
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
     if (!eqtyp(exp->fields.bin.right->typ, TYPBOOL))
-      lmLog(&exp->fields.bin.right->srcp, 330, sevERR, "boolean");
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
     exp->typ = TYPBOOL;
     break;
 
@@ -303,9 +303,9 @@ static void anbin(ExpNod *exp,
 
   case OP_EXACT:
     if (!eqtyp(exp->fields.bin.left->typ, TYPSTR))
-      lmLog(&exp->fields.bin.left->srcp, 330, sevERR, "string");
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
     if (!eqtyp(exp->fields.bin.right->typ, TYPSTR))
-      lmLog(&exp->fields.bin.right->srcp, 330, sevERR, "string");
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
     break;
 	    
   case OP_LE:
@@ -313,9 +313,9 @@ static void anbin(ExpNod *exp,
   case OP_LT:
   case OP_GT:
     if (!eqtyp(exp->fields.bin.left->typ, TYPINT))
-      lmLog(&exp->fields.bin.left->srcp, 330, sevERR, "integer");
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
     if (!eqtyp(exp->fields.bin.right->typ, TYPINT))
-      lmLog(&exp->fields.bin.right->srcp, 330, sevERR, "integer");
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
     exp->typ = TYPBOOL;
     break;
 
@@ -324,10 +324,18 @@ static void anbin(ExpNod *exp,
   case OP_MULT:
   case OP_DIV:
     if (!eqtyp(exp->fields.bin.left->typ, TYPINT))
-      lmLog(&exp->fields.bin.left->srcp, 330, sevERR, "integer");
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
     if (!eqtyp(exp->fields.bin.right->typ, TYPINT))
-      lmLog(&exp->fields.bin.right->srcp, 330, sevERR, "integer");
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
     exp->typ = TYPINT;
+    break;
+
+  case OP_CONTAINS:
+    if (!eqtyp(exp->fields.bin.left->typ, TYPSTR))
+      lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+    if (!eqtyp(exp->fields.bin.right->typ, TYPSTR))
+      lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+    exp->typ = TYPBOOL;
     break;
 
   default:
@@ -451,15 +459,15 @@ static void anexpbtw(ExpNod *exp, /* IN - Expression to analyse */
 {
   anexp(exp->fields.btw.val, evt, pars);
   if (!eqtyp(exp->fields.btw.val->typ, TYPINT))
-    lmLog(&exp->fields.btw.val->srcp, 330, sevERR, "integer");
+    lmLogv(&exp->fields.btw.val->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   anexp(exp->fields.btw.low, evt, pars);
   if (!eqtyp(exp->fields.btw.low->typ, TYPINT))
-    lmLog(&exp->fields.btw.low->srcp, 330, sevERR, "integer");
+    lmLogv(&exp->fields.btw.low->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   anexp(exp->fields.btw.high, evt, pars);
   if (!eqtyp(exp->fields.btw.high->typ, TYPINT))
-    lmLog(&exp->fields.btw.high->srcp, 330, sevERR, "integer");
+    lmLogv(&exp->fields.btw.high->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   exp->typ = TYPBOOL;
 }
@@ -580,6 +588,9 @@ static void geexpbin(ExpNod *exp) /* IN - Expression node */
     break;
   case OP_DIV:
     emit0(C_STMOP, I_DIV);
+    break;
+  case OP_CONTAINS:
+    emit0(C_STMOP, I_CONTAINS);
     break;
   }
   if (exp->not) emit0(C_STMOP, I_NOT);
@@ -894,6 +905,9 @@ static void duop(OpKind op)
     break;
   case OP_DIV:
     put("DIV");
+    break;
+  case OP_CONTAINS:
+    put("CONTAINS");
     break;
   }
 }

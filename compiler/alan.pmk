@@ -1954,6 +1954,16 @@ static int val(char str[])
 	exp->fields.btw.high = %2<factor>.exp;
 	%<right_hand_side>.exp = exp;
     } %%
+
+    ! <optional_not> 'CONTAINS' <factor>
+    %% { ExpNod *exp;
+        %<right_hand_side>.expkd = EXPBIN;
+	exp = newexp(`&%'CONTAINS'.srcp, EXPBIN);
+	exp->not = %<optional_not>.not;
+	exp->fields.bin.op = OP_CONTAINS;
+	exp->fields.bin.right = %<factor>.exp;
+	%<right_hand_side>.exp = exp;
+    } %%
     ;
 
 
@@ -2357,5 +2367,10 @@ ID
     ! 'BETWEEN'
     %%
         %ID.nam = newnam(`&%'BETWEEN'.srcp, "between");
+    %%
+
+    ! 'CONTAINS'
+    %%
+        %ID.nam = newnam(`&%'CONTAINS'.srcp, "contains");
     %%
     ;

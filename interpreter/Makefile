@@ -9,7 +9,7 @@ VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 GCC	= gcc
 CPP	= $(GCC) -MM $(INCLUDE)
 
-CC	= $(GCC) -ansi -Wall
+CC	= $(GCC) -Wall
 
 
 CFLAGS	= $(DEBUG) $(INCLUDE)

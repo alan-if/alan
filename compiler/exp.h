@@ -28,16 +28,16 @@ typedef enum TypeKind {		/* TYPE kinds */
 } TypeKind;
 
 typedef enum ExpKind {		/* EXPRESSION kinds */
-  EXPWHR,
-  EXPATR,
-  EXPBIN,
-  EXPINT,
-  EXPSTR,
-  EXPAGR,
-  EXPRND,
-  EXPSCORE,
-  EXPWHT,
-  EXPBTW
+  EXPWHR,			/* Where */
+  EXPATR,			/* Attribute */
+  EXPBIN,			/* Binary */
+  EXPINT,			/* Integer literal */
+  EXPSTR,			/* String literal */
+  EXPAGR,			/* Aggregate (max, sum, ...) */
+  EXPRND,			/* Random */
+  EXPSCORE,			/* Score */
+  EXPWHT,			/* Is What */
+  EXPBTW			/* Between */
 } ExpKind;
 
 typedef enum OpKind {		/* OPERATOR kinds */
@@ -53,7 +53,8 @@ typedef enum OpKind {		/* OPERATOR kinds */
   OP_LE,			/* Less or equal */
   OP_GE,			/* Greater or equal */
   OP_LT,			/* Less than */
-  OP_GT				/* Greater than */
+  OP_GT,			/* Greater than */
+  OP_CONTAINS			/* String contains substring */
 } OpKind;
 
 
@@ -112,10 +113,15 @@ typedef struct ExpNod {		/* EXPRESSION */
     } wht;
 
     struct {			/* For BETWEEN */
-      struct ExpNod *val;
-      struct ExpNod *low;
+      struct ExpNod *val;	/* The value */
+      struct ExpNod *low;	/* The boundries */
       struct ExpNod *high;
     } btw;
+
+    struct {			/* For CONTAINS */
+      struct ExpNod *str;	/* The string to investigate */
+      struct ExpNod *sub;	/* The substring to find */
+    } cnt;
 
   } fields;
 } ExpNod;

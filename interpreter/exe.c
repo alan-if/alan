@@ -1732,6 +1732,34 @@ Aword btw(val, low, high)
 
 /*----------------------------------------------------------------------
 
+  contains()
+
+  */
+
+#ifdef _PROTOTYPES_
+Aword contains(Aword string, Aword substring)
+#else
+Aword contains(string, substring)
+     Aword string, substring;;
+#endif
+{
+  Abool found;
+
+  strlow(string);
+  strlow(substring);
+
+  found = (strstr(string, substring) != 0);
+
+  free(string);
+  free(substring);
+
+  return(found);
+}
+
+
+
+/*----------------------------------------------------------------------
+
   streq()
 
   Compare two strings approximately, ignore case

@@ -700,6 +700,17 @@ void interpret(adr)
 	  printf("\t(%ld)", top());
 	break;
       }
+      case I_CONTAINS: {
+	Aword string, substring;
+	string = pop();
+	substring = pop();
+	if (stpflg)
+	  printf("CONTAINS \t%5ld, %5ld", string, substring);
+	push(contains(string, substring));
+	if (stpflg)
+	  printf("\t(%ld)", top());
+	break;
+      }
       case I_RETURN:
 	if (stpflg)
 	  printf("RETURN\n--------------------------------------------------\n");

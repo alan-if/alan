@@ -1,4 +1,6 @@
 ToDo:
+	* Document the BETWEEN statement
+
 	* Experiment with making unknow words into strings:
 
 		say hello to the guard => say "hello" to the guard
@@ -18,7 +20,8 @@ ToDo:
 	container if possible.
 
 	* Document that the inventory is actually the container of the
-	hero, and that the hero is a container actor.
+	hero (when that is true), and that the hero is a container
+	actor.
 
 	* Think about punctuation ('.') in the language! Can it be
         made more optional?

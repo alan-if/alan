@@ -139,7 +139,8 @@ typedef enum InstClass {
   I_RETURN,
   I_SYSTEM,
   I_RESTART,			/* INTRODUCED: v2.7 */
-  I_BTW				/* INTRODUCED: v2.8 */
+  I_BTW,			/* INTRODUCED: v2.8 */
+  I_CONTAINS			/*  -""-  */
 } InstClass;
 
 
