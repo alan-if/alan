@@ -314,7 +314,7 @@ void anatrs(List *atrs)		/* IN - pointer to a pointer to the list */
  */
 AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *context)
 {
-  AtrNod *atr;
+  AtrNod *atr = NULL;
   SymNod *sym;
   SymNod *classOfParameter;
 
@@ -332,8 +332,9 @@ AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute, Context *cont
 	lmLogv(&attribute->srcp, 316, sevERR, attribute->string,
 	       what->id->string, classOfParameter->string, NULL);
     }
-  }
-  return atr;
+    return atr;
+  } else /* no symbol found */
+    return NULL;
 }
 
 

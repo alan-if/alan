@@ -78,6 +78,7 @@ ExpNod *newexp(Srcp *srcp,	/* IN - Source Position */
 
 
 /*----------------------------------------------------------------------
+
   anexpwhr()
 
   Analyze a WHR expression.
@@ -103,13 +104,6 @@ static void anexpwhr(ExpNod *exp,
       lmLog(&exp->fields.whr.wht->srcp, 311, sevERR, "an Object or an Actor");
       break;
     case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: newevt() - symbol code handling");
-#else
-      idcheck(&sym, &elm, exp->fields.whr.wht->fields.wht.wht->id,
-	       NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-    new->id->code = newsym(id->str, NAMEVT, new);
-#endif
       break;
     default:
       syserr("Unrecognized switch in anexpwhr()");
@@ -356,6 +350,7 @@ static void anagr(ExpNod *exp,
 
 
 /*----------------------------------------------------------------------
+
   anrnd()
 
   Analyse a random expression.
