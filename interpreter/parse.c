@@ -22,7 +22,7 @@
 #include "term.h"
 #include "debug.h"
 #include "params.h"
-
+#include "syserr.h"
 #include "parse.h"
 
 #ifdef GLK

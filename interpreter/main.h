@@ -92,7 +92,6 @@ extern void *duplicate(void *original, unsigned long len);
 extern void terminate(int code);
 extern void usage(void);
 extern void error(MsgKind msg);
-extern void syserr(char *msg);
 extern void statusline(void);
 extern void output(char string[]);
 extern void prmsg(MsgKind msg);

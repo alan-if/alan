@@ -10,6 +10,8 @@
 #include "acode.h"
 #include "reverse.h"
 
+#include <setjmp.h>
+
 
 typedef struct Case {
   void (*theCase)();
@@ -41,8 +43,20 @@ Aword convertFromACD(Aword w)
   return s;
 }
 
+#include "syserr.h"
+static Boolean hadSyserr = FALSE;
+jmp_buf syserr_label;
+
+void syserr(char str[])
+{
+  hadSyserr = TRUE;
+  /* We need to jump out here since application relies on no return */
+  longjmp(syserr_label, TRUE);
+}
+
 
 #include "unitTest.h"
+
 
 
 #include "exeTest.c"

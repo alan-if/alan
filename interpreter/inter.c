@@ -14,6 +14,7 @@
 #include "parse.h"
 #include "exe.h"
 #include "stack.h"
+#include "syserr.h"
 #include "sysdep.h"
 
 #include "inter.h"

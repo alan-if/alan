@@ -9,7 +9,7 @@
 
 #include "types.h"
 #include "main.h"
-
+#include "syserr.h"
 #include "stack.h"
 
 

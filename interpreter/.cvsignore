@@ -27,3 +27,6 @@ interpreter.zip
 spa.*
 version.c
 version.h
+unit.exe
+winarun.exe
+dumpacd.exe

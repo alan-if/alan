@@ -286,6 +286,7 @@ static void testResolveThisAttributeForClass()
 				  NULL, nulsrcp,
 				  NULL, nulsrcp,
 				  NULL, nulsrcp,
+				  NULL, nulsrcp,
 				  NULL, NULL, NULL);
   ClaNod *theClass = newClass(&nulsrcp, newId(&nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};

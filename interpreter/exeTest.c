@@ -99,6 +99,17 @@ static void testPopGameState() {
   ASSERT(attributes[2].value == 3);
 }
 
+static void testWhereIllegalId() {
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    where(0);
+  ASSERT(hadSyserr);
+  hadSyserr = FALSE;
+  if (setjmp(syserr_label) == 0)
+    where(1000);
+  ASSERT(hadSyserr);
+}
+
 
 void registerExeUnitTests()
 {
@@ -106,4 +117,5 @@ void registerExeUnitTests()
   registerUnitTest(testIncreaseEventQueue);
   registerUnitTest(testPushGameState);
   registerUnitTest(testPopGameState);
+  registerUnitTest(testWhereIllegalId);
 }

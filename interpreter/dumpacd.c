@@ -268,7 +268,7 @@ static void dumpInstances(int level, Aword instances)
     indent(level+1);
     printf("mentioned: %s\n", dumpAddress(instance->mentioned));
     indent(level+1);
-    printf("article: %s\n", dumpAddress(instance->article));
+    printf("article: %s\n", dumpAddress(instance->indefinite));
     indent(level+1);
     printf("exits: %s\n", dumpAddress(instance->exits));
     indent(level+1);

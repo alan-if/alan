@@ -105,7 +105,8 @@ extTest.o: extTest.c ext.c ext_x.h ext.h ../interpreter/acode.h srcp.h \
   wht.h cnt.h form.h cla.h alan.h sysdep.h util.h srcp_x.h sym_x.h elm.h \
   stx.h res.h atr.h exp.h scr.h id_x.h lst_x.h stm_x.h stm.h chk_x.h \
   chk.h wrd_x.h wrd.h emit.h lmList.h alanCommon.h token.h dump.h
-form.o: form.c form_x.h form.h dump.h sysdep.h types.h
+form.o: form.c form_x.h form.h ../interpreter/acode.h dump.h sysdep.h \
+  types.h
 id.o: id.c id_x.h id.h sym.h types.h lst.h type.h srcp.h srcp_x.h sym_x.h \
   elm.h stx.h ../interpreter/acode.h res.h atr.h exp.h alan.h sysdep.h \
   wht.h whr.h context.h evt.h ins.h prop.h cnt.h form.h cla.h scr.h \

@@ -52,8 +52,10 @@ Properties *newProps(List *names,
 		     Srcp enteredSrcp,
 		     List *mentioned,
 		     Srcp mentionedSrcp,
-		     List *article,
-		     Srcp articleSrcp,
+		     List *indefinite,
+		     Srcp indefiniteSrcp,
+		     List *definite,
+		     Srcp definiteSrcp,
 		     List *exits,
 		     List *verbs,
 		     List *scripts)
@@ -78,8 +80,10 @@ Properties *newProps(List *names,
   new->enteredSrcp = enteredSrcp;
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
-  new->definite = article;
-  new->definiteSrcp = articleSrcp;
+  new->definite = definite;
+  new->definiteSrcp = definiteSrcp;
+  new->indefinite = indefinite;
+  new->indefiniteSrcp = indefiniteSrcp;
   new->verbs = verbs;
   new->exits = exits;
   new->scripts = scripts;
@@ -310,7 +314,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   else
     entry->container = 0;
   entry->mentioned = props->mentionedAddress;
-  entry->article = props->articleAddress;
+  entry->indefinite = props->articleAddress;
   entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
 }

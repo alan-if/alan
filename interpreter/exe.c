@@ -9,6 +9,7 @@
 #include "types.h"
 #include "act.h"
 #include "debug.h"
+#include "syserr.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -586,22 +587,25 @@ static Aword objloc(Aword obj)
 
 #endif
 
+/*----------------------------------------------------------------------*/
+static void verifyId(Aword id, char action[]) {
+  char message[200];
+
+  if (id == 0) {
+    sprintf(message, "Can't %s instance (%ld).", action, id);
+    syserr(message);
+  } else if (id > header->instanceMax) {
+    sprintf(message, "Can't %s instance (%ld > instanceMax).", action, id);
+    syserr(message);
+  }
+}
+
 
 /*======================================================================*/
 Aword where(Aword id)
 {
-  char str[80];
-
-  if (id == 0) {
-    sprintf(str, "Can't WHERE item (%ld).", id);
-    syserr(str);
-  } else if (id > header->instanceMax) {
-    sprintf(str, "Can't WHERE item (%ld > instanceMax).", id);
-    syserr(str);
-  } else
-    return admin[id].location;
-  syserr("Fall through to end in where()");
-  return 0;
+  verifyId(id, "WHERE");
+  return admin[id].location;
 }
 
 
@@ -939,30 +943,22 @@ void saystr(char *str)
 /*======================================================================*/
 void sayArticle(Aword id)
 {
-  if (instance[id].article != 0)
-    interpret(instance[id].article);
+  if (instance[id].indefinite != 0)
+    interpret(instance[id].indefinite);
   else
-    prmsg(M_ARTICLE);
+    prmsg(M_INDEFINITE);
 }
 
 
 /*======================================================================*/
 void say(Aword id)
 {
-  char str[80];
-
   if (isHere(HERO)) {
     if (isLit(id))
       saylit(id);
     else {
-      if (id == 0) {
-	sprintf(str, "Can't SAY instance (%ld).", id);
-	syserr(str);
-      } else if (id > header->instanceMax) {
-	sprintf(str, "Can't SAY instance (%ld > instanceMax).", id);
-	syserr(str);
-      } else
-	sayInstance(id);
+      verifyId(id, "SAY");
+      sayInstance(id);
     }
   }
 }
@@ -1060,7 +1056,7 @@ static Boolean containerIsEmpty(Aword cnt)
 {
   int i;
 
-  for (i = 0; i <= header->instanceMax; i++)
+  for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cnt)
       return FALSE;
   return TRUE;
@@ -1082,8 +1078,7 @@ static void describeObject(Aword obj)
     describeAnything(obj);
   else {
     prmsg(M_SEEOBJ1);
-    sayArticle(obj);
-    say(obj);
+    sayForm(obj, SAY_INDEFINITE);
     prmsg(M_SEEOBJ4);
     if (instance[obj].container != 0)
       describeContainer(obj);
@@ -1125,7 +1120,6 @@ static Aword dscrstk[255];
 void describe(Aword id)
 {
   int i;
-  char str[80];
   Aword previousInstance = current.instance;
 
   for (i = 0; i < dscrstkp; i++)
@@ -1136,13 +1130,8 @@ void describe(Aword id)
     syserr("To deep recursion of DESCRIBE.");
 
   current.instance = id;
-  if (id == 0) {
-    sprintf(str, "Can't DESCRIBE item (%ld).", id);
-    syserr(str);
-  } else if (id > header->instanceMax) {
-    sprintf(str, "Can't DESCRIBE item (%ld > instanceMax).", id);
-    syserr(str);
-  } else if (descriptionCheck(id)) {
+  verifyId(id, "DESCRIBE");
+  if (descriptionCheck(id)) {
     descriptionOk = TRUE;
     if (isObj(id)) {
       describeObject(id);
@@ -1177,15 +1166,13 @@ void describeInstances(void)
 	!admin[i].alreadyDescribed) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
-	sayArticle(i);
-	say(i);
+	sayForm(i, SAY_INDEFINITE);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needsp = FALSE;
 	  prmsg(M_SEEOBJ2);
-	  sayArticle(prevobj);
-	  say(prevobj);
+	  sayForm(prevobj, SAY_INDEFINITE);
 	}
 	multiple = TRUE;
       }
@@ -1195,8 +1182,7 @@ void describeInstances(void)
   if (found) {
     if (multiple) {
       prmsg(M_SEEOBJ3);
-      sayArticle(prevobj);
-      say(prevobj);
+      sayForm(prevobj, SAY_INDEFINITE);
     }
     prmsg(M_SEEOBJ4);
   }
@@ -1286,8 +1272,7 @@ void list(Aword cnt)
 	  prmsg(M_CONTAINSCOMMA);
 	}
 	multiple = TRUE;
-	sayArticle(previouslyFoundInstance);
-	say(previouslyFoundInstance);
+	sayForm(previouslyFoundInstance, SAY_INDEFINITE);
       }
       previouslyFoundInstance = i;
     }
@@ -1296,8 +1281,7 @@ void list(Aword cnt)
   if (found) {
     if (multiple)
       prmsg(M_CONTAINSAND);
-    sayArticle(previouslyFoundInstance);
-    say(previouslyFoundInstance);
+    sayForm(previouslyFoundInstance, SAY_INDEFINITE);
     prmsg(M_CONTAINSEND);
   } else {
     if (container[props].empty != 0)

@@ -54,6 +54,7 @@ MAINSRCS = exe.c \
 	stack.c \
 	inter.c \
 	reverse.c \
+	syserr.c \
 	arun.c
 
 VERSIONSRCS= $(MAINSRCS) $(BUILDSRCS)

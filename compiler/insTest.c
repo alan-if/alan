@@ -33,6 +33,7 @@ void testGenerateEmptyInstanceEntry()
 			       NULL, nulsrcp,
 			       NULL, nulsrcp,
 			       NULL, nulsrcp,
+			       NULL, nulsrcp,
 			       NULL, NULL, NULL);
   Instance *instance = newInstance(&nulsrcp, newId(&nulsrcp, "aInstance"), NULL, props);
   int entryAddress;
@@ -97,7 +98,7 @@ void testGenerateInstances()
   ASSERT(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
   ASSERT(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
   ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
-  ASSERT(convertFromACD(instanceTable->article) == ins->props->articleAddress);
+  ASSERT(convertFromACD(instanceTable->indefinite) == ins->props->articleAddress);
   ASSERT(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
   ASSERT(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
 }

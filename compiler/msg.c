@@ -204,10 +204,14 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Do you want to RESTART, RESTORE or QUIT ? ",
    "Vad vill du göra, RESTART, RESTORE or QUIT ? ",
    "Möchtest Du RESTART, RESTORE oder QUIT ? "},	/* is this changeable to "NEUSTART, LADEN oder ENDE ?" ? */
-  {M_ARTICLE, "defarticle",
+  {M_INDEFINITE, "indefinitearticle",
    "a",
    "en",
    "ein"},			/* FIXME: ein(masculine,neuter), eine(feminine)| example: a watch (eine uhr) */
+  {M_DEFINITE, "definitearticle",
+   "the",
+   "",
+   "der"},			/* FIXME: der(masculine), die(feminine), das(neuter)| example: the watch (die uhr) */
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };

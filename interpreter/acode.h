@@ -213,7 +213,8 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of entered code (location only) */
   Aaddr mentioned;		/* Address to short description code */
-  Aaddr article;		/* Address of article code */
+  Aaddr indefinite;		/* Address of indefinite article code */
+  Aaddr definite;		/* Address of definite article code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
 } InstanceEntry;
@@ -388,13 +389,11 @@ typedef enum MsgKind {
   M_SAVEVERS,
   M_SAVENAME,
   M_RESTOREFROM,
-  M_REALLY,			/* CHANGED: v2.7 from M_RESTART */
-  M_QUITACTION,			/* INTRODUCED: v2.7, so M_ARTICLE moved */
-  M_ARTICLE,			/* INTRODUCED: v2.6 but replaced the M_NOMSG*/
+  M_REALLY,
+  M_QUITACTION,
+  M_INDEFINITE,
+  M_DEFINITE,
   MSGMAX
 } MsgKind;
-
-#define M_ARTICLE26 M_QUITACTION
-#define M_MSGMAX26 M_ARTICLE
 
 #endif

@@ -92,6 +92,9 @@ static int val(char str[])
   agr %% AggregateKind %1%%,
   alt %% AltNod *%1%%,
   alts %% List *%1%%,
+  article %% List *%1%%,		-- of StmNod: article-clause,
+  definite %% List *%1%%,		-- of StmNod: article-clause,
+  definiteSrcp %% Srcp %1%%,
   indefinite %% List *%1%%,		-- of StmNod: article-clause,
   indefiniteSrcp %% Srcp %1%%,
   atr %% Attribute *%1%%,
@@ -127,8 +130,8 @@ static int val(char str[])
   inss %% List *%1%%,			-- of Instances
   lim %% LimNod *%1%%,
   lims %% List *%1%%,
-  ment %% List *%1%%,		-- of StmNod: mentioned-clause,
-  mentSrcp %% Srcp %1%%,
+  mentioned %% List *%1%%,		-- of StmNod: mentioned-clause,
+  mentionedSrcp %% Srcp %1%%,
   minus %% Bool %1%%,
   msg %% MsgNod *%1%%,
   msgs %% List *%1%%,
@@ -673,8 +676,10 @@ static int val(char str[])
 					%<properties>.descriptionDoes,
 					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.ment,
-					%<properties>.mentSrcp,
+					%<properties>.mentioned,
+					%<properties>.mentionedSrcp,
+					%<properties>.definite,
+					%<properties>.definiteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
@@ -709,8 +714,10 @@ static int val(char str[])
 					%<properties>.descriptionDoes,
 					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.ment,
-					%<properties>.mentSrcp,
+					%<properties>.mentioned,
+					%<properties>.mentionedSrcp,
+					%<properties>.definite,
+					%<properties>.definiteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
@@ -745,8 +752,10 @@ static int val(char str[])
 					%<properties>.descriptionDoes,
 					%<properties>.entered,
 					%<properties>.enteredSrcp,
-					%<properties>.ment,
-					%<properties>.mentSrcp,
+					%<properties>.mentioned,
+					%<properties>.mentionedSrcp,
+					%<properties>.definite,
+					%<properties>.definiteSrcp,
 					%<properties>.indefinite,
 					%<properties>.indefiniteSrcp,
 					%<properties>.exts,
@@ -837,13 +846,13 @@ static int val(char str[])
 	    }
         }
 
-	if (%<property>.ment != NULL) {
-            if (%<properties>.ment != NULL)
+	if (%<property>.mentioned != NULL) {
+            if (%<properties>.mentioned != NULL)
                 /* MENTIONED already declared */
 	        lmLogv(`&%<property>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
 	    else {
-                %<properties>.ment = %<property>.ment;
-		%<properties>.mentSrcp = %<property>.srcp;
+                %<properties>.mentioned = %<property>.mentioned;
+		%<properties>.mentionedSrcp = %<property>.srcp;
 	    }
         }
 
@@ -854,6 +863,16 @@ static int val(char str[])
             else { 
 	        %<properties>.indefinite = %<property>.indefinite;
 		%<properties>.indefiniteSrcp = %<property>.srcp;
+	    }
+        }
+
+	if (%<property>.definite != NULL) {
+            if (%<properties>.definite != NULL)
+                /* Definite Article/Form already declared */
+	        lmLogv(`&%<property>.srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
+            else { 
+	        %<properties>.definite = %<property>.definite;
+		%<properties>.definiteSrcp = %<property>.srcp;
 	    }
         }
 
@@ -928,16 +947,26 @@ static int val(char str[])
         Srcp srcp = %<mentioned>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
-	%<property>.ment = ment;
+	%<property>.mentioned = ment;
 	%<property>.srcp = srcp;
     }%%
 
     ! ['INDEFINITE'] <article>
-    %%{ List *indefinite = %<article>.indefinite;
+    %%{ List *indefinite = %<article>.article;
         Srcp srcp = %<article>.srcp;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.indefinite = indefinite;
+	%<property>.srcp = srcp;
+    }%%
+
+
+    ! 'DEFINITE' <article>
+    %%{ List *definite = %<article>.article;
+        Srcp srcp = %<article>.srcp;
+
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<property>.definite = definite;
 	%<property>.srcp = srcp;
     }%%
 
@@ -1074,17 +1103,17 @@ static int val(char str[])
     %%
     ;
 
-<article>			-- RETURNS: indefinite, srcp
+<article>			-- RETURNS: article, srcp
     = 'ARTICLE' 
     %%
-	%<article>.indefinite = concat(NULL, newStatement(`&%'ARTICLE'.srcp,
+	%<article>.article = concat(NULL, newStatement(`&%'ARTICLE'.srcp,
 							NOP_STATEMENT), STATEMENT_LIST);
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
 
     ! 'ARTICLE' <statements>
     %%
-	%<article>.indefinite = %<statements>.stms;
+	%<article>.article = %<statements>.stms;
 	%<article>.srcp = %'ARTICLE'.srcp;
     %%
     ;

@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>264.89</origest>
-<currest>263.89</currest>
+<origest>265.89</origest>
+<currest>264.89</currest>
 <elapsed>109.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>43</origest>
-<currest>43</currest>
+<origest>44</origest>
+<currest>44</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -389,7 +389,7 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 </task>
 <task>
 <desc>Error 223 (executed for every parameter) is shown even if there is no body</desc>
-<notes>Checks are always run it's the bodies that we have to take warn for</notes>
+<notes>Checks are always run it's the bodies that we have to warn for</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -504,10 +504,10 @@ END DEPEND.</notes>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Bug: Multiple syntax verb declarations</desc>
 <notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
@@ -519,6 +519,23 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiple messages for initial locations which are not declared</desc>
+<notes>The t Isa object In unknown ...
+
+results in:
+
+310 E : Identifier 'unkown' not defined.
+310 E : Identifier 'unkown' not defined.
+
+Fix it!
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
