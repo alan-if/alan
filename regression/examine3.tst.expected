@@ -21,9 +21,11 @@ examine3.alan
 L1.
 There is a o here. A is here.
 
-> Not a container actor
+> examine a
+Not a container actor
 
-> Not a container actor
+> examine o
+Not a container actor
 
 > 
 

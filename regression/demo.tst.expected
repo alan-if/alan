@@ -17,41 +17,59 @@ This is a round room with no descernible corners, 'G} och st{ll
 dig i h|rnet Nisse!' On the floor there is a dusty book. It is
 closed.
 
-> It is much too dark in here to see anything.
+> look
+It is much too dark in here to see anything.
 
-> I can't see any lamp here.
+> light lamp
+I can't see any lamp here.
 
-> Square Room.
+> w
+Square Room.
 It is very dark in here. In the north wall of the room there is
 a door. There is a old lamp here.
 
-> You can't refer to multiple objects with 'take'.
+> take all
+You can't refer to multiple objects with 'take'.
 
-> Taken.
+> take lamp
+Taken.
 
-> It is much too dark in here to see anything.
+> look
+It is much too dark in here to see anything.
 
-> The lamp is now lit.
+> light the lamp
+The lamp is now lit.
 
-> 'loo'? I don't know that word.
+> loo
+'loo'? I don't know that word.
 
-> It is much too dark in here to see anything.
+> look
+It is much too dark in here to see anything.
 
-> You can't go that way.
+> w
+You can't go that way.
 
-> You can't go that way.
+> e
+You can't go that way.
 
-> You can't go that way.
+> s
+You can't go that way.
 
-> You can't just walk straight through the closed door!
+> n
+You can't just walk straight through the closed door!
 
-> You can't do that.
+> open the door
+You can't do that.
 
-> You can't take the door.
+> take the door
+You can't take the door.
 
-> I can't see any book here.
+> read book
+I can't see any book here.
 
-> The inventory contains a old lighted lamp.
+> i
+The inventory contains a old lighted lamp.
 
-> 
+> q
+
 Do you want to restart (y) ? 

@@ -14,7 +14,8 @@ Try 'locate obj'.
 Location_id.
 There is a obj here.
 
-> Location_id.
+> locate obj
+Location_id.
 There is a obj here.
 
 Location_id.

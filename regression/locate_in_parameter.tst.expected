@@ -13,11 +13,14 @@ Try put-in.
 L.
 There is a c and a o here.
 
-> The c contains a o. The c contains a o. The c contains a o.
+> put o in c
+The c contains a o. The c contains a o. The c contains a o.
 
-> You can't put anything in o
+> put o in o
+You can't put anything in o
 
-> You can't put anything in o
+> put c in o
+You can't put anything in o
 
 > 
 

@@ -12,7 +12,8 @@ Outside The Big Building.
 There is a dusty blue lamp, a dusty golden lamp, a clean blue lamp and a 
 clean golden lamp here.
 
-> (dusty blue lamp) Taken.
+> take all
+(dusty blue lamp) Taken.
 
 (dusty golden lamp) Taken.
 
@@ -20,7 +21,8 @@ clean golden lamp here.
 
 (clean golden lamp) Taken.
 
-> I don't know which blue lamp you mean.
+> drop the blue lamp
+I don't know which blue lamp you mean.
 
 > 
 

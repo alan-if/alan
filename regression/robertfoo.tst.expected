@@ -12,38 +12,46 @@ arun -d robertfoo < robertfoo.input
 James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
-ABUG> 
+ABUG> x
 
-> Case 1a.
+
+> a
+Case 1a.
 Case 1a with choice z. 
 mtest < 2
 
 Case 1b.
 case 1b with choice a
 
-> James Farty.
+> a
+James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
-> Case 1a.
+> a
+Case 1a.
 Case 1a with choice z. 
 mtest < 2
 
 Case 1b.
 case 1b with choice a
 
-> James Farty.
+> a
+James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
-> Case 1a.
+> a
+Case 1a.
 Case 1a with choice z. 
 mtest < 2
 
 Case 1b.
 case 1b with choice a
 
-> You can't go that way.
+> b
+You can't go that way.
 
-> You can't go that way.
+> c
+You can't go that way.
 
 > 
 

@@ -11,9 +11,11 @@ arun -d paras < paras.input
 L1.
 This is location 1. E has no exit output, W has exit output.
 
-ABUG> 
+ABUG> x
 
-> L2.
+
+> e
+L2.
 This is location 2. E has no exit output, W has exit output. Motor is
 here. Randomly moving you to first location.
 
@@ -28,12 +30,14 @@ L1.
 This is location 1. E has no exit output, W has exit output. Motor is
 here.
 
-> Going west to l2.
+> w
+Going west to l2.
 
 L2.
 This is location 2. E has no exit output, W has exit output.
 
-> Going west to l1.
+> w
+Going west to l1.
 
 L1.
 This is location 1. E has no exit output, W has exit output. Motor is

@@ -6,15 +6,17 @@ arun system < system.input
         No warnings or errors detected.
 
 echoing l1
-echoing l2
-echoing l1
 
 
 L1.
 
-> L2.
+> s
+echoing l2
+L2.
 
-> L1.
+> n
+echoing l1
+L1.
 
 > 
 

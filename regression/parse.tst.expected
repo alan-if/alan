@@ -18,25 +18,23 @@ Also try 'them', 'it', 'all' etc.
 L.
 There is a o1, a o2, a o3 and a o4 here.
 
-> Verb v.
+> v
+Verb v.
 
-> Verb vo on o1.
+> v o1
+Verb vo on o1.
 
-> Verb vo on o2.
+> v o2
+Verb vo on o2.
 
-> Verb vo on o2.
+> v it
+Verb vo on o2.
 
-> I don't know what you mean by 'them'.
+> v them
+I don't know what you mean by 'them'.
 
-> (o1) Verb vo on o1.
-
-(o2) Verb vo on o2.
-
-(o3) Verb vo on o3.
-
-(o4) Verb vo on o4.
-
-> (o1) Verb vo on o1.
+> v all
+(o1) Verb vo on o1.
 
 (o2) Verb vo on o2.
 
@@ -44,27 +42,23 @@ There is a o1, a o2, a o3 and a o4 here.
 
 (o4) Verb vo on o4.
 
-> Verb voo on o1 and o2.
+> v them
+(o1) Verb vo on o1.
 
-> I don't know what you mean by 'them'.
+(o2) Verb vo on o2.
 
-> (o1) Verb voo on o1 and o3.
+(o3) Verb vo on o3.
 
-(o2) Verb voo on o2 and o3.
+(o4) Verb vo on o4.
 
-(o3) Verb voo on o3 and o3.
+> v o1 o2
+Verb voo on o1 and o2.
 
-(o4) Verb voo on o4 and o3.
+> v them o3
+I don't know what you mean by 'them'.
 
-> (o1) Verb voo on o1 and o3.
-
-(o2) Verb voo on o2 and o3.
-
-(o3) Verb voo on o3 and o3.
-
-(o4) Verb voo on o4 and o3.
-
-> (o1) Verb voo on o1 and o3.
+> v all o3
+(o1) Verb voo on o1 and o3.
 
 (o2) Verb voo on o2 and o3.
 
@@ -72,11 +66,32 @@ There is a o1, a o2, a o3 and a o4 here.
 
 (o4) Verb voo on o4 and o3.
 
-> Verb vowo on o1 with o2.
+> v them o3
+(o1) Verb voo on o1 and o3.
 
-> I don't know what you mean by 'them'.
+(o2) Verb voo on o2 and o3.
 
-> (o1) Verb vowo on o1 with o2.
+(o3) Verb voo on o3 and o3.
+
+(o4) Verb voo on o4 and o3.
+
+> v them it
+(o1) Verb voo on o1 and o3.
+
+(o2) Verb voo on o2 and o3.
+
+(o3) Verb voo on o3 and o3.
+
+(o4) Verb voo on o4 and o3.
+
+> v o1 with o2
+Verb vowo on o1 with o2.
+
+> v them with it
+I don't know what you mean by 'them'.
+
+> v all with o2
+(o1) Verb vowo on o1 with o2.
 
 (o2) Verb vowo on o2 with o2.
 
@@ -84,7 +99,8 @@ There is a o1, a o2, a o3 and a o4 here.
 
 (o4) Verb vowo on o4 with o2.
 
-> You can't do that.
+> v 01 and 02 and 03 with 04
+You can't do that.
 
 > 
 

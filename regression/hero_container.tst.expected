@@ -13,15 +13,20 @@ Try 'i hero' and 'put thing in cont'. You are empty-handed.
 L.
 There is a cont and a thing here.
 
-> You are empty-handed.
+> i hero
+You are empty-handed.
 
-> That can't carry anything.
+> i cont
+That can't carry anything.
 
-> That can't carry anything.
+> i thing
+That can't carry anything.
 
-> Taken.
+> take thing
+Taken.
 
-> 
+> put thing in cont
+
 > 
 
 Do you want to restart (y) ? 

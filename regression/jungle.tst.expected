@@ -25,7 +25,8 @@ sides seems to come closer and there are vines hanging down almost
 touching your head. A particulary long and thick vine is hanging down
 just beside you.
 
-> The vine is quite slippery, but you still manage to climb well into the
+> climb vine
+The vine is quite slippery, but you still manage to climb well into the
 trees.
 
 Trees.
@@ -34,9 +35,11 @@ and vines. The vegetation is so thick up here that it seems almost like a
 green floor. Some kind of vaguely familiar fungus is growing here on a
 vine.
 
-> Taken!
+> take fungus
+Taken!
 
-> Path.
+> down
+Path.
 You are standing on a barely visible path in the middle of nowhere. The
 path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should
@@ -49,17 +52,20 @@ sides seems to come closer and there are vines hanging down almost
 touching your head. A particulary long and thick vine is hanging down
 just beside you.
 
-> Clearing.
+> south
+Clearing.
 Here the jungle opens up a bit and the path takes you straight into a
 clearing. The path seems to continue on the south side of the clearing
 some fifty paces away. An enormous tiger is standing here blocking your
 way.
 
-> You try a bit of the fungus. It doesn't taste bad although it isn't that
+> eat fungus
+You try a bit of the fungus. It doesn't taste bad although it isn't that
 delicious either. You swallow the rest of it almost without chewing.
 After a short while a strange odour starts perspiring from your body.
 
-> When you approaches the tiger it looks confused. Then it really takes in
+> south
+When you approaches the tiger it looks confused. Then it really takes in
 your smell. It suddenly bolts, turns and takes off into the jungle.
 
 Camp.
@@ -70,7 +76,8 @@ ran straight into a tree and must have lost both conciousness and memory.
 'Well, hope the computer still works.' you think. 'I think I stick to
 computer adventures, at least for the immediate future.'
 
-Do you want to restart (y) ? 
+Do you want to restart (y) ? y
+
 
 'Oh, my head. It hurts. Why am I out here when I've got this kind of
 headache? And where is 'here'? And who am I?'
@@ -82,12 +89,14 @@ path looks like it's been walked by bare feet (or rather paws) for many a
 year. From the small amount of light reaching the ground here I should
 say the path runs in almost straight north/south direction. On both sides
 of the path is the deepest, darkest jungle you've ever seen. I really
-<More>wouldn't recommend going that way. The path itself isn't much of a
+<More>
+wouldn't recommend going that way. The path itself isn't much of a
 place to hold on to either. You get the impression that the vegetation is
 trying hard to recapture even this tiny part of land. The trees on both
 sides seems to come closer and there are vines hanging down almost
 touching your head. A particulary long and thick vine is hanging down
 just beside you.
 
-> 
+> q
+
 Do you want to restart (y) ? 

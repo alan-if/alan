@@ -13,9 +13,11 @@ arun describe < describe.input
 Grand Location.
 You are at a Grand Location. There is a o here.
 
-> You are at a Grand Location.
+> d
+You are at a Grand Location.
 
-> Grand Location.
+> l
+Grand Location.
 You are at a Grand Location. There is a o here.
 
 > 

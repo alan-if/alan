@@ -10,19 +10,26 @@ arun example < example.input
 
 Bright_place.
 
-> You already have it.
+> take vase
+You already have it.
 
-> Dropped.
+> put the vase down
+Dropped.
 
-> Taken.
+> take the vase
+Taken.
 
-> Dark_place.
+> n
+Dark_place.
 
-> You can't aim in the dark.
+> throw vase
+You can't aim in the dark.
 
-> Bright_place.
+> s
+Bright_place.
 
-> Dropped. The nice vase flies into billions of pieces.
+> throw vase
+Dropped. The nice vase flies into billions of pieces.
 
 > 
 

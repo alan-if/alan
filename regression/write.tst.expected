@@ -12,8 +12,10 @@ Try writing something on the wall.
 Loc.
 On the wall is written 'Kilroy was here!'.
 
-> 
-> Loc.
+> write "Kilroy was here!" on the wall
+
+> l
+Loc.
 On the wall is written 'Kilroy was here!'.
 
 > 

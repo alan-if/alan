@@ -11,8 +11,10 @@ arun syntaxparam < syntaxparam.input
 L.
 There is a obj here. A is here.
 
-> 
-> You can not take the A
+> take obj
+
+> take a
+You can not take the A
 
 > 
 

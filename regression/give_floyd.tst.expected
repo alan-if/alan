@@ -13,13 +13,15 @@ Take all, then give floyd a widget.
 L.
 There is a light widget, a heavy widget and a floyd here.
 
-> (light widget)
+> take all
+(light widget)
 
 (heavy widget) You're carrying too much. It slips from your hands.
 
 (floyd)
 
-> 'Neat!' Floyd accepts the light widget and thanks you profusely.
+> give the light widget to floyd
+'Neat!' Floyd accepts the light widget and thanks you profusely.
 
 > 
 

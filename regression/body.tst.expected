@@ -12,13 +12,17 @@ Examine your arms! 'i' for inventory.
 
 This.
 
-> I don't know which arm you mean.
+> examine arm
+I don't know which arm you mean.
 
-> There is a right arm here.
+> examine right arm
+There is a right arm here.
 
-> The body contains a left arm and a right arm.
+> i
+The body contains a left arm and a right arm.
 
-> 'arms'? I don't know that word.
+> examine arms
+'arms'? I don't know that word.
 
 > 
 

@@ -13,9 +13,11 @@ To test verb alternatives try 'PUT obj1 in obj2' and vice versa.
 L.
 There is a obj1 and a obj2 here.
 
-> OBJ1 is parameter o. OBJ2 is parameter c.
+> put obj1 in obj2
+OBJ1 is parameter o. OBJ2 is parameter c.
 
-> OBJ2 is parameter o. OBJ1 is parameter c.
+> put obj2 in obj1
+OBJ2 is parameter o. OBJ1 is parameter c.
 
 > 
 

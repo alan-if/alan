@@ -10,7 +10,8 @@ arun galon < galon.input
 L.
 There is a obj here.
 
-> Taken.
+> take obj
+Taken.
 
 > 
 

@@ -16,25 +16,31 @@ amok. The only one to stop the madness is YOU!'
 Outside.
 You are outside the 'Hexagon Computer Center'.
 
-> Hall.
+> in
+Hall.
 You are in the hall of the 'Hexagon Computer Center'. To the east and
 north are corridors.
 
-> Corridor.
+> e
+Corridor.
 You are in a corridor, you can go in several directions here. The sound
 of computer equipment running wild can be heard.
 
-> Hall.
+> w
+Hall.
 You are in the hall of the 'Hexagon Computer Center'. To the east and
 north are corridors.
 
-> Corridor.
+> e
+Corridor.
 You are in a corridor, you can go in several directions here. The sound
 of computer equipment running wild can be heard.
 
-> Mens Toilet.
+> s
+Mens Toilet.
 
-> Corridor.
+> n
+Corridor.
 You are in a corridor, you can go in several directions here. The sound
 of computer equipment running wild can be heard.
 

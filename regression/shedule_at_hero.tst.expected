@@ -11,52 +11,68 @@ A 'Hello' is scheduled at hero every other turn.
 Loc1.
 E to Loc2.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
-> Loc2.
+> e
+Loc2.
 E to Loc1.
 
-> Loc1.
+> e
+Loc1.
 E to Loc2. Someone says: 'Hello!'.
 
 > 

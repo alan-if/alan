@@ -15,80 +15,111 @@ The Beginning.
 In the beginning, there was the void... There is a huge door to the north. 
 It is closed.
 
-ABUG> 
+ABUG> x
 
-> The door opens with a errie creaking sound.
+
+> open the door then go north
+The door opens with a errie creaking sound.
 
 
 The End.
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is open.
 
-> The door closes with a loud BANG! Pop goes the weasal!
+> close the door
+The door closes with a loud BANG! Pop goes the weasal!
 
-> You can't go that way.
+> u
+You can't go that way.
 
-> You can't go that way.
+> w
+You can't go that way.
 
-> Staircase.
+> e
+Staircase.
 You are at the bottom of a long and winding staircase which opens to the
 west.
 
-> You climb up a few flights of stairs.
+> up
+You climb up a few flights of stairs.
 
-> > You climb up a few flights of stairs. Pop goes the weasal!
+> 
+> u
+You climb up a few flights of stairs. Pop goes the weasal!
 
-> You climb up a few flights of stairs.
+> u
+You climb up a few flights of stairs.
 
-> You climb up a few flights of stairs.
+> u
+You climb up a few flights of stairs.
 
-> You climb up a few flights of stairs. You have reached the top! Pop goes
+> u
+You climb up a few flights of stairs. You have reached the top! Pop goes
 the weasal!
 
-> You are at the top of the stairs, you can't go up any further.
+> u
+You are at the top of the stairs, you can't go up any further.
 
-> You can't go that way.
+> e
+You can't go that way.
 
-> You can't go that way.
+> s
+You can't go that way.
 
-> You can't go that way.
+> w
+You can't go that way.
 
-> You can't go that way.
+> n
+You can't go that way.
 
-> You climb down a few flights of stairs. Pop goes the weasal!
+> d
+You climb down a few flights of stairs. Pop goes the weasal!
 
-> You climb down a few flights of stairs.
+> d
+You climb down a few flights of stairs.
 
-> You climb down a few flights of stairs. CREAK!
+> d
+You climb down a few flights of stairs. CREAK!
 
-> You climb up a few flights of stairs. Pop goes the weasal!
+> u
+You climb up a few flights of stairs. Pop goes the weasal!
 
-> You climb down a few flights of stairs. CREAK!
+> d
+You climb down a few flights of stairs. CREAK!
 
-> You climb down a few flights of stairs.
+> d
+You climb down a few flights of stairs.
 
-> You climb down a few flights of stairs. You have reached the bottom! Pop
+> d
+You climb down a few flights of stairs. You have reached the bottom! Pop
 goes the weasal!
 
-> The End.
+> w
+The End.
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is closed.
 
-> The door opens with a errie creaking sound.
+> open the door
+The door opens with a errie creaking sound.
 
-> You can't go that way.
+> w
+You can't go that way.
 
-> Staircase.
+> e
+Staircase.
 You are at the bottom of a long and winding staircase which opens to the
 west. Pop goes the weasal!
 
-> The End.
+> w
+The End.
 At the end of time, there was void again... There is a staircase to the
 east leading up. There is a huge door to the south. It is open.
 
-> The Beginning.
+> s
+The Beginning.
 In the beginning, there was the void... There is a huge door to the north. 
 It is open.
 
-> 
+> q
+
 Do you want to restart (y) ? 

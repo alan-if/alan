@@ -15,39 +15,64 @@ are saved correctly.
 L.
 hej
 
-> You have scored 0 points out of 10.
+> f
+You have scored 0 points out of 10.
 
-> Enter file name to save in (score.sav) : Event.
+> s
+Enter file name to save in (score.sav) : 
+Event.
 
-> 
-> You have scored 5 points out of 10. Event2. Event.
+> p
 
-> Enter file name to restore from (score.sav) : Event.
+> f
+You have scored 5 points out of 10. Event2. Event.
 
-> You have scored 0 points out of 10.
+> r
+Enter file name to restore from (score.sav) : 
+Event.
 
-> Event2. Event.
+> f
+You have scored 0 points out of 10.
 
-> 
-> You have scored 10 points out of 10. Event.
+> p
+Event2. Event.
 
-> 
-> You have scored 10 points out of 10. Event2. Event.
+> p
 
-> Enter file name to restore from (score.sav) : Event.
+> f
+You have scored 10 points out of 10. Event.
 
-> You have scored 0 points out of 10.
+> p
 
-> Event2. Event.
+> f
+You have scored 10 points out of 10. Event2. Event.
 
-> 
-> Enter file name to save in (score.sav) : That file already exists, overwrite (y) ? Event.
+> r
+Enter file name to restore from (score.sav) : 
+Event.
 
-> You have scored 10 points out of 10.
+> f
+You have scored 0 points out of 10.
 
-> Enter file name to restore from (score.sav) : Event.
+> p
+Event2. Event.
 
-> You have scored 10 points out of 10.
+> p
+
+> s
+Enter file name to save in (score.sav) : 
+That file already exists, overwrite (y) ? 
+Event.
+
+> f
+You have scored 10 points out of 10.
+
+> r
+Enter file name to restore from (score.sav) : 
+Event.
+
+> f
+You have scored 10 points out of 10.
 
 > 
 
