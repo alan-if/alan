@@ -276,9 +276,13 @@ void eminit(acdfnm)
 
     fnm[0] = (char)strlen(acdfnm);
     strncpy(&fnm[1], acdfnm, fnm[0]);
-    oe = GetFInfo(fnm, 0, &finfo);
+    oe = GetFInfo((ConstStr255Param *)fnm, 0, &finfo);
+    printf("GetFInfo oe = %d\n", oe);
 
-    printf("oe = %d\n", oe);
+    strncpy((char *)&finfo.fdType, "TEXT", 4);
+    strncpy((char *)&finfo.fdCreator, "Arun", 4);
+    oe = SetFInfo((unsigned char *)fnm, 0, &finfo);
+    printf("SetFInfo oe = %d\n", oe);
   }
 #endif
 }
