@@ -37,6 +37,9 @@
 #ifdef THINK_C
 #define __mac__
 #endif
+#ifdef __MWERKS__
+#define __mac__
+#endif
 
 #ifdef DOS
 #define __dos__
