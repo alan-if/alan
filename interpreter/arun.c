@@ -1424,9 +1424,11 @@ static void movactor()
   char str[80];
 
   cur.loc = where(cur.act);
-  if (cur.act == HERO)
+  if (cur.act == HERO) {
     parse();
-  else if (act->script != 0) {
+    fail = FALSE;			/* fail only aborts one actor */
+    rules();
+  } else if (act->script != 0) {
     for (scr = (ScrElem *) addrTo(act->scradr); !endOfTable(scr); scr++)
       if (scr->code == act->script) {
 	/* Find correct step in the list by indexing */
@@ -1443,21 +1445,19 @@ static void movactor()
 	if (step->exp != 0) {
 	  if (trcflg) {
 	    saveInfo();
-	    sprintf(str, "$nACTOR %d ($a), SCRIPT %d, STEP %d, Evaluating: ",
+	    sprintf(str, "$nACTOR %d ($a), SCRIPT %ld, STEP %ld, Evaluating: ",
 		   cur.act, act->script, act->step+1);
 	    output(str);
 	    restoreInfo();
 	  }
 	  interpret(step->exp);
-	  if (!(Abool)pop())
-	    /* Hadn't happened yet */
-	   return;
+	  if (!(Abool)pop()) return; /* Hadn't happened yet */
 	}
 	/* OK, so finally let him do his thing */
 	act->step++;		/* Increment step number before executing... */
 	if (trcflg) {
 	  saveInfo();
-	  sprintf(str, "$nACTOR %d ($a), SCRIPT %d, STEP %d, Executing: ",
+	  sprintf(str, "$nACTOR %d ($a), SCRIPT %ld, STEP %ld, Executing: ",
 		 cur.act, act->script, act->step);
 	  output(str);
 	  restoreInfo();
@@ -1468,18 +1468,17 @@ static void movactor()
 	if (act->step != 0 && endOfTable(step))
 	  /* No more steps in this script, so stop him */
 	  act->script = 0;
+	fail = FALSE;			/* fail only aborts one actor */
 	rules();
 	return;
       }
     syserr("Unknown actor script.");
   } else if (trcflg) {
     saveInfo();
-    sprintf(str, "$nACTOR %d ($a), Idle\n", cur.act);
+    sprintf(str, "$nACTOR %d ($a), Idle", cur.act);
     output(str);
     restoreInfo();
   }
-  fail = FALSE;			/* fail only aborts one actor */
-  rules();
 }
 
 /*----------------------------------------------------------------------
@@ -1543,7 +1542,7 @@ static void openFiles()
 #endif
 
     time(&tick);
-    sprintf(logfnm, "%s%s%d%s.log", str, advnam, tick, usr);
+    sprintf(logfnm, "%s%s%d%s.log", str, advnam, (int)tick, usr);
     if ((logfil = fopen(logfnm, "w")) == NULL)
       logflg = FALSE;
   }

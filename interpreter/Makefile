@@ -11,7 +11,8 @@ CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 CFLAGS	= $(DEBUG)
 
 LD	= $(GCC) $(DEBUG)
-LDFLAGS	= $(LQ) -L/usr/local/lib/4.1.2
+LDFLAGS	= $(LQ) -lreadline -ltermcap -lns -L/usr/local/lib/4.1.2 -L/usr/local/lib
+
 
 tcov := CC = acc -a
 tcov := LD = acc -a

@@ -8,6 +8,10 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#ifdef __sun__
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
 
 #include "types.h"
 #include "arun.h"
@@ -68,7 +72,11 @@ int vrbcode;			/* The code for that verb */
 
 /* PRIVATE DATA */
 
+#ifdef __sun__
+static char *buf;
+#else
 static char buf[LISTLEN+1];	/* The input buffer */
+#endif
 
 
 static Boolean eol = TRUE;	/* End of line? Yes, initially */
@@ -154,10 +162,10 @@ static char *gettoken(buf)
     *marker = oldch;
   else
     marker = buf;
-  while (isSpace(*marker) && *marker != '\0' && *marker != '\n') marker++;
+  while (*marker != '\0' && isSpace(*marker) && *marker != '\n') marker++;
   buf = marker;
   if (isLetter(*marker))
-    while (isLetter(*marker)||isdigit(*marker)) marker++;
+    while (*marker&&(isLetter(*marker)||isdigit(*marker))) marker++;
   else if (isdigit(*marker))
     while (isdigit(*marker)) marker++;
   else if (*marker == '\"') {
@@ -183,10 +191,21 @@ static void getline()
   para();
   do {
     printf("> ");
+#ifdef __sun__
+    if (buf != NULL) {
+      free(buf);
+      buf = NULL;
+    }
+    if (!(buf = readline(""))) {
+      newline();
+      quit();
+    }
+#else
     if (fgets(buf, LISTLEN, stdin) == NULL) {
       newline();
       quit();
     }
+#endif
     getPageSize();
     anyOutput = FALSE;
     if (logflg)
@@ -205,6 +224,7 @@ static void getline()
       token = NULL;
     }
   } while (token == NULL);
+  add_history(buf);
   eol = FALSE;
   lin = 1;
 }
