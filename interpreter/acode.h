@@ -158,7 +158,8 @@ typedef enum InstClass {
   I_ENDFRAME,
   I_EACH,
   I_NEXTEACH,
-  I_ENDEACH
+  I_ENDEACH,
+  I_SHOW
 } InstClass;
 
 

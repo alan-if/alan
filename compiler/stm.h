@@ -32,6 +32,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   DESCRIBE_STATEMENT,
   SAY_STATEMENT,
   LIST_STATEMENT,
+  SHOW_STATEMENT,
   EMPTY_STATEMENT,
   LOCATE_STATEMENT,
   MAKE_STATEMENT,
@@ -81,6 +82,10 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for LIST */
       What *wht;		/* What? */
     } list;
+
+    struct {			/* for SHOW */
+      IdNode *filename;		/* Identifier including resource number */
+    } show;
 
     struct {			/* for EMPTY */
       What *wht;		/* What? */

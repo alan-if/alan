@@ -33,14 +33,9 @@
 #include "glkio.h"
 #endif
 
-#ifdef _PROTOTYPES_
-static void showAttributes(
-  Aword atradr
-)
-#else
-static void showAttributes(atradr)
-  Aword atradr;
-#endif
+
+/*----------------------------------------------------------------------*/
+static void showAttributes(Aword atradr)
 {
   AttributeEntry *at;
   int i;
@@ -60,7 +55,9 @@ static void showAttributes(atradr)
 }
 
 
-static void showContents(int cnt) {
+/*----------------------------------------------------------------------*/
+static void showContents(int cnt)
+{
   int i;
   char str[80];
   Abool found;
@@ -82,11 +79,8 @@ static void showContents(int cnt) {
 
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showInstances(void)
-#else
-static void showInstances()
-#endif
 {
   char str[80];
   int ins;
@@ -102,14 +96,8 @@ static void showInstances()
 }
 
 
-#ifdef _PROTOTYPES_
-static void showInstance(
-  int ins
-)
-#else
-static void showInstance(ins)
-  int ins;
-#endif
+/*----------------------------------------------------------------------*/
+static void showInstance(int ins)
 {
   char str[80];
 
@@ -168,11 +156,8 @@ static void showInstance(ins)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showObjects(void)
-#else
-static void showObjects()
-#endif
 {
   char str[80];
   int obj;
@@ -188,14 +173,8 @@ static void showObjects()
 }
 
 
-#ifdef _PROTOTYPES_
-static void showObject(
-  int obj
-)
-#else
-static void showObject(obj)
-  int obj;
-#endif
+/*----------------------------------------------------------------------*/
+static void showObject(int obj)
 {
   char str[80];
 
@@ -211,11 +190,8 @@ static void showObject(obj)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showcnts(void)
-#else
-static void showcnts()
-#endif
 {
   char str[80];
   int cnt;
@@ -231,12 +207,8 @@ static void showcnts()
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showClass(int c)
-#else
-static void showClass(c)
-     int c;
-#endif
 {
   char str[80];
 
@@ -253,11 +225,8 @@ static void showClass(c)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showClasses(void)
-#else
-static void showClasses()
-#endif
 {
   int c;
 
@@ -269,14 +238,8 @@ static void showClasses()
 }
 
 
-#ifdef _PROTOTYPES_
-static void showContainer(
-  int cnt
-)
-#else
-static void showContainer(cnt)
-  int cnt;
-#endif
+/*----------------------------------------------------------------------*/
+static void showContainer(int cnt)
 {
   char str[80];
 
@@ -298,11 +261,8 @@ static void showContainer(cnt)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showLocations(void)
-#else
-static void showLocations()
-#endif
 {
   char str[80];
   int loc;
@@ -318,14 +278,8 @@ static void showLocations()
 }
 
 
-#ifdef _PROTOTYPES_
-static void showLocation(
-  int loc
-)
-#else
-static void showLocation(loc)
-  int loc;
-#endif
+/*----------------------------------------------------------------------*/
+static void showLocation(int loc)
 {
   char str[80];
 
@@ -346,11 +300,8 @@ static void showLocation(loc)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showActors(void)
-#else
-static void showActors()
-#endif
 {
   char str[80];
   int act;
@@ -369,14 +320,8 @@ static void showActors()
 }
 
 
-#ifdef _PROTOTYPES_
-static void showActor(
-  int act
-)
-#else
-static void showActor(act)
-  int act;
-#endif
+/*----------------------------------------------------------------------*/
+static void showActor(int act)
 {
   char str[80];
   
@@ -390,11 +335,8 @@ static void showActor(act)
 }
 
 
-#ifdef _PROTOTYPES_
+/*----------------------------------------------------------------------*/
 static void showEvents(void)
-#else
-static void showEvents()
-#endif
 {
   int event, i;
   char str[80];
@@ -424,11 +366,8 @@ static void showEvents()
 static Boolean trc, stp;
 static int loc;
 
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void saveInfo(void)
-#else
-void saveInfo()
-#endif
 {
   /* Save some important things */
   trc = traceOption; traceOption = FALSE;
@@ -436,11 +375,9 @@ void saveInfo()
   loc = current.location; current.location = where(HERO);
 }
 
-#ifdef _PROTOTYPES_
+
+/*======================================================================*/
 void restoreInfo(void)
-#else
-void restoreInfo()
-#endif
 {
   /* Restore! */
   traceOption = trc;
@@ -449,11 +386,8 @@ void restoreInfo()
 }
 
 
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void debug(void)
-#else
-void debug()
-#endif
 {
   char buf[256];
   char c;

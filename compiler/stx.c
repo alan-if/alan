@@ -59,16 +59,14 @@ Syntax *newSyntax(Srcp *srcp,
 }
 
 
-/*----------------------------------------------------------------------
-
-  setDefaultRestriction()
-
-  Sets the restictions class symbol to the objectSymbol for the
-  restrictions that has no explicit declared.
-
- */
+/*----------------------------------------------------------------------*/
 static void setDefaultRestriction(List *parameters)
 {
+  /*
+      Sets the restrictions class symbol to the objectSymbol for the
+      restrictions that has no explicit declared.
+  */
+
   List *p;
 
   if (parameters != NULL && parameters->kind != SYMBOL_LIST)
@@ -84,13 +82,7 @@ static void setDefaultRestriction(List *parameters)
 
 
 
-/*----------------------------------------------------------------------
-
-  anstx()
-
-  Analyzes one syntax node.
-
- */
+/*----------------------------------------------------------------------*/
 static void anstx(Syntax *stx)  /* IN - Syntax node to analyze */
 {
   Symbol *verbSymbol;
@@ -150,28 +142,26 @@ void analyzeSyntaxes(void)
 }
 
 
-/*======================================================================
-
-  defaultStx0()
-
-  Returns the address a default syntax node which is used for verbs
-  without any defined syntax (global verbs having no parameter):
-
-  Syntax x = x.
-
- */
-Syntax *defaultSyntax0(char *vrbstr) /* IN - The string for the verb */
+/*======================================================================*/
+Syntax *defaultSyntax0(char *verbName)
 {
+  /*
+    Returns the address a default syntax node which is used for verbs
+    without any defined syntax (global verbs, without a parameter):
+
+    Syntax x = x.
+  */
+
   Syntax *stx;
   List *elements;
 
   elements = concat(concat(NULL,
 			   newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
-								    vrbstr),
+								    verbName),
 				      FALSE),
 			   ELEMENT_LIST),
 		    newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
-  stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
+  stx = newSyntax(&nulsrcp, newId(&nulsrcp, verbName), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
   anstx(stx);                   /* Make sure the syntax is analysed */
@@ -180,18 +170,16 @@ Syntax *defaultSyntax0(char *vrbstr) /* IN - The string for the verb */
 
 
 
-/*======================================================================
-
-  defaultStx1()
-
-  Returns the address a default syntax node which is used for verbs
-  in instances (taking one parameter) without any defined syntax:
-
-  Syntax x = x (object).
-
- */
+/*======================================================================*/
 Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
 {
+  /*
+    Returns the address a default syntax node which is used for verbs
+    in instances (taking one parameter) without any defined syntax:
+
+    Syntax x = x (object).
+  */
+
   Syntax *stx;
   List *elements;
 
@@ -212,17 +200,14 @@ Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
 
 
 
-/*======================================================================
-
-  eqparams()
-
-  Compare two syntax nodes and return true if their parameter lists are
-  compatible (same ordering with same parameter names).
-
-  */
-Bool eqparams(Syntax *stx1,     /* IN - Syntax node to compare */
-              Syntax *stx2)     /* IN - Syntax node to compare */
+/*======================================================================*/
+Bool eqparams(Syntax *stx1, Syntax *stx2)
 {
+  /*
+    Compare two syntax nodes and return true if their parameter lists
+    are compatible (same ordering with same parameter names).
+  */
+
   List *elm1, *elm2;
 
   for (elm1 = stx1->parameters, elm2 = stx2->parameters;
@@ -237,13 +222,7 @@ Bool eqparams(Syntax *stx1,     /* IN - Syntax node to compare */
 }
 
 
-/*----------------------------------------------------------------------
-
-  gestx()
-
-  Generate one syntax node.
-
- */
+/*----------------------------------------------------------------------*/
 static void gestx(Syntax *stx)  /* IN - Syntax node to generate for */
 {
   WordNode *wrd;
@@ -274,14 +253,8 @@ static void gestx(Syntax *stx)  /* IN - Syntax node to generate for */
 
 
 
-/*----------------------------------------------------------------------
-
-  gestxent()
-
-  Generate a table entry for one syntax node.
-
- */
-static void gestxent(Syntax *stx) /* IN - Syntax node to generate for */
+/*----------------------------------------------------------------------*/
+static void generateSyntaxEntry(Syntax *stx)
 {
   if (stx->elmsadr != 0) {
     /* The code for the verb word */
@@ -293,14 +266,7 @@ static void gestxent(Syntax *stx) /* IN - Syntax node to generate for */
 
 
 
-/*======================================================================
-
-  gestxs()
-
-  Generate the data structure for all syntax definitions in the
-  adventure.
-
- */
+/*======================================================================*/
 Aaddr generateAllSyntaxes(void)
 {
   List *lst;
@@ -317,7 +283,7 @@ Aaddr generateAllSyntaxes(void)
   /* Then a table of entries */
   stxadr = emadr();
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    gestxent(lst->element.stx);
+    generateSyntaxEntry(lst->element.stx);
   emit(EOF);
   return(stxadr);
 }

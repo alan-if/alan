@@ -512,6 +512,15 @@ void interpret(adr)
 	  printf("\t(%ld)", top());
 	break;
       }
+      case I_SHOW: {
+	Aword image, align;
+	image = pop();
+	align = pop();
+	if (singleStepOption)
+	  printf("SHOW \t%5ld, %5ld", image, align);
+	showImage(image, align);
+	break;
+      }
       case I_LOCATE: {
 	Aword id, whr;
 	id = pop();

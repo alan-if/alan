@@ -48,7 +48,7 @@ int dscrstkp = 0;               /* Describe-stack pointer */
 void describeInstances(void);
 
 
-
+/*======================================================================*/
 void print(Aword fpos, Aword len)
 {
   char str[2*WIDTH];            /* String buffer */
@@ -110,6 +110,7 @@ void print(Aword fpos, Aword len)
 }
 
 
+/*======================================================================*/
 void sys(Aword fpos, Aword len)
 {
   char *command;
@@ -121,6 +122,7 @@ void sys(Aword fpos, Aword len)
 }
 
 
+/*======================================================================*/
 void getstr(Aword fpos, Aword len)
 {
   char *buf = allocate(len+1);
@@ -145,6 +147,7 @@ void getstr(Aword fpos, Aword len)
 
 
 
+/*======================================================================*/
 void score(Aword sc)
 {
   char buf[80];
@@ -162,12 +165,15 @@ void score(Aword sc)
   }
 }
 
+
+/*======================================================================*/
 void visits(Aword v)
 {
   current.visits = v;
 }
 
 
+/*======================================================================*/
 Boolean confirm(MsgKind msgno)
 {
   char buf[80];
@@ -187,6 +193,7 @@ Boolean confirm(MsgKind msgno)
 }
 
 
+/*======================================================================*/
 void quit(void)
 {
   char buf[80];
@@ -214,6 +221,7 @@ void quit(void)
 
 
 
+/*======================================================================*/
 void restartGame(void)
 {
   para();
@@ -226,6 +234,7 @@ void restartGame(void)
 
 
 
+/*======================================================================*/
 void cancl(Aword evt)
 {
   int i;
@@ -244,6 +253,7 @@ void cancl(Aword evt)
 }
 
 
+/*======================================================================*/
 void schedule(Aword evt, Aword whr, Aword aft)
 {  int i;
    int time;
@@ -269,13 +279,7 @@ void schedule(Aword evt, Aword whr, Aword aft)
 
 
 
-/*----------------------------------------------------------------------
-
-  findAttribute()
-
-  Return a pointer to the AttributeEntry for the attribute with "code"
-
-*/
+/*======================================================================*/
 AttributeEntry *findAttribute(Aaddr address, int code)
 {
   AttributeEntry *attribute = (AttributeEntry *) pointerTo(address);
@@ -290,13 +294,7 @@ AttributeEntry *findAttribute(Aaddr address, int code)
 
 
 
-/*----------------------------------------------------------------------
-
-  getatr()
-
-  Get an attribute value from an attribute list
-
- */
+/*----------------------------------------------------------------------*/
 static Aword getatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
      Aaddr code                  /* IN - The attribute to read */
@@ -308,13 +306,7 @@ static Aword getatr(
 }
   
 
-/*----------------------------------------------------------------------
-
-  setatr()
-
-  Set a particular attribute to a value.
-
- */
+/*----------------------------------------------------------------------*/
 static void setatr(
      Aaddr atradr,              /* IN - ACODE address to attribute table */
      Aword code,                 /* IN - attribute code */
@@ -327,12 +319,7 @@ static void setatr(
 }
 
 
-/*----------------------------------------------------------------------
-
-  make()
-
-  */
-
+/*======================================================================*/
 void make(Aword id, Aword code, Aword val)
 {
   char str[80];
@@ -348,12 +335,7 @@ void make(Aword id, Aword code, Aword val)
 }
 
 
-/*----------------------------------------------------------------------------
-
-  set()
-
- */
-
+/*======================================================================*/
 void set(Aword id, Aword atr, Aword val)
 {
   char str[80];
@@ -369,6 +351,7 @@ void set(Aword id, Aword atr, Aword val)
 }
 
 
+/*======================================================================*/
 void setstr(Aword id, Aword atr, Aword str)
 {
   free((char *)attribute(id, atr));
@@ -377,19 +360,7 @@ void setstr(Aword id, Aword atr, Aword str)
 
 
 
-/*-----------------------------------------------------------------------------
-
-  incr/decr
-
-  */
-
-/*----------------------------------------------------------------------
-
-  incratr()
-
-  Increment a particular attribute by a value.
-
- */
+/*----------------------------------------------------------------------*/
 static void incratr(
 	Aaddr atradr,           /* IN - ACODE address to attribute table */
 	Aword code,		/* IN - attribute code */
@@ -402,6 +373,7 @@ static void incratr(
 }
 
 
+/*======================================================================*/
 void incr(Aword id, Aword atr, Aword step)
 {
   char str[80];
@@ -414,6 +386,7 @@ void incr(Aword id, Aword atr, Aword step)
   }
 }
 
+/*======================================================================*/
 void decr(Aword id, Aword atr, Aword step)
 {
   char str[80];
@@ -428,12 +401,7 @@ void decr(Aword id, Aword atr, Aword step)
 
 
 
-/*----------------------------------------------------------------------
-
-  attribute()
-
-  */
-
+/*----------------------------------------------------------------------*/
 static Aword litatr(Aword lit, Aword atr)
 {
   char str[80];
@@ -448,6 +416,7 @@ static Aword litatr(Aword lit, Aword atr)
 }
 
 
+/*======================================================================*/
 Aword attribute(Aword id, Aword atr)
 {
   char str[80];
@@ -466,18 +435,14 @@ Aword attribute(Aword id, Aword atr)
 }
 
 
+/*======================================================================*/
 Aword strattr(Aword id, Aword atr)
 {
   return (Aword) strdup((char *)attribute(id, atr));
 }
 
 
-/*----------------------------------------------------------------------
-
-  where()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef FIXME
 static Aword objloc(Aword obj)
 {
@@ -512,12 +477,7 @@ Aword where(Aword id)
 
 
 
-/*----------------------------------------------------------------------
-
-  aggregates
-
-  */
-
+/*======================================================================*/
 Aint agrmax(Aword atr, Aword whr)
 {
   Aword i;
@@ -535,6 +495,8 @@ Aint agrmax(Aword atr, Aword whr)
   return(max);
 }
 
+
+/*======================================================================*/
 Aint agrsum(Aword atr, Aword whr)
 {
   Aword i;
@@ -553,6 +515,7 @@ Aint agrsum(Aword atr, Aword whr)
 }
 
 
+/*======================================================================*/
 Aint agrcount(Aword whr)
 {
   Aword i;
@@ -571,12 +534,7 @@ Aint agrcount(Aword whr)
 }
 
 
-/*----------------------------------------------------------------------
-
-  locate()
-
-  */
-
+/*----------------------------------------------------------------------*/
 static void locateObject(Aword obj, Aword whr)
 {
   if (isCnt(whr)) { /* Into a container */
@@ -594,6 +552,7 @@ static void locateObject(Aword obj, Aword whr)
 }
 
 
+/*----------------------------------------------------------------------*/
 static void locateActor(Aword act, Aword whr)
 {
   Aword prevloc = current.location;
@@ -628,6 +587,7 @@ static void locateActor(Aword act, Aword whr)
 }
 
 
+/*======================================================================*/
 void locate(Aword id, Aword whr)
 {
   char str[80];
@@ -684,12 +644,7 @@ void locate(Aword id, Aword whr)
 }
 
 
-/*----------------------------------------------------------------------
-
-  isHere()
-
-  */
-
+/*----------------------------------------------------------------------*/
 static Abool instanceHere(Aword id)
 {
   Aword owner;
@@ -705,6 +660,7 @@ static Abool instanceHere(Aword id)
 }
 
 
+/*======================================================================*/
 Aword isHere(Aword id)
 {
   char str[80];
@@ -722,12 +678,7 @@ Aword isHere(Aword id)
 }
 
 
-/*----------------------------------------------------------------------
-
-  isNear()
-
-  */
-
+/*----------------------------------------------------------------------*/
 static Aword objnear(Aword obj)
 {
   if (isCnt(instance[obj].location)) {    /* In something? */
@@ -740,12 +691,14 @@ static Aword objnear(Aword obj)
 }
 
 
+/*----------------------------------------------------------------------*/
 static Aword actnear(Aword act)
 {
   return(exitto(where(act), current.location));
 }
 
 
+/*======================================================================*/
 Abool isNear(Aword id)
 {
   char str[80];
@@ -763,13 +716,7 @@ Abool isNear(Aword id)
 
 
 
-/*======================================================================
-
-  isA()
-
-  Is an instance a member of the class
-
-*/
+/*======================================================================*/
 Abool isA(Aword instanceId, Aword ancestor)
 {
   int parent;
@@ -796,31 +743,9 @@ Abool in(Aword theInstance, Aword cnt)
 }
 
 
-/*----------------------------------------------------------------------
-
-  say()
-
-  */
-
-void sayint(Aword val)
-{
-  char buf[25];
-
-  if (isHere(HERO)) {
-    sprintf(buf, "%ld", val);
-    output(buf);
-  }
-}
 
 
-void saystr(char *str)
-{
-  if (isHere(HERO))
-    output(str);
-  free(str);
-}
-
-
+/*----------------------------------------------------------------------*/
 static void saylit(Aword lit)
 {
   char *str;
@@ -834,15 +759,7 @@ static void saylit(Aword lit)
 }
 
 	
-void sayarticle(Aword id)
-{
-  if (instance[id].article != 0)
-    interpret(instance[id].article);
-  else
-    prmsg(M_ARTICLE);
-}
-
-
+/*----------------------------------------------------------------------*/
 static void sayInstance(Aword id)
 {
   int p, i;
@@ -861,6 +778,38 @@ static void sayInstance(Aword id)
 }
 
 
+/*======================================================================*/
+void sayint(Aword val)
+{
+  char buf[25];
+
+  if (isHere(HERO)) {
+    sprintf(buf, "%ld", val);
+    output(buf);
+  }
+}
+
+
+/*======================================================================*/
+void saystr(char *str)
+{
+  if (isHere(HERO))
+    output(str);
+  free(str);
+}
+
+
+/*======================================================================*/
+void sayarticle(Aword id)
+{
+  if (instance[id].article != 0)
+    interpret(instance[id].article);
+  else
+    prmsg(M_ARTICLE);
+}
+
+
+/*======================================================================*/
 void say(Aword id)
 {
   char str[80];
@@ -1007,7 +956,7 @@ static void describeActor(Aword act)
 static Boolean descriptionOk;
 static Aword dscrstk[255];
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void describe(Aword id)
 {
   int i;
@@ -1043,7 +992,7 @@ void describe(Aword id)
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void describeInstances(void)
 {
   int i;
@@ -1133,36 +1082,6 @@ void look(void)
 }
 
 
-/*----------------------------------------------------------------------*/
-void use(Aword act, Aword scr)
-{
-  char str[80];
-
-  if (!isAct(act)) {
-    sprintf(str, "Instance is not an Actor (%ld).", act);
-    syserr(str);
-  }
-
-  admin[act].script = scr;
-  admin[act].step = 0;
-}
-
-/*----------------------------------------------------------------------*/
-void stop(Aword act)
-{
-  char str[80];
-
-  if (!isAct(act)) {
-    sprintf(str, "Instance is not an Actor (%ld).", act);
-    syserr(str);
-  }
-
-  admin[act].script = 0;
-  admin[act].step = 0;
-}
-
-
-
 /*======================================================================*/
 void list(Aword cnt)
 {
@@ -1229,7 +1148,22 @@ void list(Aword cnt)
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
+void showImage(Aword image, Aword align)
+{
+#ifdef GLK
+  if ((glk_gestalt(gestalt_Graphics, 0) == 1) &&
+      (glk_gestalt(gestalt_DrawImage, wintype_TextBuffer) == 1)) {
+    glk_window_flow_break(glkMainWin);
+    printf("\n");
+    (void)glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
+  }
+#endif
+}    
+ 
+
+
+/*======================================================================*/
 void empty(Aword cnt, Aword whr)
 {
   int i;
@@ -1237,6 +1171,36 @@ void empty(Aword cnt, Aword whr)
   for (i = 1; i <= header->instanceMax; i++)
     if (in(i, cnt))
       locate(i, whr);
+}
+
+
+
+/*======================================================================*/
+void use(Aword act, Aword scr)
+{
+  char str[80];
+
+  if (!isAct(act)) {
+    sprintf(str, "Instance is not an Actor (%ld).", act);
+    syserr(str);
+  }
+
+  admin[act].script = scr;
+  admin[act].step = 0;
+}
+
+/*======================================================================*/
+void stop(Aword act)
+{
+  char str[80];
+
+  if (!isAct(act)) {
+    sprintf(str, "Instance is not an Actor (%ld).", act);
+    syserr(str);
+  }
+
+  admin[act].script = 0;
+  admin[act].step = 0;
 }
 
 

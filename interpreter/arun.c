@@ -34,22 +34,12 @@
   */
 
 #ifdef GLK
-#ifdef _PROTOTYPES_
 void glk_main(void)
 #else
-void glk_main()
-#endif
-#else
-#ifdef _PROTOTYPES_
 int main(
      int argc,
      char *argv[]
 )
-#else
-int main(argc, argv)
-     int argc;
-     char *argv[];
-#endif
 #endif
 {
 #ifdef MALLOC

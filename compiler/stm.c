@@ -423,7 +423,8 @@ static void analyzeUse(StmNod *stm,
 	if (sym->kind == PARAMETER_SYMBOL)
 	  lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
 	actorId = sym->fields.entity.props->id;
-      }
+      } else
+	return;
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
 	syserr("Unexpected context in analyzeUse()");
@@ -550,6 +551,21 @@ static void analyzeEach(StmNod *stm,
 
 
 /*----------------------------------------------------------------------*/
+static void analyzeShow(StmNod *stm,
+			Context *context)
+{
+  FILE *imagefile;
+
+  imagefile = fopen(stm->fields.show.filename->string, READ_MODE);
+  if (!imagefile)
+    lmLog(&stm->fields.show.filename->srcp, 153, sevERR, "");
+  else
+    adv.images = concat(adv.images, stm->fields.show.filename, ID_LIST);
+}
+
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeStatement(StmNod *stm,
 			     Context *context)
 {
@@ -616,6 +632,9 @@ static void analyzeStatement(StmNod *stm,
     break;
   case EACH_STATEMENT:
     analyzeEach(stm, context);
+    break;
+  case SHOW_STATEMENT:
+    analyzeShow(stm, context);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -714,6 +733,12 @@ static void generateList(StmNod *stm)
   emit0(I_LIST);
 }
 
+
+/*----------------------------------------------------------------------*/
+static void generateShow(StmNod *stm)
+{
+  emit2(I_SHOW, stm->fields.show.filename->code, 0);
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -1043,6 +1068,10 @@ static void generateStatement(StmNod *stm)
 
   case LIST_STATEMENT:
     generateList(stm);
+    break;
+
+  case SHOW_STATEMENT:
+    generateShow(stm);
     break;
 
   case EMPTY_STATEMENT:

@@ -19,19 +19,15 @@
 /* IMPORTS */
 
 #include "alan.version.h"
-
-#include "srcp_x.h"
-
-#include "adv.h"
 #include "opt.h"
-
 #include "dump.h"
-
 #include "lmList.h"
 #include "pmParse.h"
 #include "smScan.h"
-
 #include "options.h"
+
+#include "srcp_x.h"
+#include "adv_x.h"
 
 /* PUBLIC DATA */
 
@@ -467,7 +463,7 @@ void compile(void) {
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
-    lmList("", 0, 79, liMSG, sevALL); /* TINY list on the screen*/
+    lmList("", 0, 79, liERR, sevALL); /* TINY list on the screen*/
     terminate(EXIT_FAILURE);
   }
 
@@ -515,7 +511,10 @@ void compile(void) {
 
   /* All text is output so close text file */
   fclose(txtfil);
-    
+
+  /* All image files found so sort, number and copy them */
+  prepareImages();
+
   /* OK so far ? */
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */

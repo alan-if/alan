@@ -142,14 +142,7 @@ static void analyzeRestriction(
 
 
 
-/*======================================================================
-
-  analyzeRestrictions()
-
-  Analyzes all class restriction nodes in a list by calling the analyzer
-  for each.
-
- */
+/*======================================================================*/
 void analyzeRestrictions(
     List *restrictions,		/* IN - List of nodes to analyze */
     Symbol *theVerb		/* IN - The verb */
@@ -163,11 +156,7 @@ void analyzeRestrictions(
 
 
 
-/*----------------------------------------------------------------------
-
-  generateRestrictionParts()
-
- */
+/*----------------------------------------------------------------------*/
 static void generateRestrictionParts(ResNod *res)
 {
   res->stmadr = emadr();
@@ -177,11 +166,7 @@ static void generateRestrictionParts(ResNod *res)
 
 
 
-/*----------------------------------------------------------------------
-
-  generateRestrictionEntry()
-
- */
+/*----------------------------------------------------------------------*/
 static void generateRestrictionEntry(ResNod *res)
 {
   RestrictionEntry restriction;
@@ -211,11 +196,7 @@ static void generateRestrictionEntry(ResNod *res)
 
 
 
-/*======================================================================
-
-  generateRestrictions()
-
- */
+/*======================================================================*/
 Aaddr generateRestrictions(
     List *restrictions,		/* IN - The element class restriction nodes */
     Syntax *stx)		/* IN - Syntax node containing the res */
@@ -229,21 +210,14 @@ Aaddr generateRestrictions(
   address = emadr();
   for (lst = restrictions; lst != NULL; lst = lst->next)
     generateRestrictionEntry(lst->element.res);
-
-  /* End it with an End of file and the code for the verb */
   emit(EOF);
-  generateId(stx->id);
 
   return(address);
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  dumpRestrictionKind()
-
-*/
+/*----------------------------------------------------------------------*/
 static void dumpRestrictionKind(RestrictionKind kind)
 {
   switch (kind) {
@@ -257,13 +231,7 @@ static void dumpRestrictionKind(RestrictionKind kind)
 
 
 
-/*======================================================================
-
-  dumpRestriction()
-
-  Dump a syntax parameter restriction node.
-
- */
+/*======================================================================*/
 void dumpRestriction(ResNod *res)
 {
   if (res == NULL) {

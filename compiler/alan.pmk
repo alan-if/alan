@@ -1409,6 +1409,12 @@ static int val(char str[])
 	%<output_statement>.stm = newstm(`&%'LIST'.srcp, LIST_STATEMENT);
 	%<output_statement>.stm->fields.list.wht = %<what>.wht;
     %%	  
+
+    ! 'SHOW' ID '.'
+    %%
+	%<output_statement>.stm = newstm(`&%'SHOW'.srcp, SHOW_STATEMENT);
+	%<output_statement>.stm->fields.show.filename = %ID.id;
+    %%	  
     ;
 
 ----> Manipulation Statements

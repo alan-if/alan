@@ -1,1 +1,19 @@
-The o Isa object At l.  Verb take    Does      "You take the" Say object.  End Verb take.End The o.The a Isa actor At l.End The a.The l Isa location.End The l.Start At l.
+The l Isa location
+End The l.
+
+Add To Every thing
+  Verb x
+    Does
+      Describe object.
+  End Verb.
+End Add.
+
+The o Isa object
+  At l.
+End The o.
+
+The a Isa actor
+  At l.
+End The a.
+
+Start At l.

@@ -381,11 +381,14 @@ static void dumpElms(int level, Aword elms)
 
   for (elm = (ElementEntry *)pointerTo(elms); !endOfTable(elm); elm++) {
     indent(level);
-    printf("ELM: #%ld\n", elm->code);
+    if (elm->code == -2)
+      printf("ELM: Last Element in this Syntax\n");
+    else
+      printf("ELM: Word #%ld\n", elm->code);
     indent(level+1);
     printf("FLAGS: %s\n", dumpAddress(elm->flags));
     indent(level+1);
-    printf("NEXT (%s): %s\n", elm->code==-2?"cla":"elm", dumpAddress(elm->next));
+    printf("NEXT (%s): %s\n", elm->code==-2?"class restrictions":"element", dumpAddress(elm->next));
     if(elm->code != EOS) {
       dumpElms(level+2, elm->next);
     }
@@ -411,7 +414,7 @@ static void dumpStxs(int level, Aword stxs)
 
   for (stx = (StxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
-    printf("STX: #%ld\n", stx->code);
+    printf("STX: Verb #%ld\n", stx->code);
     indent(level+1);
     printf("ELMS: %s\n", dumpAddress(stx->elms));
     dumpElms(level+2, stx->elms);

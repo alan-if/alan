@@ -14,7 +14,8 @@ extern int etop;		/* Event queue top pointer */
 extern Boolean looking;		/* LOOKING? flag */
 extern int dscrstkp;		/* Point into describe stack */
 
-#ifdef _PROTOTYPES_
+
+/* Functions: */
 extern void sys(Aword fpos, Aword len);
 extern Boolean confirm(MsgKind msgno);
 extern Aword attribute(Aword instance, Aword atr);
@@ -26,6 +27,7 @@ extern void setstr(Aword id, Aword atr, Aword str);
 extern void getstr(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void look(void);
+extern void showImage(Aword image, Aword align);
 extern void make(Aword id, Aword atr, Aword val);
 extern void set(Aword id, Aword atr, Aword val);
 extern void incr(Aword id, Aword atr, Aword step);
@@ -58,47 +60,5 @@ extern Aint agrcount(Aword whr);
 extern Abool isHere(Aword instance);
 extern Abool isNear(Aword instance);
 extern Abool isA(Aword instance, Aword class);
-#else
-extern void sys();
-extern Boolean confirm();
-extern Aword attribute();
-extern void say();
-extern void saynum();
-extern void saystr();
-extern Aword strattr();
-extern void setstr();
-extern void getstr();
-extern void print();
-extern void look();
-extern void make();
-extern void set();
-extern void incr();
-extern void decr();
-extern void use();
-extern void describe();
-extern void list();
-extern void locate();
-extern void empty();
-extern void score();
-extern void visits();
-extern void schedule();
-extern void cancl();
-extern void quit();
-extern void restart();
-extern void save();
-extern void restore();
-extern void say();
-extern void sayint();
-extern Aword rnd();
-extern Abool btw();
-extern Aword contains()
-extern Abool streq();
-extern Abool in();
-extern Aword where();
-extern Aword agrmax();
-extern Aword agrsum();
-extern Abool isHere();
-extern Abool isNear();
-#endif
 
 #endif

@@ -1,0 +1,3 @@
+alan -debug randomDepend
+arun -n randomDepend < randomDepend.input
+cat randomDepend.out > randomDepend.output

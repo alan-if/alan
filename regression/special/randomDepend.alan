@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Depending On Random 1 to 4
+  =1 : "1"
+  =2 : "2"
+  =3 : "3"
+  =4 : "4"
+  End Depend.

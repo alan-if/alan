@@ -24,7 +24,7 @@ release: OPTIMIZE = -O4
 
 CFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 
-ARCH	= $(CYGWIN) $(OPTIMIZE)
+ARCH	= $(CYGWIN)$(OPTIMIZE)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
@@ -92,7 +92,7 @@ spa.o: spa.c spa.h
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects, re-building for '$(ARCH)'... ; \
+		echo Removing objects for \'`cat .arch`\', re-building for \'$(ARCH)\'... ; \
 		rm *.o; \
 		echo $(ARCH) > .arch; \
 	fi

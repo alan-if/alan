@@ -54,10 +54,97 @@ void testTailOf()
   ASSERT(tailOf(listOfTwo) == listOfTwo->next);
 }
 
+void testRemoveFromList()
+{
+  List element1;
+  List element2;
+  List element3;
+  List *result;
+
+  ASSERT(removeFromList(NULL, NULL) == NULL);
+
+  element1.next = NULL;
+  ASSERT(removeFromList(&element1, &element1) == NULL);
+
+  element1.next = &element2;
+  element2.next = NULL;
+  result = removeFromList(&element1, &element1);
+  ASSERT(result == &element2);
+  ASSERT(element2.next == NULL);
+  ASSERT(element1.next == NULL);
+
+  element1.next = &element2;
+  element2.next = &element3;
+  element3.next = NULL;
+  result = removeFromList(&element1, &element1);
+  ASSERT(result == &element2);
+  ASSERT(element2.next == &element3);
+  ASSERT(element1.next == NULL);
+
+  element1.next = &element2;
+  element2.next = &element3;
+  element3.next = NULL;
+  result = removeFromList(&element1, &element2);
+  ASSERT(result == &element1);
+  ASSERT(element1.next == &element3);
+  ASSERT(element2.next == NULL);
+}
+
+
+int sorter(List *element1, List *element2)
+{
+  if (element1->kind == element2->kind)
+    return 0;
+  else if (element1->kind < element2->kind)
+    return -1;
+  else
+    return 1;
+}
+
+
+void testSortList()
+{
+  List element1;
+  List element2;
+  List element3;
+  List *result;
+
+  ASSERT(sortList(NULL, NULL) == NULL);
+
+  element1.next = NULL;
+  ASSERT(sortList(&element1, &sorter) == &element1);
+
+  element1.kind = 1;
+  element1.next = &element2;
+  element2.kind = 3;
+  result = sortList(&element1, &sorter);
+  ASSERT(result->kind < result->next->kind);
+
+  element1.kind = 2;
+  element1.next = &element2;
+  element2.kind = 1;
+  result = sortList(&element1, &sorter);
+  ASSERT(result->kind == 1);
+  ASSERT(result->next->kind == 2);
+
+  element1.kind = 2;
+  element2.kind = 3;
+  element3.kind = 1;
+  element1.next = &element2;
+  element2.next = &element3;
+  element3.next = NULL;
+  result = sortList(&element1, &sorter);
+  ASSERT(result->kind == 1);
+  ASSERT(result->next->kind == 2);
+  ASSERT(result->next->next->kind == 3);
+}
+
 void registerLstUnitTests()
 {
   registerUnitTest(testLength);
   registerUnitTest(testInsert);
   registerUnitTest(testTailOf);
+  registerUnitTest(testRemoveFromList);
+  registerUnitTest(testSortList);
 }
 

@@ -8,3 +8,5 @@
 #define ID_MENU_SAVE			25002
 #define ID_MENU_RESTORE			25003
 #define ID_MENU_ABOUT                   25004
+
+#define IMAGE1				33001

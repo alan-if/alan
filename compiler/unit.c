@@ -56,6 +56,7 @@ extern lmSev readSev();
 
 
 #include "lstTest.c"
+#include "imagesTest.c"
 #include "claTest.c"
 #include "insTest.c"
 #include "advTest.c"
@@ -77,6 +78,7 @@ int main()
   lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
   registerLstUnitTests();
+  registerImagesUnitTests();
   registerClaUnitTests();
   registerInsUnitTests();
   registerAdvUnitTests();

@@ -151,13 +151,7 @@ List *combine(List *list1,	/* IN - Lists to combine */
 }
 
 
-/*======================================================================
-
-  length()
-
-  Of a list.
-
-*/
+/*======================================================================*/
 int length(List *aList)
 {
   int count = 0;
@@ -166,6 +160,60 @@ int length(List *aList)
   for (thePoint = aList; thePoint != NULL; thePoint = thePoint->next)
     count ++;
   return count;
+}
+
+
+/*----------------------------------------------------------------------*/
+static List *removeFromList(List *theList, List *theElement)
+{
+  if (theList == NULL)		/* No list */
+    return NULL;
+  else if (theList == theElement) { /* First element */
+    List *theRest = theElement->next;
+    theElement->next = NULL;
+    return theRest;
+  } else {
+    List *sentinel = theList;
+    while (sentinel->next != theElement && sentinel->next != NULL)
+      sentinel = sentinel->next;
+    if (sentinel->next != NULL) {
+      List *foundElement = sentinel->next;
+      sentinel->next = sentinel->next->next;
+      foundElement->next = NULL;
+    }
+  }
+  return theList;
+}    
+
+
+/*======================================================================*/
+List *sortList(List *theList, int compare(List *element1, List *element2))
+{
+  List *unsorted = theList;
+  List *sorted = NULL;
+  List *candidate;
+
+  if (!compare) return theList;
+
+  while (unsorted) {
+    List *current = unsorted;
+    candidate = unsorted;
+    while (current) {
+      if (compare(current, candidate) < 0)
+	candidate = current;
+      current = current->next;
+    }
+    unsorted = removeFromList(unsorted, candidate);
+    if (sorted == NULL)
+      sorted = candidate;
+    else {
+      List *tail = sorted;
+      while (tail->next) tail = tail->next;
+      tail->next = candidate;
+      candidate->next = NULL;
+    }
+  }
+  return sorted;
 }
 
 
@@ -216,5 +264,3 @@ void dumpListOfLists(List *listOfList, ListKind listKind)
   }
   out();
 }
-
-

@@ -314,8 +314,6 @@ static void reverseRestrictions(adr)
       e++;
     }
   }
-  if (adr)
-    reverse(&((Aword *)e)[1]);  /* The verb code is stored after the table */
 }    
 
 

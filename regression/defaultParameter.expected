@@ -9,11 +9,11 @@
 L
 There is a o here. A is here.
 
-> take a
-You can't do that.
+> x o
+There is a o here.
 
-> take o
-You take the o
+> x a
+You can't do that.
 
 > 
 

@@ -4,185 +4,70 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>193.89</origest>
-<currest>193.89</currest>
-<elapsed>68.89</elapsed>
+<origest>201.89</origest>
+<currest>201.89</currest>
+<elapsed>71.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>36</origest>
-<currest>36</currest>
-<elapsed>10</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.25</desc>
-<notes/>
-<priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>10</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Stop ACTOR</desc>
-<notes>
-To interupt an actors execution of a script you have to have an empty script and do:
-
-USE empty_script FOR actor.
-
-A separate statement would be better (INTERRUPT?)
-
-Another suggestion would be:
-
-STOP &lt;actor&gt;.
-
-E.g.
-
-stop Painter.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>29</origest>
+<currest>29</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Clause on containers for removing things/Actor clash</desc>
-<notes>
-Actor-clash handling, i.e. what happens when an object is removed from an actor? How to specify if this is possible and what the actor does? Possibly a new clause in containers:
-
- EXTRACT
-   CHECK monster Is sleeping
-   DOES Make monster Not sleeping.
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Documentation is wrong about DEPENDING ON  syntax?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Full listing on the screen misses lines</desc>
-<notes>
-Refer to compiler/testing/addVerb losing line 2</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Descriptions</desc>
-<notes>Need to code generate separately until we bookkeep reversal addresses.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>List This. does not work.</desc>
-<notes>See regression/testing/listThis</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>About-box should show version info</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for instances not inheriting from anything, especially the hero</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SIGSEGV when unable to open output files</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check that DEPENDING ON works as it should</desc>
-<notes>Yup!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>0</elapsed>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Parser confusion in v2.8</desc>
-<notes>
-From Lydia:
-I'm implementing a direction-based movement system. So, for instance,
-I need the verb "left", as well as the verb "turn left".
+<desc>Show "imagefile"</desc>
+<notes>Use glk_image_draw() in the text window. Align with imagealign_MarginLeft. Possibly add Show "imagefile" [Left|Right] to use also imagealign_MarginRight.
 
-The problem is, when "turn left" exists, ALAN ends up scrambling its
-verb table, resulting in "left" become "quit".
+Use glk_gestalt(gestalt_Graphics, 0) to verify if graphics is available.
 
-This does not seem to happen with exit directions; for instance, I
-can have an exit "north" and "turn north" will not smash the verb
-table.
+Add glk_window_flow_break before every glk_image_draw and before every newline() and para().
 
-</notes>
+PROBLEM: imagealign_MarginXXX is only allowed directly after a newline. Does it work to insert a newline before every SHOW?
+
+DESIGN: create a list of ID:s that collects alla graphics files. Before code generation:
+ - sort the files in alphabetic order
+ - number them and put that in the ID:s, same names get same ID:s
+ - copy the files to resource names (PICnn,ext)
+Code generation then can pickup the resource numbers from the ID:s</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>$p, $n problem in new winarun</desc>
-<notes>So sorry, but I have found a bug in the new ARUN for windows.
-
-Apparently $n (new line) and $p (paragraph, aka one empty line) are 
-indistinguishable. All my $p codes are doing the function of $n, and not 
-properly producing a blank line.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow multiple parameter references in a WHEN clause</desc>
+<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unit tests for word-handling</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Move current.verb code from "secret" place after class restriction table</desc>
+<notes>Seems like the flags in the EOS syntax element could be used. Verify that it is not used for anything else.
+
+Remember to change the reverse routine.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -255,8 +140,7 @@ Allow concatenated right hand sides.</notes>
 </task>
 <task>
 <desc>Location ENTERED</desc>
-<notes>
-The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
+<notes>The old DOES clause of locations is removed. Do we need it? If so it should be named ENTERED since it is more descriptive of what it means.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -268,8 +152,8 @@ The old DOES clause of locations is removed. Do we need it? If so it should be n
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -281,6 +165,18 @@ substring searching
 
 &lt;s1&gt; + &lt;s2&gt;
 Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;]</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>winarun does not parse its command line</desc>
+<notes>E.g.
+    winarun images -t
+results in
+    Could not open "images -t.a3c"</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -373,8 +269,8 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <desc>Increment: version 3.0.28</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -434,7 +330,7 @@ We will have to refer to either parameter 1 or 2 for a reference to thing depend
 <task>
 <desc>Article handling</desc>
 <notes>Need:
-Instances are mentioned and described in a number of situations. Sometimes it id necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
+Instances are mentioned and described in a number of situations. Sometimes it is necessary to refer to it in an indefinite form and sometimes in a definite form. E.g
 
 I can't open &lt;indefinite form&gt;.
 You can't take &lt;definite form&gt;.
@@ -456,8 +352,7 @@ The article Isa b
 <isopen>1</isopen>
 <task>
 <desc>Definite article declaration</desc>
-<notes>
-If a definite article declaration is introduced the following can be made possible:
+<notes>If a definite article declaration is introduced the following can be made possible:
 
 "You can not x" SAY A obj.
 
@@ -480,8 +375,7 @@ If a definite article declaration is introduced the following can be made possib
 </task>
 <task>
 <desc>Printing of articles</desc>
-<notes>
-How do we use definite and indefinite articles in printouts?
+<notes>How do we use definite and indefinite articles in printouts?
 
 SAY the O.
 
@@ -496,8 +390,7 @@ SAY an O.
 </task>
 <task>
 <desc>SAY a/the &lt;param&gt;</desc>
-<notes>
-A SAY should refer to which form of articles should be used:
+<notes>A SAY should refer to which form of articles should be used:
 
  Say A p.
  Say The o.
@@ -538,20 +431,30 @@ REMEBER TO DOCUMENT IT!!!
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>In the Description an empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>90</origest>
-<currest>90</currest>
+<origest>93</origest>
+<currest>93</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
-<notes>
-This occurs at a initial location clause:
+<notes>This occurs at a initial location clause:
 
 The ... In box</notes>
 <priority>2</priority>
@@ -562,8 +465,7 @@ The ... In box</notes>
 </task>
 <task>
 <desc>Refactor? Allow only WHT_ID?</desc>
-<notes>
-If we use WHT_ID only we can use "object" as the predefined parameter name in default syntax. This makes it impossible to use OBJECT in verbs with defined syntax.
+<notes>If we use WHT_ID only we can use "object" as the predefined parameter name in default syntax. This makes it impossible to use OBJECT in verbs with defined syntax.
 
 How about WHT_LOC, &amp; WHT_ACT?</notes>
 <priority>2</priority>
@@ -573,62 +475,8 @@ How about WHT_LOC, &amp; WHT_ACT?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>For loop</desc>
-<notes>
-
-And then to
-
- For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
- End For Each [&lt;var&gt;].
-
-
-Done:
-First (but useless) version would be
-
- For Each Do
- End For Each.
-
-Next version would be
-
- For Each &lt;class&gt; Do
- End For Each.
-
-Which could be extended to
-
- For Each &lt;class&gt; [&lt;var&gt;] Do
- End For Each [&lt;var&gt;].
-
-This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>
-especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-
-
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Bug: Spaces after $o at end of string</desc>
-<notes>
-SteveG:
+<notes>SteveG:
 Firstly, I found that if a double-quoted string ends in $o or such like then the next string isn't followed by a space. I thought when concatenating bits of text that they were always split up by a space unless the $$ parameter was specified. The little game space.ala is attached to demonstrate what I mean.
 
 </notes>
@@ -678,8 +526,7 @@ Yes, you could allow inherting the complete exit and just override the target lo
 </task>
 <task>
 <desc>Make interpreter automatically capitalize words after full stop</desc>
-<notes>
-Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
+<notes>Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since that would be wrong in the common case ("You can not take Mr X.")</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -688,8 +535,7 @@ Currently might look "xyz. mr x ..." because you can not force NAME "Mr X" since
 </task>
 <task>
 <desc>Inherting all props</desc>
-<notes>
-Investigate which ones are left!!!!
+<notes>Investigate which ones are left!!!!
 
 DONE:
 attributes
@@ -703,39 +549,58 @@ verbs
 <isopen>1</isopen>
 </task>
 <task>
-<desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
-<notes/>
+<desc>For loop</desc>
+<notes>And then to
+
+ For Each &lt;class&gt; [&lt;var&gt;] Which &lt;filter&gt; { And &lt;filter&gt; } Do
+ End For Each [&lt;var&gt;].
+
+
+Done:
+First (but useless) version would be
+
+ For Each Do
+ End For Each.
+
+Next version would be
+
+ For Each &lt;class&gt; Do
+ End For Each.
+
+Which could be extended to
+
+ For Each &lt;class&gt; [&lt;var&gt;] Do
+ End For Each [&lt;var&gt;].
+
+This also implies analysis of references to &lt;var&gt; as being of &lt;class&gt;, and code generation of such references.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Bug: Aggregates does not work</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz</desc>
-<notes>
-It should be possible to add features to classes:
-
-Add To Every object ...
-
-Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
-
-In v3 it should be possible to add anything that is not already available:
-
-attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
-
-initial location, container - can only be added if it has none
-
-mentioned? article? description?</notes>
+<notes>Should they only address objects as it says in the docs? No probably it should have a class restriction as an optional clause and object as a default.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -760,6 +625,27 @@ write -- write the top value of the stack to the address beneath</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Add To Every xyz</desc>
+<notes>It should be possible to add features to classes:
+
+Add To Every object ...
+
+Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
+
+In v3 it should be possible to add anything that is not already available:
+
+attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
+
+initial location, container - can only be added if it has none
+
+mentioned? article? description?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Allow reverse noun/adjective order</desc>
 <notes>Need:
 To allow latin type of langauges. "molin rouge"
@@ -773,9 +659,17 @@ Design:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>QUIT question &amp; prompt</desc>
-<notes>
-"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
+<notes>"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
 
 Note also that there should possibly also be a difference between the QUIT statement (to really end the game) and the QUIT player command which should/Could allow restart etc. as per the item about CONFIRMATIONS. (This should probably be done in the library.)</notes>
 <priority>2</priority>
@@ -1013,27 +907,8 @@ First the player is shown an intro text (this is the start section). Then he see
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Converter program from 2.8 to 3.0</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Can't assign to loop variable</desc>
 <notes>Check and error message? This is not possible with the current syntax anyway...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Space bar in &lt;more&gt;</desc>
-<notes>
-Already works in winarun (GLK)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1080,33 +955,6 @@ To fix this better conflict resolutions must be made in the grammar. Conflicts w
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Dynamic creation of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Try UNIX/MingW as target OS for toolmaker</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
 <notes/>
 <priority>2</priority>
@@ -1128,6 +976,15 @@ To fix this better conflict resolutions must be made in the grammar. Conflicts w
 <desc>Player reference to single object using 'them'</desc>
 <notes>
 Refer to regression/them where a pair of sunglasses illustrates the point.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter program from 2.8 to 3.0</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1179,9 +1036,38 @@ E.g.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If a printout start with a "." don't print a space even if needsp is true</desc>
+<notes>This will make most uses of $$ go away.
+
+E.g.
+  "The" Say x. "$$."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Fix picture in about Arun box</desc>
-<notes>
-Only occurs on W2k</notes>
+<notes>Only occurs on W2k &amp; XP</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Dynamic creation of instances</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1199,8 +1085,7 @@ Only occurs on W2k</notes>
 </task>
 <task>
 <desc>Reference to local attributes without prefixing</desc>
-<notes>
-E.g
+<notes>E.g
 
 The i
   Has a.
@@ -1222,16 +1107,6 @@ which seems a bit superflous.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>CHECKs on containers</desc>
-<notes>
-Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Re-implement the "go" handling so that it is no longer a noise</desc>
 <notes/>
 <priority>2</priority>
@@ -1242,8 +1117,7 @@ Checks on containers to augment limits, e.g if a chest is closed we could put th
 </task>
 <task>
 <desc>Parameter environment classing</desc>
-<notes>
-The analysis of every statement should have a list of available parameters and their classes. Using these you can analyse classing even inside IF statements:
+<notes>The analysis of every statement should have a list of available parameters and their classes. Using these you can analyse classing even inside IF statements:
 
 IF p ISA object THEN
    -- here we know that p has the class object
@@ -1277,7 +1151,7 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Listing of saved games</desc>
+<desc>Warn for non-existing include directories</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1286,9 +1160,28 @@ Furthermore you can in the IF expression verify that the parameter is a subclass
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Actor ordering</desc>
+<notes>Actor conversation
+
+&gt; floyd, get the card</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Attribute to OBJECT in MESSAGE</desc>
-<notes>
-Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.</notes>
+<notes>Could be handy. This would require each MESSAGE-code to define the parameters available and to set up this before entering the analysis of the statements.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Blorb-layer for resources</desc>
+<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1297,8 +1190,7 @@ Could be handy. This would require each MESSAGE-code to define the parameters av
 </task>
 <task>
 <desc>Restricted multiple object references</desc>
-<notes>
-Investigate the possibility to allow:
+<notes>Investigate the possibility to allow:
 
 &gt; TAKE ALL green chairs
 
@@ -1315,8 +1207,7 @@ This implies 1) a notion of plural nouns (in english generally 's' and 2) new bu
 </task>
 <task>
 <desc>END [THE|EVERY] ID</desc>
-<notes>
-Make it possible to have THE and EVERY optional in END clauses.
+<notes>Make it possible to have THE and EVERY optional in END clauses.
 
 But not both THE and the ID...</notes>
 <priority>2</priority>
@@ -1326,22 +1217,8 @@ But not both THE and the ID...</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Actor ordering</desc>
-<notes>
-Actor conversation
-
-&gt; floyd, get the card
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: Allocate parameter lists</desc>
-<notes>
-If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
+<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1350,8 +1227,7 @@ If the compiler sends the maximum number of parameters in any syntax (header-&gt
 </task>
 <task>
 <desc>CHECKs as disambiguations for multiple objects</desc>
-<notes>
-Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
+<notes>Could it be possible to use the CHECKs (as in the ALL handling) when disambiguating between multiple objects refered  to in a command (C.f. Lech's TAKE BOX when one is in the inventory and one on the floor).
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -1367,17 +1243,6 @@ Syntax x = x (p1) (p2) Where p1 Isa literal And p2 Isa object ...
 
 Add To Every object
   Verb x ...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>How to read the end point of a direction?</desc>
-<notes>
-Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1412,13 +1277,13 @@ if "hello" is an unknown word. This could possibly be made automatically by the 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Lists of case clauses in DEPENDING ON</desc>
+<desc>Arrays</desc>
 <notes>
-Allow lists of right hand expressions in the DEPENDING ON case clauses:
+Some kind of list or array datatype, like TADS lists, with
+appropriate operations (indexing, finding its length, inserting
+an item, deleting an item).
 
-DEPENDING ON x
-=1, =3 : ...
-</notes>
+(Greg Ewing in Alan-IF mailing list)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1437,9 +1302,9 @@ Think about a way to allow nouns to be capitalized, either automatic but prefera
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Background statement</desc>
+<desc>CHECKs on containers</desc>
 <notes>
-To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
+Checks on containers to augment limits, e.g if a chest is closed we could put that test in the container check instead of the verb check?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1447,13 +1312,50 @@ To display a background picture (where appropriate) I like the Zork Zero thing..
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Arrays</desc>
+<desc>Lists of case clauses in DEPENDING ON</desc>
 <notes>
-Some kind of list or array datatype, like TADS lists, with
-appropriate operations (indexing, finding its length, inserting
-an item, deleting an item).
+Allow lists of right hand expressions in the DEPENDING ON case clauses:
 
-(Greg Ewing in Alan-IF mailing list)</notes>
+DEPENDING ON x
+=1, =3 : ...
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Listing of saved games</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Space bar in &lt;more&gt;</desc>
+<notes>Already works in winarun (GLK)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Try UNIX/MingW as target OS for toolmaker</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Background statement</desc>
+<notes>
+To display a background picture (where appropriate) I like the Zork Zero thing...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1468,6 +1370,17 @@ Or possibly LOCATE ALL &lt;condition&gt; &lt;where&gt;
 This was prompted by the darkness and light example, the problem being that objects at the location are described by the implicit LOOK performed when locating the hero there.
 
 Possibly is nullified if DESCRIPTION CHECK is introduced.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>How to read the end point of a direction?</desc>
+<notes>
+Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1507,8 +1420,7 @@ Separate data and code in the .acd into two separate areas, point to them from t
 </task>
 <task>
 <desc>New Expression: ALL &lt;expr&gt;</desc>
-<notes>
-Extend &lt;what&gt; to be also
+<notes>Extend &lt;what&gt; to be also
 
 "ALL" [ &lt;condition&gt; { "AND" &lt;condition&gt; } ]
 
@@ -1525,8 +1437,17 @@ SET state OF ALL creature HERE AND IS hungry TO 0.</notes>
 </task>
 <task>
 <desc>Functions</desc>
-<notes>
-Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<notes>Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Show statement</desc>
+<notes>SHOW statement, to show a picture (how to place it?)
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1535,8 +1456,7 @@ Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;</notes>
 </task>
 <task>
 <desc>Optional syntax parts</desc>
-<notes>
-SYNTAX
+<notes>SYNTAX
  look_up = 'look' 'up' (str) ['in' (lexikon)]
 
 i.e. optional parts of a syntax which can be given default parameters.
@@ -1549,8 +1469,7 @@ i.e. optional parts of a syntax which can be given default parameters.
 </task>
 <task>
 <desc>Isa DIRECTION</desc>
-<notes>
-Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
+<notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
 
 SYNTAX
  go = go (d)
@@ -1565,8 +1484,7 @@ SYNTAX
 </task>
 <task>
 <desc>Plural handling</desc>
-<notes>
-What do we need it for again? Possibly "take all balls"
+<notes>What do we need it for again? Possibly "take all balls"
 
 Possibly could be a new clause so objects would have:
 
@@ -1605,8 +1523,7 @@ and other variants (other than the standard binary operator)</notes>
 </task>
 <task>
 <desc>EXIT out TO RETURN ....</desc>
-<notes>
-Could be more needed with inherited exits...
+<notes>Could be more needed with inherited exits...
 
 Should probably be
 
@@ -1642,21 +1559,9 @@ But isn't that awailable in the MESSAGES section?</notes>
 </task>
 <task>
 <desc>Continued player input dialogue</desc>
-<notes>
-&gt; THE BALL
+<notes>&gt; THE BALL
 What do you want to do with the ball?
 &gt; KICK IT
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Show statement</desc>
-<notes>
-SHOW statement, to show a picture (how to place it?)
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -1693,8 +1598,7 @@ SHOW statement, to show a picture (how to place it?)
 </task>
 <task>
 <desc>Refactor: Make compiler node types be pointers?</desc>
-<notes>
-make the types be pointers instead of nodes ("ClassNodePtr cla" instead of "ClassNode *cla")?</notes>
+<notes>make the types be pointers instead of nodes ("ClassNodePtr cla" instead of "ClassNode *cla")?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1851,7 +1755,7 @@ This strategy makes it possible to use the same script code for all instances th
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
@@ -1898,9 +1802,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>56.89</origest>
-<currest>56.89</currest>
-<elapsed>56.89</elapsed>
+<origest>68.89</origest>
+<currest>68.89</currest>
+<elapsed>68.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -3896,6 +3800,173 @@ If not present in A3C class names must be available.
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.25</desc>
+<notes/>
+<priority>2</priority>
+<origest>10</origest>
+<currest>10</currest>
+<elapsed>10</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Stop ACTOR</desc>
+<notes>
+To interupt an actors execution of a script you have to have an empty script and do:
+
+USE empty_script FOR actor.
+
+A separate statement would be better (INTERRUPT?)
+
+Another suggestion would be:
+
+STOP &lt;actor&gt;.
+
+E.g.
+
+stop Painter.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Clause on containers for removing things/Actor clash</desc>
+<notes>
+Actor-clash handling, i.e. what happens when an object is removed from an actor? How to specify if this is possible and what the actor does? Possibly a new clause in containers:
+
+ EXTRACT
+   CHECK monster Is sleeping
+   DOES Make monster Not sleeping.
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Documentation is wrong about DEPENDING ON  syntax?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Full listing on the screen misses lines</desc>
+<notes>
+Refer to compiler/testing/addVerb losing line 2</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Descriptions</desc>
+<notes>Need to code generate separately until we bookkeep reversal addresses.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List This. does not work.</desc>
+<notes>See regression/testing/listThis</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>About-box should show version info</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for instances not inheriting from anything, especially the hero</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SIGSEGV when unable to open output files</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check that DEPENDING ON works as it should</desc>
+<notes>Yup!</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: v2.8.8?</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Parser confusion in v2.8</desc>
+<notes>From Lydia:
+I'm implementing a direction-based movement system. So, for instance,
+I need the verb "left", as well as the verb "turn left".
+
+The problem is, when "turn left" exists, ALAN ends up scrambling its
+verb table, resulting in "left" become "quit".
+
+This does not seem to happen with exit directions; for instance, I
+can have an exit "north" and "turn north" will not smash the verb
+table.
+
+ANALYSIS:
+
+This is a problem when a word is declared as a verb, and later in the source also as a "preposition".
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>$p, $n problem in new winarun</desc>
+<notes>So sorry, but I have found a bug in the new ARUN for windows.
+
+Apparently $n (new line) and $p (paragraph, aka one empty line) are 
+indistinguishable. All my $p codes are doing the function of $n, and not 
+properly producing a blank line.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Misc</desc>
@@ -3904,7 +3975,7 @@ If not present in A3C class names must be available.
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
 <notes/>

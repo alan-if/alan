@@ -380,37 +380,22 @@ void newline()
 }
 
 
-/*======================================================================
-
-  para()
-
-  Make a new paragraph, i.e one empty line (one or two newlines).
-
- */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void para(void)
-#else
-void para()
-#endif
 {
+  /* Make a new paragraph, i.e one empty line (one or two newlines). */
+
+#ifdef GLK
+    glk_window_flow_break(glkMainWin);
+#endif
   if (col != 1)
     newline();
   newline();
 }
 
 
-/*======================================================================
-
-  clear()
-
-  Clear the screen.
-
- */
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void clear(void)
-#else
-void clear()
-#endif
 {
 #ifdef GLK
   glk_window_clear(glkMainWin);

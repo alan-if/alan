@@ -27,6 +27,7 @@ extern List *combine(List *lst1, List *lst2);
 extern void insert(List *where, void *element, ListKind kind);
 extern int length(List *aList);
 extern List *tailOf(List *aList);
+extern List *sortList(List *aList, int comparer(List *e1, List *e2));
 
 
 /* Dump a list of nodes */

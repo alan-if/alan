@@ -22,6 +22,7 @@ typedef struct Adventure {
   List *stms;			/* List of start statements */
   int *scores;			/* Pointer to array of scores */
   List *msgs;			/* List of error messages */
+  List *images;			/* List of ID:s giving image filenames */
 } Adventure;
 
 #endif

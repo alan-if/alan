@@ -86,6 +86,7 @@ ALANSRCS = \
 	ext.c \
 	ins.c \
 	lst.c \
+	images.c \
 	sym.c \
 	vrb.c \
 	whr.c \

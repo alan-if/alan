@@ -1,5 +1,3 @@
-
-
 /*----------------------------------------------------------------------*\
 
 	smScSema.c
@@ -7,7 +5,6 @@
 	ScannerMaker generated semantic actions
 
 \*----------------------------------------------------------------------*/
-
 
 /* %%IMPORT */
 
@@ -39,12 +36,8 @@
 #endif
 
 
-
 /* END %%IMPORT */
-
 #include "smScan.h"
-
-
 
 /* %%DECLARATION */
 
@@ -167,18 +160,13 @@ void setCharacterSet(int set)
 
 
 
-
 /* END %%DECLARATION */
-
-
 
 int smScReader(
      smScContext smThis,
      unsigned char *smBuffer,
      unsigned int smLength)
-
 {
-
 
 
 #ifdef __MWERKS__
@@ -198,35 +186,27 @@ int smScReader(
 #endif
 
 
-
-
 }    
-
-
-
 
 
 int smScAction(
      smScContext smThis,
      int smInternalCode,
      Token *smToken)
-
 {
   enum {
     smSkipToken		= -1,
     smContinueToken	= -2
   };
-
-
   switch(smInternalCode) {
-  case 107:		/* INTEGER*/ 
+  case 108:		/* INTEGER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
-  case 108:		/* IDENTIFIER*/ 
+  case 109:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (charset != NATIVECHARSET)
@@ -236,7 +216,7 @@ int smScAction(
 }
     break;
 
-  case 109:		/* IDENTIFIER*/ 
+  case 110:		/* IDENTIFIER*/ 
     {{
 	char *c;
 
@@ -254,7 +234,7 @@ int smScAction(
 }
     break;
 
-  case 110:		/* STRING*/ 
+  case 111:		/* STRING*/ 
     {
       int len = 0;		/* The total length of the copied data */
       Bool space = FALSE;
@@ -288,7 +268,7 @@ int smScAction(
 }
     break;
 
-  case 115:		/* INCLUDE*/ 
+  case 116:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -323,30 +303,23 @@ int smScAction(
 }
     break;
 
-  case 116:		/* IDENTIFIER*/ 
+  case 117:		/* IDENTIFIER*/ 
     {{
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }
 }
     break;
   }
-
-
   return smToken->code;
 }
-
-
-
 
 int smScPostHook(
      smScContext smThis,
      Token *smToken)
-
 {
   enum {
     smSkipToken		= -1
   };
-
 
 
   smToken->srcp.file = smThis->fileNo;
@@ -361,10 +334,6 @@ int smScPostHook(
   }
 
 
-
-
   return smToken->code;
 }
-
-
 

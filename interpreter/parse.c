@@ -707,6 +707,9 @@ static void try(mlst)
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
 
+  /* Set verb code */
+  current.verb = elms->flags;	/* Flags of EOS is actually verb code! */
+
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
   for (restriction = (RestrictionEntry *) pointerTo(elms->next); !endOfTable(restriction); restriction++) {
@@ -751,9 +754,6 @@ static void try(mlst)
       } else if (!isObj(params[p].code))
 	error(M_CANT0);
     }
-
-  /* Set verb code */
-  current.verb = ((Aword *) restriction)[1];	/* Take first word after end of table! */
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {

@@ -126,7 +126,7 @@ int newWord(char *str,		/* IN - Name of the new word */
   words[WRD_CLASSES]++;
 
   if (new->code == 0)
-    new->code = words[class];
+    new->code = words[WRD_CLASSES];
   return new->code;
 }
 

@@ -5,6 +5,10 @@
 
 \*----------------------------------------------------------------------*/
 
+/* Own: */
+#include "adv.h"
+
+/* Imports: */
 #include "alan.h"
 #include "util.h"
 
@@ -24,14 +28,14 @@
 #include "vrb_x.h"
 #include "whr_x.h"
 #include "wrd_x.h"
+#include "atr_x.h"
+#include "images_x.h"
 
 
-#include "adv.h"		/* ADV-node */
 #include "ext.h"		/* EXT-nodes */
 #include "evt.h"		/* EVT-nodes */
 #include "rul.h"		/* RUL-nodes */
 #include "syn.h"		/* SYN-nodes */
-#include "atr_x.h"		/* ATR-nodes */
 #include "msg.h"		/* MSG-nodes */
 
 #include "sco.h"		/* SCORES */

@@ -29,6 +29,7 @@
 150	'Unterminated STRING.';
 151	'File name missing for $INCLUDE directive.';
 152	'Unterminated quoted identifier.';
+153	'Image file missing.';
 198	'Could not open output file \'%1\' for writing.';
 199	'Adventure source file (%1) not found.';
 

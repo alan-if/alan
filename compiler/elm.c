@@ -175,35 +175,26 @@ static Aaddr advance(List *elmsList) /* IN - The list to advance */
 }
 
 
-/*----------------------------------------------------------------------
-
-  first()
-
-  Remove the first element from a list and return that.
-
-  */
-static List *first(List **listP) /* IN OUT - Address of pointer to list */
+/*----------------------------------------------------------------------*/
+static List *first(List **listP)
 {
   List *theFirst = *listP;
 
-  *listP = theFirst->next;
-
-  theFirst->next = NULL;
-
+  *listP = theFirst->next;	/* Set list to point to second element */
+  theFirst->next = NULL;	/* Remove first element */
   return theFirst;
 }
 
 
-/*----------------------------------------------------------------------
-
-  partition()
-
-  Partitions a list of elmLists into one list containing all elms
-  equal to the first one, and one list containing the rest of the list.
-
-  */
+/*----------------------------------------------------------------------*/
 static List *partition(List **elmsListP) /* INOUT - Address to pointer to the list */
 {
+  /*
+    Partitions a list of elmLists into one list containing all elms
+    equal to the first one, and one list containing the rest of the
+    list.
+  */
+
   List *part, *rest, *elms, *this, *p;
 
   if (*elmsListP == NULL || (*elmsListP)->element.elm->kind == END_OF_SYNTAX)
@@ -234,24 +225,22 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 }
 
 
-/*======================================================================
-
-  geelms()
-
-  Generate the data structure for the syntax elements.  NOTE that the
-  list is not the list of words as specified in the syntax statement.
-  Instead this list contains all identical elms for *all* syntax
-  structures. Also note that the list links not elms but list nodes
-  where the first element is the elm to consider (an extra level of
-  lists!).
-
-  This function is recursive in pre-order by grouping equal elements
-  in the next level and generating each group first, then a table for
-  this group pointing to the next level for each group, a.s.o.
-
- */
+/*======================================================================*/
 Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
 {
+  /*
+    Generate the data structure for the syntax elements.  NOTE that
+    the list is not the list of words as specified in the syntax
+    statement.  Instead this list contains all identical elms for
+    *all* syntax structures. Also note that the list links not elms
+    but list nodes where the first element is the elm to consider (an
+    extra level of lists!).
+
+    This function is recursive in pre-order by grouping equal elements
+    in the next level and generating each group first, then a table
+    for this group pointing to the next level for each group, a.s.o.
+  */
+
   List *lst;                    /* Traversal list */
   List *part;                   /* The current partion */
   Aaddr elmadr, resadr;
@@ -281,6 +270,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
 	  lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
       }
       entry->code = EOS;        /* End Of Syntax */
+      entry->flags = part->element.lst->element.elm->stx->id->code; /* Verb code */
       /* Point to the generated class restriction table */
       entry->next = resadr;
       break;

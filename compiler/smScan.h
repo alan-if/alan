@@ -1,11 +1,7 @@
-
-
 #ifndef _smScan_h_
 #define _smScan_h_
 
-
 #include "alanCommon.h"
-
 
 typedef enum smScScanner {
 	sm_MAIN_MAIN_Scanner = 0,
@@ -82,8 +78,8 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_66_Token = 66,
 	sm_MAIN_67_Token = 67,
 	sm_MAIN_68_Token = 68,
-	sm_MAIN_INTEGER_Token = 69,
-	sm_MAIN_70_Token = 70,
+	sm_MAIN_69_Token = 69,
+	sm_MAIN_INTEGER_Token = 70,
 	sm_MAIN_71_Token = 71,
 	sm_MAIN_72_Token = 72,
 	sm_MAIN_73_Token = 73,
@@ -125,15 +121,14 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_109_Token = 109,
 	sm_MAIN_110_Token = 110,
 	sm_MAIN_111_Token = 111,
+	sm_MAIN_112_Token = 112,
 	sm_MAIN_BLANKS_Token = -1,
 	sm_MAIN_COMMENT_Token = -1,
 	sm_MAIN_INCLUDE_Token = -1
 } sm_MAIN_ScToken;
 
 
-
 typedef struct smScContextItem *smScContext;
-
 
 extern smScContext smScNew( smScScanner smScanner );
 extern void smScDelete( smScContext smThis );
@@ -145,8 +140,6 @@ extern void smScScrScanner( smScScanner scanner, int smOnOff );
 extern void smScScrToken( smScScanner scanner, int smCode, int smOnOff );
 extern void smScScrRule( smScScanner scanner, int smCode, int smOnOff );
 extern int smScan( smScContext smThis, Token *smToken );
-
-
 
 /* %%EXPORT */
 
@@ -166,9 +159,7 @@ extern int scannedLines(void);
 extern void setCharacterSet(int charset);
 
 
-
 /* END %%EXPORT */
-
 
 typedef struct smScContextItem {
 
@@ -200,7 +191,6 @@ typedef struct smScContextItem {
 
 
 
-
   smScContext previous;
   int fd;
   char *fileName;
@@ -209,9 +199,6 @@ typedef struct smScContextItem {
 
 
 
-
-
 } smScContextItem;
 
 #endif
-

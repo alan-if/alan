@@ -92,6 +92,7 @@ static lmMsgs msg[] = {
     { "150   ", "Unterminated STRING." },
     { "151   ", "File name missing for $INCLUDE directive." },
     { "152   ", "Unterminated quoted identifier." },
+    { "153   ", "Image file missing." },
     { "198   ", "Could not open output file \'%1\' for writing." },
     { "199   ", "Adventure source file (%1) not found." },
     { "201   ", "Mismatched block identifier, \'%1\' assumed." },
@@ -200,7 +201,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 120}
+    {0, 121}
 };
 static lmMessages currMsect = (lmMessages)0;
 
@@ -560,7 +561,7 @@ static void geterr(
 {
   /* initialize */
   *errflg = sevNONE; 
-  *first = 0;
+  *first=0;
   *last = 0;
   if (count.msgs <= 0)
     return;
@@ -579,14 +580,12 @@ static void geterr(
     return;
 
   /* Find last error for the line */
-  if (*first >= 0) {
-    for (*last = *first; (*last < count.msgs)
+  for (*last = *first; (*last < count.msgs)
         && (msarr[*last].pos.file == fil) 
         && (msarr[*last].pos.line == line) 
        ; (*last)++)
-      *errflg |= msarr[*last].sev; /* this severity was found */
-    (*last)--;
-  }
+    *errflg |= msarr[*last].sev; /* this severity was found */
+  (*last)--;
 }
 
 
@@ -725,16 +724,14 @@ static void prsrcl(
   
   /* Possibly output source if requested */
   if (inset(errflg, lstsev)) {
-    /* There is a message on this line that we want to show */
-    if (inset(liMSG, lsttyp)) {
+    if (inset(liERR, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
       if (!src[srclev].printed)
 	prfnm();
       prlin(lbuf, TRUE, FALSE, 0);	/* Error line to follow */
     }
-  } else {
-    /* No interesting message on this line, show it anyway ? */
+  } else if (errflg == (lmSev) 0) {
     if (inset(liOK, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
