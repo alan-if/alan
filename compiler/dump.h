@@ -16,16 +16,17 @@
 
 /* Dump kinds */
 typedef enum dmpkd {
-    DMPSYN = 1L,
-    DMPSTX = (long)DMPSYN<<1,
-    DMPVRB = (long)DMPSTX<<1,
-    DMPLOC = (long)DMPVRB<<1,
-    DMPOBJ = (long)DMPLOC<<1,
-    DMPCNT = (long)DMPOBJ<<1,
-    DMPEVT = (long)DMPCNT<<1,
-    DMPACT = (long)DMPEVT<<1,
-    DMPRUL = (long)DMPACT<<1,
-    DMPALL = (long)DMPRUL<<1
+  DMPNON = 0,
+  DMPSYN = 1L,
+  DMPSTX = (long)DMPSYN<<1,
+  DMPVRB = (long)DMPSTX<<1,
+  DMPLOC = (long)DMPVRB<<1,
+  DMPOBJ = (long)DMPLOC<<1,
+  DMPCNT = (long)DMPOBJ<<1,
+  DMPEVT = (long)DMPCNT<<1,
+  DMPACT = (long)DMPEVT<<1,
+  DMPRUL = (long)DMPACT<<1,
+  DMPALL = (long)DMPRUL<<1
 } DmpKind;
 
 

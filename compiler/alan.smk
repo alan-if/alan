@@ -85,8 +85,10 @@ Bool smScanEnter(
 #endif
 	for (ip = includePaths; ip != NULL; ip = ip->next) {
 	  strcpy(fnmbuf, ip->element.str);
+#ifndef __mac__
 	  if (ip->element.str[strlen(ip->element.str)] != '/')
 	    strcat(fnmbuf, "/");
+#endif
 	  strcat(fnmbuf, fnm);
 #ifdef THINK_C
 	  if ((this->fd = open(fnmbuf, O_TEXT)) > 0)

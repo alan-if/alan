@@ -41,6 +41,8 @@ TMSRCS = \
 	lmList.c
 
 SRCS = \
+	alan.c \
+	options.c \
 	dump.c \
 	emit.c \
 	encode.c \
@@ -80,7 +82,7 @@ SRCS = \
 	sysdep.c \
 	spa.c
 
-MAINSRC = alan.c
+MAINSRC = main.c
 
 ALLSRCS = $(MAINSRC) $(SRCS) $(TMSRCS)
 
@@ -226,7 +228,7 @@ tm: .pmkstamp .smkstamp .lmkstamp
 		fi ; \
 	else \
 		mv smScan.dos.new smScan.dos ; \
-	fi ;
+	fi
 	touch .smkstamp
 
 smScanx.c : .smkstamp
