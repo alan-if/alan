@@ -1,5 +1,5 @@
 OBJECT ATTRIBUTES
-	takeable.
+	NOT takeable.
 
 SYNONYMS
 	get, carry, obtain, grab, steal, confiscate, hold = take.
