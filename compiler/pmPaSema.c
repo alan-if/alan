@@ -115,7 +115,7 @@ typedef struct pmGrammar {
     List *idList2;
     List *idList;
     IdNode *id;
-    FormType form;
+    SayForm form;
     List *exts;
     ExtNod *ext;
     ExpressionKind expKd;
@@ -1220,7 +1220,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, DESCRIBE_STATEMENT);
 	pmSeSt[pmStkP+1].stm->fields.describe.wht = pmSeSt[pmStkP+2].wht;
     	break;}
-    case 185: { /* <output_statement> = 'SAY' <form> <expression> '.'; */
+    case 185: { /* <output_statement> = 'SAY' <say_form> <expression> '.'; */
 #line 1456 "alan.pmk"
 
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, SAY_STATEMENT);
@@ -1239,15 +1239,15 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, SHOW_STATEMENT);
 	pmSeSt[pmStkP+1].stm->fields.show.filename = pmSeSt[pmStkP+2].id;
     	break;}
-    case 188: { /* <form> =; */
+    case 188: { /* <say_form> =; */
 #line 1477 "alan.pmk"
- pmSeSt[pmStkP+1].form = SIMPLE; 	break;}
-    case 189: { /* <form> = 'THE'; */
+ pmSeSt[pmStkP+1].form = SAY_SIMPLE; 	break;}
+    case 189: { /* <say_form> = 'THE'; */
 #line 1479 "alan.pmk"
- pmSeSt[pmStkP+1].form = DEFINITE; 	break;}
-    case 190: { /* <form> = 'AN'; */
+ pmSeSt[pmStkP+1].form = SAY_DEFINITE; 	break;}
+    case 190: { /* <say_form> = 'AN'; */
 #line 1481 "alan.pmk"
- pmSeSt[pmStkP+1].form = INDEFINITE; 	break;}
+ pmSeSt[pmStkP+1].form = SAY_INDEFINITE; 	break;}
     case 191: { /* <manipulation_statement> = 'EMPTY' <what> <optional_where> '.'; */
 #line 1488 "alan.pmk"
 

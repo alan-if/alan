@@ -937,7 +937,7 @@ void saystr(char *str)
 
 
 /*======================================================================*/
-void sayarticle(Aword id)
+void sayArticle(Aword id)
 {
   if (instance[id].article != 0)
     interpret(instance[id].article);
@@ -965,6 +965,14 @@ void say(Aword id)
 	sayInstance(id);
     }
   }
+}
+
+
+/*======================================================================*/
+void sayForm(Aword id, SayForm form)
+{
+  sayArticle(id);
+  say(id);
 }
 
 
@@ -1074,7 +1082,7 @@ static void describeObject(Aword obj)
     describeAnything(obj);
   else {
     prmsg(M_SEEOBJ1);
-    sayarticle(obj);
+    sayArticle(obj);
     say(obj);
     prmsg(M_SEEOBJ4);
     if (instance[obj].container != 0)
@@ -1169,14 +1177,14 @@ void describeInstances(void)
 	!admin[i].alreadyDescribed) {
       if (!found) {
 	prmsg(M_SEEOBJ1);
-	sayarticle(i);
+	sayArticle(i);
 	say(i);
 	found = TRUE;
       } else {
 	if (multiple) {
 	  needsp = FALSE;
 	  prmsg(M_SEEOBJ2);
-	  sayarticle(prevobj);
+	  sayArticle(prevobj);
 	  say(prevobj);
 	}
 	multiple = TRUE;
@@ -1187,7 +1195,7 @@ void describeInstances(void)
   if (found) {
     if (multiple) {
       prmsg(M_SEEOBJ3);
-      sayarticle(prevobj);
+      sayArticle(prevobj);
       say(prevobj);
     }
     prmsg(M_SEEOBJ4);
@@ -1278,7 +1286,7 @@ void list(Aword cnt)
 	  prmsg(M_CONTAINSCOMMA);
 	}
 	multiple = TRUE;
-	sayarticle(previouslyFoundInstance);
+	sayArticle(previouslyFoundInstance);
 	say(previouslyFoundInstance);
       }
       previouslyFoundInstance = i;
@@ -1288,7 +1296,7 @@ void list(Aword cnt)
   if (found) {
     if (multiple)
       prmsg(M_CONTAINSAND);
-    sayarticle(previouslyFoundInstance);
+    sayArticle(previouslyFoundInstance);
     say(previouslyFoundInstance);
     prmsg(M_CONTAINSEND);
   } else {

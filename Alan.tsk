@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>263.89</origest>
-<currest>262.89</currest>
-<elapsed>108.89</elapsed>
+<origest>264.89</origest>
+<currest>263.89</currest>
+<elapsed>109.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>42</origest>
-<currest>42</currest>
-<elapsed>3</elapsed>
+<origest>43</origest>
+<currest>43</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
-<elapsed>0</elapsed>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Capitalizing of "proper_name" in library and doc</desc>
@@ -119,9 +119,9 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 
 Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>0</elapsed>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Definite and indefinite article declaration</desc>
@@ -134,7 +134,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Indefinite Article declaration</desc>
@@ -142,7 +142,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -165,16 +165,16 @@ SAY an O.
 
 </notes>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>SAY a/the &lt;param&gt;</desc>
+<desc>SAY an/the &lt;param&gt;</desc>
 <notes>A SAY should refer to which form of articles should be used:
 
- Say A x.  (embedded as $the x$?)
- Say The x.
+ Say The x.  (embedded as $the x$?)
+ Say An x.
  Say x.
  
 Possibly later:
@@ -190,12 +190,12 @@ Requires sections something like:
   ""
 </notes>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>SAY A x.</desc>
+<desc>SAY An x.</desc>
 <notes>New variant on the Say statement to use indefinite article. Implement it. Also change "Say x." to mean "Mention" (which it already should).</notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -213,7 +213,7 @@ Requires sections something like:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Say A x. to use Indefinite Form clause if available.</desc>
+<desc>Say An x. to use Indefinite Form clause if available.</desc>
 <notes>Should use Indefinite Form if available, else Indefinite Article + "Say x."</notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -224,6 +224,15 @@ Requires sections something like:
 <task>
 <desc>Say The x. to use Definite Form if available.</desc>
 <notes>Should use Definite form if available, else Definite Article + "Say x."</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow 'A' as well as 'An' in Say statement</desc>
+<notes>Both 'a' and 'an' should be allowed in Say statement. However 'a' is commonly an identifier? Introducing it as a keyword/id introduces grammar conflicts. Investigate!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -288,7 +297,7 @@ What to do when an instance not an object is moved into the container?
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>3</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,

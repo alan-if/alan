@@ -88,7 +88,7 @@ static void analyzeSay(StmNod *stm, Context *context)
     lmLog(&stm->srcp, 337, sevERR, "");
 
   /* Can only say definite/indefinite forms of instances */
-  if (stm->fields.say.form != SIMPLE
+  if (stm->fields.say.form != SAY_SIMPLE
       && stm->fields.say.exp->type != INSTANCE_TYPE
       && stm->fields.say.exp->type != ERROR_TYPE)
     lmLog(&stm->srcp, 339, sevERR, "");
@@ -628,7 +628,7 @@ static void generateSay(StmNod *stm)
     emit0(I_SAYSTR);
     break;
   case INSTANCE_TYPE:
-    emit0(I_SAY);
+    emit1(I_SAY, stm->fields.say.form);
     break;
   default:
     unimpl(&stm->srcp, "Code Generator");

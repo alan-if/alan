@@ -119,7 +119,7 @@ static int val(char str[])
   expKd %% ExpressionKind %1%%,
   ext %% ExtNod *%1%%,
   exts %% List *%1%%,
-  form %% FormType %1%%,
+  form %% SayForm %1%%,
   id %% IdNode *%1%%,
   idList %% List *%1%%,
   idList2 %% List *%1%%,
@@ -1452,11 +1452,11 @@ static int val(char str[])
 	%<output_statement>.stm->fields.describe.wht = %<what>.wht;
     %%
 
-    ! 'SAY' <form> <expression> '.'
+    ! 'SAY' <say_form> <expression> '.'
     %%
 	%<output_statement>.stm = newStatement(`&%'SAY'.srcp, SAY_STATEMENT);
 	%<output_statement>.stm->fields.say.exp = %<expression>.exp;
-	%<output_statement>.stm->fields.say.form = %<form>.form;
+	%<output_statement>.stm->fields.say.form = %<say_form>.form;
     %%
 
     ! 'LIST' <what> '.'
@@ -1472,13 +1472,13 @@ static int val(char str[])
     %%	  
     ;
 
-<form>
+<say_form>
     =
-	%% %<form>.form = SIMPLE; %%
+	%% %<say_form>.form = SAY_SIMPLE; %%
     ! 'THE'
-	%% %<form>.form = DEFINITE; %%
+	%% %<say_form>.form = SAY_DEFINITE; %%
     ! 'AN'
-	%% %<form>.form = INDEFINITE; %%
+	%% %<say_form>.form = SAY_INDEFINITE; %%
     ;
 
 

@@ -9,10 +9,11 @@
 #include "form.h"
 
 /* USE: */
+#include "../interpreter/acode.h"
 
 /* DATA: */
 
 /* FUNCTIONS: */
-extern void dumpForm(FormType form);
+extern void dumpForm(SayForm form);
 
 #endif

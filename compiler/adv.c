@@ -309,6 +309,7 @@ void dumpAdventure(enum dmpKd dmp)
   put("stms: ");
   dumpList(adv.stms, STATEMENT_LIST);
   out();
+  nl();
 }
 
 

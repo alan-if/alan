@@ -166,6 +166,11 @@ typedef enum InstClass {
   I_SHOW
 } InstClass;
 
+typedef enum SayForm {
+  SAY_SIMPLE,
+  SAY_DEFINITE,
+  SAY_INDEFINITE
+} SayForm;
 
 typedef enum VarClass {
   V_PARAM,

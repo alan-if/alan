@@ -263,7 +263,14 @@ static void traceIntegerTopValue() {
 }
 
 
-
+static char *printForm(SayForm form) {
+  switch (form) {
+  case SAY_SIMPLE: return "";
+  case SAY_INDEFINITE: return "An";
+  case SAY_DEFINITE: return "The";
+  }
+  return "**Unknown!!***";
+}
 
 /*======================================================================*/
 void interpret(Aaddr adr)
@@ -614,11 +621,15 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SAY: {
-	Aword id;
+	Aword form, id;
+	form = pop();
 	id = pop();
 	if (singleStepOption)
-	  printf("SAY \t%5ld\t\t\"", id);
-	say(id);
+	  printf("SAY \t%s %5ld\t\t\"", printForm(form), id);
+	if (form == SAY_SIMPLE)
+	  say(id);
+	else
+	  sayForm(id, form);
 	if (singleStepOption)
 	  printf("\"\n\t\t\t\t");
 	break;

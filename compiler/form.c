@@ -15,12 +15,12 @@
 
 
 /*======================================================================*/
-void dumpForm(FormType form)
+void dumpForm(SayForm form)
 {
   switch (form) {
-  case SIMPLE: put("SIMPLE"); break;
-  case DEFINITE: put("DEFINITE"); break;
-  case INDEFINITE: put("INDEFINITE"); break;
+  case SAY_SIMPLE: put("SIMPLE"); break;
+  case SAY_DEFINITE: put("DEFINITE"); break;
+  case SAY_INDEFINITE: put("INDEFINITE"); break;
   }
 }
 

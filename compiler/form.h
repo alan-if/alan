@@ -11,12 +11,6 @@
 /* USE: */
 
 /* Types */
-typedef enum FormType {
-  SIMPLE,
-  DEFINITE,
-  INDEFINITE
-} FormType;
-
 typedef enum FormKind {
   FORM,
   ARTICLE
