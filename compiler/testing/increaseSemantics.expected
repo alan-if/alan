@@ -3,66 +3,72 @@
 
 increaseSemantics.alan
 
-    5.      Increase a Of Current Actor By 7.
+    6.      Increase a Of Current Actor By 7.
 =====>               1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-    6.      Increase a Of Current Location By 7.
+    7.      Increase a Of Current Location By 7.
 =====>               1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
-    9.      Increase a Of l By a Of Current Actor.
+   10.      Increase a Of l By a Of Current Actor.
 =====>                         1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-   10.      Increase a Of l By a Of Current Location.
+   11.      Increase a Of l By a Of Current Location.
 =====>                         1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
-   15.      Increase a Of This By 7.
+   16.      Increase a Of This By 7.
 =====>                    1
 
   *1*   421 E : THIS instance is not defined in this context.
 
-   16.      Increase a Of Current Actor By 7.
+   17.      Increase a Of Current Actor By 7.
 =====>               1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-   17.      Increase a Of Current Location By 7.
+   18.      Increase a Of Current Location By 7.
 =====>               1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
-   19.      Increase a Of l By a Of This.
+   20.      Increase a Of l By a Of This.
 =====>                              1
 
   *1*   421 E : THIS instance is not defined in this context.
 
-   20.      Increase a Of l By a Of Current Actor.
+   21.      Increase a Of l By a Of Current Actor.
 =====>                         1
 
   *1*   314 E : Attribute 'a' is not defined for the current actor since the
                 class 'actor' does not have it.
 
-   21.      Increase a Of l By a Of Current Location.
+   22.      Increase a Of l By a Of Current Location.
 =====>                         1
 
   *1*   314 E : Attribute 'a' is not defined for the current location since the
                 class 'location' does not have it.
 
+   24.      Increase a Of l By b Of l.
+=====>                           1
 
-        10 error(s).
+  *1*   408 E : Expression in INCREASE/DECREASE statement must be of integer
+                type.
+
+
+        11 error(s).
         No detected warnings.
         1 informational message(s).
 

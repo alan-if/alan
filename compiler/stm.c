@@ -174,7 +174,7 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
   /* Verify that a found attribute can be used in a MAKE statement. */
   if (foundAttribute != NULL) {
     if (foundAttribute->type != BOOLEAN_TYPE && foundAttribute->type != ERROR_TYPE)
-      lmLog(&attributeId->srcp, 408, sevERR, "MAKE statement");
+      lmLogv(&attributeId->srcp, 408, sevERR, "Attribute", "MAKE statement", "boolean", NULL);
     else
       attributeId->code = foundAttribute->id->code;
   }
@@ -228,7 +228,7 @@ static void analyzeIncrease(StmNod *stm, Context *context)
     analyzeExpression(stm->fields.incr.step, context);
     if (stm->fields.incr.step->type != INTEGER_TYPE
 	&& stm->fields.incr.step->type != ERROR_TYPE)
-      lmLog(&stm->fields.incr.step->srcp, 413, sevERR, "INCREASE/DECREASE");
+      lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression", "INCREASE/DECREASE statement", "integer", NULL);
   }
 }
 
@@ -457,14 +457,14 @@ static void analyzeStrip(StmNod *stm, Context *context)
   if (!equalTypes(stm->fields.strip.from->type, STRING_TYPE))
     lmLogv(&stm->fields.strip.from->srcp, 330, sevERR, "string", "STRIP statement", NULL);
   if (stm->fields.strip.from->kind != ATTRIBUTE_EXPRESSION)
-    lmLog(&stm->fields.strip.from->srcp, 428, sevERR, "");
+    lmLog(&stm->fields.strip.from->srcp, 428, sevERR, "an attribute");
 
   if (stm->fields.strip.into != NULL) {
     analyzeExpression(stm->fields.strip.into, context);
     if (!equalTypes(stm->fields.strip.into->type, STRING_TYPE))
       lmLogv(&stm->fields.strip.into->srcp, 330, sevERR, "string", "STRIP statement", NULL);
   if (stm->fields.strip.into->kind != ATTRIBUTE_EXPRESSION)
-    lmLog(&stm->fields.strip.into->srcp, 428, sevERR, "");
+    lmLog(&stm->fields.strip.into->srcp, 428, sevERR, "an attribute");
   }
 }
 

@@ -6,23 +6,23 @@
 <priority>2</priority>
 <origest>303.89</origest>
 <currest>302.89</currest>
-<elapsed>140.89</elapsed>
+<elapsed>143.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>47</currest>
-<elapsed>6</elapsed>
+<origest>46</origest>
+<currest>46</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>6</elapsed>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -34,7 +34,7 @@ Or should we only allow this through use of temporary variables? If so how do we
 <priority>2</priority>
 <origest>5</origest>
 <currest>5</currest>
-<elapsed>4</elapsed>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Instance Type in type system</desc>
@@ -85,7 +85,7 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Type comparison rules for instance type</desc>
@@ -93,18 +93,20 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
 </task>
 <task>
 <desc>RESTART does not work well in WinArun</desc>
-<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?</notes>
+<notes>Choosing RESTART from the menu restarts the game but also seems to redo the last command from the input. A glk_stream not cleared?
+
+Could not repeat this!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -113,41 +115,12 @@ Possibly at the same time we could introduce a new attribute reference syntax, e
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>All instances not inheriting from anything should inherit directly from entity</desc>
-<notes>Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
-
-Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Add To Every xyz &lt;scripts&gt;</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -208,8 +181,8 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>11</origest>
+<currest>11</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -223,6 +196,24 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -650,8 +641,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>108</origest>
-<currest>108</currest>
+<origest>109</origest>
+<currest>109</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1697,6 +1688,19 @@ i.e. optional parts of a syntax which can be given default parameters.
 <task>
 <desc>Try UNIX/MingW as target OS for toolmaker</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>What is the problem with current strategy?
+
+Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
+
+Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -12,7 +12,7 @@ attributeOfAttribute.alan
    14.    Say unknown Of size Of brother.
 =====>                        1
 
-  *1*   429 E : Expression must refer to an instance.
+  *1*   428 E : Expression must refer to an instance.
 
    15.    Say unknown Of unknown Of brother.
 =====>                   1

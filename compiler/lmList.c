@@ -176,12 +176,11 @@ static lmMsgs msg[] = {
     { "405   ", "Instances inheriting from Location can not have initial locations." },
     { "406   ", "Integer and String parameters have no attributes." },
     { "407   ", "Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'." },
-    { "408   ", "Attributes in %1 must be of boolean type." },
+    { "408   ", "%1 in %2 must be of %3 type." },
     { "409   ", "No parameters defined in this context." },
     { "410   ", "A parameter may not be used in %1." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
     { "412   ", "Current Actor is not defined in Events." },
-    { "413   ", "Expression in %1 must be of integer type." },
     { "414   ", "Invalid initial location for %1." },
     { "415   ", "Invalid Where specification in %1 statement." },
     { "416   ", "Interval of size 1 in RANDOM expression." },
@@ -196,8 +195,7 @@ static lmMsgs msg[] = {
     { "425   ", "A Mentioned clause overrides the Name for an instance inheriting from location." },
     { "426   ", "Adding a Verb to the pre-defined class \'entity\' will result in multiple executions of it, since it will be inherited by both all locations and all objects. This is probably not what you want. Try adding it to \'thing\' instead." },
     { "427   ", "A subsequent restriction for the same parameter (\'%1\') should restrict it further, to a subclass of \'%2\'." },
-    { "428   ", "Expression must refer to an attribute." },
-    { "429   ", "Expression must refer to an instance." },
+    { "428   ", "Expression must refer to %1." },
     { "430   ", "Incompatible instance. You can only assign instances of class \'%1\' and its subclasses." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
@@ -217,7 +215,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 137}
+    {0, 135}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -174,7 +174,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
   case ATTRIBUTE_EXPRESSION:
     if (!equalTypes(exp->fields.atr.wht->type, INSTANCE_TYPE)) {
       exp->type = ERROR_TYPE;
-      lmLog(&exp->fields.atr.wht->srcp, 429, sevERR, "");
+      lmLog(&exp->fields.atr.wht->srcp, 428, sevERR, "an instance");
     } else {
       atr = resolveAttribute(exp->fields.atr.wht, exp->fields.atr.atr, context);
       exp->type = verifyExpressionAttribute(exp->fields.atr.atr, atr);
@@ -399,13 +399,13 @@ static void analyzeRandom(Expression *exp, Context *context)
   exp->type = INTEGER_TYPE;
   analyzeExpression(exp->fields.rnd.from, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.from->type)) {
-    lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
+    lmLogv(&exp->fields.rnd.from->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
     exp->type = ERROR_TYPE;
   }
 
   analyzeExpression(exp->fields.rnd.to, context);
   if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.to->type)) {
-    lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
+    lmLogv(&exp->fields.rnd.to->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
     exp->type = ERROR_TYPE;
   }
 }
