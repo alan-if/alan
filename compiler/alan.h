@@ -1,4 +1,4 @@
-#ifndef _ALAN_H_
+#ifndef _ALAN_X_
 #define _ALAN_H_
 
 #include "sysdep.h"
