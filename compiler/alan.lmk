@@ -20,7 +20,7 @@
 102	'%1 deleted.';
 103	'%1 replaced by %2.';
 104	'Severe syntax error, construct ignored.';
-105	'Syntax error.';
+105	'Syntax error, couldn\'t recover.';
 106	'Parse stack overflow.';
 107	'Parse table error.';
 108	'Parsing terminated.';
@@ -31,7 +31,7 @@
 199	'Adventure source file (%1) not found.';
 
 201	'Mismatched block identifier, \'%1\' assumed.';
-202	'Multiple usage of direction \'%1\' in this EXIT definition.';
+202	'Multiple usage of direction \'%1\' in this EXIT.';
 203	'Multiple definition of EXIT \'%1\' in this location.';
 205	'Multiple usage of \'%1\' in this VERB definition.';
 206	'Multiple definition of SYNTAX for \'%1\'.';
@@ -48,16 +48,10 @@
 217	'Only one multiple parameter allowed for each syntax. This one ignored.';
 218	'Multiple definition of attribute \'%1\'.';
 220	'Multiple definition of \'%1\'.';
-221	'Multiple class definition for parameter \'%1\'.';
+221	'Multiple class restriction for parameter \'%1\'.';
 222	'Identifier \'%1\' in class definition is not a parameter.';
 230	'No syntax defined for this verb, assumed \'%1 (object)\'.';
 
-301	'\'%1\' also defined as a Direction.';
-302	'\'%1\' also defined as a Location.';
-303	'\'%1\' also defined as a Verb.';
-304	'\'%1\' also defined as an Object.';
-305	'\'%1\' also defined as a Container.';
-306	'\'%1\' also defined as an Actor.';
 310	'Identifier \'%1\' not defined.';
 311	'Must refer to %1.';
 312	'Parameter not uniquely defined as %1, which is required.';

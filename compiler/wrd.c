@@ -166,17 +166,6 @@ void prepwrds()
     newwrd("everything", WRD_ALL, 0, NULL);
     newwrd("then", WRD_CONJ, 0, NULL);
     break;
-  case L_SWEDISH7:
-    newwrd("g}", WRD_NOISE, 0, NULL);
-    newwrd("dem", WRD_THEM, 0, NULL);
-    newwrd("utom", WRD_BUT, 0, NULL);
-    newwrd("den", WRD_IT, 0, NULL);
-    newwrd("det", WRD_IT, 0, NULL);
-    newwrd("f|rutom", WRD_BUT, 0, NULL);
-    newwrd("och", WRD_CONJ, 0, NULL);
-    newwrd("allt", WRD_ALL, 0, NULL);
-    newwrd("alla", WRD_ALL, 0, NULL);
-    break;
   case L_SWEDISH:
     newwrd("gå", WRD_NOISE, 0, NULL);
     newwrd("dem", WRD_THEM, 0, NULL);

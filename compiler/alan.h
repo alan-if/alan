@@ -14,6 +14,9 @@ extern Srcp nulsrcp;		/* NULL source position */
 extern int fileNo;		/* Number of last found file */
 extern FILE *txtfil;		/* File for collected text */
 extern FILE *datfil;		/* File for encoded text */
+#ifdef __amiga__
+extern FILE *infofil;		/* .info file of generated adventure */
+#endif
 extern Boolean verbose;		/* Verbose output */
 
 

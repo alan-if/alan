@@ -756,6 +756,7 @@ static void anstm(stm, act, evt, pars)
   case STM_LOOK:
   case STM_SAVE:
   case STM_RESTORE:
+  case STM_VISITS:
   case STM_SYSTEM:
     /* Nothing to analyse */
     break;
@@ -1292,6 +1293,11 @@ static void gestm(stm, act)
 
   case STM_RESTORE:
     emit0(C_STMOP, I_RESTORE);
+    break;
+
+  case STM_VISITS:
+    emit0(C_CONST, stm->fields.visits.count);
+    emit0(C_STMOP, I_VISITS);
     break;
 
   case STM_SCORE:

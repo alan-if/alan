@@ -163,6 +163,15 @@ void score(sc)
   }
 }
 
+#ifdef _PROTOTYPES_
+void visits(Aword v)
+#else
+void visits(v)
+     Aword v;
+#endif
+{
+  cur.visits = v;
+}
 
 #ifdef _PROTOTYPES_
 void quit(void)
@@ -791,7 +800,7 @@ static void locact(act, whr)
   cur.loc = whr;
   acts[act-ACTMIN].loc = whr;
   if (act == HERO) {
-    if (locs[acts[act-ACTMIN].loc-LOCMIN].describe % (header->visits+1) == 0)
+    if (locs[acts[act-ACTMIN].loc-LOCMIN].describe % (cur.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -805,7 +814,7 @@ static void locact(act, whr)
       dscracts();
     }
     locs[where(HERO)-LOCMIN].describe++;
-    locs[where(HERO)-LOCMIN].describe %= (header->visits+1);
+    locs[where(HERO)-LOCMIN].describe %= (cur.visits+1);
   } else
     locs[whr-LOCMIN].describe = 0;
   if (locs[cur.loc-LOCMIN].does != 0) {

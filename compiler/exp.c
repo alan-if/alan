@@ -338,6 +338,11 @@ static void anbin(exp, evt, pars)
   case OP_EQ:
     if (!eqtyp(exp->fields.bin.left->typ, exp->fields.bin.right->typ))
       lmLog(&exp->srcp, 331, sevERR, "expression");
+    else if (exp->fields.bin.left->typ == TYPENT) {
+      if (exp->fields.bin.left->fields.wht.wht->nam->kind != NAMPAR
+	  && exp->fields.bin.right->fields.wht.wht->nam->kind != NAMPAR)
+	lmLog(&exp->srcp, 417, sevINF, NULL);
+    }
     exp->typ = TYPBOOL;
     break;
 

@@ -65,7 +65,8 @@ typedef struct CurVars {
     loc,
     act,
     tick,
-    score;
+    score,
+    visits;
 } CurVars;
 
 

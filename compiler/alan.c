@@ -46,6 +46,9 @@ Srcp nulsrcp			/* NULL position for list */
 
 FILE *txtfil;			/* File of collected text data */
 FILE *datfil;			/* File of encoded text */
+#ifdef __amiga__
+FILE *infofil;			/* .info file of generated adventure */
+#endif
 
 int fileNo = 0;			/* File number to use next */
 Boolean verbose;		/* Verbose mode */
@@ -398,7 +401,9 @@ static char txtfnm[255];	/*   - " -   of collected text file */
 static char datfnm[255];	/*   - " -   of encoded data file */
 static char acdfnm[255];	/*   - " -   of ACODE file */
 static char lstfnm[255];	/*   - " -   of listing file */
-
+#ifdef __amiga__
+static char infofnm[255];	/*   - " -   of .info file */
+#endif
 
 /* SPA Option handling */
 
@@ -531,6 +536,12 @@ static void prepareNames()
   /* -- create ACODE file name -- */
   strcpy(acdfnm, name);
   strcpy(&acdfnm[i], ".acd");
+
+#ifdef __amiga__
+  /* -- create .INFO file name -- */
+  strcpy(infofnm, name);
+  strcpy(&infofnm[i], ".info");
+#endif
 }
 
 
@@ -616,6 +627,9 @@ int main(argc,argv)
       opts[OPTDEBUG].value = TRUE;
     if (packflg)		/* Force packing */
       opts[OPTPACK].value = TRUE;
+#ifdef __amiga__
+    infofil = fopen(infofnm, "w");
+#endif
     start();
     geadv(acdfnm);
     endgen();			/* End of generating pass */

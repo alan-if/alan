@@ -30,6 +30,7 @@ OBJECTS = \
 	nam.o \
 	obj.o \
 	opt.o \
+	res.o \
 	rul.o \
 	sco.o \
 	scr.o \

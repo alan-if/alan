@@ -66,47 +66,6 @@ static char *engmsg[] =
   NULL
 };
 
-static char *swe7msg[] = {
-  "Va?",
-  "Jag f|rst}r inte.",
-  "Jag vet inte vad du menar med 'allt'.",
-  "Jag vet inte vad du menar med 'den'.",
-  "Jag vet inte vad du menar med 'dem'.",
-  "Du kan inte ge flera objekt tillsammans med '$v'.",
-  "Jag kan inte begripa vad du vill $v.",
-  "Du m}ste ge ett substantiv.",
-  "Det borde vara ett objekt efter 'utom'.",
-  "Du kan bara anv{nda 'utom' efter 'allt'.",
-  "Det blir inte s} mycket kvar att $v d}!",
-  "Jag vet inte vilken $1 du menar.",
-  "Jag ser ingen $1 h{r.",
-  "Du kan inte g} }t det h}llet.",
-  "Det g}r inte att g|ra.",
-  "Du kan inte $v $1.",
-  "Det finns inget du kan $v h{r.",
-  "Det finns en",
-  ", en",
-  "och en",
-  "h{r.",
-  "{r h{r.",
-  "",
-  "inneh}ller en",
-  ", en",
-  "och en",
-  "$$.",
-  "",
-  "{r tom.",
-  "Du har samlat",
-  "po{ng av",
-  "Jag k{nner inte till det ordet.",
-  "<Mera>",
-  "(igen)",
-  "Tyv{rr, det gick inte att spara {ventyret.",
-  "Tyv{rr, kunde inte hitta n{got sparat {ventyr.",
-  "Tyv{rr, det sparade {ventyret har inte samma version.",
-  NULL
-};
-
 static char *swemsg[] = {
   "Va?",
   "Jag förstår inte.",
@@ -227,17 +186,12 @@ void prepmsgs()
   List *lst = NULL;	/* The constructed list */
 
 
-  if (sizeof(swe7msg) != sizeof(engmsg))
-    syserr("not the same number of messages in swe7msg[]");
   if (sizeof(swemsg) != sizeof(engmsg))
     syserr("not the same number of messages in swemsg[]");
 
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
     msgp = &engmsg[0];
-    break;
-  case L_SWEDISH7:
-    msgp = &swe7msg[0];
     break;
   case L_SWEDISH:
     msgp = &swemsg[0];

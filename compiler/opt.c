@@ -24,7 +24,6 @@ OptDef opts[NOPT] = {
   {INTOPT, FALSE, "width", 75},            /* OPTION Width */
   {INTOPT, FALSE, "length", 24},           /* OPTION Length */
   {BOOLOPT, FALSE, "pack", FALSE},	   /* OPTION Pack */
-  {INTOPT, FALSE, "visits", 0},		   /* OPTION Visits */
   {BOOLOPT, FALSE, "debug", FALSE}         /* OPTION Debug */
 };
 
@@ -248,6 +247,5 @@ void geopt(header)
   header->paglen = opts[OPTLEN].value;
   header->pagwidth = opts[OPTWIDTH].value;
   header->pack = opts[OPTPACK].value;
-  header->visits = opts[OPTVISITS].value;
   header->debug = opts[OPTDEBUG].value;
 }

@@ -1,7 +1,6 @@
 # Makefile for alan compiler
 #
 
-
 CPP	= gcc -MM
 
 TMLIB	= $(TMHOME)/lib/ansi-c
@@ -122,9 +121,9 @@ MSDOS:
 	mv alan.tmk alan.tmk.sun
 	sed s/SunOS/MSDOS/ alan.tmk.sun > alan.tmk
 	make tm
-	for f in `grep alanCommon *.[ch]` ; do \
+	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
-	end
+	done
 	mv -f alan.tmk.sun alan.tmk
 
 version.c: $(OBJECTS) ../[0-9]*

@@ -82,6 +82,7 @@ typedef enum InstClass {
   I_LIST,			/* List contents of a container */
   I_EMPTY,
   I_SCORE,
+  I_VISITS,
   I_SCHEDULE,
   I_CANCEL,
   I_LOCATE,
@@ -154,37 +155,36 @@ typedef struct AcdHdr {
   Abool pack;			/* 03 - Is the text packed ? */
   Aword paglen;			/* 04 - Length of a page */
   Aword pagwidth;		/* 05 - and width */
-  Aword visits;			/* 06 - Number of visits between long descr */
-  Aword debug;			/* 07 - Option debug */
+  Aword debug;			/* 06 - Option debug */
 /* Data structures */
-  Aaddr dict;			/* 08 - Dictionary */
-  Aaddr oatrs;			/* 09 - Object default attributes */
-  Aaddr latrs;			/* 0a - Location default attributes */
-  Aaddr aatrs;			/* 0b - Actor default attributes */
-  Aaddr acts;			/* 0c - Actor table */
-  Aaddr objs;			/* 0d - Object table */
-  Aaddr locs;			/* 0e - Location table */
-  Aaddr stxs;			/* 0f - Syntax table */
-  Aaddr vrbs;			/* 10 - Verb table */
-  Aaddr evts;			/* 11 - Event table */
-  Aaddr cnts;			/* 12 - Container table */
-  Aaddr ruls;			/* 13 - Rule table */
-  Aaddr init;			/* 14 - String init table */
-  Aaddr start;			/* 15 - Start code */
-  Aword msgs;			/* 16 - Messages table */
+  Aaddr dict;			/* 07 - Dictionary */
+  Aaddr oatrs;			/* 08 - Object default attributes */
+  Aaddr latrs;			/* 09 - Location default attributes */
+  Aaddr aatrs;			/* 0a - Actor default attributes */
+  Aaddr acts;			/* 0b - Actor table */
+  Aaddr objs;			/* 0c - Object table */
+  Aaddr locs;			/* 0d - Location table */
+  Aaddr stxs;			/* 0e - Syntax table */
+  Aaddr vrbs;			/* 0f - Verb table */
+  Aaddr evts;			/* 10 - Event table */
+  Aaddr cnts;			/* 11 - Container table */
+  Aaddr ruls;			/* 12 - Rule table */
+  Aaddr init;			/* 13 - String init table */
+  Aaddr start;			/* 14 - Start code */
+  Aword msgs;			/* 15 - Messages table */
 /* Miscellaneous */
-  Aword objmin, objmax;		/* 17 - Interval for object codes */
-  Aword actmin, actmax;		/* 19 - Interval for actor codes */
-  Aword cntmin, cntmax;		/* 1b - Interval for container codes */
-  Aword locmin, locmax;		/* 1d - Interval for location codes */
-  Aword dirmin, dirmax;		/* 1f - Interval for direction codes */
-  Aword evtmin, evtmax;		/* 21 - Interval for event codes */
-  Aword rulmin, rulmax;		/* 23 - Interval for rule codes */
-  Aword maxscore;		/* 25 - Maximum score */
-  Aaddr scores;			/* 26 - Score table */
-  Aaddr freq;			/* 27 - Address to Char freq's for coding */
-  Aword acdcrc;			/* 28 - Checksum for acd code (excl. hdr) */
-  Aword txtcrc;			/* 29 - Checksum for text data file */
+  Aword objmin, objmax;		/* 16 - Interval for object codes */
+  Aword actmin, actmax;		/* 18 - Interval for actor codes */
+  Aword cntmin, cntmax;		/* 1a - Interval for container codes */
+  Aword locmin, locmax;		/* 1c - Interval for location codes */
+  Aword dirmin, dirmax;		/* 1e - Interval for direction codes */
+  Aword evtmin, evtmax;		/* 20 - Interval for event codes */
+  Aword rulmin, rulmax;		/* 22 - Interval for rule codes */
+  Aword maxscore;		/* 24 - Maximum score */
+  Aaddr scores;			/* 25 - Score table */
+  Aaddr freq;			/* 26 - Address to Char freq's for coding */
+  Aword acdcrc;			/* 27 - Checksum for acd code (excl. hdr) */
+  Aword txtcrc;			/* 28 - Checksum for text data file */
 } AcdHdr;
 
 #endif

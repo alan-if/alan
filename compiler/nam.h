@@ -20,24 +20,24 @@
 typedef long NamKind;
 /* Make sure these are compatible with acode */
 /* Used for class checks in syntax handling */
-#define NAMOBJ 1L		
-#define NAMCNT ((long)NAMOBJ<<1)
-#define NAMACT ((long)NAMCNT<<1)
-#define NAMNUM ((long)NAMACT<<1)
-#define NAMSTR ((long)NAMNUM<<1)
+#define NAMOBJ 1L		/* 1 */
+#define NAMCNT ((long)NAMOBJ<<1) /* 2 */
+#define NAMACT ((long)NAMCNT<<1) /* 4 */
+#define NAMNUM ((long)NAMACT<<1) /* 8 */
+#define NAMSTR ((long)NAMNUM<<1) /* 16 */
 /* 4f_Awful hack until conts are fixed */
-#define NAMCOBJ ((long)NAMSTR<<1)
-#define NAMCACT ((long)NAMCOBJ<<1)
+#define NAMCOBJ ((long)NAMSTR<<1) /* 32 */
+#define NAMCACT ((long)NAMCOBJ<<1) /* 64 */
 
-#define NAMDIR ((long)NAMCACT<<1)
-#define NAMLOC ((long)NAMDIR<<1)
-#define NAMVRB ((long)NAMLOC<<1)
-#define NAMATR ((long)NAMVRB<<1)
-#define NAMEVT ((long)NAMATR<<1)
-#define NAMPAR ((long)NAMEVT<<1)
-#define NAMWRD ((long)NAMPAR<<1)
-#define NAMRUL ((long)NAMWRD<<1)
-#define NAMUNK ((long)NAMRUL<<1)
+#define NAMDIR ((long)NAMCACT<<1) /* 128 */
+#define NAMLOC ((long)NAMDIR<<1) /* 256 */
+#define NAMVRB ((long)NAMLOC<<1) /* 512 */
+#define NAMATR ((long)NAMVRB<<1) /* 1024 */
+#define NAMEVT ((long)NAMATR<<1) /* 2048 */
+#define NAMPAR ((long)NAMEVT<<1) /* 4096 */
+#define NAMWRD ((long)NAMPAR<<1) /* 8192 */
+#define NAMRUL ((long)NAMWRD<<1) /* 16384 */
+#define NAMUNK ((long)NAMRUL<<1) /* 65536 */
 #define NAMANY (-1L)			/* Any class or property */
 
 

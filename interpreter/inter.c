@@ -241,6 +241,14 @@ void interpret(adr)
 	score(sc);
 	break;
       }
+      case I_VISITS: {
+	Aword v;
+	v = pop();
+	if (stpflg)
+	  printf("VISITS \t%5ld", v);
+	visits(v);
+	break;
+      }
       case I_SCHEDULE: {
 	Aword evt, whr, aft;
 	evt = pop();

@@ -31,6 +31,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   STM_SAVE,
   STM_RESTORE,
   STM_SCORE,
+  STM_VISITS,
   STM_DESCRIBE,
   STM_SAY,
   STM_LIST,
@@ -62,6 +63,10 @@ typedef struct StmNod {		/* STATEMENT */
       int count;		/* Number of this SCORE */
       int score;		/* Its value */
     } score;
+
+    struct {			/* for VISITS */
+      int count;		/* How many times not to show long descriptions */
+    } visits;
 
     struct {			/* for DESCRIBE */
       WhtNod *wht;		/* What? */

@@ -1279,6 +1279,12 @@ special_statement	-- RETURNS: stm
 	    %special_statement.stm->fields.score.count = 0;
     %%
 
+    ! 'VISITS' INTEGER '.'
+    %%
+	%special_statement.stm = newstm(`&%'VISITS'.srcp, STM_VISITS);
+	%special_statement.stm->fields.visits.count = val(%INTEGER.chars);
+    %%
+
     ! 'SYSTEM' STRING
     %%
 	%special_statement.stm = newstm(`&%'SYSTEM'.srcp, STM_SYSTEM);

@@ -15,14 +15,13 @@
 /* Types: */
 
 /* Options, their names, types and values */
-#define NOPT 6
+#define NOPT 5
 
 typedef enum OptKind {
   OPTLANG,
   OPTWIDTH,
   OPTLEN,
   OPTPACK,
-  OPTVISITS,
   OPTDEBUG
 } OptKind;
 
@@ -45,7 +44,6 @@ typedef struct OptDef {
 /* Option values for LANGUAGE */
 typedef enum LangKind {
   L_ENGLISH,
-  L_SWEDISH7,
   L_SWEDISH
 } LangKind;
 

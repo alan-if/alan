@@ -466,17 +466,18 @@ static void simple(olst)
       }
     }
     mrglst(tlst, olst);
-    if (wrds[wrdidx] != EOF && isConj(wrds[wrdidx]) &&
-	(isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1]))) { /* More ? */
+    if (wrds[wrdidx] != EOF
+	&& (isConj(wrds[wrdidx]) &&
+	    (isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1])))) {
+      /* More parameters in a conjunction separated list ? */
       savplur = plural;
       savidx = wrdidx;
       wrdidx++;
       plural = TRUE;
-    } else if (wrds[wrdidx] == EOF || isConj(wrds[wrdidx]) || isPrep(wrds[wrdidx])) {
+    } else {
       lstcpy(olst, tlst);
       return;
-    } else			/* We don't understand! */
-      error(WHAT);
+    }
   }
 }
   
