@@ -1,10 +1,12 @@
 VERSION	= `ls [0-9]*_[0-9]*_[0-9]*.* | tail -1 | sed s/\\\\.//g | sed s/_//g`
 
 all: version
-	rm *.tgz *.zip
-	tar zcvf alanlib$(VERSION).tgz *.i ReadMe
-	zip alanlib$(VERSION).zip *.i ReadMe
-	cp *.zip *.tgz ../../www/download
+	@echo Building Alan Standard Library version $(VERSION)
+	@rm *.tgz *.zip
+	@tar zcvf alanlib$(VERSION).tgz *.i ReadMe
+	@zip alanlib$(VERSION).zip *.i ReadMe
+	@cp *.zip *.tgz ../../www/download
+	@cp ReadMe ../../www/download/library.txt
 
 version: version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
