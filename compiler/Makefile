@@ -170,6 +170,10 @@ alan.prod: alan.pml
 #- Other machines
 
 savetm:
+	@if test -f alan.tmk.orig; then \
+	    echo "There is already an original!"; \
+	    exit 1; \
+	fi
 	mv alan.tmk alan.tmk.orig
 	
 restoretm:
