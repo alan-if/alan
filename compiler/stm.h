@@ -12,12 +12,10 @@
 #include "srcp.h"
 #include "wht.h"
 #include "whr.h"
-#include "nam.h"
+#include "id.h"
+#include "ins.h"
 #include "exp.h"
 #include "lst.h"
-#include "obj.h"
-#include "act.h"
-#include "loc.h"
 #include "evt.h"
 
 
@@ -96,29 +94,29 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* for MAKE */
       WhtNod *wht;		/* What? */
       Bool not;			/* Was there a NOT ? */
-      NamNod *atr;
+      IdNod *atr;		/* Id of the attribute */
     } make;
 
     struct {			/* for SET */
       WhtNod *wht;		/* What? */
-      NamNod *atr;
+      IdNod *atr;
       ExpNod *exp;		/* The new value */
     } set;
 
     struct {			/* for INCR/DECR */
       WhtNod *wht;		/* What? */
-      NamNod *atr;
+      IdNod *atr;
       ExpNod *step;		/* By what? */
     } incr;
 
     struct {			/* for SCHEDULE */
-      NamNod *id;		/* Name of the event */
+      IdNod *id;		/* Name of the event */
       WhrNod *whr;		/* Where? */
       ExpNod *when;
     } schedule;
 
     struct {			/* for CANCEL */
-      NamNod *id;		/* Name of the event */
+      IdNod *id;		/* Name of the event */
     } cancel;
 
     struct {			/* for IF */
@@ -129,8 +127,8 @@ typedef struct StmNod {		/* STATEMENT */
 
     struct {			/* USE */
       int scriptno;		/* Which script to use (number) */
-      NamNod *script;		/* Which script to use (name) */
-      NamNod *actor;		/* For which actor */
+      IdNod *script;		/* Which script to use (name) */
+      IdNod *actor;		/* For which actor */
     } use;
 
     struct {			/* SYSTEM */
@@ -166,12 +164,12 @@ extern StmNod *newstm(Srcp *srcp,
 
 /* Analyze a list of statements */
 extern void anstms(List *stms,
-		   ActNod *act,
-		   EvtNod *evt,
+		   InsNod *ins,	/* Instance context */
+		   EvtNod *evt,	/* Event context */
 		   List *pars);
 
 /* Generate code for a list of statements */
-extern void gestms(List *stms, ActNod *act);
+extern void gestms(List *stms, InsNod *ins);
 
 /* Dump a statement node */
 extern void dustm(StmNod *stm);

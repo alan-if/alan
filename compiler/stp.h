@@ -11,7 +11,7 @@
 /* USE: */
 #include "srcp.h"
 #include "exp.h"
-#include "act.h"
+#include "ins.h"
 #include "lst.h"
 
 
@@ -40,10 +40,10 @@ extern StpNod *newstp(Srcp *srcp,
 		      List *stms);
 
 /* Analyse all Steps in a list */
-extern void anstps(List *stps, ActNod *act);
+extern void anstps(List *stps, InsNod *ins);
 
 /* Generate code for all Steps in a list */
-extern Aaddr gestps(List *stps, ActNod *act);
+extern Aaddr gestps(List *stps, InsNod *ins);
 
 /* Dump a Step node */
 extern void dustp(StpNod *stp);

@@ -11,14 +11,14 @@
 /* USE other definitions */
 #include "srcp.h"
 #include "lst.h"
-#include "act.h"
+#include "ins.h"
 
 
 /* Types: */
 
 typedef struct ScrNod {		/* SCRIPT */
   Srcp srcp;			/* Source position */
-  NamNod *nam;			/* Name for this script (if any) */
+  IdNod *id;			/* Id for this script (if any) */
   int code;			/* and its code */
   List *descr;			/* List of optional description statements */
   Aaddr stmadr;			/* ACODE address description statements */
@@ -34,20 +34,20 @@ typedef struct ScrNod {		/* SCRIPT */
 
 /* Create a new Script node */
 extern ScrNod *newscr(Srcp *srcp,
-		      NamNod *nam,
+		      IdNod *id,
 		      int code,
 		      List *descr,
 		      List *stps);
 
-/* Prepare the scripts of an actor for analysis */
-extern void prepscrs(List *scrs, ActNod *act);
+/* Prepare the scripts of an Instance for analysis */
+extern void prepscrs(List *scrs, InsNod *ins);
 
 /* Analyse a list of Scripts */
 extern void anscrs(List *scrs,
-		   ActNod *act);
+		   InsNod *ins);
 
-/* Generate script routines for an actor */
-extern Aword gescrs(ActNod *act);
+/* Generate script routines for an Instace */
+extern Aword gescrs(InsNod *ins);
 
 /* Dump a Script node */
 extern void duscr(ScrNod *scr);

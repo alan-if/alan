@@ -19,6 +19,8 @@
 
 /* Types: */
 
+#ifdef FIXME
+/* Should be removed!!!! */
 typedef long NamKind;
 /* Make sure these are compatible with acode */
 /* Used for class checks in syntax handling */
@@ -49,7 +51,6 @@ typedef struct NamNod {		/* NAME */
   NamKind kind;			/* What kind of name */
   int code;			/* AN - Code for this name */
 } NamNod;
-
 
 
 /* Data: */
@@ -90,5 +91,6 @@ extern void dumpNamKind(NamKind kind);
 /* Dump a Name node */
 extern void dunam(NamNod *nam);
 
+#endif
 
 #endif

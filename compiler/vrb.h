@@ -11,8 +11,7 @@
 /* USE: */
 #include "srcp.h"
 #include "lst.h"
-#include "obj.h"
-#include "act.h"
+#include "ins.h"
 #include "stx.h"
 
 
@@ -43,12 +42,10 @@ extern VrbNod *newvrb(Srcp *srcp,
 		      List *alts);
 
 /* Analyze a list of Verbs */
-extern void anvrbs(List *vrbs,
-		   ObjNod *obj,
-		   ActNod *act);
+extern void anvrbs(List *vrbs);
 
 /* Generate code for a list of Verbs */
-extern Aaddr gevrbs(List *vrbs, ActNod *act);
+extern Aaddr gevrbs(List *vrbs, InsNod *ins);
 
 /* Dump a Verb */
 extern void duvrb(VrbNod *vrb);

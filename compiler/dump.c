@@ -14,13 +14,9 @@
 #include "chk.h"                /* CHK-nodes */
 #include "vrb.h"                /* VRB-nodes */
 #include "lim.h"		/* LIM-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
 #include "ext.h"                /* EXT-nodes */
-#include "loc.h"                /* LOC-nodes */
 #include "scr.h"                /* SCR-nodes */
 #include "stp.h"                /* STP-nodes */
-#include "act.h"                /* ACT-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "rul.h"                /* RUL-nodes */
 

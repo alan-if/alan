@@ -34,7 +34,9 @@ void redefined(Srcp *srcp,      /* IN - Source position */
                SymNod *sym,     /* IN - The previous definition */
                char *str)       /* IN - The symbol name */
 {
-#ifdef OLDSYMBOLS
+#ifndef FIXME
+  syserr("UNIMPL: redefined() - old symbol kinds");
+#else
   int code;                     /* Error code */
 
   switch (sym->class) {
@@ -127,9 +129,7 @@ SymNod *newsym(char *string,	/* IN - Name of the new symbol */
   default: syserr("Unexpected switch on SYMBOLKIND in newsym()"); break;
   }
 
-#ifndef FIXME
-  syserr("UNIMPLEMENTED: newSym() - counting");
-#else
+#ifdef FIXME
   switch (class) {
   case NAMDIR: new->code = ++dircount; break;
   case NAMLOC: new->code = ++loccount; break;
