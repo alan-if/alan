@@ -32,7 +32,7 @@ void testNewExt()
   analyzeExit(theExit, context);
   unitAssert(readEcode() == 351);
 
-  initEmit("unit.acd");
+  initEmit("unit.a3c");
   firstAddress = emadr();
   generateExitEntry(theExit);
   unitAssert(emadr() == firstAddress + entrySize);

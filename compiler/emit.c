@@ -477,7 +477,7 @@ void emitTextDataToAcodeFile(char dataFileName[])
   int c;
   FILE *dataFile = fopen(dataFileName, READ_MODE);
 
-  acdHeader.stringOffset = 0; /* ftell(acdfil); */
+  acdHeader.stringOffset = ftell(acdfil);
 
   while ((c = fgetc(dataFile)) != EOF)
     fputc(c, acdfil);

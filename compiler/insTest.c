@@ -37,7 +37,7 @@ void testGenerateInstances()
   int instanceSize = sizeof(InstanceEntry)/sizeof(Aword);
 
   initAdventure();
-  initEmit("unit.acd");
+  initEmit("unit.a3c");
   symbolizeAdventure();
 
   address = generateInstanceTable();
@@ -46,7 +46,7 @@ void testGenerateInstances()
   unitAssert(address == firstAdr + 1/*EOF*/);
 
   initAdventure();
-  initEmit("unit.acd");
+  initEmit("unit.a3c");
   ins = newInstance(&srcp, newId(&srcp, "aSimpleInstance"), NULL, NULL);
   symbolizeInstances();
   generateInstanceData(ins);
@@ -61,7 +61,7 @@ void testGenerateInstances()
   terminateEmit();
   emitHeader();
 
-  loadACD("unit.acd");
+  loadACD("unit.a3c");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
   unitAssert(convertFromACD(instanceTable->code) == ins->slots->id->symbol->code);
   unitAssert(convertFromACD(instanceTable->idAddress) == ins->slots->idAddress);

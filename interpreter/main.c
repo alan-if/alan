@@ -1513,7 +1513,7 @@ static void load()
 #endif
   }
   if (crc != tmphdr.acdcrc) {
-    sprintf(err, "Checksum error in .ACD file (0x%lx instead of 0x%lx).",
+    sprintf(err, "Checksum error in Acode (.a3c) file (0x%lx instead of 0x%lx).",
 	    crc, tmphdr.acdcrc);
     if (errflg)
       syserr(err);
@@ -1841,7 +1841,7 @@ static void openFiles()
 
   /* Open Acode file */
   strcpy(codfnm, advnam);
-  strcat(codfnm, ".acd");
+  strcat(codfnm, ".a3c");
   if ((codfil = fopen(codfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure code file '");
     strcat(str, codfnm);
@@ -1851,7 +1851,7 @@ static void openFiles()
 
   /* Open Text file */
   strcpy(txtfnm, advnam);
-  strcat(txtfnm, ".dat");
+  strcat(txtfnm, ".a3c");
   if ((txtfil = fopen(txtfnm, READ_MODE)) == NULL) {
     strcpy(str, "Can't open adventure text data file '");
     strcat(str, txtfnm);

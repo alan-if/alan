@@ -45,7 +45,7 @@ void testGenerateClasses()
 
   initAdventure();
 
-  initEmit("unit.acd");
+  initEmit("unit.a3c");
   symbolizeAdventure();
   addr = generateClasses();
   /* Table should start directly after header */
@@ -53,7 +53,7 @@ void testGenerateClasses()
   /* header + 4 classes + 1 EOF should be generated*/
   unitAssert(emadr() == firstAdr + 4*classSize + 1);
 
-  initEmit("unit.acd");
+  initEmit("unit.a3c");
   symbolizeClasses();
   cla = newClass(&srcp, newId(&srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();

@@ -339,7 +339,7 @@ static void prepareNames(void)
   
   /* -- create ACODE file name -- */
   strcpy(acdfnm, advnam);
-  strcat(acdfnm, ".acd");
+  strcat(acdfnm, ".a3c");
 }
 
 
@@ -538,6 +538,7 @@ void compile(void) {
     delete(txtfnm);
 #else
     unlink(txtfnm);
+    unlink(datfnm);
 #endif    
 
   /* Check what messages to show on the screen */

@@ -72,7 +72,10 @@ void print(fpos, len)
 	savfp = ftell(txtfil);
     }
     printFlag = TRUE;           /* We're printing now! */
-    fseek(txtfil, fpos, 0);     /* Position to start of text */
+
+    /* Position to start of text */
+    fseek(txtfil, fpos+header->stringOffset, 0);
+
     if (header->pack)
       startDecoding();
     for (outlen = 0; outlen != len; outlen = outlen + strlen(str)) {
@@ -94,6 +97,7 @@ void print(fpos, len)
 #endif
       output(str);
     }
+
     /* And restore */
     printFlag = savedPrintFlag;
     if (printFlag) {
