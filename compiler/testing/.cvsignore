@@ -1,6 +1,7 @@
 *.output
 *.diff
 *.acd
+*.dat
 *.tmp
 *.lis
 *~

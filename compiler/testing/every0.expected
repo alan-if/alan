@@ -1,0 +1,20 @@
+########## every0 ##########
+Every x
+End Every x.
+
+Start Here.
+########## alan every0.alan ##########
+
+
+every0.alan
+
+    4.  Start Here.
+=====>        1
+
+  *1*   211 E : Adventure must start at a Location.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

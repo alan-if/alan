@@ -1,0 +1,23 @@
+########## every4 ##########
+Every y
+End Every y.
+
+Every x Isa y
+End Every x.
+
+Start At l.
+########## alan every4.alan ##########
+
+
+every4.alan
+
+    7.  Start At l.
+=====>           1
+
+  *1*   310 E : Identifier 'l' not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+
