@@ -1,0 +1,21 @@
+########## alan containerClass ##########
+
+
+containerClass.alan
+
+    4.  Every container Isa object
+=====>        1
+
+  *1*   103 E : Syntax error. Attempting to repair by replacing "'CONTAINER'"
+                by "Identifier ('<generated identifier #1>')".
+
+    5.  End Every container.
+=====>            1
+
+  *1*   102 E : Syntax error. Attempting to repair by ignoring "'CONTAINER'".
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>238.89</origest>
-<currest>238.89</currest>
-<elapsed>94.89</elapsed>
+<origest>240.89</origest>
+<currest>240.89</currest>
+<elapsed>97.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>44</origest>
-<currest>44</currest>
-<elapsed>12</elapsed>
+<origest>47</origest>
+<currest>47</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.27</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>20</origest>
 <currest>20</currest>
-<elapsed>9</elapsed>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
@@ -124,7 +124,7 @@ A prerequisite action would be to fix this multiple reversing problem.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -136,7 +136,7 @@ $$ reset both auto-formattings.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -145,7 +145,7 @@ $$ reset both auto-formattings.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -640,13 +640,12 @@ At analysis connect a parameter list to the verb and use that instead of the syn
 <isopen>1</isopen>
 </task>
 </task>
-</task>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
+<origest>3</origest>
+<currest>3</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -654,6 +653,15 @@ At analysis connect a parameter list to the verb and use that instead of the syn
 <notes>Generally: UNDO should say something, standard messages?
 
 Should we allow UNDO as a response to quit?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>QUIT message should allow UNDO</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -679,12 +687,13 @@ FOR EACH instance ISA entity DO
 <isopen>1</isopen>
 </task>
 </task>
+</task>
 <task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>96</origest>
-<currest>96</currest>
+<origest>97</origest>
+<currest>97</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -692,6 +701,24 @@ FOR EACH instance ISA entity DO
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Are only CHECKs with corresponding WHEN run?</desc>
+<notes>Or should the WHEN only apply to the DOES-part?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if there is no When clause for every parameter in the syntax</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -757,15 +784,6 @@ Look up all WHAT_ID expressions and transform them into function_expressions wit
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Warn if there is no When clause for every parameter in the syntax</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>HAVING clause on aggregate filters</desc>
 <notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
  HAVING x = 3
@@ -816,6 +834,17 @@ attributes
 scripts
 verbs
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow parameters as actor in USE statement</desc>
+<notes>Need: to be able to start a specific script for a variable actor.
+
+Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -940,6 +969,22 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Bug: Syntax typing error</desc>
+<notes>
+Thomas N:
+paramatr() in atr.c
+Statements in ELSE-part of a SYNTAX is really typed to the *complement* of the WHERE-part. I.e. the parameters can nearly always be STRINGS and NUMBERS which do not have attributes. This means that it is almost always impossible to refer to attributes in SYNTAX-ELSE clauses.
+This must be handled by a new strategy for parameter class analysis. See "Parameter environment classing"
+SteveG: 
+Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Text formatting "statements"</desc>
 <notes>
 $b for bold? Use ANSI?
@@ -1032,17 +1077,6 @@ Design:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow parameters as actor in USE statement</desc>
-<notes>Need: to be able to start a specific script for a variable actor.
-
-Simply allow an expression as the actor in USE statement, inheritance etc. will take care of the rest ;-)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Unnatural exit handling in winarun</desc>
 <notes>After the game has exited it is not possible to access the menus although they are visible.
 A status variable could instead be used to indicate if a game is in progress or not. It should be possible to quit a game and then open another game to play or restart it.
@@ -1057,22 +1091,6 @@ Perhaps this is not a great problem.</notes>
 <task>
 <desc>Compile command version of interpreter with mingw</desc>
 <notes>It is possible if not using TERMIO, but how do we then present status line?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Syntax typing error</desc>
-<notes>
-Thomas N:
-paramatr() in atr.c
-Statements in ELSE-part of a SYNTAX is really typed to the *complement* of the WHERE-part. I.e. the parameters can nearly always be STRINGS and NUMBERS which do not have attributes. This means that it is almost always impossible to refer to attributes in SYNTAX-ELSE clauses.
-This must be handled by a new strategy for parameter class analysis. See "Parameter environment classing"
-SteveG: 
-Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2029,7 +2047,7 @@ This strategy makes it possible to use the same script code for all instances th
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
@@ -2273,7 +2291,7 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Testing of attributes on locations</desc>
 <notes/>
@@ -3268,7 +3286,7 @@ Argument handling in WinGlkArun seems a bit messy...</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>DESCRIPTION CHECK/DOES</desc>
 <notes>
@@ -3515,7 +3533,7 @@ This implies collecting a scriptList during analysis, keeping only script refere
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -4081,7 +4099,7 @@ If not present in A3C class names must be available.
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>

@@ -1,0 +1,39 @@
+########## alan makeSemantics ##########
+
+
+makeSemantics.alan
+
+    5.      Make Current Actor a.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+    6.      Make Current Location a.
+=====>                            1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+   11.      Make This a.
+=====>           1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   12.      Make Current Actor a.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+   13.      Make Current Location a.
+=====>                            1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

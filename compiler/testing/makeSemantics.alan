@@ -1,0 +1,14 @@
+The l Isa location
+  Is a.
+  Description
+    Make This a.
+    Make Current Actor a.
+    Make Current Location a.
+    Make l a.
+End The l.
+
+Start At l.
+    Make This a.
+    Make Current Actor a.
+    Make Current Location a.
+    Make l a.

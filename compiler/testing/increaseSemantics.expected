@@ -1,0 +1,68 @@
+########## alan increaseSemantics ##########
+
+
+increaseSemantics.alan
+
+    5.      Increase a Of Current Actor By 7.
+=====>               1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+    6.      Increase a Of Current Location By 7.
+=====>               1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+    9.      Increase a Of l By a Of Current Actor.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+   10.      Increase a Of l By a Of Current Location.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+   15.      Increase a Of This By 7.
+=====>                    1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   16.      Increase a Of Current Actor By 7.
+=====>               1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+   17.      Increase a Of Current Location By 7.
+=====>               1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+   19.      Increase a Of l By a Of This.
+=====>                              1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   20.      Increase a Of l By a Of Current Actor.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current actor since the
+                class 'actor' does not have it.
+
+   21.      Increase a Of l By a Of Current Location.
+=====>                         1
+
+  *1*   314 E : Attribute 'a' is not defined for the current location since the
+                class 'location' does not have it.
+
+
+        10 error(s).
+        No detected warnings.
+        1 informational message(s).
+
