@@ -4,9 +4,9 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>205.89</origest>
-<currest>205.89</currest>
-<elapsed>73.89</elapsed>
+<origest>206.89</origest>
+<currest>206.89</currest>
+<elapsed>74.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>33</origest>
 <currest>33</currest>
-<elapsed>3</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.26</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>3</elapsed>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
@@ -105,16 +105,7 @@ TASK: create multiple entries for same verb in syntax mapping table
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -162,10 +153,26 @@ Is it possible to defer the actual class restriction to execution? Or should we 
 <desc>Increment: version 3.0.27</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
+<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and avoid doing it a second time if the structure is such that multiple structures refered to the same substructure.
+
+It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+
+This would allow code generating once for some inherited constructs:
+-scripts
+-descriptions
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>String operators</desc>
 <notes>concatenation
@@ -249,15 +256,12 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bookkeep reversing procedure to avoid reversing same structure twice</desc>
-<notes>It would be rather straight forward to book-keep all Aaddr:s that where reversed and aviod doing it a second time if the structure is such that multiple structures refered to the same substructure.
+<desc>Optimize generation of containers</desc>
+<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
 
-It would only be necessary to bookkeep structures that require it. I.e. ones that now point to the same address from multiple places.
+This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
 
-This would allow code generating once for some inherited constructs:
--scripts
--descriptions
-</notes>
+A prerequisite action would be to fix this multiple reversing problem.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -265,12 +269,8 @@ This would allow code generating once for some inherited constructs:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Optimize generation of containers</desc>
-<notes>We could (and already tried to) optimize the generation of container bodies by utilizing the fact that container bodies are reentrant and inherited bodies are pointed to from the instances.
-
-This however requires that the code for a container body is not reversed more than once. As it is now this can not be avoided.
-
-A prerequisite action would be to fix this multiple reversing problem.</notes>
+<desc>Meta-output should be in []</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -521,8 +521,8 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>93</origest>
-<currest>93</currest>
+<origest>94</origest>
+<currest>94</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -550,6 +550,15 @@ The ... In box</notes>
 <task>
 <desc>Unit tests for word-handling</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow multiple parameter references in a WHEN clause in a Verb body</desc>
+<notes>Why? What is the problem?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

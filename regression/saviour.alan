@@ -99,7 +99,8 @@ Add To Every object
   End Verb.
 
   Verb unlock_with
-    Check o Is openable
+    When o
+      Check o Is openable
         Else "There is no way to $v the $1."
   End Verb unlock_with.
 
@@ -139,7 +140,8 @@ Syntax
         insert_into = 'insert' (o) 'into' (s).
 Add To Every object
   Verb insert_into
-    Check o <> s
+    When o
+      Check o <> s
         Else "Don't try to be smart with me!"
   End Verb insert_into.
 End Add To.
@@ -821,14 +823,15 @@ The coin Isa object Name small coin
     End Verb.
 
     Verb insert_into
-        Check s = machine
-            Else "It is not possible to insert the $1 in the $2"
-        Does
-            "A clinking sound is heared from the machine and a candy
-             bar falls out on the floor."
-            Locate candy Here.
-            Locate coin At nowhere.
-            Score 15.
+        When o 
+	    Check s = machine
+        	Else "It is not possible to insert the $1 in the $2"
+	    Does
+        	"A clinking sound is heared from the machine and a candy
+             	 bar falls out on the floor."
+	       	Locate candy Here.
+        	Locate coin At nowhere.
+		Score 15.
     End Verb.
 END The coin.
 
