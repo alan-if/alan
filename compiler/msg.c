@@ -193,12 +193,13 @@ void prepmsgs()
 #endif
 {
   char **msgp;
+  char buf[256];
   List *lst = NULL;	/* The constructed list */
 
 
   if (sizeof(swemsg)/sizeof(swemsg[0]) != MSGMAX)
     syserr("Incorrect number of messages in swedish message tables");
-  if (sizeof(engmsg)/sizeof(swemsg[0]) != MSGMAX)
+  if (sizeof(engmsg)/sizeof(engmsg[0]) != MSGMAX)
     syserr("Incorrect number of messages in english message tables");
 
   switch (opts[OPTLANG].value) {
@@ -218,7 +219,12 @@ void prepmsgs()
   while (*msgp) {
     /* Create a message node */
     lst = concat(lst, newmsg(ftell(txtfil), strlen(*msgp)));
+#ifdef __mac__
+    toIso(buf, *msgp);
+    getxt(buf);
+#else
     getxt(*msgp);
+#endif   
     msgp++;
   }
 

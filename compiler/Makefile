@@ -186,10 +186,12 @@ MSDOS:
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
+	touch alan.smk
 	make restoretm
 
 mac:
 	smk -set MAC alan
+	touch alan.smk
 	refreshMac $(HOME)/mac/Alan/Compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
 	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c
