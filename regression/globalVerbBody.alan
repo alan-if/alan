@@ -1,12 +1,15 @@
 Syntax take = take (object)*.
-Verb take
-    Check object Not In hero
-        Else
-            "You already have the $1."
-    Does
-        Locate object In hero.
-        "Taken."
-End Verb.
+
+Add To Every thing
+    Verb take
+        Check object Not In hero
+            Else
+                "You already have the $1."
+        Does
+            Locate object In hero.
+            "Taken."
+    End Verb.
+End Add.
 
 The ladder Isa object At l.
     Is Not raised.

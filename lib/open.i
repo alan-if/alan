@@ -15,7 +15,8 @@ SYNTAX
 	WHERE obj ISA OBJECT
 		ELSE "You can't open that."
 
-VERB open
+Add To Every object
+  VERB open
 	CHECK obj IS closeable
 		ELSE "You can't open that!"
 	AND obj IS closed
@@ -28,7 +29,8 @@ VERB open
 		ELSE
 			"The $o is now open."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
 
 
 SYNTAX
@@ -38,7 +40,8 @@ SYNTAX
 		AND obj2 ISA OBJECT
 			ELSE "You can't open anything with that."
 
-VERB open_with
+Add To Every object
+  VERB open_with
 	CHECK obj2 IN HERO
 		ELSE "You don't have"
 		IF obj2 IS named THEN
@@ -61,7 +64,9 @@ VERB open_with
 			"the $2"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNONYMS
@@ -71,8 +76,8 @@ SYNTAX
 	close = close (obj)
 		WHERE obj ISA OBJECT
 			ELSE "You can only close objects."
-
-VERB close
+Add To Every object
+  VERB close
 	CHECK obj IS closeable
 		ELSE "You can't close that."
 	AND obj IS NOT closed
@@ -85,8 +90,8 @@ VERB close
 		ELSE
 			"The $o is now closed."
 		END IF.
-END VERB.
-
+  END VERB.
+End Add To.
 
 SYNTAX
 	close_with = close (obj1) 'with' (obj2)
@@ -95,7 +100,8 @@ SYNTAX
 		AND obj2 ISA OBJECT
 			ELSE "You can't close anything with that."
 
-VERB close_with
+Add To Every object
+  VERB close_with
 	CHECK obj2 IN HERO
 		ELSE 
 			"You don't have"
@@ -119,5 +125,6 @@ VERB close_with
 			"the $2"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
 

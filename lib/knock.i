@@ -10,7 +10,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't knock on that!"
 
-VERB knock_on
+Add To Every thing
+  VERB knock_on
 	DOES
 		"You knock on"
 		IF obj IS named THEN
@@ -19,7 +20,9 @@ VERB knock_on
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 

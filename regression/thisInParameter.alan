@@ -2,15 +2,23 @@ Syntax x = x (p1) (p2).
 
 The o1 Isa object At l
   Verb x
-  Does
-    Say this.
+  When p1
+    Does
+      "p1 = " Say this.
+  When p2
+    Does
+      "p2 = " Say this.
   End Verb.
 End The o1.
 
 The o2 Isa object At l
   Verb x
-  Does
-    Say this.
+  When p1
+    Does
+      "p1 = " Say this.
+  When p2
+    Does
+      "p2 = " Say this.
   End Verb.
 End The o2.
 

@@ -50,17 +50,18 @@ The pseudowords
 End The pseudowords.
 
 Syntax 'drop' = 'drop' (object).
-Verb drop
+Add To Every object
+  Verb drop
     Check object In hero
         Else "You don't have the $o."
     Does
         Locate object Here.
         "Dropped."
-End Verb.
+  End Verb.
+End Add.
 
 
 Syntax 'save' = 'save'.
-
 Verb 'save'
     Does
       Save.
@@ -69,7 +70,6 @@ End Verb 'save'.
 
 
 Syntax 'restore' = 'restore'.
-
 Verb 'restore'
     Does
       Restore.
@@ -77,60 +77,69 @@ Verb 'restore'
 End Verb 'restore'.
 
 Syntax 'examine' = 'examine' (object).
-Verb examine
+Add To Every object
+  Verb examine
     Check object Is examinable
         Else "There is nothing special about the $o."
-End Verb.
+  End Verb.
+End Add To.
 
 Syntax 'read' = 'read' (object).
-Verb read
+Add To Every object
+  Verb read
     Check object Is readable
         Else "There is nothing written on the $o."
-End Verb.
+  End Verb.
+End Add.
 
 Syntax 'lock' = 'lock' (object).
 Syntax 'unlock' = 'unlock' (object).
-Verb lock, unlock
+Add To Every object
+  Verb lock, unlock
     Check object Is openable
         Else "There is no way to $v the $1."
     Does
         "You have to use something to $v the $o with."
-End Verb.
-
+  End Verb.
+End Add.
 
 Syntax unlock_with = 'unlock' (o) 'with' (k).
-Verb unlock_with
+Add To Every object
+  Verb unlock_with
     Check o Is openable
         Else "There is no way to $v the $1."
-End Verb unlock_with.
+  End Verb unlock_with.
+End Add.
 
 
 Syntax 'open' = 'open' (object).
 Syntax 'close' = 'close' (object).
-Verb open, close
+Add To Every object
+  Verb open, close
     Check
         object Is openable
     Else
         "There is no way to $v the $1."
-End Verb.
+  End Verb.
+End Add.
 
 
 Syntax
     find = 'find' (o)!
         Where o Isa thing
             Else "Don't know how you plan on finding that..."
-
-Verb find
+Add To Every thing
+  Verb find
     Check o Not In hero
         Else "You already have it!"
     Does Only
         "You have to find things yourself..."
-End Verb find.
+  End Verb find.
 
-
-Verb insert
+  Verb insert
     Check "I don't understand what you want to insert the $o into."
-End Verb insert.
+  End Verb insert.
+End Add To.
 
 Synonyms
         put = 'insert'.
@@ -138,17 +147,21 @@ Synonyms
 
 Syntax
         insert_into = 'insert' (o) 'into' (s).
-Verb insert_into
+Add To Every object
+  Verb insert_into
     Check o <> s
         Else "Don't try to be smart with me!"
-End Verb insert_into.
+  End Verb insert_into.
+End Add To.
 
 
 Syntax 'start' = 'start' (object).
-Verb 'start'
+Add To Every object
+  Verb 'start'
     Check object Is startable
         Else "You can't start the $o."
-End Verb 'start'.
+  End Verb 'start'.
+End Add.
 
 
 Syntax run = 'run'.
@@ -213,7 +226,8 @@ End Verb.
 
 
 Syntax take = take (object)*.
-Verb take
+Add To Every object
+  Verb take
     Check object Not In hero
         Else
             "You already have the $1."
@@ -223,13 +237,14 @@ Verb take
     Does
         Locate object In hero.
         "Taken."
-End Verb.
-
+  End Verb.
+End Add To.
 
 Syntax type = 'type' (str)
     Where str Isa String
         Else "You must supply a string containing what you propose to type."
-Verb type
+Add To Every string
+  Verb type
     Check terminal Here
         Else "There is nothing here to type on."
     And terminal Is connected
@@ -276,7 +291,8 @@ Verb type
                 "'ERROR: Unknown command.$nEnter command:'"
             End If.
         End If.     
-End Verb.
+  End Verb.
+End Add.
 
 
 The nowhere Isa location

@@ -13,8 +13,8 @@ SYNTAX
 	push = push (obj)
 		WHERE obj ISA THING
 			ELSE "You can't push that."
-
-VERB push
+Add To Every object
+  VERB push
 	CHECK obj IS pushable
 		ELSE "You can't push that."
 	DOES
@@ -25,7 +25,8 @@ VERB push
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
 
 
 SYNTAX
@@ -35,7 +36,8 @@ SYNTAX
 		AND obj2 ISA OBJECT
 			ELSE "You can use only objects to push things with."
 
-VERB push_with
+Add To Every object
+  VERB push_with
 	CHECK obj1 IS pushable
 		ELSE "You can't push that."
 	DOES
@@ -52,5 +54,5 @@ VERB push_with
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
-
+  END VERB.
+End Add To.

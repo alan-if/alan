@@ -6,15 +6,17 @@ Syntax open = open (d)
   Where d Isa door
     Else "You can only open doors."
 
-Verb open
-  Does
-    If d Is open Then
-      "It is already open."
-    Else
-      Make d open.
-      "You open it."
-    End If.
-End Verb.
+Add To Every door
+  Verb open
+    Does
+      If d Is open Then
+        "It is already open."
+      Else
+        Make d open.
+        "You open it."
+      End If.
+  End Verb.
+End Add To.
 
 The l Isa location
 End The l.

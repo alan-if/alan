@@ -15,6 +15,7 @@
 #include "lst_x.h"
 #include "stm_x.h"
 #include "sym_x.h"
+#include "context_x.h"
 
 
 #include "alt.h"                /* ALT-nodes */
@@ -73,7 +74,11 @@ static void analyzeAlternative(AltNod *alt,
       alt->id->symbol = parameter;
       alt->parameterNumber = parameter->code;
     }
-  } 
+  } else
+    if (inLocationContext(context))
+      alt->parameterNumber = 0;
+    else if (context->verb != NULL && context->verb->fields.verb.parameterSymbols != NULL)
+      alt->parameterNumber = 1;
 
   analyzeChecks(alt->chks, context);
   analyzeStatements(alt->stms, context);
@@ -104,10 +109,7 @@ static void gealtent(AltNod *alt) /* IN - The alt to make an entry for */
 {
   emit(0);			/* Auto-Reverse flag */
 
-  if (alt->id != NULL)
-    emit(alt->parameterNumber);
-  else
-    emit(0);
+  emit(alt->parameterNumber);
 
   switch (alt->qual) {
   case QUAL_BEFORE:

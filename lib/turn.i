@@ -29,7 +29,8 @@ SYNTAX
 			ELSE "You can't switch that on."
 
 
-VERB turn_on1, turn_on2, switch_on1, switch_on2
+Add To Every object
+  VERB turn_on1, turn_on2, switch_on1, switch_on2
 	CHECK obj IS switchable
 		ELSE "You can't turn that on."
 	AND obj IS NOT 'on'
@@ -43,7 +44,9 @@ VERB turn_on1, turn_on2, switch_on1, switch_on2
 		ELSE 
 			"the $o."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -65,7 +68,8 @@ SYNTAX
 
 
 
-VERB turn_off1, turn_off2, switch_off1, switch_off2
+Add To Every object
+  VERB turn_off1, turn_off2, switch_off1, switch_off2
 	CHECK obj IS switchable
 		ELSE "You can't turn that off."
 	AND obj IS 'on'
@@ -79,4 +83,6 @@ VERB turn_off1, turn_off2, switch_off1, switch_off2
 			"the $o"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+

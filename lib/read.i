@@ -16,7 +16,8 @@ SYNTAX
 			ELSE "You can't read that."
 
 
-VERB read
+Add To Every object
+  VERB read
 	CHECK obj IS readable
 		ELSE 
 			"There is nothing written on"
@@ -34,6 +35,8 @@ VERB read
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 

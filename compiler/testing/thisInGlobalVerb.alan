@@ -1,10 +1,10 @@
 
-Syntax y = y (o).
+Syntax y = y.
 
-  Verb y
-    Does
-      Say This.
-  End Verb.
+Verb y
+  Does
+    Say This.
+End Verb.
 
 The l Isa location
 End The l.

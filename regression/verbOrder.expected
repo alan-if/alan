@@ -1,0 +1,23 @@
+########## alan verbOrder ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+########## arun verbOrder ##########
+
+
+L
+There is a o here.
+
+> x o
+Verb body in location.
+Verb body in loc.
+Verb body in l.
+Verb body in entity.
+Verb body in thing.
+Verb body in object.
+Verb body in o.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

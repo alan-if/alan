@@ -10,7 +10,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't kiss that!"
 
-VERB kiss
+Add To Every thing
+  VERB kiss
 	DOES
 		IF obj=HERO THEN
 			"Well, if you must!"
@@ -32,6 +33,8 @@ VERB kiss
 				END IF.
 			END IF.
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 

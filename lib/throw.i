@@ -12,8 +12,8 @@ SYNTAX
 		WHERE obj ISA OBJECT
 			ELSE "You can only throw objects."
 
-
-VERB throw
+Add To Every object
+  VERB throw
 	CHECK obj IN HERO
 		ELSE "You haven't got that!"
 	DOES 
@@ -25,7 +25,8 @@ VERB throw
 			"the $1 ends up on the ground." 
 		END IF.
 		LOCATE obj HERE.
-END VERB.
+  END VERB.
+End Add To.
 
 
 SYNTAX
@@ -41,7 +42,8 @@ SYNTAX
 		AND obj2 ISA THING
 			ELSE "You can't throw anything to that."
 
-VERB throw_at, throw_to 
+Add To Every object
+  VERB throw_at, throw_to 
 	CHECK obj1 IN HERO
 		ELSE "You haven't got that!"
 	AND obj2 NOT IN HERO
@@ -67,7 +69,8 @@ VERB throw_at, throw_to
 			"the $2 and ends up on the ground."
 		END IF.
 		LOCATE obj1 HERE.
-END VERB.
+  END VERB.
+End Add To.
 
 
 SYNTAX
@@ -77,7 +80,8 @@ SYNTAX
 		AND obj2 ISA CONTAINER
 			ELSE "You can't throw anything in that."
 
-VERB throw_in
+Add To Every object
+  VERB throw_in
 	CHECK obj1 IN HERO
 		ELSE "You haven't got that!"
 	AND obj1 <> obj2
@@ -85,4 +89,6 @@ VERB throw_in
 	DOES 
 		LOCATE obj1 IN obj2.
 		"Done."
-END VERB.
+  END VERB.
+End Add.
+

@@ -19,7 +19,8 @@ SYNTAX
 	WHERE obj ISA OBJECT
 		ELSE "You can't drink that!"
 
-VERB eat
+Add To Every object
+  VERB eat
 	CHECK obj IS edible
 		ELSE "You can't eat that!"
 	DOES
@@ -31,10 +32,9 @@ VERB eat
 			"the $o"
 		END IF.
 		"$$." 
-END VERB.
+  END VERB.
 
-
-VERB drink
+  VERB drink
 	CHECK obj IS drinkable
 		ELSE "That is not drinkable."
 	DOES
@@ -46,8 +46,6 @@ VERB drink
 			"the $o"
 		END IF.
 		"$$." 
-END VERB.
-
-
-
+  END VERB.
+End Add.
 

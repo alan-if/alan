@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>127.06</origest>
 <currest>127.06</currest>
-<elapsed>6.06</elapsed>
+<elapsed>11.06</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>28.06</origest>
 <currest>28.06</currest>
-<elapsed>5.06</elapsed>
+<elapsed>10.06</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.22</desc>
 <notes/>
 <priority>2</priority>
-<origest>9.06</origest>
-<currest>9.06</currest>
-<elapsed>5.06</elapsed>
+<origest>10.06</origest>
+<currest>10.06</currest>
+<elapsed>10.06</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Pre-defined classes literal, integer &amp; string</desc>
@@ -69,7 +69,7 @@ Document.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -78,7 +78,20 @@ Document.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verb without alternatives should by default be 1?</desc>
+<notes>
+Maybe a verb body without a WHEN p should default to When #1.
+Except when in a location.
+
+This could perhaps fix the problem with location verbs not working in a "global verbs without parameters" environment.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -88,7 +101,7 @@ Add test case to compile it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -98,7 +111,7 @@ Document.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -418,8 +431,8 @@ END DEPEND.</notes>
 <desc>Increment: version 3.0.25</desc>
 <notes/>
 <priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -437,19 +450,6 @@ This also should be noted in the symbol-&gt;fields.parameter.class so that the m
 
 Also check "Restrictions can only restrict to one class" in Strategies
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verb without alternatives should by default be 1?</desc>
-<notes>
-Maybe a verb body without a WHEN p should default to When #1.
-Except when in a location.
-
-This could perhaps fix the problem with location verbs not working in a "global verbs without parameters" environment.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

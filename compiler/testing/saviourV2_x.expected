@@ -40,6 +40,11 @@ saviourV2_x.alan
 
   *1*   319 E : Identifier 'object' is not an instance.
 
+   98.  VERB unlock_with
+=====>       1
+
+  *1*   219 E : Global verbs can not have parameters.
+
    99.      CHECK o IS openable
 =====>                 1
 
@@ -56,10 +61,20 @@ saviourV2_x.alan
 
   *1*   102 E : 'OR' Identifier deleted.
 
+  117.  VERB find
+=====>       1
+
+  *1*   219 E : Global verbs can not have parameters.
+
   118.      CHECK o NOT IN hero
 =====>                     1
 
   *1*   318 E : The 'hero' does not have the container property.
+
+  134.  VERB insert_into
+=====>       1
+
+  *1*   219 E : Global verbs can not have parameters.
 
   141.      CHECK OBJECT IS startable
 =====>            1
@@ -70,6 +85,11 @@ saviourV2_x.alan
 =====>  	     1
 
   *1*   318 E : The 'hero' does not have the container property.
+
+  208.  VERB take
+=====>       1
+
+  *1*   219 E : Global verbs can not have parameters.
 
   209.      CHECK OBJECT NOT IN hero
 =====>            1             2
@@ -87,6 +107,11 @@ saviourV2_x.alan
 
   *1*   319 E : Identifier 'object' is not an instance.
   *2*   318 E : The 'hero' does not have the container property.
+
+  224.  VERB type
+=====>       1
+
+  *1*   219 E : Global verbs can not have parameters.
 
   230.      AND computer IS running
 =====>          1
@@ -1086,7 +1111,7 @@ saviourV2_x.alan
   *1*   351 E : Must refer to an instance inheriting from 'location'.
 
 
-        218 error(s).
+        223 error(s).
         79 warning(s).
         29 informational message(s).
 

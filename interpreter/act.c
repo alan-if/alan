@@ -289,6 +289,27 @@ static void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instanc
 }
 
 
+/*----------------------------------------------------------------------*/
+static int alternativesFoundInParents(AltInfo altInfo[],
+				      Aint theClass,
+				      Aint theInstance,
+				      int level,
+				      Aint parameterNumber)
+{
+  int found;
+
+  if (theClass == 0) return 0;
+
+  found = alternativesFoundInParents(altInfo, class[theClass].parent,
+				     theInstance, level, parameterNumber);
+  altInfo[found].alt = findAlternativeInClass(theClass, parameterNumber);
+  if (altInfo[found].alt != NULL) {
+    primeAltInfo(&altInfo[found], level, parameterNumber, theInstance, theClass);
+    return found + 1;
+  } else
+    return found;
+}  
+
 
 /*----------------------------------------------------------------------*/
 static void findAllAlternatives(AltInfo alt[]) {
@@ -302,22 +323,20 @@ static void findAllAlternatives(AltInfo alt[]) {
     altIndex++;
   }
 
+  altIndex += alternativesFoundInParents(&alt[altIndex], instance[current.location].parent, current.location, 1, 0);
   alt[altIndex].alt = findAlternativeInInstance(current.location, 0);
   if (alt[altIndex].alt != NULL) {
     primeAltInfo(&alt[altIndex], 1, -1, current.location, 0);
     altIndex++;
   }
-  parent = instance[current.location].parent;
-  while (parent) {
-    alt[altIndex].alt = findAlternativeInClass(parent, 0);
-    if (alt[altIndex].alt != NULL) {
-      primeAltInfo(&alt[altIndex], 1, -1, current.location, parent);
-      altIndex++;
-    }
-    parent = class[parent].parent;
-  }
 
   for (paramIndex = 0; params[paramIndex].code != EOF; paramIndex++) {
+    if (isLit(params[paramIndex].code))
+      parent = literal[paramIndex+1].class;
+    else
+      parent = instance[params[paramIndex].code].parent;
+    altIndex += alternativesFoundInParents(&alt[altIndex], parent,
+					   params[paramIndex].code, 2, paramIndex+1);
     if (!isLit(params[paramIndex].code)) {
       alt[altIndex].alt = findAlternativeInInstance(params[paramIndex].code, paramIndex+1);
       if (alt[altIndex].alt != NULL) {
@@ -325,21 +344,7 @@ static void findAllAlternatives(AltInfo alt[]) {
 	altIndex++;
       }
     }
-    if (isLit(params[paramIndex].code))
-      parent = literal[paramIndex+1].class;
-    else
-      parent = instance[params[paramIndex].code].parent;
-    while (parent) {
-      alt[altIndex].alt = findAlternativeInClass(parent, paramIndex+1);
-      if (alt[altIndex].alt != NULL) {
-	primeAltInfo(&alt[altIndex], 2, paramIndex, params[paramIndex].code,
-		     parent);
-	altIndex++;
-      }
-      parent = class[parent].parent;
-    }
   }
-  alt[altIndex].end = TRUE;
 }
 
 

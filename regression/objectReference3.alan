@@ -47,10 +47,12 @@ The pot Isa takeable_object.
 End The pot.
 
 Syntax x = x (o).
-Verb x
-Does
+Add To Every object
+  Verb x
+  Does
   "You X $o."
-End Verb x.
+  End Verb x.
+End Add.
 
 
 Start At kitchen.

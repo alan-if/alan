@@ -60,10 +60,13 @@ SYNTAX
 		WHERE topic ISA THING 
 			ELSE "You can't say that."
 
-VERB say_word
+Add To Every thing
+  VERB say_word
 	DOES 
 		"$o? That's a nice word!"
-	END VERB.
+  	END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -73,7 +76,8 @@ SYNTAX
 		AND act ISA THING
 			ELSE "You can't talk to that."
 
-VERB say_to
+Add To Every thing
+  VERB say_to
 	CHECK act HAS can_talk
 		ELSE "You can't talk to that."
 	DOES 
@@ -83,7 +87,9 @@ VERB say_to
 		ELSE
 			"The $2 doesn't seem interested."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX ask = ask (act) about (topic)!
@@ -92,7 +98,8 @@ SYNTAX ask = ask (act) about (topic)!
 	AND act ISA THING
 		ELSE "You can't talk to that."
 
-VERB ask
+Add To Every thing
+  VERB ask
 	CHECK act HAS can_talk
 		ELSE "You can't talk to that."
 	DOES
@@ -107,7 +114,9 @@ VERB ask
 		ELSE
 			"that!"""
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 
@@ -123,7 +132,8 @@ SYNTAX tell = tell (act) about (topic)!
 	AND act ISA THING
 		ELSE "You can't talk to that."
 
-VERB tell, talk_to
+Add To Every thing
+  VERB tell, talk_to
 	CHECK act HAS can_talk
 		ELSE "You can't talk to that."
 	DOES 
@@ -140,7 +150,9 @@ VERB tell, talk_to
 			"the $1"
 		END IF. 
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 
@@ -148,7 +160,8 @@ SYNTAX talk_to_a = talk 'to' (act)
 	WHERE act ISA THING
 		ELSE "You can't talk to that."
 
-VERB talk_to_a
+Add To Every thing
+  VERB talk_to_a
 	CHECK act HAS can_talk
 		ELSE "You can't talk to that."
 	DOES 
@@ -160,4 +173,6 @@ VERB talk_to_a
 			"The $1 looks at you, seemingly wondering if you have anything 
 			specific to talk about."
 		END IF. 
-END VERB.
+  END VERB.
+End Add To.
+

@@ -1,0 +1,6 @@
+$include '../lib/std.i'
+
+The loc Isa location
+End The loc.
+
+Start At loc.

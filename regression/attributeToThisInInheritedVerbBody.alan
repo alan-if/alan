@@ -3,8 +3,12 @@ Syntax x = x (p1) (p2).
 Every o Isa object
   Has v 42.
   Verb x
-  Does
-    Say v Of This.
+  When p1
+    Does
+      Say v Of This.
+  When p2
+    Does
+      Say v Of This.
   End Verb.
 End Every o.
 

@@ -1,23 +1,23 @@
 Syntax take = take (o)*.
-
-Verb take
-  Check o Not In hero
-    Else "You already have the" Say o. "$$."
-  Does
-    Locate o In hero.
-    "Taken."
-End Verb take.
-
-
 Syntax drop = drop (o)*.
 
-Verb drop
-  Check o In hero
-    Else "You don't have the $1."
-  Does
-    Locate o Here.
-    "Dropped."
-End Verb drop.
+Add To Every object
+  Verb take
+    Check o Not In hero
+      Else "You already have the" Say o. "$$."
+    Does
+      Locate o In hero.
+      "Taken."
+  End Verb take.
+
+  Verb drop
+    Check o In hero
+      Else "You don't have the $1."
+    Does
+      Locate o Here.
+      "Dropped."
+  End Verb drop.
+End Add.
 
 Syntax l = 'look'.
 Verb l

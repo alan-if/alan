@@ -113,11 +113,9 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
     /* No alternatives allowed in global verb definition */
     if (theVerb->alternatives->element.alt->id != NULL)
       lmLog(&theVerb->alternatives->element.alt->srcp, 213, sevERR, "");
-#ifdef DISALLOW_PARAMETERS_IN_GLOBAL_VERBS
     /* No parameters allowed in global verb definition */
     if (syntaxLists->element.stx->parameters != NULL)
       lmLog(&theVerb->srcp, 219, sevERR, "");
-#endif
   }
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */

@@ -5,18 +5,19 @@
 
 
 ADD TO EVERY OBJECT 
-IS
+    IS
 	NOT lockable.
 	locked.
 END ADD TO OBJECT. 
+
 
 SYNTAX
 	lock = lock (obj)
 		WHERE obj ISA OBJECT
 			ELSE "You can't lock that."
 
-
-VERB lock
+Add To Every object
+    VERB lock
 	CHECK obj IS lockable
 		ELSE "You can't lock that!"
 	AND obj IS NOT locked
@@ -29,7 +30,9 @@ VERB lock
 		ELSE
 			"The $o is now locked."
 		END IF.
-END VERB.
+    END VERB.
+End Add To object. 
+
 
 
 SYNTAX
@@ -39,7 +42,8 @@ SYNTAX
 		AND key ISA OBJECT
 			ELSE "You can't lock anything with that."
 
-VERB lock_with
+Add To Every Object
+  VERB lock_with
 	CHECK obj IS lockable
 		ELSE "You can't lock that!"
 	AND obj IS NOT locked
@@ -61,14 +65,15 @@ VERB lock_with
 		ELSE
 			"The $o is now locked."
 		END IF.
-END VERB.
+  END VERB.
+End Add.
 
 
 SYNTAX
 	unlock = unlock (obj)
 		WHERE obj ISA OBJECT
 			ELSE "You can't lock that."
-
+Add To Every object
 VERB unlock
 	CHECK obj IS lockable
 		ELSE "You can't unlock that!"
@@ -82,7 +87,8 @@ VERB unlock
 		ELSE
 			"The $o is now unlocked."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
 
 
 SYNTAX
@@ -92,7 +98,8 @@ SYNTAX
 		AND key ISA OBJECT
 			ELSE "You can't lock anything with that."
 
-VERB unlock_with
+Add To Every object
+  VERB unlock_with
 	CHECK obj IS lockable
 		ELSE "You can't unlock that!"
 	AND obj IS locked
@@ -114,5 +121,6 @@ VERB unlock_with
 		ELSE
 			"The $o is now unlocked."
 		END IF.
-END VERB.
+  END VERB.
+End Add.
 

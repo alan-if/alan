@@ -12,13 +12,16 @@ SYNTAX
 		WHERE obj ISA OBJECT
 			ELSE "You can't put that anywhere."
 
-VERB put
+Add To Every object
+  VERB put
 	CHECK obj IN HERO
 		ELSE "You haven't got that."
 	DOES
 		LOCATE obj HERE.
 		"Dropped."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 
@@ -29,7 +32,8 @@ SYNTAX
 		AND obj2 ISA CONTAINER
 			ELSE "You can't put anything in that." 
 
-VERB put_in
+Add To Every object
+  VERB put_in
 	CHECK obj1 IN HERO
 		ELSE 
 			"You haven't got"
@@ -44,7 +48,9 @@ VERB put_in
 	DOES
 		LOCATE obj1 IN obj2.
 		"Done."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -72,7 +78,8 @@ SYNTAX
 		AND obj2 ISA THING
 			ELSE "You can't put anything under that."
 
-VERB put_near, put_behind, put_on, put_under 
+Add To Every object
+  VERB put_near, put_behind, put_on, put_under 
 	CHECK obj1 IN HERO
 		ELSE 
 			"You haven't got"
@@ -100,5 +107,7 @@ VERB put_near, put_behind, put_on, put_under
 		END IF.
 		"down here."
 		LOCATE obj1 AT obj2.
-END VERB.
+  END VERB.
+End Add To.
+
 

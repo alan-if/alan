@@ -30,7 +30,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't examine that!"
 
-VERB examine, look_at
+Add To Every object
+  VERB examine, look_at
 	CHECK obj IS examinable
 		ELSE 
 			"You can't examine"
@@ -48,7 +49,9 @@ VERB examine, look_at
 			"the $o"
 		END IF.
 		"$$." 
-END VERB.
+  END VERB.
+End Add To.
+
 
 ----
 
@@ -62,7 +65,8 @@ SYNTAX
 		AND obj ISA CONTAINER
 			ELSE "You can't look inside that."
 
-VERB look_in
+Add To Every object
+  VERB look_in
 	CHECK obj IS examinable
 		ELSE 
 			"You can't look inside"
@@ -74,7 +78,9 @@ VERB look_in
 			"$$." 
 	DOES
 		LIST obj.
-END VERB.
+  END VERB.
+End Add To.
+
 
 ----
 
@@ -83,7 +89,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't search that!"
 
-VERB search
+Add To Every object
+  VERB search
 	CHECK obj IS searchable
 		ELSE 
 			"You can't search" 
@@ -95,4 +102,6 @@ VERB search
 			"$$!" 
 	DOES
 		"You find nothing of interest."
-END VERB.
+  END VERB.
+End Add To.
+

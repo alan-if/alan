@@ -14,7 +14,8 @@ SYNTAX
 		AND recip ISA CONTAINER
 			ELSE "You can't give things to that!"
 
-VERB give
+Add To Every object
+  VERB give
 	CHECK obj IN HERO
 		ELSE 
 			"You don't have"
@@ -49,5 +50,7 @@ VERB give
 			"$$."
 			LOCATE obj IN recip.
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 

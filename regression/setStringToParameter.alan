@@ -5,11 +5,12 @@ End The o.
 Syntax type = type (str)
 	Where str Isa String 
         Else "You must supply a string containing what you propose to type."
-
-Verb type
-  Does
-    Set pwtry Of o To str.
-End Verb type.
+Add To Every string
+  Verb type
+    Does
+      Set pwtry Of o To str.
+  End Verb type.
+End Add.
 
 The l Isa location
 End The l.

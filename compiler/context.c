@@ -8,6 +8,7 @@
 #include "context_x.h"
 #include "string.h"
 #include "util.h"
+#include "sym_x.h"
 
 
 /*======================================================================*/
@@ -33,8 +34,19 @@ Context *pushContext(Context *previous)
   return new;
 }
 
+
 /*======================================================================*/
 Bool inEntityContext(Context *context)
 {
   return (context->instance != NULL || context->class != NULL);
 }
+
+/*======================================================================*/
+Bool inLocationContext(Context *context)
+{
+  return (context->instance != NULL
+	  && inheritsFrom(context->instance->props->id->symbol, locationSymbol))
+    || (context->class != NULL
+	&& inheritsFrom(context->class->props->id->symbol, locationSymbol));
+}
+

@@ -18,7 +18,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't smell that!"
 
-VERB smell
+Add To Every thing
+  VERB smell
 	DOES
 		"You smell"
 		IF obj IS named THEN
@@ -27,7 +28,9 @@ VERB smell
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 

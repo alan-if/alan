@@ -1,10 +1,12 @@
 Syntax int = int (int)
 	Where int Isa Integer Else "You can only int integers."
 
-Verb int
-  Does
-    "Int:" Say int.
-End Verb int.
+Add To Every integer
+  Verb int
+    Does
+      "Int:" Say int.
+  End Verb int.
+End Add.
 
 The l Isa location
 End The l.

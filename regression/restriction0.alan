@@ -1,12 +1,13 @@
 Syntax x = x (y).
-
 The o Isa object At l.
 End The o.
 
-Verb x
-  Does
-    "x the y."
-End Verb x.
+Add To Every object
+  Verb x
+    Does
+      "x the y."
+  End Verb x.
+End Add.
 
 The l Isa location.
 End The l.

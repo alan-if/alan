@@ -26,10 +26,13 @@ SYNTAX
 		WHERE act ISA THING
 			ELSE "You can't attack that."
 
-VERB attack
+Add To Every thing
+  VERB attack
 	DOES
 		"Violence is not the answer."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -39,14 +42,17 @@ SYNTAX
 		AND obj ISA OBJECT
 			ELSE "You can't attack anything with that!"
 
-VERB attack_with
+Add To Every thing
+  VERB attack_with
 	CHECK obj IN HERO
 		ELSE "You don't have that object to attack with."
 	AND obj IS Weapon
 		ELSE "No point attacking anything with that!"
 	DOES
 		"Violence is not the answer."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 
@@ -55,7 +61,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't shoot at that."
 
-VERB shoot
+Add To Every thing
+  VERB shoot
 	DOES
 		IF obj IS Shootable THEN
 			"You need to specify what to shoot at."
@@ -68,7 +75,9 @@ VERB shoot
 			"the $o with."
 				END IF.
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -76,7 +85,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't shoot at that."
 
-VERB shoot_at0
+Add To Every thing
+  VERB shoot_at0
 	DOES
 		"You need to specify what you want to shoot"
 		IF obj IS named THEN
@@ -85,7 +95,9 @@ VERB shoot_at0
 		ELSE
 			"the $o with."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX
@@ -101,21 +113,24 @@ SYNTAX
 		AND act ISA THING
 			ELSE "You can't shoot at that."
 
-VERB shoot_at
+Add To Every thing
+  VERB shoot_at
 	CHECK obj IN HERO
 		ELSE "You don't have that."
 	AND obj IS Shootable
 		ELSE "You can't shoot anything with that."
 	DOES
 		"Violence is not the answer."
-END VERB.
+  END VERB.
 
-VERB shoot_with
+
+  VERB shoot_with
 	CHECK obj IN HERO
 		ELSE "You don't have that."
 	AND obj IS Shootable
 		ELSE "You can't shoot anything with that."
 	DOES
 		"Violence is not the answer."
-END VERB.
+  END VERB.
+End Add To.
 

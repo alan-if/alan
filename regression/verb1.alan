@@ -2,10 +2,12 @@
 Syntax
   x = x (o).
 
-Verb x
-Does
-  Describe o.
-End Verb x.
+Add To Every object
+  Verb x
+    Does
+      Describe o.
+  End Verb x.
+End Add.
 
 
 The kitchen Isa location.

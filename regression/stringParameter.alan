@@ -1,10 +1,12 @@
 Syntax s = s (s)
 	Where s Isa String Else "You can only string strings."
 
-Verb s
-  Does
-    "You s" Say s.
-End Verb s.
+Add To Every string
+  Verb s
+    Does
+      "You s" Say s.
+  End Verb s.
+End Add.
 
 The l Isa location
 End The l.

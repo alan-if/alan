@@ -6,13 +6,15 @@ Syntax
 	Where c Isa Container
 	    Else "You can't put anything in the $2."
 
-Verb put_in
+Add To Every thing
+  Verb put_in
     Does
 	Locate o In c.
 	List c.
 	List c1.
 	List c2.
-End Verb.
+  End Verb.
+End Add.
 
 
 The o Isa object At l

@@ -22,7 +22,8 @@ SYNTAX
 			ELSE "You can't wear that." 
 
 
-verb wear, put_o_on, put_on_o
+Add To Every object
+  verb wear, put_o_on, put_on_o
 	CHECK obj IS wearable
 		ELSE 
 			"You can't wear"
@@ -69,7 +70,9 @@ verb wear, put_o_on, put_on_o
 			"the $o"
 		END IF.
 		"$$." 
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 
@@ -84,7 +87,8 @@ SYNTAX
 		WHERE obj ISA OBJECT
 			ELSE "You can't remove that." 
 
-VERB remove, take_o_off, take_off_o
+Add To Every object
+  VERB remove, take_o_off, take_off_o
 	CHECK obj IN worn
 		ELSE 
 			"You are not wearing"
@@ -103,12 +107,15 @@ VERB remove, take_o_off, take_off_o
 			"the $o"
 		END IF.
 		"$$." 
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 SYNTAX undress = undress.
 
-VERB undress
+Add To Every object
+  VERB undress
 	DOES
 		IF COUNT IN worn > 0 THEN
 			EMPTY worn IN HERO.
@@ -116,4 +123,6 @@ VERB undress
 		 ELSE
 			"You're not wearing anything you can remove."
 		END IF.
-END VERB.
+  END VERB.
+End Add To.
+

@@ -21,7 +21,8 @@ SYNTAX
 		AND obj2 ISA OBJECT
 			ELSE "You can use only objects to touch with."
 
-VERB touch
+Add To Every object
+  VERB touch
 	CHECK obj IS touchable
 		ELSE "You can't touch that."
 	DOES
@@ -32,10 +33,9 @@ VERB touch
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
 
-
-VERB touch_with
+  VERB touch_with
 	CHECK obj1 IS touchable
 		ELSE "You can't touch that."
 	AND obj1 <> obj2
@@ -54,5 +54,5 @@ VERB touch_with
 			"the $2"
 		END IF.
 		"$$."
-END VERB.
-
+  END VERB.
+End Add To.

@@ -9,10 +9,10 @@ L
 There is a first and a second here.
 
 > x first second
-This is in first. This is in second.
+This is in first.
 
 > x second first
-This is in second. This is in first.
+This is in second.
 
 > 
 

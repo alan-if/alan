@@ -10,7 +10,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't listen to that!"
 
-VERB listen_to
+Add To Every thing
+  VERB listen_to
 	DOES
 		"You listen to"
 		IF obj IS named THEN
@@ -19,7 +20,9 @@ VERB listen_to
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 

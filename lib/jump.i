@@ -9,7 +9,8 @@ SYNTAX
 		WHERE obj ISA THING
 			ELSE "You can't jump on that!"
 
-VERB jump_on
+Add To Every thing
+  VERB jump_on
 	DOES
 		"You jump on"
 		IF obj IS named THEN
@@ -18,7 +19,9 @@ VERB jump_on
 			"the $1"
 		END IF.
 		"$$."
-END VERB.
+  END VERB.
+End Add To.
+
 
 
 

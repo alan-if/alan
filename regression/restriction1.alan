@@ -2,10 +2,12 @@ Syntax x = x (y)
   Where y Isa object
     Else "Should be an object."
 
-Verb x
-  Does
-    "Was an object."
-End Verb x.
+Add To Every object
+  Verb x
+    Does
+      "Was an object."
+  End Verb x.
+End Add.
 
 The o Isa object At l.
 End The o.

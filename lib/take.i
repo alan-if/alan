@@ -40,8 +40,8 @@ SYNTAX
 		WHERE obj ISA OBJECT
 			ELSE "You can't take that with you!"
 
-
-VERB take, pick_up1, pick_up2
+Add To Every object
+  VERB take, pick_up1, pick_up2
 	CHECK obj IS takeable
 		ELSE "You can't take that!"
 	AND obj NOT IN worn
@@ -53,7 +53,8 @@ VERB take, pick_up1, pick_up2
 	DOES
 		LOCATE obj IN HERO.
 		"Taken."
-END VERB.
+  END VERB.
+End Add To.
 
 
 
@@ -69,14 +70,15 @@ SYNTAX
 SYNTAX
 	put_down2 = put down (obj)*.
 
-
-VERB drop, put_down1, put_down2
+Add To Every object
+  VERB drop, put_down1, put_down2
 	CHECK obj IN HERO
 		ELSE "You aren't carrying that."
 	DOES
 		LOCATE obj HERE.
 		"Dropped."
-END VERB.
+  END VERB.
+End Add To.
 
 
 
@@ -89,7 +91,8 @@ SYNTAX
 	AND holder ISA CONTAINER
 	   ELSE "You can't take things from that!"
 
-VERB take_from
+Add To Every object
+  VERB take_from
 	CHECK obj NOT IN HERO
 		ELSE 
 			"You already have"
@@ -125,5 +128,6 @@ VERB take_from
 			END IF.
 			"$$."
 		END IF.
-END VERB.
+  END VERB.
+End Add.
 

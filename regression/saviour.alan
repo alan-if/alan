@@ -45,17 +45,18 @@ The pseudowords
 End The pseudowords.
 
 Syntax 'drop' = 'drop' (object).
-Verb drop
+Add To Every object
+  Verb drop
     Check object In hero
         Else "You don't have the $o."
     Does
         Locate object Here.
         "Dropped."
-End Verb.
+  End Verb.
+End Add.
 
 
 Syntax 'save' = 'save'.
-
 Verb 'save'
     Does
       Save.
@@ -64,68 +65,71 @@ End Verb 'save'.
 
 
 Syntax 'restore' = 'restore'.
-
 Verb 'restore'
     Does
       Restore.
       Look.
 End Verb 'restore'.
 
+
 Syntax 'examine' = 'examine' (object).
-Verb examine
-    Check object Is examinable
-        Else "There is nothing special about the $o."
-End Verb.
-
 Syntax 'read' = 'read' (object).
-Verb read
-    Check object Is readable
-        Else "There is nothing written on the $o."
-End Verb.
-
 Syntax 'lock' = 'lock' (object).
 Syntax 'unlock' = 'unlock' (object).
-Verb lock, unlock
+Syntax unlock_with = 'unlock' (o) 'with' (k).
+Syntax 'open' = 'open' (object).
+Syntax 'close' = 'close' (object).
+
+Add To Every object
+  Verb examine
+    Check object Is examinable
+        Else "There is nothing special about the $o."
+  End Verb.
+
+  Verb read
+    Check object Is readable
+        Else "There is nothing written on the $o."
+  End Verb.
+
+  Verb lock, unlock
     Check object Is openable
         Else "There is no way to $v the $1."
     Does
         "You have to use something to $v the $o with."
-End Verb.
+  End Verb.
 
-
-Syntax unlock_with = 'unlock' (o) 'with' (k).
-Verb unlock_with
+  Verb unlock_with
     Check o Is openable
         Else "There is no way to $v the $1."
-End Verb unlock_with.
+  End Verb unlock_with.
 
-
-Syntax 'open' = 'open' (object).
-Syntax 'close' = 'close' (object).
-Verb open, close
+  Verb open, close
     Check
         object Is openable
     Else
         "There is no way to $v the $1."
-End Verb.
+  End Verb.
+
+  Verb insert
+    Check "I don't understand what you want to insert the $o into."
+  End Verb insert.
+
+End Add.
+
 
 
 Syntax
     find = 'find' (o)!
         Where o Isa thing
             Else "Don't know how you plan on finding that..."
-
-Verb find
+Add To Every thing
+  Verb find
     Check o Not In hero
         Else "You already have it!"
     Does Only
         "You have to find things yourself..."
-End Verb find.
-
-
-Verb insert
-    Check "I don't understand what you want to insert the $o into."
-End Verb insert.
+  End Verb find.
+End Add.
 
 Synonyms
         put = 'insert'.
@@ -133,18 +137,21 @@ Synonyms
 
 Syntax
         insert_into = 'insert' (o) 'into' (s).
-Verb insert_into
+Add To Every object
+  Verb insert_into
     Check o <> s
         Else "Don't try to be smart with me!"
-End Verb insert_into.
+  End Verb insert_into.
+End Add To.
 
 
 Syntax 'start' = 'start' (object).
-Verb 'start'
+Add To Every object
+  Verb 'start'
     Check object Is startable
         Else "You can't start the $o."
-End Verb 'start'.
-
+  End Verb 'start'.
+End Add.
 
 Syntax run = 'run'.
 Verb run
@@ -208,7 +215,8 @@ End Verb.
 
 
 Syntax take = take (object)*.
-Verb take
+Add To Every object
+  Verb take
     Check object Not In hero
         Else
             "You already have the $1."
@@ -218,13 +226,18 @@ Verb take
     Does
         Locate object In hero.
         "Taken."
-End Verb.
+  End Verb.
+End Add.
 
 
 Syntax type = 'type' (str)
     Where str Isa String
         Else "You must supply a string containing what you propose to type."
-Verb type
+Syntax type_on = 'type' (str) 'on' (t)
+    Where str Isa String
+       Else "I think you should type a string surrounded by """" on it."
+Add To Every string
+  Verb type
     Check terminal Here
         Else "There is nothing here to type on."
     And terminal Is connected
@@ -235,12 +248,9 @@ Verb type
     Does
 	Set str Of terminal To str.
 	Schedule terminal_response After 0.
-End Verb.
+  End Verb.
 
-Syntax type_on = 'type' (str) 'on' (t)
-    Where str Isa String
-       Else "I think you should type a string surrounded by """" on it."
-Verb type_on
+  Verb type_on
     Check t Here
         Else "There is no" Say t. "here to type on."
     And t = terminal
@@ -253,7 +263,8 @@ Verb type_on
     Does
 	Set str Of terminal To str.
 	Schedule terminal_response After 0.
-End Verb.
+  End Verb.
+End Add.
 
 Event terminal_response
         If terminal Is showing_msg1 Then
