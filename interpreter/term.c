@@ -25,6 +25,11 @@ void getPageSize(void)
 void getPageSize()
 #endif
 {
+#ifdef GLK
+  paglen = 0;
+  pagwidth = 0;
+
+#else
 #ifdef HAVE_TERMIO
 
 #include <sys/termios.h>
@@ -94,6 +99,7 @@ void getPageSize()
   paglen = header->paglen;
   pagwidth = header->pagwidth;
 
+#endif
 #endif
 #endif
 }

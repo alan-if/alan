@@ -34,6 +34,10 @@ BPTR cd;
 #endif
 #endif
 
+#ifdef GLK
+#include "glk.h"
+#include "glkio.h"
+#endif
 
 #ifdef _PROTOTYPES_
 static void switches(
@@ -51,7 +55,11 @@ static void switches(argc, argv)
   advnam = "";
   for (i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
+#ifdef GLK
+      switch (glk_char_to_lower(argv[i][1])) {
+#else
       switch (tolower(argv[i][1])) {
+#endif
       case 'i':
 	errflg = FALSE;
 	break;
@@ -210,7 +218,7 @@ void args(argc, argv)
     switches(argc, argv);
     if (advnam[0] == '\0')
       /* No game given, try program name */
-      if (strcmp(prgnam, "arun") != 0 && strcmp(prgnam, "ARUN") != 0)
+      if (stricmp(prgnam, PROGNAME) != 0)
 	advnam = strdup(argv[0]);
   }
 #else
@@ -229,7 +237,7 @@ void args(argc, argv)
   switches(argc, argv);
   if (advnam[0] == '\0')
     /* No game given, try program name */
-    if (strcmp(prgnam, "arun") != 0 && strcmp(prgnam, "ARUN") != 0)
+    if (stricmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
 #else
 #if defined __vms__
@@ -249,7 +257,7 @@ void args(argc, argv)
   switches(argc, argv);
   if (advnam[0] == '\0')
     /* No game given, try program name */
-    if (strcmp(prgnam, "arun") != 0)
+    if (strcmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
 #else
 #if defined __unix__
@@ -263,7 +271,7 @@ void args(argc, argv)
   switches(argc, argv);
   if (advnam[0] == '\0')
     /* No game given, try program name */
-    if (strcmp(prgnam, "arun") != 0)
+    if (strcmp(prgnam, PROGNAME) != 0)
       advnam = strdup(argv[0]);
 #else
   Unimplemented OS!

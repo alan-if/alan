@@ -16,6 +16,9 @@
 #endif
 #include "args.h"
 
+#ifdef GLK
+#include "glkio.h"
+#endif
 
 /*======================================================================
 
@@ -24,6 +27,14 @@
   Main program of main unit in Alan interpreter module, ARUN
 
   */
+
+#ifdef GLK
+#ifdef _PROTOTYPES_
+void glk_main(void)
+#else
+void glk_main()
+#endif
+#else
 #ifdef _PROTOTYPES_
 int main(
      int argc,
@@ -33,6 +44,7 @@ int main(
 int main(argc, argv)
      int argc;
      char *argv[];
+#endif
 #endif
 {
 #ifdef MALLOC
@@ -46,7 +58,11 @@ int main(argc, argv)
 
   getPageSize();
 
+#ifdef GLK
+  /* args() is called from glkstart.c */
+#else
   args(argc, argv);
+#endif
 
   if (dbgflg||verbose) {
     if (dbgflg) printf("<");
@@ -64,6 +80,10 @@ int main(argc, argv)
 
   run();
 
+#ifdef GLK
+  return;
+#else
   return(EXIT_SUCCESS);
+#endif;
 }
 
