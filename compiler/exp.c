@@ -35,8 +35,8 @@
 
 
 
-/*======================================================================*/
-static Expression *newExpression(Srcp *srcp, ExpressionKind kind)
+/*----------------------------------------------------------------------*/
+static Expression *newExpression(Srcp srcp, ExpressionKind kind)
 {
   Expression *new;                      /* The newly allocated area */
 
@@ -44,7 +44,7 @@ static Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 
   new = NEW(Expression);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->kind = kind;
   new->not = FALSE;
 
@@ -54,7 +54,7 @@ static Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 
 /*======================================================================*/
 Expression *newWhatExpression(Srcp srcp, What *what) {
-  Expression *exp = newExpression(&srcp, WHAT_EXPRESSION);
+  Expression *exp = newExpression(srcp, WHAT_EXPRESSION);
   exp->fields.wht.wht = what;
   return exp;
 }
@@ -63,7 +63,7 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 /*======================================================================*/
 Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not,
 			       Bool directly, Where *where) {
-  Expression *exp = newExpression(&srcp, WHERE_EXPRESSION);
+  Expression *exp = newExpression(srcp, WHERE_EXPRESSION);
   exp->fields.whr.wht = what;
   exp->not = not;
   exp->fields.whr.directly = directly;
@@ -75,7 +75,7 @@ Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not,
 /*======================================================================*/
 Expression *newStringExpression(Srcp srcp, long fpos, int len)
 {
-  Expression *exp = newExpression(&srcp, STRING_EXPRESSION);
+  Expression *exp = newExpression(srcp, STRING_EXPRESSION);
   exp->fields.str.fpos = fpos;
   exp->fields.str.len = len;
   return exp;
@@ -84,14 +84,14 @@ Expression *newStringExpression(Srcp srcp, long fpos, int len)
 /*======================================================================*/
 Expression *newScoreExpression(Srcp srcp)
 {
-  Expression *exp = newExpression(&srcp, SCORE_EXPRESSION);
+  Expression *exp = newExpression(srcp, SCORE_EXPRESSION);
   return exp;
 }
 
 /*======================================================================*/
 Expression *newIntegerExpression(Srcp srcp, int value)
 {
-  Expression *exp = newExpression(&srcp, INTEGER_EXPRESSION);
+  Expression *exp = newExpression(srcp, INTEGER_EXPRESSION);
   exp->fields.val.val = value;
   return exp;
 }
@@ -99,7 +99,7 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 /*======================================================================*/
 Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
 				   Expression *ofWhat) {
-  Expression *exp = newExpression(&srcp, ATTRIBUTE_EXPRESSION);
+  Expression *exp = newExpression(srcp, ATTRIBUTE_EXPRESSION);
   exp->fields.atr.id = attribute;
   exp->not = not;
   exp->fields.atr.wht = ofWhat;
@@ -109,7 +109,7 @@ Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
 /*======================================================================*/
 Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
 			     IdNode *class) {
-  Expression *exp = newExpression(&srcp, ISA_EXPRESSION);
+  Expression *exp = newExpression(srcp, ISA_EXPRESSION);
   exp->fields.isa.what = what;
   exp->not = not;
   exp->fields.isa.class = class;
@@ -119,7 +119,7 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
 /*======================================================================*/
 Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 				   IdNode *attribute, List *filters) {
-  Expression *exp = newExpression(&srcp, AGGREGATE_EXPRESSION);
+  Expression *exp = newExpression(srcp, AGGREGATE_EXPRESSION);
   exp->fields.agr.kind = kind;
   exp->fields.agr.attribute = attribute;
   exp->fields.agr.filters = filters;
@@ -129,7 +129,7 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 /*======================================================================*/
 Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
 				OperatorKind kind, Expression *right) {
-  Expression *exp = newExpression(&srcp, BINARY_EXPRESSION);
+  Expression *exp = newExpression(srcp, BINARY_EXPRESSION);
   exp->fields.bin.left = left;
   exp->not = not;
   exp->fields.bin.op = kind;
@@ -141,7 +141,7 @@ Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
 /*======================================================================*/
 Expression *newBetweenExpression(Srcp srcp, Expression *expression, Bool not,
 				Expression *low, Expression *high) {
-  Expression *exp = newExpression(&srcp, BETWEEN_EXPRESSION);
+  Expression *exp = newExpression(srcp, BETWEEN_EXPRESSION);
   exp->fields.btw.exp = expression;
   exp->not = not;
   exp->fields.btw.low = low;
@@ -152,7 +152,7 @@ Expression *newBetweenExpression(Srcp srcp, Expression *expression, Bool not,
 
 /*======================================================================*/
 Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to) {
-  Expression *exp = newExpression(&srcp, RANDOM_EXPRESSION);
+  Expression *exp = newExpression(srcp, RANDOM_EXPRESSION);
   exp->fields.rnd.from = from;
   exp->fields.rnd.to = to;
   return exp;
@@ -161,7 +161,7 @@ Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to
 
 /*======================================================================*/
 Expression *newRandomInExpression(Srcp srcp, Expression *what) {
-  Expression *exp = newExpression(&srcp, RANDOM_IN_EXPRESSION);
+  Expression *exp = newExpression(srcp, RANDOM_IN_EXPRESSION);
   exp->fields.rin.what = what;
   return exp;
 }

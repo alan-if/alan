@@ -53,8 +53,8 @@ void testAttributeToThis()
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
   Context *theContext = newContext(INSTANCE_CONTEXT, theInstance);
   What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
-  Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
-  Expression *theExp = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);
+  Expression *theWhatExp = newExpression(nulsrcp, WHAT_EXPRESSION);
+  Expression *theExp = newExpression(nulsrcp, ATTRIBUTE_EXPRESSION);
 
   theInstance->props->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;

@@ -24,6 +24,7 @@
 #include "whr_x.h"
 #include "wht_x.h"
 #include "form_x.h"
+#include "type_x.h"
 #include "dump_x.h"
 
 #include "lmList.h"
@@ -477,7 +478,7 @@ static void analyzeDepend(Statement *stm, Context *context)
 	exp->fields.atr.wht = stm->fields.depend.exp;
 	break;
       case BETWEEN_EXPRESSION:
-	exp->fields.btw.val = stm->fields.depend.exp;
+	exp->fields.btw.exp = stm->fields.depend.exp;
 	break;
       default:
 	SYSERR("Unrecognized switch case on Expression kind");
