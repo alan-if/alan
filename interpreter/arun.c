@@ -1126,27 +1126,31 @@ static void do_it()
   */
 #ifdef _PROTOTYPES_
 void action(
-     ParamElem plst[]		/* IN - Plural parameters */
+     ParamElem plst[]		/* IN - Plural parameter list */
 )
 #else
 void action(plst)
      ParamElem plst[];
 #endif
 {
-  int i, pno;
+  int i, mpos;
   char marker[10];
 
   if (plural) {
-    for (pno = 0; params[pno].code != 0; pno++);
-    sprintf(marker, "($%d)", pno+1);
+    /*
+       The code == 0 means this is a multiple position. We must loop
+       over this position (and replace it by each present in the plst)
+     */
+    for (mpos = 0; params[mpos].code != 0; mpos++); /* Find multiple position */
+    sprintf(marker, "($%d)", mpos+1); /* Prepare a printout with $1/2/3 */
     for (i = 0; plst[i].code != EOF; i++) {
-      params[pno] = plst[i];
+      params[mpos] = plst[i];
       output(marker);
       do_it();
       if (plst[i+1].code != EOF)
         para();
     }
-    params[pno].code = 0;
+    params[mpos].code = 0;
   } else
     do_it();
 }

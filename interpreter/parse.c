@@ -628,6 +628,10 @@ static void try(mlst)
 	  if (!elms->multiple)
 	    error(M_MULTIPLE);
 	  else {
+	    /*
+	       Mark this as the multiple position in which to insert
+	       actual parameter values later
+	     */
 	    params[paramidx++].code = 0;
 	    lstcpy(mlst, tlst);
 	    anyPlural = TRUE;
@@ -651,8 +655,21 @@ static void try(mlst)
       /* This was a multiple parameter, so check all and remove failing */
       for (i = 0; mlst[i].code != EOF; i++) {
 	params[cla->code-1] = mlst[i];
-	if (!claCheck(cla))
-	  mlst[i].code = 0;
+	if (!claCheck(cla)) {
+	  /* Multiple could be both an explicit list of params and an ALL */
+	  if (allLength == 0) {
+	    char marker[80];
+	    /*
+	       It wasn't ALL, we need to say something about it, so
+	       prepare a printout with $1/2/3
+	     */
+	    sprintf(marker, "($%ld)", cla->code); 
+	    output(marker);
+	    interpret(cla->stms);
+	    para();
+	  }
+	  mlst[i].code = 0;	  /* In any case remove it from the list */
+	}
       }
       params[cla->code-1].code = 0;
     } else {
@@ -694,6 +711,12 @@ static void try(mlst)
       params[0].code = EOF;
       error(M_WHAT_ALL);
     }
+  } else if (anyPlural) {
+    compress(mlst);
+    if (lstlen(mlst) == 0)
+      /* If there where multiple parameters but non left, exit without a */
+      /* word, assuming we have already said enough */
+      error(MSGMAX);
   }
   plural = anyPlural;		/* Remember that we found plural objects */
 }
