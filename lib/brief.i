@@ -1,5 +1,10 @@
+--
+-- Use "Visits 0." or "Visits 1000." in the START section if you want
+-- the game to start in verbose or brief mode. 
+--
+
 SYNTAX
-	verbose = verbose.
+    verbose = verbose.
 
 VERB verbose
   DOES
@@ -9,7 +14,7 @@ END VERB verbose.
 
 
 SYNTAX
-	brief = brief.
+    brief = brief.
 
 VERB brief
   DOES

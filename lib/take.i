@@ -2,7 +2,7 @@ OBJECT ATTRIBUTES
 	takeable.
 
 SYNONYMS
-	carry, obtain, grab, steal, confiscate, hold = take.
+	get, carry, obtain, grab, steal, confiscate, hold = take.
 
 SYNTAX
 	take = take (obj) *
@@ -39,6 +39,7 @@ VERB pick_up1, pick_up2
 		LOCATE obj IN inventory.
 		"Taken."
 END VERB.
+
 
 
 SYNONYMS

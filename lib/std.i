@@ -7,6 +7,7 @@ $include 'eat.i'
 $include 'throw.i'
 $include 'push.i'
 $include 'touch.i'
+$include 'examine.i'
 
 $include 'invent.i'
 

@@ -1,5 +1,5 @@
 SYNONYMS
-	q = quit.
+    q = quit.
 
 SYNTAX
     quit = quit.

@@ -316,6 +316,7 @@ static void showevts()
     fromIso(str, str);
 #endif
     output(str);
+    scheduled = FALSE;
     for (i = 0; i < etop; i++)
       if ((scheduled = (eventq[i].event == evt)))
 	break;
