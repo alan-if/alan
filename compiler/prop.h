@@ -18,6 +18,24 @@
 #include "../interpreter/acode.h"
 
 
+/* Currently we handle the following properties:
+
+	Initial location
+	Name(s)
+	Attributes
+	Description Check
+	Description Statements
+	Entered Statements
+	Defininte Article/Form
+	Indefinite Article/Form
+	Mentioned Clause
+	Container
+	Verbs
+	Scripts
+	Exits
+*/
+#define NOOFPROPS 13
+
 /* Types */
 
 typedef struct Properties {

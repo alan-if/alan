@@ -4,13 +4,12 @@
 -- 0.4.1 - converted to ALANv3
 
 
--- for verbs like 'ask' and 'tell' you need to individually program responses
--- to each topic (ie 'obj') for any actor who you want to respond to that
--- topic. 
--- Remember to use the 'when' clause so that actors only respond when they're
--- being talked to (and not when they're the *subject* of the conversation!)
--- see Section 3.7.1 - 'verb alternatives' - in the Alan manual.
--- eg:
+-- for verbs like 'ask' and 'tell' you need to individually program
+-- responses to each topic (ie 'obj') for any actor who you want to
+-- respond to that topic.  Remember to use the 'when' clause so that
+-- actors only respond when they're being talked to (and not when
+-- they're the *subject* of the conversation!)  see Section 3.7.1 -
+-- 'verb alternatives' - in the Alan manual.  eg:
 --
 -- Actor simon
 --    ....

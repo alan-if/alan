@@ -69,13 +69,7 @@ static Bool findReference(Instance *ref, List *referenceList)
 }
 
 
-/*======================================================================
-
-  newWord()
-
-  Creates a new WordNode and links it in the wrdtree.
-
-  */
+/*======================================================================*/
 int newWord(char *str,		/* IN - Name of the new word */
 	    WrdKind class,	/* IN - and its class */
 	    int code,		/* IN - and code */
@@ -151,6 +145,8 @@ void prepareWords(void)
     newWord("them", THEM_WORD, 0, NULL);
     newWord("except", BUT_WORD, 0, NULL);
     newWord("it", IT_WORD, 0, NULL);
+    newWord("him", IT_WORD, 0, NULL);
+    newWord("her", IT_WORD, 0, NULL);
     newWord("but", BUT_WORD, 0, NULL);
     newWord("and", CONJUNCTION_WORD, 0, NULL);
     newWord("all", ALL_WORD, 0, NULL);
@@ -163,6 +159,8 @@ void prepareWords(void)
     newWord("utom", BUT_WORD, 0, NULL);
     newWord("den", IT_WORD, 0, NULL);
     newWord("det", IT_WORD, 0, NULL);
+    newWord("henne", IT_WORD, 0, NULL);
+    newWord("honom", IT_WORD, 0, NULL);
     newWord("förutom", BUT_WORD, 0, NULL);
     newWord("och", CONJUNCTION_WORD, 0, NULL);
     newWord("allt", ALL_WORD, 0, NULL);
@@ -176,6 +174,8 @@ void prepareWords(void)
     newWord("das", NOISE_WORD, 0, NULL);
     newWord("die", NOISE_WORD, 0, NULL);
     newWord("es", IT_WORD, 0, NULL);
+    newWord("ihn", IT_WORD, 0, NULL);
+    newWord("sie", IT_WORD, 0, NULL);
     newWord("und", CONJUNCTION_WORD, 0, NULL);
     newWord("alles", ALL_WORD, 0, NULL);
     break;

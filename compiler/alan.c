@@ -351,7 +351,7 @@ static int test_severity(char *err, lmSev sevs)
   case 'E': sev = sevERR; break;
   case 'F': sev = sevFAT; break;
   case 'S': sev = sevSYS; break;
-  default: syserr("Unexpected severity marker", __FUNCTION__);
+  default: syserr("Unexpected severity marker in '%s()'", __FUNCTION__);
   }
   return sev & sevs;
 }

@@ -663,7 +663,6 @@ static void replicate(Symbol *symbol)
     replicateAttributes(symbol);
     replicateContainer(symbol);
     replicateScripts(symbol);
-    replicateContainer(symbol);
   }
 }
 

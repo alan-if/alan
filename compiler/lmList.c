@@ -160,6 +160,8 @@ static lmMsgs msg[] = {
     { "339   ", "You can only use Definite/Indefinite forms to Say instances. For other types of values use \'Say\' without Definite/Indefinite indicator." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not ADD %1 TO classes. %2" },
+    { "342   ", "Can not inherit %1." },
+    { "343   ", "Can not inherit %1. (Yet!)" },
     { "350   ", "Can not inherit from something not a class." },
     { "351   ", "Must refer to %1 inheriting from \'%2\'." },
     { "352   ", "Instance \'%1\' does not inherit from \'location\', but has EXITs, which can never be traversed." },
@@ -211,7 +213,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 131}
+    {0, 133}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>269.89</origest>
-<currest>268.89</currest>
+<origest>274.89</origest>
+<currest>273.89</currest>
 <elapsed>112.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>48</origest>
-<currest>48</currest>
+<origest>50</origest>
+<currest>50</currest>
 <elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.29</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -99,8 +99,8 @@ Do we really need all the four forms? Indefinite singular/plural and definite si
 
 Possibly there is also a fifth form, as in "I can't see *any* door here." But let's leave that for later.</notes>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
@@ -136,33 +136,6 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 </task>
 </task>
 <task>
-<desc>Declaration of indefinite and definite forms</desc>
-<notes>The forms should override articles</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Declaration of Indefinite Form</desc>
-<notes>Indefinite Form "en stol"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Declaration of Definite Form</desc>
-<notes>Definite Form "stolen"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Printing of articles</desc>
 <notes>How do we use definite and indefinite articles in printouts?
 
@@ -172,8 +145,8 @@ SAY an O.
 
 </notes>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -197,8 +170,8 @@ Requires sections something like:
   ""
 </notes>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>4</origest>
+<currest>4</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -231,15 +204,6 @@ Requires sections something like:
 <task>
 <desc>Say The x. to use Definite Form if available.</desc>
 <notes>Should use Definite form if available, else Definite Article + "Say x."</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow 'A' as well as 'An' in Say statement</desc>
-<notes>Both 'a' and 'an' should be allowed in Say statement. However 'a' is commonly an identifier? Introducing it as a keyword/id introduces grammar conflicts. Investigate!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -312,6 +276,33 @@ What to do when an instance not an object is moved into the container?
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Declaration of indefinite and definite forms</desc>
+<notes>The forms should override articles</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Declaration of Indefinite Form</desc>
+<notes>Indefinite Form "en stol"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Declaration of Definite Form</desc>
+<notes>Definite Form "stolen"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
 <desc>Verify UNDO</desc>
 <notes>Make test cases for each bit of information that is to be undone.</notes>
 <priority>2</priority>
@@ -352,8 +343,8 @@ What to do when an instance not an object is moved into the container?
 <desc>Increment: version 3.0.30</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>21</origest>
+<currest>21</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -365,6 +356,48 @@ Design: add a counter field in the message entries and sort on those also.</note
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add 'can' to the set of attribute header words</desc>
+<notes>So that we can do
+
+The gun Isa object
+  Can shoot
+
+The girl Isa actor
+  Can talk
+
+is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun declarations</desc>
+<notes>Need:
+"You can not shoot at that." is not very logical when the target is a person.
+
+Analysis:
+To fix this we need a declaration of pronoun, e.g
+
+The woman Isa person
+  Pronoun "her"
+End The woman.
+
+Implementation requires:
+ - grammar change
+ - run-time execution
+ - embedded string printing
+ - library change
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -515,21 +548,6 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Unify error messages</desc>
-<notes>Check error messages and try to unify such as
-
-Multiple VERB '%1'
-
-with
-
-Multiple %1 '%2'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Confirmations</desc>
 <notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
 
@@ -557,13 +575,36 @@ END DEPEND.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Capitalized names is a problem in parameters since printing of them use player input</desc>
+<notes>E.g.
+  &gt; talk to mr x
+
+Does not output
+
+  Mr X does not want to talk to you.
+
+This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
+
+  &gt; examine rod
+  You can not examine the dynamite.
+
+Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
+
+Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.31</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -577,6 +618,21 @@ Here a reference to p1 should be considered to be either Object, Actor or Contai
 
 Design:
 At analysis connect a parameter list to the verb and use that instead of the syntax</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify error messages</desc>
+<notes>Check error messages and try to unify such as
+
+Multiple VERB '%1'
+
+with
+
+Multiple %1 '%2'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -741,15 +797,33 @@ Design: @&lt;file&gt;? Read one line at a time and feed that into readline(), on
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>101</origest>
-<currest>101</currest>
-<elapsed>2</elapsed>
-<isopen>0</isopen>
+<origest>105</origest>
+<currest>105</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
 <notes>This occurs at a initial location clause:
 
 The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -899,6 +973,15 @@ attributes
 scripts
 verbs
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow 'A' as well as 'An' in Say statement</desc>
+<notes>Both 'a' and 'an' should be allowed in Say statement. However 'a' is commonly an identifier? Introducing it as a keyword/id introduces grammar conflicts. Investigate!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1994,6 +2077,16 @@ What do you want to do with the ball?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>change "*_x.h" to "*.x"?</desc>
+<notes>
+No, since that would break *.[ch] convention.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Strategies</desc>
@@ -2190,9 +2283,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>102.89</origest>
-<currest>101.89</currest>
-<elapsed>101.89</elapsed>
+<origest>101.89</origest>
+<currest>100.89</currest>
+<elapsed>100.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -2216,16 +2309,6 @@ Why? So not done.</notes>
 <task>
 <desc>AtrNod -&gt; Attribute</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>change "*_x.h" to "*.x"?</desc>
-<notes>
-No, since that would break *.[ch] convention.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2387,7 +2470,7 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Testing of attributes on locations</desc>
 <notes/>

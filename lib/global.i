@@ -1,6 +1,7 @@
 -- global.i
 -- Library version 0.5.0
 
+-- 0.6.0 -- removed synonyms 'him' and 'her' since Alan now defines them
 -- 0.4.1 -- due to ALANv3 changes:
 --          added definition of 'hero' (the player character) as a
 --          container for holding the player's "inventory", removed
@@ -12,7 +13,6 @@
 
 Synonyms
   me, myself, self = hero.
-  her, him = it.
 
 The hero Isa actor
 Container

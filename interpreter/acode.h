@@ -199,6 +199,8 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword parent;			/* Code for the parent class, 0 if none */
   Aaddr checks;			/* Address of description checks */
   Aaddr description;		/* Address of description code */
+  Aaddr definite;		/* Address of definite article code */
+  Aaddr indefinite;		/* Address of indefinite article code */
   Aaddr verbs;			/* Address of verb table */
 } ClassEntry;
 

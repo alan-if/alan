@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "types.h"
 
+#include "ext.h"
 #include "srcp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
@@ -168,6 +169,53 @@ void symbolizeClasses(void)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void warnForUnimplementedInheritance(Properties *props) {
+  int propCount = 0;		/* To count that we catch all */
+
+  /* We can currently inherit:
+
+  	Attributes
+	DescriptionCheck
+	DescriptionStatements
+	Container
+	Script
+	Verb
+  */
+  propCount = 6;
+
+  if (props->whr != NULL)
+    lmLog(&props->whr->srcp, 343, sevWAR, "initial location");
+  propCount++;
+
+  if (props->names != NULL)
+    lmLog(&props->names->element.lst->element.id->srcp, 343, sevWAR, "Names");
+  propCount++;
+
+  if (props->enteredStatements != NULL)
+    lmLog(&props->enteredSrcp, 343, sevWAR, "Entered clause");
+  propCount++;
+
+  if (props->definite != NULL)
+    lmLog(&props->definiteSrcp, 343, sevWAR, "Definite Article/Form");
+  propCount++;
+
+  if (props->indefinite != NULL)
+    lmLog(&props->indefiniteSrcp, 343, sevWAR, "Indefinite Article/Form");
+  propCount++;
+
+  if (props->mentioned != NULL)
+    lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
+  propCount++;
+
+  if (props->exits != NULL)
+    lmLog(&props->exits->element.ext->srcp, 343, sevWAR, "Exits");
+  propCount++;
+
+  if (propCount != NOOFPROPS)
+    syserr("Wrong number of props in '%s()'", __FUNCTION__);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeClass(ClaNod *class)
@@ -176,6 +224,7 @@ static void analyzeClass(ClaNod *class)
 
   context->class = class;
 
+  warnForUnimplementedInheritance(class->props);
   analyzeProps(class->props, context);
 }
 
@@ -219,6 +268,8 @@ static void generateClassEntry(ClaNod *cla)
   entry.idAddress = cla->props->idAddress;
   entry.checks = cla->props->descriptionChecksAddress;
   entry.description = cla->props->descriptionAddress;
+  entry.definite = cla->props->definiteAddress;
+  entry.indefinite = cla->props->indefiniteAddress;
   entry.verbs = cla->props->verbsAddress;
 
   emitEntry(&entry, sizeof(entry));

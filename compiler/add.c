@@ -167,7 +167,17 @@ static void addDescription(AddNode *add, Symbol *originalSymbol)
 
 
 /*----------------------------------------------------------------------*/
-static void addArticle(AddNode *add, Symbol *original)
+static void addEntered(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->enteredStatements != NULL)
+    lmLogv(&props->enteredSrcp, 341, sevERR, "Entered clause", "(yet)", NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addArticles(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
@@ -215,28 +225,56 @@ static void addExits(AddNode *add, Symbol *original)
 /*----------------------------------------------------------------------*/
 static void verifyAdd(AddNode *add, Symbol *originalSymbol)
 {
-    /* Can't add anything except verbs to non-instantiable classes */
+  /* Can't add anything except verbs to non-instantiable classes */
   if (originalSymbol->fields.entity.prohibitedSubclassing) {
+    int propsCount = 1;		/* Verbs-slot is not counted so start at 1 */
+
     if (add->props->names)
       lmLogv(&add->srcp, 424, sevERR, "names", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->whr)
       lmLogv(&add->props->whr->srcp, 424, sevERR, "initial location", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->attributes)
       lmLogv(&add->props->attributes->element.atr->srcp, 424, sevERR, "attributes", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->descriptionChecks || add->props->descriptionStatements)
       lmLogv(&add->props->descriptionSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
+    propsCount+=2;
+
+    if (add->props->enteredStatements)
+      lmLogv(&add->props->enteredSrcp, 424, sevERR, "entered", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->definite)
       lmLogv(&add->props->definiteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->indefinite)
       lmLogv(&add->props->indefiniteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->mentioned)
       lmLogv(&add->props->mentionedSrcp, 424, sevERR, "mentioned", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->container)
       lmLogv(&add->props->container->body->srcp, 424, sevERR, "container", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->scripts)
       lmLogv(&add->props->scripts->element.scr->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->exits)
       lmLogv(&add->props->exits->element.ext->srcp, 424, sevERR, "exits", originalSymbol->string, NULL);
+    propsCount++;
+
+    if (propsCount != NOOFPROPS)
+      syserr("Wrong number of property checks in '%s()'", __FUNCTION__);
   }
 }
 
@@ -247,18 +285,22 @@ static void addAddition(AddNode *add)
   Symbol *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
 
   if (originalClass != NULL) {
+    int propCount = 0;
     verifyAdd(add, originalClass);
-    addInitialLocation(add, originalClass);
-    addNames(add, originalClass);
-    addAttributes(add, originalClass);
-    addDescriptionCheck(add, originalClass);
-    addDescription(add, originalClass);
-    addArticle(add, originalClass);
-    addMentioned(add, originalClass);
-    addContainer(add, originalClass);
-    addVerbs(add, originalClass);
-    addScripts(add, originalClass);
-    addExits(add, originalClass);
+    addInitialLocation(add, originalClass); propCount++;
+    addNames(add, originalClass); propCount++;
+    addAttributes(add, originalClass); propCount++;
+    addDescriptionCheck(add, originalClass); propCount++;
+    addDescription(add, originalClass); propCount++;
+    addEntered(add, originalClass);  propCount++;
+    addArticles(add, originalClass); propCount+=2;
+    addMentioned(add, originalClass); propCount++;
+    addContainer(add, originalClass); propCount++;
+    addVerbs(add, originalClass); propCount++;
+    addScripts(add, originalClass); propCount++;
+    addExits(add, originalClass); propCount++;
+    if (propCount != NOOFPROPS)
+      syserr("Wrong property count in '%s()'", __FUNCTION__);
   }
 }
 

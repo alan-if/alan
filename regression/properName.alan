@@ -4,6 +4,8 @@ Add To Every actor
   Verb x
     Does
       "Saying a = '$$" Say a. "$$'"
+      "Saying the a = '$$" Say The a. "$$'"
+      "Saying an a = '$$" Say An a. "$$'"
       "Saying this = '$$" Say this. "$$'"
       "In string = '$1'."
       Look.

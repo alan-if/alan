@@ -916,6 +916,31 @@ void saystr(char *str)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void sayInheritedArticle(Aword theClass, SayForm form) {
+
+  if (theClass == 0) {
+    if (form == SAY_DEFINITE)
+      prmsg(M_DEFINITE);
+    else
+      prmsg(M_INDEFINITE);
+  } else {
+    switch(form) {
+    case SAY_DEFINITE:
+      if (class[theClass].definite)
+	interpret(class[theClass].definite);
+      break;
+    case SAY_INDEFINITE:
+      if (class[theClass].indefinite)
+	interpret(class[theClass].indefinite);
+      break;
+    }
+    sayInheritedArticle(class[theClass].parent, form);
+  }
+}
+
+
+
 /*======================================================================*/
 void sayArticle(Aword id, SayForm form)
 {
@@ -924,13 +949,13 @@ void sayArticle(Aword id, SayForm form)
     if (instance[id].indefinite != 0)
       interpret(instance[id].indefinite);
     else
-      prmsg(M_INDEFINITE);
+      sayInheritedArticle(instance[id].parent, form);
     break;
   case SAY_DEFINITE:
     if (instance[id].definite != 0)
       interpret(instance[id].definite);
     else
-      prmsg(M_DEFINITE);
+      sayInheritedArticle(instance[id].parent, form);
     break;
   default:
     syserr("Unexpected form in sayArticle()");

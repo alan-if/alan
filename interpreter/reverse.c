@@ -258,6 +258,8 @@ static void reverseClasses(Aword adr)
     while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->description);
+      reverseStms(e->definite);
+      reverseStms(e->indefinite);
       reverseVerbs(e->verbs);
       e++;
     }
