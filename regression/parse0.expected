@@ -1,0 +1,37 @@
+########## parse0 ##########
+Options
+    Debug.
+
+Syntax
+    put_in = 'put' (o) 'in' (c).
+
+Verb put_in
+    Does
+	"put in"
+End Verb.
+
+
+The cont Isa object At l
+    Container
+End The cont.
+
+
+The l Isa location
+End The l.
+
+
+Start At l.
+########## alan parse0.alan ##########
+
+        No warnings or errors detected.
+
+
+L
+There is a cont here.
+
+> put cont in cont
+put in
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

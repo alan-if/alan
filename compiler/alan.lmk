@@ -67,7 +67,7 @@
 307	'\'%1\' already declared as an Event.';
 310	'Identifier \'%1\' not defined.';
 311	'Must refer to %1.';
-312	'Parameter not uniquely defined as %1, which is required.';
+312	'Parameter \'%1\' not uniquely defined as %2, which is required.';
 315	'Attribute not defined for \'%1\'.';
 316	'Attribute \'%1\' is not defined for parameter \'%2\' since its class (\'%3\') does not have it.';
 317	'Can not restrict a parameter to something not a class.';
@@ -91,7 +91,7 @@
 
 400	'Script not defined for Actor \'%1\'.';
 401	'Actor reference required outside Actor specification.';
-402	'An Actor can\'t be inside a Container.';
+402	'An %1 can\'t be inside a Container.';
 403	'Script multiply defined for Actor \'%1\'.';
 404	'Attribute to %1 must be a default attribute.';
 406	'A Container, Integer or String have no default attributes.';

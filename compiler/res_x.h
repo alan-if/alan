@@ -22,8 +22,9 @@
 /* FUNCTIONS: */
 
 extern ResNod *newRestriction(Srcp *srcp,
-			      IdNode *id,
-			      IdNode *class,
+			      IdNode *parameterId,
+			      RestrictionKind kind,
+			      IdNode *classId,
 			      List *stms);
 extern Aaddr generateRestrictions(List *ress, StxNod *stx);
 extern void analyzeRestrictions(List *ress, List *params);

@@ -35,10 +35,11 @@
 
  */
 ResNod *newRestriction(
-    Srcp *srcp,			/* IN - Source Position */
-    IdNode *id,			/* IN - The name */
-    IdNode *classId,		/* IN - Allowed class */
-    List *stms)			/* IN - Statements to execute otherwise */
+    Srcp *srcp,
+    IdNode *parameterId,
+    RestrictionKind kind,
+    IdNode *classId,
+    List *stms)
 {
   ResNod *new;			/* The newly created node */
 
@@ -47,7 +48,8 @@ ResNod *newRestriction(
   new = NEW(ResNod);
 
   new->srcp = *srcp;
-  new->id = id;
+  new->parameterId = parameterId;
+  new->kind = kind;
   new->classId = classId;
   new->stms = stms;
 
@@ -63,7 +65,7 @@ static SymNod *findParameter(ResNod *res, List *parameterSymbols)
   for (p = parameterSymbols; p != NULL; p = p->next) {
     if (p->element.sym->kind != PARAMETER_SYMBOL)
       syserr("Not a parameter symbol in analyzeRestriction()");
-    if (equalId(res->id, p->element.sym->fields.parameter.element->id))
+    if (equalId(res->parameterId, p->element.sym->fields.parameter.element->id))
       return p->element.sym;
   }
   return NULL;
@@ -77,25 +79,37 @@ static void resolveParameterClass(ResNod *res, SymNod *parameter)
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
   if (res->classId == NULL) {
     classSymbol = object->slots->id->symbol;
+    /* Set the class in the corresponding parameter symbol */
+    parameter->fields.parameter.class = classSymbol;
+    parameter->fields.parameter.type = INSTANCE_TYPE;
   } else {
-    /* FIXME: to handle literal types restriction, INTEGER, STRING, ... */
-
-    classSymbol = lookup(res->classId->string);
-    if (classSymbol != NULL)
-      if (classSymbol->kind != CLASS_SYMBOL) {
+    switch (res->kind) {
+    case ID_RESTRICTION: 
+      classSymbol = lookup(res->classId->string);
+      if (classSymbol != NULL)
+	if (classSymbol->kind != CLASS_SYMBOL) {
+	  lmLog(&res->classId->srcp, 317, sevERR, "");
+	  classSymbol = NULL;
+	} else {
+	  res->classId->symbol = classSymbol;
+	  res->classId->code = classSymbol->code;
+	}
+      else
 	lmLog(&res->classId->srcp, 317, sevERR, "");
-	classSymbol = NULL;
-      } else {
-	res->classId->symbol = classSymbol;
-	res->classId->code = classSymbol->code;
-      }
-    else
-      lmLog(&res->classId->srcp, 317, sevERR, "");
+      /* Set the class in the corresponding parameter symbol */
+      parameter->fields.parameter.class = classSymbol;
+      parameter->fields.parameter.type = INSTANCE_TYPE;
+      break;
+
+    case CONTAINER_RESTRICTION:
+      break;
+
+    default:
+      syserr("Unimplemented restriction kind in resolveParameterClass()");
+      break;
+    }
   }
 
-  /* Set the class in the corresponding parameter symbol */
-  parameter->fields.parameter.class = classSymbol;
-  parameter->fields.parameter.type = INSTANCE_TYPE;
 }
 
 /*----------------------------------------------------------------------
@@ -115,7 +129,7 @@ static void analyzeRestriction(
 
   parameter = findParameter(res, parameterSymbols);
   if (parameter == NULL)
-    lmLog(&res->id->srcp, 222, sevERR, res->id->string);
+    lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
 
   resolveParameterClass(res, parameter);
 
@@ -171,8 +185,24 @@ static void generateRestrictionEntry(ResNod *res)
 {
   RestrictionEntry restriction;
 
-  restriction.parameter = res->id->code;
-  restriction.class = res->classId->code;
+  restriction.parameter = res->parameterId->code;
+  switch (res->kind) {
+  case ID_RESTRICTION:
+    restriction.class = res->classId->code;
+    break;
+  case CONTAINER_RESTRICTION:
+    restriction.class = RESTRICTIONCLASS_CONTAINER;
+    break;
+  case INTEGER_RESTRICTION:
+    restriction.class = RESTRICTIONCLASS_INTEGER;
+    break;
+  case STRING_RESTRICTION:
+    restriction.class = RESTRICTIONCLASS_STRING;
+    break;
+  default:
+    syserr("Unexpected RestrictionKind in generateRestrictionEntry()");
+    break;
+  }
   restriction.stms = res->stmadr;
 
   emitEntry(&restriction, sizeof(restriction));
@@ -222,7 +252,7 @@ void dures(ResNod *res)
   }
 
   put("RES: "); dumpSrcp(&res->srcp); in();
-  put("id: "); dumpId(res->id); nl();
-  put("class: "); dumpId(res->classId); nl();
+  put("parameterId: "); dumpId(res->parameterId); nl();
+  put("classId: "); dumpId(res->classId); nl();
   put("stms: "); dulst(res->stms, LIST_STM); out();
 }

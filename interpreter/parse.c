@@ -567,28 +567,13 @@ static Boolean restrictionCheck(restriction)
 {
   Boolean ok = FALSE;
 
-  /* FIXME: We need to check for container possibly and literals */
+  /* FIXME: We need to check for literals */
+
+  if (restriction->class == RESTRICTIONCLASS_CONTAINER)
+    return instance[params[restriction->parameter-1].code].container != 0;
+
   ok = isA(params[restriction->parameter-1].code, restriction->class);
   return ok;
-
-
-  /*
-  if ((cla->classes&(Aword)CLA_OBJ) != 0)
-    ok = ok || isObj(params[cla->code-1].code);
-  if ((cla->classes&(Aword)CLA_CNT) != 0)
-    ok = ok || isCnt(params[cla->code-1].code);
-  if ((cla->classes&(Aword)CLA_ACT) != 0)
-    ok = ok || isAct(params[cla->code-1].code);
-  if ((cla->classes&(Aword)CLA_NUM) != 0)
-    ok = ok || isNum(params[cla->code-1].code);
-  if ((cla->classes&(Aword)CLA_STR) != 0)
-    ok = ok || isStr(params[cla->code-1].code);
-  if ((cla->classes&(Aword)CLA_COBJ) != 0)
-    ok = ok || (isCnt(params[cla->code-1].code) && isObj(params[cla->code-1].code));
-  if ((cla->classes&(Aword)CLA_CACT) != 0)
-    ok = ok || (isCnt(params[cla->code-1].code) && isAct(params[cla->code-1].code));
-  return ok;
-  */
 }
 
 	
@@ -626,7 +611,7 @@ static void try(mlst)
   ParamEntry mlst[];		/* OUT - List of params allowed by multiple */
 #endif
 {
-  ElmEntry *elms;		/* Pointer to entryent list */
+  ElementEntry *elms;		/* Pointer to entryent list */
   StxEntry *stx;		/* Pointer to syntax list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
@@ -645,7 +630,7 @@ static void try(mlst)
   if (endOfTable(stx))
     error(M_WHAT);
 
-  elms = (ElmEntry *) addrTo(stx->elms);
+  elms = (ElementEntry *) addrTo(stx->elms);
 
   while (TRUE) {
     /* End of input? */
@@ -695,7 +680,7 @@ static void try(mlst)
 	  params[paramidx++] = tlst[0];
 	params[paramidx].code = EOF;
       }
-      elms = (ElmEntry *) addrTo(elms->next);
+      elms = (ElementEntry *) addrTo(elms->next);
     }
   }
   
@@ -808,6 +793,7 @@ void parse()
     params = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
     params[0].code = EOF;
     pparams = (ParamEntry *) allocate(sizeof(ParamEntry)*(MAXENTITY+1));
+    pparams[0].code = EOF;
   }
 
   if (wrds[wrdidx] == EOF) {

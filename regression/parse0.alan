@@ -1,0 +1,22 @@
+Options
+    Debug.
+
+Syntax
+    put_in = 'put' (o) 'in' (c).
+
+Verb put_in
+    Does
+	"put in"
+End Verb.
+
+
+The cont Isa object At l
+    Container
+End The cont.
+
+
+The l Isa location
+End The l.
+
+
+Start At l.

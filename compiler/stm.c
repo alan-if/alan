@@ -18,6 +18,7 @@
 #include "atr_x.h"
 #include "lst_x.h"
 #include "exp_x.h"
+#include "cnt_x.h"
 
 #include "lmList.h"
 
@@ -135,25 +136,21 @@ static void anlist(StmNod *stm,
 static void anempty(StmNod *stm,
 		    Context *context)
 {
-#ifndef FIXME
-  syserr("UNIMPL: anempty() - cntcheck");
-#else
-  cntcheck(stm->fields.list.wht, pars);
-#endif
-  anwhr(stm->fields.empty.whr, context);
+  verifyContainer(stm->fields.list.wht, context);
+  analyzeWhere(stm->fields.empty.whr, context);
 }
 
 
 /*----------------------------------------------------------------------
 
-  anlocate()
-
-  Analyze a LOCATE statement.
+  analyzeLocate()
 
   */
-static void anlocate(StmNod *stm,
-		     Context *context)
+static void analyzeLocate(StmNod *stm,
+			  Context *context)
 {
+  SymNod *whtSymbol;
+
   switch (stm->fields.locate.wht->kind) {
   case WHT_OBJ:
     if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
@@ -167,43 +164,40 @@ static void anlocate(StmNod *stm,
     lmLog(&stm->srcp, 311, sevERR, "an Object or an Actor");
     break;
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: namcheck() in anlocate()");
-#else
-    namcheck(&sym, &elm, stm->fields.locate.wht->nam, NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-#endif    
+    whtSymbol = symcheck(stm->fields.locate.wht->id, INSTANCE_SYMBOL, context);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
   }
 
-  anwhr(stm->fields.locate.whr, context);
+  analyzeWhere(stm->fields.locate.whr, context);
   switch (stm->fields.locate.whr->kind) {
   case WHR_HERE:
   case WHR_AT:
     break;
   case WHR_IN:
-    if (stm->fields.locate.wht->kind == WHT_ACT)
-      lmLog(&stm->srcp, 402, sevERR, "");
-    else if (stm->fields.locate.wht->kind == WHT_ID) {
-#ifndef FIXME
-      syserr("UNIMPL: anlocate()");
-#else
-      if (sym != NULL && sym->kind == NAMACT)
-        lmLog(&stm->srcp, 402, sevERR, "");
-      else if (elm != NULL && elm->res != NULL
-	       && ((elm->res->classbits & NAMACT) != 0
-		   || (elm->res->classbits & NAMCACT) != 0))
-        lmLog(&stm->srcp, 402, sevERR, "");
-#endif
+    switch (stm->fields.locate.wht->kind) {
+    case WHT_LOC:
+      lmLog(&stm->srcp, 402, sevERR, "Location");
+    case WHT_ACT:
+      lmLog(&stm->srcp, 402, sevERR, "Actor");
+      break;
+    case WHT_ID:
+      if (inheritsFrom(whtSymbol, actorSymbol))
+	lmLog(&stm->srcp, 402, sevERR, "Actor");
+      if (inheritsFrom(whtSymbol, locationSymbol))
+	lmLog(&stm->srcp, 402, sevERR, "Location");
+      break;
+    default:
+      syserr("Unexpected WhtKind in analyzeLocate()");
     }
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
-    syserr("Unrecognized switch in anlocate()");
+    syserr("Unrecognized switch in analyzeLocate()");
     break;
   }
 }
@@ -424,7 +418,7 @@ static void anschedule(StmNod *stm,
   sym = symcheck(stm->fields.schedule.id, EVENT_ID, NULL);
 
   /* Now lookup where */
-  anwhr(stm->fields.schedule.whr, context);
+  analyzeWhere(stm->fields.schedule.whr, context);
   switch (stm->fields.schedule.whr->kind) {
   case WHR_DEFAULT:
     stm->fields.schedule.whr->kind = WHR_HERE;
@@ -641,7 +635,7 @@ static void anstm(StmNod *stm,
     anempty(stm, context);
     break;
   case STM_LOCATE:
-    anlocate(stm, context);
+    analyzeLocate(stm, context);
     break;
   case STM_MAKE:
     anmake(stm, context);

@@ -202,6 +202,11 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
   Aword target;			/* Id for the target location */
 } ExitEntry;
 
+
+#define RESTRICTIONCLASS_CONTAINER (-2)
+#define RESTRICTIONCLASS_INTEGER (-3)
+#define RESTRICTIONCLASS_STRING (-4)
+
 typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
   Aword parameter;		/* Parameter number */
   Aword class;			/* Parameter class code */
@@ -214,6 +219,15 @@ typedef struct ContainerEntry {	/* CONTAINER TABLE */
   Aaddr header;			/* Address to header code */
   Aaddr empty;			/* Address to empty code */
 } ContainerEntry;
+
+
+typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
+  Aword code;			/* Code for this element, 0 -> parameter */
+  Aword flags;			/* Flags for multiple/omni (if parameter) */
+  Aaddr next;			/* Address to next element table ... */
+				/* ... or class check if EOS */
+} ElementEntry;
+
 
 
 

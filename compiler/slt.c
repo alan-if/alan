@@ -146,8 +146,8 @@ static void analyzeName(SlotsNode *slots)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = annams(slots->names, slots->id,
-		 inheritsFrom(slots->id->symbol, location->slots->id->symbol) ||
-		 inheritsFrom(slots->id->symbol, actor->slots->id->symbol));
+		 inheritsFrom(slots->id->symbol, locationSymbol) ||
+		 inheritsFrom(slots->id->symbol, actorSymbol));
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, STM_PRINT);
@@ -174,7 +174,7 @@ void analyzeSlots(SlotsNode *slots)
   anstms(slots->description, NULL);
   anvrbs(slots->verbs, slots->id->symbol);
 
-  if (slots->exits && !inheritsFrom(slots->id->symbol, location->slots->id->symbol))
+  if (slots->exits && !inheritsFrom(slots->id->symbol, locationSymbol))
     lmLog(&slots->id->srcp, 352, sevERR, slots->id->string);
   analyzeExits(slots->exits);
 }

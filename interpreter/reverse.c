@@ -303,10 +303,10 @@ static void reverseElms(adr)
      Aword adr;
 #endif
 {
-  ElmEntry *e = (ElmEntry *) &memory[adr];
+  ElementEntry *e = (ElementEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ElmEntry));
+    reverseTable(adr, sizeof(ElementEntry));
     while (!endOfTable(e)) {
       if (e->code == EOS) reverseRestrictions(e->next);
       else reverseElms(e->next);

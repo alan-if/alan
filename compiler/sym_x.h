@@ -19,8 +19,10 @@
 
 
 /* DATA: */
+
 extern int classCount;
 extern int instanceCount;
+extern SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
 
 
 /* FUNCTIONS: */

@@ -28,15 +28,8 @@
 
 /* PRIVATE: */
 
-typedef struct ElmEntry {
-  int code;                     /* Word code, if 0 means parameter */
-  Aaddr adr;                    /* Address to next level for this */
-                                /* entry */
-  Aword flags;                  /* Multiple indicator */
-} ElmEntry;
-
-
 static int level = 0;
+
 
 /*======================================================================
 
@@ -134,13 +127,13 @@ List *anelms(List *elms,        /* IN - List to analyze */
       /* Find any class restrictions and warn for multiple for same parameter */
       found = FALSE;
       for (resLst = ress; resLst; resLst = resLst->next) {
-        if (equalId(resLst->element.res->id, lst->element.elm->id)) {
+        if (equalId(resLst->element.res->parameterId, lst->element.elm->id)) {
           if (found)
-            lmLog(&resLst->element.res->id->srcp, 221, sevERR, resLst->element.res->id->string);
+            lmLog(&resLst->element.res->parameterId->srcp, 221, sevERR, resLst->element.res->parameterId->string);
           else {
             found = TRUE;
             lst->element.elm->res = resLst->element.res;
-            resLst->element.res->id->code = lst->element.elm->id->code;
+            resLst->element.res->parameterId->code = lst->element.elm->id->code;
           }
         }
       }
@@ -288,7 +281,7 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
   List *part;                   /* The current partion */
   Aaddr elmadr, resadr;
   List *entries = NULL;         /* List of next level entries */
-  ElmEntry *entry;              /* One entry in the list */
+  ElementEntry *entry;              /* One entry in the list */
 
   if (elms == NULL)
     return 0;           /* End of chain */
@@ -301,7 +294,7 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
   level++;
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
     /* Make one entry for this partition */
-    entry = NEW(ElmEntry);
+    entry = NEW(ElementEntry);
     entry->flags = 0;
     entries = concat(entries, entry, LIST_EENT);
     switch (part->element.lst->element.elm->kind) {
@@ -314,35 +307,27 @@ Aaddr geelms(List *elms, StxNod *stx) /* IN - The elements */
       }
       entry->code = EOS;        /* End Of Syntax */
       /* Point to the generated class restriction table */
-      entry->adr = resadr;
+      entry->next = resadr;
       break;
 
     case PARAMETER_ELEMENT:
       entry->code = 0;
       entry->flags = part->element.lst->element.elm->flags;
-      entry->adr = geelms(part, stx);
+      entry->next = geelms(part, stx);
       break;
 
     case WORD_ELEMENT:
-#ifndef FIXME
-      syserr("UNIMPL: geelms() - code for word in syntax");
-#else
       entry->code = part->element.lst->element.elm->id->code;
-      entry->flags = FALSE;
-      entry->adr = geelms(part, stx);
-#endif
+      entry->flags = 0;
+      entry->next = geelms(part, stx);
       break;
     }
   }
   
   /* Finally, generate this level */
   elmadr = emadr();
-  for (lst = entries; lst; lst = lst->next) {
-    entry = lst->element.eent;
-    emit(entry->code);
-    emit(entry->flags);
-    emit(entry->adr);
-  }
+  for (lst = entries; lst; lst = lst->next)
+    emitEntry(lst->element.eent, sizeof(*entry));
   emit(EOF);
 
   level--;

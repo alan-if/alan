@@ -345,7 +345,7 @@ static void anagr(ExpNod *exp,
       exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
   }
 
-  anwhr(exp->fields.agr.whr, context);
+  analyzeWhere(exp->fields.agr.whr, context);
 }
 
 

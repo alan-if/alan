@@ -41,6 +41,10 @@ if [ $# != 0 ] ; then
     then
 	run
 	verify
+    elif [ -f $case.alan ]
+    then
+        run
+	verify
     fi
   done
 else

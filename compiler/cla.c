@@ -42,15 +42,21 @@ static List *allClasses = NULL;
 */
 void initClasses()
 {
+  IdNode *thingId = newId(&nulsrcp, "thing");
+
   allClasses = NULL;
 
-  thing = newClass(&nulsrcp, newId(&nulsrcp, "thing"), NULL, NULL);
+  thing = newClass(&nulsrcp, thingId, NULL, NULL);
+  thingSymbol = thing->slots->id->symbol;
   object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
-		  newId(&nulsrcp, "thing"), NULL);
+		    thingId, NULL);
+  objectSymbol = object->slots->id->symbol;
   location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
-		    newId(&nulsrcp, "thing"), NULL);
+		      thingId, NULL);
+  locationSymbol = location->slots->id->symbol;
   actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
-		 newId(&nulsrcp, "thing"), NULL);
+		   thingId, NULL);
+  actorSymbol = actor->slots->id->symbol;
 
 }
 

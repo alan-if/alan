@@ -5,7 +5,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "sym_x.h"                /* SYMbol nodes */
+#include "sym_x.h"
 
 /* IMPORTS */
 #include "sysdep.h"
@@ -20,13 +20,17 @@
 #include "lst_x.h"
 
 
+/* EXPORTS: */
 int classCount = 0;
 int instanceCount = 0;
 int directionCount = 0;
 int attributeCount = 0;
 int verbCount = 0;
 
+SymNod *thingSymbol, *objectSymbol, *locationSymbol, *actorSymbol;
 
+
+/* PRIVATE: */
 static SymNod *symTree = NULL;
 
 
@@ -41,24 +45,16 @@ void redefined(Srcp *srcp,      /* IN - Source position */
                SymNod *sym,     /* IN - The previous definition */
                char *str)       /* IN - The symbol name */
 {
-#ifndef FIXME
-  syserr("UNIMPL: redefined() - old symbol kinds");
-#else
   int code;                     /* Error code */
 
-  switch (sym->class) {
-  case NAMDIR: code = 301; break;
-  case NAMLOC: code = 302; break;
-  case NAMVRB: code = 303; break;
-  case NAMOBJ: code = 304; break;
-  case NAMCNT: code = 305; break;
-  case NAMACT: code = 306; break;
-  case NAMEVT: code = 307; break;
+  switch (sym->kind) {
+  case DIRECTION_SYMBOL: code = 301; break;
+  case VERB_SYMBOL: code = 303; break;
+  case EVENT_SYMBOL: code = 307; break;
   default: syserr("Unrecognized switch in redefined()"); break;
   }
 
   lmLog(srcp, code, sevERR, str);
-#endif
 }
 
 
@@ -387,6 +383,8 @@ void setParameters(SymNod *verb, List *parameters)
 {
   List *parameterSymbols = NULL;
   List *parameter;
+
+  if (verb == NULL) return;
 
   if (verb->kind != VERB_SYMBOL) syserr("Not a verb in setParamters()");
 

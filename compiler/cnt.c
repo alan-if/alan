@@ -66,15 +66,13 @@ CntNod *newContainer(Srcp *srcp, /* IN - Source Position */
 
 /*======================================================================
 
-  cntcheck()
-
-  Check if a name is a container, if not give an error message.
+  verifyContainer()
 
  */
-void cntcheck(WhtNod *wht,
-	      Context *context)
+void verifyContainer(WhtNod *wht,
+		    Context *context)
 {
-  SymNod *sym;			/* The symbol table node */
+  SymNod *sym;
 
   if (wht == NULL)
     return;
@@ -82,10 +80,20 @@ void cntcheck(WhtNod *wht,
   switch (wht->kind) {
   case WHT_ID:
     sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
-    syserr("UNIMPL: verify container property");
-    if (sym && sym->kind == INSTANCE_SYMBOL)
-      if (sym->fields.claOrIns.slots->container == NULL)
-	lmLog(&wht->srcp, 318, sevERR, wht->id->string);
+    if (sym)
+      switch (sym->kind) {
+      case INSTANCE_SYMBOL:
+	if (sym->fields.claOrIns.slots->container == NULL)
+	  lmLog(&wht->srcp, 318, sevERR, wht->id->string);
+	break;
+      case PARAMETER_SYMBOL:
+	if (sym->fields.parameter.element->res == NULL
+	    || sym->fields.parameter.element->res->kind != CONTAINER_RESTRICTION)
+	  lmLogv(&wht->srcp, 312, sevERR, wht->id->string, "a container", NULL);
+	break;
+      default:
+	syserr("Unexpected symbol kind in verifyContainer()");
+      }
     break;
 
   case WHT_LOC:

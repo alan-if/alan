@@ -14,14 +14,10 @@
 #include "wht_x.h"
 #include "sym_x.h"
 #include "id_x.h"
+#include "cnt_x.h"
 
 #include "lmList.h"
-
 #include "acode.h"
-
-#include "cnt.h"		/* CNT-nodes */
-#include "elm.h"		/* ELM-nodes */
-
 #include "dump.h"
 #include "emit.h"
 
@@ -104,9 +100,8 @@ void verifyAtLocation(WhrNod *whr)
   Analyse a where reference.
 
   */
-void analyzeWhere(WhrNod *whr,		/* IN - Where node */
-		  EvtNod *evt,		/* IN - Inside Event? */
-		  List *pars)		/* IN - Possible parameters */
+void analyzeWhere(WhrNod *whr,
+		  Context *context)
 {
   switch (whr->kind) {
   case WHR_DEFAULT:
@@ -123,11 +118,7 @@ void analyzeWhere(WhrNod *whr,		/* IN - Where node */
     }
     break;
   case WHR_IN:
-#ifndef FIXME
-    syserr("UNIMPL: cntcheck");
-#else
-    cntcheck(whr->wht, pars);
-#endif
+    verifyContainer(whr->wht, context);
     break;
   default:
     syserr("Unrecognized switch in analyzeWhere()");
@@ -157,11 +148,7 @@ void anwhr(WhrNod *whr,
   case WHR_AT:
     switch (whr->wht->kind) {
     case WHT_ID:
-#ifndef FIXME
-      syserr("UNIMPL: namcheck() -> idcheck()");
-#else
-      namcheck(&sym, &elm, whr->wht->id, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT, NAMANY, pars);
-#endif
+      (void) symcheck(whr->wht->id, INSTANCE_SYMBOL, context);
       break;
     case WHT_LOC:
       whr->kind = WHR_HERE;
@@ -182,11 +169,7 @@ void anwhr(WhrNod *whr,
     }
     break;
   case WHR_IN:
-#ifndef FIXME
-    syserr("UNIMPL: cntcheck");
-#else
-    cntcheck(whr->wht, pars);
-#endif
+    verifyContainer(whr->wht, context);
     break;
   default:
     syserr("Unrecognized switch in anwhr()");

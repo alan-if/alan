@@ -147,13 +147,6 @@ typedef struct StxEntry {	/* SYNTAX TABLE */
   Aaddr elms;			/* Address to element tables */
 } StxEntry;
 
-typedef struct ElmEntry {	/* SYNTAX ELEMENT TABLES */
-  Aword code;			/* Code for this element, 0 -> parameter */
-  Aword flags;			/* Flags for multiple/omni (if parameter) */
-  Aaddr next;			/* Address to next element table ... */
-				/* ... or class check if EOS */
-} ElmEntry;
-
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */
@@ -224,6 +217,6 @@ typedef struct LiteralEntry {	/* LITERAL */
 } LiteralEntry;
 
 #define MAXPARAMS 9
-#define MAXENTITY (header->actmax)
+#define MAXENTITY (header->instanceMax)
 
 #endif

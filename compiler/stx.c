@@ -104,25 +104,27 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
   /* Find which verb it defines */
-  verbSymbol = lookup(stx->id->string);  /* Find earlier definition */
+  verbSymbol = lookup(stx->id->string);
   if (verbSymbol == NULL) {
     if (stx->id->string[0] != '$') /* generated id? */
-      lmLog(&stx->id->srcp, 207, sevWAR, stx->id->string);
-  } else if (verbSymbol->kind != VERB_SYMBOL)
-    lmLog(&stx->id->srcp, 208, sevWAR, stx->id->string);
-  else {
-    stx->id->symbol = verbSymbol;
-    stx->id->code = verbSymbol->code;
+      lmLog(&stx->id->srcp, 207, sevERR, stx->id->string);
+  } else {
+    if (verbSymbol->kind != VERB_SYMBOL)
+      lmLog(&stx->id->srcp, 208, sevERR, stx->id->string);
+    else {
+      stx->id->symbol = verbSymbol;
+      stx->id->code = verbSymbol->code;
+    }
+    
+    stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
+    setParameters(verbSymbol, stx->parameters);
+    analyzeRestrictions(stx->restrictionLists,
+			verbSymbol->fields.verb.parameterSymbols);
+    setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
+    
+    /* Link last syntax element to this stx to prepare for code generation */
+    stx->elements->tail->element.elm->stx = stx;
   }
-
-  stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
-  setParameters(verbSymbol, stx->parameters);
-  analyzeRestrictions(stx->restrictionLists,
-		      verbSymbol->fields.verb.parameterSymbols);
-  setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
-
-  /* Link the last syntax element to this stx to prepare for code generation */
-  stx->elements->tail->element.elm->stx = stx;
 }
 
 

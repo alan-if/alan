@@ -1,0 +1,50 @@
+########## containerRestriction0 ##########
+Options
+    Debug.
+
+Syntax
+    put_in0 = 'put' (o) 'in' (c).
+
+    put_in1 = 'put' (o) 'in' (c)
+	Where c Isa Container
+	    Else "You can't put anything in the $2."
+
+Verb put_in0
+    Does
+	Locate o In c.	
+End Verb.
+
+Verb put_in1
+    Does
+	Locate o In c.	
+End Verb.
+
+
+The notacont Isa object At l
+End The notacont.
+
+The cont Isa object At l
+End The cont.
+
+
+The l Isa location
+End The l.
+
+
+Start At l.
+########## alan containerRestriction0.alan ##########
+
+
+containerRestriction0.alan
+
+   13.  	Locate o In c.	
+=====>  	            1
+
+  *1*   312 E : Parameter 'c' not uniquely defined as a container, which is
+                required.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+
