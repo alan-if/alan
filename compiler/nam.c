@@ -112,6 +112,9 @@ int annams(nams, nam, cap)
 	strcpy(buf, namlst->element.nam->str);
       if (namlst->next)
 	strcat(buf, " ");
+#if ISO == 0
+      toIso(buf, buf);
+#endif
       getxt(buf);
       len = len + strlen(buf);
     }
@@ -120,6 +123,9 @@ int annams(nams, nam, cap)
       sprintf(buf, "%c%s", upperCase(nam->str[0]), &nam->str[1]);
     else
       strcpy(buf, nam->str);
+#if ISO == 0
+    toIso(buf, buf);
+#endif
     getxt(buf);
     len = strlen(buf);
   }
