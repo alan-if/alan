@@ -266,7 +266,7 @@ void eminit(acdfnm)
   for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
       emit(0L);
 
-#ifdef __mac__
+#ifdef __macs__
   /* Add FinderInfo to point to Arun */
   {
     char fnm[256];
@@ -274,14 +274,14 @@ void eminit(acdfnm)
     FInfo finfo;
     OSErr oe;
 
-    fnm[0] = (char)strlen(acdfnm);
-    strncpy(&fnm[1], acdfnm, fnm[0]);
-    oe = GetFInfo((ConstStr255Param *)fnm, 0, &finfo);
+    strcpy(fnm, acdfnm);
+    CtoPstr(fnm);
+    oe = GetFInfo(fnm, 0, &finfo);
     printf("GetFInfo oe = %d\n", oe);
 
     strncpy((char *)&finfo.fdType, "TEXT", 4);
     strncpy((char *)&finfo.fdCreator, "Arun", 4);
-    oe = SetFInfo((unsigned char *)fnm, 0, &finfo);
+    oe = SetFInfo(fnm, 0, &finfo);
     printf("SetFInfo oe = %d\n", oe);
   }
 #endif

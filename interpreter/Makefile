@@ -5,7 +5,7 @@ SHELL	= /bin/sh
 CPP	= gcc -MM -ansi -I/usr/local/include/ansi
 
 GCC	= gcc2.4.5
-
+CC	= $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
 
 purify:=		CC = acc -Xc -vc
 debug all release:=	CC = $(GCC) -ansi -pedantic -Wall -I/usr/local/include/ansi
@@ -70,7 +70,7 @@ version.c + version.h: ../[0-9]*
 	@cp ../[0-9]* .
 	venum -c
 
-version: $(OBJECTS) ../[0-9]*
+version: $(OBJECTS)
 	@-rm [0-9]*
 	@cp ../[0-9]* .
 	venum +t
