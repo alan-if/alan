@@ -96,6 +96,20 @@ static void depstart(void)
 }
 
 
+#ifdef _PROTOTYPES_
+static void swap(void)
+#else
+static void swap()
+#endif
+{
+  Aword v1 = pop();
+  Aword v2 = pop();
+
+  push(v1);
+  push(v2);
+}
+
+
 
 #ifdef _PROTOTYPES_
 static void depexec(
@@ -532,6 +546,8 @@ void interpret(adr)
       }
       case I_AND: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg) {
@@ -546,6 +562,8 @@ void interpret(adr)
       }
       case I_OR: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg) {
@@ -560,6 +578,8 @@ void interpret(adr)
       }
       case I_NE: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -571,6 +591,8 @@ void interpret(adr)
       }
       case I_EQ: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -582,6 +604,8 @@ void interpret(adr)
       }
       case I_STREQ: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -593,6 +617,8 @@ void interpret(adr)
       }
       case I_STREXACT: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -606,6 +632,8 @@ void interpret(adr)
       }
       case I_LE: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -617,6 +645,8 @@ void interpret(adr)
       }
       case I_GE: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -628,6 +658,8 @@ void interpret(adr)
       }
       case I_LT: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -639,6 +671,8 @@ void interpret(adr)
       }
       case I_GT: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -650,6 +684,8 @@ void interpret(adr)
       }
       case I_PLUS: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -661,6 +697,8 @@ void interpret(adr)
       }
       case I_MINUS: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -672,6 +710,8 @@ void interpret(adr)
       }
       case I_MULT: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
@@ -683,6 +723,8 @@ void interpret(adr)
       }
       case I_DIV: {
 	Aword lh, rh;
+	if (header->vers[0] == 2 && header->vers[1] == 7) /* Check for 2.7 version */
+	  swap();
 	rh = pop();
 	lh = pop();
 	if (stpflg)
