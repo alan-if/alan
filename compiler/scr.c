@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				SCR.C
-			     Script Nodes
+                                SCR.C
+                             Script Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -12,8 +12,8 @@
 
 #include "acode.h"
 
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "lst.h"                /* LST-nodes */
+#include "nam.h"                /* NAM-nodes */
 #include "stm.h"                /* STM-nodes */
 #include "stp.h"                /* STP-nodes */
 #include "scr.h"                /* SCR-nodes */
@@ -34,22 +34,22 @@
   */
 #ifdef _PROTOTYPES_
 ScrNod *newscr(
-     Srcp *srcp,		/* IN - Source Position */
-     NamNod *nam,		/* IN - Name for the script */
-     int code,			/* IN - Code for the script */
-     List *descr,		/* IN - Optional description */
-     List *stps                	/* IN - List of steps */
+     Srcp *srcp,                /* IN - Source Position */
+     NamNod *nam,               /* IN - Name for the script */
+     int code,                  /* IN - Code for the script */
+     List *descr,               /* IN - Optional description */
+     List *stps                 /* IN - List of steps */
 )
 #else
 ScrNod *newscr(srcp, code, nam, descr, stps)
-     Srcp *srcp;		/* IN - Source Position */
-     NamNod *nam;		/* IN - Name for the script */
-     int code;			/* IN - Number of the script */
-     List *descr;		/* IN - Optional description */
-     List *stps;		/* IN - List of steps */
+     Srcp *srcp;                /* IN - Source Position */
+     NamNod *nam;               /* IN - Name for the script */
+     int code;                  /* IN - Number of the script */
+     List *descr;               /* IN - Optional description */
+     List *stps;                /* IN - List of steps */
 #endif
 {
-  ScrNod *new;		/* The newly allocated node */
+  ScrNod *new;          /* The newly allocated node */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -83,7 +83,7 @@ void anscrs(scrs, act)
 {
   List *lst;
   List *scrlst;
-  int highest;			/* Highest script code found so far */
+  int highest;                  /* Highest script code found so far */
 
 
   if (scrs == NULL) return;
@@ -107,13 +107,13 @@ void anscrs(scrs, act)
     /* Any multiple of this name or number ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
       if (lst->element.scr->nam != NULL) {
-	/* It was given a name, then try compare to the name, if any */
-	if (scrlst->element.scr->nam != NULL &&
-	    eqnams(lst->element.scr->nam, scrlst->element.scr->nam))
-	  lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+        /* It was given a name, then try compare to the name, if any */
+        if (scrlst->element.scr->nam != NULL &&
+            eqnams(lst->element.scr->nam, scrlst->element.scr->nam))
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
       } else /* No name, just the code */
-	if (lst->element.scr->code == scrlst->element.scr->code)
-	  lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
+        if (lst->element.scr->code == scrlst->element.scr->code)
+          lmLog(&scrlst->element.scr->srcp, 403, sevERR, act->nam->str);
     }
 
     /* If only given a name, use the highest code + 1 as its code */

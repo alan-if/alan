@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				STM.C
-				Statement Nodes
+                                STM.C
+                                Statement Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -10,21 +10,21 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "adv.h"		/* ADV-node */
-#include "sym.h"		/* SYM-nodes */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "adv.h"                /* ADV-node */
+#include "sym.h"                /* SYM-nodes */
+#include "lst.h"                /* LST-nodes */
+#include "nam.h"                /* NAM-nodes */
 #include "exp.h"                /* EXP-nodes */
 #include "atr.h"                /* ATR-nodes */
 #include "whr.h"                /* WHR-nodes */
 #include "wht.h"                /* WHT-nodes */
-#include "stm.h"		/* STM-nodes */
-#include "obj.h"		/* OBJ-nodes */
+#include "stm.h"                /* STM-nodes */
+#include "obj.h"                /* OBJ-nodes */
 #include "loc.h"                /* LOC-nodes */
 #include "scr.h"                /* SCR-nodes */
 #include "act.h"                /* ACT-nodes */
-#include "sco.h"		/* SCORES */
-#include "opt.h"		/* OPTIONS */
+#include "sco.h"                /* SCORES */
+#include "opt.h"                /* OPTIONS */
 
 #include "emit.h"
 #include "encode.h"
@@ -43,15 +43,15 @@
   */
 #ifdef _PROTOTYPES_
 StmNod *newstm(Srcp *srcp, StmKind class)
-                		/* IN - Source Position */
-                   		/* IN - The statement class */
+                                /* IN - Source Position */
+                                /* IN - The statement class */
 #else
 StmNod *newstm(srcp, class)
-     Srcp *srcp;		/* IN - Source Position */
-     StmKind class;		/* IN - The statement class */
+     Srcp *srcp;                /* IN - Source Position */
+     StmKind class;             /* IN - The statement class */
 #endif
 {
-  StmNod *new;			/* The newly allocated area */
+  StmNod *new;                  /* The newly allocated area */
 
   if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
 
@@ -74,14 +74,14 @@ StmNod *newstm(srcp, class)
   */
 #ifdef _PROTOTYPES_
 static void andescribe(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Possibly inside Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possibly inside Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void andescribe(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - Possibly inside Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - Possibly inside Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -100,7 +100,7 @@ static void andescribe(stm, evt, pars)
     break;
   case WHT_ID:
     symcheck(&sym, &elm, stm->fields.describe.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-	     NAMANY, pars);
+             NAMANY, pars);
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -119,14 +119,14 @@ static void andescribe(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void ansay(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Possibly inside Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possibly inside Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void ansay(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - Possibly inside Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - Possibly inside Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   anexp(stm->fields.say.exp, evt, pars);
@@ -142,12 +142,12 @@ static void ansay(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anlist(StmNod *stm, List *pars)
-                 		/* IN - The statement to analyze */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possible syntax parameters */
 #else
 static void anlist(stm, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   cntcheck(stm->fields.list.wht, pars);
@@ -163,14 +163,14 @@ static void anlist(stm, pars)
   */
 #ifdef _PROTOTYPES_
 static void anempty(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Inside event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Inside event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void anempty(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - Inside event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - Inside event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   cntcheck(stm->fields.list.wht, pars);
@@ -187,14 +187,14 @@ static void anempty(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anlocate(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Possibly inside actor */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possibly inside actor */
+                                /* IN - Possible syntax parameters */
 #else
 static void anlocate(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - Possibly inside actor */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - Possibly inside actor */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -231,9 +231,9 @@ static void anlocate(stm, evt, pars)
       lmLog(&stm->srcp, 402, sevERR, "");
     else if (stm->fields.locate.wht->wht == WHT_ID)
       if (sym != NULL && sym->class == NAMACT)
-	lmLog(&stm->srcp, 402, sevERR, "");
+        lmLog(&stm->srcp, 402, sevERR, "");
       else if (elm != NULL && elm->res != NULL && ((elm->res->classes & NAMACT) != 0 || (elm->res->classes & NAMCACT) != 0))
-	lmLog(&stm->srcp, 402, sevERR, "");
+        lmLog(&stm->srcp, 402, sevERR, "");
     break;
   case WHR_NEAR:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
@@ -255,14 +255,14 @@ static void anlocate(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anmake(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - inside an Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - inside an Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void anmake(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - inside an Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - inside an Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -275,15 +275,15 @@ static void anmake(stm, evt, pars)
       lmLog(&stm->fields.make.wht->srcp, 412, sevERR, "");
     else {
       atr = findatr(stm->fields.make.atr->str, adv.aatrs, adv.atrs);
-      if (atr == NULL) 		/* Attribute not found globally */
-	lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
+      if (atr == NULL)          /* Attribute not found globally */
+        lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "ACTOR");
       else
-	stm->fields.make.atr->code = atr->nam->code;
+        stm->fields.make.atr->code = atr->nam->code;
     }
     break;
   case WHT_LOC:
     atr = findatr(stm->fields.make.atr->str, adv.latrs, adv.atrs);
-    if (atr == NULL) 		/* Attribute not found globally */
+    if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "LOCATION");
     else
       stm->fields.make.atr->code = atr->nam->code;
@@ -292,29 +292,29 @@ static void anmake(stm, evt, pars)
     if (pars == NULL)
       lmLog(&stm->fields.make.wht->srcp, 409, sevERR, "");
     atr = findatr(stm->fields.make.atr->str, adv.oatrs, adv.atrs);
-    if (atr == NULL) 		/* Attribute not found globally */
+    if (atr == NULL)            /* Attribute not found globally */
       lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "OBJECT");
     else
       stm->fields.make.atr->code = atr->nam->code;
     break;
   case WHT_ID:
     symcheck(&sym, &elm, stm->fields.make.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-	     NAMANY, pars);
+             NAMANY, pars);
     if (elm) {
       atr = paramatr(stm->fields.make.atr, elm);
-      if (atr == NULL)		/* Not a default attribute */
-	lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "a parameter");
+      if (atr == NULL)          /* Not a default attribute */
+        lmLog(&stm->fields.make.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
       atr = symatr(stm->fields.make.atr, sym);
       if (atr == NULL)
-	lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
-	      stm->fields.make.wht->nam->str);
+        lmLog(&stm->fields.make.atr->srcp, 315, sevERR,
+              stm->fields.make.wht->nam->str);
     }
     if (atr != NULL)
       if (atr->typ != TYPBOOL)
-	lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
+        lmLog(&stm->fields.make.atr->srcp, 408, sevERR, "MAKE statement");
       else
-	stm->fields.make.atr->code = atr->nam->code;
+        stm->fields.make.atr->code = atr->nam->code;
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -334,14 +334,14 @@ static void anmake(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anset(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - inside an Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - inside an Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void anset(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - inside an Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - inside an Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -354,15 +354,15 @@ static void anset(stm, evt, pars)
       lmLog(&stm->fields.set.wht->srcp, 412, sevERR, "");
     else {
       atr = findatr(stm->fields.set.atr->str, adv.aatrs, adv.atrs);
-      if (atr == NULL) 		/* attribute not found globally */
-	lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
+      if (atr == NULL)          /* attribute not found globally */
+        lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "ACTOR");
       else
-	stm->fields.set.atr->code = atr->nam->code;
+        stm->fields.set.atr->code = atr->nam->code;
     }
     break;
   case WHT_LOC:
     atr = findatr(stm->fields.set.atr->str, adv.latrs, adv.atrs);
-    if (atr == NULL) 		/* attribute not found globally */
+    if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "LOCATION");
     else
       stm->fields.set.atr->code = atr->nam->code;
@@ -371,29 +371,29 @@ static void anset(stm, evt, pars)
     if (pars == NULL)
       lmLog(&stm->fields.set.wht->srcp, 409, sevERR, "");
     atr = findatr(stm->fields.set.atr->str, adv.oatrs, adv.atrs);
-    if (atr == NULL) 		/* attribute not found globally */
+    if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "OBJECT");
     else
       stm->fields.set.atr->code = atr->nam->code;
     break;
   case WHT_ID:
     symcheck(&sym, &elm, stm->fields.set.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-	     NAMANY, pars);
+             NAMANY, pars);
     if (elm) {
       atr = paramatr(stm->fields.set.atr, elm);
-      if (atr == NULL)		/* Not a default attribute */
-	lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "a parameter");
+      if (atr == NULL)          /* Not a default attribute */
+        lmLog(&stm->fields.set.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
       atr = symatr(stm->fields.set.atr, sym);
       if (atr == NULL)
-	lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
-	      stm->fields.set.wht->nam->str);
+        lmLog(&stm->fields.set.atr->srcp, 315, sevERR,
+              stm->fields.set.wht->nam->str);
     }
     if (atr)
       if (atr->typ != TYPINT && atr->typ != TYPSTR)
-	lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "SET statement");
+        lmLog(&stm->fields.set.atr->srcp, 419, sevERR, "SET statement");
       else
-	stm->fields.set.atr->code = atr->nam->code;
+        stm->fields.set.atr->code = atr->nam->code;
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -403,7 +403,7 @@ static void anset(stm, evt, pars)
   if (stm->fields.set.exp != NULL) {
     anexp(stm->fields.set.exp, evt, pars);
     if (stm->fields.set.exp->typ != TYPINT &&
-	stm->fields.set.exp->typ != TYPSTR)
+        stm->fields.set.exp->typ != TYPSTR)
       lmLog(&stm->fields.set.exp->srcp, 419, sevERR, "SET statement");
     if (atr && !eqtyp(stm->fields.set.exp->typ, atr->typ))
       lmLog(&stm->srcp, 331, sevERR, "SET statement");
@@ -420,14 +420,14 @@ static void anset(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anincr(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - inside an Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - inside an Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void anincr(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - inside an Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - inside an Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -440,15 +440,15 @@ static void anincr(stm, evt, pars)
       lmLog(&stm->fields.incr.wht->srcp, 412, sevERR, "");
     else {
       atr = findatr(stm->fields.incr.atr->str, adv.aatrs, adv.atrs);
-      if (atr == NULL) 		/* attribute not found globally */
-	lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
+      if (atr == NULL)          /* attribute not found globally */
+        lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "ACTOR");
       else
-	stm->fields.incr.atr->code = atr->nam->code;
+        stm->fields.incr.atr->code = atr->nam->code;
     }
     break;
   case WHT_LOC:
     atr = findatr(stm->fields.incr.atr->str, adv.latrs, adv.atrs);
-    if (atr == NULL) 		/* attribute not found globally */
+    if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "LOCATION");
     else
       stm->fields.incr.atr->code = atr->nam->code;
@@ -457,29 +457,29 @@ static void anincr(stm, evt, pars)
     if (pars == NULL)
       lmLog(&stm->fields.incr.wht->srcp, 409, sevERR, "");
     atr = findatr(stm->fields.incr.atr->str, adv.oatrs, adv.atrs);
-    if (atr == NULL) 		/* attribute not found globally */
+    if (atr == NULL)            /* attribute not found globally */
       lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "OBJECT");
     else
       stm->fields.incr.atr->code = atr->nam->code;
     break;
   case WHT_ID:
     symcheck(&sym, &elm, stm->fields.incr.wht->nam, NAMLOC+NAMOBJ+NAMACT+NAMCOBJ+NAMCACT,
-	     NAMANY, pars);
+             NAMANY, pars);
     if (elm) {
       atr = paramatr(stm->fields.incr.atr, elm);
-      if (atr == NULL)		/* Not a default attribute */
-	lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "a parameter");
+      if (atr == NULL)          /* Not a default attribute */
+        lmLog(&stm->fields.incr.atr->srcp, 404, sevERR, "a parameter");
     } else if (sym) {
       atr = symatr(stm->fields.incr.atr, sym);
       if (atr == NULL)
-	lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
-	      stm->fields.incr.wht->nam->str);
+        lmLog(&stm->fields.incr.atr->srcp, 315, sevERR,
+              stm->fields.incr.wht->nam->str);
     }
     if (atr)
       if (atr->typ != TYPINT)
-	lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
+        lmLog(&stm->fields.incr.atr->srcp, 413, sevERR, "INCREASE/DECREASE");
       else
-	stm->fields.incr.atr->code = atr->nam->code;
+        stm->fields.incr.atr->code = atr->nam->code;
     break;
   default:
     unimpl(&stm->srcp, "Analyzer");
@@ -503,14 +503,14 @@ static void anincr(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anschedule(StmNod *stm, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - inside an Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - inside an Event? */
+                                /* IN - Possible syntax parameters */
 #else
 static void anschedule(stm, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     EvtNod *evt;		/* IN - inside an Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     EvtNod *evt;               /* IN - inside an Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -547,10 +547,10 @@ static void anschedule(stm, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void ancancel(StmNod *stm)
-                 		/* IN - The statement to analyze */
+                                /* IN - The statement to analyze */
 #else
 static void ancancel(stm)
-     StmNod *stm;		/* IN - The statement to analyze */
+     StmNod *stm;               /* IN - The statement to analyze */
 #endif
 {
   SymNod *sym;
@@ -569,16 +569,16 @@ static void ancancel(stm)
   */
 #ifdef _PROTOTYPES_
 static void anif(StmNod *stm, ActNod *act, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Possibly inside Actor */
-                 		/* IN - Possibly inside Event */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possibly inside Actor */
+                                /* IN - Possibly inside Event */
+                                /* IN - Possible syntax parameters */
 #else
 static void anif(stm, act, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor */
-     EvtNod *evt;		/* IN - Possibly inside Event */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     ActNod *act;               /* IN - Possibly inside Actor */
+     EvtNod *evt;               /* IN - Possibly inside Event */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   anexp(stm->fields.iff.exp, evt, pars);
@@ -602,14 +602,14 @@ static void anif(stm, act, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void anuse(StmNod *stm, ActNod *act, List *pars)
-                 		/* IN - Statement to analyze */
-                 		/* IN - Possibly inside Actor */
-                		/* IN - Possible syntax parameters */
+                                /* IN - Statement to analyze */
+                                /* IN - Possibly inside Actor */
+                                /* IN - Possible syntax parameters */
 #else
 static void anuse(stm, act, pars)
-     StmNod *stm;		/* IN - Statement to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - Statement to analyze */
+     ActNod *act;               /* IN - Possibly inside Actor */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   SymNod *sym;
@@ -624,28 +624,29 @@ static void anuse(stm, act, pars)
       symcheck(&sym, &elm, stm->fields.use.actor, NAMACT+NAMCACT, NAMANY, pars);
       act = NULL;
       if (elm)
-	lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
+        lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
       else if (sym)
         act = sym->ref;
     }
     if (act != NULL) {
       /* Check if script is defined */
       for (lst = act->scrs; lst != NULL; lst = lst->next) {
-	if (stm->fields.use.script != NULL) {
-	  /* A name was given find this */
-	  if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script))
-	    break;
-	} else {
-	  /* Use the number to find it */
-	  if (lst->element.scr->code == stm->fields.use.scriptno)
-	    break;
-	}
+        if (stm->fields.use.script != NULL) {
+          /* A name was given find this */
+          if (lst->element.scr->nam != NULL && eqnams(lst->element.scr->nam, stm->fields.use.script))
+            stm->fields.use.scriptno = lst->element.scr->code;
+            break;
+        } else {
+          /* Use the number to find it */
+          if (lst->element.scr->code == stm->fields.use.scriptno)
+            break;
+        }
       }
       if (lst == NULL)
-	if (stm->fields.use.script != NULL)
-	  lmLog(&stm->fields.use.script->srcp, 400, sevERR, act->nam->str);
-	else
-	  lmLog(&stm->srcp, 400, sevERR, act->nam->str);
+        if (stm->fields.use.script != NULL)
+          lmLog(&stm->fields.use.script->srcp, 400, sevERR, act->nam->str);
+        else
+          lmLog(&stm->srcp, 400, sevERR, act->nam->str);
     }
   }
 }  
@@ -661,16 +662,16 @@ static void anuse(stm, act, pars)
   */
 #ifdef _PROTOTYPES_
 static void anstm(StmNod *stm, ActNod *act, EvtNod *evt, List *pars)
-                 		/* IN - The statement to analyze */
-                 		/* IN - Possibly inside Actor */
-                 		/* IN - Possibly inside Event */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The statement to analyze */
+                                /* IN - Possibly inside Actor */
+                                /* IN - Possibly inside Event */
+                                /* IN - Possible syntax parameters */
 #else
 static void anstm(stm, act, evt, pars)
-     StmNod *stm;		/* IN - The statement to analyze */
-     ActNod *act;		/* IN - Possibly inside Actor */
-     EvtNod *evt;		/* IN - Possibly inside Event */
-     List *pars;		/* IN - Possible syntax parameters */
+     StmNod *stm;               /* IN - The statement to analyze */
+     ActNod *act;               /* IN - Possibly inside Actor */
+     EvtNod *evt;               /* IN - Possibly inside Event */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   switch (stm->class) {
@@ -745,16 +746,16 @@ static void anstm(stm, act, evt, pars)
   */
 #ifdef _PROTOTYPES_
 void anstms(List *stms, ActNod *act, EvtNod *evt, List *pars)
-                		/* IN - The list of statements to analyze */
-                 		/* IN - Within Actor? */
-                 		/* IN - Within Event? */
-                		/* IN - Possible syntax parameters */
+                                /* IN - The list of statements to analyze */
+                                /* IN - Within Actor? */
+                                /* IN - Within Event? */
+                                /* IN - Possible syntax parameters */
 #else
 void anstms(stms, act, evt, pars)
-     List *stms;		/* IN - The list of statements to analyze */
-     ActNod *act;		/* IN - Within Actor? */
-     EvtNod *evt;		/* IN - Within Event? */
-     List *pars;		/* IN - Possible syntax parameters */
+     List *stms;                /* IN - The list of statements to analyze */
+     ActNod *act;               /* IN - Within Actor? */
+     EvtNod *evt;               /* IN - Within Event? */
+     List *pars;                /* IN - Possible syntax parameters */
 #endif
 {
   while (stms != NULL) {
@@ -774,10 +775,10 @@ void anstms(stms, act, evt, pars)
   */
 #ifdef _PROTOTYPES_
 static void geprint(StmNod *stm)
-                 		/* IN - The statement to generate */
+                                /* IN - The statement to generate */
 #else
 static void geprint(stm)
-     StmNod *stm;		/* IN - The statement to generate */
+     StmNod *stm;               /* IN - The statement to generate */
 #endif
 {
   encode(&stm->fields.print.fpos, &stm->fields.print.len);
@@ -797,10 +798,10 @@ static void geprint(stm)
   */
 #ifdef _PROTOTYPES_
 static void gescore(StmNod *stm)
-                 		/* IN - The statement to generate */
+                                /* IN - The statement to generate */
 #else
 static void gescore(stm)
-     StmNod *stm;		/* IN - The statement to generate */
+     StmNod *stm;               /* IN - The statement to generate */
 #endif
 {
   emit0(C_CONST, stm->fields.score.count);
@@ -818,10 +819,10 @@ static void gescore(stm)
   */
 #ifdef _PROTOTYPES_
 static void gedescribe(StmNod *stm)
-                 		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void gedescribe(stm)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
 #endif
 {
   switch (stm->fields.describe.wht->wht) {
@@ -860,10 +861,10 @@ static void gedescribe(stm)
   */
 #ifdef _PROTOTYPES_
 static void gesay(StmNod *stm)
-                 		/* IN - The statement to analyze */
+                                /* IN - The statement to analyze */
 #else
 static void gesay(stm)
-     StmNod *stm;		/* IN - The statement to analyze */
+     StmNod *stm;               /* IN - The statement to analyze */
 #endif
 {
   geexp(stm->fields.say.exp);
@@ -893,10 +894,10 @@ static void gesay(stm)
   */
 #ifdef _PROTOTYPES_
 static void gelist(StmNod *stm)
-                 		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void gelist(stm)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
 #endif
 {
   if (stm->fields.list.wht->wht == WHT_ID) {
@@ -917,10 +918,10 @@ static void gelist(stm)
   */
 #ifdef _PROTOTYPES_
 static void geempty(StmNod *stm)
-                 		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void geempty(stm)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
 #endif
 {
   if (stm->fields.empty.wht->wht == WHT_ID) {
@@ -942,10 +943,10 @@ static void geempty(stm)
   */
 #ifdef _PROTOTYPES_
 static void gelocate(StmNod *stm)
-                		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void gelocate(stm)
-    StmNod *stm;		/* IN - Statement */
+    StmNod *stm;                /* IN - Statement */
 #endif
 {
   gewhr(stm->fields.locate.whr);
@@ -964,10 +965,10 @@ static void gelocate(stm)
   */
 #ifdef _PROTOTYPES_
 static void gemake(StmNod *stm)
-                		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void gemake(stm)
-    StmNod *stm;		/* IN - Statement */
+    StmNod *stm;                /* IN - Statement */
 #endif
 {
   emit0(C_CONST, !stm->fields.make.not);
@@ -988,10 +989,10 @@ static void gemake(stm)
   */
 #ifdef _PROTOTYPES_
 static void geset(StmNod *stm)
-                		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void geset(stm)
-    StmNod *stm;		/* IN - Statement */
+    StmNod *stm;                /* IN - Statement */
 #endif
 {
   geexp(stm->fields.set.exp);
@@ -1015,10 +1016,10 @@ static void geset(stm)
   */
 #ifdef _PROTOTYPES_
 static void geincr(StmNod *stm)
-                		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void geincr(stm)
-    StmNod *stm;		/* IN - Statement */
+    StmNod *stm;                /* IN - Statement */
 #endif
 {
   if (stm->fields.incr.step != NULL)
@@ -1045,10 +1046,10 @@ static void geincr(stm)
   */
 #ifdef _PROTOTYPES_
 static void geschedule(StmNod *stm)
-                 		/* IN - Statement */
+                                /* IN - Statement */
 #else
 static void geschedule(stm)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
 #endif
 {
   emit0(C_CONST, stm->fields.schedule.when);
@@ -1084,10 +1085,10 @@ static void geschedule(stm)
   */
 #ifdef _PROTOTYPES_
 static void gecancel(StmNod *stm)
-                 		/* IN - Statement to generate */
+                                /* IN - Statement to generate */
 #else
 static void gecancel(stm)
-     StmNod *stm;		/* IN - Statement to generate */
+     StmNod *stm;               /* IN - Statement to generate */
 #endif
 {
   genam(stm->fields.schedule.nam);
@@ -1103,12 +1104,12 @@ static void gecancel(stm)
   */
 #ifdef _PROTOTYPES_
 static void geif(StmNod *stm, ActNod *act)
-                 		/* IN - Statement */
-                 		/* IN - Inside any actor */
+                                /* IN - Statement */
+                                /* IN - Inside any actor */
 #else
 static void geif(stm, act)
-     StmNod *stm;		/* IN - Statement */
-     ActNod *act;		/* IN - Inside any actor */
+     StmNod *stm;               /* IN - Statement */
+     ActNod *act;               /* IN - Inside any actor */
 #endif
 {
   geexp(stm->fields.iff.exp);
@@ -1132,11 +1133,11 @@ static void geif(stm, act)
   */
 #ifdef _PROTOTYPES_
 static void geuse(StmNod *stm, ActNod *act)
-                 		/* IN - Statement */
+                                /* IN - Statement */
                  
 #else
 static void geuse(stm, act)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
      ActNod *act;
 #endif
 {
@@ -1162,11 +1163,11 @@ static void geuse(stm, act)
   */
 #ifdef _PROTOTYPES_
 static void gesystem(StmNod *stm, ActNod *act)
-                 		/* IN - Statement */
+                                /* IN - Statement */
                  
 #else
 static void gesystem(stm, act)
-     StmNod *stm;		/* IN - Statement */
+     StmNod *stm;               /* IN - Statement */
      ActNod *act;
 #endif
 {
@@ -1187,12 +1188,12 @@ static void gesystem(stm, act)
   */
 #ifdef _PROTOTYPES_
 static void gestm(StmNod *stm, ActNod *act)
-                 		/* IN - The statement to generate */
-                 		/* IN - Inside actor? */
+                                /* IN - The statement to generate */
+                                /* IN - Inside actor? */
 #else
 static void gestm(stm, act)
-     StmNod *stm;		/* IN - The statement to generate */
-     ActNod *act;		/* IN - Inside actor? */
+     StmNod *stm;               /* IN - The statement to generate */
+     ActNod *act;               /* IN - Inside actor? */
 #endif
 {
   switch (stm->class) {
@@ -1302,12 +1303,12 @@ static void gestm(stm, act)
   */
 #ifdef _PROTOTYPES_
 void gestms(List *stms, ActNod *act)
-                		/* IN - The statements to generate */
-                 		/* IN - Inside any actor */
+                                /* IN - The statements to generate */
+                                /* IN - Inside any actor */
 #else
 void gestms(stms, act)
-     List *stms;		/* IN - The statements to generate */
-     ActNod *act;		/* IN - Inside any actor */
+     List *stms;                /* IN - The statements to generate */
+     ActNod *act;               /* IN - Inside any actor */
 #endif
 {
   while (stms != NULL) {
