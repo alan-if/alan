@@ -1,11 +1,17 @@
+*.d
+.*stamp
+.make.dependency.*
+.pure
+.version
 [0-9]*_[0-9]*_[0-9]*
 alan
 alan.lmt
 alan.pml
 alan.pmt
 alan.prod
+alan.pure_hardlink
+alan.pure_linkinfo
 alan.smt
-.make.dependency.*
 alan.voc
 alanCommon.h
 compiler.lha
@@ -22,8 +28,3 @@ smScan.c
 smScan.h
 version.c
 version.h
-.*stamp
-.pure
-alan.pure_hardlink
-alan.pure_linkinfo
-*.d

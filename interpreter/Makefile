@@ -40,13 +40,13 @@ VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
 
 
-#-- MAIN TARGET
-debug all tcov: arun
-
 debug purify:=	DEBUG= -g
 all:=	DEBUG= -O
 
-arun: $(OBJECTS) $(MAINOBJ) version version.o Makefile
+#-- MAIN TARGET
+debug all tcov: arun
+
+arun: $(OBJECTS) $(MAINOBJ) .version version.o Makefile
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
@@ -58,14 +58,14 @@ malloc: $(OBJECTS) version.o
 	$(CC) -c $(CFLAGS) -DMALLOC arun.c
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) /usr/lib/debug/malloc.o $(LDFLAGS)
 
-src: version.h
+src: .version
 
 fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 	$(LD) -o arun $(MAINOBJ) version.o $(OBJECTS) $(LDFLAGS)
 	@-[ ! -d $(ALANDIR)/bin/`arch` ] && mkdir $(ALANDIR)/bin/`arch`
 	cp arun $(ALANDIR)/bin/`arch`
 
-version.h version.c:
+version.h version.c: ../version.sh
 	-cd ..; rm [0-9]*_[0-9]*_[0-9]*; sh version.sh
 	-rm [0-9]*_[0-9]*_[0-9]*
 	cp ../[0-9]*_[0-9]*_[0-9]* .

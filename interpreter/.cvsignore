@@ -1,5 +1,6 @@
 *.d
 .pure
+.version
 [0-9]*_[0-9]*_[0-9]*.*
 arun
 arun.pure_hardlink
