@@ -22,6 +22,7 @@
 #include "res_x.h"
 #include "whr_x.h"
 #include "slt_x.h"
+#include "ext_x.h"
 
 #include "lmList.h"
 
@@ -33,7 +34,6 @@
 #include "elm.h"                /* ELM-nodes */
 #include "evt.h"                /* EVT-nodes */
 #include "exp.h"                /* EXP-nodes */
-#include "ext.h"                /* EXT-nodes */
 #include "lim.h"		/* LIM-nodes */
 #include "lst.h"		/* LST-nodes */
 #include "msg.h"                /* MSG-nodes */

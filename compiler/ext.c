@@ -5,6 +5,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "ext_x.h"
+
 #include "alan.h"
 #include "util.h"
 
@@ -12,13 +14,10 @@
 #include "sym_x.h"
 #include "id_x.h"
 #include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
 #include "stm.h"		/* STM-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "elm.h"                /* ELM-nodes */
-#include "ext.h"                /* EXT-nodes */
 #include "wrd.h"                /* WRD-nodes */
-#include "ins.h"                /* INS-nodes */
 
 #include "emit.h"
 #include "lmList.h"
@@ -76,12 +75,12 @@ ExtNod *newext(Srcp *srcp,	/* IN - Source Position */
 
 
 
-/*======================================================================
+/*-----------------------------------------------------------------------
 
   symbolizeExit()
 
 */
-void symbolizeExit(ExtNod *theExit)
+static void symbolizeExit(ExtNod *theExit)
 {
   symbolizeId(theExit->target);
 #ifdef FIXME
@@ -91,17 +90,28 @@ void symbolizeExit(ExtNod *theExit)
 }
 
 
+/*======================================================================
+
+  symbolizeExits()
+
+*/
+void symbolizeExits(List *theExitList)
+{
+  List *lst;
+
+  for (lst = theExitList; lst != NULL; lst = lst->next)
+    symbolizeExit(lst->element.ext);
+}
+
 
 /*----------------------------------------------------------------------
 
-  anext()
-
-  Analyzes one exit.
+  analyzeExit()
 
  */
-static void anext(ExtNod *ext)	/* IN - Exit to analyze */
+static void analyzeExit(ExtNod *ext)	/* IN - Exit to analyze */
 {
-  syserr("UNIMPL: check that an instance is a location");
+  inheritCheck(ext->target, "an instance", "location");
 
   anchks(ext->chks, NULL, NULL);
   anstms(ext->stms, NULL, NULL, NULL);
@@ -111,18 +121,18 @@ static void anext(ExtNod *ext)	/* IN - Exit to analyze */
 
 /*======================================================================
 
-  anexts()
+  analyzeExits()
 
   Analyzes all exits in a list by calling the exit analyzer for all
   exits.
 
  */
-void anexts(List *exts)		/* IN - List of exits to analyze */
+void analyzeExits(List *exts)		/* IN - List of exits to analyze */
 {
   List *ext, *dir, *lst, *other;
 
   for (lst = exts; lst != NULL; lst = lst->next)
-    anext(lst->element.ext);
+    analyzeExit(lst->element.ext);
 
   /* Check for multiple definitions of a direction */
   for (ext = exts; ext != NULL; ext = ext->next) {

@@ -9,6 +9,7 @@
 
 
 /* USE: */
+#include "acode.h"
 #include "srcp.h"
 #include "lst.h"
 #include "id.h"
@@ -25,32 +26,5 @@ typedef struct ExtNod {		/* EXIT */
   List *stms;			/* List of statements */
   Aaddr stmadr;			/* ACODE address of statements code */
 } ExtNod;
-
-
-
-/* Data: */
-
-extern int dirmin, dirmax;
-extern int dircount;
-
-
-/* Functions: */
-
-/* Create a new Exit node */
-extern ExtNod *newext(Srcp *srcp,
-		      List *dirs,
-		      IdNode *to,
-		      List *chks,
-		      List *stms);
-
-/* Analyze a list of Exits */
-extern void anexts(List *exts);
-
-/* Generate code for a list of Exits */
-extern Aaddr geexts(List *exts);
-
-/* Dump an Exit node */
-extern void duext(ExtNod *ext);
-
 
 #endif

@@ -55,7 +55,7 @@ SlotsNode *newSlots(List *names,
 		    List *mentioned,
 		    List *art,
 		    List *does,
-		    List *exts,
+		    List *exits,
 		    List *vrbs,
 		    List *scrs)
 {
@@ -73,6 +73,7 @@ SlotsNode *newSlots(List *names,
   new->mentioned = mentioned;
   new->art = art;
   new->vrbs = vrbs;
+  new->exits = exits;
 
   return(new);
 }
@@ -115,6 +116,7 @@ void symbolizeSlots(SlotsNode *slots)
 {
   symbolizeParent(slots);
   symbolizeWhr(slots->whr);
+  symbolizeExits(slots->exits);
 }
 
 
@@ -157,6 +159,7 @@ void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
   analyzeMentioned(slots);
+  analyzeExits(slots->exits);
 }
 
 
