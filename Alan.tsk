@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>368.89</origest>
-<currest>367.89</currest>
+<origest>367.89</origest>
+<currest>366.89</currest>
 <elapsed>204.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>61</origest>
-<currest>61</currest>
+<origest>60</origest>
+<currest>60</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.34</desc>
 <notes/>
 <priority>2</priority>
-<origest>25</origest>
-<currest>25</currest>
+<origest>24</origest>
+<currest>24</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
@@ -140,15 +140,6 @@ find an unambiguous phrasing.
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Capitalize first letter not first character</desc>
-<notes>If a potential capitalization is to occur this has to be suspended until a letter is encountered. Currently a paragraph starting with 'hello' will not get capitalized.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

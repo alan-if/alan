@@ -142,7 +142,7 @@ void symbolizeProps(Properties *props)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeMentioned(Properties *props)
+static void analyzeMentioned(Properties *props, Context *context)
 {
   long fpos;
   int len = 0;
@@ -166,7 +166,7 @@ static void analyzeMentioned(Properties *props)
   } else {
     if ((props->names != NULL) & inheritsFrom(props->id->symbol, locationSymbol))
       lmLog(&props->mentionedSrcp, 425, sevWAR, "");
-    analyzeStatements(props->mentioned, NULL);
+    analyzeStatements(props->mentioned, context);
   }
 }
 
@@ -192,13 +192,12 @@ void analyzeProps(Properties *props, Context *context)
       && props->whr != NULL && props->whr->kind == WHERE_IN)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
-  analyzeMentioned(props);
 
-  /* Don't analyze attributes since those are analyze already */
-
+  /* Don't analyze attributes since those are analyzed already */
   analyzeChecks(props->descriptionChecks, context);
   analyzeStatements(props->descriptionStatements, context);
   analyzeStatements(props->enteredStatements, context);
+  analyzeMentioned(props, context);
   analyzeStatements(props->mentioned, context);
   analyzeStatements(props->definite, context);
   analyzeStatements(props->indefinite, context);

@@ -621,11 +621,24 @@ static Bool inhibitSpace(char *str) {
   return str[0] == '$' && str[1] == '$';
 }
 
+
+/*----------------------------------------------------------------------*/
 static Bool fullStopOrCommaNext(char *str) {
   return (str[0] == '.' || str[0] == ',') && (str[1] == '\0' || str[1] == ' ');
 }
 
 
+/*----------------------------------------------------------------------*/
+static void capitalizeFirst(char *str) {
+  int i = 0;
+
+#ifdef CAPITALIZEFIRSTLETTER
+  /* Skip over non-letters... */
+  while (!isLetter(str[i]) && i < strlen(str)) i++;
+#endif
+  str[i] = toUpper(str[i]);
+  capitalize = FALSE;
+}
 
 
 /*======================================================================
@@ -653,10 +666,8 @@ void output(char original[])
     ch = *symptr;		/* Terminate before symbol */
     *symptr = '\0';
     if (strlen(str) > 0) {
-      if (capitalize) {
-	str[0] = toUpper(str[0]);
-	capitalize = FALSE;
-      }
+      if (capitalize)
+	capitalizeFirst(str);
       justify(str);		/* Output part before '$' */
       if (str[strlen(str)-1] == ' ')
 	needSpace = FALSE;
@@ -665,10 +676,9 @@ void output(char original[])
     str = printSymbol(symptr);	/* Print the symbolic reference and advance */
   }
 
-  if (capitalize) {
-    str[0] = toUpper(str[0]);
-    capitalize = FALSE;
-  }
+  if (capitalize)
+    capitalizeFirst(str);
+
   if (str[0] != 0) {
     justify(str);			/* Output trailing part */
     skipsp = FALSE;
