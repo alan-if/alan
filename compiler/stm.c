@@ -562,10 +562,10 @@ static void anuse(StmNod *stm,	/* IN - Statement to analyze */
       else if (sym)
         /* FIXME : ins = sym->ref */;
     }
-    if (ins != NULL && ins->slt != NULL) {
+    if (ins != NULL && ins->slots != NULL) {
 
       /* Loop over actors scripts to check if script is defined */
-      for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
+      for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
         if (stm->fields.use.script != NULL) {
           /* A name was used as reference */
           if (lst->element.scr->id != NULL &&

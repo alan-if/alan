@@ -59,6 +59,31 @@ SlotsNode *newSlots(List *nams,
 
 /*======================================================================
 
+  symbolizeSlots()
+
+  Symbolize data for one Slots node.
+
+ */
+void symbolizeSlots(SlotsNode *slots)
+{
+  symbolizeWhr(slots->whr);
+}
+
+
+/*======================================================================
+
+  analyzeSlots()
+
+  Analyze one Slots node.
+
+ */
+void analyzeSlots(SlotsNode *slots)
+{
+}
+
+
+/*======================================================================
+
   generateSlotsData()
 
   Generate data for one Slots node.
@@ -79,9 +104,10 @@ void generateSlotsData(SlotsNode *slots)
 void generateSlotsEntry(SlotsNode *slots)
 {
   emit(slots->namsadr);		/* names */
-  emit(slots->whrCode);
+  emit(generateInitialLocation(slots->whr));
   emit(slots->atradr);		/* attributes */
   emit(slots->dscradr);		/* description */
+  emit(0);			/* describe flag */
   emit(slots->mentadr);		/* mentioned */
   emit(slots->artadr);		/* article */
   emit(slots->extadr);		/* exits */

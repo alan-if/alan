@@ -1,5 +1,10 @@
-alan.exe
+*.acd
+*.dat
+*.exe
+*.exe.stackdump
 *.o
+*.tmp
+*~
 .*stamp
 .HoldDirectoryFinderInfoForMacNFS
 .arch
@@ -10,6 +15,7 @@ alan.exe
 .version
 [0-9]*_[0-9]*_[0-9]*
 alan
+alan.exe
 alan.lmt
 alan.pml
 alan.pmt
@@ -17,9 +23,11 @@ alan.prod
 alan.pure_hardlink
 alan.pure_linkinfo
 alan.smt
+alan.version.[ch]
 alan.voc
 compiler.lha
 compiler.zip
+exp.patch
 pmPaSema.tmp
 pmParse.tmp
 smScan.dos
@@ -30,11 +38,5 @@ smScan.pc
 smScan.tail
 smScan.tbl
 smScan.tmp
+smScanx.unix
 version.[ch]
-alan.version.[ch]
-*.exe
-*.exe.stackdump
-*~
-*.acd
-*.dat
-*.tmp

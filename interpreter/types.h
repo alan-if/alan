@@ -37,7 +37,7 @@
 #define EVTMIN (header->evtmin)
 #define EVTMAX (header->evtmax)
 
-#define HERO ACTMIN
+#define HERO (header->theHero)
 
 
 #define addrTo(x) (&memory[x])
@@ -140,21 +140,21 @@ typedef struct VrbEntry {	/* VERB TABLE */
 
 typedef struct StxEntry {	/* SYNTAX TABLE */
   Aword code;			/* Code for verb word */
-  Aaddr elms;			/* Address to entryent tables */
+  Aaddr elms;			/* Address to element tables */
 } StxEntry;
 
-typedef struct ElmEntry26 {	/* ENTRYENT TABLES */
-  Aword code;			/* Code for this entryent, 0 -> parameter */
+typedef struct ElmEntry26 {	/* SYNTAX ELEMENT TABLES v2.6 */
+  Aword code;			/* Code for this element, 0 -> parameter */
   Abool multiple;		/* May be multiple (if parameter) */
-  Aaddr next;			/* Address to next entryent table ... */
+  Aaddr next;			/* Address to next element table ... */
 				/* ... or class check if EOS */
 } ElmEntry26;
 
-typedef struct ElmEntry {	/* ENTRYENT TABLES */
-  Aword code;			/* Code for this entryent, 0 -> parameter */
+typedef struct ElmEntry {	/* SYNTAX ELEMENT TABLES */
+  Aword code;			/* Code for this element, 0 -> parameter */
   Aword flags;			/* Flags for multiple/omni (if parameter) */
 				/* CHANGED: v2.7 from Abool for multiple */
-  Aaddr next;			/* Address to next entryent table ... */
+  Aaddr next;			/* Address to next element table ... */
 				/* ... or class check if EOS */
 } ElmEntry;
 
@@ -189,7 +189,8 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr nams;			/* Address of name printing code */
   Aword location;		/* Code for current location */
   Aaddr atrs;			/* Address of attribute list */
-  Aaddr dscr;			/* Address of description code */
+  Aaddr description;		/* Address of description code */
+  Abool describe;		/* Is this to be described? */
   Aaddr ment;			/* Address of "mentioned" code */
   Aaddr art;			/* Address of article code */
   Aaddr exts;			/* Address of exit list */
@@ -243,7 +244,7 @@ typedef struct EvtEntry {	/* EVENT TABLE */
   Aaddr code;			/* Address of code to run */
 } EvtEntry;
 
-typedef struct EvtqEntry {	/* EVENT QUEUE ENTRYENT */
+typedef struct EvtqEntry {	/* EVENT QUEUE ENTRIES */
   int time;
   int event;
   int where;

@@ -211,7 +211,6 @@ void quit()
 #endif
 {
   char buf[80];
-  char choices[10];
 
   para();
   while (TRUE) {
@@ -703,6 +702,7 @@ static Aword objloc(obj)
      Aword obj;
 #endif
 {
+  /* Keep this for container handling */
   if (isCnt(objs[obj-OBJMIN].loc)) /* In something ? */
     if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
       return(where(objs[obj-OBJMIN].loc));
@@ -710,17 +710,6 @@ static Aword objloc(obj)
       return(where(HERO));
   else
     return(objs[obj-OBJMIN].loc);
-}
-
-
-#ifdef _PROTOTYPES_
-static Aword actloc(Aword act)
-#else
-static Aword actloc(act)
-     Aword act;
-#endif
-{
-  return(acts[act-ACTMIN].loc);
 }
 
 
@@ -733,15 +722,16 @@ Aword where(id)
 {
   char str[80];
 
-  if (isObj(id))
-    return objloc(id);
-  else if (isAct(id))
-    return actloc(id);
-  else {
+  if (id == 0) {
     sprintf(str, "Can't WHERE item (%ld).", id);
     syserr(str);
-  }
-  return(EOF);
+  } else if (id > header->instanceMax) {
+    sprintf(str, "Can't WHERE item (%ld > instanceMax).", id);
+    syserr(str);
+  } else
+    return instance[id].location;
+  syserr("Fall through to end in where()");
+  return 0;
 }
 
 
@@ -843,9 +833,9 @@ static void locobj(obj, whr)
 
 
 #ifdef _PROTOTYPES_
-static void locact(Aword act, Aword whr)
+static void locateActor(Aword act, Aword whr)
 #else
-static void locact(act, whr)
+static void locateActor(act, whr)
      Aword act, whr;
 #endif
 {
@@ -853,9 +843,9 @@ static void locact(act, whr)
   Aword prevloc = cur.loc;
 
   cur.loc = whr;
-  acts[act-ACTMIN].loc = whr;
+  instance[act].location = whr;
   if (act == HERO) {
-    if (locs[acts[act-ACTMIN].loc-LOCMIN].describe % (cur.visits+1) == 0)
+    if (instance[instance[act].location].describe % (cur.visits+1) == 0)
       look();
     else {
       if (anyOutput)
@@ -866,15 +856,17 @@ static void locact(act, whr)
       dscrobjs();
       dscracts();
     }
-    locs[where(HERO)-LOCMIN].describe++;
-    locs[where(HERO)-LOCMIN].describe %= (cur.visits+1);
+    instance[where(HERO)].describe++;
+    instance[where(HERO)].describe %= (cur.visits+1);
   } else
-    locs[whr-LOCMIN].describe = 0;
-  if (locs[cur.loc-LOCMIN].does != 0) {
+    instance[whr].describe = 0;
+#ifdef IMPLEMENTED_DOES
+  if (instance[cur.loc].does != 0) {
     cur.act = act;
-    interpret(locs[cur.loc-LOCMIN].does);
+    interpret(instance[cur.loc].does);
     cur.act = prevact;
   }
+#endif
 
   if (cur.act != act)
     cur.loc = prevloc;
@@ -890,12 +882,30 @@ void locate(id, whr)
 {
   char str[80];
 
+  if (id == 0) {
+    sprintf(str, "Can't LOCATE instance (%ld).", id);
+    syserr(str);
+  } else if (id > header->instanceMax) {
+    sprintf(str, "Can't LOCATE instance (%ld > instanceMax).", id);
+    syserr(str);
+  } else if (whr == 0) {
+    sprintf(str, "Can't LOCATE instance at (%ld).", whr);
+    syserr(str);
+  } else if (whr > header->instanceMax) {
+    sprintf(str, "Can't LOCATE instance at (%ld > instanceMax).", whr);
+    syserr(str);
+  } else {
+    locateActor(id, whr);
+    return;
+  }
+  syserr("Fall through to end in locate()");
+
   if (isObj(id))
     locobj(id, whr);
   else if (isAct(id))
-    locact(id, whr);
+    locateActor(id, whr);
   else {
-    sprintf(str, "Can't LOCATE item (%ld).", id);
+    sprintf(str, "Can't LOCATE instance (%ld).", id);
     syserr(str);
   }
 }
@@ -949,7 +959,7 @@ Aword isHere(id)
   else if (isAct(id))
     return acthere(id);
   else {
-    sprintf(str, "Can't HERE item (%ld).", id);
+    sprintf(str, "Can't HERE instance (%ld).", id);
     syserr(str);
   }
   return(EOF);
@@ -1003,7 +1013,7 @@ Abool isNear(id)
   else if (isAct(id))
     return actnear(id);
   else {
-    sprintf(str, "Can't NEAR item (%ld).", id);
+    sprintf(str, "Can't NEAR instance (%ld).", id);
     syserr(str);
   }
   return(EOF);
@@ -1154,7 +1164,7 @@ void say(id)
     else if (isLit(id))
       saylit(id);
     else {
-      sprintf(str, "Can't SAY item (%ld).", id);
+      sprintf(str, "Can't SAY instance (%ld).", id);
       syserr(str);
     }
   }
@@ -1251,7 +1261,7 @@ void describe(id)
   else if (isAct(id))
     dscract(id);
   else {
-    sprintf(str, "Can't DESCRIBE item (%ld).", id);
+    sprintf(str, "Can't DESCRIBE instance (%ld).", id);
     syserr(str);
   }
 
@@ -1275,7 +1285,7 @@ void use(act, scr)
   char str[80];
 
   if (!isAct(act)) {
-    sprintf(str, "Item is not an Actor (%ld).", act);
+    sprintf(str, "Instance is not an Actor (%ld).", act);
     syserr(str);
   }
 

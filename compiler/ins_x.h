@@ -37,7 +37,7 @@ extern void analyzeInstances(void);
 extern void prepinss(void);
 
 /* Generate code for all Instances */
-extern Aaddr generateInstances(void);
+extern void generateInstances(AcdHdr *header);
 
 /* Dump an Instance node */
 extern void dumpInstance(InsNod *ins);

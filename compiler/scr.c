@@ -145,10 +145,10 @@ Aword gescrs(InsNod *ins)
   Aword scradr;
 
   if (ins == NULL) syserr("NULL in gescrs()");
-  if (ins->slt == NULL || ins->slt->scrs == NULL)
+  if (ins->slots == NULL || ins->slots->scrs == NULL)
     return(0);
 
-  for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
+  for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
     lst->element.scr->stpadr = gestps(lst->element.scr->stps, ins);
     if (lst->element.scr->descr != NULL) {
       lst->element.scr->stmadr = emadr();
@@ -160,7 +160,7 @@ Aword gescrs(InsNod *ins)
 
   /* Script table */
   scradr = emadr();
-  for (lst = ins->slt->scrs; lst != NULL; lst = lst->next) {
+  for (lst = ins->slots->scrs; lst != NULL; lst = lst->next) {
     emit(lst->element.scr->code);
     emit(lst->element.scr->stmadr);
     emit(lst->element.scr->stpadr);

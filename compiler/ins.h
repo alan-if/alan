@@ -23,7 +23,7 @@ typedef struct InsNod {		/* INSTANCE */
   Aaddr idAddr;
   SymNod *symbol;		/* Pointer to symbol table node */
   IdNode *parent;		/* The instances parent */
-  SlotsNode *slt;		/* Slots */
+  SlotsNode *slots;
   Aword adr;
 } InsNod;
 

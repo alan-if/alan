@@ -75,6 +75,49 @@ void symbolizeWhr(WhrNod *whr)
 }
 
 
+
+/*======================================================================
+
+  analyzeWhere()
+
+  Analyse a where reference.
+
+  */
+void analyzeWhere(WhrNod *whr,		/* IN - Where node */
+		  EvtNod *evt,		/* IN - Inside Event? */
+		  List *pars)		/* IN - Possible parameters */
+{
+  switch (whr->kind) {
+  case WHR_DEFAULT:
+  case WHR_HERE:
+  case WHR_NEAR:
+    break;
+  case WHR_AT:
+    switch (whr->wht->kind) {
+    case WHT_ID:
+      break;
+    default:
+      syserr("Unrecognized switch in anexpwhr()");
+      break;
+    }
+    break;
+  case WHR_IN:
+#ifndef FIXME
+    syserr("UNIMPL: cntcheck");
+#else
+    cntcheck(whr->wht, pars);
+#endif
+    break;
+  default:
+    syserr("Unrecognized switch in analyzeWhere()");
+    break;
+  }
+}
+
+
+
+
+
 /*======================================================================
 
   anwhr()
@@ -128,6 +171,30 @@ void anwhr(WhrNod *whr,		/* IN - Where node */
     break;
   }
 }
+
+
+/*======================================================================
+
+  generateInitialLocation()
+
+  Generate a location reference according to the WHR for initial locations.
+  This means that it can only be an identifier. Can only be AT location or
+  IN container.
+
+  */
+Aword generateInitialLocation(WhrNod *whr) /* IN - Where node */
+{
+  if (whr != NULL)
+    switch (whr->kind) {
+    case WHR_IN:
+    case WHR_AT:
+      return whr->wht->id->symbol->code;
+    default: syserr("Unexpected where kind in generateInitialLocation()");
+    }
+
+  return 0;
+}
+
 
 
 /*======================================================================

@@ -44,7 +44,6 @@ AdvNod adv;
 
 
 /* PRIVATE */
-static AcdHdr header;	/* ACODE program header */
 static Aword end;
 
 
@@ -163,20 +162,29 @@ void anadv(void)
 
   if (verbose) printf("\n\tSyntax definitions: ");
   anstxs();
+
   if (verbose) printf("\n\tVerbs: ");
   anvrbs(adv.vrbs, NULL);
+
   if (verbose) printf("\n\tClasses: ");
   analyzeClasses();
+
   if (verbose) printf("\n\tInstaces: ");
+  theHero->slots->whr = adv.whr;
   analyzeInstances();
+
   if (verbose) printf("\n\tEvents: ");
   anevts();
+
   if (verbose) printf("\n\tRules: ");
   anruls();
+
   if (verbose) printf("\n\tSynonyms: ");
   ansyns();
+
   if (verbose) printf("\n\tMessages:");
   anmsgs();
+
   if (verbose) printf("\n");
 
   analyzeStartAt();
@@ -232,44 +240,45 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
     return;
   
   /* Max and min codes */
-  gecodes(&header);
+  gecodes(&acdHeader);
   
   if (verbose) printf("\n\tDictionary: ");
-  header.dict = gewrds();	/* Dictionary */
+  acdHeader.dict = gewrds();	/* Dictionary */
   if (verbose) printf("\n\tSyntax Definitions: ");
-  header.stxs = gestxs();	/* Syntax definitions */ 
+  acdHeader.stxs = gestxs();	/* Syntax definitions */ 
   if (verbose) printf("\n\tVerbs: ");
-  header.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
+  acdHeader.vrbs = gevrbs(adv.vrbs, NULL); /* Global verbs */
   if (verbose) printf("\n\tClasses: ");
-  header.clas = generateClasses();
+  acdHeader.classTableAddress = generateClasses();
   if (verbose) printf("\n\tInstances: ");
-  header.inss = generateInstances();
+  generateInstances(&acdHeader);
+
   if (verbose) printf("\n\tEvents: ");
-  header.evts = geevts();	/* Events */
+  acdHeader.evts = geevts();	/* Events */
   if (verbose) printf("\n\tRules: ");
-  header.ruls = geruls();	/* Rules */
-  header.scores = gesco();	/* Scores */
-  header.maxscore = scotot;	/* Total score */
+  acdHeader.ruls = geruls();	/* Rules */
+  acdHeader.scores = gesco();	/* Scores */
+  acdHeader.maxscore = scotot;	/* Total score */
   if (verbose) printf("\n\tMessages: ");
-  header.msgs = gemsgs();	/* Messages */
+  acdHeader.msgs = gemsgs();	/* Messages */
   if (verbose) printf("\n\tCharacter Encoding: ");
-  header.freq = gefreq();	/* Character frequencies */
+  acdHeader.freq = gefreq();	/* Character frequencies */
 
   /* Options */
-  geopt(&header);
+  geopt(&acdHeader);
 
   /* Start statements */
-  header.start = emadr();	/* Save ACODE address to start */
+  acdHeader.start = emadr();	/* Save ACODE address to start */
   gestms(adv.stms, NULL);
   emit0(C_STMOP, I_RETURN);
 
   /* String initialisation table */
-  header.init = geinit();
+  acdHeader.init = geinit();
 
   end = emadr();		/* Last address */
-  header.size = end;		/* Save size */
+  acdHeader.size = end;		/* Save size */
   enterm();			/* Terminate ENCODE */
-  terminateEmit(&header);
+  terminateEmit();
   if (verbose) printf("\n");
 }
 

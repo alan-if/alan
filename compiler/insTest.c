@@ -40,10 +40,11 @@ void testGenerateInstances()
   initadv();
   initEmit("unit.acd");
   symbolizeInstances();
-  addr = generateInstances();
-  unitAssert(addr == firstAdr + 2);	/* Only "hero" generated */
+  generateInstances(&header);
+  unitAssert(header.instanceTableAddress == firstAdr + 2);	/* Only "hero" generated */
   addr = emadr();
   unitAssert(addr == firstAdr + 2 + 1*instanceSize);
+  unitAssert(header.theHero == 1);
   /* 4 Class entries and 1 instance entry */
 
   initadv();
@@ -58,22 +59,21 @@ void testGenerateInstances()
   /* End should be at the size of the table and one instance */
   addr = emadr();
   unitAssert(addr == instanceTableAddress + instanceSize);
-  header.size = addr;
-  terminateEmit(&header);
+  acdHeader.size = addr;
+  terminateEmit();
 
   loadACD("unit.acd");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
   unitAssert(convertFromACD(instanceTable->code) == ins->symbol->code);
   unitAssert(convertFromACD(instanceTable->idAddr) == ins->idAddr);
   unitAssert(convertFromACD(instanceTable->parent) == (ins->parent?ins->parent->symbol->code:0));
-  unitAssert(convertFromACD(instanceTable->nams) == ins->slt->namsadr);
-  unitAssert(convertFromACD(instanceTable->location) ==ins->slt->whrCode);
-  unitAssert(convertFromACD(instanceTable->atrs) == ins->slt->atradr);
-  unitAssert(convertFromACD(instanceTable->dscr) == ins->slt->dscradr);
-  unitAssert(convertFromACD(instanceTable->ment) == ins->slt->mentadr);
-  unitAssert(convertFromACD(instanceTable->art) == ins->slt->artadr);
-  unitAssert(convertFromACD(instanceTable->exts) == ins->slt->extadr);
-  unitAssert(convertFromACD(instanceTable->vrbs) == ins->slt->vrbadr);
+  unitAssert(convertFromACD(instanceTable->nams) == ins->slots->namsadr);
+  unitAssert(convertFromACD(instanceTable->atrs) == ins->slots->atradr);
+  unitAssert(convertFromACD(instanceTable->description) == ins->slots->dscradr);
+  unitAssert(convertFromACD(instanceTable->ment) == ins->slots->mentadr);
+  unitAssert(convertFromACD(instanceTable->art) == ins->slots->artadr);
+  unitAssert(convertFromACD(instanceTable->exts) == ins->slots->extadr);
+  unitAssert(convertFromACD(instanceTable->vrbs) == ins->slots->vrbadr);
 }
 
 

@@ -28,6 +28,8 @@ TESTSRCS = \
 	cla.c \
 	adv.c \
 	sym.c \
+	whr.c \
+
 
 # Sources required for both builds
 BUILDSRCS = \
@@ -59,7 +61,6 @@ BUILDSRCS = \
 	str.c \
 	syn.c \
 	vrb.c \
-	whr.c \
 	wht.c \
 	wrd.c \
 	timing.c \
@@ -69,12 +70,13 @@ BUILDSRCS = \
 	options.c
 
 
-# Sources required for Alan
+# Sources required for Alan (excluded because they are in unit tests)
 ALANSRCS = \
 	main.c \
 	cla.c \
 	ins.c \
 	sym.c \
+	whr.c \
 	adv.c
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)

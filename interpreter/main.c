@@ -57,6 +57,8 @@ int conjWord;			/* First conjunction in dictonary, for ',' */
 CurVars cur;
 
 /* Amachine structures */
+InstanceEntry *instance;	/* Instance table pointer */
+
 WrdEntry *dict;			/* Dictionary pointer */
 ActEntry *acts;			/* Actor table pointer */
 LocEntry *locs;			/* Location table pointer */
@@ -304,7 +306,7 @@ void statusline(void)
   col = 1;
   say(where(HERO));
   if (header->maxscore > 0)
-    sprintf(line, "Score %ld(%ld)/%ld moves", cur.score, (int)header->maxscore, cur.tick);
+    sprintf(line, "Score %d(%ld)/%d moves", cur.score, header->maxscore, cur.tick);
   else
     sprintf(line, "%ld moves", (long)cur.tick);
   for (i=0; i < pagwidth - col - strlen(line); i++) putchar(' ');
@@ -1604,6 +1606,8 @@ static void initheader()
   dict = (WrdEntry *) addrTo(header->dict);
   /* Find out number of entries in dictionary */
   for (dictsize = 0; !endOfTable(&dict[dictsize]); dictsize++);
+
+  instance = (InstanceEntry *) addrTo(header->instanceTableAddress);
   vrbs = (VrbEntry *) addrTo(header->vrbs);
   stxs = (StxEntry *) addrTo(header->stxs);
   evts = (EvtEntry *) addrTo(header->evts);
@@ -1659,7 +1663,7 @@ static void start()
   interpret(header->start);
   para();
 
-  acts[HERO-ACTMIN].loc = 0;
+  instance[HERO].location = 0;
   locate(HERO, startloc);
 }
 

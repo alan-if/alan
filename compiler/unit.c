@@ -54,6 +54,7 @@ extern lmSev readSev();
 #include "insTest.c"
 #include "advTest.c"
 #include "symTest.c"
+#include "whrTest.c"
 
 
 int main()
@@ -82,8 +83,6 @@ void registerUnitTest(void (*aCase)())
     lastCase->theCase = aCase;
   }
 }
-
-static AcdHdr header;
 
 static Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
 {

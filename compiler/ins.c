@@ -11,6 +11,7 @@
 #include "util.h"
 #include "dump.h"
 #include "emit.h"
+#include "adv.h"
 
 #include "sym_x.h"
 #include "slt_x.h"
@@ -37,6 +38,7 @@ void initInstances()
 
   theHero = newInstance(&nulsrcp, newId(&nulsrcp, "hero"),
 			newId(&nulsrcp, "actor"), NULL);
+
   
 }
 
@@ -63,10 +65,10 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
   new->id = id;
   new->parent = parent;
   if (slt)
-    new->slt = slt;
+    new->slots = slt;
   else
-    new->slt = newSlots(NULL, NULL, NULL, NULL, NULL, NULL,
-			NULL, NULL, NULL, NULL, NULL);
+    new->slots = newSlots(NULL, NULL, NULL, NULL, NULL, NULL,
+			  NULL, NULL, NULL, NULL, NULL);
 
   new->symbol = newsym(id->string, INSTANCE_SYMBOL);
 
@@ -76,14 +78,15 @@ InsNod *newInstance(Srcp *srcp,	/* IN - Source Position */
 }
 
 
+
 /*----------------------------------------------------------------------
 
-  symbolizeInstance()
+  symbolizeInstanceParent()
 
-  Symbolize a Instance node.
+  Symbolize a Instance parent node.
 
  */
-static void symbolizeInstance(InsNod *ins)
+static void symbolizeInstanceParent(InsNod *ins)
 {
   SymNod *parent;
 
@@ -98,6 +101,20 @@ static void symbolizeInstance(InsNod *ins)
       setParent(ins->symbol, ins->parent->symbol);
     }
   }
+}
+
+
+/*----------------------------------------------------------------------
+
+  symbolizeInstance()
+
+  Symbolize a Instance node.
+
+ */
+static void symbolizeInstance(InsNod *ins)
+{
+  symbolizeInstanceParent(ins);
+  symbolizeSlots(ins->slots);
 }
 
 
@@ -127,6 +144,7 @@ void symbolizeInstances(void)
  */
 static void analyzeInstance(InsNod *ins)
 {
+  analyzeSlots(ins->slots);
 }
 
 
@@ -158,7 +176,7 @@ static void generateInstanceData(InsNod *ins)
   ins->idAddr = emadr();
   emitstr(ins->id->string);
 
-  generateSlotsData(ins->slt);
+  generateSlotsData(ins->slots);
 }
 
 
@@ -176,7 +194,7 @@ static void generateInstanceEntry(InsNod *ins)
   else
     emit(ins->parent->symbol->code);
 
-  generateSlotsEntry(ins->slt);
+  generateSlotsEntry(ins->slots);
 }
 
 
@@ -187,7 +205,7 @@ static void generateInstanceEntry(InsNod *ins)
   Generate all Instance nodes.
 
  */
-Aaddr generateInstances(void)
+void generateInstances(AcdHdr *header)
 {
   List *l;
   Aaddr adr;
@@ -199,7 +217,9 @@ Aaddr generateInstances(void)
   for (l = allInstances; l; l = l->next)
     generateInstanceEntry(l->element.ins);
 
-  return (adr);
+  header->instanceTableAddress = adr;
+  header->instanceMax = instanceCount;
+  header->theHero = theHero->symbol->code;
 }
 
 
@@ -216,5 +236,5 @@ void dumpInstance(InsNod *ins)
   put("INS: "); dumpSrcp(&ins->srcp); in();
   put("id: "); dumpId(ins->id); nl();
   put("parent: "); dumpId(ins->parent); nl();
-  put("slots: "); dumpSlots(ins->slt); nl();
+  put("slots: "); dumpSlots(ins->slots); nl();
 }

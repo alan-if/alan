@@ -13,6 +13,8 @@
 
 /* DATA */
 
+AcdHdr acdHeader;
+
 
 /* FUNCTIONS */
 
@@ -21,7 +23,7 @@ extern Aword emadr(void);
 extern void emitstr(char str[]);
 extern void emit(Aword word);
 extern void emit0(OpClass class, Aword op);
-extern void terminateEmit(AcdHdr *hdr);
+extern void terminateEmit(void);
 
 
 #endif

@@ -32,6 +32,10 @@ extern void *allocate(int len);
 #include "emit.h"
 
 
+/* PUBLIC DATA */
+AcdHdr acdHeader;
+
+
 static FILE *acdfil;
 static Aword buff[BLOCKLEN];
 
@@ -429,7 +433,7 @@ void initEmit(
 }
 
 
-void terminateEmit(AcdHdr *hdr)
+void terminateEmit(void)
 {
   Aword *hp;			/* Pointer to header as words */
   int i;
@@ -437,25 +441,25 @@ void terminateEmit(AcdHdr *hdr)
   if (pc%BLOCKSIZE > 0)
     fwrite(buff, BLOCKSIZE, 1, acdfil);
 
-  hdr->acdcrc = crc;		/* Save checksum */
+  acdHeader.acdcrc = crc;		/* Save checksum */
 
   (void) rewind(acdfil);
   pc = 0;
 
   /* Construct version marking */
 #ifdef REVERSED  
-  hdr->vers[3] = (Aword)alan.version.version;
-  hdr->vers[2] = (Aword)alan.version.revision;
-  hdr->vers[1] = (Aword)alan.version.correction;
-  hdr->vers[0] = (Aword)alan.version.state[0];
+  acdHeader.vers[3] = (Aword)alan.version.version;
+  acdHeader.vers[2] = (Aword)alan.version.revision;
+  acdHeader.vers[1] = (Aword)alan.version.correction;
+  acdHeader.vers[0] = (Aword)alan.version.state[0];
 #else
-  hdr->vers[0] = (Aword)alan.version.version;
-  hdr->vers[1] = (Aword)alan.version.revision;
-  hdr->vers[2] = (Aword)alan.version.correction;
-  hdr->vers[3] = (Aword)alan.version.state[0];
+  acdHeader.vers[0] = (Aword)alan.version.version;
+  acdHeader.vers[1] = (Aword)alan.version.revision;
+  acdHeader.vers[2] = (Aword)alan.version.correction;
+  acdHeader.vers[3] = (Aword)alan.version.state[0];
 #endif
 
-  hp = (Aword *) hdr;		/* Point to header */
+  hp = (Aword *) &acdHeader;		/* Point to header */
   for (i = 0; i < (sizeof(AcdHdr)/sizeof(Aword)); i++) /* Emit header */
     emit(*hp++);
   fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */

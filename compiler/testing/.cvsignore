@@ -1,7 +1,8 @@
-*.output
-*.diff
 *.acd
 *.dat
-*.tmp
+*.diff
 *.lis
+*.output
+*.tmp
 *~
+alan.exe.stackdump

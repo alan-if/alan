@@ -173,21 +173,27 @@ typedef struct AcdHdr {
   Aword pagwidth;		/* 05 - and width */
   Aword debug;			/* 06 - Option debug */
 /* Data structures */
+  Aaddr classTableAddress;	/* Class table */
+  Aword classMax;		/* Number of classes */
+  Aword objectClassId;
+  Aword locationClassId;
+  Aword actorClassId;
+  Aaddr instanceTableAddress;	/* Instance table */
+  Aword instanceMax;		/* Number of instances */
+  Aword theHero;		/* The hero instance code (id) */
+/* Old data follows: */
   Aaddr dict;			/* 07 - Dictionary */
   Aaddr oatrs;			/* 08 - Object default attributes */
   Aaddr latrs;			/* 09 - Location default attributes */
   Aaddr aatrs;			/* 0a - Actor default attributes */
 				/* 3.0 Removed Actor, Object and Location tables */
 				/* 3.0 Inserted Class and Instance tables */
-  Aaddr clas;			/* 0b - Class table */
-  Aaddr inss;			/* 0c - Instance table */
   Aaddr stxs;			/* 0d - Syntax table */
   Aaddr vrbs;			/* 0e - Verb table */
   Aaddr evts;			/* 0f - Event table */
   Aaddr cnts;			/* 10 - Container table */
   Aaddr ruls;			/* 11 - Rule table */
   Aaddr init;			/* 12 - String init table */
-  Aword theHero;		/* The hero instance code (id) */
   Aaddr start;			/* 13 - Address to Start code */
   Aword msgs;			/* 14 - Messages table */
 /* Miscellaneous */

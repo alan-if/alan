@@ -29,6 +29,7 @@ extern CurVars cur;
 
 /* Amachine data structures */
 extern WrdEntry *dict;		/* Dictionary pointer */
+extern InstanceEntry *instance; /* Instance table pointer */
 extern ActEntry *acts;		/* Actor table pointer */
 extern LocEntry *locs;		/* Location table pointer */
 extern VrbEntry *vrbs;		/* Verb table pointer */
