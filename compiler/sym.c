@@ -360,10 +360,8 @@ static Symbol *lookupInContext(char *idString, Context *context)
 /*======================================================================*/
 Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
 {
-  List *scripts = theSymbol->fields.entity.props->scripts;
-
   while (theSymbol != NULL) {
-    scripts = theSymbol->fields.entity.props->scripts;
+    List *scripts = theSymbol->fields.entity.props->scripts;
     while (scripts != NULL) {
       if (equalId(scriptName, scripts->element.script->id))
 	return scripts->element.script;

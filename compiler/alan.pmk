@@ -1850,7 +1850,7 @@ static int val(char str[])
     %%
 	%<actor_statement>.stm = newStatement(`&%'USE'.srcp, USE_STATEMENT);
 	%<actor_statement>.stm->fields.use.script = %ID.id;
-	%<actor_statement>.stm->fields.use.actor = %<optional_for_actor>.id;
+	%<actor_statement>.stm->fields.use.actorExp = %<optional_for_actor>.exp;
     %%
 
     ! 'STOP' ID '.'
@@ -1860,15 +1860,15 @@ static int val(char str[])
     %%
     ;
 
-<optional_for_actor>	-- RETURNS: id
+<optional_for_actor>	-- RETURNS: exp
     =
     %%
-	%<optional_for_actor>.id = NULL;
+	%<optional_for_actor>.exp = NULL;
     %%
 
-    ! 'FOR' ID
+    ! 'FOR' <what>
     %%
-	%<optional_for_actor>.id = %ID.id;
+	%<optional_for_actor>.exp = %<what>.exp;
     %%
     ;
 

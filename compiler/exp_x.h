@@ -23,6 +23,7 @@
 extern Expression *newExpression(Srcp *srcp, ExpressionKind kind);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
+extern Symbol *symbolOf(Expression *exp);
 extern void generateExpression(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);
 extern void generateAttributeReference(Expression *exp);

@@ -136,7 +136,7 @@ typedef struct StmNod {		/* STATEMENT */
     struct {			/* USE */
       int scriptno;		/* Which script to use (number) */
       IdNode *script;		/* Which script to use (name) */
-      IdNode *actor;		/* For which actor */
+      Expression *actorExp;	/* For which actor */
     } use;
 
     struct {			/* STOP */

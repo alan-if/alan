@@ -4,29 +4,31 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>308.89</origest>
-<currest>307.89</currest>
-<elapsed>156.89</elapsed>
+<origest>310.89</origest>
+<currest>309.89</currest>
+<elapsed>157.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>35</origest>
-<currest>35</currest>
-<elapsed>3</elapsed>
+<origest>37</origest>
+<currest>37</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
-<elapsed>3</elapsed>
+<origest>18</origest>
+<currest>18</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
-<notes>Investigate Stop actor.</notes>
+<notes>Investigate Stop actor.
+
+Stop does not analyze its expression to be an actor.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -39,7 +41,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -83,6 +85,15 @@ Actually this is obsolete, since in v3 you can not do that, you can only specify
 <task>
 <desc>Symbolic instance and class references in debugger</desc>
 <notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default description for a instance should be either in definite or indefinite form.</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -188,6 +199,14 @@ New clause on containers:
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Unify messages 311, 351, 410, 428</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>UNDO does not affect heros position</desc>
@@ -208,6 +227,7 @@ We also need some way to re-output the state.</notes>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.33</desc>

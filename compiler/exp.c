@@ -46,6 +46,22 @@ Bool equalTypes(TypeKind typ1, TypeKind typ2)
 }
 
 
+/*======================================================================*/
+Symbol *symbolOf(Expression *exp) {
+  if (exp == NULL) return NULL;
+
+  switch (exp->kind) {
+  case WHAT_EXPRESSION:
+    return exp->fields.wht.wht->id->symbol;
+  case ATTRIBUTE_EXPRESSION:
+    return exp->class;
+  default:
+    syserr("Unexpected expression kind in '%s()'.", __FUNCTION__);
+  }
+  return NULL;
+}
+
+
 /*----------------------------------------------------------------------*/
 static char *aggregateToString(AggregateKind agr)
 {
@@ -75,8 +91,6 @@ Expression *newExpression(Srcp *srcp, ExpressionKind kind)
 
   return(new);
 }
-
-
 
 
 /*----------------------------------------------------------------------*/
@@ -1056,7 +1070,8 @@ void dumpExpression(Expression *exp)
 
   dumpSrcp(&exp->srcp);
   indent();
-  put("type: "); dumpType(exp->type);nl();
+  put("type: "); dumpType(exp->type); nl();
+  put("class: "); dumpPointer(exp->class); nl();
 
   switch (exp->kind) {
   case WHERE_EXPRESSION:

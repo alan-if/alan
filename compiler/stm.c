@@ -295,60 +295,56 @@ static void analyzeUse(StmNod *stm, Context *context)
   the actor is assumed to be the one we are in (it is an error if we
   are not). */
 
-  Symbol *sym;
+  Symbol *symbol;
   Script *script;
-  IdNode *actorId = NULL;
 
-  if (stm->fields.use.actor == NULL && context->instance == NULL)
+  if (stm->fields.use.actorExp == NULL && context->instance == NULL)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
-    if (stm->fields.use.actor != NULL) {
-      /* Lookup specified actors symbol */
-      sym = symcheck(stm->fields.use.actor, INSTANCE_SYMBOL, context);
-      if (sym) {
-	if (sym->kind == PARAMETER_SYMBOL)
-	  lmLog(&stm->fields.use.actor->srcp, 410, sevERR, "USE statement");
-	actorId = sym->fields.entity.props->id;
-      } else
-	return;
+    if (stm->fields.use.actorExp != NULL) {
+      Expression *exp = stm->fields.use.actorExp;
+      analyzeExpression(exp, context);
+      if (exp->type != ERROR_TYPE)
+	if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
+	  lmLog(&exp->srcp, 410, sevERR, "USE statement");
+	  return;
+	}
+      symbol = symbolOf(exp);
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
 	syserr("Unexpected context in '%s()'", __FUNCTION__);
-      actorId = context->instance->props->id;
+      symbol = context->instance->props->id->symbol;
     }
 
     /* Find the script */
-    script = lookupScript(actorId->symbol, stm->fields.use.script);
-    if (script != NULL)
-      stm->fields.use.scriptno = script->id->code;
-    else
-      lmLog(&stm->fields.use.script->srcp, 400, sevERR, actorId->string);
+    if (symbol != NULL) {
+      script = lookupScript(symbol, stm->fields.use.script);
+      if (script != NULL)
+	stm->fields.use.scriptno = script->id->code;
+      else 
+	lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
+	       symbol->kind == CLASS_SYMBOL?"class":"actor",
+	       symbol->string, NULL);
+    }
   }  
-}  
+}
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeStop(StmNod *stm, Context *context)
 {
   Symbol *sym;
-  IdNode *actorId = NULL;
 
   /* Lookup specified actors symbol */
   sym = symcheck(stm->fields.stop.actor, INSTANCE_SYMBOL, context);
   if (sym) {
-    if (sym->kind == PARAMETER_SYMBOL)
+    if (!inheritsFrom(sym, actorSymbol))
       lmLog(&stm->fields.stop.actor->srcp, 410, sevERR, "STOP statement");
-    actorId = sym->fields.entity.props->id;
   }
 }
 
 
-/*----------------------------------------------------------------------
-
-  Analyze a DEPENDING statement. It has partial expressions in the
-  cases which must be connected to the depend expression.
-
-  */
+/*----------------------------------------------------------------------*/
 static void analyzeDepend(StmNod *stm, Context *context)
 {
   /* Analyze a DEPENDING statement. It has partial expressions in the
@@ -779,13 +775,13 @@ static void generateIf(StmNod *stm)
 /*----------------------------------------------------------------------*/
 static void generateUse(StmNod *stm)
 {
-  if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
+  if (stm->fields.use.actorExp == NULL) { /* No actor specified, use current */
     emitConstant(stm->fields.use.scriptno);
     emitVariable(V_CURRENT_INSTANCE);
     emit0(I_USE);
   } else {
     emitConstant(stm->fields.use.scriptno);
-    generateId(stm->fields.use.actor);
+    generateExpression(stm->fields.use.actorExp);
     emit0(I_USE);
   }
 }
@@ -1267,10 +1263,10 @@ void dumpStatement(StmNod *stm)
     case USE_STATEMENT:
       put("script: "); dumpId(stm->fields.use.script); nl();
       put("scriptno: "); dumpInt(stm->fields.use.scriptno); nl();
-      put("actor: "); dumpId(stm->fields.use.actor);
+      put("actor: "); dumpExpression(stm->fields.use.actorExp);
       break;
     case STOP_STATEMENT:
-      put("actor: "); dumpId(stm->fields.use.actor);
+      put("actor: "); dumpId(stm->fields.stop.actor);
       break;
     case VISITS_STATEMENT:
       put("count: "); dumpInt(stm->fields.visits.count);

@@ -16,8 +16,8 @@ scriptname.alan
    30.    Use script nonexistant for torbjorn.  Use script s31 for torbjorn.
 =====>               1                                     2
 
-  *1*   400 E : Script not defined for Actor 'torbjorn'.
-  *2*   400 E : Script not defined for Actor 'torbjorn'.
+  *1*   400 E : Script not defined for actor 'torbjorn'.
+  *2*   400 E : Script not defined for actor 'torbjorn'.
 
 
         4 error(s).

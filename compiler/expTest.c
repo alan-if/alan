@@ -9,6 +9,25 @@
 #include "exp.c"
 #include "ins_x.h"
 
+void testSymbolOf() {
+  initSymbols();
+  ASSERT(symbolOf(NULL) == NULL);
+
+  Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
+				     NULL, newEmptyProps());
+  Expression *theWhatExp = newExpression(&nulsrcp, WHAT_EXPRESSION);
+  What *theWhat = newWhat(&nulsrcp, WHAT_ID, theInstance->props->id);
+  theWhatExp->fields.wht.wht = theWhat;
+  ASSERT(symbolOf(theWhatExp) != NULL);
+  ASSERT(symbolOf(theWhatExp) == theInstance->props->id->symbol);
+
+  Expression *theAttributeExpression = newExpression(&nulsrcp, ATTRIBUTE_EXPRESSION);
+  IdNode *attributeId = newId(&nulsrcp, "atr");
+  theAttributeExpression->fields.atr.atr = attributeId;
+}
+  
+
+
 void testAttributeToThis()
 {
   Instance *theInstance = newInstance(&nulsrcp, newId(&nulsrcp, "ins"),
@@ -56,6 +75,7 @@ static void testAnalyzeIsaExpression()
 
 void registerExpUnitTests()
 {
+  registerUnitTest(testSymbolOf);
   registerUnitTest(testAttributeToThis);
   registerUnitTest(testIsConstantIdentifier);
   registerUnitTest(testAnalyzeIsaExpression);

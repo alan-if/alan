@@ -1,0 +1,26 @@
+########## alan useReferenceAttribute ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+########## arun useReferenceAttribute ##########
+
+
+School
+The janitor is working. Teacher is here.
+
+> l
+School
+The janitor is working. Teacher is here. Janitor Work.
+
+> l
+School
+The janitor is working. Teacher is here. Janitor Work. Teacher Work.
+
+> l
+School
+Janitor is here. The teacher is working. Teacher Work.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

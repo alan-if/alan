@@ -1580,7 +1580,7 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].stm = newStatement(&pmSySt[pmStkP+1].srcp, USE_STATEMENT);
 	pmSeSt[pmStkP+1].stm->fields.use.script = pmSeSt[pmStkP+3].id;
-	pmSeSt[pmStkP+1].stm->fields.use.actor = pmSeSt[pmStkP+4].id;
+	pmSeSt[pmStkP+1].stm->fields.use.actorExp = pmSeSt[pmStkP+4].exp;
     	break;}
     case 244: { /* <actor_statement> = 'STOP' ID '.'; */
 #line 1857 "alan.pmk"
@@ -1591,12 +1591,12 @@ int rule			/* IN production number */
     case 246: { /* <optional_for_actor> =; */
 #line 1865 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = NULL;
+	pmSeSt[pmStkP+1].exp = NULL;
     	break;}
-    case 247: { /* <optional_for_actor> = 'FOR' ID; */
+    case 247: { /* <optional_for_actor> = 'FOR' <what>; */
 #line 1870 "alan.pmk"
 
-	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+2].id;
+	pmSeSt[pmStkP+1].exp = pmSeSt[pmStkP+2].exp;
     	break;}
     case 248: { /* <special_statement> = 'QUIT' '.'; */
 #line 1878 "alan.pmk"
