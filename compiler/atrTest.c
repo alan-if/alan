@@ -78,12 +78,12 @@ static List *create2Attributes(char firstString[], char secondString[])
 
 static int firstAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.attributes->element.atr->id->code;
+  return slots->symbol->fields.claOrIns.slots->attributes->element.atr->id->code;
 }
 
 static int secondAttributeCode(SlotsNode *slots)
 {
-  return slots->symbol->fields.claOrIns.attributes->next->element.atr->id->code;
+  return slots->symbol->fields.claOrIns.slots->attributes->next->element.atr->id->code;
 }
 
 static InsNod *firstInstance, *secondInstance;
@@ -148,9 +148,9 @@ void testAttributeListsInSymbolTable()
   secondClass = createClass("secondClass", secondClassAttributes);
 
   firstClassSymbol = lookup("firstClass");
-  unitAssert(firstClassSymbol->fields.claOrIns.attributes == firstClassAttributes);
+  unitAssert(firstClassSymbol->fields.claOrIns.slots->attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
-  unitAssert(secondClassSymbol->fields.claOrIns.attributes == secondClassAttributes);
+  unitAssert(secondClassSymbol->fields.claOrIns.slots->attributes == secondClassAttributes);
   
   firstInstanceAttributes = create2Attributes("attribute11", "attribute12");
   secondInstanceAttributes = create2Attributes("attribute1", "attribute22");
@@ -159,9 +159,9 @@ void testAttributeListsInSymbolTable()
   secondInstance = createInstance("secondInstance", secondInstanceAttributes);
 
   firstInstanceSymbol = lookup("firstInstance");
-  unitAssert(firstInstanceSymbol->fields.claOrIns.attributes == firstInstanceAttributes);
+  unitAssert(firstInstanceSymbol->fields.claOrIns.slots->attributes == firstInstanceAttributes);
   secondInstanceSymbol = lookup("secondInstance");
-  unitAssert(secondInstanceSymbol->fields.claOrIns.attributes == secondInstanceAttributes);
+  unitAssert(secondInstanceSymbol->fields.claOrIns.slots->attributes == secondInstanceAttributes);
 
   /* Now set up a class hierarchy:
   location

@@ -24,7 +24,7 @@ typedef struct SlotsNode {	/* SLOTS  */
   SymNod *symbol;		/* Pointer to symbol table node */
   Aaddr idAddress;
   IdNode *parent;		/* The instances parent */
-  List *names;			/* List of lists of adjectives and a noun (ids)*/
+  List *names;			/* List of lists of adjectives and noun (ids)*/
   WhrNod *whr;			/* Where is it initially? */
   CntNod *cnt;			/* Container properties */
   List *attributes;

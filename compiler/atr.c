@@ -321,7 +321,7 @@ AtrNod *resolveAttributeReference(WhtNod *what, IdNode *attribute)
   if (sym) {
     if (sym->kind == INSTANCE_SYMBOL) {
       what->id->code = sym->code;
-      atr = findAttribute(sym->fields.claOrIns.attributes, attribute);
+      atr = findAttribute(sym->fields.claOrIns.slots->attributes, attribute);
     } else if (sym->kind == PARAMETER_SYMBOL) {
       /* We need to find its class restriction */
 	  /* Then find attributes for that class */ 

@@ -12,7 +12,7 @@
 #include "id.h"
 
 
-/* Types: */
+/* TYPES: */
 
 typedef enum WhtKind {
   WHT_OBJ,

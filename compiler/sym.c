@@ -325,7 +325,7 @@ static SymNod *definingSymbolOfAttribute(SymNod *symbol, IdNode *id)
   if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
     return NULL;
 
-  if ((foundAttribute = findAttribute(symbol->fields.claOrIns.attributes, id)) == NULL)
+  if ((foundAttribute = findAttribute(symbol->fields.claOrIns.slots->attributes, id)) == NULL)
     return definingSymbolOfAttribute(symbol->fields.claOrIns.parent, id);
   else
     return symbol;
@@ -347,7 +347,7 @@ AtrNod *findInheritedAttribute(SymNod *symbol, IdNode *id)
 
   if (definingSymbol == NULL) return NULL;
 
-  return findAttribute(definingSymbol->fields.claOrIns.attributes, id);
+  return findAttribute(definingSymbol->fields.claOrIns.slots->attributes, id);
 }
 
 
@@ -374,7 +374,7 @@ static void numberAttributesRecursively(SymNod *symbol)
     if (symbol->fields.claOrIns.parent != NULL)
       numberAttributesRecursively(symbol->fields.claOrIns.parent);
   
-    for (theList = symbol->fields.claOrIns.attributes; theList != NULL;
+    for (theList = symbol->fields.claOrIns.slots->attributes; theList != NULL;
 	 theList = theList->next){
       inheritedAttribute = findInheritedAttribute(symbol, theList->element.atr->id);
       if (inheritedAttribute != NULL) {
@@ -431,8 +431,8 @@ static void replicateAttributesRecursively(SymNod *symbol)
     /* We have attributes that are not numbered already */
     if (symbol->fields.claOrIns.parent != NULL) {
       replicateAttributesRecursively(symbol->fields.claOrIns.parent);
-      combineAttributes(symbol->fields.claOrIns.attributes,
-			symbol->fields.claOrIns.parent->fields.claOrIns.attributes);
+      combineAttributes(symbol->fields.claOrIns.slots->attributes,
+			symbol->fields.claOrIns.parent->fields.claOrIns.slots->attributes);
     }
     symbol->fields.claOrIns.attributesAlreadyReplicated = TRUE;
 
