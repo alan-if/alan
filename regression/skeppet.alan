@@ -18,10 +18,14 @@ OBJECT ATTRIBUTES
 
 -- Globala Verb definitioner
 
-VERB undersök DOES
-    "Jag kan inte se något särskilt."
+SYNTAX l = l.
+VERB l
+  DOES
+    LOOK.
 END VERB.
 
+
+SYNTAX ta = ta (o)*.
 VERB ta
 
     CHECK OBJECT IS NOT takable
@@ -81,11 +85,22 @@ VERB släpp
 
 END VERB.
 
+
+SYNTAX inventera = i.
+
 VERB inventera DOES
 
         LIST inventory.
 
 END VERB.
+
+CONTAINER inventory
+  HEADER "Du bär på"
+  ELSE "Du är tomhänt."
+END CONTAINER inventory.
+
+
+SYNTAX vänta = vänta.
 
 VERB vänta DOES
 
@@ -236,7 +251,7 @@ LOCATION p_plats
                          där bakom dig känns det som om ett Äventyr låg
                          och lurade, ett Äventyr som nu aldrig skulle bli
                          verklighet."
-                        LOCATE hero AT NOWHERE.
+			QUIT.
 
         END IF.
         IF föräldrar IS NOT repeting
@@ -333,7 +348,7 @@ OBJECT glass AT glasskiosk
         "Här finns glass av alla slag."
 
     MENTIONED
-        "en storstrut."
+        "en storstrut"
 
     VERB ta DOES
         "Du ser glassförsäljaren försvinna in i det bakre lagret. Snabbt
@@ -541,22 +556,24 @@ OBJECT kniven
                 "Det ligger en blank kniv här."
         END IF.
 
-        VERB ta DOES
-           IF kniven AT kiosk
-           AND innehavaren AT kiosk
-           THEN
+    MENTIONED "kniv"
+
+    VERB ta DOES
+        IF kniven AT kiosk
+        AND innehavaren AT kiosk
+        THEN
                 "När Du sträcker Dig fram för att ta kniven ur munnen på den
                  vildsinte innehavaren, blir han en smula vred. Med en snabb
                  högerkrok förpassar han Dig till de sälla jaktmarkerna."
                 LOCATE hero AT NOWHERE.
-           ELSIF kniven IN inventory
-           THEN
+        ELSIF kniven IN inventory
+        THEN
                 "Du bär redan på den."
-           ELSE
-                LOCATE kniven IN inventory.
+        ELSE
+             LOCATE kniven IN inventory.
                 "OK!"
            END IF.
-        END VERB.
+    END VERB.
 
         VERB köp DOES
            IF kniven AT kiosk
@@ -588,7 +605,9 @@ END OBJECT.
 
 OBJECT lappen
 
-        IS NOT takable.
+  IS NOT takable.
+
+  MENTIONED "lapp"
 
 END OBJECT.
 
@@ -598,12 +617,16 @@ OBJECT träbenet
         IS neutrum.
         NOT takable.
 
+  MENTIONED "träben"
+
 END OBJECT.
 
 
 OBJECT kroken
 
         IS NOT takable.
+
+  MENTIONED "krok"
 
 END OBJECT.
 
@@ -821,7 +844,7 @@ OBJECT pengarna AT NOWHERE
         "En mindre summa pengar finns här."
 
     MENTIONED
-        "lite pengar."
+        "lite pengar"
 
 END OBJECT.
 
@@ -892,6 +915,7 @@ LOCATION innanför
 END LOCATION.
 
 OBJECT dörren AT innanför
+    MENTIONED "dörr"
     VERB undersök DOES
         "Dörren ser relativt oskadad ut, men den buktar oroväckande
          utåt, mot dig."
