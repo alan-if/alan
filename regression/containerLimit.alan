@@ -1,17 +1,17 @@
-add to every thing
-  has
-    bulkiness 10.
-end add to thing.
-
-
 Syntax put_in = put (direct) 'in' (indirect)
   Where indirect Isa container
     Else "You can only put things in containers"
 
-Verb put_in
+
+Add To Every thing
+  Has
+    bulkiness 10.
+  Verb put_in
   Does
     Locate direct In indirect.
-End Verb.
+  End Verb.
+End Add To thing.
+
 
 the jug isa object At aaa
   container

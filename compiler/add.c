@@ -150,13 +150,12 @@ static void addContainer(AddNode *add, Symbol *original)
 
 
 /*----------------------------------------------------------------------*/
-static void addVerbs(AddNode *add, Symbol *original)
+static void addVerbs(AddNode *add, Symbol *originalSymbol)
 {
-  Properties *props = add->props;
+  Properties *originalProps = originalSymbol->fields.entity.props;
 
-  if (props->verbs != NULL)
-    lmLogv(&props->verbs->element.vrb->srcp, 341, sevERR, "verbs", "(yet)", NULL);
-
+  if (add->props->verbs != NULL)
+    originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
 }
 
 
@@ -187,17 +186,19 @@ static void addAddition(AddNode *add)
 {
   Symbol *originalClass = symcheck(add->toId, CLASS_SYMBOL, NULL);
 
-  addInitialLocation(add, originalClass);
-  addNames(add, originalClass);
-  addAttributes(add, originalClass);
-  addDescriptionCheck(add, originalClass);
-  addDescription(add, originalClass);
-  addArticle(add, originalClass);
-  addMentioned(add, originalClass);
-  addContainer(add, originalClass);
-  addVerbs(add, originalClass);
-  addScripts(add, originalClass);
-  addExits(add, originalClass);
+  if (originalClass != NULL) {
+    addInitialLocation(add, originalClass);
+    addNames(add, originalClass);
+    addAttributes(add, originalClass);
+    addDescriptionCheck(add, originalClass);
+    addDescription(add, originalClass);
+    addArticle(add, originalClass);
+    addMentioned(add, originalClass);
+    addContainer(add, originalClass);
+    addVerbs(add, originalClass);
+    addScripts(add, originalClass);
+    addExits(add, originalClass);
+  }
 }
 
 

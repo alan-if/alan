@@ -1,0 +1,19 @@
+########## alan globalVerbBody ##########
+
+        No warnings or errors detected.
+
+########## arun globalVerbBody ##########
+
+take book
+take ladder
+
+
+> take book
+Taken.
+
+> take ladder
+Taken.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

@@ -8,10 +8,13 @@ Syntax
 	And c Isa contObject
 	    Else "You can only put contObjects."
 
-Verb put_in
+Add To Every thing
+  Verb put_in
+  When o
     Does
 	"put in"
-End Verb.
+  End Verb.
+End Add To.
 
 Every contObject Isa object
 End Every.

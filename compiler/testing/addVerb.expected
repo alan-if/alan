@@ -1,0 +1,15 @@
+########## alan addVerb ##########
+
+
+addVerb.alan
+
+    7.    Verb x Does "x/y"
+=====>         1
+
+  *1*   220 W : Multiple definition of verb 'x' in this context.
+
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).
+

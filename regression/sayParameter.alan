@@ -2,11 +2,13 @@ Syntax x = x (p)
   Where p Isa object
     Else "You can only 'x' objects."
 
-Verb x
-  Does
-    "You 'x' the" Say p. "$$.$n"
-    "You 'x' the $1."
-End Verb x.
+Add To Every object
+  Verb x
+    Does
+      "You 'x' the" Say p. "$$.$n"
+      "You 'x' the $1."
+  End Verb x.
+End Add.
 
 The o Isa object At l
   Name shiny sharp long thing

@@ -33,11 +33,6 @@ addto.alan
 
   *1*   341 E : Can not ADD container TO classes. (yet)
 
-   10.    Verb x Does "x" End Verb x.
-=====>    1
-
-  *1*   341 E : Can not ADD verbs TO classes. (yet)
-
    11.    Script s. Step "hello"
 =====>    1
 
@@ -49,7 +44,7 @@ addto.alan
   *1*   341 E : Can not ADD exits TO classes. (yet)
 
 
-        10 error(s).
+        9 error(s).
         No detected warnings.
-        1 informational message(s).
+        2 informational message(s).
 

@@ -85,6 +85,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	}
     }
     if (stx == NULL) {
+      /* Define a default syntax for the verb */
       if (!inEntityContext(context)) {
 	/* A global, no parameter, verb */
 	lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
@@ -108,12 +109,15 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
     ids = ids->next;
   }
 
-  /* No alternatives or parameters allowed in global verb definition */
   if (!inEntityContext(context)) {
+    /* No alternatives allowed in global verb definition */
     if (theVerb->alternatives->element.alt->id != NULL)
       lmLog(&theVerb->alternatives->element.alt->srcp, 213, sevERR, "");
+#ifdef DISALLOW_PARAMETERS_IN_GLOBAL_VERBS
+    /* No parameters allowed in global verb definition */
     if (syntaxLists->element.stx->parameters != NULL)
       lmLog(&theVerb->srcp, 219, sevERR, "");
+#endif
   }
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */

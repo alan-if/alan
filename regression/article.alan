@@ -1,19 +1,20 @@
 SYNTAX take = 'take' (o)*.
-VERB take
+SYNTAX drop = 'drop' (o)*.
+
+Add To Every thing
+  VERB take
     DOES
 	LOCATE o IN hero.
 	"Taken."
-END VERB.
+  END VERB.
 
-
-SYNTAX drop = 'drop' (o)*.
-VERB drop
+  VERB drop
     CHECK o IN hero
 	ELSE "You don't have the $o."
     DOES
 	LOCATE o HERE.
-END VERB.
-
+  END VERB.
+End Add To.
 
 SYNTAX l = 'l'.
 VERB l

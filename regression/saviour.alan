@@ -40,6 +40,11 @@ SYNONYMS
     u = up.
     d = down.
 
+The pseudowords
+    Container 
+End The pseudowords.
+
+Syntax 'drop' = 'drop' (object).
 Verb drop
     Check object In hero
         Else "You don't have the $o."
@@ -66,19 +71,20 @@ Verb 'restore'
       Look.
 End Verb 'restore'.
 
-
+Syntax 'examine' = 'examine' (object).
 Verb examine
     Check object Is examinable
         Else "There is nothing special about the $o."
 End Verb.
 
-
+Syntax 'read' = 'read' (object).
 Verb read
     Check object Is readable
         Else "There is nothing written on the $o."
 End Verb.
 
-
+Syntax 'lock' = 'lock' (object).
+Syntax 'unlock' = 'unlock' (object).
 Verb lock, unlock
     Check object Is openable
         Else "There is no way to $v the $1."
@@ -88,13 +94,14 @@ End Verb.
 
 
 Syntax unlock_with = 'unlock' (o) 'with' (k).
-
 Verb unlock_with
     Check o Is openable
         Else "There is no way to $v the $1."
 End Verb unlock_with.
 
 
+Syntax 'open' = 'open' (object).
+Syntax 'close' = 'close' (object).
 Verb open, close
     Check
         object Is openable
@@ -132,6 +139,7 @@ Verb insert_into
 End Verb insert_into.
 
 
+Syntax 'start' = 'start' (object).
 Verb 'start'
     Check object Is startable
         Else "You can't start the $o."
@@ -216,11 +224,6 @@ End Verb.
 Syntax type = 'type' (str)
     Where str Isa String
         Else "You must supply a string containing what you propose to type."
-
-Syntax type_on = type (str) 'on' (t)
-    Where str Isa String
-	Else "You must supply a string containing what you propose to type."
-
 Verb type
     Check terminal Here
         Else "There is nothing here to type on."
@@ -234,6 +237,9 @@ Verb type
 	Schedule terminal_response After 0.
 End Verb.
 
+Syntax type_on = 'type' (str) 'on' (t)
+    Where str Isa String
+       Else "I think you should type a string surrounded by """" on it."
 Verb type_on
     Check t Here
         Else "There is no" Say t. "here to type on."
