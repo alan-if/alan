@@ -90,7 +90,8 @@ static jmp_buf jmpbuf;		/* Error return long jump buffer */
 /*======================================================================
   terminate()
 
-  Terminate the execution of the adventure
+  Terminate the execution of the adventure, e.g. close windows,
+  return buffers...
 
  */
 #ifdef _PROTOTYPES_
@@ -107,6 +108,7 @@ void terminate(code)
     Close(Input());
   }
 #endif
+  free(memory);
   exit(code);
 }
 
@@ -124,19 +126,24 @@ void syserr(str)
      char *str;
 #endif
 {
+  char buf[80];
+
   output("$n$nAs you enter the twilight zone of Adventures, you stumble \
 and fall to your knees. In front of you, you can vaguely see the outlines \
 of an Adventure that never was.$n$nSYSTEM ERROR: ");
   output(str);
   output("$n$n");
-  if (confirm(M_RETRY)) {
-    longjmp(restart, TRUE);
-  } else {
-    if (logflg)
-      fclose(logfil);
-    newline();
-    terminate(0);
+  if (logflg)
+    fclose(logfil);
+  newline();
+
+#ifdef __amiga__
+  if (con) { /* Running from WB, created a console so kill it */
+    printf("press RETURN to quit");
+    gets(buf);
   }
+#endif
+  terminate(0);
 }
 
 
