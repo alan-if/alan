@@ -1,0 +1,27 @@
+########## oil ##########
+alan oil
+arun oil < oil.input
+########## /bin/sh  oil.tst ##########
+
+
+
+        320 W : Word 'oil' belongs to multiple word classes.
+
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).
+
+
+'Oil using oil'!
+
+
+L.
+There is oil and water here.
+
+> oil using oil
+Oiled.
+
+> 
+
+Do you want to restart (y) ? 
