@@ -74,10 +74,10 @@ void ansyns(void)
       for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
 	/* Look up the synonym */
         swrd = findWord(slst->element.id->string);
-        if (swrd != NULL && (swrd->classbits&(1L<<WRD_SYN)))
+        if (swrd != NULL && (swrd->classbits&(1L<<SYNONYM_WORD)))
 	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
 	else
-          newWord(slst->element.id->string, WRD_SYN, 0, (void *) wrd);
+          newWord(slst->element.id->string, SYNONYM_WORD, 0, (void *) wrd);
       }
   }
 }

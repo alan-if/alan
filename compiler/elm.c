@@ -62,7 +62,7 @@ static void analyzeElement(Element *elm)
 
   switch (elm->kind) {
   case WORD_ELEMENT:
-    elm->id->code = newWord(elm->id->string, WRD_PREP, 0, NULL);
+    elm->id->code = newWord(elm->id->string, PREPOSITION_WORD, 0, NULL);
     break;
   case PARAMETER_ELEMENT:
   case END_OF_SYNTAX:
@@ -91,7 +91,7 @@ List *analyzeElements(List *elms,        /* IN - List to analyze */
     /* First element must be a player word */
     lmLog(&elm->srcp, 209, sevERR, "");
   else
-    elm->id->code = newWord(elm->id->string, WRD_VRB, 0, (void *)stx);
+    elm->id->code = newWord(elm->id->string, VERB_WORD, 0, (void *)stx);
 
   /* Analyze the elements, number the parameters and find the class restriction */
   /* Start with the second since the first is analyzed above */
@@ -270,7 +270,7 @@ Aaddr generateElements(List *elms, Syntax *stx) /* IN - The elements */
 	  lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
       }
       entry->code = EOS;        /* End Of Syntax */
-      entry->flags = part->element.lst->element.elm->stx->id->code; /* Verb code */
+      entry->flags = part->element.lst->element.elm->stx->number; /* Syntax number */
       /* Point to the generated class restriction table */
       entry->next = resadr;
       break;

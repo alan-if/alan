@@ -99,7 +99,7 @@ static void reverseDictionary(Aword adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(WrdEntry));
     while (!endOfTable(e)) {
-      if ((e->class & (1L<<WRD_SYN)) == 0) { /* Do not do this for synonyms */
+      if ((e->class & (1L<<SYNONYM_WORD)) == 0) { /* Do not do this for synonyms */
 	reverseTable(e->adjrefs, sizeof(Aword));
 	reverseTable(e->nounrefs, sizeof(Aword));
       }

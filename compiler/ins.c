@@ -92,12 +92,12 @@ Instance *newInstance(Srcp *srcp,	/* IN - Source Position */
 
   /* Note instance name in the dictionary */
   if (new->props->names == NULL)		/* Use the object name */
-    newWord(new->props->id->string, WRD_NOUN, new->props->id->code, new);
+    newWord(new->props->id->string, NOUN_WORD, new->props->id->code, new);
   else {
     for (nameList = new->props->names; nameList != NULL; nameList = nameList->next) {
       for (list = nameList->element.lst; list->next != NULL; list = list->next)
-	newWord(list->element.id->string, WRD_ADJ, 0, new);
-      newWord(list->element.id->string, WRD_NOUN, list->element.id->code, new);
+	newWord(list->element.id->string, ADJECTIVE_WORD, 0, new);
+      newWord(list->element.id->string, NOUN_WORD, list->element.id->code, new);
     }
   }
   return(new);

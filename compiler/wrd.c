@@ -107,7 +107,7 @@ int newWord(char *str,		/* IN - Name of the new word */
   new->str = str;
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
-  if (class != WRD_SYN)
+  if (class != SYNONYM_WORD)
     new->ref[class] = concat(NULL, ref, REFERENCE_LIST);
   else
     new->ref[class] = (List *) ref;
@@ -146,27 +146,27 @@ void prepareWords(void)
   /* Some words in the dictionary */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH:
-    newWord("go", WRD_NOISE, 0, NULL);
-    newWord("the", WRD_NOISE, 0, NULL);
-    newWord("them", WRD_THEM, 0, NULL);
-    newWord("except", WRD_BUT, 0, NULL);
-    newWord("it", WRD_IT, 0, NULL);
-    newWord("but", WRD_BUT, 0, NULL);
-    newWord("and", WRD_CONJ, 0, NULL);
-    newWord("all", WRD_ALL, 0, NULL);
-    newWord("everything", WRD_ALL, 0, NULL);
-    newWord("then", WRD_CONJ, 0, NULL);
+    newWord("go", NOISE_WORD, 0, NULL);
+    newWord("the", NOISE_WORD, 0, NULL);
+    newWord("them", THEM_WORD, 0, NULL);
+    newWord("except", BUT_WORD, 0, NULL);
+    newWord("it", IT_WORD, 0, NULL);
+    newWord("but", BUT_WORD, 0, NULL);
+    newWord("and", CONJUNCTION_WORD, 0, NULL);
+    newWord("all", ALL_WORD, 0, NULL);
+    newWord("everything", ALL_WORD, 0, NULL);
+    newWord("then", CONJUNCTION_WORD, 0, NULL);
     break;
   case L_SWEDISH:
-    newWord("gå", WRD_NOISE, 0, NULL);
-    newWord("dem", WRD_THEM, 0, NULL);
-    newWord("utom", WRD_BUT, 0, NULL);
-    newWord("den", WRD_IT, 0, NULL);
-    newWord("det", WRD_IT, 0, NULL);
-    newWord("förutom", WRD_BUT, 0, NULL);
-    newWord("och", WRD_CONJ, 0, NULL);
-    newWord("allt", WRD_ALL, 0, NULL);
-    newWord("alla", WRD_ALL, 0, NULL);
+    newWord("gå", NOISE_WORD, 0, NULL);
+    newWord("dem", THEM_WORD, 0, NULL);
+    newWord("utom", BUT_WORD, 0, NULL);
+    newWord("den", IT_WORD, 0, NULL);
+    newWord("det", IT_WORD, 0, NULL);
+    newWord("förutom", BUT_WORD, 0, NULL);
+    newWord("och", CONJUNCTION_WORD, 0, NULL);
+    newWord("allt", ALL_WORD, 0, NULL);
+    newWord("alla", ALL_WORD, 0, NULL);
     break;
   default:
     syserr("Unrecognized language in '%s()'", __FUNCTION__);
@@ -186,16 +186,16 @@ void prepareWords(void)
 void analyzeWord(WordNode *wrd)
 {
 #define HASBIT(b, w) (((1L<<(b))&w)==(1L<<(b)))
-#define ISASYNONYM(w) HASBIT(WRD_SYN, (w))
-#define ISADIRECTION(w) HASBIT(WRD_DIR, (w))
-#define ISAVERB(w) HASBIT(WRD_VRB, (w))
-#define ISAADJECTIVE(w) HASBIT(WRD_ADJ, (w))
+#define ISASYNONYM(w) HASBIT(SYNONYM_WORD, (w))
+#define ISADIRECTION(w) HASBIT(DIRECTION_WORD, (w))
+#define ISAVERB(w) HASBIT(VERB_WORD, (w))
+#define ISAADJECTIVE(w) HASBIT(ADJECTIVE_WORD, (w))
 
   if (wrd == NULL) return;
 
   analyzeWord(wrd->low);
 
-  if (ISASYNONYM(wrd->classbits) && (~(1L<<WRD_SYN))&wrd->classbits)
+  if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
     /* Synonyms can not be of any other class */
     lmLog(NULL, 333, sevERR, wrd->str);
 
@@ -247,17 +247,17 @@ static void gewrdref(WordNode *wrd) /* IN - Word to generate for */
   gewrdref(wrd->low);
   
   /* Then this node */
-  if (wrd->classbits&(1L<<WRD_NOUN)) {
+  if (wrd->classbits&(1L<<NOUN_WORD)) {
     wrd->nounrefadr = nextEmitAddress();	/* Save address to noun reference table */
-    for (lst = wrd->ref[WRD_NOUN]; lst != NULL; lst = lst->next)
+    for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
       generateId(lst->element.ins->props->id);
     emit(EOF);
   } else
     wrd->nounrefadr = 0;
 
-  if (wrd->classbits&(1L<<WRD_ADJ)) {
+  if (wrd->classbits&(1L<<ADJECTIVE_WORD)) {
     wrd->adjrefadr = nextEmitAddress();	/* Save address to noun reference table */
-    for (lst = wrd->ref[WRD_ADJ]; lst != NULL; lst = lst->next)
+    for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
       generateId(lst->element.ins->props->id);
     emit(EOF);
   } else
@@ -313,12 +313,12 @@ static void gewrdent(WordNode *wrd) /* IN - The word to generate an entry for */
   showProgress();
 
   emit(wrd->stradr);
-  if (wrd->classbits == (1L<<WRD_SYN)) {
+  if (wrd->classbits == (1L<<SYNONYM_WORD)) {
     /* If it is a synonym generate same as for original but mark as synonym */
-    emit(((WordNode *)wrd->ref[WRD_SYN])->classbits|(1L<<WRD_SYN));
-    emit(((WordNode *)wrd->ref[WRD_SYN])->code);
-    emit(((WordNode *)wrd->ref[WRD_SYN])->adjrefadr);
-    emit(((WordNode *)wrd->ref[WRD_SYN])->nounrefadr);
+    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->classbits|(1L<<SYNONYM_WORD));
+    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->code);
+    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->adjrefadr);
+    emit(((WordNode *)wrd->ref[SYNONYM_WORD])->nounrefadr);
   } else {
     emit(wrd->classbits);
     emit(wrd->code);

@@ -4,14 +4,14 @@
 
   Various utility functions for handling parameters:
 
-  compress()	Compact a list, i.e remove any NULL elements
-  lstlen()	Count number of elements
-  inlst()	Check if an element is in the list
-  sublst()	Subract two lists
-  lstcpy()	Copy one list onto another
-  mrglst()	Merge the paramElems of one list into the first
-  isect()	Take the intersection of two lists
-  cpyrefs()	Copy the refs (in dictionary) to a paramList
+  compress()		Compact a list, i.e remove any NULL elements
+  listlength()		Count number of elements
+  inList()		Check if an element is in the list
+  subtractList()	Subract two lists
+  listCopy()		Copy one list onto another
+  mergeLists()		Merge the paramElems of one list into the first
+  intersect()		Take the intersection of two lists
+  copyReferences()	Copy the refs (in dictionary) to a paramList
 
 \*----------------------------------------------------------------------*/
 
@@ -20,132 +20,90 @@
 #include "params.h"
 
 
-#ifdef _PROTOTYPES_
-void compress(ParamEntry a[])
-#else
-void compress(a)
-     ParamEntry a[];
-#endif
+void compress(ParamEntry theList[])
 {
   int i, j;
   
-  for (i = 0, j = 0; a[j].code != EOF; j++)
-    if (a[j].code != 0)
-      a[i++] = a[j];
-  a[i].code = EOF;
+  for (i = 0, j = 0; theList[j].code != EOF; j++)
+    if (theList[j].code != 0)
+      theList[i++] = theList[j];
+  theList[i].code = EOF;
 }
 
 
-#ifdef _PROTOTYPES_
-int lstlen(ParamEntry a[])
-#else
-int lstlen(a)
-     ParamEntry a[];
-#endif
+int listLength(ParamEntry theList[])
 {
   int i = 0;
 
-  while (a[i].code != EOF)
+  while (theList[i].code != EOF)
     i++;
   return (i);
 }
 
 
-#ifdef _PROTOTYPES_
-Boolean inlst(ParamEntry l[], Aword e)
-#else
-Boolean inlst(l, e)
-     ParamEntry l[];
-     Aword e;
-#endif
+Boolean inList(ParamEntry theList[], Aword theCode)
 {
   int i;
 
-  for (i = 0; l[i].code != EOF && l[i].code != e; i++);
-  return (l[i].code == e);
+  for (i = 0; theList[i].code != EOF && theList[i].code != theCode; i++);
+  return (theList[i].code == theCode);
 }
 
 
-#ifdef _PROTOTYPES_
-void lstcpy(ParamEntry a[], ParamEntry b[])
-#else
-void lstcpy(a, b)
-     ParamEntry a[], b[];
-#endif
+void copyParameterList(ParamEntry to[], ParamEntry from[])
 {
   int i;
 
-  for (i = 0; b[i].code != EOF; i++)
-    a[i] = b[i];
-  a[i].code = EOF;
+  for (i = 0; from[i].code != EOF; i++)
+    to[i] = from[i];
+  to[i].code = EOF;
 }
 
 
-#ifdef _PROTOTYPES_
-void sublst(ParamEntry a[], ParamEntry b[])
-#else
-void sublst(a, b)
-     ParamEntry a[], b[];
-#endif
+void subtractListFromList(ParamEntry theList[], ParamEntry remove[])
 {
   int i;
 
-  for (i = 0; a[i].code != EOF; i++)
-    if (inlst(b, a[i].code))
-      a[i].code = 0;		/* Mark empty */
-  compress(a);
+  for (i = 0; theList[i].code != EOF; i++)
+    if (inList(remove, theList[i].code))
+      theList[i].code = 0;		/* Mark empty */
+  compress(theList);
 }
 
 
-#ifdef _PROTOTYPES_
-void mrglst(ParamEntry a[], ParamEntry b[])
-#else
-void mrglst(a, b)
-     ParamEntry a[], b[];
-#endif
+void mergeLists(ParamEntry one[], ParamEntry other[])
 {
   int i,last;
 
-  for (last = 0; a[last].code != EOF; last++); /* Find end of list */
-  for (i = 0; b[i].code != EOF; i++)
-    if (!inlst(a, b[i].code)) {
-      a[last++] = b[i];
-      a[last].code = EOF;
+  for (last = 0; one[last].code != EOF; last++); /* Find end of list */
+  for (i = 0; other[i].code != EOF; i++)
+    if (!inList(one, other[i].code)) {
+      one[last++] = other[i];
+      one[last].code = EOF;
     }
 }
 
 
-#ifdef _PROTOTYPES_
-void isect(ParamEntry a[], ParamEntry b[])
-#else
-void isect(a, b)
-     ParamEntry a[], b[];
-#endif
+void intersect(ParamEntry one[], ParamEntry other[])
 {
   int i, last = 0;
 
-  for (i = 0; a[i].code != EOF; i++)
-    if (inlst(b, a[i].code))
-      a[last++] = a[i];
-  a[last].code = EOF;
+  for (i = 0; one[i].code != EOF; i++)
+    if (inList(other, one[i].code))
+      one[last++] = one[i];
+  one[last].code = EOF;
 }
 
 
-#ifdef _PROTOTYPES_
-void cpyrefs(ParamEntry p[], Aword r[])
-#else
-void cpyrefs(p, r)
-     ParamEntry p[];
-     Aword r[];
-#endif
+void copyReferences(ParamEntry parameterList[], Aword references[])
 {
   int i;
 
-  for (i = 0; r[i] != EOF; i++) {
-    p[i].code = r[i];
-    p[i].firstWord = EOF;
+  for (i = 0; references[i] != EOF; i++) {
+    parameterList[i].code = references[i];
+    parameterList[i].firstWord = EOF;
   }
-  p[i].code = EOF;
+  parameterList[i].code = EOF;
 }
 
 

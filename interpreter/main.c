@@ -583,7 +583,7 @@ static void prsym(str)
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'v':
-    just((char *)pointerTo(dict[vrbwrd].wrd));
+    just((char *)pointerTo(dict[verbWord].wrd));
     needsp = TRUE;		/* We did print something non-white */
     break;
   case 'p':

@@ -53,8 +53,8 @@ LiteralEntry literal[MAXPARAMS+1];
 int litCount;
 
 /* What did the user say? */
-int vrbwrd;			/* The word he used */
-int vrbcode;			/* The code for that verb */
+int verbWord;			/* The word he used, dictionary index */
+int verbWordCode;		/* The code for that verb */
 
 
 /*----------------------------------------------------------------------*\
@@ -382,7 +382,7 @@ static void unambig(plst)
   if (isIt(wrds[wrdidx])) {
     wrdidx++;
     /* Use last object in previous command! */
-    for (i = lstlen(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLit(pparams[i].code)); i--)
+    for (i = listLength(pparams)-1; i >= 0 && (pparams[i].code == 0 || isLit(pparams[i].code)); i--)
       ;
     if (i < 0)
       error(M_WHAT_IT);
@@ -403,23 +403,23 @@ static void unambig(plst)
     /* If this word can be a noun and there is no noun following break loop */
     if (isNoun(wrds[wrdidx]) && (wrds[wrdidx+1] == EOF || !isNoun(wrds[wrdidx+1])))
       break;
-    cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].adjrefs));
-    lstcpy(savlst, plst);	/* To save it for backtracking */
+    copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].adjrefs));
+    copyParameterList(savlst, plst);	/* To save it for backtracking */
     if (found)
-      isect(plst, refs);
+      intersect(plst, refs);
     else {
-      lstcpy(plst, refs);
+      copyParameterList(plst, refs);
       found = TRUE;
     }
     wrdidx++;
   }
   if (wrds[wrdidx] != EOF) {
     if (isNoun(wrds[wrdidx])) {
-      cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].nounrefs));
+      copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx]].nounrefs));
       if (found)
-	isect(plst, refs);
+	intersect(plst, refs);
       else {
-	lstcpy(plst, refs);
+	copyParameterList(plst, refs);
 	found = TRUE;
       }
       wrdidx++;
@@ -428,33 +428,33 @@ static void unambig(plst)
   } else if (found) {
     if (isNoun(wrds[wrdidx-1])) {
       /* Perhaps the last word was also a noun? */
-      lstcpy(plst, savlst);	/* Restore to before last adjective */
-      cpyrefs(refs, (Aword *)pointerTo(dict[wrds[wrdidx-1]].nounrefs));
+      copyParameterList(plst, savlst);	/* Restore to before last adjective */
+      copyReferences(refs, (Aword *)pointerTo(dict[wrds[wrdidx-1]].nounrefs));
       if (plst[0].code == EOF)
-	lstcpy(plst, refs);
+	copyParameterList(plst, refs);
       else
-	isect(plst, refs);
+	intersect(plst, refs);
     } else
       error(M_NOUN);
   }
   lastWord = wrdidx-1;
 
   /* Allow remote objects, but resolve ambiguities by presence */
-  if (lstlen(plst) > 1) {
+  if (listLength(plst) > 1) {
     for (i=0; plst[i].code != EOF; i++)
       if (!isHere(plst[i].code))
 	plst[i].code = 0;
     compress(plst);
   }
     
-  if (lstlen(plst) > 1 || (found && lstlen(plst) == 0)) {
+  if (listLength(plst) > 1 || (found && listLength(plst) == 0)) {
     params[0].code = 0;		/* Just make it anything != EOF */
     params[0].firstWord = firstWord; /* Remember words for errors below */
     params[0].lastWord = lastWord;
     params[1].code = EOF;	/* But be sure to terminate */
-    if (lstlen(plst) > 1)
+    if (listLength(plst) > 1)
       error(M_WHICH_ONE);
-    else if (found && lstlen(plst) == 0)
+    else if (found && listLength(plst) == 0)
       error(M_NO_SUCH);
   } else {
     plst[0].firstWord = firstWord;
@@ -488,21 +488,21 @@ static void simple(olst)
 	if (!isHere(pmlst[i].code))
 	  pmlst[i].code = 0;
       compress(pmlst);
-      if (lstlen(pmlst) == 0)
+      if (listLength(pmlst) == 0)
 	error(M_WHAT_THEM);
-      lstcpy(olst, pmlst);
+      copyParameterList(olst, pmlst);
       olst[0].firstWord = EOF;	/* No words used */
       wrdidx++;
     } else {
       unambig(olst);		/* Look for unambigous noun phrase */
-      if (lstlen(olst) == 0) {	/* Failed! */
-	lstcpy(olst, tlst);
+      if (listLength(olst) == 0) {	/* Failed! */
+	copyParameterList(olst, tlst);
 	wrdidx = savidx;
 	plural = savplur;
 	return;
       }
     }
-    mrglst(tlst, olst);
+    mergeLists(tlst, olst);
     if (wrds[wrdidx] != EOF
 	&& (isConj(wrds[wrdidx]) &&
 	    (isAdj(wrds[wrdidx+1]) || isNoun(wrds[wrdidx+1])))) {
@@ -512,7 +512,7 @@ static void simple(olst)
       wrdidx++;
       plural = TRUE;
     } else {
-      lstcpy(olst, tlst);
+      copyParameterList(olst, tlst);
       return;
     }
   }
@@ -549,27 +549,21 @@ static void complex(olst)
     if (wrds[wrdidx] != EOF && isBut(wrds[wrdidx])) {
       wrdidx++;
       simple(olst);
-      if (lstlen(olst) == 0)
+      if (listLength(olst) == 0)
 	error(M_AFTER_BUT);
-      sublst(alst, olst);
-      if (lstlen(alst) == 0)
+      subtractListFromList(alst, olst);
+      if (listLength(alst) == 0)
 	error(M_NOT_MUCH);
     }
-    lstcpy(olst, alst);
-    allLength = lstlen(olst);
+    copyParameterList(olst, alst);
+    allLength = listLength(olst);
   } else
     simple(olst);		/* Look for simple noun group */
 }
 
 
-#ifdef _PROTOTYPES_
-static Boolean restrictionCheck(
-     RestrictionEntry *restriction /* IN - The entry to check */
-)
-#else
-static Boolean restrictionCheck(restriction)
-     RestrictionEntry *restriction; /* IN - The cla entry to check */
-#endif
+/*----------------------------------------------------------------------*/
+static Boolean restrictionCheck(RestrictionEntry *restriction)
 {
   Boolean ok = FALSE;
 
@@ -592,16 +586,15 @@ static void runRestriction(RestrictionEntry *restriction)
 }
 
 	
-/*----------------------------------------------------------------------
-
-  resolve()
-
-  In case the syntax did not indicate omnipotent powers (allowed
-  access to remote object), we need to remove non-present parameters
-
-*/
+/*----------------------------------------------------------------------*/
 static void resolve(ParamEntry plst[])
 {
+  /*
+    In case the syntax did not indicate omnipotent powers (allowed
+    access to remote object), we need to remove non-present
+    parameters
+  */
+
   int i;
 
   if (allLength > 0) return;	/* ALL has already done this */
@@ -621,16 +614,38 @@ static void resolve(ParamEntry plst[])
 }
 
 
-#ifdef _PROTOTYPES_
-static void try(
-  ParamEntry mlst[]		/* OUT - List of params allowed by multiple */
-)
-#else
-static void try(mlst)
-  ParamEntry mlst[];		/* OUT - List of params allowed by multiple */
-#endif
+/*----------------------------------------------------------------------*/
+static Aint mapSyntax(Aint syntaxNumber)
 {
-  ElementEntry *elms;		/* Pointer to entryent list */
+  /* 
+     Find the syntax map, use the verb code from it and remap the parameters
+   */
+  SyntaxEntry *syntax;
+  Aword *parameterMap;
+  Aint parameterIndex;
+  ParamEntry originalParameters[MAXPARAMS];
+
+  for (syntax = pointerTo(header->syntaxTableAddress); !endOfTable(syntax); syntax++)
+    if (syntax->syntaxNumber == syntaxNumber)
+      break;
+  if (endOfTable(syntax)) syserr("Could not find syntax in mapping table.");
+
+  parameterMap = pointerTo(syntax->parameterMapping);
+  copyParameterList(originalParameters, params);
+  for (parameterIndex = 1; originalParameters[parameterIndex-1].code != EOF;
+       parameterIndex++)
+    params[parameterIndex-1] = originalParameters[parameterMap[parameterIndex-1]-1];
+
+  return syntax->verbCode;
+}
+    
+
+
+
+/*----------------------------------------------------------------------*/
+static void try(ParamEntry mlst[])
+{
+  ElementEntry *elms;		/* Pointer to entry list */
   ParseEntry *stx;		/* Pointer to syntax list */
   RestrictionEntry *restriction; /* Pointer to class restrictions */
   Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
@@ -644,7 +659,7 @@ static void try(mlst)
   }
 
   for (stx = stxs; !endOfTable(stx); stx++)
-    if (stx->code == vrbcode)
+    if (stx->code == verbWordCode)
       break;
   if (endOfTable(stx))
     error(M_WHAT);
@@ -678,7 +693,7 @@ static void try(mlst)
 	/* Get it! */
 	plural = FALSE;
 	complex(tlst);
-	if (lstlen(tlst) == 0) /* No object!? */
+	if (listLength(tlst) == 0) /* No object!? */
 	  error(M_WHAT);
 	if ((elms->flags & OMNIBIT) == 0) /* Omnipotent parameter? */
 	  /* If its not an omnipotent parameter, resolve by presence */
@@ -692,7 +707,7 @@ static void try(mlst)
 	       actual parameter values later
 	     */
 	    params[paramidx++].code = 0;
-	    lstcpy(mlst, tlst);
+	    copyParameterList(mlst, tlst);
 	    anyPlural = TRUE;
 	  }
 	} else
@@ -706,9 +721,6 @@ static void try(mlst)
   /* Now perform class restriction checks */
   if (elms->next == 0)	/* No verb code, verb not declared! */
     error(M_CANT0);
-
-  /* Set verb code */
-  current.verb = elms->flags;	/* Flags of EOS is actually verb code! */
 
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
@@ -755,6 +767,9 @@ static void try(mlst)
 	error(M_CANT0);
     }
 
+  /* Set verb code and map parameters */
+  current.verb = mapSyntax(elms->flags); /* Flags of EOS is actually syntax number! */
+
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {
     for (p = 0; params[p].code != 0; p++); /* Find multiple marker */
@@ -767,13 +782,13 @@ static void try(mlst)
     }
     params[p].code = 0;		/* Restore multiple marker */
     compress(mlst);
-    if (lstlen(mlst) == 0) {
+    if (listLength(mlst) == 0) {
       params[0].code = EOF;
       error(M_WHAT_ALL);
     }
   } else if (anyPlural) {
     compress(mlst);
-    if (lstlen(mlst) == 0)
+    if (listLength(mlst) == 0)
       /* If there where multiple parameters but non left, exit without a */
       /* word, assuming we have already said enough */
       error(MSGMAX);
@@ -823,13 +838,13 @@ void parse()
 
   allLength = 0;
   paramidx = 0;
-  lstcpy(pparams, params);
+  copyParameterList(pparams, params);
   params[0].code = EOF;
-  lstcpy(pmlst, mlst);
+  copyParameterList(pmlst, mlst);
   mlst[0].code = EOF;
   if (isVerb(wrds[wrdidx])) {
-    vrbwrd = wrds[wrdidx];
-    vrbcode = dict[vrbwrd].code;
+    verbWord = wrds[wrdidx];
+    verbWordCode = dict[verbWord].code;
     wrdidx++;
     match(mlst);
     action(mlst);		/* mlst contains possible multiple params */

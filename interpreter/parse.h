@@ -15,7 +15,7 @@ extern Boolean plural;
 extern LiteralEntry literal[];
 extern int litCount;
 
-extern int vrbwrd;
+extern int verbWord;
 
 #ifdef _PROTOTYPES_
 

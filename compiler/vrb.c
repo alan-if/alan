@@ -103,7 +103,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
   /* Check compatible parameter lists for all the verbs? */
   ids = theVerb->ids->next;
   for (lst = syntaxLists->next; lst != NULL; lst = lst->next) {
-    if (!eqparams(stx, lst->element.stx))
+    if (!equalParameterLists(stx, lst->element.stx))
       lmLog(&ids->element.id->srcp, 215, sevERR,
 	    theVerb->ids->element.id->string);
     ids = ids->next;

@@ -26,7 +26,8 @@ typedef struct Syntax {
   List *restrictionLists;
   List *parameters;
   Bool generated;
-  Bool muldef;			/* AN - Multiply defined verb syntax? */
+  Bool firstSyntax;
+  struct Syntax *nextSyntaxForSameVerb;
   Aaddr elementsAddress;	/* GE - Address to element table for */
 				/* all stxs with the same first word */
   Aaddr restrictionsAddress;	/* GE - Address to class restriction checks */

@@ -53,6 +53,8 @@ Syntax *newSyntax(Srcp *srcp,
   new->id = id;
   new->number = number++;
   new->elements = elements;
+  new->firstSyntax = TRUE;	/* Assume first and only so far */
+  new->nextSyntaxForSameVerb = NULL;
   new->restrictionLists = restrictionLists;
 
   new->generated = FALSE;
@@ -84,6 +86,28 @@ static void setDefaultRestriction(List *parameters)
 
 
 
+/*======================================================================*/
+Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
+{
+  /*
+    Compare two syntax nodes and return true if their parameter lists
+    are compatible (same ordering with same parameter names).
+  */
+
+  List *elm1, *elm2;
+
+  for (elm1 = stx1->parameters, elm2 = stx2->parameters;
+       elm1 != NULL && elm2 != NULL;
+       elm1 = elm1->next, elm2 = elm2->next) {
+    if (!equalId(elm1->element.elm->id, elm2->element.elm->id))
+      return FALSE;
+    if (elm1->element.elm->flags != elm2->element.elm->flags)
+      return FALSE;
+  }
+  return elm1 == elm2;          /* Both NULL => equal */
+}
+
+
 /*----------------------------------------------------------------------*/
 static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
 {
@@ -105,7 +129,9 @@ static void analyzeSyntax(Syntax *stx)  /* IN - Syntax node to analyze */
     }
     
     stx->parameters = analyzeElements(stx->elements, stx->restrictionLists, stx);
-    setParameters(verbSymbol, stx->parameters);
+    /* Register the parameters, use last syntax if multiple */
+    if (stx->firstSyntax)
+      setParameters(verbSymbol, stx->parameters);
     analyzeRestrictions(stx->restrictionLists, verbSymbol);
     setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
     
@@ -121,26 +147,21 @@ void analyzeSyntaxes(void)
 {
   List *lst, *other;
 
+  /* Check for multiple definitions of the syntax for a verb */
+  for (lst = adv.stxs; lst != NULL; lst = lst->next)
+    for (other = lst->next; other != NULL; other = other->next)
+      if (equalId(other->element.stx->id, lst->element.stx->id)) {
+	lst->element.stx->nextSyntaxForSameVerb = other->element.stx;
+	other->element.stx->firstSyntax = FALSE;
+	if (!equalParameterLists(lst->element.stx, other->element.stx)) {
+	  lmLog(&other->element.stx->srcp, 206, sevERR, lst->element.stx->id->string);
+	}
+      }
+
+  /* Now do the analysis */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
     analyzeSyntax(lst->element.stx);
 
-  /* Check for multiple definitions of the syntax for a verb */
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    for (other = lst->next; other != NULL; other = other->next) {
-      if (equalId(other->element.stx->id, lst->element.stx->id)) {
-	if (!lst->element.stx->muldef){
-	  lmLog(&lst->element.stx->id->srcp, 206, sevWAR,
-		lst->element.stx->id->string);
-	  lst->element.stx->muldef = TRUE;
-	}
-	if (!other->element.stx->muldef){
-	  lmLog(&other->element.stx->id->srcp, 206, sevWAR,
-		other->element.stx->id->string);
-	  other->element.stx->muldef = TRUE;
-	}
-	break;
-      }
-    }
 }
 
 
@@ -202,28 +223,6 @@ Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
 
 
 
-/*======================================================================*/
-Bool eqparams(Syntax *stx1, Syntax *stx2)
-{
-  /*
-    Compare two syntax nodes and return true if their parameter lists
-    are compatible (same ordering with same parameter names).
-  */
-
-  List *elm1, *elm2;
-
-  for (elm1 = stx1->parameters, elm2 = stx2->parameters;
-       elm1 != NULL && elm2 != NULL;
-       elm1 = elm1->next, elm2 = elm2->next) {
-    if (!equalId(elm1->element.elm->id, elm2->element.elm->id))
-      return FALSE;
-    if (elm1->element.elm->flags != elm2->element.elm->flags)
-      return FALSE;
-  }
-  return elm1 == elm2;          /* Both NULL => equal */
-}
-
-
 /*----------------------------------------------------------------------*/
 static void generateParseTree(Syntax *stx)
 {
@@ -238,10 +237,10 @@ static void generateParseTree(Syntax *stx)
     /* First word is a verb which points to all stxs starting with that word */
     wrd = findWord(stx->elements->element.elm->id->string);
     /* Ignore words that are not verbs and prepositions */
-    if (wrd->classbits&(1L<<WRD_PREP))
-      lst = wrd->ref[WRD_PREP];
-    if (wrd->classbits&(1L<<WRD_VRB))
-      lst = wrd->ref[WRD_VRB];
+    if (wrd->classbits&(1L<<PREPOSITION_WORD))
+      lst = wrd->ref[PREPOSITION_WORD];
+    if (wrd->classbits&(1L<<VERB_WORD))
+      lst = wrd->ref[VERB_WORD];
     /* Create a list of all parallell elements */
     while (lst) {
       elements = concat(elements, lst->element.stx->elements, LIST_LIST);
@@ -275,9 +274,11 @@ static void generateRestrictionTable(void) {
   List *lst;
 
   /* Generate all syntax parameter restriction checks */
-  TRAVERSE(lst, adv.stxs)
-    lst->element.stx->restrictionsAddress = generateRestrictions(lst->element.stx->restrictionLists,
-								 lst->element.stx);
+  TRAVERSE(lst, adv.stxs) {
+    Syntax *stx = lst->element.stx;
+    stx->restrictionsAddress = generateRestrictions(stx->restrictionLists,
+						    stx);
+  }
 }
 
 
@@ -305,10 +306,22 @@ static void generateParameterMapping(Syntax *syntax)
 {
   List *list;
   Aaddr parameterMappingTableAddress = nextEmitAddress();
+  List *originalParameters = syntax->id->symbol->fields.verb.parameterSymbols;
+  List *originalPosition;
+  Bool found;
 
-  TRAVERSE(list, syntax->parameters)
+  TRAVERSE(list, syntax->parameters) {
     /* Generate a parameter mapping entry */
-    ;
+    TRAVERSE(originalPosition, originalParameters) {
+      /* Find its original position */
+      if (strcmp(list->element.elm->id->string, originalPosition->element.sym->string) == 0) {
+	emit(originalPosition->element.sym->code);
+	found = TRUE;
+	break;
+      }
+    }
+    if (!found) syserr("Could not find parameter in '%s()'", __FUNCTION__);
+  }
   emit(EOF);
   syntax->parameterMappingAddress = parameterMappingTableAddress;
 }

@@ -81,18 +81,18 @@ static void dumpAwords(Aaddr awords)
 /*----------------------------------------------------------------------*/
 static void dumpWrdClass(Aword class)
 {
-  if ((class&((Aword)1L<<WRD_VRB)) != 0) printf("Verb ");
-  if ((class&((Aword)1L<<WRD_CONJ)) != 0) printf("Conjunction ");
-  if ((class&((Aword)1L<<WRD_BUT)) != 0) printf("But ");
-  if ((class&((Aword)1L<<WRD_THEM)) != 0) printf("Them ");
-  if ((class&((Aword)1L<<WRD_IT)) != 0) printf("It ");
-  if ((class&((Aword)1L<<WRD_NOUN)) != 0) printf("Noun ");
-  if ((class&((Aword)1L<<WRD_ADJ)) != 0) printf("Adjective ");
-  if ((class&((Aword)1L<<WRD_PREP)) != 0) printf("Preposition ");
-  if ((class&((Aword)1L<<WRD_ALL)) != 0) printf("All ");
-  if ((class&((Aword)1L<<WRD_DIR)) != 0) printf("Direction ");
-  if ((class&((Aword)1L<<WRD_NOISE)) != 0) printf("Noise ");
-  if ((class&((Aword)1L<<WRD_SYN)) != 0) printf("Synonym ");
+  if ((class&((Aword)1L<<VERB_WORD)) != 0) printf("Verb ");
+  if ((class&((Aword)1L<<CONJUNCTION_WORD)) != 0) printf("Conjunction ");
+  if ((class&((Aword)1L<<BUT_WORD)) != 0) printf("But ");
+  if ((class&((Aword)1L<<THEM_WORD)) != 0) printf("Them ");
+  if ((class&((Aword)1L<<IT_WORD)) != 0) printf("It ");
+  if ((class&((Aword)1L<<NOUN_WORD)) != 0) printf("Noun ");
+  if ((class&((Aword)1L<<ADJECTIVE_WORD)) != 0) printf("Adjective ");
+  if ((class&((Aword)1L<<PREPOSITION_WORD)) != 0) printf("Preposition ");
+  if ((class&((Aword)1L<<ALL_WORD)) != 0) printf("All ");
+  if ((class&((Aword)1L<<DIRECTION_WORD)) != 0) printf("Direction ");
+  if ((class&((Aword)1L<<NOISE_WORD)) != 0) printf("Noise ");
+  if ((class&((Aword)1L<<SYNONYM_WORD)) != 0) printf("Synonym ");
   printf("\n");
 }
 
@@ -107,9 +107,9 @@ static void dumpDict(int level, Aword dict)
 
   for (wrd = (WrdEntry *)pointerTo(dict); !endOfTable(wrd); wrd++) {
     indent(level);
-    printf("WRD: \n");
+    printf("WORD: \n");
     indent(level+1);
-    printf("WRD: %ld(0x%lx)", wrd->wrd, wrd->wrd);
+    printf("WORD: %ld(0x%lx)", wrd->wrd, wrd->wrd);
     if (wrd->wrd != 0)
       printf(" -> \"%s\"", (char *)&memory[wrd->wrd]);
     printf("\n");
@@ -118,14 +118,14 @@ static void dumpDict(int level, Aword dict)
     indent(level+1);
     printf("CODE: %ld\n", wrd->code);
     indent(level+1);
-    printf("ADJREFS: %s", dumpAddress(wrd->adjrefs));
+    printf("ADJECTIVE REFERENCES: %s", dumpAddress(wrd->adjrefs));
     if (wrd->adjrefs != 0) {
       printf(" -> ");
       dumpAwords(wrd->adjrefs);
     } else
       printf("\n");
     indent(level+1);
-    printf("NOUNREFS: %s", dumpAddress(wrd->nounrefs));
+    printf("NOUN REFERENCES: %s", dumpAddress(wrd->nounrefs));
     if (wrd->nounrefs != 0) {
       printf(" -> ");
       dumpAwords(wrd->nounrefs);
@@ -148,11 +148,11 @@ static void dumpAtrs(int level, Aword atrs)
 
   for (atr = (AttributeEntry *)pointerTo(atrs); !endOfTable(atr); atr++, atrno++) {
     indent(level);
-    printf("ATR: #%d\n", atrno);
+    printf("ATTRIBUTE: #%d\n", atrno);
     indent(level+1);
-    printf("VAL: %ld\n", atr->value);
+    printf("VALUE: %ld\n", atr->value);
     indent(level+1);
-    printf("STRINGADDRESS: %s", dumpAddress(atr->stringAddress));
+    printf("STRING ADDRESS: %s", dumpAddress(atr->stringAddress));
     if (atr->stringAddress != 0)
       printf(" -> \"%s\"", (char *)&memory[atr->stringAddress]);
     printf("\n");
@@ -172,11 +172,11 @@ static void dumpChks(int level, Aword chks)
 
   for (chk = (ChkEntry *)pointerTo(chks); !endOfTable(chk); chk++) {
     indent(level);
-    printf("CHK:\n");
+    printf("CHECK:\n");
     indent(level+1);
-    printf("EXP: %s\n", dumpAddress(chk->exp));
+    printf("EXPRESSION: %s\n", dumpAddress(chk->exp));
     indent(level+1);
-    printf("STMS: %s\n", dumpAddress(chk->stms));
+    printf("STATEMENTS: %s\n", dumpAddress(chk->stms));
   }
   indent(level);
   printf("EOF\n");
@@ -205,11 +205,11 @@ static void dumpAlts(int level, Aword alts)
 
   for (alt = (AltEntry *)pointerTo(alts); !endOfTable(alt); alt++) {
     indent(level);
-    printf("ALT:\n");
+    printf("ALTERNATIVE:\n");
     indent(level+1);
-    printf("PARAM: %ld\n", alt->param);
+    printf("PARAMETER: %ld\n", alt->param);
     indent(level+1);
-    printf("QUAL: "); dumpQual(alt->qual); printf("\n");
+    printf("QUALIFIER: "); dumpQual(alt->qual); printf("\n");
     indent(level+1);
     printf("CHECKS: %s\n", dumpAddress(alt->checks));
     dumpChks(level+2, alt->checks);
@@ -297,11 +297,11 @@ static void dumpVrbs(int level, Aword vrbs)
 
   for (vrb = (VerbEntry *)pointerTo(vrbs); !endOfTable(vrb); vrb++) {
     indent(level);
-    printf("VRB:\n");
+    printf("VERB:\n");
     indent(level+1);
     printf("CODE: %ld\n", vrb->code);
     indent(level+1);
-    printf("ALT: %s\n", dumpAddress(vrb->alts));
+    printf("ALTERNATIVE: %s\n", dumpAddress(vrb->alts));
     dumpAlts(level+2, vrb->alts);
   }
   indent(level);
@@ -319,7 +319,7 @@ static void dumpExts(int level, Aword exts)
 
   for (ext = (ExitEntry *)pointerTo(exts); !endOfTable(ext); ext++) {
     indent(level);
-    printf("EXT:\n");
+    printf("EXIT:\n");
     indent(level+1);
     printf("CODE: %ld\n", ext->code);
     indent(level+1);
@@ -346,9 +346,9 @@ static void dumpElms(int level, Aword elms)
   for (elm = (ElementEntry *)pointerTo(elms); !endOfTable(elm); elm++) {
     indent(level);
     if (elm->code == -2)
-      printf("ELM: Last Element in this Syntax\n");
+      printf("ELEMENT: Last Element in this Syntax\n");
     else
-      printf("ELM: Word #%ld\n", elm->code);
+      printf("ELEMENT: Word #%ld\n", elm->code);
     indent(level+1);
     printf("FLAGS: %s\n", dumpAddress(elm->flags));
     indent(level+1);
@@ -386,12 +386,13 @@ static void dumpSyntaxTable(int level, Aword stxs)
 
   for (stx = (SyntaxEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
-    printf("STX: Syntax #%ld\n", stx->syntaxNumber);
+    printf("SYNTAX MAP: Syntax #%ld\n", stx->syntaxNumber);
     indent(level+1);
-    printf("PARAMETERMAPPING: %s = \n", dumpAddress(stx->parameterMapping));
+    printf("PARAMETER MAPPING: %s = ", dumpAddress(stx->parameterMapping));
     dumpParameterMap(stx->parameterMapping);
+    printf("\n");
     indent(level+1);
-    printf("VERBCODE: #%ld\n", dumpAddress(stx->verbCode));
+    printf("VERB CODE: #%ld\n", stx->verbCode);
   }
   indent(level);
   printf("EOF\n");
@@ -408,9 +409,9 @@ static void dumpParseTable(int level, Aword stxs)
 
   for (stx = (ParseEntry *)pointerTo(stxs); !endOfTable(stx); stx++) {
     indent(level);
-    printf("STX: Verb #%ld\n", stx->code);
+    printf("SYNTAX: Verb #%ld\n", stx->code);
     indent(level+1);
-    printf("ELMS: %s\n", dumpAddress(stx->elms));
+    printf("ELEMENTS: %s\n", dumpAddress(stx->elms));
     dumpElms(level+2, stx->elms);
   }
   indent(level);
@@ -732,13 +733,13 @@ static void dumpStatements(Aword pc)
 	break;
 
       default:
-	syserr("Unknown STMOP instruction.");
+	printf("*** Unknown STMOP instruction ***");
 	break;
       }
       break;
 
     default:
-      syserr("Unknown instruction class.");
+      printf("*** Unknown instruction class ***");
       break;
     }
   }
@@ -759,45 +760,45 @@ static void dumpACD(void)
 
   printf("PACK: %s\n", header->pack?"Yes":"No");
 
-  printf("PAGELENGTH: %ld\n", header->pageLength);
+  printf("PAGE LENGTH: %ld\n", header->pageLength);
 
-  printf("PAGEWIDTH: %ld\n", header->pageWidth);
+  printf("PAGE WIDTH: %ld\n", header->pageWidth);
 
   printf("DEBUG: %s\n", header->debug?"Yes":"No");
 
   printf("DICTIONARY: %s\n", dumpAddress(header->dictionary));
   if (dictionaryFlag) dumpDict(1, header->dictionary);
 
-  printf("PARSETABLE: %s\n", dumpAddress(header->parseTableAddress));
+  printf("PARSE TABLE: %s\n", dumpAddress(header->parseTableAddress));
   if (parseFlag) dumpParseTable(1, header->parseTableAddress);
 
-  printf("SYNTAXTABLE: %s\n", dumpAddress(header->syntaxTableAddress));
+  printf("SYNTAX TABLE: %s\n", dumpAddress(header->syntaxTableAddress));
   if (syntaxesFlag) dumpSyntaxTable(1, header->syntaxTableAddress);
 
-  printf("VERBTABLE: %s\n", dumpAddress(header->verbTableAddress));
+  printf("VERB TABLE: %s\n", dumpAddress(header->verbTableAddress));
   if (verbsFlag) dumpVrbs(1, header->verbTableAddress);
 
-  printf("EVENTTABLE: %s\n", dumpAddress(header->eventTableAddress));
+  printf("EVENT TABLE: %s\n", dumpAddress(header->eventTableAddress));
 
-  printf("CONTAINERTABLE: %s\n", dumpAddress(header->containerTableAddress));
+  printf("CONTAINER TABLE: %s\n", dumpAddress(header->containerTableAddress));
   if (containersFlag) dumpContainers(1, header->containerTableAddress);
 
-  printf("INSTANCETABLE: %s\n", dumpAddress(header->instanceTableAddress));
+  printf("INSTANCE TABLE: %s\n", dumpAddress(header->instanceTableAddress));
   if (instancesFlag) dumpInstances(1, header->instanceTableAddress);
 
-  printf("RULETABLE: %s\n", dumpAddress(header->ruleTableAddress));
+  printf("RULE TABLE: %s\n", dumpAddress(header->ruleTableAddress));
 
   printf("INIT: %s\n", dumpAddress(header->init));
 
   printf("START: %s\n", dumpAddress(header->start));
 
-  printf("MESSAGETABLE: %s\n", dumpAddress(header->messageTableAddress));
+  printf("MESSAGE TABLE: %s\n", dumpAddress(header->messageTableAddress));
 
-  printf("MAXSCORE: %ld\n", header->maxscore);
+  printf("MAX SCORE: %ld\n", header->maxscore);
 
   printf("SCORES: %s\n", dumpAddress(header->scores));
 
-  printf("FREQ: %s\n", dumpAddress(header->freq));
+  printf("FREQUENCY TABLE: %s\n", dumpAddress(header->freq));
 
   printf("ACDCRC: 0x%lx ", header->acdcrc);
   /* Calculate checksum */

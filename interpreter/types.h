@@ -38,17 +38,17 @@
 #define pointerTo(x) ((void *)&memory[x])
 
 /* Word classes are numbers but in the dictonary they are generated as bits */
-#define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_VRB))!=0)
-#define isConj(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_CONJ))!=0)
-#define isBut(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_BUT))!=0)
-#define isThem(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_THEM))!=0)
-#define isIt(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_IT))!=0)
-#define isNoun(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_NOUN))!=0)
-#define isAdj(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_ADJ))!=0)
-#define isPrep(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_PREP))!=0)
-#define isAll(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_ALL))!=0)
-#define isDir(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_DIR))!=0)
-#define isNoise(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_NOISE))!=0)
+#define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<VERB_WORD))!=0)
+#define isConj(word) (word < dictsize && (dict[word].class&((Aword)1L<<CONJUNCTION_WORD))!=0)
+#define isBut(word) (word < dictsize && (dict[word].class&((Aword)1L<<BUT_WORD))!=0)
+#define isThem(word) (word < dictsize && (dict[word].class&((Aword)1L<<THEM_WORD))!=0)
+#define isIt(word) (word < dictsize && (dict[word].class&((Aword)1L<<IT_WORD))!=0)
+#define isNoun(word) (word < dictsize && (dict[word].class&((Aword)1L<<NOUN_WORD))!=0)
+#define isAdj(word) (word < dictsize && (dict[word].class&((Aword)1L<<ADJECTIVE_WORD))!=0)
+#define isPrep(word) (word < dictsize && (dict[word].class&((Aword)1L<<PREPOSITION_WORD))!=0)
+#define isAll(word) (word < dictsize && (dict[word].class&((Aword)1L<<ALL_WORD))!=0)
+#define isDir(word) (word < dictsize && (dict[word].class&((Aword)1L<<DIRECTION_WORD))!=0)
+#define isNoise(word) (word < dictsize && (dict[word].class&((Aword)1L<<NOISE_WORD))!=0)
 #define isLiteralWord(word) (word >= dictsize)
 
 
