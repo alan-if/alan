@@ -14,16 +14,20 @@
 #define __amiga__
 #endif
 
+#ifndef __sun__
 #ifdef sun
 #define __sun__
+#endif
 #endif
 
 #ifdef _INCLUDE_HPUX_SOURCE
 #define __hp__
 #endif
 
+#ifndef __unix__
 #ifdef unix
 #define __unix__
+#endif
 #endif
 
 #ifdef vax
