@@ -39,7 +39,7 @@ long allocated;		/* Calculated memory usage */
 */
 void *allocate(int len)		/* IN - Length to allocate */
 {
-  void *p = malloc((size_t)len);
+  void *p = calloc(1, (size_t)len);
 
   if (p == NULL)
     panic("Out of memory");

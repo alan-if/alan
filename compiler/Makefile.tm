@@ -37,7 +37,7 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
 
-.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp Makefile
+.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp
 	smk alan
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new

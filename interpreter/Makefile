@@ -1,8 +1,7 @@
-# Makefile for Alan interpreter to be built with CygWin
+# Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin -I/cygnus/mingw/include -L/cygnus/mingw/lib
-#CYGWIN =  -DCOMPILER=\"[MinGWb20]\" -mno-cygwin
-CYGWIN =  -DCOMPILER=\"[CygWin32]\"
+CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+#CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG

@@ -302,6 +302,11 @@ extern char *strdup(char *str);
 
 #endif
 
+#ifdef __MINGW32__
+#undef EXIT_FAILURE
+#define EXIT_FAILURE 1
+#endif
+
 
 #ifdef _PROTOTYPES_
 

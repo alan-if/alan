@@ -13,6 +13,8 @@
 #include "spa.h"
 #include "options.h"
 #include "alan.version.h"
+#include "lst_x.h"
+
 
 
 /*======================================================================

@@ -237,7 +237,7 @@ static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
   if (wrd->classbits&(1L<<WRD_NOUN)) {
     wrd->nounrefadr = emadr();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_NOUN]; lst != NULL; lst = lst->next)
-      generateId(lst->element.id);
+      generateId(lst->element.ins->slots->id);
     emit(EOF);
   } else
     wrd->nounrefadr = 0;
@@ -245,7 +245,7 @@ static void gewrdref(WrdNod *wrd) /* IN - Word to generate for */
   if (wrd->classbits&(1L<<WRD_ADJ)) {
     wrd->adjrefadr = emadr();	/* Save address to noun reference table */
     for (lst = wrd->ref[WRD_ADJ]; lst != NULL; lst = lst->next)
-      generateId(lst->element.id);
+      generateId(lst->element.ins->slots->id);
     emit(EOF);
   } else
     wrd->adjrefadr = 0;

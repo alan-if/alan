@@ -60,6 +60,7 @@ extern lmSev readSev();
 #include "emitTest.c"
 #include "atrTest.c"
 #include "resTest.c"
+#include "wrdTest.c"
 
 
 int main()
@@ -84,11 +85,11 @@ int main()
 void registerUnitTest(void (*aCase)())
 {
   if (lastCase == NULL) {
-    caseList = malloc(sizeof(Case));
+    caseList = calloc(sizeof(Case), 1);
     caseList->theCase = aCase;
     lastCase = caseList;
   } else {
-    lastCase->next = malloc(sizeof(Case));
+    lastCase->next = calloc(sizeof(Case), 1);
     lastCase = lastCase->next;
     lastCase->theCase = aCase;
   }
@@ -121,7 +122,7 @@ static void loadACD(char fileName[])
   reverseHdr(&tmphdr);
 #endif
 
-  memory = malloc(4*tmphdr.size);
+  memory = calloc(4*tmphdr.size, 1);
 
   rewind(acdFile);
   fread(memory, sizeof(Aword), tmphdr.size, acdFile);

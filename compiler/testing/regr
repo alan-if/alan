@@ -26,9 +26,10 @@ if [ $# != 0 ] ; then
 	cat $case.alan >>$case.output
 	echo "########## alan $case.alan ##########" >>$case.output
 	../alan $case.alan >>$case.output 2>&1
-	if cmp -s $case.output $case.expected
+	if diff -q -b $case.output $case.expected
 	then
 	    echo -n "[K"
+	    rm $case.output
 	else
 	    failed=`expr $failed + 1`
 	    echo "failed!"
@@ -43,9 +44,10 @@ else
     cat $case.alan >> $case.output
     echo "########## alan $case.alan ##########" >>$case.output
     ../alan $case.alan >>$case.output 2>&1
-    if cmp -s $case.output $case.expected
+    if diff -q -b $case.output $case.expected
     then
-      echo -n "[K"
+	echo -n "[K"
+	rm $case.output
     else
       failed=`expr $failed + 1`
       echo "failed!"

@@ -732,7 +732,7 @@ Boolean isObj(x)
      Aword x;
 #endif
 {
-  return x >= OBJMIN && x <= OBJMAX;
+  return isA(x, OBJECT);
 }
 
 #ifdef _PROTOTYPES_
@@ -758,7 +758,7 @@ Boolean isAct(x)
      Aword x;
 #endif
 {
-  return x >= ACTMIN && x <= ACTMAX;
+  return isA(x, ACTOR);
 }
 
 #ifdef _PROTOTYPES_
@@ -768,7 +768,7 @@ Boolean isLoc(x)
      Aword x;
 #endif
 {
-  return x >= LOCMIN && x <= LOCMAX;
+  return isA(x, LOCATION);
 }
 
 #ifdef _PROTOTYPES_

@@ -1,13 +1,14 @@
-# Makefile for alan compiler on Windows using Cygwin32
+# Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
 
 CPP	= gcc -MM -ansi
 
-COMPILER= -DCOMPILER=\"[GCC/CygWin32]\"
+CYGWIN =  -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+#CYGWIN =  -DCOMPILER=\"[GCC/CygWin32]\"
 
-CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(COMPILER)
+CFLAGS = -g -Wall $(CYGWIN) -funsigned-char $(INCLUDE)
 
-LDFLAGS = -g
+LDFLAGS = -g $(CYGWIN)
 
 TMSRCS = \
 	alan.tmk \
@@ -58,7 +59,6 @@ BUILDSRCS = \
 	syn.c \
 	vrb.c \
 	wht.c \
-	wrd.c \
 	timing.c \
 	util.c \
 	spa.c \
@@ -80,6 +80,7 @@ ALANSRCS = \
 	lst.c \
 	sym.c \
 	whr.c \
+	wrd.c \
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
