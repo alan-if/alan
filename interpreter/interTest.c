@@ -74,7 +74,7 @@ static void testForInstructions()
 static Aword testAggregateInstructionCode[] = {0,
 					       INSTRUCTION(I_AGRSTART),	/* 1 */
 					       4, 5, 6,
-					       INSTRUCTION(I_ENDAGR), /* 5 */
+					       INSTRUCTION(I_AGREND), /* 5 */
 					       INSTRUCTION(I_RETURN), /* 6 */
 					       INSTRUCTION(I_COUNT), /* 7 */
 					       INSTRUCTION(I_RETURN) /* 8 */
@@ -90,7 +90,7 @@ static void testAggregateInstructions(void)
   ASSERT(memory[pc-1] == INSTRUCTION(I_AGRSTART));
 
   goToENDAGR();
-  ASSERT(memory[pc] == INSTRUCTION(I_ENDAGR));
+  ASSERT(memory[pc] == INSTRUCTION(I_AGREND));
 
   agrHeader.instanceMax = 1;
   header = &agrHeader;

@@ -113,7 +113,7 @@ Syntax
       Else "You can't ask about that."
     And act Isa thing
       Else "You can't talk to that."
-  talk_to = tell (act) about (topic)!
+  talk_to = tell (act) about (topic)!.
 
 Add To Every thing
   Verb talk_to

@@ -6,7 +6,7 @@ localVariableAttribute.alan
     6.      Say a Of x.
 =====>          1
 
-  *1*   316 E : Attribute 'a' is not defined for variable 'x' since its class
+  *1*   316 E : Attribute 'a' is not defined for variable 'x' since the class
                 ('object') does not have it.
 
 

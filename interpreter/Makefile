@@ -149,7 +149,7 @@ test: unitTest
 #
 #
 dumpacd: dumpacd.c reverse.o ../compiler/spa.o acode.h sysdep.o
-	gcc -o dumpacd -g -mno-cygwin -I../compiler dumpacd.c ../compiler/spa.o reverse.o sysdep.o
+	gcc -Wall -o dumpacd -g -mno-cygwin -I../compiler dumpacd.c ../compiler/spa.o reverse.o sysdep.o
 
 
 

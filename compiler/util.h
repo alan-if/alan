@@ -27,7 +27,7 @@ extern long counter;		/* And counter for verbose mode */
 extern void syserr(char *str, char function[]);
 extern void showProgress(void);
 extern void *allocate(int len);
-extern void unimpl(Srcp *srcp, char *phase);
+extern void unimpl(Srcp srcp, char *phase);
 extern void panic(char *str);
 extern void terminate(int ecode);
 

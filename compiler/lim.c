@@ -83,7 +83,7 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol)
     if (foundAttribute == NULL)
       lmLog(&attribute->srcp, 407, sevERR, classSymbol->string);
     else if (attribute->type != INTEGER_TYPE)
-      unimpl(&attribute->srcp, "Analyzer");
+      unimpl(attribute->srcp, "Analyzer");
     else
       attribute->id->code = foundAttribute->id->code;
   }

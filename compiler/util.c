@@ -73,10 +73,10 @@ void *allocate(int len)		/* IN - Length to allocate */
   An unimplemented constrution was encountered.
 
  */
-void unimpl(Srcp *srcp,		/* IN  - Where? */
+void unimpl(Srcp srcp,		/* IN  - Where? */
 	    char *phase)	/* IN  - What phase? */
 {
-  lmLog(srcp, 998, sevWAR, phase);
+  lmLog(&srcp, 998, sevWAR, phase);
 }
 
 

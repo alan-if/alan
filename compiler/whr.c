@@ -91,10 +91,12 @@ void analyzeWhere(Where *whr, Context *context) {
     break;
   case WHERE_IN:
     analyzeExpression(whr->what, context);
-    if (whr->what->type == SET_TYPE)
-      whr->kind = WHERE_INSET;
-    else
-      verifyContainerExpression(whr->what, context, "Expression after IN");
+    if (whr->what->type != ERROR_TYPE) {
+      if (whr->what->type == SET_TYPE)
+	whr->kind = WHERE_INSET;
+      else
+	verifyContainerExpression(whr->what, context, "Expression after IN");
+    }
     break;
   default:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
@@ -139,6 +141,7 @@ void generateWhere(Where *where)
     break;
 
   case WHERE_IN:
+  case WHERE_INSET:
     generateExpression(where->what);
     break;
 
@@ -169,6 +172,7 @@ void dumpWhere(Where *whr)
   case WHERE_HERE: put("HERE"); break;
   case WHERE_AT: put("AT"); break;
   case WHERE_IN: put("IN"); break;
+  case WHERE_INSET: put("INSET"); break;
   default: put("*** ERROR ***"); break;
   }
   nl();

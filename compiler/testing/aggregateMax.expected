@@ -70,13 +70,13 @@ aggregateMax.alan
 =====>              1
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
-                using 'MAX' since its class ('object') does not have it.
+                using 'MAX' since the class ('object') does not have it.
 
    16.    If Max Of y Isa object, Isa thing = 12 Then "" End If.
 =====>              1             2
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
-                using 'MAX' since its class ('thing') does not have it.
+                using 'MAX' since the class ('thing') does not have it.
   *2*   224 E : Multiple use of Isa (class) in filter list for MAX Aggregation.
 
    17.    If Max Of y Isa object, Is z Then "" End If.
@@ -85,7 +85,7 @@ aggregateMax.alan
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
   *2*   316 E : Attribute 'y' is not defined for instances aggregated over
-                using 'MAX' since its class ('object') does not have it.
+                using 'MAX' since the class ('object') does not have it.
 
 
         16 error(s).

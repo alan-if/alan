@@ -625,7 +625,7 @@ static void analyzeStatement(Statement *stm, Context *context)
     analyzeStrip(stm, context);
     break;
   default:
-    unimpl(&stm->srcp, "Analyzer");
+    unimpl(stm->srcp, "Analyzer");
     break;
   }
 }
@@ -689,7 +689,7 @@ static void generateSay(Statement *stm)
     emit1(I_SAY, stm->fields.say.form);
     break;
   default:
-    unimpl(&stm->srcp, "Code Generator");
+    unimpl(stm->srcp, "Code Generator");
     break;
   }
 }
@@ -815,7 +815,7 @@ static void generateSchedule(Statement *stm)
     break;
 
   default:
-    unimpl(&stm->srcp, "Code Generator");
+    unimpl(stm->srcp, "Code Generator");
     return;
   }
   generateId(stm->fields.schedule.id);
@@ -1132,7 +1132,7 @@ static void generateStatement(Statement *stm)
     break;
 
   default:
-    unimpl(&stm->srcp, "Code Generator");
+    unimpl(stm->srcp, "Code Generator");
     break;
   }
 }

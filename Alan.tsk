@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>330.89</origest>
 <currest>329.89</currest>
-<elapsed>173.89</elapsed>
+<elapsed>175.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>43</origest>
 <currest>43</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.33</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>15</origest>
 <currest>15</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Sets</desc>
@@ -52,7 +52,7 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>5</origest>
 <currest>5</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Declaration of sets</desc>
@@ -69,7 +69,7 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -78,14 +78,14 @@ Remove &lt;expr&gt; from &lt;expr&gt;.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Random In &lt;set&gt;</desc>
 <notes>Returns one value in the set.
 
-How to handle the empty set????</notes>
+How to handle the empty set???? Run-time error obviously.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -465,6 +465,12 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
   }
 }
 
+/*----------------------------------------------------------------------*/
+static void analyzeWhereFilter(Expression *theFilterExpression,
+			       Context *context)
+{
+  analyzeWhere(theFilterExpression->fields.whr.whr, context);
+}
 
 /*----------------------------------------------------------------------*/
 static IdNode *analyzeClassingFilter(char *message,
@@ -487,7 +493,7 @@ static IdNode *analyzeClassingFilter(char *message,
   case ATTRIBUTE_EXPRESSION:
     break;
   default:
-    SYSERR("Unimplemented aggregate filter type");
+    unimpl(theFilterExpression->srcp, "Analysis : Unimplemented aggregate filter type");
   }
   return classId;
 }
@@ -504,8 +510,10 @@ static Bool analyzeNonClassingFilter(char *message,
   case WHERE_EXPRESSION:
     if (*foundWhere)
       lmLogv(&theFilter->srcp, 224, sevERR, "Where", message, NULL);
-    *foundWhere = TRUE;
-    analyzeWhere(theFilter->fields.whr.whr, context);
+    analyzeWhereFilter(theFilter, context);
+    if (theFilter->fields.whr.whr->kind != WHERE_INSET)
+      /* An "IN <set>" is not a Where ... */
+      *foundWhere = TRUE;
     break;
   case ATTRIBUTE_EXPRESSION:
     if (classId == NULL)
@@ -705,12 +713,12 @@ static void analyzeIsaExpression(Expression *expression,
     case WHAT_ACTOR:
       break;
     default:
-      unimpl(&expression->srcp, "Analyzer");
+      unimpl(expression->srcp, "Analyzer");
       break;
     }
     break;
   default:
-      unimpl(&expression->srcp, "Analyzer");
+      unimpl(expression->srcp, "Analyzer");
       break;
   }
 
@@ -867,8 +875,8 @@ static void generateWhereExpression(Expression *exp)
     return;
   case WHERE_IN:
   case WHERE_INSET:
-    generateExpression(where->what);
     generateExpression(what);
+    generateExpression(where->what);
     if (where->kind == WHERE_IN)
       emit0(I_IN);
     else
@@ -880,7 +888,7 @@ static void generateWhereExpression(Expression *exp)
     emit0(I_WHERE);
     break;
   default:
-    unimpl(&exp->srcp, "Code Generator");
+    unimpl(exp->srcp, "Code Generator");
     emitConstant(0);
     return;
   }
@@ -925,9 +933,17 @@ void generateRightHandExpression(Expression *exp)
      This is used for aggregate and loop filters. */
   switch (exp->kind) {
   case WHERE_EXPRESSION:
-    emit0(I_WHERE);
-    generateWhere(exp->fields.whr.whr);
-    emit0(I_EQ);
+    if (exp->fields.whr.whr->kind == WHERE_INSET) {
+      generateWhere(exp->fields.whr.whr);
+      emit0(I_INSET);
+    } else if (exp->fields.whr.whr->kind == WHERE_IN) {
+      generateWhere(exp->fields.whr.whr);
+      emit0(I_IN);
+    } else {
+      emit0(I_WHERE);
+      generateWhere(exp->fields.whr.whr);
+      emit0(I_EQ);
+    }
     break;
   case ISA_EXPRESSION:
     generateId(exp->fields.isa.class);
@@ -954,12 +970,13 @@ static void generateAggregateExpression(Expression *exp)
 {
   List *lst;
 
+#define MAXINT ((Aword)-1)
+
   switch (exp->fields.agr.kind) {
   case COUNT_AGGREGATE:
   case MAX_AGGREGATE:
   case SUM_AGGREGATE: emitConstant(0); break;
-  case MIN_AGGREGATE: emitConstant(-1); break;
-  default: SYSERR("Unrecognized switch");
+  case MIN_AGGREGATE: emitConstant(MAXINT); break;
   }
   emit0(I_AGRSTART);
 
@@ -977,9 +994,8 @@ static void generateAggregateExpression(Expression *exp)
   case MAX_AGGREGATE: emit0(I_MAX); break;
   case MIN_AGGREGATE: emit0(I_MIN); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
-  default: SYSERR("Unrecognized switch");
   }
-  emit0(I_ENDAGR);
+  emit0(I_AGREND);
 }
 
 
@@ -1097,7 +1113,7 @@ void generateExpression(Expression *exp)
     break;
     
   default:
-    unimpl(&exp->srcp, "Code Generator");
+    unimpl(exp->srcp, "Code Generator");
     emitConstant(0);
     return;
   }

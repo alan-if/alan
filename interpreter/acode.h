@@ -143,7 +143,7 @@ typedef enum InstClass {
   I_RND,
   I_AGRSTART,			/* Aggregate looping instructions */
   I_AGRCHECK,
-  I_ENDAGR,
+  I_AGREND,
   I_SUM,			/* Aggregates */
   I_MAX,
   I_MIN,

@@ -245,7 +245,7 @@ static void depcase(void)
 /*----------------------------------------------------------------------*/
 static void goToENDAGR(void)
 {
-  while (memory[pc] != INSTRUCTION(I_ENDAGR))
+  while (memory[pc] != INSTRUCTION(I_AGREND))
     pc++;
 }
 
@@ -679,8 +679,8 @@ void interpret(Aaddr adr)
       }
       case I_IN: {
 	Aword obj, cnt;
-	obj = pop();
 	cnt = pop();
+	obj = pop();
 	if (singleStepOption)
 	  printf("IN \t%5ld, %5ld ", obj, cnt);
 	push(in(obj, cnt));
@@ -692,8 +692,8 @@ void interpret(Aaddr adr)
       }
       case I_INSET: {
 	Aword element, set;
-	element = pop();
 	set = pop();
+	element = pop();
 	if (singleStepOption)
 	  printf("INSET \t%5ld, %5ld ", element, set);
 	push(inSet((Set*)set, element));
@@ -1063,7 +1063,7 @@ void interpret(Aaddr adr)
 	push(instanceIndex);
 	break;
       }
-      case I_ENDAGR: {
+      case I_AGREND: {
 	int instance = pop();
 
 	if (singleStepOption)
