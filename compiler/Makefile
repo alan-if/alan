@@ -117,15 +117,15 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	@touch .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
-	rm .pmkstamp
+	-rm .pmkstamp
 	make .pmkstamp
 
 smScan.h smScan.c smScSema.c:
-	rm .smkstamp
+	-rm .smkstamp
 	make .smkstamp
 
 lmList.h lmList.c:
-	rm .lmkstamp
+	-rm .lmkstamp
 	make .lmkstamp
 
 malloc: tm $(OBJECTS) version.o $(MAINOBJ)
@@ -175,7 +175,7 @@ NONANSI:
 	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
 	make tm
 	make restoretm
-	rm .?mkstamp
+	-rm .?mkstamp
 
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
@@ -189,11 +189,11 @@ MSDOS:
 	ramp iso2pc msg.c MSG.C
 	ramp iso2pc sysdep.c SYSDEP.C
 	make restoretm
-	rm .?mkstamp
+	-rm .?mkstamp
 
 mac:
 	smk -set MAC alan
-	rm .smkstamp
+	-rm .smkstamp
 	refreshMac $(HOME)/mac/Alan/Compiler
 	sed -e 's/Token pmSySt/extern Token pmSySt/' -e 's/pmGrammar pmSeSt/extern pmGrammar pmSeSt/' pmParse.c > pmParse.tmp
 	ramp iso2mac pmParse.tmp $(HOME)/mac/Alan/Compiler/pmParse.c

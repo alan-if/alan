@@ -1,7 +1,7 @@
 [0-9]*_[0-9]*_[0-9]*.*
 alan.prod
-alansrc*.lha
-alansrc*.zip
+alan*.lha
+alan*.zip
 compiler.zip
 interpre.zip
 version.c
