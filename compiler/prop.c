@@ -203,20 +203,40 @@ void analyzeProps(Properties *props, Context *context)
   if (props->container) {
     /* But is a location? */
     if (inheritsFrom(props->id->symbol, locationSymbol))
-      lmLog(&props->id->srcp, 354, sevERR, props->id->string);
+      lmLogv(&props->id->srcp, 354, sevERR,
+	     isClass(props->id->symbol)?"Class":"Instance",
+	     props->id->string,
+	     "location",
+	     "CONTAINER properties, which is dubious in use",
+	     NULL);
     analyzeContainer(props->container, context);
   }
 
   /* Have ENTERED or EXITs but not a location? */
   if (props->enteredStatements && !inheritsFrom(props->id->symbol, locationSymbol))
-    lmLog(&props->id->srcp, 355, sevERR, props->id->string);
+    lmLogv(&props->id->srcp, 352, sevERR,
+	   isClass(props->id->symbol)?"Class":"Instance",
+	   props->id->string,
+	   "location",
+	   "ENTERED statements which is not allowed",
+	   NULL);
   if (props->exits && !inheritsFrom(props->id->symbol, locationSymbol))
-    lmLog(&props->id->srcp, 352, sevERR, props->id->string);
+    lmLogv(&props->id->srcp, 352, sevERR,
+	   isClass(props->id->symbol)?"Class":"Instance",
+	   props->id->string,
+	   "location",
+	   "EXITs, which can never be traversed",
+	   NULL);
   analyzeExits(props->exits, context);
 
   /* Have scripts but not an actor? */
   if (props->scripts && !inheritsFrom(props->id->symbol, actorSymbol))
-    lmLog(&props->id->srcp, 353, sevERR, props->id->string);
+    lmLogv(&props->id->srcp, 352, sevERR,
+	   isClass(props->id->symbol)?"Class":"Instance",
+	   props->id->string,
+	   "actor",
+	   "SCRIPTs, which can never be executed",
+	   NULL);
   prepareScripts(props->scripts, props->id);
   analyzeScripts(props->scripts, context);
 }

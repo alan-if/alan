@@ -3,6 +3,12 @@
 
 addto.alan
 
+    1.  Add To Every Thing
+=====>               1
+
+  *1*   336 E : You can not ADD scripts to a class which is not a subclass of
+                actor.
+
     2.    Isa thing.
 =====>        1
 
@@ -17,11 +23,6 @@ addto.alan
 =====>    1
 
   *1*   341 E : Can not ADD mentioned TO classes. (yet)
-
-   11.    Script s. Step "hello"
-=====>    1
-
-  *1*   341 E : Can not ADD scripts TO classes. (yet)
 
    12.    Exit e To l.
 =====>    1

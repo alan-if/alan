@@ -11,7 +11,7 @@ entered.alan
     7.  The o Isa object At l
 =====>      1
 
-  *1*   355 E : Instance 'o' does not inherit from 'location', but has ENTERED
+  *1*   352 E : Instance 'o' does not inherit from 'location', but has ENTERED
                 statements which is not allowed.
 
 

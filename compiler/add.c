@@ -212,10 +212,34 @@ static void addMentioned(AddNode *add, Symbol *original)
 static void addScripts(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
+  Properties *originalProps = original->fields.entity.props;
+  List *addedScripts;
+  List *originalScripts;
+  List *scriptsToAdd = NULL;
+  Bool doNotAdd = FALSE;
 
-  if (props->scripts != NULL)
-    lmLogv(&props->scripts->element.scr->srcp, 341, sevERR, "scripts", "(yet)", NULL);
+  if (props->scripts == NULL) return;
 
+  if (!inheritsFrom(original, actorSymbol)) {
+    lmLog(&add->toId->srcp, 336, sevERR, "scripts to a class which is not a subclass of actor");
+    doNotAdd = TRUE;
+  }
+  TRAVERSE(addedScripts, props->scripts) {
+    Script *addedScript = addedScripts->element.script;
+    Bool duplicate = FALSE;
+    TRAVERSE(originalScripts, originalProps->scripts) {
+      Script *originalScript = originalScripts->element.script;
+      if (equalId(addedScript->id, originalScript->id)) {
+	lmLogv(&addedScript->srcp, 240, sevERR,
+	       "Script", addedScript->id->string, add->toId->string, NULL);
+	duplicate = TRUE;
+	break;
+      }
+    }
+    if (!duplicate && !doNotAdd)
+      scriptsToAdd = concat(scriptsToAdd, addedScript, SCRIPT_LIST);
+  }
+  originalProps->scripts = combine(originalProps->scripts, scriptsToAdd);
 }
 
 
@@ -274,7 +298,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount++;
 
     if (add->props->scripts)
-      lmLogv(&add->props->scripts->element.scr->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
+      lmLogv(&add->props->scripts->element.script->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->exits)

@@ -365,14 +365,20 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
   while (theSymbol != NULL) {
     scripts = theSymbol->fields.entity.props->scripts;
     while (scripts != NULL) {
-      if (equalId(scriptName, scripts->element.scr->id))
-	return scripts->element.scr;
+      if (equalId(scriptName, scripts->element.script->id))
+	return scripts->element.script;
       scripts = scripts->next;
     }
     theSymbol = parentOf(theSymbol);
   }
 
   return NULL;
+}
+
+
+/*======================================================================*/
+Bool isClass(Symbol *symbol) {
+  return symbol->kind == CLASS_SYMBOL;
 }
 
 

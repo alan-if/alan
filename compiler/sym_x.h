@@ -61,6 +61,7 @@ extern Symbol *symcheck(
 extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
 extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
+extern Bool isClass(Symbol *symbol);
 
 extern void newFrame(void);
 extern void deleteFrame(void);

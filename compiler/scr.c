@@ -76,8 +76,8 @@ void prepareScripts(List *scrs, IdNode *id)
   for (lst = scrs; lst != NULL; lst = lst->next) {
     /* Any multiple of this name ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
-      if (equalId(lst->element.scr->id, scrlst->element.scr->id))
-	lmLog(&scrlst->element.scr->srcp, 403, sevERR, id->string);
+      if (equalId(lst->element.script->id, scrlst->element.script->id))
+	lmLog(&scrlst->element.script->srcp, 403, sevERR, id->string);
     }
   }
 }
@@ -99,15 +99,15 @@ void analyzeScripts(List *scripts, Context *context)
   /* Error if defined for HERO */
   if (context->instance != 0) {
     if (scripts != NULL && context->instance->props->id->symbol == theHero)
-      lmLog(&scripts->element.scr->srcp, 411, sevWAR, "Script");
+      lmLog(&scripts->element.script->srcp, 411, sevWAR, "Script");
   }
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
     /* Analyze the statements */
-    analyzeStatements(lst->element.scr->description, context);
+    analyzeStatements(lst->element.script->description, context);
 
     /* Finally, analyse the steps inside the script */
-    analyzeSteps(lst->element.scr->steps, context);
+    analyzeSteps(lst->element.script->steps, context);
   }
 }
 
@@ -136,19 +136,19 @@ Aaddr generateScripts(AcdHdr *header)
   if (allScripts == NULL) return 0;
 
   for (lst = allScripts; lst != NULL; lst = lst->next) {
-    lst->element.scr->stepAddress = generateSteps(lst->element.scr->steps);
-    lst->element.scr->descriptionAddress = generateScriptDescription(lst->element.scr);
-    lst->element.scr->stringAddress = nextEmitAddress();
-    emitString(lst->element.scr->id->string);
+    lst->element.script->stepAddress = generateSteps(lst->element.script->steps);
+    lst->element.script->descriptionAddress = generateScriptDescription(lst->element.script);
+    lst->element.script->stringAddress = nextEmitAddress();
+    emitString(lst->element.script->id->string);
   }
 
   /* Script table */
   scriptTableAddress = nextEmitAddress();
   for (lst = allScripts; lst != NULL; lst = lst->next) {
-    entry.stringAddress = lst->element.scr->stringAddress;
-    entry.code = lst->element.scr->id->code;
-    entry.description = lst->element.scr->descriptionAddress;
-    entry.steps = lst->element.scr->stepAddress;
+    entry.stringAddress = lst->element.script->stringAddress;
+    entry.code = lst->element.script->id->code;
+    entry.description = lst->element.script->descriptionAddress;
+    entry.steps = lst->element.script->stepAddress;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);

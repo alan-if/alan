@@ -3,22 +3,6 @@
 
 save.alan
 
-  109.      Check o Is openable
-=====>      1
-
-  *1*   223 W : This Verb body will be executed for every matching parameter in
-                the syntax for 'unlock_with', depending on the parameter
-                restrictions. You might want to use a WHEN clause to specify
-                for which parameter this alternative is to be run.
-
-  152.      Check o <> s
-=====>      1
-
-  *1*   223 W : This Verb body will be executed for every matching parameter in
-                the syntax for 'insert_into', depending on the parameter
-                restrictions. You might want to use a WHEN clause to specify
-                for which parameter this alternative is to be run.
-
   796.          Does
 =====>          1
 
@@ -29,7 +13,7 @@ save.alan
 
 
         No detected errors.
-        3 warning(s).
+        1 warning(s).
         8 informational message(s).
 
 ########## arun save ##########

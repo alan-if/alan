@@ -571,7 +571,7 @@ static void echoOn()
 /* 4f - length of user buffer should be used */
 Boolean readline(char usrbuf[])
 {
-  static readingCommands = FALSE;
+  static Boolean readingCommands = FALSE;
   static FILE *commandFile;
 
   if (readingCommands) {

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>303.89</origest>
-<currest>302.89</currest>
-<elapsed>145.89</elapsed>
+<origest>304.89</origest>
+<currest>303.89</currest>
+<elapsed>146.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>46</currest>
-<elapsed>11</elapsed>
+<origest>47</origest>
+<currest>47</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.31</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>13</origest>
 <currest>13</currest>
-<elapsed>11</elapsed>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
@@ -154,16 +154,7 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Make distinction on words and symbols and identifiers</desc>
-<notes>The manual should have a clear description of each. In "lexical definitions"?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -176,15 +167,33 @@ Firstly, I found that if a double-quoted string ends in $o or such like then the
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Make distinction on words and symbols and identifiers</desc>
+<notes>The manual should have a clear description of each. In "lexical definitions"?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.32</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Allow expression as actor in "Use script for..."</desc>
+<notes>Investigate Stop actor.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Bug: Multiple syntax verb declarations</desc>
 <notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.

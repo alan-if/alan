@@ -64,7 +64,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct LimNod *lim;
     struct MsgNod *msg;
     struct RulNod *rul;
-    struct Script *scr;
+    struct Script *script;
     struct StmNod *stm;
     struct Step *stp;
     struct Syntax *stx;
