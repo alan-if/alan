@@ -1143,7 +1143,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("RETURN\n--------------------------------------------------\n");
 	pc = oldpc;
-	return;
+	goto exitInterpreter;
 
       default:
 	syserr("Unknown STMOP instruction.");
@@ -1151,7 +1151,7 @@ void interpret(Aaddr adr)
       }
       if (fail) {
 	pc = oldpc;
-	return;
+	goto exitInterpreter;
       }
       if (traceStackOption)
 	dumpStack();
@@ -1162,4 +1162,6 @@ void interpret(Aaddr adr)
       break;
     }
   }
+ exitInterpreter:
+  recursions--;
 }

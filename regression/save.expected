@@ -53,7 +53,7 @@ Pages at:
 http://welcome.to/alan-if
 
 
-Outside The Tall Building
+Outside the tall building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 <More>
@@ -77,7 +77,7 @@ Ok. Saved.
 > restore
 Enter file name to restore from (save.sav) : 
 
-Outside The Tall Building
+Outside the tall building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
@@ -1632,11 +1632,11 @@ room. The stairs lead up. A thin beam of light has found its way all the
 way down here. In the light from the sun some rats can be seen. They are
 all sleeping.
 
-> i
-You are carrying a set of rusty keys and a dirty manual.
-
 > score
 You have scored 100 points out of 135.
+
+> i
+You are carrying a set of rusty keys and a dirty manual.
 
 > west
 Silently sneaking past the sleeping rats, you enter the dark room to the

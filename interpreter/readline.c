@@ -570,21 +570,36 @@ static void echoOn()
 /* 4f - length of user buffer should be used */
 Boolean readline(char usrbuf[])
 {
-  fflush(stdout);
-  bufidx = 0;
-  histp = histidx;
-  buffer[0] = '\0';
-  change = TRUE;
-  echoOff();
-  endOfInput = 0;
-  while (!endOfInput) {
-    if (read(0, (void *)&ch, 1) != 1) {
-      echoOn();
-      return FALSE;
+  static readingCommands = FALSE;
+  static FILE *commandFile;
+
+  if (readingCommands) {
+    if (!fgets(buffer, 255, commandFile)) {
+      fclose(commandFile);
+      readingCommands = FALSE;
     }
-    execute(keymap, ch);
+  } else {
+    fflush(stdout);
+    bufidx = 0;
+    histp = histidx;
+    buffer[0] = '\0';
+    change = TRUE;
+    echoOff();
+    endOfInput = 0;
+    while (!endOfInput) {
+      if (read(0, (void *)&ch, 1) != 1) {
+	echoOn();
+	return FALSE;
+      }
+      execute(keymap, ch);
+    }
+    echoOn();
+
+    if (buffer[0] == '@')
+      if ((commandFile = fopen(&buffer[1], "r")) != NULL)
+	if (fgets(buffer, 255, commandFile))
+	  readingCommands = TRUE;
   }
-  echoOn();
   strcpy(usrbuf, (char *)buffer);  
   return TRUE;
 }
