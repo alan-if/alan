@@ -1,0 +1,2 @@
+TestCall	= "alan %t; arun `basename %t .alan` < `basename %t .alan`.input"
+TestSuffix	= "alan"

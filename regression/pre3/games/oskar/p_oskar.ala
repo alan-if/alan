@@ -1,0 +1,202 @@
+-- Die Person Oskar
+
+actor Oskar NAME Oskar at wohnzimmer
+description "$pOskar ist im Zimmer."
+script 1.
+  step locate oskar at wohnzimmer.
+  step locate oskar at wohnzimmer.
+  step locate oskar at wohnzimmer.
+  step locate oskar at wohnzimmer.
+  step locate oskar at wohnzimmer.
+  step locate oskar at limbo.
+  step locate oskar at wohnzimmer.
+  step locate oskar at wohnzimmer.
+  step locate oskar at limbo.
+  step locate oskar at wohnzimmer.
+       use script 1.
+script 2.
+  step locate oskar at limbo.
+  use script 2.
+end actor.
+
+-- Die Person Marc
+
+actor Marc  at limbo
+description "$pMarc ist im Zimmer."
+script 1.
+  step locate marc at marcZ.
+  step locate marc at marcZ.
+       use script 1.
+end actor.
+
+verb redemit does
+   ------------------------------
+   -----   Oskar
+   ------------------------------
+   if act=oskar then
+     if str="Wetter" 
+     then "So schönes Wetter haten wir lange nicht mehr. Ich hatte schon gedacht, es wird überhaupt nicht mehr Frühling. Manchmal frage ich mich auch, ob ich den nächsten Frühling überhaupt noch erlebe, mit meiner Krankheit." 
+
+     elsif str="Krankheit" then 
+     "Mit geht's in letzter Zeit gar nicht gut. Ich fühle mich immer so abgeschlagen. Und diese Kopfschmerzen! Dazu ist mir oft noch übel und schwindlich."
+     
+     elsif str=
+     "Wintermantel" then 
+     "Der dunkle Wintermantel an der Garderobe ghört mir."
+
+     elsif str=
+     "Sommermantel" then 
+     "Marc hat so einen hellen Sommermantel."
+
+     elsif str=
+     "Strickmütze" then 
+     "Wenn es sehr kalt ist, dann setzte ich immer diese blaue Mütze auf"
+
+     elsif str=
+     "Keller" then 
+     "Im Keller gibt es sicherlich nichts zu findern - dort ist nur die Heizung."
+
+     elsif str=
+     "Schach" or str="Schachspiel" then 
+     "Mit meinem Freund Arthur spiele ich gelegentlich eine Partie Schach. Meist gewinnt er."
+
+     elsif str=
+     "Porzellan" then 
+     "Dieses Meißner Porzellan ist ein altes Erbstück. Irgendwer sagte einmal, es sei sehr wertvoll. Aber ich verkaufe es nicht, denn wozu brauche ich in meinem Alter noch Geld?"
+
+     elsif str=
+     "Weinbrand" then 
+     "Wissen Sie, in meinem Alter ist das mit dem Einschlafen sehr schwierig. Aber nach einem Gläschen Weinbrand schlafe ich wie ein Toter."
+
+     elsif str=
+     "Pralinen" or str="Schokolade" or str="Kekse" then 
+     "Bitte bedienen Sie sich!"
+
+     elsif str=
+     "Bad" then 
+     "Das Bad war einmal das Schmuckstück dieses Hauses, aber das ist lange her. Diese leuchtend weiße Farbe hätten Sie einmal sehen sollen!"
+
+     elsif str=
+     "Farbe" or str="Tünche" then 
+     "Der Maler sagte, es wäre das beste Weiß, was es gibt. Und er hatte sicherlich recht damit. Genau weiß ich nicht mehr, wie es hieß, aber in der Bibliothek finden Sie in dem Hefter bestimmt die alte Rechnung."
+
+     elsif str=
+     "Fleck" then 
+     "Dieser seltsame Fleck im Bad ist mir auch schon aufzufallen. Er scheint immer größer zu werden. Ich habe mich schon gefragt, ob das Salpeter ist."
+
+     elsif str=
+     "Zahnbürste" then 
+     "Ja, das ist seltsam. Seit einiger Zeit verfärbt sich meine Zahnbürste in ganz kurzer Zeit. Ich habe mir schon meherere neue gekauft, aber es ist immer dasselbe. Habe Sie eine Erklärung dafür? Ob es an der Ernährung liegt? Ich weiß es nicht."
+
+     elsif str=
+     "Gift" then 
+     "Gift? Haben Sie Gift gesagt? ALso, daß es in meinem Haus Gift geben soll.. Wenn ich das glauben soll, müssen Sie mir schon etwas beweiskräftiges ZEIGEN."
+
+     elsif str=
+     "Bleiweiß" then 
+     "Bleiweiß! Ja, so hieß die Farbe im Badezimmer!"
+
+     elsif str=
+     "Bleivergiftung" then 
+     "Sie meinen also, ich könnte eine Bleivergiftung haben? Die Symptome, die sie beschreiben stimmen ja. Aber wer? Und wieso?"
+
+     elsif str=
+     "Schlaftabletten" then 
+     "In letzter Zeit schlafe ich immer so schlecht. Diese ewigen Kopfschmerzen! Auch mein Arm tut oft sehr weh, eine Art Nervenschmerz, vermute ich."
+
+     elsif str=
+     "Marc" then 
+     "Ein aufgeweckter Junge. Und so klug. Aber in letzter Zeit macht er mir Sorgen. Geht abends weg und kommt erst im Morgengrauen wieder. Erzählt irgendwas vom 'großen Deal' Na ja, ich vertehe nichts davon."
+
+     elsif str=
+     "Musik" or str="CD" or str="Boxen" then 
+     "Laute Musik hat er immer an - die Nachbarn haben isch sogar schon beschwert. Mich stört es nicht so sehr, ich höre ja schlecht."
+
+     elsif str=
+     "Füller" or str="Füllfederhalter" or str="Patronenfüllhalter" or str="Patronenfüller" then 
+     "Marc schreibt schon seit jeher nur mit seine Füllhalter. Und immer mit grüner Tinte."
+
+     elsif str=
+     "Polarograph" then 
+     "Er macht in seinem Zimmer oft chemische Untersuchungen. Letztens hat er sogar ein paar Haare von mir aufgelöst. Er hat sie auf irgendwelche Umweltgifte untersucht, glaube ich."
+
+     else "Du sprichst mit Oskar eine Weile über " say str. ", aber Du merkst,
+           daß ihn das nicht wirklich interessiert."
+     end if.
+   end if.
+   ------------------------------
+   -----   Marc
+   ------------------------------
+   if act=marc then
+     "Marc mag Dich nicht. Er spricht nicht mit ""Schnüfflern""."
+   end if.
+end verb.
+
+
+syntax redemit = 'rede' 'mit' (act) über (str) where act isa actor 
+else "Du kannst nur mit Personen reden" and str isa string else  
+"Das Gesprächsthema *muß* in Anführungsstriche, also etwa$n
+REDE MIT Oskar ÜBER das ""Wetter"""
+
+verb zeige does
+   ------------------------------
+   -----   Oskar
+   ------------------------------
+   if act=oskar then
+     if obj=Wintermantel then
+     "Ja, genau. Das ist mein Mantel."
+     
+     elsif obj=farbbericht then
+     "Sie sind also auch ein Chemiker? Und Sie haben Blei in der Wandfarbe des Bades nachgewiesen? Das hätten Sie auch aus der Malerrechnung erfahren können."
+
+     elsif obj=zahnbericht then
+     "Meine Zahnbürste ist mit Blei vergiftet? Und Sie tippen auf Marc? Da sehen sie mal, wie man sich in den Menschen täuschen kann. Aber so richtig glaube ich es erst, wenn er selbst ein Geständnis ablegt.$nAber jetzt sollte ich wohl zum Arzt gehen und hoffen, daß er mir noch helfen kann.$n"
+     locate oskar at limbo.
+     use script 2 for oskar.
+     score 5.
+     score.
+
+     elsif obj=haarbericht then
+     "In meinen Haaren habe Sie Blei nachgewiesen? Ich werde also vergiftet? Und Sie tippen auf Marc? Da sehen sie mal, wie man sich in den Menschen täuschen kann. Aber so richtig glaube ich es erst, wenn er selbst ein Geständnis ablegt.$nAber jetzt sollte ich wohl zum Arzt gehen und hoffen, daß er mir noch helfen kann."
+     locate oskar at limbo.
+     use script 2 for oskar.
+     score 5.
+     score.
+
+     else "Es scheint ihn nicht zu beeindrucken."
+     end if.
+  --------------------------------------
+  --- Marc
+  --------------------------------------
+  elsif act=Marc then 
+    if obj=Wintermantel then
+    "Das ist Onkels Mantel. Warum zeigts Du mir das?"
+    elsif obj=farbbericht then
+     "Du hast also den Polarographen in Gang gekriegt. Alle Achtung."
+    elsif obj=haarbericht or obj=zahnbericht then
+     "Marc wird blaß. Dann fängt er an zu stottern..$n
+      Weißt Du ich bin da so reingerutscht. Zuerst haben wir immer nur
+      Billard gespielt, aber eben mit Kontra und Re. Und da habe ich
+      einen riesigen Berg Schulden gemacht. Dann haben die Jungs angefangen 
+      mir zu drohen. Wenn ich nicht bezahle, machen sie mich kalt. Siehst Du 
+      die Narbe hier. Das war ""Joe das Rasiermesser"".$n
+      Schließlich sind sie auf die Idee gekommen, daß man in diesem Haus 
+      ein Rauschgift herstellen könnte. Ein wenig Ahnung von Chemie hab' ich 
+      ja. Und so kam dann der Plan zustande, Onkels Leben ein wenig zu
+      verkürzen -- er ist ja schon alt.$p
+      Plötzlich ergereift Marc die Flucht. Du rennst nicht hinterher. Alles 
+      weitere wird die Polizei schon erledigen. Aber Oskar ist erst
+      mal gerettet. Wie Du den Alten kenenngelernt hast, wird er sich bestimmt 
+      wieder aufrappeln, zähe wie er ist.$p"
+      score 10.
+      score.
+      "Du hast das Spiel erfolgreich beendet. Bis zum nächten Mal!"
+      quit.
+    else "Marc nimmt kaum Notiz davon."
+    end if.
+  end if.
+end verb.
+
+syntax zeige = 'zeige' (act) (obj) where act isa actor 
+else "Du kannst nur Personen etwas zeigen, z.B. ZEIGE oskar den schlüssel." and obj isa object else 
+"Nur Objekte können gezeigt werden, z.B. ZEIGE oskar den schlüssel." 

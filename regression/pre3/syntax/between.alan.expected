@@ -1,0 +1,36 @@
+########## between ##########
+Location l
+ a 1.
+ b 2.
+End location l.
+
+start at l.
+  set x between 23 or l.
+
+########## alan between.alan ##########
+
+
+between.alan
+
+    2.   a 1.
+=====>   1
+
+  *1*   101 E : 'IS' inserted.
+
+    7.    set x between 23 or l.
+=====>          1       2  3  4
+
+  *1*   101 E : 'OF' inserted.
+  *1*   310 E : Identifier 'between' not defined.
+  *2*   101 E : 'TO' inserted.
+  *2*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+  *3*   419 E : Expression in SET statement must be of integer or string type.
+  *4*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+
+
+        7 error(s).
+        No detected warnings.
+        2 informational message(s).
+

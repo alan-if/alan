@@ -1,0 +1,34 @@
+########## syntax ##########
+../compiler/alan syntax
+
+########## /bin/sh  syntax.tst ##########
+
+
+syntax.alan
+
+    2.    q = q.
+=====>    1 2
+
+  *1*   207 W : VERB 'q' is not defined.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+    3.    q = q.
+=====>    1 2
+
+  *1*   207 W : VERB 'q' is not defined.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+    6.    q = q.
+=====>    1 2
+
+  *1*   207 W : VERB 'q' is not defined.
+  *2*   334 W : Multiple syntaxes are defined with this structure (words and
+                parameters).
+
+
+        No detected errors.
+        6 warning(s).
+        2 informational message(s).
+

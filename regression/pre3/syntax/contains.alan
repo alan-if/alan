@@ -1,0 +1,14 @@
+Location l
+  Is
+    a 1.
+    b 2.
+End location l.
+
+start at l.
+	If x Contains y Then ""
+	Elsif Contains 4 Then ""
+	Elsif b Contains Then ""
+	End If.
+	
+	
+

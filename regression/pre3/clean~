@@ -1,0 +1,6 @@
+#! /bin/sh
+#
+read x
+if x == "ok" then
+  echo ok
+fi

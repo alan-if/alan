@@ -1,0 +1,4 @@
+#! /bin/sh
+#
+cp $1.output $1.tst.expected
+echo "" > $1.diff

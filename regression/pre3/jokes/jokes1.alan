@@ -1,0 +1,2616 @@
+------------------------------------------------------------------------------
+--                                                                          --
+--                  *JOKES* - an interactive Experience                     --
+--                                                                          --
+--                    Copyright ©1983,86,95-97 by JuL                       --
+--                                                                          --
+------------------------------------------------------------------------------
+
+-- Last changed: 06.11.1997
+
+$INCLUDE 'standard.alan'
+
+LOCATION Rubber_Room NAME Rubber Room -- 1
+ DESCRIPTION "You are in a large room. The walls and floor are covered with
+              rubber. On the floor there is a rubber handle and to the north
+              there is a large zip-fastener from floor to ceiling."
+             IF zip_fastener IS open THEN
+              "The zip-fastener is open."
+             END IF.
+ EXIT n, o TO Little_Room
+  CHECK zip_fastener IS open
+   ELSE "The zip-fastener blocks your way."
+  DOES
+   LOCATE zip_fastener AT Little_Room.
+ END EXIT.
+END LOCATION Rubber_Room.
+
+OBJECT zip_fastener NAME 'zip-fastener'
+                    NAME zip fastener
+                    NAME zip
+                    NAME zipper AT Rubber_Room
+ IS openable.
+ IS closable.
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB pull DOES ONLY
+  IF zip_fastener IS NOT open THEN
+   MAKE zip_fastener open.
+   "Ok, it's open."
+  ELSE
+   "It was already open."
+  END IF.
+ END VERB pull.
+ VERB push DOES ONLY
+  IF zip_fastener IS open THEN
+   MAKE zip_fastener NOT open.
+   "Ok, it's shut again."
+  ELSE
+   "It was already closed."
+  END IF.
+ END VERB push.
+ VERB examine DOES ONLY
+  "Well, it's big and parts the"
+  IF zip_fastener AT Rubber_Room
+   THEN "northern"
+   ELSE "southern"
+  END IF.
+  "wall into two halves, and it is "
+  IF zip_fastener IS open THEN
+   "open."
+  ELSE
+   "closed."
+  END IF.
+  "Besides that there's nothing special to it."
+ END VERB examine.
+ VERB enter DOES ONLY
+  IF zip_fastener IS open THEN
+   IF hero AT Little_Room THEN
+    LOCATE hero AT Rubber_Room.
+    LOCATE zip_fastener AT Rubber_Room.
+   ELSE
+    LOCATE hero AT Little_Room.
+    LOCATE zip_fastener AT Little_Room.
+   END IF.
+  ELSE
+   "The zip-fastener blocks your way."
+  END IF.
+ END VERB enter.
+END OBJECT zip_fastener.
+
+OBJECT rubber_handle NAME rubber handle AT Rubber_Room
+ DESCRIPTION ""
+ VERB examine DOES
+  "It plugs a hole in the floor."
+ END VERB examine.
+ VERB take DOES
+  "You have the stopper in your hand and all the world around you floats into
+   the hole ..."
+  QUIT.
+ END VERB take.
+ VERB pull DOES
+  "You have the stopper in your hand and all the world around you floats into
+   the hole ..."
+  QUIT.
+ END VERB pull.
+END OBJECT rubber_handle.
+
+OBJECT cube AT Rubber_Room
+ VERB insert DOES ONLY
+  IF hero AT Small_Room THEN
+   "(into hole)$nClick. The cube fits exactly into the hole. Bzzzt. The door
+    slides open."
+   LOCATE cube AT LIMBO.
+  ELSE
+   "Into what?"
+  END IF.
+ END VERB insert.
+ VERB insert1 DOES
+  IF obj2 = metal_door OR obj2 = hole THEN
+   "Click. The cube fits exactly into the hole."
+   "Bzzzt. The door slides open."
+   LOCATE cube AT LIMBO.
+  ELSE
+   "Hm, doesn't seem to fit."
+  END IF.
+ END VERB insert1.
+ VERB examine DOES
+  "It's probably made of metal, from the weight."
+ END VERB examine.
+END OBJECT cube.
+
+LOCATION Little_Room NAME Little Room -- 2
+ DESCRIPTION "You are in a little room. Two passages lead east and west, and
+              there is"
+             IF window IS open
+              THEN "an open"
+              ELSE "a closed"
+             END IF.
+             "window to the north. The zip-fastener is south. There's a chest
+              in one corner."
+             IF zip_fastener IS open THEN
+              "The zip-fastener is open."
+             END IF.
+             LOCATE window HERE.
+ EXIT n, o TO Garden
+  CHECK window IS open
+   ELSE "You bump your nose against the window."
+  DOES
+   "Effortlessly you jump out of the window ..."
+ END EXIT.
+ EXIT s, 'in' TO Rubber_Room
+  CHECK zip_fastener IS open
+   ELSE "The zip-fastener blocks your way."
+  DOES
+   LOCATE zip_fastener AT Rubber_Room.
+ END EXIT.
+ EXIT w TO Dining_Room.
+ EXIT e TO Panelled_Room.
+ VERB enter0 DOES ONLY
+  IF zip_fastener IS open THEN
+   LOCATE hero AT Rubber_Room.
+  ELSE
+   "The zip-fastener blocks your way."
+  END IF.
+ END VERB enter0.
+END LOCATION Little_Room.
+
+OBJECT window
+ IS NOT takeable.
+ IS closable.
+ IS openable.
+ IS open.
+ DESCRIPTION ""
+ VERB open
+  CHECK window AT Little_Room
+   ELSE "You can't open it from the outside."
+  DOES
+   MAKE window open.
+ END VERB open.
+ VERB close
+  CHECK window AT Little_Room
+   ELSE "You can't close it from the outside."
+  DOES
+   MAKE window NOT open.
+ END VERB close.
+END OBJECT window.
+
+OBJECT chest AT Little_Room
+ CONTAINER
+ IS openable.
+ IS closable.
+ IS lockable.
+ IS locked.
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "Interesting. It's quite plain, made of wood, clearly openable, but has no
+   visible lock."
+  IF chest IS open THEN
+   LIST chest.
+  END IF.
+ END VERB examine.
+ VERB touch_with DOES ONLY
+  IF obj2 = magic_wand THEN
+   "You touch the $1 with your $2. «Klack»."
+   MAKE chest NOT locked.
+  ELSE
+   "You touch the $1 with the $2. Nothing happens."
+  END IF.
+ END VERB touch_with.
+ VERB open DOES
+  EMPTY chest_contents IN chest.
+  LIST chest.
+ END VERB open.
+ VERB close DOES
+  EMPTY chest IN chest_contents.
+ END VERB close.
+END OBJECT chest.
+
+OBJECT chest_contents
+ CONTAINER
+END OBJECT chest_contents.
+
+OBJECT umbrella IN chest_contents
+ IS closable.
+ IS openable.
+ ARTICLE "an"
+ VERB examine DOES ONLY
+  "Just a nice, sturdy umbrella without any decorations. Maybe it often rains
+   around here."
+  IF umbrella IS open THEN
+   "It is open."
+  ELSE
+   "It is closed."
+  END IF.
+ END VERB examine.
+ VERB drop DOES
+  IF hero AT Bridge THEN
+   "Oh no! This was wrong. The masses of spunkies wash you from the bridge
+    before you have the chance to grab the umbrella again."
+  END IF.
+ END VERB drop.
+ VERB close DOES
+  IF hero AT Bridge THEN
+   "Oh dear. You shouldn't have done this. Now the pouring masses of the
+    spunkies hit your unprotected hide and wash you over the bridge."
+   QUIT.
+  END IF.
+ END VERB close.
+END OBJECT umbrella.
+
+LOCATION Garden -- 3
+ DESCRIPTION "You are in the garden. In the middle there stands an apple tree.
+              To the south there is an easily accessible"
+             IF window IS open
+              THEN "open"
+              ELSE "closed"
+             END IF.
+             "window, to the east the terrace and in the west a big glass door.
+              A wall with a rusty gate borders the place to the north. The gate
+              is "
+             IF garden_gate IS open
+              THEN "open."
+              ELSE "closed."
+             END IF.
+             LOCATE window HERE.
+ EXIT s, 'in' TO Little_Room
+  CHECK window IS open
+   ELSE "You bump your nose against the window and drop to the ground again."
+  DOES
+   "Easily you jump into the open window-frame..."
+ END EXIT.
+ EXIT n TO Road
+  CHECK garden_gate IS open
+   ELSE "But the gate is closed!"
+ END EXIT.
+ EXIT w TO Entrance_Hall.
+ EXIT e TO Terrace.
+END LOCATION Garden.
+
+OBJECT tree NAME apple tree AT Garden
+ IS NOT takeable.
+ ARTICLE "an"
+ DESCRIPTION ""
+ VERB shake DOES
+  "As you shake the tree, an apple falls to the ground."
+  LOCATE apple HERE.
+ END VERB shake.
+ VERB climb DOES ONLY
+  "No, that's not possible, the branches are too high and the trunk is not very
+   thick. But there's still apples on them ..."
+ END VERB climb.
+ VERB examine DOES ONLY
+  "A thin apple tree with quite high branches and lots of apples on them."
+ END VERB examine.
+ VERB pull, push DOES ONLY
+  "The tree sways a little."
+ END VERB.
+END OBJECT tree.
+
+OBJECT apple NAME nice green apple AT Limbo
+ IS edible.
+ IS visible.
+-- VERB take
+--  CHECK apple AT Limbo
+--   AND HERO AT Garden
+--  ELSE MAKE apple NOT visible.
+--       IF apple IN inventory THEN
+--        "You have already got that."
+--       ELSIF apple HERE THEN
+--        LOCATE obj IN inventory.
+--        "Taken!"
+--       ELSE
+--        "I cannot see any $1 here."
+--       END IF.
+--  DOES BEFORE
+--   "The branches are too high."
+-- DOES AFTER
+--   MAKE apple NOT visible.
+-- END VERB take.
+ VERB eat DOES
+  MAKE apple visible.
+ END VERB eat.
+ VERB give CHECK act = Chinese
+  ELSE "`I don't think I want that.'"
+ DOES ONLY
+  LOCATE apple AT Limbo.
+  "The chinese takes the apple, eats it whole, and says: `Tanx, son. Oh, life
+   is but a dream. You're on your way to Nirvana as soon as you realize that!'
+   He passes you an `R' and falls asleep."
+  LOCATE letter_r IN inventory.
+  SCORE 20.
+ END VERB give.
+END OBJECT apple.
+
+OBJECT garden_gate NAME rusty garden gate AT Garden
+ IS NOT takeable.
+ IS openable.
+ IS closable.
+ IS open.
+ DESCRIPTION ""
+END OBJECT garden_gate.
+
+OBJECT glass_door NAME glass door AT Garden
+ IS NOT takeable.
+ IS closable.
+ IS openable.
+ IS open.
+ DESCRIPTION ""
+ VERB close DOES ONLY
+  "It doesn't move, it seems to be fixed in place."
+ END VERB close.
+END OBJECT glass_door.
+
+LOCATION Road -- 4
+ DESCRIPTION "You are on a road leading east-west. To the south there is a
+              garden gate, and to the north there is deadly whirling fog."
+ EXIT n TO LIMBO
+  DOES
+   "The ground here seems quite rough, though the mist is so thick you can't
+    even properly see it. Perhaps that's why you're quite a way into the
+    whirling masses before you notice the strange sensation on your skin ...
+    and in your nose ... and eyes ... and everywhere ... You're dissolving,
+    dissolving into the very fog you're walking through ..."
+  QUIT.
+ END EXIT.
+ EXIT s TO Garden
+  CHECK road_gate IS open
+   ELSE "Sigh. The gate is closed."
+ END EXIT.
+ EXIT e TO WN_Road.
+ EXIT w TO Grey_Gate.
+END LOCATION Road.
+
+OBJECT road_gate NAME rusty garden gate AT Road
+ IS NOT takeable.
+ IS openable.
+ IS closable.
+ IS open.
+ DESCRIPTION ""
+END OBJECT road_gate.
+
+LOCATION Secret_Passage NAME Secret Passage -- 5
+ DESCRIPTION "You are in a secret passage. An exit is east."
+ EXIT e TO Echo_Chamber.
+END LOCATION.
+
+LOCATION Panelled_Room NAME Panelled Room -- 6
+ DESCRIPTION "You are in a tiny panelled room. Exits are east and west."
+             IF luna_stone IN inventory OR luna_stone HERE THEN
+              LOCATE square HERE.
+             ELSE
+              LOCATE square AT LIMBO.
+             END IF.
+ EXIT w TO Little_Room.
+ EXIT e TO Living_Room.
+ EXIT d TO Secret_Passage
+  CHECK luna_stone IN inventory
+   ELSE "You can't go that way."
+  "You step onto the gleaming square - and sink into the floor ..."
+ END EXIT.
+ VERB jump0 DOES ONLY
+  IF luna_stone IN inventory OR luna_stone HERE THEN
+   "You jump, land on the gleaming square - and sink into the floor ..."
+   LOCATE ACTOR AT Secret_Passage.
+  ELSE
+   "You jump up and down a bit."
+  END IF.
+ END VERB jump0.
+END LOCATION Panelled_Room.
+
+OBJECT panel AT Panelled_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT panel.
+
+OBJECT square
+ IS NOT takeable.
+ DESCRIPTION "A square on the floor gleams moonlike."
+ VERB examine DOES ONLY
+  "Well, it gleams with a pale, silvery light and looks just a tiny bit like a
+   liquid."
+ END VERB examine.
+ VERB drink DOES ONLY
+  "That is not drinkable. But it does seem ... to be not quite there ..."
+ END VERB drink.
+ VERB jump_on, jump_onto, jump_into DOES ONLY
+  IF luna_stone IN inventory OR luna_stone HERE THEN
+   "You jump onto the gleaming square - and sink into the floor ..."
+   LOCATE ACTOR AT Secret_Passage.
+  ELSE
+   "You jump on what?"
+  END IF.
+ END VERB.
+END OBJECT square.
+
+SYNONYMS panels = panel.
+
+LOCATION Terrace -- 7
+ DESCRIPTION "You are on the terrace. To the west is the garden and to the
+              south a glass door. A staircase leads up and down."
+ EXIT s TO Living_Room
+  CHECK glass_door1 IS open
+   ELSE "You bump into the glass door."
+ END EXIT.
+ EXIT w TO Garden.
+ EXIT u TO Staircase1.
+ EXIT d TO Cellar.
+END LOCATION Terrace.
+
+OBJECT glass_door1 NAME glass door AT Terrace
+ IS openable.
+ IS closable.
+ IS open.
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT glass_door1.
+
+OBJECT thread AT Terrace
+ ARTICLE "some"
+END OBJECT thread.
+
+LOCATION WN_Road NAME 'West-North Road' -- 8
+ IS NOT walled.
+ DESCRIPTION "You are on a road leading west, and north into the swirling fog.
+              To the east is a refuse pit (clearly identifyable by its stench)."
+ EXIT n TO LIMBO
+  DOES
+   "Slowly you advance into the fog. It ... feels ... odd ... But before you
+    realize what's amiss, it begins to seep into your nose, your mouth, even
+    your eyes and ears. You try to retrace your steps, but in vain. All is fog.
+    You become one with the fog ..."
+   QUIT.
+ END EXIT.
+ EXIT w TO Road.
+ EXIT e TO Refuse_Pit.
+END LOCATION WN_Road.
+
+LOCATION Echo_Chamber NAME Echo Chamber -- 9
+ IS NOT open.
+ DESCRIPTION "You are in the echo-chamber. The room is big and empty, and the
+              only visible exit is west."
+             IF Echo_Chamber IS open THEN
+              "But there's a large hole in the northern wall."
+             END IF.
+ EXIT n TO Cave_Room
+  CHECK Echo_Chamber IS open
+  ELSE "You can't go that way."
+ END EXIT.
+ EXIT w TO Secret_Passage.
+ VERB shout DOES ONLY
+  MAKE Echo_Chamber open.
+  "The loud echo you caused with your shout reveberates a dozen times, growing
+   ever louder, and finally shatters the northern wall."
+ END VERB.
+END LOCATION Echo_Chamber.
+
+LOCATION Living_Room NAME 'Living-Room' -- 10
+ DESCRIPTION "You are in the living-room. It is nice and dearly furnished.
+              There are passages to the south and west, and a glass door to the
+              terrace north."
+ EXIT n TO Terrace
+  CHECK glass_door2 IS open
+  ELSE "You bump into the glass door."
+ END EXIT.
+ EXIT s TO Little_Corridor
+  DOES
+   MAKE Little_Corridor NOT pm_visited.
+ END EXIT.
+ EXIT w TO Panelled_Room.
+END LOCATION Living_Room.
+
+OBJECT book AT Living_Room
+ VERB read DOES ONLY
+  "Hmmm. It's titled `Encyclopedia Mundia A-B', and obviously a fake."
+ END VERB read.
+ VERB examine DOES ONLY
+  "Well, you can't open it, it's fake, and made of painted wood. There are
+   strange marks at the top and bottom of the fake pages."
+ END VERB examine.
+END OBJECT book.
+
+OBJECT glass_door2 NAME glass door AT Living_Room
+ IS openable.
+ IS closable.
+ IS open.
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT glass_door2.
+
+LOCATION Cellar -- 11
+ DESCRIPTION "You are in the cellar. There are only empty stacks around. A
+              staircase leads up."
+ EXIT u TO Terrace.
+END LOCATION Cellar.
+
+OBJECT stacks NAME 'empty' stacks AT Cellar
+--? CONTAINER
+ IS NOT takeable.
+ IS plural.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "Well, they're made of wood and all empty, as said before."
+ END VERB examine.
+END OBJECT stacks.
+
+SYNONYMS stack = stacks.
+
+LOCATION Refuse_Pit NAME Refuse Pit -- 12
+ IS NOT walled.
+ DESCRIPTION "You are at a refuse pit. To the west there is the road, and to
+              the east there lurks PIMANIA."
+ EXIT w TO WN_Road.
+ EXIT e TO Pimania.
+END LOCATION Refuse_Pit.
+
+OBJECT letter_a NAME letter a
+         NAME letter AT Refuse_Pit
+ VERB take DOES
+  SCORE 20.
+ END VERB take.
+ VERB examine DOES ONLY
+  "Well, it's the letter 'A'. Nothing more, nothing less."
+ END VERB examine.
+END OBJECT letter_a.
+
+OBJECT refuse NAME stinking slimy rotten garbage AT Refuse_Pit
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "It's stinking, slimy, rotten garbage. Nothing worth your attention."
+ END VERB examine.
+ VERB take DOES ONLY
+  "Eeech! It's stinking, slimy, rotten garbage. You rather drop it again."
+ END VERB take.
+END OBJECT refuse.
+
+SYNONYMS refuse = garbage.
+
+LOCATION Pimania -- 34
+ DESCRIPTION "This is PIMANIA. The Piman is here and sings:$n
+               `Go easy with your rubber duck, make the most of your pork pie.
+                What lies behind the green door? Watch your language, bye,
+                bye ...'$p
+              Hey, wait! Are you silly? This is supposed to
+              be *JOKES*! At once go back from whence you came!"
+ EXIT w TO Refuse_Pit.
+END LOCATION Pimania.
+
+LOCATION Cave_Room NAME Cave Room -- 13
+ DESCRIPTION "You are in a cave-like room. Exits are north and south."
+ EXIT n TO Turn_Way.
+ EXIT s TO Echo_Chamber.
+END LOCATION Cave_Room.
+
+SYNONYMS cave = room.
+
+OBJECT grey_key NAME grey key AT Cave_Room
+END OBJECT grey_key.
+
+LOCATION Turn_Way NAME Turn 'Of' The Way -- 14
+ DESCRIPTION "You are at a turn of the way. Exits are south and west."
+ EXIT s TO Cave_Room.
+ EXIT w TO Cellar.
+END LOCATION Turn_Way.
+
+LOCATION Staircase1 NAME Staircase -- 15
+ DESCRIPTION "You are on a staircase. The walls are covered with posters
+              showing a refuse-pit."
+ EXIT u TO Loft.
+ EXIT d TO Terrace.
+END LOCATION Staircase1.
+
+OBJECT poster AT Staircase1
+ IS NOT examined.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "As you look at the $1 closely, a tiny pink figure seems to wave its hand at
+   you."
+  MAKE poster examined.
+ END VERB Examine.
+ VERB take DOES ONLY
+  "The pictures seem to be quite strongly fixed to the walls, almost as if
+   they were a part of it. Better leave them alone."
+ END VERB Take.
+END OBJECT poster.
+
+SYNONYMS picture, posters, pictures = poster.
+
+OBJECT figure NAME tiny pink figure AT Staircase1
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB Examine DOES ONLY
+  IF poster IS examined THEN
+   "Well, a tiny pink figure, waving its right hand at you. It seems to be
+    almost, but not quite, human."
+   IF Pink_Man IS met THEN "It looks familiar." END IF.
+  ELSE
+   "You can't see any $1 here."
+  END IF.
+ END VERB Examine.
+END OBJECT figure.
+
+LOCATION Loft -- 16
+ DESCRIPTION "You are on the loft, which is filled with all sorts of old
+              lumber. There is a curtain at the other end."
+             IF curtain IS open THEN
+              "The curtain is open."
+             END IF.
+             "A staircase leads down."
+ EXIT d TO Staircase1.
+END LOCATION Loft.
+
+OBJECT curtain AT Loft
+ IS NOT takeable.
+ IS openable.
+ IS closable.
+ DESCRIPTION ""
+ VERB Pull DOES ONLY
+  IF curtain IS open THEN
+   "(It was already drawn open.)"
+  ELSE
+   "You pull the curtain aside. In a small niche lies a silver key."
+   MAKE curtain open.
+   LOCATE silver_key HERE.
+  END IF.
+ END VERB Pull.
+ VERB Push DOES ONLY
+  IF curtain IS NOT open THEN
+   "(It was already drawn shut.)"
+  ELSE
+   "You push the curtain back again."
+   MAKE curtain NOT open.
+   IF silver_key IS NOT taken THEN
+    LOCATE silver_key AT LIMBO.
+   END IF.
+  END IF.
+ END VERB Push.
+ VERB draw DOES ONLY
+  IF curtain IS open THEN
+   "You draw the curtain shut."
+   MAKE curtain NOT open.
+   IF silver_key IS NOT taken THEN
+    LOCATE silver_key AT LIMBO.
+   END IF.
+  ELSE
+   "You draw the curtain aside, and a silver key is revealed."
+   MAKE curtain open.
+   LOCATE silver_key HERE.
+  END IF.
+ END VERB Draw.
+ VERB Open DOES
+  "A silver key is behind it."
+  LOCATE silver_key HERE.
+ END VERB Open.
+ VERB Close DOES
+  IF silver_key IS NOT taken THEN
+   LOCATE silver_key AT LIMBO.
+  END IF.
+ END VERB Close.
+END OBJECT curtain.
+
+OBJECT lumber NAME old lumber AT Loft
+ IS NOT takeable.
+ IS plural.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "All broken things. Nothing usefull."
+ END VERB examine.
+END OBJECT lumber.
+
+OBJECT silver_key NAME silver key
+ IS lock 1.
+ IS NOT taken.
+ VERB examine DOES ONLY
+  "It looks vaguely familiar."
+ END VERB examine.
+ VERB Take DOES
+  IF silver_key IS NOT taken THEN
+   MAKE silver_key taken.
+  END IF.
+ END VERB Take.
+END OBJECT silver_key.
+
+LOCATION Play_Room NAME 'Play-Room' -- 17
+ DESCRIPTION "You are in the play-room. The exits are to the north to the
+              dining-room, and to the east to a small passage. There are lots
+              of toys here."
+ EXIT n TO Dining_Room.
+ EXIT e TO Little_Corridor.
+END LOCATION Play_Room.
+
+OBJECT magic_box NAME magic box AT Play_Room
+ CONTAINER
+ IS openable.
+ IS closable.
+ IS lockable.
+ IS locked.
+ IS lock 1.
+ VERB examine DOES ONLY
+  "Well, it's not a magical box as such, but rather a wooden box for children's
+   stage-magician's toys, like you had in your childhood. In fact, it looks
+   suspiciously exactly like the one you had as a child! The paintings are the
+   same, and it has the same little lock, which was opened by a small silver
+   key, so you could keep your secret tricks really secret."
+  IF magic_box IS open THEN
+   "It is open."
+   LIST magic_box.
+  ELSE
+   "It is closed."
+  END IF.
+ END VERB examine.
+ VERB open DOES
+  EMPTY magic_box_contents IN magic_box.
+  LIST magic_box.
+ END VERB open.
+ VERB open_with DOES ONLY
+  IF silver_key IN inventory THEN
+   "«Klick» «Kriek» Ok.$n"
+   MAKE magic_box NOT locked.
+   MAKE magic_box open.
+   EMPTY magic_box_contents IN magic_box.
+   LIST magic_box.
+  ELSE
+   "You ain't got the right key!"
+  END IF.
+ END VERB open_with.
+ VERB unlock DOES ONLY
+  IF silver_key IN inventory THEN
+   "(with silver key)$n"
+   "«Klick» Ok."
+   MAKE magic_box NOT locked.
+  ELSE
+   "You ain't got the key!"
+  END IF.
+ END VERB unlock.
+ VERB close DOES
+  EMPTY magic_box IN magic_box_contents.
+ END VERB close.
+ VERB lock DOES
+  EMPTY magic_box IN magic_box_contents.
+ END VERB lock.
+END OBJECT magic_box.
+
+OBJECT magic_box_contents -- Grrr!
+ CONTAINER
+END OBJECT magic_box_contents.
+
+OBJECT toys AT Play_Room
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "Hmmm, as you look at them more closely, you find that they look
+   astonishingly like the ones you had in your youth."
+ END VERB examine.
+ VERB take DOES ONLY
+  "The toys seem to be fixed to the floor."
+ END VERB take.
+END OBJECT toys.
+
+SYNONYMS toy = toys.
+
+OBJECT magic_wand NAME magic wand IN magic_box_contents
+ VERB examine DOES ONLY
+  "It's made of wood and painted black with a white tip - a typical children's
+   toy."
+ END VERB examine.
+END OBJECT magic_wand.
+
+LOCATION Little_Corridor NAME Little Corridor -- 32
+ IS NOT pm_visited.
+ DESCRIPTION "You are in a little corridor bending from north to west."
+             IF Little_Corridor IS NOT pm_visited THEN
+              "The pink man appears. He says:$n
+               `The magic word is ¸¸pun´´', and disappears again."
+              MAKE Little_Corridor NOT pm_visited.
+              MAKE Pink_Man met.
+             END IF.
+ EXIT n TO Living_Room.
+ EXIT w TO Play_Room.
+END LOCATION Little_Corridor.
+
+LOCATION Dining_Room NAME 'Dining-Room' -- 18
+ DESCRIPTION "You are in the dining-room. The table lay covers for seven
+              persons. Exits are into all four directions."
+ EXIT n TO Entrance_Hall.
+ EXIT s TO Play_Room.
+ EXIT w TO Kitchen.
+ EXIT e TO Little_Room.
+END LOCATION Dining_Room.
+
+OBJECT golden_box NAME golden box AT Dining_Room
+ CONTAINER
+ IS openable.
+ IS closable.
+ DESCRIPTION "There is"
+  IF golden_box IS open THEN
+   "an open golden box here."
+   LIST golden_box.
+  ELSE
+   "a golden box here."
+  END IF.
+ VERB open DOES
+  EMPTY golden_box_contents IN golden_box.
+  LIST golden_box.
+ END VERB open.
+ VERB close DOES
+  EMPTY golden_box IN golden_box_contents.
+ END VERB close.
+ VERB examine DOES ONLY
+  "It is rather heavy for such a small box, probably gold-plated, and certainly
+   not without value."
+  IF golden_box IS open THEN
+   "The box is open."
+   LIST golden_box.
+  ELSE
+   "The box is closed."
+  END IF.
+ END VERB examine.
+ VERB give DOES ONLY
+  IF act = Dealer THEN
+   LOCATE golden_box IN Dealer.
+   "`Psshht! Okaayy! Here ... take this ...' He hands you a white pill and
+    hustles away."
+   LOCATE pill IN inventory.
+   LOCATE Dealer AT LIMBO.
+  ELSE
+   "`I don't think I need that.'"
+  END IF.
+ END VERB give.
+END OBJECT golden_box.
+
+OBJECT golden_box_contents
+ CONTAINER
+END OBJECT golden_box_contents.
+
+OBJECT table AT Dining_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT table.
+
+LOCATION Entrance_Hall NAME Entrance Hall -- 19
+ DESCRIPTION "You are in the entrance-hall. The room seems a little misty. To
+              the north there is the Grey Gate, to the east is the garden, and
+              to the south the dining-room."
+ EXIT n TO Grey_Gate.
+ EXIT s TO Dining_Room.
+ EXIT e TO Garden.
+END LOCATION Entrance_Hall.
+
+LOCATION Grey_Gate NAME Grey Gate -- 20
+ DESCRIPTION "You are at the Grey Gate built into a big brick building. To the
+              south there is the hall, and a road leads east."
+ EXIT s TO Entrance_Hall.
+ EXIT w TO Engine_Room
+  CHECK grey_key IN inventory
+  ELSE "The gate blocks your way."
+ END EXIT.
+ EXIT e TO Road.
+END LOCATION Grey_Gate.
+
+OBJECT gray_gate NAME grey gate AT Grey_Gate
+ IS NOT takeable.
+ IS openable.
+ IS locked.
+ DESCRIPTION ""
+END OBJECT gray_Gate.
+
+LOCATION Kitchen -- 21
+ DESCRIPTION "You are in the kitchen. Apart from the usual stuff there is a
+              cupboard."
+             IF cupboard IS open THEN
+              "The cupboard is open."
+             END IF.
+             "The exit is east."
+ EXIT e TO Dining_Room.
+END LOCATION Kitchen.
+
+OBJECT cupboard AT Kitchen
+ IS NOT takeable.
+ IS openable.
+ IS closable.
+ DESCRIPTION ""
+ VERB Open DOES
+  "A strange stone is revealed."
+  LOCATE luna_stone HERE.
+ END VERB Open.
+ VERB Close DOES
+  IF luna_stone IS NOT taken THEN
+   LOCATE luna_stone AT LIMBO.
+  END IF.
+ END VERB Close.
+END OBJECT cupboard.
+
+OBJECT luna_stone NAME 'luna-stone'
+ IS NOT taken.
+ VERB examine DOES ONLY
+  "It is about the size of your fist and has a faint glow to it."
+ END VERB examine.
+ VERB take DOES
+  IF luna_stone IS NOT taken THEN
+   MAKE luna_stone taken.
+  END IF.
+ END VERB Take.
+END OBJECT luna_stone.
+
+SYNONYMS luna, stone, lunastone = 'luna-stone'.
+
+LOCATION Engine_Room NAME Engine Room -- 22
+ IS intact.
+ DESCRIPTION IF Engine_Room IS intact THEN
+              "You are in an engine-room standing in front of a big machine
+               which fills the room almost completely. A large button is
+               flashing red. The note below says:$n
+               `Be careful. It explodes easily!'"
+             ELSE
+              "You are in the former engine-room. The machine has exploded and
+               left a big hole in the ground. A lift is to the north and the
+               exit is east."
+             END IF.
+ EXIT n TO Lift1
+  CHECK Engine_Room IS NOT intact
+  ELSE "You can't go that way."
+ END EXIT.
+ EXIT e TO Grey_Gate.
+ EXIT d TO LIMBO
+  CHECK Engine_Room IS NOT intact
+  ELSE "You can't go that way."
+  DOES
+   "You step into the big hole and tumble downwards. Now and then you smash
+    against something protruding from the wall and feel your bones splinter.$n
+    $n
+    UuuaauAAauauauau ...$n
+    $n
+    You didn't really expect this to work again, did you?"
+   -- Score, Turns
+   QUIT.
+ END EXIT.
+END LOCATION Engine_Room.
+
+OBJECT button1 NAME button AT Engine_Room
+ DESCRIPTION ""
+ VERB push DOES ONLY
+  IF Engine_Room IS intact THEN
+   "«BOOOOUUUM! CRASHH! BAMM! UIIIII ... SMASHH!!»$n$n"
+   "Didn't the note tell you? The machine explodes causing the ground under your
+    feet to collapse. You fall into the deep ...$n$n"
+   "... But strangely the parts of the machine seem to go other ways than you
+    'cause they all disappear, and what's more, your fall is slowed down rather
+    much, so you land very softly on the floor of a large room."
+   MAKE Engine_Room NOT intact.
+   LOCATE actor AT Parting.
+   LOCATE big_hole AT Engine_Room.
+  ELSE
+   "There's no button anymore. You destroyed the machine."
+  END IF.
+ END VERB push.
+END OBJECT button1.
+
+OBJECT machine1 NAME machine AT Engine_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "Lots of puffing steam cylinders, shifting gears and spinning wheels. Very
+   impressive, and quite loud."
+ END VERB examine.
+END OBJECT machine1.
+
+OBJECT big_hole NAME 'big hole'
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "It's an ugly, Really Deep big hole. Sharp pieces of metal and stone are
+   protruding from its' walls until it's too deep and dark for you to see
+   any details anymore."
+ END VERB examine.
+END OBJECT big_hole.
+
+SYNONYMS engine = machine.
+
+LOCATION Lift1 NAME Lift -- 23a
+ DESCRIPTION "You are in the lift. There is a button at one side."
+ EXIT s TO Engine_Room.
+END LOCATION Lift1.
+
+OBJECT lift_button1 NAME lift button AT Lift1
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB push DOES ONLY
+  "Ok. Bssss. A door appears at the western wall and the other one vanishes."
+  LOCATE actor AT Lift2.
+ END VERB push.
+END OBJECT lift_button1.
+
+LOCATION Lift2 NAME Lift -- 23b
+ DESCRIPTION "You are in the lift. There is a button at one side."
+ EXIT w TO Small_Passage.
+END LOCATION Lift2.
+
+OBJECT lift_button2 NAME lift button AT Lift2
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB push DOES ONLY
+  "Ok. Bssss. A door appears at the southern wall and the other one vanishes."
+  LOCATE actor AT Lift1.
+ END VERB push.
+END OBJECT lift_button2.
+
+LOCATION Small_Passage NAME Small Passage -- 25
+ DESCRIPTION "You are in a passage leading south and east."
+ EXIT s TO Parting.
+ EXIT e TO Lift2.
+END LOCATION Small_Passage.
+
+LOCATION Parting NAME 'Parting Of The Ways' -- 24
+ DESCRIPTION "You are at a parting of the ways. Passages are north, south, west,
+              east, and down."
+ EXIT n TO Small_Passage.
+ EXIT s TO Dusty_Room.
+ EXIT w TO Hall.
+ EXIT e TO Small_Room.
+ EXIT d TO Staircase2.
+END LOCATION Parting.
+
+LOCATION Dusty_Room NAME Dusty Room -- 33
+ DESCRIPTION "You are in a very, very dusty cave. It is filled with debris
+              washed in from the surface. The only exit is to the north."
+ EXIT n TO Parting.
+ VERB clean0 DOES ONLY
+  IF broom IN inventory THEN
+   IF obj = room THEN
+    "Well, taking the broom you begin to wipe up this mess. Soon you realize
+    that to really clean this room is an almost impossible task. But at least
+    you found something: a paper."
+    LOCATE paper HERE.
+   ELSE
+    "You make the $1 real shiny."
+   END IF.
+  ELSE
+   "You scratch at the dirt with your hands, but with no great effect."
+  END IF.
+ END VERB clean0.
+ VERB clean1 DOES ONLY
+  IF obj2 = broom THEN
+   IF broom IN inventory OR broom HERE THEN
+    IF obj1 = room THEN
+     "Well, taking the broom you begin to wipe up this mess. Soon you realize
+     that to really clean this room is an almost impossible task. But at least
+     you found something: a piece of paper."
+     LOCATE paper HERE.
+    ELSE
+     "Taking the $2, you make the $1 real shiny."
+    END IF.
+   ELSE
+    "You don't have that!"
+   END IF.
+  ELSE
+   "You scratch at the dirt with the $2, but with no great effect."
+  END IF.
+ END VERB clean1.
+END LOCATION Dusty_Room.
+
+OBJECT paper NAME piece 'of' paper AT LIMBO
+ VERB examine DOES
+  "It is blank."
+ END VERB examine.
+ VERB give DOES ONLY
+  IF hero AT Toilet THEN
+   LOCATE paper AT LIMBO.
+   LOCATE Pink_Man AT LIMBO.
+  END IF.
+ END VERB give.
+END OBJECT paper.
+
+LOCATION Small_Room NAME Small Room -- 26
+ DESCRIPTION "You are in a small and empty room. At the south side is"
+             IF cube AT LIMBO THEN
+              "an open passage."
+             ELSE
+              "a metal door with a square hole on the left side."
+             END IF.
+             "The exit is west."
+ EXIT w TO Parting.
+ EXIT s TO Storage_Room
+  CHECK cube AT LIMBO
+  ELSE "That door is closed!"
+ END EXIT.
+END LOCATION Small_Room.
+
+OBJECT metal_door NAME metal door AT Small_Room
+ IS NOT takeable.
+ IS openable.
+ IS locked.
+ DESCRIPTION ""
+ VERB unlock DOES ONLY
+  "You can't unlock it. No normal key would fit this square hole."
+ END VERB unlock.
+ VERB examine DOES ONLY
+  "It's a plain, sturdy, brushed metal door with a square hole on the left
+   side."
+ END VERB examine.
+END OBJECT metal_door.
+
+OBJECT hole NAME square hole AT Small_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT hole.
+
+LOCATION Storage_Room NAME Storage Room -- 27
+ DESCRIPTION "You are in a storage-room. There are plenty of cleaning things
+              around. Exit north."
+ EXIT n TO Small_Room.
+END LOCATION Storage_Room.
+
+OBJECT broom AT Storage_Room
+END OBJECT broom.
+
+LOCATION Staircase2 NAME Staircase -- 28
+ DESCRIPTION "You are on a stairway leading down."
+ EXIT u TO Parting.
+ EXIT d TO Staircase3.
+END LOCATION Staircase2.
+
+LOCATION Staircase3 NAME Staircase -- 29
+ DESCRIPTION "You are on a long stairway leading deep down."
+ EXIT u TO Staircase2.
+ EXIT d TO Stairway_To_Hell.
+END LOCATION Staircase3.
+
+LOCATION Stairway_To_Hell NAME 'Stairway to Hell' -- 30
+ DESCRIPTION "You are on a looong stairway leading really deep down.$nA warning
+              board says: `ONE STEP FURTHER AND IT WILL BE THE HELL FOR YOU!'"
+ EXIT u TO Staircase3.
+ EXIT d TO Hell.
+END LOCATION Stairway_To_Hell.
+
+LOCATION Hell -- 31
+ IS NOT met.
+ DESCRIPTION "You are in hell."
+             IF Hell IS NOT met THEN
+              "The Devil welcomes you very warmly and says: `We're in no hurry
+               down here. Just stroll around the place for a few thousand years
+               and look what's worst for you.' Then he leaves you alone."
+              MAKE Hell met.
+             END IF.
+ EXIT n, s, e, w, d, 'in' TO Hell.
+ EXIT u, o TO LIMBO
+ CHECK
+  "There is no way out. You better quit."
+ END EXIT.
+END LOCATION Hell.
+
+LOCATION Hall -- 35
+ DESCRIPTION "You are in a big, empty hall. Exits are north, west, and east."
+ EXIT n TO Dead_End.
+ EXIT w TO Library.
+ EXIT e TO Parting.
+END LOCATION Hall.
+
+LOCATION Dead_End NAME 'Dead End' -- 36
+ DESCRIPTION "You are at a dead end. Return to where you came."
+ EXIT s TO Hall.
+END LOCATION Dead_End.
+
+OBJECT drum AT Dead_End
+ CONTAINER
+ IS openable.
+ IS closable.
+ VERB play DOES ONLY
+  "BUMM BUMM bumm bumm BUMM BUMM ..."
+ END VERB play.
+ VERB examine DOES ONLY
+  "Funny. There's a hinge. It seems as if you could open it."
+  IF drum IS open THEN
+   "It is open."
+   LIST drum.
+  END IF.
+ END VERB examine.
+ VERB open DOES
+  EMPTY drum_contents IN drum.
+  LIST drum.
+ END VERB open.
+ VERB close DOES
+  EMPTY drum IN drum_contents.
+ END VERB close.
+END OBJECT drum.
+
+OBJECT drum_contents
+ CONTAINER
+END OBJECT drum_contents.
+
+LOCATION Library -- 37
+ DESCRIPTION "You are in the library. Almost all of the plenty book-shelves are
+              filled with books. Only one place is free. The exit is east."
+             IF book AT LIMBO THEN
+              "To the south is the entrance to a secret passage."
+             END IF.
+ EXIT s TO Secret_Passage2
+  CHECK book AT LIMBO
+   ELSE "You can't go that way."
+ END EXIT.
+ EXIT e TO Hall.
+ VERB insert DOES ONLY
+  IF obj1 = book AND book IN inventory OR book HERE THEN
+   "As you insert the book into the free space on the shelves, you can hear a
+    `click' and a part of the shelves to the south swings open, revealing a
+    secret passage."
+   LOCATE book AT LIMBO.
+  ELSE
+   "That doesn't fit anywhere."
+  END IF.
+ END VERB insert.
+ VERB insert1 DOES ONLY
+  IF obj1 = book AND book IN inventory OR book HERE THEN
+   IF obj2 = bookshelves THEN
+    "You can hear a `click' as you insert the book, and a part of the shelves
+     to the south swings open to reveal a secret passage."
+    LOCATE book AT Limbo.
+   ELSE
+    "That doesn't fit."
+   END IF.
+  ELSE
+   "It doesn't fit."
+  END IF.
+ END VERB insert1.
+END LOCATION Library.
+
+OBJECT bookshelves AT Library
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  IF book NOT AT Limbo THEN
+   "They seem quite old, and would surely be dust-covered, if they weren't
+    completely covered by books - except for that one place."
+  ELSE
+   "They seem quite old, and would surely be dust-covered, if they weren't
+    completely covered by books."
+  END IF.
+ END VERB examine.
+END OBJECT bookshelves.
+
+SYNONYMS shelves, shelf, bookshelf = bookshelves.
+
+OBJECT books AT Library
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "They seem to be quite old and dusty, you can't even make out the letters on
+   their backs."
+ END VERB examine.
+ VERB take DOES ONLY
+  "They seem to be here for so long that they stick unmovably together."
+ END VERB take.
+END OBJECT books.
+
+SYNONYMS 'library book', 'library books', 'old book', 'old books' = books.
+
+LOCATION Secret_Passage2 NAME Secret Passage -- 38
+ DESCRIPTION "You are in a secret passage leading from north to south."
+ EXIT n TO Library.
+ EXIT s TO Anteroom.
+END LOCATION Secret_Passage2.
+
+LOCATION Anteroom -- 39
+ DESCRIPTION "You are in the anteroom. To the north there is an open jib-door,
+              to the east a W.C., to the west the exit and to the south the
+              chief's office.$n
+              The exit is blocked, you seem not to be able to approach it."
+ EXIT n TO Secret_Passage2.
+ EXIT s TO Chiefs_Office.
+ EXIT e TO ToiletRoom.
+END LOCATION Anteroom.
+
+LOCATION Chiefs_Office NAME Chiefs Office -- 40
+ DESCRIPTION "You are in the Chief's office. Doors lead north and south.$n
+              The Chief is not in."
+ EXIT n TO Anteroom.
+ EXIT s TO View.
+END LOCATION Chiefs_Office.
+
+OBJECT coin AT Chiefs_Office
+ VERB give DOES ONLY
+  IF act = ET THEN
+   "`Thaannkk yyoouu ssoo vveerryy mmuuchch!' the alien accepts your gift. It
+    then turns and waves his glowing finger, and a passage to the east appears.
+    Then it walks over to the telephone box and vanishes therin."
+   LOCATE coin IN ET.
+   LOCATE ET AT LIMBO.
+  ELSIF act = Dealer THEN
+   "`Naaw, that's too cheap for what I've to sell, eh?'"
+  ELSE
+   "`I don't think I need this.'"
+  END IF.
+ END VERB give.
+END OBJECT coin.
+
+LOCATION View -- 41
+ DESCRIPTION "You are in a little room with a big window to the south. Through
+              it you can look into a very deep abyss stretching from east to
+              west as far as your eyes can see. In the distance you see a large
+              bridge leaping over it. To the west there is a bricked door. An
+              exit leads back north to the Chief's office."
+ EXIT n TO Chiefs_Office.
+END LOCATION View.
+
+OBJECT view_window NAME window AT View
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT view_window.
+
+LOCATION ToiletRoom NAME 'The Toilet' -- 42
+ DESCRIPTION "You are in the toilet."
+             IF toilet IS NOT open THEN
+              "The pink man sits here, looking embarrassed and asks for help."
+             END IF.
+ EXIT w TO Anteroom.
+ EXIT d TO Canalization
+  CHECK toilet IS open
+   ELSE "You can't go that way."
+ END EXIT.
+END LOCATION ToiletRoom.
+
+OBJECT toilet AT ToiletRoom
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB jump_into DOES ONLY
+  IF toilet IS open THEN
+   "You jump into the toilet. Surprisingly you seem to shrink to fit the
+    plumbing and flush right through, landing you in the ..."
+   LOCATE hero AT Canalization.
+  ELSE
+   "No way. You would jump against the pink man. (What a funny idea!)"
+  END IF.
+ END VERB jump_into.
+END OBJECT toilet.
+
+SYNONYMS loo, john, wc = toilet.
+
+LOCATION Canalization -- 43
+ DESCRIPTION "You are in the canalization. Smelly passages lead east and west.
+              There's a hole in the ceiling."
+ EXIT e TO Canalization.
+ EXIT w TO Canalization.
+ EXIT u TO South_Passage.
+END LOCATION Canalization.
+
+OBJECT hole2 NAME hole AT Canalization
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB climb DOES ONLY
+  "With some effort you manage to reach the hole and climb through it."
+  LOCATE hero AT South_Passage.
+ END VERB climb.
+END OBJECT hole2.
+
+OBJECT button2 NAME button AT Canalization
+ VERB push DOES ONLY
+  IF button2 IN machine THEN
+   "Clack, swishle, KLICKKLICK, bssss, rrRRR ...$n
+    In a small slot a `D' appears."
+   LOCATE letter_d HERE.
+  ELSE
+   "Nothing happens."
+  END IF.
+ END VERB push.
+ VERB insert DOES ONLY
+  "That won't hold."
+ END VERB insert.
+ VERB insert1 DOES ONLY
+  "That won't hold."
+ END VERB insert1.
+ VERB sew
+  CHECK needle IN inventory
+   AND thread IN inventory
+   ELSE "Something is missing."
+  DOES
+   IF obj2 = machine THEN
+    "Using your needle and thread you sew the button to the machine."
+    LOCATE button2 IN machine.
+    LOCATE thread AT Limbo.
+   ELSE
+    "That won't work."
+   END IF.
+ END VERB sew.
+END OBJECT button2.
+
+LOCATION South_Passage NAME South Passage -- 44
+ DESCRIPTION "You are in a passage going south. A hole in the floor leads down
+              into the canalization."
+ EXIT s TO Wide_Place.
+ EXIT d TO Canalization.
+END LOCATION South_Passage.
+
+LOCATION Wide_Place NAME Wide Place -- 45
+ DESCRIPTION "You are standing on a wide, walled place with a telephone box in
+              the middle. A Passage leads to the north and a small building
+              offers its entrance to the west."
+             IF coin IN ET THEN
+              "Another passage leads east now."
+             END IF.
+ EXIT n TO South_Passage.
+ EXIT e TO Low_Passage
+  CHECK coin IN ET
+  ELSE
+   "You can't go that way."
+ END EXIT.
+ EXIT w TO Bridge_Anteroom.
+ EXIT 'in' TO Limbo
+  CHECK
+   IF ET AT Limbo THEN
+    "The phone-box is already occupied."
+   ELSE
+    "You approach the telephone box but realize suddenly that you can think of
+     no one who you could actually phone. Puzzled you stop and retreat your
+     steps again."
+   END IF.
+ END EXIT.
+ VERB enter0
+  CHECK ET NOT AT Limbo
+   ELSE "The phone-box is already occupied."
+   DOES ONLY
+    "You approach the telephone box but realize suddenly that you can think of
+     no one who you could actually phone. Puzzled you stop and retreat your
+     steps again."
+ END VERB enter0.
+END LOCATION Wide_Place.
+
+OBJECT phonebox NAME phone telephone box AT Wide_Place
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB enter
+  CHECK ET NOT AT Limbo
+   ELSE "It's already occupied."
+  DOES ONLY
+   "You approach the telephone box but realize suddenly that you can think of
+    no one who you would actually want to phone. Puzzled you stop and retreat
+    your steps again."
+ END VERB enter.
+END OBJECT.
+
+SYNONYMS booth = box.
+
+LOCATION Bridge_Anteroom NAME 'Bridge-Anteroom' -- 46
+ DESCRIPTION "You are in the anteroom of the Big Bridge, which itself is to the
+              south. Outside in that direction you can see it's heavily raining
+              spunkies."
+ EXIT s TO Bridge
+  CHECK umbrella IN inventory AND umbrella IS open
+  ELSE
+   "Those spunkies come thick and fast, so thick and fast that you are washed
+    from the Bridge ..."
+   QUIT.
+ END EXIT.
+ EXIT e TO Wide_Place.
+END LOCATION Bridge_Anteroom.
+
+LOCATION Bridge -- 47
+ DESCRIPTION "You are on the Big Bridge. It leads north-south across the deep
+              abyss below. It's heavily raining spunkies."
+ EXIT n TO Bridge_Anteroom.
+ EXIT s TO Market.
+ EXIT e, w TO LIMBO
+  CHECK "Oops, you almost fell from the bridge. It's got no railing,
+         you know, you have to be careful where you go."
+ END EXIT.
+ VERB catch DOES ONLY
+  IF object = spunkie THEN
+   LOCATE spunkie IN inventory.
+   "Hey, from under the protection of your umbrella you snatch a spunkie from
+    the pouring masses with a very elegant move."
+  ELSE
+   IF object HERE THEN
+    IF object IN inventory THEN
+     "You already got it, remember?"
+    ELSE
+     "You try to grab the $1, but it shifts just from your fingers in a very
+      weird way."
+    END IF.
+   ELSE
+    "You can't see any $1 here."
+   END IF.
+  END IF.
+ END VERB catch.
+END LOCATION Bridge.
+
+OBJECT dummy_bridge NAME bridge
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT dummy_bridge.
+
+OBJECT spunkie AT Bridge
+ DESCRIPTION IF spunkie AT Bridge THEN
+              ""
+             ELSE
+              "There is a spunkie here."
+             END IF.
+ VERB examine DOES ONLY
+  "It feels squishy, and it looks like ... um ... well ... a spunkie."
+ END VERB examine.
+ VERB give DOES ONLY
+  IF act = Quanx THEN
+   "Very happily the Quanx gives an `E' to you in return for your gift."
+   LOCATE letter_e IN inventory.
+   SCORE 20.
+  ELSE
+   "`I don't think I want that.'"
+  END IF.
+ END VERB give.
+ VERB take DOES BEFORE
+  IF hero AT bridge THEN
+   "Hey, from under the protection of your umbrella you snatch a spunkie from
+    the pouring masses with a very elegant move."
+  END IF.
+ END VERB take.
+END OBJECT spunkie.
+
+LOCATION Market -- 48
+ DESCRIPTION "You are on a market-place. The exits are north to the bridge and
+              into a passage to the east."
+ EXIT n TO Bridge
+  CHECK umbrella IN inventory AND umbrella IS open
+  ELSE
+   "Those spunkies come thick and fast, so thick and fast that you are washed
+    from the Bridge ..."
+   QUIT.
+ END EXIT.
+ EXIT e TO Passage.
+END LOCATION Market.
+
+OBJECT pill NAME white pill AT Market
+ IS edible.
+ HAS eaten 0.
+ DESCRIPTION IF pill AT Market THEN
+              ""
+             ELSE
+              "There is a white pill here."
+             END IF.
+ VERB eat DOES
+  SET eaten OF pill TO 5.
+ END VERB eat.
+END OBJECT pill.
+
+SYNONYMS LSD, stuff = pill.
+
+LOCATION Passage -- 49
+ DESCRIPTION "You are in a passage leading from north to west."
+ EXIT n TO Low_Passage.
+ EXIT w TO Market.
+END LOCATION Passage.
+
+LOCATION Low_Passage NAME Low Passage -- 50
+ DESCRIPTION "You are in a low passage. To the west is the wide place, and the
+              way continues north. The pink man is here, and he keeps saying:
+              `Do not follow the sun too quick!'"
+ EXIT n TO Sun_Room.
+ EXIT w TO Wide_Place.
+END LOCATION Low_Passage.
+
+LOCATION Sun_Room NAME Little Room -- 51
+ DESCRIPTION "You are in a little room with passages leading north and south and
+              a door with a setting sun painted on it to the west."
+ EXIT n TO Stalactite_Cavern.
+ EXIT s TO Low_Passage.
+ EXIT w TO Desert.
+END LOCATION Sun_Room.
+
+LOCATION Stalactite_Cavern NAME Stalactite Cavern -- 52
+ DESCRIPTION "You are in a cavern with lots of stalactites growing down from the
+              ceiling. Strangely, there are no corresponding stalagmites growing
+              upwards from the floor. The only visible exit is south."
+ EXIT s TO Sun_Room.
+END LOCATION Stalactite_Cavern.
+
+OBJECT spade AT Stalactite_Cavern
+ VERB dig_with DOES ONLY
+  "With your spade you scratch at the floor a little, but it's really too hard."
+ END VERB dig_with.
+END OBJECT spade.
+
+OBJECT stalactite AT Stalactite_Cavern
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT stalactite.
+
+SYNONYMS stalactites = stalactite.
+
+LOCATION Desert -- 53
+ DESCRIPTION "You are in an endless, monotonous and sandy desert."
+ EXIT n, s, e, w TO Desert.
+ EXIT 'in' TO In_Suitcase
+  CHECK suitcase AT Desert AND suitcase IS open
+  ELSE "You can't go that way."
+ END EXIT.
+ VERB dig DOES ONLY
+  LOCATE suitcase HERE.
+  "(using the spade)$n"
+  "While you are probably looking for water (or oil? - why else would someone
+   dig in a desert?) you find a big suitcase."
+ END VERB dig.
+ VERB enter0 DOES ONLY
+  IF suitcase AT Desert AND suitcase IS open THEN
+   LOCATE hero AT In_Suitcase.
+   "Yes, indeed, you fit into the suitcase, and find ..."
+  ELSE
+   "There is nothing you could enter into."
+  END IF.
+ END VERB enter0.
+END LOCATION Desert.
+
+OBJECT suitcase NAME big large suitcase
+ IS openable.
+ IS closable.
+ VERB enter
+  CHECK suitcase IS open
+   ELSE "You can't. It's closed."
+  AND suitcase NOT IN inventory
+   ELSE "That wouldn't work. You are still carrying it around."
+  DOES ONLY
+   "You step inside the suitcase to find ..."
+   LOCATE hero AT In_Suitcase.
+ END VERB enter.
+ VERB examine DOES ONLY
+  "It's really big and somewhat battered."
+  IF suitcase IS open THEN
+   "It is open."
+  END IF.
+ END VERB examine.
+END OBJECT suitcase.
+
+SYNONYMS koffer = suitcase.
+
+LOCATION In_Suitcase NAME 'In the Suitcase' -- 54
+ DESCRIPTION "You are in the suitcase. It's somewhat bigger than you expected,
+              and funnily there's a staircase leading down."
+ EXIT o TO Desert.
+ EXIT d TO Staircase4.
+END LOCATION In_Suitcase.
+
+OBJECT family_user NAME universal family user AT In_Suitcase
+-- ARTICLE "an"
+ VERB examine DOES ONLY
+  "A curious thing, made out of some rubber-like substance and shaped a little
+   like a sombrero."
+ END VERB examine.
+ VERB push, use1 DOES ONLY
+  "It makes `plopp'."
+ END VERB.
+END OBJECT family_user.
+
+LOCATION Staircase4 NAME Staircase -- 55
+ DESCRIPTION "You are on a staircase."
+ EXIT u TO In_Suitcase.
+ EXIT d TO Monster_Hall.
+END LOCATION Staircase4.
+
+LOCATION Monster_Hall NAME 'Monster-Hall' -- 56
+ DESCRIPTION "You are in the monster-hall. A wide staircase leads up at the west
+              side and pillar-framed passages lead north, south and east."
+ EXIT n TO Funny_Room.
+ EXIT s TO M_Room
+  CHECK Monster AT LIMBO
+  ELSE "The monster growls as you approach, and hastily you retreat your steps."
+ END EXIT.
+ EXIT e TO Customs.
+ EXIT u TO Staircase4.
+END LOCATION Monster_Hall.
+
+LOCATION Funny_Room NAME Funny Room -- 57
+ DESCRIPTION "You are in a funny little room. Droll figures are covering all the
+              walls, the ceiling and even the floor, sometimes even creating
+              bigger shapes.$nYou can hear a soft giggle."
+ EXIT s TO Monster_Hall.
+END LOCATION Funny_Room.
+
+OBJECT figures NAME figure
+               NAME figures
+               NAME shape
+               NAME shapes AT Funny_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "Really droll. You can't but giggle."
+ END VERB examine.
+END OBJECT figures.
+
+OBJECT joke AT Funny_Room
+ VERB examine DOES ONLY
+  "Huhu. Hihi. *Really* funny. Hehe. Haha. Truly."
+ END VERB examine.
+END OBJECT joke.
+
+LOCATION M_Room NAME 'M-Room' -- 58
+ DESCRIPTION "You are in a room with many `M's fixed at the ceiling, leaving
+              only one place free. The exit is north."
+ EXIT n TO Monster_Hall.
+END LOCATION M_Room.
+
+OBJECT letter_m NAME letter m AT M_Room
+ VERB take DOES
+  SCORE 20.
+ END VERB take.
+ VERB examine DOES ONLY
+  "Well, it's the letter 'M'. Nothing more, nothing less."
+ END VERB examine.
+END OBJECT letter_m.
+
+LOCATION Customs -- 59
+ DESCRIPTION "You are at the customs clearance, and the pink man asks:
+              `Something to declare?'$nTo the east is the street and to the
+              west the hall"
+             IF Monster AT Monster_Hall THEN
+              "with"
+             ELSE
+              "without"
+             END IF.
+             "the monster."
+ EXIT e TO North_Road
+  CHECK pill IN drum_contents
+  ELSE "`Hey, look, what do we have here? Smuggling drugs, eh?'"
+ END EXIT.
+ EXIT w TO Monster_Hall.
+END LOCATION Customs.
+
+LOCATION North_Road NAME 'North-Road' -- 60
+ DESCRIPTION "You are on a road leading straight north into the distance. To the
+              south is the deadly whirling fog again, to the west the customs
+              clearance, and to the east the observatory."
+ EXIT n TO North_Road_Long.
+ EXIT s TO LIMBO
+  DOES
+   "Slowly you advance into the fog. It ... feels ... strange ... But before you
+    realize what's amiss, it begins to flow into your nose, your mouth, even
+    your eyes and ears. You try to retrace your steps, but in vain. All is fog.
+    You become one with the fog ..."
+   QUIT.
+ END EXIT.
+ EXIT e TO Observatory_Entrance.
+ EXIT w TO Customs.
+END LOCATION North_Road.
+
+LOCATION North_Road_Long NAME 'North-Road' -- 61
+ DESCRIPTION "You are on a road leading north into the distance as far as your
+              eyes can see."
+ EXIT n TO North_Road_Long.
+ EXIT s TO North_Road.
+END LOCATION North_Road_Long.
+
+LOCATION Observatory_Entrance NAME 'Entrance to the Observatory' -- 62
+ DESCRIPTION "You are in the entrance-hall of the observatory. A staircase leads
+              up and down, and a passage is east (and the exit west).$nHm. You
+              can't help the feeling there should be pictures adorning the
+              walls."
+ EXIT e TO Chart_Room.
+ EXIT w TO North_Road.
+ EXIT u TO Staircase5.
+ EXIT d TO Staircase6.
+END LOCATION Observatory_Entrance.
+
+LOCATION Staircase5 NAME Staircase -- 63
+ DESCRIPTION "You are on a staircase."
+ EXIT u TO Telescope_Room.
+ EXIT d TO Observatory_Entrance.
+END LOCATION Staircase5.
+
+LOCATION Telescope_Room NAME Top Room -- 64
+ DESCRIPTION "You are in the top room of the observatory. A staircase leads
+              down.$n
+              The professor is here. He asks: `What is that?' and points to a
+              big mounted metal tube pointing upwards towards the rooms domed
+              ceiling."
+ EXIT d TO Staircase5.
+ VERB say0 DOES ONLY
+  IF txt = "telescope" THEN
+   "`Yes, that was correct. Here, take a star.' says the professor smiling."
+   LOCATE star IN inventory.
+  ELSE
+   "`No, that was not the correct answer.' the professor comments sternly."
+  END IF.
+ END VERB say0.
+END LOCATION Telescope_Room.
+
+OBJECT telescope AT Telescope_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+END OBJECT telescope.
+
+OBJECT star
+ HAS alight 1.
+ VERB examine DOES ONLY
+  "It is gleaming white and feels not quite hot."
+ END VERB examine.
+END OBJECT star.
+
+LOCATION Chart_Room NAME Chart Room -- 65
+ DESCRIPTION "You are in the chart-room. It is littered with celestial charts
+              hanging on all walls and even mounting on the floor. The door is
+              to the west."
+ EXIT w TO Observatory_Entrance.
+END LOCATION Chart_Room.
+
+OBJECT needle AT Chart_Room
+ IS NOT taken.
+ DESCRIPTION IF needle IS NOT taken THEN
+              "A needle marks some position in one of the maps."
+             ELSE
+              "There is a needle here."
+             END IF.
+ VERB take DOES
+  MAKE needle taken.
+ END VERB take.
+END OBJECT needle.
+
+SYNONYMS pin = needle.
+
+OBJECT chart AT Chart_Room
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "The charts show lots of incomprehensible numbers and formulas. The maps show
+   various sections of the sky."
+ END VERB examine.
+END OBJECT chart.
+
+SYNONYMS map, maps, charts = chart.
+
+LOCATION Staircase6 NAME Staircase -- 66
+ DESCRIPTION "You are on yet another staircase."
+ EXIT u TO Observatory_Entrance.
+ EXIT d TO Labyrinth.
+END LOCATION Staircase6.
+
+LOCATION Labyrinth -- 67
+ DESCRIPTION "You are in a labyrinth of stalacmite-caverns, which look all
+              alike. There must be some magic in it."
+ EXIT n, s, e, w, u, d TO Labyrinth.
+ VERB say0 DOES ONLY
+  IF txt = "pun" THEN
+   "Wow! It seems as if the cave transforms, and you find yourself at ..."
+   LOCATE HERO AT Outrance.
+  ELSE
+   "You mumble something into your beard."
+  END IF.
+ END VERB say0.
+END LOCATION Labyrinth.
+
+LOCATION Outrance NAME The Outrance -- 68
+ DESCRIPTION "You are at the `outrance' of the magic labyrinth. Possible ways
+              are to the north, east and west."
+ EXIT n TO North_Road_Long.
+ EXIT e TO Labyrinth.
+ EXIT w TO Wavy_Room.
+END LOCATION Outrance.
+
+LOCATION Wavy_Room NAME Wavy Room -- 69
+ DESCRIPTION "You are in a kind of weird storage-room. There are luminous
+              bubbles floating in the air and the walls seem to be covered with
+              long, waving hair. Exits are east and west."
+ EXIT e TO Outrance.
+ EXIT w TO Passage2.
+END LOCATION Wavy_Room.
+
+OBJECT letter_e NAME letter e
+ VERB examine DOES ONLY
+  "Well, it's the letter 'E'. Nothing more, nothing less."
+ END VERB examine.
+END OBJECT letter_e.
+
+LOCATION Passage2 NAME Passage -- 70
+ DESCRIPTION "You are in a passage leading east and west."
+ EXIT e TO Wavy_Room.
+ EXIT w TO Branching_Off.
+END LOCATION Passage2.
+
+LOCATION Branching_Off NAME 'Branching-Off' -- 71
+ DESCRIPTION "You are at a branching-off. Ways lead north, south and east."
+ EXIT n TO Big_Hall.
+ EXIT s TO Meadow.
+ EXIT e TO Passage2.
+END LOCATION Branching_Off.
+
+LOCATION Big_Hall NAME Big Hall -- 72
+ DESCRIPTION "You are in a big hall filled up with a machine. Exit south."
+             IF button2 IN machine THEN
+              "There's this button waiting to be pressed ..."
+             ELSE
+              "This machine clearly lacks a button."
+             END IF.
+ EXIT s TO Branching_Off.
+END LOCATION Big_Hall.
+
+OBJECT machine AT Big_Hall
+ CONTAINER
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  IF button2 IN machine THEN
+   "It is big and quite complicated, almost to sillyness, and a button just
+    begs to be pressed."
+  ELSE
+   "It is big, complicated - almost silly - and clearly lacks a button."
+  END IF.
+ END VERB examine.
+END OBJECT machine.
+
+OBJECT letter_d NAME letter d
+ VERB examine DOES ONLY
+  "Well, it's the letter 'D'. Nothing more, nothing less."
+ END VERB examine.
+ VERB take DOES
+  SCORE 20.
+ END VERB take.
+END OBJECT letter_d.
+
+LOCATION Meadow -- 73
+ DESCRIPTION "You are on a meadow on the edge of the deep abyss. To the east
+              you can see a bright light. The meadow continues west."
+ EXIT n TO Branching_Off.
+ EXIT s TO Across_Abyss
+  CHECK eaten OF pill > 0
+  ELSE LOCATE hero AT Abyss.
+  DOES
+   "Yes, you really can fly! And so you effortlessly lift into the air and
+    drift leisurely across the deep abyss until you land on the other side ..."
+ END EXIT.
+ EXIT e TO Bright_Place.
+ EXIT w TO West_Meadow.
+ EXIT d TO Abyss.
+END LOCATION Meadow.
+
+OBJECT dummy_abyss NAME abyss AT Meadow
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB jump1, jump_across, jump_over
+  CHECK eaten OF pill > 0
+   ELSE "You try to jump over the abyss but realize in time that you won't make
+         it."
+  DOES ONLY
+   "Yes, you really can fly! And so you effortlessly lift into the air and
+    drift leisurely across the deep abyss until you land on the other side ..."
+   LOCATE hero AT Across_Abyss.
+ END VERB.
+ VERB jump_into DOES ONLY
+  "`AAAaaaahhh! What a silly idea! I will be dead'$n So you think as you are
+   falling down. But to your amazement (and relief!) ..."
+  LOCATE hero AT Abyss.
+ END VERB jump_into.
+END OBJECT dummy_abyss.
+
+LOCATION Bright_Place NAME Bright Place -- 74
+ DESCRIPTION "You are at a very bright place. All ways but the one back are
+              blocked by big rocks."
+ EXIT w TO Meadow.
+END LOCATION Bright_Place.
+
+OBJECT sunshine AT Bright_Place
+ HAS alight 1.
+ VERB examine DOES ONLY
+  "It radiates a bright, warm, yellow light. Or, actually, it *is* bright,
+   warm, yellow light."
+ END VERB examine.
+ VERB take
+  CHECK cage IN inventory
+  ELSE "It slips through your fingers."
+  DOES AFTER
+   "It slips into the cage."
+   LOCATE sunshine IN cage.
+ END VERB take.
+ VERB drop DOES AFTER
+  IF LOCATION = Country THEN
+   "The sunshine spreads across the gloomy land lighting it up."
+   LOCATE sunshine AT Limbo.
+   MAKE Country sunlit.
+  END IF.
+ END VERB drop.
+END OBJECT sunshine.
+
+LOCATION West_Meadow NAME 'West Meadow' -- 75
+ DESCRIPTION "You are on the west side of the meadow. Except to the east the
+              place is surrounded by impenetrable forest."
+ EXIT e TO Meadow.
+END LOCATION West_Meadow.
+
+OBJECT cage AT West_Meadow
+ CONTAINER
+ VERB examine DOES ONLY
+  "A small, golden metal cage."
+  LIST cage.
+ END VERB examine.
+END OBJECT cage.
+
+LOCATION Abyss -- 77
+ IS NOT lit.
+ IS NOT fallen.
+ DESCRIPTION "You are on the ground of the deep abyss."
+             IF Abyss IS NOT fallen THEN
+              "Apparently you have not injured yourself, probably because the
+               ground here is very elastic."
+              MAKE Abyss fallen.
+             END IF.
+             IF star IN inventory OR sunshine IN inventory THEN
+              "The abyss continues east and west."
+             ELSE
+              "It is dark."
+             END IF.
+ EXIT e TO Abyss_Bottom.
+ EXIT w TO West_End.
+END LOCATION Abyss.
+
+LOCATION West_End NAME West 'End Of' Abyss -- 78
+ IS NOT lit.
+ DESCRIPTION "You are"
+             IF star IN inventory OR sunshine IN inventory THEN
+              "at the west end of the deep abyss."
+             ELSE
+              "on the ground of the deep abyss. It is dark."
+             END IF.
+ EXIT e TO Abyss.
+END LOCATION West_End.
+
+OBJECT ladder AT West_End
+ IS NOT leaning.
+ HAS support "".
+ DESCRIPTION "There is a ladder."
+             IF ladder IS leaning THEN
+              "It is leaning against"
+              SAY support OF ladder.
+              "."
+             END IF.
+ VERB put_against, lean_against DOES ONLY
+  "You put the ladder against"
+  IF obj2 IS NOT properName THEN
+   "the"
+  END IF.
+  "$2."
+  IF hero AT Abyss_Bottom AND obj2 = wall THEN
+   "The ladder is now leaning against the southern wall, allowing good access
+    to the door above."
+  ELSE
+   "Seems not to be too useful."
+  END IF.
+  LOCATE ladder HERE.
+--!  SET support OF ladder TO name OF obj2.
+  MAKE ladder leaning.
+ END VERB.
+ VERB push DOES ONLY
+  "The ladder falls down."
+  MAKE ladder NOT leaning.
+ END VERB push.
+ VERB push_with DOES ONLY
+  "The ladder falls down."
+  MAKE ladder NOT leaning.
+ END VERB push_with.
+ VERB take DOES
+  MAKE ladder NOT leaning.
+ END VERB take.
+END OBJECT ladder.
+
+LOCATION Abyss_Bottom NAME Bottom 'Of' Abyss -- 79
+ IS NOT lit.
+ DESCRIPTION "You are at the bottom of the deep abyss."
+             IF star IN inventory OR sunshine IN inventory THEN
+              "In an unclimbable height there is a door in the southern wall.
+               A way continues east and west."
+             ELSE
+              "It is dark."
+             END IF.
+ EXIT u TO On_Ladder
+  CHECK ladder IS leaning
+   ELSE "You can't go that way."
+ END EXIT.
+ EXIT e TO Abyss_Cont.
+ EXIT w TO Abyss.
+END LOCATION Abyss_Bottom.
+
+LOCATION Abyss_Cont NAME Bottom 'Of' Abyss -- 92
+ IS NOT lit.
+ DESCRIPTION "You are"
+             IF star IN inventory OR sunshine IN inventory THEN
+              "at the east end of the deep abyss."
+             ELSE
+              "at the bottom of the deep abyss. It is dark."
+             END IF.
+ EXIT w TO Abyss_Bottom.
+END LOCATION Abyss_Cont.
+
+LOCATION On_Ladder NAME 'On The Ladder' -- 93
+ DESCRIPTION "You are on top of the ladder in front of the door."
+ EXIT u, 'in' TO Passage3.
+ EXIT d TO Abyss_Bottom.
+END LOCATION On_Ladder.
+
+LOCATION Passage3 NAME Passage -- 80
+ DESCRIPTION "You are in a passage leading south. A door is east and another
+              one leads back down into the abyss."
+ EXIT s TO Mirror_Room.
+ EXIT e TO Far_East_Room
+  CHECK door IS open
+   ELSE "The door is closed."
+  DOES MAKE door NOT open.
+ END EXIT.
+ EXIT w, d TO On_Ladder.
+END LOCATION Passage3.
+
+OBJECT door AT Passage3
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB knock_at, knock_on, knock_against DOES ONLY
+  IF stick IN inventory THEN
+   "(using the walking stick)$nWith a loud bang you knock at the door, and
+    after a second it swings open."
+   MAKE door open.
+  ELSE
+   "You knock at the door. You can barely hear it yourself."
+  END IF.
+ END VERB.
+END OBJECT door.
+
+LOCATION Mirror_Room NAME Mirror Room -- 81
+ DESCRIPTION "You are in a small room. The only visible exit is north."
+ EXIT n TO Passage3.
+ EXIT e, 'in' TO Mirrored_Room
+  DOES "You enter the mirror without problems and ..."
+ END EXIT.
+END LOCATION Mirror_Room.
+
+OBJECT mirror1 NAME mirror AT Mirror_Room
+ IS NOT takeable.
+ DESCRIPTION "On the eastern wall hangs a mirror."
+ VERB examine DOES ONLY
+  "You see nothing special about ... wait! As you look very closely, you see
+   tiny ripples disturbing its surface."
+ END VERB examine.
+ VERB jump_against, jump_into DOES ONLY
+  "As you jump against the mirror, there's no breaking glass or deformed metal,
+   but you just sink in and on the other side ..."
+  LOCATE hero AT Mirrored_Room.
+ END VERB.
+END OBJECT mirror1.
+
+LOCATION Mirrored_Room NAME Mirrored Room -- 82
+ DESCRIPTION "You are in the mirrored room. A passage leads north."
+ EXIT n TO Little_Cave.
+ EXIT w, 'in' TO Mirror_Room
+  DOES "You enter the mirror without problems and ..."
+ END EXIT.
+END LOCATION Mirrored_Room.
+
+OBJECT mirror2 NAME mirror AT Mirrored_Room
+ IS NOT takeable.
+ DESCRIPTION "On the western wall hangs a mirror."
+ VERB examine DOES ONLY
+  "You see nothing special about ... wait! As you look very closely, you see
+   tiny ripples disturbing its surface."
+ END VERB examine.
+ VERB jump_against, jump_into DOES ONLY
+  "As you jump against the mirror, there's no breaking glass or deformed metal,
+   but you just sink in and on the other side ..."
+  LOCATE hero AT Mirror_Room.
+ END VERB.
+END OBJECT mirror2.
+
+LOCATION Little_Cave NAME Little Cave -- 83
+ DESCRIPTION "You are in a little cave. The only exit is south."
+ EXIT s TO Mirrored_Room.
+END LOCATION Little_Cave.
+
+OBJECT stick NAME walking stick AT Little_Cave
+ VERB examine DOES ONLY
+  "A sturdy, knotty walking stick, like your grandfather had. He used to bang
+   at your door with it when coming around for a visit. Your mother always
+   feared he'd smash the door down, but of course that never happened."
+ END VERB examine.
+END OBJECT stick.
+
+LOCATION Far_East_Room NAME Far 'East' Room -- 84
+ DESCRIPTION "You are in the far-east room. Exits are east and west."
+ EXIT e TO Wooden_Chamber.
+ EXIT w TO Passage3.
+END LOCATION Far_East_Room.
+
+OBJECT letter_r NAME letter r
+ VERB examine DOES ONLY
+  "Well, it's the letter 'R'. Nothing more, nothing less."
+ END VERB examine.
+END OBJECT letter_r.
+
+LOCATION Wooden_Chamber NAME Wooden Chamber -- 85
+ DESCRIPTION "You are in a wooden chamber. The exits are east and west. From
+              the east a little light shines in."
+ EXIT e TO Big_Branch.
+ EXIT w TO Far_East_Room.
+END LOCATION Wooden_Chamber.
+
+LOCATION Big_Branch NAME Big Branch -- 86
+ DESCRIPTION "You are on a big branch of a seemingly huge apple tree. There's
+              a hole in the trunk to the west and the ground below is in easy
+              reach."
+ EXIT w TO Wooden_Chamber.
+ EXIT d TO Garden.
+END LOCATION Big_Branch.
+
+LOCATION Across_Abyss NAME Across The Abyss -- 76
+ DESCRIPTION "You are on the other side of the deep abyss. To the east there
+              is a music shop and to the west is"
+              IF Country IS sunlit THEN
+               "open countryside. There seems to be a house to the east."
+              ELSE
+               "gloomy land."
+              END IF.
+ EXIT n TO Meadow
+  CHECK eaten OF pill > 0
+  ELSE LOCATE hero AT Abyss.
+  DOES
+   "Yes! You really can fly! And so you effortlessly lift into the air and
+    drift leisurely across the deep abyss until you land on the other side ..."
+ END EXIT.
+ EXIT e TO Music_Shop.
+ EXIT w TO Country.
+ EXIT d TO Abyss.
+END LOCATION Across_Abyss.
+
+LOCATION Country -- 87
+ IS NOT sunlit.
+ DESCRIPTION "You are in"
+             IF Country IS sunlit THEN
+              "open countryside. A hill is to the south."
+             ELSE
+              "a gloomy country."
+              IF sunshine IN cage THEN
+               "Your sunshine spends a little light."
+              END IF.
+             END IF.
+ EXIT n, w TO Country2.
+ EXIT s TO At_Hill.
+ EXIT e TO Across_Abyss.
+END LOCATION Country.
+
+LOCATION At_Hill NAME 'At' Hill -- 88
+ IS blocked.
+ DESCRIPTION "You are at the small hill in front of an entrance to a cave."
+             IF At_Hill IS blocked THEN
+              "It is blocked by a group of plants."
+             END IF.
+ EXIT n TO Country.
+ EXIT s, 'in' TO Final_Gate
+  CHECK At_Hill IS NOT blocked
+   ELSE "The plants won't let you pass."
+ END EXIT.
+END LOCATION At_Hill.
+
+OBJECT plants NAME plant
+              NAME group 'of' plants AT At_Hill
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  "They vaguely resemble human figures which just don't trigger a memory."
+ END VERB examine.
+END OBJECT plants.
+
+LOCATION Final_Gate NAME The FINAL GATE -- 89
+ DESCRIPTION "You are in the cave at the FINAL GATE. The pink man is also here.
+              He asks you for the key to open it."
+ EXIT n TO At_Hill.
+END LOCATION Final_Gate.
+
+LOCATION Country2 NAME Country -- 90
+ DESCRIPTION "You are in"
+             IF Country IS sunlit THEN
+              "open countryside."
+             ELSE
+              "a gloomy country."
+              IF sunshine IN cage THEN
+               "Your sunshine spends a little light."
+              END IF.
+             END IF.
+ EXIT n, s, w TO Country2.
+ EXIT e TO Country.
+END LOCATION Country2.
+
+LOCATION Music_Shop NAME Music Shop -- 91
+ DESCRIPTION "You are in the music shop. The pink man is behind the retailer."
+             IF flute NOT IN inventory THEN
+              "He says: `Flutes for sale!'"
+             END IF.
+             "You can hear some psychedelic music."
+ EXIT w TO Across_Abyss.
+END LOCATION Music_Shop.
+
+OBJECT flute
+END OBJECT flute.
+
+-- Actors
+
+ACTOR Pink_Man NAME Pink Man AT ToiletRoom
+ CONTAINER
+ IS NOT met.
+ DESCRIPTION ""
+ VERB give DOES ONLY
+  IF obj = paper THEN
+   "`Yes, thank you very much.'"
+   IF Pink_Man IS met THEN
+    "So it does pay to be nice to people, after all!'"
+   END IF.
+   "$n
+   He does what he has to, gets up, flushes the toilet and hurries out of the
+   room. You just can see that he seems to have no problem using the exit."
+   MAKE toilet open.
+   LOCATE paper AT Limbo.
+  ELSE
+   "`No, look, that's not what I need!'"
+  END IF.
+ END VERB give.
+END ACTOR Pink_Man.
+
+ACTOR ET NAME Alien AT Wide_Place
+ CONTAINER
+ DESCRIPTION "A small alien with a glowing finger is here."
+ VERB examine DOES ONLY
+  "The alien shrinks back a little as you take a closer look, but lets your
+  eyes wander over him unhindered otherwise. It is about one meter high, with
+  big eyes and very wrinkled skin. And his right index finger is glowing."
+ END VERB examine.
+ SCRIPT 1.
+  DESCRIPTION "The alien is anxiously looking toward the sky."
+  STEP
+  USE SCRIPT 2.
+ SCRIPT 2.
+  DESCRIPTION "The alien seems to be waiting for something."
+  STEP
+  USE SCRIPT 3.
+ SCRIPT 3.
+  DESCRIPTION "The alien longingly looks to the telephone-box."
+  STEP
+  USE SCRIPT 1.
+END ACTOR ET.
+
+SYNONYMS ET = Alien.
+
+ACTOR Dealer NAME sneaky looking person
+             NAME dealer AT Market
+ CONTAINER
+ IS NOT properName.
+ DESCRIPTION "A sneaky looking person is here."
+ VERB examine DOES ONLY
+  "Hm... Slimy, sneaky, but somehow familiar."
+ END VERB examine.
+ VERB ask DOES ONLY
+  "`Hey, man, real great stuff, eh! Makes you fly! Wanna buy?'"
+ END VERB ask.
+ VERB ask_about DOES ONLY
+  IF obj = pill THEN
+   "`Hey, man, real great stuff, eh! Makes you fly! Wanna buy?'"
+  ELSE
+   "`I dunno nuthing 'bout that!'"
+  END IF.
+ END VERB ask_about.
+ SCRIPT 1.
+  STEP
+   "The sneaky looking person asks you `Wanna buy some hot stuff, eh?'"
+  STEP
+   "`Hey, pal, I know what ya want!' whispers the slimy person, and nudges you
+    into the side."
+  STEP
+   USE SCRIPT 1.
+END ACTOR Dealer.
+
+ACTOR Monster NAME big ugly monster AT Monster_Hall
+ CONTAINER
+ DESCRIPTION "A big, ugly monster blocks the southern passage."
+ VERB give DOES ONLY
+  IF obj = joke THEN
+   "The monster takes it warily and looks at it, rather puzzled. Then it begins
+    to laugh, and laugh, and laughs itself away."
+   LOCATE Monster AT LIMBO.
+  ELSIF obj = apple OR obj = paper THEN
+   "The monster takes it greedily and gulps it down, but moves not a
+    millimeter."
+   LOCATE obj AT LIMBO.
+  ELSE
+   "The monster eyes it warily but seems not interested in the end."
+  END IF.
+ END VERB give.
+END ACTOR Monster.
+
+ACTOR Professor AT Telescope_Room
+ CONTAINER
+ DESCRIPTION "The professor is here."
+ VERB examine DOES ONLY
+  "A white-clad man with not so much hair anymore, and a strange, yet familiar
+   device in front of his eyes, which he is often fingering."
+ END VERB examine.
+ SCRIPT 1.
+  STEP
+   "`What is that?' he asks, and points to the tube."
+END ACTOR Professor.
+
+OBJECT device IN professor
+ VERB take DOES ONLY
+  "`He! What does this mean?' The professor evades you and looks irritated."
+ END VERB take.
+ VERB take_from DOES ONLY
+  "`He! What does this mean?' The professor evades you and looks irritated."
+ END VERB take_from.
+ VERB examine DOES ONLY
+  "Hm. As you look at it you remember that it was some new device to help people
+   with bad eye-sight."
+ END VERB examine.
+END OBJECT device.
+
+SYNONYMS glasses = device.
+
+ACTOR Quanx AT Limbo
+ CONTAINER
+ DESCRIPTION "The Quanx is here."
+ SCRIPT 1.
+  STEP
+   "The Quanx asks: `Do you have a spunkie for me?'"
+END ACTOR Quanx.
+
+ACTOR Chinese AT Far_East_Room
+ CONTAINER
+ DESCRIPTION "A fat, mute chinese is sitting here."
+END ACTOR Chinese.
+
+-- Rules
+
+WHEN hero AT Wide_Place AND coin NOT IN ET =>
+ USE SCRIPT 1 FOR ET.
+
+WHEN hero AT Market AND golden_box NOT IN Dealer =>
+ USE SCRIPT 1 FOR Dealer.
+
+WHEN hero AT Low_Passage =>
+ LOCATE Pink_Man AT hero.
+
+WHEN hero AT Telescope_Room AND star NOT IN inventory =>
+ USE SCRIPT 1 FOR Professor.
+
+WHEN hero AT Wavy_Room AND spunkie IN inventory =>
+ LOCATE Quanx AT hero.
+ USE SCRIPT 1 FOR Quanx.
+
+WHEN eaten OF pill > 0 =>
+ "You are feeling very light."
+ DECREASE eaten OF pill.
+
+-- Verbs
+
+SYNTAX
+ clean0 = clean (obj).
+ clean1 = clean (obj1) with (obj2)
+  WHERE obj2 ISA OBJECT
+   ELSE "You can't clean something with that!"
+
+ put_against = put (obj1) against (obj2)
+  WHERE obj1 ISA OBJECT
+   ELSE "You can't put this against something."
+ lean_against = lean (obj1) against (obj2)
+  WHERE obj1 ISA OBJECT
+   ELSE "You can't lean this against something."
+
+ sew = sew (obj1) 'to' (obj2)
+  WHERE obj1 ISA OBJECT
+   ELSE "You can't sew this to anything."
+
+ use1 = 'use' (obj)
+  WHERE obj ISA OBJECT
+   ELSE "You can't use that."
+
+SYNONYMS dust, wipe = clean.
+
+VERB clean0 DOES
+ "You make the $1 really shiny."
+END VERB clean0.
+
+VERB clean1
+ CHECK obj2 IN inventory OR obj2 HERE
+ ELSE
+  "You haven't got any $2."
+ DOES
+  "You make the $1 really shiny."
+END VERB clean1.
+
+VERB put_against, lean_against DOES
+ "This seems not to be too useful."
+ LOCATE obj1 HERE.
+END VERB.
+
+-- Redefined dummy objects
+
+OBJECT ceiling
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  IF hero AT Canalization THEN
+   "It's in easy reach."
+  ELSE
+   "You can't reach the ceiling."
+  END IF.
+ END VERB examine.
+END OBJECT ceiling.
+
+OBJECT wall NAME northern southern western eastern wall
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  IF hero AT Echo_Chamber THEN
+   "The northern wall looks unstable."
+  ELSIF hero AT Rubber_Room THEN
+   "The northern wall is graced by a giant-sized zip-fastener."
+  ELSE
+   "There's nothing special about the $1."
+  END IF.
+ END VERB examine.
+ VERB push DOES ONLY
+  IF hero AT Echo_Chamber THEN
+   "It doesn't give, it only shakes and swings a little."
+  ELSE
+   "You can't push it."
+  END IF.
+ END VERB push.
+END OBJECT wall.
+
+OBJECT Floor
+ IS NOT takeable.
+ DESCRIPTION ""
+ VERB examine DOES ONLY
+  IF hero AT Rubber_Room THEN
+   "It's quite springy."
+  END IF.
+ END VERB examine.
+END OBJECT Floor.
+
+-- Start
+
+START AT Rubber_Room.
+--  @set_colour 8 7; ! cyan on magenta ;-}
+-- ,,Escher''-Logo
+
+" , , , , , , , , , , , , , , , , , , ,$n
+,, , , , , , , , , , , , , , , , , ,$n
+, , , /¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯+, , ,$n
+,, , /¯_¯_¯_¯_¯_¯_¯_¯_¯_¯_¯ ¯_/| , ,$n
+, , +--------------------+ ¯_/ |, , ,$n
+,, ,|. . . . . . . . . ./ ¯_/ || , ,$n
+, , | . . . . . . . . ./ ¯_/ | +, , ,$n
+,, ,|. . . . . . . . ./ ¯_/ | /, , ,$n
+, , | . .+---+-------/ ¯_/ | /, , , ,$n
+,, ,|. . || || , , ,/ ¯_/ | /, , , ,$n
+, , | . .| | |, , ,/ ¯_/ | /, , , , ,$n
+,, ,|. . || || , ,/ ¯_/ | /, , , , ,$n
+, , | . .| | |, ,/ ¯_/ | /, , , , , ,$n
+,, ,|. . || || ,/ ¯_/ | /, , , , , ,$n
+, , | . .| | |,/ ¯_/ | /, , , , , , ,$n
+,, ,|. . || ||/ ¯_/ | /, , , , , , ,$n
+, , | . .| | | ¯_/ | /, ,*JOKES*, , ,$n
+,, ,|. . || ||¯_/ | /, , , , , , , ,$n
+, , | . .| | |_/ | /, ,an , , , , , ,$n
+,, ,|. . || ||/ | /, , , , , , , , ,$n
+, , | . .| | + | /, ,Interactive, , ,$n
+,, ,|. . || | | /, , , , , , , , , ,$n
+, , | . .| | | /, ,Experience , , , ,$n
+,, ,|. . || | /, , , , , , , , , , ,$n
+, , | . .| | /, ,©1983,86,95-97 , , ,$n
+,, ,|. . || /, , , , , , , , , , , ,$n
+, , | . .| /, ,by JuL , , , , , , , ,$n
+,, ,|. . |/, , , , , , , , , , , , ,$n
+, , +----+, ,Release 4 (Alan) , , , ,$n
+,, , , , , , , , , , , , , , , , , ,$n
+, , , , , , , , , , , , , , , , , , ,$n"
+" $n
+  WELCOME TO THIS MEANWHILE ALAN TEXTADVENTURE!$n
+  $n
+  You went to sleep last night and all seemed well.$n
+  But then you woke up this morning and you were here in this strange place,
+  barely knowing who you are, and not at all where you've been before. So now
+  you have to explore the surroundings to seek for an exit.$n
+  Examine the locations and things you see very carefully. Some may well be
+  helpful. Because in this strange place things are not always what they seem
+  to be, or behave normally, you will have to think about their use.
+  Also you will meet some odd people.$n
+  Use simple commands like `GET COIN' to act or N,S,E,W,U,D,IN and O to move.$n
+  $n
+  GOOD LUCK!!!$n"
+ SCHEDULE TurnCounter AFTER 1.
+ SCHEDULE RoomMover AFTER 0.
+
+-- END
+

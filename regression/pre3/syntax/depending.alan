@@ -1,0 +1,23 @@
+Location l
+  Is
+    a 1.
+    b 2.
+End location l.
+
+start at l.
+	depending on x 
+
+	Contains y : ""
+
+	4 : ""
+
+	Contains : ""
+
+	= : ""
+
+	between 12 : ""
+
+	End If.
+	
+	
+

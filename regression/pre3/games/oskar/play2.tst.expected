@@ -1,0 +1,422 @@
+########## play2 ##########
+alan oskar.ala
+arun oskar < play.2
+########## /bin/sh  play2.tst ##########
+
+
+message.ala
+
+   39.1 MESSAGE RETRY: "Willst Du noch mal anfangen (y) ?"
+=====>          1
+
+  *1*   223 W : Unknown message identifier.
+
+
+
+        No detected errors.
+        1 warning(s).
+
+
+ 
+             Oskar und der Tod, v1.1 
+             ----------------------- 
+
+eine interaktive Geschichte 
+
+Wenn Du noch nie eine solche Geschichte gespielt hast, gib 'Hilfe' ein. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+In dem verbeulten Briefkasten mit der Aufschrift 
+
+    T. Fink, Privatdetektiv. 
+
+    Ermittlungen für Wirtschaft und Privat. 
+
+lag ein dunkelbrauner Brief. Er war mit einem Federhalter geschrieben und
+stammte von einem Herrn Oskar Lintzmeyer aus Dodeleben. 
+Er fühle sich -- so schrieb er - seit einiger Zeit bedroht. Genaueres ist
+nicht zu erfahren, nur daß man ihm 'nach dem Leben trachtet'. Typischer
+Fall von Verfolgungswahn oder Verkalkung. Aber 500 Mark Tagessatz sind
+eine Menge Geld. 
+
+<mehr>
+Eine Wahl hast Du nicht, denn Dein Konto ist leer. Mit den letzten
+50 Mark kaufst Du eine Fahrkarte nach Finsterwalde, dem nächstgelegenen
+Bahnhof. 
+
+
+Bahnsteig.
+Bahnsteig von Finsterwalde: S: Bahnhofshalle. 
+
+Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen, an
+dessen Enden Brennesseln und Strauchwerk wachsen. Auch im Rißmuster des
+Betons haben sich bereits Pflanzen angesiedelt. Die sonnenbeschienenen 
+Gleise strömen den Geruch von altem Öl aus. Ein Schild warnt vor dem
+Überschreiten der Gleise.
+
+> 
+> f581122
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> no
+Bad.
+BAD:    SW: unterer Flur
+
+ Das Badezimmer wirkt gespenstisch. Auf den ersten Blick ist nicht klar
+warum. Ist es das trübe Licht aus der kugelförmigen Lampe an der Decke? 
+Oder die bleiweiße Tünche, welche sich in den Ecken schon dunkel gefärbt
+hat? Die ehemals verchromten Armaturen sind korrodiert. Alles ist hier
+blau: Das Waschbecken, der Toilettensitz, auch der Spiegel scheint leicht
+blau getöntes Glas zu haben. Sogar der Zahnputzbecher ist blau. Nur der
+Kamm ist giftgrün.
+
+> x tünche
+Bei der dunklen Färbung der Wand scheint es sich um eine chemische
+Reaktion zu handeln. In der Nähe der Toilette ist die braun-schwärzliche
+Färbung stärker. Seltsamerweise ist neben dem Waschbecken ein scharf
+begrenzter, viel hellerer Fleck.
+
+> x krümel
+Eben Krümel der Farbe. Kleine Partikel.
+
+> nimm krümel
+Ich hab es genommen. Du nimmst ein kleines Plastiktütchen aus der Tasche
+und beförderst vorsichtig etwas von der Farbe hinein.
+Punkte: 1 von 33.
+
+> x zahnbürste
+Seltsam, seltsam.. Die Borsten sind noch gerade, fast wie neu. Dennoch
+sind sie braun-schwärzlich verfärbt.
+
+> nimm zahnbürste
+Ich hab es genommen. Punkte: 2 von 33.
+
+> i
+Du trägst: eine fahrkarte, eine deutsche mark, ein paar farbkrümel und 
+eine zahnbürste.
+
+> sw
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> nw
+Keller.
+Keller. SO: Unterer Flur. 
+
+Hier im Keller befinden sich der Heizkessel, Kohle, Holz und ein Korb mit
+Knüllpapier.
+
+> x kohlen
+Sattschwarze Briketts, glatt und schwer, sind aun der Wand aufgeschichtet.
+
+> x holz
+Grobe Stücke und gehacktes Holz. Ein ganzer Haufen
+
+> x kessel
+Der Kessel der Zentralheizung. Wird mit Kohle gefeuert.
+
+> x korb
+Das meiste sind alte Zeitungen. Genaueres Untersuchen fördert jedoch
+einen Zettel zutage, geschrieben mit männlicher Handschrift, und grüner
+Tinte:
+
+    letale Dosis: 10g
+    täglich applizierbar: höchstens 100mg
+    davon gespeichert: 10mg bis 50mg
+    also: 200 Tage .. 3 Jahre. Mist.
+ Punkte: 3 von 33.
+
+> 
+> lies knüllpapier
+Das meiste sind alte Zeitungen. Genaueres Untersuchen fördert jedoch
+einen Zettel zutage, geschrieben mit männlicher Handschrift, und grüner
+Tinte:
+
+    letale Dosis: 10g
+    täglich applizierbar: höchstens 100mg
+    davon gespeichert: 10mg bis 50mg
+    also: 200 Tage .. 3 Jahre. Mist.
+ Punkte: 3 von 33.
+
+> so
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> sw
+Bibliothek.
+Bibliothek: NO: Flur, N: Wohnzimmer.
+
+ Die Bibliothek ist eigentlich zum Lesen nicht geeignet. Es gibt hier
+zwar Kataloge und dicke Leitz-Ordner auf einem langen
+Mahagonischreibtisch und viele Ledereinbände in einem hohen Bücherregal
+aus Eiche, es fehlt aber ein venünftiger Stuhl. Lediglich ein Hocker mit
+Kunstlederbezug steht in der Ecke. Er sieht aus, als gehöre er nicht
+hierher.
+
+> 
+> untersuche kataloge
+Kataloge verschiedener Versandhäuser. Außerdem Drucksachen von
+Buchhandlungen, ein Telefonbuch und einge ältere Zeitungen.
+
+> lies zeitungen
+Es steht nichts drin, was Dich hier weiterbringt.
+
+> x ordner
+In diesen Ordnern sind alle Rechnungen enthalten, welche das Haus
+betreffen, vom Schornsteinfeger bis zur Müllabfuhr. Die Unterlagen
+scheinen ziemlich komplett zu sein, denn der älteste Ordner trägt die
+Aufschrift '1951-1953'.
+
+> lies rechnungen
+Alle zu lesen ist schier unmöglich. Bestimmte Rechnungen herauszusuchen
+sollte zu schaffen sein, z.B. LIES die RECHNUNGEN VOM SCHORNSTEINFEGER.
+
+> lies rechnungen vom schornsteinfeger
+Du findest nicht von Interesse.
+
+> lies rechnungen vom Maler
+In all den Jahren findet sich nur eine einzige Malerrechnung. Sie stammt
+aus dem Jahre 1961 und betrifft das Bad:
+    Alten Anstrich entfernt, Putzschäden behoben.
+    Rohre mit weißer Ölfarbe gestrichen.
+    Den gesamten Raum 2x mit Bleiweißtünche angestrichen.
+ 
+ Material        358,--
+ 43 Stunden     1376,--
+                _________
+                1734,--
+Punkte: 4 von 33.
+
+> lies buch
+Dafür, alles zu lesen, ist jetzt aber keine Zeit. Wichtige Dinge im
+Lexikon nachzusehen wäre aber machbar: LIES IM LEXIKON ÜBER
+was-auch-immer.
+
+> lies im lexikon über pilz
+'pilz'? Dieses Wort kenne ich gar nicht.
+
+> lies im Lexikon über Bleiweiss
+*Bleiweiß* ist basisches Bleikarbonat. Es wird hergestellt, indem
+Bleiacetat in der Wärme mit Alkalikarbonat versetzt wird. In der Natur
+kommt es als Hydrocerussit vor.
+ Bleiweiß wird als Malerfarbe verwendet. Von allen weißen Malerfarben hat
+es den schönsten Glanz, zudem eine große Deckkraft und gutes
+Haftvermögen. Deshalb konnte es sich trotz seiner Giftigkeit
+(->Bleivergiftung) und Empfindlichkeit gegen Schwefelwasserstoff (braune
+Verfärbung durch Bildung von Bleisulfid) als Malerfarbe behaupten.
+Punkte: 5 von 33.
+
+> lies im Lexikon über Bleivergiftung
+*Bleivergiftung* Die Giftigkeit von Bleiverbindungen war schon den Römern
+bekannt. Blei wird vom Margen-Darm-Trakt schlecht (10-20%) von der Lunge
+besser (>80%) aufgenommen. Durch Beeinflussung des Enzymsystems wird die
+Bildung von Erythtrozyten gestört. Die Vergiftung führt weiter zu
+Degeneration der motorischen Nerven.
+ Symptome sind Letharie, Übelkeit, Schwindelgefühle und Kopfschmerzen
+sowie im fortgeschrittenen Stadium Bewegungsstörungen
+ Blei lagert sich in den Kochen und auch in den Haaren ab und kann dort
+noch nach jahrhunderten mit chemischen Methoden nachgewiesen werden. So
+gilt nach Untersuchung von historischen Haarproben als gesichert, das
+Napoleon letztlich an einer Bleivergiftung starb. Punkte: 6 von 33.
+
+> no
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> so
+Schlafzimmer.
+Schlafzimmer. NW: Flur, N: Küche. Ein breites Bett mit braunen Giebeln
+beherrscht den Raum. Es ist mit einer dunkelblauen Tagesdecke überzogen.
+Außer einem weißen, rollbaren Nachtschränkchen ist es das einzige
+Möbelstück im Raum.
+
+> x bett
+Am Bett ist nicht Interessantes zu entdecken.
+
+> x nachtschränkchen 
+In der Schublade befinden sich eine Brille, ein paar Groschenromane und
+eine Schachtel mit Schlaftabletten.
+
+> x Groschenromane
+'groschenromane'? Dieses Wort kenne ich gar nicht.
+
+> nw
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> o
+Küche.
+Küche: W: Flur, S: Schlafzimmer.
+
+ Die Kücheneinrichtung ist auffallend modern: eine Edelstahlspüle,
+weiß-blaue Küchenmöbel mit Holzarbeitsplatten, ein Stahlrohrtisch und
+eine Eckbank.
+
+> x spüle
+Es ist kein Abwasch darin, alles blitzsauber.
+
+> x Küchenmöbel
+Töpfe, Pfannen, Geschirr, Besteck, Vorräte - was man in einer Küche eben
+so findet.
+
+> x Töpfe
+Ganz normale Kücheneinrichtung - nichts auffälliges.
+
+> w 
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> hinauf
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> w
+Zimmer Von Marc.
+Zimmer von Marc: O: oberer Flur.
+
+ Eine Musikanlage von der Größe einer Telefonzelle beherrscht das Zimmer.
+In den Ecken stehen monströse Boxen, dnaeben zwei CD-Türme.
+ Erst auf den zweiten Blick erkennt man, daß hier auch jemand *wohnt* --
+ein Schreibtisch, ein Schrank und eine kleine Liege weisen darauf hin.
+
+> x liege
+Eine Klappliege. In der Klappe ist das Bettzeug.
+
+> x cd
+Es ist schon eine Weile her, daß Du in dieser Szene zu Hause warst. Heavy
+Metal, das kannst Du erkennen. Nach längerem Suchen finden sich sogar ein
+paar alte Scheiben von Pink Floyd aus den 70ern.
+
+> x schreibtisch
+Auf dem Tisch befinden sich mehrere Bücher über Chemie, außerdem ein
+Becher mit Schreibzeug. In den Fächern sind weitere Bücher, ein paar alte
+Kekse und eine Flasche Cola, sowie einige Hefter.
+
+> x kuli
+Nix besonderes daran zu sehen.
+
+> x füller
+Ein Pelikan-Schulfüllhalter. Schreibt grün.
+
+> o
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> s
+Labor.
+Labor von Marc: N: oberer Flur.
+
+ An einer schrägen Wand steht ein alter Tisch, der mit einem Stück
+hellgrünen Fußbodenbelag gegen Flüssigkeit unempfindlich gemacht wurde.
+Davor steht ein unbequem aussehender, dunkelbrauner Stuhl.
+ Auf dem Tisch steht eine komplizierte Apparatur, daneben liegen ein
+Handbuch und eine Broschüre.
+ An der Wand ist ein Regal befestigt, indem zahllose Gläser mit
+Chemikalien aufbewahrt werden. Auf einigen ist ein Totenkopfaufkleber.
+
+> x tisch
+Es ist nichts Besonderes daran.
+
+> x stuhl
+Es ist nichts Besonderes daran.
+
+> x handbuch
+Das Buch trägt den Titel 'Handbuch zum Polarographen SWP 1-1' und
+beschreibt ganz offensichtlich die Benutzung der nebenstehenden Apparatur.
+
+> untersuche Haar auf Blei
+Weit und breit kein haar.
+
+> untersuche Haar auf kupfer
+Weit und breit kein haar.
+
+> untersuche handbuch auf blei
+Es kann kein blei in handbuch nachgewiesen werden.
+
+> untersuche waschbecken auf blei
+Weit und breit kein waschbecken.
+
+> untersuche glas auf handbuch
+handbuch ist kein für den Polarographen nachweisbares Schwermetall.
+
+> n
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> s
+Labor.
+Labor von Marc: N: oberer Flur.
+
+ An einer schrägen Wand steht ein alter Tisch, der mit einem Stück
+hellgrünen Fußbodenbelag gegen Flüssigkeit unempfindlich gemacht wurde.
+Davor steht ein unbequem aussehender, dunkelbrauner Stuhl.
+ Auf dem Tisch steht eine komplizierte Apparatur, daneben liegen ein
+Handbuch und eine Broschüre.
+ An der Wand ist ein Regal befestigt, indem zahllose Gläser mit
+Chemikalien aufbewahrt werden. Auf einigen ist ein Totenkopfaufkleber.
+
+> nimm berichta7q
+Weit und breit kein berichta7q.
+
+> i
+Du trägst: eine fahrkarte, eine deutsche mark, ein paar farbkrümel und 
+eine zahnbürste.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

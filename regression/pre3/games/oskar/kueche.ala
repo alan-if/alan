@@ -1,0 +1,38 @@
+----------------------------------------------------
+location Küche
+----------------------------------------------------
+description 
+  "Küche: W: Flur, S: Schlafzimmer.$p
+   Die Kücheneinrichtung ist auffallend modern: eine Edelstahlspüle, weiß-blaue
+   Küchenmöbel mit Holzarbeitsplatten, ein Stahlrohrtisch und eine Eckbank."
+  exit W to Flur1.
+  exit S to Schlafzimmer.
+end location.
+
+object Spüle at Küche
+description   ""
+verb untersuche does
+  "Es ist kein Abwasch darin, alles blitzsauber."
+end verb.
+end object.
+
+object Möbel at Küche
+description   ""
+verb untersuche does
+  "Töpfe, Pfannen, Geschirr, Besteck, Vorräte - was man in einer
+   Küche eben so findet."
+end verb.
+end object.
+synonyms Küchenmöbel=Möbel.
+
+
+object Stahlrohrtisch name stahlrohr Tisch at Küche
+description   ""
+verb untersuche does
+  "Ganz normale Kücheneinrichtung - nichts auffälliges."
+end verb.
+end object.
+synonyms Stahlrohrtisch, Holzarbeitsplatte, Töpfe, Pfanne, Geschirr, Besteck, Vorräte,
+Bank, Eckbank,Platte,Arbeitsplatte,Holzarbeitsplatten, platten,
+arbeitsplatten=tisch.
+

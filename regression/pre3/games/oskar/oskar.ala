@@ -1,0 +1,34 @@
+-- Oskar
+
+$include 'message.ala'.
+$include 'lib.ala'.
+
+$include 'objekt.ala'.
+$include 'bahnhof.ala'.  
+$include 'wohnhaus.ala'.
+
+start at Bahnsteig.  
+
+
+"
+$n$t$t$t   Oskar und der Tod, v1.1
+$n$t$t$t -----------------------
+$peine interaktive Geschichte
+
+
+$pWenn Du noch nie eine solche Geschichte gespielt hast, gib  'Hilfe' ein.
+$n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$pIn dem verbeulten Briefkasten mit der Aufschrift
+$p$tT. Fink, Privatdetektiv.
+$p$tErmittlungen für Wirtschaft und Privat.
+$plag ein dunkelbrauner Brief. Er war mit einem Federhalter geschrieben und
+stammte von einem Herrn Oskar Lintzmeyer aus Dodeleben.
+$nEr fühle sich -- so schrieb er - seit einiger Zeit bedroht. Genaueres
+ist nicht zu erfahren, nur daß man ihm 'nach dem Leben trachtet'.
+Typischer Fall von Verfolgungswahn oder Verkalkung.
+Aber 500 Mark Tagessatz sind eine Menge Geld.
+$pEine Wahl hast Du nicht, denn Dein Konto ist
+leer. Mit den letzten 50 Mark kaufst Du eine Fahrkarte nach
+Finsterwalde, dem nächstgelegenen Bahnhof. 
+"

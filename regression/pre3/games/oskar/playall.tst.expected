@@ -1,0 +1,244 @@
+########## playall ##########
+alan oskar.ala
+arun oskar < play.all
+########## /bin/sh  playall.tst ##########
+
+
+message.ala
+
+   39.1 MESSAGE RETRY: "Willst Du noch mal anfangen (y) ?"
+=====>          1
+
+  *1*   223 W : Unknown message identifier.
+
+
+
+        No detected errors.
+        1 warning(s).
+
+
+ 
+             Oskar und der Tod, v1.1 
+             ----------------------- 
+
+eine interaktive Geschichte 
+
+Wenn Du noch nie eine solche Geschichte gespielt hast, gib 'Hilfe' ein. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+In dem verbeulten Briefkasten mit der Aufschrift 
+
+    T. Fink, Privatdetektiv. 
+
+    Ermittlungen für Wirtschaft und Privat. 
+
+lag ein dunkelbrauner Brief. Er war mit einem Federhalter geschrieben und
+stammte von einem Herrn Oskar Lintzmeyer aus Dodeleben. 
+Er fühle sich -- so schrieb er - seit einiger Zeit bedroht. Genaueres ist
+nicht zu erfahren, nur daß man ihm 'nach dem Leben trachtet'. Typischer
+Fall von Verfolgungswahn oder Verkalkung. Aber 500 Mark Tagessatz sind
+eine Menge Geld. 
+
+<mehr>
+Eine Wahl hast Du nicht, denn Dein Konto ist leer. Mit den letzten
+50 Mark kaufst Du eine Fahrkarte nach Finsterwalde, dem nächstgelegenen
+Bahnhof. 
+
+
+Bahnsteig.
+Bahnsteig von Finsterwalde: S: Bahnhofshalle. 
+
+Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen, an
+dessen Enden Brennesseln und Strauchwerk wachsen. Auch im Rißmuster des
+Betons haben sich bereits Pflanzen angesiedelt. Die sonnenbeschienenen 
+Gleise strömen den Geruch von altem Öl aus. Ein Schild warnt vor dem
+Überschreiten der Gleise.
+
+> 
+> f581122
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> no
+Bad.
+BAD:    SW: unterer Flur
+
+ Das Badezimmer wirkt gespenstisch. Auf den ersten Blick ist nicht klar
+warum. Ist es das trübe Licht aus der kugelförmigen Lampe an der Decke? 
+Oder die bleiweiße Tünche, welche sich in den Ecken schon dunkel gefärbt
+hat? Die ehemals verchromten Armaturen sind korrodiert. Alles ist hier
+blau: Das Waschbecken, der Toilettensitz, auch der Spiegel scheint leicht
+blau getöntes Glas zu haben. Sogar der Zahnputzbecher ist blau. Nur der
+Kamm ist giftgrün.
+
+> nimm kamm
+Ich hab es genommen.
+
+> nimm zahnbürste
+Ich hab es genommen. Punkte: 1 von 33.
+
+> nimm farbkrümel
+Ich hab es genommen. Du nimmst ein kleines Plastiktütchen aus der Tasche
+und beförderst vorsichtig etwas von der Farbe hinein.
+Punkte: 2 von 33.
+
+> sw
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> hinauf
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> s
+Labor.
+Labor von Marc: N: oberer Flur.
+
+ An einer schrägen Wand steht ein alter Tisch, der mit einem Stück
+hellgrünen Fußbodenbelag gegen Flüssigkeit unempfindlich gemacht wurde.
+Davor steht ein unbequem aussehender, dunkelbrauner Stuhl.
+ Auf dem Tisch steht eine komplizierte Apparatur, daneben liegen ein
+Handbuch und eine Broschüre.
+ An der Wand ist ein Regal befestigt, indem zahllose Gläser mit
+Chemikalien aufbewahrt werden. Auf einigen ist ein Totenkopfaufkleber.
+
+> untersuche farbkrümel auf blei
+Es wird viel Blei nachgewiesen. Es wird automatisch ein Bericht erzeugt.
+Der BerichtB9Y: Analyse von Farbkrümeln auf Blei liegt hier. 
+Punkte: 3 von 33. 
+
+> nimm berichtb9y
+Ich hab es genommen.
+
+> untersuche haare auf blei
+Es wird sehr viel Blei nachgewiesen. In diesem Fall druckt der Automat
+einen Bericht aus.
+Es liegt der BerichtA7Q: Analyse von Kopfhaar auf Blei hier. 
+Punkte: 4 von 33. 
+
+> nimm berichta7q
+Ich hab es genommen.
+
+> untersuche zahnbürste auf blei
+Es wird viel Blei nachgewiesen. Es wird automatisch ein Bericht erzeugt.
+Der BerichtC1V: Analyse von Zahnbürstenhaaren auf Blei liegt hier. 
+Punkte: 5 von 33. 
+
+> nimm berichtc1v
+Ich hab es genommen.
+
+> n
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> hinunter
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> w
+Wohnzimmer.
+Wohnzimmer. O: unterer Flur, S: Bibliothek 
+
+Das Wohnzimmer ist ein großer, heller Raum mit vier Fenstern. Die
+Möbilierung beweist einen recht guten Geschmack - ein Buffet aus heller
+Eiche und ein runder Eßtisch mit vier Stühlen. Zudem ein Sofa, ein
+Couchtisch und zwei Sessel sowie ein fast antikes Radio.
+
+> zeige oskar berichtb9y
+Sie sind also auch ein Chemiker? Und Sie haben Blei in der Wandfarbe des
+Bades nachgewiesen? Das hätten Sie auch aus der Malerrechnung erfahren
+können.
+
+> zeige oskar berichtc1v
+Meine Zahnbürste ist mit Blei vergiftet? Und Sie tippen auf Marc? Da
+sehen sie mal, wie man sich in den Menschen täuschen kann. Aber so
+richtig glaube ich es erst, wenn er selbst ein Geständnis ablegt.
+Aber jetzt sollte ich wohl zum Arzt gehen und hoffen, daß er mir noch
+helfen kann.
+Punkte: 10 von 33.
+
+> o
+Unterer Flur.
+Flur(Parterre): N: Garten, NW: Keller, W: Wohnzimmer, SW: Bibliothek, 
+                SO: Schlafzimmer, O: Küche, NO: Bad, 
+                HINAUF: Treppe zum oberen Flur. 
+
+Das Wohnhaus besteht aus zwei Stockwerken. Der Flur des Erdgeschosses ist
+ein ziemlich langer, hoher, aber dunkler Raum. Er wird lediglich von
+einem kleinen Fenster an der Südseite erhellt. Neben einer recht großen
+Garderobe und einem Spiegel befindet sich hier eine kleine Kommode.
+
+> hinauf
+Oberer Flur.
+Oberer Flur:    W: Zimmer vom Marc, S: Labor
+                HINUNTER: Treppe zum unteren Flur.
+
+ Der Flur des Dachgeschosses ist winzig. Es gibt hier wohl deshalb auch
+keine Möbel, nur einen kleinen Teppich.
+
+> w
+Zimmer Von Marc.
+Zimmer von Marc: O: oberer Flur.
+
+ Eine Musikanlage von der Größe einer Telefonzelle beherrscht das Zimmer.
+In den Ecken stehen monströse Boxen, dnaeben zwei CD-Türme.
+ Erst auf den zweiten Blick erkennt man, daß hier auch jemand *wohnt* --
+ein Schreibtisch, ein Schrank und eine kleine Liege weisen darauf hin. 
+
+Marc ist im Zimmer.
+
+> zeige marc berichtb9y
+Du hast also den Polarographen in Gang gekriegt. Alle Achtung.
+
+> zeige marc berichtc1v
+Marc wird blaß. Dann fängt er an zu stottern..
+ Weißt Du ich bin da so reingerutscht. Zuerst haben wir immer nur Billard
+gespielt, aber eben mit Kontra und Re. Und da habe ich einen riesigen
+Berg Schulden gemacht. Dann haben die Jungs angefangen mir zu drohen.
+Wenn ich nicht bezahle, machen sie mich kalt. Siehst Du die Narbe hier. 
+Das war "Joe das Rasiermesser".
+ Schließlich sind sie auf die Idee gekommen, daß man in diesem Haus ein
+Rauschgift herstellen könnte. Ein wenig Ahnung von Chemie hab' ich ja.
+Und so kam dann der Plan zustande, Onkels Leben ein wenig zu verkürzen --
+er ist ja schon alt.
+
+ Plötzlich ergereift Marc die Flucht. Du rennst nicht hinterher. Alles
+weitere wird die Polizei schon erledigen. Aber Oskar ist erst mal
+gerettet. Wie Du den Alten kenenngelernt hast, wird er sich bestimmt
+wieder aufrappeln, zähe wie er ist.
+
+Punkte: 20 von 33. Du hast das Spiel erfolgreich beendet. Bis zum nächten
+Mal!
+
+Do you want to RESTART, RESTORE or QUIT ? hilfe
+Do you want to RESTART, RESTORE or QUIT ? 
+Do you want to RESTART, RESTORE or QUIT ? 

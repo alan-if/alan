@@ -1,0 +1,113 @@
+----------------------------------------------------
+location MarcZ name Zimmer von Marc
+----------------------------------------------------
+description 
+  "Zimmer von Marc: O: oberer Flur.$p
+   Eine Musikanlage von der Größe einer Telefonzelle beherrscht
+   das Zimmer. In den Ecken stehen monströse Boxen, dnaeben zwei CD-Türme.$n
+   Erst auf den zweiten Blick erkennt man, daß hier auch jemand *wohnt* --
+   ein Schreibtisch, ein Schrank und eine kleine Liege weisen darauf hin."
+  exit O to flur2.
+end location.
+
+object Musikanlage at MarcZ 
+description ""
+verb untersuche does
+  "Ein kompakter Turm von 1 Meter 50 Größe. Ausgangsleistung 2x600W
+   steht drauf. Damit kann man sicher das Dach abdecken."
+end verb.
+end object.
+
+object Boxen at MarcZ 
+description ""
+verb untersuche does
+  "Sie sind aus hellem Holz und enthalten 3 Lautsprecher, soweit das
+   zu erkennen ist. An der Seite ist eine Graphik des Frequenzganges
+   abgebildet."
+end verb.
+end object.
+
+object CDturm at MarcZ 
+description ""
+verb untersuche does
+  "Jeder dieser Türme bietet Platz für einige Hundert CDs. Sie sind
+   weitgehend gefüllt."
+end verb.
+end object.
+synonyms turm=CDturm.
+
+object CD at MarcZ 
+description ""
+verb untersuche does
+  "Es ist schon eine Weile her, daß Du in dieser Szene zu Hause warst.
+   Heavy Metal, das kannst Du erkennen. Nach längerem Suchen finden
+   sich sogar ein paar alte Scheiben von Pink Floyd aus den 70ern."
+end verb.
+end object.
+
+
+object Schrank at MarcZ 
+description ""
+verb untersuche does
+  "Hier findet sich nur Kleidung: Jeans, T-Shirts, Socken, Unterwäsche."
+end verb.
+end object.
+
+
+object Liege at MarcZ 
+description ""
+verb untersuche does
+  "Eine Klappliege. In der Klappe ist das Bettzeug."
+end verb.
+end object.
+
+
+object Schreibtisch at MarcZ 
+description ""
+verb untersuche does
+  "Auf dem Tisch befinden sich mehrere Bücher über Chemie, außerdem 
+   ein Becher mit Schreibzeug. In den Fächern sind weitere Bücher,
+   ein paar alte Kekse und eine Flasche Cola, sowie einige Hefter."
+end verb.
+end object.
+
+object Chemiebücher name chemische Bücher at MarcZ 
+description ""
+verb untersuche does
+  "Chemie scheint Marcs Hobby zu sein. Jedenfalls liegen hier mehrere, schwer
+   verständliche Bücher herum mit Titeln wie Anorganikum, Giftkunde für 
+   Chemieingenieure, Organische Chemie oder Chemie in Haushalt und Industrie."
+end verb.
+end object.
+
+object Schreibzeug at MarcZ 
+description ""
+verb untersuche does
+  "Ein Druckbleistift, ein kurzes Lineal, ein Kuli und ein Patronenfüller."
+end verb.
+end object.
+
+
+object Cola at MarcZ 
+description ""
+verb untersuche does
+  "Nix besonderes daran zu sehen."
+end verb.
+end object.
+synonyms Flasche, Colaflasche, Hefter, Kuli, Lineal, Druckbleisitift, socken,
+Jeans, Unterwäsche=Cola.
+
+object Patronenfüller at MarcZ 
+is takeable.
+description ""
+verb untersuche does
+  "Ein Pelikan-Schulfüllhalter. Schreibt grün."
+end verb.
+end object.
+synonyms Füller, Füllhalter, Patronenfüllhalter=Patronenfüller.
+
+
+
+
+
+

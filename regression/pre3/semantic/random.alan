@@ -1,0 +1,12 @@
+Syntax r = r.
+Verb r
+  Does
+    Say Random 1 To dark Of l.
+End Verb.
+
+Location l
+  Is dark.
+End Location.
+
+Start At l.
+  "'r' to generate a random number."

@@ -1,0 +1,27 @@
+Location l
+  Is
+    a 1.
+    b 2.
+End location l.
+
+start at l.
+	depending on x 
+
+	Contains y : ""
+
+	> 4 : ""
+
+	is b : ""
+
+	= "this" : ""
+
+	between 12 and "4" : ""
+
+	else increase a of l by x.
+
+	not > "foo" : set a of y to b.
+
+	End Depend.
+	
+	
+

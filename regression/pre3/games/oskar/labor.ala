@@ -1,0 +1,255 @@
+----------------------------------------------------
+location Labor
+----------------------------------------------------
+description 
+  "Labor von Marc: N: oberer Flur.$p
+   An einer schrägen Wand steht ein alter Tisch, der mit einem Stück 
+   hellgrünen Fußbodenbelag gegen Flüssigkeit unempfindlich gemacht wurde. 
+   Davor steht ein unbequem aussehender, dunkelbrauner Stuhl.$n
+   Auf dem Tisch steht eine komplizierte Apparatur, daneben liegen ein Handbuch
+   und eine Broschüre.$n
+   An der Wand ist ein Regal befestigt, indem zahllose Gläser mit
+   Chemikalien aufbewahrt werden. Auf einigen ist ein Totenkopfaufkleber."
+  exit N to flur2.
+end location.
+
+object Polarograph at Labor 
+description ""
+verb untersuche does
+  "Sie besteht aus einer senkrecht stehenden Glasröhre, die mit
+   Quecksilber gefüllt ist. Unter dieser Röhre steht ein Becherglas,
+   in dem sich gleichfalls Quecksilber bedeckt mit Wasser befindet. Drähte 
+   führen zu einem elektrischen Gerät mit zahlreichen Anzeigen."
+end verb.
+end object.
+synonyms apparatur, apparat=Polarograph.
+
+verb polarographisches_untersuche does
+  if (ind) is not metallisch then  
+    "$2 ist  kein für den Polarographen nachweisbares Schwermetall."
+  else
+  if (obj)=haare then
+    if (ind)=Blei then
+      "Es wird sehr viel Blei nachgewiesen. In diesem Fall druckt
+           der Automat einen Bericht aus.$n"
+      locate Haarbericht here.
+      use script 1 for marc.
+      describe Haarbericht.
+      "$n"
+      score 1.
+      score.
+      "$n" 
+     else "Es kann kein $2 in $o nachgewiesen werden."
+    end if.
+  elsif (obj)=Farbkrümel then
+    if (ind)=Blei then
+      "Es wird viel Blei nachgewiesen. Es wird automatisch ein 
+           Bericht erzeugt.$n"
+      locate farbbericht here.
+      describe farbbericht.
+      "$n"
+      score 1.
+      score.
+      "$n"
+     else "Es kann kein $2 in $o nachgewiesen werden."
+    end if.
+  elsif (obj)=Zahnbürste then
+    if (ind)=Blei then
+      "Es wird viel Blei nachgewiesen. Es wird automatisch ein 
+           Bericht erzeugt.$n"
+      locate zahnbericht here.
+      use script 1 for marc.
+      describe zahnbericht.
+      "$n"
+      score 1.
+      score.
+      "$n"
+     else "Es kann kein $2 in $o nachgewiesen werden."
+    end if.
+  else "Es kann kein $2 in $o nachgewiesen werden."
+  end if.
+  end if.
+end verb.
+syntax polarographisches_untersuche = 
+'untersuche' (obj) 'auf' (ind) .
+
+object bericht at labor
+description ""
+verb lies, untersuche does
+  "Du mußt schon genau angeben, welchen Bericht. Alle haben eindeutige
+   Bezeichnungen, welche der Polarograph erzeiugt, z.B.
+   LIES BerichtF4H.
+  "
+end verb.
+end object.
+
+object Handbuch  at Labor 
+is takeable.
+description ""
+verb lies, untersuche does
+  "Das Buch trägt den Titel 'Handbuch zum Polarographen SWP 1-1' und
+   beschreibt ganz offensichtlich die Benutzung der nebenstehenden
+   Apparatur."
+end verb.
+end object.
+
+object Broschüre at Labor 
+is takeable.
+description ""
+verb lies,untersuche does
+  "Sie trägt den Titel 'Polarographischer Nachweis von Schwermetallen'.
+   Gemeinsam mit der Bedienunganleitung des Polarographen sollte es
+   Dir jetzt möglich sein, ein beliebiges Material auf Schwermetalle zu 
+   untersuchen:$n
+   UNTERSUCHE spezielles_objekt AUF spezielles_metall."
+end verb.
+end object.
+
+object Glas at Labor 
+description ""
+verb untersuche does
+  "Weithalsflaschen mit verschiedenförmigen Pulvern, Lösungsmittel,
+   Säuren -- oft giftig oder ätzend. Nix zum Anfassen."
+end verb.
+end object.
+synonyms Gläser=Glas.
+
+object Labortisch  name labor Tisch at Labor 
+description ""
+verb untersuche does
+  "Es ist nichts Besonderes daran."
+end verb.
+end object.
+synonyms Fussbodenbelag, Stuhl, Regal= Tisch.
+
+object Blei at Labor 
+is metallisch.
+description ""
+end object.
+
+object Kupfer at Labor 
+is metallisch.
+description ""
+end object.
+
+object Zink at Labor 
+is metallisch.
+description ""
+end object.
+
+object Zinn at Labor 
+is metallisch.
+description ""
+end object.
+
+object Kadmium at Labor 
+is metallisch.
+description ""
+end object.
+
+object Eisen at Labor 
+is metallisch.
+description ""
+end object.
+
+object Nickel at Labor 
+is metallisch.
+description ""
+end object.
+
+object Aluminium at Labor 
+is metallisch.
+description ""
+end object.
+
+object Mangan at Labor 
+is metallisch.
+description ""
+end object.
+
+object Kobalt at Labor 
+is metallisch.
+description ""
+end object.
+
+object Arsen at Labor 
+is metallisch.
+description ""
+end object.
+
+object Selen at Labor 
+is metallisch.
+description ""
+end object.
+
+object Molybdän at Labor 
+is metallisch.
+description ""
+end object.
+
+object Palladium at Labor 
+is metallisch.
+description ""
+end object.
+
+object Silber at Labor 
+is metallisch.
+description ""
+end object.
+
+object Gold at Labor 
+is metallisch.
+description ""
+end object.
+
+object Platin at Labor 
+is metallisch.
+description ""
+end object.
+
+object Wolfram at Labor 
+is metallisch.
+description ""
+end object.
+
+object Quecksilber at Labor 
+is metallisch.
+description ""
+end object.
+
+object Uran at Labor 
+is metallisch.
+description ""
+end object.
+
+object Radium at Labor 
+is metallisch.
+description ""
+end object.
+
+object haarbericht name berichta7q at limbo
+is entnehmbar.
+article "einen"
+description "Es liegt der BerichtA7Q: Analyse von Kopfhaar auf Blei hier."
+verb untersuche does "BerichtA7Q weist aus, daß in der untersuchten Haarprobe 
+viel Blei nachgewiesen wurde."
+end verb.
+end object.
+
+object farbbericht name berichtb9y at limbo
+is entnehmbar.
+article "einen"
+description "Der BerichtB9Y: Analyse von Farbkrümeln auf Blei liegt hier."
+verb untersuche does "BerichtB9Y weist aus, daß in der untersuchten Wandfarbe 
+viel Blei nachgewiesen wurde."
+end verb.
+end object.
+
+object zahnbericht name berichtc1v at limbo
+is entnehmbar.
+article "einen"
+description "Der BerichtC1V: Analyse von Zahnbürstenhaaren auf Blei liegt hier."
+verb untersuche does "BerichtC1V weist aus, daß in den untersuchten Borsten 
+einer Zahnbürste  viel Blei nachgewiesen wurde."
+end verb.
+end object.

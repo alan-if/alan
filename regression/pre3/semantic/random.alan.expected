@@ -1,0 +1,28 @@
+########## random ##########
+Syntax r = r.
+Verb r
+  Does
+    Say Random 1 To dark Of l.
+End Verb.
+
+Location l
+  Is dark.
+End Location.
+
+Start At l.
+  "'r' to generate a random number."
+########## alan random.alan ##########
+
+
+random.alan
+
+    4.      Say Random 1 To dark Of l.
+=====>                           1
+
+  *1*   413 E : Expression in RANDOM must be of integer type.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+
