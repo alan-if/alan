@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>163.06</origest>
-<currest>163.06</currest>
-<elapsed>46.06</elapsed>
+<origest>163.89</origest>
+<currest>163.89</currest>
+<elapsed>47.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
-<elapsed>3</elapsed>
+<origest>23.83</origest>
+<currest>23.83</currest>
+<elapsed>4.83</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.23</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>3</elapsed>
+<origest>7.83</origest>
+<currest>7.83</currest>
+<elapsed>4.83</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
@@ -68,7 +68,12 @@ Document this behaviour and point out that if a verb body gets executed more tha
 </task>
 <task>
 <desc>Adding a Verb that is already present gives sub-optimal error message</desc>
-<notes>See exampe, a better message would be "Can not add because it is already defined for obj." Would require a loop like the one in property analysis, which could probably be refactored out.
+<notes>Design:
+Refactor out a function verbAlreadyDeclared() which takes an existing verb identifier and looks for it in a verb list.
+This could be called from both analyzeVerbs() and addVerb().
+
+Requirement:
+See exampe, a better message would be "Can not add because it is already defined for obj." Would require a loop like the one in property analysis, which could probably be refactored out.
 
 addVerb.alan
 
@@ -95,9 +100,9 @@ addVerb.alan
         1 warning(s).
         1 informational message(s).</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<origest>0.83</origest>
+<currest>0.83</currest>
+<elapsed>0.83</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -106,7 +111,7 @@ addVerb.alan
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -142,10 +147,19 @@ addVerb.alan
 <desc>Increment: version 3.0.24</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>ISA expression</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Bug: Multiple syntax verbs</desc>
 <notes>The problem with multiple syntax verbs is that only the first one is actually checked in any consistent manner. Also it is not clearly defined when two syntaxes are compatible and allowed to use in the same verb declaration. At present the compiler only checks for same number of parameters and the same names. That is not enough to cover it, it should actually also create a class definition for each parameter for use in this verb which is the sum of all the class definitions of the two syntaxes for the parameter.
@@ -155,15 +169,6 @@ Syntax b = v1 (p1) Where p1 Isa Container ...
 Verb a, b
 Here a reference to p1 should be considered to be either Object, Actor or Container
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>ISA expression</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -237,6 +242,15 @@ END DEPEND.</notes>
 <task>
 <desc>Inherited Exits</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document semantic restrictions for entity, literal etc.</desc>
+<notes>Sections 4.14?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

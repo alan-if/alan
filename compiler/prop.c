@@ -140,8 +140,11 @@ static void analyzeName(Properties *props)
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = len;
     props->mentioned = concat(NULL, stm, LIST_STATEMENT);
-  } else
+  } else {
+    if ((props->names != NULL) & inheritsFrom(props->id->symbol, locationSymbol))
+      lmLog(&props->mentionedSrcp, 425, sevWAR, "");
     analyzeStatements(props->mentioned, NULL);
+  }
 }
 
 /*----------------------------------------------------------------------*/

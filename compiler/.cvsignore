@@ -41,4 +41,5 @@ smScan.tail
 smScan.tbl
 smScan.tmp
 smScanx.unix
+unit.a3c
 version.[ch]
