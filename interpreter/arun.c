@@ -18,6 +18,7 @@
 
 #ifdef GLK
 #include "glkio.h"
+#include "WinGlk.h"
 #endif
 
 /*======================================================================
@@ -73,10 +74,22 @@ int main(argc, argv)
   }
   
   if (strcmp(advnam, "") == 0) {
+#ifdef WINGLK
+    char *filename;
+    filename = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
+		"Alan Game Files (*.a3c)|*.a3c||");
+    advnam = strdup(filename);
+    advnam[strlen(advnam)-4] = 0; /* Strip of .A3C */
+#else
     printf("You should supply a game file to play.\n");
     usage();
     terminate(0);
+#endif
   }
+
+#ifdef WINGLK
+  winglk_window_set_title(advnam);
+#endif
 
   run();
 

@@ -12,6 +12,10 @@
 #include "readline.h"
 #endif
 
+#ifdef GLK
+#include "glk.h"
+#endif
+
 #include "main.h"
 #include "parse.h"
 #include "inter.h"
@@ -1383,7 +1387,13 @@ void look()
 
   if (anyOutput)
     para();
+#ifdef GLK
+  glk_set_style(style_Subheader);
+#endif
   say(cur.loc);
+#ifdef GLK
+  glk_set_style(style_Normal);
+#endif
   newline();
   describe(cur.loc);
   describeInstances();

@@ -1,1 +1,45 @@
-APPICON ICON "arun.ico"
+#include "resources.h"
+#include "winuser.h"
+
+IDR_ARUN MENU DISCARDABLE 
+BEGIN
+    POPUP "&Arun"
+    BEGIN
+        MENUITEM "&About Arun",                 ID_MENU_ABOUT
+    END
+END
+
+IDR_ARUN             ICON    DISCARDABLE     "arun.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_MENU_ABOUT           "About Arun\nAbout Arun"
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT DIALOGEX 0, 0, 171, 138
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,114,117,50,14
+    GROUPBOX        "About Glk",IDC_STATIC,7,7,157,43
+    ICON            IDR_GLK,IDC_STATIC,15,19,20,20,0,WS_EX_CLIENTEDGE
+    LTEXT           "Thomas Nilsson, Windows Glk by David Kinder\nGlk Specification by Andrew Plotkin\nGlk 0.61, Windows release 1.21",
+                    IDC_STATIC,45,19,114,25
+    GROUPBOX        "Additional Credits",IDC_STATIC,7,52,157,59
+    LTEXT           "jpeglib by the Independent JPEG Group.\nlibpng by Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson, and others.\nzlib by Jean-loup Gailly and Mark Adler.\nModPlug by Olivier Lapicque.",
+                    IDC_STATIC,13,64,145,42
+END
+

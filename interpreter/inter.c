@@ -856,6 +856,20 @@ void interpret(adr)
 	pop();
 	break;
 
+      case I_ISA: {
+	Aint lh, rh;
+	rh = pop();
+	lh = pop();
+	if (stpflg)
+	  printf("ISA \t%5ld, %5ld", lh, rh);
+	push(isA(lh, rh));
+	if (stpflg) {
+	  if (top()) printf("\t(TRUE)");
+	  else printf("\t(FALSE)");
+	}
+	break;
+      }
+
       case I_RETURN:
 	if (stpflg)
 	  printf("RETURN\n--------------------------------------------------\n");

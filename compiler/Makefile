@@ -11,6 +11,8 @@ gcov:	GCOV = -fprofile-arcs -ftest-coverage
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(CYGWIN)
 LDFLAGS	= $(OPTIMIZE) $(CYGWIN)
 
+ARCH	= $(CYGWIN)
+
 CPP	= gcc -MM -ansi
 LD	= gcc
 
@@ -100,14 +102,14 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-alan: tm $(MAINOBJECTS) unit
+alan: checkTarget tm $(MAINOBJECTS) unit
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
 
 release: clean win
 
-win:  $(MAINOBJECTS) alan.res test
+win:  checkTarget $(MAINOBJECTS) alan.res test
 	$(LD) -o alan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 	cp alan.exe ../bin
@@ -134,6 +136,16 @@ fromsrc: $(OBJECTS) alan.version.o
 
 tm:
 	make -f Makefile.tm
+
+.PHONY: checkTarget
+checkTarget:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test `cat .arch` != $(ARCH); then \
+		echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
+		rm *.o; \
+		echo $(ARCH) > .arch; \
+	fi
+
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

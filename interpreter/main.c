@@ -352,6 +352,7 @@ void newline()
 {
 #ifdef GLK
   glk_put_char('\n');
+  needsp = FALSE;
 #else
   char buf[256];
   
@@ -1405,7 +1406,6 @@ static void eventCheck()
   initstrings()
   start()
   init()
-  main()
 
 \*----------------------------------------------------------------------*/
 
@@ -1495,13 +1495,7 @@ static void load()
 
   /* No memory allocated yet? */
   if (memory == NULL) {
-#ifdef V25COMPATIBLE
-    if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5)
-      /* We need some more memory to expand 2.5 format*/
-      memory = allocate((tmphdr.size+tmphdr.objmax-tmphdr.objmin+1+2)*sizeof(Aword));
-    else
-#endif
-      memory = allocate(tmphdr.size*sizeof(Aword));
+    memory = allocate(tmphdr.size*sizeof(Aword));
   }
   header = (AcdHdr *) addrTo(0);
 
@@ -1538,18 +1532,6 @@ static void load()
   if (dbgflg||trcflg||stpflg)
     output("OK.>$n");
 #endif
-
-#ifdef V25COMPATIBLE
-  /* Check for 2.5 version */
-  if (tmphdr.vers[0] == 2 && tmphdr.vers[1] == 5) {
-    if (dbgflg||trcflg||stpflg)
-      output("<Hmm, this is a v2.5 game, please wait while I convert it...");
-    c25to26ACD();
-    if (dbgflg||trcflg||stpflg)
-      output("OK.>$n");
-  }
-#endif
-
 }
 
 

@@ -18,6 +18,7 @@
 #include "glkstart.h"
 #include "glkio.h"
 #include "args.h"
+#include "resources.h"
 
 glkunix_argumentlist_t glkunix_arguments[] = {
   { "-v", glkunix_arg_NoValue, "-v: verbose mode" },
@@ -49,27 +50,33 @@ int glkunix_startup_code(glkunix_startup_t *data)
   return TRUE;
 }
 
+#include "WinGlk.h"
 #include <windows.h>
 int winglk_startup_code(const char* cmdline)
 {
   char *argumentVector[2];
 
+#ifdef WINGLK
+  winglk_app_set_name("Arun");
+  winglk_set_gui(IDR_ARUN);
+#endif
 
-  /* first, open a window for error output */
+  /* First, open a window for error output */
   glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
   if (NULL == glkMainWin)
   {
     printf("FATAL ERROR: Cannot open initial window");
     glk_exit();
   }
-  glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
-    winmethod_Fixed, 1, wintype_TextGrid, 0);
-  glk_set_window(glkMainWin);
-  
+
   /* now process the command line arguments */
   argumentVector[0] = "";
   argumentVector[1] = (char *)cmdline;
   args(2, &argumentVector);
+
+  glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
+    winmethod_Fixed, 1, wintype_TextGrid, 0);
+  glk_set_window(glkMainWin);
 
   return TRUE;
 }

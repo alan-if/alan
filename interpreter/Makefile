@@ -1,16 +1,19 @@
 # Makefile for Alan interpreter to be built with CygWin32/Mingw32
 
-CYGWIN = -DCOMPILER=\"[GCC/CygWin32]\"
+CYGWIN = #-DCOMPILER=\"[GCC/CygWin32]\"
 OPTIMIZE = -g
 GLKROOT = ../../WindowsGLK
 
 #Settings for Windows GLK variant
-winglk: GLK = -DGLK
+winglk: GLK = -DGLK -DWINGLK
 winglk: GLKINCLUDE = -I$(GLKROOT)/Include
 winglk: GLKLIB = $(GLKROOT)/Glk.lib
-winglk: CYGWIN = -DCOMPILER=\"[GCC/Mingw32]\" -mno-cygwin
+winglk: CYGWIN = -mno-cygwin
+#-DCOMPILER=\"[GCC/Mingw32]\" 
 
 release: OPTIMIZE = -O4
+
+ARCH	= $(CYGWIN)
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
@@ -48,15 +51,15 @@ VERSIONOBJECTS= ${VERSIONSRCS:.c=.o}
 ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
 GLKOBJECTS = ${GLKSRCS:.c=.o}
 
-arun : $(ARUNOBJECTS) Makefile dependencies.mk unit
+arun : checkTarget $(ARUNOBJECTS) Makefile dependencies.mk unit
 	gcc -o arun $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
-release: clean winglk
+release: winglk
 
-winglk: $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
-	gcc -o arun -mwindows $^ $(LDFLAGS) $(GLKLIB)
+winglk: checkTarget $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res
+	gcc -o arun -mwindows $(GLKOBJECTS) $(ARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(GLKLIB)
 	@-mkdir ../bin 2> /dev/null
 	cp arun.exe ../bin
 
@@ -69,9 +72,15 @@ clean:
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
-strip:
-	strip arun
-	coff2exe arun
+.PHONY: checkTarget
+checkTarget:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test "`cat .arch`" != "$(ARCH)"; then \
+		echo Removing objects, re-building for $(ARCH)... ; \
+		rm *.o; \
+		echo $(ARCH) > .arch; \
+	fi
+
 
 #
 # Version number generation
@@ -99,9 +108,10 @@ alan.version.c:  ../alan.version
 UNITSRCS = unit.c
 
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+TESTOBJECTS = ${TESTSRCS:.c=.o} alan.version.o
 
-unit : $(TESTOBJS)
+unit : $(TESTOBJECTS)
+	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIB)
 	@./unit
 
 # Run all tests!

@@ -11,6 +11,12 @@
 #include "glk.h"
 #include "glkio.h"
 
+#ifdef WINGLK
+#include "resources.h"
+#include "WinGlk.h"
+#endif
+
+
 /*======================================================================
 
   readline()
@@ -30,8 +36,20 @@ Boolean readline(char usrbuf[])
   do
   {
     glk_select(&event);
-    if (evtype_Arrange == event.type)
+    switch (event.type) {
+    case evtype_Arrange:
       statusline();
+      break;
+#ifdef WINGLK
+    case winglk_evtype_GuiInput:
+      printf("\n<Windows event: %d>\n", event.val1);
+      switch (event.val1) {
+      case ID_MENU_ABOUT:
+	break;
+      }
+      break;
+#endif
+    }
   } while (event.type != evtype_LineInput);
   usrbuf[event.val1] = 0;
   return TRUE;
