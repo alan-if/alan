@@ -105,15 +105,15 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 
 tm: .pmkstamp .smkstamp .lmkstamp
 
-.lmkstamp : alan.lmk alan.tmk $(TMHOME)/lib/ansi-c/List.imp
+.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
 	lmk $(LMKQ) alan
 	@touch .lmkstamp
 
-.pmkstamp: alan.pmk alan.tmk $(TMHOME)/lib/ansi-c/Parse.imp $(TMHOME)/lib/ansi-c/Err.imp
+.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp
 	pmk $(PMKQ) alan
 	@touch .pmkstamp
 
-.smkstamp : .pmkstamp alan.smk alan.voc $(TMHOME)/lib/ansi-c/Scan.imp
+.smkstamp : .pmkstamp alan.smk alan.voc $(TMLIB)/Scan.imp
 	smk $(SMKQ) alan
 	@touch .smkstamp
 
@@ -176,6 +176,7 @@ NONANSI:
 	sed -e s/ansi-c/c/ alan.tmk.orig > alan.tmk
 	make tm
 	make restoretm
+	touch alan.tmk
 
 DOSSUBS = -e s/alanCommon/alanComm/
 MSDOS:
@@ -186,8 +187,11 @@ MSDOS:
 	for f in `grep -l alanCommon *.[ch]` ; do \
 		sed $(DOSSUBS) $$f > `toupper $$f` ; \
 	done
-	touch alan.smk
+	ramp iso2pc msg.c MSG.C
+	ramp iso2pc sysdep.c SYSDEP.C
 	make restoretm
+	touch alan.smk
+	touch alan.tmk
 
 mac:
 	smk -set MAC alan
@@ -199,15 +203,16 @@ mac:
 	ramp iso2mac pmPaSema.tmp $(HOME)/mac/Alan/Compiler/pmPaSema.c
 
 #-- ARCHIVE
-archives: src
-	-\rm Makefile*~
+archives: sysdep.h sysdep.c acode.h version.h compiler.lha. compiler.zip.
+
+compiler.lha.:
 	make NONANSI
 	lha u compiler.lha *.c *.h Makefile* dependencies.mk
+
+compiler.zip.:
 	make MSDOS
-	zip -k -u compiler.zip *.[ch] Makefile*
-	zip -k -m compiler.zip *.C *.H
-	touch alan.tmk
-	make tm
+	zip -k -u compiler.zip *.[ch] Makefile.dos
+	zip -k -m compiler.zip *.[CH]
 
 #--
 CLEAN: clean

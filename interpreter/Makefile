@@ -76,10 +76,15 @@ version.h version.c: ../version.sh
 	touch .version
 
 #--
-archives: src
-	-rm Makefile*~
+archives: src interpreter.lha. interpreter.zip.
+
+interpreter.lha.:
 	lha u interpreter.lha *.c *.h Makefile* dependencies.mk
-	zip -k -u interpreter.zip *.[ch] Makefile*
+
+interpreter.zip.:
+	ramp iso2pc sysdep.c SYSDEP.C
+	zip -k -u interpreter.zip *.[ch] Makefile.dos
+	zip -k -m interpreter.zip *.[CH]
 
 #--
 CLEAN: clean
