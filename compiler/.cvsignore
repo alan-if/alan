@@ -24,3 +24,5 @@ version.c
 version.h
 .*stamp
 Compiler.project
+saviour.*
+
