@@ -11,6 +11,7 @@
 #include "types.h"
 #include "arun.h"
 #include "inter.h"
+#include "debug.h"
 #include "exe.h"
 #include "stack.h"
 
@@ -35,7 +36,10 @@ void rules()
 	if (trcflg) {
 	  printf("\n<RULE %d (at ", i);
 	  debugsay(cur.loc);
-	  printf("), Evaluating");
+	  if (!stpflg)
+	    printf("), Evaluating");
+	  else
+	    printf("), Evaluating:>\n");
 	}
 	interpret(ruls[i-1].exp);
 	if (pop()) {
@@ -50,7 +54,7 @@ void rules()
 	      printf("), Executing:>\n");
 	    }
 	  interpret(ruls[i-1].stms);
-	} else if (trcflg)
+	} else if (trcflg && !stpflg)
 	  printf(":>\n");
       }
   }

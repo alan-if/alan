@@ -194,7 +194,9 @@ void newline(void)
 void newline()
 #endif
 {
+#ifndef __sun__
   char buf[256];
+#endif
   
   col = 1;
   if (lin >= paglen - 1) {
@@ -840,7 +842,8 @@ void go(dir)
 	ok = TRUE;
 	if (ext->checks != 0) {
 	  if (trcflg) {
-	    printf("\n<EXIT %d from %d (", dir, cur.loc);
+	    printf("\n<EXIT %d (%s) from %d (", dir,
+		   (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
 	    debugsay(cur.loc);
 	    printf("), Checking:>\n");
 	  }
@@ -850,15 +853,23 @@ void go(dir)
 	  oldloc = cur.loc;
 	  if (ext->action != 0) {
 	    if (trcflg) {
-	      printf("\n<EXIT %d from %d (", dir, cur.loc);
+	      printf("\n<EXIT %d (%s) from %d (", dir, 
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
 	      debugsay(cur.loc);
 	      printf("), Executing:>\n");
 	    }	    
 	    interpret(ext->action);
 	  }
 	  /* Still at the same place? */
-	  if (where(HERO) == oldloc)
+	  if (where(HERO) == oldloc) {
+	    if (trcflg) {
+	      printf("\n<EXIT %d (%s) from %d (", dir, 
+		     (char *)addrTo(dict[wrds[wrdidx-1]].wrd), cur.loc);
+	      debugsay(cur.loc);
+	      printf("), Moving:>\n");
+	    }
 	    locate(HERO, ext->next);
+	  }
 	}
 	return;
       }
@@ -1513,7 +1524,7 @@ static void movactor()
   } else if (trcflg) {
     printf("\n<ACTOR %d, ", cur.act);
     debugsay(cur.act);
-    printf(", at ");
+    printf(" (at ");
     debugsay(cur.loc);
     printf("), Idle>\n");
     rules();
