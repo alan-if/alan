@@ -59,115 +59,104 @@ debug: $(OBJECTS)
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 
-act.obj : act.c alan.h sysdep.h types.h srcp.h adv.h lst.h dump.h whr.h evt.h \
-  nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h emit.h stm.h obj.h cnt.h \
-  act.h loc.h ext.h scr.h wrd.h vrb.h lmList.h alanComm.h token.h 
-adv.obj : adv.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h wht.h sym.h elm.h res.h stx.h stm.h exp.h \
-  obj.h cnt.h act.h loc.h ext.h vrb.h rul.h wrd.h syn.h atr.h emit.h msg.h sco.h \
-  opt.h encode.h 
-alan.obj : alan.c sysdep.h types.h alan.h srcp.h version.h adv.h lst.h dump.h \
-  whr.h evt.h nam.h acode.h wht.h opt.h lmList.h alanComm.h token.h pmParse.h \
-  smScan.h timing.h spa.h 
-alt.obj : alt.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h sym.h \
-  nam.h lst.h dump.h acode.h elm.h res.h stx.h alt.h act.h cnt.h wht.h whr.h evt.h \
-  chk.h exp.h stm.h obj.h loc.h ext.h emit.h 
-atr.obj : atr.c alan.h sysdep.h types.h srcp.h adv.h lst.h dump.h whr.h evt.h \
-  nam.h acode.h wht.h atr.h exp.h emit.h obj.h cnt.h loc.h ext.h act.h opt.h lmList.h \
-  alanComm.h token.h encode.h 
-chk.obj : chk.c srcp.h lmList.h alanComm.h token.h alan.h sysdep.h types.h lst.h \
-  dump.h exp.h wht.h nam.h acode.h whr.h evt.h stm.h obj.h cnt.h act.h loc.h ext.h \
-  chk.h emit.h 
-cnt.obj : cnt.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h wht.h sym.h elm.h res.h stx.h stm.h exp.h \
-  obj.h cnt.h act.h loc.h ext.h lim.h atr.h emit.h 
-dump.obj : dump.c srcp.h alan.h sysdep.h types.h adv.h lst.h dump.h whr.h evt.h \
-  nam.h acode.h wht.h exp.h atr.h emit.h stm.h obj.h cnt.h act.h loc.h ext.h chk.h \
-  vrb.h stx.h lim.h scr.h stp.h rul.h lmList.h alanComm.h token.h 
-elm.obj : elm.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h sym.h \
-  nam.h lst.h dump.h acode.h elm.h res.h stx.h wrd.h emit.h 
-emit.obj : emit.c sysdep.h types.h alan.h srcp.h acode.h version.h emit.h 
-encode.obj : encode.c alan.h sysdep.h types.h srcp.h acode.h opt.h emit.h encode.h 
-evt.obj : evt.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h stm.h exp.h \
-  obj.h cnt.h act.h loc.h ext.h opt.h emit.h 
-exp.obj : exp.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
-  emit.h obj.h cnt.h loc.h ext.h act.h encode.h 
-ext.obj : ext.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h sym.h \
-  nam.h lst.h dump.h acode.h elm.h res.h stx.h stm.h wht.h whr.h evt.h exp.h obj.h \
-  cnt.h act.h loc.h ext.h chk.h wrd.h emit.h 
-lim.obj : lim.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h exp.h atr.h emit.h stm.h obj.h \
-  cnt.h act.h loc.h ext.h chk.h vrb.h stx.h lim.h rul.h 
-lmList.obj : lmList.c lmList.h alanComm.h srcp.h token.h 
-loc.obj : loc.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
-  emit.h loc.h ext.h stm.h obj.h cnt.h act.h vrb.h 
-lst.obj : lst.c alan.h sysdep.h types.h srcp.h lst.h dump.h nam.h acode.h act.h \
-  cnt.h wht.h whr.h evt.h alt.h atr.h exp.h emit.h chk.h res.h stx.h elm.h ext.h \
-  lim.h loc.h obj.h rul.h scr.h stm.h stp.h syn.h vrb.h 
-msg.obj : msg.c sysdep.h alan.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h msg.h opt.h emit.h encode.h 
-nam.obj : nam.c alan.h sysdep.h types.h srcp.h lst.h dump.h nam.h acode.h str.h \
-  obj.h whr.h evt.h wht.h cnt.h act.h ext.h loc.h vrb.h stx.h msg.h emit.h 
-obj.obj : obj.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
-  emit.h stm.h obj.h cnt.h act.h loc.h ext.h wrd.h vrb.h 
-opt.obj : opt.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  opt.h emit.h 
-pmErr.obj : pmErr.c smScan.h alanComm.h srcp.h token.h sysdep.h types.h lmList.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h atr.h \
-  emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h stp.h \
-  elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
-pmPaSema.obj : pmPaSema.c smScan.h alanComm.h srcp.h token.h sysdep.h types.h \
-  lmList.h adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
-  atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \
-  stp.h elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h 
-pmParse.obj : pmParse.c smScan.h alanComm.h srcp.h token.h sysdep.h types.h \
-  lmList.h adv.h lst.h dump.h whr.h evt.h nam.h alan.h acode.h wht.h syn.h exp.h \
-  atr.h emit.h alt.h act.h cnt.h stm.h obj.h loc.h ext.h chk.h vrb.h stx.h lim.h \
-  stp.h elm.h res.h scr.h rul.h msg.h str.h sco.h opt.h pmParse.h 
-res.obj : res.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h res.h \
-  stx.h lst.h dump.h nam.h acode.h sym.h elm.h stm.h wht.h whr.h evt.h exp.h obj.h \
-  cnt.h act.h loc.h ext.h emit.h 
-rul.obj : rul.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h wht.h exp.h stm.h obj.h cnt.h act.h loc.h \
-  ext.h rul.h emit.h 
-sco.obj : sco.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sco.h emit.h 
-scr.obj : scr.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  lst.h dump.h nam.h stm.h wht.h whr.h evt.h exp.h obj.h cnt.h act.h loc.h ext.h \
-  stp.h scr.h emit.h 
-smScSema.obj : smScSema.c sysdep.h types.h alan.h srcp.h lmList.h alanComm.h \
-  token.h encode.h acode.h smScan.h 
-smScan.obj : smScan.c sysdep.h types.h alan.h srcp.h lmList.h alanComm.h token.h \
-  encode.h acode.h smScan.h 
-spa.obj : spa.c spa.h 
-srcp.obj : srcp.c alan.h sysdep.h types.h srcp.h dump.h 
-stm.obj : stm.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h exp.h atr.h \
-  emit.h stm.h obj.h cnt.h act.h loc.h ext.h scr.h sco.h opt.h encode.h 
-stp.obj : stp.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h lst.h \
-  dump.h exp.h wht.h nam.h acode.h whr.h evt.h stm.h obj.h cnt.h act.h loc.h ext.h \
-  stp.h emit.h 
-str.obj : str.c sysdep.h types.h alan.h srcp.h str.h 
-stx.obj : stx.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h adv.h \
-  lst.h dump.h whr.h evt.h nam.h acode.h wht.h sym.h elm.h res.h stx.h wrd.h emit.h 
-sym.obj : sym.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h sym.h \
-  nam.h lst.h dump.h acode.h elm.h res.h stx.h vrb.h obj.h whr.h evt.h wht.h cnt.h \
-  act.h ext.h loc.h 
-syn.obj : syn.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  lst.h dump.h adv.h whr.h evt.h nam.h wht.h syn.h wrd.h emit.h 
-sysdep.obj : sysdep.c sysdep.h 
+Adventure.obj : Adventure.c alan.h sysdep.h types.h Srcp.h lmList.h alanComm.h \
+  Token.h acode.h Adventure.h List.h dump.h Where.h What.h Id.h Attribute.h Slot.h \
+  Container.h Does.h Expression.h emit.h Class.h Event.h Instance.h Message.h \
+  Rule.h Statement.h Symbol.h Synonym.h Verb.h Syntax.h Word.h Score.h Option.h \
+  encode.h 
+Alternative.obj : Alternative.c types.h sysdep.h Alternative.h Srcp.h List.h dump.h \
+  Id.h Does.h acode.h Check.h Expression.h What.h Where.h Element.h Restriction.h \
+  Syntax.h lmList.h alanComm.h Token.h 
+Attribute.obj : Attribute.c alan.h sysdep.h types.h Srcp.h Adventure.h List.h \
+  dump.h Where.h What.h Id.h Attribute.h Slot.h Container.h acode.h Does.h Expression.h \
+  emit.h Class.h Symbol.h Option.h lmList.h alanComm.h Token.h encode.h 
+Check.obj : Check.c Check.h acode.h Expression.h types.h sysdep.h Srcp.h List.h \
+  dump.h What.h Id.h Where.h Statement.h alan.h Event.h 
+Class.obj : Class.c alan.h sysdep.h types.h Srcp.h Class.h List.h dump.h Slot.h \
+  Where.h What.h Id.h Container.h acode.h Does.h Symbol.h 
+Container.obj : Container.c types.h sysdep.h Container.h acode.h Srcp.h List.h \
+  dump.h Limit.h Attribute.h alan.h Slot.h Where.h What.h Id.h Does.h Expression.h \
+  emit.h Statement.h Event.h 
+Does.obj : Does.c types.h sysdep.h Does.h List.h dump.h Srcp.h Id.h Statement.h \
+  alan.h What.h Where.h Event.h acode.h Expression.h 
+Element.obj : Element.c Element.h Srcp.h Restriction.h Syntax.h List.h dump.h \
+  sysdep.h types.h Id.h acode.h 
+Event.obj : Event.c Event.h Srcp.h Id.h types.h sysdep.h List.h dump.h acode.h \
+  Statement.h alan.h What.h Where.h Expression.h 
+Exit.obj : Exit.c Exit.h Srcp.h List.h dump.h sysdep.h types.h Id.h Does.h Slot.h \
+  Where.h What.h Container.h acode.h Check.h Expression.h Statement.h alan.h Event.h \
+  Symbol.h lmList.h alanComm.h Token.h 
+Expression.obj : Expression.c types.h sysdep.h Expression.h Srcp.h List.h dump.h \
+  What.h Id.h Where.h Statement.h alan.h Event.h acode.h 
+Id.obj : Id.c Id.h types.h sysdep.h Srcp.h dump.h 
+Instance.obj : Instance.c types.h sysdep.h Instance.h Srcp.h List.h dump.h Id.h \
+  Slot.h Where.h What.h Container.h acode.h Does.h Symbol.h Class.h lmList.h alanComm.h \
+  Token.h 
+Limit.obj : Limit.c Limit.h Srcp.h Attribute.h alan.h sysdep.h types.h Slot.h \
+  List.h dump.h Where.h What.h Id.h Container.h acode.h Does.h Expression.h emit.h \
+  Statement.h Event.h Class.h lmList.h alanComm.h Token.h 
+List.obj : List.c types.h sysdep.h alan.h Srcp.h List.h dump.h Alternative.h Id.h \
+  Does.h acode.h Attribute.h Slot.h Where.h What.h Container.h Expression.h emit.h \
+  Check.h Class.h Instance.h Statement.h Event.h Verb.h Syntax.h 
+Message.obj : Message.c 
+Name.obj : Name.c Name.h List.h dump.h sysdep.h types.h acode.h 
+Option.obj : Option.c Option.h types.h sysdep.h Id.h Srcp.h acode.h lmList.h alanComm.h \
+  Token.h emit.h 
+Restriction.obj : Restriction.c Restriction.h Srcp.h Syntax.h List.h dump.h sysdep.h \
+  types.h Id.h acode.h 
+Rule.obj : Rule.c Rule.h Srcp.h Expression.h types.h sysdep.h List.h dump.h What.h \
+  Id.h Where.h acode.h Statement.h alan.h Event.h 
+Score.obj : Score.c Score.h acode.h Srcp.h lmList.h alanComm.h types.h sysdep.h \
+  Token.h Adventure.h List.h dump.h Where.h What.h Id.h emit.h 
+Script.obj : Script.c Script.h Srcp.h Slot.h List.h dump.h sysdep.h types.h Where.h \
+  What.h Id.h Container.h acode.h Does.h Statement.h alan.h Event.h Expression.h \
+  Step.h lmList.h alanComm.h Token.h 
+Slot.obj : Slot.c alan.h sysdep.h types.h Srcp.h Slot.h List.h dump.h Where.h \
+  What.h Id.h Container.h acode.h Does.h Attribute.h Expression.h emit.h Class.h \
+  Exit.h Name.h Script.h Statement.h Event.h Symbol.h Verb.h Syntax.h lmList.h \
+  alanComm.h Token.h 
+Srcp.obj : Srcp.c Srcp.h dump.h sysdep.h types.h 
+Symbol.obj : Symbol.c types.h sysdep.h Symbol.h Id.h Srcp.h List.h dump.h Class.h \
+  Slot.h Where.h What.h Container.h acode.h Does.h Instance.h alan.h lmList.h \
+  alanComm.h Token.h 
+Statement.obj : Statement.c Statement.h alan.h sysdep.h types.h Srcp.h What.h \
+  Id.h Where.h List.h dump.h Event.h acode.h Expression.h 
+Step.obj : Step.c Step.h Srcp.h List.h dump.h sysdep.h types.h Expression.h What.h \
+  Id.h Where.h acode.h Statement.h alan.h Event.h 
+Synonym.obj : Synonym.c Synonym.h Srcp.h Id.h types.h sysdep.h List.h dump.h 
+Syntax.obj : Syntax.c Syntax.h Srcp.h List.h dump.h sysdep.h types.h Id.h acode.h \
+  Element.h Restriction.h Statement.h alan.h What.h Where.h Event.h Expression.h \
+  Symbol.h lmList.h alanComm.h Token.h 
+Verb.obj : Verb.c Verb.h Srcp.h List.h dump.h sysdep.h types.h Slot.h Where.h \
+  What.h Id.h Container.h acode.h Does.h Syntax.h Statement.h alan.h Event.h Expression.h \
+  Symbol.h lmList.h alanComm.h Token.h 
+What.obj : What.c types.h sysdep.h What.h Srcp.h Id.h List.h dump.h 
+Where.obj : Where.c types.h sysdep.h Where.h What.h Srcp.h Id.h List.h dump.h 
+Word.obj : Word.c 
+emit.obj : emit.c sysdep.h types.h alan.h Srcp.h acode.h version.h emit.h 
+dump.obj : dump.c types.h sysdep.h Srcp.h lmList.h alanComm.h Token.h 
+encode.obj : encode.c alan.h sysdep.h types.h Srcp.h acode.h Option.h Id.h emit.h \
+  encode.h 
 timing.obj : timing.c sysdep.h timing.h 
-version.obj : version.c version.h 
-vrb.obj : vrb.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  adv.h lst.h dump.h whr.h evt.h nam.h wht.h alt.h act.h cnt.h sym.h elm.h res.h \
-  stx.h obj.h vrb.h emit.h 
-whr.obj : whr.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  nam.h lst.h dump.h sym.h elm.h res.h stx.h cnt.h wht.h whr.h evt.h emit.h 
-wht.obj : wht.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h wht.h \
-  nam.h lst.h dump.h acode.h emit.h 
-wrd.obj : wrd.c alan.h sysdep.h types.h srcp.h lmList.h alanComm.h token.h acode.h \
-  lst.h dump.h nam.h wrd.h opt.h emit.h 
+sysdep.obj : sysdep.c sysdep.h 
+spa.obj : spa.c spa.h 
+pmParse.obj : pmParse.c Adventure.h types.h sysdep.h List.h dump.h Where.h What.h \
+  Srcp.h Id.h Alternative.h Does.h acode.h Attribute.h alan.h Slot.h Container.h \
+  Expression.h emit.h Check.h Class.h Element.h Restriction.h Syntax.h Event.h \
+  Exit.h Instance.h Limit.h Rule.h Script.h Statement.h Step.h Synonym.h Token.h \
+  Verb.h smScan.h alanComm.h lmList.h Option.h Score.h pmParse.h 
+pmPaSema.obj : pmPaSema.c Adventure.h types.h sysdep.h List.h dump.h Where.h What.h \
+  Srcp.h Id.h Alternative.h Does.h acode.h Attribute.h alan.h Slot.h Container.h \
+  Expression.h emit.h Check.h Class.h Element.h Restriction.h Syntax.h Event.h \
+  Exit.h Instance.h Limit.h Rule.h Script.h Statement.h Step.h Synonym.h Token.h \
+  Verb.h smScan.h alanComm.h lmList.h Option.h Score.h 
+pmErr.obj : pmErr.c Adventure.h types.h sysdep.h List.h dump.h Where.h What.h \
+  Srcp.h Id.h Alternative.h Does.h acode.h Attribute.h alan.h Slot.h Container.h \
+  Expression.h emit.h Check.h Class.h Element.h Restriction.h Syntax.h Event.h \
+  Exit.h Instance.h Limit.h Rule.h Script.h Statement.h Step.h Synonym.h Token.h \
+  Verb.h smScan.h alanComm.h lmList.h Option.h Score.h 
+smScan.obj : smScan.c alan.h sysdep.h types.h Srcp.h lmList.h alanComm.h Token.h \
+  List.h dump.h encode.h acode.h smScan.h 
+smScSema.obj : smScSema.c alan.h sysdep.h types.h Srcp.h lmList.h alanComm.h \
+  Token.h List.h dump.h encode.h acode.h smScan.h 
+lmList.obj : lmList.c lmList.h alanComm.h types.h sysdep.h Srcp.h Token.h 

@@ -17,13 +17,6 @@ LD	= $(GCC) $(DEBUG)
 LDFLAGS	= -L/usr/local/lib/4.1.2
 
 
-EXTRAS = \
-	alan.tmk \
-	alan.lmk \
-	alan.smk \
-	alan.pmk \
-	Makefile
-
 TMSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
@@ -31,45 +24,46 @@ TMSRCS = \
 	lmList.c
 
 SRCS = \
-	$(TMSRCS) \
-	dump.c \
+	Adventure.c \
+	Alternative.c \
+	Attribute.c \
+	Check.c \
+	Class.c \
+	Container.c \
+	Does.c \
+	Element.c \
+	Event.c \
+	Exit.c \
+	Expression.c \
+	Id.c \
+	Instance.c \
+	Limit.c \
+	List.c \
+	Message.c \
+	Name.c \
+	Option.c \
+	Restriction.c \
+	Rule.c \
+	Score.c \
+	Script.c \
+	Slot.c \
+	Srcp.c \
+	Symbol.c \
+	Statement.c \
+	Step.c \
+	Synonym.c \
+	Syntax.c \
+	Verb.c \
+	What.c \
+	Where.c \
+	Word.c \
 	emit.c \
+	dump.c \
 	encode.c \
-	act.c \
-	adv.c \
-	alt.c \
-	atr.c \
-	chk.c \
-	cnt.c \
-	elm.c \
-	evt.c \
-	exp.c \
-	ext.c \
-	lim.c \
-	loc.c \
-	lst.c \
-	msg.c \
-	nam.c \
-	obj.c \
-	opt.c \
-	res.c \
-	rul.c \
-	sco.c \
-	scr.c \
-	srcp.c \
-	stm.c \
-	stp.c \
-	str.c \
-	stx.c \
-	sym.c \
-	syn.c \
-	vrb.c \
-	whr.c \
-	wht.c \
-	wrd.c \
 	timing.c \
 	sysdep.c \
-	spa.c
+	spa.c \
+	$(TMSRCS)
 
 MAINSRC = alan.c
 
@@ -77,17 +71,22 @@ LIB = alan.a
 
 #.KEEP_STATE:
 
+HDRS = ${SRCS:.c=.h}
 OBJECTS = ${SRCS:.c=.o}
 MAINOBJ = ${MAINSRC:.c=.o}
 VMSOBJECTS = ${SRCS:.c=.obj}
 VMSLINKOBJS = ${SRCS:.c=}
+
+ALLSRC = $(SRCS) $(HDRS) $(MAINSRC) alan.h types.h alanCommon.h Token.h acode.h version.[ch]
 
 #-- MAIN TARGET
 
 debug purify:=	DEBUG= -g
 all release :=	DEBUG= -O4
 
-debug tcov all release: alan alan.prod Makefile
+debug tcov all : alan alan.prod Makefile
+
+release: alan alan.prod Makefile
 	cp alan $(ALANDIR)/bin/`arch`
 	cp alan.prod $(ALANDIR)
 
@@ -104,7 +103,7 @@ fromsrc: $(OBJECTS) $(MAINOBJ) version.o
 
 tm: .pmkstamp .smkstamp .lmkstamp
 
-.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp
+.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk $(LMKQ) alan
 	@touch .lmkstamp
 
@@ -204,9 +203,9 @@ mac:
 #-- ARCHIVE
 archives: sysdep.h sysdep.c acode.h version.h compiler.lha. compiler.zip.
 
-compiler.lha.:
+amiga compiler.lha.:
 	make NONANSI
-	lha u compiler.lha *.c *.h Makefile* dependencies.mk
+	lha u compiler.lha $(ALLSRC) Makefile* dependencies.mk
 
 compiler.zip.:
 	make MSDOS
@@ -228,7 +227,7 @@ depend: dependencies.mk. Makefile.amiga Makefile.dos # alan.make
 dependencies.mk.:
 	@echo "Updating dependencies.mk!"
 	@echo > dependencies.mk
-	@for f in *.c; \
+	@for f in $(SRCS); \
 	  do \
 	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.mk; \
 	done

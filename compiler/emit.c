@@ -1,7 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-  emit.c
+				emit.c
 
+			    Emitting ACODE
 
 \*---------------------------------------------------------------------*/
 
@@ -16,7 +17,7 @@
 #include "emit.h"
 
 
-static FILE *acdfil;
+static FILE *acdFile;
 static Aword buff[BLOCKLEN];
 
 static int pc = 0;
@@ -37,7 +38,7 @@ static void buffer(w)
 
   buff[pc++%BLOCKLEN] = w;
   if (pc%BLOCKLEN == 0)
-    fwrite(buff, BLOCKSIZE, 1, acdfil);
+    fwrite(buff, BLOCKSIZE, 1, acdFile);
 }
 
 
@@ -65,16 +66,30 @@ static Aword reversed(w)
 #endif
 
 
+/*======================================================================
+
+  emitAddress()
+
+  Return the current address in the Acode.
+
+  */
 #ifdef _PROTOTYPES_
-Aword emadr(void)
+Aword emitAddress(void)
 #else
-Aword emadr()
+Aword emitAddress()
 #endif
 {
   return(pc);
 }
 
 
+/*======================================================================
+
+  emit()
+
+  Emit a single value as an Aword.
+
+  */
 #ifdef _PROTOTYPES_
 void emit(Aword c)
              			/* IN - Constant to emit */
@@ -93,7 +108,7 @@ void emit(c)
 
 /*----------------------------------------------------------------------
 
-  emitstr()
+  emitString()
 
   Function to emit strings to the ACD file. Note that strings are
   *always* stored with their first character at the lowest address so
@@ -106,9 +121,9 @@ void emit(c)
 
 */
 #ifdef _PROTOTYPES_
-void emitstr(char *str)
+void emitString(char *str)
 #else
-void emitstr(str)
+void emitString(str)
      char str[];
 #endif
 {
@@ -152,6 +167,13 @@ void emitstr(str)
 }
 
 
+/*======================================================================
+
+  emit0()
+
+  Emit an Acode instruction with no parameters.
+
+  */
 #ifdef _PROTOTYPES_
 void emit0(
      OpClass class,		/* IN - Operation class */
@@ -167,6 +189,13 @@ void emit0(class, op)
 }
 
 
+/*======================================================================
+
+  initEmit()
+
+  Initialise the emit process.
+
+  */
 #ifdef __amiga__
 #include <intuition/intuition.h>
 #include <workbench/workbench.h>
@@ -243,12 +272,12 @@ static struct DiskObject iconObject = {
 #endif
 
 #ifdef _PROTOTYPES_
-void eminit(
-     char *acdfnm		/* IN - File name for ACODE instructions */
+void initEmit(
+     char *acdFileName		/* IN - File name for ACODE instructions */
 )
 #else
-void eminit(acdfnm)
-     char acdfnm[];		/* IN - File name for ACODE instructions */
+void initEmit(acdFileName)
+     char acdFileName[];	/* IN - File name for ACODE instructions */
 #endif
 {
   int i;
@@ -258,13 +287,13 @@ void eminit(acdfnm)
 
   if ((IconBase = OpenLibrary("icon.library", 0)) == NULL)
       syserr("Could not open 'icon.library'");
-  if ((existingIcon = GetDiskObject(advnam)) == 0)
-      PutDiskObject(advnam, &iconObject);
+  if ((existingIcon = GetDiskObject(adventureName)) == 0)
+      PutDiskObject(adventureName, &iconObject);
   else
       FreeDiskObject(existingIcon);
 #endif
 
-  acdfil = fopen(acdfnm, WRITE_MODE);
+  acdFile = fopen(acdFileName, WRITE_MODE);
 
   /* Make space for ACODE header */
   for (i = 0; i < sizeof(AcdHdr)/sizeof(Aword); i++)
@@ -278,7 +307,7 @@ void eminit(acdfnm)
     FInfo finfo;
     OSErr oe;
 
-    strcpy(fnm, acdfnm);
+    strcpy(fnm, acdFileName);
     CtoPstr(fnm);
     oe = GetFInfo((ConstStr255Param)fnm, 0, &finfo);
 
@@ -291,9 +320,9 @@ void eminit(acdfnm)
 
 
 #ifdef _PROTOTYPES_
-void emterm(AcdHdr *hdr)
+void terminateEmit(AcdHdr *hdr)
 #else
-void emterm(hdr)
+void terminateEmit(hdr)
      AcdHdr *hdr;
 #endif
 {
@@ -303,11 +332,11 @@ void emterm(hdr)
   int i;
 
   if (pc%BLOCKSIZE > 0)
-    fwrite(buff, BLOCKSIZE, 1, acdfil);
+    fwrite(buff, BLOCKSIZE, 1, acdFile);
 
   hdr->acdcrc = crc;		/* Save checksum */
 
-  (void) rewind(acdfil);
+  (void) rewind(acdFile);
   pc = 0;
 
   /* Construct version marking */
@@ -327,6 +356,6 @@ void emterm(hdr)
   hp = (Aword *) hdr;		/* Point to header */
   for (i=0; i<sizeof(AcdHdr)/sizeof(Aword); i++) /* Emit header */
     emit(*hp++);
-  fwrite(buff, sizeof(AcdHdr), 1, acdfil); /* Flush first block out */
-  fclose(acdfil);
+  fwrite(buff, sizeof(AcdHdr), 1, acdFile); /* Flush first block out */
+  fclose(acdFile);
 }

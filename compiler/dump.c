@@ -1,37 +1,24 @@
-/*
- ! Internal form DUMP routines for the ALAN compiler
- */
+/*----------------------------------------------------------------------*\
 
+				dump.c
 
-#include "srcp.h"
+	  Internal form DUMP routines for the ALAN compiler
 
-#include "alan.h"
+\*----------------------------------------------------------------------*/
 
-#include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "exp.h"                /* EXP-nodes */
-#include "atr.h"                /* ATR-nodes */
-#include "whr.h"                /* WHR-nodes */
-#include "wht.h"                /* WHT-nodes */
-#include "stm.h"		/* STM-nodes */
-#include "chk.h"                /* CHK-nodes */
-#include "vrb.h"                /* VRB-nodes */
-#include "lim.h"		/* LIM-nodes */
-#include "cnt.h"		/* CNT-nodes */
-#include "obj.h"		/* OBJ-nodes */
-#include "ext.h"                /* EXT-nodes */
-#include "loc.h"                /* LOC-nodes */
-#include "scr.h"                /* SCR-nodes */
-#include "stp.h"                /* STP-nodes */
-#include "act.h"                /* ACT-nodes */
-#include "evt.h"                /* EVT-nodes */
-#include "rul.h"                /* RUL-nodes */
+#include "types.h"
+
+#include "Srcp.h"
 
 #include "lmList.h"
 
 
-static char strbuf[256] = "";
+/* PUBLIC */
+Bool dumpOnStdout;
+
+
+/* PRIVATE */
+static char stringBuffer[256] = "";
 static int indent;
 
 
@@ -42,7 +29,7 @@ void put(str)
      char str[];
 #endif
 {
-  strcat(strbuf, str);
+  strcat(stringBuffer, str);
 }
 
 
@@ -55,8 +42,11 @@ void nl()
 {
   int i;
 
-  lmLiPrint(strbuf);
-  strbuf[0] = '\0';
+  if (dumpOnStdout)
+    printf("%s\n", stringBuffer);
+  else
+    lmLiPrint(stringBuffer);
+  stringBuffer[0] = '\0';
 
   for (i=1 ; i<=indent; i++)
     put(".  ") ;
@@ -85,9 +75,9 @@ void out()
 
 
 #ifdef _PROTOTYPES_
-void dustr(char *s)
+void dumpString(char *s)
 #else
-void dustr(s)
+void dumpString(s)
      char s[];
 #endif
 {
@@ -98,9 +88,9 @@ void dustr(s)
 
 
 #ifdef _PROTOTYPES_
-void duint(int i)
+void dumpInteger(int i)
 #else
-void duint(i)
+void dumpInteger(i)
      int i;
 #endif
 {
@@ -112,9 +102,9 @@ void duint(i)
 
 
 #ifdef _PROTOTYPES_
-void duadr(void *adr)
+void dumpAddress(void *adr)
 #else
-void duadr(adr)
+void dumpAddress(adr)
      char *adr;
 #endif
 {
@@ -126,9 +116,9 @@ void duadr(adr)
 
 
 #ifdef _PROTOTYPES_
-void duBool(Bool b)
+void dumpBoolean(Bool b)
 #else
-void duBool(b)
+void dumpBoolean(b)
      Bool b;
 #endif
 {
