@@ -1,17 +1,42 @@
 ########## robertfoo ##########
 alan robertfoo
-arun robertfoo < robertfoo.input
+arun -d robertfoo < robertfoo.input
 ########## /bin/sh  robertfoo.tst ##########
 
         No warnings or errors detected.
         1 informational message(s).
 
+<Arun, Adventure Interpreter version 2.5(2)>
+<Version of 'robertfoo' is 2.5(2)>
 
 James Farty.
 Intro 1. Mission. Description. Character Selection. Choices a, b, c.
 
+ABUG> 
+
 > Case 1a.
-Case 1a with choice z. mtest <2 
+Case 1a with choice z. 
+mtest <2 
+
+Case 1b.
+case 1b with choice a
+
+> James Farty.
+Intro 1. Mission. Description. Character Selection. Choices a, b, c.
+
+> Case 1a.
+Case 1a with choice z. 
+mtest > 2
+
+Case 1b.
+case 1b with choice a
+
+> James Farty.
+Intro 1. Mission. Description. Character Selection. Choices a, b, c.
+
+> Case 1a.
+Case 1a with choice z. 
+mtest > 2
 
 Case 1b.
 case 1b with choice a
