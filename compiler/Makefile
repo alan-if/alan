@@ -16,7 +16,6 @@ tcov := LD = acc -a
 LD	= $(GCC) $(DEBUG)
 LDFLAGS	= -L/usr/local/lib/4.1.2
 
-VERSIONFILE 	= ../[0-9]*_[0-9]*_[0-9]*
 VERSION:sh	= basename ../[0-9]*_[0-9]*_[0-9]*
 
 EXTRAS = \
