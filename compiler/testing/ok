@@ -3,8 +3,6 @@
 for f in ${*} ; do
     case=`basename $f .alan`
     cp $case.output $case.expected
-    rm $case.diff
-    touch $case.diff
     cvs add $case.expected 2> /dev/null
     cvs commit -m "" $case.expected
 done

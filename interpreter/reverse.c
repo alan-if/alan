@@ -237,10 +237,10 @@ static void reverseExits(adr)
      Aword adr;
 #endif
 {
-  ExtEntry *e = (ExtEntry *) &memory[adr];
+  ExitEntry *e = (ExitEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ExtEntry));
+    reverseTable(adr, sizeof(ExitEntry));
     while (!endOfTable(e)) {
       if (!e->done) {
 	reverseChks(e->checks);

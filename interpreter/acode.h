@@ -166,6 +166,8 @@ typedef enum VarClass {
 
 /* AMACHINE Table entry types */
 
+#define ACDsizeOf(x) (sizeof(x)/sizeof(Aword))
+
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier */
@@ -178,6 +180,14 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
 } InstanceEntry;
+
+typedef struct ExitEntry {	/* EXIT TABLE structure */
+  Abool done;			/* Flag for reverse/convert process */
+  Aword code;			/* Direction code */
+  Aaddr checks;			/* Address of check table */
+  Aaddr action;			/* Address of action code */
+  Aword target;			/* Id for the target location */
+} ExitEntry;
 
 
 /* AMACHINE Header */

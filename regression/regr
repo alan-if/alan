@@ -2,19 +2,6 @@
 #
 # Script for regression testing of Alan and Arun
 #
-# Where the STEAM regression testing utility isn't available this script
-# can be used to run all or selected tests in a batch.
-#
-# Steam is configured to ignore lines that contain version numbering so
-# those test cases that rely on debug mode (to have a repeatable
-# randomizity(?)) will differ by having a line with the version number
-# produced by the -d flag.
-#
-# Usage:
-#	regression [ <cases>... ]
-#
-# After execution a list of all the differing cases is presented
-#
 failed=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
@@ -24,7 +11,7 @@ if [ $# != 0 ] ; then
     cat $case.alan >>$case.output
     echo "########## alan $case.alan ##########" >>$case.output
     ../bin/alan $case >>$case.output 2>&1
-    ../bin/arun -n $case >>$case.output 2>&1
+    ../bin/arun -n $case >>$case.output 2>&1 < $case.input
     if cmp -s $case.output $case.expected
     then
       echo -n "[K"

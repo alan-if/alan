@@ -814,13 +814,13 @@ Boolean exitto(to, from)
      int to, from;
 #endif
 {
-  ExtEntry *ext;
+  ExitEntry *ext;
 
   if (locs[from-LOCMIN].exts == 0)
     return(FALSE); /* No exits */
 
-  for (ext = (ExtEntry *) addrTo(locs[from-LOCMIN].exts); !endOfTable(ext); ext++)
-    if (ext->next == to)
+  for (ext = (ExitEntry *) addrTo(locs[from-LOCMIN].exts); !endOfTable(ext); ext++)
+    if (ext->target == to)
       return(TRUE);
 
   return(FALSE);
@@ -1037,12 +1037,12 @@ void go(dir)
      int dir;
 #endif
 {
-  ExtEntry *ext;
+  ExitEntry *ext;
   Boolean ok;
   Aword oldloc;
 
-  ext = (ExtEntry *) addrTo(locs[cur.loc-LOCMIN].exts);
-  if (locs[cur.loc-LOCMIN].exts != 0)
+  ext = (ExitEntry *) addrTo(instance[cur.loc].exits);
+  if (instance[cur.loc].exits != 0)
     while (!endOfTable(ext)) {
       if (ext->code == dir) {
 	ok = TRUE;
@@ -1074,7 +1074,7 @@ void go(dir)
 	      debugsay(cur.loc);
 	      printf("), Moving:>\n");
 	    }
-	    locate(HERO, ext->next);
+	    locate(HERO, ext->target);
 	  }
 	}
 	return;
@@ -1149,7 +1149,7 @@ Boolean possible()
   }
   
   /* Now CHECKs in this location */
-  alt[1] = findalt(locs[cur.loc-LOCMIN].vrbs, 0);
+  alt[1] = findalt(instance[cur.loc].verbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0)
     if (!trycheck(alt[1]->checks, FALSE))
       return FALSE;
@@ -1203,7 +1203,7 @@ static void do_it()
   }
   
   /* Now CHECKs in this location */
-  alt[1] = findalt(locs[cur.loc-LOCMIN].vrbs, 0);
+  alt[1] = findalt(instance[cur.loc].verbs, 0);
   if (alt[1] != 0 && alt[1]->checks != 0) {
     if (trcflg)
       printf("\n<VERB %d, CHECK, in LOCATION:>\n", cur.vrb);

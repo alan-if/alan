@@ -129,14 +129,6 @@ typedef struct LocEntry {	/* LOCATION TABLE */
   Aaddr vrbs;			/* Address of local verb list */
 } LocEntry;
 
-typedef struct ExtEntry {	/* EXIT TABLE structure */
-  Abool done;			/* Flag for reverse/convert process */
-  Aword code;			/* Direction code */
-  Aaddr checks;			/* Address of check table */
-  Aaddr action;			/* Address of action code */
-  Aword next;			/* Number of next location */
-} ExtEntry;
-
 typedef struct ChkEntry {	/* CHECK TABLE */
   Aaddr exp;			/* ACODE address to expression code */
   Aaddr stms;			/* ACODE address to statement code */

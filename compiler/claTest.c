@@ -40,8 +40,8 @@ void testGenerateClasses()
   Srcp srcp = {12,13,14};
   ClaNod *cla;
   Aaddr addr;
-  int firstAdr = sizeof(AcdHdr)/sizeof(Aword);
-  int classSize = sizeof(ClassEntry)/sizeof(Aword);
+  int firstAdr = ACDsizeOf(AcdHdr);
+  int classSize = ACDsizeOf(ClassEntry);
 
   initadv();
 

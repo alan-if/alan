@@ -23,6 +23,7 @@
 #include "cla_x.h"
 #include "sym_x.h"
 #include "cnt_x.h"
+#include "ext_x.h"
 #include "id_x.h"
 
 
@@ -181,10 +182,14 @@ void generateSlotsData(SlotsNode *slots)
     emit0(C_STMOP, I_RETURN);
   }
 
-  slots->mentionedAddress = emadr();
-  gestms(slots->mentioned, NULL);
-  emit0(C_STMOP, I_RETURN);
+  if (slots->mentioned != NULL) {
+    slots->mentionedAddress = emadr();
+    gestms(slots->mentioned, NULL);
+    emit0(C_STMOP, I_RETURN);
+  } else
+    emit(0);
 
+  slots->exitsAddress = generateExits(slots->exits);
 }
 
 

@@ -90,9 +90,10 @@ void emit(Aword c)		/* IN - Constant to emit */
 }
 
 
-void emitN(Aword words[], int noOfWords) /* IN - Constant to emit */
+void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 {
   int i;
+  Aword *words = address;
 
   for (i = 0; i < noOfWords; i++)
 #ifdef REVERSED

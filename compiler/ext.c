@@ -182,32 +182,25 @@ static Aaddr geexstms(ExtNod *ext) /* IN - The exit to generate */
 
 /*----------------------------------------------------------------------
 
-  geextent()
+  generateExitEntry()
 
-  Generate one exit in an exit list.
+  Generate one exit entry in the exit table.
 
  */
-static void geextent(ExtNod *ext) /* IN - The exit to generate */
+static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
 {
   List *dir;
   Bool same = FALSE;
-  
+  ExitEntry entry;
+
   for (dir = ext->dirs; dir != NULL; dir = dir->next) {
-    emit(same);			/* For reversing process */
-    emit(dir->element.id->symbol->code);
-
-    if (ext->chks != NULL)
-      emit(ext->chkadr);
-    else
-      emit(0);
-
-    if (ext->stms != NULL)
-      emit(ext->stmadr);
-    else
-      emit(0);
-
-    geid(ext->target);
+    entry.done = same;			/* For reversing process */
+    entry.code = dir->element.id->symbol->code;
+    entry.checks = ext->chks? ext->chkadr : 0;
+    entry.action = ext->stms? ext->stmadr : 0;
+    entry.target = ext->target->symbol->code;
     same = TRUE;
+    emitN(&entry, ACDsizeOf(entry));
   }
 }
 
@@ -215,12 +208,12 @@ static void geextent(ExtNod *ext) /* IN - The exit to generate */
 
 /*======================================================================
 
-  geexts()
+  generateExits()
 
   Generate the data structure for the exits for a location.
 
  */
-Aaddr geexts(List *exts)	/* IN - The exits */
+Aaddr generateExits(List *exts)	/* IN - The exits */
 {
   List *lst;			/* Traversal pointer */
   Aaddr extadr;			/* The adress where the exits start */
@@ -238,7 +231,7 @@ Aaddr geexts(List *exts)	/* IN - The exits */
   
   extadr = emadr();
   for (lst = exts; lst != NULL; lst = lst->next)
-    geextent(lst->element.ext);
+    generateExitEntry(lst->element.ext);
   emit(EOF);
   return(extadr);
 }
