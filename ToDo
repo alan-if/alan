@@ -1,5 +1,10 @@
 ToDo:
 
+	* Attribute to OBJECT in MESSAGE could be handy. This would
+	require each MESSAGE-code to define the parameters available
+	and to set up this before entering the analysis of the
+	statements. 
+
 	* Document how to produce a SCRIPT-file
 
 	* MAC (or general?): allow .ACD/.DAT as well as .acd/.dat,
