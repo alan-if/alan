@@ -10,10 +10,10 @@
 #include "srcp.h"
 #include "lmList.h"
 
-#include "sym.h"		/* SYM-nodes */
-#include "lst.h"		/* LST-nodes */
-#include "stx.h"		/* STX-nodes */
-#include "nam.h"		/* NAM-nodes */
+#include "sym.h"				/* SYM-nodes */
+#include "lst.h"				/* LST-nodes */
+#include "stx.h"				/* STX-nodes */
+#include "nam.h"				/* NAM-nodes */
 #include "elm.h"                /* ELM-nodes */
 #include "wrd.h"                /* WRD-nodes */
 
@@ -30,10 +30,10 @@
 /* PRIVATE: */
 
 typedef struct ElmEntry {
-  int code;			/* Word code, if 0 means parameter */
-  Aaddr adr;			/* Address to next level for this */
-				/* entry */
-  Bool multiple;		/* Multiple indicator */
+  int code;						/* Word code, if 0 means parameter */
+  Aaddr adr;					/* Address to next level for this */
+								/* entry */
+  Bool multiple;				/* Multiple indicator */
 } ElmEntry;
 
 
@@ -45,20 +45,19 @@ typedef struct ElmEntry {
 
  */
 #ifdef _PROTOTYPES_
-ElmNod *newelm(Srcp *srcp, ElmKind kind, NamNod *nam, Bool multiple)
-                		/* IN - Source Position */
-                  		/* IN - Kind of element (parm or word) */
-                 		/* IN - The name */
-                      		/* IN - May this parameter by multiple */
+ElmNod *newelm(Srcp *srcp,		/* IN - Source Position */
+			   ElmKind kind,	/* IN - Kind of element (parm or word) */
+			   NamNod *nam,		/* IN - The name */
+			   Bool multiple)	/* IN - May this parameter by multiple */
 #else
 ElmNod *newelm(srcp, kind, nam, multiple)
-     Srcp *srcp;		/* IN - Source Position */
-     ElmKind kind;		/* IN - Kind of element (parm or word) */
-     NamNod *nam;		/* IN - The name */
-     Bool multiple;		/* IN - May this parameter by multiple */
+     Srcp *srcp;				/* IN - Source Position */
+     ElmKind kind;				/* IN - Kind of element (parm or word) */
+     NamNod *nam;				/* IN - The name */
+     Bool multiple;				/* IN - May this parameter by multiple */
 #endif
 {
-  ElmNod *new;			/* The newly created node */
+  ElmNod *new;					/* The newly created node */
 
   new = NEW(ElmNod);
 
