@@ -1172,16 +1172,6 @@ static int val(char str[])
 
 
 ---> CONTAINERS
-<optional_properties>	-- RETURNS: cnt
-    =
-    %%
-	%<optional_properties>.cnt = NULL;
-    %%
-
-    ! <properties>
-    -- Propagate!
-    ;
-
 <properties>					-- RETURNS: cnt, srcp
     = 'CONTAINER' <container_body>
     %%
