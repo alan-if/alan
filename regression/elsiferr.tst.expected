@@ -1,6 +1,6 @@
 ########## elsiferr ##########
 alan elsiferr
-arun elsiferr < elsiferr.input
+
 ########## /bin/sh  elsiferr.tst ##########
 
 
@@ -26,4 +26,3 @@ elsiferr.alan
         No detected warnings.
         10 informational message(s).
 
-elsiferr.tst: elsiferr.input: No such file or directory

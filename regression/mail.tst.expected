@@ -16,9 +16,11 @@ arun mail < mail.input
 L.
 There is a mail box and a some mail here.
 
-> Taken.
+> take mail
+Taken.
 
-> Taken.
+> take mail box
+Taken.
 
 > 
 

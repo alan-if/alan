@@ -1,6 +1,5 @@
 ########## jukka ##########
 alan jukka
-arun jukka < jukka.input
 ########## /bin/sh  jukka.tst ##########
 
 
@@ -16,4 +15,3 @@ jukka.alan
         No detected warnings.
         2 informational message(s).
 
-jukka.tst: jukka.input: No such file or directory

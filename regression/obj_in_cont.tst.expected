@@ -15,7 +15,8 @@ Now try 'examine toolbox'.
 L.
 There is a toolbox here.
 
-> There is a toolbox here. The toolbox contains a hammer.
+> examine toolbox
+There is a toolbox here. The toolbox contains a hammer.
 
 > 
 

@@ -12,36 +12,49 @@ Scenic Vista.
 Far in the distance you can see the Pebbly Mountain raising towards the
 sky.
 
-> Scenic Vista.
+> look
+Scenic Vista.
 Far in the distance you can see the Pebbly Mountain raising towards the
 sky.
 
-> The inventory contains a stone. The belt contains a pair of binoculars.
+> i
+The inventory contains a stone. The belt contains a pair of binoculars.
 
-> The magnified image of the mountain reveals a hill side road.
+> look at mountain using binoculars
+The magnified image of the mountain reveals a hill side road.
 
-> You can't get any better look using stone.
+> look at mountain using stone
+You can't get any better look using stone.
 
-> Smart ass!
+> look at binoculars using binoculars
+Smart ass!
 
-> A Road to the Hills.
+> e
+A Road to the Hills.
 
-> This close to the mountain there is not much that you see better through
+> look at mountain using binoculars
+This close to the mountain there is not much that you see better through
 the binoculars.
 
-> You can't get any better look using stone.
+> look at mountain using stone
+You can't get any better look using stone.
 
-> Smart ass!
+> look at binoculars using binoculars
+Smart ass!
 
-> Hills.
+> e
+Hills.
 There is a mountain here.
 
-> At this short distance all you can see is a magnification of a grey stone
+> look at mountain using binoculars
+At this short distance all you can see is a magnification of a grey stone
 mountain side.
 
-> You can't get any better look using stone.
+> look at mountain using stone
+You can't get any better look using stone.
 
-> Smart ass!
+> look at binoculars using binoculars
+Smart ass!
 
 > 
 

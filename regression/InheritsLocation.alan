@@ -1,8 +1,0 @@
-EVERY room ISA location
-END EVERY room.
-
-THE study ISA room
-END THE study.
-
-START AT study.
-  QUIT.

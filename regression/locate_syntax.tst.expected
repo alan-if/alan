@@ -1,6 +1,6 @@
 ########## locate_syntax ##########
 alan locate_syntax
-arun locate_syntax < locate_syntax.input
+
 ########## /bin/sh  locate_syntax.tst ##########
 
 
@@ -102,4 +102,3 @@ locate_syntax.alan
         No detected warnings.
         2 informational message(s).
 
-locate_syntax.tst: locate_syntax.input: No such file or directory

@@ -11,9 +11,11 @@ arun syntax2 < syntax2.input
 L.
 There is a o here. A is here.
 
-> You can only take objects !
+> take a
+You can only take objects !
 
-> Taken.
+> take o
+Taken.
 
 > 
 

@@ -10,15 +10,20 @@ arun time < time.input
 L.
 There is a o1, a o2 and a oc here.
 
-> The time is now 21 : 30
+> time
+The time is now 21 : 30
 
-> OK
+> put o1 in oc
+OK
 
-> The time is now 21 : 34
+> time
+The time is now 21 : 34
 
-> Too much!
+> put o2 in oc
+Too much!
 
-> The time is now 21 : 38
+> time
+The time is now 21 : 38
 
 > 
 

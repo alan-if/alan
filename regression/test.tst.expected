@@ -1,6 +1,5 @@
 ########## test ##########
 alan test
-arun test < test.input
 ########## /bin/sh  test.tst ##########
 
 
@@ -65,4 +64,3 @@ test.alan
         1 warning(s).
         3 informational message(s).
 
-test.tst: test.input: No such file or directory

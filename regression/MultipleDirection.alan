@@ -1,9 +1,0 @@
-The loc Isa location
-  Exit n, e, n To loc.
-
-  Exit s, e To loc.
-
-  Exit w To loc.
-End The loc.
-
-Start At loc.

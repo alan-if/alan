@@ -20,100 +20,148 @@ and
 Somewhere.
 There is a box, a ball and a paper here.
 
-> It is much to heavy.
+> take box
+It is much to heavy.
 
-> You don't have the box.
+> drop box
+You don't have the box.
 
-> The box is empty.
+> list box
+The box is empty.
 
-> It would be a good trick to put the box inside the box, if you could do
+> put box in box
+It would be a good trick to put the box inside the box, if you could do
 it!!
 
-> Somewhere.
+> l
+Somewhere.
 There is a box, a ball and a paper here. You are empty-handed.
 
-> Taken.
+> take paper
+Taken.
 
-> 
-> The paper is not a container.
+> drop paper
 
-> Ok! The box contains a paper.
+> list paper
+The paper is not a container.
 
-> Somewhere.
+> put paper in box
+Ok! The box contains a paper.
+
+> l
+Somewhere.
 There is a box and a ball here. You are empty-handed.
 
-> Taken.
+> take ball
+Taken.
 
-> 
-> The ball is not a container.
+> drop ball
 
-> There is not room for any more in the box.
+> list ball
+The ball is not a container.
 
-> Somewhere.
+> put ball in box
+There is not room for any more in the box.
+
+> l
+Somewhere.
 There is a box and a ball here. You are empty-handed.
 
-> > It is much to heavy.
+> 
+> take box
+It is much to heavy.
 
-> You don't have the box.
+> drop box
+You don't have the box.
 
-> The box contains a paper.
+> list box
+The box contains a paper.
 
-> The paper is not a container.
+> put box in paper
+The paper is not a container.
 
-> Somewhere.
+> l
+Somewhere.
 There is a box and a ball here. You are empty-handed.
 
-> Taken.
+> take paper
+Taken.
+
+> drop paper
+
+> list paper
+The paper is not a container.
+
+> put paper in paper
+The paper is not a container.
+
+> l
+Somewhere.
+There is a box, a ball and a paper here. You are empty-handed.
+
+> take ball
+Taken.
+
+> drop ball
+
+> list ball
+The ball is not a container.
+
+> put ball in paper
+The paper is not a container.
+
+> l
+Somewhere.
+There is a box, a ball and a paper here. You are empty-handed.
 
 > 
-> The paper is not a container.
+> take box
+It is much to heavy.
 
-> The paper is not a container.
+> drop box
+You don't have the box.
 
-> Somewhere.
+> list box
+The box is empty.
+
+> put box in ball
+The ball is not a container.
+
+> l
+Somewhere.
 There is a box, a ball and a paper here. You are empty-handed.
 
-> Taken.
+> take paper
+Taken.
+
+> drop paper
+
+> list paper
+The paper is not a container.
+
+> put paper in ball
+The ball is not a container.
+
+> l
+Somewhere.
+There is a box, a ball and a paper here. You are empty-handed.
+
+> take ball
+Taken.
+
+> drop ball
+
+> list ball
+The ball is not a container.
+
+> put ball in ball
+The ball is not a container.
+
+> l
+Somewhere.
+There is a box, a ball and a paper here. You are empty-handed.
 
 > 
-> The ball is not a container.
-
-> The paper is not a container.
-
-> Somewhere.
-There is a box, a ball and a paper here. You are empty-handed.
-
-> > It is much to heavy.
-
-> You don't have the box.
-
-> The box is empty.
-
-> The ball is not a container.
-
-> Somewhere.
-There is a box, a ball and a paper here. You are empty-handed.
-
-> Taken.
-
 > 
-> The paper is not a container.
-
-> The ball is not a container.
-
-> Somewhere.
-There is a box, a ball and a paper here. You are empty-handed.
-
-> Taken.
-
-> 
-> The ball is not a container.
-
-> The ball is not a container.
-
-> Somewhere.
-There is a box, a ball and a paper here. You are empty-handed.
-
-> > 
 
 Do you want to restart (y) ? 

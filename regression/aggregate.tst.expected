@@ -14,11 +14,14 @@ Try 'count', 'sum' and 'max'. The inventory contains a o3. Size of o1 = 3
 L.
 There is a o1 and a o2 here.
 
-> Sum At l = 11
+> sum
+Sum At l = 11
 
-> Max here = 5
+> max
+Max here = 5
 
-> Count At hero = 3 Count in inventory = 1
+> count
+Count At hero = 3 Count in inventory = 1
 
 > 
 

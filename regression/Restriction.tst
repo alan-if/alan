@@ -1,1 +1,0 @@
-../compiler/alan Restriction.alan

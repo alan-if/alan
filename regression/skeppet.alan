@@ -348,7 +348,7 @@ OBJECT glass AT glasskiosk
         "Här finns glass av alla slag."
 
     MENTIONED
-        "en storstrut"
+        "storstrut"
 
     VERB ta DOES
         "Du ser glassförsäljaren försvinna in i det bakre lagret. Snabbt
@@ -842,6 +842,8 @@ OBJECT pengarna AT NOWHERE
 
     DESCRIPTION
         "En mindre summa pengar finns här."
+
+    ARTICLE
 
     MENTIONED
         "lite pengar"

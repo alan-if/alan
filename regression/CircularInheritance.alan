@@ -1,8 +1,0 @@
-Every c1 Isa THING, c2
-End Every c1.
-
-Every c2 Isa THING, c1
-End Every c2.
-
-Start At c2.
-

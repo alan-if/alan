@@ -18,65 +18,139 @@ Du befinner dig mitt inne i en dunge av små palmer. Åt alla håll syns
 lite ljus. En frisk bris med doft av salt havsvatten kommer från söder. 
 Det finns en palm här.
 
-> > 'grv'? Jag känner inte till det ordet.
-
-> Västra Stranden.
+> ö
+Östra Stranden.
 En sandstrand med ljus, varm fin sand sträcker ut sig framför dig. Åt
-väster finns bara havet, med vågor slående mot stranden och längre ut
-syns några hajfenor cirkla snabbt, försvinna då och då, för att sedan
-dyka upp på något annat ställe. Österut syns en palmdunge.
+öster finns bara havet, med vågor slående mot stranden och längre ut syns
+några hajfenor cirkla snabbt, försvinna då och då, för att sedan dyka upp
+på något annat ställe. Västerut syns en palmdunge.
 
-> 'grv'? Jag känner inte till det ordet.
+> gräv
+Efter någon timmes idogt grävande med händerna i den torra fina sanden är
+allt lyckas du åstadkomma en liten sandhög som av vinden snart fördelas
+ut över stranden igen.
 
-> 'undersk'? Jag känner inte till det ordet.
+> v
+Mitten Av Ön (igen).
+Det finns en palm här.
 
-> Jag vet inte vad du menar med 'den'.
+> gräv
+Här går det inte att gräva.
 
-> Västra Stranden.
-En sandstrand med ljus, varm fin sand sträcker ut sig framför dig. Åt
-väster finns bara havet, med vågor slående mot stranden och längre ut
-syns några hajfenor cirkla snabbt, försvinna då och då, för att sedan
-dyka upp på något annat ställe. Österut syns en palmdunge.
+> undersök palmen
+Palmen verkar alldeles för svag att klättra i, men högt uppe i toppen
+skymtar något metalliskt.
 
-> Jag ser ingen spaden här.
+> skaka den
+Ur palmens krona faller plötsligt det metalliska föremålet ner rakt emot
+dig. Det missar ditt huvud med bara några millimeter.
 
-> Södra Stranden.
+> l
+Mitten Av Ön.
+Du befinner dig mitt inne i en dunge av små palmer. Åt alla håll syns
+lite ljus. En frisk bris med doft av salt havsvatten kommer från söder. 
+På marken ligger en spade. Det finns en palm här.
+
+> tag spaden
+OK!
+
+> s
+Södra Stranden.
 En sandstrand med ljus, varm fin sand sträcker ut sig framför dig. Åt
 söder finns bara havet, med höga vågor slående in över stranden och
 längre ut syns några hajfenor cirkla snabbt, försvinna då och då, för att
 sedan dyka upp på något annat ställe. Norrut syns en palmdunge.
 
-> 'grv'? Jag känner inte till det ordet.
+> gräv
+Med spadens hjälp och tackvare den stadiga sanden bygger du snabbt ett
+stort sandslott, ja så stort att man kunde tro att det vore byggt på
+riktigt.
 
-> Du kan inte gå åt det hållet.
+> in
+Du passerar över vindbryggan och in i slottet. Över din bara, solstekta
+rygg känner du kylan krypa (kan det verkligen vara kallare här inne?).
 
-> Mitten Av Ön (igen).
-Det finns en palm här.
+Borggården.
+Den stensatta borggården känns kylig och mörk. Och det går knappast
+längre att föreställa sig den heta söderhavsön utanför. Mörka
+dörröppningar vätter åt norr, öst och väst. Söderut ser du vindbryggan.
 
-> Södra Stranden (igen).
+> n
+Köket.
+Det enda som egentligen antyder att detta är ett kök är den jättestora
+eldstaden i mitten av rummet.
 
-> > 'ppna'? Jag känner inte till det ordet.
+> s
+Borggården (igen).
 
-> 'undersk'? Jag känner inte till det ordet.
+> ö
+Skattkammaren.
+Det enda som egentligen antyder att detta är en skattkammare är den
+jättestora skattkistan i mitten av rummet. Skattkistan är stabil och
+försedd med ett redigt lås av guld. Den är stängd.
 
-> 'ls'? Jag känner inte till det ordet.
+> öppna skattkistan
+Som tur var glömde dom låsa skattkistan innan de for (vilka 'de' nu
+var!?).
 
-> Du äger ingenting här i världen (kanske något att göra något åt?).
+> undersök den
+Skattkistan är stabil och försedd med ett redigt lås av guld. Skattkistan
+innehåller en gulnad papperslapp.
 
-> Västra Stranden (igen).
+> tag lappen och läs den
+OK!
 
-Försök inte smita iväg ut i havet, hajarna kommer att bita dig i tårna.
+På lappen står det:
 
-> 'undersk'? Jag känner inte till det ordet.
 
-> 'undersk'? Jag känner inte till det ordet.
+     'Till Oss Själva!
 
-> 'undersk'? Jag känner inte till det ordet.
 
-> 'ls'? Jag känner inte till det ordet.
+     Vi är inte så dumma att Vi har Våra skatter i skattkistan. För att
+lura tjuvar och andra obehöriga (detta gäller Dig, tjuv!) har Vi istället
+lagt Våra skatter i Vår madrass.
 
-> 'ls'? Jag känner inte till det ordet.
 
-> 
+     Kung Lyckos T. den Glömske'
+
+
+> i
+Du släpar omkring på en spade och en gulnad papperslapp.
+
+> v och v
+Borggården (igen).
+
+
+Sängkammaren.
+Det enda som egentligen antyder att detta är en sängkammare är den
+jättestora sängen i mitten av rummet. Den jättestora sängen ser lite
+maläten ut.
+
+> undersök sängen
+I sängen finns en madrass.
+
+> undersök madrass
+Madrassen innehåller en lott.
+
+> undersök lotten
+Du kan inte undersöka lotten på det här avståndet.
+
+> läs den
+Du kan inte läsa lotten på det här avståndet.
+
+> tag den och läs den
+OK!
+
+På lotten står det:
+     Penninglotteriet 40kr
+     02 765 Nr 0146656
+     NOLL ETT FYRA SEX SEX FEM SEX
+     DRAGNING NR
+     765
+     15 mars 1990
+     Vinst utbetalas av Svenska Penninglotteriet ab
+
+HARDENÄRAN! och hoppas på tur!!!
+
 
 Vill du försöka igen (j) ? 

@@ -1,6 +1,5 @@
 ########## ZILexample ##########
 alan ZILexample
-arun ZILexample < ZILexample.input
 ########## /bin/sh  ZILexample.tst ##########
 
 
@@ -47,4 +46,3 @@ ZILexample.alan
         No detected warnings.
         2 informational message(s).
 
-ZILexample.tst: ZILexample.input: No such file or directory

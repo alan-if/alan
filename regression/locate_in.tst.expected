@@ -11,7 +11,8 @@ arun locate_in < locate_in.input
 L.
 There is a c and a o here.
 
-> 
+> put o in c
+
 > 
 
 Do you want to restart (y) ? 

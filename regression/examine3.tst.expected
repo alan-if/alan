@@ -3,16 +3,29 @@ alan examine3
 arun examine3 < examine3.input
 ########## /bin/sh  examine3.tst ##########
 
-        No warnings or errors detected.
+
+examine3.alan
+
+   5.   syntax examine = examine (obj)
+====>                  1
+
+  *1*   334 W : Multiple syntaxes are defined with this structure (words and
+        parameters).
+
+
+        No detected errors.
+        1 warning(s).
 
 
 
 L1.
 There is a o here. A is here.
 
-> Not a container actor
+> examine a
+Not a container actor
 
-> Not a container actor
+> examine o
+Not a container actor
 
 > 
 

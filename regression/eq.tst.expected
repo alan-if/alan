@@ -12,11 +12,14 @@ Different.
 L.
 There is a a and a b here.
 
-> Different.
+> eq a b
+Different.
 
-> Same.
+> eq a a
+Same.
 
-> Same.
+> eq b b
+Same.
 
 > 
 

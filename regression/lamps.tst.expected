@@ -3,18 +3,8 @@ alan lamps
 arun lamps < lamps.input
 ########## /bin/sh  lamps.tst ##########
 
-
-lamps.alan
-
-   6.   VERB take, get, pick
-====>                   1
-
-  *1*   215 E : Syntax not compatible with syntax for 'take'.
-
-
-        1 error(s).
-        No detected warnings.
-        4 informational message(s).
+        No warnings or errors detected.
+        1 informational message(s).
 
 
 
@@ -22,7 +12,8 @@ Outside The Big Building.
 There is a dusty blue lamp, a dusty golden lamp, a clean blue lamp and a 
 clean golden lamp here.
 
-> (dusty blue lamp) Taken.
+> take all
+(dusty blue lamp) Taken.
 
 (dusty golden lamp) Taken.
 
@@ -30,7 +21,8 @@ clean golden lamp here.
 
 (clean golden lamp) Taken.
 
-> I don't know which blue lamp you mean.
+> drop the blue lamp
+I don't know which blue lamp you mean.
 
 > 
 

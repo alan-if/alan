@@ -11,9 +11,11 @@ arun unlock < unlock.input
 L.
 There is a obj and a k here.
 
-> With what?
+> unlock the obj
+With what?
 
-> You don't have the k.
+> unlock the obj with k
+You don't have the k.
 
 > 
 

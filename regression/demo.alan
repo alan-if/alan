@@ -148,10 +148,11 @@ END OBJECT.
 OBJECT lamp AT Square_room
     IS
 	NOT lit.
+    ARTICLE "an"
     MENTIONED
         "old"
 	IF lamp IS lit THEN
-	    "lighted"
+	    "lit"
 	END IF.
 	"lamp"
 

@@ -51,7 +51,7 @@ LOCATION case1a
 --  program with a "RECURSIVE LOOK" error.
 --          LOCATE HERO AT case1b.
      ELSE
-          SAY "mtest <2 ".
+          SAY "$nmtest < 2".
 --          LOCATE HERO AT case1b.
      END IF. 
 DOES

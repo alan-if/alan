@@ -1,7 +1,0 @@
-Every c1 Isa THING
-  Is thingy.
-  Has thingy "thing".
-End Every c1.
-
-Start At c1.
-

@@ -1,6 +1,5 @@
 ########## params ##########
 alan params
-arun params < params.input
 ########## /bin/sh  params.tst ##########
 
 
@@ -28,4 +27,3 @@ params.alan
         No detected warnings.
         4 informational message(s).
 
-params.tst: params.input: No such file or directory

@@ -9,5 +9,7 @@ arun mbo3 < mbo3.input
 Test location.
 This is just a test location. You see a mysterious test object here.
 
-> 
-Do you want to restart (y) ? 
+> quit
+
+Do you want to restart (y) ? n
+

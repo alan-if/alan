@@ -11,11 +11,14 @@ Examine Kalle & yourself.
 L.
 Stor Liten Kalle is here.
 
-> You can't do that.
+> examine kalle
+You can't do that.
 
-> me is here.!@# Kalle is here.
+> examine me
+me is here.!@# Kalle is here.
 
-> L.
+> w
+L.
 Stor Liten Kalle is here. Kalle is here. Event 1.
 
 > 

@@ -3,7 +3,18 @@ alan stx
 arun stx < stx.input
 ########## /bin/sh  stx.tst ##########
 
-        No warnings or errors detected.
+
+stx.alan
+
+   1.   SYNTAX v = 'verb' (o).
+====>            1
+
+  *1*   334 W : Multiple syntaxes are defined with this structure (words and
+        parameters).
+
+
+        No detected errors.
+        1 warning(s).
         1 informational message(s).
 
 
@@ -11,8 +22,6 @@ arun stx < stx.input
 L.
 There is a o here.
 
-> v2
-
-> 
+> verb o
 
 Do you want to restart (y) ? 

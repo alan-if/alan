@@ -1,6 +1,5 @@
 ########## container ##########
 alan container
-arun container < container.input
 ########## /bin/sh  container.tst ##########
 
 
@@ -17,4 +16,3 @@ container.alan
         No detected warnings.
         2 informational message(s).
 
-container.tst: container.input: No such file or directory

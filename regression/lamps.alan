@@ -3,6 +3,8 @@ OBJECT ATTRIBUTES
 
 
 SYNTAX pick = pick (o)*.
+SYNTAX take = take (o)*.
+SYNTAX get = get (o)*.
 VERB take, get, pick
     CHECK OBJECT NOT IN inventory
 	ELSE "You already have the $o."

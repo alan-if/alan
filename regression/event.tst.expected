@@ -10,19 +10,26 @@ Schedule e1 after 2. 'c' to cancel it.
 
 L.
 
-> L.
+> look
+L.
 
-> L.
+> look
+L.
 E1 running. Schedule e1 after 2.
 
-> L.
+> look
+L.
 
-> 
-> L.
+> c
 
-> L.
+> look
+L.
 
-> L.
+> look
+L.
+
+> look
+L.
 
 > 
 

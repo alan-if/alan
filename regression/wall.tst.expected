@@ -11,17 +11,22 @@ arun wall < wall.input
 Loc1.
 e to loc2. There is a wall here.
 
-> There is a wall here.
+> examine wall
+There is a wall here.
 
-> Loc2.
+> e
+Loc2.
 w to loc1.
 
-> I can't see any wall here.
+> examine wall
+I can't see any wall here.
 
-> Loc1.
+> w
+Loc1.
 e to loc2. There is a wall here.
 
-> There is a wall here.
+> examine wall
+There is a wall here.
 
 > 
 

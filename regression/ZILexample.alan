@@ -40,6 +40,6 @@ End Object.
 Object krabble At gruble
     Verb take
 	Check frabble Not In inventory
-	    Else "You are not carrying the frabble."
+	    Else "You are carrying the frabble!"
     End Verb.
 End Object.

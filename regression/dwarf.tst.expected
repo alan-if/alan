@@ -12,9 +12,11 @@ Kill the dwarf!
 Place.
 There is a stone here. Dwarf is here.
 
-> You killed him!
+> kill dwarf
+You killed him!
 
-> It is already dead.
+> kill stone
+It is already dead.
 
 > 
 

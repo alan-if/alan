@@ -1,14 +1,14 @@
-Location wet1
+Location l1
   Description
-    System "xv /home/users/thoni/images/women/Wet-09.jpg &".
+    System "echo echoing l1".
 
-  Exit s,e,w,n To wet2.
+  Exit s,e,w,n To l2.
 End Location.
 
-Location wet2
+Location l2
   Description
-    System "xv /home/users/thoni/images/women/Wet-12.jpg &".
-  Exit s,e,w,n To wet1.
+    System "echo echoing l2".
+  Exit s,e,w,n To l1.
 End Location.
 
-Start At wet1.
+Start At l1.

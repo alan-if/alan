@@ -17,9 +17,11 @@ arun pat < pat.input
 L.
 There is a o here.
 
-> Unlocked.
+> unlock o
+Unlocked.
 
-> Cast.
+> cast unlock on o
+Cast.
 
 > 
 

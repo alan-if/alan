@@ -12,18 +12,23 @@ Try to 'hide'.
 Open.
 West to forest.
 
-> There is nowhere here to hide.
+> hide
+There is nowhere here to hide.
 
-> Forest.
+> west
+Forest.
 East to open, north to cavern.
 
-> Cavern.
+> hide
+Cavern.
 South to forest, north to cavern. You hide in the cavern.
 
-> Cavern.
+> north
+Cavern.
 South to forest, north to cavern.
 
-> There is nowhere here to hide.
+> hide
+There is nowhere here to hide.
 
 > 
 

@@ -5,17 +5,19 @@ arun system < system.input
 
         No warnings or errors detected.
 
+echoing l1
 
 
-Wet1.
+L1.
 
-> Wet2.
+> s
+echoing l2
+L2.
 
-> ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-Wet1.
+> n
+echoing l1
+L1.
 
-> ld.so: warning: /usr/lib/libc.so.1.7 has older revision than expected 8
-
+> 
 
 Do you want to restart (y) ? 

@@ -1,6 +1,5 @@
 ########## object ##########
 alan object
-arun object < object.input
 ########## /bin/sh  object.tst ##########
 
 
@@ -41,4 +40,3 @@ object.alan
         No detected warnings.
         2 informational message(s).
 
-object.tst: object.input: No such file or directory
