@@ -26,12 +26,12 @@
 #include "whr_x.h"
 #include "slt_x.h"
 #include "ext_x.h"
+#include "atr_x.h"
 
 #include "lmList.h"
 
 #include "adv.h"		/* ADV-node */
 #include "alt.h"                /* ALT-nodes */
-#include "atr.h"                /* ATR-nodes */
 #include "chk.h"                /* CHK-nodes */
 #include "cnt.h"		/* CNT-nodes */
 #include "elm.h"                /* ELM-nodes */

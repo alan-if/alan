@@ -22,6 +22,7 @@ void dumpClass();
 void dumpInstance();
 void dustm();
 void duext();
+void duatr();
 
 
 /*======================================================================
@@ -35,6 +36,7 @@ void initDumpNodeList()
   dumpNodeTable[LIST_INS] = &dumpInstance;
   dumpNodeTable[LIST_STM] = &dustm;
   dumpNodeTable[LIST_EXT] = &duext;
+  dumpNodeTable[LIST_ATR] = &duatr;
 }
 
 

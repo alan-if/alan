@@ -27,8 +27,8 @@ typedef struct SlotsNode {	/* SLOTS  */
   List *names;			/* List of lists of adjectives and a noun (ids)*/
   WhrNod *whr;			/* Where is it initially? */
   CntNod *cnt;			/* Container properties */
-  List *atrs;			/* Attributes ... */
-  Aword atradr;			/* ACODE address to attribute list */
+  List *attributes;
+  Aword attributeAddress;	/* ACODE address to attribute list */
   List *description;		/* Long description statements */
   Aword descriptionAddress;	/* ACODE address to long description code */
   List *art;			/* Article printing statements */

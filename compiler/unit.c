@@ -57,6 +57,7 @@ extern lmSev readSev();
 #include "whrTest.c"
 #include "extTest.c"
 #include "emitTest.c"
+#include "atrTest.c"
 
 
 int main()
@@ -69,7 +70,7 @@ int main()
   registerSymUnitTests();
   registerWhrUnitTests();
   registerExtUnitTests();
-  registerEmitUnitTests();
+  registerAtrUnitTests();
 
   unitTest();
 
@@ -87,6 +88,7 @@ void registerUnitTest(void (*aCase)())
     lastCase = lastCase->next;
     lastCase->theCase = aCase;
   }
+  lastCase->next = NULL;
 }
 
 

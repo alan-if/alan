@@ -25,6 +25,7 @@
 #include "cnt_x.h"
 #include "ext_x.h"
 #include "id_x.h"
+#include "atr_x.h"
 
 
 /*======================================================================
@@ -50,7 +51,7 @@ SlotsNode *newEmptySlots(void)
   */
 SlotsNode *newSlots(List *names,
 		    WhrNod *whr,
-		    List *atrs,
+		    List *attributes,
 		    CntNod *cnt,
 		    List *description,
 		    List *mentioned,
@@ -68,7 +69,7 @@ SlotsNode *newSlots(List *names,
 
   new->names = names;
   new->whr = whr;
-  new->atrs = atrs;
+  new->attributes = attributes;
   new->cnt = cnt;
   new->description = description;
   new->mentioned = mentioned;
@@ -160,6 +161,8 @@ void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
 
+  anatrs(slots->attributes);
+
   analyzeMentioned(slots);
 
   if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))
@@ -215,7 +218,7 @@ void generateSlotsEntry(InstanceEntry *entry, SlotsNode *slots)
     entry->parent = slots->parent->symbol->code;
 
   entry->location = generateInitialLocation(slots->whr);
-  entry->attributes = slots->atradr;
+  entry->attributes = slots->attributeAddress;
   entry->description = slots->descriptionAddress;
   entry->mentioned = slots->mentionedAddress;
   entry->article = slots->artadr;
@@ -240,8 +243,8 @@ void dumpSlots(SlotsNode *slots)
 #ifdef FIXME
   put("cnt: "); ducnt(slots->cnt); nl();
 #endif
-  put("atrs: "); dulst(slots->atrs, LIST_ATR); nl();
-  put("atradr: "); duadr(slots->atradr); nl();
+  put("attributes: "); dulst(slots->attributes, LIST_ATR); nl();
+  put("attributeAddress: "); duadr(slots->attributeAddress); nl();
   put("description: "); dulst(slots->description, LIST_STM); nl();
   put("descriptionAddress: "); duadr(slots->descriptionAddress); nl();
   put("art: "); dulst(slots->art, LIST_STM); nl();

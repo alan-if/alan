@@ -5,14 +5,18 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "util.h"
+#include "atr_x.h"
 
+
+/* IMPORT: */
 #include "srcp_x.h"
 #include "id_x.h"
 
+#include "util.h"
+#include "emit.h"
+
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
-#include "atr.h"		/* ATR-nodes */
 #include "ins.h"		/* INS-nodes */
 #include "opt.h"		/* OPT-nodes */
 
@@ -443,12 +447,12 @@ Aword geatrs(List *atrs,        /* IN - List of attribute nodes */
 
 /*======================================================================
 
-  geinit()
+  generateStringInit()
 
   Generate initialisation value table for string attributes.
 
  */
-Aaddr geinit(void)
+Aaddr generateStringInit(void)
 {
   List *atrs;
   Aaddr adr = emadr();

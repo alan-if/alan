@@ -25,7 +25,7 @@
 #include "rul.h"		/* RUL-nodes */
 #include "wrd.h"		/* WRD-nodes */
 #include "syn.h"		/* SYN-nodes */
-#include "atr.h"		/* ATR-nodes */
+#include "atr_x.h"		/* ATR-nodes */
 #include "msg.h"		/* MSG-nodes */
 
 #include "sco.h"		/* SCORES */
@@ -147,10 +147,6 @@ void anadv(void)
 {
   symbolizeAdv();
 
-  anatrs(adv.atrs);
-  anatrs(adv.oatrs);
-  anatrs(adv.latrs);
-  anatrs(adv.aatrs);
 #ifdef FIXME
   prepcodes();			/* Set up the codes for all entities */
   prepatrs();			/* Number default attributes */
@@ -273,7 +269,7 @@ void geadv(char *acdfnm)	/* IN - ACODE file name */
   emit0(C_STMOP, I_RETURN);
 
   /* String initialisation table */
-  acdHeader.init = geinit();
+  acdHeader.init = generateStringInit();
 
   end = emadr();		/* Last address */
   acdHeader.size = end;		/* Save size */

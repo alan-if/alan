@@ -65,7 +65,7 @@ void testGenerateInstances()
   unitAssert(convertFromACD(instanceTable->code) == ins->slots->symbol->code);
   unitAssert(convertFromACD(instanceTable->idAddress) == ins->slots->idAddress);
   unitAssert(convertFromACD(instanceTable->parent) == (ins->slots->parent?ins->slots->parent->symbol->code:0));
-  unitAssert(convertFromACD(instanceTable->attributes) == ins->slots->atradr);
+  unitAssert(convertFromACD(instanceTable->attributes) == ins->slots->attributeAddress);
   unitAssert(convertFromACD(instanceTable->description) == ins->slots->descriptionAddress);
   unitAssert(convertFromACD(instanceTable->mentioned) == ins->slots->mentionedAddress);
   unitAssert(convertFromACD(instanceTable->article) == ins->slots->artadr);

@@ -35,11 +35,10 @@ TESTSRCS = \
 BUILDSRCS = \
 	alan.c \
 	alt.c \
-	atr.c \
 	chk.c \
 	dump.c \
-	encode.c \
 	elm.c \
+	encode.c \
 	evt.c \
 	exp.c \
 	id.c \
@@ -56,8 +55,8 @@ BUILDSRCS = \
 	srcp.c \
 	stm.c \
 	stp.c \
-	stx.c \
 	str.c \
+	stx.c \
 	syn.c \
 	vrb.c \
 	wht.c \
@@ -73,13 +72,14 @@ BUILDSRCS = \
 # Excluded from BUILDSRCS because they are in the unit tests
 ALANSRCS = \
 	main.c \
+	adv.c \
+	atr.c \
 	cla.c \
+	emit.c \
+	ext.c \
 	ins.c \
 	sym.c \
 	whr.c \
-	adv.c \
-	ext.c \
-	emit.c \
 
 MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
