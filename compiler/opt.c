@@ -34,7 +34,6 @@ OptDef opts[NOPT] = {
 /* Enumerated values for Language-option */
 static char *enumlang[] = {
   "english",
-  "swedish7",
   "swedish",
   NULL
 };
