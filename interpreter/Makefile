@@ -155,6 +155,6 @@ arun.make: dependencies.mk
 	@/usr/5bin/echo \\t$$ copy arun.exe "<->" >> arun.make
 
 mac:
-	refreshMac $(HOME)/mac/Alan/Interpreter
+	refreshMac $(HOME)/mac/Alan/interpreter
 
 include dependencies.mk
