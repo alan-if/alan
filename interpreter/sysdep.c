@@ -159,8 +159,13 @@ int isLower(c)
      int c;			/* IN - character to test */
 #endif
 {
-  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz|{}\340\341\342\343\344\345\346\347\360\351\352\353\354\355\356\357\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377";
-
+#ifdef __amiga__
+  /* Which can't read 8-bit chars but is ISO */
+  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz|{}\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+#else
+  /* Use native characters */
+  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz|{}àáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+#endif
   return (strchr(lowChrs, c) != 0);
 }
 
@@ -172,8 +177,13 @@ int isUpper(c)
      int c;			/* IN - character to test */
 #endif
 {
-  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ][\\\300\301\302\303\304\305\306\307\300\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
-
+#ifdef __amiga__
+  /* Which can't read 8-bit chars but is ISO */
+  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ][\\\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+#else
+  /* Use native character sets */
+  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ][\\ÀÀÁÂÃÄÅÆÇÉÊËÌÍÎÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+#endif
   return (strchr(uppChrs, c) != 0);
 }
 
