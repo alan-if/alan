@@ -191,10 +191,10 @@ smScanx.c : smScan.iso smScan.mac smScan.pc
 	@echo "#if ISO == 1" >> smScanx.c
 	@cat smScan.iso >> smScanx.c
 	@echo "#else" >> smScanx.c
-	@echo "#if __mac__" >> smScanx.c
+	@echo "#ifdef __mac__" >> smScanx.c
 	@cat smScan.mac >> smScanx.c
 	@echo "#endif" >> smScanx.c
-	@echo "#if __dos__" >> smScanx.c
+	@echo "#ifdef __dos__" >> smScanx.c
 	@cat smScan.pc >> smScanx.c
 	@echo "#endif" >> smScanx.c
 	@echo "#endif" >> smScanx.c

@@ -50,8 +50,12 @@ error "SPA header file version 4.2 required"
 #endif
 
 typedef int boolean;
+#ifndef FALSE
 #define FALSE 0
+#endif
+#ifndef TRUE
 #define TRUE 1
+#endif
 
 #define PRIVATE static
 #define PUBLIC
@@ -320,7 +324,7 @@ IS {
 /*----------------------------------------------------------------------
     Print a SPA_ITEMs name as argument. Static area!
 */
-PRIVATE char pName[128];	/* Used by p[AO]Name */
+PRIVATE char prName[128];	/* Used by p[AO]Name */
 
 PRIVATE char* FUNCTION(pAName, (item))
     IN(_SPA_ITEM *, item)
@@ -328,19 +332,19 @@ IS {
     switch (item->type) {
     case _SPA_Flag:
 #ifdef CMS
-	sprintf(pName, "(%s!%s)", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
+	sprintf(prName, "(%s!%s)", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
 #else
-	sprintf(pName, "[%s|%s]", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
+	sprintf(prName, "[%s|%s]", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
 #endif
 	break;
     case _SPA_Bits:
-	sprintf(pName, "{%s}", item->s);
+	sprintf(prName, "{%s}", item->s);
 	break;
     default:
-	sprintf(pName, "<%s>", item->name);
+	sprintf(prName, "<%s>", item->name);
 	break;
     }
-    return pName;
+    return prName;
 }
 
 
@@ -365,8 +369,8 @@ IS {
     default:
       break;
     }
-    sprintf(pName, fmt[i], item->name, item->s);
-    return pName;
+    sprintf(prName, fmt[i], item->name, item->s);
+    return prName;
 }
 
 

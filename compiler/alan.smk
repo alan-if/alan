@@ -89,8 +89,8 @@ Bool smScanEnter(fnm, search)
 
     if (search) {
       strcpy(fnmbuf, fnm);
-#ifdef __mac__
-      if ((this->fd = open(fnmbuf, O_TEXT)) < 0) {
+#ifdef THINK_C
+      if ((this->fd = open(fnmbuf, O_TEXT)) < 0) { /* Does automatic <cr> to <nl> conversion */
 #else
       if ((this->fd = open(fnmbuf, 0)) < 0) {
 #endif
@@ -99,7 +99,7 @@ Bool smScanEnter(fnm, search)
 	  if (ip->element.str[strlen(ip->element.str)] != '/')
 	    strcat(fnmbuf, "/");
 	  strcat(fnmbuf, fnm);
-#ifdef __mac__
+#ifdef THINK_C
 	  if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
 #else
 	  if ((this->fd = open(fnmbuf, 0)) > 0)
@@ -111,7 +111,7 @@ Bool smScanEnter(fnm, search)
       }
     } else {
       strcat(fnmbuf, fnm);
-#ifdef __mac__
+#ifdef THINK_C
       if ((this->fd = open(fnmbuf, O_TEXT)) < 0)
 #else
       if ((this->fd = open(fnmbuf, 0)) < 0)
@@ -150,8 +150,21 @@ int scannedLines()
 
 %%READER
 
-  return read(smThis->fd, (char *)smBuffer, smLength);
+#ifdef __MWERKS__
+ /* Metrowerks does not do automatic <cr> to <nl> conversion on text files!!! */
+  {
+    int count, pos;
 
+    count = read(smThis->fd, (char *)smBuffer, smLength);
+    for (pos = 0; pos < count; pos++)
+      if (smBuffer[pos] = '\r')
+	smBuffer[pos] = '\n';
+
+    return count;
+  }
+#else
+  return read(smThis->fd, (char *)smBuffer, smLength);
+#endif
 
 %%POSTHOOK
 
