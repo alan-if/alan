@@ -55,7 +55,7 @@ alan.version.h :
 	cp ../alan.version.h .
 
 version.h :
-	cd ..; venum alan -write always -all
+	cd ..; venum -write always -all alan
 	cp ../version.h .
 
 alan.version.c: $(VERSIONOBJECTS) ../alan.version
@@ -66,9 +66,9 @@ alan.version.c: $(VERSIONOBJECTS) ../alan.version
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 args.o: args.c args.h main.h types.h sysdep.h acode.h
 arun.o: arun.c main.h types.h sysdep.h acode.h term.h version.h args.h
-chartest.o: chartest.c
+chartest.o: chartest.c alan.version.h
 debug.o: debug.c types.h sysdep.h acode.h version.h readline.h inter.h \
- main.h parse.h exe.h debug.h
+ main.h parse.h exe.h debug.h alan.version.h
 decode.o: decode.c main.h types.h sysdep.h acode.h decode.h
 dumpacd.o: dumpacd.c types.h sysdep.h acode.h spa.h
 exe.o: exe.c types.h sysdep.h acode.h readline.h main.h parse.h \
@@ -77,7 +77,7 @@ genalan.o: genalan.c spa.h
 inter.o: inter.c types.h sysdep.h acode.h main.h parse.h exe.h stack.h \
  inter.h
 main.o: main.c sysdep.h types.h acode.h main.h readline.h version.h \
- args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h
+ args.h parse.h inter.h rules.h debug.h stack.h exe.h term.h alan.version.h
 params.o: params.c types.h sysdep.h acode.h params.h
 parse.o: parse.c types.h sysdep.h acode.h readline.h main.h inter.h \
  exe.h term.h debug.h params.h parse.h

@@ -91,7 +91,7 @@ alan.version.h :
 	cp ../alan.version.h .
 
 version.h :
-	cd ..; venum alan -write always -all
+	cd ..; venum -write always -all alan
 	cp ../version.h .
 
 alan.version.c: $(VERSIONOBJECTS) ../alan.version
