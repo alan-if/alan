@@ -67,7 +67,7 @@ extern jmp_buf restart;
 
 
 #ifdef _PROTOTYPES_
-extern void *allocate(int len);
+extern void *allocate(unsigned long len);
 extern void terminate(int code);
 extern void syserr(char *msg);
 extern void error(MsgKind msg);
