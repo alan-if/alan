@@ -435,7 +435,7 @@ void *allocate(len)
      unsigned long len;			/* IN - Length to allocate */
 #endif
 {
-  void *p = (void *)malloc((size_t)len);
+  void *p = (void *)calloc((size_t)len, 1);
 
   if (p == NULL)
     syserr("Out of memory.");

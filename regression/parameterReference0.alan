@@ -6,6 +6,10 @@ Verb x
     "X says that (o) is =" Say o.
 End Verb x.
 
+The o Isa object At l.
+End The o.
+
+
 The l
   Isa location.
   Has anAttribute.

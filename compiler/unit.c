@@ -74,6 +74,7 @@ int main()
   registerAdvUnitTests();
   registerSymUnitTests();
   registerWhrUnitTests();
+  registerEmitUnitTests();
   registerExtUnitTests();
   registerAtrUnitTests();
   registerResUnitTests();

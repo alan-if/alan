@@ -24,8 +24,7 @@
 /* Create a new element Restriction node */
 extern ResNod *newres(Srcp *srcp,
 		      IdNode *id,
-		      Bool single,
-		      List *classes,
+		      IdNode *class,
 		      List *stms);
 
 /* Analyze a list of Restriction nodes */

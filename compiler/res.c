@@ -36,8 +36,7 @@
  */
 ResNod *newres(Srcp *srcp,	/* IN - Source Position */
 	       IdNode *id,	/* IN - The name */
-	       Bool single,	/* IN - A single class identifier? */
-	       List *classes,	/* IN - Allowed classes */
+	       IdNode *classId,	/* IN - Allowed class */
 	       List *stms)	/* IN - Statements to execute otherwise */
 {
   ResNod *new;			/* The newly created node */
@@ -48,8 +47,7 @@ ResNod *newres(Srcp *srcp,	/* IN - Source Position */
 
   new->srcp = *srcp;
   new->id = id;
-  new->single = single;
-  new->classes = classes;
+  new->classId = classId;
   new->stms = stms;
 
   return(new);
@@ -66,39 +64,45 @@ ResNod *newres(Srcp *srcp,	/* IN - Source Position */
  */
 static void anres(
      ResNod *res,		/* IN - Restriction node to analyze */
-     List *params		/* IN - Possible syntax parameters */
+     List *params		/* IN - The syntax parameters as symbols */
 )
 {
   Bool found = FALSE;
   List *p;
-  List *idList;
   Context context;
   SymNod *classSymbol;
 
   /* Check for the id in the parameter list */
-  for (p = params; p != NULL; p = p->next)
-    if (equalId(res->id, p->element.elm->id)) {
+  for (p = params; p != NULL; p = p->next) {
+    if (p->element.sym->kind != PARAMETER_SYMBOL)
+      syserr("Not a parameter symbol in anres()");
+    if (equalId(res->id, p->element.sym->fields.parameter.element->id)) {
       found = TRUE;
       break;
     }
+  }
   if (!found)
     lmLog(&res->id->srcp, 222, sevERR, res->id->string);
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
-  if (res->classes == NULL)
+  if (res->classId == NULL) {
     classSymbol = object->slots->symbol;
-  else
-    for (idList = res->classes; idList; idList = idList->next) {
-      classSymbol = lookup(idList->element.id->string);
-      if (classSymbol->kind != CLASS_SYMBOL)
-	lmLog(&idList->element.id->srcp, 317, sevERR, "");
+  } else {
+    /* FIXME: to handle literal types restriction, INTEGER, STRING, ... */
+
+    classSymbol = lookup(res->classId->string);
+    if (classSymbol->kind != CLASS_SYMBOL) {
+      lmLog(&res->classId->srcp, 317, sevERR, "");
       classSymbol = NULL;
+    } else {
+      res->classId->symbol = classSymbol;
+      res->classId->code = classSymbol->code;
+      classSymbol->fields.parameter.type = INSTANCE_TYPE;
     }
+  }
 
   /* Set the class in the corresponding parameter symbol */
-  if (p->element.elm->id->symbol->kind != PARAMETER_SYMBOL)
-    syserr("Not a parameter symbol in anres()");
-  p->element.elm->id->symbol->fields.parameter.class = classSymbol;
+  p->element.sym->fields.parameter.class = classSymbol;
 
 
   /* Analyse the statements to execute if the restrictions was not met */
@@ -155,9 +159,13 @@ static void geres(ResNod *res)	/* IN - Node to generate */
  */
 static void geresent(ResNod *res) /* IN - Node to generate */
 {
-  emit(res->id->code);
-  emit(res->classbits);
-  emit(res->stmadr);
+  RestrictionEntry restriction;
+
+  restriction.parameter = res->id->code;
+  restriction.class = res->classId->code;
+  restriction.stms = res->stmadr;
+
+  emitEntry(&restriction, sizeof(restriction));
 }
 
 
@@ -206,7 +214,6 @@ void dures(ResNod *res)
 
   put("RES: "); dumpSrcp(&res->srcp); in();
   put("id: "); dumpId(res->id); nl();
-  put("single: "); dumpBool(res->single); nl();
-  put("classes: "); dulst(res->classes, LIST_NAM); nl();
+  put("class: "); dumpId(res->classId); nl();
   put("stms: "); dulst(res->stms, LIST_STM); out();
 }

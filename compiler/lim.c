@@ -85,7 +85,7 @@ void anlim(LimNod *lim)		/* IN - The container to analyze */
     a = findAttribute(NULL, atr->id);
     if (a == NULL)
       lmLog(&atr->srcp, 407, sevERR, "");
-    else if (atr->typ != TYPINT)
+    else if (atr->typ != INTEGER_TYPE)
       unimpl(&atr->srcp, "Analyzer");
     else
       atr->id->symbol->code = a->id->symbol->code;

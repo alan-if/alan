@@ -45,8 +45,8 @@
 Bool eqtyp(TypeKind typ1,	/* IN - types to compare */
 	   TypeKind typ2)
 {
-  if (typ1 == TYPERR || typ2 == TYPERR) syserr("Unintialised type in eqtyp()");
-  return (typ1 == TYPUNK || typ2 == TYPUNK || typ1 == typ2);
+  if (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE) syserr("Unintialised type in eqtyp()");
+  return (typ1 == UNKNOWN_TYPE || typ2 == UNKNOWN_TYPE || typ1 == typ2);
 }
 
 
@@ -158,7 +158,7 @@ static void anexpwhr(ExpNod *exp,
     break;
   }
 
-  exp->typ = TYPBOOL;
+  exp->typ = BOOLEAN_TYPE;
 }
 
 
@@ -185,7 +185,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
 	atr = findAttribute(NULL, exp->fields.atr.atr);
 	if (atr == NULL) {		/* attribute not found globally */
 	  lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "ACTOR");
-	  exp->typ = TYPUNK;
+	  exp->typ = UNKNOWN_TYPE;
 	} else {
 	  exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	  exp->typ = atr->typ;
@@ -197,7 +197,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "LOCATION");
-	exp->typ = TYPUNK;
+	exp->typ = UNKNOWN_TYPE;
       } else {
 	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	exp->typ = atr->typ;
@@ -210,7 +210,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       atr = findAttribute(NULL, exp->fields.atr.atr);
       if (atr == NULL) {		/* attribute not found globally */
 	lmLog(&exp->fields.atr.atr->srcp, 404, sevERR, "OBJECT");
-	exp->typ = TYPUNK;
+	exp->typ = UNKNOWN_TYPE;
       } else {
 	exp->fields.atr.atr->symbol->code = atr->id->symbol->code;
 	exp->typ = atr->typ;
@@ -221,7 +221,7 @@ static void anexpatr(ExpNod *exp, /* IN - The expression to analyze */
       atr = resolveAttributeReference(exp->fields.atr.wht->fields.wht.wht,
 				      exp->fields.atr.atr, context);
       if (atr == NULL) {	/* Attribute not found */
-	exp->typ = TYPUNK;
+	exp->typ = UNKNOWN_TYPE;
       } else if (exp->fields.atr.atr->symbol == NULL) {
 	exp->fields.atr.atr->code = atr->id->code;
 	exp->typ = atr->typ;
@@ -254,19 +254,19 @@ static void anbin(ExpNod *exp,
   switch (exp->fields.bin.op) {
   case OP_AND:
   case OP_OR:
-    if (!eqtyp(exp->fields.bin.left->typ, TYPBOOL))
+    if (!eqtyp(exp->fields.bin.left->typ, BOOLEAN_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
-    if (!eqtyp(exp->fields.bin.right->typ, TYPBOOL))
+    if (!eqtyp(exp->fields.bin.right->typ, BOOLEAN_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
-    exp->typ = TYPBOOL;
+    exp->typ = BOOLEAN_TYPE;
     break;
 
   case OP_NE:
   case OP_EQ:
     if (!eqtyp(exp->fields.bin.left->typ, exp->fields.bin.right->typ))
       lmLog(&exp->srcp, 331, sevERR, "expression");
-    else if (exp->fields.bin.left->typ != TYPUNK && exp->fields.bin.right->typ != TYPUNK)
-      if (exp->fields.bin.left->typ == TYPENT) {
+    else if (exp->fields.bin.left->typ != UNKNOWN_TYPE && exp->fields.bin.right->typ != UNKNOWN_TYPE)
+      if (exp->fields.bin.left->typ == INSTANCE_TYPE) {
 	if (exp->fields.bin.left->fields.wht.wht->kind == WHT_ID &&
 	    exp->fields.bin.right->fields.wht.wht->kind == WHT_ID)
 #ifndef FIXME
@@ -277,13 +277,13 @@ static void anbin(ExpNod *exp,
 #endif
 	    lmLog(&exp->srcp, 417, sevINF, NULL);
       }
-    exp->typ = TYPBOOL;
+    exp->typ = BOOLEAN_TYPE;
     break;
 
   case OP_EXACT:
-    if (!eqtyp(exp->fields.bin.left->typ, TYPSTR))
+    if (!eqtyp(exp->fields.bin.left->typ, STRING_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
-    if (!eqtyp(exp->fields.bin.right->typ, TYPSTR))
+    if (!eqtyp(exp->fields.bin.right->typ, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
     break;
 	    
@@ -291,30 +291,30 @@ static void anbin(ExpNod *exp,
   case OP_GE:
   case OP_LT:
   case OP_GT:
-    if (!eqtyp(exp->fields.bin.left->typ, TYPINT))
+    if (!eqtyp(exp->fields.bin.left->typ, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
-    if (!eqtyp(exp->fields.bin.right->typ, TYPINT))
+    if (!eqtyp(exp->fields.bin.right->typ, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
-    exp->typ = TYPBOOL;
+    exp->typ = BOOLEAN_TYPE;
     break;
 
   case OP_PLUS:
   case OP_MINUS:
   case OP_MULT:
   case OP_DIV:
-    if (!eqtyp(exp->fields.bin.left->typ, TYPINT))
+    if (!eqtyp(exp->fields.bin.left->typ, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
-    if (!eqtyp(exp->fields.bin.right->typ, TYPINT))
+    if (!eqtyp(exp->fields.bin.right->typ, INTEGER_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
-    exp->typ = TYPINT;
+    exp->typ = INTEGER_TYPE;
     break;
 
   case OP_CONTAINS:
-    if (!eqtyp(exp->fields.bin.left->typ, TYPSTR))
+    if (!eqtyp(exp->fields.bin.left->typ, STRING_TYPE))
       lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
-    if (!eqtyp(exp->fields.bin.right->typ, TYPSTR))
+    if (!eqtyp(exp->fields.bin.right->typ, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
-    exp->typ = TYPBOOL;
+    exp->typ = BOOLEAN_TYPE;
     break;
 
   default:
@@ -337,16 +337,16 @@ static void anagr(ExpNod *exp,
 {
   AtrNod *atr = NULL;
 
-  exp->typ = TYPINT;
+  exp->typ = INTEGER_TYPE;
   if (exp->fields.agr.agr != AGR_COUNT) {
     atr = findAttribute(NULL, exp->fields.agr.atr);
     if (atr == NULL) {		/* attribute not found globally */
       lmLog(&exp->fields.agr.atr->srcp, 404, sevERR,
 	    "OBJECT in aggregate expression");
-      exp->typ = TYPUNK;
-    } else if (!eqtyp(TYPINT, atr->typ)) {
+      exp->typ = UNKNOWN_TYPE;
+    } else if (!eqtyp(INTEGER_TYPE, atr->typ)) {
       lmLog(&exp->fields.agr.atr->srcp, 418, sevERR, "");
-      exp->typ = TYPUNK;
+      exp->typ = UNKNOWN_TYPE;
     } else
       exp->fields.agr.atr->symbol->code = atr->id->symbol->code;
   }
@@ -364,17 +364,17 @@ static void anagr(ExpNod *exp,
 static void anrnd(ExpNod *exp,
 		  Context *context)
 {
-  exp->typ = TYPINT;
+  exp->typ = INTEGER_TYPE;
   anexp(exp->fields.rnd.from, context);
-  if (!eqtyp(TYPINT, exp->fields.rnd.from->typ)) {
+  if (!eqtyp(INTEGER_TYPE, exp->fields.rnd.from->typ)) {
     lmLog(&exp->fields.rnd.from->srcp, 413, sevERR, "RANDOM");
-    exp->typ = TYPUNK;
+    exp->typ = UNKNOWN_TYPE;
   }
 
   anexp(exp->fields.rnd.to, context);
-  if (!eqtyp(TYPINT, exp->fields.rnd.to->typ)) {
+  if (!eqtyp(INTEGER_TYPE, exp->fields.rnd.to->typ)) {
     lmLog(&exp->fields.rnd.to->srcp, 413, sevERR, "RANDOM");
-    exp->typ = TYPUNK;
+    exp->typ = UNKNOWN_TYPE;
   }
 }
 
@@ -389,43 +389,32 @@ static void anrnd(ExpNod *exp,
 static void anexpwht(ExpNod *exp,
 		     Context *context)
 {
+  SymNod *symbol;
+
   switch (exp->fields.wht.wht->kind) {
   case WHT_OBJ:
     if (context->kind != VERB_CONTEXT || context->verb->fields.verb.parameterSymbols == NULL)
       lmLog(&exp->fields.wht.wht->srcp, 409, sevERR, "");
-    exp->typ = TYPENT;
+    exp->typ = INSTANCE_TYPE;
     break;
 
   case WHT_LOC:
-    exp->typ = TYPENT;
+    exp->typ = INSTANCE_TYPE;
     break;
 
   case WHT_ACT:
     if (context->kind == EVENT_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
-    exp->typ = TYPENT;
+    exp->typ = INSTANCE_TYPE;
     break;
 
   case WHT_ID:
-#ifndef FIXME
-    syserr("UNIMPL: anexpwht() - namcheck");
-#else
-    namcheck(&sym, &par, exp->fields.wht.wht->id, NAMACT+NAMOBJ+NAMCOBJ+NAMCACT+NAMLOC+NAMCNT+NAMNUM+NAMSTR, NAMANY, pars);
-    if (par) {
-      if (par->res)
-	if (par->res->classbits & NAMNUM)
-	  exp->typ = TYPINT;
-	else if (par->res->classbits & NAMSTR)
-	  exp->typ = TYPSTR;
-        else
-	  exp->typ = TYPENT;
-      else
-	exp->typ = TYPENT;
-    } else if (sym && sym->class != NAMUNK)
-      exp->typ = TYPENT;
-    else
-#endif
-      exp->typ = TYPUNK;
+    symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL, context);
+    if (symbol != NULL) {
+      if (symbol->kind == PARAMETER_SYMBOL)
+	exp->typ = symbol->fields.parameter.type;
+    } else
+      exp->typ = UNKNOWN_TYPE;
     break;
 
   default:
@@ -446,18 +435,18 @@ static void anexpbtw(ExpNod *exp,
 		     Context *context)
 {
   anexp(exp->fields.btw.val, context);
-  if (!eqtyp(exp->fields.btw.val->typ, TYPINT))
+  if (!eqtyp(exp->fields.btw.val->typ, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.val->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   anexp(exp->fields.btw.low, context);
-  if (!eqtyp(exp->fields.btw.low->typ, TYPINT))
+  if (!eqtyp(exp->fields.btw.low->typ, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.low->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   anexp(exp->fields.btw.high, context);
-  if (!eqtyp(exp->fields.btw.high->typ, TYPINT))
+  if (!eqtyp(exp->fields.btw.high->typ, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.high->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  exp->typ = TYPBOOL;
+  exp->typ = BOOLEAN_TYPE;
 }
 
 
@@ -488,11 +477,11 @@ void anexp(ExpNod *exp,
     break;
     
   case EXPINT:
-    exp->typ = TYPINT;
+    exp->typ = INTEGER_TYPE;
     break;
     
   case EXPSTR:
-    exp->typ = TYPSTR;
+    exp->typ = STRING_TYPE;
     break;
     
   case EXPAGR:
@@ -504,7 +493,7 @@ void anexp(ExpNod *exp,
     break;
 
   case EXPSCORE:
-    exp->typ = TYPINT;
+    exp->typ = INTEGER_TYPE;
     break;
 
   case EXPWHT:
@@ -555,7 +544,7 @@ static void geexpbin(ExpNod *exp) /* IN - Expression node */
     emit0(C_STMOP, I_NE);
     break;
   case OP_EQ:
-    if (exp->fields.bin.right->typ == TYPSTR)
+    if (exp->fields.bin.right->typ == STRING_TYPE)
       emit0(C_STMOP, I_STREQ);
     else
       emit0(C_STMOP, I_EQ);
@@ -692,7 +681,7 @@ static void geexpatr(ExpNod *exp) /* IN - Expression node */
 {
   generateId(exp->fields.atr.atr);
   gewht(exp->fields.atr.wht->fields.wht.wht);
-  if (exp->typ == TYPSTR)
+  if (exp->typ == STRING_TYPE)
     emit0(C_STMOP, I_STRATTR);
   else
     emit0(C_STMOP, I_ATTRIBUTE);
@@ -939,17 +928,23 @@ static void duagr(AgrKind agr)
 void dumpType(TypeKind typ)
 {
   switch (typ) {
-  case TYPBOOL:
-    put("BOOL");
+  case BOOLEAN_TYPE:
+    put("BOOLEAN");
     break;
-  case TYPINT:
-    put("INT");
+  case INTEGER_TYPE:
+    put("INTEGER");
     break;
-  case TYPSTR:
-    put("STR");
+  case STRING_TYPE:
+    put("STRING");
     break;
-  default:
-    put("UNDEFINED");
+  case INSTANCE_TYPE:
+    put("INSTANCE");
+    break;
+  case UNKNOWN_TYPE:
+    put("UNKNOWN");
+    break;
+  case ERROR_TYPE:
+    put("ERROR");
     break;
   }
 }

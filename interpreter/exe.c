@@ -37,11 +37,9 @@ int dscrstkp = 0;               /* Describe-stack pointer */
 
 
 #ifdef _PROTOTYPES_
-void dscrobjs(void);
-void dscracts(void);
+void describeInstances(void);
 #else
-void dscrobjs();
-void dscracts();
+void describeInstances();
 #endif
 
 
@@ -729,8 +727,7 @@ static void locateActor(act, whr)
       say(where(HERO));
       prmsg(M_AGAIN);
       newline();
-      dscrobjs();
-      dscracts();
+      describeInstances();
     }
     admin[where(HERO)].visitsCount++;
     admin[where(HERO)].visitsCount %= (cur.visits+1);
@@ -1029,30 +1026,32 @@ void say(id)
   */
 
 #ifdef _PROTOTYPES_
-static void dscrobj(Aword obj)
+static void describeObject(Aword obj)
 #else
-static void dscrobj(obj)
+static void describeObject(obj)
      Aword obj;
 #endif
 {
-  objs[obj-OBJMIN].describe = FALSE;
-  if (objs[obj-OBJMIN].dscr1 != 0)
-    interpret(objs[obj-OBJMIN].dscr1);
+  if (instance[obj].description != 0)
+    interpret(instance[obj].description);
   else {
     prmsg(M_SEEOBJ1);
     sayarticle(obj);
     say(obj);
     prmsg(M_SEEOBJ4);
+#ifdef CONT
     if (objs[obj-OBJMIN].cont != 0)
       list(obj);
+#endif
   }
+  admin[obj].alreadyDescribed = TRUE;
 }
 
 
 #ifdef _PROTOTYPES_
-static void dscract(Aword act)
+static void describeActor(Aword act)
 #else
-static void dscract(act)
+static void describeActor(act)
      Aword act;
 #endif
 {
@@ -1069,7 +1068,7 @@ static void dscract(act)
   else if (instance[act].description != 0)
     interpret(instance[act].description);
   else {
-    interpret(instance[act].name);
+    interpret(instance[act].mentioned);
     prmsg(M_SEEACT);
   }
   admin[act].alreadyDescribed = TRUE;
@@ -1102,6 +1101,10 @@ void describe(id)
   } else if (instance[id].description != 0) {
     interpret(instance[id].description);
     admin[id].alreadyDescribed = TRUE;
+  } else if (isObj(id)) {
+    describeObject(id);
+  } else if (isAct(id)) {
+    describeActor(id);
   }
 
   dscrstkp--;
@@ -1237,16 +1240,15 @@ void empty(cnt, whr)
 
   Description of current location
 
-  dscrobjs()
-  dscracts()
+  describeInstances()
   look()
 
 \*----------------------------------------------------------------------*/
 
 #ifdef _PROTOTYPES_
-void dscrobjs(void)
+void describeInstances(void)
 #else
-void dscrobjs()
+void describeInstances()
 #endif
 {
   int i;
@@ -1254,14 +1256,13 @@ void dscrobjs()
   Boolean found = FALSE;
   Boolean multiple = FALSE;
 
-  /* First describe everything here with its own description */
+  /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cur.loc && isA(i, OBJECT) &&
-	!admin[i].alreadyDescribed &&
-	instance[i].description)
+	!admin[i].alreadyDescribed && instance[i].description)
       describe(i);
 
-  /* Then list everything else here */
+  /* Then list all other objects here */
   for (i = 1; i <= header->instanceMax; i++)
     if (instance[i].location == cur.loc && isA(i, OBJECT) &&
 	!admin[i].alreadyDescribed) {
@@ -1291,27 +1292,14 @@ void dscrobjs()
     prmsg(M_SEEOBJ4);
   }
   
-  /* Set describe flag for all objects */
+  /* Now for all actors */
   for (i = 1; i <= header->instanceMax; i++)
-    admin[i].alreadyDescribed = FALSE;
-}
-
-
-#ifdef _PROTOTYPES_
-void dscracts(void)
-#else
-void dscracts()
-#endif
-{
-  int i;
-  
-  for (i = HERO+1; i <= ACTMAX; i++)
-    if (instance[i].location == cur.loc &&
-	!admin[i].alreadyDescribed)
+    if (instance[i].location == cur.loc && isA(i, ACTOR) &&
+	!admin[i].alreadyDescribed && i != HERO)
       describe(i);
 
-  /* Clear described flag for all actors */
-  for (i = HERO; i <= ACTMAX; i++)
+  /* Clear the describe flag for all objects */
+  for (i = 1; i <= header->instanceMax; i++)
     admin[i].alreadyDescribed = FALSE;
 }
 
@@ -1337,8 +1325,7 @@ void look()
   say(cur.loc);
   newline();
   describe(cur.loc);
-  dscrobjs();
-  dscracts();
+  describeInstances();
   looking = FALSE;
 }
 

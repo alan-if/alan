@@ -11,6 +11,7 @@
 /* USE: */
 #include "types.h"
 #include "lst.h"
+#include "type.h"
 
 
 /* TYPES: */
@@ -45,6 +46,7 @@ typedef struct SymNod {		/* SYMBOL TABLE ENTRY */
     struct {
       struct ElmNod *element;
       struct SymNod *class;
+      TypeKind type;
     } parameter;
 
   } fields;

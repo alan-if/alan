@@ -154,12 +154,6 @@ typedef struct ElmEntry {	/* SYNTAX ELEMENT TABLES */
 				/* ... or class check if EOS */
 } ElmEntry;
 
-typedef struct ClaEntry {	/* CLASS DEFINITION TABLE */
-  Aword code;			/* Parameter number */
-  Aword classes;		/* Parameter classes */
-  Aaddr stms;			/* Exception statements */
-} ClaEntry;
-
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Abool done;			/* Flag for patching (reverse/convert) process */
   Aword param;			/* Parameter number */

@@ -180,9 +180,8 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aword location;		/* Code for current location */
   Aword container;		/* Code for a possible container property */
   Aaddr attributes;		/* Address of attribute list */
-  Aaddr name;			/* Address to name printing code */
   Aaddr description;		/* Address of description code */
-  Aaddr mentioned;		/* Address of "mentioned" code */
+  Aaddr mentioned;		/* Address to short description code */
   Aaddr article;		/* Address of article code */
   Aaddr exits;			/* Address of exit list */
   Aaddr verbs;			/* Address of local verb list */
@@ -202,6 +201,13 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
   Aaddr action;			/* Address of action code */
   Aword target;			/* Id for the target location */
 } ExitEntry;
+
+
+typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
+  Aword parameter;		/* Parameter number */
+  Aword class;			/* Parameter class code */
+  Aaddr stms;			/* Exception statements */
+} RestrictionEntry;
 
 
 /* AMACHINE Header */

@@ -90,6 +90,22 @@ void emit(Aword c)		/* IN - Constant to emit */
 }
 
 
+void emitEntry(void *address, int noOfBytes)
+{
+  int i;
+  Aword *words = address;
+
+  if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.");
+
+  for (i = 0; i < noOfBytes/sizeof(Aword); i++)
+#ifdef REVERSED
+      buffer(reversed(words[i]));
+#else
+      buffer(words[i]);
+#endif
+}
+
+
 void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 {
   int i;

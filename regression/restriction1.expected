@@ -1,0 +1,40 @@
+########## restriction1 ##########
+Syntax x = x (y)
+  Where y Isa object
+    Else "Should be an object."
+
+Verb x
+  Does
+    "Was an object."
+End Verb x.
+
+The object Isa object At l.
+End The object.
+
+The actor Isa actor At l.
+End The actor.
+
+
+The l Isa location.
+End The l.
+
+Start At l.
+########## alan restriction1.alan ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a object here. Actor is here.
+
+> x the object
+Was an object.
+
+> x the actor
+Should be an object.
+
+> 
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

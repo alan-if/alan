@@ -1,0 +1,36 @@
+########## defaultSyntax ##########
+Verb take
+  Does
+    "You take the object."
+End Verb take.
+
+The object Isa object At l.
+End The object.
+
+The actor Isa actor At l.
+End The actor.
+
+
+The l Isa location.
+End The l.
+
+Start At l.
+########## alan defaultSyntax.alan ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+There is a object here. Actor is here.
+
+> take actor
+You can't do that.
+
+> take object
+You take the object.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

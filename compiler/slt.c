@@ -125,11 +125,11 @@ void symbolizeSlots(SlotsNode *slots)
 
 /*----------------------------------------------------------------------
 
-  analyzeMentioned()
+  analyzeName()
 
 */
 
-void analyzeMentioned(SlotsNode *slots)
+static void analyzeName(SlotsNode *slots)
 {
   long fpos;
   int len = 0;
@@ -140,7 +140,8 @@ void analyzeMentioned(SlotsNode *slots)
     /* First output the formated name to the text file */
     fpos = ftell(txtfil);
     len = annams(slots->names, slots->id,
-		 inheritsFrom(slots->symbol, location->slots->symbol));
+		 inheritsFrom(slots->symbol, location->slots->symbol) ||
+		 inheritsFrom(slots->symbol, actor->slots->symbol));
 
     /* Then create a PRINT statement */
     stm = newstm(&nulsrcp, STM_PRINT);
@@ -150,6 +151,7 @@ void analyzeMentioned(SlotsNode *slots)
   } else
     anstms(slots->mentioned, NULL);
 }
+
 
 /*======================================================================
 
@@ -162,7 +164,7 @@ void analyzeSlots(SlotsNode *slots)
 {
   if (slots->whr != NULL) verifyAtLocation(slots->whr);
 
-  analyzeMentioned(slots);
+  analyzeName(slots);
   anstms(slots->description, NULL);
 
   if (slots->exits && !inheritsFrom(slots->symbol, location->slots->symbol))

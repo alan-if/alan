@@ -41,6 +41,11 @@ void testEmit()
   expectedAddress += 5;
   unitAssert(emadr() == expectedAddress);
   expectedAddress = emadr();
+
+  emitEntry((Aword *)&emitTestArray, 6*4);
+  expectedAddress += 6;
+  unitAssert(emadr() == expectedAddress);
+  expectedAddress = emadr();
 }
 
 

@@ -1,7 +1,0 @@
-#! /bin/sh
-#
-for f in *.tst ; do
-  case=`basename $f .tst`
-  echo -n "$case : "
-  ls -l $case.diff | awk "{print \$6}"
-done

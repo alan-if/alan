@@ -557,16 +557,22 @@ static void complex(olst)
 
 
 #ifdef _PROTOTYPES_
-static Boolean claCheck(
-     ClaEntry *cla		/* IN - The cla entry to check */
+static Boolean restrictionCheck(
+     RestrictionEntry *restriction /* IN - The entry to check */
 )
 #else
-static Boolean claCheck(cla)
-     ClaEntry *cla;		/* IN - The cla entry to check */
+static Boolean restrictionCheck(restriction)
+     RestrictionEntry *restriction; /* IN - The cla entry to check */
 #endif
 {
   Boolean ok = FALSE;
 
+  /* FIXME: We need to check for container possibly and literals */
+  ok = isA(params[restriction->parameter-1].code, restriction->class);
+  return ok;
+
+
+  /*
   if ((cla->classes&(Aword)CLA_OBJ) != 0)
     ok = ok || isObj(params[cla->code-1].code);
   if ((cla->classes&(Aword)CLA_CNT) != 0)
@@ -582,6 +588,7 @@ static Boolean claCheck(cla)
   if ((cla->classes&(Aword)CLA_CACT) != 0)
     ok = ok || (isCnt(params[cla->code-1].code) && isAct(params[cla->code-1].code));
   return ok;
+  */
 }
 
 	
@@ -620,8 +627,8 @@ static void try(mlst)
 #endif
 {
   ElmEntry *elms;		/* Pointer to entryent list */
-  StxEntry *stx;			/* Pointer to syntax list */
-  ClaEntry *cla;			/* Pointer to class definitions */
+  StxEntry *stx;		/* Pointer to syntax list */
+  RestrictionEntry *restriction; /* Pointer to class restrictions */
   Boolean anyPlural = FALSE;	/* Any parameter that was plural? */
   int i, p;
   static ParamEntry *tlst = NULL; /* List of params found by complex() */
@@ -698,12 +705,12 @@ static void try(mlst)
 
   for (p = 0; params[p].code != EOF; p++) /* Mark all parameters unchecked */
     checked[p] = FALSE;
-  for (cla = (ClaEntry *) addrTo(elms->next); !endOfTable(cla); cla++) {
-    if (params[cla->code-1].code == 0) {
+  for (restriction = (RestrictionEntry *) addrTo(elms->next); !endOfTable(restriction); restriction++) {
+    if (params[restriction->parameter-1].code == 0) {
       /* This was a multiple parameter, so check all and remove failing */
       for (i = 0; mlst[i].code != EOF; i++) {
-	params[cla->code-1] = mlst[i];
-	if (!claCheck(cla)) {
+	params[restriction->parameter-1] = mlst[i];
+	if (!restrictionCheck(restriction)) {
 	  /* Multiple could be both an explicit list of params and an ALL */
 	  if (allLength == 0) {
 	    char marker[80];
@@ -711,22 +718,22 @@ static void try(mlst)
 	       It wasn't ALL, we need to say something about it, so
 	       prepare a printout with $1/2/3
 	     */
-	    sprintf(marker, "($%ld)", cla->code); 
+	    sprintf(marker, "($%ld)", restriction->parameter); 
 	    output(marker);
-	    interpret(cla->stms);
+	    interpret(restriction->stms);
 	    para();
 	  }
 	  mlst[i].code = 0;	  /* In any case remove it from the list */
 	}
       }
-      params[cla->code-1].code = 0;
+      params[restriction->parameter-1].code = 0;
     } else {
-      if (!claCheck(cla)) {
-	interpret(cla->stms);
+      if (!restrictionCheck(restriction)) {
+	interpret(restriction->stms);
 	error(MSGMAX);		/* Return to player without saying anything */
       }
     }
-    checked[cla->code-1] = TRUE; /* Remember that it's already checked */
+    checked[restriction->parameter-1] = TRUE; /* Remember that it's already checked */
   }
   /* Now check the rest of the parameters, must be objects */
   for (p = 0; params[p].code != EOF; p++)
@@ -742,7 +749,7 @@ static void try(mlst)
     }
 
   /* Set verb code */
-  cur.vrb = ((Aword *) cla)[1];	/* Take first word after end of table! */
+  cur.vrb = ((Aword *) restriction)[1];	/* Take first word after end of table! */
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {

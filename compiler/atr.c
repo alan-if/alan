@@ -347,7 +347,7 @@ static void generateAttribute(AtrNod *attribute)
   AttributeEntry entry;
   AtrNod *new;
 
-  if (attribute->typ == TYPSTR) {
+  if (attribute->typ == STRING_TYPE) {
     if (!attribute->encoded) {
       encode(&attribute->fpos, &attribute->len);
       attribute->encoded = TRUE;
@@ -357,7 +357,7 @@ static void generateAttribute(AtrNod *attribute)
     /* Now make a copy to use for initialisation if attribute is
        inherited, else the address will be overwritten by generation
        of other instances of the same attribute */
-    new = newatr(&attribute->srcp, TYPSTR, NULL, attribute->value,
+    new = newatr(&attribute->srcp, STRING_TYPE, NULL, attribute->value,
 		 attribute->fpos, attribute->len);
     new->address = attribute->address;
     adv.stratrs = concat(adv.stratrs, new, LIST_ATR);
@@ -366,7 +366,7 @@ static void generateAttribute(AtrNod *attribute)
   entry.code = attribute->id->code;
   entry.value = attribute->value;
   entry.stringAddress = attribute->stringAddress;
-  emitN(&entry, ACDsizeOf(entry));
+  emitEntry(&entry, sizeof(entry));
 }
 
 

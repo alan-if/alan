@@ -135,7 +135,6 @@ static int val(char str[])
   ruls %% List *%1%%,
   scr %% ScrNod *%1%%,
   scrs %% List *%1%%,
-  single %% Bool %1%%,
   srcp %% Srcp %1%%,
   stm %% StmNod *%1%%,
   stms %% List *%1%%,
@@ -255,7 +254,7 @@ static int val(char str[])
     = ID
     %%
 	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
-						TYPBOOL,
+						BOOLEAN_TYPE,
 						%ID.id,
 						TRUE, 0, 0);
     %%
@@ -263,7 +262,7 @@ static int val(char str[])
     ! 'NOT' ID
     %%
 	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
-						TYPBOOL,
+						BOOLEAN_TYPE,
 						%ID.id,
 						FALSE, 0, 0);
     %%
@@ -272,12 +271,12 @@ static int val(char str[])
     %%
 	if (%<optional_minus>.minus)
 		%<attribute definition>.atr = newatr(`&%ID.id->srcp,
-							TYPINT,
+							INTEGER_TYPE,
 							%ID.id,
 							-val(%Integer.chars), 0, 0);
 	else
 		%<attribute definition>.atr = newatr(`&%ID.id->srcp,
-							TYPINT,
+							INTEGER_TYPE,
 							%ID.id,
 							val(%Integer.chars), 0, 0);
     %%
@@ -285,7 +284,7 @@ static int val(char str[])
     ! ID STRING	
     %%
 	%<attribute definition>.atr = newatr(`&%ID.id->srcp,
-						TYPSTR,
+						STRING_TYPE,
 						%ID.id,
 						0, %STRING.fpos, %STRING.len);
     %%
@@ -471,27 +470,12 @@ static int val(char str[])
     ;
 
 <class_restriction>
-    = ID 'ISA' <classes> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    = ID 'ISA' <class_id> 'ELSE' <statements>		%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
     %%
 	%<class_restriction>.res = newres(`&%'ISA'.srcp,
 			  		%ID.id,
-					%<classes>.single,
-					%<classes>.idList,
+					%<class_id>.id,
 				    	%<statements>.stms);
-    %%
-    ;
-
-<classes>			-- RETURNS: single, idList
-    = <class_id>
-    %%
-	%<classes>.idList = concat(NULL, %<class_id>.id, LIST_ID);
-	%<classes>.single = TRUE;
-    %%
-
-    ! <classes> 'OR' <class_id>
-    %%
-	%<classes>.idList = concat(%<classes>.idList, %<class_id>.id, LIST_ID);
-	%<classes>.single = FALSE;
     %%
     ;
 
@@ -1127,7 +1111,7 @@ static int val(char str[])
     ! 'COUNT' Integer
     %%
 	%<limit_attribute>.atr = newatr(`&%'COUNT'.srcp,
-				      TYPINT,
+				      INTEGER_TYPE,
 				      newId(`&%'COUNT'.srcp, "count"),
 				      val(%Integer.chars), 0, 0);
     %%

@@ -1,0 +1,37 @@
+########## parameterReference0 ##########
+Syntax
+  x = x (o).
+
+Verb x
+  Does
+    "X says that (o) is =" Say o.
+End Verb x.
+
+The o Isa object At l.
+End The o.
+
+
+The l
+  Isa location.
+  Has anAttribute.
+End The l.
+
+Start At l.
+########## alan parameterReference0.alan ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o here.
+
+> x the o
+X says that (o) is = o
+
+> x l
+You can't do that.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

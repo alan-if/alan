@@ -14,18 +14,10 @@
 #include "wht.h"
 #include "whr.h"
 #include "id.h"
+#include "type.h"
 
 
 /* TYPES: */
-
-typedef enum TypeKind {		/* TYPE kinds */
-  TYPUNK,
-  TYPINT,
-  TYPBOOL,
-  TYPSTR,
-  TYPENT,			/* Entities */
-  TYPERR
-} TypeKind;
 
 typedef enum ExpKind {		/* EXPRESSION kinds */
   EXPWHR,			/* Where */

@@ -23,6 +23,7 @@ extern Aword emadr(void);
 extern void emitstr(char str[]);
 extern void emit(Aword word);
 extern void emitN(void *words, int noOfWords);
+extern void emitEntry(void *entryToEmit, int noOfBytes);
 extern void emit0(OpClass class, Aword op);
 extern void terminateEmit(void);
 

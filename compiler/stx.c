@@ -77,9 +77,14 @@ static void setDefaultRestriction(List *parameters)
 {
   List *p;
 
+  if (parameters != NULL && parameters->kind != LIST_SYM)
+    syserr("Not a symbol list in setDefaultRestriction()");
+
   for (p = parameters; p != NULL; p = p->next)
-    if (p->element.elm->id->symbol->fields.parameter.class == NULL)
-      p->element.elm->id->symbol->fields.parameter.class = object->slots->symbol;
+    if (p->element.sym->fields.parameter.class == NULL) {
+      p->element.sym->fields.parameter.class = object->slots->symbol;
+      p->element.sym->fields.parameter.type = INSTANCE_TYPE;
+    }      
 }
 
 
@@ -112,8 +117,8 @@ static void anstx(StxNod *stx)  /* IN - Syntax node to analyze */
 
   stx->parameters = anelms(stx->elements, stx->restrictionLists, stx);
   setParameters(sym, stx->parameters);
-  anress(stx->restrictionLists, stx->parameters);
-  setDefaultRestriction(stx->parameters);
+  anress(stx->restrictionLists, sym->fields.verb.parameterSymbols);
+  setDefaultRestriction(sym->fields.verb.parameterSymbols);
 
   /* Link the last syntax element to this stx to prepare for code generation */
   stx->elements->tail->element.elm->stx = stx;

@@ -276,16 +276,16 @@ static void reverseInstances(adr)
 
 
 #ifdef _PROTOTYPES_
-static void reverseClas(Aword adr)
+static void reverseRestrictions(Aword adr)
 #else
-static void reverseClas(adr)
+static void reverseRestrictions(adr)
      Aword adr;
 #endif
 {
-  ClaEntry *e = (ClaEntry *) &memory[adr];
+  RestrictionEntry *e = (RestrictionEntry *) &memory[adr];
 
   if (adr != 0 && !endOfTable(e)) {
-    reverseTable(adr, sizeof(ClaEntry));
+    reverseTable(adr, sizeof(RestrictionEntry));
     while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
@@ -308,7 +308,7 @@ static void reverseElms(adr)
   if (adr != 0 && !endOfTable(e)) {
     reverseTable(adr, sizeof(ElmEntry));
     while (!endOfTable(e)) {
-      if (e->code == EOS) reverseClas(e->next);
+      if (e->code == EOS) reverseRestrictions(e->next);
       else reverseElms(e->next);
       e++;
     }

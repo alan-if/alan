@@ -203,7 +203,7 @@ static void generateExitEntry(ExtNod *ext) /* IN - The exit to generate */
     entry.action = ext->stms? ext->stmadr : 0;
     entry.target = ext->target->symbol->code;
     same = TRUE;
-    emitN(&entry, ACDsizeOf(entry));
+    emitEntry(&entry, sizeof(entry));
   }
 }
 

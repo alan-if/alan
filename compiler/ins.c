@@ -175,7 +175,7 @@ static void generateInstanceEntry(InsNod *ins)
   InstanceEntry entry;
 
   generateSlotsEntry(&entry, ins->slots);
-  emitN((Aword *)&entry, sizeof(entry)/sizeof(Aword));
+  emitEntry(&entry, sizeof(entry));
 }
 
 
