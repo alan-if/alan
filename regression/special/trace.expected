@@ -21,11 +21,11 @@ Pages at:
 http://welcome.to/alan-if
 
 
-Outside The Tall Building
+Outside the tall building
 <More>
-To the north is a tall ancient building with a large entrance. On
-the top there is a clock tower. Most of the windows in the building are
-broken, and a sign with three oval objects are hanging lose from the wall.
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
 
 > x
 'x'? I don't know that word.
@@ -38,9 +38,9 @@ You are empty-handed.
 
 > north
 
-<EXIT north(1) from Outside The Tall Building(3), Executing:>
+<EXIT north(1) from Outside the tall building(3), Executing:>
 
-<EXIT north(1) from Outside The Tall Building(3), Moving:>
+<EXIT north(1) from Outside the tall building(3), Moving:>
 
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -49,7 +49,7 @@ is the exit. To the east is a folding door. It is closed.
 
 > west
 
-<EXIT west(3) from Hall(4), Moving:>
+<EXIT west(3) from hall(4), Moving:>
 
 Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
@@ -59,7 +59,7 @@ hallway. A strange smell emerges from below.
 
 > up
 
-<EXIT up(5) from Stairs(6), Moving:>
+<EXIT up(5) from stairs(6), Moving:>
 
 First Floor
 The landing on the first floor is as dirty as all the others. Meters and
@@ -109,7 +109,7 @@ Taken.
 
 > west
 
-<EXIT west(3) from Office(13), Moving:>
+<EXIT west(3) from office(13), Moving:>
 
 First Floor (again)
 
@@ -432,7 +432,7 @@ Stairs (again)
 
 > east
 
-<EXIT east(2) from Stairs(6), Moving:>
+<EXIT east(2) from stairs(6), Moving:>
 
 Hall (again)
 To the east is a folding door. It is closed.
@@ -454,9 +454,9 @@ The door opens, revealing the entrance to a dusty old cafeteria.
 
 > east
 
-<EXIT 2(east) from Hall(4), Checking:>
+<EXIT 2(east) from hall(4), Checking:>
 
-<EXIT east(2) from Hall(4), Moving:>
+<EXIT east(2) from hall(4), Moving:>
 
 Cafe
 This is the entrance to the old cafeteria. The kitchen and all the
@@ -486,7 +486,7 @@ Taken.
 
 > west
 
-<EXIT west(3) from Cafe(35), Moving:>
+<EXIT west(3) from cafe(35), Moving:>
 
 Hall (again)
 To the east is a folding door. It is open revealing the entrance to a
@@ -494,13 +494,13 @@ cafeteria.
 
 > west
 
-<EXIT west(3) from Hall(4), Moving:>
+<EXIT west(3) from hall(4), Moving:>
 
 Stairs (again)
 
 > down
 
-<EXIT down(6) from Stairs(6), Moving:>
+<EXIT down(6) from stairs(6), Moving:>
 
 Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
@@ -520,12 +520,12 @@ asleep in the sunshine.
 
 > west
 
-<EXIT 3(west) from Cellar(7), Checking:>
+<EXIT 3(west) from cellar(7), Checking:>
 
-<EXIT west(3) from Cellar(7), Executing:>
+<EXIT west(3) from cellar(7), Executing:>
 Silently sneaking past the sleeping rats, you enter the dark room to the
 west.
-<EXIT west(3) from Cellar(7), Moving:>
+<EXIT west(3) from cellar(7), Moving:>
 
 Store
 This must be an old storage room. There seems to be any amount of old
@@ -544,7 +544,7 @@ Taken.
 
 > east
 
-<EXIT east(2) from Store(9), Moving:>
+<EXIT east(2) from store(9), Moving:>
 
 Cellar
 In front of you is a dark cellar. To the west is a doorway into a dark
@@ -554,7 +554,7 @@ all sleeping.
 
 > up
 
-<EXIT up(5) from Cellar(7), Moving:>
+<EXIT up(5) from cellar(7), Moving:>
 
 Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
@@ -564,7 +564,7 @@ hallway. A strange smell emerges from below.
 
 > up
 
-<EXIT up(5) from Stairs(6), Moving:>
+<EXIT up(5) from stairs(6), Moving:>
 
 First Floor
 The landing on the first floor is as dirty as all the others. Meters and
@@ -729,7 +729,7 @@ Stairs (again)
 
 > east
 
-<EXIT east(2) from Stairs(6), Moving:>
+<EXIT east(2) from stairs(6), Moving:>
 
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -745,7 +745,7 @@ dirty manual.
 
 > south
 
-<EXIT south(4) from Hall(4), Executing:>
+<EXIT south(4) from hall(4), Executing:>
 As you walk out through the door the large building collapses in a huge
 pile of bricks and stones. The cloud of dust will not settle for days.
 You should count yourself lucky that you got out in time.
