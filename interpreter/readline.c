@@ -43,56 +43,90 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
   */
 
 /* 4f - length of user buffer should be used */
-Boolean readline(char usrbuf[])
+Boolean readline(char buffer[])
 {
   event_t event;
 #ifdef HAVE_WINGLK
   INT_PTR e;
 #endif
 
-  glk_request_line_event(glkMainWin, usrbuf, 255, 0);
-  /* FIXME: buffer size should be infallible: all existing calls use 256 or
-     80 character buffers, except parse which uses LISTLEN (currently 100)
-   */  
-  do
-  {
-    glk_select(&event);
-    switch (event.type) {
-    case evtype_Arrange:
-      statusline();
-      break;
+  static Boolean readingCommands = FALSE;
+  static frefid_t commandFileRef;
+  static strid_t commandFile;
+
+  if (readingCommands) {
+    if (glk_get_line_stream(commandFile, buffer, 255) == 0) {
+      glk_stream_close(commandFile, NULL);
+      readingCommands = FALSE;
+    } else
+      printf(buffer);
+  } else {
+    glk_request_line_event(glkMainWin, buffer, 255, 0);
+    /* FIXME: buffer size should be infallible: all existing calls use 256 or
+       80 character buffers, except parse which uses LISTLEN (currently 100)
+    */  
+    do
+      {
+	glk_select(&event);
+	switch (event.type) {
+	case evtype_Arrange:
+	  statusline();
+	  break;
 #ifdef HAVE_WINGLK
-    case winglk_evtype_GuiInput:
-      switch (event.val1) {
-      case ID_MENU_RESTART:
-	restartGame();
-	break;
-      case ID_MENU_SAVE:
-	glk_set_style(style_Input);
-	printf("save\n");
-	glk_set_style(style_Normal);
-	saveGame();
-	para();
-	printf("> ");
-	break;
-      case ID_MENU_RESTORE:
-	glk_set_style(style_Input);
-	printf("restore\n");
-	glk_set_style(style_Normal);
-	restoreGame();
-	look();
-	para();
-	printf("> ");
-	break;
-      case ID_MENU_ABOUT:
-	e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
-	break;
-      }
-      break;
+	case winglk_evtype_GuiInput:
+	  switch (event.val1) {
+	  case ID_MENU_RESTART:
+	    restartGame();
+	    break;
+	  case ID_MENU_BATCH:
+	    commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
+	    if (commandFileRef == NULL) break;
+	    commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
+	    if (commandFile != NULL)
+	      if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
+		readingCommands = TRUE;
+		printf(buffer);
+		return TRUE;
+	      }
+	    break;
+	    
+	  case ID_MENU_SAVE:
+	    glk_set_style(style_Input);
+	    printf("save\n");
+	    glk_set_style(style_Normal);
+	    saveGame();
+	    para();
+	    printf("> ");
+	    break;
+	  case ID_MENU_RESTORE:
+	    glk_set_style(style_Input);
+	    printf("restore\n");
+	    glk_set_style(style_Normal);
+	    restoreGame();
+	    look();
+	    para();
+	    printf("> ");
+	    break;
+	  case ID_MENU_ABOUT:
+	    e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
+	    break;
+	  }
+	  break;
 #endif
-    }
-  } while (event.type != evtype_LineInput);
-  usrbuf[event.val1] = 0;
+	}
+      } while (event.type != evtype_LineInput);
+    if (buffer[0] == '@') {
+      buffer[event.val1] = 0;
+      commandFileRef = glk_fileref_create_by_name(fileusage_InputRecord+fileusage_TextMode, &buffer[1], 0);
+      commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
+      if (commandFile != NULL)
+	if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
+	  readingCommands = TRUE;
+	  printf(buffer);
+	}
+    } else
+      buffer[event.val1] = 0;
+  }
   return TRUE;
 }
 

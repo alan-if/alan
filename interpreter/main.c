@@ -38,6 +38,9 @@
 #ifdef HAVE_GLK
 #include "glk.h"
 #include "glkio.h"
+#ifdef HAVE_WINGLK
+#include "winglk.h"
+#endif
 #endif
 
 /* PUBLIC DATA */
@@ -1376,8 +1379,8 @@ void run(void)
   load();			/* Load program */
 
   setjmp(restart_label);	/* Return here if he wanted to restart */
-#ifdef HAVE_GLK
-  glk_cancel_line_event(glkMainWin, NULL);
+#ifdef HAVE_WINGLK
+  winglk_app_set_name(adventureName);
 #endif
 
   init();			/* Initialise and start the adventure */
