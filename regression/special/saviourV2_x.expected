@@ -160,8 +160,6 @@ saviourV2_x.alan
   *2*   101 E : Syntax error. Attempting to repair by inserting "'AT'" before
                 this symbol.
   *2*   310 E : Identifier 'building' not defined.
-  *2*   351 E : Initial location using AT must refer to an instance inheriting
-                from 'location'.
   *2*   405 E : Only instances and classes inheriting from Thing can have
                 initial locations.
 
@@ -191,8 +189,6 @@ saviourV2_x.alan
 =====>                   1
 
   *1*   310 E : Identifier 'cafe' not defined.
-  *1*   351 E : Target of an Exit must refer to an instance inheriting from
-                'location'.
 
   305.      EXIT west TO stairs.
 =====>                   1
@@ -204,8 +200,6 @@ saviourV2_x.alan
 =====>                    1
 
   *1*   310 E : Identifier 'outside' not defined.
-  *1*   351 E : Target of an Exit must refer to an instance inheriting from
-                'location'.
 
   313.  		IF tape IN hero THEN
 =====>  		           1
@@ -670,8 +664,6 @@ saviourV2_x.alan
 =====>                   1
 
   *1*   310 E : Identifier 'computer_room' not defined.
-  *1*   351 E : Target of an Exit must refer to an instance inheriting from
-                'location'.
 
   810.      EXIT north TO holeroom.
 =====>                    1
@@ -1238,11 +1230,9 @@ saviourV2_x.alan
 =====>           1
 
   *1*   310 E : Identifier 'outside' not defined.
-  *1*   351 E : START statement must refer to an instance inheriting from
-                'location'.
 
 
-        259 error(s).
+        254 error(s).
         53 warning(s).
         29 informational message(s).
 

@@ -568,7 +568,7 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 
   if (theClassSymbol == NULL) SYSERR("There is no such class");
 
-  if (!inheritsFrom(id->symbol, theClassSymbol))
+  if (id->symbol != NULL && !inheritsFrom(id->symbol, theClassSymbol))
     lmLogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
 }
 

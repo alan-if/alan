@@ -40,8 +40,6 @@ void testInitAdv()
 						      atUnknownId)));
   symbolizeAdventure();
   ASSERT(readSev() == sevERR && readEcode() == 310);
-  analyzeStartAt();		/* Can not Start At unknown Id */
-  ASSERT(readSev() == sevERR && readEcode() == 351);
 
   adv.whr->what->fields.wht.wht->id = atClaId;
   symbolizeAdventure();

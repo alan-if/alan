@@ -7,8 +7,6 @@ exits.alan
 =====>               1
 
   *1*   310 E : Identifier 'unknown' not defined.
-  *1*   351 E : Target of an Exit must refer to an instance inheriting from
-                'location'.
 
     5.    Exit s To o.
 =====>               1
@@ -17,7 +15,7 @@ exits.alan
                 'location'.
 
 
-        3 error(s).
+        2 error(s).
         No detected warnings.
         1 informational message(s).
 
