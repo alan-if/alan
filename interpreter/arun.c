@@ -19,7 +19,6 @@
 
 #include "version.h"
 
-
 #include "args.h"
 #include "parse.h"
 #include "inter.h"
@@ -109,6 +108,8 @@ void terminate(code)
 #endif
 {
 #ifdef __amiga__
+#include <fcntl.h>
+  extern struct _dev *_devtab;
   char buf[85];
   
   if (con) { /* Running from WB, created a console so kill it */
@@ -428,7 +429,7 @@ static void prsym(str)
   case 't': {
     int i;
     int spaces = 4-(col-1)%4;
-
+    
     for (i = 0; i<spaces; i++) printf(" ");
     col = col + spaces;
     needsp = FALSE;
