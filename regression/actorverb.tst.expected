@@ -1,0 +1,22 @@
+########## actorverb ##########
+alan actorverb
+arun actorverb < actorverb.input
+########## /bin/sh  actorverb.tst ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+Examine Fred!
+
+
+W.
+Fred is here.
+
+> Describe Fred.
+
+> You can't do that.
+
+> 
+
+Do you want to restart (y) ? 

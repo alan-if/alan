@@ -1,0 +1,145 @@
+########## dungeon ##########
+alan dungeon
+arun dungeon < dungeon.input
+########## /bin/sh  dungeon.tst ##########
+
+        No warnings or errors detected.
+        7 informational message(s).
+
+
+
+West of House.
+Welcome to Dungeon (ALAN Demo). This version created 29-FEB-92. 
+
+You are in an open field west of a big white house with a boarded front
+door. There is a small mailbox here.
+
+> open mailbox
+The mailbox is now open. The small mailbox contains a leaflet.
+
+> read leaflet
+'I hope you have noticed that this isn't your usual Dungeon but rather an
+ALAN implementation brought to you by 
+
+    ThoNi & GorFo Adventure Factories 
+
+Happy Adventuring!'
+
+> e
+The door is locked, and there is evidently no key.
+
+> s
+South of House.
+You are facing the south side of a white house. There is no door here,
+and all the windows are barred.
+
+> e
+Behind House.
+You are behind the white house. In one corner of the house there is a
+window which is slightly ajar.
+
+> open window then go west
+With great effort, you open the window far enough to allow passage.
+
+
+Kitchen.
+You are in the kitchen of the white house. A table seems to have been
+used recently for the preparation of food. On the table you can see 
+elongated brown sack, smelling of hot peppers and a clear glass bottle. A
+passage leads to the west, and a dark staircase can be seen leading
+upward. To the east is a small window which is open.
+
+> take all
+(elongated brown sack, smelling of hot peppers) Taken!
+
+(clear glass bottle) Taken!
+
+> up
+Upstairs.
+You are in the attic. The only exit is stairs that lead down. A large
+coil of rope is lying in the corner. There is a square brick here which
+feels like clay. A nasty-looking knife is lying here.
+
+> take all
+(rope) Taken!
+
+(square clay brick) Taken!
+
+(nasty knife) Taken!
+
+> d
+Kitchen (again).
+A table seems to have been used recently for the preparation of food. The 
+table is empty. To the east is a small window which is open.
+
+> w
+Living room.
+You are in the living room. There is a door to the east. To the west is a
+wooden door with strange gothic lettering, which appears to be nailed 
+shut. There is a trophy case here. In the center of the room is a large
+oriental rug. On hooks above the mantlepiece hangs an elvish sword of
+great antiquity. A battery-powered brass lantern is on the trophy case. 
+There is an issue of US NEWS & DUNGEON REPORT dated 29-FEB-92 here.
+
+> read report
+    US NEWS & DUNGEON REPORT 
+29-FEB-92.........................Late Dungeon Edition 
+    --- LATE NEWS FLASH!! --- 
+
+The Dungeon prelude is now available as an ALAN implementation. 
+The Dungeon game was selected as an example that everybody interested in
+adventure gaming should recognize.
+
+> take sword and examine it
+Taken!
+
+I see nothing special about the elvish sword.
+
+> examine all
+You can't refer to multiple objects with 'examine'.
+
+> examine rug
+I see nothing special about the rug.
+
+> move it
+With a great effort, the rug is moved to one side of the room. With the
+rug moved, the dusty cover of a closed trap door appears.
+
+> open door
+I don't know which door you mean.
+
+> open trap door
+The door reluctantly opens to reveal a rickety staircase descending into
+darkness.
+
+> d
+Breath-Taking View.
+And here we have a very special guest, straight from Colossal Cave - the
+Breath-Taking View! 
+
+You are on the edge of a breath-taking view. Far below you is an active
+volcano, from which great gouts of molten lava come surging out,
+cascading back down into the depths. The glowing rock fills the farthest
+reaches of the cavern with a blood-red glare, giving everything an eerie,
+macabre appearance. The air is filled with flickering sparks of ash and a
+heavy smell of brimstone. The walls are hot to the touch, and the
+thundering of the volcano drowns out all other sounds. Embedded in the
+jagged roof far overhead are myriad twisted formations composed of pure
+white alabaster, which scatter the murky light into sinister apparitions
+upon the walls. To one side is a deep gorge, filled with a bizarre chaos
+of tortured rock which seems to have been crafted by the devil himself.
+An immense river of fire crashes out from the depths of the volcano,
+burns its way through the gorge, and plummets into a bottomless pit far
+off to your left. Across the gorge, the entrance to a valley is dimly
+visible. To the right, an immense geyser of blistering steam erupts
+continuously from a barren island in the center of a sulfurous lake,
+which bubbles ominously. The far right wall is aflame with an
+incandescence of its own, which lends an additional infernal splendor to
+the already hellish scene. A dark, foreboding passage exits to the south. 
+<More>
+You have now reached the end of this ALAN demo, but it sure shouldn't be
+the end of of adventuring. It is now up to You, the adventure writer to
+ensure the continuation of the era of the adventure games. So just don't
+sit there. Get your plots ready and get down to serious adventure writing.
+
+Do you want to restart (y) ? 

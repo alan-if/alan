@@ -1,0 +1,35 @@
+########## adjnoun ##########
+alan adjnoun
+arun adjnoun < adjnoun.input
+########## /bin/sh  adjnoun.tst ##########
+
+
+
+        320 W : Word 'metal' belongs to multiple word classes.
+
+
+        No detected errors.
+        1 warning(s).
+        2 informational message(s).
+
+
+Test the use of the same words as an adjective and an noun. Try 
+    x metal box 
+    x piece of metal
+
+
+L.
+There is a metal box and a piece of metal here.
+
+> x metal box
+This is a metal box.
+
+> x metal
+This is a piece of metal.
+
+> x piece of metal
+This is a piece of metal.
+
+> 
+
+Do you want to restart (y) ? 
