@@ -1,9 +1,8 @@
-Verb take
-  Does
-    "You take the object."
-End Verb take.
-
 The o Isa object At l.
+  Verb take
+    Does
+      "You take the object."
+  End Verb take.
 End The o.
 
 The a Isa actor At l.

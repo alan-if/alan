@@ -24,18 +24,18 @@ void testNewExt()
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
   theExit = newext(&nulsrcp, concat(NULL, direction, EXIT_LIST), targetLocation, NULL, NULL);
-  unitAssert(theExit->dirs->element.id->symbol->code = 1);
+  ASSERT(theExit->dirs->element.id->symbol->code = 1);
 
   symbolizeExit(theExit);
-  unitAssert(readEcode() == 0);
+  ASSERT(readEcode() == 0);
 
   analyzeExit(theExit, context);
-  unitAssert(readEcode() == 351);
+  ASSERT(readEcode() == 351);
 
   initEmit("unit.a3c");
   firstAddress = emadr();
   generateExitEntry(theExit);
-  unitAssert(emadr() == firstAddress + entrySize);
+  ASSERT(emadr() == firstAddress + entrySize);
 }
 
 

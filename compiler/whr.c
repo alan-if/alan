@@ -213,14 +213,14 @@ void generateWhere(Where *where)
       generateWhat(where->what);
       /* Instance inherit from location? Or is it at the location of it? */
       if (!inheritsFrom(where->what->id->symbol, locationSymbol))
-	emit0(C_STMOP, I_WHERE);
+	emit0(I_WHERE);
       break;
     case WHAT_LOCATION:
-      emit0(C_CURVAR, V_CURLOC);
+      emitVariable(V_CURLOC);
       break;
     case WHAT_ACTOR:
-      emit0(C_CURVAR, V_CURACT);
-      emit0(C_STMOP, I_WHERE);
+      emitVariable(V_CURACT);
+      emit0(I_WHERE);
       break;
     default:
       syserr("Unexpected switch on whatKind in generateWhere()");
@@ -232,7 +232,7 @@ void generateWhere(Where *where)
     break;
 
   case WHR_HERE:
-    emit0(C_CURVAR, V_CURLOC);
+    emitVariable(V_CURLOC);
     break;
 
   default:

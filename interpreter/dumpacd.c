@@ -647,6 +647,30 @@ static void dumpStms(Aword pc)
 	printf("\n");
 	return;
 
+      case I_BLOCK:
+	printf("BLOCK");
+	break;
+
+      case I_ENDBLOCK:
+	printf("ENDBLOCK");
+	break;
+
+      case I_GETLOCAL:
+	printf("GETLOCAL");
+	break;
+
+      case I_SETLOCAL:
+	printf("SETLOCAL");
+	break;
+
+      case I_EACH:
+	printf("EACH");
+	break;
+
+      case I_ENDEACH:
+	printf("ENDEACH");
+	break;
+
       default:
 	syserr("Unknown STMOP instruction.");
 	break;

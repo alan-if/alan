@@ -204,7 +204,7 @@ void generateAdventure(char acodeFileName[],
   /* Start statements */
   acdHeader.start = emadr();	/* Save ACODE address to start */
   generateStatements(adv.stms);
-  emit0(C_STMOP, I_RETURN);
+  emit0(I_RETURN);
 
   /* String initialisation table */
   acdHeader.init = generateStringInit();

@@ -18,7 +18,7 @@
 /* FUNCTIONS: */
 
 /* Create a new Syntax Element node */
-extern Element *newElment(Srcp *srcp,
+extern Element *newElement(Srcp *srcp,
 			  ElementKind kind,
 			  IdNode *id,
 			  int flags);

@@ -12,12 +12,12 @@
 
 /* USE: */
 
-
 /* DATA: */
 
 /* FUNCTIONS: */
 
 extern Context *newContext(ContextKind kind);
 extern Context *pushContext(Context *context);
+extern Bool inEntityContext(Context *context);
 
 #endif

@@ -29,7 +29,7 @@ void testAttributeToThis()
   theExp->fields.atr.wht = theWhatExp;
 
   analyzeAttributeExpression(theExp, theContext);
-  unitAssert(theExp->type == BOOLEAN_TYPE);
+  ASSERT(theExp->type == BOOLEAN_TYPE);
 }
 
 static void testAnalyzeIsaExpression()

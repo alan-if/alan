@@ -2,17 +2,16 @@ Add To Every object
   Is examinable.
 End Add To.
 
-Verb examine
-  Check object Is Examinable
-  Else "You can not examine that."
-  Does
-    "Examine" Say object. "$$. Examine $o."
-End Verb.
-
 The nest Isa object Name birds nest At l
     Is
         takeable.
         Not examined.
+  Verb examine
+    Check object Is Examinable
+    Else "You can not examine that."
+    Does
+      "Examine" Say object. "$$. Examine $o."
+  End Verb.
 End The nest.
 
 The l Isa location

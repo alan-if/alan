@@ -1,9 +1,11 @@
-Verb x
-  Does
-    "You x the $o."
-End Verb x.
+Every obj Isa object
+  Verb x
+    Does
+      "You x the $o."
+  End Verb x.
+End Every.
 
-The o Isa object At l
+The o Isa obj At l
 End The o.
 
 The l Isa location

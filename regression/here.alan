@@ -1,7 +1,9 @@
-Verb v
-  Does
-    "You v the $o."
-End Verb v.
+Every obj Isa object
+  Verb v
+    Does
+      "You v the $o."
+  End Verb v.
+End Every obj
 
 Syntax l = l.
 Verb l
@@ -13,20 +15,20 @@ The hero Isa actor
   Container
 End The hero.
 
-The x Isa object At l1
+The x Isa obj At l1
 End The x.
 
-The y Isa object At l2
+The y Isa obj At l2
 End The y.
 
-The z Isa object In hero
+The z Isa obj In hero
 End The z.
 
-The cont Isa object At l1
+The cont Isa obj At l1
   Container
 End The cont.
 
-The a Isa object In cont
+The a Isa obj In cont
 End The a.
 
 The l1 Isa location

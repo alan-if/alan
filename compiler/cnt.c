@@ -141,14 +141,14 @@ static void generateContainer(Container *cnt)
   if (cnt->hstms != NULL) {
     cnt->hadr = emadr();
     generateStatements(cnt->hstms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   } else
     cnt->hadr = 0;
   
   if (cnt->estms != NULL) {
     cnt->eadr = emadr();
     generateStatements(cnt->estms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   } else
     cnt->eadr = 0;
 }

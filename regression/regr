@@ -13,13 +13,16 @@ run ()
 	echo "########## arun $case ##########" >>$case.output
 	../bin/arun -n $case >>$case.output 2>&1 <$case.input 
 	cases=`expr $cases + 1`
-	rm $case.a3c
     fi
 }
 
 verify()
 {
-    if [ -f $case.expected ]
+    if [ -f $case.suspended ]
+    then
+	suspended=`expr $suspended + 1`
+	echo "Suspended..."
+    else if [ -f $case.expected ]
     then
 	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
 	then
@@ -30,10 +33,6 @@ verify()
 	    failed=`expr $failed + 1`
 	    echo "*** FAILED!!! ***"
 	fi
-    else if [ -f $case.suspended ]
-    then
-	suspended=`expr $suspended + 1`
-	echo "Suspended..."
     else
 	new=`expr $new + 1`
 	echo "NEW!"

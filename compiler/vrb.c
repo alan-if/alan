@@ -68,7 +68,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
 /*----------------------------------------------------------------------*/
 static void analyzeVerb(Verb *theVerb, Context *previousContext)
 {
-  List *lst, *ids, *syntaxList = NULL;
+  List *lst, *ids, *syntaxLists = NULL;
   Syntax *stx;
   Context *context = pushContext(previousContext);
 
@@ -85,26 +85,36 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	}
     }
     if (stx == NULL) {
-      lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
-      stx = defaultSyntax(ids->element.id->string);
+      if (!inEntityContext(context)) {
+	/* A global, no parameter, verb */
+	lmLog(&ids->element.id->srcp, 230, sevINF, ids->element.id->string);
+	stx = defaultSyntax0(ids->element.id->string);
+      } else {
+	lmLog(&ids->element.id->srcp, 231, sevINF, ids->element.id->string);
+	stx = defaultSyntax1(ids->element.id->string);
+      }
     }
-    syntaxList = concat(syntaxList, stx, SYNTAX_LIST);
+    syntaxLists = concat(syntaxLists, stx, SYNTAX_LIST);
   }
-  stx = syntaxList->element.stx;	/* Use first syntax */
+  stx = syntaxLists->element.stx;	/* Use first syntax */
   theVerb->stx = stx;
     
-  /* Check compatible parameter lists for all the ids? */
+  /* Check compatible parameter lists for all the verbs? */
   ids = theVerb->ids->next;
-  for (lst = syntaxList->next; lst != NULL; lst = lst->next) {
+  for (lst = syntaxLists->next; lst != NULL; lst = lst->next) {
     if (!eqparams(stx, lst->element.stx))
       lmLog(&ids->element.id->srcp, 215, sevERR,
 	    theVerb->ids->element.id->string);
     ids = ids->next;
   }
 
-  /* No alternatives allowed in global verb definition */
-  if (context->instance == NULL && theVerb->alternatives->element.alt->id != NULL)
-    lmLog(&theVerb->alternatives->element.alt->srcp, 213, sevERR, "");
+  /* No alternatives or parameters allowed in global verb definition */
+  if (!inEntityContext(context)) {
+    if (theVerb->alternatives->element.alt->id != NULL)
+      lmLog(&theVerb->alternatives->element.alt->srcp, 213, sevERR, "");
+    if (syntaxLists->element.stx->parameters != NULL)
+      lmLog(&theVerb->srcp, 219, sevERR, "");
+  }
 
   /* FIXME - Warn if no ALT for every parameter in the defined syntax */
 

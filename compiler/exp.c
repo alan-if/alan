@@ -493,49 +493,49 @@ void generateBinaryOperator(Expression *exp)
 {
   switch (exp->fields.bin.op) {
   case AND_OPERATOR:
-    emit0(C_STMOP, I_AND);
+    emit0(I_AND);
     break;
   case OR_OPERATOR:
-    emit0(C_STMOP, I_OR);
+    emit0(I_OR);
     break;
   case NE_OPERATOR:
-    emit0(C_STMOP, I_NE);
+    emit0(I_NE);
     break;
   case EQ_OPERATOR:
     if (exp->fields.bin.right->type == STRING_TYPE)
-      emit0(C_STMOP, I_STREQ);
+      emit0(I_STREQ);
     else
-      emit0(C_STMOP, I_EQ);
+      emit0(I_EQ);
     break;
   case EXACT_OPERATOR:
-    emit0(C_STMOP, I_STREXACT);
+    emit0(I_STREXACT);
     break;
   case LE_OPERATOR:
-    emit0(C_STMOP, I_LE);
+    emit0(I_LE);
     break;
   case GE_OPERATOR:
-    emit0(C_STMOP, I_GE);
+    emit0(I_GE);
     break;
   case LT_OPERATOR:
-    emit0(C_STMOP, I_LT);
+    emit0(I_LT);
     break;
   case GT_OPERATOR:
-    emit0(C_STMOP, I_GT);
+    emit0(I_GT);
     break;
   case PLUS_OPERATOR:
-    emit0(C_STMOP, I_PLUS);
+    emit0(I_PLUS);
     break;
   case MINUS_OPERATOR:
-    emit0(C_STMOP, I_MINUS);
+    emit0(I_MINUS);
     break;
   case MULT_OPERATOR:
-    emit0(C_STMOP, I_MULT);
+    emit0(I_MULT);
     break;
   case DIV_OPERATOR:
-    emit0(C_STMOP, I_DIV);
+    emit0(I_DIV);
     break;
   case CONTAINS_OPERATOR:
-    emit0(C_STMOP, I_CONTAINS);
+    emit0(I_CONTAINS);
     break;
   }
 }
@@ -553,7 +553,7 @@ static void generateBinaryExpression(Expression *exp)
   generateExpression(exp->fields.bin.left);
   generateExpression(exp->fields.bin.right);
   generateBinaryOperator(exp);
-  if (exp->not) emit0(C_STMOP, I_NOT);
+  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -572,40 +572,40 @@ static void generateWhereExpression(Expression *exp)
     switch (exp->fields.whr.whr->kind) {
     case WHR_HERE:
       generateId(exp->fields.whr.wht->fields.wht.wht->id);
-      emit0(C_STMOP, I_HERE);
-      if (exp->not) emit0(C_STMOP, I_NOT);
+      emit0(I_HERE);
+      if (exp->not) emit0(I_NOT);
       return;
     case WHR_NEAR:
       generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(C_STMOP, I_NEAR);
-      if (exp->not) emit0(C_STMOP, I_NOT);
+      emit0(I_NEAR);
+      if (exp->not) emit0(I_NOT);
       return;
     case WHR_IN:
       generateId(exp->fields.whr.whr->what->id);
       generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(C_STMOP, I_IN);
-      if (exp->not) emit0(C_STMOP, I_NOT);
+      emit0(I_IN);
+      if (exp->not) emit0(I_NOT);
       return;
     case WHERE_AT:
       generateWhat(exp->fields.whr.wht->fields.wht.wht);
-      emit0(C_STMOP, I_WHERE);
+      emit0(I_WHERE);
       break;
     default:
       unimpl(&exp->srcp, "Code Generator");
-      emit0(C_CONST, 0);
+      emitConstant(0);
       return;
     }
     break;
     
   default:
     unimpl(&exp->srcp, "Code Generator");
-    emit0(C_CONST, 0);
+    emitConstant(0);
     return;
   }
   
   generateWhere(exp->fields.whr.whr);
-  emit0(C_STMOP, I_EQ);
-  if (exp->not) emit0(C_STMOP, I_NOT);
+  emit0(I_EQ);
+  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -618,9 +618,9 @@ static void generateWhereExpression(Expression *exp)
 void generateAttributeAccess(Expression *exp)
 {
   if (exp->type == STRING_TYPE)
-    emit0(C_STMOP, I_STRATTR);
+    emit0(I_STRATTR);
   else
-    emit0(C_STMOP, I_ATTRIBUTE);
+    emit0(I_ATTRIBUTE);
 }
 
 
@@ -635,7 +635,7 @@ static void generateAttributeExpression(Expression *exp)
   generateId(exp->fields.atr.atr);
   generateWhat(exp->fields.atr.wht->fields.wht.wht);
   generateAttributeAccess(exp);
-  if (exp->not) emit0(C_STMOP, I_NOT);
+  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -652,12 +652,12 @@ static void generateAggregateExpression(Expression *exp)
   generateWhere(exp->fields.agr.whr);
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE)
-    emit0(C_CONST, exp->fields.agr.atr->symbol->code);
+    emitConstant(exp->fields.agr.atr->symbol->code);
 
   switch (exp->fields.agr.kind) {
-  case SUM_AGGREGATE: emit0(C_STMOP, I_SUM); break;
-  case MAX_AGGREGATE: emit0(C_STMOP, I_MAX); break;
-  case COUNT_AGGREGATE: emit0(C_STMOP, I_COUNT); break;
+  case SUM_AGGREGATE: emit0(I_SUM); break;
+  case MAX_AGGREGATE: emit0(I_MAX); break;
+  case COUNT_AGGREGATE: emit0(I_COUNT); break;
   default: syserr("Unrecognized switch in geexpagr()");
   }
 }
@@ -674,7 +674,7 @@ static void generateRandomExpression(Expression *exp)
 {
   generateExpression(exp->fields.rnd.from);
   generateExpression(exp->fields.rnd.to);
-  emit0(C_STMOP, I_RND);
+  emit0(I_RND);
 }
 
 
@@ -687,7 +687,7 @@ static void generateRandomExpression(Expression *exp)
   */
 static void geexpscore(Expression *exp) /* IN - The expression to generate */
 {
-  emit0(C_CURVAR, V_SCORE);
+  emitVariable(V_SCORE);
 }
 
 
@@ -714,7 +714,7 @@ void generateBetweenCheck(Expression *exp)
 {
   generateExpression(exp->fields.btw.low);
   generateExpression(exp->fields.btw.high);
-  emit0(C_STMOP, I_BTW);
+  emit0(I_BTW);
 }
 
 
@@ -728,7 +728,7 @@ static void generateBetweenExpression(Expression *exp)
 {
   generateExpression(exp->fields.btw.val);
   generateBetweenCheck(exp);
-  if (exp->not) emit0(C_STMOP, I_NOT);
+  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -737,8 +737,8 @@ static void generateIsaExpression(Expression *exp)
 {
   generateExpression(exp->fields.isa.wht);
   generateId(exp->fields.isa.id);
-  emit0(C_STMOP, I_ISA);
-  if (exp->not) emit0(C_STMOP, I_NOT);
+  emit0(I_ISA);
+  if (exp->not) emit0(I_NOT);
 }
 
 
@@ -748,7 +748,7 @@ void generateExpression(Expression *exp)
 {
   if (exp == NULL) {
     syserr("Generating a NULL expression");
-    emit0(C_CONST, 0);
+    emitConstant(0);
     return;
   }
   
@@ -767,14 +767,12 @@ void generateExpression(Expression *exp)
     break;
     
   case INTEGER_EXPRESSION:
-    emit0(C_CONST, exp->fields.val.val);
+    emitConstant(exp->fields.val.val);
     break;
     
   case STRING_EXPRESSION:
     encode(&exp->fields.str.fpos, &exp->fields.str.len);
-    emit0(C_CONST, exp->fields.str.len);
-    emit0(C_CONST, exp->fields.str.fpos);
-    emit0(C_STMOP, I_GETSTR);
+    emit2(I_GETSTR, exp->fields.str.fpos, exp->fields.str.len);
     break;
     
   case AGGREGATE_EXPRESSION:
@@ -803,7 +801,7 @@ void generateExpression(Expression *exp)
     
   default:
     unimpl(&exp->srcp, "Code Generator");
-    emit0(C_CONST, 0);
+    emitConstant(0);
     return;
   }
 }

@@ -174,12 +174,47 @@ void emitString(char *str)
 }
 
 
-void emit0(
-	   OpClass class,	/* IN - Operation class */
-	   Aword op		/* IN - Operation, instr, const or var */
-)
+/*----------------------------------------------------------------------*/
+void emitVariable(Aword var)
 {
-  emit(((Aword)class<<28)|((Aword)op&0x0fffffff));
+  emit(((Aword)C_CURVAR<<28)|((Aword)var&0x0fffffff));
+}
+
+
+/*----------------------------------------------------------------------*/
+void emitConstant(Aword arg)
+{
+  emit(((Aword)C_CONST<<28)|((Aword)arg&0x0fffffff));
+}
+
+
+void emit0(Aword op)
+{
+  emit(((Aword)C_STMOP<<28)|((Aword)op&0x0fffffff));
+}
+
+
+void emit1(Aword op, Aword arg1)
+{
+  emitConstant(arg1);
+  emit0(op);
+}
+
+
+void emit2(Aword op, Aword arg1, Aword arg2)
+{
+  emitConstant(arg2);
+  emitConstant(arg1);
+  emit0(op);
+}
+
+
+void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3)
+{
+  emitConstant(arg3);
+  emitConstant(arg2);
+  emitConstant(arg1);
+  emit0(op);
 }
 
 

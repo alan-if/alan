@@ -87,7 +87,7 @@ static void interpretElse()
 }
 
 
-static void interpretFor(Aint local)
+static void interpretEach(Aint local)
 {
   Aint counter = getLocal(0, local);
   int level = 1;
@@ -96,16 +96,16 @@ static void interpretFor(Aint local)
   counter++;
   if (counter > header->instanceMax) {
     while (TRUE) {
-      /* Skip past ENDFOR on the same level */
+      /* Skip past ENDEACHFOR on the same level */
       i = memory[pc++];
       if (I_CLASS(i) == (Aword)C_STMOP)
 	switch (I_OP(i)) {
-	case I_ENDFOR:
+	case I_ENDEACH:
 	  level--;
 	  if (level == 0)
 	    return;
 	  break;
-	case I_FOR:
+	case I_EACH:
 	  level++;
 	  break;
 	}
@@ -115,20 +115,21 @@ static void interpretFor(Aint local)
 }
 
 
-static void endFor()
+static void endEach()
 {
   int level = 1;
   int i;
 
+  pc--;
   while (TRUE) {
     /* Skip back past FOR on the same level */
     i = memory[--pc];
     if (I_CLASS(i) == (Aword)C_STMOP)
       switch (I_OP(i)) {
-      case I_ENDFOR:
+      case I_ENDEACH:
 	level++;
 	break;
-      case I_FOR:
+      case I_EACH:
 	level--;
 	if (level == 0) {
 	  pc--;
@@ -934,8 +935,8 @@ void interpret(adr)
 
       case I_GETLOCAL: {
 	Aint blocksBelow, variableNumber;
-	variableNumber = pop();
 	blocksBelow = pop();
+	variableNumber = pop();
 	if (stepFlag)
 	  printf("GETLOCAL \t%5ld, %5ld", blocksBelow, variableNumber);
 	push(getLocal(blocksBelow, variableNumber));
@@ -946,9 +947,9 @@ void interpret(adr)
 
       case I_SETLOCAL: {
 	Aint blocksBelow, variableNumber, value;
-	value = pop();
-	variableNumber = pop();
 	blocksBelow = pop();
+	variableNumber = pop();
+	value = pop();
 	if (stepFlag)
 	  printf("SETLOCAL \t%5ld, %5ld, %5ld", blocksBelow, variableNumber, value);
 	setLocal(blocksBelow, variableNumber, value);
@@ -962,18 +963,18 @@ void interpret(adr)
 	break;
       }
 
-      case I_FOR: {
+      case I_EACH: {
 	Aint local = pop();
 	if (stepFlag)
 	  printf("FOR \t%5ld", local);
-	interpretFor(local);
+	interpretEach(local);
 	break;
       }
 
-      case I_ENDFOR: {
+      case I_ENDEACH: {
 	if (stepFlag)
-	  printf("ENDFOR");
-	endFor();
+	  printf("ENDEACH");
+	endEach();
 	break;
       }
 

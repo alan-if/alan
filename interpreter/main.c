@@ -1159,8 +1159,10 @@ Boolean possible()
 {
   AltEntry *alt[MAXPARAMS+2];	/* List of alt-pointers, one for each param */
   int i;			/* Parameter index */
-  
+
   fail = FALSE;
+
+#ifdef USEGLOBALVERBS
   alt[0] = findalt(0, 0);
   /* Perform global checks */
   if (alt[0] != 0 && alt[0]->checks != 0) {
@@ -1173,6 +1175,7 @@ Boolean possible()
   if (alt[1] != 0 && alt[1]->checks != 0)
     if (!trycheck(alt[1]->checks, FALSE))
       return FALSE;
+#endif
   
   for (i = 0; params[i].code != EOF; i++) {
     alt[i+2] = findalt(params[i].code, i+1);

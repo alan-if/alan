@@ -120,7 +120,7 @@ static Aaddr generateScriptDescription(Script *script)
   if (script->description != NULL) {
     address = emadr();
     generateStatements(script->description);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
   return address;
 }

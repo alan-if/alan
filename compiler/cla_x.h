@@ -12,7 +12,7 @@
 
 
 /* DATA: */
-extern ClaNod *thing, *object, *location, *actor;
+extern ClaNod *entity, *thing, *object, *location, *actor;
 
 
 /* METHODS: */

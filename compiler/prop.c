@@ -182,19 +182,19 @@ void generateClassPropertiesData(Properties *props)
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
     generateStatements(props->description);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
 
   if (props->article != NULL) {
     props->articleAddress = emadr();
     generateStatements(props->article);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
 
   if (props->mentioned != NULL) {
     props->mentionedAddress = emadr();
     generateStatements(props->mentioned);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
 
   props->verbsAddress = generateVerbs(props->verbs);
@@ -215,20 +215,20 @@ void generateInstancePropertiesData(Properties *props)
   if (props->description != NULL) {
     props->descriptionAddress = emadr();
     generateStatements(props->description);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
 
   if (props->mentioned != NULL) {
     props->mentionedAddress = emadr();
     generateStatements(props->mentioned);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   } else
     emit(0);
 
   if (props->article != NULL) {
     props->articleAddress = emadr();
     generateStatements(props->article);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   } else
     emit(0);
 

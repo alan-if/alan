@@ -26,13 +26,13 @@ void testParameterReference()
 
   /* Parameter not found if not in verb context */
   foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, NULL);
-  unitAssert(foundSymbol == NULL);
-  unitAssert(readEcode() == 310 && readSev() == sevERR); /* Not found! */
+  ASSERT(foundSymbol == NULL);
+  ASSERT(readEcode() == 310 && readSev() == sevERR); /* Not found! */
 
   foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, context);
-  unitAssert(foundSymbol != NULL);
-  unitAssert(foundSymbol->kind == PARAMETER_SYMBOL);
-  unitAssert(foundSymbol->fields.parameter.element == parameters->element.elm);
+  ASSERT(foundSymbol != NULL);
+  ASSERT(foundSymbol->kind == PARAMETER_SYMBOL);
+  ASSERT(foundSymbol->fields.parameter.element == parameters->element.elm);
 }
 
 

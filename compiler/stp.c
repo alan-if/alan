@@ -87,12 +87,12 @@ Aaddr generateSteps(List *stps)
     if (lst->element.stp->exp != NULL) { /* Expression specified */
       lst->element.stp->expadr = emadr();
       generateExpression(lst->element.stp->exp);
-      emit0(C_STMOP, I_RETURN);
+      emit0(I_RETURN);
     } else
       lst->element.stp->expadr = 0;
     lst->element.stp->stmadr = emadr();
     generateStatements(lst->element.stp->stms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
   
   /* Now generate a step table */

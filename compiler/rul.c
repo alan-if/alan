@@ -113,10 +113,10 @@ Aaddr generateRules(void)
     showProgress();
     lst->element.rul->expadr = emadr();
     generateExpression(lst->element.rul->exp);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
     lst->element.rul->stmadr = emadr();
     generateStatements(lst->element.rul->stms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
 
   adr = emadr();

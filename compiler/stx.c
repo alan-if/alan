@@ -152,27 +152,57 @@ void analyzeSyntaxes(void)
 
 /*======================================================================
 
-  defaultStx()
+  defaultStx0()
 
   Returns the address a default syntax node which is used for verbs
-  without any defined syntax:
+  without any defined syntax (global verbs having no parameter):
+
+  Syntax x = x.
+
+ */
+Syntax *defaultSyntax0(char *vrbstr) /* IN - The string for the verb */
+{
+  Syntax *stx;
+  List *elements;
+
+  elements = concat(concat(NULL,
+			   newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
+								    vrbstr),
+				      FALSE),
+			   ELEMENT_LIST),
+		    newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
+  stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
+
+  adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);
+  anstx(stx);                   /* Make sure the syntax is analysed */
+  return stx;
+}
+
+
+
+/*======================================================================
+
+  defaultStx1()
+
+  Returns the address a default syntax node which is used for verbs
+  in instances (taking one parameter) without any defined syntax:
 
   Syntax x = x (object).
 
  */
-Syntax *defaultSyntax(char *vrbstr) /* IN - The string for the verb */
+Syntax *defaultSyntax1(char *vrbstr) /* IN - The string for the verb */
 {
   Syntax *stx;
   List *elements;
 
   elements = concat(concat(concat(NULL,
-			      newElment(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
+			      newElement(&nulsrcp, WORD_ELEMENT, newId(&nulsrcp,
 							     vrbstr),
 				     FALSE),
 			      ELEMENT_LIST),
-		       newElment(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
+		       newElement(&nulsrcp, PARAMETER_ELEMENT, newId(&nulsrcp, "object"), FALSE),
 		       ELEMENT_LIST),
-		newElment(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
+		newElement(&nulsrcp, END_OF_SYNTAX, NULL, FALSE), ELEMENT_LIST);
   stx = newSyntax(&nulsrcp, newId(&nulsrcp, vrbstr), elements, NULL);
 
   adv.stxs = concat(adv.stxs, stx, SYNTAX_LIST);

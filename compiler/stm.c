@@ -211,15 +211,9 @@ static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
       
 
 
-/*----------------------------------------------------------------------
-
-  anmake()
-
-  Analyze a MAKE statement.
-
-  */
-static void anmake(StmNod *stm,
-		   Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeMake(StmNod *stm,
+			Context *context)
 {
   Attribute *atr = NULL;
 
@@ -534,15 +528,20 @@ static void andep(StmNod *stm, Context *context)
 
 
 
-/*----------------------------------------------------------------------
+/*----------------------------------------------------------------------*/
+static void analyzeEach(StmNod *stm,
+			Context *context)
+{
+  /* 4f - Analyze loop class and identifier */
+  
+  /* Analyze the statements in the loop body */
+  analyzeStatements(stm->fields.each.stms, context);
+}
 
-  anstm()
 
-  Analyze one statement.
-
-  */
-static void anstm(StmNod *stm,
-		  Context *context)
+/*----------------------------------------------------------------------*/
+static void analyzeStatement(StmNod *stm,
+			     Context *context)
 {
   switch (stm->class) {
   case NOP_STATEMENT:
@@ -578,7 +577,7 @@ static void anstm(StmNod *stm,
     analyzeLocate(stm, context);
     break;
   case MAKE_STATEMENT:
-    anmake(stm, context);
+    analyzeMake(stm, context);
     break;
   case SET_STATEMENT:
     anset(stm, context);
@@ -602,6 +601,9 @@ static void anstm(StmNod *stm,
   case DEPEND_STATEMENT:
     andep(stm, context);
     break;
+  case EACH_STATEMENT:
+    analyzeEach(stm, context);
+    break;
   default:
     unimpl(&stm->srcp, "Analyzer");
     break;
@@ -615,7 +617,7 @@ void analyzeStatements(List *stms,
 		       Context *context)
 {
   while (stms != NULL) {
-    anstm(stms->element.stm, context);
+    analyzeStatement(stms->element.stm, context);
     stms = stms->next;
   }
 }
@@ -630,9 +632,7 @@ void analyzeStatements(List *stms,
 static void geprint(StmNod *stm)
 {
   encode(&stm->fields.print.fpos, &stm->fields.print.len);
-  emit0(C_CONST, stm->fields.print.len);
-  emit0(C_CONST, stm->fields.print.fpos);
-  emit0(C_STMOP, I_PRINT);
+  emit2(I_PRINT, stm->fields.print.fpos, stm->fields.print.len);
 }
 
 
@@ -644,8 +644,8 @@ static void geprint(StmNod *stm)
   */
 static void generateScore(StmNod *stm)
 {
-  emit0(C_CONST, stm->fields.score.count);
-  emit0(C_STMOP, I_SCORE);
+  emitConstant(stm->fields.score.count);
+  emit0(I_SCORE);
 }
 
 
@@ -660,11 +660,11 @@ static void generateDescribe(StmNod *stm)
   switch (stm->fields.describe.wht->kind) {
 
   case WHAT_LOCATION:
-    emit0(C_CURVAR, V_CURLOC);
+    emitVariable(V_CURLOC);
     break;
 
   case WHAT_ACTOR:
-    emit0(C_CURVAR, V_CURACT);
+    emitVariable(V_CURACT);
     break;
 
   case WHAT_ID:
@@ -675,7 +675,7 @@ static void generateDescribe(StmNod *stm)
     unimpl(&stm->srcp, "Code Generator");
     return;
   }
-  emit0(C_STMOP, I_DESCRIBE);
+  emit0(I_DESCRIBE);
 }
 
 
@@ -691,13 +691,13 @@ static void generateSay(StmNod *stm)
   generateExpression(stm->fields.say.exp);
   switch (stm->fields.say.exp->type) {
   case INTEGER_TYPE:
-    emit0(C_STMOP, I_SAYINT);
+    emit0(I_SAYINT);
     break;
   case STRING_TYPE:
-    emit0(C_STMOP, I_SAYSTR);
+    emit0(I_SAYSTR);
     break;
   case INSTANCE_TYPE:
-    emit0(C_STMOP, I_SAY);
+    emit0(I_SAY);
     break;
   default:
     unimpl(&stm->srcp, "Code Generator");
@@ -717,7 +717,7 @@ static void gelist(StmNod *stm)	/* IN - Statement */
 {
   if (stm->fields.list.wht->kind == WHAT_ID) {
     generateId(stm->fields.list.wht->id);
-    emit0(C_STMOP, I_LIST);
+    emit0(I_LIST);
   } else
     unimpl(&stm->srcp, "Code Generator");
 }
@@ -730,7 +730,7 @@ static void generateEmpty(StmNod *stm)
   if (stm->fields.empty.wht->kind == WHAT_ID) {
     generateWhere(stm->fields.empty.where);
     generateId(stm->fields.empty.wht->id);
-    emit0(C_STMOP, I_EMPTY);
+    emit0(I_EMPTY);
   } else
     unimpl(&stm->srcp, "Code Generator");
 }
@@ -742,7 +742,7 @@ static void generateLocate(StmNod *stm)
 {
   generateWhere(stm->fields.locate.whr);
   generateWhat(stm->fields.locate.wht);
-  emit0(C_STMOP, I_LOCATE);
+  emit0(I_LOCATE);
 }
 
 
@@ -756,10 +756,10 @@ static void generateLocate(StmNod *stm)
   */
 static void generateMake(StmNod *stm)
 {
-  emit0(C_CONST, !stm->fields.make.not);
-  emit0(C_CONST, stm->fields.make.atr->code);
+  emitConstant(!stm->fields.make.not);
+  emitConstant(stm->fields.make.atr->code);
   generateWhat(stm->fields.make.wht);
-  emit0(C_STMOP, I_MAKE);
+  emit0(I_MAKE);
 }
 
 
@@ -776,12 +776,12 @@ static void generateSet(StmNod *stm)
 {
   generateExpression(stm->fields.set.exp);
 
-  emit0(C_CONST, stm->fields.set.atr->code);
+  emitConstant(stm->fields.set.atr->code);
   generateWhat(stm->fields.set.wht);
   if (stm->fields.set.exp->type == STRING_TYPE)
-    emit0(C_STMOP, I_STRSET);
+    emit0(I_STRSET);
   else
-    emit0(C_STMOP, I_SET);
+    emit0(I_SET);
 }
 
 
@@ -798,14 +798,14 @@ static void generateIncrease(StmNod *stm)
   if (stm->fields.incr.step != NULL)
     generateExpression(stm->fields.incr.step);
   else
-    emit0(C_CONST, 1);
+    emitConstant(1);
 
-  emit0(C_CONST, stm->fields.incr.atr->code);
+  emitConstant(stm->fields.incr.atr->code);
   generateWhat(stm->fields.incr.wht);
   if (stm->class == INCREASE_STATEMENT)
-    emit0(C_STMOP, I_INCR);
+    emit0(I_INCR);
   else
-    emit0(C_STMOP, I_DECR);
+    emit0(I_DECR);
 }
 
 
@@ -827,7 +827,7 @@ static void generateSchedule(StmNod *stm)
   switch (stm->fields.schedule.whr->kind) {
   case WHR_DEFAULT:
   case WHR_HERE:
-    emit0(C_CURVAR, V_CURLOC);
+    emitVariable(V_CURLOC);
     break;
     
   case WHERE_AT:
@@ -839,7 +839,7 @@ static void generateSchedule(StmNod *stm)
     return;
   }
   generateId(stm->fields.schedule.id);
-  emit0(C_STMOP, I_SCHEDULE);
+  emit0(I_SCHEDULE);
 }
 
 
@@ -853,7 +853,7 @@ static void generateSchedule(StmNod *stm)
 static void generateCancel(StmNod *stm) /* IN - Statement to generate */
 {
   generateId(stm->fields.schedule.id);
-  emit0(C_STMOP, I_CANCEL);
+  emit0(I_CANCEL);
 }
 
 /*----------------------------------------------------------------------
@@ -866,13 +866,13 @@ static void generateCancel(StmNod *stm) /* IN - Statement to generate */
 static void generateIf(StmNod *stm)
 {
   generateExpression(stm->fields.iff.exp);
-  emit0(C_STMOP, I_IF);
+  emit0(I_IF);
   generateStatements(stm->fields.iff.thn);
   if (stm->fields.iff.els != NULL) {
-    emit0(C_STMOP, I_ELSE);
+    emit0(I_ELSE);
     generateStatements(stm->fields.iff.els);
   }
-  emit0(C_STMOP, I_ENDIF);
+  emit0(I_ENDIF);
 }
 
 
@@ -887,13 +887,13 @@ static void generateIf(StmNod *stm)
 static void generateUse(StmNod *stm)
 {
   if (stm->fields.use.actor == NULL) { /* No actor specified, use current */
-    emit0(C_CONST, stm->fields.use.scriptno);
-    emit0(C_CURVAR, V_CURRENT_INSTANCE);
-    emit0(C_STMOP, I_USE);
+    emitConstant(stm->fields.use.scriptno);
+    emitVariable(V_CURRENT_INSTANCE);
+    emit0(I_USE);
   } else {
-    emit0(C_CONST, stm->fields.use.scriptno);
+    emitConstant(stm->fields.use.scriptno);
     generateId(stm->fields.use.actor);
-    emit0(C_STMOP, I_USE);
+    emit0(I_USE);
   }
 }
 
@@ -971,7 +971,7 @@ static void generateDepend(StmNod *stm)
 {
   List *cases;
 
-  emit0(C_STMOP, I_DEPEND);
+  emit0(I_DEPEND);
   generateExpression(stm->fields.depend.exp);
   /* For each case: */
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
@@ -979,34 +979,49 @@ static void generateDepend(StmNod *stm)
     if (cases->element.stm->fields.depcase.exp != NULL) {
       /* Generate a DEPCASE (if not first case) and a DUP */
       if (cases != stm->fields.depend.cases)
-	emit0(C_STMOP, I_DEPCASE);
-      emit0(C_STMOP, I_DUP);
+	emit0(I_DEPCASE);
+      emit0(I_DUP);
       /* ...and the case expression (right hand + operator) */
       generateDependCase(cases->element.stm->fields.depcase.exp);
-      emit0(C_STMOP, I_DEPEXEC);
+      emit0(I_DEPEXEC);
     } else
-      emit0(C_STMOP, I_DEPELSE);
+      emit0(I_DEPELSE);
     /* ...and then the statements */
     generateStatements(cases->element.stm->fields.depcase.stms);
   }
-  emit0(C_STMOP, I_ENDDEP);
+  emit0(I_ENDDEP);
+}
+
+/*----------------------------------------------------------------------*/
+static void generateEach(StmNod *statement)
+{
+  /* Generate a new BLOCK */
+  emit1(I_BLOCK, 1);		/* One local variable in this block */
+
+  /* Init loop variable to 1 */
+  emit3(I_SETLOCAL, 0, 1, 1);
+
+  /* Start of loop */
+  emit1(I_EACH, 1);
+
+  generateStatements(statement->fields.each.stms);
+
+  /* End of loop */
+  emit0(I_ENDEACH);
+
+  /* End of block */
+  emit0(I_ENDBLOCK);
 }
 
 
 
-/*----------------------------------------------------------------------
-
-  gesystem()
-
-  Generate SYSTEM statement.
-
-  */
-static void gesystem(StmNod *stm)
+/*----------------------------------------------------------------------*/
+static void generateSystem(StmNod *stm)
 {
   encode(&stm->fields.system.fpos, &stm->fields.system.len);
-  emit0(C_CONST, stm->fields.system.len);
-  emit0(C_CONST, stm->fields.system.fpos);
-  emit0(C_STMOP, I_SYSTEM);
+  emitConstant(stm->fields.system.len);
+  emitConstant(stm->fields.system.fpos);
+  emit0(I_SYSTEM);
 }
 
 
@@ -1024,28 +1039,28 @@ static void generateStatement(StmNod *stm)
     break;
 
   case QUIT_STATEMENT:
-    emit0(C_STMOP, I_QUIT);
+    emit0(I_QUIT);
     break;
 
   case LOOK_STATEMENT:
-    emit0(C_STMOP, I_LOOK);
+    emit0(I_LOOK);
     break;
 
   case SAVE_STATEMENT:
-    emit0(C_STMOP, I_SAVE);
+    emit0(I_SAVE);
     break;
 
   case RESTORE_STATEMENT:
-    emit0(C_STMOP, I_RESTORE);
+    emit0(I_RESTORE);
     break;
 
   case RESTART_STATEMENT:
-    emit0(C_STMOP, I_RESTART);
+    emit0(I_RESTART);
     break;
 
   case VISITS_STATEMENT:
-    emit0(C_CONST, stm->fields.visits.count);
-    emit0(C_STMOP, I_VISITS);
+    emitConstant(stm->fields.visits.count);
+    emit0(I_VISITS);
     break;
 
   case SCORE_STATEMENT:
@@ -1106,7 +1121,11 @@ static void generateStatement(StmNod *stm)
     break;
 
   case SYSTEM_STATEMENT:
-    gesystem(stm);
+    generateSystem(stm);
+    break;
+
+  case EACH_STATEMENT:
+    generateEach(stm);
     break;
 
   default:

@@ -13,8 +13,9 @@
 static int passed = 0;
 static int failed = 0;
 
-static void unitFail()
+static void unitFail(char sourceFile[], int lineNumber)
 {
+  printf("%s:%d: unit test failed!/n", sourceFile, lineNumber);
   failed++;
 }
 
@@ -26,10 +27,12 @@ static void unitReportProgress(failed, passed)
 }
 
 
+#define ASSERT(x) (unitAssert((x), __FILE__, __LINE__))
+
 /* Assert a particular test */
-void unitAssert(int x)
+void unitAssert(int x, char sourceFile[], int lineNumber)
 {
-  (x)? passed++ : unitFail();
+  (x)? passed++ : unitFail(sourceFile, lineNumber);
   unitReportProgress(failed, passed);
 }
 

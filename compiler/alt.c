@@ -145,7 +145,7 @@ static void generateAlternative(AltNod *alt)
   else {
     alt->stmadr = emadr();
     generateStatements(alt->stms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
   
   /* Then possible CHECKs */

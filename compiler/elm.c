@@ -32,7 +32,7 @@ static int level = 0;
 
 
 /*======================================================================*/
-Element *newElment(Srcp *srcp,	/* IN - Source Position */
+Element *newElement(Srcp *srcp,	/* IN - Source Position */
 		   ElementKind kind, /* IN - Kind of element (parm or word) */
 		   IdNode *id,	/* IN - The name */
 		   int flags)	/* IN - Flags for omni/multiple... */

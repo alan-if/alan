@@ -93,15 +93,15 @@ Aword generateChecks(List *chks)
     chks->element.chk->expadr = 0;
     chks->element.chk->stmadr = emadr();
     generateStatements(chks->element.chk->stms);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
       lst->element.chk->expadr = emadr();
       generateExpression(lst->element.chk->exp);
-      emit0(C_STMOP, I_RETURN);
+      emit0(I_RETURN);
       lst->element.chk->stmadr = emadr();
       generateStatements(lst->element.chk->stms);
-      emit0(C_STMOP, I_RETURN);
+      emit0(I_RETURN);
     }
 
   /* Then generate a check table */

@@ -105,7 +105,7 @@ static void generateLimit(LimNod *lim, int cnt)
   /* Generate statements */
   lim->stmadr = emadr();	/* Save ACODE address to statements */
   generateStatements(lim->stms);
-  emit0(C_STMOP, I_RETURN);
+  emit0(I_RETURN);
 }
 
 

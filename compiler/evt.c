@@ -101,7 +101,7 @@ static void generateEvent(EvtNod *evt)	/* IN - The event to generate */
     evt->namadr = 0;
   evt->stmadr = emadr();
   generateStatements(evt->stms);
-  emit0(C_STMOP, I_RETURN);
+  emit0(I_RETURN);
 }
 
 

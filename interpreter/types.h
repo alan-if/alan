@@ -37,7 +37,7 @@
 
 #define pointerTo(x) ((void *)&memory[x])
 
-/* The word classes are represented as numbers but in the dictonary they are generated as bits */
+/* Word classes are numbers but in the dictonary they are generated as bits */
 #define isVerb(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_VRB))!=0)
 #define isConj(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_CONJ))!=0)
 #define isBut(word) (word < dictsize && (dict[word].class&((Aword)1L<<WRD_BUT))!=0)

@@ -171,7 +171,7 @@ static Aaddr generateExitStatements(ExtNod *ext)
     return(0);
   
   generateStatements(ext->stms);
-  emit0(C_STMOP, I_RETURN);
+  emit0(I_RETURN);
   return(stmadr);
 }
 
@@ -217,7 +217,7 @@ Aaddr generateExits(List *exits)
     if (lst->element.ext->chks != NULL)
       lst->element.ext->chkadr = generateChecks(lst->element.ext->chks);
     lst->element.ext->stmadr = generateExitStatements(lst->element.ext);
-    emit0(C_STMOP, I_RETURN);
+    emit0(I_RETURN);
   }
   
   extadr = emadr();

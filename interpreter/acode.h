@@ -155,8 +155,8 @@ typedef enum InstClass {
   I_SETLOCAL,
   I_GETLOCAL,
   I_ENDBLOCK,
-  I_FOR,
-  I_ENDFOR
+  I_EACH,
+  I_ENDEACH
 } InstClass;
 
 

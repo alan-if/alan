@@ -71,16 +71,16 @@ void generateWhat(What *wht)
 {
   switch (wht->kind) {
   case WHAT_LOCATION:
-    emit0(C_CURVAR, V_CURLOC);
+    emitVariable(V_CURLOC);
     break;
   case WHAT_ACTOR:
-    emit0(C_CURVAR, V_CURACT);
+    emitVariable(V_CURACT);
     break;
   case WHAT_ID:
     generateId(wht->id);
     break;
   case WHAT_THIS:
-    emit0(C_CURVAR, V_CURRENT_INSTANCE);
+    emitVariable(V_CURRENT_INSTANCE);
     break;
   default:
     syserr("Unexpected case in generateWhat()");

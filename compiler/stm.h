@@ -44,7 +44,8 @@ typedef enum StmKind {		/* STATEMENT kinds */
   USE_STATEMENT,
   SYSTEM_STATEMENT,
   DEPEND_STATEMENT,
-  DEPENDCASE_STATEMENT
+  DEPENDCASE_STATEMENT,
+  EACH_STATEMENT
 } StmKind;
     
 
@@ -143,6 +144,10 @@ typedef struct StmNod {		/* STATEMENT */
       Expression *exp;		/* The partial right hand expression */
       List *stms;
     } depcase;
+
+    struct {			/* EACH */
+      List *stms;
+    } each;
 
   } fields;
 } StmNod;

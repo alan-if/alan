@@ -100,14 +100,8 @@ static void insertSymbol(Symbol *symbol)
 }
 
 
-/*----------------------------------------------------------------------
-
-  symbolKind()
-
-  Return a pointer to a string representation of the SymbolKind
-
-  */
-static char *symbolKind(SymbolKind kind)
+/*----------------------------------------------------------------------*/
+static char *symbolKindAsString(SymbolKind kind)
 {
   switch (kind) {
   case CLASS_SYMBOL: return "a class";
@@ -120,11 +114,7 @@ static char *symbolKind(SymbolKind kind)
 
 
 
-/*----------------------------------------------------------------------
-
-  newParameterSymbol()
-
-  */
+/*----------------------------------------------------------------------*/
 static Symbol *newParameterSymbol(char *string, Element *element)
 {
   Symbol *new;                  /* The newly created symnod */
@@ -144,13 +134,7 @@ static Symbol *newParameterSymbol(char *string, Element *element)
 }
 
 
-/*======================================================================
-
-  newSymbol()
-
-  Creates a new symnod and links it in the symbolTree.
-
-  */
+/*======================================================================*/
 Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
 		  SymbolKind kind) /* IN - What kind of symbol */
 {
@@ -200,13 +184,7 @@ Symbol *newSymbol(IdNode *id,	/* IN - Name of the new symbol */
 
 
 
-/*======================================================================
-
-  initSymbols()
-
-  Initialise the symbol table;
-
-  */
+/*======================================================================*/
 void initSymbols()
 {
   symbolTree = NULL;
@@ -216,13 +194,7 @@ void initSymbols()
 }
 
 
-/*----------------------------------------------------------------------
-
-  lookupInParameterList()
-
-  Look for a symbol. If found return a pointer to its symnod, else NULL.
-
-  */
+/*----------------------------------------------------------------------*/
 static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 {
   List *l;
@@ -400,7 +372,7 @@ Symbol *symcheck(IdNode *id,
     if (sym->fields.parameter.element->kind != ID_RESTRICTION)
       lmLogv(&id->srcp, 319, sevERR, id->string, "a parameter that is restricted to instances of a class", NULL);      
   } else if (sym->kind != kind) {
-    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKind(kind), NULL);
+    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindAsString(kind), NULL);
     return NULL;
   }
 

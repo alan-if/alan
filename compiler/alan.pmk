@@ -107,7 +107,7 @@ static int val(char str[])
   descriptionCheck %% List *%1%%,	-- of Checks: descriptionCheck-clause,
   descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
   descriptionSrcp %% Srcp %1%%,
-  elm %% ElmNod *%1%%,
+  elm %% Element *%1%%,
   elms %% List *%1%%,
   evt %% EvtNod *%1%%,
   evts %% List *%1%%,
@@ -147,7 +147,7 @@ static int val(char str[])
   stp %% Step *%1%%,
   stps %% List *%1%%,
   str %% char *%1%%,
-  stx %% StxNod *%1%%,
+  stx %% Syntax *%1%%,
   stxs %% List *%1%%,
   syn %% SynNod *%1%%,
   syns %% List *%1%%,
@@ -375,14 +375,15 @@ static int val(char str[])
 <syntax_item>
     = ID '=' <syntax_elements> <optional_class_restrictions>
     %%
-	%<syntax_item>.stx = newstx(`&%'='.srcp,
-				  %ID.id,
-				  concat(%<syntax_elements>.elms,
-				         newelm(`&%ID.id->srcp, END_OF_SYNTAX,
-				                NULL,
-				                FALSE),
-				         ELEMENT_LIST),
-				  %<optional_class_restrictions>.ress);
+	%<syntax_item>.stx = newSyntax(`&%'='.srcp,
+				  	%ID.id,
+				  	concat(%<syntax_elements>.elms,
+				        	newElement(`&%ID.id->srcp,
+							   END_OF_SYNTAX,
+							   NULL,
+							   FALSE),
+						ELEMENT_LIST),
+					%<optional_class_restrictions>.ress);
     %%
     ;
 
@@ -403,17 +404,17 @@ static int val(char str[])
 <syntax_element>
     = ID
     %%
-	%<syntax_element>.elm = newelm(`&%ID.id->srcp, WORD_ELEMENT,
-				     %ID.id,
-				     FALSE);
+	%<syntax_element>.elm = newElement(`&%ID.id->srcp, WORD_ELEMENT,
+					   %ID.id,
+					   FALSE);
     %%
 
     ! '(' ID ')' <optional_indicators>
 
     %%
-	%<syntax_element>.elm = newelm(`&%ID.id->srcp, PARAMETER_ELEMENT,
-				     %ID.id,
-				     %<optional_indicators>.bits);
+	%<syntax_element>.elm = newElement(`&%ID.id->srcp, PARAMETER_ELEMENT,
+					   %ID.id,
+					   %<optional_indicators>.bits);
     %%
     ;
 
@@ -1315,9 +1316,14 @@ static int val(char str[])
 	%<statement>.stm = %<assignment_statement>.stm;
     %%
 
-    ! <comparison_statement>
+    ! <conditional_statement>
     %%
-	%<statement>.stm = %<comparison_statement>.stm;
+	%<statement>.stm = %<conditional_statement>.stm;
+    %%
+
+    ! <repetition_statement>
+    %%
+	%<statement>.stm = %<repetition_statement>.stm;
     %%
 
     ! <actor_statement>
@@ -1363,58 +1369,6 @@ static int val(char str[])
 	%<output_statement>.stm->fields.list.wht = %<what>.wht;
     %%	  
     ;
-
-<special_statement>	-- RETURNS: stm
-    = 'QUIT' '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'QUIT'.srcp, QUIT_STATEMENT);
-    %%
-
-    ! 'LOOK' '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'LOOK'.srcp, LOOK_STATEMENT);
-    %%
-
-    ! 'SAVE' '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'SAVE'.srcp, SAVE_STATEMENT);
-    %%
-
-    ! 'RESTORE' '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, RESTORE_STATEMENT);
-    %%
-
-    ! 'RESTART' '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, RESTART_STATEMENT);
-    %%
-
-    ! 'SCORE' <optional_integer> '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'SCORE'.srcp, SCORE_STATEMENT);
-	if (%<optional_integer>.str != NULL) {
-	    %<special_statement>.stm->fields.score.score =
-						val(%<optional_integer>.str);
-	    %<special_statement>.stm->fields.score.count = ++scocnt;
-	} else
-	    %<special_statement>.stm->fields.score.count = 0;
-    %%
-
-    ! 'VISITS' Integer '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, VISITS_STATEMENT);
-	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
-    %%
-
-    ! 'SYSTEM' STRING '.'
-    %%
-	%<special_statement>.stm = newstm(`&%'SYSTEM'.srcp, SYSTEM_STATEMENT);
-	%<special_statement>.stm->fields.system.fpos = %STRING.fpos;
-	%<special_statement>.stm->fields.system.len = %STRING.len;
-    %%
-    ;
-	
 
 ----> Manipulation Statements
 <manipulation_statement>			-- RETURNS: stm
@@ -1500,16 +1454,16 @@ static int val(char str[])
     ;
 
 
-----> Comparison Statements
-<comparison_statement>
+----> Conditional Statements
+<conditional_statement>
     = <if_statement>
     %%
-	%<comparison_statement>.stm = %<if_statement>.stm;
+	%<conditional_statement>.stm = %<if_statement>.stm;
     %%
 
     ! <depending_statement>
     %%
-	%<comparison_statement>.stm = %<depending_statement>.stm;
+	%<conditional_statement>.stm = %<depending_statement>.stm;
     %%
     ;
 
@@ -1627,6 +1581,22 @@ static int val(char str[])
     %%
     ;
 
+----> Repetition statement
+<repetition_statement>			-- RETURNS: stm
+    = 'FOR' 'EACH' ID [ ':' ID ] 'DO' <statements> 'END' <for_each> ['.']
+    %%
+	%<repetition_statement>.stm = newstm(`&%'FOR'.srcp, EACH_STATEMENT);
+	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
+    %%
+    ;
+
+
+<for_each>
+    = 'FOR'
+    ! 'EACH'
+    ! 'FOR' 'EACH'
+    ;
+
 ----> Actor statement
 <actor_statement>			-- RETURNS: stm
     = 'USE' 'SCRIPT' ID <optional_for_actor> '.'
@@ -1649,6 +1619,58 @@ static int val(char str[])
     %%
     ;
 
+
+<special_statement>	-- RETURNS: stm
+    = 'QUIT' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'QUIT'.srcp, QUIT_STATEMENT);
+    %%
+
+    ! 'LOOK' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'LOOK'.srcp, LOOK_STATEMENT);
+    %%
+
+    ! 'SAVE' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'SAVE'.srcp, SAVE_STATEMENT);
+    %%
+
+    ! 'RESTORE' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'RESTORE'.srcp, RESTORE_STATEMENT);
+    %%
+
+    ! 'RESTART' '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'RESTART'.srcp, RESTART_STATEMENT);
+    %%
+
+    ! 'SCORE' <optional_integer> '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'SCORE'.srcp, SCORE_STATEMENT);
+	if (%<optional_integer>.str != NULL) {
+	    %<special_statement>.stm->fields.score.score =
+						val(%<optional_integer>.str);
+	    %<special_statement>.stm->fields.score.count = ++scocnt;
+	} else
+	    %<special_statement>.stm->fields.score.count = 0;
+    %%
+
+    ! 'VISITS' Integer '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'VISITS'.srcp, VISITS_STATEMENT);
+	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
+    %%
+
+    ! 'SYSTEM' STRING '.'
+    %%
+	%<special_statement>.stm = newstm(`&%'SYSTEM'.srcp, SYSTEM_STATEMENT);
+	%<special_statement>.stm->fields.system.fpos = %STRING.fpos;
+	%<special_statement>.stm->fields.system.len = %STRING.len;
+    %%
+    ;
+	
 
 ---> EXPRESSIONS
 <expression>		-- RETURNS: exp

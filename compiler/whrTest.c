@@ -16,9 +16,9 @@ void testInitialLocation()
 
   symbolizeInstance(atLoc);
   symbolizeWhere(whr);
-  unitAssert(generateInitialLocation(NULL) == 0);
+  ASSERT(generateInitialLocation(NULL) == 0);
 
-  unitAssert(generateInitialLocation(whr) == atLoc->props->id->symbol->code);
+  ASSERT(generateInitialLocation(whr) == atLoc->props->id->symbol->code);
 }
 
 void registerWhrUnitTests()

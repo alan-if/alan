@@ -1,0 +1,21 @@
+########## alan unknownParameter ##########
+
+
+unknownParameter.alan
+
+    8.    Where io Isa container
+=====>          1
+
+  *1*   222 E : Identifier 'io' in class restriction is not a parameter.
+
+   14.        Locate direct In indirect.
+=====>                         1
+
+  *1*   312 E : Parameter 'indirect' not uniquely defined as a container, which
+                is required.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

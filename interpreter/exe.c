@@ -1052,15 +1052,16 @@ void say(id)
 }
 
 
-/*----------------------------------------------------------------------
+/***********************************************************************\
 
   Description Handling
 
-  */
+\***********************************************************************/
 
 
 FORWARD void list(Aword cnt);
 
+/*----------------------------------------------------------------------*/
 static Boolean inheritedDescriptionCheck(Aint classId)
 {
   if (classId == 0) return TRUE;
@@ -1069,6 +1070,7 @@ static Boolean inheritedDescriptionCheck(Aint classId)
   return trycheck(class[classId].checks, TRUE);
 }
 
+/*----------------------------------------------------------------------*/
 static Boolean descriptionCheck(Aint instanceId)
 {
   if (inheritedDescriptionCheck(instance[instanceId].parent)) {
@@ -1078,7 +1080,7 @@ static Boolean descriptionCheck(Aint instanceId)
     return FALSE;
 }
 
-
+/*----------------------------------------------------------------------*/
 static Abool inheritsDescriptionFrom(Aword classId)
 {
   if (class[classId].description != 0)
@@ -1089,6 +1091,7 @@ static Abool inheritsDescriptionFrom(Aword classId)
     return FALSE;
 }  
 
+/*----------------------------------------------------------------------*/
 static Abool haveDescription(Aword instanceId)
 {
   if (instance[instanceId].description != 0)
@@ -1099,6 +1102,7 @@ static Abool haveDescription(Aword instanceId)
     return FALSE;
 }
 
+/*----------------------------------------------------------------------*/
 static void describeClass(Aword id)
 {
   if (class[id].description != 0) {
@@ -1112,6 +1116,7 @@ static void describeClass(Aword id)
 }
 
 
+/*----------------------------------------------------------------------*/
 static void describeAnything(Aword id)
 {
   if (instance[id].description != 0) {
@@ -1126,6 +1131,7 @@ static void describeAnything(Aword id)
 }
 
 
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 static void describeObject(Aword obj)
 #else
@@ -1149,6 +1155,7 @@ static void describeObject(obj)
 }
 
 
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 static void describeActor(Aword act)
 #else
@@ -1177,9 +1184,12 @@ static void describeActor(act)
   admin[act].alreadyDescribed = TRUE;
 }
 
+
+
 static Boolean descriptionOk;
 static Aword dscrstk[255];
 
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void describe(Aword id)
 #else
@@ -1220,6 +1230,7 @@ void describe(id)
 }
 
 
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void describeInstances(void)
 #else
@@ -1317,12 +1328,7 @@ void look()
 }
 
 
-/*----------------------------------------------------------------------
-
-  use()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void use(Aword act, Aword scr)
 #else
@@ -1414,12 +1420,7 @@ void list(cnt)
 }
 
 
-/*----------------------------------------------------------------------
-
-  empty()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void empty(Aword cnt, Aword whr)
 #else
@@ -1442,12 +1443,7 @@ void empty(cnt, whr)
 static char savfnm[256];
 
 
-/*----------------------------------------------------------------------
-
-  save()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void save(void)
 #else
@@ -1509,12 +1505,7 @@ void save()
 }
 
 
-/*----------------------------------------------------------------------
-
-  restore()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 void restore(void)
 #else
@@ -1593,12 +1584,7 @@ void restore()
 
 
 
-/*----------------------------------------------------------------------
-
-  rnd()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 Aword rnd(Aword from, Aword to)
 #else
@@ -1616,14 +1602,7 @@ Aword rnd(from, to)
 
 
 
-/*----------------------------------------------------------------------
-
-  btw()
-
-  BETWEEN 
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 Abool btw(Aint val, Aint low, Aint high)
 #else
@@ -1639,12 +1618,7 @@ Abool btw(val, low, high)
 
 
 
-/*----------------------------------------------------------------------
-
-  contains()
-
-  */
-
+/*----------------------------------------------------------------------*/
 #ifdef _PROTOTYPES_
 Aword contains(Aword string, Aword substring)
 #else

@@ -17,12 +17,12 @@ void testCreateIns()
   initAdventure();
 
   ins = newInstance(&srcp, id, parent, NULL);
-  unitAssert(equalSrcp(srcp, ins->srcp));
-  unitAssert(equalId(id, ins->props->id));
-  unitAssert(equalId(parent, ins->props->parentId));
+  ASSERT(equalSrcp(srcp, ins->srcp));
+  ASSERT(equalId(id, ins->props->id));
+  ASSERT(equalId(parent, ins->props->parentId));
 
   symbolizeInstance(ins);
-  unitAssert(readEcode() == 310 && readSev() == sevERR);
+  ASSERT(readEcode() == 310 && readSev() == sevERR);
 }
 
 
@@ -49,8 +49,8 @@ void testGenerateEmptyInstanceEntry()
 
   loadACD("unit.a3c");
   entry = (InstanceEntry *) &memory[entryAddress];
-  unitAssert(convertFromACD(entry->description) == 0);
-  unitAssert(convertFromACD(entry->parent) == 0);
+  ASSERT(convertFromACD(entry->description) == 0);
+  ASSERT(convertFromACD(entry->parent) == 0);
 }
 
 void testGenerateInstances()
@@ -68,9 +68,9 @@ void testGenerateInstances()
   symbolizeAdventure();
 
   address = generateInstanceTable();
-  unitAssert(address == firstAdr);
+  ASSERT(address == firstAdr);
   address = emadr();
-  unitAssert(address == firstAdr + 1/*EOF*/);
+  ASSERT(address == firstAdr + 1/*EOF*/);
 
   initAdventure();
   initEmit("unit.a3c");
@@ -83,22 +83,22 @@ void testGenerateInstances()
 
   /* End should be at the size of the table and one instance */
   address = emadr();
-  unitAssert(address == instanceTableAddress + instanceSize);
+  ASSERT(address == instanceTableAddress + instanceSize);
   acdHeader.size = address;
   terminateEmit();
   emitHeader();
 
   loadACD("unit.a3c");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
-  unitAssert(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
-  unitAssert(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
-  unitAssert(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
-  unitAssert(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
-  unitAssert(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
-  unitAssert(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
-  unitAssert(convertFromACD(instanceTable->article) == ins->props->articleAddress);
-  unitAssert(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
-  unitAssert(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
+  ASSERT(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
+  ASSERT(convertFromACD(instanceTable->idAddress) == ins->props->idAddress);
+  ASSERT(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
+  ASSERT(convertFromACD(instanceTable->attributes) == ins->props->attributeAddress);
+  ASSERT(convertFromACD(instanceTable->description) == ins->props->descriptionAddress);
+  ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
+  ASSERT(convertFromACD(instanceTable->article) == ins->props->articleAddress);
+  ASSERT(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
+  ASSERT(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
 }
 
 
@@ -107,14 +107,14 @@ void testHero()
   AcdHdr header;
 
   initAdventure();
-  unitAssert(theHero == NULL);
+  ASSERT(theHero == NULL);
   addHero();
-  unitAssert(theHero != NULL);
-  unitAssert(theHero->code != 0);
+  ASSERT(theHero != NULL);
+  ASSERT(theHero->code != 0);
   symbolizeAdventure();
-  unitAssert(inheritsFrom(theHero, lookup("actor")));
+  ASSERT(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
-  unitAssert(header.theHero == 1);
+  ASSERT(header.theHero == 1);
 }
 
 

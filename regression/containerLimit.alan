@@ -4,13 +4,13 @@ add to every thing
 end add to thing.
 
 
-Syntax put_in = put (do) 'in' (io)
-  Where io Isa container
+Syntax put_in = put (direct) 'in' (indirect)
+  Where indirect Isa container
     Else "You can only put things in containers"
 
 Verb put_in
   Does
-    Locate do In io.
+    Locate direct In indirect.
 End Verb.
 
 the jug isa object At aaa

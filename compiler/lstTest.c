@@ -14,16 +14,16 @@ void testLength()
 {
   List *aList = NULL;
 
-  unitAssert(length(aList) == 0);
+  ASSERT(length(aList) == 0);
 
   aList = concat(aList, newId(&nulsrcp, "id1"), ID_LIST);
-  unitAssert(length(aList) == 1);
+  ASSERT(length(aList) == 1);
 
   aList = concat(aList, newId(&nulsrcp, "id2"), ID_LIST);
-  unitAssert(length(aList) == 2);
+  ASSERT(length(aList) == 2);
 
   aList = concat(aList, newId(&nulsrcp, "id3"), ID_LIST);
-  unitAssert(length(aList) == 3);
+  ASSERT(length(aList) == 3);
 }
 
 void testInsert()
@@ -40,7 +40,7 @@ void testInsert()
 #endif
 
   insert(aList, anElement, ATTRIBUTE_LIST);
-  unitAssert(length(aList) == 2);
+  ASSERT(length(aList) == 2);
 }
 
 void testTailOf()
@@ -49,9 +49,9 @@ void testTailOf()
   List *listOfTwo = concat(concat(NULL, newId(&nulsrcp, "anId"), ID_LIST),
 			   newId(&nulsrcp, "anId"), ID_LIST);
 			   
-  unitAssert(tailOf(NULL) == NULL);
-  unitAssert(tailOf(listOfOne) == listOfOne);
-  unitAssert(tailOf(listOfTwo) == listOfTwo->next);
+  ASSERT(tailOf(NULL) == NULL);
+  ASSERT(tailOf(listOfOne) == listOfOne);
+  ASSERT(tailOf(listOfTwo) == listOfTwo->next);
 }
 
 void registerLstUnitTests()

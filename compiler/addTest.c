@@ -37,13 +37,13 @@ static void testMultipleAddAttribute()
 
   Symbol *aSymbol = lookup("aClassId");
 
-  unitAssert(length(aSymbol->fields.entity.props->attributes) == 0);
+  ASSERT(length(aSymbol->fields.entity.props->attributes) == 0);
 
   addAttributes(add1, aSymbol);
-  unitAssert(length(aSymbol->fields.entity.props->attributes) == 1);
+  ASSERT(length(aSymbol->fields.entity.props->attributes) == 1);
   
   addAttributes(add2, aSymbol);
-  unitAssert(length(aSymbol->fields.entity.props->attributes) == 2);
+  ASSERT(length(aSymbol->fields.entity.props->attributes) == 2);
   
 }
 

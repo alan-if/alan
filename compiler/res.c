@@ -120,8 +120,8 @@ static void analyzeRestriction(
   parameter = lookupParameter(res->parameterId, theVerb->fields.verb.parameterSymbols);
   if (parameter == NULL)
     lmLog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
-
-  resolveParameterClass(res, parameter);
+  else
+    resolveParameterClass(res, parameter);
 
   /* Analyse the statements to execute if the restrictions was not met */
   /* FIXME: we need to send the restriction inverted in the context also */
@@ -160,7 +160,7 @@ static void generateRestrictionParts(ResNod *res)
 {
   res->stmadr = emadr();
   generateStatements(res->stms);
-  emit0(C_STMOP, I_RETURN);
+  emit0(I_RETURN);
 }
 
 

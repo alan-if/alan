@@ -24,7 +24,8 @@ extern Syntax *newSyntax(Srcp *srcp,
 			 List *ress);
 
 /* Create a default syntax node */
-extern Syntax *defaultSyntax(char vrbstr[]);
+extern Syntax *defaultSyntax0(char vrbstr[]);
+extern Syntax *defaultSyntax1(char vrbstr[]);
 
 /* Compare parameter lists of two syntaxes */
 extern Bool eqparams(Syntax *stx1,

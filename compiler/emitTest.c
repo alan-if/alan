@@ -19,32 +19,32 @@ void testEmit()
 
   emit(0);
   expectedAddress += 1;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 
   emitString("123");
   expectedAddress += 1;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 
   emitString("1234");
   expectedAddress += 2;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 
-  emit0(C_STMOP, I_IF);
+  emit0(I_IF);
   expectedAddress += 1;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 
   emitN((Aword *)&emitTestArray, 5);
   expectedAddress += 5;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 
   emitEntry((Aword *)&emitTestArray, 6*4);
   expectedAddress += 6;
-  unitAssert(emadr() == expectedAddress);
+  ASSERT(emadr() == expectedAddress);
   expectedAddress = emadr();
 }
 
@@ -70,7 +70,7 @@ static void testEmitTextDataToAcodeFile()
   acdfil = fopen("emitTestAcode", READ_MODE);
   for (i = 0; i < strlen(textData); i ++)
     if (fgetc(acdfil) != textData[i]) {
-      unitAssert(FALSE);
+      ASSERT(FALSE);
     }
   fclose(acdfil);
   unlink(textDataFileName);

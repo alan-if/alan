@@ -36,24 +36,24 @@ void testSymCheck()
 
 
   foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
-  unitAssert(foundSymbol == NULL);
-  unitAssert(readEcode() == 310 && readSev() == sevERR);
+  ASSERT(foundSymbol == NULL);
+  ASSERT(readEcode() == 310 && readSev() == sevERR);
 
   foundSymbol = symcheck(aClassId, CLASS_SYMBOL, NULL);
-  unitAssert(foundSymbol == aClassSymbol);
+  ASSERT(foundSymbol == aClassSymbol);
 
   foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
-  unitAssert(foundSymbol == NULL);
-  unitAssert(readEcode() == 319 && readSev() == sevERR);
+  ASSERT(foundSymbol == NULL);
+  ASSERT(readEcode() == 319 && readSev() == sevERR);
 
   foundSymbol = symcheck(anInstanceId, INSTANCE_SYMBOL, NULL);
-  unitAssert(foundSymbol == anInstanceSymbol);
+  ASSERT(foundSymbol == anInstanceSymbol);
 }
 
 
 static List *createOneParameter(char *id)
 {
-  return concat(NULL, newElment(&nulsrcp, PARAMETER_ELEMENT,
+  return concat(NULL, newElement(&nulsrcp, PARAMETER_ELEMENT,
 			     newId(&nulsrcp, id), 0), ELEMENT_LIST);
 }
 
@@ -66,24 +66,24 @@ void testVerbSymbols()
   Context context;
 
   foundSymbol = lookup("v1");
-  unitAssert(foundSymbol == v1Symbol);
+  ASSERT(foundSymbol == v1Symbol);
 
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
-  unitAssert(v1Symbol->fields.verb.parameterSymbols != NULL);
+  ASSERT(v1Symbol->fields.verb.parameterSymbols != NULL);
   for (l = v1Symbol->fields.verb.parameterSymbols,
 	 p = parameters;
        l && p;
        l = l->next, p = p->next)
-    unitAssert(l->element.sym->fields.parameter.element == p->element.elm);
+    ASSERT(l->element.sym->fields.parameter.element == p->element.elm);
 
   foundSymbol = lookupInParameterList("p1", v1Symbol->fields.verb.parameterSymbols);
-  unitAssert(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
 
   context.kind = VERB_CONTEXT;
   context.verb = v1Symbol;
   foundSymbol = lookupInContext("p1", &context);
-  unitAssert(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
 
   
 }
@@ -103,9 +103,9 @@ void testBuildSymbol1()
   sym1 = newSymbol(symbolId1, CLASS_SYMBOL);
   sym2 = lookup(symbolName1);
 
-  unitAssert(sym1 == sym2);
-  unitAssert(strcmp(sym2->string, symbolName1) == 0);
-  unitAssert(sym2->kind == CLASS_SYMBOL);
+  ASSERT(sym1 == sym2);
+  ASSERT(strcmp(sym2->string, symbolName1) == 0);
+  ASSERT(sym2->kind == CLASS_SYMBOL);
 }
 
 
@@ -115,9 +115,9 @@ void testBuildSymbolHigher()
   Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
   Symbol *sym2 = lookup(symbolName2);
 
-  unitAssert(sym1 == sym2);
-  unitAssert(strcmp(sym2->string, symbolName2) == 0);
-  unitAssert(sym2->kind == CLASS_SYMBOL);
+  ASSERT(sym1 == sym2);
+  ASSERT(strcmp(sym2->string, symbolName2) == 0);
+  ASSERT(sym2->kind == CLASS_SYMBOL);
 }
 
 /* Test symbol table by inserting a symbol with a lower name */
@@ -126,9 +126,9 @@ void testBuildSymbolLower()
   Symbol *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
   Symbol *sym2 = lookup(symbolName3);
 
-  unitAssert(sym1 == sym2);
-  unitAssert(strcmp(sym2->string, symbolName3) == 0);
-  unitAssert(sym2->kind == CLASS_SYMBOL);
+  ASSERT(sym1 == sym2);
+  ASSERT(strcmp(sym2->string, symbolName3) == 0);
+  ASSERT(sym2->kind == CLASS_SYMBOL);
 }
 
 /* Test inheritance by setting it and retrieving it */
@@ -142,9 +142,9 @@ void testInherit1()
   setParent(sym1, sym2);
   setParent(sym2, sym3);
 
-  unitAssert(parentOf(sym1) == sym2);
-  unitAssert(parentOf(sym2) == sym3);
-  unitAssert(parentOf(sym3) == NULL);
+  ASSERT(parentOf(sym1) == sym2);
+  ASSERT(parentOf(sym2) == sym3);
+  ASSERT(parentOf(sym3) == NULL);
 }
 
 
@@ -155,21 +155,22 @@ void testInherit2()
   Symbol *sym2 = lookup(symbolName2);
   Symbol *sym3 = lookup(symbolName3);
 
-  unitAssert(!inheritsFrom(NULL, NULL));
+  ASSERT(!inheritsFrom(NULL, NULL));
 
-  unitAssert(inheritsFrom(sym1, sym2));
-  unitAssert(inheritsFrom(sym2, sym3));
-  unitAssert(inheritsFrom(sym1, sym3));
-  unitAssert(inheritsFrom(sym3, sym3));
+  ASSERT(inheritsFrom(sym1, sym2));
+  ASSERT(inheritsFrom(sym2, sym3));
+  ASSERT(inheritsFrom(sym1, sym3));
+  ASSERT(inheritsFrom(sym3, sym3));
 
-  unitAssert(!inheritsFrom(sym3, sym1));
-  unitAssert(!inheritsFrom(sym3, sym2));
+  ASSERT(!inheritsFrom(sym3, sym1));
+  ASSERT(!inheritsFrom(sym3, sym2));
 }
 
 
 /* Test symbol table initialisation */
 void testSymbolTableInit()
 {
+  Symbol *entitySymbol;
   Symbol *thingSymbol;
   Symbol *objectSymbol;
   Symbol *actorSymbol;
@@ -181,38 +182,42 @@ void testSymbolTableInit()
   
   initAdventure();
   adv.whr = NULL;
-  unitAssert(classCount == 4);	/* Standard classes */
-  unitAssert(instanceCount == 0);
+  ASSERT(classCount == 5);	/* Standard classes */
+  ASSERT(instanceCount == 0);
   addHero();
-  unitAssert(instanceCount == 1);
+  ASSERT(instanceCount == 1);
 
   symbolizeAdventure();
   thingSymbol = lookup("thing");
+  entitySymbol = lookup("entity");
   objectSymbol = lookup("object");
   actorSymbol = lookup("actor");
   locationSymbol = lookup("location");
 
-  unitAssert(thing->props->id->symbol == thingSymbol);
-  unitAssert(object->props->id->symbol == objectSymbol);
-  unitAssert(location->props->id->symbol == locationSymbol);
-  unitAssert(actor->props->id->symbol == actorSymbol);
+  ASSERT(entity->props->id->symbol == entitySymbol);
+  ASSERT(thing->props->id->symbol == thingSymbol);
+  ASSERT(object->props->id->symbol == objectSymbol);
+  ASSERT(location->props->id->symbol == locationSymbol);
+  ASSERT(actor->props->id->symbol == actorSymbol);
   
-  unitAssert(inheritsFrom(objectSymbol, thingSymbol));
-  unitAssert(inheritsFrom(locationSymbol, thingSymbol));
-  unitAssert(inheritsFrom(actorSymbol, thingSymbol));
-  unitAssert(inheritsFrom(thingSymbol, thingSymbol));
+  ASSERT(inheritsFrom(thingSymbol, entitySymbol));
+  ASSERT(inheritsFrom(thingSymbol, thingSymbol));
+  ASSERT(inheritsFrom(locationSymbol, entitySymbol));
+  ASSERT(inheritsFrom(objectSymbol, thingSymbol));
+  ASSERT(inheritsFrom(actorSymbol, thingSymbol));
 
   setParent(sym1, objectSymbol);
   setParent(sym2, actorSymbol);
   setParent(sym3, locationSymbol);
 
-  unitAssert(inheritsFrom(sym1, objectSymbol));
-  unitAssert(inheritsFrom(sym2, actorSymbol));
-  unitAssert(inheritsFrom(sym3, locationSymbol));
+  ASSERT(inheritsFrom(sym1, objectSymbol));
+  ASSERT(inheritsFrom(sym2, actorSymbol));
+  ASSERT(inheritsFrom(sym3, locationSymbol));
 
-  unitAssert(inheritsFrom(sym1, thingSymbol));
-  unitAssert(inheritsFrom(sym2, thingSymbol));
-  unitAssert(inheritsFrom(sym3, thingSymbol));
+  ASSERT(inheritsFrom(sym1, thingSymbol));
+  ASSERT(inheritsFrom(sym2, thingSymbol));
+  ASSERT(!inheritsFrom(sym3, thingSymbol));
+  ASSERT(inheritsFrom(sym3, entitySymbol));
 
 }
 
@@ -233,11 +238,11 @@ void testCreateClassSymbol()
   sym = lookup("cla");
   obj = lookup("object");
 
-  unitAssert(sym != NULL);
-  unitAssert(obj != NULL);
-  unitAssert(strcmp(sym->string, "cla") == 0);
-  unitAssert(strcmp(obj->string, "object") == 0);
-  unitAssert(inheritsFrom(sym, obj));
+  ASSERT(sym != NULL);
+  ASSERT(obj != NULL);
+  ASSERT(strcmp(sym->string, "cla") == 0);
+  ASSERT(strcmp(obj->string, "object") == 0);
+  ASSERT(inheritsFrom(sym, obj));
 }
 
 static void testLookupScript()
@@ -270,15 +275,15 @@ static void testLookupScript()
   instanceSymbol->fields.entity.props = NEW(Properties);
   instanceSymbol->fields.entity.props->scripts = instanceScripts;
 
-  unitAssert(lookupScript(classSymbol, notAScriptId) == NULL);
-  unitAssert(lookupScript(classSymbol, script1Id) == &script1);
-  unitAssert(lookupScript(classSymbol, script2Id) == &script2);
+  ASSERT(lookupScript(classSymbol, notAScriptId) == NULL);
+  ASSERT(lookupScript(classSymbol, script1Id) == &script1);
+  ASSERT(lookupScript(classSymbol, script2Id) == &script2);
 
-  unitAssert(lookupScript(instanceSymbol, notAScriptId) == NULL);
-  unitAssert(lookupScript(instanceSymbol, script1Id) == &script1);
-  unitAssert(lookupScript(instanceSymbol, script2Id) == &script2);
-  unitAssert(lookupScript(instanceSymbol, script3Id) == &script3);
-  unitAssert(lookupScript(instanceSymbol, script4Id) == &script4);
+  ASSERT(lookupScript(instanceSymbol, notAScriptId) == NULL);
+  ASSERT(lookupScript(instanceSymbol, script1Id) == &script1);
+  ASSERT(lookupScript(instanceSymbol, script2Id) == &script2);
+  ASSERT(lookupScript(instanceSymbol, script3Id) == &script3);
+  ASSERT(lookupScript(instanceSymbol, script4Id) == &script4);
 }
 
 

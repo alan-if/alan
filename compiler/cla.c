@@ -26,7 +26,7 @@
 
 /* PUBLIC DATA */
 
-ClaNod *thing, *object, *location, *actor;
+ClaNod *entity, *thing, *object, *location, *actor;
 
 
 
@@ -36,25 +36,27 @@ static List *allClasses = NULL;
 
 
 
-/*======================================================================
-
-  initClasses()
-
-*/
+/*======================================================================*/
 void initClasses()
 {
   IdNode *thingId = newId(&nulsrcp, "thing");
+  IdNode *entityId = newId(&nulsrcp, "entity");
 
   allClasses = NULL;
 
-  thing = newClass(&nulsrcp, thingId, NULL, NULL);
+  entity = newClass(&nulsrcp, entityId, NULL, NULL);
+
+  location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
+		      entityId, NULL);
+  locationSymbol = location->props->id->symbol;
+
+  thing = newClass(&nulsrcp, thingId, entityId, NULL);
   thingSymbol = thing->props->id->symbol;
+
   object = newClass(&nulsrcp, newId(&nulsrcp, "object"),
 		    thingId, NULL);
   objectSymbol = object->props->id->symbol;
-  location = newClass(&nulsrcp, newId(&nulsrcp, "location"),
-		      thingId, NULL);
-  locationSymbol = location->props->id->symbol;
+
   actor = newClass(&nulsrcp, newId(&nulsrcp, "actor"),
 		   thingId, NULL);
   actorSymbol = actor->props->id->symbol;

@@ -34,10 +34,10 @@ void testGetString()
   header->pack = FALSE;
   header->stringOffset = 0;
   getstr(fpos, strlen(testString));
-  unitAssert(strcmp((char *)pop(), testString)==0);
+  ASSERT(strcmp((char *)pop(), testString)==0);
   header->stringOffset = 1;
   getstr(fpos, strlen(testString)-1);
-  unitAssert(strcmp((char *)pop(), &testString[1])==0);
+  ASSERT(strcmp((char *)pop(), &testString[1])==0);
   fclose(txtfil);
   unlink(testFileName);
 }

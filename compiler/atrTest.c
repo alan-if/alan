@@ -19,7 +19,7 @@ void testMultipleAtr()
 
   readEcode();
   analyzeAttributes(attributeList);
-  unitAssert(readEcode() == 218 && readSev() == sevERR);
+  ASSERT(readEcode() == 218 && readSev() == sevERR);
 }
 
 
@@ -33,20 +33,20 @@ void testFindInList()
 				    0, 0, 0);
 
   /* Test empty list */
-  unitAssert(findAttribute(attributes, id) == NULL);
+  ASSERT(findAttribute(attributes, id) == NULL);
 
   /* Test one element */
   attributes = concat(attributes, theAttribute, ATTRIBUTE_LIST);
-  unitAssert(findAttribute(attributes, id) == theAttribute);
+  ASSERT(findAttribute(attributes, id) == theAttribute);
 
   /* Test last element */
   attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
   attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
-  unitAssert(findAttribute(attributes, id) == theAttribute);
+  ASSERT(findAttribute(attributes, id) == theAttribute);
 
   /* Test in the middle */
   attributes = concat(attributes, anotherAttribute, ATTRIBUTE_LIST);
-  unitAssert(findAttribute(attributes, id) == theAttribute);
+  ASSERT(findAttribute(attributes, id) == theAttribute);
 }
 
 static ClaNod *createClass(char string[], List *attributes)
@@ -112,20 +112,20 @@ void testCombineAttributes()
   List *inheritedList = create2Attributes("y", "z");
   List *theCombinedList;
 
-  unitAssert(combineAttributes(NULL, NULL) == NULL);
+  ASSERT(combineAttributes(NULL, NULL) == NULL);
 
   numberTheAttributes(ownList, 1, 2);
   numberTheAttributes(inheritedList, 2, 3);
   theCombinedList = combineAttributes(ownList, NULL);
-  unitAssert(length(theCombinedList) == length(ownList));
-  unitAssert(theCombinedList == ownList);
+  ASSERT(length(theCombinedList) == length(ownList));
+  ASSERT(theCombinedList == ownList);
 
   theCombinedList = combineAttributes(NULL, inheritedList);
-  unitAssert(length(theCombinedList) == length(inheritedList));
-  unitAssert(equalLists(theCombinedList, inheritedList));
+  ASSERT(length(theCombinedList) == length(inheritedList));
+  ASSERT(equalLists(theCombinedList, inheritedList));
 
   theCombinedList = combineAttributes(ownList, inheritedList);
-  unitAssert(length(theCombinedList) == 3);
+  ASSERT(length(theCombinedList) == 3);
 }
 
 
@@ -146,9 +146,9 @@ void testAttributeListsInSymbolTable()
   secondClass = createClass("secondClass", secondClassAttributes);
 
   firstClassSymbol = lookup("firstClass");
-  unitAssert(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
+  ASSERT(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
-  unitAssert(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
+  ASSERT(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
   
   firstInstanceAttributes = create2Attributes("a11", "a12");
   secondInstanceAttributes = create2Attributes("a1", "a22");
@@ -157,9 +157,9 @@ void testAttributeListsInSymbolTable()
   secondInstance = createInstance("secondInstance", secondInstanceAttributes);
 
   firstInstanceSymbol = lookup("firstInstance");
-  unitAssert(firstInstanceSymbol->fields.entity.props->attributes == firstInstanceAttributes);
+  ASSERT(firstInstanceSymbol->fields.entity.props->attributes == firstInstanceAttributes);
   secondInstanceSymbol = lookup("secondInstance");
-  unitAssert(secondInstanceSymbol->fields.entity.props->attributes == secondInstanceAttributes);
+  ASSERT(secondInstanceSymbol->fields.entity.props->attributes == secondInstanceAttributes);
 
   /* Now set up a class hierarchy:
   location
@@ -177,29 +177,29 @@ void testAttributeListsInSymbolTable()
 
   numberAllAttributes();
 
-  unitAssert(attributeCode(firstClass->props, "a1") != 0);
-  unitAssert(attributeCode(firstClass->props, "a12") != 0);
-  unitAssert(attributeCode(secondClass->props, "a1") != 0);
-  unitAssert(attributeCode(secondClass->props, "a21") != 0);
-  unitAssert(attributeCode(firstInstance->props, "a11") != 0);
-  unitAssert(attributeCode(firstInstance->props, "a12") != 0);
-  unitAssert(attributeCode(secondInstance->props, "a1") != 0);
-  unitAssert(attributeCode(secondInstance->props, "a22") != 0);
+  ASSERT(attributeCode(firstClass->props, "a1") != 0);
+  ASSERT(attributeCode(firstClass->props, "a12") != 0);
+  ASSERT(attributeCode(secondClass->props, "a1") != 0);
+  ASSERT(attributeCode(secondClass->props, "a21") != 0);
+  ASSERT(attributeCode(firstInstance->props, "a11") != 0);
+  ASSERT(attributeCode(firstInstance->props, "a12") != 0);
+  ASSERT(attributeCode(secondInstance->props, "a1") != 0);
+  ASSERT(attributeCode(secondInstance->props, "a22") != 0);
 
-  unitAssert(attributeCode(firstClass->props, "a1") != attributeCode(firstClass->props, "a12"));
-  unitAssert(attributeCode(secondClass->props, "a1") != attributeCode(secondClass->props, "a21"));
-  unitAssert(attributeCode(firstInstance->props, "a11") != attributeCode(firstInstance->props, "a12"));
-  unitAssert(attributeCode(secondInstance->props, "a1") != attributeCode(secondInstance->props, "a22"));
+  ASSERT(attributeCode(firstClass->props, "a1") != attributeCode(firstClass->props, "a12"));
+  ASSERT(attributeCode(secondClass->props, "a1") != attributeCode(secondClass->props, "a21"));
+  ASSERT(attributeCode(firstInstance->props, "a11") != attributeCode(firstInstance->props, "a12"));
+  ASSERT(attributeCode(secondInstance->props, "a1") != attributeCode(secondInstance->props, "a22"));
 
   x = attributeCode(firstClass->props, "a1");
-  unitAssert(attributeCode(secondClass->props, "a1") == x);
-  unitAssert(attributeCode(secondInstance->props, "a1") == x);
+  ASSERT(attributeCode(secondClass->props, "a1") == x);
+  ASSERT(attributeCode(secondInstance->props, "a1") == x);
 
   y = attributeCode(firstClass->props, "a12");
-  unitAssert(attributeCode(firstInstance->props, "a12") == y);
+  ASSERT(attributeCode(firstInstance->props, "a12") == y);
 
   z = attributeCode(secondClass->props, "a21");
-  unitAssert(attributeCode(secondInstance->props, "a22") != z);
+  ASSERT(attributeCode(secondInstance->props, "a22") != z);
 }
 
 
@@ -242,21 +242,21 @@ void testSortAttributes()
   List *attributeList = concat(NULL, newAttribute(&nulsrcp, BOOLEAN_TYPE, newId(&nulsrcp, "a"), 0, 0, 0), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
-  unitAssert(sortAttributes(NULL) == NULL);
-  unitAssert(sortAttributes(attributeList) == originalList);
+  ASSERT(sortAttributes(NULL) == NULL);
+  ASSERT(sortAttributes(attributeList) == originalList);
 
   attributeList = combine(attributeList, create2Attributes("x", "y"));
   numberAttributes123(attributeList);
   attributeList = sortAttributes(attributeList);
-  unitAssert(attributesAreSorted(attributeList));
+  ASSERT(attributesAreSorted(attributeList));
 
   numberAttributes321(attributeList);
   attributeList = sortAttributes(attributeList);
-  unitAssert(attributesAreSorted(attributeList));
+  ASSERT(attributesAreSorted(attributeList));
 
   numberAttributes231(attributeList);
   attributeList = sortAttributes(attributeList);
-  unitAssert(attributesAreSorted(attributeList));
+  ASSERT(attributesAreSorted(attributeList));
 }
 
 void testGenerateAttributes()
@@ -275,7 +275,7 @@ void testGenerateAttributes()
      only generate 2.
   */
   address = generateAttributes(firstInstance->props->attributes);
-  unitAssert(emadr() == address + 2*attributeEntrySize + 1);
+  ASSERT(emadr() == address + 2*attributeEntrySize + 1);
 }
 
 static void testResolveThisAttributeForClass()
@@ -289,7 +289,7 @@ static void testResolveThisAttributeForClass()
   Attribute *theResolvedAttribute;
 
   theResolvedAttribute = resolveThisAttribute(newId(&nulsrcp, "x"), &context);
-  unitAssert(theResolvedAttribute == theAttributes->element.atr);
+  ASSERT(theResolvedAttribute == theAttributes->element.atr);
 }
 
 void registerAtrUnitTests()

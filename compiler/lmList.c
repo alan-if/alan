@@ -112,11 +112,13 @@ static lmMsgs msg[] = {
     { "216   ", "Parameter \'%1\' multiply defined in this SYNTAX." },
     { "217   ", "Only one multiple parameter allowed for each syntax. This one ignored." },
     { "218   ", "Multiple definition of attribute \'%1\'." },
+    { "219   ", "Global verbs can not have parameters." },
     { "220   ", "Multiple definition of verb \'%1\' in this context." },
     { "221   ", "Multiple class restriction for parameter \'%1\'." },
-    { "222   ", "Identifier \'%1\' in class definition is not a parameter." },
+    { "222   ", "Identifier \'%1\' in class restriction is not a parameter." },
     { "223   ", "Unknown message identifier." },
-    { "230   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
+    { "230   ", "No syntax defined for this global verb, assumed \'%1\'." },
+    { "231   ", "No syntax defined for this verb, assumed \'%1 (object)\'." },
     { "301   ", "\'%1\' already declared as a Direction." },
     { "303   ", "\'%1\' already declared as a Verb." },
     { "304   ", "\'%1\' already declared as an Instance (The)." },
@@ -187,7 +189,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 107}
+    {0, 109}
 };
 static lmMessages currMsect = (lmMessages)0;
 

@@ -3,7 +3,7 @@ Syntax y = y (x)
   Where x Isa Thing
     Else Say x Of This.
 
-Verb y
+Verb z
   Does
     Say x Of This.
 End Verb.

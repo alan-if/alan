@@ -33,3 +33,8 @@ Context *pushContext(Context *previous)
   return new;
 }
 
+/*======================================================================*/
+Bool inEntityContext(Context *context)
+{
+  return (context->instance != NULL || context->class != NULL);
+}

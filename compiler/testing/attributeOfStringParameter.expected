@@ -3,8 +3,8 @@
 
 attributeOfStringParameter.alan
 
-    6.      "You s" Say x Of s.
-=====>                  1
+    7.        "You s" Say x Of s.
+=====>                    1
 
   *1*   406 E : Integer and String parameters have no attributes.
 
