@@ -2,6 +2,7 @@
 $include 'look.i'
 $include 'take.i'
 $include 'open.i'
+$include 'lock.i'
 $include 'eat.i'
 $include 'throw.i'
 $include 'push.i'

@@ -1,16 +1,19 @@
-SYNTAX
-    'quit' = 'quit'.
+SYNONYMS
+	q = quit.
 
-VERB 'quit'
+SYNTAX
+    quit = quit.
+
+VERB quit
     DOES
     	QUIT.
 END VERB.
 
 
 SYNTAX
-    'save' = 'save'.
+    save = save.
 
-VERB 'save'
+VERB save
     DOES
 	SAVE.
 	"Done."
@@ -18,9 +21,9 @@ END VERB.
 
 
 SYNTAX
-    'restore' = 'restore'.
+    restore = restore.
 
-VERB 'restore'
+VERB restore
     DOES
     	RESTORE.
     	"Done.$n"
@@ -38,12 +41,12 @@ END VERB 'score'.
 
 
 SYNONYMS
-    z = 'wait'.
+    z = wait.
 
 SYNTAX
-    'wait' = 'wait'.
+    wait = wait.
 
-VERB 'wait'
+VERB wait
     DOES
     	"Time passes..."
 END VERB.

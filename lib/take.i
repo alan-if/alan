@@ -1,8 +1,8 @@
-OBJECT ATTRIBUTES
+ gorfo@ida.liu.seOBJECT ATTRIBUTES
 	takeable.
 
 SYNONYMS
-	grab, get = take.
+	carry, obtain, grab, steal, confiscate, hold = take.
 
 SYNTAX
 	take = take (obj) *
@@ -40,6 +40,9 @@ VERB pick_up1, pick_up2
 		"Taken."
 END VERB.
 
+
+SYNONYMS
+	discard = drop.
 
 SYNTAX
 	drop = drop (obj) *.
