@@ -6,20 +6,14 @@ pot.alan
    16.      Does
 =====>      1
 
-  *1*   223 W : This Verb body will be executed for every matching parameter in
-                the syntax for 'plant', depending on the parameter
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'plant', depending on the parameter
                 restrictions. You might want to use a WHEN clause to specify
                 for which parameter this alternative is to be run.
 
 
-
-
-        320 W : Word 'plant' belongs to multiple word classes (adjective and
-                verb).
-
-
         No detected errors.
-        2 warning(s).
+        1 warning(s).
 
 
 Try 'x' on the objects, then 'plant the pot plant in the plant pot'.
