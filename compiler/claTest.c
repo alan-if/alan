@@ -5,6 +5,7 @@
 \*======================================================================*/
 
 #include "cla.c"
+#include "ins.h"
 
 
 void testCreateCla()
@@ -12,8 +13,9 @@ void testCreateCla()
   Srcp srcp = {1,2,3};
   IdNode *id = newId(&srcp, "claId");
   IdNode *heritage = newId(&srcp, "heritageId");
+  InsNod *ins;
 
-  /* Create a class with unkown inheritance */
+  /* Create a class with unknown inheritance */
   ClaNod *cla = newcla(&srcp, id, heritage, NULL);
 
   unitAssert(equalSrcp(cla->srcp, srcp));
@@ -21,7 +23,12 @@ void testCreateCla()
   unitAssert(equalId(cla->heritage, heritage));
 
   symbolizeClasses();
-  unitAssert(lastEcode == 350 && lastSev == sevERR);
+  unitAssert(readEcode() == 310 && readSev() == sevERR);
+
+  /* Add the inheritance id, resymbolize */
+  ins = newins(&srcp, heritage, NULL, NULL);
+  symbolizeClasses();
+  unitAssert(readEcode() == 350 && readSev() == sevERR);
 }
 
 

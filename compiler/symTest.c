@@ -31,13 +31,11 @@ void testSymCheck()
 
   foundSymbol = symcheck(&elm, unknownId, CLASS_SYMBOL, NULL);
   unitAssert(foundSymbol == NULL);
-  unitAssert(lastEcode == 310); /* Unknown id */
-  unitAssert(lastSev == sevERR);
+  unitAssert(readEcode() == 310 && readSev() == sevERR);
 
   foundSymbol = symcheck(&elm, aClassId, INSTANCE_SYMBOL, NULL);
   unitAssert(foundSymbol == aClassSymbol);
-  unitAssert(lastEcode == 319);
-  unitAssert(lastSev == sevERR);
+  unitAssert(readEcode() == 319 && readSev() == sevERR);
 }
 
 /* Test symbol table by inserting a symbol with an initial name */

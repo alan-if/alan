@@ -7,6 +7,9 @@
 
 #include "util.h"
 
+#include "srcp_x.h"
+#include "id_x.h"
+
 #include "adv.h"		/* ADV-node */
 #include "lst.h"		/* LST-nodes */
 #include "atr.h"		/* ATR-nodes */

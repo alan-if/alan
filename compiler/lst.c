@@ -16,7 +16,18 @@
 
 void (*(dumpNodeTable[LIST_LAST_KIND]))();
 
+void dumpClass();
 
+
+/*======================================================================
+
+  initDumpNodeList()
+
+*/
+void initDumpNodeList()
+{
+  dumpNodeTable[LIST_CLA] = &dumpClass;
+}
 
 
 /*======================================================================
@@ -82,9 +93,9 @@ List *combine(List *list1,	/* IN - Lists to combine */
 static void dunod(void *nod, ListKind kind)
 {
   if (dumpNodeTable[kind] == NULL) {
-    put("Not implemented in DUMP."); nl();
+    put("*** Not implemented in DUMP. ***"); nl();
   } else
-    dumpNodeTable[kind]();
+    dumpNodeTable[kind](nod);
 }
 
 

@@ -71,7 +71,9 @@ static void symbolizeClass(ClaNod *cla)
 
   if (cla->heritage != NULL) {
     heritage = lookup(cla->heritage->string);
-    if (heritage == NULL || heritage->kind != CLASS_SYMBOL)
+    if (heritage == NULL)
+      lmLog(&cla->heritage->srcp, 310, sevERR, cla->heritage->string);
+    else if (heritage->kind != CLASS_SYMBOL)
       lmLog(&cla->heritage->srcp, 350, sevERR, "");
     else {
       cla->heritage->symbol = heritage;

@@ -1848,19 +1848,7 @@ static int val(char str[])
     ;
 
 <what>			-- RETURNS: srcp, wht
-    = 'OBJECT'
-    %%
-	%<what>.wht = newwht(`&%'OBJECT'.srcp, WHT_OBJ, NULL);
-	%<what>.srcp = %'OBJECT'.srcp;
-    %%
-
-    ! 'LOCATION'
-    %%
-	%<what>.wht = newwht(`&%'LOCATION'.srcp, WHT_LOC, NULL);
-	%<what>.srcp = %'LOCATION'.srcp;
-    %%
-
-    ! ID
+    = ID
     %%
 	%<what>.wht = newwht(`&%ID.id->srcp, WHT_ID, %ID.id);
 	%<what>.srcp = %ID.id->srcp;

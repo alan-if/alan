@@ -83,7 +83,7 @@ VERSIONOBJECTS = ${SRCS:.c=.o}
 
 OBJECTS = $(VERSIONOBJECTS) $(TMOBJS) alan.version.o
 
-all alan alan.exe : $(OBJECTS) Makefile
+all alan alan.exe : test $(OBJECTS) Makefile
 	gcc -o alan $(OBJECTS) $(LDFLAGS)	
 	-mkdir ../bin
 	cp alan.exe ../bin
@@ -148,7 +148,9 @@ unit : unit.o \
 	smScanx.o smScSema.o
 
 test: unit
+	echo "******************************"
 	unit
+	echo "******************************"
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

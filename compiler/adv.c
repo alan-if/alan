@@ -57,6 +57,8 @@ static Aword end;
   */
 void initadv(void)
 {
+  initDumpNodeList();
+
 #ifdef FIXME
   initcnt();			/* Must do this first to create the inventory */
 #endif
@@ -96,6 +98,17 @@ static void prepcodes(void)
 
 /*----------------------------------------------------------------------
 
+  symbolizeAdv()
+
+*/
+static void symbolizeAdv()
+{
+  symbolizeClasses();
+}
+
+
+/*----------------------------------------------------------------------
+
   analyzeStartAt
 
 */
@@ -131,6 +144,8 @@ static void analyzeStartAt(void)
  */
 void anadv(void)
 {
+  symbolizeAdv();
+
   anatrs(adv.atrs);
   anatrs(adv.oatrs);
   anatrs(adv.latrs);

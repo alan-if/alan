@@ -2,24 +2,7 @@
  ! Internal form DUMP routines for the ALAN compiler
  */
 
-
-#include "alan.h"
-
-#include "adv.h"		/* ADV-node */
-#include "lst.h"		/* LST-nodes */
-#include "nam.h"		/* NAM-nodes */
-#include "atr.h"                /* ATR-nodes */
-#include "whr.h"                /* WHR-nodes */
-#include "stm.h"		/* STM-nodes */
-#include "chk.h"                /* CHK-nodes */
-#include "vrb.h"                /* VRB-nodes */
-#include "lim.h"		/* LIM-nodes */
-#include "ext.h"                /* EXT-nodes */
-#include "scr.h"                /* SCR-nodes */
-#include "stp.h"                /* STP-nodes */
-#include "evt.h"                /* EVT-nodes */
-#include "rul.h"                /* RUL-nodes */
-
+#include "sysdep.h"
 #include "lmList.h"
 
 

@@ -13,6 +13,22 @@
 int lastEcode;
 lmSev lastSev;
 
+int readEcode()
+{
+  int e = lastEcode;
+
+  lastEcode = 0;
+  return e;
+}
+
+int readSev()
+{
+  lmSev s = lastSev;
+
+  lastSev= sevNONE;
+  return s;
+}
+
 extern void lmLog(Srcp *pos,
 		  int ecode,
 		  lmSev sev,

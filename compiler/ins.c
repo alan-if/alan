@@ -11,11 +11,13 @@
 #include "util.h"
 #include "dump.h"
 
+#include "sym.h"
+#include "id_x.h"
 #include "srcp_x.h"
 #include "lmList.h"
 
 
-static List *allClasses = NULL;
+static List *allInstances = NULL;
 
 
 /*======================================================================
@@ -41,7 +43,9 @@ InsNod *newins(Srcp *srcp,	/* IN - Source Position */
   new->heritage = heritage;
   new->slt = slt;
 
-  allClasses = concat(allClasses, new, LIST_INS);
+  new->symbol = newsym(id->string, INSTANCE_SYMBOL);
+
+  allInstances = concat(allInstances, new, LIST_INS);
 
   return(new);
 }
@@ -70,7 +74,7 @@ void analyzeInstances(void)
 {
   List *l;
 
-  for (l = allClasses; l; l = l->next)
+  for (l = allInstances; l; l = l->next)
     analyzeInstance(l->element.ins);
 }
 
