@@ -16,6 +16,7 @@ extern int dscrstkp;		/* Point into describe stack */
 
 #ifdef _PROTOTYPES_
 extern void sys(Aword fpos, Aword len);
+extern Boolean confirm(MsgKind msgno);
 extern Aword attribute(Aword item, Aword atr);
 extern void say(Aword item);
 extern void saynum(Aword num);
@@ -55,6 +56,7 @@ extern Abool isNear(Aword item);
 
 #else
 extern void sys();
+extern Boolean confirm();
 extern Aword attribute();
 extern void say();
 extern void saynum();
