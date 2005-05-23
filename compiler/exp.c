@@ -292,13 +292,14 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 
   switch (where->kind) {
   case WHERE_HERE:
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
     break;
   case WHERE_AT:
+  case WHERE_NEAR:
     analyzeExpression(where->what, context);
     if (where->what->type != ERROR_TYPE)
       if (where->what->type != INSTANCE_TYPE)
-        lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
+        lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
     break;
   case WHERE_IN:
     analyzeExpression(where->what, context);
@@ -950,8 +951,13 @@ static void generateWhereRHS(Where *where) {
     emitConstant(where->directly);
     emit0(I_HERE);
     break;
+  case WHERE_NEARBY:
+    emitConstant(where->directly);
+    emit0(I_NEARBY);
+    break;
   case WHERE_NEAR:
     emitConstant(where->directly);
+    generateExpression(where->what);
     emit0(I_NEAR);
     break;
   case WHERE_IN:

@@ -1,5 +1,5 @@
 -- put.i
--- Library version 0.5.0
+-- Library version 0.5.2
 
 -- 0.4.1 - converted to ALANv3
 
@@ -51,7 +51,7 @@ End Add To.
 
 
 Syntax
-    put_near = put (obj1) near (obj2)
+    put_near = put (obj1) 'near' (obj2)
         Where obj1 Isa object
 	    Else "You can't put that anywhere."
 	And obj2 Isa thing

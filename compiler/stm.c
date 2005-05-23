@@ -215,7 +215,7 @@ static void analyzeEmpty(Statement *stm, Context *context)
   analyzeExpression(stm->fields.empty.what, context);
   verifyContainerExpression(stm->fields.empty.what, context, "EMPTY statement");
   analyzeWhere(stm->fields.empty.where, context);
-  if (stm->fields.empty.where->kind == WHERE_NEAR)
+  if (stm->fields.empty.where->kind == WHERE_NEARBY)
     lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "EMPTY");
   if (stm->fields.empty.where->directly)
     lmLog(&stm->fields.empty.where->srcp, 422, sevERR, "EMPTY statement");
@@ -254,7 +254,7 @@ static void analyzeLocate(Statement *stm, Context *context)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
     break;
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
@@ -369,7 +369,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
   case WHERE_AT:
     break;
   case WHERE_IN:
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
   default:

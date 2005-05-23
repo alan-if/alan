@@ -89,6 +89,7 @@ static lmMsgs msg[] = {
     { "106   ", "Parse stack overflow." },
     { "107   ", "Parse table error." },
     { "108   ", "Parsing terminated." },
+    { "109   ", "Syntax error in import statement" },
     { "150   ", "Unterminated STRING." },
     { "151   ", "File name missing for $INCLUDE directive." },
     { "152   ", "Unterminated quoted identifier." },
@@ -228,7 +229,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 148}
+    {0, 149}
 };
 static lmMessages currMsect = (lmMessages)0;
 

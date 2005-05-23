@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>402.89</origest>
-<currest>401.89</currest>
-<elapsed>260.89</elapsed>
+<origest>405.89</origest>
+<currest>404.89</currest>
+<elapsed>262.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>64</origest>
-<currest>64</currest>
-<elapsed>23</elapsed>
+<origest>67</origest>
+<currest>67</currest>
+<elapsed>25</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
 <notes/>
 <priority>2</priority>
-<origest>31</origest>
-<currest>31</currest>
-<elapsed>23</elapsed>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>25</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -51,7 +51,7 @@
 <isopen>1</isopen>
 </task>
 <task>
-<desc>DIRECTLY HERE, DIRECTLY NEAR</desc>
+<desc>DIRECTLY HERE, DIRECTLY NEARBY</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -60,8 +60,8 @@
 <isopen>1</isopen>
 </task>
 <task>
-<desc>NEAR should use non-DIRECTLY version of where()</desc>
-<notes>Make test cases for NEAR first</notes>
+<desc>NEARBY should use non-DIRECTLY version of where()</desc>
+<notes>Make test cases for NEARBY first</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -305,6 +305,61 @@ Currently the interpreter crashes.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Implement &lt;what&gt; NEAR &lt;what&gt;</desc>
+<notes>As a complement to NEARBY</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default restrictions in instances inheriting from unknown classes gives 323</desc>
+<notes>compiler/testing/defaultRestrictionInUnknownClass.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify file type association and Windows double click</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.dev36</desc>
+<notes/>
+<priority>2</priority>
+<origest>11</origest>
+<currest>11</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Allow class references in attribute declarations of classes</desc>
+<notes>E.g.
+    Every door
+       Has otherside door.
+    End Every door.
+
+This would make it possible to avoid "fake" instances and instances that have incorrect values because initialization was forgotten.
+
+Note in the manual that a "fake" instance is a way to solve NULL-pointers, i.e a special marker indicating "no relevant value".
+
+If a class was allowed we could ensure that an actual instance was used by traversing the inheritance tree. An instance should not be allowed to inherit from a class with a non-instance initalization without initializing it (somewhere along the inheritance chain).
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -401,13 +456,42 @@ Would "There is a actor here." be a better default?</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
-<desc>Increment: version 3.0.dev36</desc>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0.dev37</desc>
+<notes/>
+<priority>2</priority>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -478,24 +562,6 @@ ENTERED
 EXIT [CHECK DOES END]
 
 Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
-<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -625,15 +691,6 @@ is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 <isopen>1</isopen>
 </task>
 <task>
-<desc>NEAR should be &lt;what&gt; NEAR &lt;what&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>How to handle special dictionary entries in unsupported languages?</desc>
 <notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
 
@@ -649,17 +706,6 @@ New clause?</notes>
 <notes>DONE for verbs
 
 TODO: Descriptions, ?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
-
-  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

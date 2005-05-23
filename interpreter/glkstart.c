@@ -86,6 +86,8 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
+#endif
+
 #include <windows.h>
 
 static int argCount;
@@ -115,6 +117,7 @@ static void splitArgs(char *commandLine) {
   }
 }
     
+
 /*======================================================================*/
 int winglk_startup_code(const char* cmdline)
 {
@@ -122,8 +125,10 @@ int winglk_startup_code(const char* cmdline)
   glk_stylehint_set(wintype_AllTypes, style_Emphasized, stylehint_Oblique, 1);
   glk_stylehint_set(wintype_AllTypes, style_BlockQuote, stylehint_Indentation, 10);
 
+#ifdef HAVE_WINGLK
   winglk_app_set_name("Arun");
   winglk_set_gui(IDR_ARUN);
+#endif
 
   /* First, open a window for error output */
   openGlkWindows();
@@ -141,4 +146,3 @@ int winglk_startup_code(const char* cmdline)
 
   return TRUE;
 }
-#endif

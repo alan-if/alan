@@ -1620,7 +1620,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%-('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'directly')
+    = STRING		%-('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'near', 'directly')
     %%
 	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -2270,7 +2270,7 @@ static int val(char str[])
 							val(%Integer.chars));
     %%
 
-    ! STRING		%+('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'directly')
+    ! STRING		%+('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'near', 'directly')
     %%
 	%<primary>.exp = newStringExpression(%STRING.srcp,
 					     %STRING.fpos,
@@ -2416,7 +2416,7 @@ static int val(char str[])
 
     ! <optional_directly> 'nearby'
     %%
-        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_directly>.present, WHERE_NEAR, NULL);
+        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_directly>.present, WHERE_NEARBY, NULL);
 	%<where>.srcp = %'nearby'.srcp;
     %%
 
@@ -2430,6 +2430,12 @@ static int val(char str[])
     %%
         %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.present, WHERE_IN, %<what>.exp);
 	%<where>.srcp = %'in'.srcp;
+    %%
+
+    ! <optional_directly> 'near' <what>
+    %%
+        %<where>.whr = newWhere(`&%'near'.srcp, %<optional_directly>.present, WHERE_NEAR, %<what>.exp);
+	%<where>.srcp = %'near'.srcp;
     %%
     ;
 

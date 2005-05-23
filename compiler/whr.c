@@ -47,7 +47,7 @@ void symbolizeWhere(Where *whr)
   if (whr == NULL) return;
 
   switch (whr->kind) {
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
   case WHERE_AT:
   case WHERE_IN:
     symbolizeExpression(whr->what);
@@ -86,9 +86,10 @@ void analyzeWhere(Where *whr, Context *context) {
   switch (whr->kind) {
   case WHERE_DEFAULT:
   case WHERE_HERE:
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
     break;
   case WHERE_AT:
+  case WHERE_NEAR:
     analyzeExpression(whr->what, context);
     if (whr->what->type != ERROR_TYPE && whr->what->type != INSTANCE_TYPE)
       lmLogv(&whr->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
@@ -102,7 +103,7 @@ void analyzeWhere(Where *whr, Context *context) {
 	verifyContainerExpression(whr->what, context, "Expression after IN");
     }
     break;
-  default:
+  case WHERE_INSET:
     syserr("Unrecognized switch in '%s()'", __FUNCTION__);
     break;
   }
@@ -178,6 +179,7 @@ void dumpWhere(Where *whr)
   switch (whr->kind) {
   case WHERE_DEFAULT: put("DEFAULT"); break;
   case WHERE_HERE: put("HERE"); break;
+  case WHERE_NEARBY: put("NEARBY"); break;
   case WHERE_NEAR: put("NEAR"); break;
   case WHERE_AT: put("AT"); break;
   case WHERE_IN: put("IN"); break;
@@ -186,7 +188,7 @@ void dumpWhere(Where *whr)
   nl();
   switch (whr->kind) {
   case WHERE_HERE:
-  case WHERE_NEAR:
+  case WHERE_NEARBY:
     break;
   default:
     put("wht: "); dumpExpression(whr->what);

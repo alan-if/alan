@@ -5,7 +5,9 @@
 
 #include <windows.h>
 #include "Glk.h"
+#ifdef HAVE_WINGLK
 #include "WinGlk.h"
+#endif
 
 int InitGlk(unsigned int iVersion);
 

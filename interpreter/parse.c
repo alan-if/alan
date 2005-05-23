@@ -1051,9 +1051,9 @@ static void try(ParamEntry multipleParameters[])
 	/* This was a multiple parameter, check all and remove failing */
 	for (i = 0; multipleParameters[i].instance != EOF; i++)
 	  if (multipleParameters[i].instance != 0) /* Skip any empty slots */
-	    if (!isObj(multipleParameters[i].instance))
+	    if (!isObject(multipleParameters[i].instance))
 	      multipleParameters[i].instance = 0;
-      } else if (!isObj(parameters[multiplePosition].instance))
+      } else if (!isObject(parameters[multiplePosition].instance))
 	error(M_CANT0);
     }
 

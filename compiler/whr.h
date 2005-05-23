@@ -16,10 +16,11 @@
 
 typedef enum WhrKind {		/* WHERE kinds */
   WHERE_DEFAULT,		/* None */
-  WHERE_HERE,			/* HERE */
-  WHERE_NEAR,			/* NEARBY */
-  WHERE_AT,			/* AT what */
-  WHERE_IN,			/* IN what */
+  WHERE_HERE,			/* <what> HERE */
+  WHERE_NEARBY,			/* <what> NEARBY */
+  WHERE_NEAR,			/* <what> NEAR <what> */
+  WHERE_AT,			/* AT <what> */
+  WHERE_IN,			/* IN <what> */
   WHERE_INSET			/* IN <set> */
 } WhereKind;
 

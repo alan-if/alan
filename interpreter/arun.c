@@ -103,6 +103,10 @@ int main(
   winglk_window_set_title(adventureName);
 #endif
 
+#ifdef HAVE_GARGLK
+  garglk_set_story_name(adventureName);
+#endif
+
   run();
 
 #ifdef HAVE_GLK

@@ -153,6 +153,7 @@ typedef enum InstClass {
   I_IN,
   I_INSET,
   I_HERE,
+  I_NEARBY,
   I_NEAR,
   I_WHERE,			/* Current position of an instance */
   I_LOCATION,			/* The *location* an instance is at */

@@ -106,13 +106,13 @@ extern void newline(void);
 extern void printAndLog(char string[]);
 
 extern Bool eot(Aword *adr);
-extern Bool isObj(Aword x);
+extern Bool isObject(Aword x);
 extern Bool isContainer(Aword x);
-extern Bool isAct(Aword x);
-extern Bool isLoc(Aword x);
+extern Bool isActor(Aword x);
+extern Bool isLocation(Aword x);
 extern Bool isLiteral(Aword x);
-extern Bool isNum(Aword x);
-extern Bool isStr(Aword x);
+extern Bool isNumeric(Aword x);
+extern Bool isString(Aword x);
 
 extern Bool isVerb(int word);
 extern Bool isConj(int word);

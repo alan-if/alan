@@ -26,6 +26,12 @@ TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
+#Settings for Gargoyle GLK variant
+GARGLKROOT = ../../Gargoyle/garglk/
+GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK
+GARGLKINCLUDE = -I$(GARGLKROOT)
+GARGLKLIB = $(WINGLKROOT)/Glk.lib
+
 
 #Set up for specific target
 winarun: GLKDEFS = $(WINGLKDEFS)
@@ -39,6 +45,12 @@ termarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
 termarun: CYGWIN = 
 termarun: LIBS = $(TERMGLKLIB)
 termarun: EXE = termarun.exe
+
+gararun: GLKDEFS = $(GARGLKDEFS)
+gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
+gararun: CYGWIN = 
+gararun: LIBS = $(GARGLKLIB)
+gararun: EXE = gararun.exe
 
 dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC
 dmalloc: LIBS = /usr/local/lib/libdmalloc.a
@@ -95,6 +107,11 @@ release:
 	$(MAKE) "OPTIMIZE=-O4" winarun
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
+	gcc -o $(EXE) $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp $(EXE) ../bin
+
+gararun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	gcc -o $(EXE) $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $(EXE) ../bin

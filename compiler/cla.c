@@ -20,6 +20,7 @@
 #include "atr_x.h"
 #include "prop_x.h"
 #include "lst_x.h"
+#include "description_x.h"
 #include "context_x.h"
 #include "dump_x.h"
 

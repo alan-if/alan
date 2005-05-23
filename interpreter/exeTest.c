@@ -347,6 +347,40 @@ static void testSaveRestore() {
   ASSERT(admin[3].attributes[0].value == 33);
 }
 
+static void testWhere() {
+  admin = malloc(4*sizeof(AdminEntry));
+  instance = malloc(4*sizeof(InstanceEntry));
+  class = malloc(4*sizeof(ClassEntry));
+  header = malloc(sizeof(ACodeHeader));
+
+  header->locationClassId = 1;
+  header->instanceMax = 4;
+
+  instance[1].parent = 1;	/* A location */
+  admin[1].location = 3;
+  ASSERT(where(1, TRUE) == 3);
+  ASSERT(where(1, FALSE) == 1);
+
+  instance[2].parent = 0;	/* Not a location */
+  admin[2].location = 1;	/* At 1 */
+  ASSERT(where(2, TRUE) == 1);
+  ASSERT(where(2, FALSE) == 1);
+
+  instance[3].parent = 0;	/* Not a location */
+  admin[3].location = 2;	/* In 2 which is at 1*/
+  ASSERT(where(3, TRUE) == 2);
+  ASSERT(where(3, FALSE) == 1);
+
+  instance[4].parent = 0;	/* Not a location */
+  admin[4].location = 3;	/* In 3 which is in 2 which is at 1*/
+  ASSERT(where(4, TRUE) == 3);
+  ASSERT(where(4, FALSE) == 1);
+
+  free(admin);
+  free(instance);
+  free(class);
+  free(header);
+}
   
 
 
@@ -365,4 +399,5 @@ void registerExeUnitTests()
   registerUnitTest(testHereIllegalId);
   registerUnitTest(testLocateIllegalId);
   registerUnitTest(testSaveRestore);
+  registerUnitTest(testWhere);
 }

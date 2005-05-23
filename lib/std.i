@@ -1,5 +1,5 @@
 -- std.i
--- Library version 0.6.0
+-- Library version 0.5.2
 
 -- All verb definitions have a small, simple default body. To make
 -- them do other things use DOES ONLY in your specialised verb body.
@@ -9,10 +9,10 @@ import 'global.i'.
 
 -- Standard verbs
 import 'look.i'.
-import 'take.i'    -- + pick up, drop, put down.
-import 'open.i'    -- + close.
-import 'lock.i'    -- + unlock.
-import 'eat.i'     -- + drink.
+import 'take.i'.    -- + pick up, drop, put down.
+import 'open.i'.    -- + close.
+import 'lock.i'.    -- + unlock.
+import 'eat.i'.    -- + drink.
 import 'throw.i'.
 import 'push.i'.
 import 'touch.i'.

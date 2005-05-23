@@ -567,6 +567,7 @@ static void dumpStatements(Aword pc)
       case I_MINUS: printf("MINUS "); break;
       case I_MULT: printf("MULT "); break;
       case I_NE: printf("NE"); break;
+      case I_NEARBY: printf("NEARBY"); break;
       case I_NEAR: printf("NEAR"); break;
       case I_NEXTEACH: printf("NEXTEACH"); break;
       case I_NOT: printf("NOT "); break;

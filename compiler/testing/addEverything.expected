@@ -8,6 +8,11 @@ addEverything.alan
 
   *1*   341 E : Can not Add initial location to classes. (yet)
 
+    3.    Name 'name'.
+=====>         1
+
+  *1*   341 E : Can not Add Name to classes. (yet)
+
     7.    Pronoun 'pronoun'
 =====>    1
 

@@ -686,14 +686,26 @@ void interpret(Aaddr adr)
 	traceBooleanTopValue();
 	break;
       }
-      case I_NEAR: {
+      case I_NEARBY: {
 	Aword id;
 	Abool directly;
 	directly = pop();
 	id = pop();
 	if (singleStepOption)
-	  printf("NEAR \t%5ld, %s\t", id, booleanValue(directly));
-	push(isNear(id, directly));
+	  printf("NEARBY \t%5ld, %s\t", id, booleanValue(directly));
+	push(isNearby(id, directly));
+	traceBooleanTopValue();
+	break;
+      }
+      case I_NEAR: {
+	Aword id, other;
+	Abool directly;
+	other = pop();
+	directly = pop();
+	id = pop();
+	if (singleStepOption)
+	  printf("NEAR \t%5ld, %5ld, %s\t", id, other, booleanValue(directly));
+	push(isNear(id, other, directly));
 	traceBooleanTopValue();
 	break;
       }

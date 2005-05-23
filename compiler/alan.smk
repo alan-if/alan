@@ -300,10 +300,17 @@ void setCharacterSet(int set)
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
       if (token.code == sm_MAIN_IDENTIFIER_Token) {
 	/* Found an ID which is a file name */
+
+	/* Skip all whitespace */
 	do {
 	  i = smScSkip(smThis, 1);
 	  c = smThis->smText[smThis->smLength-1];
-	} while (c != '.' && i != 0); /* Skip to '.' or EOF */
+	} while (isspace(c));
+
+	if (c != '.')
+	  lmLog(`&token.srcp, 109, sevERR, "");
+	else
+	  i = smScSkip(smThis, 1);
 
 	srcp = token.srcp;	/* Insert the file before next line */
 	srcp.line++;

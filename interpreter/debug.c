@@ -131,16 +131,16 @@ static void showInstance(int ins)
     output(str);
     if (admin[ins].location == 0)
       output("- (0)");
-    else if (isLoc(admin[ins].location)) {
+    else if (isLocation(admin[ins].location)) {
       output("at");
       say(admin[ins].location);
       sprintf(str, "(%ld)", admin[ins].location);
       output(str);
     } else if (isContainer(admin[ins].location)) {
 
-      if (isObj(admin[ins].location))
+      if (isObject(admin[ins].location))
 	output("in");
-      else if (isAct(admin[ins].location))
+      else if (isActor(admin[ins].location))
 	output("carried by");
       say(admin[ins].location);
       sprintf(str, "(%ld)", admin[ins].location);
@@ -175,7 +175,7 @@ static void showObjects(void)
 
   output("Objects:");
   for (obj = 1; obj <= header->instanceMax; obj++) {
-    if (isObj(obj)) {
+    if (isObject(obj)) {
       sprintf(str, "$i%3d: ", obj);
       output(str);
       say(obj);
@@ -190,7 +190,7 @@ static void showObject(int obj)
   char str[80];
 
 
-  if (!isObj(obj)) {
+  if (!isObject(obj)) {
     sprintf(str, "Instance %d is not an object", obj);
     output(str);
     return;
@@ -280,7 +280,7 @@ static void showLocations(void)
 
   output("Locations:");
   for (loc = 1; loc <= header->instanceMax; loc++) {
-    if (isLoc(loc)) {
+    if (isLocation(loc)) {
       sprintf(str, "$i%3d: ", loc);
       output(str);
       say(loc);
@@ -295,7 +295,7 @@ static void showLocation(int loc)
   char str[80];
 
 
-  if (!isLoc(loc)) {
+  if (!isLocation(loc)) {
     sprintf(str, "Instance %d is not a location.", loc);
     output(str);
     return;
@@ -319,7 +319,7 @@ static void showActors(void)
 
   output("Actors:");
   for (act = 1; act <= header->instanceMax; act++) {
-    if (isAct(act)) {
+    if (isActor(act)) {
       output("$i");
       say(act);
       sprintf(str, "(%d)", act);
@@ -336,7 +336,7 @@ static void showActor(int act)
 {
   char str[80];
   
-  if (!isAct(act)) {
+  if (!isActor(act)) {
     sprintf(str, "Instance %d is not an actor.", act);
     output(str);
     return;

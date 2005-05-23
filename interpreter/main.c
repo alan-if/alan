@@ -719,7 +719,7 @@ Bool eot(Aword *adr)
 }
 
 
-Bool isObj(Aword x)
+Bool isObject(Aword x)
 {
   return isA((x), OBJECT);
 }
@@ -729,12 +729,12 @@ Bool isContainer(Aword x)
   return (x) != 0 && instance[x].container != 0;
 }
 
-Bool isAct(Aword x)
+Bool isActor(Aword x)
 {
   return isA((x), ACTOR);
 }
 
-Bool isLoc(Aword x)
+Bool isLocation(Aword x)
 {
   return isA((x), LOCATION);
 }
@@ -745,12 +745,12 @@ Bool isLiteral(Aword x)
   return (x) > header->instanceMax;
 }
 
-Bool isNum(Aword x)
+Bool isNumeric(Aword x)
 {
   return isLiteral(x) && literal[(x)-header->instanceMax].type == NUMERIC_LITERAL;
 }
 
-Bool isStr(Aword x)
+Bool isString(Aword x)
 {
   return isLiteral(x) && literal[(x)-header->instanceMax].type == STRING_LITERAL;
 }
@@ -893,7 +893,7 @@ static void eventCheck(void)
 {
   while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].time == current.tick) {
     eventQueueTop--;
-    if (isLoc(eventQueue[eventQueueTop].where))
+    if (isLocation(eventQueue[eventQueueTop].where))
       current.location = eventQueue[eventQueueTop].where;
     else
       current.location = where(eventQueue[eventQueueTop].where, FALSE);
@@ -1486,7 +1486,7 @@ void run(void)
     moveActor(header->theHero);
     rules();
     for (i = 1; i <= header->instanceMax; i++)
-      if (i != header->theHero && isA(i, ACTOR)) {
+      if (i != header->theHero && isActor(i)) {
 	moveActor(i);
 	rules();
       }

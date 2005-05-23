@@ -19,6 +19,11 @@ addto.alan
 
   *1*   341 E : Can not Add initial location to classes. (yet)
 
+    4.    Name x.
+=====>         1
+
+  *1*   341 E : Can not Add Name to classes. (yet)
+
     8.    Mentioned "mentioned"
 =====>    1
 

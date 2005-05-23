@@ -21,6 +21,7 @@
 
 
 #ifdef HAVE_GLK
+#include "glk.h"
 #define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
@@ -500,7 +501,7 @@ void make(Aword id, Aword code, Aword val)
 
   if (id > 0 && id <= header->instanceMax) {
     setAttribute(admin[id].attributes, code, val);
-    if (isA(id, LOCATION))	/* May have changed so describe next time */
+    if (isLocation(id))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   }  else {
     sprintf(str, "Can't MAKE instance attribute (%ld, %ld).", id, code);
@@ -516,7 +517,7 @@ void set(Aword id, Aword atr, Aword val)
 
   if (id > 0 && id <= header->instanceMax) {
     setAttribute(admin[id].attributes, atr, val);
-    if (isA(id, LOCATION))	/* May have changed so describe next time */
+    if (isLocation(id))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   } else {
     sprintf(str, "Can't SET instance (%ld).", id);
@@ -818,28 +819,26 @@ static void verifyId(Aword id, char action[]) {
 
 
 /*======================================================================*/
-/* Return the current position of an instance */
-Aword where(Aword id, Abool directly)
+/* Return the current position of an instance, directly or not */
+Aword where(Aint id, Abool directly)
 {
-  int loc;
-
   verifyId(id, "WHERE");
 
   if (directly)
     return admin[id].location;
   else {
-    loc = admin[id].location;
-    while (loc != 0 && !isA(loc, LOCATION))
-      loc = admin[loc].location;
-    return loc;
+    if (isLocation(id))
+      return id;
+    else
+      return location(id);
   }
 }
 
 
 
 /*======================================================================*/
-/* Return the *location* of an instance */
-Aword location(Aword id)
+/* Return the *location* of an instance, non-transitive, i.e. not directly */
+Aword location(Aint id)
 {
   int loc;
   int container = 0;
@@ -847,7 +846,7 @@ Aword location(Aword id)
   verifyId(id, "LOCATION");
 
   loc = admin[id].location;
-  while (loc != 0 && !isA(loc, LOCATION)) {
+  while (loc != 0 && !isLocation(loc)) {
     container = loc;
     loc = admin[loc].location;
   }
@@ -855,12 +854,12 @@ Aword location(Aword id)
     return loc;
   else {
     if (container == 0)
-      if (!isA(id, THING) && !isA(id, LOCATION))
+      if (!isA(id, THING) && !isLocation(id))
 	return location(HERO);
       else
 	return 0;		/* Nowhere */
     else
-      if (!isA(container, THING) && !isA(container, LOCATION))
+      if (!isA(container, THING) && !isLocation(container))
 	return location(HERO);
       else
 	return 0;		/* Nowhere */
@@ -869,14 +868,14 @@ Aword location(Aword id)
 
 
 /*======================================================================*/
-Aint agrmax(Aword atr, Aword whr)
+Aint agrmax(Aint atr, Aint whr)
 {
   Aword i;
   Aint max = 0;
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isObj(i)) {
-      if (isLoc(whr)) {
+    if (isObject(i)) {
+      if (isLocation(whr)) {
 	if (where(i, TRUE) == whr && attributeOf(i, atr) > max)
 	  max = attributeOf(i, atr);
       } else if (admin[i].location == whr && attributeOf(i, atr) > max)
@@ -888,14 +887,14 @@ Aint agrmax(Aword atr, Aword whr)
 
 
 /*======================================================================*/
-Aint agrsum(Aword atr, Aword whr)
+Aint agrsum(Aint atr, Aint whr)
 {
   Aword i;
   Aint sum = 0;
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isObj(i)) {
-      if (isLoc(whr)) {
+    if (isObject(i)) {
+      if (isLocation(whr)) {
 	if (where(i, TRUE) == whr)
 	  sum += attributeOf(i, atr);
       } else if (admin[i].location == whr)
@@ -907,15 +906,15 @@ Aint agrsum(Aword atr, Aword whr)
 
 
 /*======================================================================*/
-Aint agrcount(Aword whr)
+Aint agrcount(Aint whr)
 {
   Aword i;
   Aword count = 0;
 
   /* TODO transform into DIRECTLY handling and add transitive version */
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isObj(i)) {
-      if (isLoc(whr)) {
+    if (isObject(i)) {
+      if (isLocation(whr)) {
 	if (where(i, TRUE) == whr)
 	  count++;
       } else if (admin[i].location == whr)
@@ -1041,7 +1040,7 @@ void locate(Aword id, Aword whr)
     }
   }
     
-  if (isAct(id))
+  if (isActor(id))
     locateActor(id, whr);
   else
     locateObject(id, whr);
@@ -1063,22 +1062,38 @@ Aword isHere(Aword id, Abool directly)
 
 
 /*======================================================================*/
-Abool isNear(Aword id, Abool directly)
+Abool isNearby(Aint instance, Abool directly)
 {
-  verifyId(id, "NEARBY");
+  verifyId(instance, "NEARBY");
 
-  if (directly) {
-    /* Must be at a location (not inside anything) nearby */
-    return(exitto(current.location, admin[id].location));
-  } else {
-    return(exitto(current.location, location(id)));
-  }
+  if (isLocation(instance))
+    return exitto(current.location, instance);
+  else
+    return exitto(current.location, where(instance, directly));
 }
 
 
+/*======================================================================*/
+Abool isNear(Aint id, Aint other, Abool directly)
+{
+  Aint l1, l2;
+
+  verifyId(id, "NEAR");
+
+  if (isLocation(id))
+    l1 = id;
+  else
+    l1 = where(id, directly);
+  if (isLocation(other))
+    l2 = other;
+  else
+    l2 = where(other, directly);
+  return exitto(l2, l1);
+}
+
 
 /*======================================================================*/
-Abool isA(Aword instanceId, Aword ancestor)
+Abool isA(Aint instanceId, Aint ancestor)
 {
   int parent;
 
@@ -1096,19 +1111,19 @@ Abool isA(Aword instanceId, Aword ancestor)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-Abool in(Aword theInstance, Aword cnt, Abool directly)
+Abool in(Aint theInstance, Aint container, Abool directly)
 {
   int loc;
 
-  if (!isContainer(cnt))
+  if (!isContainer(container))
     syserr("IN in a non-container.");
 
   if (directly)
-    return admin[theInstance].location == cnt;
+    return admin[theInstance].location == container;
   else {
     loc = admin[theInstance].location;
     while (loc != 0)
-      if (loc == cnt)
+      if (loc == container)
 	return TRUE;
       else
 	loc = admin[loc].location;
@@ -1126,10 +1141,17 @@ Abool at(Aint theInstance, Aint other, Abool directly)
 
   if (theInstance == 0 || other == 0) return FALSE;
 
-  if (directly)
-    return admin[theInstance].location == other;
-  else {
-    if (!isA(loc, LOCATION))
+  if (directly) {
+#ifdef NEW
+    if (isLoc(other))
+      return admin[theInstance].location == other;
+    else
+      return admin[theInstance].location == admin[other].location;
+#else
+      return admin[theInstance].location == other;
+#endif
+  } else {
+    if (!isLocation(loc))
       /* If it's not a location get the instances location */
       loc = location(other);
     return location(theInstance) == loc;
@@ -1162,7 +1184,7 @@ static void sayLiteral(Aword lit)
 {
   char *str;
 
-  if (isNum(lit))
+  if (isNumeric(lit))
     sayInteger(literal[lit-header->instanceMax].value);
   else {
     str = (char *)strdup((char *)literal[lit-header->instanceMax].value);
@@ -1481,9 +1503,9 @@ void describe(Aword id)
   verifyId(id, "DESCRIBE");
   if (descriptionCheck(id)) {
     descriptionOk = TRUE;
-    if (isObj(id)) {
+    if (isObject(id)) {
       describeObject(id);
-    } else if (isAct(id)) {
+    } else if (isActor(id)) {
       describeActor(id);
     } else
       describeAnything(id);
@@ -1503,13 +1525,13 @@ void describeInstances(void)
 
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
-    if (admin[i].location == current.location && isA(i, OBJECT) &&
+    if (admin[i].location == current.location && isObject(i) &&
 	!admin[i].alreadyDescribed && haveDescription(i))
       describe(i);
 
   /* Then list all other objects here */
   for (i = 1; i <= header->instanceMax; i++)
-    if (admin[i].location == current.location && isA(i, OBJECT) &&
+    if (admin[i].location == current.location && isObject(i) &&
 	!admin[i].alreadyDescribed) {
       if (found == 0) {
 	printMessageUsingParameter(M_SEE_OBJ_START, i);
@@ -1535,7 +1557,7 @@ void describeInstances(void)
   
   /* Now for all actors */
   for (i = 1; i <= header->instanceMax; i++)
-    if (admin[i].location == current.location && i != HERO && isA(i, ACTOR)
+    if (admin[i].location == current.location && i != HERO && isActor(i)
 	&& !admin[i].alreadyDescribed)
       describe(i);
 
@@ -1591,14 +1613,14 @@ void list(Aword cnt)
   if (props == 0) syserr("Trying to list something not a container.");
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isA(i, OBJECT) || isA(i, ACTOR)) {
+    if (isObject(i) || isActor(i)) {
       /* We can only see objects and actors directly in this container... */
       if (admin[i].location == cnt) { /* Yes, it's in this container */
 	if (found == 0) {
 	  if (container[props].header != 0)
 	    interpret(container[props].header);
 	  else {
-	    if (isA(container[props].owner, ACTOR))
+	    if (isActor(container[props].owner))
 	      printMessageUsingParameter(M_CARRIES, container[props].owner);
 	    else
 	      printMessageUsingParameter(M_CONTAINS, container[props].owner);
@@ -1622,7 +1644,7 @@ void list(Aword cnt)
     if (container[props].empty != 0)
       interpret(container[props].empty);
     else {
-      if (isA(container[props].owner, ACTOR))
+      if (isActor(container[props].owner))
 	printMessageUsingParameter(M_EMPTYHANDED, container[props].owner);
       else
 	printMessageUsingParameter(M_EMPTY, container[props].owner);
@@ -1688,7 +1710,7 @@ void use(Aword act, Aword scr)
 {
   char str[80];
 
-  if (!isAct(act)) {
+  if (!isActor(act)) {
     sprintf(str, "Instance is not an Actor (%ld).", act);
     syserr(str);
   }
@@ -1702,7 +1724,7 @@ void stop(Aword act)
 {
   char str[80];
 
-  if (!isAct(act)) {
+  if (!isActor(act)) {
     sprintf(str, "Instance is not an Actor (%ld).", act);
     syserr(str);
   }
