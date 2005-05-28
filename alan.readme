@@ -36,6 +36,7 @@ Changes in v3.0.35 development:
   multiple classes, e.g. verb&direction, adjective&verb and preposition&verb
 - Nearby expression can test locations
 - NEW Near expression which tests the adjacency between two instances
+- Simplified the language grammar notation in the manaual
 
 
 Changes in v3.0.34 development:
