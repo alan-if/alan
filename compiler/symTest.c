@@ -192,6 +192,19 @@ void testInherit2()
 }
 
 
+/* Test symbol table by verifying inheritance */
+void testInheritErrorSymbol()
+{
+  Symbol *sym1 = lookup(symbolName1);
+
+  Symbol *err = newSymbol(newId(nulsrcp, "ErrorSymbol"), ERROR_SYMBOL);
+
+  ASSERT(inheritsFrom(err, sym1));
+  ASSERT(inheritsFrom(sym1, err));
+  ASSERT(inheritsFrom(err, err));
+}
+
+
 /* Test symbol table initialisation */
 void testSymbolTableInit()
 {
@@ -448,6 +461,7 @@ void registerSymUnitTests()
   registerUnitTest(testBuildSymbolLower);
   registerUnitTest(testInherit1);
   registerUnitTest(testInherit2);
+  registerUnitTest(testInheritErrorSymbol);
   registerUnitTest(testSymbolTableInit);
   registerUnitTest(testCreateClassSymbol);
   registerUnitTest(testVerbSymbols);

@@ -25,7 +25,8 @@ typedef enum SymbolKind {
   PARAMETER_SYMBOL = 32,
   EVENT_SYMBOL = 64,
   LOCAL_SYMBOL = 128,
-  MAX_SYMBOL = 256
+  ERROR_SYMBOL = 256,
+  MAX_SYMBOL = 512
 } SymbolKind;
 
 

@@ -150,12 +150,15 @@ static void copyResourceFile(char *prefix, char fileName[], int resourceNumber)
   
   if (!unlink(resourceFileName) && errno != ENOENT && errno != 0) {
     char errorString[1000];
-    sprintf(errorString, "Could not remove old resource file for %s (%s).", resourceFileName, strerror(errno));
-    syserr(errorString, NULL);
+    sprintf(errorString, "Could not remove old resource file for %s (%s)", resourceFileName, strerror(errno));
+    SYSERR(errorString);
   }
   theCopy = fopen(resourceFileName, WRITE_MODE);
-  if (!theCopy) syserr("Could not open output resource file, %s, for writing.", resourceFileName);
-
+  if (!theCopy) {
+    char errorString[1000];
+    sprintf(errorString, "Could not open output resource file, %s, for writing", resourceFileName);
+    SYSERR(errorString);
+  }
   copyResourceData(original, theCopy);
 
   fclose(original);

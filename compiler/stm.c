@@ -258,7 +258,7 @@ static void analyzeLocate(Statement *stm, Context *context)
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
   default:
-    syserr("Unexpected Where kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected Where kind");
     break;
   }
 }
@@ -373,7 +373,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 
@@ -434,7 +434,7 @@ static void analyzeUse(Statement *stm, Context *context)
       symbol = symbolOfExpression(exp, context);
     } else {
       if (context->instance == NULL && context->instance->props == NULL)
-	syserr("Unexpected context in '%s()'", __FUNCTION__);
+	SYSERR("Unexpected context");
       symbol = context->instance->props->id->symbol;
     }
 
@@ -449,7 +449,7 @@ static void analyzeUse(Statement *stm, Context *context)
 	case CLASS_SYMBOL: str = "class"; break;
 	case INSTANCE_SYMBOL: str = "actor"; break;
 	case PARAMETER_SYMBOL: str = "parameter"; break;
-	default: syserr("Unexpected symbol kind in '%s()'", __FUNCTION__); return;
+	default: SYSERR("Unexpected symbol kind");
 	}
 	lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
 	       str, symbol->string, NULL);
@@ -808,7 +808,7 @@ static void generateLvalue(Expression *exp) {
     generateId(exp->fields.atr.id);
     generateExpression(exp->fields.atr.wht);
     break;
-  default: syserr("Unexpected expression in '%s()'", __FUNCTION__);
+  default: SYSERR("Unexpected expression");
   }
 }
 

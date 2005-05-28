@@ -1,0 +1,24 @@
+########## sigsegvWhereExpression ##########
+
+
+sigsegvWhereExpression.alan
+
+    5.    Say "Count Object Directly Here = ". Say Count Object Directly Here. 
+        "Should be 4.$n"
+=====>                                         1   2     3
+
+  *1*   337 E : You can not Say values of Boolean type.
+  *2*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+  *3*   101 E : Syntax error. Inserting "is" before this token.
+  *3*   226 E : Attributes can not be used for filtering applied to all
+                instances. Filter out instances of a particular class by adding
+                a 'Isa <class>' filter.
+
+
+        3 error(s).
+        1 warning(s).
+        1 informational message(s).
+

@@ -80,7 +80,7 @@ void redefined(IdNode *id, Symbol *sym)
   case INSTANCE_SYMBOL: code = 304; break;
   case CLASS_SYMBOL: code = 305; break;
   case EVENT_SYMBOL: code = 307; break;
-  default: syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+  default: SYSERR("Unrecognized switch");
   }
 
   lmLog(&id->srcp, code, sevERR, id->string);
@@ -122,7 +122,7 @@ static void insertSymbol(Symbol *symbol)
 static void addLocal(Symbol *new)
 {
   if (currentFrame == NULL)
-    syserr("Adding local variable without an active frame", NULL);
+    SYSERR("Adding local variable without an active frame");
 
   if (currentFrame->localSymbols == NULL)
     new->fields.local.number = 1;
@@ -150,6 +150,7 @@ static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
   case DIRECTION_SYMBOL:
   case PARAMETER_SYMBOL:
   case FUNCTION_SYMBOL:
+  case ERROR_SYMBOL:
   case MAX_SYMBOL:
     SYSERR("Unimplemented case in '%s()'");
   }
@@ -257,8 +258,10 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
     new->code = ++eventCount;
     break;
   case LOCAL_SYMBOL:
+  case ERROR_SYMBOL:
     break;
-  default: syserr("Unexpected switch on SYMBOLKIND in '%s()'", __FUNCTION__);
+  default:
+    SYSERR("Unexpected switch on SYMBOLKIND");
   }
 
   return new;
@@ -421,7 +424,7 @@ Symbol *lookup(char *idString)
   Symbol *s1,*s2;               /* Traversal pointers */
   int comp;                     /* Result of comparison */
 
-  if (idString == NULL) syserr("NULL string in '%s()'", __FUNCTION__);
+  if (idString == NULL) SYSERR("NULL string");
 
   s1 = symbolTree;
   s2 = NULL;
@@ -479,7 +482,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
       foundSymbol = lookup(idString);
       break;
     default:
-      syserr("Unexpected context kind in '%s()'", __FUNCTION__);
+      SYSERR("Unexpected context kind");
       break;
     }
     if (foundSymbol != NULL)
@@ -506,7 +509,7 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
       scripts = theSymbol->fields.entity.props->scripts;
       break;
     default:
-      syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+      SYSERR("Unexpected symbol kind");
       return NULL;
     }
     while (scripts != NULL) {
@@ -549,7 +552,7 @@ Bool symbolIsContainer(Symbol *symbol) {
       return symbol->fields.entity.props->container != NULL
 	|| symbolIsContainer(symbol->fields.entity.parent);
     default:
-      syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);
+      SYSERR("Unexpected Symbol kind");
     }
   }
   return FALSE;
@@ -575,7 +578,7 @@ Symbol *contentOfSymbol(Symbol *symbol) {
       return contentOfSymbol(symbol->fields.parameter.class);
       break;
     default:
-      syserr("Unexpected Symbol kind in '%s()'", __FUNCTION__);	
+      SYSERR("Unexpected Symbol kind");	
     }
   }
   return NULL;
@@ -587,7 +590,7 @@ Symbol *contentOfSymbol(Symbol *symbol) {
 void setParent(Symbol *child, Symbol *parent)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
-    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
+    SYSERR("Not a CLASS or INSTANCE");
   child->fields.entity.parent = parent;
 }
 
@@ -596,7 +599,7 @@ void setParent(Symbol *child, Symbol *parent)
 Symbol *parentOf(Symbol *child)
 {
   if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
-    syserr("Not a CLASS or INSTANCE in '%s()'", __FUNCTION__);
+    SYSERR("Not a CLASS or INSTANCE");
   return child->fields.entity.parent;
 }
 
@@ -610,6 +613,9 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
   if (ancestor->kind == INSTANCE_SYMBOL)
     SYSERR("Can not inherit from an instance");
+
+  if (child->kind == ERROR_SYMBOL || ancestor->kind == ERROR_SYMBOL)
+    return TRUE;
 
   if (child->kind == PARAMETER_SYMBOL)
     child = child->fields.parameter.class;
@@ -657,7 +663,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
   } else if (sym->kind == LOCAL_SYMBOL) {
     ;
   } else if (requestedKinds != 0)
-    if ((sym->kind&requestedKinds) == 0) {
+    if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
       if (multipleSymbolKinds(requestedKinds))
 	lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
       else

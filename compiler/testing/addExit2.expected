@@ -8,23 +8,8 @@ addExit2.alan
 
   *1*   310 E : Identifier 'unknown' not defined.
 
-    9.      Check unknown Is hot
-=====>            1
 
-  *1*   310 E : Identifier 'unknown' not defined.
-
-   10.        Else Make unknown hot.
-=====>                  1
-
-  *1*   310 E : Identifier 'unknown' not defined.
-
-   12.        Make unknown hot.
-=====>             1
-
-  *1*   310 E : Identifier 'unknown' not defined.
-
-
-        4 error(s).
+        1 error(s).
         No detected warnings.
         1 informational message(s).
 

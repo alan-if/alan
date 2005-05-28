@@ -120,6 +120,8 @@ void verifyContainer(What *wht, Context *context, char construct[])
 	if (!symbolIsContainer(sym))
 	  lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
 	break;
+      case ERROR_SYMBOL:
+	break;
       default:
 	SYSERR("Unexpected symbol kind");
       }

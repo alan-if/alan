@@ -110,9 +110,9 @@ void emitEntry(void *address, int noOfBytes)
 
   /* Should never start an entry with an EOF word since the reversal process
      depends on it for terminating. */
-  if (words[0] == EOF) syserr("First word of an entry should never be EOF, in %s().", __FUNCTION__);
+  if (words[0] == EOF) SYSERR("First word of an entry should never be EOF");
 
-  if (noOfBytes%sizeof(Aword) != 0) syserr("Emitting unaligned data.", NULL);
+  if (noOfBytes%sizeof(Aword) != 0) SYSERR("Emitting unaligned data");
 
   for (i = 0; i < noOfBytes/sizeof(Aword); i++)
     if (littleEndian())
@@ -507,8 +507,11 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 	_ftype = 'Acod';
 #endif
   acdfil = fopen(acdfnm, WRITE_MODE);
-  if (!acdfil)
-    syserr("Could not open output file '%s' for writing.", acdfnm);
+  if (!acdfil) {
+    char errorString[1000];
+    sprintf(errorString, "Could not open output file '%s' for writing.", acdfnm);
+    SYSERR(errorString);
+  }
 
   /* Make space for ACODE header */
   for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++)

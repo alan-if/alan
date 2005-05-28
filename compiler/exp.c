@@ -746,6 +746,9 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
       case EVENT_SYMBOL:
         exp->type = EVENT_TYPE;
         break;
+      case ERROR_SYMBOL:
+        exp->type = ERROR_TYPE;
+        break;
       default:
         SYSERR("Unexpected symbolKind");
         break;

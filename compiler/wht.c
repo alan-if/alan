@@ -62,7 +62,7 @@ Symbol *symbolOfWhat(What *what, Context *context) {
   case WHAT_ID:
     return what->id->symbol;
   default:
-    syserr("Unexpected What kind in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected What kind");
   }
   return NULL;
 }
@@ -92,7 +92,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
 	lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container", "because it is not restricted to Container in the Syntax", NULL);
 	break;
       default:
-	syserr("Unexpected symbol kind in '%s()'", __FUNCTION__);
+	SYSERR("Unexpected symbol kind");
       }
     break;
 
@@ -104,7 +104,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
     break;
 
   default:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 }
@@ -133,7 +133,7 @@ Bool verifyWhatContext(What *what, Context *context) {
     break;
 
   default:
-    syserr("Unexpected What kind in '%s()'.", __FUNCTION__);
+    SYSERR("Unexpected What kind");
     break;
   }
   return TRUE;
@@ -157,7 +157,7 @@ void generateWhat(What *wht)
     emitVariable(V_CURRENT_INSTANCE);
     break;
   default:
-    syserr("Unexpected case in '%s()'", __FUNCTION__);
+    SYSERR("Unexpected case");
   }
 }
 

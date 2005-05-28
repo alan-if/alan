@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>405.89</origest>
 <currest>404.89</currest>
-<elapsed>262.89</elapsed>
+<elapsed>264.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>67</origest>
 <currest>67</currest>
-<elapsed>25</elapsed>
+<elapsed>27</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev35</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>27</origest>
 <currest>27</currest>
-<elapsed>25</elapsed>
+<elapsed>27</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
@@ -323,7 +323,7 @@ Currently the interpreter crashes.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -332,7 +332,7 @@ Currently the interpreter crashes.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -490,8 +490,8 @@ Would "There is a actor here." be a better default?</notes>
 <desc>Increment: version 3.0.dev37</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>15</origest>
+<currest>15</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -514,21 +514,6 @@ Would "There is a actor here." be a better default?</notes>
 <notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
 
 Check for consistency with other instances of local overides.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Disambiguation using checks</desc>
-<notes>Example:
-
-There is water in the lake. You are carrying a bottle of water.
-&gt; drink water
-I don't know which water you mean.
-
-This should be done in parse.c but at the position where we want to do this we don't have enough information to run possible(). Surrounded it by ifdefs DISAMBIGUATE_USING_CHECKS</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -620,15 +605,6 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Dynamic creation of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Add NEGATIVE ARTICLE/FORM clause</desc>
 <notes>with "Say No x." and "$-1" as print forms.</notes>
 <priority>2</priority>
@@ -666,35 +642,6 @@ attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefin
 initial location, container - can only be added if it has none
 
 mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Also allow 'can' as attribute header words</desc>
-<notes>So that we can do
-
-The gun Isa object
-  Can shoot
-
-The girl Isa actor
-  Can talk
-
-is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>How to handle special dictionary entries in unsupported languages?</desc>
-<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
-
-New clause?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -875,8 +822,8 @@ verbs
 <desc>Version 3.1.dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -928,6 +875,59 @@ method
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Disambiguation using checks</desc>
+<notes>Example:
+
+There is water in the lake. You are carrying a bottle of water.
+&gt; drink water
+I don't know which water you mean.
+
+This should be done in parse.c but at the position where we want to do this we don't have enough information to run possible(). Surrounded it by ifdefs DISAMBIGUATE_USING_CHECKS</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Also allow 'can' as attribute header words</desc>
+<notes>So that we can do
+
+The gun Isa object
+  Can shoot
+
+The girl Isa actor
+  Can talk
+
+is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>How to handle special dictionary entries in unsupported languages?</desc>
+<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
+
+New clause?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Dynamic creation of instances</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 </task>
 </task>

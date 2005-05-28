@@ -10,20 +10,14 @@ addExit.alan
                 You can override it by subclassing from class 'xl'.
   *2*   310 E : Identifier 'unknown' not defined.
 
-   20.    Exit n To unknown.
-=====>              1
-
-  *1*   310 E : Identifier 'unknown' not defined.
-
    24.    Exit n To unknown.
-=====>    1         2
+=====>    1
 
   *1*   336 E : You can not Add Exits to something not inheriting from the
                 predefined class 'location'.
-  *2*   310 E : Identifier 'unknown' not defined.
 
 
-        5 error(s).
+        3 error(s).
         No detected warnings.
         1 informational message(s).
 

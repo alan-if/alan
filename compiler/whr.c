@@ -104,7 +104,7 @@ void analyzeWhere(Where *whr, Context *context) {
     }
     break;
   case WHERE_INSET:
-    syserr("Unrecognized switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized switch");
     break;
   }
 }
@@ -126,7 +126,7 @@ Aword generateInitialLocation(Where *whr) /* IN - Where node */
     case WHERE_IN:
     case WHERE_AT:
       return whr->what->fields.wht.wht->id->symbol->code;
-    default: syserr("Unexpected where kind in '%s()'", __FUNCTION__);
+    default: SYSERR("Unexpected where kind");
     }
 
   return 0;
@@ -159,7 +159,7 @@ void generateWhere(Where *where)
     break;
 
   default:
-    syserr("Unrecognised switch in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognised switch");
     break;
   }
 }

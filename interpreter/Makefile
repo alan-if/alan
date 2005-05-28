@@ -27,10 +27,12 @@ TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
 #Settings for Gargoyle GLK variant
-GARGLKROOT = ../../Gargoyle/garglk/
-GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK
+GARGLKROOT = ../../Gargoyle/garglk
+GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
 GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = $(WINGLKROOT)/Glk.lib
+GARGLKLIB = -L$(GARGLKROOT)/../build/debug/garglk -lgarglk -lpng -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg ../../../fmodapi374win/api/lib/libfmod.a
+
+
 
 
 #Set up for specific target
@@ -97,10 +99,16 @@ GLKOBJECTS = ${GLKSRCS:.c=.o}
 WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 TERMARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
-all arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
+arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
+
+all:
+	$(MAKE) arun
+	$(MAKE) winarun
+	$(MAKE) glkarun
+	$(MAKE) gararun
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun

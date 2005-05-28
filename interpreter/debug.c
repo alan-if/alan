@@ -388,17 +388,18 @@ char *sourceFileName(int fileNumber) {
 char *readSourceLine(int line, int file) {
   FILE *sourceFile;
   int count;
-#define SOURCELINELENGTH 100
+#define SOURCELINELENGTH 1000
 static char buffer[SOURCELINELENGTH];
 
   sourceFile  = fopen(sourceFileName(file), "r");
+
   if (sourceFile != NULL) {
     for (count = 0; count < line; count++) {
       if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
 	return NULL;
-      /* Make sure we have read to end of line */
-      if (strchr(buffer, '\n') == NULL)
-	while (fgetc(sourceFile) != '\n');
+      /* If not read the whole line, read again */
+      while (strchr(buffer, '\n') == NULL)
+	fgets(buffer, SOURCELINELENGTH, sourceFile);
     }
     return buffer;
   }

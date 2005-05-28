@@ -20,11 +20,6 @@ instanceAttribute.alan
   *1*   332 E : Attribute is inherited but does not match the original type (in
                 class 'o') which is required.
 
-   14.    Has sister p.
-=====>               1
-
-  *1*   310 E : Identifier 'p' not defined.
-
    18.    Has father object.
 =====>               1
 
@@ -32,7 +27,7 @@ instanceAttribute.alan
                 to an instance or event.
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 

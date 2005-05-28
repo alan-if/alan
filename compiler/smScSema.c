@@ -371,6 +371,8 @@ int smScAction(
       char c;
 
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
+      smToken->srcp.startpos = smThis->smPosition;
+      smToken->srcp.endpos = smThis->smNextPosition;
       smScan(smThis, &token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
       if (token.code == sm_MAIN_IDENTIFIER_Token) {

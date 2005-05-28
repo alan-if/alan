@@ -224,7 +224,7 @@ void prepareWords(void)
     newWord("alles", ALL_WORD, 0, NULL);
     break;
   default:
-    syserr("Unrecognized language in '%s()'", __FUNCTION__);
+    SYSERR("Unrecognized language");
     break;
   }
 }

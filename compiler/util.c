@@ -195,22 +195,17 @@ void listing(char *listFileName, int lines, int columns,
 
 
 /*======================================================================*/
-void syserr(char *errorMessage, char insertString[])
+void syserr(char *errorMessage, char *function, char *file, int line)
 {
+  int messageLength;
+  char *position;
   char *messageString;
-  int len = 0;
 
-  len = strlen(errorMessage);
-  len += insertString?strlen(insertString)+1:0;
-  messageString = allocate(len);
+  messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");
 
-  if (insertString) {
-    messageString = allocate(strlen(errorMessage)+strlen(insertString)+1);
-    sprintf(messageString, errorMessage, insertString);
-  } else {
-    messageString = allocate(strlen(errorMessage)+1);
-    sprintf(messageString, errorMessage);
-  }
+  messageString = allocate(messageLength+1);
+  sprintf(messageString, "%s in '%s()', %s:%d", errorMessage, function, file, line);
+
   lmLog(&nulsrcp, 997, sevSYS, messageString);
   listing("", 0, 79, liTINY, sevALL);
   terminate(EXIT_FAILURE);

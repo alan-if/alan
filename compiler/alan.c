@@ -315,8 +315,11 @@ void compile(void) {
   _ftype = '?\?\?\?';
 #endif
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
-  if (!txtfil)
-    syserr("Could not open output file '%s' for writing.", txtfnm);
+  if (!txtfil) {
+    char errorString[1000];
+    sprintf(errorString, "Could not open output file '%s' for writing", txtfnm);
+    SYSERR(errorString);
+  }
 
   /* First initialise */
   initAdventure();

@@ -8,22 +8,8 @@ inheritExit.alan
 
   *1*   310 E : Identifier 'unknown' not defined.
 
-    6.    Exit e to l Check unknown Is hot Else Make unknown hot.
-=====>                      1                        2
 
-  *1*   310 E : Identifier 'unknown' not defined.
-  *1*   310 E : Identifier 'unknown' not defined.
-  *2*   310 E : Identifier 'unknown' not defined.
-  *2*   310 E : Identifier 'unknown' not defined.
-
-    7.      Does Make unknown hot.
-=====>                1
-
-  *1*   310 E : Identifier 'unknown' not defined.
-  *1*   310 E : Identifier 'unknown' not defined.
-
-
-        7 error(s).
+        1 error(s).
         No detected warnings.
         1 informational message(s).
 

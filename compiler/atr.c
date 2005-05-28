@@ -158,10 +158,13 @@ void symbolizeAttributes(List *atrs)
 	  thisAttribute->type = INSTANCE_TYPE;
 	else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
 	  thisAttribute->type = EVENT_TYPE;
-	else
-	  lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
-		 "Attribute value in reference attribute declaration",
-		 "an instance or event", NULL);
+	else {
+	  if (thisAttribute->reference->symbol->kind != ERROR_SYMBOL)
+	    lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
+		   "Attribute value in reference attribute declaration",
+		   "an instance or event", NULL);
+	  thisAttribute->type = ERROR_TYPE;
+	}
       } else
 	thisAttribute->type = ERROR_TYPE;
     }

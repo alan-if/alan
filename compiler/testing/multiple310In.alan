@@ -5,7 +5,7 @@ Syntax
     And t Isa topic
       Else Say The a. "can not answer about" Say the t. "."
 
-Every topic
+Every topic Isa entity
   Verb ask_about
     Does
       If t In topics Of a Then

@@ -83,9 +83,9 @@ void insert(List *thePoint, void *element, ListKind kind)
   List *newListNode;
 
   if (thePoint == NULL)
-    syserr("Inserting an element in a NULL list!", NULL);
+    SYSERR("Inserting an element in a NULL list");
   if (kind != thePoint->kind)
-    syserr("Inserting wrong kind of element in list!", NULL);
+    SYSERR("Inserting wrong kind of element in list");
 
   /* Move the first element to a new list node */
   newListNode = concat(NULL, thePoint->element.atr, kind);

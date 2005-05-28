@@ -19,16 +19,6 @@ scheduleExpression.alan
 
   *1*   315 E : Attribute not defined for 'l'.
 
-   13.    Schedule l Of l After 0.
-=====>               1
-
-  *1*   331 E : Incompatible types in SCHEDULE statement. Event type required.
-
-   14.    Cancel l Of l.
-=====>             1
-
-  *1*   331 E : Incompatible types in CANCEL statement. Event type required.
-
    17.    Schedule object After 0.
 =====>             1
 
@@ -40,7 +30,7 @@ scheduleExpression.alan
   *1*   319 E : Identifier 'object' is not of correct type for this context.
 
 
-        7 error(s).
+        5 error(s).
         No detected warnings.
         1 informational message(s).
 

@@ -29,7 +29,7 @@ void args(int argc, char * argv[])
   else
     programName = strdup(&programName[1]);
 
-  if (strlen(programName) > 4 && stricmp(&programName[strlen(programName)-4], ".EXE") == 0)
+  if (strlen(programName) > 4 && strcasecmp(&programName[strlen(programName)-4], ".EXE") == 0)
     programName[strlen(programName)-4] = '\0';
 
   /* Now look at the switches and arguments */
