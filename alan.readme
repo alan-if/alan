@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2005-01-12
+			      2005-05-28
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0.dev-34) of Alan V3. It features
+This is a development preview (v3.0.dev-35) of Alan V3. It features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -15,8 +15,28 @@ which takes an Alan v2 source file and outputs a V3 version of the
 same source.
 
 Depending on if you used the ZIP-archive or the Windows installer you
-will get command line version or a Windows GUI version. They are
+will get a command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in v3.0.35 development:
+- The DIRECTLY qualifier can now be used for all Where-type expressions
+- A container using the default description will list its content
+- The List statement can now operate on expressions, notably involving
+  reference attributes
+- Implemented text style hints which of course only works in some
+  interpreters, notably non-trivial GLK-variants
+- Exits can be inherited and added
+- Initialize clause added to classes and instances, this makes it easier
+  to control initializations local
+- Events can be referenced from attributes in the same way as instances
+- NEW Play statement to play sounds, interpreter dependent support of course
+- All media resources are now automatically packaged into a single resource
+  file (blorb-format) by the compiler
+- Improved word handling to enable more correct parsings when words are of
+  multiple classes, e.g. verb&direction, adjective&verb and preposition&verb
+- Nearby expression can test locations
+- NEW Near expression which tests the adjacency between two instances
+
 
 Changes in v3.0.34 development:
 - Clean up of AT and IN. They are both now transitive/recursive.
@@ -85,16 +105,6 @@ Changes in v3.0.33 development:
 - Added UNDO as a response to QUIT
 - Empty player input is now interpreted as forfeiting that command turn
 
-Changes in v3.0.32 development:
-- Added transcript, recorded commands and playback
-- Allowed expressions as reference to actor in USE and STOP statements
-- Containers can now specify which class they take
-- Allowed full stop as sentence breaker in player input
-- Completely general use of reference attributes in all statements and expressions
-- New attribute reference syntax using <what>:attribute
-- Removed need for REVERSED when building the compiler and interpreter, less Makefile-tweaking
-
-
 Note: To run the GUI interpreter 'winarun' you will need a Windows
 "GLK.DLL". WindowsGLK DLL is included in this distribution but can
 also be downloaded from:
@@ -150,7 +160,7 @@ Alan Home Pages at
 	http://welcome.to/alan-if
 
 
-If you haven't already, join the 1280 people registered. Happy Authoring!
+If you haven't already, join the 1291 people registered. Happy Authoring!
 
 Thomas Nilsson
 thomas@junovagen.se

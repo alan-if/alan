@@ -447,11 +447,6 @@ saviourV2_x.alan
   *4*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
-  616.          IF ladder AT outside THEN
-=====>                       1
-
-  *1*   310 E : Identifier 'outside' not defined.
-
   637.          IF ladder IN hero THEN
 =====>                       1
 
@@ -817,11 +812,6 @@ saviourV2_x.alan
   *1*   351 E : Target of an Exit must refer to an instance inheriting from
                 'location'.
 
-  975.  		LOCATE HERO AT outside.
-=====>  		               1
-
-  *1*   310 E : Identifier 'outside' not defined.
-
   977.      EXIT west TO fifth.
 =====>                   1
 
@@ -1176,13 +1166,8 @@ saviourV2_x.alan
 
   *1*   104 E : Severe syntax error, construct ignored.
 
- 1284.  START AT outside.
-=====>           1
 
-  *1*   310 E : Identifier 'outside' not defined.
-
-
-        254 error(s).
+        251 error(s).
         53 warning(s).
         29 informational message(s).
 
