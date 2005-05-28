@@ -7,6 +7,9 @@
 -- player character, etc
 import 'global.i'.
 
+-- People, male/female etc.
+import 'people.i'.
+
 -- Standard verbs
 import 'look.i'.
 import 'take.i'.    -- + pick up, drop, put down.
