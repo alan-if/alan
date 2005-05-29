@@ -27,7 +27,7 @@ Changes in v3.0.35 development:
   interpreters, notably non-trivial GLK-variants
 - Exits can be inherited and added
 - Initialize clause added to classes and instances, this makes it easier
-  to control initializations local
+  to control initializations locally
 - Events can be referenced from attributes in the same way as instances
 - NEW Play statement to play sounds, interpreter dependent support of course
 - All media resources are now automatically packaged into a single resource
