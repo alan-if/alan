@@ -1,5 +1,5 @@
 -- global.i
--- Library version 0.5.0
+-- Library version 0.6.1
 
 -- 0.6.0 -- removed synonyms 'him' and 'her' since Alan now defines them
 --	    Use of 'named' as used in std.i messages to distinguish between
@@ -13,25 +13,6 @@
 --	    synonyms for player's character so can "examine myself" "look at
 --          me" etc and synonyms for "it" so can say "look at guard"
 --          and then "salute him"
-
-Synonyms
-  me, myself, self = hero.
-
-The hero Isa actor
-Container
-  Limits
-    Count 10 Then
-      "You can't carry anything more. You have to drop something 
-	first."
-    weight 50 Then
-      "You can't carry anything more. You have to drop something 
-	first."
-    Header
-      "You are carrying"
-    Else
-      "You are empty-handed."
-End The hero.
-
 
 -- To make instance names always be capitalized (e.g. for persons),
 -- give the instance a capitalised name in single quotes. Since

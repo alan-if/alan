@@ -12,7 +12,7 @@ list of changes is not going to be updated while Alan v3 is in
 development state.
 
 The actual library files (the files with a filename extension of ".i")
-are added to the source code of your game by "$include'ing" the main
+are added to the source code of your game by importing the main
 file called std.i -- see the text file 'notes.txt' for details.
 
 The second line of each library file lists the previous library
