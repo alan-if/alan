@@ -14,7 +14,7 @@ run ()
     if [ ! -f $case.suspended ]
     then
 	echo "########## $case ##########" >$case.output
-	.regr $case >>$case.output 2>&1
+	./.regr $case >>$case.output 2>&1
 	cases=`expr $cases + 1`
     fi
 }

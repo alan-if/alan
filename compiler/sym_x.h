@@ -60,6 +60,7 @@ extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);
 extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
 extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
+extern void instanceCheck(IdNode *id, char *what, char className[]);
 extern Bool isClass(Symbol *symbol);
 extern Bool symbolIsContainer(Symbol *symbol);
 extern Symbol *contentOfSymbol(Symbol *symbol);

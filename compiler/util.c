@@ -198,7 +198,6 @@ void listing(char *listFileName, int lines, int columns,
 void syserr(char *errorMessage, char *function, char *file, int line)
 {
   int messageLength;
-  char *position;
   char *messageString;
 
   messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");

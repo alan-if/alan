@@ -92,7 +92,7 @@ void symbolizeExits(List *theExitList)
 /*======================================================================*/
 void analyzeExit(Exit *ext, Context *context)
 {
-  inheritCheck(ext->target, "Target of an Exit", "an instance", "location");
+  instanceCheck(ext->target, "Target of an Exit", "location");
 
   analyzeChecks(ext->chks, context);
   analyzeStatements(ext->stms, context);

@@ -1,28 +1,20 @@
-########## alan sgcrash1 ##########
+########## sgcrash1 ##########
 
 
 sgcrash1.alan
 
-    7.  the glasses isa object at oldbooks
+    5.  the glasses isa object at oldbooks
 =====>                            1
 
   *1*   310 E : Identifier 'oldbooks' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
 
-   17.  the glass isa object at oldbooks
-=====>                          1
-
-  *1*   310 E : Identifier 'oldbooks' not defined.
-  *1*   351 E : Must refer to an instance inheriting from 'location'.
-
-   34.  the chocolate isa object in box
+   32.  the chocolate isa object in box
 =====>                              1
 
   *1*   310 E : Identifier 'box' not defined.
-  *1*   310 E : Identifier 'box' not defined.
 
 
-        6 error(s).
+        2 error(s).
         No detected warnings.
-        1 informational message(s).
+        3 informational message(s).
 

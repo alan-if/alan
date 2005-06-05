@@ -286,10 +286,12 @@ int smScAction(
 	  c = smThis->smText[smThis->smLength-1];
 	} while (isspace(c));
 
-	if (c != '.')
-	  lmLog(&token.srcp, 109, sevERR, "");
-	else
+	if (c == '.') {
 	  i = smScSkip(smThis, 1);
+	} else {
+	  lmLog(&token.srcp, 109, sevERR, "expected terminating '.'");
+	  i = smScSkip(smThis, -1);
+	}
 
 	srcp = token.srcp;	/* Insert the file before next line */
 	srcp.line++;

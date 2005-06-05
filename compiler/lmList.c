@@ -89,7 +89,7 @@ static lmMsgs msg[] = {
     { "106   ", "Parse stack overflow." },
     { "107   ", "Parse table error." },
     { "108   ", "Parsing terminated." },
-    { "109   ", "Syntax error in import statement" },
+    { "109   ", "Syntax error in import statement, %1." },
     { "150   ", "Unterminated STRING." },
     { "151   ", "File name missing for $INCLUDE directive." },
     { "152   ", "Unterminated quoted identifier." },

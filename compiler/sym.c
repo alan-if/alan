@@ -721,6 +721,24 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 
 
 /*======================================================================*/
+void instanceCheck(IdNode *id, char reference[], char className[])
+{
+  /* Check that the given identifier inherits the class passed as a string.
+     This will only be used for built in class checks (location, actor etc.)
+  */
+
+  Symbol *theClassSymbol = lookup(className);
+
+  if (theClassSymbol == NULL) SYSERR("There is no such class");
+
+  if (id->symbol != NULL)
+    if (id->symbol->kind != ERROR_SYMBOL)
+      if (id->symbol->kind != INSTANCE_SYMBOL || !inheritsFrom(id->symbol, theClassSymbol))
+	lmLogv(&id->srcp, 351, sevERR, reference, "an instance", className, NULL);
+}
+
+
+/*======================================================================*/
 Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 {
   /* Find the symbol which defines an attribute by traversing its parents. */

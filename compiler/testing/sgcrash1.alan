@@ -1,6 +1,4 @@
 -------------- Enclosure number 2 ----------------
-$include 'std.i'
-
 the point isa location
 end the point.
 

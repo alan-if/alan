@@ -67,7 +67,7 @@ void verifyInitialLocation(Where *whr)
   switch (whr->kind) {
   case WHERE_AT:
     if (whr->what->fields.wht.wht->kind == WHAT_ID) {
-      inheritCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "an instance", "location");
+      instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
     } else
       lmLog(&whr->srcp, 355, sevERR, "");
     break;

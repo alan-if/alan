@@ -8,24 +8,30 @@ import.alan
 
   *1*   199 F : Adventure source file (abcd) not found.
 
-    3.  options
+    2.  import 'abcd'
+=====>         1
+
+  *1*   109 E : Syntax error in import statement, expected terminating '.'.
+  *1*   199 F : Adventure source file (abcd) not found.
+
+    4.  options
 =====>  1
 
   *1*   102 E : Syntax error. Ignoring "options".
 
-    4.    import 'options'.
+    5.    import 'options'.
 =====>           1
 
   *1*   199 F : Adventure source file (options) not found.
 
-    8.    import 'body'.
+    9.    import 'body'.
 =====>    1      2
 
   *1*   102 E : Syntax error. Ignoring "import".
   *2*   199 F : Adventure source file (body) not found.
 
 
-        5 error(s).
+        7 error(s).
         No detected warnings.
         1 informational message(s).
 

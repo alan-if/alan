@@ -4,346 +4,44 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>405.89</origest>
-<currest>404.89</currest>
-<elapsed>264.89</elapsed>
+<origest>411.89</origest>
+<currest>410.89</currest>
+<elapsed>270.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>67</origest>
-<currest>67</currest>
-<elapsed>27</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0.dev35</desc>
-<notes/>
-<priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
-<elapsed>27</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
-<notes>Prompted by SYSERR not producing -cc style listing which trashed alanIDE:s message parsing</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>47</origest>
+<currest>47</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor DIRECTLY to be on WHERE?</desc>
-<notes/>
-<priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
-<elapsed>3</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Aggregates and filters must allow DIRECTLY</desc>
-<notes>Currently they are not transitive, but should have the same semantics as IN and AT: DIRECTLY is required to get the non-transitive evaluation</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>DIRECTLY HERE, DIRECTLY NEARBY</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>NEARBY should use non-DIRECTLY version of where()</desc>
-<notes>Make test cases for NEARBY first</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>A container without a description should be listed automatically</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document that $n prints using player words and Say does not.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Restriction analysis questions</desc>
-<notes>The current analysis of restrictions and their statements seem to start by assuming every parameter is an instance and go from there. That's ok, but at the same time the legacy indicates that the default of a parameter should be "object", and we can have these at the same time:
-
-Syntax x = x (a) (b)
-    Where a Isa c1
-        Else "Here b is either an entity or an object, depending on the strategy."
-
-Probably this should work by first working through the restrictions to see if a parameter is restricted, if not at all it should be assumed an "object" and if it was restricted (in the class dimension, not container) it should start out as an entity.
-
-This is not true. The legacy only indicates that the parameter should be an object in the *bodies*. The restrictions could still assume entity to begin with. Ensure that a non-restricted parameter is an object.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow expression in List statement.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Text Styles</desc>
-<notes>New statement "Style xxx." Use GLK styles:
-- Normal
-- Emphasis
-- Preformatted
-- Alert
-- Quote</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherited Exits</desc>
-<notes>Usefullness?
-
-Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>-ide switch to output messages with character positions</desc>
-<notes>In AlanIDE it would be nice to use character positions instead of line markers.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>INIT clause as property</desc>
-<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.
-
-The INITIALIZE clause is executed at the start location and the current actor is hero.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor: Allocate parameter lists</desc>
-<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Events as attributes</desc>
-<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.
-
-Would require expressions in Cancel and Schedule statements.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>PLAY statement</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Resource type management</desc>
-<notes>The extensions of resource files (sounds and images) sometimes controls the kind of resource. Case in point: .MOD is MUS and .AIF/.AIFF is SND.
-
-We need a mapping which implies that we need to discover file extensions in resource file names.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Use Blorb-layer for resources</desc>
-<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;exits&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Investigate multi-class word problems</desc>
-<notes>Word as synonym and verb
-Word as synonym and direction
-Word as verb and direction
-....
-
-Which of the above works, and what is the problem with each that doesn't?
-</notes>
-<priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
-<elapsed>4</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Word-clash</desc>
-<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
-Words can't be prepositions and verbs at the same time. See gestx()
-
-New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
-</notes>
-<priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
-<elapsed>3</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Multiclass word problem 1: VERB &amp; DIRECTION</desc>
-<notes>Multiclass word problem 1: VERB &amp; DIRECTION
-The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
-
-This does not work since the first word in the player input must indicate which type of command it is.
-
-Document this and make the message an error? Yes.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Multiclass word problem 2: ADJECTIVE &amp; VERB</desc>
-<notes>Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Multiclass word problem 3: PREPOSITION &amp; VERB</desc>
-<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
-Words can't be prepositions and verbs at the same time. See gestx()
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Locals should override directions</desc>
-<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should not be entered in the symbol table?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow nearby to be applied to locations</desc>
-<notes>See games/goto.
-
-Currently the interpreter crashes.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Implement &lt;what&gt; NEAR &lt;what&gt;</desc>
-<notes>As a complement to NEARBY</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default restrictions in instances inheriting from unknown classes gives 323</desc>
-<notes>compiler/testing/defaultRestrictionInUnknownClass.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify file type association and Windows double click</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>18</origest>
+<currest>18</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Start At location.</desc>
+<notes>No check is performed in the start section that the identifier is actually an instance.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SET statement should allow setting the value of a set</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Allow class references in attribute declarations of classes</desc>
 <notes>E.g.
@@ -356,7 +54,11 @@ This would make it possible to avoid "fake" instances and instances that have in
 Note in the manual that a "fake" instance is a way to solve NULL-pointers, i.e a special marker indicating "no relevant value".
 
 If a class was allowed we could ensure that an actual instance was used by traversing the inheritance tree. An instance should not be allowed to inherit from a class with a non-instance initalization without initializing it (somewhere along the inheritance chain).
-</notes>
+
+Design tasks:
+1) Allow class
+2) Verify initialization
+3) Manual</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -364,18 +66,17 @@ If a class was allowed we could ensure that an actual instance was used by trave
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Confirmations</desc>
-<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
-
-IF CONFIRM "Are you sure (Y/N) ?" THEN ...
-
-or even
-
-DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
- =1 : RESTORE.
- =2 : RESTART.
- =3 : QUIT.
-END DEPEND.</notes>
+<desc>Printout of pronouns</desc>
+<notes>Invent a Say and $-notation for pronouns and print them accordingly</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Style indicators should not be keywords but identifiers</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -457,8 +158,8 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
-<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<desc>Literal should not inherit from Thing?</desc>
+<notes>It should be a separate base class, or should it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -466,8 +167,34 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
+<desc>Add To Every xyz</desc>
+<notes>Investigate what is left to do:
+
+
+All below is done:
+----------------------------
+It should be possible to add features to classes:
+
+Add To Every object ...
+
+Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
+
+In v3 it should be possible to add anything that is not already available:
+
+attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
+
+initial location, container - can only be added if it has none
+
+mentioned? article? description?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -485,14 +212,74 @@ Would "There is a actor here." be a better default?</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Plural handling in the library</desc>
+<notes>For example
+
+    Add To Every Thing
+        Is Not plural.
+    End Add To.
+
+    Message see_object_start
+        If parameter1 Is plural Then
+            "There are $01"
+        Else
+            "There is $01"
+        End If.
+
+You would need to adjust more standard messages. These 
+things are described in the manual in section 4.14 and 
+appendix D.1.
+
+Every instance that should be used as a plural would be 
+declared with something like:
+
+    The erasers Isa object At aplace
+        Name some erasers
+        Indefinite Article ""
+        Is plural.            -- This is the important 
+part since we test it in the message
+
+You could avoid the deletion of the Indefinite Article 
+by assuming that it should not be used if the instance 
+is plural. Then the plural message should be:
+
+        "There are $1"
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Shortcut to play saviour in alan_setup.exe</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0.dev37</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
-<elapsed>0</elapsed>
+<origest>14</origest>
+<currest>14</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Attribute references without "of" in certain contexts</desc>
@@ -503,6 +290,16 @@ Would "There is a actor here." be a better default?</notes>
      Description Say y.
   End The x.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -566,19 +363,6 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow locations in initial location and Locate if IN</desc>
-<notes>This would allow collecting locations in heaps.
-
-Better: use IN location to mean the exits?
-
-OR: defer this until arrays are available.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Unify error messages</desc>
 <notes>Check error messages and try to unify such as
 
@@ -614,38 +398,12 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Literal should not inherit from Thing?</desc>
-<notes>It should be a separate base class, or should it.</notes>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz</desc>
-<notes>Investigate what is left to do:
-
-
-All below is done:
-----------------------------
-It should be possible to add features to classes:
-
-Add To Every object ...
-
-Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
-
-In v3 it should be possible to add anything that is not already available:
-
-attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
-
-initial location, container - can only be added if it has none
-
-mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -695,24 +453,13 @@ results in
 <desc>Increment: version 3.0.alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>4</currest>
+<origest>3</origest>
+<currest>3</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow Start section at an arbitrary place in the source</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>HAVING clause on aggregate filters</desc>
-<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
- HAVING x = 3
- HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -822,8 +569,8 @@ verbs
 <desc>Version 3.1.dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -910,6 +657,38 @@ is_are_has = 'IS' | 'ARE' | 'HAS' | 'CAN'
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow locations in initial location and Locate if IN</desc>
+<notes>This would allow collecting locations in heaps.
+
+Better: use IN location to mean the exits?
+
+OR: defer this until arrays are available.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Confirmations</desc>
+<notes>E.g. if the player says quit the game should allow the player to change his mind. (Although not if the game quit because of a false move or some such.) E.g 
+
+IF CONFIRM "Are you sure (Y/N) ?" THEN ...
+
+or even
+
+DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
+ =1 : RESTORE.
+ =2 : RESTART.
+ =3 : QUIT.
+END DEPEND.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>How to handle special dictionary entries in unsupported languages?</desc>
 <notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
 
@@ -935,9 +714,9 @@ New clause?</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>91</origest>
-<currest>91</currest>
-<elapsed>8</elapsed>
+<origest>90</origest>
+<currest>90</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Override additively inherited properties</desc>
@@ -1060,10 +839,47 @@ This would also be useful for open/closed attributes, etc.
 Greg Ewing, Computer Science Dept, +--------------------------------------+
 </notes>
 <priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Ability to declare that an attribute is the reversal of another attribute</desc>
+<notes>It could be useful to have a way of declaring that things like "open"
+and "closed" refer to the same attribute with opposite senses, e.g.
+
+  OBJECT ATTRIBUTES
+    IS open ELSE closed.
+
+Then "front_door IS open" and "front_door IS NOT closed" would be
+equivalent, as would "MAKE front_door open" and "MAKE front_door not
+closed", etc. etc.
+
+Greg Ewing, Computer Science Dept, +--------------------------------------+
+University of Canterbury,    | A citizen of NewZealandCorp, a   |
+Christchurch, New Zealand    | wholly-owned subsidiary of USA Inc.  |
+greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Allow definition of constants</desc>
+<notes>Constant
+  NEUTER = 0.
+  BOY = 1.
+  GIRL = 2.
+
+The hero Isa actor
+  sex NEUTER.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Refactor? Allow only WHT_ID?</desc>
@@ -1224,7 +1040,7 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1266,7 +1082,7 @@ E.g. in the example above the IF statement will be executed whenever the 'o' is 
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1319,7 +1135,7 @@ Currently they are not described at all.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1341,6 +1157,15 @@ syserr() because 'l' is both an instance and a verb.</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Author modifiable prompt</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1398,28 +1223,6 @@ First the player is shown an intro text (this is the start section). Then he see
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Ability to declare that an attribute is the reversal of another attribute</desc>
-<notes>It could be useful to have a way of declaring that things like "open"
-and "closed" refer to the same attribute with opposite senses, e.g.
-
-  OBJECT ATTRIBUTES
-    IS open ELSE closed.
-
-Then "front_door IS open" and "front_door IS NOT closed" would be
-equivalent, as would "MAKE front_door open" and "MAKE front_door not
-closed", etc. etc.
-
-Greg Ewing, Computer Science Dept, +--------------------------------------+
-University of Canterbury,    | A citizen of NewZealandCorp, a   |
-Christchurch, New Zealand    | wholly-owned subsidiary of USA Inc.  |
-greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor? Make Props a field in Class and Instance instead of a dynamically allocated node</desc>
 <notes/>
 <priority>2</priority>
@@ -1438,31 +1241,7 @@ greg@cosc.canterbury.ac.nz    +--------------------------------------+</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allow definition of constants</desc>
-<notes>Constant
-  NEUTER = 0.
-  BOY = 1.
-  GIRL = 2.
-
-The hero Isa actor
-  sex NEUTER.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Menu entry for debugging (only available when option is turned on)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Author modifiable prompt</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1762,7 +1541,7 @@ The ... In box</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -2266,9 +2045,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>227.89</origest>
-<currest>226.89</currest>
-<elapsed>226.89</elapsed>
+<origest>254.89</origest>
+<currest>253.89</currest>
+<elapsed>253.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -6527,6 +6306,326 @@ NOTE any instance for which noun in noSuch()</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0.35dev</desc>
+<notes/>
+<priority>2</priority>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>27</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
+<notes>Prompted by SYSERR not producing -cc style listing which trashed alanIDE:s message parsing</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor DIRECTLY to be on WHERE?</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Aggregates and filters must allow DIRECTLY</desc>
+<notes>Currently they are not transitive, but should have the same semantics as IN and AT: DIRECTLY is required to get the non-transitive evaluation</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY HERE, DIRECTLY NEARBY</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>NEARBY should use non-DIRECTLY version of where()</desc>
+<notes>Make test cases for NEARBY first</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>A container without a description should be listed automatically</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document that $n prints using player words and Say does not.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restriction analysis questions</desc>
+<notes>The current analysis of restrictions and their statements seem to start by assuming every parameter is an instance and go from there. That's ok, but at the same time the legacy indicates that the default of a parameter should be "object", and we can have these at the same time:
+
+Syntax x = x (a) (b)
+    Where a Isa c1
+        Else "Here b is either an entity or an object, depending on the strategy."
+
+Probably this should work by first working through the restrictions to see if a parameter is restricted, if not at all it should be assumed an "object" and if it was restricted (in the class dimension, not container) it should start out as an entity.
+
+This is not true. The legacy only indicates that the parameter should be an object in the *bodies*. The restrictions could still assume entity to begin with. Ensure that a non-restricted parameter is an object.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow expression in List statement.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Text Styles</desc>
+<notes>New statement "Style xxx." Use GLK styles:
+- Normal
+- Emphasis
+- Preformatted
+- Alert
+- Quote</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherited Exits</desc>
+<notes>Usefullness?
+
+Yes, you could allow inherting the complete exit and just override the target location, This could make checks and does clauses inherited.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>-ide switch to output messages with character positions</desc>
+<notes>In AlanIDE it would be nice to use character positions instead of line markers.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>INIT clause as property</desc>
+<notes>An INIT clause would be very handy to initialize an instance when it is created. This would allow for much greater modularity.
+
+The INITIALIZE clause is executed at the start location and the current actor is hero.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: Allocate parameter lists</desc>
+<notes>If the compiler sends the maximum number of parameters in any syntax (header-&gt;maxParameters) we can allocate only so much space for the parameter manpulation lists in the interpreters parser.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Events as attributes</desc>
+<notes>This could be handy for storing the currently executing event in a series of events, see Ferrari example.
+
+Would require expressions in Cancel and Schedule statements.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>PLAY statement</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Resource type management</desc>
+<notes>The extensions of resource files (sounds and images) sometimes controls the kind of resource. Case in point: .MOD is MUS and .AIF/.AIFF is SND.
+
+We need a mapping which implies that we need to discover file extensions in resource file names.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Blorb-layer for resources</desc>
+<notes>Lacking source for a blorb-packer, possibly in iblorb sources...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;exits&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Investigate multi-class word problems</desc>
+<notes>Word as synonym and verb
+Word as synonym and direction
+Word as verb and direction
+....
+
+Which of the above works, and what is the problem with each that doesn't?
+</notes>
+<priority>2</priority>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>4</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Word-clash</desc>
+<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
+Words can't be prepositions and verbs at the same time. See gestx()
+
+New and better dictionary handling in the compiler could remedy the multiple word class problems. Or as a first step, try to find a way to point out where a 333 comes from (e.g. 'e' defined both as a synonym and as a another word class).
+</notes>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Multiclass word problem 1: VERB &amp; DIRECTION</desc>
+<notes>Multiclass word problem 1: VERB &amp; DIRECTION
+The VERBDIR problem (check regression test verbdir), using the same word as both a verb and a direction does not work.
+
+This does not work since the first word in the player input must indicate which type of command it is.
+
+Document this and make the message an error? Yes.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiclass word problem 2: ADJECTIVE &amp; VERB</desc>
+<notes>Multiclass word problem2: ADJECTIVE &amp; VERB, doesn't work because the dictionary handling in the compiler (newwrd) returns the code of the found word which is the same as the adjective, resulting in execution of the wrong (if any) verb... (See regression test adjverb) Somehow we must separate word codes from the codes used by the objects, verbs etc.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Multiclass word problem 3: PREPOSITION &amp; VERB</desc>
+<notes>Multiclass word problem 3: PREPOSITION &amp; VERB
+Words can't be prepositions and verbs at the same time. See gestx()
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Locals should override directions</desc>
+<notes>Currently For Each e gives an error message if the direction 'e' is already declared. Directions are not available to the programmer so should not be entered in the symbol table?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Refactor: move descriptionSRCP et.al into a Description Node</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow nearby to be applied to locations</desc>
+<notes>See games/goto.
+
+Currently the interpreter crashes.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Implement &lt;what&gt; NEAR &lt;what&gt;</desc>
+<notes>As a complement to NEARBY</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default restrictions in instances inheriting from unknown classes gives 323</desc>
+<notes>compiler/testing/defaultRestrictionInUnknownClass.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify file type association and Windows double click</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Misc</desc>
@@ -6534,7 +6633,7 @@ NOTE any instance for which noun in noSuch()</notes>
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
-<elapsed>1</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
@@ -6542,7 +6641,7 @@ NOTE any instance for which noun in noSuch()</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
