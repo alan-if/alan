@@ -1667,6 +1667,8 @@ static int val(char str[])
 	%% %<say_form>.sayForm = SAY_DEFINITE; %%
     ! 'an'
 	%% %<say_form>.sayForm = SAY_INDEFINITE; %%
+    ! 'it'
+	%% %<say_form>.sayForm = SAY_PRONOUN; %%
     ;
 
 

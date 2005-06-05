@@ -300,6 +300,7 @@ static char *printForm(SayForm form) {
   case SAY_SIMPLE: return "";
   case SAY_INDEFINITE: return "An";
   case SAY_DEFINITE: return "The";
+  case SAY_PRONOUN: return "It";
   }
   return "**Unknown!!***";
 }

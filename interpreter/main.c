@@ -534,6 +534,7 @@ static void sayParameter(int p, int form)
   <n> = n:th parameter
   +<n> = definite form of n:th parameter
   0<n> = indefinite form of n:th parameter
+  !<n> = pronoun for the n:th parameter
   V = current verb
   A = current actor
   T = tabulation
@@ -561,9 +562,16 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     break;
   case '+':
   case '0':
+  case '!':
     space();
     if (isdigit(str[2])) {
-      sayParameter(str[2]-'1', str[1]=='+'?SAY_DEFINITE:SAY_INDEFINITE);
+      int form;
+      switch (str[1]) {
+      case '+': form = SAY_DEFINITE; break;
+      case '0': form = SAY_INDEFINITE; break;
+      case '!': form = SAY_PRONOUN; break;
+      }
+      sayParameter(str[2]-'1', form);
       needSpace = TRUE;
     }
     advance = 3;
@@ -756,7 +764,7 @@ Bool isString(Aword x)
 }
 
 
-/* Word classes are numbers but in the dictonary they are generated as bits */
+/* Word classes are numbers but in the dictionary they are generated as bits */
 Bool isVerb(int word) {
   return word < dictsize && (dictionary[word].classBits&VERB_BIT)!=0;
 }

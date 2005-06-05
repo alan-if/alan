@@ -221,7 +221,8 @@ typedef enum InstClass {
 typedef enum SayForm {
   SAY_SIMPLE,
   SAY_DEFINITE,
-  SAY_INDEFINITE
+  SAY_INDEFINITE,
+  SAY_PRONOUN
 } SayForm;
 
 typedef enum VarClass {
@@ -249,6 +250,7 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
+  Aint pronoun;			/* Code for the pronoun word */
   Aaddr initialize;		/* Address to initialization statements */
   Aaddr descriptionChecks;	/* Address of description checks */
   Aaddr description;		/* Address of description code */
@@ -265,6 +267,7 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aint code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
+  Aint pronoun;			/* Word code for the pronoun */
   Aint initialLocation;		/* Code for current location */
   Aaddr initialize;		/* Address to initialization statements */
   Aint container;		/* Code for a possible container property */
@@ -485,6 +488,7 @@ typedef enum MsgKind {
   M_QUITACTION,
   M_INDEFINITE,
   M_DEFINITE,
+  M_PRONOUN,
   M_UNDONE,
   M_NO_UNDO,
   MSGMAX

@@ -306,17 +306,26 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->initialLocation = generateInitialLocation(props->whr);
   entry->initialAttributes = props->attributeAddress;
+
+  if (props->pronouns)
+    entry->pronoun = props->pronouns->element.id->code;
+  else
+    entry->pronoun = 0;
+
   if (props->initialize)
     entry->initialize = props->initialize->stmsAddress;
   else
     entry->initialize = 0;
+
   entry->checks = checksAddressOf(props->description);
   entry->description = doesAddressOf(props->description);
   entry->entered = props->enteredAddress;
+
   if (props->container != NULL)
     entry->container = props->container->code;
   else
     entry->container = 0;
+
   entry->mentioned = props->mentionedAddress;
   entry->definite = props->definiteAddress;
   entry->definiteIsForm = props->definiteIsForm;

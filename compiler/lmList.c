@@ -167,7 +167,7 @@ static lmMsgs msg[] = {
     { "336   ", "You can not Add %1." },
     { "337   ", "You can not Say values of %1 type." },
     { "338   ", "A Where specification is required in Aggregate statements." },
-    { "339   ", "You can only use Definite/Indefinite forms to Say instances. For other types of values use \'Say\' without Definite/Indefinite indicator." },
+    { "339   ", "You can only use forms to Say instances. For other types of values use \'Say\' without any form indicator." },
     { "340   ", "Initial location for \'%1\' declared twice. This occurence ignored." },
     { "341   ", "Can not Add %1 to classes. %2" },
     { "342   ", "Can not inherit %1." },

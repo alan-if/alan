@@ -298,11 +298,18 @@ static void generateClassEntry(Class *cla)
   else
     entry.parent = cla->props->parentId->symbol->code;
 
+  if (cla->props->pronouns)
+    entry.pronoun = cla->props->pronouns->element.id->code;
+  else
+    entry.pronoun = 0;
+
   entry.idAddress = cla->props->idAddress;
+
   if (cla->props->initialize != 0)
     entry.initialize = cla->props->initialize->stmsAddress;
   else
     entry.initialize = 0;
+
   entry.descriptionChecks = checksAddressOf(cla->props->description);
   entry.description = doesAddressOf(cla->props->description);
   entry.entered = cla->props->enteredAddress;

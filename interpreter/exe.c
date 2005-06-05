@@ -1249,6 +1249,20 @@ void sayString(char *str)
 
 
 /*----------------------------------------------------------------------*/
+static char *wordWithCode(Aint classBit, Aint code) {
+  int w;
+  char str[50];
+
+  for (w = 0; w < dictsize; w++)
+    if (dictionary[w].code == code && ((classBit&dictionary[w].classBits) != 0))
+      return pointerTo(dictionary[w].wrd);
+  sprintf(str, "Could not find word of class %ld with code %ld.", classBit, code);
+  syserr(str);
+  return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
 static Bool sayInheritedDefiniteForm(Aword theClass) {
   if (theClass == 0) {
     printMessage(M_DEFINITE);
@@ -1302,6 +1316,26 @@ static void sayIndefinite(Aint id) {
 
 
 /*----------------------------------------------------------------------*/
+static void sayInheritedPronoun(Aint id) {
+  if (id != 0) {
+    if (class[id].pronoun != 0)
+      output(wordWithCode(PRONOUN_BIT, class[id].pronoun));
+    else
+      sayInheritedPronoun(class[id].parent);
+  } else
+    printMessage(M_PRONOUN);
+}
+
+/*----------------------------------------------------------------------*/
+static void sayPronoun(Aint id) {
+  if (instance[id].pronoun != 0)
+      output(wordWithCode(PRONOUN_BIT, instance[id].pronoun));
+  else
+    sayInheritedPronoun(instance[id].parent);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void sayArticleOrForm(Aint id, SayForm form)
 {
   if (!isLiteral(id))
@@ -1311,6 +1345,9 @@ static void sayArticleOrForm(Aint id, SayForm form)
       break;
     case SAY_INDEFINITE:
       sayIndefinite(id);
+      break;
+    case SAY_PRONOUN:
+      sayPronoun(id);
       break;
     case SAY_SIMPLE:
       say(id);
