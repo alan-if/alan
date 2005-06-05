@@ -119,10 +119,24 @@ Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *stat
 
 
 /*======================================================================*/
-Statement *newStyleStatement(Srcp srcp, int style)
+Statement *newStyleStatement(Srcp srcp, IdNode *style)
 {
   Statement *new = newStatement(&srcp, STYLE_STATEMENT);
-  new->fields.style.style = style;
+
+  if (stricmp(style->string, "normal") == 0)
+    style->code = NORMAL_STYLE;
+  else if (stricmp(style->string, "emphasized") == 0)
+    style->code = EMPHASIZED_STYLE;
+  else if (stricmp(style->string, "preformatted") == 0)
+    style->code = PREFORMATTED_STYLE;
+  else if (stricmp(style->string, "alert") == 0)
+    style->code = ALERT_STYLE;
+  else if (stricmp(style->string, "quote") == 0)
+    style->code = QUOTE_STYLE;
+  else
+    lmLog(&style->srcp, 550, sevWAR, "'normal', 'emphasized', 'preformatted', 'alert' or 'quote'");
+  
+  new->fields.style.style = style->code;
   return(new);
 }
 

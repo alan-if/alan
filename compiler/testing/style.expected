@@ -3,13 +3,13 @@
 
 style.alan
 
-    8.      Style unimplmented.
+    8.      Style unimplemented.
 =====>            1
 
-  *1*   103 E : Syntax error. Replacing "<identifier>" with "alert".
+  *1*   550 W : Unknown text style. Use 'normal', 'emphasized', 'preformatted',
+                'alert' or 'quote'.
 
 
-        1 error(s).
-        No detected warnings.
-        1 informational message(s).
+        No detected errors.
+        1 warning(s).
 

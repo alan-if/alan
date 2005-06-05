@@ -212,6 +212,7 @@ static lmMsgs msg[] = {
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
+    { "550   ", "Unknown text style. Use %1." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
     { "601   ", "Unknown option, \'%1\'." },
     { "602   ", "Illegal value for option \'%1\'." },
@@ -229,7 +230,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 149}
+    {0, 150}
 };
 static lmMessages currMsect = (lmMessages)0;
 

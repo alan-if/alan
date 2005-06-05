@@ -34,7 +34,7 @@ extern Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *s
 extern Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when);
 extern Statement *newCancelStatement(Srcp srcp, Expression *what);
 extern Statement *newListStatement(Srcp srcp, Expression *what);
-extern Statement *newStyleStatement(Srcp srcp, int style);
+extern Statement *newStyleStatement(Srcp srcp, IdNode *style);
 extern Statement *newShowStatement(Srcp srcp, Resource *resource);
 extern Statement *newPlayStatement(Srcp srcp, Resource *resource);
 

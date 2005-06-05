@@ -1654,18 +1654,10 @@ static int val(char str[])
 	%<output_statement>.stm = newPlayStatement(%'play'.srcp, newResource(%ID.id->srcp, %ID.id));
     %%	  
 
-    ! 'style' <style> '.'
+    ! 'style' ID '.'
     %%
-	%<output_statement>.stm = newStyleStatement(%'style'.srcp, %<style>.val);
+	%<output_statement>.stm = newStyleStatement(%'style'.srcp, %ID.id);
     %%
-    ;
-
-<style>
-    = 'normal'  %% %<style>.val = NORMAL_STYLE; %%
-    ! 'emphasized'  %% %<style>.val = EMPHASIZED_STYLE; %%
-    ! 'preformatted'  %% %<style>.val = PREFORMATTED_STYLE; %%
-    ! 'alert'  %% %<style>.val = ALERT_STYLE; %%
-    ! 'quote'  %% %<style>.val = QUOTE_STYLE; %%
     ;
 
 <say_form>
