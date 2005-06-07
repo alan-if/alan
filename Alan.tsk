@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>411.89</origest>
-<currest>410.89</currest>
-<elapsed>273.89</elapsed>
+<origest>417.89</origest>
+<currest>416.89</currest>
+<elapsed>276.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>47</origest>
-<currest>47</currest>
-<elapsed>4</elapsed>
+<origest>53</origest>
+<currest>53</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
-<elapsed>3</elapsed>
+<origest>24</origest>
+<currest>24</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -57,6 +57,51 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Shortcut to play saviour in alan_setup.exe</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify that set attribute initialization is constant</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Assignment of set attributes to other set attributes</desc>
+<notes>Sets must be managed like strings, dynamic allocation and deallocation? No, need only to copy members after verifying that the target size is large enough.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If x In {members},,, does not work</desc>
+<notes>See compiler/testing/ifSetLiteral.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute initialization with an empty set should be allowed if it has a type and class from its inheritance</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -84,6 +129,24 @@ Design tasks:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>COUNT IN integerSet does not work</desc>
+<notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
+
+The special case should involve I_SETSIZE instruction instead of AGRSTART et.al if the aggregate operate on an integer set.
+
+This should apply to MAX, MIN and SUM also?
+
+See regression/integerSetAggregation.alan
+
+
+Say Max In integerSet Of instance.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Should checks only be run for alternatives that match?</desc>
 <notes>Currently the checks are run for all alternatives.
 
@@ -91,6 +154,15 @@ Verify what this would mean in a practical example.
 
 I think only checks for matching alternatives would be natural.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>There should be no space before a full stop even if the previous output was an expression.</desc>
+<notes>"string" Say Count ... ".$p" generates an extra space</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -257,15 +329,6 @@ is plural. Then the plural message should be:
 
         "There are $1"
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Shortcut to play saviour in alan_setup.exe</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -39,13 +39,14 @@ int attributeAreaSize = 0;	/* # of Awords needed for attribute storage */
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *newAttribute(Srcp *srcp, /* IN - Source Position */
-			TypeKind type,	/* IN - Type of this atribute */
-			IdNode *id,	/* IN - The id */
-			int value,      /* IN - The initial value */
-			long int fpos,	/* IN - File pos. for initial string */
-			int len,	/* IN - D:o length */
-			IdNode *instance, List *set) /* IN - Initial instance */
+static Attribute *newAttribute(Srcp *srcp,
+			       TypeKind type,
+			       IdNode *id,
+			       int value,
+			       long int fpos,
+			       int len,
+			       IdNode *instance,
+			       Expression *set)
 {
   Attribute *new;			/* The newly allocated area */
 
@@ -114,7 +115,7 @@ Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance)
 
 
 /*======================================================================*/
-Attribute *newSetAttribute(Srcp srcp, IdNode *id, List *set)
+Attribute *newSetAttribute(Srcp srcp, IdNode *id, Expression *set)
 {
   Attribute *new;			/* The newly allocated area */
 
@@ -282,53 +283,20 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSetMembersClass(Attribute *thisAttribute)
+static void analyzeSetAttribute(Attribute *thisAttribute)
 {
-  List *elements;
-  TypeKind inferedType = UNINITIALIZED_TYPE;
-  Symbol *inferedClass = NULL;
-
-  if (thisAttribute->set == NULL)
+  if (length(thisAttribute->set->fields.set.members) == 0)
     lmLog(&thisAttribute->srcp, 413, sevERR, "");
   else {
-    TRAVERSE(elements, thisAttribute->set) {
-      Expression *exp = elements->element.exp;
-      analyzeExpression(exp, NULL);
-      if (inferedType == UNINITIALIZED_TYPE)
-	inferedType = exp->type;
-      if (!equalTypes(inferedType, exp->type))
-	lmLogv(&exp->srcp, 408, sevERR, "Expressions", "Set attribute", "the same", NULL);
-      else if (exp->type == ERROR_TYPE)
-	inferedType = ERROR_TYPE;
-      else
-	switch (exp->type) {
-	case INSTANCE_TYPE:
-	  if (inferedClass == NULL)
-	    inferedClass = exp->class;
-	  else {
-	    while (!inheritsFrom(inferedClass, exp->class) && !inheritsFrom(exp->class, inferedClass)) {
-	      /* They are not of the same class so we need to find a common ancestor */
-	      inferedClass = inferedClass->fields.entity.parent;
-	      if (inferedClass == NULL)
-		SYSERR("No common ancestor found for Set members");
-	    }
-	  }
-	  break;
-	case INTEGER_TYPE:
-	  inferedClass = integerSymbol;
-	  break;
-	case STRING_TYPE:
-	  lmLogv(&exp->srcp, 410, sevERR, "Set initialization", "integers or instance references", NULL);
-	  break;
-	default:
-	  SYSERR("Unexpected type kind");
-	  break;
-	}
-    }
-    thisAttribute->setType = inferedType;
-    if (inferedType == ERROR_TYPE)
+    analyzeExpression(thisAttribute->set, NULL);
+    if (!isConstantExpression(thisAttribute->set))
+      lmLog(&thisAttribute->set->srcp, 433, sevERR, "");
+    thisAttribute->setType = thisAttribute->set->fields.set.memberType;
+    if (thisAttribute->setType == ERROR_TYPE)
       thisAttribute->type = ERROR_TYPE;
-    thisAttribute->setClass = inferedClass;
+    else
+      thisAttribute->type = SET_TYPE;
+    thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
   }
 }
 
@@ -396,7 +364,7 @@ void analyzeAttributes(List *atrs, Symbol *symbol)
 
     switch (thisAttribute->type) {
     case SET_TYPE:
-      analyzeSetMembersClass(thisAttribute);
+      analyzeSetAttribute(thisAttribute);
       break;
     case INSTANCE_TYPE:
     case REFERENCE_TYPE:
@@ -664,24 +632,32 @@ Aaddr generateStringInit(void)
 }
 
 
-/*----------------------------------------------------------------------*/
-static Aaddr generateSet(Attribute *atr)
-{
-  /* Generate initial set for one attribute */
-
+/*======================================================================*/
+void generateSet(Expression *exp) {
   List *elements;
+
+  TRAVERSE (elements, exp->fields.set.members)
+    switch (exp->fields.set.memberType) {
+    case INSTANCE_TYPE: emit(symbolOfExpression(elements->element.exp, NULL)->code); break;
+    case INTEGER_TYPE: emit(elements->element.exp->fields.val.val); break;
+    default: SYSERR("Generating unexpected type in Set attribute");
+    }
+  emit(EOF);
+}
+
+
+
+/*----------------------------------------------------------------------*/
+static Aaddr generateSetAttribute(Attribute *atr)
+{
+  /* Generate initial set for an attribute */
+
   Aaddr adr = nextEmitAddress();
 
   if (atr->setType == STRING_TYPE)
     SYSERR("Can't generate STRING sets yet,");
 
-  TRAVERSE (elements, atr->set)
-    switch (atr->setType) {
-    case INSTANCE_TYPE: emit(symbolOfExpression(elements->element.exp, NULL)->code); break;
-    case INTEGER_TYPE: emit(elements->element.exp->fields.val.val); break;
-    default: SYSERR("Unexpected attribute type");
-    }
-  emit(EOF);
+  generateSet(atr->set);
 
   return adr;
 }
@@ -697,11 +673,11 @@ Aaddr generateSetInit(void)
   Aaddr adr;
 
   TRAVERSE (atrs, adv.setAttributes)
-    atrs->element.atr->setAddress = generateSet(atrs->element.atr);
+    atrs->element.atr->setAddress = generateSetAttribute(atrs->element.atr);
 
   adr = nextEmitAddress();
   TRAVERSE (atrs, adv.setAttributes) {
-    entry.size = length(atrs->element.atr->set);
+    entry.size = length(atrs->element.atr->set->fields.set.members);
     entry.setAddress = atrs->element.atr->setAddress;
     entry.adr = atrs->element.atr->address;
     emitEntry(&entry, sizeof(entry));
@@ -764,7 +740,7 @@ void dumpAttribute(Attribute *atr)
       }
       nl();
     }
-    put("set: "); dumpList(atr->set, EXPRESSION_LIST);
+    put("set: "); dumpExpression(atr->set);
     break;
   default:
     put(", stringAddress: "); dumpAddress(atr->stringAddress);
@@ -780,7 +756,7 @@ void dumpAttribute(Attribute *atr)
       }
       nl();
     }
-    put("set: "); dumpList(atr->set, EXPRESSION_LIST);
+    put("set: "); dumpExpression(atr->set);
     break;
   }
   out();

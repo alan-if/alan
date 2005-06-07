@@ -139,5 +139,5 @@ void dumpId(IdNode *id)
   put("ID: "); dumpSrcp(id->srcp);
   put(", "); dumpString(id->string);
   put(", code: "); dumpInt(id->code);
-  put(", symbol: "); dumpPointer(id->symbol);
+  put(", "); dumpSymbol(id->symbol);
 }

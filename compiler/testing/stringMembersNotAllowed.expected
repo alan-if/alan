@@ -6,10 +6,10 @@ stringMembersNotAllowed.alan
     2.    Has s {"hej", "hello"}.
 =====>           1      2
 
-  *1*   410 E : Incompatible types in Set initialization. Set can only contain
-                integers or instance references.
-  *2*   410 E : Incompatible types in Set initialization. Set can only contain
-                integers or instance references.
+  *1*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+  *2*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
 
 
         2 error(s).

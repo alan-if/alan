@@ -433,6 +433,7 @@ Context *contextFor(MsgKind messageNo) {
   case M_QUITACTION:
   case M_INDEFINITE:
   case M_DEFINITE:
+  case M_PRONOUN:
   case M_UNDONE:
   case M_NO_UNDO:
     return NULL;

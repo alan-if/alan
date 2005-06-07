@@ -86,7 +86,32 @@ static void testIsConstantIdentifier()
 
 static void testAnalyzeIsaExpression()
 {
-  
+}
+
+static void testIsConstant()
+{
+  Expression *integer = newIntegerExpression(nulsrcp, 4);
+  IdNode *instanceId = newId(nulsrcp, "instanceId");
+  Symbol *instanceSymbol = newInstanceSymbol(instanceId, NULL, NULL);
+  Expression *instanceExp = newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, instanceId));
+  IdNode *parameterId = newId(nulsrcp, "parameterId");
+  Symbol *parameterSymbol = newInstanceSymbol(parameterId, NULL, NULL);
+  Expression *parameterExp = newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, parameterId));
+  List *members = concat(NULL, instanceExp, EXPRESSION_LIST);
+  Expression *setExp = newSetExpression(nulsrcp, members);
+
+  ASSERT(isConstantExpression(integer));
+
+  instanceId->symbol = instanceSymbol;
+  ASSERT(isConstantExpression(instanceExp));
+
+  parameterSymbol->kind = PARAMETER_SYMBOL;
+  parameterId->symbol = parameterSymbol;
+  ASSERT(!isConstantExpression(parameterExp));
+
+  ASSERT(isConstantExpression(setExp));
+  concat(members, parameterExp, EXPRESSION_LIST);
+  ASSERT(!isConstantExpression(setExp));
 }
 
 void registerExpUnitTests()
@@ -96,5 +121,6 @@ void registerExpUnitTests()
   registerUnitTest(testIsConstantIdentifier);
   registerUnitTest(testAnalyzeIsaExpression);
   registerUnitTest(testVerifySetMember);
+  registerUnitTest(testIsConstant);
 }
 

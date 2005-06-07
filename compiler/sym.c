@@ -1014,12 +1014,8 @@ static void dumpSymbolKind(SymbolKind kind)
   }
 }
 
-/*----------------------------------------------------------------------
-
-  dumpSymbol()
-
-*/
-static void dumpSymbol(Symbol *symbol)
+/*----------------------------------------------------------------------*/
+static void dumpSymbolLeaf(Symbol *symbol)
 {
   if (symbol == NULL) {
     put("NULL");
@@ -1033,17 +1029,13 @@ static void dumpSymbol(Symbol *symbol)
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpSymbolsRecursively()
-
-*/
+/*----------------------------------------------------------------------*/
 static void dumpSymbolsRecursively(Symbol *symbol)
 {
   if (symbol == NULL) return;
   dumpSymbolsRecursively(symbol->lower);
   if (firstSymbolDumped) firstSymbolDumped = FALSE; else nl();
-  dumpSymbol(symbol);
+  dumpSymbolLeaf(symbol);
   dumpSymbolsRecursively(symbol->higher);
 }
 
@@ -1055,4 +1047,18 @@ void dumpSymbols(void)
   indent();
   dumpSymbolsRecursively(symbolTree);
   out();
+}
+
+
+/*======================================================================*/
+void dumpSymbol(Symbol *symbol)
+{
+  if (symbol == NULL) {
+    put("NULL");
+    return;
+  }
+
+  dumpPointer(symbol); dumpSymbolKind(symbol->kind); put(" ");
+  dumpString(symbol->string); 
+  put(":"); dumpInt(symbol->code);
 }

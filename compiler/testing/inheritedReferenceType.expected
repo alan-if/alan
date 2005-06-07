@@ -20,7 +20,7 @@ inheritedReferenceType.alan
    33.    Set t of aSubTalker To l.	-- Should only allow topics
 =====>                           1
 
-  *1*   430 E : Incompatible instance. You can only assign instances of class
+  *1*   430 E : Incompatible assignment. You can only assign instances of class
                 'topic' and its subclasses.
 
 

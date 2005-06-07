@@ -569,6 +569,16 @@ void interpret(Aaddr adr)
 	setStringAttribute(id, atr, (char *)str);
 	break;
       }
+      case I_CLRSET: {
+	Aword id, atr;
+	id = pop();
+	atr = pop();
+	if (singleStepOption) {
+	  printf("CLRSET\t%5ld, %5ld\t\t\t", id, atr);
+	}
+	clearSetAttribute(id, atr);
+	break;
+      }
       case I_INCR: {
 	Aword id, atr, step;
 	id = pop();

@@ -134,12 +134,14 @@ typedef enum InstClass {
   I_SCHEDULE,
   I_CANCEL,
   I_LOCATE,
-  I_MAKE,
+  I_MAKE,			/* Set a boolean attribute to the */
+				/* value on top of stack */
   I_SET,			/* Set a numeric attribute to the */
 				/* value on top of stack */
   I_STRSET,			/* Set a string valued attribute to a */
 				/* copy of the string on top of stack, */
 				/* deallocate current contents first */
+  I_CLRSET,			/* Set a set valued attribute the empty set */
   I_GETSTR,			/* Get a string contents from text */
 				/* file, create a copy and push it */
 				/* on top of stack */

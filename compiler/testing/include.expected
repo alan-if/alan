@@ -12,7 +12,7 @@ include.alan
    14.    Include l In nSet Of l.
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. Set can only contain
+  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
                 integer.
 
    15.    Include l In l.
@@ -39,25 +39,25 @@ include.alan
    20.    Include 4 In iSet Of l.
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. Set can only contain
+  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
                 instances of 'location' and its subclasses.
 
    21.    Include hero In l:iSet.
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. Set can only contain
+  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
                 instances of 'location' and its subclasses.
 
    22.    Include 15 in l:iSet.
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. Set can only contain
+  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
                 instances of 'location' and its subclasses.
 
    23.    Include nSet Of l In iSet Of l.
 =====>                 1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. Set can only contain
+  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
                 instances of 'location' and its subclasses.
 
 

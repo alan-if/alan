@@ -80,6 +80,7 @@ extern Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id);
 extern Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id);
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);
+extern void dumpSymbol(Symbol *symbol);
 extern void dumpSymbols(void);
 
 #endif

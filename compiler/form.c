@@ -21,6 +21,7 @@ void dumpForm(SayForm form)
   case SAY_SIMPLE: put("SIMPLE"); break;
   case SAY_DEFINITE: put("DEFINITE"); break;
   case SAY_INDEFINITE: put("INDEFINITE"); break;
+  case SAY_PRONOUN: put("PRONOUN"); break;
   }
 }
 

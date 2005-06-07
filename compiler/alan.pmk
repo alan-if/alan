@@ -309,17 +309,19 @@ static int val(char str[])
 	%<attribute definition>.atr = newReferenceAttribute(%1ID.id->srcp, %1ID.id, %2ID.id);
     %%
 
-    ! ID '{' <optional members> '}'
+    ! ID '{' <optional_members> '}'
     %%
-	%<attribute definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id, %<optional members>.set);
+	%<attribute definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id,
+			newSetExpression(%'{'.srcp, %<optional_members>.set));
     %%
     ;
 
-<optional members>
+<optional_members>
     =
-    %% %<optional members>.set = NULL; %%
+    %% %<optional_members>.set = NULL; %%
+
     ! <set_members>
-    %% %<optional members>.set = %<set_members>.set; %%
+    %% %<optional_members>.set = %<set_members>.set; %%
     ;
 
 <set_members>				-- RETURNS: set
@@ -335,9 +337,9 @@ static int val(char str[])
     ;
 
 <set_member>				-- RETURNS exp
-    = ID
+    = <what>
     %%
-	%<set_member>.exp = newWhatExpression(%ID.id->srcp, newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id));
+	%<set_member>.exp = %<what>.exp;
     %%
 
     ! <optional_minus> Integer
@@ -2289,6 +2291,11 @@ static int val(char str[])
     ! 'score'
     %%
 	%<primary>.exp = newScoreExpression(%'score'.srcp);
+    %%
+
+    ! '{' <optional_members> '}'
+    %%
+	%<primary>.exp = newSetExpression(%'{'.srcp, %<optional_members>.set);
     %%
     ;
 

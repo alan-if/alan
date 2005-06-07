@@ -16,6 +16,7 @@
 #include "id.h"
 #include "type.h"
 #include "lst.h"
+#include "../interpreter/acode.h"
 
 
 /* TYPES: */
@@ -26,6 +27,7 @@ typedef enum ExpressionKind {		/* EXPRESSION kinds */
   BINARY_EXPRESSION,
   INTEGER_EXPRESSION,
   STRING_EXPRESSION,
+  SET_EXPRESSION,
   AGGREGATE_EXPRESSION,
   RANDOM_EXPRESSION,
   RANDOM_IN_EXPRESSION,
@@ -95,6 +97,13 @@ typedef struct Expression {
       long fpos;
       long len;
     } str;
+
+    struct {			/* For SET literal */
+      List *members;
+      TypeKind memberType;	/* Type of elements in the set */
+      Symbol *memberClass;	/* Class of instance elements in the set */
+      Aaddr address;		/* Address to set constant */
+    } set;
 
     struct {			/* For AGGREGATE */
       AggregateKind kind;	/* Kind of aggregate */

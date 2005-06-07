@@ -323,10 +323,18 @@ static void analyzeSet(Statement *stm, Context *context)
 
   if (!equalTypes(exp->type, wht->type))
     lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
-  else
-    if (exp->type == INSTANCE_TYPE && exp->class != NULL && wht->class != NULL)
-      if (!inheritsFrom(exp->class, wht->class))
-	lmLog(&exp->srcp, 430, sevERR, wht->class->string);
+  else {
+    if (exp->class != NULL && wht->class != NULL) {
+      if (exp->type == INSTANCE_TYPE) {
+	if (!inheritsFrom(exp->class, wht->class))
+	  lmLog(&exp->srcp, 430, sevERR, wht->class->string);
+      } else if (exp->type == SET_TYPE) {
+	/* An empty set can be assigned to any set varible */
+	if (length(exp->fields.set.members) != 0 && !inheritsFrom(exp->class, wht->class))
+	  lmLog(&exp->srcp, 431, sevERR, wht->class->string);
+      }
+    }
+  }
 }
 
 
@@ -838,16 +846,36 @@ static void generateMake(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
+static void generateSetAssignment(Expression *what, Expression *exp)
+{
+  List *members;
+
+  if (!exp || exp->kind != SET_EXPRESSION)
+    SYSERR("Not a set expression");
+
+  TRAVERSE(members, exp->fields.set.members) {
+    generateExpression(members->element.exp);
+    generateExpression(what);
+    emit0(I_INCLUDE);		/* Add member to set */
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateSet(Statement *stm)
 {
   generateLvalue(stm->fields.set.wht);
 
-  generateExpression(stm->fields.set.exp);
-
-  if (stm->fields.set.exp->type == STRING_TYPE)
-    emit0(I_STRSET);
-  else
-    emit0(I_SET);
+  if (stm->fields.set.exp->type == SET_TYPE) {
+    emit0(I_CLRSET);
+    generateSetAssignment(stm->fields.set.wht, stm->fields.set.exp);
+  } else {
+    generateExpression(stm->fields.set.exp);
+    if (stm->fields.set.exp->type == STRING_TYPE)
+      emit0(I_STRSET);
+    else
+      emit0(I_SET);
+  }
 }
 
 

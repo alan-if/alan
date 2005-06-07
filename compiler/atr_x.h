@@ -28,7 +28,7 @@ extern Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value);
 extern Attribute *newStringAttribute(Srcp srcp, IdNode *id, long fpos, int len);
 extern Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value);
 extern Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance);
-extern Attribute *newSetAttribute(Srcp srcp, IdNode *id, List *set);
+extern Attribute *newSetAttribute(Srcp srcp, IdNode *id, Expression *set);
 
 extern void symbolizeAttributes(List *attributeList);
 extern List *sortAttributes(List *attributeList);

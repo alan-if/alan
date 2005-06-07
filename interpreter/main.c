@@ -957,7 +957,7 @@ static void checkVersion(ACodeHeader *header)
   vers[3] = alan.version.state[0];
 
   /* Check version of .ACD file */
-  if (debugOption) {
+  if (debugOption && !regressionTestOption) {
     state[0] = header->vers[3];
     state[1] = '\0';
     printf("<Version of '%s' is %d.%d(%d)%s>",

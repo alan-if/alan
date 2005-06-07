@@ -13,10 +13,11 @@
 void testCreateSetAttribute()
 {
   List *set = concat(NULL, newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
-  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), set);
+  Expression *setExp = newSetExpression(nulsrcp, set);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
   ASSERT(atr->type == SET_TYPE);
-  ASSERT(length(atr->set) == 1);
-  ASSERT(atr->set->element.exp->kind == INTEGER_EXPRESSION);
+  ASSERT(length(atr->set->fields.set.members) == 1);
+  ASSERT(atr->set->fields.set.members->element.exp->kind == INTEGER_EXPRESSION);
 }
 
 void testInferClassInSetAttribute()
@@ -27,14 +28,15 @@ void testInferClassInSetAttribute()
   IdNode *classId = newId(nulsrcp, "object");
   Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "t"), classId, NULL);
   List *set = concat(NULL, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(nulsrcp, "t"))), EXPRESSION_LIST);
-  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), set);
+  Expression *setExp = newSetExpression(nulsrcp, set);
+  Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
   symbolizeInstance(instance);
-  analyzeSetMembersClass(atr);
+  analyzeSetAttribute(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
   ASSERT(atr->setClass == objectSymbol);
-  ASSERT(length(atr->set) == 1);
+  ASSERT(length(atr->set->fields.set.members) == 1);
 
   classId = newId(nulsrcp, "location");
   instance = newInstance(&nulsrcp, newId(nulsrcp, "u"), classId, NULL);
@@ -46,11 +48,11 @@ void testInferClassInSetAttribute()
 	       EXPRESSION_LIST);
 
   symbolizeInstance(instance);
-  analyzeSetMembersClass(atr);
+  analyzeSetAttribute(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
   ASSERT(atr->setClass == entitySymbol);
-  ASSERT(length(atr->set) == 2);
+  ASSERT(length(atr->set->fields.set.members) == 2);
 
 }
 

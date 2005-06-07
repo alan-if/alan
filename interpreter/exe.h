@@ -25,6 +25,7 @@ extern Aword strattr(Aword id, Aword atr);
 extern Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aword id, Aword atr);
 extern Aword concat(Aword s1, Aword s2);
 extern void setStringAttribute(Aword id, Aword atr, char *str);
+extern void clearSetAttribute(Aword id, Aword atr);
 extern void getStringFromFile(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void setStyle(Aint style);

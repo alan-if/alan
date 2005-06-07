@@ -1,7 +1,14 @@
 /*----------------------------------------------------------------------*\
 
 	Abstract datatype Set for Alan interpreter
-	
+
+	A set is implemented as a struct holding a size and a
+	dynamically allocated array of members. Members can be
+	integers or instance numbers. Attributes of Set type is
+	allocated and the pointer to it is used as the attribute
+	value. As members are only references, clearing a set can
+	simply be done by setting the size to zero.
+
 \*----------------------------------------------------------------------*/
 
 #include "set.h"
@@ -24,7 +31,7 @@ void initSets(SetInitEntry *initTable)
     set->allocated = set->size+5;
     set->members = (Aword*)allocate(sizeof(Aword)*set->allocated);
     for (i = 0; i < init->size; i++)
-    	set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
+      set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
   }
 }
 
@@ -38,6 +45,12 @@ static void copyMembers(Aword *source, Aword *destination, int size)
 /*======================================================================*/
 int sizeOfSet(Set *theSet) {
   return theSet->size;
+}
+
+
+/*======================================================================*/
+void clearSet(Set *theSet) {
+  theSet->size = 0;
 }
 
 

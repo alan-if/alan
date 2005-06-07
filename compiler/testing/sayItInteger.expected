@@ -1,10 +1,10 @@
-########## sayAnInteger ##########
+########## sayItInteger ##########
 
 
-sayAnInteger.alan
+sayItInteger.alan
 
-    5.    Say An 4.
-=====>    1
+    9.        Say It i.
+=====>        1
 
   *1*   339 E : You can only use forms to Say instances. For other types of
                 values use 'Say' without any form indicator.

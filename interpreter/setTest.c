@@ -70,9 +70,23 @@ static void testInSet() {
     ASSERT(inSet(&aSet, i));
 }
 
+
+static void testClearSet() {
+  Set aSet = {0, 0, NULL};
+  int i;
+
+  for (i = 6; i>0; i--)
+    addToSet(&aSet, i);
+  clearSet(&aSet);
+  ASSERT(sizeOfSet(&aSet) == 0);
+}
+
+
 void registerSetUnitTests()
 {
   registerUnitTest(testSetAdd);
   registerUnitTest(testSetRemove);
   registerUnitTest(testInSet);
+  registerUnitTest(testInSet);
+  registerUnitTest(testClearSet);
 }

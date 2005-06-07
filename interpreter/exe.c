@@ -534,6 +534,13 @@ void setStringAttribute(Aword id, Aword atr, char *str)
 }
 
 
+/*======================================================================*/
+void clearSetAttribute(Aword id, Aword atr)
+{
+  clearSet((Set *)attributeOf(id, atr));
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void increaseAttribute(AttributeEntry *attributeTable,

@@ -10,6 +10,7 @@
 
 #include "srcp_x.h"
 #include "wht_x.h"
+#include "exp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
 #include "context_x.h"
@@ -109,6 +110,20 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
   }
 }
 
+
+/*======================================================================*/
+Bool isConstantWhat(What *what) {
+  switch (what->kind) {
+  case WHAT_ACTOR:
+  case WHAT_LOCATION:
+  case WHAT_THIS:
+    return FALSE;
+  case WHAT_ID:
+    return isConstantIdentifier(what->id);
+  }
+  SYSERR("Fall-through in switch");
+  return FALSE;
+}
 
 /*======================================================================*/
 Bool verifyWhatContext(What *what, Context *context) {

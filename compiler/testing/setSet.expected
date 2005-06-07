@@ -1,0 +1,58 @@
+########## setSet ##########
+
+
+setSet.alan
+
+   12.    Set locationSet Of l to {o}.     -- Wrong set member class
+=====>                            1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'location' and its subclasses.
+
+   13.    Set locationSet Of l to {l, o}.  -- Infered class is entity, wrong cl
+        ass
+=====>                            1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'location' and its subclasses.
+
+   14.    Set locationSet Of l to {22}.    -- Wrong type
+=====>                            1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'location' and its subclasses.
+
+   15.    Set locationSet Of l to {22, l}. -- Can not mix types
+=====>                                 1
+
+  *1*   408 E : Expressions in a Set must be of the same type.
+
+   18.    Set integerSet Of o to {l}.      -- Wrong type
+=====>                           1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'integer' and its subclasses.
+
+   19.    Set integerSet Of o to {o}.      -- Wrong type
+=====>                           1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'integer' and its subclasses.
+
+   20.    Set integerSet Of o to {l, o}.   -- Infered type is instance, wrong t
+        ype
+=====>                           1
+
+  *1*   431 E : Incompatible assignment. You can only assign a Set where
+                members are instances of class 'integer' and its subclasses.
+
+   22.    Set integerSet Of o to {22, l}.  -- Can not mix types
+=====>                                1
+
+  *1*   408 E : Expressions in a Set must be of the same type.
+
+
+        8 error(s).
+        No detected warnings.
+        1 informational message(s).
+

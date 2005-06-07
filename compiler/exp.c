@@ -80,6 +80,14 @@ Expression *newStringExpression(Srcp srcp, long fpos, int len)
 }
 
 /*======================================================================*/
+Expression *newSetExpression(Srcp srcp, List *set)
+{
+  Expression *exp = newExpression(srcp, SET_EXPRESSION);
+  exp->fields.set.members = set;
+  return exp;
+}
+
+/*======================================================================*/
 Expression *newScoreExpression(Srcp srcp)
 {
   Expression *exp = newExpression(srcp, SCORE_EXPRESSION);
@@ -284,6 +292,50 @@ static char *aggregateToString(AggregateKind agr)
 }
 
 
+/*======================================================================*/
+Bool isConstantIdentifier(IdNode *id)
+{
+  if (id->symbol)
+    return id->symbol->kind != PARAMETER_SYMBOL
+      && id->symbol->kind != LOCAL_SYMBOL;
+  else
+    return TRUE;
+}
+
+
+/*======================================================================*/
+Bool isConstantExpression(Expression *exp)
+{
+  switch (exp->kind) {
+  case INTEGER_EXPRESSION:
+  case STRING_EXPRESSION:
+    return TRUE;
+  case SET_EXPRESSION:
+    {
+      List *members;
+      TRAVERSE(members, exp->fields.set.members) {
+	if (!isConstantExpression(members->element.exp))
+	  return FALSE;
+      }
+      return TRUE;
+    }
+  case WHAT_EXPRESSION:
+    return isConstantWhat(exp->fields.wht.wht);
+  case ATTRIBUTE_EXPRESSION:
+  case WHERE_EXPRESSION:
+  case BINARY_EXPRESSION:
+  case AGGREGATE_EXPRESSION:
+  case RANDOM_EXPRESSION:
+  case RANDOM_IN_EXPRESSION:
+  case SCORE_EXPRESSION:
+  case BETWEEN_EXPRESSION:
+  case ISA_EXPRESSION:
+    return FALSE;
+  }
+  return FALSE;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void analyzeWhereExpression(Expression *exp, Context *context)
 {
@@ -411,10 +463,15 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 }
 
 /*----------------------------------------------------------------------*/
-static Bool isConstantIdentifier(IdNode *id)
+static void analyzeSetExpression(Expression *exp, Context *context)
 {
-  return id->symbol->kind != PARAMETER_SYMBOL
-    && id->symbol->kind != LOCAL_SYMBOL;
+  analyzeSetMembers(exp->fields.set.members, &exp->fields.set.memberType, &exp->fields.set.memberClass);
+  if (exp->fields.set.memberType == ERROR_TYPE)
+    exp->type = ERROR_TYPE;
+  else {
+    exp->type = SET_TYPE;
+    exp->class = exp->fields.set.memberClass;
+  }
 }
 
 
@@ -848,6 +905,10 @@ void analyzeExpression(Expression *expression,
     expression->type = STRING_TYPE;
     break;
     
+  case SET_EXPRESSION:
+    analyzeSetExpression(expression, context);
+    break;
+
   case AGGREGATE_EXPRESSION:
     analyzeAggregate(expression, context);
     break;
@@ -1310,6 +1371,9 @@ void dumpExpression(Expression *exp)
   case STRING_EXPRESSION:
     put("STR ");
     break;
+  case SET_EXPRESSION:
+    put("SET ");
+    break;
   case AGGREGATE_EXPRESSION:
     put("AGR ");
     break;
@@ -1338,7 +1402,7 @@ void dumpExpression(Expression *exp)
   dumpSrcp(exp->srcp);
   indent();
   put("type: "); dumpType(exp->type); nl();
-  put("class: "); dumpPointer(exp->class); nl();
+  put("class: "); dumpSymbol(exp->class); nl();
 
   switch (exp->kind) {
   case WHERE_EXPRESSION:
@@ -1355,6 +1419,12 @@ void dumpExpression(Expression *exp)
   case STRING_EXPRESSION:
     put("fpos: "); dumpInt(exp->fields.str.fpos); nl();
     put("len: "); dumpInt(exp->fields.str.len);
+    break;
+  case SET_EXPRESSION:
+    put("set: "); dumpList(exp->fields.set.members, EXPRESSION_LIST); nl();
+    put("memberType: "); dumpType(exp->fields.set.memberType); nl();
+    put("memberClass: "); dumpSymbol(exp->fields.set.memberClass); nl();
+    put("address: "); dumpInt(exp->fields.set.address);
     break;
   case BINARY_EXPRESSION:
     put("operator: "); dumpOperator(exp->fields.bin.op); nl();
