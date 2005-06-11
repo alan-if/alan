@@ -8,6 +8,7 @@
 
 \*----------------------------------------------------------------------*/
 
+
 /* The event queue */
 extern int dscrstkp;		/* Point into describe stack */
 
@@ -16,31 +17,35 @@ extern int dscrstkp;		/* Point into describe stack */
 extern Bool undo(void);
 extern void sys(Aword fpos, Aword len);
 extern Bool confirm(MsgKind msgno);
-extern Aword attributeOf(Aword instance, Aword atr);
-extern void say(Aword instance);
-extern void sayForm(Aword instance, SayForm form);
+extern Aword attributeOf(Aint instance, Aint atr);
+extern void say(Aint instance);
+extern void sayForm(Aint instance, SayForm form);
 extern void sayInteger(Aword val);
 extern void sayString(char *str);
-extern Aword strattr(Aword id, Aword atr);
-extern Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aword id, Aword atr);
+extern Aword getStringAttribute(Aint id, Aint atr);
+extern Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aint id, Aint atr);
 extern Aword concat(Aword s1, Aword s2);
-extern void setStringAttribute(Aword id, Aword atr, char *str);
-extern void clearSetAttribute(Aword id, Aword atr);
+extern void setStringAttribute(Aint id, Aint atr, char *str);
+extern void addSetAttribute(Aint id, Aint atr, Aword set);
+extern Aword getSetAttribute(Aint id, Aint atr);
+extern void include(Aint id, Aint atr, Aword member);
+extern void exclude(Aint id, Aint atr, Aword member);
+extern void clearSetAttribute(Aint id, Aint atr);
 extern void getStringFromFile(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void setStyle(Aint style);
 extern void look(void);
 extern void showImage(Aword image, Aword align);
 extern void playSound(Aword sound);
-extern void make(Aword id, Aword atr, Aword val);
-extern void set(Aword id, Aword atr, Aword val);
-extern void increase(Aword id, Aword atr, Aword step);
-extern void decrease(Aword id, Aword atr, Aword step);
+extern void make(Aint id, Aint atr, Aword val);
+extern void set(Aint id, Aint atr, Aword val);
+extern void increase(Aint id, Aint atr, Aword step);
+extern void decrease(Aint id, Aint atr, Aword step);
 extern void use(Aword act, Aword scr);
 extern void stop(Aword act);
-extern void describe(Aword id);
+extern void describe(Aint id);
 extern void list(Aword cnt);
-extern void locate(Aword id, Aword whr);
+extern void locate(Aint id, Aword whr);
 extern void empty(Aword cnt, Aword whr);
 extern void score(Aword sc);
 extern void visits(Aword v);
@@ -66,7 +71,7 @@ extern Aword location(Aint instance);
 extern Aint agrmax(Aint atr, Aint whr);
 extern Aint agrsum(Aint atr, Aint whr);
 extern Aint agrcount(Aint where);
-extern Abool isHere(Aword instance, Abool directly);
+extern Abool isHere(Aint instance, Abool directly);
 extern Abool isNearby(Aint instance, Abool directly);
 extern Abool isNear(Aint instance, Aint other, Abool directly);
 extern Abool isA(Aint instance, Aint class);

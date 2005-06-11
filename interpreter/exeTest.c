@@ -381,8 +381,6 @@ static void testWhere() {
   free(class);
   free(header);
 }
-  
-
 
 void registerExeUnitTests()
 {

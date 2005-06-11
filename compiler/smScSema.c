@@ -271,8 +271,8 @@ int smScAction(
     {
       Srcp srcp, start;
       Token token;
-      int i;
-      char c;
+static      int i;
+static      char c;
 
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, &token);		/* Get file name */
@@ -284,7 +284,7 @@ int smScAction(
 	do {
 	  i = smScSkip(smThis, 1);
 	  c = smThis->smText[smThis->smLength-1];
-	} while (isspace(c));
+	} while (isspace(c) && i > 0);
 
 	if (c == '.') {
 	  i = smScSkip(smThis, 1);

@@ -67,7 +67,8 @@ typedef struct Expression {
   Srcp srcp;			/* Source position of the expression */
   ExpressionKind kind;		/* What kind of expression */
   TypeKind type;		/* Type of the expression */
-  Symbol *class;		/* For instance types, the class */
+  Symbol *class;		/* For instance types, the class,
+				   For Set types, the member class */
   Bool not;			/* Was there a NOT ? */
   union {
 

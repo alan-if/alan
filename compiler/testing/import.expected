@@ -30,8 +30,16 @@ import.alan
   *1*   102 E : Syntax error. Ignoring "import".
   *2*   199 F : Adventure source file (body) not found.
 
+   13.  import 'ejrh'
+=====>  1      2    3
 
-        7 error(s).
+  *1*   102 E : Syntax error. Ignoring "import".
+  *2*   109 E : Syntax error in import statement, expected terminating '.'.
+  *2*   199 F : Adventure source file (ejrh) not found.
+  *3*   102 F : Syntax error. Ignoring "Unknown Token".
+
+
+        11 error(s).
         No detected warnings.
         1 informational message(s).
 

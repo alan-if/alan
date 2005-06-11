@@ -605,6 +605,9 @@ static void dumpStatements(Aword pc)
       case I_USE: printf("USE"); break;
       case I_VISITS: printf("VISITS"); break;
       case I_WHERE: printf("WHERE"); break;
+      case I_CLRSET: printf("CLRSET"); break;
+      case I_SETATTR: printf("SETATTR"); break;
+      case I_ADDSET: printf("ADDSET"); break;
       }
       break;
 

@@ -304,6 +304,17 @@ static void analyzeMake(Statement *stm, Context *context)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void verifySetAssignment(Expression *exp, Expression *wht) {
+  if (!inheritsFrom(exp->class, wht->class)) {
+    /* An empty set can be assigned to any set varible */
+    if (exp->kind == SET_EXPRESSION && length(exp->fields.set.members) == 0)
+      ;
+    else
+      lmLog(&exp->srcp, 431, sevERR, wht->class->string);
+  }
+}
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeSet(Statement *stm, Context *context)
@@ -329,9 +340,7 @@ static void analyzeSet(Statement *stm, Context *context)
 	if (!inheritsFrom(exp->class, wht->class))
 	  lmLog(&exp->srcp, 430, sevERR, wht->class->string);
       } else if (exp->type == SET_TYPE) {
-	/* An empty set can be assigned to any set varible */
-	if (length(exp->fields.set.members) != 0 && !inheritsFrom(exp->class, wht->class))
-	  lmLog(&exp->srcp, 431, sevERR, wht->class->string);
+	verifySetAssignment(exp, wht);
       }
     }
   }
@@ -850,19 +859,27 @@ static void generateSetAssignment(Expression *what, Expression *exp)
 {
   List *members;
 
-  if (!exp || exp->kind != SET_EXPRESSION)
-    SYSERR("Not a set expression");
-
-  TRAVERSE(members, exp->fields.set.members) {
-    generateExpression(members->element.exp);
-    generateExpression(what);
-    emit0(I_INCLUDE);		/* Add member to set */
+  switch (exp->kind) {
+  case SET_EXPRESSION:
+    TRAVERSE(members, exp->fields.set.members) {
+      generateLvalue(what);
+      generateExpression(members->element.exp);
+      emit0(I_INCLUDE);		/* Add member to set */
+    }
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    generateLvalue(what);
+    generateExpression(exp);
+    emit0(I_ADDSET);
+    break;
+  default:
+    SYSERR("Unexpected expression kind");
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void generateSet(Statement *stm)
+static void generateSetStatement(Statement *stm)
 {
   generateLvalue(stm->fields.set.wht);
 
@@ -882,12 +899,13 @@ static void generateSet(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateIncrease(Statement *stm)
 {
+  generateLvalue(stm->fields.incr.wht);
+
   if (stm->fields.incr.step != NULL)
     generateExpression(stm->fields.incr.step);
   else
     emitConstant(1);
 
-  generateLvalue(stm->fields.incr.wht);
   if (stm->kind == INCREASE_STATEMENT)
     emit0(I_INCR);
   else
@@ -896,10 +914,10 @@ static void generateIncrease(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateIncludeAndRemove(Statement *stm)
+static void generateIncludeAndExclude(Statement *stm)
 {
+  generateLvalue(stm->fields.include.set);
   generateExpression(stm->fields.include.what);
-  generateExpression(stm->fields.include.set);
   if (stm->kind == INCLUDE_STATEMENT)
     emit0(I_INCLUDE);
   else
@@ -1211,7 +1229,7 @@ static void generateStatement(Statement *stm)
     break;
 
   case SET_STATEMENT:
-    generateSet(stm);
+    generateSetStatement(stm);
     break;
 
   case INCREASE_STATEMENT:
@@ -1221,7 +1239,7 @@ static void generateStatement(Statement *stm)
 
   case INCLUDE_STATEMENT:
   case EXCLUDE_STATEMENT:
-    generateIncludeAndRemove(stm);
+    generateIncludeAndExclude(stm);
     break;
 
   case SCHEDULE_STATEMENT:

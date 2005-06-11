@@ -579,11 +579,22 @@ void interpret(Aaddr adr)
 	clearSetAttribute(id, atr);
 	break;
       }
-      case I_INCR: {
-	Aword id, atr, step;
+      case I_ADDSET: {
+	Aword id, atr, set;
+	set = pop();
 	id = pop();
 	atr = pop();
+	if (singleStepOption) {
+	  printf("ADDSET\t%5ld, %5ld, %5ld\t\t", id, atr, set);
+	}
+	addSetAttribute(id, atr, set);
+	break;
+      }
+      case I_INCR: {
+	Aint id, atr, step;
 	step = pop();
+	id = pop();
+	atr = pop();
 	if (singleStepOption) {
 	  printf("INCR\t%5ld, %5ld, %5ld", id, atr, step);
 	}
@@ -591,10 +602,10 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_DECR: {
-	Aword id, atr, step;
+	Aint id, atr, step;
+	step = pop();
 	id = pop();
 	atr = pop();
-	step = pop();
 	if (singleStepOption) {
 	  printf("DECR\t%5ld, %5ld, %5ld\t\t", id, atr, step);
 	}
@@ -602,23 +613,27 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_INCLUDE: {
-	Aword member, set;
-	set = pop();
+	Aword member;
+	Aint id, atr;
 	member = pop();
+	id = pop();
+	atr = pop();
 	if (singleStepOption) {
-	  printf("INCLUDE\t%5ld, %5ld\t\t", member, set);
+	  printf("INCLUDE\t%5ld, %5ld, %5ld\t\t", id, atr, member);
 	}
-	addToSet((Set *)set, member);
+	include(id, atr, member);
 	break;
       }
       case I_EXCLUDE: {
-	Aword member, set;
-	set = pop();
+	Aword member;
+	Aint id, atr;
 	member = pop();
+	id = pop();
+	atr = pop();
 	if (singleStepOption) {
-	  printf("REMOVE\t%5ld, %5ld\t\t", member, set);
+	  printf("EXCLUDE\t%5ld, %5ld, %5ld\t", id, atr, member);
 	}
-	removeFromSet((Set *)set, member);
+	exclude(id, atr, member);
 	break;
       }
       case I_ATTRIBUTE: {
@@ -637,8 +652,18 @@ void interpret(Aaddr adr)
 	atr = pop();
 	if (singleStepOption)
 	  printf("STRATTR \t%5ld, %5ld", id, atr);
-	push(strattr(id, atr));
+	push(getStringAttribute(id, atr));
 	traceStringTopValue();
+	break;
+      }
+      case I_SETATTR: {
+	Aword id, atr;
+	id = pop();
+	atr = pop();
+	if (singleStepOption)
+	  printf("SETATTR \t%5ld, %5ld", id, atr);
+	push(getSetAttribute(id, atr));
+	traceIntegerTopValue();
 	break;
       }
       case I_SHOW: {

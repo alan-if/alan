@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>417.89</origest>
-<currest>416.89</currest>
-<elapsed>276.89</elapsed>
+<origest>420.89</origest>
+<currest>419.89</currest>
+<elapsed>277.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>53</origest>
-<currest>53</currest>
-<elapsed>7</elapsed>
+<origest>56</origest>
+<currest>56</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
-<elapsed>6</elapsed>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -84,7 +84,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -176,6 +176,24 @@ Classes
 Instances (hero)
 Words
 Pronouns</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY for aggregate</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY At obj</desc>
+<notes>See exe.c at() where there is some pre-processor condition that stinks</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -329,6 +347,15 @@ is plural. Then the plural message should be:
 
         "There are $1"
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

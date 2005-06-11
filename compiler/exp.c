@@ -1064,6 +1064,8 @@ void generateAttributeAccess(Expression *exp)
 {
   if (exp->type == STRING_TYPE)
     emit0(I_STRATTR);
+  else if (exp->type == SET_TYPE)
+    emit0(I_SETATTR);
   else
     emit0(I_ATTRIBUTE);
 }

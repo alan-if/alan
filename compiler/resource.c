@@ -128,14 +128,13 @@ List *analyzeResources(List *resourceList) {
 }
 
 
+#ifdef NEED_COPYRESOURCES
 /*----------------------------------------------------------------------*/
 static void copyResourceData(FILE *original, FILE *theCopy) {
   int c;
   while ((c = fgetc(original)) != EOF)
     fputc(c, theCopy);
 }
-
-
 
 
 /*----------------------------------------------------------------------*/
@@ -166,7 +165,6 @@ static void copyResourceFile(char *prefix, char fileName[], int resourceNumber)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void copyResources(List *resourceList)
 {
@@ -187,6 +185,7 @@ static void copyResources(List *resourceList)
       currentResource = currentResource->next;
   }
 }
+#endif
 
 
 /*----------------------------------------------------------------------*/
@@ -344,6 +343,7 @@ static void str_long(char *f, unsigned int v)
   f[3]=v1;
 }
 
+#ifdef NEED_STR_SHORT
 /*----------------------------------------------------------------------*/
 static void str_short(char *f, unsigned int v)
 /* str_long writes a long to a string, in a format suitable to later
@@ -355,6 +355,8 @@ static void str_short(char *f, unsigned int v)
   f[0]=v2;
   f[1]=v1;
 }
+#endif
+
 
 /*----------------------------------------------------------------------*/
 static void write_id(FILE *f, unsigned char *s)

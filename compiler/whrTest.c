@@ -32,6 +32,7 @@ void testClassOfContent()
 
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
+  (void)containerInstance;
   ASSERT(contentOf(whatLocation, NULL) == NULL);
 
   symbolizeId(takesId);

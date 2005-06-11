@@ -1,0 +1,30 @@
+########## setSetExpression ##########
+
+
+setSetExpression.alan
+
+   10.    "locationSet should = 2, actual =" Say Count In locationSet Of l1. ".
+        $p"
+=====>                                           1
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+
+
+        No detected errors.
+        1 warning(s).
+
+
+LocationSet should = 2, actual = 2 .
+
+l1 l2 Should be "l1 & l2".
+
+
+
+L1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -142,6 +142,11 @@ typedef enum InstClass {
 				/* copy of the string on top of stack, */
 				/* deallocate current contents first */
   I_CLRSET,			/* Set a set valued attribute the empty set */
+  I_ATTRIBUTE,			/* Push the value of an attribute */
+  I_STRATTR,			/* Push a copy of a string attribute */
+  I_SETATTR,			/* Push a copy of a set attribute */
+  I_ADDSET,			/* Add a set from the top of stack to a
+				   set valued attribute */
   I_GETSTR,			/* Get a string contents from text */
 				/* file, create a copy and push it */
 				/* on top of stack */
@@ -166,8 +171,6 @@ typedef enum InstClass {
   I_IF,
   I_ELSE,
   I_ENDIF,
-  I_ATTRIBUTE,			/* Push the value of an attribute */
-  I_STRATTR,			/* Push a copy of a string attribute */
   I_AND,
   I_OR,
   I_NE,

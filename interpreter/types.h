@@ -14,6 +14,7 @@
 
 /* PREPROCESSOR */
 #define FORWARD
+#define NEW(type) ((type *)allocate(sizeof(type)))
 
 /* CONSTANTS */
 

@@ -495,23 +495,23 @@ static void setAttribute(AttributeEntry *attributeTable,
 
 
 /*======================================================================*/
-void make(Aword id, Aword code, Aword val)
+void make(Aint id, Aint atr, Aword val)
 {
   char str[80];
 
   if (id > 0 && id <= header->instanceMax) {
-    setAttribute(admin[id].attributes, code, val);
+    setAttribute(admin[id].attributes, atr, val);
     if (isLocation(id))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   }  else {
-    sprintf(str, "Can't MAKE instance attribute (%ld, %ld).", id, code);
+    sprintf(str, "Can't MAKE instance attribute (%ld, %ld).", id, atr);
     syserr(str);
   }
 }
 
 
 /*======================================================================*/
-void set(Aword id, Aword atr, Aword val)
+void set(Aint id, Aint atr, Aword val)
 {
   char str[80];
 
@@ -527,7 +527,7 @@ void set(Aword id, Aword atr, Aword val)
 
 
 /*======================================================================*/
-void setStringAttribute(Aword id, Aword atr, char *str)
+void setStringAttribute(Aint id, Aint atr, char *str)
 {
   free((char *)attributeOf(id, atr));
   set(id, atr, (Aword)str);
@@ -535,11 +535,37 @@ void setStringAttribute(Aword id, Aword atr, char *str)
 
 
 /*======================================================================*/
-void clearSetAttribute(Aword id, Aword atr)
+void clearSetAttribute(Aint id, Aint atr)
 {
   clearSet((Set *)attributeOf(id, atr));
 }
 
+
+/*======================================================================*/
+void addSetAttribute(Aint id, Aint atr, Aword set) {
+  Set *attribute = (Set *)attributeOf(id, atr);
+  Set *theSet = (Set *)set;
+  int i;
+
+  for (i = 0; i < theSet->size; i++)
+    addToSet(attribute, theSet->members[i]);
+}
+
+
+/*======================================================================*/
+void include(Aint id, Aint atr, Aword member){
+  Set *attribute = (Set *)attributeOf(id, atr);
+  
+  addToSet(attribute, member);
+}
+
+
+/*======================================================================*/
+void exclude(Aint id, Aint atr, Aword member){
+  Set *attribute = (Set *)attributeOf(id, atr);
+  
+  removeFromSet(attribute, member);
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -554,7 +580,7 @@ static void increaseAttribute(AttributeEntry *attributeTable,
 
 
 /*======================================================================*/
-void increase(Aword id, Aword attributeCode, Aword step)
+void increase(Aint id, Aint attributeCode, Aword step)
 {
   char str[80];
 
@@ -567,7 +593,7 @@ void increase(Aword id, Aword attributeCode, Aword step)
 }
 
 /*======================================================================*/
-void decrease(Aword id, Aword atr, Aword step)
+void decrease(Aint id, Aint atr, Aword step)
 {
   char str[80];
 
@@ -581,7 +607,7 @@ void decrease(Aword id, Aword atr, Aword step)
 
 
 /*----------------------------------------------------------------------*/
-static Aword literalAttribute(Aword lit, Aword atr)
+static Aword literalAttribute(Aword lit, Aint atr)
 {
   char str[80];
 
@@ -596,7 +622,7 @@ static Aword literalAttribute(Aword lit, Aword atr)
 
 
 /*======================================================================*/
-Aword attributeOf(Aword id, Aword atr)
+Aword attributeOf(Aint id, Aint atr)
 {
   char str[80];
 
@@ -614,12 +640,19 @@ Aword attributeOf(Aword id, Aword atr)
 }
 
 
-
 /*======================================================================*/
-Aword strattr(Aword id, Aword atr)
+Aword getStringAttribute(Aint id, Aint atr)
 {
   return (Aword) strdup((char *)attributeOf(id, atr));
 }
+
+
+/*======================================================================*/
+Aword getSetAttribute(Aint id, Aint atr)
+{
+  return (Aword) copySet((Set *)attributeOf(id, atr));
+}
+
 
 /*======================================================================*/
 Aword concat(Aword s1, Aword s2)
@@ -773,7 +806,7 @@ static char *stripWordsFromStringBackwards(Aint count, char *initialString, char
 
 
 /*======================================================================*/
-Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aword id, Aword atr)
+Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aint id, Aint atr)
 {
   char *initialString = (char *)attributeOf(id, atr);
   char *theStripped;
@@ -812,7 +845,7 @@ static Aword objloc(Aword obj)
 #endif
 
 /*----------------------------------------------------------------------*/
-static void verifyId(Aword id, char action[]) {
+static void verifyId(Aint id, char action[]) {
   char message[200];
 
   if (id == 0) {
@@ -1010,7 +1043,7 @@ static void locateActor(Aword movingActor, Aword whr)
 
 
 /*======================================================================*/
-void locate(Aword id, Aword whr)
+void locate(Aint id, Aword whr)
 {
   Aword containerId;
   ContainerEntry *theContainer;
@@ -1057,7 +1090,7 @@ void locate(Aword id, Aword whr)
 /*----------------------------------------------------------------------*/
 
 /*======================================================================*/
-Aword isHere(Aword id, Abool directly)
+Aword isHere(Aint id, Abool directly)
 {
   verifyId(id, "HERE");
 
@@ -1149,7 +1182,7 @@ Abool at(Aint theInstance, Aint other, Abool directly)
   if (theInstance == 0 || other == 0) return FALSE;
 
   if (directly) {
-#ifdef NEW
+#ifdef NEWNEWWHATTHASTHISMEAN
     if (isLoc(other))
       return admin[theInstance].location == other;
     else
@@ -1178,7 +1211,7 @@ static void executeInheritedMentioned(Aword theClass) {
 
 
 /*----------------------------------------------------------------------*/
-static void mention(Aword id) {
+static void mention(Aint id) {
   if (instance[id].mentioned)
     interpret(instance[id].mentioned);
   else
@@ -1201,7 +1234,7 @@ static void sayLiteral(Aword lit)
 
 	
 /*----------------------------------------------------------------------*/
-static void sayInstance(Aword id)
+static void sayInstance(Aint id)
 {
 #ifdef SAY_INSTANCE_WITH_PLAYER_WORDS_IF_PARAMETER
   int p, i;
@@ -1368,7 +1401,7 @@ static void sayArticleOrForm(Aint id, SayForm form)
 
 
 /*======================================================================*/
-void say(Aword id)
+void say(Aint id)
 {
   Aword previousInstance = current.instance;
   current.instance = id;
@@ -1386,7 +1419,7 @@ void say(Aword id)
 
 
 /*======================================================================*/
-void sayForm(Aword id, SayForm form)
+void sayForm(Aint id, SayForm form)
 {
   Aword previousInstance = current.instance;
   current.instance = id;
@@ -1448,7 +1481,7 @@ static Abool haveDescription(Aword instanceId)
 }
 
 /*----------------------------------------------------------------------*/
-static void describeClass(Aword id)
+static void describeClass(Aint id)
 {
   if (class[id].description != 0) {
     /* This class has a description, run it */
@@ -1462,7 +1495,7 @@ static void describeClass(Aword id)
 
 
 /*----------------------------------------------------------------------*/
-static void describeAnything(Aword id)
+static void describeAnything(Aint id)
 {
   if (instance[id].description != 0) {
     /* This instance has its own description, run it */
@@ -1489,7 +1522,7 @@ static Bool containerIsEmpty(Aword cnt)
 
 
 /*----------------------------------------------------------------------*/
-static void describeContainer(Aword id)
+static void describeContainer(Aint id)
 {
   if (!containerIsEmpty(id) && !attributeOf(id, OPAQUEATTRIBUTE))
     list(id);
@@ -1539,7 +1572,7 @@ static void describeActor(Aword act)
 static Bool descriptionOk;
 
 /*======================================================================*/
-void describe(Aword id)
+void describe(Aint id)
 {
   Aword previousInstance = current.instance;
 

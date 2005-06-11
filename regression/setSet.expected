@@ -1,0 +1,65 @@
+########## setSet ##########
+
+
+setSet.alan
+
+    9.    "locationSet should = 1, actual =" Say Count In locationSet Of l1. ".
+        $p"
+=====>                                           1
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+
+   11.    "locationSet should = 0, actual =" Say Count In locationSet Of l1. ".
+        $p"
+=====>                                           1
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+
+   14.    "locationSet should = 1, actual =" Say Count In locationSet Of l1. ".
+        $p"
+=====>                                           1
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+
+   21.    "locationSet should = 2, actual =" Say Count In locationSet Of l1. ".
+        $p"
+=====>                                           1
+
+  *1*   225 W : The COUNT aggregate will be applied to every instance
+                (including locations, entities and instances of their
+                subclasses). It is recommended to apply it to only instances of
+                a particular class. Perhaps you mean 'COUNT Isa object'?
+
+
+        No detected errors.
+        4 warning(s).
+
+
+LocationSet should = 1, actual = 1 .
+
+locationSet should = 0, actual = 0 .
+
+locationSet should = 1, actual = 1 .
+
+l1 should be "l1".
+
+locationSet should = 2, actual = 2 .
+
+l1 l2 Should be "l1 & l2".
+
+
+
+L1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

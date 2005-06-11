@@ -55,6 +55,18 @@ void clearSet(Set *theSet) {
 
 
 /*======================================================================*/
+Set *copySet(Set *theSet) {
+  Set *new = NEW(Set);
+  int size = sizeof(Aword)*theSet->allocated;
+
+  memcpy(new, theSet, sizeof(Set));
+  new->members = allocate(size);
+  memcpy(new->members, theSet->members, size);
+  return new;
+}
+
+
+/*======================================================================*/
 Aword getMember(Set *theSet, Aint theMember) {
   if (theMember > theSet->size) syserr("Accessing nonexistion member in a set");
   return theSet->members[theMember];
@@ -71,6 +83,7 @@ Bool inSet(Set *theSet, Aword member)
       return TRUE;
   return FALSE;
 }
+
 
 /*=======================================================================*/
 void addToSet(Set *theSet, Aword newMember)
@@ -89,6 +102,7 @@ void addToSet(Set *theSet, Aword newMember)
   }
   theSet->members[theSet->size++] = newMember;
 }
+
 
 /*=======================================================================*/
 void removeFromSet(Set *theSet, Aword member)

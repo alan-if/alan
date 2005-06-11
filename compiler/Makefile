@@ -35,6 +35,7 @@ TMCSRCS = \
 TESTSRCS = \
 	ins.c \
 	cla.c \
+	stm.c \
 	adv.c \
 	sym.c \
 	whr.c \
@@ -65,7 +66,6 @@ BUILDSRCS = \
 	set.c \
 	spa.c \
 	srcp.c \
-	stm.c \
 	stp.c \
 	str.c \
 	syn.c \
@@ -94,6 +94,7 @@ ALANSRCS = \
 	res.c \
 	resource.c \
 	stx.c \
+	stm.c \
 	sym.c \
 	vrb.c \
 	whr.c \
