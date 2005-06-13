@@ -2427,9 +2427,9 @@ static int val(char str[])
 	%<where>.srcp = %'at'.srcp;
     %%
 
-    ! <optional_directly> 'in' <what>
+    ! <optional_directly> 'in' <primary>
     %%
-        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.present, WHERE_IN, %<what>.exp);
+        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.present, WHERE_IN, %<primary>.exp);
 	%<where>.srcp = %'in'.srcp;
     %%
 

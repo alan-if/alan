@@ -759,9 +759,10 @@ static void load(char acdfnm[])
   ACodeHeader tmphdr;
   FILE *codfil;
 
-  if ((codfil = fopen(acdfnm, "rb")) == NULL) {
-    printf("Could not open Acode-file: '%s'\n", acdfnm);
-    exit(1);
+  codfil = fopen(acdfnm, "rb");
+  if (codfil == NULL) {
+    fprintf(stderr, "Could not open Acode-file: '%s'\n\n", acdfnm);
+    exit(0);
   }
 
   fread(&tmphdr, sizeof(tmphdr), 1, codfil);
@@ -793,7 +794,7 @@ static void load(char acdfnm[])
 
 /* SPA Option handling */
 
-#include "spa.h"
+#include "../compiler/spa.h"
 
 
 static SPA_FUN(usage)

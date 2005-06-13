@@ -5,6 +5,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "elm_x.h"
+
 #include "util.h"
 
 #include "srcp_x.h"
@@ -17,7 +19,6 @@
 #include "stx.h"
 #include "sym.h"		/* SYM-nodes */
 #include "lst.h"		/* LST-nodes */
-#include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"
 #include "../interpreter/acode.h"
@@ -164,27 +165,27 @@ List *analyzeElements(List *elms,        /* IN - List to analyze */
 /*----------------------------------------------------------------------*/
 static Bool equalElements(List *element1, List *element2)
 {
-  if (element1 == NULL)
-    return (element2 == NULL);
-  else if (element2 == NULL)
-    return FALSE;
+  if (element1 == NULL || element2 == NULL)
+    return element2 == element1;
+  else if (element1->element.elm->kind == element2->element.elm->kind)
+    switch (element1->element.elm->kind) {
+    case END_OF_SYNTAX:
+    case PARAMETER_ELEMENT:
+      return TRUE;
+    case WORD_ELEMENT:
+      return equalId(element1->element.elm->id, element2->element.elm->id);
+    }
   else
-    return (element1->element.elm->kind == element2->element.elm->kind &&
-	    (element1->element.elm->kind == END_OF_SYNTAX ||
-	     element1->element.elm->kind == PARAMETER_ELEMENT ||
-	     (element1->element.elm->kind == WORD_ELEMENT &&
-              equalId(element1->element.elm->id, element2->element.elm->id))));
+    return FALSE;
+  SYSERR("Unexpected case");
+  return FALSE;
 }
 
 
 /*----------------------------------------------------------------------
-
-  advance()
-
   Advances a whole list of elmList pointers parallell to their next elm.
   Returns the address to the generated class restrictions for any syntax that
   was terminated here.
-
   */
 static Aaddr advance(List *elmsList) /* IN - The list to advance */
 {
@@ -250,6 +251,60 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 }
 
 
+/*----------------------------------------------------------------------*/
+static ElementEntry *newEntryForPartition(List **entries) {
+  ElementEntry *entry;
+
+  entry = NEW(ElementEntry);
+  entry->flags = 0;
+  *entries = concat(*entries, entry, LIST_EENT);
+  return(entry);
+}
+
+/*----------------------------------------------------------------------*/
+static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableAddress) {
+  List *lst;
+  if (part->next != NULL) { /* More than one element in this partition? */
+    /* That means that two syntax's are the same */
+    for (lst = part; lst != NULL; lst = lst->next)
+      lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
+  }
+  entry->code = EOS;        /* End Of Syntax */
+  entry->flags = part->element.lst->element.elm->stx->number; /* Syntax number */
+  /* Point to the generated class restriction table */
+  entry->next = restrictionTableAddress;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void entryForParameter(ElementEntry *entry, Syntax *stx, List *part) {
+  entry->code = 0;
+  entry->flags = part->element.lst->element.elm->flags;
+  entry->next = generateElements(part, stx);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void entryForWord(ElementEntry *entry, Syntax *stx, List *part) {
+  entry->code = part->element.lst->element.elm->id->code;
+  entry->flags = 0;
+  entry->next = generateElements(part, stx);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Aaddr generateEntries(List *entries, ElementEntry *entry) {
+  List *lst;
+  Aaddr elmadr;
+  elmadr = nextEmitAddress();
+  for (lst = entries; lst; lst = lst->next)
+    emitEntry(lst->element.eent, sizeof(*entry));
+  emit(EOF);
+  return(elmadr);
+}
+
+
+
 /*======================================================================*/
 Aaddr generateElements(List *elms, Syntax *stx)
 {
@@ -266,7 +321,6 @@ Aaddr generateElements(List *elms, Syntax *stx)
     for this group pointing to the next level for each group, a.s.o.
   */
 
-  List *lst;                    /* Traversal list */
   List *part;                   /* The current partion */
   Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
@@ -283,42 +337,26 @@ Aaddr generateElements(List *elms, Syntax *stx)
   level++;
   for (part = partition(&elms); part != NULL; part = partition(&elms)) {
     /* Make one entry for this partition */
-    entry = NEW(ElementEntry);
-    entry->flags = 0;
-    entries = concat(entries, entry, LIST_EENT);
+    entry = newEntryForPartition(&entries);
+
     switch (part->element.lst->element.elm->kind) {
 
     case END_OF_SYNTAX:		/* This partition was at end of syntax */
-      if (part->next != NULL) { /* More than one element in this partition? */
-        /* That means that two syntax's are the same */
-	for (lst = part; lst != NULL; lst = lst->next)
-	  lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
-      }
-      entry->code = EOS;        /* End Of Syntax */
-      entry->flags = part->element.lst->element.elm->stx->number; /* Syntax number */
-      /* Point to the generated class restriction table */
-      entry->next = restrictionTableAddress;
+      entryForEOS(entry, part, restrictionTableAddress);
       break;
 
     case PARAMETER_ELEMENT:
-      entry->code = 0;
-      entry->flags = part->element.lst->element.elm->flags;
-      entry->next = generateElements(part, stx);
+      entryForParameter(entry, stx, part);
       break;
 
     case WORD_ELEMENT:
-      entry->code = part->element.lst->element.elm->id->code;
-      entry->flags = 0;
-      entry->next = generateElements(part, stx);
+      entryForWord(entry, stx, part);
       break;
     }
   }
   
   /* Finally, generate this level */
-  elmadr = nextEmitAddress();
-  for (lst = entries; lst; lst = lst->next)
-    emitEntry(lst->element.eent, sizeof(*entry));
-  emit(EOF);
+  elmadr = generateEntries(entries, entry);
 
   level--;
   return(elmadr);

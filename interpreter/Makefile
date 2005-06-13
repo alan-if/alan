@@ -197,8 +197,8 @@ test: unitTest
 #
 #
 #
-dumpacd: dumpacd.c reverse.o ../compiler/spa.o acode.h sysdep.o
-	gcc -Wall -o dumpacd -g -mno-cygwin -I../compiler dumpacd.c ../compiler/spa.o reverse.o sysdep.o
+dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
+	gcc -Wall -o dumpacd -g -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
 
 
 

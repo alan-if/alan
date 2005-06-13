@@ -31,16 +31,6 @@ TMCSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c
 
-# Sources which are in the unit tests
-TESTSRCS = \
-	ins.c \
-	cla.c \
-	stm.c \
-	adv.c \
-	sym.c \
-	whr.c \
-
-
 # Sources required for both builds
 BUILDSRCS = \
 	alan.c \
@@ -49,7 +39,6 @@ BUILDSRCS = \
 	cnt.c \
 	context.c \
 	dump.c \
-	elm.c \
 	encode.c \
 	evt.c \
 	form.c \
@@ -85,6 +74,7 @@ ALANSRCS = \
 	cla.c \
 	description.c \
 	emit.c \
+	elm.c \
 	exp.c \
 	ext.c \
 	ins.c \
