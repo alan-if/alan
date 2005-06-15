@@ -28,6 +28,8 @@ extern void insert(List *where, void *element, ListKind kind);
 extern int length(List *aList);
 extern List *tailOf(List *aList);
 extern List *sortList(List *aList, int comparer(List *e1, List *e2));
+extern List *copyList(List *aList);
+extern void *listElement(List *aList, int i);
 
 
 /* Dump a list of nodes */

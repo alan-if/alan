@@ -1063,17 +1063,32 @@ static void generateWhereExpression(Expression *exp)
 void generateAttributeAccess(Expression *exp)
 {
   if (exp->type == STRING_TYPE)
-    emit0(I_STRATTR);
+    emit0(I_ATTRSTR);
   else if (exp->type == SET_TYPE)
-    emit0(I_SETATTR);
+    emit0(I_ATTRSET);
   else
     emit0(I_ATTRIBUTE);
 }
+
 
 /*======================================================================*/
 void generateAttributeReference(Expression *exp) {
   generateId(exp->fields.atr.id);
   generateExpression(exp->fields.atr.wht);
+}
+
+
+/*======================================================================*/
+void generateLvalue(Expression *exp) {
+  switch (exp->kind) {
+  case WHAT_EXPRESSION:
+    generateWhat(exp->fields.wht.wht);
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    generateAttributeReference(exp);
+    break;
+  default: SYSERR("Unexpected expression kind");
+  }
 }
 
 
@@ -1216,6 +1231,16 @@ static void generateIsaExpression(Expression *exp)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateSetExpression(Expression *exp) {
+  List *members;
+
+  emit0(I_NEWSET);
+  TRAVERSE(members, exp->fields.set.members) {
+    generateExpression(members->element.exp);
+    emit0(I_INCLUDE);		/* Add member to set on top of stack */
+  }
+}
 
 /*======================================================================*/
 void generateExpression(Expression *exp)
@@ -1278,11 +1303,10 @@ void generateExpression(Expression *exp)
   case ISA_EXPRESSION:
     generateIsaExpression(exp);
     break;
-    
-  default:
-    unimpl(exp->srcp, "Code Generator");
-    emitConstant(0);
-    return;
+
+  case SET_EXPRESSION:
+    generateSetExpression(exp);
+    break;
   }
 }
 

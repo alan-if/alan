@@ -398,7 +398,7 @@ void interpret(Aaddr adr)
 	line = pop();
 	file = pop();
 	if (singleStepOption)
-	  printf("LINE\t%5ld,\t%5ld", file, line);
+	  printf("LINE\t%5ld,\t%5ld\t\t", file, line);
 	if (line != 0) {
 	  Bool atNext = stopAtNextLine && line != current.sourceLine;
 	  Bool atBreakpoint =  breakpointIndex(line) != -1;
@@ -544,96 +544,95 @@ void interpret(Aaddr adr)
 	val = pop();
 	if (singleStepOption)
 	  printf("MAKE \t%5ld, %5ld, %s\t", id, atr, booleanValue(val));
-	make(id, atr, val);
+	setValue(id, atr, val);
 	break;
       }
       case I_SET: {
 	Aword id, atr, val;
-	val = pop();
 	id = pop();
 	atr = pop();
+	val = pop();
 	if (singleStepOption) {
 	  printf("SET \t%5ld, %5ld, %5ld\t\t", id, atr, val);
 	}
-	set(id, atr, val);
+	setValue(id, atr, val);
 	break;
       }
-      case I_STRSET: {
+      case I_SETSTR: {
 	Aword id, atr, str;
-	str = pop();
 	id = pop();
 	atr = pop();
+	str = pop();
 	if (singleStepOption) {
-	  printf("STRSET\t%5ld, %5ld, %s\t\t", id, atr, stringValue(str));
+	  printf("SETSTR\t%5ld, %5ld, %s\t\t", id, atr, stringValue(str));
 	}
 	setStringAttribute(id, atr, (char *)str);
 	break;
       }
-      case I_CLRSET: {
-	Aword id, atr;
+      case I_SETSET: {
+	Aword id, atr, set;
 	id = pop();
 	atr = pop();
+	set = pop();
 	if (singleStepOption) {
-	  printf("CLRSET\t%5ld, %5ld\t\t\t", id, atr);
+	  printf("STRSET\t%5ld, %5ld, %5ld\t\t", id, atr, set);
 	}
-	clearSetAttribute(id, atr);
+	setSetAttribute(id, atr, set);
 	break;
       }
-      case I_ADDSET: {
-	Aword id, atr, set;
-	set = pop();
-	id = pop();
-	atr = pop();
+      case I_NEWSET: {
+	Set *set = NEW(Set);
 	if (singleStepOption) {
-	  printf("ADDSET\t%5ld, %5ld, %5ld\t\t", id, atr, set);
+	  printf("NEWSET\t%5ld\t\t\t\t", (Aword)set);
 	}
-	addSetAttribute(id, atr, set);
+	push((Aword)set);
+	break;
+      }
+      case I_UNION: {
+	Aword set1, set2;
+	set2 = pop();
+	set1 = top();
+	if (singleStepOption) {
+	  printf("UNION\t%5ld, %5ld\t\t", set1, set2);
+	}
+	setUnion((Set *)top(), (Set *)set2);
+	free((void *)set2);
 	break;
       }
       case I_INCR: {
-	Aint id, atr, step;
+	Aint step;
 	step = pop();
-	id = pop();
-	atr = pop();
 	if (singleStepOption) {
-	  printf("INCR\t%5ld, %5ld, %5ld", id, atr, step);
+	  printf("INCR\t%5ld", step);
 	}
-	increase(id, atr, step);
+	push(pop() + step);
 	break;
       }
       case I_DECR: {
-	Aint id, atr, step;
+	Aint step;
 	step = pop();
-	id = pop();
-	atr = pop();
 	if (singleStepOption) {
-	  printf("DECR\t%5ld, %5ld, %5ld\t\t", id, atr, step);
+	  printf("DECR\t%5ld\t\t\t", step);
 	}
-	decrease(id, atr, step);
+	push(pop() - step);
 	break;
       }
       case I_INCLUDE: {
 	Aword member;
-	Aint id, atr;
 	member = pop();
-	id = pop();
-	atr = pop();
 	if (singleStepOption) {
-	  printf("INCLUDE\t%5ld, %5ld, %5ld\t\t", id, atr, member);
+	  printf("INCLUDE\t%5ld", member);
 	}
-	include(id, atr, member);
+	addToSet((Set *)top(), member);
 	break;
       }
       case I_EXCLUDE: {
 	Aword member;
-	Aint id, atr;
 	member = pop();
-	id = pop();
-	atr = pop();
 	if (singleStepOption) {
-	  printf("EXCLUDE\t%5ld, %5ld, %5ld\t", id, atr, member);
+	  printf("EXCLUDE\t%5ld", member);
 	}
-	exclude(id, atr, member);
+	removeFromSet((Set *)top(), member);
 	break;
       }
       case I_ATTRIBUTE: {
@@ -646,7 +645,7 @@ void interpret(Aaddr adr)
 	traceIntegerTopValue();
 	break;
       }
-      case I_STRATTR: {
+      case I_ATTRSTR: {
 	Aword id, atr;
 	id = pop();
 	atr = pop();
@@ -656,12 +655,12 @@ void interpret(Aaddr adr)
 	traceStringTopValue();
 	break;
       }
-      case I_SETATTR: {
+      case I_ATTRSET: {
 	Aword id, atr;
 	id = pop();
 	atr = pop();
 	if (singleStepOption)
-	  printf("SETATTR \t%5ld, %5ld", id, atr);
+	  printf("ATTRSET \t%5ld, %5ld", id, atr);
 	push(getSetAttribute(id, atr));
 	traceIntegerTopValue();
 	break;
@@ -848,7 +847,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption) {
 	  printf("IF \t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
-	  printf("\t\t");
+	  printf("\t\t\t");
 	}
 	interpretIf(v);
 	break;

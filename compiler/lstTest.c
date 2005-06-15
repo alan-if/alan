@@ -139,6 +139,32 @@ void testSortList()
   ASSERT(result->next->next->kind == 3);
 }
 
+
+static void testCopyList() {
+  IdNode *id1 = newId(nulsrcp, "id1");
+  IdNode *id2 = newId(nulsrcp, "id2");
+  IdNode *id3 = newId(nulsrcp, "id3");
+  IdNode *id4 = newId(nulsrcp, "id4");
+  List *l1 = concat(NULL, id1, ID_LIST);
+  List *l4 = concat(concat(concat(concat(NULL, id1, ID_LIST),
+				  id2, ID_LIST),
+			   id3, ID_LIST),
+		    id4, ID_LIST);
+  List *copy;
+  int i;
+
+  ASSERT(copyList(NULL) == NULL);
+
+  copy = copyList(l1);
+  ASSERT(l1->next == NULL);
+  ASSERT(l1->element.id == id1);
+
+  copy = copyList(l4);
+  ASSERT(length(copy) == length(l4));
+  for (i = 1; i<=length(copy); i++)
+    ASSERT(listElement(copy, i) == listElement(l4, i));
+}
+
 void registerLstUnitTests()
 {
   registerUnitTest(testLength);
@@ -146,5 +172,6 @@ void registerLstUnitTests()
   registerUnitTest(testTailOf);
   registerUnitTest(testRemoveFromList);
   registerUnitTest(testSortList);
+  registerUnitTest(testCopyList);
 }
 

@@ -55,4 +55,3 @@ void registerElmUnitTests()
   registerUnitTest(testEqualElements);
   registerUnitTest(testNewEntryForPartition);
 }
-

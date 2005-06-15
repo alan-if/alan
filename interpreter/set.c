@@ -86,6 +86,16 @@ Bool inSet(Set *theSet, Aword member)
 
 
 /*=======================================================================*/
+void setUnion(Set *set1, Set *set2)
+{
+  int i;
+	
+  for (i = 0; i < set2->size; i++)
+    addToSet(set1, set2->members[i]);
+}
+
+
+/*=======================================================================*/
 void addToSet(Set *theSet, Aword newMember)
 {
 #define EXTENT 5

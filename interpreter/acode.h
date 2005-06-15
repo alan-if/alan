@@ -138,22 +138,25 @@ typedef enum InstClass {
 				/* value on top of stack */
   I_SET,			/* Set a numeric attribute to the */
 				/* value on top of stack */
-  I_STRSET,			/* Set a string valued attribute to a */
-				/* copy of the string on top of stack, */
+  I_SETSTR,			/* Set a string valued attribute to */
+				/* the string on top of stack, */
 				/* deallocate current contents first */
-  I_CLRSET,			/* Set a set valued attribute the empty set */
+  I_SETSET,			/* Set a Set valued attribute to */
+				/* the Set on top of stack, */
+				/* deallocate current contents first */
+  I_NEWSET,			/* Push a new, empty set at the top of stack */
   I_ATTRIBUTE,			/* Push the value of an attribute */
-  I_STRATTR,			/* Push a copy of a string attribute */
-  I_SETATTR,			/* Push a copy of a set attribute */
-  I_ADDSET,			/* Add a set from the top of stack to a
+  I_ATTRSTR,			/* Push a copy of a string attribute */
+  I_ATTRSET,			/* Push a copy of a set attribute */
+  I_UNION,			/* Add a set from the top of stack to a
 				   set valued attribute */
   I_GETSTR,			/* Get a string contents from text */
 				/* file, create a copy and push it */
 				/* on top of stack */
   I_INCR,			/* Increase an attribute */
   I_DECR,			/* Decrease a numeric attribute */
-  I_INCLUDE,			/* Include a value in a set */
-  I_EXCLUDE,			/* Remove a value from a set */
+  I_INCLUDE,			/* Include a value in the set on stack top */
+  I_EXCLUDE,			/* Remove a value from the set on stack top */
   I_USE,
   I_STOP,
   I_AT,

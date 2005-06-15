@@ -364,12 +364,12 @@ static void analyzeIncrease(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIncludeAndRemove(Statement *stm, Context *context)
+static void analyzeIncludeAndExclude(Statement *stm, Context *context)
 {
   Expression *what = stm->fields.include.what;
   Expression *set = stm->fields.include.set;
   char *message = stm->kind == INCLUDE_STATEMENT?"INCLUDE statement"
-    :"REMOVE statement";
+    :"EXCLUDE statement";
 
   analyzeExpression(what, context);
   analyzeExpression(set, context);
@@ -682,7 +682,7 @@ static void analyzeStatement(Statement *stm, Context *context)
     break;
   case INCLUDE_STATEMENT:
   case EXCLUDE_STATEMENT:
-    analyzeIncludeAndRemove(stm, context);
+    analyzeIncludeAndExclude(stm, context);
     break;
   case SCHEDULE_STATEMENT:
     analyzeSchedule(stm, context);
@@ -830,21 +830,6 @@ static void generateLocate(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateLvalue(Expression *exp) {
-  switch (exp->kind) {
-  case WHAT_EXPRESSION:
-    generateWhat(exp->fields.wht.wht);
-    break;
-  case ATTRIBUTE_EXPRESSION:
-    generateId(exp->fields.atr.id);
-    generateExpression(exp->fields.atr.wht);
-    break;
-  default: SYSERR("Unexpected expression");
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void generateMake(Statement *stm)
 {
   emitConstant(!stm->fields.make.not);
@@ -855,43 +840,22 @@ static void generateMake(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
-static void generateSetAssignment(Expression *what, Expression *exp)
-{
-  List *members;
-
-  switch (exp->kind) {
-  case SET_EXPRESSION:
-    TRAVERSE(members, exp->fields.set.members) {
-      generateLvalue(what);
-      generateExpression(members->element.exp);
-      emit0(I_INCLUDE);		/* Add member to set */
-    }
-    break;
-  case ATTRIBUTE_EXPRESSION:
-    generateLvalue(what);
-    generateExpression(exp);
-    emit0(I_ADDSET);
-    break;
-  default:
-    SYSERR("Unexpected expression kind");
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void generateSetStatement(Statement *stm)
 {
+  generateExpression(stm->fields.set.exp);
+
   generateLvalue(stm->fields.set.wht);
 
-  if (stm->fields.set.exp->type == SET_TYPE) {
-    emit0(I_CLRSET);
-    generateSetAssignment(stm->fields.set.wht, stm->fields.set.exp);
-  } else {
-    generateExpression(stm->fields.set.exp);
-    if (stm->fields.set.exp->type == STRING_TYPE)
-      emit0(I_STRSET);
-    else
-      emit0(I_SET);
+  switch (stm->fields.set.exp->type) {
+  case SET_TYPE:
+    emit0(I_SETSET);
+    break;
+  case STRING_TYPE:
+    emit0(I_SETSTR);
+    break;
+  default:
+    emit0(I_SET);
+    break;
   }
 }
 
@@ -899,29 +863,32 @@ static void generateSetStatement(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateIncrease(Statement *stm)
 {
-  generateLvalue(stm->fields.incr.wht);
-
+  generateExpression(stm->fields.incr.wht);
   if (stm->fields.incr.step != NULL)
     generateExpression(stm->fields.incr.step);
   else
     emitConstant(1);
-
   if (stm->kind == INCREASE_STATEMENT)
     emit0(I_INCR);
   else
     emit0(I_DECR);
+
+  generateLvalue(stm->fields.incr.wht);
+  emit0(I_SET);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void generateIncludeAndExclude(Statement *stm)
 {
-  generateLvalue(stm->fields.include.set);
+  generateExpression(stm->fields.include.set);
   generateExpression(stm->fields.include.what);
   if (stm->kind == INCLUDE_STATEMENT)
     emit0(I_INCLUDE);
   else
     emit0(I_EXCLUDE);
+  generateLvalue(stm->fields.include.set);
+  emit0(I_SETSET);
 }
 
 
@@ -1100,10 +1067,6 @@ static void generateEach(Statement *statement)
 /*----------------------------------------------------------------------*/
 static void generateStrip(Statement *stm)
 {
-  /* First generate the attribute reference for any INTO clause */
-  if (stm->fields.strip.into != NULL)
-    generateAttributeReference(stm->fields.strip.into);
-
   /* Push First/Last indicator */
   emitConstant(stm->fields.strip.first);
 
@@ -1122,9 +1085,10 @@ static void generateStrip(Statement *stm)
   emit0(I_STRIP);		/* Will modify the FROM and leave rest on stack */
 
   /* If there was an INTO clause we set the string attribute */
-  if (stm->fields.strip.into != NULL)
-    emit0(I_STRSET);
-  else				/* Pop of the rest produced above */
+  if (stm->fields.strip.into != NULL) {
+    generateAttributeReference(stm->fields.strip.into);
+    emit0(I_SETSTR);
+  } else				/* Pop of the rest produced above */
     emit0(I_POP);
 }
 

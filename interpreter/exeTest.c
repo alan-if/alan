@@ -382,6 +382,26 @@ static void testWhere() {
   free(header);
 }
 
+static void testAddSet() {
+  Set *set1 = NEW(Set);
+  Set *set2 = NEW(Set);
+
+  /* Test adding an empty set */
+  addSet(set1, set2);
+  ASSERT(sizeOfSet(set2)==0);
+
+  addToSet(set2, 6);
+  addToSet(set2, 7);
+  addToSet(set2, 8);
+  addSet(set1, set2);
+  ASSERT(sizeOfSet(set2)==3);
+
+  addToSet(set1, 4);
+  addToSet(set1, 6);
+  addSet(set1, set2);
+  ASSERT(sizeOfSet(set2)==4);
+}
+
 void registerExeUnitTests()
 {
   registerUnitTest(testCountTrailingBlanks);
@@ -398,4 +418,5 @@ void registerExeUnitTests()
   registerUnitTest(testLocateIllegalId);
   registerUnitTest(testSaveRestore);
   registerUnitTest(testWhere);
+  registerUnitTest(testAddSet);
 }

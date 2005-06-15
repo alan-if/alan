@@ -27,9 +27,10 @@ static char *acdfnm;
 
 /* Dump flags */
 
-static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag, parameterMapFlag,
-  initFlag, verbsFlag, eventsFlag, exitsFlag, containersFlag, rulesFlag, statementsFlag,
-  messagesFlag;
+static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag,
+  parameterMapFlag, initFlag, verbsFlag, eventsFlag, exitsFlag,
+  containersFlag, rulesFlag, statementsFlag, messagesFlag;
+
 
 
 
@@ -514,12 +515,15 @@ static void dumpStatements(Aword pc)
     case C_STMOP: 
       stm = I_OP(i);
       switch (stm) {
+      case I_UNION: printf("UNION"); break;
       case I_AGRCHECK: printf("AGRCHECK"); break;
       case I_AGREND: printf("AGREND"); break;
       case I_AGRSTART: printf("AGRSTART"); break;
       case I_AND: printf("AND"); break;
       case I_AT: printf("AT "); break;
       case I_ATTRIBUTE: printf("ATTRIBUTE"); break;
+      case I_ATTRSET: printf("ATTRSET"); break;
+      case I_ATTRSTR: printf("ATTRSTR"); break;
       case I_BTW: printf("BETWEEN "); break;
       case I_CANCEL: printf("CANCEL"); break;
       case I_CONCAT: printf("CONCAT"); break;
@@ -567,8 +571,9 @@ static void dumpStatements(Aword pc)
       case I_MINUS: printf("MINUS "); break;
       case I_MULT: printf("MULT "); break;
       case I_NE: printf("NE"); break;
-      case I_NEARBY: printf("NEARBY"); break;
       case I_NEAR: printf("NEAR"); break;
+      case I_NEARBY: printf("NEARBY"); break;
+      case I_NEWSET: printf("NEWSET"); break;
       case I_NEXTEACH: printf("NEXTEACH"); break;
       case I_NOT: printf("NOT "); break;
       case I_OR: printf("OR"); break;
@@ -591,13 +596,13 @@ static void dumpStatements(Aword pc)
       case I_SCORE: printf("SCORE"); break;
       case I_SET: printf("SET"); break;
       case I_SETLOCAL: printf("SETLOCAL"); break;
+      case I_SETSET: printf("SETSET"); break;
+      case I_SETSTR: printf("SETSTR"); break;
       case I_SHOW: printf("SHOW"); break;
       case I_STOP: printf("STOP"); break;
-      case I_STRATTR: printf("STRATTR"); break;
       case I_STREQ: printf("STREQ "); break;
       case I_STREXACT: printf("STREXACT "); break;
       case I_STRIP: printf("STRIP"); break;
-      case I_STRSET: printf("STRSET"); break;
       case I_STYLE: printf("STYLE"); break;
       case I_SUM: printf("SUM "); break;
       case I_SYSTEM: printf("SYSTEM"); break;
@@ -605,9 +610,6 @@ static void dumpStatements(Aword pc)
       case I_USE: printf("USE"); break;
       case I_VISITS: printf("VISITS"); break;
       case I_WHERE: printf("WHERE"); break;
-      case I_CLRSET: printf("CLRSET"); break;
-      case I_SETATTR: printf("SETATTR"); break;
-      case I_ADDSET: printf("ADDSET"); break;
       }
       break;
 

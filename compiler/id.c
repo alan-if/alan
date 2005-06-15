@@ -93,7 +93,7 @@ void generateId(IdNode *id)
 	emitConstant(1);
 	emitConstant(id->symbol->code);
 	emitVariable(V_PARAM);
-	emit0(I_STRATTR);
+	emit0(I_ATTRSTR);
 	break;
       case INTEGER_TYPE:
 	emitConstant(1);

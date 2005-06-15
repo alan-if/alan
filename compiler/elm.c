@@ -33,10 +33,10 @@ static int level = 0;
 
 
 /*----------------------------------------------------------------------*/
-static Element *newElement(Srcp *srcp,	/* IN - Source Position */
-			   ElementKind kind, /* IN - Kind of element (parm or word) */
-			   IdNode *id,	/* IN - The name */
-			   int flags)	/* IN - Flags for omni/multiple... */
+static Element *newElement(Srcp *srcp,
+			   ElementKind kind,
+			   IdNode *id,
+			   int flags)
 {
   Element *new;                                  /* The newly created node */
 
@@ -261,6 +261,7 @@ static ElementEntry *newEntryForPartition(List **entries) {
   return(entry);
 }
 
+
 /*----------------------------------------------------------------------*/
 static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableAddress) {
   List *lst;
@@ -277,7 +278,7 @@ static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableA
 
 
 /*----------------------------------------------------------------------*/
-static void entryForParameter(ElementEntry *entry, Syntax *stx, List *part) {
+static void entryForParameter(ElementEntry *entry, List *part, Syntax *stx) {
   entry->code = 0;
   entry->flags = part->element.lst->element.elm->flags;
   entry->next = generateElements(part, stx);
@@ -306,7 +307,7 @@ static Aaddr generateEntries(List *entries, ElementEntry *entry) {
 
 
 /*======================================================================*/
-Aaddr generateElements(List *elms, Syntax *stx)
+Aaddr generateElements(List *elementLists, Syntax *stx)
 {
   /*
     Generate the data structure for the syntax elements.  NOTE that
@@ -319,8 +320,13 @@ Aaddr generateElements(List *elms, Syntax *stx)
     This function is recursive in pre-order by grouping equal elements
     in the next level and generating each group first, then a table
     for this group pointing to the next level for each group, a.s.o.
-  */
 
+    Currently this is a bit vasteful in that it always creates a new
+    list. Also it should really request a partitioned list from
+    partition() instead and then traverse that list. This requires
+    rewriting partition() to deliver a list of partitions instead.
+  */
+  List *elms = copyList(elementLists);
   List *part;                   /* The current partion */
   Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
@@ -346,7 +352,7 @@ Aaddr generateElements(List *elms, Syntax *stx)
       break;
 
     case PARAMETER_ELEMENT:
-      entryForParameter(entry, stx, part);
+      entryForParameter(entry, part, stx);
       break;
 
     case WORD_ELEMENT:

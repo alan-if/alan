@@ -495,23 +495,7 @@ static void setAttribute(AttributeEntry *attributeTable,
 
 
 /*======================================================================*/
-void make(Aint id, Aint atr, Aword val)
-{
-  char str[80];
-
-  if (id > 0 && id <= header->instanceMax) {
-    setAttribute(admin[id].attributes, atr, val);
-    if (isLocation(id))	/* May have changed so describe next time */
-      admin[id].visitsCount = 0;
-  }  else {
-    sprintf(str, "Can't MAKE instance attribute (%ld, %ld).", id, atr);
-    syserr(str);
-  }
-}
-
-
-/*======================================================================*/
-void set(Aint id, Aint atr, Aword val)
+void setValue(Aint id, Aint atr, Aword val)
 {
   char str[80];
 
@@ -520,7 +504,7 @@ void set(Aint id, Aint atr, Aword val)
     if (isLocation(id))	/* May have changed so describe next time */
       admin[id].visitsCount = 0;
   } else {
-    sprintf(str, "Can't SET instance (%ld).", id);
+    sprintf(str, "Can't SET/MAKE instance (%ld).", id);
     syserr(str);
   }
 }
@@ -530,7 +514,15 @@ void set(Aint id, Aint atr, Aword val)
 void setStringAttribute(Aint id, Aint atr, char *str)
 {
   free((char *)attributeOf(id, atr));
-  set(id, atr, (Aword)str);
+  setValue(id, atr, (Aword)str);
+}
+
+
+/*======================================================================*/
+void setSetAttribute(Aint id, Aint atr, Aword set)
+{
+  free((char *)attributeOf(id, atr));
+  setValue(id, atr, (Aword)set);
 }
 
 
@@ -553,56 +545,11 @@ void addSetAttribute(Aint id, Aint atr, Aword set) {
 
 
 /*======================================================================*/
-void include(Aint id, Aint atr, Aword member){
-  Set *attribute = (Set *)attributeOf(id, atr);
-  
-  addToSet(attribute, member);
-}
+void addSet(Set *addend, Set *target) {
+  int i;
 
-
-/*======================================================================*/
-void exclude(Aint id, Aint atr, Aword member){
-  Set *attribute = (Set *)attributeOf(id, atr);
-  
-  removeFromSet(attribute, member);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void increaseAttribute(AttributeEntry *attributeTable,
-			       Aint attributeCode,
-			       Aint step)
-{
-  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
-  
-  attribute->value += step;
-}
-
-
-/*======================================================================*/
-void increase(Aint id, Aint attributeCode, Aword step)
-{
-  char str[80];
-
-  if (id > 0 && id <= header->instanceMax)
-    increaseAttribute(admin[id].attributes, attributeCode, step);
-  else {
-    sprintf(str, "Can't Increase instance(%ld) attribute(%ld).", id, attributeCode);
-    syserr(str);
-  }
-}
-
-/*======================================================================*/
-void decrease(Aint id, Aint atr, Aword step)
-{
-  char str[80];
-
-  if (id > 0 && id <= header->instanceMax)
-    increaseAttribute(admin[id].attributes, atr, -step);
-  else {
-    sprintf(str, "Can't DECR instance attribute (%ld, %ld).", id, atr);
-    syserr(str);
-  }
+  for (i = 0; i < addend->size; i++)
+    addToSet(target, addend->members[i]);
 }
 
 
