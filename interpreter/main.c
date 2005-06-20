@@ -266,8 +266,8 @@ void statusline(void)
   col = 1;
   interpret(instance[where(HERO, FALSE)].mentioned);
 
-  if (header->maxscore > 0)
-    sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maxscore, current.tick);
+  if (header->maximumScore > 0)
+    sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maximumScore, current.tick);
   else
     sprintf(line, "%ld moves", (long)current.tick);
   for (i=0; i < pageWidth - col - strlen(line); i++) putchar(' ');
@@ -570,6 +570,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
       case '+': form = SAY_DEFINITE; break;
       case '0': form = SAY_INDEFINITE; break;
       case '!': form = SAY_PRONOUN; break;
+      default: form = SAY_SIMPLE; break;
       }
       sayParameter(str[2]-'1', form);
       needSpace = TRUE;
@@ -922,17 +923,6 @@ static void eventCheck(void)
 
   Main program and initialisation
 
-  codfil
-  filenames
-
-  checkvers()
-  load()
-  checkdebug()
-  initheader()
-  initstrings()
-  start()
-  init()
-
 \*----------------------------------------------------------------------*/
 
 
@@ -1061,7 +1051,7 @@ static void load(void)
 
 
 /*----------------------------------------------------------------------*/
-static void checkdebug(void)
+static void checkDebug(void)
 {
   /* Make sure he can't debug if not allowed! */
   if (!header->debug) {
@@ -1122,10 +1112,10 @@ static void initStaticData(void)
 
   /* Scores, if already allocated, copy initial data */
   if (scores == NULL)
-    scores = duplicate((Aword *) pointerTo(header->scores), header->scoresMax*sizeof(Aword));
+    scores = duplicate((Aword *) pointerTo(header->scores), header->scoreCount*sizeof(Aword));
   else
     memcpy(scores, pointerTo(header->scores),
-	   header->scoresMax*sizeof(Aword));
+	   header->scoreCount*sizeof(Aword));
 
 
   stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
@@ -1142,13 +1132,9 @@ static void initStaticData(void)
 static void initStrings(void)
 {
   StringInitEntry *init;
-  AttributeEntry *attribute;
-
-  for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++) {
-    getStringFromFile(init->fpos, init->len);
-    attribute = pointerTo(init->adr);
-    attribute->value = pop();
-  }
+  
+  for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++)
+    setValue(init->instanceCode, init->attributeCode, (Aword)getStringFromFile(init->fpos, init->len));
 }
 
 /*----------------------------------------------------------------------*/
@@ -1173,7 +1159,7 @@ static Aint sizeOfAttributeData(void)
 
 
 /*----------------------------------------------------------------------*/
-static AttributeEntry *copyAttributes(int awordSize)
+static AttributeEntry *initializeAttributes(int awordSize)
 {
   Aword *attributeArea = allocate(awordSize*sizeof(Aword));
   Aword *currentAttributeArea = attributeArea;
@@ -1205,12 +1191,12 @@ static void initDynamicData(void)
   /* Allocate for administrative table */
   admin = (AdminEntry *)allocate((header->instanceMax+1)*sizeof(AdminEntry));
 
+  /* Create game state copy of attributes */
+  attributes = initializeAttributes(sizeOfAttributeData());
+
   /* Initialise string & set attributes */
   initStrings();
   initSets((SetInitEntry*)pointerTo(header->setInitTable));
-
-  /* Create game state copy of attributes */
-  attributes = copyAttributes(sizeOfAttributeData());
 
   /* Set initial locations */
   for (instanceId = 1; instanceId <= header->instanceMax; instanceId++)
@@ -1340,7 +1326,7 @@ static void init(void)
   initStaticData();
   initDynamicData();
   initParse();
-  checkdebug();
+  checkDebug();
 
   getPageSize();
 

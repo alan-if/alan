@@ -374,14 +374,15 @@ typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
 typedef struct StringInitEntry {	/* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */
   Aword len;			/* Length */
-  Aaddr adr;			/* Where to store the string */
+  Aint instanceCode;		/* Where to store it */
+  Aint attributeCode;
 } StringInitEntry;
 
 typedef struct SetInitEntry {	/* SET INITIALISATION TABLE */
   Aint size;			/* Size of the initial set */
   Aword setAddress;		/* Address to the initial set */
-  Aword adr;			/* Address to attribute slot where the
-				   set is to be stored */
+  Aint instanceCode;		/* Where to store it */
+  Aint attributeCode;
 } SetInitEntry;
 
 typedef struct DictionaryEntry { /* Dictionary */
@@ -442,9 +443,9 @@ typedef struct ACodeHeader {
   Aaddr stringInitTable;	/* String init table address */
   Aaddr setInitTable;		/* Set init table address */
   Aaddr start;			/* Address to Start code */
-  Aword maxscore;		/* Maximum score */
+  Aword maximumScore;		/* Maximum score */
   Aaddr scores;			/* Score table */
-  Aint scoresMax;		/* Max index into scores table */
+  Aint scoreCount;		/* Max index into scores table */
   Aaddr sourceFileTable;	/* Table of fpos/len for source filenames */
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */

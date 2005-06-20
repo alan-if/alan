@@ -552,29 +552,31 @@ Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *conte
 }
 
 /*----------------------------------------------------------------------*/
-static void generateAttribute(Attribute *attribute)
+static void generateAttribute(Attribute *attribute, int instanceCode)
 {
   AttributeEntry entry;
   Attribute *new;
 
   if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
+    /* Now make a copy to use for initialisation if attribute is
+       inherited, else the address will be overwritten by generation
+       of other instances of the same attribute */
     if (attribute->type == STRING_TYPE) {
+      /* We need to ensure that it is encode it first */
       if (!attribute->encoded) {
 	encode(&attribute->fpos, &attribute->len);
 	attribute->encoded = TRUE;
       }
-      /* Now make a copy to use for initialisation if attribute is
-	 inherited, else the address will be overwritten by generation
-	 of other instances of the same attribute */
-      new = newStringAttribute(attribute->srcp, NULL, attribute->fpos, attribute->len);
+      new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
       adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
     } else {			/* SET ATTRIBUTE */
       /* Make a copy to keep the address in */
-      new = newSetAttribute(attribute->srcp, NULL, attribute->set);
+      new = newSetAttribute(attribute->srcp, attribute->id, attribute->set);
       new->setType = attribute->setType;
       adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
     }
     new->address = nextEmitAddress(); /* Record on which Aadress to put it */
+    new->instanceCode = instanceCode; /* Which instance owns it? */
   }
 
   entry.code = attribute->id->code;
@@ -585,7 +587,7 @@ static void generateAttribute(Attribute *attribute)
 
 
 /*======================================================================*/
-Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
+Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute nodes */
 {
   Aaddr adr;
   List *lst;
@@ -601,7 +603,7 @@ Aword generateAttributes(List *atrs) /* IN - List of attribute nodes */
   adr = nextEmitAddress();
 
   for (lst = atrs; lst != NULL; lst = lst->next) {
-    generateAttribute(lst->element.atr);
+    generateAttribute(lst->element.atr, instanceCode);
     attributeAreaSize += AwordSizeOf(AttributeEntry);
   }
   emit(EOF);
@@ -624,7 +626,8 @@ Aaddr generateStringInit(void)
   for (atrs = adv.stringAttributes; atrs != NULL; atrs = atrs->next) {
     entry.fpos = atrs->element.atr->fpos;
     entry.len = atrs->element.atr->len;
-    entry.adr = atrs->element.atr->address;
+    entry.instanceCode = atrs->element.atr->instanceCode;
+    entry.attributeCode = atrs->element.atr->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
@@ -655,7 +658,7 @@ static Aaddr generateSetAttribute(Attribute *atr)
   Aaddr adr = nextEmitAddress();
 
   if (atr->setType == STRING_TYPE)
-    SYSERR("Can't generate STRING sets yet,");
+    SYSERR("Can't generate STRING sets yet");
 
   generateSet(atr->set);
 
@@ -679,7 +682,8 @@ Aaddr generateSetInit(void)
   TRAVERSE (atrs, adv.setAttributes) {
     entry.size = length(atrs->element.atr->set->fields.set.members);
     entry.setAddress = atrs->element.atr->setAddress;
-    entry.adr = atrs->element.atr->address;
+    entry.instanceCode = atrs->element.atr->instanceCode;
+    entry.attributeCode = atrs->element.atr->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
@@ -707,23 +711,21 @@ void dumpAttribute(Attribute *atr)
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
-  put("address: "); dumpAddress(atr->address);
+  put("instanceCode: "); dumpInt(atr->instanceCode); nl();
+  put("address: "); dumpAddress(atr->address); nl();
   switch (atr->type) {
   case STRING_TYPE:
-    put(", stringAddress: "); dumpAddress(atr->stringAddress);
-    put("fpos: "); dumpInt(atr->fpos); nl();
+    put("stringAddress: "); dumpAddress(atr->stringAddress);
+    put(", fpos: "); dumpInt(atr->fpos); nl();
     put(", len: "); dumpInt(atr->len);
     break;
   case INTEGER_TYPE:
-    nl();
     put("value: "); dumpInt(atr->value);
     break;
   case BOOLEAN_TYPE:
-    nl();
     put("value: "); dumpBool(atr->value);
     break;
   case INSTANCE_TYPE:
-    nl();
     put("reference: "); dumpId(atr->reference);
     put("referenceClass: "); dumpPointer(atr->referenceClass);
     if (atr->referenceClass) {
@@ -731,7 +733,6 @@ void dumpAttribute(Attribute *atr)
     }
     break;
   case SET_TYPE:
-    nl();
     put("setType: "); dumpType(atr->setType); nl();
     if (atr->setType == INSTANCE_TYPE) {
       put("atr->setClass: "); dumpPointer(atr->setClass);
@@ -743,7 +744,7 @@ void dumpAttribute(Attribute *atr)
     put("set: "); dumpExpression(atr->set);
     break;
   default:
-    put(", stringAddress: "); dumpAddress(atr->stringAddress);
+    put("stringAddress: "); dumpAddress(atr->stringAddress);
     put(", fpos: "); dumpInt(atr->fpos);
     put(", len: "); dumpInt(atr->len); nl();
     put("value: "); dumpInt(atr->value); nl();

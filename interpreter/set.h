@@ -23,6 +23,7 @@ typedef struct Set {
 } Set;
 
 
+extern Set *newSet(void);
 extern void initSets(SetInitEntry *initTable);
 extern int sizeOfSet(Set *theSet);
 extern void clearSet(Set *theSet);
@@ -32,5 +33,6 @@ extern Bool inSet(Set *theSet, Aword member);
 extern void addToSet(Set *theSet, Aword newMember);
 extern void removeFromSet(Set *theSet, Aword member);
 extern void setUnion(Set *theSet, Set *other);
+extern void freeSet(Set *theSet);
 
 #endif

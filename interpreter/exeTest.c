@@ -137,11 +137,9 @@ void testGetString()
   writeAndOpenGetStringTestFile(fpos, testString);
   header->pack = FALSE;
   header->stringOffset = 0;
-  getStringFromFile(fpos, strlen(testString));
-  ASSERT(strcmp((char *)pop(), testString)==0);
+  ASSERT(strcmp(getStringFromFile(fpos, strlen(testString)), testString)==0);
   header->stringOffset = 1;
-  getStringFromFile(fpos, strlen(testString)-1);
-  ASSERT(strcmp((char *)pop(), &testString[1])==0);
+  ASSERT(strcmp(getStringFromFile(fpos, strlen(testString)-1), &testString[1])==0);
   fclose(textFile);
   unlink(testFileName);
 }
@@ -347,6 +345,61 @@ static void testSaveRestore() {
   ASSERT(admin[3].attributes[0].value == 33);
 }
 
+static void testSaveStrings() {
+  char *testFileName = "testSaveStringFile";
+  char *testString = "hejhopp";
+  FILE *saveFile = fopen(testFileName, "w");
+  Aword scoreTable = EOF;
+  StringInitEntry *initEntry;
+
+  /* Set up empty eventQ and scores and other irrelevant data */
+  eventQueueTop = 0;
+  scores = &scoreTable;
+  adventureName = "adventure";
+  adventureFileName = "adventure.a3c";
+
+  /* Init header for one instance with one attribute */
+  header->instanceMax = 1;
+  header->attributesAreaSize = sizeof(AttributeEntry)/sizeof(Aword);
+
+  /* Initialize a fake instance table */
+  instance = malloc(2*sizeof(InstanceEntry));
+  instance[1].parent = 0;
+
+  /* Allocate an attribute area and initialize it */
+  attributes = malloc(sizeof(AttributeEntry));
+  attributes[0].code = 1;
+  attributes[0].value = (Aword)strdup(testString);
+  attributes[0].stringAddress = 0;
+  attributes[1].code = EOF;
+
+  /* Fake admin areas for one instances */
+  admin = allocate(2*sizeof(AdminEntry));
+  admin[1].attributes = &attributes[0];
+
+  /* A String Init Table is required */
+  memory = allocate(3*sizeof(StringInitEntry));
+  header->stringInitTable = 1;
+  initEntry = (StringInitEntry*)pointerTo(1);
+  initEntry->instanceCode = 1;
+  initEntry->attributeCode = 1;
+  *((Aword *)&initEntry[1]) = EOF;
+
+  /* Save the game data */
+  saveGame(saveFile);
+  fclose(saveFile);
+  strcpy((char *)admin[1].attributes[0].value, "i lingonskogen");
+
+  admin[1].attributes[0].value = (Aword)strdup("i lingonskogen");
+
+  saveFile = fopen(testFileName, "r");
+  restoreGame(saveFile);
+  fclose(saveFile);
+  unlink(testFileName);
+
+  ASSERT(strcmp((char *)admin[1].attributes[0].value, testString) == 0);
+}
+
 static void testWhere() {
   admin = malloc(4*sizeof(AdminEntry));
   instance = malloc(4*sizeof(InstanceEntry));
@@ -402,6 +455,40 @@ static void testAddSet() {
   ASSERT(sizeOfSet(set2)==4);
 }
 
+void testSaveRestoreScore() {
+  char *fileName = "testSaveRestoreScore";
+  FILE *saveFile;
+  int i;
+  Aword *oldScores;
+  int scoreCount = 48;
+
+  oldScores = scores = allocate(scoreCount*sizeof(Aword));
+  header->scoreCount = scoreCount;
+
+  for (i = 0; i < scoreCount; i++)
+    scores[i] = i;
+
+  saveFile = fopen(fileName, "wb");
+  saveScores(saveFile);
+  fclose(saveFile);
+
+  scores = allocate(scoreCount*sizeof(Aword));
+
+  for (i = 0; i < scoreCount; i++)
+    scores[i] = 50-i;
+
+  saveFile = fopen(fileName, "rb");
+  restoreScores(saveFile);
+
+  ASSERT(memcmp(scores, oldScores, scoreCount*sizeof(Aword)) == 0);
+  ASSERT(fgetc(saveFile) == EOF);
+
+  fclose(saveFile);
+  unlink(fileName);
+  free(scores);
+  free(oldScores);
+}
+
 void registerExeUnitTests()
 {
   registerUnitTest(testCountTrailingBlanks);
@@ -417,6 +504,8 @@ void registerExeUnitTests()
   registerUnitTest(testHereIllegalId);
   registerUnitTest(testLocateIllegalId);
   registerUnitTest(testSaveRestore);
+  registerUnitTest(testSaveStrings);
   registerUnitTest(testWhere);
   registerUnitTest(testAddSet);
+  registerUnitTest(testSaveRestoreScore);
 }

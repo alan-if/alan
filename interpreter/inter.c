@@ -452,7 +452,7 @@ void interpret(Aaddr adr)
 	len = pop();
 	if (singleStepOption)
 	  printf("GETSTR\t%5ld, %5ld", fpos, len);
-	getStringFromFile(fpos, len);
+	push((Aword)getStringFromFile(fpos, len));
 	traceStringTopValue();
 	break;
       }
@@ -581,11 +581,12 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_NEWSET: {
-	Set *set = NEW(Set);
+	Set *set = newSet();
 	if (singleStepOption) {
-	  printf("NEWSET\t%5ld\t\t\t\t", (Aword)set);
+	  printf("NEWSET\t\t\t\t\t");
 	}
 	push((Aword)set);
+	traceIntegerTopValue();
 	break;
       }
       case I_UNION: {
@@ -596,7 +597,8 @@ void interpret(Aaddr adr)
 	  printf("UNION\t%5ld, %5ld\t\t", set1, set2);
 	}
 	setUnion((Set *)top(), (Set *)set2);
-	free((void *)set2);
+	traceIntegerTopValue();
+	freeSet((Set *)set2);
 	break;
       }
       case I_INCR: {
@@ -606,6 +608,7 @@ void interpret(Aaddr adr)
 	  printf("INCR\t%5ld", step);
 	}
 	push(pop() + step);
+	traceIntegerTopValue();
 	break;
       }
       case I_DECR: {
@@ -615,6 +618,7 @@ void interpret(Aaddr adr)
 	  printf("DECR\t%5ld\t\t\t", step);
 	}
 	push(pop() - step);
+	traceIntegerTopValue();
 	break;
       }
       case I_INCLUDE: {

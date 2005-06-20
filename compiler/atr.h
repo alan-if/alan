@@ -25,6 +25,9 @@ typedef struct Attribute {
   AttributeInheritance inheritance;
   Aword stringAddress;		/* Acode address to the attribute name */
   Aword address;		/* Acode address to the attribute value */
+  Aint instanceCode;		/* Code of the owning instance, used
+				   to generate string and set
+				   initilization data */
 
   int value;			/* INTEGER - The initial value */
 

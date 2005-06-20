@@ -115,11 +115,11 @@ main.o: main.c sysdep.h acode.h types.h set.h main.h \
 main.o: main.c sysdep.h acode.h types.h set.h main.h ../../glkterm/glk.h \
   syserr.h readline.h alan.version.h version.h args.h parse.h inter.h \
   rules.h reverse.h debug.h stack.h exe.h term.h glkio.h
-set.o: set.c set.h acode.h types.h sysdep.h main.h syserr.h
+set.o: set.c set.h acode.h types.h sysdep.h main.h syserr.h exe.h
 set.o: set.c set.h acode.h types.h sysdep.h main.h \
-  ../../WindowsGLK/Include/glk.h syserr.h
+  ../../WindowsGLK/Include/glk.h syserr.h exe.h
 set.o: set.c set.h acode.h types.h sysdep.h main.h ../../glkterm/glk.h \
-  syserr.h
+  syserr.h exe.h
 arun.o: arun.c sysdep.h main.h types.h acode.h term.h alan.version.h \
   version.h args.h
 arun.o: arun.c sysdep.h main.h types.h acode.h \

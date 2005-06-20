@@ -107,7 +107,7 @@ static Bool gameStateChanged(void)
     return TRUE;
 
   if (gameState[gameStateTop-1].score != current.score) return TRUE;
-  if (memcmp(scores, previousScores, header->scoresMax*sizeof(scores[0])) != 0)
+  if (memcmp(scores, previousScores, header->scoreCount*sizeof(scores[0])) != 0)
     return TRUE;
 
   return FALSE;
@@ -127,7 +127,7 @@ void pushGameState(void) {
     gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
 
     gameState[gameStateTop].score = current.score;
-    gameState[gameStateTop].scores = duplicate(scores, header->scoresMax*sizeof(Aword));
+    gameState[gameStateTop].scores = duplicate(scores, header->scoreCount*sizeof(Aword));
 
     gameStateTop++;
   }
@@ -160,7 +160,7 @@ Bool popGameState(void) {
 
   current.score = gameState[gameStateTop].score;
   memcpy(scores, gameState[gameStateTop].scores,
-	 header->scoresMax*sizeof(Aword));
+	 header->scoreCount*sizeof(Aword));
   free(gameState[gameStateTop].scores);
 
   return TRUE;
@@ -268,20 +268,17 @@ void sys(Aword fpos, Aword len)
 {
   char *command;
 
-  getStringFromFile(fpos, len);            /* Returns address to string on stack */
-  command = (char *)pop();
+  command = getStringFromFile(fpos, len);
   system(command);
   free(command);
 }
 
 
 /*======================================================================*/
-void getStringFromFile(Aword fpos, Aword len)
+char *getStringFromFile(Aword fpos, Aword len)
 {
   char *buf = allocate(len+1);
-
-  /* Push the address to the string */
-  push((Aword) buf);
+  char *bufp = buf;
 
   /* Position to start of text */
   fseek(textFile, fpos+header->stringOffset, 0);
@@ -290,12 +287,14 @@ void getStringFromFile(Aword fpos, Aword len)
     startDecoding();
   while (len--)
     if (header->pack)
-      *(buf++) = decodeChar();
+      *(bufp++) = decodeChar();
     else
-      *(buf++) = getc(textFile);
+      *(bufp++) = getc(textFile);
 
   /* Terminate string with zero */
-  *buf = '\0';
+  *bufp = '\0';
+
+  return buf;
 }
 
 
@@ -305,7 +304,7 @@ void score(Aword sc)
 {
   if (sc == 0) {
     setupParameterForInteger(1, current.score);
-    setupParameterForInteger(2, header->maxscore);
+    setupParameterForInteger(2, header->maximumScore);
     printMessage(M_SCORE);
   } else {
     current.score += scores[sc-1];
@@ -521,7 +520,7 @@ void setStringAttribute(Aint id, Aint atr, char *str)
 /*======================================================================*/
 void setSetAttribute(Aint id, Aint atr, Aword set)
 {
-  free((char *)attributeOf(id, atr));
+  freeSet((Set *)attributeOf(id, atr));
   setValue(id, atr, (Aword)set);
 }
 
@@ -1762,38 +1761,99 @@ void stop(Aword act)
 
 #ifndef HAVE_GLK
 static char saveFileName[256];
+typedef FILE *AFILE;
+#else
+typedef strid_t AFILE;
 #endif
 
 
 /*----------------------------------------------------------------------*/
-#ifdef HAVE_GLK
-static void saveGame(strid_t saveFile) {
-#else
-static void saveGame(FILE *saveFile) {
-#endif
-  int i;
+static void saveStrings(AFILE saveFile) {
 
-  /* Save tag, version of interpreter, name and uid of game */
+  StringInitEntry *initEntry;
+
+  if (header->stringInitTable != 0)
+    for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
+	 !endOfTable(initEntry); initEntry++) {
+      char *attr = (char *)getStringAttribute(initEntry->instanceCode, initEntry->attributeCode);
+      Aint length = strlen(attr) + 1;
+      fwrite((void *)&length, sizeof(length), 1, saveFile);
+      fwrite((void *)attr, 1, length, saveFile);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void saveSets(AFILE saveFile) {
+  SetInitEntry *initEntry;
+
+  if (header->setInitTable != 0)
+    for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
+	 !endOfTable(initEntry); initEntry++) {
+      Set *attr = (Set *)getSetAttribute(initEntry->instanceCode, initEntry->attributeCode);
+      fwrite((void *)&attr, sizeof(attr), 1, saveFile);
+      fwrite((void *)attr->members, sizeof(attr->members[0]), attr->size, saveFile);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void saveGameInfo(AFILE saveFile) {
   fwrite((void *)"ASAV", 1, 4, saveFile);
   fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
   fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
   fwrite((void *)&header->uid, 1, sizeof(Aword), saveFile);
+}
 
-  /* Save current values */
-  fwrite((void *)&current, sizeof(current), 1, saveFile);
 
-  /* Save attribute area */
-  fwrite((void*)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
-  /* Save admin about instances */
+/*----------------------------------------------------------------------*/
+static void saveAdmin(AFILE saveFile) {
   fwrite((void *)&admin[1], sizeof(AdminEntry), header->instanceMax, saveFile);
+}
 
-  /* Save the event queue, write size first */
+
+/*----------------------------------------------------------------------*/
+static void saveAttributeArea(AFILE saveFile) {
+  fwrite((void*)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void saveEventQueue(AFILE saveFile) {
   fwrite((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
   fwrite((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
+}
 
-  /* Save scores */
-  for (i = 0; scores[i] != EOF; i++)
-    fwrite((void *)&scores[i], sizeof(Aword), 1, saveFile);
+
+/*----------------------------------------------------------------------*/
+static void saveCurrentValues(AFILE saveFile) {
+  fwrite((void *)&current, sizeof(current), 1, saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void saveScores(AFILE saveFile) {
+  fwrite((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void saveGame(AFILE saveFile) {
+  /* Save tag, version of interpreter, name and uid of game */
+  saveGameInfo(saveFile);
+
+  /* Save current values */
+  saveCurrentValues(saveFile);
+
+  saveAttributeArea(saveFile);
+  saveAdmin(saveFile);
+
+  saveEventQueue(saveFile);
+
+  saveScores(saveFile);
+
+  saveStrings(saveFile);
+  saveSets(saveFile);
 }
 
 
@@ -1845,62 +1905,144 @@ void save(void)
 
 
 /*----------------------------------------------------------------------*/
-#ifdef HAVE_GLK
-static void restoreGame(strid_t saveFile)
-#else
-static void restoreGame(FILE *saveFile)
-#endif
-{
-  int i;
-  char savedVersion[4];
-  char savedName[256];
-  Aword savedUid;
-  char str[256];
+static void restoreStrings(AFILE saveFile) {
+  StringInitEntry *initEntry;
 
-  fread((void *)&str, 1, 4, saveFile);
-  str[4] = '\0';
-  if (strcmp(str, "ASAV") != 0)
-    error(M_NOTASAVEFILE);
+  if (header->stringInitTable != 0)
+    for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
+	 !endOfTable(initEntry); initEntry++) {
+      Aint length;
+      char *string;
+      fread((void *)&length, sizeof(Aint), 1, saveFile);
+      string = allocate(length+1);
+      fread((void *)string, 1, length, saveFile);
+      setValue(initEntry->instanceCode, initEntry->attributeCode, (Aword)string);
+    }
+}
 
-  /* Verify version of compiler/interpreter of saved game with us */
-  fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
-  if (!ignoreErrorOption && strncmp(savedVersion, header->vers, 4))
-    error(M_SAVEVERS);
 
-  /* Verify name of game */
-  i = 0;
-  while ((savedName[i++] = fgetc(saveFile)) != '\0');
-  if (strcmp(savedName, adventureName) != 0)
-    error(M_SAVENAME);
+/*----------------------------------------------------------------------*/
+static void restoreSets(AFILE saveFile) {
+  SetInitEntry *initEntry;
 
-  /* Verify unique id of game */
-  fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
-  if (!ignoreErrorOption && savedUid != header->uid)
-    error(M_SAVEVERS);
+  if (header->setInitTable != 0)
+    for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
+	 !endOfTable(initEntry); initEntry++) {
+      Set *set = newSet();
+      fread((void *)set, sizeof(set), 1, saveFile);
+      set->members = allocate(set->size+3);
+      fread((void *)set->members, sizeof(set->members[0]), set->size, saveFile);
+      setValue(initEntry->instanceCode, initEntry->attributeCode, (Aword)set);
+    }
+}
 
-  /* Restore current values */
-  fread((void *)&current, sizeof(current), 1, saveFile);
 
-  /* Restore attribute area */
-  fread((void *)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
-  /* Restore admin for instances, remember to reset attribute area pointer */
-  for (i = 1; i <= header->instanceMax; i++) {
-    AttributeEntry *currentAttributesArea = admin[i].attributes;
-    fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
-    admin[i].attributes = currentAttributesArea;
-  }
+/*----------------------------------------------------------------------*/
+static void restoreScores(AFILE saveFile) {
+  fread((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
+}
 
-  /* Restore the eventQueue */
+
+/*----------------------------------------------------------------------*/
+static void restoreEventQueue(AFILE saveFile) {
   fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
   if (eventQueueTop > eventQueueSize) {
     free(eventQueue);
     eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
   }
   fread((void *)&eventQueue[eventQueueTop], sizeof(eventQueue[0]), eventQueueTop, saveFile);
+}
 
-  /* Restore scores */
-  for (i = 0; scores[i] != EOF; i++)
-    fread((void *)&scores[i], sizeof(Aword), 1, saveFile);
+
+/*----------------------------------------------------------------------*/
+static void restoreAdmin(AFILE saveFile) {
+  /* Restore admin for instances, remember to reset attribute area pointer */
+  int i;
+  for (i = 1; i <= header->instanceMax; i++) {
+    AttributeEntry *currentAttributesArea = admin[i].attributes;
+    fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
+    admin[i].attributes = currentAttributesArea;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void restoreAttributeArea(AFILE saveFile) {
+  fread((void *)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void restoreCurrentValues(AFILE saveFile) {
+  fread((void *)&current, sizeof(current), 1, saveFile);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void verifyGameId(AFILE saveFile) {
+  Aword savedUid;
+
+  fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
+  if (!ignoreErrorOption && savedUid != header->uid)
+    error(M_SAVEVERS);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void verifyGameName(AFILE saveFile) {
+  char savedName[256];
+  int i = 0;
+
+  while ((savedName[i++] = fgetc(saveFile)) != '\0');
+  if (strcmp(savedName, adventureName) != 0)
+    error(M_SAVENAME);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void verifyCompilerVersion(AFILE saveFile) {
+  char savedVersion[4];
+
+  fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
+  if (!ignoreErrorOption && strncmp(savedVersion, header->vers, 4))
+    error(M_SAVEVERS);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void verifySaveFile(AFILE saveFile) {
+  char string[256];
+
+  fread((void *)&string, 1, 4, saveFile);
+  string[4] = '\0';
+  if (strcmp(string, "ASAV") != 0)
+    error(M_NOTASAVEFILE);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void restoreGame(AFILE saveFile)
+{
+  if (saveFile == NULL) syserr("'restoreGame()' from a null fileref");
+
+  verifySaveFile(saveFile);
+
+  /* Verify version of compiler/interpreter of saved game with us */
+  verifyCompilerVersion(saveFile);
+
+  /* Verify name of game */
+  verifyGameName(saveFile);
+
+  /* Verify unique id of game */
+  verifyGameId(saveFile);
+
+  restoreCurrentValues(saveFile);
+  restoreAttributeArea(saveFile);
+  restoreAdmin(saveFile);
+  restoreEventQueue(saveFile);
+  restoreScores(saveFile);
+  restoreStrings(saveFile);
+  restoreSets(saveFile);
 }
 
 

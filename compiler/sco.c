@@ -46,6 +46,6 @@ void generateScores(ACodeHeader *header)
   }
   emit(EOF);
 
-  header->maxscore = totalScore;
-  header->scoresMax = scoreCount;
+  header->maximumScore = totalScore;
+  header->scoreCount = scoreCount;
 }

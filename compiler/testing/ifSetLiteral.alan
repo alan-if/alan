@@ -1,5 +1,0 @@
-The l Isa location
-End The l.
-
-Start At l.
-  If l In {l} Then "ok" Else "not ok" End If.

@@ -46,7 +46,7 @@ static void testCopyAttributes() {
   instance[1].initialAttributes = 1;
   instance[2].initialAttributes = 10;
 
-  attributeArea = copyAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
+  attributeArea = initializeAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
 
   ASSERT(admin[1].attributes[0].code == 13);
   ASSERT(admin[1].attributes[0].value == 15);

@@ -31,7 +31,7 @@ extern Aword getSetAttribute(Aint id, Aint atr);
 extern void include(Aint id, Aint atr, Aword member);
 extern void exclude(Aint id, Aint atr, Aword member);
 extern void clearSetAttribute(Aint id, Aint atr);
-extern void getStringFromFile(Aword fpos, Aword len);
+extern char *getStringFromFile(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void setStyle(Aint style);
 extern void look(void);

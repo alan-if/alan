@@ -286,7 +286,7 @@ void generateInstancePropertiesData(Properties *props)
   props->idAddress = nextEmitAddress();
   emitString(props->id->string);
 
-  props->attributeAddress = generateAttributes(props->attributes);
+  props->attributeAddress = generateAttributes(props->attributes, props->id->symbol->code);
 
   /* Now generate all the things both instances and classes have */
   generateCommonPropertiesData(props);

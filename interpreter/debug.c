@@ -379,8 +379,7 @@ static void showEvents(void)
 char *sourceFileName(int fileNumber) {
   SourceFileEntry *entries = pointerTo(header->sourceFileTable);
 
-  getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
-  return (char *)pop();
+  return getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
 }
 
 

@@ -319,7 +319,7 @@ void testGenerateAttributes()
      only generate 2.
   */
   attributeAreaSize = 0;
-  address = generateAttributes(firstInstance->props->attributes);
+  address = generateAttributes(firstInstance->props->attributes, 1);
   ASSERT(nextEmitAddress() == address + 2*attributeEntrySize + 1);
   ASSERT(attributeAreaSize == 2*attributeEntrySize+1);
 }

@@ -654,7 +654,8 @@ void dumpStringInit(Aaddr stringInitTable)
     indent(level+1);
     printf("len: %ld\n", entry->len);
     indent(level+1);
-    printf("adr: %ld\n", entry->adr);
+    printf("instance: %ld\n", entry->instanceCode);
+    printf("attribute: %ld\n", entry->attributeCode);
   }
 }    
 
@@ -690,7 +691,8 @@ void dumpSetInit(Aaddr setInitTable)
     indent(level+1);
     printf("set: {"); dumpSet(entry->setAddress); printf("}\n");
     indent(level+1);
-    printf("adr: %ld\n", entry->adr);
+    printf("instanceCode: %ld\n", entry->instanceCode);
+    printf("attributeCode: %ld\n", entry->attributeCode);
   }
 }    
  
@@ -733,7 +735,7 @@ static void dumpACD(void)
   printf("START: %s\n", dumpAddress(header->start));
   printf("MESSAGE TABLE: %s\n", dumpAddress(header->messageTableAddress));
   if (messagesFlag) dumpMessages(header->messageTableAddress);
-  printf("MAX SCORE: %ld\n", header->maxscore);
+  printf("MAX SCORE: %ld\n", header->maximumScore);
   printf("SCORES: %s\n", dumpAddress(header->scores));
   printf("FREQUENCY TABLE: %s\n", dumpAddress(header->freq));
   printf("ACDCRC: 0x%lx ", header->acdcrc);

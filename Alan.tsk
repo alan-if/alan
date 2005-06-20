@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>420.89</origest>
-<currest>419.89</currest>
-<elapsed>277.89</elapsed>
+<origest>422.89</origest>
+<currest>421.89</currest>
+<elapsed>279.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>56</origest>
-<currest>56</currest>
-<elapsed>8</elapsed>
+<origest>58</origest>
+<currest>58</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
-<elapsed>7</elapsed>
+<origest>29</origest>
+<currest>29</currest>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -93,12 +93,39 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Saving does not cater for dynamically allocated sets and strings</desc>
+<notes>or does it? Same goes for strings. We could use the knowledge stored in the initialization tables since only attributes need be saved.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Attribute initialization with an empty set should be allowed if it has a type and class from its inheritance</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>COUNT IN integerSet does not work</desc>
+<notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
+
+The special case should involve I_SETSIZE instruction instead of AGRSTART et.al if the aggregate operate on an integer set.
+
+This should apply to MAX, MIN and SUM also?
+
+See regression/integerSetAggregation.alan
+
+
+Say Max In integerSet Of instance.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -129,17 +156,8 @@ Design tasks:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>COUNT IN integerSet does not work</desc>
-<notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
-
-The special case should involve I_SETSIZE instruction instead of AGRSTART et.al if the aggregate operate on an integer set.
-
-This should apply to MAX, MIN and SUM also?
-
-See regression/integerSetAggregation.alan
-
-
-Say Max In integerSet Of instance.</notes>
+<desc>UNDO handling does not seem to manage dynamic sets and strings</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

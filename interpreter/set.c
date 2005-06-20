@@ -14,24 +14,33 @@
 #include "set.h"
 #include "main.h"
 #include "syserr.h"
+#include "exe.h"
+
+#define EXTENT 5
+
+
+/*======================================================================*/
+Set *newSet(void) {
+  Set *theSet = NEW(Set);
+
+  return theSet;
+}
 
 
 /*======================================================================*/
 void initSets(SetInitEntry *initTable)
 {
   SetInitEntry *init;
-  AttributeEntry *attribute;
   int i;
   
   for (init = initTable; !endOfTable(init); init++) {
-    Set *set = (Set *)allocate(sizeof(Set));
-    attribute = pointerTo(init->adr);
-    attribute->value = (Aword)set;
+    Set *set = newSet();
     set->size = init->size;
     set->allocated = set->size+5;
     set->members = (Aword*)allocate(sizeof(Aword)*set->allocated);
     for (i = 0; i < init->size; i++)
       set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
+    setValue(init->instanceCode, init->attributeCode, (Aword)set);
   }
 }
 
@@ -56,7 +65,7 @@ void clearSet(Set *theSet) {
 
 /*======================================================================*/
 Set *copySet(Set *theSet) {
-  Set *new = NEW(Set);
+  Set *new = newSet();
   int size = sizeof(Aword)*theSet->allocated;
 
   memcpy(new, theSet, sizeof(Set));
@@ -98,8 +107,6 @@ void setUnion(Set *set1, Set *set2)
 /*=======================================================================*/
 void addToSet(Set *theSet, Aword newMember)
 {
-#define EXTENT 5
-
   if (inSet(theSet, newMember)) return;
   if (theSet->size == theSet->allocated) {
     Aword *members = theSet->members;
@@ -129,4 +136,11 @@ void removeFromSet(Set *theSet, Aword member)
       break;
     }
   }
+}
+
+/*======================================================================*/
+void freeSet(Set *theSet) {
+  if (theSet->members != NULL)
+    free(theSet->members);
+  free(theSet);
 }
