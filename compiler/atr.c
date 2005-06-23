@@ -285,9 +285,7 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 /*----------------------------------------------------------------------*/
 static void analyzeSetAttribute(Attribute *thisAttribute)
 {
-  if (length(thisAttribute->set->fields.set.members) == 0)
-    lmLog(&thisAttribute->srcp, 413, sevERR, "");
-  else {
+  if (length(thisAttribute->set->fields.set.members) > 0) {
     analyzeExpression(thisAttribute->set, NULL);
     if (!isConstantExpression(thisAttribute->set))
       lmLog(&thisAttribute->set->srcp, 433, sevERR, "");
@@ -305,7 +303,8 @@ static void analyzeInheritedSetAttribute(Attribute *thisAttribute,
 				Attribute *inheritedAttribute,
 				Symbol *definingSymbol) {
 
-  if (!inheritsFrom(thisAttribute->setClass, inheritedAttribute->setClass)) {
+  if (thisAttribute->setClass != NULL &&
+      !inheritsFrom(thisAttribute->setClass, inheritedAttribute->setClass)) {
     lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
 	   "of its members",
 	   thisAttribute->setClass->string,
@@ -389,7 +388,10 @@ void analyzeAttributes(List *atrs, Symbol *symbol)
 	} else
 	  SYSERR("Unimplemented complex attribute type");
       }
-    }
+    } else if (thisAttribute->type == SET_TYPE
+	  && length(thisAttribute->set->fields.set.members) == 0)
+      /* Empty set initializations are not allowed unless inherited */
+	lmLog(&thisAttribute->srcp, 413, sevERR, "");
   }
 }
 

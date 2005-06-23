@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>422.89</origest>
-<currest>421.89</currest>
-<elapsed>279.89</elapsed>
+<origest>423.89</origest>
+<currest>422.89</currest>
+<elapsed>280.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>58</origest>
-<currest>58</currest>
-<elapsed>10</elapsed>
+<origest>59</origest>
+<currest>59</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>9</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -111,7 +111,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -373,6 +373,15 @@ is plural. Then the plural message should be:
 </task>
 <task>
 <desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Error 225 is incorrect when IN is used since that will delimit the types of instances</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
