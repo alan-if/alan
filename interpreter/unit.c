@@ -75,6 +75,15 @@ void syserr(char msg[])
 
 int main()
 {
+#ifdef DMALLOC
+  /*
+   * Get environ variable DMALLOC_OPTIONS and pass the settings string
+   * on to dmalloc_debug_setup to setup the dmalloc debugging flags.
+   */
+  dmalloc_debug_setup(getenv("DMALLOC_OPTIONS"));
+  printf("DMALLOC_OPTIONS=%s\n", getenv("DMALLOC_OPTIONS"));
+#endif
+
   if (setjmp(uniterr_label) == 0) {
     registerExeUnitTests();
     registerParseUnitTests();

@@ -20,9 +20,14 @@
 
 
 /*======================================================================*/
-Set *newSet(void) {
+Set *newSet(int allocation) {
   Set *theSet = NEW(Set);
 
+  if (allocation) {
+    theSet->members = allocate(allocation*sizeof(theSet->members[0]));
+    theSet->size = 0;
+    theSet->allocated = allocation;
+  }
   return theSet;
 }
 
@@ -34,21 +39,13 @@ void initSets(SetInitEntry *initTable)
   int i;
   
   for (init = initTable; !endOfTable(init); init++) {
-    Set *set = newSet();
-    set->size = init->size;
-    set->allocated = set->size+5;
-    set->members = (Aword*)allocate(sizeof(Aword)*set->allocated);
-    for (i = 0; i < init->size; i++)
-      set->members[i] = ((Aword *)pointerTo(init->setAddress))[i];
+    Set *set = newSet(init->size);
+    Aword *member = pointerTo(init->setAddress);
+    for (i = 0; i < init->size; i++, member++)
+      addToSet(set, *member);
     setValue(init->instanceCode, init->attributeCode, (Aword)set);
   }
 }
-
-/*----------------------------------------------------------------------*/
-static void copyMembers(Aword *source, Aword *destination, int size)
-{
-  memcpy(destination, source, size*sizeof(Aword));
-}	
 
 
 /*======================================================================*/
@@ -65,12 +62,11 @@ void clearSet(Set *theSet) {
 
 /*======================================================================*/
 Set *copySet(Set *theSet) {
-  Set *new = newSet();
-  int size = sizeof(Aword)*theSet->allocated;
+  Set *new = newSet(theSet->size);
+  int i;
 
-  memcpy(new, theSet, sizeof(Set));
-  new->members = allocate(size);
-  memcpy(new->members, theSet->members, size);
+  for (i = 0; i < theSet->size; i++)
+    addToSet(new, getMember(theSet, i));
   return new;
 }
 
@@ -109,15 +105,11 @@ void addToSet(Set *theSet, Aword newMember)
 {
   if (inSet(theSet, newMember)) return;
   if (theSet->size == theSet->allocated) {
-    Aword *members = theSet->members;
-    theSet->members = (Aword *)allocate((theSet->allocated+EXTENT)*sizeof(Aword));
     theSet->allocated += EXTENT;
-    if (members != NULL) {
-      copyMembers(members, theSet->members, theSet->size);
-      free(members);
-    }
+    theSet->members = realloc(theSet->members, theSet->allocated*sizeof(theSet->members[0]));
   }
-  theSet->members[theSet->size++] = newMember;
+  theSet->members[theSet->size] = newMember;
+  theSet->size++;
 }
 
 
@@ -137,6 +129,22 @@ void removeFromSet(Set *theSet, Aword member)
     }
   }
 }
+
+
+/*=======================================================================*/
+Bool equalSets(Set *set1, Set *set2)
+{
+  int i;
+
+  if (set1->size != set2->size) return FALSE;
+
+  for (i = 0; i < set1->size; i++) {
+    if (!inSet(set2, set1->members[i]))
+      return FALSE;
+  }
+  return TRUE;
+}
+
 
 /*======================================================================*/
 void freeSet(Set *theSet) {

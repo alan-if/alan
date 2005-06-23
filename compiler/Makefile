@@ -4,7 +4,7 @@
 # Cygwin or MingW?
 PLATFORM = -mno-cygwin
 #PLATFORM = 
-OPTIMIZE = -g
+OPTIMIZE = -ggdb
 
 winalan:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
 release:	OPTIMIZE = -O4

@@ -162,6 +162,8 @@ static void testNoOfPronouns() {
 
 
 static void testSetupParameterForWord() {
+  ACodeHeader acdHeader;
+  header = &acdHeader;
   header->maxParameters = 10;
   dictionary = makeDictionary(20);
   memory = allocate(40*sizeof(Aword));

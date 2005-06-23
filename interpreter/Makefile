@@ -4,14 +4,14 @@
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r.\\$$s\\$$c"`
 
-OPTIMIZE = -g
+OPTIMIZE = -ggdb
 #CYGWIN	= -mno-cygwin
 CYGWIN	= 
 EXE	= arun.exe
 
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 CFLAGS	= $(COMPILEFLAGS)
-ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)
+ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
 LIBS	=
 
 #Settings for Windows GLK variant
@@ -54,7 +54,8 @@ gararun: CYGWIN =
 gararun: LIBS = $(GARGLKLIB)
 gararun: EXE = gararun.exe
 
-dmalloc: CFLAGS = $(COMPILEFLAGS) -DDMALLOC
+dmalloc: DMALLOC = -DDMALLOC
+dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
 dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 release: OPTIMIZE = -O4
 
@@ -129,7 +130,7 @@ termarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $(EXE) ../bin
 
-dmalloc: checkTarget $(ARUNOBJECTS)
+dmalloc: checkTarget $(ARUNOBJECTS) unitTest
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
@@ -198,7 +199,7 @@ test: unitTest
 #
 #
 dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
-	gcc -Wall -o dumpacd -g -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
+	gcc -Wall -o dumpacd -ggdb -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
 
 
 

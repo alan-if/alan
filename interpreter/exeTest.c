@@ -6,6 +6,7 @@
 
 \*======================================================================*/
 
+#include "set.h"
 #include "exe.c"
 
 
@@ -354,6 +355,7 @@ static void testSaveStrings() {
 
   /* Set up empty eventQ and scores and other irrelevant data */
   eventQueueTop = 0;
+  header->scoreCount = 0;
   scores = &scoreTable;
   adventureName = "adventure";
   adventureFileName = "adventure.a3c";
@@ -367,7 +369,7 @@ static void testSaveStrings() {
   instance[1].parent = 0;
 
   /* Allocate an attribute area and initialize it */
-  attributes = malloc(sizeof(AttributeEntry));
+  attributes = malloc(2*sizeof(AttributeEntry));
   attributes[0].code = 1;
   attributes[0].value = (Aword)strdup(testString);
   attributes[0].stringAddress = 0;
@@ -398,6 +400,82 @@ static void testSaveStrings() {
   unlink(testFileName);
 
   ASSERT(strcmp((char *)admin[1].attributes[0].value, testString) == 0);
+}
+
+static void testSaveSets() {
+  char *testFileName = "testSaveSetFile";
+  Set *testSet[4];
+  FILE *saveFile = fopen(testFileName, "w");
+  Aword scoreTable = EOF;
+  SetInitEntry *initEntry;
+  int i,j;
+
+  /* Set up empty eventQ and scores and other irrelevant data */
+  eventQueueTop = 0;
+  header->scoreCount = 0;
+  scores = &scoreTable;
+  adventureName = "adventure";
+  adventureFileName = "adventure.a3c";
+
+  /* Init header for one instance with four attributes */
+  header->instanceMax = 1;
+  header->attributesAreaSize = 4*sizeof(AttributeEntry)/sizeof(Aword);
+  header->scoreCount = 0;
+  header->stringInitTable = 0;
+
+  /* Initialize a fake instance table */
+  instance = malloc(2*sizeof(InstanceEntry));
+  instance[1].parent = 0;
+
+  /* Set up the test sets */
+  for (i = 0; i < 4; i++) {
+    testSet[i] = newSet(i);
+    for (j = 0; j < i; j++)
+      addToSet(testSet[i], j);
+  }
+
+  /* Allocate an attribute area and initialize it */
+  attributes = malloc(5*sizeof(AttributeEntry));
+  for (i = 0; i < 4; i++) {
+    attributes[i].code = i+1;
+    attributes[i].value = (Aword)copySet(testSet[i]);
+    attributes[i].stringAddress = 0;
+  }
+  attributes[4].code = EOF;
+
+  /* Fake admin areas for one instances */
+  admin = allocate(2*sizeof(AdminEntry));
+  admin[1].attributes = &attributes[0];
+
+  /* A Set Init Table is required */
+  memory = allocate(5*sizeof(SetInitEntry));
+  header->setInitTable = 1;
+  initEntry = (SetInitEntry*)pointerTo(1);
+  initEntry[0].instanceCode = 1;
+  initEntry[0].attributeCode = 1;
+  initEntry[1].instanceCode = 1;
+  initEntry[1].attributeCode = 2;
+  initEntry[2].instanceCode = 1;
+  initEntry[2].attributeCode = 3;
+  initEntry[3].instanceCode = 1;
+  initEntry[3].attributeCode = 4;
+  *((Aword *)&initEntry[4]) = EOF;
+
+  /* Save the game data */
+  saveGame(saveFile);
+  fclose(saveFile);
+
+  /* Set new values */
+  for (i = 0; i < 4; i++)
+    admin[1].attributes[i].value = (Aword)newSet(0);
+
+  saveFile = fopen(testFileName, "r");
+  restoreGame(saveFile);
+  fclose(saveFile);
+  unlink(testFileName);
+
+  for (i = 0; i < 4; i++)
+    ASSERT(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
 }
 
 static void testWhere() {
@@ -505,6 +583,7 @@ void registerExeUnitTests()
   registerUnitTest(testLocateIllegalId);
   registerUnitTest(testSaveRestore);
   registerUnitTest(testSaveStrings);
+  registerUnitTest(testSaveSets);
   registerUnitTest(testWhere);
   registerUnitTest(testAddSet);
   registerUnitTest(testSaveRestoreScore);

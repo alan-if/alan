@@ -31,54 +31,69 @@ static void testSetAdd() {
 }  
 
 static void testSetRemove() {
-  Set aSet = {0, 0, NULL};
+  Set *aSet = newSet(0);
   int i;
 
   /* Add a number of elements to remove */
   for (i = 1; i<6; i++)
-    addToSet(&aSet, i);
+    addToSet(aSet, i);
 
-  ASSERT(aSet.size == 5);
+  ASSERT(aSet->size == 5);
 
-  removeFromSet(&aSet, 1);
-  ASSERT(aSet.size == 4);
+  removeFromSet(aSet, 1);
+  ASSERT(aSet->size == 4);
 
   /* Do it again, should not change... */
-  removeFromSet(&aSet, 1);
-  ASSERT(aSet.size == 4);
+  removeFromSet(aSet, 1);
+  ASSERT(aSet->size == 4);
 
-  removeFromSet(&aSet, 5);
-  ASSERT(aSet.size == 3);
-  removeFromSet(&aSet, 4);
-  ASSERT(aSet.size == 2);
-  removeFromSet(&aSet, 3);
-  ASSERT(aSet.size == 1);
-  removeFromSet(&aSet, 2);
-  ASSERT(aSet.size == 0);
+  removeFromSet(aSet, 5);
+  ASSERT(aSet->size == 3);
+  removeFromSet(aSet, 4);
+  ASSERT(aSet->size == 2);
+  removeFromSet(aSet, 3);
+  ASSERT(aSet->size == 1);
+  removeFromSet(aSet, 2);
+  ASSERT(aSet->size == 0);
 
-  removeFromSet(&aSet, 1);
-  ASSERT(aSet.size == 0);
+  removeFromSet(aSet, 1);
+  ASSERT(aSet->size == 0);
 }  
 
 static void testInSet() {
-  Set aSet = {0, 0, NULL};
+  Set *aSet = newSet(0);
+  int i;
+
+  ASSERT(!inSet(aSet, 0));
+  for (i = 6; i>0; i--)
+    addToSet(aSet, i);
+  for (i = 1; i<7; i++)
+    ASSERT(inSet(aSet, i));
+}
+
+static void testClearSet() {
+  Set *aSet = newSet(0);
   int i;
 
   for (i = 6; i>0; i--)
-    addToSet(&aSet, i);
-  for (i = 1; i<7; i++)
-    ASSERT(inSet(&aSet, i));
+    addToSet(aSet, i);
+  clearSet(aSet);
+  ASSERT(sizeOfSet(aSet) == 0);
 }
 
 
-static void testClearSet() {
-  Set aSet = {0, 0, NULL};
-  int i;
+static void testCompareSets() {
+  Set *set1 = newSet(0);
+  Set *set2 = newSet(0);
+  Set *set3 = newSet(0);
+  Set *set4 = newSet(0);
+  
+  addToSet(set3, 4);
+  addToSet(set4, 4);
 
-  for (i = 6; i>0; i--)
-    addToSet(&aSet, i);
-  clearSet(&aSet);
-  ASSERT(sizeOfSet(&aSet) == 0);
+  ASSERT(equalSets(set1, set2));
+  ASSERT(!equalSets(set1, set3));
+  ASSERT(equalSets(set3, set4));
 }
 
 
@@ -89,4 +104,5 @@ void registerSetUnitTests()
   registerUnitTest(testInSet);
   registerUnitTest(testInSet);
   registerUnitTest(testClearSet);
+  registerUnitTest(testCompareSets);
 }

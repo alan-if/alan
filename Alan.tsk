@@ -98,7 +98,7 @@
 </task>
 <task>
 <desc>Saving does not cater for dynamically allocated sets and strings</desc>
-<notes>or does it? Same goes for strings. We could use the knowledge stored in the initialization tables since only attributes need be saved.</notes>
+<notes>or does it? We could use the knowledge stored in the initialization tables since only attributes need be saved.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

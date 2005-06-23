@@ -1791,7 +1791,7 @@ static void saveSets(AFILE saveFile) {
     for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
 	 !endOfTable(initEntry); initEntry++) {
       Set *attr = (Set *)getSetAttribute(initEntry->instanceCode, initEntry->attributeCode);
-      fwrite((void *)&attr, sizeof(attr), 1, saveFile);
+      fwrite((void *)&attr->size, sizeof(attr->size), 1, saveFile);
       fwrite((void *)attr->members, sizeof(attr->members[0]), attr->size, saveFile);
     }
 }
@@ -1928,10 +1928,17 @@ static void restoreSets(AFILE saveFile) {
   if (header->setInitTable != 0)
     for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
 	 !endOfTable(initEntry); initEntry++) {
-      Set *set = newSet();
-      fread((void *)set, sizeof(set), 1, saveFile);
-      set->members = allocate(set->size+3);
-      fread((void *)set->members, sizeof(set->members[0]), set->size, saveFile);
+      Aint setSize;
+      Set *set;
+      int i;
+
+      fread((void *)&setSize, sizeof(setSize), 1, saveFile);
+      set = newSet(setSize);
+      for (i = 0; i < setSize; i++) {
+	Aword member;
+	fread((void *)&member, sizeof(member), 1, saveFile);
+	addToSet(set, member);
+      }
       setValue(initEntry->instanceCode, initEntry->attributeCode, (Aword)set);
     }
 }

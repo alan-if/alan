@@ -17,13 +17,13 @@
 
 
 typedef struct Set {
-	int size;
-	int allocated;
-	Aword *members;
+  int size;
+  int allocated;
+  Aword *members;
 } Set;
 
 
-extern Set *newSet(void);
+extern Set *newSet(int size);
 extern void initSets(SetInitEntry *initTable);
 extern int sizeOfSet(Set *theSet);
 extern void clearSet(Set *theSet);
@@ -33,6 +33,7 @@ extern Bool inSet(Set *theSet, Aword member);
 extern void addToSet(Set *theSet, Aword newMember);
 extern void removeFromSet(Set *theSet, Aword member);
 extern void setUnion(Set *theSet, Set *other);
+extern Bool equalSets(Set *theSet, Set *other);
 extern void freeSet(Set *theSet);
 
 #endif

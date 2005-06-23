@@ -581,7 +581,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_NEWSET: {
-	Set *set = newSet();
+	Set *set = newSet(0);
 	if (singleStepOption) {
 	  printf("NEWSET\t\t\t\t\t");
 	}
