@@ -45,43 +45,89 @@ static void testBlockInstructions()
 }  
 
 
-static Aword forInstructionCode[] = {4, /* Dummy to not execute at zero */
-				     2,
-				     INSTRUCTION(I_FRAME),
-				     1, /* Local loop variable */
-				     INSTRUCTION(I_EACH),
-				     2,
-				     INSTRUCTION(I_EACH),
-				     INSTRUCTION(I_ENDEACH),
-				     INSTRUCTION(I_ENDEACH),
-				     INSTRUCTION(I_RETURN)};
-
-static void testForInstructions()
+static void testEachInstructions()
 {
+  Aword eachInstructionCode1[] = {4, /* Dummy to not execute at zero */
+				  1, /* One local variable */
+				  INSTRUCTION(I_FRAME),
+				  12, /* End value */
+				  11, /* Start value */
+				  INSTRUCTION(I_EACH),
+				  INSTRUCTION(I_RETURN)};
+
+  Aword eachInstructionCode2[] = {4, /* Dummy to not execute at zero */
+				  1,
+				  INSTRUCTION(I_FRAME),
+				  4, /* Marker on the stack */
+				  12, /* End value */
+				  9, /* Start value */
+				  INSTRUCTION(I_EACH),
+				  INSTRUCTION(I_ENDEACH),
+				  INSTRUCTION(I_RETURN)};
+
   ACodeHeader testForHeader;
 
   testForHeader.instanceMax = 2;
   header = &testForHeader;
-  memory = forInstructionCode;
 
+  memory = eachInstructionCode1;
+  interpret(1);			/* Just set up */
+  ASSERT(getLocal(0,1) == 11);	/* So local should be initial value */
+
+  memory = eachInstructionCode2;
   interpret(1);
 
-  ASSERT(getLocal(0, 1) == 2);
-  ASSERT(getLocal(0, 2) == 2);
+  ASSERT(getLocal(0, 1) == 12);
+  ASSERT(pop() == 4);
 }
 
 
-static Aword testAggregateInstructionCode[] = {0,
-					       INSTRUCTION(I_AGRSTART),	/* 1 */
-					       4, 5, 6,
-					       INSTRUCTION(I_AGREND), /* 5 */
-					       INSTRUCTION(I_RETURN), /* 6 */
-					       INSTRUCTION(I_COUNT), /* 7 */
-					       INSTRUCTION(I_RETURN) /* 8 */
-};
+static void testBackToEach() {
+  Aword testBackToEachCode[] = {0,
+				INSTRUCTION(I_EACH),
+				4,
+				INSTRUCTION(I_EACH),
+				4,
+				INSTRUCTION(I_NEXTEACH),
+				INSTRUCTION(I_NEXTEACH),
+				INSTRUCTION(I_ENDEACH),
+				5,
+				INSTRUCTION(I_ENDEACH)};
+  memory = testBackToEachCode;
+  pc = 9;
+  backToEach();
+  ASSERT(pc == 1);
+}
+
+
+static void testNextEach() {
+  Aword testBackToEachCode[] = {0,
+				INSTRUCTION(I_EACH),
+				4,
+				INSTRUCTION(I_EACH),
+				4,
+				INSTRUCTION(I_NEXTEACH),
+				INSTRUCTION(I_NEXTEACH),
+				INSTRUCTION(I_ENDEACH),
+				5,
+				INSTRUCTION(I_ENDEACH)};
+  memory = testBackToEachCode;
+  pc = 2;
+  nextEach();
+  ASSERT(pc == 9);
+}
+
 
 static void testAggregateInstructions(void)
 {
+  Aword testAggregateInstructionCode[] = {0,
+					  INSTRUCTION(I_AGRSTART),	/* 1 */
+					  4, 5, 6,
+					  INSTRUCTION(I_AGREND), /* 5 */
+					  INSTRUCTION(I_RETURN), /* 6 */
+					  INSTRUCTION(I_COUNT), /* 7 */
+					  INSTRUCTION(I_RETURN) /* 8 */
+  };
   ACodeHeader agrHeader;
 
   memory = testAggregateInstructionCode;
@@ -108,44 +154,23 @@ static void testAggregateInstructions(void)
   ASSERT(pop() == 3);		/* Incremented COUNT */
 }
 
-
-#ifdef UNDO
-static Aword undoInstructionCode[] = {4, /* Dummy to not execute at zero */
-				      INSTRUCTION(I_UNDO),
-				      INSTRUCTION(I_RETURN)};
-
-static void testUndoInstruction()
-{
-  AcdHdr undoHeader;
-  InstanceEntry undoInstances[3];
-  AdminEntry undoAdmin[3];
-  Aint undoScores[13];
-
-  instance = undoInstances;
-  admin = undoAdmin;
-  scores = undoScores;
-  undoHeader.instanceMax = 3;
-  undoHeader.scoresMax = 14;
-  header = &undoHeader;
-
-  memory = undoInstructionCode;
-  memTop = 100;
-
-  pushGameState();
-  interpret(1);			/* Interpret the UNDO */
-  ASSERT(pop());
-
-  interpret(1);			/* Interpret the UNDO again, should fail */
-  ASSERT(!pop());
+static void testMaxInstance() {
+  Aword testMaxInstanceCode[] = {0,
+				 CURVAR(V_MAX_INSTANCE),
+				 INSTRUCTION(I_RETURN)};
+  header->instanceMax = 12;
+  memory = testMaxInstanceCode;
+  interpret(1);
+  ASSERT(pop() == header->instanceMax);
 }
-#endif
+
 
 void registerInterUnitTests(void)
 {
   registerUnitTest(testBlockInstructions);
-  registerUnitTest(testForInstructions);
+  registerUnitTest(testBackToEach);
+  registerUnitTest(testNextEach);
+  registerUnitTest(testEachInstructions);
   registerUnitTest(testAggregateInstructions);
-#ifdef UNDO
-  registerUnitTest(testUndoInstruction);
-#endif
+  registerUnitTest(testMaxInstance);
 }

@@ -1938,11 +1938,10 @@ static int val(char str[])
 <repetition_statement>			-- RETURNS: stm
     = <for_each> ID <optional_loop_filters> 'do' <statements> 'end' <for_each> ['.']
     %%
-	%<repetition_statement>.stm = newStatement(`&%<for_each>.srcp, EACH_STATEMENT);
-	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
-	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
-	%<repetition_statement>.stm->fields.each.classId = NULL;
-	%<repetition_statement>.stm->fields.each.filters = %<optional_loop_filters>.exps;
+	%<repetition_statement>.stm = newEachStatement(%<for_each>.srcp,
+							%ID.id,
+							%<optional_loop_filters>.exps,
+							%<statements>.stms);
     %%
     ;
 

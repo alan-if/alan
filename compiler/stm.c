@@ -581,6 +581,7 @@ static void analyzeEach(Statement *stm, Context *context)
   /* Analyze the statements in the loop body */
   analyzeStatements(stm->fields.each.stms, context);
 
+  stm->fields.each.type = loopSymbol->fields.local.type;
   deleteFrame();
 }
 
@@ -1033,16 +1034,25 @@ static void generateEach(Statement *statement)
 {
   List *filter;
 
+  /* Loop variable is always local variable #1 in the frame */
   /* Generate a new FRAME */
   emit1(I_FRAME, 1);		/* One local variable in this block */
   frameLevel++;
 
-  /* Loop variable is initialised to 0
-     which works since the EACH statement will
-     increment it to 1 (first instance number) */
+  /* Push upper limit */
+  if (statement->fields.each.type == INSTANCE_TYPE)
+    emitVariable(V_MAX_INSTANCE);
+  else
+    generateExpression(statement->fields.each.filters->element.exp->fields.btw.upperLimit);
+
+  /* Push start value */
+  if (statement->fields.each.type == INSTANCE_TYPE)
+    emitConstant(1);
+  else
+    generateExpression(statement->fields.each.filters->element.exp->fields.btw.lowerLimit);
 
   /* Start of loop */
-  emit1(I_EACH, 1);
+  emit0(I_EACH);
 
   /* Generate filters */
   TRAVERSE(filter, statement->fields.each.filters) {
@@ -1395,7 +1405,7 @@ void dumpStatement(Statement *stm)
       break;
     case EACH_STATEMENT:
       put("loopId: "); dumpId(stm->fields.each.loopId); nl();
-      put("classId: "); dumpId(stm->fields.each.classId); nl();
+      put("type: "); dumpType(stm->fields.each.type); nl();
       put("filters: "); dumpList(stm->fields.each.filters, EXPRESSION_LIST); nl();
       put("stms: "); dumpList(stm->fields.each.stms, STATEMENT_LIST);
       break;

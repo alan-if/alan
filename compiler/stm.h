@@ -173,7 +173,7 @@ typedef struct Statement {	/* STATEMENT */
 
     struct {			/* EACH */
       IdNode *loopId;
-      IdNode *classId;
+      TypeKind type;
       List *filters;
       List *stms;
     } each;

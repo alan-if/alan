@@ -119,6 +119,7 @@ typedef enum TextStyle {
 } TextStyle;
 
 #define INSTRUCTION(op) ((((Aword)C_STMOP)<<28)|((Aword)op))
+#define CURVAR(op) ((((Aword)C_CURVAR)<<28)|((Aword)op))
 typedef enum InstClass {
   I_LINE,			/* Source line debug info */
   I_PRINT,			/* Print a string from the text file */
@@ -241,7 +242,8 @@ typedef enum VarClass {
   V_CURACT,
   V_CURVRB,
   V_SCORE,
-  V_CURRENT_INSTANCE
+  V_CURRENT_INSTANCE,
+  V_MAX_INSTANCE
 } VarClass;
 
 #define OPAQUEATTRIBUTE 1

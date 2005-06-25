@@ -150,8 +150,8 @@ Expression *newBetweenExpression(Srcp srcp, Expression *expression, Bool not,
   Expression *exp = newExpression(srcp, BETWEEN_EXPRESSION);
   exp->fields.btw.exp = expression;
   exp->not = not;
-  exp->fields.btw.low = low;
-  exp->fields.btw.high = high;
+  exp->fields.btw.lowerLimit = low;
+  exp->fields.btw.upperLimit = high;
   return exp;
 }
 
@@ -616,8 +616,8 @@ static IdNode *analyzeClassingFilter(char *message,
     /* This can only be a integer */
     classId = newId(nulsrcp, "integer");
     classId->symbol = integerSymbol;
-    analyzeExpression(theFilterExpression->fields.btw.low, context);
-    analyzeExpression(theFilterExpression->fields.btw.high, context);
+    analyzeExpression(theFilterExpression->fields.btw.lowerLimit, context);
+    analyzeExpression(theFilterExpression->fields.btw.upperLimit, context);
     break;
   case WHERE_EXPRESSION:
   case ATTRIBUTE_EXPRESSION:
@@ -843,13 +843,13 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
   if (!equalTypes(exp->fields.btw.exp->type, INTEGER_TYPE))
     lmLogv(&exp->fields.btw.exp->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  analyzeExpression(exp->fields.btw.low, context);
-  if (!equalTypes(exp->fields.btw.low->type, INTEGER_TYPE))
-    lmLogv(&exp->fields.btw.low->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+  analyzeExpression(exp->fields.btw.lowerLimit, context);
+  if (!equalTypes(exp->fields.btw.lowerLimit->type, INTEGER_TYPE))
+    lmLogv(&exp->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
-  analyzeExpression(exp->fields.btw.high, context);
-  if (!equalTypes(exp->fields.btw.high->type, INTEGER_TYPE))
-    lmLogv(&exp->fields.btw.high->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+  analyzeExpression(exp->fields.btw.upperLimit, context);
+  if (!equalTypes(exp->fields.btw.upperLimit->type, INTEGER_TYPE))
+    lmLogv(&exp->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
   exp->type = BOOLEAN_TYPE;
 }
@@ -1214,8 +1214,8 @@ static void generateWhatExpression(Expression *exp)
 /*======================================================================*/
 void generateBetweenCheck(Expression *exp)
 {
-  generateExpression(exp->fields.btw.low);
-  generateExpression(exp->fields.btw.high);
+  generateExpression(exp->fields.btw.lowerLimit);
+  generateExpression(exp->fields.btw.upperLimit);
   emit0(I_BTW);
 }
 
@@ -1484,8 +1484,8 @@ void dumpExpression(Expression *exp)
     break;
   case BETWEEN_EXPRESSION:
     put("val: "); dumpExpression(exp->fields.btw.exp); nl();
-    put("low: "); dumpExpression(exp->fields.btw.low); nl();
-    put("high: "); dumpExpression(exp->fields.btw.high);
+    put("low: "); dumpExpression(exp->fields.btw.lowerLimit); nl();
+    put("high: "); dumpExpression(exp->fields.btw.upperLimit);
     break;
   case ISA_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.isa.what); nl();

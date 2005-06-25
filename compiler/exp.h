@@ -127,8 +127,8 @@ typedef struct Expression {
 
     struct {			/* For BETWEEN */
       struct Expression *exp;	/* The value */
-      struct Expression *low;	/* The boundries */
-      struct Expression *high;
+      struct Expression *lowerLimit;	/* The boundries */
+      struct Expression *upperLimit;
     } btw;
 
     struct {			/* For CONTAINS */

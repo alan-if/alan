@@ -62,7 +62,7 @@ static void interpretIf(Aword v)
 	  lev--;
 	  if (lev == 0) {
 	    if (singleStepOption)
-	      printf("\n%4x: ENDIF", pc);
+	      printf("\n%4x: ENDIF\t\t\t\t\t", pc);
 	    return;
 	  }
 	  break;
@@ -97,47 +97,37 @@ static void interpretElse(void)
 
 
 /*----------------------------------------------------------------------*/
-static void interpretEach(Aint local)
-{
-  Aint counter = getLocal(0, local);
+static void skipToEndEach(void) {
   int level = 1;
   int i;
 
-  counter++;
-  if (counter > header->instanceMax) {
-    while (TRUE) {
-      /* Skip past ENDEACH on the same level */
-      i = memory[pc++];
-      if (I_CLASS(i) == (Aword)C_STMOP)
-	switch (I_OP(i)) {
-	case I_ENDEACH:
-	  level--;
-	  if (level == 0) {
-	    if (singleStepOption)
-	      printf("\n%4x: ENDEACH", pc);
-	    return;
-	  }
-	  break;
-	case I_EACH:
-	  level++;
-	  break;
-	}
-    }
-  } else
-    setLocal(0, local, counter);
+  while (TRUE) {
+    /* Skip past ENDEACH on the same level */
+    i = memory[pc];
+    if (I_CLASS(i) == (Aword)C_STMOP)
+      switch (I_OP(i)) {
+      case I_ENDEACH:
+	level--;
+	if (level == 0)
+	  return;
+	break;
+      case I_EACH:
+	level++;
+	break;
+      }
+    pc++;
+  }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void nextEach()
-{
+static void backToEach(void) {
   int level = 1;
   int i;
 
-  pc--;
-  if (singleStepOption) printf("\n    : ");
+  pc--;				/* Ignore the instruction we're on */
   while (TRUE) {
-    /* Skip back past FOR on the same level */
+    /* Skip back past EACH on the same level */
     i = memory[--pc];
     if (I_CLASS(i) == (Aword)C_STMOP)
       switch (I_OP(i)) {
@@ -147,19 +137,37 @@ static void nextEach()
       case I_EACH:
 	level--;
 	if (level == 0) {
-	  pc--;
 	  return;
 	}
 	break;
       }
   }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void nextEach(void)
+{
+  if (singleStepOption) printf("\n    : \t\t\t\t\t\t");
+  skipToEndEach();
 }  
 
 
 /*----------------------------------------------------------------------*/
-static void endEach()
+static void endEach(void)
 {
-  nextEach();
+  Aint counter = getLocal(0, 1);
+  Aint limit = top();
+
+  if (counter < limit) {
+    counter++;
+    setLocal(0, 1, counter);
+    backToEach();
+    if (singleStepOption)
+      printf("\n%4x: EACH\t\t\t\t\t", pc);
+    pc++;
+  } else
+    pop();
 }
 
 /*----------------------------------------------------------------------*/
@@ -380,10 +388,16 @@ void interpret(Aaddr adr)
 	if (singleStepOption) printf("CURSCORE \t\t\t=%d\t\t", current.score);
 	push(current.score);
 	break;
+      case V_MAX_INSTANCE:
+	if (singleStepOption) printf("MAXINSTANCE \t\t=%d\t\t", (int)header->instanceMax);
+	push(header->instanceMax);
+	break;
       default:
 	syserr("Unknown CURVAR instruction.");
 	break;
       }
+      if (traceStackOption)
+	dumpStack();
       break;
 
     case C_STMOP:
@@ -1287,10 +1301,10 @@ void interpret(Aaddr adr)
       }
 
       case I_EACH: {
-	Aint local = pop();
+	Aint startValue = pop();
 	if (singleStepOption)
-	  printf("EACH \t%5ld\t\t\t\t", local);
-	interpretEach(local);
+	  printf("EACH \t%5ld\t\t\t\t", startValue);
+	setLocal(0, 1, startValue);
 	break;
       }
 
