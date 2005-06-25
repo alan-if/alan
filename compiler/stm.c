@@ -561,22 +561,22 @@ static void analyzeEach(Statement *stm, Context *context)
 {
   Symbol *loopSymbol;
   IdNode *classId = NULL;
-  Bool error;
 
   /* Analyze the partial filter expressions */
   if (stm->fields.each.filters != NULL)
     analyzeFilterExpressions("EACH statement", stm->fields.each.filters,
-			     context, &classId, &error);
+			     context, &classId);
 
   /* Create a new frame and register the loop variable */
   newFrame();
   loopSymbol = newSymbol(stm->fields.each.loopId, LOCAL_SYMBOL);
-  if (classId != NULL && classId->symbol != NULL)
+  loopSymbol->fields.local.type = INSTANCE_TYPE; /* Assume instances */
+  if (classId != NULL && classId->symbol != NULL) {
     loopSymbol->fields.local.class = classId->symbol;
-  else
+    if (classId->symbol == integerSymbol)
+      loopSymbol->fields.local.type = INTEGER_TYPE;
+  } else
     loopSymbol->fields.local.class = entitySymbol;
-  /* Can only loop over instances */
-  loopSymbol->fields.local.type = INSTANCE_TYPE;
 
   /* Analyze the statements in the loop body */
   analyzeStatements(stm->fields.each.stms, context);

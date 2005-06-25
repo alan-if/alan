@@ -157,6 +157,8 @@ typedef enum InstClass {
   I_DECR,			/* Decrease a numeric attribute */
   I_INCLUDE,			/* Include a value in the set on stack top */
   I_EXCLUDE,			/* Remove a value from the set on stack top */
+  I_MEMBERS,			/* Push members of a set on the stack with
+				   count at the top */
   I_USE,
   I_STOP,
   I_AT,

@@ -567,8 +567,20 @@ void testSaveRestoreScore() {
   free(oldScores);
 }
 
-void registerExeUnitTests()
-{
+static void testGetMembers() {
+  Set *set = newSet(0);
+  Aword code[] = {0,	/* Dummy */
+		  (Aword) set,
+		  INSTRUCTION(I_MEMBERS),
+		  INSTRUCTION(I_RETURN)};
+
+  memory = code;
+  memTop = 100;
+  interpret(1);
+  ASSERT(pop() == 0);
+}
+
+void registerExeUnitTests() {
   registerUnitTest(testCountTrailingBlanks);
   registerUnitTest(testSkipWordForwards);
   registerUnitTest(testSkipWordBackwards);
@@ -587,4 +599,5 @@ void registerExeUnitTests()
   registerUnitTest(testWhere);
   registerUnitTest(testAddSet);
   registerUnitTest(testSaveRestoreScore);
+  registerUnitTest(testGetMembers);
 }

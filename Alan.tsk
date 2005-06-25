@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>423.89</origest>
-<currest>422.89</currest>
+<origest>425.89</origest>
+<currest>424.89</currest>
 <elapsed>280.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>59</origest>
-<currest>59</currest>
+<origest>61</origest>
+<currest>61</currest>
 <elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
+<origest>32</origest>
+<currest>32</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
@@ -115,6 +115,15 @@
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Integer loop</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>COUNT IN integerSet does not work</desc>
 <notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
 
@@ -149,6 +158,15 @@ Design tasks:
 1) Allow class
 2) Verify initialization
 3) Manual</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor error message handling in filters</desc>
+<notes>ocmpiler/testing/mixedFilters shows a problem in which the message says "aggregated over using 'EACH statement'", which is not true.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

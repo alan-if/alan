@@ -190,7 +190,7 @@ static lmMsgs msg[] = {
     { "410   ", "Incompatible types in %1. A Set can only contain %2." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
     { "412   ", "Current Actor is not defined in Events." },
-    { "413   ", "Empty Sets are not allowed. At least one member is necessary to infer the type and class of members." },
+    { "413   ", "Empty Sets are not allowed unless the attribute is inherited. At least one member is necessary to infer the type and class of members." },
     { "414   ", "Invalid initial location for %1." },
     { "415   ", "Invalid Where specification in %1 statement." },
     { "416   ", "Interval of size 1 in RANDOM expression." },
@@ -211,6 +211,7 @@ static lmMsgs msg[] = {
     { "431   ", "Incompatible assignment. You can only assign a Set where members are instances of class \'%1\' and its subclasses." },
     { "432   ", "Incompatible assignment. You can only assign a Set where members are integers." },
     { "433   ", "Initialization of attribute must be a constant value." },
+    { "434   ", "%1 can only be applied to instance valued expressions." },
     { "440   ", "%1 filters can currently only accept boolean attributes." },
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
@@ -233,7 +234,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 153}
+    {0, 154}
 };
 static lmMessages currMsect = (lmMessages)0;
 

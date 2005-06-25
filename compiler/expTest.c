@@ -84,8 +84,13 @@ static void testIsConstantIdentifier()
   }
 }
 
-static void testAnalyzeIsaExpression()
+static void testAnalyzeClassingFilter()
 {
+  Expression *btw = newBetweenExpression(nulsrcp, NULL, FALSE, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
+  IdNode *id = analyzeClassingFilter("", NULL, btw, FALSE);
+
+  ASSERT(id->symbol == integerSymbol);
+  ASSERT(readEcode() == 0);
 }
 
 static void testIsConstant()
@@ -114,13 +119,14 @@ static void testIsConstant()
   ASSERT(!isConstantExpression(setExp));
 }
 
+
 void registerExpUnitTests()
 {
   registerUnitTest(testSymbolOf);
   registerUnitTest(testAttributeToThis);
   registerUnitTest(testIsConstantIdentifier);
-  registerUnitTest(testAnalyzeIsaExpression);
   registerUnitTest(testVerifySetMember);
   registerUnitTest(testIsConstant);
+  registerUnitTest(testAnalyzeClassingFilter);
 }
 

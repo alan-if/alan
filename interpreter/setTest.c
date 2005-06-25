@@ -102,7 +102,6 @@ void registerSetUnitTests()
   registerUnitTest(testSetAdd);
   registerUnitTest(testSetRemove);
   registerUnitTest(testInSet);
-  registerUnitTest(testInSet);
   registerUnitTest(testClearSet);
   registerUnitTest(testCompareSets);
 }

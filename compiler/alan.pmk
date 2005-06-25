@@ -1936,25 +1936,36 @@ static int val(char str[])
 
 ----> Repetition statement
 <repetition_statement>			-- RETURNS: stm
-    = <for_each> ID <optional_loop_restrictions> 'do' <statements> 'end' <for_each> ['.']
+    = <for_each> ID <optional_loop_filters> 'do' <statements> 'end' <for_each> ['.']
     %%
 	%<repetition_statement>.stm = newStatement(`&%<for_each>.srcp, EACH_STATEMENT);
 	%<repetition_statement>.stm->fields.each.stms = %<statements>.stms;
 	%<repetition_statement>.stm->fields.each.loopId = %ID.id;
 	%<repetition_statement>.stm->fields.each.classId = NULL;
-	%<repetition_statement>.stm->fields.each.filters = %<optional_loop_restrictions>.exps;
+	%<repetition_statement>.stm->fields.each.filters = %<optional_loop_filters>.exps;
     %%
     ;
 
-<optional_loop_restrictions>		-- RETURNS: ID
+<optional_loop_filters>		-- RETURNS: ID
     =
     %%
-	%<optional_loop_restrictions>.exps = NULL;
+	%<optional_loop_filters>.exps = NULL;
     %%
 
     ! <filters>
     %%
-	%<optional_loop_restrictions>.exps = %<filters>.exps;
+	%<optional_loop_filters>.exps = %<filters>.exps;
+    %%
+
+    ! 'between' <arithmetic> 'and' <arithmetic>
+    %%
+	%<optional_loop_filters>.exps = concat(NULL,
+			newBetweenExpression(%'between'.srcp,
+					     NULL,
+					     FALSE,
+					     %1<arithmetic>.exp,
+					     %2<arithmetic>.exp),
+			EXPRESSION_LIST);
     %%
     ;
 
@@ -2181,7 +2192,7 @@ static int val(char str[])
     ;
 
 <filter>				-- RETURNS: exp
-    = <filter expression>
+    = <filter_expression>
     ;
 
 -- This could be the start of using general attribute comparisons as filters
@@ -2196,10 +2207,10 @@ static int val(char str[])
 --    %%
 --    ;
 
-<filter expression>			-- RETURNS: exp
+<filter_expression>			-- RETURNS: exp
     = <optional_not> <where>
     %%
-	%<filter expression>.exp = newWhereExpression(%<where>.srcp,
+	%<filter_expression>.exp = newWhereExpression(%<where>.srcp,
 						      NULL,
 						      %<optional_not>.present,
 						      %<where>.whr);
@@ -2207,13 +2218,13 @@ static int val(char str[])
 
     ! <optional_not> 'isa' ID
     %%
-	%<filter expression>.exp = newIsaExpression(%'isa'.srcp, NULL, %<optional_not>.present, %ID.id);
-	%<filter expression>.id = %ID.id;
+	%<filter_expression>.exp = newIsaExpression(%'isa'.srcp, NULL, %<optional_not>.present, %ID.id);
+	%<filter_expression>.id = %ID.id;
     %%
 
     ! <is> <something>
     %%
-	%<filter expression>.exp = newAttributeExpression(%<is>.srcp,
+	%<filter_expression>.exp = newAttributeExpression(%<is>.srcp,
 						%<something>.id,
 						%<something>.present, NULL);
     %%
@@ -2229,13 +2240,13 @@ static int val(char str[])
 						     %<primary>.exp);
     %%
 
-    ! <optional_not> 'between' <factor> 'and' <factor>
+    ! <optional_not> 'between' <arithmetic> 'and' <arithmetic>
     %%
 	%<right_hand_side>.exp = newBetweenExpression(%'between'.srcp,
 						      NULL,
 						      %<optional_not>.present,
-						      %1<factor>.exp,
-						      %2<factor>.exp);
+						      %1<arithmetic>.exp,
+						      %2<arithmetic>.exp);
     %%
 
     ! <optional_not> 'contains' <factor>
@@ -2248,7 +2259,7 @@ static int val(char str[])
 
     %%
 
-    ! <filter expression>
+    ! <filter_expression>
     ;
 
 

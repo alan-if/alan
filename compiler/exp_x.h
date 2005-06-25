@@ -43,9 +43,8 @@ extern Expression *newRandomInExpression(Srcp srcp, Expression *what);
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
-extern void analyzeFilterExpressions(char *message, List *filters,
-				     Context *context, IdNode **classId,
-				     Bool *error);
+extern Bool analyzeFilterExpressions(char *message, List *filters,
+				     Context *context, IdNode **classId);
 extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern Bool isConstantIdentifier(IdNode *id);
 extern Bool isConstantExpression(Expression *exp);

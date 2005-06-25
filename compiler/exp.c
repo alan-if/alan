@@ -612,6 +612,13 @@ static IdNode *analyzeClassingFilter(char *message,
     classId = theFilterExpression->fields.isa.class;
     (void) symcheck(classId, CLASS_SYMBOL, context);
     break;
+  case BETWEEN_EXPRESSION:
+    /* This can only be a integer */
+    classId = newId(nulsrcp, "integer");
+    classId->symbol = integerSymbol;
+    analyzeExpression(theFilterExpression->fields.btw.low, context);
+    analyzeExpression(theFilterExpression->fields.btw.high, context);
+    break;
   case WHERE_EXPRESSION:
   case ATTRIBUTE_EXPRESSION:
     break;
@@ -646,6 +653,7 @@ static Bool analyzeNonClassingFilter(char *message,
       analyzeAttributeFilter(theFilter, classId, message);
     break;
   case ISA_EXPRESSION:
+  case BETWEEN_EXPRESSION:
     break;
   default:
     SYSERR("Unimplemented aggregate filter expression type");
@@ -655,11 +663,12 @@ static Bool analyzeNonClassingFilter(char *message,
 
 
 /*======================================================================*/
-void analyzeFilterExpressions(char *message, List *filters,
-			      Context *context, IdNode **classId, Bool *error) {
+Bool analyzeFilterExpressions(char *message, List *filters,
+			      Context *context, IdNode **classId) {
   List *lst;
   Bool foundWhere = FALSE;
   Bool foundIsa = FALSE;
+  Bool error = FALSE;
   IdNode *class = NULL;
 
   /* Analyze the filters which may restrict to a class, return the class id */
@@ -673,9 +682,10 @@ void analyzeFilterExpressions(char *message, List *filters,
   TRAVERSE(lst, filters) {
     if (!analyzeNonClassingFilter(message,  context, lst->element.exp,
 				  class, &foundWhere))
-      *error = TRUE;
+      error = TRUE;
   }
   *classId = class;
+  return !error;
 }
 
 
@@ -684,19 +694,17 @@ static void analyzeAggregate(Expression *exp, Context *context)
 {
   Attribute *atr = NULL;
   IdNode *classId = NULL;       /* Identifier for class filter if any */
-  Bool error = FALSE;
   char message[200] = "";
   exp->type = INTEGER_TYPE;
 
   strcat(message, aggregateToString(exp->fields.agr.kind));
   strcat(message, " Aggregation");
 
-  analyzeFilterExpressions(message, exp->fields.agr.filters, context,
-			   &classId, &error);
+  if (!analyzeFilterExpressions(message, exp->fields.agr.filters, context,
+				&classId))
+    exp->type = ERROR_TYPE;
   if (classId == NULL)
     lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
-  if (error)
-    exp->type = ERROR_TYPE;
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     /* Now analyze the attribute to do the arithmetic aggregation on */
@@ -867,8 +875,8 @@ static void analyzeIsaExpression(Expression *expression,
     }
     break;
   default:
-      unimpl(expression->srcp, "Analyzer");
-      break;
+    lmLog(&expression->srcp, 434, sevERR, "'ISA'");
+    break;
   }
 
   symcheck(expression->fields.isa.class, CLASS_SYMBOL, context);
