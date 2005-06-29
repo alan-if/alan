@@ -25,8 +25,6 @@ static Case *lastCase = NULL;
 static void registerUnitTest(void (*aCase)());
 
 
-static void loadACD(char fileName[]);
-
 Aword convertFromACD(Aword w)
 {
   Aword s;                      /* The swapped ACODE word */
@@ -114,6 +112,7 @@ void registerUnitTest(void (*aCase)())
 }
 
 
+#ifdef NEED_LOADACD
 static void loadACD(char fileName[])
 {
   ACodeHeader tmphdr;
@@ -130,3 +129,5 @@ static void loadACD(char fileName[])
   fread(memory, sizeof(Aword), tmphdr.size, acdFile);
 
 }
+#endif
+

@@ -112,6 +112,7 @@ typedef struct Expression {
       struct List *filters;	/* Expressions to filter against */
       TypeKind type;		/* Analyzed type */
       struct Symbol *class;	/* Analyzed class */
+      struct Expression *setExpression; /* If an INSET aggregation, the set expression */
     } agr;
 
     struct {			/* For RANDOM */

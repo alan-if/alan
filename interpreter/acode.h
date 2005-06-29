@@ -158,8 +158,12 @@ typedef enum InstClass {
   I_DECR,			/* Decrease a numeric attribute */
   I_INCLUDE,			/* Include a value in the set on stack top */
   I_EXCLUDE,			/* Remove a value from the set on stack top */
-  I_MEMBERS,			/* Push members of a set on the stack with
-				   count at the top */
+  I_SETSIZE,			/* Push number of members in a set */
+  I_SETMEMB,			/* Push the member with index <top>-1
+				   from set <top> */
+  I_CONTSIZE,			/* Push number of members in a container */
+  I_CONTMEMB,			/* Push the member with index <top>-1
+				   from container <top> */
   I_USE,
   I_STOP,
   I_AT,
@@ -195,7 +199,6 @@ typedef enum InstClass {
   I_UMINUS,
   I_RND,
   I_RNDINCONT,
-  I_RNDINSET,
   I_AGRSTART,			/* Aggregate looping instructions */
   I_AGRCHECK,
   I_AGREND,

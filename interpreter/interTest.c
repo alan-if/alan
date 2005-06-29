@@ -137,30 +137,30 @@ static void testAggregateInstructions(void)
   push(1);			/* Start loop value */
   push(0);			/* Initial aggregate value */
   interpret(1);
-  ASSERT(stackp == originalSp+4);
-  ASSERT(pop() == pop());	/* The loop index should be duplicated */
+  ASSERT(stackp == originalSp+3);
 
   memory = testAggregateInstructionCode;
   pc = 5;
   goToAGRSTART();
   ASSERT(memory[pc-1] == INSTRUCTION(I_AGRSTART));
 
-  goToENDAGR();
+  goToAGREND();
   ASSERT(memory[pc] == INSTRUCTION(I_AGREND));
 
   /* Execute an AGREND */
   push(1);			/* Loop terminating limit */
   push(4);			/* Aggregation value */
   push(1);			/* Loop index */
+  push(1);			/* Loop value */
   interpret(5);
   ASSERT(pop() == 4);
 
   /* Execute an I_COUNT */
   push(2);			/* Faked COUNT value */
-  push(5);			/* Faked instance index */
-  push(5);			/* Twice */
+  push(5);			/* Faked loop index */
+  push(5);			/* Loop value */
   interpret(7);
-  ASSERT(pop() == 5);		/* Same instance index */
+  ASSERT(pop() == 5 && pop() == 5);	/* Values intact */
   ASSERT(pop() == 3);		/* Incremented COUNT */
 }
 

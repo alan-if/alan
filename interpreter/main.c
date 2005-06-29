@@ -285,7 +285,7 @@ void statusline(void)
 }
 
 
-
+#if defined(HAVE_GLK) || defined(UNITTEST)
 /*----------------------------------------------------------------------*/
 static int updateColumn(int currentColumn, char *string) {
   char *newlinePosition = strrchr(string, '\n');
@@ -294,7 +294,7 @@ static int updateColumn(int currentColumn, char *string) {
   else
     return currentColumn + strlen(string);
 }
-
+#endif
 
 
 /*======================================================================*/
@@ -936,7 +936,6 @@ static char logfnm[256] = "";
 static void checkVersion(ACodeHeader *header)
 {
   char vers[4];
-  char state[2];
   Abool developmentVersion;
   int compareLength;
 
@@ -948,14 +947,12 @@ static void checkVersion(ACodeHeader *header)
 
   /* Check version of .ACD file */
   if (debugOption && !regressionTestOption) {
-    state[0] = header->vers[3];
-    state[1] = '\0';
-    printf("<Version of '%s' is %d.%d(%d)%s>",
+    printf("<Version of '%s' is %d.%d%c%d>",
 	   adventureFileName,
 	   (int)(header->vers[0]),
 	   (int)(header->vers[1]),
-	   (int)(header->vers[2]),
-	   (header->vers[3])==0? "": state);
+	   header->vers[3]==0?'.':header->vers[3],
+	   (int)(header->vers[2]));
     newline();
   }
 
@@ -968,12 +965,14 @@ static void checkVersion(ACodeHeader *header)
       if (!ignoreErrorOption) {
 	char str[80];
 	if (developmentVersion)
-	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld.%ld, interpreter %ld.%ld.%ld!",
+	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld%c%ld, interpreter %ld.%ld%s%ld!",
 		  (long)(header->vers[0]),
 		  (long)(header->vers[1]),
+		  header->vers[3]==0?'.':header->vers[3],
 		  (long)(header->vers[2]),
 		  (long)alan.version.version,
 		  (long)alan.version.revision,
+		  alan.version.state,
 		  (long)alan.version.correction);
 	else
 	  sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
@@ -1316,9 +1315,10 @@ static void init(void)
   if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
     char str[80];
     output("<Hi! This is Alan interactive fiction interpreter Arun,");
-    sprintf(str, "%s version %ld.%ld.%ld!>$n", alan.version.state,
+    sprintf(str, "version %ld.%ld%s%ld!>$n",
 	    (long)alan.version.version,
 	    (long)alan.version.revision,
+	    alan.version.state[0]=='\0'?".":alan.version.state,
 	    (long)alan.version.correction);
     output(str);
   }

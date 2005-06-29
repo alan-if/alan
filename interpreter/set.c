@@ -65,7 +65,7 @@ Set *copySet(Set *theSet) {
   Set *new = newSet(theSet->size);
   int i;
 
-  for (i = 0; i < theSet->size; i++)
+  for (i = 1; i <= theSet->size; i++)
     addToSet(new, getMember(theSet, i));
   return new;
 }
@@ -73,8 +73,9 @@ Set *copySet(Set *theSet) {
 
 /*======================================================================*/
 Aword getMember(Set *theSet, Aint theMember) {
-  if (theMember > theSet->size) syserr("Accessing nonexistion member in a set");
-  return theSet->members[theMember];
+  if (theMember > theSet->size || theMember < 1)
+    syserr("Accessing nonexisting member in a set");
+  return theSet->members[theMember-1];
 }
 
 
@@ -83,8 +84,8 @@ Bool inSet(Set *theSet, Aword member)
 {
   int i;
 	
-  for (i = 0; i < theSet->size; i++)
-    if (theSet->members[i] == member)
+  for (i = 1; i <= theSet->size; i++)
+    if (getMember(theSet, i) == member)
       return TRUE;
   return FALSE;
 }

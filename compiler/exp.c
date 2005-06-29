@@ -781,6 +781,11 @@ static void analyzeAggregate(Expression *exp, Context *context)
   if (!analyzeFilterExpressions(message, exp->fields.agr.filters, context,
 				&class))
     exp->type = ERROR_TYPE;
+  else if (class == integerSymbol)
+    exp->fields.agr.type = INTEGER_TYPE;
+  else
+    exp->fields.agr.type = INSTANCE_TYPE;
+  exp->fields.agr.class = class;
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     /* Now analyze the attribute to do the arithmetic aggregation on */
@@ -1223,23 +1228,55 @@ void generateFilter(Expression *exp)
 }
 
 /*----------------------------------------------------------------------*/
+static void generateIntegerAggregateLimit(Expression *exp) {
+  List *filter;
+
+  TRAVERSE(filter, exp->fields.agr.filters) {
+    if (filter->element.exp->kind == WHERE_EXPRESSION)
+      if (filter->element.exp->fields.whr.whr->kind == WHERE_INSET) {
+	generateExpression(filter->element.exp->fields.whr.whr->what);
+	exp->fields.agr.setExpression = filter->element.exp;
+	emit0(I_SETSIZE);
+	return;
+      }
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateIntegerAggregateLoopValue(Expression *exp) {
+  generateExpression(exp->fields.whr.whr->what);
+  emit0(I_SETMEMB);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateAggregateExpression(Expression *exp)
 {
   List *lst;
 
 #define MAXINT ((Aword)-1)
 
-  emitVariable(V_MAX_INSTANCE);	/* Loop limit */
+  if (exp->fields.agr.type == INTEGER_TYPE)
+    generateIntegerAggregateLimit(exp);
+  else
+    emitVariable(V_MAX_INSTANCE);	/* Loop limit */
   switch (exp->fields.agr.kind) { /* Initial aggregate value */
   case COUNT_AGGREGATE:
   case MAX_AGGREGATE:
   case SUM_AGGREGATE: emitConstant(0); break;
   case MIN_AGGREGATE: emitConstant(MAXINT); break;
   }
-  emitConstant(1);		/* Loop start */
+  emitConstant(1);		/* Loop start index */
   emit0(I_AGRSTART);
 
+  /* Calcuate loop value, usually the same as the index */
+  emit0(I_DUP);
+  if (exp->fields.agr.type == INTEGER_TYPE)
+    generateIntegerAggregateLoopValue(exp->fields.agr.setExpression);
+
   TRAVERSE(lst,exp->fields.agr.filters) {
+    emit0(I_DUP);		/* Duplicate loop value */
     generateFilter(lst->element.exp);
     emit0(I_AGRCHECK);
   }
@@ -1271,9 +1308,13 @@ static void generateRandomExpression(Expression *exp)
 static void generateRandomInExpression(Expression *exp)
 {
   generateExpression(exp->fields.rin.what);
-  if (exp->fields.rin.what->type == SET_TYPE)
-    emit0(I_RNDINSET);
-  else
+  if (exp->fields.rin.what->type == SET_TYPE) {
+    emit0(I_SETSIZE);
+    emitConstant(1);		/* Lower random value */
+    emit0(I_RND);
+    generateExpression(exp->fields.rin.what);
+    emit0(I_SETMEMB);
+  } else
     emit0(I_RNDINCONT);
 }
 

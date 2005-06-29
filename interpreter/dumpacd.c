@@ -33,7 +33,6 @@ static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag,
 
 
 
-
 int eot(Aword *adr)
 {
   return *adr == EOF;
@@ -566,6 +565,10 @@ static void dumpStatements(Aword pc)
       case I_LOOK: printf("LOOK"); break;
       case I_LT: printf("LT "); break;
       case I_MAKE: printf("MAKE"); break;
+      case I_SETSIZE: printf("SETSIZE"); break;
+      case I_SETMEMB: printf("SETMEMB"); break;
+      case I_CONTSIZE: printf("CONTSIZE"); break;
+      case I_CONTMEMB: printf("CONTMEMB"); break;
       case I_MAX: printf("MAX "); break;
       case I_MIN: printf("MIN"); break;
       case I_MINUS: printf("MINUS "); break;
@@ -587,7 +590,6 @@ static void dumpStatements(Aword pc)
       case I_RETURN: printf("RETURN"); printf("\n"); return;
       case I_RND: printf("RND "); break;
       case I_RNDINCONT: printf("RNDINCONT "); break;
-      case I_RNDINSET: printf("RNDINSET "); break;
       case I_SAVE: printf("SAVE"); break;
       case I_SAY: printf("SAY"); break;
       case I_SAYINT: printf("SAYINT"); break;

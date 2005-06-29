@@ -396,9 +396,10 @@ static char buffer[SOURCELINELENGTH];
     for (count = 0; count < line; count++) {
       if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
 	return NULL;
-      /* If not read the whole line, read again */
+      /* If not read the whole line, or no newline, try to read again */
       while (strchr(buffer, '\n') == NULL)
-	fgets(buffer, SOURCELINELENGTH, sourceFile);
+	if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
+	  return buffer;
     }
     return buffer;
   }

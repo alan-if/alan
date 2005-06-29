@@ -571,7 +571,7 @@ static void testGetMembers() {
   Set *set = newSet(0);
   Aword code[] = {0,	/* Dummy */
 		  (Aword) set,
-		  INSTRUCTION(I_MEMBERS),
+		  INSTRUCTION(I_SETSIZE),
 		  INSTRUCTION(I_RETURN)};
 
   memory = code;
