@@ -39,7 +39,7 @@ extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 					  IdNode *attribute, List *filters);
 extern Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
 					    Expression *to);
-extern Expression *newRandomInExpression(Srcp srcp, Expression *what);
+extern Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly);
 
 extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);

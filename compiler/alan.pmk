@@ -2293,9 +2293,9 @@ static int val(char str[])
 	%<primary>.exp = newRandomRangeExpression(%'random'.srcp, %2<primary>.exp, %3<primary>.exp);
     %%
 
-    ! 'random' 'in' <primary>
+    ! 'random' <optional_directly> 'in' <primary>
     %%
-	%1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp);
+	%1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp, %<optional_directly>.present);
     %%
 
     ! 'score'

@@ -25,10 +25,10 @@ typedef struct Set {
 
 extern Set *newSet(int size);
 extern void initSets(SetInitEntry *initTable);
-extern int sizeOfSet(Set *theSet);
+extern int setSize(Set *theSet);
 extern void clearSet(Set *theSet);
 extern Set *copySet(Set *theSet);
-extern Aword getMember(Set *theSet, Aint member);
+extern Aword getSetMember(Set *theSet, Aint member);
 extern Bool inSet(Set *theSet, Aword member);
 extern void addToSet(Set *theSet, Aword newMember);
 extern void removeFromSet(Set *theSet, Aword member);

@@ -36,6 +36,12 @@ static int pc;
 
 
 /*----------------------------------------------------------------------*/
+static void traceSkip() {
+  printf("\n    : \t\t\t\t\t\t\t");
+}
+
+
+/*----------------------------------------------------------------------*/
 static void interpretIf(Aword v)
 {
   int lev = 1;
@@ -43,7 +49,7 @@ static void interpretIf(Aword v)
 
   if (!v) {
     /* Skip to next ELSE or ENDIF on same level */
-    if (singleStepOption) printf("\n    : \t\t\t\t\t\t");
+    if (singleStepOption) traceSkip();
     while (TRUE) {
       i = memory[pc++];
       if (I_CLASS(i) == (Aword)C_STMOP)
@@ -69,12 +75,6 @@ static void interpretIf(Aword v)
 	}
     }
   }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void traceSkip() {
-  printf("\n    : \t\t\t\t\t\t\t");
 }
 
 
@@ -677,7 +677,9 @@ void interpret(Aaddr adr)
 	Set *set = (Set *)pop();
 	if (singleStepOption)
 	  printf("SETSIZE\t%7ld\t\t\t\t\t", (Aword)set);
-	push(sizeOfSet(set));
+	push(setSize(set));
+	if (singleStepOption)
+	  traceIntegerTopValue();
 	break;
       }
       case I_SETMEMB: {
@@ -685,7 +687,28 @@ void interpret(Aaddr adr)
 	Aint index = pop();
 	if (singleStepOption)
 	  printf("SETMEMB\t%7ld, %7ld", (Aword)set, index);
-	push(getMember(set, index));
+	push(getSetMember(set, index));
+	if (singleStepOption)
+	  traceIntegerTopValue();
+	break;
+      }
+      case I_CONTSIZE: {
+	Abool directly = pop();
+	Aint container = pop();
+	if (singleStepOption)
+	  printf("CONTSIZE\t%7ld, %7ld\t", container, directly);
+	push(containerSize(container, directly));
+	if (singleStepOption)
+	  traceIntegerTopValue();
+	break;
+      }
+      case I_CONTMEMB: {
+	Abool directly = pop();
+	Aint container = pop();
+	Aint index = pop();
+	if (singleStepOption)
+	  printf("CONTMEMB\t%7ld, %7ld, %7ld", container, index, directly);
+	push(getContainerMember(container, index, directly));
 	if (singleStepOption)
 	  traceIntegerTopValue();
 	break;
@@ -1077,15 +1100,6 @@ void interpret(Aaddr adr)
 	  printf("RANDOM \t%7ld, %7ld", from, to);
 	push(randomInteger(from, to));
 	traceIntegerTopValue();
-	break;
-      }
-      case I_RNDINCONT: {
-	Aint cont;
-	cont = pop();
-	if (singleStepOption)
-	  printf("RNDINCONT \t%7ld", cont);
-	push(randomInContainer(cont));
-	traceInstanceTopValue();
 	break;
       }
       case I_BTW: {

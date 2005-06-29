@@ -892,22 +892,32 @@ Aint agrsum(Aint atr, Aint whr)
 
 
 /*======================================================================*/
-Aint agrcount(Aint whr)
-{
-  Aword i;
-  Aword count = 0;
+Aint containerSize(Aint container, Abool directly) {
+  Aint i;
+  Aint count = 0;
 
-  /* TODO transform into DIRECTLY handling and add transitive version */
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isObject(i)) {
-      if (isLocation(whr)) {
-	if (where(i, TRUE) == whr)
-	  count++;
-      } else if (admin[i].location == whr)
-	count++;
-    }
+    if (in(i, container, directly))
+      count++;
   }
   return(count);
+}
+
+
+/*======================================================================*/
+Aint getContainerMember(Aint container, Aint index, Abool directly) {
+  Aint i;
+  Aint count = 0;
+
+  for (i = 1; i <= header->instanceMax; i++) {
+    if (in(i, container, directly)) {
+      count++;
+      if (count == index)
+	return i;
+    }
+  }
+  syserr("Index not in container in 'containerMember()'");
+  return 0;
 }
 
 /*----------------------------------------------------------------------*/
@@ -1034,6 +1044,7 @@ void locate(Aint id, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
+
 
 /*======================================================================*/
 Aword isHere(Aint id, Abool directly)
@@ -1456,12 +1467,18 @@ static void describeAnything(Aint id)
 
 
 /*----------------------------------------------------------------------*/
+static Bool describeable(Aint i) {
+  return isObject(i) || isActor(i);
+}
+
+
+/*----------------------------------------------------------------------*/
 static Bool containerIsEmpty(Aword cnt)
 {
   int i;
 
   for (i = 1; i <= header->instanceMax; i++)
-    if (instance[i].initialLocation == cnt)
+    if (describeable(i) && in(i, cnt, FALSE))
       return FALSE;
   return TRUE;
 }
@@ -1558,7 +1575,7 @@ void describeInstances(void)
 	!admin[i].alreadyDescribed) {
       if (found == 0) {
 	printMessageUsingParameter(M_SEE_OBJ_START, i);
-	if (instance[i].container && agrcount(i) > 0) {
+	if (instance[i].container && containerSize(i, TRUE) > 0) {
 	  printMessage(M_SEE_OBJ_END);
 	  describeContainer(i);
 	  continue;		/* Actually start another list. */
@@ -1636,7 +1653,7 @@ void list(Aword cnt)
   if (props == 0) syserr("Trying to list something not a container.");
 
   for (i = 1; i <= header->instanceMax; i++) {
-    if (isObject(i) || isActor(i)) {
+    if (describeable(i)) {
       /* We can only see objects and actors directly in this container... */
       if (admin[i].location == cnt) { /* Yes, it's in this container */
 	if (found == 0) {
@@ -2113,38 +2130,6 @@ Aword randomInteger(Aword from, Aword to)
 
 
 /*----------------------------------------------------------------------*/
-Aword randomInContainer(Aint cont)
-{
-  int count = agrcount(cont);
-  int selected;
-  int instance;
-
-  if (count == 0)
-    syserr("Nothing in container in 'randomInContainer()'");
-
-  selected = randomInteger(0, count-1);
-  /* TODO transform this to DIRECTLY handling and add transitive version */
-  for (instance = 1; selected > 0; instance++)
-    if (admin[instance].location == cont)
-      selected--;
-  return instance;
-}
-
-/*----------------------------------------------------------------------*/
-Aword randomInSet(Aset set)
-{
-  int count = sizeOfSet((Set *)set);
-  int selected;
-
-  if (count == 0)
-    syserr("Nothing in set in 'randomInSet()'");
-
-  selected = randomInteger(0, count-1);
-  return getMember((Set *)set, selected);
-}
-
-
-/*----------------------------------------------------------------------*/
 Abool btw(Aint val, Aint low, Aint high)
 {
   if (high > low)
@@ -2155,7 +2140,7 @@ Abool btw(Aint val, Aint low, Aint high)
 
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 Aword contains(Aword string, Aword substring)
 {
   Abool found;
@@ -2172,14 +2157,7 @@ Aword contains(Aword string, Aword substring)
 }
 
 
-
-/*======================================================================
-
-  streq()
-
-  Compare two strings approximately, ignore case
-
-  */
+/*======================================================================*/
 Abool streq(char a[], char b[])
 {
   Bool eq;

@@ -198,7 +198,6 @@ typedef enum InstClass {
   I_NOT,
   I_UMINUS,
   I_RND,
-  I_RNDINCONT,
   I_AGRSTART,			/* Aggregate looping instructions */
   I_AGRCHECK,
   I_AGREND,

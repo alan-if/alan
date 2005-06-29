@@ -78,7 +78,7 @@ static void testClearSet() {
   for (i = 6; i>0; i--)
     addToSet(aSet, i);
   clearSet(aSet);
-  ASSERT(sizeOfSet(aSet) == 0);
+  ASSERT(setSize(aSet) == 0);
 }
 
 

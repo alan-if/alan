@@ -199,7 +199,7 @@ static lmMsgs msg[] = {
     { "419   ", "%1 SET statement can not be of boolean type." },
     { "420   ", "Invalid What-specification in %1." },
     { "421   ", "THIS instance is not defined in this context." },
-    { "422   ", "DIRECTLY not allowed in %1." },
+    { "422   ", "\'Directly\' not allowed in %1." },
     { "423   ", "You can not instantiate or sub-class \'%1\'." },
     { "424   ", "You can not add %1 to non-instantiable class \'%2\'." },
     { "425   ", "A Mentioned clause overrides the Name for an instance inheriting from location." },

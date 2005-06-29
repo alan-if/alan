@@ -1962,10 +1962,10 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].exp = newRandomRangeExpression(pmSySt[pmStkP+1].srcp, pmSeSt[pmStkP+2].exp, pmSeSt[pmStkP+4].exp);
     	break;}
-    case 310: { /* <primary> = 'random' 'in' <primary>; */
+    case 310: { /* <primary> = 'random' <optional_directly> 'in' <primary>; */
 #line 2297 "alan.pmk"
 
-	pmSeSt[pmStkP+1].exp = newRandomInExpression(pmSySt[pmStkP+1].srcp, pmSeSt[pmStkP+3].exp);
+	pmSeSt[pmStkP+1].exp = newRandomInExpression(pmSySt[pmStkP+1].srcp, pmSeSt[pmStkP+4].exp, pmSeSt[pmStkP+2].present);
     	break;}
     case 307: { /* <primary> = 'score'; */
 #line 2302 "alan.pmk"

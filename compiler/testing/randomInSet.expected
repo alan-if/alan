@@ -28,8 +28,13 @@ randomInSet.alan
                 integer or string type.
   *2*   331 E : Incompatible types in expression.
 
+   17.    Say Random Directly In c Of l. -- Not OK with directly on a Set
+=====>        1
 
-        6 error(s).
+  *1*   422 E : 'Directly' not allowed in Random In operating on a Set.
+
+
+        7 error(s).
         No detected warnings.
         1 informational message(s).
 

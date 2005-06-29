@@ -168,9 +168,10 @@ Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to
 
 
 /*======================================================================*/
-Expression *newRandomInExpression(Srcp srcp, Expression *what) {
+Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly) {
   Expression *exp = newExpression(srcp, RANDOM_IN_EXPRESSION);
   exp->fields.rin.what = what;
+  exp->fields.rin.directly = directly;
   return exp;
 }
 
@@ -846,6 +847,8 @@ static void analyzeRandomIn(Expression *exp, Context *context)
   } else {
     exp->class = exp->fields.rin.what->class;
     exp->type = classToType(exp->fields.rin.what->class);
+    if (exp->fields.rin.directly)
+      lmLog(&exp->srcp, 422, sevERR, "Random In operating on a Set");
   }
 }
 
@@ -1308,14 +1311,21 @@ static void generateRandomExpression(Expression *exp)
 static void generateRandomInExpression(Expression *exp)
 {
   generateExpression(exp->fields.rin.what);
-  if (exp->fields.rin.what->type == SET_TYPE) {
+  if (exp->fields.rin.what->type == SET_TYPE)
     emit0(I_SETSIZE);
-    emitConstant(1);		/* Lower random value */
-    emit0(I_RND);
-    generateExpression(exp->fields.rin.what);
+  else {
+    emitConstant(exp->fields.rin.directly);
+    emit0(I_CONTSIZE);
+  }
+  emitConstant(1);		/* Lower random value */
+  emit0(I_RND);
+  generateExpression(exp->fields.rin.what);
+  if (exp->fields.rin.what->type == SET_TYPE)
     emit0(I_SETMEMB);
-  } else
-    emit0(I_RNDINCONT);
+  else {
+    emitConstant(exp->fields.rin.directly);
+    emit0(I_CONTMEMB);
+  }
 }
 
 
@@ -1598,7 +1608,8 @@ void dumpExpression(Expression *exp)
     put("to: "); dumpExpression(exp->fields.rnd.to);
     break;
   case RANDOM_IN_EXPRESSION:
-    put("what: "); dumpExpression(exp->fields.rin.what);
+    put("what: "); dumpExpression(exp->fields.rin.what); nl();
+    put("directly: "); dumpBool(exp->fields.rin.directly);
     break;
   case WHAT_EXPRESSION:
     put("wht: "); dumpWhat(exp->fields.wht.wht);

@@ -14,4 +14,4 @@ Start At l.
   Say Random In c Of l + 7. -- Not Ok
   Say Random In l Of l + 7. -- Not Ok
   Say (Random In i Of l) + 7. -- Ok
-
+  Say Random Directly In c Of l. -- Not OK with directly on a Set

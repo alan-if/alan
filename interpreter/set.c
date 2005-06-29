@@ -49,7 +49,7 @@ void initSets(SetInitEntry *initTable)
 
 
 /*======================================================================*/
-int sizeOfSet(Set *theSet) {
+int setSize(Set *theSet) {
   return theSet->size;
 }
 
@@ -66,13 +66,13 @@ Set *copySet(Set *theSet) {
   int i;
 
   for (i = 1; i <= theSet->size; i++)
-    addToSet(new, getMember(theSet, i));
+    addToSet(new, getSetMember(theSet, i));
   return new;
 }
 
 
 /*======================================================================*/
-Aword getMember(Set *theSet, Aint theMember) {
+Aword getSetMember(Set *theSet, Aint theMember) {
   if (theMember > theSet->size || theMember < 1)
     syserr("Accessing nonexisting member in a set");
   return theSet->members[theMember-1];
@@ -85,7 +85,7 @@ Bool inSet(Set *theSet, Aword member)
   int i;
 	
   for (i = 1; i <= theSet->size; i++)
-    if (getMember(theSet, i) == member)
+    if (getSetMember(theSet, i) == member)
       return TRUE;
   return FALSE;
 }
