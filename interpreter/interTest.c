@@ -9,24 +9,22 @@
 #include "inter.c"
 
 
-static Aword blockInstructionCode[] = {4, /* Dummy to not execute at zero */
-				       4,
-				       INSTRUCTION(I_FRAME),
-				       4,
-				       INSTRUCTION(I_RETURN)};
-
-static Aword localsInstructionCode[] = {4, /* Dummy to not execute at zero */
-					33, /* Value */
-					1, /* Local variable (starts at 1) */
-					0, /* Number of blocks down */
-					INSTRUCTION(I_SETLOCAL),
-					1, /* Local variable (starts at 1) */
-					0, /* Number of blocks down */
-					INSTRUCTION(I_GETLOCAL),
-					INSTRUCTION(I_RETURN)};
-
 static void testBlockInstructions()
 {
+  Aword blockInstructionCode[] = {4, /* Dummy to not execute at zero */
+				  4,
+				  INSTRUCTION(I_FRAME),
+				  4,
+				  INSTRUCTION(I_RETURN)};
+  Aword localsInstructionCode[] = {4, /* Dummy to not execute at zero */
+				   33, /* Value */
+				   1, /* Local variable (starts at 1) */
+				   0, /* Number of blocks down */
+				   INSTRUCTION(I_SETLOCAL),
+				   1, /* Local variable (starts at 1) */
+				   0, /* Number of blocks down */
+				   INSTRUCTION(I_GETLOCAL),
+				   INSTRUCTION(I_RETURN)};
   Aint originalSp;
 
   memory = blockInstructionCode;
@@ -82,36 +80,36 @@ static void testEachInstructions()
 }
 
 
-static void testBackToEach() {
-  Aword testBackToEachCode[] = {0,
-				INSTRUCTION(I_EACH),
-				4,
-				INSTRUCTION(I_EACH),
-				4,
-				INSTRUCTION(I_NEXTEACH),
-				INSTRUCTION(I_NEXTEACH),
-				INSTRUCTION(I_ENDEACH),
-				5,
-				INSTRUCTION(I_ENDEACH)};
-  memory = testBackToEachCode;
+static void testGoToEach() {
+  Aword testGoToEachCode[] = {0,
+			      INSTRUCTION(I_EACH), /* 1 */
+			      4,
+			      INSTRUCTION(I_EACH),
+			      4,
+			      INSTRUCTION(I_NEXTEACH),
+			      INSTRUCTION(I_NEXTEACH),
+			      INSTRUCTION(I_ENDEACH),
+			      5,
+			      INSTRUCTION(I_ENDEACH)}; /* 9 */
+  memory = testGoToEachCode;
   pc = 9;
-  backToEach();
+  goToEACH();
   ASSERT(pc == 1);
 }
 
 
 static void testNextEach() {
-  Aword testBackToEachCode[] = {0,
-				INSTRUCTION(I_EACH),
-				4,
-				INSTRUCTION(I_EACH),
-				4,
-				INSTRUCTION(I_NEXTEACH),
-				INSTRUCTION(I_NEXTEACH),
-				INSTRUCTION(I_ENDEACH),
-				5,
-				INSTRUCTION(I_ENDEACH)};
-  memory = testBackToEachCode;
+  Aword testNextEachCode[] = {0,
+			      INSTRUCTION(I_EACH),
+			      4, /* 2 */
+			      INSTRUCTION(I_EACH),
+			      4,
+			      INSTRUCTION(I_NEXTEACH),
+			      INSTRUCTION(I_NEXTEACH),
+			      INSTRUCTION(I_ENDEACH),
+			      5,
+			      INSTRUCTION(I_ENDEACH)}; /* 9 */
+  memory = testNextEachCode;
   pc = 2;
   nextEach();
   ASSERT(pc == 9);
@@ -120,15 +118,27 @@ static void testNextEach() {
 
 static void testAggregateInstructions(void)
 {
+  Aword testAgrStartCode[] = {0,
+			      INSTRUCTION(I_AGRSTART),	/* 1 */
+			      INSTRUCTION(I_RETURN)}; /* 2 */
   Aword testAggregateInstructionCode[] = {0,
 					  INSTRUCTION(I_AGRSTART),	/* 1 */
 					  4, 5, 6,
 					  INSTRUCTION(I_AGREND), /* 5 */
 					  INSTRUCTION(I_RETURN), /* 6 */
 					  INSTRUCTION(I_COUNT), /* 7 */
-					  INSTRUCTION(I_RETURN) /* 8 */
-  };
-  ACodeHeader agrHeader;
+					  INSTRUCTION(I_RETURN)}; /* 8 */
+  Aint originalSp;
+
+  memory = testAgrStartCode;
+  pc = 1;
+  originalSp = stackp;
+  push(2);			/* Upper loop limit */
+  push(1);			/* Start loop value */
+  push(0);			/* Initial aggregate value */
+  interpret(1);
+  ASSERT(stackp == originalSp+4);
+  ASSERT(pop() == pop());	/* The loop index should be duplicated */
 
   memory = testAggregateInstructionCode;
   pc = 5;
@@ -138,14 +148,14 @@ static void testAggregateInstructions(void)
   goToENDAGR();
   ASSERT(memory[pc] == INSTRUCTION(I_AGREND));
 
-  agrHeader.instanceMax = 1;
-  header = &agrHeader;
-
-  push(4);			/* Faked COUNT value */
-  push(1);			/* Faked instance index */
+  /* Execute an AGREND */
+  push(1);			/* Loop terminating limit */
+  push(4);			/* Aggregation value */
+  push(1);			/* Loop index */
   interpret(5);
   ASSERT(pop() == 4);
 
+  /* Execute an I_COUNT */
   push(2);			/* Faked COUNT value */
   push(5);			/* Faked instance index */
   push(5);			/* Twice */
@@ -168,7 +178,7 @@ static void testMaxInstance() {
 void registerInterUnitTests(void)
 {
   registerUnitTest(testBlockInstructions);
-  registerUnitTest(testBackToEach);
+  registerUnitTest(testGoToEach);
   registerUnitTest(testNextEach);
   registerUnitTest(testEachInstructions);
   registerUnitTest(testAggregateInstructions);

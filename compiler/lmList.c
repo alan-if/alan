@@ -123,7 +123,7 @@ static lmMsgs msg[] = {
     { "223   ", "This Verb body might be executed for every matching parameter in the syntax for \'%1\', depending on the parameter restrictions. You might want to use a WHEN clause to specify for which parameter this alternative is to be run." },
     { "224   ", "Multiple use of %1 in filter list for %2." },
     { "225   ", "The %1 aggregate will be applied to every instance (including locations, entities and instances of their subclasses). It is recommended to apply it to only instances of a particular class. Perhaps you mean \'%1 Isa object\'?" },
-    { "226   ", "Attributes can not be used for filtering applied to all instances. Filter out instances of a particular class by adding a \'Isa <class>\' filter." },
+    { "226   ", "Attributes can not be used for filtering applied to instances of unknown class. Filter out instances of a particular class e.g. by adding a \'Isa <class>\' filter." },
     { "227   ", "An unconditional check prohibits the declared statements (DOES) to ever be executed." },
     { "228   ", "Check not allowed in Description for Script." },
     { "230   ", "No syntax defined for this global verb, automatically used \'%1\'." },
@@ -213,6 +213,7 @@ static lmMsgs msg[] = {
     { "433   ", "Initialization of attribute must be a constant value." },
     { "434   ", "%1 can only be applied to instance valued expressions." },
     { "440   ", "%1 filters can currently only accept boolean attributes." },
+    { "441   ", "Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types." },
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
@@ -234,7 +235,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 154}
+    {0, 155}
 };
 static lmMessages currMsect = (lmMessages)0;
 

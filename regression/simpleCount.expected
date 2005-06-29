@@ -1,27 +1,6 @@
 ########## simpleCount ##########
 
-
-simpleCount.alan
-
-   23.    "Count Here = "  Say Count Here.
-=====>                         1
-
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
-
-   24.    "Count At l = "  Say Count At l.
-=====>                         1
-
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
-
-
-        No detected errors.
-        2 warning(s).
+        No warnings or errors detected.
 
 
 Count Here = 6 Count At l = 6

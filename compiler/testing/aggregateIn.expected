@@ -25,13 +25,16 @@ aggregateIn.alan
   *2*   315 E : Attribute not defined for 'l'.
 
    16.    If Max Of y Isa object, In members Of o = 9 Then "" End If.
-=====>              1
+=====>              1             2
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
                 using 'MAX' since the class ('object') does not have it.
+  *2*   441 E : Incompatible filter. All filters must enumerate instances or
+                values which are compatible, such as subclasses or compatible
+                types.
 
 
-        7 error(s).
+        8 error(s).
         No detected warnings.
         1 informational message(s).
 

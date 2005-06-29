@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>425.89</origest>
-<currest>424.89</currest>
-<elapsed>280.89</elapsed>
+<origest>426.89</origest>
+<currest>425.89</currest>
+<elapsed>281.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>61</origest>
-<currest>61</currest>
-<elapsed>11</elapsed>
+<origest>62</origest>
+<currest>62</currest>
+<elapsed>12</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>32</origest>
 <currest>32</currest>
-<elapsed>10</elapsed>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -120,7 +120,7 @@
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -412,8 +412,8 @@ is plural. Then the plural message should be:
 <desc>Increment: version 3.0.dev37</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>15</origest>
+<currest>15</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -435,6 +435,15 @@ is plural. Then the plural message should be:
 <desc>Debugger should be able to set breaks on lines in other source files</desc>
 <notes>How to reference other files? Syntax for a line-number?
 &lt;file name&gt;:&lt;line number&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor loop filters so that Between can be combined with others</desc>
+<notes>Example in suspended regression/integerInSet</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

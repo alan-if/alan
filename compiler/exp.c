@@ -129,6 +129,8 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
   exp->fields.agr.kind = kind;
   exp->fields.agr.attribute = attribute;
   exp->fields.agr.filters = filters;
+  exp->fields.agr.type = UNINITIALIZED_TYPE;
+  exp->fields.agr.class = NULL;
   return exp;
 }
 
@@ -565,30 +567,6 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeAttributeFilter(Expression *theFilterExpression,
-				   IdNode *classId,
-				   char *aggregateString)
-{
-  Attribute *attribute;
-  IdNode *attributeId = theFilterExpression->fields.atr.id;
-
-  if (classId != NULL && classId->symbol != NULL) {
-    /* Only do attribute semantic check if class is defined */
-    attribute = findAttribute(classId->symbol->fields.entity.props->attributes,
-                        attributeId);
-    if (attribute == NULL) {
-      lmLogv(&attributeId->srcp, 316, sevERR, attributeId->string,
-             "instances aggregated over using",
-             aggregateString,
-             classId->symbol->string, NULL);
-    } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {
-      lmLog(&attributeId->srcp, 440, sevERR, "Aggregate");
-    } else
-      attributeId->code = attribute->id->code;
-  }
-}
-
-/*----------------------------------------------------------------------*/
 static void analyzeWhereFilter(Expression *theFilterExpression,
 			       Context *context)
 {
@@ -596,95 +574,195 @@ static void analyzeWhereFilter(Expression *theFilterExpression,
 }
 
 /*----------------------------------------------------------------------*/
-static IdNode *analyzeClassingFilter(char *message,
-				     Context *context,
-				     Expression *theFilterExpression,
-				     Bool *foundIsa)
+static void analyzeClassingFilter(char *message,
+				  Context *context,
+				  Expression *theFilter)
 {
-  IdNode *classId = NULL;
+  /* Actually, the following expressions, taht can act as filters,
+     restricts the class of the instances we match:
+     WHERE/AT - a THING
+     WHERE/IN - the class the container takes
+     WHERE/INSET - the class of the members in the set
+     ISA - the class it tests for
+     BETWEEN - integers
 
-  switch (theFilterExpression->kind) {
+     This is provided that there is not a NOT present.
+
+     TODO: Analyze all expressions and match them up to analyze
+     whether they are compatible and what attributes can be guaranteed
+     to be available. This should really go in
+     analyzeFilterExpressions().
+
+     NOTE: Directly might also complicate things if we wanted to warn
+     for multiple incompatible filters.
+  */
+
+  switch (theFilter->kind) {
   case ISA_EXPRESSION:
-    if (*foundIsa)
-      lmLogv(&theFilterExpression->srcp, 224, sevERR, "Isa (class)",
-	     message, NULL);
-    *foundIsa = TRUE;
-    classId = theFilterExpression->fields.isa.class;
-    (void) symcheck(classId, CLASS_SYMBOL, context);
+    (void) symcheck(theFilter->fields.isa.class, CLASS_SYMBOL, context);
+    if (theFilter->fields.isa.class->symbol == NULL) {
+      theFilter->type = ERROR_TYPE;
+    } else {
+      theFilter->class = theFilter->fields.isa.class->symbol;
+      theFilter->type = INSTANCE_TYPE;
+    }
     break;
   case BETWEEN_EXPRESSION:
-    /* This can only be a integer */
-    classId = newId(nulsrcp, "integer");
-    classId->symbol = integerSymbol;
-    analyzeExpression(theFilterExpression->fields.btw.lowerLimit, context);
-    analyzeExpression(theFilterExpression->fields.btw.upperLimit, context);
+    /* This can only be an integer */
+    theFilter->type = INTEGER_TYPE;
+    theFilter->class = integerSymbol;
+    analyzeExpression(theFilter->fields.btw.lowerLimit, context);
+    if (!equalTypes(theFilter->fields.btw.lowerLimit->type, INTEGER_TYPE))
+      lmLogv(&theFilter->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+    analyzeExpression(theFilter->fields.btw.upperLimit, context);
+    if (!equalTypes(theFilter->fields.btw.upperLimit->type, INTEGER_TYPE))
+      lmLogv(&theFilter->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
     break;
   case WHERE_EXPRESSION:
+    analyzeWhereFilter(theFilter, context);
+    switch (theFilter->fields.whr.whr->kind) {
+    case WHERE_INSET: {
+      theFilter->class = theFilter->fields.whr.whr->what->class;
+      theFilter->type = theFilter->fields.whr.whr->what->type;
+      break;
+    }
+    case WHERE_HERE:
+    case WHERE_AT:
+      theFilter->class = thingSymbol;
+      theFilter->type = INSTANCE_TYPE;
+      break;
+    default:
+      break;
+    }
   case ATTRIBUTE_EXPRESSION:
     break;
   default:
-    unimpl(theFilterExpression->srcp, "Analysis : Unimplemented aggregate filter type");
+    unimpl(theFilter->srcp, "Analysis : Unimplemented aggregate filter type");
   }
-  return classId;
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool analyzeNonClassingFilter(char *message,
+static void analyzeAttributeFilter(Expression *theFilterExpression,
+				   Symbol *classSymbol,
+				   char *aggregateString)
+{
+  Attribute *attribute;
+  IdNode *attributeId = theFilterExpression->fields.atr.id;
+
+  if (classSymbol != NULL) {
+    /* Only do attribute semantic check if class is defined */
+    attribute = findAttribute(classSymbol->fields.entity.props->attributes,
+			      attributeId);
+    if (attribute == NULL) {
+      lmLogv(&attributeId->srcp, 316, sevERR, attributeId->string,
+             "instances aggregated over using",
+             aggregateString,
+             classSymbol->string, NULL);
+    } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {
+      lmLog(&attributeId->srcp, 440, sevERR, "Aggregate");
+    } else
+      attributeId->code = attribute->id->code;
+  } else
+    lmLog(&theFilterExpression->srcp, 226, sevERR, "");
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeNonClassingFilter(char *message,
 				     Context *context,
 				     Expression *theFilter,
-				     IdNode *classId,
+				     Symbol *classSymbol,
 				     Bool *foundWhere)
 {
   switch (theFilter->kind) {
-  case WHERE_EXPRESSION:
-    if (*foundWhere)
-      lmLogv(&theFilter->srcp, 224, sevERR, "Where", message, NULL);
-    analyzeWhereFilter(theFilter, context);
-    if (theFilter->fields.whr.whr->kind != WHERE_INSET)
-      /* An "IN <set>" is not a Where ... */
-      *foundWhere = TRUE;
-    break;
   case ATTRIBUTE_EXPRESSION:
-    if (classId == NULL)
-      /* Can not find attributes on all instances, requires ISA filter */
-      lmLog(&theFilter->srcp, 226, sevERR, "");
-    else
-      analyzeAttributeFilter(theFilter, classId, message);
+    analyzeAttributeFilter(theFilter, classSymbol, message);
     break;
+  case WHERE_EXPRESSION:
   case ISA_EXPRESSION:
   case BETWEEN_EXPRESSION:
     break;
   default:
     SYSERR("Unimplemented aggregate filter expression type");
   }
-  return TRUE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool expressionIsActualWhere(Expression *expression) {
+  switch (expression->kind) {
+  case WHERE_EXPRESSION:
+    switch (expression->fields.whr.whr->kind) {
+    case WHERE_DEFAULT:
+    case WHERE_HERE:
+    case WHERE_NEARBY:
+    case WHERE_NEAR:
+    case WHERE_AT:
+    case WHERE_IN:
+      return !expression->fields.whr.whr->directly;
+    case WHERE_INSET:
+      return FALSE;
+    }
+  default:
+      return FALSE;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *combineFilterClasses(Symbol *original, Symbol *addition, Srcp srcp) {
+  if (original == addition)
+    return original;
+  else if (original == NULL)
+    return addition;
+  else if (addition == NULL)
+    return original;
+  else if (inheritsFrom(original, addition))
+    return original;
+  else if (inheritsFrom(addition, original))
+    return addition;
+  else {
+    lmLog(&srcp, 441, sevERR, "");
+    return original;
+  }
 }
 
 
 /*======================================================================*/
 Bool analyzeFilterExpressions(char *message, List *filters,
-			      Context *context, IdNode **classId) {
+			      Context *context, Symbol **foundClass) {
   List *lst;
   Bool foundWhere = FALSE;
   Bool foundIsa = FALSE;
   Bool error = FALSE;
-  IdNode *class = NULL;
+  Symbol *class = NULL;
 
   /* Analyze the filters which may restrict to a class, return the class id */
   TRAVERSE(lst, filters) {
-    IdNode *foundClass = analyzeClassingFilter(message, context,
-					    lst->element.exp, &foundIsa);
-    if (foundClass)
-      class = foundClass;
+    analyzeClassingFilter(message, context, lst->element.exp);
+    class = combineFilterClasses(class, lst->element.exp->class, lst->element.exp->srcp);
+    if (lst->element.exp->type == ERROR_TYPE)
+      error = TRUE;
+    if (lst->element.exp->kind == ISA_EXPRESSION) {
+      if (foundIsa)
+	lmLogv(&lst->element.exp->srcp, 224, sevWAR, "Isa (class)",
+	       message, NULL);
+      foundIsa = TRUE;
+    }
+    if (expressionIsActualWhere(lst->element.exp)) {
+      if (foundWhere)
+	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Where", message, NULL);
+      foundWhere = TRUE;
+    }
   }
 
   TRAVERSE(lst, filters) {
-    if (!analyzeNonClassingFilter(message,  context, lst->element.exp,
-				  class, &foundWhere))
-      error = TRUE;
+    analyzeNonClassingFilter(message,  context, lst->element.exp,
+			     class, &foundWhere);
   }
-  *classId = class;
+
+  *foundClass = class;
   return !error;
 }
 
@@ -693,7 +771,7 @@ Bool analyzeFilterExpressions(char *message, List *filters,
 static void analyzeAggregate(Expression *exp, Context *context)
 {
   Attribute *atr = NULL;
-  IdNode *classId = NULL;       /* Identifier for class filter if any */
+  Symbol *class = NULL;       /* Class resulting from filters if any */
   char message[200] = "";
   exp->type = INTEGER_TYPE;
 
@@ -701,33 +779,35 @@ static void analyzeAggregate(Expression *exp, Context *context)
   strcat(message, " Aggregation");
 
   if (!analyzeFilterExpressions(message, exp->fields.agr.filters, context,
-				&classId))
+				&class))
     exp->type = ERROR_TYPE;
-  if (classId == NULL)
-    lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     /* Now analyze the attribute to do the arithmetic aggregation on */
-    if (!classId)
-      /* Absence of a class filter makes arithmetic aggregates impossible since
-         attributes can never be guaranteed to be defined in all instances. */
+    if (!class && exp->type != ERROR_TYPE) {
+      /* Absence of classing filters makes arithmetic aggregates
+         impossible since attributes can never be guaranteed to be
+         defined in all instances. */
       lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
-    else if (classId->symbol != NULL) {
-      /* Only do this if there was a correct class filter found */
-      atr = findAttribute(classId->symbol->fields.entity.props->attributes,
+    } else if (class) {
+      /* Only do this if there was a classing filter found */
+      atr = findAttribute(class->fields.entity.props->attributes,
                           exp->fields.agr.attribute);
       if (atr == NULL) {
         lmLogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
                exp->fields.agr.attribute->string,
                "instances aggregated over using",
                aggregateToString(exp->fields.agr.kind),
-               classId->symbol->string, NULL);
+               class->string, NULL);
       } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
         lmLog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
       } else
         exp->fields.agr.attribute->code = atr->id->code;
     }
-  }
+  } else if (class == NULL && exp->type != ERROR_TYPE)
+    /* Even for COUNT we want to warn for counting the universe, which
+       is probably not what he wanted */
+    lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 }
 
 
@@ -1149,12 +1229,14 @@ static void generateAggregateExpression(Expression *exp)
 
 #define MAXINT ((Aword)-1)
 
-  switch (exp->fields.agr.kind) {
+  emitVariable(V_MAX_INSTANCE);	/* Loop limit */
+  switch (exp->fields.agr.kind) { /* Initial aggregate value */
   case COUNT_AGGREGATE:
   case MAX_AGGREGATE:
   case SUM_AGGREGATE: emitConstant(0); break;
   case MIN_AGGREGATE: emitConstant(MAXINT); break;
   }
+  emitConstant(1);		/* Loop start */
   emit0(I_AGRSTART);
 
   TRAVERSE(lst,exp->fields.agr.filters) {
@@ -1484,8 +1566,8 @@ void dumpExpression(Expression *exp)
     break;
   case BETWEEN_EXPRESSION:
     put("val: "); dumpExpression(exp->fields.btw.exp); nl();
-    put("low: "); dumpExpression(exp->fields.btw.lowerLimit); nl();
-    put("high: "); dumpExpression(exp->fields.btw.upperLimit);
+    put("lower: "); dumpExpression(exp->fields.btw.lowerLimit); nl();
+    put("upper: "); dumpExpression(exp->fields.btw.upperLimit);
     break;
   case ISA_EXPRESSION:
     put("wht: "); dumpExpression(exp->fields.isa.what); nl();

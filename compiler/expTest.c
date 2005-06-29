@@ -87,9 +87,9 @@ static void testIsConstantIdentifier()
 static void testAnalyzeClassingFilter()
 {
   Expression *btw = newBetweenExpression(nulsrcp, NULL, FALSE, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
-  IdNode *id = analyzeClassingFilter("", NULL, btw, FALSE);
 
-  ASSERT(id->symbol == integerSymbol);
+  analyzeClassingFilter("", NULL, btw);
+  ASSERT(btw->class == integerSymbol);
   ASSERT(readEcode() == 0);
 }
 
@@ -119,6 +119,21 @@ static void testIsConstant()
   ASSERT(!isConstantExpression(setExp));
 }
 
+static void testCombineFilterClasses() {
+  initSymbols();    
+  initClasses();
+  symbolizeClasses();
+  ASSERT(combineFilterClasses(NULL, NULL, nulsrcp) == NULL);
+  ASSERT(combineFilterClasses(NULL, integerSymbol, nulsrcp) == integerSymbol);
+  ASSERT(combineFilterClasses(integerSymbol, NULL, nulsrcp) == integerSymbol);
+  ASSERT(combineFilterClasses(integerSymbol, integerSymbol, nulsrcp) == integerSymbol);
+  ASSERT(combineFilterClasses(integerSymbol, literalSymbol, nulsrcp) == integerSymbol);
+  ASSERT(combineFilterClasses(literalSymbol, integerSymbol, nulsrcp) == integerSymbol);
+
+  /* Not compatible types should generate an error and return original */
+  ASSERT(combineFilterClasses(integerSymbol, stringSymbol, nulsrcp) == integerSymbol);
+  ASSERT(readEcode() == 441);
+}
 
 void registerExpUnitTests()
 {
@@ -128,5 +143,6 @@ void registerExpUnitTests()
   registerUnitTest(testVerifySetMember);
   registerUnitTest(testIsConstant);
   registerUnitTest(testAnalyzeClassingFilter);
+  registerUnitTest(testCombineFilterClasses);
 }
 

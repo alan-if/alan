@@ -4,20 +4,15 @@
 setAggregateToBool.alan
 
     6.    Set x Of l To Sum of x At l.
-=====>    1     2       3      4
+=====>    1     2              3
 
   *1*   331 E : Incompatible types in target and expression in SET statement.
   *2*   419 E : Target for SET statement can not be of boolean type.
-  *3*   225 W : The SUM aggregate will be applied to every instance (including
-                locations, entities and instances of their subclasses). It is
-                recommended to apply it to only instances of a particular
-                class. Perhaps you mean 'SUM Isa object'?
-  *4*   226 E : Attributes can not be used for filtering applied to all
-                instances. Filter out instances of a particular class by adding
-                a 'Isa <class>' filter.
+  *3*   316 E : Attribute 'x' is not defined for instances aggregated over
+                using 'SUM' since the class ('thing') does not have it.
 
 
         3 error(s).
-        1 warning(s).
+        No detected warnings.
         1 informational message(s).
 

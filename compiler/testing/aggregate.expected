@@ -3,30 +3,10 @@
 
 aggregate.alan
 
-    9.    If Count Here = 9 Then "" End If.
-=====>       1
-
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
-
    10.    If Count Here, At l = 9 Then "" End If.
-=====>       1           2
+=====>                   1
 
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
-  *2*   224 E : Multiple use of Where in filter list for COUNT Aggregation.
-
-   11.    If Count At l = 9 Then "" End If.
-=====>       1
-
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
+  *1*   224 E : Multiple use of Where in filter list for COUNT Aggregation.
 
    12.    If Count Is x Then "" End If.
 =====>       1     2
@@ -37,9 +17,9 @@ aggregate.alan
                 a particular class. Perhaps you mean 'COUNT Isa object'?
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
-  *2*   226 E : Attributes can not be used for filtering applied to all
-                instances. Filter out instances of a particular class by adding
-                a 'Isa <class>' filter.
+  *2*   226 E : Attributes can not be used for filtering applied to instances
+                of unknown class. Filter out instances of a particular class
+                e.g. by adding a 'Isa <class>' filter.
 
    13.    If Count Isa x = 7 Then "" End If.
 =====>                 1
@@ -54,7 +34,7 @@ aggregate.alan
    16.    If Count Isa object, Isa thing = 12 Then "" End If.
 =====>                         1
 
-  *1*   224 E : Multiple use of Isa (class) in filter list for COUNT
+  *1*   224 W : Multiple use of Isa (class) in filter list for COUNT
                 Aggregation.
 
    17.    If Count Isa object, Is z Then "" End If.
@@ -64,7 +44,7 @@ aggregate.alan
                 type.
 
 
-        7 error(s).
-        4 warning(s).
+        6 error(s).
+        2 warning(s).
         1 informational message(s).
 

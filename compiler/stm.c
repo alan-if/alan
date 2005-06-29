@@ -560,20 +560,20 @@ static void analyzeDepend(Statement *stm, Context *context)
 static void analyzeEach(Statement *stm, Context *context)
 {
   Symbol *loopSymbol;
-  IdNode *classId = NULL;
+  Symbol *class = NULL;
 
   /* Analyze the partial filter expressions */
   if (stm->fields.each.filters != NULL)
     analyzeFilterExpressions("EACH statement", stm->fields.each.filters,
-			     context, &classId);
+			     context, &class);
 
   /* Create a new frame and register the loop variable */
   newFrame();
   loopSymbol = newSymbol(stm->fields.each.loopId, LOCAL_SYMBOL);
   loopSymbol->fields.local.type = INSTANCE_TYPE; /* Assume instances */
-  if (classId != NULL && classId->symbol != NULL) {
-    loopSymbol->fields.local.class = classId->symbol;
-    if (classId->symbol == integerSymbol)
+  if (class != NULL) {
+    loopSymbol->fields.local.class = class;
+    if (class == integerSymbol)
       loopSymbol->fields.local.type = INTEGER_TYPE;
   } else
     loopSymbol->fields.local.class = entitySymbol;

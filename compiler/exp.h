@@ -110,6 +110,8 @@ typedef struct Expression {
       AggregateKind kind;	/* Kind of aggregate */
       struct IdNode *attribute;	/* Attribute id */
       struct List *filters;	/* Expressions to filter against */
+      TypeKind type;		/* Analyzed type */
+      struct Symbol *class;	/* Analyzed class */
     } agr;
 
     struct {			/* For RANDOM */

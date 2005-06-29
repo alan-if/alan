@@ -1,19 +1,6 @@
 ########## countIsaThing ##########
 
-
-countIsaThing.alan
-
-   23.    "Count At l = "  Say Count At l. "."
-=====>                         1
-
-  *1*   225 W : The COUNT aggregate will be applied to every instance
-                (including locations, entities and instances of their
-                subclasses). It is recommended to apply it to only instances of
-                a particular class. Perhaps you mean 'COUNT Isa object'?
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
 
 
 Count At l = 6. Count Isa actor At l = 3. Count Isa thing At l = 6.

@@ -13,9 +13,9 @@ sigsegvWhereExpression.alan
                 subclasses). It is recommended to apply it to only instances of
                 a particular class. Perhaps you mean 'COUNT Isa object'?
   *3*   101 E : Syntax error. Inserting "is" before this token.
-  *3*   226 E : Attributes can not be used for filtering applied to all
-                instances. Filter out instances of a particular class by adding
-                a 'Isa <class>' filter.
+  *3*   226 E : Attributes can not be used for filtering applied to instances
+                of unknown class. Filter out instances of a particular class
+                e.g. by adding a 'Isa <class>' filter.
 
 
         3 error(s).
