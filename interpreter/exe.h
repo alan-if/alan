@@ -67,8 +67,6 @@ extern Abool at(Aint theInstance, Aint other, Abool directly);
 extern Abool in(Aint theInstance, Aint theContainer, Abool directly);
 extern Aword where(Aint instance, Abool directly);
 extern Aword location(Aint instance);
-extern Aint agrmax(Aint atr, Aint whr);
-extern Aint agrsum(Aint atr, Aint whr);
 extern Aint containerSize(Aint where, Abool directly);
 extern Aint getContainerMember(Aint container, Aint index, Abool directly);
 extern Abool isHere(Aint instance, Abool directly);

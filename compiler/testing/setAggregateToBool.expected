@@ -9,7 +9,7 @@ setAggregateToBool.alan
   *1*   331 E : Incompatible types in target and expression in SET statement.
   *2*   419 E : Target for SET statement can not be of boolean type.
   *3*   316 E : Attribute 'x' is not defined for instances aggregated over
-                using 'SUM' since the class ('thing') does not have it.
+                using 'SUM' since its class ('thing') does not have it.
 
 
         3 error(s).

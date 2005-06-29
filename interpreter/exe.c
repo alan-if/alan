@@ -854,44 +854,6 @@ Aword location(Aint id)
 
 
 /*======================================================================*/
-Aint agrmax(Aint atr, Aint whr)
-{
-  Aword i;
-  Aint max = 0;
-
-  for (i = 1; i <= header->instanceMax; i++) {
-    if (isObject(i)) {
-      if (isLocation(whr)) {
-	if (where(i, TRUE) == whr && attributeOf(i, atr) > max)
-	  max = attributeOf(i, atr);
-      } else if (admin[i].location == whr && attributeOf(i, atr) > max)
-	max = attributeOf(i, atr);
-    }
-  }
-  return(max);
-}
-
-
-/*======================================================================*/
-Aint agrsum(Aint atr, Aint whr)
-{
-  Aword i;
-  Aint sum = 0;
-
-  for (i = 1; i <= header->instanceMax; i++) {
-    if (isObject(i)) {
-      if (isLocation(whr)) {
-	if (where(i, TRUE) == whr)
-	  sum += attributeOf(i, atr);
-      } else if (admin[i].location == whr)
-	sum += attributeOf(i, atr);
-    }
-  }
-  return(sum);
-}
-
-
-/*======================================================================*/
 Aint containerSize(Aint container, Abool directly) {
   Aint i;
   Aint count = 0;

@@ -11,7 +11,7 @@ eachWithIdentifierAttribute.alan
    23.      Say a Of l.
 =====>          1
 
-  *1*   316 E : Attribute 'a' is not defined for variable 'l' since the class
+  *1*   316 E : Attribute 'a' is not defined for variable 'l' since its class
                 ('location') does not have it.
 
 

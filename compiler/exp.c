@@ -657,7 +657,7 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
 			      attributeId);
     if (attribute == NULL) {
       lmLogv(&attributeId->srcp, 316, sevERR, attributeId->string,
-             "instances aggregated over using",
+             "instances iterated over using",
              aggregateString,
              classSymbol->string, NULL);
     } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {

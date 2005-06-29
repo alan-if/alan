@@ -6,7 +6,7 @@ restrictionAttribute.alan
    10.        If size Of o > 5 Then
 =====>           1
 
-  *1*   316 E : Attribute 'size' is not defined for parameter 'o' since the
+  *1*   316 E : Attribute 'size' is not defined for parameter 'o' since its
                 class ('entity') does not have it.
 
 

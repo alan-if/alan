@@ -7,43 +7,43 @@ restrictionClassing.alan
 =====>  	    1
 
   *1*   316 E : Attribute 'thingAttribute' is not defined for parameter 'j'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    21.  	Say objectAttribute Of j.
 =====>  	    1
 
   *1*   316 E : Attribute 'objectAttribute' is not defined for parameter 'j'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    22.  	Say thingAttribute Of i.
 =====>  	    1
 
   *1*   316 E : Attribute 'thingAttribute' is not defined for parameter 'i'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    23.  	Say objectAttribute Of i.
 =====>  	    1
 
   *1*   316 E : Attribute 'objectAttribute' is not defined for parameter 'i'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    26.  	Say thingAttribute Of j.
 =====>  	    1
 
   *1*   316 E : Attribute 'thingAttribute' is not defined for parameter 'j'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    27.  	Say objectAttribute Of j.
 =====>  	    1
 
   *1*   316 E : Attribute 'objectAttribute' is not defined for parameter 'j'
-                since the class ('entity') does not have it.
+                since its class ('entity') does not have it.
 
    29.  	Say objectAttribute Of i.
 =====>  	    1
 
   *1*   316 E : Attribute 'objectAttribute' is not defined for parameter 'i'
-                since the class ('thing') does not have it.
+                since its class ('thing') does not have it.
 
 
         7 error(s).
