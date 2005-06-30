@@ -14,8 +14,8 @@ inheritedReferenceType.alan
    22.    Has r 4.
 =====>        1
 
-  *1*   332 E : Attribute is inherited but does not match the original type (in
-                class 'talker') which is required.
+  *1*   332 E : Attribute is inherited from class 'talker' but does not match
+                the original type (Instance) which is required.
 
    33.    Set t of aSubTalker To l.	-- Should only allow topics
 =====>                           1

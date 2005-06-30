@@ -45,7 +45,6 @@ extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool analyzeFilterExpressions(char *message, List *filters,
 				     Context *context, Symbol **foundClass);
-extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern Bool isConstantIdentifier(IdNode *id);
 extern Bool isConstantExpression(Expression *exp);
 extern Symbol *contentOf(Expression *what, Context *context);

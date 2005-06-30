@@ -105,7 +105,7 @@
 329	'Attribute is inherited from class \'%1\', but the class %2 in this declaration (\'%3\') is not a subclass of the class infered for the inherited (\'%4\'), which it must be.';
 330	'Wrong type of expression in context of %2. Must be of %1 type.';
 331	'Incompatible types in %1.';
-332	'Attribute is inherited but does not match the original type (in class \'%1\') which is required.';
+332	'Attribute is inherited from class \'%1\' but does not match the original type (%2) which is required.';
 333	'The word \'%1\' is defined to be both a synonym and another word class.';
 334	'Multiple syntaxes are defined with this structure (words and parameters).';
 335	'ELSE clause of a DEPENDING statement must be the last.';

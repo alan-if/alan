@@ -12,6 +12,7 @@
 
 extern Bool isComplexType(TypeKind type);
 extern char *typeToString(TypeKind type);
+extern Bool equalTypes(TypeKind typ1, TypeKind typ2);
 extern void dumpType(TypeKind type);
 
 #endif

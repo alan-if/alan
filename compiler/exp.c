@@ -10,6 +10,7 @@
 #include "util.h"
 
 #include "srcp_x.h"
+#include "type_x.h"
 #include "whr_x.h"
 #include "id_x.h"
 #include "atr_x.h"
@@ -197,15 +198,6 @@ void symbolizeExpression(Expression *exp) {
   }
 }
 
-
-
-/*======================================================================*/
-Bool equalTypes(TypeKind typ1, TypeKind typ2)
-{
-  if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
-    SYSERR("Unintialised type");
-  return (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE || typ1 == typ2);
-}
 
 
 /*----------------------------------------------------------------------*/

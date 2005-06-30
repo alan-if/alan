@@ -326,7 +326,10 @@ static void analyzeReferenceAttribute(Attribute *thisAttribute) {
   /* Set initial value and referenceClass */
   if (thisAttribute->reference->symbol != NULL) {
     thisAttribute->value = thisAttribute->reference->symbol->code;
-    thisAttribute->referenceClass = thisAttribute->reference->symbol->fields.entity.parent;
+    if (thisAttribute->type == REFERENCE_TYPE)
+      thisAttribute->referenceClass = thisAttribute->reference->symbol;
+    else
+      thisAttribute->referenceClass = thisAttribute->reference->symbol->fields.entity.parent;
   }
 }
 
@@ -383,7 +386,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol)
     if (inheritedAttribute != NULL) {
       Symbol *definingSymbol = definingSymbolOfAttribute(owningSymbol->fields.entity.parent, thisAttribute->id);
       if (!equalTypes(inheritedAttribute->type, thisAttribute->type)) {
-	lmLog(&thisAttribute->srcp, 332, sevERR, definingSymbol->string);
+	lmLogv(&thisAttribute->srcp, 332, sevERR, definingSymbol->string, typeToString(inheritedAttribute->type), NULL);
       } else if (isComplexType(thisAttribute->type)) {
 	/* Verify that the inherited member class is a superclass
 	   to the one in this attribute */
