@@ -1,2 +1,32 @@
-#!/bin/sh
-diff -b -u $1.expected $1.output
+#! /bin/sh
+#
+# Script for running tests of Alan and Arun
+#
+
+run ()
+{
+    echo "$case : "
+    diff -b -u $case.expected $case.output
+}
+
+if [ $# != 0 ] ; then
+  for f in ${*} ; do
+    case=`basename $f .output`
+    if [ "$case" != "$f" ]
+    then
+	run
+    elif [ -f $case.alan ]
+    then
+        run
+    fi
+  done
+else
+  for f in *.output ; do
+    case=`basename $f .output`
+    if [ -f $case.alan -a -f $case.expected ]
+    then
+	run
+    fi
+  done
+fi
+
