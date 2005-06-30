@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>427.89</origest>
-<currest>426.89</currest>
-<elapsed>284.89</elapsed>
+<origest>428.89</origest>
+<currest>427.89</currest>
+<elapsed>285.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>63</origest>
-<currest>63</currest>
-<elapsed>15</elapsed>
+<origest>64</origest>
+<currest>64</currest>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
-<elapsed>14</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -179,48 +179,14 @@ Design tasks:
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>UNDO handling does not seem to manage dynamic sets and strings</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes>Currently the checks are run for all alternatives.
+<desc>Inherited abstract reference attributes</desc>
+<notes>The example in section on Inheriting Attributes in 4.7.4 does not work as planned. An intermediate attribute definition should be allowed and restrict it.
 
-Verify what this would mean in a practical example.
-
-I think only checks for matching alternatives would be natural.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>There should be no space before a full stop even if the previous output was an expression.</desc>
-<notes>"string" Say Count ... ".$p" generates an extra space</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
+See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -246,8 +212,8 @@ Pronouns</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<desc>Error 225 is incorrect when IN is used since that will delimit the types of instances</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -255,8 +221,8 @@ Pronouns</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor: add a context.symbol</desc>
-<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<desc>There should be no space before a full stop even if the previous output was an expression.</desc>
+<notes>"string" Say Count ... ".$p" generates an extra space</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -264,14 +230,21 @@ Pronouns</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
+<desc>UNDO handling does not seem to manage dynamic sets and strings</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
 
-FOR EACH entity DO
+Verify what this would mean in a practical example.
 
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
+I think only checks for matching alternatives would be natural.
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -407,15 +380,6 @@ is plural. Then the plural message should be:
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Error 225 is incorrect when IN is used since that will delimit the types of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0.dev37</desc>
@@ -425,6 +389,17 @@ is plural. Then the plural message should be:
 <currest>15</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>MENTIONED can not be inherited</desc>
+<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
+
+This is kind of a general question, but affects the MENTIONED particularly.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Attribute references without "of" in certain contexts</desc>
 <notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
@@ -531,17 +506,6 @@ Multiple %1 '%2'</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>MENTIONED can not be inherited</desc>
-<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
-
-This is kind of a general question, but affects the MENTIONED particularly.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Add NEGATIVE ARTICLE/FORM clause</desc>
 <notes>with "Say No x." and "$-1" as print forms.</notes>
 <priority>2</priority>
@@ -606,13 +570,60 @@ results in
 <desc>Increment: version 3.0.alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow Start section at an arbitrary place in the source</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor: add a context.symbol</desc>
+<notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

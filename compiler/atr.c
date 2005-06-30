@@ -45,7 +45,7 @@ static Attribute *newAttribute(Srcp *srcp,
 			       int value,
 			       long int fpos,
 			       int len,
-			       IdNode *instance,
+			       IdNode *reference,
 			       Expression *set)
 {
   Attribute *new;			/* The newly allocated area */
@@ -63,7 +63,8 @@ static Attribute *newAttribute(Srcp *srcp,
   new->encoded = FALSE;
   new->fpos = fpos;
   new->len = len;
-  new->reference = instance;
+  new->reference = reference;
+  new->initialized = FALSE;
   new->set = set;
 
   return(new);
@@ -144,7 +145,7 @@ static void checkMultipleAttributes(List *atrs)
 
 
 /*======================================================================*/
-void symbolizeAttributes(List *atrs)
+void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 {
   List *al;
 
@@ -155,10 +156,14 @@ void symbolizeAttributes(List *atrs)
     if (thisAttribute->type == REFERENCE_TYPE) {
       symbolizeId(thisAttribute->reference);
       if (thisAttribute->reference->symbol) {
+	thisAttribute->initialized = TRUE;
 	if (thisAttribute->reference->symbol->kind == INSTANCE_SYMBOL)
 	  thisAttribute->type = INSTANCE_TYPE;
 	else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
 	  thisAttribute->type = EVENT_TYPE;
+	else if (thisAttribute->reference->symbol->kind == CLASS_SYMBOL
+		 && inClassDeclaration)
+	  thisAttribute->initialized = FALSE;
 	else {
 	  if (thisAttribute->reference->symbol->kind != ERROR_SYMBOL)
 	    lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
@@ -353,14 +358,15 @@ static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
 
 
 /*======================================================================*/
-void analyzeAttributes(List *atrs, Symbol *symbol)
+void analyzeAttributes(List *atrs, Symbol *owningSymbol)
 {
   List *theList;
 
   TRAVERSE (theList, atrs) {
     Attribute *thisAttribute = theList->element.atr;
-    Attribute *inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
+    Attribute *inheritedAttribute = findInheritedAttribute(owningSymbol, thisAttribute->id);
 
+    thisAttribute->definingSymbol = owningSymbol;
     switch (thisAttribute->type) {
     case SET_TYPE:
       analyzeSetAttribute(thisAttribute);
@@ -375,7 +381,7 @@ void analyzeAttributes(List *atrs, Symbol *symbol)
     }
 
     if (inheritedAttribute != NULL) {
-      Symbol *definingSymbol = definingSymbolOfAttribute(symbol->fields.entity.parent, thisAttribute->id);
+      Symbol *definingSymbol = definingSymbolOfAttribute(owningSymbol->fields.entity.parent, thisAttribute->id);
       if (!equalTypes(inheritedAttribute->type, thisAttribute->type)) {
 	lmLog(&thisAttribute->srcp, 332, sevERR, definingSymbol->string);
       } else if (isComplexType(thisAttribute->type)) {
@@ -713,6 +719,7 @@ void dumpAttribute(Attribute *atr)
   put("type: "); dumpType(atr->type);
   put(", inheritance: "); dumpInheritance(atr->inheritance); nl();
   put("id: "); dumpId(atr->id); nl();
+  put("definingSymbol: "); dumpSymbol(atr->definingSymbol); nl();
   put("instanceCode: "); dumpInt(atr->instanceCode); nl();
   put("address: "); dumpAddress(atr->address); nl();
   switch (atr->type) {
@@ -727,22 +734,16 @@ void dumpAttribute(Attribute *atr)
   case BOOLEAN_TYPE:
     put("value: "); dumpBool(atr->value);
     break;
+  case REFERENCE_TYPE:
   case INSTANCE_TYPE:
-    put("reference: "); dumpId(atr->reference);
-    put("referenceClass: "); dumpPointer(atr->referenceClass);
-    if (atr->referenceClass) {
-      put(" \""); put(atr->referenceClass->string); put("\"");
-    }
+    put("reference: "); dumpId(atr->reference); nl();
+    put("referenceClass: "); dumpSymbol(atr->referenceClass); nl();
+    put("initialized: "); dumpBool(atr->initialized);
     break;
   case SET_TYPE:
     put("setType: "); dumpType(atr->setType); nl();
-    if (atr->setType == INSTANCE_TYPE) {
-      put("atr->setClass: "); dumpPointer(atr->setClass);
-      if (atr->setClass != NULL) {
-	put(" \""); put(atr->setClass->string); put("\"");
-      }
-      nl();
-    }
+    if (atr->setType == INSTANCE_TYPE)
+      put("atr->setClass: "); dumpSymbol(atr->setClass); nl();
     put("set: "); dumpExpression(atr->set);
     break;
   default:

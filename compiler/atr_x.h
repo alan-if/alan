@@ -30,7 +30,7 @@ extern Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value);
 extern Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance);
 extern Attribute *newSetAttribute(Srcp srcp, IdNode *id, Expression *set);
 
-extern void symbolizeAttributes(List *attributeList);
+extern void symbolizeAttributes(List *attributeList, Bool inClassDeclaration);
 extern List *sortAttributes(List *attributeList);
 extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);

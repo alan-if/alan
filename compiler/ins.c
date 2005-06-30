@@ -85,26 +85,14 @@ Instance *newInstance(Srcp *srcp,
 
 
 
-/*----------------------------------------------------------------------
-
-  symbolizeInstance()
-
-  Symbolize a Instance node.
-
- */
+/*----------------------------------------------------------------------*/
 static void symbolizeInstance(Instance *ins)
 {
-  symbolizeProps(ins->props);
+  symbolizeProps(ins->props, FALSE);
 }
 
 
-/*======================================================================
-
-  symbolizeInstances()
-
-  Symbolize all Instance nodes.
-
- */
+/*======================================================================*/
 void symbolizeInstances(void)
 {
   List *l;

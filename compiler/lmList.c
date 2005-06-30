@@ -157,6 +157,7 @@ static lmMsgs msg[] = {
     { "324   ", "Can not refer to %1 in %2." },
     { "325   ", "Can not use DIRECTLY with IN operating on a SET." },
     { "326   ", "Pronoun clause not allowed on entities inheriting from \'location\'." },
+    { "328   ", "Attribute \'%1\' is inherited from \'%2\' as an abstract attribute which is not initilized, only defined. Instances are required to initialize all abstract attributes." },
     { "329   ", "Attribute is inherited from class \'%1\', but the class %2 in this declaration (\'%3\') is not a subclass of the class infered for the inherited (\'%4\'), which it must be." },
     { "330   ", "Wrong type of expression in context of %2. Must be of %1 type." },
     { "331   ", "Incompatible types in %1." },
@@ -235,7 +236,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 155}
+    {0, 156}
 };
 static lmMessages currMsect = (lmMessages)0;
 

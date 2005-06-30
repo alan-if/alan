@@ -123,11 +123,11 @@ void addOpaqueAttribute(Properties *props, Bool opaque)
 
 
 /*======================================================================*/
-void symbolizeProps(Properties *props)
+void symbolizeProps(Properties *props, Bool inClassDeclaration)
 {
   symbolizeContainer(props->container);
   symbolizeParent(props);
-  symbolizeAttributes(props->attributes);
+  symbolizeAttributes(props->attributes, inClassDeclaration);
   if (props->container)
     addOpaqueAttribute(props, props->container->body->opaque);
   symbolizeWhere(props->whr);

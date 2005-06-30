@@ -43,7 +43,7 @@ extern Properties *newProps(Where *whr,
 			    List *vrbs,
 			    List *scrs);
 
-extern void symbolizeProps(Properties *props);
+extern void symbolizeProps(Properties *props, Bool inClassDeclaration);
 extern void analyzeProps(Properties *props, Context *context);
 extern void addOpaqueAttribute(Properties *props, Bool opaque);
 extern void generateCommonPropertiesData(Properties *props);

@@ -183,7 +183,7 @@ Class *newClass(Srcp *srcp,	/* IN - Source Position */
 /*----------------------------------------------------------------------*/
 static void symbolizeClass(Class *cla)
 {
-  symbolizeProps(cla->props);
+  symbolizeProps(cla->props, TRUE);
 
   if (cla->props->parentId != NULL) {
     if (cla->props->parentId->symbol != NULL) {

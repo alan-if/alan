@@ -22,6 +22,7 @@ typedef struct Attribute {
   Srcp srcp;			/* Source position of the attribute */
   TypeKind type;		/* Type of this attribute */
   IdNode *id;			/* Id of the attribute */
+  Symbol *definingSymbol;	/* Which entity originally defined it? */
   AttributeInheritance inheritance;
   Aword stringAddress;		/* Acode address to the attribute name */
   Aword address;		/* Acode address to the attribute value */
@@ -38,6 +39,7 @@ typedef struct Attribute {
   IdNode *reference;		/* REFERENCE - initial value and class in the
 				   symbol */
   Symbol *referenceClass;
+  Bool initialized;		/* Is it initialized or only classified */
 
   Expression *set;		/* SET - An expression for the initial set */
   TypeKind setType;		/* SET - Type of elements in SET */

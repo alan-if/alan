@@ -122,13 +122,7 @@ void generateId(IdNode *id)
 
 
 
-/*======================================================================
-
-  dumpId()
-
-  Dump an ID-node.
-
-  */
+/*======================================================================*/
 void dumpId(IdNode *id)
 {
   if (id == NULL) {
@@ -138,6 +132,6 @@ void dumpId(IdNode *id)
 
   put("ID: "); dumpSrcp(id->srcp);
   put(", "); dumpString(id->string);
-  put(", code: "); dumpInt(id->code);
+  put(":"); dumpInt(id->code);
   put(", "); dumpSymbol(id->symbol);
 }

@@ -872,9 +872,20 @@ static void replicatePronouns(Symbol *symbol)
 /*----------------------------------------------------------------------*/
 static void replicateAttributes(Symbol *symbol)
 {
+  List *atr;
+
   propertiesOf(symbol)->attributes =
     combineAttributes(propertiesOf(symbol)->attributes,
 		      propertiesOfParentOf(symbol)->attributes);
+
+  /* Verify that there are no inherited, non-initialized, attributes */
+  TRAVERSE(atr, propertiesOf(symbol)->attributes) {
+    Attribute *thisAttribute = atr->element.atr;
+    if (thisAttribute->type == REFERENCE_TYPE
+	&& !thisAttribute->initialized
+	&& symbol->kind != CLASS_SYMBOL)
+      lmLogv(&symbol->fields.entity.props->id->srcp, 328, sevERR, thisAttribute->id->string, thisAttribute->definingSymbol->string, NULL);
+  }
 }
 
 

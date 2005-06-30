@@ -239,8 +239,8 @@ void statusline(void)
   glk_window_move_cursor(glkStatusWin, 1, 0);
   interpret(instance[where(HERO, TRUE)].mentioned);
 
-  if (header->maxscore > 0)
-    sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maxscore, current.tick);
+  if (header->maximumScore > 0)
+    sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maximumScore, current.tick);
   else
     sprintf(line, "%d moves", current.tick);
   glk_window_move_cursor(glkStatusWin, glkWidth-col-strlen(line), 0);
@@ -432,6 +432,11 @@ static void capitalizeFirst(char *str) {
 /*----------------------------------------------------------------------*/
 static void justify(char str[])
 {
+  if (capitalize) {
+    capitalizeFirst(str);
+    capitalize = FALSE;
+  }
+
 #ifdef HAVE_GLK
   printAndLog(str);
 #else
@@ -440,9 +445,6 @@ static void justify(char str[])
   
   if (col >= pageWidth && !skipSpace)
     newline();
-
-  if (capitalize)
-    capitalizeFirst(str);
 
   while (strlen(str) > pageWidth - col) {
     i = pageWidth - col - 1;
@@ -689,9 +691,6 @@ void output(char original[])
     *symptr = ch;		/* restore '$' */
     str = printSymbol(symptr);	/* Print the symbolic reference and advance */
   }
-
-  if (capitalize)
-    capitalizeFirst(str);
 
   if (str[0] != 0) {
     justify(str);			/* Output trailing part */
