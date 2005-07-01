@@ -1,0 +1,2 @@
+#!/bin/sh
+/c/Program/Winmerge/winmerge $1.expected $1.output

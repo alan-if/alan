@@ -5,13 +5,15 @@
 
 run ()
 {
-    echo "$case : "
-    diff -b -c $case.expected $case.output
+    echo -n "$case : "
+    ./.regr $case
+    cases=`expr $cases + 1`
 }
 
+cases=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
-    case=`basename $f .output`
+    case=`basename $f .alan`
     if [ "$case" != "$f" ]
     then
 	run
@@ -21,12 +23,8 @@ if [ $# != 0 ] ; then
     fi
   done
 else
-  for f in *.output ; do
-    case=`basename $f .output`
-    if [ -f $case.alan -a -f $case.expected ]
-    then
-	run
-    fi
+  for f in *.alan ; do
+    case=`basename $f .alan`
+    run
   done
 fi
-

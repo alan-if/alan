@@ -1,0 +1,16 @@
+#! /bin/sh
+  for f in *.output ; do
+    case=`basename $f .output`
+    if test -f $case.alan
+    then
+	if test -f $case.expected
+	then
+	    if test -f $case.suspended
+	    then
+	    else
+		echo $case
+	    fi
+	fi
+    fi
+  done
+	
