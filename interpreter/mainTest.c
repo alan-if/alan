@@ -65,8 +65,18 @@ static void testCopyAttributes() {
   ASSERT(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 
+static void testFullStopOrCommaNext() {
+  ASSERT(fullStopOrCommaNext("."));
+  ASSERT(fullStopOrCommaNext(".$p"));
+  ASSERT(fullStopOrCommaNext(".$n"));
+  ASSERT(fullStopOrCommaNext(".$t"));
+  ASSERT(!fullStopOrCommaNext("a."));
+  ASSERT(!fullStopOrCommaNext("$p."));
+}
+
 void registerMainUnitTests()
 {
+  registerUnitTest(testFullStopOrCommaNext);
   registerUnitTest(testUpdateColumn);
   registerUnitTest(testCopyAttributes);
 }

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>428.89</origest>
 <currest>427.89</currest>
-<elapsed>287.89</elapsed>
+<elapsed>289.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>64</origest>
 <currest>64</currest>
-<elapsed>18</elapsed>
+<elapsed>20</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>29</origest>
 <currest>29</currest>
-<elapsed>17</elapsed>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -208,7 +208,7 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -217,12 +217,12 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>There should be no space before a full stop even if the previous output was an expression.</desc>
-<notes>"string" Say Count ... ".$p" generates an extra space</notes>
+<notes>"string" Say Count ... ".$p" generates an extra space. Problem is obviously the $p since without it it works ok.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

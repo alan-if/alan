@@ -614,6 +614,7 @@ static void analyzeClassingFilter(char *message,
   case WHERE_EXPRESSION:
     analyzeWhereFilter(theFilter, context);
     switch (theFilter->fields.whr.whr->kind) {
+    case WHERE_IN:
     case WHERE_INSET: {
       theFilter->class = theFilter->fields.whr.whr->what->class;
       theFilter->type = theFilter->fields.whr.whr->what->type;

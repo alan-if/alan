@@ -639,8 +639,19 @@ static Bool inhibitSpace(char *str) {
 
 
 /*----------------------------------------------------------------------*/
+static Bool isSpaceEquivalent(char str[]) {
+  if (strlen(str) > 1)
+    return strncmp(str, "$p", 2)
+      || strncmp(str, "$n", 2)
+      || strncmp(str, "$t", 2);
+  else
+    return str[0] == ' ';
+}
+
+/*----------------------------------------------------------------------*/
 static Bool fullStopOrCommaNext(char *str) {
-  return (str[0] == '.' || str[0] == ',') && (str[1] == '\0' || str[1] == ' ');
+  return (str[0] == '.' || str[0] == ',')
+    && (str[1] == '\0' || isSpaceEquivalent(&str[1]));
 }
 
 
@@ -668,7 +679,9 @@ void output(char original[])
   copy = strdup(original);
   str = copy;
 
-  if (!(inhibitSpace(str) || fullStopOrCommaNext(str)))
+  if (inhibitSpace(str) || fullStopOrCommaNext(str))
+    needSpace = FALSE;
+  else
     space();			/* Output space if needed (& not inhibited) */
 
   /* Output string up to symbol and handle the symbol */
