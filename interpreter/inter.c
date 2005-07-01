@@ -296,10 +296,18 @@ static void traceIntegerTopValue() {
 /*----------------------------------------------------------------------*/
 static void traceInstanceTopValue() {
   if (singleStepOption) {
-    printf("\t=%ld\t(", top());
+    printf("\t=%ld ('", top());
     traceSay(top());
-    printf(")");
+    printf("')");
+    if (traceStackOption)
+      printf("\n\t\t\t\t\t\t\t");
   }
+}
+
+/*----------------------------------------------------------------------*/
+static char *directlyFlag(Abool bool) {
+  if (bool) return "Direct";
+  else return " Trans";
 }
 
 /*----------------------------------------------------------------------*/
@@ -348,6 +356,9 @@ static void checkForRecursion(Aaddr adr) {
   if (recursions > 1000)
     syserr("Interpreter call stack too deep.");
 }
+
+
+static Bool skipStackDump = FALSE; /* Need to be able to skip it for LINE */
 
 /*======================================================================*/
 void interpret(Aaddr adr)
@@ -420,22 +431,39 @@ void interpret(Aaddr adr)
     case C_STMOP:
       if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
+
+      case I_DUP:
+	if (singleStepOption)
+	  printf("DUP\t\t\t\t\t\t");
+	stackDup();
+	break;
+
       case I_POP: {
-	Aword top;
-	top = pop();
+	Aword top = pop();
 	if (singleStepOption)
 	  printf("POP\t%7ld", top);
 	break;
       }
+
       case I_LINE: {
-	Aword file, line;
-	line = pop();
-	file = pop();
+	Aint line = pop();
+	Aint file = pop();
 	if (singleStepOption)
 	  printf("LINE\t%7ld, %7ld\t\t\t", file, line);
+	if (traceStackOption)
+	  dumpStack();
+	skipStackDump = TRUE;
 	if (line != 0) {
 	  Bool atNext = stopAtNextLine && line != current.sourceLine;
 	  Bool atBreakpoint =  breakpointIndex(line) != -1;
+	  if (traceSourceOption
+	      && (line != current.sourceLine || file != current.sourceFile)) {
+	    if (col != 1 || singleStepOption)
+	      newline();
+	    showSourceLine(line, file);
+	    if (!singleStepOption)
+	      newline();
+	  }
 	  current.sourceLine = line;
 	  current.sourceFile = file;
 	  if (atNext || atBreakpoint) {
@@ -445,32 +473,35 @@ void interpret(Aaddr adr)
 	}
 	break;
       }
+
       case I_PRINT: {
-	Aword fpos, len;
-	fpos = pop();
-	len = pop();
+	Aint fpos = pop();
+	Aint len = pop();
 	if (singleStepOption) {
 	  printf("PRINT \t%7ld, %7ld\t\"", fpos, len);
 	  col = 41;		/* To break lines better! */
 	}
 	print(fpos, len);
-	if (singleStepOption)
-	  printf("\"\n\t\t\t\t\t\t\t");
+	if (singleStepOption) {
+	  printf("\"");
+	  if (traceStackOption)
+	    printf("\n\t\t\t\t\t\t\t");
+	}
 	break;
       }
+
       case I_STYLE: {
-	Aword style;
-	style = pop();
+	Aword style = pop();
 	if (singleStepOption) {
 	  printf("STYLE \t%7ld\t\t\"", style);
 	}
 	setStyle(style);
 	break;
       }
+
       case I_SYSTEM: {
-	Aword fpos, len;
-	fpos = pop();
-	len = pop();
+	Aint fpos = pop();
+	Aint len = pop();
 	if (singleStepOption) {
 	  printf("SYSTEM \t%7ld, %7ld\t\"", fpos, len);
 	  col = 34;		/* To format it better! */
@@ -480,16 +511,17 @@ void interpret(Aaddr adr)
 	  printf("\"\t\t\t\t\t\t");
 	break;
       }
+
       case I_GETSTR: {
-	Aword fpos, len;
-	fpos = pop();
-	len = pop();
+	Aint fpos = pop();
+	Aint len = pop();
 	if (singleStepOption)
 	  printf("GETSTR\t%7ld, %7ld", fpos, len);
 	push((Aword)getStringFromFile(fpos, len));
 	traceStringTopValue();
 	break;
       }
+
       case I_QUIT: {
 	if (singleStepOption)
 	  printf("QUIT\t\t\t\t\t\t");
@@ -520,72 +552,66 @@ void interpret(Aaddr adr)
 	restartGame();
 	break;
       }
-      case I_LIST: {
-	Aword cnt;
-	cnt = pop();
-	if (singleStepOption)
-	  printf("LIST \t%7ld\t\t\t\t\t", cnt);
-	list(cnt);
-	break;
-      }
-      case I_EMPTY: {
-	Aword cnt, whr;
-	cnt = pop();
-	whr = pop();
-	if (singleStepOption)
-	  printf("EMPTY \t%7ld, %7ld\t\t\t\t", cnt, whr);
-	empty(cnt, whr);
-	break;
-      }
+
       case I_SCORE: {
-	Aword sc;
-	sc = pop();
+	Aword sc = pop();
 	if (singleStepOption)
 	  printf("SCORE \t%7ld\t\t=%ld\t\t\t", sc, scores[sc-1]);
 	score(sc);
 	break;
       }
       case I_VISITS: {
-	Aword v;
-	v = pop();
+	Aword v = pop();
 	if (singleStepOption)
 	  printf("VISITS \t%7ld\t\t\t\t\t", v);
 	visits(v);
 	break;
       }
-      case I_SCHEDULE: {
-	Aword evt, whr, aft;
-	evt = pop();
-	whr = pop();
-	aft = pop();
+
+      case I_LIST: {
+	Aword cnt = pop();
 	if (singleStepOption)
-	  printf("SCHEDULE \t%7ld, %7ld, %7ld\t\t\t\t", evt, whr, aft);
-	schedule(evt, whr, aft);
+	  printf("LIST \t%7ld\t\t\t\t\t", cnt);
+	list(cnt);
+	break;
+      }
+      case I_EMPTY: {
+	Aint cnt = pop();
+	Aint whr = pop();
+	if (singleStepOption)
+	  printf("EMPTY \t%7ld, %7ld\t\t\t\t", cnt, whr);
+	empty(cnt, whr);
+	break;
+      }
+      case I_SCHEDULE: {
+	Aint event = pop();
+	Aint where = pop();
+	Aint after = pop();
+	if (singleStepOption)
+	  printf("SCHEDULE \t%7ld, %7ld, %7ld\t\t\t\t", event, where, after);
+	schedule(event, where, after);
 	break;
       }
       case I_CANCEL: {
-	Aword evt;
-	evt = pop();
+	Aword event = pop();
 	if (singleStepOption)
-	  printf("CANCEL \t%7ld\t\t\t\t", evt);
-	cancelEvent(evt);
+	  printf("CANCEL \t%7ld\t\t\t\t", event);
+	cancelEvent(event);
 	break;
       }
       case I_MAKE: {
-	Aword id, atr, val;
-	id = pop();
-	atr = pop();
-	val = pop();
+	Aint id = pop();
+	Aint atr = pop();
+	Abool val = pop();
 	if (singleStepOption)
 	  printf("MAKE \t%7ld, %7ld, %s\t\t\t", id, atr, booleanValue(val));
 	setValue(id, atr, val);
 	break;
       }
       case I_SET: {
-	Aword id, atr, val;
-	id = pop();
-	atr = pop();
-	val = pop();
+	Aint id = pop();
+	Aint atr = pop();
+	Aint val = pop();
 	if (singleStepOption) {
 	  printf("SET \t%7ld, %7ld, %7ld\t\t\t\t", id, atr, val);
 	}
@@ -593,10 +619,9 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SETSTR: {
-	Aword id, atr, str;
-	id = pop();
-	atr = pop();
-	str = pop();
+	Aint id = pop();
+	Aint atr = pop();
+	Aword str = pop();
 	if (singleStepOption) {
 	  printf("SETSTR\t%7ld, %7ld, %s\t\t\t\t", id, atr, stringValue(str));
 	}
@@ -604,10 +629,9 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SETSET: {
-	Aword id, atr, set;
-	id = pop();
-	atr = pop();
-	set = pop();
+	Aint id = pop();
+	Aint atr = pop();
+	Aword set = pop();
 	if (singleStepOption) {
 	  printf("STRSET\t%7ld, %7ld, %7ld\t\t\t\t", id, atr, set);
 	}
@@ -624,9 +648,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_UNION: {
-	Aword set1, set2;
-	set2 = pop();
-	set1 = top();
+	Aword set2 = pop();
+	Aword set1 = top();
 	if (singleStepOption) {
 	  printf("UNION\t%7ld, %7ld\t\t\t\t", set1, set2);
 	}
@@ -636,8 +659,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_INCR: {
-	Aint step;
-	step = pop();
+	Aint step = pop();
 	if (singleStepOption) {
 	  printf("INCR\t%7ld", step);
 	}
@@ -646,8 +668,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_DECR: {
-	Aint step;
-	step = pop();
+	Aint step = pop();
 	if (singleStepOption) {
 	  printf("DECR\t%7ld\t\t\t\t\t", step);
 	}
@@ -656,8 +677,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_INCLUDE: {
-	Aword member;
-	member = pop();
+	Aword member = pop();
 	if (singleStepOption) {
 	  printf("INCLUDE\t%7ld", member);
 	}
@@ -665,8 +685,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_EXCLUDE: {
-	Aword member;
-	member = pop();
+	Aword member = pop();
 	if (singleStepOption) {
 	  printf("EXCLUDE\t%7ld", member);
 	}
@@ -696,7 +715,7 @@ void interpret(Aaddr adr)
 	Abool directly = pop();
 	Aint container = pop();
 	if (singleStepOption)
-	  printf("CONTSIZE\t%7ld, %7ld\t", container, directly);
+	  printf("CONTSIZE\t%7ld, %7s\t", container, directlyFlag(directly));
 	push(containerSize(container, directly));
 	if (singleStepOption)
 	  traceIntegerTopValue();
@@ -707,16 +726,15 @@ void interpret(Aaddr adr)
 	Aint container = pop();
 	Aint index = pop();
 	if (singleStepOption)
-	  printf("CONTMEMB\t%7ld, %7ld, %7ld", container, index, directly);
+	  printf("CONTMEMB\t%7ld, %7ld, %7s", container, index, directlyFlag(directly));
 	push(getContainerMember(container, index, directly));
 	if (singleStepOption)
 	  traceIntegerTopValue();
 	break;
       }
       case I_ATTRIBUTE: {
-	Aword id, atr;
-	id = pop();
-	atr = pop();
+	Aint id = pop();
+	Aint atr = pop();
 	if (singleStepOption)
 	  printf("ATTRIBUTE %7ld, %7ld\t", id, atr);
 	push(attributeOf(id, atr));
@@ -724,9 +742,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_ATTRSTR: {
-	Aword id, atr;
-	id = pop();
-	atr = pop();
+	Aint id = pop();
+	Aint atr = pop();
 	if (singleStepOption)
 	  printf("STRATTR \t%7ld, %7ld\t", id, atr);
 	push(getStringAttribute(id, atr));
@@ -734,9 +751,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_ATTRSET: {
-	Aword id, atr;
-	id = pop();
-	atr = pop();
+	Aint id = pop();
+	Aint atr = pop();
 	if (singleStepOption)
 	  printf("ATTRSET \t%7ld, %7ld", id, atr);
 	push(getSetAttribute(id, atr));
@@ -744,112 +760,96 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SHOW: {
-	Aword image, align;
-	image = pop();
-	align = pop();
+	Aint image = pop();
+	Aint align = pop();
 	if (singleStepOption)
 	  printf("SHOW \t%7ld, %7ld\t\t\t\t", image, align);
 	showImage(image, align);
 	break;
       }
       case I_PLAY: {
-	Aword sound, align;
-	sound = pop();
-	align = pop();
+	Aint sound = pop();
 	if (singleStepOption)
 	  printf("PLAY \t%7ld\t\t\t\t", sound);
 	playSound(sound);
 	break;
       }
       case I_LOCATE: {
-	Aword id, whr;
-	id = pop();
-	whr = pop();
+	Aint id = pop();
+	Aint whr = pop();
 	if (singleStepOption)
-	  printf("LOCATE \t%7ld, %7ld\t\t\t\t", id, whr);
+	  printf("LOCATE \t%7ld, %7ld\t\t\t", id, whr);
 	locate(id, whr);
 	break;
       }
       case I_WHERE: {
-	Aword id;
-	id = pop();
+	Abool directly = pop();
+	Aword id = pop();
 	if (singleStepOption)
-	  printf("WHERE \t%7ld\t\t\t", id);
-	push(where(id, TRUE));
+	  printf("WHERE \t%7ld, %7s", id, directlyFlag(directly));
+	push(where(id, directly));
 	traceInstanceTopValue();
 	break;
       }
       case I_LOCATION: {
-	Aword id;
-	id = pop();
+	Aword id = pop();
 	if (singleStepOption)
-	  printf("LOCATION \t%7ld\t\t\t", id);
+	  printf("LOCATION \t%7ld\t\t", id);
 	push(location(id));
 	traceInstanceTopValue();
 	break;
       }
       case I_HERE: {
-	Aword id;
-	Abool directly;
-	directly = pop();
-	id = pop();
+	Abool directly = pop();
+	Aint id = pop();
 	if (singleStepOption)
-	  printf("HERE \t%7ld, %s\t\t\t", id, booleanValue(directly));
+	  printf("HERE \t%7ld, %s\t\t\t", id, directlyFlag(directly));
 	push(isHere(id, directly));
 	traceBooleanTopValue();
 	break;
       }
       case I_NEARBY: {
-	Aword id;
-	Abool directly;
-	directly = pop();
-	id = pop();
+	Abool directly = pop();
+	Aint id = pop();
 	if (singleStepOption)
-	  printf("NEARBY \t%7ld, %s\t\t\t", id, booleanValue(directly));
+	  printf("NEARBY \t%7ld, %s\t\t\t", id, directlyFlag(directly));
 	push(isNearby(id, directly));
 	traceBooleanTopValue();
 	break;
       }
       case I_NEAR: {
-	Aword id, other;
-	Abool directly;
-	other = pop();
-	directly = pop();
-	id = pop();
+	Abool directly = pop();
+	Aint other = pop();
+	Aint id = pop();
 	if (singleStepOption)
-	  printf("NEAR \t%7ld, %7ld, %s\t\t\t", id, other, booleanValue(directly));
+	  printf("NEAR \t%7ld, %7ld, %s\t\t\t", id, other, directlyFlag(directly));
 	push(isNear(id, other, directly));
 	traceBooleanTopValue();
 	break;
       }
       case I_AT: {
-	Aword instance, other;
-	Abool directly;
-	other = pop();
-	directly = pop();
-	instance = pop();
+	Abool directly = pop();
+	Aint other = pop();
+	Aint instance = pop();
 	if (singleStepOption)
-	  printf("AT \t%7ld, %7ld, %s", instance, other, booleanValue(directly));
+	  printf("AT \t%7ld, %7ld, %s", instance, other, directlyFlag(directly));
 	push(at(instance, other, directly));
 	traceBooleanTopValue();
 	break;
       }
       case I_IN: {
-	Aword obj, cnt;
-	Abool directly;
-	directly = pop();
-	cnt = pop();
-	obj = pop();
+	Abool directly = pop();
+	Aint cnt = pop();
+	Aint obj = pop();
 	if (singleStepOption)
-	  printf("IN \t%7ld, %7ld, %s", obj, cnt, booleanValue(directly));
+	  printf("IN \t%7ld, %7ld, %s", obj, cnt, directlyFlag(directly));
 	push(in(obj, cnt, directly));
 	traceBooleanTopValue();
 	break;
       }
       case I_INSET: {
-	Aword element, set;
-	set = pop();
-	element = pop();
+	Aword set = pop();
+	Aword element = pop();
 	if (singleStepOption)
 	  printf("INSET \t%7ld, %7ld", element, set);
 	push(inSet((Set*)set, element));
@@ -857,25 +857,22 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_USE: {
-	Aword act, scr;
-	act = pop();
-	scr = pop();
+	Aint act = pop();
+	Aint scr = pop();
 	if (singleStepOption)
 	  printf("USE \t%7ld, %7ld\t\t\t\t", act, scr);
 	use(act, scr);
 	break;
       }
       case I_STOP: {
-	Aword actor;
-	actor = pop();
+	Aword actor = pop();
 	if (singleStepOption)
 	  printf("STOP \t%7ld\t\t\t\t\t", actor);
 	stop(actor);
 	break;
       }
       case I_DESCRIBE: {
-	Aword id;
-	id = pop();
+	Aword id = pop();
 	if (singleStepOption) {
 	  printf("DESCRIBE \t%7ld\t\t\t", id);
 	  col = 41;		/* To format it better! */
@@ -886,9 +883,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SAY: {
-	Aword form, id;
-	form = pop();
-	id = pop();
+	Aint form = pop();
+	Aint id = pop();
 	if (singleStepOption)
 	  printf("SAY\t%7s, %7ld\t\t\t", printForm(form), id);
 	if (form == SAY_SIMPLE)
@@ -900,8 +896,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SAYINT: {
-	Aword val;
-	val = pop();
+	Aword val = pop();
 	if (singleStepOption)
 	  printf("SAYINT\t%7ld\t\t\t\"", val);
 	sayInteger(val);
@@ -910,8 +905,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SAYSTR: {
-	Aword adr;
-	adr = pop();
+	Aword adr = pop();
 	if (singleStepOption)
 	  printf("SAYSTR\t%7ld\t\ty\t", adr);
 	sayString((char *)adr);
@@ -920,8 +914,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_IF: {
-	Aword v;
-	v = pop();
+	Aword v = pop();
 	if (singleStepOption) {
 	  printf("IF \t");
 	  if (v) printf("   TRUE"); else printf("  FALSE");
@@ -942,9 +935,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_AND: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("AND \t%s, %s", booleanValue(lh), booleanValue(rh));
 	push(lh && rh);
@@ -952,9 +944,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_OR: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("OR \t%s, %s", booleanValue(lh), booleanValue(rh));
 	push(lh || rh);
@@ -962,9 +953,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_NE: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("NE \t%7ld, %7ld", lh, rh);
 	push(lh != rh);
@@ -972,9 +962,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_EQ: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("EQ \t%7ld, %7ld", lh, rh);
 	push(lh == rh);
@@ -982,9 +971,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_STREQ: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("STREQ \t%7ld, %7ld", lh, rh);
 	push(streq((char *)lh, (char *)rh));
@@ -992,9 +980,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_STREXACT: {
-	Aword lh, rh;
-	rh = pop();
-	lh = pop();
+	Aword rh = pop();
+	Aword lh = pop();
 	if (singleStepOption)
 	  printf("STREXACT \t%7ld, %7ld", lh, rh);
 	push(strcmp((char *)lh, (char *)rh) == 0);
@@ -1004,9 +991,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_LE: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("LE \t%7ld, %7ld", lh, rh);
 	push(lh <= rh);
@@ -1014,9 +1000,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_GE: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("GE \t%7ld, %7ld", lh, rh);
 	push(lh >= rh);
@@ -1024,9 +1009,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_LT: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("LT \t%7ld, %7ld", lh, rh);
 	push(lh < rh);
@@ -1034,9 +1018,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_GT: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("GT \t%7ld, %7ld", lh, rh);
 	push(lh > rh);
@@ -1044,9 +1027,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_PLUS: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("PLUS \t%7ld, %7ld", lh, rh);
 	push(lh + rh);
@@ -1054,9 +1036,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_MINUS: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("MINUS \t%7ld, %7ld", lh, rh);
 	push(lh - rh);
@@ -1064,9 +1045,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_MULT: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("MULT \t%7ld, %7ld", lh, rh);
 	push(lh * rh);
@@ -1074,9 +1054,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_DIV: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("DIV \t%7ld, %7ld", lh, rh);
 	push(lh / rh);
@@ -1084,8 +1063,7 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_NOT: {
-	Aword val;
-	val = pop();
+	Aword val = pop();
 	if (singleStepOption)
 	  printf("NOT \t%s\t\t", booleanValue(val));
 	push(!val);
@@ -1093,9 +1071,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_RND: {
-	Aword  from, to;
-	from = pop();
-	to = pop();
+	Aint from = pop();
+	Aint to = pop();
 	if (singleStepOption)
 	  printf("RANDOM \t%7ld, %7ld", from, to);
 	push(randomInteger(from, to));
@@ -1103,10 +1080,9 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_BTW: {
-	Aint low, high, val;
-	high = pop();
-	low = pop();
-	val = pop();
+	Aint high = pop();
+	Aint low = pop();
+	Aint val = pop();
 	if (singleStepOption)
 	  printf("BETWEEN \t%7ld, %7ld, %7ld", val, low, high);
 	push(btw(val, low, high));
@@ -1114,13 +1090,12 @@ void interpret(Aaddr adr)
 	break;
       }
 
-	/*------------------------------------------------------------*	\
+	/*------------------------------------------------------------*\
 	  String functions
 	\*------------------------------------------------------------*/
       case I_CONCAT: {
-	Aword s1, s2;
-	s2 = pop();
-	s1 = pop();
+	Aword s2 = pop();
+	Aword s1 = pop();
 	if (singleStepOption)
 	  printf("CONCAT \t%7ld, %7ld", s1, s2);
 	push(concat(s1, s2));
@@ -1129,9 +1104,8 @@ void interpret(Aaddr adr)
       }
 
       case I_CONTAINS: {
-	Aword string, substring;
-	substring = pop();
-	string = pop();
+	Aword substring = pop();
+	Aword string = pop();
 	if (singleStepOption)
 	  printf("CONTAINS \t%7ld, %7ld", string, substring);
 	push(contains(string, substring));
@@ -1140,12 +1114,11 @@ void interpret(Aaddr adr)
       }
 
       case I_STRIP: {
-	Aword first, count, words, id, atr;
-	id = pop();
-	atr = pop();
-	words = pop();
-	count = pop();
-	first = pop();
+	Aint id = pop();
+	Aint atr = pop();
+	Aint words = pop();
+	Aint count = pop();
+	Aint first = pop();
 	if (singleStepOption)
 	  printf("STRIP \t%7ld, %7ld, %7ld, %7ld, %7ld", first, count, words, id, atr);
 	push(strip(first, count, words, id, atr));
@@ -1153,6 +1126,9 @@ void interpret(Aaddr adr)
 	break;
       }
 
+	/*------------------------------------------------------------*\
+	  Aggregation
+	\*------------------------------------------------------------*/
       case I_AGRSTART: {
 	Aint index = pop();
 	Aint value = pop();
@@ -1180,9 +1156,7 @@ void interpret(Aaddr adr)
 	Aint attribute = pop();
 	Aint loopValue = pop();
 	Aint loopIndex = pop();
-	Aint min;
-
-	min = pop();
+	Aint min = pop();
 	if (singleStepOption)
 	  printf("MIN \t%7ld\t\t", attribute);
 	if (min > attributeOf(loopIndex, attribute))
@@ -1198,9 +1172,7 @@ void interpret(Aaddr adr)
 	Aint attribute = pop();
 	Aint loopValue = pop();
 	Aint loopIndex = pop();
-	Aint max;
-
-	max = pop();
+	Aint max = pop();
 	if (singleStepOption)
 	  printf("MAX \t%7ld\t\t", attribute);
 	if (max < attributeOf(loopIndex, attribute))
@@ -1216,9 +1188,7 @@ void interpret(Aaddr adr)
 	Aint attribute = pop();
 	Aint loopValue = pop();
 	Aint loopIndex = pop();
-	Aint sum;
-
-	sum = pop();
+	Aint sum = pop();
 	if (singleStepOption)
 	  printf("SUM \t%7ld\t\t", attribute);
 	push(sum + attributeOf(loopIndex, attribute));
@@ -1260,12 +1230,9 @@ void interpret(Aaddr adr)
 	break;
       }
 
-      case I_DUP:
-	if (singleStepOption)
-	  printf("DUP\t\t\t\t\t\t");
-	stackDup();
-	break;
-
+	/*------------------------------------------------------------*\
+	  Depending On
+	\*------------------------------------------------------------*/
       case I_DEPEND:
 	if (singleStepOption)
 	  printf("DEPEND\t\t\t\t\t\t");
@@ -1278,8 +1245,7 @@ void interpret(Aaddr adr)
 	break;
 
       case I_DEPEXEC: {
-	Aword v;
-	v = pop();
+	Aword v = pop();
 	if (singleStepOption) {
 	  printf("DEPEXEC \t\t\t");
 	  if (v) printf(" TRUE"); else printf("FALSE");
@@ -1302,9 +1268,8 @@ void interpret(Aaddr adr)
 	break;
 
       case I_ISA: {
-	Aint lh, rh;
-	rh = pop();
-	lh = pop();
+	Aint rh = pop();
+	Aint lh = pop();
 	if (singleStepOption)
 	  printf("ISA \t%7ld, %7ld\t", lh, rh);
 	push(isA(lh, rh));
@@ -1313,8 +1278,7 @@ void interpret(Aaddr adr)
       }
 
       case I_FRAME: {
-	Aint size;
-	size = pop();
+	Aint size = pop();
 	if (singleStepOption)
 	  printf("FRAME \t%7ld\t\t\t\t\t", size);
 	newFrame(size);
@@ -1322,9 +1286,8 @@ void interpret(Aaddr adr)
       }
 
       case I_GETLOCAL: {
-	Aint framesBelow, variableNumber;
-	framesBelow = pop();
-	variableNumber = pop();
+	Aint framesBelow = pop();
+	Aint variableNumber = pop();
 	if (singleStepOption)
 	  printf("GETLOCAL \t%7ld, %7ld", framesBelow, variableNumber);
 	push(getLocal(framesBelow, variableNumber));
@@ -1333,10 +1296,9 @@ void interpret(Aaddr adr)
       }
 
       case I_SETLOCAL: {
-	Aint framesBelow, variableNumber, value;
-	framesBelow = pop();
-	variableNumber = pop();
-	value = pop();
+	Aint framesBelow = pop();
+	Aint variableNumber = pop();
+	Aint value = pop();
 	if (singleStepOption)
 	  printf("SETLOCAL \t%7ld, %7ld, %7ld\t\t\t\t", framesBelow, variableNumber, value);
 	setLocal(framesBelow, variableNumber, value);
@@ -1386,8 +1348,11 @@ void interpret(Aaddr adr)
 	pc = oldpc;
 	goto exitInterpreter;
       }
-      if (traceStackOption)
-	dumpStack();
+      if (traceStackOption) {
+	if (!skipStackDump)
+	  dumpStack();
+	skipStackDump = FALSE;
+      }      
       break;
 
     default:

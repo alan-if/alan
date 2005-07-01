@@ -88,6 +88,31 @@ static void showContents(int cnt)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void showInstanceLocation(int ins) {
+  char buffer[1000];
+
+  if (admin[ins].location == 0)
+    output("nowhere (0)");
+  else if (isLocation(admin[ins].location)) {
+    output("at");
+    say(admin[ins].location);
+    sprintf(buffer, "(%ld)", admin[ins].location);
+    output(buffer);
+  } else if (isContainer(admin[ins].location)) {
+
+    if (isObject(admin[ins].location))
+      output("in");
+    else if (isActor(admin[ins].location))
+      output("carried by");
+    say(admin[ins].location);
+    sprintf(buffer, "(%ld)", admin[ins].location);
+    output(buffer);
+
+  } else
+    output("Illegal location!");
+}
+
 
 /*----------------------------------------------------------------------*/
 static void showInstances(void)
@@ -102,9 +127,10 @@ static void showInstances(void)
     say(ins);
     if (instance[ins].container)
       output("(container)");
+    output(",");
+    showInstanceLocation(ins);
   }
 }
-
 
 /*----------------------------------------------------------------------*/
 static void showInstance(int ins)
@@ -129,25 +155,7 @@ static void showInstance(int ins)
   if (!isA(ins, header->locationClassId)) {
     sprintf(str, "$iLocation: ");
     output(str);
-    if (admin[ins].location == 0)
-      output("- (0)");
-    else if (isLocation(admin[ins].location)) {
-      output("at");
-      say(admin[ins].location);
-      sprintf(str, "(%ld)", admin[ins].location);
-      output(str);
-    } else if (isContainer(admin[ins].location)) {
-
-      if (isObject(admin[ins].location))
-	output("in");
-      else if (isActor(admin[ins].location))
-	output("carried by");
-      say(admin[ins].location);
-      sprintf(str, "(%ld)", admin[ins].location);
-      output(str);
-
-    } else
-      output("Illegal location!");
+    showInstanceLocation(ins);
   }
 
   output("$iAttributes:");
@@ -406,13 +414,13 @@ static char buffer[SOURCELINELENGTH];
   return NULL;
 }
 
-/*----------------------------------------------------------------------*/
-static void showSourceLine(int line, int fileNumber) {
+/*======================================================================*/
+void showSourceLine(int line, int fileNumber) {
   char *buffer = readSourceLine(line, fileNumber);
   if (buffer != NULL) {
-    printf("abug: %s", buffer);
-    if (buffer[strlen(buffer)-1] != '\n')
-      printf("\n");
+    if (buffer[strlen(buffer)-1] == '\n')
+      buffer[strlen(buffer)-1] = '\0';
+    printf("<%05d>: %s", line, buffer);
   }
 }
 
@@ -493,7 +501,7 @@ static void deleteBreakpoint(int line, int file) {
 
 
 
-static Bool trc, stp, cap, psh;
+static Bool trc, stp, cap, psh, stk;
 static int loc;
 
 /*======================================================================*/
@@ -504,6 +512,7 @@ void saveInfo(void)
   trc = sectionTraceOption; sectionTraceOption = FALSE;
   stp = singleStepOption; singleStepOption = FALSE;
   psh = tracePushOption; tracePushOption = FALSE;
+  stk = traceStackOption; traceStackOption = FALSE;
   loc = current.location; current.location = where(HERO, TRUE);
 }
 
@@ -516,6 +525,7 @@ void restoreInfo(void)
   sectionTraceOption = trc;
   singleStepOption = stp;
   tracePushOption = psh;
+  traceStackOption = stk;
   current.location = loc;
 }
 
@@ -538,6 +548,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
     printf("%s %s line %d in '%s':\n", debugPrefix, cause, line,
 	    sourceFileName(fileNumber));
     showSourceLine(line, fileNumber);
+    printf("\n");
     anyOutput = FALSE;
   }
 

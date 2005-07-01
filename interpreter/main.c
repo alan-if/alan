@@ -89,6 +89,7 @@ Bool debugOption = FALSE;
 Bool sectionTraceOption = FALSE;
 Bool tracePushOption = FALSE;
 Bool traceStackOption = FALSE;
+Bool traceSourceOption = FALSE;
 Bool singleStepOption = FALSE;
 Bool transcriptOption = FALSE;
 Bool logOption = FALSE;
@@ -420,22 +421,20 @@ void *duplicate(void *original, unsigned long len)
 static void capitalizeFirst(char *str) {
   int i = 0;
 
-#ifdef CAPITALIZEFIRSTLETTER
-  /* Skip over non-letters... */
-  while (!isLetter(str[i]) && i < strlen(str)) i++;
-#endif
-  str[i] = toUpper(str[i]);
-  capitalize = FALSE;
+  /* Skip over space... */
+  while (i < strlen(str) && isSpace(str[i])) i++;
+  if (i < strlen(str)) {
+    str[i] = toUpper(str[i]);
+    capitalize = FALSE;
+  }
 }
 
 
 /*----------------------------------------------------------------------*/
 static void justify(char str[])
 {
-  if (capitalize) {
+  if (capitalize)
     capitalizeFirst(str);
-    capitalize = FALSE;
-  }
 
 #ifdef HAVE_GLK
   printAndLog(str);
@@ -698,8 +697,9 @@ void output(char original[])
     if (lastCharOf(str) != ' ')
       needSpace = TRUE;
   }
+  if (needSpace)
+    capitalize = str[strlen(str)-1] == '.';
   anyOutput = TRUE;
-  capitalize = str[strlen(str)-1] == '.';
   free(copy);
 }
 

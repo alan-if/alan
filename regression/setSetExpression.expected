@@ -5,7 +5,7 @@
 
 LocationSet should = 2, actual = 2 .
 
-l1 l2 Should be "l1 & l2".
+L1 l2 Should be "l1 & l2".
 
 
 

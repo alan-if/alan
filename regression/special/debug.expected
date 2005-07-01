@@ -6,16 +6,16 @@
 
 abug> i
 Instances: 
-      1: l 
-      2: t 
-      3: hero
+      1: l, nowhere (0) 
+      2: t, nowhere (0) 
+      3: hero, at l (1)
 abug> i 1
 The l (1) Isa location 
     Attributes: 
         x(2) = 1
 abug> i 2
 The t (2) Isa object 
-    Location: - (0) 
+    Location: nowhere (0) 
     Attributes: 
         y(3) = 1
 abug> i 3

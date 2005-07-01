@@ -5,7 +5,7 @@
 
 LocationSet should = 6, actual = 6 .
 
-l1 l2 l3 l4 l5 l6 Should be "l1, l2, l3, l4, l5 & l6".
+L1 l2 l3 l4 l5 l6 Should be "l1, l2, l3, l4, l5 & l6".
 
 
 

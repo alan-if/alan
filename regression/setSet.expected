@@ -5,15 +5,15 @@
 
 LocationSet should = 1, actual = 1 .
 
-locationSet should = 0, actual = 0 .
+LocationSet should = 0, actual = 0 .
 
-locationSet should = 1, actual = 1 .
+LocationSet should = 1, actual = 1 .
 
-l1 should be "l1".
+L1 should be "l1".
 
-locationSet should = 2, actual = 2 .
+LocationSet should = 2, actual = 2 .
 
-l1 l2 Should be "l1 & l2".
+L1 l2 Should be "l1 & l2".
 
 
 

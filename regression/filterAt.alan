@@ -32,4 +32,4 @@ Start At l.
   "7:" If Sum Of y Isa object, At o1 = 6 Then "Ok" Else "not ok" End If."$n"
   "8:" If Max Of y Isa object, At o2 = 3 Then "Ok" Else "not ok" End If."$n"
   "9:" If Min Of y Isa object, At o3 = 1 Then "Ok" Else "not ok" End If."$n"
-  "10:" If Count Isa object, At o4 = 0 Then "Ok" Else "not ok" End If.
+  "10:" If Count Isa object, At o4 = 1 Then "Ok" Else "not ok" End If.

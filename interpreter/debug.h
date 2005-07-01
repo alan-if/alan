@@ -22,6 +22,7 @@ extern void restoreInfo(void);
 extern Bool breakpointIndex(int line);
 extern char *sourceFileName(int file);
 extern char *readSourceLine(int line, int file);
+extern void showSourceLine(int line, int fileNumber);
 extern void debug(Bool calledFromBreakpoint, int line, int fileNumber);
 extern void traceSay(int item);
 

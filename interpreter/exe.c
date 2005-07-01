@@ -810,14 +810,12 @@ Aword where(Aint id, Abool directly)
 {
   verifyId(id, "WHERE");
 
-  if (directly)
+  if (isLocation(id))
+    return 0;
+  else if (directly)
     return admin[id].location;
-  else {
-    if (isLocation(id))
-      return id;
-    else
-      return location(id);
-  }
+  else
+    return location(id);
 }
 
 
@@ -1096,23 +1094,21 @@ Abool in(Aint theInstance, Aint container, Abool directly)
 /* Look see if an instance is AT another. */
 Abool at(Aint theInstance, Aint other, Abool directly)
 {
-  int loc = other;
+  int loc;
 
   if (theInstance == 0 || other == 0) return FALSE;
 
   if (directly) {
-#ifdef NEWNEWWHATTHASTHISMEAN
-    if (isLoc(other))
+    if (isLocation(other))
       return admin[theInstance].location == other;
     else
       return admin[theInstance].location == admin[other].location;
-#else
-      return admin[theInstance].location == other;
-#endif
   } else {
-    if (!isLocation(loc))
+    if (!isLocation(other))
       /* If it's not a location get the instances location */
       loc = location(other);
+    else
+      loc = other;
     return location(theInstance) == loc;
   }
 }

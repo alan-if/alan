@@ -142,10 +142,8 @@ void generateWhere(Where *where)
   case WHERE_AT:
     generateExpression(where->what);
     if (!inheritsFrom(where->what->class, locationSymbol)) {
-      if (where->directly)
-	emit0(I_WHERE);
-      else
-	emit0(I_LOCATION);
+      emitConstant(where->directly);
+      emit0(I_WHERE);
     }
     break;
 

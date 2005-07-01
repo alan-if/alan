@@ -61,9 +61,10 @@ static void switches(int argc, char *argv[])
       case 't':
 	sectionTraceOption = TRUE;
 	switch (argv[i][2]) {
-	case '4' : traceStackOption = TRUE;
-	case '3' : tracePushOption = TRUE;
-	case '2' : singleStepOption = TRUE;
+	case '5' : traceStackOption = TRUE;
+	case '4' : tracePushOption = TRUE;
+	case '3' : singleStepOption = TRUE;
+	case '2' : traceSourceOption = TRUE;
 	case '\0':
 	case '1': sectionTraceOption = TRUE;
 	}

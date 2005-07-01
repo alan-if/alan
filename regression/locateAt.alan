@@ -26,7 +26,7 @@ Start At l.
   "$nAt o3 :"
   If o4 At o3 Then "Ok" Else "Not ok" End If.
   "$nIn o1 :"
-  If o4 Not In o1 Then "Ok" Else "Not Ok" End If.
+  If o4 In o1 Then "Ok" Else "Not Ok" End If.
   "$nIn o2 :"
-  If o4 Not In o2 Then "Ok" Else "Not Ok" End If.
+  If o4 In o2 Then "Ok" Else "Not Ok" End If.
 

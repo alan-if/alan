@@ -261,6 +261,7 @@ static void analyzeLocate(Statement *stm, Context *context)
   switch (whr->kind) {
   case WHERE_HERE:
   case WHERE_AT:
+    whr->directly = TRUE;
     break;
   case WHERE_IN:
     contentClass = contentOf(whr->what, context);
@@ -807,7 +808,7 @@ static void generateShow(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generatePlay(Statement *stm)
 {
-  emit2(I_PLAY, stm->fields.play.resource->fileName->code, 0);
+  emit1(I_PLAY, stm->fields.play.resource->fileName->code);
 }
 
 

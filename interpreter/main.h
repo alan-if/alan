@@ -79,6 +79,7 @@ extern Bool debugOption;
 extern Bool sectionTraceOption;
 extern Bool tracePushOption;
 extern Bool traceStackOption;
+extern Bool traceSourceOption;
 extern Bool singleStepOption;
 extern Bool transcriptOption;
 extern Bool logOption;

@@ -489,8 +489,8 @@ static void testWhere() {
 
   instance[1].parent = 1;	/* A location */
   admin[1].location = 3;
-  ASSERT(where(1, TRUE) == 3);
-  ASSERT(where(1, FALSE) == 1);
+  ASSERT(where(1, TRUE) == 0);	/* Locations are always nowhere */
+  ASSERT(where(1, FALSE) == 0);
 
   instance[2].parent = 0;	/* Not a location */
   admin[2].location = 1;	/* At 1 */

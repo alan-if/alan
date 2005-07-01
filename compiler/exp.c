@@ -1108,13 +1108,13 @@ static void generateWhereRHS(Where *where) {
     emit0(I_NEARBY);
     break;
   case WHERE_NEAR:
-    emitConstant(where->directly);
     generateExpression(where->what);
+    emitConstant(where->directly);
     emit0(I_NEAR);
     break;
   case WHERE_IN:
     generateExpression(where->what);
-    emit(where->directly);
+    emitConstant(where->directly);
     emit0(I_IN);
     break;
   case WHERE_INSET:
@@ -1123,8 +1123,9 @@ static void generateWhereRHS(Where *where) {
     break;
   case WHERE_AT:
     emitConstant(where->directly);
+    emit0(I_WHERE);
     generateWhere(where);
-    emit0(I_AT);
+    emit0(I_EQ);
     break;
   case WHERE_DEFAULT:
     SYSERR("Generating WHERE_DEFAULT");
