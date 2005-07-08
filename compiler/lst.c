@@ -96,15 +96,49 @@ void insert(List *thePoint, void *element, ListKind kind)
 }
 
 
-
-List *tailOf(List *aList)
+/*======================================================================*/
+List *copyList(List *aList)
 {
-  List *tail;
+  List *new = NULL;
 
   if (aList == NULL)
     return NULL;
 
-  for (tail = aList; tail->next != NULL; tail = tail->next)
+  while (aList) {
+    new = concat(new, aList->element.id, aList->kind);
+    aList = aList->next;
+  }
+  return new;
+}
+
+
+/*======================================================================*/
+extern void *listElement(List *theList, int elementNumber)
+{
+  int i = 1;
+
+  if (elementNumber < 1) SYSERR("List element number must be > 0");
+
+  while (theList) {
+    if (i == elementNumber)
+      return (void *)theList->element.id;
+    theList = theList->next;
+    i++;
+  }
+  SYSERR("Not enough list elements");
+  return NULL;
+}
+
+
+/*======================================================================*/
+List *tailOf(List *theList)
+{
+  List *tail;
+
+  if (theList == NULL)
+    return NULL;
+
+  for (tail = theList; tail->next != NULL; tail = tail->next)
     ;
   return tail;
 }
@@ -156,13 +190,13 @@ List *combine(List *list1,	/* IN - Lists to combine */
 
 
 /*======================================================================*/
-int length(List *aList)
+int length(List *theList)
 {
   int count = 0;
   List *thePoint;
 
-  for (thePoint = aList; thePoint != NULL; thePoint = thePoint->next)
-    count ++;
+  for (thePoint = theList; thePoint != NULL; thePoint = thePoint->next)
+    count++;
   return count;
 }
 
