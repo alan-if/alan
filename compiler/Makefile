@@ -48,7 +48,6 @@ BUILDSRCS = \
 	cnt.c \
 	context.c \
 	dump.c \
-	elm.c \
 	encode.c \
 	evt.c \
 	form.c \
@@ -84,6 +83,7 @@ ALANSRCS = \
 	atr.c \
 	cla.c \
 	description.c \
+	elm.c \
 	emit.c \
 	exp.c \
 	ext.c \
