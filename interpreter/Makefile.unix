@@ -2,7 +2,7 @@
 
 # OS-specific definitions
 
-OSDEFS = -D__unix__ 
+OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
 
 # -- Glk definitions. Comment all of these out to disable Glk.
 

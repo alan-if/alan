@@ -318,7 +318,6 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     in the next level and generating each group first, then a table
     for this group pointing to the next level for each group, a.s.o.
   */
-#define COPYLISTS
 #ifdef COPYLISTS
   List *elms = copyList(elementLists);
 #else

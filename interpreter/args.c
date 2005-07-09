@@ -126,7 +126,7 @@ static Bool matchInterpreterName(char *string) {
 #if defined(__dos__) || defined(__windows__) || defined(__cygwin__)
 #include "winargs.c"
 #else
-#if defined __unix__
+#if defined(__unix__) || defined(__macosx__)
 #include "unixargs.c"
 #else
 #ifdef __mac__
