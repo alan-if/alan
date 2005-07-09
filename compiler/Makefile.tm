@@ -23,7 +23,7 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c alanCommon.h
 
-all : tm smScanx.c sysdep.h sysdep.c version.h
+all : tm smScanx.c sysdep.h sysdep.c version.h alan.atg
 
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
@@ -33,12 +33,18 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	imp alan.lmt
 	touch .lmkstamp
 
-.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
+.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp alan.prod
 	pmk $(PMKQ) -generate tables alan
 	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.pmt > alan.pmt2
 	imp alan.pmt2
-	sed -e "1,/P R O D/d" -e "/Summary/,$$ d" alan.pml > alan.prod
 	touch .pmkstamp
+
+alan.prod : prod.sed alan.pml
+	sed -f prod.sed alan.pml > alan.prod
+
+alan.atg : coco.sed coco.header alan.prod
+	cp coco.header alan.atg
+	sed -f coco.sed alan.prod >> alan.atg
 
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables

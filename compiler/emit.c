@@ -606,7 +606,7 @@ void emitHeader()
      not affect game compatibility. */
 #ifdef __POSIX__
   gettimeofday(&times, NULL);
-  acdHeader.uid = times.tv_usec;
+  acodeHeader.uid = times.tv_usec;
 #else
   ftime(&times);
   acodeHeader.uid = times.millitm;

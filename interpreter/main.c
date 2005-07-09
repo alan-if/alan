@@ -944,6 +944,20 @@ static char txtfnm[256] = "";
 static char logfnm[256] = "";
 
 
+static char *decodeState(int c) {
+  static char state[2] = "\0\0";
+  switch (c) {
+  case 0: return ".";
+  case 'd': return "dev";
+  case 'a': return "alpha";
+  case 'b': return "beta";
+  default:
+    state[0] = header->vers[3];
+    return state;
+  }
+}
+
+
 /*----------------------------------------------------------------------*/
 static void checkVersion(ACodeHeader *header)
 {
@@ -959,11 +973,11 @@ static void checkVersion(ACodeHeader *header)
 
   /* Check version of .ACD file */
   if (debugOption && !regressionTestOption) {
-    printf("<Version of '%s' is %d.%d%c%d>",
+    printf("<Version of '%s' is %d.%d%s%d>",
 	   adventureFileName,
 	   (int)(header->vers[0]),
 	   (int)(header->vers[1]),
-	   header->vers[3]==0?'.':header->vers[3],
+	   decodeState(header->vers[3]),
 	   (int)(header->vers[2]));
     newline();
   }
@@ -977,10 +991,10 @@ static void checkVersion(ACodeHeader *header)
       if (!ignoreErrorOption) {
 	char str[80];
 	if (developmentVersion)
-	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld%c%ld, interpreter %ld.%ld%s%ld!",
+	  sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld%s%ld, interpreter %ld.%ld%s%ld!",
 		  (long)(header->vers[0]),
 		  (long)(header->vers[1]),
-		  header->vers[3]==0?'.':header->vers[3],
+		  decodeState(header->vers[3]),
 		  (long)(header->vers[2]),
 		  (long)alan.version.version,
 		  (long)alan.version.revision,

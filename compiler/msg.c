@@ -349,7 +349,7 @@ void prepareMessages(void)
       if (compareStrings(defmsg[msgno].id, umsgs->element.msg->id->string) == 0)
 	break;
     if (defmsg[msgno].id == NULL)
-      lmLog(&umsgs->element.msg->id->srcp, 700, sevWAR, NULL);
+      lmLog(&umsgs->element.msg->id->srcp, 700, sevERR, NULL);
     else {
       /* Find that message in the system messages list */
       for (lst = smsgs; lst != NULL && lst->element.msg->msgno != msgno; lst = lst->next);

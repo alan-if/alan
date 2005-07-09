@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>428.89</origest>
-<currest>427.89</currest>
-<elapsed>289.89</elapsed>
+<origest>432.89</origest>
+<currest>433.89</currest>
+<elapsed>290.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>64</origest>
-<currest>64</currest>
-<elapsed>20</elapsed>
+<origest>65</origest>
+<currest>65</currest>
+<elapsed>21</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>19</elapsed>
+<origest>30</origest>
+<currest>30</currest>
+<elapsed>20</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -226,7 +226,7 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -246,6 +246,15 @@ Verify what this would mean in a practical example.
 
 I think only checks for matching alternatives would be natural.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A Set should be possible to initialize to empty by giving a class name</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -869,6 +878,51 @@ New clause?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>AlanIDE</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>AlanIDE v0.0.4</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Select project location in wizard</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Splash screen</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Icons in png-format</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>3</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
