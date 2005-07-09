@@ -1,0 +1,16 @@
+import 'std.i'.
+
+The book Isa object At library
+End The book.
+
+The kitchen Isa location
+End The kitchen.
+
+The library Isa location
+End The library.
+
+The janitor Isa actor At kitchen
+End The janitor.
+
+Start At kitchen.
+  "Ask the janitor about the book."

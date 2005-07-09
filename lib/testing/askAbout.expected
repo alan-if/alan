@@ -1,0 +1,17 @@
+########## askAbout ##########
+
+        No warnings or errors detected.
+
+
+Ask the janitor about the book.
+
+
+Kitchen
+The janitor is here.
+
+> ask janitor about the book
+The janitor says "I don't know anything about the book !"
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
