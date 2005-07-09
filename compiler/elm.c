@@ -223,7 +223,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 
   List *part, *rest, *elms, *this, *p;
 
-  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind == END_OF_SYNTAX)
+  if (*elmsListP == NULL || (*elmsListP)->element.lst->element.elm->kind == END_OF_SYNTAX)
     return NULL;
 
   /* Remove the first element from the list to form the partition */
@@ -320,7 +320,12 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     in the next level and generating each group first, then a table
     for this group pointing to the next level for each group, a.s.o.
   */
+#define COPYLISTS
+#ifdef COPYLISTS
   List *elms = copyList(elementLists);
+#else
+  List *elms = elementLists;
+#endif
   List *part;                   /* The current partion */
   Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
