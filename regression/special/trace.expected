@@ -16,7 +16,6 @@ trace.alan
         1 warning(s).
         9 informational message(s).
 
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 <START:>
 

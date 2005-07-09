@@ -3,8 +3,6 @@
 #include <ctype.h>
 #include <unistd.h>
 
-#define __win__
-
 #ifndef _x_MINGW32__
 #include <termios.h>
 
@@ -33,14 +31,13 @@ static void restoretermio()
 
 int main(int argc, char **argv)
 {
+  int ch;
   int endOfInput = 0;
+#ifdef __win__
   INPUT_RECORD inputRecord;
   DWORD eventsRead;
-  int ch;
-#ifdef __win__
   HANDLE hwnd = GetStdHandle(STD_INPUT_HANDLE);
   (void) SetConsoleMode(hwnd, ENABLE_ECHO_INPUT);
-#endif
 
   while (!endOfInput) {
     fflush(stdout);
@@ -56,4 +53,8 @@ int main(int argc, char **argv)
     }
   }
   return 0;
+#else
+  while ((ch = getchar()) != EOF)
+    printf("%d %x '%c'\n", (int)ch, (int)ch, ch);
+#endif
 }

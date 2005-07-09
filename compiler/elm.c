@@ -56,8 +56,7 @@ static Element *newElement(Srcp *srcp,
 
 
 /*======================================================================*/
-Element *newWordElement(Srcp srcp,	/* IN - Source Position */
-			IdNode *word)	/* IN - Flags for omni/multiple... */
+Element *newWordElement(Srcp srcp, IdNode *word)
 {
   Element *new;			/* The newly created node */
 
@@ -68,8 +67,7 @@ Element *newWordElement(Srcp srcp,	/* IN - Source Position */
 
 
 /*======================================================================*/
-Element *newParameterElement(Srcp srcp,
-			     IdNode *word, int flags)
+Element *newParameterElement(Srcp srcp, IdNode *word, int flags)
 {
   Element *new;			/* The newly created node */
 
@@ -223,7 +221,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
 
   List *part, *rest, *elms, *this, *p;
 
-  if (*elmsListP == NULL || (*elmsListP)->element.elm->kind == END_OF_SYNTAX)
+  if (*elmsListP == NULL)
     return NULL;
 
   /* Remove the first element from the list to form the partition */

@@ -27,7 +27,7 @@ verify()
 	echo "Suspended..."
     else if [ -f $case.expected ]
     then
-	if diff -q -b --strip-trailing-cr $case.output $case.expected 1> /dev/null
+	if diff -q -b $case.output $case.expected 1> /dev/null
 	then
 	    ok=`expr $ok + 1`
 	    echo -n "[K"

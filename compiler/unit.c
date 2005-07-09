@@ -72,6 +72,7 @@ extern lmSev readSev();
 #include "expTest.c"
 #include "addTest.c"
 #include "stxTest.c"
+#include "elmTest.c"
 #include "resTest.c"
 #include "wrdTest.c"
 #include "paramTest.c"
@@ -97,6 +98,7 @@ int main()
   registerAtrUnitTests();
   registerAddUnitTests();
   registerResUnitTests();
+  registerElmUnitTests();
   registerStxUnitTests();
   registerStmUnitTests();
   registerElmUnitTests();

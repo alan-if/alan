@@ -1,15 +1,14 @@
-# Makefile for alan compiler on Unix
+# Makefile for alan compiler on MacOS X
 #
 
 CC = gcc
 
-# i386 architecture
-# OSDEFS = -DSTDIONONCONST
+OSDEFS = -D__POSIX__
 
 LDFLAGS = -g
 CPP	= $(CC) -MM -ansi
 
-CFLAGS = -g -Wall $(GCOV) -funsigned-char $(INCLUDE) $(OSDEFS)
+CFLAGS = -ggdb -Wall $(GCOV) -funsigned-char $(INCLUDE) $(OSDEFS)
 
 TMSRCS = \
 	alan.tmk \
@@ -41,55 +40,58 @@ BUILDSRCS = \
 	cnt.c \
 	context.c \
 	dump.c \
-	elm.c \
 	encode.c \
 	evt.c \
 	form.c \
 	id.c \
+	initialize.c \
 	lim.c \
 	msg.c \
 	nam.c \
 	opt.c \
-	prop.c \
+	options.c \
 	rul.c \
-	set.c \
 	sco.c \
 	scr.c \
+	set.c \
+	spa.c \
 	srcp.c \
 	stm.c \
 	stp.c \
 	str.c \
-	stx.c \
 	syn.c \
-	wht.c \
-	timing.c \
-	util.c \
-	spa.c \
 	sysdep.c \
-	options.c
+	timing.c \
+	type.c \
+	util.c \
+	wht.c \
 
 
 # More Sources required for Alan program build
-# Excluded from BUILDSRCS because they are in the unit tests
+# Excluded from BUILDSRCS because there are unit tests for these
 ALANSRCS = \
-	main.c \
+	add.c \
 	adv.c \
 	atr.c \
 	cla.c \
+	description.c \
 	emit.c \
-	res.c \
+	elm.c \
+	exp.c \
 	ext.c \
 	ins.c \
-	images.c \
 	lst.c \
+	main.c \
+	prop.c \
+	res.c \
+	resource.c \
+	stx.c \
 	sym.c \
+	vrb.c \
 	whr.c \
 	wrd.c \
-	add.c \
-	vrb.c \
-	exp.c \
 
-MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
+MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
 
 VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
@@ -100,8 +102,8 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-#alan: $(MAINOBJECTS) test
-alan: $(MAINOBJECTS)
+alan: $(MAINOBJECTS) test
+#alan: $(MAINOBJECTS)
 	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
 #	@-mkdir ../bin 2> /dev/null
 #	cp alan.exe ../bin
@@ -148,7 +150,7 @@ unit : $(TESTOBJS)
 
 # Run all unit tests!
 test: unit
-	@unit
+	@./unit
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

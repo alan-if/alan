@@ -252,15 +252,17 @@ static void newLine(char ch);
 static void delFwd(char ch);
 static void delBwd(char ch);
 
-#ifdef __cygwin__
+#ifdef __unix__
 static KeyMap keymap[] = {
-  {0x00, 0x07, NULL},
+  {0x00, 0x03, NULL},
+  {0x04, 0x04, delFwd},
+  {0x05, 0x07, delBwd},
   {0x08, 0x08, delBwd},
   {0x09, 0x09, NULL},
   {0x0a, 0x0a, newLine},
   {0x1b, 0x1b, escHook},
   {0x1c, 0x7e, insertCh},
-  {0x7f, 0x7f, delFwd},
+  {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
   {0x80, 0xff, insertCh},
   {0x00, 0x00, NULL}
 };
