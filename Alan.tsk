@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>432.89</origest>
-<currest>433.89</currest>
+<origest>433.89</origest>
+<currest>434.89</currest>
 <elapsed>290.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>65</origest>
-<currest>65</currest>
+<origest>66</origest>
+<currest>66</currest>
 <elapsed>21</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0.dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>30</origest>
-<currest>30</currest>
+<origest>31</origest>
+<currest>31</currest>
 <elapsed>20</elapsed>
 <isopen>1</isopen>
 <task>
@@ -227,6 +227,15 @@ See compiler/testing/lockableDoors</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor out the file lists from the Makefiles</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

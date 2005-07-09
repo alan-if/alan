@@ -6,7 +6,8 @@ noInheritance.alan
     1.  The x
 =====>      1
 
-  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
 
 
         1 error(s).

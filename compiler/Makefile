@@ -73,7 +73,6 @@ ALANSRCS = \
 	atr.c \
 	cla.c \
 	description.c \
-	elm.c \
 	emit.c \
 	elm.c \
 	exp.c \

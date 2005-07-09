@@ -6,7 +6,8 @@ every4.alan
     1.  Every y
 =====>        1
 
-  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
 
     7.  Start At l.
 =====>           1

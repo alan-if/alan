@@ -6,7 +6,7 @@
 run ()
 {
     echo "$case : "
-    diff -b -c $case.expected $case.output
+    diff -b -U 1 $case.expected $case.output
 }
 
 if [ $# != 0 ] ; then

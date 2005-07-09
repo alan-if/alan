@@ -6,10 +6,11 @@ inherit2.alan
     1.  Every y
 =====>        1
 
-  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
 
    12.  Start At l.
-=====>            1
+=====>           1
 
   *1*   351 E : START statement must refer to an instance inheriting from
                 'location'.

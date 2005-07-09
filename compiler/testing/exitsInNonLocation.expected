@@ -6,7 +6,8 @@ exitsInNonLocation.alan
     1.  The nonLocation
 =====>      1
 
-  *1*   429 E : No inheritance defined, everything must inherit from a class.
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
   *1*   352 E : Instance 'nonLocation' does not inherit from 'location', but
                 has EXITs, which can never be traversed.
 
