@@ -3,8 +3,8 @@ End The l.
 
 Start At l.
   Depending On Random 1 to 4
-  =1 : "1"
-  =2 : "2"
-  =3 : "3"
-  =4 : "4"
+  =1 Then "1"
+  =2 Then "2"
+  =3 Then "3"
+  =4 Then "4"
   End Depend.

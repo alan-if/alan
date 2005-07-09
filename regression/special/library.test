@@ -1,1 +1,1 @@
-alan library -include ../../lib > library.output
+../../compiler/alan library -include ../../lib > library.output
