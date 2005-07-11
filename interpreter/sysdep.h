@@ -82,6 +82,7 @@
 #define HAVE_GLK
 #endif
 
+
 /*----------------------------------------------------------------------
 
   Below follows OS and compiler dependent settings. They should not be
@@ -152,7 +153,7 @@
 #define NATIVECHARSET 2
 #endif
 
-#ifdef __mac__
+#ifdef __macosx__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
@@ -269,6 +270,12 @@ extern char *strdup(char *str);
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
 
+#endif
+
+
+/* Some have stricmp() others strcasecmp() */
+#ifdef __macsosx__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 
 

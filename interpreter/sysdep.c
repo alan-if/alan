@@ -25,26 +25,12 @@
 extern void syserr(char str[]);
 #endif
 
+
 #ifdef __vms__
 
 char *strdup(char str[])                /* IN - String to duplicate */
 {
   char *new = (char *) malloc(strlen(str)+1);
-
-  if (!new)
-    syserr("Out of memory");
-  strcpy(new, str);
-  return new;
-}
-
-#endif
-
-
-#ifdef __mac__
-
-char *strdup(char str[])                /* IN - String to duplicate */
-{
-  char *new = (char *) malloc((size_t)((int)strlen(str)+1));
 
   if (!new)
     syserr("Out of memory");
@@ -75,8 +61,6 @@ size_t strftime (
 
 #endif
 
-#ifdef __dos__
-#endif
 
 #ifdef HAVE_GLK
 
