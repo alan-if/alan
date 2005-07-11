@@ -33,7 +33,7 @@ tm: .pmkstamp .smkstamp .lmkstamp
 	imp alan.lmt
 	touch .lmkstamp
 
-.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp alan.prod
+.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk $(PMKQ) -generate tables alan
 	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.pmt > alan.pmt2
 	imp alan.pmt2

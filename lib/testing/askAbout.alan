@@ -1,5 +1,9 @@
 import 'std.i'.
 
+The book_of_shadows Isa object
+  Name book
+End The book_of_shadows.
+
 The book Isa object At library
 End The book.
 

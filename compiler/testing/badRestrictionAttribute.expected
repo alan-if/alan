@@ -1,0 +1,16 @@
+########## badRestrictionAttribute ##########
+
+
+badRestrictionAttribute.alan
+
+   17.          If obj2 Is named Then
+=====>                     1
+
+  *1*   316 E : Attribute 'named' is not defined for parameter 'obj2' since its
+                class ('entity') does not have it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

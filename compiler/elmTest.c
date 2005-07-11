@@ -16,7 +16,7 @@ void testPartition()
   List *epp = concat(NULL, ep, LIST_LIST);
 
   ASSERT(partition(&p) == NULL);
-  ASSERT(partition(&epp) == NULL);
+  ASSERT(partition(&epp) != NULL);
 }
 
 

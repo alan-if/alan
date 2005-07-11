@@ -7,101 +7,17 @@ CC = gcc
 # OSDEFS = -DSTDIONONCONST
 
 LDFLAGS = -g
-CPP	= $(CC) -MM -ansi
 
-CFLAGS = -g -Wall $(GCOV) -funsigned-char $(INCLUDE) $(OSDEFS)
+CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 
-TMSRCS = \
-	alan.tmk \
-	alan.lmk \
-	alan.smk \
-	alan.pmk \
-	Makefile
-
-TMCSRCS = \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c\
-	lmList.c
-
-# Sources which are in the unit tests
-TESTSRCS = \
-	ins.c \
-	cla.c \
-	adv.c \
-	sym.c \
-	whr.c \
-
-
-# Sources required for both builds
-BUILDSRCS = \
-	alan.c \
-	alt.c \
-	chk.c \
-	cnt.c \
-	context.c \
-	dump.c \
-	elm.c \
-	encode.c \
-	evt.c \
-	form.c \
-	id.c \
-	lim.c \
-	msg.c \
-	nam.c \
-	opt.c \
-	prop.c \
-	rul.c \
-	set.c \
-	sco.c \
-	scr.c \
-	srcp.c \
-	stm.c \
-	stp.c \
-	str.c \
-	syn.c \
-	wht.c \
-	timing.c \
-	util.c \
-	spa.c \
-	sysdep.c \
-	options.c
-
-
-# More Sources required for Alan program build
-# Excluded from BUILDSRCS because they are in the unit tests
-ALANSRCS = \
-	main.c \
-	adv.c \
-	atr.c \
-	cla.c \
-	emit.c \
-	res.c \
-	ext.c \
-	ins.c \
-	lst.c \
-	sym.c \
-	stx.c \
-	whr.c \
-	wrd.c \
-	add.c \
-	vrb.c \
-	exp.c \
-	images.c
-
-BUILDOBJS = ${BUILDSRCS:.c=.o}
-
-MAINSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMCSRCS)
-MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
-
-VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
+# Include common list of sources
+include sources.mk
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Main targets
+# Main target
 #
-
 alan: $(MAINOBJECTS) test
 	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
@@ -112,22 +28,15 @@ alan: $(MAINOBJECTS) test
 # Unit testing
 #
 
-# Sources for the test framework
-UNITSRCS = unit.c \
-	unitList.c \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c
-
-TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+unittests: unit
+	@./unit
 
 unit : $(TESTOBJS)
 	$(CC) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
 # Run all unit tests!
-test: unit
-	@unit
+test: unittests
+	-cd testing; regr
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -137,16 +46,6 @@ spa.o: spa.c spa.h
 	$(CC) $(CFLAGS) -c spa.c -o spa.o 
 
 smScanx.o: smScanx.c
-
-#
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-depend:
-	@for f in *.c; \
-	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
 
 #
 include dependencies.mk

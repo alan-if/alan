@@ -10,91 +10,9 @@ CPP	= $(CC) -MM -ansi
 
 CFLAGS = -ggdb -Wall $(GCOV) -funsigned-char $(INCLUDE) $(OSDEFS)
 
-TMSRCS = \
-	alan.tmk \
-	alan.lmk \
-	alan.smk \
-	alan.pmk \
-	Makefile
 
-TMCSRCS = \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c\
-	lmList.c
-
-# Sources which are in the unit tests
-TESTSRCS = \
-	ins.c \
-	cla.c \
-	adv.c \
-	sym.c \
-	whr.c \
-
-
-# Sources required for both builds
-BUILDSRCS = \
-	alan.c \
-	alt.c \
-	chk.c \
-	cnt.c \
-	context.c \
-	dump.c \
-	encode.c \
-	evt.c \
-	form.c \
-	id.c \
-	initialize.c \
-	lim.c \
-	msg.c \
-	nam.c \
-	opt.c \
-	options.c \
-	rul.c \
-	sco.c \
-	scr.c \
-	set.c \
-	spa.c \
-	srcp.c \
-	stm.c \
-	stp.c \
-	str.c \
-	syn.c \
-	sysdep.c \
-	timing.c \
-	type.c \
-	util.c \
-	wht.c \
-
-
-# More Sources required for Alan program build
-# Excluded from BUILDSRCS because there are unit tests for these
-ALANSRCS = \
-	add.c \
-	adv.c \
-	atr.c \
-	cla.c \
-	description.c \
-	emit.c \
-	elm.c \
-	exp.c \
-	ext.c \
-	ins.c \
-	lst.c \
-	main.c \
-	prop.c \
-	res.c \
-	resource.c \
-	stx.c \
-	sym.c \
-	vrb.c \
-	whr.c \
-	wrd.c \
-
-MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
-MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
-
-VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
+# Include common lists of sources
+include sources.mk
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

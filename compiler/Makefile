@@ -18,83 +18,8 @@ ARCH	= $(PLATFORM) $(OPTIMIZE)
 CPP	= gcc -MM -ansi
 LD	= gcc
 
-TMSRCS = \
-	alan.tmk \
-	alan.lmk \
-	alan.smk \
-	alan.pmk \
-	Makefile
 
-TMCSRCS = \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c\
-	lmList.c
-
-# Sources required for both builds
-BUILDSRCS = \
-	alan.c \
-	alt.c \
-	chk.c \
-	cnt.c \
-	context.c \
-	dump.c \
-	encode.c \
-	evt.c \
-	form.c \
-	id.c \
-	initialize.c \
-	lim.c \
-	msg.c \
-	nam.c \
-	opt.c \
-	options.c \
-	rul.c \
-	sco.c \
-	scr.c \
-	set.c \
-	spa.c \
-	srcp.c \
-	stp.c \
-	str.c \
-	syn.c \
-	sysdep.c \
-	timing.c \
-	type.c \
-	util.c \
-	wht.c \
-
-
-# More Sources required for Alan program build
-# Excluded from BUILDSRCS because there are unit tests for these
-ALANSRCS = \
-	add.c \
-	adv.c \
-	atr.c \
-	cla.c \
-	description.c \
-	emit.c \
-	elm.c \
-	exp.c \
-	ext.c \
-	ins.c \
-	lst.c \
-	main.c \
-	prop.c \
-	res.c \
-	resource.c \
-	stx.c \
-	stm.c \
-	sym.c \
-	vrb.c \
-	whr.c \
-	wrd.c \
-
-MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
-MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
-
-VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
-
+include sources.mk
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -138,7 +63,9 @@ fromsrc: unittests $(MAINOBJECTS)
 	cp alan.exe ../bin
 
 tm:
-	make -f Makefile.tm
+	-@if test "`uname -n`" = "ThoNi"; then \
+		make -f Makefile.tm ; \
+	fi
 
 .PHONY: checkTarget
 checkTarget:
@@ -153,16 +80,6 @@ checkTarget:
 #
 # Unit testing
 #
-
-# Sources for the test framework
-UNITSRCS = unit.c \
-	unitList.c \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c
-
-TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
 
 unittests: unit
 	@./unit
@@ -210,18 +127,26 @@ depend:
 # Version number generation
 #
 alan.version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../alan.version.h .
+	-@if test "`uname -n`" = "ThoNi"; then \
+		cd ..; venum -write always -all alan ; \
+		cp -p ../alan.version.h . ; \
+	fi
 
 version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../version.h .
+	-@if test "`uname -n`" = "ThoNi"; then \
+		cd ..; venum -write always -all alan ; \
+		cp -p ../version.h . ; \
+	fi
 
 ../alan.version: $(VERSIONSRCS) 
-	cd ..; venum alan time
+	-@if test "`uname -n`" = "ThoNi"; then \
+		cd ..; venum alan time ; \
+	fi
 
 alan.version.c:  ../alan.version
-	cp -p ../alan.version.c .
+	-@if test "`uname -n`" = "ThoNi"; then \
+		cp -p ../alan.version.c . ; \
+	fi
 
 #
 include dependencies.mk
