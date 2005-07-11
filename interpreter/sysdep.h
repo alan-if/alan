@@ -274,7 +274,7 @@ extern char *strdup(char *str);
 
 
 /* Some have stricmp() others strcasecmp() */
-#ifdef __macsosx__
+#ifdef __macosx__
 #define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 

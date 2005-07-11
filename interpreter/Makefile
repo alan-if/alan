@@ -69,36 +69,10 @@ LDFLAGS = $(CYGWIN) $(VERBOSE)
 
 GLKSRCS = glkstart.c glkio.c
 
-# Build sources are in main build and in unit test
-BUILDSRCS = \
-	rules.c \
-	debug.c \
-	args.c \
-	decode.c \
-	term.c \
-	readline.c \
-	params.c \
-	act.c
 
-# Main sources are only in main build because unit #includes them
-MAINSRCS = \
-	exe.c \
-	sysdep.c \
-	stack.c \
-	inter.c \
-	reverse.c \
-	syserr.c \
-	parse.c \
-	main.c \
-	set.c \
-	arun.c
+# Include common source lists 
+include sources.mk
 
-VERSIONSRCS = $(MAINSRCS) $(BUILDSRCS)
-VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}
-ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
-GLKOBJECTS = ${GLKSRCS:.c=.o}
-WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
-TERMARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 
 arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
