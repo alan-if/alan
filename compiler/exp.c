@@ -1163,8 +1163,8 @@ void generateAttributeAccess(Expression *exp)
 
 /*======================================================================*/
 void generateAttributeReference(Expression *exp) {
-  generateId(exp->fields.atr.id);
   generateExpression(exp->fields.atr.wht);
+  generateId(exp->fields.atr.id);
 }
 
 

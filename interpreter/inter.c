@@ -597,8 +597,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_MAKE: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	Abool val = pop();
 	if (singleStepOption)
 	  printf("MAKE \t%7ld, %7ld, %s\t\t\t", id, atr, booleanValue(val));
@@ -606,8 +606,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SET: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	Aint val = pop();
 	if (singleStepOption) {
 	  printf("SET \t%7ld, %7ld, %7ld\t\t\t\t", id, atr, val);
@@ -616,8 +616,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SETSTR: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	Aword str = pop();
 	if (singleStepOption) {
 	  printf("SETSTR\t%7ld, %7ld, %s\t\t\t\t", id, atr, stringValue(str));
@@ -626,8 +626,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_SETSET: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	Aword set = pop();
 	if (singleStepOption) {
 	  printf("STRSET\t%7ld, %7ld, %7ld\t\t\t\t", id, atr, set);
@@ -730,8 +730,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_ATTRIBUTE: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	if (singleStepOption)
 	  printf("ATTRIBUTE %7ld, %7ld\t", id, atr);
 	push(attributeOf(id, atr));
@@ -739,8 +739,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_ATTRSTR: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	if (singleStepOption)
 	  printf("STRATTR \t%7ld, %7ld\t", id, atr);
 	push(getStringAttribute(id, atr));
@@ -748,8 +748,8 @@ void interpret(Aaddr adr)
 	break;
       }
       case I_ATTRSET: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	if (singleStepOption)
 	  printf("ATTRSET \t%7ld, %7ld", id, atr);
 	push(getSetAttribute(id, atr));
@@ -1111,8 +1111,8 @@ void interpret(Aaddr adr)
       }
 
       case I_STRIP: {
-	Aint id = pop();
 	Aint atr = pop();
+	Aint id = pop();
 	Aint words = pop();
 	Aint count = pop();
 	Aint first = pop();
@@ -1123,9 +1123,9 @@ void interpret(Aaddr adr)
 	break;
       }
 
-	/*------------------------------------------------------------*\
+	/*------------------------------------------------------------
 	  Aggregation
-	\*------------------------------------------------------------*/
+	  ------------------------------------------------------------*/
       case I_AGRSTART: {
 	Aint index = pop();
 	Aint limit = pop();

@@ -835,8 +835,8 @@ static void generateLocate(Statement *stm)
 static void generateMake(Statement *stm)
 {
   emitConstant(!stm->fields.make.not);
-  emitConstant(stm->fields.make.atr->code);
   generateExpression(stm->fields.make.wht);
+  emitConstant(stm->fields.make.atr->code);
   emit0(I_MAKE);
 }
 
