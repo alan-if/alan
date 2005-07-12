@@ -178,20 +178,17 @@ static void nextEach(void)
 
 
 /*----------------------------------------------------------------------*/
-static void endEach(void)
+static void endEach(Aint index, Aint limit)
 {
-  Aint counter = getLocal(0, 1);
-  Aint limit = top();
-
-  if (counter < limit) {
-    counter++;
-    setLocal(0, 1, counter);
+  if (index < limit) {
+    index++;
+    push(limit);
+    push(index);
     goToEACH();
     if (singleStepOption)
       printf("\n%4x: EACH\t\t\t\t\t\t", pc);
     pc++;
-  } else
-    pop();
+  }
 }
 
 
@@ -1313,10 +1310,8 @@ void interpret(Aaddr adr)
       }
 
       case I_EACH: {
-	Aint startValue = pop();
 	if (singleStepOption)
-	  printf("EACH \t%7ld\t\t\t\t\t", startValue);
-	setLocal(0, 1, startValue);
+	  printf("EACH \t\t\t\t\t\t");
 	break;
       }
 
@@ -1328,9 +1323,11 @@ void interpret(Aaddr adr)
       }
 
       case I_ENDEACH: {
+	Aint index = pop();
+	Aint limit = pop();
 	if (singleStepOption)
 	  printf("ENDEACH\t\t\t\t\t\t");
-	endEach();
+	endEach(index, limit);
 	break;
       }
 

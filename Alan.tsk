@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>434.89</origest>
-<currest>435.89</currest>
+<origest>436.89</origest>
+<currest>437.89</currest>
 <elapsed>292.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>72</origest>
-<currest>72</currest>
+<origest>74</origest>
+<currest>74</currest>
 <elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
+<origest>34</origest>
+<currest>34</currest>
 <elapsed>21</elapsed>
 <isopen>1</isopen>
 <task>
@@ -240,8 +240,8 @@ See compiler/testing/lockableDoors</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add header slot and structure for the SCOPE structure</desc>
-<notes/>
+<desc>For Each In &lt;integerset&gt; does not work</desc>
+<notes>Use same special case as &lt;aggregate&gt; In &lt;integerset&gt; which uses SETSIZE and SETMEMBER.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -331,6 +331,15 @@ mentioned? article? description?</notes>
 <task>
 <desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
 <notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add header slot and structure for the SCOPE structure</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -607,8 +616,8 @@ results in
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -679,6 +688,15 @@ Pronouns</notes>
 <task>
 <desc>Add Entered</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>abug needs a function to list instances matching a string</desc>
+<notes>See alan-if on 12/7 2005</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -43,16 +43,20 @@ static void testBlockInstructions()
 }  
 
 
-static void testEachInstructions()
+static void testEachInstruction()
 {
   Aword eachInstructionCode1[] = {4, /* Dummy to not execute at zero */
-				  1, /* One local variable */
-				  INSTRUCTION(I_FRAME),
-				  12, /* End value */
-				  11, /* Start value */
+				  43, /* Marker */
 				  INSTRUCTION(I_EACH),
 				  INSTRUCTION(I_RETURN)};
+  memory = eachInstructionCode1;
+  interpret(1);			/* Should not do anything */
+  ASSERT(pop() == 43);		/* So the stack should contain the marker */
+}
 
+
+static void testEndEachInstruction()
+{
   Aword eachInstructionCode2[] = {4, /* Dummy to not execute at zero */
 				  1,
 				  INSTRUCTION(I_FRAME),
@@ -60,21 +64,14 @@ static void testEachInstructions()
 				  12, /* End value */
 				  9, /* Start value */
 				  INSTRUCTION(I_EACH),
+				  INSTRUCTION(I_DUP),
+				  1,
+				  0,
+				  INSTRUCTION(I_SETLOCAL),
 				  INSTRUCTION(I_ENDEACH),
 				  INSTRUCTION(I_RETURN)};
-
-  ACodeHeader testForHeader;
-
-  testForHeader.instanceMax = 2;
-  header = &testForHeader;
-
-  memory = eachInstructionCode1;
-  interpret(1);			/* Just set up */
-  ASSERT(getLocal(0,1) == 11);	/* So local should be initial value */
-
   memory = eachInstructionCode2;
   interpret(1);
-
   ASSERT(getLocal(0, 1) == 12);
   ASSERT(pop() == 4);
 }
@@ -180,7 +177,8 @@ void registerInterUnitTests(void)
   registerUnitTest(testBlockInstructions);
   registerUnitTest(testGoToEach);
   registerUnitTest(testNextEach);
-  registerUnitTest(testEachInstructions);
+  registerUnitTest(testEachInstruction);
+  registerUnitTest(testEndEachInstruction);
   registerUnitTest(testAggregateInstructions);
   registerUnitTest(testMaxInstance);
 }

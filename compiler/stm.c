@@ -1031,6 +1031,49 @@ static void generateDepend(Statement *stm)
 
 
 /*----------------------------------------------------------------------*/
+static void generateIntegerLoopLimit(Statement *statement) {
+  List *filter;
+
+  if (statement->fields.each.filters->element.exp->kind == BETWEEN_EXPRESSION)
+    generateExpression(statement->fields.each.filters->element.exp->fields.btw.upperLimit);
+  else
+    TRAVERSE(filter, statement->fields.each.filters) {
+      if (filter->element.exp->kind == WHERE_EXPRESSION)
+	if (filter->element.exp->fields.whr.whr->kind == WHERE_INSET) {
+	  generateExpression(filter->element.exp->fields.whr.whr->what);
+	  statement->fields.each.setExpression = filter->element.exp;
+	  emit0(I_SETSIZE);
+	  return;
+	}
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateIntegerLoopIndex(Expression *exp) {
+  /* There are two instances when the loop index might have integer
+     type: when the loop is integer (using BETWEEN) or when looping
+     over an integer set. If we are looping over an integer set we
+     will use the integers from 1 to SETSIZE and convert them to
+     values using SETMEMBER */
+  if (exp->kind == BETWEEN_EXPRESSION)
+    generateExpression(exp->fields.btw.lowerLimit);
+  else
+    emitConstant(1);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateIntegerLoopValue(Expression *setExpression) {
+  emit0(I_DUP);		/* Use the index as the loop value */
+  if (setExpression != NULL) {
+    generateExpression(setExpression->fields.whr.whr->what);
+    emit0(I_SETMEMB);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateEach(Statement *statement)
 {
   List *filter;
@@ -1041,19 +1084,30 @@ static void generateEach(Statement *statement)
   frameLevel++;
 
   /* Push upper limit */
-  if (statement->fields.each.type == INSTANCE_TYPE)
+  if (statement->fields.each.type == INSTANCE_TYPE) {
     emitVariable(V_MAX_INSTANCE);
-  else
-    generateExpression(statement->fields.each.filters->element.exp->fields.btw.upperLimit);
+  } else if (statement->fields.each.type == INTEGER_TYPE) {
+    generateIntegerLoopLimit(statement);
+  } else
+    SYSERR("Unexpected type");
 
-  /* Push start value */
-  if (statement->fields.each.type == INSTANCE_TYPE)
+  /* Push start index */
+  if (statement->fields.each.type == INTEGER_TYPE)
+    generateIntegerLoopIndex(statement->fields.each.filters->element.exp);
+  else
     emitConstant(1);
-  else
-    generateExpression(statement->fields.each.filters->element.exp->fields.btw.lowerLimit);
-
-  /* Start of loop */
+  
+  /* Start loop */
   emit0(I_EACH);
+
+  /* Generate loop value from loop index */
+  if (statement->fields.each.type == INTEGER_TYPE)
+    generateIntegerLoopValue(statement->fields.each.setExpression);
+  else
+    emit0(I_DUP);
+
+  /* Store the loop value in the local variable */
+  emit2(I_SETLOCAL, 0, 1);	/* We already have the value on the stack */
 
   /* Generate filters */
   TRAVERSE(filter, statement->fields.each.filters) {

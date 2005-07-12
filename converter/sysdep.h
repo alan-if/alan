@@ -281,12 +281,12 @@ extern char *strdup(char *str);
 
 
 /* Native character functions */
-extern int isSpace(int c);      /* IN - Native character to test */
-extern int isLower(int c);      /* IN - Native character to test */
-extern int isUpper(int c);      /* IN - Native character to test */
-extern int isLetter(int c);     /* IN - Native character to test */
-extern int toLower(int c);      /* IN - Native character to convert */
-extern int toUpper(int c);      /* IN - Native character to convert */
+extern int isSpace(unsigned int c);      /* IN - Native character to test */
+extern int isLower(unsigned int c);      /* IN - Native character to test */
+extern int isUpper(unsigned int c);      /* IN - Native character to test */
+extern int isLetter(unsigned int c);     /* IN - Native character to test */
+extern int toLower(unsigned int c);      /* IN - Native character to convert */
+extern int toUpper(unsigned int c);      /* IN - Native character to convert */
 extern char *strlow(char str[]); /* INOUT - Native string to convert */
 extern char *strupp(char str[]); /* INOUT - Native string to convert */
 

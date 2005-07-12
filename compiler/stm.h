@@ -176,6 +176,7 @@ typedef struct Statement {	/* STATEMENT */
       TypeKind type;
       List *filters;
       List *stms;
+      Expression *setExpression; /* Holding filter which is the set to loop over */
     } each;
 
     struct {
