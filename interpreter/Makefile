@@ -183,10 +183,9 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 depend:
 	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c; \
 	  do \
-	  $(CPP) $(CFLAGS) $(WINGLKINCLUDE) $$f >> dependencies.new; \
-	  $(CPP) $(WINGLKDEFS) $(CFLAGS) $(WINGLKINCLUDE) -I../compiler $$f >> dependencies.new; \
-	  $(CPP) $(TERMGLKDEFS) $(CFLAGS) $(TERMGLKINCLUDE) -I../compiler $$f >> dependencies.new; \
+	  $(CPP) $(CFLAGS) $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 
 include dependencies.mk
+# DO NOT DELETE
