@@ -12,8 +12,8 @@
 #include "atr.h"
 #include "exp_x.h"
 #include "lst_x.h"
-
 #include "sym_x.h"
+#include "type_x.h"
 
 #include "lmList.h"
 
