@@ -5,9 +5,8 @@
     then
 	if test -f $case.expected
 	then
-	    if test -f $case.suspended
+	    if ! test -f $case.suspended
 	    then
-	    else
 		echo $case
 	    fi
 	fi
