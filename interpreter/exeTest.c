@@ -534,13 +534,13 @@ static void testAddSet() {
 }
 
 void testSaveRestoreScore() {
-  ACodeHeader *header = allocate(sizeof(ACodeHeader));
   char *fileName = "testSaveRestoreScore";
   FILE *saveFile;
   int i;
   Aword *oldScores;
   int scoreCount = 48;
 
+  header = allocate(sizeof(ACodeHeader));
   oldScores = scores = allocate(scoreCount*sizeof(Aword));
   header->scoreCount = scoreCount;
 
@@ -559,6 +559,7 @@ void testSaveRestoreScore() {
   saveFile = fopen(fileName, "rb");
   restoreScores(saveFile);
 
+  ASSERT(header->scoreCount == scoreCount);
   ASSERT(memcmp(scores, oldScores, scoreCount*sizeof(Aword)) == 0);
   ASSERT(fgetc(saveFile) == EOF);
 
