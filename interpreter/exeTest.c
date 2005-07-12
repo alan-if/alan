@@ -534,6 +534,7 @@ static void testAddSet() {
 }
 
 void testSaveRestoreScore() {
+  ACodeHeader *header = allocate(sizeof(ACodeHeader));
   char *fileName = "testSaveRestoreScore";
   FILE *saveFile;
   int i;
@@ -565,6 +566,7 @@ void testSaveRestoreScore() {
   unlink(fileName);
   free(scores);
   free(oldScores);
+  free(header);
 }
 
 static void testGetMembers() {
