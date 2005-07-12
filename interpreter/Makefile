@@ -152,12 +152,6 @@ alan.version.c:  ../alan.version
 # Unit testing
 #
 
-# Sources for the test framework
-UNITSRCS = unit.c
-
-TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJECTS = ${TESTSRCS:.c=.o} alan.version.o
-
 unit : checkTarget $(TESTOBJECTS)
 	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIBS)
 

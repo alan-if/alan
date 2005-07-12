@@ -1,8 +1,8 @@
 # Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
 
 # OS-specific definitions
-#OSDEFS = -D__unix__ #-DUSE_READLINE -DHAVE_ANSI
-OSDEFS = -D__unix__
+OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
+#OSDEFS = -D__unix__
 
 
 # -- Glk definitions. Comment all of these out to disable Glk.
@@ -54,7 +54,7 @@ include sources.mk
 # Main targets
 all: $(TARGET)
 
-arun : $(ARUNOBJECTS)
+arun : $(ARUNOBJECTS) unitTest
 	$(LINK) -o $(TARGET) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 
 glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
@@ -76,9 +76,19 @@ install: $(TARGET)
 clean:
 	rm -f $(TARGET) dumpacd *.o *~ .arch
 
+#----------------------------------------------------------------------
+# unit tests
+unit : $(TESTOBJECTS)
+	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIBS)
+
+unitTest: unit
+	@./unit
+
+
 #---<< Glk objects >>---
 glkstart.o: glkstart.c glkstart.h glkio.h
 glkio.o: glkio.c glkio.h
 
 #---<< GENERATED DEPENDENCIES FOLLOWS >>---
 include dependencies.mk
+

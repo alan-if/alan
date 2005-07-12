@@ -28,8 +28,14 @@ static void testStringEqualsIgnoringCase()
   ASSERT(compareStrings("bcd", "abcD")!=0);
 }
 
+static void testIsLowerCase() 
+{
+  ASSERT(isLowerCase(246));
+}
+
 
 void registerSysdepUnitTests()
 {
+  registerUnitTest(testIsLowerCase);
   registerUnitTest(testStringEqualsIgnoringCase);
 }
