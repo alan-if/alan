@@ -7,13 +7,13 @@ OSDEFS = -D__unix__
 
 # -- Glk definitions. Comment all of these out to disable Glk.
 #GLKPREFIX = /usr/local
-GLKPREFIX = ../../WindowsGLK
-GLKINCLUDEDIR = $(GLKPREFIX)/Include
-GLKLIBDIR = -L$(GLKPREFIX)/lib
+#GLKPREFIX = ../../WindowsGLK
+#GLKINCLUDEDIR = $(GLKPREFIX)/Include
+#GLKLIBDIR = -L$(GLKPREFIX)/lib
 #GLK = -DHAVE_GLK
 #GLKLIB = -lglkterm -lcurses
-GLKLIB = $(GLKPREFIX)/Glk.lib
-GLKSRCS = glkstart.c glkio.c winglk.c
+#GLKLIB = $(GLKPREFIX)/Glk.lib
+#GLKSRCS = glkstart.c glkio.c winglk.c
 
 
 # Define this to make interpreter log each crc calculation step
