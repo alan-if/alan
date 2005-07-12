@@ -142,49 +142,49 @@ static char uppChrs[] =
 
 /* Theses work on native character sets */
 
-static char spcChrs[] = " \t\n";
+static unsigned char spcChrs[] = " \t\n";
 
 #ifdef __amiga__
 
 /* Which can't read 8-bit chars but is ISO */
-static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+static unsigned char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
 
-static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
 
 #else
 
 /* Use native characters */
-static char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+static unsigned char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
 
-static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
 
 #endif
 #endif
 
-int isSpace(int c)              /* IN - Native character to test */
+int isSpace(unsigned int c)              /* IN - Native character to test */
 {
   return (c != '\0' && strchr(spcChrs, c) != 0);
 }
 
 
-int isLower(int c)              /* IN - Native character to test */
+int isLower(unsigned int c)              /* IN - Native character to test */
 {
   return (c != '\0' && strchr(lowChrs, c) != 0);
 }
 
 
-int isUpper(int c)              /* IN - Native character to test */
+int isUpper(unsigned int c)              /* IN - Native character to test */
 {
   return (c != '\0' && strchr(uppChrs, c) != 0);
 }
 
-int isLetter(int c)             /* IN - Native character to test */
+int isLetter(unsigned int c)             /* IN - Native character to test */
 {
   return(c != '\0' && (isLower(c)? !0: isUpper(c)));
 }
 
 
-int toLower(int c)              /* IN - Native character to convert */
+int toLower(unsigned int c)              /* IN - Native character to convert */
 {
 #ifdef HAVE_GLK
   return glk_char_to_lower(c);
@@ -211,7 +211,7 @@ int toLower(int c)              /* IN - Native character to convert */
 #endif
 }
 
-int toUpper(int c)              /* IN - Native character to convert */
+int toUpper(unsigned int c)              /* IN - Native character to convert */
 {
 #ifdef HAVE_GLK
   return glk_char_to_upper(c);
@@ -260,17 +260,23 @@ char *strupp(char str[])        /* INOUT - Native string to convert */
 
 /* The following work on ISO characters */
 
-int isLowerCase(int c)          /* IN - ISO character to test */
+int isLowerCase(unsigned int c)          /* IN - ISO character to test */
 {
   static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
-  return (c != '\0' && strchr(lowChrs, c) != 0);
+  int i;
+  for (i = 0; i < strlen(lowChrs); i++)
+    if (lowChrs[i] == c) return 1;
+  return 0;
 }
 
 
-int isUpperCase(int c)          /* IN - ISO character to test */
+int isUpperCase(unsigned int c)          /* IN - ISO character to test */
 {
   static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
-  return (c != '\0' && strchr(uppChrs, c) != 0);
+  int i;
+  for (i = 0; i < strlen(uppChrs); i++)
+    if (uppChrs[i] == c) return 1;
+  return 0;
 }
 
 
