@@ -145,8 +145,8 @@ static void testAggregateInstructions(void)
   ASSERT(memory[pc] == INSTRUCTION(I_AGREND));
 
   /* Execute an AGREND */
-  push(1);			/* Loop terminating limit */
   push(4);			/* Aggregation value */
+  push(1);			/* Loop terminating limit */
   push(1);			/* Loop index */
   push(1);			/* Loop value */
   interpret(5);
@@ -154,11 +154,27 @@ static void testAggregateInstructions(void)
 
   /* Execute an I_COUNT */
   push(2);			/* Faked COUNT value */
+  push(44);			/* Faked limit */
   push(5);			/* Faked loop index */
   push(5);			/* Loop value */
   interpret(7);
-  ASSERT(pop() == 5 && pop() == 5);	/* Values intact */
+  ASSERT(pop() == 5 && pop() == 5 && pop() == 44);	/* Values intact */
   ASSERT(pop() == 3);		/* Incremented COUNT */
+}
+
+static void testMaxInstruction() {
+  Aword testMaxInstructionCode[] = {0,
+				    INSTRUCTION(I_MAX),
+				    INSTRUCTION(I_RETURN)};
+  push(3);			/* Aggregate */
+  push(11);			/* Limit */
+  push(12);			/* Index */
+  push(13);			/* Value */
+  push(2);			/* Attribute value */
+  memory = testMaxInstructionCode;
+  interpret(1);
+  ASSERT(pop() == 13 && pop() == 12 && pop() == 11);
+  ASSERT(pop() == 3);
 }
 
 static void testMaxInstance() {

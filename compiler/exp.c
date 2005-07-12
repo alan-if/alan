@@ -1254,17 +1254,24 @@ static void generateAggregateExpression(Expression *exp)
 
 #define MAXINT ((Aword)-1)
 
-  if (exp->fields.agr.type == INTEGER_TYPE)
-    generateIntegerAggregateLimit(exp);
-  else
-    emitVariable(V_MAX_INSTANCE);	/* Loop limit */
-  switch (exp->fields.agr.kind) { /* Initial aggregate value */
+  /* Initial aggregate value */
+  switch (exp->fields.agr.kind) {
   case COUNT_AGGREGATE:
   case MAX_AGGREGATE:
   case SUM_AGGREGATE: emitConstant(0); break;
   case MIN_AGGREGATE: emitConstant(MAXINT); break;
   }
-  emitConstant(1);		/* Loop start index */
+
+  /* Loop limit */
+  if (exp->fields.agr.type == INTEGER_TYPE)
+    generateIntegerAggregateLimit(exp);
+  else
+    emitVariable(V_MAX_INSTANCE);	/* Loop limit */
+
+  /* Loop start index */
+  emitConstant(1);
+
+  /* Loop */
   emit0(I_AGRSTART);
 
   /* Calcuate loop value, usually the same as the index */
@@ -1278,9 +1285,10 @@ static void generateAggregateExpression(Expression *exp)
     emit0(I_AGRCHECK);
   }
 
-  /* Generate attribute code for all aggregates except COUNT */
-  if (exp->fields.agr.kind != COUNT_AGGREGATE)
+  /* Generate attribute retrieval code for all aggregates except COUNT */
+  if (exp->fields.agr.kind != COUNT_AGGREGATE) {
     emitConstant(exp->fields.agr.attribute->code);
+  }
 
   switch (exp->fields.agr.kind) {
   case SUM_AGGREGATE: emit0(I_SUM); break;

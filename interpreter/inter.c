@@ -692,7 +692,7 @@ void interpret(Aaddr adr)
       case I_SETSIZE: {
 	Set *set = (Set *)pop();
 	if (singleStepOption)
-	  printf("SETSIZE\t%7ld\t\t\t\t\t", (Aword)set);
+	  printf("SETSIZE\t%7ld\t\t", (Aword)set);
 	push(setSize(set));
 	if (singleStepOption)
 	  traceIntegerTopValue();
@@ -1128,12 +1128,12 @@ void interpret(Aaddr adr)
 	\*------------------------------------------------------------*/
       case I_AGRSTART: {
 	Aint index = pop();
-	Aint value = pop();
 	Aint limit = pop();
+	Aint value = pop();
 	if (singleStepOption)
 	  printf("AGRSTART\t\t\t\t\t\t");
-	push(limit);
 	push(value);
+	push(limit);
 	push(index);
 	if (index > limit) {
 	  push(index);
@@ -1149,47 +1149,39 @@ void interpret(Aaddr adr)
 	  goToAGREND();		/* If not, skip rest of filter and the aggregate itself */
 	break;
 
-      case I_MIN: {
-	Aint attribute = pop();
-	Aint loopValue = pop();
-	Aint loopIndex = pop();
-	Aint min = pop();
-	if (singleStepOption)
-	  printf("MIN \t%7ld\t\t", attribute);
-	if (min > attributeOf(loopIndex, attribute))
-	  push(attributeOf(loopIndex, attribute));
-	else
-	  push(min);
-	traceIntegerTopValue();
-	push(loopIndex);
-	push(loopValue);
-	break;
-      }
+      case I_MIN:
+      case I_SUM:
       case I_MAX: {
 	Aint attribute = pop();
 	Aint loopValue = pop();
 	Aint loopIndex = pop();
-	Aint max = pop();
-	if (singleStepOption)
-	  printf("MAX \t%7ld\t\t", attribute);
-	if (max < attributeOf(loopIndex, attribute))
-	  push(attributeOf(loopIndex, attribute)); 
-	else
-	  push(max);
+	Aint limit = pop();
+	Aint aggregate = pop();
+	switch (I_OP(i)) {
+	case I_MAX:
+	  if (singleStepOption)
+	    printf("MAX \t%7ld\t\t", attribute);
+	  if (aggregate < attributeOf(loopIndex, attribute))
+	    push(attributeOf(loopIndex, attribute)); 
+	  else
+	    push(aggregate);
+	  break;
+	case I_MIN:
+	  if (singleStepOption)
+	    printf("MIN \t%7ld\t\t", attribute);
+	  if (aggregate > attributeOf(loopIndex, attribute))
+	    push(attributeOf(loopIndex, attribute));
+	  else
+	    push(aggregate);
+	  break;
+	case I_SUM:
+	  if (singleStepOption)
+	    printf("SUM \t%7ld\t\t", attribute);
+	  push(aggregate + attributeOf(loopIndex, attribute));
+	  break;
+	}
 	traceIntegerTopValue();
-	push(loopIndex);
-	push(loopValue);
-	break;
-      }
-      case I_SUM: {
-	Aint attribute = pop();
-	Aint loopValue = pop();
-	Aint loopIndex = pop();
-	Aint sum = pop();
-	if (singleStepOption)
-	  printf("SUM \t%7ld\t\t", attribute);
-	push(sum + attributeOf(loopIndex, attribute));
-	traceIntegerTopValue();
+	push(limit);
 	push(loopIndex);
 	push(loopValue);
 	break;
@@ -1197,33 +1189,31 @@ void interpret(Aaddr adr)
       case I_COUNT: {
 	Aint loopValue = pop();
 	Aint loopIndex = pop();
+	Aint limit = pop();
 	if (singleStepOption)
 	  printf("COUNT\t\t\t");
 	push(pop() + 1);
 	traceIntegerTopValue();
+	push(limit);
 	push(loopIndex);
 	push(loopValue);
 	break;
       }
       case I_AGREND: {
-	Aint loopIndex;
-	Aint value;
-	Aint limit;
+	Aint loopValue = pop();	/* Ignore loop value */
+	Aint loopIndex = pop();
+	Aint limit = pop();
+	Aint aggregate = pop();
 
-	pop();			/* Ignore loop value */
-	loopIndex = pop();
-	value = pop();
-	limit = top();
 	if (singleStepOption)
 	  printf("AGREND\t%7ld\t\t\t=%ld\t\t", loopIndex, limit);
 	if (loopIndex < limit) {
-	  push(value);
+	  push(aggregate);
+	  push(limit);
 	  push(loopIndex+1);
 	  goToAGRSTART();
-	} else {
-	  pop();		/* remove the limit */
-	  push(value);		/* and push the resulting aggregate value */
-	}
+	} else
+	  push(aggregate);	/* Push the resulting aggregate value */
 	break;
       }
 
