@@ -153,7 +153,8 @@
 #define NATIVECHARSET 2
 #endif
 
-#ifdef __macosx__
+/* Old Macs uses other CHARSER, Mac OS X uses ISO */
+#ifdef __mac__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
@@ -274,7 +275,7 @@ extern char *strdup(char *str);
 
 
 /* Some have stricmp() others strcasecmp() */
-#ifdef __macsosx__
+#ifdef __macosx__
 #define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 

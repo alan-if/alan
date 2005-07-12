@@ -153,7 +153,8 @@
 #define NATIVECHARSET 2
 #endif
 
-#ifdef __macosx__
+/* Old Macs uses other CHARSER, Mac OS X uses ISO */
+#ifdef __mac__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
