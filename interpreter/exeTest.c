@@ -324,10 +324,10 @@ static void testSaveRestore() {
   free(attributes);
 
   /* Get another attribute area and initialize admin areas */
-  attributes = malloc(20*sizeof(AttributeEntry));
-  for (i = 0; i<20; i++) {
-    attributes[19-i].code = i;
-    attributes[19-i].value = i;
+  attributes = malloc(21*sizeof(AttributeEntry));
+  for (i = 0; i<21; i++) {
+    attributes[20-i].code = i;
+    attributes[20-i].value = i;
   }
   admin[1].attributes = &attributes[0];
   admin[2].attributes = &attributes[5];
