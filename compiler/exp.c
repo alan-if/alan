@@ -1252,7 +1252,7 @@ static void generateAggregateExpression(Expression *exp)
 {
   List *lst;
 
-#define MAXINT ((Aword)-1)
+#define MAXINT (0x07ffffff)
 
   /* Initial aggregate value */
   switch (exp->fields.agr.kind) {
@@ -1287,7 +1287,9 @@ static void generateAggregateExpression(Expression *exp)
 
   /* Generate attribute retrieval code for all aggregates except COUNT */
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
+    emit0(I_DUP);
     emitConstant(exp->fields.agr.attribute->code);
+    emit0(I_ATTRIBUTE);		/* Cannot be anything but INTEGER */
   }
 
   switch (exp->fields.agr.kind) {

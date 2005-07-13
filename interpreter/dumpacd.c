@@ -32,18 +32,22 @@ static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag,
   containersFlag, rulesFlag, statementsFlag, messagesFlag;
 
 
-
 int eot(Aword *adr)
 {
   return *adr == EOF;
 }
 
 
-
 static void syserr(char str[])
 {
-  printf("ERROR - %s\n", str);
+  printf("SYSTEM ERROR - %s\n", str);
   exit(0);
+}
+
+
+static void error(char str[])
+{
+  printf("ERROR - %s\n", str);
 }
 
 
@@ -503,11 +507,12 @@ static void dumpStatements(Aword pc)
     case C_CURVAR:
       switch (I_OP(i)) {
       case V_PARAM: printf("PARAM"); break;
+      case V_MAX_INSTANCE: printf("MAXINSTANCE"); break;
       case V_CURLOC: printf("CURLOC"); break;
       case V_CURACT: printf("CURACT"); break;
       case V_CURVRB: printf("CURVRB"); break;
       case V_SCORE: printf("CURSCORE"); break;
-      default: syserr("Unknown CURVAR instruction."); break;
+      default: error("Unknown CURVAR instruction."); break;
       }
       break;
       
@@ -615,7 +620,7 @@ static void dumpStatements(Aword pc)
       break;
 
     default:
-      printf("*** Unknown instruction class ***");
+      error("Unknown instruction class");
       break;
     }
   }

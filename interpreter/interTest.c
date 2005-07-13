@@ -166,7 +166,7 @@ static void testMaxInstruction() {
   Aword testMaxInstructionCode[] = {0,
 				    INSTRUCTION(I_MAX),
 				    INSTRUCTION(I_RETURN)};
-  push(3);			/* Aggregate */
+  push(3);			/* Previous aggregate value */
   push(11);			/* Limit */
   push(12);			/* Index */
   push(13);			/* Value */
@@ -175,6 +175,16 @@ static void testMaxInstruction() {
   interpret(1);
   ASSERT(pop() == 13 && pop() == 12 && pop() == 11);
   ASSERT(pop() == 3);
+
+  push(3);			/* Previous aggregate value */
+  push(11);			/* Limit */
+  push(12);			/* Index */
+  push(13);			/* Value */
+  push(4);			/* Attribute value */
+  memory = testMaxInstructionCode;
+  interpret(1);
+  ASSERT(pop() == 13 && pop() == 12 && pop() == 11);
+  ASSERT(pop() == 4);
 }
 
 static void testMaxInstance() {
@@ -195,6 +205,7 @@ void registerInterUnitTests(void)
   registerUnitTest(testNextEach);
   registerUnitTest(testEachInstruction);
   registerUnitTest(testEndEachInstruction);
+  registerUnitTest(testMaxInstruction);
   registerUnitTest(testAggregateInstructions);
   registerUnitTest(testMaxInstance);
 }

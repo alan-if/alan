@@ -276,18 +276,15 @@ static void depcase(void)
 /*----------------------------------------------------------------------*/
 static void traceBooleanTopValue() {
   if (singleStepOption) {
-    if (top()) printf("\t=TRUE\t\t");
-    else printf("\t=FALSE\t\t");
+    if (top()) printf("\t=TRUE\t");
+    else printf("\t=FALSE\t");
   }
 }
 
 /*----------------------------------------------------------------------*/
 static void traceIntegerTopValue() {
-  if (singleStepOption) {
+  if (singleStepOption)
     printf("\t=%ld\t", top());
-    if (top() <= 99999)
-      printf("\t");
-  }
 }
 
 /*----------------------------------------------------------------------*/
@@ -389,32 +386,32 @@ void interpret(Aaddr adr)
       if (singleStepOption) printf("\n%4x: ", pc-1);
       switch (I_OP(i)) {
       case V_PARAM:
-	if (singleStepOption) printf("PARAM \t%7ld\t\t\t=%ld\t", top(),
+	if (singleStepOption) printf("PARAM \t%7ld\t\t\t\t=%ld\t", top(),
 				     parameters[top()-1].instance);
 	push(parameters[pop()-1].instance);
 	break;
       case V_CURLOC:
-	if (singleStepOption) printf("CURLOC \t\t\t\t=%d\t\t", current.location);
+	if (singleStepOption) printf("CURLOC \t\t\t\t\t=%d\t", current.location);
 	push(current.location);
 	break;
       case V_CURACT:
-	if (singleStepOption) printf("CURACT \t\t\t\t=%d\t\t", current.actor);
+	if (singleStepOption) printf("CURACT \t\t\t\t\t=%d\t", current.actor);
 	push(current.actor);
 	break;
       case V_CURVRB:
-	if (singleStepOption) printf("CURVRB \t\t\t\t=%d\t\t", current.verb);
+	if (singleStepOption) printf("CURVRB \t\t\t\t\t=%d\t", current.verb);
 	push(current.verb);
 	break;
       case V_CURRENT_INSTANCE:
-	if (singleStepOption) printf("CURINS \t\t\t\t=%d\t\t", current.instance);
+	if (singleStepOption) printf("CURINS \t\t\t\t\t=%d\t", current.instance);
 	push(current.instance);
 	break;
       case V_SCORE:
-	if (singleStepOption) printf("CURSCORE \t\t\t\t=%d\t\t", current.score);
+	if (singleStepOption) printf("CURSCORE \t\t\t\t\t=%d\t", current.score);
 	push(current.score);
 	break;
       case V_MAX_INSTANCE:
-	if (singleStepOption) printf("MAXINSTANCE \t\t\t=%d\t\t", (int)header->instanceMax);
+	if (singleStepOption) printf("MAXINSTANCE \t\t\t\t=%d\t", (int)header->instanceMax);
 	push(header->instanceMax);
 	break;
       default:
@@ -1161,23 +1158,23 @@ void interpret(Aaddr adr)
 	case I_MAX:
 	  if (singleStepOption)
 	    printf("MAX \t%7ld\t\t", attribute);
-	  if (aggregate < attributeOf(loopIndex, attribute))
-	    push(attributeOf(loopIndex, attribute)); 
+	  if (aggregate < attribute)
+	    push(attribute); 
 	  else
 	    push(aggregate);
 	  break;
 	case I_MIN:
 	  if (singleStepOption)
 	    printf("MIN \t%7ld\t\t", attribute);
-	  if (aggregate > attributeOf(loopIndex, attribute))
-	    push(attributeOf(loopIndex, attribute));
+	  if (aggregate > attribute)
+	    push(attribute);
 	  else
 	    push(aggregate);
 	  break;
 	case I_SUM:
 	  if (singleStepOption)
 	    printf("SUM \t%7ld\t\t", attribute);
-	  push(aggregate + attributeOf(loopIndex, attribute));
+	  push(aggregate + attribute);
 	  break;
 	}
 	traceIntegerTopValue();
@@ -1206,7 +1203,7 @@ void interpret(Aaddr adr)
 	Aint aggregate = pop();
 
 	if (singleStepOption)
-	  printf("AGREND\t%7ld\t\t\t=%ld\t\t", loopIndex, limit);
+	  printf("AGREND\t%7ld\t\t\t\t=%ld\t", loopIndex, limit);
 	if (loopIndex < limit) {
 	  push(aggregate);
 	  push(limit);
