@@ -21,8 +21,14 @@
 static Aword stack[STACKSIZE];
 static int stackp = 0;
 
+/*======================================================================*/
+void resetStack(void)
+{
+  stackp = 0;
+}
 
-/*----------------------------------------------------------------------*/
+
+/*======================================================================*/
 void dumpStack(void)
 {
   int i;
@@ -34,13 +40,8 @@ void dumpStack(void)
 }
 
 
-
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 void push(Aword i)
-#else
-void push(i)
-     Aword i;
-#endif
 {
   if (stackp == STACKSIZE)
     syserr("Out of stack space.");
@@ -48,11 +49,8 @@ void push(i)
 }
 
 
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 Aword pop(void)
-#else
-Aword pop()
-#endif
 {
   if (stackp == 0)
     syserr("Stack underflow.");
@@ -60,11 +58,8 @@ Aword pop()
 }
 
 
-#ifdef _PROTOTYPES_
+/*======================================================================*/
 Aword top(void)
-#else
-Aword top()
-#endif
 {
   return(stack[stackp-1]);
 }
@@ -73,6 +68,7 @@ Aword top()
 /* The AMACHINE Block Frames */
 static int framePointer = -1;
 
+/*======================================================================*/
 void newFrame(Aint noOfLocals)
 {
   push(framePointer);
@@ -81,6 +77,7 @@ void newFrame(Aint noOfLocals)
 }
 
 
+/*======================================================================*/
 /* Local variables are numbered 1 and up and stored on their index-1 */
 Aword getLocal(Aint framesBelow, Aint variableNumber)
 {
@@ -97,6 +94,7 @@ Aword getLocal(Aint framesBelow, Aint variableNumber)
   return stack[frame + variableNumber-1];
 }
 
+/*======================================================================*/
 void setLocal(Aint framesBelow, Aint variableNumber, Aword value)
 {
   int frame = framePointer;
@@ -112,6 +110,7 @@ void setLocal(Aint framesBelow, Aint variableNumber, Aword value)
   stack[frame + variableNumber-1] = value;
 }
 
+/*======================================================================*/
 void endFrame(void)
 {
   stackp = framePointer;

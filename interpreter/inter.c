@@ -1126,16 +1126,12 @@ void interpret(Aaddr adr)
       case I_AGRSTART: {
 	Aint index = pop();
 	Aint limit = pop();
-	Aint value = pop();
 	if (singleStepOption)
 	  printf("AGRSTART\t\t\t\t\t\t");
-	push(value);
 	push(limit);
 	push(index);
-	if (index > limit) {
-	  push(index);
+	if (index > limit)
 	  goToAGREND();
-	}
 	break;
       }
 
@@ -1150,7 +1146,6 @@ void interpret(Aaddr adr)
       case I_SUM:
       case I_MAX: {
 	Aint attribute = pop();
-	Aint loopValue = pop();
 	Aint loopIndex = pop();
 	Aint limit = pop();
 	Aint aggregate = pop();
@@ -1180,11 +1175,9 @@ void interpret(Aaddr adr)
 	traceIntegerTopValue();
 	push(limit);
 	push(loopIndex);
-	push(loopValue);
 	break;
       }
       case I_COUNT: {
-	Aint loopValue = pop();
 	Aint loopIndex = pop();
 	Aint limit = pop();
 	if (singleStepOption)
@@ -1193,11 +1186,9 @@ void interpret(Aaddr adr)
 	traceIntegerTopValue();
 	push(limit);
 	push(loopIndex);
-	push(loopValue);
 	break;
       }
       case I_AGREND: {
-	Aint loopValue = pop();	/* Ignore loop value */
 	Aint loopIndex = pop();
 	Aint limit = pop();
 	Aint aggregate = pop();

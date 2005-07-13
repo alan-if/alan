@@ -1248,6 +1248,15 @@ static void generateIntegerAggregateLoopValue(Expression *exp) {
 
 
 /*----------------------------------------------------------------------*/
+static void generateLoopValue(Expression *exp) {
+  /* Calcuate loop value, usually the same as the index */
+  emit0(I_DUP);
+  if (exp->fields.agr.type == INTEGER_TYPE)
+    generateIntegerAggregateLoopValue(exp->fields.agr.setExpression);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void generateAggregateExpression(Expression *exp)
 {
   List *lst;
@@ -1274,20 +1283,15 @@ static void generateAggregateExpression(Expression *exp)
   /* Loop */
   emit0(I_AGRSTART);
 
-  /* Calcuate loop value, usually the same as the index */
-  emit0(I_DUP);
-  if (exp->fields.agr.type == INTEGER_TYPE)
-    generateIntegerAggregateLoopValue(exp->fields.agr.setExpression);
-
   TRAVERSE(lst,exp->fields.agr.filters) {
-    emit0(I_DUP);		/* Duplicate loop value */
+    generateLoopValue(exp);
     generateFilter(lst->element.exp);
     emit0(I_AGRCHECK);
   }
 
   /* Generate attribute retrieval code for all aggregates except COUNT */
   if (exp->fields.agr.kind != COUNT_AGGREGATE) {
-    emit0(I_DUP);
+    generateLoopValue(exp);
     emitConstant(exp->fields.agr.attribute->code);
     emit0(I_ATTRIBUTE);		/* Cannot be anything but INTEGER */
   }
