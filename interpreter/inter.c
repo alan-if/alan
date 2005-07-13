@@ -103,39 +103,22 @@ static void interpretElse(void)
 
 
 /*----------------------------------------------------------------------*/
-static void goToAGREND(void)
-{
-  while (memory[pc] != INSTRUCTION(I_AGREND))
-    pc++;
-  if (singleStepOption) traceSkip();
-}
-
-
-/*----------------------------------------------------------------------*/
-static void goToAGRSTART(void)
-{
-  while (memory[pc-1] != INSTRUCTION(I_AGRSTART))
-    pc--;
-  if (singleStepOption) traceSkip();
-}
-
-/*----------------------------------------------------------------------*/
-static void goToENDEACH(void) {
+static void goToLOOPEND(void) {
   int level = 1;
   int i;
 
   if (singleStepOption) traceSkip();
   while (TRUE) {
-    /* Skip past ENDEACH on the same level */
+    /* Skip past LOOPEND on the same level */
     i = memory[pc];
     if (I_CLASS(i) == (Aword)C_STMOP)
       switch (I_OP(i)) {
-      case I_ENDEACH:
+      case I_LOOPEND:
 	level--;
 	if (level == 0)
 	  return;
 	break;
-      case I_EACH:
+      case I_LOOP:
 	level++;
 	break;
       }
@@ -145,21 +128,21 @@ static void goToENDEACH(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void goToEACH(void) {
+static void goToLOOP(void) {
   int level = 1;
   int i;
 
   if (singleStepOption) traceSkip();
   pc--;				/* Ignore the instruction we're on */
   while (TRUE) {
-    /* Skip back past EACH on the same level */
+    /* Skip back past LOOP on the same level */
     i = memory[--pc];
     if (I_CLASS(i) == (Aword)C_STMOP)
       switch (I_OP(i)) {
-      case I_ENDEACH:
+      case I_LOOPEND:
 	level++;
 	break;
-      case I_EACH:
+      case I_LOOP:
 	level--;
 	if (level == 0) {
 	  return;
@@ -171,22 +154,22 @@ static void goToEACH(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void nextEach(void)
+static void nextLoop(void)
 {
-  goToENDEACH();
+  goToLOOPEND();
 }  
 
 
 /*----------------------------------------------------------------------*/
-static void endEach(Aint index, Aint limit)
+static void endLoop(Aint index, Aint limit)
 {
   if (index < limit) {
     index++;
     push(limit);
     push(index);
-    goToEACH();
+    goToLOOP();
     if (singleStepOption)
-      printf("\n%4x: EACH\t\t\t\t\t\t", pc);
+      printf("\n%4x: LOOP\t\t\t\t\t\t", pc);
     pc++;
   }
 }
@@ -306,8 +289,8 @@ static char *directlyFlag(Abool bool) {
 
 /*----------------------------------------------------------------------*/
 static char *booleanValue(Abool bool) {
-  if (bool) return "TRUE";
-  else return "FALSE";
+  if (bool) return "   TRUE";
+  else return "  FALSE";
 }
 
 /*----------------------------------------------------------------------*/
@@ -909,11 +892,8 @@ void interpret(Aaddr adr)
       }
       case I_IF: {
 	Aword v = pop();
-	if (singleStepOption) {
-	  printf("IF \t");
-	  if (v) printf("   TRUE"); else printf("  FALSE");
-	  printf("\t\t\t\t\t");
-	}
+	if (singleStepOption)
+	  printf("IF \t%s\t\t\t\t\t", booleanValue(v));
 	interpretIf(v);
 	break;
       }
@@ -1059,7 +1039,7 @@ void interpret(Aaddr adr)
       case I_NOT: {
 	Aword val = pop();
 	if (singleStepOption)
-	  printf("NOT \t%s\t\t", booleanValue(val));
+	  printf("NOT \t%s\t\t\t", booleanValue(val));
 	push(!val);
 	traceBooleanTopValue();
 	break;
@@ -1123,25 +1103,6 @@ void interpret(Aaddr adr)
 	/*------------------------------------------------------------
 	  Aggregation
 	  ------------------------------------------------------------*/
-      case I_AGRSTART: {
-	Aint index = pop();
-	Aint limit = pop();
-	if (singleStepOption)
-	  printf("AGRSTART\t\t\t\t\t\t");
-	push(limit);
-	push(index);
-	if (index > limit)
-	  goToAGREND();
-	break;
-      }
-
-      case I_AGRCHECK:
-	if (singleStepOption)
-	  printf("AGRCHECK\t\t\t\t\t\t");
-	if (!pop())		/* This filter matched? */
-	  goToENDEACH();		/* If not, skip rest of filter and the aggregate itself */
-	break;
-
       case I_MIN:
       case I_SUM:
       case I_MAX: {
@@ -1152,7 +1113,7 @@ void interpret(Aaddr adr)
 	switch (I_OP(i)) {
 	case I_MAX:
 	  if (singleStepOption)
-	    printf("MAX \t%7ld\t\t", attribute);
+	    printf("MAX \t%7ld\t\t\t", attribute);
 	  if (aggregate < attribute)
 	    push(attribute); 
 	  else
@@ -1160,7 +1121,7 @@ void interpret(Aaddr adr)
 	  break;
 	case I_MIN:
 	  if (singleStepOption)
-	    printf("MIN \t%7ld\t\t", attribute);
+	    printf("MIN \t%7ld\t\t\t", attribute);
 	  if (aggregate > attribute)
 	    push(attribute);
 	  else
@@ -1168,7 +1129,7 @@ void interpret(Aaddr adr)
 	  break;
 	case I_SUM:
 	  if (singleStepOption)
-	    printf("SUM \t%7ld\t\t", attribute);
+	    printf("SUM \t%7ld\t\t\t", attribute);
 	  push(aggregate + attribute);
 	  break;
 	}
@@ -1186,19 +1147,6 @@ void interpret(Aaddr adr)
 	traceIntegerTopValue();
 	push(limit);
 	push(loopIndex);
-	break;
-      }
-      case I_AGREND: {
-	Aint loopIndex = pop();
-	Aint limit = pop();
-
-	if (singleStepOption)
-	  printf("AGREND\t%7ld\t\t\t\t=%ld\t", loopIndex, limit);
-	if (loopIndex < limit) {
-	  push(limit);
-	  push(loopIndex+1);
-	  goToAGRSTART();
-	}
 	break;
       }
 
@@ -1284,31 +1232,31 @@ void interpret(Aaddr adr)
 	break;
       }
 
-      case I_EACH: {
+      case I_LOOP: {
 	Aint index = pop();
 	Aint limit = pop();
 	if (singleStepOption)
-	  printf("EACH \t\t\t\t\t\t");
+	  printf("LOOP \t\t\t\t\t\t");
 	push(limit);
 	push(index);
 	if (index > limit)
-	  goToENDEACH();
+	  goToLOOPEND();
 	break;
       }
 
-      case I_NEXTEACH: {
+      case I_LOOPNEXT: {
 	if (singleStepOption)
-	  printf("NEXTEACH\t\t\t\t\t\t");
-	nextEach();
+	  printf("LOOPNEXT\t\t\t\t\t\t");
+	nextLoop();
 	break;
       }
 
-      case I_ENDEACH: {
+      case I_LOOPEND: {
 	Aint index = pop();
 	Aint limit = pop();
 	if (singleStepOption)
-	  printf("ENDEACH\t\t\t\t\t\t");
-	endEach(index, limit);
+	  printf("LOOPEND\t\t\t\t\t\t");
+	endLoop(index, limit);
 	break;
       }
 

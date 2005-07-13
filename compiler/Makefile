@@ -86,7 +86,7 @@ unittests: unit
 
 .PHONY: unit
 unit : $(TESTOBJS)
-	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
+	$(LD) -o unit $(CFLAGS) $(TESTOBJS) alan.version.o $(LDFLAGS)
 
 .PHONY:test
 # Run all tests!

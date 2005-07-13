@@ -1281,12 +1281,15 @@ static void generateAggregateExpression(Expression *exp)
   emitConstant(1);
 
   /* Loop */
-  emit0(I_EACH);
+  emit0(I_LOOP);
 
   TRAVERSE(lst,exp->fields.agr.filters) {
     generateLoopValue(exp);
     generateFilter(lst->element.exp);
-    emit0(I_AGRCHECK);
+    emit0(I_NOT);
+    emit0(I_IF);
+    emit0(I_LOOPNEXT);
+    emit0(I_ENDIF);
   }
 
   /* Generate attribute retrieval code for all aggregates except COUNT */
@@ -1302,7 +1305,7 @@ static void generateAggregateExpression(Expression *exp)
   case MIN_AGGREGATE: emit0(I_MIN); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
   }
-  emit0(I_ENDEACH);
+  emit0(I_LOOPEND);
 }
 
 

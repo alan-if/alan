@@ -87,5 +87,5 @@ UNITSRCS = unit.c \
 	smScanx.c smScSema.c
 
 TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+TESTOBJS = ${TESTSRCS:.c=.o}
 

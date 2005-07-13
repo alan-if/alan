@@ -75,9 +75,9 @@ include sources.mk
 
 
 arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
-	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
+	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp arun.exe ../bin
+	cp $@ ../bin
 
 all:
 	$(MAKE) arun
@@ -90,19 +90,19 @@ release:
 	$(MAKE) "OPTIMIZE=-O4" winarun
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
-	gcc -o $(EXE) $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
+	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp $(EXE) ../bin
+	cp $@ ../bin
 
 gararun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
-	gcc -o $(EXE) $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
+	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $(EXE) ../bin
 
 termarun: checkTarget $(TERMARUNOBJECTS) arun.res
-	gcc -o $(EXE) $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
+	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp $(EXE) ../bin
+	cp $@ ../bin
 
 dmalloc: checkTarget $(ARUNOBJECTS) unitTest
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
@@ -168,6 +168,8 @@ test: unitTest
 #
 dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 	gcc -Wall -o dumpacd -ggdb -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
+	cp $@ ../bin
+
 
 
 

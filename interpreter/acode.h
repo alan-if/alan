@@ -198,13 +198,6 @@ typedef enum InstClass {
   I_NOT,
   I_UMINUS,
   I_RND,
-  I_AGRSTART,			/* Aggregate looping instructions */
-  I_AGRCHECK,
-  I_AGREND,
-  I_SUM,			/* Aggregates */
-  I_MAX,
-  I_MIN,
-  I_COUNT,			/* COUNT aggregate & limit meta-attribute */
   I_RETURN,
   I_SYSTEM,
   I_RESTART,
@@ -221,9 +214,13 @@ typedef enum InstClass {
   I_SETLOCAL,
   I_GETLOCAL,
   I_ENDFRAME,
-  I_EACH,
-  I_NEXTEACH,
-  I_ENDEACH,
+  I_LOOP,
+  I_LOOPNEXT,
+  I_LOOPEND,
+  I_SUM,			/* Aggregates */
+  I_MAX,
+  I_MIN,
+  I_COUNT,			/* COUNT aggregate & limit meta-attribute */
   I_SHOW,
   I_PLAY,
   I_CONCAT,

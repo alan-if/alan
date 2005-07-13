@@ -1098,7 +1098,7 @@ static void generateEach(Statement *statement)
     emitConstant(1);
   
   /* Start loop */
-  emit0(I_EACH);
+  emit0(I_LOOP);
 
   /* Generate loop value from loop index */
   if (statement->fields.each.type == INTEGER_TYPE)
@@ -1115,14 +1115,14 @@ static void generateEach(Statement *statement)
     generateFilter(filter->element.exp);
     emit0(I_NOT);
     emit0(I_IF);
-    emit0(I_NEXTEACH);
+    emit0(I_LOOPNEXT);
     emit0(I_ENDIF);
   }
 
   generateStatements(statement->fields.each.stms);
 
   /* End of loop */
-  emit0(I_ENDEACH);
+  emit0(I_LOOPEND);
 
   /* End of block */
   emit0(I_ENDFRAME);
