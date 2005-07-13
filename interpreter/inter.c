@@ -1139,7 +1139,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("AGRCHECK\t\t\t\t\t\t");
 	if (!pop())		/* This filter matched? */
-	  goToAGREND();		/* If not, skip rest of filter and the aggregate itself */
+	  goToENDEACH();		/* If not, skip rest of filter and the aggregate itself */
 	break;
 
       case I_MIN:
@@ -1191,17 +1191,14 @@ void interpret(Aaddr adr)
       case I_AGREND: {
 	Aint loopIndex = pop();
 	Aint limit = pop();
-	Aint aggregate = pop();
 
 	if (singleStepOption)
 	  printf("AGREND\t%7ld\t\t\t\t=%ld\t", loopIndex, limit);
 	if (loopIndex < limit) {
-	  push(aggregate);
 	  push(limit);
 	  push(loopIndex+1);
 	  goToAGRSTART();
-	} else
-	  push(aggregate);	/* Push the resulting aggregate value */
+	}
 	break;
       }
 
@@ -1288,8 +1285,14 @@ void interpret(Aaddr adr)
       }
 
       case I_EACH: {
+	Aint index = pop();
+	Aint limit = pop();
 	if (singleStepOption)
 	  printf("EACH \t\t\t\t\t\t");
+	push(limit);
+	push(index);
+	if (index > limit)
+	  goToENDEACH();
 	break;
       }
 

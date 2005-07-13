@@ -1281,7 +1281,7 @@ static void generateAggregateExpression(Expression *exp)
   emitConstant(1);
 
   /* Loop */
-  emit0(I_AGRSTART);
+  emit0(I_EACH);
 
   TRAVERSE(lst,exp->fields.agr.filters) {
     generateLoopValue(exp);
@@ -1302,7 +1302,7 @@ static void generateAggregateExpression(Expression *exp)
   case MIN_AGGREGATE: emit0(I_MIN); break;
   case COUNT_AGGREGATE: emit0(I_COUNT); break;
   }
-  emit0(I_AGREND);
+  emit0(I_ENDEACH);
 }
 
 

@@ -47,10 +47,13 @@ static void testEachInstruction()
 {
   Aword eachInstructionCode1[] = {4, /* Dummy to not execute at zero */
 				  43, /* Marker */
+				  12, /* Limit */
+				  1, /* Index */
 				  INSTRUCTION(I_EACH),
 				  INSTRUCTION(I_RETURN)};
   memory = eachInstructionCode1;
   interpret(1);			/* Should not do anything */
+  ASSERT(pop() == 1 && pop() == 12); /* Index and limit untouched */
   ASSERT(pop() == 43);		/* So the stack should contain the marker */
 }
 
@@ -112,7 +115,6 @@ static void testNextEach() {
   ASSERT(pc == 9);
 }
 
-
 static void testAggregateInstructions(void)
 {
   Aword testAgrStartCode[] = {0,
@@ -164,7 +166,7 @@ static void testAgrCheckEndInstructions() {
   Aword agrCheckCode[] = {0,
 			  INSTRUCTION(I_AGRCHECK),
 			  INSTRUCTION(I_RETURN),
-			  INSTRUCTION(I_AGREND),
+			  INSTRUCTION(I_ENDEACH),
 			  INSTRUCTION(I_RETURN)};
   memory = agrCheckCode;
   resetStack();
