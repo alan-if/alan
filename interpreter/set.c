@@ -92,12 +92,16 @@ Bool inSet(Set *theSet, Aword member)
 
 
 /*=======================================================================*/
-void setUnion(Set *set1, Set *set2)
+Set *setUnion(Set *set1, Set *set2)
 {
+  Set *theUnion = newSet(set1->size+set2->size);
   int i;
 	
+  for (i = 0; i < set1->size; i++)
+    addToSet(theUnion, set1->members[i]);
   for (i = 0; i < set2->size; i++)
-    addToSet(set1, set2->members[i]);
+    addToSet(theUnion, set2->members[i]);
+  return theUnion;
 }
 
 

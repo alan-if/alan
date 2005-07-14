@@ -32,7 +32,7 @@ extern Aword getSetMember(Set *theSet, Aint member);
 extern Bool inSet(Set *theSet, Aword member);
 extern void addToSet(Set *theSet, Aword newMember);
 extern void removeFromSet(Set *theSet, Aword member);
-extern void setUnion(Set *theSet, Set *other);
+extern Set *setUnion(Set *theSet, Set *other);
 extern Bool equalSets(Set *theSet, Set *other);
 extern void freeSet(Set *theSet);
 

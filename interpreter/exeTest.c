@@ -180,6 +180,7 @@ static void testPushGameState() {
   gameState = NULL;
   gameStateTop = 0;
   gameStateSize = 0;
+  gameStateChanged = TRUE;
 
   pushGameState();
 
@@ -252,6 +253,7 @@ static void testPopGameState() {
   gameStateSize = 0;
   attributes[0].value = 12;
   attributes[2].value = 3;
+  gameStateChanged = TRUE;
 
   pushGameState();
 
@@ -269,6 +271,8 @@ static void testPopGameState() {
   admin[2].script = 33;
   admin[2].step = 3886;
   admin[2].waitCount = 38869878;
+
+  gameStateChanged = TRUE;
   pushGameState();
 
   admin[2].location = 55;
@@ -584,26 +588,6 @@ static void testWhere() {
   free(header);
 }
 
-static void testAddSet() {
-  Set *set1 = NEW(Set);
-  Set *set2 = NEW(Set);
-
-  /* Test adding an empty set */
-  addSet(set1, set2);
-  ASSERT(setSize(set2)==0);
-
-  addToSet(set2, 6);
-  addToSet(set2, 7);
-  addToSet(set2, 8);
-  addSet(set1, set2);
-  ASSERT(setSize(set2)==3);
-
-  addToSet(set1, 4);
-  addToSet(set1, 6);
-  addSet(set1, set2);
-  ASSERT(setSize(set2)==4);
-}
-
 void testSaveRestoreScore() {
   char *fileName = "testSaveRestoreScore";
   FILE *saveFile;
@@ -691,7 +675,6 @@ void registerExeUnitTests() {
   registerUnitTest(testSaveStrings);
   registerUnitTest(testSaveSets);
   registerUnitTest(testWhere);
-  registerUnitTest(testAddSet);
   registerUnitTest(testSaveRestoreScore);
   registerUnitTest(testGetMembers);
   registerUnitTest(testContainerSize);

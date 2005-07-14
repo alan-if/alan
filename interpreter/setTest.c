@@ -9,7 +9,7 @@
 #include "set.c"
 
 
-static void testSetAdd() {
+static void testAddToSet() {
   Set aSet = {0, 0, NULL};
   int i;
 
@@ -29,6 +29,37 @@ static void testSetAdd() {
   }
   ASSERT(aSet.size == 6);
 }  
+
+static void testSetUnion() {
+  Set *set0 = newSet(0);
+  Set *set678 = newSet(3);
+  Set *set456 = newSet(3);
+  Set *theUnion;
+
+  /* Test adding an empty set */
+  theUnion = setUnion(set0, set0);
+  ASSERT(setSize(theUnion)==0);
+
+  addToSet(set678, 6);
+  addToSet(set678, 7);
+  addToSet(set678, 8);
+  theUnion = setUnion(set0, set678);
+  ASSERT(setSize(theUnion)==3);
+  ASSERT(inSet(theUnion, 6));
+  ASSERT(inSet(theUnion, 7));
+  ASSERT(inSet(theUnion, 8));
+
+  addToSet(set456, 4);
+  addToSet(set456, 5);
+  addToSet(set456, 6);
+  theUnion = setUnion(set456, set678);
+  ASSERT(setSize(theUnion)==5);
+  ASSERT(inSet(theUnion, 4));
+  ASSERT(inSet(theUnion, 5));
+  ASSERT(inSet(theUnion, 6));
+  ASSERT(inSet(theUnion, 7));
+  ASSERT(inSet(theUnion, 8));
+}
 
 static void testSetRemove() {
   Set *aSet = newSet(0);
@@ -99,7 +130,8 @@ static void testCompareSets() {
 
 void registerSetUnitTests()
 {
-  registerUnitTest(testSetAdd);
+  registerUnitTest(testAddToSet);
+  registerUnitTest(testSetUnion);
   registerUnitTest(testSetRemove);
   registerUnitTest(testInSet);
   registerUnitTest(testClearSet);

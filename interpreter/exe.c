@@ -70,7 +70,7 @@ typedef struct GameState {
 static int gameStateTop = 0;
 static int gameStateSize = 0;
 static GameState *gameState = NULL;
-
+static Bool gameStateChanged = FALSE;
 
 /* FORWARD */
 static Aword getAttribute(AttributeEntry *attributeTable,
@@ -88,45 +88,6 @@ static void ensureSpaceForGameState() {
   }
 }
 
-
-/*----------------------------------------------------------------------*/
-static Bool gameStateChanged(void)
-{
-  Aword *previousEventQueue;
-  Aword *previousAdmin;
-  Aword *previousAttributes;
-  Aword *previousScores;
-
-  if (gameStateTop == 0) return TRUE;
-
-  previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
-  previousAdmin = (Aword *)gameState[gameStateTop-1].admin;
-  previousAttributes = (Aword *)gameState[gameStateTop-1].attributes;
-  previousScores = (Aword *)gameState[gameStateTop-1].scores;
-
-  /* Compare current game state with last saved */
-
-  if (eventQueueTop != gameState[gameStateTop-1].eventQueueTop)
-    return TRUE;
-  if (eventQueueTop > 0)
-    if (!memcmp(eventQueue, previousEventQueue, eventQueueTop*sizeof(EventQueueEntry)/sizeof(Aword)))
-      return TRUE;
-
-  if (admin == NULL) syserr("admin[] == NULL in pushGameState()");
-
-  if (memcmp(admin, previousAdmin, (header->instanceMax+1)*sizeof(AdminEntry)) != 0)
-    return TRUE;
-
-  if (attributes == NULL) syserr("attributes[] == NULL in gameStateChanged()");
-  if (memcmp(attributes, previousAttributes, header->attributesAreaSize*sizeof(Aword)) != 0)
-    return TRUE;
-
-  if (gameState[gameStateTop-1].score != current.score) return TRUE;
-  if (memcmp(scores, previousScores, header->scoreCount*sizeof(scores[0])) != 0)
-    return TRUE;
-
-  return FALSE;
-}
 
 /*----------------------------------------------------------------------*/
 static Aword *pushSets() {
@@ -156,8 +117,7 @@ void pushGameState(void) {
 
   ensureSpaceForGameState();
 
-  if (gameStateChanged()) {
-    printf("PUSH GAME STATE\n");
+  if (gameStateChanged) {
     gameState[gameStateTop].eventQueueTop = eventQueueTop;
     gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
 
@@ -170,6 +130,8 @@ void pushGameState(void) {
     gameState[gameStateTop].sets = pushSets();
 
     gameStateTop++;
+
+    gameStateChanged = FALSE;
   }
 }
   
@@ -209,7 +171,6 @@ Bool popGameState(void) {
   if (gameStateTop == 0) {
     return FALSE;
   }
-  printf("PUSH GAME STATE\n");
 
   gameStateTop--;
 
@@ -564,6 +525,7 @@ static void setAttribute(AttributeEntry *attributeTable,
   AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 
   attribute->value = newValue;
+  gameStateChanged = TRUE;
 }
 
 
@@ -614,15 +576,6 @@ void addSetAttribute(Aint id, Aint atr, Aword set) {
 
   for (i = 0; i < theSet->size; i++)
     addToSet(attribute, theSet->members[i]);
-}
-
-
-/*======================================================================*/
-void addSet(Set *addend, Set *target) {
-  int i;
-
-  for (i = 0; i < addend->size; i++)
-    addToSet(target, addend->members[i]);
 }
 
 
@@ -849,22 +802,6 @@ Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars
 
 
 /*----------------------------------------------------------------------*/
-#ifdef FIXME
-static Aword objloc(Aword obj)
-{
-  /* Keep this for container handling */
-  if (isCnt(objs[obj-OBJMIN].loc)) /* In something ? */
-    if (isObj(objs[obj-OBJMIN].loc) || isAct(objs[obj-OBJMIN].loc))
-      return(where(objs[obj-OBJMIN].loc));
-    else /* Containers not anywhere is where the hero is! */
-      return(where(HERO));
-  else
-    return(objs[obj-OBJMIN].loc);
-}
-
-#endif
-
-/*----------------------------------------------------------------------*/
 static void verifyId(Aint id, char action[]) {
   char message[200];
 
@@ -1074,6 +1011,8 @@ void locate(Aint id, Aword whr)
     locateActor(id, whr);
   else
     locateObject(id, whr);
+
+  gameStateChanged = TRUE;
 }
 
 
@@ -1788,6 +1727,8 @@ void use(Aword act, Aword scr)
 
   admin[act].script = scr;
   admin[act].step = 0;
+
+  gameStateChanged = TRUE;
 }
 
 /*======================================================================*/
@@ -1802,6 +1743,8 @@ void stop(Aword act)
 
   admin[act].script = 0;
   admin[act].step = 0;
+
+  gameStateChanged = TRUE;
 }
 
 

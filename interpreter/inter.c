@@ -640,12 +640,13 @@ void interpret(Aaddr adr)
       }
       case I_UNION: {
 	Aword set2 = pop();
-	Aword set1 = top();
+	Aword set1 = pop();
 	if (singleStepOption) {
 	  printf("UNION\t%7ld, %7ld\t\t\t\t", set1, set2);
 	}
-	setUnion((Set *)top(), (Set *)set2);
+	push((Aword)setUnion((Set *)set1, (Set *)set2));
 	tracePointerTopValue();
+	freeSet((Set *)set1);
 	freeSet((Set *)set2);
 	break;
       }
