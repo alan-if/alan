@@ -159,29 +159,102 @@ static void testIncreaseEventQueue()
 }
 
 static void testPushGameState() {
-  admin = allocate(sizeof(AdminEntry));
-  attributes = allocate(3);
+  int instanceCount = 3;
+  int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
+  int attributeCount = 5;
+  int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
+  int i;
+
+  header = allocate(sizeof(ACodeHeader));
+  header->instanceMax = instanceCount;
+  admin = allocate(adminSize*sizeof(Aword));
+  header->attributesAreaSize = attributeAreaSize;
+  attributes = allocate(attributeAreaSize*sizeof(Aword));
+  eventQueueTop = 0;
+
+  for (i = 0; i < attributeAreaSize; i++)
+    ((Aword *)attributes)[i] = i;
+  for (i = 0; i < adminSize; i++)
+    ((Aword *)admin)[i] = i;
+
   gameState = NULL;
   gameStateTop = 0;
+  gameStateSize = 0;
+
   pushGameState();
+
   ASSERT(gameState != NULL);
   ASSERT(gameStateTop == 1);
+  ASSERT(memcmp(gameState->attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
+  ASSERT(memcmp(gameState->admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
+static void testPushPopGameStateWithSet() {
+  int instanceCount = 1;
+  int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
+  int attributeCount = 1;
+  int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
+  Set *originalSet = newSet(3);
+  SetInitEntry *initEntry;
+
+  header = allocate(sizeof(ACodeHeader));
+  header->instanceMax = instanceCount;
+  admin = allocate(adminSize*sizeof(Aword));
+  header->attributesAreaSize = attributeAreaSize;
+  attributes = allocate(attributeAreaSize*sizeof(Aword));
+  admin[1].attributes = attributes;
+  attributes[0].code = 1;
+  attributes[0].value = (Aword)originalSet;
+  addToSet(originalSet, 7);
+  eventQueueTop = 0;
+
+  /* Set up a set initialization */
+  memory = allocate(sizeof(SetInitEntry)+2*sizeof(Aword));
+  header->setInitTable = 1;
+  initEntry = (SetInitEntry*)&memory[1];
+  initEntry->instanceCode = 1;
+  initEntry->attributeCode = 1;
+  memory[1+sizeof(SetInitEntry)/sizeof(Aword)] = EOF;
+
+  gameState = NULL;
+  gameStateTop = 0;
+  gameStateSize = 0;
+
+  pushGameState();
+
+  ASSERT(gameState->sets[0] != (Aword)originalSet);
+  ASSERT(equalSets((Set*)gameState->sets[0], originalSet));
+
+  Set *modifiedSet = newSet(4);
+  attributes[0].value = (Aword)modifiedSet;
+  addToSet(modifiedSet, 11);
+  addToSet(modifiedSet, 12);
+  ASSERT(!equalSets((Set*)gameState->sets[0], modifiedSet));
+  ASSERT(equalSets((Set*)attributes[0].value, modifiedSet));
+
+  popGameState();
+
+  ASSERT(attributes[0].value != (Aword)modifiedSet);
+  ASSERT(attributes[0].value != (Aword)originalSet);
+  ASSERT(equalSets((Set*)attributes[0].value, originalSet));
+}
 
 static void testPopGameState() {
-  attributes = allocate(3*sizeof(AttributeEntry));
-  admin = allocate(3*sizeof(AdminEntry));
+  int instanceMax = 2;
+  attributes = allocate((instanceMax+1)*sizeof(AttributeEntry));
+  admin = allocate((instanceMax+1)*sizeof(AdminEntry));
 
-  header->attributesAreaSize = 3*sizeof(AttributeEntry)/sizeof(Aword);
-  header->instanceMax = 2;
+  header->attributesAreaSize = (instanceMax+1)*sizeof(AttributeEntry)/sizeof(Aword);
+  header->instanceMax = instanceMax;
 
   gameState = NULL;
   gameStateTop = 0;
   gameStateSize = 0;
   attributes[0].value = 12;
   attributes[2].value = 3;
+
   pushGameState();
+
   ASSERT(gameState != NULL);
   ASSERT(gameStateTop == 1);
 
@@ -390,8 +463,6 @@ static void testSaveStrings() {
   /* Save the game data */
   saveGame(saveFile);
   fclose(saveFile);
-  strcpy((char *)admin[1].attributes[0].value, "i lingonskogen");
-
   admin[1].attributes[0].value = (Aword)strdup("i lingonskogen");
 
   saveFile = fopen(testFileName, "r");
@@ -479,10 +550,10 @@ static void testSaveSets() {
 }
 
 static void testWhere() {
-  admin = malloc(4*sizeof(AdminEntry));
-  instance = malloc(4*sizeof(InstanceEntry));
-  class = malloc(4*sizeof(ClassEntry));
-  header = malloc(sizeof(ACodeHeader));
+  admin = allocate(5*sizeof(AdminEntry));
+  instance = allocate(5*sizeof(InstanceEntry));
+  class = allocate(5*sizeof(ClassEntry));
+  header = allocate(sizeof(ACodeHeader));
 
   header->locationClassId = 1;
   header->instanceMax = 4;
@@ -585,16 +656,22 @@ static void testGetMembers() {
 
 
 void testContainerSize() {
-  instance = malloc(4*sizeof(InstanceEntry));
-  admin = malloc(4*sizeof(AdminEntry));
+  header = allocate(sizeof(ACodeHeader));
+  instance = allocate(4*sizeof(InstanceEntry));
+  admin = allocate(4*sizeof(AdminEntry));
 
   header->instanceMax = 3;
   instance[1].container = 1;
+  admin[1].location = 0;
   admin[2].location = 1;
   admin[3].location = 2;
 
   ASSERT(containerSize(1, TRUE) == 1);
   ASSERT(containerSize(1, FALSE) == 2);
+
+  free(admin);
+  free(instance);
+  free(header);
 }
 
 void registerExeUnitTests() {
@@ -618,4 +695,5 @@ void registerExeUnitTests() {
   registerUnitTest(testSaveRestoreScore);
   registerUnitTest(testGetMembers);
   registerUnitTest(testContainerSize);
+  registerUnitTest(testPushPopGameStateWithSet);
 }

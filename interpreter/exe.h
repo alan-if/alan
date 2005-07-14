@@ -9,10 +9,6 @@
 \*----------------------------------------------------------------------*/
 
 
-/* The event queue */
-extern int dscrstkp;		/* Point into describe stack */
-
-
 /* Functions: */
 extern Bool undo(void);
 extern void sys(Aword fpos, Aword len);

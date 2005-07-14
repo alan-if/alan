@@ -257,6 +257,34 @@ static void depcase(void)
 
 
 /*----------------------------------------------------------------------*/
+static char *booleanValue(Abool bool) {
+  if (bool) return "   TRUE";
+  else return "  FALSE";
+}
+
+/*----------------------------------------------------------------------*/
+static char *stringValue(Aword adress) {
+  static char string[100];
+
+  sprintf(string, "0x%lx (\"%s\")\t\t", adress, (char *)adress);
+  return string;
+}
+
+/*----------------------------------------------------------------------*/
+static char *pointerValue(Aword adress) {
+  static char string[100];
+
+  sprintf(string, "@%6lx", adress);
+  return string;
+}
+
+/*----------------------------------------------------------------------*/
+static void traceStringTopValue() {
+  if (singleStepOption)
+    printf("\t=%s", stringValue(top()));
+}
+
+/*----------------------------------------------------------------------*/
 static void traceBooleanTopValue() {
   if (singleStepOption) {
     if (top()) printf("\t=TRUE\t");
@@ -268,6 +296,12 @@ static void traceBooleanTopValue() {
 static void traceIntegerTopValue() {
   if (singleStepOption)
     printf("\t=%ld\t", top());
+}
+
+/*----------------------------------------------------------------------*/
+static void tracePointerTopValue() {
+  if (singleStepOption)
+    printf("\t=%s\t", pointerValue(top()));
 }
 
 /*----------------------------------------------------------------------*/
@@ -285,26 +319,6 @@ static void traceInstanceTopValue() {
 static char *directlyFlag(Abool bool) {
   if (bool) return "Direct";
   else return " Trans";
-}
-
-/*----------------------------------------------------------------------*/
-static char *booleanValue(Abool bool) {
-  if (bool) return "   TRUE";
-  else return "  FALSE";
-}
-
-/*----------------------------------------------------------------------*/
-static char *stringValue(Aword adress) {
-  static char string[100];
-
-  sprintf(string, "0x%lx (\"%s\")\t\t", adress, (char *)adress);
-  return string;
-}
-
-/*----------------------------------------------------------------------*/
-static void traceStringTopValue() {
-  if (singleStepOption)
-    printf("\t=%s", stringValue(top()));
 }
 
 /*----------------------------------------------------------------------*/
@@ -610,7 +624,7 @@ void interpret(Aaddr adr)
 	Aint id = pop();
 	Aword set = pop();
 	if (singleStepOption) {
-	  printf("STRSET\t%7ld, %7ld, %7ld\t\t\t\t", id, atr, set);
+	  printf("SETSET\t%7ld, %7ld, %7s\t\t", id, atr, pointerValue(set));
 	}
 	setSetAttribute(id, atr, set);
 	break;
@@ -618,10 +632,10 @@ void interpret(Aaddr adr)
       case I_NEWSET: {
 	Set *set = newSet(0);
 	if (singleStepOption) {
-	  printf("NEWSET\t\t\t\t\t\t\t");
+	  printf("NEWSET\t\t\t");
 	}
 	push((Aword)set);
-	traceIntegerTopValue();
+	tracePointerTopValue();
 	break;
       }
       case I_UNION: {
@@ -631,7 +645,7 @@ void interpret(Aaddr adr)
 	  printf("UNION\t%7ld, %7ld\t\t\t\t", set1, set2);
 	}
 	setUnion((Set *)top(), (Set *)set2);
-	traceIntegerTopValue();
+	tracePointerTopValue();
 	freeSet((Set *)set2);
 	break;
       }
@@ -656,7 +670,7 @@ void interpret(Aaddr adr)
       case I_INCLUDE: {
 	Aword member = pop();
 	if (singleStepOption) {
-	  printf("INCLUDE\t%7ld", member);
+	  printf("INCLUDE\t%7ld\t\t\t\t\t", member);
 	}
 	addToSet((Set *)top(), member);
 	break;
@@ -733,7 +747,7 @@ void interpret(Aaddr adr)
 	if (singleStepOption)
 	  printf("ATTRSET \t%7ld, %7ld", id, atr);
 	push(getSetAttribute(id, atr));
-	traceIntegerTopValue();
+	tracePointerTopValue();
 	break;
       }
       case I_SHOW: {
@@ -1209,7 +1223,7 @@ void interpret(Aaddr adr)
 	Aint framesBelow = pop();
 	Aint variableNumber = pop();
 	if (singleStepOption)
-	  printf("GETLOCAL \t%7ld, %7ld", framesBelow, variableNumber);
+	  printf("GETLOCAL \t%7ld, %7ld\t", framesBelow, variableNumber);
 	push(getLocal(framesBelow, variableNumber));
 	traceIntegerTopValue();
 	break;
@@ -1220,7 +1234,7 @@ void interpret(Aaddr adr)
 	Aint variableNumber = pop();
 	Aint value = pop();
 	if (singleStepOption)
-	  printf("SETLOCAL \t%7ld, %7ld, %7ld\t\t\t\t", framesBelow, variableNumber, value);
+	  printf("SETLOCAL \t%7ld, %7ld, %7ld\t\t", framesBelow, variableNumber, value);
 	setLocal(framesBelow, variableNumber, value);
 	break;
       }

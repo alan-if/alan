@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>436.89</origest>
-<currest>437.89</currest>
-<elapsed>292.89</elapsed>
+<origest>439.89</origest>
+<currest>440.89</currest>
+<elapsed>293.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>74</origest>
-<currest>74</currest>
-<elapsed>22</elapsed>
+<origest>77</origest>
+<currest>77</currest>
+<elapsed>23</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>34</origest>
-<currest>34</currest>
-<elapsed>21</elapsed>
+<origest>29</origest>
+<currest>29</currest>
+<elapsed>22</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -245,7 +245,7 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -259,7 +259,7 @@ See compiler/testing/lockableDoors</notes>
 </task>
 <task>
 <desc>Include ! in characters that excludes an automatic space</desc>
-<notes/>
+<notes>Any other? like '?'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -283,19 +283,6 @@ I think only checks for matching alternatives would be natural.
 <task>
 <desc>A Set should be possible to initialize to empty by giving a class name</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default description for a instance should be either in definite or indefinite form.</desc>
-<notes>Is there a problem with current defaults:
- - There is a object here.
- - Actor is here.
-
-Would "There is a actor here." be a better default?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -329,8 +316,140 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0dev37</desc>
+<notes/>
+<priority>2</priority>
+<origest>15</origest>
+<currest>15</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>MENTIONED can not be inherited</desc>
+<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
+
+This is kind of a general question, but affects the MENTIONED particularly.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute references without "of" in certain contexts</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Literal should not inherit from Thing?</desc>
+<notes>It should be a separate base class, or should it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor loop filters so that Between can be combined with others</desc>
+<notes>Example in suspended regression/integerInSet</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
+<notes>with "Say No x." and "$-1" as print forms.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Problem with consequtive include's</desc>
+<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
+
+See compiler/testing/includeFile.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
 <notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default description for a instance should be either in definite or indefinite form.</desc>
+<notes>Is there a problem with current defaults:
+ - There is a object here.
+ - Actor is here.
+
+Would "There is a actor here." be a better default?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Think about similarities between the different clauses</desc>
+<notes>DESCRIPTION [CHECK DOES]
+ENTERED
+EXIT [CHECK DOES END]
+
+Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -347,10 +466,23 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherting all props</desc>
+<notes>Investigate which ones are left!!!!
 
-  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+DONE:
+attributes
+scripts
+verbs
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -358,10 +490,45 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>HAVING clause on aggregate filters</desc>
-<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
- HAVING x = 3
- HAVING y &gt; atr OF b</notes>
+<desc>Refactor SourceFileEntry to contain to structs  fpos/len</desc>
+<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>winarun does not parse its command line</desc>
+<notes>E.g.
+    winarun images -t
+results in
+    Could not open "images -t.a3c"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0alpha1</desc>
+<notes/>
+<priority>2</priority>
+<origest>11</origest>
+<currest>11</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -409,28 +576,12 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>--warnings to turn off warning messages does not work</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0dev37</desc>
-<notes/>
-<priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>MENTIONED can not be inherited</desc>
-<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
-
-This is kind of a general question, but affects the MENTIONED particularly.</notes>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -438,142 +589,8 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Attribute references without "of" in certain contexts</desc>
-<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
-
-  The x
-     Has y,
-     Description Say y.
-  End The x.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Literal should not inherit from Thing?</desc>
-<notes>It should be a separate base class, or should it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set breaks on lines in other source files</desc>
-<notes>How to reference other files? Syntax for a line-number?
-&lt;file name&gt;:&lt;line number&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor loop filters so that Between can be combined with others</desc>
-<notes>Example in suspended regression/integerInSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Problem with consequtive include's</desc>
-<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
-
-See compiler/testing/includeFile.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Example: composite object</desc>
-<notes>Like a box with a couple of buttons on it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Think about similarities between the different clauses</desc>
-<notes>DESCRIPTION [CHECK DOES]
-ENTERED
-EXIT [CHECK DOES END]
-
-Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Converter should move global verbs with parameters into a class</desc>
-<notes>Which class? Will "thing" do? Probably.
-
-Design:
-For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unify error messages</desc>
-<notes>Check error messages and try to unify such as
-
-Multiple VERB '%1'
-
-with
-
-Multiple %1 '%2'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
-<notes>with "Say No x." and "$-1" as print forms.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
-<notes>DONE for verbs
-
-TODO: Descriptions, ?</notes>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -600,67 +617,17 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>winarun does not parse its command line</desc>
-<notes>E.g.
-    winarun images -t
-results in
-    Could not open "images -t.a3c"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0alpha1</desc>
-<notes/>
-<priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
 <notes>So don't sort it. Linear search will be sufficiently fast.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -708,8 +675,8 @@ Pronouns</notes>
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -724,14 +691,58 @@ Design:</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Inherting all props</desc>
-<notes>Investigate which ones are left!!!!
+<desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify error messages</desc>
+<notes>Check error messages and try to unify such as
 
-DONE:
-attributes
-scripts
-verbs
-</notes>
+Multiple VERB '%1'
+
+with
+
+Multiple %1 '%2'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn for DOES preceeded by an unconditional CHECK</desc>
+<notes>DONE for verbs
+
+TODO: Descriptions, ?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;
+
+Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -788,8 +799,8 @@ verbs
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -851,6 +862,24 @@ There is water in the lake. You are carrying a bottle of water.
 I don't know which water you mean.
 
 This should be done in parse.c but at the position where we want to do this we don't have enough information to run possible(). Surrounded it by ifdefs DISAMBIGUATE_USING_CHECKS</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Optimize game state push and pop (UNDO)</desc>
+<notes>Currently *everything* is saved for every game turn. It would be easy to check for any changes in the parts we save (events, admin, attributes, ..) and if so only copy that. This would drastically minimize UNDO memory requirements.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Free UNDO state when out of memory and retry</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -214,7 +214,6 @@ void error(MsgKind msgno)	/* IN - The error message number */
   if (msgno != MSGMAX)
     printMessage(msgno);
   playerWords[wordIndex] = EOF;		/* Force new player input */
-  dscrstkp = 0;			/* Reset describe stack */
   longjmp(errorLabel,TRUE);
 }
 
@@ -286,7 +285,7 @@ void statusline(void)
 }
 
 
-#if defined(HAVE_GLK) || defined(UNITTEST)
+#if defined(HAVE_GLK) || defined(RUNNING_UNITTESTS)
 /*----------------------------------------------------------------------*/
 static int updateColumn(int currentColumn, char *string) {
   char *newlinePosition = strrchr(string, '\n');
@@ -395,6 +394,7 @@ void clear(void)
 }
 
 
+#ifndef DMALLOC
 /*======================================================================*/
 void *allocate(unsigned long lengthInBytes)
 {
@@ -405,6 +405,7 @@ void *allocate(unsigned long lengthInBytes)
 
   return p;
 }
+#endif
 
 
 /*======================================================================*/
@@ -1335,8 +1336,6 @@ static void init(void)
   eventQueueTop = 0;			/* No pending events */
   if (eventQueue == NULL)	/* Make sure there is an event queue */
     increaseEventQueue();
-
-  dscrstkp = 0;			/* No describe in progress */
 
   if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
     char str[80];

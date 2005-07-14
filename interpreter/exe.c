@@ -15,6 +15,8 @@
 #include "parse.h"
 #include "syserr.h"
 
+#include "exe.h"
+
 #ifdef USE_READLINE
 #include "readline.h"
 #endif
@@ -43,8 +45,6 @@
 
 /* PUBLIC DATA */
 
-int dscrstkp = 0;               /* Describe-stack pointer */
-
 
 /* PRIVATE TYPES */
 typedef struct GameState {
@@ -57,9 +57,13 @@ typedef struct GameState {
 
   /* Amachine data structures - Dynamic */
   AdminEntry *admin;		/* Administrative data about instances */
-  AttributeEntry *attributes;	/* Attributes data area */
   Aword *scores;		/* Score table pointer */
+  AttributeEntry *attributes;	/* Attributes data area */
 
+  /* Sets and strings are dynamically allocated areas for which the
+     attribute is just a pointer to. So they are not catched by the
+     saving of attributes, instead they require special storage */
+  Aword *sets;			/* Array of set pointers */
 } GameState;
 
 /* PRIVATE DATA */
@@ -67,12 +71,20 @@ static int gameStateTop = 0;
 static int gameStateSize = 0;
 static GameState *gameState = NULL;
 
+
+/* FORWARD */
+static Aword getAttribute(AttributeEntry *attributeTable,
+			  Aint attributeCode);
+
+
 /*----------------------------------------------------------------------*/
 static void ensureSpaceForGameState() {
+  static int increment = 10;
+
   if (gameStateTop == gameStateSize) {
-    gameState = realloc(gameState, (gameStateSize+2)*sizeof(GameState));
-    if (gameState == NULL) syserr("Out of memory in pushGameState()");
-    gameStateSize += 2;
+    gameState = realloc(gameState, (gameStateSize+increment)*sizeof(GameState));
+    if (gameState == NULL) syserr("Out of memory in ensureSpaceForGameState()");
+    gameStateSize += increment;
   }
 }
 
@@ -80,16 +92,19 @@ static void ensureSpaceForGameState() {
 /*----------------------------------------------------------------------*/
 static Bool gameStateChanged(void)
 {
-  Aword *previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
-  Aword *previousAdmin = (Aword *)gameState[gameStateTop-1].admin;
-  Aword *previousAttributes = (Aword *)gameState[gameStateTop-1].attributes;
-  Aword *previousScores = (Aword *)gameState[gameStateTop-1].scores;
+  Aword *previousEventQueue;
+  Aword *previousAdmin;
+  Aword *previousAttributes;
+  Aword *previousScores;
 
   if (gameStateTop == 0) return TRUE;
 
-  /* Compare current game state with last saved */
+  previousEventQueue = (Aword *)gameState[gameStateTop-1].eventQueue;
+  previousAdmin = (Aword *)gameState[gameStateTop-1].admin;
+  previousAttributes = (Aword *)gameState[gameStateTop-1].attributes;
+  previousScores = (Aword *)gameState[gameStateTop-1].scores;
 
-  if (gameState[gameStateTop-1].eventQueueTop != eventQueueTop) return TRUE;
+  /* Compare current game state with last saved */
 
   if (eventQueueTop != gameState[gameStateTop-1].eventQueueTop)
     return TRUE;
@@ -113,6 +128,28 @@ static Bool gameStateChanged(void)
   return FALSE;
 }
 
+/*----------------------------------------------------------------------*/
+static Aword *pushSets() {
+  SetInitEntry *entry;
+  int setCount = 0;
+  Aword *sets;
+  int i;
+
+  if (header->setInitTable == 0) return NULL;
+
+  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
+    setCount++;
+
+  if (setCount == 0) return NULL;
+
+  sets = allocate(setCount*sizeof(Set));
+
+  entry = pointerTo(header->setInitTable);
+  for (i = 0; i < setCount; i++)
+    sets[i] = getSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
+
+  return sets;
+}
 
 /*======================================================================*/
 void pushGameState(void) {
@@ -120,6 +157,7 @@ void pushGameState(void) {
   ensureSpaceForGameState();
 
   if (gameStateChanged()) {
+    printf("PUSH GAME STATE\n");
     gameState[gameStateTop].eventQueueTop = eventQueueTop;
     gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
 
@@ -129,19 +167,53 @@ void pushGameState(void) {
     gameState[gameStateTop].score = current.score;
     gameState[gameStateTop].scores = duplicate(scores, header->scoreCount*sizeof(Aword));
 
+    gameState[gameStateTop].sets = pushSets();
+
     gameStateTop++;
   }
 }
   
   
+/*----------------------------------------------------------------------*/
+static void freeSets(void) {
+  SetInitEntry *entry;
+
+  if (header->setInitTable == 0) return;
+  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++) {
+    Aword attributeValue = getAttribute(admin[entry->instanceCode].attributes, entry->attributeCode);
+    freeSet((Set*)attributeValue);
+  }
+}
+
+/*----------------------------------------------------------------------*/
+static void popSets(Aword *sets) {
+  SetInitEntry *entry;
+  int setCount = 0;
+  int i;
+
+  if (header->setInitTable == 0) return;
+
+  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
+    setCount++;
+
+  if (setCount == 0) return;
+
+  entry = pointerTo(header->setInitTable);
+  for (i = 0; i < setCount; i++)
+    setValue(entry[i].instanceCode, entry[i].attributeCode, sets[i]);
+}
+
 /*======================================================================*/
 Bool popGameState(void) {
 
   if (gameStateTop == 0) {
     return FALSE;
   }
+  printf("PUSH GAME STATE\n");
 
   gameStateTop--;
+
+  freeSets();			/* Need to free previous set values */
 
   eventQueueTop = gameState[gameStateTop].eventQueueTop;
   memcpy(eventQueue, gameState[gameStateTop].eventQueue,
@@ -153,7 +225,7 @@ Bool popGameState(void) {
  	 (header->instanceMax+1)*sizeof(AdminEntry));
   free(gameState[gameStateTop].admin);
 
-  if (attributes == NULL) syserr("attributes[] == NULL in pushGameState()");
+  if (attributes == NULL) syserr("attributes[] == NULL in popGameState");
   memcpy(attributes, gameState[gameStateTop].attributes,
 	 header->attributesAreaSize*sizeof(Aword));
   free(gameState[gameStateTop].attributes);
@@ -162,6 +234,8 @@ Bool popGameState(void) {
   memcpy(scores, gameState[gameStateTop].scores,
 	 header->scoreCount*sizeof(Aword));
   free(gameState[gameStateTop].scores);
+
+  popSets(gameState[gameStateTop].sets);
 
   return TRUE;
 }
@@ -1509,7 +1583,6 @@ void describe(Aint id)
       describeAnything(id);
   } else
     descriptionOk = FALSE;
-  dscrstkp--;
   current.instance = previousInstance;
 }
 

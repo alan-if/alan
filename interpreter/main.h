@@ -94,7 +94,11 @@ extern Bool capitalize;
 
 
 /* Functions: */
+#ifndef DMALLOC
 extern void *allocate(unsigned long len);
+#else
+#define allocate(s) calloc(s, 1)
+#endif
 extern void *duplicate(void *original, unsigned long len);
 extern void terminate(int code);
 extern void usage(void);

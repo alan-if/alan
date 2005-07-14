@@ -374,7 +374,7 @@ typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
   Aint len;
 } SourceFileEntry; 
 
-typedef struct StringInitEntry {	/* STRING INITIALISATION TABLE */
+typedef struct StringInitEntry { /* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */
   Aword len;			/* Length */
   Aint instanceCode;		/* Where to store it */

@@ -12,7 +12,6 @@
 
 #include <setjmp.h>
 
-
 typedef struct Case {
   void (*theCase)();
   struct Case *next;
@@ -60,7 +59,10 @@ void syserr(char msg[])
 }
 
 
-#include "unitTest.h"
+#define RUNNING_UNITTESTS
+
+void unitAssert(int x, char sourceFile[], int lineNumber);
+#define ASSERT(x) (unitAssert((x), __FILE__, __LINE__))
 
 #include "exeTest.c"
 #include "parseTest.c"
@@ -70,6 +72,56 @@ void syserr(char msg[])
 #include "sysdepTest.c"
 #include "setTest.c"
 #include "mainTest.c"
+
+#include <stdio.h>
+
+static int passed = 0;
+static int failed = 0;
+
+static void unitFail(char sourceFile[], int lineNumber)
+{
+  printf("%s:%d: unit test failed!\n", sourceFile, lineNumber);
+  failed++;
+}
+
+
+static void unitReportProgress(failed, passed)
+{
+  return;
+  printf("failed: %d, passed: %d\n", failed, passed);
+}
+
+
+/* Assert a particular test */
+void unitAssert(int x, char sourceFile[], int lineNumber)
+{
+  (x)? passed++ : unitFail(sourceFile, lineNumber);
+  unitReportProgress(failed, passed);
+}
+
+
+/* Run the tests in the test case array*/
+static void unitTest(void)
+{
+  Case *current;
+  int casesRun = 0;
+
+  for (current = caseList; current != NULL; current = current->next) {
+    (*current->theCase)();
+#ifdef DMALLOC
+    dmalloc_verify(0);
+#endif
+    casesRun++;
+  }
+  if (failed == 0)
+    printf("All %d unit tests PASSED!!\n", passed);
+  else {
+    printf("******************************\n");
+    printf("%d of %d unit tests FAILED!!\n", failed, passed+failed);
+    printf("******************************\n");
+  }
+}
+
 
 int main()
 {
