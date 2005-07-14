@@ -10,6 +10,7 @@
 #include "types.h"
 #include "act.h"
 #include "set.h"
+#include "state.h"
 #include "debug.h"
 #include "params.h"
 #include "parse.h"
@@ -39,167 +40,6 @@
 
 #define WIDTH 80
 
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
-
-/* PUBLIC DATA */
-
-
-/* PRIVATE TYPES */
-typedef struct GameState {
-  /* Current data, can't use all of the CurVars (tick changes every move) */
-  int score;
-
-  /* Event queue */
-  EventQueueEntry *eventQueue;
-  int eventQueueTop;		/* Event queue top pointer */
-
-  /* Amachine data structures - Dynamic */
-  AdminEntry *admin;		/* Administrative data about instances */
-  Aword *scores;		/* Score table pointer */
-  AttributeEntry *attributes;	/* Attributes data area */
-
-  /* Sets and strings are dynamically allocated areas for which the
-     attribute is just a pointer to. So they are not catched by the
-     saving of attributes, instead they require special storage */
-  Aword *sets;			/* Array of set pointers */
-} GameState;
-
-/* PRIVATE DATA */
-static int gameStateTop = 0;
-static int gameStateSize = 0;
-static GameState *gameState = NULL;
-static Bool gameStateChanged = FALSE;
-
-/* FORWARD */
-static Aword getAttribute(AttributeEntry *attributeTable,
-			  Aint attributeCode);
-
-
-/*----------------------------------------------------------------------*/
-static void ensureSpaceForGameState() {
-  static int increment = 10;
-
-  if (gameStateTop == gameStateSize) {
-    gameState = realloc(gameState, (gameStateSize+increment)*sizeof(GameState));
-    if (gameState == NULL) syserr("Out of memory in ensureSpaceForGameState()");
-    gameStateSize += increment;
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
-static Aword *pushSets() {
-  SetInitEntry *entry;
-  int setCount = 0;
-  Aword *sets;
-  int i;
-
-  if (header->setInitTable == 0) return NULL;
-
-  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
-    setCount++;
-
-  if (setCount == 0) return NULL;
-
-  sets = allocate(setCount*sizeof(Set));
-
-  entry = pointerTo(header->setInitTable);
-  for (i = 0; i < setCount; i++)
-    sets[i] = getSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
-
-  return sets;
-}
-
-/*======================================================================*/
-void pushGameState(void) {
-
-  ensureSpaceForGameState();
-
-  if (gameStateChanged) {
-    gameState[gameStateTop].eventQueueTop = eventQueueTop;
-    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
-
-    gameState[gameStateTop].admin = duplicate(admin, (header->instanceMax+1)*sizeof(AdminEntry));
-    gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
-
-    gameState[gameStateTop].score = current.score;
-    gameState[gameStateTop].scores = duplicate(scores, header->scoreCount*sizeof(Aword));
-
-    gameState[gameStateTop].sets = pushSets();
-
-    gameStateTop++;
-
-    gameStateChanged = FALSE;
-  }
-}
-  
-  
-/*----------------------------------------------------------------------*/
-static void freeSets(void) {
-  SetInitEntry *entry;
-
-  if (header->setInitTable == 0) return;
-  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++) {
-    Aword attributeValue = getAttribute(admin[entry->instanceCode].attributes, entry->attributeCode);
-    freeSet((Set*)attributeValue);
-  }
-}
-
-/*----------------------------------------------------------------------*/
-static void popSets(Aword *sets) {
-  SetInitEntry *entry;
-  int setCount = 0;
-  int i;
-
-  if (header->setInitTable == 0) return;
-
-  for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
-    setCount++;
-
-  if (setCount == 0) return;
-
-  entry = pointerTo(header->setInitTable);
-  for (i = 0; i < setCount; i++)
-    setValue(entry[i].instanceCode, entry[i].attributeCode, sets[i]);
-}
-
-/*======================================================================*/
-Bool popGameState(void) {
-
-  if (gameStateTop == 0) {
-    return FALSE;
-  }
-
-  gameStateTop--;
-
-  freeSets();			/* Need to free previous set values */
-
-  eventQueueTop = gameState[gameStateTop].eventQueueTop;
-  memcpy(eventQueue, gameState[gameStateTop].eventQueue,
-	 (eventQueueTop+1)*sizeof(EventQueueEntry));
-  free(gameState[gameStateTop].eventQueue);
-
-  if (admin == NULL) syserr("admin[] == NULL in popGameState()");
-  memcpy(admin, gameState[gameStateTop].admin,
- 	 (header->instanceMax+1)*sizeof(AdminEntry));
-  free(gameState[gameStateTop].admin);
-
-  if (attributes == NULL) syserr("attributes[] == NULL in popGameState");
-  memcpy(attributes, gameState[gameStateTop].attributes,
-	 header->attributesAreaSize*sizeof(Aword));
-  free(gameState[gameStateTop].attributes);
-
-  current.score = gameState[gameStateTop].score;
-  memcpy(scores, gameState[gameStateTop].scores,
-	 header->scoreCount*sizeof(Aword));
-  free(gameState[gameStateTop].scores);
-
-  popSets(gameState[gameStateTop].sets);
-
-  return TRUE;
-}
 
 /* Forward: */
 void describeInstances(void);
@@ -376,19 +216,6 @@ Bool confirm(MsgKind msgno)
 
 
 /*======================================================================*/
-Bool undo(void) {
-  if (gameStateTop != 0) {
-    gameStateTop--;
-    printMessage(M_UNDONE);
-    return popGameState();
-  } else {
-    printMessage(M_NO_UNDO);
-    return FALSE;
-  }
-}
-
-
-/*======================================================================*/
 void quitGame(void)
 {
   char buf[80];
@@ -507,9 +334,8 @@ AttributeEntry *findAttribute(AttributeEntry *attributeTable,
 
 
 
-/*----------------------------------------------------------------------*/
-static Aword getAttribute(AttributeEntry *attributeTable,
-			  Aint attributeCode)
+/*======================================================================*/
+Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode)
 {
   AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 
@@ -558,24 +384,6 @@ void setSetAttribute(Aint id, Aint atr, Aword set)
 {
   freeSet((Set *)attributeOf(id, atr));
   setValue(id, atr, (Aword)set);
-}
-
-
-/*======================================================================*/
-void clearSetAttribute(Aint id, Aint atr)
-{
-  clearSet((Set *)attributeOf(id, atr));
-}
-
-
-/*======================================================================*/
-void addSetAttribute(Aint id, Aint atr, Aword set) {
-  Set *attribute = (Set *)attributeOf(id, atr);
-  Set *theSet = (Set *)set;
-  int i;
-
-  for (i = 0; i < theSet->size; i++)
-    addToSet(attribute, theSet->members[i]);
 }
 
 

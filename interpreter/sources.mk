@@ -20,7 +20,8 @@ MAINSRCS = \
 	parse.c \
 	main.c \
 	set.c \
-	arun.c
+	arun.c \
+	state.c
 
 VERSIONSRCS = $(MAINSRCS) $(BUILDSRCS)
 VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}

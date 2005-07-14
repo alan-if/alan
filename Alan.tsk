@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>439.89</origest>
-<currest>440.89</currest>
-<elapsed>293.89</elapsed>
+<origest>443.89</origest>
+<currest>444.89</currest>
+<elapsed>294.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>77</origest>
-<currest>77</currest>
-<elapsed>23</elapsed>
+<origest>81</origest>
+<currest>81</currest>
+<elapsed>24</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
-<elapsed>22</elapsed>
+<origest>33</origest>
+<currest>33</currest>
+<elapsed>23</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -249,8 +249,35 @@ See compiler/testing/lockableDoors</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>UNDO handling does not seem to manage dynamic sets and strings</desc>
+<desc>UNDO handling does not seem to manage dynamic sets</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Semicolon should terminate command line to act as a comment starter</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO should only save state when the player changes anything</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Respond to UNDO with "You undo 'x x x '."</desc>
+<notes>This will have to include the command words in the undo state.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -260,6 +287,15 @@ See compiler/testing/lockableDoors</notes>
 <task>
 <desc>Include ! in characters that excludes an automatic space</desc>
 <notes>Any other? like '?'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO handling does not seem to manage strings</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

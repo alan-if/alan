@@ -11,6 +11,7 @@
 #include "acode.h"
 #include "types.h"
 #include "set.h"
+#include "state.h"
 #include "main.h"
 #include "syserr.h"
 
@@ -1332,11 +1333,6 @@ static void init(void)
 {
   int i;
 
-  /* Initialise some status */
-  eventQueueTop = 0;			/* No pending events */
-  if (eventQueue == NULL)	/* Make sure there is an event queue */
-    increaseEventQueue();
-
   if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
     char str[80];
     output("<Hi! This is Alan interactive fiction interpreter Arun,");
@@ -1347,6 +1343,11 @@ static void init(void)
 	    (long)alan.version.correction);
     output(str);
   }
+
+  /* Initialise some status */
+  eventQueueTop = 0;			/* No pending events */
+  if (eventQueue == NULL)	/* Make sure there is an event queue */
+    increaseEventQueue();
 
   initStaticData();
   initDynamicData();
@@ -1493,8 +1494,6 @@ void run(void)
     if (debugOption)
       debug(FALSE, 0, 0);
 
-    pushGameState();
-
     eventCheck();
     current.tick++;
 
@@ -1502,7 +1501,13 @@ void run(void)
     recursions = 0;
 
     /* Move all characters, hero first */
+    pushGameState();
     moveActor(header->theHero);
+    if (gameStateChanged)
+      rememberCommands();
+    else
+      forgetGameState();
+
     rules();
     for (i = 1; i <= header->instanceMax; i++)
       if (i != header->theHero && isActor(i)) {

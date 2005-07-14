@@ -65,6 +65,7 @@ void unitAssert(int x, char sourceFile[], int lineNumber);
 #define ASSERT(x) (unitAssert((x), __FILE__, __LINE__))
 
 #include "exeTest.c"
+#include "stateTest.c"
 #include "parseTest.c"
 #include "stackTest.c"
 #include "interTest.c"
@@ -136,6 +137,7 @@ int main()
 
   if (setjmp(uniterr_label) == 0) {
     registerExeUnitTests();
+    registerStateUnitTests();
     registerParseUnitTests();
     registerStackUnitTests();
     registerInterUnitTests();

@@ -18,6 +18,7 @@
 #include "main.h"
 #include "inter.h"
 #include "exe.h"
+#include "state.h"
 #include "act.h"
 #include "term.h"
 #include "debug.h"

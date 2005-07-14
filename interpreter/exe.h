@@ -10,9 +10,9 @@
 
 
 /* Functions: */
-extern Bool undo(void);
 extern void sys(Aword fpos, Aword len);
 extern Bool confirm(MsgKind msgno);
+extern Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode);
 extern Aword attributeOf(Aint instance, Aint atr);
 extern void say(Aint instance);
 extern void sayForm(Aint instance, SayForm form);
@@ -22,11 +22,9 @@ extern Aword getStringAttribute(Aint id, Aint atr);
 extern Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aint id, Aint atr);
 extern Aword concat(Aword s1, Aword s2);
 extern void setStringAttribute(Aint id, Aint atr, char *str);
-extern void addSetAttribute(Aint id, Aint atr, Aword set);
 extern Aword getSetAttribute(Aint id, Aint atr);
 extern void include(Aint id, Aint atr, Aword member);
 extern void exclude(Aint id, Aint atr, Aword member);
-extern void clearSetAttribute(Aint id, Aint atr);
 extern char *getStringFromFile(Aword fpos, Aword len);
 extern void print(Aword fpos, Aword len);
 extern void setStyle(Aint style);
