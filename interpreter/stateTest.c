@@ -152,7 +152,17 @@ static void testPopGameState() {
   ASSERT(attributes[2].value == 3);
 }
 
+static void testPopEvents() {
+  eventQueue = NULL;
+  eventQueueTop = 0;
+  gameState = allocate(sizeof(GameState));
+  gameStateSize = 1;
+  gameStateTop = 0;
+  popEvents();
+}
+
 void registerStateUnitTests() {
+  registerUnitTest(testPopEvents);
   registerUnitTest(testPushGameState);
   registerUnitTest(testPopGameState);
   registerUnitTest(testPushPopGameStateWithSet);

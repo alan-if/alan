@@ -96,7 +96,8 @@ void rememberCommands(void) {
 /*----------------------------------------------------------------------*/
 static void pushEvents() {
   gameState[gameStateTop].eventQueueTop = eventQueueTop;
-  gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
+  if (eventQueueTop > 0)
+    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
 }
 
 
@@ -153,16 +154,18 @@ static void popSets(Aword *sets) {
 
   entry = pointerTo(header->setInitTable);
   for (i = 0; i < setCount; i++)
-    setValue(entry[i].instanceCode, entry[i].attributeCode, sets[i]);
+    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, sets[i]);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void popEvents() {
   eventQueueTop = gameState[gameStateTop].eventQueueTop;
-  memcpy(eventQueue, gameState[gameStateTop].eventQueue,
-	 (eventQueueTop+1)*sizeof(EventQueueEntry));
-  free(gameState[gameStateTop].eventQueue);
+  if (eventQueueTop > 0) {
+    memcpy(eventQueue, gameState[gameStateTop].eventQueue,
+	   (eventQueueTop+1)*sizeof(EventQueueEntry));
+    free(gameState[gameStateTop].eventQueue);
+  }
 }
 
 

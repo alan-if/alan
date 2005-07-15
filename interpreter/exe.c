@@ -298,7 +298,7 @@ void schedule(Aword event, Aword where, Aword after)
   
    cancelEvent(event);
    /* Check for overflow */
-   if (eventQueueTop == eventQueueSize)
+   if (eventQueue == NULL || eventQueueTop == eventQueueSize)
      increaseEventQueue();
   
    time = current.tick+after;
@@ -343,10 +343,10 @@ Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode)
 }
   
 
-/*----------------------------------------------------------------------*/
-static void setAttribute(AttributeEntry *attributeTable,
-			 Aword attributeCode,
-			 Aword newValue)
+/*======================================================================*/
+void setAttribute(AttributeEntry *attributeTable,
+		  Aword attributeCode,
+		  Aword newValue)
 {
   AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 

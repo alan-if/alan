@@ -1346,9 +1346,6 @@ static void init(void)
 
   /* Initialise some status */
   eventQueueTop = 0;			/* No pending events */
-  if (eventQueue == NULL)	/* Make sure there is an event queue */
-    increaseEventQueue();
-
   initStaticData();
   initDynamicData();
   initParse();

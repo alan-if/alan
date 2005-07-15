@@ -10,14 +10,14 @@ You have scored 0 points out of 5. There is a o here.
 
 > l
 P
-You have scored 0 points out of 5. There is a o here. You have scored 0 
+You have scored 0 points out of 5. There is a o here. You have scored 0
 points out of 5.
 
 > x o
 
 > l
 P
-You have scored 5 points out of 5. There is a o here. You have scored 5 
+You have scored 5 points out of 5. There is a o here. You have scored 5
 points out of 5.
 
 > undo
@@ -25,7 +25,7 @@ Undone.
 
 > l
 P
-You have scored 0 points out of 5. There is a o here. You have scored 0 
+You have scored 5 points out of 5. There is a o here. You have scored 5
 points out of 5.
 
 > 

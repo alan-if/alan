@@ -45,7 +45,6 @@ extern void score(Aword sc);
 extern void visits(Aword v);
 extern void schedule(Aword evt, Aword whr, Aword aft);
 extern void cancelEvent(Aword evt);
-extern void increaseEventQueue(void);
 extern void pushGameState(void);
 extern Bool popGameState(void);
 extern void quitGame(void);
