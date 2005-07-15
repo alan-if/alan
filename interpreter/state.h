@@ -12,7 +12,7 @@
 extern Bool gameStateChanged;
 
 /* Functions: */
-extern Bool undo(void);
+extern void undo(void);
 extern void pushGameState(void);
 extern void forgetGameState(void);
 extern void rememberCommands(void);

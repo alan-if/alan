@@ -239,7 +239,6 @@ void quitGame(void)
       terminate(0);
     } else if (strcmp(buf, "undo") == 0) {
       undo();
-      return;
     }
   }
   syserr("Fallthrough in QUIT");
@@ -345,7 +344,7 @@ Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode)
 
 /*======================================================================*/
 void setAttribute(AttributeEntry *attributeTable,
-		  Aword attributeCode,
+		  Aint attributeCode,
 		  Aword newValue)
 {
   AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);

@@ -12,6 +12,10 @@
 
 #include <setjmp.h>
 
+#ifdef DMALLOC
+#include <dmalloc.h>
+#endif
+
 typedef struct Case {
   void (*theCase)();
   struct Case *next;

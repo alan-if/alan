@@ -34,9 +34,11 @@
 #define LISTLEN 100
 /* PUBLIC DATA */
 
-int playerWords[LISTLEN/2] = {EOF}; /* List of parsed words, index
-				       into dictionary */
+Aint playerWords[LISTLEN/2] = {EOF}; /* List of parsed words, index
+					into dictionary */
 int wordIndex;			/* and an index into it the list */
+int firstWord;
+int lastWord;
 
 Bool plural = FALSE;
 
@@ -197,8 +199,6 @@ static void getline(void)
 	token = NULL;
       } else if (strcmp("undo", token) == 0) {
 	undo();
-	playerWords[wordIndex] = EOF;		/* Force new player input */
-	longjmp(errorLabel, TRUE);
       }
     }
   } while (token == NULL);
@@ -1189,6 +1189,7 @@ void parse(void) {
   parameters[0].instance = EOF;
   copyParameterList(previousMultipleList, multipleList);
   multipleList[0].instance = EOF;
+  firstWord = wordIndex;
   if (isVerb(playerWords[wordIndex])) {
     verbWord = playerWords[wordIndex];
     verbWordCode = dictionary[verbWord].code;
@@ -1201,5 +1202,6 @@ void parse(void) {
     previousMultipleList[0].instance = EOF;
     nonverb();
   }
+  lastWord = wordIndex-1;
+  if (isConj(playerWords[lastWord])) lastWord--;
 }
-

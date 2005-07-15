@@ -13,6 +13,7 @@
 extern void sys(Aword fpos, Aword len);
 extern Bool confirm(MsgKind msgno);
 extern Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode);
+extern void setAttribute(AttributeEntry *attributeTable, Aint attributeCode, Aword value);
 extern Aword attributeOf(Aint instance, Aint atr);
 extern void say(Aint instance);
 extern void sayForm(Aint instance, SayForm form);

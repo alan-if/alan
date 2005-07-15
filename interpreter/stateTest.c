@@ -161,9 +161,71 @@ static void testPopEvents() {
   popEvents();
 }
 
+static void testRememberCommand() {
+  int i;
+  playerWords[0] = EOF;
+  for (i = 0; i < 4; i++)
+    playerWords[i] = i;
+  playerWords[4] = EOF;
+
+  gameStateTop = 1;
+  gameState = allocate(sizeof(GameState));
+
+  firstWord = 0;
+  lastWord = 3;
+  rememberCommands();
+
+  for (i = 0; i < 4; i++)
+    ASSERT(gameState[0].playerCommandWords[i] == playerWords[i]);
+  ASSERT(gameState[0].playerCommandWords[4] == EOF);	   
+}
+
+static void testRecreatePlayerCommand() {
+  static char *word[5] = {"w1","w2","w3","w4", NULL};	/* NOTE no strings longer than 3 chars!! */
+  static Aint words[7] = {0,2,1,3,2,1,-1};
+  int length = 0;
+  int i;
+  char *command = strdup("");
+  char *recreatedCommand;
+
+  dictionary = allocate(4*sizeof(DictionaryEntry));
+
+  /* Calculate size of memory needed */
+  for (i = 0; words[i] != -1; i++)
+    length += strlen(word[words[i]]);
+  memory = allocate((length+1)*sizeof(Aword)); /* Much too big... */
+
+  /* Initialize the dictonary */
+  for (i = 0; word[i] != NULL; i++) {
+    strcpy((char *)&memory[1+i], word[i]);
+    dictionary[i].wrd = 1+i;
+  }
+
+  /* Create the resulting command */
+  for (i = 0; words[i] != -1; i++) {
+    command = realloc(command, strlen(command)+strlen(word[words[i]])+2);
+    if (i > 0)
+      command = strcat(command, " ");
+    command = strcat(command, word[words[i]]);
+  }
+
+  gameStateTop = 1;
+  gameState = allocate(sizeof(GameState));
+  gameState[0].playerCommandWords = allocate(7*sizeof(Aint));
+  for (i = 0; words[i] != -1; i++)
+    gameState[0].playerCommandWords[i] = words[i];
+  gameState[0].playerCommandWords[i] = EOF;
+
+  recreatedCommand = recreatePlayerCommand();
+
+  ASSERT(strcmp(recreatedCommand, command) == 0);
+}
+
 void registerStateUnitTests() {
-  registerUnitTest(testPopEvents);
+  registerUnitTest(testRememberCommand);
   registerUnitTest(testPushGameState);
+  registerUnitTest(testPopEvents);
   registerUnitTest(testPopGameState);
+  registerUnitTest(testRecreatePlayerCommand);
   registerUnitTest(testPushPopGameStateWithSet);
 }

@@ -12,6 +12,7 @@
 #include "main.h"
 #include "set.h"
 #include "exe.h"
+#include "parse.h"
 
 
 /* PUBLIC DATA */
@@ -20,22 +21,24 @@ Bool gameStateChanged = FALSE;
 
 /* PRIVATE TYPES */
 typedef struct GameState {
-  /* Current data, can't use all of the CurVars (tick changes every move) */
-  int score;
-
   /* Event queue */
   EventQueueEntry *eventQueue;
   int eventQueueTop;		/* Event queue top pointer */
 
-  /* Amachine data structures - Dynamic */
-  AdminEntry *admin;		/* Administrative data about instances */
+  /* Scores */
+  int score;
   Aword *scores;		/* Score table pointer */
-  AttributeEntry *attributes;	/* Attributes data area */
 
+  /* Instance data */
+  AdminEntry *admin;		/* Administrative data about instances */
+  AttributeEntry *attributes;	/* Attributes data area */
   /* Sets and strings are dynamically allocated areas for which the
      attribute is just a pointer to. So they are not catched by the
      saving of attributes, instead they require special storage */
   Aword *sets;			/* Array of set pointers */
+
+  /* List of word indices the player said, EOF terminated */
+  Aint *playerCommandWords;
 } GameState;
 
 /* PRIVATE DATA */
@@ -90,6 +93,14 @@ void forgetGameState(void) {
 
 /*======================================================================*/
 void rememberCommands(void) {
+  int n;
+  GameState *state = &gameState[gameStateTop-1];
+
+  state->playerCommandWords = allocate((lastWord-firstWord+2)*sizeof(Aword));
+  for (n = firstWord; n <= lastWord; n++) {
+    state->playerCommandWords[n-firstWord] = playerWords[n];
+  }
+  state->playerCommandWords[n-firstWord] = EOF;
 }
 
 
@@ -200,17 +211,39 @@ Bool popGameState(void) {
   popEvents();
   popInstances();
   popScores();
+  free(gameState[gameStateTop].playerCommandWords);
+  gameState[gameStateTop].playerCommandWords = NULL;
   return TRUE;
 }
 
-/*======================================================================*/
-Bool undo(void) {
-  if (gameStateTop != 0) {
-    gameStateTop--;
-    printMessage(M_UNDONE);
-    return popGameState();
-  } else {
-    printMessage(M_NO_UNDO);
-    return FALSE;
+/*----------------------------------------------------------------------*/
+static char *recreatePlayerCommand() {
+  int i;
+  char *words = strdup("");
+  GameState *state = &gameState[gameStateTop-1];
+
+  for (i = 0; state->playerCommandWords[i] != EOF; i++) {
+    int wordIndex = state->playerCommandWords[i];
+    char *word = (char*)pointerTo(dictionary[wordIndex].wrd);
+    words = realloc(words, strlen(words) + strlen(word) + 2);
+    if (i > 0) words = strcat(words, " ");
+    words = strcat(words, word);
   }
+  return(words);
+}
+
+
+/*======================================================================*/
+void undo(void) {
+  gameStateTop--;
+  if (gameStateTop > 0) {
+    char *words;
+    words = recreatePlayerCommand();
+    output("'$$");
+    output(words);
+    output("$$'");
+    popGameState();
+    error(M_UNDONE);		/* Not exactly an error but ... */
+  } else
+    error(M_NO_UNDO);
 }

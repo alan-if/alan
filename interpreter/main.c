@@ -651,6 +651,7 @@ static Bool isSpaceEquivalent(char str[]) {
       || strncmp(str, "$t", 2) == 0;
 }
 
+
 /*----------------------------------------------------------------------*/
 static Bool punctuationNext(char *str) {
   char *punctuation = strchr(".,!?", str[0]);
@@ -666,15 +667,7 @@ static char lastCharOf(char *str) {
 }
 
 
-
-/*======================================================================
-
-  output()
-
-  Output a string to suit the screen. Any symbolic inserts ('$') are
-  recogniced and performed.
-
- */
+/*======================================================================*/
 void output(char original[])
 {
   char ch;
@@ -1488,8 +1481,8 @@ void run(void)
     init();			/* Initialise and start the adventure */
 
   while (TRUE) {
-#ifdef MALLOC
-    if (malloc_verify() == 0) syserr("Error in heap.");
+#ifdef DMALLOC
+    dmalloc_verify(0);
 #endif
     if (debugOption)
       debug(FALSE, 0, 0);
