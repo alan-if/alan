@@ -21,7 +21,8 @@ MAINSRCS = \
 	main.c \
 	set.c \
 	arun.c \
-	state.c
+	state.c \
+	save.c
 
 VERSIONSRCS = $(MAINSRCS) $(BUILDSRCS)
 VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}
