@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>443.89</origest>
-<currest>444.89</currest>
-<elapsed>294.89</elapsed>
+<origest>444.89</origest>
+<currest>445.89</currest>
+<elapsed>297.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>81</origest>
-<currest>81</currest>
-<elapsed>24</elapsed>
+<origest>82</origest>
+<currest>82</currest>
+<elapsed>27</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
-<elapsed>23</elapsed>
+<origest>34</origest>
+<currest>34</currest>
+<elapsed>26</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -263,12 +263,30 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>UNDO should only save state when the player changes anything</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add section on scripting and commenting in the manual</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Include ! in characters that excludes an automatic space</desc>
+<notes>Any other? like '?'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -278,15 +296,6 @@ See compiler/testing/lockableDoors</notes>
 <task>
 <desc>Respond to UNDO with "You undo 'x x x '."</desc>
 <notes>This will have to include the command words in the undo state.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Include ! in characters that excludes an automatic space</desc>
-<notes>Any other? like '?'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -135,7 +135,7 @@ static char *gettoken(char *buf) {
     marker++;
     while (*marker != '\"') marker++;
     marker++;
-  } else if (*marker == '\0' || *marker == '\n')
+  } else if (*marker == '\0' || *marker == '\n' || *marker == ';')
     return NULL;
   else
     marker++;
