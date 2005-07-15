@@ -2,7 +2,7 @@ Syntax x = x (o)*.
 
 Add To Every object
   Verb x
-  Does "You x" Say The o. "..."
+  Does "You x" Say The o. "$$..."
   End Verb.
 End Add.
 

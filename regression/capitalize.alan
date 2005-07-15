@@ -8,6 +8,11 @@ The l Isa location
     "this is a place."
     "it is dark."
     "$p$$lower case."
+    "$pupper case."
+    "$pupper case!"
+    "$pupper case?"
+    "$pupper case"
+    "lower case."
 End The l.
 
 The a Isa actor At l

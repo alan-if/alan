@@ -65,18 +65,34 @@ static void testCopyAttributes() {
   ASSERT(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 
-static void testFullStopOrCommaNext() {
-  ASSERT(fullStopOrCommaNext("."));
-  ASSERT(fullStopOrCommaNext(".$p"));
-  ASSERT(fullStopOrCommaNext(".$n"));
-  ASSERT(fullStopOrCommaNext(".$t"));
-  ASSERT(!fullStopOrCommaNext("a."));
-  ASSERT(!fullStopOrCommaNext("$p."));
+static void testPunctuationNext() {
+  ASSERT(punctuationNext("."));
+  ASSERT(punctuationNext("!"));
+  ASSERT(punctuationNext("?"));
+  ASSERT(punctuationNext(".$p"));
+  ASSERT(punctuationNext(".$n"));
+  ASSERT(punctuationNext(".$t"));
+  ASSERT(!punctuationNext("a."));
+  ASSERT(!punctuationNext("$p."));
+}
+
+static void testSpaceEquivalent(){
+  ASSERT(isSpaceEquivalent("$p"));
+  ASSERT(isSpaceEquivalent("$pafdjljf"));
+  ASSERT(isSpaceEquivalent("$t"));
+  ASSERT(isSpaceEquivalent("$n"));
+  ASSERT(isSpaceEquivalent("$i"));
+  ASSERT(!isSpaceEquivalent("$$"));
+  ASSERT(!isSpaceEquivalent("abc"));
+  ASSERT(!isSpaceEquivalent("..."));
+  ASSERT(!isSpaceEquivalent(""));
+  ASSERT(isSpaceEquivalent(" "));
 }
 
 void registerMainUnitTests()
 {
-  registerUnitTest(testFullStopOrCommaNext);
+  registerUnitTest(testSpaceEquivalent);
+  registerUnitTest(testPunctuationNext);
   registerUnitTest(testUpdateColumn);
   registerUnitTest(testCopyAttributes);
 }

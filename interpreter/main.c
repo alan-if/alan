@@ -642,18 +642,21 @@ static Bool inhibitSpace(char *str) {
 
 /*----------------------------------------------------------------------*/
 static Bool isSpaceEquivalent(char str[]) {
-  if (strlen(str) > 1)
-    return strncmp(str, "$p", 2)
-      || strncmp(str, "$n", 2)
-      || strncmp(str, "$t", 2);
+  if (str[0] == ' ')
+    return TRUE;
   else
-    return str[0] == ' ';
+    return strncmp(str, "$p", 2) == 0
+      || strncmp(str, "$n", 2) == 0
+      || strncmp(str, "$i", 2) == 0
+      || strncmp(str, "$t", 2) == 0;
 }
 
 /*----------------------------------------------------------------------*/
-static Bool fullStopOrCommaNext(char *str) {
-  return (str[0] == '.' || str[0] == ',')
-    && (str[1] == '\0' || isSpaceEquivalent(&str[1]));
+static Bool punctuationNext(char *str) {
+  char *punctuation = strchr(".,!?", str[0]);
+  Bool end = str[1] == '\0';
+  Bool space = isSpaceEquivalent(&str[1]);
+  return (punctuation != NULL && (end || space));
 }
 
 
@@ -681,7 +684,7 @@ void output(char original[])
   copy = strdup(original);
   str = copy;
 
-  if (inhibitSpace(str) || fullStopOrCommaNext(str))
+  if (inhibitSpace(str) || punctuationNext(str))
     needSpace = FALSE;
   else
     space();			/* Output space if needed (& not inhibited) */
@@ -713,7 +716,7 @@ void output(char original[])
       needSpace = TRUE;
   }
   if (needSpace)
-    capitalize = str[strlen(str)-1] == '.';
+    capitalize = index("!?.", str[strlen(str)-1]) != 0;
   anyOutput = TRUE;
   free(copy);
 }
