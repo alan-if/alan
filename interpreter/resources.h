@@ -1,8 +1,9 @@
 #define IDC_STATIC (-1)
 
 #define IDR_ARUN                        25000
-#define IDD_ABOUT                       25008
+#define IDI_ABOUT                       26000
 
+#define IDD_ABOUT                       25008
 #define ID_MENU_RESTART			25001
 #define ID_MENU_SAVE			25002
 #define ID_MENU_RECORD			25003
