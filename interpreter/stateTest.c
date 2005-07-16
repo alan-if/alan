@@ -178,8 +178,8 @@ static void testRememberCommand() {
   playerWords[lastWord].end = &command[4];
   rememberCommands();
 
-  ASSERT(strcmp(gameState[0].playerCommandWords, command) != 0);
-  ASSERT(strncmp(gameState[0].playerCommandWords, command, 3) == 0);
+  ASSERT(strcmp(gameState[0].playerCommand, command) != 0);
+  ASSERT(strncmp(gameState[0].playerCommand, command, 3) == 0);
 }
 
 void registerStateUnitTests() {

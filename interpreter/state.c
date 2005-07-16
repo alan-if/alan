@@ -36,9 +36,10 @@ typedef struct GameState {
      attribute is just a pointer to. So they are not catched by the
      saving of attributes, instead they require special storage */
   Aword *sets;			/* Array of set pointers */
+  Aword *strings;		/* Array of string pointers */
 
   /* List of word indices the player said, EOF terminated */
-  char *playerCommandWords;
+  char *playerCommand;
 } GameState;
 
 /* PRIVATE DATA */
@@ -84,6 +85,30 @@ static Aword *pushSets() {
 }
 
 
+/*----------------------------------------------------------------------*/
+static Aword *pushStrings() {
+  StringInitEntry *entry;
+  int stringCount = 0;
+  Aword *strings;
+  int i;
+
+  if (header->stringInitTable == 0) return NULL;
+
+  for (entry = pointerTo(header->stringInitTable); *(Aword *)entry != EOF; entry++)
+    stringCount++;
+
+  if (stringCount == 0) return NULL;
+
+  strings = allocate(stringCount*sizeof(Set));
+
+  entry = pointerTo(header->stringInitTable);
+  for (i = 0; i < stringCount; i++)
+    strings[i] = getStringAttribute(entry[i].instanceCode, entry[i].attributeCode);
+
+  return strings;
+}
+
+
 /*======================================================================*/
 void forgetGameState(void) {
   if (gameStateTop == 0) syserr("forgetting nonexisting gameState");
@@ -97,7 +122,7 @@ void rememberCommands(void) {
   GameState *state = &gameState[gameStateTop-1];
 
   n = playerWords[lastWord].end - playerWords[firstWord].start;
-  state->playerCommandWords = strndup(playerWords[firstWord].start, n);
+  state->playerCommand = strndup(playerWords[firstWord].start, n);
 }
 
 
@@ -114,6 +139,7 @@ static void pushInstanceData() {
   gameState[gameStateTop].admin = duplicate(admin, (header->instanceMax+1)*sizeof(AdminEntry));
   gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
   gameState[gameStateTop].sets = pushSets();
+  gameState[gameStateTop].strings = pushStrings();
 }
 
 
@@ -147,6 +173,7 @@ static void freeSets(void) {
   }
 }
 
+
 /*----------------------------------------------------------------------*/
 static void popSets(Aword *sets) {
   SetInitEntry *entry;
@@ -163,6 +190,25 @@ static void popSets(Aword *sets) {
   entry = pointerTo(header->setInitTable);
   for (i = 0; i < setCount; i++)
     setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, sets[i]);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void popStrings(Aword *strings) {
+  StringInitEntry *entry;
+  int stringCount = 0;
+  int i;
+
+  if (header->stringInitTable == 0) return;
+
+  for (entry = pointerTo(header->stringInitTable); *(Aword *)entry != EOF; entry++)
+    stringCount++;
+
+  if (stringCount == 0) return;
+
+  entry = pointerTo(header->stringInitTable);
+  for (i = 0; i < stringCount; i++)
+    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, strings[i]);
 }
 
 
@@ -189,6 +235,7 @@ static void popInstances() {
 	 header->attributesAreaSize*sizeof(Aword));
   free(gameState[gameStateTop].attributes);
   popSets(gameState[gameStateTop].sets);
+  popStrings(gameState[gameStateTop].strings);
 }
 
 
@@ -208,8 +255,8 @@ Bool popGameState(void) {
   popEvents();
   popInstances();
   popScores();
-  free(gameState[gameStateTop].playerCommandWords);
-  gameState[gameStateTop].playerCommandWords = NULL;
+  free(gameState[gameStateTop].playerCommand);
+  gameState[gameStateTop].playerCommand = NULL;
   return TRUE;
 }
 
@@ -217,7 +264,7 @@ Bool popGameState(void) {
 static char *recreatePlayerCommand() {
   GameState *state = &gameState[gameStateTop-1];
 
-  return state->playerCommandWords;
+  return state->playerCommand;
 }
 
 

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>449.89</origest>
 <currest>451.89</currest>
-<elapsed>300.89</elapsed>
+<elapsed>302.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,15 +14,15 @@
 <priority>2</priority>
 <origest>87</origest>
 <currest>88</currest>
-<elapsed>30</elapsed>
+<elapsed>32</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>34</origest>
-<currest>35</currest>
-<elapsed>29</elapsed>
+<origest>39</origest>
+<currest>40</currest>
+<elapsed>32</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -304,7 +304,34 @@ Prepare M_UNDONE message with one string parameter.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>The undone-message does not work for literal values</desc>
+<notes>See regression/undoSet</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>UNDO handling does not seem to manage strings</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A Set should be possible to initialize to empty by giving a class name</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -320,15 +347,6 @@ Verify what this would mean in a practical example.
 
 I think only checks for matching alternatives would be natural.
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>A Set should be possible to initialize to empty by giving a class name</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -383,14 +401,41 @@ mentioned? article? description?</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
+<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add header entry and entry type for breakpoint list</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
+<notes>with "Say No x." and "$-1" as print forms.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Increment: version 3.0dev37</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
-<elapsed>1</elapsed>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>MENTIONED can not be inherited</desc>
@@ -406,24 +451,6 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <task>
 <desc>Literal should not inherit from Thing?</desc>
 <notes>It should be a separate base class, or should it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor loop filters so that Between can be combined with others</desc>
-<notes>Example in suspended regression/integerInSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
-<notes>with "Say No x." and "$-1" as print forms.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -468,33 +495,6 @@ Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add header slot and structure for the SCOPE structure</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add header entry and entry type for breakpoint list</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Inherting all props</desc>
 <notes>Investigate which ones are left!!!!
 
@@ -510,8 +510,17 @@ verbs
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
-<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -523,8 +532,8 @@ verbs
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -584,12 +593,8 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Document what is built-in</desc>
-<notes>Messages
-Classes
-Instances (hero)
-Words
-Pronouns</notes>
+<desc>Add header slot and structure for the SCOPE structure</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -597,17 +602,8 @@ Pronouns</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>The undone-message does not work for literal values</desc>
-<notes>See regression/undoSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<desc>Refactor loop filters so that Between can be combined with others</desc>
+<notes>Example in suspended regression/integerInSet</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -652,47 +648,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Example: composite object</desc>
-<notes>Like a box with a couple of buttons on it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>winarun does not parse its command line</desc>
-<notes>E.g.
-    winarun images -t
-results in
-    Could not open "images -t.a3c"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherit Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Entered</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -836,8 +793,8 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>5</origest>
+<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -849,18 +806,70 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>winarun does not parse its command line</desc>
+<notes>E.g.
+    winarun images -t
+results in
+    Could not open "images -t.a3c"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
-<desc>Version 3.0beta2</desc>
+<desc>Document what is built-in</desc>
+<notes>Messages
+Classes
+Instances (hero)
+Words
+Pronouns</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Split the manual into separate pieces</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0beta2</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Clean up old sections in the manual</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Example: composite object</desc>
+<notes>Like a box with a couple of buttons on it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -890,8 +899,8 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1025,6 +1034,17 @@ The format of the language file could very well be exactly as Appendix C.</notes
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>How to handle special dictionary entries in unsupported languages?</desc>
+<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
+
+New clause?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Which-form and Any-form</desc>
@@ -1112,17 +1132,6 @@ DEPENDING ON CONFIRM "Restore, reStart, Quit or go Back to the game (R/S/Q/B)?"
  =2 : RESTART.
  =3 : QUIT.
 END DEPEND.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>How to handle special dictionary entries in unsupported languages?</desc>
-<notes>The word types: ALL, THEM, NOISE, EXCEPT etc. are inserted by the compiler. How can we support it for a language not directly supported?
-
-New clause?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
