@@ -2007,25 +2007,25 @@ int rule			/* IN production number */
     case 315: { /* <simple_what> = ID; */
 #line 2343 "alan.pmk"
 
-	pmSeSt[pmStkP+1].wht = newWhat(&pmSeSt[pmStkP+1].id->srcp, WHAT_ID, pmSeSt[pmStkP+1].id);
+	pmSeSt[pmStkP+1].wht = newWhatId(pmSeSt[pmStkP+1].id->srcp, pmSeSt[pmStkP+1].id);
 	pmSeSt[pmStkP+1].srcp = pmSeSt[pmStkP+1].id->srcp;
     	break;}
     case 317: { /* <simple_what> = 'current' 'actor'; */
 #line 2349 "alan.pmk"
 
-	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_ACTOR, NULL);
+	pmSeSt[pmStkP+1].wht = newWhatActor(pmSySt[pmStkP+1].srcp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 318: { /* <simple_what> = 'current' 'location'; */
 #line 2355 "alan.pmk"
 
-	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_LOCATION, NULL);
+	pmSeSt[pmStkP+1].wht = newWhatLocation(pmSySt[pmStkP+1].srcp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 316: { /* <simple_what> = 'this'; */
 #line 2361 "alan.pmk"
 
-	pmSeSt[pmStkP+1].wht = newWhat(&pmSySt[pmStkP+1].srcp, WHAT_THIS, NULL);
+	pmSeSt[pmStkP+1].wht = newWhatThis(pmSySt[pmStkP+1].srcp);
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
     	break;}
     case 319: { /* <attribute_reference> = ID 'of' <what>; */

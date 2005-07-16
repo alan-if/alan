@@ -2341,25 +2341,25 @@ static int val(char str[])
 <simple_what>			-- RETURNS: srcp, wht
     = ID					%-('of')
     %%
-	%<simple_what>.wht = newWhat(`&%ID.id->srcp, WHAT_ID, %ID.id);
+	%<simple_what>.wht = newWhatId(%ID.id->srcp, %ID.id);
 	%<simple_what>.srcp = %ID.id->srcp;
     %%
 
     ! 'current' 'actor'
     %%
-	%<simple_what>.wht = newWhat(`&%'current'.srcp, WHAT_ACTOR, NULL);
+	%<simple_what>.wht = newWhatActor(%'current'.srcp);
 	%<simple_what>.srcp = %'current'.srcp;
     %%
 
     ! 'current' 'location'
     %%
-	%<simple_what>.wht = newWhat(`&%'current'.srcp, WHAT_LOCATION, NULL);
+	%<simple_what>.wht = newWhatLocation(%'current'.srcp);
 	%<simple_what>.srcp = %'current'.srcp;
     %%
 
     ! 'this'
     %%
-	%<simple_what>.wht = newWhat(`&%'this'.srcp, WHAT_THIS, NULL);
+	%<simple_what>.wht = newWhatThis(%'this'.srcp);
 	%<simple_what>.srcp = %'this'.srcp;
     %%
     ;

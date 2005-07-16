@@ -17,7 +17,10 @@
 
 /* FUNCTIONS: */
 
-extern What *newWhat(Srcp *srcp, WhatKind wht, struct IdNode *id);
+extern What *newWhatLocation(Srcp srcp);
+extern What *newWhatActor(Srcp srcp);
+extern What *newWhatThis(Srcp srcp);
+extern What *newWhatId(Srcp srcp, IdNode *id);
 extern void symbolizeWhat(What *wht);
 extern void whatIsNotContainer(What *wht, Context *context, char construct[]);
 extern Symbol *symbolOfWhat(What *what, Context *context);

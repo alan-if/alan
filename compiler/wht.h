@@ -16,8 +16,8 @@
 typedef enum WhatKind {
   WHAT_LOCATION,
   WHAT_ACTOR,
-  WHAT_ID,
-  WHAT_THIS
+  WHAT_THIS,
+  WHAT_ID
 } WhatKind;
 
 typedef struct What {

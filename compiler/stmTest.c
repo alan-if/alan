@@ -10,7 +10,7 @@
 
 void testVerifySetAssignment() {
   Expression *exp = newSetExpression(nulsrcp, NULL);
-  Expression *wht = newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(nulsrcp, "setAttribute")));
+  Expression *wht = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "setAttribute")));
 
   wht->type = SET_TYPE;
   exp->type = SET_TYPE;

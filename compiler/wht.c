@@ -20,10 +20,10 @@
 #include "emit.h"
 
 
-/*======================================================================*/
-What *newWhat(Srcp *srcp,	/* IN - Source position */
-	      WhatKind kind,	/* IN - What kind */
-	      IdNode *id)	/* IN - ID or NULL */
+/*----------------------------------------------------------------------*/
+static What *newWhat(Srcp *srcp,	/* IN - Source position */
+		     WhatKind kind,	/* IN - What kind */
+		     IdNode *id)	/* IN - ID or NULL */
 {
   What *new;
 
@@ -36,6 +36,31 @@ What *newWhat(Srcp *srcp,	/* IN - Source position */
   new->id = id;
 
   return(new);
+}
+
+
+/*======================================================================*/
+What *newWhatLocation(Srcp srcp)
+{
+  return newWhat(&srcp, WHAT_LOCATION, NULL);
+}
+
+/*======================================================================*/
+What *newWhatActor(Srcp srcp)
+{
+  return newWhat(&srcp, WHAT_ACTOR, NULL);
+}
+
+/*======================================================================*/
+What *newWhatThis(Srcp srcp)
+{
+  return newWhat(&srcp, WHAT_THIS, NULL);
+}
+
+/*======================================================================*/
+What *newWhatId(Srcp srcp, IdNode *id)
+{
+  return newWhat(&srcp, WHAT_ID, id);
 }
 
 /*======================================================================*/

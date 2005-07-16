@@ -8,6 +8,7 @@
 
 #include "atr.c"
 #include "cla_x.h"
+#include "wht_x.h"
 #include "prop_x.h"
 
 void testCreateSetAttribute()
@@ -20,6 +21,10 @@ void testCreateSetAttribute()
   ASSERT(atr->set->fields.set.members->element.exp->kind == INTEGER_EXPRESSION);
 }
 
+void testSingleIdentifierInMember() {
+  Expression *exp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
+}
+
 void testInferClassInSetAttribute()
 {
   initAdventure();
@@ -27,7 +32,7 @@ void testInferClassInSetAttribute()
 
   IdNode *classId = newId(nulsrcp, "object");
   Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "t"), classId, NULL);
-  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, newId(nulsrcp, "t"))), EXPRESSION_LIST);
+  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "t"))), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
@@ -42,9 +47,7 @@ void testInferClassInSetAttribute()
   instance = newInstance(&nulsrcp, newId(nulsrcp, "u"), classId, NULL);
   set = concat(set,
 	       newWhatExpression(nulsrcp,
-				 newWhat(&nulsrcp,
-					 WHAT_ID,
-					 newId(nulsrcp, "u"))),
+				 newWhatId(nulsrcp, newId(nulsrcp, "u"))),
 	       EXPRESSION_LIST);
 
   symbolizeInstance(instance);

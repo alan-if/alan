@@ -36,8 +36,7 @@ void testInitAdv()
   ASSERT(readEcode() == 211 && readSev() == sevERR);
 
   adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
-		     newWhatExpression(srcp, newWhat(&srcp, WHAT_ID,
-						      atUnknownId)));
+		     newWhatExpression(srcp, newWhatId(srcp, atUnknownId)));
   symbolizeAdventure();
   ASSERT(readSev() == sevERR && readEcode() == 310);
 

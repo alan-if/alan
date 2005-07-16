@@ -32,7 +32,7 @@ void testSymbolOf() {
 
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
-  What *theWhat = newWhat(&nulsrcp, WHAT_ID, theInstance->props->id);
+  What *theWhat = newWhatId(nulsrcp, theInstance->props->id);
   Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
   ASSERT(symbolOfExpression(theWhatExp, context) != NULL);
   ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
@@ -52,7 +52,7 @@ void testAttributeToThis()
   IdNode *theAttributeId = newId(nulsrcp, "Atr");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
   Context *theContext = newInstanceContext(theInstance);
-  What *theWhat = newWhat(&nulsrcp, WHAT_THIS, NULL);
+  What *theWhat = newWhatThis(nulsrcp);
   Expression *theWhatExp = newExpression(nulsrcp, WHAT_EXPRESSION);
   Expression *theExp = newExpression(nulsrcp, ATTRIBUTE_EXPRESSION);
 
@@ -98,10 +98,10 @@ static void testIsConstant()
   Expression *integer = newIntegerExpression(nulsrcp, 4);
   IdNode *instanceId = newId(nulsrcp, "instanceId");
   Symbol *instanceSymbol = newInstanceSymbol(instanceId, NULL, NULL);
-  Expression *instanceExp = newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, instanceId));
+  Expression *instanceExp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, instanceId));
   IdNode *parameterId = newId(nulsrcp, "parameterId");
   Symbol *parameterSymbol = newInstanceSymbol(parameterId, NULL, NULL);
-  Expression *parameterExp = newWhatExpression(nulsrcp, newWhat(&nulsrcp, WHAT_ID, parameterId));
+  Expression *parameterExp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, parameterId));
   List *members = concat(NULL, instanceExp, EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, members);
 

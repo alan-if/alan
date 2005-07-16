@@ -1,8 +1,8 @@
-/*
+/*----------------------------------------------------------------------*\
 
-   Read line from user, with editing and history
+  Read line from user, with editing and history
 
- */
+\*----------------------------------------------------------------------*/
 
 #include "sysdep.h"
 
@@ -14,8 +14,9 @@
 #include "glk.h"
 #include "glkio.h"
 
-#ifdef HAVE_WINGLK
 #include "resources.h"
+
+#ifdef HAVE_WINGLK
 #include "WinGlk.h"
 
 BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
