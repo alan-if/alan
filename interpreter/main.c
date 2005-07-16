@@ -493,7 +493,7 @@ static void sayPlayerWordsForParameter(int p) {
   int i;
 
   for (i = parameters[p].firstWord; i <= parameters[p].lastWord; i++) {
-    justify((char *)pointerTo(dictionary[playerWords[i]].string));
+    justify((char *)pointerTo(dictionary[playerWords[i].code].string));
     if (i < parameters[p].lastWord)
       justify(" ");
   }

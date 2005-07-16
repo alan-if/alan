@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>446.89</origest>
-<currest>448.89</currest>
-<elapsed>299.89</elapsed>
+<origest>449.89</origest>
+<currest>451.89</currest>
+<elapsed>300.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>84</origest>
-<currest>85</currest>
-<elapsed>29</elapsed>
+<origest>87</origest>
+<currest>88</currest>
+<elapsed>30</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>34</origest>
 <currest>35</currest>
-<elapsed>28</elapsed>
+<elapsed>29</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -300,7 +300,7 @@ Prepare M_UNDONE message with one string parameter.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -388,8 +388,8 @@ mentioned? article? description?</notes>
 <desc>Increment: version 3.0dev37</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -397,21 +397,6 @@ mentioned? article? description?</notes>
 <notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
 
 This is kind of a general question, but affects the MENTIONED particularly.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attribute references without "of" in certain contexts</desc>
-<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
-
-  The x
-     Has y,
-     Description Say y.
-  End The x.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -457,26 +442,6 @@ Check for consistency with other instances of local overides.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Problem with consequtive include's</desc>
-<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
-
-See compiler/testing/includeFile.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
-<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Default description for a instance should be either in definite or indefinite form.</desc>
 <notes>Is there a problem with current defaults:
  - There is a object here.
@@ -504,6 +469,15 @@ Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
 </task>
 <task>
 <desc>Add header slot and structure for the SCOPE structure</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add header entry and entry type for breakpoint list</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -544,25 +518,13 @@ verbs
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>winarun does not parse its command line</desc>
-<notes>E.g.
-    winarun images -t
-results in
-    Could not open "images -t.a3c"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>12</currest>
+<origest>14</origest>
+<currest>14</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -672,6 +634,15 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
+<desc>List line numbers for which LINE instructions are generated?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
 <notes>So don't sort it. Linear search will be sufficiently fast.</notes>
 <priority>2</priority>
@@ -692,6 +663,18 @@ pointing to "count" since that is the left hand side of the assumed expression
 <task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>winarun does not parse its command line</desc>
+<notes>E.g.
+    winarun images -t
+results in
+    Could not open "images -t.a3c"</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -730,8 +713,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -746,8 +729,52 @@ Design:</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Attribute references without "of" in certain contexts?</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>--warnings to turn off warning messages does not work</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Problem with consequtive include's</desc>
+<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
+
+See compiler/testing/includeFile.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allocate the playerWords[] dynamically</desc>
+<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -786,15 +813,6 @@ TODO: Descriptions, ?</notes>
 &lt;file name&gt;:&lt;line number&gt;
 
 Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>List line numbers for which LINE instructions are generated?</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -872,8 +890,8 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>14</origest>
+<currest>14</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -944,6 +962,25 @@ This should be done in parse.c but at the position where we want to do this we d
 <task>
 <desc>Optimize game state push and pop (UNDO)</desc>
 <notes>Currently *everything* is saved for every game turn. It would be easy to check for any changes in the parts we save (events, admin, attributes, ..) and if so only copy that. This would drastically minimize UNDO memory requirements.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Local variables</desc>
+<notes>It would be easy to allow local variables:
+
+Does
+  Local x 4.
+  Set x To 7.
+  For ...
+    Local p i.
+    ...
+  End For.
+
+DESIGN: generate a FRAME with as many slots as there are locals. Access to local variables has to calculate frame depth, so code generation for FOR EACH has to be changed.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

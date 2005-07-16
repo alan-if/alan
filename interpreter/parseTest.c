@@ -44,7 +44,7 @@ static void testMatchEndOfSyntax() {
   elementTable = (ElementEntry *)&memory[20];
 
   /* No words */
-  playerWords[0] = EOF;
+  playerWords[0].code = EOF;
   wordIndex = 0;
 
   /* First try an empty parse tree */
@@ -72,7 +72,7 @@ static void testMatchParameterElement() {
   elementTable = (ElementEntry *)&memory[50];
 
   /* No words */
-  playerWords[0] = EOF;
+  playerWords[0].code = EOF;
   wordIndex = 0;
 
   /* First test an empty parse tree */
@@ -109,7 +109,7 @@ static void testMatchParseTree() {
   elementTable = (ElementEntry *)&memory[50];
 
   /* Emulate end of player input */
-  playerWords[0] = EOF;
+  playerWords[0].code = EOF;
   wordIndex = 0;
 
   /* First test EOF with empty parse tree */
@@ -133,8 +133,8 @@ static void testMatchParseTree() {
   /* Test word, EOF with word, EOS */
   dictionary = makeDictionary(100);
   makeDictionaryEntry(0, 1, PREPOSITION_BIT);
-  playerWords[0] = 0;		/* A preposition with code 0 */
-  playerWords[1] = EOF;
+  playerWords[0].code = 0;		/* A preposition with code 0 */
+  playerWords[1].code = EOF;
   makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
   makeEOS(&elementTable[1]);
   makeEOF(&elementTable[2]);
@@ -172,7 +172,7 @@ static void testSetupParameterForWord() {
   memcpy(&memory[12], "qwerty", 7);
   dictionary[2].string = 12;
 
-  playerWords[1] = 2;
+  playerWords[1].code = 2;
   litCount = 0;
   setupParameterForWord(1, 1);
 

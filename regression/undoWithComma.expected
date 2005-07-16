@@ -38,7 +38,7 @@ You read the book.
 'read it' undone.
 
 > undo
-'take book' undone.
+'take the book' undone.
 
 > undo
 Nothing more to undo.

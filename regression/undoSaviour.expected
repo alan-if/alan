@@ -42,11 +42,13 @@ up, and another leading down into a dark cellar. To the east is the
 hallway. A strange smell emerges from below.
 
 > undo
+'w' undone.
 
 > kick the door
 You can't do that.
 
 > undo
+'n' undone.
 
 > l
 Outside The Tall Building
@@ -83,6 +85,7 @@ way down here. In the light from the sun some rats can be seen.
 Stairs (again)
 
 > undo
+'u' undone.
 
 > l
 Cellar

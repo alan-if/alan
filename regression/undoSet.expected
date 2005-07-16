@@ -54,13 +54,13 @@ Loc
 'l' undone.
 
 > undo
-'s K' undone.
+'s 12' undone.
 
 > undo
 'l' undone.
 
 > undo
-'s K' undone.
+'s 8' undone.
 
 > undo
 'l' undone.
@@ -82,7 +82,7 @@ Loc
 'l' undone.
 
 > undo
-'s K' undone.
+'s 14' undone.
 
 > undo
 'l' undone.

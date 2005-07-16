@@ -38,7 +38,7 @@ typedef struct GameState {
   Aword *sets;			/* Array of set pointers */
 
   /* List of word indices the player said, EOF terminated */
-  Aint *playerCommandWords;
+  char *playerCommandWords;
 } GameState;
 
 /* PRIVATE DATA */
@@ -96,11 +96,8 @@ void rememberCommands(void) {
   int n;
   GameState *state = &gameState[gameStateTop-1];
 
-  state->playerCommandWords = allocate((lastWord-firstWord+2)*sizeof(Aword));
-  for (n = firstWord; n <= lastWord; n++) {
-    state->playerCommandWords[n-firstWord] = playerWords[n];
-  }
-  state->playerCommandWords[n-firstWord] = EOF;
+  n = playerWords[lastWord].end - playerWords[firstWord].start;
+  state->playerCommandWords = strndup(playerWords[firstWord].start, n);
 }
 
 
@@ -218,18 +215,9 @@ Bool popGameState(void) {
 
 /*----------------------------------------------------------------------*/
 static char *recreatePlayerCommand() {
-  int i;
-  char *words = strdup("");
   GameState *state = &gameState[gameStateTop-1];
 
-  for (i = 0; state->playerCommandWords[i] != EOF; i++) {
-    int wordIndex = state->playerCommandWords[i];
-    char *word = (char*)pointerTo(dictionary[wordIndex].string);
-    words = realloc(words, strlen(words) + strlen(word) + 2);
-    if (i > 0) words = strcat(words, " ");
-    words = strcat(words, word);
-  }
-  return(words);
+  return state->playerCommandWords;
 }
 
 
@@ -237,11 +225,12 @@ static char *recreatePlayerCommand() {
 void undo(void) {
   gameStateTop--;
   if (gameStateTop > 0) {
-    char *words;
-    words = recreatePlayerCommand();
+    char *words = strdup(recreatePlayerCommand());
     popGameState();
+    current.location = where(HERO, TRUE);
     setupParameterForString(1, words);
     printMessage(M_UNDONE);
+    free(words);
   } else
     printMessage(M_NO_UNDO);
   forceNewPlayerInput();
