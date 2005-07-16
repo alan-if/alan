@@ -6,6 +6,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include <string.h>
+
 #include "sysdep.h"
 #include "types.h"
 #include "syserr.h"
@@ -122,7 +124,8 @@ void rememberCommands(void) {
   GameState *state = &gameState[gameStateTop-1];
 
   n = playerWords[lastWord].end - playerWords[firstWord].start;
-  state->playerCommand = strndup(playerWords[firstWord].start, n);
+  state->playerCommand = allocate(n+1);
+  strncpy(state->playerCommand, playerWords[firstWord].start, n);
 }
 
 
