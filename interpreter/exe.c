@@ -184,6 +184,7 @@ void score(Aword sc)
   } else {
     current.score += scores[sc-1];
     scores[sc-1] = 0;
+    gameStateChanged = TRUE;
   }
 }
 
@@ -1030,7 +1031,7 @@ static char *wordWithCode(Aint classBit, Aint code) {
 
   for (w = 0; w < dictsize; w++)
     if (dictionary[w].code == code && ((classBit&dictionary[w].classBits) != 0))
-      return pointerTo(dictionary[w].wrd);
+      return pointerTo(dictionary[w].string);
   sprintf(str, "Could not find word of class %ld with code %ld.", classBit, code);
   syserr(str);
   return NULL;

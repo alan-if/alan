@@ -66,7 +66,7 @@ static void testGenerateWordEntry()
   w1.adjectiveRefAddress = 21;
 
   generateWordEntry(&w1);
-  ASSERT(convertFromACD(de[0].wrd) == 14);
+  ASSERT(convertFromACD(de[0].string) == 14);
   ASSERT(convertFromACD(de[0].classBits) == VERB_BIT);
   ASSERT(convertFromACD(de[0].code) == 17);
   ASSERT(convertFromACD(de[0].nounRefs) == 19);
@@ -78,7 +78,7 @@ static void testGenerateWordEntry()
   w2->classbits = SYNONYM_BIT;
 
   generateWordEntry(w2);
-  ASSERT(convertFromACD(de[1].wrd) == 15);
+  ASSERT(convertFromACD(de[1].string) == 15);
   ASSERT(convertFromACD(de[1].classBits) == (SYNONYM_BIT|VERB_BIT));
   ASSERT(convertFromACD(de[1].code) == 17);
   ASSERT(convertFromACD(de[1].nounRefs) == 19);

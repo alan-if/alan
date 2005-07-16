@@ -46,6 +46,6 @@ BEGIN
     LTEXT           "Pre-view version WINARUNVERSION\nAlan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
                     IDC_STATIC,45,20,160,33
     GROUPBOX        "Additional Credits",IDC_STATIC,10,70,200,40
-    LTEXT           "Initial inspiration to the Alan language: Göran Forslund\nContinuing encuragement and bug finding: Steve Griffiths\nVisit the Alan Home Pages at http://welcome.to/alan-if",
+    LTEXT           "Initial inspiration to the Alan language: Göran Forslund\nContinuing encuragement and bug finding: Steve Griffiths\nVisit the Alan Home Pages at http://www.alanif.se",
                     IDC_STATIC,15,80,190,25
 END

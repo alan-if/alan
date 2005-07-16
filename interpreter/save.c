@@ -19,6 +19,9 @@
 static char saveFileName[256];
 typedef FILE *AFILE;
 #else
+#include "glk.h"
+#define MAP_STDIO_TO_GLK
+#include "glkio.h"
 typedef strid_t AFILE;
 #endif
 

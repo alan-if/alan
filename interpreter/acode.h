@@ -389,7 +389,7 @@ typedef struct SetInitEntry {	/* SET INITIALISATION TABLE */
 } SetInitEntry;
 
 typedef struct DictionaryEntry { /* Dictionary */
-  Aaddr wrd;			/* ACODE address to string */
+  Aaddr string;			/* ACODE address to string */
   Aword classBits;		/* Word class */
   Aword code;
   Aaddr adjectiveRefs;		/* Address to reference list */

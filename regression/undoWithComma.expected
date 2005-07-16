@@ -21,13 +21,13 @@ L
 There is a book here.
 
 > undo
-'e' Undone.
+'e' undone.
 
 > undo
-'e' Undone.
+'e' undone.
 
 > undo
-'w' Undone.
+'w' undone.
 
 > take the book and read it
 You take the book.
@@ -35,10 +35,10 @@ You take the book.
 You read the book.
 
 > undo
-'read it' Undone.
+'read it' undone.
 
 > undo
-'take book' Undone.
+'take book' undone.
 
 > undo
 Nothing more to undo.

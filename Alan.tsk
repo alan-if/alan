@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>444.89</origest>
-<currest>445.89</currest>
-<elapsed>297.89</elapsed>
+<origest>446.89</origest>
+<currest>448.89</currest>
+<elapsed>299.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>82</origest>
-<currest>82</currest>
-<elapsed>27</elapsed>
+<origest>84</origest>
+<currest>85</currest>
+<elapsed>29</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
 <origest>34</origest>
-<currest>34</currest>
-<elapsed>26</elapsed>
+<currest>35</currest>
+<elapsed>28</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -244,8 +244,8 @@ See compiler/testing/lockableDoors</notes>
 <notes>Use same special case as &lt;aggregate&gt; In &lt;integerset&gt; which uses SETSIZE and SETMEMBER.</notes>
 <priority>2</priority>
 <origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
+<currest>2</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -290,12 +290,13 @@ See compiler/testing/lockableDoors</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
 <desc>Respond to UNDO with "You undo 'x x x '."</desc>
-<notes>This will have to include the command words in the undo state.</notes>
+<notes>This will have to include the command words in the undo state. DONE
+Prepare M_UNDONE message with one string parameter.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -535,7 +536,7 @@ verbs
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor SourceFileEntry to contain to structs  fpos/len</desc>
+<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
 <notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -560,8 +561,8 @@ results in
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
+<origest>12</origest>
+<currest>12</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -627,6 +628,15 @@ Classes
 Instances (hero)
 Words
 Pronouns</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The undone-message does not work for literal values</desc>
+<notes>See regression/undoSet</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -707,8 +717,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>abug needs a function to list instances matching a string</desc>
-<notes>See alan-if on 12/7 2005</notes>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -783,11 +793,8 @@ Also need to separate the path and the basename since the user will want to use 
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Converter should move global verbs with parameters into a class</desc>
-<notes>Which class? Will "thing" do? Probably.
-
-Design:
-For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
+<desc>List line numbers for which LINE instructions are generated?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -795,8 +802,11 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<desc>Converter should move global verbs with parameters into a class</desc>
+<notes>Which class? Will "thing" do? Probably.
+
+Design:
+For each syntax found, if it has parameters save the verb name in list. When encountering a verb with such a name add "Add To Every thing" around it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -813,7 +823,25 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>List line numbers for which LINE instructions are generated?</desc>
+<desc>abug needs a function to list instances matching a string</desc>
+<notes>See alan-if on 12/7 2005</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0beta2</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Clean up old sections in the manual</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -951,8 +979,10 @@ If an external file with the name used in the langauge option this should be use
 
 Implementation:
 1) Allow any id as a value for the language option.
-2) Find an external langauge-specific message file and use it.
-3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.</notes>
+2) Find an external language-specific message file and use it.
+3) If the language did not have an external message file nor a entry in the pre-complied messages issue an error message.
+
+The format of the language file could very well be exactly as Appendix C.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

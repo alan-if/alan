@@ -148,7 +148,7 @@ void go(int dir)
 	if (theExit->checks != 0) {
 	  if (sectionTraceOption) {
 	    printf("\n<EXIT %d(%s) from ", dir,
-		   (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd));
+		   (char *)pointerTo(dictionary[playerWords[wordIndex-1]].string));
 	    traceSay(current.location);
 	    printf("(%d), Checking:>\n", current.location);
 	  }
@@ -159,7 +159,7 @@ void go(int dir)
 	  if (theExit->action != 0) {
 	    if (sectionTraceOption) {
 	      printf("\n<EXIT %s(%d) from ", 
-		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd), dir);
+		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].string), dir);
 	      traceSay(current.location);
 	      printf("(%d), Executing:>\n", current.location);
 	    }	    
@@ -169,7 +169,7 @@ void go(int dir)
 	  if (where(HERO, FALSE) == oldloc) {
 	    if (sectionTraceOption) {
 	      printf("\n<EXIT %s(%d) from ",
-		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].wrd), dir);
+		     (char *)pointerTo(dictionary[playerWords[wordIndex-1]].string), dir);
 	      traceSay(current.location);
 	      printf("(%d), Moving:>\n", current.location);
 	    }

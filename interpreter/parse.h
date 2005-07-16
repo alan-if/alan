@@ -23,6 +23,7 @@ extern int verbWord;
 /* Functions: */
 
 /* Parse a new player command */
+extern void forceNewPlayerInput();
 extern void parse(void);
 extern void initParse(void);
 extern int literalFromInstance(Aint instance);

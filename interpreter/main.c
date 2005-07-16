@@ -14,6 +14,7 @@
 #include "state.h"
 #include "main.h"
 #include "syserr.h"
+#include "parse.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -211,11 +212,10 @@ void usage(void)
 /*======================================================================*/
 void error(MsgKind msgno)	/* IN - The error message number */
 {
-  /* Print an error message, force new player input and abort. */
+  /* Print an error message and longjmp to main loop. */
   if (msgno != MSGMAX)
     printMessage(msgno);
-  playerWords[wordIndex] = EOF;		/* Force new player input */
-  longjmp(errorLabel,TRUE);
+  longjmp(errorLabel, 1);	/* 1 = "normal" error */
 }
 
 
@@ -493,7 +493,7 @@ static void sayPlayerWordsForParameter(int p) {
   int i;
 
   for (i = parameters[p].firstWord; i <= parameters[p].lastWord; i++) {
-    justify((char *)pointerTo(dictionary[playerWords[i]].wrd));
+    justify((char *)pointerTo(dictionary[playerWords[i]].string));
     if (i < parameters[p].lastWord)
       justify(" ");
   }
@@ -605,7 +605,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     break;
   case 'v':
     space();
-    justify((char *)pointerTo(dictionary[verbWord].wrd));
+    justify((char *)pointerTo(dictionary[verbWord].string));
     needSpace = TRUE;		/* We did print something non-white */
     break;
   case 'p':
@@ -709,7 +709,7 @@ void output(char original[])
       needSpace = TRUE;
   }
   if (needSpace)
-    capitalize = index("!?.", str[strlen(str)-1]) != 0;
+    capitalize = strchr("!?.", str[strlen(str)-1]) != 0;
   anyOutput = TRUE;
   free(copy);
 }
@@ -1471,6 +1471,7 @@ static void moveActor(int theActor)
 void run(void)
 {
   int i;
+  Bool playerChangedState;
 
   openFiles();
   load();			/* Load program */
@@ -1481,21 +1482,38 @@ void run(void)
     init();			/* Initialise and start the adventure */
 
   while (TRUE) {
-#ifdef DMALLOC
-    dmalloc_verify(0);
-#endif
     if (debugOption)
       debug(FALSE, 0, 0);
 
     eventCheck();
     current.tick++;
 
-    (void) setjmp(errorLabel);	/* Return here if any error during execution */
+    /* Return here if error during execution */
+    switch (setjmp(errorLabel)) {
+    case 0:			/* 0 = no long jump return */
+      break;
+    case 1:			/* 1 = normal error */
+      forgetGameState();
+      forceNewPlayerInput();
+      break;
+    case 2:			/* 2 = undo return */
+      forceNewPlayerInput();
+      break;
+    default:
+      syserr("Unexpected longjmp() return value");
+    }
+
+#ifdef DMALLOC
+    dmalloc_verify(0);
+#endif
     recursions = 0;
 
     /* Move all characters, hero first */
     pushGameState();
+    playerChangedState = FALSE;
     moveActor(header->theHero);
+
+    playerChangedState = gameStateChanged;
     if (gameStateChanged)
       rememberCommands();
     else

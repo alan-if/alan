@@ -198,7 +198,7 @@ static void testRecreatePlayerCommand() {
   /* Initialize the dictonary */
   for (i = 0; word[i] != NULL; i++) {
     strcpy((char *)&memory[1+i], word[i]);
-    dictionary[i].wrd = 1+i;
+    dictionary[i].string = 1+i;
   }
 
   /* Create the resulting command */

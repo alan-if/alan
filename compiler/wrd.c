@@ -360,7 +360,7 @@ static void generateWordEntry(Word *wrd) {
 
   DictionaryEntry de;
 
-  de.wrd = wrd->stradr;
+  de.string = wrd->stradr;
 
   /* Synonyms can not be anything else... */
   if (wrd->classbits == SYNONYM_BIT) {

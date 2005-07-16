@@ -224,7 +224,7 @@ static char *recreatePlayerCommand() {
 
   for (i = 0; state->playerCommandWords[i] != EOF; i++) {
     int wordIndex = state->playerCommandWords[i];
-    char *word = (char*)pointerTo(dictionary[wordIndex].wrd);
+    char *word = (char*)pointerTo(dictionary[wordIndex].string);
     words = realloc(words, strlen(words) + strlen(word) + 2);
     if (i > 0) words = strcat(words, " ");
     words = strcat(words, word);
@@ -239,11 +239,11 @@ void undo(void) {
   if (gameStateTop > 0) {
     char *words;
     words = recreatePlayerCommand();
-    output("'$$");
-    output(words);
-    output("$$'");
     popGameState();
-    error(M_UNDONE);		/* Not exactly an error but ... */
+    setupParameterForString(1, words);
+    printMessage(M_UNDONE);
   } else
-    error(M_NO_UNDO);
+    printMessage(M_NO_UNDO);
+  forceNewPlayerInput();
+  longjmp(errorLabel, 2);	/* UNDO return value */
 }

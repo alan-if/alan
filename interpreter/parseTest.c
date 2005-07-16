@@ -170,7 +170,7 @@ static void testSetupParameterForWord() {
 
   makeDictionaryEntry(2, 23, VERB_BIT);
   memcpy(&memory[12], "qwerty", 7);
-  dictionary[2].wrd = 12;
+  dictionary[2].string = 12;
 
   playerWords[1] = 2;
   litCount = 0;

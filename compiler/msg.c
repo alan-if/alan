@@ -44,11 +44,11 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Ich verstehe nicht was Du mit '$1' meinst."},
   {M_MULTIPLE, "multiple",
    "You can't refer to multiple objects with '$v'.",
-   "Du kan inte ange flera object tillsammans med '$v'.",
+   "Du kan inte ange flera objekt tillsammans med verbet '$v'.",
    "Du kannst Dich nicht auf mehrere Gegenstände mit '$v' beziehen."},
   {M_NOUN, "noun",
    "You must supply a noun.",
-   "Du måste ge ett substantiv.",
+   "Du måste ange ett substantiv.",
    "Du musst ein Gegenstandswort angeben."},
   {M_AFTER_BUT, "after_but",
    "You must give at least one object after '$1'.",
@@ -77,7 +77,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
   {M_NO_SUCH, "no_such",
    "I can't see any $1 here.",
    "Jag ser ingen $1 här.",
-   "Ich kann hier keinen $1 sehen."}, /* FIXME: keine(feminine), keinen(masculine), kein(neuter) */
+   "Ich kann hier keinen $1 sehen."},
   {M_NO_WAY, "no_way",
    "You can't go that way.",
    "Du kan inte gå åt det hållet.",
@@ -208,9 +208,9 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "den",
    "das"},
   {M_UNDONE, "undone",
-   "Undone.",
-   "Ogjort.",
-   "Annuliert."},
+   "'$1' undone.",
+   "'$1' ogjort.",
+   "'$1' annuliert."},
   {M_NO_UNDO, "no_undo",
    "Nothing more to undo.",
    "Det finns inte mer att göra ogjort.",
@@ -409,6 +409,9 @@ Context *contextFor(MsgKind messageNo) {
   case M_SCORE:
     return newVerbContext(messageVerbSymbolFor2Integers);
 
+  case M_UNDONE:
+    return newVerbContext(messageVerbSymbolForString);
+
   case M_WHAT:
   case M_MULTIPLE:
   case M_NOUN:
@@ -434,7 +437,6 @@ Context *contextFor(MsgKind messageNo) {
   case M_INDEFINITE:
   case M_DEFINITE:
   case M_PRONOUN:
-  case M_UNDONE:
   case M_NO_UNDO:
     return NULL;
   case MSGMAX:

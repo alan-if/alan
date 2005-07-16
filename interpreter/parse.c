@@ -57,6 +57,11 @@ int verbWord;			/* The word he used, dictionary index */
 int verbWordCode;		/* The code for that verb */
 
 
+/*======================================================================*/
+void forceNewPlayerInput() {
+  playerWords[wordIndex] = EOF;		/* Force new player input */
+}
+
 
 /*----------------------------------------------------------------------*\
 
@@ -95,7 +100,7 @@ static int lookup(char wrd[]) {
   int i;
 
   for (i = 0; !endOfTable(&dictionary[i]); i++) {
-    if (compareStrings(wrd, (char *) pointerTo(dictionary[i].wrd)) == 0)
+    if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0)
       return (i);
   }
   unknown(wrd);
@@ -313,7 +318,7 @@ static ParamEntry savedParameters[3];
 static void setupParameterForWord(int parameter, int playerWordIndex) {
 
   /* Trick message handling to output the word, create a string literal */
-  createStringLiteral(pointerTo(dictionary[playerWords[playerWordIndex]].wrd));
+  createStringLiteral(pointerTo(dictionary[playerWords[playerWordIndex]].string));
 
   allocateParameters(&parameters, header->maxParameters);
 

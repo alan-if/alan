@@ -15,7 +15,7 @@ You have x:ed 0 times before.
 > x
 
 > undo
-Undone.
+'x' undone.
 
 > l
 P
@@ -30,27 +30,27 @@ P
 You have x:ed 2 times before.
 
 > undo
-Undone.
+'x' undone.
 
 > l
 P
 You have x:ed 1 times before.
 
 > undo
-Undone.
+'x' undone.
 
 > l
 P
 You have x:ed 0 times before.
 
 > undo
-Undone.
+Nothing more to undo.
 
 > undo
-Undone.
+Nothing more to undo.
 
 > undo
-Undone.
+Nothing more to undo.
 
 > l
 P
@@ -63,7 +63,7 @@ P
 You have x:ed 1 times before.
 
 > undo
-Undone.
+'x' undone.
 
 > l
 P

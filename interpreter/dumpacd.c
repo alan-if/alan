@@ -124,9 +124,9 @@ static void dumpDict(int level, Aword dictionary)
     indent(level);
     printf("WORD: [%d]\n", w);
     indent(level+1);
-    printf("word: %ld(0x%lx)", wrd->wrd, wrd->wrd);
-    if (wrd->wrd != 0)
-      printf(" -> \"%s\"", (char *)&memory[wrd->wrd]);
+    printf("word: %ld(0x%lx)", wrd->string, wrd->string);
+    if (wrd->string != 0)
+      printf(" -> \"%s\"", (char *)&memory[wrd->string]);
     printf("\n");
     indent(level+1);
     printf("class: %ld = ", wrd->classBits); dumpWrdClass(wrd->classBits);
