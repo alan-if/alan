@@ -15,8 +15,8 @@ BEGIN
     END
 END
 
-AAA		ICON	DISCARDABLE arun.ico
-IDR_ARUN	ICON	DISCARDABLE arun.ico
+IDR_ARUN	ICON	arun.ico
+IDI_ABOUT	ICON	Glk.ico
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -34,7 +34,7 @@ END
 // Dialog
 //
 
-IDD_ABOUT DIALOGEX 0, 0, 220, 140
+IDD_ABOUT DIALOGEX 100, 100, 220, 140
 STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU
 CAPTION "About Arun"
