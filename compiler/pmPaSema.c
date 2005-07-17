@@ -1217,9 +1217,9 @@ int rule			/* IN production number */
     case 172: { /* <event> = <event_header> <statements> <event_tail>; */
 #line 1423 "alan.pmk"
 
-	pmSeSt[pmStkP+1].evt = newevt(&pmSeSt[pmStkP+1].srcp,
-			    pmSeSt[pmStkP+1].id,
-			    pmSeSt[pmStkP+2].stms);
+	pmSeSt[pmStkP+1].evt = newEvent(&pmSeSt[pmStkP+1].srcp,
+				pmSeSt[pmStkP+1].id,
+				pmSeSt[pmStkP+2].stms);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
 		lmLog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].id->string);

@@ -1421,9 +1421,9 @@ static int val(char str[])
 <event>			-- RETURNS: evt
     = <event_header> <statements> <event_tail>
     %%
-	%<event>.evt = newevt(`&%<event_header>.srcp,
-			    %<event_header>.id,
-			    %<statements>.stms);
+	%<event>.evt = newEvent(`&%<event_header>.srcp,
+				%<event_header>.id,
+				%<statements>.stms);
 	if (%<event_tail>.id != NULL) { /* END-id given */
 	    if (!equalId(%<event_header>.id, %<event_tail>.id))
 		lmLog(`&%<event_tail>.id->srcp, 200, sevWAR, %<event_header>.id->string);

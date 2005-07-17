@@ -24,7 +24,6 @@ void testCreateSetAttribute()
 void testSingleIdentifierInMember() {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
-  List *members = concat(NULL, NULL, EXPRESSION_LIST);
 
   ASSERT(hasSingleIdentifierMember(NULL) == FALSE);
   ASSERT(!hasSingleIdentifierMember(concat(NULL, NULL, EXPRESSION_LIST)));

@@ -135,16 +135,6 @@ static void addLocal(Symbol *new)
 }
 
 
-/*======================================================================*/
-TypeKind symbolToType(Symbol *symbol)
-{
-  if (symbol->kind != CLASS_SYMBOL) SYSERR("Not a class symbol");
-  if (symbol == integerSymbol) return INTEGER_TYPE;
-  if (symbol == stringSymbol) return STRING_TYPE;
-  return INSTANCE_TYPE;
-}
-
-
 /*----------------------------------------------------------------------*/
 static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
 {

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>449.89</origest>
 <currest>451.89</currest>
-<elapsed>302.89</elapsed>
+<elapsed>303.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>87</origest>
 <currest>88</currest>
-<elapsed>32</elapsed>
+<elapsed>33</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>39</origest>
 <currest>40</currest>
-<elapsed>32</elapsed>
+<elapsed>33</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -336,7 +336,7 @@ Prepare M_UNDONE message with one string parameter.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

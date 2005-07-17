@@ -318,7 +318,7 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
     if (symbol->kind == CLASS_SYMBOL) {
       thisAttribute->set->fields.set.memberClass = symbol;
       thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
-      thisAttribute->set->fields.set.memberType = symbolToType(symbol);
+      thisAttribute->set->fields.set.memberType = classToType(symbol);
       thisAttribute->setType = thisAttribute->set->fields.set.memberType;
       thisAttribute->set->fields.set.members = NULL;
       return;

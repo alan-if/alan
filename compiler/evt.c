@@ -31,16 +31,8 @@ int evtmin, evtmax;
 int evtcount = 0;
 
 
-/*======================================================================
-
-  newevt()
-
-  Allocates and initialises a new evtnod.
-
-  */
-Event *newevt(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,	/* IN - Name of the event */
-	       List *stms)	/* IN - Statements to execute */
+/*======================================================================*/
+Event *newEvent(Srcp *srcp, IdNode *id, List *stms)
 {
   Event *new;		/* The newly allocated node */
 

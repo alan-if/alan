@@ -452,13 +452,13 @@ static void testMultipleSymbolKinds() {
 }
 
 
-static void testSymbolToType () {
+static void testClassToType () {
   initSymbols();
   Symbol *symbol = newClassSymbol(newId(nulsrcp, "newclass"), NULL, NULL);
 
-  ASSERT(symbolToType(integerSymbol) == INTEGER_TYPE);
-  ASSERT(symbolToType(stringSymbol) == STRING_TYPE);
-  ASSERT(symbolToType(symbol) == INSTANCE_TYPE);
+  ASSERT(classToType(integerSymbol) == INTEGER_TYPE);
+  ASSERT(classToType(stringSymbol) == STRING_TYPE);
+  ASSERT(classToType(symbol) == INSTANCE_TYPE);
 }
 
 void registerSymUnitTests()
@@ -480,6 +480,6 @@ void registerSymUnitTests()
   registerUnitTest(testReplicateContainer);
   registerUnitTest(testCreateMessageVerbs);
   registerUnitTest(testInheritOpaqueAttribute);
-  registerUnitTest(testSymbolToType);
+  registerUnitTest(testClassToType);
 }
 
