@@ -49,9 +49,6 @@ int main(
 )
 #endif
 {
-#ifdef MALLOC
-  malloc_debug(2);
-#endif
 #ifdef DMALLOC
   /*
    * Get environ variable DMALLOC_OPTIONS and pass the settings string
@@ -71,6 +68,12 @@ int main(
   /* args() is called from glkstart.c */
 #else
   args(argc, argv);
+
+  if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
+    printf("You should supply a game file to play.\n");
+    usage();
+    terminate(0);
+  }
 #endif
 
   if ((debugOption && ! regressionTestOption) || verbose) {
@@ -81,23 +84,6 @@ int main(
     newline();
   }
   
-  if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
-#ifdef HAVE_WINGLK
-    adventureFileName = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
-							   "Alan Game Files (*.a3c)|*.a3c||");
-    if (adventureFileName == NULL) {
-      printf("You should supply a game file to play.\n");
-      usage();
-      terminate(0);
-    }
-  }
-#else
-    printf("You should supply a game file to play.\n");
-    usage();
-    terminate(0);
-  }
-#endif
-
 #ifdef HAVE_WINGLK
   winglk_app_set_name(adventureName);
   winglk_window_set_title(adventureName);

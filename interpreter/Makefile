@@ -114,6 +114,10 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
 	windres arun.rc2 -O coff -o $@
 
+
+about: about.c arun.res
+	gcc -o $@ -ggdb -mno-cygwin -mwindows about.c arun.res
+
 clean:
 	-rm *.o
 
@@ -174,7 +178,9 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 
 
 #
-# Dependencies
+# Dependencies are generate only for command line case
+# Dependencies on libraries are only in the way for other cases,
+# so special dependencies that we need are set explicitly below
 #
 depend:
 	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c; \
@@ -183,5 +189,7 @@ depend:
 	done
 	mv dependencies.new dependencies.mk
 
+# Extra dependencies for WinGLK case
+readline.o : resources.h
+
 include dependencies.mk
-# DO NOT DELETE

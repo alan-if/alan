@@ -21,7 +21,23 @@
 void args(int argc, char * argv[])
 {
   char *programName;
+  char *exePoint;
 
+#ifdef ARGSDISPLAY
+  int i;
+
+  MessageBox(NULL, "Hello!", "Windows Arun interpreter", MB_OK);
+  MessageBox(NULL, GetCommandLine(), "", MB_OK);
+  for (i = 0; i < argc; i++) {
+    char buf[199];
+    sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
+    MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);
+  }
+#endif
+
+#ifdef HAVE_WINGLK
+  argv[0] = GetCommandLine();
+#endif
   if ((programName = strrchr(argv[0], '\\')) == NULL
       && (programName = strrchr(argv[0], '/')) == NULL
       && (programName = strrchr(argv[0], ':')) == NULL)
@@ -29,19 +45,33 @@ void args(int argc, char * argv[])
   else
     programName = strdup(&programName[1]);
 
-  if (strlen(programName) > 4 && strcasecmp(&programName[strlen(programName)-4], ".EXE") == 0)
-    programName[strlen(programName)-4] = '\0';
+  if (strlen(programName) > 4 && (((exePoint = strstr(programName, ".EXE")) != NULL) || (exePoint = strstr(programName, ".exe")) != NULL))
+    *exePoint = '\0';
 
   /* Now look at the switches and arguments */
   switches(argc, argv);
 
+#ifdef ARGSDISPLAY
+  {
+    char buf[100];
+    sprintf(buf, "programName = '%s'\nadventureFileName = '%s'", programName, adventureFileName);
+    MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);
+  }
+#endif
+
   if (adventureFileName == NULL) {
     /* No game given, try program name */
     if (!matchInterpreterName(programName)) {
-      adventureFileName = duplicate(argv[0],
-				    strlen(argv[0])
+      FILE *adventureFile;
+      adventureFileName = duplicate(programName,
+				    strlen(programName)
 				    +strlen(ACODEEXTENSION)+1);
       strcat(adventureFileName, ACODEEXTENSION);
+      if ((adventureFile = fopen(adventureFileName, "r")) == NULL) {
+	free(adventureFileName);
+	adventureFileName = NULL;
+      } else
+	fclose(adventureFile);
     }
   }
 }

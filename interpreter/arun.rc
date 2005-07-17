@@ -16,7 +16,7 @@ BEGIN
 END
 
 IDR_ARUN	ICON	arun.ico
-IDI_ABOUT	ICON	Glk.ico
+IDR_ABOUT	ICON	Glk.ico
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -41,7 +41,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,160,120,50,15
     GROUPBOX        "About WinArun",IDC_STATIC,10,10,200,57
-    ICON            IDI_ABOUT, IDC_STATIC, 15, 20, 0, 0, 0, WS_EX_CLIENTEDGE
+    ICON            IDR_ABOUT, IDC_STATIC, 15, 20, 0, 0, 0, WS_EX_CLIENTEDGE
     LTEXT           "Arun Development version WINARUNVERSION\nAlan Adventure Language, compiler and interpreter design: Thomas Nilsson\nWindows interpreter: Thomas Nilsson\nOriginal GLK adaptation: Joe Mason"
                     IDC_STATIC,45,20,160,45
     GROUPBOX        "Additional Credits",IDC_STATIC,10,73,200,40

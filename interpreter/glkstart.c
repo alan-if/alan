@@ -77,6 +77,12 @@ int glkunix_startup_code(glkunix_startup_t *data)
   /* now process the command line arguments */
   args(data->argc, data->argv);
 
+  if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
+    printf("You should supply a game file to play.\n");
+    usage();
+    terminate(0);
+  }
+
   /* Open any possible blorb resource file */
   openResourceFile();
 
@@ -140,6 +146,21 @@ int winglk_startup_code(const char* cmdline)
   splitArgs(strdup(cmdline));
 
   args(argCount, argumentVector);
+  if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
+#ifdef HAVE_WINGLK
+    adventureFileName = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
+							   "Alan Game Files (*.a3c)|*.a3c||");
+    if (adventureFileName == NULL) {
+      printf("You should supply a game file to play.\n");
+      usage();
+      terminate(0);
+    }
+#else
+    printf("You should supply a game file to play.\n");
+    usage();
+    terminate(0);
+#endif
+  }
 
   /* Open any possible blorb resource file */
   openResourceFile(adventureName);
