@@ -22,7 +22,25 @@ void testCreateSetAttribute()
 }
 
 void testSingleIdentifierInMember() {
-  Expression *exp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
+  Expression *exp1 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
+  Expression *exp2 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
+  List *members = concat(NULL, NULL, EXPRESSION_LIST);
+
+  ASSERT(hasSingleIdentifierMember(NULL) == FALSE);
+  ASSERT(!hasSingleIdentifierMember(concat(NULL, NULL, EXPRESSION_LIST)));
+  ASSERT(hasSingleIdentifierMember(concat(NULL, exp1, EXPRESSION_LIST)));
+  ASSERT(!hasSingleIdentifierMember(concat(NULL, exp2, EXPRESSION_LIST)));
+  ASSERT(!hasSingleIdentifierMember(concat(concat(NULL, exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
+}
+
+void testIsWhatId() {
+  Expression *exp1 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
+  Expression *exp2 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
+  Expression *exp3 = newBetweenExpression(nulsrcp, NULL, FALSE, NULL, NULL);
+  
+  ASSERT(!isWhatId(exp1));
+  ASSERT(isWhatId(exp2));
+  ASSERT(!isWhatId(exp3));
 }
 
 void testInferClassInSetAttribute()
@@ -346,6 +364,8 @@ static void testResolveThisAttributeForClass()
 void registerAtrUnitTests()
 {
   registerUnitTest(testCreateSetAttribute);
+  registerUnitTest(testIsWhatId);
+  registerUnitTest(testSingleIdentifierInMember);
   registerUnitTest(testInferClassInSetAttribute);
   registerUnitTest(testMultipleAtr);
   registerUnitTest(testAttributeListsInSymbolTable);

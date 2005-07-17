@@ -10,6 +10,8 @@
 
 void testClassOfContent()
 {
+  initSymbols();
+  initClasses();
   IdNode *id = newId(nulsrcp, "inCont");
   Expression *whatLocation = newWhatExpression(nulsrcp,
 						 newWhatId(nulsrcp, id));

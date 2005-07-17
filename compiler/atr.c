@@ -286,11 +286,46 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
   return sortAttributes(new);
 }
 
+/*----------------------------------------------------------------------*/
+static Bool isWhatId(Expression *exp)
+{
+  return exp->kind == WHAT_EXPRESSION
+    && exp->fields.wht.wht->kind == WHAT_ID;
+}
+
+/*----------------------------------------------------------------------*/
+static Bool hasSingleIdentifierMember(List *members)
+{
+  if (members == NULL) return FALSE;
+  return length(members) == 1
+    && members->kind == EXPRESSION_LIST
+    && isWhatId(members->element.exp);
+}
+
+/*----------------------------------------------------------------------*/
+static char *theSingleIdentifier(List *members)
+{
+  return members->element.exp->fields.wht.wht->id->string;
+}
 
 /*----------------------------------------------------------------------*/
 static void analyzeSetAttribute(Attribute *thisAttribute)
 {
-  if (length(thisAttribute->set->fields.set.members) > 0) {
+  List *members = thisAttribute->set->fields.set.members;
+
+  if (hasSingleIdentifierMember(members)) {
+    Symbol *symbol = lookup(theSingleIdentifier(members));
+    if (symbol->kind == CLASS_SYMBOL) {
+      thisAttribute->set->fields.set.memberClass = symbol;
+      thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
+      thisAttribute->set->fields.set.memberType = symbolToType(symbol);
+      thisAttribute->setType = thisAttribute->set->fields.set.memberType;
+      thisAttribute->set->fields.set.members = NULL;
+      return;
+    }
+  }
+
+  if (length(members) > 0) {
     analyzeExpression(thisAttribute->set, NULL);
     if (!isConstantExpression(thisAttribute->set))
       lmLog(&thisAttribute->set->srcp, 433, sevERR, "");
@@ -397,8 +432,8 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol)
 	} else
 	  SYSERR("Unimplemented complex attribute type");
       }
-    } else if (thisAttribute->type == SET_TYPE
-	  && length(thisAttribute->set->fields.set.members) == 0)
+    } else if (thisAttribute->type == SET_TYPE 
+	  && thisAttribute->set->fields.set.memberType == UNINITIALIZED_TYPE)
       /* Empty set initializations are not allowed unless inherited */
 	lmLog(&thisAttribute->srcp, 413, sevERR, "");
   }

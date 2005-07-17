@@ -88,7 +88,7 @@ void redefined(IdNode *id, Symbol *sym)
 
 
 
-/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------*/
 static void insertSymbol(Symbol *symbol)
 {
   Symbol *s1,*s2;               /* Traversal pointers */
@@ -135,6 +135,14 @@ static void addLocal(Symbol *new)
 }
 
 
+/*======================================================================*/
+TypeKind symbolToType(Symbol *symbol)
+{
+  if (symbol->kind != CLASS_SYMBOL) SYSERR("Not a class symbol");
+  if (symbol == integerSymbol) return INTEGER_TYPE;
+  if (symbol == stringSymbol) return STRING_TYPE;
+  return INSTANCE_TYPE;
+}
 
 
 /*----------------------------------------------------------------------*/
