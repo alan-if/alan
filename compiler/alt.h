@@ -62,5 +62,4 @@ extern Aaddr generateAlternatives(List *alts);
 /* Dump a verb Alternative */
 extern void dumpAlternative(Alternative *alt);
 
-
 #endif

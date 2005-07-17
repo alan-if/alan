@@ -1,0 +1,2 @@
+../../compiler/alan alternativeChecks -debug
+../../interpreter/arun -r -n -t alternativeChecks < alternativeChecks.input

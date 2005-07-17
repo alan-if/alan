@@ -327,7 +327,9 @@ static void traceCheck(AltInfo alt)
   case 0: printf("GLOBAL"); break;
   case 1: printf("in LOCATION"); break;
   default:
-    printf("in parameter #%d", alt.parameter);
+    printf("in parameter #%d (", alt.parameter);
+    traceSay(parameters[alt.parameter-1].instance);
+    printf(")");
     if (alt.class != 0)
       printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt.class].idAddress), alt.class);
     break;

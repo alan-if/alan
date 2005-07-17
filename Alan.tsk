@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>449.89</origest>
-<currest>451.89</currest>
-<elapsed>303.89</elapsed>
+<origest>450.89</origest>
+<currest>452.89</currest>
+<elapsed>304.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>87</origest>
-<currest>88</currest>
-<elapsed>33</elapsed>
+<origest>88</origest>
+<currest>89</currest>
+<elapsed>34</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>37</origest>
 <currest>38</currest>
-<elapsed>33</elapsed>
+<elapsed>34</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -350,6 +350,15 @@ I think only checks for matching alternatives would be natural.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
+<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -373,15 +382,6 @@ attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefin
 initial location, container - can only be added if it has none
 
 mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
-<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -510,8 +510,8 @@ verbs
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -628,6 +628,16 @@ pointing to "count" since that is the left hand side of the assumed expression
 <task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set (and declare) level of trace</desc>
+<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
