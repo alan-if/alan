@@ -37,7 +37,7 @@ typedef struct AltNod {		/* ALTERNATIVE */
   Aaddr chkadr;			/* ACODE address to check table */
   List *stms;			/* Does-part statements */
   Aaddr stmadr;			/* ACODE address to action code */
-} AltNod;
+} Alternative;
 
 
 
@@ -47,20 +47,20 @@ typedef struct AltNod {		/* ALTERNATIVE */
 /* FUNCTIONS: */
 
 /* Create a new verb Alternative node */
-extern AltNod *newalt(Srcp *srcp,
-		      IdNode *id,
-		      List *chks,
-		      QualKind qual,
-		      List *stms);
+extern Alternative *newAlternative(Srcp srcp,
+			      IdNode *id,
+			      List *chks,
+			      QualKind qual,
+			      List *stms);
 
 /* Analyze a list of verb Alternatives */
 extern void analyzeAlternatives(List *alts, Context *context);
 
 /* Generate code for a list of verb Alternatives */
-extern Aaddr gealts(List *alts);
+extern Aaddr generateAlternatives(List *alts);
 
 /* Dump a verb Alternative */
-extern void dumpAlternative(AltNod *alt);
+extern void dumpAlternative(Alternative *alt);
 
 
 #endif

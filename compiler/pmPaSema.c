@@ -160,7 +160,7 @@ typedef struct pmGrammar {
     Attribute *atr;
     List *article;
     List *alts;
-    AltNod *alt;
+    Alternative *alt;
     AggregateKind agr;
     AddNode *add;
 } pmGrammar;
@@ -495,11 +495,11 @@ int rule			/* IN production number */
 #line 583 "alan.pmk"
 
 	pmSeSt[pmStkP+1].alts = concat(NULL,
-				 newalt(&pmSeSt[pmStkP+1].srcp,
-					NULL,
-					pmSeSt[pmStkP+1].chks,
-					pmSeSt[pmStkP+1].qual,
-					pmSeSt[pmStkP+1].stms),
+				 newAlternative(pmSeSt[pmStkP+1].srcp,
+						NULL,
+						pmSeSt[pmStkP+1].chks,
+						pmSeSt[pmStkP+1].qual,
+						pmSeSt[pmStkP+1].stms),
 				   ALTERNATIVE_LIST);
     	break;}
     case 68: { /* <verb_body> = <verb_alternatives>; */
@@ -522,11 +522,11 @@ int rule			/* IN production number */
     case 71: { /* <verb_alternative> = 'when' ID <simple_verb_body>; */
 #line 615 "alan.pmk"
 
-	pmSeSt[pmStkP+1].alt = newalt(&pmSySt[pmStkP+1].srcp,
-				       pmSeSt[pmStkP+2].id,
-				       pmSeSt[pmStkP+3].chks,
-				       pmSeSt[pmStkP+3].qual,
-				       pmSeSt[pmStkP+3].stms);
+	pmSeSt[pmStkP+1].alt = newAlternative(pmSySt[pmStkP+1].srcp,
+						pmSeSt[pmStkP+2].id,
+						pmSeSt[pmStkP+3].chks,
+						pmSeSt[pmStkP+3].qual,
+						pmSeSt[pmStkP+3].stms);
     	break;}
     case 72: { /* <simple_verb_body> = <optional_checks> <optional_does>; */
 #line 626 "alan.pmk"

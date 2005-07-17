@@ -164,7 +164,7 @@ typedef struct pmGrammar {
     Attribute *atr;
     List *article;
     List *alts;
-    AltNod *alt;
+    Alternative *alt;
     AggregateKind agr;
     AddNode *add;
 } pmGrammar;

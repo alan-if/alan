@@ -28,26 +28,20 @@
 /* PUBLIC: */
 
 
-/*======================================================================
-
-  newalt()
-
-  Allocates and initialises a syntax element node.
-
- */
-AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
-	       IdNode *id,	/* IN - The name */
-	       List *chks,	/* IN - Checks */
-	       QualKind qual,	/* IN - Action qualifier */
-	       List *stms)	/* IN - Statements (does-part) */
+/*======================================================================*/
+Alternative *newAlternative(Srcp srcp,	/* IN - Source Position */
+		       IdNode *id,	/* IN - The name */
+		       List *chks,	/* IN - Checks */
+		       QualKind qual,	/* IN - Action qualifier */
+		       List *stms)	/* IN - Statements (does-part) */
 {
-  AltNod *new;			/* The newly created node */
+  Alternative *new;			/* The newly created node */
 
   showProgress();
 
-  new = NEW(AltNod);
+  new = NEW(Alternative);
 
-  new->srcp = *srcp;
+  new->srcp = srcp;
   new->id = id;
   new->chks = chks;
   new->qual = qual;
@@ -59,7 +53,7 @@ AltNod *newalt(Srcp *srcp,	/* IN - Source Position */
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeAlternative(AltNod *alt,
+static void analyzeAlternative(Alternative *alt,
 			       Context *context)
 {
   Symbol *parameter;
@@ -140,7 +134,7 @@ static Aint generateQualifier(QualClass qualifier)
 
 
 /*----------------------------------------------------------------------*/
-static void generateAlternativeEntry(AltNod *alt)
+static void generateAlternativeEntry(Alternative *alt)
 {
   AltEntry entry;
 
@@ -154,7 +148,7 @@ static void generateAlternativeEntry(AltNod *alt)
 
 
 /*----------------------------------------------------------------------*/
-static void generateAlternative(AltNod *alt)
+static void generateAlternative(Alternative *alt)
 {
   /* First the action, if there is any */
   if (alt->stms == NULL)
@@ -175,7 +169,7 @@ static void generateAlternative(AltNod *alt)
 
 
 /*======================================================================*/
-Aaddr gealts(List *alts)
+Aaddr generateAlternatives(List *alts)
 {
   List *lst;
   Aaddr altadr;
@@ -214,7 +208,7 @@ static void duqual (QualKind qual)
 
 
 /*======================================================================*/
-void dumpAlternative(AltNod *alt)
+void dumpAlternative(Alternative *alt)
 {
   if (alt == NULL) {
     put("NULL");

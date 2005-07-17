@@ -190,7 +190,7 @@ static void generateVerb(Verb *vrb)
   if (vrb->alternatives == NULL)
     vrb->altAddress = 0;
   else
-    vrb->altAddress = gealts(vrb->alternatives);
+    vrb->altAddress = generateAlternatives(vrb->alternatives);
 }
 
 

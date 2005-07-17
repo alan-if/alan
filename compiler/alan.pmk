@@ -95,7 +95,7 @@ static int val(char str[])
 
   add %% AddNode *%1%%,
   agr %% AggregateKind %1%%,
-  alt %% AltNod *%1%%,
+  alt %% Alternative *%1%%,
   alts %% List *%1%%,
   article %% List *%1%%,		-- of Statement: article-clause,
   atr %% Attribute *%1%%,
@@ -582,11 +582,11 @@ static int val(char str[])
     = <simple_verb_body>
     %%
 	%<verb_body>.alts = concat(NULL,
-				 newalt(`&%<simple_verb_body>.srcp,
-					NULL,
-					%<simple_verb_body>.chks,
-					%<simple_verb_body>.qual,
-					%<simple_verb_body>.stms),
+				 newAlternative(%<simple_verb_body>.srcp,
+						NULL,
+						%<simple_verb_body>.chks,
+						%<simple_verb_body>.qual,
+						%<simple_verb_body>.stms),
 				   ALTERNATIVE_LIST);
     %%
 
@@ -613,11 +613,11 @@ static int val(char str[])
 <verb_alternative>
     = 'when' ID <simple_verb_body>
     %%
-	%<verb_alternative>.alt = newalt(`&%'when'.srcp,
-				       %ID.id,
-				       %<simple_verb_body>.chks,
-				       %<simple_verb_body>.qual,
-				       %<simple_verb_body>.stms);
+	%<verb_alternative>.alt = newAlternative(%'when'.srcp,
+						%ID.id,
+						%<simple_verb_body>.chks,
+						%<simple_verb_body>.qual,
+						%<simple_verb_body>.stms);
     %%
     ;
 
