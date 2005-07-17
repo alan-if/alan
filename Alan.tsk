@@ -20,8 +20,8 @@
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>39</origest>
-<currest>40</currest>
+<origest>37</origest>
+<currest>38</currest>
 <elapsed>33</elapsed>
 <isopen>1</isopen>
 <task>
@@ -373,28 +373,6 @@ attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefin
 initial location, container - can only be added if it has none
 
 mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
-
-  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>HAVING clause on aggregate filters</desc>
-<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
- HAVING x = 3
- HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -899,8 +877,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>15</origest>
+<currest>15</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -990,6 +968,28 @@ Does
   End For.
 
 DESIGN: generate a FRAME with as many slots as there are locals. Access to local variables has to calculate frame depth, so code generation for FOR EACH has to be changed.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Looping over a string</desc>
+<notes>There is little use for strip if you can not loop over a string. Maybe
+
+  For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>HAVING clause on aggregate filters</desc>
+<notes>It should be possible to filter aggregation over not only &lt;is&gt; &lt;something&gt; but also for numeric attributes, e.g
+ HAVING x = 3
+ HAVING y &gt; atr OF b</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
