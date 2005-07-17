@@ -20,8 +20,9 @@
 #endif
 
 #ifdef __amiga__
-/* On the Amiga we can't include alan.h since it includes the lst.h (List type)
-   and this conflicts with the exec/lists.h. So we explicitly declare needed things */
+/* On the Amiga we can't include alan.h since it includes the lst.h
+   (List type) and this conflicts with the exec/lists.h. So we
+   explicitly declare needed things */
  
 extern char advnam[];		/* The name of the adventure */
 extern void *allocate(int len);

@@ -110,8 +110,8 @@ static void analyzeSourceFilenames() {
 
   sourceFileEntries = allocate(length(fileNames)*sizeof(SourceFileEntry));
   TRAVERSE(currentFile,fileNames) {
-    sourceFileEntries[count].fpos = ftell(txtfil);
-    sourceFileEntries[count].len = strlen(currentFile->element.str);
+    sourceFileEntries[count].basename.fpos = ftell(txtfil);
+    sourceFileEntries[count].basename.len = strlen(currentFile->element.str);
     fprintf(txtfil, currentFile->element.str);
     count++;
   }
@@ -180,7 +180,7 @@ static Aaddr generateSourceFileTable() {
 
   if (opts[OPTDEBUG].value)
     for (count = 0; count < length(fileNames); count++) {
-      encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
+      encode(&sourceFileEntries[count].fullPath.fpos, &sourceFileEntries[count].fullPath.len);
       emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
     }
   emit(EOF);

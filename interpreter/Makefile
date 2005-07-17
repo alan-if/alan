@@ -2,7 +2,7 @@
 # Note: uses a lot of special stuff, if you are porting, start from
 # one of the other makefiles, such as Makefile.unix
 
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r.\\$$s\\$$c"`
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 OPTIMIZE = -ggdb
 #CYGWIN	= -mno-cygwin

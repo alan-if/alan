@@ -387,7 +387,7 @@ static void showEvents(void)
 char *sourceFileName(int fileNumber) {
   SourceFileEntry *entries = pointerTo(header->sourceFileTable);
 
-  return getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
+  return getStringFromFile(entries[fileNumber].fullPath.fpos, entries[fileNumber].fullPath.len);
 }
 
 
@@ -409,6 +409,7 @@ static char buffer[SOURCELINELENGTH];
 	if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
 	  return buffer;
     }
+    fclose(sourceFile);
     return buffer;
   }
   return NULL;
@@ -421,6 +422,17 @@ void showSourceLine(int line, int fileNumber) {
     if (buffer[strlen(buffer)-1] == '\n')
       buffer[strlen(buffer)-1] = '\0';
     printf("<%05d>: %s", line, buffer);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void listFiles() {
+  SourceFileEntry *entry;
+  int i = 0;
+  for (entry = pointerTo(header->sourceFileTable); *((Aword*)entry) != EOF; entry++) {
+    printf("  %2d : %s\n", i, sourceFileName(i));
+    i++;
   }
 }
 
@@ -455,6 +467,7 @@ Bool breakpointIndex(int line) {
 }
 
 
+/*----------------------------------------------------------------------*/
 static int availableBreakpointSlot() {
   int i;
   for (i = 0; i < BREAKPOINTMAX; i++)
@@ -577,6 +590,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
       $iB     -- list breakpoints set\
       $iD [n] -- delete breakpoint at source line [n]\
       $iD     -- delete breakpoint at current source line [n]\
+      $iF     -- list files\
       $iN     -- execute to next source line\
       $iX     -- exit debug mode and return to game\
       $iQ     -- quit game\
@@ -591,19 +605,28 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
       $iS     -- toggle single step trace mode\
 ");
       break;
+
     case 'Q':
       terminate(0);
+      break;
+
     case 'X':
       debugOption = FALSE;		/* Fall through to 'G' */
     case 'G':
       restoreInfo();
       return;
+
+    case 'F':
+      listFiles();
+      break;
+
     case 'I':
       if (i == 0)
 	showInstances();
       else
 	showInstance(i);
       break;
+
     case 'O':
       if (i == 0)
         showObjects();

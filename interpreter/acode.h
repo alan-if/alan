@@ -370,8 +370,14 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
 } AltEntry;
 
 typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
-  Aword fpos;
-  Aint len;
+  struct {
+    Aword fpos;
+    Aint len;
+  } fullPath;
+  struct {
+    Aword fpos;
+    Aint len;
+  } path;
 } SourceFileEntry; 
 
 typedef struct StringInitEntry { /* STRING INITIALISATION TABLE */

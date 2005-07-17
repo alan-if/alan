@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>451.89</origest>
-<currest>453.89</currest>
-<elapsed>304.89</elapsed>
+<origest>452.89</origest>
+<currest>454.89</currest>
+<elapsed>308.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>89</origest>
-<currest>90</currest>
-<elapsed>34</elapsed>
+<origest>91</origest>
+<currest>92</currest>
+<elapsed>38</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>38</origest>
-<currest>39</currest>
-<elapsed>34</elapsed>
+<origest>40</origest>
+<currest>41</currest>
+<elapsed>38</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -354,12 +354,39 @@ I think only checks for matching alternatives would be natural.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>WinArun does not ask for a game file if started by double-clicking on the program</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Renaming WinArun does not load game</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Fix picture in about Arun box</desc>
+<notes>Only occurs on W2k &amp; XP</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
 <notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -391,15 +418,6 @@ attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefin
 initial location, container - can only be added if it has none
 
 mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinArun does not ask for a game file if started by double-clicking on the program</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1217,8 +1235,8 @@ END DEPEND.</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>85</origest>
-<currest>85</currest>
+<origest>84</origest>
+<currest>84</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1685,15 +1703,6 @@ First the player is shown an intro text (this is the start section). Then he see
 <task>
 <desc>Warn for non-existing include directories</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Fix picture in about Arun box</desc>
-<notes>Only occurs on W2k &amp; XP</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -6740,7 +6749,7 @@ NOTE any instance for which noun in noSuch()</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.35dev</desc>
+<desc>Increment: version 3.0dev35</desc>
 <notes/>
 <priority>2</priority>
 <origest>27</origest>

@@ -21,5 +21,5 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
   INT_PTR e;
-  e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
+  e = DialogBox(hInstance, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
 }

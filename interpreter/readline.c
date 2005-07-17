@@ -19,6 +19,9 @@
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
 
+extern HINSTANCE myInstance;	/* Catched by winglk.c */
+
+
 BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 { 
     switch (message) 
@@ -139,7 +142,7 @@ Bool readline(char buffer[])
 	    }
 	    break;
 	  case ID_MENU_ABOUT:
-	    e = DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
+	    e = DialogBox(myInstance, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
 	    break;
 	  }
 	  break;
