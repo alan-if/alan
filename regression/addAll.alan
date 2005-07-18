@@ -1,16 +1,20 @@
-Add To Every Thing
+Every th Isa thing
+End Every th.
+
+Add To Every Th
   At l.
---  Name x.
+  Name adj noun.
 --  Pronoun them.
   Has x 5.
---  Initialize "initialize"
-  Description Check "description check"
+  Is Not visible.
+--  Initialize "initialize$n"
+  Description Check This Is visible Else "description check"
               Does "some description."
-  Definite Article "a"
-  Indefinite Article "the"
+  Definite Article "definite"
+  Indefinite Article "indefinite"
 --  Mentioned "mentioned"
   Container
-  Verb x Does "x" End Verb x.
+  Verb x Does "This is the added body." End Verb x.
 End Add To.
 
 Add To Every actor
@@ -22,7 +26,11 @@ Add To Every location
   Exit e To l.
 End Add To.
 
-The t Isa thing
+The t Isa th
+  Verb x
+    Does
+      "and this is the one in the instance declaration."
+  End Verb.
 End The t.
 
 The l Isa location
@@ -30,5 +38,8 @@ End The l.
 
 Start At l.
   If t At l Then "Initial location added ok.$n" End If.
-  "Pronoun" Say It t. ", should be 'them'"
-  
+  "But if it shows, the Description Check was not added correctly.$n"
+  Make t visible. Say the t. "Now it did show up with a definite article, right?$n"
+Say an t. "This time it should have an indefinite article.$n"
+  "Pronoun" Say It t. ", should be 'them'.$n"
+  "If name is added correctly it should be possible to refer to the t as 'adj noun'."

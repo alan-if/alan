@@ -53,20 +53,28 @@ AddNode *newAdd(Srcp srcp,
   return(new);
 }
 
+
+#ifndef PROPERTIESOF
+#define PROPERTIESOF(s) ((s)->fields.entity.props)
+#endif
+
 /*----------------------------------------------------------------------*/
 static void addInitialLocation(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
   if (props->whr != NULL) {
-    if (original->fields.entity.props->whr != NULL)
+    if (PROPERTIESOF(original)->whr != NULL)
       lmLog(&add->props->whr->srcp, 336, sevERR,
 	    "an Initial location when the class already have it");
     else {
-      if (!inheritsFrom(original->fields.entity.props->id->symbol, thingSymbol) && props->whr != NULL)
+      if (!inheritsFrom(PROPERTIESOF(original)->id->symbol, thingSymbol) && props->whr != NULL)
 	lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
-      else if (verifyInitialLocation(props->whr))
-	original->fields.entity.props->whr = props->whr;
+      else {
+	symbolizeWhere(props->whr);
+	if (verifyInitialLocation(props->whr))
+	  PROPERTIESOF(original)->whr = props->whr;
+      }
     }
   }
 }
@@ -78,7 +86,9 @@ static void addNames(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->names != NULL)
-    lmLogv(&props->names->element.lst->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
+    PROPERTIESOF(original)->names = combine(props->names,
+					    PROPERTIESOF(original)->names);
+    
 }
 
 

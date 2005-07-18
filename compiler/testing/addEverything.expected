@@ -3,11 +3,6 @@
 
 addEverything.alan
 
-    3.    Name 'name'.
-=====>         1
-
-  *1*   341 E : Can not Add Name to classes. (yet)
-
     7.    Pronoun 'pronoun'
 =====>    1
 
@@ -29,7 +24,7 @@ addEverything.alan
   *1*   341 E : Can not Add Entered clause to classes. (yet)
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         2 informational message(s).
 
