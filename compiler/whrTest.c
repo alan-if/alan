@@ -21,12 +21,14 @@ void testClassOfContent()
   ContainerBody *containerBody = newContainerBody(nulsrcp, FALSE, takesId,
 						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
-  Properties *properties = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, container,
-				    NULL,
+  Properties *properties = newProps(NULL, NULL,
 				    nulsrcp, NULL,
+				    NULL, NULL, NULL,
 				    nulsrcp, NULL,
 				    nulsrcp, NULL, FALSE,
 				    nulsrcp, NULL, FALSE,
+				    container,
+				    nulsrcp, NULL,
 				    NULL, NULL,NULL);
 
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);

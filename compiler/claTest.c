@@ -64,12 +64,20 @@ void testGenerateClasses()
 
 void testGenerateEmptyClassEntry()
 {
-  Properties *props = newProps(NULL, NULL, nulsrcp, NULL,
-			       NULL, 0, NULL,
-			       NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
-			       NULL, FALSE, nulsrcp,
-			       NULL, FALSE,
-			       NULL, NULL, NULL);
+  Properties *props = newProps(NULL,
+			       NULL,
+			       nulsrcp, NULL,
+			       NULL,
+			       NULL,
+			       NULL,
+			       nulsrcp, NULL,
+			       nulsrcp, NULL, FALSE,
+			       nulsrcp, NULL, FALSE,
+			       NULL,
+			       nulsrcp, NULL,
+			       NULL,
+			       NULL,
+			       NULL);
   Class *class = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, props);
   int entryAddress;
   ClassEntry *entry;

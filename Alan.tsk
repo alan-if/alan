@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>460.89</origest>
 <currest>462.89</currest>
-<elapsed>313.89</elapsed>
+<elapsed>314.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>99</origest>
 <currest>100</currest>
-<elapsed>43</elapsed>
+<elapsed>44</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>49</origest>
 <currest>50</currest>
-<elapsed>43</elapsed>
+<elapsed>44</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -142,15 +142,6 @@ Say Max In integerSet Of instance.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Random Directly In container</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor error message handling in filters</desc>
 <notes>compiler/testing/mixedFilters shows a problem in which the message says "aggregated over using 'EACH statement'", which is not true.</notes>
 <priority>2</priority>
@@ -195,6 +186,15 @@ See compiler/testing/lockableDoors</notes>
 </task>
 <task>
 <desc>DIRECTLY for aggregate</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Random Directly In container</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -249,7 +249,7 @@ See compiler/testing/lockableDoors</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>UNDO handling does not seem to manage dynamic sets</desc>
+<desc>Semicolon should terminate command line to act as a comment starter</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -258,7 +258,7 @@ See compiler/testing/lockableDoors</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Semicolon should terminate command line to act as a comment starter</desc>
+<desc>UNDO handling does not seem to manage dynamic sets</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -269,6 +269,34 @@ See compiler/testing/lockableDoors</notes>
 <task>
 <desc>UNDO should only save state when the player changes anything</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO handling does not seem to manage strings</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The undone-message does not work for literal values</desc>
+<notes>See regression/undoSet</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Respond to UNDO with "You undo 'x x x '."</desc>
+<notes>This will have to include the command words in the undo state. DONE
+Prepare M_UNDONE message with one string parameter.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -294,35 +322,7 @@ See compiler/testing/lockableDoors</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Respond to UNDO with "You undo 'x x x '."</desc>
-<notes>This will have to include the command words in the undo state. DONE
-Prepare M_UNDONE message with one string parameter.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The undone-message does not work for literal values</desc>
-<notes>See regression/undoSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO handling does not seem to manage strings</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -430,7 +430,7 @@ mentioned? article? description?</notes>
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
-<elapsed>3</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Add Initial Location</desc>
@@ -465,7 +465,7 @@ mentioned? article? description?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -533,7 +533,7 @@ Including Add and inherit!</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Add Negative Articel/Form</desc>
+<desc>Add Negative Article/Form</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

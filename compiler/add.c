@@ -105,7 +105,6 @@ static void addPronouns(AddNode *add, Symbol *original)
   }
 }
 
-
 /*----------------------------------------------------------------------*/
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
@@ -131,8 +130,13 @@ static void addInitialize(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
-  if (props->initialize != NULL)
-    lmLogv(&props->initialize->srcp, 341, sevERR, "Initialize", "(yet)", NULL);
+  if (props->initialize != NULL) {
+    if (PROPERTIESOF(original)->initialize != NULL)
+      lmLog(&add->props->initializeSrcp, 336, sevERR,
+	    "an Initialize clause when the class already have it");
+    else
+      PROPERTIESOF(original)->initialize = props->initialize;
+  }
 }
 
 

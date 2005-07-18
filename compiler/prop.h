@@ -57,6 +57,7 @@ typedef struct Properties {
   List *attributes;
   Aword attributeAddress;	/* ACODE address to attribute list */
 
+  Srcp initializeSrcp;
   Initialize *initialize;	/* The Initialize node */
 
   Description *description;	/* The Description */

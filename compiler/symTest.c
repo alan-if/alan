@@ -31,12 +31,14 @@ void testContentOfSymbol() {
   Container *container = newContainer(newContainerBody(nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
   IdNode *id = newId(nulsrcp, "id");
-  Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, container,
-			       NULL,
+  Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
+			       NULL, NULL, NULL,
 			       nulsrcp, NULL,
 			       nulsrcp, NULL, FALSE,
 			       nulsrcp, NULL, FALSE,
+			       container,
+			       nulsrcp, NULL,
 			       NULL, NULL, NULL);
   Symbol *classTakingContent = newClassSymbol(id, props, NULL);
   IdNode *instanceId = newId(nulsrcp, "instance");
@@ -414,13 +416,15 @@ static void testInheritOpaqueAttribute() {
   ContainerBody *pBody = newContainerBody(nulsrcp, opaqueState, NULL, NULL,
 					  NULL, NULL, NULL, NULL);
   Container *pCont = newContainer(pBody);
-  Properties *pProps = newProps(NULL, NULL, nulsrcp,
-				NULL, NULL, 0, pCont,
-				NULL, nulsrcp,
-				NULL, nulsrcp,
-				NULL, nulsrcp,
-				NULL, FALSE, nulsrcp,
-				NULL, FALSE, NULL, NULL, NULL);
+  Properties *pProps = newProps(NULL, NULL,
+				nulsrcp, NULL,
+				NULL, NULL, NULL,
+				nulsrcp, NULL,
+				nulsrcp, NULL, FALSE,
+				nulsrcp, NULL, FALSE,
+				pCont,
+				nulsrcp, NULL,
+				NULL, NULL, NULL);
   Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
 
   /* Setup a child */
@@ -428,13 +432,15 @@ static void testInheritOpaqueAttribute() {
 						      newId(nulsrcp, "b"),
 						      FALSE), ATTRIBUTE_LIST);
 						      
-  Properties *cProps = newProps(NULL, NULL, nulsrcp,
-				NULL, attributes, 0, NULL,
-				NULL, nulsrcp,
-				NULL, nulsrcp,
-				NULL, nulsrcp,
-				NULL, FALSE, nulsrcp,
-				NULL, FALSE, NULL, NULL, NULL);
+  Properties *cProps = newProps(NULL, NULL,
+				nulsrcp, NULL,
+				attributes, NULL, NULL,
+				nulsrcp, NULL,
+				nulsrcp, NULL, FALSE,
+				nulsrcp, NULL, FALSE,
+				NULL,
+				nulsrcp, NULL,
+				NULL, NULL, NULL);
   Symbol *child = newInstanceSymbol(newId(nulsrcp, "c"), cProps, parent);
 
   replicateContainer(child);

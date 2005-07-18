@@ -11,10 +11,14 @@
 
 static void testAddOpaqueAttribute()
 {
-  Properties *prop = newProps(NULL, NULL, nulsrcp, NULL, NULL, 0, NULL,
-			      NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
-			      NULL, FALSE, nulsrcp,
-			      NULL, FALSE,
+  Properties *prop = newProps(NULL, NULL,
+			      nulsrcp, NULL,
+			      NULL, NULL, NULL,
+			      nulsrcp, NULL,
+			      nulsrcp, NULL, FALSE,
+			      nulsrcp, NULL, FALSE,
+			      NULL,
+			      nulsrcp, NULL,
 			      NULL, NULL, NULL);
   IdNode *opaque = newId(nulsrcp, "opaque");
   Attribute *attribute;

@@ -45,13 +45,14 @@ Properties *newEmptyProps(void)
 /*======================================================================*/
 Properties *newProps(Where *whr, List *names,
 		     Srcp pronounsSrcp, List *pronouns,
-		     List *attributes, Initialize *init,
-		     Container *container,
+		     List *attributes,
+		     Initialize *init,
 		     Description *description,
-		     Srcp enteredSrcp, List *enteredStatements,
 		     Srcp mentionedSrcp, List *mentioned,
 		     Srcp definiteSrcp, List *definite, Bool definiteIsForm,
 		     Srcp indefiniteSrcp, List *indefinite, Bool indefiniteIsForm,
+		     Container *container,
+		     Srcp enteredSrcp, List *enteredStatements,
 		     List *exits,
 		     List *verbs,
 		     List *scripts)
@@ -67,12 +68,8 @@ Properties *newProps(Where *whr, List *names,
   new->pronounsSrcp = pronounsSrcp;
   new->pronouns = pronouns;
   new->attributes = attributes;
-
   new->initialize = init;
-  new->container = container;
   new->description = description;
-  new->enteredStatements = enteredStatements;
-  new->enteredSrcp = enteredSrcp;
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
   new->definite = definite;
@@ -81,7 +78,10 @@ Properties *newProps(Where *whr, List *names,
   new->indefinite = indefinite;
   new->indefiniteIsForm = indefiniteIsForm;
   new->indefiniteSrcp = indefiniteSrcp;
+  new->container = container;
   new->verbs = verbs;
+  new->enteredStatements = enteredStatements;
+  new->enteredSrcp = enteredSrcp;
   new->exits = exits;
   new->scripts = scripts;
 

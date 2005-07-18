@@ -346,10 +346,14 @@ void testGenerateAttributes()
 static void testResolveThisAttributeForClass()
 {
   List *theAttributes = create2Attributes("x", "y");
-  Properties *theProps = newProps(NULL, NULL, nulsrcp, NULL, theAttributes, 0, NULL,
-				  NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
-				  NULL, FALSE, nulsrcp,
-				  NULL, FALSE,
+  Properties *theProps = newProps(NULL, NULL,
+				  nulsrcp, NULL,
+				  theAttributes, NULL, NULL,
+				  nulsrcp, NULL,
+				  nulsrcp, NULL, FALSE,
+				  nulsrcp, NULL, FALSE,
+				  NULL,
+				  nulsrcp, NULL,
 				  NULL, NULL, NULL);
   Class *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};

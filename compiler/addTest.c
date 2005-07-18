@@ -16,21 +16,27 @@ static void testMultipleAddAttribute()
   Class *theClass;
   Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), FALSE);
   Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
-  Properties *theFirstAttributeProps = newProps(NULL, NULL, nulsrcp, NULL,
+  Properties *theFirstAttributeProps = newProps(NULL, NULL,
+						nulsrcp, NULL,
 						concat(NULL, theFirstAttribute,
-						       ATTRIBUTE_LIST), 0,
+						       ATTRIBUTE_LIST),
+						NULL, NULL,
+						nulsrcp, NULL,
+						nulsrcp, NULL, FALSE,
+						nulsrcp, NULL, FALSE,
 						NULL,
-						NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
-						NULL, FALSE, nulsrcp,
-						NULL, FALSE,
+						nulsrcp, NULL,
 						NULL, NULL, NULL);
-  Properties *theSecondAttributeProps = newProps(NULL, NULL, nulsrcp, NULL,
+  Properties *theSecondAttributeProps = newProps(NULL, NULL,
+						 nulsrcp, NULL,
 						 concat(NULL, theSecondAttribute,
-							ATTRIBUTE_LIST), 0,
+							ATTRIBUTE_LIST),
+						 NULL, NULL,
+						 nulsrcp, NULL,
+						 nulsrcp, NULL, FALSE,
+						 nulsrcp, NULL, FALSE,
 						 NULL,
-						 NULL, nulsrcp, NULL, nulsrcp, NULL, nulsrcp,
-						 NULL, FALSE, nulsrcp,
-						 NULL, FALSE,
+						 nulsrcp, NULL,
 						 NULL, NULL, NULL);
   AddNode *add1 = newAdd(nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(nulsrcp, theId, NULL, theSecondAttributeProps);
@@ -51,22 +57,26 @@ static void testMultipleAddAttribute()
 
 void testAddDescription() {
   Description *addedDescription = newDescription(nulsrcp, NULL, nulsrcp, NULL);
-  Properties *addProps = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL,
-				  /*description*/ NULL,
+  Properties *addProps = newProps(NULL, NULL,
 				  nulsrcp, NULL,
+				  NULL, NULL, /*description*/ NULL,
 				  nulsrcp, NULL,
 				  nulsrcp, NULL, FALSE,
 				  nulsrcp, NULL, FALSE,
+				  NULL,
+				  nulsrcp, NULL,
 				  NULL, NULL, NULL);
   AddNode *add = newAdd(nulsrcp, NULL, NULL, addProps);
 
-  Properties *originalProps = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL,
-				  /*description*/ NULL,
-				  nulsrcp, NULL,
-				  nulsrcp, NULL,
-				  nulsrcp, NULL, FALSE,
-				  nulsrcp, NULL, FALSE,
-				  NULL, NULL, NULL);
+  Properties *originalProps = newProps(NULL, NULL,
+				       nulsrcp, NULL,
+				       NULL, NULL, /*description*/ NULL,
+				       nulsrcp, NULL,
+				       nulsrcp, NULL, FALSE,
+				       nulsrcp, NULL, FALSE,
+				       NULL,
+				       nulsrcp, NULL,
+				       NULL, NULL, NULL);
   Symbol *symbol = newClassSymbol(newId(nulsrcp, "testAddId"), originalProps, NULL);
   List list;			/* Dummy list */
 
