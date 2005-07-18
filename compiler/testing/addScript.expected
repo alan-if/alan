@@ -21,8 +21,8 @@ addScript.alan
   *1*   240 E : Script 'sleeping' already defined for class 'hero'. You can not
                 add it. You can override it by subclassing from class 'hero'.
 
-   24.  Add To Every thing
-=====>               1
+   25.    Script x. Step ""
+=====>    1
 
   *1*   336 E : You can not Add scripts to a class which is not a subclass of
                 the predefined class 'actor'.

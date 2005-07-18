@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>456.89</origest>
-<currest>458.89</currest>
+<origest>457.89</origest>
+<currest>459.89</currest>
 <elapsed>310.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>95</origest>
-<currest>96</currest>
+<origest>96</origest>
+<currest>97</currest>
 <elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>41</origest>
-<currest>42</currest>
+<origest>46</origest>
+<currest>47</currest>
 <elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
@@ -408,6 +408,24 @@ I think only checks for matching alternatives would be natural.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Add Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Initialize</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add To Every xyz</desc>
 <notes>Investigate what is left to do:
 
@@ -434,8 +452,43 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Initialize</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherting all props</desc>
+<notes>Investigate which ones are left!!!!
+
+DONE:
+attributes
+scripts
+verbs
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Add NEGATIVE ARTICLE/FORM clause</desc>
-<notes>with "Say No x." and "$-1" as print forms.</notes>
+<notes>with "Say No x." and "$-1" as print forms.
+
+Including Add and inherit!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -444,13 +497,29 @@ mentioned? article? description?</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0dev37</desc>
+<desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>18</origest>
+<currest>18</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>MENTIONED can not be inherited</desc>
 <notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
@@ -502,64 +571,6 @@ ENTERED
 EXIT [CHECK DOES END]
 
 Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherting all props</desc>
-<notes>Investigate which ones are left!!!!
-
-DONE:
-attributes
-scripts
-verbs
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherit Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Increment: version 3.0alpha1</desc>
-<notes/>
-<priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -670,8 +681,11 @@ pointing to "count" since that is the left hand side of the assumed expression
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Set break in other source files</desc>
-<notes/>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;
+
+Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -744,8 +758,8 @@ where</notes>
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -832,18 +846,6 @@ Multiple %1 '%2'</notes>
 <notes>DONE for verbs
 
 TODO: Descriptions, ?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set breaks on lines in other source files</desc>
-<notes>How to reference other files? Syntax for a line-number?
-&lt;file name&gt;:&lt;line number&gt;
-
-Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

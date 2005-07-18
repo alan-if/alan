@@ -255,7 +255,7 @@ static void addScripts(AddNode *add, Symbol *original)
   if (props->scripts == NULL) return;
 
   if (!inheritsFrom(original, actorSymbol)) {
-    lmLog(&add->toId->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
+    lmLog(&add->props->scripts->element.script->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
     doNotAdd = TRUE;
   }
   TRAVERSE(addedScripts, props->scripts) {

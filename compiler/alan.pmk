@@ -1638,7 +1638,7 @@ static int val(char str[])
     ;
 
 <say_form>
-    =
+    =							%-('it')
 	%% %<say_form>.sayForm = SAY_SIMPLE; %%
     ! 'the'
 	%% %<say_form>.sayForm = SAY_DEFINITE; %%
@@ -2630,6 +2630,11 @@ ID
     ! 'on'
     %%
 	%ID.id = newId(%'on'.srcp, %'on'.chars);
+    %%
+
+    ! 'it'
+    %%
+	%ID.id = newId(%'it'.srcp, %'it'.chars);
     %%
 
     ! 'of'

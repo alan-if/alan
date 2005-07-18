@@ -2264,23 +2264,28 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 362: { /* ID = 'of'; */
+    case 362: { /* ID = 'it'; */
 #line 2636 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 363: { /* ID = 'first'; */
+    case 363: { /* ID = 'of'; */
 #line 2641 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 364: { /* ID = 'into'; */
+    case 364: { /* ID = 'first'; */
 #line 2646 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 365: { /* ID = 'taking'; */
+    case 365: { /* ID = 'into'; */
 #line 2651 "alan.pmk"
+
+	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
+    	break;}
+    case 366: { /* ID = 'taking'; */
+#line 2656 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}

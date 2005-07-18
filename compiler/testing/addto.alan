@@ -2,13 +2,24 @@ Add To Every Thing
   Isa thing.
   At l.
   Name x.
+  Pronoun it.
   Has x 5.
-  Description "some description."
-  Article "the"
+  Initialize "initialize"
+  Description Check "description check"
+              Does "some description."
+  Entered "entered"
+  Definite Article "a"
+  Indefinite Article "the"
   Mentioned "mentioned"
   Container
   Verb x Does "x" End Verb x.
+End Add To.
+
+Add To Every actor
   Script s. Step "hello"
+End Add To.
+
+Add To Every location
   Exit e To l.
 End Add To.
 
