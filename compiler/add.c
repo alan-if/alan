@@ -17,6 +17,7 @@
 #include "lst_x.h"
 #include "vrb_x.h"
 #include "ext_x.h"
+#include "whr_x.h"
 #include "dump_x.h"
 #include "description_x.h"
 #include "context_x.h"
@@ -53,6 +54,43 @@ AddNode *newAdd(Srcp srcp,
 }
 
 /*----------------------------------------------------------------------*/
+static void addInitialLocation(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->whr != NULL) {
+    if (original->fields.entity.props->definite != NULL)
+      lmLog(&add->props->definiteSrcp, 336, sevERR,
+	    "Initial location when the class already have it");
+    else {
+      symbolizeWhere(props->whr);
+      original->fields.entity.props->whr = props->whr;
+    }
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addNames(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->names != NULL)
+    lmLogv(&props->names->element.lst->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addPronouns(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->pronouns != NULL)
+    lmLogv(&props->pronounsSrcp, 341, sevERR, "Pronoun", "(yet)", NULL);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
   List *addedAttributes = add->props->attributes;
@@ -73,83 +111,12 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
 
 
 /*----------------------------------------------------------------------*/
-static void addContainer(AddNode *add, Symbol *original)
-{
-  Properties *props = add->props;
-
-  if (props->container == NULL) return;
-
-  if (original->fields.entity.props->container != NULL)
-    lmLog(&props->container->body->srcp, 336, sevERR,
-	  "container properties when the class already have it");
-  else
-    original->fields.entity.props->container = props->container;
-  
-}
-
-
-/*----------------------------------------------------------------------*/
-static void addVerbs(AddNode *add, Symbol *originalSymbol)
-{
-  Properties *originalProps = originalSymbol->fields.entity.props;
-  List *verbList;
-  List *verbIdList;
-  Bool inhibitAdd = FALSE;
-
-  if (add->props->verbs != NULL) {
-    if (originalSymbol == entitySymbol)
-      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
-    TRAVERSE(verbList, add->props->verbs) {
-      TRAVERSE(verbIdList, verbList->element.vrb->ids)
-	if (verbIdFound(verbIdList->element.id, originalProps->verbs)) {
-	  inhibitAdd = TRUE;
-	  lmLogv(&verbIdList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
-	}
-    }
-    if (!inhibitAdd)
-      originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
-  }
-}
-
-
-
-/*----------------------------------------------------------------------*/
-static void addInitialLocation(AddNode *add, Symbol *original)
-{
-  Properties *props = add->props;
-
-  if (props->whr != NULL)
-    lmLogv(&props->whr->srcp, 341, sevERR, "initial location", "(yet)", NULL);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void addNames(AddNode *add, Symbol *original)
-{
-  Properties *props = add->props;
-
-  if (props->names != NULL)
-    lmLogv(&props->names->element.lst->element.id->srcp, 341, sevERR, "Name", "(yet)", NULL);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void addInitialize(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
   if (props->initialize != NULL)
     lmLogv(&props->initialize->srcp, 341, sevERR, "Initialize", "(yet)", NULL);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void addPronouns(AddNode *add, Symbol *original)
-{
-  Properties *props = add->props;
-
-  if (props->pronouns != NULL)
-    lmLogv(&props->pronounsSrcp, 341, sevERR, "Pronoun", "(yet)", NULL);
 }
 
 
@@ -201,23 +168,6 @@ static void addDescription(AddNode *add, Symbol *originalSymbol)
 
 
 /*----------------------------------------------------------------------*/
-static void addEntered(AddNode *add, Symbol *originalSymbol)
-{
-  Properties *props = add->props;
-  Bool inhibitAdd = FALSE;
-
-  if (props->enteredStatements != NULL) {
-    lmLogv(&props->enteredSrcp, 341, sevERR, "Entered clause", "(yet)", NULL);
-
-    if (!inheritsFrom(originalSymbol, locationSymbol)) {
-      lmLog(&add->props->enteredSrcp, 336, sevERR, "Entered clause to something not inheriting from the predefined class 'location'");
-      inhibitAdd = TRUE;
-    }
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void addArticles(AddNode *add, Symbol *original)
 {
   if (add->props->definite != NULL) {
@@ -246,6 +196,46 @@ static void addMentioned(AddNode *add, Symbol *original)
   if (props->mentioned != NULL)
     lmLogv(&props->mentionedSrcp, 341, sevERR, "mentioned", "(yet)", NULL);
 
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addContainer(AddNode *add, Symbol *original)
+{
+  Properties *props = add->props;
+
+  if (props->container == NULL) return;
+
+  if (original->fields.entity.props->container != NULL)
+    lmLog(&props->container->body->srcp, 336, sevERR,
+	  "container properties when the class already have it");
+  else
+    original->fields.entity.props->container = props->container;
+  
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addVerbs(AddNode *add, Symbol *originalSymbol)
+{
+  Properties *originalProps = originalSymbol->fields.entity.props;
+  List *verbList;
+  List *verbIdList;
+  Bool inhibitAdd = FALSE;
+
+  if (add->props->verbs != NULL) {
+    if (originalSymbol == entitySymbol)
+      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
+    TRAVERSE(verbList, add->props->verbs) {
+      TRAVERSE(verbIdList, verbList->element.vrb->ids)
+	if (verbIdFound(verbIdList->element.id, originalProps->verbs)) {
+	  inhibitAdd = TRUE;
+	  lmLogv(&verbIdList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
+	}
+    }
+    if (!inhibitAdd)
+      originalProps->verbs = combine(originalProps->verbs, add->props->verbs);
+  }
 }
 
 
@@ -281,6 +271,23 @@ static void addScripts(AddNode *add, Symbol *original)
       scriptsToAdd = concat(scriptsToAdd, addedScript, SCRIPT_LIST);
   }
   originalProps->scripts = combine(originalProps->scripts, scriptsToAdd);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void addEntered(AddNode *add, Symbol *originalSymbol)
+{
+  Properties *props = add->props;
+  Bool inhibitAdd = FALSE;
+
+  if (props->enteredStatements != NULL) {
+    lmLogv(&props->enteredSrcp, 341, sevERR, "Entered clause", "(yet)", NULL);
+
+    if (!inheritsFrom(originalSymbol, locationSymbol)) {
+      lmLog(&add->props->enteredSrcp, 336, sevERR, "Entered clause to something not inheriting from the predefined class 'location'");
+      inhibitAdd = TRUE;
+    }
+  }
 }
 
 

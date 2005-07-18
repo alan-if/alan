@@ -3,11 +3,6 @@
 
 addEverything.alan
 
-    2.    At l.
-=====>    1
-
-  *1*   341 E : Can not Add initial location to classes. (yet)
-
     3.    Name 'name'.
 =====>         1
 
@@ -34,7 +29,7 @@ addEverything.alan
   *1*   341 E : Can not Add Entered clause to classes. (yet)
 
 
-        6 error(s).
+        5 error(s).
         No detected warnings.
         2 informational message(s).
 

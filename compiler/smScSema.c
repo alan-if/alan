@@ -351,7 +351,7 @@ static      char c;
 }
     break;
 
-  case  67:		/* 'into'*/ 
+  case  68:		/* 'into'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     

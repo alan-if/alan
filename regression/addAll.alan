@@ -1,0 +1,34 @@
+Add To Every Thing
+  At l.
+--  Name x.
+--  Pronoun them.
+  Has x 5.
+--  Initialize "initialize"
+  Description Check "description check"
+              Does "some description."
+  Definite Article "a"
+  Indefinite Article "the"
+--  Mentioned "mentioned"
+  Container
+  Verb x Does "x" End Verb x.
+End Add To.
+
+Add To Every actor
+  Script s. Step "hello"
+End Add To.
+
+Add To Every location
+--  Entered "entered"
+  Exit e To l.
+End Add To.
+
+The t Isa thing
+End The t.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If t At l Then "Initial location added ok.$n" End If.
+  "Pronoun" Say It t. ", should be 'them'"
+

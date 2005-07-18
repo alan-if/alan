@@ -190,7 +190,7 @@ static int val(char str[])
 
     Fiducial('verb', 'does', 'exit', 'event', 'start',
 		'syntax', 'script', 'synonyms', 'container', 'when',
-		'mentioned', 'attributes', 'description', 'end', 'check');
+		'mentioned', 'attributes', 'description', 'end', 'check', 'quit');
 
     Separator(',');
 

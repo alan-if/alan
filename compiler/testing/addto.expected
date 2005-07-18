@@ -8,11 +8,6 @@ addAll.alan
 
   *1*   341 E : Can not Add heritage to classes. 
 
-    3.    At l.
-=====>    1
-
-  *1*   341 E : Can not Add initial location to classes. (yet)
-
     4.    Name x.
 =====>         1
 
@@ -41,7 +36,7 @@ addAll.alan
   *1*   341 E : Can not Add mentioned to classes. (yet)
 
 
-        8 error(s).
+        7 error(s).
         No detected warnings.
         2 informational message(s).
 
