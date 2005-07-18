@@ -6,12 +6,7 @@ verifyInitialLocationNoSigSegv.alan
     3.    Description "Hello my friend".
 =====>                                 1
 
-  *1*   101 E : Syntax error. Inserting "here" before this token.
-  *1*   355 E : Initial location can only refer to instances inheriting from
-                'location' using AT or to instances having the container
-                property using IN.
-  *1*   405 E : Only instances and classes inheriting from Thing can have
-                initial locations.
+  *1*   101 E : Syntax error. Inserting "quit" before this token.
 
     5.   "jlasdfj"
 =====>   1
@@ -19,7 +14,7 @@ verifyInitialLocationNoSigSegv.alan
   *1*   102 E : Syntax error. Ignoring "STRING".
 
 
-        4 error(s).
+        2 error(s).
         No detected warnings.
         1 informational message(s).
 

@@ -59,7 +59,7 @@ void symbolizeWhere(Where *whr)
 
 
 /*======================================================================*/
-void verifyInitialLocation(Where *whr)
+Bool verifyInitialLocation(Where *whr)
 {
   if (whr->directly)
     lmLog(&whr->srcp, 422, sevERR, "Initial location");
@@ -68,16 +68,20 @@ void verifyInitialLocation(Where *whr)
   case WHERE_AT:
     if (whr->what->fields.wht.wht->kind == WHAT_ID) {
       instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
-    } else
+    } else {
       lmLog(&whr->srcp, 355, sevERR, "");
+      return FALSE;
+    }
     break;
   case WHERE_IN:
     verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
     break;
   default:
     lmLogv(&whr->srcp, 355, sevERR, "", NULL);
+    return FALSE;
     break;
   }
+  return TRUE;
 }
 
 

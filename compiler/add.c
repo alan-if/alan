@@ -59,12 +59,14 @@ static void addInitialLocation(AddNode *add, Symbol *original)
   Properties *props = add->props;
 
   if (props->whr != NULL) {
-    if (original->fields.entity.props->definite != NULL)
-      lmLog(&add->props->definiteSrcp, 336, sevERR,
-	    "Initial location when the class already have it");
+    if (original->fields.entity.props->whr != NULL)
+      lmLog(&add->props->whr->srcp, 336, sevERR,
+	    "an Initial location when the class already have it");
     else {
-      symbolizeWhere(props->whr);
-      original->fields.entity.props->whr = props->whr;
+      if (!inheritsFrom(original->fields.entity.props->id->symbol, thingSymbol) && props->whr != NULL)
+	lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
+      else if (verifyInitialLocation(props->whr))
+	original->fields.entity.props->whr = props->whr;
     }
   }
 }
@@ -128,7 +130,7 @@ static void addDescriptionCheck(AddNode *add, Symbol *originalSymbol)
 
   if (checksOf(addedProps->description) != NULL) {
     if (checksOf(originalProps->description) != NULL)
-      lmLogv(&addedProps->description->checkSrcp, 241, sevERR, "Description Check",
+      lmLogv(&addedProps->description->checkSrcp, 241, sevERR, "A Description Check is",
 	     originalSymbol->string, NULL);
     else {
       if (originalProps->description == NULL)
@@ -151,7 +153,7 @@ static void addDescription(AddNode *add, Symbol *originalSymbol)
 
   if (doesOf(addedProps->description) != NULL) {
     if (doesOf(originalProps->description) != NULL)
-      lmLogv(&addedProps->description->doesSrcp, 241, sevERR, "Description",
+      lmLogv(&addedProps->description->doesSrcp, 241, sevERR, "A Description is",
 	     originalSymbol->string, NULL);
     else {
       if (originalProps->description == NULL)
@@ -173,7 +175,7 @@ static void addArticles(AddNode *add, Symbol *original)
   if (add->props->definite != NULL) {
     if (original->fields.entity.props->definite != NULL)
       lmLog(&add->props->definiteSrcp, 336, sevERR,
-	    "Definite Article when the class already have it");
+	    "a Definite Article when the class already have it");
     else
       original->fields.entity.props->definite = add->props->definite;
   }

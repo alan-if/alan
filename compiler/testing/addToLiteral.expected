@@ -20,7 +20,8 @@ addToLiteral.alan
 
   *1*   424 E : You can not add initial location to non-instantiable class
                 'literal'.
-  *1*   341 E : Can not Add initial location to classes. (yet)
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
 
     5.    Mentioned "hej"
 =====>    1

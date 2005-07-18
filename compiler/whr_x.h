@@ -21,7 +21,7 @@
 
 extern Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, struct Expression *what);
 extern void symbolizeWhere(Where *whr);
-extern void verifyInitialLocation(Where *whr);
+extern Bool verifyInitialLocation(Where *whr);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Where *whr);
 extern void generateWhere(Where *whr);

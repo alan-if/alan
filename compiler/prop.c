@@ -185,7 +185,8 @@ void analyzeProps(Properties *props, Context *context)
 {
   checkSubclassing(props);
 
-  if (props->whr != NULL) verifyInitialLocation(props->whr);
+  if (props->whr != NULL)
+    verifyInitialLocation(props->whr);
   if (!inheritsFrom(props->id->symbol, thingSymbol) && props->whr != NULL)
     lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
   if (inheritsFrom(props->id->symbol, actorSymbol)
