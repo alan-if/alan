@@ -1,7 +1,7 @@
-########## addto ##########
+########## addAll ##########
 
 
-addto.alan
+addAll.alan
 
     2.    Isa thing.
 =====>        1
@@ -32,6 +32,8 @@ addto.alan
 =====>    1
 
   *1*   341 E : Can not Add Entered clause to classes. (yet)
+  *1*   336 E : You can not Add Entered clause to something not inheriting from
+                the predefined class 'location'.
 
    13.    Mentioned "mentioned"
 =====>    1
@@ -39,7 +41,7 @@ addto.alan
   *1*   341 E : Can not Add mentioned to classes. (yet)
 
 
-        7 error(s).
+        8 error(s).
         No detected warnings.
         2 informational message(s).
 

@@ -201,12 +201,19 @@ static void addDescription(AddNode *add, Symbol *originalSymbol)
 
 
 /*----------------------------------------------------------------------*/
-static void addEntered(AddNode *add, Symbol *original)
+static void addEntered(AddNode *add, Symbol *originalSymbol)
 {
   Properties *props = add->props;
+  Bool inhibitAdd = FALSE;
 
-  if (props->enteredStatements != NULL)
+  if (props->enteredStatements != NULL) {
     lmLogv(&props->enteredSrcp, 341, sevERR, "Entered clause", "(yet)", NULL);
+
+    if (!inheritsFrom(originalSymbol, locationSymbol)) {
+      lmLog(&add->props->enteredSrcp, 336, sevERR, "Entered clause to something not inheriting from the predefined class 'location'");
+      inhibitAdd = TRUE;
+    }
+  }
 }
 
 
@@ -387,12 +394,12 @@ static void addAddition(AddNode *add)
     addInitialize(add, originalClass); propCount++;
     addDescriptionCheck(add, originalClass); propCount++;
     addDescription(add, originalClass); propCount++;
-    addEntered(add, originalClass);  propCount++;
     addArticles(add, originalClass); propCount+=2;
     addMentioned(add, originalClass); propCount++;
     addContainer(add, originalClass); propCount++;
     addVerbs(add, originalClass); propCount++;
     addScripts(add, originalClass); propCount++;
+    addEntered(add, originalClass);  propCount++;
     addExits(add, originalClass); propCount++;
     if (propCount != NOOFPROPS)
       SYSERR("Wrong property count");

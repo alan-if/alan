@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>459.89</origest>
-<currest>461.89</currest>
+<origest>460.89</origest>
+<currest>462.89</currest>
 <elapsed>310.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>98</origest>
-<currest>99</currest>
+<origest>99</origest>
+<currest>100</currest>
 <elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
@@ -556,8 +556,8 @@ Including Add and inherit!</notes>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>18</origest>
+<currest>18</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -721,34 +721,13 @@ pointing to "count" since that is the left hand side of the assumed expression
 <desc>Better debugger</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Debugger should be able to set breaks on lines in other source files</desc>
-<notes>How to reference other files? Syntax for a line-number?
-&lt;file name&gt;:&lt;line number&gt;
-
-Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Move debug out to Adbg</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should verify date of source file</desc>
-<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -779,8 +758,20 @@ where</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;
+
+Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should verify date of source file</desc>
+<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -791,6 +782,24 @@ where</notes>
 <desc>Debugger should be able to set (and declare) level of trace</desc>
 <notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinAdbg should debug in a separate window</desc>
+<notes>This involves managing two separate in- and output streams. The simple glkio mapping will come into play, possibly it is possible to let the debugger switch streams.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
