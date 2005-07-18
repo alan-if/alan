@@ -1,10 +1,15 @@
-The t Isa object At l
-  Pronoun p.
-
+Every o Isa object
+  Pronoun p1.
   Verb x
-    Does "You x" Say the object. "."
+    Does "You x" Say the o. "."
   End Verb.
+End Every o.
 
+The t1 Isa o At l
+End The.
+
+The t2 Isa o At l
+  Pronoun p2.
 End The.
 
 The l Isa location

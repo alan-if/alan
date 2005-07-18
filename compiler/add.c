@@ -88,7 +88,6 @@ static void addNames(AddNode *add, Symbol *original)
   if (props->names != NULL)
     PROPERTIESOF(original)->names = combine(props->names,
 					    PROPERTIESOF(original)->names);
-    
 }
 
 
@@ -97,8 +96,13 @@ static void addPronouns(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
-  if (props->pronouns != NULL)
-    lmLogv(&props->pronounsSrcp, 341, sevERR, "Pronoun", "(yet)", NULL);
+  if (props->pronouns != NULL) {
+    if (PROPERTIESOF(original)->pronouns != NULL)
+      lmLog(&add->props->pronounsSrcp, 336, sevERR,
+	    "Pronouns when the class already have it");
+    else
+      PROPERTIESOF(original)->pronouns = props->pronouns;
+  }
 }
 
 

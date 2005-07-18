@@ -6,13 +6,25 @@
 
 
 L
-There is a t here.
+There is a t1 and a t2 here.
 
-> x t
-You x the t.
+> x t1
+You x the t1.
 
-> x p
-You x the t.
+> x p1
+You x the t1.
+
+> x p2
+I don't know what you mean by 'p2'.
+
+> x t2
+You x the t2.
+
+> x p1
+I don't know what you mean by 'p1'.
+
+> x p2
+You x the t2.
 
 > 
 
