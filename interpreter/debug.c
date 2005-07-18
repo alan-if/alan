@@ -42,7 +42,7 @@
 int breakpointCount = 0;
 Breakpoint breakpoint[BREAKPOINTMAX];
 
-#define debugPrefix "abug: "
+#define debugPrefix "adbg: "
 
 /*----------------------------------------------------------------------*/
 static void showAttributes(AttributeEntry *attributes)
@@ -382,31 +382,55 @@ static void showEvents(void)
 }
 
 
+/*----------------------------------------------------------------------*/
+static int sourceFileNumber(char *fileName) {
+  SourceFileEntry *entries = pointerTo(header->sourceFileTable);
+  int n;
+
+  for (n = 0; *(Aword*)&entries[n] != EOF; n++) {
+    char *entryName;
+    entryName = getStringFromFile(entries[n].fpos, entries[n].len);
+    if (strcmp(entryName, fileName) == 0) return n;
+    entryName = baseNameStart(entryName);
+    if (strcmp(entryName, fileName) == 0) return n;
+  }
+  return -1;
+}
+
 
 /*======================================================================*/
 char *sourceFileName(int fileNumber) {
   SourceFileEntry *entries = pointerTo(header->sourceFileTable);
 
-  return getStringFromFile(entries[fileNumber].fullPath.fpos, entries[fileNumber].fullPath.len);
+  return getStringFromFile(entries[fileNumber].fpos, entries[fileNumber].len);
 }
 
 
 /*======================================================================*/
-char *readSourceLine(int line, int file) {
-  FILE *sourceFile;
+char *readSourceLine(int file, int line) {
   int count;
 #define SOURCELINELENGTH 1000
-static char buffer[SOURCELINELENGTH];
+  static char buffer[SOURCELINELENGTH];
+
+#ifdef HAVE_GLK
+  frefid_t sourceFileRef;
+  strid_t sourceFile;
+
+  sourceFileRef = glk_fileref_create_by_name(fileusage_TextMode, sourceFileName(file), 0);
+  sourceFile = glk_stream_open_file(sourceFileRef, filemode_Read, 0);
+#else
+  FILE *sourceFile;
 
   sourceFile  = fopen(sourceFileName(file), "r");
+#endif
 
   if (sourceFile != NULL) {
     for (count = 0; count < line; count++) {
-      if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
+      if (fgets(buffer, SOURCELINELENGTH, sourceFile) == 0)
 	return NULL;
       /* If not read the whole line, or no newline, try to read again */
       while (strchr(buffer, '\n') == NULL)
-	if (fgets(buffer, SOURCELINELENGTH, sourceFile) == NULL)
+	if (fgets(buffer, SOURCELINELENGTH, sourceFile) == 0)
 	  return buffer;
     }
     fclose(sourceFile);
@@ -416,8 +440,8 @@ static char buffer[SOURCELINELENGTH];
 }
 
 /*======================================================================*/
-void showSourceLine(int line, int fileNumber) {
-  char *buffer = readSourceLine(line, fileNumber);
+void showSourceLine(int fileNumber, int line) {
+  char *buffer = readSourceLine(fileNumber, line);
   if (buffer != NULL) {
     if (buffer[strlen(buffer)-1] == '\n')
       buffer[strlen(buffer)-1] = '\0';
@@ -438,6 +462,29 @@ static void listFiles() {
 
 
 /*----------------------------------------------------------------------*/
+static void listLines() {
+  SourceLineEntry *entry;
+  for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
+    printf("  %s:%ld\n", sourceFileName(entry->file), entry->line);
+}
+
+
+/*----------------------------------------------------------------------*/
+static int findSourceLine(int file, int line) {
+  /* Will return index to the closest line available */
+  SourceLineEntry *entry = pointerTo(header->sourceLineTable);
+  int i = 0;
+
+  while (!endOfTable(&entry[i]) && entry[i].file < file && entry[i].line < line)
+    i++;
+  if (endOfTable(entry))
+    return i-1;
+  else
+    return i;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void listBreakpoints() {
   int i;
   Bool found = FALSE;
@@ -447,7 +494,7 @@ static void listBreakpoints() {
       if (!found)
 	printf("Breakpoints set:\n");
       found = TRUE;
-      printf("\t%d in '%s'\n", breakpoint[i].line, sourceFileName(breakpoint[i].file));
+      printf("    %s:%d\n", sourceFileName(breakpoint[i].file), breakpoint[i].line);
     }
   if (!found)
     printf("No breakpoints set.\n");
@@ -455,14 +502,12 @@ static void listBreakpoints() {
 
 
 /*======================================================================*/
-Bool breakpointIndex(int line) {
+Bool breakpointIndex(int file, int line) {
   int i;
 
   for (i = 0; i < BREAKPOINTMAX; i++)
-    if (breakpoint[i].line == line) {
-      breakpoint[i].line = line;
+    if (breakpoint[i].line == line && breakpoint[i].file == file)
       return i;
-    }
   return(-1);
 }
 
@@ -470,30 +515,31 @@ Bool breakpointIndex(int line) {
 /*----------------------------------------------------------------------*/
 static int availableBreakpointSlot() {
   int i;
+
   for (i = 0; i < BREAKPOINTMAX; i++)
-    if (breakpoint[i].line == 0) {
+    if (breakpoint[i].line == 0)
       return i;
-    }
   return -1;
 }
 
 
-
 /*----------------------------------------------------------------------*/
-static void setBreakpoint(int line, int file) {
-  /* FIXME - we can only set breakpoints in main file */
-  int i = breakpointIndex(line);
+static void setBreakpoint(int file, int line) {
+  int i = breakpointIndex(file, line);
 
   if (i != -1)
-    printf("Breakpoint already set at line %d.\n", line);
+    printf("Breakpoint already set at %s:%d.\n", sourceFileName(file), line);
   else {
     i = availableBreakpointSlot();
     if (i == -1)
       printf("No room for more breakpoints. Delete one first.\n");
     else {
-      breakpoint[i].line = line;
-      breakpoint[i].file = file;
-      printf("Breakpoint set at line %d in '%s'.\n", line, sourceFileName(file));
+      int lineIndex = findSourceLine(file, line);
+      SourceLineEntry *entry = pointerTo(header->sourceLineTable);
+      breakpoint[i].file = entry[lineIndex].file;
+      breakpoint[i].line = entry[lineIndex].line;
+      printf("Breakpoint set at %s:%ld.\n", sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
+      showSourceLine(entry[lineIndex].file, entry[lineIndex].line);
     }
   }
 }
@@ -501,14 +547,13 @@ static void setBreakpoint(int line, int file) {
 
 /*----------------------------------------------------------------------*/
 static void deleteBreakpoint(int line, int file) {
-  int i = breakpointIndex(line);
+  int i = breakpointIndex(file, line);
 
   if (i == -1)
-    printf("No breakpoint set at line %d in '%s'.\n", line, sourceFileName(file));
+    printf("No breakpoint set at %s:%d.\n", sourceFileName(file), line);
   else {
     breakpoint[i].line = 0;
-    printf("Breakpoint at line %d in '%s' deleted.\n",
-	   line, sourceFileName(file));
+    printf("Breakpoint at %s:%d deleted.\n", sourceFileName(file), line);
   }
 }
 
@@ -554,13 +599,12 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
   if (calledFromBreakpoint) {
     char *cause;
     if (anyOutput) newline();
-    if (breakpointIndex(line) != -1)
+    if (breakpointIndex(fileNumber, line) != -1)
       cause = "Breakpoint hit at";
     else
       cause = "Stepping to";
-    printf("%s %s line %d in '%s':\n", debugPrefix, cause, line,
-	    sourceFileName(fileNumber));
-    showSourceLine(line, fileNumber);
+    printf("%s %s %s:%d.\n", debugPrefix, cause, sourceFileName(fileNumber), line);
+    showSourceLine(fileNumber, line);
     printf("\n");
     anyOutput = FALSE;
   }
@@ -569,7 +613,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
     if (anyOutput) newline();
     do {
       capitalize = FALSE;
-      output("abug> ");
+      output("adbg> ");
 #ifdef USE_READLINE
       (void) readline(buf);
 #else
@@ -585,14 +629,14 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
     case 'H':
     case '?':
       output(alan.longHeader);
-      output("$nABUG Commands:\
+      output("$nADBG Commands:\
       $iB [n] -- set breakpoint at source line [n]\
       $iB     -- list breakpoints set\
       $iD [n] -- delete breakpoint at source line [n]\
       $iD     -- delete breakpoint at current source line [n]\
       $iF     -- list files\
       $iN     -- execute to next source line\
-      $iX     -- exit debug mode and return to game\
+      $iX     -- exit debug mode and return to game, get back with 'debug'\
       $iQ     -- quit game\
       $iC     -- show class hierarchy\
       $iI [n] -- show instances or instance [n]\
@@ -618,6 +662,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 
     case 'F':
       listFiles();
+      listLines();
       break;
 
     case 'I':
@@ -670,7 +715,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
       if (i == 0)
 	listBreakpoints();
       else
-	setBreakpoint(i, fileNumber);
+	setBreakpoint(fileNumber, i);
       break;
     case 'D':
       if (i == 0) {
@@ -689,7 +734,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
       restoreInfo();
       return;
     default:
-      output("Unknown ABUG command. ? for help.");
+      output("Unknown ADBG command. ? for help.");
       break;
     }
   }

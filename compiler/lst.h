@@ -42,6 +42,7 @@ typedef enum ListKind {
   SYMBOL_LIST,
   SYNONYM_LIST,
   SYNTAX_LIST,
+  SRCP_LIST,
   VERB_LIST,
   LAST_LIST_KIND
 } ListKind;
@@ -75,6 +76,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Symbol *sym;
     struct SynNod *syn;
     struct Syntax *stx;
+    struct Srcp *srcp;
     struct Verb *vrb;
     struct Word *word;
     char *str;

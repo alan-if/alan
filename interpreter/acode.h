@@ -370,15 +370,14 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
 } AltEntry;
 
 typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
-  struct {
-    Aword fpos;
-    Aint len;
-  } fullPath;
-  struct {
-    Aword fpos;
-    Aint len;
-  } path;
+  Aword fpos;
+  Aint len;
 } SourceFileEntry; 
+
+typedef struct SourceLineEntry { /* SOURCE LINE TABLE */
+  Aint file;
+  Aint line;
+} SourceLineEntry; 
 
 typedef struct StringInitEntry { /* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */
@@ -456,6 +455,7 @@ typedef struct ACodeHeader {
   Aaddr scores;			/* Score table */
   Aint scoreCount;		/* Max index into scores table */
   Aaddr sourceFileTable;	/* Table of fpos/len for source filenames */
+  Aaddr sourceLineTable;	/* Table of available source lines to break on */
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
   Aword txtcrc;			/* Checksum for text data file */

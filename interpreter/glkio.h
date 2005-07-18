@@ -24,6 +24,7 @@ void glkio_printf(char *, ...);
 #define fwrite(buf, elementSize, count, stream) glk_put_buffer_stream(stream, buf, elementSize*count);
 #define fread(buf, elementSize, count, stream) glk_get_buffer_stream(stream, buf, elementSize*count);
 #define fclose(stream) glk_stream_close(stream, NULL)
+#define fgets(buff, len, stream) glk_get_line_stream(stream, buff, len)
 #endif
 
 #endif

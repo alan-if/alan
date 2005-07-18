@@ -1181,7 +1181,7 @@ static void generateStyle(Statement *stm)
 static void generateStatement(Statement *stm)
 {
   if ((Bool)opts[OPTDEBUG].value)
-    emitLine(stm->srcp);
+    generateSrcp(stm->srcp);
 
   switch (stm->kind) {
 

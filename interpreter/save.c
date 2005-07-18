@@ -128,7 +128,6 @@ void save(void)
   saveFile = glk_stream_open_file(saveFileRef, filemode_Write, 0);
 
 #else
-
   FILE *saveFile;
   char str[256];
 

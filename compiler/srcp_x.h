@@ -8,6 +8,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "srcp.h"
+#include "../interpreter/acode.h"
 
 /* USE: */
 #include "types.h"
@@ -17,7 +18,9 @@
 
 
 /* FUNCTIONS: */
-extern void dumpSrcp(Srcp srcp);
 extern Bool equalSrcp(Srcp srcp1, Srcp srcp2);
+extern void generateSrcp(Srcp srcp);
+extern Aaddr generateSrcps(void);
+extern void dumpSrcp(Srcp srcp);
 
 #endif

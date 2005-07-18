@@ -19,10 +19,10 @@ extern Breakpoint breakpoint[BREAKPOINTMAX];
 /* FUNCTIONS: */
 extern void saveInfo(void);
 extern void restoreInfo(void);
-extern Bool breakpointIndex(int line);
+extern Bool breakpointIndex(int file, int line);
 extern char *sourceFileName(int file);
-extern char *readSourceLine(int line, int file);
-extern void showSourceLine(int line, int fileNumber);
+extern char *readSourceLine(int file, int line);
+extern void showSourceLine(int fileNumber, int line);
 extern void debug(Bool calledFromBreakpoint, int line, int fileNumber);
 extern void traceSay(int item);
 

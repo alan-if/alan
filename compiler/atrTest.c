@@ -73,7 +73,6 @@ void testInferClassInSetAttribute()
   ASSERT(atr->setType == INSTANCE_TYPE);
   ASSERT(atr->setClass == entitySymbol);
   ASSERT(length(atr->set->fields.set.members) == 2);
-
 }
 
 void testMultipleAtr()

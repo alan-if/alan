@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>452.89</origest>
-<currest>454.89</currest>
-<elapsed>308.89</elapsed>
+<origest>456.89</origest>
+<currest>458.89</currest>
+<elapsed>310.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>91</origest>
-<currest>92</currest>
-<elapsed>38</elapsed>
+<origest>95</origest>
+<currest>96</currest>
+<elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>41</currest>
-<elapsed>38</elapsed>
+<origest>41</origest>
+<currest>42</currest>
+<elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -395,7 +395,16 @@ I think only checks for matching alternatives would be natural.
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List line numbers for which LINE instructions are generated?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -537,8 +546,8 @@ verbs
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
+<origest>13</origest>
+<currest>13</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -635,15 +644,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>List line numbers for which LINE instructions are generated?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Potential problem: non-ISO sorting of dictionary</desc>
 <notes>So don't sort it. Linear search will be sufficiently fast.</notes>
 <priority>2</priority>
@@ -662,9 +662,57 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Debugger should be able to set (and declare) level of trace</desc>
-<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
-</notes>
+<desc>Better debugger</desc>
+<notes/>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Set break in other source files</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Move debug out to Adbg</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should verify date of source file</desc>
+<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Better debugger command language</desc>
+<notes>The command language for the debugger should be something like:
+
+break
+break [source : ] line
+unbreak
+unbreak [source : ] line
+trace (stack|source|...)
+untrace
+next
+instances
+instance i
+show { instance : } attribute
+set { instance : } attribute = value
+list [ file : ] line
+where</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -679,6 +727,17 @@ pointing to "count" since that is the left hand side of the assumed expression
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set (and declare) level of trace</desc>
+<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>

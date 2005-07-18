@@ -30,7 +30,6 @@ extern void emit0(Aword op);
 extern void emit1(Aword op, Aword arg1);
 extern void emit2(Aword op, Aword arg1, Aword arg2);
 extern void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3);
-extern void emitLine(Srcp srcp);
 extern void terminateEmit();
 extern void emitTextDataToAcodeFile(char dataFileName[]);
 extern void emitHeader();

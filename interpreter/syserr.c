@@ -13,7 +13,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 
   if (current.sourceLine != 0) {
     printf("At source line %d in '%s':\n", current.sourceLine, sourceFileName(current.sourceFile));
-    printf("%s", readSourceLine(current.sourceLine, current.sourceFile));
+    printf("%s", readSourceLine(current.sourceFile, current.sourceLine));
   }
 
   if (transcriptOption || logOption)

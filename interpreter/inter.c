@@ -446,12 +446,12 @@ void interpret(Aaddr adr)
 	skipStackDump = TRUE;
 	if (line != 0) {
 	  Bool atNext = stopAtNextLine && line != current.sourceLine;
-	  Bool atBreakpoint =  breakpointIndex(line) != -1;
+	  Bool atBreakpoint =  breakpointIndex(file, line) != -1;
 	  if (traceSourceOption
 	      && (line != current.sourceLine || file != current.sourceFile)) {
 	    if (col != 1 || singleStepOption)
 	      newline();
-	    showSourceLine(line, file);
+	    showSourceLine(file, line);
 	    if (!singleStepOption)
 	      newline();
 	  }

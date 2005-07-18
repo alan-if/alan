@@ -200,6 +200,7 @@ void emitVariable(Aword var)
 /*======================================================================*/
 void emitConstant(Aword arg)
 {
+  if (((Aword)arg&0xf0000000) != 0) SYSERR("Generating to large constant");
   emit(((Aword)C_CONST<<28)|((Aword)arg&0x0fffffff));
 }
 
@@ -233,14 +234,6 @@ void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3)
   emitConstant(arg2);
   emitConstant(arg1);
   emit0(op);
-}
-
-
-/*======================================================================*/
-void emitLine(Srcp srcp) {
-  emitConstant(srcp.file);
-  emitConstant(srcp.line);
-  emit0(I_LINE);
 }
 
 

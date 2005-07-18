@@ -491,3 +491,15 @@ int littleEndian() {
   int x = 1;
   return (*(char *)&x == 1);
 }
+
+
+/*======================================================================*/
+char *baseNameStart(char *fullPathName) {
+  static char *delimiters = "\\>]/:";
+  int i;
+
+  for (i = strlen(fullPathName)-1; i > 0; i--)
+    if (strchr(delimiters, fullPathName[i]) != NULL)
+      return &fullPathName[i+1];
+  return(fullPathName);
+}

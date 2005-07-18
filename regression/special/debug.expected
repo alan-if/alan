@@ -3,24 +3,24 @@
         No warnings or errors detected.
 
 
-abug> i
+adbg> i
 Instances: 
       1: l, nowhere (0) 
       2: t, nowhere (0) 
       3: hero, at l (1)
-abug> i 1
+adbg> i 1
 The l (1) Isa location 
     Attributes: 
         x(2) = 1
-abug> i 2
+adbg> i 2
 The t (2) Isa object 
     Location: nowhere (0) 
     Attributes: 
         y(3) = 1
-abug> i 3
+adbg> i 3
 The hero (3) Isa actor 
     Location: at l (1) 
     Attributes: 
     Is idle
-abug> q
+adbg> q
 

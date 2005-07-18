@@ -88,7 +88,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 	for (ip = importPaths; ip != NULL; ip = ip->next) {
 	  strcpy(fnmbuf, ip->element.str);
 #ifndef __mac__
-	  if (ip->element.str[strlen(ip->element.str)] != '/')
+	  if (ip->element.str[strlen(ip->element.str)-1] != '/')
 	    strcat(fnmbuf, "/");
 #endif
 	  strcat(fnmbuf, fnm);

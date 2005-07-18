@@ -110,8 +110,8 @@ static void analyzeSourceFilenames() {
 
   sourceFileEntries = allocate(length(fileNames)*sizeof(SourceFileEntry));
   TRAVERSE(currentFile,fileNames) {
-    sourceFileEntries[count].basename.fpos = ftell(txtfil);
-    sourceFileEntries[count].basename.len = strlen(currentFile->element.str);
+    sourceFileEntries[count].fpos = ftell(txtfil);
+    sourceFileEntries[count].len = strlen(currentFile->element.str);
     fprintf(txtfil, currentFile->element.str);
     count++;
   }
@@ -180,7 +180,7 @@ static Aaddr generateSourceFileTable() {
 
   if (opts[OPTDEBUG].value)
     for (count = 0; count < length(fileNames); count++) {
-      encode(&sourceFileEntries[count].fullPath.fpos, &sourceFileEntries[count].fullPath.len);
+      encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
       emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
     }
   emit(EOF);
@@ -250,8 +250,9 @@ void generateAdventure(char acodeFileName[],
   acodeHeader.stringInitTable = generateStringInit();
   acodeHeader.setInitTable = generateSetInit();
 
-  /* Source filename table */
+  /* Source filename and line table */
   acodeHeader.sourceFileTable = generateSourceFileTable();
+  acodeHeader.sourceLineTable = generateSrcps();
 
   /* All resource files found so package them */
   generateResources(adv.resources);

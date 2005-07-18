@@ -27,14 +27,7 @@
 /*----------------------------------------------------------------------*/
 static char *gameName(char *fullPathName) {
   char *foundGameName;
-  if ((foundGameName = strrchr(fullPathName, '\\')) == NULL
-      && (foundGameName = strrchr(adventureFileName, '>')) == NULL
-      && (foundGameName = strrchr(adventureFileName, ']')) == NULL
-      && (foundGameName = strrchr(adventureFileName, '/')) == NULL
-      && (foundGameName = strrchr(fullPathName, ':')) == NULL)
-    foundGameName = strdup(fullPathName);
-  else
-    foundGameName = strdup(foundGameName+1);
+  foundGameName = strdup(baseNameStart(fullPathName));
   
   foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
   return foundGameName;

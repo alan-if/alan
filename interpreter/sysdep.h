@@ -312,5 +312,7 @@ extern void toNative(char copy[], /* OUT - Mapped string */
 
 extern int littleEndian(void);
 
+extern char *baseNameStart(char *fullPathName);
+
 #endif                          /* -- sysdep.h -- */
 
