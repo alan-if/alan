@@ -2245,47 +2245,47 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 358: { /* ID = 'location'; */
-#line 2616 "alan.pmk"
+#line 2619 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 359: { /* ID = 'actor'; */
-#line 2621 "alan.pmk"
+#line 2624 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 360: { /* ID = 'opaque'; */
-#line 2626 "alan.pmk"
+#line 2629 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 361: { /* ID = 'on'; */
-#line 2631 "alan.pmk"
+#line 2634 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 362: { /* ID = 'it'; */
-#line 2636 "alan.pmk"
+#line 2639 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 363: { /* ID = 'of'; */
-#line 2641 "alan.pmk"
+#line 2644 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 364: { /* ID = 'first'; */
-#line 2646 "alan.pmk"
+#line 2649 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 365: { /* ID = 'into'; */
-#line 2651 "alan.pmk"
+#line 2654 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 366: { /* ID = 'taking'; */
-#line 2656 "alan.pmk"
+#line 2659 "alan.pmk"
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}

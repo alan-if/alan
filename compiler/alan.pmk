@@ -2612,6 +2612,9 @@ ID
 	%ID.id = newId(%Identifier.srcp, %Identifier.chars);
     %%
 
+-- Possibly we could add further keywords here. But let's not at this point
+-- Remember to change scanner so that the characters are copied for the
+-- added keyword too.
     ! 'location'
     %%
 	%ID.id = newId(%'location'.srcp, %'location'.chars);
@@ -2656,10 +2659,5 @@ ID
     %%
 	%ID.id = newId(%'taking'.srcp, %'taking'.chars);
     %%
-
-
--- Possibly we could add further keywords here. But let's not at this point
--- Remember to change scanner so that the characters are copied for the
--- added keyword too.
     ;
 
