@@ -3,30 +3,18 @@
 
 addAll.alan
 
-    2.    Isa thing.
+    5.    Isa thing.
 =====>        1
 
   *1*   341 E : Can not Add heritage to classes. 
 
-    5.    Pronoun it.
-=====>    1
-
-  *1*   336 E : You can not Add Pronouns when the class already have it.
-
-   10.    Entered "entered"
-=====>    1
-
-  *1*   341 E : Can not Add Entered clause to classes. (yet)
-  *1*   336 E : You can not Add Entered clause to something not inheriting from
-                the predefined class 'location'.
-
-   13.    Mentioned "mentioned"
+   15.    Mentioned "mentioned"
 =====>    1
 
   *1*   341 E : Can not Add mentioned to classes. (yet)
 
 
-        5 error(s).
+        2 error(s).
         No detected warnings.
         2 informational message(s).
 
