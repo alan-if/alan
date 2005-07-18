@@ -314,16 +314,16 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
   if (originalSymbol->fields.entity.prohibitedSubclassing) {
     int propsCount = 1;		/* Verbs-slot is not counted so start at 1 */
 
+    if (add->props->whr)
+      lmLogv(&add->props->whr->srcp, 424, sevERR, "initial location", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->names)
       lmLogv(&add->srcp, 424, sevERR, "names", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->pronouns)
       lmLogv(&add->srcp, 424, sevERR, "pronouns", originalSymbol->string, NULL);
-    propsCount++;
-
-    if (add->props->whr)
-      lmLogv(&add->props->whr->srcp, 424, sevERR, "initial location", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->attributes)
@@ -337,10 +337,6 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     if (checksOf(add->props->description) != NULL || doesOf(add->props->description) != NULL)
       lmLogv(&add->props->description->doesSrcp, 424, sevERR, "description", originalSymbol->string, NULL);
     propsCount+=2;
-
-    if (add->props->enteredStatements)
-      lmLogv(&add->props->enteredSrcp, 424, sevERR, "entered", originalSymbol->string, NULL);
-    propsCount++;
 
     if (add->props->definite)
       lmLogv(&add->props->definiteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
@@ -360,6 +356,10 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
 
     if (add->props->scripts)
       lmLogv(&add->props->scripts->element.script->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
+    propsCount++;
+
+    if (add->props->enteredStatements)
+      lmLogv(&add->props->enteredSrcp, 424, sevERR, "entered", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->exits)

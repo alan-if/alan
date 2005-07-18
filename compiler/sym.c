@@ -944,8 +944,13 @@ static void replicate(Symbol *symbol)
   replicateNames(symbol);
   replicatePronouns(symbol);
   replicateAttributes(symbol);
+  /* Initialize is handled by interpreter */
+  /* And so is Description Check and Description */
+  /* ... and the Articles/Forms */
   replicateContainer(symbol);
+  /* ... and the Verbs */
   replicateScripts(symbol);
+  /* ... and Entered */
   replicateExits(symbol);
 }
 

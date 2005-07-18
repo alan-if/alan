@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>457.89</origest>
-<currest>459.89</currest>
+<origest>459.89</origest>
+<currest>461.89</currest>
 <elapsed>310.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>96</origest>
-<currest>97</currest>
+<origest>98</origest>
+<currest>99</currest>
 <elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>46</origest>
-<currest>47</currest>
+<origest>49</origest>
+<currest>50</currest>
 <elapsed>40</elapsed>
 <isopen>1</isopen>
 <task>
@@ -408,24 +408,6 @@ I think only checks for matching alternatives would be natural.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Initialize</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Add To Every xyz</desc>
 <notes>Investigate what is left to do:
 
@@ -446,13 +428,12 @@ initial location, container - can only be added if it has none
 
 mentioned? article? description?</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 <task>
-<desc>Inherit Entered</desc>
+<desc>Add Initial Location</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -461,13 +442,50 @@ mentioned? article? description?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Inherit Initialize</desc>
+<desc>Add Name</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Add Pronoun</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Initialize</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Mentioned</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Inherting all props</desc>
@@ -479,10 +497,30 @@ scripts
 verbs
 </notes>
 <priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>MENTIONED can not be inherited</desc>
+<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
+
+This is kind of a general question, but affects the MENTIONED particularly.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Add NEGATIVE ARTICLE/FORM clause</desc>
@@ -490,18 +528,36 @@ verbs
 
 Including Add and inherit!</notes>
 <priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Add Negative Articel/Form</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Negative Article/Form</desc>
+<notes/>
+<priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
+</task>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -514,17 +570,6 @@ but that is not allowed:
 
 FOR EACH instance ISA entity DO
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>MENTIONED can not be inherited</desc>
-<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
-
-This is kind of a general question, but affects the MENTIONED particularly.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

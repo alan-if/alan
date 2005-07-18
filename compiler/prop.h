@@ -29,13 +29,15 @@
 	Initialization
 	Description Check
 	Description Statements
-	Entered Statements
 	Defininte Article/Form
 	Indefinite Article/Form
 	Mentioned Clause
 	Container
 	Verbs
+   Actor only:
 	Scripts
+   Location only:
+	Entered Statements
 	Exits
 */
 
