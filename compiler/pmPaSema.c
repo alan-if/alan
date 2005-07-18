@@ -620,10 +620,10 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].indefinite,
 					pmSeSt[pmStkP+4].indefiniteIsForm,
 					pmSeSt[pmStkP+4].cnt,
+					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].enteredSrcp,
 					pmSeSt[pmStkP+4].entered,
 					pmSeSt[pmStkP+4].exts,
-					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
@@ -654,10 +654,10 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+6].indefinite,
 					pmSeSt[pmStkP+6].indefiniteIsForm,
 					pmSeSt[pmStkP+6].cnt,
+					pmSeSt[pmStkP+6].vrbs,
 					pmSeSt[pmStkP+6].enteredSrcp,
 					pmSeSt[pmStkP+6].entered,
 					pmSeSt[pmStkP+6].exts,
-					pmSeSt[pmStkP+6].vrbs,
 					pmSeSt[pmStkP+6].scrs));
 	if (pmSeSt[pmStkP+7].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+4].id, pmSeSt[pmStkP+7].id))
@@ -688,10 +688,10 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].indefinite,
 					pmSeSt[pmStkP+4].indefiniteIsForm,
 					pmSeSt[pmStkP+4].cnt,
+					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].enteredSrcp,
 					pmSeSt[pmStkP+4].entered,
 					pmSeSt[pmStkP+4].exts,
-					pmSeSt[pmStkP+4].vrbs,
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))

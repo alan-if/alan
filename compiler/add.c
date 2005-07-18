@@ -301,11 +301,11 @@ static void addEntered(AddNode *add, Symbol *originalSymbol)
   Bool inhibitAdd = FALSE;
 
   if (props->enteredStatements != NULL) {
-    lmLogv(&props->enteredSrcp, 341, sevERR, "Entered clause", "(yet)", NULL);
-
     if (!inheritsFrom(originalSymbol, locationSymbol)) {
       lmLog(&add->props->enteredSrcp, 336, sevERR, "Entered clause to something not inheriting from the predefined class 'location'");
       inhibitAdd = TRUE;
+    } else {
+      PROPERTIESOF(originalSymbol)->enteredStatements = props->enteredStatements;
     }
   }
 }

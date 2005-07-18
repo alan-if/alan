@@ -24,9 +24,9 @@ static void testMultipleAddAttribute()
 						nulsrcp, NULL,
 						nulsrcp, NULL, FALSE,
 						nulsrcp, NULL, FALSE,
-						NULL,
+						NULL, NULL,
 						nulsrcp, NULL,
-						NULL, NULL, NULL);
+						NULL, NULL);
   Properties *theSecondAttributeProps = newProps(NULL, NULL,
 						 nulsrcp, NULL,
 						 concat(NULL, theSecondAttribute,
@@ -35,9 +35,9 @@ static void testMultipleAddAttribute()
 						 nulsrcp, NULL,
 						 nulsrcp, NULL, FALSE,
 						 nulsrcp, NULL, FALSE,
-						 NULL,
+						 NULL, NULL,
 						 nulsrcp, NULL,
-						 NULL, NULL, NULL);
+						 NULL, NULL);
   AddNode *add1 = newAdd(nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(nulsrcp, theId, NULL, theSecondAttributeProps);
   Symbol *aSymbol;
@@ -63,9 +63,9 @@ void testAddDescription() {
 				  nulsrcp, NULL,
 				  nulsrcp, NULL, FALSE,
 				  nulsrcp, NULL, FALSE,
-				  NULL,
+				  NULL, NULL,
 				  nulsrcp, NULL,
-				  NULL, NULL, NULL);
+				  NULL, NULL);
   AddNode *add = newAdd(nulsrcp, NULL, NULL, addProps);
 
   Properties *originalProps = newProps(NULL, NULL,
@@ -74,9 +74,9 @@ void testAddDescription() {
 				       nulsrcp, NULL,
 				       nulsrcp, NULL, FALSE,
 				       nulsrcp, NULL, FALSE,
-				       NULL,
+				       NULL, NULL,
 				       nulsrcp, NULL,
-				       NULL, NULL, NULL);
+				       NULL, NULL);
   Symbol *symbol = newClassSymbol(newId(nulsrcp, "testAddId"), originalProps, NULL);
   List list;			/* Dummy list */
 

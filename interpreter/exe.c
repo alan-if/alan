@@ -764,16 +764,24 @@ static void locateActor(Aword movingActor, Aword whr)
     admin[where(HERO, TRUE)].visitsCount %= (current.visits+1);
   } else
     admin[whr].visitsCount = 0;
+
+  Aword previousInstance = current.instance;
+  current.instance = current.location;
+
   current.actor = movingActor;
   if (instance[current.location].entered != 0) {
-    if (previousActorLocation != current.location)
+    if (previousActorLocation != current.location) {
       interpret(instance[current.location].entered);
+      current.instance = previousInstance;
+    }
   } else
     executeInheritedEntered(instance[current.location].parent);
   current.actor = previousActor;
 
   if (current.actor != movingActor)
     current.location = previousCurrentLocation;
+
+  current.instance = previousInstance;
 }
 
 

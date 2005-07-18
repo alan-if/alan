@@ -27,9 +27,9 @@ void testClassOfContent()
 				    nulsrcp, NULL,
 				    nulsrcp, NULL, FALSE,
 				    nulsrcp, NULL, FALSE,
-				    container,
+				    container, NULL, 
 				    nulsrcp, NULL,
-				    NULL, NULL,NULL);
+				    NULL,NULL);
 
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 

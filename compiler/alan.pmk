@@ -731,10 +731,10 @@ static int val(char str[])
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
+					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.exts,
-					%<properties>.vrbs,
 					%<properties>.scrs));
 	if (%<class_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<class_tail>.id))
@@ -771,10 +771,10 @@ static int val(char str[])
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
+					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.exts,
-					%<properties>.vrbs,
 					%<properties>.scrs));
 	if (%<add_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<add_tail>.id))
@@ -811,10 +811,10 @@ static int val(char str[])
 					%<properties>.indefinite,
 					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
+					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
 					%<properties>.entered,
 					%<properties>.exts,
-					%<properties>.vrbs,
 					%<properties>.scrs));
 	if (%<instance_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<instance_tail>.id))

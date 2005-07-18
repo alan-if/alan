@@ -352,9 +352,9 @@ static void testResolveThisAttributeForClass()
 				  nulsrcp, NULL,
 				  nulsrcp, NULL, FALSE,
 				  nulsrcp, NULL, FALSE,
-				  NULL,
+				  NULL, NULL,
 				  nulsrcp, NULL,
-				  NULL, NULL, NULL);
+				  NULL, NULL);
   Class *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;

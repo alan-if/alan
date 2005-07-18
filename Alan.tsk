@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>460.89</origest>
 <currest>462.89</currest>
-<elapsed>314.89</elapsed>
+<elapsed>315.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>99</origest>
 <currest>100</currest>
-<elapsed>44</elapsed>
+<elapsed>45</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>49</origest>
 <currest>50</currest>
-<elapsed>44</elapsed>
+<elapsed>45</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -499,7 +499,7 @@ verbs
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Inherit Entered</desc>
@@ -507,7 +507,7 @@ verbs
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

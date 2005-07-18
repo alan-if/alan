@@ -37,9 +37,9 @@ void testContentOfSymbol() {
 			       nulsrcp, NULL,
 			       nulsrcp, NULL, FALSE,
 			       nulsrcp, NULL, FALSE,
-			       container,
+			       container, NULL,
 			       nulsrcp, NULL,
-			       NULL, NULL, NULL);
+			       NULL, NULL);
   Symbol *classTakingContent = newClassSymbol(id, props, NULL);
   IdNode *instanceId = newId(nulsrcp, "instance");
   Symbol *instance = newInstanceSymbol(instanceId, newEmptyProps(), classTakingContent);
@@ -422,9 +422,9 @@ static void testInheritOpaqueAttribute() {
 				nulsrcp, NULL,
 				nulsrcp, NULL, FALSE,
 				nulsrcp, NULL, FALSE,
-				pCont,
+				pCont, NULL,
 				nulsrcp, NULL,
-				NULL, NULL, NULL);
+				NULL, NULL);
   Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
 
   /* Setup a child */
@@ -438,9 +438,9 @@ static void testInheritOpaqueAttribute() {
 				nulsrcp, NULL,
 				nulsrcp, NULL, FALSE,
 				nulsrcp, NULL, FALSE,
-				NULL,
+				NULL, NULL,
 				nulsrcp, NULL,
-				NULL, NULL, NULL);
+				NULL, NULL);
   Symbol *child = newInstanceSymbol(newId(nulsrcp, "c"), cProps, parent);
 
   replicateContainer(child);

@@ -52,9 +52,9 @@ Properties *newProps(Where *whr, List *names,
 		     Srcp definiteSrcp, List *definite, Bool definiteIsForm,
 		     Srcp indefiniteSrcp, List *indefinite, Bool indefiniteIsForm,
 		     Container *container,
+		     List *verbs,
 		     Srcp enteredSrcp, List *enteredStatements,
 		     List *exits,
-		     List *verbs,
 		     List *scripts)
 {
   Properties *new;                  /* The newly allocated area */

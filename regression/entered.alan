@@ -1,11 +1,11 @@
 The l Isa location
   Name 'Location'
   Entered
-    "Entered by" Say Current Actor. "."
+    Say This. "entered by" Say Current Actor. "."
 End The l.
 
 The mr_x Isa actor
-  Name mr x
+  Name mr X
 End The mr_x.
 
 Event move_mr_x

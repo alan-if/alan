@@ -73,9 +73,8 @@ void testGenerateEmptyClassEntry()
 			       nulsrcp, NULL,
 			       nulsrcp, NULL, FALSE,
 			       nulsrcp, NULL, FALSE,
-			       NULL,
+			       NULL, NULL,
 			       nulsrcp, NULL,
-			       NULL,
 			       NULL,
 			       NULL);
   Class *class = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, props);

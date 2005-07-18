@@ -34,9 +34,9 @@ void testGenerateEmptyInstanceEntry()
 			       nulsrcp, NULL,
 			       nulsrcp, NULL, FALSE,
 			       nulsrcp, NULL, FALSE,
-			       NULL,
+			       NULL, NULL,
 			       nulsrcp, NULL,
-			       NULL, NULL, NULL);
+			       NULL, NULL);
   Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "aInstance"), NULL, props);
   int entryAddress;
   InstanceEntry *entry;

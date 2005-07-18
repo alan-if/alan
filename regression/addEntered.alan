@@ -1,6 +1,6 @@
 Add To Every location
   Entered
-    "Entered by" Say Current Actor. "."
+    Say This. "entered by" Say Current Actor. "."
 End Add To.
 
 The l Isa location

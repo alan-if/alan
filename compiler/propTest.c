@@ -17,9 +17,9 @@ static void testAddOpaqueAttribute()
 			      nulsrcp, NULL,
 			      nulsrcp, NULL, FALSE,
 			      nulsrcp, NULL, FALSE,
-			      NULL,
+			      NULL, NULL,
 			      nulsrcp, NULL,
-			      NULL, NULL, NULL);
+			      NULL, NULL);
   IdNode *opaque = newId(nulsrcp, "opaque");
   Attribute *attribute;
 

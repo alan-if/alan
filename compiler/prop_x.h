@@ -32,9 +32,9 @@ extern Properties *newProps(Where *whr,
 			    Srcp definiteSrcp, List *definite, Bool definiteIsForm,
 			    Srcp indefiniteSrcp, List *indefinite, Bool indefiniteIsForm,
 			    Container *cnt,
+			    List *vrbs,
 			    Srcp enteredSrcp, List *entered,
 			    List *exts,
-			    List *vrbs,
 			    List *scrs);
 
 extern void symbolizeProps(Properties *props, Bool inClassDeclaration);

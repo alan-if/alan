@@ -1,4 +1,7 @@
-Add To Every Thing
+Every t Isa Thing
+End Every t.
+
+Add To Every t
   Isa thing.
   At l.
   Name x.
@@ -7,7 +10,6 @@ Add To Every Thing
   Initialize "initialize"
   Description Check "description check"
               Does "some description."
-  Entered "entered"
   Definite Article "a"
   Indefinite Article "the"
   Mentioned "mentioned"
@@ -20,6 +22,7 @@ Add To Every actor
 End Add To.
 
 Add To Every location
+  Entered "entered"
   Exit e To l.
 End Add To.
 
