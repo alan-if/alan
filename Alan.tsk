@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>460.89</origest>
-<currest>462.89</currest>
+<origest>464.89</origest>
+<currest>466.89</currest>
 <elapsed>316.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>99</origest>
-<currest>100</currest>
+<origest>103</origest>
+<currest>104</currest>
 <elapsed>46</elapsed>
 <isopen>1</isopen>
 <task>
@@ -556,8 +556,8 @@ Including Add and inherit!</notes>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>18</origest>
-<currest>18</currest>
+<origest>21</origest>
+<currest>21</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -616,6 +616,24 @@ ENTERED
 EXIT [CHECK DOES END]
 
 Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check that multiple pronoun matches are handled correcly</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>M_ARTICLE can be removed since Indefinite Article on entity is exactly the same thing</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -693,6 +711,15 @@ which is correct but gives the confusing error message:
 pointing to "count" since that is the left hand side of the assumed expression
 
 &lt;something&gt; &lt;where&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: trailing single dollar in a string causes spurious output</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -812,8 +839,8 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>10</origest>
+<currest>10</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -821,6 +848,17 @@ Also need to separate the path and the basename since the user will want to use 
 <notes>Need: we need to be able to give options to the compiler while still double clicking on it.
 
 Design:</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New options for separator and punctuation character sets</desc>
+<notes>Option
+  separators ",.!?"
+  punctuators ".?!"</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

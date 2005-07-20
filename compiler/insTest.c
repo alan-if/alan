@@ -32,8 +32,7 @@ void testGenerateEmptyInstanceEntry()
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
 			       nulsrcp, NULL,
-			       nulsrcp, NULL, FALSE,
-			       nulsrcp, NULL, FALSE,
+			       nulsrcp, NULL, FALSE, NULL,
 			       NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL);
@@ -101,7 +100,6 @@ void testGenerateInstances()
   ASSERT(convertFromACD(instanceTable->checks) == checksAddressOf(ins->props->description));
   ASSERT(convertFromACD(instanceTable->description) == doesAddressOf(ins->props->description));
   ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
-  ASSERT(convertFromACD(instanceTable->indefinite) == ins->props->definiteAddress);
   ASSERT(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
   ASSERT(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
 }

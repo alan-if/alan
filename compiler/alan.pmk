@@ -33,6 +33,7 @@
 
 #include "adv_x.h"
 #include "add_x.h"
+#include "article_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
 #include "chk_x.h"
@@ -97,7 +98,7 @@ static int val(char str[])
   agr %% AggregateKind %1%%,
   alt %% Alternative *%1%%,
   alts %% List *%1%%,
-  article %% List *%1%%,		-- of Statement: article-clause,
+  article %% Article *%1%%,
   atr %% Attribute *%1%%,
   atrs %% List *%1%%,
   bits %% int %1%%,
@@ -108,7 +109,7 @@ static int val(char str[])
   clas %% List *%1%%,
   cnt %% Container *%1%%,
   cnts %% List *%1%%,
-  definite %% List *%1%%,		-- of Statement: article-clause,
+  definite %% Article *%1%%,
   definiteIsForm %% Bool %1%%,
   definiteSrcp %% Srcp %1%%,
   description %% Description *%1%%,
@@ -132,9 +133,7 @@ static int val(char str[])
   id %% IdNode *%1%%,
   idList %% List *%1%%,
   idList2 %% List *%1%%,
-  indefinite %% List *%1%%,		-- of Statement: article-clause,
-  indefiniteIsForm %% Bool %1%%,
-  indefiniteSrcp %% Srcp %1%%,
+  indefinite %% Article *%1%%,
   ins %% Instance *%1%%,		-- Instance
   inss %% List *%1%%,			-- of Instances
   isForm %% Bool %1%%,
@@ -727,9 +726,7 @@ static int val(char str[])
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
-					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
 					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
@@ -767,9 +764,7 @@ static int val(char str[])
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
-					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
 					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
@@ -807,9 +802,7 @@ static int val(char str[])
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
 					%<properties>.definiteIsForm,
-					%<properties>.indefiniteSrcp,
 					%<properties>.indefinite,
-					%<properties>.indefiniteIsForm,
 					%<properties>.cnt,
 					%<properties>.vrbs,
 					%<properties>.enteredSrcp,
@@ -938,23 +931,17 @@ static int val(char str[])
 	if (%<property>.indefinite != NULL) {
             if (%<properties>.indefinite != NULL)
                 /* Indefinite Article/Form already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
-            else { 
+	        lmLogv(`&%<property>.indefinite->srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
+            else
 	        %<properties>.indefinite = %<property>.indefinite;
-	        %<properties>.indefiniteIsForm = %<property>.indefiniteIsForm;
-		%<properties>.indefiniteSrcp = %<property>.srcp;
-	    }
         }
 
 	if (%<property>.definite != NULL) {
             if (%<properties>.definite != NULL)
                 /* Definite Article/Form already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
-            else { 
+	        lmLogv(`&%<property>.definite->srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
+            else
 	        %<properties>.definite = %<property>.definite;
-	        %<properties>.definiteIsForm = %<property>.definiteIsForm;
-		%<properties>.definiteSrcp = %<property>.srcp;
-	    }
         }
 
 	%<properties>.exts = concat(%<properties>.exts, %<property>.ext, EXIT_LIST);
@@ -1043,26 +1030,18 @@ static int val(char str[])
     }%%
 
     ! ['indefinite'] <article_or_form>
-    %%{ List *indefinite = %<article_or_form>.stms;
-	Bool isForm = %<article_or_form>.isForm;
-        Srcp srcp = %<article_or_form>.srcp;
+    %%{ Article *indefinite = %<article_or_form>.article;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.indefinite = indefinite;
-	%<property>.indefiniteIsForm = isForm;
-	%<property>.srcp = srcp;
     }%%
 
 
     ! 'definite' <article_or_form>
-    %%{ List *definite = %<article_or_form>.stms;
-	Bool isForm = %<article_or_form>.isForm;
-        Srcp srcp = %<article_or_form>.srcp;
+    %%{ Article *definite = %<article_or_form>.article;
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.definite = definite;
-	%<property>.definiteIsForm = isForm;
-	%<property>.srcp = srcp;
     }%%
 
 
@@ -1187,37 +1166,44 @@ static int val(char str[])
     ;
 
 <article_or_form>
-    = <article> %% %<article_or_form>.isForm = FALSE; %%
-    ! <form> %% %<article_or_form>.isForm = TRUE; %%
+    = <article>
+    ! <form>
     ;
 
-<article>			-- RETURNS: stms, srcp
-    = 'article' 
+<article>			-- RETURNS: article
+    = 'article'
     %%
-	%<article>.stms = concat(NULL, newStatement(`&%'article'.srcp,
-							NOP_STATEMENT), STATEMENT_LIST);
-	%<article>.srcp = %'article'.srcp;
+	%<article>.article = newArticle(%'article'.srcp,
+					concat(NULL,
+						newStatement(`&%'article'.srcp, NOP_STATEMENT),
+						STATEMENT_LIST),
+					FALSE);
     %%
 
     ! 'article' <statements>
     %%
-	%<article>.stms = %<statements>.stms;
-	%<article>.srcp = %'article'.srcp;
+	 %<article>.article = newArticle(%'article'.srcp,
+					%<statements>.stms,
+					FALSE);
     %%
     ;
 
 <form>			-- RETURNS: stms, srcp
     = 'form' 
     %%
-	%<form>.stms = concat(NULL, newStatement(`&%'form'.srcp,
-						 NOP_STATEMENT), STATEMENT_LIST);
-	%<form>.srcp = %'form'.srcp;
+	%<form>.article = newArticle(%'form'.srcp,
+					concat(NULL,
+						newStatement(`&%'form'.srcp,
+								NOP_STATEMENT),
+						STATEMENT_LIST),
+					TRUE);
     %%
 
     ! 'form' <statements>
     %%
-	%<form>.stms = %<statements>.stms;
-	%<form>.srcp = %'form'.srcp;
+	%<form>.article = newArticle(%'form'.srcp,
+					%<statements>.stms,
+					TRUE);
     %%
     ;
 

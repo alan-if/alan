@@ -192,7 +192,7 @@ static void addArticles(AddNode *add, Symbol *original)
 {
   if (add->props->definite != NULL) {
     if (original->fields.entity.props->definite != NULL)
-      lmLog(&add->props->definiteSrcp, 336, sevERR,
+      lmLog(&add->props->definite->srcp, 336, sevERR,
 	    "a Definite Article when the class already have it");
     else
       original->fields.entity.props->definite = add->props->definite;
@@ -200,7 +200,7 @@ static void addArticles(AddNode *add, Symbol *original)
   
   if (add->props->indefinite != NULL) {
     if (original->fields.entity.props->indefinite != NULL)
-      lmLog(&add->props->indefiniteSrcp, 336, sevERR,
+      lmLog(&add->props->indefinite->srcp, 336, sevERR,
 	    "Indefinite Article when the class already have it");
     else
       original->fields.entity.props->indefinite = add->props->indefinite;
@@ -373,11 +373,11 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount+=2;
 
     if (add->props->definite)
-      lmLogv(&add->props->definiteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+      lmLogv(&add->props->definite->srcp, 424, sevERR, "article", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->indefinite)
-      lmLogv(&add->props->indefiniteSrcp, 424, sevERR, "article", originalSymbol->string, NULL);
+      lmLogv(&add->props->indefinite->srcp, 424, sevERR, "article", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->mentioned)

@@ -15,8 +15,7 @@ static void testAddOpaqueAttribute()
 			      nulsrcp, NULL,
 			      NULL, NULL, NULL,
 			      nulsrcp, NULL,
-			      nulsrcp, NULL, FALSE,
-			      nulsrcp, NULL, FALSE,
+			      nulsrcp, NULL, FALSE, NULL,
 			      NULL, NULL,
 			      nulsrcp, NULL,
 			      NULL, NULL);

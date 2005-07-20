@@ -30,6 +30,7 @@
 
 #include "adv_x.h"
 #include "add_x.h"
+#include "article_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
 #include "chk_x.h"
@@ -129,7 +130,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 65 "alan.pmk"
+#line 66 "alan.pmk"
 
 
 {

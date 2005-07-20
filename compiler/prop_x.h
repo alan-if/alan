@@ -13,6 +13,8 @@
 #include "../interpreter/acode.h"
 #include "ins.h"
 #include "initialize.h"
+#include "description.h"
+#include "article.h"
 #include "context.h"
 
 
@@ -29,8 +31,8 @@ extern Properties *newProps(Where *whr,
 			    Initialize *init,
 			    Description *description,
 			    Srcp mentionedSrcp, List *mentioned,
-			    Srcp definiteSrcp, List *definite, Bool definiteIsForm,
-			    Srcp indefiniteSrcp, List *indefinite, Bool indefiniteIsForm,
+			    Srcp definiteSrcp, Article *definite, Bool definiteIsForm,
+			    Article *indefinite,
 			    Container *cnt,
 			    List *vrbs,
 			    Srcp enteredSrcp, List *entered,

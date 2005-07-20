@@ -25,8 +25,7 @@ void testClassOfContent()
 				    nulsrcp, NULL,
 				    NULL, NULL, NULL,
 				    nulsrcp, NULL,
-				    nulsrcp, NULL, FALSE,
-				    nulsrcp, NULL, FALSE,
+				    nulsrcp, NULL, FALSE, NULL,
 				    container, NULL, 
 				    nulsrcp, NULL,
 				    NULL,NULL);

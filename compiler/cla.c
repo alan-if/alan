@@ -313,10 +313,20 @@ static void generateClassEntry(Class *cla)
   entry.descriptionChecks = checksAddressOf(cla->props->description);
   entry.description = doesAddressOf(cla->props->description);
   entry.entered = cla->props->enteredAddress;
-  entry.definite = cla->props->definiteAddress;
-  entry.definiteIsForm = cla->props->definiteIsForm;
-  entry.indefinite = cla->props->indefiniteAddress;
-  entry.indefiniteIsForm = cla->props->indefiniteIsForm;
+
+  if (cla->props->definite) {
+    entry.definite = cla->props->definite->address;
+    entry.definiteIsForm = cla->props->definite->isForm;
+  } else
+    entry.definite = 0;
+    
+
+  if (cla->props->indefinite) {
+    entry.indefinite = cla->props->indefinite->address;
+    entry.indefiniteIsForm = cla->props->indefinite->isForm;
+  } else
+    entry.indefinite = 0;
+
   entry.mentioned = cla->props->mentionedAddress;
   entry.verbs = cla->props->verbsAddress;
 

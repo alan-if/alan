@@ -35,8 +35,7 @@ void testContentOfSymbol() {
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
 			       nulsrcp, NULL,
-			       nulsrcp, NULL, FALSE,
-			       nulsrcp, NULL, FALSE,
+			       nulsrcp, NULL, FALSE, NULL,
 			       container, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL);
@@ -420,8 +419,7 @@ static void testInheritOpaqueAttribute() {
 				nulsrcp, NULL,
 				NULL, NULL, NULL,
 				nulsrcp, NULL,
-				nulsrcp, NULL, FALSE,
-				nulsrcp, NULL, FALSE,
+				nulsrcp, NULL, FALSE, NULL,
 				pCont, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);
@@ -436,8 +434,7 @@ static void testInheritOpaqueAttribute() {
 				nulsrcp, NULL,
 				attributes, NULL, NULL,
 				nulsrcp, NULL,
-				nulsrcp, NULL, FALSE,
-				nulsrcp, NULL, FALSE,
+				nulsrcp, NULL, FALSE, NULL,
 				NULL, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);

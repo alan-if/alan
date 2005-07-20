@@ -739,6 +739,7 @@ static void locateActor(Aword movingActor, Aword whr)
   Aint previousCurrentLocation = current.location;
   Aint previousActorLocation = admin[movingActor].location;
   Aint previousActor = current.actor;
+  Aint previousInstance = current.instance;
 
   /* FIXME: Actors locating into containers is dubious, anyway as it
    is now it allows the hero to be located into a container. And what
@@ -749,6 +750,10 @@ static void locateActor(Aword movingActor, Aword whr)
     current.location = whr;
     admin[movingActor].location = whr;
   }
+
+  /* Now we have moved so show what is needed... */
+  current.instance = current.location;
+
   if (movingActor == HERO) {
     if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
       look();
@@ -765,9 +770,7 @@ static void locateActor(Aword movingActor, Aword whr)
   } else
     admin[whr].visitsCount = 0;
 
-  Aword previousInstance = current.instance;
-  current.instance = current.location;
-
+  /* And execute possible entered */
   current.actor = movingActor;
   if (instance[current.location].entered != 0) {
     if (previousActorLocation != current.location) {

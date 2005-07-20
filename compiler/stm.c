@@ -23,7 +23,6 @@
 #include "sym_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
-#include "form_x.h"
 #include "type_x.h"
 #include "resource_x.h"
 #include "dump_x.h"
@@ -1337,6 +1336,18 @@ static void dumpStyle(int style) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void dumpForm(SayForm form)
+{
+  switch (form) {
+  case SAY_SIMPLE: put("SIMPLE"); break;
+  case SAY_DEFINITE: put("DEFINITE"); break;
+  case SAY_INDEFINITE: put("INDEFINITE"); break;
+  case SAY_PRONOUN: put("PRONOUN"); break;
+  }
+}
+
+
 /*======================================================================*/
 void dumpStatement(Statement *stm)
 {
@@ -1385,6 +1396,7 @@ void dumpStatement(Statement *stm)
 
   switch(stm->kind) {
   case LOOK_STATEMENT:
+  case NOP_STATEMENT:
   case QUIT_STATEMENT:
   case SAVE_STATEMENT:
   case RESTORE_STATEMENT:

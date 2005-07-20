@@ -18,13 +18,13 @@ TMCSRCS = \
 BUILDSRCS = \
 	alan.c \
 	alt.c \
+	article.c \
 	chk.c \
 	cnt.c \
 	context.c \
 	dump.c \
 	encode.c \
 	evt.c \
-	form.c \
 	id.c \
 	initialize.c \
 	lim.c \

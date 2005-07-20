@@ -30,6 +30,7 @@
 
 #include "adv_x.h"
 #include "add_x.h"
+#include "article_x.h"
 #include "atr_x.h"
 #include "cla_x.h"
 #include "chk_x.h"
@@ -125,9 +126,7 @@ typedef struct pmGrammar {
     Bool isForm;
     List *inss;
     Instance *ins;
-    Srcp indefiniteSrcp;
-    Bool indefiniteIsForm;
-    List *indefinite;
+    Article *indefinite;
     List *idList2;
     List *idList;
     IdNode *id;
@@ -151,7 +150,7 @@ typedef struct pmGrammar {
     Description *description;
     Srcp definiteSrcp;
     Bool definiteIsForm;
-    List *definite;
+    Article *definite;
     List *cnts;
     Container *cnt;
     List *clas;
@@ -162,7 +161,7 @@ typedef struct pmGrammar {
     int bits;
     List *atrs;
     Attribute *atr;
-    List *article;
+    Article *article;
     List *alts;
     Alternative *alt;
     AggregateKind agr;

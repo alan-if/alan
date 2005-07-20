@@ -15,7 +15,6 @@
 #include "id.h"
 #include "exp.h"
 #include "lst.h"
-#include "form.h"
 #include "resource.h"
 #include "../interpreter/acode.h"
 

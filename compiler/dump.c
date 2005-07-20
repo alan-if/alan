@@ -45,14 +45,6 @@ void out(void)
 }
 
 
-void dustr(char *s)
-{
-  put("\"");
-  put(s);
-  put("\"");
-}
-
-
 void dumpInt(int i)
 {
   char buf[20];

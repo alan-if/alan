@@ -13,9 +13,9 @@
 #include "lst.h"
 #include "whr.h"
 #include "cnt.h"
-#include "form.h"
 #include "description.h"
 #include "initialize.h"
+#include "article.h"
 
 #include "../interpreter/acode.h"
 
@@ -64,16 +64,8 @@ typedef struct Properties {
   Srcp enteredSrcp;
   List *enteredStatements;	/* ENTERED statements */
   Aword enteredAddress;		/* ACODE address to ENTERED code */
-  List *definite;		/* Definite Form/Article printing statements */
-  Bool definiteIsForm;		/* Is the definite statements Form (or Article) */
-  Srcp definiteSrcp;
-  FormKind definiteType;	/* Form or Article? */
-  Aword definiteAddress;	/* ACODE address to Definite statements */
-  List *indefinite;		/* Indefinite Form/Article printing statements */
-  Bool indefiniteIsForm;	/* Is the definite statements Form (or Article) */
-  Srcp indefiniteSrcp;
-  FormKind indefiniteType;	/* Form or Article? */
-  Aword indefiniteAddress;	/* ACODE address to Indefinite statements */
+  Article *definite;		/* Definite Form/Article printing statements */
+  Article *indefinite;		/* Indefinite Form/Article printing statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */
