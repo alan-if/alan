@@ -316,13 +316,13 @@ static void dumpClasses(int level, Aword classes)
     indent(level+1);
     printf("entered: %s\n", dumpAddress(class->entered));
     indent(level+1);
-    printf("definite: %s\n", dumpAddress(class->definite));
+    printf("definite: %s\n", dumpAddress(class->definite.address));
     indent(level+1);
-    printf("definiteIsForm: %s\n", dumpBoolean(class->indefiniteIsForm));
+    printf("definiteIsForm: %s\n", dumpBoolean(class->definite.isForm));
     indent(level+1);
-    printf("indefinite: %s\n", dumpAddress(class->indefinite));
+    printf("indefinite: %s\n", dumpAddress(class->indefinite.address));
     indent(level+1);
-    printf("indefiniteIsForm: %s\n", dumpBoolean(class->indefiniteIsForm));
+    printf("indefiniteIsForm: %s\n", dumpBoolean(class->indefinite.isForm));
     indent(level+1);
     printf("mentioned: %s\n", dumpAddress(class->mentioned));
     indent(level+1);

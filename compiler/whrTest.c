@@ -24,8 +24,8 @@ void testClassOfContent()
   Properties *properties = newProps(NULL, NULL,
 				    nulsrcp, NULL,
 				    NULL, NULL, NULL,
-				    nulsrcp, NULL,
-				    nulsrcp, NULL, FALSE, NULL,
+				    nulsrcp, NULL, NULL,
+				    NULL,
 				    container, NULL, 
 				    nulsrcp, NULL,
 				    NULL,NULL);

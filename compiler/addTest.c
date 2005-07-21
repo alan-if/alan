@@ -21,8 +21,7 @@ static void testMultipleAddAttribute()
 						concat(NULL, theFirstAttribute,
 						       ATTRIBUTE_LIST),
 						NULL, NULL,
-						nulsrcp, NULL,
-						nulsrcp, NULL, FALSE, NULL,
+						nulsrcp, NULL, NULL, NULL,
 						NULL, NULL,
 						nulsrcp, NULL,
 						NULL, NULL);
@@ -31,8 +30,7 @@ static void testMultipleAddAttribute()
 						 concat(NULL, theSecondAttribute,
 							ATTRIBUTE_LIST),
 						 NULL, NULL,
-						 nulsrcp, NULL,
-						 nulsrcp, NULL, FALSE, NULL,
+						 nulsrcp, NULL, NULL, NULL,
 						 NULL, NULL,
 						 nulsrcp, NULL,
 						 NULL, NULL);
@@ -58,8 +56,7 @@ void testAddDescription() {
   Properties *addProps = newProps(NULL, NULL,
 				  nulsrcp, NULL,
 				  NULL, NULL, /*description*/ NULL,
-				  nulsrcp, NULL,
-				  nulsrcp, NULL, FALSE, NULL,
+				  nulsrcp, NULL, NULL, NULL,
 				  NULL, NULL,
 				  nulsrcp, NULL,
 				  NULL, NULL);
@@ -68,8 +65,7 @@ void testAddDescription() {
   Properties *originalProps = newProps(NULL, NULL,
 				       nulsrcp, NULL,
 				       NULL, NULL, /*description*/ NULL,
-				       nulsrcp, NULL,
-				       nulsrcp, NULL, FALSE, NULL,
+				       nulsrcp, NULL, NULL, NULL,
 				       NULL, NULL,
 				       nulsrcp, NULL,
 				       NULL, NULL);

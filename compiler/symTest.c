@@ -34,8 +34,8 @@ void testContentOfSymbol() {
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
-			       nulsrcp, NULL,
-			       nulsrcp, NULL, FALSE, NULL,
+			       nulsrcp, NULL, NULL,
+			       NULL,
 			       container, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL);
@@ -418,8 +418,8 @@ static void testInheritOpaqueAttribute() {
   Properties *pProps = newProps(NULL, NULL,
 				nulsrcp, NULL,
 				NULL, NULL, NULL,
-				nulsrcp, NULL,
-				nulsrcp, NULL, FALSE, NULL,
+				nulsrcp, NULL, NULL,
+				NULL,
 				pCont, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);
@@ -433,8 +433,8 @@ static void testInheritOpaqueAttribute() {
   Properties *cProps = newProps(NULL, NULL,
 				nulsrcp, NULL,
 				attributes, NULL, NULL,
-				nulsrcp, NULL,
-				nulsrcp, NULL, FALSE, NULL,
+				nulsrcp, NULL, NULL,
+				NULL,
 				NULL, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);

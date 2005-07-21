@@ -1055,9 +1055,9 @@ static Bool sayInheritedDefiniteForm(Aword theClass) {
     printMessage(M_DEFINITE);
     return FALSE;
   } else {
-    if (class[theClass].definite) {
-      interpret(class[theClass].definite);
-      return class[theClass].definiteIsForm;
+    if (class[theClass].definite.address) {
+      interpret(class[theClass].definite.address);
+      return class[theClass].definite.isForm;
     } else
       return sayInheritedDefiniteForm(class[theClass].parent);
   }
@@ -1081,9 +1081,9 @@ static Bool sayInheritedIndefiniteForm(Aword theClass) {
     printMessage(M_INDEFINITE);
     return FALSE;
   } else {
-    if (class[theClass].indefinite) {
-      interpret(class[theClass].indefinite);
-      return class[theClass].indefiniteIsForm;
+    if (class[theClass].indefinite.address) {
+      interpret(class[theClass].indefinite.address);
+      return class[theClass].indefinite.isForm;
     } else
       return sayInheritedIndefiniteForm(class[theClass].parent);
   }

@@ -21,6 +21,7 @@
 #include "prop_x.h"
 #include "lst_x.h"
 #include "description_x.h"
+#include "article_x.h"
 #include "context_x.h"
 #include "dump_x.h"
 
@@ -314,18 +315,8 @@ static void generateClassEntry(Class *cla)
   entry.description = doesAddressOf(cla->props->description);
   entry.entered = cla->props->enteredAddress;
 
-  if (cla->props->definite) {
-    entry.definite = cla->props->definite->address;
-    entry.definiteIsForm = cla->props->definite->isForm;
-  } else
-    entry.definite = 0;
-    
-
-  if (cla->props->indefinite) {
-    entry.indefinite = cla->props->indefinite->address;
-    entry.indefiniteIsForm = cla->props->indefinite->isForm;
-  } else
-    entry.indefinite = 0;
+  generateArticleEntry(cla->props->definite, &entry.definite);
+  generateArticleEntry(cla->props->indefinite, &entry.indefinite);
 
   entry.mentioned = cla->props->mentionedAddress;
   entry.verbs = cla->props->verbsAddress;

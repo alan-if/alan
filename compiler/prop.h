@@ -66,6 +66,7 @@ typedef struct Properties {
   Aword enteredAddress;		/* ACODE address to ENTERED code */
   Article *definite;		/* Definite Form/Article printing statements */
   Article *indefinite;		/* Indefinite Form/Article printing statements */
+  Article *negative;		/* Negative Form/Article printing statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
   Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */

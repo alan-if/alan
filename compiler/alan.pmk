@@ -146,6 +146,7 @@ static int val(char str[])
   msgs %% List *%1%%,
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
+  negative %% Article *%1%%,
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
   present %% Bool %1%%,		-- an optional marker was present
@@ -725,7 +726,6 @@ static int val(char str[])
 					%<properties>.mentioned,
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
-					%<properties>.definiteIsForm,
 					%<properties>.indefinite,
 					%<properties>.cnt,
 					%<properties>.vrbs,
@@ -763,7 +763,6 @@ static int val(char str[])
 					%<properties>.mentioned,
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
-					%<properties>.definiteIsForm,
 					%<properties>.indefinite,
 					%<properties>.cnt,
 					%<properties>.vrbs,
@@ -801,7 +800,6 @@ static int val(char str[])
 					%<properties>.mentioned,
 					%<properties>.definiteSrcp,
 					%<properties>.definite,
-					%<properties>.definiteIsForm,
 					%<properties>.indefinite,
 					%<properties>.cnt,
 					%<properties>.vrbs,
@@ -944,6 +942,14 @@ static int val(char str[])
 	        %<properties>.definite = %<property>.definite;
         }
 
+	if (%<property>.negative != NULL) {
+            if (%<properties>.negative != NULL)
+                /* Negative Article/Form already declared */
+	        lmLogv(`&%<property>.negative->srcp, 204, sevERR, "Negative Article/Form", "class/instance", NULL);
+            else
+	        %<properties>.negative = %<property>.negative;
+        }
+
 	%<properties>.exts = concat(%<properties>.exts, %<property>.ext, EXIT_LIST);
 	%<properties>.vrbs = concat(%<properties>.vrbs, %<property>.vrb, VERB_LIST);
 	%<properties>.scrs = concat(%<properties>.scrs, %<property>.scr, SCRIPT_LIST);
@@ -1042,6 +1048,14 @@ static int val(char str[])
 
 	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
 	%<property>.definite = definite;
+    }%%
+
+
+    ! 'negative' <article_or_form>
+    %%{ Article *article = %<article_or_form>.article;
+
+	memset(&pmSeSt[pmStkP+1], 0, sizeof(pmSeSt[pmStkP+1])); /* Zero out other fields */
+	%<property>.negative = article;
     }%%
 
 

@@ -257,6 +257,11 @@ typedef enum VarClass {
 
 #define AwordSizeOf(x) (sizeof(x)/sizeof(Aword))
 
+typedef struct ArticleEntry {
+  Aaddr address;		/* Address of article code */
+  Abool isForm;			/* Is the article a complete form? */
+} ArticleEntry;
+
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
   Aaddr idAddress;		/* Address to identifier string */
@@ -266,10 +271,8 @@ typedef struct ClassEntry {	/* CLASS TABLE */
   Aaddr descriptionChecks;	/* Address of description checks */
   Aaddr description;		/* Address of description code */
   Aaddr entered;		/* Address of code for Entered clause */
-  Aaddr definite;		/* Address of definite article code */
-  Abool definiteIsForm;		/* Is the definite a complete form? */
-  Aaddr indefinite;		/* Address of indefinite article code */
-  Abool indefiniteIsForm;	/* Is the indefinite a complete form? */
+  ArticleEntry definite;	/* Definite article entry */
+  ArticleEntry indefinite;	/* Indefinite article entry */
   Aaddr mentioned;		/* Address of code for Mentioned clause */
   Aaddr verbs;			/* Address of verb table */
 } ClassEntry;

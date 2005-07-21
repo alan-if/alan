@@ -52,6 +52,16 @@ void generateArticle(Article *article) {
 }
 
 
+/*======================================================================*/
+void generateArticleEntry(Article *article, ArticleEntry *entry) {
+  if (article) {
+    entry->address = article->address;
+    entry->isForm = article->isForm;
+  } else
+    entry->address = 0;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void dumpFormKind(FormKind kind) {
   switch (kind) {
