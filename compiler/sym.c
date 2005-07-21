@@ -1013,11 +1013,7 @@ void replicateInherited(void)
 }
 
 
-/*----------------------------------------------------------------------
-
-  dumpSymbolKind()
-
-*/
+/*----------------------------------------------------------------------*/
 static void dumpSymbolKind(SymbolKind kind)
 {
   switch (kind) {

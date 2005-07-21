@@ -38,6 +38,7 @@ extern Statement *newListStatement(Srcp srcp, Expression *what);
 extern Statement *newStyleStatement(Srcp srcp, IdNode *style);
 extern Statement *newShowStatement(Srcp srcp, Resource *resource);
 extern Statement *newPlayStatement(Srcp srcp, Resource *resource);
+extern Statement *newPrintStatementFromString(char *string);
 
 
 /* Analyze a list of statements */

@@ -314,6 +314,7 @@ void compile(void) {
   _fcreator = '?\?\?\?';
   _ftype = '?\?\?\?';
 #endif
+
   txtfil = fopen(txtfnm, "w");	/* Open a temporary text file */
   if (!txtfil) {
     char errorString[1000];

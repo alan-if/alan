@@ -547,7 +547,8 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
 {
   int advance = 2;
 
-  switch (toLower(str[1])) {
+  if (*str == '\0') printAndLog("$");
+  else switch (toLower(str[1])) {
   case 'n':
     newline();
     needSpace = FALSE;
@@ -565,6 +566,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
     break;
   case '+':
   case '0':
+  case '-':
   case '!':
     space();
     if (isdigit(str[2])) {
@@ -572,6 +574,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
       switch (str[1]) {
       case '+': form = SAY_DEFINITE; break;
       case '0': form = SAY_INDEFINITE; break;
+      case '-': form = SAY_NEGATIVE; break;
       case '!': form = SAY_PRONOUN; break;
       default: form = SAY_SIMPLE; break;
       }

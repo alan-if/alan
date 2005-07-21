@@ -1075,6 +1075,7 @@ static void sayDefinite(Aint id) {
       mention(id);
 }
 
+
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedIndefiniteForm(Aword theClass) {
   if (theClass == 0) {
@@ -1103,6 +1104,33 @@ static void sayIndefinite(Aint id) {
 
 
 /*----------------------------------------------------------------------*/
+static Bool sayInheritedNegativeForm(Aword theClass) {
+  if (theClass == 0) {
+    syserr("no default negative form");
+    return FALSE;
+  } else {
+    if (class[theClass].negative.address) {
+      interpret(class[theClass].negative.address);
+      return class[theClass].negative.isForm;
+    } else
+      return sayInheritedNegativeForm(class[theClass].parent);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void sayNegative(Aint id) {
+  if (instance[id].negative.address) {
+    interpret(instance[id].negative.address);
+    if (!instance[id].negative.isForm)
+      sayInstance(id);
+  } else
+    if (!sayInheritedNegativeForm(instance[id].parent))
+      mention(id);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void sayInheritedPronoun(Aint id) {
   if (id != 0) {
     if (class[id].pronoun != 0)
@@ -1112,6 +1140,7 @@ static void sayInheritedPronoun(Aint id) {
   } else
     printMessage(M_PRONOUN);
 }
+
 
 /*----------------------------------------------------------------------*/
 static void sayPronoun(Aint id) {
@@ -1132,6 +1161,9 @@ static void sayArticleOrForm(Aint id, SayForm form)
       break;
     case SAY_INDEFINITE:
       sayIndefinite(id);
+      break;
+    case SAY_NEGATIVE:
+      sayNegative(id);
       break;
     case SAY_PRONOUN:
       sayPronoun(id);

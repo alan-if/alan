@@ -16,6 +16,7 @@
 #include "srcp_x.h"
 #include "id_x.h"
 #include "sym_x.h"
+#include "stm_x.h"
 #include "adv_x.h"
 #include "atr_x.h"
 #include "prop_x.h"
@@ -89,10 +90,10 @@ static void addPredefinedProperties() {
 /*======================================================================*/
 void initClasses()
 {
-  IdNode *thingId = newId(nulsrcp, "thing");
   IdNode *entityId = newId(nulsrcp, "entity");
   IdNode *literalId = newId(nulsrcp, "literal");
   IdNode *locationId = newId(nulsrcp, "location");
+  IdNode *thingId = newId(nulsrcp, "thing");
   IdNode *objectId = newId(nulsrcp, "object");
   IdNode *actorId = newId(nulsrcp, "actor");
   IdNode *integerId = newId(nulsrcp, "integer");
@@ -271,6 +272,16 @@ void analyzeClasses(void)
 
   for (l = allClasses; l; l = l->next)
     analyzeClass(l->element.cla);
+}
+
+
+/*======================================================================*/
+void setupDefaultProperties() {
+  entitySymbol->fields.entity.props->negative = newArticle(nulsrcp,
+							   concat(NULL,
+								  newPrintStatementFromString("any"),
+								  STATEMENT_LIST),
+							   FALSE);
 }
 
 

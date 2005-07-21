@@ -232,6 +232,7 @@ typedef enum SayForm {
   SAY_SIMPLE,
   SAY_DEFINITE,
   SAY_INDEFINITE,
+  SAY_NEGATIVE,
   SAY_PRONOUN
 } SayForm;
 

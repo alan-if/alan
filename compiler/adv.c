@@ -123,6 +123,8 @@ static void analyzeSourceFilenames() {
 void analyzeAdventure(void)
 {
   addHero();
+  setupDefaultProperties();
+
   symbolizeAdventure();
   addAdditions();
   analyzeAllAttributes();	/* Make sure attributes are analyzed
@@ -197,7 +199,7 @@ void generateAdventure(char acodeFileName[],
   initEncoding(textFileName, dataFileName);	/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;
-  
+
   if (verbose) printf("\n\tDictionary: ");
   acodeHeader.dictionary = generateAllWords();
 

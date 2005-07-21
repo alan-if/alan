@@ -189,6 +189,28 @@ static void analyzeDescribe(Statement *stm, Context *context)
 }
 
 
+/*======================================================================*/
+Statement *newPrintStatement(Srcp srcp, int fpos, int length) {
+  Statement *stm;
+  /* Create a PRINT statement and enter the print info */
+  stm = newStatement(&nulsrcp, PRINT_STATEMENT);
+  stm->fields.print.fpos = fpos;
+  stm->fields.print.len = length;
+  return(stm);
+}
+
+
+/*======================================================================*/
+Statement *newPrintStatementFromString(char *string) {
+  int fpos;
+  int length;
+
+  fpos = ftell(txtfil);
+  length = strlen(string);
+  fprintf(txtfil, string);
+  return newPrintStatement(nulsrcp, fpos, length);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeSay(Statement *stm, Context *context)
@@ -1343,6 +1365,7 @@ static void dumpForm(SayForm form)
   case SAY_SIMPLE: put("SIMPLE"); break;
   case SAY_DEFINITE: put("DEFINITE"); break;
   case SAY_INDEFINITE: put("INDEFINITE"); break;
+  case SAY_NEGATIVE: put("NEGATIVE"); break;
   case SAY_PRONOUN: put("PRONOUN"); break;
   }
 }

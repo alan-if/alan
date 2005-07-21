@@ -309,10 +309,7 @@ void prepareMessages(void)
       msgp = defmsg[msgno].german;
       break;
     }
-    /* Create a PRINT statement and enter the print info */
-    stm = newStatement(&nulsrcp, PRINT_STATEMENT);
-    stm->fields.print.fpos = ftell(txtfil);
-    stm->fields.print.len = strlen(msgp);
+    stm = newPrintStatementFromString(msgp);
     /* Make a list of it */
     stms = concat(NULL, stm, STATEMENT_LIST);
     msg = newMessage(NULL, NULL, stms);

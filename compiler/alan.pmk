@@ -1646,6 +1646,8 @@ static int val(char str[])
 	%% %<say_form>.sayForm = SAY_INDEFINITE; %%
     ! 'it'
 	%% %<say_form>.sayForm = SAY_PRONOUN; %%
+    ! 'no'
+	%% %<say_form>.sayForm = SAY_NEGATIVE; %%
     ;
 
 
@@ -2615,17 +2617,17 @@ ID
 -- Possibly we could add further keywords here. But let's not at this point
 -- Remember to change scanner so that the characters are copied for the
 -- added keyword too.
-    ! 'location'
+    ! 'location'		-- Must be allowed, predefined class
     %%
 	%ID.id = newId(%'location'.srcp, %'location'.chars);
     %%
 
-    ! 'actor'
+    ! 'actor'			-- Must be allowed, predefined class
     %%
 	%ID.id = newId(%'actor'.srcp, %'actor'.chars);
     %%
 
-    ! 'opaque'
+    ! 'opaque'			-- Must be allowed since there is a predefined attribute.
     %%
 	%ID.id = newId(%'opaque'.srcp, %'opaque'.chars);
     %%
