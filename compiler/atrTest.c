@@ -349,7 +349,7 @@ static void testResolveThisAttributeForClass()
   Properties *theProps = newProps(NULL, NULL,
 				  nulsrcp, NULL,
 				  theAttributes, NULL, NULL,
-				  nulsrcp, NULL, NULL, NULL,
+				  nulsrcp, NULL, NULL, NULL, NULL,
 				  NULL, NULL,
 				  nulsrcp, NULL,
 				  NULL, NULL);

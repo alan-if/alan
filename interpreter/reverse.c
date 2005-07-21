@@ -263,6 +263,7 @@ static void reverseClasses(Aword adr)
       reverseStms(e->entered);
       reverseStms(e->definite.address);
       reverseStms(e->indefinite.address);
+      reverseStms(e->negative.address);
       reverseStms(e->mentioned);
       reverseVerbs(e->verbs);
       e++;
@@ -284,8 +285,9 @@ static void reverseInstances(Aword adr)
       reverseStms(e->initialize);
       reverseStms(e->entered);
       reverseStms(e->mentioned);
-      reverseStms(e->definite);
-      reverseStms(e->indefinite);
+      reverseStms(e->definite.address);
+      reverseStms(e->indefinite.address);
+      reverseStms(e->negative.address);
       reverseChks(e->checks);
       reverseStms(e->description);
       reverseExits(e->exits);

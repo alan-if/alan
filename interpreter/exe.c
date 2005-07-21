@@ -1066,9 +1066,9 @@ static Bool sayInheritedDefiniteForm(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static void sayDefinite(Aint id) {
-  if (instance[id].definite) {
-    interpret(instance[id].definite);
-    if (!instance[id].definiteIsForm)
+  if (instance[id].definite.address) {
+    interpret(instance[id].definite.address);
+    if (!instance[id].definite.isForm)
       sayInstance(id);
   } else
     if (!sayInheritedDefiniteForm(instance[id].parent))
@@ -1092,9 +1092,9 @@ static Bool sayInheritedIndefiniteForm(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static void sayIndefinite(Aint id) {
-  if (instance[id].indefinite) {
-    interpret(instance[id].indefinite);
-    if (!instance[id].indefiniteIsForm)
+  if (instance[id].indefinite.address) {
+    interpret(instance[id].indefinite.address);
+    if (!instance[id].indefinite.isForm)
       sayInstance(id);
   } else
     if (!sayInheritedIndefiniteForm(instance[id].parent))

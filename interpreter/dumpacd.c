@@ -291,6 +291,17 @@ static void dumpExts(int level, Aword exts)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void dumpArticle(int level, ArticleEntry *entry) {
+  indent(level);
+  printf("ARTICLE\n");
+  indent(level+1);
+  printf("address: %s\n", dumpAddress(entry->address));
+  indent(level+1);
+  printf("isForm: %s\n", dumpBoolean(entry->isForm));
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void dumpClasses(int level, Aword classes)
@@ -316,13 +327,11 @@ static void dumpClasses(int level, Aword classes)
     indent(level+1);
     printf("entered: %s\n", dumpAddress(class->entered));
     indent(level+1);
-    printf("definite: %s\n", dumpAddress(class->definite.address));
+    printf("definite:\n"); dumpArticle(level, &class->definite);
     indent(level+1);
-    printf("definiteIsForm: %s\n", dumpBoolean(class->definite.isForm));
+    printf("indefinite:\n"); dumpArticle(level, &class->indefinite);
     indent(level+1);
-    printf("indefinite: %s\n", dumpAddress(class->indefinite.address));
-    indent(level+1);
-    printf("indefiniteIsForm: %s\n", dumpBoolean(class->indefinite.isForm));
+    printf("negative:\n"); dumpArticle(level, &class->negative);
     indent(level+1);
     printf("mentioned: %s\n", dumpAddress(class->mentioned));
     indent(level+1);
@@ -361,7 +370,11 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("mentioned: %s\n", dumpAddress(instance->mentioned));
   indent(level+1);
-  printf("article: %s\n", dumpAddress(instance->indefinite));
+  printf("definite:\n"); dumpArticle(level, &instance->definite);
+  indent(level+1);
+  printf("indefinite:\n"); dumpArticle(level, &instance->indefinite);
+  indent(level+1);
+  printf("negative:\n"); dumpArticle(level, &instance->negative);
   indent(level+1);
   printf("exits: %s\n", dumpAddress(instance->exits));
   if (exitsFlag && instance->exits)
@@ -369,8 +382,6 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("verbs: %s\n", dumpAddress(instance->verbs));
 }
-
-
 
 
 /*----------------------------------------------------------------------*/
@@ -384,7 +395,6 @@ static void dumpInstances(Aword instanceTableAddress)
   for (i = 0; !endOfTable(&instanceEntries[i]); i++)
     dumpInstance(i+1, instanceEntries);
 }
-
 
 
 /*----------------------------------------------------------------------*/

@@ -31,7 +31,7 @@ void testGenerateEmptyInstanceEntry()
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
-			       nulsrcp, NULL, NULL, NULL,
+			       nulsrcp, NULL, NULL, NULL, NULL,
 			       NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL);

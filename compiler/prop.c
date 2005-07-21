@@ -49,8 +49,10 @@ Properties *newProps(Where *whr, List *names,
 		     List *attributes,
 		     Initialize *init,
 		     Description *description,
-		     Srcp mentionedSrcp, List *mentioned, Article *definite,
+		     Srcp mentionedSrcp, List *mentioned,
+		     Article *definite,
 		     Article *indefinite,
+		     Article *negative,
 		     Container *container,
 		     List *verbs,
 		     Srcp enteredSrcp, List *enteredStatements,
@@ -197,6 +199,7 @@ void analyzeProps(Properties *props, Context *context)
   analyzeStatements(props->mentioned, context);
   analyzeArticle(props->definite, context);
   analyzeArticle(props->indefinite, context);
+  analyzeArticle(props->negative, context);
   analyzeVerbs(props->verbs, context);
 
   /* Have container ? */
@@ -256,6 +259,7 @@ void generateCommonPropertiesData(Properties *props)
 
   generateArticle(props->definite);
   generateArticle(props->indefinite);
+  generateArticle(props->negative);
 
   if (props->mentioned != NULL) {
     props->mentionedAddress = nextEmitAddress();
@@ -316,17 +320,9 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->mentioned = props->mentionedAddress;
 
-  if (props->definite) {
-    entry->definite = props->definite->address;
-    entry->definiteIsForm = props->definite->isForm;
-  } else
-    entry->definite = 0;
-
-  if (props->indefinite) {
-    entry->indefinite = props->indefinite->address;
-    entry->indefiniteIsForm = props->indefinite->isForm;
-  } else
-    entry->indefinite = 0;
+  generateArticleEntry(props->definite, &entry->definite);
+  generateArticleEntry(props->indefinite, &entry->indefinite);
+  generateArticleEntry(props->negative, &entry->negative);
 
   entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
@@ -349,6 +345,7 @@ void dumpProps(Properties *props)
   put("description: "); dumpDescription(props->description); nl();
   put("definite: "); dumpArticle(props->definite); nl();
   put("indefinite: "); dumpArticle(props->indefinite); nl();
+  put("negative: "); dumpArticle(props->negative); nl();
   put("mentioned: "); dumpList(props->mentioned, STATEMENT_LIST); nl();
   put("mentionedAddress: "); dumpAddress(props->mentionedAddress); nl();
   put("scripts: "); dumpList(props->scripts, SCRIPT_LIST); nl();

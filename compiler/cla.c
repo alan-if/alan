@@ -317,6 +317,7 @@ static void generateClassEntry(Class *cla)
 
   generateArticleEntry(cla->props->definite, &entry.definite);
   generateArticleEntry(cla->props->indefinite, &entry.indefinite);
+  generateArticleEntry(cla->props->negative, &entry.negative);
 
   entry.mentioned = cla->props->mentionedAddress;
   entry.verbs = cla->props->verbsAddress;

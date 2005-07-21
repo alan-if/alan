@@ -70,7 +70,7 @@ void testGenerateEmptyClassEntry()
 			       NULL,
 			       NULL,
 			       NULL,
-			       nulsrcp, NULL, NULL, NULL,
+			       nulsrcp, NULL, NULL, NULL, NULL,
 			       NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL,
