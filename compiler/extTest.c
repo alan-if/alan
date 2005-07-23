@@ -43,15 +43,11 @@ void testHaveExit()
 {
   List *exits = concat(concat(NULL,
 			      newExit(&nulsrcp,
-				     concat(concat(NULL,
-						   newId(nulsrcp, "north"), ID_LIST),
-					    newId(nulsrcp, "south"), ID_LIST),
-				     NULL, NULL, NULL), EXIT_LIST),
+				      newIdList(newIdList(NULL, "south"), "north"),
+				      NULL, NULL, NULL), EXIT_LIST),
 		       newExit(&nulsrcp,
-			      concat(concat(NULL,
-					    newId(nulsrcp, "west"), ID_LIST),
-				     newId(nulsrcp, "east"), ID_LIST),
-			      NULL, NULL, NULL), EXIT_LIST);
+			       newIdList(newIdList(NULL, "east"), "west"),
+			       NULL, NULL, NULL), EXIT_LIST);
 
   
   ASSERT(haveExit(exits, newId(nulsrcp, "south")));

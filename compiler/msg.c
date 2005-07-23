@@ -195,18 +195,6 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Do you want to UNDO, RESTART, RESTORE or QUIT ? ",
    "Vad vill du göra, UNDO, RESTART, RESTORE or QUIT ? ",
    "Möchtest Du UNDO, RESTART, RESTORE oder QUIT ? "},	/* TODO: is this changeable to "NEUSTART, LADEN oder ENDE ?" ? */
-  {M_INDEFINITE, "indefinite_article",
-   "a",
-   "en",
-   "ein"},
-  {M_DEFINITE, "definite_article",
-   "the",
-   "",
-   "der"},
-  {M_PRONOUN, "default_pronoun",
-   "it",
-   "den",
-   "das"},
   {M_UNDONE, "undone",
    "'$1' undone.",
    "'$1' ogjort.",
@@ -270,7 +258,6 @@ void prepareMessages(void)
   List *umsgs;			/* Iteration pointer into user messages list */
   List *lst, *rest;
   /* The dummy list of statements */
-  Statement *stm;
   List *stms = NULL;
 
 
@@ -309,9 +296,7 @@ void prepareMessages(void)
       msgp = defmsg[msgno].german;
       break;
     }
-    stm = newPrintStatementFromString(msgp);
-    /* Make a list of it */
-    stms = concat(NULL, stm, STATEMENT_LIST);
+    stms = newPrintStatementListFromString(msgp);
     msg = newMessage(NULL, NULL, stms);
     /* Save the message text */
 #ifdef __mac__
@@ -431,9 +416,6 @@ Context *contextFor(MsgKind messageNo) {
   case M_RESTOREFROM:
   case M_REALLY:
   case M_QUITACTION:
-  case M_INDEFINITE:
-  case M_DEFINITE:
-  case M_PRONOUN:
   case M_NO_UNDO:
     return NULL;
   case MSGMAX:

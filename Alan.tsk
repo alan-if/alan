@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>465.89</origest>
-<currest>467.89</currest>
-<elapsed>316.89</elapsed>
+<origest>467.89</origest>
+<currest>469.89</currest>
+<elapsed>320.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>104</origest>
-<currest>105</currest>
-<elapsed>46</elapsed>
+<origest>106</origest>
+<currest>107</currest>
+<elapsed>50</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
 <notes/>
 <priority>2</priority>
-<origest>49</origest>
-<currest>50</currest>
-<elapsed>46</elapsed>
+<origest>52</origest>
+<currest>53</currest>
+<elapsed>50</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -530,7 +530,7 @@ Including Add and inherit!</notes>
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>0</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Add Negative Article/Form</desc>
@@ -538,7 +538,7 @@ Including Add and inherit!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -547,21 +547,30 @@ Including Add and inherit!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
-</task>
-<task>
-<desc>Increment: version 3.0alpha1</desc>
-<notes/>
-<priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 <task>
 <desc>Bug: trailing single dollar in a string causes spurious output</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>M_ARTICLE can be removed since Indefinite Article on entity is exactly the same thing</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that multiple pronoun matches is handled correctly</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -569,6 +578,15 @@ Including Add and inherit!</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Increment: version 3.0alpha1</desc>
+<notes/>
+<priority>2</priority>
+<origest>21</origest>
+<currest>21</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Warn if loop variable hides some symbol</desc>
 <notes>especially if it refers to a class because that probably indicates the misconception of:
@@ -579,6 +597,15 @@ but that is not allowed:
 
 FOR EACH instance ISA entity DO
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Initialize should inherit accumulated</desc>
+<notes>Now it is overridden but it makes more sense to accumulate them and execute them from the general to the more specific. This way the instance does not have to know about all things that is necessary to initialize.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -642,15 +669,6 @@ Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
 </task>
 <task>
 <desc>Check that multiple pronoun matches are handled correcly</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>M_ARTICLE can be removed since Indefinite Article on entity is exactly the same thing</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

@@ -11,6 +11,7 @@
 
 #include "srcp_x.h"
 #include "sym_x.h"
+#include "lst_x.h"
 #include "dump_x.h"
 
 #include "emit.h"
@@ -37,14 +38,13 @@ IdNode *newId(Srcp srcp,	/* IN - Source Position */
   return(new);
 }
 
+/*======================================================================*/
+List *newIdList(List *list, char *str) {
+  return concat(list, newId(nulsrcp, str), ID_LIST);
+}
 
-/*======================================================================
 
-  equalId()
-
-  Check if two ids matches.
-
-  */
+/*======================================================================*/
 Bool equalId(IdNode *id1,
 	     IdNode *id2)
 {

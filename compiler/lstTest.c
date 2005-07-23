@@ -16,13 +16,13 @@ void testLength()
 
   ASSERT(length(aList) == 0);
 
-  aList = concat(aList, newId(nulsrcp, "id1"), ID_LIST);
+  aList = newIdList(NULL, "id1");
   ASSERT(length(aList) == 1);
 
-  aList = concat(aList, newId(nulsrcp, "id2"), ID_LIST);
+  aList = newIdList(aList, "id2");
   ASSERT(length(aList) == 2);
 
-  aList = concat(aList, newId(nulsrcp, "id3"), ID_LIST);
+  aList = newIdList(aList, "id3");
   ASSERT(length(aList) == 3);
 }
 
@@ -45,9 +45,9 @@ void testInsert()
 
 void testTailOf()
 {
-  List *listOfOne = concat(NULL, newId(nulsrcp, "anId"), ID_LIST);
-  List *listOfTwo = concat(concat(NULL, newId(nulsrcp, "anId"), ID_LIST),
-			   newId(nulsrcp, "anId"), ID_LIST);
+  List *listOfOne = newIdList(NULL, "anId");
+  List *listOfTwo = newIdList(newIdList(NULL, "anId"),
+			      "anId");
 			   
   ASSERT(tailOf(NULL) == NULL);
   ASSERT(tailOf(listOfOne) == listOfOne);
@@ -141,15 +141,11 @@ void testSortList()
 
 
 static void testCopyList() {
-  IdNode *id1 = newId(nulsrcp, "id1");
-  IdNode *id2 = newId(nulsrcp, "id2");
-  IdNode *id3 = newId(nulsrcp, "id3");
-  IdNode *id4 = newId(nulsrcp, "id4");
-  List *l1 = concat(NULL, id1, ID_LIST);
-  List *l4 = concat(concat(concat(concat(NULL, id1, ID_LIST),
-				  id2, ID_LIST),
-			   id3, ID_LIST),
-		    id4, ID_LIST);
+  List *l1 = newIdList(NULL, "id1");
+  List *l4 = newIdList(newIdList(newIdList(newIdList(NULL, "id1"),
+					   "id2"),
+				 "id3"),
+		       "id4");
   List *copy;
   int i;
 
@@ -157,7 +153,7 @@ static void testCopyList() {
 
   copy = copyList(l1);
   ASSERT(l1->next == NULL);
-  ASSERT(l1->element.id == id1);
+  ASSERT(l1->element.id == copy->element.id);
 
   copy = copyList(l4);
   ASSERT(length(copy) == length(l4));

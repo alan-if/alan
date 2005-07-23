@@ -508,9 +508,6 @@ typedef enum MsgKind {
   M_SAVENAME,
   M_REALLY,
   M_QUITACTION,
-  M_INDEFINITE,
-  M_DEFINITE,
-  M_PRONOUN,
   M_UNDONE,
   M_NO_UNDO,
   MSGMAX

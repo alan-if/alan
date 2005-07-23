@@ -1052,7 +1052,7 @@ static char *wordWithCode(Aint classBit, Aint code) {
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedDefiniteForm(Aword theClass) {
   if (theClass == 0) {
-    printMessage(M_DEFINITE);
+    syserr("No default definite article");
     return FALSE;
   } else {
     if (class[theClass].definite.address) {
@@ -1079,7 +1079,7 @@ static void sayDefinite(Aint id) {
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedIndefiniteForm(Aword theClass) {
   if (theClass == 0) {
-    printMessage(M_INDEFINITE);
+    syserr("No default indefinite article");
     return FALSE;
   } else {
     if (class[theClass].indefinite.address) {
@@ -1132,13 +1132,14 @@ static void sayNegative(Aint id) {
 
 /*----------------------------------------------------------------------*/
 static void sayInheritedPronoun(Aint id) {
-  if (id != 0) {
+  if (id == 0)
+    syserr("No default pronoun");
+  else {
     if (class[id].pronoun != 0)
       output(wordWithCode(PRONOUN_BIT, class[id].pronoun));
     else
       sayInheritedPronoun(class[id].parent);
-  } else
-    printMessage(M_PRONOUN);
+  }
 }
 
 

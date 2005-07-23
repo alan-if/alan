@@ -129,18 +129,15 @@ static void analyzeNameWords(Instance *instance)
   }
 }
 
+
 /*----------------------------------------------------------------------*/
 static void analyzePronouns(Instance *instance)
 {
   List *p;
 
-  if (instance->props->pronouns && inheritsFrom(instance->props->id->symbol, locationSymbol))
-    lmLog(&instance->props->pronounsSrcp, 326, sevERR, NULL);
- 
   TRAVERSE(p, instance->props->pronouns)
     p->element.id->code = newPronounWord(p->element.id->string, instance);
 }
-
 
 
 /*----------------------------------------------------------------------*/

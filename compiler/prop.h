@@ -31,6 +31,7 @@
 	Description Statements
 	Defininte Article/Form
 	Indefinite Article/Form
+	Negative Article/Form
 	Mentioned Clause
 	Container
 	Verbs

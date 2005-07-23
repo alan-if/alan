@@ -53,37 +53,6 @@ static List *allClasses = NULL;
 /*----------------------------------------------------------------------*/
 static void addPredefinedProperties() {
 
-  /* Add pronouns */
-  switch (opts[OPTLANG].value) {
-  case L_ENGLISH:
-    thing->props->pronouns = concat(NULL, newId(nulsrcp, "it"), ID_LIST);
-    actor->props->pronouns = concat(concat(NULL,
-					   newId(nulsrcp, "him"),
-					   ID_LIST),
-				    newId(nulsrcp, "her"),
-				    ID_LIST);
-
-    break;
-  case L_SWEDISH:
-    thing->props->pronouns = concat(concat(NULL,
-					    newId(nulsrcp, "den"),
-					    ID_LIST),
-				     newId(nulsrcp, "det"),
-				     ID_LIST);
-    actor->props->pronouns = concat(concat(NULL,
-					    newId(nulsrcp, "henne"), ID_LIST),
-				     newId(nulsrcp, "honom"), ID_LIST);
-    break;
-  case L_GERMAN:
-    thing->props->pronouns = concat(concat(concat(NULL,
-						  newId(nulsrcp, "es"),
-						  ID_LIST),
-					   newId(nulsrcp, "ihn"),
-					   ID_LIST),
-				    newId(nulsrcp, "sie"),
-				    ID_LIST);
-    break;
-  }
 }
 
 
@@ -277,11 +246,48 @@ void analyzeClasses(void)
 
 /*======================================================================*/
 void setupDefaultProperties() {
-  entitySymbol->fields.entity.props->negative = newArticle(nulsrcp,
-							   concat(NULL,
-								  newPrintStatementFromString("any"),
-								  STATEMENT_LIST),
-							   FALSE);
+  char *the;
+  char *an;
+  char *any;
+
+  /* Add articles */
+  switch (opts[OPTLANG].value) {
+  case L_ENGLISH: any = "any"; the = "the"; an = "a"; break;
+  case L_SWEDISH: any = "någon"; the = ""; an = "en"; break;
+  case L_GERMAN: any = "kein"; the = "der"; an = "einer"; break;
+  }
+
+  if (!entitySymbol->fields.entity.props->definite)
+    entitySymbol->fields.entity.props->definite = newArticle(nulsrcp,
+							     newPrintStatementListFromString(the),
+							     FALSE);
+  if (!entitySymbol->fields.entity.props->indefinite)
+    entitySymbol->fields.entity.props->indefinite = newArticle(nulsrcp,
+							       newPrintStatementListFromString(an),
+							       FALSE);
+  if (!entitySymbol->fields.entity.props->negative)
+    entitySymbol->fields.entity.props->negative = newArticle(nulsrcp,
+							     newPrintStatementListFromString(any),
+							     FALSE);
+
+  /* Add pronouns */
+  if (entity->props->pronouns == NULL)
+    switch (opts[OPTLANG].value) {
+    case L_ENGLISH:
+      entity->props->pronouns = newIdList(NULL, "it");
+      break;
+    case L_SWEDISH:
+      entity->props->pronouns = newIdList(newIdList(NULL,
+						    "det"),
+					  "den");
+      break;
+    case L_GERMAN:
+      entity->props->pronouns = newIdList(newIdList(newIdList(NULL,
+							      "es"),
+						    "ihn"),
+					  "sie");
+      break;
+    }
 }
 
 

@@ -74,8 +74,9 @@ Properties *newProps(Where *whr, List *names,
   new->description = description;
   new->mentioned = mentioned;
   new->mentionedSrcp = mentionedSrcp;
-  new->indefinite = indefinite;
   new->definite = definite;
+  new->indefinite = indefinite;
+  new->negative = negative;
   new->container = container;
   new->verbs = verbs;
   new->enteredStatements = enteredStatements;

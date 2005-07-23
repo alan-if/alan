@@ -123,10 +123,11 @@ static void analyzeSourceFilenames() {
 void analyzeAdventure(void)
 {
   addHero();
-  setupDefaultProperties();
 
   symbolizeAdventure();
   addAdditions();
+  setupDefaultProperties();
+
   analyzeAllAttributes();	/* Make sure attributes are analyzed
 				   and typed before expressions */
   numberAllAttributes();	/* Then we can number and type check
