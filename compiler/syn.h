@@ -16,7 +16,7 @@
 
 /* Types: */
 
-typedef struct SynNod {
+typedef struct Synonym {
   Srcp srcp;		/* Source position */
   List *ids;		/* List of synonyms */
   IdNode *id;		/* Target identifier */
@@ -28,15 +28,8 @@ typedef struct SynNod {
 
 /* Functions: */
 
-/* Create a new Synonym node */
-extern Synonym *newsyn(Srcp *srcp,
-		      List *ids,
-		      IdNode *id);
-
-/* Analyse the Synonyms by finding the target word and inserting synonyms */
+extern Synonym *newSynonym(Srcp *srcp, List *ids, IdNode *id);
 extern void analyzeSynonyms(void);
-
 extern void dumpSynonyms(Synonym *syn);
-
 
 #endif

@@ -203,7 +203,7 @@ static void warnForUnimplementedInheritance(Properties *props) {
 	Exit
 	Verb
   */
-  propCount = 14;
+  propCount = 15;
 
   if (props->mentioned != NULL)
     lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");

@@ -42,7 +42,7 @@
 	Exits
 */
 
-#define NOOFPROPS 15
+#define NOOFPROPS 16
 
 /* Types */
 

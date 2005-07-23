@@ -376,9 +376,7 @@ static int val(char str[])
 <synonym_declaration>				-- RETURNS: syn
     = <id_list> '=' ID '.'
     %%
-	%<synonym_declaration>.syn = newsyn(`&%'='.srcp,
-			     			%<id_list>.idList,
-			      			%ID.id);
+	%<synonym_declaration>.syn = newSynonym(`&%'='.srcp, %<id_list>.idList, %ID.id);
     %%
     ;
 

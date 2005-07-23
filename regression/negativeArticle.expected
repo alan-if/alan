@@ -4,24 +4,24 @@
         1 informational message(s).
 
 
-Any n 
-any n2 
-any hero
+Inherited negative n 
+direct negative n2 
+added negative hero
 
 
 L
 There is a n and a n2 here.
 
 > x n
-Any n
+Inherited negative n
 
 
 > x n2
-Any n2
+Direct negative n2
 
 
 > x hero
-Any hero
+Added negative hero
 
 
 > 

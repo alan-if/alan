@@ -74,7 +74,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Step *stp;
     struct Statement *stm;
     struct Symbol *sym;
-    struct SynNod *syn;
+    struct Synonym *syn;
     struct Syntax *stx;
     struct Srcp *srcp;
     struct Verb *vrb;

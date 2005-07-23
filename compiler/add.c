@@ -205,6 +205,14 @@ static void addArticles(AddNode *add, Symbol *original)
     else
       original->fields.entity.props->indefinite = add->props->indefinite;
   }
+
+  if (add->props->negative != NULL) {
+    if (original->fields.entity.props->negative != NULL)
+      lmLog(&add->props->negative->srcp, 336, sevERR,
+	    "Negative Article when the class already have it");
+    else
+      original->fields.entity.props->negative = add->props->negative;
+  }
 }
 
 
@@ -380,6 +388,10 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
       lmLogv(&add->props->indefinite->srcp, 424, sevERR, "article", originalSymbol->string, NULL);
     propsCount++;
 
+    if (add->props->negative)
+      lmLogv(&add->props->negative->srcp, 424, sevERR, "article", originalSymbol->string, NULL);
+    propsCount++;
+
     if (add->props->mentioned)
       lmLogv(&add->props->mentionedSrcp, 424, sevERR, "mentioned", originalSymbol->string, NULL);
     propsCount++;
@@ -421,7 +433,7 @@ static void addAddition(AddNode *add)
     addInitialize(add, originalClass); propCount++;
     addDescriptionCheck(add, originalClass); propCount++;
     addDescription(add, originalClass); propCount++;
-    addArticles(add, originalClass); propCount+=2;
+    addArticles(add, originalClass); propCount+=3;
     addMentioned(add, originalClass); propCount++;
     addContainer(add, originalClass); propCount++;
     addVerbs(add, originalClass); propCount++;
