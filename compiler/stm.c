@@ -509,7 +509,7 @@ static void analyzeUse(Statement *stm, Context *context)
       if (script != NULL)
 	stm->fields.use.script->code = script->id->code;
       else {
-	char *str;
+	char *str = "class";
 	switch (symbol->kind) {
 	case CLASS_SYMBOL: str = "class"; break;
 	case INSTANCE_SYMBOL: str = "actor"; break;

@@ -214,9 +214,9 @@ void analyzeClasses(void)
 
 /*======================================================================*/
 void setupDefaultProperties() {
-  char *the;
-  char *an;
-  char *any;
+  char *the = "the";
+  char *an = "a";
+  char *any = "any";
 
   /* Add articles */
   switch (opts[OPTLANG].value) {

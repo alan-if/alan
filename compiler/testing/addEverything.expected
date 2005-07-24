@@ -1,15 +1,5 @@
 ########## addEverything ##########
 
-
-addEverything.alan
-
-    8.    Mentioned "mentioned"
-=====>    1
-
-  *1*   341 E : Can not Add mentioned to classes. (yet)
-
-
-        1 error(s).
-        No detected warnings.
-        2 informational message(s).
+        No warnings or errors detected.
+        1 informational message(s).
 

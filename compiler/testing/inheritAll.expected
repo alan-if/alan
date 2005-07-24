@@ -1,15 +1,5 @@
 ########## inheritAll ##########
 
-
-inheritAll.alan
-
-   12.    Mentioned "mentioned"
-=====>    1
-
-  *1*   343 W : Can not inherit Mentioned clause. (Yet!)
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
         1 informational message(s).
 

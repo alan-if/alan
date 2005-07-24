@@ -27,7 +27,6 @@ addToLiteral.alan
 =====>    1
 
   *1*   424 E : You can not add mentioned to non-instantiable class 'literal'.
-  *1*   341 E : Can not Add mentioned to classes. (yet)
 
     6.    Article "the"
 =====>    1
@@ -63,7 +62,7 @@ addToLiteral.alan
   *1*   424 E : You can not add attributes to non-instantiable class 'string'.
 
 
-        14 error(s).
+        13 error(s).
         No detected warnings.
         1 informational message(s).
 
