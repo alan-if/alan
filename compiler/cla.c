@@ -321,7 +321,7 @@ static void generateClassEntry(Class *cla)
   else
     entry.pronoun = 0;
 
-  entry.idAddress = cla->props->idAddress;
+  entry.id = cla->props->idAddress;
 
   if (cla->props->initialize != 0)
     entry.initialize = cla->props->initialize->stmsAddress;

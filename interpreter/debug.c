@@ -148,7 +148,7 @@ static void showInstance(int ins)
   sprintf(str, "(%d)", ins);
   output(str);
   if (instance[ins].parent) {
-    sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].idAddress));
+    sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].id));
     output(str);
   }
 
@@ -232,12 +232,12 @@ static void showClass(int c)
   char str[80];
 
   output("$t");
-  output((char *)pointerTo(class[c].idAddress));
+  output((char *)pointerTo(class[c].id));
   sprintf(str, "(%d)", c);
   output(str);
   if (class[c].parent != 0) {
     output("Isa");
-    output((char *)pointerTo(class[class[c].parent].idAddress));
+    output((char *)pointerTo(class[class[c].parent].id));
     sprintf(str, "(%ld)", class[c].parent);
     output(str);
   }

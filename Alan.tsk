@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>467.89</origest>
 <currest>469.89</currest>
-<elapsed>320.89</elapsed>
+<elapsed>321.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>106</origest>
 <currest>107</currest>
-<elapsed>50</elapsed>
+<elapsed>51</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>52</origest>
 <currest>53</currest>
-<elapsed>50</elapsed>
+<elapsed>51</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Start At location.</desc>
@@ -570,12 +570,12 @@ Including Add and inherit!</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Ensure that multiple pronoun matches is handled correctly</desc>
+<desc>Ensure that multiple pronoun matches are handled</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -583,26 +583,10 @@ Including Add and inherit!</notes>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Initialize should inherit accumulated</desc>
 <notes>Now it is overridden but it makes more sense to accumulate them and execute them from the general to the more specific. This way the instance does not have to know about all things that is necessary to initialize.</notes>
@@ -622,54 +606,12 @@ FOR EACH instance ISA entity DO
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Literal should not inherit from Thing?</desc>
-<notes>It should be a separate base class, or should it.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Consistency for empty property declarations</desc>
-<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
-
-Check for consistency with other instances of local overides.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Default description for a instance should be either in definite or indefinite form.</desc>
 <notes>Is there a problem with current defaults:
  - There is a object here.
  - Actor is here.
 
 Would "There is a actor here." be a better default?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Think about similarities between the different clauses</desc>
-<notes>DESCRIPTION [CHECK DOES]
-ENTERED
-EXIT [CHECK DOES END]
-
-Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check that multiple pronoun matches are handled correcly</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -726,8 +668,89 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Refactor loop filters so that Between can be combined with others</desc>
-<notes>Example in suspended regression/integerInSet</notes>
+<desc>New options for separator and punctuation character sets</desc>
+<notes>Option
+  separators ",.!?"
+  punctuators ".?!"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0alpha2</desc>
+<notes/>
+<priority>2</priority>
+<origest>24</origest>
+<currest>24</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+
+Design:</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
+<notes>Both should actually say:
+  I don't know what you mean by '$1', the $1, $1 or $1.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Think about similarities between the different clauses</desc>
+<notes>DESCRIPTION [CHECK DOES]
+ENTERED
+EXIT [CHECK DOES END]
+
+Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Consistency for empty property declarations</desc>
+<notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
+
+Check for consistency with other instances of local overides.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -754,15 +777,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Refactor: add a context.symbol</desc>
 <notes>context.class &amp; context.instance both have symbols which are needed at some places</notes>
 <priority>2</priority>
@@ -772,16 +786,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Better debugger</desc>
-<notes/>
-<priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Move debug out to Adbg</desc>
-<notes/>
+<desc>Literal should not inherit from Thing?</desc>
+<notes>It should be a separate base class, or should it.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -789,103 +795,8 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Better debugger command language</desc>
-<notes>The command language for the debugger should be something like:
-
-break
-break [source : ] line
-unbreak
-unbreak [source : ] line
-trace (stack|source|...)
-untrace
-next
-instances
-instance i
-show { instance : } attribute
-set { instance : } attribute = value
-list [ file : ] line
-where</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set breaks on lines in other source files</desc>
-<notes>How to reference other files? Syntax for a line-number?
-&lt;file name&gt;:&lt;line number&gt;
-
-Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should verify date of source file</desc>
-<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set (and declare) level of trace</desc>
-<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinAdbg should debug in a separate window</desc>
-<notes>This involves managing two separate in- and output streams. The simple glkio mapping will come into play, possibly it is possible to let the debugger switch streams.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
-<task>
-<desc>Version 3.0alpha2</desc>
-<notes/>
-<priority>2</priority>
-<origest>10</origest>
-<currest>10</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Settings dialogue for compiler on Windows</desc>
-<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
-
-Design:</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New options for separator and punctuation character sets</desc>
-<notes>Option
-  separators ",.!?"
-  punctuators ".?!"</notes>
+<desc>Refactor loop filters so that Between can be combined with others</desc>
+<notes>Example in suspended regression/integerInSet</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -982,6 +893,96 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Better debugger</desc>
+<notes/>
+<priority>2</priority>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Move debug out to Adbg</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Better debugger command language</desc>
+<notes>The command language for the debugger should be something like:
+
+break
+break [source : ] line
+unbreak
+unbreak [source : ] line
+trace (stack|source|...)
+untrace
+next
+instances
+instance i
+show { instance : } attribute
+set { instance : } attribute = value
+list [ file : ] line
+where</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;
+
+Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should verify date of source file</desc>
+<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set (and declare) level of trace</desc>
+<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinAdbg should debug in a separate window</desc>
+<notes>This involves managing two separate in- and output streams. The simple glkio mapping will come into play, possibly it is possible to let the debugger switch streams.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>

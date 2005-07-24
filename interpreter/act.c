@@ -331,7 +331,7 @@ static void traceCheck(AltInfo alt)
     traceSay(parameters[alt.parameter-1].instance);
     printf(")");
     if (alt.class != 0)
-      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt.class].idAddress), alt.class);
+      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt.class].id), alt.class);
     break;
   }
   printf(", CHECK:>\n");
@@ -405,7 +405,7 @@ static void traceExecution(AltInfo *alt)
     else
       printf(", in parameter #%d", alt->parameter);
     if (alt->class != 0)
-      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt->class].idAddress), alt->class);
+      printf(", inherited from class %s(%d)", (char *)pointerTo(class[alt->class].id), alt->class);
     printf(", DOES");
     switch (alt->alt->qual) {
     case Q_BEFORE: printf(" (BEFORE)"); break;

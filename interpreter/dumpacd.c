@@ -314,9 +314,9 @@ static void dumpClasses(int level, Aword classes)
     indent(level);
     printf("CLASS #%ld:\n", class->code);
     indent(level+1);
-    printf("idAdress: %s", dumpAddress(class->idAddress));
-    if (class->idAddress != 0)
-      printf(" \"%s\"", (char *)pointerTo(class->idAddress));
+    printf("id: %s", dumpAddress(class->id));
+    if (class->id != 0)
+      printf(" \"%s\"", (char *)pointerTo(class->id));
     printf("\n");
     indent(level+1);
     printf("parent: %ld\n", class->parent);
