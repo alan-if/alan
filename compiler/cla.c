@@ -184,42 +184,10 @@ void symbolizeClasses(void)
 
 
 /*----------------------------------------------------------------------*/
-static void warnForUnimplementedInheritance(Properties *props) {
-  int propCount = 0;		/* To count that we catch all */
-
-  /* We can currently inherit:
-  	Initial location
-  	Names
-	Pronouns
-  	Attributes
-	Initialize
-	Container
-	DescriptionCheck
-	DescriptionStatements
-	Entered
-	Definite
-	Indefinite
-	Script
-	Exit
-	Verb
-  */
-  propCount = 15;
-
-  if (props->mentioned != NULL)
-    lmLog(&props->mentionedSrcp, 343, sevWAR, "Mentioned clause");
-  propCount++;
-
-  if (propCount != NOOFPROPS)
-    SYSERR("Wrong number of inherited props");
-}
-
-
-/*----------------------------------------------------------------------*/
 static void analyzeClass(Class *class)
 {
   Context *context = newClassContext(class);
 
-  warnForUnimplementedInheritance(class->props);
   analyzeProps(class->props, context);
 }
 
