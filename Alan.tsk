@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>467.89</origest>
 <currest>469.89</currest>
-<elapsed>321.89</elapsed>
+<elapsed>323.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>106</origest>
 <currest>107</currest>
-<elapsed>51</elapsed>
+<elapsed>53</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0dev36</desc>
@@ -22,8 +22,8 @@
 <priority>2</priority>
 <origest>52</origest>
 <currest>53</currest>
-<elapsed>51</elapsed>
-<isopen>1</isopen>
+<elapsed>53</elapsed>
+<isopen>0</isopen>
 <task>
 <desc>Start At location.</desc>
 <notes>No check is performed in the start section that the identifier is actually an instance.</notes>
@@ -430,7 +430,7 @@ mentioned? article? description?</notes>
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
-<elapsed>5</elapsed>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Add Initial Location</desc>
@@ -483,7 +483,7 @@ mentioned? article? description?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -499,7 +499,7 @@ verbs
 <priority>2</priority>
 <origest>2</origest>
 <currest>2</currest>
-<elapsed>1</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Inherit Entered</desc>
@@ -518,7 +518,7 @@ This is kind of a general question, but affects the MENTIONED particularly.</not
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -598,7 +598,7 @@ Including Add and inherit!</notes>
 </task>
 <task>
 <desc>Debugger should use author names instead of player names</desc>
-<notes/>
+<notes>It does, doesn't it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

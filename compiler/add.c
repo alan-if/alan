@@ -221,9 +221,13 @@ static void addMentioned(AddNode *add, Symbol *original)
 {
   Properties *props = add->props;
 
-  if (props->mentioned != NULL)
-    lmLogv(&props->mentionedSrcp, 341, sevERR, "mentioned", "(yet)", NULL);
-
+  if (props->mentioned != NULL) {
+    if (original->fields.entity.props->mentioned != NULL)
+      lmLog(&add->props->mentionedSrcp, 336, sevERR,
+	    "Mentioned clause when the class already have it");
+    else
+      original->fields.entity.props->mentioned = add->props->mentioned;
+  }
 }
 
 
