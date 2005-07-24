@@ -52,7 +52,9 @@ typedef struct Properties {
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */
   Where *whr;			/* Where is it initially? */
-  List *names;			/* List of lists of adjectives and noun (ids)*/
+  List *names;			/* List of lists of adjectives and nouns (ids)*/
+  List *nameStatement;		/* Statement to print the first name */
+  Aaddr nameAddress;		/* Address to name printing statement */
   Srcp pronounsSrcp;
   List *pronouns;		/* List of words that can be used as pronouns */
   List *attributes;
@@ -62,20 +64,20 @@ typedef struct Properties {
   Initialize *initialize;	/* The Initialize node */
 
   Description *description;	/* The Description */
-  Srcp enteredSrcp;
-  List *enteredStatements;	/* ENTERED statements */
-  Aword enteredAddress;		/* ACODE address to ENTERED code */
   Article *definite;		/* Definite Form/Article printing statements */
   Article *indefinite;		/* Indefinite Form/Article printing statements */
   Article *negative;		/* Negative Form/Article printing statements */
   List *mentioned;		/* Short (inventory like) statements */
   Srcp mentionedSrcp;
-  Aword mentionedAddress;	/* ACODE address to short description (mentioned or name) code */
+  Aword mentionedAddress;	/* ACODE address to short description (mentioned) code */
   Container *container;		/* Pointer to container property node */
   List *verbs;			/* List of verbs */
   Aword verbsAddress;		/* ACODE address to local verb table */
   List *scripts;		/* List of scripts */
   Aaddr scriptsAddress;		/* ACODE address to scripts */
+  Srcp enteredSrcp;
+  List *enteredStatements;	/* ENTERED statements */
+  Aword enteredAddress;		/* ACODE address to ENTERED code */
   List *exits;			/* List of exits */
   Aaddr exitsAddress;		/* ACODE address to exits table */
 } Properties;

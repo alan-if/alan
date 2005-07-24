@@ -9,7 +9,7 @@
 
 /* OWN TYPES: */
 #include "nam.h"
-
+#include "prop.h"
 
 /* USE: */
 #include "id.h"
@@ -19,8 +19,6 @@
 
 
 /* METHODS: */
-
-/* Analyse names, returns length of name text */
-extern int analyzeNames(List *names, IdNode *id);
+extern void analyzeNames(Properties *props);
 
 #endif

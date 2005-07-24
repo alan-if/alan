@@ -137,27 +137,8 @@ void symbolizeProps(Properties *props, Bool inClassDeclaration)
 /*----------------------------------------------------------------------*/
 static void analyzeMentioned(Properties *props, Context *context)
 {
-  long fpos;
-  int len = 0;
-  Statement *stm;
-
-  if (props->mentioned == NULL) {
-    /* TODO Actually we should not construct a Mentioned, better
-       would be to generate it during runtime. However, to do this we
-       would require that we store the names so that they can be
-       printed, preferably exactly as the author wrote them. An entry
-       called name which would be a list of strings would suffice. */
-    /* Generate a mentioned from the first of the names */
-    /* First output the formatted name to the text file */
-    fpos = ftell(txtfil);
-    len = analyzeNames(props->names, props->id);
-    /* Then create a PRINT statement */
-    stm = newStatement(&nulsrcp, PRINT_STATEMENT);
-    stm->fields.print.fpos = fpos;
-    stm->fields.print.len = len;
-    props->mentioned = concat(NULL, stm, LIST_STATEMENT);
-  } else {
-    if ((props->names != NULL) & inheritsFrom(props->id->symbol, locationSymbol))
+  if (props->mentioned != NULL) {
+    if ((props->names != NULL) && inheritsFrom(props->id->symbol, locationSymbol))
       lmLog(&props->mentionedSrcp, 425, sevWAR, "");
     analyzeStatements(props->mentioned, context);
   }
@@ -193,6 +174,8 @@ void analyzeProps(Properties *props, Context *context)
     lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
 
   /* Don't analyze attributes since those are analyzed already */
+
+  analyzeNames(props);
   analyzeInitialize(props->initialize, context);
   analyzeDescription(props->description, context);
   analyzeStatements(props->enteredStatements, context);
@@ -249,14 +232,14 @@ void analyzeProps(Properties *props, Context *context)
 /*======================================================================*/
 void generateCommonPropertiesData(Properties *props)
 {
-  generateInitialize(props->initialize);
-  generateDescription(props->description);
-
-  if (props->enteredStatements != NULL) {
-    props->enteredAddress = nextEmitAddress();
-    generateStatements(props->enteredStatements);
+  if (props->nameStatement != NULL) {
+    props->nameAddress = nextEmitAddress();
+    generateStatements(props->nameStatement);
     emit0(I_RETURN);
   }
+
+  generateInitialize(props->initialize);
+  generateDescription(props->description);
 
   generateArticle(props->definite);
   generateArticle(props->indefinite);
@@ -269,6 +252,12 @@ void generateCommonPropertiesData(Properties *props)
   }
 
   props->verbsAddress = generateVerbs(props->verbs);
+
+  if (props->enteredStatements != NULL) {
+    props->enteredAddress = nextEmitAddress();
+    generateStatements(props->enteredStatements);
+    emit0(I_RETURN);
+  }
   props->exitsAddress = generateExits(props->exits);
 }
 
@@ -290,7 +279,7 @@ void generateInstancePropertiesData(Properties *props)
 void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 {
   entry->code = props->id->symbol->code; /* First own code */
-  entry->idAddress = props->idAddress; /* Address to the id string */
+  entry->id = props->idAddress; /* Address to the id string */
 
   if (props->parentId == NULL)	/* Then parents... */
     entry->parent = 0;
@@ -299,6 +288,8 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->initialLocation = generateInitialLocation(props->whr);
   entry->initialAttributes = props->attributeAddress;
+
+  entry->name = props->nameAddress;
 
   if (props->pronouns)
     entry->pronoun = props->pronouns->element.id->code;
@@ -312,7 +303,6 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
 
   entry->checks = checksAddressOf(props->description);
   entry->description = doesAddressOf(props->description);
-  entry->entered = props->enteredAddress;
 
   if (props->container != NULL)
     entry->container = props->container->code;
@@ -325,8 +315,10 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   generateArticleEntry(props->indefinite, &entry->indefinite);
   generateArticleEntry(props->negative, &entry->negative);
 
-  entry->exits = props->exitsAddress;
   entry->verbs = props->verbsAddress;
+
+  entry->entered = props->enteredAddress;
+  entry->exits = props->exitsAddress;
 }
 
 

@@ -10,6 +10,11 @@ winalan:	PLATFORM = -DWINGUI -mno-cygwin -mwindows
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
+dmalloc: DMALLOC = -DDMALLOC
+dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
+dmalloc: LIBS = /usr/local/lib/libdmalloc.a
+dmalloc: PLATFORM =
+
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
 LDFLAGS	= $(OPTIMIZE) $(PLATFORM) 
 
@@ -31,6 +36,11 @@ alan: checkTarget tm $(MAINOBJECTS) unittests
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
+dmalloc: checkTarget tm $(MAINOBJECTS) unittests
+	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) $(LIBS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp alan.exe ../bin
+
 release:
 	$(MAKE) "OPTIMIZE=-O4" alan
 	$(MAKE) "OPTIMIZE=-O4" winalan
@@ -39,6 +49,7 @@ winalan: checkTarget $(MAINOBJECTS) alan.res unittests
 	$(LD) -o winalan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp winalan.exe ../bin
+
 
 alan.res: alan.rc alan.ico
 	windres $< -O coff -o $@

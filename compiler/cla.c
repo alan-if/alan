@@ -316,6 +316,8 @@ static void generateClassEntry(Class *cla)
   else
     entry.parent = cla->props->parentId->symbol->code;
 
+  entry.name = cla->props->nameAddress;
+
   if (cla->props->pronouns)
     entry.pronoun = cla->props->pronouns->element.id->code;
   else

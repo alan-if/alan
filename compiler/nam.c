@@ -8,36 +8,48 @@
 #include "nam_x.h"
 
 #include "alan.h"
-#include "lst.h"
 #include "msg.h"
-
-#include "../interpreter/acode.h"
+#include "stm_x.h"
+#include "lst_x.h"
 #include "emit.h"
+#include "util.h"
 
 
-/*======================================================================*/
-int analyzeNames(List *nams, IdNode *id)
+/*----------------------------------------------------------------------*/
+static int saveName(List *names, IdNode *id)
 {
-  List *namlst;
-  char buf[80];
+  List *nameList;
+  char *buf = NULL;
   int len = 0;
 
-  if (nams != NULL) {
-    for (namlst = nams->element.lst; namlst != NULL; namlst = namlst->next) {
-      if (strlen(namlst->element.id->string) > 79)
-	namlst->element.id->string[79] = '\0';
-	toIso(buf, namlst->element.id->string, charset);
-      if (namlst->next)
+  if (names != NULL) {
+    for (nameList = names->element.lst; nameList != NULL; nameList = nameList->next) {
+      buf = allocate(strlen(nameList->element.id->string)+2);
+      toIso(buf, nameList->element.id->string, charset);
+      if (nameList->next)
 	strcat(buf, " ");
       generateText(buf);
       len = len + strlen(buf);
+      free(buf);
     }
   } else {
+    buf = allocate(strlen(id->string)+1);
     toIso(buf, id->string, charset);
     generateText(buf);
     len = strlen(buf);
+    free(buf);
   }
   return(len);
 }
 
 
+/*======================================================================*/
+void analyzeNames(Properties *props) {
+  Statement *stm;
+
+  /* Create a PRINT statement for the first name */
+  stm = newStatement(&nulsrcp, PRINT_STATEMENT);
+  stm->fields.print.fpos = ftell(txtfil);
+  stm->fields.print.len = saveName(props->names, props->id);
+  props->nameStatement = concat(NULL, stm, LIST_STATEMENT);
+}

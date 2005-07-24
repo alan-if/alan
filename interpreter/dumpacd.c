@@ -321,21 +321,23 @@ static void dumpClasses(int level, Aword classes)
     indent(level+1);
     printf("parent: %ld\n", class->parent);
     indent(level+1);
+    printf("name: %s\n", dumpAddress(class->name));
+    indent(level+1);
     printf("descriptionChecks: %s\n", dumpAddress(class->descriptionChecks));
     indent(level+1);
     printf("description: %s\n", dumpAddress(class->description));
     indent(level+1);
-    printf("entered: %s\n", dumpAddress(class->entered));
+    printf("definite:\n"); dumpArticle(level+2, &class->definite);
     indent(level+1);
-    printf("definite:\n"); dumpArticle(level, &class->definite);
+    printf("indefinite:\n"); dumpArticle(level+2, &class->indefinite);
     indent(level+1);
-    printf("indefinite:\n"); dumpArticle(level, &class->indefinite);
-    indent(level+1);
-    printf("negative:\n"); dumpArticle(level, &class->negative);
+    printf("negative:\n"); dumpArticle(level+2, &class->negative);
     indent(level+1);
     printf("mentioned: %s\n", dumpAddress(class->mentioned));
     indent(level+1);
     printf("verbs: %s\n", dumpAddress(class->verbs));
+    indent(level+1);
+    printf("entered: %s\n", dumpAddress(class->entered));
   }
 }
 
@@ -348,13 +350,15 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level);
   printf("INSTANCE #%ld:\n", instance->code);
   indent(level+1);
-  printf("idAdress: %s", dumpAddress(instance->idAddress)); {
-    printf(" \"%s\"", (char *)pointerTo(instance->idAddress)); printf("\n");
+  printf("id: %s", dumpAddress(instance->id)); {
+    printf(" \"%s\"", (char *)pointerTo(instance->id)); printf("\n");
   }
   indent(level+1);
   printf("parent: %ld\n", instance->parent);
   indent(level+1);
   printf("location: %ld\n", instance->initialLocation);
+  indent(level+1);
+  printf("name: %s\n", dumpAddress(instance->name));
   indent(level+1);
   printf("initialize: %ld\n", instance->initialize);
   indent(level+1);
@@ -368,13 +372,13 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("description: %s\n", dumpAddress(instance->description));
   indent(level+1);
+  printf("definite:\n"); dumpArticle(level+2, &instance->definite);
+  indent(level+1);
+  printf("indefinite:\n"); dumpArticle(level+2, &instance->indefinite);
+  indent(level+1);
+  printf("negative:\n"); dumpArticle(level+2, &instance->negative);
+  indent(level+1);
   printf("mentioned: %s\n", dumpAddress(instance->mentioned));
-  indent(level+1);
-  printf("definite:\n"); dumpArticle(level, &instance->definite);
-  indent(level+1);
-  printf("indefinite:\n"); dumpArticle(level, &instance->indefinite);
-  indent(level+1);
-  printf("negative:\n"); dumpArticle(level, &instance->negative);
   indent(level+1);
   printf("exits: %s\n", dumpAddress(instance->exits));
   if (exitsFlag && instance->exits)
@@ -803,7 +807,7 @@ static void load(char acdfnm[])
     printf("WARNING! Could not read all ACD code.");
 
   if (littleEndian()) {
-    printf("Hmm, this is a little-endian machine, please wait a moment while I fix byte ordering....\n");
+    printf("Hmm, this is a little-endian machine, fixing byte ordering....");
     reverseACD();			/* Reverse all words in the ACD file */
     printf("OK.\n");
   }

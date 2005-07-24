@@ -947,22 +947,24 @@ Abool at(Aint theInstance, Aint other, Abool directly)
 
 
 /*----------------------------------------------------------------------*/
-static void executeInheritedMentioned(Aword theClass) {
-  if (theClass == 0) return;
+static Abool executeInheritedMentioned(Aword theClass) {
+  if (theClass == 0) return FALSE;
 
-  if (class[theClass].mentioned)
+  if (class[theClass].mentioned) {
     interpret(class[theClass].mentioned);
-  else
-    executeInheritedMentioned(class[theClass].parent);
+    return TRUE;
+  } else
+    return executeInheritedMentioned(class[theClass].parent);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void mention(Aint id) {
-  if (instance[id].mentioned)
+static Abool mention(Aint id) {
+  if (instance[id].mentioned) {
     interpret(instance[id].mentioned);
-  else
-    executeInheritedMentioned(instance[id].parent);
+    return TRUE;
+  } else
+    return executeInheritedMentioned(instance[id].parent);
 }
 
 
@@ -1010,7 +1012,8 @@ static void sayInstance(Aint id)
 	return;
       }
 #endif
-  mention(id);
+  if (!mention(id))
+    interpret(instance[id].name);
 }
 
 
@@ -1072,7 +1075,7 @@ static void sayDefinite(Aint id) {
       sayInstance(id);
   } else
     if (!sayInheritedDefiniteForm(instance[id].parent))
-      mention(id);
+      sayInstance(id);
 }
 
 
@@ -1099,7 +1102,7 @@ static void sayIndefinite(Aint id) {
       sayInstance(id);
   } else
     if (!sayInheritedIndefiniteForm(instance[id].parent))
-      mention(id);
+      sayInstance(id);
 }
 
 
@@ -1126,7 +1129,7 @@ static void sayNegative(Aint id) {
       sayInstance(id);
   } else
     if (!sayInheritedNegativeForm(instance[id].parent))
-      mention(id);
+      sayInstance(id);
 }
 
 
@@ -1445,7 +1448,7 @@ void look(void)
   glk_set_style(style_Subheader);
 #endif
 
-  mention(current.location);
+  sayInstance(current.location);
 
 #ifdef HAVE_GLK
   glk_set_style(style_Normal);

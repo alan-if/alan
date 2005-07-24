@@ -583,8 +583,8 @@ Including Add and inherit!</notes>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -668,6 +668,16 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
+<notes>Both should actually say:
+  I don't know what you mean by '$1', the $1, $1 or $1.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>New options for separator and punctuation character sets</desc>
 <notes>Option
   separators ",.!?"
@@ -692,8 +702,8 @@ is plural. Then the plural message should be:
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
+<origest>23</origest>
+<currest>23</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -717,16 +727,6 @@ but that is not allowed:
 
 FOR EACH instance ISA entity DO
 </notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
-<notes>Both should actually say:
-  I don't know what you mean by '$1', the $1, $1 or $1.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
