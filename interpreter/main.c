@@ -265,7 +265,7 @@ void statusline(void)
 
   onStatusLine = TRUE;
   col = 1;
-  interpret(instance[where(HERO, FALSE)].mentioned);
+  sayInstance(where(HERO, FALSE));
 
   if (header->maximumScore > 0)
     sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maximumScore, current.tick);

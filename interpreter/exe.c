@@ -982,8 +982,8 @@ static void sayLiteral(Aword lit)
 }
 
 	
-/*----------------------------------------------------------------------*/
-static void sayInstance(Aint id)
+/*======================================================================*/
+void sayInstance(Aint id)
 {
 #ifdef SAY_INSTANCE_WITH_PLAYER_WORDS_IF_PARAMETER
   int p, i;
