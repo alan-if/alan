@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2005-05-28
+			      2005-07-25
 
 
 THE NEWS IN SHORT:
 
-This is a development preview (v3.0dev36) of Alan V3. It features
+This is the final development preview (v3.0dev36) of Alan V3. It features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -17,6 +17,40 @@ same source.
 Depending on if you used the ZIP-archive or the Windows installer you
 will get a command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in v3.0dev36:
+- Printing of  pronouns
+- SET statement can now set a literal set value; Set x Of l To {}.
+- SET statement can now set a set to the value of another set; Set set1 Of i1 To set2 Of i1.
+- IN can now test set membership in set literal; If int Of i In {1,3,5,7} Then...
+- Saving did not handle sets and strings correctly, could cause crashes, fixed
+- Initialization of a set attribute to an empty set is allowed and possible in two ways:
+    1) The attribute is inherited so the member type and class is known
+    2) A single class identifier is given instead of members
+- Integer loops; For Each i Between 1 And limit Of bridge Do ...
+- Loops over Sets and Containers; For Each i In friends Of hero Do ...
+- Aggregation over Sets and Containers; Count In friends Of hero
+- Reference attributes can be initialized with a class instead of an instance if
+  declared in a class. In this case all instances must give the attribute a value.
+- Fixed WinArun startup so that it now prompts for a game name if the program is
+  activated instead of activating a game.
+- Fixed the renaming feature of the interpreter which was broken (if renamed the
+  interpreter will look for game files with the corresponding name).
+- Finally fixed the about box in WinArun to work in Win2000 and WinXP
+- Debugger now knows on which lines it is possible to set breakpoints
+- Added NEGATIVE ARTICLE/FORM for "Can't see any xyzzy here.", including a
+  corresponding Say form and embedded printing symbol.
+- Fixed a bug where a single trailing $ caused spurious output, now correctly
+  outputs a single $
+- Removed M_???_ARTICLE and M_PRONOUN messages since they are equivalent to the
+  corresponding clause in the class 'entity' which now sets them as default. You
+  can override them by adding the clauses with an Add statement instead of using MESSAGE.
+- Fixed numerous bugs in the UNDO handling:
+    o Now saves only states when player changes anything
+    o Now handles strings and sets correctly
+    o Now responds with "'<command>' undone." which is a new customizable message
+- Added more separators (characters that automatically inhibit space and force
+  capitalization)
 
 Changes in v3.0.35 development:
 - The DIRECTLY qualifier can now be used for all Where-type expressions

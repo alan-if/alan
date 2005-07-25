@@ -4,581 +4,18 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>467.89</origest>
-<currest>469.89</currest>
-<elapsed>323.89</elapsed>
+<origest>552.89</origest>
+<currest>554.89</currest>
+<elapsed>408.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>106</origest>
-<currest>107</currest>
-<elapsed>53</elapsed>
+<origest>54</origest>
+<currest>54</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0dev36</desc>
-<notes/>
-<priority>2</priority>
-<origest>52</origest>
-<currest>53</currest>
-<elapsed>53</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>Start At location.</desc>
-<notes>No check is performed in the start section that the identifier is actually an instance.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Style indicators should not be keywords but identifiers</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Printout of pronouns</desc>
-<notes>Invent a Say and $-notation for pronouns and print them accordingly</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SET statement should allow setting the value of a set</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Shortcut to play saviour in alan_setup.exe</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Verify that set attribute initialization is constant</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Assignment of set attributes to other set attributes</desc>
-<notes>Sets must be managed like strings, dynamic allocation and deallocation? No, need only to copy members after verifying that the target size is large enough.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>If x In {members},,, does not work</desc>
-<notes>See compiler/testing/ifSetLiteral.alan</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Saving does not cater for dynamically allocated sets and strings</desc>
-<notes>or does it? We could use the knowledge stored in the initialization tables since only attributes need be saved.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attribute initialization with an empty set should be allowed if it has a type and class from its inheritance</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Integer loop</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>COUNT IN integerSet does not work</desc>
-<notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
-
-The special case should involve I_SETSIZE instruction instead of AGRSTART et.al if the aggregate operate on an integer set.
-
-This should apply to MAX, MIN and SUM also?
-
-See regression/integerSetAggregation.alan
-
-
-Say Max In integerSet Of instance.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor error message handling in filters</desc>
-<notes>compiler/testing/mixedFilters shows a problem in which the message says "aggregated over using 'EACH statement'", which is not true.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow class references in attribute declarations of classes</desc>
-<notes>E.g.
-    Every door
-       Has otherside door.
-    End Every door.
-
-This would make it possible to avoid "fake" instances and instances that have incorrect values because initialization was forgotten.
-
-Note in the manual that a "fake" instance is a way to solve NULL-pointers, i.e a special marker indicating "no relevant value".
-
-If a class was allowed we could ensure that an actual instance was used by traversing the inheritance tree. An instance should not be allowed to inherit from a class with a non-instance initalization without initializing it (somewhere along the inheritance chain).
-
-Design tasks:
-1) Allow class
-2) Verify initialization
-3) Manual</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherited abstract reference attributes</desc>
-<notes>The example in section on Inheriting Attributes in 4.7.4 does not work as planned. An intermediate attribute definition should be allowed and restrict it.
-
-See compiler/testing/lockableDoors</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>DIRECTLY for aggregate</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Random Directly In container</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>DIRECTLY At obj</desc>
-<notes>See exe.c at() where there is some pre-processor condition that stinks</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Error 225 is incorrect when IN is used since that will delimit the types of instances</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>There should be no space before a full stop even if the previous output was an expression.</desc>
-<notes>"string" Say Count ... ".$p" generates an extra space. Problem is obviously the $p since without it it works ok.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor out the file lists from the Makefiles</desc>
-<notes>Move these to separate included files
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>For Each In &lt;integerset&gt; does not work</desc>
-<notes>Use same special case as &lt;aggregate&gt; In &lt;integerset&gt; which uses SETSIZE and SETMEMBER.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Semicolon should terminate command line to act as a comment starter</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO handling does not seem to manage dynamic sets</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO should only save state when the player changes anything</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>UNDO handling does not seem to manage strings</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The undone-message does not work for literal values</desc>
-<notes>See regression/undoSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Respond to UNDO with "You undo 'x x x '."</desc>
-<notes>This will have to include the command words in the undo state. DONE
-Prepare M_UNDONE message with one string parameter.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add section on scripting and commenting in the manual</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Include ! in characters that excludes an automatic space</desc>
-<notes>Any other? like '?'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>A Set should be possible to initialize to empty by giving a class name</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Should checks only be run for alternatives that match?</desc>
-<notes>Currently the checks are run for all alternatives.
-
-Verify what this would mean in a practical example.
-
-I think only checks for matching alternatives would be natural.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinArun does not ask for a game file if started by double-clicking on the program</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Renaming WinArun does not load game</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Fix picture in about Arun box</desc>
-<notes>Only occurs on W2k &amp; XP</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
-<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add header entry and entry type for breakpoint list</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>List line numbers for which LINE instructions are generated?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz</desc>
-<notes>Investigate what is left to do:
-
-
-All below is done:
-----------------------------
-It should be possible to add features to classes:
-
-Add To Every object ...
-
-Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
-
-In v3 it should be possible to add anything that is not already available:
-
-attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
-
-initial location, container - can only be added if it has none
-
-mentioned? article? description?</notes>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Add Initial Location</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Name</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Pronoun</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Initialize</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add Mentioned</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Inherting all props</desc>
-<notes>Investigate which ones are left!!!!
-
-DONE:
-attributes
-scripts
-verbs
-</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Inherit Entered</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>MENTIONED can not be inherited</desc>
-<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
-
-This is kind of a general question, but affects the MENTIONED particularly.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
-<notes>with "Say No x." and "$-1" as print forms.
-
-Including Add and inherit!</notes>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Add Negative Article/Form</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Inherit Negative Article/Form</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Bug: trailing single dollar in a string causes spurious output</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>M_ARTICLE can be removed since Indefinite Article on entity is exactly the same thing</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Ensure that multiple pronoun matches are handled</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
@@ -2454,7 +1891,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Restrictions can only restrict to one class</desc>
 <notes>It will not be possible to handle:
@@ -2595,7 +2032,7 @@ This strategy makes it possible to use the same script code for all instances th
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
@@ -2668,9 +2105,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>254.89</origest>
-<currest>253.89</currest>
-<elapsed>253.89</elapsed>
+<origest>391.89</origest>
+<currest>391.89</currest>
+<elapsed>391.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -2768,13 +2205,13 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Increment: version 3.0.00</desc>
+<desc>Increment: version 3.0dev0</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>8</origest>
+<currest>8</currest>
+<elapsed>8</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Moving from one location to another</desc>
 <notes/>
@@ -2849,13 +2286,13 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.01</desc>
+<desc>Increment: version 3.0dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Testing of attributes on locations</desc>
 <notes/>
@@ -2913,13 +2350,13 @@ Traversing between instances inheriting from location more than one level.</note
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.02</desc>
+<desc>Increment: version 3.0dev2</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>MAKE statements</desc>
 <notes/>
@@ -2940,12 +2377,12 @@ Traversing between instances inheriting from location more than one level.</note
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.03</desc>
+<desc>Increment: version 3.0dev3</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Syntaxes for simple verbs</desc>
@@ -2968,13 +2405,13 @@ Like QUIT, LOOK.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.04</desc>
+<desc>Increment: version 3.0dev4</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>7</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Reference to a parameter</desc>
 <notes/>
@@ -3049,13 +2486,13 @@ Requires parameter lists, possibly in class or instance. Analysis should allow:
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.05</desc>
+<desc>Increment: version 3.0dev5</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Initial location could be in a container</desc>
 <notes/>
@@ -3125,13 +2562,13 @@ or something similar.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.06</desc>
+<desc>Increment: version 3.0dev6</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Bug: IT does not work in the interpreter</desc>
 <notes/>
@@ -3197,13 +2634,13 @@ Add To Every object ...</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.07</desc>
+<desc>Increment: version 3.0dev7</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Actors with attributes</desc>
 <notes/>
@@ -3251,13 +2688,13 @@ Add To Every object ...</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.08</desc>
+<desc>Increment: version 3.0dev8</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Allow user defined classes in the restrictions</desc>
 <notes/>
@@ -3306,13 +2743,13 @@ Should generate the "Mentioned"</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.09</desc>
+<desc>Increment: version 3.0dev9</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Inherited container properties</desc>
 <notes/>
@@ -3342,13 +2779,13 @@ Should generate the "Mentioned"</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.10</desc>
+<desc>Increment: version 3.0dev10</desc>
 <notes/>
 <priority>2</priority>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>All actors should execute and rules should execute in between</desc>
 <notes/>
@@ -3406,13 +2843,13 @@ It should only execute the expression once. The current code generation and inte
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.11</desc>
+<desc>Increment: version 3.0dev11</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Warn for instances and classes without inheritance</desc>
 <notes/>
@@ -3456,13 +2893,13 @@ This is the old "container actor" and "container object".</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.12</desc>
+<desc>Increment: version 3.0dev12</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Where HERE</desc>
 <notes>
@@ -3494,13 +2931,13 @@ So that we can do a simple numbering scheme of them like with attributes when pr
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.13</desc>
+<desc>Increment: version 3.0dev13</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Reference to attributes to class identifiers should be prohibited</desc>
 <notes>
@@ -3561,13 +2998,13 @@ In all references to attributes</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.14</desc>
+<desc>Increment: version 3.0dev14</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Document Current Actor/Location</desc>
 <notes/>
@@ -3622,13 +3059,13 @@ Also changed extension to .A3C
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.15</desc>
+<desc>Increment: version 3.0dev15</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Updated manual</desc>
 <notes/>
@@ -3649,13 +3086,13 @@ Also changed extension to .A3C
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.16</desc>
+<desc>Increment: version 3.0dev16</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>4</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Inherited DESCRIPTION</desc>
 <notes/>
@@ -3769,13 +3206,13 @@ start at aaa.
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.17</desc>
+<desc>Increment: version 3.0dev17</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>If a SAY refers to a parameter the print out should use the same words</desc>
 <notes>
@@ -3844,13 +3281,13 @@ Argument handling in WinGlkArun seems a bit messy...</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.18</desc>
+<desc>Increment: version 3.0dev18</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>DESCRIPTION CHECK/DOES</desc>
 <notes>
@@ -3890,13 +3327,13 @@ The Checks should also be additive so that all checks in the inheritance chain m
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.19</desc>
+<desc>Increment: version 3.0dev19</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>4</origest>
+<currest>4</currest>
+<elapsed>4</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>For Every x Isa &lt;class&gt; Do xxx End For. (BLOCK, LOCALS A-code part)</desc>
 <notes>
@@ -3956,13 +3393,13 @@ Inherited attributes which override others with another type should refer to the
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.20</desc>
+<desc>Increment: version 3.0dev20</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>11</origest>
+<currest>11</currest>
+<elapsed>11</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>
@@ -4091,13 +3528,13 @@ This implies collecting a scriptList during analysis, keeping only script refere
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.21</desc>
+<desc>Increment: version 3.0dev21</desc>
 <notes/>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>12</origest>
+<currest>12</currest>
+<elapsed>12</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -4281,13 +3718,13 @@ Objects are now default-described by the mention-clause which is generated by th
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.22</desc>
+<desc>Increment: version 3.0dev22</desc>
 <notes/>
 <priority>2</priority>
 <origest>10.06</origest>
 <currest>10.06</currest>
 <elapsed>10.06</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Pre-defined classes literal, integer &amp; string</desc>
 <notes>Need to have those class numbers also in the interpreter (ACODE.h)
@@ -4439,13 +3876,13 @@ Verify and produce an error.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.23</desc>
+<desc>Increment: version 3.0dev23</desc>
 <notes/>
 <priority>2</priority>
 <origest>7.83</origest>
 <currest>7.83</currest>
 <elapsed>7.83</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
 <notes>Create a temporary structure in the symbol table
@@ -4566,13 +4003,13 @@ addVerb.alan
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.24</desc>
+<desc>Increment: version 3.0dev24</desc>
 <notes/>
 <priority>2</priority>
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>ISA expression</desc>
 <notes/>
@@ -4657,13 +4094,13 @@ If not present in A3C class names must be available.
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.25</desc>
+<desc>Increment: version 3.0dev25</desc>
 <notes/>
 <priority>2</priority>
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>
@@ -4778,13 +4215,13 @@ Refer to compiler/testing/addVerb losing line 2</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.26</desc>
+<desc>Increment: version 3.0dev26</desc>
 <notes/>
 <priority>2</priority>
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Show "imagefile"</desc>
 <notes>Use glk_image_draw() in the text window. Align with imagealign_MarginLeft. Possibly add Show "imagefile" [Left|Right] to use also imagealign_MarginRight.
@@ -4981,7 +4418,7 @@ Allocate one big dynamic area in which we copy instance, admin. Attribute areas 
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Parser confusion in v2.8</desc>
 <notes>From Lydia:
@@ -5021,13 +4458,13 @@ properly producing a blank line.
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.27</desc>
+<desc>Increment: version 3.0dev27</desc>
 <notes/>
 <priority>2</priority>
 <origest>16</origest>
 <currest>16</currest>
 <elapsed>16</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
 <notes/>
@@ -5205,13 +4642,13 @@ Warn (in instances that are containers) for declaring them as they would hide th
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.28</desc>
+<desc>Increment: version 3.0dev28</desc>
 <notes/>
 <priority>2</priority>
 <origest>8</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Capitalization of nouns</desc>
 <notes>Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
@@ -5275,13 +4712,13 @@ It should also work from the desktop by double-clicking. Output should go in sam
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.29</desc>
+<desc>Increment: version 3.0dev29</desc>
 <notes/>
 <priority>2</priority>
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>19</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -5360,7 +4797,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Definite and indefinite article declaration</desc>
 <notes>If a definite and indefinite article declaration is introduced the following can be made possible:
@@ -5373,7 +4810,7 @@ Possibly there is also a fifth form, as in "I can't see *any* door here." But le
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Indefinite Article declaration</desc>
 <notes>Rename it an document it.</notes>
@@ -5406,7 +4843,7 @@ SAY an O.
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>SAY an/the &lt;param&gt;</desc>
 <notes>A SAY should refer to which form of articles should be used:
@@ -5431,7 +4868,7 @@ Requires sections something like:
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>SAY An x.</desc>
 <notes>New variant on the Say statement to use indefinite article. Implement it. Also change "Say x." to mean "Mention" (which it already should).</notes>
@@ -5459,7 +4896,7 @@ Requires sections something like:
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Inheriting Definite Articles</desc>
 <notes/>
@@ -5573,7 +5010,7 @@ Generates wrong syntax tables for b and c.</notes>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Declaration of Indefinite Form</desc>
 <notes>Indefinite Form "en stol"</notes>
@@ -5632,13 +5069,13 @@ Generates wrong syntax tables for b and c.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.30</desc>
+<desc>Increment: version 3.0dev30</desc>
 <notes/>
 <priority>2</priority>
 <origest>9</origest>
 <currest>9</currest>
 <elapsed>9</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
@@ -5673,7 +5110,7 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Automatic capitalizing of nouns (e.g in german) only worked for player said words</desc>
 <notes>Now since the parameters don't use the player words this is invalidated. Probably should change strategy so that the player can input any word and the words are stored capitalized (if specified). This would possibly do away with the run-time capitalization and the impossibility for the player to input names of locations which are automatically capsed by the compiler.
@@ -5732,7 +5169,7 @@ Strip (First|Last) [&lt;n&gt;] (Word|Character) From &lt;s1&gt; [Into &lt;s2&gt;
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>String concatenation</desc>
 <notes>&lt;s1&gt; + &lt;s2&gt; as expression</notes>
@@ -5781,13 +5218,13 @@ This clause should not be run if the actor x is already in the room.</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.31</desc>
+<desc>Increment: version 3.0dev31</desc>
 <notes/>
 <priority>2</priority>
 <origest>17</origest>
 <currest>17</currest>
 <elapsed>17</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Attributes of class type</desc>
 <notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
@@ -5972,13 +5409,13 @@ Could not repeat this!</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.32</desc>
+<desc>Increment: version 3.0dev32</desc>
 <notes/>
 <priority>2</priority>
 <origest>18</origest>
 <currest>18</currest>
 <elapsed>18</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
 <notes>Investigate Stop actor.
@@ -6194,13 +5631,13 @@ End The door.
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.33</desc>
+<desc>Increment: version 3.0dev33</desc>
 <notes/>
 <priority>2</priority>
 <origest>17</origest>
 <currest>17</currest>
 <elapsed>17</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Sets</desc>
 <notes>Some kind of list or array datatype, like TADS lists, with
@@ -6421,13 +5858,13 @@ Change ':' to 'THEN'</notes>
 </task>
 </task>
 <task>
-<desc>Increment: version 3.0.34</desc>
+<desc>Increment: version 3.0dev34</desc>
 <notes/>
 <priority>2</priority>
 <origest>41</origest>
 <currest>41</currest>
 <elapsed>41</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
 <notes>Currently it results in "I don't see any x here."</notes>
@@ -6646,7 +6083,7 @@ How to handle the empty set???? Run-time error obviously.</notes>
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>3</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>IN &amp; AT operators</desc>
 <notes>Change IN &amp; AT operators to both be transitive.</notes>
@@ -6710,7 +6147,7 @@ How to handle the above example? Probably by looking in the scope for any instan
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>8</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Grammar, internal form and dump</desc>
 <notes/>
@@ -6936,7 +6373,7 @@ NOTE any instance for which noun in noSuch()</notes>
 <origest>27</origest>
 <currest>27</currest>
 <elapsed>27</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
 <notes>Prompted by SYSERR not producing -cc style listing which trashed alanIDE:s message parsing</notes>
@@ -7241,6 +6678,569 @@ Currently the interpreter crashes.</notes>
 </task>
 <task>
 <desc>Verify file type association and Windows double click</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Increment: version 3.0dev36</desc>
+<notes/>
+<priority>2</priority>
+<origest>52</origest>
+<currest>53</currest>
+<elapsed>53</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Start At location.</desc>
+<notes>No check is performed in the start section that the identifier is actually an instance.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Style indicators should not be keywords but identifiers</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Printout of pronouns</desc>
+<notes>Invent a Say and $-notation for pronouns and print them accordingly</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SET statement should allow setting the value of a set</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Shortcut to play saviour in alan_setup.exe</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Verify that set attribute initialization is constant</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Assignment of set attributes to other set attributes</desc>
+<notes>Sets must be managed like strings, dynamic allocation and deallocation? No, need only to copy members after verifying that the target size is large enough.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If x In {members},,, does not work</desc>
+<notes>See compiler/testing/ifSetLiteral.alan</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Saving does not cater for dynamically allocated sets and strings</desc>
+<notes>or does it? We could use the knowledge stored in the initialization tables since only attributes need be saved.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute initialization with an empty set should be allowed if it has a type and class from its inheritance</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Integer loop</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>COUNT IN integerSet does not work</desc>
+<notes>Special case the integer set. It can not have any other filters since no filters can be applied to integers.
+
+The special case should involve I_SETSIZE instruction instead of AGRSTART et.al if the aggregate operate on an integer set.
+
+This should apply to MAX, MIN and SUM also?
+
+See regression/integerSetAggregation.alan
+
+
+Say Max In integerSet Of instance.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor error message handling in filters</desc>
+<notes>compiler/testing/mixedFilters shows a problem in which the message says "aggregated over using 'EACH statement'", which is not true.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow class references in attribute declarations of classes</desc>
+<notes>E.g.
+    Every door
+       Has otherside door.
+    End Every door.
+
+This would make it possible to avoid "fake" instances and instances that have incorrect values because initialization was forgotten.
+
+Note in the manual that a "fake" instance is a way to solve NULL-pointers, i.e a special marker indicating "no relevant value".
+
+If a class was allowed we could ensure that an actual instance was used by traversing the inheritance tree. An instance should not be allowed to inherit from a class with a non-instance initalization without initializing it (somewhere along the inheritance chain).
+
+Design tasks:
+1) Allow class
+2) Verify initialization
+3) Manual</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherited abstract reference attributes</desc>
+<notes>The example in section on Inheriting Attributes in 4.7.4 does not work as planned. An intermediate attribute definition should be allowed and restrict it.
+
+See compiler/testing/lockableDoors</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY for aggregate</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Random Directly In container</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>DIRECTLY At obj</desc>
+<notes>See exe.c at() where there is some pre-processor condition that stinks</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Error 225 is incorrect when IN is used since that will delimit the types of instances</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>There should be no space before a full stop even if the previous output was an expression.</desc>
+<notes>"string" Say Count ... ".$p" generates an extra space. Problem is obviously the $p since without it it works ok.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor out the file lists from the Makefiles</desc>
+<notes>Move these to separate included files
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>For Each In &lt;integerset&gt; does not work</desc>
+<notes>Use same special case as &lt;aggregate&gt; In &lt;integerset&gt; which uses SETSIZE and SETMEMBER.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Semicolon should terminate command line to act as a comment starter</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO handling does not seem to manage dynamic sets</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO should only save state when the player changes anything</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>UNDO handling does not seem to manage strings</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The undone-message does not work for literal values</desc>
+<notes>See regression/undoSet</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Respond to UNDO with "You undo 'x x x '."</desc>
+<notes>This will have to include the command words in the undo state. DONE
+Prepare M_UNDONE message with one string parameter.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add section on scripting and commenting in the manual</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Include ! in characters that excludes an automatic space</desc>
+<notes>Any other? like '?'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Check up the library wrt. PRONOUNs; introduce human, person, man, woman</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>A Set should be possible to initialize to empty by giving a class name</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Should checks only be run for alternatives that match?</desc>
+<notes>Currently the checks are run for all alternatives.
+
+Verify what this would mean in a practical example.
+
+I think only checks for matching alternatives would be natural.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinArun does not ask for a game file if started by double-clicking on the program</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Renaming WinArun does not load game</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Fix picture in about Arun box</desc>
+<notes>Only occurs on W2k &amp; XP</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor SourceFileEntry to contain two structs fpos/len</desc>
+<notes>One for the path and one for the basename. For now just split it and use basename everywhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add header entry and entry type for breakpoint list</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List line numbers for which LINE instructions are generated?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz</desc>
+<notes>Investigate what is left to do:
+
+
+All below is done:
+----------------------------
+It should be possible to add features to classes:
+
+Add To Every object ...
+
+Otherwise there is no way to do the same thing as V2 ATTRIBUTES.
+
+In v3 it should be possible to add anything that is not already available:
+
+attributes (DONE), scripts, exits, verbs - adds to the list, but can not redefine if already existing
+
+initial location, container - can only be added if it has none
+
+mentioned? article? description?</notes>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Add Initial Location</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Name</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Pronoun</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Initialize</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add Mentioned</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Inherting all props</desc>
+<notes>Investigate which ones are left!!!!
+
+DONE:
+attributes
+scripts
+verbs
+</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Inherit Entered</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>MENTIONED can not be inherited</desc>
+<notes>Since the MENTIONED is generated automatically from the NAME it can not be inherited. If this was not the case it could be inherited, but then it would be impossible to indicate to override it to use the name instead.
+
+This is kind of a general question, but affects the MENTIONED particularly.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Add NEGATIVE ARTICLE/FORM clause</desc>
+<notes>with "Say No x." and "$-1" as print forms.
+
+Including Add and inherit!</notes>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Add Negative Article/Form</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Inherit Negative Article/Form</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Bug: trailing single dollar in a string causes spurious output</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>M_ARTICLE can be removed since Indefinite Article on entity is exactly the same thing</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that multiple pronoun matches are handled</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
