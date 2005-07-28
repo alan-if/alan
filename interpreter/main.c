@@ -444,10 +444,10 @@ static void justify(char str[])
   int i;
   char ch;
   
-  if (col >= pageWidth && !skipSpace)
+  if (col >= pageWidth-1 && !skipSpace)
     newline();
 
-  while (strlen(str) > pageWidth - col) {
+  while (strlen(str) > pageWidth - col - 1) {
     i = pageWidth - col - 1;
     while (!isSpace(str[i]) && i > 0) /* First find wrap point */
       i--;
