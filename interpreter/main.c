@@ -444,10 +444,10 @@ static void justify(char str[])
   int i;
   char ch;
   
-  if (col >= pageWidth-1 && !skipSpace)
+  if (col >= pageWidth && !skipSpace)
     newline();
 
-  while (strlen(str) > pageWidth - col - 1) {
+  while (strlen(str) > pageWidth - col) {
     i = pageWidth - col - 1;
     while (!isSpace(str[i]) && i > 0) /* First find wrap point */
       i--;
@@ -833,13 +833,7 @@ Bool isLiteralWord(int word) {
 }
 
 
-/*======================================================================
-
-  exitto()
-
-  Is there an exit from one location to another?
-
-  */
+/*======================================================================*/
 Bool exitto(int to, int from)
 {
   ExitEntry *theExit;

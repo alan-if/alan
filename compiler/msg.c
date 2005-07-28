@@ -86,19 +86,19 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "You can't do that.",
    "Det går inte att göra.",
    "Du kannst das nicht tun."},
-  {M_SEE_OBJ_START, "see_object_start",
+  {M_SEE_START, "see_start",
    "There is $01",
    "Det finns $01",
    "Es gibt $01"},
-  {M_SEE_OBJ_COMMA, "see_object_comma",
+  {M_SEE_COMMA, "see_comma",
    ", $01",
    ", $01",
    ", $01"},
-  {M_SEE_OBJ_AND, "see_object_and",
+  {M_SEE_AND, "see_and",
    "and $01",
    "och $01",
    "und $01"},
-  {M_SEE_OBJ_END, "see_object_end",
+  {M_SEE_END, "see_end",
    "here.",
    "här.",
    "hier."},
@@ -356,11 +356,14 @@ Context *contextFor(MsgKind messageNo) {
   case M_WHICH_ONE_COMMA:
   case M_WHICH_ONE_OR:
   case M_NO_SUCH:
-  case M_SEE_OBJ_START:
-  case M_SEE_OBJ_COMMA:
-  case M_SEE_OBJ_AND:
+  case M_SEE_START:
+  case M_SEE_COMMA:
+  case M_SEE_AND:
   case M_CONTAINS:
   case M_CARRIES:
+  case M_CONTAINS_COMMA:
+  case M_CONTAINS_AND:
+  case M_CONTAINS_END:
   case M_EMPTY:
   case M_EMPTYHANDED:
     return newVerbContext(messageVerbSymbolForInstance);
@@ -388,10 +391,7 @@ Context *contextFor(MsgKind messageNo) {
   case M_NOT_MUCH:
   case M_NO_WAY:
   case M_CANT0:
-  case M_SEE_OBJ_END:
-  case M_CONTAINS_COMMA:
-  case M_CONTAINS_AND:
-  case M_CONTAINS_END:
+  case M_SEE_END:
   case M_MORE:
   case M_AGAIN:
   case M_SAVEWHERE:

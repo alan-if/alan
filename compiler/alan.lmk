@@ -169,6 +169,7 @@
 502	'Instance \'%1\' does not inherit from any of the common base classes.';
 
 550	'Unknown text style. Use %1.';
+551	'String contains reference to a parameter that does not exist in this context.';
 
 600	'Multiple use of option \'%1\', ignored.';
 601	'Unknown option, \'%1\'.';

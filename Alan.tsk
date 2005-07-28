@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>555.89</origest>
 <currest>557.89</currest>
-<elapsed>410.89</elapsed>
+<elapsed>413.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>57</origest>
 <currest>57</currest>
-<elapsed>2</elapsed>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>11</origest>
 <currest>11</currest>
-<elapsed>2</elapsed>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Initialize should inherit accumulated</desc>
@@ -52,7 +52,7 @@ Would "There is a actor here." be a better default?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -61,7 +61,7 @@ Would "There is a actor here." be a better default?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -70,7 +70,7 @@ Would "There is a actor here." be a better default?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

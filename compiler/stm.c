@@ -223,6 +223,38 @@ List *newPrintStatementListFromString(char *string) {
   return concat(NULL, newPrintStatement(nulsrcp, fpos, length), STATEMENT_LIST);
 }
 
+/*----------------------------------------------------------------------*/
+static void analyzePrint(Statement *stm, Context *context)
+{
+  int i;
+  int parameter;
+  char *buffer = allocate(stm->fields.print.len+1);
+
+  fseek(txtfil, stm->fields.print.fpos, SEEK_SET);
+  fread(buffer, 1, stm->fields.print.len, txtfil);
+  fseek(txtfil, 0, SEEK_END);
+
+  for (i = 0; i < stm->fields.print.len-1; i++) {
+    if (buffer[i] == '$') {
+      parameter = 0;
+      i++;
+      if (!isdigit(buffer[i])) {
+	if (strchr("+0-!", buffer[i]) != NULL) {
+	  i++;
+	  if (isdigit(buffer[i]))
+	    parameter = buffer[i] - '0';
+	}
+      } else
+	parameter = buffer[i] - '0';
+      if (parameter != 0)
+	if (context == NULL || context->kind != VERB_CONTEXT
+	    || parameter > length(context->verb->fields.verb.parameterSymbols))
+	  lmLog(&stm->srcp, 551, sevERR, "");
+    }
+  }
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeSay(Statement *stm, Context *context)
@@ -673,7 +705,6 @@ static void analyzeStatement(Statement *stm, Context *context)
 {
   switch (stm->kind) {
   case NOP_STATEMENT:
-  case PRINT_STATEMENT:
   case STYLE_STATEMENT:
   case QUIT_STATEMENT:
   case LOOK_STATEMENT:
@@ -683,6 +714,9 @@ static void analyzeStatement(Statement *stm, Context *context)
   case VISITS_STATEMENT:
   case SYSTEM_STATEMENT:
     /* Nothing to analyse */
+    break;
+  case PRINT_STATEMENT:
+    analyzePrint(stm, context);
     break;
   case SCORE_STATEMENT:
     if (stm->fields.score.count != 0) {

@@ -6,7 +6,7 @@
 
 THE NEWS IN SHORT:
 
-This is the final development preview (v3.0dev36) of Alan V3. It features
+This is the first alpha version (v3.0alpha1) of Alan V3. Alan v3 features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -17,6 +17,17 @@ same source.
 Depending on if you used the ZIP-archive or the Windows installer you
 will get a command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in V3.0alpha1:
+- Unified the automatic display of objects and actors so that they now are listed together
+  in indefinite form.
+- Moved the special actor handling of automatic display to the library
+- Changed the message identifiers SEE_OBJ_xxxx to SEE_xxxx
+- Removed the message identifier SEE_ACTOR
+- Adjusted automatic listing of containers without a description so that it always occurs
+  unless the container is opaque.
+- Added analysis of parameter references embedded in strings.
+
 
 Changes in v3.0dev36:
 - Printing of  pronouns

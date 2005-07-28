@@ -219,6 +219,7 @@ static lmMsgs msg[] = {
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "550   ", "Unknown text style. Use %1." },
+    { "551   ", "String contains reference to a parameter that does not exist in this context." },
     { "600   ", "Multiple use of option \'%1\', ignored." },
     { "601   ", "Unknown option, \'%1\'." },
     { "602   ", "Illegal value for option \'%1\'." },
@@ -236,7 +237,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 156}
+    {0, 157}
 };
 static lmMessages currMsect = (lmMessages)0;
 

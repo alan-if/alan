@@ -42,6 +42,12 @@ saviourV2_x.alan
 
   *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
 
+   90.      	ELSE "There is no way to $v the $1."
+=====>      	     1
+
+  *1*   551 E : String contains reference to a parameter that does not exist in
+                this context.
+
    98.  VERB unlock_with
 =====>  1
 
@@ -57,6 +63,12 @@ saviourV2_x.alan
 =====>  	1
 
   *1*   319 E : Identifier 'OBJECT' is not of correct type for this context.
+
+  108.  	"There is no way to $v the $1."
+=====>  	1
+
+  *1*   551 E : String contains reference to a parameter that does not exist in
+                this context.
 
   114.  	WHERE o ISA ACTOR OR OBJECT
 =====>  	                  1
@@ -1193,7 +1205,7 @@ saviourV2_x.alan
   *1*   104 E : Severe syntax error, construct ignored.
 
 
-        251 error(s).
+        253 error(s).
         53 warning(s).
         29 informational message(s).
 

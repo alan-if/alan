@@ -1253,7 +1253,7 @@ static Abool inheritsDescriptionFrom(Aword classId)
 }  
 
 /*----------------------------------------------------------------------*/
-static Abool haveDescription(Aword instanceId)
+static Abool hasDescription(Aword instanceId)
 {
   if (instance[instanceId].description != 0)
     return TRUE;
@@ -1321,11 +1321,11 @@ static void describeContainer(Aint id)
 /*----------------------------------------------------------------------*/
 static void describeObject(Aword obj)
 {
-  if (haveDescription(obj))
+  if (hasDescription(obj))
     describeAnything(obj);
   else {
-    printMessageUsingParameter(M_SEE_OBJ_START, obj);
-    printMessage(M_SEE_OBJ_END);
+    printMessageUsingParameter(M_SEE_START, obj);
+    printMessage(M_SEE_END);
     if (instance[obj].container != 0)
       describeContainer(obj);
   }
@@ -1334,23 +1334,32 @@ static void describeObject(Aword obj)
 
 
 /*----------------------------------------------------------------------*/
-static void describeActor(Aword act)
-{
-  ScriptEntry *scr = NULL;
+static ScriptEntry *scriptDescriptionOf(Aint act) {
+  ScriptEntry *scr;
 
   if (admin[act].script != 0) {
     for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++)
       if (scr->code == admin[act].script)
 	break;
-    if (endOfTable(scr)) scr = NULL;
+    if (!endOfTable(scr) && scr->description != 0)
+      return scr;
   }
-  if (scr != NULL && scr->description != 0)
+  return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void describeActor(Aword act)
+{
+  ScriptEntry *scr = scriptDescriptionOf(act);
+
+  if (scr != NULL)
     interpret(scr->description);
-  else if (haveDescription(act))
+  else if (hasDescription(act))
     describeAnything(act);
   else {
-    printMessageUsingParameter(M_SEE_OBJ_START, act);
-    printMessage(M_SEE_OBJ_END);
+    printMessageUsingParameter(M_SEE_START, act);
+    printMessage(M_SEE_END);
     if (instance[act].container != 0)
       describeContainer(act);
   }
@@ -1392,23 +1401,31 @@ void describeInstances(void)
   /* First describe every object here with its own description */
   for (i = 1; i <= header->instanceMax; i++)
     if (admin[i].location == current.location && isObject(i) &&
-	!admin[i].alreadyDescribed && haveDescription(i))
+	!admin[i].alreadyDescribed && hasDescription(i))
       describe(i);
 
-  /* Then list all other objects here */
+  /* Then list all things without a description */
   for (i = 1; i <= header->instanceMax; i++)
-    if (admin[i].location == current.location && isObject(i) &&
-	!admin[i].alreadyDescribed) {
-      if (found == 0) {
-	printMessageUsingParameter(M_SEE_OBJ_START, i);
-	if (instance[i].container && containerSize(i, TRUE) > 0) {
-	  printMessage(M_SEE_OBJ_END);
-	  describeContainer(i);
-	  continue;		/* Actually start another list. */
-	}
-      } else {
-	if (found > 1)
-	  printMessageUsingParameter(M_SEE_OBJ_COMMA, lastInstanceFound);
+    if (admin[i].location == current.location
+	&& (isObject(i)||isActor(i))
+	&& !admin[i].alreadyDescribed) {
+      if (isActor(i))		/* Leave actors with descriptions for last */
+	if (i == HERO || hasDescription(i) || scriptDescriptionOf(i) != NULL)
+	  continue;
+
+      if (found == 0)
+	printMessageUsingParameter(M_SEE_START, i);
+      else if (found > 1)
+	printMessageUsingParameter(M_SEE_COMMA, lastInstanceFound);
+      admin[i].alreadyDescribed = TRUE;
+
+      if (instance[i].container && containerSize(i, TRUE) > 0 && !attributeOf(i, OPAQUEATTRIBUTE)) {
+	if (found > 0)
+	  printMessageUsingParameter(M_SEE_AND, i);
+	printMessage(M_SEE_END);
+	describeContainer(i);
+	found = 0;
+	continue;		/* Actually start another list. */
       }
       found++;
       lastInstanceFound = i;
@@ -1416,12 +1433,12 @@ void describeInstances(void)
 
   if (found > 0) {
     if (found > 1) {
-      printMessageUsingParameter(M_SEE_OBJ_AND, lastInstanceFound);
+      printMessageUsingParameter(M_SEE_AND, lastInstanceFound);
     }
-    printMessage(M_SEE_OBJ_END);
+    printMessage(M_SEE_END);
   }
   
-  /* Now for all actors */
+  /* Finally all actors with a separate description */
   for (i = 1; i <= header->instanceMax; i++)
     if (admin[i].location == current.location && i != HERO && isActor(i)
 	&& !admin[i].alreadyDescribed)
