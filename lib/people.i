@@ -5,6 +5,13 @@
 -- Classes for people
 
 Every person Isa actor
+  Is Not named.				-- If it has a proper name
+  Description
+    If This Is Not named Then
+      "There is $01 here."
+    Else
+      "$01 is here."
+    End If.
 End Every person.
 
 Every male Isa person

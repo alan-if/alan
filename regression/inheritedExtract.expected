@@ -6,24 +6,27 @@
 
 
 Bar
-The bartender is here. Bartender is carrying a glass. A slow-moving,
-traditionally dressed waiter is here. Waiter is carrying a menu.
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
 
 > take glass
-Bartender will not allow you to take anything.
+The bartender will not allow you to take anything.
 
 > l
 Bar
-The bartender is here. Bartender is carrying a glass. A slow-moving,
-traditionally dressed waiter is here. Waiter is carrying a menu.
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
 
 > take menu
-Waiter will not allow you to take anything.
+The waiter will not allow you to take anything.
 
 > l
 Bar
-The bartender is here. Bartender is carrying a glass. A slow-moving,
-traditionally dressed waiter is here. Waiter is carrying a menu.
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
 
 > 
 

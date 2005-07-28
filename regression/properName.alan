@@ -1,9 +1,16 @@
 Syntax x = x (p) Where p Isa actor Else "You can only do that to actors."
 
 Add To Every actor
-
+  Is named.
   Definite Article
   Indefinite Article
+
+  Description
+    If This Is named Then
+      Say This. "is here."
+    Else
+      "There is" Say An This. "."
+    End If.
 
   Verb x
     Does

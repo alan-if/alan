@@ -8,9 +8,9 @@ End The bar.
 
 Add To Every actor
   Container
-    Header Say this. "is carrying"
-    Else Say this. "is not carrying anything."
-    Extract Check Say this. "will not allow you to take anything."
+    Header Say The this. "is carrying"
+    Else Say The this. "is not carrying anything."
+    Extract Check Say The this. "will not allow you to take anything."
 End Add.
 
 The bartender Isa actor

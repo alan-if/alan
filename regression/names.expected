@@ -5,17 +5,17 @@
 
 
 L
-There is article mentioned as t (blue thing) here. Mentioned Mr A is here. 
-Name of mr B is here.
+There is article mentioned as t (blue thing) here. There is article 
+mentioned Mr A here. There is article name of mr B here.
 
 > x a
 Verb: mentioned Mr A End Verb. Event e: mentioned Mr A name of mr B 
-mentioned as t (blue thing) mentioned Mr A is here. There is article 
-mentioned as t (blue thing) here. End Event. Event ll:
+mentioned as t (blue thing) There is article mentioned Mr A here. There is 
+article mentioned as t (blue thing) here. End Event. Event ll:
 
 L
-There is article mentioned as t (blue thing) here. Mentioned Mr A is here. 
-Name of mr B is here. End Event.
+There is article mentioned as t (blue thing) here. There is article 
+mentioned Mr A here. There is article name of mr B here. End Event.
 
 > x t
 I don't know the word 't'.

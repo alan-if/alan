@@ -21,13 +21,13 @@ This game contains two zones
 
 > w
 Named1
-You're at a place with an exit to the west. 
+You're at a place with an exit to the west.
 
 (or you could go east back to the choose location.)
 
 > w
 Named2
-You can exit east from this place. Annabelle is here. 
+You can exit east from this place. There is a annabelle here. 
 Annabelle says "HI!", which really annoys you.
 
 > z
@@ -42,7 +42,7 @@ Time passes...
 
 > e
 Named1
-You're at a place with an exit to the west. 
+You're at a place with an exit to the west.
 
 (or you could go east back to the choose location.) 
 
@@ -59,7 +59,7 @@ This game contains two zones
 
 > e
 Numbered1
-You're at a place with an exit to the east. 
+You're at a place with an exit to the east.
 
 (or you could go west back to the choose location.) 
 
@@ -67,7 +67,7 @@ You're at a place with an exit to the east.
 
 > e
 Numbered2
-You can exit east from this place. Bosse is here. 
+You can exit east from this place. There is a bosse here. 
 
 "hi its me again" says annabelle. 
 Bosse says "HI!", which really annoys you.

@@ -18,6 +18,8 @@ End The l.
 The a Isa actor At l
   Name mr a
   Mentioned "mr A"
+  Description
+    Say a. "is here."
 End The a.
 
 Start At l.

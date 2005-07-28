@@ -6,19 +6,20 @@
 
 
 School
-The janitor is working. The teacher is here.
+The janitor is working. There is a teacher here.
 
 > l
 School
-The janitor is working. The teacher is here. Janitor Work.
+The janitor is working. There is a teacher here. Janitor Work.
 
 > l
 School
-The janitor is working. The teacher is here. Janitor Work. Teacher Work.
+The janitor is working. There is a teacher here. Janitor Work. Teacher 
+Work.
 
 > l
 School
-The janitor is here. The teacher is working. Teacher Work.
+There is a janitor here. The teacher is working. Teacher Work.
 
 > 
 

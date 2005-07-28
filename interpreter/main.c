@@ -1233,10 +1233,9 @@ static void initDynamicData(void)
 /*----------------------------------------------------------------------*/
 static void runInheritedInitialize(Aint theClass) {
   if (theClass == 0) return;
+  runInheritedInitialize(class[theClass].parent);
   if (class[theClass].initialize)
     interpret(class[theClass].initialize);
-  else
-    runInheritedInitialize(class[theClass].parent);
 }
 
 

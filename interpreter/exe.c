@@ -1349,7 +1349,8 @@ static void describeActor(Aword act)
   else if (haveDescription(act))
     describeAnything(act);
   else {
-    printMessageUsingParameter(M_SEE_ACT, act);
+    printMessageUsingParameter(M_SEE_OBJ_START, act);
+    printMessage(M_SEE_OBJ_END);
     if (instance[act].container != 0)
       describeContainer(act);
   }

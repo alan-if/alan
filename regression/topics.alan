@@ -44,6 +44,7 @@ End The killer.
 The mr_andersson Isa talkingActor At bar
   Name mr Andersson
   Definite Article ""
+  Description "mr Andersson is here."
 End The mr_andersson.
 
 The bartender Isa talkingActor At bar

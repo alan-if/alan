@@ -86,10 +86,6 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "You can't do that.",
    "Det går inte att göra.",
    "Du kannst das nicht tun."},
-  {M_CANT, "cant",
-   "You can't $v $+1.",
-   "Du kan inte $v $+1.",
-   "Du kannst $+1 nicht $v."},
   {M_SEE_OBJ_START, "see_object_start",
    "There is $01",
    "Det finns $01",
@@ -106,10 +102,6 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "here.",
    "här.",
    "hier."},
-  {M_SEE_ACT, "see_actor",
-   "$+1 is here.",
-   "$+1 är här.",
-   "$+1 ist hier."},
   /* Two messages for default HEADER (objects and actors) */
   {M_CONTAINS, "contains",
    "$+1 contains",
@@ -364,11 +356,9 @@ Context *contextFor(MsgKind messageNo) {
   case M_WHICH_ONE_COMMA:
   case M_WHICH_ONE_OR:
   case M_NO_SUCH:
-  case M_CANT:
   case M_SEE_OBJ_START:
   case M_SEE_OBJ_COMMA:
   case M_SEE_OBJ_AND:
-  case M_SEE_ACT:
   case M_CONTAINS:
   case M_CARRIES:
   case M_EMPTY:

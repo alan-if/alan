@@ -6,45 +6,45 @@
 
 
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > work janitor
 Janitor works.
 
 > l
 School
-The janitor is working. The teacher is here. Janitor works.
+The janitor is working. There is a teacher here. Janitor works.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > work teacher
 Teacher works.
 
 > l
 School
-The janitor is here. The teacher is working. Teacher works.
+There is a janitor here. The teacher is working. Teacher works.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > l
 School
-The janitor is here. The teacher is here.
+There is a janitor here. There is a teacher here.
 
 > 
 

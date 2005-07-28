@@ -483,12 +483,10 @@ typedef enum MsgKind {
   M_NO_SUCH,
   M_NO_WAY,
   M_CANT0,
-  M_CANT,			/* Not used? */
   M_SEE_OBJ_START,
   M_SEE_OBJ_COMMA,
   M_SEE_OBJ_AND,
   M_SEE_OBJ_END,
-  M_SEE_ACT,
   M_CONTAINS,
   M_CARRIES,
   M_CONTAINS_COMMA,

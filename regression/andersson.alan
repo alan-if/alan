@@ -2,6 +2,8 @@ The mr_andersson Isa actor
   Name mr Andersson
   At matrix.
   Definite Article ""
+  Description
+    Say This. "is here."
 End The mr_andersson.
 
 The Neo Isa actor
