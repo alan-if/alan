@@ -38,7 +38,7 @@ int rulcount = 0;
   Allocates and initialises a new rulnod.
 
   */
-RulNod *newrul(Srcp *srcp,	/* IN - Source Position */
+RulNod *newRule(Srcp *srcp,	/* IN - Source Position */
 	       Expression *exp,	/* IN - Expression to wait for */
 	       List *stms)	/* IN - List of statements */
 {

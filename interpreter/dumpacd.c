@@ -29,7 +29,7 @@ static char *acdfnm;
 
 static int dictionaryFlag, classesFlag, instanceFlag, syntaxFlag,
   parameterMapFlag, initFlag, verbsFlag, eventsFlag, exitsFlag,
-  containersFlag, rulesFlag, statementsFlag, messagesFlag;
+  containersFlag, rulesFlag, statementsFlag, messagesFlag, scriptFlag;
 
 
 int eot(Aword *adr)
@@ -447,7 +447,6 @@ static void dumpElms(int level, Aword elms)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void dumpParameterMap(Aword mappingAddress)
 {
@@ -482,7 +481,6 @@ static void dumpParameterMapTable(int level, Aword stxs)
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void dumpSyntaxTable(int level, Aword stxs)
 {
@@ -499,6 +497,47 @@ static void dumpSyntaxTable(int level, Aword stxs)
   }
 }
 
+
+/*----------------------------------------------------------------------*/
+static void dumpSteps(int level, Aword steps)
+{
+  StepEntry *step;
+  int i = 1;
+
+  if (steps == 0) return;
+
+  for (step = (StepEntry *)pointerTo(steps); !endOfTable(step); step++) {
+    indent(level);
+    printf("STEP: #%d\n", i);
+    indent(level+1);
+    printf("after: %s\n", dumpAddress(step->after));
+    indent(level+1);
+    printf("condition: %s\n", dumpAddress(step->exp));
+    indent(level+1);
+    printf("stms: %s\n", dumpAddress(step->stms));
+    i++;
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void dumpScriptTable(Aword scrs)
+{
+  ScriptEntry *scr;
+  int level = 1;
+
+  if (scrs == 0) return;
+
+  for (scr = (ScriptEntry *)pointerTo(scrs); !endOfTable(scr); scr++) {
+    indent(level);
+    printf("SCRIPT: #%ld (%s, %s)\n", scr->code, scr->stringAddress == 0?"<null>":(char *)&memory[scr->stringAddress], dumpAddress(scr->stringAddress));
+    indent(level+1);
+    printf("description: %ld\n", scr->description);
+    indent(level+1);
+    printf("steps: %ld\n", scr->steps);
+    dumpSteps(level+2, scr->steps);
+  }
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -745,6 +784,8 @@ static void dumpACD(void)
   if (instanceFlag == 0) dumpInstances(header->instanceTableAddress);
   else if (instanceFlag != -1) dumpInstance(instanceFlag, pointerTo(header->instanceTableAddress));
   printf("RULE TABLE: %s\n", dumpAddress(header->ruleTableAddress));
+  printf("SCRIPT TABLE: %s\n", dumpAddress(header->scriptTableAddress));
+  if (scriptFlag) dumpScriptTable(header->scriptTableAddress);
   printf("STRINGINIT: %s\n", dumpAddress(header->stringInitTable));
   if (initFlag) dumpStringInit(header->stringInitTable);
   printf("SETINIT: %s\n", dumpAddress(header->setInitTable));
@@ -864,6 +905,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("events", "dump details on event entries", eventsFlag, FALSE, NULL)
      SPA_FLAG("containers", "dump details on container entries", containersFlag, FALSE, NULL)
      SPA_FLAG("messages", "dump details on messages entries", messagesFlag, FALSE, NULL)
+     SPA_FLAG("scripts", "dump details on script entries", scriptFlag, FALSE, NULL)
      SPA_FLAG("exits", "dump details on exits in any instance having exits", exitsFlag, FALSE, NULL)
      SPA_INTEGER("statements <address>", "dump statement opcodes starting at <address>", statementsFlag, 0, NULL)
 SPA_END

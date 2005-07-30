@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>555.89</origest>
-<currest>557.89</currest>
-<elapsed>413.89</elapsed>
+<origest>560.89</origest>
+<currest>562.89</currest>
+<elapsed>417.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>57</origest>
-<currest>57</currest>
-<elapsed>5</elapsed>
+<origest>60</origest>
+<currest>60</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>11</currest>
-<elapsed>5</elapsed>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Initialize should inherit accumulated</desc>
@@ -79,7 +79,16 @@ Would "There is a actor here." be a better default?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Script x For l did not work if l is a local</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -135,6 +144,15 @@ is plural. Then the plural message should be:
 <desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
 <notes>Both should actually say:
   I don't know what you mean by '$1', the $1, $1 or $1.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Step After &lt;expression&gt;</desc>
+<notes>Currently only allows integer</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -559,8 +577,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -622,6 +640,15 @@ There is water in the lake. You are carrying a bottle of water.
 I don't know which water you mean.
 
 This should be done in parse.c but at the position where we want to do this we don't have enough information to run possible(). Surrounded it by ifdefs DISAMBIGUATE_USING_CHECKS</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Word completion using TAB in the interpreters</desc>
+<notes>Will probably need an option to turn it off to accommodate purists...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -835,12 +862,39 @@ END DEPEND.</notes>
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>5</currest>
-<elapsed>0</elapsed>
+<origest>5</origest>
+<currest>7</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>AlanIDE v0.0.4</desc>
+<desc>AlanIDE 0.0.4</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Splash screen</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Honour import path and debug preferences</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>AlanIDE v0.0.5</desc>
 <notes/>
 <priority>2</priority>
 <origest>3</origest>
@@ -857,7 +911,7 @@ END DEPEND.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Splash screen</desc>
+<desc>Strings spanning multiple lines does not color correctly</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

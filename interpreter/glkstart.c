@@ -62,8 +62,10 @@ static void openResourceFile() {
   strcpy(extension, ".a3r");
   resourceFileRef = glk_fileref_create_by_name(fileusage_BinaryMode,
 					       resourceFileName, 0);
-  resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
-  ecode = giblorb_set_resource_map(resourceFile);
+  if (glk_fileref_does_file_exist(resourceFileRef)) {
+    resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
+    ecode = giblorb_set_resource_map(resourceFile);
+  }
   free(resourceFileName);
 }
 

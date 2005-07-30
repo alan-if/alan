@@ -85,13 +85,6 @@ typedef struct ActEntry {	/* ACTOR TABLE */
   Aaddr dscr;			/* Address of description code */
 } ActEntry;
 
-typedef struct StepEntry {	/* STEP TABLE */
-  Aword after;			/* After how many ticks? */
-  Aaddr exp;			/* Address to expression saying when */
-  Aaddr stm;			/* Address to the actual code */
-} StepEntry;
-
-
 typedef struct ChkEntry {	/* CHECK TABLE */
   Aaddr exp;			/* ACODE address to expression code */
   Aaddr stms;			/* ACODE address to statement code */

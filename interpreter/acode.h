@@ -368,6 +368,12 @@ typedef struct ScriptEntry {	/* SCRIPT TABLE */
   Aaddr steps;			/* Address to steps */
 } ScriptEntry;
 
+typedef struct StepEntry {	/* STEP TABLE */
+  Aaddr after;			/* Expression to say after how many ticks? */
+  Aaddr exp;			/* Expression to condition saying when */
+  Aaddr stms;			/* Address to the actual code */
+} StepEntry;
+
 typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
   Aword qual;			/* Verb execution qualifier */
   Aint param;			/* Parameter number */

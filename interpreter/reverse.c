@@ -206,8 +206,9 @@ static void reverseSteps(Aword adr)
   if (!endOfTable(e)) {
     reverseTable(adr, sizeof(StepEntry));
     while (!endOfTable(e)) {
+      reverseStms(e->after);
       reverseStms(e->exp);
-      reverseStms(e->stm);
+      reverseStms(e->stms);
       e++;
     }
   }

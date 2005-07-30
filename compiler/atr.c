@@ -315,16 +315,17 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
 
   if (hasSingleIdentifierMember(members)) {
     Symbol *symbol = lookup(theSingleIdentifier(members));
-    if (symbol->kind == CLASS_SYMBOL) {
-      thisAttribute->set->fields.set.memberClass = symbol;
-      thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
-      thisAttribute->set->fields.set.memberType = classToType(symbol);
-      thisAttribute->setType = thisAttribute->set->fields.set.memberType;
-      thisAttribute->set->fields.set.members = NULL;
-      return;
+    if (symbol != NULL) {
+      if (symbol->kind == CLASS_SYMBOL) {
+	thisAttribute->set->fields.set.memberClass = symbol;
+	thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
+	thisAttribute->set->fields.set.memberType = classToType(symbol);
+	thisAttribute->setType = thisAttribute->set->fields.set.memberType;
+	thisAttribute->set->fields.set.members = NULL;
+	return;
+      }
     }
   }
-
   if (length(members) > 0) {
     analyzeExpression(thisAttribute->set, NULL);
     if (!isConstantExpression(thisAttribute->set))

@@ -19,9 +19,10 @@
 
 typedef struct Step {
   Srcp srcp;			/* Source position */
-  int after;			/* Possibly after some time */
-  Expression *exp;			/* or an expression */
-  Aaddr expadr;			/* ACODE address to expression */
+  Expression *after;		/* Possibly after some time */
+  Aaddr afteradr;		/* ACODE address to after expression */
+  Expression *exp;		/* or a conditional expression */
+  Aaddr expadr;			/* ACODE address to conditional expression */
   List *stms;			/* Statements in this block */
   Aaddr stmadr;			/* ACODE address to statements */
 } Step;

@@ -18,7 +18,7 @@
 
 /* FUNCTIONS: */
 
-extern Step *newStep(Srcp *srcp, int after, Expression *exp, List *stms);
+extern Step *newStep(Srcp *srcp, Expression *after, Expression *exp, List *stms);
 extern void analyzeSteps(List *steps, Context *context);
 extern Aaddr generateSteps(List *steps);
 extern void dumpStep(Step *step);

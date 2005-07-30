@@ -30,13 +30,13 @@
 #include "whr_x.h"
 #include "wrd_x.h"
 #include "atr_x.h"
+#include "rul_x.h"
 #include "resource_x.h"
 #include "dump_x.h"
 
 
 #include "ext.h"		/* EXT-nodes */
 #include "evt.h"		/* EVT-nodes */
-#include "rul.h"		/* RUL-nodes */
 #include "syn.h"		/* SYN-nodes */
 #include "msg.h"		/* MSG-nodes */
 

@@ -8,9 +8,9 @@ Every person Isa actor
   Is Not named.				-- If it has a proper name
   Description
     If This Is Not named Then
-      "There is $01 here."
+      "There is" Say An This. "here."
     Else
-      "$01 is here."
+      Say This. "is here."
     End If.
 End Every person.
 

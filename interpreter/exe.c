@@ -1334,14 +1334,14 @@ static void describeObject(Aword obj)
 
 
 /*----------------------------------------------------------------------*/
-static ScriptEntry *scriptDescriptionOf(Aint act) {
+static ScriptEntry *scriptOf(Aint act) {
   ScriptEntry *scr;
 
   if (admin[act].script != 0) {
     for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++)
       if (scr->code == admin[act].script)
 	break;
-    if (!endOfTable(scr) && scr->description != 0)
+    if (!endOfTable(scr))
       return scr;
   }
   return NULL;
@@ -1349,11 +1349,25 @@ static ScriptEntry *scriptDescriptionOf(Aint act) {
 
 
 /*----------------------------------------------------------------------*/
+static StepEntry *stepOf(Aint act) {
+  StepEntry *step;
+  ScriptEntry *scr = scriptOf(act);
+
+  if (scr == NULL) return NULL;
+
+  step = (StepEntry*)pointerTo(scr->steps);
+  step = &step[admin[act].step];
+
+  return step;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void describeActor(Aword act)
 {
-  ScriptEntry *scr = scriptDescriptionOf(act);
+  ScriptEntry *scr = scriptOf(act);
 
-  if (scr != NULL)
+  if (scr != NULL && scr->description != 0)
     interpret(scr->description);
   else if (hasDescription(act))
     describeAnything(act);
@@ -1409,10 +1423,11 @@ void describeInstances(void)
     if (admin[i].location == current.location
 	&& (isObject(i)||isActor(i))
 	&& !admin[i].alreadyDescribed) {
-      if (isActor(i))		/* Leave actors with descriptions for last */
-	if (i == HERO || hasDescription(i) || scriptDescriptionOf(i) != NULL)
+      if (isActor(i)) {		/* Leave actors with descriptions for last */
+	ScriptEntry *scr = scriptOf(i);
+	if (i == HERO || hasDescription(i) || (scr != NULL && scr->description != 0))
 	  continue;
-
+      }
       if (found == 0)
 	printMessageUsingParameter(M_SEE_START, i);
       else if (found > 1)
@@ -1592,6 +1607,7 @@ void empty(Aword cnt, Aword whr)
 void use(Aword act, Aword scr)
 {
   char str[80];
+  StepEntry *step;
 
   if (!isActor(act)) {
     sprintf(str, "Instance is not an Actor (%ld).", act);
@@ -1600,6 +1616,11 @@ void use(Aword act, Aword scr)
 
   admin[act].script = scr;
   admin[act].step = 0;
+  step = stepOf(act);
+  if (step != NULL && step->after != 0) {
+    interpret(step->after);
+    admin[act].waitCount = pop();
+  }
 
   gameStateChanged = TRUE;
 }

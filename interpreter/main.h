@@ -90,7 +90,7 @@ extern Bool anyOutput;
 extern Bool needSpace;
 extern Bool capitalize;
 
-#define endOfTable(x) eot((Aword *) x)
+#define endOfTable(x) eot((Aword *) (x))
 
 
 /* Functions: */

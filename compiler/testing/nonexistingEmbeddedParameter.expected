@@ -34,6 +34,12 @@ nonexistingEmbeddedParameter.alan
   *1*   551 E : String contains reference to a parameter that does not exist in
                 this context.
 
+   13.    "This is a reference to an non-existing parameter $01"
+=====>    1
+
+  *1*   551 E : String contains reference to a parameter that does not exist in
+                this context.
+
    14.    "This is a reference to an non-existing parameter $-1"
 =====>    1
 
@@ -47,7 +53,7 @@ nonexistingEmbeddedParameter.alan
                 this context.
 
 
-        6 error(s).
+        7 error(s).
         1 warning(s).
         2 informational message(s).
 

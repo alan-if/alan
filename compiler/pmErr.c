@@ -23,11 +23,9 @@
 #include "lim.h"
 #include "msg.h"
 #include "opt.h"
-#include "rul.h"
 #include "sco.h"
 #include "str.h"
 #include "syn.h"
-
 #include "adv_x.h"
 #include "add_x.h"
 #include "article_x.h"
@@ -43,6 +41,7 @@
 #include "description_x.h"
 #include "initialize_x.h"
 #include "resource_x.h"
+#include "rul_x.h"
 #include "lst_x.h"
 #include "prop_x.h"
 #include "res_x.h"
@@ -130,7 +129,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 66 "alan.pmk"
+#line 65 "alan.pmk"
 
 
 {

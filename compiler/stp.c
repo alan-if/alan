@@ -24,16 +24,10 @@
 
 
 
-/*======================================================================
-
-  newStep()
-
-  Allocates and initialises a new Step node.
-
-  */
+/*======================================================================*/
 Step *newStep(Srcp *srcp,	/* IN - Source Position */
-	      int after,	/* IN - Ticks to wait */
-	      Expression *exp,	/* IN - Expression to wait for */
+	      Expression *after, /* IN - Ticks to wait */
+	      Expression *exp,	/* IN - Condition to wait for */
 	      List *stms)	/* IN - List of statements */
 {
   Step *new;		/* The newly allocated node */
@@ -51,56 +45,62 @@ Step *newStep(Srcp *srcp,	/* IN - Source Position */
 }
 
 
-/*======================================================================
-
-  analyzeSteps()
-
-  Analyse a list of Steps
-
-  */
+/*======================================================================*/
 void analyzeSteps(List *stps, Context *context)
 {
   List *lst;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
-    if (lst->element.stp->exp != NULL)
-      analyzeExpression(lst->element.stp->exp, context);
-    analyzeStatements(lst->element.stp->stms, context);
+    Step *step = lst->element.stp;
+    if (step->after != NULL) {
+      analyzeExpression(step->after, context);
+      if (step->after->type != INTEGER_TYPE)
+	lmLogv(&step->after->srcp, 330, sevERR, "Integer", "Step After", NULL);
+    }
+    if (step->exp != NULL) {
+      analyzeExpression(step->exp, context);
+      if (step->exp->type != BOOLEAN_TYPE)
+	lmLogv(&step->exp->srcp, 330, sevERR, "Boolean", "Step Wait Until", NULL);
+    }
+    analyzeStatements(step->stms, context);
   }
 }
 
 
 
-/*======================================================================
-
-  generateSteps()
-
-  Generate code for all steps in a script for a particular Instance.
-
-  */
+/*======================================================================*/
 Aaddr generateSteps(List *stps)
 {
   List *lst;
   Aaddr adr;
+  StepEntry stepEntry;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
-    if (lst->element.stp->exp != NULL) { /* Expression specified */
-      lst->element.stp->expadr = nextEmitAddress();
-      generateExpression(lst->element.stp->exp);
+    Step *step = lst->element.stp;
+    if (step->after != NULL) { /* After specified */
+      step->afteradr = nextEmitAddress();
+      generateExpression(step->after);
       emit0(I_RETURN);
     } else
-      lst->element.stp->expadr = 0;
-    lst->element.stp->stmadr = nextEmitAddress();
-    generateStatements(lst->element.stp->stms);
+      step->afteradr = 0;
+    if (step->exp != NULL) { /* Condition specified */
+      step->expadr = nextEmitAddress();
+      generateExpression(step->exp);
+      emit0(I_RETURN);
+    } else
+      step->expadr = 0;
+    step->stmadr = nextEmitAddress();
+    generateStatements(step->stms);
     emit0(I_RETURN);
   }
   
   /* Now generate a step table */
   adr = nextEmitAddress();
   for (lst = stps; lst != NULL; lst = lst->next) {
-    emit(lst->element.stp->after);
-    emit(lst->element.stp->expadr);
-    emit(lst->element.stp->stmadr);
+    stepEntry.after = lst->element.stp->afteradr;
+    stepEntry.exp = lst->element.stp->expadr;
+    stepEntry.stms = lst->element.stp->stmadr;
+    emitEntry(&stepEntry, sizeof(StepEntry));
   }
   emit(EOF);
   return(adr);
@@ -112,9 +112,9 @@ Aaddr generateSteps(List *stps)
 void dumpStep(Step *stp)
 {
   put("STP: "); dumpSrcp(stp->srcp); indent();
-  put("after: "); dumpInt(stp->after); nl();
+  put("after: "); dumpExpression(stp->after); nl();
+  put("afteradr: "); dumpAddress(stp->afteradr); nl();
   put("exp: "); dumpExpression(stp->exp); nl();
-  put("expadr: "); dumpAddress(stp->expadr); nl();
   put("stms: "); dumpList(stp->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(stp->stmadr); out();
 }

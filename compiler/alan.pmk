@@ -26,11 +26,9 @@
 #include "lim.h"
 #include "msg.h"
 #include "opt.h"
-#include "rul.h"
 #include "sco.h"
 #include "str.h"
 #include "syn.h"
-
 #include "adv_x.h"
 #include "add_x.h"
 #include "article_x.h"
@@ -46,6 +44,7 @@
 #include "description_x.h"
 #include "initialize_x.h"
 #include "resource_x.h"
+#include "rul_x.h"
 #include "lst_x.h"
 #include "prop_x.h"
 #include "res_x.h"
@@ -1480,20 +1479,20 @@ static int val(char str[])
 			   %<statements>.stms);
     %%
 
-    ! 'step' 'after' Integer <statements>
+    ! 'step' 'after' <expression> <statements>
     %%
 	%<step>.stp = newStep(`&%'step'.srcp,
-			   val(%Integer.chars),
-			   NULL,
-			   %<statements>.stms);
+				%<expression>.exp,
+				NULL,
+				%<statements>.stms);
     %%
 
     ! 'step' 'wait' 'until' <expression> <statements>
     %%
 	%<step>.stp = newStep(`&%'step'.srcp,
-			   0,
-			   %<expression>.exp,
-			   %<statements>.stms);
+				NULL,
+				%<expression>.exp,
+				%<statements>.stms);
     %%
     ;
 
@@ -1501,9 +1500,9 @@ static int val(char str[])
 <rule>			-- RETURNS: rul
     = 'when' <expression> <then> <statements> <optional_end_when>
     %%
-	%<rule>.rul = newrul(`&%'when'.srcp,
-			   %<expression>.exp,
-			   %<statements>.stms);
+	%<rule>.rul = newRule(`&%'when'.srcp,
+		 		%<expression>.exp,
+				%<statements>.stms);
     %%
     ;
 

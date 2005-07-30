@@ -1412,16 +1412,15 @@ static void moveActor(int theActor)
 	step = (StepEntry *) pointerTo(scr->steps);
 	step = (StepEntry *) &step[admin[theActor].step];
 	/* Now execute it, maybe. First check wait count */
-	if (step->after > admin[theActor].waitCount) { /* Wait some more ? */
+	if (admin[theActor].waitCount > 0) { /* Wait some more ? */
 	  if (traceActor(theActor))
 	    printf("), SCRIPT %s(%ld), STEP %ld, Waiting another %ld turns>\n",
 		   scriptName(theActor, admin[theActor].script),
 		   admin[theActor].script, admin[theActor].step+1,
-		   step->after-admin[theActor].waitCount);
-	  admin[theActor].waitCount++;
+		   admin[theActor].waitCount);
+	  admin[theActor].waitCount--;
 	  break;
-	} else
-	  admin[theActor].waitCount = 0;
+	}
 	/* Then check possible expression to wait for */
 	if (step->exp != 0) {
 	  if (traceActor(theActor))
@@ -1434,11 +1433,16 @@ static void moveActor(int theActor)
 	}
 	/* OK, so finally let him do his thing */
 	admin[theActor].step++;		/* Increment step number before executing... */
+	if (!endOfTable(step+1) && (step+1)->after != 0) {
+	  interpret((step+1)->after);
+	  admin[theActor].waitCount = pop();
+	}
 	if (traceActor(theActor))
-	  printf("), SCRIPT %s(%ld), STEP %ld, Executing:>\n",
+	  printf("), SCRIPT %ld(%s), STEP %ld, Executing:>\n",
+		 admin[theActor].script, 
 		 scriptName(theActor, admin[theActor].script),
-		 admin[theActor].script, admin[theActor].step);
-	interpret(step->stm);
+		 admin[theActor].step);
+	interpret(step->stms);
 	step++;
 	/* ... so that we can see if he is USEing another script now */
 	if (admin[theActor].step != 0 && endOfTable(step))

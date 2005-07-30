@@ -506,6 +506,10 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
       theSymbol = theSymbol->fields.parameter.class;
       scripts = theSymbol->fields.entity.props->scripts;
       break;
+    case LOCAL_SYMBOL:
+      theSymbol = theSymbol->fields.local.class;
+      scripts = theSymbol->fields.entity.props->scripts;
+      break;
     default:
       SYSERR("Unexpected symbol kind");
       return NULL;
