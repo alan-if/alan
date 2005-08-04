@@ -64,23 +64,26 @@ Bool verifyInitialLocation(Where *whr)
   if (whr->directly)
     lmLog(&whr->srcp, 422, sevERR, "Initial location");
 
-  switch (whr->kind) {
-  case WHERE_AT:
-    if (whr->what->fields.wht.wht->kind == WHAT_ID) {
-      instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
-    } else {
-      lmLog(&whr->srcp, 355, sevERR, "");
-      return FALSE;
-    }
-    break;
-  case WHERE_IN:
-    verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
-    break;
-  default:
+  if (whr->what->kind != WHAT_EXPRESSION)
     lmLogv(&whr->srcp, 355, sevERR, "", NULL);
-    return FALSE;
-    break;
-  }
+  else
+    switch (whr->kind) {
+    case WHERE_AT:
+      if (whr->what->fields.wht.wht->kind == WHAT_ID) {
+	instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
+      } else {
+	lmLog(&whr->srcp, 355, sevERR, "");
+	return FALSE;
+      }
+      break;
+    case WHERE_IN:
+      verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
+      break;
+    default:
+      lmLogv(&whr->srcp, 355, sevERR, "", NULL);
+      return FALSE;
+      break;
+    }
   return TRUE;
 }
 

@@ -544,6 +544,7 @@ static void analyzeUse(Statement *stm, Context *context)
 	char *str = "class";
 	switch (symbol->kind) {
 	case CLASS_SYMBOL: str = "class"; break;
+	case LOCAL_SYMBOL:
 	case INSTANCE_SYMBOL: str = "actor"; break;
 	case PARAMETER_SYMBOL: str = "parameter"; break;
 	default: SYSERR("Unexpected symbol kind");

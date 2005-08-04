@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>560.89</origest>
 <currest>562.89</currest>
-<elapsed>417.89</elapsed>
+<elapsed>419.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>60</origest>
 <currest>60</currest>
-<elapsed>7</elapsed>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>13</origest>
 <currest>13</currest>
-<elapsed>7</elapsed>
+<elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Initialize should inherit accumulated</desc>
@@ -92,6 +92,24 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Step After &lt;expression&gt;</desc>
+<notes>Currently only allows integer</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Plural handling in the library</desc>
 <notes>For example
 
@@ -151,28 +169,10 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Step After &lt;expression&gt;</desc>
-<notes>Currently only allows integer</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>New options for separator and punctuation character sets</desc>
 <notes>Option
   separators ",.!?"
   punctuators ".?!"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -583,7 +583,11 @@ Pronouns</notes>
 <isopen>1</isopen>
 <task>
 <desc>Scope definitions</desc>
-<notes>A suggestion from Greg:
+<notes>Go for Gregs suggestion, but change the syntax of a SCOPE to:
+
+  Scope topic_scope Is In known_topics.
+
+A suggestion from Greg:
 
 Another thought is that you may want to have more
 than one verb sharing a scope definition. So
