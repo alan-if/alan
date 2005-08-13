@@ -1,0 +1,15 @@
+########## isaParameter ##########
+
+
+isaParameter.alan
+
+    4.        If object Isa object Then ""
+=====>                      1
+
+  *1*   319 E : Identifier 'object' is not a Class.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

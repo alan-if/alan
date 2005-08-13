@@ -579,6 +579,8 @@ Symbol *contentOfSymbol(Symbol *symbol) {
     case PARAMETER_SYMBOL:
       return contentOfSymbol(symbol->fields.parameter.class);
       break;
+    case ERROR_SYMBOL:
+      break;
     default:
       SYSERR("Unexpected Symbol kind");	
     }
@@ -658,21 +660,22 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
     if (id->string[0] != '$')
       /* Error generated id, we don't want to report on those */
       lmLog(&id->srcp, 310, sevERR, id->string);
-  } else if (sym->kind == PARAMETER_SYMBOL) {
-    if (sym->fields.parameter.element->kind != ID_RESTRICTION)
-      lmLogv(&id->srcp, 319, sevERR, id->string,
-	     "a parameter that is restricted to instances of a class", NULL);
-  } else if (sym->kind == LOCAL_SYMBOL) {
-    ;
-  } else if (requestedKinds != 0)
-    if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
+  } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
+    if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
       if (multipleSymbolKinds(requestedKinds))
 	lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
       else
 	lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-      return NULL;
     }
-
+  } else
+    if (requestedKinds != 0)
+      if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
+	if (multipleSymbolKinds(requestedKinds))
+	  lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+	else
+	  lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+	return NULL;
+      }
   id->symbol = sym;
   return sym;
 }

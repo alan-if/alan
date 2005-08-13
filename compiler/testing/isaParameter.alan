@@ -1,0 +1,12 @@
+The x Isa object
+  Verb v
+    Does
+      If object Isa object Then ""
+      End If.
+  End Verb.
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.

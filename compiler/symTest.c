@@ -69,7 +69,6 @@ void testSymCheck()
   ASSERT(foundSymbol == aClassSymbol);
 
   foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
-  ASSERT(foundSymbol == NULL);
   ASSERT(readEcode() == 319 && readSev() == sevERR);
 
   foundSymbol = symcheck(anInstanceId, INSTANCE_SYMBOL, NULL);
