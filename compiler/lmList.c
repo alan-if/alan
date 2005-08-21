@@ -139,6 +139,7 @@ static lmMsgs msg[] = {
     { "304   ", "\'%1\' already declared as an Instance (The)." },
     { "305   ", "\'%1\' already declared as a Class (Every)." },
     { "307   ", "\'%1\' already declared as an Event." },
+    { "308   ", "\'%1\' already declared." },
     { "309   ", "In this context is THIS not a Container. Neither does the current entity inherit the Container property nor does it declare it." },
     { "310   ", "Identifier \'%1\' not defined." },
     { "311   ", "%1 is not guaranteed to be %2, %3." },
@@ -213,8 +214,10 @@ static lmMsgs msg[] = {
     { "432   ", "Incompatible assignment. You can only assign a Set where members are integers." },
     { "433   ", "Initialization of attribute must be a constant value." },
     { "434   ", "%1 can only be applied to instance valued expressions." },
+    { "435   ", "Only SETs and CONTAINERs have content." },
     { "440   ", "%1 filters can currently only accept boolean attributes." },
     { "441   ", "Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types." },
+    { "442   ", "Only instances have attributes." },
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
@@ -237,7 +240,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 157}
+    {0, 160}
 };
 static lmMessages currMsect = (lmMessages)0;
 

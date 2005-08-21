@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>560.89</origest>
-<currest>562.89</currest>
+<origest>561.89</origest>
+<currest>563.89</currest>
 <elapsed>419.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>60</origest>
-<currest>60</currest>
+<origest>61</origest>
+<currest>61</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
@@ -577,8 +577,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -653,6 +653,15 @@ This should be done in parse.c but at the position where we want to do this we d
 <task>
 <desc>Word completion using TAB in the interpreters</desc>
 <notes>Will probably need an option to turn it off to accommodate purists...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Floating point values</desc>
+<notes>To be forward compatible we will need floating point operations and conversions as instructions. Well, not really. If any floating point instruction is added after the 3.0 set that will be ok.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -74,9 +74,9 @@ PRODUCTIONS
 
  attributedefinition = ID 
                       | "not" ID 
-                      | ID optionalminus Integer 
                       | ID STRING 
                       | ID ID 
+                      | ID optionalminus Integer 
                       | ID "{" optionalmembers "}" 
                        .
 
@@ -89,8 +89,8 @@ PRODUCTIONS
               .
 
  setmember = what 
-            | optionalminus Integer 
             | STRING 
+            | optionalminus Integer 
              .
 
  synonyms = "synonyms" synonymlist 
@@ -571,8 +571,8 @@ PRODUCTIONS
                    | "restore" "." 
                    | "restart" "." 
                    | "score" optionalinteger "." 
-                   | "visits" Integer "." 
                    | "system" STRING "." 
+                   | "visits" Integer "." 
                     .
 
  optionalexpression = 
@@ -618,10 +618,10 @@ PRODUCTIONS
                       arithmetic 
                   .
 
- primary = optionalminus Integer 
-         | STRING 
+ primary = STRING 
          | what 
          | "score" 
+         | optionalminus Integer 
          | "{" optionalmembers "}" 
          | "(" expression ")" 
          | "random" optionaldirectly "in" primary 

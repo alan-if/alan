@@ -111,14 +111,12 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
     sym = wht->id->symbol;
     if (sym)
       switch (sym->kind) {
-      case INSTANCE_SYMBOL:
-	lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
-	break;
       case PARAMETER_SYMBOL:
 	lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container", "because it is not restricted to Container in the Syntax", NULL);
 	break;
       default:
-	SYSERR("Unexpected symbol kind");
+	lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
+	break;
       }
     break;
 

@@ -80,7 +80,7 @@ void redefined(IdNode *id, Symbol *sym)
   case INSTANCE_SYMBOL: code = 304; break;
   case CLASS_SYMBOL: code = 305; break;
   case EVENT_SYMBOL: code = 307; break;
-  default: SYSERR("Unrecognized switch");
+  default: code = 308; break;
   }
 
   lmLog(&id->srcp, code, sevERR, id->string);
@@ -553,6 +553,8 @@ Bool symbolIsContainer(Symbol *symbol) {
     case INSTANCE_SYMBOL:
       return symbol->fields.entity.props->container != NULL
 	|| symbolIsContainer(symbol->fields.entity.parent);
+    case LOCAL_SYMBOL:
+      return symbolIsContainer(symbol->fields.local.class);
     default:
       SYSERR("Unexpected Symbol kind");
     }

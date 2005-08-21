@@ -31,10 +31,17 @@ include sources.mk
 # Main targets
 #
 
+all : alan ../bin/rndalan
+
 alan: checkTarget tm $(MAINOBJECTS) unittests
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
+
+rndalan: rndalan.c
+
+../bin/rndalan : rndalan
+	cp rndalan.exe ../bin
 
 dmalloc: checkTarget tm $(MAINOBJECTS) unittests
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) $(LIBS)
@@ -53,8 +60,6 @@ winalan: checkTarget $(MAINOBJECTS) alan.res unittests
 
 alan.res: alan.rc alan.ico
 	windres $< -O coff -o $@
-
-all : .tmstamp test alan Makefile
 
 gcov :
 	$(MAKE) "GCOV=-fprofile-arcs -ftest-coverage"

@@ -409,7 +409,7 @@ static void stringPrint(char string[])
 
 <classes>
     = <class_identifier> %% print(%<class_identifier>.string); %%
-    ! <classes> 'OR' <class_identifier> %% print(" -- ****OR****"); idPrint(%<class_identifier>.string); %%
+    ! <classes> 'OR' <class_identifier> %% print(" ****OR**** "); idPrint(%<class_identifier>.string); %%
     ;
 
 <class_identifier>
@@ -814,7 +814,7 @@ static void stringPrint(char string[])
 
 ----> Event Statements
 <event_statement>
-    = <schedule1> <optional_where> 'AFTER' %% print(" After "); %% <expression> <fullstop>
+    = <schedule1> <optional_where> 'AFTER' %% print("After "); %% <expression> <fullstop>
     ! 'CANCEL' ID '.'
     %% newline(); print("Cancel "); idPrint(%ID.string); print("."); %%
     ;

@@ -64,7 +64,7 @@ Bool verifyInitialLocation(Where *whr)
   if (whr->directly)
     lmLog(&whr->srcp, 422, sevERR, "Initial location");
 
-  if (whr->what->kind != WHAT_EXPRESSION)
+  if (whr->what == NULL || whr->what->kind != WHAT_EXPRESSION)
     lmLogv(&whr->srcp, 355, sevERR, "", NULL);
   else
     switch (whr->kind) {

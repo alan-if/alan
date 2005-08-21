@@ -593,7 +593,7 @@ Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *conte
   case ATTRIBUTE_EXPRESSION:
     return resolveAttributeToClass(exp->class, attributeId, context);
   default:
-    SYSERR("Unexpected expression kind");
+    lmLog(&exp->srcp, 442, sevERR, "");
   }
   return NULL;
 }

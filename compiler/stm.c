@@ -334,6 +334,7 @@ static void analyzeLocate(Statement *stm, Context *context)
       if (!inheritsFrom(whtSymbol, contentClass))
 	lmLog(&whr->srcp, 404, sevERR, contentClass->string);
     break;
+  case WHERE_NEAR:
   case WHERE_NEARBY:
     lmLog(&stm->srcp, 415, sevERR, "LOCATE");
     break;
@@ -466,6 +467,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
   case WHERE_AT:
     break;
   case WHERE_IN:
+  case WHERE_NEAR:
   case WHERE_NEARBY:
     lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
     break;
@@ -607,6 +609,9 @@ static void analyzeDepend(Statement *stm, Context *context)
 	break;
       case BETWEEN_EXPRESSION:
 	exp->fields.btw.exp = stm->fields.depend.exp;
+	break;
+      case ISA_EXPRESSION:
+	exp->fields.isa.what = stm->fields.depend.exp;
 	break;
       default:
 	SYSERR("Unrecognized switch case on Expression kind");

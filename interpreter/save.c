@@ -131,6 +131,7 @@ void save(void)
   FILE *saveFile;
   char str[256];
 
+  current.location = where(HERO, TRUE);
   /* First save ? */
   if (saveFileName[0] == '\0') {
     strcpy(saveFileName, adventureName);
@@ -325,6 +326,7 @@ void restore(void)
   char str[1000];
   FILE *saveFile;
 
+  current.location = where(HERO, TRUE);
   /* First save ? */
   if (saveFileName[0] == '\0') {
     strcpy(saveFileName, adventureName);

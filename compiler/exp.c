@@ -179,23 +179,46 @@ Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly) {
 
 /*======================================================================*/
 void symbolizeExpression(Expression *exp) {
-  switch (exp->kind) {
-  case WHERE_EXPRESSION:
-    symbolizeWhere(exp->fields.whr.whr);
-    symbolizeExpression(exp->fields.whr.wht);
-    break;
-  case ATTRIBUTE_EXPRESSION:
-    symbolizeExpression(exp->fields.atr.wht);
-    break;
-  case WHAT_EXPRESSION:
-    symbolizeWhat(exp->fields.wht.wht);
-    break;
-  case INTEGER_EXPRESSION:
-  case STRING_EXPRESSION:
-    break;
-  default:
-    SYSERR("Unexpected Expression kind");
-  }
+  List *member;
+
+  if (exp != NULL)
+    switch (exp->kind) {
+    case WHERE_EXPRESSION:
+      symbolizeWhere(exp->fields.whr.whr);
+      symbolizeExpression(exp->fields.whr.wht);
+      break;
+    case WHAT_EXPRESSION:
+      symbolizeWhat(exp->fields.wht.wht);
+      break;
+    case ATTRIBUTE_EXPRESSION:
+      symbolizeExpression(exp->fields.atr.wht);
+      break;
+    case BINARY_EXPRESSION:
+      symbolizeExpression(exp->fields.bin.right);
+      symbolizeExpression(exp->fields.bin.left);
+      break;
+    case SET_EXPRESSION:
+      TRAVERSE(member, exp->fields.set.members)
+	symbolizeExpression(member->element.exp);
+      break;
+    case RANDOM_EXPRESSION:
+      symbolizeExpression(exp->fields.rnd.from);
+      symbolizeExpression(exp->fields.rnd.to);
+      break;
+    case BETWEEN_EXPRESSION:
+      symbolizeExpression(exp->fields.btw.lowerLimit);
+      symbolizeExpression(exp->fields.btw.upperLimit);
+      break;
+    case RANDOM_IN_EXPRESSION:
+      symbolizeExpression(exp->fields.rin.what);
+      break;
+    case INTEGER_EXPRESSION:
+    case STRING_EXPRESSION:
+    case AGGREGATE_EXPRESSION:
+    case SCORE_EXPRESSION:
+    case ISA_EXPRESSION:
+      break;
+    }
 }
 
 
@@ -220,15 +243,19 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
 }
 
 /*======================================================================*/
-void verifyContainerExpression(Expression *what, Context *context,
+Bool verifyContainerExpression(Expression *what, Context *context,
                                char constructDescription[]) {
 
   if (what->type != ERROR_TYPE) {
-    if (what->type != INSTANCE_TYPE)
+    if (what->type != INSTANCE_TYPE) {
       lmLogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
-    else if (!expressionIsContainer(what, context))
+      return FALSE;
+    } else if (!expressionIsContainer(what, context)) {
       expressionIsNotContainer(what, context, constructDescription);
+      return FALSE;
+    }
   }
+  return TRUE;
 }
 
 
@@ -266,7 +293,6 @@ Symbol *contentOf(Expression *what, Context *context) {
     content = contentOfSymbol(symbol);
     break;
   default:
-    SYSERR("Unexpected What kind");
     break;
   }
   return content;
@@ -833,10 +859,12 @@ static void analyzeRandomIn(Expression *exp, Context *context)
 {
   analyzeExpression(exp->fields.rin.what, context);
   if (exp->fields.rin.what->type != SET_TYPE) { /* In a container or in a set? */
-    verifyContainerExpression(exp->fields.rin.what, context,
-			      "'Random In' expression");
-    exp->type = INSTANCE_TYPE;
-    exp->class = contentOf(exp->fields.rin.what, context);
+    if (verifyContainerExpression(exp->fields.rin.what, context,
+				  "'Random In' expression")) {
+      exp->type = INSTANCE_TYPE;
+      exp->class = contentOf(exp->fields.rin.what, context);
+    } else
+      exp->type = ERROR_TYPE;
   } else {
     exp->class = exp->fields.rin.what->class;
     exp->type = classToType(exp->fields.rin.what->class);

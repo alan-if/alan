@@ -221,6 +221,7 @@ void quitGame(void)
 {
   char buf[80];
 
+  current.location = where(HERO, TRUE);
   para();
   while (TRUE) {
     col = 1;
@@ -250,12 +251,14 @@ void quitGame(void)
 /*======================================================================*/
 void restartGame(void)
 {
+  Aint previousLocation = current.location;
+
+  current.location = where(HERO, TRUE);
   para();
   if (confirm(M_REALLY)) {
     longjmp(restartLabel, TRUE);
-  } else
-    return;
-  syserr("Fallthrough in RESTART");
+  }
+  current.location = previousLocation;
 }
 
 

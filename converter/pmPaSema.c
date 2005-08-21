@@ -366,7 +366,7 @@ int rule			/* IN production number */
  print(pmSeSt[pmStkP+1].string); 	break;}
     case 75: { /* <classes> = <classes> 'OR' <class_identifier>; */
 #line 412 "alan.pmk"
- print(" -- ****OR****"); idPrint(pmSeSt[pmStkP+3].string); 	break;}
+ print(" ****OR**** "); idPrint(pmSeSt[pmStkP+3].string); 	break;}
     case 76: { /* <class_identifier> = 'OBJECT'; */
 #line 416 "alan.pmk"
  pmSeSt[pmStkP+1].string = "object"; 	break;}
@@ -722,7 +722,7 @@ int rule			/* IN production number */
  print(" "); 	break;}
     case 262: { /* __genSym#49 =; */
 #line 817 "alan.pmk"
- print(" After "); 	break;}
+ print("After "); 	break;}
     case 260: { /* <event_statement> = 'CANCEL' ID '.'; */
 #line 819 "alan.pmk"
  newline(); print("Cancel "); idPrint(pmSeSt[pmStkP+2].string); print("."); 	break;}

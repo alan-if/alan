@@ -184,11 +184,12 @@ static int val(char str[])
 %%TERMINALS
 
     Identifier = 2,1,1 => '<identifier>';
+    Integer = 3, 2, 1;
 
 %%RECOVERY
 
-    Fiducial('verb', 'does', 'exit', 'event', 'start',
-		'syntax', 'script', 'synonyms', 'container', 'when',
+    Fiducial('verb', 'the', 'every', 'exit', 'event', 'start',
+		'syntax', 'script', 'synonyms', 'when',
 		'mentioned', 'attributes', 'description', 'end', 'check', 'quit');
 
     Separator(',');
