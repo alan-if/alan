@@ -90,7 +90,7 @@ End Add To.
 
 Syntax
   ask = ask (act) about (topic)!
-    Where topic ISA THING 
+    Where topic Isa Thing
       Else "You can't ask about that."
     And act Isa thing
       Else "You can't talk to that."

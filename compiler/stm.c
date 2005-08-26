@@ -274,8 +274,9 @@ static void analyzeSay(Statement *stm, Context *context)
 
   /* Can only use definite/indefinite forms if What is a instance */
   if (stm->fields.say.form != SAY_SIMPLE
-      && stm->fields.say.exp->type != INSTANCE_TYPE
-      && stm->fields.say.exp->type != UNINITIALIZED_TYPE)
+      && (stm->fields.say.exp->type != INSTANCE_TYPE
+	  && stm->fields.say.exp->type != REFERENCE_TYPE
+	  && stm->fields.say.exp->type != UNINITIALIZED_TYPE))
     lmLog(&stm->srcp, 339, sevERR, "");
 }
 
@@ -850,6 +851,7 @@ static void generateSay(Statement *stm)
   case STRING_TYPE:
     emit0(I_SAYSTR);
     break;
+  case REFERENCE_TYPE:
   case INSTANCE_TYPE:
     emit1(I_SAY, stm->fields.say.form);
     break;

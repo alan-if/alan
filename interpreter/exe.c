@@ -1424,13 +1424,8 @@ void describeInstances(void)
   /* Then list all things without a description */
   for (i = 1; i <= header->instanceMax; i++)
     if (admin[i].location == current.location
-	&& (isObject(i)||isActor(i))
-	&& !admin[i].alreadyDescribed) {
-      if (isActor(i)) {		/* Leave actors with descriptions for last */
-	ScriptEntry *scr = scriptOf(i);
-	if (i == HERO || hasDescription(i) || (scr != NULL && scr->description != 0))
-	  continue;
-      }
+	&& !admin[i].alreadyDescribed
+	&& isObject(i)) {
       if (found == 0)
 	printMessageUsingParameter(M_SEE_START, i);
       else if (found > 1)

@@ -5,7 +5,7 @@
 
 
 L
-There is a ball and a policeman here.
+There is a ball here. There is a policeman here.
 
 > give policeman the ball
 OBJECT: Give policeman ball. Give ball to policeman. ACTOR: Give policeman 

@@ -5,7 +5,8 @@
 
 
 L
-There is a mr nocaps, a mr Caps and a janitor here.
+There is a mr nocaps here. There is a mr Caps here. There is a janitor 
+here.
 
 > x mr nocaps
 Verb: mr nocaps End Verb. Event e: mr nocaps, mr Caps, janitor. Mr nocaps, 
@@ -13,7 +14,8 @@ mr Caps, the janitor. There is a mr nocaps here. There is a mr Caps here.
 There is a janitor here. End Event. Event ll:
 
 L
-There is a mr nocaps, a mr Caps and a janitor here. End Event.
+There is a mr nocaps here. There is a mr Caps here. There is a janitor 
+here. End Event.
 
 > x caps
 Verb: mr Caps End Verb.

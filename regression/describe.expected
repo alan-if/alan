@@ -7,8 +7,8 @@
 
 
 Grand Location
-You are at a Grand Location. There is a o, a a1 and a mr. a3 here. This
-is a2.
+You are at a Grand Location. There is a o here. There is a a1 here. This
+is a2. There is a mr. a3 here.
 
 > d
 You are at a Grand Location. There is a hero here. There is a a1 here. 
@@ -16,9 +16,9 @@ This is a2. There is a mr. a3 here.
 
 > l
 Grand Location
-You are at a Grand Location. There is a o, a a1 and a mr. a3 here. This
-is a2. There is a hero here. There is a a1 here. This is a2. There is a 
-mr. a3 here.
+You are at a Grand Location. There is a o here. There is a a1 here. This
+is a2. There is a mr. a3 here. There is a hero here. There is a a1 here. 
+This is a2. There is a mr. a3 here.
 
 > 
 
