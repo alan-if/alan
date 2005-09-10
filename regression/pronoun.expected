@@ -26,6 +26,15 @@ I don't know what you mean by 'p1'.
 > x p2
 You x the t2.
 
+> y t1 with t2
+You y the t1 with the t2.
+
+> y p1 with t2
+You y the t1 with the t2.
+
+> y t1 with p1
+You y the t1 with the t1.
+
 > 
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 

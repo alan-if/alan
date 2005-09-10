@@ -32,6 +32,7 @@ Changes in V3.0alpha1:
   integer)
 - Fixed a problem where you could not refer to the script of an actor, if
   the actor was a loop variable.
+- Fixed inheritance of Initialize clause.
 
 Changes in v3.0dev36:
 - Printing of  pronouns

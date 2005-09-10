@@ -1235,10 +1235,9 @@ static void runInheritedInitialize(Aint theClass) {
 
 /*----------------------------------------------------------------------*/
 static void runInitialize(Aint theInstance) {
+  runInheritedInitialize(instance[theInstance].parent);
   if (instance[theInstance].initialize != 0)
     interpret(instance[theInstance].initialize);
-  else
-    runInheritedInitialize(instance[theInstance].parent);
 }
 
 
