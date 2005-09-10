@@ -31,7 +31,7 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
-Source: "games\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
