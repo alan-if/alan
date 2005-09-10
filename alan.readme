@@ -1,7 +1,7 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2005-07-25
+			      2005-09-10
 
 
 THE NEWS IN SHORT:
@@ -19,15 +19,19 @@ will get a command line version or a Windows GUI version. They are
 completely compatible.
 
 Changes in V3.0alpha1:
-- Unified the automatic display of objects and actors so that they now are listed together
-  in indefinite form.
+- Unified the automatic display of objects and actors so that they now
+  both are listed in indefinite form. Actors are still listed separately
+  since they might carry things and have script descriptions.
 - Moved the special actor handling of automatic display to the library
 - Changed the message identifiers SEE_OBJ_xxxx to SEE_xxxx
 - Removed the message identifier SEE_ACTOR
-- Adjusted automatic listing of containers without a description so that it always occurs
-  unless the container is opaque.
+- Adjusted default listing of containers without a description so that
+  it always occurs unless the container is opaque.
 - Added analysis of parameter references embedded in strings.
-
+- Allowed expression in Step After <expression> (previously only allowed
+  integer)
+- Fixed a problem where you could not refer to the script of an actor, if
+  the actor was a loop variable.
 
 Changes in v3.0dev36:
 - Printing of  pronouns

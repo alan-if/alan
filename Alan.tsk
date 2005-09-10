@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>561.89</origest>
-<currest>563.89</currest>
+<origest>563.89</origest>
+<currest>565.89</currest>
 <elapsed>419.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>61</origest>
-<currest>61</currest>
+<origest>63</origest>
+<currest>63</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increment: version 3.0alpha1</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
+<origest>9</origest>
+<currest>9</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
@@ -83,7 +83,7 @@ Would "There is a actor here." be a better default?</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Use Script x For l did not work if l is a local</desc>
+<desc>Use Script x For l does not work if l is a local</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -107,6 +107,51 @@ Would "There is a actor here." be a better default?</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0alpha2</desc>
+<notes/>
+<priority>2</priority>
+<origest>26</origest>
+<currest>26</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+
+Design:</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Script should not require an actor reference if inside an Actor class</desc>
+<notes>Currently it does</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Warn if loop variable hides some symbol</desc>
+<notes>especially if it refers to a class because that probably indicates the misconception of:
+
+FOR EACH entity DO
+
+but that is not allowed:
+
+FOR EACH instance ISA entity DO
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -142,72 +187,6 @@ by assuming that it should not be used if the instance
 is plural. Then the plural message should be:
 
         "There are $1"
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add header slot and structure for the SCOPE structure</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
-<notes>Both should actually say:
-  I don't know what you mean by '$1', the $1, $1 or $1.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New options for separator and punctuation character sets</desc>
-<notes>Option
-  separators ",.!?"
-  punctuators ".?!"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Version 3.0alpha2</desc>
-<notes/>
-<priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Settings dialogue for compiler on Windows</desc>
-<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
-
-Design:</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Warn if loop variable hides some symbol</desc>
-<notes>especially if it refers to a class because that probably indicates the misconception of:
-
-FOR EACH entity DO
-
-but that is not allowed:
-
-FOR EACH instance ISA entity DO
 </notes>
 <priority>2</priority>
 <origest>1</origest>
@@ -358,6 +337,15 @@ Multiple %1 '%2'</notes>
 <notes>DONE for verbs
 
 TODO: Descriptions, ?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun matching multiple parameters should give an error message</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -577,15 +565,22 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
+<origest>19</origest>
+<currest>19</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Scope definitions</desc>
-<notes>Go for Gregs suggestion, but change the syntax of a SCOPE to:
+<notes>Go for Gregs suggestion below, but change the syntax of a SCOPE to:
 
   Scope topic_scope Is In known_topics.
+
+NOTE however that Greg's suggestion can be made more general since it allows a general expression:
+
+  Scope topic_scope Is obj
+    Where obj In known_topics And obj Isa topic.
+
+-------------------------------------
 
 A suggestion from Greg:
 
@@ -634,6 +629,26 @@ method
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>New options for separator and punctuation character sets</desc>
+<notes>Option
+  separators ",.!?"
+  punctuators ".?!"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add header slot and structure for the SCOPE structure</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Disambiguation using checks</desc>
@@ -869,6 +884,18 @@ END DEPEND.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
+<notes>Both should actually say:
+  I don't know what you mean by '$1', the $1, $1 or $1.
+
+Actually multiple pronoun matches is not detected....</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 </task>
 <task>
