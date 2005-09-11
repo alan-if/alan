@@ -7,12 +7,10 @@
 THE NEWS IN SHORT:
 
 This is the first alpha version (v3.0alpha1) of Alan V3. Alan v3 features
-many new enhancements especially object orientation.
+many new enhancements, especially object orientation, compared to version 2.
 
 This package contains the compiler, the interpreter, the manual, the
-source for the Saviour game. It also includes a converter program
-which takes an Alan v2 source file and outputs a V3 version of the
-same source.
+source for the Saviour game.
 
 This Mac OSX version is a command line version of both the compiler and the
 interpreter. GUI versions are planned.
