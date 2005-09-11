@@ -1,0 +1,50 @@
+
+			    Welcome to the
+	       ALAN ADVENTURE LANGUAGE INTERPRETER
+			      2005-09-10
+
+THE SHORT STORY:
+
+This is the first alpha version (v3.0alpha1) of Alan V3. Alan v3 features
+many new enhancements especially object orientation.
+
+This package contains a Mac OSX version of a command line interpreter. GUI versions are planned.
+
+
+THE LONG STORY:
+
+The Alan System is one of the most easy-to-use tools to create
+interactive fiction, aka. adventure games. The Alan System is based on
+a special purpose computer language designed to be used by people more
+interested in authoring and designing games than for computer
+programmers. The system consists of a compiler, which compiles Alan
+source to a compact and portable form, and an interpreter that
+interprets such a form to allow playing of the game.
+
+The Alan System is register-ware. To use Alan for authoring and
+distributing you games all you need to do is to register. Registration
+can be done with a simple email to thomas@junovagen.se.
+
+This is the first alpha test version of Alan V3. Alan V3 is feature complete
+and will be released when it has received enough alpha and beta testing. You
+can help! Report any problem and suggestions. You can visit 
+
+	http://wwww.alanif.se
+
+to find out more about Alan V3.
+
+If you have any problems don't hesitate to contact the author at the
+following email address:
+
+	thomas@junovagen.se
+
+All communication is welcome! You may also wish to visit the
+Alan Home Pages at
+
+	http://www.alanif.se
+
+
+If you haven't already, join the 1300 people registered. Happy Authoring!
+
+Thomas Nilsson
+thomas@junovagen.se
