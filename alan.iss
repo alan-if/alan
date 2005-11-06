@@ -5,9 +5,9 @@
 AppName=Alan V3 Adventure Language System for Windows
 AppVerName=Alan VERSION preview
 AppPublisher=ThoNi Adventure Factories
-AppPublisherURL=http://welcome.to/alan-if
-AppSupportURL=http://welcome.to/alan-if
-AppUpdatesURL=http://welcome.to/alan-if
+AppPublisherURL=http://www.alanif.se
+AppSupportURL=http://www.alanif.se
+AppUpdatesURL=http://www.alanif.se
 DefaultDirName={pf}\Alan V3 for Windows
 DefaultGroupName=Alan V3 for Windows
 AllowNoIcons=yes
@@ -39,6 +39,7 @@ Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\WindowsGLK\mppsdk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
@@ -46,7 +47,7 @@ Source: "..\games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
-Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://welcome.to/alan-if"
+Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.alanif.se"
 
 [Icons]
 Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"

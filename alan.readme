@@ -156,15 +156,16 @@ Changes in v3.0.33 development:
 - Added UNDO as a response to QUIT
 - Empty player input is now interpreted as forfeiting that command turn
 
-Note: To run the GUI interpreter 'winarun' you will need a Windows
-"GLK.DLL". WindowsGLK DLL is included in this distribution but can
-also be downloaded from:
+Note: To run the Windows GUI interpreter 'winarun' you will need a
+Windows "GLK.DLL". WindowsGLK DLL is included in this distribution but
+can also be downloaded from:
 
 http://www.ifarchive.org/if-archive/programming/glk/implementations/WindowsGlk-?.zip
 
-The plain command line version 'arun.exe' requires a "cygwin1.dll". The
-Cygwin DLL can be installed from http://www.cygwin.org, click "Install
-now" and unselect everything to get just the DLL.
+The Windows plain command line version 'arun.exe' requires a
+"cygwin1.dll". The Cygwin DLL can be installed from
+http://www.cygwin.org, click "Install now" and unselect everything to
+get just the DLL.
 
 
 
@@ -180,22 +181,22 @@ interprets such a form to allow playing of the game.
 
 The Alan System is register-ware. To use Alan for authoring and
 distributing you games all you need to do is to register. Registration
-can be done with a simple email to thomas.nilsson@progindus.se.
+can be done with a simple email to thomas@junovagen.se.
 
-This is a development preview of Alan V3. Alan V3 will released when
-enough of the new functionality is implemented and beta tested. You
-can help! Report any problem and suggestions. You can visit 
+This is an alpha test version Alan V3. Alan V3 is feature complete and
+will be officially released when enough alpha and beta test experience
+show that it is mature enough. You can help! Report any problem and
+suggestions. You can visit
 
 	http://wwww.alanif.se
 
 to find out more about Alan V3.
 
-You can also find the current production version there, which is
-V2.8. It can also be found at
+You can also find the legacy v2.8 version there. It may also be found at
 
 	http://www.ifarchive.org
 
-and its mirrors.
+and its mirrors, where V3 will show up.
 
 For complete copying conditions refer to the file COPYING in the
 distribution or appendix J in the manual.
@@ -210,8 +211,7 @@ Alan Home Pages at
 
 	http://www.alanif.se
 
-
-If you haven't already, join the 1295 people registered. Happy Authoring!
+If you haven't already, join the 1300 people registered. Happy Authoring!
 
 Thomas Nilsson
 thomas@junovagen.se

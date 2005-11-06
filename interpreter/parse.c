@@ -972,12 +972,12 @@ static SyntaxEntry *findSyntax(int verbCode) {
 }
 
 /*----------------------------------------------------------------------*/
-static void disambiguateUsingChecks(ParamEntry candidates[], int position) {
+static void disambiguate(ParamEntry candidates[], int position) {
   int i;
   for (i = 0; i < allLength; i++) {
     if (candidates[i].instance != 0) {	/* Already empty? */
       parameters[position] = candidates[i];
-      if (!possible())
+      if (!reachable(candidates[i].instance) || !possible())
 	candidates[i].instance = 0;	/* Remove this from list */
     }
   }
@@ -1069,7 +1069,7 @@ static void try(ParamEntry multipleParameters[])
     for (multiplePosition = 0; parameters[multiplePosition].instance != 0;
 	 multiplePosition++)
       ; /* Iterate over parameters to find multiple position */
-    disambiguateUsingChecks(multipleParameters, multiplePosition);
+    disambiguate(multipleParameters, multiplePosition);
     parameters[multiplePosition].instance = 0;		/* Restore multiple marker */
     if (listLength(multipleParameters) == 0) {
       parameters[0].instance = EOF;

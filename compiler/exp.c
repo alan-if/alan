@@ -457,7 +457,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
   case WHAT_EXPRESSION:
     atr = resolveAttribute(what, exp->fields.atr.id, context);
     exp->type = verifyExpressionAttribute(exp, atr);
-    if (exp->type == INSTANCE_TYPE) {
+    if (exp->type == INSTANCE_TYPE || exp->type == REFERENCE_TYPE) {
       if (atr->referenceClass != NULL)
 	/* Set the expressions class to the class of the attribute */
 	exp->class = atr->referenceClass;

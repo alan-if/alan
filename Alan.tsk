@@ -4,125 +4,207 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>563.89</origest>
-<currest>565.89</currest>
-<elapsed>419.89</elapsed>
+<origest>574.89</origest>
+<currest>576.89</currest>
+<elapsed>421.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>63</origest>
-<currest>63</currest>
-<elapsed>9</elapsed>
+<origest>66</origest>
+<currest>66</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Increment: version 3.0alpha1</desc>
-<notes/>
-<priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
-<elapsed>9</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Initialize should inherit accumulated</desc>
-<notes>Now it is overridden but it makes more sense to accumulate them and execute them from the general to the more specific. This way the instance does not have to know about all things that is necessary to initialize.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should use author names instead of player names</desc>
-<notes>It does, doesn't it?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Default description for a instance should be either in definite or indefinite form.</desc>
-<notes>Is there a problem with current defaults:
- - There is a object here.
- - Actor is here.
-
-Would "There is a actor here." be a better default?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>List actors that have no description of their own in the same way as objects.</desc>
-<notes>This includes script descriptions, i.e. an actor that has a script description should not be listed in the list but separately afterwards. But that would be automatically so, since that would be considered a description.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Refactor SEE_OBJ_xxxx and SEE_ACTOR_xxx into SEE_xxxx</desc>
-<notes>Also use the same list for all things that do not have their own description.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Scan print strings and warn for parameter references where there are no parameters</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Use Script x For l does not work if l is a local</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Step After &lt;expression&gt;</desc>
-<notes>Currently only allows integer</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Potential problem: non-ISO sorting of dictionary</desc>
-<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
+<origest>33</origest>
+<currest>33</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Make attribute of reference attribute does not work when inherited</desc>
+<notes>See regression/otherside</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If an opaque container contains an instance that is matched by ALL handling it is should no be actioned upon</desc>
+<notes>Verify this theory.
+
+Probably a missing accessible() somewhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"undo" as a response to "quit?" undoes wrong command</desc>
+<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
+
+&gt; cut box
+...
+&gt;...
+&gt; move tv
+quit? undo
+'cut box' undone.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Tors GLK issues</desc>
+<notes>use __APPLE__ not __macosx__ to detect for macosx.
+
+don't include windows.h in glkstart.c if you're not on windows.
+
+glk_window_move_cursor does not move relative,
+so don't use "col" when calculating the location of the score.
+
+  glk_window_move_cursor(glkStatusWin, glkWidth - strlen(line) - 1, 0);
+
+i think the makefile.glk may be broken, there are a lot
+of files that are not listed but still needed.
+
+En sak till jag hittade nu: i openResourceFile() försöker du öppna
+resursfilen med
+en absolut sökväg. Det kommer inte fungera i de flesta glk-implementationer som
+har sandlådat vanliga fil-accesser. Jag rekommenderar att du använder
+glkunix_stream_open_pathname() eller bara använder filnamnet utan
+sökväg.
+
+I showImage ignorerar du align-argumentet.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Steve G's linux porting issues</desc>
+<notes>------------------------------------------------------
+alan
+----
+
+changed Makefile.unix
+uncommented the -DSTDIONCONSTANT
+took out 'unit' stuff
+   and 'test' from end of 'alan' line
+
+sysdep.h
+added
+#ifdef __linux__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
+#endif
+
+
+
+------------------------------------------------------
+arun
+----
+changed Makefile.unix:
+added -DSTDIONCONSTANT
+removed -DUSE_READLINE coz #defined in code for __UNIX__
+removed 'unittest' from alan target dependancies
+
+sysdep.h :
+added
+#ifdef __linux__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
+#endif
+
+term.c :
+removed get windowsisze stuff coz ioctl incompatible
+   error was:
+cc -g -Wall -funsigned-char -I  -DREVERSED -DPROGNAME=\"arun\"   
+-D__unix__ -DHAVE_ANSI -DSTDIONONCONST   -c -o term.o term.c
+term.c: In function 'getPageSize':
+term.c:52: error: conflicting types for 'ioctl'
+term.c:52: note: a parameter list with an ellipsis can't match an empty  
+parameter name list declaration
+/usr/include/sys/ioctl.h:42: error: previous declaration of 'ioctl' was  
+here
+make: *** [term.o] Error 1
+
+term.c:52 says
+    extern int ioctl();
+
+/usr/include/sys/ioctl.h:42
+   extern int ioctl (int __fd, unsigned long int __request, ...)  
+__THROW;
+
+
+
+
+
+
+glk arun
+--------
+- copied giblorb.c &amp; h and gi_dispa.c &amp;.h from glkterm dir into  
+interpreter dir
+
+- in glkstart.c, put windows.h inside havewinglk's ifdef (so isn't  
+attempted to be used for linux)
+
+- took winglk.c out of glksources in makefile
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Settings dialogue for compiler on Windows</desc>
 <notes>Need: we need to be able to give options to the compiler while still double clicking on it.
 
 Design:</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Floyd example</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Interpreter can no longer match and warn for version numbers correctly</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New names of packages and readme.&lt;os&gt;-files</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinArun does not set window title to game name when starting the interpreter and selecting the game in the selector</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -195,19 +277,6 @@ is plural. Then the plural message should be:
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Think about similarities between the different clauses</desc>
-<notes>DESCRIPTION [CHECK DOES]
-ENTERED
-EXIT [CHECK DOES END]
-
-Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Consistency for empty property declarations</desc>
 <notes>An empty Description signifies a description but an empty one. Possibly this should instead signify a return to the default. An empty should then be Description ""
 
@@ -258,21 +327,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <task>
 <desc>Refactor loop filters so that Between can be combined with others</desc>
 <notes>Example in suspended regression/integerInSet</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Attribute references without "of" in certain contexts?</desc>
-<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
-
-  The x
-     Has y,
-     Description Say y.
-  End The x.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -565,8 +619,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>19</origest>
-<currest>19</currest>
+<origest>21</origest>
+<currest>21</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -635,6 +689,21 @@ method
 <notes>Option
   separators ",.!?"
   punctuators ".?!"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Spelling correction in interpreter?</desc>
+<notes>Need: 'word'? I don't know that word. Do you mean 'another' y/n ?
+
+Design: when finding an unknown word we find the least distant word and ask player? If yes replace word in input and continue parsing, else abort as currently.
+
+Possibly we need to be able to turn this off on the authors discretion since some might not like their secret words to be revealed.
+
+http://en.wikipedia.org/wiki/Levenshtein_distance</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -884,6 +953,162 @@ END DEPEND.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Instance structures</desc>
+<notes>Greg Ewing:
+
+Mike Arnaud wrote:
+
+&gt; And remember that ALAN makes this much easier now with classes.
+
+Although in cases like this, it doesn't make it as much easier
+as it perhaps should. To do a really good door you need at least
+two objects, or even three -- one for each side of the door and
+one to hold the shared state of open/closed, etc. So what we
+really want is some way of easily instantiating not just a single
+object, but an assembly of objects with predefined relationships
+between them.
+
+I've been thinking about a feature which would allow you to
+have an object with nested object definitions within it.
+Instantiating the outer object would then automatically
+instantiate the inner objects as well, with some way of
+overriding their default properties.
+
+Here's how you might be able to define a door using this feature:
+
+
+   syntax open = 'open' (obj).
+
+
+   every DoorSide isa Thing
+
+     verb open does
+       if parent of obj is not open then -- Sub-objects have a built-in
+         make parent of obj open.        -- attribute 'parent' that
+         "The door is now open."         -- refers to the outer object.
+       else
+         "That door is already open."
+       end if.
+     end verb.
+
+   end the DoorSide.
+
+
+   every Door isa Entity
+
+     is open.
+
+     the Side1 isa DoorSide  -- Every instance of Door will
+     end the Side1.          -- have its own instances of Side1
+                             -- and Side2.
+     the Side2 isa DoorSide
+     end the Side2.
+
+   end the Door.
+
+
+And to instantiate a door:
+
+
+   the LoungeToHallwayDoor isa Door
+
+     with Side1 at Lounge    -- When instantiating a compound
+       name 'hallway' 'door' -- object, selected attributes of
+     end Side1.              -- its sub-objects can be overridden
+                             -- using a 'with' statement (or some
+     with Side2 at Hallway   -- other suitable syntax).
+       name 'lounge' 'door'
+     end Side2.
+
+   end the LoungeToHallwayDoor.
+
+
+Relevant exits would be linked to the door as follows:
+
+
+   the Lounge isa Location
+     ...
+     exit east to Hallway
+       check LoungeToHallwayDoor is open
+         else "The door into the hallway is closed."
+
+etc...
+
+I can see other potential uses besides doors. The program names of
+sub-objects would be local to the parent object, so for example if
+you have many tables in your game, you can call them all Table and
+nest their definitions inside the relevant rooms, referring to them
+as Table of Lounge, Table of Kitchen, etc. instead of having to give
+them all globally-unique identifiers.
+
+As another example, you could define a class representing a chest
+of drawers, including the implementations of the individual drawers,
+and easily instantiate the whole assembly in each bedroom. The
+possibilities are endless...
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Attribute references without "of" in certain contexts?</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Think about similarities between the different clauses</desc>
+<notes>DESCRIPTION [CHECK DOES]
+ENTERED
+EXIT [CHECK DOES END]
+
+Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>How to read the end point of a direction?</desc>
+<notes>
+Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
+
+Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Isa DIRECTION</desc>
+<notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
+
+SYNTAX
+ go = go (d)
+  WHERE d ISA DIRECTION
+  ...
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
@@ -974,8 +1199,8 @@ Actually multiple pronoun matches is not detected....</notes>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>84</origest>
-<currest>84</currest>
+<origest>83</origest>
+<currest>83</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1742,33 +1967,6 @@ The For Each construct with IN &lt;container&gt; or AT &lt;location&gt; can be u
 <isopen>1</isopen>
 </task>
 <task>
-<desc>How to read the end point of a direction?</desc>
-<notes>
-Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
-
-Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Isa DIRECTION</desc>
-<notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
-
-SYNTAX
- go = go (d)
-  WHERE d ISA DIRECTION
-  ...
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Verify $&lt;n&gt; w.r.t the syntax parameters</desc>
 <notes/>
 <priority>2</priority>
@@ -2153,7 +2351,7 @@ This strategy makes it possible to use the same script code for all instances th
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Redefinition of base classes</desc>
 <notes/>
@@ -2226,9 +2424,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>391.89</origest>
-<currest>391.89</currest>
-<elapsed>391.89</elapsed>
+<origest>400.89</origest>
+<currest>400.89</currest>
+<elapsed>400.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -2332,7 +2530,7 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <origest>8</origest>
 <currest>8</currest>
 <elapsed>8</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Moving from one location to another</desc>
 <notes/>
@@ -2413,7 +2611,7 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Testing of attributes on locations</desc>
 <notes/>
@@ -2477,7 +2675,7 @@ Traversing between instances inheriting from location more than one level.</note
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>MAKE statements</desc>
 <notes/>
@@ -2504,7 +2702,7 @@ Traversing between instances inheriting from location more than one level.</note
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Syntaxes for simple verbs</desc>
 <notes>
@@ -2532,7 +2730,7 @@ Like QUIT, LOOK.</notes>
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Reference to a parameter</desc>
 <notes/>
@@ -2613,7 +2811,7 @@ Requires parameter lists, possibly in class or instance. Analysis should allow:
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Initial location could be in a container</desc>
 <notes/>
@@ -2689,7 +2887,7 @@ or something similar.</notes>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Bug: IT does not work in the interpreter</desc>
 <notes/>
@@ -2761,7 +2959,7 @@ Add To Every object ...</notes>
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Actors with attributes</desc>
 <notes/>
@@ -2815,7 +3013,7 @@ Add To Every object ...</notes>
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow user defined classes in the restrictions</desc>
 <notes/>
@@ -2870,7 +3068,7 @@ Should generate the "Mentioned"</notes>
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Inherited container properties</desc>
 <notes/>
@@ -2906,7 +3104,7 @@ Should generate the "Mentioned"</notes>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>All actors should execute and rules should execute in between</desc>
 <notes/>
@@ -2970,7 +3168,7 @@ It should only execute the expression once. The current code generation and inte
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Warn for instances and classes without inheritance</desc>
 <notes/>
@@ -3020,7 +3218,7 @@ This is the old "container actor" and "container object".</notes>
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>3</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Where HERE</desc>
 <notes>
@@ -3058,7 +3256,7 @@ So that we can do a simple numbering scheme of them like with attributes when pr
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Reference to attributes to class identifiers should be prohibited</desc>
 <notes>
@@ -3125,7 +3323,7 @@ In all references to attributes</notes>
 <origest>5</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Document Current Actor/Location</desc>
 <notes/>
@@ -3186,7 +3384,7 @@ Also changed extension to .A3C
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Updated manual</desc>
 <notes/>
@@ -3213,7 +3411,7 @@ Also changed extension to .A3C
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>4</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Inherited DESCRIPTION</desc>
 <notes/>
@@ -3333,7 +3531,7 @@ start at aaa.
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>6</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>If a SAY refers to a parameter the print out should use the same words</desc>
 <notes>
@@ -3408,7 +3606,7 @@ Argument handling in WinGlkArun seems a bit messy...</notes>
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>DESCRIPTION CHECK/DOES</desc>
 <notes>
@@ -3454,7 +3652,7 @@ The Checks should also be additive so that all checks in the inheritance chain m
 <origest>4</origest>
 <currest>4</currest>
 <elapsed>4</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>For Every x Isa &lt;class&gt; Do xxx End For. (BLOCK, LOCALS A-code part)</desc>
 <notes>
@@ -3520,7 +3718,7 @@ Inherited attributes which override others with another type should refer to the
 <origest>11</origest>
 <currest>11</currest>
 <elapsed>11</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Inherited verb bodies</desc>
 <notes>
@@ -3655,7 +3853,7 @@ This implies collecting a scriptList during analysis, keeping only script refere
 <origest>12</origest>
 <currest>12</currest>
 <elapsed>12</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Try CHECKs in the complete inheritance tree</desc>
 <notes/>
@@ -3845,7 +4043,7 @@ Objects are now default-described by the mention-clause which is generated by th
 <origest>10.06</origest>
 <currest>10.06</currest>
 <elapsed>10.06</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Pre-defined classes literal, integer &amp; string</desc>
 <notes>Need to have those class numbers also in the interpreter (ACODE.h)
@@ -4003,7 +4201,7 @@ Verify and produce an error.</notes>
 <origest>7.83</origest>
 <currest>7.83</currest>
 <elapsed>7.83</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>FOR EACH &lt;id&gt; ISA &lt;class&gt; DO ... &lt;id&gt;</desc>
 <notes>Create a temporary structure in the symbol table
@@ -4130,7 +4328,7 @@ addVerb.alan
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>ISA expression</desc>
 <notes/>
@@ -4221,7 +4419,7 @@ If not present in A3C class names must be available.
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Stop ACTOR</desc>
 <notes>
@@ -4342,7 +4540,7 @@ Refer to compiler/testing/addVerb losing line 2</notes>
 <origest>10</origest>
 <currest>10</currest>
 <elapsed>10</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Show "imagefile"</desc>
 <notes>Use glk_image_draw() in the text window. Align with imagealign_MarginLeft. Possibly add Show "imagefile" [Left|Right] to use also imagealign_MarginRight.
@@ -4539,7 +4737,7 @@ Allocate one big dynamic area in which we copy instance, admin. Attribute areas 
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Parser confusion in v2.8</desc>
 <notes>From Lydia:
@@ -4585,7 +4783,7 @@ properly producing a blank line.
 <origest>16</origest>
 <currest>16</currest>
 <elapsed>16</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>WinArun's about box shows WINARUNVERSION instead of real version</desc>
 <notes/>
@@ -4769,7 +4967,7 @@ Warn (in instances that are containers) for declaring them as they would hide th
 <origest>8</origest>
 <currest>7</currest>
 <elapsed>7</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Capitalization of nouns</desc>
 <notes>Think about a way to allow nouns to be capitalized, either automatic but preferably by author choice. C.f. german. Language option dependent?
@@ -4839,7 +5037,7 @@ It should also work from the desktop by double-clicking. Output should go in sam
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>19</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -5196,7 +5394,7 @@ Generates wrong syntax tables for b and c.</notes>
 <origest>9</origest>
 <currest>9</currest>
 <elapsed>9</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>List error messages in same order as they where generated</desc>
 <notes>This is particularly important when syntax corrections leads to semantic errors. It is essential that they are show in that order. This change must be made in List.imp,
@@ -5345,7 +5543,7 @@ This clause should not be run if the actor x is already in the room.</notes>
 <origest>17</origest>
 <currest>17</currest>
 <elapsed>17</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Attributes of class type</desc>
 <notes>Attributes should be allowed to refer to other entities. This would require strict classing of them and verification of assignment of them. Such an attribute can only be changed to something a sub class of what it was initially set to. But on the other hand we must also be allowed to do:
@@ -5536,7 +5734,7 @@ Could not repeat this!</notes>
 <origest>18</origest>
 <currest>18</currest>
 <elapsed>18</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow expression as actor in "Use script for..."</desc>
 <notes>Investigate Stop actor.
@@ -5758,7 +5956,7 @@ End The door.
 <origest>17</origest>
 <currest>17</currest>
 <elapsed>17</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Sets</desc>
 <notes>Some kind of list or array datatype, like TADS lists, with
@@ -5985,7 +6183,7 @@ Change ':' to 'THEN'</notes>
 <origest>41</origest>
 <currest>41</currest>
 <elapsed>41</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Multiple distant objects for omnipotent syntaxes should say "I don't know which one"</desc>
 <notes>Currently it results in "I don't see any x here."</notes>
@@ -6494,7 +6692,7 @@ NOTE any instance for which noun in noSuch()</notes>
 <origest>27</origest>
 <currest>27</currest>
 <elapsed>27</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Refactor listing so that all termination produces a list with the appropiate format</desc>
 <notes>Prompted by SYSERR not producing -cc style listing which trashed alanIDE:s message parsing</notes>
@@ -6814,7 +7012,7 @@ Currently the interpreter crashes.</notes>
 <origest>52</origest>
 <currest>53</currest>
 <elapsed>53</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Start At location.</desc>
 <notes>No check is performed in the start section that the identifier is actually an instance.</notes>
@@ -7370,6 +7568,100 @@ Including Add and inherit!</notes>
 <isopen>1</isopen>
 </task>
 </task>
+<task>
+<desc>Increment: version 3.0alpha1</desc>
+<notes/>
+<priority>2</priority>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>9</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Initialize should inherit accumulated</desc>
+<notes>Now it is overridden but it makes more sense to accumulate them and execute them from the general to the more specific. This way the instance does not have to know about all things that is necessary to initialize.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should use author names instead of player names</desc>
+<notes>It does, doesn't it?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Default description for a instance should be either in definite or indefinite form.</desc>
+<notes>Is there a problem with current defaults:
+ - There is a object here.
+ - Actor is here.
+
+Would "There is a actor here." be a better default?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>List actors that have no description of their own in the same way as objects.</desc>
+<notes>This includes script descriptions, i.e. an actor that has a script description should not be listed in the list but separately afterwards. But that would be automatically so, since that would be considered a description.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Refactor SEE_OBJ_xxxx and SEE_ACTOR_xxx into SEE_xxxx</desc>
+<notes>Also use the same list for all things that do not have their own description.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scan print strings and warn for parameter references where there are no parameters</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Script x For l does not work if l is a local</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Step After &lt;expression&gt;</desc>
+<notes>Currently only allows integer</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Potential problem: non-ISO sorting of dictionary</desc>
+<notes>So don't sort it. Linear search will be sufficiently fast.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 </task>
 <task>
 <desc>Misc</desc>
@@ -7378,7 +7670,7 @@ Including Add and inherit!</notes>
 <origest>6</origest>
 <currest>6</currest>
 <elapsed>2</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Converter from 2.8 to 3.0</desc>
 <notes/>
