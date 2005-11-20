@@ -1956,9 +1956,7 @@ static int val(char str[])
 <actor_statement>			-- RETURNS: stm
     = 'use' 'script' ID <optional_for_actor> '.'
     %%
-	%<actor_statement>.stm = newStatement(`&%'use'.srcp, USE_STATEMENT);
-	%<actor_statement>.stm->fields.use.script = %ID.id;
-	%<actor_statement>.stm->fields.use.actorExp = %<optional_for_actor>.exp;
+	%<actor_statement>.stm = newUseStatement(%'use'.srcp, %ID.id, %<optional_for_actor>.exp);
     %%
 
     ! 'stop' <what> '.'

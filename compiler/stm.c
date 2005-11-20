@@ -66,6 +66,17 @@ Statement *newDescribeStatement(Srcp srcp, Expression *what)
 
 
 /*======================================================================*/
+Statement *newUseStatement(Srcp srcp, IdNode *script, Expression *actor)
+{
+  Statement *new = newStatement(&srcp, USE_STATEMENT);
+  new->fields.use.script = script;
+  new->fields.use.actorExp = actor;
+  return(new);
+}
+
+
+
+/*======================================================================*/
 Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where)
 {
   Statement *new = newStatement(&srcp, LOCATE_STATEMENT);
@@ -520,7 +531,7 @@ static void analyzeUse(Statement *stm, Context *context)
   Symbol *symbol;
   Script *script;
 
-  if (stm->fields.use.actorExp == NULL && context->instance == NULL)
+  if (stm->fields.use.actorExp == NULL && context->kind != CLASS_CONTEXT && context->kind != INSTANCE_CONTEXT)
     lmLog(&stm->srcp, 401, sevERR, "");
   else {
     if (stm->fields.use.actorExp != NULL) {
@@ -533,9 +544,15 @@ static void analyzeUse(Statement *stm, Context *context)
 	}
       symbol = symbolOfExpression(exp, context);
     } else {
-      if (context->instance == NULL && context->instance->props == NULL)
-	SYSERR("Unexpected context");
-      symbol = context->instance->props->id->symbol;
+      if (context->kind == INSTANCE_CONTEXT) {
+	if (context->instance == NULL || context->instance->props == NULL)
+	  SYSERR("Unexpected context");
+	symbol = context->instance->props->id->symbol;
+      } else if (context->kind == CLASS_CONTEXT) {
+	if (context->class == NULL || context->class->props == NULL)
+	  SYSERR("Unexpected context");
+	symbol = context->class->props->id->symbol;
+      }
     }
 
     /* Find the script */

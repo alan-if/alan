@@ -26,6 +26,7 @@
 
 /* Create a new Statement node */
 extern Statement *newStatement(Srcp *srcp, StmKind class);
+extern Statement *newUseStatement(Srcp srcp, IdNode *script, Expression *actor);
 extern Statement *newDescribeStatement(Srcp srcp, Expression *what);
 extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
