@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>574.89</origest>
-<currest>576.89</currest>
+<origest>575.89</origest>
+<currest>577.89</currest>
 <elapsed>422.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>66</origest>
-<currest>66</currest>
+<origest>67</origest>
+<currest>67</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
+<origest>34</origest>
+<currest>34</currest>
 <elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
@@ -54,6 +54,26 @@ Probably a missing accessible() somewhere.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Library: open bodies says "Can't"</desc>
+<notes>Probably
+Add To Every object
+    Verb open_with
+	When obj1
+	    Check obj2 In hero
+	        Else "You don't have" Say The obj2. "."
+	    Does
+	    	"You can't open" Say The obj1. "with" Say The obj2. "."
+    End Verb.
+End Add To.
+
+Should actually be an "AND obj1 Is openable"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
 <notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
 
@@ -64,6 +84,33 @@ Probably a missing accessible() somewhere.</notes>
 quit? undo
 'cut box' undone.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Interpreter can no longer match and warn for version numbers correctly</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun matching multiple parameters should give an error message</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -186,15 +233,6 @@ Design:</notes>
 </task>
 <task>
 <desc>Floyd example</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Interpreter can no longer match and warn for version numbers correctly</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -334,15 +372,6 @@ pointing to "count" since that is the left hand side of the assumed expression
 <isopen>1</isopen>
 </task>
 <task>
-<desc>--warnings to turn off warning messages does not work</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
 <notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
 <priority>2</priority>
@@ -391,15 +420,6 @@ Multiple %1 '%2'</notes>
 <notes>DONE for verbs
 
 TODO: Descriptions, ?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Pronoun matching multiple parameters should give an error message</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
