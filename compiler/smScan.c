@@ -18,21 +18,15 @@
 #include "encode.h"
 
 /* For open, read & close */
-#ifdef __win__
 #include <fcntl.h>
-#endif
 #ifdef __sun__
 #include <unistd.h>
-#include <fcntl.h>
 #endif
 #ifdef __vms__
 #include <unixio.h>
 #endif
 #ifdef __dos__
 #include <io.h>
-#endif
-#ifdef __mac__
-#include <fcntl.h>
 #endif
 
 
@@ -914,11 +908,9 @@ static void smSourcePosition(
       if(*smAt==10) {
 	smThis->smPosLine=smAt;
 	smThis->smNextLine++;
-	smThis->smNextPosition++;
-      } else if ((*smAt==13) && (*(smAt+1)==10)) {
+      } else if((*smAt==13) && (*(smAt+1)==10)) {
 	smThis->smPosLine=smAt++;
 	smThis->smNextLine++;
-	smThis->smNextPosition+=2;
       }
 
     smThis->smNextColumn=smEnd-smThis->smPosLine;

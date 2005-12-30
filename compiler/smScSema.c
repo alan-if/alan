@@ -18,21 +18,15 @@
 #include "encode.h"
 
 /* For open, read & close */
-#ifdef __win__
 #include <fcntl.h>
-#endif
 #ifdef __sun__
 #include <unistd.h>
-#include <fcntl.h>
 #endif
 #ifdef __vms__
 #include <unixio.h>
 #endif
 #ifdef __dos__
 #include <io.h>
-#endif
-#ifdef __mac__
-#include <fcntl.h>
 #endif
 
 
@@ -72,11 +66,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 
     if (search) {
       strcpy(fnmbuf, fnm);
-#ifdef THINK_C
-      if ((this->fd = open(fnmbuf, O_TEXT)) < 0) { /* Does automatic <cr> to <nl> conversion */
-#else
-      if ((this->fd = open(fnmbuf, 0)) < 0) {
-#endif
+      if ((this->fd = open(fnmbuf, _O_RAW)) < 0) {
 	for (ip = importPaths; ip != NULL; ip = ip->next) {
 	  strcpy(fnmbuf, ip->element.str);
 #ifndef __mac__
@@ -84,11 +74,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 	    strcat(fnmbuf, "/");
 #endif
 	  strcat(fnmbuf, fnm);
-#ifdef THINK_C
-	  if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
-#else
-	  if ((this->fd = open(fnmbuf, 0)) > 0)
-#endif
+	  if ((this->fd = open(fnmbuf, _O_RAW)) > 0)
 	    break;
 	}
 	if (ip == NULL)
@@ -96,11 +82,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
       }
     } else {
       strcat(fnmbuf, fnm);
-#ifdef THINK_C
-      if ((this->fd = open(fnmbuf, O_TEXT)) < 0)
-#else
-      if ((this->fd = open(fnmbuf, 0)) < 0)
-#endif
+      if ((this->fd = open(fnmbuf, _O_RAW)) < 0)
 	return FALSE;
     }
   }
