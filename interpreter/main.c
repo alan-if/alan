@@ -244,7 +244,7 @@ void statusline(void)
     sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maximumScore, current.tick);
   else
     sprintf(line, "%d moves", current.tick);
-  glk_window_move_cursor(glkStatusWin, glkWidth-strlen(line), 0);
+  glk_window_move_cursor(glkStatusWin, glkWidth-strlen(line)-1, 0);
   glk_put_string(line);
   needSpace = FALSE;
 
@@ -1051,7 +1051,7 @@ static void load(void)
   if (crc != tmphdr.acdcrc) {
     sprintf(err, "Checksum error in Acode (.a3c) file (0x%lx instead of 0x%lx).",
 	    crc, tmphdr.acdcrc);
-    if (ignoreErrorOption)
+    if (!ignoreErrorOption)
       syserr(err);
     else {
       output("<WARNING! $$");

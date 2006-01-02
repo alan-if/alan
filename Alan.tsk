@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>575.89</origest>
-<currest>577.89</currest>
-<elapsed>422.89</elapsed>
+<origest>580.89</origest>
+<currest>582.89</currest>
+<elapsed>427.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>67</origest>
-<currest>67</currest>
-<elapsed>3</elapsed>
+<origest>69</origest>
+<currest>69</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha2</desc>
 <notes/>
 <priority>2</priority>
-<origest>34</origest>
-<currest>34</currest>
-<elapsed>3</elapsed>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Make attribute of reference attribute does not work when inherited</desc>
@@ -54,96 +54,12 @@ Probably a missing accessible() somewhere.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Library: open bodies says "Can't"</desc>
-<notes>Probably
-Add To Every object
-    Verb open_with
-	When obj1
-	    Check obj2 In hero
-	        Else "You don't have" Say The obj2. "."
-	    Does
-	    	"You can't open" Say The obj1. "with" Say The obj2. "."
-    End Verb.
-End Add To.
-
-Should actually be an "AND obj1 Is openable"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"undo" as a response to "quit?" undoes wrong command</desc>
-<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
-
-&gt; cut box
-...
-&gt;...
-&gt; move tv
-quit? undo
-'cut box' undone.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Interpreter can no longer match and warn for version numbers correctly</desc>
+<desc>Position calculation for -ide does not seem to be right</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>--warnings to turn off warning messages does not work</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Pronoun matching multiple parameters should give an error message</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Tors GLK issues</desc>
-<notes>use __APPLE__ not __macosx__ to detect for macosx.
-
-don't include windows.h in glkstart.c if you're not on windows.
-
-glk_window_move_cursor does not move relative,
-so don't use "col" when calculating the location of the score.
-
-  glk_window_move_cursor(glkStatusWin, glkWidth - strlen(line) - 1, 0);
-
-i think the makefile.glk may be broken, there are a lot
-of files that are not listed but still needed.
-
-En sak till jag hittade nu: i openResourceFile() försöker du öppna
-resursfilen med
-en absolut sökväg. Det kommer inte fungera i de flesta glk-implementationer som
-har sandlådat vanliga fil-accesser. Jag rekommenderar att du använder
-glkunix_stream_open_pathname() eller bara använder filnamnet utan
-sökväg.
-
-I showImage ignorerar du align-argumentet.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -217,14 +133,113 @@ attempted to be used for linux)
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Tors GLK issues</desc>
+<notes>don't include windows.h in glkstart.c if you're not on windows.
+
+glk_window_move_cursor does not move relative,
+so don't use "col" when calculating the location of the score.
+
+  glk_window_move_cursor(glkStatusWin, glkWidth - strlen(line) - 1, 0);
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0alpha3</desc>
+<notes/>
+<priority>2</priority>
+<origest>22</origest>
+<currest>22</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>New names of packages and readme.&lt;os&gt;-files</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Settings dialogue for compiler on Windows</desc>
-<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+<desc>More Tor porting issues</desc>
+<notes>use __APPLE__ not __macosx__ to detect for macosx.
 
-Design:</notes>
+i think the makefile.glk may be broken, there are a lot
+of files that are not listed but still needed.
+
+En sak till jag hittade nu: i openResourceFile() försöker du öppna
+resursfilen med
+en absolut sökväg. Det kommer inte fungera i de flesta glk-implementationer som
+har sandlådat vanliga fil-accesser. Jag rekommenderar att du använder
+glkunix_stream_open_pathname() eller bara använder filnamnet utan
+sökväg.
+
+I showImage ignorerar du align-argumentet.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Library: open bodies says "Can't"</desc>
+<notes>Probably
+Add To Every object
+    Verb open_with
+	When obj1
+	    Check obj2 In hero
+	        Else "You don't have" Say The obj2. "."
+	    Does
+	    	"You can't open" Say The obj1. "with" Say The obj2. "."
+    End Verb.
+End Add To.
+
+Should actually be an "AND obj1 Is openable"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>"undo" as a response to "quit?" undoes wrong command</desc>
+<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
+
+&gt; cut box
+...
+&gt;...
+&gt; move tv
+quit? undo
+'cut box' undone.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun matching multiple parameters should give an error message</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -241,8 +256,10 @@ Design:</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>New names of packages and readme.&lt;os&gt;-files</desc>
-<notes/>
+<desc>Settings dialogue for compiler on Windows</desc>
+<notes>Need: we need to be able to give options to the compiler while still double clicking on it.
+
+Design:</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -438,6 +455,7 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
 <desc>Better debugger</desc>
 <notes/>
@@ -526,7 +544,6 @@ Also need to separate the path and the basename since the user will want to use 
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
 </task>
 </task>
 <task>
@@ -639,8 +656,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>21</currest>
+<origest>23</origest>
+<currest>23</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -709,6 +726,29 @@ method
 <notes>Option
   separators ",.!?"
   punctuators ".?!"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Image align and scaling options</desc>
+<notes>glk_image_show() has an align parameter?
+glk_image_show_scaled() could be used to scale acording to screen resolution?
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
+<notes>Both should actually say:
+  I don't know what you mean by '$1', the $1, $1 or $1.
+
+Actually multiple pronoun matches is not detected....</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -802,7 +842,7 @@ DESIGN: generate a FRAME with as many slots as there are locals. Access to local
 </task>
 <task>
 <desc>Looping over a string</desc>
-<notes>There is little use for strip if you can not loop over a string. Maybe
+<notes>There is little use for strip if you cannot loop over a string. Maybe
 
   For Each (Word|Character) &lt;f&gt; In &lt;string&gt;</notes>
 <priority>2</priority>
@@ -1130,26 +1170,14 @@ SYNTAX
 <isopen>1</isopen>
 </task>
 </task>
-<task>
-<desc>Unify multiple pronoun matches with multiple adj/noun matches</desc>
-<notes>Both should actually say:
-  I don't know what you mean by '$1', the $1, $1 or $1.
-
-Actually multiple pronoun matches is not detected....</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>7</currest>
-<elapsed>2</elapsed>
+<origest>8</origest>
+<currest>10</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>AlanIDE 0.0.4</desc>
@@ -1182,21 +1210,30 @@ Actually multiple pronoun matches is not detected....</notes>
 <desc>AlanIDE v0.0.5</desc>
 <notes/>
 <priority>2</priority>
-<origest>3</origest>
-<currest>5</currest>
-<elapsed>0</elapsed>
+<origest>6</origest>
+<currest>8</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>Select project location in wizard</desc>
+<desc>Strings spanning multiple lines does not color correctly</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Strings spanning multiple lines does not color correctly</desc>
+<desc>Syntax Coloring preferences</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Select project location in wizard</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -1213,6 +1250,24 @@ Actually multiple pronoun matches is not detected....</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Syntax Coloring preference change should notify editor to update</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Only rebuild AST for changed portions of the tree</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 </task>
 <task>
@@ -1222,7 +1277,7 @@ Actually multiple pronoun matches is not detected....</notes>
 <origest>83</origest>
 <currest>83</currest>
 <elapsed>13</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Override additively inherited properties</desc>
 <notes>Names are inherited in an additive way, is there a need for overriding NAMES from the parent? If so is this common to more properties? Which ones are inherited in an additive way?</notes>

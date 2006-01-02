@@ -26,13 +26,11 @@ TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
-#Settings for Gargoyle GLK variant
+#Settings for Gargoyle GLK variant (experimental!)
 GARGLKROOT = ../../Gargoyle/garglk
 GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
 GARGLKINCLUDE = -I$(GARGLKROOT)
 GARGLKLIB = -L$(GARGLKROOT)/../build/debug/garglk -lgarglk -lpng -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg ../../../fmodapi374win/api/lib/libfmod.a
-
-
 
 
 #Set up for specific target
@@ -42,11 +40,11 @@ winarun: CYGWIN = -mno-cygwin -mwindows
 winarun: LIBS = $(WINGLKLIB)
 winarun: EXE = winarun.exe
 
-termarun: GLKDEFS = $(TERMGLKDEFS)
-termarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
-termarun: CYGWIN = 
-termarun: LIBS = $(TERMGLKLIB)
-termarun: EXE = termarun.exe
+glkarun: GLKDEFS = $(TERMGLKDEFS)
+glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
+glkarun: CYGWIN = 
+glkarun: LIBS = $(TERMGLKLIB)
+glkarun: EXE = glkarun.exe
 
 gararun: GLKDEFS = $(GARGLKDEFS)
 gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
@@ -82,8 +80,7 @@ arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 all:
 	$(MAKE) arun
 	$(MAKE) winarun
-	$(MAKE) glkarun
-	$(MAKE) gararun
+#	$(MAKE) glkarun
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
@@ -94,12 +91,7 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
-gararun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
-	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp $(EXE) ../bin
-
-termarun: checkTarget $(TERMARUNOBJECTS) arun.res
+glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
@@ -120,9 +112,6 @@ about: about.c arun.res
 
 clean:
 	-rm *.o
-
-spa.o: spa.c spa.h
-	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
 .PHONY: checkTarget
 checkTarget:

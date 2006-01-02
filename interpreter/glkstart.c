@@ -94,9 +94,9 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
+#include <windows.h>
 #endif
 
-#include <windows.h>
 
 static int argCount;
 static char *argumentVector[10];

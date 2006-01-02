@@ -284,6 +284,10 @@ extern char *strdup(char *str);
 #define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 
+#ifdef __linux__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
+#endif
+
 
 /* Native character functions */
 extern int isSpace(unsigned int c);      /* IN - Native character to test */

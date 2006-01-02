@@ -361,9 +361,9 @@ static      char c;
 
 %%SKIP
 
-  blanks = [ \n\t\x0d]+;
+  blanks = [ \r\n\t\x0d]+;
 
-  comment = '--' [^\n]*;
+  comment = '--' [^\n\r]*;
 
   include = '$include' 
     %%

@@ -727,11 +727,9 @@ static void smSourcePosition(
       if(*smAt==10) {
 	smThis->smPosLine=smAt;
 	smThis->smNextLine++;
-	smThis->smNextPosition++;
-      } else if ((*smAt==13) && (*(smAt+1)==10)) {
+      } else if((*smAt==13) && (*(smAt+1)==10)) {
 	smThis->smPosLine=smAt++;
 	smThis->smNextLine++;
-	smThis->smNextPosition++;
       }
 
     smThis->smNextColumn=smEnd-smThis->smPosLine;

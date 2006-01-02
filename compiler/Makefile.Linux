@@ -1,0 +1,52 @@
+# Makefile for alan compiler on Linux
+#
+
+CC = gcc
+
+# i386 architecture
+# OSDEFS = -DSTDIONONCONST
+
+LDFLAGS = -g
+
+CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
+
+# Include common list of sources
+include sources.mk
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main target
+#
+alan: $(MAINOBJECTS)
+	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
+	@-mkdir ../bin 2> /dev/null
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Unit testing
+#
+
+unittests: unit
+	@./unit
+
+unit : $(TESTOBJS)
+	$(CC) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
+
+# Run all unit tests!
+test: unittests
+	-cd testing; regr
+
+#
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+
+spa.o: spa.c spa.h
+	$(CC) $(CFLAGS) -c spa.c -o spa.o 
+
+smScanx.o: smScanx.c
+
+#
+include dependencies.mk
+

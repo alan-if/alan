@@ -19,9 +19,6 @@ COMPILER = -DCOMPILER=\"[glk]\"
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-# Define this if the headers are reversed on this platform
-#REVERSED = -DREVERSED
-
 # Define the program name
 PROGNAME=-DPROGNAME=\"$(GLKTARGET)\"
 
@@ -33,7 +30,7 @@ INSTALLDIR = /usr/local/bin
 
 ###  Do not edit below this line  ### 
 
-ARUNOPTS = $(COMPILER) $(VERBOSE) $(CRCLOG) $(REVERSED) $(PROGNAME) $(GLK)
+ARUNOPTS = $(COMPILER) $(VERBOSE) $(CRCLOG) $(PROGNAME) $(GLK)
 
 CC = gcc
 CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS)

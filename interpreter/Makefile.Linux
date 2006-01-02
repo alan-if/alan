@@ -1,4 +1,4 @@
-# Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
+# Makefile for Alan interpreter to be built with Glk for Linux (using gcc)
 
 # OS-specific definitions
 OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
@@ -13,7 +13,7 @@ OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
 #GLK = -DHAVE_GLK
 #GLKLIB = -lglkterm -lcurses
 #GLKLIB = $(GLKPREFIX)/Glk.lib
-#GLKSRCS = glkstart.c glkio.c winglk.c
+#GLKSRCS = glkstart.c glkio.c
 
 
 # Define this to make interpreter log each crc calculation step
@@ -51,7 +51,7 @@ include sources.mk
 # Main targets
 all: $(TARGET)
 
-arun : $(ARUNOBJECTS) unitTest
+arun : $(ARUNOBJECTS)
 	$(LINK) -o $(TARGET) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 
 glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
@@ -60,11 +60,8 @@ glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
 termarun : $(TERMARUNOBJECTS)
 	$(LINK) -o $(TARGET) $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 
-dumpacd: dumpacd.o reverse.o spa.o
+dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 	$(LINK) -o dumpacd $(LDFLAGS) dumpacd.o reverse.o spa.o
-
-spa.o: spa.c spa.h
-	$(CC) $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
 
 install: $(TARGET)
 	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
