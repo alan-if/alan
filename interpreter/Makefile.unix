@@ -32,7 +32,7 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
 ARUNOPTS = $(CRCLOG) $(PROGNAME) $(GLK)
 
-#CC = gcc
+CC = gcc
 CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 
 LINK = gcc
