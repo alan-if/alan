@@ -4,160 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>580.89</origest>
-<currest>582.89</currest>
+<origest>581.89</origest>
+<currest>583.89</currest>
 <elapsed>427.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>69</origest>
-<currest>69</currest>
-<elapsed>6</elapsed>
+<origest>65</origest>
+<currest>65</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Version 3.0alpha2</desc>
-<notes/>
-<priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Make attribute of reference attribute does not work when inherited</desc>
-<notes>See regression/otherside</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>If an opaque container contains an instance that is matched by ALL handling it is should no be actioned upon</desc>
-<notes>Verify this theory.
-
-Probably a missing accessible() somewhere.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Use Script should not require an actor reference if inside an Actor class</desc>
-<notes>Currently it does</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Position calculation for -ide does not seem to be right</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Steve G's linux porting issues</desc>
-<notes>------------------------------------------------------
-alan
-----
-
-changed Makefile.unix
-uncommented the -DSTDIONCONSTANT
-took out 'unit' stuff
-   and 'test' from end of 'alan' line
-
-sysdep.h
-added
-#ifdef __linux__
-#define stricmp(s1, s2) strcasecmp(s1, s2)
-#endif
-
-
-
-------------------------------------------------------
-arun
-----
-changed Makefile.unix:
-added -DSTDIONCONSTANT
-removed -DUSE_READLINE coz #defined in code for __UNIX__
-removed 'unittest' from alan target dependancies
-
-sysdep.h :
-added
-#ifdef __linux__
-#define stricmp(s1, s2) strcasecmp(s1, s2)
-#endif
-
-term.c :
-removed get windowsisze stuff coz ioctl incompatible
-   error was:
-cc -g -Wall -funsigned-char -I  -DREVERSED -DPROGNAME=\"arun\"   
--D__unix__ -DHAVE_ANSI -DSTDIONONCONST   -c -o term.o term.c
-term.c: In function 'getPageSize':
-term.c:52: error: conflicting types for 'ioctl'
-term.c:52: note: a parameter list with an ellipsis can't match an empty  
-parameter name list declaration
-/usr/include/sys/ioctl.h:42: error: previous declaration of 'ioctl' was  
-here
-make: *** [term.o] Error 1
-
-term.c:52 says
-    extern int ioctl();
-
-/usr/include/sys/ioctl.h:42
-   extern int ioctl (int __fd, unsigned long int __request, ...)  
-__THROW;
-
-
-
-
-
-
-glk arun
---------
-- copied giblorb.c &amp; h and gi_dispa.c &amp;.h from glkterm dir into  
-interpreter dir
-
-- in glkstart.c, put windows.h inside havewinglk's ifdef (so isn't  
-attempted to be used for linux)
-
-- took winglk.c out of glksources in makefile
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Tors GLK issues</desc>
-<notes>don't include windows.h in glkstart.c if you're not on windows.
-
-glk_window_move_cursor does not move relative,
-so don't use "col" when calculating the location of the score.
-
-  glk_window_move_cursor(glkStatusWin, glkWidth - strlen(line) - 1, 0);
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Version 3.0alpha3</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>22</currest>
+<origest>24</origest>
+<currest>24</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -192,6 +56,19 @@ I showImage ignorerar du align-argumentet.
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Are only CHECKs with corresponding WHEN run?</desc>
+<notes>Or should the WHEN only apply to the DOES-part?
+
+No, a WHEN must apply to checks also which means that only checks with a matching WHEN should be run. Verify that they are!
+
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Library: open bodies says "Can't"</desc>
 <notes>Probably
 Add To Every object
@@ -205,6 +82,15 @@ Add To Every object
 End Add To.
 
 Should actually be an "AND obj1 Is openable"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Menu icons in Arun menu in Winarun</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1278,10 +1164,10 @@ possibilities are endless...
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>83</origest>
-<currest>83</currest>
-<elapsed>13</elapsed>
-<isopen>0</isopen>
+<origest>69</origest>
+<currest>69</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Override additively inherited properties</desc>
 <notes>Names are inherited in an additive way, is there a need for overriding NAMES from the parent? If so is this common to more properties? Which ones are inherited in an additive way?</notes>
@@ -1294,25 +1180,6 @@ possibilities are endless...
 <task>
 <desc>Allow Start section at an arbitrary place in the source</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Infinite loops can occur if the articles try to Say The this.</desc>
-<notes>There are a number of situations that can cause infinite interpreter loops. Like the recursive describe. Possibly they can be detected in the same way.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Are only CHECKs with corresponding WHEN run?</desc>
-<notes>Or should the WHEN only apply to the DOES-part?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1509,45 +1376,6 @@ Note also that there should possibly also be a difference between the QUIT state
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Bug: Syntax typing error</desc>
-<notes>
-Thomas N:
-paramatr() in atr.c
-Statements in ELSE-part of a SYNTAX is really typed to the *complement* of the WHERE-part. I.e. the parameters can nearly always be STRINGS and NUMBERS which do not have attributes. This means that it is almost always impossible to refer to attributes in SYNTAX-ELSE clauses.
-This must be handled by a new strategy for parameter class analysis. See "Parameter environment classing"
-
-SteveG: 
-Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Text formatting "statements"</desc>
-<notes>
-$b for bold? Use ANSI? Or how about:
-
- $bold$
-
- $the x$
-
-Or HTML:
-
-this text is &lt;b&gt;bold&lt;/b&gt;
-
-Or XML-ish:
-
-this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>BUG: Running WinGlkArun from the prompt with wrong command line shows no message</desc>
 <notes/>
 <priority>2</priority>
@@ -1573,20 +1401,6 @@ this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>SYNTAX ELSE parameter analysis</desc>
-<notes>
-From a mail to SteveG:
-The same goes for statements in the ELSE part of the WHERE clause in the SYNTAX declaration, and that is also how it is implemented (except it has some bugs). 
-The problem is just that the assumption is false for exactly those statements. It is actually exactly the *complement* of what the types specified in the WHERE clause! 
-E.g. in the example above the IF statement will be executed whenever the 'o' is *not* an OBJECT. So you can only allow operations legal for NUMBERS, STRINGS, ACTORS etc, actually everything NOT OBJECT.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1621,36 +1435,6 @@ Perhaps this is not a great problem.</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>When executing verbs in current location inherited verbs should be executed also</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>What to do about instances that are neither objects or actors?</desc>
-<notes>
-Currently they are not described at all.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>InstanceAndVerb</desc>
-<notes>regression/pending/instanceAndVerb.alan
-
-syserr() because 'l' is both an instance and a verb.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -1750,15 +1534,6 @@ First the player is shown an intro text (this is the start section). Then he see
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Separate data and code</desc>
-<notes>Separate data and code in the .acd into two separate areas, point to them from the header. This way we could more easily do two things: run from disk (if memory is not large enough to hold both data and code) and implement undo (just save the data area before each command)</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -2006,30 +1781,6 @@ i.e. optional parts of a syntax which can be given default parameters.
 <isopen>1</isopen>
 </task>
 <task>
-<desc>All instances not inheriting from anything should inherit directly from entity</desc>
-<notes>What is the problem with current strategy?
-
-Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
-
-Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
-<notes>This occurs at a initial location clause:
-
-The ... In box</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>EMPTY &lt;location&gt; &lt;where&gt;</desc>
 <notes>
 Or possibly LOCATE ALL &lt;condition&gt; &lt;where&gt;
@@ -2175,15 +1926,6 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Font sensitivity (esp. proportional fonts)</desc>
-<notes>No. Leave this to a graphics layer such as GLK.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>METAVERB, takes no tick</desc>
 <notes/>
 <priority>2</priority>
@@ -2229,8 +1971,8 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add PowerUpdater</desc>
-<notes>Really? Or create own update script on Thoni IIS?</notes>
+<desc>'again' verb</desc>
+<notes>Requires meta-handling like 'undo'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2238,43 +1980,8 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>change "*_x.h" to "*.x"?</desc>
-<notes>
-No, since that would break *.[ch] convention.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Capitalized names is a problem in parameters since printing of them use player input (Step 2)</desc>
-<notes>E.g.
-  &gt; talk to mr x
-
-Does not output
-
-  Mr X does not want to talk to you.
-
-This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
-
-  &gt; examine rod
-  You can not examine the dynamite.
-
-Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
-
-Step 1: Don't ever use player input
-
-Step 2: Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>'again' verb</desc>
-<notes>Requires meta-handling like 'undo'</notes>
+<desc>Add PowerUpdater</desc>
+<notes>Really? Or create own update script on Thoni IIS?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2286,25 +1993,10 @@ Step 2: Even better, but much harder would be to create default mentioned clause
 <desc>Strategies</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Restrictions can only restrict to one class</desc>
-<notes>It will not be possible to handle:
-
- Where o Isa object Or location ...
-
-Can only allow one class in a restriction.
-
-Affects anress() (no loop).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
+<origest>7</origest>
+<currest>7</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
+<isopen>0</isopen>
 <task>
 <desc>Containers</desc>
 <notes>
@@ -2503,9 +2195,9 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>400.89</origest>
-<currest>400.89</currest>
-<elapsed>400.89</elapsed>
+<origest>420.89</origest>
+<currest>420.89</currest>
+<elapsed>420.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
@@ -7740,6 +7432,327 @@ Would "There is a actor here." be a better default?</notes>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Increment: version 3.0alpha2</desc>
+<notes/>
+<priority>2</priority>
+<origest>6</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Make attribute of reference attribute does not work when inherited</desc>
+<notes>See regression/otherside</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>If an opaque container contains an instance that is matched by ALL handling it is should no be actioned upon</desc>
+<notes>Verify this theory.
+
+Probably a missing accessible() somewhere.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Use Script should not require an actor reference if inside an Actor class</desc>
+<notes>Currently it does</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Position calculation for -ide does not seem to be right</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Steve G's linux porting issues</desc>
+<notes>------------------------------------------------------
+alan
+----
+
+changed Makefile.unix
+uncommented the -DSTDIONCONSTANT
+took out 'unit' stuff
+   and 'test' from end of 'alan' line
+
+sysdep.h
+added
+#ifdef __linux__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
+#endif
+
+
+
+------------------------------------------------------
+arun
+----
+changed Makefile.unix:
+added -DSTDIONCONSTANT
+removed -DUSE_READLINE coz #defined in code for __UNIX__
+removed 'unittest' from alan target dependancies
+
+sysdep.h :
+added
+#ifdef __linux__
+#define stricmp(s1, s2) strcasecmp(s1, s2)
+#endif
+
+term.c :
+removed get windowsisze stuff coz ioctl incompatible
+   error was:
+cc -g -Wall -funsigned-char -I  -DREVERSED -DPROGNAME=\"arun\"   
+-D__unix__ -DHAVE_ANSI -DSTDIONONCONST   -c -o term.o term.c
+term.c: In function 'getPageSize':
+term.c:52: error: conflicting types for 'ioctl'
+term.c:52: note: a parameter list with an ellipsis can't match an empty  
+parameter name list declaration
+/usr/include/sys/ioctl.h:42: error: previous declaration of 'ioctl' was  
+here
+make: *** [term.o] Error 1
+
+term.c:52 says
+    extern int ioctl();
+
+/usr/include/sys/ioctl.h:42
+   extern int ioctl (int __fd, unsigned long int __request, ...)  
+__THROW;
+
+
+
+
+
+
+glk arun
+--------
+- copied giblorb.c &amp; h and gi_dispa.c &amp;.h from glkterm dir into  
+interpreter dir
+
+- in glkstart.c, put windows.h inside havewinglk's ifdef (so isn't  
+attempted to be used for linux)
+
+- took winglk.c out of glksources in makefile
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Tors GLK issues</desc>
+<notes>don't include windows.h in glkstart.c if you're not on windows.
+
+glk_window_move_cursor does not move relative,
+so don't use "col" when calculating the location of the score.
+
+  glk_window_move_cursor(glkStatusWin, glkWidth - strlen(line) - 1, 0);
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>compiler/testing/sgcrash1 displays multiple "'box' not defined"</desc>
+<notes>This occurs at a initial location clause:
+
+The ... In box</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>All instances not inheriting from anything should inherit directly from entity</desc>
+<notes>What is the problem with current strategy?
+
+Document it and make sure abilities are handled correctly. E.g. it should not be described, that is added by thing. What about presence?
+
+Or should we force inheritance clause? That would make it easier for a beginner not to forget to give the instance a class when they intend to. I strongly think YES!</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restrictions can only restrict to one class</desc>
+<notes>It will not be possible to handle:
+
+ Where o Isa object Or location ...
+
+Can only allow one class in a restriction.
+
+Affects anress() (no loop).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Capitalized names is a problem in parameters since printing of them use player input (Step 2)</desc>
+<notes>E.g.
+  &gt; talk to mr x
+
+Does not output
+
+  Mr X does not want to talk to you.
+
+This is because the 'x' is in the player input. This design was made so as to not reveal objects secret properties:
+
+  &gt; examine rod
+  You can not examine the dynamite.
+
+Is it possible to do both? Current view is that a the feature with hiding names is an author responsibility. E.g he/she must program the mentioned clause to take care of this if required.
+
+Step 1: Don't ever use player input
+
+Step 2: Even better, but much harder would be to create default mentioned clauses by listing the word-numbers to show. (A words number would be the number of the lower case version of the word). Then a Say could select the words the player input but show them in the case the author wanted.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>change "*_x.h" to "*.x"?</desc>
+<notes>
+No, since that would break *.[ch] convention.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Font sensitivity (esp. proportional fonts)</desc>
+<notes>No. Leave this to a graphics layer such as GLK.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Infinite loops can occur if the articles try to Say The this.</desc>
+<notes>There are a number of situations that can cause infinite interpreter loops. Like the recursive describe. Possibly they can be detected in the same way.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Text formatting "statements"</desc>
+<notes>
+$b for bold? Use ANSI? Or how about:
+
+ $bold$
+
+ $the x$
+
+Or HTML:
+
+this text is &lt;b&gt;bold&lt;/b&gt;
+
+Or XML-ish:
+
+this text is &lt;indent&gt;indented&lt;/indent&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>InstanceAndVerb</desc>
+<notes>regression/pending/instanceAndVerb.alan
+
+syserr() because 'l' is both an instance and a verb.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>What to do about instances that are neither objects or actors?</desc>
+<notes>
+Currently they are not described at all.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Separate data and code</desc>
+<notes>Separate data and code in the .acd into two separate areas, point to them from the header. This way we could more easily do two things: run from disk (if memory is not large enough to hold both data and code) and implement undo (just save the data area before each command)</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>SYNTAX ELSE parameter analysis</desc>
+<notes>
+From a mail to SteveG:
+The same goes for statements in the ELSE part of the WHERE clause in the SYNTAX declaration, and that is also how it is implemented (except it has some bugs). 
+The problem is just that the assumption is false for exactly those statements. It is actually exactly the *complement* of what the types specified in the WHERE clause! 
+E.g. in the example above the IF statement will be executed whenever the 'o' is *not* an OBJECT. So you can only allow operations legal for NUMBERS, STRINGS, ACTORS etc, actually everything NOT OBJECT.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Syntax typing error</desc>
+<notes>
+Thomas N:
+paramatr() in atr.c
+Statements in ELSE-part of a SYNTAX is really typed to the *complement* of the WHERE-part. I.e. the parameters can nearly always be STRINGS and NUMBERS which do not have attributes. This means that it is almost always impossible to refer to attributes in SYNTAX-ELSE clauses.
+This must be handled by a new strategy for parameter class analysis. See "Parameter environment classing"
+
+SteveG: 
+Secondly, I got an error about using an attribute in a CHECK's ELSE statement that said I couldn't do it because there was no guarantee that the entity wouldn't be a string or container in which case the attribute would not be defined. That error message was quite correct. However when I changed the CHECK to be more specific, I did not get the error message even though the entity might still be a string etc. The attached bad_attr.ala game demonstrates.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>When executing verbs in current location inherited verbs should be executed also</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
 </task>
 </task>
 <task>
