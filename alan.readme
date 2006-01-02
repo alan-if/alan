@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2005-09-10
+			      2006-01-02
 
 
 THE NEWS IN SHORT:
 
-This is the first alpha version (v3.0alpha1) of Alan V3. Alan v3 features
+This is the second alpha version (v3.0alpha2) of Alan V3. Alan v3 features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -18,6 +18,14 @@ Depending on if you used the ZIP-archive or the Windows installer you
 will get a command line version or a Windows GUI version. They are
 completely compatible.
 
+Changes in V3.0alpha2:
+- Fixed a problem with items in an opaque container being possible to
+  manipulate using ALL.
+- Fixed a problem with inherited reference attributes affecting proposed
+  door class implementation. Now works as specified.
+- Fixed position calculation with -ide (for use with AlanIDE) to be
+  platform independent.
+ 
 Changes in V3.0alpha1:
 - Unified the automatic display of objects and actors so that they now
   both are listed in indefinite form. Actors are still listed separately

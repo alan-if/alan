@@ -656,8 +656,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
+<origest>26</origest>
+<currest>26</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -726,6 +726,23 @@ method
 <notes>Option
   separators ",.!?"
   punctuators ".?!"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Clean up format of the different clauses</desc>
+<notes>DESCRIPTION [CHECK DOES]
+ENTERED
+EXIT [CHECK DOES END]
+START &lt;where&gt; '.' &lt;statements&gt;
+
+Any better structure? Optional END for DESCRIPTION, ENTERED etc?
+
+Maybe:
+START &lt;where&gt; (DOES &lt;statements&gt; | '.' )</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -861,6 +878,48 @@ DESIGN: generate a FRAME with as many slots as there are locals. Access to local
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
+<task>
+<desc>Attribute references without "of" in certain contexts?</desc>
+<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
+
+  The x
+     Has y,
+     Description Say y.
+  End The x.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>How to read the end point of a direction?</desc>
+<notes>
+Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
+
+Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Isa DIRECTION</desc>
+<notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
+
+SYNTAX
+ go = go (d)
+  WHERE d ISA DIRECTION
+  ...
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Free UNDO state when out of memory and retry</desc>
@@ -1107,61 +1166,6 @@ of drawers, including the implementations of the individual drawers,
 and easily instantiate the whole assembly in each bedroom. The
 possibilities are endless...
 
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Attribute references without "of" in certain contexts?</desc>
-<notes>It would be possible to use simple references to an attribute if the context is inside a class or instance. E.g
-
-  The x
-     Has y,
-     Description Say y.
-  End The x.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Think about similarities between the different clauses</desc>
-<notes>DESCRIPTION [CHECK DOES]
-ENTERED
-EXIT [CHECK DOES END]
-
-Any better structure? Optional END for DESCRIPTION, ENTERED etc?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>How to read the end point of a direction?</desc>
-<notes>
-Suggested by Andrew Duncan Heale &lt;helix@yoyo.cc.monash.edu.au&gt;
-
-Possibly we could have directions as some kind of instances of a class direction and then allow expressions of this type. Also a location could be a container which takes direction?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Isa DIRECTION</desc>
-<notes>Allow ISA DIRECTION in syntax restrictions? OK, how do we then perform the natural
-
-SYNTAX
- go = go (d)
-  WHERE d ISA DIRECTION
-  ...
 </notes>
 <priority>2</priority>
 <origest>1</origest>
