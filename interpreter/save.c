@@ -59,7 +59,7 @@ static void saveSets(AFILE saveFile) {
 /*----------------------------------------------------------------------*/
 static void saveGameInfo(AFILE saveFile) {
   fwrite((void *)"ASAV", 1, 4, saveFile);
-  fwrite((void *)&header->vers, 1, sizeof(Aword), saveFile);
+  fwrite((void *)&header->version, 1, sizeof(Aword), saveFile);
   fwrite((void *)adventureName, 1, strlen(adventureName)+1, saveFile);
   fwrite((void *)&header->uid, 1, sizeof(Aword), saveFile);
 }
@@ -270,7 +270,7 @@ static void verifyCompilerVersion(AFILE saveFile) {
   char savedVersion[4];
 
   fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
-  if (!ignoreErrorOption && strncmp(savedVersion, header->vers, 4))
+  if (!ignoreErrorOption && strncmp(savedVersion, header->version, 4))
     error(M_SAVEVERS);
 }
 

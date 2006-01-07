@@ -41,7 +41,7 @@ int eot(Aword *adr)
 static void syserr(char str[])
 {
   printf("SYSTEM ERROR - %s\n", str);
-  exit(0);
+  exit(-1);
 }
 
 
@@ -760,8 +760,8 @@ static void dumpACD(void)
   Aword crc = 0;
   int i;
 
-  printf("VERSION: %d.%d(%d)%c\n", header->vers[3],
-	 header->vers[2], header->vers[1], header->vers[0]?header->vers[0]:' ');
+  printf("VERSION: %d.%d(%d)%c\n", header->version[3], header->version[2],
+	 header->version[1], header->version[0]?header->version[0]:' ');
   printf("SIZE: %s\n", dumpAddress(header->size));
   printf("PACK: %s\n", header->pack?"Yes":"No");
   printf("PAGE LENGTH: %ld\n", header->pageLength);
@@ -820,14 +820,19 @@ static void load(char acdfnm[])
 {
   ACodeHeader tmphdr;
   FILE *codfil;
+  int readsize;
+  int headerSize = sizeof(tmphdr);
 
   codfil = fopen(acdfnm, "rb");
   if (codfil == NULL) {
     fprintf(stderr, "Could not open Acode-file: '%s'\n\n", acdfnm);
-    exit(0);
+    exit(-1);
   }
-
-  fread(&tmphdr, sizeof(tmphdr), 1, codfil);
+  readsize = fread(&tmphdr, 1, sizeof(tmphdr), codfil);
+  if (readsize != headerSize) {
+    fprintf(stderr, "Malformed .A3C file. Could not read header.\n\n");
+    exit(-1);
+  }
   if (tmphdr.tag[3] != 'A' && tmphdr.tag[1] != 'A' && tmphdr.tag[2] != 'A' && tmphdr.tag[0] != 'N') {
     printf("Not an ACD-file: '%s'\n", acdfnm);
     exit(1);

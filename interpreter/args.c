@@ -24,8 +24,8 @@
 #endif
 
 
-/*----------------------------------------------------------------------*/
-static char *gameName(char *fullPathName) {
+/*======================================================================*/
+char *gameName(char *fullPathName) {
   char *foundGameName;
   foundGameName = strdup(baseNameStart(fullPathName));
   

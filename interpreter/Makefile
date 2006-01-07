@@ -110,6 +110,8 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 about: about.c arun.res
 	gcc -o $@ -ggdb -mno-cygwin -mwindows about.c arun.res
 
+headerGenerator: headerGenerator.c
+
 clean:
 	-rm *.o
 

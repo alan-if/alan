@@ -157,6 +157,9 @@ int winglk_startup_code(const char* cmdline)
       usage();
       terminate(0);
     }
+    adventureName = gameName(adventureFileName);
+    winglk_app_set_name(adventureName);
+    winglk_window_set_title(adventureName);
 #else
     printf("You should supply a game file to play.\n");
     usage();

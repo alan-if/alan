@@ -11,4 +11,5 @@
 #define PROGNAME "arun"
 #endif
 
+extern char *gameName(char fullPathName[]);
 extern void args(int argc, char *argv[]);

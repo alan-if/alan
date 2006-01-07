@@ -569,6 +569,7 @@ void emitHeader()
 
   /* Generate header tag "ALAN" */
   if (littleEndian()) {
+    /* Since we reverse these when emitting */
     acodeHeader.tag[3] = 'A';
     acodeHeader.tag[2] = 'L';
     acodeHeader.tag[1] = 'A';
@@ -582,21 +583,22 @@ void emitHeader()
 
   /* Construct version marking */
   if (littleEndian()) {
-    acodeHeader.vers[3] = (Aword)alan.version.version;
-    acodeHeader.vers[2] = (Aword)alan.version.revision;
-    acodeHeader.vers[1] = (Aword)alan.version.correction;
-    acodeHeader.vers[0] = (Aword)alan.version.state[0];
+    /* Since we reverse these when emitting */
+    acodeHeader.version[3] = (Aword)alan.version.version;
+    acodeHeader.version[2] = (Aword)alan.version.revision;
+    acodeHeader.version[1] = (Aword)alan.version.correction;
+    acodeHeader.version[0] = (Aword)alan.version.state[0];
   } else {
-    acodeHeader.vers[0] = (Aword)alan.version.version;
-    acodeHeader.vers[1] = (Aword)alan.version.revision;
-    acodeHeader.vers[2] = (Aword)alan.version.correction;
-    acodeHeader.vers[3] = (Aword)alan.version.state[0];
+    acodeHeader.version[0] = (Aword)alan.version.version;
+    acodeHeader.version[1] = (Aword)alan.version.revision;
+    acodeHeader.version[2] = (Aword)alan.version.correction;
+    acodeHeader.version[3] = (Aword)alan.version.state[0];
   }
 
   /* The timestamping isn't important, it is only used to give the
      compiled game a semi-unique id so that loading a saved game can
      not be done if it was not created with exactly the same compiled
-     game. You can remove it or replace it by something other. It does
+     game. You can remove it or replace it by something else. It does
      not affect game compatibility. */
 #ifdef __POSIX__
   gettimeofday(&times, NULL);

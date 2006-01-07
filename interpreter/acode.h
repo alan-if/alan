@@ -421,7 +421,7 @@ typedef struct DictionaryEntry { /* Dictionary */
 typedef struct ACodeHeader {
 /* Important info */
   char tag[4];			/* "ALAN" */
-  char vers[4];			/* Version of compiler */
+  char version[4];		/* Version of compiler */
   Aword uid;			/* Unique id of the compiled game */
   Aword size;			/* Size of ACD-file in Awords */
 /* Options */

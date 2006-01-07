@@ -243,12 +243,12 @@ static void createStringLiteral(char *unquotedString) {
   literal[litCount].value = (Aword) strdup(unquotedString);
 }
 
+static Bool continued = FALSE;
 /*----------------------------------------------------------------------*/
 static void scan(void)
 {
   int i;
   int w;
-  static Bool continued = FALSE;
 
   if (continued) {
     /* Player used '.' to separate commands. Read next */
@@ -306,9 +306,9 @@ static void scan(void)
 
 
 /*======================================================================*/
-void allocateParameters(ParamEntry **area, int size) {
+void allocateParameters(ParamEntry **area) {
   if (*area == NULL) {
-    *area = (ParamEntry *) allocate(sizeof(ParamEntry)*(size+1));
+    *area = (ParamEntry *) allocate(sizeof(ParamEntry)*(header->instanceMax+1));
     (*area)->instance = EOF;
   }
 }
@@ -321,7 +321,7 @@ static void setupParameterForWord(int parameter, int playerWordIndex) {
   /* Trick message handling to output the word, create a string literal */
   createStringLiteral(pointerTo(dictionary[playerWords[playerWordIndex].code].string));
 
-  allocateParameters(&parameters, header->maxParameters);
+  allocateParameters(&parameters);
 
   parameters[parameter-1].instance = instanceFromLiteral(litCount);	/* A faked literal */
   parameters[parameter-1].useWords = TRUE;
@@ -336,7 +336,7 @@ void setupParameterForInstance(int parameter, Aint instance) {
   if (parameter > 2)
     syserr("Saving more parameters than expected");
 
-  allocateParameters(&parameters, header->maxParameters);
+  allocateParameters(&parameters);
 
   savedParameters[parameter-1] = parameters[parameter-1];
   savedParameters[parameter].instance = EOF;
@@ -353,7 +353,7 @@ void setupParameterForInteger(int parameter, Aint value) {
   if (parameter > 2)
     syserr("Saving more parameters than expected");
 
-  allocateParameters(&parameters, header->maxParameters);
+  allocateParameters(&parameters);
 
   savedParameters[parameter-1] = parameters[parameter-1];
   savedParameters[parameter].instance = EOF;
@@ -371,7 +371,7 @@ void setupParameterForString(int parameter, char *value) {
   if (parameter > 2)
     syserr("Saving more parameters than expected");
 
-  allocateParameters(&parameters, header->maxParameters);
+  allocateParameters(&parameters);
 
   savedParameters[parameter-1] = parameters[parameter-1];
   savedParameters[parameter].instance = EOF;
@@ -590,6 +590,7 @@ static void resolve(ParamEntry plst[])
   int i;
 
   if (allLength > 0) return;	/* ALL has already done this */
+  /* TODO: NO IT HASN'T ALWAYS SINCE THIS CAN BE ANOTHER PARAMETER!!! */
 
   /* Resolve ambiguities by presence */
   for (i=0; plst[i].instance != EOF; i++) {
@@ -693,10 +694,12 @@ static void unambig(ParamEntry plst[])
 #ifdef DISAMBIGUATE_USING_CHECKS
   if (listLength(plst) > 1)
     disambiguateUsingChecks(plst, parameterPosition);
-  /* We don't have the parameterPosition here */
+  /* We don't have the parameterPosition here.
+     Maybe we can do this later? */
 #endif
 
   if (listLength(plst) > 1 || (foundNoun && listLength(plst) == 0)) {
+    /* This is an error so have to set up parameters for error message... */
     parameters[0].instance = 0;	/* Just make it anything != EOF */
     parameters[0].useWords = TRUE; /* Remember words for errors below */
     parameters[0].firstWord = firstWord;
@@ -851,15 +854,19 @@ static Aint mapSyntax(Aint syntaxNumber)
 
 
 /*----------------------------------------------------------------------*/
-static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry mlst[]) {
+static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry multipleList[]) {
+  static ParamEntry *parsedParameters; /* List of parameters parsed */
+
+  /* Allocate large enough paramlists */
+  allocateParameters(&parsedParameters);
 
   plural = FALSE;
-  complex(mlst);
-  if (listLength(mlst) == 0) /* No object!? */
+  complex(parsedParameters);
+  if (listLength(parsedParameters) == 0) /* No object!? */
     error(M_WHAT);
   if ((flags & OMNIBIT) == 0) /* Omnipotent parameter? */
     /* If its not an omnipotent parameter, resolve by presence */
-    resolve(mlst);
+    resolve(parsedParameters);
   if (plural) {
     if ((flags & MULTIPLEBIT) == 0)	/* Allowed multiple? */
       error(M_MULTIPLE);
@@ -867,10 +874,11 @@ static void parseParameter(Aword flags, Bool *anyPlural, ParamEntry mlst[]) {
       /* Mark this as the multiple position in which to insert actual
 	 parameter values later */
       parameters[paramidx++].instance = 0;
+      copyParameterList(multipleList, parsedParameters);
       *anyPlural = TRUE;
     }
   } else
-    parameters[paramidx++] = mlst[0];
+    parameters[paramidx++] = parsedParameters[0];
   parameters[paramidx].instance = EOF;
 }
 
@@ -941,7 +949,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
     }
 
     if (isPreposition(playerWords[wordIndex].code)) {
-      /* A preposition? Or rather an intermediate word? */
+      /* A preposition? Or rather, an intermediate word? */
       elms = matchWordElement(currentEntry, dictionary[playerWords[wordIndex].code].code);
       if (elms != NULL) {
 	wordIndex++;		/* Word matched, go to next */
@@ -974,7 +982,7 @@ static SyntaxEntry *findSyntax(int verbCode) {
 /*----------------------------------------------------------------------*/
 static void disambiguate(ParamEntry candidates[], int position) {
   int i;
-  for (i = 0; i < allLength; i++) {
+  for (i = 0; candidates[i].instance != EOF; i++) {
     if (candidates[i].instance != 0) {	/* Already empty? */
       parameters[position] = candidates[i];
       if (!reachable(candidates[i].instance) || !possible())
@@ -1103,6 +1111,7 @@ void initParse(void) {
   int pronounIndex = 0;
 
   wordIndex = 0;
+  continued = FALSE;
   playerWords[0].code = EOF;
 
   if (pronounList == NULL)
@@ -1176,11 +1185,11 @@ void parse(void) {
   static ParamEntry *previousParameters;	/* Previous parameter list */
 
   /* Allocate large enough paramlists */
-  allocateParameters(&parsedParameters, header->maxParameters);
-  allocateParameters(&parameters, header->maxParameters);
-  allocateParameters(&previousParameters, header->maxParameters);
-  allocateParameters(&multipleList, header->instanceMax);
-  allocateParameters(&previousMultipleList, header->instanceMax);
+  allocateParameters(&parsedParameters);
+  allocateParameters(&parameters);
+  allocateParameters(&previousParameters);
+  allocateParameters(&multipleList);
+  allocateParameters(&previousMultipleList);
 
   if (playerWords[wordIndex].code == EOF) {
     wordIndex = 0;

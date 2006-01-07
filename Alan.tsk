@@ -4,29 +4,105 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>581.89</origest>
-<currest>583.89</currest>
-<elapsed>427.89</elapsed>
+<origest>588.89</origest>
+<currest>590.89</currest>
+<elapsed>434.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>65</origest>
-<currest>65</currest>
-<elapsed>0</elapsed>
+<origest>71</origest>
+<currest>71</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha3</desc>
 <notes/>
 <priority>2</priority>
-<origest>24</origest>
-<currest>24</currest>
-<elapsed>0</elapsed>
+<origest>29</origest>
+<currest>29</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
-<desc>New names of packages and readme.&lt;os&gt;-files</desc>
+<desc>Multiple parameters in a position which is not the last does not work</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>RESTART must clear the input buffer</desc>
+<notes>If you enter
+
+&gt; quit. n.
+
+It will quit and then continue with "n." as the next input, which will be the first after a RESTART.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>It should not be possible to have multiple multiple parameter positions</desc>
+<notes>I.e.
+
+  v = v (a)* (b)*
+
+should not be allowed.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Make alpha interpreters warn for "newer" games</desc>
+<notes>Beta may introduce incompatible changes, so we want to be able to have earlier interpreters warn the player for this,</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinArun does not set window title to game name when starting the interpreter and selecting the game in the selector</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
+<notes>E.g.
+  put = put (o)*
+  put_in = put (o) in (c)
+
+makes put generally multiple, but
+
+  put = put (o)
+  put_in = put (o)* in (c)
+
+makes it not accepting multiple.
+
+Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
+
+Must be fixed so that it is the syntax that stores the flags.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New names of packages and readme.&lt;os&gt;-files</desc>
+<notes>Use the naming from the website in the Makefiles
+Add readme.alan.&lt;os&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -116,11 +192,14 @@ Should actually be an "AND obj1 Is openable"</notes>
 &gt; move tv
 quit? undo
 'cut box' undone.
-</notes>
+
+
+Analysis:
+This can not be fixed. Pending the FAIL command planned for 3.1</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -146,15 +225,6 @@ quit? undo
 <notes>Need: we need to be able to give options to the compiler while still double clicking on it.
 
 Design:</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinArun does not set window title to game name when starting the interpreter and selecting the game in the selector</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -349,7 +419,7 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Move debug out to Adbg</desc>
 <notes/>
@@ -436,10 +506,21 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>5</origest>
-<currest>5</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>FAIL statement</desc>
+<notes>Since QUIT can not know if a player entered a quit or failed a command the undo mechanism can not be handled well. If we introduce a FAIL statement and instruction it can have the undo, but quit should not.
+
+This requires a new instruction and new messages. This must be introduced so that earlier (alpha) games can still be played, i.e. last in the lists of instructions and messages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>abug needs a function to list instances matching a string</desc>
 <notes>See alan-if on 12/7 2005</notes>
@@ -500,7 +581,7 @@ Pronouns</notes>
 <origest>2</origest>
 <currest>2</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Clean up old sections in the manual</desc>
 <notes/>
@@ -1062,112 +1143,13 @@ possibilities are endless...
 </task>
 </task>
 <task>
-<desc>AlanIDE</desc>
-<notes/>
-<priority>2</priority>
-<origest>8</origest>
-<currest>10</currest>
-<elapsed>4</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>AlanIDE 0.0.4</desc>
-<notes/>
-<priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Splash screen</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Honour import path and debug preferences</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>AlanIDE v0.0.5</desc>
-<notes/>
-<priority>2</priority>
-<origest>6</origest>
-<currest>8</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Strings spanning multiple lines does not color correctly</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Syntax Coloring preferences</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Select project location in wizard</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Icons in png-format</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>3</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Syntax Coloring preference change should notify editor to update</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Only rebuild AST for changed portions of the tree</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-</task>
-<task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
 <origest>69</origest>
 <currest>69</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Override additively inherited properties</desc>
 <notes>Names are inherited in an additive way, is there a need for overriding NAMES from the parent? If so is this common to more properties? Which ones are inherited in an additive way?</notes>
@@ -1990,6 +1972,156 @@ What do you want to do with the ball?
 </task>
 </task>
 <task>
+<desc>AlanIDE</desc>
+<notes/>
+<priority>2</priority>
+<origest>9</origest>
+<currest>11</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>AlanIDE v0.0.4</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Splash screen</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Honour import path and debug preferences</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>AlanIDE v0.0.5</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
+<elapsed>3</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Strings spanning multiple lines does not color correctly</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Syntax Coloring preferences</desc>
+<notes/>
+<priority>2</priority>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>Resetting coloring to default should make use of default colors when restarted</desc>
+<notes>Seems to be caused by the preference store being empty unless explicitly set.  Possibly this is caused by the editor configuration doing its thing before the store is set up.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Syntax Coloring preference change should notify editor to update</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
+<desc>AlanIDE v0.0.6</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>6</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Only rebuild AST for changed portions of the tree</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Introduce ModelUpdater</desc>
+<notes>A ModelUpdater should be attached to the Document of the Editor and update the Editors model when the Document changes. It needs to implement ITreeContentProvider to be able to be connected to the Outline view.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Outline view should combine multiple items into one if sequential</desc>
+<notes>E.g.
+   Syntax a = ...
+   Syntax b = ....
+
+will generate four nodes:
+
+   S
+      a
+   S
+      b
+
+better would be:
+
+  S
+     a
+     b</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Select project location in wizard</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Icons in png-format</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>3</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+</task>
+<task>
 <desc>Strategies</desc>
 <notes/>
 <priority>2</priority>
@@ -2198,7 +2330,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>420.89</origest>
 <currest>420.89</currest>
 <elapsed>420.89</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Allow lists of restriction classes and OR them together</desc>
 <notes>
