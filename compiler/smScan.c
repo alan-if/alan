@@ -904,6 +904,7 @@ static void smSourcePosition(
      unsigned char *smAt,
      unsigned char *smEnd)
 {
+  int crFound = 0;
   if(smThis->smPosContinue<smEnd) {
     if(smThis->smPosContinue>smAt) smAt=smThis->smPosContinue;
     smThis->smNextPosition+=smEnd-smAt;
@@ -912,11 +913,12 @@ static void smSourcePosition(
 	smThis->smPosLine=smAt;
 	smThis->smNextLine++;
       } else if((*smAt==13) && (*(smAt+1)==10)) {
-	smThis->smPosLine=smAt++;
+	smThis->smPosLine=++smAt;
 	smThis->smNextLine++;
+	crFound = 1;
       }
 
-    smThis->smNextColumn=smEnd-smThis->smPosLine;
+    smThis->smNextColumn=smEnd-smThis->smPosLine-(crFound?1:0);
     smThis->smPosContinue=smEnd;
   }
 }
