@@ -1,12 +1,12 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2006-01-02
+			      2006-01-14
 
 
 THE NEWS IN SHORT:
 
-This is the second alpha version (v3.0alpha2) of Alan V3. Alan v3 features
+This is the second alpha version (v3.0alpha3) of Alan V3. Alan v3 features
 many new enhancements especially object orientation.
 
 This package contains the compiler, the interpreter, the manual, the
@@ -17,6 +17,16 @@ same source.
 Depending on if you used the ZIP-archive or the Windows installer you
 will get a command line version or a Windows GUI version. They are
 completely compatible.
+
+Changes in V3.0alpha3:
+- Fixed a problem with multi-parameter syntaxes which allowed multiple
+  parameters in positions which where not the last.
+- RESTART did not clear the buffer so continued command could be executed
+  as the first after a restart.
+- Alpha interpreters will now warn if attempting to run games produced with
+  beta or release compilers.
+- Made WinArun set window title to game name even if the game was opened
+  from the game open dialog.
 
 Changes in V3.0alpha2:
 - Fixed a problem with items in an opaque container being possible to
