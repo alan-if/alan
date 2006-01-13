@@ -13,7 +13,7 @@ DefaultGroupName=Alan V3 for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
-OutputBaseFilename=alanVERSIONsetup
+OutputBaseFilename=alanVERSION.win32.x86.setup
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue

@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>588.89</origest>
 <currest>590.89</currest>
-<elapsed>434.89</elapsed>
+<elapsed>435.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,14 +14,14 @@
 <priority>2</priority>
 <origest>71</origest>
 <currest>71</currest>
-<elapsed>6</elapsed>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha3</desc>
 <notes/>
 <priority>2</priority>
-<origest>29</origest>
-<currest>29</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
@@ -78,6 +78,25 @@ should not be allowed.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>New names of packages and readme.&lt;os&gt;-files</desc>
+<notes>Use the naming from the website in the Makefiles
+Add readme.alan.&lt;os&gt;</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0alpha4</desc>
+<notes/>
+<priority>2</priority>
+<origest>23</origest>
+<currest>23</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
 <desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
 <notes>E.g.
   put = put (o)*
@@ -93,16 +112,6 @@ makes it not accepting multiple.
 Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
 
 Must be fixed so that it is the syntax that stores the flags.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New names of packages and readme.&lt;os&gt;-files</desc>
-<notes>Use the naming from the website in the Makefiles
-Add readme.alan.&lt;os&gt;</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
