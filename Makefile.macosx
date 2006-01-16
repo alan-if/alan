@@ -1,13 +1,19 @@
 # Top level Makefile for Alan on MacosX
 #
 
-VERSION	= `venum alan -print \\$$v_\\$$r_\\$$s\\$$c`
+VERSION	= `cat LASTRELEASE`
 
-dist: compiler/alan interpreter/arun
-	tar zcvf alan$(VERSION).macosx.ppc.tgz compiler/alan interpreter/arun alan.readme.macosx
+dist: alan arun
+	tar zcvf alan$(VERSION).macosx.ppc.tgz alan arun alan.readme.macosx alan.readme CHANGES
+
+alan: compiler/alan
+	cp compiler/alan .
 
 compiler/alan:
 	cd compiler; make -f Makefile.macosx
+
+arun: interpreter/arun
+	cp interpreter/arun .
 
 interpreter/arun:
 	cd interpreter; make -f Makefile.unix
