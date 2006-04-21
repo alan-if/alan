@@ -56,6 +56,12 @@ Bool inSrcps(Srcp srcp) {
 
 /*======================================================================*/
 void generateSrcp(Srcp srcp) {
+  static int previousFile = 0;
+  static int previousLine = 0;
+
+  if (srcp.file == previousFile && srcp.line == previousLine) return;
+  previousFile = srcp.file;
+  previousLine = srcp.line;
 
   emitConstant(srcp.file);
   emitConstant(srcp.line);

@@ -470,12 +470,12 @@ static void listLines() {
 
 
 /*----------------------------------------------------------------------*/
-static int findSourceLine(int file, int line) {
+static int findSourceLineIndex(int file, int line) {
   /* Will return index to the closest line available */
   SourceLineEntry *entry = pointerTo(header->sourceLineTable);
   int i = 0;
 
-  while (!endOfTable(&entry[i]) && entry[i].file < file && entry[i].line < line)
+  while (!endOfTable(&entry[i]) && entry[i].file <= file && entry[i].line < line)
     i++;
   if (endOfTable(entry))
     return i-1;
@@ -534,7 +534,7 @@ static void setBreakpoint(int file, int line) {
     if (i == -1)
       printf("No room for more breakpoints. Delete one first.\n");
     else {
-      int lineIndex = findSourceLine(file, line);
+      int lineIndex = findSourceLineIndex(file, line);
       SourceLineEntry *entry = pointerTo(header->sourceLineTable);
       breakpoint[i].file = entry[lineIndex].file;
       breakpoint[i].line = entry[lineIndex].line;

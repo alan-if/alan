@@ -1,5 +1,5 @@
 Syntax
-  v = v (p1) (p2)
+  v = v (p1)! (p2)!
     Where p1 Isa entity
       Else "p1 must be an entity"
     And p2 Isa entity

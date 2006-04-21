@@ -137,7 +137,7 @@ typedef struct Statement {	/* STATEMENT */
     } schedule;
 
     struct {			/* for CANCEL */
-      IdNode *id;		/* Name of the event */
+      Expression *what;		/* What to cancel */
     } cancel;
 
     struct {			/* for IF */

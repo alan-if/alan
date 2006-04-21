@@ -1,5 +1,5 @@
 Syntax
-  v = 'say' (p)
+  v = 'say' (p)!
     Where p Isa entity
       Else "Wonder what it could be else..."
 

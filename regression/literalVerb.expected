@@ -11,7 +11,7 @@ L
 You obj 1.
 
 > obj l
-You can't do that.
+I can't see any l here.
 
 > obj "hej"
 You obj hej.

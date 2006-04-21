@@ -1431,6 +1431,9 @@ void generateExpression(Expression *exp)
     return;
   }
   
+  if ((Bool)opts[OPTDEBUG].value)
+    generateSrcp(exp->srcp);
+
   switch (exp->kind) {
     
   case BINARY_EXPRESSION:

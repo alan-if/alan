@@ -165,7 +165,7 @@ Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expre
 Statement *newCancelStatement(Srcp srcp, Expression *what)
 {
   Statement *new = newStatement(&srcp, CANCEL_STATEMENT);
-  new->fields.schedule.what = what;
+  new->fields.cancel.what = what;
   return(new);
 }
 
@@ -499,12 +499,12 @@ static void analyzeSchedule(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeCancel(Statement *stm, Context *context)
 {
-  Expression *what = stm->fields.schedule.what;
+  Expression *what = stm->fields.cancel.what;
 
   analyzeExpression(what, context);
   if (what->type != ERROR_TYPE && 
       what->type != EVENT_TYPE)
-    lmLog(&stm->fields.schedule.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
+    lmLog(&stm->fields.cancel.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
 }
 
 
@@ -1016,7 +1016,7 @@ static void generateSchedule(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateCancel(Statement *stm) /* IN - Statement to generate */
 {
-  generateExpression(stm->fields.schedule.what);
+  generateExpression(stm->fields.cancel.what);
   emit0(I_CANCEL);
 }
 
@@ -1550,7 +1550,7 @@ void dumpStatement(Statement *stm)
       put("when: "); dumpExpression(stm->fields.schedule.when);
       break;
     case CANCEL_STATEMENT:
-      put("id: "); dumpId(stm->fields.cancel.id);
+      put("id: "); dumpExpression(stm->fields.cancel.what);
       break;
     case IF_STATEMENT:
       put("exp: "); dumpExpression(stm->fields.iff.exp); nl();

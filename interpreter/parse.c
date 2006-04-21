@@ -573,7 +573,7 @@ static Bool inOpaqueContainer(int originalInstance)
 /*----------------------------------------------------------------------*/
 static Bool reachable(int instance)
 {
-  if (isA(instance, THING))
+  if (isA(instance, THING) || isA(instance, LOCATION))
     return isHere(instance, FALSE) && !inOpaqueContainer(instance);
   else
     return TRUE;

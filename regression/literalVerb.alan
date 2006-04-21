@@ -1,6 +1,6 @@
-Syntax lit = lit (l) Where l Isa literal Else "You can only lit literals."
-Syntax int = int (i) Where i Isa integer Else "You can only int integers."
-Syntax str = str (s) Where s Isa string Else "You can only str strings."
+Syntax lit = lit (l)! Where l Isa literal Else "You can only lit literals."
+Syntax int = int (i)! Where i Isa integer Else "You can only int integers."
+Syntax str = str (s)! Where s Isa string Else "You can only str strings."
 Add To Every literal
   Verb obj -- Using default syntax, obj = obj (o) Where o Isa object...
     Does
