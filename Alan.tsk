@@ -92,8 +92,8 @@ Add readme.alan.&lt;os&gt;</notes>
 <desc>Version 3.0alpha4</desc>
 <notes/>
 <priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -105,30 +105,13 @@ Add readme.alan.&lt;os&gt;</notes>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Disambiguate using syntax restrictions</desc>
-<notes>This is most reasonable, as suggested by Greg in mailing list.
-
-This would require:
-
-- making simple() return multiple instances even for non-all expressions
-- signaling that this is an ALL-like multiple match
-
-Possibly ALL and multiple matches could be handled the same way, Indicate a non-explicit multiple reference, and let a later step (resolve()?) handle it.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 </task>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>23</currest>
+<origest>24</origest>
+<currest>24</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -147,6 +130,23 @@ makes it not accepting multiple.
 Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
 
 Must be fixed so that it is the syntax that stores the flags.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Disambiguate using syntax restrictions</desc>
+<notes>This is most reasonable, as suggested by Greg in mailing list.
+
+This would require:
+
+- making simple() return multiple instances even for non-all expressions
+- signaling that this is an ALL-like multiple match
+
+Possibly ALL and multiple matches could be handled the same way, Indicate a non-explicit multiple reference, and let a later step (resolve()?) handle it.
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

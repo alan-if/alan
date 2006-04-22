@@ -1,3 +1,7 @@
+Changes in V3.0alpha4:
+- Corrected scope handling so that locations are not always in scope.
+- Made CANCEL accept expressions.
+
 Changes in V3.0alpha3:
 - Fixed a problem with multi-parameter syntaxes which allowed multiple
   parameters in positions which where not the last.
