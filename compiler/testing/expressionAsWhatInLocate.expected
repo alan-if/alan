@@ -8,14 +8,8 @@ expressionAsWhatInLocate.alan
 
   *1*   310 E : Identifier 'ref1' not defined.
 
-    8.    Locate ref2 Of l Here.
-=====>                1
 
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
-
-        2 error(s).
+        1 error(s).
         No detected warnings.
         1 informational message(s).
 

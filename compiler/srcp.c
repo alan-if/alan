@@ -59,6 +59,8 @@ void generateSrcp(Srcp srcp) {
   static int previousFile = 0;
   static int previousLine = 0;
 
+  if (!(Bool)opts[OPTDEBUG].value) return;
+
   if (srcp.file == previousFile && srcp.line == previousLine) return;
   previousFile = srcp.file;
   previousLine = srcp.line;

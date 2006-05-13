@@ -20,18 +20,6 @@ locate0.alan
 
   *1*   310 E : Identifier 'unknown' not defined.
 
-   15.    Locate l At l.
-=====>           1
-
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
-   16.    Locate Current Location At l.
-=====>           1
-
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
    18.    Locate This At l.
 =====>           1
 
@@ -59,7 +47,7 @@ locate0.alan
                 in Expression after IN.
 
 
-        10 error(s).
+        8 error(s).
         No detected warnings.
         1 informational message(s).
 

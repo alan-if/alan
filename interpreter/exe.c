@@ -643,7 +643,7 @@ Aword where(Aint id, Abool directly)
 
 
 /*======================================================================*/
-/* Return the *location* of an instance, non-transitive, i.e. not directly */
+/* Return the *location* of an instance, transitively, i.e. not directly */
 Aword location(Aint id)
 {
   int loc;
@@ -849,7 +849,7 @@ Aword isHere(Aint id, Abool directly)
   if (directly)
     return(admin[id].location == current.location);
   else
-    return location(id) == current.location;
+    return at(id, current.location, directly);
 }
 
 
@@ -940,11 +940,14 @@ Abool at(Aint theInstance, Aint other, Abool directly)
       return admin[theInstance].location == admin[other].location;
   } else {
     if (!isLocation(other))
-      /* If it's not a location get the instances location */
-      loc = location(other);
+      /* If the other is not a location, compare their locations */
+      return location(theInstance) == location(other);
+    else if (location(theInstance) == other)
+      return TRUE;
+    else if (location(other) != 0)
+      return at(theInstance, location(other), FALSE);
     else
-      loc = other;
-    return location(theInstance) == loc;
+      return FALSE;
   }
 }
 

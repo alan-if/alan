@@ -15,14 +15,8 @@ locateAtId.alan
   *1*   319 E : Identifier 'object' is not of correct type for this context.
   *2*   319 E : Identifier 'object' is not of correct type for this context.
 
-    7.    Locate l At l.
-=====>           1
 
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
-
-        5 error(s).
+        4 error(s).
         No detected warnings.
         1 informational message(s).
 

@@ -1,16 +1,4 @@
 ########## currentLocationInWhat ##########
 
-
-currentLocationInWhat.alan
-
-    3.      Locate Current Location Here.
-=====>             1
-
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
-
-        1 error(s).
-        No detected warnings.
-        1 informational message(s).
+        No warnings or errors detected.
 

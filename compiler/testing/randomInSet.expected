@@ -3,12 +3,6 @@
 
 randomInSet.alan
 
-   12.    Locate Random In l Of l At l. -- Can't locate locations
-=====>           1
-
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
-
    13.    Locate Random In i Of l At l. -- Can't locate integers
 =====>           1
 
@@ -34,7 +28,7 @@ randomInSet.alan
   *1*   422 E : 'Directly' not allowed in Random In operating on a Set.
 
 
-        7 error(s).
+        6 error(s).
         No detected warnings.
         1 informational message(s).
 

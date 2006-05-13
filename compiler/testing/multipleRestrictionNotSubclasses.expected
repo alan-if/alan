@@ -15,14 +15,7 @@ multipleRestrictionNotSubclasses.alan
   *1*   427 W : A subsequent restriction for the same parameter ('o') should
                 restrict it further, to a subclass of 'takeable'.
 
-   30.  The t2 Isa takeable At l
-=====>                      1
 
-  *1*   405 E : Only instances and classes inheriting from Thing can have
-                initial locations.
-
-
-        1 error(s).
+        No detected errors.
         2 warning(s).
-        1 informational message(s).
 

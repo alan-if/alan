@@ -6,8 +6,7 @@ currentActorNotContainer.alan
     5.    Locate l In Current Actor.
 =====>           1    2
 
-  *1*   405 E : Only instances and classes inheriting from Thing can be used in
-                Locate statement.
+  *1*   402 E : A Location can not be inside a Container.
   *2*   428 E : Expression after IN must refer to a Container, which the
                 Current Actor is not since the class 'actor' does not have the
                 Container property.

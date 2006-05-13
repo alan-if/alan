@@ -167,11 +167,16 @@ void analyzeProps(Properties *props, Context *context)
 
   if (props->whr != NULL)
     verifyInitialLocation(props->whr);
-  if (!inheritsFrom(props->id->symbol, thingSymbol) && props->whr != NULL)
+  if (props->whr != NULL &&
+      !(inheritsFrom(props->id->symbol, thingSymbol)
+	|| inheritsFrom(props->id->symbol, locationSymbol)))
     lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
-  if (inheritsFrom(props->id->symbol, actorSymbol)
-      && props->whr != NULL && props->whr->kind == WHERE_IN)
-    lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
+  if (props->whr != NULL && props->whr->kind == WHERE_IN) {
+    if (inheritsFrom(props->id->symbol, actorSymbol))
+      lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
+    else if (inheritsFrom(props->id->symbol, locationSymbol))
+      lmLog(&props->whr->srcp, 402, sevERR, "A Location");
+  }
 
   /* Don't analyze attributes since those are analyzed already */
 

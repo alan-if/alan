@@ -326,7 +326,7 @@ static void analyzeLocate(Statement *stm, Context *context)
     if (what->type != INSTANCE_TYPE)
       lmLogv(&what->srcp, 428, sevERR, "What-clause in Locate statement", "an instance", NULL);
     else if (what->class) {
-      if (!inheritsFrom(what->class, thingSymbol))
+      if (!inheritsFrom(what->class, thingSymbol) && !inheritsFrom(what->class, locationSymbol))
 	lmLog(&what->srcp, 405, sevERR, "be used in Locate statement");
       whtSymbol = what->class;
     }
@@ -341,6 +341,8 @@ static void analyzeLocate(Statement *stm, Context *context)
     whr->directly = TRUE;
     break;
   case WHERE_IN:
+      if (inheritsFrom(what->class, locationSymbol))
+	lmLog(&what->srcp, 402, sevERR, "A Location");
     contentClass = contentOf(whr->what, context);
     if (contentClass != NULL && whtSymbol != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
@@ -1191,7 +1193,8 @@ static void generateEach(Statement *statement)
   
   /* Start loop */
   emit0(I_LOOP);
-
+  generateSrcp(statement->srcp);
+    
   /* Generate loop value from loop index */
   if (statement->fields.each.type == INTEGER_TYPE)
     generateIntegerLoopValue(statement->fields.each.setExpression);
