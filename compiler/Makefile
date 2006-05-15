@@ -38,9 +38,9 @@ alan: checkTarget tm $(MAINOBJECTS) unittests
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
-rndalan: rndalan.c
+rndalan.exe: rndalan.c
 
-../bin/rndalan : rndalan
+../bin/rndalan.exe : rndalan.exe
 	cp rndalan.exe ../bin
 
 dmalloc: checkTarget tm $(MAINOBJECTS) unittests

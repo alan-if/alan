@@ -119,8 +119,6 @@ void testHero()
   ASSERT(header.theHero == 1);
 }
 
-
-
 void registerInsUnitTests()
 {
   registerUnitTest(testCreateIns);

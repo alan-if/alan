@@ -45,9 +45,16 @@
 #define NOOFPROPS 16
 
 /* Types */
+typedef enum {
+  VIRGIN = 0,
+  VISITED = 1,
+  REPORTED = 2
+} InspectionState;
+
 
 typedef struct Properties {
   IdNode *id;			/* Identifier */
+  InspectionState circularInspection;
   Bool predefined;
   Aaddr idAddress;
   IdNode *parentId;		/* The instances parent */

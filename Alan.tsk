@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>612.89</origest>
-<currest>620.89</currest>
-<elapsed>441.89</elapsed>
+<origest>613.89</origest>
+<currest>621.89</currest>
+<elapsed>444.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>75</origest>
-<currest>76</currest>
-<elapsed>1</elapsed>
+<origest>76</origest>
+<currest>77</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>31</origest>
-<currest>32</currest>
-<elapsed>1</elapsed>
+<origest>32</origest>
+<currest>33</currest>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -46,25 +46,25 @@ Should actually be an "AND obj1 Is openable"</notes>
 </task>
 <task>
 <desc>Nested locations</desc>
-<notes>Done. But needs documentation update!!</notes>
+<notes>Done. But needs documentation update!! Prohibited to create recursive location structures, complier checks and generates run-time error!</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>2</currest>
-<elapsed>0</elapsed>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Recursive "location in location" check</desc>
+<desc>Compile time check for recursive "location in location"</desc>
 <notes>In compiler, or in interpreter?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Fix problem with locations and verbs having the same name</desc>
-<notes>See regression/locationInLocation</notes>
+<desc>Run-time check for recursive locations</desc>
+<notes>Do this when locating an instance.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -90,6 +90,16 @@ Should actually be an "AND obj1 Is openable"</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Locating actors in containers should either work or be prohibited</desc>
+<notes>See compiler/testing/actorInContainer which produces error message for the initial location but not for the Locate statement.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Rules should be run also after initial locate to the start location</desc>
 <notes>regression/outdoorItems should display the items at the first look.</notes>
 <priority>2</priority>
@@ -102,7 +112,7 @@ Should actually be an "AND obj1 Is openable"</notes>
 <desc>Generate IFID for the game</desc>
 <notes>If a game is to be generated and there is already a file with the same name, extract the IFID (UUID) from it and reuse, else generate a new one (see http://www.ossp.org/pkg/lib/uuid)
 
-Or we could generate it in a separate file, which, if it exists, is read and generated the IFID in the game.</notes>
+Or we could generate it in a separate file, which, if it exists, is read and generated the IFID in the game. If not a unique IFID is generated and placed in the game.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

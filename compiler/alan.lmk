@@ -182,6 +182,7 @@
 
 800	'Deprecated construct. Use \'%1\' instead.';
 801	'Resource type not recognized. File name extension must indicate resource type.';
+802	'The inital location of Instance \'%1\' forms a circular reference.';
 
 997	'SYSTEM ERROR: %1';
 998	'Feature not implemented in %1.';

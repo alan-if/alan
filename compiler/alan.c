@@ -219,6 +219,7 @@ static char txtfnm[255];	/*   - " -   of collected text file */
 static char datfnm[255];	/*   - " -   of encoded data file */
 static char acdfnm[255];	/*   - " -   of ACODE file */
 static char lstfnm[255];	/*   - " -   of listing file */
+static char ifidfnm[255];	/*   - " -   of IFID file */
 
 
 /*----------------------------------------------------------------------
@@ -262,6 +263,10 @@ static void prepareNames(void)
   /* -- create list file name -- */
   strcpy(lstfnm, adv.name);
   strcat(lstfnm, ".lis");
+  
+  /* -- create IFID file name -- */
+  strcpy(ifidfnm, adv.name);
+  strcat(ifidfnm, ".ifid");
   
   /* -- create string data file names -- */
   strcpy(txtfnm, adv.name);

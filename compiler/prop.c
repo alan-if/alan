@@ -160,6 +160,29 @@ static void checkSubclassing(Properties *props)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void analyzeCircularLocations(Properties *props)
+{
+  if (props->circularInspection == VISITED) {
+    lmLog(&props->whr->srcp, 802, sevERR, props->id->string);
+  } else {
+    props->circularInspection = VISITED;
+    if (props->whr
+	&& props->whr->kind == WHERE_AT
+	&& props->whr->what
+	&& props->whr->what->kind == WHAT_EXPRESSION
+	&& props->whr->what->fields.wht.wht
+	&& props->whr->what->fields.wht.wht->kind == WHAT_ID
+	&& props->whr->what->fields.wht.wht->id) {
+      Symbol *sym = props->whr->what->fields.wht.wht->id->symbol;
+      if (sym != NULL && sym->kind == INSTANCE_SYMBOL)
+	analyzeCircularLocations(sym->fields.entity.props);
+    }
+  }
+  props->circularInspection = VIRGIN;
+}
+
+
 /*======================================================================*/
 void analyzeProps(Properties *props, Context *context)
 {
@@ -231,6 +254,7 @@ void analyzeProps(Properties *props, Context *context)
 	   NULL);
   prepareScripts(props->scripts, props->id);
   analyzeScripts(props->scripts, context);
+  analyzeCircularLocations(props);
 }
 
 

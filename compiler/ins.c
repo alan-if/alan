@@ -139,7 +139,6 @@ static void analyzePronouns(Instance *instance)
     p->element.id->code = newPronounWord(p->element.id->string, instance);
 }
 
-
 /*----------------------------------------------------------------------*/
 static void analyzeInstance(Instance *instance)
 {

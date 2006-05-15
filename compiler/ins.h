@@ -20,6 +20,7 @@
 typedef struct Instance {	/* INSTANCE */
   Srcp srcp;			/* Source position */
   Properties *props;
+  InspectionState visited;
 } Instance;
 
 

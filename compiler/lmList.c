@@ -229,6 +229,7 @@ static lmMsgs msg[] = {
     { "700   ", "Unknown message identifier." },
     { "800   ", "Deprecated construct. Use \'%1\' instead." },
     { "801   ", "Resource type not recognized. File name extension must indicate resource type." },
+    { "802   ", "The inital location of Instance \'%1\' forms a circular reference." },
     { "997   ", "SYSTEM ERROR: %1" },
     { "998   ", "Feature not implemented in %1." },
     { "999   ", "No Adventure generated." },
@@ -240,7 +241,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 160}
+    {0, 161}
 };
 static lmMessages currMsect = (lmMessages)0;
 
