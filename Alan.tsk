@@ -63,6 +63,17 @@ Should actually be an "AND obj1 Is openable"</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Generate IFID for the game</desc>
+<notes>Generate a type 4 (completely random) UUID and place it in a separate file, if does not exists, else it is read. The IFID is put in the game.
+
+Verify that the content of the ifid-file is a valid UUID.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Run-time check for recursive locations</desc>
 <notes>Do this when locating an instance.</notes>
 <priority>2</priority>
@@ -102,17 +113,6 @@ Should actually be an "AND obj1 Is openable"</notes>
 <task>
 <desc>Rules should be run also after initial locate to the start location</desc>
 <notes>regression/outdoorItems should display the items at the first look.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Generate IFID for the game</desc>
-<notes>If a game is to be generated and there is already a file with the same name, extract the IFID (UUID) from it and reuse, else generate a new one (see http://www.ossp.org/pkg/lib/uuid)
-
-Or we could generate it in a separate file, which, if it exists, is read and generated the IFID in the game. If not a unique IFID is generated and placed in the game.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

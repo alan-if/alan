@@ -54,6 +54,7 @@ extern int readEcode();
 extern lmSev readSev();
 
 
+#include "ifidTest.c"
 #include "descriptionTest.c"
 #include "lstTest.c"
 #include "resourceTest.c"
@@ -86,6 +87,7 @@ int main()
   registerPropUnitTests();
   registerResourceUnitTests();
   registerClaUnitTests();
+  registerIfidUnitTests();
   registerInsUnitTests();
   registerAdvUnitTests();
   registerSymUnitTests();

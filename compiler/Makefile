@@ -16,7 +16,7 @@ dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 dmalloc: PLATFORM =
 
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
-LDFLAGS	= $(OPTIMIZE) $(PLATFORM) 
+LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
 ARCH	= $(PLATFORM) $(OPTIMIZE)
 

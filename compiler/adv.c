@@ -31,6 +31,7 @@
 #include "wrd_x.h"
 #include "atr_x.h"
 #include "rul_x.h"
+#include "ifid_x.h"
 #include "resource_x.h"
 #include "dump_x.h"
 
@@ -66,6 +67,7 @@ void initAdventure(void)
   initClasses();
   initInstances();
   initDumpNodeList();
+  adv.ifids = initIfids();
 }
 
 
@@ -200,6 +202,8 @@ void generateAdventure(char acodeFileName[],
   initEncoding(textFileName, dataFileName);	/* Initialise encoding */
   if (lmSeverity() > sevWAR)
     return;
+
+  acodeHeader.ifids = generateIfids(adv.ifids);
 
   if (verbose) printf("\n\tDictionary: ");
   acodeHeader.dictionary = generateAllWords();
@@ -351,6 +355,11 @@ void dumpAdventure(enum dmpKd dmp)
 
   put("stms: ");
   dumpList(adv.stms, STATEMENT_LIST);
+  out();
+  nl();
+
+  put("ifids: ");
+  dumpList(adv.ifids, IFID_LIST);
   out();
   nl();
 }

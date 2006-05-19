@@ -44,6 +44,7 @@ typedef enum ListKind {
   SYNTAX_LIST,
   SRCP_LIST,
   VERB_LIST,
+  IFID_LIST,
   LAST_LIST_KIND
 } ListKind;
 
@@ -63,6 +64,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Expression *exp;
     struct Exit *ext;
     struct IdNode *id;
+    struct IfidNode *ifid;
     struct Instance *ins;
     struct LimNod *lim;
     struct List *lst;

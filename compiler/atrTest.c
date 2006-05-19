@@ -7,6 +7,7 @@
 \*======================================================================*/
 
 #include "atr.c"
+#include "ins_x.h"
 #include "cla_x.h"
 #include "wht_x.h"
 #include "prop_x.h"

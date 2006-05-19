@@ -471,6 +471,7 @@ typedef struct ACodeHeader {
   Aaddr freq;			/* Address to Char freq's for coding */
   Aword acdcrc;			/* Checksum for acd code (excl. hdr) */
   Aword txtcrc;			/* Checksum for text data file */
+  Aaddr ifids;			/* Address to IFIDS */
 } ACodeHeader;
 
 /* Error message numbers */

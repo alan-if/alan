@@ -37,6 +37,7 @@ extern void dumpStep();
 extern void dumpVerb();
 extern void dumpExpression();
 extern void dumpLimit();
+extern void dumpIfid();
 
 
 /*======================================================================
@@ -65,6 +66,7 @@ void initDumpNodeList()
   dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;  
   dumpNodeTable[NAME_LIST] = &dumpId;
   dumpNodeTable[LIMIT_LIST] = &dumpLimit;
+  dumpNodeTable[IFID_LIST] = &dumpIfid;
 }
 
 
@@ -261,7 +263,7 @@ List *sortList(List *theList, int compare(List *element1, List *element2))
 static void dumpNode(void *theNode, ListKind kind)
 {
   if (dumpNodeTable[kind] == NULL) {
-    put("*** Not implemented in DUMP. ***");
+    put("*** Not implemented in dumpNode(). ***");
   } else
     dumpNodeTable[kind](theNode);
 }

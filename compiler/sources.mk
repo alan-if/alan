@@ -61,6 +61,7 @@ ALANSRCS = \
 	exp.c \
 	ext.c \
 	ins.c \
+	ifid.c \
 	lst.c \
 	main.c \
 	prop.c \

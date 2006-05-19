@@ -25,6 +25,7 @@ typedef struct Adventure {
   int *scores;			/* Pointer to array of scores */
   List *msgs;			/* List of error messages */
   List *resources;		/* List of resources */
+  List *ifids;			/* List if IF identifications, incl. IFID */
 } Adventure;
 
 #endif
