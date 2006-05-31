@@ -152,7 +152,7 @@ static char *gettoken(char *buf) {
 }
 
 /*----------------------------------------------------------------------*/
-static void getline(void)
+static void getLine(void)
 {
   para();
   do {
@@ -255,10 +255,10 @@ static void scan(void)
     para();
     token = gettoken(NULL);
     if (token == NULL)
-      getline();
+      getLine();
     continued = FALSE;
   } else
-    getline();
+    getLine();
 
   playerWords[0].code = 0;
   for (i = 0; i < litCount; i++)

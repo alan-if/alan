@@ -929,8 +929,6 @@ Abool in(Aint theInstance, Aint container, Abool directly)
 /* Look see if an instance is AT another. */
 Abool at(Aint theInstance, Aint other, Abool directly)
 {
-  int loc;
-
   if (theInstance == 0 || other == 0) return FALSE;
 
   if (directly) {

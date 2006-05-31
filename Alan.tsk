@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>613.89</origest>
-<currest>621.89</currest>
-<elapsed>444.89</elapsed>
+<origest>618.89</origest>
+<currest>626.89</currest>
+<elapsed>446.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>76</origest>
-<currest>77</currest>
-<elapsed>4</elapsed>
+<origest>79</origest>
+<currest>80</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>32</origest>
-<currest>33</currest>
-<elapsed>4</elapsed>
+<origest>35</origest>
+<currest>36</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -70,6 +70,42 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>ISA expressions should allow attribute expressions as left hand side</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>After an empty player input, the next output is not automatically capitalized.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Rules should be run also after initial locate to the start location</desc>
+<notes>regression/outdoorItems should display the items at the first look.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -111,15 +147,6 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Rules should be run also after initial locate to the start location</desc>
-<notes>regression/outdoorItems should display the items at the first look.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document Checks for "normal case"</desc>
 <notes>Remember Anssis problem with the Check which performed the normal case, this prohibited use of ALL to be applicable to a "normal situation"</notes>
 <priority>2</priority>
@@ -129,8 +156,8 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add a "Identification" section in the Acode</desc>
-<notes>This should be a string/value pair list pointed to by the header. This list is terminated by a EOF.
+<desc>Add a "Identification" section in the language</desc>
+<notes>This should be a string/value pair list pointed to by the header. This list is terminated by a EOF. &lt;DONE&gt;
 
 It can be used by the compiler to add arbitrary info like
 
@@ -1200,8 +1227,8 @@ possibilities are endless...
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>69</origest>
-<currest>69</currest>
+<origest>70</origest>
+<currest>70</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2007,6 +2034,15 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Look into Hollywood murder screen shot of image and &lt;more&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>'again' verb</desc>
 <notes>Requires meta-handling like 'undo'</notes>
 <priority>2</priority>
@@ -2029,8 +2065,8 @@ What do you want to do with the ball?
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>21</origest>
-<currest>28</currest>
+<origest>22</origest>
+<currest>29</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2145,8 +2181,8 @@ What do you want to do with the ball?
 <desc>AlanIDE v0.0.7</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>12</currest>
+<origest>9</origest>
+<currest>13</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2170,6 +2206,15 @@ What do you want to do with the ball?
 <task>
 <desc>Incremental compilation</desc>
 <notes>Compile with the java parser to build ast and produce syntax error messages. When that is OK, run the alan compiler to generate the game. This should be done all the time, not only at save.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Decorate navigator icons with compilation status</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

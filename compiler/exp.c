@@ -968,11 +968,12 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
 static void analyzeIsaExpression(Expression *expression,
                                  Context *context)
 {
+  Expression *what = expression->fields.isa.what;
   switch (expression->fields.isa.what->kind) {
   case WHAT_EXPRESSION:
-    switch (expression->fields.isa.what->fields.wht.wht->kind) {
+    switch (what->fields.wht.wht->kind) {
     case WHAT_ID:
-      symcheck(expression->fields.isa.what->fields.wht.wht->id,
+      symcheck(what->fields.wht.wht->id,
                INSTANCE_SYMBOL, context);
       break;
     case WHAT_LOCATION:
@@ -982,6 +983,11 @@ static void analyzeIsaExpression(Expression *expression,
       unimpl(expression->srcp, "Analyzer");
       break;
     }
+    break;
+  case ATTRIBUTE_EXPRESSION:
+    analyzeExpression(what, context);
+    if (!equalTypes(what->type, INSTANCE_TYPE))
+	lmLog(&expression->srcp, 434, sevERR, "'ISA'");
     break;
   default:
     lmLog(&expression->srcp, 434, sevERR, "'ISA'");

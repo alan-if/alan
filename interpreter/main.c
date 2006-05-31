@@ -1339,6 +1339,7 @@ static void start(void)
   para();
 
   locate(HERO, startloc);
+  rules();
 }
 
 
