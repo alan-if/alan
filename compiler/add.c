@@ -114,6 +114,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
   List *l;
 
   if (addedAttributes == NULL) return;
+  symbolizeAttributes(addedAttributes, TRUE);
 
   TRAVERSE(l, addedAttributes) {
     Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
