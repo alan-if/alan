@@ -8,17 +8,14 @@ initialInNotContainer.alan
 
   *1*   318 E : The 'l' does not have the container property, which is required
                 in Expression after IN.
-  *1*   318 E : The 'l' does not have the container property, which is required
-                in Expression after IN.
 
     7.  The cont Isa object In object
 =====>                         1
 
-  *1*   319 E : Identifier 'object' is not of correct type for this context.
   *1*   319 E : Identifier 'object' is not an Instance.
 
 
-        4 error(s).
+        2 error(s).
         No detected warnings.
         1 informational message(s).
 

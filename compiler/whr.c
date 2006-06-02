@@ -61,7 +61,6 @@ void symbolizeWhere(Where *whr)
 /*======================================================================*/
 Bool verifyInitialLocation(Where *whr)
 {
-  analyzeWhere(whr, NULL);
   if (whr->directly)
     lmLog(&whr->srcp, 422, sevERR, "Initial location");
 
