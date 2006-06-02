@@ -15,14 +15,13 @@ unexpectedExpression.alan
   *1*   103 E : Syntax error. Replacing "<identifier> ." with "=> STRING".
 
     5.  Start at some location.
-=====>        1  2    3
+=====>           1    2
 
-  *1*   211 E : Adventure must start at an instance inheriting from 'location'.
-  *2*   310 E : Identifier 'some' not defined.
-  *3*   101 E : Syntax error. Inserting ":" before this token.
+  *1*   310 E : Identifier 'some' not defined.
+  *2*   102 E : Syntax error. Ignoring "location".
 
 
-        6 error(s).
+        5 error(s).
         No detected warnings.
         1 informational message(s).
 

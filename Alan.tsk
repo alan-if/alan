@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>618.89</origest>
-<currest>626.89</currest>
-<elapsed>446.89</elapsed>
+<origest>619.89</origest>
+<currest>627.89</currest>
+<elapsed>448.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>79</origest>
-<currest>80</currest>
-<elapsed>6</elapsed>
+<origest>80</origest>
+<currest>81</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>35</origest>
-<currest>36</currest>
-<elapsed>6</elapsed>
+<origest>36</origest>
+<currest>37</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -83,6 +83,24 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Allow more general expression in 'Locate At', e.g. Random In</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Rules should be run also after initial locate to the start location</desc>
+<notes>regression/outdoorItems should display the items at the first look.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>After an empty player input, the next output is not automatically capitalized.</desc>
 <notes/>
 <priority>2</priority>
@@ -94,15 +112,6 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <task>
 <desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Rules should be run also after initial locate to the start location</desc>
-<notes>regression/outdoorItems should display the items at the first look.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

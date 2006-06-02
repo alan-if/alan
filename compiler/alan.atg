@@ -660,7 +660,7 @@ PRODUCTIONS
 
  where = optionaldirectly "here" 
        | optionaldirectly "nearby" 
-       | optionaldirectly "at" what 
+       | optionaldirectly "at" primary 
        | optionaldirectly "in" primary 
        | optionaldirectly "near" what 
         .

@@ -6,13 +6,14 @@ initialLocationInteger.alan
     1.  The x Isa object 4
 =====>                   1
 
-  *1*   101 E : Syntax error. Inserting "in" before this token.
+  *1*   101 E : Syntax error. Inserting "at" before this token.
+  *1*   428 E : Expression after AT must refer to an instance.
   *1*   355 E : Initial location can only refer to instances inheriting from
                 'location' using AT or to instances having the container
                 property using IN.
 
 
-        2 error(s).
+        3 error(s).
         No detected warnings.
         1 informational message(s).
 

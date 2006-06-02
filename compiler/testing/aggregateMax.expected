@@ -18,11 +18,14 @@ aggregateMax.alan
   *2*   224 E : Multiple use of Where in filter list for MAX Aggregation.
 
    11.    If Max Of y At l =at 9 Then "" End If.
-=====>              1       2
+=====>              1      23  4
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
                 using 'MAX' since its class ('thing') does not have it.
-  *2*   102 E : Syntax error. Ignoring "at".
+  *2*   428 E : The What clause of a Where expression must refer to an
+                instance.
+  *3*   101 E : Syntax error. Inserting "<identifier>" before this token.
+  *4*   428 E : Expression after AT or NEAR must refer to an instance.
 
    12.    If Max Of y Is x Then "" End If.
 =====>       1      2 3
@@ -68,7 +71,7 @@ aggregateMax.alan
                 using 'MAX' since its class ('object') does not have it.
 
 
-        15 error(s).
+        17 error(s).
         1 warning(s).
         1 informational message(s).
 
