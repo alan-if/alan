@@ -387,7 +387,7 @@ static void generateWordEntry(Word *wrd) {
 static void generateWordEntries(Word *wrd)
 {
   if (wrd->low != NULL) generateWordEntries(wrd->low);
-  showProgress();
+  progressCounter();
   generateWordEntry(wrd);
   if (wrd->high != NULL) generateWordEntries(wrd->high);
 }

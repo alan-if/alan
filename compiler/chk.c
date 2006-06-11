@@ -34,7 +34,7 @@ ChkNod *newchk(Expression *exp,	/* IN - Expression for this CHECK */
 {
   ChkNod *new;			/* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(ChkNod);
 

@@ -40,7 +40,7 @@ static Element *newElement(Srcp *srcp,
 {
   Element *new;                                  /* The newly created node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Element);
 
@@ -91,7 +91,7 @@ Element *newEndOfSyntax()
 /*----------------------------------------------------------------------*/
 static void analyzeElement(Element *elm)
 {
-  showProgress();
+  progressCounter();
 
   switch (elm->kind) {
   case WORD_ELEMENT:
@@ -333,7 +333,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
   if (elms == NULL)
     return 0;			/* End of chain */
 
-  showProgress();
+  progressCounter();
 
   /* Move all to their next elm */
   restrictionTableAddress = advance(elms);

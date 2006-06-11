@@ -33,7 +33,7 @@ Restriction *newRestriction(Srcp srcp, IdNode *parameterId,
 {
   Restriction *new;			/* The newly created node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Restriction);
 

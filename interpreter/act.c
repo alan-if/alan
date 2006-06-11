@@ -497,11 +497,11 @@ static void executeCommand(void)
   */
 #ifdef _PROTOTYPES_
 void action(
-     ParamEntry plst[]		/* IN - Plural parameter list */
+     ParameterList plst		/* IN - Plural parameter list */
 )
 #else
 void action(plst)
-     ParamEntry plst[];
+     ParameterList plst;
 #endif
 {
   int i, mpos;

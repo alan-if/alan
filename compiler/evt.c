@@ -36,7 +36,7 @@ Event *newEvent(Srcp *srcp, IdNode *id, List *stms)
 {
   Event *new;		/* The newly allocated node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Event);
 
@@ -59,7 +59,7 @@ void analyzeEvents(void)
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
       if (verbose) {
-	showProgress();
+	progressCounter();
       }
       context->event = evts->element.evt;
       analyzeStatements(evts->element.evt->stms, context);
@@ -71,7 +71,7 @@ void analyzeEvents(void)
 /*----------------------------------------------------------------------*/
 static void generateEvent(Event *evt)	/* IN - The event to generate */
 {
-  showProgress();
+  progressCounter();
 
   if ((Bool) opts[OPTDEBUG].value) {
     evt->namadr = nextEmitAddress();

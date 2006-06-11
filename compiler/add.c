@@ -36,7 +36,7 @@ AddNode *newAdd(Srcp srcp,
 {
   AddNode *new;
 
-  showProgress();
+  progressCounter();
 
   new = NEW(AddNode);
 

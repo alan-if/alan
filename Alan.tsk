@@ -4,24 +4,24 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>620.89</origest>
-<currest>628.89</currest>
-<elapsed>449.89</elapsed>
+<origest>622.89</origest>
+<currest>630.89</currest>
+<elapsed>451.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>81</origest>
-<currest>82</currest>
+<origest>82</origest>
+<currest>83</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>37</origest>
-<currest>38</currest>
+<origest>38</origest>
+<currest>39</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
@@ -110,6 +110,15 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Pronoun matching multiple parameters should give an error message</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>After an empty player input, the next output is not automatically capitalized.</desc>
 <notes/>
 <priority>2</priority>
@@ -119,8 +128,12 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
-<notes/>
+<desc>Investigate the resolve()/allLength problem</desc>
+<notes>In parse.c:resolve() there is a test for allLength &gt; 0, with a comment that "ALL has already done this", but there is also a "TODO: NO IT HASN'T"
+
+Is this actually true? We can only have one ALL, but the parsing code might return multiple matches, leaving them for resolve() to fix?
+
+Create a test case that exhibits the problem, if it exists.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -137,7 +150,7 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Prohibit 'Locate l At l.' and "Locate c In c."</desc>
+<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -146,7 +159,7 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Pronoun matching multiple parameters should give an error message</desc>
+<desc>Prohibit 'Locate l At l.' and "Locate c In c."</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -2083,8 +2096,8 @@ What do you want to do with the ball?
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>22</origest>
-<currest>29</currest>
+<origest>23</origest>
+<currest>30</currest>
 <elapsed>9</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2199,8 +2212,8 @@ What do you want to do with the ball?
 <desc>AlanIDE v0.0.7</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>13</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2220,6 +2233,15 @@ What do you want to do with the ball?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Update java-grammar with latest syntax</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>Incremental compilation</desc>
@@ -2257,6 +2279,15 @@ What do you want to do with the ball?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>AlanIDE v.0.0.8</desc>
+<notes/>
+<priority>2</priority>
+<origest>4</origest>
+<currest>8</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>New Class wizard</desc>
 <notes/>
@@ -2374,8 +2405,8 @@ better would be:
 <priority>2</priority>
 <origest>7</origest>
 <currest>7</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
+<elapsed>3</elapsed>
+<isopen>0</isopen>
 <task>
 <desc>Containers</desc>
 <notes>
@@ -2476,7 +2507,7 @@ The interpreter attribute tables will have this code in them (as opposed to v2.x
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -2490,7 +2521,7 @@ This strategy makes it possible to use the same script code for all instances th
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -2577,7 +2608,7 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <origest>428.89</origest>
 <currest>428.89</currest>
 <elapsed>428.89</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Increment: version 3.0alpha4</desc>
 <notes/>

@@ -28,7 +28,7 @@
 Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, Expression *what) {
   Where *new;
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Where);
 

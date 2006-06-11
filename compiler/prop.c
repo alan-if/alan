@@ -61,7 +61,7 @@ Properties *newProps(Where *whr, List *names,
 {
   Properties *new;                  /* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Properties);
 

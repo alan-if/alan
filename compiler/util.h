@@ -28,7 +28,7 @@ extern long counter;		/* And counter for verbose mode */
 extern void syserr(char *errorMessage, const char *function, char *file, int line);
 extern void listing(char *listFileName, int lines, int columns,
 		    lmTyp listingType, lmSev severities);
-extern void showProgress(void);
+extern void progressCounter(void);
 extern void *allocate(int len);
 extern void unimpl(Srcp srcp, char *phase);
 extern void panic(char *str);

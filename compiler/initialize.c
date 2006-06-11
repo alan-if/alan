@@ -21,7 +21,7 @@ Initialize *newInitialize(Srcp srcp, List *statements)
 {
   Initialize *new;                  /* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Initialize);
 

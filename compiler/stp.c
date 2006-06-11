@@ -32,7 +32,7 @@ Step *newStep(Srcp *srcp,	/* IN - Source Position */
 {
   Step *new;		/* The newly allocated node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Step);
 

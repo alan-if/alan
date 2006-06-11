@@ -40,7 +40,7 @@ Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
   Symbol *sym;
   List *lst;			/* Traversal pointer */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Exit);
 

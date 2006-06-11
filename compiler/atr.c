@@ -50,7 +50,7 @@ static Attribute *newAttribute(Srcp *srcp,
 {
   Attribute *new;			/* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Attribute);
 

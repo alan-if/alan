@@ -27,7 +27,7 @@ IdNode *newId(Srcp srcp,	/* IN - Source Position */
 {
   IdNode *new;			/* The newly allocated area */
 
-  if (verbose) { printf("%8ld\b\b\b\b\b\b\b\b", counter++); fflush(stdout); }
+  progressCounter();
 
   new = NEW(IdNode);
   

@@ -7,8 +7,4 @@
 *~
 *.exe.stackdump
 *.a3c
-
-
-
-
-
+*.ifid

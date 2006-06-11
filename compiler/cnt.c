@@ -74,7 +74,7 @@ Container *newContainer(ContainerBody *body)
 {
   Container *new;		/* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Container);
   new->ownerProperties = NULL;
@@ -150,7 +150,7 @@ void analyzeContainer(Container *theContainer, Context *context)
 
   if (theContainer == NULL) return;
 
-  showProgress();
+  progressCounter();
 
   if (context->kind == INSTANCE_CONTEXT)
     theContainer->ownerProperties = context->instance->props;
@@ -194,7 +194,7 @@ void numberContainers(void)
 /*----------------------------------------------------------------------*/
 static void generateContainerBody(ContainerBody *body)
 {
-  showProgress();
+  progressCounter();
 
   if (!body->generated) {
     body->limadr = generateLimits(body);

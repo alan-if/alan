@@ -34,7 +34,7 @@ Script *newScript(Srcp *srcp, IdNode *id, Description *description, List *steps
 {
   Script *new;          /* The newly allocated node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Script);
 

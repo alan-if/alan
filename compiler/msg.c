@@ -73,7 +73,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
   {M_WHICH_ONE_OR, "which_or",
    "or $+1.",
    "eller $+1.",
-   "oder $+1."},
+   "oder $+1 meinst."},
   {M_NO_SUCH, "no_such",
    "I can't see any $1 here.",
    "Jag ser ingen $1 här.",
@@ -195,6 +195,14 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Nothing more to undo.",
    "Det finns inte mer att göra ogjort.",
    "Es gibt nichts mehr zu annulieren."},
+  {M_WHICH_PRONOUN_START, "which_pronoun_start",
+   "I don't know if you by '$1'",
+   "Jag vet inte om du med '$1'",
+   "Ich weiß nicht, falls Du mit '$1'"},
+  {M_WHICH_PRONOUN_FIRST, "which_pronoun_first",
+   "mean $+1",
+   "menar $+1",
+   "$+1"},
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };
@@ -228,7 +236,7 @@ Message *newMessage(Srcp *srcp, IdNode *id, List *stms)
 {
   Message *msg;
 
-  showProgress();
+  progressCounter();
 
   msg = NEW(Message);
 
@@ -354,6 +362,7 @@ Context *contextFor(MsgKind messageNo) {
   switch (messageNo) {
   case M_WHICH_ONE_START:
   case M_WHICH_ONE_COMMA:
+  case M_WHICH_PRONOUN_FIRST:
   case M_WHICH_ONE_OR:
   case M_NO_SUCH:
   case M_SEE_START:
@@ -371,6 +380,7 @@ Context *contextFor(MsgKind messageNo) {
   case M_WHAT_WORD:
   case M_AFTER_BUT:
   case M_UNKNOWN_WORD:
+  case M_WHICH_PRONOUN_START:
     return newVerbContext(messageVerbSymbolForString);
 
   case M_BUT_ALL:
@@ -421,7 +431,7 @@ void analyzeMessages(void)
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
     Message *msg = lst->element.msg;
-    showProgress();
+    progressCounter();
     analyzeStatements(msg->stms, contextFor(msg->msgno));
   }
 
@@ -456,7 +466,7 @@ Aaddr gemsgs(void)
 
   /* First generate the statements for each message */
   for (lst = adv.msgs; lst; lst = lst->next) {
-    showProgress();
+    progressCounter();
     gemsgent(lst->element.msg);
   }
 

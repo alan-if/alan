@@ -41,7 +41,7 @@ static Expression *newExpression(Srcp srcp, ExpressionKind kind)
 {
   Expression *new;                      /* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Expression);
 

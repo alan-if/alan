@@ -127,7 +127,7 @@ Class *newClass(Srcp *srcp,	/* IN - Source Position */
 {
   Class *new;                  /* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Class);
 

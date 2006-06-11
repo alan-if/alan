@@ -419,19 +419,6 @@ static int allLength;		/* No. of objects matching 'all' */
 
 
 /*----------------------------------------------------------------------*/
-static int noOfPronouns()
-{
-  int w;
-  int count = 0;
-
-  for (w = 0; w < dictsize; w++)
-    if (isPronoun(w))
-      count++;
-  return count;
-}
-
-
-/*----------------------------------------------------------------------*/
 static void nonverb(void) {
   if (isDir(playerWords[wordIndex].code)) {
     wordIndex++;
@@ -453,6 +440,27 @@ static void errorWhich(ParamEntry alternative[]) {
   parameters[1].instance = EOF;
   parameters[0] = alternative[0];
   printMessage(M_WHICH_ONE_START);
+  for (p = 1; !endOfTable(&alternative[p+1]); p++) {
+    parameters[0] = alternative[p];
+    printMessage(M_WHICH_ONE_COMMA);
+  }
+  parameters[0] = alternative[p];
+  printMessage(M_WHICH_ONE_OR);
+  error(MSGMAX);		/* Return with empty error message */
+}
+
+
+/*----------------------------------------------------------------------*/
+static void errorWhichPronoun(int pronounWordIndex, ParamEntry alternative[]) {
+  int p;			/* Index into the list of alternatives */
+
+  setupParameterForWord(1, pronounWordIndex);
+  printMessage(M_WHICH_PRONOUN_START);
+
+  parameters[1].instance = EOF;
+  parameters[0] = alternative[0];
+  printMessage(M_WHICH_PRONOUN_FIRST);
+
   for (p = 1; !endOfTable(&alternative[p+1]); p++) {
     parameters[0] = alternative[p];
     printMessage(M_WHICH_ONE_COMMA);
@@ -544,15 +552,21 @@ static void buildAll(ParamEntry list[]) {
 
 
 /*----------------------------------------------------------------------*/
-static int getPronounInstance(int word) {
+static int getPronounInstances(int word, ParamEntry instances[]) {
   /* Find the instance that the pronoun word could refer to, return 0
      if none or multiple */
   int p;
+  int i = 0;
 
-  for (p = 0; p < noOfPronouns(); p++)
-    if (dictionary[word].code == pronounList[p].pronoun)
-      return pronounList[p].instance;
-  return 0;
+  instances[0].instance = EOF;
+  for (p = 0; pronounList[p].instance != EOF; p++)
+    if (dictionary[word].code == pronounList[p].pronoun) {
+      instances[i].instance = pronounList[p].instance;
+      instances[i].useWords = FALSE; /* Can't use words since they are gone, pronouns
+					refer to parameters in previous command */
+      instances[++i].instance = EOF;
+    }
+  return i;
 }
 
 
@@ -633,11 +647,18 @@ static void unambig(ParamEntry plst[])
 
   plst[0].instance = EOF;		/* Make an empty parameter list */
   if (isPronoun(playerWords[wordIndex].code)) {
-    int p = getPronounInstance(playerWords[wordIndex].code);
-    if (p == 0)
+    ParameterList pronounInstances;
+    int pronounMatches = getPronounInstances(playerWords[wordIndex].code, pronounInstances);
+    if (pronounMatches == 0)
       errorWhat(wordIndex);
+    else if (pronounMatches > 1) {
+      /* Set up parameters for error message... */
+      parameters[0].instance = 0; /* Just make it anything != EOF */
+      parameters[1].instance = EOF; /* Terminate list after one */
+      errorWhichPronoun(wordIndex, pronounInstances);
+    }
     wordIndex++;		/* Consume the pronoun */
-    plst[0].instance = p;
+    plst[0].instance = pronounInstances[0].instance;
     plst[0].firstWord = EOF;	/* No words used! */
     plst[1].instance = EOF;
     return;
@@ -1115,7 +1136,7 @@ void initParse(void) {
   playerWords[0].code = EOF;
 
   if (pronounList == NULL)
-    pronounList = allocate(noOfPronouns()*sizeof(PronounEntry));
+    pronounList = allocate((MAXPARAMS+1)*sizeof(PronounEntry));
 
   for (dictionaryIndex = 0; dictionaryIndex < dictsize; dictionaryIndex++)
     if (isPronoun(dictionaryIndex)) {
@@ -1149,18 +1170,17 @@ static int pronounForInstance(int instance) {
 static void enterPronoun(int pronoun, int instanceCode) {
   int pronounIndex;
 
-  for (pronounIndex = 0; pronounIndex < noOfPronouns(); pronounIndex++)
-    if (pronounList[pronounIndex].pronoun == pronoun)
-      pronounList[pronounIndex].instance = instanceCode;
+  for (pronounIndex = 0; pronounList[pronounIndex].instance != EOF; pronounIndex++)
+    ;
+  pronounList[pronounIndex].pronoun = pronoun;
+  pronounList[pronounIndex].instance = instanceCode;
+  pronounList[pronounIndex+1].instance = EOF;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void clearPronounEntries() {
-  int i;
-
-  for (i = 0; i < noOfPronouns(); i++)
-    pronounList[i].instance = 0;
+  pronounList[0].instance = EOF;
 }
 
 

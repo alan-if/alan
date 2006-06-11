@@ -517,6 +517,8 @@ typedef enum MsgKind {
   M_QUITACTION,
   M_UNDONE,
   M_NO_UNDO,
+  M_WHICH_PRONOUN_START,
+  M_WHICH_PRONOUN_FIRST,
   MSGMAX
 } MsgKind;
 

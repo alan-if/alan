@@ -39,7 +39,7 @@ Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
   Syntax *new;                  /* The newly created node */
   static int number = 1;
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Syntax);
 
@@ -175,7 +175,7 @@ static void analyzeSyntax(Syntax *stx)
 {
   Symbol *verbSymbol;
 
-  showProgress();
+  progressCounter();
 
   /* Find which verb it defines */
   verbSymbol = lookup(stx->id->string);
@@ -342,7 +342,7 @@ static void generateParseTree(Syntax *stx)
   List *elements = NULL;            /* A list of parallell elms-lists */
 
 
-  showProgress();
+  progressCounter();
   
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */

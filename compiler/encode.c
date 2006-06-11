@@ -261,7 +261,7 @@ Aaddr gefreq(void)
     return 0;
   else {
     for (i = 0; i < NOOFSYMBOLS+1; i++) {
-      showProgress();
+      progressCounter();
       emit(cumFreq[i]);
     }
     emit(EOF);

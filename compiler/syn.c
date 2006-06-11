@@ -31,7 +31,7 @@ Synonym *newSynonym(Srcp *srcp, List *synonymIdList, IdNode *targetId)
 {
   Synonym *new;
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Synonym);
 
@@ -55,7 +55,7 @@ void analyzeSynonyms(void)
   Word *swrd;		/* Synonym word */
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
-    showProgress();
+    progressCounter();
     wrd = findWord(lst->element.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
       lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);

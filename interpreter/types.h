@@ -36,6 +36,8 @@
 #define THING (header->thingClassId)
 #define ACTOR (header->actorClassId)
 
+#define MAXPARAMS 9
+#define MAXENTITY (header->instanceMax)
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))
@@ -127,6 +129,8 @@ typedef struct ParamEntry {	/* PARAMETER */
   Aword lastWord;		/* d:o to last */
 } ParamEntry;
 
+typedef ParamEntry ParameterList[MAXPARAMS+1];
+
 typedef enum LiteralType {
   NO_LITERAL, NUMERIC_LITERAL, STRING_LITERAL
 } LiteralType;
@@ -141,8 +145,5 @@ typedef struct Breakpoint {	/* BREAKPOINT */
   int line;
   int file;
 } Breakpoint;
-
-#define MAXPARAMS 9
-#define MAXENTITY (header->instanceMax)
 
 #endif

@@ -27,7 +27,7 @@ static What *newWhat(Srcp *srcp,	/* IN - Source position */
 {
   What *new;
 
-  showProgress();
+  progressCounter();
 
   new = NEW(What);
 

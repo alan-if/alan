@@ -47,7 +47,7 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 {
   LimNod *new;			/* The newly allocated area */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(LimNod);
 
@@ -71,7 +71,7 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol)
 
   Attribute *attribute, *foundAttribute;
 
-  showProgress();
+  progressCounter();
 
   /* Analyze the attribute */
   attribute = lim->atr;
@@ -96,7 +96,7 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol)
 /*----------------------------------------------------------------------*/
 static void generateLimit(LimNod *lim)
 {
-  showProgress();
+  progressCounter();
 
   /* Generate statements */
   lim->stmadr = nextEmitAddress();	/* Save ACODE address to statements */

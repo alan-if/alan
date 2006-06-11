@@ -37,7 +37,7 @@ Alternative *newAlternative(Srcp srcp,	/* IN - Source Position */
 {
   Alternative *new;			/* The newly created node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(Alternative);
 

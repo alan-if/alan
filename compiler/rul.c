@@ -44,7 +44,7 @@ RulNod *newRule(Srcp *srcp,	/* IN - Source Position */
 {
   RulNod *new;		/* The newly allocated node */
 
-  showProgress();
+  progressCounter();
 
   new = NEW(RulNod);
 
@@ -63,7 +63,7 @@ static void analyzeRule(RulNod *rul)
 {
   Context *context = newRuleContext();
 
-  showProgress();
+  progressCounter();
 
   analyzeExpression(rul->exp, context);
   analyzeStatements(rul->stms, context);
@@ -103,7 +103,7 @@ Aaddr generateRules(void)
   Aaddr adr;
 
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
-    showProgress();
+    progressCounter();
     lst->element.rul->expadr = nextEmitAddress();
     generateExpression(lst->element.rul->exp);
     emit0(I_RETURN);

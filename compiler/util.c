@@ -34,12 +34,8 @@ long allocated;		/* Calculated memory usage */
 
 
 
-/*======================================================================
-
-  showProgress()
-
-*/
-void showProgress() {
+/*======================================================================*/
+void progressCounter() {
   if (verbose) {
     printf("%8ld\b\b\b\b\b\b\b\b", counter++);
     fflush(stdout);

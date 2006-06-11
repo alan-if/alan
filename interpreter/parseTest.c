@@ -144,23 +144,6 @@ static void testMatchParseTree() {
   free(memory);
 }
 
-static void testNoOfPronouns() {
-  int i;
-
-  dictionary = makeDictionary(30);
-
-  for (i = 0; i < dictsize; i++)
-    if (i%3 == 0)
-      makeDictionaryEntry(i, dictsize+i, PRONOUN_BIT);
-    else
-      makeDictionaryEntry(i, dictsize+1, VERB_BIT);
-
-  ASSERT(noOfPronouns() == 10);
-
-  free(dictionary);
-}
-
-
 static void testSetupParameterForWord() {
   ACodeHeader acdHeader;
   header = &acdHeader;
@@ -190,5 +173,4 @@ void registerParseUnitTests()
   registerUnitTest(testMatchEndOfSyntax);
   registerUnitTest(testMatchParameterElement);
   registerUnitTest(testMatchParseTree);
-  registerUnitTest(testNoOfPronouns);
 }
