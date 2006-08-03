@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>622.89</origest>
-<currest>630.89</currest>
-<elapsed>451.89</elapsed>
+<origest>627.89</origest>
+<currest>635.89</currest>
+<elapsed>454.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>82</origest>
-<currest>83</currest>
-<elapsed>9</elapsed>
+<origest>81</origest>
+<currest>82</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>38</origest>
-<currest>39</currest>
-<elapsed>9</elapsed>
+<origest>10</origest>
+<currest>11</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -115,18 +115,27 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>After an empty player input, the next output is not automatically capitalized.</desc>
-<notes/>
+<desc>Run-time check for recursive locations</desc>
+<notes>Do this when locating an instance.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Version 3.0alpha6</desc>
+<notes/>
+<priority>2</priority>
+<origest>27</origest>
+<currest>27</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Investigate the resolve()/allLength problem</desc>
 <notes>In parse.c:resolve() there is a test for allLength &gt; 0, with a comment that "ALL has already done this", but there is also a "TODO: NO IT HASN'T"
@@ -134,15 +143,6 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 Is this actually true? We can only have one ALL, but the parsing code might return multiple matches, leaving them for resolve() to fix?
 
 Create a test case that exhibits the problem, if it exists.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Run-time check for recursive locations</desc>
-<notes>Do this when locating an instance.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -235,7 +235,7 @@ Must be fixed so that it is the syntax that stores the flags.</notes>
 </task>
 <task>
 <desc>Breakpoints set on a line higher than the highest in a file should give an error</desc>
-<notes/>
+<notes>Don't we store the linenumbers in the game? If so it should only be possible to set in those lines.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -1258,8 +1258,8 @@ possibilities are endless...
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
-<origest>70</origest>
-<currest>70</currest>
+<origest>71</origest>
+<currest>71</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -1276,6 +1276,15 @@ Note also that there should possibly also be a difference between the QUIT state
 <task>
 <desc>A picture file with an unknown extension gets passed through</desc>
 <notes>E.g a.jpeg transforms into pic1.jpeg which the glk does not find. Possibly would go away if the blorb-layer was used. Investigate it.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>After an empty player input, the next output is not automatically capitalized.</desc>
+<notes>Did not reproduce. I wonder where I saw it...</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2096,9 +2105,9 @@ What do you want to do with the ball?
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>23</origest>
-<currest>30</currest>
-<elapsed>9</elapsed>
+<origest>26</origest>
+<currest>33</currest>
+<elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>AlanIDE v0.0.4</desc>
@@ -2212,10 +2221,28 @@ What do you want to do with the ball?
 <desc>AlanIDE v0.0.7</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>9</origest>
+<currest>9</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Feature based product/application to allow net-updates</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update java-grammar with latest syntax</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 <task>
 <desc>Only rebuild AST for changed portions of the tree</desc>
 <notes/>
@@ -2235,15 +2262,6 @@ What do you want to do with the ball?
 </task>
 </task>
 <task>
-<desc>Update java-grammar with latest syntax</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Incremental compilation</desc>
 <notes>Compile with the java parser to build ast and produce syntax error messages. When that is OK, run the alan compiler to generate the game. This should be done all the time, not only at save.</notes>
 <priority>2</priority>
@@ -2253,7 +2271,7 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Decorate navigator icons with compilation status</desc>
+<desc>Decorate resource icons and editor tabs with compilation status</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -2273,6 +2291,24 @@ What do you want to do with the ball?
 <task>
 <desc>"Add import"</desc>
 <notes>Automatically declare an import for a file. Consider the import path when generating the file name in the import statement.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Navigate from outline import to imported file following import paths</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New import icons in outline (use eclipse/java, where to find?)</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -8268,8 +8304,8 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <desc>Misc</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
+<origest>8</origest>
+<currest>8</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -8361,6 +8397,24 @@ cvs server: pre3/write.tst.expected was removed, no comparison available
 
 Added File:::::::::::::::::
 cvs server: write.input is a new entry, no comparison available</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: divide games listing into v2/v3</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

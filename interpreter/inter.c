@@ -334,18 +334,18 @@ static char *printForm(SayForm form) {
 }
 
 
-static Aaddr recursion[1000];
-int recursions = 0;
+static Aaddr invocation[1000];
+int depth = 0;
 
 /*----------------------------------------------------------------------*/
 static void checkForRecursion(Aaddr adr) {
   int i;
 
-  for (i = 0; i < recursions; i++)
-    if (recursion[i] == adr)
+  for (i = 0; i < depth; i++)
+    if (invocation[i] == adr)
       syserr("Interpreter recursion.");
-  recursion[recursions++] = adr;
-  if (recursions > 1000)
+  invocation[depth++] = adr;
+  if (depth > 1000)
     syserr("Interpreter call stack too deep.");
 }
 
@@ -1303,5 +1303,5 @@ void interpret(Aaddr adr)
     }
   }
  exitInterpreter:
-  recursions--;
+  depth--;
 }

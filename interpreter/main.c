@@ -966,7 +966,7 @@ static void incompatibleDevelopmentVersion(ACodeHeader *header) {
 	  (long)alan.version.revision,
 	  alan.version.state,
 	  (long)alan.version.correction);
-  syserr(str);
+  apperr(str);
 }
 
 
@@ -978,7 +978,7 @@ static void incompatibleVersion(ACodeHeader *header) {
 	  (long)(header->version[1]),
 	  (long)alan.version.version,
 	  (long)alan.version.revision);
-  syserr(str);
+  apperr(str);
 }
 
 
@@ -1002,7 +1002,7 @@ static void nonDevelopmentRunningDevelopmentStateGame(char version[]) {
 	  version[2], decodeState(version[3]));
   strcat(errorMessage, versionString);
   strcat(errorMessage, "can only be run with a matching interpreter. Look for a game file generated with an alpha, beta or release state compiler.>\n");
-  syserr(errorMessage);
+  apperr(errorMessage);
 }
 
 
@@ -1085,7 +1085,7 @@ static void load(void)
   fread(&tmphdr, sizeof(tmphdr), 1, codfil);
   rewind(codfil);
   if (strncmp((char *)&tmphdr, "ALAN", 4) != 0)
-    syserr("Not an Alan game file, does not start with \"ALAN\"");
+    apperr("Not an Alan game file, does not start with \"ALAN\"");
   checkVersion(&tmphdr);
 
   /* Allocate and load memory */
@@ -1357,7 +1357,7 @@ static void openFiles(void)
     strcpy(str, "Can't open adventure code file '");
     strcat(str, codfnm);
     strcat(str, "'.");
-    syserr(str);
+    apperr(str);
   }
 
   /* Open Text file */
@@ -1366,7 +1366,7 @@ static void openFiles(void)
     strcpy(str, "Can't open adventure text data file '");
     strcat(str, txtfnm);
     strcat(str, "'.");
-    syserr(str);
+    apperr(str);
   }
 
   /* If logging open log file */
@@ -1574,7 +1574,7 @@ void run(void)
 #ifdef DMALLOC
     dmalloc_verify(0);
 #endif
-    recursions = 0;
+    depth = 0;
 
     /* Move all characters, hero first */
     pushGameState();

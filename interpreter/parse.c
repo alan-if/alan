@@ -225,7 +225,7 @@ Aint instanceFromLiteral(int literalIndex) {
 static void createIntegerLiteral(int integerValue) {
   litCount++;
   if (litCount > MAXPARAMS)
-    syserr("Too many parameters.");
+    syserr("Too many player command parameters.");
 
   literal[litCount].class = header->integerClassId;
   literal[litCount].type = NUMERIC_LITERAL;
@@ -237,7 +237,7 @@ static void createIntegerLiteral(int integerValue) {
 static void createStringLiteral(char *unquotedString) {
   litCount++;
   if (litCount > MAXPARAMS)
-    syserr("Too many parameters.");
+    syserr("Too many player command parameters.");
   literal[litCount].class = header->stringClassId;
   literal[litCount].type = STRING_LITERAL;
   literal[litCount].value = (Aword) strdup(unquotedString);
@@ -986,7 +986,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
     return NULL;
   }
   /* And this should never happen ... */
-  syserr("Fall-through");
+  syserr("Fall-through in 'matchParseTree()'");
   return NULL;
 }
 

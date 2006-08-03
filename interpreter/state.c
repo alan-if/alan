@@ -58,7 +58,7 @@ static void ensureSpaceForGameState() {
   if (gameStateTop == gameStateSize) {
     gameState = realloc(gameState, (gameStateSize+extent)*sizeof(GameState));
     if (gameState == NULL)
-      syserr("Out of memory in ensureSpaceForGameState()");
+      syserr("Out of memory in 'ensureSpaceForGameState()'");
     gameStateSize += extent;
   }
 }
@@ -147,7 +147,7 @@ static void freeGameState() {
 
 /*======================================================================*/
 void forgetGameState(void) {
-  if (gameStateTop == 0) syserr("forgetting nonexisting gameState");
+  if (gameStateTop == 0) syserr("Forgetting nonexisting gameState");
   gameStateTop--;
   freeGameState();
 }

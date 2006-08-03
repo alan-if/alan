@@ -371,7 +371,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
   case WHERE_NEAR:
     analyzeExpression(where->what, context);
     if (where->what->type != ERROR_TYPE)
-      if (where->what->type != INSTANCE_TYPE)
+      if (where->what->type != INSTANCE_TYPE && where->what->type != REFERENCE_TYPE)
         lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
     break;
   case WHERE_IN:

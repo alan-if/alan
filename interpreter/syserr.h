@@ -12,5 +12,6 @@
 
 /* Functions: */
 extern void syserr(char *msg);
+extern void apperr(char *msg);
 
 #endif

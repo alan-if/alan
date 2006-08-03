@@ -62,6 +62,11 @@ void syserr(char msg[])
   }
 }
 
+void apperr(char msg[]) {
+  syserr(msg);
+}
+
+
 
 #define RUNNING_UNITTESTS
 

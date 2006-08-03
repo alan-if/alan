@@ -714,6 +714,22 @@ static void locateIntoContainer(Aword theInstance, Aword theContainer) {
 
 
 /*----------------------------------------------------------------------*/
+static void locateLocation(Aword loc, Aword whr)
+{
+  Aint l = whr;
+
+  /* Ensure this does not create a recursive location chain */
+  while (l != 0) {
+    if (admin[l].location == loc)
+      apperr("Locating a location would create a recursive loop of locations containing each other.");
+    else
+      l = admin[l].location;
+  }
+  admin[loc].location = whr;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void locateObject(Aword obj, Aword whr)
 {
   if (isContainer(whr)) { /* Into a container */
@@ -831,6 +847,8 @@ void locate(Aint id, Aword whr)
     
   if (isActor(id))
     locateActor(id, whr);
+  else if (isLocation(id))
+    locateLocation(id, whr);
   else
     locateObject(id, whr);
 
@@ -1113,7 +1131,7 @@ static void sayIndefinite(Aint id) {
 /*----------------------------------------------------------------------*/
 static Bool sayInheritedNegativeForm(Aword theClass) {
   if (theClass == 0) {
-    syserr("no default negative form");
+    syserr("No default negative form");
     return FALSE;
   } else {
     if (class[theClass].negative.address) {

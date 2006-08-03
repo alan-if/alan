@@ -3,12 +3,12 @@
 
 atReferenceAttribute.alan
 
-   10.    Locate o At unknownRef Of l.
+   12.    Locate o At unknownRef Of l.
 =====>                1
 
   *1*   315 E : Attribute not defined for 'l'.
 
-   12.    Locate o At i Of l.
+   14.    Locate o At i Of l.
 =====>                  1
 
   *1*   428 E : Expression after AT must refer to an instance.

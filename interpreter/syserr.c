@@ -1,14 +1,17 @@
+#include "syserr.h"
+
 #include "main.h"
 #include "inter.h"
 #include "debug.h"
 
-/*======================================================================*/
-void syserr(char *str)
-{
+
+/*----------------------------------------------------------------------*/
+static void runtimeError(char *errorClassification, char *errorDescription) {
   output("$n$nAs you enter the twilight zone of Adventures, you stumble \
 and fall to your knees. In front of you, you can vaguely see the outlines \
-of an Adventure that never was.$n$nSYSTEM ERROR: ");
-  output(str);
+of an Adventure that never was.$n$n");
+  output(errorClassification);
+  output(errorDescription);
   output("$n$n");
 
   if (current.sourceLine != 0) {
@@ -20,7 +23,7 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 #ifdef HAVE_GLK
     glk_stream_close(logFile, NULL);
 #else
-    fclose(logFile);
+  fclose(logFile);
 #endif
   newline();
 
@@ -38,4 +41,18 @@ of an Adventure that never was.$n$nSYSTEM ERROR: ");
 #endif
 
   terminate(0);
+}
+
+
+/*======================================================================*/
+void syserr(char *description)
+{
+  runtimeError("SYSTEM ERROR: ", description);
+}
+
+
+/*======================================================================*/
+void apperr(char *description)
+{
+  runtimeError("APPLICATION ERROR: ", description);
 }
