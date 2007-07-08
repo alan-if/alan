@@ -293,7 +293,11 @@ void dumpContainer(Container *container)
   put("body.hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
   put("body.hadr: "); dumpAddress(container->body->hadr); nl();
   put("body.estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
-  put("body.eadr: "); dumpAddress(container->body->eadr); out();
+  put("body.eadr: "); dumpAddress(container->body->eadr); nl();
+  put("body.extractCheck: "); dumpList(container->body->extractChecks, CHECK_LIST); nl();
+  put("body.extractCheckAdr: "); dumpAddress(container->body->extractChecksAddress); nl();
+  put("body.extractStatements: "); dumpList(container->body->extractStatements, STATEMENT_LIST); nl();
+  put("body.extractStatementsAdr: "); dumpAddress(container->body->extractStatementsAddress); out();
 }
 
 
