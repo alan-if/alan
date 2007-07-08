@@ -1303,6 +1303,14 @@ static int val(char str[])
     %%
 
     ! '.'
+    %%
+	%<container_body>.id  = NULL;
+	%<container_body>.lims  = NULL;
+	%<container_body>.stms  = NULL;
+	%<container_body>.stms2 = NULL;
+	%<container_body>.chks = NULL;
+	%<container_body>.stms3 = NULL;
+    %%
     ;
 
 <optional_taking>		-- RETURNS: id

@@ -7,6 +7,7 @@
 #include "sysdep.h"
 #include "lmList.h"
 #include "dump.h"
+#include "options.h"
 
 
 static char strbuf[256] = "";
@@ -67,8 +68,10 @@ void dumpPointer(void *adr)
 {
   char buf[20];
 
-  sprintf(buf, "{0x%lx} ", (unsigned long)adr);
-  put(buf);
+  if (dumpFlags&DUMP_ADDRESSES) {
+    sprintf(buf, "{0x%lx} ", (unsigned long)adr);
+    put(buf);
+  }
 }
 
 

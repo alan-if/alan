@@ -9,6 +9,7 @@
 # directory and the TMHOME environment variable to point there!
 
 
+#TMLIB	= `cygpath "$(TMHOME)"`/lib/ansi-c
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
@@ -23,7 +24,10 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c alanCommon.h
 
-all : tm smScanx.c sysdep.h sysdep.c version.h alan.atg
+all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg
+
+x :
+	echo TMLIB=$(TMLIB)
 
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp

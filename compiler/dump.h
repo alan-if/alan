@@ -28,7 +28,8 @@ typedef enum dmpKd {
   DUMP_EVENTS = (long)DUMP_CONTAINERS<<1,
   DUMP_RULES = (long)DUMP_EVENTS<<1,
   DUMP_ALL = (long)DUMP_RULES<<1,
-  DUMP_1 = (long)DUMP_ALL<<1,
+  DUMP_ADDRESSES = (long)DUMP_ALL<<1,
+  DUMP_1 = (long)DUMP_ADDRESSES<<1,
   DUMP_2 = (long)DUMP_1<<1,
   DUMP_3 = (long)DUMP_2<<1,
   DUMP_4 = (long)DUMP_3<<1

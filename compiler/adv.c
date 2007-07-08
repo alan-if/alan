@@ -278,7 +278,7 @@ void generateAdventure(char acodeFileName[],
 void dumpAdventure(enum dmpKd dmp)
 {
   if (dmp&DUMP_ALL)
-    dmp = (enum dmpKd)-1L;
+    dmp |= (-1L&~DUMP_ADDRESSES);
 
 
   put("ADV: "); indent();
