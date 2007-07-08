@@ -23,7 +23,7 @@ extern Aword nextEmitAddress(void);
 extern void emitString(char str[]);
 extern void emit(Aword word);
 extern void emitVariable(Aword word);
-extern void emitConstant(Aword word);
+extern void emitConstant(int word);
 extern void emitN(void *words, int noOfWords);
 extern void emitEntry(void *entryToEmit, int noOfBytes);
 extern void emit0(Aword op);

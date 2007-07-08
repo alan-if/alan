@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>2</priority>
-<origest>627.89</origest>
-<currest>635.89</currest>
-<elapsed>454.89</elapsed>
+<origest>633.89</origest>
+<currest>641.89</currest>
+<elapsed>457.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>2</priority>
-<origest>81</origest>
-<currest>82</currest>
-<elapsed>11</elapsed>
+<origest>86</origest>
+<currest>87</currest>
+<elapsed>14</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
 <priority>2</priority>
-<origest>10</origest>
-<currest>11</currest>
-<elapsed>11</elapsed>
+<origest>15</origest>
+<currest>16</currest>
+<elapsed>14</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -125,6 +125,51 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Container '.' causes problems</desc>
+<notes>See bugs/containerdot</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Renaming the WinArun to a game name seems to generate a GPF when saving</desc>
+<notes>Michael Zerbo reported this in a mail 2006-10-01</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: negative constants sometimes cause SYSTEM ERROR: generating too large constant</desc>
+<notes>bugs/2084/2084.alan exhibits this problem.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Dump Container Extract Checks and Statements</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: positioning of import statements are wrong</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 </task>
@@ -2105,8 +2150,8 @@ What do you want to do with the ball?
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>33</currest>
+<origest>27</origest>
+<currest>34</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2218,11 +2263,11 @@ What do you want to do with the ball?
 </task>
 </task>
 <task>
-<desc>AlanIDE v0.0.7</desc>
+<desc>AlanIDE v0.0.8</desc>
 <notes/>
 <priority>2</priority>
-<origest>9</origest>
-<currest>9</currest>
+<origest>11</origest>
+<currest>15</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2237,6 +2282,15 @@ What do you want to do with the ball?
 <task>
 <desc>Update java-grammar with latest syntax</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Errors in files imported but not in project are not shown anywhere</desc>
+<notes>This can cause a user to think that the compilation was successful. Cheapest solution is to remove the .a3c-file at least. Should really mark main file if no resource with the file name was found.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2315,13 +2369,22 @@ What do you want to do with the ball?
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>AlanIDE v.0.0.8</desc>
+<desc>Format source action</desc>
 <notes/>
 <priority>2</priority>
-<origest>4</origest>
-<currest>8</currest>
+<origest>1</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>AlanIDE v.0.0.9</desc>
+<notes/>
+<priority>2</priority>
+<origest>3</origest>
+<currest>3</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2339,15 +2402,6 @@ What do you want to do with the ball?
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Reformat comment action</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>

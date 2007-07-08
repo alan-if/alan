@@ -10,28 +10,29 @@
 
 run ()
 {
-    echo -n "$case : "
-    if [ ! -f $case.suspended ]
+    echo -n "$theCase : "
+    if [ ! -f $theCase.suspended ]
     then
-	echo "########## $case ##########" >$case.output
-	./.regr $case >>$case.output 2>&1
-	cases=`expr $cases + 1`
+	echo "########## $theCase ##########" >$theCase.output
+	./.regr $theCase >>$theCase.output 2>&1
+	theCases=`expr $theCases + 1`
     fi
 }
 
 verify()
 {
-    if [ -f $case.suspended ]
+    if [ -f $theCase.suspended ]
     then
 	suspended=`expr $suspended + 1`
 	echo "Suspended..."
-    else if [ -f $case.expected ]
+    else if [ -f $theCase.expected ]
     then
-	if diff -q -b $case.output $case.expected 1> /dev/null
+	if diff -q -b $theCase.output $theCase.expected 1> /dev/null
 	then
 	    ok=`expr $ok + 1`
-	    echo -n "[K"
-	    rm $case.output
+	    echo -n "
+[K"
+	    rm $theCase.output
 	else
 	    failed=`expr $failed + 1`
 	    echo "*** FAILED!!! ***"
@@ -61,12 +62,12 @@ recurse()
 runselected()
 {
   for f in ${*} ; do
-    case=`basename $f $ext`
-    if [ "$case" != "$f" ]
+    theCase=`basename $f $ext`
+    if [ "$theCase" != "$f" ]
     then
       run
       verify
-    elif [ -f $case$ext ]
+    elif [ -f $theCase$ext ]
       then
 	run
 	verify
@@ -74,8 +75,7 @@ runselected()
   done
 }
 
-
-cases=0
+theCases=0
 ok=0
 failed=0
 suspended=0
@@ -93,7 +93,7 @@ if [ -f .case ] ; then
     if [ -f .regr ]
     then
       for f in *$ext ; do
-	case=`basename $f $ext`
+	theCase=`basename $f $ext`
 	run
 	verify
       done
@@ -111,7 +111,7 @@ if [ -f .case ] ; then
   then
     if test $new -eq 0
     then
-      echo All $cases OK!
+      echo All $theCases OK!
     else
       echo $ok OK!
     fi

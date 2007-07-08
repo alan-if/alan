@@ -198,9 +198,8 @@ void emitVariable(Aword var)
 
 
 /*======================================================================*/
-void emitConstant(Aword arg)
+void emitConstant(int arg)
 {
-  if (((Aword)arg&0xf0000000) != 0) SYSERR("Generating to large constant");
   emit(((Aword)C_CONST<<28)|((Aword)arg&0x0fffffff));
 }
 

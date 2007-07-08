@@ -5,5 +5,6 @@ else
   cp ../../interpreter/arun prgnam ;
 fi
 ./prgnam -n < prgnam.input
+rm prgnam.sav
 
 

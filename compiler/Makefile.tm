@@ -9,7 +9,6 @@
 # directory and the TMHOME environment variable to point there!
 
 
-#TMLIB	= `cygpath "$(TMHOME)"`/lib/ansi-c
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
