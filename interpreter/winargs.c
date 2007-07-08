@@ -74,4 +74,5 @@ void args(int argc, char * argv[])
 	fclose(adventureFile);
     }
   }
+  adventureName = gameName(adventureFileName);
 }
