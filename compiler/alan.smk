@@ -292,9 +292,7 @@ static      char c;
 	  c = smThis->smText[smThis->smLength-1];
 	} while (isspace(c) && i > 0);
 
-	if (c == '.') {
-	  i = smScSkip(smThis, 1);
-	} else {
+	if (c != '.') {
 	  lmLog(`&token.srcp, 109, sevERR, "expected terminating '.'");
 	  i = smScSkip(smThis, -1);
 	}
