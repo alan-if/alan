@@ -6,7 +6,7 @@
 <priority>2</priority>
 <origest>633.89</origest>
 <currest>641.89</currest>
-<elapsed>457.89</elapsed>
+<elapsed>458.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>2</priority>
 <origest>86</origest>
 <currest>87</currest>
-<elapsed>14</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha5</desc>
@@ -22,7 +22,7 @@
 <priority>2</priority>
 <origest>15</origest>
 <currest>16</currest>
-<elapsed>14</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Library: open bodies says "Can't"</desc>
@@ -160,7 +160,7 @@ Verify that the content of the ifid-file is a valid UUID.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
