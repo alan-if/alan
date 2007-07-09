@@ -232,7 +232,7 @@ Create a test case that exhibits the problem, if it exists.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Add a "Identification" section in the language</desc>
+<desc>Add an "Identification" section in the language</desc>
 <notes>This should be a string/value pair list pointed to by the header. This list is terminated by a EOF. &lt;DONE&gt;
 
 It can be used by the compiler to add arbitrary info like
@@ -492,7 +492,7 @@ Possibly ALL and multiple matches could be handled the same way, Indicate a non-
 </task>
 <task>
 <desc>Problem with consequtive include's</desc>
-<notes>If an file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
+<notes>If a file has include-directives directly after each other the return from one, e.g. when the included file does not exist, positions the next DEPRECATED message on the wrong spot.
 
 See compiler/testing/includeFile.alan</notes>
 <priority>2</priority>

@@ -1,3 +1,21 @@
+Changes in V3.0alpha5:
+- Feature: nested locations, by locating locations in each other you
+  can create nested scopes. You can even do this during run-time, perhaps
+  a tool to create vehicles? Read more in the manual.
+- Allowed more general expressions in Locate At statement and Isa expressions.
+- Now generates an IFID as per The Babel Treaty.
+- Rules are now also run immediately after the game is set-up.
+- Bug: Fixed a few problems with "open" verbs in the library.
+- Bug: added inherited reference attributes could sometimes cause a crash.
+- A pronoun in player input, matching multiple parameters, now gives an
+  error message.
+- Bug: An empty container clause was terminated by a full stop would cause
+  random errors caused by uninitialized data.
+- Bug: Renaming the WinArun interpreter to a game name would crash on game
+  save.
+- Bug: Negative integer literals would cause a system error
+- Bug: Full lists of multiply nested imported files would print incorrectly.
+
 Changes in V3.0alpha4:
 - Corrected scope handling so that locations are not always in scope.
 - Made CANCEL accept expressions.
