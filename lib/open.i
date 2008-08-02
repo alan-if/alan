@@ -42,10 +42,8 @@ Add To Every object
 	When obj1
 	    Check obj2 In hero
 	        Else "You don't have" Say The obj2. "."
-	    And obj1 Is openable
-	    	Else "You can't open" Say The obj1. "."
-	    Does -- To be overridden by "Does Only" Where appropriate...
-		"You can't open" Say The obj1. "with" Say The obj2. "."
+	    Does
+	    	"You can't open" Say The obj1. "with" Say The obj2. "."
     End Verb.
 End Add To.
 
@@ -88,10 +86,8 @@ Add To Every object
 	    Check obj2 In hero
 	    	Else
 		    "You don't have" Say The obj2. "."
-	    And obj1 Is openable
-		Else "You can't close" Say The obj1. "."
-	    Does -- To be overridden by "Does Only" Where appropriate...
-		"You can't close" Say The obj1. "with" Say The obj2. "."
+	Does
+	    "You can't close" Say The obj1. "with" Say The obj2. "."
     End Verb.
 End Add To.
 

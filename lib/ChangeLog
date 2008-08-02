@@ -1,3 +1,11 @@
+0.6.2 : November 2007 (SG)
+
+invent.i : changed 'the Worn' from a 'thing' to an 'entity' (to make compatible with recent versions of Alan3)
+
+meta.i : remove q verb and made q synonym of 'quit' (no longer need a warning 
+about quit being not undoable because it is undoable in recent Alan3 versions)
+
+
 2003-09-10    <Thomas Nilsson@THONI>
 
 	* open.i: Cleaned up formatting and changed attributes around abit:

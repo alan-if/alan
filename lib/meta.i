@@ -1,23 +1,19 @@
 -- meta.i
+-- 0.6.2 : removed q verb and just made 'q' a synonym for 'quit'
+
 -- Library version 0.5.0
 
 
+SYNONYMS q = 'quit'.
+
 SYNTAX
 	'quit' = 'quit'.
-	q = q.
 
 VERB 'quit'
 	DOES
 		QUIT.
 END VERB.
 
-VERB q
-	DOES
-		"Please write the full 'quit' command to exit from the game.
-		$p(You can't undo a quit instruction. So to avoid accidentally 
-		exiting the game by typing 'q' when you meant to do something else, 
-		you must write the 'quit' command in full.)"
-END VERB.
 
 
 SYNTAX
